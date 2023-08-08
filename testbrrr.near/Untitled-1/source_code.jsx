@@ -141,7 +141,7 @@ const withdrawColl = () => {
   );
 
   borrowerOperationContract.withdrawColl(
-    ethers.utils.parseUnits(props.amount, "ether"),
+    ethers.utils.parseUnits(props.ethCollateralAmount, "ether"),
     "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
     "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
     {
