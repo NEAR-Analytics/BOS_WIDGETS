@@ -123,8 +123,7 @@ return (
           console.log(e.handler);
           switch (e.handler) {
             case "update": {
-              State.update({ text: event.content });
-              //   onChange({ content: event.content });
+              onChange(event.content);
             }
             case "preview": {
               togglePreview();
