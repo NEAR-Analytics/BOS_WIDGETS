@@ -125,7 +125,8 @@ const base64decode = (encodedValue) => {
 };
 
 const FormatMsg = ({ message }) => {
-  const newStr = [...message]
+  const str = message.replace(/\\\\/g, "\\");
+  const newStr = [...str]
     .map((char) => {
       return char.codePointAt() > 127 ? `&#${char.codePointAt()};` : char;
     })
