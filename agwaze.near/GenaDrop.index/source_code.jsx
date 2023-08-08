@@ -1,0 +1,101 @@
+const ownerId = "agwaze.near";
+const availableTabs = ["create", "list", "nearNFTs", "evmNFTs"];
+
+const getTab = (tab) => {
+  if (!tab || !availableTabs.includes(tab)) {
+    return "create";
+  }
+
+  return tab;
+};
+
+State.init({
+  tab: getTab(props.tab),
+});
+
+const update = (state) => State.update(state);
+
+const showSidebar = ![].includes(state.tab);
+
+const Sidebar = styled.div`
+  display: ${({ show }) => (show ? "flex" : "none")};
+  flex-direction: row;
+  position: sticky;
+  top: 0;
+
+  @media screen and (max-width: 768px) {
+    & > div {
+      &:last-child {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    & > div {
+      &:first-child {
+        display: none;
+      }
+    }
+  }
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 100%;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const ContentContainer = styled.div`
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #eceef0;
+  border-radius: 24px;
+  padding: 0;
+  overflow: hidden;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  &.form {
+    border: none;
+    background: #fafafa;
+  }
+
+  * {
+    margin: 0;
+  }
+`;
+console.log(state.tab);
+const tabContentWidget = {
+  create: "jgodwill.near/widget/GenaDropmultichainminter",
+  list: "jgodwill.near/widget/GenaDrop.MultiListing",
+  nearNFTs: "jgodwill.near/widget/GenaDrop.Explore",
+  evmNFTs: "0xprometheus.near/widget/Eth-Explore",
+}[state.tab];
+
+const tabContent = (
+  <Widget src={tabContentWidget} props={{ update, memberTab, resourceTab }} />
+);
+
+return (
+  <Content>
+    <Sidebar show={showSidebar}>
+      <Widget
+        src={`${ownerId}/widget/GenaDrop.NavBar`}
+        props={{ tab: state.tab, update, collapsible: true }}
+      />
+      <Widget
+        src={`${ownerId}/widget/GenaDrop.NavBar`}
+        props={{ tab: state.tab, update, collapsible: false }}
+      />
+    </Sidebar>
+    <ContentContainer>{tabContent}</ContentContainer>
+  </Content>
+);
