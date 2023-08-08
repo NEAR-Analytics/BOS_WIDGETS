@@ -240,6 +240,14 @@ const formatMsg = (text) => {
   return text;
 };
 
+const utf2Html = (str) => {
+  return [...str]
+    .map((char) =>
+      char.codePointAt() > 127 ? `&#${char.codePointAt()};` : char
+    )
+    .join("");
+};
+
 return (
   <>
     <Container
@@ -318,7 +326,7 @@ return (
           <Widget
             src="mob.near/widget/SocialMarkdown"
             props={{
-              text: formatMsg(kudo.message),
+              text: utf2Html(kudo.message),
             }}
           />
         </Description>
