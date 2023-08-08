@@ -125,8 +125,8 @@ const base64decode = (encodedValue) => {
 };
 
 const FormatMsg = ({ message }) => {
-  const str = message.replace(/\\\\u/g, "\\u");
-  console.log("\ud83d\ude0e\ud83c\udf89");
+  const str = "\\ud83d\\ude0e\\ud83c\\udf89".replace(/\\\\u/g, "\\u");
+
   console.log(str);
 
   const newStr = [...str]
