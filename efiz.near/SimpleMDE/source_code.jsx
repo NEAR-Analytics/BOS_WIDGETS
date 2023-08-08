@@ -9,7 +9,7 @@ function defaultOnChange(content) {
 
 const data = props.data;
 const onChange = props.onChange ?? defaultOnChange;
-const height = props.height ?? "420";
+const height = props.height ?? "405";
 const fontFamily = props.fontFamily ?? "Arial, sans-serif";
 const fontSize = props.fontSize ?? "14px";
 
