@@ -127,14 +127,11 @@ const updateLikesStatisticsIfUserVoted = (newEmoji) => {
     (item) => item.accountId === accountThatIsLoggedIn
   );
   if (!resObject) {
-    arrayLastLikeForEachUser = [
-      ...arrayLastLikeForEachUser,
-      {
-        accountId: accountThatIsLoggedIn,
-        blockHeight: item.blockHeight,
-        value: { type: newEmoji },
-      },
-    ];
+    arrayLastLikeForEachUser.push({
+      accountId: accountThatIsLoggedIn,
+      blockHeight: item.blockHeight,
+      value: { type: newEmoji },
+    });
   } else {
     arrayLastLikeForEachUser =
       arrayLastLikeForEachUser &&
@@ -308,7 +305,7 @@ box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
   }
 `;
 
-// =============== NEW JSX ===============!!!!!!!!
+//   NEW JSX ===============!!!!!!!!
 const Overlay = () => (
   <EmojiListWrapper
     onMouseEnter={handleOnMouseEnter}
@@ -362,7 +359,13 @@ const renderReaction = (item, isInButton) => {
 
 return (
   <EmojiWrapper>
-    {!userEmoji ? (
+    {userEmoji ? (
+      <SmallReactButton>
+        {state.loading && <Spinner />}
+        {state.likesStatistics &&
+          state.likesStatistics.map((item) => renderReaction(item, true))}
+      </SmallReactButton>
+    ) : (
       <Button
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
@@ -370,12 +373,6 @@ return (
         {state.loading && <Spinner />}
         {initialEmoji}
       </Button>
-    ) : (
-      <SmallReactButton>
-        {state.loading && <Spinner />}
-        {state.likesStatistics &&
-          state.likesStatistics.map((item) => renderReaction(item, true))}
-      </SmallReactButton>
     )}
     <Overlay />
     {state.likesStatistics &&
