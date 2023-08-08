@@ -2,14 +2,54 @@
  * iframe embedding a SimpleMDE component
  * https://github.com/sparksuite/simplemde-markdown-editor
  */
+
+function defaultOnChange(content) {
+  console.log(content);
+}
+
 const data = props.data;
-const onChange = props.onChange;
+const onChange = props.onChange ?? defaultOnChange;
 const height = props.height ?? "500px";
+const fontFamily = props.fontFamily ?? "Arial, sans-serif";
+const fontSize = props.fontSize ?? "14px";
+
+// SIMPLE MDE CONFIG //
+const autoFocus = props.autoFocus ?? true;
+const renderingConfig = JSON.stringify(
+  props.renderingConfig ?? {
+    singleLineBreaks: false,
+    codeSyntaxHighlighting: true,
+  }
+);
+
+// Add or remove toolbar items
+// For adding unique items, configure the switch-case below
+const toolbarConfig = JSON.stringify(
+  props.toolbar ?? [
+    "heading",
+    "bold",
+    "italic",
+    "|", // adding | creates a divider in the toolbar
+    "quote",
+    "code",
+    "link",
+    "image",
+    "mention",
+    "reference",
+    "unordered-list",
+    "ordered-list",
+    "checklist",
+    "table",
+    "horizontal-rule",
+  ]
+);
 
 const code = `
 <style>
 #react-root {
     height: 100vh;
+    font-family: ${fontFamily};
+    font-size: ${fontSize}; 
 }
 </style>
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
@@ -25,71 +65,82 @@ const code = `
 function MarkdownEditor(props) {
     const [value, setValue] = React.useState(props.initialText || "");
     React.useEffect(() => {
-        // edit options here
+        const generateToolbarItems = () => {
+            return ${toolbarConfig}.map((item) => {
+                switch(item) {
+                    // CONFIGURE CUSTOM IMPLEMENTATIONS HERE
+                    case "checklist": {
+                        function handleChecklist(editor) {
+                            const cursorPos = editor.codemirror.getCursor();
+                            const lineText = editor.codemirror.getLine(cursorPos.line);
+                            if (lineText.trim() === "") {
+                                editor.codemirror.replaceRange("- [ ] ", cursorPos);
+                            } else {
+                                editor.codemirror.replaceRange("\\n - [ ] ", cursorPos);
+                            }
+                        }
+                        return {
+                            name: "checklist",
+                            action: handleChecklist,
+                            className: "fa fa-check-square",
+                            title: "Insert Checklist"
+                        }
+                    }
+                    case "mention": {
+                        function handleMention(editor) {
+                            const cursorPos = editor.codemirror.getCursor();
+                            editor.codemirror.replaceRange("@", cursorPos);
+                        }
+                        return {
+                            name: "mention",
+                            action: handleMention,
+                            className: "fa fa-at",
+                            title: "Insert Mention"
+                        }
+                    }
+                    case "reference": {
+                        function handleReference(editor) {
+                            const cursorPos = editor.codemirror.getCursor();
+                            editor.codemirror.replaceRange("bos://", cursorPos);
+                        }
+                        return {
+                            name: "reference",
+                            action: handleReference,
+                            className: "fa fa-external-link-square",
+                            title: "Reference Thing"
+                        }
+                    }
+                    case "image": {
+                        // TODO: convert to upload to IPFS
+                        return {
+                            name: "image",
+                            action: SimpleMDE.drawImage,
+                            className: "fa fa-picture-o",
+                            title: "Insert Image"
+                        }
+                    }
+                    default: {
+                        return item;
+                    }
+                }
+            });
+        };
+        
         const simplemde = new SimpleMDE({
             element: document.getElementById("markdown-input"),
-            autofocus: true,
-            renderingConfig: {
-                singleLineBreaks: false,
-                codeSyntaxHighlighting: true,
-            },
-            toolbar: ["heading", "bold", "italic", "quote", "code", "link", "unordered-list", "ordered-list",
-                {
-                    name: "custom",
-                    action: function customFunction(editor){
-                        
-                        const cursorPos = editor.codemirror.getCursor();
-                        const lineText = editor.codemirror.getLine(cursorPos.line);
-                        if (lineText.trim() === "") {
-                            editor.codemirror.replaceRange('- [ ] ', cursorPos);
-                        } else {
-                            editor.codemirror.replaceRange('\\n - [ ] ', cursorPos);
-                        }
-                    },
-                    className: "fa fa-star",
-                    title: "Custom Button",
-                },
-                {
-                    name: 'upload',
-                    action: () => this.showDialogUpload(),
-                    className: 'fa fa-upload',
-                    title: 'Upload File',
-                },
-                {
-                    name: 'table',
-                    action: SimpleMDE.drawTable,
-                    className: 'fa fa-table',
-                    title: 'Insert Table',
-                },
-                {
-                    name: 'preview',
-                    action: () => {window.parent.postMessage({ handler: "preview" }, "*")},
-                    className: 'fa fa-eye no-disable',
-                    title: 'Toggle Preview',
-                }, {
-                    name: 'side-by-side',
-                    action: SimpleMDE.toggleSideBySide,
-                    className: 'fa fa-columns no-disable ',
-                    title: 'Toggle Side by Side',
-                }, {
-                    name: 'fullscreen',
-                    action: SimpleMDE.toggleFullScreen,
-                    className: 'fa fa-arrows-alt no-disable',
-                    title: 'Toggle Fullscreen',
-                }   
-            ],
+            autofocus: ${autoFocus},
+            renderingConfig: ${renderingConfig},
+            toolbar: generateToolbarItems(),
+            initialValue: value
         });
 
         simplemde.codemirror.on('change', () => {
             const content = simplemde.value();
             window.parent.postMessage({ handler: "update", content }, "*");
-            setValue(simplemde.value());
         });
+    }, []);
 
-        setValue(props.initialText || "");
-    }, [props.initialText]);
-
-    return React.createElement('textarea', { id: 'markdown-input', value: value });
+    return React.createElement('textarea', { id: 'markdown-input', value: value, onChange: setValue });
 }
 
 const domContainer = document.querySelector('#react-root');
