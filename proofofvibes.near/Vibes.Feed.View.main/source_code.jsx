@@ -247,11 +247,14 @@ console.log(
 const userRoles = accountId ? getUserRoles(accountId) : [];
 const isPosterTastemaker = userRoles.includes("tastemaker");
 const isPosterVibee = userRoles.includes("vibee");
+const isPosterCouncil = userRoles.includes("council");
 console.log(
   `Is ${accountId} a tastemaker: ` +
     isPosterTastemaker +
     `Is ${accountId} a vibee: ` +
-    isPosterVibee
+    isPosterVibee +
+    `Is ${accountId} a council: ` +
+    isPosterCouncil
 );
 // IAH Verification
 const getFirstSBTToken = (issuerContract) => {
@@ -575,7 +578,9 @@ return (
         </div>
 
         <span className="text-nowrap text-muted">
-          {isPosterTastemaker && <>🥂</>}
+          |{isPosterTastemaker && <>🥂</>}
+          {isPosterCouncil && <>🏛️</>}
+          {isPosterVibee && <>🌈</>}|
           {badges.map((badge) => (
             <Widget
               src="proofofvibes.near/widget/sbtEmojiHelper"
