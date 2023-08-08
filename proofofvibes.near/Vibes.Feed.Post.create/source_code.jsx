@@ -217,6 +217,7 @@ const SliderWrapper = styled.div`
   width: 100%;
   margin: 1em;
   text-align: center;
+  padding-right: 1em;
 }
 
 .slider {
