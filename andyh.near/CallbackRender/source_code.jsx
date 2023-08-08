@@ -22,6 +22,9 @@ return (
         renderComponent,
       }}
     />
-    <Widget src="andyh.near/widget/Component.InlineBlock" props={{ accountId: 'mob.near', widgetName: 'Applications' }}
+    <Widget
+      src="andyh.near/widget/Component.InlineBlock"
+      props={{ accountId: "mob.near", widgetName: "Applications" }}
+    />
   </div>
 );
