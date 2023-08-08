@@ -62,12 +62,12 @@ return (
     </div>
 
     <div>
-      <div className="flex space-x-3 border-b">
+      <div className="text-white flex space-x-3 border-b">
         {tabsData.map((tab) => {
           return (
             <button
               key={tab.name}
-              className={`py-2 border-b-4 transition-colors duration-300 ${
+              className={`text-gray-50 py-2 border-b-4 transition-colors duration-300 ${
                 tab.name === state.activeTab
                   ? "border-teal-500"
                   : "border-transparent hover:border-gray-200"
