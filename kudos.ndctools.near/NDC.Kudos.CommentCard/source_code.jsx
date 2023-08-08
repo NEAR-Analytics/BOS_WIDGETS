@@ -125,7 +125,7 @@ const base64decode = (encodedValue) => {
 };
 
 const formatMsg = (message) =>
-  message.replace(/\\u([a-fA-F0-9]{4})/g, (match, hex) => {
+  message.replace(/\\\\u([a-fA-F0-9]{4})/g, (match, hex) => {
     return String.fromCharCode(parseInt(hex, 16));
   });
 
