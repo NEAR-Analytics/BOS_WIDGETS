@@ -323,12 +323,7 @@ return (
           </div>
         </div>
         <Description className="text-secondary">
-          <Widget
-            src="mob.near/widget/SocialMarkdown"
-            props={{
-              text: utf2Html(kudo.message),
-            }}
-          />
+          {utf2Html(kudo.message)}
         </Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
         {kudoTags.length > 0 && (
