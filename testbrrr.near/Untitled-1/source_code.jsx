@@ -336,6 +336,7 @@ if (
   props.lusdAmount.isInteger() &&
   props.ethCollateralAmount.isInteger()
 ) {
+  console.log("Open Trove");
   openTrove();
 } else if (props.action === "repay") {
   closeTrove();
