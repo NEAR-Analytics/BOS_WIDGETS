@@ -53,6 +53,7 @@ const code = `
 #react-root {
     font-family: ${fontFamily};
     font-size: ${fontSize}; 
+    overflow: "hidden"
 }
 </style>
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
