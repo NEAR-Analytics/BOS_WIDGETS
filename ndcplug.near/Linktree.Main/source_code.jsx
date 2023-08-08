@@ -3,11 +3,11 @@ State.init({
   hasBeenFlagged: false,
 });
 
-const loggedIn = props.loggedIn ?? false;
+const loggedIn = context.accountId ? props.loggedIn ?? false : false;
 
 const accountId = loggedIn
-  ? props.accountId ?? "ndcplug.near"
-  : context.accountId ?? "ndcplug.near";
+  ? context.accountId ?? "ndcplug.near"
+  : props.accountId ?? "ndcplug.near";
 
 const profile =
   props.profile || Social.get(`${accountId}/profile/**`, "final") || {};
