@@ -18,12 +18,6 @@ const action = isTest ? testAction : prodAction;
 //   },
 // ];
 
-const updateObj = {};
-const resultLibCalls = [...libCalls];
-libCalls.forEach((call) => {
-  updateObj[call.key] = libCall(call);
-});
-
 function getWritersWhitelist(env) {
   if (env === "test") {
     return ["kenrou-it.near", "ayelen.near", "martinbarba.near"];
@@ -41,6 +35,12 @@ function libCall(call) {
     return getWritersWhitelist(call.props.env);
   }
 }
+
+const updateObj = {};
+const resultLibCalls = [...libCalls];
+libCalls.forEach((call) => {
+  updateObj[call.key] = libCall(call);
+});
 
 function getComments(args) {
   const { realArticleId } = args;
