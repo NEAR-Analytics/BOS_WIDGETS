@@ -7,18 +7,6 @@ const {
   authorForWidget,
 } = props;
 
-const GeneralContainer = styled.div`
-  background-color: rgb(230, 230, 230);
-  border-radius: 20px;
-  padding: 0;
-`;
-
-const SecondContainer = styled.div`
-  margin: 0 auto;
-  width: 90%;
-  min-width: 360px;
-`;
-
 console.log("SAL ALSBA");
 
 const authors =
@@ -41,31 +29,20 @@ const authorsCountArray =
   finalArticles.length && Object.entries(authorsCountObject);
 
 return (
-  <GeneralContainer className="container-fluid">
-    <SecondContainer>
-      <h6>Total authors: {authorsCountArray.length}</h6>
+  <div className="container-fluid">
+    <h6>Total authors: {authorsCountArray.length}</h6>
 
-      <div className="row card-group py-3">
-        {authorsCountArray &&
-          authorsCountArray.map(([author, quantity]) => {
-            const filter = { filterBy: "author", value: author };
-            return (
-              <div className="col-sm-12 col-lg-6 col-xl-4 gy-3">
-                <div
-                  className="card h-100 p-3"
-                  key={article.articleId}
-                  onClick={() => handleFilterArticles(filter)}
-                >
-                  <Widget
-                    src="mob.near/widget/Profile.ShortInlineBlock"
-                    props={{ accountId: author, tooltip: true }}
-                  />
-                  <span>{quantity} articles</span>
-                </div>
-              </div>
-            );
-          })}
-      </div>
-    </SecondContainer>
-  </GeneralContainer>
+    <div className="row card-group py-3">
+      {authorsCountArray &&
+        authorsCountArray.map(([author, quantity]) => {
+          const filter = { filterBy: "author", value: author };
+          return (
+            <Widget
+              src={widgets.articlesByAuthorCard}
+              props={{ author, quantity, filter, handleFilterArticles }}
+            />
+          );
+        })}
+    </div>
+  </div>
 );
