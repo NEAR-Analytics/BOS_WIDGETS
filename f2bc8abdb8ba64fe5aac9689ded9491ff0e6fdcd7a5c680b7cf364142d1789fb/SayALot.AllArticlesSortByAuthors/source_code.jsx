@@ -10,6 +10,8 @@ const {
 const authors =
   finalArticles.length && Array.from(finalArticles, ({ author }) => author);
 
+console.log("authors: ", authors);
+
 let articlesByAuthorsArray = [];
 authors.map((author) => {
   let thisAuthorArtciles = finalArticles.filter(
@@ -17,6 +19,8 @@ authors.map((author) => {
   );
   articlesByAuthorsArray.push(thisAuthorArtciles);
 });
+
+console.log("articlesByAuthorsArray: ", articlesByAuthorsArray);
 
 return (
   <div className="container-fluid">
