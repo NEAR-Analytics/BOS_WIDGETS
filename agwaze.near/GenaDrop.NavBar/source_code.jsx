@@ -167,7 +167,7 @@ const NavItem = styled.a`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 11px;
     text-align: center;
   }
 `;
@@ -183,7 +183,7 @@ const NavSelected = styled.div`
 
 const navItem = ({ text, icon, id, iconSelected }) => (
   <NavItem
-    href={`#/${ownerId}/widget/GenaDrop.index?tab=${id}`}
+    // href={`#/${ownerId}/widget/GenaDrop.index?tab=${id}`}
     onClick={() => props.update({ tab: id })}
   >
     {id === props.tab ? iconSelected : icon}
