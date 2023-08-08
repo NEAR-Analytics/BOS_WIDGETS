@@ -24,7 +24,7 @@ return (
     />
     <Widget
       src="andyh.near/widget/Component.InlineBlock"
-      props={{ accountId: "mob.near", widgetName: "Applications" }}
+      props={{ accountId: "dataplatform.near", widgetName: "QueryApi.App" }}
     />
   </div>
 );
