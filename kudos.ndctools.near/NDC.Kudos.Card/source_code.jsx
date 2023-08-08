@@ -231,9 +231,11 @@ State.init({
 
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
-const formatMsg = (msg) => {
-  return <div>{msg}</div>;
-};
+function formatMsg(text) {
+  return text.replace(/\\u[\dA-F]{4}/gi, function (match) {
+    return String.fromCharCode(parseInt(match.replace(/\\u/g, ""), 16));
+  });
+}
 
 return (
   <>
@@ -313,7 +315,7 @@ return (
           <Widget
             src="mob.near/widget/SocialMarkdown"
             props={{
-              text: kudo.message,
+              text: formatMsg(kudo.message),
             }}
           />
         </Description>
