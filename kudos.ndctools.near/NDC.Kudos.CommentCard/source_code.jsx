@@ -124,10 +124,13 @@ const base64decode = (encodedValue) => {
   return JSON.parse(buff.toString("utf-8"));
 };
 
-const formatMsg = (message) =>
-  message.replace(/\\\\u([0-9A-F]{4})/gi, (_, g) =>
+const formatMsg = (message) => {
+  let newStr = message.replace("\\\\", "\\");
+
+  return newStr.replace(/\\u([0-9A-F]{4})/gi, (_, g) =>
     String.fromCharCode(`0x${g}`)
   );
+};
 
 return (
   <>
