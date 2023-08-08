@@ -46,6 +46,7 @@ const Content = styled.div`
   flex-direction: row;
   position: relative;
   width: 100%;
+  margin-top: 40px;
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
