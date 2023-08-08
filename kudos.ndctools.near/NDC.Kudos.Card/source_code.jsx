@@ -233,15 +233,7 @@ State.init({
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
 const formatText = (msg) => {
-  return (
-    <p>
-      {msg.replace(
-        /\\u([0-9a-zA-Z]{4})/gi,
-        (a, b) =>
-          `<img src={"//cdn.jsdelivr.net/emojione/assets/png/${b}.png"} />`
-      )}
-    </p>
-  );
+  return [<p>{msg}</p>];
 };
 
 return (
