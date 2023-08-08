@@ -231,7 +231,12 @@ State.init({
 });
 
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
-console.log(kudo);
+
+const formatText = (msg) => {
+  return msg.replace(/\\u([0-9a-zA-Z]{4})/gi, (a,b) => `//cdn.jsdelivr.net/emojione/assets/png/${b}.png`))
+};
+
+
 return (
   <>
     <Container
@@ -306,7 +311,7 @@ return (
             )}
           </div>
         </div>
-        <Description className="text-secondary">{kudo.message}</Description>
+        <Description className="text-secondary">{formatText(kudo.message)}</Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
         {kudoTags.length > 0 && (
           <Tags className="d-flex gap-2">
