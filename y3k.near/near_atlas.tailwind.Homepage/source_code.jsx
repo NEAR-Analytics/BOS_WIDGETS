@@ -81,7 +81,20 @@ return (
       </div>
 
       <div className="py-4">
-        <p>{tabsData.find((tab) => tab.name === state.activeTab).content}</p>
+        {/* <p>{tabsData.find((tab) => tab.name === state.activeTab).content}</p> */}
+
+        <div
+          className={`${
+            tabsData.find((tab) => tab.name === state.activeTab).name === "home"
+              ? ""
+              : "visibility: hidden"
+          }`}
+        >
+          <Widget
+            src="y3k.near/widget/near_atlas.tailwind.NEAR-ATLAS-MonthlyActiveAcounts"
+            props={{}}
+          />
+        </div>
       </div>
     </div>
   </div>
