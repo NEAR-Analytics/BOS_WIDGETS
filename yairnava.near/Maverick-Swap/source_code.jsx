@@ -174,7 +174,6 @@ const POOLS = [
 ];
 
 State.init({
-  init: true,
   tokenSendSelected: null,
   tokenRecieveSelected: null,
   amountInput: null,
@@ -343,33 +342,28 @@ if (state.sender === undefined) {
 
 const handleSendSelect = (data) => {
   const token = TOKENS.find((token) => token.name === data.target.value);
-  console.log("SS: " + token.name);
-  console.log("TR: " + state.tokenRecieveSelected.name);
-  if (token.name == state.tokenRecieveSelected.name) {
-    console.log("Tokens Iguales");
-    if (state.tokenSendSelected.name) {
-      console.log("Rotar Tokens");
-    } else {
-      console.log("Poner Combo de Receive en vacio");
-    }
-  }
   getPrice(true, token);
   tokenInApprovaleNeededCheck(token);
 };
 
 const handleRecieveSelect = (data) => {
   const token = TOKENS.find((token) => token.name === data.target.value);
-  console.log("RS: " + token.name);
-  console.log("TS: " + state.tokenSendSelected.name);
-  if (token.name == state.tokenSendSelected.name) {
-    console.log("Tokens Iguales");
-    if (state.tokenRecieveSelected.name) {
-      console.log("Rotar Tokens");
-    } else {
-      console.log("Poner Combo de Receive en vacio");
-    }
-  }
   getPrice(false, token);
+};
+
+const turnTokens = () => {
+  const tokenSendSelected = state.tokenSendSelected;
+  const tokenRecieveSelected = state.tokenRecieveSelected;
+  if (tokenSendSelected && tokenRecieveSelected) {
+    State.update({ tokenSendSelected: null });
+    State.update({ tokenRecieveSelected: null });
+    setTimeout(() => {
+      State.update({ tokenSendSelected: tokenRecieveSelected });
+      State.update({ tokenRecieveSelected: tokenSendSelected });
+      getPrice(true, tokenRecieveSelected);
+      tokenInApprovaleNeededCheck(tokenRecieveSelected);
+    });
+  }
 };
 
 const cantSwap = () => {
@@ -427,6 +421,7 @@ if (!state.theme) {
 `,
   });
 }
+
 const Theme = state.theme;
 return (
   <Theme>
@@ -459,16 +454,18 @@ return (
                 <div class="TokenAction">SEND {"->"}</div>
                 <select
                   class="TokenNameSelect"
-                  select={state.tokenSendSelected}
+                  select={state.tokenSendSelected || "default"}
                   onChange={handleSendSelect}
                 >
-                  {!state.tokenSendSelected.name ? (
-                    <option>Select Token</option>
-                  ) : null}
+                  <option value="default" disabled={state.tokenSendSelected}>
+                    Select Token
+                  </option>
                   {TOKENS.map((token) => {
                     return (
                       <>
-                        <option>{token.name}</option>
+                        {state.tokenRecieveSelected.name != token.name && (
+                          <option>{token.name}</option>
+                        )}
                       </>
                     );
                   })}
@@ -522,16 +519,18 @@ return (
                 <div class="TokenAction">{"->"} RECEIVE</div>
                 <select
                   class="TokenNameSelect"
-                  select={state.tokenRecieveSelected}
+                  select={state.tokenRecieveSelected || "default"}
                   onChange={handleRecieveSelect}
                 >
-                  {state.tokenRecieveSelected == null ? (
-                    <option>Select Token</option>
-                  ) : null}
+                  <option value="default" disabled={state.tokenRecieveSelected}>
+                    Select Token
+                  </option>
                   {TOKENS.map((token) => {
                     return (
                       <>
-                        <option>{token.name}</option>
+                        {state.tokenSendSelected.name != token.name && (
+                          <option>{token.name}</option>
+                        )}
                       </>
                     );
                   })}
