@@ -347,7 +347,8 @@ const Submitform = () => {
         methodName: "add_proposal",
         args: {
           proposal: {
-            description: "create proposal to mint SBT",
+            description:
+              "create proposal to mint SBT$$$$$$$$ProposeCustomFunctionCall",
             kind: {
               FunctionCall: {
                 receiver_id,
