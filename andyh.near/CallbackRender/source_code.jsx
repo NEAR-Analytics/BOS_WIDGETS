@@ -10,7 +10,7 @@ const renderComponent = (msg, cb) => {
     // <h2>{msg}</h2>
   );
 };
-
+State.init({ apps: [] });
 console.log("[NSCOMP:CallbackRender]");
 console.log({ state: Object.fromEntries(Object.entries(state)) });
 return (
