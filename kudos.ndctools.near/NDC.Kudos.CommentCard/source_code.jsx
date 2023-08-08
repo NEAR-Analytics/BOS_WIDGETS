@@ -125,11 +125,8 @@ const base64decode = (encodedValue) => {
 };
 
 const formatMsg = (message) => {
-  let newStr = "\\ud83e\\udd70.".replace("\\\\", "\\");
-
-  return newStr.replace(/\\u([0-9A-F]{4})/gi, (_, g) =>
-    String.fromCharCode(`0x${g}`)
-  );
+  let newStr = message.replace("\\\\", "\\");
+  newStr.replace(/\\u([0-9A-F]{4})/gi, (_, g) => String.fromCharCode(`0x${g}`));
 };
 
 return (
@@ -151,9 +148,7 @@ return (
           </ReplyTo>
         )}
         <UserProfile ownerId={comment.owner_id} />
-        <Description className="text-secondary">
-          {formatMsg(comment.message)}
-        </Description>
+        <Description className="text-secondary">{comment.message}</Description>
         <div className="d-flex justify-content-between align-items-center">
           <CreatedAt className="gap-1">
             <i className="bi bi-clock" />
