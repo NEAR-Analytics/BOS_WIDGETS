@@ -106,13 +106,15 @@ State.init({
   widget: null,
 });
 
-const resendPrompt = () => {
+const resendPrompt = (error) => {
+  console.log("Error");
+  console.log(error);
   const res = fetch(
     `https://cmvfgq7owf7agld24uu4azhr5m0plyil.lambda-url.us-east-1.on.aws/`,
     {
       method: "POST",
       body: JSON.stringify({
-        prompt: `What is missing from these inputs: ${error} ?`,
+        prompt: `What is missing from these inputs: ${error.inference} ?`,
       }),
     }
   );
@@ -125,7 +127,7 @@ const resendPrompt = () => {
   State.update({ response: inference });
 };
 
-const sendPrompt = (error) => {
+const sendPrompt = () => {
   const res = fetch(
     `https://cmvfgq7owf7agld24uu4azhr5m0plyil.lambda-url.us-east-1.on.aws/`,
     {
@@ -150,6 +152,7 @@ const sendPrompt = (error) => {
         props={{
           ...parsed,
           resendPrompt: resendPrompt,
+          inference: inference,
           onClose: () => State.update({ response: null }),
         }}
       />
