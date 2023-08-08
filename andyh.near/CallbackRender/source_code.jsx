@@ -12,6 +12,7 @@ const renderComponent = (msg, cb) => {
 };
 
 console.log("[NSCOMP:CallbackRender]");
+console.log({ state });
 return (
   <div>
     {/*renderComponent("i am da parent")*/}
