@@ -1,41 +1,5 @@
 const ownerId = "nearcon23.near";
-const apiUrl =
-  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
-const availableTabs = [
-  "home",
-  "register",
-  "hackathon",
-  "speakers",
-  "schedule",
-  "terms",
-  "ticket",
-  "profile",
-  "travel",
-];
-
-const { secretkey } = props;
-
-const storedSecretKey = Storage.get(
-  "newPrivateKey",
-  `${ownerId}/widget/Ticket.Page`
-)
-  ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
-  : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
-
-const fetchData = () => {
-  const key = secretkey ? secretkey : storedSecretKey;
-  asyncFetch(`${apiUrl}/accounts/auth/${key}`).then(({ body }) => {
-    State.update({ redirectToMobile: !!body?.nearconId });
-  });
-};
-
-useEffect(() => {
-  fetchData();
-}, [secretkey, storedSecretKey]);
-
-if (state.redirectToMobile) {
-  return <Redirect to="/mobile" />;
-}
+const availableTabs = ["home", "register", "hackathon", "speakers", "tnc"];
 
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
@@ -47,30 +11,23 @@ const getTab = (tab) => {
 
 State.init({
   tab: getTab(props.tab),
-  collapsible: true,
 });
 
+const showSidebar = ![].includes(state.tab);
 const isForm = [].includes(state.tab);
 
 const update = (state) => State.update(state);
 
 const tabContentWidget = {
-  profile: "Profile.Page",
   home: "Home.Page",
   register: "Register.Page",
   hackathon: "Hackathon.Page",
   speakers: "Speakers.Page",
-  schedule: "Schedule.Page",
-  terms: "Terms.Page",
-  ticket: "Ticket.Page",
-  travel: "Travel.Page",
+  tnc: "TNC.Page",
 }[state.tab];
 
 const tabContent = (
-  <Widget
-    src={`${ownerId}/widget/${tabContentWidget}`}
-    props={{ update, props }}
-  />
+  <Widget src={`${ownerId}/widget/${tabContentWidget}`} props={{ update }} />
 );
 
 const ContentContainer = styled.div`
@@ -96,6 +53,7 @@ const ContentContainer = styled.div`
 `;
 
 const Sidebar = styled.div`
+  display: ${({ show }) => (show ? "flex" : "none")};
   flex-direction: row;
   position: sticky;
   top: 0;
@@ -132,26 +90,18 @@ const Container = styled.div``;
 
 return (
   <Container>
-    <Widget
-      src={`${ownerId}/widget/Navbar`}
-      props={{ update, collapsible: state.collapsible }}
-    />
+    <Widget src={`${ownerId}/widget/Navbar`} props={{ update }} />
     <Content>
-      <Sidebar>
+      <Sidebar show={showSidebar}>
         <Widget
           src={`${ownerId}/widget/Sidebar`}
-          props={{
-            tab: state.tab,
-            update,
-            collapsible: state.collapsible,
-          }}
+          props={{ tab: state.tab, update, collapsible: true }}
         />
         <Widget
           src={`${ownerId}/widget/Sidebar`}
           props={{ tab: state.tab, update, collapsible: false }}
         />
       </Sidebar>
-
       <ContentContainer className={isForm ? "form" : ""}>
         {tabContent}
         <Widget src={`${ownerId}/widget/Footer`} />
