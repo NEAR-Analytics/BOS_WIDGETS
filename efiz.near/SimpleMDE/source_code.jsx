@@ -47,7 +47,6 @@ const toolbarConfig = JSON.stringify(
 const code = `
 <style>
 #react-root {
-    height: 100vh;
     font-family: ${fontFamily};
     font-size: ${fontSize}; 
 }
