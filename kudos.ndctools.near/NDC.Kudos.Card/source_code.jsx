@@ -312,7 +312,7 @@ return (
         </div>
         <Description className="text-secondary">
           {console.log(formatText(kudo.message))}
-          {kudo.message}
+          {formatText(kudo.message)}
         </Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
         {kudoTags.length > 0 && (
