@@ -192,7 +192,7 @@ return (
             image: profile.backgroundImage,
             alt: "profile background image",
             fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreidcmajif3wgkl5f5u66d6bzjinxlticp7vqufzsc7eaz5ytat72pi",
+              "https://ipfs.near.social/ipfs/bafkreibbut7s2rl7hpstmxbjfph4oghjpxn5l4hdfyswsr5en7mzelgfpe",
           }}
         />
       )}
@@ -201,7 +201,7 @@ return (
     <Main>
       <SidebarWrapper>
         <Widget
-          src="shemar268abel.near/widget/DAO.main.sidebar"
+          src="astro.sking.near/widget/DAO.Layout.Sidebar"
           props={{
             daoId: daoId,
             profile,
