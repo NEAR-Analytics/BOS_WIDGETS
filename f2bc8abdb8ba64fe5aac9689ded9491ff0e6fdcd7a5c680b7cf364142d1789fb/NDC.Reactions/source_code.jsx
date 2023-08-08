@@ -299,11 +299,13 @@ padding: 0.5rem;
 background: white;
 border-radius: 1rem;
 box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+flex-wrap: nowrap;
+height: 3.2rem;
+position: absolute;
+right: 0;
 @media (min-width: 600px) {
     display: ${({ show }) => (show ? "flex" : "none")};
-    height: 3.2rem;
-    flex-wrap: nowrap;
-    position: absolute;
+    flex-wrap: wrap;
     transform: translateY(-10%);
     zIndex: 2;
   }
