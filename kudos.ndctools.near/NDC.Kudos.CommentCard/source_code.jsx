@@ -125,9 +125,13 @@ const base64decode = (encodedValue) => {
 };
 
 const FormatMsg = ({ message }) => {
-  const lines = message.split("\\n");
+  const newStr = [...newStr]
+    .map((char) => {
+      return char.codePointAt() > 127 ? `&#${char.codePointAt()};` : char;
+    })
+    .join("");
 
-  return lines.map((l) => <p className="m-0">{l}</p>);
+  return <div>{newStr}</div>;
 };
 
 return (
