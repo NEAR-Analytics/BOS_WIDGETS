@@ -356,7 +356,7 @@ const Submitform = () => {
                     method_name: "sbt_mint",
                     args: argsencoded,
                     deposit: "80000000000000000000000",
-                    gas: "200000000000000",
+                    gas: "150000000000000",
                   },
                 ],
               },
@@ -364,7 +364,7 @@ const Submitform = () => {
           },
         },
         deposit: 100000000000000000000000,
-        gas: "219000000000000",
+        gas: "150000000000000",
       },
     ]);
   } else {
