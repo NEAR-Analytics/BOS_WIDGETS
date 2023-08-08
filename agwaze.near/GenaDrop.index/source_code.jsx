@@ -80,9 +80,7 @@ const tabContentWidget = {
   evmNFTs: "0xprometheus.near/widget/Eth-Explore",
 }[state.tab];
 
-const tabContent = (
-  <Widget src={tabContentWidget} props={{ update, memberTab, resourceTab }} />
-);
+const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
 
 return (
   <Content>
