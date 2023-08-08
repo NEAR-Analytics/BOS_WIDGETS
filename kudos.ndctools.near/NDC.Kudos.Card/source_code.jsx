@@ -86,7 +86,6 @@ const ViewButton = styled.button`
 
 const Description = styled.div`
   max-height: 100px;
-  white-space: pre-line;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
