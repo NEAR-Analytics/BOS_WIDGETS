@@ -359,21 +359,20 @@ const renderReaction = (item, isInButton) => {
 
 return (
   <EmojiWrapper>
-    {userEmoji ? (
-      <SmallReactButton>
-        {state.loading && <Spinner />}
-        {state.likesStatistics &&
-          state.likesStatistics.map((item) => renderReaction(item, true))}
-      </SmallReactButton>
-    ) : (
-      <Button
-        onMouseEnter={handleOnMouseEnter}
-        onMouseLeave={handleOnMouseLeave}
-      >
-        {state.loading && <Spinner />}
-        {initialEmoji}
-      </Button>
-    )}
+    <div onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
+      {userEmoji ? (
+        <SmallReactButton>
+          {state.loading && <Spinner />}
+          {state.likesStatistics &&
+            state.likesStatistics.map((item) => renderReaction(item, true))}
+        </SmallReactButton>
+      ) : (
+        <Button>
+          {state.loading && <Spinner />}
+          {initialEmoji}
+        </Button>
+      )}
+    </div>
     <Overlay />
     {state.likesStatistics &&
       state.likesStatistics.map((item) => renderReaction(item, false))}
