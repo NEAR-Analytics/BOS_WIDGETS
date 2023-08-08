@@ -52,12 +52,6 @@ const FollowButtonWrapper = styled.div`
 
 return (
   <Wrapper>
-    <div className="d-flex border-bottom justify-content-between">
-      <Widget
-        src="mob.near/widget/Profile"
-        props={{ accountId: "build.sputnik-dao.near" }}
-      />
-    </div>
     {mutualFollowers.map((accountId, i) => (
       <div key={i} className="d-flex border-bottom justify-content-between">
         <div className="d-flex align-items-center">
