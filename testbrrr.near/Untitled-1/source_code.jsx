@@ -340,7 +340,7 @@ if (
   console.log("Open Trove");
   // props.resendPrompt(props.inference);
   props.resendPrompt(props);
-  openTrove();
+  // openTrove();
 } else if (props.action === "repay") {
   closeTrove();
 } else if (props.action === "display") {
