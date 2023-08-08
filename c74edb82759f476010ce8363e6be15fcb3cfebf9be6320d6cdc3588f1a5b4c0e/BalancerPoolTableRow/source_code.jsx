@@ -327,6 +327,11 @@ const HoverableTd = styled.td`
   &:hover {
     background: #2f2f2f; /* hover effect */
     cursor: pointer; /* hand cursor on hover */
+    
+    .asmodeusbringer {
+      background: inherit; // Resets the background color
+      cursor: auto; // Resets the cursor style
+    }
   }
 `;
 
@@ -430,7 +435,7 @@ function CoolTr() {
         {state.poolBalance ? "BPT" : ""}
       </td>
       {/* view more with quotes to the right like >> but curved */}
-      <Popover.Root>
+      <Dialog.Root>
         <HoverableTd
           style={{
             padding: 0,
@@ -439,9 +444,9 @@ function CoolTr() {
             width: "45px",
           }}
         >
-          <Popover.Content asChild>
+          <Dialog.Content asChild className="asmodeusbringer">
             <div
-              className="border-2 border-secondary rounded-4 shadow border-bottom-1"
+              className="border-2 border-secondary rounded-4 shadow border-bottom-1 asmodeusbringer"
               style={{
                 zIndex: "3",
                 backgroundColor: "#393e41",
@@ -456,31 +461,12 @@ function CoolTr() {
                   </h5>
                 </div>
                 <div>
-                  <Popover.Close className="btn btn-sm btn-secondary">
+                  <Dialog.Close className="btn btn-sm btn-secondary">
                     <i className="bi bi-x-lg text-white"></i>
-                  </Popover.Close>
+                  </Dialog.Close>
                 </div>
               </div>
-              <div
-                style={
-                  {
-                    // width: "100%",
-                    // display: "flex",
-                    // flexDirection: "column",
-                    // make the flex have 2 items at most per row
-                  }
-                }
-                // make the flex wrap
-                className="d-flex w-100 gap-3 col-12 p-4"
-              >
-                {/* <div className="d-flex justify-content-between border-bottom-1 p-2">
-            <div className="fw-bold">Amount of Holders</div>
-            <div>{pool.holdersCount}</div>
-          </div>
-          <div className="d-flex justify-content-between">
-            <div className="fw-bold">Pool Type</div>
-            <div>{pool.poolType}</div>
-          </div> */}
+              <div className="d-flex w-100 gap-3 col-12 p-4">
                 <div className="col-md-6">
                   <VerticalPair
                     end={false}
@@ -505,18 +491,6 @@ function CoolTr() {
                   />
                 </div>
                 <div className="col-md-6">
-                  {/* <VerticalPair
-                    end={false}
-                    title="Token Balance"
-                    value={pool.tokens.reduce(
-                      (acc, token) =>
-                        acc +
-                          parseFloat(
-                            stringNumToFixed2(token.totalBalanceNotional) || "0"
-                          ) || 0,
-                      0
-                    )}
-                  /> */}
                   <VerticalPair
                     end={false}
                     title="Pool Type"
@@ -528,77 +502,16 @@ function CoolTr() {
                     value={unixTimeToISO(pool.createTime)}
                   />
                 </div>
-                {/* <div className="col-md-6">
-                <VerticalPair
-                  end={false}
-                  title="Pool Type"
-                  value={`${pool.poolType} ${pool.poolTypeVersion}`}
-                />
-              </div> */}
               </div>
 
               <div className="d-flex justify-content-between text-light fw-bold rounded-top align-items-center px-4">
                 <div>
-                  {/* 2x2 grid with some info like amount of holders, pool type, token composition (weights) */}
-                  {/*<PrettyTable className="col-md-6">*/}
-                  {/* <VerticalPair
-                end={false}
-                title="Amount of Holders"
-                value={`${pool.holdersCount}`}
-              /> */}
                   <Widget
                     src="c74edb82759f476010ce8363e6be15fcb3cfebf9be6320d6cdc3588f1a5b4c0e/widget/BalancerAPITokenTable"
                     props={{
                       tokens: BALANCER_TOKENS,
                     }}
                   />
-                  {/* <table
-                      className="table table-sm table-transparent text-light"
-                      style={{
-                        // max size is like 150px
-                        maxWidth: "200px",
-                        marginTop: "-0.25rem",
-                      }}
-                    >
-                      <thead>
-                        <tr className="border-secondary">
-                          <th className="fw-bold">Token</th>
-                          <th className="fw-bold">Weight</th>
-                          <th className="fw-bold">Amount</th>
-                          <th className="fw-bold">USD&nbsp;Price</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {pool.tokens.map((t) => (
-                          <tr key={t.symbol}>
-                            <td title={t.name}>{t.symbol}</td>
-                            <td>
-                              {pool.tokenWeights.find(
-                                (w) => w.address === t.address
-                              )
-                                ? `${
-                                    (pool?.tokenWeights?.find(
-                                      (w) => w.address === t.address
-                                    )?.weight ?? 0) * 100
-                                  }%`
-                                : "N/A"}
-                            </td>
-                            <td key={"balance" + t.address + state.refreshTick}>
-                              {formatAndAbbreviateNumber(
-                                parseFloat(
-                                  stringNumToFixed2(t.totalBalanceNotional) ??
-                                    "0"
-                                )
-                              )}
-                            </td>
-                            <td key={"price" + t.address + state.refreshTick}>
-                              ${parseFloat(t.latestUSDPrice || "0").toFixed(2)}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table> */}
-                  {/*</PrettyTable>*/}
                 </div>
               </div>
               <div className="d-flex justify-content-end gap-3 pb-4 px-4">
@@ -618,8 +531,6 @@ function CoolTr() {
                     >
                       <i className="bi bi-arrow-clockwise"></i>
                     </button>
-                    {/* <Web3Connect /> */}
-                    {/* <div> */}
                     <div style={{ maxWidth: "150px" }}>
                       <Widget
                         src="c74edb82759f476010ce8363e6be15fcb3cfebf9be6320d6cdc3588f1a5b4c0e/widget/StakeUnstakeButtonAndForm"
@@ -634,29 +545,15 @@ function CoolTr() {
                         key={(state.refreshTick + 2).toString()}
                       />
                     </div>
-                    {/* </div> */}
                   </div>
                 )}
               </div>
-              {/* <Popover.Arrow
-          style={{
-            fill: "var(--bs-secondary)",
-          }}
-        /> */}
             </div>
-          </Popover.Content>
-          {/* <div
-            className="d-flex justify-content-center align-items-center bg-secondary"
-            style={{
-              height: "100%",
-              width: "100%",
-            }}
-          > */}
-          <Popover.Trigger
+          </Dialog.Content>
+          <Dialog.Trigger
             className="d-flex justify-content-center align-items-center"
             asChild
             style={{
-              // marginBottom: "-1px",
               height: "100%",
               width: "100%",
             }}
@@ -667,10 +564,9 @@ function CoolTr() {
                 filter: "hue-rotate(40deg) saturate(80%) brightness(115%)",
               }}
             ></i>
-          </Popover.Trigger>
-          {/* </div> */}
+          </Dialog.Trigger>
         </HoverableTd>
-      </Popover.Root>
+      </Dialog.Root>
     </tr>
   );
 }
