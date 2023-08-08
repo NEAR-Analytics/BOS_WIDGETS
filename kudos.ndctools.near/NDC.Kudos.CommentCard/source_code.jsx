@@ -121,15 +121,11 @@ const trimMessage = (message) => {
 
 const base64decode = (encodedValue) => {
   let buff = Buffer.from(encodedValue, "base64");
-  return JSON.parse(buff.toString("utf-8"));
+  return JSON.parse(buff.toString("utf-16"));
 };
 
 const FormatMsg = ({ message }) => {
-  const str = "\\ud83d\\ude0e\\ud83c\\udf89".replace(/\\\\u/g, "\\u");
-
-  console.log(str);
-
-  const newStr = [...str]
+  const newStr = [...message]
     .map((char) => {
       return char.codePointAt() > 127 ? `&#${char.codePointAt()};` : char;
     })
