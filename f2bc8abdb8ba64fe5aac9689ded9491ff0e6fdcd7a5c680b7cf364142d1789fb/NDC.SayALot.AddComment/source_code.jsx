@@ -271,6 +271,10 @@ const libCalls = [
   },
 ];
 
+function stateUpdate(obj) {
+  State.update(obj);
+}
+
 // const CommentCandidate = () => {
 //   //Validate the Data outPut
 //   if (state.reply === null) {
