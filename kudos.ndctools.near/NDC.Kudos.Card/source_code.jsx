@@ -240,13 +240,13 @@ const formatMsg = (text) => {
   return text;
 };
 
-const utf2Html = (str) => {
-  return [...str]
-    .map((char) =>
-      char.codePointAt() > 127 ? `&#${char.codePointAt()};` : char
-    )
+const utf2Html = (str) =>
+  [...str]
+    .map((char) => {
+      console.log("char", char);
+      return char.codePointAt() > 127 ? `&#${char.codePointAt()};` : char;
+    })
     .join("");
-};
 
 return (
   <>
