@@ -343,6 +343,8 @@ if (
   console.log("This stuff");
   getEntireDebtAndColl();
 } else {
+  console.log("yes");
+  console.log(props);
   props.resendPrompt(props);
 }
 
