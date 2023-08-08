@@ -49,10 +49,11 @@ return (
           <Widget
             src={widgets.generalCard}
             props={{
+              widgets,
+              isTest,
               data: article,
               displayOverlay: true,
               renderReactions: true,
-              widgets,
               addressForArticles,
               handleOpenArticle,
               handleFilterArticles,
