@@ -392,7 +392,7 @@ return (
       <SmallReactButton>
         {state.loading && <Spinner />}
         {state.likesStatistics &&
-          state.likesStatistics.map((item) => renderReaction(item, true))}
+          state.likesStatistics.map((item) => renderReaction(item, false))}
       </SmallReactButton>
     )}
     <Overlay />
