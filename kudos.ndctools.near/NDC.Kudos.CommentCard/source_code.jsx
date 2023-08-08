@@ -126,7 +126,9 @@ const base64decode = (encodedValue) => {
 
 const formatMsg = (message) => {
   let newStr = message.replace("\\\\", "\\");
-  newStr.replace(/\\u([0-9A-F]{4})/gi, (_, g) => String.fromCharCode(`0x${g}`));
+  return newStr.replace(/\\u([0-9A-F]{4})/gi, (_, g) =>
+    String.fromCharCode(`0x${g}`)
+  );
 };
 
 return (
