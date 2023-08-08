@@ -19,7 +19,13 @@ function getComments(args) {
 }
 
 function setComment(args) {
-  const { realArticleId, text, previousCommentId } = args;
+  const {
+    realArticleId,
+    text,
+    previousCommentId,
+    onClickConfirm,
+    onClickCancel,
+  } = args;
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -32,7 +38,10 @@ function setComment(args) {
       }),
     },
   };
-  Social.set(data);
+  Social.set(data, {
+    onCommit: onClickConfirm,
+    onCancel: onClickCancel,
+  });
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "setComment";
