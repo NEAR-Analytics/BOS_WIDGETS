@@ -168,6 +168,7 @@ return (
     className="w-100"
     style={{
       height: `${state.iframeHeight}px`,
+      overflow: "hidden",
     }}
     srcDoc={code}
     message={data.content ?? ""}
