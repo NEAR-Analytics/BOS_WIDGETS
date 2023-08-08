@@ -121,7 +121,7 @@ const trimMessage = (message) => {
 
 const base64decode = (encodedValue) => {
   let buff = Buffer.from(encodedValue, "base64");
-  return JSON.parse(buff.toString("utf-16"));
+  return JSON.parse(buff.toString("utf-8"));
 };
 
 const FormatMsg = ({ message }) => {
