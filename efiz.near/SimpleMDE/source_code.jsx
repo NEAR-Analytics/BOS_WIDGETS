@@ -59,7 +59,7 @@ const toolbarConfig = JSON.stringify(
 const code = `
 <style>
 body {  
-    margin: auto;
+    margin: auto 2;
     font-family: ${fontFamily};
     overflow: hidden;
 }
