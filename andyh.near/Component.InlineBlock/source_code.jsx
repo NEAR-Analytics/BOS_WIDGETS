@@ -1,6 +1,6 @@
 const accountId = props.accountId;
 const widgetName = props.widgetName;
-console.log({ props });
+console.log({ props: Object.fromEntries(Object.entries(props)) });
 const widgetPath = `${accountId}/widget/${widgetName}`;
 const blockHeight = props.blockHeight;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
