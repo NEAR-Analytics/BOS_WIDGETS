@@ -1,5 +1,6 @@
 const DiscoverPage = styled.div`
-    background-image: src()
+    width: 100%;
+    
 `;
 
 const HightLightText = styled.h1`
