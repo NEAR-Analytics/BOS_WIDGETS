@@ -25,8 +25,8 @@ const tabsData = [
       "Ut irure mollit nulla eiusmod excepteur laboris elit sit anim magna tempor excepteur labore nulla.",
   },
   {
-    name: "economics",
-    label: "Economicst",
+    name: "economy",
+    label: "Economy",
     content:
       "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
   },
@@ -90,10 +90,76 @@ return (
               : "visibility: hidden"
           }`}
         >
-          <Widget
-            src="y3k.near/widget/near_atlas.tailwind.NEAR-ATLAS-MonthlyActiveAcounts"
-            props={{}}
-          />
+          <div>
+            <Widget
+              src="y3k.near/widget/near_atlas.tailwind.NEAR-ATLAS-MonthlyActiveAcounts"
+              props={{}}
+            />
+          </div>
+
+          <div>
+            <Widget
+              src="y3k.near/widget/near_atlas.tailwind.React.Table.TopDapps"
+              props={{}}
+            />
+          </div>
+        </div>
+
+        <div
+          className={`${
+            tabsData.find((tab) => tab.name === state.activeTab).name ===
+            "economy"
+              ? ""
+              : "visibility: hidden"
+          }`}
+        >
+          <div>
+            <Widget
+              src="abhishekanirudhan.near/widget/NEAR.ATLAS.EconomyPage"
+              props={{}}
+            />
+          </div>
+        </div>
+
+        <div
+          className={`${
+            tabsData.find((tab) => tab.name === state.activeTab).name ===
+            "dev_world"
+              ? ""
+              : "visibility: hidden"
+          }`}
+        >
+          <div>
+            <div class="row">
+              <div class="col">
+                <Widget
+                  src="y3k.near/widget/widgets.dailyCommitStats"
+                  props={{}}
+                />
+              </div>
+              <div class="col">
+                <Widget
+                  src="y3k.near/widget/widgets.dailyDevStats"
+                  props={{}}
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <Widget
+                  src="y3k.near/widget/widgets.monthlyCommitStats"
+                  props={{}}
+                />
+              </div>
+              <div class="col">
+                <Widget
+                  src="y3k.near/widget/widgets.monthlyDevStats"
+                  props={{}}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
