@@ -54,7 +54,7 @@ return (
                 <div
                   className="card h-100 p-3"
                   key={article.articleId}
-                  onClick={handleFilterArticles(filter)}
+                  onClick={() => handleFilterArticles(filter)}
                 >
                   <Widget
                     src="mob.near/widget/Profile.ShortInlineBlock"
