@@ -33,7 +33,11 @@ return (
       <ImgContainer>
         <Widget
           src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Profile.ShortInlineBlock"
-          props={{ accountId: authorArticlesArray[0].author, tooltip: true }}
+          props={{
+            accountId: authorArticlesArray[0].author,
+            tooltip: true,
+            maxWidth: "90%",
+          }}
         />
       </ImgContainer>
       <span>{authorArticlesArray.length} articles</span>
