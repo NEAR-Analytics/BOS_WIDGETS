@@ -16,7 +16,7 @@ if (allAccounts === null) {
 for (const account of Object.keys(allAccounts)) {
   const followers = allAccounts[account]?.graph?.follow;
 
-const mutualFollowers = {};
+const mutualFollowers = [];
 
 for (const account of Object.keys(allAccounts)) {
   const followers = allAccounts[account]?.graph?.follow;
@@ -72,7 +72,7 @@ return (
             props={{ accountId: "build.sputnik-dao.near" }}
           />
     </div>
-    {mutualFollowers.map(accountId, i) => (
+    {mutualFollowers.map((accountId, i) => (
       <div key={i} className="d-flex border-bottom justify-content-between">
         <div className="d-flex align-items-center">
           <div className="p-3">
@@ -86,6 +86,6 @@ return (
           <Widget src="mob.near/widget/FollowButton" props={{ accountId }} />
         </div>
       </div>
-    )};
+    ))};
   </Wrapper>
 );
