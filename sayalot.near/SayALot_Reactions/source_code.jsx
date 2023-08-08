@@ -359,7 +359,7 @@ const renderReaction = (item, isInButton) => {
 
 return (
   <EmojiWrapper>
-    <div onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
+    <span onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
       {userEmoji ? (
         <SmallReactButton>
           {state.loading && <Spinner />}
@@ -372,7 +372,7 @@ return (
           {initialEmoji}
         </Button>
       )}
-    </div>
+    </span>
     <Overlay />
     {state.likesStatistics &&
       state.likesStatistics.map((item) => renderReaction(item, false))}
