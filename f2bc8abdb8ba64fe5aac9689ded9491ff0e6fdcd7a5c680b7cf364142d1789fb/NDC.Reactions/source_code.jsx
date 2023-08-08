@@ -56,7 +56,6 @@ const arrayLastLikeForEachUser =
 const userEmoji = arrayLastLikeForEachUser.find((obj) => {
   return obj.accountId === accountThatIsLoggedIn;
 });
-userEmoji = { emoji: emojiArray[3] };
 
 // ========= GET LIKES STATISTICS =========
 const getLikeStats = (acc, likeObj) => {
@@ -362,22 +361,6 @@ const renderReaction = (item, isInButton) => {
   );
 };
 
-State.update(
-  {
-    likesStatistics: [
-      {
-        accounts: [
-          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-          "silkking.near",
-          "fakeAccount",
-        ],
-        emoji: emojiArray[3],
-      },
-    ],
-  },
-  { accounts: ["otraFake", "aye.near"], emoji: emojiArray[2] }
-);
-
 return (
   <EmojiWrapper>
     {!userEmoji ? (
@@ -392,7 +375,7 @@ return (
       <SmallReactButton>
         {state.loading && <Spinner />}
         {state.likesStatistics &&
-          state.likesStatistics.map((item) => renderReaction(item, false))}
+          state.likesStatistics.map((item) => renderReaction(item, true))}
       </SmallReactButton>
     )}
     <Overlay />
