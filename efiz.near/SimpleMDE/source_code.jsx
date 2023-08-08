@@ -9,7 +9,7 @@ function defaultOnChange(content) {
 
 const data = props.data;
 const onChange = props.onChange ?? defaultOnChange;
-const height = props.height ?? "403";
+const height = props.height ?? "420";
 const fontFamily = props.fontFamily ?? "Arial, sans-serif";
 const fontSize = props.fontSize ?? "14px";
 
@@ -53,7 +53,6 @@ const code = `
 #react-root {
     font-family: ${fontFamily};
     font-size: ${fontSize}; 
-    overflow: "hidden"
 }
 </style>
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
@@ -168,7 +167,6 @@ return (
     className="w-100"
     style={{
       height: `${state.iframeHeight}px`,
-      overflow: "hidden",
     }}
     srcDoc={code}
     message={data.content ?? ""}
@@ -178,7 +176,7 @@ return (
           onChange(e.content);
         }
         case "resize": {
-          State.update({ iframeHeight: e.height + 20 });
+          State.update({ iframeHeight: e.height + 35 });
         }
       }
     }}
