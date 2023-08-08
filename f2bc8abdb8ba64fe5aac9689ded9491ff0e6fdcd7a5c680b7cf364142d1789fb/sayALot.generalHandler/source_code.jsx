@@ -65,8 +65,11 @@ const widgets = {
   generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`,
   oneArticle: `${authorForWidget}/widget/NDC.General.ArticleView`,
   reactions: "sayalot.near/widget/SayALot_Reactions",
-  addComment: "rubycop.near/widget/NDC.Nomination.AddComment",
+  addComment:
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.SayALot.AddComment",
   candidatePage: "#/rubycop.near/widget/NDC.Nomination.Candidate.Page",
+  libComment:
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.comment",
 };
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
@@ -321,7 +324,9 @@ const initialCreateState = {
 
 //=================================================GET DATA=========================================================
 const addressForArticles = isTest ? "test_sayALotArticle" : "sayALotArticle";
-const articleBlackList = [91092435, 91092174, 91051228, 91092223, 91051203];
+const articleBlackList = [
+  91092435, 91092174, 91051228, 91092223, 91051203, 98372095,
+];
 
 function getLastEditionsByArticle() {
   const allArticles = Social.index(addressForArticles, "main", {
@@ -444,7 +449,11 @@ function getLastEditionsByArticle() {
       if (article) {
         articleParsed = JSON.parse(article);
         articleParsed.blockHeight = latestEditArticle.blockHeight;
-        articleParsed.realArticleId = latestEditArticle.value.articleId;
+        //TODO check this
+        articleParsed.realArticleId = latestEditArticle.value.id;
+        // articleParsed.realArticleId =
+        //   latestEditArticle.value.realArticleId ??
+        //   `${latestEditArticle.value.author}-${latestEditArticle.value.timeCreate}`;
       }
 
       return articleParsed;
