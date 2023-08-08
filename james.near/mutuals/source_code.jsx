@@ -6,7 +6,7 @@ if (!accountId) {
 
 const mutualFollowers = [];
 
-const followers = accountId?.graph?.follow;
+const followers = Social.get(`${accountId}/graph/follow/*`);
 
 if (followers) {
   for (const follower of Object.keys(followers)) {
@@ -18,15 +18,6 @@ if (followers) {
     }
   }
 }
-
-const Wrapper = styled.div`
-  max-width: 100%;
-  @media (max-width: 576px) {
-    .content {
-      flex-direction: column;
-    }
-  }
-`;
 
 const FollowButtonWrapper = styled.div`
   width: 100%;
@@ -51,7 +42,8 @@ const FollowButtonWrapper = styled.div`
 `;
 
 return (
-  <Wrapper>
+  <>
+    <p>{JSON.stringify(followers)}</p>
     {mutualFollowers.map((accountId, i) => (
       <div key={i} className="d-flex border-bottom justify-content-between">
         <div className="d-flex align-items-center">
@@ -67,5 +59,5 @@ return (
         </div>
       </div>
     ))}
-  </Wrapper>
+  </>
 );
