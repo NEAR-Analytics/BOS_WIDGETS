@@ -125,11 +125,7 @@ const base64decode = (encodedValue) => {
 };
 
 const formatMsg = (message) => {
-  let newStr =
-    "Thanks for being such an awesome Product Lead and \\u26f5\\u26f4\\ufe0f\\ud83d\\udea2\\ud83d\\udef3\\ufe0f\\ud83d\\ude80ing constantly \\ud83d\\ude4f\\ud83c\\udffd\\ud83e\\udd70.".replace(
-      "\\\\",
-      "\\"
-    );
+  let newStr = "\\ud83e\\udd70.".replace("\\\\", "\\");
 
   return newStr.replace(/\\u([0-9A-F]{4})/gi, (_, g) =>
     String.fromCharCode(`0x${g}`)
