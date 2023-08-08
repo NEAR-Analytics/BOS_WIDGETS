@@ -299,16 +299,14 @@ padding: 0.5rem;
 background: white;
 border-radius: 1rem;
 box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
-flex-wrap: nowrap;
 position: absolute;
 right: 0;
-
-@media (min-width: 600px) {
-    display: ${({ show }) => (show ? "flex" : "none")};
-    flex-wrap: wrap;
-    transform: translateY(-10%);
-    zIndex: 2;
-  }
+width: 360px;
+max-width: 50vw;
+flex-wrap: wrap;
+display: ${({ show }) => (show ? "flex" : "none")};
+transform: translateY(-10%);
+zIndex: 2;
 `;
 
 // =============== NEW JSX ===============!!!!!!!!
