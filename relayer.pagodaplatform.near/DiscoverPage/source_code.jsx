@@ -7,6 +7,7 @@ return (
     <div className="d-flex flex-row row">
       <div className="col-lg-4">
         <img
+          style={{ maxWidth: "100%" }}
           src={`https://ipfs.near.social/ipfs/bafybeifemkrxbsify74bvnvxklukkz4q7om4cpo7cvtm6igdsqducp345u`}
           alt="uploaded"
         />
