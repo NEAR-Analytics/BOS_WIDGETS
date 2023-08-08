@@ -106,17 +106,26 @@ State.init({
   widget: null,
 });
 
-const query = fetch(
-  `https://cmvfgq7owf7agld24uu4azhr5m0plyil.lambda-url.us-east-1.on.aws/`,
-  {
-    method: "POST",
-    body: JSON.stringify({
-      prompt: state.prompt,
-    }),
-  }
-);
+const resendPrompt = () => {
+  const res = fetch(
+    `https://cmvfgq7owf7agld24uu4azhr5m0plyil.lambda-url.us-east-1.on.aws/`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        prompt: `What is missing from these inputs: ${error} ?`,
+      }),
+    }
+  );
 
-const sendPrompt = () => {
+  if (!res.body || res.body.error) return;
+  // console.log("getNamesForOwner raw res", res.body);
+
+  const inference = res.body;
+  console.log(inference);
+  State.update({ response: inference });
+};
+
+const sendPrompt = (error) => {
   const res = fetch(
     `https://cmvfgq7owf7agld24uu4azhr5m0plyil.lambda-url.us-east-1.on.aws/`,
     {
@@ -140,6 +149,7 @@ const sendPrompt = () => {
         src="testbrrr.near/widget/Untitled-1"
         props={{
           ...parsed,
+          resendPrompt: resendPrompt,
           onClose: () => State.update({ response: null }),
         }}
       />
