@@ -86,10 +86,11 @@ function MarkdownEditor(props) {
         simplemde.codemirror.on('change', () => {
             const content = simplemde.value();
             window.parent.postMessage({ handler: "update", content }, "*");
+            setValue(simplemde.value());
         });
 
         setValue(props.initialText || "");
-    }, [props.initialText]);
+    }, []);
 
     return React.createElement('textarea', { id: 'markdown-input', value: value });
 }
@@ -109,7 +110,7 @@ return (
     {state.showPreview ? (
       <Widget
         src="efiz.near/widget/SocialMarkdown"
-        props={{ text: state.text }}
+        props={{ text: data.content }}
       />
     ) : (
       <iframe
