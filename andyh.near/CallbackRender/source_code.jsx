@@ -28,6 +28,9 @@ return (
         boostedTag: "app",
         placeholder: "🔍 Search Applications",
         limit: 10,
+        onChange: ({ result }) => {
+          State.update({ apps: result });
+        },
       }}
     />
   </div>
