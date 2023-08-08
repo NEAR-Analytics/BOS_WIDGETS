@@ -34,7 +34,7 @@ State.init({
 const item = {
   type: "social",
   path: `${data.author}/${addressForArticles}/main`,
-  realArticleId: data.realArticleId,
+  realArticleId: data.id,
 };
 
 //=================================================END CONSTS=======================================================
