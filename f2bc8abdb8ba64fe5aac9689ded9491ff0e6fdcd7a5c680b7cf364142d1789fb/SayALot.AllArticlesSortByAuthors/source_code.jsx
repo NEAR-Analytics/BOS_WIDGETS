@@ -19,6 +19,8 @@ const SecondContainer = styled.div`
   min-width: 360px;
 `;
 
+console.log("SAL ALSBA");
+
 const authors =
   finalArticles.length && Array.from(finalArticles, ({ author }) => author);
 // const uniqAuthors = Array.from(new Set(authors));
