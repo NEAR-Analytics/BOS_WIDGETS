@@ -98,6 +98,8 @@ function getNominationInfo(house) {
       return;
     }
 
+    console.log(res.body);
+
     for (const [i, data] of res.body.entries()) {
       let objCard = { indexerData: data };
       let nominee = data.nominee;
@@ -130,12 +132,9 @@ function getNominationInfo(house) {
           };
           nominationsArr.push(objCard);
 
-          const sortedNominations = nominationsArr.sort(
-            (a, b) => b.indexerData.timestamp - a.indexerData.timestamp
-          );
           State.update({
-            nominations: sortedNominations,
-            originNominations: sortedNominations,
+            nominations: nominationsArr,
+            originNominations: nominationsArr,
             loading: false,
           });
         }, 1000);
