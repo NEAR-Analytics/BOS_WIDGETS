@@ -84,6 +84,7 @@ return (
             accountId: context.accountId,
             content: state.content,
             blockHeight: "now",
+            realArticleId,
             isDebug,
           }}
         />
