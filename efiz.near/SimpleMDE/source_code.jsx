@@ -59,9 +59,9 @@ const toolbarConfig = JSON.stringify(
 const code = `
 <style>
 body {  
-    margin: auto 2;
+    margin: auto;
     font-family: ${fontFamily};
-    overflow: hidden;
+    overflow: visible;
 }
 
 .editor-toolbar {
