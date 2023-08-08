@@ -23,16 +23,6 @@ return (
         renderComponent,
       }}
     />
-    <Widget
-      src="andyh.near/widget/ComponentSearch"
-      props={{
-        boostedTag: "app",
-        placeholder: "🔍 Search Applications",
-        limit: 10,
-        onChange: ({ result }) => {
-          State.update({ apps: result });
-        },
-      }}
-    />
+    <Widget src="andyh.near/widget/Applications" />
   </div>
 );
