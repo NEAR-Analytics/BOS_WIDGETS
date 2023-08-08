@@ -36,12 +36,6 @@ function libCall(call) {
   }
 }
 
-const updateObj = {};
-const resultLibCalls = [...libCalls];
-libCalls.forEach((call) => {
-  updateObj[call.key] = libCall(call);
-});
-
 function getComments(args) {
   const { realArticleId } = args;
   const key = realArticleId;
@@ -70,6 +64,12 @@ function setComment(args) {
 
   return text;
 }
+
+const updateObj = {};
+const resultLibCalls = [...libCalls];
+libCalls.forEach((call) => {
+  updateObj[call.key] = libCall(call);
+});
 
 updateObj.libCalls = resultLibCalls(updateObj);
 stateUpdate;
