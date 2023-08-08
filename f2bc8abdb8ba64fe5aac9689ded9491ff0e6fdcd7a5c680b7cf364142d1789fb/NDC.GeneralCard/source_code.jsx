@@ -779,7 +779,7 @@ return (
       <KeyIssues>
         <KeyIssuesContent>
           <KeyIssuesHeader>
-            <KeyIssuesTitle>{articleId}</KeyIssuesTitle>
+            <KeyIssuesTitle>{title}</KeyIssuesTitle>
           </KeyIssuesHeader>
           <KeyIssuesContainer>
             {
