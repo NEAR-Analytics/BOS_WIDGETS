@@ -9,7 +9,7 @@ function defaultOnChange(content) {
 
 const data = props.data;
 const onChange = props.onChange ?? defaultOnChange;
-const height = props.height ?? "500px";
+const height = props.height ?? "450px";
 const fontFamily = props.fontFamily ?? "Arial, sans-serif";
 const fontSize = props.fontSize ?? "14px";
 
@@ -63,6 +63,7 @@ const code = `
 <script>
 function MarkdownEditor(props) {
     const [value, setValue] = React.useState(props.initialText || "");
+
     React.useEffect(() => {
         const generateToolbarItems = () => {
             return ${toolbarConfig}.map((item) => {
@@ -136,6 +137,7 @@ function MarkdownEditor(props) {
         simplemde.codemirror.on('change', () => {
             const content = simplemde.value();
             window.parent.postMessage({ handler: "update", content }, "*");
+
         });
     }, []);
 
@@ -156,7 +158,7 @@ return (
   <iframe
     className="w-100"
     style={{
-      height: height,
+      height,
     }}
     srcDoc={code}
     message={data.content ?? ""}
