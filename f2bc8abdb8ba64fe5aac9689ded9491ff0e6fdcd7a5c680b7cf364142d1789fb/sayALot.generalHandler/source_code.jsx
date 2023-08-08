@@ -70,6 +70,8 @@ const widgets = {
   candidatePage: "#/rubycop.near/widget/NDC.Nomination.Candidate.Page",
   libComment:
     "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.comment",
+  reactions:
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Reactions",
 };
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
