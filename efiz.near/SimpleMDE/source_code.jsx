@@ -50,6 +50,9 @@ const toolbarConfig = JSON.stringify(
 
 const code = `
 <style>
+body {  
+    margin: auto;
+}
 #react-root {
     font-family: ${fontFamily};
     font-size: ${fontSize}; 
