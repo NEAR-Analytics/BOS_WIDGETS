@@ -1,5 +1,4 @@
 const { isTest, stateUpdate, libCalls } = props;
-console.log("in");
 
 const prodAction = "SayALotComments";
 const testAction = "test_SayALotComments";
@@ -71,6 +70,6 @@ libCalls.forEach((call) => {
   updateObj[call.key] = libCall(call);
 });
 
-updateObj.libCalls = resultLibCalls(updateObj);
+// updateObj.libCalls = resultLibCalls(updateObj);
 stateUpdate;
 return <></>;
