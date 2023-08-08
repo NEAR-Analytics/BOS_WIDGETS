@@ -66,12 +66,11 @@ function setComment(args) {
 
 const updateObj = {};
 const resultLibCalls = [...libCalls];
-console.log("RLC: ", resultLibCalls);
+
 libCalls.forEach((call) => {
   updateObj[call.key] = libCall(call);
 });
-console.log("updateObj: ", updateObj);
 
 // updateObj.libCalls = resultLibCalls(updateObj);
-stateUpdate;
+stateUpdate(updateObj);
 return <></>;
