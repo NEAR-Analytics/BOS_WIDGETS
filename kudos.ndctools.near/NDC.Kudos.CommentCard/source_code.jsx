@@ -125,7 +125,7 @@ const base64decode = (encodedValue) => {
 };
 
 const FormatMsg = ({ message }) => {
-  const str = message.replaceAll(/\p{Emoji}/gu, "-");
+  const str = message.replace(/\p(\\{Emoji})/gu, "$1");
   const newStr = [...str]
     .map((char) => {
       return char.codePointAt() > 127 ? `&#${char.codePointAt()};` : char;
