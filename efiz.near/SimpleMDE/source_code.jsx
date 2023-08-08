@@ -139,7 +139,7 @@ function MarkdownEditor(props) {
         });
 
         const updateIframeHeight = () => {
-            const iframeHeight = document.body.scrollHeight;
+            const iframeHeight = document.documentElement.scrollHeight;
             window.parent.postMessage({ handler: "resize", height: iframeHeight }, "*");
         };
 
