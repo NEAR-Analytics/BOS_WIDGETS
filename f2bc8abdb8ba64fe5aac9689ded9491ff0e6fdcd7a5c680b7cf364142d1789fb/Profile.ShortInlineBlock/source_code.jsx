@@ -4,10 +4,7 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
 const maxNameLength = props.maxNameLength;
 
-let name =
-  profile.name ?? maxNameLength
-    ? accountId.slice(0, maxNameLength) + "..."
-    : accountId;
+let name = profile.name;
 
 const maxWidth = props.maxWidth ?? "60%";
 
@@ -37,7 +34,11 @@ const inner = (
         className="text-truncate fw-bold"
         style={{ maxWidth: "90%", textAlign: "start" }}
       >
-        {name}
+        {name
+          ? name
+          : maxNameLength
+          ? accountId.slice(0, maxNameLength) + "..."
+          : accountId}
       </div>
       <div className="text-truncate text-muted" style={{ maxWidth: "90%" }}>
         <small>
