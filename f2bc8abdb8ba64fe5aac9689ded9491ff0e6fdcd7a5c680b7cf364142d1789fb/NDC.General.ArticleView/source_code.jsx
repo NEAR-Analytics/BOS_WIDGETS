@@ -550,7 +550,7 @@ return (
               "border-radius": "8px",
             }}
           >
-            <div className="w-100 p-3 d-flex justify-content-between align-items-start">
+            <div className="w-100 p-3 d-flex flex-wrap justify-content-between align-items-start">
               <div className="d-flex">
                 <Widget
                   src="mob.near/widget/ProfileImage"
