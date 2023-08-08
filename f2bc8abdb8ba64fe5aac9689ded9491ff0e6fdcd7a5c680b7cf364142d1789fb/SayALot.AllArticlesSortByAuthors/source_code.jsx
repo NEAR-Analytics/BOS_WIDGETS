@@ -7,9 +7,10 @@ const {
   authorForWidget,
 } = props;
 
-const authors =
+const articlesAuthors =
   finalArticles.length && Array.from(finalArticles, ({ author }) => author);
 
+let authors = [...new Set(articlesAuthors)];
 console.log("authors: ", authors);
 
 let articlesByAuthorsArray = [];
