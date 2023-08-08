@@ -14,6 +14,8 @@ const errTextNoBody = "ERROR: no article Body",
 State.init(initialCreateState);
 const tagsArray = state.tags;
 
+const accountId = context.accountId;
+
 const getArticleData = () => {
   const args = {
     articleId: state.articleId,
@@ -25,6 +27,7 @@ const getArticleData = () => {
     version: 0,
     navigation_id: null,
     tags: tagsArray,
+    realArticleId: `${accountId}-${Date.now()}`,
   };
   return args;
 };
@@ -41,7 +44,7 @@ const composeData = () => {
           key: "main",
           value: {
             type: "md",
-            id: `${context.accountId}-${Date.now()}`,
+            id: `${accountId}-${Date.now()}`,
           },
         }),
       },
@@ -56,7 +59,7 @@ const composeData = () => {
           key: "main",
           value: {
             type: "md",
-            id: `${context.accountId}-${Date.now()}`,
+            id: `${accountId}-${Date.now()}`,
           },
         }),
       },
