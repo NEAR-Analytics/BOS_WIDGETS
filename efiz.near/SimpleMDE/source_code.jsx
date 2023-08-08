@@ -113,7 +113,7 @@ return (
     onMessage={(e) => {
       switch (e.handler) {
         case "update": {
-          onChange(event.content);
+          onChange(e.content);
         }
       }
     }}
