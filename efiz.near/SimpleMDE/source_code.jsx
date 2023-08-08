@@ -200,29 +200,26 @@ window.addEventListener("message", (event) => {
 </script>
 `;
 return (
-  <>
-    <iframe
-      className="w-100"
-      style={{
-        height: `${state.iframeHeight}px`,
-      }}
-      srcDoc={code}
-      message={data ?? { content: "" }}
-      onMessage={(e) => {
-        switch (e.handler) {
-          case "update": {
-            onChange(e.content);
-          }
-          case "resize": {
-            const offset = 0;
-            if (statusConfig.length) {
-              offset = 10;
-            }
-            State.update({ iframeHeight: e.height + offset });
-          }
+  <iframe
+    className="w-100"
+    style={{
+      height: `${state.iframeHeight}px`,
+    }}
+    srcDoc={code}
+    message={data ?? { content: "" }}
+    onMessage={(e) => {
+      switch (e.handler) {
+        case "update": {
+          onChange(e.content);
         }
-      }}
-    />
-    <p>bottom</p>
-  </>
+        case "resize": {
+          const offset = 0;
+          if (statusConfig.length) {
+            offset = 10;
+          }
+          State.update({ iframeHeight: e.height + offset });
+        }
+      }
+    }}
+  />
 );
