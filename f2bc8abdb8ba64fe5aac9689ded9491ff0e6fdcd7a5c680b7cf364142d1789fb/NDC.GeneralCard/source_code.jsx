@@ -343,6 +343,7 @@ const KeyIssuesHeader = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 12px;
+  margin-bottom: 1rem;
 `;
 const KeyIssuesTitle = styled.p`
   font-style: normal;
