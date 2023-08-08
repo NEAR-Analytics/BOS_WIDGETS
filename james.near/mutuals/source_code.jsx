@@ -4,31 +4,17 @@ if (!accountId) {
   return "Please connect your NEAR account :)";
 }
 
-const allAccounts = Social.keys(`*/graph/follow/*`, "final", {
-  return_type: "BlockHeight",
-  values_only: true,
-});
-
-if (allAccounts === null) {
-  return "";
-}
-
-for (const account of Object.keys(allAccounts)) {
-  const followers = allAccounts[account]?.graph?.follow;
-
 const mutualFollowers = [];
 
-for (const account of Object.keys(allAccounts)) {
-  const followers = allAccounts[account]?.graph?.follow;
+const followers = accountId?.graph?.follow;
 
-  if (followers) {
-    for (const follower of Object.keys(followers)) {
-      if (allAccounts[follower]?.graph?.follow?.[account]) {
-        if (!mutualFollowers[account]) {
-          mutualFollowers[account] = [];
-        }
-        mutualFollowers[account].push(follower);
+if (followers) {
+  for (const follower of Object.keys(followers)) {
+    if (allAccounts[follower]?.graph?.follow?.[account]) {
+      if (!mutualFollowers[account]) {
+        mutualFollowers[account] = [];
       }
+      mutualFollowers[account].push(follower);
     }
   }
 }
@@ -67,10 +53,10 @@ const FollowButtonWrapper = styled.div`
 return (
   <Wrapper>
     <div className="d-flex border-bottom justify-content-between">
-          <Widget
-            src="mob.near/widget/Profile"
-            props={{ accountId: "build.sputnik-dao.near" }}
-          />
+      <Widget
+        src="mob.near/widget/Profile"
+        props={{ accountId: "build.sputnik-dao.near" }}
+      />
     </div>
     {mutualFollowers.map((accountId, i) => (
       <div key={i} className="d-flex border-bottom justify-content-between">
@@ -86,6 +72,6 @@ return (
           <Widget src="mob.near/widget/FollowButton" props={{ accountId }} />
         </div>
       </div>
-    ))};
+    ))}
   </Wrapper>
 );
