@@ -124,16 +124,10 @@ const base64decode = (encodedValue) => {
   return JSON.parse(buff.toString("utf-8"));
 };
 
-const FormatMsg = ({ message }) => {
-  const str = message.replace(/\\\\u([0-9A-Z]{4})/gi, "U+$1");
-  const newStr = [...str]
-    .map((char) => {
-      return char.codePointAt() > 127 ? `&#${char.codePointAt()};` : char;
-    })
-    .join("");
-
-  return <div>{newStr}</div>;
-};
+const formatMsg = (message) =>
+  message.replace(/\\u([0-9A-F]{4})/gi, (_, g) =>
+    String.fromCharCode(`0x${g}`)
+  );
 
 return (
   <>
@@ -155,7 +149,7 @@ return (
         )}
         <UserProfile ownerId={comment.owner_id} />
         <Description className="text-secondary">
-          <FormatMsg message={comment.message} />
+          {formatMsg(comment.message)}
         </Description>
         <div className="d-flex justify-content-between align-items-center">
           <CreatedAt className="gap-1">
