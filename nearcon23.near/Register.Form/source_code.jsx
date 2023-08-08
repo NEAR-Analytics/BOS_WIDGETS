@@ -336,6 +336,29 @@ const url = () => {
   return urlString;
 };
 
+const Terms = styled.p`
+  color: #717069;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: Mona Sans;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 450;
+  line-height: 150%;
+  max-width: 36ch;
+
+  & > a {
+    color: #604cc8;
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: none;
+    }
+  }
+`;
+
 return (
   <Container>
     <Widget
@@ -660,6 +683,12 @@ return (
         },
       }}
     />
+    <Terms>
+      By clicking ‘Submit,’ you agree to the{" "}
+      <a href={`/${ownerId}/widget/Index?tab=tnc`}>
+        NEARCON 2023 Terms & Conditions
+      </a>
+    </Terms>
     <SubmitButton href={url()} className={isValid() ? "" : "disabled"}>
       Submit
       <svg
