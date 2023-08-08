@@ -338,8 +338,8 @@ if (
 ) {
   console.log(props);
   if (
-    props.lusdAmount.isInteger() &&
-    props.ethCollateralAmount.isInteger() &&
+    typeof props.lusdAmount === "number" &&
+    typeof props.ethCollateralAmount === "number" &&
     props.ethCollateralAmount > 0
   ) {
     openTrove();
