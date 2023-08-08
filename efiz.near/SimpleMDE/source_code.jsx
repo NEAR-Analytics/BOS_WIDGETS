@@ -17,6 +17,7 @@ State.init({
 
 // SIMPLEMDE CONFIG //
 const fontFamily = props.fontFamily ?? "sans-serif";
+const alignToolItems = props.alignToolItems ?? "right";
 const autoFocus = props.autoFocus ?? true;
 const renderingConfig = JSON.stringify(
   props.renderingConfig ?? {
@@ -64,10 +65,7 @@ body {
 }
 
 .editor-toolbar {
-    position: sticky; 
-    top: 0; 
-    z-index: 1;
-    text-align: right;
+    text-align: ${alignToolItems};
 }
 </style>
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
