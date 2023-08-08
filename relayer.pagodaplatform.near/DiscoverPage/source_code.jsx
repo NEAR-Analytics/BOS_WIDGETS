@@ -12,7 +12,7 @@ return (
           alt="uploaded"
         />
       </div>
-      <div className="d-flex flex-column col-lg-8">
+      <div className="d-flex flex-column col-lg-8 justify-content-center">
         <h1>Welcome to CLOUDY</h1>
         <p>
           Cloudy is a free platform for everyone to share, exchange and
