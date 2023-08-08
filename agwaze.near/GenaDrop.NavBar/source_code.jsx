@@ -325,7 +325,7 @@ const content = (
     })}
     {navItem({
       text: "Near NFTS",
-      id: "nearNFts",
+      id: "nearNFTs",
       icon: <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />,
       iconSelected: <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />,
     })}
