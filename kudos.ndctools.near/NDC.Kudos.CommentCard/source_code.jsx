@@ -125,7 +125,7 @@ const base64decode = (encodedValue) => {
 };
 
 const formatMsg = (message) =>
-  "\\ud83e\\udd70".replace(/\\\\u([0-9A-F]{4})/gi, (_, g) =>
+  message.replace(/\\\\u([0-9A-F]{4})/gi, (_, g) =>
     String.fromCharCode(`0x${g}`)
   );
 
