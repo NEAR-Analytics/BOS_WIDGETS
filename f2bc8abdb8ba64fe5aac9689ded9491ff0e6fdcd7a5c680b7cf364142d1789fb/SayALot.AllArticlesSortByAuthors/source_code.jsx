@@ -9,37 +9,32 @@ const {
 
 const authors =
   finalArticles.length && Array.from(finalArticles, ({ author }) => author);
-// const uniqAuthors = Array.from(new Set(authors));
 
-console.log(authors);
+let articlesByAuthorsArray = [];
+authors.map((author) => {
+  let thisAuthorArtciles = finalArticles.filter(
+    (article) => article.author == author
+  );
+  articlesByAuthorsArray.push(thisAuthorArtciles);
+});
 
-const getAuthorsStats = (acc, author) => {
-  if (!acc.hasOwnProperty(author)) {
-    acc[author] = 0;
-  }
-  acc[author] += 1;
-  return acc;
-};
-
-const countAuthors = (arr) => arr.reduce(getAuthorsStats, {});
-
-const authorsCountObject = finalArticles.length && countAuthors(authors);
-
-const authorsCountArray =
-  finalArticles.length && Object.entries(authorsCountObject);
+console.log("ABAA: ", articlesByAuthorsArray);
 
 return (
   <div className="container-fluid">
-    <h6>Total authors: {authorsCountArray.length}</h6>
+    <h6>Total authors: {articlesByAuthorsArray.length}</h6>
 
     <div className="row card-group py-3">
-      {authorsCountArray &&
-        authorsCountArray.map(([author, quantity]) => {
-          const filter = { filterBy: "author", value: author };
+      {articlesByAuthorsArray &&
+        articlesByAuthorsArray.map((authorArticlesArray) => {
+          const filter = {
+            filterBy: "author",
+            value: authorArticlesArray[0].author,
+          };
           return (
             <Widget
               src={widgets.articlesByAuthorCard}
-              props={{ author, quantity, filter, handleFilterArticles }}
+              props={{ authorArticlesArray, filter, handleFilterArticles }}
             />
           );
         })}
