@@ -146,7 +146,7 @@ const withdrawColl = () => {
     "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
     {
       value: ethers.BigNumber.from(
-        (props.coll * 1000000000000000000).toString()
+        (props.ethCollateralAmount * 1000000000000000000).toString()
       ),
       // gasPrice: state.gasPrice,
       // gasLimit: 25000000,
@@ -336,7 +336,6 @@ if (
   props.lusdAmount &&
   props.ethCollateralAmount
 ) {
-  console.log(props);
   if (
     typeof props.lusdAmount === "number" &&
     typeof props.ethCollateralAmount === "number" &&
@@ -344,18 +343,15 @@ if (
   ) {
     openTrove();
   } else {
-    console.log("yes");
-    console.log(props);
     props.resendPrompt(props);
   }
 } else if (props.action === "repay") {
   closeTrove();
 } else if (props.action === "display") {
-  console.log("This stuff");
   getEntireDebtAndColl();
+} else if (props.action === "withdraw") {
+  withdrawColl();
 } else {
-  console.log("yes");
-  console.log(props);
   props.resendPrompt(props);
 }
 
