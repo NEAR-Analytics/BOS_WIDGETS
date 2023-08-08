@@ -2,6 +2,7 @@
 
 const {
   widgets,
+  isTest,
   data,
   displayOverlay,
   renderReactions,
@@ -682,8 +683,11 @@ return (
         <Widget
           src={widgets.addComment}
           props={{
+            widgets,
             candidateOrReplay: true,
+            isTest,
             username: data.author,
+            realArticleId: data.realArticleId,
             onClickConfirm: () => State.update({ showModal: false }),
             onClickCancel: () => State.update({ showModal: false }),
           }}
@@ -830,7 +834,7 @@ return (
                 //TODO review the button text
                 props={{
                   Button: {
-                    text: `+${data.upVoteData.comments.length ?? 0} Comments`,
+                    text: `Add comment`,
                     disabled: !state.verified,
                     size: "sm",
                     className: "secondary dark w-100 justify-content-center",
