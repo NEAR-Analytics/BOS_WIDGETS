@@ -88,6 +88,12 @@ const Grid = styled.div`
   @media (hover: none) {
     grid-template-columns: repeat(auto-fill, minmax(143px, 0.1fr));
   }
+  margin: 0 auto;
+`;
+
+const Title = styled.h4`
+text-align: center;
+padding: 1rem 0;
 `;
 
 const loader = (
@@ -108,6 +114,7 @@ return (
     hasMore={state.hasMore}
     loader={loader}
   >
+    <Title>NFT Count: {state?.tokens.length}</Title>
     <Grid>
       {state.tokens?.map((it) => {
         console.log("It " + it.tokenid);
