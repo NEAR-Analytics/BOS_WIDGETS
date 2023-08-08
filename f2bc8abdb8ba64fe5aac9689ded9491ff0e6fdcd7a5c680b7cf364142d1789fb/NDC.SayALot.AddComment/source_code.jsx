@@ -245,6 +245,8 @@ const {
   widgets,
   realArticleId,
   isTest,
+  onClickConfirm,
+  onClickCancel,
   nomination_contract,
   candidateOrReplay,
   username,
@@ -259,7 +261,13 @@ const libCalls = [
   {
     functionName: "setComment",
     key: "setComment",
-    props: { realArticleId, text: state.reply, previousCommentId },
+    props: {
+      realArticleId,
+      text: state.reply,
+      previousCommentId,
+      onClickConfirm,
+      onClickCancel,
+    },
   },
 ];
 
@@ -320,7 +328,6 @@ State.init({
 });
 
 const SetText = (txt) => {
-  console.log("cop");
   State.update({ shareText: txt });
 };
 
@@ -458,18 +465,22 @@ return (
             props={{
               Button: {
                 text: "Submit",
-                onClick: () => {},
+                onClick: () => {
+                  State.update({ sendComment: true });
+                },
               },
             }}
           />
         </CommentFooter>
       </Container>
     </CommentCard>
-    <div style={{ display: "no-display" }}>
-      <Widget
-        src={widgets.libComment}
-        props={{ isTest, stateUpdate, libCalls }}
-      />
-    </div>
+    {state.sendComment && (
+      <div style={{ display: "no-display" }}>
+        <Widget
+          src={widgets.libComment}
+          props={{ isTest, stateUpdate, libCalls }}
+        />
+      </div>
+    )}
   </ModalCard>
 );
