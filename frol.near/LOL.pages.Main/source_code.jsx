@@ -188,12 +188,13 @@ const Tokens = ({ tokens }) => (
         </div>
         <b>{token.metadata.title}</b>
         <div style={{ textAlign: "right" }}>{token.metadata.description}</div>
-        {(context.accountId && token.owner_id !== context.accountId) ||
-        token.token_id in tokensOnSale ? null : (
+        {context.accountId &&
+        token.owner_id === context.accountId &&
+        !(token.token_id in tokensOnSale) ? (
           <button onClick={() => sellForOne(token.token_id)}>
             Виставити на продаж за ціною 1 ЛОЛ
           </button>
-        )}
+        ) : null}
         {token.owner_id !== context.accountId &&
         token.token_id in tokensOnSale ? (
           <button
