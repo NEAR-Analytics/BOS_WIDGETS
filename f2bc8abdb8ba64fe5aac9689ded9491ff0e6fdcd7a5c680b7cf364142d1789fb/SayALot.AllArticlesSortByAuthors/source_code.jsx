@@ -7,11 +7,11 @@ const {
   authorForWidget,
 } = props;
 
-console.log("SAL ALSBA");
-
 const authors =
   finalArticles.length && Array.from(finalArticles, ({ author }) => author);
 // const uniqAuthors = Array.from(new Set(authors));
+
+console.log(authors);
 
 const getAuthorsStats = (acc, author) => {
   if (!acc.hasOwnProperty(author)) {
