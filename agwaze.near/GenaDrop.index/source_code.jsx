@@ -16,8 +16,6 @@ State.init({
 const showSidebar = ![].includes(state.tab);
 const isForm = [].includes(state.tab);
 
-const update = (state) => State.update(state);
-
 const Sidebar = styled.div`
   display: ${({ show }) => (show ? "flex" : "none")};
   flex-direction: row;
@@ -89,7 +87,6 @@ return (
         src={`${ownerId}/widget/GenaDrop.NavBar`}
         props={{
           tab: state.tab,
-          update: (state) => State.update(state),
           collapsible: true,
         }}
       />
@@ -97,7 +94,6 @@ return (
         src={`${ownerId}/widget/GenaDrop.NavBar`}
         props={{
           tab: state.tab,
-          update: (state) => State.update(state),
           collapsible: false,
         }}
       />
