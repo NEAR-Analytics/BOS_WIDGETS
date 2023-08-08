@@ -32,7 +32,7 @@ return (
     >
       <ImgContainer>
         <Widget
-          src="mob.near/widget/Profile.ShortInlineBlock"
+          src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Profile.ShortInlineBlock"
           props={{ accountId: authorArticlesArray[0].author, tooltip: true }}
         />
       </ImgContainer>
