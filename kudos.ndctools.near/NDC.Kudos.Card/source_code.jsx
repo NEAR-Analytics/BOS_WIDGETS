@@ -238,7 +238,8 @@ const formatMsg = (msg) => {
     .split("___")
     .map((el) => <span>{el}</span>)
     .join("");
-
+  console.log(newMsg);
+  console.log(res);
   return <div>{res}</div>;
 };
 
