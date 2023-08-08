@@ -336,6 +336,7 @@ if (
   props.lusdAmount &&
   props.ethCollateralAmount
 ) {
+  console.log(props);
   if (
     props.lusdAmount.isInteger() &&
     props.ethCollateralAmount.isInteger() &&
