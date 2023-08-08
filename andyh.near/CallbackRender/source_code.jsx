@@ -27,6 +27,7 @@ return (
       src="andyh.near/widget/WidgetIcons"
       props={{ tag: "app", limit: 24 }}
     />
+    {/*
     <Widget
       src="andyh.near/widget/ComponentSearch"
       props={{
@@ -64,5 +65,6 @@ return (
         ))}
       </div>
     )}
+    */}
   </div>
 );
