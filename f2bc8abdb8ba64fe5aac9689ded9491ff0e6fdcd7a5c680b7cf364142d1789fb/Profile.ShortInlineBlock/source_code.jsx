@@ -20,7 +20,12 @@ const inner = (
         metadata,
         accountId,
         widgetName,
-        style: { height: "2.5em", width: "2.5em", minWidth: "2.5em" },
+        style: {
+          height: "2.5em",
+          width: "2.5em",
+          minWidth: "2.5em",
+          borderRadius: "20px",
+        },
         className: "me-2",
       }}
     />
