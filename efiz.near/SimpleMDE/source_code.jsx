@@ -4,19 +4,19 @@
  */
 
 function defaultOnChange(content) {
-  //   console.log(content);
+  console.log(content);
 }
 
 const data = props.data;
 const onChange = props.onChange ?? defaultOnChange;
 const height = props.height ?? "405";
-const fontFamily = props.fontFamily ?? "sans-serif";
 
 State.init({
   iframeHeight: height,
 });
 
-// SIMPLE MDE CONFIG //
+// SIMPLEMDE CONFIG //
+const fontFamily = props.fontFamily ?? "sans-serif";
 const autoFocus = props.autoFocus ?? true;
 const renderingConfig = JSON.stringify(
   props.renderingConfig ?? {
@@ -24,9 +24,15 @@ const renderingConfig = JSON.stringify(
     codeSyntaxHighlighting: true,
   }
 );
+const placeholder = props.placeholder ?? "";
+const statusConfig = JSON.stringify(
+  props.statusConfig ?? ["lines", "words", "cursor"]
+);
+const spellChecker = props.spellChecker ?? true;
+const tabSize = props.tabSize ?? 4;
 
 // Add or remove toolbar items
-// For adding unique items, configure the switch-case below
+// For adding unique items, configure the switch-case within the iframe
 const toolbarConfig = JSON.stringify(
   props.toolbar ?? [
     "heading",
@@ -44,6 +50,8 @@ const toolbarConfig = JSON.stringify(
     "checklist",
     "table",
     "horizontal-rule",
+    "guide",
+    "preview",
   ]
 );
 
@@ -52,6 +60,10 @@ const code = `
 body {  
     margin: auto;
     font-family: ${fontFamily};
+}
+
+.editor-toolbar {
+    text-align: right;
 }
 </style>
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
@@ -128,23 +140,48 @@ function MarkdownEditor(props) {
                 }
             });
         };
+
+        function renderPreview(plainText, preview) {
+            // TODO: can we place custom preview element? Perhaps install VM into this iframe?
+            setTimeout(function(){
+                    preview.innerHTML = "<p>hello</p>";
+                }, 250);
+            return "loading";
+        }
         
+        // Initializes SimpleMDE element and attaches to text-area
         const simplemde = new SimpleMDE({
             element: document.getElementById("markdown-input"),
             autofocus: ${autoFocus},
             renderingConfig: ${renderingConfig},
+            placeholder: "${placeholder}",
+            status: ${statusConfig},
+            spellChecker: ${spellChecker},
+            tabSize: ${tabSize},
             toolbar: generateToolbarItems(),
             initialValue: value,
+            previewRender: renderPreview
         });
 
+        /**
+         * Sends message to Widget to update content
+         */
+        const updateContent = () => {
+            const content = simplemde.value();
+            window.parent.postMessage({ handler: "update", content }, "*");
+        };
+
+        /**
+         * Sends message to Widget to update iframe height
+         */
         const updateIframeHeight = () => {
             const iframeHeight = document.body.scrollHeight;
             window.parent.postMessage({ handler: "resize", height: iframeHeight }, "*");
         };
 
+        // On Change
         simplemde.codemirror.on('change', () => {
-            const content = simplemde.value();
-            window.parent.postMessage({ handler: "update", content }, "*");
+            updateContent();
             updateIframeHeight();
         });
     }, []);
@@ -168,7 +205,7 @@ return (
       height: `${state.iframeHeight}px`,
     }}
     srcDoc={code}
-    message={data.content ?? ""}
+    message={data ?? { content: "" }}
     onMessage={(e) => {
       switch (e.handler) {
         case "update": {
