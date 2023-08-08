@@ -56,6 +56,7 @@ const arrayLastLikeForEachUser =
 const userEmoji = arrayLastLikeForEachUser.find((obj) => {
   return obj.accountId === accountThatIsLoggedIn;
 });
+userEmoji = { emoji: emojiArray[3] };
 
 // ========= GET LIKES STATISTICS =========
 const getLikeStats = (acc, likeObj) => {
