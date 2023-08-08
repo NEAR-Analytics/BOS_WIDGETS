@@ -133,7 +133,7 @@ const sendPrompt = () => {
   const inference = res.body;
   console.log(inference);
   const parsed = JSON.parse(inference);
-  if (!parsed.error) {
+  if (parsed.action) {
     console.log(parsed.action);
     const widget = (
       <Widget
@@ -146,8 +146,7 @@ const sendPrompt = () => {
     );
     State.update({ response: parsed.text, widget: widget });
   } else {
-    console.log(parsed.action);
-    State.update({ response: parsed.text });
+    State.update({ response: inference });
   }
 };
 
