@@ -232,9 +232,12 @@ State.init({
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
 const formatMsg = (text) => {
-  return text.replace(/\\u[\dA-F]{4}/gi, (match) => {
-    return String.fromCharCode(parseInt(match.replace(/\\u/g, ""), 16));
-  });
+  // String.fromCharCode doesn't work on Near Social
+  // const newStr = text.replace(/\\u[\dA-F]{4}/gi, (match) => {
+  //   return String.fromCharCode(parseInt(match.replace(/\\u/g, ""), 16));
+  // });
+
+  return text;
 };
 
 return (
