@@ -1,4 +1,4 @@
-const limit = 20;
+const limit = props.limit ?? 475;
 const nftContract = props.nftContract ?? "nft.genadrop.near";
 State.init({
   offset: 0,
@@ -23,8 +23,10 @@ function fetchTokens() {
               where: { nft_contract_id: { _eq: "${nftContract}" }}
               order_by: {minted_timestamp: desc}
             ) {
+            
               media
               owner
+              token_id
             }
           }
         `,
@@ -47,11 +49,14 @@ function fetchTokens() {
   });
 }
 
-function Sharddog({ owner, media }) {
+function Sharddog({ owner, media, token }) {
   const size = "144px";
 
   return (
-    <Link to={`/mob.near/widget/ProfilePage?accountId=${owner}`}>
+    <a
+      href={`/mob.near/widget/NftImage?tokenId=${token}&contractId=${nftContract}`}
+      target="_blank"
+    >
       <Widget
         src="mob.near/widget/Image"
         props={{
@@ -70,7 +75,7 @@ function Sharddog({ owner, media }) {
           },
         }}
       />
-    </Link>
+    </a>
   );
 }
 
@@ -105,7 +110,10 @@ return (
   >
     <Grid>
       {state.tokens?.map((it) => {
-        return <Sharddog owner={it.owner} media={it.media} />;
+        console.log("It " + it.tokenid);
+        return (
+          <Sharddog owner={it.owner} media={it.media} token={it.token_id} />
+        );
       })}
     </Grid>
   </InfiniteScroll>
