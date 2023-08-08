@@ -302,7 +302,7 @@ box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
 position: absolute;
 right: 0;
 width: 370px;
-max-width: 50vw;
+max-width: 35vw;
 flex-wrap: wrap;
 display: ${({ show }) => (show ? "flex" : "none")};
 transform: translateY(-10%);
