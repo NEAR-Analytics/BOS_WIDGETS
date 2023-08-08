@@ -332,14 +332,14 @@ if (
 }
 
 if (
-  props.action === "borrow"
-  // props.lusdAmount.isInteger() &&
-  // props.ethCollateralAmount.isInteger()
+  props.action === "borrow" &&
+  props.lusdAmount.isInteger() &&
+  props.ethCollateralAmount.isInteger()
 ) {
   console.log(props);
   console.log("Open Trove");
-  props.resendPrompt(props);
-  // openTrove();
+  // props.resendPrompt(props.inference);
+  openTrove();
 } else if (props.action === "repay") {
   closeTrove();
 } else if (props.action === "display") {
