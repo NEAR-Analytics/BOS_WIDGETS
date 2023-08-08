@@ -233,7 +233,7 @@ State.init({
 const kudoTags = kudo.tags ? JSON.parse(kudo.tags).filter((el) => el) : [];
 
 const formatText = (msg) => {
-  return [<p>{msg}</p>];
+  return [msg];
 };
 
 return (
