@@ -240,13 +240,16 @@ const formatMsg = (text) => {
   return text;
 };
 
-const utf2Html = (str) =>
-  [...str]
+const utf2Html = (str) => {
+  const newStr = str.replace("\\\\u", "\\u");
+
+  return [...newStr]
     .map((char) => {
       console.log("char", char);
       return char.codePointAt() > 127 ? `&#${char.codePointAt()};` : char;
     })
     .join("");
+};
 
 return (
   <>
