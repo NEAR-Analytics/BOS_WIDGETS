@@ -109,7 +109,6 @@ const RenderRow = ({ token, level, parentAddress }) => {
       <StyledRow>
         <StyledCellWithBorder level={level * 2}>
           {token.symbol}
-          {level}
         </StyledCellWithBorder>
         {hasNestedTokens ? (
           <StyledCell></StyledCell>
