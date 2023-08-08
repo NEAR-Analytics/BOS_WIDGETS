@@ -51,7 +51,8 @@ return (
         role="tabpanel"
         aria-labelledby="pills-explore-tab"
       >
-        <Widget src="mob.near/widget/Welcome.RHS" props={props} />
+        {" "}
+        {true && <Widget src="mob.near/widget/Welcome.RHS" props={props} />}
       </div>
     </div>
   </>
