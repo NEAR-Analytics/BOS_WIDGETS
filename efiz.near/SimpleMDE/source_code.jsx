@@ -4,7 +4,7 @@
  */
 
 function defaultOnChange(content) {
-  console.log(content);
+  //   console.log(content);
 }
 
 const data = props.data;
