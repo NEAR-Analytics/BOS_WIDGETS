@@ -58,8 +58,8 @@ const Hr = styled.div`
 
 const UserProfileDiv = styled.div`
   .userImg {
-    width: 32px;
-    height: 32px;
+    width: ${(props) => (!props.secondary ? "32px" : "24px")};
+    height: ${(props) => (!props.secondary ? "32px" : "24px")};
   }
 `;
 
@@ -86,7 +86,10 @@ const handleShare = (e) => e.preventDefault();
 State.init({ isOpen: false });
 
 const UserProfile = ({ secondary, ownerId }) => (
-  <UserProfileDiv className="d-flex justify-content-between align-items-center">
+  <UserProfileDiv
+    secondary={secondary}
+    className="d-flex justify-content-between align-items-center"
+  >
     <div className="d-flex justify-content-between align-items-center w-100">
       <div className="d-flex gap-2 align-items-center">
         <Widget
@@ -94,7 +97,10 @@ const UserProfile = ({ secondary, ownerId }) => (
           props={{
             accountId: ownerId,
             imageClassName: "userImg rounded-circle",
-            style: { width: "32px", height: "32px" },
+            style: {
+              width: secondary ? "24px" : "32px",
+              height: secondary ? "24px" : "32px",
+            },
           }}
         />
         <StyledLink
