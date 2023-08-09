@@ -124,38 +124,36 @@ const CommunityActivityPage = ({ handle }) => {
   return widget("components.template.community-page", {
     handle,
     title: "Activity",
+
     children:
       communityData !== null ? (
-        <div class="row">
-          <div class="col-md-9">
-            <div class="row mb-2">
-              <div class="col">
-                <div class="d-flex align-items-center justify-content-between">
-                  <small class="text-muted">
-                    <span>Required tags:</span>
-                    {widget("components.atom.tag", {
-                      label: communityData.tag,
-                    })}
-                  </small>
-                  {widget("components.layout.Controls", {
-                    labels: communityData.tag,
-                  })}
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                {widget("entity.post.List", { tag: communityData.tag })}
-              </div>
+        <div>
+          <div class="row mb-2">
+            <div class="col text-center">
+              <small class="text-muted">
+                <span>Required tags:</span>
+
+                <a
+                  href={href("Feed", { tag: communityData.tag })}
+                  key={communityData.tag}
+                >
+                  <span class="badge text-bg-primary me-1">
+                    {communityData.tag}
+                  </span>
+                </a>
+              </small>
             </div>
           </div>
-          <div class="col-md-3 container-fluid">
-            <Widget
-              src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.community.sidebar`}
-              props={{
-                label: communityData.tag,
-              }}
-            />
+
+          {widget("components.layout.Controls", {
+            title: "Post",
+            href: href("Create", { labels: communityData.tag }),
+          })}
+
+          <div class="row">
+            <div class="col">
+              {widget("entity.post.List", { tag: communityData.tag })}
+            </div>
           </div>
         </div>
       ) : (
