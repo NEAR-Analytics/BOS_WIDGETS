@@ -32,6 +32,8 @@ function libCall(call) {
     return setComment(call.props);
   } else if (call.functionName === "getWritersWhitelist") {
     return getWritersWhitelist(call.props.env);
+  } else if (call.functionName === "get1") {
+    return 1;
   }
 }
 
@@ -70,6 +72,6 @@ libCalls.forEach((call) => {
   updateObj[call.key] = libCall(call);
 });
 
-updateObj.libCalls = resultLibCalls(updateObj);
-stateUpdate;
+updateObj.libCalls = resultLibCalls;
+stateUpdate(updateObj);
 return <></>;
