@@ -1,5 +1,5 @@
+const WIDGET_OWNER = "mattb.near";
 const addressForArticles = "ndcWikiArticle";
-const authorForWidget = "neardigitalcollective.near";
 const writersWhiteList = [
   "neardigitalcollective.near",
   "blaze.near",
@@ -86,7 +86,7 @@ const Main = styled.div`
     min-height:100vh;
 `;
 
-const ArticlePill = styled.a`
+const AuthorPill = styled.a`
     display:flex;
     flex-direction:column-reverse;
     cursor:pointer;
@@ -127,7 +127,7 @@ const ArticlePill = styled.a`
 
 `;
 
-const ArticleTitle = styled.div`
+const AuthorTitle = styled.div`
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -183,7 +183,7 @@ const ArticleTitle = styled.div`
     }
 `;
 
-const ArticleDetails = styled.div`
+const AuthorDetails = styled.div`
     margin-bottom:15px;
     display:flex;
     align-items:center;
@@ -237,16 +237,18 @@ const Avatar = styled.div`
 return (
   <Main>
     {authorsCountArray.map(([author, totalArticles]) => (
-      <ArticlePill>
-        <ArticleTitle>
+      <AuthorPill
+        href={`${WIDGET_OWNER}/widget/NDCDocs.Components.ArticlesList?author=${author}`}
+      >
+        <AuthorTitle>
           <div>
             <h1>
               {totalArticles} article{totalArticles > 1 ? "s" : ""}
             </h1>
           </div>
           <div></div>
-        </ArticleTitle>
-        <ArticleDetails>
+        </AuthorTitle>
+        <AuthorDetails>
           <Wrapper>
             <Avatar
               style={{
@@ -258,8 +260,8 @@ return (
             <h2>{getName(author)}</h2>
             <p>@{author}</p>
           </Wrapper>
-        </ArticleDetails>
-      </ArticlePill>
+        </AuthorDetails>
+      </AuthorPill>
     ))}
   </Main>
 );
