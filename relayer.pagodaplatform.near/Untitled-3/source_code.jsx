@@ -7,6 +7,7 @@ const {
   label,
   isXDate,
   strokeColumn,
+  title,
 } = props;
 const code = `
 <!-- observerable plot -->
@@ -45,6 +46,7 @@ div.append(plot);
 
 return (
   <div className="w-100">
+    {props.title && <strong>{props.title}</strong>}
     <iframe
       className="w-100"
       style={{ height: 500, width: 600 }}
