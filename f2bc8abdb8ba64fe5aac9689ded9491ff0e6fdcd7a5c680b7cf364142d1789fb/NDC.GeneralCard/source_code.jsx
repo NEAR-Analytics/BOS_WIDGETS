@@ -754,6 +754,14 @@ return (
           //     />
           //   )
         }
+        <Widget
+          src={widgets.reactions}
+          props={{
+            widgets,
+            isTest,
+            item,
+          }}
+        />
       </HeaderCard>
       {
         //   cardType == "nomination" && (
