@@ -4,8 +4,6 @@ const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-console.log(0, action);
-
 // const initLibCalls = [
 //   {
 //     functionName: "get1",
@@ -119,7 +117,6 @@ function getArticle(articleIndex) {
     `${articleIndex.accountId}/${action}/main`,
     articleIndex.blockHeight
   );
-  console.log(10, articleIndex, article);
 
   let articleParsed = undefined;
   if (article) {
@@ -200,20 +197,18 @@ function getNewFormatValidArticles(props) {
     props,
     articlesIndexes
   );
-  return validArticlesIndexes.map(getArticle);
+  const validLatestEdits = getLatestEdits(validArticlesIndexes);
+  return validLatestEdits.map(getArticle);
 }
 
 function getOldFormatArticles(props) {
   const oldBasicDataArray = getOldArticleBasicDataArray(props);
-  console.log(0, oldBasicDataArray);
   return oldBasicDataArray.map(getArticle);
 }
 
 function getLastEditArticles(props) {
   const oldFormatArticles = getOldFormatArticles(props);
-  console.log(1, oldFormatArticles);
   const newFormatArticles = getNewFormatValidArticles(props);
-  console.log(2, newFormatArticles);
 
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
@@ -223,12 +218,9 @@ function getLastEditArticles(props) {
       );
     }
   );
-  console.log(3, finalOldFormatArticles);
 
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
-  console.log(4, lastEditionArticles);
   const filteredArticles = filterArticles(props, lastEditionArticles);
-  console.log(5, filteredArticles);
 
   return filteredArticles;
 }
