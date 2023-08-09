@@ -87,66 +87,71 @@ function getVerifiedHuman() {
   });
 }
 
-let objCard = {
-  profileData: [],
-  nominationData: [],
-  upVoteData: [],
-  indexerData: [],
-};
-let nominationsArr = [];
+function getNominationInfo(house) {
+  let nominationsArr = [];
 
-const getNominationInfo = (house) => {
+  State.update({ loading: true });
+
   asyncFetch(endpoints.houseNominations(house), httpRequestOpt).then((res) => {
-    nominationsArr = res.body.entries().map(([i, data]) => {
-      objCard.indexerData = data;
-      return objCard;
-    });
-  });
-};
-
-function getCommentsUpvotes(nominee) {
-  nominationsArr = [];
-
-  asyncFetch(
-    `${baseApi}/nominations/candidates-comments-and-upvotes?candidate=${nominee}&contract=${nominationContract}`,
-    httpRequestOpt
-  ).then((info) => {
-    let upVoteInfo = info.body[0];
-    let profileData;
-    let nominationData;
-
-    profileData = Social.getr(`${nominee}/profile`);
-    nominationData = Social.getr(`${nominee}/nominations`);
-
-    if (data.is_revoked || !profileData || !nominationData) {
-      State.update({ loading: false });
+    if (res.body.length <= 0) {
+      State.update({ nominations: [], loading: false });
       return;
     }
 
-    objCard = {
-      profileData: profileData,
-      nominationData: nominationData,
-      upVoteData: upVoteInfo,
-      indexerData: data,
-    };
-    nominationsArr.push(objCard);
+    console.log(res.body);
+
+    for (const [i, data] of res.body.entries()) {
+      let objCard = { indexerData: data };
+      let nominee = data.nominee;
+
+      asyncFetch(
+        `${baseApi}/nominations/candidates-comments-and-upvotes?candidate=${data.nominee}&contract=${nominationContract}`,
+        httpRequestOpt
+      ).then((info) => {
+        let upVoteInfo = info.body[0];
+        let profileData;
+        let nominationData;
+        Social.getr(`${nominee}/profile`);
+        Social.getr(`${nominee}/nominations`);
+        setTimeout(() => {
+          profileData = Social.getr(`${nominee}/profile`);
+          nominationData = Social.getr(`${nominee}/nominations`);
+        }, 1000);
+
+        setTimeout(() => {
+          if (data.is_revoked || !profileData || !nominationData) {
+            State.update({ loading: false });
+            return;
+          }
+
+          objCard = {
+            profileData: profileData,
+            nominationData: nominationData,
+            upVoteData: upVoteInfo,
+            ...objCard,
+          };
+          nominationsArr.push(objCard);
+
+          State.update({
+            nominations: nominationsArr,
+            originNominations: nominationsArr,
+            loading: false,
+          });
+        }, 1000);
+      });
+    }
   });
 }
 
-getVerifiedHuman();
+if (state.start) {
+  getNominationInfo("HouseOfMerit");
+  getVerifiedHuman();
 
-State.update({ loading: true });
-
-getNominationInfo("HouseOfMerit");
-state.nominations.map((data) => getCommentsUpvotes(data.nominee));
-
-State.update({
-  nominations: nominationsArr,
-  originNominations: nominationsArr,
-  loading: false,
-});
+  State.update({ start: false });
+}
 
 const handleSelect = (item) => {
+  console.log("id", item.id);
   switch (item.id) {
     case 1:
       getNominationInfo("HouseOfMerit");
