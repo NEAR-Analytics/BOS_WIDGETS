@@ -483,7 +483,7 @@ return (
           <div class=" BodyForm mx-auto">
             <div class="Rowcont">
               <div class="Colcont">
-                <h1 class="H1styled">Minter DAO *</h1>
+                <h1 class="H1styled">Minter DAO </h1>
                 <input
                   class="InputStyled"
                   type="text"
@@ -497,7 +497,7 @@ return (
                 />
               </div>
               <div class="Colcont">
-                <h1 class="H1styled">Issuer *</h1>
+                <h1 class="H1styled">Issuer </h1>
                 <select
                   class="Dropdown"
                   placeholder="Input DAO contract address "
@@ -537,7 +537,7 @@ return (
               </div>
               {state.Issuer_selected === _type.SHOWINPUT ? (
                 <div class="Colcont">
-                  <h1 class="H1styled">Enter issuer *</h1>
+                  <h1 class="H1styled">Enter issuer </h1>
                   <input
                     class="InputStyled"
                     type="text"
@@ -553,7 +553,7 @@ return (
                 <></>
               )}
               <div class="Colcont">
-                <h1 class="H1styled">Receiver *</h1>
+                <h1 class="H1styled">Receiver </h1>
                 <input
                   class="InputStyled"
                   type="text"
@@ -594,7 +594,7 @@ return (
                 <div class="MetaCard">
                   <div class="row  col-sm-12  mx-0  gap-1   ">
                     <div class="Metarow" name="Classid">
-                      <div class="MetaTitles">{"Class id *"}</div>
+                      <div class="MetaTitles">{"Class id "}</div>
                       <div>
                         <input
                           class="Dropdown"
@@ -615,12 +615,13 @@ return (
                     <div class="Metarow">
                       <div class="MetaTitles">
                         {"Reference = link to a JSON file (eg, IPFS)."}
+                        <a style={{ color: "#666464" }}>(Optional)</a>
                       </div>
                       <div>
                         <input
                           class="FormInput"
                           value={state.Referencelink}
-                          placeholder="Write your reference (optional)"
+                          placeholder="Write your reference "
                           onChange={(e) => {
                             State.update({ Referencelink: e.target.value });
                             validateReference(e.target.value);
@@ -651,13 +652,14 @@ return (
                     <div class="Metarow">
                       <div class="MetaTitles">
                         {"Reference hash = Base64-encoded sha256 hash of JSON."}
+                        <a style={{ color: "#666464" }}>(Optional)</a>
                       </div>
                       <div style={{ "font-size": "10px" }}>
                         <input
                           class="FormInput"
                           disabled
                           value={state.Referencehash}
-                          placeholder="Write your reference hash (optional)"
+                          placeholder="Write your reference hash "
                           onChange={(e) => {
                             State.update({ Referencehash: e.target.value });
                           }}
@@ -670,7 +672,9 @@ return (
                 <div class="Separator"></div>
               )}
               <div className="d-flex flex-column mt-2">
-                <h1 class="H1styled">Memo </h1>
+                <h1 class="H1styled">
+                  Memo <a style={{ color: "#666464" }}>(Optional)</a>
+                </h1>
                 <input
                   class="InputStyled"
                   type="text"
