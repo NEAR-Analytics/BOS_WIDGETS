@@ -2,6 +2,7 @@ const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
+const fast = !!props.fast;
 
 const link =
   props.link &&
@@ -61,6 +62,7 @@ return (
           src="mob.near/widget/ProfileImage"
           props={{
             profile,
+            fast,
             accountId,
             style: { width: "10rem", height: "10rem" },
             className: "mb-2",
