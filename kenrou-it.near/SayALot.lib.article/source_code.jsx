@@ -207,7 +207,9 @@ function getOldFormatArticles(props) {
 
 function getLastEditArticles(props) {
   const oldFormatArticles = getOldFormatArticles(props);
+  console.log(1, oldFormatArticles);
   const newFormatArticles = getNewFormatValidArticles(props);
+  console.log(2, newFormatArticles);
 
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
@@ -217,9 +219,12 @@ function getLastEditArticles(props) {
       );
     }
   );
+  console.log(3, finalOldFormatArticles);
 
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
+  console.log(4, lastEditionArticles);
   const filteredArticles = filterArticles(props, lastEditionArticles);
+  console.log(5, filteredArticles);
 
   return filteredArticles;
 }
