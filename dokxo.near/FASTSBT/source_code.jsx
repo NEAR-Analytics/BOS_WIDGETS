@@ -113,10 +113,11 @@ const CardPreview = styled.div`
   margin: 0;
 }
 `;
-// -- Get all the roles from the DAO policy
-let roles = Near.view(daoId, "get_policy");
-roles = roles === null ? [] : roles.roles;
-//console.log("roles", roles);
+// -- Get all the roles and proposal_bond from the DAO policy
+const Dao_policy = Near.view(daoId, "get_policy");
+const roles = Dao_policy === null ? [] : Dao_policy.roles;
+const proposal_bond = Dao_policy === null ? [] : Dao_policy.proposal_bond;
+
 //Validate if the user can add a Function call to DAO
 const isUserAllowedTo = (user, kind, action) => {
   // -- Filter the user roles
@@ -364,9 +365,8 @@ const Submitform = () => {
             },
           },
         },
-        deposit: 100000000000000000000000,
+        deposit: 100000000000000000000000 + proposal_bond,
         gas: "150000000000000",
-        amount: 1,
       },
     ]);
   } else {
