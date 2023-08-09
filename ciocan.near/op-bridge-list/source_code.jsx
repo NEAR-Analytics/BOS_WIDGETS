@@ -69,11 +69,22 @@ function getDeposits() {
   );
 
   const deposits = new Map();
+  let completedOperations = 0;
+  let totalOperations = 0;
+
+  function checkAllOperationsComplete() {
+    if (completedOperations === totalOperations) {
+      console.log("done");
+      State.update({ deposits: [...deposits] });
+    }
+  }
 
   bridgeContract
     .queryFilter(bridgeContract.filters.ETHDepositInitiated(sender))
     .then((events) => {
       // console.log(events);
+      totalOperations = events.length * 3; // Three async operations for each event
+
       events.forEach((ev) => {
         const { blockNumber, transactionHash } = ev;
         deposits.set(transactionHash, { blockNumber });
@@ -86,6 +97,8 @@ function getDeposits() {
             ...deposits.get(hash),
             amount,
           });
+          completedOperations++;
+          checkAllOperationsComplete();
         });
         ev.getTransactionReceipt().then((tx) => {
           // console.log("txr", tx);
@@ -95,6 +108,8 @@ function getDeposits() {
             status,
             type,
           });
+          completedOperations++;
+          checkAllOperationsComplete();
         });
         ev.getBlock().then((block) => {
           //   console.log(transactionHash, "block", block);
@@ -103,35 +118,30 @@ function getDeposits() {
             ...deposits.get(transactionHash),
             timestamp,
           });
-          // State.update({ deposits: [...deposits] });
+          completedOperations++;
+          checkAllOperationsComplete();
         });
       });
-    })
-    .finally(() => {
-      console.log("done");
-      State.update({ deposits: [...deposits] });
     });
 }
 
 getDeposits();
 
 function renderDeposit([key, value]) {
-  console.log("key", key, value);
-  //   const { timestamp, amount } = value;
-  //   const date = new Date(timestamp * 1000);
+  //   console.log("key", key, value);
+  const { timestamp, amount } = value;
+  const date = new Date(timestamp * 1000);
   const href = `https://${isTestnet ? "goerli." : ""}etherscan.io/tx/${key}`;
   const hash = `${key.substr(0, 6)}...${key.substr(-4)}`;
   return (
     <tr>
-      <td>{`date`}</td>
-      <td>Deposit</td>
-      <td>{`amount`}</td>
+      <td>{date.toUTCString()}</td>
+      <td>{amount}</td>
       <td>
         <a href={href} target="_blank">
           {hash}
         </a>
       </td>
-      <td>Complete</td>
     </tr>
   );
 }
@@ -145,10 +155,8 @@ return (
       <thead>
         <tr>
           <th>Time</th>
-          <th>Type</th>
           <th>Amount</th>
           <th>Transaction</th>
-          <th>Status</th>
         </tr>
       </thead>
       <tbody>{[...state.deposits].reverse().map(renderDeposit)}</tbody>
