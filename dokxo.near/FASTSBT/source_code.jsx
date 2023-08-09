@@ -632,16 +632,20 @@ return (
                           "font-size": "10px",
                         }}
                       >
-                        <a
-                          style={{
-                            color: state.Referencelink_json
-                              ? "#008500"
-                              : "#FF0000",
-                            "font-size": "10px",
-                          }}
-                        >
-                          valid json
-                        </a>
+                        {state.Referencelink && (
+                          <a
+                            style={{
+                              color: state.Referencelink_json
+                                ? "#008500"
+                                : "#FF0000",
+                              "font-size": "10px",
+                            }}
+                          >
+                            {state.Referencelink_json
+                              ? "Json Valid"
+                              : "Json Not Valid"}
+                          </a>
+                        )}
                       </div>
                     </div>
                     <div class="Metarow">
@@ -689,19 +693,21 @@ return (
                     "font-size": "10px",
                   }}
                 >
-                  <a
-                    style={{
-                      color:
-                        state.Memo.length < 200 ||
-                        state.Memo.length === undefined
-                          ? "#008500"
-                          : "#FF0000",
-                      "font-size": "10px",
-                    }}
-                  >
-                    {state.Memo.length === undefined ? 0 : state.Memo.length} of
-                    200
-                  </a>
+                  {state.Memo.length >= 200 && (
+                    <a
+                      style={{
+                        color:
+                          state.Memo.length < 200 ||
+                          state.Memo.length === undefined
+                            ? "#008500"
+                            : "#FF0000",
+                        "font-size": "10px",
+                      }}
+                    >
+                      {state.Memo.length === undefined ? 0 : state.Memo.length}{" "}
+                      of 200
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
