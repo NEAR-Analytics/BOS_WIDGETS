@@ -5,6 +5,7 @@ const hideName = props.hideName;
 const hideImage = props.hideImage;
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const fast = !profile && accountId;
 
 const name = profile.name ?? accountId;
 const title = props.title ?? `${name} @${accountId}`;
@@ -18,6 +19,7 @@ let inner = (
         key="image"
         src="mob.near/widget/ProfileImage"
         props={{
+          fast,
           style: { width: "1.5em", height: "1.5em", marginRight: "0.1em" },
           profile,
           accountId,
