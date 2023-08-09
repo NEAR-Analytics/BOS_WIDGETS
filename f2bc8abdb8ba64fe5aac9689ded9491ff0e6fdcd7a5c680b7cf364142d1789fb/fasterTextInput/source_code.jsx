@@ -10,6 +10,7 @@ return (
   <input
     className="form-control mt-2"
     value={state.text}
+    readonly={props.editable}
     onBlur={() => stateUpdate({ articleId: state.text })}
     onChange={(e) => {
       State.update({
