@@ -10,6 +10,7 @@ function defaultOnChange(content) {
 const data = props.data;
 const onChange = props.onChange ?? defaultOnChange;
 const height = props.height ?? "405";
+const className = props.className ?? "w-100";
 
 State.init({
   iframeHeight: height,
@@ -202,7 +203,7 @@ window.addEventListener("message", (event) => {
 `;
 return (
   <iframe
-    className="w-100"
+    className={className}
     style={{
       height: `${state.iframeHeight}px`,
     }}
