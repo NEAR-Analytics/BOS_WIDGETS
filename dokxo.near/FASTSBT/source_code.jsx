@@ -153,7 +153,7 @@ const canAddProposal = isUserAllowedTo(
   proposalKinds.FunctionCall,
   actions.AddProposal
 );
-console.log("canAddProposal", canAddProposal);
+
 //Get alll daos
 const daos = Near.view("sputnik-dao.near", "get_dao_list");
 
@@ -262,11 +262,32 @@ const validatedInputs = async () => {
   }
   if (validateAccount(state.Receiver)) {
     //validate the user filled the Receiver
-    console.log("its valid", state.Receiver);
-    const rpcEndpoint = "https://explorer.near.org"; // Replace with the desired RPC endpoint
-    const response = asyncFetch(`${rpcEndpoint}/accounts/${state.Receiver}`);
-    const data = response.json();
-    console.log("account", data);
+
+    let _params = Json.stringify({
+      jsonrpc: "2.0",
+      id: "dontcare",
+      method: "query",
+      params: {
+        request_type: "view_account",
+        finality: "final",
+        account_id: `"${state.Receiver}"`,
+      },
+    });
+
+    const _url =
+      context.networkId === "mainnet"
+        ? "https://rpc.mainnet.near.org"
+        : "https://rpc.testnet.near.org";
+
+    asyncFetch(_url, {
+      body: _params,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    }).then((res) => {
+      console.log("res", res);
+    });
   }
   if (state.ischeckselected === true) {
     if (state.ClassIdSelected === "0") {
