@@ -21,6 +21,9 @@ const widgets = {
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
 };
 
+const POLICY_HASH =
+  "f1c09f8686fe7d0d798517111a66675da0012d8ad1693a47e0e2a7d3ae1c69d4";
+
 const H4 = styled.h4`
   margin-bottom: 0;
 `;
@@ -300,28 +303,18 @@ const handleVote = () =>
 const handleAcceptToS = () => {
   State.update({ loading: true });
 
-  Social.set(
-    {
-      index: {
-        [currentUser]: JSON.stringify({
-          key: "ndc_election_tos",
-          value: true,
-        }),
-      },
-    },
-    {
-      force: true,
-      onCommit: () =>
-        State.update({
-          showToSModal: false,
-          bountyProgramModal: true,
-          loading: false,
-        }),
-      onCancel: () =>
-        State.update({
-          loading: false,
-        }),
-    }
+  Near.call(
+    electionContract,
+    "accept_fair_voting_policy",
+    { policy: POLICY_HASH },
+    "70000000000000",
+    1000000000000000000000
+  ).then((data) =>
+    State.update({
+      showToSModal: false,
+      bountyProgramModal: true,
+      loading: false,
+    })
   );
 };
 
@@ -707,7 +700,7 @@ return (
                 Do you know about the{" "}
                 <ALink
                   title="Whistleblower Bounty Program"
-                  href="https://www.notion.so/NDC-Whistleblower-Program-and-Bounty-Framework-for-the-Election-b91e8d34a8cb4f17a6b9a9a7e7b5fa5c"
+                  href="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
                 />
                 ? The Whistleblower Bounty Program offers up to 2,000 NEAR for
                 whistleblowers who come forward to share instances of vote
@@ -735,7 +728,7 @@ return (
               I understand the{" "}
               <ALink
                 title="Whistleblower Bounty Program"
-                href="https://www.notion.so/NDC-Whistleblower-Program-and-Bounty-Framework-for-the-Election-b91e8d34a8cb4f17a6b9a9a7e7b5fa5c"
+                href="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
               />
               .
             </Section>
