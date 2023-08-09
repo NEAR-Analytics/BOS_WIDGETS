@@ -104,7 +104,7 @@ State.init({
   prompt: null,
   response: "",
   widget: null,
-  locked: false,
+  isLoading: false,
 });
 
 const resendPrompt = (error) => {
@@ -129,10 +129,9 @@ const resendPrompt = (error) => {
 };
 
 const sendPrompt = () => {
-  if (!state.locked) {
-    State.update({ locked: true });
-  }
-  const res = fetch(
+  State.update({ isLoading: true });
+
+  asyncFetch(
     `https://cmvfgq7owf7agld24uu4azhr5m0plyil.lambda-url.us-east-1.on.aws/`,
     {
       method: "POST",
@@ -140,31 +139,31 @@ const sendPrompt = () => {
         prompt: state.prompt,
       }),
     }
-  );
+  ).then((res) => {
+    if (!res.body || res.body.error) return;
+    // console.log("getNamesForOwner raw res", res.body);
 
-  if (!res.body || res.body.error) return;
-  // console.log("getNamesForOwner raw res", res.body);
-
-  const inference = res.body;
-  console.log(inference);
-  const parsed = JSON.parse(inference);
-  if (parsed.action) {
-    console.log(parsed.action);
-    const widget = (
-      <Widget
-        src="testbrrr.near/widget/Untitled-1"
-        props={{
-          ...parsed,
-          resendPrompt: resendPrompt,
-          inference: inference,
-          onClose: () => State.update({ response: null }),
-        }}
-      />
-    );
-    State.update({ response: parsed.text, widget: widget, locked: false });
-  } else {
-    State.update({ response: inference, locked: false });
-  }
+    const inference = res.body;
+    // console.log(inference);
+    const parsed = JSON.parse(inference);
+    if (parsed.action) {
+      console.log(parsed.action);
+      const widget = (
+        <Widget
+          src="testbrrr.near/widget/Untitled-1"
+          props={{
+            ...parsed,
+            resendPrompt: resendPrompt,
+            inference: inference,
+            onClose: () => State.update({ response: null }),
+          }}
+        />
+      );
+      State.update({ response: parsed.text, widget: widget, isLoading: false });
+    } else {
+      State.update({ response: inference, isLoading: false });
+    }
+  });
 };
 
 return (
@@ -190,7 +189,9 @@ return (
       />
     </div>
 
-    <p>{state.response ? state.response : null}</p>
+    <p>{state.isLoading ? "Loading" : null}</p>
+
+    {!state.isLoading ? <p>{state.response ? state.response : null}</p> : null}
 
     <Button onClick={() => sendPrompt()}>Send</Button>
   </CreatePrompt>
