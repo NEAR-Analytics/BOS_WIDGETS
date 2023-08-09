@@ -122,7 +122,7 @@ function getArticle(articleIndex) {
   if (article) {
     articleParsed = JSON.parse(article);
     articleParsed.blockHeight = articleIndex.blockHeight;
-    // articleParsed.realArticleId = articleIndex.value.id;
+    articleParsed.realArticleId = articleIndex.value.id;
   }
 
   return articleParsed;
