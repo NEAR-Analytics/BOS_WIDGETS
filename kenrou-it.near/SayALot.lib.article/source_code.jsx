@@ -117,6 +117,7 @@ function getArticle(articleIndex) {
     `${articleIndex.accountId}/${action}/main`,
     articleIndex.blockHeight
   );
+  console.log(10, articleIndex, article);
 
   let articleParsed = undefined;
   if (article) {
