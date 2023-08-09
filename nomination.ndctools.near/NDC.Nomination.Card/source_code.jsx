@@ -457,14 +457,14 @@ return (
           }}
         />
       )}
-      <HeaderCard className="d-flex justify-content-between">
+      <HeaderCard className="d-flex justify-content-between w-100">
         <div className="d-flex align-items-center gap-2 justify-content-between">
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
               accountId: data.nominationData?.profileAccount.substring(1),
               imageClassName: "rounded-circle w-100 h-100",
-              style: { width: "45px", height: "45px" },
+              style: { minWidth: "45px", height: "45px" },
             }}
           />
           <HeaderContent>
