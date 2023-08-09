@@ -4,6 +4,7 @@ const issuer = props.issuer ?? "issuer.regens.near";
 const classId = props.classId ?? 1;
 const policy = Near.view(daoId, "get_policy");
 const reference = props.reference ?? null;
+const registry = props.registry ?? "registry.i-am-human.near";
 
 const groups = policy.roles
   .filter((role) => role.kind.Group)
@@ -28,6 +29,7 @@ return (
                 accountId: member,
                 roleName: group.name,
                 reference: reference,
+                registry: registry,
               }}
             />
           </div>
