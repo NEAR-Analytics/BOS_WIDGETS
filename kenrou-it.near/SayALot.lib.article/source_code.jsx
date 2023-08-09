@@ -85,7 +85,7 @@ function getArticleBlackList() {
 
 function filterInvalidArticlesIndexes(props, articlesIndexes) {
   const { env } = props;
-  console.log(4, articlesIndexes);
+
   return articlesIndexes
     .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
     .filter(
@@ -289,4 +289,4 @@ if (libCall && libCall.length > 0) {
   stateUpdate(updateObj);
 }
 
-return <>{JSON.stringify(getLastEditArticles(props))}</>;
+return <></>;
