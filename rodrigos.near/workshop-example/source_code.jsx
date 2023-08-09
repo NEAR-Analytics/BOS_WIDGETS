@@ -148,6 +148,7 @@ const stakeEth = (amount, receiver) => {
       txResp.wait().then(() => {
         getEthBalance();
         getMpEthBalance();
+        State.update({ amount: "" });
       });
     })
     .catch((e) => {
