@@ -455,7 +455,7 @@ return (
             <div
               style={{
                 background: "white",
-                " border-radius": "10px",
+                "border-radius": "10px",
                 padding: "7px 9px",
                 height: " 200px",
               }}
@@ -464,6 +464,7 @@ return (
               <div style={{ "font-size": "10px" }}>
                 <textarea
                   class="FormInput"
+                  style={{ height: "140px" }}
                   disabled
                   value={state.JsonBody}
                   placeholder="the json preview goes here"
