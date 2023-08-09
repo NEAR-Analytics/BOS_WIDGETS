@@ -13,6 +13,26 @@ const Username = styled.span`
   font-weight: 600;
 `;
 
+const Action = styled.span`
+  font: var(--text-s);
+  font-weight: 600;
+`;
+
+const ComponentName = styled.span`
+  font: var(--text-s);
+  font-weight: 600;
+`;
+
+const Timestamp = styled.span`
+  font: var(--text-s);
+  font-weight: 600;
+`;
+
+const Desc = styled.span`
+  font: var(--text-s);
+  font-weight: 600;
+`;
+
 return (
   <div>
     <div>
@@ -27,10 +47,10 @@ return (
     </div>
     <div>
       <Username>{username}</Username>
-      <span>{action}</span>
-      <span>{componentName}</span>
-      <span>{timestamp}</span>
+      <Action>{action}</Action>
+      <ComponentName>{componentName}</ComponentName>
+      <Timestamp>{timestamp}</Timestamp>
     </div>
-    <div>{desc}</div>
+    <Desc>{desc}</Desc>
   </div>
 );
