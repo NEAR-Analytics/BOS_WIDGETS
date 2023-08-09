@@ -139,7 +139,7 @@ const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
 //   const deposit = 80000000000000000000000; // 0.008 //
 const policy = Near.view(daoId, "get_policy");
 // const accountId = props.accountId ?? context.accountId;
-
+const daoBond = policy.proposal_bond;
 const proposalKinds = {
   ChangeConfig: "config",
   ChangePolicy: "policy",
@@ -398,7 +398,7 @@ const proposeVibee = () => {
         },
       },
       gas: gas,
-      deposit: deposit,
+      deposit: daoBond,
     },
   ]);
 };
@@ -421,7 +421,7 @@ const proposeTastemaker = () => {
         },
       },
       gas: gas,
-      deposit: deposit,
+      deposit: daoBond,
     },
   ]);
 };
@@ -555,7 +555,7 @@ const sbtDAOMint = () => {
           },
         },
       },
-      deposit: deposit,
+      deposit: daoBond,
       gas: "219000000000000",
     },
   ]);
