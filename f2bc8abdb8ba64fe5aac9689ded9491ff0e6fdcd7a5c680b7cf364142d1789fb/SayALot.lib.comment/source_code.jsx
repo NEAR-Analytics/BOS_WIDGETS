@@ -57,6 +57,6 @@ libCalls.forEach((call) => {
   updateObj[call.key] = libCall(call);
 });
 
-// updateObj.libCalls = resultLibCalls(updateObj);
+updateObj.libCalls = resultLibCalls;
 stateUpdate(updateObj);
 return <></>;
