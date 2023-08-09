@@ -33,8 +33,6 @@ if (!sender)
         margin: "80px auto auto auto",
       }}
     >
-      <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
-
       <Web3Connect className="web3-connect" connectLabel="Connect ETH wallet" />
     </ContainerLogin>
   );
