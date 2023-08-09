@@ -41,6 +41,11 @@ const tabs = {
     widget: "DAO.Members.index",
     href: constructURL({ tab: "members", daoId: state.daoId }),
   },
+  social: {
+    name: "Social",
+    widget: "NYC.Social",
+    href: constructURL({ tab: "social", daoId: state.daoId }),
+  },
   projects: {
     name: "Projects",
     widget: "DAO.Projects",
