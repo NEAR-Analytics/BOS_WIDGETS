@@ -1,4 +1,4 @@
-let { tabs, selectedTab, fallback, darkmode, onRefresh } = props;
+let { tabs, selectedTab, fallback, darkmode, onRefresh, logo } = props;
 
 State.init({
   tab: selectedTab || fallback || "home",
@@ -27,6 +27,9 @@ tabs = tabs || {
   },
   wg: {
     text: "NDC Work Groups",
+  },
+  easypoll: {
+    text: "EasyPoll",
   },
 };
 
@@ -122,17 +125,18 @@ const Navigation = styled.div`
                 position:relative;
                 cursor:pointer;
                 transition:all .2s;
-                border-radius:10px;
+                border-radius:7px;
                 background-color:${
                   state.darkmode ? "rgba(255,255,255,.05)" : "rgba(0,0,0,.05)"
                 };
-                padding:.5rem 1rem;
+                padding:.3rem .8rem;
                 font-weight:bold;
                 opacity:.6;
                 color:${DEFAULT_TEXT_COLOR};
                 text-decoration:none;
                 border: 2px solid rgba(0,0,0,.0);
                 transition: all .2s;
+                font-size:.8rem;
 
                 &.selected {
                     transition: all .2s;
@@ -250,10 +254,13 @@ const MenuButton = styled.div`
 return (
   <Header>
     <Navigation>
-      <Logo
-        src={DEFAULT_LOGO_URL}
-        onClick={() => refresh({ tab: "home", currentView: "home" })}
-      />
+      {!logo && (
+        <Logo
+          src={DEFAULT_LOGO_URL}
+          onClick={() => refresh({ tab: "home", currentView: "home" })}
+        />
+      )}
+      {logo && logo()}
       <ul className={state.menuOpen ? "open" : ""}>
         {Object.keys(tabs).map((key) => (
           <li>
