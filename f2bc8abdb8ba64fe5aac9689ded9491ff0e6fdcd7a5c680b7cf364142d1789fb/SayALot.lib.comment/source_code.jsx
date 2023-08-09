@@ -1,7 +1,7 @@
 const { isTest, stateUpdate, libCalls } = props;
 
 const prodAction = "SayALotComments";
-const testAction = "test_SayALotComments";
+const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
 function libCall(call) {
