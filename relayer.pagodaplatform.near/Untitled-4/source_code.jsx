@@ -44,6 +44,10 @@ div.append(plot);
 
 return (
   <div>
-    <iframe className="w-100" style={{ height: "600px" }} srcDoc={code} />
+    <iframe
+      className="w-100"
+      style={{ height: 500, width: 600 }}
+      srcDoc={code}
+    />
   </div>
 );
