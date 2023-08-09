@@ -13,11 +13,24 @@ const reference = props.reference ?? null;
 const isLoggedIn = context.accountId;
 const isMintAuthority = false; // add sbt minter contract
 const registry = props.registry ?? "registry.i-am-human.near";
+const humanRequiredForSbt = props.humanRequiredForSbt ?? false; // need to check if this require then check it
 // View call: issuer.regens.near.class_minter({"class": 1})
 // {
 //   requires_iah: false,
 //   minters: [ 'nearefi.near', 'refi.sputnik-dao.near', 'admin.regens.near' ]
 // }
+
+const isHuman = false;
+if (accountId) {
+  const getFirstSBTToken = () => {
+    const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+      account: `${accountId}`,
+      issuer: "fractal.i-am-human.near",
+    });
+    return view?.[0]?.[1]?.[0];
+  };
+  isHuman = getFirstSBTToken() !== undefined;
+}
 
 const checkMintersJson = Near.view(issuer, "class_minter", { class: classId }); // need to extract all value and check if user is in minters array. // maybe conditional logic for dao
 const mintAuthorities = checkMintersJson.minters;
@@ -263,36 +276,42 @@ return (
         props={{ accountId: props.accountId }}
       />
     )}
-    {isMintAuthority && !hasToken && (
-      <Widget
-        src="nearefi.near/widget/ReFi.Regen.sbtMint"
-        props={{
-          showReciever: false,
-          receiver: accountId,
-          classId: classId,
-          reference: reference,
-          issuer: issuer,
-        }}
-      />
-    )}
-    {isLoggedIn && canPropose && daoIsMinter && !hasToken && (
-      <Widget
-        src="nearefi.near/widget/ReFi.DAO.Propose.sbtMint"
-        props={{
-          showReciever: false,
-          showDAO: false,
-          showReference: false,
-          showIssuer: false,
-          showHeader: false,
-          showClass: false,
-          daoId: daoId,
-          issuer: issuer,
-          classId: classId,
-          reference: reference,
-          receiver: accountId,
-        }}
-      />
-    )}
+    {isMintAuthority &&
+      !hasToken &&
+      ((humanRequiredForSbt && isHuman) || !humanRequiredForSbt) && (
+        <Widget
+          src="nearefi.near/widget/ReFi.Regen.sbtMint"
+          props={{
+            showReciever: false,
+            receiver: accountId,
+            classId: classId,
+            reference: reference,
+            issuer: issuer,
+          }}
+        />
+      )}
+    {isLoggedIn &&
+      canPropose &&
+      daoIsMinter &&
+      !hasToken &&
+      ((humanRequiredForSbt && isHuman) || !humanRequiredForSbt) && (
+        <Widget
+          src="nearefi.near/widget/ReFi.DAO.Propose.sbtMint"
+          props={{
+            showReciever: false,
+            showDAO: false,
+            showReference: false,
+            showIssuer: false,
+            showHeader: false,
+            showClass: false,
+            daoId: daoId,
+            issuer: issuer,
+            classId: classId,
+            reference: reference,
+            receiver: accountId,
+          }}
+        />
+      )}
   </Card>
 );
 // add number of members and recent activity, like time for last proposal using time ago
