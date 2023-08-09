@@ -57,6 +57,8 @@ const {
   historicCount,
   nominationInteractions,
   og,
+  currentBalance,
+  storageUsed,
 } = state.data;
 
 const tableStyle = {
@@ -109,6 +111,30 @@ const bottomLeft = {
   color: "transparent",
   textShadow: "rgba(245,245,245,0.5) 1px 2px 1px",
 };
+const bottomRightTop = {
+  position: "absolute",
+  bottom: "50px",
+  right: "16px",
+  zIndex: "1000",
+  fontWeight: "500",
+  fontSize: "14px",
+  backgroundColor: "#ffffff",
+  backgroundClip: "text",
+  color: "white",
+};
+
+const bottomRight = {
+  position: "absolute",
+  bottom: "8px",
+  right: "16px",
+  zIndex: "1000",
+  fontWeight: "900",
+  fontSize: "30px",
+  backgroundColor: "#ffffff",
+  backgroundClip: "text",
+  color: "transparent",
+  textShadow: "rgba(245,245,245,0.5) 1px 2px 1px",
+};
 
 const container = {
   position: "relative",
@@ -122,8 +148,34 @@ function getCreateDate(creationTimestamp) {
 
   return date.toString("MMM dd yy");
 }
+
+function parsedBalance(currentBalance) {
+  if (currentBalance > 0) {
+    let walletBalance = Big(currentBalance).div(Big(10).pow(24)).toFixed(5);
+    return walletBalance;
+  } else {
+    let walletBalance = 0;
+    return walletBalance;
+  }
+}
+
 const profile = props.profile ?? Social.getr(`${state.wallet}/profile`);
 const image = profile.image;
+
+const following = Social.keys(`${state.wallet}/graph/follow/*`, "final", {
+  return_type: "BlockHeight",
+  values_only: true,
+});
+
+const followers = Social.keys(`*/graph/follow/${state.wallet}`, "final", {
+  return_type: "BlockHeight",
+  values_only: true,
+});
+
+const numFollowing = following
+  ? Object.keys(following[state.wallet].graph.follow || {}).length
+  : null;
+const numFollowers = followers ? Object.keys(followers || {}).length : null;
 
 return (
   <div
@@ -160,13 +212,18 @@ return (
               style: { maxHeight: "100vh" },
               thumbnail,
               fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+                "https://ipfs.near.social/ipfs/bafkreigx4syocpq3spthgozerqnqjf4k7ri5jrsslgali7tslvfmjrefte",
             }}
           />
           {og == true && <div style={bottomLeft}>OG</div>}
+          <div style={bottomRightTop}>following/followers</div>
+          <div style={bottomRight}>
+            {numFollowing}/{numFollowers}
+          </div>
         </div>
         <p style={{ justifyContent: "center", alignItems: "center" }}>
-          Account Created: {getCreateDate(creationTimestamp)}
+          Account Created: {getCreateDate(creationTimestamp)} <br />
+          Current Balance: {parsedBalance(currentBalance)}N
         </p>
         <table style={tableStyle}>
           <thead>
@@ -249,6 +306,18 @@ return (
             >
               <td>Nomination Interactions (max 50)</td>
               <td>{nominationInteractions}</td>
+            </tr>
+            <tr
+              style={{
+                backgroundColor: getBackgroundColor(
+                  storageUsed,
+                  (v) => v > 20000,
+                  (v) => v >= 5000 && v <= 20000
+                ),
+              }}
+            >
+              <td>Storage Used (Onchain)</td>
+              <td>{storageUsed} Bytes</td>
             </tr>
           </tbody>
         </table>
