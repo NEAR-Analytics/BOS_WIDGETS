@@ -57,7 +57,7 @@ const METAPOOL_ABI = [
 
 if (
   state.chainId === undefined &&
-  ethers !== undefined 
+  ethers !== undefined &&
   Ethers.send("eth_requestAccounts", [])[0]
 ) {
   Ethers.provider()
