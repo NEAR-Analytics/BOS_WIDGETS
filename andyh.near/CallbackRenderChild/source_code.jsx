@@ -7,6 +7,5 @@ return (
   <div>
     something really cool is loading:
     {component}
-    <OverlayTrigger>{overlaid}</OverlayTrigger>
   </div>
 );
