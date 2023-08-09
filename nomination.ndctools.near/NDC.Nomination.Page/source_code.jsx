@@ -283,7 +283,7 @@ return (
                   src={widgets.styledComponents}
                   props={{
                     Button: {
-                      className: "danger",
+                      className: "danger primary",
                       text: "Delete Self Nomination",
                       onClick: () => State.update({ showModalDelete: true }),
                       icon: <i class="bi bi-trash"></i>,
