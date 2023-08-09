@@ -75,17 +75,15 @@ justify-content: center;
 align-items: center;
 gap: 10px;
 border-radius: 10px;
- border-width: 1px;
-  border: solid 1px  ${state.Submitdisable ? "darkgray" : "transparent"};
- 
- 
-  background-image: ${
-    state.Submitdisable
-      ? "linear-gradient(rgba(0, 0, 0,0), rgba(0, 0, 0,0))), radial-gradient(circle at top left,rgba(0, 0, 0,0),rgba(0, 0, 0,0));"
-      : "linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);"
-  }
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+border-width: 1px;
+border: solid 1px  ${state.Submitdisable ? "darkgray" : "transparent"};
+background-image: ${
+  state.Submitdisable
+    ? "linear-gradient(rgba(0, 0, 0,0), rgba(0, 0, 0,0))), radial-gradient(circle at top left,rgba(0, 0, 0,0),rgba(0, 0, 0,0));"
+    : "linear-gradient(#FFD50D, #FFD50D), radial-gradient(circle at top left,#F0E1CE, #F0E1CE);"
+}
+background-origin: border-box;
+background-clip: padding-box, border-box;
 
 `;
 
@@ -155,10 +153,10 @@ const canAddProposal = isUserAllowedTo(
   proposalKinds.FunctionCall,
   actions.AddProposal
 );
-
+console.log("canAddProposal", canAddProposal);
 //Get alll daos
 const daos = Near.view("sputnik-dao.near", "get_dao_list");
-//console.log("daos", daos);
+
 const validAccoundAtIssuer = () => {
   //get the issuer and class
   const issuer =
@@ -365,7 +363,7 @@ const Submitform = () => {
             },
           },
         },
-        deposit: 100000000000000000000000 + proposal_bond,
+        deposit: 100000000000000000000000,
         gas: "150000000000000",
       },
     ]);
