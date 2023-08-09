@@ -97,7 +97,6 @@ const Wrapper = styled.div`
 
     i {
       display: inline-block;
-      transform: rotate(90deg);
       color: #7E868C;
     }
   }
