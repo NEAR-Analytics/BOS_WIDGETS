@@ -47,7 +47,7 @@ return (
   <div className="w-100">
     <iframe
       className="w-100"
-      style={{ height: 600, width: 600 }}
+      style={{ height: 500, width: 600 }}
       srcDoc={code}
     />
   </div>
