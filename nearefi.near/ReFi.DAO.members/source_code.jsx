@@ -5,7 +5,7 @@ const classId = props.classId ?? 1;
 const policy = Near.view(daoId, "get_policy");
 const reference = props.reference ?? null;
 const registry = props.registry ?? "registry.i-am-human.near";
-
+const humanRequiredForSbt = props.humanRequiredForSbt ?? false;
 const groups = policy.roles
   .filter((role) => role.kind.Group)
   .map((role) => ({
@@ -30,6 +30,7 @@ return (
                 roleName: group.name,
                 reference: reference,
                 registry: registry,
+                humanRequiredForSbt: humanRequiredForSbt,
               }}
             />
           </div>
