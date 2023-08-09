@@ -255,6 +255,7 @@ return (
               firstText: state.articleId,
               stateUpdate: (obj) => State.update(obj),
               filterText: (e) => e.target.value.replace(/\s+/g, ""),
+              editable: editArticleData,
             }}
           />
         </div>
