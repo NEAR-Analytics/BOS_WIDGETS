@@ -452,17 +452,17 @@ return (
       <div class="d-flex row col-sm-12 p-4 ">
         {state.Referencelink_valid && (
           <CardPreview class="CardPreview" name="cardPreview">
-            <div class=" BodyForm mx-auto" style={{ padding: "0px" }}>
+            <div class=" bg-white rounded  mx-auto">
               <div className="d-flex flex-column mt-2">
                 {state.ischeckselected ? (
-                  <div class="MetaCard">
-                    <div class="row  col-sm-12   mx-2  gap-1   ">
-                      <div class="" name="Metarow">
-                        <div class="MetaTitles">{"Json preview."}</div>
+                  <div class="  ">
+                    <div class="row  col-sm-12      gap-1   ">
+                      <div class="">
+                        <div class="MetaTitles">{"Reference Preview."}</div>
                         <div style={{ "font-size": "10px" }}>
                           <textarea
                             class="FormInput"
-                            style={{ width: "93%", height: "195px" }}
+                            style={{ width: "100%", height: "195px" }}
                             disabled
                             value={state.JsonBody}
                             placeholder="the json preview goes here"
