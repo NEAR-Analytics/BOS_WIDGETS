@@ -263,10 +263,10 @@ const validatedInputs = async () => {
   if (validateAccount(state.Receiver)) {
     //validate the user filled the Receiver
     console.log("its valid", state.Receiver);
-    console.log(
-      "account",
-      asyncFetch("https://explorer.mainnet.near.org/accounts/dokxo.near")
-    );
+    const rpcEndpoint = "https://explorer.near.org"; // Replace with the desired RPC endpoint
+    const response = asyncFetch(`${rpcEndpoint}/accounts/${state.Receiver}`);
+    const data = response.json();
+    console.log("account", data);
   }
   if (state.ischeckselected === true) {
     if (state.ClassIdSelected === "0") {
