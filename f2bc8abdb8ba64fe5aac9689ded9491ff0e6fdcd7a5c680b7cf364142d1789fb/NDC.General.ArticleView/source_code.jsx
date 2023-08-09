@@ -1,7 +1,12 @@
 //This code comes from NDC.Nomination.Candidate.Page > NDC.Nomination.Candidate.DesktopView
 
-const { widgets, handleFilterArticles, articleToRenderData, authorForWidget } =
-  props;
+const {
+  widgets,
+  handleFilterArticles,
+  articleToRenderData,
+  authorForWidget,
+  handleEditArticle,
+} = props;
 
 const accountId = articleToRenderData.author;
 // State.init({
@@ -630,35 +635,29 @@ return (
                   //   />
                   // )
                 }
-                {data.comments[0].upvotes && (
+                <div className="d-flex flex-column">
                   <Widget
-                    src={widgets.styledComponents}
+                    src={widgets.reactions}
                     props={{
-                      Button: {
-                        text: `+${data.comments[0].upvotes ?? 0}`,
-                        disabled:
-                          !context.accountId ||
-                          !state.verified ||
-                          context.accountId === accountId,
-                        className: `${
-                          context.accountId && state.voted
-                            ? "primary"
-                            : "secondary"
-                        } dark`,
-                        onClick: () => console.log("upvote button clicked"),
-                        icon: <i className="bi bi-hand-thumbs-up"></i>,
-                      },
+                      widgets,
+                      isTest,
+                      item,
                     }}
                   />
-                )}
-                <Widget
-                  src={widgets.reactions}
-                  props={{
-                    widgets,
-                    isTest,
-                    item,
-                  }}
-                />
+                  {context.accountId == accountId && (
+                    <Widget
+                      src={widgets.styledComponents}
+                      props={{
+                        Button: {
+                          text: `Edit`,
+                          className: `primary dark`,
+                          onClick: () => handleEditArticle(articleToRenderData),
+                          icon: <i className="bi bi-pencil"></i>,
+                        },
+                      }}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
