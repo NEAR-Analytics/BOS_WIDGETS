@@ -80,7 +80,10 @@ function getArticlesIndexes(props) {
 }
 
 function getArticleBlackListByBlockHeight() {
-  return [91092435, 91092174, 91051228, 91092223, 91051203, 98372095];
+  return [
+    91092435, 91092174, 91051228, 91092223, 91051203, 98372095, 96414482,
+    96412953,
+  ];
 }
 
 function getArticleBlackListByRealArticleId() {
