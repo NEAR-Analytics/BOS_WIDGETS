@@ -24,7 +24,6 @@ return (
         renderComponent,
       }}
     />
-    <OverlayTrigger>{overlaid}</OverlayTrigger>
     {/*
     <Widget
       src="andyh.near/widget/ComponentSearch"
