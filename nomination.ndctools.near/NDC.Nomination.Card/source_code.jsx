@@ -468,7 +468,7 @@ return (
             }}
           />
           <HeaderContent>
-            <div className="w-100">
+            <div className="mw-100">
               <Widget
                 src={widgets.styledComponents}
                 props={{
