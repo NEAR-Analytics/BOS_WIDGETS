@@ -133,7 +133,7 @@ if (!finalData) {
   return <h1> 🪄 Loading MAGIC 🪄</h1>;
 }
 
-const project_name = props.project_name || "Sweat Economy";
+const project_name = props.project_name || "NEAR Vietnam Hub";
 
 const METRIC_NAME = `"${project_name}'s ${state.metric_period}"`;
 
