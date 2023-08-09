@@ -113,6 +113,37 @@ const DevHub = {
   },
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
+/* INCLUDE: "entity/viewer" */
+const access_control_info = DevHub.useQuery({
+  name: "access_control_info",
+});
+
+const Viewer = {
+  can: {
+    editCommunity: (communityData) =>
+      Struct.typeMatch(communityData) &&
+      (communityData.admins.includes(context.accountId) ||
+        Viewer.role.isDevHubModerator),
+  },
+
+  role: {
+    isDevHubModerator:
+      access_control_info.data === null || access_control_info.isLoading
+        ? false
+        : access_control_info.data.members_list[
+            "team:moderators"
+          ]?.children?.includes?.(context.accountId) ?? false,
+  },
+};
+/* END_INCLUDE: "entity/viewer" */
+
+State.init({
+  labelData: null,
+  teamData: null,
+  createTeam: false,
+  createLabel: false,
+  isEditorActive: true, // TODO set back to false and create button
+});
 
 const access_info = DevHub.get_access_control_info() ?? null,
   root_members = DevHub.get_root_members() ?? null;
@@ -121,18 +152,179 @@ if (!access_info || !root_members) {
   return <div>Loading...</div>;
 }
 
+function addLabel(labelData) {
+  let txn = [];
+  txn.push({
+    contractName: nearDevGovGigsContractAccountId,
+    methodName: "set_restricted_rules",
+    args: {
+      rules: {
+        [labelData.name]: {
+          description: labelData.description,
+          rule_metadata_version: "V0",
+        },
+      },
+    },
+    deposit: Big(0).pow(21),
+    gas: Big(10).pow(12).mul(100),
+  });
+  Near.call(txn);
+}
+
+// To add a team
+function addTeam(teamData) {
+  let txn = [];
+  let permissions = {};
+  let labels = teamData.label.split(",");
+  labels.forEach((element) => {
+    permissions[element] = ["edit-post", "use-labels"];
+  });
+  txn.push({
+    contractName: nearDevGovGigsContractAccountId,
+    methodName: "add_member",
+    args: {
+      member: `team:${teamData.name}`,
+      metadata: {
+        member_metadata_version: "V0",
+        description: teamData.description,
+        permissions,
+        children: [],
+        parents: [],
+      },
+    },
+    deposit: Big(0).pow(21),
+    gas: Big(10).pow(12).mul(100),
+  });
+  Near.call(txn);
+}
+
 const pageContent = (
-  <div>
-    {widget("entity.team.LabelsPermissions", {
-      rules: access_info.rules_list,
-    })}
-    {Object.keys(root_members).map((member) =>
-      widget(
-        "entity.team.TeamInfo",
-        { member, members_list: access_info.members_list },
-        member
-      )
-    )}
+  <div className="pt-3">
+    {Viewer.role.isDevHubModerator
+      ? widget("components.layout.Controls", {
+          title: "Create Restricted labels",
+          onClick: () => {
+            State.update({
+              createLabel: !state.createLabel,
+            });
+          },
+        })
+      : null}
+    <div className="pt-3">
+      {widget("entity.team.LabelsPermissions", {
+        rules: access_info.rules_list,
+      })}
+    </div>
+    {state.createLabel &&
+      widget("components.organism.editor", {
+        classNames: {
+          submit: "btn-primary",
+          submitAdornment: "bi-check-circle-fill",
+        },
+        heading: "Restricted labels",
+        isEditorActive: state.isEditorActive,
+        isEditingAllowed: Viewer.role.isDevHubModerator,
+        onChangesSubmit: addLabel,
+        submitLabel: "Accept",
+        data: state.labelData,
+        schema: {
+          name: {
+            inputProps: {
+              min: 2,
+              max: 30,
+              placeholder: "Label name (starts-with:<label>  or <label>)",
+              required: true,
+            },
+            label: "Name",
+            order: 1,
+          },
+          description: {
+            inputProps: {
+              min: 2,
+              max: 60,
+              placeholder: "Label description",
+              required: true,
+            },
+            label: "Description",
+            order: 2,
+          },
+        },
+      })}
+    {Viewer.role.isDevHubModerator ? (
+      <div class="pt-3">
+        {widget("components.layout.Controls", {
+          title: "Create Team",
+          onClick: () => {
+            State.update({
+              createTeam: !state.createTeam,
+            });
+          },
+        })}
+      </div>
+    ) : null}
+    {state.createTeam &&
+      widget("components.organism.editor", {
+        classNames: {
+          submit: "btn-primary",
+          submitAdornment: "bi-check-circle-fill",
+        },
+        heading: "Team info",
+        isEditorActive: state.isEditorActive,
+        isEditingAllowed: Viewer.role.isDevHubModerator,
+        onChangesSubmit: addTeam,
+        submitLabel: "Accept",
+        data: state.teamData,
+        schema: {
+          name: {
+            inputProps: {
+              min: 2,
+              max: 30,
+              placeholder: "Team name",
+              required: true,
+            },
+            label: "Name",
+            order: 1,
+          },
+          description: {
+            inputProps: {
+              min: 2,
+              max: 60,
+              placeholder: "Team description",
+              required: true,
+            },
+            label: "Description",
+            order: 2,
+          },
+          label: {
+            label: "Labels",
+            order: 3,
+            format: "comma-separated",
+            inputProps: {
+              min: 2,
+              max: 60,
+              placeholder: Object.keys(access_info.rules_list).join(","),
+              required: true,
+            },
+          },
+        },
+      })}
+    {root_members
+      ? Object.keys(root_members).map((member) =>
+          widget(
+            "entity.team.TeamInfo",
+            {
+              member,
+              members_list: access_info.members_list,
+              rules_list: access_info.rules_list,
+              ableToAddMembers: true,
+              ableToAddLabels: true,
+              teamLevel: true,
+              root_members,
+            },
+            member
+          )
+        )
+      : null}
   </div>
 );
 
