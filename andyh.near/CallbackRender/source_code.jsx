@@ -23,14 +23,9 @@ return (
         renderComponent,
       }}
     />
-    <Widget
-      src="andyh.near/widget/WidgetImage"
-      props={{
-        tooltip: false,
-        accountId: "zavodil.near",
-        widgetName: "hot-or-bot",
-      }}
-    />
+    <OverlayTrigger>
+      <h2>Overlaid!</h2>
+    </OverlayTrigger>
     {/*
     <Widget
       src="andyh.near/widget/ComponentSearch"
