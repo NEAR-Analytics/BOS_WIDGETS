@@ -5,6 +5,7 @@ const {
   stateUpdate,
   initialBody,
   initialCreateState,
+  editArticleData,
 } = props;
 
 const errTextNoBody = "ERROR: no article Body",
@@ -18,16 +19,17 @@ const accountId = context.accountId;
 
 const getArticleData = () => {
   const args = {
-    articleId: state.articleId,
-    author: accountId,
+    articleId: editArticleData.articleId ?? state.articleId,
+    author: editArticleData.articleId ?? accountId,
     lastEditor: accountId,
     timeLastEdit: Date.now(),
-    timeCreate: Date.now(),
+    timeCreate: editArticleData.timeCreate ?? Date.now(),
     body: state.articleBody,
-    version: 0,
+    version: editArticleData ? editArticleData.version + 1 : 0,
     navigation_id: null,
     tags: tagsArray,
-    realArticleId: `${accountId}-${Date.now()}`,
+    realArticleId:
+      editArticleData.realArticleId ?? `${accountId}-${Date.now()}`,
   };
   return args;
 };
@@ -101,7 +103,7 @@ const saveHandler = (e) => {
             renderLastOfThisAccountId: accountId,
           });
           // State.update({ saveComplete: true, saving: false });
-          State.update({ saving: false });
+          State.update({ saving: false, editArticleData: undefined });
         },
         onCancel: () => {
           State.update({ saving: false });
