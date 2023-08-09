@@ -125,6 +125,7 @@ const HeaderTagP = styled.p`
   margin: 0;
 `;
 const UserLink = styled.a`
+  width: 90%;
   cursor: pointer;
   &:hover {
     text-decoration: none;
