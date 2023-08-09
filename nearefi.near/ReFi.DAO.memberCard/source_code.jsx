@@ -1,4 +1,5 @@
 // To-DO
+// check if already has sbt
 // check if owner and gate the proposal
 const accountId = props.accountId ?? "ndcplug.near";
 const issuer = props.issuer ?? "issuer.regens.near";
@@ -34,6 +35,7 @@ console.log("Dao is minter: " + daoIsMinter);
 
 const policy = Near.view(daoId, "get_policy");
 // const accountId = props.accountId ?? context.accountId;
+const daoBond = policy.proposal_bond;
 
 const proposalKinds = {
   ChangeConfig: "config",
