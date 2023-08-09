@@ -278,7 +278,7 @@ function setComment(args) {
   return text;
 }
 
-if (libCall && libCall.length > 0) {
+if (libCalls && libCalls.length > 0) {
   const updateObj = {};
   const resultLibCalls = [...libCalls];
   libCalls.forEach((call) => {
