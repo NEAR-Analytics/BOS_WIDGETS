@@ -79,8 +79,18 @@ function getArticlesIndexes(props) {
   });
 }
 
-function getArticleBlackList() {
+function getArticleBlackListByBlockHeight() {
   return [91092435, 91092174, 91051228, 91092223, 91051203, 98372095];
+}
+
+function getArticleBlackListByRealArticleId() {
+  return [
+    "blaze.near-1690410074090",
+    "blaze.near-1690409577184",
+    "blaze.near-1690803928696",
+    "blaze.near-1690803872147",
+    "blaze.near-1690574978421",
+  ];
 }
 
 function filterInvalidArticlesIndexes(props, articlesIndexes) {
@@ -97,7 +107,11 @@ function filterInvalidArticlesIndexes(props, articlesIndexes) {
     ) // Account is in whitelist
     .filter(
       (articleIndex) =>
-        !getArticleBlackList().includes(articleIndex.blockHeight) // Article is not in blacklist
+        !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Article is not in blacklist
+    )
+    .filter(
+      (articleIndex) =>
+        !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article is not in blacklist
     );
 }
 
