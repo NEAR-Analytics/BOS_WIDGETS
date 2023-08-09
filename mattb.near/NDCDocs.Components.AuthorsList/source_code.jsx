@@ -1,3 +1,7 @@
+State.init({
+  selectedAuthor: null,
+});
+
 const WIDGET_OWNER = "mattb.near";
 const addressForArticles = "ndcWikiArticle";
 const writersWhiteList = [
@@ -237,32 +241,39 @@ const Avatar = styled.div`
 
 return (
   <Main>
-    {authorsCountArray.map(([author, totalArticles]) => (
-      <AuthorPill
-        href={`/${WIDGET_OWNER}/widget/NDCDocs.Components.ArticlesList?author=${author}`}
-      >
-        <AuthorTitle>
-          <div>
-            <h1>
-              {totalArticles} article{totalArticles > 1 ? "s" : ""}
-            </h1>
-          </div>
-          <div></div>
-        </AuthorTitle>
-        <AuthorDetails>
-          <Wrapper>
-            <Avatar
-              style={{
-                "background-image": `url("${getProfileImage(author)}")`,
-              }}
-            />
-          </Wrapper>
-          <Wrapper>
-            <h2>{getName(author)}</h2>
-            <p>@{author}</p>
-          </Wrapper>
-        </AuthorDetails>
-      </AuthorPill>
-    ))}
+    {!state.selectedAuthor &&
+      authorsCountArray.map(([author, totalArticles]) => (
+        <AuthorPill onClick={() => State.update({ selectedAuthor: author })}>
+          <AuthorTitle>
+            <div>
+              <h1>
+                {totalArticles} article{totalArticles > 1 ? "s" : ""}
+              </h1>
+            </div>
+            <div></div>
+          </AuthorTitle>
+          <AuthorDetails>
+            <Wrapper>
+              <Avatar
+                style={{
+                  "background-image": `url("${getProfileImage(author)}")`,
+                }}
+              />
+            </Wrapper>
+            <Wrapper>
+              <h2>{getName(author)}</h2>
+              <p>@{author}</p>
+            </Wrapper>
+          </AuthorDetails>
+        </AuthorPill>
+      ))}
+    {state.selectedAuthor && (
+      <Widget
+        src={`${WIDGET_OWNER}/widget/NDCDocs.Components.ArticlesList`}
+        props={{
+          author: state.selectedAuthor,
+        }}
+      />
+    )}
   </Main>
 );
