@@ -26,7 +26,7 @@ return (
     <Widget
       src="andyh.near/widget/WidgetImage"
       props={{
-        tooltip: true,
+        tooltip: false,
         accountId: "zavodil.near",
         widgetName: "hot-or-bot",
       }}
