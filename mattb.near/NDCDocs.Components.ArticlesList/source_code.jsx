@@ -1,4 +1,4 @@
-const { allowedAuthors } = props;
+const { allowedAuthors, author } = props;
 
 const ARTICLES_ADDRESS = "ndcWikiArticle";
 const ALLOWED_AUTHORS = allowedAuthors || [
@@ -313,34 +313,36 @@ return (
     {!state.posts.length && getSkeleton()}
     {getPosts()}
     {!!state.posts.length &&
-      state.posts.map((article, idx) => (
-        <>
-          <ArticlePill href={getArticleLink(idx)}>
-            <ArticleTitle>
-              <div>
-                <h1>{article.articleId}</h1>
-                <p>Published on {getDateLastEdit(article.timeCreate).date}</p>
-                <p>Last edit by {article.lastEditor}</p>
-              </div>
-              <div>{arrowImg}</div>
-            </ArticleTitle>
-            <ArticleDetails>
-              <Wrapper>
-                <Avatar
-                  style={{
-                    "background-image": `url("${getProfileImage(
-                      article.author
-                    )}")`,
-                  }}
-                />
-              </Wrapper>
-              <Wrapper>
-                <h2>{getName(article.author)}</h2>
-                <p>@{article.author}</p>
-              </Wrapper>
-            </ArticleDetails>
-          </ArticlePill>
-        </>
-      ))}
+      state.posts
+        .filter((post) => (author ? post.author == author : true))
+        .map((article, idx) => (
+          <>
+            <ArticlePill href={getArticleLink(idx)}>
+              <ArticleTitle>
+                <div>
+                  <h1>{article.articleId}</h1>
+                  <p>Published on {getDateLastEdit(article.timeCreate).date}</p>
+                  <p>Last edit by {article.lastEditor}</p>
+                </div>
+                <div>{arrowImg}</div>
+              </ArticleTitle>
+              <ArticleDetails>
+                <Wrapper>
+                  <Avatar
+                    style={{
+                      "background-image": `url("${getProfileImage(
+                        article.author
+                      )}")`,
+                    }}
+                  />
+                </Wrapper>
+                <Wrapper>
+                  <h2>{getName(article.author)}</h2>
+                  <p>@{article.author}</p>
+                </Wrapper>
+              </ArticleDetails>
+            </ArticlePill>
+          </>
+        ))}
   </Main>
 );
