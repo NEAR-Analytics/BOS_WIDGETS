@@ -38,7 +38,7 @@ let views = {
   authors: (
     <>
       <Widget
-        src={`/${widgetOwner}/widget/NDCDocs.Components.AuthorsList`}
+        src={`${widgetOwner}/widget/NDCDocs.Components.AuthorsList`}
         props={{ writersWhiteList }}
       />
     </>
