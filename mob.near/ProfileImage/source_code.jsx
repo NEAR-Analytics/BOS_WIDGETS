@@ -13,16 +13,28 @@ const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
 const fast = !props.profile && !!accountId;
+State.init({
+  fastImageUrl: `https://i.near.social/magic/${
+    thumbnail || "large"
+  }/https://near.social/magic/img/account/${accountId}`,
+});
+const fallbackUrl =
+  "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
 const inner = fast ? (
   <div className={className} style={style}>
     <img
       className={imageClassName}
       style={imageStyle}
-      src={`https://i.near.social/magic/${
-        thumbnail || "large"
-      }/https://near.social/magic/img/account/${accountId}`}
+      src={state.fastImageUrl}
       alt={title}
+      onError={() => {
+        if (state.fastImageUrl !== fallbackUrl) {
+          State.update({
+            fastImageUrl: fallbackUrl,
+          });
+        }
+      }}
     />
   </div>
 ) : (
@@ -35,8 +47,7 @@ const inner = fast ? (
         className: imageClassName,
         style: imageStyle,
         thumbnail,
-        fallbackUrl:
-          "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+        fallbackUrl,
       }}
     />
   </div>
