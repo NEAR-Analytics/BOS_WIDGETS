@@ -449,7 +449,7 @@ return (
         <label class="Headerlabel">SBT DAO minter</label>
       </div>
 
-      <div class="d-flex row col-sm-12 ">
+      <div class="d-flex row col-sm-12 p-4 ">
         {state.Referencelink_valid && (
           <CardPreview class="CardPreview" name="cardPreview">
             <div class=" BodyForm mx-auto">
