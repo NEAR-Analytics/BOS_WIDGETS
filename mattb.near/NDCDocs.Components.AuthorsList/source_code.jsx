@@ -92,6 +92,7 @@ const AuthorPill = styled.a`
     cursor:pointer;
     width:100%;
     max-width:300px;
+    max-height:130px;
     background-color:rgba(0,0,0,.05);
     border-radius:20px;
     box-sizing:border-box;
@@ -238,7 +239,7 @@ return (
   <Main>
     {authorsCountArray.map(([author, totalArticles]) => (
       <AuthorPill
-        href={`${WIDGET_OWNER}/widget/NDCDocs.Components.ArticlesList?author=${author}`}
+        href={`/${WIDGET_OWNER}/widget/NDCDocs.Components.ArticlesList?author=${author}`}
       >
         <AuthorTitle>
           <div>
