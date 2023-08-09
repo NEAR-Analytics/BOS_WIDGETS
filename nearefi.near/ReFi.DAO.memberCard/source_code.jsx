@@ -63,6 +63,7 @@ if (accountId) {
 const policy = Near.view(daoId, "get_policy");
 // const accountId = props.accountId ?? context.accountId;
 const daoBond = policy.proposal_bond;
+const badges = ["og", "vibes", "regen", "human"];
 
 const proposalKinds = {
   ChangeConfig: "config",
@@ -148,6 +149,7 @@ State.init({
   show: false,
 });
 
+console.log("Is human: " + isHuman + "");
 const Card = styled.div`
   display: flex;
   justify-content: space-between;
@@ -251,6 +253,12 @@ return (
           bold
         >
           {profile.name || accountId.split(".near")[0]}
+          {badges.map((badge) => (
+            <Widget
+              src="proofofvibes.near/widget/sbtEmojiHelper"
+              props={{ accountId: accountId, badgeType: badge }}
+            />
+          ))}
         </TextLink>
         <TextLink
           href={profileUrl}
