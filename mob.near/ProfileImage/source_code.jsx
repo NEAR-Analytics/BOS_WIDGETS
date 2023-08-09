@@ -12,7 +12,7 @@ const image = profile.image;
 const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
-const fast = !props.profile && !!accountId;
+const fast = props.fast || (!props.profile && !!accountId);
 State.init({
   fastImageUrl: `https://i.near.social/magic/${
     thumbnail || "large"
