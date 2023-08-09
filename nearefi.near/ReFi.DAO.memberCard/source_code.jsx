@@ -1,5 +1,5 @@
 // To-DO
-// check if already has sbt
+// fix class
 // check if owner and gate the proposal
 const accountId = props.accountId ?? "ndcplug.near";
 const issuer = props.issuer ?? "issuer.regens.near";
@@ -12,6 +12,7 @@ const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 const reference = props.reference ?? null;
 const isLoggedIn = context.accountId;
 const isMintAuthority = false; // add sbt minter contract
+const registry = props.registry ?? "registry.i-am-human.near";
 // View call: issuer.regens.near.class_minter({"class": 1})
 // {
 //   requires_iah: false,
@@ -25,6 +26,8 @@ const daoIsMinter = mintAuthorities.includes(daoId);
 console.log("Dao is minter: " + daoIsMinter);
 // now check if this person can propose in dao
 
+// check if person already has sbt
+
 // console.log(checkMintersJson);
 // if (!!mintAuthorities) {
 //   for (let i = 0; i < mintAuthorities.length; i++) {
@@ -32,7 +35,18 @@ console.log("Dao is minter: " + daoIsMinter);
 
 //   }
 // }
-
+// add where class is probably in return view
+let hasToken = false;
+if (accountId) {
+  const getFirstSBTToken = () => {
+    const view = Near.view(registry, "sbt_tokens_by_owner", {
+      account: `${accountId}`,
+      issuer: issuer,
+    });
+    return view?.[0]?.[1]?.[0];
+  };
+  hasToken = getFirstSBTToken() !== undefined;
+}
 const policy = Near.view(daoId, "get_policy");
 // const accountId = props.accountId ?? context.accountId;
 const daoBond = policy.proposal_bond;
@@ -249,7 +263,7 @@ return (
         props={{ accountId: props.accountId }}
       />
     )}
-    {isMintAuthority && (
+    {isMintAuthority && !hasToken && (
       <Widget
         src="nearefi.near/widget/ReFi.Regen.sbtMint"
         props={{
@@ -261,7 +275,7 @@ return (
         }}
       />
     )}
-    {isLoggedIn && canPropose && daoIsMinter && (
+    {isLoggedIn && canPropose && daoIsMinter && !hasToken && (
       <Widget
         src="nearefi.near/widget/ReFi.DAO.Propose.sbtMint"
         props={{
