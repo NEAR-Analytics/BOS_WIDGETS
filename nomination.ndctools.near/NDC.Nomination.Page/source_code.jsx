@@ -77,16 +77,16 @@ function getVerifiedHuman() {
   });
 
   asyncFetch(endpoints.candidateComments, httpRequestOpt).then((res) => {
-    console.log(res.body);
     if (res.body.length > 0) {
-      selfNomination = true;
+      State.update({
+        selfNomination: true,
+      });
     }
   });
 
   State.update({
     og: ogTokens.some((sbt) => sbt.owner === context.accountId),
     sbt: sbtTokens.some((sbt) => sbt.owner === context.accountId),
-    selfNomination,
   });
 }
 
