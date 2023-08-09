@@ -102,7 +102,7 @@ const HeaderContent = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 4px;
-  width: 70%;
+  width: 56%;
 `;
 const HeaderTag = styled.div`
   display: flex;
@@ -125,7 +125,7 @@ const HeaderTagP = styled.p`
   margin: 0;
 `;
 const UserLink = styled.a`
-  width: 90%;
+  width: 100%;
   cursor: pointer;
   &:hover {
     text-decoration: none;
@@ -468,20 +468,22 @@ return (
             }}
           />
           <HeaderContent>
-            <Widget
-              src={widgets.styledComponents}
-              props={{
-                Tag: {
-                  title:
-                    data.indexerData.house == "HouseOfMerit"
-                      ? "House of Merit"
-                      : data.indexerData.house == "CouncilOfAdvisors"
-                      ? "Council of Advisors"
-                      : "Transparency Commission",
-                  className: "dark",
-                },
-              }}
-            />
+            <div className="w-100">
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Tag: {
+                    title:
+                      data.indexerData.house == "HouseOfMerit"
+                        ? "House of Merit"
+                        : data.indexerData.house == "CouncilOfAdvisors"
+                        ? "Council of Advisors"
+                        : "Transparency Commission",
+                    className: "dark",
+                  },
+                }}
+              />
+            </div>
             <UserLink
               href={`${widgets.candidatePage}?house=${
                 data.indexerData.house
