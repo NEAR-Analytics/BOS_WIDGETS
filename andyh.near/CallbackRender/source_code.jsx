@@ -23,6 +23,14 @@ return (
         renderComponent,
       }}
     />
+    <Widget
+      src="andyh.near/widget/WidgetImage"
+      props={{
+        tooltip: false,
+        accountId: "zavodil.near",
+        widgetName: "hot-or-bot",
+      }}
+    />
     {/*
     <Widget
       src="andyh.near/widget/ComponentSearch"
