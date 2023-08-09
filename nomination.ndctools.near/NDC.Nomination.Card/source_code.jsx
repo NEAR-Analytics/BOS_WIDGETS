@@ -458,7 +458,7 @@ return (
         />
       )}
       <HeaderCard className="d-flex justify-content-between w-100">
-        <div className="d-flex align-items-center gap-2 justify-content-between">
+        <div className="d-flex align-items-center gap-2 w-100 justify-content-between">
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
