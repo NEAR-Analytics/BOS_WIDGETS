@@ -98,8 +98,6 @@ function getNominationInfo(house) {
       return;
     }
 
-    console.log(res.body);
-
     for (const [i, data] of res.body.entries()) {
       let objCard = { indexerData: data };
       let nominee = data.nominee;
@@ -113,10 +111,6 @@ function getNominationInfo(house) {
         let nominationData;
         Social.getr(`${nominee}/profile`);
         Social.getr(`${nominee}/nominations`);
-        setTimeout(() => {
-          profileData = Social.getr(`${nominee}/profile`);
-          nominationData = Social.getr(`${nominee}/nominations`);
-        }, 1000);
 
         setTimeout(() => {
           if (data.is_revoked || !profileData || !nominationData) {
