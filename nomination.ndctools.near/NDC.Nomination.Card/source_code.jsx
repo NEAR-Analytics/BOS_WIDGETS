@@ -458,7 +458,7 @@ return (
         />
       )}
       <HeaderCard className="d-flex justify-content-between">
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center gap-2 justify-content-between">
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
@@ -491,22 +491,23 @@ return (
               <NominationUser>{data.indexerData.nominee}</NominationUser>
             </UserLink>
           </HeaderContent>
+
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Button: {
+                disabled: !canUpvote(),
+                text: `+${data.upVoteData?.upvotes ?? 0}`,
+                className: `${
+                  context.accountId && state.voted ? "primary" : "secondary"
+                } dark`,
+                size: "sm",
+                onClick: handleUpVote,
+                icon: <i className="bi bi-hand-thumbs-up"></i>,
+              },
+            }}
+          />
         </div>
-        <Widget
-          src={widgets.styledComponents}
-          props={{
-            Button: {
-              disabled: !canUpvote(),
-              text: `+${data.upVoteData?.upvotes ?? 0}`,
-              className: `${
-                context.accountId && state.voted ? "primary" : "secondary"
-              } dark`,
-              size: "sm",
-              onClick: handleUpVote,
-              icon: <i className="bi bi-hand-thumbs-up"></i>,
-            },
-          }}
-        />
       </HeaderCard>
       <CollapseCandidate className="w-100">
         <CollapseCandidateContent>
