@@ -220,12 +220,6 @@ let views = {
         <Section>
           <PollContainer>
             <Widget
-              src={`easypoll-v0.ndc-widgets.near/widget/EasyPoll`}
-              props={{
-                sharedBlockHeight: 0,
-              }}
-            />
-            <Widget
               src={`mattb.near/widget/NDCDocs.Components.Article`}
               props={{
                 lastEditor: "blaze.near",
@@ -275,6 +269,14 @@ let views = {
         blockHeight: "94330352",
         lastEditor: "blaze.near",
         embedHeader: false,
+      }}
+    />
+  ),
+  easypoll: () => (
+    <Widget
+      src={`easypoll-v0.ndc-widgets.near/widget/EasyPoll`}
+      props={{
+        sharedBlockHeight: 0,
       }}
     />
   ),
