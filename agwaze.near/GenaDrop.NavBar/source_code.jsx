@@ -211,9 +211,9 @@ const NavSelected = styled.div`
     text-align: center;
 `;
 
-const navItem = ({ text, icon, id, iconSelected, href }) => (
+const navItem = ({ text, icon, id, iconSelected }) => (
   <NavItem
-    href={href ?? `#/${ownerId}/widget/GenaDrop.index?tab=${id}`}
+    href={`#/${ownerId}/widget/GenaDrop.index?tab=${id}`}
     onClick={() => props.update({ tab: id })}
   >
     {id === props.tab ? iconSelected : icon}
@@ -368,7 +368,6 @@ const content = (
       id: "socials",
       icon: people,
       iconSelected: peopleSelected,
-      href: "#/genadrop.near/widget/GenaDrop.Home",
     })}
     <Divider />
   </NavContainer>
