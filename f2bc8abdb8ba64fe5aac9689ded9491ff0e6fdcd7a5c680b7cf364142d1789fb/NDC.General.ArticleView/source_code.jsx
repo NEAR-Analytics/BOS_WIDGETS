@@ -902,7 +902,7 @@ return (
                 />
                 {comments.map((data) => (
                   <Widget
-                    props={{ data, nomination_contract }}
+                    props={{ widgets, data, nomination_contract }}
                     src={widgets.comment}
                   />
                 ))}
