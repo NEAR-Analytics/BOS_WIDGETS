@@ -189,7 +189,14 @@ return (
       />
     </div>
 
-    <p>{state.isLoading ? "Loading" : null}</p>
+    {state.isLoading ? (
+      <img
+        height="20"
+        width="70"
+        style={{ margin: 10 }}
+        src="https://ipfs.io/ipfs/bafkreidmr43cuwv5kre4fzrum4lgpkkiwwj47nl54hunfsvgutyhocklza"
+      />
+    ) : null}
 
     {!state.isLoading ? <p>{state.response ? state.response : null}</p> : null}
 
