@@ -104,7 +104,9 @@ const navigationButtons = [
   { id: tabs.ARTICLE_WORKSHOP.id, title: "+Create article" },
 ];
 
-const initialBodyAtCreation = `# h1 Heading 8-) 
+const initialBodyAtCreation =
+  state.editArticleData.body ??
+  `# h1 Heading 8-) 
 ## h2 Heading 
 ### h3 Heading 
 #### h4 Heading 
@@ -318,9 +320,9 @@ Term 2
 `;
 
 const initialCreateState = {
-  articleId: "",
-  articleBody: initialBodyAtCreation,
-  tags: [],
+  articleId: state.editArticleData.articleId ?? "",
+  articleBody: state.editArticleData.body ?? initialBodyAtCreation,
+  tags: state.editArticleData.tags ?? [],
 };
 
 //=================================================END CONSTS=======================================================
@@ -626,6 +628,13 @@ function handleOpenArticle(articleToRenderData) {
   });
 }
 
+function handleEditArticle(articleData) {
+  State.update({
+    displayedTabId: tabs.ARTICLE_WORKSHOP.id,
+    editArticleData: articleData,
+  });
+}
+
 function handleFilterArticles(filter) {
   State.update({
     displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
@@ -634,10 +643,15 @@ function handleFilterArticles(filter) {
 }
 
 function handleBackButton() {
-  State.update({
-    displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-    articleToRenderData: {},
-  });
+  props.editArticleData
+    ? State.update({
+        displayedTabId: tabs.SHOW_ARTICLE.id,
+        editArticleData: undefined,
+      })
+    : State.update({
+        displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
+        articleToRenderData: {},
+      });
 }
 
 function handleGoHomeButton() {
@@ -679,7 +693,8 @@ return (
       <div
         style={{ cursor: "pointer" }}
         onClick={
-          state.displayedTabId == tabs.SHOW_ARTICLE.id
+          state.displayedTabId == tabs.SHOW_ARTICLE.id ||
+          (state.editArticleData && tabs.ARTICLE_WORKSHOP.id)
             ? handleBackButton
             : handleGoHomeButton
         }
@@ -713,6 +728,7 @@ return (
           handleFilterArticles,
           articleToRenderData: state.articleToRenderData,
           authorForWidget,
+          handleEditArticle,
         }}
       />
     )}
@@ -743,6 +759,7 @@ return (
           widgets,
           initialBody: initialBodyAtCreation,
           initialCreateState,
+          editArticleData: state.editArticleData,
         }}
       />
     )}
