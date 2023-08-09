@@ -5,7 +5,7 @@ const hideName = props.hideName;
 const hideImage = props.hideImage;
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const fast = !profile && accountId;
+const fast = !!props.fast || (!props.profile && accountId);
 
 const name = profile.name ?? accountId;
 const title = props.title ?? `${name} @${accountId}`;
