@@ -8,6 +8,9 @@ if (!accountId) {
 
 // need to check role if tastemaker
 
+const policy = Near.view(daoId, "get_policy");
+const daoBond = policy.proposal_bond;
+// console.log("Proposal bound amount: " + policy.proposal_bond);
 const handleProposal = () => {
   const gas = 200000000000000;
   const deposit = 100000000000000000000000;
@@ -27,7 +30,7 @@ const handleProposal = () => {
         },
       },
       gas: gas,
-      deposit: deposit,
+      deposit: daoBond,
     },
   ]);
 };
