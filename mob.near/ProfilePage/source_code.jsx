@@ -4,6 +4,7 @@ if (!accountId) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const fast = !props.profile;
 
 if (profile === null) {
   return "Loading";
@@ -18,6 +19,7 @@ return (
           accountId,
           profile,
           link: true,
+          fast,
           showEditButton: !props.profile,
         }}
       />
