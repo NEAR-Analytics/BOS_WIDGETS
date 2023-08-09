@@ -15,14 +15,14 @@ const handleWalletChange = (event) => {
 };
 
 function fetchData() {
-  console.log("getData");
+  //console.log("getData");
   asyncFetch("https://auth.shard.dog/wallet/" + state.wallet, {
     method: "GET",
   }).then((res) => {
     if (res.ok) {
       State.update({ data: res.body });
     } else {
-      console.log(res);
+      // console.log(res);
     }
   });
 }
@@ -79,7 +79,6 @@ const cardStyle = {
   maxWidth: "100%",
   background: "rgba(251, 249, 245, 0.85)",
   filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15))",
-  height: "1000px",
   borderRadius: "12px",
   display: "flex",
   justifyContent: "center",
@@ -177,12 +176,29 @@ const numFollowing = following
   : null;
 const numFollowers = followers ? Object.keys(followers || {}).length : null;
 
+function getKudos(wallet) {
+  let data = Social.getr("kudos.ndctools.near/kudos/" + wallet);
+  console.log(data);
+  let countK = 0;
+  let countD = 0;
+  if (data != undefined) {
+    Object.values(data).forEach((item) => {
+      if (item.kind === "k") {
+        countK++;
+      } else if (item.kind === "d") {
+        countD++;
+      }
+    });
+  }
+  console.log(countK);
+  return { countK, countD };
+}
+
 return (
   <div
     style={{
       justifyContent: "center",
       alignItems: "center",
-      height: "100vh",
     }}
   >
     <h3>NEAR "Just to get a rep"</h3>
@@ -199,6 +215,7 @@ return (
     />
     <button onClick={fetchData}>Get Rep</button>
     <br />
+
     <div style={cardStyle}>
       <div className="center-box">
         <div style={container}>
@@ -209,7 +226,7 @@ return (
               image,
               alt: title,
               className: "img-fluid rounded-3",
-              style: { maxHeight: "100vh" },
+              style: { maxWidth: "680px" },
               thumbnail,
               fallbackUrl:
                 "https://ipfs.near.social/ipfs/bafkreigx4syocpq3spthgozerqnqjf4k7ri5jrsslgali7tslvfmjrefte",
@@ -319,11 +336,17 @@ return (
               <td>Storage Used (Onchain)</td>
               <td>{storageUsed} Bytes</td>
             </tr>
+            <tr>
+              <td>Kudos/Dings</td>
+              <td>
+                {getKudos(state.wallet).countK}/{getKudos(state.wallet).countD}
+              </td>
+            </tr>
           </tbody>
         </table>
         <p>
           <small>
-            <i>Data may take a couple seconds to populate</i>
+            <i>Data may take a few seconds to fully populate</i>
           </small>
         </p>
       </div>
