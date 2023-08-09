@@ -202,6 +202,7 @@ function getNewFormatValidArticles(props) {
 
 function getOldFormatArticles(props) {
   const oldBasicDataArray = getOldArticleBasicDataArray(props);
+  console.log(0, oldBasicDataArray);
   return oldBasicDataArray.map(getArticle);
 }
 
