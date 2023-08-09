@@ -91,9 +91,21 @@ const Grid = styled.div`
   margin: 0 auto;
 `;
 
-const Title = styled.h4`
-text-align: center;
-padding: 1rem 0;
+const Title = styled.h6`
+  text-align: center;
+  padding: 1rem 0;
+  font-weight: 700;
+`;
+
+const Inst = styled.div`
+  h5{
+    text-align: center;
+    font-weight: 700;
+  }
+  padding: 1rem;
+  pre{
+    display:inline;
+  }
 `;
 
 const loader = (
@@ -114,6 +126,29 @@ return (
     hasMore={state.hasMore}
     loader={loader}
   >
+    <Inst>
+      <h5>How to Send a Post to the Author as an NFT on the NEAR Blockchain</h5>
+      <ol>
+        <li>
+          Find a post with an image that you want to send to the author as an
+          NFT.
+        </li>
+        <li>
+          {" "}
+          Click the three dots<pre>(...)</pre> in the top right corner of the
+          post.
+        </li>
+        <li>
+          Click on <pre>"Send this Post to the Author as a NEAR NFT"</pre>.
+        </li>
+        <li>
+          A pop-up window will appear asking you to confirm your selection.
+        </li>
+        <li>
+          Click <pre>"Confirm"</pre> to send the post to the author as an NFT.
+        </li>
+      </ol>
+    </Inst>
     <Title>NFT Count: {state?.tokens.length}</Title>
     <Grid>
       {state.tokens?.map((it) => {
