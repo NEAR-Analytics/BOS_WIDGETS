@@ -100,7 +100,7 @@ initState({
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "",
-  token: props.token ?? "USDT",
+  token: props.token ?? "NEAR",
   supervisor: props.supervisor ?? "neardevgov.near",
   githubLink: props.githubLink ?? "",
   warning: "",
@@ -415,12 +415,13 @@ const fundraisingDiv = (
       <select
         onChange={(event) => State.update({ token: event.target.value })}
         class="form-select"
-        aria-label="Default select"
+        aria-label="Default select example"
       >
-        <option selected value="USDT">
-          USDT
+        <option selected value="NEAR">
+          NEAR
         </option>
-        <option value="NEAR">NEAR</option>
+        <option value="USDC">USDC</option>
+        <option value="USD">USD</option>
       </select>
     </div>
     <div className="col-lg-6 mb-2">
