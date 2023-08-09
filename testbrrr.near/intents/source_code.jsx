@@ -104,6 +104,7 @@ State.init({
   prompt: null,
   response: "",
   widget: null,
+  locked: false,
 });
 
 const resendPrompt = (error) => {
@@ -128,6 +129,9 @@ const resendPrompt = (error) => {
 };
 
 const sendPrompt = () => {
+  if (!state.locked) {
+    State.update({ locked: true });
+  }
   const res = fetch(
     `https://cmvfgq7owf7agld24uu4azhr5m0plyil.lambda-url.us-east-1.on.aws/`,
     {
@@ -157,9 +161,9 @@ const sendPrompt = () => {
         }}
       />
     );
-    State.update({ response: parsed.text, widget: widget });
+    State.update({ response: parsed.text, widget: widget, locked: false });
   } else {
-    State.update({ response: inference });
+    State.update({ response: inference, locked: false });
   }
 };
 
