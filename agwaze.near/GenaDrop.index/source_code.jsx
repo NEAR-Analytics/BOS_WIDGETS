@@ -1,5 +1,5 @@
 const ownerId = "agwaze.near";
-const availableTabs = ["create", "list", "nearNFTs", "evmNFTs, socials"];
+const availableTabs = ["create", "list", "nearNFTs", "evmNFTs, ai, socials"];
 
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
@@ -80,6 +80,7 @@ const tabContentWidget = {
   nearNFTs: "jgodwill.near/widget/GenaDrop.Explore",
   evmNFTs: "0xprometheus.near/widget/Eth-Explore",
   socials: "genadrop.near/widget/GenaDrop.Home",
+  ai: "0xprometheus.near/widget/Genadrop-Ai-Minter",
 }[state.tab];
 
 const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
