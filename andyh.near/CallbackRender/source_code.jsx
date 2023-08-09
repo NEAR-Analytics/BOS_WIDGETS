@@ -13,6 +13,7 @@ const renderComponent = (msg, cb) => {
 State.init({ apps: [] });
 console.log("[NSCOMP:CallbackRender]");
 console.log({ state: Object.fromEntries(Object.entries(state)) });
+const overlaid = <h2>overlaid!!</h2>;
 return (
   <div>
     {/*renderComponent("i am da parent")*/}
@@ -23,9 +24,7 @@ return (
         renderComponent,
       }}
     />
-    <OverlayTrigger>
-      <h2>Overlaid!</h2>
-    </OverlayTrigger>
+    <OverlayTrigger>{overlaid}</OverlayTrigger>
     {/*
     <Widget
       src="andyh.near/widget/ComponentSearch"
