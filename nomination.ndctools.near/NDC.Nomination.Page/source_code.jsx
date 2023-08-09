@@ -77,7 +77,10 @@ function getVerifiedHuman() {
   });
 
   asyncFetch(endpoints.candidateComments, httpRequestOpt).then((res) => {
-    if (res.body.length > 0) selfNomination = true;
+    console.log(res.body);
+    if (res.body.length > 0) {
+      selfNomination = true;
+    }
   });
 
   State.update({
@@ -149,7 +152,6 @@ if (state.start) {
 }
 
 const handleSelect = (item) => {
-  console.log("id", item.id);
   switch (item.id) {
     case 1:
       getNominationInfo("HouseOfMerit");
