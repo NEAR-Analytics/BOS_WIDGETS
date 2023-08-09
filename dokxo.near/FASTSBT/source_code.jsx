@@ -464,7 +464,7 @@ return (
               <div style={{ "font-size": "10px" }}>
                 <textarea
                   class="FormInput"
-                  style={{ height: "140px" }}
+                  style={{ height: "140px", padding: "5px 10px" }}
                   disabled
                   value={state.JsonBody}
                   placeholder="the json preview goes here"
