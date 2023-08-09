@@ -455,9 +455,9 @@ return (
             <div class=" bg-white rounded  mx-auto">
               <div className="d-flex flex-column mt-2">
                 {state.ischeckselected ? (
-                  <div style={{ margin: "0 20px" }}>
+                  <div>
                     <div class="row  col-sm-12      gap-1   ">
-                      <div class="">
+                      <div style={{ margin: "0 20px" }}>
                         <div class="MetaTitles">{"Reference Preview."}</div>
                         <div style={{ "font-size": "10px" }}>
                           <textarea
