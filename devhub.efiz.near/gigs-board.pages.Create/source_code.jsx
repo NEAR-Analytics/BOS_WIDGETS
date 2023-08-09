@@ -334,19 +334,10 @@ const nameDiv = (
 const descriptionDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-6 fw-bold mb-1">Description</p>
-    <textarea
-      value={state.description}
-      type="text"
-      rows={6}
-      className="form-control"
-      onInput={(event) => textareaInputHandler(event.target.value)}
-      onKeyUp={(event) => {
-        if (event.key === "Escape") {
-          State.update({ showAccountAutocomplete: false });
-        }
-      }}
-      onChange={(event) => State.update({ description: event.target.value })}
-    />
+    {widget("components.molecule.markdown-editor", {
+      content: state.description,
+      onChange: (content) => textareaInputHandler(content),
+    })}
     {autocompleteEnabled && state.showAccountAutocomplete && (
       <AutoComplete>
         <Widget
