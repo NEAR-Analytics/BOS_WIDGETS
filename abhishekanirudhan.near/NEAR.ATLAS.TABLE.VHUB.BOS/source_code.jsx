@@ -91,7 +91,7 @@ const COLUMNS = [
         Widgets - Past 30 Days
       </p>
     ),
-    renderCell: (item) => formatText(item["Widgets - Past 30d"]),
+    renderCell: (item) => formatNumber(item["Widgets - Past 30d"]),
     sort: { sortKey: "Widgets - Past 30d" },
   },
   {
