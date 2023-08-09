@@ -452,7 +452,7 @@ return (
       <div class="d-flex row col-sm-12 p-4 ">
         {state.Referencelink_valid && (
           <CardPreview class="CardPreview" name="cardPreview">
-            <div class=" BodyForm mx-auto">
+            <div class=" BodyForm mx-auto" style={{ padding: "0px" }}>
               <div className="d-flex flex-column mt-2">
                 {state.ischeckselected ? (
                   <div class="MetaCard">
