@@ -20,10 +20,8 @@ return (
               children: (
                 <div className="text-truncate">
                   <span className="fw-bold">{name}</span>
-                  <span className="text-truncate text-muted">
-                    <small>
-                      <span className="font-monospace">@{accountId}</span>
-                    </small>
+                  <span className="text-muted font-monospace">
+                    @{accountId}
                   </span>
                 </div>
               ),
