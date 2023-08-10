@@ -1,6 +1,5 @@
 const DiscoverPage = styled.div`
     width: 100%;
-    
 `;
 
 const HightLightText = styled.h1`
@@ -10,7 +9,7 @@ const HightLightText = styled.h1`
 `;
 
 return (
-  <div className="w-100 container-fluid text text-light">
+  <div className="w-100 container-fluid text text-light bg-black">
     <div className="d-flex flex-row row">
       <div className="col-lg-5">
         <img
