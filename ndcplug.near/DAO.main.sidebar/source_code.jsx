@@ -5,6 +5,7 @@ State.init({
 });
 
 const accountId = props.daoId ?? props.accountId ?? "refi.sputnik-dao.near";
+const showLinks = props.showLinks ?? true;
 
 const daoId = accountId;
 const profile =
@@ -76,7 +77,9 @@ const actions = {
 // -- Get all the roles from the DAO policy
 let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
-
+const policy = Near.view(daoId, "get_policy");
+// const accountId = props.accountId ?? context.accountId;
+const daoBond = policy.proposal_bond;
 const isUserAllowedTo = (user, kind, action) => {
   // -- Filter the user roles
   const userRoles = [];
@@ -507,43 +510,45 @@ return (
 
     {profile.linktree && (
       <Section>
-        <SocialLinks>
-          {profile.linktree.website && (
-            <TextLink
-              href={`https://${profile.linktree.website}`}
-              target="_blank"
-            >
-              <i className="bi bi-globe"></i> {profile.linktree.website}
-            </TextLink>
-          )}
+        {showLinks && (
+          <SocialLinks>
+            {profile.linktree.website && (
+              <TextLink
+                href={`https://${profile.linktree.website}`}
+                target="_blank"
+              >
+                <i className="bi bi-globe"></i> {profile.linktree.website}
+              </TextLink>
+            )}
 
-          {profile.linktree.github && (
-            <TextLink
-              href={`https://github.com/${profile.linktree.github}`}
-              target="_blank"
-            >
-              <i className="bi bi-github"></i> {profile.linktree.github}
-            </TextLink>
-          )}
+            {profile.linktree.github && (
+              <TextLink
+                href={`https://github.com/${profile.linktree.github}`}
+                target="_blank"
+              >
+                <i className="bi bi-github"></i> {profile.linktree.github}
+              </TextLink>
+            )}
 
-          {profile.linktree.twitter && (
-            <TextLink
-              href={`https://twitter.com/${profile.linktree.twitter}`}
-              target="_blank"
-            >
-              <i className="bi bi-twitter"></i> {profile.linktree.twitter}
-            </TextLink>
-          )}
+            {profile.linktree.twitter && (
+              <TextLink
+                href={`https://twitter.com/${profile.linktree.twitter}`}
+                target="_blank"
+              >
+                <i className="bi bi-twitter"></i> {profile.linktree.twitter}
+              </TextLink>
+            )}
 
-          {profile.linktree.telegram && (
-            <TextLink
-              href={`https://t.me/${profile.linktree.telegram}`}
-              target="_blank"
-            >
-              <i className="bi bi-telegram"></i> {profile.linktree.telegram}
-            </TextLink>
-          )}
-        </SocialLinks>
+            {profile.linktree.telegram && (
+              <TextLink
+                href={`https://t.me/${profile.linktree.telegram}`}
+                target="_blank"
+              >
+                <i className="bi bi-telegram"></i> {profile.linktree.telegram}
+              </TextLink>
+            )}
+          </SocialLinks>
+        )}
 
         <Wrapper1>
           <a href="#/ndcplug.near/widget/AllDAOs" target="_blank">
