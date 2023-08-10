@@ -1,5 +1,5 @@
 const initialState = {
-  selectedMetric: "MAU",
+  selectedMetric: props.selectedMetric || "MAU",
   processedData: processedData,
   metric_period: "Monthly",
   project_name: props.project_name || "social.near",
@@ -25,7 +25,6 @@ const generateIframeCode = (stateJSON) => `
 
 const initialState = JSON.parse('${stateJSON}');
 
-console.log(initialState);
 
 
 
@@ -132,7 +131,6 @@ let data = await response.json();
 const filteredData = filterByProjectName(data, initialState.project_name) || [];
 const filteredSortedData = sortByActivityDate(filteredData) || [];
 
-console.log(filteredSortedData)
 
 const months = [
   "January",
