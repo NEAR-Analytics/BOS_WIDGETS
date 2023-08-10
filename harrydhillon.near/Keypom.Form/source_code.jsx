@@ -107,6 +107,7 @@ const formContent = () => {
             Customize your the artwork that appears in the header of the event
             page.
           </p>
+          <Widget src="harrydhillon.near/widget/Keypom.Imageupload" />
         </div>
         <div style={{ padding: 10 }}>
           <Widget src="harrydhillon.near/widget/Keypom.Eventview" />
