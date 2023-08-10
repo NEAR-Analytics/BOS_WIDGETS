@@ -129,6 +129,9 @@ function getArticleBlackListByRealArticleId() {
     "blaze.near-1690803928696",
     "blaze.near-1690803872147",
     "blaze.near-1690574978421",
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691703303485",
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702619510",
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702487944",
   ];
 }
 
