@@ -73,10 +73,11 @@ const Button = styled.a`
     border:0;
     color:#fff!important;
     background-color:#000;
-    border-radius:5px;
     transition: all .2s;
-    font-weight:bold;
     font-size:.9rem;
+    border-radius:5px;
+    box-shadow: 0 0 0 2px #000;
+    border:1px solid #fff;
     
     &:hover {
         transition: all .2s;
