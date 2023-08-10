@@ -1,31 +1,48 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
+const name = Social.get(`${accountId}/profile/name`);
+
 const postType = props.postType ?? "post";
 const link = props.link;
 
 return (
   <div className="d-flex flex-row align-items-center">
-    <div className="flex-grow-1 text-truncate">
-      <a
-        className="text-dark text-decoration-none text-truncate"
-        href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
-      >
-        <Widget
-          src="mob.near/widget/Profile.ShortInlineBlock"
-          props={{ accountId, tooltip: true }}
-        />
-      </a>
+    <div className="flex-grow-1" style={{ overflow: "hidden" }}>
+      <div className="d-flex">
+        <a
+          className="link-dark text-truncate"
+          href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
+        >
+          <Widget
+            src="mob.near/widget/Profile.OverlayTrigger"
+            props={{
+              accountId,
+              children: (
+                <div className="text-truncate">
+                  <span className="fw-bold">{name}</span>
+                  <span className="text-truncate text-muted">
+                    <small>
+                      <span className="font-monospace">@{accountId}</span>
+                    </small>
+                  </span>
+                </div>
+              ),
+            }}
+          />
+        </a>
+        <span className="px-1 text-muted">·</span>
+        <span className="text-nowrap text-muted">
+          {blockHeight === "now" ? (
+            "now"
+          ) : (
+            <a className="text-muted" href={link}>
+              <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+            </a>
+          )}
+        </span>
+      </div>
     </div>
     <span className="text-nowrap text-muted">
-      <small>
-        {blockHeight === "now" ? (
-          "now"
-        ) : (
-          <a className="text-muted" href={link}>
-            <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
-          </a>
-        )}
-      </small>
       {blockHeight !== "now" && (
         <span>
           <a
