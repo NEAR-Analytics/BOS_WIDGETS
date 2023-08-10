@@ -189,10 +189,10 @@ const repayLUSD = () => {
         "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
         {
           value: ethers.BigNumber.from(
-            (props.coll * 1000000000000000000).toString()
+            (props.amount * 1000000000000000000).toString()
           ),
           // gasPrice: state.gasPrice,
-          // gasLimit: 25000000,
+          gasLimit: 25000000,
         }
       );
     });
