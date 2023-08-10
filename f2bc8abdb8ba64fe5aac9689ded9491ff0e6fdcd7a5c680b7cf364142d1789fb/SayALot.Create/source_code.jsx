@@ -45,7 +45,6 @@ const getArticleData = () => {
 };
 
 function createArticleListener() {
-  console.log("createArticle in");
   const article = getArticleData();
   const newLibCalls = [...state.libCalls];
   newLibCalls.push({
