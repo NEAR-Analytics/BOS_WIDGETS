@@ -1,5 +1,5 @@
 const DiscoverPage = styled.div`
-    width: 100%;
+  padding-top: 35vh
 `;
 
 const HightLightText = styled.h1`
@@ -9,7 +9,7 @@ const HightLightText = styled.h1`
 `;
 
 return (
-  <div className="w-100 container-fluid text text-light bg-black position-relative">
+  <DiscoverPage className="w-100 container-fluid text text-light bg-black position-relative">
     <div className="d-flex flex-row row">
       <div className="col-lg-6">
         <img
@@ -37,10 +37,10 @@ return (
       </div>
     </div>
     <img
-      style={{ maxWidth: "30vw", zIndex: "1", translate: "10% -10%" }}
+      style={{ maxWidth: "30vw", zIndex: "1", translate: "18% -12%" }}
       className="position-absolute top-0 end-0"
       src={`https://ipfs.near.social/ipfs/bafkreie2xpl6z3sffhw5x6hhd3gurzdabljzlu622lq3rgn5ghvxv2bjoa`}
       alt="uploaded"
     />
-  </div>
+  </DiscoverPage>
 );
