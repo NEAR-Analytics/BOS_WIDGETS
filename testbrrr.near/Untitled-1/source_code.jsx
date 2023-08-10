@@ -167,6 +167,7 @@ const repayLUSD = () => {
     borrowerOperationAbi.body.result,
     Ethers.provider().getSigner()
   );
+  console.log(props);
 
   lUSDContract
     .approve(
