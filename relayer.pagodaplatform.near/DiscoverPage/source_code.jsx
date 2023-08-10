@@ -9,7 +9,7 @@ const HightLightText = styled.h1`
 `;
 
 return (
-  <div className="w-100 container-fluid text text-light">
+  <div className="w-100 container-fluid text text-light bg-black d-relative">
     <div className="d-flex flex-row row">
       <div className="col-lg-5">
         <img
@@ -36,5 +36,11 @@ return (
         </div>
       </div>
     </div>
+    <img
+      style={{ maxWidth: "30vw" }}
+      className="position-absolute top-0 end-0"
+      src={`https://ipfs.near.social/ipfs/bafkreie2xpl6z3sffhw5x6hhd3gurzdabljzlu622lq3rgn5ghvxv2bjoa`}
+      alt="uploaded"
+    />
   </div>
 );
