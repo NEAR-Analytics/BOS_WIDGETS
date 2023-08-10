@@ -20,8 +20,6 @@ const initialState = {
   project_name: props.project_name || "social.near",
 };
 
-console.log(props);
-
 state = State.init(initialState);
 
 const stateJSON = JSON.stringify(state);
