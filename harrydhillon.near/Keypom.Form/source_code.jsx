@@ -68,7 +68,7 @@ const formContent = () => {
           <Widget
             src="harrydhillon.near/widget/Keypom.Input"
             props={{
-              label: "Event Name*",
+              label: "Event name*",
               inputProps: {
                 placeholder: "Add the name of your event",
               },
@@ -87,7 +87,7 @@ const formContent = () => {
           <Widget
             src="harrydhillon.near/widget/Keypom.Input"
             props={{
-              label: "Event Location",
+              label: "Event location",
               inputProps: {
                 placeholder: "Add a location or address to your event",
               },
@@ -102,10 +102,9 @@ const formContent = () => {
               },
             }}
           />
-          <Label>Event Artwork</Label>
+          <Label>Event artwork</Label>
           <p style={{ fontSize: 12, color: "gray" }}>
-            Customize your the artwork that appears in the header of the event
-            page.
+            Customize the artwork that appears in the header of the event page.
           </p>
           <Widget src="harrydhillon.near/widget/Keypom.Imageupload" />
         </div>
