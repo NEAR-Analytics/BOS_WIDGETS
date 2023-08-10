@@ -438,6 +438,45 @@ return (
             </p>
           </div>
         </ScoreBoard>
+        <ScoreBoard href="https://twitter.com/VibesProof" target="_blank">
+          <div>
+            <h1>
+              <Logo
+                src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg"
+                style={{
+                  maxWidth: "30px",
+                }}
+              />{" "}
+              We Tweet Vibes Too
+            </h1>
+            <div></div>
+            <p>
+              Lol web2 vibes, but we automate on chain so its chill. Get the
+              best of both vibes.
+            </p>
+          </div>
+        </ScoreBoard>
+        <ScoreBoard
+          href="https://ProofofVibes.com/apple-playlist"
+          target="_blank"
+        >
+          <div>
+            <h1>
+              <Logo
+                src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Apple_Music_icon.svg"
+                style={{
+                  maxWidth: "30px",
+                }}
+              />{" "}
+              Listen to the Vibes
+            </h1>
+            <div></div>
+            <p>
+              Our community also curates vibes you can listen too of course.
+              Remember to hop on our telegram for dat curation governance
+            </p>
+          </div>
+        </ScoreBoard>
       </SidebarWrapper>
 
       <Content>
