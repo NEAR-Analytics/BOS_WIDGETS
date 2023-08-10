@@ -299,72 +299,54 @@ return (
           Events
         </TabsButton>
       </Tabs>
-      {state.selectedTab === "overview" && (
+
+      {state.selectedTab === "discussion" && (
+        <>
+          <Widget src="efiz.near/widget/Chat" props={{ daoId }} />
+        </>
+      )}
+
+      {state.selectedTab === "proposals" && (
+        <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
+      )}
+
+      {state.selectedTab === "proposal" && (
         <Widget
-          src="near/widget/FollowersList"
-          props={{
-            accountId:
-              "819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a",
-          }}
+          src="sking.near/widget/DAO.Proposal"
+          props={{ daoId, ...props }}
         />
       )}
 
-      {state.selectedTab === "nfts" && (
-        <Widget src="near/widget/NFTCollection" props={{ accountId }} />
+      {state.selectedTab === "members" && (
+        <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
       )}
-      {state.selectedTab === "apps" && (
+
+      {state.selectedTab === "projects" && (
         <Widget
-          src="sking.near/widget/DAO.Bounties"
-          props={{
-            accountId:
-              "819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a",
-          }}
+          src="nearhorizon.near/widget/Project.ListPage"
+          props={{ daoId }}
         />
       )}
+
       {state.selectedTab === "followers" && (
-        <Widget src="near/widget/FollowersList" props={{ accountId }} />
+        <Widget src="near/widget/FollowersList" props={{ accountId: daoId }} />
       )}
-      {state.selectedTab === "following" && (
-        <Widget src="near/widget/FollowingList" props={{ accountId }} />
+
+      {state.selectedTab === "bounties" && (
+        <Widget src="sking.near/widget/DAO.Bounties" props={{ daoId }} />
       )}
-      {state.selectedTab === "explorer" && (
+
+      {state.selectedTab === "events" && (
+        <Widget src="evrything.near/widget/Calendar" props={{ daoId }} />
+      )}
+
+      {state.selectedTab === "bounty" && (
         <Widget
-          src="near/widget/Explorer.Account"
-          props={{
-            accountId,
-            network: context.networkId,
-            language: "en",
-            baseUrl: props.baseUrl,
-          }}
+          src="sking.near/widget/DAO.Bounty"
+          props={{ daoId, ...props }}
         />
       )}
     </Content>
-    {isNftHolder && (
-      <>
-        <div className="d-flex justify-content-between flex-wrap mb-3 align-items-center gap-3 pb-3">
-          <h3 className="my-auto">Gigs</h3>
-          <Widget
-            src="sking.near/widget/Common.Button"
-            props={{
-              children: (
-                <>
-                  <i className="bi bi-16 bi-plus-lg"></i>
-                  Propose Gig
-                </>
-              ),
-              onClick: () =>
-                State.update({ ...state, showCreateProposal: true }),
-              variant: "success",
-            }}
-          />
-        </div>
-
-        <Widget
-          src="sking.near/widget/DAO.Bounty.Claim"
-          props={{ daoId: daoId, accountId: accountId }}
-        />
-      </>
-    )}
 
     <br />
 
