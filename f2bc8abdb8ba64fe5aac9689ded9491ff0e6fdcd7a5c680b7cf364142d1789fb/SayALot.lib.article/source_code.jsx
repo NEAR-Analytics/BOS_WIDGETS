@@ -95,6 +95,7 @@ function composeData(article) {
 }
 
 const saveHandler = (article) => {
+  console.log(article);
   if (article.articleId && article.articleBody) {
     const newData = composeData(article);
     console.log("set");
