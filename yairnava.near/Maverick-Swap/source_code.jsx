@@ -112,10 +112,10 @@ const POOLS = [
   { name: "ETH-GOVI", address: "" },
   { name: "ETH-1INCH", address: "" },
   { name: "ETH-PEPE", address: "" },
-  { name: "USDC-MUTE", address: "" },
+  { name: "USDC-MUTE", address: "0xF4bc5bf7cc54a48b6c0ABFafa2836376e10eccE9" },
   { name: "USDC-COMBO", address: "" },
   { name: "USDC-PERP", address: "" },
-  { name: "USDC-LUSD", address: "" },
+  { name: "USDC-LUSD", address: "0x6A9143A5f9BaF73841992DCB737844e5ad16A283" },
   { name: "USDC-DVF", address: "" },
   { name: "USDC-WOO", address: "" },
   { name: "USDC-DERI", address: "" },
@@ -181,6 +181,7 @@ const POOLS = [
 ];
 
 State.init({
+  poolSelected: null,
   tokenSendSelected: null,
   tokenRecieveSelected: null,
   amountInput: null,
@@ -390,6 +391,7 @@ const existPool = () => {
   const pool = POOLS.find((p) => p.name === poolName1 || p.name === poolName2);
 
   if (pool && pool.address != "") {
+    State.update({ poolSelected: pool.address });
     return true;
   } else {
     return false;
@@ -425,13 +427,14 @@ const confirmTransaction = () => {
   let paramsv2 = {
     tokenIn: state.tokenSendSelected.address,
     tokenOut: state.tokenRecieveSelected.address,
-    pool: "0x41c8cf74c27554a8972d3bf3d2bd4a14d8b604ab",
+    pool: state.poolSelected,
     recipient: state.sender,
     deadline: 1e13,
     amountIn: amountIn,
     amountOutMinimum: 0,
     sqrtPriceLimitD18: 0,
   };
+  console.log(paramsv2);
   const overrides = {
     value: amountIn,
     gasLimit: 2303039,
