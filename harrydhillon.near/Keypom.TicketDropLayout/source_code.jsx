@@ -1,5 +1,4 @@
 const TicketDropBackground = styled.div`
-width:100vw;
 background: lightgray;
 min-height:100vh;
 background: rgb(220,244,251);
@@ -8,7 +7,7 @@ background: linear-gradient(0deg, rgba(220,244,251,1) 0%, rgba(251,254,255,1) 95
 
 const ContentDiv = styled.div`
     padding:10px;
-    max-width: 1300px;
+    max-width: 1200px;
 `;
 
 const Heading = styled.div`
