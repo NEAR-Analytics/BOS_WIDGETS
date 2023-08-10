@@ -238,6 +238,7 @@ const CardImage = styled.img`
     height: auto;
     aspect-ratio: 16 / 9;
     border-radius: 8px 8px 0 0;
+    object-fit: cover;
 `;
 
 const CardFooter = styled.div`
