@@ -1,8 +1,44 @@
 const provider = Ethers.provider();
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
+const tokens = [
+  // eth testnet assets
+  {
+    address: "0x0000000000000000000000000000000000000000",
+    chainId: 5,
+    symbol: "ETH",
+    decimals: 18,
+    logoURI: "https://assets.coingecko.com/coins/images/279/small/ethereum.png",
+  },
+  {
+    address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F",
+    chainId: 5,
+    symbol: "USDC",
+    decimals: 6,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png",
+  },
+  // eth mainnet assets
+  {
+    address: "0x0000000000000000000000000000000000000000",
+    chainId: 1,
+    symbol: "ETH",
+    decimals: 18,
+    logoURI: "https://assets.coingecko.com/coins/images/279/small/ethereum.png",
+  },
+  {
+    address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    chainId: 1,
+    symbol: "USDC",
+    decimals: 6,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png",
+  },
+];
+
 State.init({
-  deposits: [],
+  ethdeposits: [],
+  ercdeposits: [],
   withdrawls: [],
 });
 
@@ -25,6 +61,39 @@ const OP_BRIDGE_DEPOSIT_CONTRACT = isTestnet
   : "0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1";
 
 const bridgeAbi = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_l1Token",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_l2Token",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint32",
+        name: "_minGasLimit",
+        type: "uint32",
+      },
+      {
+        internalType: "bytes",
+        name: "_extraData",
+        type: "bytes",
+      },
+    ],
+    name: "depositERC20",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
   {
     anonymous: false,
     inputs: [
@@ -56,18 +125,60 @@ const bridgeAbi = [
     name: "ETHDepositInitiated",
     type: "event",
   },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "l1Token",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "l2Token",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "extraData",
+        type: "bytes",
+      },
+    ],
+    name: "ERC20DepositInitiated",
+    type: "event",
+  },
 ];
 
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
+const bridgeContract = new ethers.Contract(
+  OP_BRIDGE_DEPOSIT_CONTRACT,
+  bridgeAbi,
+  Ethers.provider().getSigner()
+);
 
-function getDeposits() {
-  // console.log("getDeposits");
-  const bridgeContract = new ethers.Contract(
-    OP_BRIDGE_DEPOSIT_CONTRACT,
-    bridgeAbi,
-    Ethers.provider().getSigner()
-  );
-
+function getETHDeposits() {
+  // console.log("getETHDeposits");
   const deposits = new Map();
   let completedOperations = 0;
   let totalOperations = 0;
@@ -75,7 +186,12 @@ function getDeposits() {
   function checkAllOperationsComplete() {
     if (completedOperations === totalOperations) {
       console.log("done");
-      State.update({ deposits: [...deposits] });
+      State.update({
+        ethdeposits: [...deposits].map(([transactionHash, data]) => ({
+          ...data,
+          transactionHash,
+        })),
+      });
     }
   }
 
@@ -87,7 +203,7 @@ function getDeposits() {
 
       events.forEach((ev) => {
         const { blockNumber, transactionHash } = ev;
-        deposits.set(transactionHash, { blockNumber });
+        deposits.set(transactionHash, { blockNumber, symbol: "ETH" });
 
         ev.getTransaction().then((tx) => {
           const { value, hash } = tx;
@@ -112,7 +228,7 @@ function getDeposits() {
           checkAllOperationsComplete();
         });
         ev.getBlock().then((block) => {
-          //   console.log(transactionHash, "block", block);
+          // console.log(transactionHash, "block", block);
           const { timestamp } = block;
           deposits.set(transactionHash, {
             ...deposits.get(transactionHash),
@@ -125,28 +241,107 @@ function getDeposits() {
     });
 }
 
-getDeposits();
+function getERC20Deposits() {
+  console.log("getERC20Deposits");
+  const deposits = new Map();
+  let completedOperations = 0;
+  let totalOperations = 0;
 
-function renderDeposit([key, value]) {
-  //   console.log("key", key, value);
-  const { timestamp, amount } = value;
+  function checkAllOperationsComplete() {
+    if (completedOperations === totalOperations) {
+      console.log("done");
+      State.update({
+        ercdeposits: [...deposits].map(([transactionHash, data]) => ({
+          ...data,
+          transactionHash,
+        })),
+      });
+    }
+  }
+
+  bridgeContract
+    .queryFilter(bridgeContract.filters.ERC20DepositInitiated(_, _, sender))
+    .then((events) => {
+      // console.log(events);
+      totalOperations = events.length * 3; // Three async operations for each event
+
+      events.forEach((ev) => {
+        const { blockNumber, transactionHash } = ev;
+        deposits.set(transactionHash, { blockNumber });
+
+        ev.getTransaction().then((tx) => {
+          // console.log("tx", tx);
+          const { hash, data } = tx;
+          const decodedData = bridgeIface.parseTransaction({ data });
+          const [l1Token, l2Token, value] = decodedData.args;
+          const token = tokens.find((t) => t.address === l1Token);
+          const amount = ethers.utils.formatUnits(value, token?.decimals || 6);
+          deposits.set(hash, {
+            ...deposits.get(hash),
+            amount,
+            symbol: token?.symbol || "???",
+          });
+          completedOperations++;
+          checkAllOperationsComplete();
+        });
+        ev.getTransactionReceipt().then((tx) => {
+          // console.log("txr", tx);
+          const { status, type, transactionHash } = tx;
+          deposits.set(transactionHash, {
+            ...deposits.get(transactionHash),
+            status,
+            type,
+          });
+          completedOperations++;
+          checkAllOperationsComplete();
+        });
+        ev.getBlock().then((block) => {
+          // console.log(transactionHash, "block", block);
+          const { timestamp } = block;
+          deposits.set(transactionHash, {
+            ...deposits.get(transactionHash),
+            timestamp,
+          });
+          completedOperations++;
+          checkAllOperationsComplete();
+        });
+      });
+    });
+}
+
+getETHDeposits();
+getERC20Deposits();
+
+function renderDeposit(deposit) {
+  console.log("deposit", deposit);
+  const { timestamp, amount, transactionHash, symbol, status } = deposit;
   const date = new Date(timestamp * 1000);
-  const href = `https://${isTestnet ? "goerli." : ""}etherscan.io/tx/${key}`;
-  const hash = `${key.substr(0, 6)}...${key.substr(-4)}`;
+  const href = `https://${
+    isTestnet ? "goerli." : ""
+  }etherscan.io/tx/${transactionHash}`;
+  const hash = `${transactionHash.substr(0, 6)}...${transactionHash.substr(
+    -4
+  )}`;
   return (
     <tr>
       <td>{date.toUTCString()}</td>
-      <td>{amount}</td>
+      <td>
+        {amount} {symbol}
+      </td>
       <td>
         <a href={href} target="_blank">
           {hash}
         </a>
       </td>
+      <td>{status}</td>
     </tr>
   );
 }
 
-console.log(state.deposits);
+const { ethdeposits, ercdeposits } = state;
+const deposits = [...ethdeposits, ...ercdeposits].sort(
+  (a, b) => b.timestamp - a.timestamp
+);
 
 return (
   <div>
@@ -157,9 +352,10 @@ return (
           <th>Time</th>
           <th>Amount</th>
           <th>Transaction</th>
+          <th>Status</th>
         </tr>
       </thead>
-      <tbody>{[...state.deposits].reverse().map(renderDeposit)}</tbody>
+      <tbody>{deposits.map(renderDeposit)}</tbody>
     </table>
   </div>
 );
