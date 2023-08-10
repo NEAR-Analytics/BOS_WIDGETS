@@ -301,7 +301,6 @@ function libCall(call) {
   } else if (call.functionName === "canUserEditArticle") {
     return canUserEditArticle(call.props);
   } else if (call.functionName === "getLastEditArticles") {
-    console.log("in");
     return getLastEditArticles(call.props);
   }
 }
