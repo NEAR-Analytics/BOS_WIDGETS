@@ -20,7 +20,51 @@ State.init({
   stNearBalance: null,
   stNearBalanceIsFetched: false,
   dataIntervalStarted: false,
+  token: "near", // "near" | "wnear"
+  action: "stake", // "
 });
+
+const nativeBalance = props.nativeBalance;
+const nativeToken = props.nativeToken;
+const stakeBalance = props.stakeBalance;
+const stakeToken = props.stakeToken;
+const nativeTokenUsd = props.nativeTokenUsd;
+const apy = props.apy;
+const inputPlaceholder = props.inputPlaceholder;
+
+// parametrize props
+const allProps = {
+  stake: {
+    tokenInputBalance: state.nearBalance,
+    tokenInput: "NEAR",
+    tokenOutputBalance: state.stNearBalance,
+    tokenOutput: "stNEAR",
+    tokenInputUsd: state.nearUsdPrice,
+    apy: state.metrics?.st_near_30_day_apy,
+    inputPlaceholder: "Enter NEAR amount",
+    buttonText: "Stake now",
+  },
+  delayed: {
+    tokenInputBalance: state.stNearBalance,
+    tokenInput: "stNEAR",
+    tokenOutputBalance: state.nearBalance,
+    tokenOutput: "NEAR",
+    tokenInputUsd: state.metrics?.st_near_price_usd,
+    apy: state.metrics?.st_near_30_day_apy,
+    inputPlaceholder: "Enter stNEAR amount",
+    buttonText: "Unstake",
+  },
+  fast: {
+    tokenInputBalance: state.stNearBalance,
+    tokenInput: "stNEAR",
+    tokenOutputBalance: state.nearBalance,
+    tokenOutput: "NEAR",
+    tokenInputUsd: state.metrics?.st_near_price_usd,
+    apy: state.metrics?.st_near_30_day_apy,
+    inputPlaceholder: "Enter stNEAR amount",
+    buttonText: "Unstake",
+  },
+}[state.action];
 
 function isValid(a) {
   if (!a) return false;
@@ -30,28 +74,31 @@ function isValid(a) {
 }
 
 const fetchMetrics = () => {
-  const resp = fetch("https://validators.narwallets.com/metrics_json");
-  if (!resp) return;
-  console.log("@metrics", resp?.body);
-  State.update({ metrics: resp?.body ?? "...", metricsIsFetched: true });
+  asyncFetch("https://validators.narwallets.com/metrics_json").then((resp) => {
+    if (resp) {
+      console.log("@metrics", resp?.body);
+      State.update({ metrics: resp?.body ?? "...", metricsIsFetched: true });
+    }
+  });
 };
 
 const fetchNearPrice = () => {
-  const resp = fetch(
+  asyncFetch(
     "https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd"
-  );
-  const nearUsdPrice = resp?.body?.near.usd;
-  if (nearUsdPrice && !isNaN(nearUsdPrice)) {
-    console.log("@nearPrice", nearUsdPrice);
-    State.update({
-      nearUsdPrice: Number(nearUsdPrice),
-      nearUsdPriceIsFetched: true,
-    });
-  }
+  ).then((resp) => {
+    const nearUsdPrice = resp?.body?.near.usd;
+    if (nearUsdPrice && !isNaN(nearUsdPrice)) {
+      console.log("@nearPrice", nearUsdPrice);
+      State.update({
+        nearUsdPrice: Number(nearUsdPrice),
+        nearUsdPriceIsFetched: true,
+      });
+    }
+  });
 };
 
 function getStNearBalance(subscribe) {
-  const stNearBalanceRaw = Near.view(
+  Near.asyncView(
     contractId,
     "ft_balance_of",
     {
@@ -59,13 +106,14 @@ function getStNearBalance(subscribe) {
     },
     undefined,
     subscribe
-  );
-  if (!stNearBalanceRaw) return "-";
-  const balance = Big(stNearBalanceRaw).div(Big(10).pow(tokenDecimals));
-  console.log("@stNEAR balance", balance.lt(0) ? "0" : balance.toFixed());
-  State.update({
-    stNearBalance: balance.lt(0) ? "0" : balance.toFixed(),
-    stNearBalanceIsFetched: true,
+  ).then((stNearBalanceRaw) => {
+    if (!stNearBalanceRaw) return "-";
+    const balance = Big(stNearBalanceRaw).div(Big(10).pow(tokenDecimals));
+    console.log("@stNEAR balance", balance.lt(0) ? "0" : balance.toFixed());
+    State.update({
+      stNearBalance: balance.lt(0) ? "0" : balance.toFixed(),
+      stNearBalanceIsFetched: true,
+    });
   });
 }
 
@@ -111,6 +159,7 @@ function getNearBalance(onInvalidate) {
     }
   });
 }
+const update = (state) => State.update({ state });
 
 const onSubmit = () => {
   const deposit = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
@@ -188,11 +237,38 @@ const PageContainer = styled.div`
     background:  linear-gradient( rgb(206, 255, 26) 0%, rgb(206, 255, 26) 270px, rgb(247, 249, 251) 270px, rgb(247, 249, 251) 100%);
   `;
 
-const StakeContainer = styled.div`
-    width: 100%;
-    max-width: 600px;
-    align-self: center
+const StakeFormTopContainer = styled.div`
+  margin-top: 0px;
+  display: flex;
+  margin: 10px 0px;
   `;
+
+const StakeFormTopContainerLeft = styled.div`
+margin-right: 8px;
+flex-basis: 50%;
+-webkit-box-flex: 1;
+flex-grow: 1;
+font-size: 12px;
+line-height: 1.6em;
+`;
+
+const StakeFormTopContainerLeftContent1 = styled.div`
+display: flex;
+flex-direction: row;
+-webkit-box-pack: start;
+justify-content: flex-start;
+-webkit-box-align: center;
+align-items: center;
+`;
+
+const StakeFormTopContainerRightContent1Text = styled.div`
+padding: 0px 6px;
+font-weight: 400;
+font-size: 16px;
+background-color: #0002;
+border: solid 4px #000B;
+border-radius: 14px;
+`;
 
 const Header = styled.div`
     font-weight: 800;
@@ -203,152 +279,22 @@ const Header = styled.div`
     text-align: center;
   `;
 
-const StakeForm = styled.div`
-    background: rgb(12, 34, 70);
-    margin-bottom: -20px;
+const SelectionContainer = styled.div`
+    width: 100%;
+    max-width: 600px;
+    align-self: center;
+    background-color: white;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    padding-bottom: 52px;
     font-weight: 400;
     font-size: 12px;
     line-height: 1.6em;
     border-radius: 20px;
-    margin: 0px;
-    padding: 12px 26px 32px 26px;
+    padding: 12px 26px;
     box-shadow: none;
     color: #fff;    
-  `;
-
-const StakeFormTopContainer = styled.div`
-    margin-top: 0px;
-    display: flex;
-    margin: 10px 0px;
-  `;
-
-const StakeFormTopContainerLeft = styled.div`
-    margin-right: 8px;
-    flex-basis: 50%;
-    -webkit-box-flex: 1;
-    flex-grow: 1;
-    font-size: 12px;
-    line-height: 1.6em;
-  `;
-
-const StakeFormTopContainerLeftContent1 = styled.div`
-    display: flex;
-    flex-direction: row;
-    -webkit-box-pack: start;
-    justify-content: flex-start;
-    -webkit-box-align: center;
-    align-items: center;
-  `;
-
-const StakeFormTopContainerLeftContent1Container = styled.div`
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-  `;
-
-const StakeFormTopContainerLeftContent2 = styled.div`
-    margin-top: 2px;
-    font-size: 16px;
-    line-height: 1.4em;
-    font-weight: 800;
-    white-space: nowrap;
-    display: block;
-  `;
-
-const StakeFormTopContainerCenter = styled.div`
-    flex-basis: 50%;
-    -webkit-box-flex: 1;
-    flex-grow: 1;
-    font-size: 12px;
-    line-height: 1.6em;
-  `;
-
-const StakeFormTopContainerCenterContent1 = styled.div`
-    display: flex;
-    flex-direction: row;
-    -webkit-box-pack: start;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-  `;
-
-const StakeFormTopContainerCenterContent1Container = styled.div`
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-  `;
-
-const StakeFormTopContainerCenterContent2 = styled.div`
-    margin-top: 2px;
-    font-size: 16px;
-    line-height: 1.4em;
-    font-weight: 800;
-    white-space: nowrap;
-    text-align: center;
-    display: block;
-  `;
-
-const StakeFormTopContainerRight = styled.div`
-    margin-left: 8px;
-    flex-basis: 50%;
-    -webkit-box-flex: 1;
-    flex-grow: 1;
-    font-size: 12px;
-    line-height: 1.6em;
-  `;
-
-const StakeFormTopContainerRightContent1 = styled.div`
-    display: flex;
-    flex-direction: row;
-    -webkit-box-pack: start;
-    justify-content: flex-end;
-    -webkit-box-align: center;
-    align-items: center;
-  `;
-
-const StakeFormTopContainerRightContent1Container = styled.div`
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-  `;
-
-const StakeFormTopContainerRightContent1Text = styled.div`
-    padding: 0px 6px;
-    font-weight: 400;
-    font-size: 16px;
-    background-color: #0002;
-    border: solid 4px #000B;
-    border-radius: 14px;
-  `;
-
-const StakeFormTopContainerRightContent2 = styled.div`
-    margin-top: 2px;
-    font-size: 16px;
-    line-height: 1.4em;
-    font-weight: 800;
-    white-space: nowrap;
-    text-align: end;
-    display: block;
-  `;
-
-const StakeFormWrapper = styled.div`
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    border-radius: 16px;
-    width: 100%;
-    align-items: center;
-    div {
-      gap: 20px;
-    }
-    padding: 20px 20px 20px 20px;
-    margin-top: -30px;
-    border:1px solid rgb(212, 224, 231)
+    margin-bottom: 1em;
+    padding: 12px 26px 32px 26px;
   `;
 
 const Spacer = styled.div`
@@ -358,6 +304,240 @@ const Spacer = styled.div`
 const ButtonConnectContainer = styled.div`
     ${".buttonClass{ width: 100%;  border-radius: 1000px;  font-size: 20px;  font-weight: bold;  padding: 8px 0;  /* transition: all 0.3s ease-in-out;*/display: inline-flex;  align-items: center;  justify-content: center;  user-select: none;  position: relative;  white-space: nowrap;  vertical-align: middle;  line-height: 1.2;  border-radius: 1000px;  font-weight: 400;  min-height: 48px;  text-align: center;  box-sizing: border-box;  padding: 0 24px;  color: rgb(255, 255, 255);  background: rgb(12, 34, 70);  border: 2px solid transparent;  &:disabled { background: rgb(12, 34, 70);    color: white;    cursor: not-allowed } &:hover { border: 4px solid rgb(12, 34, 70);    color:  rgb(12, 34, 70);    background: transparent;    }}"}
   `;
+
+const SelectToken = styled.div`
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  padding-block-end: 20px;
+  width: 100%;
+`;
+
+const SelectAction = styled.div`
+border-bottom-left-radius: 0px;
+border-bottom-right-radius: 0px;
+border-radius: 20px;
+display: flex;
+flex-direction: column;
+width: 100%;
+`;
+
+const TokensList = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+const TokensItem = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 18px;
+  width: 12em;
+  text-align: left;
+  align-items: center;
+
+  border: 0.8px solid rgb(215, 224, 228);
+  background: rgb(247, 249, 251);
+  opacity: 0.8;
+
+  border-radius: 38px;
+
+  ${({ active }) =>
+    active
+      ? `
+    background: rgb(206, 255, 26);
+  `
+      : `
+    :hover {
+      background: rgb(215, 224, 228);
+    }
+  `}
+
+  
+// add support for disabled 
+  ${({ disabled }) =>
+    disabled
+      ? `
+    background: rgb(215, 224, 228);
+    opacity: 0.5;
+    :hover {
+      background: rgb(215, 224, 228);
+    }
+  `
+      : ``}
+
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const ActionItem = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px 16px;
+  width: 12em;
+  text-align: left;
+  align-items: center;
+  border: 0.8px solid rgb(215, 224, 228);
+  background: rgb(247, 249, 251);
+  opacity: 0.8;
+
+  border-radius: 24px;
+
+  ${({ active }) =>
+    active
+      ? `
+    background: rgb(206, 255, 26);
+  `
+      : `
+    :hover {
+      background: rgb(215, 224, 228);
+    }
+  `}
+
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const Text = styled.p`
+  color:#000000;
+  font-size: 14px;
+  line-height: 20px;
+`;
+
+const renderTokens = (
+  <SelectToken>
+    <Text>Select token</Text>
+    <TokensList>
+      <TokensItem
+        onClick={() => {
+          State.update({ token: "near" });
+        }}
+        active={state.token === "near"}
+      >
+        <div>
+          <div>NEAR</div>
+        </div>
+        <img
+          style={{
+            height: "70%",
+            width: "auto",
+          }}
+          src="https://ipfs.near.social/ipfs/bafkreiftukbt7zacsnbfmhppzgfk7jj4mn5qckd3j7dgto7kutgiqj3vgi"
+          alt="Brand Logo"
+          width={"auto"}
+        />
+      </TokensItem>
+      <TokensItem
+        onClick={() => {
+          State.update({ token: "wnear" });
+        }}
+        active={state.token === "wnear"}
+      >
+        <div>
+          <div>wNEAR</div>
+        </div>
+        <img
+          style={{
+            height: "70%",
+            width: "auto",
+          }}
+          src="https://ipfs.near.social/ipfs/bafkreigbbmef2vo3jcnr2llayeyom7rplcyn7efqcuo2lzclf3mr2nevwy"
+          alt="wnear Logo"
+          width={"auto"}
+        />
+      </TokensItem>
+    </TokensList>
+  </SelectToken>
+);
+
+const renderActions = (
+  <SelectAction>
+    <Text>Select action</Text>
+    <TokensList>
+      <ActionItem
+        onClick={() => {
+          State.update({ action: "stake" });
+        }}
+        active={state.action === "stake"}
+      >
+        <div>Stake</div>
+        <div>
+          <svg
+            focusable="false"
+            preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            width="24"
+            height="24"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+          >
+            <path d="M16,7,6,17l1.41,1.41L15,10.83V28H2v2H15a2,2,0,0,0,2-2V10.83l7.59,7.58L26,17Z"></path>
+            <path d="M6,8V4H26V8h2V4a2,2,0,0,0-2-2H6A2,2,0,0,0,4,4V8Z"></path>
+          </svg>
+        </div>
+      </ActionItem>
+      <ActionItem
+        onClick={() => {
+          State.update({ action: "fast" });
+        }}
+        active={state.action === "fast"}
+      >
+        <div>Fast Unstake</div>
+        <div>
+          <svg
+            focusable="false"
+            preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            width="24"
+            height="24"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+          >
+            <path d="M18,30H4a2,2,0,0,1-2-2V14a2,2,0,0,1,2-2H18a2,2,0,0,1,2,2V28A2,2,0,0,1,18,30ZM4,14V28H18V14Z"></path>
+            <path d="M25,23H23V9H9V7H23a2,2,0,0,1,2,2Z"></path>
+            <path d="M30,16H28V4H16V2H28a2,2,0,0,1,2,2Z"></path>
+          </svg>
+        </div>
+      </ActionItem>
+      <ActionItem
+        disabled={state.token == "wnear"}
+        onClick={() => {
+          State.update({ action: "delayed" });
+        }}
+        active={state.action === "delayed"}
+      >
+        <div>Delayed Unstake</div>
+        <div>
+          <svg
+            focusable="false"
+            preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            width="24"
+            height="24"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+          >
+            <path d="M15 19H17V21H15zM15 23H17V25H15z"></path>
+            <path d="M23,11.67V4h3V2H6V4H9v7.67a2,2,0,0,0,.4,1.2L11.75,16,9.4,19.13a2,2,0,0,0-.4,1.2V28H6v2H26V28H23V20.33a2,2,0,0,0-.4-1.2L20.25,16l2.35-3.13A2,2,0,0,0,23,11.67ZM21,4v7H11V4Zm0,16.33V28H11V20.33L14.25,16,12,13h8l-2.25,3Z"></path>
+          </svg>
+        </div>
+      </ActionItem>
+    </TokensList>
+  </SelectAction>
+);
 if (
   !state.metricsIsFetched ||
   !state.nearUsdPriceIsFetched ||
@@ -426,127 +606,19 @@ return (
         </StakeFormTopContainerRightContent1Text>
       </StakeFormTopContainer>
       <Spacer />
-      <Widget src={`${authorId}/widget/MetaPoolStake.Common.Title`} />
+      <Widget
+        src={`${authorId}/widget/MetaPoolStake.Common.Title`}
+        props={{ title: "Stake" }}
+      />
     </Header>
     <Spacer />
-    <StakeContainer>
-      <StakeForm>
-        {state.sender && (
-          <StakeFormTopContainer>
-            <StakeFormTopContainerLeft>
-              <StakeFormTopContainerLeftContent1>
-                <StakeFormTopContainerLeftContent1Container>
-                  <span>Available to stake</span>
-                </StakeFormTopContainerLeftContent1Container>
-              </StakeFormTopContainerLeftContent1>
-              <StakeFormTopContainerLeftContent2>
-                <span>
-                  {state.nearBalance ?? (!accountId ? "0" : "...")}&nbsp;NEAR
-                </span>
-              </StakeFormTopContainerLeftContent2>
-            </StakeFormTopContainerLeft>
-
-            <StakeFormTopContainerCenter>
-              <StakeFormTopContainerCenterContent1>
-                <StakeFormTopContainerCenterContent1Container>
-                  APY
-                </StakeFormTopContainerCenterContent1Container>
-              </StakeFormTopContainerCenterContent1>
-              <StakeFormTopContainerCenterContent2>
-                {state.metrics?.st_near_30_day_apy
-                  ? state.metrics.st_near_30_day_apy.toFixed(2)
-                  : "..."}
-                %
-              </StakeFormTopContainerCenterContent2>
-            </StakeFormTopContainerCenter>
-
-            <StakeFormTopContainerRight>
-              <StakeFormTopContainerRightContent1>
-                <StakeFormTopContainerRightContent1Container>
-                  <span>Staked amount</span>
-                </StakeFormTopContainerRightContent1Container>
-              </StakeFormTopContainerRightContent1>
-              <StakeFormTopContainerRightContent2>
-                <span>
-                  {state.stakedBalance ?? (!state.sender ? "0" : "...")}
-                  &nbsp;stNEAR
-                </span>
-              </StakeFormTopContainerRightContent2>
-            </StakeFormTopContainerRight>
-          </StakeFormTopContainer>
-        )}
-      </StakeForm>
-      <StakeFormWrapper>
-        <Widget
-          src={`${authorId}/widget/MetaPoolStake.Common.Input`}
-          props={{
-            usdPrice:
-              state.nearUsdPrice && state.value
-                ? (state.nearUsdPrice * parseFloat(state.value)).toFixed(2)
-                : "0",
-            placeholder: "Enter NEAR amount",
-            value: state.value,
-            onChange: (e) => handleInput(e.target.value),
-            onClickMax,
-            inputError: state.validation !== "",
-            balance: state.nearBalance ?? "-",
-            iconName: "NEAR",
-            iconUrl:
-              "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-          }}
-        />
-        {state.validation !== "" && (
-          <div style={{ fontWeight: 600, color: "red" }}>
-            {state.validation}
-          </div>
-        )}
-        <Widget
-          src={`${authorId}/widget/MetaPoolStake.Common.YouWillGet`}
-          props={{
-            value:
-              state.metrics && state.value && parseFloat(state.value) > 0
-                ? (state.value / state.metrics.st_near_price).toFixed(5)
-                : 0,
-            iconName: "stNEAR",
-            token: "NEAR",
-            tokenStake: "stNEAR",
-            iconUrl:
-              "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
-          }}
-        />
-        {!!context.accountId ? (
-          <Widget
-            src={`${authorId}/widget/MetaPoolStake.Common.Button`}
-            props={{
-              onClick: () => onSubmit(),
-
-              text: "Stake NEAR",
-            }}
-          />
-        ) : (
-          <ButtonConnectContainer>
-            <Web3Connect
-              connectLabel="Connect with NEAR wallet"
-              className="buttonClass"
-            />
-          </ButtonConnectContainer>
-        )}
-      </StakeFormWrapper>
-      <Widget
-        src={`${authorId}/widget/MetaPoolStake.Common.Popup.Index`}
-        props={{
-          open: state.openModal,
-          title: state.modalTitle,
-          description: state.modalDescription,
-          onClose: () =>
-            State.update({
-              openModal: false,
-              modalTitle: "",
-              modalDescription: "",
-            }),
-          authorId,
-        }}
-      />
-    </StakeContainer>
+    <SelectionContainer>
+      {renderTokens}
+      {renderActions}
+    </SelectionContainer>
+    <Widget
+      src={`${authorId}/widget/MetaPoolStake.Near.Form`}
+      props={{ ...allProps, update, state }}
+    />
   </PageContainer>
 );
