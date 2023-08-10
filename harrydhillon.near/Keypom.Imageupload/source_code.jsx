@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 const UploadContainer = styled.div`
     border: 2px dashed #ccc;
     padding: 20px;
@@ -13,10 +11,11 @@ const UploadCTA = styled.p`
 `;
 
 const UploadButton = styled.button`
-    background-color: #007bff;
-    color: #fff;
+    background-color: white;
+    color: #000;
     padding: 10px 15px;
-    border: none;
+    border: 1px solid lightgray;
+    border-radius:100px;
     cursor: pointer;
     margin-top: 10px;
 `;
