@@ -70,7 +70,7 @@ if (
 }
 
 if (state.chainId !== undefined && state.chainId !== 5) {
-  return <p>Switch to Goerli</p>;
+  return <p style={{ textAlign: "center" }}>Switch to Goerli Network</p>;
 }
 
 // GET USER ADDRESS
@@ -82,9 +82,9 @@ if (state.userAddress === undefined) {
   }
 }
 
-// GET ETH BALANCE
+// UPDATE ETH BALANCE
 
-const getEthBalance = () => {
+const updateEthBalance = () => {
   return Ethers.provider()
     .getBalance(state.userAddress)
     .then((balance) => {
@@ -95,13 +95,14 @@ const getEthBalance = () => {
 };
 
 if (state.ethBalance === undefined && state.userAddress) {
-  getEthBalance();
+  updateEthBalance();
 }
 
-// GET MPETH BALANCE
+// UPDATE MPETH BALANCE
 
-const getMpEthBalance = () => {
+const updateMpEthBalance = () => {
   const iface = new ethers.utils.Interface(METAPOOL_ABI);
+
   const encodedData = iface.encodeFunctionData("balanceOf", [
     state.userAddress,
   ]);
@@ -126,7 +127,7 @@ const getMpEthBalance = () => {
 };
 
 if (state.mpEthBalance === undefined && state.userAddress) {
-  getMpEthBalance();
+  updateMpEthBalance();
 }
 
 // STAKE ETH
@@ -145,11 +146,12 @@ const stakeEth = (amount, receiver) => {
   erc20
     .depositETH(receiver, { value: parseAmount })
     .then((txResp) => {
-      txResp.wait().then(() => {
-        getEthBalance();
-        getMpEthBalance();
-        State.update({ amount: "" });
-      });
+      txResp.wait();
+    })
+    .then(() => {
+      updateEthBalance();
+      updateMpEthBalance();
+      State.update({ amount: "" });
     })
     .catch((e) => {
       console.error(e);
@@ -169,20 +171,46 @@ return (
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "10px",
-          width: "400px",
+          gap: "8px",
+          width: "300px",
           alignItems: "center",
+          border: "2px gray solid",
+          padding: "16px",
+          borderRadius: "8px",
+          margin: "20px",
         }}
       >
-        <div>ETH balance: {state.ethBalance || "loading..."}</div>
-        <div>mpETH balance: {state.mpEthBalance || "loading..."}</div>
+        <h1>Stake ETH</h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <span>ETH balance:</span>
+          <span>{state.ethBalance || "loading..."}</span>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <span>mpETH balance:</span>
+          <span>{state.mpEthBalance || "loading..."}</span>
+        </div>
         <input
-          placeHolder="Enter ETH amount"
-          style={{ width: "200px" }}
+          placeHolder="0"
+          style={{ width: "100%", textAlign: "end" }}
           value={state.amount}
           onChange={(e) => State.update({ amount: e.target.value })}
         ></input>
-        <button onClick={() => stakeEth(state.amount, state.userAddress)}>
+        <button
+          style={{ width: "100%" }}
+          onClick={() => stakeEth(state.amount, state.userAddress)}
+        >
           Stake
         </button>
       </div>
