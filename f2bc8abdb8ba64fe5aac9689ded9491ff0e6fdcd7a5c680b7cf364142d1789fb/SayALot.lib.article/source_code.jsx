@@ -55,6 +55,7 @@ function canUserEditArticle(props) {
 
 function createArticle(props) {
   const { article } = props;
+  console.log("in CreateArticle");
 
   saveHandler(article);
 
@@ -301,6 +302,7 @@ function libCall(call) {
   if (call.functionName === "canUserCreateArticle") {
     return canUserCreateArticle(call.props);
   } else if (call.functionName === "createArticle") {
+    console.log("call CreateArticle");
     return createArticle(call.props);
   } else if (call.functionName === "canUserEditArticle") {
     return canUserEditArticle(call.props);
