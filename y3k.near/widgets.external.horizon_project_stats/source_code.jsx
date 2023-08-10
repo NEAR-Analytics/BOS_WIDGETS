@@ -73,7 +73,11 @@ const colorGenerator = () => {
 const getBackgroundColor = colorGenerator();
 
 function filterByProjectName(arr, project_name) {
-  return arr.filter((obj) => obj.PROJECT_NAME === project_name);
+  console.log("Filtering by project name:", project_name);
+  console.log("Array before filtering:", arr);
+  const result = arr.filter((obj) => obj.PROJECT_NAME === project_name);
+  console.log("Array after filtering:", result);
+  return result;
 }
 
 function sortByActivityDate(arr) {
