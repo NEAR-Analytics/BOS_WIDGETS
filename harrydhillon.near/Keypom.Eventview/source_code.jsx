@@ -19,8 +19,12 @@ line-height: normal;
 letter-spacing: -0.72px;
 `;
 
+const EventView = styled.div`
+transform:scale(0.5);
+`;
+
 return (
-  <>
+  <EventView>
     <TicketDropBackground>
       <ContentDiv>
         <Widget src="harrydhillon.near/widget/Keypom.Header" />
@@ -39,5 +43,5 @@ return (
     <div style={{ maxWidth: 500, margin: "auto", marginTop: 20 }}>
       <p style={{ fontWeight: "600" }}>Event Details</p>
     </div>
-  </>
+  </EventView>
 );
