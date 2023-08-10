@@ -1,5 +1,6 @@
 /** to-do
- * Add vibes map
+ * Add vibes map, fix hashtag
+ * Add pov link to doc
  */
 State.init({
   selectedTab: props.tab || "feed",
@@ -300,6 +301,8 @@ return (
             daoId: daoId,
             profile,
             role: role,
+            showLinks: false,
+            showSearchDAOs: false,
           }}
         />
       </SidebarWrapper>
