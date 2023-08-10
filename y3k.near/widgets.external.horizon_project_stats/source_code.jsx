@@ -15,7 +15,6 @@ const header_map = {
 
 const initialState = {
   selectedMetric: props.selectedMetric || "MAU",
-  processedData: processedData,
   metric_period: header_map[props.selectedMetric] || "MAU",
   project_name: props.project_name || "social.near",
 };
@@ -173,45 +172,12 @@ const filteredSortedData = sortByActivityDate(filteredData) || [];
 
 
 
-let processedData = [];
-
-try {
-  filteredSortedData.forEach((datum) => {
-    if (!datum.ACTIVITY_DATE) {
-        conole.log("missing ACTIVITY_DATE", datum)
-      return;
-    }
-
-    const activity_date = parseUTCDate(datum.ACTIVITY_DATE);
-
-    const month =
-      months[
-        parseInt(activity_date.toISOString().slice(0, 10).split("-")[1]) - 1
-      ];
-
-    let monthData = processedData.find((data) => data.label === month);
-
-    if (!monthData) {
-      monthData = {
-        label: month,
-        data: {},
-        backgroundColor: getBackgroundColor(),
-      };
-      processedData.push(monthData);
-    }
-
-    monthData.data[activity_date.toISOString().slice(0, 10)] = datum[initialState.selectedMetric];
-  });
-} catch (err) {
-  console.log(err);
-}
-
 
 
 
 let newProcessedData = updateProcessedData(
-    filteredSortedData,
-    initialState.selectedMetric
+  filteredSortedData,
+  initialState.selectedMetric
 );
 
 // console.log(filteredSortedData)
@@ -251,7 +217,12 @@ let newProcessedData = updateProcessedData(
 }
 
 
+
 fetchData();
+
+
+
+
 </script>
 
 `;
