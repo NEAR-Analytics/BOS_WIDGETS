@@ -39,7 +39,7 @@ const generateIframeCode = (stateJSON) => `
 
 
 const initialState = JSON.parse('${stateJSON}');
-
+console.log(initialState)
 
 
 
