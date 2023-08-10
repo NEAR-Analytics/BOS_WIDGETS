@@ -77,9 +77,14 @@ function filterByProjectName(arr, project_name) {
 }
 
 function sortByActivityDate(arr) {
-  return arr.sort(
-    (a, b) => new Date(a.ACTIVITY_DATE) - new Date(b.ACTIVITY_DATE)
-  );
+  // Convert the dates to timestamps once
+  const timestamps = arr.map(item => new Date(item.ACTIVITY_DATE).getTime());
+  
+  return arr.sort((a, b) => {
+    const indexA = arr.indexOf(a);
+    const indexB = arr.indexOf(b);
+    return timestamps[indexA] - timestamps[indexB];
+  });
 }
 
 
