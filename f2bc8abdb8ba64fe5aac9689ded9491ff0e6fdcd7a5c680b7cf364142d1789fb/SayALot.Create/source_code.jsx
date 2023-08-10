@@ -197,6 +197,7 @@ return (
               initialTagsObject: state.tags,
               placeholder: "Input tags",
               setTagsObject: (tags) => {
+                console.log(tags);
                 state.tags = tags;
                 State.update();
               },
