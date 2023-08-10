@@ -14,8 +14,7 @@ const header_map = {
 // :"Daily Active Accounts",
 
 const initialState = {
-  selectedMetric: props.selectedMetric || "MAU",
-  metric_period: header_map[props.selectedMetric] || "MAU",
+  selectedMetric: header_map[props.selectedMetric] || header_map["MAU"],
   project_name: props.project_name || "social.near",
 };
 
