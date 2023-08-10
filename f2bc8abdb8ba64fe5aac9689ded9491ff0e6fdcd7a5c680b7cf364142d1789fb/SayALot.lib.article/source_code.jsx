@@ -97,6 +97,7 @@ function composeData(article) {
 const saveHandler = (article) => {
   if (article.articleId && article.articleBody) {
     const newData = composeData(article);
+    console.log("set");
 
     Social.set(newData, {
       force: true,
