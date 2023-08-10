@@ -73,6 +73,16 @@ const COLUMNS = [
     sort: { sortKey: "Project Name" },
   },
   {
+    label: <p className="text-center text-white text-wrap ">DAU</p>,
+    renderCell: (item) => formatNumber(item["DAU"]),
+    sort: { sortKey: "DAU" },
+  },
+  {
+    label: <p className="text-center text-white text-wrap ">MAU</p>,
+    renderCell: (item) => formatNumber(item["MAU"]),
+    sort: { sortKey: "MAU" },
+  },
+  {
     label: (
       <p className="text-center text-white text-wrap ">Accounts Created</p>
     ),
@@ -94,6 +104,11 @@ const COLUMNS = [
     sort: { sortKey: "NFT Mints" },
   },
   {
+    label: <p className="text-center text-white text-wrap ">Unique Minters</p>,
+    renderCell: (item) => formatNumber(item["Unique Minters"]),
+    sort: { sortKey: "Unique Minters" },
+  },
+  {
     label: (
       <p className="text-center text-white text-wrap ">
         NFT Mints - Past 30 Days
@@ -102,10 +117,21 @@ const COLUMNS = [
     renderCell: (item) => formatNumber(item["NFT Mints - 30d"]),
     sort: { sortKey: "NFT Mints - 30d" },
   },
+  {
+    label: (
+      <p className="text-center text-white text-wrap ">
+        Unique Minters - Past 30 Days
+      </p>
+    ),
+    renderCell: (item) => formatNumber(item["Unique Minters - 30d"]),
+    sort: { sortKey: "Unique Minters - 30d" },
+  },
 ];
 const sortFns = {
   ContractAddress: (array) =>
     array.sort((a, b) => a["Project Name"].localeCompare(b["Project Name"])),
+  DAU: (array) => array.sort((a, b) => a["DAU"] - b["DAU"]),
+  MAU: (array) => array.sort((a, b) => a["MAU"] - b["MAU"]),
   "Accounts Created": (array) =>
     array.sort((a, b) => a["Accounts Created"] - b["Accounts Created"]),
   "Accounts Created - 30d": (array) =>
@@ -113,8 +139,12 @@ const sortFns = {
       (a, b) => a["Accounts Created - 30d"] - b["Accounts Created - 30d"]
     ),
   "NFT Mints": (array) => array.sort((a, b) => a["NFT Mints"] - b["NFT Mints"]),
-  "NFT Mints - Past 30d": (array) =>
-    array.sort((a, b) => a["NFT Mints - Past 30d"] - b["NFT Mints - Past 30d"]),
+  "Unique Minters": (array) =>
+    array.sort((a, b) => a["Unique Minters"] - b["Unique Minters"]),
+  "NFT Mints - 30d": (array) =>
+    array.sort((a, b) => a["NFT Mints - 30d"] - b["NFT Mints - 30d"]),
+  "Unique Minters - 30d": (array) =>
+    array.sort((a, b) => a["Unique Minters - 30d"] - b["Unique Minters - 30d"]),
 };
 
 return (
