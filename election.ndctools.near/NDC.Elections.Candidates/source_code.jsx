@@ -312,6 +312,7 @@ const handleAcceptToS = () => {
   ).then((data) =>
     State.update({
       showToSModal: false,
+      tosAgreement: true,
       bountyProgramModal: true,
       loading: false,
     })
@@ -343,22 +344,25 @@ const filterBy = (option) => {
 };
 
 const loadInitData = () => {
-  State.update({ candidates: filteredCandidates() });
+  const policy = Near.view(electionContract, "accepted_policy", {
+    user: context.accountId,
+  });
+
+  State.update({
+    candidates: filteredCandidates(),
+    tosAgreement: !!policy,
+    bountyProgramModal: !!policy,
+  });
 };
 
 const loadSocialDBData = () => {
   let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-  let _tosAccepted = Social.index(currentUser, "ndc_election_tos");
 
   State.update({
     bookmarked:
       _bookmarked && _bookmarked[_bookmarked.length - 1]
         ? _bookmarked[_bookmarked.length - 1].value
         : [],
-    tosAgreement:
-      _tosAccepted && _tosAccepted[_tosAccepted.length - 1]
-        ? _tosAccepted[_tosAccepted.length - 1].value
-        : false,
   });
 };
 
@@ -370,6 +374,7 @@ State.init({
   availableVotes: seats - myVotesForHouse().length,
   selected: null,
   bookmarked: [],
+  tosAgreementInput: false,
   tosAgreement: false,
   selectedCandidates: [],
   voters: [],
@@ -610,11 +615,11 @@ const CastVotes = () => (
         props={{
           Button: {
             className: "primary justify-content-center",
-            disabled: state.selectedCandidates.length === 0,
+            //disabled: state.selectedCandidates.length === 0,
             text: `Cast ${state.selectedCandidates.length || ""} Votes`,
             onClick: () =>
               state.tosAgreement
-                ? handleVote()
+                ? State.update({ bountyProgramModal: true })
                 : State.update({ showToSModal: true }),
           },
         }}
@@ -658,9 +663,9 @@ return (
               <input
                 type="checkbox"
                 className="form-check-input"
-                checked={state.tosAgreement}
+                checked={state.tosAgreementInput}
                 onClick={() =>
-                  State.update({ tosAgreement: !state.tosAgreement })
+                  State.update({ tosAgreementInput: !state.tosAgreementInput })
                 }
               />
               I agree with{" "}
@@ -676,9 +681,8 @@ return (
             ) : (
               <>Agree to Fair Voting Policy</>
             ),
-            disabled: !state.tosAgreement,
-            onCancel: () =>
-              State.update({ showToSModal: false, tosAgreement: false }),
+            disabled: !state.tosAgreementInput,
+            onCancel: () => State.update({ showToSModal: false }),
             onSubmit: handleAcceptToS,
           },
         }}
