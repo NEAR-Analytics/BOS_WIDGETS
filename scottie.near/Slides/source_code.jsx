@@ -266,7 +266,7 @@ return (
           Create New Deck
         </PrimaryButton>
         <Widget
-          src={`scxtt.testnet/widget/IPFSMultiUpload`}
+          src={`scottie.near/widget/IPFSMultiUpload`}
           props={{ update, viewing }}
         />
         <PrimaryButton onClick={pushSlides} className="btn btn-outline-dark">
@@ -387,7 +387,7 @@ return (
             {Object.entries(state.tempCIDs).map(([key, value]) => {
               return (
                 <Widget
-                  src={`scxtt.testnet/widget/DeletableCard`}
+                  src={`scottie.near/widget/DeletableCard`}
                   props={{
                     key,
                     value,
