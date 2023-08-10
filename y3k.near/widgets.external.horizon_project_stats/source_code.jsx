@@ -76,6 +76,21 @@ function parseUTCDate(dateString) {
   const utcTimestamp = Date.UTC(year, month - 1, day);
   return new Date(utcTimestamp);
 }
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 
 
 function updateProcessedData(filteredSortedData, selectedMetric) {
@@ -132,20 +147,6 @@ const filteredData = filterByProjectName(data, initialState.project_name) || [];
 const filteredSortedData = sortByActivityDate(filteredData) || [];
 
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 
 let processedData = [];
@@ -181,13 +182,17 @@ try {
 }
 
 
+  let newProcessedData = updateProcessedData(
+    filteredSortedData,
+    initialState.selectedMetric
+  );
 
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
           labels: months,
-          datasets: processedData
+          datasets: newProcessedData
       },
       options: {
   scales: {
