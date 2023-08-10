@@ -5,8 +5,8 @@ const tokenDecimals = 24;
 const BIG_ROUND_DOWN = 0;
 const MIN_BALANCE_CHANGE = 0.5;
 const contractId = "meta-pool.near";
-const YOCTO = 1000000000000000000000000;
 const GAS = "200000000000000";
+const ONE_NEAR = new BN("1" + "0".repeat(24));
 
 State.init({
   openModal: false,
@@ -23,40 +23,6 @@ State.init({
   token: "near", // "near" | "wnear"
   action: "stake", // "
 });
-
-// parametrize props
-const allProps = {
-  stake: {
-    tokenInputBalance: state.nearBalance,
-    tokenInput: "NEAR",
-    tokenOutputBalance: state.stNearBalance,
-    tokenOutput: "stNEAR",
-    tokenInputUsd: state.nearUsdPrice,
-    apy: state.metrics?.st_near_30_day_apy,
-    inputPlaceholder: "Enter NEAR amount",
-    buttonText: "Stake now",
-  },
-  delayed: {
-    tokenInputBalance: state.stNearBalance,
-    tokenInput: "stNEAR",
-    tokenOutputBalance: state.nearBalance,
-    tokenOutput: "NEAR",
-    tokenInputUsd: state.metrics?.st_near_price_usd,
-    apy: state.metrics?.st_near_30_day_apy,
-    inputPlaceholder: "Enter stNEAR amount",
-    buttonText: "Unstake",
-  },
-  fast: {
-    tokenInputBalance: state.stNearBalance,
-    tokenInput: "stNEAR",
-    tokenOutputBalance: state.nearBalance,
-    tokenOutput: "NEAR",
-    tokenInputUsd: state.metrics?.st_near_price_usd,
-    apy: state.metrics?.st_near_30_day_apy,
-    inputPlaceholder: "Enter stNEAR amount",
-    buttonText: "Unstake",
-  },
-}[state.action];
 
 function isValid(a) {
   if (!a) return false;
@@ -153,12 +119,36 @@ function getNearBalance(onInvalidate) {
 }
 const update = (state) => State.update({ state });
 
-const onSubmit = () => {
+const onSubmitStake = () => {
   const deposit = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
   Near.call(contractId, "deposit_and_stake", {}, GAS, deposit);
 };
 
-const handleInput = (value) => {
+const onSubmitDelayedUnstake = () => {
+  // manage register stNEAR - should make a call attached
+  const args = {
+    amount: Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0),
+  };
+  Near.call(contractId, "unstake", args, GAS, 0);
+};
+
+const onSubmitFastUnstake = () => {
+  // manage register stNEAR - should make a call attached
+  const l = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
+  const e = l.mul(state.metrics.st_near_price_usd);
+  const tx = {
+    contractName: contractId,
+    methodName: "liquid_unstake",
+    deposit: 0,
+    args: {
+      st_near_to_burn: l.toFixed(0),
+      min_expected_near: e.sub(ONE_NEAR.divn(10)).toFixed(0),
+    },
+  };
+  Near.call([tx]);
+};
+
+const handleInputNear = (value) => {
   if (
     (parseFloat(value) < 1 && parseFloat(value) > 0) ||
     parseFloat(value) < 0
@@ -178,6 +168,26 @@ const handleInput = (value) => {
   State.update({ value });
 };
 
+const handleInputStNear = (value) => {
+  if (
+    (parseFloat(value) < 1 && parseFloat(value) > 0) ||
+    parseFloat(value) < 0
+  ) {
+    State.update({
+      validation: "The minimum amount is 1 stNEAR.",
+    });
+  } else if (parseFloat(value) > parseFloat(state.stNearBalance)) {
+    State.update({
+      validation: "You don't have enough stNEAR.",
+    });
+  } else {
+    State.update({
+      validation: "",
+    });
+  }
+  State.update({ value });
+};
+
 const getUserAddress = () => {
   if (!accountId) return "";
   return accountId.length > 20
@@ -187,12 +197,20 @@ const getUserAddress = () => {
     : accountId;
 };
 
-const onClickMax = () => {
+const onClickMaxNear = () => {
   const value =
     state.nearBalance > 0.1
       ? (parseFloat(state.nearBalance) - 0.1).toFixed(2)
       : "0";
-  handleInput(value);
+  handleInputNear(value);
+};
+
+const onClickMaxStNear = () => {
+  const value =
+    state.stNearBalance > 0.1
+      ? (parseFloat(state.stNearBalance) - 0.1).toFixed(2)
+      : "0";
+  handleInputStNear(value);
 };
 
 // UPDATE DATA
@@ -211,6 +229,64 @@ if (!state.dataIntervalStarted) {
     updateData();
   }, 10000);
 }
+
+// parametrize props
+const allProps = {
+  stake: {
+    tokenInputBalance: state.nearBalance,
+    tokenInput: "NEAR",
+    tokenOutputBalance: state.stNearBalance,
+    tokenOutput: "stNEAR",
+    tokenInputUsd: state.nearUsdPrice,
+    tokenOutputUsd: state.metrics?.st_near_price_usd,
+    apy: state.metrics?.st_near_30_day_apy,
+    inputPlaceholder: "Enter NEAR amount",
+    buttonText: "Stake now",
+    handleInput: handleInputNear,
+    tokenInputIconUrl:
+      "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+    tokenOutputIconUrl:
+      "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
+    onClickMax: onClickMaxNear,
+    onSubmit: onSubmitStake,
+  },
+  delayed: {
+    tokenInputBalance: state.stNearBalance,
+    tokenInput: "stNEAR",
+    tokenOutputBalance: state.nearBalance,
+    tokenOutput: "NEAR",
+    tokenInputUsd: state.metrics?.st_near_price_usd,
+    tokenOutputUsd: state.nearUsdPrice,
+    apy: state.metrics?.st_near_30_day_apy,
+    inputPlaceholder: "Enter stNEAR amount",
+    buttonText: "Unstake",
+    handleInput: handleInputStNear,
+    tokenOutputIconUrl:
+      "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+    tokenInputIconUrl:
+      "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
+    onClickMax: onClickMaxStNear,
+    onSubmit: onSubmitDelayedUnstake,
+  },
+  fast: {
+    tokenInputBalance: state.stNearBalance,
+    tokenInput: "stNEAR",
+    tokenOutputBalance: state.nearBalance,
+    tokenOutput: "NEAR",
+    tokenInputUsd: state.metrics?.st_near_price_usd,
+    tokenOutputUsd: state.nearUsdPrice,
+    apy: state.metrics?.st_near_30_day_apy,
+    inputPlaceholder: "Enter stNEAR amount",
+    buttonText: "Unstake",
+    handleInput: handleInputStNear,
+    tokenOutputIconUrl:
+      "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+    tokenInputIconUrl:
+      "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
+    onClickMax: onClickMaxStNear,
+    onSubmit: onSubmitFastUnstake,
+  },
+}[state.action];
 
 // STYLED COMPONENTS
 
@@ -401,14 +477,11 @@ const ActionItem = styled.button`
 `;
 
 const Text = styled.p`
-  color:#000000;
-  font-size: 14px;
-  line-height: 20px;
+  color:#fff;
 `;
 
 const renderTokens = (
   <SelectToken>
-    <Text>Select token</Text>
     <TokensList>
       <TokensItem
         onClick={() => {
@@ -418,6 +491,7 @@ const renderTokens = (
       >
         <div>
           <div>NEAR</div>
+          {/* <div>{state.metrics.st_near_30_day_apy}% APY</div> */}
         </div>
         <img
           style={{
@@ -426,6 +500,7 @@ const renderTokens = (
           }}
           src="https://ipfs.near.social/ipfs/bafkreiftukbt7zacsnbfmhppzgfk7jj4mn5qckd3j7dgto7kutgiqj3vgi"
           alt="Brand Logo"
+          // height={20}
           width={"auto"}
         />
       </TokensItem>
@@ -437,6 +512,7 @@ const renderTokens = (
       >
         <div>
           <div>wNEAR</div>
+          {/* <div>{state.metrics.st_near_30_day_apy}% APY</div> */}
         </div>
         <img
           style={{
@@ -445,6 +521,7 @@ const renderTokens = (
           }}
           src="https://ipfs.near.social/ipfs/bafkreigbbmef2vo3jcnr2llayeyom7rplcyn7efqcuo2lzclf3mr2nevwy"
           alt="wnear Logo"
+          // height={20}
           width={"auto"}
         />
       </TokensItem>
@@ -454,7 +531,6 @@ const renderTokens = (
 
 const renderActions = (
   <SelectAction>
-    <Text>Select action</Text>
     <TokensList>
       <ActionItem
         onClick={() => {
@@ -504,7 +580,6 @@ const renderActions = (
         </div>
       </ActionItem>
       <ActionItem
-        disabled={state.token == "wnear"}
         onClick={() => {
           State.update({ action: "delayed" });
         }}
