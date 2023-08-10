@@ -145,9 +145,7 @@ const stakeEth = (amount, receiver) => {
 
   erc20
     .depositETH(receiver, { value: parseAmount })
-    .then((txResp) => {
-      txResp.wait();
-    })
+    .then((txResp) => txResp.wait())
     .then(() => {
       updateEthBalance();
       updateMpEthBalance();
