@@ -15,6 +15,12 @@ const Grid = styled.div`
         grid-template-columns: 1fr 1fr;  // 2 items per row if width is greater than 1000px
     }
 `;
+const Label = styled.p`
+font-size: 16px;
+ translate: 3px 8px;
+font-style: normal;
+font-weight: 500;
+`;
 
 const AllSteps = [
   {
@@ -96,6 +102,11 @@ const formContent = () => {
               },
             }}
           />
+          <Label>Event Artwork</Label>
+          <p style={{ fontSize: 12, color: "gray" }}>
+            Customize your the artwork that appears in the header of the event
+            page.
+          </p>
         </div>
         <div style={{ padding: 10 }}>
           <Widget src="harrydhillon.near/widget/Keypom.Eventview" />
