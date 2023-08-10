@@ -158,64 +158,62 @@ const stakeEth = (amount, receiver) => {
     });
 };
 
+// STYLED COMPONENTS
+
+const MainContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+`;
+
+const StakeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 300px;
+  align-items: center;
+  border: 2px gray solid;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 20px;
+  input{
+    text-align: end
+  }
+  button{
+    width: 100%;
+  }
+`;
+
+const BalanceContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%
+`;
+
 return (
-  <div
-    style={{
-      display: "flex",
-      width: "100%",
-      justifyContent: "center",
-    }}
-  >
+  <MainContainer>
     {state.userAddress ? (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "8px",
-          width: "300px",
-          alignItems: "center",
-          border: "2px gray solid",
-          padding: "16px",
-          borderRadius: "8px",
-          margin: "20px",
-        }}
-      >
+      <StakeContainer>
         <h1>Stake ETH</h1>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
+        <BalanceContainer>
           <span>ETH balance:</span>
           <span>{state.ethBalance || "loading..."}</span>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
+        </BalanceContainer>
+        <BalanceContainer>
           <span>mpETH balance:</span>
           <span>{state.mpEthBalance || "loading..."}</span>
-        </div>
+        </BalanceContainer>
         <input
           placeHolder="0"
-          style={{ width: "100%", textAlign: "end" }}
           value={state.amount}
           onChange={(e) => State.update({ amount: e.target.value })}
-        ></input>
-        <button
-          style={{ width: "100%" }}
-          onClick={() => stakeEth(state.amount, state.userAddress)}
-        >
+        />
+        <button onClick={() => stakeEth(state.amount, state.userAddress)}>
           Stake
         </button>
-      </div>
+      </StakeContainer>
     ) : (
       <Web3Connect connectLabel="Connect with Ethereum wallet" />
     )}
-  </div>
+  </MainContainer>
 );
