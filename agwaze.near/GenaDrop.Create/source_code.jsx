@@ -293,7 +293,7 @@ margin: 3px;
 const MainRoot = styled.div`
     display: flex;
     flex-direction: column;
-    height: 87vh;
+    height: 100%;
     justify-content: space-between;
 `;
 
