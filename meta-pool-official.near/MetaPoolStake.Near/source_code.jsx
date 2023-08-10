@@ -477,11 +477,14 @@ const ActionItem = styled.button`
 `;
 
 const Text = styled.p`
-  color:#fff;
+  color:#000000;
+  font-size: 14px;
+  line-height: 21px;
 `;
 
 const renderTokens = (
   <SelectToken>
+    <Text>Select token</Text>
     <TokensList>
       <TokensItem
         onClick={() => {
@@ -531,6 +534,7 @@ const renderTokens = (
 
 const renderActions = (
   <SelectAction>
+    <Text>Select action</Text>
     <TokensList>
       <ActionItem
         onClick={() => {
