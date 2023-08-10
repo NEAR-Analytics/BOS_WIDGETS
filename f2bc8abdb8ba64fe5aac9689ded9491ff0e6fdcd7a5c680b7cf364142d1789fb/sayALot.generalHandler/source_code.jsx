@@ -628,7 +628,7 @@ const finalArticles = state.articles;
 //       }
 //     }
 //   };
-// }
+// }a
 
 // //==End post creation functions
 
@@ -637,6 +637,7 @@ function stateUpdate(obj) {
 }
 
 function handleOpenArticle(articleToRenderData) {
+  console.log("ATRD: ", articleToRenderData);
   State.update({
     displayedTabId: tabs.SHOW_ARTICLE.id,
     articleToRenderData,
@@ -644,6 +645,7 @@ function handleOpenArticle(articleToRenderData) {
 }
 
 function handleEditArticle(articleData) {
+  console.log("AD: ", articleData);
   State.update({
     displayedTabId: tabs.ARTICLE_WORKSHOP.id,
     editArticleData: articleData,
@@ -702,7 +704,7 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 }
 
 //===============================================END FUNCTIONS======================================================
-
+console.log(state.editArticleData);
 return (
   <>
     <Widget
