@@ -255,22 +255,14 @@ return (
           iconUrl: tokenOutputIconUrl,
         }}
       />
-      {isSignedIn ? (
-        <Widget
-          src={`${authorId}/widget/MetaPoolStake.Common.Button`}
-          props={{
-            onClick: () => onSubmit(),
-            text: buttonText,
-          }}
-        />
-      ) : (
-        <ButtonConnectContainer>
-          <Web3Connect
-            connectLabel="Connect with NEAR wallet"
-            className="buttonClass"
-          />
-        </ButtonConnectContainer>
-      )}
+      <Widget
+        src={`${authorId}/widget/MetaPoolStake.Common.Button`}
+        props={{
+          disabled: !isSignedIn,
+          onClick: () => onSubmit(),
+          text: isSignedIn ? buttonText : "Connect wallet",
+        }}
+      />
     </StakeFormWrapper>
     <Widget
       src={`${authorId}/widget/MetaPoolStake.Common.Popup.Index`}
