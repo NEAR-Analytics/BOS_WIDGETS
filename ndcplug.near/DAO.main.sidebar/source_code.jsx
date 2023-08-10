@@ -6,7 +6,6 @@ State.init({
 
 const accountId = props.daoId ?? props.accountId ?? "refi.sputnik-dao.near";
 const showLinks = props.showLinks ?? true;
-const showSearchDAOs = props.showSearchDAOs ?? true;
 
 const daoId = accountId;
 const profile =
@@ -550,13 +549,12 @@ return (
             )}
           </SocialLinks>
         )}
-        {showSearchDAOs && (
-          <Wrapper1>
-            <a href="#/ndcplug.near/widget/AllDAOs" target="_blank">
-              <button className="join-button">Search All DAOs</button>
-            </a>
-          </Wrapper1>
-        )}
+
+        <Wrapper1>
+          <a href="#/ndcplug.near/widget/AllDAOs" target="_blank">
+            <button className="join-button">Search All DAOs</button>
+          </a>
+        </Wrapper1>
       </Section>
     )}
   </Wrapper>
