@@ -100,11 +100,11 @@ const TOKENS = [
 ];
 
 const POOLS = [
-  { name: "ETH-USDC", address: "0x41C8cf74c27554A8972d3bf3D2BD4a14D8B604AB" },
-  { name: "ETH-MUTE", address: "0x83c90b99FDF00b6203529fF6F2354a57E9F6EeC5" },
+  { name: "ETH-USDC", address: "0x41c8cf74c27554a8972d3bf3d2bd4a14d8b604ab" },
+  { name: "ETH-MUTE", address: "" },
   { name: "ETH-COMBO", address: "" },
   { name: "ETH-PERP", address: "" },
-  { name: "ETH-LUSD", address: "0xB1338207DE233aE6a9A6D63309221b577F8Cd6E8" },
+  { name: "ETH-LUSD", address: "" },
   { name: "ETH-DVF", address: "" },
   { name: "ETH-WOO", address: "" },
   { name: "ETH-DERI", address: "" },
@@ -112,10 +112,10 @@ const POOLS = [
   { name: "ETH-GOVI", address: "" },
   { name: "ETH-1INCH", address: "" },
   { name: "ETH-PEPE", address: "" },
-  { name: "USDC-MUTE", address: "0xF4bc5bf7cc54a48b6c0ABFafa2836376e10eccE9" },
+  { name: "USDC-MUTE", address: "" },
   { name: "USDC-COMBO", address: "" },
   { name: "USDC-PERP", address: "" },
-  { name: "USDC-LUSD", address: "0x6A9143A5f9BaF73841992DCB737844e5ad16A283" },
+  { name: "USDC-LUSD", address: "" },
   { name: "USDC-DVF", address: "" },
   { name: "USDC-WOO", address: "" },
   { name: "USDC-DERI", address: "" },
