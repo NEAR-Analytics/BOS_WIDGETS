@@ -66,6 +66,11 @@ const Button = styled.a`
     border-radius:5px;
     box-shadow: 0 0 0 2px #000;
     border:1px solid #fff;
+    text-decoration:none;
+    
+    &:hover, &:focus {
+      color:#fff;
+    }
 `;
 
 return (
