@@ -313,8 +313,8 @@ getETHDeposits();
 getERC20Deposits();
 
 function renderDeposit(deposit) {
-  console.log("deposit", deposit);
-  const { timestamp, amount, transactionHash, symbol, status } = deposit;
+  //   console.log("deposit", deposit);
+  const { timestamp, amount, transactionHash, symbol } = deposit;
   const date = new Date(timestamp * 1000);
   const href = `https://${
     isTestnet ? "goerli." : ""
@@ -325,15 +325,13 @@ function renderDeposit(deposit) {
   return (
     <tr>
       <td>{date.toUTCString()}</td>
-      <td>
-        {amount} {symbol}
-      </td>
+      <td>{amount}</td>
+      <td>{symbol}</td>
       <td>
         <a href={href} target="_blank">
           {hash}
         </a>
       </td>
-      <td>{status}</td>
     </tr>
   );
 }
@@ -343,19 +341,26 @@ const deposits = [...ethdeposits, ...ercdeposits].sort(
   (a, b) => b.timestamp - a.timestamp
 );
 
+const Container = styled.div`
+    td, th {
+        padding: 2px 5px;
+        font-size: 12px;
+    }
+`;
+
 return (
-  <div>
+  <Container>
     <h6>Deposits</h6>
     <table>
       <thead>
         <tr>
           <th>Time</th>
           <th>Amount</th>
+          <th>Token</th>
           <th>Transaction</th>
-          <th>Status</th>
         </tr>
       </thead>
       <tbody>{deposits.map(renderDeposit)}</tbody>
     </table>
-  </div>
+  </Container>
 );
