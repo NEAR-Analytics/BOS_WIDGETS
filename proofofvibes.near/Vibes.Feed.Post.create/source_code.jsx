@@ -180,7 +180,8 @@ const handleVibeCheck = () => {
     console.log("No Image");
     State.update({
       showAlert: true,
-      toastMessage: "You must upload an image to do a vibe check",
+      toastMessage:
+        "You must upload an photo to do a vibe check & qualify as Vibee in the DAO or to get 😊 Proof of Vibe SBT - for humans",
     });
     setTimeout(() => {
       State.update({
