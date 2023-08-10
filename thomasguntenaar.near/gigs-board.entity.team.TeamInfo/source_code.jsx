@@ -174,10 +174,15 @@ const header = isTeam ? (
     {props.member}
   </div>
 ) : (
-  <Widget
-    src={`neardevgov.near/widget/ProfileLine`}
-    props={{ accountId: props.member }}
-  />
+  // TODO
+  // <Widget
+  //   src={`neardevgov.near/widget/ProfileLine`}
+  //   props={{ accountId: props.member }}
+  // />
+  <div class="d-flex">
+    <i class="bi bi-people-fill me-1"></i>
+    {props.member}
+  </div>
 );
 
 const isContractOwner = nearDevGovGigsContractAccountId == context.accountId;
@@ -264,32 +269,48 @@ function removeTeam(team) {
   ]);
 }
 
-function removeMemberFromTeam(member) {
-  const team = props.team;
-  let metadata = props.root_members[team] || {};
-  let newParents =
-    props.root_members[team].parents?.filter((item) => item !== team) || [];
-  Near.call([
-    {
-      contractName: nearDevGovGigsContractAccountId,
-      methodName: "edit_member",
-      args: {
-        member: member,
-        metadata: {
-          ...metadata,
-          parents: [...newParents],
+function removeMemberFromTeam(memberId) {
+  let isMemberInMultipleTeams =
+    Object.values(props.root_members).filter((metadata) =>
+      metadata.children.includes(memberId)
+    ).length > 1;
+  if (isMemberInMultipleTeams) {
+    // edit_member
+    let metadata = props.root_members[props.teamId] || {};
+    let newChildren =
+      metadata.children?.filter((item) => item !== memberId) || [];
+    Near.call([
+      {
+        contractName: nearDevGovGigsContractAccountId,
+        methodName: "edit_member",
+        args: {
+          member: props.teamId,
+          metadata: {
+            ...metadata,
+            children: [...newChildren],
+          },
         },
+        deposit: Big(0).pow(21),
+        gas: Big(10).pow(12).mul(100),
       },
-      deposit: Big(0).pow(21),
-      gas: Big(10).pow(12).mul(100),
-    },
-  ]);
+    ]);
+  } else {
+    // remove_member
+    Near.call([
+      {
+        contractName: nearDevGovGigsContractAccountId,
+        methodName: "remove_member",
+        args: { member: memberId },
+        deposit: Big(0).pow(21),
+        gas: Big(10).pow(12).mul(100),
+      },
+    ]);
+  }
 }
 
 function addMemberToTeam(memberData) {
   let memberExists = !!props.members_list[memberData.member];
-  let team = props.member;
-  let permissions = props.root_members[team].permissions || {};
+  let metadata = props.members_list[memberData.member] || {};
   Near.call([
     {
       contractName: nearDevGovGigsContractAccountId,
@@ -297,11 +318,9 @@ function addMemberToTeam(memberData) {
       args: {
         member: memberData.member,
         metadata: {
-          member_metadata_version: "V0",
+          ...metadata,
           description: memberData.description,
-          permissions: permissions,
-          children: [],
-          parents: [team],
+          parents: [...metadata.parents, props.teamId],
         },
       },
       deposit: Big(0).pow(21),
@@ -310,6 +329,7 @@ function addMemberToTeam(memberData) {
   ]);
 }
 
+// TODO edit labels from members as well as top level
 function editLabelsFromTeam(labelData) {
   // Labels need to exist in order to add them to a team.
   const possibleLabels = Object.keys(props.rules_list);
@@ -345,25 +365,24 @@ function editLabelsFromTeam(labelData) {
 }
 
 function removeLabelFromTeam(rule) {
-  let team = props.team;
   // Copy
   let permissions = { ...metadata.permissions };
   delete permissions[rule];
-  let txn = [];
-  txn.push({
-    contractName: nearDevGovGigsContractAccountId,
-    methodName: "edit_member",
-    args: {
-      member: team,
-      metadata: {
-        ...metadata,
-        permissions: permissions,
+  Near.call([
+    {
+      contractName: nearDevGovGigsContractAccountId,
+      methodName: "edit_member",
+      args: {
+        member: props.teamId,
+        metadata: {
+          ...metadata,
+          permissions: permissions,
+        },
       },
+      deposit: Big(0).pow(21),
+      gas: Big(10).pow(12).mul(100),
     },
-    deposit: Big(0).pow(21),
-    gas: Big(10).pow(12).mul(100),
-  });
-  Near.call(txn);
+  ]);
 }
 
 return (
@@ -374,7 +393,7 @@ return (
           <small class="text-muted">{header}</small>
           <div class="d-flex">
             {props.teamLevel &&
-              Viewer.role.isDevHubModerator &&
+              (Viewer.role.isDevHubModerator || isContractOwner) &&
               widget("components.layout.Controls", {
                 title: "Add member",
                 onClick: () => {
@@ -384,16 +403,17 @@ return (
                   });
                 },
               })}
-            {!props.teamLevel && Viewer.role.isDevHubModerator && (
-              <button
-                class="btn btn-light"
-                onClick={() => removeMemberFromTeam(props.member)}
-              >
-                Remove
-              </button>
-            )}
+            {!props.teamLevel &&
+              (Viewer.role.isDevHubModerator || isContractOwner) && (
+                <button
+                  class="btn btn-light"
+                  onClick={() => removeMemberFromTeam(props.member)}
+                >
+                  Remove
+                </button>
+              )}
             {props.teamLevel &&
-              Viewer.role.isDevHubModerator &&
+              (Viewer.role.isDevHubModerator || isContractOwner) &&
               widget("components.layout.Controls", {
                 title: !state.editLabels ? "Edit Labels" : "Stop Editing",
                 icon: !state.editLabels
@@ -409,8 +429,9 @@ return (
                 },
               })}
             {props.teamLevel &&
-            Viewer.role.isDevHubModerator &&
-            isContractOwner ? (
+            ((Viewer.role.isDevHubModerator &&
+              props.member !== "team:moderators") ||
+              isContractOwner) ? (
               <button
                 class="btn btn-light"
                 onClick={() => removeTeam(props.member)}
@@ -434,7 +455,8 @@ return (
               },
               heading: "Adding member",
               isEditorActive: state.isEditorActive,
-              isEditingAllowed: Viewer.role.isDevHubModerator,
+              isEditingAllowed:
+                Viewer.role.isDevHubModerator || isContractOwner,
               onChangesSubmit: addMemberToTeam,
               submitLabel: "Accept",
               data: state.teamData,
@@ -484,7 +506,8 @@ return (
               },
               heading: "Labels",
               isEditorActive: state.isEditorActive,
-              isEditingAllowed: Viewer.role.isDevHubModerator,
+              isEditingAllowed:
+                Viewer.role.isDevHubModerator || isContractOwner,
               onChangesSubmit: editLabelsFromTeam,
               submitLabel: "Accept",
               data: state.teamData,
@@ -514,6 +537,8 @@ return (
                   member: child,
                   members_list: props.members_list,
                   teamLevel: false,
+                  root_members: props.root_members,
+                  teamId: props.teamId,
                 },
                 child
               )
