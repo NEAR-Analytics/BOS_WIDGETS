@@ -342,25 +342,90 @@ const deposits = [...ethdeposits, ...ercdeposits].sort(
 );
 
 const Container = styled.div`
+    --op-primary-600: #EB0822;
+
     td, th {
         padding: 2px 5px;
         font-size: 12px;
+    }
+    button,
+    fieldset,
+    input {
+        all: unset;
+    }
+
+    .TabsRoot {
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+    }
+
+    .TabsList {
+        flex-shrink: 0;
+        display: flex;
+        border-bottom: 1px solid var(--mauve-6);
+    }
+
+    .TabsTrigger {
+        font-family: inherit;
+        background-color: white;
+        padding: 0 20px;
+        height: 45px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        line-height: 1;
+        user-select: none;
+    }
+    .TabsTrigger:first-child {
+        border-top-left-radius: 6px;
+    }
+    .TabsTrigger:last-child {
+        border-top-right-radius: 6px;
+    }
+    .TabsTrigger[data-state='active'] {
+        box-shadow: inset 0 -1px 0 0 var(--op-primary-600), 0 1px 0 0 var(--op-primary-600);
+    }
+
+    .TabsContent {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: white;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+        outline: none;
     }
 `;
 
 return (
   <Container>
-    <h6>Deposits</h6>
-    <table>
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Amount</th>
-          <th>Token</th>
-          <th>Transaction</th>
-        </tr>
-      </thead>
-      <tbody>{deposits.map(renderDeposit)}</tbody>
-    </table>
+    <Tabs.Root className="TabsRoot" defaultValue="deposits">
+      <Tabs.List className="TabsList" aria-label="Transactions List">
+        <Tabs.Trigger className="TabsTrigger" value="deposits">
+          Deposits
+        </Tabs.Trigger>
+        <Tabs.Trigger className="TabsTrigger" value="withdrawals">
+          Withdrawals
+        </Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content className="TabsContent" value="deposits">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Amount</th>
+              <th>Token</th>
+              <th>Transaction</th>
+            </tr>
+          </thead>
+          <tbody>{deposits.map(renderDeposit)}</tbody>
+        </table>
+      </Tabs.Content>
+      <Tabs.Content className="TabsContent" value="withdrawals">
+        withdrawals
+      </Tabs.Content>
+    </Tabs.Root>
   </Container>
 );
