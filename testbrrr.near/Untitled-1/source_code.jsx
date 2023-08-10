@@ -171,7 +171,7 @@ const repayLUSD = () => {
   lUSDContract
     .approve(
       borrowerOperationAddress,
-      ethers.BigNumber.from(props.lusdAmount * 100)
+      ethers.BigNumber.from(props.amount * 100)
         .mul("10000000000000000")
         .toString()
     )
@@ -180,7 +180,7 @@ const repayLUSD = () => {
     })
     .then(() => {
       borrowerOperationContract.repayLUSD(
-        ethers.BigNumber.from(props.borrow * 100)
+        ethers.BigNumber.from(props.amount * 100)
           .mul("10000000000000000")
           .toString(),
         // ethers.BigNumber.from((state.borrow * 10000000000000000).toString()),
