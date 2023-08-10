@@ -682,7 +682,7 @@ function handlePillNavigation(navegateTo) {
   stateUpdate({ displayedTabId: navegateTo });
 }
 
-function callLibs(srcArray) {
+function callLibs(srcArray, stateUpdate, libCalls) {
   return (
     <>
       {srcArray.map((src) => {
@@ -692,7 +692,7 @@ function callLibs(srcArray) {
             props={{
               isTest,
               stateUpdate,
-              libCalls: state.libCalls,
+              libCalls,
             }}
           />
         );
@@ -799,6 +799,8 @@ return (
         }}
       />
     )}
-    <div style={{ display: "none" }}>{callLibs(libSrcArray)}</div>
+    <div style={{ display: "none" }}>
+      {callLibs(libSrcArray, stateUpdate, state.callLibs)}
+    </div>
   </>
 );
