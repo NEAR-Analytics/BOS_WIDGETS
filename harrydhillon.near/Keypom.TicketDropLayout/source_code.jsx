@@ -1,5 +1,5 @@
 const TicketDropBackground = styled.div`
-width:100%;
+width:100vw;
 background: lightgray;
 min-height:100vh;
 background: rgb(220,244,251);
