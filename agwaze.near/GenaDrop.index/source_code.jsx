@@ -75,7 +75,7 @@ const ContentContainer = styled.div`
   }
 `;
 const tabContentWidget = {
-  create: "agwaze.near/widget/GenaDrop.Create",
+  create: "agwaze.near/widget/GenaDrop.Minter",
   list: "jgodwill.near/widget/GenaDrop.MultiListing",
   nearNFTs: "jgodwill.near/widget/GenaDrop.Explore",
   evmNFTs: "0xprometheus.near/widget/Eth-Explore",
