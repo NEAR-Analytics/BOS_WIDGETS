@@ -1,8 +1,6 @@
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 
-const libSrcArray = ["kenrou-it.near/widget/SayALot.lib.article"];
-
 const initLibCalls = [
   {
     functionName: "getLastEditArticles",
@@ -39,6 +37,9 @@ State.init({
 //const authorForWidget = "sayalot.near";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const libSrcArray = [
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.article",
+];
 const thisWidgetName = "sayALot.generalHandler";
 
 // let writersWhiteList = [
