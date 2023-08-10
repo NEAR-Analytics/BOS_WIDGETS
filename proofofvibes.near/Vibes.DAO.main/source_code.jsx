@@ -145,6 +145,12 @@ const widgetOwner = "proofofvibes.near";
 const profile = props.profile ?? Social.getr(`${state.daoId}/profile`);
 const accountUrl = `#/${widgetOwner}/widget/Vibes.DAO.main?daoId=${daoId}&issuer=${issuer}&accountId=${accountId}&role=${role}&sbtTitle=${sbtTitle}`;
 
+const DEFAULT_BACKGROUND_COLOR = state.darkmode ? "#191919" : "#fff";
+const DEFAULT_COMPONENT_COLOR = state.darkmode ? "rgba(0,0,0,.8)" : "#fff";
+const DEFAULT_GRADIENT =
+  "linear-gradient(90deg, rgb(147, 51, 234) 0%, rgb(79, 70, 229) 100%)";
+
+const DEFAULT_TEXT_COLOR = state.darkmode ? "#fff" : "#000";
 const Wrapper = styled.div`
   padding-bottom: 48px;
 `;
@@ -274,6 +280,93 @@ const Bio = styled.div`
     margin-bottom: 48px;
   }
 `;
+const ScoreBoard = styled.a`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    border-radius:10px;
+    box-sizing:border-box;
+    padding: .8rem;
+    background-color:${DEFAULT_COMPONENT_COLOR};
+    border: 2px solid rgba(0,0,0,.05);
+    margin-bottom:.8rem;
+    cursor:pointer;
+    transition: all .2s;
+    color:${DEFAULT_TEXT_COLOR};
+    text-decoration:none!important;
+    
+    &:hover {
+        transition: all .2s;
+        border: 2px solid rgb(79, 70, 229);
+        background: linear-gradient(90deg, rgba(147, 51, 234, 0.08) 0%, rgba(79, 70, 229, 0.08) 100%);
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 30px;
+    }
+
+    & > div {
+        h1 {
+            font-size:.9rem;
+            font-weight:bold;
+            letter-spacing:-.5px
+        }
+
+        p {
+            font-size:.8rem;
+            margin:0;
+            padding:0;
+        }
+    }
+`;
+const VIBES_LOGO_URL =
+  "https://ipfs.near.social/ipfs/bafkreibyhg5a2vcjxtg4fospq6qe5cadi2653jb7lvbyoez4p65btfeppa";
+const Logo = styled.img` max-width:30px; `;
+
+const Info = styled.div`
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 30px;
+    border-radius: 10px;
+    border: 1px solid rgb(79, 70, 229);
+    background: ${DEFAULT_GRADIENT};
+    color: #fff;
+    box-sizing:border-box;
+    padding:.8rem;
+    margin-bottom:.8rem;
+    box-shadow:0 0 20px 5px rgba(0,0,0,.1);
+        & a:hover {
+        transition: all .2s;
+        border: 2px solid rgb(79, 70, 229);
+        background: black;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 30px;
+    }
+
+    h1 {
+        font-size:.9rem;
+        font-weight:bold;
+        letter-spacing:-.5px
+    }
+
+    p {
+        font-size:.8rem;
+    }
+
+    a {
+        font-size:.8rem;
+        border:0;
+        letter-spacing:-.5px;
+        padding:.5rem 1rem;
+        text-decoration:none;
+    }
+
+    a.primary {
+        background-color:#fff!important;
+        color:rgb(147, 51, 234)!important;
+        border:2px solid #fff;
+    }
+
+    a.secondary {
+        color:#fff;
+        border:2px solid #fff;
+    }
+`;
 
 if (profile === null) {
   return "Loading...";
@@ -305,6 +398,46 @@ return (
             showSearchDAOs: false,
           }}
         />
+        <Info>
+          <h1>Join the 🌍 Global Vibes Community</h1>
+          <p>
+            "Tap-in" in to an exclusive event by a tastemaker to be part of the
+            rewards program for good vibes, or do a permisionless vibe-check on
+            our feed to get Veri-vibed locally.
+          </p>
+          <a
+            className="btn primary"
+            target="_blank"
+            href="https://ProofOfVibes.com/telegram"
+          >
+            Join the community
+          </a>
+          <a
+            className="btn secondary"
+            target="_blank"
+            href="https://ProofOfVibes.com"
+          >
+            Learn more
+          </a>
+        </Info>
+        <ScoreBoard href="https://ProofOfVibes.com/feedback" target="_blank">
+          <div>
+            <h1>
+              <Logo
+                src={VIBES_LOGO_URL}
+                style={{
+                  maxWidth: "30px",
+                }}
+              />{" "}
+              Feedback = Good Vibes
+            </h1>
+            <div></div>
+            <p>
+              Want to improve the Vibes Protocol? Click this tile to post
+              constructive vibes on our public feedback board
+            </p>
+          </div>
+        </ScoreBoard>
       </SidebarWrapper>
 
       <Content>
