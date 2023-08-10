@@ -13,17 +13,6 @@ const initLibCalls = [
   },
 ];
 
-const createLibCalls = [
-  {
-    functionName: "canUserCreateArticle",
-    key: "createdArticleData",
-    props: {
-      env: isTest ? "test" : "prod",
-      articleData: {},
-    },
-  },
-];
-
 if (!accountId) accountId = context.accountId;
 
 const tabs = {
@@ -347,7 +336,7 @@ const initialCreateState = {
   articleId: state.editArticleData.articleId ?? "",
   articleBody: state.editArticleData.body ?? initialBodyAtCreation,
   tags: state.editArticleData.tags ?? [],
-  libCalls: createLibCalls,
+  libCalls: [],
 };
 
 //=================================================END CONSTS=======================================================
@@ -806,7 +795,6 @@ return (
           initialBody: initialBodyAtCreation,
           initialCreateState,
           editArticleData: state.editArticleData,
-          libSrcArray,
           callLibs,
         }}
       />
