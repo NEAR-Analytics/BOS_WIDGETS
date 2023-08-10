@@ -225,6 +225,8 @@ fetchData();
 
 return (
   <div>
+    <h1>{state.project_name}</h1>
+
     <iframe
       iframeResizer
       className="w-100"
