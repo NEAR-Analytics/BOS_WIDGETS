@@ -8,6 +8,7 @@ background: linear-gradient(0deg, rgba(220,244,251,1) 0%, rgba(251,254,255,1) 95
 const ContentDiv = styled.div`
     padding:10px;
     max-width: 1200px;
+    margin:auto;
 `;
 
 const Heading = styled.div`
