@@ -4,12 +4,11 @@ const Main = styled.div`
   position:relative;
 `;
 const HeaderWrapper = styled.div`
-  position:fixed;
+  position:sticky;
   top:0;
   left:0;
 `;
 const JumbotronWrapper = styled.div`
-  margin-top:70px;
 `;
 
 return (
