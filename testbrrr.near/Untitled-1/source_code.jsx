@@ -157,6 +157,7 @@ const withdrawColl = () => {
 };
 
 const repayLUSD = () => {
+  console.log(lUSDContractAbi);
   const lUSDContract = new ethers.Contract(
     lUSDAddress,
     lUSDContractAbi.body.result,
