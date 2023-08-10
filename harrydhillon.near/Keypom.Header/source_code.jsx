@@ -24,7 +24,7 @@ box-shadow: 0px 1px 2px 0px rgba(14, 74, 110, 0.05);
 
 console.log(props);
 
-const scaledown = true;
+const scaledown = props.scaleDown;
 
 return (
   <>
