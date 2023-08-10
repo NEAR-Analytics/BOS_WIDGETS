@@ -24,7 +24,7 @@ box-shadow: 0px 1px 2px 0px rgba(14, 74, 110, 0.05);
 
 console.log(props);
 
-const scaledown = props.scaleDown;
+const scaledown = true;
 
 return (
   <>
@@ -34,6 +34,7 @@ return (
           scaledown
             ? {
                 width: 120,
+                marginLeft: -20,
                 transform: "scale(0.5)",
               }
             : {}
