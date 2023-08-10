@@ -21,7 +21,6 @@ const tagsArray = state.tags;
 const accountId = context.accountId;
 
 const getArticleData = () => {
-  console.log(editArticleData);
   const args = {
     articleId: editArticleData.articleId ?? state.articleId,
     author: editArticleData.author ?? accountId,
