@@ -25,7 +25,7 @@ console.log(props);
 
 return (
   <>
-    <HeaderContainer>
+    <HeaderContainer scaleDown={props.scaleDown}>
       <div>
         <Widget src="nearcon23.near/widget/Register.KeypomLogo" />
       </div>
