@@ -138,8 +138,6 @@ function getArticleBlackListByRealArticleId() {
 function filterInvalidArticlesIndexes(props, articlesIndexes) {
   const { env } = props;
 
-  console.log(articlesIndexes);
-
   return articlesIndexes
     .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
     .filter(
