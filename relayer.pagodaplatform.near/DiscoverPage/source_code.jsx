@@ -29,9 +29,7 @@ return (
           that of blockchain. Still decentralized - totally. And sharing
           instantly.
         </p>
-        <a href="#" className="text-decoration-underline text-light">
-          Try it out
-        </a>
+        <button className="btn rounded text-black bg-white">Try it out</button>
       </div>
     </div>
   </div>
