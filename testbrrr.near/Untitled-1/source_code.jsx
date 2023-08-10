@@ -80,7 +80,7 @@ const priceFeedAbi = fetch(
 
 const lUSDAddress = "0x80668Ed2e71290EB7526ABE936327b4f5dB52dA8";
 const lUSDContractAbi = fetch(
-  "https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=0x80668Ed2e71290EB7526ABE936327b4f5dB52dA8"
+  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
 );
 
 if (!borrowerOperationAbi.ok) return "loading...";
