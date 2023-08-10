@@ -1,5 +1,5 @@
 const DiscoverPage = styled.div`
-  padding-top: 35vh
+  padding: 22vh 120px 0 120px;
 `;
 
 const HightLightText = styled.h1`
@@ -14,7 +14,7 @@ return (
       <div className="col-lg-6">
         <img
           style={{ maxWidth: "100%" }}
-          src={`https://ipfs.near.social/ipfs/bafybeiejengae7z4qa3uxq6yk7pttdqfq5ryasaoyillpkabfqhbzckzta`}
+          src={`https://ipfs.near.social/ipfs/bafkreihxxhopgpwqbo4otuah4brtehlzgxkw5v4dh3ddelsba2xsihrcf4`}
           alt="uploaded"
         />
       </div>
@@ -37,7 +37,7 @@ return (
       </div>
     </div>
     <img
-      style={{ maxWidth: "30vw", zIndex: "1", translate: "18% -12%" }}
+      style={{ maxWidth: "30vw", zIndex: "1", translate: "23% -12%" }}
       className="position-absolute top-0 end-0"
       src={`https://ipfs.near.social/ipfs/bafkreie2xpl6z3sffhw5x6hhd3gurzdabljzlu622lq3rgn5ghvxv2bjoa`}
       alt="uploaded"
