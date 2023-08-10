@@ -44,7 +44,7 @@ const Sidebar = styled.div`
 
   &.collapsed {
     padding-right: 26px;
-    max-width: 120px;
+    max-width: 94px;
   }
 
   @media (max-width: 768px) {
@@ -141,6 +141,16 @@ const Sidebar = styled.div`
         gap: 4px;
       }
     }
+
+    li .title {
+      display: none;
+    }
+
+    .group {
+      li:not(:first-child) {
+        display: none;
+      }
+    }
   }
 `;
 
@@ -148,7 +158,7 @@ const Toggle = styled.div`
   position: absolute;
   top: 10px;
   right: -20px;
-  z-index: 1000;
+  z-index: 10;
   height: 40px;
   width: 40px;
   background: #4498e0;
@@ -185,12 +195,37 @@ return (
         <i className="bi bi-list"></i>
       </MobileToggle>
       <a
-        href="#/astraplusplus.ndctools.near/widget/home"
+        href="#/astraplusplus.ndctools.near/widget/index"
         className="h4 text-decoration-none fw-bold text-black m-0"
       >
-        ASTRA++
+        <Widget
+          src="astraplusplus.ndctools.near/widget/Common.logo"
+          props={{
+            height: "18px",
+          }}
+        />
       </a>
-      <span>{context.accountId}</span>
+      <span
+        style={{
+          border: context.accountId ? "1px solid #4498E0" : "1px solid #E5E5E5",
+          borderRadius: "400px",
+          padding: context.accountId
+            ? "8px 20px 8px 14px"
+            : "8px 20px 8px 20px",
+          background: context.accountId ? "rgba(236, 245, 252, 0.40)" : "#fff",
+        }}
+      >
+        {context.accountId ? (
+          <Widget
+            src="nearui.near/widget/Element.User"
+            props={{
+              accountId: context.accountId,
+            }}
+          />
+        ) : (
+          "Not connected"
+        )}
+      </span>
     </Header>
     <Sidebar
       className={[
@@ -231,13 +266,13 @@ return (
                       >
                         {subItem.href ? (
                           <a href={subItem.href}>
-                            {subItem.icon}
-                            {subItem.title}
+                            <span className="icon">{subItem.icon}</span>
+                            <span className="title">{subItem.title}</span>
                           </a>
                         ) : (
                           <div onClick={subItem.onClick} role="button">
-                            {subItem.icon}
-                            {subItem.title}
+                            <span className="icon">{subItem.icon}</span>
+                            <span className="title">{subItem.title}</span>
                           </div>
                         )}
                       </li>
@@ -252,13 +287,13 @@ return (
               <li key={i} className={item.active && "active"}>
                 {item.href ? (
                   <a href={item.href}>
-                    {item.icon}
-                    {item.title}
+                    <span className="icon">{item.icon}</span>
+                    <span className="title">{item.title}</span>
                   </a>
                 ) : (
                   <div onClick={item.onClick} role="button">
-                    {item.icon}
-                    {item.title}
+                    <span className="icon">{item.icon}</span>
+                    <span className="title">{item.title}</span>
                   </div>
                 )}
               </li>
