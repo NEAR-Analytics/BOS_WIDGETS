@@ -478,7 +478,7 @@ const content = (
       iconSelected: selectedAILogo,
     })}
     {navItem({
-      text: "Socials",
+      text: "Feeds",
       id: "socials",
       icon: people,
       iconSelected: peopleSelected,
