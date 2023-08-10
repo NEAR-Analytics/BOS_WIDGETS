@@ -58,6 +58,10 @@ function createArticle(props) {
 
   saveHandler(article);
 
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "createArticle";
+  });
+
   return article;
 }
 
