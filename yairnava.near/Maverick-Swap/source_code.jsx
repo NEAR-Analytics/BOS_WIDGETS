@@ -1,8 +1,15 @@
+const routerAbi = fetch(
+  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/maverick-router.txt"
+);
+if (!routerAbi.ok) {
+  return "Loading";
+}
+
 const TOKENS = [
   {
     name: "ETH",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/eth.svg",
-    address: "0x000000000000000000000000000000000000800A",
+    address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
     coinGeckoId: "ethereum",
     decimals: 18,
   },
@@ -405,7 +412,37 @@ const setMaxBalance = () => {
 };
 
 const confirmTransaction = () => {
-  console.log("Swap");
+  console.log("Confirmando transacción");
+  const router = new ethers.Contract(
+    state.routerContract,
+    routerAbi.body,
+    Ethers.provider().getSigner()
+  );
+  let amountIn = ethers.utils.parseUnits(
+    state.amountInput,
+    state.tokenSendSelected.decimals
+  );
+  let paramsv2 = {
+    tokenIn: state.tokenSendSelected.address,
+    tokenOut: state.tokenRecieveSelected.address,
+    pool: "0x41c8cf74c27554a8972d3bf3d2bd4a14d8b604ab",
+    recipient: state.sender,
+    deadline: 1e13,
+    amountIn: amountIn,
+    amountOutMinimum: 0,
+    sqrtPriceLimitD18: 0,
+  };
+  const overrides = {
+    value: amountIn,
+    gasLimit: 2303039,
+  };
+  try {
+    router.exactInputSingle(paramsv2, overrides).then((res) => {
+      console.log(res);
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const css = fetch(
