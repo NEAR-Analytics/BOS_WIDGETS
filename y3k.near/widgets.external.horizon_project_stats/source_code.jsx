@@ -178,6 +178,7 @@ let processedData = [];
 try {
   filteredSortedData.forEach((datum) => {
     if (!datum.ACTIVITY_DATE) {
+        conole.log("missing ACTIVITY_DATE", datum)
       return;
     }
 
@@ -213,8 +214,8 @@ let newProcessedData = updateProcessedData(
     initialState.selectedMetric
 );
 
-console.log(filteredSortedData)
-console.log(initialState.selectedMetric)
+// console.log(filteredSortedData)
+// console.log(initialState.selectedMetric)
 
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
