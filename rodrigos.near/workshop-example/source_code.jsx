@@ -192,28 +192,30 @@ const BalanceContainer = styled.div`
 
 return (
   <MainContainer>
-    {state.userAddress ? (
-      <StakeContainer>
-        <h1>Stake ETH</h1>
-        <BalanceContainer>
-          <span>ETH balance:</span>
-          <span>{state.ethBalance || "loading..."}</span>
-        </BalanceContainer>
-        <BalanceContainer>
-          <span>mpETH balance:</span>
-          <span>{state.mpEthBalance || "loading..."}</span>
-        </BalanceContainer>
-        <input
-          placeHolder="0"
-          value={state.amount}
-          onChange={(e) => State.update({ amount: e.target.value })}
-        />
-        <button onClick={() => stakeEth(state.amount, state.userAddress)}>
-          Stake
-        </button>
-      </StakeContainer>
-    ) : (
-      <Web3Connect connectLabel="Connect with Ethereum wallet" />
-    )}
+    <StakeContainer>
+      <h1>Stake ETH</h1>
+      {state.userAddress ? (
+        <>
+          <BalanceContainer>
+            <span>ETH balance:</span>
+            <span>{state.ethBalance || "loading..."}</span>
+          </BalanceContainer>
+          <BalanceContainer>
+            <span>mpETH balance:</span>
+            <span>{state.mpEthBalance || "loading..."}</span>
+          </BalanceContainer>
+          <input
+            placeHolder="0"
+            value={state.amount}
+            onChange={(e) => State.update({ amount: e.target.value })}
+          />
+          <button onClick={() => stakeEth(state.amount, state.userAddress)}>
+            Stake
+          </button>
+        </>
+      ) : (
+        <Web3Connect connectLabel="Connect with Ethereum wallet" />
+      )}
+    </StakeContainer>
   </MainContainer>
 );
