@@ -610,7 +610,7 @@ return (
     </SelectionContainer>
     <Widget
       src={`${authorId}/widget/MetaPoolStake.Near.Form`}
-      props={{ ...allProps, update, state }}
+      props={{ ...allProps, update, state, isSignedIn }}
     />
   </PageContainer>
 );
