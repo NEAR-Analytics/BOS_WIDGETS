@@ -264,19 +264,6 @@ function getOldFormatArticles(props) {
   return oldBasicDataArray.map(getArticle);
 }
 
-function convertArticlesTagsToValidFormat(articlesArray) {
-  let validFormatArticlesArray = [];
-  articlesArray.map((article) => {
-    let tags = article.tags;
-    if (typeof state.editArticleData.tags == "object") {
-      tags = Object.keys(tags);
-    }
-    article.tags = tags;
-    validFormatArticlesArray.push(article);
-  });
-  return validFormatArticlesArray;
-}
-
 function getLastEditArticles(props) {
   const oldFormatArticles = getOldFormatArticles(props);
   const newFormatArticles = getNewFormatValidArticles(props);
@@ -296,6 +283,24 @@ function getLastEditArticles(props) {
     convertArticlesTagsToValidFormat(filteredArticles);
 
   return validFormatFilteredArticles;
+}
+
+function convertArticlesTagsToValidFormat(articlesArray) {
+  console.log(1, articlesArray);
+  let validFormatArticlesArray = [];
+  articlesArray.map((article) => {
+    let tags = article.tags;
+    console.log(typeof state.editArticleData.tags == "object");
+    if (typeof state.editArticleData.tags == "object") {
+      console.log(Object.keys(tags));
+      tags = Object.keys(tags);
+    }
+    article.tags = tags;
+    console.log(2, article);
+    validFormatArticlesArray.push(article);
+  });
+  console.log(3, validFormatArticlesArray);
+  return validFormatArticlesArray;
 }
 
 function filterArticlesByTag(props, articles) {
