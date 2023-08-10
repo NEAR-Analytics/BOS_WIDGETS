@@ -220,10 +220,7 @@ return (
         </ul>
       </div>
       {navigationButtons &&
-        // accountId &&
-        // writersWhiteList &&
-        // writersWhiteList.some((whiteAddr) => whiteAddr === accountId)
-        true &&
+        accountId &&
         navigationButtons.map((button, i) => {
           return !(button.id + "") || !button.title ? (
             <p className="text-danger border">Button passed wrong</p>
