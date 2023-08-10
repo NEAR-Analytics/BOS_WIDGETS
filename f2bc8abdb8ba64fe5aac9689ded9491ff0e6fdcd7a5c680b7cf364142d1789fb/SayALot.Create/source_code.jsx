@@ -96,6 +96,8 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
+console.log(state.tags);
+
 return (
   <CreationContainer className="container-fluid">
     {
@@ -197,8 +199,7 @@ return (
               initialTagsObject: state.tags,
               placeholder: "Input tags",
               setTagsObject: (tags) => {
-                console.log(tags);
-                state.tags = tags;
+                state.tags = Object.keys(tags);
                 State.update();
               },
             }}
