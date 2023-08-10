@@ -204,6 +204,8 @@ let newProcessedData = updateProcessedData(
     initialState.selectedMetric
 );
 
+console.log(filteredSortedData)
+console.log(initialState.selectedMetric)
 
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
