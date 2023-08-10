@@ -78,7 +78,7 @@ const tabContentWidget = {
   create: "agwaze.near/widget/GenaDrop.Minter",
   list: "jgodwill.near/widget/GenaDrop.MultiListing",
   nearNFTs: "jgodwill.near/widget/GenaDrop.Explore",
-  evmNFTs: "0xprometheus.near/widget/GenaDrop.EVMExplore",
+  evmNFTs: "agwaze.near/widget/GenaDrop.EVMExplore",
   socials: "genadrop.near/widget/GenaDrop.Home",
   ai: "0xprometheus.near/widget/Genadrop-Ai-Minter",
 }[state.tab];
