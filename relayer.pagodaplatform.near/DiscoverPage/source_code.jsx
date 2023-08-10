@@ -29,7 +29,11 @@ return (
           that of blockchain. Still decentralized - totally. And sharing
           instantly.
         </p>
-        <button className="btn rounded text-black bg-white">Try it out</button>
+        <div>
+          <button className="btn rounded text-black bg-white ">
+            Try it out
+          </button>
+        </div>
       </div>
     </div>
   </div>
