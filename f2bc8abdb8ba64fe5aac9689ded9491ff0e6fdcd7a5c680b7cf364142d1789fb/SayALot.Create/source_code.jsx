@@ -16,6 +16,11 @@ const errTextNoBody = "ERROR: no article Body",
   errTextDublicatedId = "ERROR: there is article with such name";
 
 State.init(initialCreateState);
+
+function createStateUpdate(obj) {
+  State.update(obj);
+}
+
 const tagsArray = state.tags;
 
 const accountId = context.accountId;
@@ -38,6 +43,7 @@ const getArticleData = () => {
 };
 
 function createArticleListener() {
+  console.log("createArticle in");
   const article = getArticleData();
   const newLibCalls = [...state.libCalls];
   newLibCalls.push({
@@ -223,6 +229,8 @@ return (
         </div>
       </div>
     </SecondContainer>
-    <div style={{ display: "none" }}>{callLibs(libSrcArray)}</div>
+    <div style={{ display: "none" }}>
+      {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
+    </div>
   </CreationContainer>
 );
