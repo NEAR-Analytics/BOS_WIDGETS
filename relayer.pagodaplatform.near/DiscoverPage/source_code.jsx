@@ -37,8 +37,8 @@ return (
       </div>
     </div>
     <img
-      style={{ maxWidth: "30vw", zIndex: "1", translate: "0% -20%" }}
-      className="position-absolute top-0 start-100 translate-middle"
+      style={{ maxWidth: "30vw", zIndex: "1", translate: "40% -40%" }}
+      className="position-absolute top-0 end-0"
       src={`https://ipfs.near.social/ipfs/bafkreie2xpl6z3sffhw5x6hhd3gurzdabljzlu622lq3rgn5ghvxv2bjoa`}
       alt="uploaded"
     />
