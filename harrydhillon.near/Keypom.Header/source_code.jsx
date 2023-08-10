@@ -1,5 +1,6 @@
 const HeaderContainer = styled.div`
     display: flex;
+    transform: ${(props) => (props.scaleDown ? "scale(0.8)" : "")};
     padding-top: 10px;
     justify-content: space-between;
     background-color:transparent;
