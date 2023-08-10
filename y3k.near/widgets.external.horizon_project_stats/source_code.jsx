@@ -1,20 +1,19 @@
 const header_map = {
   DAA: "Daily Active Accounts",
-  WAU: "Weekly Active Accounts",
-  MAU: "Monthly Active Accounts",
-  M2_RETENTION: "Retention Rate",
-  NEW_MAA: "New MAAs",
-  PERCENT_NEW: "% New Accounts",
-  STICKINESS: "DAA / MAA",
+  MAA: "Monthly Active Accounts",
+
   MVT: "Monthly Average Transactions",
   DVT: "Daily Average Transactions",
 };
 
-// :"Monthly Active Accounts",
-// :"Daily Active Accounts",
+//   WAU: "Weekly Active Accounts",
+//   M2_RETENTION: "Retention Rate",
+//   NEW_MAA: "New MAAs",
+//   PERCENT_NEW: "% New Accounts",
+//   STICKINESS: "DAA / MAA",
 
 const initialState = {
-  selectedMetric: header_map[props.selectedMetric] || header_map["MAU"],
+  selectedMetric: header_map[props.selectedMetric] || header_map["DAA"],
   project_name: props.project_name || "social.near",
 };
 
@@ -154,7 +153,7 @@ function updateProcessedData(filteredSortedData, selectedMetric) {
 async function fetchData() {
 
   let response = await fetch(
-  "https://api.flipsidecrypto.com/api/v2/queries/199c1d8b-b26e-4155-b578-36515f75a57e/data/latest",
+  "https://api.flipsidecrypto.com/api/v2/queries/a4aa8264-53f5-46b0-b064-fd0157682e9b/data/latest",
     {
         subscribe: true,
         method: "GET",
@@ -165,6 +164,7 @@ async function fetchData() {
     );
   
 let data = await response.json();
+
 const filteredData = filterByProjectName(data, initialState.project_name) || [];
 const filteredSortedData = sortByActivityDate(filteredData) || [];
 
@@ -179,8 +179,8 @@ let newProcessedData = updateProcessedData(
   initialState.selectedMetric
 );
 
-// console.log(filteredSortedData)
-// console.log(initialState.selectedMetric)
+console.log(filteredSortedData)
+console.log(initialState.selectedMetric)
 
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
