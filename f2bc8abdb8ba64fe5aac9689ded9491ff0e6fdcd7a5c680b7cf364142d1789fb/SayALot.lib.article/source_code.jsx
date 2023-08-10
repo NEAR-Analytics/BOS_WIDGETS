@@ -290,8 +290,8 @@ function convertArticlesTagsToValidFormat(articlesArray) {
   let validFormatArticlesArray = [];
   articlesArray.map((article) => {
     let tags = article.tags;
-    console.log(typeof state.editArticleData.tags == "object");
-    if (typeof state.editArticleData.tags == "object") {
+    console.log(typeof article.tags == "object");
+    if (typeof article.tags == "object") {
       console.log(Object.keys(tags));
       tags = Object.keys(tags);
     }
