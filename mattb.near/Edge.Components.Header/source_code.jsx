@@ -13,7 +13,7 @@ const NAV_LINKS = [
 const Header = styled.div`
     position:relative;
     display:flex;
-    align-items:space-between;
+    justify-content:space-between;
     padding:10px;
     box-sizing:border-box;
     border-bottom:1px solid rgba(0,0,0,.05);
@@ -54,6 +54,10 @@ const Nav = styled.div`
                 margin-left:1rem;
             }
 
+            &:last-of-type {
+                margin-left:2rem;
+            }
+
             a {
                 color:#000;
                 margin:0;
@@ -73,7 +77,6 @@ const Button = styled.a`
     transition: all .2s;
     font-weight:bold;
     font-size:.9rem;
-    margin-left:1.5rem;
     
     &:hover {
         transition: all .2s;
