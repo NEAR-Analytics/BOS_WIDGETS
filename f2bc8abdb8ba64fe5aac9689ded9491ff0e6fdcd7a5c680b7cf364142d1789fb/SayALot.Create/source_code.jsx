@@ -9,8 +9,6 @@ const {
   callLibs,
 } = props;
 
-console.log("editArticleData: ", editArticleData);
-
 const libSrcArray = ["kenrou-it.near/widget/SayALot.lib.article"];
 
 const errTextNoBody = "ERROR: no article Body",
