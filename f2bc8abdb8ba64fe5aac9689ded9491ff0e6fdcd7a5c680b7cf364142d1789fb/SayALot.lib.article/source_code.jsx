@@ -54,22 +54,54 @@ function canUserEditArticle(props) {
 }
 
 function createArticle(props) {
-  const { accountId, article } = props;
+  const { article } = props;
+
+  saveHandler(article);
+
+  return article;
 }
 
-// const args = {
-//     articleId: editArticleData.articleId ?? state.articleId,
-//     author: editArticleData.articleId ?? accountId,
-//     lastEditor: accountId,
-//     timeLastEdit: Date.now(),
-//     timeCreate: editArticleData.timeCreate ?? Date.now(),
-//     body: state.articleBody,
-//     version: editArticleData ? editArticleData.version + 1 : 0,
-//     navigation_id: null,
-//     tags: tagsArray,
-//     realArticleId:
-//       editArticleData.realArticleId ?? ${accountId}-${Date.now()},
-//   };
+function composeData(article) {
+  let data;
+  data = {
+    [action]: {
+      main: JSON.stringify(article),
+    },
+    index: {
+      [action]: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+          id: `${context.accountId}-${Date.now()}`,
+        },
+      }),
+    },
+  };
+
+  // if (tagsArray.length) {
+  //   data.index.tag = JSON.stringify(
+  //     tagsArray.map((tag) => ({
+  //       key: tag,
+  //       value: item,
+  //     }))
+  //   );
+  // }
+
+  return data;
+}
+
+const saveHandler = (article) => {
+  if (article.articleId && article.articleBody) {
+    const newData = composeData(article);
+
+    Social.set(newData, {
+      force: true,
+      // onCancel: () => {
+      //   State.update({ saving: false });
+      // },
+    });
+  }
+};
 
 function getArticlesIndexes(props) {
   const { accountId } = props;
@@ -260,6 +292,8 @@ function filterArticles(props, articles) {
 function libCall(call) {
   if (call.functionName === "canUserCreateArticle") {
     return canUserCreateArticle(call.props);
+  } else if (call.functionName === "createArticle") {
+    return createArticle(call.props);
   } else if (call.functionName === "canUserEditArticle") {
     return canUserEditArticle(call.props);
   } else if (call.functionName === "getLastEditArticles") {
