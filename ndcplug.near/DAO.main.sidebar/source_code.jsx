@@ -550,12 +550,13 @@ return (
             )}
           </SocialLinks>
         )}
-
-        <Wrapper1>
-          <a href="#/ndcplug.near/widget/AllDAOs" target="_blank">
-            <button className="join-button">Search All DAOs</button>
-          </a>
-        </Wrapper1>
+        {showSearchDAOs && (
+          <Wrapper1>
+            <a href="#/ndcplug.near/widget/AllDAOs" target="_blank">
+              <button className="join-button">Search All DAOs</button>
+            </a>
+          </Wrapper1>
+        )}
       </Section>
     )}
   </Wrapper>
