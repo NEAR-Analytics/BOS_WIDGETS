@@ -130,11 +130,19 @@ return (
     <div className="p-1 m-1">
       <div className="row">
         <div className="col m-2">
-          <h5>Template</h5>
-          <Widget
-            src="hack.near/widget/widget.search"
-            props={{ extraButtons: setButton }}
-          />
+          <h5>Base Widget</h5>
+          <div className="input-group mb-3">
+            <input
+              className="form-control"
+              placeholder={initWidgetPath}
+              defaultValue={state.widgetPath || initWidgetPath}
+              onChange={(e) => {
+                State.update({
+                  widgetPath: e.target.value,
+                });
+              }}
+            />
+          </div>
           <Widget
             src={`hack.near/widget/widget.inline`}
             props={{
@@ -147,26 +155,34 @@ return (
               href={`#/edit/${state.widgetPath}`}
             >
               <i className="bi bi-terminal-plus me-1"></i>
-              {accountId === daoId ? "Edit" : "Build"}
+              {accountId === daoId ? "Edit" : "Fork"}
             </a>
           </div>
         </div>
-
+        <br />
         <div className="col m-2">
           <h5>Updated Version</h5>
-          <Widget
-            src="hack.near/widget/widget.search"
-            props={{ extraButtons: updateButton }}
-          />
+          <div className="input-group mb-3">
+            <input
+              className="form-control"
+              placeholder={`${accountId}/widget/${widgetName}`}
+              defaultValue={updatedWidget}
+              onChange={(e) => {
+                State.update({
+                  updatedWidget: e.target.value,
+                });
+              }}
+            />
+          </div>
           <Widget
             src={`hack.near/widget/widget.inline`}
             props={{
-              widgetPath: state.updatedPath,
+              widgetPath: state.updatedPath || `${accountId}/widget/community`,
             }}
           />
           <div className="m-2">
             <button
-              disabled={!state.widgetPath}
+              disabled={!state.updatedPath}
               className="btn btn-secondary border-0 m-1"
               onClick={handleProposal}
             >
