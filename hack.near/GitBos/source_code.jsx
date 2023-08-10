@@ -8,8 +8,7 @@ const latestProposalId = Near.view(daoId, "get_last_proposal_id") - 1;
 const deposit = policy.proposal_bond;
 
 const initWidgetPath = props.widgetPath ?? `${daoId}/widget/community`;
-const updatedWidgetPath =
-  props.updatedWidget ?? `${accountId}/widget/community`;
+const updatedWidgetPath = props.updatedWidget;
 
 State.init({
   accountId: accountId ?? "",
@@ -177,12 +176,13 @@ return (
           <Widget
             src={`hack.near/widget/widget.inline`}
             props={{
-              widgetPath: state.updatedPath || `${accountId}/widget/community`,
+              widgetPath:
+                state.updatedWidget || `${accountId}/widget/community`,
             }}
           />
           <div className="m-2">
             <button
-              disabled={!state.updatedPath}
+              disabled={!state.updatedWidget}
               className="btn btn-secondary border-0 m-1"
               onClick={handleProposal}
             >
