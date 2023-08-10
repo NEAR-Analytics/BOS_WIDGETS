@@ -97,7 +97,9 @@ const formContent = () => {
             }}
           />
         </div>
-        <div style={{ padding: 10 }}>Event Preview</div>
+        <div style={{ padding: 10 }}>
+          <Widget src="harrydhillon.near/widget/Keypom.Eventview" />
+        </div>
       </Grid>
     </FormBackground>
   );
