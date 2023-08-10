@@ -69,7 +69,7 @@ const thisWidgetName = "sayALot.generalHandler";
 
 const widgets = {
   thisWidget: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/NDC.Create`,
+  create: `${authorForWidget}/widget/SayALot.Create`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/NDC.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
@@ -637,7 +637,6 @@ function stateUpdate(obj) {
 }
 
 function handleOpenArticle(articleToRenderData) {
-  console.log("ATRD: ", articleToRenderData);
   State.update({
     displayedTabId: tabs.SHOW_ARTICLE.id,
     articleToRenderData,
@@ -645,7 +644,6 @@ function handleOpenArticle(articleToRenderData) {
 }
 
 function handleEditArticle(articleData) {
-  console.log("AD: ", articleData);
   State.update({
     displayedTabId: tabs.ARTICLE_WORKSHOP.id,
     editArticleData: articleData,
@@ -704,7 +702,6 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 }
 
 //===============================================END FUNCTIONS======================================================
-console.log(state.editArticleData);
 return (
   <>
     <Widget
