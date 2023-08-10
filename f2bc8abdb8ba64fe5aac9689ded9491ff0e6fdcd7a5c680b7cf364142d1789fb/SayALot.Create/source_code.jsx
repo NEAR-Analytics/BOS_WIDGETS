@@ -96,8 +96,6 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
-console.log(state.tags);
-
 return (
   <CreationContainer className="container-fluid">
     {
