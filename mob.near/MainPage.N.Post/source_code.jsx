@@ -23,12 +23,8 @@ const Wrapper = styled.div`
   border-bottom        : 0.5px solid var(--bs-border-color);
   border-top           : 0.5px solid var(--bs-border-color);
   
-  .left, .right {
-    padding: 0 1rem;
-  }
-
-  .right {
-    padding-top: 0;
+  .left {
+    padding-right: 1rem;
   }
 `;
 
