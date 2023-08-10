@@ -286,20 +286,17 @@ function getLastEditArticles(props) {
 }
 
 function convertArticlesTagsToValidFormat(articlesArray) {
-  console.log(1, articlesArray);
   let validFormatArticlesArray = [];
   articlesArray.map((article) => {
     let tags = article.tags;
-    console.log(typeof article.tags == "object");
+
     if (typeof article.tags == "object") {
-      console.log(Object.keys(tags));
       tags = Object.keys(tags);
     }
     article.tags = tags;
-    console.log(2, article);
+
     validFormatArticlesArray.push(article);
   });
-  console.log(3, validFormatArticlesArray);
   return validFormatArticlesArray;
 }
 
