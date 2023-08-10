@@ -1,6 +1,7 @@
 const accountId = props.accountId;
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const fast = !!props.fast || (!props.profile && accountId);
 
 const name = profile.name;
 
@@ -9,6 +10,7 @@ const inner = (
     <Widget
       src="mob.near/widget/ProfileImage"
       props={{
+        fast,
         metadata,
         accountId,
         widgetName,
