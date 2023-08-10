@@ -9,7 +9,7 @@ const HightLightText = styled.h1`
 `;
 
 return (
-  <div className="w-100 container-fluid text text-light bg-black d-relative">
+  <div className="w-100 container-fluid text text-light bg-black position-relative">
     <div className="d-flex flex-row row">
       <div className="col-lg-6">
         <img
