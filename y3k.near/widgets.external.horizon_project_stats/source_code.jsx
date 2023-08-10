@@ -190,7 +190,7 @@ try {
       processedData.push(monthData);
     }
 
-    monthData.data[activity_date.toISOString().slice(0, 10)] = datum.MAU;
+    monthData.data[activity_date.toISOString().slice(0, 10)] = datum[initialState.selectedMetric];
   });
 } catch (err) {
   console.log(err);
