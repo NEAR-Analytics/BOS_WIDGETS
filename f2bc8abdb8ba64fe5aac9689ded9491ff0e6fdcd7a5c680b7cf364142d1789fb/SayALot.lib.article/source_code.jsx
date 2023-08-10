@@ -298,8 +298,6 @@ function filterArticles(props, articles) {
   return byTag;
 }
 
-console.log("inside");
-
 function libCall(call) {
   if (call.functionName === "canUserCreateArticle") {
     return canUserCreateArticle(call.props);
