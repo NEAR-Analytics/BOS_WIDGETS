@@ -6,6 +6,7 @@ State.init({
 
 const accountId = props.daoId ?? props.accountId ?? "refi.sputnik-dao.near";
 const showLinks = props.showLinks ?? true;
+const showSearchDAOs = props.showSearchDAOs ?? true;
 
 const daoId = accountId;
 const profile =
