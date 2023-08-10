@@ -365,7 +365,7 @@ if (
     props.resendPrompt(props);
   }
 } else if (props.action === "repay") {
-  closeTrove();
+  repayLUSD();
 } else if (props.action === "display") {
   getEntireDebtAndColl();
 } else if (props.action === "withdraw") {
