@@ -85,15 +85,6 @@ const extractHashtags = (text) => {
     match[1].toLowerCase()
   );
 };
-function checkImage() {
-  if (content.image === undefined) {
-    <Widget
-      src="jgodwill.near/widget/genalert"
-      props={{ toastMessage: "you must upload an image to do a vibe check" }}
-    />;
-  }
-}
-checkImage();
 
 function composeData() {
   content.text =
@@ -176,6 +167,39 @@ function composeData() {
   return data;
 }
 
+content.image
+  ? State.update({
+      disableButon: false,
+    })
+  : State.update({
+      disableButon: true,
+    });
+
+const handleVibeCheck = () => {
+  if (!content.image) {
+    console.log("No Image");
+    State.update({
+      showAlert: true,
+      toastMessage: "You must upload an image to do a vibe check",
+    });
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+    return;
+  }
+  State.update({ commitLoading: true });
+  Social.set(composeData(), {
+    force: true,
+    onCommit: () => {
+      State.update({ commitLoading: false });
+    },
+    onCancel: () => {
+      State.update({ commitLoading: false });
+    },
+  });
+};
 function onCommit() {
   State.update({
     image: {},
@@ -421,15 +445,14 @@ const Actions = styled.div`
       outline: none;
     }
 
-    &:disabled {
-      opacity: 0.5;
-      pointer-events: none;
-    }
 
     span {
       margin-left: 12px;
     }
   }
+    .disabled {
+      opacity: 0.5;
+    }
 
   .d-inline-block {
     display: flex !important;
@@ -468,6 +491,16 @@ const AutoComplete = styled.div`
     padding: calc(var(--padding) / 2);
   }
 `;
+
+State.init({ commitLoading: false });
+
+const Loading = (
+  <span
+    className="spinner-grow spinner-grow-sm me-1"
+    role="status"
+    aria-hidden="true"
+  />
+);
 
 return (
   <>
@@ -545,15 +578,25 @@ return (
             )}
           </button>
 
-          <CommitButton
-            disabled={!state.text}
+          {/*<CommitButton
+            disabled={state.disableButon}
             force
             data={composeData}
             onCommit={onCommit}
+            onClick={handleVibeCheck}
             className="commit-post-button"
           >
             Vibe Check
-          </CommitButton>
+          </CommitButton>*/}
+          <button
+            disabled={state.commitLoading}
+            className={`commit-post-button ${
+              state.disableButon ? "disabled" : ""
+            }`}
+            onClick={handleVibeCheck}
+          >
+            {state.commitLoading && Loading}Vibe Check
+          </button>
         </Actions>
       </Wrapper>
       <SliderWrapper>
@@ -623,5 +666,8 @@ return (
         )}
       </SliderWrapper>
     </Card>
+    {state.showAlert && (
+      <Widget src="jgodwill.near/widget/genalert" props={state} />
+    )}
   </>
 );
