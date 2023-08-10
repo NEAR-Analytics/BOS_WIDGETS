@@ -24,14 +24,6 @@ State.init({
   action: "stake", // "
 });
 
-const nativeBalance = props.nativeBalance;
-const nativeToken = props.nativeToken;
-const stakeBalance = props.stakeBalance;
-const stakeToken = props.stakeToken;
-const nativeTokenUsd = props.nativeTokenUsd;
-const apy = props.apy;
-const inputPlaceholder = props.inputPlaceholder;
-
 // parametrize props
 const allProps = {
   stake: {
