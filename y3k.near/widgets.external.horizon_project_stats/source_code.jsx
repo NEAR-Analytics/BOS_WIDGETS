@@ -1,7 +1,22 @@
+const header_map = {
+  DAA: "Daily Active Accounts",
+  WAU: "Weekly Active Accounts",
+  MAU: "Monthly Active Accounts",
+  M2_RETENTION: "Retention Rate",
+  NEW_MAA: "New MAAs",
+  PERCENT_NEW: "% New Accounts",
+  STICKINESS: "DAA / MAA",
+  MVT: "Monthly Average Transactions",
+  DVT: "Daily Average Transactions",
+};
+
+// :"Monthly Active Accounts",
+// :"Daily Active Accounts",
+
 const initialState = {
   selectedMetric: props.selectedMetric || "MAU",
   processedData: processedData,
-  metric_period: "Monthly",
+  metric_period: header_map[props.selectedMetric] || "MAU",
   project_name: props.project_name || "social.near",
 };
 
@@ -182,10 +197,13 @@ try {
 }
 
 
-  let newProcessedData = updateProcessedData(
+
+
+let newProcessedData = updateProcessedData(
     filteredSortedData,
     initialState.selectedMetric
-  );
+);
+
 
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
