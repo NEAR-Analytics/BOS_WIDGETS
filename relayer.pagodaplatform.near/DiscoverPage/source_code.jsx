@@ -11,14 +11,14 @@ const HightLightText = styled.h1`
 return (
   <div className="w-100 container-fluid text text-light bg-black d-relative">
     <div className="d-flex flex-row row">
-      <div className="col-lg-5">
+      <div className="col-lg-6">
         <img
           style={{ maxWidth: "100%" }}
           src={`https://ipfs.near.social/ipfs/bafybeiejengae7z4qa3uxq6yk7pttdqfq5ryasaoyillpkabfqhbzckzta`}
           alt="uploaded"
         />
       </div>
-      <div className="d-flex flex-column col-lg-7 justify-content-center">
+      <div className="d-flex flex-column col-lg-6 justify-content-center">
         <span className="mb-5 d-flex flex-row">
           <h1 className="me-2">Welcome To</h1>
           <HightLightText>WeData</HightLightText>
