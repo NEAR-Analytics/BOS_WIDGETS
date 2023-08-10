@@ -593,6 +593,7 @@ return (
                       <div>
                         <input
                           class="Dropdown"
+                          style={{ height: "30px" }}
                           type="number"
                           placeholder="write the class id"
                           min={1}
