@@ -78,6 +78,11 @@ const priceFeedAbi = fetch(
   "https://raw.githubusercontent.com/IDKNWHORU/liquity-sepolia/main/price-feed-abi.json"
 );
 
+const lUSDAddress = "0x80668Ed2e71290EB7526ABE936327b4f5dB52dA8";
+const lUSDContractAbi = fetch(
+  "https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=0x80668Ed2e71290EB7526ABE936327b4f5dB52dA8"
+);
+
 if (!borrowerOperationAbi.ok) return "loading...";
 if (!priceFeedAbi.ok) return "loading...";
 
@@ -152,27 +157,44 @@ const withdrawColl = () => {
 };
 
 const repayLUSD = () => {
+  const lUSDContract = new ethers.Contract(
+    lUSDAddress,
+    lUSDContractAbi.body.result,
+    Ethers.provider().getSigner()
+  );
   const borrowerOperationContract = new ethers.Contract(
     borrowerOperationAddress,
     borrowerOperationAbi.body.result,
     Ethers.provider().getSigner()
   );
 
-  borrowerOperationContract.repayLUSD(
-    ethers.BigNumber.from(props.borrow * 100)
-      .mul("10000000000000000")
-      .toString(),
-    // ethers.BigNumber.from((state.borrow * 10000000000000000).toString()),
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-    {
-      value: ethers.BigNumber.from(
-        (props.coll * 1000000000000000000).toString()
-      ),
-      // gasPrice: state.gasPrice,
-      // gasLimit: 25000000,
-    }
-  );
+  lUSDContract
+    .approve(
+      borrowerOperationAddress,
+      ethers.BigNumber.from(props.lusdAmount * 100)
+        .mul("10000000000000000")
+        .toString()
+    )
+    .then((approveTx) => {
+      return approveTx.wait();
+    })
+    .then(() => {
+      borrowerOperationContract.repayLUSD(
+        ethers.BigNumber.from(props.borrow * 100)
+          .mul("10000000000000000")
+          .toString(),
+        // ethers.BigNumber.from((state.borrow * 10000000000000000).toString()),
+        "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+        "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+        {
+          value: ethers.BigNumber.from(
+            (props.coll * 1000000000000000000).toString()
+          ),
+          // gasPrice: state.gasPrice,
+          // gasLimit: 25000000,
+        }
+      );
+    });
 };
 
 const addColl = () => {
