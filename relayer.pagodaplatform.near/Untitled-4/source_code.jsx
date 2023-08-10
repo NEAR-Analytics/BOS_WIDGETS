@@ -44,7 +44,7 @@ div.append(plot);
 `;
 
 return (
-  <div>
+  <div className="w-100 d-flex flex-column align-items-center">
     {props.title && <strong>{props.title}</strong>}
     <iframe
       className="w-100"
