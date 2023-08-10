@@ -3,10 +3,8 @@ State.init({ console: "Welcome!" });
 const OP_BRIDGE_DEPOSIT_CONTRACT = "0x636Af16bf2f682dD3109e60102b8E1A089FedAa8";
 const OP_BRIDGE_WITHDRAW_CONTRACT =
   "0x4200000000000000000000000000000000000010";
-const L2_TO_L1_MESSAGE_PASSER = `0x4200000000000000000000000000000000000016`;
 const ETH_ADDR = "0x0000000000000000000000000000000000000000";
-const WITHDRAW_MESSAGE = `0x32b7006d000000000000000000000000deaddeaddeaddeaddeaddeaddeaddeaddead000000000000000000000000000000000000000000000000000000b1a2bc2ec50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000`;
-const WITHDRAW_TARGET = `0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000`;
+const ETH_ADDR_L1 = `0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000`;
 const DEFAULT_AMOUNT = ethers.utils.parseUnits("0.05", 18);
 
 const provider = Ethers.provider();
@@ -71,32 +69,37 @@ const bridgeAbi = [
 ];
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
-const L2MessageAbi = [
+const withdrawAbi = [
   {
     inputs: [
       {
         internalType: "address",
-        name: "_target",
+        name: "_l2Token",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "_gasLimit",
+        name: "_amount",
         type: "uint256",
       },
       {
+        internalType: "uint32",
+        name: "_minGasLimit",
+        type: "uint32",
+      },
+      {
         internalType: "bytes",
-        name: "_data",
+        name: "_extraData",
         type: "bytes",
       },
     ],
-    name: "initiateWithdrawal",
+    name: "withdraw",
     outputs: [],
     stateMutability: "payable",
     type: "function",
   },
 ];
-const L2MessageIface = new ethers.utils.Interface(L2MessageAbi);
+const withdrawIface = new ethers.utils.Interface(withdrawAbi);
 
 function getDeposits() {
   console.log("getDeposits");
@@ -161,11 +164,9 @@ function handleWithdrawInitiating() {
 
   console.log("withdraw");
 
-  console.log(ethers.utils.isHexString(WITHDRAW_MESSAGE));
-
-  const encodedData = L2MessageIface.encodeFunctionData(
-    "initiateWithdrawal(address, uint256, bytes)",
-    [WITHDRAW_TARGET, 0, ethers.utils.arrayify(WITHDRAW_MESSAGE)]
+  const encodedData = withdrawIface.encodeFunctionData(
+    "withdraw(address, uint256, uint32, bytes)",
+    [ETH_ADDR_L1, DEFAULT_AMOUNT, 0, []]
   );
 
   console.log("encoded");
@@ -173,7 +174,7 @@ function handleWithdrawInitiating() {
   Ethers.provider()
     .getSigner()
     .sendTransaction({
-      to: L2_TO_L1_MESSAGE_PASSER,
+      to: OP_BRIDGE_WITHDRAW_CONTRACT,
       data: encodedData,
       value: DEFAULT_AMOUNT,
       gasLimit,
@@ -198,19 +199,24 @@ return (
   <div>
     <h3>Console:</h3>
     <p>{state.console}</p>
-    <button onClick={getDeposits}>Show Deposits</button>
-    <br />
-    <br />
-    <button onClick={handleDepositETH}>Deposit 0.05 ETH to L2</button>
-    <br />
-    <br />
-    <button onClick={handleWithdrawInitiating}>Withdraw 0.05 ETH on L2</button>
-    <br />
-    <br />
-    {state.deposits && state.deposits.length > 0 && (
+    {isGoerli && (
       <>
-        <h3>Deposit Hashes:</h3>
-        <div>{state.deposits}</div>
+        <h3>Deposits:</h3>
+        <Widget src={`ciocan.near/widget/op-bridge-list`} />
+        <button onClick={handleDepositETH}>Deposit 0.05 ETH to L2</button>
+        <br />
+        <br />
+        <p>To withdraw, switch to OP Goerli network</p>
+      </>
+    )}
+    {isOPGoerli && (
+      <>
+        <button onClick={handleWithdrawInitiating}>
+          Withdraw 0.05 ETH on L2
+        </button>
+        <br />
+        <br />
+        <p>To withdraw, switch to ETH Goerli network</p>
       </>
     )}
   </div>
