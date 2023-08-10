@@ -160,7 +160,7 @@ const repayLUSD = () => {
   console.log(lUSDContractAbi);
   const lUSDContract = new ethers.Contract(
     lUSDAddress,
-    lUSDContractAbi.body.result,
+    "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json",
     Ethers.provider().getSigner()
   );
   const borrowerOperationContract = new ethers.Contract(
