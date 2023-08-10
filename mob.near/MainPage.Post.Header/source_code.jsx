@@ -8,7 +8,7 @@ return (
     <div className="flex-grow-1 text-truncate">
       <a
         className="text-dark text-decoration-none text-truncate"
-        href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+        href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
       >
         <Widget
           src="mob.near/widget/Profile.ShortInlineBlock"
