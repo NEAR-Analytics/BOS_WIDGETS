@@ -5,7 +5,7 @@ const name = Social.get(`${accountId}/profile/name`);
 const postType = props.postType ?? "post";
 const link = props.link;
 
-const Overlay = (children) => (
+const Overlay = (props) => (
   <a
     className="link-dark text-truncate"
     href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
@@ -14,13 +14,15 @@ const Overlay = (children) => (
       src="mob.near/widget/Profile.OverlayTrigger"
       props={{
         accountId,
-        children,
+        children: props.children,
       }}
     />
   </a>
 );
 
-const Checkmark = (
+const checkmarkColor = accountId === "mob.near" ? "#1d9bf0" : null;
+
+const Checkmark = checkmarkColor ? (
   <svg
     viewBox="0 0 22 22"
     xmlns="http://www.w3.org/2000/svg"
@@ -32,24 +34,24 @@ const Checkmark = (
       // fill="#ffd700"
     ></path>
   </svg>
+) : (
+  ""
 );
 
 return (
   <div className="d-flex flex-row align-items-center">
     <div className="flex-grow-1" style={{ overflow: "hidden" }}>
       <div className="d-flex">
-        {Overlay(
-          <div className="text-truncate">
-            <span className="fw-bold">{name}</span>
+        <Overlay>
+          <div className="text-truncate fw-bold">{name}</div>
+        </Overlay>
+        <div className="text-nowrap">{Checkmark}</div>
+        <Overlay>
+          <div className="text-truncate ps-1 text-muted font-monospace">
+            @{accountId}
           </div>
-        )}
-        <span>{Checkmark}</span>
-        {Overlay(
-          <div className="text-truncate">
-            <span className="ps-1 text-muted font-monospace">@{accountId}</span>
-          </div>
-        )}
-        <span className="px-1 text-muted">·</span>
+        </Overlay>
+        <div className="px-1 text-muted">·</div>
         <span className="text-nowrap text-muted">
           {blockHeight === "now" ? (
             "now"
