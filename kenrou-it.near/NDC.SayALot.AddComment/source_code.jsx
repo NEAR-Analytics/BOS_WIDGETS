@@ -246,7 +246,7 @@ const {
   isTest,
   article,
   onCloseModal,
-  candidateOrReply,
+  isReplying,
   username,
   profile_picture,
   originalComment,
@@ -313,9 +313,9 @@ function addCommentListener() {
 return (
   <ModalCard>
     <CommentCard>
-      <H1>{candidateOrReply ? " Add a Comment" : "Reply to comment"}</H1>
+      <H1>{isReplying ? " Add a Comment" : "Reply to comment"}</H1>
       <Container>
-        {!candidateOrReply ? (
+        {!isReplying ? (
           <>
             <CommentBody>
               <BComment>
