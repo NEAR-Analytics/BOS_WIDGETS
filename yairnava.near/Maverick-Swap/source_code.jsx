@@ -25,14 +25,14 @@ const TOKENS = [
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/busd.png",
     address: "0x2039bb4116B4EFc145Ec4f0e2eA75012D6C0f181",
     coinGeckoId: "binance-usd",
-    decimals: 6,
+    decimals: 18,
   },
   {
     name: "MAV",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/mav.png",
     address: "0x787c09494Ec8Bcb24DcAf8659E7d5D69979eE508",
     coinGeckoId: "maverick-protocol",
-    decimals: 6,
+    decimals: 18,
   },
   {
     name: "LUSD",
@@ -46,14 +46,14 @@ const TOKENS = [
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/reth.png",
     address: "0x32Fd44bB869620C0EF993754c8a00Be67C464806",
     coinGeckoId: "rocket-pool-eth",
-    decimals: 6,
+    decimals: 18,
   },
   {
     name: "CBETH",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/cbeth.png",
     address: "0x75Af292c1c9a37b3EA2E6041168B4E48875b9ED5",
     coinGeckoId: "coinbase-wrapped-staked-eth",
-    decimals: 6,
+    decimals: 18,
   },
   {
     name: "USD+",
@@ -67,21 +67,21 @@ const TOKENS = [
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/grai.png",
     address: "0x5FC44E95eaa48F9eB84Be17bd3aC66B6A82Af709",
     coinGeckoId: "grai",
-    decimals: 6,
+    decimals: 18,
   },
   {
     name: "FRAX",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/frax.png",
     address: "0xb4C1544cb4163f4C2ECa1aE9Ce999F63892d912A",
     coinGeckoId: "frax",
-    decimals: 6,
+    decimals: 18,
   },
   {
     name: "WETH",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png",
     address: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4",
     coinGeckoId: "usd-coin",
-    decimals: 6,
+    decimals: 18,
   },
 ];
 
