@@ -52,10 +52,11 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
-const CommunityNewPage = () =>
-  widget("components.template.app-layout", {
-    path: [{ label: "Communities", pageId: "communities" }],
-    children: widget("feature.community.editor"),
-  });
+const CommunityNewPage = () => (
+  <div className="d-flex flex-column">
+    {widget("components.layout.app-header", { style: { marginBottom: 0 } })}
+    {widget("feature.community-editor.ui", {})}
+  </div>
+);
 
 return CommunityNewPage(props);
