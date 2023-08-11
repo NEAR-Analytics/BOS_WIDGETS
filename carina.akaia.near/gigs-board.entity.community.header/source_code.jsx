@@ -51,22 +51,6 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "core/lib/gui/navigation" */
-const NavUnderline = styled.ul`
-  border-bottom: 1px #eceef0 solid;
-
-  a {
-    color: #687076;
-    text-decoration: none;
-  }
-
-  a.active {
-    font-weight: bold;
-    color: #0c7283;
-    border-bottom: 4px solid #0c7283;
-  }
-`;
-/* END_INCLUDE: "core/lib/gui/navigation" */
 /* INCLUDE: "core/lib/struct" */
 const Struct = {
   deepFieldUpdate: (
@@ -128,28 +112,32 @@ const DevHub = {
     Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
     null,
 
-  create_project: ({ tag, name, description }) =>
-    Near.call(devHubAccountId, "create_project", { tag, name, description }) ??
+  create_workspace: ({ author_community_handle, metadata }) =>
+    Near.call(devHubAccountId, "create_workspace", {
+      author_community_handle,
+      metadata,
+    }) ?? null,
+
+  delete_workspace: ({ id }) =>
+    Near.call(devHubAccountId, "delete_workspace", { id }) ?? null,
+
+  update_workspace_metadata: ({ metadata }) =>
+    Near.call(devHubAccountId, "update_workspace_metadata", { metadata }) ??
     null,
 
-  update_project_metadata: ({ metadata }) =>
-    Near.call(devHubAccountId, "update_project_metadata", { metadata }) ?? null,
+  get_workspace_views_metadata: ({ workspace_id }) =>
+    Near.view(devHubAccountId, "get_workspace_views_metadata", {
+      workspace_id,
+    }) ?? null,
 
-  get_project_views_metadata: ({ project_id }) =>
-    Near.view(devHubAccountId, "get_project_views_metadata", { project_id }) ??
-    null,
+  create_workspace_view: ({ view }) =>
+    Near.call(devHubAccountId, "create_workspace_view", { view }) ?? null,
 
-  create_project_view: ({ project_id, view }) =>
-    Near.call(devHubAccountId, "create_project_view", { project_id, view }) ??
-    null,
+  update_workspace_view: ({ view }) =>
+    Near.call(devHubAccountId, "update_workspace_view", { view }) ?? null,
 
-  get_project_view: ({ project_id, view_id }) =>
-    Near.view(devHubAccountId, "get_project_view", { project_id, view_id }) ??
-    null,
-
-  update_project_view: ({ project_id, view }) =>
-    Near.call(devHubAccountId, "create_project_view", { project_id, view }) ??
-    null,
+  delete_workspace_view: ({ id }) =>
+    Near.call(devHubAccountId, "delete_workspace_view", { id }) ?? null,
 
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
@@ -216,10 +204,18 @@ const Viewer = {
         Viewer.role.isDevHubModerator),
   },
 
-  projectPermissions: (projectId) =>
-    Near.view(devHubAccountId, "get_project_permissions", {
-      id: projectId,
-    }) ?? { can_configure: false },
+  workspacePermissions: (workspaceId) => {
+    const workspace_id = parseInt(workspaceId);
+
+    const defaultPermissions = { can_configure: false };
+
+    return !isNaN(workspace_id)
+      ? Near.view(devHubAccountId, "get_account_workspace_permissions", {
+          account_id: context.accountId,
+          workspace_id: workspace_id,
+        }) ?? defaultPermissions
+      : defaultPermissions;
+  },
 
   role: {
     isDevHubModerator:
@@ -232,6 +228,27 @@ const Viewer = {
 };
 /* END_INCLUDE: "entity/viewer" */
 
+const Header = styled.div`
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 25px;
+`;
+
+const NavUnderline = styled.ul`
+  border-bottom: 1px #eceef0 solid;
+
+  a {
+    color: #687076;
+    text-decoration: none;
+  }
+
+  a.active {
+    font-weight: bold;
+    color: #0c7283;
+    border-bottom: 4px solid #0c7283;
+  }
+`;
+
 const Button = styled.button`
   height: 40px;
   font-size: 14px;
@@ -243,6 +260,15 @@ const Banner = styled.div`
   max-width: 100%;
   width: 1320px;
   height: 240px;
+`;
+
+const LogoImage = styled.img`
+  top: -50px;
+`;
+
+const SizedDiv = styled.div`
+  width: 150px;
+  height: 100px;
 `;
 
 const CommunityHeader = ({ activeTabTitle, handle }) => {
@@ -282,12 +308,6 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
     },
 
     {
-      iconClass: "bi bi-view-list",
-      route: "community.projects",
-      title: "Projects",
-    },
-
-    {
       iconClass: "bi bi-coin",
       route: "community.sponsorship",
       title: "Sponsorship",
@@ -311,7 +331,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
   ];
 
   return (
-    <div className="d-flex flex-column gap-3 overflow-hidden bg-white">
+    <Header className="d-flex flex-column gap-3">
       <Banner
         className="object-fit-cover"
         style={{
@@ -322,16 +342,15 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
       <div className="d-md-flex d-block justify-content-between container">
         <div className="d-md-flex d-block align-items-end">
           <div className="position-relative">
-            <div style={{ width: 150, height: 100 }}>
-              <img
+            <SizedDiv>
+              <LogoImage
+                src={community.data.logo_url}
                 alt="Community logo"
-                className="border border-3 border-white rounded-circle shadow position-absolute"
                 width="150"
                 height="150"
-                src={community.data.logo_url}
-                style={{ top: -50 }}
+                className="border border-3 border-white rounded-circle shadow position-absolute"
               />
-            </div>
+            </SizedDiv>
           </div>
 
           <div>
@@ -412,7 +431,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
           ) : null
         )}
       </NavUnderline>
-    </div>
+    </Header>
   );
 };
 
