@@ -83,7 +83,10 @@ const getDateAgo = () => {
 
 const handleShare = (e) => e.preventDefault();
 
-State.init({ isOpen: false });
+State.init({
+  isOpen: false,
+  isEdit: false,
+});
 
 const UserProfile = ({ secondary, ownerId }) => (
   <UserProfileDiv
@@ -165,6 +168,20 @@ return (
                 },
               }}
             />
+            {context.accountId === comment.owner_id && (
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Button: {
+                    size: "sm",
+                    title: "Edit",
+                    className: "secondary dark",
+                    icon: <i className="bi bi-edit fs-6"></i>,
+                    onClick: () => State.update({ isOpen: true, isEdit: true }),
+                  },
+                }}
+              />
+            )}
             <Widget
               src={widgets.styledComponents}
               props={{
@@ -173,7 +190,7 @@ return (
                   disabled: !isIAmHuman,
                   size: "sm",
                   icon: <i className="bi bi-arrow-90deg-left" />,
-                  onClick: () => State.update({ isOpen: true }),
+                  onClick: () => State.update({ isOpen: true, isEdit: false }),
                 },
               }}
             />
@@ -187,6 +204,7 @@ return (
         src={widgets.addComment}
         props={{
           kudo,
+          edit: state.isEdit,
           comment: {
             id: comment.id,
             owner_id: comment.owner_id,
