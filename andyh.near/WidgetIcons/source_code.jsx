@@ -60,7 +60,7 @@ const renderItem = (a) => {
       key={JSON.stringify(a)}
     >
       <Widget
-        src="andyh.near/widget/WidgetImage"
+        src="andyh.near/widget/WidgetImageAsync"
         props={{
           tooltip: true,
           accountId: a?.accountId,
