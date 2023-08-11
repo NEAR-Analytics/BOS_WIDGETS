@@ -1,77 +1,93 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-const prodAction = "SayALotComments";
-const testAction = "test_SayALotComments";
+const prodAction = "sayALotComment";
+const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-// const initLibCalls = [
-//   {
-//     functionName: "get1",
-//     key: "test",
-//     props: {},
-//   },
-//   {
-//     functionName: "getWritersWhitelist",
-//     key: "writersWhitelist",
-//     props: { env: "test" },
-//   },
-// ];
+function createComment(props) {
+  const { comment } = props;
 
-function getWritersWhitelist(env) {
-  if (env === "test") {
-    return ["kenrou-it.near", "ayelen.near", "martinbarba.near"];
-  } else {
-    return ["blaze.near"];
-  }
+  saveComment(comment);
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "createComment";
+  });
+
+  return comment;
 }
 
-function libCall(call) {
-  if (call.functionName === "getComments") {
-    return getComments(call.props);
-  } else if (call.functionName === "setComment") {
-    return setComment(call.props);
-  } else if (call.functionName === "getWritersWhitelist") {
-    return getWritersWhitelist(call.props.env);
-  } else if (call.functionName === "get1") {
-    return 1;
-  }
-}
-
-function getComments(args) {
-  const { realArticleId } = args;
-  const key = realArticleId;
-  return Social.index(action, key);
-}
-
-function setComment(args) {
-  const { realArticleId, text, previousCommentId } = args;
+//addressForComments should be the realArticleId of the article
+function composeCommentData(comment) {
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: realArticleId,
+        key: comment.realArticleId,
         value: {
-          text,
-          id: `${realArticleId}-${Date.now()}`,
-          previousCommentId,
+          type: "md",
+          comment,
         },
       }),
     },
   };
-  Social.set(data);
 
-  resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "setComment";
-  });
-
-  return text;
+  return data;
 }
 
-const updateObj = {};
-const resultLibCalls = [...libCalls];
-libCalls.forEach((call) => {
-  updateObj[call.key] = libCall(call);
-});
+function saveComment(comment) {
+  if (comment.text) {
+    const newData = composeCommentData(comment);
 
-updateObj.libCalls = resultLibCalls;
-stateUpdate(updateObj);
-return <></>;
+    Social.set(newData, {
+      force: true,
+    });
+    // onCancel: () => {
+    //   State.update({ saving: false });
+    // },
+  }
+}
+
+function getComment(props) {
+  const { realArticleId } = props;
+  return Social.index(action, realArticleId, {
+    order: "desc",
+  });
+}
+
+function getCommentBlackListByBlockHeight() {
+  return [];
+}
+
+function filterInvalidArticlesIndexes(commentIndexes) {
+  return commentIndexes.filter(
+    (commentIndexes) =>
+      !getCommentBlackListByBlockHeight().includes(commentIndexes.blockHeight) // Comment is not in blacklist
+  );
+}
+
+function getValidComments(props) {
+  const commentIndexes = getComment(props);
+  const validCommentsIndexes = filterInvalidArticlesIndexes(commentIndexes);
+
+  return validCommentsIndexes;
+}
+
+function libCall(call) {
+  if (call.functionName === "createComment") {
+    return createComment(call.props);
+  } else if (call.functionName === "getValidComments") {
+    return getValidComments(call.props);
+  }
+}
+let resultLibCalls = [];
+if (libCalls && libCalls.length > 0) {
+  const updateObj = {};
+  resultLibCalls = [...libCalls];
+  libCalls.forEach((call) => {
+    updateObj[call.key] = libCall(call);
+  });
+
+  updateObj.libCalls = resultLibCalls;
+  stateUpdate(updateObj);
+}
+
+return <>{}</>;
