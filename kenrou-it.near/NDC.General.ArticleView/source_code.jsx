@@ -840,8 +840,7 @@ return (
                       isTest,
                       candidateOrReplay: true,
                       username: accountId,
-                      onClickConfirm: () => State.update({ showModal: false }),
-                      onClickCancel: () => State.update({ showModal: false }),
+                      onCloseModal: () => State.update({ showModal: false }),
                       // nomination_contract,
                     }}
                   />
