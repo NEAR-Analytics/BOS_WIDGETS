@@ -108,6 +108,7 @@ return (
     className="container-xl"
     negativeMargin={state.selectedTab === "posts"}
   >
+    <Widget src="shemar268abel.near/widget/community.Page" />
     <Tabs
       halfMargin={state.selectedTab === "apps"}
       noMargin={state.selectedTab === "posts"}
