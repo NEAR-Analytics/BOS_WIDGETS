@@ -3,12 +3,15 @@ background-color:white;
 padding:10px;
 padding-top:30px;
 margin-top:10px;
+margin-bottom:60px;
 border-radius:10px;
 `;
 State.init({
-  name: "",
+  eventName: "",
   location: "",
   description: "",
+  date: null,
+  isSingleDateEvent: false,
 });
 
 const Grid = styled.div`
@@ -76,8 +79,8 @@ const formContent = () => {
               label: "Event name*",
               inputProps: {
                 placeholder: "Add the name of your event",
-                value: state.name,
-                onChange: (e) => State.update({ name: e.target.value }),
+                value: state.eventName,
+                onChange: (e) => State.update({ eventName: e.target.value }),
               },
             }}
           />
@@ -104,15 +107,67 @@ const formContent = () => {
               },
             }}
           />
-          <Widget
-            src="harrydhillon.near/widget/Keypom.Input"
-            props={{
-              label: "Date",
-              inputProps: {
-                placeholder: "Select a date range",
-              },
-            }}
-          />
+          <Label style={{ marginLeft: -5 }}>Event dates</Label>
+          <p style={{ fontSize: 12, color: "gray", marginTop: -5 }}>
+            {state?.isSingleDateEvent
+              ? " Please mention the date of your event"
+              : " Please mention the date range of your event"}
+          </p>
+          {state?.isSingleDateEvent ? (
+            <>
+              <Widget
+                src="harrydhillon.near/widget/Keypom.Input"
+                props={{
+                  label: "Event date",
+                  inputProps: {
+                    value: state.date,
+                    type: "date",
+                    onChange: (e) => State.update({ from: e.target.value }),
+                  },
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <div style={{ marginTop: -10 }}>
+                <Widget
+                  src="harrydhillon.near/widget/Keypom.Input"
+                  props={{
+                    label: "From",
+                    inputProps: {
+                      placeholder: "Select a date range",
+                      value: state.date,
+                      type: "date",
+                      onChange: (e) => State.update({ from: e.target.value }),
+                    },
+                  }}
+                />
+              </div>
+              <Widget
+                src="harrydhillon.near/widget/Keypom.Input"
+                props={{
+                  label: "To",
+                  inputProps: {
+                    placeholder: "Select a date range",
+                    value: state.date,
+                    type: "date",
+                    onChange: (e) => State.update({ to: e.target.value }),
+                  },
+                }}
+              />
+            </>
+          )}
+          <div style={{ marginLeft: -5 }}>
+            <Widget
+              src="nui.sking.near/widget/Input.Checkbox"
+              props={{
+                label: "My Event is a single day event",
+                checked: state.isSingleDateEvent,
+                onChange: () =>
+                  State.update({ isSingleDateEvent: !state.isSingleDateEvent }),
+              }}
+            />
+          </div>
           <Label>Event artwork</Label>
           <p style={{ fontSize: 12, color: "gray" }}>
             Customize the artwork that appears in the header of the event page.
@@ -122,7 +177,7 @@ const formContent = () => {
         <div style={{ padding: 10 }}>
           {console.log(state)}
           <Widget
-            props={{ ...state }}
+            props={{ ...state, date: state.from }}
             src="harrydhillon.near/widget/Keypom.Eventview"
           />
         </div>
