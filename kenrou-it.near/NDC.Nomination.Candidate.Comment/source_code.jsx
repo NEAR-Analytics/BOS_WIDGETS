@@ -260,15 +260,14 @@ return (
     <CommentCardContent>
       <Widget
         src="mob.near/widget/SocialMarkdown"
-        props={{ text: data.value.text }}
+        props={{ text: data.value.comment.text }}
       />
-      )
     </CommentCardContent>
     <CommentCardLowerSection>
       <TimestampCommentDiv>
         <i className="bi bi-clock" />
         <TimestampTextComment>
-          {new Date(data.value.timestamp).toDateString()}
+          {new Date(data.value.comment.timestamp).toDateString()}
         </TimestampTextComment>
       </TimestampCommentDiv>
     </CommentCardLowerSection>
