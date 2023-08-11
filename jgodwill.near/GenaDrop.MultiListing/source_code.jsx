@@ -409,7 +409,7 @@ return (
     {state.tokenId !== "1679119560198" && (
       <>
         <Widget
-          src="jgodwill.near/widget/NftListingInput"
+          src="jgodwill.near/widget/GenaDrop.NFTListingInput"
           props={{
             state,
             onChangeContract,
