@@ -146,76 +146,50 @@ const deleteDeck = () => {
   });
 };
 
-const viewHandler = (cb, fn, args) => {
-  const result = Near.view(contract, fn, args);
+const getAllSlides = () => {
+  const slides = Near.view(contract, "get_slides", {
+    key: state.selectedUser,
+    deck_name: state.deckName,
+  });
 
-  if (result) {
-    cb(result);
-  } else {
-    setTimeout(() => {
-      viewHandler(cb, fn, args);
-    }, 250);
+  const slidesParsed = JSON.parse(slides);
+
+  if (slidesParsed !== "None") {
+    State.update({
+      slides: slidesParsed,
+      viewing: true,
+      currentIndex: 0,
+    });
   }
 };
 
-const getAllSlides = () => {
-  const fn = "get_slides";
-  const args = {
-    key: state.selectedUser,
-    deck_name: state.deckName,
-  };
-
-  viewHandler(
-    (slides) => {
-      const slidesParsed = JSON.parse(slides);
-
-      if (slidesParsed !== "None") {
-        State.update({
-          slides: slidesParsed,
-          viewing: true,
-          currentIndex: 0,
-        });
-      }
-    },
-    fn,
-    args
-  );
-};
-
 const getAllDecks = () => {
-  const fn = "get_deck_names";
-  const args = {
+  const decks = Near.view(contract, "get_deck_names", {
     key: state.selectedUser,
-  };
+  });
 
-  viewHandler(
-    (decks) => {
-      const decksParsed = JSON.parse(decks);
+  const decksParsed = JSON.parse(decks);
 
-      const options = decksParsed.map((deckName, index) => ({
-        value: `deck${index + 1}`,
-        label: deckName,
-      }));
+  const options = decksParsed.map((deckName, index) => ({
+    value: `deck${index + 1}`,
+    label: deckName,
+  }));
 
-      options.sort((a, b) => {
-        if (a.label < b.label) {
-          return -1;
-        }
-        if (a.label > b.label) {
-          return 1;
-        }
-        return 0;
-      });
+  options.sort((a, b) => {
+    if (a.label < b.label) {
+      return -1;
+    }
+    if (a.label > b.label) {
+      return 1;
+    }
+    return 0;
+  });
 
-      State.update({
-        decks: decksParsed,
-        deckOptions: options,
-        deckName: options[0].label,
-      });
-    },
-    fn,
-    args
-  );
+  State.update({
+    decks: decksParsed,
+    deckOptions: options,
+    deckName: options[0].label,
+  });
 };
 
 const nextSlide = () => {
@@ -473,8 +447,10 @@ return (
               <span style={{ fontSize: "18px", fontFamily: "menlo" }}>
                 Create Unstoppable Presentations{" "}
               </span>
+              <br />
             </p>
-            <div style={{ marginBottom: "12px" }}>
+
+            <div>
               <TutorialButton
                 onClick={viewTutorial}
                 className="btn btn-outline-dark"
@@ -482,12 +458,11 @@ return (
                 View Tutorial
               </TutorialButton>
             </div>
+
             <p
-              style={{
-                position: "relative",
-                lineHeight: "2",
-              }}
+              style={{ position: "relative", top: "-24px", lineHeight: "2.5" }}
             >
+              <br />
               or
               <br />
               Click ⚙ to View Decks, Slides, or Create a New Deck
