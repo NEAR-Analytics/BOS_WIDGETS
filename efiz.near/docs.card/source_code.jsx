@@ -135,6 +135,20 @@ function getSourcePath(path) {
   }
 }
 
+function getEditPath(path) {
+  switch (type) {
+    case "thing": {
+      return `/every.near/widget/every.thing.create?path=${path}`;
+    }
+    case "type": {
+      return `/every.near/widget/every.type.create?path=${path}`;
+    }
+    case "widget": {
+      return `https://nearpad.dev/${path}`;
+    }
+  }
+}
+
 return (
   <Wrapper className="shadow p-4 d-flex flex-column gap-2 h-100">
     <div className="row">
