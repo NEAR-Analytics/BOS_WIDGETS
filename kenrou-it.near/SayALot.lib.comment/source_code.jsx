@@ -82,8 +82,13 @@ function libCall(call) {
     return getValidComments(call.props);
   }
 }
+
 let resultLibCalls = [];
 if (libCalls && libCalls.length > 0) {
+  console.log(
+    "Calling functions",
+    libCalls.map((lc) => lc.functionName)
+  );
   const updateObj = {};
   resultLibCalls = [...libCalls];
   libCalls.forEach((call) => {
