@@ -1,6 +1,6 @@
 const NOTIFICATION_TYPES = {
   FORK: "fork",
-  SHARE: "share",
+  REPLY: "reply",
   FOLLOW: "follow",
   LIKE: "like",
   MENTION: "mention",
@@ -8,7 +8,7 @@ const NOTIFICATION_TYPES = {
 };
 
 const icons = {
-  Heart: (
+  [NOTIFICATION_TYPES.LIKE]: (
     <svg
       width="20"
       height="20"
@@ -22,7 +22,7 @@ const icons = {
       />
     </svg>
   ),
-  UserPlus: (
+  [NOTIFICATION_TYPES.FOLLOW]: (
     <svg
       width="20"
       height="20"
@@ -36,7 +36,7 @@ const icons = {
       />
     </svg>
   ),
-  ShareFat: (
+  [NOTIFICATION_TYPES.REPLY]: (
     <svg
       width="20"
       height="20"
@@ -50,7 +50,7 @@ const icons = {
       />
     </svg>
   ),
-  GitFork: (
+  [NOTIFICATION_TYPES.FORK]: (
     <svg
       width="20"
       height="20"
@@ -64,123 +64,103 @@ const icons = {
       />
     </svg>
   ),
+  [NOTIFICATION_TYPES.MENTION]: (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10 1.875C7.84512 1.875 5.77849 2.73102 4.25476 4.25476C2.73102 5.77849 1.875 7.84512 1.875 10C1.875 12.1549 2.73102 14.2215 4.25476 15.7452C5.77849 17.269 7.84512 18.125 10 18.125C11.6805 18.125 13.4453 17.6187 14.7211 16.7711C14.7895 16.7256 14.8482 16.6672 14.894 16.599C14.9398 16.5309 14.9717 16.4543 14.9879 16.3739C15.0041 16.2934 15.0043 16.2105 14.9885 16.1299C14.9727 16.0493 14.9412 15.9727 14.8957 15.9043C14.8503 15.8359 14.7918 15.7772 14.7236 15.7314C14.6555 15.6856 14.579 15.6537 14.4985 15.6375C14.418 15.6213 14.3351 15.6211 14.2545 15.6369C14.1739 15.6527 14.0973 15.6842 14.0289 15.7297C12.9688 16.4359 11.4227 16.875 10 16.875C8.64025 16.875 7.31104 16.4718 6.18045 15.7164C5.04987 14.9609 4.16868 13.8872 3.64833 12.6309C3.12798 11.3747 2.99183 9.99237 3.2571 8.65875C3.52237 7.32513 4.17716 6.10013 5.13864 5.13864C6.10013 4.17716 7.32513 3.52237 8.65875 3.2571C9.99237 2.99183 11.3747 3.12798 12.6309 3.64833C13.8872 4.16868 14.9609 5.04987 15.7164 6.18045C16.4718 7.31104 16.875 8.64025 16.875 10C16.875 12.0664 16.025 12.5 15.3125 12.5C14.6 12.5 13.75 12.0664 13.75 10V6.875C13.75 6.70924 13.6842 6.55027 13.5669 6.43306C13.4497 6.31585 13.2908 6.25 13.125 6.25C12.9592 6.25 12.8003 6.31585 12.6831 6.43306C12.5658 6.55027 12.5 6.70924 12.5 6.875V7.20781C11.9391 6.70494 11.2398 6.38265 10.4931 6.28292C9.74647 6.18319 8.98707 6.31065 8.31388 6.64868C7.64069 6.98672 7.08491 7.51967 6.71894 8.17809C6.35298 8.83652 6.19379 9.5899 6.26213 10.3401C6.33046 11.0903 6.62315 11.8025 7.10206 12.384C7.58097 12.9654 8.2239 13.3892 8.94709 13.6C9.67028 13.8109 10.4402 13.799 11.1566 13.566C11.8729 13.333 12.5025 12.8897 12.9633 12.2937C13.432 13.2312 14.2406 13.75 15.3125 13.75C17.0734 13.75 18.125 12.3484 18.125 10C18.1227 7.84581 17.266 5.78051 15.7427 4.25727C14.2195 2.73403 12.1542 1.87727 10 1.875ZM10 12.5C9.50555 12.5 9.0222 12.3534 8.61107 12.0787C8.19995 11.804 7.87952 11.4135 7.6903 10.9567C7.50108 10.4999 7.45157 9.99723 7.54804 9.51227C7.6445 9.02732 7.8826 8.58186 8.23223 8.23223C8.58186 7.8826 9.02732 7.6445 9.51227 7.54804C9.99723 7.45157 10.4999 7.50108 10.9567 7.6903C11.4135 7.87952 11.804 8.19995 12.0787 8.61107C12.3534 9.0222 12.5 9.50555 12.5 10C12.5 10.663 12.2366 11.2989 11.7678 11.7678C11.2989 12.2366 10.663 12.5 10 12.5Z"
+        fill="#868682"
+      />
+    </svg>
+  ),
+  [NOTIFICATION_TYPES.POKE]: (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M14.6875 6.875C14.3232 6.8746 13.9645 6.96566 13.6445 7.13984C13.5488 6.84357 13.391 6.57113 13.1816 6.34075C12.9722 6.11036 12.716 5.92734 12.4301 5.80391C12.1443 5.68048 11.8354 5.61949 11.5241 5.62501C11.2128 5.63053 10.9063 5.70244 10.625 5.83594V3.4375C10.625 2.85734 10.3945 2.30094 9.9843 1.8907C9.57407 1.48047 9.01767 1.25 8.43751 1.25C7.85735 1.25 7.30095 1.48047 6.89071 1.8907C6.48047 2.30094 6.25001 2.85734 6.25001 3.4375V9.6875L5.95157 9.20859C5.80727 8.96006 5.61543 8.74238 5.387 8.56798C5.15857 8.39358 4.89804 8.26588 4.62026 8.19218C4.05926 8.04332 3.46211 8.12342 2.96016 8.41484C2.45822 8.70627 2.0926 9.18516 1.94375 9.74616C1.79489 10.3072 1.87499 10.9043 2.16641 11.4062L2.53126 12.0492C5.21954 16.7883 6.33204 18.75 10 18.75C11.8227 18.7479 13.5702 18.0229 14.8591 16.7341C16.1479 15.4452 16.8729 13.6977 16.875 11.875V9.0625C16.875 8.48234 16.6445 7.92594 16.2343 7.5157C15.8241 7.10547 15.2677 6.875 14.6875 6.875ZM15.625 11.875C15.6234 13.3663 15.0302 14.7961 13.9757 15.8506C12.9211 16.9052 11.4913 17.4983 10 17.5C7.06016 17.5 6.26251 16.0938 3.61876 11.4313L3.25235 10.7852V10.7812C3.12794 10.5661 3.09402 10.3105 3.15804 10.0704C3.22205 9.83026 3.37877 9.62539 3.59376 9.50078C3.73616 9.41829 3.89794 9.37515 4.06251 9.37578C4.22731 9.37554 4.38926 9.41874 4.53204 9.50104C4.67482 9.58333 4.79339 9.70181 4.87579 9.84453C4.87897 9.85079 4.88263 9.8568 4.88673 9.8625L6.34532 12.2063C6.4173 12.3212 6.52472 12.4096 6.65136 12.4581C6.778 12.5066 6.91699 12.5127 7.04735 12.4753C7.17771 12.4379 7.29237 12.3591 7.37403 12.2508C7.45568 12.1425 7.4999 12.0106 7.50001 11.875V3.4375C7.50001 3.18886 7.59878 2.9504 7.77459 2.77459C7.95041 2.59877 8.18887 2.5 8.43751 2.5C8.68615 2.5 8.9246 2.59877 9.10042 2.77459C9.27623 2.9504 9.37501 3.18886 9.37501 3.4375V8.75C9.37501 8.91576 9.44085 9.07473 9.55806 9.19194C9.67527 9.30915 9.83425 9.375 10 9.375C10.1658 9.375 10.3247 9.30915 10.4419 9.19194C10.5592 9.07473 10.625 8.91576 10.625 8.75V7.8125C10.625 7.56386 10.7238 7.3254 10.8996 7.14959C11.0754 6.97377 11.3139 6.875 11.5625 6.875C11.8111 6.875 12.0496 6.97377 12.2254 7.14959C12.4012 7.3254 12.5 7.56386 12.5 7.8125V9.375C12.5 9.54076 12.5659 9.69973 12.6831 9.81694C12.8003 9.93415 12.9592 10 13.125 10C13.2908 10 13.4497 9.93415 13.5669 9.81694C13.6842 9.69973 13.75 9.54076 13.75 9.375V9.0625C13.75 8.81386 13.8488 8.5754 14.0246 8.39959C14.2004 8.22377 14.4389 8.125 14.6875 8.125C14.9361 8.125 15.1746 8.22377 15.3504 8.39959C15.5262 8.5754 15.625 8.81386 15.625 9.0625V11.875Z"
+        fill="#868682"
+      />
+    </svg>
+  ),
 };
 
 const notifications = [
   {
     type: NOTIFICATION_TYPES.FORK,
-    username: "{username}",
+    username: "John Doe",
     accountId: "cameron_banyan.near",
-    action: "{action}",
-    componentName: "{componentName}",
-    timestamp: "{timestamp}",
-    desc: "desc desc desc desc desc desc desc desc desc desc desc ",
+    action: "forked",
+    componentName: "DIG.Button",
+    timestamp: "Just now",
+    desc: "",
   },
   {
-    type: NOTIFICATION_TYPES.SHARE,
-    username: "{username}",
+    type: NOTIFICATION_TYPES.REPLY,
+    username: "John Doe",
     accountId: "cameron_banyan.near",
-    action: "{action}",
-    componentName: "{componentName}",
-    timestamp: "{timestamp}",
-    desc: "desc desc desc desc desc desc desc desc desc desc desc ",
+    action: "replied to a discussion on",
+    componentName: "DIG.Button",
+    timestamp: "Today",
+    desc: "This is a preview of the post or reply referenced by the notification. It will concatenate if it runs longer than two lines.",
   },
   {
     type: NOTIFICATION_TYPES.FOLLOW,
-    username: "{username}",
+    username: "John Doe",
     accountId: "cameron_banyan.near",
-    action: "{action}",
-    componentName: "{componentName}",
-    timestamp: "{timestamp}",
-    desc: "desc desc desc desc desc desc desc desc desc desc desc ",
+    action: "followed you",
+    componentName: "",
+    timestamp: "3d ago",
+    desc: "",
   },
   {
     type: NOTIFICATION_TYPES.LIKE,
-    username: "{username}",
+    username: "John Doe",
     accountId: "cameron_banyan.near",
-    action: "{action}",
-    componentName: "{componentName}",
-    timestamp: "{timestamp}",
-    desc: "desc desc desc desc desc desc desc desc desc desc desc ",
+    action: "liked your post",
+    componentName: "",
+    timestamp: "3w ago",
+    desc: "This is a preview of the post or reply referenced by the notification. It will concatenate if it runs longer than two lines.",
   },
   {
     type: NOTIFICATION_TYPES.MENTION,
-    username: "{username}",
+    username: "John Doe",
     accountId: "cameron_banyan.near",
-    action: "{action}",
-    componentName: "{componentName}",
-    timestamp: "{timestamp}",
-    desc: "desc desc desc desc desc desc desc desc desc desc desc ",
+    action: "mentioned you",
+    componentName: "",
+    timestamp: "1y ago",
+    desc: "@JaneDoe, we'd love to have you contribute!",
   },
   {
     type: NOTIFICATION_TYPES.POKE,
-    username: "{username}",
+    username: "John Doe",
     accountId: "cameron_banyan.near",
-    action: "{action}",
-    componentName: "{componentName}",
-    timestamp: "{timestamp}",
+    action: "poked you",
+    componentName: "",
+    timestamp: "1d ago",
     desc: "desc desc desc desc desc desc desc desc desc desc desc ",
   },
 ];
 
 return (
   <>
-    <Widget
-      src="golas.near/widget/N-Notification"
-      props={{
-        username: "{username}",
-        accountId: "cameron_banyan.near",
-        action: "{action}",
-        componentName: "{componentName}",
-        timestamp: "{timestamp}",
-        desc: "desc desc desc desc desc desc desc desc desc desc desc ",
-        icon: icons[0],
-      }}
-    />
-    <Widget
-      src="golas.near/widget/N-Notification"
-      props={{
-        username: "{username}",
-        accountId: "cameron_banyan.near",
-        action: "{action}",
-        componentName: "{componentName}",
-        timestamp: "{timestamp}",
-        desc: "desc desc desc desc desc desc desc desc desc desc desc ",
-        icon: icons[1],
-      }}
-    />
-    <Widget
-      src="golas.near/widget/N-Notification"
-      props={{
-        username: "{username}",
-        accountId: "cameron_banyan.near",
-        action: "{action}",
-        componentName: "{componentName}",
-        timestamp: "{timestamp}",
-        desc: "desc desc desc desc desc desc desc desc desc desc desc ",
-      }}
-    />
-    <Widget
-      src="golas.near/widget/N-Notification"
-      props={{
-        username: "{username}",
-        accountId: "cameron_banyan.near",
-        action: "{action}",
-        componentName: "{componentName}",
-        timestamp: "{timestamp}",
-        desc: "desc desc desc desc desc desc desc desc desc desc desc ",
-      }}
-    />
-    <Widget
-      src="golas.near/widget/N-Notification"
-      props={{
-        username: "{username}",
-        accountId: "cameron_banyan.near",
-        action: "{action}",
-        componentName: "{componentName}",
-        timestamp: "{timestamp}",
-        desc: "desc desc desc desc desc desc desc desc desc desc desc ",
-      }}
-    />
+    {notifications.map((n) => (
+      <Widget
+        src="golas.near/widget/N-Notification"
+        props={{
+          ...n,
+          icon: icons[n.type],
+        }}
+      />
+    ))}
   </>
 );
