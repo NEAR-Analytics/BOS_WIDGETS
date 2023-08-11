@@ -93,4 +93,4 @@ if (libCalls && libCalls.length > 0) {
   stateUpdate(updateObj);
 }
 
-return <>{JSON.stringify()}</>;
+return <>{}</>;
