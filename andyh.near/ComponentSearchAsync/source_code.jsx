@@ -93,7 +93,7 @@ const _search = (term) => {
   });
 
   if (props.onChange) {
-    await props.onChange({ term, result });
+    props.onChange({ term, result });
   }
 };
 
