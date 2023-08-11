@@ -8,6 +8,8 @@ const {
   handleEditArticle,
 } = props;
 
+console.log(articleToRenderData);
+
 const accountId = articleToRenderData.author;
 // State.init({
 //   verified: false,
@@ -25,10 +27,14 @@ const tabs = [
   { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
 ];
 
+const prodAction = "sayALotArticle";
+const testAction = `test_${prodAction}`;
+const action = isTest ? testAction : prodAction;
+
 //TODO check this
 const item = {
   type: "social",
-  path: `${state.article.author}/${addressForArticles}/main`,
+  path: `${accountId}/${action}/main`,
   blockHeight: firstArticleBlockHeight,
 };
 
