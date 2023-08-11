@@ -78,6 +78,7 @@ function libCall(call) {
   if (call.functionName === "createComment") {
     return createComment(call.props);
   } else if (call.functionName === "getValidComments") {
+    console.log(0);
     return getValidComments(call.props);
   }
 }
