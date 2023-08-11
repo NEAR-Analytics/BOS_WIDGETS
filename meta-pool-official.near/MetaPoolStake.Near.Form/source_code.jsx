@@ -16,6 +16,8 @@ const onSubmit = props.onSubmit;
 const tokenInputIconUrl = props.tokenInputIconUrl;
 const tokenOutputIconUrl = props.tokenOutputIconUrl;
 const onClickMax = props.onClickMax;
+const stakeInfoLeftText = props.stakeInfoLeftText ?? "Available to stake";
+const stakeInfoRightText = props.stakeInfoRightText ?? "Staked amount";
 
 const StakeContainer = styled.div`
     width: 100%;
@@ -183,7 +185,7 @@ return (
           <StakeFormTopContainerLeft>
             <StakeFormTopContainerLeftContent1>
               <StakeFormTopContainerLeftContent1Container>
-                <span>Available to stake</span>
+                <span>{stakeInfoLeftText}</span>
               </StakeFormTopContainerLeftContent1Container>
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
@@ -208,7 +210,7 @@ return (
           <StakeFormTopContainerRight>
             <StakeFormTopContainerRightContent1>
               <StakeFormTopContainerRightContent1Container>
-                <span>Staked amount</span>
+                <span>{stakeInfoRightText}</span>
               </StakeFormTopContainerRightContent1Container>
             </StakeFormTopContainerRightContent1>
             <StakeFormTopContainerRightContent2>
