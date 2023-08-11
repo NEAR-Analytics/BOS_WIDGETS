@@ -1,3 +1,5 @@
+const daoId = "build.sputnik-dao.near";
+
 State.init({
   id: "",
   title: "",
@@ -11,13 +13,16 @@ if (policy === null) {
 }
 
 const deposit = policy.proposal_bond;
-const daoId = "build.sputnik-dao.near";
 
 const event_args = JSON.stringify({
   data: {
     [daoId]: {
       thing: {
-        [id]: JSON.stringify(state.id),
+        [state.id]: JSON.stringify({
+          id: state.id,
+          title: state.title,
+          start: state.start,
+        }),
       },
       index: {
         every: JSON.stringify({
