@@ -9,6 +9,7 @@ return (
           accountId,
           tooltip: true,
           link: true,
+          style: { width: "40px", height: "40px" },
           imageClassName: "rounded-circle w-100 h-100",
         }}
       />
