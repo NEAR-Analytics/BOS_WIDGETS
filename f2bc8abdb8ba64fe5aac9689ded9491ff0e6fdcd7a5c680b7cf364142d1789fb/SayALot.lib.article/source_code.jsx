@@ -290,7 +290,7 @@ function convertArticlesTagsToValidFormat(articlesArray) {
   articlesArray.map((article) => {
     let tags = article.tags;
     console.log(1, tags);
-    console.log(article.tags.lenght);
+    console.log(article.tags.length);
 
     if (article.tags.lenght) {
       tags = Object.keys(tags);
