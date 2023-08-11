@@ -1,10 +1,27 @@
 const ownerId = "contribut3.near";
 
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+  }
+`;
+
 const Heading = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
+  width: 50%;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 
   h1 {
     font-style: normal;
@@ -39,18 +56,18 @@ const Container = styled.div`
 `;
 
 const Stats = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  padding: 1em 1.5em;
-  gap: 1.75em;
-  background: #fafafa;
-  border-radius: 16px;
-  width: 100%;
+  padding: 1rem 0rem;
+  gap: 0.75em;
+  width: 50%;
+  max-width: 100%;
+  overflow-x: scroll;
 
   @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
   }
 `;
 
@@ -61,6 +78,14 @@ const Stat = styled.a`
   align-items: center;
   padding: 0 1px;
   gap: 0.25em;
+  border-radius: 4px;
+  padding: 0.5rem;
+  flex-shrink: 0;
+
+  @media screen and (max-width: 768px) {
+    background: #fafafa;
+    width: 6rem;
+  }
 
   &:hover,
   &:focus,
@@ -120,60 +145,38 @@ State.init({
   requestsTodayCount: 0,
 });
 
-asyncFetch("https://api-staging-fur7.onrender.com/transactions/stats").then(
+asyncFetch("https://api-op3o.onrender.com/transactions/stats").then(
   (response) =>
     response.ok &&
     State.update({
-      projectsCount: response.body.projects.total,
-      vendorsCount: response.body.vendors.total,
-      investorsCount: response.body.backers.total,
-      requestsCount: response.body.requests.total,
-      projectsTodayCount: response.body.projects.today,
-      vendorsTodayCount: response.body.vendors.today,
-      investorsTodayCount: response.body.backers.today,
-      requestsTodayCount: response.body.requests.today,
+      projectsCount: response.body.projects,
+      vendorsCount: response.body.vendors,
+      investorsCount: response.body.backers,
+      requestsCount: response.body.requests,
     })
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/projects?sort=timedesc").then(
+asyncFetch("https://api-op3o.onrender.com/data/projects?sort=timedesc").then(
   (response) => response.ok && State.update({ projects: response.body })
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/requests?sort=timedesc").then(
+asyncFetch("https://api-op3o.onrender.com/data/requests?sort=timedesc").then(
   (response) => response.ok && State.update({ requests: response.body })
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/vendors?sort=timedesc").then(
+asyncFetch("https://api-op3o.onrender.com/data/vendors?sort=timedesc").then(
   (response) => response.ok && State.update({ vendors: response.body })
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/investors?sort=timedesc").then(
+asyncFetch("https://api-op3o.onrender.com/data/investors?sort=timedesc").then(
   (response) => response.ok && State.update({ investors: response.body })
 );
-
-const Header = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    flex-direction: column;
-  }
-`;
 
 return (
   <Container>
     <Header>
       <Heading>
         <h1>Explore NEAR Horizon</h1>
-        <h2>Building, connecting and skyrocketing great projects</h2>
       </Heading>
       <Stats>
         <Stat href={`/${ownerId}/widget/Index?tab=projects`}>
