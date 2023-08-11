@@ -811,6 +811,7 @@ return (
                     src={widgets.addComment}
                     props={{
                       widgets,
+                      isTest,
                       candidateOrReplay: true,
                       username: accountId,
                       onClickConfirm: () => State.update({ showModal: false }),
