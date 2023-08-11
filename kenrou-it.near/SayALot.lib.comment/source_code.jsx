@@ -5,9 +5,9 @@ const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
 function createComment(props) {
-  const { comment } = props;
+  const { comment, onCommit, onCancel } = props;
 
-  saveComment(comment);
+  saveComment(comment, onCommit, onCancel);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "createComment";
@@ -33,16 +33,15 @@ function composeCommentData(comment) {
   return data;
 }
 
-function saveComment(comment) {
+function saveComment(comment, onCommit, onCancel) {
   if (comment.text) {
     const newData = composeCommentData(comment);
 
     Social.set(newData, {
       force: true,
+      onCommit,
+      onCancel,
     });
-    // onCancel: () => {
-    //   State.update({ saving: false });
-    // },
   }
 }
 
@@ -65,11 +64,8 @@ function filterInvalidArticlesIndexes(commentIndexes) {
 }
 
 function getValidComments(props) {
-  console.log(1, props);
   const commentIndexes = getComments(props);
-  console.log(2, commentIndexes);
   const validCommentsIndexes = filterInvalidArticlesIndexes(commentIndexes);
-  console.log(3, validCommentsIndexes);
 
   return validCommentsIndexes;
 }
@@ -78,7 +74,6 @@ function libCall(call) {
   if (call.functionName === "createComment") {
     return createComment(call.props);
   } else if (call.functionName === "getValidComments") {
-    console.log(0);
     return getValidComments(call.props);
   }
 }
