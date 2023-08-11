@@ -305,10 +305,9 @@ function addCommentListener() {
   newLibCalls.push({
     functionName: "createComment",
     key: "createComment",
-    props: { comment },
+    props: { comment, onCommit: onCloseModal, onCancel: onCloseModal },
   });
   State.update({ libCalls: newLibCalls });
-  onCloseModal();
 }
 
 return (
@@ -430,7 +429,7 @@ return (
               Button: {
                 text: "Cancel",
                 className: "secondary dark",
-                onClick: props.onClickCancel,
+                onClick: onCloseModal,
               },
             }}
           />
