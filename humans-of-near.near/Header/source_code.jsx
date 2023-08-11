@@ -11,6 +11,6 @@ const Logo = styled.img`
 
 return (
   <div className="logo">
-    <Logo src="https://humans.nearverselabs.com/static/media/logo.00ce86b56e35961cfdc360d439c05fb7.svg" />
+    <Logo src="https://humans.nearverselabs.com/logo.png" />
   </div>
 );
