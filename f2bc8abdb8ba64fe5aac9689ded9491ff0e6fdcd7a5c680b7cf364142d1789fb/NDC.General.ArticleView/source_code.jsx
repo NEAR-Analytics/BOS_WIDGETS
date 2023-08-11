@@ -32,6 +32,7 @@ const action = isTest ? testAction : prodAction;
 
 State.init({
   tabSelected: tabs[1].id,
+  comments: [],
 });
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
@@ -480,7 +481,7 @@ const CandidateProps = props.data.nominations ?? {
   tags: ["test", "test2", "martintest3"],
 };
 
-const comments = props.data.comments[0].comments ?? [];
+const comments = state.comments;
 
 const libCalls = [
   {
