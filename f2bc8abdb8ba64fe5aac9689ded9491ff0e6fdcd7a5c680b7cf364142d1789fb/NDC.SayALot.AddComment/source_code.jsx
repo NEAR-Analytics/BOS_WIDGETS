@@ -245,7 +245,7 @@ const {
   widgets,
   isTest,
   onClickCancel,
-  candidateOrReplay,
+  candidateOrReply,
   username,
   profile_picture,
   originalComment,
@@ -285,18 +285,29 @@ State.init({
   reply: "",
   cancel: false,
   e_message: "",
+  libCalls,
 });
 
 const SetText = (txt) => {
   State.update({ shareText: txt });
 };
 
+function addCommentListener() {
+  let newLibCalls = [...libCalls];
+  newLibCalls.push({
+    functionName: "createComment",
+    key: "createComment",
+    props: { comment: state.reply, key: realArticleId },
+  });
+  State.update({ libCalls: newLibCalls });
+}
+
 return (
   <ModalCard>
     <CommentCard>
-      <H1>{candidateOrReplay ? " Add a Comment" : "Replay to comment"}</H1>
+      <H1>{candidateOrReply ? " Add a Comment" : "Reply to comment"}</H1>
       <Container>
-        {!candidateOrReplay ? (
+        {!candidateOrReply ? (
           <>
             <CommentBody>
               <BComment>
@@ -387,7 +398,7 @@ return (
         ) : (
           <></>
         )}
-        <div class="w-100 col">
+        <div className="w-100 col">
           <Widget
             src={widgets.styledComponents}
             props={{
@@ -419,14 +430,7 @@ return (
             props={{
               Button: {
                 text: "Submit",
-                onClick: () => {
-                  libCalls.push({
-                    functionName: "createComment",
-                    key: "createComment",
-                    props: { comment: state.reply, key: realArticleId },
-                  });
-                  State.update({ sendComment: true });
-                },
+                onClick: addCommentListener,
               },
             }}
           />
