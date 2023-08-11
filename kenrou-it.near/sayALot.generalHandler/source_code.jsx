@@ -81,7 +81,7 @@ const widgets = {
   oneArticle: `${authorForWidget}/widget/NDC.General.ArticleView`,
   reactions: "sayalot.near/widget/SayALot_Reactions",
   addComment: `${authorForWidget}/widget/NDC.SayALot.AddComment`,
-  comment: `nomination.ndctools.near/widget/NDC.Nomination.Candidate.Comment`,
+  comment: `${authorForWidget}/widget/NDC.Nomination.Candidate.Comment`,
   candidatePage: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page`,
   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
   reactions: `${authorForWidget}/widget/NDC.Reactions`,
