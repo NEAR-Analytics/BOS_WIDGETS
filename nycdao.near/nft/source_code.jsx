@@ -1,0 +1,2 @@
+const accountId = props.accountId ?? context.accountId; const ownerId = props.ownerId ?? "hack.near"; const pageId = props.pageId ?? "community.page"; return <Widget src="hack.near/widget/community.page" props={{ accountId, communityId: "nearnftwg.near", contractId: "f.nekotoken.near", h1: "NFT",
+        h2: "WG", tagline: "NEAR NFT Work Group", mainColor: "", buttonText: "Get Involved", link: "https://t.me/+i3GC2WYx5b5hMThh" }} />
