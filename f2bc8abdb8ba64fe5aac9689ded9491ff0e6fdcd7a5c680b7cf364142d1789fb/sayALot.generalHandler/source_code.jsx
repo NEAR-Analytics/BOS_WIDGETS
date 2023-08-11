@@ -10,6 +10,7 @@ const initLibCalls = [
     },
   },
 ];
+a;
 
 if (!accountId) accountId = context.accountId;
 
@@ -74,20 +75,18 @@ const widgets = {
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/NDC.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`,
+  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
+  generalCard: `${authorForWidget}/widget/NDC.GeneralCard`,
   oneArticle: `${authorForWidget}/widget/NDC.General.ArticleView`,
   reactions: "sayalot.near/widget/SayALot_Reactions",
-  addComment:
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.SayALot.AddComment",
-  comment: "nomination.ndctools.near/widget/NDC.Nomination.Candidate.Comment",
-  candidatePage: "#/rubycop.near/widget/NDC.Nomination.Candidate.Page",
-  libComment:
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.comment",
-  reactions:
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Reactions",
+  addComment: `${authorForWidget}/widget/NDC.SayALot.AddComment`,
+  comment: `nomination.ndctools.near/widget/NDC.Nomination.Candidate.Comment`,
+  candidatePage: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page`,
+  libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
+  reactions: `${authorForWidget}/widget/NDC.Reactions`,
 };
+a;
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
