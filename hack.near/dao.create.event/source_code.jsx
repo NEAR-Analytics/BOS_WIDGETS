@@ -1,4 +1,4 @@
-const daoId = "build.sputnik-dao.near";
+const daoId = "liberty.sputnik-dao.near";
 
 State.init({
   id: "",
