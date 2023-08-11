@@ -168,20 +168,20 @@ return (
                 },
               }}
             />
-            {context.accountId === comment.owner_id && (
+            {/* {context.accountId === comment.owner_id && (
               <Widget
                 src={widgets.styledComponents}
                 props={{
                   Button: {
                     size: "sm",
                     text: "Edit",
-                    className: "secondary dark",
+                    className: "primary dark",
                     icon: <i className="bi bi-pencil"></i>,
                     onClick: () => State.update({ isOpen: true, isEdit: true }),
                   },
                 }}
               />
-            )}
+            )} */}
             <Widget
               src={widgets.styledComponents}
               props={{
@@ -204,7 +204,7 @@ return (
         src={widgets.addComment}
         props={{
           kudo,
-          edit: state.isEdit,
+          edit: false, //state.isEdit,
           comment: {
             id: comment.id,
             owner_id: comment.owner_id,
