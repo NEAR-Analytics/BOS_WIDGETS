@@ -838,7 +838,7 @@ return (
                       originalComment,
                       widgets,
                       isTest,
-                      candidateOrReplay: true,
+                      isReplying: false,
                       username: accountId,
                       onCloseModal: () => State.update({ showModal: false }),
                       // nomination_contract,
