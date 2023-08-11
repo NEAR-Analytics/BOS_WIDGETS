@@ -810,6 +810,7 @@ return (
                   <Widget
                     src={widgets.addComment}
                     props={{
+                      widgets,
                       candidateOrReplay: true,
                       username: accountId,
                       onClickConfirm: () => State.update({ showModal: false }),
