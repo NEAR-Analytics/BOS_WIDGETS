@@ -262,10 +262,6 @@ const viewTutorial = () => {
   getAllSlides();
 };
 
-if (state.deckOptions[0].value === null) {
-  getAllDecks();
-}
-
 return (
   <div>
     <div
