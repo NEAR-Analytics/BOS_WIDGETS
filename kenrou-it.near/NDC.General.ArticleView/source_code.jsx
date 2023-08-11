@@ -30,9 +30,18 @@ const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
+const libCalls = [
+  {
+    functionName: "getValidComments",
+    key: "comments",
+    props: { realArticleId: articleToRenderData.realArticleId },
+  },
+];
+
 State.init({
   tabSelected: tabs[1].id,
   comments: [],
+  libCalls,
 });
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
@@ -483,14 +492,6 @@ const CandidateProps = props.data.nominations ?? {
 
 const comments = state.comments;
 
-const libCalls = [
-  {
-    functionName: "getValidComments",
-    key: "comments",
-    props: { getValidComments: articleToRenderData.realArticleId },
-  },
-];
-
 function stateUpdate(obj) {
   State.update(obj);
 }
@@ -853,7 +854,7 @@ return (
       <div style={{ display: "no-display" }}>
         <Widget
           src={widgets.libComment}
-          props={{ isTest, stateUpdate, libCalls }}
+          props={{ isTest, stateUpdate, libCalls: state.libCalls }}
         />
       </div>
     )}
