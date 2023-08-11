@@ -18,29 +18,6 @@ for (let i = 0; i < accounts.length; ++i) {
 }
 console.log(allWidgets);
 
-const tradeportLogo = (
-  <svg
-    width="30"
-    height="30"
-    viewBox="0 0 40 40"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M14.8066 4.86188L18.3425 8.39779L3.53591 23.2044L0 19.6685L14.8066 4.86188Z"
-      fill="white"
-    />
-    <path
-      d="M31.6022 21.6575L35.1381 25.1934L20.3315 40L16.7956 36.4641L31.6022 21.6575Z"
-      fill="white"
-    />
-    <path
-      d="M31.6022 11.9337L11.9337 31.6022L8.39779 28.0663L28.0663 8.39779L23.2044 3.53591L26.7403 0L40 13.2597L38.232 15.0276L36.4641 16.7956L31.6022 11.9337Z"
-      fill="white"
-    />
-  </svg>
-);
-
 const Label = styled.p`
   font-size: 1.1rem;
   color: #04111D;
@@ -156,12 +133,12 @@ const ChainCard = styled.div`
   gap: 1rem;
   margin: 1rem auto;
   height: 60px;
-  & img{
+  img{
     width: 30px;
     height: 30px;
     object-fit: contain;
   }
-  svg{
+  .tradeportL{
     background-color: #1d1d1d;
     padding: .3rem;
     border-radius: .3rem;
@@ -460,8 +437,10 @@ return (
                     id="tradeportbox"
                   />
                   <label className="form-check-label" htmlFor="myCheckbox">
-                    {/* <img src={tradeportLogo} />*/}
-                    {tradeportLogo}
+                    <img
+                      className="tradeportL"
+                      src="https://ipfs.io/ipfs/bafkreih32w75amj3zlco3ai5yrxjc6zrvoqo5ffppjucqhff7tldvm3se4"
+                    />
                     Tradeport
                   </label>
                 </ChainCard>
