@@ -238,8 +238,7 @@ return (
             props={{
               Button: {
                 text: "Submit",
-                onClick: () =>
-                  edit ? handleEditComment() : handleAddComment(),
+                onClick: () => handleAddComment(),
               },
             }}
           />
