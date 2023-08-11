@@ -154,7 +154,7 @@ return (
             <Widget src="hack.near/widget/pro.editor" />
           ) : (
             <div>
-              {!human ? (
+              {human ? (
                 <div className="row">
                   <div className="col-auto mt-5">
                     <Widget
