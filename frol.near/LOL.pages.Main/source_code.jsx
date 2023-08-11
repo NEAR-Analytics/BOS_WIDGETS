@@ -175,11 +175,7 @@ const Tokens = ({ tokens }) => (
             </button>
           );
         } else {
-          actionButton = (
-            <button disabled>
-              Володар @{token.owner_id}. Цей лот не продається.
-            </button>
-          );
+          actionButton = <button disabled>Не продається</button>;
         }
       } else if (token.owner_id === context.accountId) {
         if (token.token_id in tokensOnSale) {
@@ -200,17 +196,13 @@ const Tokens = ({ tokens }) => (
         actionButton = (
           <button
             disabled={!context.accountId}
-            onClick={() => buy(tokenId, tokensOnSale[token.token_id])}
+            onClick={() => buy(token.token_id, tokensOnSale[token.token_id])}
           >
             Придбати за {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
           </button>
         );
       } else {
-        actionButton = (
-          <button disabled>
-            Володар @{token.owner_id}. Цей лот не продається.
-          </button>
-        );
+        actionButton = <button disabled>Не продається</button>;
       }
 
       return (
@@ -226,11 +218,21 @@ const Tokens = ({ tokens }) => (
           />
 
           <div>
-            Від{" "}
+            Створив:
             <Widget
               src="mob.near/widget/ProfileLine"
               props={{
                 accountId: token.metadata.extra,
+                hideName: true,
+              }}
+            />
+          </div>
+          <div>
+            Поточний власник:
+            <Widget
+              src="mob.near/widget/ProfileLine"
+              props={{
+                accountId: token.owner_id,
                 hideName: true,
               }}
             />
