@@ -1,6 +1,6 @@
 const accountId = props.accountId || context.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `#/hack.near/widget/connect.page?accountId=${accountId}`;
+const profileUrl = `#/hack.near/widget/connect.page?profileId=${accountId}`;
 
 const Wrapper = styled.a`
   display: inline-grid;
