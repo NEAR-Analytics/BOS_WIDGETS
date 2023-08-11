@@ -127,21 +127,7 @@ function getSourcePath(path) {
       return `/every.near/widget/every.thing.view?path=${path}`;
     }
     case "type": {
-      return `/efiz.near/widget/every.type.view?path=${path}`;
-    }
-    case "widget": {
-      return `/mob.near/widget/WidgetSource?src=${path}`;
-    }
-  }
-}
-
-function getViewPath(path) {
-  switch (type) {
-    case "thing": {
       return `/every.near/widget/every.thing.view?path=${path}`;
-    }
-    case "type": {
-      return `/efiz.near/widget/every.type.view?path=${path}`;
     }
     case "widget": {
       return `/mob.near/widget/WidgetSource?src=${path}`;
@@ -291,7 +277,10 @@ return (
       </div>
     </div>
     <div className="d-flex gap-2 justify-content-around gap-3 my-3">
-      <a href={getViewPath(path)} target="_blank">
+      <a
+        href={`/every.near/widget/every.thing.view?path=${path}`}
+        target="_blank"
+      >
         <i className="bi me-1 bi-eye" />
         View
       </a>
