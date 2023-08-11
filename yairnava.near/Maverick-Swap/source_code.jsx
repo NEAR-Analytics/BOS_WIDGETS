@@ -21,25 +21,18 @@ const TOKENS = [
     decimals: 6,
   },
   {
-    name: "MUTE",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/mute.svg",
-    address: "0x0e97C7a0F8B2C9885C8ac9fC6136e829CbC21d42",
-    coinGeckoId: "mute",
-    decimals: 18,
+    name: "CBUSD",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/busd.png",
+    address: "0x2039bb4116B4EFc145Ec4f0e2eA75012D6C0f181",
+    coinGeckoId: "binance-usd",
+    decimals: 6,
   },
   {
-    name: "COMBO",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/combo.svg",
-    address: "0xc2B13Bb90E33F1E191b8aA8F44Ce11534D5698E3",
-    coinGeckoId: "furucombo",
-    decimals: 18,
-  },
-  {
-    name: "PERP",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/perp.svg",
-    address: "0x42c1c56be243c250AB24D2ecdcC77F9cCAa59601",
-    coinGeckoId: "perpetual-protocol",
-    decimals: 18,
+    name: "MAV",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/mav.png",
+    address: "0x787c09494Ec8Bcb24DcAf8659E7d5D69979eE508",
+    coinGeckoId: "maverick-protocol",
+    decimals: 6,
   },
   {
     name: "LUSD",
@@ -49,135 +42,95 @@ const TOKENS = [
     decimals: 18,
   },
   {
-    name: "DVF",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/dvf.svg",
-    address: "0xBbD1bA24d589C319C86519646817F2F153c9B716",
-    coinGeckoId: "rhinofi",
-    decimals: 18,
+    name: "RETH",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/reth.png",
+    address: "0x32Fd44bB869620C0EF993754c8a00Be67C464806",
+    coinGeckoId: "rocket-pool-eth",
+    decimals: 6,
   },
   {
-    name: "WOO",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/woo.svg",
-    address: "0x9E22D758629761FC5708c171d06c2faBB60B5159",
-    coinGeckoId: "woo-network",
-    decimals: 18,
+    name: "CBETH",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/cbeth.png",
+    address: "0x75Af292c1c9a37b3EA2E6041168B4E48875b9ED5",
+    coinGeckoId: "coinbase-wrapped-staked-eth",
+    decimals: 6,
   },
   {
-    name: "DERI",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/deri.svg",
-    address: "0x140D5bc5b62d6cB492B1A475127F50d531023803",
-    coinGeckoId: "deri-protocol",
-    decimals: 18,
+    name: "USD+",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/usd+.png",
+    address: "0x8E86e46278518EFc1C5CEd245cBA2C7e3ef11557",
+    coinGeckoId: "usd",
+    decimals: 6,
   },
   {
-    name: "DEXTF",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/dextf.svg",
-    address: "0x9929bCAC4417A21d7e6FC86F6Dae1Cc7f27A2e41",
-    coinGeckoId: "dextf",
-    decimals: 18,
+    name: "GRAI",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/grai.png",
+    address: "0x5FC44E95eaa48F9eB84Be17bd3aC66B6A82Af709",
+    coinGeckoId: "grai",
+    decimals: 6,
   },
   {
-    name: "GOVI",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/govi.svg",
-    address: "0xD63eF5e9C628c8a0E8984CDfb7444AEE44B09044",
-    coinGeckoId: "govi",
-    decimals: 18,
+    name: "FRAX",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/frax.png",
+    address: "0xb4C1544cb4163f4C2ECa1aE9Ce999F63892d912A",
+    coinGeckoId: "frax",
+    decimals: 6,
   },
   {
-    name: "1INCH",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/1inch.svg",
-    address: "0x3f0B8B206A7FBdB3ecFc08c9407CA83F5aB1Ce59",
-    coinGeckoId: "1inch",
-    decimals: 18,
-  },
-  {
-    name: "PEPE",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/pepe.svg",
-    address: "0xFD282F16a64c6D304aC05d1A58Da15bed0467c71",
-    coinGeckoId: "pepe",
-    decimals: 18,
+    name: "WETH",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png",
+    address: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4",
+    coinGeckoId: "usd-coin",
+    decimals: 6,
   },
 ];
 
 const POOLS = [
   { name: "ETH-USDC", address: "0x41c8cf74c27554a8972d3bf3d2bd4a14d8b604ab" },
-  { name: "ETH-MUTE", address: "" },
-  { name: "ETH-COMBO", address: "" },
-  { name: "ETH-PERP", address: "" },
-  { name: "ETH-LUSD", address: "" },
-  { name: "ETH-DVF", address: "" },
-  { name: "ETH-WOO", address: "" },
-  { name: "ETH-DERI", address: "" },
-  { name: "ETH-DEXTF", address: "" },
-  { name: "ETH-GOVI", address: "" },
-  { name: "ETH-1INCH", address: "" },
-  { name: "ETH-PEPE", address: "" },
-  { name: "USDC-MUTE", address: "0xF4bc5bf7cc54a48b6c0ABFafa2836376e10eccE9" },
-  { name: "USDC-COMBO", address: "" },
-  { name: "USDC-PERP", address: "" },
+  { name: "ETH-CBUSD", address: "0x3Ae63FB198652E294B8DE4C2EF659D95D5ff28BE" },
+  { name: "ETH-MAV", address: "0x4D47167e66e86d1a1083f52136832d4f1eF5809A" },
+  { name: "ETH-LUSD", address: "0xB1338207DE233aE6a9A6D63309221b577F8Cd6E8" },
+  { name: "ETH-RETH", address: "0x07e1F845819D7CABc03684fdb4Bf99D5cd2B2964" },
+  { name: "ETH-CBETH", address: "0x23e8d6269717C567e4A2E9680491C8c65B67Ad0d" },
+  { name: "ETH-USD+", address: "0x15461e7D0d6061e082b2c9B641634BB096527679" },
+  { name: "ETH-GRAI", address: "" },
+  { name: "ETH-FRAX", address: "" },
+  { name: "USDC-CBUSD", address: "0x88D29317A355d8586bd0D98E8745ec3171d68F56" },
+  { name: "USDC-MAV", address: "0x74E398c79eb7a653b432f6313edF776C8d930142" },
   { name: "USDC-LUSD", address: "0x6A9143A5f9BaF73841992DCB737844e5ad16A283" },
-  { name: "USDC-DVF", address: "" },
-  { name: "USDC-WOO", address: "" },
-  { name: "USDC-DERI", address: "" },
-  { name: "USDC-DEXTF", address: "" },
-  { name: "USDC-GOVI", address: "" },
-  { name: "USDC-1INCH", address: "" },
-  { name: "USDC-PEPE", address: "" },
-  { name: "MUTE-COMBO", address: "" },
-  { name: "MUTE-PERP", address: "" },
-  { name: "MUTE-LUSD", address: "" },
-  { name: "MUTE-DVF", address: "" },
-  { name: "MUTE-WOO", address: "" },
-  { name: "MUTE-DERI", address: "" },
-  { name: "MUTE-DEXTF", address: "" },
-  { name: "MUTE-GOVI", address: "" },
-  { name: "MUTE-1INCH", address: "" },
-  { name: "MUTE-PEPE", address: "" },
-  { name: "COMBO-PERP", address: "" },
-  { name: "COMBO-LUSD", address: "" },
-  { name: "COMBO-DVF", address: "" },
-  { name: "COMBO-WOO", address: "" },
-  { name: "COMBO-DERI", address: "" },
-  { name: "COMBO-DEXTF", address: "" },
-  { name: "COMBO-GOVI", address: "" },
-  { name: "COMBO-1INCH", address: "" },
-  { name: "COMBO-PEPE", address: "" },
-  { name: "PERP-LUSD", address: "" },
-  { name: "PERP-DVF", address: "" },
-  { name: "PERP-WOO", address: "" },
-  { name: "PERP-DERI", address: "" },
-  { name: "PERP-DEXTF", address: "" },
-  { name: "PERP-GOVI", address: "" },
-  { name: "PERP-1INCH", address: "" },
-  { name: "PERP-PEPE", address: "" },
-  { name: "LUSD-DVF", address: "" },
-  { name: "LUSD-WOO", address: "" },
-  { name: "LUSD-DERI", address: "" },
-  { name: "LUSD-DEXTF", address: "" },
-  { name: "LUSD-GOVI", address: "" },
-  { name: "LUSD-1INCH", address: "" },
-  { name: "LUSD-PEPE", address: "" },
-  { name: "DVF-WOO", address: "" },
-  { name: "DVF-DERI", address: "" },
-  { name: "DVF-DEXTF", address: "" },
-  { name: "DVF-GOVI", address: "" },
-  { name: "DVF-1INCH", address: "" },
-  { name: "DVF-PEPE", address: "" },
-  { name: "WOO-DERI", address: "" },
-  { name: "WOO-DEXTF", address: "" },
-  { name: "WOO-GOVI", address: "" },
-  { name: "WOO-1INCH", address: "" },
-  { name: "WOO-PEPE", address: "" },
-  { name: "DERI-DEXTF", address: "" },
-  { name: "DERI-GOVI", address: "" },
-  { name: "DERI-1INCH", address: "" },
-  { name: "DERI-PEPE", address: "" },
-  { name: "DEXTF-GOVI", address: "" },
-  { name: "DEXTF-1INCH", address: "" },
-  { name: "DEXTF-PEPE", address: "" },
-  { name: "GOVI-1INCH", address: "" },
-  { name: "GOVI-PEPE", address: "" },
-  { name: "1INCH-PEPE", address: "" },
+  { name: "USDC-RETH", address: "" },
+  { name: "USDC-CBETH", address: "" },
+  { name: "USDC-USD+", address: "0xaCA5d8805D6f160Eb46E273e28169DDBF703eCdc" },
+  { name: "USDC-GRAI", address: "" },
+  { name: "USDC-FRAX", address: "0x4e1852cf46b24940412e13C358B4f19eC92b9eaE" },
+  { name: "CBUSD-MAV", address: "0x9f4A993b3120e52044810F1c91088a5630a8bF63" },
+  { name: "CBUSD-LUSD", address: "" },
+  { name: "CBUSD-RETH", address: "" },
+  { name: "CBUSD-CBETH", address: "" },
+  { name: "CBUSD-USD+", address: "" },
+  { name: "CBUSD-GRAI", address: "" },
+  { name: "CBUSD-FRAX", address: "" },
+  { name: "MAV-LUSD", address: "" },
+  { name: "MAV-RETH", address: "" },
+  { name: "MAV-CBETH", address: "" },
+  { name: "MAV-USD+", address: "" },
+  { name: "MAV-GRAI", address: "" },
+  { name: "MAV-FRAX", address: "" },
+  { name: "LUSD-RETH", address: "" },
+  { name: "LUSD-CBETH", address: "" },
+  { name: "LUSD-USD+", address: "" },
+  { name: "LUSD-GRAI", address: "0x28f57e5c2823183280CC9B3B45d746A2943111C3" },
+  { name: "LUSD-FRAX", address: "" },
+  { name: "RETH-CBETH", address: "" },
+  { name: "RETH-USD+", address: "" },
+  { name: "RETH-GRAI", address: "" },
+  { name: "RETH-FRAX", address: "" },
+  { name: "CBETH-USD+", address: "" },
+  { name: "CBETH-GRAI", address: "" },
+  { name: "CBETH-FRAX", address: "" },
+  { name: "USD+-GRAI", address: "" },
+  { name: "USD+-FRAX", address: "" },
+  { name: "GRAI-FRAX", address: "" },
 ];
 
 State.init({
@@ -189,6 +142,7 @@ State.init({
   amountRecieve: 0,
   rate: 0,
   routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
+  onApproving: false,
 });
 
 const switchNetwork = () => {
@@ -328,6 +282,15 @@ const approveErc20Token = () => {
       .approve(state.routerContract, value, gasArgs)
       .then((transactionHash) => {
         console.log(transactionHash);
+        State.update({
+          onApproving: true,
+        });
+        setTimeout(() => {
+          State.update({
+            onApproving: false,
+            approvalNeeded: false,
+          });
+        }, 10000);
       });
   });
 };
@@ -491,7 +454,11 @@ return (
                     <div class="TokenAction">SEND {"->"}</div>
                     <select
                       class="TokenNameSelect"
-                      select={state.tokenSendSelected || "default"}
+                      value={
+                        state.tokenSendSelected
+                          ? state.tokenSendSelected.name
+                          : "default"
+                      }
                       onChange={handleSendSelect}
                     >
                       <option
@@ -585,7 +552,11 @@ return (
                     <div class="TokenAction">{"->"} RECEIVE</div>
                     <select
                       class="TokenNameSelect"
-                      select={state.tokenRecieveSelected || "default"}
+                      value={
+                        state.tokenRecieveSelected
+                          ? state.tokenRecieveSelected.name
+                          : "default"
+                      }
                       onChange={handleRecieveSelect}
                     >
                       <option
@@ -658,43 +629,51 @@ return (
           )
         )}
         <div class="ConfirmContainer">
-          {state.sender && state.isZkSync ? (
-            state.approvalNeeded ? (
-              <div
-                class={"ConfirmButton"}
-                onClick={async () => {
-                  approveErc20Token();
-                }}
-              >
-                <div class={"ConfirmText"}>
-                  {`Approve ${state.tokenSendSelected.name}`}
+          {!state.onApproving ? (
+            state.sender && state.isZkSync ? (
+              state.approvalNeeded ? (
+                <div
+                  class={"ConfirmButton"}
+                  onClick={async () => {
+                    approveErc20Token();
+                  }}
+                >
+                  <div class={"ConfirmText"}>
+                    {`Approve ${state.tokenSendSelected.name}`}
+                  </div>
                 </div>
-              </div>
-            ) : cantSwap() && isSufficientBalance() && existPool() ? (
-              <div
-                class={"ConfirmButton"}
-                onClick={async () => {
-                  confirmTransaction();
-                }}
-              >
-                <div class={"ConfirmText"}>Confirm</div>
-              </div>
+              ) : cantSwap() && isSufficientBalance() && existPool() ? (
+                <div
+                  class={"ConfirmButton"}
+                  onClick={async () => {
+                    confirmTransaction();
+                  }}
+                >
+                  <div class={"ConfirmText"}>Confirm</div>
+                </div>
+              ) : (
+                <div class={"ConfirmButtonDisabled"}>
+                  <div class={"ConfirmTextDisabled"}>
+                    {existPool()
+                      ? isSufficientBalance()
+                        ? "Select a Pair and Amount"
+                        : "Insufficient Balance"
+                      : "Pool Not Deployed"}
+                  </div>
+                </div>
+              )
             ) : (
-              <div class={"ConfirmButtonDisabled"}>
-                <div class={"ConfirmTextDisabled"}>
-                  {existPool()
-                    ? isSufficientBalance()
-                      ? "Select a Pair and Amount"
-                      : "Insufficient Balance"
-                    : "Pool Not Deployed"}
-                </div>
-              </div>
+              <Web3Connect
+                className="ConfirmButton ConfirmText"
+                connectLabel="Connect Wallet"
+              />
             )
           ) : (
-            <Web3Connect
-              className="ConfirmButton ConfirmText"
-              connectLabel="Connect Wallet"
-            />
+            <div class={"ConfirmButtonDisabled"}>
+              <div class={"ConfirmTextDisabled"}>
+                {`${state.tokenSendSelected.name} it's being approved...`}
+              </div>
+            </div>
           )}
         </div>
       </div>
