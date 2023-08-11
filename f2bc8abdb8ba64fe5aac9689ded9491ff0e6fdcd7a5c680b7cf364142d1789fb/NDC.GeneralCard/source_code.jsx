@@ -407,7 +407,6 @@ const ButtonsLowerSection = styled.div`
   align-items: center;
   padding: 0px;
   width: 100%;
-  height: 28px;
 `;
 const TextLowerSectionContainer = styled.div`
   display: flex;
