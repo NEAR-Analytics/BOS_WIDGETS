@@ -174,9 +174,9 @@ return (
                 props={{
                   Button: {
                     size: "sm",
-                    title: "Edit",
+                    text: "Edit",
                     className: "secondary dark",
-                    icon: <i className="bi bi-edit fs-6"></i>,
+                    icon: <i className="bi bi-pencil"></i>,
                     onClick: () => State.update({ isOpen: true, isEdit: true }),
                   },
                 }}
