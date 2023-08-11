@@ -298,7 +298,7 @@ function addCommentListener() {
   const comment = {
     text: state.reply,
     realArticleId: article.realArticleId,
-    timeStamp: Date.now(),
+    timestamp: Date.now(),
     originalCommentId: originalComment.commentId ?? article.realArticleId,
     commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
   };
