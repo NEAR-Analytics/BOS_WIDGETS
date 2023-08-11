@@ -416,7 +416,6 @@ if (!state.theme) {
 `,
   });
 }
-
 const Theme = state.theme;
 return (
   <Theme>
@@ -632,16 +631,24 @@ return (
           {!state.onApproving ? (
             state.sender && state.isZkSync ? (
               state.approvalNeeded ? (
-                <div
-                  class={"ConfirmButton"}
-                  onClick={async () => {
-                    approveErc20Token();
-                  }}
-                >
-                  <div class={"ConfirmText"}>
-                    {`Approve ${state.tokenSendSelected.name}`}
+                state.inputBalance && state.inputBalance > 0 ? (
+                  <div
+                    class={"ConfirmButton"}
+                    onClick={async () => {
+                      approveErc20Token();
+                    }}
+                  >
+                    <div class={"ConfirmText"}>
+                      {`Approve ${state.tokenSendSelected.name}`}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div class={"ConfirmButtonDisabled"}>
+                    <div class={"ConfirmTextDisabled"}>
+                      {`You don't have balance to approve`}
+                    </div>
+                  </div>
+                )
               ) : cantSwap() && isSufficientBalance() && existPool() ? (
                 <div
                   class={"ConfirmButton"}
