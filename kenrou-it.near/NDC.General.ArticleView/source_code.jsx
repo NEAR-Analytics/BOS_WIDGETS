@@ -17,8 +17,6 @@ const accountId = articleToRenderData.author;
 //   showDeclaration: false,
 // });
 
-const authorForWidget = "kenrou-it.near";
-
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.comment`];
 
 function callLibs(srcArray, stateUpdate, libCalls) {
