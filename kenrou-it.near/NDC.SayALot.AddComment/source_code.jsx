@@ -305,7 +305,7 @@ function addCommentListener() {
   newLibCalls.push({
     functionName: "createComment",
     key: "createComment",
-    props: { comment, onCommit: onCloseModal, onCancel: onCloseModal },
+    props: { comment, onCommit: onCloseModal },
   });
   State.update({ libCalls: newLibCalls });
 }
