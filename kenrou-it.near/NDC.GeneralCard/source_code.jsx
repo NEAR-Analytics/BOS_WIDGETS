@@ -683,8 +683,7 @@ return (
             isTest,
             username: data.author,
             realArticleId: data.realArticleId,
-            onClickConfirm: () => State.update({ showModal: false }),
-            onClickCancel: () => State.update({ showModal: false }),
+            onCloseModal: () => State.update({ showModal: false }),
           }}
         />
       )}
