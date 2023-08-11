@@ -126,7 +126,7 @@ return (
                 src="https://images.unsplash.com/photo-1479064118661-04dd16543243?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBpY3R1cmVzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
               />
               {props?.eventName !== undefined && props?.eventName !== "" ? (
-                <p style={{ fontSize: 10 }}>{props?.description}</p>
+                <p style={{ fontSize: 10 }}>{props?.eventName}</p>
               ) : (
                 <ProfileNameSkeleton style={{ width: "50%" }} />
               )}
