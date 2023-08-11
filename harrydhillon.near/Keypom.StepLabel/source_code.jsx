@@ -9,20 +9,20 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 gap: 10px;
-color:#fff;
+ color:${(props) => (props.active ? "#fff" : "#404040")};
 font-weight:700;
 `;
 
 const StepLabelContainer = styled.div`
     display: flex;
-    opacity: ${(props) => (props.active ? "1" : "0.8")};
+    opacity: ${(props) => (props.active ? "1" : "0.6")};
     width:fit-content;
     align-items:center;
 `;
 
 const Label = styled.p`
 font-size: 16px;
- translate: 3px 8px;
+ translate: 5px 8px;
 font-style: normal;
 font-weight: 500;
 `;
