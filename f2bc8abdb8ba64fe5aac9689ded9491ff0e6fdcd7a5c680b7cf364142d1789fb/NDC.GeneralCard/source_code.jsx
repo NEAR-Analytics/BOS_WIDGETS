@@ -420,10 +420,6 @@ const TextLowerSectionContainer = styled.div`
 
   flex-grow: 1;
 `;
-const ClockIcon = styled.img`
-  width: 12px;
-  height: 12px;
-`;
 const TimestampText = styled.div`
   font-style: italic;
   font-weight: 300;
@@ -754,14 +750,6 @@ return (
           //     />
           //   )
         }
-        <Widget
-          src={widgets.reactions}
-          props={{
-            widgets,
-            isTest,
-            item,
-          }}
-        />
       </HeaderCard>
       {
         //   cardType == "nomination" && (
@@ -833,6 +821,14 @@ return (
                 <b>{author}</b>
               </TimestampText>
             </TextLowerSectionContainer>
+            <Widget
+              src={widgets.reactions}
+              props={{
+                widgets,
+                isTest,
+                item,
+              }}
+            />
           </ButtonsLowerSection>
           {/*TODO review buttons functionality in sayALot*/}
           <div className="d-flex w-100 align-items-center">
