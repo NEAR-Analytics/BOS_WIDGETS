@@ -31,7 +31,7 @@ const Gradient = styled.div`
 `;
 
 return (
-  <div style={{ backgroundColor: "#000" }}>
+  <div>
     <Gradient className="d-flex flex-column justify-content-center">
       <h1 class="mb-3 text-white slogan">
         <span class="text-primary-gradient">BAC </span>Inc
@@ -40,9 +40,5 @@ return (
         ♥ Share ideas, connect with people, and get involved! ♥
       </div>
     </Gradient>
-    {/*<Widget
-      src="shemar268abel.near/widget/DAOs.Card"
-      props={{ daoId: "marmaj-research.sputnik-dao.near" }}
-    />*/}
   </div>
 );
