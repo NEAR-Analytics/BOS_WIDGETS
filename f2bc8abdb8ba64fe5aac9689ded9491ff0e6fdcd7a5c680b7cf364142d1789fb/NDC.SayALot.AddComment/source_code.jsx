@@ -243,92 +243,44 @@ const CFSubmit = styled.button`
 
 const {
   widgets,
-  realArticleId,
   isTest,
-  onClickConfirm,
   onClickCancel,
-  nomination_contract,
   candidateOrReplay,
   username,
   profile_picture,
   originalComment,
-  originalCommentID,
-  timeago,
-  _share_url,
 } = props;
 
-const libCalls = [
-  {
-    functionName: "setComment",
-    key: "setComment",
-    props: {
-      realArticleId,
-      text: state.reply,
-      previousCommentId,
-      onClickConfirm,
-      onClickCancel,
-    },
-  },
-];
+const libCalls = [];
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
 
 function stateUpdate(obj) {
   State.update(obj);
 }
 
-// const CommentCandidate = () => {
-//   //Validate the Data outPut
-//   if (state.reply === null) {
-//     State.update({ e_message: "Write a comment " });
-//     return;
-//   }
-//   if (state.reply != "") {
-//     // call the smart contract Self nominate comment
-
-//     Near.call(
-//       nomination_contract,
-//       "comment",
-//       {
-//         candidate: username,
-//         comment: state.reply,
-//       },
-//       300000000000000
-//     ).then(() => {
-//       props.onClickCancel();
-//     });
-//   } else {
-//     //The fields are incomplete
-//   }
-// };
-
-// const CommenttoReplay = () => {
-//   //Validate the Data outPut
-//   if (state.reply != null) {
-//     // call the smart contract Self nominate comment
-//     /*   Near.call(
-//       nomination_contract
-//         ? nomination_contract
-//         : "nominations.ndc-gwg.near",
-//       "comment",
-//       {
-//         candidate: username,
-//         comment: state.reply,
-//       }
-//     ).then(() => {
-//       props.onClickCancel();
-//     });*/
-//   } else {
-//     //The fields are incomplete
-//   }
-// };
-// candidateOrReplay :true-Comment candidate  :false-Comment to reply
-
 State.init({
   theme,
   reply: "",
-  share_url: _share_url,
   cancel: false,
   e_message: "",
-  shareText: "Copy to the clipboard ",
 });
 
 const SetText = (txt) => {
@@ -370,10 +322,8 @@ return (
                     </BCMProfileUsername>
                   </BCMHeader>
                   <BCMMessage>
-                    {" "}
-                    {originalComment
-                      ? originalComment
-                      : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integerquam enim, dignissim sed ante at, convallis maximus enim. Duis  condimentum aliquam nisl nec sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quam enim, dignissim  sed ante at, convallis maximus enim. Duis condimentum aliquam nisl nec sagittis."}
+                    {undefined}
+                    {originalComment && originalComment}
                   </BCMMessage>
                 </BCommentmessage>
               </BComment>
@@ -388,10 +338,6 @@ return (
                       }
                       style={{ width: "14px", height: "14px" }}
                     />
-                    <BFCTimetext>
-                      {" "}
-                      {timeago ? timeago : "2 hours ago"}
-                    </BFCTimetext>
                   </BFootercontTime>
                   <BFCButton>
                     <OverlayTrigger
@@ -470,6 +416,11 @@ return (
               Button: {
                 text: "Submit",
                 onClick: () => {
+                  libCalls.push({
+                    functionName: "createComment",
+                    key: "createComment",
+                    props: { comment: state.reply, key: realArticleId },
+                  });
                   State.update({ sendComment: true });
                 },
               },
@@ -478,13 +429,8 @@ return (
         </CommentFooter>
       </Container>
     </CommentCard>
-    {state.sendComment && (
-      <div style={{ display: "no-display" }}>
-        <Widget
-          src={widgets.libComment}
-          props={{ isTest, stateUpdate, libCalls }}
-        />
-      </div>
-    )}
+    <div style={{ display: "none" }}>
+      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+    </div>
   </ModalCard>
 );
