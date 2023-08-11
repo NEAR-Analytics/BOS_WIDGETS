@@ -15,6 +15,10 @@ const Notification = styled.div`
   align-items: flex-start;
   gap: 16px; 
   border-top: 1px solid var(--sand-light-6, #E3E3E0);
+
+  &:hover {
+    background: var(--sand-light-2, #F9F9F8);
+  }
 `;
 
 const Content = styled.div`
