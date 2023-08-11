@@ -1,4 +1,3 @@
-const location = props.location;
 // const firstGetLocation = () => {
 //   asyncFetch(
 //     "https://api.geoapify.com/v1/ipinfo?&apiKey=0485481476634b4d98f7d337d4821f52"
@@ -34,13 +33,15 @@ const findLocation = () => {
   });
 };
 findLocation();
+const location = props.location || state.location;
+
 console.log("Location after find location: " + state.location);
 
 const hashtags = hashtag && hashtag.split(",")?.map((it) => it.trim());
-hashtags.push(state.location);
+hashtags.push(location);
 const mention = props.mention || "";
 const mentions = mention && mention.split(",")?.map((it) => it.trim());
-const thisComponent = `https://app.proofofvibes.com/#/proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`; // need to onchange to this
+const thisComponent = `https://near.org/proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`; // need to onchange to this
 
 State.update({ thisComponent, mention });
 const onChangeLocation = (location) => {
@@ -50,7 +51,7 @@ const onChangeLocation = (location) => {
   recalculateComponent();
 };
 const recalculateComponent = () => {
-  const componentName = `https://app.proofofvibes.com/#/proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`;
+  const componentName = `https://near.org/proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`;
   State.update({
     thisComponent: componentName,
   });
