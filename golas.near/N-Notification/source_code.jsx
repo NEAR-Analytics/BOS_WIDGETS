@@ -11,7 +11,6 @@ const icon = props.icon;
 
 const Notification = styled.div`
   display: flex;
-  width: 470px;
   padding: 16px 24px 16px 16px;
   align-items: flex-start;
   gap: 16px; 
