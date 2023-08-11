@@ -97,7 +97,7 @@ const encryptComment = () => {
     p: comment.id.toString(),
   };
 
-  let buff = new Buffer(data);
+  let buff = new Buffer(JSON.stringify(data));
 
   console.log(buff.toString("base64"));
   return buff.toString("base64");
