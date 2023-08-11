@@ -279,7 +279,6 @@ function getLastEditArticles(props) {
 
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
   const filteredArticles = filterArticles(props, lastEditionArticles);
-  console.log(filteredArticles);
   const validFormatFilteredArticles =
     convertArticlesTagsToValidFormat(filteredArticles);
 
@@ -290,11 +289,14 @@ function convertArticlesTagsToValidFormat(articlesArray) {
   let validFormatArticlesArray = [];
   articlesArray.map((article) => {
     let tags = article.tags;
+    console.log(1, tags);
 
     if (typeof article.tags == "object") {
       tags = Object.keys(tags);
+      console.log("2 change", tags);
     }
     article.tags = tags;
+    console.log(3, article.tags);
 
     validFormatArticlesArray.push(article);
   });
