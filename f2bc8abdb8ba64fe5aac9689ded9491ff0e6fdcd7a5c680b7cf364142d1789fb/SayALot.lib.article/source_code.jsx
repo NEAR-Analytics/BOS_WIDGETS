@@ -279,6 +279,7 @@ function getLastEditArticles(props) {
 
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
   const filteredArticles = filterArticles(props, lastEditionArticles);
+  console.log(filteredArticles);
   const validFormatFilteredArticles =
     convertArticlesTagsToValidFormat(filteredArticles);
 
