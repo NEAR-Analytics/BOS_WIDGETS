@@ -17,8 +17,7 @@ function createComment(props) {
 }
 
 //addressForComments should be the realArticleId of the article
-const composeCommentData = (props) => {
-  const { comment } = props;
+function composeCommentData(comment) {
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -32,9 +31,9 @@ const composeCommentData = (props) => {
   };
 
   return data;
-};
+}
 
-const saveComment = (comment) => {
+function saveComment(comment) {
   if (comment.text) {
     const newData = composeCommentData(comment);
 
@@ -45,7 +44,7 @@ const saveComment = (comment) => {
     //   State.update({ saving: false });
     // },
   }
-};
+}
 
 function getComment(props) {
   const { realArticleId } = props;
