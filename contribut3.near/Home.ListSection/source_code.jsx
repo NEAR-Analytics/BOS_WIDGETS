@@ -91,19 +91,11 @@ const List = styled.div`
   flex-wrap: wrap;
   width: 100%;
 
-  @media screen and (max-width: 768px) {
-    flex-wrap: nowrap;
-    overflow-x: scroll;
-    max-width: 100dvw;
-    width: 100dvw;
-    gap: 16px;
-  }
-
   & > div {
     margin-bottom: 24px;
 
     @media screen and (max-width: 768px) {
-      width: 70dvw;
+      width: 100%;
     }
 
     @media screen and (min-width: 768px) and (max-width: 1424px) {
@@ -123,7 +115,7 @@ return (
         <h2>{title}</h2>
         <span>{count}</span>
       </div>
-      <a href={link}>{linkText}</a>
+      <Link href={link}>{linkText}</Link>
     </Heading>
     <List>{items.map((item) => renderItem(item))}</List>
   </Container>
