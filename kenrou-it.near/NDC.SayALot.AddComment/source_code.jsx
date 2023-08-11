@@ -245,7 +245,7 @@ const {
   widgets,
   isTest,
   article,
-  onClickCancel,
+  onCloseModal,
   candidateOrReply,
   username,
   profile_picture,
@@ -254,9 +254,9 @@ const {
 
 const libCalls = [];
 
-const libSrcArray = [
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.comment",
-];
+const authorForWidget = "kenrou-it.near";
+
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.comment`];
 
 function callLibs(srcArray, stateUpdate, libCalls) {
   return (
@@ -308,6 +308,7 @@ function addCommentListener() {
     props: { comment },
   });
   State.update({ libCalls: newLibCalls });
+  onCloseModal();
 }
 
 return (
