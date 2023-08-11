@@ -153,6 +153,7 @@ const notifications = [
 
 return (
   <>
+    <Widget src="golas.near/widget/N_NotificationsBanner" />
     {notifications.map((n) => (
       <Widget
         src="golas.near/widget/N-Notification"
