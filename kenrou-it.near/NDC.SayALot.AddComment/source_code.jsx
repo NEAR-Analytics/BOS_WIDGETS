@@ -313,9 +313,9 @@ function addCommentListener() {
 return (
   <ModalCard>
     <CommentCard>
-      <H1>{isReplying ? " Add a Comment" : "Reply to comment"}</H1>
+      <H1>{isReplying ? "Reply to comment" : "Add a Comment"}</H1>
       <Container>
-        {!isReplying ? (
+        {isReplying && (
           <>
             <CommentBody>
               <BComment>
@@ -403,8 +403,6 @@ return (
               }}
             />
           </>
-        ) : (
-          <></>
         )}
         <div className="w-100 col">
           <Widget
