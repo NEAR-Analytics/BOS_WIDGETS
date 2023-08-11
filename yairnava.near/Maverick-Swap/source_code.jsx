@@ -150,7 +150,6 @@ const switchNetwork = () => {
   Ethers.provider()
     .getNetwork()
     .then((res) => {
-      console.log(res.chainId);
       if (res.chainId == chainId) {
         State.update({ isZkSync: true });
       }
@@ -245,7 +244,6 @@ const tokenInApprovaleNeededCheck = (data) => {
             encodedTokenAllowanceHex
           );
           if (tokenAllowance) {
-            console.log("Necesita approval");
             State.update({
               approvalNeeded: new Big(tokenAllowance).toFixed() == "0",
             });
@@ -281,7 +279,6 @@ const approveErc20Token = () => {
     approveContract
       .approve(state.routerContract, value, gasArgs)
       .then((transactionHash) => {
-        console.log(transactionHash);
         State.update({
           onApproving: true,
         });
@@ -369,7 +366,6 @@ const setMaxBalance = () => {
 };
 
 const confirmTransaction = () => {
-  console.log("Confirmando transacción");
   const router = new ethers.Contract(
     state.routerContract,
     routerAbi.body,
@@ -389,15 +385,12 @@ const confirmTransaction = () => {
     amountOutMinimum: 0,
     sqrtPriceLimitD18: 0,
   };
-  console.log(paramsv2);
   const overrides = {
     value: amountIn,
     gasLimit: 2303039,
   };
   try {
-    router.exactInputSingle(paramsv2, overrides).then((res) => {
-      console.log(res);
-    });
+    router.exactInputSingle(paramsv2, overrides).then((res) => {});
   } catch (err) {
     console.log(err);
   }
