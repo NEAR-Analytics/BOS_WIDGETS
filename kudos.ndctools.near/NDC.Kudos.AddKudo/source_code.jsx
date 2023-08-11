@@ -99,12 +99,14 @@ return (
           </Section>
           <Section>
             <Widget
-              src={"mob.near/widget/Common.Compose"}
+              src={widgets.styledComponents}
               props={{
-                placeholder: `Add a ${
-                  kind === "k" ? "Kudo" : "Ding"
-                } Description`,
-                onChange: (e) => State.update({ message: e.target.value }),
+                TextArea: {
+                  label: `Add a ${kind === "k" ? "Kudo" : "Ding"} Description`,
+                  value: state.message,
+                  handleChange: (e) =>
+                    State.update({ message: e.target.value }),
+                },
               }}
             />
           </Section>
@@ -118,7 +120,7 @@ return (
               src={"mob.near/widget/TagsEditor"}
               props={{
                 label: "Tags",
-                placeholder: "Enter tags using comma separator",
+                placeholder: "Enter tags",
                 setTagsObject: (tags) =>
                   State.update({ tags: Object.keys(tags) }),
               }}
