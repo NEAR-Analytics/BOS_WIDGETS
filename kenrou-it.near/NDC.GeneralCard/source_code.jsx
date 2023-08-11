@@ -679,7 +679,7 @@ return (
           src={widgets.addComment}
           props={{
             widgets,
-            candidateOrReplay: true,
+            isReplying: false,
             isTest,
             username: data.author,
             realArticleId: data.realArticleId,
