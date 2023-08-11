@@ -292,7 +292,7 @@ function convertArticlesTagsToValidFormat(articlesArray) {
     console.log(1, tags);
     console.log(tags.length, tags + "");
 
-    if (!tags.length && tags + "" != "0") {
+    if (tags && !tags.length && tags + "" != "0") {
       tags = Object.keys(tags);
       console.log("2 change", tags);
     }
