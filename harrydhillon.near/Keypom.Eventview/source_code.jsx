@@ -58,7 +58,9 @@ return (
           }}
         >
           <p style={{ fontSize: 22, fontWeight: "600" }}>
-            {props?.eventName ?? "My Event"}
+            {props?.eventName !== undefined && props?.eventName !== ""
+              ? props?.eventName
+              : "My Event"}
           </p>
         </div>
       </ContentDiv>
