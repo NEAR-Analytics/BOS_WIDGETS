@@ -374,6 +374,7 @@ if (profile === null) {
 
 return (
   <Wrapper>
+    <Widget src="proofofvibes.near/widget/Vibes.Countdown" />
     <BackgroundImage>
       <Widget
         src="mob.near/widget/Image"
