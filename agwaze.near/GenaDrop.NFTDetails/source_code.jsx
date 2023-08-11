@@ -1,3 +1,184 @@
+const nft = props.nft ?? {
+  contractId: props.contractId,
+  tokenId: props.tokenId,
+};
+
+const contractId = nft.contractId;
+const tokenId = nft.tokenId;
+const className = props.className ?? "img-fluid";
+const style = props.style;
+const alt = props.alt;
+const thumbnail = props.thumbnail;
+const fallbackUrl = props.fallbackUrl;
+const loadingUrl =
+  props.loadingUrl ??
+  "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
+
+State.init({
+  contractId,
+  tokenId,
+  description: "",
+  title: "",
+  owner: "",
+  imageUrl: null,
+});
+
+const nftMetadata =
+  nft.contractMetadata ?? Near.view(contractId, "nft_metadata");
+const tokenMetadata =
+  nft.tokenMetadata ??
+  Near.view(contractId, "nft_token", {
+    token_id: tokenId,
+  }).metadata;
+
+if (contractId !== state.contractId || tokenId !== tokenId) {
+  State.update({
+    contractId,
+    tokenId,
+    imageUrl: null,
+  });
+}
+
+let imageUrl = null;
+
+function fetchTokens() {
+  asyncFetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "omni-site",
+      "Content-Type": "application/json",
+      "x-hasura-role": "anonymous",
+    },
+    body: JSON.stringify({
+      query: `
+          query MyQuery {
+              mb_views_nft_tokens(
+              where: { nft_contract_id: { _eq: "${contractId}" }, token_id: {_eq: "${tokenId}"}}
+              order_by: {minted_timestamp: desc}
+            ) {
+                attributes {
+                    attribute_display_type
+                    attribute_value
+                }
+                media 
+                owner
+                token_id
+                description
+                title
+                listings {
+                    accepted_at
+                    accepted_offer_id
+                    invalidated_at
+                    metadata_id
+                    price
+                    unlisted_at
+                    listed_by
+                }
+            }
+          }
+        `,
+    }),
+  }).then((res) => {
+    if (res.ok) {
+      const tokens = res.body.data.mb_views_nft_tokens;
+      const token = tokens[0];
+      console.log(token);
+      State.update({
+        description: token.description,
+        owner: token.owner,
+        title: token.title,
+      });
+      if (tokens.length > 0) {
+        State.update({
+          tokens: [...state.tokens, ...tokens],
+          offset: state.offset + limit,
+
+          hasMore: true,
+        });
+      } else {
+        State.update({
+          hasMore: false,
+        });
+      }
+    }
+  });
+}
+
+fetchTokens();
+
+console.log(title);
+
+if (nftMetadata && tokenMetadata) {
+  let tokenMedia = tokenMetadata.media || "";
+
+  imageUrl =
+    tokenMedia.startsWith("https://") ||
+    tokenMedia.startsWith("http://") ||
+    tokenMedia.startsWith("data:image")
+      ? tokenMedia
+      : nftMetadata.base_uri
+      ? `${nftMetadata.base_uri}/${tokenMedia}`
+      : tokenMedia.startsWith("Qm") || tokenMedia.startsWith("ba")
+      ? `https://ipfs.near.social/ipfs/${tokenMedia}`
+      : tokenMedia;
+
+  if (!tokenMedia && tokenMetadata.reference) {
+    if (
+      nftMetadata.base_uri === "https://arweave.net" &&
+      !tokenMetadata.reference.startsWith("https://")
+    ) {
+      const res = fetch(`${nftMetadata.base_uri}/${tokenMetadata.reference}`);
+      imageUrl = res.body.media;
+    } else if (
+      tokenMetadata.reference.startsWith("https://") ||
+      tokenMetadata.reference.startsWith("http://")
+    ) {
+      const res = fetch(tokenMetadata.reference);
+      imageUrl = JSON.parse(res.body).media;
+    } else if (tokenMetadata.reference.startsWith("ar://")) {
+      const res = fetch(
+        `${"https://arweave.net"}/${tokenMetadata.reference.split("//")[1]}`
+      );
+      imageUrl = JSON.parse(res.body).media;
+    }
+  }
+
+  if (!imageUrl) {
+    imageUrl = false;
+  }
+}
+
+const replaceIpfs = (imageUrl) => {
+  if (state.oldUrl !== imageUrl && imageUrl) {
+    const match = rex.exec(imageUrl);
+    if (match) {
+      const newImageUrl = `https://ipfs.near.social/ipfs/${match[1]}${
+        match[2] || ""
+      }`;
+      if (newImageUrl !== imageUrl) {
+        State.update({
+          oldUrl: imageUrl,
+          imageUrl: newImageUrl,
+        });
+        return;
+      }
+    }
+  }
+  if (state.imageUrl !== false) {
+    State.update({
+      imageUrl: false,
+    });
+  }
+};
+
+const thumb = (imageUrl) =>
+  thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
+    ? `https://i.near.social/${thumbnail}/${imageUrl}`
+    : imageUrl;
+
+const img = state.imageUrl !== null ? state.imageUrl : imageUrl;
+const src = img !== false ? img : fallbackUrl;
+
 const Root = styled.div`
     width: 100%;
     display: flex;
@@ -217,10 +398,10 @@ return (
     <MainContainer>
       <TopSection>
         <TopImageContainer>
-          <HeaderText>{props.singleNftProps.name || "AI Sunset"}</HeaderText>
+          <HeaderText>{state.title || "AI Sunset"}</HeaderText>
           <img
             src={
-              props.singleNftProps.image ||
+              src ||
               "https://genadrop.mypinata.cloud/ipfs/QmZbtU8RnMymJAJRpTriZgDXVeeCpm5RyXMJNquGoVc4Rb"
             }
             alt="NFT"
@@ -245,9 +426,9 @@ return (
               Created by
             </p>
             <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
-              {props.singleNftProps.nft_state.owner.length > 12
-                ? props.singleNftProps.nft_state.owner.slice(0, 12) + "..."
-                : props.singleNftProps.nft_state.owner ||
+              {state.owner.length > 12
+                ? state.owner.slice(0, 12) + "..."
+                : state.owner ||
                   "genadrop-contract.nftgen.near".slice(0, 12) + "..." + "near"}
             </span>
           </div>
@@ -281,7 +462,7 @@ return (
                 >
                   Listed
                 </button>
-              ) : props.singleNftProps.nft_state.owner ? (
+              ) : state.owner ? (
                 <button>List</button>
               ) : (
                 <button
@@ -298,9 +479,7 @@ return (
           </PriceBucket>
           <Description>
             <h6>Description</h6>
-            <span>
-              {props.singleNftProps.description || "Ai generated sunset cliffs"}
-            </span>
+            <span>{state.description || "Ai generated sunset cliffs"}</span>
           </Description>
           <Description>
             <h6>Attributes</h6>
@@ -334,15 +513,12 @@ return (
               <a
                 target="_blank"
                 href={`https://explorer.near.org/?query=${
-                  props.singleNftProps.nft_state.owner ||
-                  "genadrop-contract.nftgen.near"
+                  state.owner || "genadrop-contract.nftgen.near"
                 }`}
               >
-                {props.singleNftProps.nft_state.owner.length > 8
-                  ? props.singleNftProps.nft_state.owner.slice(0, 8) +
-                    "..." +
-                    "near"
-                  : props.singleNftProps.nft_state.owner ||
+                {state.owner.length > 8
+                  ? state.owner.slice(0, 8) + "..." + "near"
+                  : state.owner ||
                     "genadrop-contract.nftgen.near".slice(0, 8) +
                       "..." +
                       "near"}
