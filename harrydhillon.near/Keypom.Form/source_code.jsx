@@ -118,7 +118,7 @@ const formContent = () => {
               },
             }}
           />
-          <Label style={{ marginLeft: -5 }}>Event dates</Label>
+          <Label style={{ marginLeft: -5 }}>Event dates *</Label>
           <p style={{ fontSize: 12, color: "gray", marginTop: -5 }}>
             {state?.isSingleDateEvent
               ? " Please mention the date of your event"
@@ -172,7 +172,7 @@ const formContent = () => {
             <Widget
               src="nui.sking.near/widget/Input.Checkbox"
               props={{
-                label: "My Event is a single day event",
+                label: "My event is a single day event",
                 checked: state.isSingleDateEvent,
                 onChange: () =>
                   State.update({ isSingleDateEvent: !state.isSingleDateEvent }),
