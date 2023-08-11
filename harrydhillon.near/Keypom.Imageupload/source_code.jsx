@@ -4,6 +4,7 @@ const UploadContainer = styled.div`
     text-align: center;
     position: relative;
     cursor: pointer;
+    border-radius:10px;
 `;
 
 const UploadCTA = styled.p`
