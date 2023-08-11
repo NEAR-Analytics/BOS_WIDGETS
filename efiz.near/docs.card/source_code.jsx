@@ -141,7 +141,7 @@ function getEditPath(path) {
       return `/every.near/widget/every.thing.create?path=${path}`;
     }
     case "type": {
-      return `/every.near/widget/every.type.create?path=${path}`;
+      return `/every.near/widget/every.type.create?typeSrc=${path}`;
     }
     case "widget": {
       return `https://nearpad.dev/${path}`;
