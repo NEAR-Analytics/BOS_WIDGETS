@@ -64,7 +64,13 @@ return (
       </ContentDiv>
     </TicketDropBackground>
     <div
-      style={{ maxWidth: 500, margin: "auto", marginTop: 20, display: "flex" }}
+      style={{
+        maxWidth: 500,
+        margin: "auto",
+        marginTop: 20,
+        display: "flex",
+        padding: 10,
+      }}
     >
       <div style={{ width: "70%" }}>
         <p style={{ fontWeight: "600", fontSize: 12 }}>Event Description</p>
