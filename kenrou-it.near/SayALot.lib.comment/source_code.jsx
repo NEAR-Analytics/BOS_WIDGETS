@@ -54,7 +54,7 @@ function getComments(props) {
 }
 
 function getCommentBlackListByBlockHeight() {
-  return [];
+  return [98588599];
 }
 
 function filterInvalidArticlesIndexes(commentIndexes) {
