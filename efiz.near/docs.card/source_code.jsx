@@ -127,7 +127,7 @@ function getSourcePath(path) {
       return `/every.near/widget/every.thing.view?path=${path}`;
     }
     case "type": {
-      return `/every.near/widget/every.type.view?path=${path}`;
+      return `/efiz.near/widget/every.type.view?path=${path}`;
     }
     case "widget": {
       return `/mob.near/widget/WidgetSource?src=${path}`;
