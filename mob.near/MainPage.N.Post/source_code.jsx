@@ -17,75 +17,83 @@ const item = {
 const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const Wrapper = styled.div`
-  padding              : 1rem;
-  display              : grid;
-  grid-template-columns: 1fr 9fr;
+  padding              : 12px;
+  display              : flex;
   border-bottom        : 0.5px solid var(--bs-border-color);
   border-top           : 0.5px solid var(--bs-border-color);
   
   .left {
-    padding-right: 1rem;
+    padding-right: 12px;
+  }
+  .right {
+    flex-grow: 1,
+    overflow: hidden,
   }
 `;
 
 return (
-  <Wrapper>
-    <Widget src="mob.near/widget/MainPage.N.Post.Left" props={{ accountId }} />
-    <div className="right">
+  <>
+    <Wrapper>
       <Widget
-        src="mob.near/widget/MainPage.N.Post.Header"
-        props={{
-          accountId,
-          blockHeight,
-          link,
-          postType: "post",
-          flagItem: item,
-        }}
+        src="mob.near/widget/MainPage.N.Post.Left"
+        props={{ accountId }}
       />
-      <div className="mt-3 text-break">
+      <div className="right">
         <Widget
-          src="mob.near/widget/MainPage.Post.Content"
-          props={{ content, raw }}
+          src="mob.near/widget/MainPage.N.Post.Header"
+          props={{
+            accountId,
+            blockHeight,
+            link,
+            postType: "post",
+            flagItem: item,
+          }}
         />
-      </div>
-      {blockHeight !== "now" && (
-        <div className="mt-1 d-flex justify-content-between">
-          <div className="me-4">
-            <Widget
-              src="mob.near/widget/CommentButton"
-              props={{
-                onClick: () =>
-                  !state.showReply && State.update({ showReply: true }),
-              }}
-            />
-          </div>
-          <div className="me-4">
-            <Widget
-              src="mob.near/widget/RepostButton"
-              props={{
-                notifyAccountId,
-                item,
-              }}
-            />
-          </div>
-          <div className="me-4">
-            <Widget
-              src="mob.near/widget/LikeButton"
-              props={{
-                notifyAccountId,
-                item,
-              }}
-            />
-          </div>
-          <div>
-            <Widget
-              src="mob.near/widget/MainPage.Post.ShareButton"
-              props={{ accountId, blockHeight, postType: "post" }}
-            />
-          </div>
+        <div className="mt-1 text-break">
+          <Widget
+            src="mob.near/widget/MainPage.Post.Content"
+            props={{ content, raw }}
+          />
         </div>
-      )}
-    </div>
+        {blockHeight !== "now" && (
+          <div className="mt-1 d-flex justify-content-between">
+            <div className="me-4">
+              <Widget
+                src="mob.near/widget/CommentButton"
+                props={{
+                  onClick: () =>
+                    !state.showReply && State.update({ showReply: true }),
+                }}
+              />
+            </div>
+            <div className="me-4">
+              <Widget
+                src="mob.near/widget/RepostButton"
+                props={{
+                  notifyAccountId,
+                  item,
+                }}
+              />
+            </div>
+            <div className="me-4">
+              <Widget
+                src="mob.near/widget/LikeButton"
+                props={{
+                  notifyAccountId,
+                  item,
+                }}
+              />
+            </div>
+            <div>
+              <Widget
+                src="mob.near/widget/MainPage.Post.ShareButton"
+                props={{ accountId, blockHeight, postType: "post" }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </Wrapper>
     <div className="mt-3 ps-5">
       {state.showReply && (
         <div className="mb-2">
@@ -99,16 +107,16 @@ return (
           />
         </div>
       )}
-      <Widget
-        src="mob.near/widget/MainPage.Comment.Feed"
-        props={{
-          item,
-          highlightComment: props.highlightComment,
-          limit: props.commentsLimit,
-          subscribe,
-          raw,
-        }}
-      />
     </div>
-  </Wrapper>
+    <Widget
+      src="mob.near/widget/MainPage.Comment.Feed"
+      props={{
+        item,
+        highlightComment: props.highlightComment,
+        limit: props.commentsLimit,
+        subscribe,
+        raw,
+      }}
+    />
+  </>
 );
