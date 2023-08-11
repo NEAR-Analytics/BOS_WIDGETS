@@ -248,6 +248,16 @@ const utf2Html = (str) => {
     .join("");
 };
 
+const trimText = (text, limit) => {
+  if (!text) return "";
+
+  const _limit = limit ?? 200;
+  const ending = text.length > _limit ? "..." : "";
+  const trimmed = text.slice(0, limit ?? 200);
+
+  return `${trimmed}${ending}`;
+};
+
 return (
   <>
     <Container
@@ -322,7 +332,12 @@ return (
             )}
           </div>
         </div>
-        <Description className="text-secondary">{kudo.message}</Description>
+        <Description className="text-secondary">
+          <Widget
+            src="mob.near/widget/SocialMarkdown"
+            props={{ text: trimText(kudo.message) }}
+          />
+        </Description>
         {kudo.icon && <ImageTag src={`https://ipfs.io/ipfs/${kudo.icon}`} />}
         {kudoTags.length > 0 && (
           <Tags className="d-flex gap-2">
