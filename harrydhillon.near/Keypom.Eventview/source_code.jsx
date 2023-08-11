@@ -37,7 +37,7 @@ return (
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "25vh",
+            height: "15vh",
           }}
         >
           <p style={{ fontSize: 22, fontWeight: "600" }}>My Event</p>
