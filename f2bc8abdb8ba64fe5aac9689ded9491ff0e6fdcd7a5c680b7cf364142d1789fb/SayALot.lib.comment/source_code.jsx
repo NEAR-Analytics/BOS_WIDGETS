@@ -5,9 +5,9 @@ const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
 function createComment(props) {
-  const { comment, key } = props;
+  const { comment } = props;
 
-  commentHandler(comment, key);
+  saveComment(comment);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "createComment";
@@ -18,16 +18,14 @@ function createComment(props) {
 
 //addressForComments should be the realArticleId of the article
 const composeCommentData = (props) => {
-  const { comment, realArticleId } = props;
+  const { comment } = props;
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: realArticleId,
+        key: comment.realArticleId,
         value: {
           type: "md",
           comment,
-          commentId:
-            comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
         },
       }),
     },
@@ -36,9 +34,9 @@ const composeCommentData = (props) => {
   return data;
 };
 
-const commentHandler = (comment, key) => {
-  if (comment.image || comment.text) {
-    const newData = composeCommentData(comment, key);
+const saveComment = (comment) => {
+  if (comment.text) {
+    const newData = composeCommentData(comment);
 
     Social.set(newData, {
       force: true,
