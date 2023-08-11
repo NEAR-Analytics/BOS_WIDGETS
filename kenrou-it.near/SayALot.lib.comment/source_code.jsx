@@ -65,8 +65,11 @@ function filterInvalidArticlesIndexes(commentIndexes) {
 }
 
 function getValidComments(props) {
+  console.log(1, props);
   const commentIndexes = getComments(props);
+  console.log(2, commentIndexes);
   const validCommentsIndexes = filterInvalidArticlesIndexes(commentIndexes);
+  console.log(3, validCommentsIndexes);
 
   return validCommentsIndexes;
 }
