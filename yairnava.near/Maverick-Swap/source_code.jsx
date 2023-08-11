@@ -651,9 +651,9 @@ return (
         ) : (
           state.sender && (
             <span class="text-white">
-              To Proceed, please switch to the
+              To proceed, please switch to the
               <br />
-              zkSync Era Network using your wallet
+              zkSync Era Network using your wallet.
             </span>
           )
         )}
