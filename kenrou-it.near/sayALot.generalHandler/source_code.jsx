@@ -1,8 +1,6 @@
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 
-const libSrcArray = ["kenrou-it.near/widget/SayALot.lib.article"];
-
 const initLibCalls = [
   {
     functionName: "getLastEditArticles",
@@ -12,6 +10,7 @@ const initLibCalls = [
     },
   },
 ];
+a;
 
 if (!accountId) accountId = context.accountId;
 
@@ -39,6 +38,9 @@ State.init({
 //const authorForWidget = "sayalot.near";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const libSrcArray = [
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.article",
+];
 const thisWidgetName = "sayALot.generalHandler";
 
 // let writersWhiteList = [
@@ -69,24 +71,22 @@ const thisWidgetName = "sayALot.generalHandler";
 
 const widgets = {
   thisWidget: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/NDC.Create`,
+  create: `${authorForWidget}/widget/SayALot.Create`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/NDC.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`,
+  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
+  generalCard: `${authorForWidget}/widget/NDC.GeneralCard`,
   oneArticle: `${authorForWidget}/widget/NDC.General.ArticleView`,
   reactions: "sayalot.near/widget/SayALot_Reactions",
-  addComment:
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.SayALot.AddComment",
-  comment: "nomination.ndctools.near/widget/NDC.Nomination.Candidate.Comment",
-  candidatePage: "#/rubycop.near/widget/NDC.Nomination.Candidate.Page",
-  libComment:
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.comment",
-  reactions:
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Reactions",
+  addComment: `${authorForWidget}/widget/NDC.SayALot.AddComment`,
+  comment: `nomination.ndctools.near/widget/NDC.Nomination.Candidate.Comment`,
+  candidatePage: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page`,
+  libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
+  reactions: `${authorForWidget}/widget/NDC.Reactions`,
 };
+a;
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
@@ -332,305 +332,29 @@ Term 2
   ~ Definition 2b 
 `;
 
-const initialCreateState = {
-  articleId: state.editArticleData.articleId ?? "",
-  articleBody: state.editArticleData.body ?? initialBodyAtCreation,
-  tags: state.editArticleData.tags ?? [],
-};
-
 //=================================================END CONSTS=======================================================
 
 //=================================================GET DATA=========================================================
-// const addressForArticles = isTest ? "test_sayALotArticle" : "sayALotArticle";
-// const articleBlackList = [
-//   91092435, 91092174, 91051228, 91092223, 91051203, 98372095,
-// ];
-
-// function getLastEditionsByArticle() {
-//   const allArticles = Social.index(addressForArticles, "main", {
-//     order: "desc",
-//     accountId:
-//       state.filterBy.parameterName == "author" && state.filterBy.parameterValue,
-//   });
-
-//   const oldFormatArticlesTestBasicDataArray = [
-//     [
-//       "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-//       97325392,
-//     ],
-//     [
-//       "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-//       97317287,
-//     ],
-//     ["ayelen.near", 96927579],
-//     ["kenrou-it.near", 96924422],
-//     [
-//       "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-//       96879470,
-//     ],
-//     [
-//       "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-//       96878182,
-//     ],
-//     [
-//       "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-//       96643643,
-//     ],
-//     ["silkking.near", 96491128],
-//   ];
-
-//   const oldFormatArticlesMainBasicDataArray = [
-//     ["ozymandius.near", 97329049],
-//     ["fiftycent.near", 97322138],
-//     ["blaze.near", 97255023],
-//     ["jlw.near", 97250015],
-//     ["kazanderdad.near", 96692435],
-//     ["blaze.near", 96414482],
-//     ["blaze.near", 96412953],
-//     ["sarahkornfeld.near", 96402919],
-//     ["sarahkornfeld.near", 96402476],
-//     ["sarahkornfeld.near", 96402330],
-//     ["sarahkornfeld.near", 96401880],
-//     ["ozymandius.near", 95810612],
-//     ["blaze.near", 95766756],
-//     ["blaze.near", 95766700],
-//     ["jlw.near", 95705034],
-//     ["blaze.near", 95413943],
-//     ["blaze.near", 94936576],
-//     ["yuensid.near", 94866690],
-//     ["sarahkornfeld.near", 94863580],
-//     ["blaze.near", 94801223],
-//     ["sarahkornfeld.near", 94344236],
-//     ["sarahkornfeld.near", 94188387],
-//     ["jlw.near", 93986868],
-//     ["blaze.near", 92999498],
-//   ];
-
-//   const oldFormatArticlesBasicDataArray = isTest
-//     ? oldFormatArticlesTestBasicDataArray
-//     : oldFormatArticlesMainBasicDataArray;
-
-//   if (state.filterBy.parameterName == "author") {
-//     oldFormatArticlesBasicDataArray = oldFormatArticlesBasicDataArray.filter(
-//       (articleBasicData) =>
-//         articleBasicData[0] === state.filterBy.parameterValue
-//     );
-//   }
-
-//   let oldFormatArticlesArray = oldFormatArticlesBasicDataArray.map(
-//     (oldFormatBasicArticleData) => {
-//       let article = Social.get(
-//         `${oldFormatBasicArticleData[0]}/${addressForArticles}/main`,
-//         oldFormatBasicArticleData[1]
-//       );
-
-//       let articleParsed = undefined;
-//       if (article) {
-//         articleParsed = JSON.parse(article);
-//         articleParsed.blockHeight = oldFormatBasicArticleData[1];
-//       }
-
-//       return articleParsed;
-//     }
-//   );
-
-//   let newFormatArticlesData = allArticles
-//     .filter((articleIndex) => articleIndex.value.id)
-//     .filter(
-//       (articleIndex) =>
-//         articleIndex.value.id.split("-")[0] === articleIndex.accountId
-//     )
-//     .filter((articleIndex) => writersWhiteList.includes(articleIndex.accountId))
-//     .filter(
-//       (articleIndex) => !articleBlackList.includes(articleIndex.blockHeight)
-//     );
-
-//   let lastestEditArticlesDataArray = newFormatArticlesData.filter(
-//     (articleData) => {
-//       const latestEditForThisArticle = newFormatArticlesData.find(
-//         (newArticleData) => newArticleData.value.id === articleData.value.id
-//       );
-//       return (
-//         JSON.stringify(articleData) === JSON.stringify(latestEditForThisArticle)
-//       );
-//     }
-//   );
-
-//   let finalNewFormatArticles = lastestEditArticlesDataArray.map(
-//     (latestEditArticle) => {
-//       const article = Social.get(
-//         `${latestEditArticle.accountId}/${addressForArticles}/main`,
-//         latestEditArticle.blockHeight
-//       );
-
-//       let articleParsed = undefined;
-//       if (article) {
-//         articleParsed = JSON.parse(article);
-//         articleParsed.blockHeight = latestEditArticle.blockHeight;
-//         //TODO check this
-//         articleParsed.realArticleId = latestEditArticle.value.id;
-//         // articleParsed.realArticleId =
-//         //   latestEditArticle.value.realArticleId ??
-//         //   `${latestEditArticle.value.author}-${latestEditArticle.value.timeCreate}`;
-//       }
-
-//       return articleParsed;
-//     }
-//   );
-
-//   let finalOldFormatArticles = oldFormatArticlesArray.filter(
-//     (oldFormatArticle) => {
-//       return !finalNewFormatArticles.find(
-//         (newFormatArticle) =>
-//           newFormatArticle.articleId === oldFormatArticle.articleId
-//       );
-//     }
-//   );
-
-//   let finalArticlesWithoutUsersFilters = finalNewFormatArticles.concat(
-//     finalOldFormatArticles
-//   );
-
-//   let finalArticles = finalArticlesWithoutUsersFilters.filter((article) => {
-//     return (
-//       Array.isArray(article.tags) &&
-//       article.tags.includes(state.filterBy.parameterValue)
-//     );
-//   });
-
-//   return state.filterBy.parameterName == "tag"
-//     ? finalArticles
-//     : finalArticlesWithoutUsersFilters;
-// }
-
-// const finalArticles = getLastEditionsByArticle() ?? [];
 const finalArticles = state.articles;
-console.log(1, finalArticles);
-
-// if (
-//   state.renderLastOfThisAccountId &&
-//   state.renderLastOfThisAccountId.length > 0
-// ) {
-//   const renderLastOfThisAccountId = state.renderLastOfThisAccountId;
-//   State.update({
-//     renderLastOfThisAccountId: "",
-//     articleToRenderData: finalArticles.find(
-//       (article) => article.author == renderLastOfThisAccountId
-//     ),
-//   });
-// }
 //===============================================END GET DATA=======================================================
 
 //=================================================FUNCTIONS========================================================
-// //==Post creation functions
-// const getCreateData = () => {
-//   const args = {
-//     articleId: state.creationArticleId,
-//     author: accountId,
-//     lastEditor: accountId,
-//     timeLastEdit: Date.now(),
-//     timeCreate: Date.now(),
-//     body: state.creationArticleBody,
-//     version: 0,
-//     navigation_id: null,
-//     tags: state.creationArticletagsArray,
-//   };
-//   return args;
-// };
+function getValidEditArticleDataTags() {
+  let tags = state.editArticleData.tags;
+  let newFormatTags = {};
 
-// const composeData = () => {
-//   let data;
-//   if (isTest) {
-//     data = {
-//       test_sayALotArticle: {
-//         main: JSON.stringify(getCreateData()),
-//       },
-//       index: {
-//         test_sayALotArticle: JSON.stringify({
-//           key: "main",
-//           value: {
-//             type: "md",
-//             id: `${context.accountId}-${Date.now()}`,
-//           },
-//         }),
-//       },
-//     };
-//   } else {
-//     data = {
-//       sayALotArticle: {
-//         main: JSON.stringify(getArticleData()),
-//       },
-//       index: {
-//         sayALotArticle: JSON.stringify({
-//           key: "main",
-//           value: {
-//             type: "md",
-//             id: `${context.accountId}-${Date.now()}`,
-//           },
-//         }),
-//       },
-//     };
-//   }
+  tags.map((tag) => {
+    newFormatTags[tag] = "";
+  });
+  return newFormatTags;
+}
 
-//   if (tagsArray.length) {
-//     data.index.tag = JSON.stringify(
-//       tagsArray.map((tag) => ({
-//         key: tag,
-//         value: item,
-//       }))
-//     );
-//   }
-
-//   return data;
-// };
-
-// function createHandler(e) {
-//   () => {
-//     State.update({
-//       createErrorId: "",
-//       createErrorBody: "",
-//     });
-//     if (state.articleId && state.articleBody) {
-//       // TODO check it automaticle
-//       const isArticleIdDublicated = false;
-
-//       if (!isArticleIdDublicated) {
-//         const newData = composeData();
-
-//         State.update({ createIsSaving: true });
-
-//         Social.set(newData, {
-//           force: true,
-//           onCommit: () => {
-//             State.update({
-//               createIsSaving: false,
-//               displayedTabId: tabs.SHOW_ARTICLE.id,
-//               renderLastOfThisAccountId: accountId,
-//             });
-//           },
-//           onCancel: () => {
-//             State.update({ createIsSaving: false });
-//           },
-//         });
-//       } else {
-//         State.update({
-//           createErrorId: errTextDublicatedId,
-//         });
-//       }
-//     } else {
-//       if (!articleId || articleId == "") {
-//         State.update({
-//           createErrorId: errTextNoId,
-//         });
-//       }
-//       if (!articleBody || articleBody == "") {
-//         State.update({ createErrorBody: errTextNoBody });
-//       }
-//     }
-//   };
-// }
-
-// //==End post creation functions
+const initialCreateState = {
+  articleId: state.editArticleData.articleId ?? "",
+  articleBody: state.editArticleData.body ?? initialBodyAtCreation,
+  tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
+  libCalls: [],
+};
 
 function stateUpdate(obj) {
   State.update(obj);
@@ -682,7 +406,7 @@ function handlePillNavigation(navegateTo) {
   stateUpdate({ displayedTabId: navegateTo });
 }
 
-function callLibs(srcArray) {
+function callLibs(srcArray, stateUpdate, libCalls) {
   return (
     <>
       {srcArray.map((src) => {
@@ -692,7 +416,7 @@ function callLibs(srcArray) {
             props={{
               isTest,
               stateUpdate,
-              libCalls: state.libCalls,
+              libCalls,
             }}
           />
         );
@@ -702,7 +426,6 @@ function callLibs(srcArray) {
 }
 
 //===============================================END FUNCTIONS======================================================
-
 return (
   <>
     <Widget
@@ -716,7 +439,6 @@ return (
         pills: navigationPills,
         navigationButtons,
         displayedTabId: state.displayedTabId,
-        writersWhiteList,
         handleFilterArticles,
       }}
     />
@@ -796,9 +518,12 @@ return (
           initialBody: initialBodyAtCreation,
           initialCreateState,
           editArticleData: state.editArticleData,
+          callLibs,
         }}
       />
     )}
-    <div style={{ display: "none" }}>{callLibs(libSrcArray)}</div>
+    <div style={{ display: "none" }}>
+      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+    </div>
   </>
 );
