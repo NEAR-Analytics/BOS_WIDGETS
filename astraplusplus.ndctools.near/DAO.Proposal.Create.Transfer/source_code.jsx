@@ -69,7 +69,7 @@ const handleProposal = () => {
       methodName: "add_proposal",
       args: {
         proposal: {
-          description: state.description,
+          description: state.description ?? defaultDescription,
           kind: {
             Transfer: {
               token_id: state.tokenAddress,
