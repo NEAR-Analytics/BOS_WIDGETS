@@ -5,6 +5,11 @@ padding-top:30px;
 margin-top:10px;
 border-radius:10px;
 `;
+State.init({
+  name: "",
+  location: "",
+  description: "",
+});
 
 const Grid = styled.div`
     display: grid;
@@ -71,6 +76,8 @@ const formContent = () => {
               label: "Event name*",
               inputProps: {
                 placeholder: "Add the name of your event",
+                value: state.name,
+                onChange: (e) => State.update({ name: e.target.value }),
               },
             }}
           />
@@ -80,6 +87,8 @@ const formContent = () => {
               label: "Event description",
               inputProps: {
                 placeholder: "Add a description to your event",
+                value: state.description,
+                onChange: (e) => State.update({ description: e.target.value }),
               },
             }}
           />
@@ -90,6 +99,8 @@ const formContent = () => {
               label: "Event location",
               inputProps: {
                 placeholder: "Add a location or address to your event",
+                value: state.location,
+                onChange: (e) => State.update({ location: e.target.value }),
               },
             }}
           />
@@ -109,7 +120,11 @@ const formContent = () => {
           <Widget src="harrydhillon.near/widget/Keypom.Imageupload" />
         </div>
         <div style={{ padding: 10 }}>
-          <Widget src="harrydhillon.near/widget/Keypom.Eventview" />
+          {console.log(state)}
+          <Widget
+            props={{ ...state }}
+            src="harrydhillon.near/widget/Keypom.Eventview"
+          />
         </div>
       </Grid>
     </FormBackground>
