@@ -812,7 +812,7 @@ return (
                     props={{
                       widgets,
                       isTest,
-                      candidateOrReplay: true,
+                      originalComment: true,
                       username: accountId,
                       onClickConfirm: () => State.update({ showModal: false }),
                       onClickCancel: () => State.update({ showModal: false }),
