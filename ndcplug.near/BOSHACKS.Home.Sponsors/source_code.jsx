@@ -144,6 +144,12 @@ const judges = [
 ];
 const sponsors = [
   {
+    url: "https://neardevhub.org",
+    name: "NEAR DevHub",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreid4hwxj7krtddzda53hwpekqmamlkqev46ghf337b27wmghdzpocy",
+  },
+  {
     url: "https://creativesdao.org",
     name: "CreativesDAO",
     image:
