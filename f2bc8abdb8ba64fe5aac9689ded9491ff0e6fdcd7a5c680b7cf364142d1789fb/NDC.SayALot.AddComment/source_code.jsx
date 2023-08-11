@@ -244,6 +244,7 @@ const CFSubmit = styled.button`
 const {
   widgets,
   isTest,
+  article,
   onClickCancel,
   candidateOrReply,
   username,
@@ -294,10 +295,17 @@ const SetText = (txt) => {
 
 function addCommentListener() {
   let newLibCalls = [...libCalls];
+  const comment = {
+    text: state.reply,
+    realArticleId: article.realArticleId,
+    timeStamp: Date.now(),
+    originalCommentId: originalComment.commentId ?? article.realArticleId,
+    commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
+  };
   newLibCalls.push({
     functionName: "createComment",
     key: "createComment",
-    props: { comment: state.reply, key: realArticleId },
+    props: { comment },
   });
   State.update({ libCalls: newLibCalls });
 }
