@@ -22,6 +22,23 @@ letter-spacing: -0.72px;
 const EventView = styled.div`
 `;
 
+const SkeletonWrapper = styled.div`
+  width:90%;
+  align-items: center;
+`;
+
+const SkeletonElement = styled.div`
+  background-color: #e0e0e0; 
+`;
+
+const ProfileNameSkeleton = styled.div`
+  width: 100%;
+  margin-bottom:4px;
+  border-radius:2px;
+  background-color: #e0e0e099; 
+  height: 10px;
+`;
+
 return (
   <EventView>
     <TicketDropBackground>
@@ -40,12 +57,46 @@ return (
             height: "15vh",
           }}
         >
-          <p style={{ fontSize: 22, fontWeight: "600" }}>My Event</p>
+          <p style={{ fontSize: 22, fontWeight: "600" }}>
+            {props?.eventName ?? "My Event"}
+          </p>
         </div>
       </ContentDiv>
     </TicketDropBackground>
-    <div style={{ maxWidth: 500, margin: "auto", marginTop: 20 }}>
-      <p style={{ fontWeight: "600" }}>Event Details</p>
+    <div
+      style={{ maxWidth: 500, margin: "auto", marginTop: 20, display: "flex" }}
+    >
+      <div style={{ width: "70%" }}>
+        <p style={{ fontWeight: "600", fontSize: 12 }}>Event Description</p>
+        {props?.description !== undefined && props?.description !== "" ? (
+          <p style={{ fontSize: 10, marginTop: -15 }}>{props?.description}</p>
+        ) : (
+          <SkeletonWrapper style={{ marginTop: -10 }}>
+            <ProfileNameSkeleton />
+            <ProfileNameSkeleton />
+            <ProfileNameSkeleton />
+            <ProfileNameSkeleton />
+          </SkeletonWrapper>
+        )}
+      </div>
+      <div style={{ width: "30%" }}>
+        <p style={{ fontWeight: "600", fontSize: 12 }}>Location</p>
+        {props?.location !== undefined && props?.location !== "" ? (
+          <p style={{ fontSize: 10, marginTop: -15 }}>{props?.location}</p>
+        ) : (
+          <SkeletonWrapper style={{ marginTop: -15 }}>
+            <ProfileNameSkeleton />
+          </SkeletonWrapper>
+        )}
+        <p style={{ fontWeight: "600", fontSize: 12, marginTop: 5 }}>Date</p>
+        {props?.date !== undefined && props?.date !== "" ? (
+          <p style={{ fontSize: 10, marginTop: -15 }}>{props?.date}</p>
+        ) : (
+          <SkeletonWrapper style={{ marginTop: -15 }}>
+            <ProfileNameSkeleton />
+          </SkeletonWrapper>
+        )}
+      </div>
     </div>
   </EventView>
 );
