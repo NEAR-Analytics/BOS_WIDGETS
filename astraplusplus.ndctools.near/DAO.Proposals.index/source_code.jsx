@@ -31,7 +31,7 @@ return (
                 }}
               >
                 <Widget
-                  src={"sking.near/widget/DAO.Proposal.Create"}
+                  src={"astraplusplus.ndctools.near/widget/DAO.Proposal.Create"}
                   props={{
                     daoId: daoId,
                   }}
