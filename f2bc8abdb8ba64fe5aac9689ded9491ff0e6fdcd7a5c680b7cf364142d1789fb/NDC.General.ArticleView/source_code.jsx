@@ -8,8 +8,6 @@ const {
   handleEditArticle,
 } = props;
 
-console.log(articleToRenderData);
-
 const accountId = articleToRenderData.author;
 // State.init({
 //   verified: false,
@@ -30,14 +28,6 @@ const tabs = [
 const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
-
-//TODO check this
-//Item for comment
-const item = {
-  type: "social",
-  path: `${accountId}/${action}/main`,
-  blockHeight: firstArticleBlockHeight,
-};
 
 State.init({
   tabSelected: tabs[1].id,
@@ -488,7 +478,20 @@ const CandidateProps = props.data.nominations ?? {
   name: accountId,
   tags: ["test", "test2", "martintest3"],
 };
+
 const comments = props.data.comments[0].comments ?? [];
+
+const libCalls = [
+  {
+    functionName: "getValidComments",
+    key: "comments",
+    props: { getValidComments: articleToRenderData.realArticleId },
+  },
+];
+
+function stateUpdate(obj) {
+  State.update(obj);
+}
 
 // const afilations = JSON.parse(CandidateProps.afiliation) ?? [];
 
@@ -822,7 +825,7 @@ return (
                       text: "Add a Comment",
                       disabled:
                         !context.accountId ||
-                        !state.verified ||
+                        // !state.verified ||
                         context.accountId === accountId,
                       className:
                         "primary w-100 mt-4 mb-2 justify-content-center",
@@ -832,10 +835,7 @@ return (
                   }}
                 />
                 {comments.map((data) => (
-                  <Widget
-                    props={{ widgets, data, nomination_contract }}
-                    src={widgets.comment}
-                  />
+                  <Widget props={{ widgets, data }} src={widgets.comment} />
                 ))}
               </CommentSection>
             )}
@@ -843,5 +843,13 @@ return (
         </>
       </SecondContainer>
     </Container>
+    {state.sendComment && (
+      <div style={{ display: "no-display" }}>
+        <Widget
+          src={widgets.libComment}
+          props={{ isTest, stateUpdate, libCalls }}
+        />
+      </div>
+    )}
   </>
 );
