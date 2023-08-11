@@ -810,6 +810,8 @@ return (
                   <Widget
                     src={widgets.addComment}
                     props={{
+                      article: articleToRenderData,
+                      originalComment,
                       widgets,
                       isTest,
                       candidateOrReplay: true,
