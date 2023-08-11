@@ -121,6 +121,20 @@ const shorten = (str, len) => {
   return str.slice(0, len) + "...";
 };
 
+function getSourcePath(path) {
+  switch (type) {
+    case "thing": {
+      return `/every.near/widget/every.thing.view?path=${path}`;
+    }
+    case "type": {
+      return `/every.near/widget/every.type.view?path=${path}`;
+    }
+    case "widget": {
+      return `/mob.near/widget/WidgetSource?src=${path}`;
+    }
+  }
+}
+
 return (
   <Wrapper className="shadow p-4 d-flex flex-column gap-2 h-100">
     <div className="row">
@@ -267,7 +281,7 @@ return (
         <i className="bi me-1 bi-eye" />
         View
       </a>
-      <a href={`/mob.near/widget/WidgetSource?src=${path}`} target="_blank">
+      <a href={getSourcePath(path)} target="_blank">
         <i className="bi me-1 bi-file-earmark-code" />
         Source
       </a>
