@@ -309,7 +309,7 @@ return (
         <i className="bi me-1 bi-clock-history" />
         History
       </a>
-      <a href={`https://nearpad.dev/editor/${path}`} target="_blank">
+      <a href={getEditPath(path)} target="_blank">
         <i className="bi me-1 bi-pencil-square" />
         Edit
       </a>
