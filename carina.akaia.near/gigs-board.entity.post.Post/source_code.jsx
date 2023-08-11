@@ -144,8 +144,8 @@ const timestamp = readableDate(
 const postSearchKeywords = props.searchKeywords ? (
   <div style={{ "font-family": "monospace" }} key="post-search-keywords">
     <span>Found keywords: </span>
-    {props.searchKeywords.map((tag) => {
-      return widget("components.atom.tag", { linkTo: "Feed", tag });
+    {props.searchKeywords.map((label) => {
+      return widget("components.atom.tag", { label });
     })}
   </div>
 ) : (
@@ -172,10 +172,11 @@ const btnEditorWidget = (postType, name) => {
     <li>
       <a
         class="dropdown-item"
+        data-bs-toggle="collapse"
+        href={`#collapse${postType}Editor${postId}`}
         role="button"
-        onClick={() =>
-          State.update({ postType, editorType: "EDIT", showEditor: true })
-        }
+        aria-expanded="false"
+        aria-controls={`collapse${postType}Editor${postId}`}
       >
         {name}
       </a>
@@ -330,10 +331,11 @@ const btnCreatorWidget = (postType, icon, name, desc) => {
       <a
         class="dropdown-item text-decoration-none d-flex align-items-center lh-sm"
         style={{ color: "rgb(55,109,137)" }}
+        data-bs-toggle="collapse"
+        href={`#collapse${postType}Creator${postId}`}
         role="button"
-        onClick={() =>
-          State.update({ postType, editorType: "CREATE", showEditor: true })
-        }
+        aria-expanded="false"
+        aria-controls={`collapse${postType}Creator${postId}`}
       >
         <i class={`bi ${icon}`} style={{ fontSize: "1.5rem" }}>
           {" "}
@@ -467,38 +469,6 @@ const CreatorWidget = (postType) => {
   );
 };
 
-const tokenMapping = {
-  NEAR: "NEAR",
-  USDT: {
-    NEP141: {
-      address: "usdt.tether-token.near",
-    },
-  },
-  // Add more tokens here as needed
-};
-
-const reverseTokenMapping = Object.keys(tokenMapping).reduce(
-  (reverseMap, key) => {
-    const value = tokenMapping[key];
-    if (typeof value === "object") {
-      reverseMap[JSON.stringify(value)] = key;
-    }
-    return reverseMap;
-  },
-  {}
-);
-
-function tokenResolver(token) {
-  if (typeof token === "string") {
-    return token;
-  } else if (typeof token === "object") {
-    const tokenString = reverseTokenMapping[JSON.stringify(token)];
-    return tokenString || null;
-  } else {
-    return null; // Invalid input
-  }
-}
-
 const EditorWidget = (postType) => {
   return (
     <div
@@ -519,7 +489,7 @@ const EditorWidget = (postType) => {
         name: post.snapshot.name,
         description: post.snapshot.description,
         amount: post.snapshot.amount,
-        token: tokenResolver(post.snapshot.sponsorship_token),
+        token: post.snapshot.sponsorship_token,
         supervisor: post.snapshot.supervisor,
         githubLink: post.snapshot.github_link,
         onDraftStateChange: props.onDraftStateChange,
@@ -529,62 +499,30 @@ const EditorWidget = (postType) => {
   );
 };
 
-const isDraft =
-  (draftState?.parent_post_id === postId &&
-    draftState?.postType === state.postType) ||
-  (draftState?.edit_post_id === postId &&
-    draftState?.postType === state.postType);
-
-function Editor() {
-  return (
-    <div class="row" id={`accordion${postId}`} key="editors-footer">
-      <div
-        key={`${state.postType}${state.editorType}${postId}`}
-        className={"w-100"}
-      >
-        {state.editorType === "CREATE" ? (
-          <>
-            {widget("entity.post.PostEditor", {
-              postType: state.postType,
-              onDraftStateChange: props.onDraftStateChange,
-              draftState:
-                draftState?.parent_post_id == postId ? draftState : undefined,
-              parentId: postId,
-              mode: "Create",
-            })}
-          </>
-        ) : (
-          <>
-            {widget("entity.post.PostEditor", {
-              postType: state.postType,
-              postId,
-              mode: "Edit",
-              author_id: post.author_id,
-              labels: post.snapshot.labels,
-              name: post.snapshot.name,
-              description: post.snapshot.description,
-              amount: post.snapshot.amount,
-              token: post.snapshot.sponsorship_token,
-              supervisor: post.snapshot.supervisor,
-              githubLink: post.snapshot.github_link,
-              onDraftStateChange: props.onDraftStateChange,
-              draftState:
-                draftState?.edit_post_id == postId ? draftState : undefined,
-            })}
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
+const editorsFooter = props.isPreview ? null : (
+  <div class="row" id={`accordion${postId}`} key="editors-footer">
+    {CreatorWidget("Comment")}
+    {EditorWidget("Comment")}
+    {CreatorWidget("Idea")}
+    {EditorWidget("Idea")}
+    {CreatorWidget("Submission")}
+    {EditorWidget("Submission")}
+    {CreatorWidget("Attestation")}
+    {EditorWidget("Attestation")}
+    {CreatorWidget("Sponsorship")}
+    {EditorWidget("Sponsorship")}
+    {CreatorWidget("Github")}
+    {EditorWidget("Github")}
+  </div>
+);
 
 const renamedPostType =
   snapshot.post_type == "Submission" ? "Solution" : snapshot.post_type;
 
-const tags = post.snapshot.labels ? (
+const postLabels = post.snapshot.labels ? (
   <div class="card-title" style={{ margin: "20px 0" }} key="post-labels">
-    {post.snapshot.labels.map((tag) => {
-      return widget("components.atom.tag", { linkTo: "Feed", tag });
+    {post.snapshot.labels.map((label) => {
+      return widget("components.atom.tag", { label });
     })}
   </div>
 ) : (
@@ -609,8 +547,7 @@ const postExtra =
   snapshot.post_type == "Sponsorship" ? (
     <div key="post-extra">
       <h6 class="card-subtitle mb-2 text-muted">
-        Maximum amount: {snapshot.amount}{" "}
-        {tokenResolver(snapshot.sponsorship_token)}
+        Maximum amount: {snapshot.amount} {snapshot.sponsorship_token}
       </h6>
       <h6 class="card-subtitle mb-2 text-muted">
         Supervisor:{" "}
@@ -668,7 +605,7 @@ const postsList =
     </div>
   );
 
-const LimitedMarkdown = styled.div`
+const limitedMarkdown = styled.div`
   max-height: 20em;
 `;
 
@@ -685,19 +622,37 @@ const clampedContent = needClamp
   ? contentArray.slice(0, 3).join("\n")
   : snapshot.description;
 
+const onMention = (accountId) => (
+  <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
+    <Widget
+      src="neardevgov.near/widget/ProfileLine"
+      props={{
+        accountId: accountId.toLowerCase(),
+        hideAccountId: true,
+        tooltip: true,
+      }}
+    />
+  </span>
+);
+
 // Should make sure the posts under the currently top viewed post are limited in size.
 const descriptionArea = isUnderPost ? (
-  <LimitedMarkdown className="overflow-auto" key="description-area">
-    {widget("components.molecule.markdown-viewer", {
-      text: snapshot.description,
-    })}
-  </LimitedMarkdown>
+  <limitedMarkdown className="overflow-auto" key="description-area">
+    <Markdown
+      class="card-text"
+      text={snapshot.description}
+      onMention={onMention}
+    />
+  </limitedMarkdown>
 ) : (
   <div>
     <div class={state.clamp ? "clamp" : ""}>
-      {widget("components.molecule.markdown-viewer", {
-        text: state.clamp ? clampedContent : snapshot.description,
-      })}
+      <Markdown
+        class="card-text"
+        text={state.clamp ? clampedContent : snapshot.description}
+        onMention={onMention}
+        key="description-area"
+      ></Markdown>
     </div>
     {state.clamp ? (
       <div class="d-flex justify-content-start">
@@ -757,7 +712,7 @@ function combineText(_snapshot) {
 }
 
 return (
-  <AttractableDiv className={`card ${borders[snapshot.post_type]}`}>
+  <AttractableDiv className={`card py-4 ${borders[snapshot.post_type]}`}>
     {header}
     <div className="card-body">
       {searchKeywords}
@@ -801,9 +756,9 @@ return (
           {descriptionArea}
         </>
       )}
-      {tags}
+      {postLabels}
       {buttonsFooter}
-      {!props.isPreview && (isDraft || state.showEditor) && <Editor />}
+      {editorsFooter}
       {postsList}
     </div>
   </AttractableDiv>
