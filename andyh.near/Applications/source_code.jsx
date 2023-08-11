@@ -7,7 +7,7 @@ return (
         props={{
           boostedTag: "app",
           placeholder: "🔍 Search Applications",
-          limit: 10,
+          limit: 1,
           onChange: ({ result }) => {
             State.update({ apps: result });
           },
@@ -41,11 +41,9 @@ return (
       </div>
     )}
 
-    {/*
     <Widget
       src="andyh.near/widget/WidgetIcons"
-      props={{ tag: "app", limit: 24 }}
+      props={{ tag: "app", limit: 1 }}
     />
-    */}
   </div>
 );
