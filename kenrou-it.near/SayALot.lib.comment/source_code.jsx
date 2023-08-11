@@ -46,7 +46,7 @@ function saveComment(comment) {
   }
 }
 
-function getComment(props) {
+function getComments(props) {
   const { realArticleId } = props;
   return Social.index(action, realArticleId, {
     order: "desc",
@@ -65,7 +65,7 @@ function filterInvalidArticlesIndexes(commentIndexes) {
 }
 
 function getValidComments(props) {
-  const commentIndexes = getComment(props);
+  const commentIndexes = getComments(props);
   const validCommentsIndexes = filterInvalidArticlesIndexes(commentIndexes);
 
   return validCommentsIndexes;
