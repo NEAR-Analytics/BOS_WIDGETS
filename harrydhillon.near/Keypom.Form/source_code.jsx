@@ -2,9 +2,10 @@ const FormBackground = styled.div`
 background-color:white;
 padding:10px;
 padding-top:30px;
-margin-top:10px;
+margin-top:40px;
 margin-bottom:60px;
 border-radius:10px;
+  border: 2px solid #B6E8F7;
 `;
 State.init({
   eventName: "",
@@ -49,6 +50,16 @@ const AllSteps = [
 const formContent = () => {
   return (
     <FormBackground>
+      <div
+        style={{
+          width: "fit-content",
+          margin: "auto",
+          transform: "scale(0.8)",
+          marginTop: -65,
+        }}
+      >
+        <Widget src="harrydhillon.near/widget/Keypom.TicketLogo" />
+      </div>
       <div
         style={{
           margin: "auto",
