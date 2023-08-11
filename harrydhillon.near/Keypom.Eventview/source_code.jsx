@@ -132,9 +132,7 @@ return (
               )}
 
               {props?.description !== undefined && props?.description !== "" ? (
-                <p style={{ fontSize: 10, marginTop: -15 }}>
-                  {props?.description}
-                </p>
+                <p style={{ fontSize: 10 }}>{props?.description}</p>
               ) : (
                 <>
                   <ProfileNameSkeleton />
