@@ -92,12 +92,14 @@ const Description = styled.div`
 const encryptComment = (comment) => {
   let data = {
     m: state.message.slice(0, 1000),
-    s: comment.owner_id,
-    t: comment.created_at,
-    p: comment.id,
+    s: comment.owner_id.toString(),
+    t: comment.created_at.toString(),
+    p: comment.id.toString(),
   };
 
   let buff = new Buffer(data);
+
+  console.log(buff.toString("base64"));
   return buff.toString("base64");
 };
 
