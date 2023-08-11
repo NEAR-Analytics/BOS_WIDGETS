@@ -16,13 +16,13 @@ return (
         {link ? (
           <a href={link} className="text-decoration-none link-dark">
             <Widget
-              src="andyh.near/widget/Component.InlineBlock"
+              src="andyh.near/widget/ComponentAsync.InlineBlock"
               props={{ accountId, widgetName }}
             />
           </a>
         ) : (
           <Widget
-            src="andyh.near/widget/Component.InlineBlock"
+            src="andyh.near/widget/ComponentAsync.InlineBlock"
             props={{ accountId, widgetName }}
           />
         )}
