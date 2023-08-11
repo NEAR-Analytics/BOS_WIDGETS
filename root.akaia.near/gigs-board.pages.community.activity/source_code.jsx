@@ -133,9 +133,7 @@ const CommunityActivityPage = ({ handle }) => {
                 <div class="d-flex align-items-center justify-content-between">
                   <small class="text-muted">
                     <span>Required tags:</span>
-                    {widget("components.atom.tag", {
-                      label: communityData.tag,
-                    })}
+                    {widget("components.atom.tag", communityData)}
                   </small>
                   {widget("components.layout.Controls", {
                     labels: communityData.tag,
