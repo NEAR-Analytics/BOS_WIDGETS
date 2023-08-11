@@ -120,6 +120,7 @@ const SmallTimerContainer = styled.div`
 
 const Info = styled.div`
   background: #ffffff;
+  z-index: 100;
 `;
 
 const TimerContent = ({ mobile }) => {
