@@ -26,7 +26,7 @@ const data = Social.keys(keys, "final", {
   return_type: "BlockHeight",
 });
 
-if (data === null) {
+if (data === null || data === undefined) {
   return "Loading widgets";
 }
 
