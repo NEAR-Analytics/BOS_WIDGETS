@@ -806,7 +806,7 @@ return (
               </DeclarationCard>
             ) : (
               <CommentSection>
-                {state.showModal && (
+                {true && (
                   <Widget
                     src={widgets.addComment}
                     props={{
