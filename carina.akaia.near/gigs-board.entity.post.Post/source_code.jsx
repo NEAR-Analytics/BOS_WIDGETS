@@ -712,7 +712,7 @@ function combineText(_snapshot) {
 }
 
 return (
-  <AttractableDiv className={`card py-4 ${borders[snapshot.post_type]}`}>
+  <AttractableDiv className={`card ${borders[snapshot.post_type]}`}>
     {header}
     <div className="card-body">
       {searchKeywords}
