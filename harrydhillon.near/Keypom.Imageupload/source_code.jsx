@@ -83,6 +83,7 @@ const imageUploader = () => {
         type="file"
         style={{ display: "none" }}
         onChange={onFileChange}
+        id="fileupload"
         ref={(input) =>
           input &&
           input.addEventListener("click", (e) => {
@@ -90,7 +91,9 @@ const imageUploader = () => {
           })
         }
       />
-      <UploadButton onClick={(e) => e.target.previousSibling.click()}>
+      <UploadButton
+        onClick={(e) => document.getElementById("fileupload").click()}
+      >
         Browse images
       </UploadButton>
     </UploadContainer>
