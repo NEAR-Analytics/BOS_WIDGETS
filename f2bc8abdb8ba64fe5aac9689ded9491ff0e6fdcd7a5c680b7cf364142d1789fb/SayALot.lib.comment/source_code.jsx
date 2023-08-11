@@ -1,62 +1,96 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-const prodAction = "SayALotComments";
+const prodAction = "sayALotComment";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-function libCall(call) {
-  if (call.functionName === "getComments") {
-    return getComments(call.props);
-  } else if (call.functionName === "setComment") {
-    return setComment(call.props);
-  }
+function createComment(props) {
+  const { comment, key } = props;
+
+  commentHandler(comment, key);
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "createComment";
+  });
+
+  return comment;
 }
 
-function getComments(args) {
-  const { realArticleId } = args;
-  const key = realArticleId;
-  return Social.index(action, key);
-}
-
-function setComment(args) {
-  const {
-    realArticleId,
-    text,
-    previousCommentId,
-    onClickConfirm,
-    onClickCancel,
-  } = args;
+//addressForComments should be the realArticleId of the article
+const composeCommentData = (props) => {
+  const { comment, realArticleId } = props;
   const data = {
     index: {
       [action]: JSON.stringify({
         key: realArticleId,
         value: {
-          text,
-          id: `${realArticleId}-${Date.now()}`,
-          previousCommentId,
+          type: "md",
+          comment,
+          commentId:
+            comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
         },
       }),
     },
   };
-  Social.set(data, {
-    onCommit: onClickConfirm,
-    onCancel: onClickCancel,
-  });
 
-  resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "setComment";
-  });
+  return data;
+};
 
-  return text;
+const commentHandler = (comment, key) => {
+  if (comment.image || comment.text) {
+    const newData = composeCommentData(comment, key);
+
+    Social.set(newData, {
+      force: true,
+    });
+    // onCancel: () => {
+    //   State.update({ saving: false });
+    // },
+  }
+};
+
+function getComment(props) {
+  const { realArticleId } = props;
+  return Social.index(action, realArticleId, {
+    order: "desc",
+  });
 }
 
-const updateObj = {};
-const resultLibCalls = [...libCalls];
+function getCommentBlackListByBlockHeight() {
+  return [];
+}
 
-libCalls.forEach((call) => {
-  updateObj[call.key] = libCall(call);
-});
+function filterInvalidArticlesIndexes(commentIndexes) {
+  return commentIndexes.filter(
+    (commentIndexes) =>
+      !getCommentBlackListByBlockHeight().includes(commentIndexes.blockHeight) // Comment is not in blacklist
+  );
+}
 
-updateObj.libCalls = resultLibCalls;
-stateUpdate(updateObj);
-return <></>;
+function getValidComments(props) {
+  const commentIndexes = getComment(props);
+  const validCommentsIndexes = filterInvalidArticlesIndexes(commentIndexes);
+
+  return validCommentsIndexes;
+}
+
+function libCall(call) {
+  if (call.functionName === "createComment") {
+    return createComment(call.props);
+  } else if (call.functionName === "getValidComments") {
+    return getValidComments(call.props);
+  }
+}
+
+if (libCalls && libCalls.length > 0) {
+  const updateObj = {};
+  const resultLibCalls = [...libCalls];
+  libCalls.forEach((call) => {
+    updateObj[call.key] = libCall(call);
+  });
+
+  updateObj.libCalls = resultLibCalls;
+  stateUpdate(updateObj);
+}
+
+return <>{JSON.stringify()}</>;
