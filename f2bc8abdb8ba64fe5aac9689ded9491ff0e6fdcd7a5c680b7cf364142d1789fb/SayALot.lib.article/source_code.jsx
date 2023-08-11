@@ -289,15 +289,11 @@ function convertArticlesTagsToValidFormat(articlesArray) {
   let validFormatArticlesArray = [];
   articlesArray.map((article) => {
     let tags = article.tags;
-    console.log(1, tags);
-    console.log(tags.length, tags + "");
 
     if (tags && !tags.length && tags + "" != "0") {
       tags = Object.keys(tags);
-      console.log("2 change", tags);
     }
     article.tags = tags;
-    console.log(3, article.tags);
 
     validFormatArticlesArray.push(article);
   });
