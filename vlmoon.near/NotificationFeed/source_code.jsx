@@ -1,4 +1,4 @@
-const accountId = context.accountId;
+const accountId = props.accountId ?? context.accountId;
 
 if (!accountId) {
   return "Sign in with NEAR Wallet";
@@ -8,12 +8,9 @@ const index = {
   action: "notify",
   key: accountId,
   options: {
-    limit: 50,
+    limit: 10,
     order: "desc",
     subscribe: true,
-  },
-  cacheOptions: {
-    ignoreCache: true,
   },
 };
 
@@ -22,24 +19,13 @@ const renderItem = (item, i) => {
     Storage.set("lastBlockHeight", item.blockHeight);
   }
   return (
-    <Widget
-      loading={
-        <div className="mb-3">
-          <div className="placeholder" style={{ height: "48px" }} />
-        </div>
-      }
-      src="mob.near/widget/Notification.Item"
-      key={i}
-      props={item}
-    />
+    <Widget src="mob.near/widget/Notification.Item" key={i} props={item} />
   );
 };
 
 return (
-  <div className="placeholder-glow">
-    <Widget
-      src="mob.near/widget/FilteredIndexFeed"
-      props={{ index, renderItem }}
-    />
-  </div>
+  <Widget
+    src="mob.near/widget/FilteredIndexFeed"
+    props={{ index, renderItem }}
+  />
 );
