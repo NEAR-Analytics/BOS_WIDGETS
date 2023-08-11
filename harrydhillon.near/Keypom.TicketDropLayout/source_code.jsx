@@ -23,7 +23,6 @@ letter-spacing: -0.72px;
 return (
   <TicketDropBackground>
     <ContentDiv>
-      <Widget src="harrydhillon.near/widget/Keypom.Header" />
       <p style={{ fontSize: 12, marginTop: 20 }}>
         <span style={{ color: "#94A3B8" }}>All Drops</span> {">"} New Ticket
         Drop{" "}
