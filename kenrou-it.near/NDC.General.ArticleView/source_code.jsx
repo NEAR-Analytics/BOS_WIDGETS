@@ -17,6 +17,25 @@ const accountId = articleToRenderData.author;
 //   showDeclaration: false,
 // });
 
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
 const tabs = [
   {
     id: "generalInfo",
@@ -850,13 +869,8 @@ return (
         </>
       </SecondContainer>
     </Container>
-    {state.sendComment && (
-      <div style={{ display: "no-display" }}>
-        <Widget
-          src={widgets.libComment}
-          props={{ isTest, stateUpdate, libCalls: state.libCalls }}
-        />
-      </div>
-    )}
+    <div style={{ display: "none" }}>
+      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+    </div>
   </>
 );
