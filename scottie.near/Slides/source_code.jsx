@@ -447,10 +447,8 @@ return (
               <span style={{ fontSize: "18px", fontFamily: "menlo" }}>
                 Create Unstoppable Presentations{" "}
               </span>
-              <br />
             </p>
-
-            <div>
+            <div style={{ marginBottom: "12px" }}>
               <TutorialButton
                 onClick={viewTutorial}
                 className="btn btn-outline-dark"
@@ -458,11 +456,12 @@ return (
                 View Tutorial
               </TutorialButton>
             </div>
-
             <p
-              style={{ position: "relative", top: "-24px", lineHeight: "2.5" }}
+              style={{
+                position: "relative",
+                lineHeight: "2",
+              }}
             >
-              <br />
               or
               <br />
               Click ⚙ to View Decks, Slides, or Create a New Deck
