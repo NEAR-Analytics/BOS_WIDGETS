@@ -89,7 +89,7 @@ const Description = styled.div`
   font-size: 14px;
 `;
 
-const encryptComment = (comment) => {
+const encryptComment = () => {
   let data = {
     m: state.message.slice(0, 1000),
     s: comment.owner_id.toString(),
