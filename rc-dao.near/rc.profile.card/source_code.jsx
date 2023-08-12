@@ -73,7 +73,7 @@ const TextLink = styled.a`
 
   &:focus,
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 `;
 
