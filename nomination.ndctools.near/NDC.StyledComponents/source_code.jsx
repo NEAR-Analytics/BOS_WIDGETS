@@ -367,8 +367,8 @@ if (TextArea) {
             src="mob.near/widget/AccountAutocomplete"
             props={{
               term: TextArea.value.split("@").pop(),
-              onSelect: (value) => TextArea.onSelectAutocomplete(value),
-              onClose: () => TextArea.onCloseAutocomplete(),
+              onSelect: TextArea.onSelectAutocomplete,
+              onClose: TextArea.onCloseAutocomplete,
             }}
           />
         </div>
