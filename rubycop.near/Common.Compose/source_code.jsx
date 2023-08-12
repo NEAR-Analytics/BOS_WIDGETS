@@ -9,14 +9,14 @@ function onSelect(id) {
   text = `${text} @${id}`.trim() + " ";
   State.update({ text, showAccountAutocomplete: false });
 
-  handleChange(text);
+  if (handleChange) handleChange(text);
 }
 
 const onChange = (text) => {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
   State.update({ text, showAccountAutocomplete });
 
-  handleChange(text);
+  if (handleChange) handleChange(text);
 };
 
 const Textarea = styled.textarea`
