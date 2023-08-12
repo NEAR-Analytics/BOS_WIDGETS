@@ -17,7 +17,7 @@ const Overlay = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.3);
 `;
 
-console.log(props.signedIn);
+console.log(props.signedIn, "helo");
 
 return (
   <DataStorage className="bg-black">
