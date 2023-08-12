@@ -14,7 +14,7 @@ const Overlay = styled.div`
     cursor: pointer; /* Add a pointer on hover */
 `;
 
-console.log(props.modalState);
+console.log(props);
 
 const Modal = styled.div`
     width: 50%;
