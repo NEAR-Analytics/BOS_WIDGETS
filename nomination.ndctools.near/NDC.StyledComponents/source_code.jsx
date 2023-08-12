@@ -2,6 +2,8 @@ const { Button, Dropdown, TextArea, Input, Link, Tag, _contract } = props;
 
 const contract = _contract ?? "nomination.ndctools.near";
 
+State.init({ showAccountAutocomplete: false });
+
 const Styled = {
   Button: styled.button`
     width: max-content;
@@ -351,8 +353,6 @@ if (Dropdown)
   );
 
 if (TextArea) {
-  State.init({ showAccountAutocomplete: false });
-
   function autoCompleteAccountId(value) {
     console.log(TextArea.value);
     let text = TextArea.value.replace(/[\s]{0,1}@[^\s]*$/, "");
