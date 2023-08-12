@@ -116,7 +116,7 @@ const openVessel = () => {
   assetContract
     .approve(
       borrowerOperationAddress,
-      ethers.BigNumber.from(props.susAmount * 100)
+      ethers.BigNumber.from(props.collateralAmount * 100)
         .mul("10000000000000000")
         .toString()
     )
