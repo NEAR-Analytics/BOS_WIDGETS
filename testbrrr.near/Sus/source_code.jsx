@@ -77,7 +77,7 @@ const vesselManagerAddress = "0x30B52bfa3A923D14BbBA08BDfC3Ff05A7a02527E";
 const stabilityPoolAddress = "0xBF4145c4C2E9D448787f3be6d90a677b54aec9ef";
 
 const borrowerOperationAbi = fetch(
-  "https://api-goerli.etherscan.io/api?module=contract&action=getabi&address=0xC2AE62aC744c03E9B7288CB04abaa1E3aDBD6ec0"
+  "https://api.etherscan.io/api?module=contract&action=getabi&address=0x9c4e709632b752b4744a37bd991ba31f320fa82b"
 );
 
 const vesselManagerAbi = fetch(
