@@ -2,8 +2,6 @@ const { Button, Dropdown, TextArea, Input, Link, Tag, _contract } = props;
 
 const contract = _contract ?? "nomination.ndctools.near";
 
-State.init({ showAccountAutocomplete: false });
-
 const Styled = {
   Button: styled.button`
     width: max-content;
@@ -353,44 +351,23 @@ if (Dropdown)
   );
 
 if (TextArea) {
-  function autoCompleteAccountId(value) {
-    console.log(TextArea.value);
-    let text = TextArea.value.replace(/[\s]{0,1}@[^\s]*$/, "");
-    text = `${text} @${value}`.trim() + " ";
-    console.log(text);
-
-    TextArea.handleChange(text);
-    State.update({ showAccountAutocomplete: false });
-  }
-
-  const onChange = (e) => {
-    const text = e.target.value;
-    TextArea.handleChange(text);
-
-    if (TextArea.autoComplete) {
-      const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
-      console.log("showAccountAutocomplete", showAccountAutocomplete);
-      State.update({ showAccountAutocomplete });
-    }
-  };
-
   return (
     <div>
       {TextArea.label && <Label>{TextArea.label}</Label>}
       <Styled.TextArea
         value={TextArea.value}
         placeholder={TextArea.placeholder}
-        onChange={onChange}
+        onChange={handleChange}
         rows={5}
       />
-      {TextArea.autoComplete && state.showAccountAutocomplete && (
+      {TextArea.autoComplete && (
         <div className="pt-1 w-100 overflow-hidden">
           <Widget
             src="mob.near/widget/AccountAutocomplete"
             props={{
               term: TextArea.value.split("@").pop(),
-              onSelect: (value) => autoCompleteAccountId(value),
-              onClose: () => State.update({ showAccountAutocomplete: false }),
+              onSelect: onSelectAutocomplete,
+              onClose: onCloseAutocomplete,
             }}
           />
         </div>
@@ -473,7 +450,33 @@ const WidgetSelect = () => (
 );
 
 const WidgetInput = ({ type, autoComplete }) => {
-  State.init({ [type]: "" });
+  State.init({
+    [type]: "",
+    showAccountAutocomplete: false,
+  });
+
+  const onSelectAutocomplete = (value) => {
+    let text = state.type.replace(/[\s]{0,1}@[^\s]*$/, "");
+    text = `${text} @${value}`.trim() + " ";
+
+    State.update({
+      [type]: text,
+      showAccountAutocomplete: false,
+    });
+  };
+
+  const onCloseAutocomplete = () =>
+    State.update({ showAccountAutocomplete: false });
+
+  const handleChange = (e) => {
+    const text = e.target.value;
+    State.update({ [type]: text });
+
+    if (TextArea.autoComplete) {
+      const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
+      State.update({ showAccountAutocomplete });
+    }
+  };
 
   return (
     <Widget
@@ -486,7 +489,9 @@ const WidgetInput = ({ type, autoComplete }) => {
           min: new Date(),
           value: state[type],
           autoComplete,
-          handleChange: (e) => State.update({ [type]: e.target.value }),
+          handleChange,
+          onCloseAutocomplete,
+          onSelectAutocomplete,
         },
       }}
     />
