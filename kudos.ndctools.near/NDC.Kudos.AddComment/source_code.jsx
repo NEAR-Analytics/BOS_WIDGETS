@@ -205,19 +205,12 @@ return (
           </Description>
           <hr className="text-secondary" />
           <Widget
-            src={widgets.styledComponents}
+            src={"rubycop.near/widget/Common.Compose"}
+            placeholder="Left a comment"
             props={{
-              TextArea: {
-                label: "Reply",
-                value: state.message,
-                maxLength: 1000,
-                placeholder: "Left a comment",
-                handleChange: (e) => {
-                  const text = e.target.value;
-                  if (text.length > 1000) return;
-
-                  State.update({ message: text });
-                },
+              handleChange: (text) => {
+                if (text.length > 1000) return;
+                State.update({ message: text });
               },
             }}
           />
