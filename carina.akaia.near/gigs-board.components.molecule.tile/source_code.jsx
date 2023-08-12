@@ -53,20 +53,20 @@ const Tile = ({
     {...{ id }}
   >
     {!noFrame ||
-      ([heading ?? null, headingAdornment ?? null, headerSlotRight ?? null] !==
-        [null, null, null] && (
-        <div
-          className="d-flex align-items-center justify-content-between gap-3"
-          style={{ minHeight: 30 }}
-        >
-          <h5 className="h5 d-inline-flex gap-2 m-0">
-            {headingAdornment}
-            <span>{heading}</span>
-          </h5>
+    [heading ?? null, headingAdornment ?? null, headerSlotRight ?? null] !==
+      [null, null, null] ? (
+      <div
+        className="d-flex align-items-center justify-content-between gap-3"
+        style={{ minHeight: 30 }}
+      >
+        <h5 className="h5 d-inline-flex gap-2 m-0">
+          {headingAdornment}
+          <span>{heading}</span>
+        </h5>
 
-          {headerSlotRight}
-        </div>
-      ))}
+        {headerSlotRight}
+      </div>
+    ) : null}
 
     {children}
   </AttractableDiv>
