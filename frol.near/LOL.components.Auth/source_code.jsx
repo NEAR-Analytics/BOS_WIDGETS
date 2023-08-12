@@ -1,7 +1,3 @@
-// if (context.accountId) {
-//     return <></>;
-// }
-
 State.init({
   mode: null,
   form: {},
@@ -72,6 +68,15 @@ const linkExistingAccount = () => {
 if (state.mode === null) {
   return (
     <>
+      {!context.accountId ? (
+        <>
+          <div>
+            Увійдіть у свій NEAR акаунт через кнопку "Sign In", що знаходиться у
+            правому верхньому куті.
+          </div>
+          або
+        </>
+      ) : null}
       <div>
         <button onClick={() => State.update({ mode: "CREATE_NEW_ACCOUNT" })}>
           Створити новий акаунт NEAR
@@ -143,15 +148,11 @@ if (state.mode === null) {
   return (
     <>
       <h2>Вітаємо у ЛОЛ!</h2>
-      <div>
-        <label>
-          {`NEAR акаунт ${state.form.new_account_id}.near успішно створено!`}
-        </label>
-      </div>
-      <h3>
+      <p>{`NEAR акаунт ${state.form.new_account_id}.near успішно створено!`}</p>
+      <p>
         Тепер увійдіть у свій акаунт через кнопку "Sign In", що знаходиться у
         правому верхньому куті.
-      </h3>
+      </p>
     </>
   );
 } else if (state.mode === "LINK_EXISTING_ACCOUNT") {
@@ -185,6 +186,19 @@ if (state.mode === null) {
               : null}
           </label>
         </div>
+      </>
+    );
+  } else if (state.mode === "LINK_EXISTING_ACCOUNT_SUCCESS") {
+    return (
+      <>
+        <h2>Вітаємо у ЛОЛ!</h2>
+        <p>
+          {`NEAR акаунт ${state.form.existing_account_id}.near успішно зареєстровано!`}
+        </p>
+        <p>
+          Тепер увійдіть у свій акаунт через кнопку "Sign In", що знаходиться у
+          правому верхньому куті.
+        </p>
       </>
     );
   } else {
