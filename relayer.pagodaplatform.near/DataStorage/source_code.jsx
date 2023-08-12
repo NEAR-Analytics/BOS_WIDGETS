@@ -17,11 +17,30 @@ const Overlay = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.3);
 `;
 
-console.log(props.signedIn, "helo");
+State.init({
+  modalOn: false,
+});
+
+const turnOffModal = (e) => {
+  State.update({
+    modalOn: false,
+  });
+};
 
 return (
   <DataStorage className="bg-black">
-    <button className="btn btn-light rounded-pill text-primary mb-3 px-4">
+    <Widget
+      turnOffModal={turnOffModal}
+      modalState={state.modalOn}
+      src="tvh050423.near/widget/UploadFileModal"
+    />
+    <button
+      className="btn btn-light rounded-pill text-primary mb-3 px-4"
+      onClick={() => {
+        State.update({ modalOn: true });
+        console.log(state);
+      }}
+    >
       Upload
     </button>
     <Overlay className="p-3">
