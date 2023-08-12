@@ -100,6 +100,7 @@ if (!priceFeedAbi.ok) return "loading...";
 // const iface = new ethers.utils.Interface(borrowerOperationAbi.body);
 
 const openVessel = () => {
+  console.log("Hererere");
   const asset = getAsset(props.asset);
   console.log(asset);
   const borrowerOperationContract = new ethers.Contract(
