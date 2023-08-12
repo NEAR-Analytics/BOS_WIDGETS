@@ -17,9 +17,35 @@ const item = {
 const link = `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const Wrapper = styled.div`
-  padding: 12px;
-  display: flex;
   border-bottom: 1px solid var(--bs-border-color);
+  
+  .post {
+    position: relative;
+    padding: 12px;
+    display: flex;
+  }
+
+  .post:not(:last-child) :before {
+    content: "";
+    position: absolute;
+    left: 30px;
+    top: 56px;
+    bottom: 0;
+    width: 2px;
+    background-color: #ccc;
+    z-index: -1;
+  }
+
+  .post:not(:first-child) :after {
+    content: "";
+    position: absolute;
+    left: 30px;
+    top: 0;
+    width: 2px;
+    height: 8px;
+    background-color: #ccc;
+    z-index: -1;
+  }
   
   .left {
     padding-right: 12px;
@@ -31,8 +57,8 @@ const Wrapper = styled.div`
 `;
 
 return (
-  <>
-    <Wrapper>
+  <Wrapper>
+    <div className="post">
       <Widget
         src="mob.near/widget/MainPage.N.Post.Left"
         props={{ accountId }}
@@ -92,23 +118,21 @@ return (
           </div>
         )}
       </div>
-    </Wrapper>
-    <div className="mt-3 ps-5">
-      {state.showReply && (
-        <div className="mb-2">
-          <Widget
-            src="mob.near/widget/MainPage.Comment.Compose"
-            props={{
-              notifyAccountId,
-              item,
-              onComment: () => State.update({ showReply: false }),
-            }}
-          />
-        </div>
-      )}
     </div>
+    {state.showReply && (
+      <div className="mb-2">
+        <Widget
+          src="mob.near/widget/MainPage.Comment.Compose"
+          props={{
+            notifyAccountId,
+            item,
+            onComment: () => State.update({ showReply: false }),
+          }}
+        />
+      </div>
+    )}
     <Widget
-      src="mob.near/widget/MainPage.Comment.Feed"
+      src="mob.near/widget/MainPage.N.Comment.Feed"
       props={{
         item,
         highlightComment: props.highlightComment,
@@ -117,5 +141,5 @@ return (
         raw,
       }}
     />
-  </>
+  </Wrapper>
 );
