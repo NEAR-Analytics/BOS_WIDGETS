@@ -360,6 +360,7 @@ if (TextArea) {
         onChange={TextArea.handleChange}
         rows={5}
       />
+      {console.log(TextArea.autoComplete && TextArea.showAccountAutocomplete)}
       {TextArea.autoComplete && TextArea.showAccountAutocomplete && (
         <div className="pt-1 w-100 overflow-hidden">
           <Widget
@@ -470,12 +471,10 @@ const WidgetInput = ({ type, autoComplete }) => {
 
   const handleChange = (e) => {
     const text = e.target.value;
-    console.log(text);
     State.update({ [type]: text });
 
     if (autoComplete) {
       const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
-      console.log(showAccountAutocomplete);
       State.update({ showAccountAutocomplete });
     }
   };
