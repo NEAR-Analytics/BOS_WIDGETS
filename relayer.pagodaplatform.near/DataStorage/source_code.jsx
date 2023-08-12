@@ -1,5 +1,6 @@
 const DataStorage = styled.div`
     width: 100%;
+    height:100%;
     align-item: start;
     padding: 22vh 120px;
 
