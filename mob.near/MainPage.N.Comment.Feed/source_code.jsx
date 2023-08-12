@@ -30,6 +30,9 @@ const renderItem = (a) =>
 const ShowMore = styled.div`
   padding: 4px 0px 4px 64px;
   position: relative;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
   :before {
     content: "";
     position: absolute;
