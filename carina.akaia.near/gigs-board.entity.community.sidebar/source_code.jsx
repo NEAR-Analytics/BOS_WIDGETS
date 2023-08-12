@@ -157,7 +157,7 @@ const CommunitySummary = (community) => {
     ...((community.github_handle?.length ?? 0) > 0
       ? [
           {
-            href: `https://github.com/${github_handle}`,
+            href: `${github_handle}`,
             iconClass: "bi bi-github",
             name: community.github_handle,
           },
@@ -249,7 +249,6 @@ const Sidebar = ({ handle }) => {
         minHeight: 0,
         children: CommunitySummary(community),
         noBorder: true,
-        noFrame: true,
         borderRadius: "rounded",
       })}
 
