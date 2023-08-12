@@ -181,7 +181,7 @@ return (
     <div class="row">
       <div class="col-md-3">
         <Widget
-          src={`james.near/widget/com.navbar`}
+          src={`rc-dao.near/widget/com.navbar`}
           props={{
             tab: state.tab,
             onSelect,
