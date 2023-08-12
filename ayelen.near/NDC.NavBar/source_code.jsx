@@ -243,7 +243,7 @@ return (
                 </li>
               );
             })}
-          {navigationButtons &&
+          {/*navigationButtons &&
             loggedUserAccountId &&
             canLoggedUserCreateArticle &&
             navigationButtons.map((button, i) => {
@@ -254,11 +254,12 @@ return (
                   {renderButton(button, i)}
                 </div>
               );
-            })}
+            })*/}
         </ul>
       </div>
       {navigationButtons &&
         loggedUserAccountId &&
+        canLoggedUserCreateArticle &&
         navigationButtons.map((button, i) => {
           return !(button.id + "") || !button.title ? (
             <p className="text-danger border">Button passed wrong</p>
