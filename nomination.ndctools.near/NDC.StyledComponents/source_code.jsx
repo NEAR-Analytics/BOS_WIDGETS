@@ -360,18 +360,15 @@ if (TextArea) {
         onChange={TextArea.handleChange}
         rows={5}
       />
-      {console.log(
-        "w-- ",
-        TextArea.autoComplete && TextArea.showAccountAutocomplete
-      )}
+      {console.log("w-- ", TextArea.value.split("@").pop())}
       {TextArea.autoComplete && TextArea.showAccountAutocomplete && (
         <div className="pt-1 w-100 overflow-hidden">
           <Widget
             src="mob.near/widget/AccountAutocomplete"
             props={{
               term: TextArea.value.split("@").pop(),
-              onSelect: TextArea.onSelectAutocomplete,
-              onClose: TextArea.onCloseAutocomplete,
+              onSelect: (value) => TextArea.onSelectAutocomplete(value),
+              onClose: () => TextArea.onCloseAutocomplete(),
             }}
           />
         </div>
