@@ -20,14 +20,13 @@ const Wrapper = styled.div`
   padding: 12px;
   display: flex;
   border-bottom: 1px solid var(--bs-border-color);
-  min-width: 100%;
   
   .left {
     padding-right: 12px;
   }
   .right {
-    flex-grow: 1,
-    overflow: hidden,
+    flex-grow: 1;
+    overflow: hidden;
   }
 `;
 
