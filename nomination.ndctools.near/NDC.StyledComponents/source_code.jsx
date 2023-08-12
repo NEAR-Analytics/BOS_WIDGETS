@@ -357,7 +357,7 @@ if (TextArea) {
       <Styled.TextArea
         value={TextArea.value}
         placeholder={TextArea.placeholder}
-        onChange={handleChange}
+        onChange={TextArea.handleChange}
         rows={5}
       />
       {TextArea.autoComplete && TextArea.showAccountAutocomplete && (
@@ -456,7 +456,7 @@ const WidgetInput = ({ type, autoComplete }) => {
   });
 
   const onSelectAutocomplete = (value) => {
-    let text = state.type.replace(/[\s]{0,1}@[^\s]*$/, "");
+    let text = state[type].replace(/[\s]{0,1}@[^\s]*$/, "");
     text = `${text} @${value}`.trim() + " ";
 
     State.update({
@@ -470,6 +470,7 @@ const WidgetInput = ({ type, autoComplete }) => {
 
   const handleChange = (e) => {
     const text = e.target.value;
+    console.log(text);
     State.update({ [type]: text });
 
     if (autoComplete) {
@@ -486,7 +487,7 @@ const WidgetInput = ({ type, autoComplete }) => {
         [type]: {
           label: "Select label",
           placeholder: "Placeholder text here...",
-          maxLength: "20",
+          maxLength: 20,
           min: new Date(),
           value: state[type],
           showAccountAutocomplete: state.showAccountAutocomplete,
