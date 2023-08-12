@@ -25,8 +25,8 @@ const item = {
 };
 
 return (
-  <div className={highlight ? "bg-warning bg-opacity-10" : ""}>
-    <div className="post">
+  <>
+    <div className={`post ${highlight ? "bg-warning bg-opacity-10" : ""}`}>
       <Widget
         src="mob.near/widget/MainPage.N.Post.Left"
         props={{ accountId }}
@@ -94,5 +94,5 @@ return (
         />
       </div>
     )}
-  </div>
+  </>
 );
