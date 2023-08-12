@@ -1,5 +1,4 @@
 const {
-  stateUpdate,
   handleGoHomeButton,
   handlePillNavigation,
   brand,
@@ -10,7 +9,9 @@ const {
   writersWhiteList,
   handleFilterArticles,
 } = props;
-
+function stateUpdate(obj) {
+  State.update(obj);
+}
 const libSrcArray = [
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.article",
 ];
@@ -72,6 +73,7 @@ State.init({
   libCalls: initLibCalls,
 });
 const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle;
+console.log(canLoggedUserCreateArticle);
 
 const logoRemWidth = brand.logoRemWidth
   ? brand.logoRemWidth + "rem"
