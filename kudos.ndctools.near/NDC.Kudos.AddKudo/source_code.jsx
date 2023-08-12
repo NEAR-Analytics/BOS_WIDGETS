@@ -108,11 +108,7 @@ return (
               }}
             />
           </Section>
-          <Section>
-            <div className="h-25">
-              <IpfsImageUpload image={state.img} />
-            </div>
-          </Section>
+          <Section></Section>
           <Section>
             <Widget
               src={"mob.near/widget/TagsEditor"}
