@@ -27,6 +27,22 @@ const renderItem = (a) =>
     />
   );
 
+const ShowMore = styled.div`
+  padding: 10px 0px 10px 40px;
+  :before {
+    content: "";
+    position: absolute;
+    left: 30px;
+    top: 6px;
+    height: 32px;
+    width: 2px;
+    background-image: linear-gradient(to bottom, transparent 50%, #ccc 50%);
+    background-size: 100% 10px;
+    background-repeat: repeat-y;
+        z-index: -1;
+  }
+`;
+
 return (
   <Widget
     src="mob.near/widget/FilteredIndexFeed"
@@ -36,7 +52,7 @@ return (
       manual: true,
       renderItem,
       nextLimit: 10,
-      loadMoreText: "Show earlier comments...",
+      loadMoreText: <ShowMore>Show earlier comments...</ShowMore>,
     }}
   />
 );
