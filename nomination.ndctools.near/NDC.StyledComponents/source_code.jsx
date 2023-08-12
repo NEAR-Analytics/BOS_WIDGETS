@@ -350,7 +350,7 @@ if (Dropdown)
     </div>
   );
 
-if (TextArea) {
+if (TextArea)
   return (
     <div>
       {TextArea.label && <Label>{TextArea.label}</Label>}
@@ -360,18 +360,6 @@ if (TextArea) {
         onChange={TextArea.handleChange}
         rows={5}
       />
-      {TextArea.autoComplete && TextArea.showAccountAutocomplete && (
-        <div className="pt-1 w-100 overflow-hidden">
-          <Widget
-            src="mob.near/widget/AccountAutocomplete"
-            props={{
-              term: TextArea.value.split("@").pop(),
-              onSelect: TextArea.onSelectAutocomplete,
-              onClose: TextArea.onCloseAutocomplete,
-            }}
-          />
-        </div>
-      )}
       {TextArea.maxLength && (
         <div className="d-flex justify-content-end">
           <small style={{ fontSize: 12 }} className="text-secondary">
@@ -381,7 +369,6 @@ if (TextArea) {
       )}
     </div>
   );
-}
 
 if (Input)
   return (
@@ -449,34 +436,8 @@ const WidgetSelect = () => (
   />
 );
 
-const WidgetInput = ({ type, autoComplete }) => {
-  State.init({
-    [type]: "",
-    showAccountAutocomplete: false,
-  });
-
-  const onSelectAutocomplete = (value) => {
-    let text = state[type].replace(/[\s]{0,1}@[^\s]*$/, "");
-    text = `${text} @${value}`.trim() + " ";
-
-    State.update({
-      [type]: text,
-      showAccountAutocomplete: false,
-    });
-  };
-
-  const onCloseAutocomplete = () =>
-    State.update({ showAccountAutocomplete: false });
-
-  const handleChange = (e) => {
-    const text = e.target.value;
-    State.update({ [type]: text });
-
-    if (autoComplete) {
-      const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
-      State.update({ showAccountAutocomplete });
-    }
-  };
+const WidgetInput = ({ type }) => {
+  State.init({ [type]: "" });
 
   return (
     <Widget
@@ -485,14 +446,10 @@ const WidgetInput = ({ type, autoComplete }) => {
         [type]: {
           label: "Select label",
           placeholder: "Placeholder text here...",
-          maxLength: 20,
+          maxLength: "20",
           min: new Date(),
           value: state[type],
-          showAccountAutocomplete: state.showAccountAutocomplete,
-          autoComplete,
-          handleChange,
-          onCloseAutocomplete,
-          onSelectAutocomplete,
+          handleChange: (e) => State.update({ [type]: e.target.value }),
         },
       }}
     />
@@ -616,6 +573,6 @@ return (
 
     <h4>Input</h4>
     <WidgetInput type="Input" />
-    <WidgetInput type="TextArea" autoComplete />
+    <WidgetInput type="TextArea" />
   </Container>
 );
