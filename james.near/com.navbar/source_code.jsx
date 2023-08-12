@@ -14,7 +14,7 @@ return (
     <br />
     <a
       className="nav-link mt-2"
-      href="/james.near/widget/com.library?tab=home`"
+      href="/james.near/widget/com.library?tab=home"
       onClick={() => props.onSelect({ tab: "home", id: "" })}
     >
       <i className="bi-house" />
