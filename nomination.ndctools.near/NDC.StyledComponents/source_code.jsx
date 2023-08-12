@@ -350,17 +350,48 @@ if (Dropdown)
     </div>
   );
 
-if (TextArea)
+if (TextArea) {
+  State.init({ showAccountAutocomplete: false });
+
+  const autoCompleteAccountId = (id) => {
+    let text = TextArea.value.replace(/[\s]{0,1}@[^\s]*$/, "");
+    text = `${text} @${id}`.trim() + " ";
+
+    TextArea.handleChange(text);
+    State.update({ showAccountAutocomplete: false });
+  };
+
+  const onChange = (e) => {
+    const text = e.target.value;
+    TextArea.handleChange(text);
+
+    if (TextArea.autocomplete) {
+      const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
+      State.update({ showAccountAutocomplete });
+    }
+  };
+
   return (
     <div>
       {TextArea.label && <Label>{TextArea.label}</Label>}
       <Styled.TextArea
         value={TextArea.value}
         placeholder={TextArea.placeholder}
-        onChange={TextArea.handleChange}
+        onChange={onChange}
         rows={5}
       />
-
+      {TextArea.autoComplete && state.showAccountAutocomplete && (
+        <div className="pt-1 w-100 overflow-hidden">
+          <Widget
+            src="mob.near/widget/AccountAutocomplete"
+            props={{
+              term: TextArea.value.split("@").pop(),
+              onSelect: autoCompleteAccountId,
+              onClose: () => State.update({ showAccountAutocomplete: false }),
+            }}
+          />
+        </div>
+      )}
       {TextArea.maxLength && (
         <div className="d-flex justify-content-end">
           <small style={{ fontSize: 12 }} className="text-secondary">
@@ -370,6 +401,7 @@ if (TextArea)
       )}
     </div>
   );
+}
 
 if (Input)
   return (
@@ -437,7 +469,7 @@ const WidgetSelect = () => (
   />
 );
 
-const WidgetInput = ({ type }) => {
+const WidgetInput = ({ type, autoComplete }) => {
   State.init({ [type]: "" });
 
   return (
@@ -450,6 +482,7 @@ const WidgetInput = ({ type }) => {
           maxLength: "20",
           min: new Date(),
           value: state[type],
+          autoComplete,
           handleChange: (e) => State.update({ [type]: e.target.value }),
         },
       }}
@@ -574,6 +607,6 @@ return (
 
     <h4>Input</h4>
     <WidgetInput type="Input" />
-    <WidgetInput type="TextArea" />
+    <WidgetInput type="TextArea" autoComplete />
   </Container>
 );
