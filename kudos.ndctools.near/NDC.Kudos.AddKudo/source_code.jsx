@@ -78,11 +78,6 @@ const handleAddKudo = () => {
   ).then((data) => onHide());
 };
 
-const handleChange = (e) => {
-  const text = e.target.value;
-  State.update({ message: text });
-};
-
 return (
   <Modal>
     <ComponentWrapper>
@@ -104,14 +99,9 @@ return (
           </Section>
           <Section>
             <Widget
-              src={widgets.styledComponents}
+              src={"rubycop.near/widget/Common.Compose"}
               props={{
-                TextArea: {
-                  label: `Add a ${kind === "k" ? "Kudo" : "Ding"} Description`,
-                  value: state.message,
-                  handleChange: (e) =>
-                    State.update({ message: e.target.value }),
-                },
+                handleChange: (value) => State.update({ message: value }),
               }}
             />
           </Section>
