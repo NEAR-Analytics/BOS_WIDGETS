@@ -136,7 +136,7 @@ return (
         </span>
       </H1>
 
-      <Text size="29px" weight="600" alignItems="center">
+      <Text size="29px" weight="555" alignItems="center">
         Opening the{" "}
         <a
           href="https://humans.nearverselabs.com"
@@ -162,7 +162,7 @@ return (
             <Widget src="hack.near/widget/pro.editor" />
           ) : (
             <div>
-              {!human ? (
+              {human ? (
                 <div className="row">
                   <div className="col-auto mt-5">
                     <Widget
@@ -180,21 +180,32 @@ return (
                   </div>
                 </div>
               ) : (
-                <div>
+                <Flex gap="12px" direction="column" alignItems="center">
                   <Widget
-                    src="hack.near/widget/connect.button"
+                    src="james.near/widget/dao.profile.card"
                     props={{
-                      accountId: orgId,
+                      accountId: "rc-dao.sputnik-dao.near",
                     }}
                   />
                   <br />
+                  <Text
+                    size="23px"
+                    weight="555"
+                    style={{
+                      textTransform: "uppercase",
+                      letterSpacing: "0.17em",
+                    }}
+                  >
+                    Contributors
+                  </Text>
+                  <br />
                   <Widget
-                    src="james.near/widget/connections"
+                    src="james.near/widget/dao.connections"
                     props={{
                       accountId: orgId,
                     }}
                   />
-                </div>
+                </Flex>
               )}
             </div>
           )}
@@ -202,13 +213,6 @@ return (
       )}
     </Flex>
     <hr />
-    <Text
-      size="14px"
-      weight="600"
-      style={{ textTransform: "uppercase", letterSpacing: "0.17em" }}
-    >
-      Thanks to Everyone
-      <Widget src="hack.near/widget/dev.Badge" />
-    </Text>
+    <Widget src="hack.near/widget/dev.Badge" />
   </Container>
 );
