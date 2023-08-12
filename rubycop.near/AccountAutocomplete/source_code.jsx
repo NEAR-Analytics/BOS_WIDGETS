@@ -90,10 +90,12 @@ const Scroller = styled.div`
 const Selection = styled.button`
   width: 150px;
   font-size: 12px;
-  background: #f8f8f9;
+  background: transparent;
+  border: 1px solid #d4e4f461;
   
   &:hover {
-    background: #d4e4f461;
+    border: 1px solid #4BA6EE;
+  background: #d4e4f461;
   }
 `;
 
@@ -122,7 +124,7 @@ return (
       {results.map((result) => {
         return (
           <Selection
-            className="border-0 btn"
+            className="btn"
             key={result.accountId}
             onClick={() => onResultClick(result.accountId)}
           >
