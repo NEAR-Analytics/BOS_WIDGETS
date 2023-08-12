@@ -123,7 +123,7 @@ const Container = styled.div`
 // Data loading
 // ============
 
-State.init({});
+State.init({ lolNames: null });
 
 const tokensOnSale = Near.view("lolmarket.qbit.near", "nft_tokens_on_sale", {});
 
@@ -145,14 +145,19 @@ const allBalances = Near.view("lolcoin.qbit.near", "ft_balances", {});
 // TODO: add pagination
 const allTokens = Near.view("lolmarket.qbit.near", "nft_tokens", {});
 
-asyncFetch("https://coins.summerschool.lol/users.json").then((users) => {
-  const lolNames = new Map();
-  for (const user of users) {
-    lolNames[user.account_id] = user.full_name;
-  }
-  console.log(lolNames);
-  State.update({ lolNames });
-});
+if (state.lolNames === null) {
+  State.update({ lolNames: new Map() });
+  asyncFetch("https://coins.summerschool.lol/users.json").then((data) => {
+    const lolUsers = data.body;
+    console.log(lolUsers);
+    const lolNames = new Map();
+    for (const user of lolUsers) {
+      lolNames.set(user.account_id, user.full_name);
+    }
+    console.log(lolNames);
+    State.update({ lolNames });
+  });
+}
 
 const isLoading =
   (context.accountId && (myBalance === null || myTokens === null)) ||
@@ -202,15 +207,39 @@ const transferOneLol = (accountId) => {
   );
 };
 
-const getLolName = (accountId) => {
-  if (!state.lolNames) {
-    return "";
+const displayName = (accountId) => {
+  if (props.useNearNames || !state.lolNames) {
+    return (
+      <Widget
+        src="calebjacob.near/widget/AccountProfileInline"
+        props={{
+          accountId,
+        }}
+      />
+    );
   }
-  const lolName = state.lolNames[accountId];
+  const lolName = state.lolNames.get(accountId);
   if (!lolName) {
-    return "";
+    return (
+      <Widget
+        src="calebjacob.near/widget/AccountProfileInline"
+        props={{
+          accountId,
+        }}
+      />
+    );
   }
-  return `(${lolName})`;
+  return (
+    <>
+      <Widget
+        src="calebjacob.near/widget/AccountProfileInline"
+        props={{
+          accountId,
+        }}
+      />{" "}
+      {lolName}
+    </>
+  );
 };
 
 // Custom reusable components
@@ -273,28 +302,16 @@ const Tokens = ({ tokens }) => (
 
           <div>
             Створив:
-            <Widget
-              src="mob.near/widget/ProfileLine"
-              props={{
-                accountId: token.metadata.extra,
-                hideName: true,
-              }}
-            />{" "}
-            {getLolName(accountId)}
+            {displayName(token.metadata.extra)}
           </div>
           <div>
             Поточний власник:
-            <Widget
-              src="mob.near/widget/ProfileLine"
-              props={{
-                accountId: token.owner_id,
-                hideName: true,
-              }}
-            />{" "}
-            {getLolName(accountId)}
+            {displayName(token.owner_id)}
           </div>
           <b>{token.metadata.title}</b>
-          <div style={{ textAlign: "right" }}>{token.metadata.description}</div>
+          <div style={{ textAlign: "right" }}>
+            Опис: {token.metadata.description}
+          </div>
           {actionButton}
         </Flex>
       );
@@ -369,13 +386,7 @@ return (
               <tbody>
                 {allBalances.map(([accountId, balance]) => (
                   <tr>
-                    <td scope="row">
-                      <Widget
-                        src="mob.near/widget/ProfileLine"
-                        props={{ accountId }}
-                      />{" "}
-                      {getLolName(accountId)}
-                    </td>
+                    <td scope="row">{displayName(accountId)}</td>
                     <td>{parseFloat(balance) / 100} ЛОЛ</td>
                     <td>
                       <button onClick={() => transferOneLol(accountId)}>
