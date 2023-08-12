@@ -245,79 +245,92 @@ const displayName = (accountId) => {
 // Custom reusable components
 // ==========================
 
-const Tokens = ({ tokens }) => (
-  <Grid gap="32px" columns="1fr 1fr" alignItems="end" style={{ width: "100%" }}>
-    {tokens.map((token) => {
-      let actionButton;
-      if (!context.accountId) {
-        if (token.token_id in tokensOnSale) {
-          actionButton = (
-            <button disabled>
-              Вже виставлено на продаж за{" "}
-              {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
-            </button>
-          );
-        } else {
-          actionButton = <button disabled>Не продається</button>;
-        }
-      } else if (token.owner_id === context.accountId) {
-        if (token.token_id in tokensOnSale) {
-          actionButton = (
-            <button disabled>
-              Вже виставлено на продаж за{" "}
-              {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
-            </button>
-          );
-        } else {
-          actionButton = (
-            <button onClick={() => sellForOne(token.token_id)}>
-              Виставити на продаж за ціною 1 ЛОЛ
-            </button>
-          );
-        }
-      } else if (token.token_id in tokensOnSale) {
-        actionButton = (
-          <button
-            disabled={!context.accountId}
-            onClick={() => buy(token.token_id, tokensOnSale[token.token_id])}
-          >
-            Придбати за {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
-          </button>
-        );
-      } else {
-        actionButton = <button disabled>Не продається</button>;
-      }
+const Tokens = ({ tokens }) => {
+  if (tokens.length === 0) {
+    return <i>Тут ще нічого нема</i>;
+  } else {
+    return (
+      <Grid
+        gap="32px"
+        columns="1fr 1fr"
+        alignItems="end"
+        style={{ width: "100%" }}
+      >
+        {tokens.map((token) => {
+          let actionButton;
+          if (!context.accountId) {
+            if (token.token_id in tokensOnSale) {
+              actionButton = (
+                <button disabled>
+                  Вже виставлено на продаж за{" "}
+                  {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
+                </button>
+              );
+            } else {
+              actionButton = <button disabled>Не продається</button>;
+            }
+          } else if (token.owner_id === context.accountId) {
+            if (token.token_id in tokensOnSale) {
+              actionButton = (
+                <button disabled>
+                  Вже виставлено на продаж за{" "}
+                  {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
+                </button>
+              );
+            } else {
+              actionButton = (
+                <button onClick={() => sellForOne(token.token_id)}>
+                  Виставити на продаж за ціною 1 ЛОЛ
+                </button>
+              );
+            }
+          } else if (token.token_id in tokensOnSale) {
+            actionButton = (
+              <button
+                disabled={!context.accountId}
+                onClick={() =>
+                  buy(token.token_id, tokensOnSale[token.token_id])
+                }
+              >
+                Придбати за {parseFloat(tokensOnSale[token.token_id]) / 100} ЛОЛ
+              </button>
+            );
+          } else {
+            actionButton = <button disabled>Не продається</button>;
+          }
 
-      return (
-        <Flex direction="column" alignItems="end">
-          <Widget
-            src="mob.near/widget/NftImage"
-            props={{
-              nft: {
-                contractId: "lolmarket.qbit.near",
-                tokenMetadata: { media: token.metadata.media },
-              },
-            }}
-          />
+          return (
+            <Flex direction="column" alignItems="end">
+              <Widget
+                src="mob.near/widget/NftImage"
+                props={{
+                  nft: {
+                    contractId: "lolmarket.qbit.near",
+                    tokenMetadata: { media: token.metadata.media },
+                  },
+                }}
+              />
 
-          <div>
-            Створив:
-            {displayName(token.metadata.extra)}
-          </div>
-          <div>
-            Поточний власник:
-            {displayName(token.owner_id)}
-          </div>
-          <b>{token.metadata.title}</b>
-          <div style={{ textAlign: "right" }}>
-            Опис: {token.metadata.description}
-          </div>
-          {actionButton}
-        </Flex>
-      );
-    })}
-  </Grid>
-);
+              <div>
+                Створив:
+                {displayName(token.metadata.extra)}
+              </div>
+              <div>
+                Поточний власник:
+                {displayName(token.owner_id)}
+              </div>
+              <b>{token.metadata.title}</b>
+              <div style={{ textAlign: "right" }}>
+                Опис: {token.metadata.description}
+              </div>
+              {actionButton}
+            </Flex>
+          );
+        })}
+      </Grid>
+    );
+  }
+};
 
 // Component renderer
 // ==================
@@ -344,7 +357,10 @@ return (
           Інтернет...
         </Text>
 
-        {isLoading ? null : myBalance === "0" ? (
+        {isLoading ? null : !context.accountId ||
+          (myBalance === "0" &&
+            state.lolNames &&
+            !state.lolNames.has(context.accountId)) ? (
           <Widget src="frol.near/widget/LOL.components.Auth" />
         ) : (
           <>
