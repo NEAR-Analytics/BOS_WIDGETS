@@ -163,7 +163,7 @@ return (
           ) : (
             <Flex gap="12px" direction="column" alignItems="center">
               <Widget
-                src="james.near/widget/dao.profile.card"
+                src="rc-dao.near/widget/rc.profile.card"
                 props={{
                   accountId: "rc-dao.sputnik-dao.near",
                 }}
