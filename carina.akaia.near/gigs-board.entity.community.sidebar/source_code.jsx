@@ -246,10 +246,10 @@ const Sidebar = ({ handle }) => {
   ) : (
     <div class="col-md-12 d-flex flex-column align-items-end">
       {widget("components.molecule.tile", {
-        heading: community.tag[0].toUpperCase() + community.tag.slice(1),
         minHeight: 0,
         children: CommunitySummary(community),
         noBorder: true,
+        noFrame: true,
         borderRadius: "rounded",
       })}
 
