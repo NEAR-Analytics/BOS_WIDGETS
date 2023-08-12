@@ -360,10 +360,6 @@ if (TextArea) {
         onChange={TextArea.handleChange}
         rows={5}
       />
-      {console.log(
-        "w-- ",
-        TextArea.autoComplete && TextArea.showAccountAutocomplete
-      )}
       {TextArea.autoComplete && TextArea.showAccountAutocomplete && (
         <div className="pt-1 w-100 overflow-hidden">
           <Widget
