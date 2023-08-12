@@ -100,6 +100,8 @@ if (!priceFeedAbi.ok) return "loading...";
 // const iface = new ethers.utils.Interface(borrowerOperationAbi.body);
 
 const openVessel = () => {
+  const asset = getAsset(props.asset);
+  console.log(asset);
   const borrowerOperationContract = new ethers.Contract(
     borrowerOperationAddress,
     borrowerOperationAbi.body.result,
@@ -107,7 +109,7 @@ const openVessel = () => {
   );
   console.log(props);
   borrowerOperationContract.openVessel(
-    getAsset(props.asset),
+    asset,
     ethers.BigNumber.from(props.collateralAmount * 100)
       .mul("10000000000000000")
       .toString(),
