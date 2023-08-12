@@ -131,6 +131,7 @@ return (
           State.update({ showAccountAutocomplete: false });
         }
       }}
+      rows={props.rows ?? 5}
       placeholder={props.placeholder ?? ""}
     />
     {autocompleteEnabled && state.showAccountAutocomplete && (
