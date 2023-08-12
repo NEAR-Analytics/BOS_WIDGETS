@@ -94,12 +94,9 @@ const onCloseAutocomplete = () =>
 
 const handleChange = (e) => {
   const text = e.target.value;
-  State.update({ message: text });
+  const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
 
-  if (autoComplete) {
-    const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
-    State.update({ showAccountAutocomplete });
-  }
+  State.update({ showAccountAutocomplete, message: text });
 };
 
 return (
@@ -128,6 +125,10 @@ return (
                 TextArea: {
                   label: `Add a ${kind === "k" ? "Kudo" : "Ding"} Description`,
                   value: state.message,
+                  showAccountAutocomplete: state.showAccountAutocomplete,
+                  autoComplete,
+                  onCloseAutocomplete,
+                  onSelectAutocomplete,
                   handleChange,
                 },
               }}
