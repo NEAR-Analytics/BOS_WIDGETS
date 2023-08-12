@@ -302,34 +302,34 @@ return (
                 <span>To {kudo.receiver_id}</span>
               </KudoLink>
             </div>
-            {isIAmHuman && (
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Button: {
-                    text: kudo.upvotes.length,
-                    disabled:
-                      kudo.upvotes.includes(context.accountId) ||
-                      kudo.receiver_id === context.accountId ||
-                      kudo.sender_id === context.accountId,
-                    className:
-                      kudo.kind === "k" ? "secondary dark" : "secondary danger",
-                    onClick: (e) => handleUpvote(kudo),
-                    image: {
-                      url:
-                        kudo.kind === "k"
-                          ? isIAmHuman &&
-                            kudo.receiver_id !== context.accountId &&
-                            kudo.sender_id !== context.accountId &&
-                            !kudo.upvotes.includes(context.accountId)
-                            ? "https://bafkreicdwy5kpbid7qn2q4yt4lx6oo24kosa7t2ravqg54pmpb62mp64eq.ipfs.nftstorage.link"
-                            : "https://bafkreidz6ybnsss2ulwg236fvp3cm5ksdqpsfziwhvnx4ee7maqpcl2jde.ipfs.nftstorage.link/"
-                          : "https://bafkreia6ux4wzaktmwxxnkzd7tbhpuxhlp352twzsunc6vetza76u6clwy.ipfs.nftstorage.link/",
-                    },
+            <Widget
+              src={widgets.styledComponents}
+              props={{
+                Button: {
+                  text: kudo.upvotes.length,
+                  disabled:
+                    !context.accountId ||
+                    !isIAmHuman ||
+                    kudo.upvotes.includes(context.accountId) ||
+                    kudo.receiver_id === context.accountId ||
+                    kudo.sender_id === context.accountId,
+                  className:
+                    kudo.kind === "k" ? "secondary dark" : "secondary danger",
+                  onClick: (e) => handleUpvote(kudo),
+                  image: {
+                    url:
+                      kudo.kind === "k"
+                        ? isIAmHuman &&
+                          kudo.receiver_id !== context.accountId &&
+                          kudo.sender_id !== context.accountId &&
+                          !kudo.upvotes.includes(context.accountId)
+                          ? "https://bafkreicdwy5kpbid7qn2q4yt4lx6oo24kosa7t2ravqg54pmpb62mp64eq.ipfs.nftstorage.link"
+                          : "https://bafkreidz6ybnsss2ulwg236fvp3cm5ksdqpsfziwhvnx4ee7maqpcl2jde.ipfs.nftstorage.link/"
+                        : "https://bafkreia6ux4wzaktmwxxnkzd7tbhpuxhlp352twzsunc6vetza76u6clwy.ipfs.nftstorage.link/",
                   },
-                }}
-              />
-            )}
+                },
+              }}
+            />
           </div>
         </div>
         <Description className="text-secondary">
@@ -363,6 +363,18 @@ return (
             )}
           </CreatedAt>
           <div className="d-flex justify-content-between align-items-center gap-2">
+            <Widget
+              src={widgets.styledComponents}
+              props={{
+                Link: {
+                  className: "secondary dark",
+                  text: kudo.comments.length,
+                  size: "sm",
+                  icon: <i className="bi bi-chat-left-dots" />,
+                  href: `${widgets.kudoPage}?accountId=${kudo.receiver_id}&kudoId=${kudo.id}`,
+                },
+              }}
+            />
             <Widget
               src={widgets.styledComponents}
               props={{
