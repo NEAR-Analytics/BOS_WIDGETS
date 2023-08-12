@@ -363,9 +363,10 @@ if (TextArea) {
 
   const onChange = (e) => {
     const text = e.target.value;
+    console.log(text);
     TextArea.handleChange(text);
 
-    if (TextArea.autocomplete) {
+    if (TextArea.autoComplete) {
       const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
       State.update({ showAccountAutocomplete });
     }
