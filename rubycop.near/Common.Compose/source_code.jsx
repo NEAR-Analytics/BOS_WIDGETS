@@ -41,7 +41,7 @@ return (
       rows={rows ?? 5}
       placeholder={placeholder ?? ""}
     />
-    {true && (
+    {state.showAccountAutocomplete && (
       <div className="pt-1 w-100 overflow-hidden">
         <Widget
           src="rubycop.near/widget/AccountAutocomplete"
