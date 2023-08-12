@@ -38,7 +38,7 @@ const renderPost = (a) => {
   renderedPosts[item] = true;
 
   return (
-    <div key={JSON.stringify(a)} className="mb-3">
+    <div key={JSON.stringify(a)}>
       <Widget
         src="mob.near/widget/MainPage.N.Post"
         props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
@@ -121,10 +121,5 @@ const renderItem = (item) =>
   item.action === "post" ? renderPost(item) : renderRepost(item);
 
 return (
-  <div>
-    <Widget
-      src="mob.near/widget/MergedIndexFeed"
-      props={{ index, renderItem }}
-    />
-  </div>
+  <Widget src="mob.near/widget/MergedIndexFeed" props={{ index, renderItem }} />
 );
