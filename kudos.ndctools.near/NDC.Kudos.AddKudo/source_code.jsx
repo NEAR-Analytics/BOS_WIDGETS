@@ -128,10 +128,6 @@ return (
                 TextArea: {
                   label: `Add a ${kind === "k" ? "Kudo" : "Ding"} Description`,
                   value: state.message,
-                  showAccountAutocomplete: state.showAccountAutocomplete,
-                  autoComplete,
-                  onCloseAutocomplete,
-                  onSelectAutocomplete,
                   handleChange,
                 },
               }}
