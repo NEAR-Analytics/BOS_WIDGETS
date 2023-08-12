@@ -84,7 +84,7 @@ const Text = styled.p`
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#000"};
-  margin: 0;
+  margin: 15;
 `;
 
 const Flex = styled.div`
@@ -161,53 +161,31 @@ return (
           {!profile ? (
             <Widget src="hack.near/widget/pro.editor" />
           ) : (
-            <div>
-              {!human ? (
-                <div className="row">
-                  <div className="col-auto mt-5">
-                    <Widget
-                      src="near/widget/DIG.Button"
-                      props={{
-                        href: "https://i-am-human.app/?community=banyan&vertical=regionalcommunities",
-                        label: "Get Verified",
-                        variant: "outline-primary",
-                        size: "large",
-                      }}
-                    />
-                  </div>
-                  <div className="col-auto">
-                    <Widget src="hack.near/widget/gov.Badge" />
-                  </div>
-                </div>
-              ) : (
-                <Flex gap="12px" direction="column" alignItems="center">
-                  <Widget
-                    src="james.near/widget/dao.profile.card"
-                    props={{
-                      accountId: "rc-dao.sputnik-dao.near",
-                    }}
-                  />
-                  <br />
-                  <Text
-                    size="23px"
-                    weight="555"
-                    style={{
-                      textTransform: "uppercase",
-                      letterSpacing: "0.17em",
-                    }}
-                  >
-                    Contributors
-                  </Text>
-                  <br />
-                  <Widget
-                    src="james.near/widget/dao.connections"
-                    props={{
-                      accountId: orgId,
-                    }}
-                  />
-                </Flex>
-              )}
-            </div>
+            <Flex gap="12px" direction="column" alignItems="center">
+              <Widget
+                src="james.near/widget/dao.profile.card"
+                props={{
+                  accountId: "rc-dao.sputnik-dao.near",
+                }}
+              />
+              <br />
+              <Text
+                size="23px"
+                weight="555"
+                style={{
+                  textTransform: "uppercase",
+                  letterSpacing: "0.15em",
+                }}
+              >
+                Contributors
+              </Text>
+              <Widget
+                src="james.near/widget/dao.connections"
+                props={{
+                  accountId: orgId,
+                }}
+              />
+            </Flex>
           )}
         </div>
       )}
