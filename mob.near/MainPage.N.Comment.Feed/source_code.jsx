@@ -28,7 +28,8 @@ const renderItem = (a) =>
   );
 
 const ShowMore = styled.div`
-  padding: 10px 0px 10px 40px;
+  padding: 10px 0px 10px 64px;
+  position: relative;
   :before {
     content: "";
     position: absolute;
