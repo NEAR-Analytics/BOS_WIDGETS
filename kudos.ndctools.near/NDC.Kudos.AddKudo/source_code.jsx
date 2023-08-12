@@ -5,13 +5,6 @@ const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
 
-State.init({
-  receiverId: "",
-  message: "",
-  img: null,
-  tags: "",
-});
-
 const Modal = styled.div`
   position: fixed;
   display: flex;
@@ -78,6 +71,13 @@ const handleAddKudo = () => {
   ).then((data) => onHide());
 };
 
+State.init({
+  receiverId: "",
+  message: "",
+  img: null,
+  tags: "",
+});
+
 return (
   <Modal>
     <ComponentWrapper>
@@ -101,7 +101,10 @@ return (
             <Widget
               src={"rubycop.near/widget/Common.Compose"}
               props={{
-                handleChange: (value) => State.update({ message: value }),
+                handleChange: (text) => {
+                  if (text.length > 1000) return;
+                  State.update({ message: text });
+                },
               }}
             />
           </Section>
