@@ -89,7 +89,7 @@ const labels = labelStrings.map((s) => {
 
 initState({
   seekingFunding: false,
-
+  //
   author_id: context.accountId,
   // Should be a list of objects with field "name".
   labels,
@@ -146,8 +146,7 @@ const onSubmit = () => {
       state.description,
       state.amount,
       state.token,
-      state.supervisor,
-      state.seekingFunding
+      state.supervisor
     ),
   };
 
@@ -335,13 +334,19 @@ const nameDiv = (
 const descriptionDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-6 fw-bold mb-1">Description</p>
-    {widget("components.molecule.markdown-editor", {
-      data: { handler: state.handler, content: state.description },
-      onChange: (content) => {
-        State.update({ description: content, handler: "update" });
-        textareaInputHandler(content);
-      },
-    })}
+    <textarea
+      value={state.description}
+      type="text"
+      rows={6}
+      className="form-control"
+      onInput={(event) => textareaInputHandler(event.target.value)}
+      onKeyUp={(event) => {
+        if (event.key === "Escape") {
+          State.update({ showAccountAutocomplete: false });
+        }
+      }}
+      onChange={(event) => State.update({ description: event.target.value })}
+    />
     {autocompleteEnabled && state.showAccountAutocomplete && (
       <AutoComplete>
         <Widget
@@ -457,18 +462,15 @@ const fundraisingDiv = (
   </div>
 );
 
-function generateDescription(text, amount, token, supervisor, seekingFunding) {
-  const fundingText =
-    amount > 0 && token ? `###### Requested amount: ${amount} ${token}\n` : "";
-  const supervisorText = supervisor
-    ? `###### Requested sponsor: @${supervisor}\n`
-    : "";
-  return seekingFunding ? `${fundingText}${supervisorText}${text}` : text;
+function generateDescription(text, amount, token, supervisor) {
+  const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
+  if (amount > 0 && token && supervisor) return funding + text;
+  return text;
 }
 
 return (
   <div class="bg-light d-flex flex-column flex-grow-1">
-    {widget("components.organism.app-header")}
+    {widget("components.layout.app-header")}
     <div class="mx-5 mb-5">
       <div aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -575,9 +577,6 @@ return (
                   backgroundColor: "#0C7283",
                   color: "#f3f3f3",
                 }}
-                disabled={
-                  state.seekingFunding && (!state.amount || state.amount < 1)
-                }
                 className="btn btn-light mb-2 p-3"
                 onClick={onSubmit}
               >
@@ -603,8 +602,7 @@ return (
                         state.description,
                         state.amount,
                         state.token,
-                        state.supervisor,
-                        state.seekingFunding
+                        state.supervisor
                       ),
                       github_link: state.githubLink,
                     },
