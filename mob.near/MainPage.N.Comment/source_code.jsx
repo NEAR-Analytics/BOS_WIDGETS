@@ -28,14 +28,6 @@ const Wrapper = styled.div`
   padding: 12px;
   display: flex;
   border-bottom: 1px solid var(--bs-border-color);
-  
-  .left {
-    padding-right: 12px;
-  }
-  .right {
-    flex-grow: 1;
-    overflow: hidden;
-  }
 `;
 
 return (
@@ -43,7 +35,7 @@ return (
     <Wrapper className={highlight ? "bg-warning bg-opacity-10" : ""}>
       <Widget
         src="mob.near/widget/MainPage.N.Post.Left"
-        props={{ accountId, lineUp: true, lineDown: !props.isLast }}
+        props={{ accountId }}
       />
       <div className="right">
         <Widget
