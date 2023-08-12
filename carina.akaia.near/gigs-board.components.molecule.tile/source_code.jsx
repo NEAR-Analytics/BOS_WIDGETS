@@ -56,10 +56,8 @@ const Tile = ({
       <div
         className={[
           "d-flex align-items-center justify-content-between gap-3",
-          noFrame ||
-          [heading, headingAdornment, headerSlotRight].every(
-            (element) => (element ?? null) === null
-          )
+
+          noFrame || (!heading && !headingAdornment && !headerSlotRight)
             ? "d-none"
             : "",
         ].join(" ")}
