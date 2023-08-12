@@ -16,7 +16,7 @@ const extractNotifyAccountId = (item) => {
   return `${accountId}/post/main` === item.path ? accountId : undefined;
 };
 
-const link = `/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const item = {
   type: "social",
@@ -24,61 +24,77 @@ const item = {
   blockHeight,
 };
 
+const Wrapper = styled.div`
+  padding: 12px;
+  display: flex;
+  border-bottom: 1px solid var(--bs-border-color);
+  
+  .left {
+    padding-right: 12px;
+  }
+  .right {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+`;
+
 return (
   <>
-    <div
-      className={`pt-3 border-top pb-2 ${
-        highlight ? "bg-warning bg-opacity-10" : ""
-      }`}
-    >
+    <Wrapper className={highlight ? "bg-warning bg-opacity-10" : ""}>
       <Widget
-        src="mob.near/widget/MainPage.Post.Header"
-        props={{
-          accountId,
-          blockHeight,
-          link,
-          postType: "comment",
-          flagItem: item,
-        }}
+        src="mob.near/widget/MainPage.N.Post.Left"
+        props={{ accountId, lineUp: true, lineDown: !props.isLast }}
       />
-      <div className="mt-2 text-break">
+      <div className="right">
         <Widget
-          src="mob.near/widget/MainPage.Post.Content"
-          props={{ content, raw }}
+          src="mob.near/widget/MainPage.N.Post.Header"
+          props={{
+            accountId,
+            blockHeight,
+            link,
+            postType: "comment",
+            flagItem: item,
+          }}
         />
-      </div>
-      {blockHeight !== "now" && (
-        <div className="mt-1 d-flex justify-content-between">
-          {parentItem && (
-            <div key="comment" className="me-4">
+        <div className="mt-2 text-break">
+          <Widget
+            src="mob.near/widget/MainPage.Post.Content"
+            props={{ content, raw }}
+          />
+        </div>
+        {blockHeight !== "now" && (
+          <div className="mt-1 d-flex justify-content-between">
+            {parentItem && (
+              <div key="comment" className="me-4">
+                <Widget
+                  src="mob.near/widget/CommentButton"
+                  props={{
+                    onClick: () =>
+                      !state.showReply && State.update({ showReply: true }),
+                  }}
+                />
+              </div>
+            )}
+            <div className="me-4">
               <Widget
-                src="mob.near/widget/CommentButton"
+                src="mob.near/widget/LikeButton"
                 props={{
-                  onClick: () =>
-                    !state.showReply && State.update({ showReply: true }),
+                  notifyAccountId,
+                  item,
                 }}
               />
             </div>
-          )}
-          <div className="me-4">
-            <Widget
-              src="mob.near/widget/LikeButton"
-              props={{
-                notifyAccountId,
-                item,
-              }}
-            />
-          </div>
 
-          <div>
-            <Widget
-              src="mob.near/widget/MainPage.Post.ShareButton"
-              props={{ accountId, blockHeight, postType: "comment" }}
-            />
+            <div>
+              <Widget
+                src="mob.near/widget/MainPage.Post.ShareButton"
+                props={{ accountId, blockHeight, postType: "comment" }}
+              />
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </Wrapper>
     {state.showReply && (
       <div className="mb-2" key="reply">
         <Widget
