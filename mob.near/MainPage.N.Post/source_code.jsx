@@ -25,7 +25,7 @@ const Wrapper = styled.div`
     display: flex;
   }
 
-  .post:not(:last-child) :before {
+  .post:not(:last-child) .post:before {
     content: "";
     position: absolute;
     left: 30px;
@@ -36,7 +36,7 @@ const Wrapper = styled.div`
     z-index: -1;
   }
 
-  .post:not(:first-child) :after {
+  .post:not(:first-child) .post:after {
     content: "";
     position: absolute;
     left: 30px;
