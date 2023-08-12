@@ -206,8 +206,8 @@ return (
           <hr className="text-secondary" />
           <Widget
             src={"rubycop.near/widget/Common.Compose"}
-            placeholder="Left a comment"
             props={{
+              placeholder: "Left a comment",
               handleChange: (text) => {
                 if (text.length > 1000) return;
                 State.update({ message: text });
