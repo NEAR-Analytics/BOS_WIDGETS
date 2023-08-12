@@ -131,8 +131,10 @@ const myTokens = context.accountId
     }).filter(({ token_id }) => !(token_id in tokensOnSale))
   : null;
 
+// TODO: add pagination
 const allBalances = Near.view("lolcoin.qbit.near", "ft_balances", {});
 
+// TODO: add pagination
 const allTokens = Near.view("lolmarket.qbit.near", "nft_tokens", {});
 
 const buy = (tokenId, price) => {
@@ -245,6 +247,7 @@ const Tokens = ({ tokens }) => (
     })}
   </Grid>
 );
+
 return (
   <Wrapper>
     <Container center>
@@ -266,15 +269,15 @@ return (
           А все почалось з табору, де навіть не було доступу у глобальну мережу
           Інтернет...
         </Text>
-        {context.accountId === undefined ? (
-          <Auth />
-        ) : myTokens !== null ? (
+        {myBalance === null ? null : myBalance === "0" ? (
+          <Widget src="frol.near/widget/LOL.components.Auth" />
+        ) : (
           <>
             <h2>Мій ЛОЛ</h2>
             Баланс: {parseFloat(myBalance) / 100} ЛОЛ
-            <Tokens tokens={myTokens} />
+            {myTokens !== null ? <Tokens tokens={myTokens} /> : null}
           </>
-        ) : null}
+        )}
 
         {tokensOnSale !== null ? (
           <>
