@@ -17,6 +17,8 @@ const Overlay = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.3);
 `;
 
+console.log(props.signedIn);
+
 return (
   <DataStorage className="bg-black">
     <button className="btn btn-light rounded-pill text-primary mb-3">
