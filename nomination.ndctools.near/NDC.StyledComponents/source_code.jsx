@@ -366,8 +366,8 @@ if (TextArea) {
             src="mob.near/widget/AccountAutocomplete"
             props={{
               term: TextArea.value.split("@").pop(),
-              onSelect: onSelectAutocomplete,
-              onClose: onCloseAutocomplete,
+              onSelect: TextArea.onSelectAutocomplete,
+              onClose: TextArea.onCloseAutocomplete,
             }}
           />
         </div>
@@ -474,6 +474,7 @@ const WidgetInput = ({ type, autoComplete }) => {
 
     if (autoComplete) {
       const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
+      console.log(showAccountAutocomplete);
       State.update({ showAccountAutocomplete });
     }
   };
