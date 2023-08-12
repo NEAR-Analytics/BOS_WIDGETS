@@ -21,7 +21,7 @@ console.log(props.signedIn, "helo");
 
 return (
   <DataStorage className="bg-black">
-    <button className="btn btn-light rounded-pill text-primary mb-3">
+    <button className="btn btn-light rounded-pill text-primary mb-3 px-4">
       Upload
     </button>
     <Overlay className="p-3">
