@@ -25,6 +25,10 @@ const Wrapper = styled.div`
     display: flex;
   }
 
+  .post:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
   .post:not(:last-child):before {
     content: "";
     position: absolute;
