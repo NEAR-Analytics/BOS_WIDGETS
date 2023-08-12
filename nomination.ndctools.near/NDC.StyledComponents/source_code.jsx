@@ -353,9 +353,9 @@ if (Dropdown)
 if (TextArea) {
   State.init({ showAccountAutocomplete: false });
 
-  function autoCompleteAccountId(id) {
+  function autoCompleteAccountId(value) {
     let text = TextArea.value.replace(/[\s]{0,1}@[^\s]*$/, "");
-    text = `${text} @${id}`.trim() + " ";
+    text = `${text} @${value}`.trim() + " ";
 
     TextArea.handleChange(text);
     State.update({ showAccountAutocomplete: false });
@@ -386,7 +386,7 @@ if (TextArea) {
             src="mob.near/widget/AccountAutocomplete"
             props={{
               term: TextArea.value.split("@").pop(),
-              onSelect: autoCompleteAccountId,
+              onSelect: (value) => autoCompleteAccountId(value),
               onClose: () => State.update({ showAccountAutocomplete: false }),
             }}
           />
