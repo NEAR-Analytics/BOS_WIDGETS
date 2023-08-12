@@ -5,7 +5,7 @@ const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
 
 return (
   <div className="d-flex flex-column">
-    <a href="#/james.near/widget/com.page">
+    <a href="#/james.near/widget/communities.page">
       <Widget
         src="mob.near/widget/ProfileImage"
         props={{ accountId: "academy.near" }}
