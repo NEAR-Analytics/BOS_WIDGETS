@@ -28,7 +28,7 @@ return (
           className={`nav-link mt-2 rounded-3${
             item.id === props.tab ? "bg-secondary" : ""
           }`}
-          href="/rc-dao.near/widget/com.library?tab=category&id=${item.id}"
+          href={`/rc-dao.near/widget/com.library?tab=category&id=${item.id}`}
           onClick={() => props.onSelect({ tab: "category", id: item.id })}
         >
           <i className={item.icon} /> <span>{item.category}</span>
