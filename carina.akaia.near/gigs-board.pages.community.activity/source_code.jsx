@@ -57,45 +57,49 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  get_root_members: () =>
-    Near.view(devHubAccountId, "get_root_members") ?? null,
+  edit_community_github: ({ handle, github }) =>
+    Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
+    null,
 
-  has_moderator: ({ account_id }) =>
-    Near.view(devHubAccountId, "has_moderator", { account_id }) ?? null,
-
-  create_community: ({ inputs }) =>
-    Near.call(devHubAccountId, "create_community", { inputs }),
-
-  get_community: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
-
-  get_account_community_permissions: ({ account_id, community_handle }) =>
-    Near.view(devHubAccountId, "get_account_community_permissions", {
-      account_id,
-      community_handle,
+  create_workspace: ({ author_community_handle, metadata }) =>
+    Near.call(devHubAccountId, "create_workspace", {
+      author_community_handle,
+      metadata,
     }) ?? null,
 
-  update_community: ({ handle, community }) =>
-    Near.call(devHubAccountId, "update_community", { handle, community }),
+  delete_workspace: ({ id }) =>
+    Near.call(devHubAccountId, "delete_workspace", { id }) ?? null,
 
-  delete_community: ({ handle }) =>
-    Near.call(devHubAccountId, "delete_community", { handle }),
+  update_workspace_metadata: ({ metadata }) =>
+    Near.call(devHubAccountId, "update_workspace_metadata", { metadata }) ??
+    null,
 
-  update_community_board: ({ handle, board }) =>
-    Near.call(devHubAccountId, "update_community_board", { handle, board }),
+  get_workspace_views_metadata: ({ workspace_id }) =>
+    Near.view(devHubAccountId, "get_workspace_views_metadata", {
+      workspace_id,
+    }) ?? null,
 
-  update_community_github: ({ handle, github }) =>
-    Near.call(devHubAccountId, "update_community_github", { handle, github }),
+  create_workspace_view: ({ view }) =>
+    Near.call(devHubAccountId, "create_workspace_view", { view }) ?? null,
+
+  update_workspace_view: ({ view }) =>
+    Near.call(devHubAccountId, "update_workspace_view", { view }) ?? null,
+
+  delete_workspace_view: ({ id }) =>
+    Near.call(devHubAccountId, "delete_workspace_view", { id }) ?? null,
 
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
   get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
 
-  get_all_communities_metadata: () =>
-    Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
+  get_all_communities: () =>
+    Near.view(devHubAccountId, "get_all_communities") ?? null,
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
+
+  get_community: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
 
   get_post: ({ post_id }) =>
     Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
@@ -108,7 +112,10 @@ const DevHub = {
       label,
     }) ?? null,
 
-  useQuery: (name, params) => {
+  get_root_members: () =>
+    Near.view(devHubAccountId, "get_root_members") ?? null,
+
+  useQuery: ({ name, params }) => {
     const initialState = { data: null, error: null, isLoading: true };
 
     const cacheState = useCache(
@@ -141,10 +148,8 @@ const CommunityActivityPage = ({ handle }) => {
     return <div>Loading...</div>;
   }
 
-  return widget("entity.community.layout", {
-    path: [{ label: "Communities", pageId: "communities" }],
+  return widget("components.template.community-page", {
     handle,
-
     title: "Activity",
     children:
       communityData !== null ? (
