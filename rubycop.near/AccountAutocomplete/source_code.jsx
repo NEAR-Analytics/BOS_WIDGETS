@@ -110,6 +110,8 @@ const CloseButton = styled.button`
     }
 `;
 
+console.log(results);
+
 if (results.length === 0) return <></>;
 
 return (
