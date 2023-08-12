@@ -115,7 +115,7 @@ return (
           </Section>
           <Section>
             <Widget
-              src={"mob.near/widget/TagsEditor"}
+              src={"sayalot.near/widget/TagsEditor"}
               props={{
                 label: "Tags",
                 placeholder: "Enter tags",
