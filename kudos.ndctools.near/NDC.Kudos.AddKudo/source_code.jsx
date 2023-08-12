@@ -108,8 +108,24 @@ return (
               }}
             />
           </Section>
-          <Section></Section>
-          <Section></Section>
+          <Section>
+            <div className="h-25">
+              <IpfsImageUpload image={state.img} />
+            </div>
+          </Section>
+          <Section>
+            <Widget
+              src={"mob.near/widget/TagsEditor"}
+              props={{
+                label: "Tags",
+                placeholder: "Enter tags",
+                setTagsObject: (tags) => {
+                  if (state.tags.length > 0)
+                    State.update({ tags: Object.keys(tags) });
+                },
+              }}
+            />
+          </Section>
         </div>
         <div className="d-grid gap-3 d-flex align-items-center justify-content-end">
           <Widget
