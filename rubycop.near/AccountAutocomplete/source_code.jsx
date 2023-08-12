@@ -91,11 +91,11 @@ const Selection = styled.button`
   width: 150px;
   font-size: 12px;
   background: transparent;
-  border: 1px solid #d4e4f461;
+  border: 1px solid rgb(208, 214, 217);
   
   &:hover {
     border: 1px solid #4BA6EE;
-  background: #d4e4f461;
+    background: #d4e4f461;
   }
 `;
 
