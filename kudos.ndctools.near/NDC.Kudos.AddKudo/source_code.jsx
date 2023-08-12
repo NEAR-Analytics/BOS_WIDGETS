@@ -10,6 +10,7 @@ State.init({
   message: "",
   img: null,
   tags: "",
+  showAccountAutocomplete: false,
 });
 
 const Modal = styled.div`
@@ -78,6 +79,29 @@ const handleAddKudo = () => {
   ).then((data) => onHide());
 };
 
+const onSelectAutocomplete = (value) => {
+  let text = state.message.replace(/[\s]{0,1}@[^\s]*$/, "");
+  text = `${text} @${value}`.trim() + " ";
+
+  State.update({
+    message: text,
+    showAccountAutocomplete: false,
+  });
+};
+
+const onCloseAutocomplete = () =>
+  State.update({ showAccountAutocomplete: false });
+
+const handleChange = (e) => {
+  const text = e.target.value;
+  State.update({ message: text });
+
+  if (autoComplete) {
+    const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
+    State.update({ showAccountAutocomplete });
+  }
+};
+
 return (
   <Modal>
     <ComponentWrapper>
@@ -104,8 +128,11 @@ return (
                 TextArea: {
                   label: `Add a ${kind === "k" ? "Kudo" : "Ding"} Description`,
                   value: state.message,
-                  handleChange: (e) =>
-                    State.update({ message: e.target.value }),
+                  showAccountAutocomplete: state.showAccountAutocomplete,
+                  autoComplete,
+                  onCloseAutocomplete,
+                  onSelectAutocomplete,
+                  handleChange,
                 },
               }}
             />
