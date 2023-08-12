@@ -18,7 +18,7 @@ const Overlay = styled.div`
 `;
 
 return (
-  <DataStorage>
+  <DataStorage className="bg-black">
     <button className="btn btn-light rounded-pill text-primary mb-3">
       Upload
     </button>
