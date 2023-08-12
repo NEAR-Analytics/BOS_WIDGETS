@@ -24,15 +24,9 @@ const item = {
   blockHeight,
 };
 
-const Wrapper = styled.div`
-  padding: 12px;
-  display: flex;
-  border-bottom: 1px solid var(--bs-border-color);
-`;
-
 return (
-  <>
-    <Wrapper className={highlight ? "bg-warning bg-opacity-10" : ""}>
+  <div className={highlight ? "bg-warning bg-opacity-10" : ""}>
+    <div className="post">
       <Widget
         src="mob.near/widget/MainPage.N.Post.Left"
         props={{ accountId }}
@@ -86,7 +80,7 @@ return (
           </div>
         )}
       </div>
-    </Wrapper>
+    </div>
     {state.showReply && (
       <div className="mb-2" key="reply">
         <Widget
@@ -100,5 +94,5 @@ return (
         />
       </div>
     )}
-  </>
+  </div>
 );
