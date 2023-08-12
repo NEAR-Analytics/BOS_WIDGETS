@@ -53,11 +53,13 @@ const Tile = ({
     {...{ id }}
   >
     {!noFrame ||
-    [heading, headingAdornment, headerSlotRight].every(
+    ![heading, headingAdornment, headerSlotRight].every(
       (element) => (element ?? null) === null
     ) ? (
       <div
-        className="d-flex align-items-center justify-content-between gap-3"
+        className={[
+          "d-flex align-items-center justify-content-between gap-3",
+        ].join(" ")}
         style={{ minHeight: 30 }}
       >
         <h5 className="h5 d-inline-flex gap-2 m-0">
