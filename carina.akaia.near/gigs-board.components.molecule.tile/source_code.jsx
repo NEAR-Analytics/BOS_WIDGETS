@@ -27,65 +27,49 @@ const AttractableImage = styled.img`
 `;
 /* END_INCLUDE: "core/lib/gui/attractable" */
 
-const TileRoot = ({ children, noFrame, ...otherProps }) =>
-  noFrame ? (
-    <div {...otherProps}>{children}</div>
-  ) : (
-    <AttractableDiv {...otherProps}>{children}</AttractableDiv>
-  );
-
 const Tile = ({
   children,
-  borderRadius,
-  className,
   fullWidth,
   headerSlotRight,
   heading,
   headingAdornment,
   id,
-  isHidden,
-  noBorder,
   noFrame,
   minHeight,
-  style,
+  noBorder,
+  borderRadius,
 }) => (
-  <TileRoot
+  <AttractableDiv
     className={[
-      "d-flex flex-column gap-3",
-      className,
-      fullWidth ? "w-100" : "",
+      "d-flex flex-column gap-3 shadow-sm w-100",
       !borderRadius ? "rounded-4" : borderRadius,
-      !noBorder ? "border" : "shadow-none",
-      !noFrame ? "p-3" : "",
-      isHidden ? "d-none" : "",
+      !noBorder ? "border" : "",
+      !noFrame ? "p-4" : "",
     ].join(" ")}
     style={{
-      maxWidth: fullWidth ? "100%" : null,
-      minHeight: minHeight ?? 180,
-      height: "fit-content",
-      ...style,
+      maxWidth: !(fullWidth ?? false) ? 896 : null,
+      minHeight: minHeight ?? 240,
     }}
-    {...{ id, noFrame }}
+    {...{ id }}
   >
-    {
-      <div
-        className={[
-          "d-flex align-items-center justify-content-between gap-3",
-          !heading && !headingAdornment && !headerSlotRight ? "d-none" : "",
-        ].join(" ")}
-        style={{ minHeight: 30 }}
-      >
-        <h5 className="h5 d-inline-flex gap-2 m-0">
-          {headingAdornment}
-          <span>{heading}</span>
-        </h5>
+    {!noFrame ||
+      ([heading ?? null, headingAdornment ?? null, headerSlotRight ?? null] ===
+        [null, null, null] && (
+        <div
+          className="d-flex align-items-center justify-content-between gap-3"
+          style={{ minHeight: 30 }}
+        >
+          <h5 className="h5 d-inline-flex gap-2 m-0">
+            {headingAdornment}
+            <span>{heading}</span>
+          </h5>
 
-        {headerSlotRight}
-      </div>
-    }
+          {headerSlotRight}
+        </div>
+      ))}
 
     {children}
-  </TileRoot>
+  </AttractableDiv>
 );
 
 return Tile(props);
