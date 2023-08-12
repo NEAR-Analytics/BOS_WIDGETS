@@ -27,13 +27,14 @@ const turnOffModal = (e) => {
   });
 };
 
+const props = {
+  turnOffModal: turnOffModal,
+  modalState: state.modalOn,
+};
+
 return (
   <DataStorage className="bg-black">
-    <Widget
-      turnOffModal={turnOffModal}
-      modalState={state.modalOn}
-      src="tvh050423.near/widget/UploadFileModal"
-    />
+    <Widget props={props} src="tvh050423.near/widget/UploadFileModal" />
     <button
       className="btn btn-light rounded-pill text-primary mb-3 px-4"
       onClick={() => {
