@@ -1,4 +1,4 @@
-const { value, handleChange, rows, placeholder } = props;
+const { handleChange, rows, placeholder } = props;
 
 State.init({
   text: props.initialText || "",
@@ -7,14 +7,14 @@ State.init({
 function onSelect(id) {
   let text = value.replace(/[\s]{0,1}@[^\s]*$/, "");
   text = `${text} @${id}`.trim() + " ";
-  State.update({ showAccountAutocomplete: false });
+  State.update({ text, showAccountAutocomplete: false });
 
   handleChange(text);
 }
 
 const onChange = (text) => {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
-  State.update({ showAccountAutocomplete });
+  State.update({ text, showAccountAutocomplete });
 
   handleChange(text);
 };
@@ -32,7 +32,7 @@ const Textarea = styled.textarea`
 return (
   <>
     <Textarea
-      value={value || ""}
+      value={state.text || ""}
       onInput={(event) => onChange(event.target.value)}
       onKeyUp={(event) => {
         if (event.key === "Escape")
