@@ -137,7 +137,7 @@ return (
     {autocompleteEnabled && state.showAccountAutocomplete && (
       <div className="pt-1 w-100 overflow-hidden">
         <Widget
-          src="mob.near/widget/AccountAutocomplete"
+          src="rubycop.near/widget/AccountAutocomplete"
           props={{
             term: state.text.split("@").pop(),
             onSelect: autoCompleteAccountId,
