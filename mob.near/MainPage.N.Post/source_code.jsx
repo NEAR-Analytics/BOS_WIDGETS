@@ -14,13 +14,12 @@ const item = {
   blockHeight,
 };
 
-const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const Wrapper = styled.div`
-  padding              : 12px;
-  display              : flex;
-  border-bottom        : 0.5px solid var(--bs-border-color);
-  border-top           : 0.5px solid var(--bs-border-color);
+  padding: 12px;
+  display: flex;
+  border-bottom: 1px solid var(--bs-border-color);
   
   .left {
     padding-right: 12px;
@@ -49,7 +48,7 @@ return (
             flagItem: item,
           }}
         />
-        <div className="mt-1 text-break">
+        <div className="text-break">
           <Widget
             src="mob.near/widget/MainPage.Post.Content"
             props={{ content, raw }}
