@@ -45,10 +45,7 @@ return (
   <Wrapper>
     {connections.map(([accountId], i) => (
       <Item key={i}>
-        <Widget
-          src="james.near/widget/freelancer.profile"
-          props={{ accountId }}
-        />
+        <Widget src="james.near/widget/dao.profile" props={{ accountId }} />
         <Widget src="hack.near/widget/connect.button" props={{ accountId }} />
       </Item>
     ))}
