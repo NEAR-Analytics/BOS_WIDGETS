@@ -90,7 +90,7 @@ const priceFeedAbi = fetch(
 );
 
 const lUSDAddress = "0xb0e99590cF3Ddfdc19e68F91f7fe0626790cDb53";
-const lUSDContractAbi = fetch(
+const AssetContractAbi = fetch(
   "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
 );
 
@@ -100,29 +100,46 @@ if (!priceFeedAbi.ok) return "loading...";
 // const iface = new ethers.utils.Interface(borrowerOperationAbi.body);
 
 const openVessel = () => {
-  console.log("Hererere");
   const asset = getAsset(props.asset);
-  console.log(asset);
+  const assetContract = new ethers.Contract(
+    asset,
+    AssetContractAbi.body,
+    Ethers.provider().getSigner()
+  );
+
   const borrowerOperationContract = new ethers.Contract(
     borrowerOperationAddress,
     borrowerOperationAbi.body.result,
     Ethers.provider().getSigner()
   );
-  console.log(props);
-  borrowerOperationContract.openVessel(
-    asset,
-    ethers.BigNumber.from(props.collateralAmount * 100)
-      .mul("10000000000000000")
-      .toString(),
-    ethers.BigNumber.from(props.susAmount * 100)
-      .mul("10000000000000000")
-      .toString(),
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-    {
-      gasLimit: 25000000,
-    }
-  );
+
+  assetContract
+    .approve(
+      borrowerOperationAddress,
+      ethers.BigNumber.from(props.susAmount * 100)
+        .mul("10000000000000000")
+        .toString()
+    )
+    .then((approveTx) => {
+      console.log(approveTx);
+      return approveTx.wait();
+    })
+    .then(() => {
+      borrowerOperationContract.openVessel(
+        asset,
+        ethers.BigNumber.from(props.collateralAmount * 100)
+          .mul("10000000000000000")
+          .toString(),
+        ethers.BigNumber.from(props.susAmount * 100)
+          .mul("10000000000000000")
+          .toString(),
+        "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+        "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+        {
+          gasLimit: 25000000,
+        }
+      );
+    });
 };
 
 const withdrawDebtTokens = () => {
@@ -173,7 +190,6 @@ const repayLUSD = () => {
     borrowerOperationAbi.body.result,
     Ethers.provider().getSigner()
   );
-  console.log(props);
 
   lUSDContract
     .approve(
