@@ -6,8 +6,8 @@ const availableAssets = {
 };
 
 const getAsset = (asset) => {
-    return availableAssets[asset];
-}
+  return availableAssets[asset];
+};
 
 const setcoll = (depositChangeEvent) => {
   const coll = Number(depositChangeEvent.target.value);
@@ -110,8 +110,8 @@ const openVessel = () => {
     getAsset(props.asset),
     ethers.BigNumber.from(props.collateralAmount * 100)
       .mul("10000000000000000")
-      .toString(),,
-    ethers.BigNumber.from(props.lusdAmount * 100)
+      .toString(),
+    ethers.BigNumber.from(props.susAmount * 100)
       .mul("10000000000000000")
       .toString(),
     // ethers.BigNumber.from((state.borrow * 10000000000000000).toString()),
@@ -141,7 +141,7 @@ const withdrawDebtTokens = () => {
       .toString(),
     // ethers.BigNumber.from((state.borrow * 10000000000000000).toString()),
     "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d"
   );
 };
 
@@ -356,12 +356,12 @@ if (
 
 if (
   props.action === "borrow" &&
-  props.lusdAmount &&
+  props.susAmount &&
   props.collateralAmount &&
   props.asset
 ) {
   if (
-    typeof props.lusdAmount === "number" &&
+    typeof props.susAmount === "number" &&
     typeof props.collateralAmount === "number" &&
     props.collateralAmount > 0
   ) {
