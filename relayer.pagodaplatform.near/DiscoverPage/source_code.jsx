@@ -9,8 +9,7 @@ const HightLightText = styled.h1`
 `;
 
 const Section = styled.div`
-  padding: 0 120px;
-  margin-bottom: 200px
+  padding: 0 120px 200px 120px;
 `;
 
 const WorkBlock = styled.div`
