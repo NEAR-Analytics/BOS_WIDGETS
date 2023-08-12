@@ -1,5 +1,5 @@
 const DiscoverPage = styled.div`
-  padding-top: 22vh
+  padding-top: 18vh
 `;
 
 const HightLightText = styled.h1`
