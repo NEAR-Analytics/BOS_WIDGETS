@@ -360,7 +360,7 @@ if (TextArea) {
         onChange={handleChange}
         rows={5}
       />
-      {TextArea.autoComplete && (
+      {TextArea.autoComplete && TextArea.showAccountAutocomplete && (
         <div className="pt-1 w-100 overflow-hidden">
           <Widget
             src="mob.near/widget/AccountAutocomplete"
@@ -472,7 +472,7 @@ const WidgetInput = ({ type, autoComplete }) => {
     const text = e.target.value;
     State.update({ [type]: text });
 
-    if (TextArea.autoComplete) {
+    if (autoComplete) {
       const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
       State.update({ showAccountAutocomplete });
     }
@@ -488,6 +488,7 @@ const WidgetInput = ({ type, autoComplete }) => {
           maxLength: "20",
           min: new Date(),
           value: state[type],
+          showAccountAutocomplete: state.showAccountAutocomplete,
           autoComplete,
           handleChange,
           onCloseAutocomplete,
