@@ -109,17 +109,7 @@ return (
             />
           </Section>
           <Section></Section>
-          <Section>
-            <Widget
-              src={"mob.near/widget/TagsEditor"}
-              props={{
-                label: "Tags",
-                placeholder: "Enter tags",
-                setTagsObject: (tags) =>
-                  State.update({ tags: Object.keys(tags) }),
-              }}
-            />
-          </Section>
+          <Section></Section>
         </div>
         <div className="d-grid gap-3 d-flex align-items-center justify-content-end">
           <Widget
