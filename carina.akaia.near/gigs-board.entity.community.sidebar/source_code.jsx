@@ -157,7 +157,7 @@ const CommunitySummary = (community) => {
     ...((community.github_handle?.length ?? 0) > 0
       ? [
           {
-            href: `${github_handle}`,
+            href: `https://github.com/${community.github_handle}`,
             iconClass: "bi bi-github",
             name: community.github_handle,
           },
