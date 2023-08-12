@@ -370,7 +370,7 @@ return (
                   className: "secondary dark",
                   text: kudo.comments.length,
                   size: "sm",
-                  icon: <i className="bi bi-chat-left-dots" />,
+                  icon: <i className="bi bi-chat-dots-fill m-0" />,
                   href: `${widgets.kudoPage}?accountId=${kudo.receiver_id}&kudoId=${kudo.id}`,
                 },
               }}
