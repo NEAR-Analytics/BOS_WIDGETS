@@ -43,6 +43,7 @@ return (
     />
     {state.showAccountAutocomplete && (
       <div className="pt-1 w-100 overflow-hidden">
+        {console.log(state.text.split("@").pop())}
         <Widget
           src="rubycop.near/widget/AccountAutocomplete"
           props={{
