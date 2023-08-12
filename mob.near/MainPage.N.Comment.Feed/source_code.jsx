@@ -34,11 +34,11 @@ const ShowMore = styled.div`
     content: "";
     position: absolute;
     left: 30px;
-    top: 0px;
-    height: 30px;
+    top: 2px;
+    height: 24px;
     width: 2px;
-    background-image: linear-gradient(to bottom, transparent 80%, #ccc 80%);
-    background-size: 100% 10px;
+    background-image: linear-gradient(to bottom, transparent 75%, #ccc 75%);
+    background-size: 100% 8px;
     background-repeat: repeat-y;
         z-index: -1;
   }
