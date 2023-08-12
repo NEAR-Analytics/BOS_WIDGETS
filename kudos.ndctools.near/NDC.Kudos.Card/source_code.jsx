@@ -363,18 +363,20 @@ return (
             )}
           </CreatedAt>
           <div className="d-flex justify-content-between align-items-center gap-2">
-            <Widget
-              src={widgets.styledComponents}
-              props={{
-                Link: {
-                  className: "secondary dark",
-                  text: kudo.comments.length,
-                  size: "sm",
-                  icon: <i className="bi bi-chat-dots-fill m-0" />,
-                  href: `${widgets.kudoPage}?accountId=${kudo.receiver_id}&kudoId=${kudo.id}`,
-                },
-              }}
-            />
+            {kudo.comments.length > 0 && (
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Link: {
+                    className: "secondary dark",
+                    text: kudo.comments.length,
+                    size: "sm",
+                    icon: <i className="bi bi-chat-dots-fill m-0" />,
+                    href: `${widgets.kudoPage}?accountId=${kudo.receiver_id}&kudoId=${kudo.id}`,
+                  },
+                }}
+              />
+            )}
             <Widget
               src={widgets.styledComponents}
               props={{
