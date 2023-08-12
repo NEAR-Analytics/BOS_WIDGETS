@@ -353,17 +353,16 @@ if (Dropdown)
 if (TextArea) {
   State.init({ showAccountAutocomplete: false });
 
-  const autoCompleteAccountId = (id) => {
+  function autoCompleteAccountId(id) {
     let text = TextArea.value.replace(/[\s]{0,1}@[^\s]*$/, "");
     text = `${text} @${id}`.trim() + " ";
 
     TextArea.handleChange(text);
     State.update({ showAccountAutocomplete: false });
-  };
+  }
 
   const onChange = (e) => {
     const text = e.target.value;
-    console.log(text);
     TextArea.handleChange(text);
 
     if (TextArea.autoComplete) {
