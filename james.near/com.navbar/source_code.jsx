@@ -28,7 +28,7 @@ return (
           className={`nav-link mt-2 rounded-3${
             item.id === props.tab ? "bg-secondary" : ""
           }`}
-          href="/james.near/widget/communities.library?tab=category&id=${item.id}"
+          href="/james.near/widget/com.library?tab=category&id=${item.id}"
           onClick={() => props.onSelect({ tab: "category", id: item.id })}
         >
           <i className={item.icon} /> <span>{item.category}</span>
