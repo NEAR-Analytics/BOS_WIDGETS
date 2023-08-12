@@ -1,3 +1,6 @@
+// CSS Styled Components
+// =====================
+
 const Wrapper = styled.div`
   --section-gap: 42px;
   padding-top: 0px;
@@ -117,6 +120,11 @@ const Container = styled.div`
   padding: var(--section-gap) 24px;
 `;
 
+// Data loading
+// ============
+
+State.init({});
+
 const tokensOnSale = Near.view("lolmarket.qbit.near", "nft_tokens_on_sale", {});
 
 const myBalance = context.accountId
@@ -137,6 +145,23 @@ const allBalances = Near.view("lolcoin.qbit.near", "ft_balances", {});
 // TODO: add pagination
 const allTokens = Near.view("lolmarket.qbit.near", "nft_tokens", {});
 
+asyncFetch("https://coins.summerschool.lol/users.json").then((users) => {
+  const lolNames = new Map();
+  for (const user of users) {
+    lolNames[user.account_id] = user.full_name;
+  }
+  console.log(lolNames);
+  State.update({ lolNames });
+});
+
+const isLoading =
+  (context.accountId && (myBalance === null || myTokens === null)) ||
+  allBalances === null ||
+  allTokens === null;
+
+// Event handlers
+// ==============
+
 const buy = (tokenId, price) => {
   Near.call(
     "lolcoin.qbit.near",
@@ -147,7 +172,7 @@ const buy = (tokenId, price) => {
       msg: JSON.stringify({ Buy: tokenId }),
     },
     150000000000000,
-    10000000000000000000000
+    1000000000000000000000
   );
 };
 
@@ -163,6 +188,33 @@ const sellForOne = (tokenId) => {
     1
   );
 };
+
+const transferOneLol = (accountId) => {
+  Near.call(
+    "lolcoin.qbit.near",
+    "ft_transfer",
+    {
+      receiver_id: accountId,
+      amount: "100",
+    },
+    150000000000000,
+    1
+  );
+};
+
+const getLolName = (accountId) => {
+  if (!state.lolNames) {
+    return "";
+  }
+  const lolName = state.lolNames[accountId];
+  if (!lolName) {
+    return "";
+  }
+  return `(${lolName})`;
+};
+
+// Custom reusable components
+// ==========================
 
 const Tokens = ({ tokens }) => (
   <Grid gap="32px" columns="1fr 1fr" alignItems="end" style={{ width: "100%" }}>
@@ -227,7 +279,8 @@ const Tokens = ({ tokens }) => (
                 accountId: token.metadata.extra,
                 hideName: true,
               }}
-            />
+            />{" "}
+            {getLolName(accountId)}
           </div>
           <div>
             Поточний власник:
@@ -237,7 +290,8 @@ const Tokens = ({ tokens }) => (
                 accountId: token.owner_id,
                 hideName: true,
               }}
-            />
+            />{" "}
+            {getLolName(accountId)}
           </div>
           <b>{token.metadata.title}</b>
           <div style={{ textAlign: "right" }}>{token.metadata.description}</div>
@@ -247,6 +301,9 @@ const Tokens = ({ tokens }) => (
     })}
   </Grid>
 );
+
+// Component renderer
+// ==================
 
 return (
   <Wrapper>
@@ -269,7 +326,8 @@ return (
           А все почалось з табору, де навіть не було доступу у глобальну мережу
           Інтернет...
         </Text>
-        {myBalance === null ? null : myBalance === "0" ? (
+
+        {isLoading ? null : myBalance === "0" ? (
           <Widget src="frol.near/widget/LOL.components.Auth" />
         ) : (
           <>
@@ -279,7 +337,7 @@ return (
           </>
         )}
 
-        {tokensOnSale !== null ? (
+        {allTokens !== null && tokensOnSale !== null ? (
           <>
             <h2>ЛОЛ-NFT Базар</h2>
             <Tokens
@@ -300,20 +358,30 @@ return (
         {allBalances !== null ? (
           <>
             <h2>ЛОЛкоїни</h2>
-            <table style={{ width: "100%" }}>
+            <table className="table">
               <thead>
                 <tr>
-                  <th>Акаунт</th>
-                  <th>Баланс</th>
-                  {/*<th>Дія</th>*/}
+                  <th scope="col">Акаунт</th>
+                  <th scope="col">Баланс</th>
+                  <th scope="col">Дія</th>
                 </tr>
               </thead>
               <tbody>
                 {allBalances.map(([accountId, balance]) => (
                   <tr>
-                    <td>{accountId}</td>
+                    <td scope="row">
+                      <Widget
+                        src="mob.near/widget/ProfileLine"
+                        props={{ accountId }}
+                      />{" "}
+                      {getLolName(accountId)}
+                    </td>
                     <td>{parseFloat(balance) / 100} ЛОЛ</td>
-                    {/*<td></td>*/}
+                    <td>
+                      <button onClick={() => transferOneLol(accountId)}>
+                        Перевести 1 ЛОЛ
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
