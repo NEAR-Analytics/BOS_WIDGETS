@@ -354,8 +354,10 @@ if (TextArea) {
   State.init({ showAccountAutocomplete: false });
 
   function autoCompleteAccountId(value) {
+    console.log(TextArea.value);
     let text = TextArea.value.replace(/[\s]{0,1}@[^\s]*$/, "");
     text = `${text} @${value}`.trim() + " ";
+    console.log(text);
 
     TextArea.handleChange(text);
     State.update({ showAccountAutocomplete: false });
@@ -367,6 +369,7 @@ if (TextArea) {
 
     if (TextArea.autoComplete) {
       const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
+      console.log("showAccountAutocomplete", showAccountAutocomplete);
       State.update({ showAccountAutocomplete });
     }
   };
