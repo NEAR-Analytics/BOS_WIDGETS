@@ -1,10 +1,6 @@
-state.init({
-  modalOn: false,
-});
-
 const Overlay = styled.div`
     position: fixed; /* Sit on top of the page content */
-    ${state.modalOn ? "display: flex;" : "display: none;"}
+    ${props.modalState ? "display: flex;" : "display: none;"}
     justify-content: center;
     align-items: center;
     width: 100%; /* Full width (cover the whole page) */
@@ -24,15 +20,8 @@ const Modal = styled.div`
     background-color: white;
 `;
 
-const handleClick = (e) => {
-  e.preventDefault();
-  state.update({
-    modalOn: false,
-  });
-};
-
 return (
-  <Overlay onClick={handleClick}>
+  <Overlay onClick={props.turnOffModal}>
     <Modal></Modal>
   </Overlay>
 );
