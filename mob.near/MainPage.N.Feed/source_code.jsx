@@ -93,8 +93,8 @@ const renderRepost = (a) => {
   renderedPosts[item] = true;
 
   return (
-    <div key={JSON.stringify(a)} className="mb-3">
-      <div className="text-muted">
+    <div key={JSON.stringify(a)} style={{ paddingBottom: "12px" }}>
+      <div className="text-muted" style={{ paddingLeft: "40px" }}>
         {repostSvg} Reposted by{" "}
         <Widget
           src="mob.near/widget/ProfileLine"
