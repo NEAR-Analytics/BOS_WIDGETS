@@ -28,16 +28,16 @@ const renderItem = (a) =>
   );
 
 const ShowMore = styled.div`
-  padding: 10px 0px 10px 64px;
+  padding: 4px 0px 4px 64px;
   position: relative;
   :before {
     content: "";
     position: absolute;
     left: 30px;
-    top: 6px;
-    height: 32px;
+    top: 0px;
+    height: 30px;
     width: 2px;
-    background-image: linear-gradient(to bottom, transparent 50%, #ccc 50%);
+    background-image: linear-gradient(to bottom, transparent 80%, #ccc 80%);
     background-size: 100% 10px;
     background-repeat: repeat-y;
         z-index: -1;
