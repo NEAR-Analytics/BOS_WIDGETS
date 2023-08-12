@@ -20,6 +20,7 @@ const Wrapper = styled.div`
   padding: 12px;
   display: flex;
   border-bottom: 1px solid var(--bs-border-color);
+  min-width: 100%;
   
   .left {
     padding-right: 12px;
