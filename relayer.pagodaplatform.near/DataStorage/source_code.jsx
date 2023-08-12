@@ -3,7 +3,6 @@ const DataStorage = styled.div`
     height:100%;
     align-item: start;
     padding: 22vh 120px;
-
     .tableStyle{
         text-align: center;
     }
