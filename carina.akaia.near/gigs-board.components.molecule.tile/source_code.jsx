@@ -52,13 +52,16 @@ const Tile = ({
     }}
     {...{ id }}
   >
-    {!noFrame ||
-    ![heading, headingAdornment, headerSlotRight].every(
-      (element) => (element ?? null) === null
-    ) ? (
+    {
       <div
         className={[
           "d-flex align-items-center justify-content-between gap-3",
+          noFrame ||
+          [heading, headingAdornment, headerSlotRight].every(
+            (element) => (element ?? null) === null
+          )
+            ? "d-none"
+            : "",
         ].join(" ")}
         style={{ minHeight: 30 }}
       >
@@ -69,7 +72,7 @@ const Tile = ({
 
         {headerSlotRight}
       </div>
-    ) : null}
+    }
 
     {children}
   </AttractableDiv>
