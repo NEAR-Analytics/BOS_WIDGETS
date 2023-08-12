@@ -52,7 +52,7 @@ const Tile = ({
     }}
     {...{ id }}
   >
-    {!noFrame || (!heading && !headingAdornment && !headerSlotRight) ? (
+    {!noFrame || !(!heading && !headingAdornment && !headerSlotRight) ? (
       <div
         className="d-flex align-items-center justify-content-between gap-3"
         style={{ minHeight: 30 }}
