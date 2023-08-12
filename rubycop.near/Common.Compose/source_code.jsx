@@ -4,13 +4,13 @@ State.init({
   text: props.initialText || "",
 });
 
-function onSelect(id) {
-  let text = value.replace(/[\s]{0,1}@[^\s]*$/, "");
+const onSelect = (id) => {
+  let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
   text = `${text} @${id}`.trim() + " ";
   State.update({ text, showAccountAutocomplete: false });
 
   if (handleChange) handleChange(text);
-}
+};
 
 const onChange = (text) => {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
@@ -47,7 +47,7 @@ return (
           src="rubycop.near/widget/AccountAutocomplete"
           props={{
             term: state.text.split("@").pop(),
-            onSelect,
+            onSelect: onSelect,
             onClose: () => State.update({ showAccountAutocomplete: false }),
           }}
         />
