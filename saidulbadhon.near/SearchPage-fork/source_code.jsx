@@ -3,6 +3,8 @@ let components = [];
 let totalComponents = 0;
 const componentsUrl = "/adminalpha.near/widget/ComponentsPage";
 
+// This is the search page
+
 State.init({
   currentPage: 0,
   selectedTab: props.tab || "all",
