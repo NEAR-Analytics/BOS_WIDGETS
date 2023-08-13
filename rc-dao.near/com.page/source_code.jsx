@@ -122,9 +122,14 @@ const Container = styled.div`
 
 return (
   <Container center>
-    <Flex gap="23px" direction="column" alignItems="center">
+    <Flex
+      gap="23px"
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+    >
       <H1>
-        Regional <br /> Communities
+        Regional Communities
         <span>
           DAO{" "}
           <svg viewBox="0 0 26 24" fill="none" aria-hidden="true">
