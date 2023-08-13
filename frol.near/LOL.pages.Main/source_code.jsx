@@ -133,11 +133,17 @@ const myBalance = context.accountId
     })
   : null;
 
-const myTokens = context.accountId
-  ? Near.view("lolmarket.qbit.near", "nft_tokens_for_owner", {
-      account_id: context.accountId,
-    }).filter(({ token_id }) => !(token_id in tokensOnSale))
-  : null;
+let myAvailableTokens = null;
+if (context.accountId) {
+  const myTokens = Near.view("lolmarket.qbit.near", "nft_tokens_for_owner", {
+    account_id: context.accountId,
+  });
+  if (myTokens) {
+    myAvailableTokens = myTokens.filter(
+      ({ token_id }) => !(token_id in tokensOnSale)
+    );
+  }
+}
 
 // TODO: add pagination
 const allBalances = Near.view("lolcoin.qbit.near", "ft_balances", {});
@@ -160,7 +166,7 @@ if (state.lolNames === null) {
 }
 
 const isLoading =
-  (context.accountId && (myBalance === null || myTokens === null)) ||
+  (context.accountId && (myBalance === null || myAvailableTokens === null)) ||
   allBalances === null ||
   allTokens === null;
 
@@ -366,7 +372,9 @@ return (
           <>
             <h2>Мій ЛОЛ</h2>
             Баланс: {parseFloat(myBalance) / 100} ЛОЛ
-            {myTokens !== null ? <Tokens tokens={myTokens} /> : null}
+            {myAvailableTokens !== null ? (
+              <Tokens tokens={myAvailableTokens} />
+            ) : null}
           </>
         )}
 
