@@ -1,21 +1,3 @@
-const daoId = "marmaj-research.sputnik-dao.near";
-
-const Items = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (max-width: 800px) {
-    grid-template-columns: minmax(0, 1fr);
-  }
-`;
-
-const Item = styled.div``;
-
 return (
   <>
     <Widget src="mob.near/widget/ProfileOnboarding" />
@@ -34,16 +16,19 @@ return (
     )}
     <div className="text-bg-light rounded-4 p-3 mb-3">
       <div>
-        <div className="mb-3">
-          <Widget
-            src="shemar268abel.near/widget/Profile.InlineBlock"
-            props={{ accountId: daoId }}
-          />
+        <h4>Learn More</h4>
+        <div className="mb-2 d-flex gap-2 flex-wrap">
+          <a className="btn btn-outline-primary" href="#">
+            What's Bac Inc?
+          </a>
+          <a
+            className="btn btn-outline-primary"
+            href="https://bac-inc.near.social"
+          >
+            Community Dao
+          </a>
         </div>
-        <div
-          className="mb-2 d-flex gap-2 flex-wrap"
-          style={{ justifyContent: "center" }}
-        >
+        <div className="mb-2 d-flex gap-2 flex-wrap">
           <a
             className="btn btn-outline-secondary border-0"
             href="#/mob.near/widget/ProfilePage?accountId=bac-inc.near"
@@ -69,33 +54,7 @@ return (
             <i className="bi bi-wikipedia"></i>
           </a>
         </div>
-        <Widget
-          src="shemar268abel.near/widget/FungibleTokenBalance"
-          props={{ accountId: daoId }}
-        />
       </div>
     </div>
-    <div className="text-bg-light rounded-4 p-3 mb-3">
-      <h3>Followers</h3>
-      <Widget src="near/widget/FollowersList" props={{ accountId: daoId }} />
-    </div>
-    {/*<div className="text-bg-light rounded-4 p-3 mb-3">
-      <Widget
-        src="shemar268abel.near/widget/FungibleTokenBalance"
-        props={{ accountId: daoId }}
-      />
-    </div>*/}
-    <div className="text-bg-light rounded-4 p-3 mb-3">
-      <Widget
-        src="shemar268abel.near/widget/DAO.Members.index"
-        props={{ daoId }}
-      />
-    </div>
-    {/*<div className="text-bg-light rounded-4 p-3 mb-3">
-      <Widget
-        src="nearhorizon.near/widget/Project.ListPage"
-        props={{ daoId }}
-      />
-    </div>*/}
   </>
 );
