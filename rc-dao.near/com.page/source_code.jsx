@@ -114,7 +114,7 @@ const Container = styled.div`
 
 return (
   <Container center>
-    <Flex>
+    <Flex direction="column" alignItems="center">
       <H1>
         Regional Communities
         <span>
@@ -154,9 +154,9 @@ return (
           }}
         />
       ) : (
-        <Flex>
+        <div>
           {!profile ? (
-            <div className="m-5">
+            <div>
               <Widget src="rc-dao.near/widget/pro.editor" />
             </div>
           ) : (
@@ -172,7 +172,6 @@ return (
                 size="23px"
                 weight="555"
                 style={{
-                  padding: "8px",
                   textAlign: "center",
                   textTransform: "uppercase",
                   letterSpacing: "0.15em",
@@ -188,7 +187,7 @@ return (
               />
             </div>
           )}
-        </Flex>
+        </div>
       )}
     </Flex>
     <hr />
