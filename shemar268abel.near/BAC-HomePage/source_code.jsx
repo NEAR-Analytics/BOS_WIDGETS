@@ -141,7 +141,7 @@ return (
         <Widget src="near/widget/LatestComponents" />
       </Section>
       <Section negativeMargin primary active={state.selectedTab === "posts"}>
-        <Widget src="nycdao.near/widget/NYC.Page.Content" />
+        <Widget src="shemar268abel.near/widget/MainPage.Content" />
       </Section>
       <Section active={state.selectedTab === "explore"}>
         <Widget src="near/widget/ExploreWidgets" />
