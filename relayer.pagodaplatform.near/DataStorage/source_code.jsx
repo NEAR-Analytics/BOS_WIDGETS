@@ -8,7 +8,7 @@ const DataStorage = styled.div`
     }
 `;
 
-const Overlay = styled.div`
+const OverlayTable = styled.div`
     background: rgba(255, 255, 255, 0.13);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -44,7 +44,7 @@ return (
     >
       Upload
     </button>
-    <Overlay className="p-3">
+    <OverlayTable className="p-3">
       <table className="table tableStyle text-white">
         <thead>
           <tr>
@@ -79,6 +79,6 @@ return (
           </tr>
         </tbody>
       </table>
-    </Overlay>
+    </OverlayTable>
   </DataStorage>
 );
