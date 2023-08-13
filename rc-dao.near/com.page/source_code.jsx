@@ -24,7 +24,7 @@ const H1 = styled.h1`
   font-style: normal;
   font-weight: 500;
   font-size: 85px;
-  line-height: 1;
+  line-height: 1.2;
   text-align: center;
   letter-spacing: -0.03em;
   color: #000;
@@ -89,11 +89,12 @@ const Text = styled.p`
 
 const Flex = styled.div`
   display: flex;
-  gap: ${(p) => p.gap};
-  align-items: ${(p) => p.alignItems};
-  justify-content: ${(p) => p.justifyContent};
-  flex-direction: ${(p) => p.direction ?? "row"};
-  flex-wrap: ${(p) => p.wrap ?? "nowrap"};
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  max-width: 80%;
 `;
 
 const Container = styled.div`
@@ -107,12 +108,13 @@ const Container = styled.div`
 
   @media (max-width: 480px) {
     max-width: 80%;
+    align-items: center;
   }
 `;
 
 return (
   <Container center>
-    <Flex gap="23px" direction="column" alignItems="center">
+    <Flex>
       <H1>
         Regional Communities
         <span>
@@ -154,11 +156,11 @@ return (
       ) : (
         <div>
           {!profile ? (
-            <Flex>
-              <Widget src="hack.near/widget/pro.editor" />
-            </Flex>
+            <div className="m-5">
+              <Widget src="rc-dao.near/widget/pro.editor" />
+            </div>
           ) : (
-            <Flex gap="12px" direction="column" alignItems="center">
+            <div className="mb-5">
               <Widget
                 src="rc-dao.near/widget/rc.profile.card"
                 props={{
@@ -170,6 +172,7 @@ return (
                 size="23px"
                 weight="555"
                 style={{
+                  padding: "8px",
                   textAlign: "center",
                   textTransform: "uppercase",
                   letterSpacing: "0.15em",
@@ -183,7 +186,7 @@ return (
                   accountId: orgId,
                 }}
               />
-            </Flex>
+            </div>
           )}
         </div>
       )}
