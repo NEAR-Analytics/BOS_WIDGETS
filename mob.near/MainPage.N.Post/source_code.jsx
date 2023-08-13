@@ -19,6 +19,7 @@ const link = `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&block
 const Wrapper = styled.div`
   border-bottom: 1px solid var(--bs-border-color);
   margin: 0 -12px;
+  font: 14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   
   .post {
     position: relative;
