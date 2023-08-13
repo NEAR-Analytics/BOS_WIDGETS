@@ -1,19 +1,25 @@
-const { handleChange, rows, placeholder, type } = props;
+const { handleChange, rows, placeholder, type, withoutSeparator } = props;
 
 State.init({
   text: props.initialText || "",
 });
 
 const onSelect = (id) => {
-  let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
-  text = `${text} @${id}`.trim() + " ";
+  let text = id;
+
+  if (!withoutSeparator) {
+    text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
+    text = `${text} @${id}`.trim() + " ";
+  }
   State.update({ text, showAccountAutocomplete: false });
 
   if (handleChange) handleChange(text);
 };
 
 const onChange = (text) => {
-  const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
+  const showAccountAutocomplete = withoutSeparator
+    ? true
+    : /@[\w][^\s]*$/.test(text);
   State.update({ text, showAccountAutocomplete });
 
   if (handleChange) handleChange(text);
@@ -72,7 +78,9 @@ return (
         <Widget
           src="rubycop.near/widget/AccountAutocomplete"
           props={{
-            term: state.text.split("@").pop(),
+            term: withoutSeparator
+              ? state.text
+              : state.text.split(separator).pop(),
             onSelect: onSelect,
             onClose: () => State.update({ showAccountAutocomplete: false }),
           }}
