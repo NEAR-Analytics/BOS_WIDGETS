@@ -16,11 +16,7 @@ const RadiantBackground = styled.div`
 `;
 
 State.init({
-  eventName: "",
-  location: "",
-  description: "",
-  date: null,
-  isSingleDateEvent: false,
+  index: 0,
 });
 
 const Grid = styled.div`
@@ -42,17 +38,27 @@ font-weight: 500;
 const AllSteps = [
   {
     label: "Event Info",
-    active: true,
+    active: state.index === 0,
   },
   {
     label: "Collect Info",
+    active: state.index === 1,
   },
   {
     label: "Tickets",
+    active: state.index === 2,
   },
   {
     label: "Review",
+    active: state.index === 3,
   },
+];
+
+const componentsToRender = [
+  <Widget src="harrydhillon.near/widget/Keypom.Form" />,
+  <></>,
+  <></>,
+  <></>,
 ];
 
 const formContent = () => {
@@ -85,7 +91,17 @@ const formContent = () => {
           }}
         >
           {AllSteps.map((item, idx) => (
-            <div style={{ marginRight: 20 }}>
+            <button
+              style={{
+                marginRight: 20,
+                backgroundColor: "transparent",
+                color: "black",
+                borderWidth: 0,
+              }}
+              onClick={() => {
+                State.update({ index: idx });
+              }}
+            >
               <Widget
                 src="harrydhillon.near/widget/Keypom.StepLabel"
                 props={{
@@ -94,10 +110,10 @@ const formContent = () => {
                   active: item?.active,
                 }}
               />
-            </div>
+            </button>
           ))}
         </div>
-        {props?.content && props.content()}
+        {componentsToRender[state.index]}
       </FormBackground>
     </>
   );
