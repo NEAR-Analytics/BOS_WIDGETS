@@ -110,16 +110,6 @@ const Container = styled.div`
   }
 `;
 
-const Proposals = styled.div`
-  max-width: 555px;
-  text-align: left;
-
-
-  @media (max-width: 480px) {
-    max-width: 380px;
-  }
-`;
-
 return (
   <Container center>
     <Flex gap="23px" direction="column" alignItems="center">
