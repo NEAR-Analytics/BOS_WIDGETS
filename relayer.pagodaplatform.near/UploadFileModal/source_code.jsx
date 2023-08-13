@@ -64,8 +64,7 @@ const filesOnChange = (files) => {
     });
   }
 
-  document.querySelector("#fileName").innerHTML = file.name;
-  console.log(document.querySelector("#fileName"));
+  console.log(file);
 };
 
 console.log("re-render");
@@ -97,7 +96,7 @@ return (
       </div>
       {state.file && (
         <div id="fileName" className="px-3 py-1 mt-3 bg-white rounded-pill">
-          {state.file.name}
+          {state.file?.name}
         </div>
       )}
       <div>
