@@ -39,7 +39,7 @@ return (
   <>
     <div
       style={{
-        padding: "10px",
+        padding: "20px",
       }}
     >
       {context.accountId && (
