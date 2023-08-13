@@ -48,6 +48,7 @@ const H1 = styled.h1`
 
   @media (max-width: 900px) {
     font-size: 50px;
+    max-width: 500px;
 
     span {
       border-radius: 12px;
@@ -124,7 +125,11 @@ return (
         </span>
       </H1>
 
-      <Text size="29px" weight="555" style={{ textAlign: "center" }}>
+      <Text
+        size="29px"
+        weight="555"
+        style={{ textAlign: "center", maxWidth: "80%" }}
+      >
         Opening the{" "}
         <a
           href="https://humans.nearverselabs.com"
