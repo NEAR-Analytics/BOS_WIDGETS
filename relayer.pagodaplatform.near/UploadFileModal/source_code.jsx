@@ -56,7 +56,7 @@ const overlayTurnOff = (e) => {
 
   console.log(e);
 
-  if (id !== "overlay") {
+  if (id == "overlay") {
     props.turnOffModal();
   }
 };
