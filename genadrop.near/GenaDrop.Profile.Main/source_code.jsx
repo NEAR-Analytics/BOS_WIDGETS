@@ -246,7 +246,10 @@ return (
         )}
 
         {state.selectedTab === "nfts" && (
-          <Widget src="near/widget/NFTCollection" props={{ accountId }} />
+          <Widget
+            src="agwaze.near/widget/GenaDrop.Profile.MyNFTS"
+            props={{ accountId }}
+          />
         )}
 
         {state.selectedTab === "apps" && (
