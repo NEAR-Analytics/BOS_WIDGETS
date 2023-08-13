@@ -106,7 +106,7 @@ const Container = styled.div`
   padding: 8px;
 
   @media (max-width: 480px) {
-    max-width: 333px;
+    max-width: 85%;
   }
 `;
 
@@ -136,7 +136,7 @@ return (
         </span>
       </H1>
 
-      <Text size="29px" weight="555" alignItems="center">
+      <Text size="29px" weight="555" style={{ textAlign: "center" }}>
         Opening the{" "}
         <a
           href="https://humans.nearverselabs.com"
@@ -173,6 +173,7 @@ return (
                 size="23px"
                 weight="555"
                 style={{
+                  textAlign: "center",
                   textTransform: "uppercase",
                   letterSpacing: "0.15em",
                 }}
