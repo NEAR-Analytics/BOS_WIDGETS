@@ -5,9 +5,9 @@ const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
 function createComment(props) {
-  const { comment } = props;
+  const { comment, onCommit, onCancel } = props;
 
-  saveComment(comment);
+  saveComment(comment, onCommit, onCancel);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "createComment";
@@ -16,7 +16,6 @@ function createComment(props) {
   return comment;
 }
 
-//addressForComments should be the realArticleId of the article
 function composeCommentData(comment) {
   const data = {
     index: {
@@ -33,20 +32,19 @@ function composeCommentData(comment) {
   return data;
 }
 
-function saveComment(comment) {
+function saveComment(comment, onCommit, onCancel) {
   if (comment.text) {
     const newData = composeCommentData(comment);
 
     Social.set(newData, {
       force: true,
+      onCommit,
+      onCancel,
     });
-    // onCancel: () => {
-    //   State.update({ saving: false });
-    // },
   }
 }
 
-function getComment(props) {
+function getComments(props) {
   const { realArticleId } = props;
   return Social.index(action, realArticleId, {
     order: "desc",
@@ -54,7 +52,7 @@ function getComment(props) {
 }
 
 function getCommentBlackListByBlockHeight() {
-  return [];
+  return [98588599];
 }
 
 function filterInvalidArticlesIndexes(commentIndexes) {
@@ -65,7 +63,7 @@ function filterInvalidArticlesIndexes(commentIndexes) {
 }
 
 function getValidComments(props) {
-  const commentIndexes = getComment(props);
+  const commentIndexes = getComments(props);
   const validCommentsIndexes = filterInvalidArticlesIndexes(commentIndexes);
 
   return validCommentsIndexes;
@@ -78,8 +76,13 @@ function libCall(call) {
     return getValidComments(call.props);
   }
 }
+
 let resultLibCalls = [];
 if (libCalls && libCalls.length > 0) {
+  console.log(
+    "Calling functions",
+    libCalls.map((lc) => lc.functionName)
+  );
   const updateObj = {};
   resultLibCalls = [...libCalls];
   libCalls.forEach((call) => {
