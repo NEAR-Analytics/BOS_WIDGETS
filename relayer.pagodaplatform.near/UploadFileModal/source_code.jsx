@@ -60,7 +60,7 @@ const filesOnChange = (files) => {
 
   if (file) {
     State.update({
-      file,
+      file: file,
     });
   }
 };
