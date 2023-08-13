@@ -1,6 +1,7 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
-const name = Social.get(`${accountId}/profile/name`);
+let name = Social.get(`${accountId}/profile/name`);
+name += name;
 
 const postType = props.postType ?? "post";
 const link = props.link;
@@ -40,19 +41,23 @@ const Checkmark = checkmarkColor ? (
 
 return (
   <div className="d-flex flex-row align-items-center">
-    <div className="flex-grow-1" style={{ overflow: "hidden" }}>
+    <div className="flex-grow-1" style={{ minWidth: 0, overflow: "hidden" }}>
       <div className="d-flex">
-        <Overlay>
-          <div className="text-truncate fw-bold">{name}</div>
-        </Overlay>
-        <div className="text-nowrap">{Checkmark}</div>
-        <Overlay>
-          <div className="text-truncate ps-1 text-muted font-monospace">
-            @{accountId}
-          </div>
-        </Overlay>
-        <div className="px-1 text-muted">·</div>
-        <span className="text-nowrap text-muted">
+        <div style={{ flexShrink: 1, minWidth: 0, overflow: "hidden" }}>
+          <Overlay>
+            <div className="text-truncate fw-bold">{name}</div>
+          </Overlay>
+        </div>
+        <div className="text-nowrap flex-shrink-0">{Checkmark}</div>
+        <div style={{ flexShrink: 100, minWidth: 0, overflow: "hidden" }}>
+          <Overlay>
+            <div className="text-truncate ps-1 text-muted font-monospace">
+              @{accountId}
+            </div>
+          </Overlay>
+        </div>
+        <div className="text-nowrap text-muted flex-shrink-0">
+          <span className="ps-1 text-muted">·</span>
           {blockHeight === "now" ? (
             "now"
           ) : (
@@ -60,7 +65,7 @@ return (
               <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
             </a>
           )}
-        </span>
+        </div>
       </div>
     </div>
     <span className="text-nowrap text-muted">
