@@ -55,13 +55,17 @@ State.init({
   file: null,
 });
 
+const updateState = (file) => {
+  State.update({
+    file: file,
+  });
+};
+
 const filesOnChange = (files) => {
   let file = files[0];
 
   if (file) {
-    State.update({
-      file: file,
-    });
+    updateState(file);
   }
 };
 
