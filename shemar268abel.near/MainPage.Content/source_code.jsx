@@ -37,30 +37,36 @@ if (state.feedIndex === 0) {
 
 return (
   <>
-    {context.accountId && (
-      <div className="mb-3">
-        <Widget src="mob.near/widget/MainPage.Compose" props={{}} />
-      </div>
-    )}
-    <ul className="nav nav-pills mb-3">
-      {options.map((option, i) => (
-        <li className="nav-item" key={i}>
-          <button
-            className={`nav-link ${state.feedIndex === i ? "active" : ""} ${
-              option.disabled ? "disabled" : ""
-            }`}
-            aria-disabled={!!option.disabled}
-            onClick={() => !option.disabled && State.update({ feedIndex: i })}
-          >
-            {option.title}
-          </button>
-        </li>
-      ))}
-    </ul>
-    {state.feedIndex === 2 ? (
-      <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
-    ) : (
-      <Widget src="mob.near/widget/MainPage.Feed.Beta" props={{ accounts }} />
-    )}
+    <div
+      style={{
+        padding: "10px",
+      }}
+    >
+      {context.accountId && (
+        <div className="mb-3">
+          <Widget src="mob.near/widget/MainPage.Compose" props={{}} />
+        </div>
+      )}
+      <ul className="nav nav-pills mb-3">
+        {options.map((option, i) => (
+          <li className="nav-item" key={i}>
+            <button
+              className={`nav-link ${state.feedIndex === i ? "active" : ""} ${
+                option.disabled ? "disabled" : ""
+              }`}
+              aria-disabled={!!option.disabled}
+              onClick={() => !option.disabled && State.update({ feedIndex: i })}
+            >
+              {option.title}
+            </button>
+          </li>
+        ))}
+      </ul>
+      {state.feedIndex === 2 ? (
+        <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
+      ) : (
+        <Widget src="mob.near/widget/MainPage.Feed.Beta" props={{ accounts }} />
+      )}
+    </div>
   </>
 );
