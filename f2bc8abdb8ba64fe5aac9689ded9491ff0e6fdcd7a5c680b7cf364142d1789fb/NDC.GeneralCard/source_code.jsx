@@ -679,12 +679,11 @@ return (
           src={widgets.addComment}
           props={{
             widgets,
-            candidateOrReplay: true,
+            isReplying: false,
             isTest,
             username: data.author,
             realArticleId: data.realArticleId,
-            onClickConfirm: () => State.update({ showModal: false }),
-            onClickCancel: () => State.update({ showModal: false }),
+            onCloseModal: () => State.update({ showModal: false }),
           }}
         />
       )}
