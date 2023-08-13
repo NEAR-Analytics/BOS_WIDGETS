@@ -5,13 +5,6 @@ State.init({
   hasReply: false,
 });
 
-// function handleDeleteComment() {
-//   Near.call(nomination_contract, "remove_comment", {
-//     candidate: data.candidate,
-//     comment: data.id,
-//   });
-// }
-
 const CommentCard = styled.div`
   width: 100%;
   display: flex;
@@ -260,15 +253,14 @@ return (
     <CommentCardContent>
       <Widget
         src="mob.near/widget/SocialMarkdown"
-        props={{ text: data.value.text }}
+        props={{ text: data.value.comment.text }}
       />
-      )
     </CommentCardContent>
     <CommentCardLowerSection>
       <TimestampCommentDiv>
         <i className="bi bi-clock" />
         <TimestampTextComment>
-          {new Date(data.value.timestamp).toDateString()}
+          {new Date(data.value.comment.timestamp).toDateString()}
         </TimestampTextComment>
       </TimestampCommentDiv>
     </CommentCardLowerSection>
