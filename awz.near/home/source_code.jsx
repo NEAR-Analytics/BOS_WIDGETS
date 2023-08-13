@@ -83,7 +83,7 @@ return (
           role="tabpanel"
           aria-labelledby="pills-nfts-tab"
         >
-          {state.loadnfts && <div>nft</div>}
+          {state.loadnfts && <Widget src="awz.near/widget/charge"></Widget>}
         </div>
         <div
           className="tab-pane fade widget"
