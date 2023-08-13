@@ -17,6 +17,27 @@ const accountId = articleToRenderData.author;
 //   showDeclaration: false,
 // });
 
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.comment`];
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
 const tabs = [
   {
     id: "generalInfo",
@@ -30,9 +51,18 @@ const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
+const libCalls = [
+  {
+    functionName: "getValidComments",
+    key: "comments",
+    props: { realArticleId: articleToRenderData.realArticleId },
+  },
+];
+
 State.init({
   tabSelected: tabs[1].id,
   comments: [],
+  libCalls,
 });
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
@@ -483,14 +513,6 @@ const CandidateProps = props.data.nominations ?? {
 
 const comments = state.comments;
 
-const libCalls = [
-  {
-    functionName: "getValidComments",
-    key: "comments",
-    props: { getValidComments: articleToRenderData.realArticleId },
-  },
-];
-
 function stateUpdate(obj) {
   State.update(obj);
 }
@@ -816,10 +838,9 @@ return (
                       originalComment,
                       widgets,
                       isTest,
-                      candidateOrReplay: true,
+                      isReplying: false,
                       username: accountId,
-                      onClickConfirm: () => State.update({ showModal: false }),
-                      onClickCancel: () => State.update({ showModal: false }),
+                      onCloseModal: () => State.update({ showModal: false }),
                       // nomination_contract,
                     }}
                   />
@@ -849,13 +870,8 @@ return (
         </>
       </SecondContainer>
     </Container>
-    {state.sendComment && (
-      <div style={{ display: "no-display" }}>
-        <Widget
-          src={widgets.libComment}
-          props={{ isTest, stateUpdate, libCalls }}
-        />
-      </div>
-    )}
+    <div style={{ display: "none" }}>
+      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+    </div>
   </>
 );
