@@ -48,8 +48,24 @@ if (accountId === "") {
   return "Please login first";
 }
 
-const clickBuyButton = (days, price) => {
-  Near.call("nft.autoctopus.near", "");
+const charge = (days, price) => {
+  let plan = "";
+  if (days === 30) {
+    plan = "MonthlyPlan";
+  } else if (days === 90) {
+    plan = "QuartlyPlan";
+  } else if (days === 360) {
+    plan = "YearlyPlan";
+  }
+  const gas = 50000000000000;
+  const deposit = new Big(10).pow(24).mul(price).toFixed(0);
+  Near.call(
+    "nft.autoctopus.near",
+    "charge",
+    { charge_type: plan },
+    gas,
+    deposit
+  );
 };
 
 // 充值组件
@@ -67,14 +83,13 @@ function Recharge(props) {
           <Separator />
           <Price>{item.price}</Price>
           <Separator />
-          <Button buttonClick={() => item.buttonClick(1, 2)}>
-            {item.button}
-          </Button>
+          <Button onClick={item.buttonClick}>{item.button}</Button>
         </RechargeItem>
       ))}
     </div>
   );
 }
+console.log("hello");
 return (
   <div>
     <Recharge
@@ -84,37 +99,47 @@ return (
           desc: "By participating in the monthly Community Calls, you can earn a POAP. Each POAP automatically recharges 30 days of usage rights.",
           price: "Free",
           button: "Check my POAP",
+          buttonClick: () => {
+            console.log("this.title");
+          },
         },
         {
           title: "30 days",
           desc: "Purchase 30 days of service for this product",
           price: "price: 5 NEAR",
           button: "Buy",
+          buttonClick: () => {
+            charge(30, 5);
+          },
         },
         {
           title: "90 days",
           desc: "Purchase 90 days of service for this product. Enjoy a 10% discount!",
           price: "price: 13.5 NEAR",
           button: "Buy",
+          buttonClick: () => {
+            charge(90, 13.5);
+          },
         },
         {
           title: "360 days",
           desc: "Purchase 360 days of service for this product. Enjoy a 20% discount!",
           price: "price: 48 NEAR",
           button: "Buy",
+          buttonClick: () => {
+            charge(360, 48);
+          },
         },
         {
           title: "VIP NFT",
           desc: "Account holders of this NFT can enjoy the services of this product. The NFT can be traded. The minting price of the NFT increases each time it is minted.",
           price: `price: ${props.nft_current_price}`,
           button: "Check more detail",
+          buttonClick: () => {
+            console.log(this.title);
+          },
         },
       ]}
     />
-    <Separator />
-    <div>
-      <h1>VIP NFT</h1>
-      <div>123</div>
-    </div>
   </div>
 );
