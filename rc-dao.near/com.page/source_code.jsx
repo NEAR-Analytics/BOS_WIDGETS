@@ -85,6 +85,15 @@ const Text = styled.p`
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#000"};
   margin: 15;
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #333;
+    }
+  }
 `;
 
 const Flex = styled.div`
@@ -154,17 +163,19 @@ return (
       ) : (
         <div>
           {!profile ? (
-            <Flex>
+            <Flex gap="12px" direction="column" alignItems="center">
               <Widget src="hack.near/widget/pro.editor" />
             </Flex>
           ) : (
             <Flex gap="12px" direction="column" alignItems="center">
-              <Widget
-                src="rc-dao.near/widget/rc.profile.card"
-                props={{
-                  accountId: "rc-dao.sputnik-dao.near",
-                }}
-              />
+              <div maxWidth="80%">
+                <Widget
+                  src="rc-dao.near/widget/rc.profile.card"
+                  props={{
+                    accountId: "rc-dao.sputnik-dao.near",
+                  }}
+                />
+              </div>
               <br />
               <Text
                 size="23px"
