@@ -124,7 +124,7 @@ const Container = styled.div`
 return (
   <Container center>
     <Flex gap="23px" direction="column" alignItems="center">
-      <H1>
+      <H1 style={!accountId ? { textAlign: "center", margin: "0 auto" } : {}}>
         Regional Communities
         <span>
           DAO{" "}
@@ -153,17 +153,15 @@ return (
         </a>
       </Text>
       {!accountId ? (
-        <Flex>
-          <Widget
-            src="near/widget/DIG.Button"
-            props={{
-              href: "https://near.org/signup",
-              label: "Create Account",
-              variant: "outline-dark",
-              size: "large",
-            }}
-          />
-        </Flex>
+        <Widget
+          src="near/widget/DIG.Button"
+          props={{
+            href: "https://near.org/signup",
+            label: "Create Account",
+            variant: "outline-dark",
+            size: "large",
+          }}
+        />
       ) : (
         <div>
           {!profile ? (
