@@ -16,8 +16,8 @@ const Header = styled.div`
     justify-content:space-between;
     padding:10px;
     box-sizing:border-box;
-    border-bottom:1px solid rgba(0,0,0,.05);
-    background-color:#fff;
+    box-shadow: 0 0 20px 20px #000;
+    background-color:#000;
 `;
 
 const Logo = styled.div`
@@ -34,7 +34,7 @@ const Logo = styled.div`
         padding:0;
         font-size:1.1rem;
         margin-left:.5rem;
-        color:#000;
+        color:#fff;
         font-weight:bold;
     }
 `;
@@ -59,7 +59,7 @@ const Nav = styled.div`
             }
 
             a {
-                color:#000;
+                color:#fff;
                 margin:0;
                 padding:0;
             }
@@ -71,13 +71,17 @@ const Button = styled.a`
     display:block;
     padding:.3rem 1rem!important;
     border:0;
-    color:#fff!important;
-    background-color:#000;
+    color:#000!important;
+    background-color:#fff;
     transition: all .2s;
     font-size:.9rem;
     border-radius:5px;
-    box-shadow: 0 0 0 2px #000;
-    border:1px solid #fff;
+    box-shadow: 0 0 0 2px #fff;
+    border:2px solid #000;
+
+    &:hover {
+      text-decoraction:none;
+    }
     
     &:hover {
         transition: all .2s;
@@ -98,7 +102,7 @@ return (
           </li>
         ))}
         <li>
-          <Button>TICKET</Button>
+          <Button href="#">TICKET</Button>
         </li>
       </ul>
     </Nav>
