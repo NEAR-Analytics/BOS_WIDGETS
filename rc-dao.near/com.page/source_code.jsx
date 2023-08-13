@@ -124,7 +124,7 @@ return (
   <Container center>
     <Flex gap="23px" direction="column" alignItems="center">
       <H1>
-        Regional Communities
+        Regional <br /> Communities
         <span>
           DAO{" "}
           <svg viewBox="0 0 26 24" fill="none" aria-hidden="true">
