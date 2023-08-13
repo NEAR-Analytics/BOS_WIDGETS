@@ -10,7 +10,6 @@ const initLibCalls = [
     },
   },
 ];
-a;
 
 if (!accountId) accountId = context.accountId;
 
@@ -38,6 +37,7 @@ State.init({
 //const authorForWidget = "sayalot.near";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+// const authorForWidget = "kenrou-it.near";
 const libSrcArray = [
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.article",
 ];
@@ -79,9 +79,9 @@ const widgets = {
   articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
   generalCard: `${authorForWidget}/widget/NDC.GeneralCard`,
   oneArticle: `${authorForWidget}/widget/NDC.General.ArticleView`,
-  reactions: "sayalot.near/widget/SayALot_Reactions",
+  reactions: `${authorForWidget}/widget/SayALot_Reactions`,
   addComment: `${authorForWidget}/widget/NDC.SayALot.AddComment`,
-  comment: `nomination.ndctools.near/widget/NDC.Nomination.Candidate.Comment`,
+  comment: `${authorForWidget}/widget/NDC.Nomination.Candidate.Comment`,
   candidatePage: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page`,
   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
   reactions: `${authorForWidget}/widget/NDC.Reactions`,
