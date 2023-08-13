@@ -42,6 +42,16 @@ const RechargeItem = styled.div`
   width: 200px;
 `;
 
+const accountId = context.accountId;
+
+if (accountId === "") {
+  return "Please login first";
+}
+
+const clickBuyButton = (days, price) => {
+  Near.call("nft.autoctopus.near", "");
+};
+
 // 充值组件
 function Recharge(props) {
   return (
@@ -57,7 +67,9 @@ function Recharge(props) {
           <Separator />
           <Price>{item.price}</Price>
           <Separator />
-          <Button>{item.button}</Button>
+          <Button buttonClick={() => item.buttonClick(1, 2)}>
+            {item.button}
+          </Button>
         </RechargeItem>
       ))}
     </div>
@@ -71,7 +83,7 @@ return (
           title: "Free way",
           desc: "By participating in the monthly Community Calls, you can earn a POAP. Each POAP automatically recharges 30 days of usage rights.",
           price: "Free",
-          button: "Join",
+          button: "Check my POAP",
         },
         {
           title: "30 days",
@@ -99,5 +111,10 @@ return (
         },
       ]}
     />
+    <Separator />
+    <div>
+      <h1>VIP NFT</h1>
+      <div>123</div>
+    </div>
   </div>
 );
