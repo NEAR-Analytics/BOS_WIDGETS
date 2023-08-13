@@ -62,7 +62,7 @@ const H1 = styled.h1`
   }
 
   @media (max-width: 480px) {
-    font-size: 42px;
+    font-size: 39px;
     max-width: 80%;
 
     span {
@@ -131,7 +131,8 @@ return (
         weight="555"
         style={{ textAlign: "center", maxWidth: "80%" }}
       >
-        Opening the{" "}
+        Opening the
+        <br />
         <a
           href="https://humans.nearverselabs.com"
           target="_blank"
@@ -153,7 +154,9 @@ return (
       ) : (
         <div>
           {!profile ? (
-            <Widget src="hack.near/widget/pro.editor" />
+            <Flex>
+              <Widget src="hack.near/widget/pro.editor" />
+            </Flex>
           ) : (
             <Flex gap="12px" direction="column" alignItems="center">
               <Widget
