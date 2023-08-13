@@ -64,6 +64,8 @@ const H1 = styled.h1`
   @media (max-width: 480px) {
     font-size: 50px;
     max-width: 80%;
+    line-height: 1.2;
+
 
     span {
       border-radius: 10px;
