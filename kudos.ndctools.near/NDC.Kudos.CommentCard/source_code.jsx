@@ -89,15 +89,15 @@ State.init({
 });
 
 const UserProfile = ({ secondary, ownerId }) => (
-  <Widget
-    src="near/widget/AccountProfileOverlay"
-    props={{
-      accountId: kudo.receiver_id,
-      children: (
-        <UserProfileDiv
-          secondary={secondary}
-          className="d-flex justify-content-between align-items-center"
-        >
+  <UserProfileDiv
+    secondary={secondary}
+    className="d-flex justify-content-between align-items-center"
+  >
+    <Widget
+      src="near/widget/AccountProfileOverlay"
+      props={{
+        accountId: ownerId,
+        children: (
           <div className="d-flex justify-content-between align-items-center w-100">
             <div className="d-flex gap-2 align-items-center">
               <Widget
@@ -119,10 +119,10 @@ const UserProfile = ({ secondary, ownerId }) => (
               </StyledLink>
             </div>
           </div>
-        </UserProfileDiv>
-      ),
-    }}
-  />
+        ),
+      }}
+    />
+  </UserProfileDiv>
 );
 
 const trimMessage = (message) => {
