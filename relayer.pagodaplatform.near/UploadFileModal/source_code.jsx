@@ -54,6 +54,8 @@ const filesOnChange = (files) => {
 const overlayTurnOff = (e) => {
   let id = e.target.id;
 
+  console.log(e);
+
   if (id !== "overlay") {
     props.turnOffModal();
   }
