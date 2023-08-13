@@ -16,7 +16,6 @@ const Header = styled.div`
     justify-content:space-between;
     padding:10px;
     box-sizing:border-box;
-    box-shadow: 0 0 20px 20px #000;
     background-color:#000;
 `;
 
