@@ -103,7 +103,7 @@ const HouseItem = ({ house }) => (
     )}
     {candidates && (
       <div>
-        {candidates === house.seats && (
+        {candidates >= house.seats && (
           <CompletedIcon
             className="bi bi-check-circle fs-5"
             selected={selectedHouse === house.id}
