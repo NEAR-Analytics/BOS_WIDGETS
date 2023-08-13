@@ -92,10 +92,11 @@ return (
           </div>
         </Files>
       </div>
-
-      <div id="fileName" className="px-3 py-1 mt-3 bg-white rounded-pill">
-        {state.file?.name}
-      </div>
+      {state.file && (
+        <div id="fileName" className="px-3 py-1 mt-3 bg-white rounded-pill">
+          {state.file?.name}
+        </div>
+      )}
       <div>
         <UploadButton className="btn px-5 py-2 mt-3">Upload</UploadButton>
       </div>
