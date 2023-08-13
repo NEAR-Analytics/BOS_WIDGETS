@@ -20,9 +20,8 @@ console.log(props);
 
 const Modal = styled.div`
     width: 50%;
-    height: 50%;
     background-color: #D9D9D9;
-    cursor: default
+    cursor: default;
 `;
 
 const CloseButton = styled.div`
@@ -41,24 +40,22 @@ const UploadButton = styled.button`
 `;
 
 const fileChangeHandle = (e) => {
-  console.log(e.target.files);
+  console.log(e.target);
 };
 
 return (
   <Overlay onClick={props.turnOffModal}>
-    <Modal className="rounded d-flex align-items-center flex-column">
+    <Modal className="rounded d-flex align-items-center flex-column pb-4">
       <div className="w-100 d-flex justify-content-end px-3">
         <CloseButton onClick={props.turnOffModal} className="fs-1">
           &#215;
         </CloseButton>
       </div>
-      <div
-        className="d-flex align-items-center justify-content-center w-75 bg-white rounded py-5"
-        style={{ cursor: "pointer" }}
-      >
+      <div className="d-flex align-items-center justify-content-center w-75 bg-white rounded">
         <label
           htmlFor="dropzone-file"
-          className="d-flex flex-column align-items-center justify-content-center w-100 rounded"
+          className="d-flex flex-column align-items-center justify-content-center w-100 rounded py-5"
+          style={{ cursor: "pointer" }}
         >
           <div className="d-flex flex-column align-items-center justify-content-center">
             <p className="mb-2">
@@ -70,7 +67,7 @@ return (
             onChange={fileChangeHandle}
             id="dropzone-file"
             type="file"
-            className="visually-hidden"
+            className=""
           />
         </label>
       </div>
