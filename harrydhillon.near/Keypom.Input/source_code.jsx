@@ -22,9 +22,9 @@ const StyledInput = styled.input`
     }
 `;
 
-const inputComponent = (label, inputProps) => (
+const inputComponent = (label, inputProps, labelProps) => (
   <Wrapper>
-    <Label>{label}</Label>
+    <Label {...labelProps}>{label}</Label>
     <StyledInput {...inputProps} />
   </Wrapper>
 );
@@ -33,5 +33,6 @@ return inputComponent(
   props.label ?? "Label",
   props?.inputProps ?? {
     placeholder: "placeholder",
-  }
+  },
+  labelProps ?? {}
 );
