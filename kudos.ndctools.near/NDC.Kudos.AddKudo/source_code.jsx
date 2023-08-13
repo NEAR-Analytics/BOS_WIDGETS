@@ -86,14 +86,12 @@ return (
         <div className="content">
           <Section>
             <Widget
-              src={widgets.styledComponents}
+              src={"rubycop.near/widget/Common.Compose"}
               props={{
-                Input: {
-                  label: "NEAR account",
-                  value: state.receiverId,
-                  handleChange: (e) =>
-                    State.update({ receiverId: e.target.value }),
-                },
+                type: "input",
+                placeholder: "NEAR account",
+                withoutSeparator: true,
+                handleChange: (text) => State.update({ receiverId: text }),
               }}
             />
           </Section>
