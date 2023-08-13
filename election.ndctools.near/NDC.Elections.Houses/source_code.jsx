@@ -1,4 +1,4 @@
-const { houses, selectedHouse, handleSelect, votesLeft, candidates } = props;
+const { houses, selectedHouse, handleSelect, votesLeft } = props;
 
 const housesMapping = {
   CouncilOfAdvisors: {
@@ -84,26 +84,11 @@ const HouseItem = ({ house }) => (
             {votesLeft(house)} / {house.seats} votes left
           </Small>
         )}
-        {candidates && (
-          <Small>
-            {candidates} / {house.seats} candidates
-          </Small>
-        )}
       </div>
     </div>
     {votesLeft && (
       <div>
         {votesLeft(house) < house.seats && (
-          <CompletedIcon
-            className="bi bi-check-circle fs-5"
-            selected={selectedHouse === house.id}
-          />
-        )}
-      </div>
-    )}
-    {candidates && (
-      <div>
-        {candidates >= house.seats && (
           <CompletedIcon
             className="bi bi-check-circle fs-5"
             selected={selectedHouse === house.id}
