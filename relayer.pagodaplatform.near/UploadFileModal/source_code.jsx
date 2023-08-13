@@ -1,8 +1,6 @@
 const Overlay = styled.div`
-    position: fixed; /* Sit on top of the page content */
-    ${props.modalState ? "display: flex;" : "display: none;"}
-    justify-content: center;
-    align-items: center;
+    position: absolute; /* Sit on top of the page content */
+    // ${props.modalState ? "display: block;" : "display: none;"}
     width: 100%; /* Full width (cover the whole page) */
     height: 100%; /* Full height (cover the whole page) */
     top: 0;
@@ -14,10 +12,25 @@ const Overlay = styled.div`
     cursor: pointer; /* Add a pointer on hover */
 `;
 
+const Container = styled.div`
+    position: fixed; /* Sit on top of the page content */
+    ${props.modalState ? "display: flex;" : "display: none;"}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw; /* Full width (cover the whole page) */
+    height: 100vh; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+`;
+
 const Modal = styled.div`
     width: 50%;
     background-color: #D9D9D9;
     cursor: default;
+    z-index: 3
 `;
 
 const CloseButton = styled.div`
@@ -51,19 +64,10 @@ const filesOnChange = (files) => {
   }
 };
 
-const overlayTurnOff = (e) => {
-  let id = e.target.id;
-
-  console.log(e);
-
-  if (id == "overlay") {
-    props.turnOffModal();
-  }
-};
-
 return (
-  <Overlay id="overlay" onClick={overlayTurnOff}>
-    <Modal className="rounded d-flex align-items-center flex-column pb-4">
+  <div>
+    <Overlay id="overlay" onClick={props.turnOffModal} />
+    <Modal className="rounded d-flex align-items-center flex-column pb-4 position-absolute top-50 start-50 translate-middle">
       <div className="w-100 d-flex justify-content-end px-3">
         <CloseButton onClick={props.turnOffModal} className="fs-1">
           &#215;
@@ -74,6 +78,9 @@ return (
           className="d-flex flex-column align-items-center justify-content-center w-100 rounded py-5"
           style={{ cursor: "pointer", border: "solid 1px dash #000" }}
           onChange={filesOnChange}
+          minFileSize={1}
+          clickable
+          multiple={false}
         >
           <div className="d-flex flex-column align-items-center justify-content-center">
             <p className="mb-2">
@@ -92,5 +99,5 @@ return (
         <UploadButton className="btn px-5 py-2 mt-3">Upload</UploadButton>
       </div>
     </Modal>
-  </Overlay>
+  </div>
 );
