@@ -7,6 +7,14 @@ margin-bottom:60px;
 border-radius:10px;
   border: 2px solid #B6E8F7;
 `;
+
+const RadiantBackground = styled.div`
+    background: rgb(220,244,251);
+    min-height:100vh;
+    padding:10px;
+    background: linear-gradient(0deg, rgba(220,244,251,1) 0%, rgba(251,254,255,1) 95%, rgba(255,255,255,1) 100%);
+`;
+
 State.init({
   eventName: "",
   location: "",
@@ -49,49 +57,50 @@ const AllSteps = [
 
 const formContent = () => {
   return (
-    <FormBackground>
-      <div
-        style={{
-          width: "fit-content",
-          margin: "auto",
-          transform: "scale(0.8)",
-          marginTop: -65,
-        }}
-      >
-        <Widget src="harrydhillon.near/widget/Keypom.TicketLogo" />
-      </div>
-      <div
-        style={{
-          margin: "auto",
-          display: "flex",
-          alignItems: "center",
-          width: "fit-content",
-          justifyContent: "space-evently",
-        }}
-      >
-        {AllSteps.map((item, idx) => (
-          <div style={{ marginRight: 20 }}>
-            <Widget
-              src="harrydhillon.near/widget/Keypom.StepLabel"
-              props={{
-                stepNumber: idx + 1,
-                label: item.label,
-                active: item?.active,
-              }}
-            />
-          </div>
-        ))}
-      </div>
-      {props?.content && props.content()}
-    </FormBackground>
+    <>
+      <p style={{ fontSize: 12, letterSpacing: 0.5, marginBottom: 0 }}>
+        <span style={{ color: "gray" }}>All Drops</span> {">"} New Ticket Drop
+      </p>
+      <p style={{ fontSize: 36, fontWeight: "500" }}>
+        Enter the details for your new Ticket Drop
+      </p>
+      <FormBackground>
+        <div
+          style={{
+            width: "fit-content",
+            margin: "auto",
+            transform: "scale(0.8)",
+            marginTop: -65,
+          }}
+        >
+          <Widget src="harrydhillon.near/widget/Keypom.TicketLogo" />
+        </div>
+        <div
+          style={{
+            margin: "auto",
+            display: "flex",
+            alignItems: "center",
+            width: "fit-content",
+            justifyContent: "space-evently",
+          }}
+        >
+          {AllSteps.map((item, idx) => (
+            <div style={{ marginRight: 20 }}>
+              <Widget
+                src="harrydhillon.near/widget/Keypom.StepLabel"
+                props={{
+                  stepNumber: idx + 1,
+                  label: item.label,
+                  active: item?.active,
+                }}
+              />
+            </div>
+          ))}
+        </div>
+        {props?.content && props.content()}
+      </FormBackground>
+    </>
   );
 };
 
-return (
-  <Widget
-    src="harrydhillon.near/widget/Keypom.TicketDropLayout"
-    props={{
-      content: formContent,
-    }}
-  />
-);
+return <RadiantBackground>{formContent()}</RadiantBackground>;
