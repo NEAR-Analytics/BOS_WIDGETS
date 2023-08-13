@@ -18,10 +18,18 @@ const Modal = styled.div`
     width: 50%;
     background-color: #D9D9D9;
     cursor: default;
+
+    :hover{
+      opacity: 0.8
+    }
 `;
 
 const CloseButton = styled.div`
-  cursor: pointer
+  cursor: pointer;
+  
+  :hover{
+    opacity: 0.7
+  }
 `;
 
 const UploadButton = styled.button`
