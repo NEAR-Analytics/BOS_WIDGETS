@@ -65,8 +65,11 @@ const filesOnChange = (files) => {
     });
   }
 
-  document.querySelector("#fileName").textContent = file.name;
+  document.querySelector("#fileName").innerHTML = file.name;
+  console.log(document.querySelector("#fileName"));
 };
+
+console.log("re-render");
 
 return (
   <Container>
