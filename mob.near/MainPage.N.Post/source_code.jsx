@@ -56,6 +56,7 @@ const Wrapper = styled.div`
     padding-right: 12px;
   }
   .right {
+    margin-top: -4px;
     flex-grow: 1;
     overflow: hidden;
   }
