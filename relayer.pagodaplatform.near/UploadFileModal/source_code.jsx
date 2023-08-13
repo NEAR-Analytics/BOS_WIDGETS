@@ -39,9 +39,19 @@ const UploadButton = styled.button`
   }
 `;
 
-const fileChangeHandle = (e) => {
-  console.log(e.target);
+State.init({
+  file: null,
+});
+
+const filesOnChange = (files) => {
+  if (files) {
+    State.update({
+      file: files[0],
+    });
+  }
 };
+
+console.log(state.file);
 
 return (
   <Overlay onClick={props.turnOffModal}>
@@ -52,10 +62,10 @@ return (
         </CloseButton>
       </div>
       <div className="d-flex align-items-center justify-content-center w-75 bg-white rounded">
-        <label
-          htmlFor="dropzone-file"
+        <Files
           className="d-flex flex-column align-items-center justify-content-center w-100 rounded py-5"
           style={{ cursor: "pointer" }}
+          onChange={filesOnChange}
         >
           <div className="d-flex flex-column align-items-center justify-content-center">
             <p className="mb-2">
@@ -63,13 +73,7 @@ return (
             </p>
             <p className="">Support svg</p>
           </div>
-          <input
-            onChange={fileChangeHandle}
-            id="dropzone-file"
-            type="file"
-            className=""
-          />
-        </label>
+        </Files>
       </div>
       <div>
         <UploadButton className="btn px-5 py-2 mt-5">Upload</UploadButton>
