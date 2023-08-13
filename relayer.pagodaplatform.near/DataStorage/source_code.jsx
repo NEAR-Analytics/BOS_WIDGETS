@@ -18,7 +18,7 @@ const Overlay = styled.div`
 `;
 
 State.init({
-  modalOn: true,
+  modalOn: false,
 });
 
 const turnOffModal = (e) => {
