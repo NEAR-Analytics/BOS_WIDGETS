@@ -24,7 +24,7 @@ const H1 = styled.h1`
   font-style: normal;
   font-weight: 500;
   font-size: 85px;
-  line-height: 1.2;
+  line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
   color: #000;
@@ -94,7 +94,6 @@ const Flex = styled.div`
   justify-content: ${(p) => p.justifyContent};
   flex-direction: ${(p) => p.direction ?? "row"};
   flex-wrap: ${(p) => p.wrap ?? "nowrap"};
-  max-width: 80%;
 `;
 
 const Container = styled.div`
@@ -108,8 +107,6 @@ const Container = styled.div`
 
   @media (max-width: 480px) {
     max-width: 80%;
-      align-items: center;
-
   }
 `;
 
@@ -158,10 +155,10 @@ return (
         <div>
           {!profile ? (
             <Flex>
-              <Widget src="rc-dao.near/widget/pro.editor" />
+              <Widget src="hack.near/widget/pro.editor" />
             </Flex>
           ) : (
-            <Flex gap="12px" direction="column">
+            <Flex gap="12px" direction="column" alignItems="center">
               <Widget
                 src="rc-dao.near/widget/rc.profile.card"
                 props={{
