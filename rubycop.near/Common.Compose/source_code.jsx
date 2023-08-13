@@ -78,9 +78,7 @@ return (
         <Widget
           src="rubycop.near/widget/AccountAutocomplete"
           props={{
-            term: withoutSeparator
-              ? state.text
-              : state.text.split(separator).pop(),
+            term: withoutSeparator ? state.text : state.text.split("@").pop(),
             onSelect: onSelect,
             onClose: () => State.update({ showAccountAutocomplete: false }),
           }}
