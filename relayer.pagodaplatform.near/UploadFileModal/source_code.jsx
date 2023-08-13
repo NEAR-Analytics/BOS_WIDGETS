@@ -57,11 +57,15 @@ State.init({
 });
 
 const filesOnChange = (files) => {
-  if (files) {
+  let file = files[0];
+
+  if (file) {
     State.update({
-      file: files[0],
+      file,
     });
   }
+
+  document.querySelector("#fileName").textContent = file.name;
 };
 
 return (
@@ -91,7 +95,7 @@ return (
         </Files>
       </div>
       {state.file && (
-        <div className="px-3 py-1 mt-3 bg-white rounded-pill ">
+        <div id="fileName" className="px-3 py-1 mt-3 bg-white rounded-pill">
           {state.file.name}
         </div>
       )}
