@@ -62,7 +62,8 @@ const H1 = styled.h1`
   }
 
   @media (max-width: 480px) {
-    font-size: 50px;
+    font-size: 42px;
+    max-width: 80%;
 
     span {
       border-radius: 10px;
@@ -97,7 +98,6 @@ const Flex = styled.div`
 
 const Container = styled.div`
   display: flex;
-  max-width: 888px;
   margin: 0 auto;
   flex-direction: column;
   align-items: center;
@@ -105,7 +105,7 @@ const Container = styled.div`
   padding: 8px;
 
   @media (max-width: 480px) {
-    max-width: 75%;
+    max-width: 80%;
   }
 `;
 
