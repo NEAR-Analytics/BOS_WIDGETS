@@ -44,7 +44,7 @@ const Jumbotron = styled.div`
     background-position:center;
     background-size:auto 100%;
     background-repeat:no-repeat;
-    box-shadow: inset 0 10px 10vw 10vw rgba(255,255,255,1);
+    box-shadow: inset 0 10px 20vw 10vw rgba(255,255,255,1);
     animation-name: move;
     animation-duration:10s;
     animation-iteration-count:infinite;
