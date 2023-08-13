@@ -74,7 +74,7 @@ const sendQuery = (query) => {
 const runQuery = async (query) => {
   if (state.queryRunId) {
     console.log("run q w id");
-    return queryResult(state.queryRunId).then(({ data, error }) => {
+    return queryResult(state.queryRunId).then(({ data, error, queryRunId }) => {
       if (error) {
         State.update({ queryRunId: null, isInitialRun: true });
       } else {
@@ -82,6 +82,7 @@ const runQuery = async (query) => {
         State.update({ isLoading: false });
         State.update({ isQueryRunning: false });
         State.update({ data });
+        return { data, error, queryRunId };
       }
     });
   } else {
@@ -235,7 +236,7 @@ const queryResult = async (queryRunId) => {
     headers: { "Content-Type": "application/json", "x-api-key": API_KEY },
     body: raw,
   };
-  const result = { error: null, data: null };
+  const result = { error: null, data: null, queryRunId: queryRunId };
   return asyncFetch(
     "https://api-v2.flipsidecrypto.xyz/json-rpc",
     requestOptions
