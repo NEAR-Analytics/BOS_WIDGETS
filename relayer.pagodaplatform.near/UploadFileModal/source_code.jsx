@@ -67,8 +67,6 @@ State.init({
   },
 });
 
-console.log("re-render", state.file);
-
 return (
   <Container>
     <Overlay id="overlay" onClick={props.turnOffModal} />
