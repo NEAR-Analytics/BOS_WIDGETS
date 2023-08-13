@@ -29,6 +29,17 @@ const CloseButton = styled.div`
   cursor: pointer
 `;
 
+const UploadButton = styled.button`
+  background-color: #0057F9;
+  color: white;
+
+  :hover{
+    color: white;
+    background-color: #0057F9;
+    opaticy: 0.8
+  }
+`;
+
 const fileChangeHandle = (e) => {
   console.log(e.target.files);
 };
@@ -41,7 +52,10 @@ return (
           &#215;
         </CloseButton>
       </div>
-      <div className="d-flex align-items-center justify-content-center w-75 bg-white rounded py-5">
+      <div
+        className="d-flex align-items-center justify-content-center w-75 bg-white rounded py-5"
+        style={{ cursor: "pointer" }}
+      >
         <label
           htmlFor="dropzone-file"
           className="d-flex flex-column align-items-center justify-content-center w-100 rounded"
@@ -59,6 +73,9 @@ return (
             className="visually-hidden"
           />
         </label>
+      </div>
+      <div>
+        <UploadButton className="btn px-5 py-2 mt-5">Upload</UploadButton>
       </div>
     </Modal>
   </Overlay>
