@@ -25,7 +25,7 @@ return (
   <Wrapper>
     <hr />
     <div>
-      <h5>Create Your Profile</h5>
+      <h3>Create Your Profile</h3>
     </div>
 
     <div className="mb-3">
