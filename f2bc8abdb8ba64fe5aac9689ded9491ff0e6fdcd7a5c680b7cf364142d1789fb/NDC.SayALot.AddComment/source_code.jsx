@@ -245,8 +245,8 @@ const {
   widgets,
   isTest,
   article,
-  onClickCancel,
-  candidateOrReply,
+  onCloseModal,
+  isReplying,
   username,
   profile_picture,
   originalComment,
@@ -254,9 +254,11 @@ const {
 
 const libCalls = [];
 
-const libSrcArray = [
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.comment",
-];
+// const authorForWidget = "kenrou-it.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.comment`];
 
 function callLibs(srcArray, stateUpdate, libCalls) {
   return (
@@ -305,7 +307,7 @@ function addCommentListener() {
   newLibCalls.push({
     functionName: "createComment",
     key: "createComment",
-    props: { comment },
+    props: { comment, onCommit: onCloseModal },
   });
   State.update({ libCalls: newLibCalls });
 }
@@ -313,9 +315,9 @@ function addCommentListener() {
 return (
   <ModalCard>
     <CommentCard>
-      <H1>{candidateOrReply ? " Add a Comment" : "Reply to comment"}</H1>
+      <H1>{isReplying ? "Reply to comment" : "Add a Comment"}</H1>
       <Container>
-        {!candidateOrReply ? (
+        {isReplying && (
           <>
             <CommentBody>
               <BComment>
@@ -403,8 +405,6 @@ return (
               }}
             />
           </>
-        ) : (
-          <></>
         )}
         <div className="w-100 col">
           <Widget
@@ -429,7 +429,7 @@ return (
               Button: {
                 text: "Cancel",
                 className: "secondary dark",
-                onClick: props.onClickCancel,
+                onClick: onCloseModal,
               },
             }}
           />
