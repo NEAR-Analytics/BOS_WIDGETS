@@ -53,21 +53,16 @@ const UploadButton = styled.button`
 
 State.init({
   file: null,
+  onChange: (files) => {
+    let file = files[0];
+
+    if (file) {
+      State.update({
+        file: file,
+      });
+    }
+  },
 });
-
-const updateState = (file) => {
-  State.update({
-    file: file,
-  });
-};
-
-const filesOnChange = (files) => {
-  let file = files[0];
-
-  if (file) {
-    updateState(file);
-  }
-};
 
 console.log("re-render", state.file);
 
@@ -84,7 +79,7 @@ return (
         <Files
           className="d-flex flex-column align-items-center justify-content-center w-100 rounded py-5"
           style={{ cursor: "pointer", border: "solid 1px dash #000" }}
-          onChange={filesOnChange}
+          onChange={state.onChange}
           clickable
           multiple={false}
         >
