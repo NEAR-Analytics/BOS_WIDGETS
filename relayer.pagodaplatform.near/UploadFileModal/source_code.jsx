@@ -58,7 +58,10 @@ State.init({
 
     if (file) {
       State.update({
-        file: file,
+        file: {
+          name: file.name,
+          file: file,
+        },
       });
     }
   },
