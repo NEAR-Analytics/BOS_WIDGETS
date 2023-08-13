@@ -154,13 +154,13 @@ return (
           }}
         />
       ) : (
-        <div>
+        <Flex>
           {!profile ? (
             <div className="m-5">
               <Widget src="rc-dao.near/widget/pro.editor" />
             </div>
           ) : (
-            <div className="mb-5">
+            <div>
               <Widget
                 src="rc-dao.near/widget/rc.profile.card"
                 props={{
@@ -188,7 +188,7 @@ return (
               />
             </div>
           )}
-        </div>
+        </Flex>
       )}
     </Flex>
     <hr />
