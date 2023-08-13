@@ -99,6 +99,16 @@ const formContent = () => {
         </div>
         {props?.content && props.content()}
       </FormBackground>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          backgroundColor: "white",
+          height: 100,
+          width: "100vw",
+        }}
+      ></div>
     </>
   );
 };
