@@ -18,10 +18,6 @@ const Modal = styled.div`
     width: 50%;
     background-color: #D9D9D9;
     cursor: default;
-
-    :hover{
-      opacity: 0.8
-    }
 `;
 
 const CloseButton = styled.div`
@@ -68,7 +64,7 @@ return (
       <div className="d-flex align-items-center justify-content-center w-75 bg-white rounded">
         <Files
           className="d-flex flex-column align-items-center justify-content-center w-100 rounded py-5"
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", border: "solid 1px dash #000" }}
           onChange={filesOnChange}
         >
           <div className="d-flex flex-column align-items-center justify-content-center">
