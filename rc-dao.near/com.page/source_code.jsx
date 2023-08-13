@@ -89,11 +89,11 @@ const Text = styled.p`
 
 const Flex = styled.div`
   display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  gap: ${(p) => p.gap};
+  align-items: ${(p) => p.alignItems};
+  justify-content: ${(p) => p.justifyContent};
+  flex-direction: ${(p) => p.direction ?? "row"};
+  flex-wrap: ${(p) => p.wrap ?? "nowrap"};
   max-width: 80%;
 `;
 
@@ -108,13 +108,14 @@ const Container = styled.div`
 
   @media (max-width: 480px) {
     max-width: 80%;
-    align-items: center;
+      align-items: center;
+
   }
 `;
 
 return (
   <Container center>
-    <Flex direction="column" alignItems="center">
+    <Flex gap="23px" direction="column" alignItems="center">
       <H1>
         Regional Communities
         <span>
@@ -156,11 +157,11 @@ return (
       ) : (
         <div>
           {!profile ? (
-            <div>
+            <Flex>
               <Widget src="rc-dao.near/widget/pro.editor" />
-            </div>
+            </Flex>
           ) : (
-            <div>
+            <Flex gap="12px" direction="column">
               <Widget
                 src="rc-dao.near/widget/rc.profile.card"
                 props={{
@@ -185,7 +186,7 @@ return (
                   accountId: orgId,
                 }}
               />
-            </div>
+            </Flex>
           )}
         </div>
       )}
