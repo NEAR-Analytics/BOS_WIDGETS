@@ -89,32 +89,40 @@ State.init({
 });
 
 const UserProfile = ({ secondary, ownerId }) => (
-  <UserProfileDiv
-    secondary={secondary}
-    className="d-flex justify-content-between align-items-center"
-  >
-    <div className="d-flex justify-content-between align-items-center w-100">
-      <div className="d-flex gap-2 align-items-center">
-        <Widget
-          src="mob.near/widget/ProfileImage"
-          props={{
-            accountId: ownerId,
-            imageClassName: "userImg rounded-circle",
-            style: {
-              width: secondary ? "24px" : "32px",
-              height: secondary ? "24px" : "32px",
-            },
-          }}
-        />
-        <StyledLink
+  <Widget
+    src="near/widget/AccountProfileOverlay"
+    props={{
+      accountId: kudo.receiver_id,
+      children: (
+        <UserProfileDiv
           secondary={secondary}
-          href={`https://near.org/near/widget/ProfilePage?accountId=${ownerId}`}
+          className="d-flex justify-content-between align-items-center"
         >
-          {ownerId}
-        </StyledLink>
-      </div>
-    </div>
-  </UserProfileDiv>
+          <div className="d-flex justify-content-between align-items-center w-100">
+            <div className="d-flex gap-2 align-items-center">
+              <Widget
+                src="mob.near/widget/ProfileImage"
+                props={{
+                  accountId: ownerId,
+                  imageClassName: "userImg rounded-circle",
+                  style: {
+                    width: secondary ? "24px" : "32px",
+                    height: secondary ? "24px" : "32px",
+                  },
+                }}
+              />
+              <StyledLink
+                secondary={secondary}
+                href={`https://near.org/near/widget/ProfilePage?accountId=${ownerId}`}
+              >
+                {ownerId}
+              </StyledLink>
+            </div>
+          </div>
+        </UserProfileDiv>
+      ),
+    }}
+  />
 );
 
 const trimMessage = (message) => {
