@@ -34,5 +34,5 @@ return inputComponent(
   props?.inputProps ?? {
     placeholder: "placeholder",
   },
-  labelProps ?? {}
+  props?.labelProps ?? {}
 );
