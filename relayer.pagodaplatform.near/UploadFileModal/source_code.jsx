@@ -1,6 +1,5 @@
 const Overlay = styled.div`
     position: absolute; /* Sit on top of the page content */
-    // ${props.modalState ? "display: block;" : "display: none;"}
     width: 100%; /* Full width (cover the whole page) */
     height: 100%; /* Full height (cover the whole page) */
     top: 0;
@@ -85,7 +84,6 @@ return (
           className="d-flex flex-column align-items-center justify-content-center w-100 rounded py-5"
           style={{ cursor: "pointer", border: "solid 1px dash #000" }}
           onChange={filesOnChange}
-          minFileSize={1}
           clickable
           multiple={false}
         >
