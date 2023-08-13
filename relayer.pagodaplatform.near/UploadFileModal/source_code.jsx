@@ -51,10 +51,16 @@ const filesOnChange = (files) => {
   }
 };
 
-console.log(state.file);
+const overlayTurnOff = (e) => {
+  let id = e.target.id;
+
+  if (id !== "overlay") {
+    props.turnOffModal;
+  }
+};
 
 return (
-  <Overlay onClick={props.turnOffModal}>
+  <Overlay id="overlay" onClick={overlayTurnOff}>
     <Modal className="rounded d-flex align-items-center flex-column pb-4">
       <div className="w-100 d-flex justify-content-end px-3">
         <CloseButton onClick={props.turnOffModal} className="fs-1">
