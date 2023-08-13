@@ -56,6 +56,7 @@ State.init({
 });
 
 const filesOnChange = (files) => {
+  console.log("change");
   let file = files[0];
 
   if (file) {
