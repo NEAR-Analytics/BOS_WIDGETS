@@ -63,11 +63,9 @@ const filesOnChange = (files) => {
       file,
     });
   }
-
-  console.log(file);
 };
 
-console.log("re-render");
+console.log("re-render", state.file);
 
 return (
   <Container>
