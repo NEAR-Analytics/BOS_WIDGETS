@@ -1,7 +1,6 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
-let name = Social.get(`${accountId}/profile/name`);
-name += name;
+const name = Social.get(`${accountId}/profile/name`);
 
 const postType = props.postType ?? "post";
 const link = props.link;
