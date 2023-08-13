@@ -12,6 +12,8 @@ let rawData = fetch(
 
 // data.body = data.body.sort((a, b) => new Date(a.MONTH) - new Date(b.MONTH));
 
+State.init({ setSortConfig: { key: null, direction: "asc" } });
+
 let Style = styled.div`
   .table-header {
     background-color: #000000; /* Set this to the desired dark color for the header */
@@ -171,6 +173,35 @@ const sortFns = {
   "DAU / MAU": (array) => array.sort((a, b) => a["DAU / MAU"] - b["DAU / MAU"]),
 };
 
+function sort_update(sortKey, direction) {
+  // Update the sort state
+  State.update({
+    setSortConfig: { key: sortKey, direction },
+  });
+}
+
+// Function to get the sorted nodes
+function getSortedNodes() {
+  // Get the current sort configuration from the state
+  const sortConfig = state.setSortConfig;
+
+  // Apply sorting if there's a sort key and direction
+  if (sortConfig && sortConfig.key && sortConfig.direction) {
+    const sortedNodes = [...nodes];
+    sortedNodes.sort((a, b) => {
+      if (a[sortConfig.key] < b[sortConfig.key]) {
+        return sortConfig.direction === "asc" ? -1 : 1;
+      }
+      if (a[sortConfig.key] > b[sortConfig.key]) {
+        return sortConfig.direction === "asc" ? 1 : -1;
+      }
+      return 0;
+    });
+    return sortedNodes;
+  }
+  return nodes; // Return original nodes if no sorting
+}
+
 return (
   <div className="bg-dark rounded-lg mb-12 overflow-hidden w-full">
     {data !== null ? (
@@ -181,7 +212,12 @@ return (
               {COLUMNS.map((column, index) => (
                 <th
                   key={index}
-                  className="text-white text-center font-semibold p-2 border-b border-gray-300"
+                  className="text-white text-center font-semibold p-2 border-b border-gray-300 cursor-pointer"
+                  onClick={() => {
+                    const direction =
+                      state.setSortConfig.direction === "asc" ? "desc" : "asc";
+                    sort_update(column.sort.sortKey, direction);
+                  }}
                 >
                   {column.label}
                 </th>
@@ -189,7 +225,7 @@ return (
             </tr>
           </thead>
           <tbody>
-            {nodes.map((row, rowIndex) => (
+            {getSortedNodes().map((row, rowIndex) => (
               <tr
                 key={rowIndex}
                 className={rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"}
