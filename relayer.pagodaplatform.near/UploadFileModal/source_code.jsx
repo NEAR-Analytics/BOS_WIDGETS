@@ -56,11 +56,14 @@ State.init({
 });
 
 const filesOnChange = (files) => {
-  console.log("change");
   let file = files[0];
 
   if (file) {
-    console.log("get here");
+    console.log(
+      {
+        file: file,
+      } === state
+    );
     State.update({
       file: file,
     });
