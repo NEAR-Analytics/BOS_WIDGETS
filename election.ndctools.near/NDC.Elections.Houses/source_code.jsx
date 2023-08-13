@@ -1,19 +1,4 @@
-let { houses, ids, electionContract, selectedHouse, votesLeft, urlProps } =
-  props;
-ids = ids ?? [1, 2, 3, 4];
-
-State.init({ houses: houses ?? [] });
-
-// for nominations (only 3 houses to display)
-if (!houses && electionContract) {
-  const contractHouses = [
-    Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-    Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-    Near.view(electionContract, "proposal", { prop_id: ids[2] }),
-  ];
-
-  State.update({ houses: contractHouses });
-}
+const { houses, selectedHouse, handleSelect, votesLeft, candidates } = props;
 
 const housesMapping = {
   CouncilOfAdvisors: {
@@ -28,19 +13,7 @@ const housesMapping = {
     title: "Transparency Commission",
     src: "https://bafkreihcog3rs2gj4wgwfixk6yqir7k3csyaqiqwcvm2gedlh6dlvr7ik4.ipfs.nftstorage.link",
   },
-  SetupPackage: {
-    title: "Budget Package",
-    src: "https://ipfs.near.social/ipfs/bafkreicljooupjpwmdlja2ocjg3sljvknlq5iriahqbqiwob635l2vszqa",
-  },
 };
-
-const Loader = () => (
-  <span
-    className="spinner-grow spinner-grow-sm me-1"
-    role="status"
-    aria-hidden="true"
-  />
-);
 
 const Small = styled.small`
   margin-top: 10px;
@@ -54,12 +27,6 @@ const H6 = styled.h6`
 
 const ImgContainer = styled.div`
   margin-right: 20px;
-
-  img {
-    border-radius: 50%;
-    height: 40px;
-    max-height: "40px";
-  }
 `;
 
 const CompletedIcon = styled.i`
@@ -73,46 +40,41 @@ const CompletedIcon = styled.i`
   }
 `;
 
-const ItemContainer = styled.a`
+const ItemContainer = styled.div`
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
   background: ${(props) => (props.selected ? "#4BA6EE" : "#fff")};
   color: ${(props) => (props.selected ? "white" : "inherit")};
-  text-decoration: none;
 
   &:hover {
-    text-decoration: none;
-    color: ${(props) => (props.selected ? "#fff" : "#000")};
     background: ${(props) => (props.selected ? "#4BA6EE" : "#fff")};
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   }
 `;
 
-const buildURL = (houseId) => {
-  const arr = [];
-  if (!urlProps) return "";
-
-  if (urlProps.ids) arr.push(`ids=${urlProps.ids}`);
-  if (urlProps.election_contract)
-    arr.push(`election_contract=${urlProps.election_contract}`);
-  if (urlProps.registry_contract)
-    arr.push(`registry_contract=${urlProps.registry_contract}`);
-  arr.push(`house=${houseId}`);
-
-  return "?" + arr.join("&");
-};
-
 const HouseItem = ({ house }) => (
   <ItemContainer
+    role="button"
     className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
-    href={buildURL(house.id)}
+    onClick={() => handleSelect(house)}
     selected={selectedHouse === house.id}
   >
     <div className="d-flex align-items-center">
       <ImgContainer>
-        <img
-          src={housesMapping[house.typ].src}
-          alt={housesMapping[house.typ].title}
+        <Widget
+          src="mob.near/widget/Image"
+          props={{
+            image: { url: housesMapping[house.typ].src },
+            alt: housesMapping[house.typ].title,
+            style: {
+              height: "40px",
+              objectFit: "cover",
+              maxHeight: "40px",
+              borderRadius: "50%",
+            },
+            fallbackUrl:
+              "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+          }}
         />
       </ImgContainer>
       <div>
@@ -120,6 +82,11 @@ const HouseItem = ({ house }) => (
         {votesLeft && (
           <Small>
             {votesLeft(house)} / {house.seats} votes left
+          </Small>
+        )}
+        {candidates && (
+          <Small>
+            {candidates} / {house.seats} candidates
           </Small>
         )}
       </div>
@@ -134,12 +101,22 @@ const HouseItem = ({ house }) => (
         )}
       </div>
     )}
+    {candidates && (
+      <div>
+        {candidates === house.seats && (
+          <CompletedIcon
+            className="bi bi-check-circle fs-5"
+            selected={selectedHouse === house.id}
+          />
+        )}
+      </div>
+    )}
   </ItemContainer>
 );
 
 return (
   <div>
-    {state.houses.map((house) => (
+    {houses.map((house) => (
       <HouseItem house={house} />
     ))}
   </div>
