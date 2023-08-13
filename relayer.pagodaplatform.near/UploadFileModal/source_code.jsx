@@ -59,7 +59,6 @@ const filesOnChange = (files) => {
   let file = files[0];
 
   if (file) {
-    console.log(state);
     State.update({
       file: file,
     });
