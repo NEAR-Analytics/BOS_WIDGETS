@@ -49,29 +49,7 @@ const AllSteps = [
 
 const formContent = () => {
   return (
-    <FormBackground>
-      <div
-        style={{
-          margin: "auto",
-          display: "flex",
-          alignItems: "center",
-          width: "fit-content",
-          justifyContent: "space-evently",
-        }}
-      >
-        {AllSteps.map((item, idx) => (
-          <div style={{ marginRight: 20 }}>
-            <Widget
-              src="harrydhillon.near/widget/Keypom.StepLabel"
-              props={{
-                stepNumber: idx + 1,
-                label: item.label,
-                active: item?.active,
-              }}
-            />
-          </div>
-        ))}
-      </div>
+    <>
       <Grid>
         <div style={{ padding: 10 }}>
           <Widget
@@ -183,7 +161,7 @@ const formContent = () => {
           />
         </div>
       </Grid>
-    </FormBackground>
+    </>
   );
 };
 
