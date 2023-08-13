@@ -153,7 +153,7 @@ return (
         </a>
       </Text>
       {!accountId ? (
-        <div>
+        <Flex>
           <Widget
             src="near/widget/DIG.Button"
             props={{
@@ -163,7 +163,7 @@ return (
               size: "large",
             }}
           />
-        </div>
+        </Flex>
       ) : (
         <div>
           {!profile ? (
