@@ -52,16 +52,6 @@ const formContent = () => {
     <FormBackground>
       <div
         style={{
-          width: "fit-content",
-          margin: "auto",
-          transform: "scale(0.8)",
-          marginTop: -65,
-        }}
-      >
-        <Widget src="harrydhillon.near/widget/Keypom.TicketLogo" />
-      </div>
-      <div
-        style={{
           margin: "auto",
           display: "flex",
           alignItems: "center",
