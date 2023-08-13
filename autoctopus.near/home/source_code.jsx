@@ -65,9 +65,10 @@ return (
           role="tabpanel"
           aria-labelledby="pills-posts-tab"
         >
-          <div className="col-lg-8 mx-auto">
-            <Widget src="autoctopus.near/widget/introduce"></Widget>
-          </div>
+          <h2>Function</h2>
+          <p>Automatically claim staking rewards from Octopus Network.</p>
+          <h2>How to access service</h2>
+          <Widget src="autoctopus.near/widget/charge"></Widget>
         </div>
         <div
           className="tab-pane fade"
