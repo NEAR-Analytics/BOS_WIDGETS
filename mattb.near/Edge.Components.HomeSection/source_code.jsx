@@ -108,11 +108,20 @@ const Content = styled.div`
         color:#fff;
         font-size:3rem;
         font-family:sans-serif;
+
+        .company {
+          font-family: Times New Roman;
+          border-bottom: 2px solid #fff;
+        }
     }
     p {
         font-size:1.2rem;
         color:#fff;
         margin:1.5rem;
+    }
+
+    h1 + p {
+      font-style:italic;
     }
 `;
 
@@ -122,8 +131,6 @@ const Details = styled.div`
     box-sizing:border-box;
     padding:.5rem;
     background-color:#fff;
-    border: 5px solid #fff;
-    border-radius:10px;
 
     div {
         display:flex;
@@ -150,7 +157,6 @@ const Button = styled.a`
     width:100%;
     padding:.5rem;
     max-width:150px;
-    border-radius:5px;
     box-shadow: 0 0 0 2px #000;
     border:2px solid #fff;
     text-decoration:none;
@@ -167,7 +173,9 @@ return (
     }}
   >
     <Content>
-      <h1>Edge Intelligence Summit 23</h1>
+      <h1>
+        <span className="company">EDGE</span> Intelligence Summit 23
+      </h1>
       <p>Global Hackathon</p>
       <Details>
         <div>
