@@ -94,9 +94,6 @@ const Flex = styled.div`
   justify-content: ${(p) => p.justifyContent};
   flex-direction: ${(p) => p.direction ?? "row"};
   flex-wrap: ${(p) => p.wrap ?? "nowrap"};
-    @media (max-width: 480px) {
-    max-width: 80%;
-  }
 `;
 
 const Container = styled.div`
