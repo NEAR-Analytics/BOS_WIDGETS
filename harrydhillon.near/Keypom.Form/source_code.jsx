@@ -86,7 +86,9 @@ const formContent = () => {
               },
             }}
           />
-          <Label style={{ marginLeft: -5 }}>Event dates *</Label>
+          <Label style={{ marginLeft: -5, fontWeight: "bold" }}>
+            Event dates *
+          </Label>
           <p style={{ fontSize: 12, color: "gray", marginTop: -5 }}>
             {state?.isSingleDateEvent
               ? " Please mention the date of your event"
@@ -113,6 +115,11 @@ const formContent = () => {
                   src="harrydhillon.near/widget/Keypom.Input"
                   props={{
                     label: "From",
+                    labelProps: {
+                      style: {
+                        fontWeight: "500",
+                      },
+                    },
                     inputProps: {
                       placeholder: "Select a date range",
                       value: state.date,
@@ -126,6 +133,11 @@ const formContent = () => {
                 src="harrydhillon.near/widget/Keypom.Input"
                 props={{
                   label: "To",
+                  labelProps: {
+                    style: {
+                      fontWeight: "500",
+                    },
+                  },
                   inputProps: {
                     placeholder: "Select a date range",
                     value: state.date,
@@ -161,15 +173,18 @@ const formContent = () => {
           />
         </div>
       </Grid>
+      <button>Submit</button>
     </>
   );
 };
 
 return (
-  <Widget
-    src="harrydhillon.near/widget/Keypom.TicketDropLayout"
-    props={{
-      content: formContent,
-    }}
-  />
+  <>
+    <Widget
+      src="harrydhillon.near/widget/Keypom.TicketDropLayout"
+      props={{
+        content: formContent,
+      }}
+    />
+  </>
 );
