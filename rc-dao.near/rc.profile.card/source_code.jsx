@@ -12,7 +12,6 @@ const Card = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  width: 100%;
   border-radius: 12px;
   background: #fff;
   border: 1px solid #eceef0;
@@ -26,13 +25,11 @@ const CardLeft = styled.div`
   display: flex;
   gap: 16px;
   align-items: center;
-  width: 100%;
   min-width: 0;
 
   > div {
     display: flex;
     flex-direction: column;
-    width: 100%;
     min-width: 0;
   }
 `;
