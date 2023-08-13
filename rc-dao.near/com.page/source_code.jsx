@@ -153,15 +153,17 @@ return (
         </a>
       </Text>
       {!accountId ? (
-        <Widget
-          src="near/widget/DIG.Button"
-          props={{
-            href: "https://near.org/signup",
-            label: "Create Account",
-            variant: "outline-dark",
-            size: "large",
-          }}
-        />
+        <div>
+          <Widget
+            src="near/widget/DIG.Button"
+            props={{
+              href: "https://near.org/signup",
+              label: "Create Account",
+              variant: "outline-dark",
+              size: "large",
+            }}
+          />
+        </div>
       ) : (
         <div>
           {!profile ? (
