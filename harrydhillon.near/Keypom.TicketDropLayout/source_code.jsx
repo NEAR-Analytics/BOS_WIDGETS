@@ -56,7 +56,7 @@ const AllSteps = [
 
 const componentsToRender = [
   <Widget src="harrydhillon.near/widget/Keypom.Form" />,
-  <></>,
+  <Widget src="harrydhillon.near/widget/Keypom.CollectInfo" />,
   <></>,
   <></>,
 ];
