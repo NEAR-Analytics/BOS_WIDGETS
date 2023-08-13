@@ -15,11 +15,10 @@ const Overlay = styled.div`
 const Container = styled.div`
     position: fixed; /* Sit on top of the page content */
     ${props.modalState ? "display: flex;" : "display: none;"}
-    display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw; /* Full width (cover the whole page) */
-    height: 100vh; /* Full height (cover the whole page) */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
     top: 0;
     left: 0;
     right: 0;
@@ -65,7 +64,7 @@ const filesOnChange = (files) => {
 };
 
 return (
-  <div>
+  <Container>
     <Overlay id="overlay" onClick={props.turnOffModal} />
     <Modal className="rounded d-flex align-items-center flex-column pb-4 position-absolute top-50 start-50 translate-middle">
       <div className="w-100 d-flex justify-content-end px-3">
@@ -99,5 +98,5 @@ return (
         <UploadButton className="btn px-5 py-2 mt-3">Upload</UploadButton>
       </div>
     </Modal>
-  </div>
+  </Container>
 );
