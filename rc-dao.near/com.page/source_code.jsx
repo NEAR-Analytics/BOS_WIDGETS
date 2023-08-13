@@ -28,7 +28,6 @@ const H1 = styled.h1`
   text-align: center;
   letter-spacing: -0.03em;
   color: #000;
-  margin: 8px;
   max-width: 700px;
 
   span {
@@ -64,7 +63,7 @@ const H1 = styled.h1`
   @media (max-width: 480px) {
     font-size: 50px;
     max-width: 80%;
-    line-height: 1.2;
+      line-height: 1.2;
 
 
     span {
@@ -73,7 +72,7 @@ const H1 = styled.h1`
         position: absolute;
         bottom: -5px;
         right: -5px;
-        width: 14px;
+        width: 15px;
       }
     }
   }
@@ -124,7 +123,7 @@ const Container = styled.div`
 return (
   <Container center>
     <Flex gap="23px" direction="column" alignItems="center">
-      <H1 style={!accountId ? { textAlign: "center", margin: "0 auto" } : {}}>
+      <H1>
         Regional Communities
         <span>
           DAO{" "}
