@@ -94,10 +94,14 @@ const Flex = styled.div`
   justify-content: ${(p) => p.justifyContent};
   flex-direction: ${(p) => p.direction ?? "row"};
   flex-wrap: ${(p) => p.wrap ?? "nowrap"};
+    @media (max-width: 480px) {
+    max-width: 80%;
+  }
 `;
 
 const Container = styled.div`
   display: flex;
+  max-width: 80%;
   margin: 0 auto;
   flex-direction: column;
   align-items: center;
