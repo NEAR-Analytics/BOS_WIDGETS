@@ -1,4 +1,4 @@
-const hashtag = props.hashtag;
+const hashtag = "bacinc";
 
 if (!state || state.hashtag !== hashtag) {
   State.update({
