@@ -44,7 +44,7 @@ const Jumbotron = styled.div`
     background-position:center;
     background-size:auto 100%;
     background-repeat:no-repeat;
-    box-shadow: inset 0 10px 100px 100px rgba(255,255,255,1);
+    box-shadow: inset 0 10px 300px 100px rgba(255,255,255,1);
     animation-name: move;
     animation-duration:10s;
     animation-iteration-count:infinite;
@@ -88,7 +88,7 @@ const Jumbotron = styled.div`
       position:absolute;
       top:0;
       left:0;
-      background-color:rgba(0,0,0,.3);
+      background-color:rgba(0,0,0,.6);
       width:100%;
       height:100%;
       backdrop-filter:invert(100%);
@@ -121,10 +121,9 @@ const Details = styled.div`
     width:100%;
     box-sizing:border-box;
     padding:.5rem;
-    background-color:#000;
+    background-color:#fff;
+    border: 5px solid #fff;
     border-radius:10px;
-    box-shadow: 0 0 0 3px rgba(255,255,255,.2);
-    border: 5px solid #000;
 
     div {
         display:flex;
@@ -133,31 +132,31 @@ const Details = styled.div`
 
         flex-grow:1;
         p {
-            color:#fff;
+            color:#000;
             margin:0;
             padding:0;
         }
         margin-right:15px;
         padding-right:10px;
-        border-right:1px solid rgba(255,255,255,.2);
+        border-right:1px solid rgba(0,0,0,.2);
     }
 `;
 
 const Button = styled.a`
     align-items:center;
     justify-content:center;
-    background-color:#fff;
-    color:#000;
+    background-color:#000;
+    color:#fff;
     width:100%;
     padding:.5rem;
     max-width:150px;
     border-radius:5px;
-    box-shadow: 0 0 0 2px #fff;
-    border:2px solid #000;
+    box-shadow: 0 0 0 2px #000;
+    border:2px solid #fff;
     text-decoration:none;
 
     &:hover, &:focus {
-      color:#000;
+      color:#fff;
     }
 `;
 
