@@ -168,7 +168,7 @@ return (
             </Flex>
           ) : (
             <Flex gap="12px" direction="column" alignItems="center">
-              <div style={{ maxWidth: "85%" }}>
+              <div style={{ maxWidth: "70%" }}>
                 <Widget
                   src="rc-dao.near/widget/rc.profile.card"
                   props={{
