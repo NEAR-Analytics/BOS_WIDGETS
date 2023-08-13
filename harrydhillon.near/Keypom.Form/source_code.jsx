@@ -178,13 +178,4 @@ const formContent = () => {
   );
 };
 
-return (
-  <>
-    <Widget
-      src="harrydhillon.near/widget/Keypom.TicketDropLayout"
-      props={{
-        content: formContent,
-      }}
-    />
-  </>
-);
+return formContent();
