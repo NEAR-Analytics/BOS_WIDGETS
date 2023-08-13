@@ -64,7 +64,7 @@ return (
           {data.map((item, index) => (
             <TableRow key={index}>
               <TableCell>{item.question}</TableCell>
-              <TableCell>{item.isRequired ? "Yes" : "No"}</TableCell>
+              <TableCell></TableCell>
               <TableCell>
                 <ActionButton>
                   <svg
