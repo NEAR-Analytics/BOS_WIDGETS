@@ -96,8 +96,6 @@ const Wrapper = styled.div`
       width: calc(33% - 1rem);
     }
   }
-  max-width: 600px; // Limit the maximum width
-  margin: 0 auto;    // Center the content
 `;
 
 const renderUserRow = (user, roles, i) => {
@@ -335,8 +333,8 @@ const users = !state.filterByRole
 const limitedUsers = users.slice(0, state.usersToShow);
 
 return (
-  <Wrapper className="d-flex flex-column gap-4">
-    <div className="d-flex gap-4 flex-column">
+  <Wrapper className="d-flex flex-column gap-2">
+    <div className="d-flex gap-2 flex-column">
       {limitedUsers.map((user, i) =>
         renderUserRow(user, policy.users[user], i)
       )}
