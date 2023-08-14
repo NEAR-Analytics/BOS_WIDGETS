@@ -175,6 +175,8 @@ return (
         items: tabs,
       }}
     />
-    <div className="col ms-sm-4 ps-lg-5 py-3 py-md-5">{tabContent}</div>
+    <div className="col ms-sm-4 ps-lg-5 py-3 py-md-5">
+      {tabContent}
+    </div>
   </Root>
 );
