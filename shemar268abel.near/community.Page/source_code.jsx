@@ -40,9 +40,9 @@ return (
         ♥ Share ideas, connect with people, and get involved! ♥
       </div>
     </Gradient>
-    <Widget
+    {/*<Widget
       src="shemar268abel.near/widget/DAOs.Card"
       props={{ daoId: "marmaj-research.sputnik-dao.near" }}
-    />
+    />*/}
   </div>
 );
