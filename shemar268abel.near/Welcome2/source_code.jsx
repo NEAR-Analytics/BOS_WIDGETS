@@ -80,7 +80,10 @@ return (
     </div>
     <Widget src="shemar268abel.near/widget/DAO.Funds.index" />
     <div className="text-bg-light rounded-4 p-3 mb-3">
-      <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
+      <Widget
+        src="shemar268abel.near/widget/DAO.Members.index"
+        props={{ daoId }}
+      />
     </div>
     {/*<div className="text-bg-light rounded-4 p-3 mb-3">
       <Widget
