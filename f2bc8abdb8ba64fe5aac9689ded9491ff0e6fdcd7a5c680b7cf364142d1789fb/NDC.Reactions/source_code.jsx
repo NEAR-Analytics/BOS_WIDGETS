@@ -257,6 +257,10 @@ function reactListener(emojiMessage) {
   // });
 }
 
+function reactionsStateUpdate(obj) {
+  State.update(obj);
+}
+
 function showWhenCalled(objText) {
   return state.showReactionsListModal == objText
     ? { display: "block", backdropFilter: "blur(3px)", cursor: "auto" }
@@ -424,28 +428,33 @@ const renderReaction = (item, isInButton) => {
 };
 
 return (
-  <EmojiWrapper>
-    {!state.reactionsData.userReaction ? (
-      <Button
-        onMouseEnter={handleOnMouseEnter}
-        onMouseLeave={handleOnMouseLeave}
-      >
-        {state.loading && <Spinner />}
-        {initialEmoji}
-      </Button>
-    ) : (
-      <SmallReactButton>
-        {state.loading && <Spinner />}
-        {state.reactionsData.reactionsStatistics &&
-          state.reactionsData.reactionsStatistics.map((item) =>
-            renderReaction(item, true)
-          )}
-      </SmallReactButton>
-    )}
-    <Overlay />
-    {state.reactionsData.reactionsStatistics &&
-      state.reactionsData.reactionsStatistics.map((item) =>
-        renderReaction(item, false)
+  <>
+    <EmojiWrapper>
+      {!state.reactionsData.userReaction ? (
+        <Button
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseLeave}
+        >
+          {state.loading && <Spinner />}
+          {initialEmoji}
+        </Button>
+      ) : (
+        <SmallReactButton>
+          {state.loading && <Spinner />}
+          {state.reactionsData.reactionsStatistics &&
+            state.reactionsData.reactionsStatistics.map((item) =>
+              renderReaction(item, true)
+            )}
+        </SmallReactButton>
       )}
-  </EmojiWrapper>
+      <Overlay />
+      {state.reactionsData.reactionsStatistics &&
+        state.reactionsData.reactionsStatistics.map((item) =>
+          renderReaction(item, false)
+        )}
+    </EmojiWrapper>
+    <div style={{ display: "none" }}>
+      {callLibs(libSrcArray, reactionsStateUpdate, state.libCalls)}
+    </div>
+  </>
 );
