@@ -80,10 +80,10 @@ const Wrapper = styled.div`
   .right {
     margin-top: -4px;
     flex-grow: 1;
-    overflow: hidden;
   }
 
   .buttons {
+    margin-left: -8px;
     margin-top: 2px;
     column-gap: 4px;
     button {
