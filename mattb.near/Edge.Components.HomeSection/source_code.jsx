@@ -7,7 +7,7 @@ const Jumbotron = styled.div`
     align-items:center;
     justify-content:center;
     width:100%;
-    height:100vh;
+    height:80vh;
     background-position:center;
     background-size:cover;
     background-repeat:no-repeat;
@@ -30,7 +30,7 @@ const Content = styled.div`
 
     h1 {
         color:#000;
-        font-size:3rem;
+        font-size:3.75rem;
         font-family:sans-serif;
 
         .company {
@@ -39,7 +39,7 @@ const Content = styled.div`
         }
     }
     p {
-        font-size:1.2rem;
+        font-size:1.25rem;
         color:#000;
         margin:1.5rem;
     }
