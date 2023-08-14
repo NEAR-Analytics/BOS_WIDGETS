@@ -51,6 +51,8 @@ const UploadButton = styled.button`
   }
 `;
 
+console.log(props);
+
 State.init({
   file: null,
   onChange: (files) => {
