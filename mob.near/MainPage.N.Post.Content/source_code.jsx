@@ -17,7 +17,7 @@ return content ? (
                 className="d-inline-flex"
                 style={{ fontWeight: 500 }}
               >
-                <a href={`#/?hashtag=${hashtag}`}>#{hashtag}</a>
+                <a href={`/?hashtag=${hashtag}`}>#{hashtag}</a>
               </span>
             ),
           }}
