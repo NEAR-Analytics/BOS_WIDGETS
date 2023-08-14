@@ -110,12 +110,10 @@ return (
             flagItem: item,
           }}
         />
-        <div className="text-break">
-          <Widget
-            src="mob.near/widget/MainPage.Post.Content"
-            props={{ content, raw }}
-          />
-        </div>
+        <Widget
+          src="mob.near/widget/MainPage.N.Post.Content"
+          props={{ content, raw }}
+        />
         {blockHeight !== "now" && (
           <div className="buttons d-flex justify-content-between">
             <Widget
