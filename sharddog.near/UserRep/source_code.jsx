@@ -26,7 +26,6 @@ const handleWalletChange = (event) => {
 };
 
 function fetchData() {
-  //console.log("getData");
   asyncFetch("https://auth.shard.dog/wallet/" + state.wallet, {
     method: "GET",
   }).then((res) => {
@@ -36,6 +35,10 @@ function fetchData() {
       // console.log(res);
     }
   });
+}
+
+function clearData() {
+  State.update({ wallet: "", data: null });
 }
 
 function isEmpty(obj) {
@@ -52,7 +55,6 @@ if ((!state.data && state.wallet.trim() === "") || state.data === null) {
           activity
         </i>
       </small>
-
       <Widget
         src={widgets.filter}
         props={{
@@ -61,8 +63,8 @@ if ((!state.data && state.wallet.trim() === "") || state.data === null) {
           placeholder: "Search by wallet",
         }}
       />
-
-      <button onClick={fetchData}>Get Rep</button>
+      <button onClick={fetchData}>Get Rep</button>{" "}
+      <button onClick={clearData}>Clear</button>
     </div>
   );
 }
@@ -198,7 +200,7 @@ const numFollowers = followers ? Object.keys(followers || {}).length : 0;
 
 function getKudos(wallet) {
   let data = Social.getr("kudos.ndctools.near/kudos/" + wallet);
-  console.log(data);
+  //console.log(data);
   let countK = 0;
   let countD = 0;
   if (data != undefined) {
@@ -210,8 +212,23 @@ function getKudos(wallet) {
       }
     });
   }
-  console.log(countK);
+  //console.log(countK);
   return { countK, countD };
+}
+
+function getSBT(wallet) {
+  const getFirstSBTToken = () => {
+    const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+      account: wallet,
+      issuer: "fractal.i-am-human.near",
+    });
+    return view?.[0]?.[1]?.[0];
+  };
+
+  if (getFirstSBTToken(state.wallet) !== undefined) {
+    return "Yes";
+  }
+  return "No";
 }
 
 return (
@@ -236,9 +253,9 @@ return (
         placeholder: "Search by wallet",
       }}
     />
-    <button onClick={fetchData}>Get Rep</button>
+    <button onClick={fetchData}>Get Rep</button>{" "}
+    <button onClick={clearData}>Clear</button>
     <br />
-
     <div style={cardStyle}>
       <div className="center-box">
         <div style={container}>
@@ -263,7 +280,8 @@ return (
         </div>
         <p style={{ justifyContent: "center", alignItems: "center" }}>
           Account Created: {getCreateDate(creationTimestamp)} <br />
-          Current Balance: {parsedBalance(currentBalance)}N
+          Current Balance: {parsedBalance(currentBalance)}N<br />
+          Fractal Verified: {getSBT(state.wallet)}
         </p>
         <table style={tableStyle}>
           <thead>
