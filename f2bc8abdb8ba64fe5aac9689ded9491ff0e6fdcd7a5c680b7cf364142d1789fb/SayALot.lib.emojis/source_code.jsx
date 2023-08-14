@@ -33,8 +33,7 @@ function composeReactionData(reaction) {
 }
 
 function saveReaction(reaction, onCommit, onCancel) {
-  console.log("in saveReaction: ", reaction);
-  if (reaction.emoji) {
+  if (reaction) {
     const newData = composeReactionData(reaction);
 
     Social.set(newData, {
