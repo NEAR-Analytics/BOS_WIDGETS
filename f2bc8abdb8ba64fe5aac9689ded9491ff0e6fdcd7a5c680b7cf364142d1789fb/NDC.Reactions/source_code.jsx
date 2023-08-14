@@ -1,7 +1,7 @@
 const { isTest, authorForWidget } = props;
 
 // Don't forget to put space between emoji and text -> "❤️ Positive"
-const initialEmoji = "🤍 REACTION";
+const initialEmoji = "🤍 Like";
 // It is important that 'Heart' Positive emoji is first
 const emojiArray = [
   "❤️ Positive",
@@ -9,7 +9,7 @@ const emojiArray = [
   "💯 Definitely",
   "👀 Thinking",
   "🔥 Awesome",
-  "👍 REACTION",
+  "👍 Like",
   "🙌 Celebrate",
   "👏 Applause",
   "⚡ Lightning",
