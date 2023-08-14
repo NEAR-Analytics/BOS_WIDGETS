@@ -5,7 +5,7 @@ const renderMention =
     <span
       key={accountId}
       className="d-inline-flex"
-      style={{ fontWeight: 500, color: "var(--bs-link-color)" }}
+      style={{ color: "var(--bs-link-color)" }}
     >
       <Widget
         src="mob.near/widget/N.ProfileLine"
