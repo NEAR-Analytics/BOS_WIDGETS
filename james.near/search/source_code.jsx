@@ -295,7 +295,7 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
 
 return (
   <Wrapper>
-    <br />
+    <h1>discover bos</h1>
     {showSearchBar && (
       <Widget
         src="james.near/widget/search.input"
