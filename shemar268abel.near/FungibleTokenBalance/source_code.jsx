@@ -19,7 +19,6 @@ const _root = styled.div`
   font-family: Poppins, sans-serif;
   border-radius: 12px;
   border: 1.5px solid #e6e6e6;
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
 
   p {
     font-size: 14px;
