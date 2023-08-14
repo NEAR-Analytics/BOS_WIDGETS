@@ -352,7 +352,7 @@ return (
           cursor: "pointer",
           color: "#000",
         }}
-        onClick={() => State.update({ usersToShow: state.usersToShow + 5 })}
+        onClick={() => State.update({ usersToShow: state.usersToShow + 3 })}
       >
         Show More
       </button>
