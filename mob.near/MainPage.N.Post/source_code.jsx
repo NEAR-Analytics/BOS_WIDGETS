@@ -80,6 +80,7 @@ const Wrapper = styled.div`
   .right {
     margin-top: -4px;
     flex-grow: 1;
+    overflow: hidden;
   }
 
   .buttons {
