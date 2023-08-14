@@ -124,7 +124,7 @@ const FloatingButton = styled.button`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: #64a19d;
+  background-color: #185AC4;
   border: none;
   outline: none;
   cursor: pointer;
@@ -438,7 +438,7 @@ return (
               left: "2%",
               bottom: "2%",
               zIndex: 102,
-              backgroundColor: "#64a19d",
+              backgroundColor: "#185AC4",
               width: "12",
               height: "12",
             }}
