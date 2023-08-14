@@ -1,4 +1,5 @@
 const { isTest, authorForWidget, elementReactedId } = props;
+console.log("0 elementReactedId: ", elementReactedId);
 
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
