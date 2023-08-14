@@ -3,8 +3,8 @@ const Box = styled.div`
     box-sizing:border-box;
     width:100%;
     min-height:50vh;
-    background-color:#000;
-    color:#fff;
+    background-color:#fff;
+    color:#000;
 
     .title, .subtitle {
         font-family: Times New Roman;
@@ -27,7 +27,7 @@ const Box = styled.div`
         .company {
             font-family: Times New Roman;
             font-weight:bold;
-            border-bottom: 1px solid rgba(255,255,255,1);
+            border-bottom: 1px solid rgba(0,0,0,1);
         }
     }
 `;
