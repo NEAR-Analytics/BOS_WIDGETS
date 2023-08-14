@@ -132,19 +132,6 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper className="ndc-card p-4 d-flex flex-column gap-2 h-100">
-    <Widget
-      src="nui.sking.near/widget/Element.User"
-      props={{
-        accountId: daoId,
-        href: "#/astro.sking.near/widget/DAO?daoId=" + daoId,
-      }}
-    />
-    <p className="text-muted overflow-hidden small my-3 mx-1">
-      {shorten(profile?.description || "", 80)}
-      {profile !== null &&
-        (!profile?.description || profile?.description?.length < 1) &&
-        "No description"}
-    </p>
     <div className="d-grid justify-content-between text-center dao-card-stats mb-3 mt-auto">
       <p>DAO Funds</p>
       <p>Members/Groups</p>
