@@ -51,22 +51,6 @@ function href(widgetName, linkProps) {
   }${linkPropsQuery}`;
 }
 /* END_INCLUDE: "common.jsx" */
-/* INCLUDE: "core/lib/gui/navigation" */
-const NavUnderline = styled.ul`
-  border-bottom: 1px #eceef0 solid;
-
-  a {
-    color: #687076;
-    text-decoration: none;
-  }
-
-  a.active {
-    font-weight: bold;
-    color: #0c7283;
-    border-bottom: 4px solid #0c7283;
-  }
-`;
-/* END_INCLUDE: "core/lib/gui/navigation" */
 /* INCLUDE: "core/lib/struct" */
 const Struct = {
   deepFieldUpdate: (
@@ -124,22 +108,36 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  has_moderator: ({ account_id }) =>
-    Near.view(devHubAccountId, "has_moderator", { account_id }) ?? null,
-
-  edit_community: ({ handle, community }) =>
-    Near.call(devHubAccountId, "edit_community", { handle, community }),
-
-  delete_community: ({ handle }) =>
-    Near.call(devHubAccountId, "delete_community", { handle }),
-
   edit_community_github: ({ handle, github }) =>
     Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
     null,
 
-  edit_community_board: ({ handle, board }) =>
-    Near.call(devHubAccountId, "edit_community_board", { handle, board }) ??
+  create_workspace: ({ author_community_handle, metadata }) =>
+    Near.call(devHubAccountId, "create_workspace", {
+      author_community_handle,
+      metadata,
+    }) ?? null,
+
+  delete_workspace: ({ id }) =>
+    Near.call(devHubAccountId, "delete_workspace", { id }) ?? null,
+
+  update_workspace_metadata: ({ metadata }) =>
+    Near.call(devHubAccountId, "update_workspace_metadata", { metadata }) ??
     null,
+
+  get_workspace_views_metadata: ({ workspace_id }) =>
+    Near.view(devHubAccountId, "get_workspace_views_metadata", {
+      workspace_id,
+    }) ?? null,
+
+  create_workspace_view: ({ view }) =>
+    Near.call(devHubAccountId, "create_workspace_view", { view }) ?? null,
+
+  update_workspace_view: ({ view }) =>
+    Near.call(devHubAccountId, "update_workspace_view", { view }) ?? null,
+
+  delete_workspace_view: ({ id }) =>
+    Near.call(devHubAccountId, "delete_workspace_view", { id }) ?? null,
 
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
@@ -194,6 +192,10 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 /* INCLUDE: "entity/viewer" */
+const access_control_info = DevHub.useQuery({
+  name: "access_control_info",
+});
+
 const Viewer = {
   can: {
     editCommunity: (communityData) =>
@@ -202,21 +204,50 @@ const Viewer = {
         Viewer.role.isDevHubModerator),
   },
 
-  communityPermissions: ({ handle }) =>
-    DevHub.useQuery("account_community_permissions", {
-      account_id: context.account_id,
-      community_handle: handle,
-    }).data ?? {
-      can_configure: false,
-      can_delete: false,
-    },
+  workspacePermissions: (workspaceId) => {
+    const workspace_id = parseInt(workspaceId);
+
+    const defaultPermissions = { can_configure: false };
+
+    return !isNaN(workspace_id)
+      ? Near.view(devHubAccountId, "get_account_workspace_permissions", {
+          account_id: context.accountId,
+          workspace_id: workspace_id,
+        }) ?? defaultPermissions
+      : defaultPermissions;
+  },
 
   role: {
     isDevHubModerator:
-      DevHub.has_moderator({ account_id: context.accountId }) ?? false,
+      access_control_info.data === null || access_control_info.isLoading
+        ? false
+        : access_control_info.data.members_list[
+            "team:moderators"
+          ]?.children?.includes?.(context.accountId) ?? false,
   },
 };
 /* END_INCLUDE: "entity/viewer" */
+
+const Header = styled.div`
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 25px;
+`;
+
+const NavUnderline = styled.ul`
+  border-bottom: 1px #eceef0 solid;
+
+  a {
+    color: #687076;
+    text-decoration: none;
+  }
+
+  a.active {
+    font-weight: bold;
+    color: #0c7283;
+    border-bottom: 4px solid #0c7283;
+  }
+`;
 
 const Button = styled.button`
   height: 40px;
@@ -228,8 +259,16 @@ const Button = styled.button`
 const Banner = styled.div`
   max-width: 100%;
   width: 1320px;
-  min-height: 240px;
   height: 240px;
+`;
+
+const LogoImage = styled.img`
+  top: -50px;
+`;
+
+const SizedDiv = styled.div`
+  width: 150px;
+  height: 100px;
 `;
 
 const CommunityHeader = ({ activeTabTitle, handle }) => {
@@ -269,9 +308,9 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
     },
 
     {
-      iconClass: "bi bi-kanban-fill",
-      route: "community.board",
-      title: "Board",
+      iconClass: "bi bi-coin",
+      route: "community.sponsorship",
+      title: "Sponsorship",
     },
 
     {
@@ -292,7 +331,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
   ];
 
   return (
-    <div className="d-flex flex-column gap-3 bg-white">
+    <Header className="d-flex flex-column gap-3">
       <Banner
         className="object-fit-cover"
         style={{
@@ -303,36 +342,41 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
       <div className="d-md-flex d-block justify-content-between container">
         <div className="d-md-flex d-block align-items-end">
           <div className="position-relative">
-            <div style={{ width: 150, height: 100 }}>
-              <img
+            <SizedDiv>
+              <LogoImage
+                src={community.data.logo_url}
                 alt="Community logo"
-                className="border border-3 border-white rounded-circle shadow position-absolute"
                 width="150"
                 height="150"
-                src={community.data.logo_url}
-                style={{ top: -50 }}
+                className="border border-3 border-white rounded-circle shadow position-absolute"
               />
-            </div>
+            </SizedDiv>
           </div>
 
-          <div className="d-flex flex-column ps-3 pt-3 pb-2">
-            <span className="h1 text-nowrap">{community.data.name}</span>
-            <span className="text-secondary">{community.data.description}</span>
+          <div>
+            <div className="h1 pt-3 ps-3 text-nowrap">
+              {community.data.name}
+            </div>
+
+            <div className="ps-3 pb-2 text-secondary">
+              {community.data.description}
+            </div>
           </div>
         </div>
 
         <div className="d-flex align-items-end gap-3">
-          {widget("components.atom.button", {
-            classNames: {
-              root: "btn-outline-primary",
-              adornment: "bi bi-gear-wide-connected",
-            },
-
-            href: href("community.configure", { handle }),
-            isHidden: !Viewer.communityPermissions({ handle }).can_configure,
-            label: "Configure community",
-            type: "link",
-          })}
+          {Viewer.can.editCommunity(community.data) ? (
+            <a
+              href={href("community.edit-info", { handle })}
+              className={[
+                "d-flex align-items-center gap-2 border border-1 rounded-pill px-3 py-2",
+                "text-decoration-none text-dark text-nowrap font-weight-bold fs-6",
+              ].join(" ")}
+            >
+              <i className="bi bi-gear" />
+              <span>Edit information</span>
+            </a>
+          ) : null}
 
           <OverlayTrigger
             placement="top"
@@ -387,7 +431,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
           ) : null
         )}
       </NavUnderline>
-    </div>
+    </Header>
   );
 };
 
