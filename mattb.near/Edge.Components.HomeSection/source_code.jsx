@@ -2,31 +2,6 @@ const BACKGROUND_URL =
   "https://ipfs.near.social/ipfs/bafkreicu37fvfmegp3xealyvr7pihrzb7yif7xq2ihovbdhbo4zmrhwhuu";
 
 const Jumbotron = styled.div`
-    @keyframes move {
-      0% {
-        box-shadow: inset 0 0 20vw 5vw rgba(255,255,255,1);
-      }
-      20% {
-        box-shadow: inset 0 10vw 20vw 5vw rgba(255,255,255,1);
-      }
-
-      25% {
-        box-shadow: inset 0 20vw 20vw 5vw rgba(255,255,255,1);
-      }
-      
-      35% {
-        box-shadow: inset 0 0 5vw 5vw rgba(255,255,255,1);
-      }
-
-      40% {
-        box-shadow: inset 0 0 15vw 5vw rgba(255,255,255,1);
-      }
-
-      50% {
-        box-shadow: inset 0 0 10vw 5vw rgba(255,255,255,1);
-      }
-    }
-
     position:relative;
     display:flex;
     align-items:center;
@@ -36,46 +11,9 @@ const Jumbotron = styled.div`
     background-position:center;
     background-size:cover;
     background-repeat:no-repeat;
-    box-shadow: inset 0 0 20vw 5vw rgba(255,255,255,1);
-    animation-name:move;
-    animation-duration:10s;
-    animation-iteration-count:infinite;
-    animation-fill-mode:both;
-    animation-direction: alternate;
+    box-shadow: inset 0 2vw 20vw 10vw rgba(255,255,255,1);
 
     &:after {
-      @keyframes decolorize {
-      0% {
-        backdrop-filter:invert(100%);
-      }
-      20% {
-        backdrop-filter:invert(90%);
-      }
-
-      25% {
-        backdrop-filter:invert(95%);
-      }
-      
-      35% {
-        backdrop-filter:invert(90%);
-      }
-
-      40% {
-        backdrop-filter:invert(80%);
-      }
-
-      50% {
-        backdrop-filter:invert(100%);
-      }
-
-      55% {
-        backdrop-filter:invert(70%);
-      }
-
-      58% {
-        backdrop-filter:invert(80%);
-      }
-    }
       content:'';
       position:absolute;
       top:0;
@@ -83,11 +21,6 @@ const Jumbotron = styled.div`
       background-color:rgba(255,255,255,.6);
       width:100%;
       height:100%;
-      backdrop-filter:invert(0%);
-      animation-duration:20s;
-      animation-iteration-count:infinite;
-      animation-fill-mode:both;
-      animation-direction: alternate;
     }
 `;
 
