@@ -425,12 +425,22 @@ return (
             >
               Created by
             </p>
-            <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
-              {state.owner.length > 12
-                ? state.owner.slice(0, 12) + "..."
-                : state.owner ||
-                  "genadrop-contract.nftgen.near".slice(0, 12) + "..." + "near"}
-            </span>
+            <a
+              target="_blank"
+              style={{ textDecoration: "none" }}
+              href={`https://explorer.near.org/?query=${
+                state.owner || "genadrop-contract.nftgen.near"
+              }`}
+            >
+              <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
+                {state.owner.length > 12
+                  ? state.owner.slice(0, 12) + "..."
+                  : state.owner ||
+                    "genadrop-contract.nftgen.near".slice(0, 12) +
+                      "..." +
+                      "near"}
+              </span>
+            </a>
           </div>
         </TopImageContainer>
         <RightSection>
