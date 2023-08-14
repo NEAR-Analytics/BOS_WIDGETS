@@ -13,12 +13,10 @@ const cssFont = fetch(
 
 const _root = styled.div`
   ${cssFont}
-  padding: 16px;
   width: 420px;
   height: 100%;
   font-family: Poppins, sans-serif;
   border-radius: 12px;
-  border: 1.5px solid #e6e6e6;
 
   p {
     font-size: 14px;
