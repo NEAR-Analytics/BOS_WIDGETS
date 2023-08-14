@@ -50,10 +50,12 @@ const renderPost = (a) => {
 const repostSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="16"
+    height="16"
     fill="currentColor"
-    viewBox="0 0 24 24"
+    viewBox="0 2 24 24"
+    stroke="currentColor"
+    strokeWidth="1"
   >
     <path
       fill-rule="evenodd"
@@ -96,23 +98,33 @@ const renderRepost = (a) => {
     <div key={JSON.stringify(a)}>
       <div
         className="text-muted"
-        style={{ paddingLeft: "40px", marginBottom: "-12px" }}
+        style={{
+          fontSize: "13px",
+          fontWeight: 700,
+          marginLeft: "24px",
+          marginBottom: "-8px",
+        }}
       >
-        {repostSvg} Reposted by{" "}
+        {repostSvg}{" "}
+        <span style={{ marginLeft: "8px" }}>
+          Reposted by{" "}
+          <Widget
+            src="mob.near/widget/N.ProfileLine"
+            props={{
+              accountId: a.accountId,
+              hideImage: true,
+              hideAccountId: true,
+              tooltip: true,
+            }}
+          />
+        </span>
+      </div>
+      <div className="reposted">
         <Widget
-          src="mob.near/widget/ProfileLine"
-          props={{
-            accountId: a.accountId,
-            hideImage: true,
-            hideAccountId: true,
-            tooltip: true,
-          }}
+          src="mob.near/widget/MainPage.N.Post"
+          props={{ accountId: post.accountId, blockHeight: post.blockHeight }}
         />
       </div>
-      <Widget
-        src="mob.near/widget/MainPage.N.Post"
-        props={{ accountId: post.accountId, blockHeight: post.blockHeight }}
-      />
     </div>
   );
 };
