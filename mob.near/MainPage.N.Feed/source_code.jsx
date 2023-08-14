@@ -102,7 +102,7 @@ const renderRepost = (a) => {
           fontSize: "13px",
           fontWeight: 700,
           marginLeft: "24px",
-          marginBottom: "-20px",
+          marginBottom: "-24px",
           paddingTop: "4px",
         }}
       >
