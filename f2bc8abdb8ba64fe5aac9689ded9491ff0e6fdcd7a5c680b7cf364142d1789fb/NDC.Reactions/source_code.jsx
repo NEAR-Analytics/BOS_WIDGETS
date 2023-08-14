@@ -1,7 +1,7 @@
-const { item, isTest } = props;
+const { isTest, authorForWidget } = props;
 
 // Don't forget to put space between emoji and text -> "❤️ Positive"
-const initialEmoji = "🤍 Like";
+const initialEmoji = "🤍 REACTION";
 // It is important that 'Heart' Positive emoji is first
 const emojiArray = [
   "❤️ Positive",
@@ -9,7 +9,7 @@ const emojiArray = [
   "💯 Definitely",
   "👀 Thinking",
   "🔥 Awesome",
-  "👍 Like",
+  "👍 REACTION",
   "🙌 Celebrate",
   "👏 Applause",
   "⚡ Lightning",
@@ -18,108 +18,143 @@ const emojiArray = [
 
 const accountThatIsLoggedIn = context.accountId;
 
-if (!item) {
-  return "";
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.emojis`];
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
 }
+
+const prodAction = "sayALotArticle";
+const testAction = `test_${prodAction}`;
+const action = isTest ? testAction : prodAction;
+
+const libCalls = [
+  {
+    functionName: "getReactionsData",
+    key: "reactionsData",
+    props: { realArticleId: articleToRenderData.realArticleId },
+  },
+];
 
 State.init({
   emoji: undefined,
-  likesStatistics: [],
+  reactionsData: { reactionsStatistics: [], userReaction: undefined },
   show: false,
   loading: false,
+  libCalls,
 });
 
-// ========= UNFILTERED LIKES and SOCIAL.INDEX =========
-const path = isTest ? "test_like" : "like";
-const unfilteredLikes = Social.index(path, item, {
-  order: "desc",
-});
+// ========= UNFILTERED REACTIONS and SOCIAL.INDEX =========
+// const path = isTest ? "test_reaction" : "reaction";
+// const unfilteredReactions = Social.index(path, item, {
+//   order: "desc",
+// });
 
-if (!unfilteredLikes) {
-  return "Loading...";
-}
+// if (!unfilteredReactions) {
+//   return "Loading...";
+// }
 
-// ========= ARRAY LAST LIKE FOR EACH USER =========
-// arrayLastLikeForEachUser - array of objects {accountId, blockHeight, value: {type: "😁 LOL"}}
-const uniqueAccounts = [];
-const arrayLastLikeForEachUser =
-  unfilteredLikes &&
-  unfilteredLikes.filter((obj) => {
-    if (!uniqueAccounts.includes(obj.accountId)) {
-      uniqueAccounts.push(obj.accountId);
-      return true;
-    }
-    return false;
-  });
+// ========= ARRAY LAST REACTION FOR EACH USER =========
+// arrayLastReactionForEachUser - array of objects {accountId, blockHeight, value: {type: "😁 LOL"}}
+// const uniqueAccounts = [];
+// const arrayLastReactionForEachUser =
+//   unfilteredReactions &&
+//   unfilteredReactions.filter((obj) => {
+//     if (!uniqueAccounts.includes(obj.accountId)) {
+//       uniqueAccounts.push(obj.accountId);
+//       return true;
+//     }
+//     return false;
+//   });
 
 // ========= GET USER EMOJI =========
-const userEmoji = arrayLastLikeForEachUser.find((obj) => {
-  return obj.accountId === accountThatIsLoggedIn;
-});
+// const userReaction = arrayLastReactionForEachUser.find((obj) => {
+//   return obj.accountId === accountThatIsLoggedIn;
+// });
 
-// ========= GET LIKES STATISTICS =========
-const getLikeStats = (acc, likeObj) => {
-  if (likeObj.value.type === initialEmoji) {
-    return acc;
-  }
-  if (!acc.hasOwnProperty(likeObj.value.type)) {
-    acc[likeObj.value.type] = {
-      quantity: 0,
-      emoji: likeObj.value.type.slice(0, 2),
-      text: likeObj.value.type.slice(2),
-      accounts: [],
-    };
-    // acc[likeObj.value.type].quantity = 0;
-    // acc[likeObj.value.type].emoji = likeObj.value.type.slice(0, 2);
-    // acc[likeObj.value.type].accounts = [];
-  }
-  acc[likeObj.value.type].quantity += 1;
-  acc[likeObj.value.type].accounts = [
-    likeObj.accountId,
-    ...acc[likeObj.value.type].accounts,
-  ];
+// // ========= GET REACTIONS STATISTICS =========
+// const getReactionStats = (acc, reactionObj) => {
+//   if (reactionObj.value.type === initialEmoji) {
+//     return acc;
+//   }
+//   if (!acc.hasOwnProperty(reactionObj.value.type)) {
+//     acc[reactionObj.value.type] = {
+//       quantity: 0,
+//       emoji: reactionObj.value.type.slice(0, 2),
+//       text: reactionObj.value.type.slice(2),
+//       accounts: [],
+//     };
+//     // acc[reactionObj.value.type].quantity = 0;
+//     // acc[reactionObj.value.type].emoji = reactionObj.value.type.slice(0, 2);
+//     // acc[reactionObj.value.type].accounts = [];
+//   }
+//   acc[reactionObj.value.type].quantity += 1;
+//   acc[reactionObj.value.type].accounts = [
+//     reactionObj.accountId,
+//     ...acc[reactionObj.value.type].accounts,
+//   ];
 
-  return acc;
-};
-const countLikesStats = (arr) => Object.values(arr.reduce(getLikeStats, {}));
-let likesStatistics =
-  arrayLastLikeForEachUser && countLikesStats(arrayLastLikeForEachUser);
-if (state.likesStatistics.length === 0 || state.likesStatistics === null) {
-  State.update({
-    likesStatistics,
-  });
-}
-//likesStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
+//   return acc;
+// };
+// const countReactionsStats = (arr) =>
+//   Object.values(arr.reduce(getReactionStats, {}));
+// let reactionsStatistics =
+//   arrayLastReactionForEachUser &&
+//   countReactionsStats(arrayLastReactionForEachUser);
+// if (
+//   state.reactionsStatistics.length === 0 ||
+//   state.reactionsStatistics === null
+// ) {
+//   State.update({
+//     reactionsStatistics,
+//   });
+// }
+// //reactionsStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
 
-// ========= CHECK DOES USER VOTED =========
-const doesUserVoted = () => {
-  const resObject = arrayLastLikeForEachUser.find(
-    (item) => item.accountId === accountThatIsLoggedIn
-  );
-  return resObject;
-};
+// // ========= CHECK DOES USER VOTED =========
+// const doesUserVoted = () => {
+//   const resObject = arrayLastReactionForEachUser.find(
+//     (item) => item.accountId === accountThatIsLoggedIn
+//   );
+//   return resObject;
+// };
 
 // ========= UPDATE EMOJI STATE IF USER VOTED SOMETIME BEFORE =========
-const updateEmojiIfUserVoted = () => {
-  const resObject = arrayLastLikeForEachUser.find(
-    (item) => item.accountId === accountThatIsLoggedIn
-  );
-  if (resObject) {
-    State.update({ emoji: resObject.value.type });
-  }
-};
-state.emoji === undefined &&
-  arrayLastLikeForEachUser &&
-  updateEmojiIfUserVoted();
+// function updateEmojiIfUserVoted() {
+//   const resObject = arrayLastReactionForEachUser.find(
+//     (item) => item.accountId === accountThatIsLoggedIn
+//   );
+//   if (resObject) {
+//     State.update({ emoji: resObject.value.type });
+//   }
+// }
+// state.emoji === undefined &&
+//   arrayLastReactionForEachUser &&
+//   updateEmojiIfUserVoted();
 
-// ========= UPDATE LIKE STATISTICS IF USER VOTED RIGHT NOW=========
-const updateLikesStatisticsIfUserVoted = (newEmoji) => {
-  const resObject = arrayLastLikeForEachUser.find(
+// ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
+function updateReactionsStatisticsIfUserVoted(newEmoji) {
+  const resObject = arrayLastReactionForEachUser.find(
     (item) => item.accountId === accountThatIsLoggedIn
   );
   if (!resObject) {
-    arrayLastLikeForEachUser = [
-      ...arrayLastLikeForEachUser,
+    arrayLastReactionForEachUser = [
+      ...arrayLastReactionForEachUser,
       {
         accountId: accountThatIsLoggedIn,
         blockHeight: item.blockHeight,
@@ -127,33 +162,38 @@ const updateLikesStatisticsIfUserVoted = (newEmoji) => {
       },
     ];
   } else {
-    arrayLastLikeForEachUser =
-      arrayLastLikeForEachUser &&
-      arrayLastLikeForEachUser.map((item) => {
+    arrayLastReactionForEachUser =
+      arrayLastReactionForEachUser &&
+      arrayLastReactionForEachUser.map((item) => {
         if (item.accountId === accountThatIsLoggedIn) {
           return { ...item, value: { type: newEmoji } };
         }
         return item;
       });
   }
-  likesStatistics =
-    arrayLastLikeForEachUser && countLikesStats(arrayLastLikeForEachUser);
+  reactionsStatistics =
+    arrayLastReactionForEachUser &&
+    countReactionsStats(arrayLastReactionForEachUser);
   State.update({
-    likesStatistics,
+    reactionsStatistics,
   });
-};
+}
 
 // ================= Mouse Handlers ===============
 
-const handleOnMouseEnter = (e) => {
+function handleOnMouseEnter() {
   State.update({ show: true });
-};
+}
 
-const handleOnMouseLeave = (e) => {
+function handleOnMouseLeave() {
   State.update({ show: false });
-};
+}
 
-const clickHandler = (emojiMessage) => {
+function onPushEnd() {
+  State.update({ loading: false, show: false });
+}
+
+function reactListener(emojiMessage) {
   if (state.loading) {
     return;
   }
@@ -161,46 +201,60 @@ const clickHandler = (emojiMessage) => {
     loading: true,
   });
 
-  // decide to put unique emoji or white heart (unlike emoji)
+  // decide to put unique emoji or white heart (unreaction emoji)
   const emojiToWrite =
-    emojiMessage === initialEmoji && state.emoji === initialEmoji
+    emojiMessage === initialEmoji &&
+    state.reactionsData.userReaction.value.reaction === initialEmoji
       ? emojiArray[0]
       : emojiMessage;
 
-  let data;
-
-  if (isTest) {
-    data = {
-      index: {
-        test_like: JSON.stringify({
-          key: item,
-          value: {
-            type: emojiToWrite,
-          },
-        }),
-      },
-    };
-  } else {
-    data = {
-      index: {
-        like: JSON.stringify({
-          key: item,
-          value: {
-            type: emojiToWrite,
-          },
-        }),
-      },
-    };
-  }
-
-  Social.set(data, {
-    onCommit: () => {
-      updateLikesStatisticsIfUserVoted(emojiToWrite);
-      State.update({ emoji: emojiToWrite, loading: false, show: false });
+  const newLibCalls = [...state.libCalls];
+  newLibCalls.push({
+    functionName: "createReaction",
+    key: "reactionsData",
+    props: {
+      reaction: emojiToWrite,
+      oldReactionStatics: state.reactionsData.reactionsStatistics,
+      onCommit: onPushEnd,
+      onCancel: onPushEnd,
     },
-    onCancel: () => State.update({ loading: false, show: false }),
   });
-};
+  State.update({ libCalls: newLibCalls });
+
+  // let data;
+
+  // if (isTest) {
+  //   data = {
+  //     index: {
+  //       test_reaction: JSON.stringify({
+  //         key: item,
+  //         value: {
+  //           type: emojiToWrite,
+  //         },
+  //       }),
+  //     },
+  //   };
+  // } else {
+  //   data = {
+  //     index: {
+  //       reaction: JSON.stringify({
+  //         key: item,
+  //         value: {
+  //           type: emojiToWrite,
+  //         },
+  //       }),
+  //     },
+  //   };
+  // // }
+
+  // Social.set(data, {
+  //   onCommit: () => {
+  //     updateReactionsStatisticsIfUserVoted(emojiToWrite);
+  //     State.update({ emoji: emojiToWrite, loading: false, show: false });
+  //   },
+  //   onCancel: () => State.update({ loading: false, show: false }),
+  // });
+}
 
 function showWhenCalled(objText) {
   return state.showReactionsListModal == objText
@@ -318,7 +372,7 @@ const Overlay = () => (
   >
     {emojiArray &&
       emojiArray.map((item) => (
-        <SmallButton onClick={() => clickHandler(item)} isHeart={index === 0}>
+        <SmallButton onClick={() => reactListener(item)} isHeart={index === 0}>
           <OverlayTrigger
             placement="top"
             overlay={
@@ -363,7 +417,7 @@ const renderReaction = (item, isInButton) => {
 
 return (
   <EmojiWrapper>
-    {!userEmoji ? (
+    {!state.reactionsData.userReaction ? (
       <Button
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
@@ -374,12 +428,16 @@ return (
     ) : (
       <SmallReactButton>
         {state.loading && <Spinner />}
-        {state.likesStatistics &&
-          state.likesStatistics.map((item) => renderReaction(item, true))}
+        {state.reactionsData.reactionsStatistics &&
+          state.reactionsData.reactionsStatistics.map((item) =>
+            renderReaction(item, true)
+          )}
       </SmallReactButton>
     )}
     <Overlay />
-    {state.likesStatistics &&
-      state.likesStatistics.map((item) => renderReaction(item, false))}
+    {state.reactionsData.reactionsStatistics &&
+      state.reactionsData.reactionsStatistics.map((item) =>
+        renderReaction(item, false)
+      )}
   </EmojiWrapper>
 );
