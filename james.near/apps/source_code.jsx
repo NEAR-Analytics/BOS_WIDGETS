@@ -1,12 +1,12 @@
 return (
   <div>
-    <h5>Applications</h5>
+    <h5>applications</h5>
     <div className="mb-2">
       <Widget
         src="mob.near/widget/ComponentSearch"
         props={{
           boostedTag: "app",
-          placeholder: "🔭 Explore",
+          placeholder: "🔭 explore",
           limit: 10,
           onChange: ({ result }) => {
             State.update({ apps: result });
@@ -45,41 +45,41 @@ return (
       src="mob.near/widget/WidgetIcons"
       props={{ tag: "app", limit: 888 }}
     />
-    <h3>#Template</h3>
+    <h3>#template</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "template" }} />
-    <h3>#Data</h3>
+    <h3>#data</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "data" }} />
-    <h3>#Dev</h3>
+    <h3>#dev</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "dev" }} />
-    <h3>#Social</h3>
+    <h3>#social</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "social" }} />
-    <h3>#Widget</h3>
+    <h3>#widget</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "widget" }} />
-    <h3>#Page</h3>
+    <h3>#page</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "page" }} />
-    <h3>#Feed</h3>
+    <h3>#feed</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "feed" }} />
-    <h3>#Inline</h3>
+    <h3>#inline</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "inline" }} />
-    <h3>#Component</h3>
+    <h3>#component</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "component" }} />
-    <h3>#NFT</h3>
+    <h3>#nft</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "nft" }} />
-    <h3>#Search</h3>
+    <h3>#search</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "search" }} />
-    <h3>#Editor</h3>
+    <h3>#editor</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "editor" }} />
-    <h3>#Game</h3>
+    <h3>#game</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "game" }} />
-    <h3>#Hack</h3>
+    <h3>#hack</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "hack" }} />
-    <h3>#Example</h3>
+    <h3>#example</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "example" }} />
-    <h3>#Settings</h3>
+    <h3>#settings</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "settings" }} />
-    <h3>#Explorer</h3>
+    <h3>#explorer</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "explorer" }} />
-    <h3>#Profile</h3>
+    <h3>#profile</h3>
     <Widget src="mob.near/widget/WidgetIcons" props={{ tag: "profile" }} />
   </div>
 );
