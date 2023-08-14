@@ -214,16 +214,6 @@ return (
           <span class="icon">{swapIcon}</span>
           Swap
         </div>
-
-        <div
-          class={`item ${activeMenu == "staking" ? "active" : ""}`}
-          onClick={() => {
-            changeTab("staking");
-          }}
-        >
-          <span class="icon">{stakingIcon}</span>
-          Staking
-        </div>
       </MenuContainer>
       <div class="splitLine"></div>
       <div class="flex-grow contentOut">
