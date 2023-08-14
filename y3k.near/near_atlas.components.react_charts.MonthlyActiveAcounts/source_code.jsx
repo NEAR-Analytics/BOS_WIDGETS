@@ -82,7 +82,7 @@ const series2 = {
 // };
 const primaryAxis = {
   //   position: "left",
-  type: "time",
+  type: "linear",
   show: false,
   getValue: (datum) => datum.primary,
 };
@@ -92,7 +92,7 @@ const secondaryAxes = [
     // position: "top",
     // show: false,
     getValue: (datum) => datum.secondary,
-    type: "bar",
+    type: "linear",
     // If you have a specific value for stackOffsetWiggle, you can replace it here
     // stackOffset: stackOffsetWiggle,
     // stacked: true,
@@ -103,10 +103,39 @@ const output = [series2, series1];
 
 return (
   <div>
-    <ReactChart
-      chart_name="BarCustom"
-      data={output}
-      options={{ primaryAxis, secondaryAxes }}
-    />
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "12px",
+        border: "2px solid black",
+        height: "400px",
+      }}
+    >
+      <div
+        style={{
+          flex: "0 0 auto",
+          padding: "10px",
+          border: "1px solid red",
+        }}
+      >
+        Header
+      </div>
+      <div
+        style={{
+          flex: 2,
+          border: "5px solid blue",
+          maxHeight: "400px",
+          margin: "10px",
+          overflow: "hidden",
+        }}
+      >
+        <ReactChart
+          chart_name="BarCustom"
+          data={output}
+          options={{ primaryAxis, secondaryAxes }}
+        />
+      </div>
+    </div>
   </div>
 );
