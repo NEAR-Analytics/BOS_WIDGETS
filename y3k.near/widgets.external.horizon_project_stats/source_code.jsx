@@ -69,24 +69,37 @@ const colorGenerator = () => {
 
 const getBackgroundColor = colorGenerator();
 
+// function filterByProjectName(arr, project_name) {
+//   console.log("Filtering by project name:", project_name);
+//   console.log("Array before filtering:", arr);
+//   const result = arr.filter((obj) => obj.PROJECT_NAME === project_name);
+//   console.log("Array after filtering:", result);
+//   return result;
+// }
+
+// function sortByActivityDate(arr) {
+//   // Convert the dates to timestamps once
+//   const timestamps = arr.map(item => new Date(item.ACTIVITY_DATE).getTime());
+  
+//   return arr.sort((a, b) => {
+//     const indexA = arr.indexOf(a);
+//     const indexB = arr.indexOf(b);
+//     return timestamps[indexA] - timestamps[indexB];
+//   });
+// }
+
+
+
 function filterByProjectName(arr, project_name) {
-  console.log("Filtering by project name:", project_name);
-  console.log("Array before filtering:", arr);
-  const result = arr.filter((obj) => obj.PROJECT_NAME === project_name);
-  console.log("Array after filtering:", result);
-  return result;
+  return arr.filter((obj) => obj.PROJECT_NAME === project_name);
 }
 
 function sortByActivityDate(arr) {
-  // Convert the dates to timestamps once
-  const timestamps = arr.map(item => new Date(item.ACTIVITY_DATE).getTime());
-  
-  return arr.sort((a, b) => {
-    const indexA = arr.indexOf(a);
-    const indexB = arr.indexOf(b);
-    return timestamps[indexA] - timestamps[indexB];
-  });
+  return arr.sort(
+    (a, b) => new Date(a.ACTIVITY_DATE) - new Date(b.ACTIVITY_DATE)
+  );
 }
+
 
 
 function parseUTCDate(dateString) {
@@ -153,7 +166,7 @@ function updateProcessedData(filteredSortedData, selectedMetric) {
 async function fetchData() {
 
   let response = await fetch(
-  "https://api.flipsidecrypto.com/api/v2/queries/a4aa8264-53f5-46b0-b064-fd0157682e9b/data/latest",
+  "https://api.flipsidecrypto.com/api/v2/queries/367eedd4-b79d-4cf8-929a-178bbcb0a4e4/data/latest",
     {
         subscribe: true,
         method: "GET",
@@ -179,8 +192,9 @@ let newProcessedData = updateProcessedData(
   initialState.selectedMetric
 );
 
-console.log(filteredSortedData)
-console.log(initialState.selectedMetric)
+newProcessedData = sortByActivityDate(newProcessedData) || [];
+console.log("newProcessedData")
+console.log(newProcessedData)
 
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
