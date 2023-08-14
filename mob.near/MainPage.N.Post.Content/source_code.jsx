@@ -7,21 +7,23 @@ return content ? (
       (raw ? (
         <pre style={{ whiteSpace: "pre-wrap" }}>{content.text}</pre>
       ) : (
-        <Widget
-          src="mob.near/widget/SocialMarkdown"
-          props={{
-            text: content.text,
-            onHashtag: (hashtag) => (
-              <span
-                key={hashtag}
-                className="d-inline-flex"
-                style={{ fontWeight: 500 }}
-              >
-                <a href={`/?hashtag=${hashtag}`}>#{hashtag}</a>
-              </span>
-            ),
-          }}
-        />
+        <div className="text-break">
+          <Widget
+            src="mob.near/widget/SocialMarkdown"
+            props={{
+              text: content.text,
+              onHashtag: (hashtag) => (
+                <span
+                  key={hashtag}
+                  className="d-inline-flex"
+                  style={{ fontWeight: 500 }}
+                >
+                  <a href={`/?hashtag=${hashtag}`}>#{hashtag}</a>
+                </span>
+              ),
+            }}
+          />
+        </div>
       ))}
     {content.image &&
       (raw ? (
