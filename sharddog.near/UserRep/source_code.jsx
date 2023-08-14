@@ -13,7 +13,17 @@ const widgets = {
   filter: "sharddog.near/widget/UserRep.Filter",
 };
 
-const handleWalletChange = (e) => State.update({ wallet: e.target.value });
+const handleWalletChange = (event) => {
+  if (event.target.value.trim() === "") {
+    // Input is empty, handle this case as needed
+    // You might want to reset the state, for example
+    State.update({ wallet: "", data: null });
+  } else {
+    // Input is not empty, continue with normal handling
+    State.update({ wallet: event.target.value });
+    //fetchData();
+  }
+};
 
 function fetchData() {
   //console.log("getData");
@@ -30,6 +40,31 @@ function fetchData() {
 
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
+}
+
+if ((!state.data && state.wallet.trim() === "") || state.data === null) {
+  return (
+    <div>
+      <h3>NEAR "Just to get a rep"</h3>
+      <small>
+        <i>
+          This is a beta of how you could look at scoring users rep based on
+          activity
+        </i>
+      </small>
+
+      <Widget
+        src={widgets.filter}
+        props={{
+          handleWalletChange,
+          wallet: state.wallet,
+          placeholder: "Search by wallet",
+        }}
+      />
+
+      <button onClick={fetchData}>Get Rep</button>
+    </div>
+  );
 }
 
 const {
