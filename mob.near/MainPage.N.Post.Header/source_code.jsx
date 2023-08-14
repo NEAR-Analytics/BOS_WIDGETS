@@ -11,7 +11,7 @@ const Overlay = (props) => (
     href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
   >
     <Widget
-      src="mob.near/widget/Profile.OverlayTrigger"
+      src="mob.near/widget/Profile.N.OverlayTrigger"
       loading={props.children}
       props={{
         accountId,
@@ -52,10 +52,10 @@ return (
           <div className="flex-shrink-0">{Checkmark}</div>
         </div>
         <div
-          className="d-flex flex-shrink-1 overflow-hidden"
+          className="d-flex flex-shrink-1 overflow-hidden mw-100"
           style={{ marginLeft: "2px" }}
         >
-          <div className="flex-shrink-1">
+          <div className="flex-shrink-1 overflow-hidden">
             <Overlay>
               <div className="text-truncate text-muted">@{accountId}</div>
             </Overlay>
