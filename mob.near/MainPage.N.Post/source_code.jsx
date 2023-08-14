@@ -24,6 +24,7 @@ const Wrapper = styled.div`
   .post {
     position: relative;
     padding: 12px;
+    padding-bottom: 4px;
     display: flex;
     h1, h2, h3, h4, h5, h6 {
       font-size: 16px !important;
