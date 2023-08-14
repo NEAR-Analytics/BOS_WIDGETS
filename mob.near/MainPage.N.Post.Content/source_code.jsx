@@ -16,7 +16,7 @@ return content ? (
                 <span
                   key={hashtag}
                   className="d-inline-flex"
-                  style={{ fontWeight: 500 }}
+                  style={{ fontWeight: 500, color: "var(--bs-link-color)" }}
                 >
                   <a href={`/?hashtag=${hashtag}`}>#{hashtag}</a>
                 </span>
