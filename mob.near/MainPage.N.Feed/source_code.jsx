@@ -102,7 +102,8 @@ const renderRepost = (a) => {
           fontSize: "13px",
           fontWeight: 700,
           marginLeft: "24px",
-          marginBottom: "-8px",
+          marginBottom: "-20px",
+          paddingTop: "4px",
         }}
       >
         {repostSvg}{" "}
@@ -119,12 +120,14 @@ const renderRepost = (a) => {
           />
         </span>
       </div>
-      <div className="reposted">
-        <Widget
-          src="mob.near/widget/MainPage.N.Post"
-          props={{ accountId: post.accountId, blockHeight: post.blockHeight }}
-        />
-      </div>
+      <Widget
+        src="mob.near/widget/MainPage.N.Post"
+        props={{
+          accountId: post.accountId,
+          blockHeight: post.blockHeight,
+          reposted: true,
+        }}
+      />
     </div>
   );
 };
