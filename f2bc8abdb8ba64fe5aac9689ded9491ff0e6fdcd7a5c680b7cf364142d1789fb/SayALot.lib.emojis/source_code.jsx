@@ -51,9 +51,24 @@ function getReactionsData(props) {
   const allReactions = Social.index(action, realArticleId, {
     order: "desc",
   });
-  const userReaction = allReactions.find((obj) => {
-    return obj.accountId === accountThatIsLoggedIn;
-  });
+
+  const uniqueAccounts = [];
+  const arrayLastReactionForEachUser =
+    allReactions &&
+    allReactions.filter((obj) => {
+      if (!uniqueAccounts.includes(obj.accountId)) {
+        uniqueAccounts.push(obj.accountId);
+        return true;
+      }
+      return false;
+    });
+
+  const userReaction =
+    arrayLastReactionForEachUser &&
+    arrayLastReactionForEachUser.find((obj) => {
+      return obj.accountId === accountThatIsLoggedIn;
+    });
+
   // ========= GET REACTIONS STATISTICS =========
   function getReactionStats(acc, reactionObj) {
     if (reactionObj.value.type === initialEmoji) {
