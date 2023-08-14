@@ -9,10 +9,11 @@ const getBackgroundColor = (value, goodCondition, warningCondition) => {
   return "pink";
 };
 
-const handleWalletChange = (event) => {
-  State.update({ wallet: event.target.value });
-  fetchData();
+const widgets = {
+  filter: "sharddog.near/widget/UserRep.Filter",
 };
+
+const handleWalletChange = (e) => State.update({ wallet: e.target.value });
 
 function fetchData() {
   //console.log("getData");
@@ -27,24 +28,8 @@ function fetchData() {
   });
 }
 
-if (!state.data) {
-  return (
-    <div>
-      <h3>NEAR "Just to get a rep"</h3>
-      <small>
-        <i>
-          This is a beta of how you could look at scoring users rep based on
-          activity
-        </i>
-      </small>
-      <input
-        value={state.wallet}
-        onChange={handleWalletChange}
-        placeholder="Enter wallet name"
-      />
-      <button onClick={fetchData}>Get Rep</button>
-    </div>
-  );
+function isEmpty(obj) {
+  return Object.keys(obj).length === 0;
 }
 
 const {
@@ -59,7 +44,7 @@ const {
   og,
   currentBalance,
   storageUsed,
-} = state.data;
+} = state.data || {};
 
 const tableStyle = {
   borderCollapse: "collapse",
@@ -149,11 +134,11 @@ function getCreateDate(creationTimestamp) {
 }
 
 function parsedBalance(currentBalance) {
+  let walletBalance = 0;
   if (currentBalance > 0) {
-    let walletBalance = Big(currentBalance).div(Big(10).pow(24)).toFixed(5);
+    walletBalance = Big(currentBalance).div(Big(10).pow(24)).toFixed(5);
     return walletBalance;
   } else {
-    let walletBalance = 0;
     return walletBalance;
   }
 }
@@ -173,8 +158,8 @@ const followers = Social.keys(`*/graph/follow/${state.wallet}`, "final", {
 
 const numFollowing = following
   ? Object.keys(following[state.wallet].graph.follow || {}).length
-  : null;
-const numFollowers = followers ? Object.keys(followers || {}).length : null;
+  : 0;
+const numFollowers = followers ? Object.keys(followers || {}).length : 0;
 
 function getKudos(wallet) {
   let data = Social.getr("kudos.ndctools.near/kudos/" + wallet);
@@ -208,10 +193,13 @@ return (
         activity
       </i>
     </small>
-    <input
-      value={state.wallet}
-      onChange={handleWalletChange}
-      placeholder="Enter wallet name"
+    <Widget
+      src={widgets.filter}
+      props={{
+        handleWalletChange,
+        wallet: state.wallet,
+        placeholder: "Search by wallet",
+      }}
     />
     <button onClick={fetchData}>Get Rep</button>
     <br />
