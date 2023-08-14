@@ -245,7 +245,7 @@ const totalValue = contractData.reduce((total, item) => {
 }, 0);
 
 return (
-  <Root>
+  <Root className="p-4">
     {state.activeTokens ? (
       <SendToken>
         <div
@@ -317,14 +317,9 @@ return (
     ) : (
       <>
         <Account>
-          <p
-            style={{
-              textAlign: "center",
-            }}
-            class="account-address"
-          >
-            {accountId}
-          </p>
+          <div className="mb-3">
+            <Widget src="mob.near/widget/Profile.InlineBlock" />
+          </div>
           <div class="token-info-wrapper">
             <p>My Assets</p>
             <p>Token balance</p>
