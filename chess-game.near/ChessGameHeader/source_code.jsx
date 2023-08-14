@@ -38,7 +38,10 @@ return (
       Play chess fully on chain powered by Near Protocol and the BOS. If you
       want to learn more please visit the profile page.
     </Disclaimer>
-    <a href="https://chess-game.near.social" target="_blank">
+    <a
+      href="https://near.social/mob.near/widget/ProfilePage?accountId=chess-game.near"
+      target="_blank"
+    >
       <Widget src={profileIcon} props={{ height: "2rem" }} />
       <span>Profile</span>
     </a>
