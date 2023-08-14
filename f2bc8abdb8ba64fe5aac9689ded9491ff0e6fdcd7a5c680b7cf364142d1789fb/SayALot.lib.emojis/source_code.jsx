@@ -17,6 +17,7 @@ function createReaction(props) {
 }
 
 function composeReactionData(reaction) {
+  console.log("composeDataReaction: ", reaction);
   const data = {
     index: {
       [action]: JSON.stringify({
