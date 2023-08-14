@@ -129,22 +129,23 @@ const secondaryAxes = [
     getValue: (datum) => datum.secondary,
     stacked: true,
     type: "linear",
-    // stackOffset: stackOffsetWiggle,
   },
 ];
 
 const output = [series2, series1];
 
 return (
-  <div>
+  <div
+    style={{
+      height: "590px",
+    }}
+  >
     <ReactChart
       chart_name="BarCustom"
       data={output}
-      className={"mx-auto px-4"}
       options={{
         secondaryAxes: secondaryAxes,
         primaryAxis: primaryAxis,
-        HeaderTitle: "Overview",
       }}
     />
   </div>
