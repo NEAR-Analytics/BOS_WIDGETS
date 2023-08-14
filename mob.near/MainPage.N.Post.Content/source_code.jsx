@@ -2,7 +2,7 @@ const content = props.content;
 const raw = !!props.raw;
 
 return content ? (
-  <>
+  <div className="overflow-hidden">
     {content.text &&
       (raw ? (
         <pre style={{ whiteSpace: "pre-wrap" }}>{content.text}</pre>
@@ -42,7 +42,7 @@ return content ? (
           />
         </div>
       ))}
-  </>
+  </div>
 ) : (
-  <div className="w-100" style={{ minHeight: "100px" }} />
+  <div className="w-100 overflow-hidden" style={{ minHeight: "100px" }} />
 );
