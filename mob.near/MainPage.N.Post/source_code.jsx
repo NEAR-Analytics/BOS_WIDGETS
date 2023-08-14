@@ -91,11 +91,15 @@ const Wrapper = styled.div`
       opacity: 0.5;
     }
   }
+
+  .reposted .main-post {
+    padding-top: 30px;
+  }
 `;
 
 return (
   <Wrapper>
-    <div className="post">
+    <div className="post main-post">
       <Widget
         src="mob.near/widget/MainPage.N.Post.Left"
         props={{ accountId }}
