@@ -2,9 +2,9 @@ State.init({
   selectedTab: props.tab || "nfts",
 });
 
-const accountId = props.accountId ?? context.accountId;
+let accountId = props.accountId ?? context.accountId;
 if (!accountId) {
-  return "No account ID";
+  accountId = "genadrop.near";
 }
 
 if (props.tab && props.tab !== state.selectedTab) {
