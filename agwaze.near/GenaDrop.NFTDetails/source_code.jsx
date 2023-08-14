@@ -465,7 +465,7 @@ return (
             <div>
               {state.listings.price && context.contractId !== state.owner ? (
                 <button>Buy</button>
-              ) : state.owner !== context.accountId ? (
+              ) : state.owner === context.accountId ? (
                 <a
                   href={`#/jgodwill.near/widget/GenaDrop.MultiListing??tokenId=${tokenId}&contractId=${contractId}`}
                 >
