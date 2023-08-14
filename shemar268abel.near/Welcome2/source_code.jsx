@@ -1,4 +1,21 @@
 const daoId = "marmaj-research.sputnik-dao.near";
+
+const Items = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 800px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+`;
+
+const Item = styled.div``;
+
 return (
   <>
     <Widget src="mob.near/widget/ProfileOnboarding" />
@@ -60,6 +77,16 @@ return (
     <Widget src="shemar268abel.near/widget/DAO.Funds.index" />
     <div className="text-bg-light rounded-4 p-3 mb-3">
       <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
+    </div>
+    <div className="text-bg-light rounded-4 p-3 mb-3">
+      <h3>Followers</h3>
+      <Widget src="near/widget/FollowersList" props={{ accountId: daoId }} />
+    </div>
+    <div className="text-bg-light rounded-4 p-3 mb-3">
+      <Widget
+        src="nearhorizon.near/widget/Project.ListPage"
+        props={{ daoId }}
+      />
     </div>
   </>
 );
