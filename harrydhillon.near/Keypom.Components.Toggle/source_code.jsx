@@ -1,6 +1,6 @@
 const SwitchContainer = styled.div`
-  width: 60px;
-  height: 30px;
+  width: 40px;
+  height: 20px;
   border-radius: 15px;
   display: flex;
   align-items: center;
@@ -14,8 +14,8 @@ const SwitchContainer = styled.div`
 `;
 
 const SwitchKnob = styled.div`
-  width: 28px;
-  height: 28px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background-color: white;
   transform: ${(props) =>
