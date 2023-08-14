@@ -64,6 +64,7 @@ function fetchTokens() {
                 media 
                 owner
                 token_id
+                nft_contract_id
                 description
                 title
                 listings {
@@ -464,8 +465,12 @@ return (
             <div>
               {state.listings.price && context.contractId !== state.owner ? (
                 <button>Buy</button>
-              ) : state.owner === context.accountId ? (
-                <button onClick={() => HandleList()}>List</button>
+              ) : state.owner !== context.accountId ? (
+                <a
+                  href={`#/jgodwill.near/widget/GenaDrop.MultiListing??tokenId=${tokenId}&contractId=${contractId}`}
+                >
+                  <button>List</button>
+                </a>
               ) : (
                 <button
                   style={{
