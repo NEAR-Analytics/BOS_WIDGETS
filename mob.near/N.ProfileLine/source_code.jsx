@@ -14,16 +14,20 @@ const tooltip =
 
 const GrayWrapper = styled.span`
   display: inline-flex;
-  filter: grayscale(100%); /* Apply grayscale filter */
-
-  :hover {
+  img {
+    filter: grayscale(100%);
+    opacity: 0.5;
+    margin-bottom: 0.2em;
+  }
+  :hover img {
+    opacity: 1;
     filter: none;
   }
 `;
 
 const imgWrapperStyle = {
-  width: "1.0em",
-  height: "1.0em",
+  width: "1em",
+  height: "1em",
   marginRight: "0.1em",
 };
 
