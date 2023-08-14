@@ -2,6 +2,7 @@ const daoId = props.daoId;
 
 State.init({
   filterByRole,
+  usersToShow: 5, // New state variable
 });
 
 const processPolicy = (policy) => {
@@ -328,10 +329,33 @@ const users = !state.filterByRole
       policy.users[user].includes(state.filterByRole)
     );
 
+// Limit users to the first `usersToShow` items
+const limitedUsers = users.slice(0, state.usersToShow);
+
 return (
   <Wrapper className="d-flex flex-column gap-4">
     <div className="d-flex gap-4 flex-column">
-      {users.map((user, i) => renderUserRow(user, policy.users[user], i))}
+      {limitedUsers.map((user, i) =>
+        renderUserRow(user, policy.users[user], i)
+      )}
     </div>
+    {users.length > state.usersToShow && (
+      <button
+        style={{
+          display: "block",
+          width: "100%",
+          padding: "10px",
+          margin: "10px 0",
+          borderRadius: "10px",
+          border: "1px solid #ddd",
+          backgroundColor: "#f5f5f5",
+          cursor: "pointer",
+          color: "#000",
+        }}
+        onClick={() => State.update({ usersToShow: state.usersToShow + 5 })}
+      >
+        Show More
+      </button>
+    )}
   </Wrapper>
 );
