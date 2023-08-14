@@ -50,7 +50,7 @@ const data = { collegium: { post: { [state.title]: state.content } } };
 return (
   <PostEditorWrapper>
     <div className="commit-wrapper">
-      <CommitButton force data={data}>
+      <CommitButton disabled={state.title === ""} force data={data}>
         게시하기
       </CommitButton>
     </div>
