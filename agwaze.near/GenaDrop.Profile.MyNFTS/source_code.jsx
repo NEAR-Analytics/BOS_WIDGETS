@@ -1,4 +1,4 @@
-const accountId = props.accountId || context.accountId;
+const accountId = props.accountId || context.accountId || "genadrop.near";
 
 if (!accountId) {
   return "";
