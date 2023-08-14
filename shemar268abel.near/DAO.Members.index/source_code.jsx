@@ -2,7 +2,7 @@ const daoId = props.daoId;
 
 State.init({
   filterByRole,
-  usersToShow: 5, // New state variable
+  usersToShow: 3, // New state variable
 });
 
 const processPolicy = (policy) => {
