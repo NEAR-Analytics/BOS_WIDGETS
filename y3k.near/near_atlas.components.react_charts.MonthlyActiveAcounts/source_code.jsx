@@ -16,88 +16,30 @@ const sortedData = r_data.sort((a, b) => {
 });
 
 const series1 = {
-  label: "RETURNING MAAS",
+  label: "RETURNING_MAAS",
   data: sortedData.map((item) => {
+    const date = new Date(item.DAY);
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
     return {
-      primary: item.DAY,
+      primary: `${month} ${year}`,
       secondary: Number(item.RETURNING_MAAS),
     };
   }),
 };
 
 const series2 = {
-  label: "NEW MAAS",
+  label: "NEW_MAAS",
   data: sortedData.map((item) => {
+    const date = new Date(item.DAY);
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
     return {
-      primary: item.DAY,
+      primary: `${month} ${year}`,
       secondary: Number(item.NEW_MAAS),
     };
   }),
 };
-
-// const series1 = {
-//   label: "RETURNING_MAAS",
-//   data: sortedData.map((item) => {
-//     const date = new Date(item.DAY);
-//     const month = date.toLocaleString("default", { month: "long" });
-//     const year = date.getFullYear();
-//     return {
-//       primary: `${month} ${year}`,
-//       secondary: item.RETURNING_MAAS,
-//     };
-//   }),
-// };
-
-// const series2 = {
-//   label: "NEW_MAAS",
-//   data: sortedData.map((item) => {
-//     const date = new Date(item.DAY);
-//     const month = date.toLocaleString("default", { month: "long" });
-//     const year = date.getFullYear();
-//     return {
-//       primary: `${month} ${year}`,
-//       secondary: item.NEW_MAAS,
-//     };
-//   }),
-// };
-
-// const primaryAxis = {
-//   type: "ordinal",
-//   tickFormat: function (d) {
-//     const date = new Date(d);
-//     return date.toLocaleString("default", { month: "short" });
-//   },
-// };
-
-// const secondaryAxes = [
-//   {
-//     type: "linear",
-//     position: "left",
-//     format: (d) => `${d}`, // You can customize the format if needed
-//   },
-// ];
-
-// const secondaryAxes = [
-//   {
-//     getValue: function (datum) {
-//       return datum.secondary;
-//     },
-//   },
-// ];
-
-// const primaryAxis = {
-//   getValue: function (datum) {
-//     return datum.primary;
-//   },
-// };
-
-// const primaryAxis = {
-//   //   position: "left",
-//   type: "linear",
-//   // show: false,
-//   stacked: true,
-//   getValue: (datum) => datum.primary,
-// };
 
 function getWeekLabel(d) {
   // Convert the date string to a date object
