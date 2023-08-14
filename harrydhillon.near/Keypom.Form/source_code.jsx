@@ -53,7 +53,7 @@ const formContent = () => {
       <Grid>
         <div style={{ padding: 10 }}>
           <Widget
-            src="harrydhillon.near/widget/Keypom.Input"
+            src="harrydhillon.near/widget/Keypom.Components.Input"
             props={{
               label: "Event name*",
               inputProps: {
@@ -64,7 +64,7 @@ const formContent = () => {
             }}
           />
           <Widget
-            src="harrydhillon.near/widget/Keypom.Input"
+            src="harrydhillon.near/widget/Keypom.Components.Input"
             props={{
               label: "Event description",
               inputProps: {
@@ -76,7 +76,7 @@ const formContent = () => {
           />
 
           <Widget
-            src="harrydhillon.near/widget/Keypom.Input"
+            src="harrydhillon.near/widget/Keypom.Components.Input"
             props={{
               label: "Event location",
               inputProps: {
@@ -97,7 +97,7 @@ const formContent = () => {
           {state?.isSingleDateEvent ? (
             <>
               <Widget
-                src="harrydhillon.near/widget/Keypom.Input"
+                src="harrydhillon.near/widget/Keypom.Components.Input"
                 props={{
                   label: "Event date",
                   inputProps: {
@@ -112,7 +112,7 @@ const formContent = () => {
             <>
               <div style={{ marginTop: -10 }}>
                 <Widget
-                  src="harrydhillon.near/widget/Keypom.Input"
+                  src="harrydhillon.near/widget/Keypom.Components.Input"
                   props={{
                     label: "From",
                     labelProps: {
@@ -130,7 +130,7 @@ const formContent = () => {
                 />
               </div>
               <Widget
-                src="harrydhillon.near/widget/Keypom.Input"
+                src="harrydhillon.near/widget/Keypom.Components.Input"
                 props={{
                   label: "To",
                   labelProps: {
