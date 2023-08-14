@@ -89,10 +89,10 @@ const daoLink = ({ daoId, tab }) => {
 
 const Wrapper = styled.div`
   border: 1px solid transparent;
-  background-color: #000;
+  background-color: #000cc;
 
   &:hover {
-    border: 1px solid red;
+    border: 1px solid transparent;
   }
 
   .dao-card-stats {
