@@ -262,6 +262,18 @@ function Thing() {
         thing.template?.src ||
         typeObj?.widgets?.view;
       // Template
+      if (!widgetSrc) {
+        return (
+          <Widget
+            src="efiz.near/widget/MonacoEditor"
+            props={{
+              code: JSON.stringify(thing.data),
+              path,
+              language: "javascript",
+            }}
+          />
+        );
+      }
       return (
         <Widget
           src={widgetSrc}
