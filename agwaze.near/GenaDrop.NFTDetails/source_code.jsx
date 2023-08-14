@@ -18,6 +18,7 @@ State.init({
   contractId,
   tokenId,
   description: "",
+  listings: [],
   title: "",
   owner: "",
   imageUrl: null,
@@ -66,10 +67,6 @@ function fetchTokens() {
                 description
                 title
                 listings {
-                    accepted_at
-                    accepted_offer_id
-                    invalidated_at
-                    metadata_id
                     price
                     unlisted_at
                     listed_by
@@ -82,10 +79,10 @@ function fetchTokens() {
     if (res.ok) {
       const tokens = res.body.data.mb_views_nft_tokens;
       const token = tokens[0];
-      console.log(token);
       State.update({
         description: token.description,
         owner: token.owner,
+        listings: token.listings[0],
         title: token.title,
       });
       if (tokens.length > 0) {
@@ -105,9 +102,6 @@ function fetchTokens() {
 }
 
 fetchTokens();
-
-console.log(title);
-
 if (nftMetadata && tokenMetadata) {
   let tokenMedia = tokenMetadata.media || "";
 
@@ -449,30 +443,29 @@ return (
               <PriceArea>
                 <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
                 <h6>
-                  {`${(
-                    props.singleNftProps.nft_state_lists[0].list_price ||
-                    0 / 1000000000000000000000000
-                  ).toFixed(2)}`}
+                  {`${
+                    state.listings.price
+                      ? (
+                          state.listings.price / 1000000000000000000000000
+                        ).toFixed(2)
+                      : "0.00"
+                  }`}
                 </h6>
-                <span>{` ($${(
-                  (props.singleNftProps.nft_state_lists[0].list_price ||
-                    0 / 1000000000000000000000000) * 1.56
-                ).toFixed(2)})`}</span>
+                <span>{` ($${
+                  state.listings.price
+                    ? (
+                        (state.listings.price / 1000000000000000000000000) *
+                        1.56
+                      ).toFixed(2)
+                    : "0.00"
+                })`}</span>
               </PriceArea>
             </div>
-            <div onClick={() => HandleList()}>
-              {props.singleNftProps.nft_state_lists[0].listed ? (
-                <button
-                  style={{
-                    backgroundColor: "#525c76",
-                    borderColor: "#525c76",
-                    cursor: "not-allowed",
-                  }}
-                >
-                  Listed
-                </button>
-              ) : state.owner ? (
-                <button>List</button>
+            <div>
+              {state.listings.price && context.contractId !== state.owner ? (
+                <button>Buy</button>
+              ) : state.owner === context.accountId ? (
+                <button onClick={() => HandleList()}>List</button>
               ) : (
                 <button
                   style={{
@@ -515,8 +508,8 @@ return (
                   state.owner || "genadrop-contract.nftgen.near"
                 }`}
               >
-                {state.owner.length > 8
-                  ? state.owner.slice(0, 8) + "..." + "near"
+                {state.owner.length > 12
+                  ? state.owner.slice(0, 12) + "..." + "near"
                   : state.owner ||
                     "genadrop-contract.nftgen.near".slice(0, 8) +
                       "..." +
