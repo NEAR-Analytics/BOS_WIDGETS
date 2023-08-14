@@ -676,6 +676,7 @@ return (
                       widgets,
                       isTest,
                       authorForWidget,
+                      elementReactedId: articleToRenderData.realArticleId,
                     }}
                   />
                   {context.accountId == accountId && (
