@@ -82,7 +82,9 @@ const shortenNumber = (n) => {
 };
 
 const daoLink = ({ daoId, tab }) => {
-  return `/#/astro.sking.near/widget/DAO?daoId=${daoId}${tab && `&tab=${tab}`}`;
+  return `/#/shemar268abel.near/widget/DAO.index?daoId=${daoId}${
+    tab && `&tab=${tab}`
+  }`;
 };
 
 const Wrapper = styled.div`
@@ -151,13 +153,9 @@ return (
       </p>
     </div>
     <div className="d-flex gap-2 justify-content-around gap-3 mb-3">
-      <a href={daoLink({ daoId, tab: "settings" })}>
-        <i className="bi me-1 bi-gear" />
-        Settings
-      </a>
-      <a href={daoLink({ daoId, tab: "nfts" })}>
+      <a href={daoLink({ daoId, tab: "projects" })}>
         <i className="bi me-1 bi-image" />
-        NFTs
+        Projects
       </a>
       <a href={daoLink({ daoId, tab: "bounties" })}>
         <i className="bi me-1 bi-briefcase" />
@@ -165,7 +163,7 @@ return (
       </a>
       <a href={daoLink({ daoId, tab: "proposals" })}>
         <i className="bi me-1 bi-question-circle" />
-        Polls
+        Proposals
       </a>
     </div>
     <div className="d-flex gap-2 justify-content-between">
