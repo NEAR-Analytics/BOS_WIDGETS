@@ -1,3 +1,4 @@
+const daoId = "marmaj-research.sputnik-dao.near";
 return (
   <>
     <Widget src="mob.near/widget/ProfileOnboarding" />
@@ -57,5 +58,8 @@ return (
       </div>
     </div>
     <Widget src="shemar268abel.near/widget/DAO.Funds.index" />
+    <div className="text-bg-light rounded-4 p-3 mb-3">
+      <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
+    </div>
   </>
 );
