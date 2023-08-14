@@ -69,8 +69,10 @@ return (
             <i className="bi bi-wikipedia"></i>
           </a>
         </div>
-        <h3>Followers</h3>
-        <Widget src="near/widget/FollowersList" props={{ accountId: daoId }} />
+        <Widget
+          src="shemar268abel.near/widget/FungibleTokenBalance"
+          props={{ accountId: daoId }}
+        />
       </div>
     </div>
     <div className="text-bg-light rounded-4 p-3 mb-3">
