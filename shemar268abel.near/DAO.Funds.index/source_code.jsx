@@ -57,7 +57,7 @@ const fether = {
 const Container = styled.div``;
 
 return (
-  <Container className="d-flex flex-column gap-4 text-bg-light rounded-4">
+  <Container className="d-flex flex-column gap-4 bg-light rounded-4">
     <Widget
       src={`${widgetOwner}/widget/DAO.Funds.Balance`}
       props={{ daoId, fether }}
