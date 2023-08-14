@@ -92,14 +92,14 @@ const Wrapper = styled.div`
     }
   }
 
-  .reposted .main-post {
+  .reposted {
     padding-top: 30px;
   }
 `;
 
 return (
   <Wrapper>
-    <div className="post main-post">
+    <div className={`post ${props.reposted ? "reposted" : ""}`}>
       <Widget
         src="mob.near/widget/MainPage.N.Post.Left"
         props={{ accountId }}
