@@ -69,7 +69,19 @@ State.init({
       });
     }
   },
+  isSuccess: false,
+  message: "",
 });
+
+const handleClick = async (e) => {
+  const response = await props.uploadFile(e);
+
+  State.update({
+    ...state,
+    isSuccess: response.state,
+    message: response.message,
+  });
+};
 
 return (
   <Container>
@@ -102,7 +114,7 @@ return (
         </div>
       )}
       <div>
-        <UploadButton className="btn px-5 py-2 mt-3" onClick={props.uploadFile}>
+        <UploadButton className="btn px-5 py-2 mt-3" onClick={handleClick}>
           Upload
         </UploadButton>
       </div>
