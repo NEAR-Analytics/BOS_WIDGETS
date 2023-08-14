@@ -208,7 +208,6 @@ function reactListener(emojiMessage) {
     state.reactionsData.userReaction.value.reaction === initialEmoji
       ? emojiArray[0]
       : emojiMessage;
-  console.log("emojiToWrite: ", emojiToWrite);
 
   const newLibCalls = [...state.libCalls];
   newLibCalls.push({
