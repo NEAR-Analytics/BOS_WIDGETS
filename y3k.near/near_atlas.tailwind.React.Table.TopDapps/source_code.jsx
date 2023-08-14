@@ -206,7 +206,7 @@ return (
   <div className="bg-dark rounded-lg mb-12 overflow-hidden w-full">
     {data !== null ? (
       <div style={{ "min-width": "780px" }} className="bg-dark w-full">
-        <table className="table-auto w-full">
+        <table className="table-auto w-full ">
           <thead className="bg-gray-700">
             <tr>
               {COLUMNS.map((column, index) => (
@@ -228,10 +228,14 @@ return (
             {getSortedNodes().map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className={rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"}
+                className={
+                  rowIndex % 2 === 0
+                    ? "bg-gray-800 hover:bg-gray-900"
+                    : "bg-gray-900 hover:bg-gray-800"
+                }
               >
                 {COLUMNS.map((column, colIndex) => (
-                  <td key={colIndex} className="text-white text-center p-2">
+                  <td key={colIndex} className="text-white text-center p-2 ">
                     {column.renderCell(row)}
                   </td>
                 ))}
