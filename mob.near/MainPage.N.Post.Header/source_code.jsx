@@ -43,11 +43,13 @@ return (
   <div className="d-flex flex-row align-items-center">
     <div className="flex-grow-1" style={{ minWidth: 0, overflow: "hidden" }}>
       <div className="d-flex">
-        <div style={{ flexShrink: 1, minWidth: 0, overflow: "hidden" }}>
-          <Overlay>
-            <div className="text-truncate fw-bold pe-1">{name}</div>
-          </Overlay>
-        </div>
+        {name && (
+          <div style={{ flexShrink: 1, minWidth: 0, overflow: "hidden" }}>
+            <Overlay>
+              <div className="text-truncate fw-bold pe-1">{name}</div>
+            </Overlay>
+          </div>
+        )}
         <div className="text-nowrap flex-shrink-0">{Checkmark}</div>
         <div style={{ flexShrink: 100, minWidth: 0, overflow: "hidden" }}>
           <Overlay>
