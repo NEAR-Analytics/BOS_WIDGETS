@@ -92,7 +92,7 @@ return (
         >
           <div>
             <Widget
-              src="y3k.near/widget/near_atlas.tailwind.NEAR-ATLAS-MonthlyActiveAcounts"
+              src="y3k.near/widget/near_atlas.components.react_charts.MonthlyActiveAcounts"
               props={{}}
             />
           </div>
