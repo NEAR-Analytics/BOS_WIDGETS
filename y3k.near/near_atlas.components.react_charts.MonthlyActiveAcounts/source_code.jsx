@@ -79,11 +79,6 @@ const series2 = {
 
 const primaryAxis = {
   getValue: (datum) => datum.primary,
-  type: "ordinal",
-  format: (d) => {
-    const date = new Date(d);
-    return date.toLocaleString("default", { month: "short" });
-  },
 };
 
 const secondaryAxes = [
