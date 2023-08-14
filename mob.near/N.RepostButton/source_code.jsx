@@ -33,7 +33,6 @@ const RepostButton = styled.button`
   width: 35px;
   height: 35px;
   background: inherit;
-  opacity: 0.3;
   &:hover {
     opacity: 1;
     color: rgb(0, 184, 124);
