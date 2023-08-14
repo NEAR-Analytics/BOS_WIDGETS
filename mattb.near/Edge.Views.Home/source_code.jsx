@@ -20,5 +20,6 @@ return (
       <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.HomeSection`} />
     </JumbotronWrapper>
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.StorySection`} />
+    <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.MainTopicsSection`} />
   </Main>
 );
