@@ -20,7 +20,7 @@ const series1 = {
   data: sortedData.map((item) => {
     return {
       primary: item.DAY,
-      secondary: item.RETURNING_MAAS,
+      secondary: Number(item.RETURNING_MAAS),
     };
   }),
 };
@@ -30,7 +30,7 @@ const series2 = {
   data: sortedData.map((item) => {
     return {
       primary: item.DAY,
-      secondary: item.NEW_MAAS,
+      secondary: Number(item.NEW_MAAS),
     };
   }),
 };
@@ -91,10 +91,33 @@ const series2 = {
 //   },
 // };
 
+// const primaryAxis = {
+//   //   position: "left",
+//   type: "linear",
+//   // show: false,
+//   stacked: true,
+//   getValue: (datum) => datum.primary,
+// };
+
+function getWeekLabel(d) {
+  // Convert the date string to a date object
+  const date = new Date(d);
+
+  // Calculate the week number
+  const startOfYear = new Date(date.getFullYear(), 0, 1);
+  const weekNumber = Math.ceil(
+    ((date - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7
+  );
+
+  // Create the week label
+  const weekLabel = `Week ${weekNumber}`;
+
+  return weekLabel;
+}
+
 const primaryAxis = {
-  //   position: "left",
-  type: "linear",
-  // show: false,
+  type: "time",
+  tickFormat: getWeekLabel,
   stacked: true,
   getValue: (datum) => datum.primary,
 };
@@ -106,9 +129,7 @@ const secondaryAxes = [
     getValue: (datum) => datum.secondary,
     stacked: true,
     type: "linear",
-    // If you have a specific value for stackOffsetWiggle, you can replace it here
     // stackOffset: stackOffsetWiggle,
-    // stacked: true,
   },
 ];
 
