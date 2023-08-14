@@ -99,7 +99,7 @@ const Wrapper = styled.div`
 
 const renderUserRow = (user, roles, i) => {
   return (
-    <div key={i} className="ndc-card ratio ratio-1x1 userRow">
+    <div key={i} className="ndc-card ratio-1x1 userRow">
       <div className=" d-flex flex-column p-4">
         <Widget
           src="nui.sking.near/widget/Element.User"
