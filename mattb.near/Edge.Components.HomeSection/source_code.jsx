@@ -4,34 +4,26 @@ const BACKGROUND_URL =
 const Jumbotron = styled.div`
     @keyframes move {
       0% {
-        background-size: auto 100%;
+        box-shadow: inset 0 0 20vw 5vw rgba(255,255,255,1);
       }
       20% {
-        background-size: auto 101%;
+        box-shadow: inset 0 10vw 20vw 5vw rgba(255,255,255,1);
       }
 
       25% {
-        background-size: auto 100.5%;
+        box-shadow: inset 0 20vw 20vw 5vw rgba(255,255,255,1);
       }
       
       35% {
-        background-size: auto 102%;
+        box-shadow: inset 0 0 5vw 5vw rgba(255,255,255,1);
       }
 
       40% {
-        background-size: auto 100%;
+        box-shadow: inset 0 0 15vw 5vw rgba(255,255,255,1);
       }
 
       50% {
-        background-size: auto 104%;
-      }
-
-      55% {
-        background-size: auto 102%;
-      }
-
-      58% {
-        background-size: auto 108%;
+        box-shadow: inset 0 0 10vw 5vw rgba(255,255,255,1);
       }
     }
 
@@ -44,7 +36,8 @@ const Jumbotron = styled.div`
     background-position:center;
     background-size:cover;
     background-repeat:no-repeat;
-    box-shadow: inset 0 10px 20vw 10vw rgba(255,255,255,1);
+    box-shadow: inset 0 0 20vw 5vw rgba(255,255,255,1);
+    animation-name:move;
     animation-duration:10s;
     animation-iteration-count:infinite;
     animation-fill-mode:both;
