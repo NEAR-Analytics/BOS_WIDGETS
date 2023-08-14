@@ -37,13 +37,12 @@ const Box = styled.div`
     }
 
     .title {
-        font-size:1.5rem;
+        font-size:1.875rem;
     }
 
     .subtitle {
-        font-size:.8rem;
+        font-size:1rem;
         opacity:.6;
-        margin-bottom:1rem;
     }
     
     .content {
@@ -65,10 +64,10 @@ const Topics = styled.div`
     display:grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
+    padding:4rem 0;
 `;
 
 const Topic = styled.div`
-    padding:1rem;
     text-align:center;
 
     .title {
