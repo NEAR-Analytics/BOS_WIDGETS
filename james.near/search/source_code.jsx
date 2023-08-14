@@ -25,7 +25,6 @@ const Wrapper =
     display: flex;
     flex-direction: column;
     gap: 23px;
-    max-width: 600px;
     margin: 0 auto;
   `;
 
