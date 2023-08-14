@@ -39,6 +39,10 @@ return (
       <div class="subtitle-below text-white opacity-75">
         ♥ Share ideas, connect with people, and get involved! ♥
       </div>
+      <Widget
+        src="shemar268abel.near/widget/DAOs.Card"
+        props={{ daoId: "marmaj-research.sputnik-dao.near" }}
+      />
     </Gradient>
   </div>
 );
