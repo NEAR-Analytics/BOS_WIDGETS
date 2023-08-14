@@ -195,7 +195,6 @@ function onPushEnd() {
 }
 
 function reactListener(emojiMessage) {
-  console.log("run listener");
   if (state.loading) {
     return;
   }
