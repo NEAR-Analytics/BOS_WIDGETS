@@ -1,8 +1,11 @@
 const Box = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
     padding:2rem;
     box-sizing:border-box;
     width:100%;
-    min-height:50vh;
+    min-height:80vh;
     background-color:#fff;
     color:#000;
 
@@ -33,8 +36,6 @@ const Box = styled.div`
 `;
 
 const Wrapper = styled.div`
-    max-width:800px;
-    margin:0 auto;
 `;
 
 return (
