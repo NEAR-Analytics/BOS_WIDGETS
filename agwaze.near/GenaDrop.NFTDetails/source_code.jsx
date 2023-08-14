@@ -220,7 +220,9 @@ const TopImageContainer = styled.div`
   border-radius: 0.7em;
   &>img {
     width: 100%;
+    max-width: 400px;
     max-height: 548px;
+    object-fit: cover;
   }
 `;
 
@@ -494,16 +496,6 @@ return (
           <Description>
             <h6>Attributes</h6>
             <AttributeContainer>
-              <Attribute>
-                <div>
-                  <span style={{ color: "#b2b7c2" }}>File Type</span>
-                  <p style={{ marginTop: "10px" }}>PNG</p>
-                </div>
-                <div>
-                  <span style={{ color: "#b2b7c2" }}>Rarity</span>
-                  <p style={{ marginTop: "10px" }}>1%</p>
-                </div>
-              </Attribute>
               <Attribute>
                 <div>
                   <span style={{ color: "#b2b7c2" }}>File Type</span>
