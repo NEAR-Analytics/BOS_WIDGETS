@@ -15,11 +15,34 @@ const sortedData = r_data.sort((a, b) => {
   return new Date(a["DAY"]) - new Date(b["DAY"]);
 });
 
+const series1 = {
+  label: "RETURNING MAAS",
+  data: sortedData.map((item) => {
+    return {
+      primary: item.DAY,
+      secondary: item.RETURNING_MAAS,
+    };
+  }),
+};
+
+const series2 = {
+  label: "NEW MAAS",
+  data: sortedData.map((item) => {
+    return {
+      primary: item.DAY,
+      secondary: item.NEW_MAAS,
+    };
+  }),
+};
+
 // const series1 = {
 //   label: "RETURNING_MAAS",
 //   data: sortedData.map((item) => {
+//     const date = new Date(item.DAY);
+//     const month = date.toLocaleString("default", { month: "long" });
+//     const year = date.getFullYear();
 //     return {
-//       primary: item.DAY,
+//       primary: `${month} ${year}`,
 //       secondary: item.RETURNING_MAAS,
 //     };
 //   }),
@@ -28,38 +51,15 @@ const sortedData = r_data.sort((a, b) => {
 // const series2 = {
 //   label: "NEW_MAAS",
 //   data: sortedData.map((item) => {
+//     const date = new Date(item.DAY);
+//     const month = date.toLocaleString("default", { month: "long" });
+//     const year = date.getFullYear();
 //     return {
-//       primary: item.DAY,
+//       primary: `${month} ${year}`,
 //       secondary: item.NEW_MAAS,
 //     };
 //   }),
 // };
-
-const series1 = {
-  label: "RETURNING_MAAS",
-  data: sortedData.map((item) => {
-    const date = new Date(item.DAY);
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-    return {
-      primary: `${month} ${year}`,
-      secondary: item.RETURNING_MAAS,
-    };
-  }),
-};
-
-const series2 = {
-  label: "NEW_MAAS",
-  data: sortedData.map((item) => {
-    const date = new Date(item.DAY);
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-    return {
-      primary: `${month} ${year}`,
-      secondary: item.NEW_MAAS,
-    };
-  }),
-};
 
 // const primaryAxis = {
 //   type: "ordinal",
@@ -93,8 +93,9 @@ const series2 = {
 
 const primaryAxis = {
   //   position: "left",
-  type: "time",
+  type: "linear",
   // show: false,
+  stacked: true,
   getValue: (datum) => datum.primary,
 };
 
@@ -103,7 +104,8 @@ const secondaryAxes = [
     // position: "top",
     // show: false,
     getValue: (datum) => datum.secondary,
-    // type: "bar",
+    stacked: true,
+    type: "linear",
     // If you have a specific value for stackOffsetWiggle, you can replace it here
     // stackOffset: stackOffsetWiggle,
     // stacked: true,
@@ -121,8 +123,7 @@ return (
       options={{
         secondaryAxes: secondaryAxes,
         primaryAxis: primaryAxis,
-        width: "500",
-        height: "600",
+        HeaderTitle: "Overview",
       }}
     />
   </div>
