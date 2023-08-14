@@ -62,10 +62,10 @@ return (
       src={`${widgetOwner}/widget/DAO.Funds.Balance`}
       props={{ daoId, fether }}
     />
-    <Widget
+    {/* <Widget
       src={`${widgetOwner}/widget/DAO.Funds.Transactions`}
       props={{ daoId, fether }}
-    />
+    /> */}
     {/* <Widget
       src={`${widgetOwner}/widget/DAO.Funds.Outgoing`}
       props={{ daoId, fether }}
