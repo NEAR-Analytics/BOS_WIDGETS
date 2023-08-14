@@ -220,7 +220,6 @@ const TopImageContainer = styled.div`
   border-radius: 0.7em;
   &>img {
     width: 100%;
-    max-height: 548px;
   }
 `;
 
