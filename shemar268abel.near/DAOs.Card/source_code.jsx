@@ -89,22 +89,24 @@ const daoLink = ({ daoId, tab }) => {
 
 const Wrapper = styled.div`
   border: 1px solid transparent;
+  background-color: #0c0c0c;
 
   &:hover {
-    border: 1px solid #4498e0;
+    border: 1px solid red;
   }
 
   .dao-card-stats {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     column-gap: 0.5rem;
+    color: #4498e0cc;
     row-gap: 0.2rem;
 
     & > p:nth-child(1),
     & > p:nth-child(2),
     & > p:nth-child(3) {
       font-size: 0.8rem;
-      color: #4498e0;
+      color: yellow;
       margin: 0;
     }
 
@@ -122,13 +124,13 @@ const Wrapper = styled.div`
   }
 
   a {
-    color: #4498e0;
+    color: white;
     font-size: 0.8rem;
     font-weight: 600;
     text-decoration: none;
 
     &:hover {
-      color: #4498e0cc;
+      color: red;
   }
 `;
 
