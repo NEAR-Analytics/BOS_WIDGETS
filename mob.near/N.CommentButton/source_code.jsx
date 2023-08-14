@@ -8,7 +8,7 @@ const Button = styled.button`
   height: 35px;
   background: inherit;
   &:hover {
-    opacity: 1;
+    opacity: 1 !important;
     color: DeepSkyBlue;
     background: rgba(0, 191, 255, 0.1);
   }
