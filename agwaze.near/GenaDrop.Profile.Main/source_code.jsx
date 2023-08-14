@@ -2,9 +2,9 @@ State.init({
   selectedTab: props.tab || "nfts",
 });
 
-const accountId = props.accountId ?? context.accountId;
+let accountId = props.accountId ?? context.accountId;
 if (!accountId) {
-  return "No account ID";
+  accountId = "genadrop.near";
 }
 
 if (props.tab && props.tab !== state.selectedTab) {
@@ -14,7 +14,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${accountId}`;
+const accountUrl = `#/genadrop.near/widget/GenaDrop.Profile.Main?accountId=${accountId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -225,17 +225,23 @@ return (
           <>
             {profile.description && (
               <>
-                <Title as="h2" size="19px" margin></Title>
+                <Title as="h2" size="19px" margin>
+                  About
+                </Title>
 
-                <>
+                <Bio>
                   <Widget
-                    src="jgodwill.near/widget/CPlanet.MainPage.Feed"
-                    props={{ accounts: [accountId] }}
+                    src="near/widget/SocialMarkdown"
+                    props={{ text: profile.description }}
                   />
-                  <p className="text-center">{accountId} has no post yet</p>
-                </>
+                </Bio>
               </>
             )}
+
+            <Widget
+              src="near/widget/Posts.Feed"
+              props={{ accounts: [accountId] }}
+            />
           </>
         )}
 
