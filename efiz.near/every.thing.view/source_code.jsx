@@ -267,7 +267,7 @@ function Thing() {
           <Widget
             src="efiz.near/widget/MonacoEditor"
             props={{
-              code: thing.data,
+              code: JSON.stringify(thing),
               path,
               language: "javascript",
             }}
