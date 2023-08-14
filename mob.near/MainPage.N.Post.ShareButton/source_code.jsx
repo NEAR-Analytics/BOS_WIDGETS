@@ -30,7 +30,7 @@ const shareSvg = (
     width="24"
     height="24"
     fill="currentColor"
-    viewBox="-2 -2 20 20"
+    viewBox="0 0 16 16"
     stroke="currentColor"
     strokeWidth="0.5"
   >
