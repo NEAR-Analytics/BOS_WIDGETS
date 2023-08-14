@@ -15,34 +15,11 @@ const sortedData = r_data.sort((a, b) => {
   return new Date(a["DAY"]) - new Date(b["DAY"]);
 });
 
-// const series1 = {
-//   label: "RETURNING_MAAS",
-//   data: sortedData.map((item) => {
-//     return {
-//       primary: item.DAY,
-//       secondary: item.RETURNING_MAAS,
-//     };
-//   }),
-// };
-
-// const series2 = {
-//   label: "NEW_MAAS",
-//   data: sortedData.map((item) => {
-//     return {
-//       primary: item.DAY,
-//       secondary: item.NEW_MAAS,
-//     };
-//   }),
-// };
-
 const series1 = {
   label: "RETURNING_MAAS",
   data: sortedData.map((item) => {
-    const date = new Date(item.DAY);
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
     return {
-      primary: `${month} ${year}`,
+      primary: item.DAY,
       secondary: item.RETURNING_MAAS,
     };
   }),
@@ -51,20 +28,78 @@ const series1 = {
 const series2 = {
   label: "NEW_MAAS",
   data: sortedData.map((item) => {
-    const date = new Date(item.DAY);
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
     return {
-      primary: `${month} ${year}`,
+      primary: item.DAY,
       secondary: item.NEW_MAAS,
     };
   }),
 };
 
+// const series1 = {
+//   label: "RETURNING_MAAS",
+//   data: sortedData.map((item) => {
+//     const date = new Date(item.DAY);
+//     const month = date.toLocaleString("default", { month: "long" });
+//     const year = date.getFullYear();
+//     return {
+//       primary: `${month} ${year}`,
+//       secondary: item.RETURNING_MAAS,
+//     };
+//   }),
+// };
+
+// const series2 = {
+//   label: "NEW_MAAS",
+//   data: sortedData.map((item) => {
+//     const date = new Date(item.DAY);
+//     const month = date.toLocaleString("default", { month: "long" });
+//     const year = date.getFullYear();
+//     return {
+//       primary: `${month} ${year}`,
+//       secondary: item.NEW_MAAS,
+//     };
+//   }),
+// };
+
+// const primaryAxis = {
+//   type: "ordinal",
+//   tickFormat: function (d) {
+//     const date = new Date(d);
+//     return date.toLocaleString("default", { month: "short" });
+//   },
+// };
+
+// const secondaryAxes = [
+//   {
+//     type: "linear",
+//     position: "left",
+//     format: (d) => `${d}`, // You can customize the format if needed
+//   },
+// ];
+
+const primaryAxis = {
+  getValue: (datum) => datum.primary,
+  type: "ordinal",
+  format: (d) => {
+    const date = new Date(d);
+    return date.toLocaleString("default", { month: "short" });
+  },
+};
+
+const secondaryAxes = [
+  {
+    getValue: (datum) => datum.secondary,
+  },
+];
+
 const output = [series2, series1];
 
 return (
   <div>
-    <ReactChart chart_name="BarCustom" options={[]} data={output} />
+    <ReactChart
+      chart_name="BarCustom"
+      data={output}
+      options={{ primaryAxis, secondaryAxes }}
+    />
   </div>
 );
