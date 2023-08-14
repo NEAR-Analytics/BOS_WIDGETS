@@ -35,6 +35,13 @@ const Wrapper = styled.div`
       margin-bottom: 0.5rem;
       white-space: inherit;
     }
+    hr {
+      display: none;
+    }
+    img {
+      border-radius: var(--bs-border-radius-lg);
+      max-heigth: 100vh;
+    }
 
     :hover {
       background-color: rgba(0, 0, 0, 0.03);
