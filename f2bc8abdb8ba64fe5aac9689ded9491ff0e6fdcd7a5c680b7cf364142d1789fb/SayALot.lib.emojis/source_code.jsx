@@ -17,7 +17,6 @@ function createReaction(props) {
 }
 
 function composeReactionData(reaction) {
-  console.log("composeDataReaction: ", reaction);
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -34,6 +33,7 @@ function composeReactionData(reaction) {
 }
 
 function saveReaction(reaction, onCommit, onCancel) {
+  console.log("saveReactionReaction: ", reaction);
   if (reaction.emoji) {
     const newData = composeReactionData(reaction);
 
@@ -106,7 +106,6 @@ function getReactionsData(props) {
 
 function libCall(call) {
   if (call.functionName === "createReaction") {
-    console.log("running createReaction");
     return createReaction(call.props);
   } else if (call.functionName === "getReactionsData") {
     return getReactionsData(props);
