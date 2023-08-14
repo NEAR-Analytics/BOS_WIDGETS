@@ -21,13 +21,14 @@ if (state.hasRepost === true) {
 }
 
 const accountsWithReposts = Object.keys(repostsByUsers);
+const repostCount = accountsWithReposts.length;
 const hasRepost = context.accountId && !!repostsByUsers[context.accountId];
 
 const RepostButton = styled.button`
   border: 0 !important;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   border-radius: 50%;
   width: 35px;
   height: 35px;
@@ -39,7 +40,10 @@ const RepostButton = styled.button`
     background: rgb(0, 184, 124, 0.1);
   }
   svg {
-    margin-top: -5px;
+    margin-top: -4px;
+  }
+  .count {
+    margin-left: 8px;
   }
 `;
 
@@ -121,10 +125,7 @@ return (
       onClick={repostClick}
     >
       <span className={hasRepost ? "reposted" : ""}>{repostSvg}</span>
+      <span className="count">{repostCount || ""}</span>
     </RepostButton>
-    <Widget
-      src="mob.near/widget/N.LikeButton.Faces"
-      props={{ likesByUsers: repostsByUsers }}
-    />
   </div>
 );
