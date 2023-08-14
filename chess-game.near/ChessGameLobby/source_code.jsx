@@ -4,6 +4,7 @@ if (!accountId) {
 }
 
 const contractId = "app.chess-game.near";
+const socialContractId = "social.near";
 const headerWidget = "chess-game.near/widget/ChessGameHeader";
 const gameWidget = "chess-game.near/widget/ChessGame";
 const replayWidget = "chess-game.near/widget/ChessGameReplay";
@@ -47,6 +48,7 @@ State.init({
   game_id: null,
   replay_game_id: null,
   isRegistered: state.isRegistered,
+  enabledNotifications: state.enabledNotifications,
   gameIds: null,
   finishedGames: null,
   recentFinishedGames: null,
@@ -62,7 +64,20 @@ const updateIsRegistered = () => {
   });
 };
 updateIsRegistered();
-if (state.isRegistered == null) {
+
+const updateEnabledNotifications = () => {
+  Near.asyncView(socialContractId, "is_write_permission_granted", {
+    predecessor_id: contractId,
+    key: `${accountId}/index/notify`,
+  }).then((res) => {
+    State.update({
+      enabledNotifications: !!res,
+    });
+  });
+};
+updateEnabledNotifications();
+
+if (state.isRegistered == null || state.enabledNotifications == null) {
   return <Widget src={loadingWidget} />;
 }
 
@@ -77,27 +92,19 @@ const registerAccount = () => {
   updateIsRegistered();
 };
 
-if (!state.isRegistered) {
-  return (
-    <LobbyView>
-      <Widget src={headerWidget} />
-      <Disclaimer>
-        You need to pay storage deposit of 0.05N first before being allowed to
-        play Chess On Chain.
-        <br />
-        If you don't get redirected after registering, please refresh the page.
-      </Disclaimer>
-      <Widget
-        src={buttonWidget}
-        props={{
-          onClick: registerAccount,
-          fontSize: "1.2rem",
-          content: "Register Account",
-        }}
-      />
-    </LobbyView>
+const enableNotifications = () => {
+  Near.call(
+    socialContractId,
+    "grant_write_permission",
+    {
+      predecessor_id: contractId,
+      keys: [`${accountId}/index/notify`],
+    },
+    "100000000000000",
+    "50000000000000000000000"
   );
-}
+  updateIsRegistered();
+};
 
 Near.asyncView(contractId, "get_game_ids", {
   account_id: accountId,
@@ -278,6 +285,41 @@ return (
     alignItems={state.game_id || state.replay_game_id ? "stretch" : "center"}
   >
     <Widget src={headerWidget} />
+    {!state.isRegistered && (
+      <>
+        <Disclaimer>
+          You need to pay storage deposit of 0.05N first before being allowed to
+          play Chess On Chain.
+          <br />
+          If you don't get redirected after registering, please refresh the
+          page.
+        </Disclaimer>
+        <Widget
+          src={buttonWidget}
+          props={{
+            onClick: registerAccount,
+            fontSize: "1.2rem",
+            content: "Register Account",
+          }}
+        />
+      </>
+    )}
+    {!state.enabledNotifications && (
+      <>
+        <Disclaimer>
+          You can enable notifications on BOS gateways, which will notify you
+          about your turns and game outcomes.
+        </Disclaimer>
+        <Widget
+          src={buttonWidget}
+          props={{
+            onClick: enableNotifications,
+            fontSize: "1.2rem",
+            content: "Enable Notifications",
+          }}
+        />
+      </>
+    )}
     {content}
     <Disclaimer>
       If you won or lost a game it will no longer be displayed. You can check
