@@ -46,32 +46,34 @@ return (
           src="mob.near/widget/MainPage.N.Post.Content"
           props={{ content, raw }}
         />
-        {blockHeight !== "now" && (
-          <div className="mt-1 d-flex justify-content-between">
-            {parentItem && (
-              <div key="comment">
-                <Widget
-                  src="mob.near/widget/N.CommentButton"
-                  props={{
-                    onClick: () =>
-                      !state.showReply && State.update({ showReply: true }),
-                  }}
-                />
-              </div>
-            )}
-            <Widget
-              src="mob.near/widget/N.LikeButton"
-              props={{
-                notifyAccountId,
-                item,
-              }}
-            />
-            <Widget
-              src="mob.near/widget/MainPage.N.Post.ShareButton"
-              props={{ accountId, blockHeight, postType: "comment" }}
-            />
-          </div>
-        )}
+        <div className="buttons">
+          {blockHeight !== "now" && (
+            <div className="mt-1 d-flex justify-content-between">
+              {parentItem && (
+                <div key="comment">
+                  <Widget
+                    src="mob.near/widget/N.CommentButton"
+                    props={{
+                      onClick: () =>
+                        !state.showReply && State.update({ showReply: true }),
+                    }}
+                  />
+                </div>
+              )}
+              <Widget
+                src="mob.near/widget/N.LikeButton"
+                props={{
+                  notifyAccountId,
+                  item,
+                }}
+              />
+              <Widget
+                src="mob.near/widget/MainPage.N.Post.ShareButton"
+                props={{ accountId, blockHeight, postType: "comment" }}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
     {state.showReply && (
