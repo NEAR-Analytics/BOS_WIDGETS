@@ -9,7 +9,7 @@ return content ? (
       ) : (
         <div className="text-break">
           <Widget
-            src="mob.near/widget/SocialMarkdown"
+            src="mob.near/widget/N.SocialMarkdown"
             props={{
               text: content.text,
               onHashtag: (hashtag) => (
