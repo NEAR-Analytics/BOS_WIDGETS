@@ -1,7 +1,7 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
 const postType = props.postType ?? "post";
-const externalLink = `https://sharddog.social/#/mob.near/widget/MainPage.${
+const externalLink = `https://sharddog.social/mob.near/widget/MainPage.${
   postType === "post" ? "Post" : "Comment"
 }.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
