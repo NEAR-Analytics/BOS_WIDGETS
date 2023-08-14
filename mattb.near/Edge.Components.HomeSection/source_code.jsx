@@ -42,10 +42,9 @@ const Jumbotron = styled.div`
     width:100%;
     height:100vh;
     background-position:center;
-    background-size:auto 100%;
+    background-size:cover;
     background-repeat:no-repeat;
     box-shadow: inset 0 10px 20vw 10vw rgba(0,0,0,1);
-    animation-name: move;
     animation-duration:10s;
     animation-iteration-count:infinite;
     animation-fill-mode:both;
@@ -81,7 +80,7 @@ const Jumbotron = styled.div`
       }
 
       58% {
-        backdrop-filter:invert(30%);
+        backdrop-filter:invert(80%);
       }
     }
       content:'';
@@ -93,7 +92,7 @@ const Jumbotron = styled.div`
       height:100%;
       backdrop-filter:invert(100%);
       animation-name: decolorize;
-      animation-duration:10s;
+      animation-duration:20s;
       animation-iteration-count:infinite;
       animation-fill-mode:both;
       animation-direction: alternate;
