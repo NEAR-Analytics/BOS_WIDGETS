@@ -88,7 +88,7 @@ const daoLink = ({ daoId, tab }) => {
 };
 
 const Wrapper = styled.div`
-  border: 1px solid black;
+  border: 1px solid transparent;
   background-color: #0c0c0c;
 
   &:hover {
@@ -135,7 +135,7 @@ const Wrapper = styled.div`
 `;
 
 return (
-  <Wrapper className="ndc-card p-4 d-flex flex-column gap-2 h-100">
+  <Wrapper className="p-4 d-flex flex-column gap-2 h-100">
     <div className="d-grid justify-content-between text-center dao-card-stats mb-3 mt-auto">
       <p>DAO Funds</p>
       <p>Members/Groups</p>
