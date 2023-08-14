@@ -4,6 +4,7 @@ State.init({
   inputReceiver: "",
   root: null,
   errorTransfer: null,
+  itemsToShow: 5, // New state variable
 });
 
 // Start of Style component
@@ -239,6 +240,9 @@ const onClickSendToken = () => {
   );
 };
 
+// Limit tokens to the first `itemsToShow` items
+const limitedContractData = contractData.slice(0, state.itemsToShow);
+
 const Root = state.root;
 const totalValue = contractData.reduce((total, item) => {
   return total + (item.balanceInUsd ? parseFloat(item.balanceInUsd) : 0);
@@ -328,7 +332,7 @@ return (
             <p>Token balance</p>
           </div>
         </Account>
-        {contractData?.map((item) => (
+        {limitedContractData.map((item) => (
           <FungibleToken onClick={() => State.update({ activeTokens: item })}>
             <div class="token-icon">
               {item.icon && <img class="token-icon" src={item.icon} />}
@@ -349,6 +353,24 @@ return (
             </div>
           </FungibleToken>
         ))}
+        {contractData.length > state.itemsToShow && (
+          <button
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "10px",
+              margin: "10px 0",
+              borderRadius: "10px",
+              border: "1px solid #ddd",
+              backgroundColor: "#f5f5f5",
+              cursor: "pointer",
+              color: "#000",
+            }}
+            onClick={() => State.update({ itemsToShow: state.itemsToShow + 5 })}
+          >
+            Show More
+          </button>
+        )}
         <div
           style={{
             textAlign: "right",
