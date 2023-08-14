@@ -135,17 +135,14 @@ const secondaryAxes = [
 const output = [series2, series1];
 
 return (
-  <div
-    style={{
-      height: "590px",
-    }}
-  >
+  <div>
     <ReactChart
       chart_name="BarCustom"
       data={output}
       options={{
         secondaryAxes: secondaryAxes,
         primaryAxis: primaryAxis,
+        minHeight: "600px",
       }}
     />
   </div>
