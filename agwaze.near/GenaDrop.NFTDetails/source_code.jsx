@@ -467,7 +467,7 @@ return (
                 <button>Buy</button>
               ) : state.owner === context.accountId ? (
                 <a
-                  href={`#/jgodwill.near/widget/GenaDrop.MultiListing??tokenId=${tokenId}&contractId=${contractId}`}
+                  href={`#/agwaze.near/widget/GenaDrop.NFTListing?tokenId=${tokenId}&contractId=${contractId}`}
                 >
                   <button>List</button>
                 </a>
