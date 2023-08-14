@@ -5,9 +5,9 @@ const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
 function createReaction(props) {
-  const { reaction, onCommit, onCancel } = props;
+  const { reaction, elementReactedId, onCommit, onCancel } = props;
 
-  saveReaction(reaction, onCommit, onCancel);
+  saveReaction(reaction, elementReactedId, onCommit, onCancel);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "createReaction";
@@ -16,11 +16,11 @@ function createReaction(props) {
   return reaction;
 }
 
-function composeReactionData(reaction) {
+function composeReactionData(reaction, elementReactedId) {
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: reaction.realArticleId,
+        key: elementReactedId,
         value: {
           type: "md",
           reaction,
@@ -32,9 +32,9 @@ function composeReactionData(reaction) {
   return data;
 }
 
-function saveReaction(reaction, onCommit, onCancel) {
+function saveReaction(reaction, elementReactedId, onCommit, onCancel) {
   if (reaction) {
-    const newData = composeReactionData(reaction);
+    const newData = composeReactionData(reaction, elementReactedId);
 
     Social.set(newData, {
       force: true,
@@ -45,13 +45,12 @@ function saveReaction(reaction, onCommit, onCancel) {
 }
 
 function getReactionsData(props) {
-  const { realArticleId, createReaction } = props;
+  const { elementReactedId, createReaction } = props;
 
-  const allReactions = Social.index(action, realArticleId, {
+  const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
   });
 
-  console.log(allReactions);
   if (allReactions) {
   }
 
