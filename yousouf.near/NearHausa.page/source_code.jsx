@@ -156,7 +156,7 @@ return (
           target="_blank"
           rel="noopener noreferrer"
         >
-          Building better future of Blockchain
+          Building better future with Blockchain
         </a>
       </Text>
       {!accountId ? (
@@ -182,6 +182,13 @@ return (
                   src="near/widget/AccountProfileCard"
                   props={{
                     accountId: "nearhausa.near",
+                  }}
+                />
+                <hr />
+                <Widget
+                  src="rc-dao.near/widget/rc.profile.card"
+                  props={{
+                    accountId: "near-hausa.sputnik-dao.near",
                   }}
                 />
               </div>
