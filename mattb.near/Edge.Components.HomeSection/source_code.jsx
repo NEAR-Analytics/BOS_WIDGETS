@@ -88,7 +88,7 @@ const Jumbotron = styled.div`
       position:absolute;
       top:0;
       left:0;
-      background-color:rgba(0,0,0,.45);
+      background-color:rgba(255,255,255,.45);
       width:100%;
       height:100%;
       backdrop-filter:invert(100%);
@@ -105,18 +105,18 @@ const Content = styled.div`
     z-index:2;
 
     h1 {
-        color:#fff;
+        color:#000;
         font-size:3rem;
         font-family:sans-serif;
 
         .company {
           font-family: Times New Roman;
-          border-bottom: 2px solid #fff;
+          border-bottom: 2px solid #000;
         }
     }
     p {
         font-size:1.2rem;
-        color:#fff;
+        color:#000;
         margin:1.5rem;
     }
 
@@ -130,7 +130,7 @@ const Details = styled.div`
     width:100%;
     box-sizing:border-box;
     padding:.5rem;
-    background-color:#fff;
+    background-color:#000;
 
     div {
         display:flex;
@@ -139,26 +139,25 @@ const Details = styled.div`
 
         flex-grow:1;
         p {
-            color:#000;
+            color:#fff;
             margin:0;
             padding:0;
         }
         margin-right:15px;
         padding-right:10px;
-        border-right:1px solid rgba(0,0,0,.2);
     }
 `;
 
 const Button = styled.a`
     align-items:center;
     justify-content:center;
-    background-color:#000;
-    color:#fff;
+    background-color:#fff;
+    color:#000;
     width:100%;
     padding:.5rem;
     max-width:150px;
-    box-shadow: 0 0 0 2px #000;
-    border:2px solid #fff;
+    box-shadow: 0 0 0 2px #fff;
+    border:2px solid #000;
     text-decoration:none;
 
     &:hover, &:focus {
