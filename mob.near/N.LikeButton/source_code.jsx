@@ -26,6 +26,7 @@ if (state.hasLike === true) {
 }
 
 const accountsWithLikes = Object.keys(likesByUsers);
+const likeCount = accountsWithLikes.length;
 const hasLike = context.accountId && !!likesByUsers[context.accountId];
 
 const heartSvg = (
@@ -69,11 +70,15 @@ const LikeButton = styled.button`
   height: 35px;
   background: inherit;
   &:hover {
+    opacity: 1 !important;
     color: red;
     background: pink;
   }
   .liked {
     color: red;
+  }
+  .count {
+    margin-left: 8px;
   }
 `;
 
@@ -122,7 +127,7 @@ return (
       <span className={hasLike ? "liked" : ""}>
         {hasLike ? heartFillSvg : heartSvg}
       </span>
-      <span className="count">{repostCount || ""}</span>
+      <span className="count">{likeCount || ""}</span>
     </LikeButton>
   </div>
 );
