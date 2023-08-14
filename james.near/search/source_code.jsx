@@ -295,9 +295,10 @@ const onSearchResultClick = ({ searchPosition, objectID, eventName }) => {
 
 return (
   <Wrapper>
+    <br />
     {showSearchBar && (
       <Widget
-        src="near/widget/Search.Pill"
+        src="james.near/widget/search.input"
         props={{
           onChange: onSearchChange,
           term: props.term,
@@ -318,13 +319,13 @@ return (
     )}
 
     {state.paginate?.hitsTotal == 0 && (
-      <h2>No matches were found for "{state.term}".</h2>
+      <h3>no matches were found for "{state.term}".</h3>
     )}
 
     {state.search?.profiles.length > 0 && (
       <Group>
-        <h3>People</h3>
-        <a href={peopleUrl}>View All</a>
+        <h3>people</h3>
+        <a href={peopleUrl}>view all</a>
 
         <Items>
           {state.search.profiles.map((profile, i) => (
@@ -337,7 +338,7 @@ return (
                     onSearchResultClick({
                       searchPosition: profile.searchPosition,
                       objectID: `${profile.accountId}/profile`,
-                      eventName: "Clicked Profile After Search",
+                      eventName: "clicked profile after search",
                     }),
                 }}
               />
@@ -349,8 +350,8 @@ return (
 
     {state.search?.components.length > 0 && (
       <Group>
-        <h3>Components</h3>
-        <a href={componentsUrl}>View All</a>
+        <h3>components</h3>
+        <a href={componentsUrl}>view all</a>
 
         <Items>
           {state.search.components.map((component, i) => (
@@ -363,7 +364,7 @@ return (
                     onSearchResultClick({
                       searchPosition: component.searchPosition,
                       objectID: `${component.accountId}/widget/${component.widgetName}`,
-                      eventName: "Clicked Component After Search",
+                      eventName: "clicked profile after search",
                     }),
                 }}
               />
@@ -375,7 +376,7 @@ return (
 
     {state.search?.postsAndComments.length > 0 && (
       <Group>
-        <h3>Posts and Comments</h3>
+        <h3>posts and comments</h3>
 
         <Items>
           {state.search.postsAndComments.map((post, i) => (
@@ -394,7 +395,7 @@ return (
                     onSearchResultClick({
                       searchPosition: post.searchPosition,
                       objectID: `${post.accountId}/${post.postType}/${post.blockHeight}`,
-                      eventName: "Clicked Post After Search",
+                      eventName: "clicked profile after search",
                     }),
                 }}
               />
