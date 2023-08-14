@@ -28,6 +28,7 @@ if (state.hasLike === true) {
 const accountsWithLikes = Object.keys(likesByUsers);
 const likeCount = accountsWithLikes.length;
 const hasLike = context.accountId && !!likesByUsers[context.accountId];
+hasLike = true;
 
 const heartSvg = (
   <svg
@@ -69,10 +70,14 @@ const LikeButton = styled.button`
   width: 35px;
   height: 35px;
   background: inherit;
+  line-height: normal;
   &:hover {
     opacity: 1 !important;
     color: red;
     background: pink;
+  }
+  svg {
+    margin-top: 2px;
   }
   .liked {
     color: red;
