@@ -244,6 +244,9 @@ const onClickSendToken = () => {
 };
 
 const Root = state.root;
+const totalValue = contractData.reduce((total, item) => {
+  return total + (item.balanceInUsd ? parseFloat(item.balanceInUsd) : 0);
+}, 0);
 
 return (
   <Root>
@@ -318,7 +321,14 @@ return (
     ) : (
       <>
         <Account>
-          <p class="account-address">{accountId}</p>
+          <p
+            style={{
+              textAlign: "center",
+            }}
+            class="account-address"
+          >
+            {accountId}
+          </p>
           <div class="token-info-wrapper">
             <p>My Assets</p>
             <p>Token balance</p>
@@ -345,6 +355,15 @@ return (
             </div>
           </FungibleToken>
         ))}
+        <div
+          style={{
+            textAlign: "right",
+            width: "100%",
+            backgroundColor: "transparent",
+          }}
+        >
+          <h4>Total: ${totalValue.toFixed(2)}</h4>
+        </div>
       </>
     )}
   </Root>
