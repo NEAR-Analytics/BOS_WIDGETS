@@ -1,6 +1,7 @@
 State.init({
   wallet: "",
   data: null,
+  loading: false,
 });
 
 const getBackgroundColor = (value, goodCondition, warningCondition) => {
@@ -12,62 +13,6 @@ const getBackgroundColor = (value, goodCondition, warningCondition) => {
 const widgets = {
   filter: "sharddog.near/widget/UserRep.Filter",
 };
-
-const handleWalletChange = (event) => {
-  if (event.target.value.trim() === "") {
-    // Input is empty, handle this case as needed
-    // You might want to reset the state, for example
-    State.update({ wallet: "", data: null });
-  } else {
-    // Input is not empty, continue with normal handling
-    State.update({ wallet: event.target.value });
-    //fetchData();
-  }
-};
-
-function fetchData() {
-  asyncFetch("https://auth.shard.dog/wallet/" + state.wallet, {
-    method: "GET",
-  }).then((res) => {
-    if (res.ok) {
-      State.update({ data: res.body });
-    } else {
-      // console.log(res);
-    }
-  });
-}
-
-function clearData() {
-  State.update({ wallet: "", data: null });
-}
-
-function isEmpty(obj) {
-  return Object.keys(obj).length === 0;
-}
-
-if ((!state.data && state.wallet.trim() === "") || state.data === null) {
-  return (
-    <div>
-      <h3>NEAR "Just to get a rep"</h3>
-      <small>
-        <i>
-          This is a beta of how you could look at scoring users rep based on
-          activity
-        </i>
-      </small>
-      <Widget
-        src={widgets.filter}
-        props={{
-          handleWalletChange,
-          wallet: state.wallet,
-          placeholder: "Search by wallet",
-        }}
-      />
-      <button onClick={fetchData}>Get Rep</button>{" "}
-      <button onClick={clearData}>Clear</button>
-    </div>
-  );
-}
 
 const {
   creationTimestamp,
@@ -160,6 +105,83 @@ const bottomRight = {
 const container = {
   position: "relative",
 };
+
+const animateCharacter = {
+  textTransform: "uppercase",
+  backgroundImage:
+    "linear-gradient(-225deg, #231557 0%, #44107a 29%, #ff1361 67%, #fff800 100%)",
+  backgroundSize: "200% auto",
+  backgroundClip: "text",
+  color: "#fff",
+  textFillColor: "transparent",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  animation: "textclip 2s linear infinite",
+  display: "inline-block",
+  fontSize: "30px",
+};
+
+const handleWalletChange = (event) => {
+  if (event.target.value.trim() === "") {
+    // Input is empty, handle this case as needed
+    // You might want to reset the state, for example
+    State.update({ wallet: "", data: null });
+  } else {
+    // Input is not empty, continue with normal handling
+    State.update({ wallet: event.target.value });
+    //fetchData();
+  }
+};
+
+function fetchData() {
+  State.update({ loading: true });
+  asyncFetch("https://auth.shard.dog/wallet/" + state.wallet, {
+    method: "GET",
+  }).then((res) => {
+    if (res.ok) {
+      State.update({ loading: false });
+      State.update({ data: res.body });
+    } else {
+      // console.log(res);
+    }
+  });
+}
+
+function clearData() {
+  State.update({ wallet: "", data: null });
+}
+
+function isEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+
+if (state.loading) {
+  return <h2 style={animateCharacter}>Loading...</h2>;
+}
+
+if ((!state.data && state.wallet.trim() === "") || state.data === null) {
+  return (
+    <div>
+      <h3>NEAR "Just to get a rep"</h3>
+      <small>
+        <i>
+          This is a beta of how you could look at scoring users rep based on
+          activity
+        </i>
+      </small>
+      <Widget
+        src={widgets.filter}
+        props={{
+          handleWalletChange,
+          wallet: state.wallet,
+          placeholder: "Search by wallet",
+        }}
+      />
+      <button onClick={fetchData}>Get Rep</button>{" "}
+      <button onClick={clearData}>Clear</button>
+    </div>
+  );
+}
 
 function getCreateDate(creationTimestamp) {
   console.log(creationTimestamp);
