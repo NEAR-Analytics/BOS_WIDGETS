@@ -56,8 +56,6 @@ return (
         </div>
       </div>
     </div>
-    <div className="text-bg-light rounded-4">
-      <Widget src="shemar268abel.near/widget/DAO.Funds.index" />
-    </div>
+    <Widget src="shemar268abel.near/widget/DAO.Funds.index" />
   </>
 );
