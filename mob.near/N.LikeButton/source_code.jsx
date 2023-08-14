@@ -120,13 +120,12 @@ const title = hasLike ? "Unlike" : "Like";
 return (
   <div className="d-inline-flex align-items-center">
     <LikeButton
+      className={hasLike ? "liked" : ""}
       disabled={state.loading || dataLoading || !context.accountId}
       title={title}
       onClick={likeClick}
     >
-      <span className={hasLike ? "liked" : ""}>
-        {hasLike ? heartFillSvg : heartSvg}
-      </span>
+      <span>{hasLike ? heartFillSvg : heartSvg}</span>
       <span className="count">{likeCount || ""}</span>
     </LikeButton>
   </div>
