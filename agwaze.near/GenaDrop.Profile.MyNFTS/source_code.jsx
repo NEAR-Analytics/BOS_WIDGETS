@@ -1,8 +1,8 @@
-const accountId = props.accountId || context.accountId || "genadrop.near";
+const accountId = props.accountId || context.accountId || "GenaDrop.near";
 
-if (!accountId) {
-  return "";
-}
+// if (!accountId) {
+//   return "";
+// }
 
 const limitPerPage = 20;
 let allNfts = [];
