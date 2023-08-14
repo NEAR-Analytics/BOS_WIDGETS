@@ -20,7 +20,6 @@ const _root = styled.div`
   border-radius: 12px;
   border: 1.5px solid #e6e6e6;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
-  margin: 16px auto;
 
   p {
     font-size: 14px;
