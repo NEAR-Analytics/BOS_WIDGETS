@@ -675,7 +675,6 @@ return (
                     props={{
                       widgets,
                       isTest,
-                      item,
                       authorForWidget,
                     }}
                   />
