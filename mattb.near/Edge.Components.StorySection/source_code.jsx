@@ -16,11 +16,11 @@ const Box = styled.div`
     }
 
     .title {
-        font-size:1.5rem;
+        font-size:1.875rem;
     }
 
     .subtitle {
-        font-size:.8rem;
+        font-size:1rem;
         opacity:.6;
     }
     
