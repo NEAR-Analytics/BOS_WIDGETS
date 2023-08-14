@@ -216,6 +216,7 @@ function reactListener(emojiMessage) {
     functionName: "createReaction",
     key: "createReaction",
     props: {
+      elementReactedId,
       reaction: emojiToWrite,
       onCommit: onPushEnd,
       onCancel: onPushEnd,
