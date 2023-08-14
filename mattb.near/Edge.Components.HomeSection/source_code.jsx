@@ -44,7 +44,7 @@ const Jumbotron = styled.div`
     background-position:center;
     background-size:cover;
     background-repeat:no-repeat;
-    box-shadow: inset 0 10px 20vw 10vw rgba(0,0,0,1);
+    box-shadow: inset 0 10px 20vw 10vw rgba(255,255,255,1);
     animation-duration:10s;
     animation-iteration-count:infinite;
     animation-fill-mode:both;
@@ -90,8 +90,7 @@ const Jumbotron = styled.div`
       background-color:rgba(255,255,255,.6);
       width:100%;
       height:100%;
-      backdrop-filter:invert(100%);
-      animation-name: decolorize;
+      backdrop-filter:invert(0%);
       animation-duration:20s;
       animation-iteration-count:infinite;
       animation-fill-mode:both;
