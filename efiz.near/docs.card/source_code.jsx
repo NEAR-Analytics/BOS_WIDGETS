@@ -124,10 +124,10 @@ const shorten = (str, len) => {
 function getSourcePath(path) {
   switch (type) {
     case "thing": {
-      return `/every.near/widget/every.thing.view?path=${path}`;
+      return `/${path}`;
     }
     case "type": {
-      return `/every.near/widget/every.thing.view?path=${path}`;
+      return `/${path}`;
     }
     case "widget": {
       return `/mob.near/widget/WidgetSource?src=${path}`;
@@ -138,7 +138,7 @@ function getSourcePath(path) {
 function getEditPath(path) {
   switch (type) {
     case "thing": {
-      return `/every.near/widget/every.thing.create?path=${path}`;
+      return `/${path}`;
     }
     case "type": {
       return `/every.near/widget/every.type.create?typeSrc=${path}`;
@@ -291,10 +291,7 @@ return (
       </div>
     </div>
     <div className="d-flex gap-2 justify-content-around gap-3 my-3">
-      <a
-        href={`/every.near/widget/every.thing.view?path=${path}`}
-        target="_blank"
-      >
+      <a href={`/${path}`} target="_blank">
         <i className="bi me-1 bi-eye" />
         View
       </a>
