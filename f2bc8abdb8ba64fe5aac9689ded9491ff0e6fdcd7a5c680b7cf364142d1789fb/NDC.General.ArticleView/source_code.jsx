@@ -676,6 +676,7 @@ return (
                       widgets,
                       isTest,
                       item,
+                      authorForWidget,
                     }}
                   />
                   {context.accountId == accountId && (
