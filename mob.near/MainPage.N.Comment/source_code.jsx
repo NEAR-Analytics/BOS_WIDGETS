@@ -42,18 +42,16 @@ return (
             flagItem: item,
           }}
         />
-        <div className="mt-2 text-break">
-          <Widget
-            src="mob.near/widget/MainPage.Post.Content"
-            props={{ content, raw }}
-          />
-        </div>
+        <Widget
+          src="mob.near/widget/MainPage.Post.Content"
+          props={{ content, raw }}
+        />
         {blockHeight !== "now" && (
           <div className="mt-1 d-flex justify-content-between">
             {parentItem && (
-              <div key="comment" className="me-4">
+              <div key="comment">
                 <Widget
-                  src="mob.near/widget/CommentButton"
+                  src="mob.near/widget/N.CommentButton"
                   props={{
                     onClick: () =>
                       !state.showReply && State.update({ showReply: true }),
@@ -61,22 +59,17 @@ return (
                 />
               </div>
             )}
-            <div className="me-4">
-              <Widget
-                src="mob.near/widget/LikeButton"
-                props={{
-                  notifyAccountId,
-                  item,
-                }}
-              />
-            </div>
-
-            <div>
-              <Widget
-                src="mob.near/widget/MainPage.Post.ShareButton"
-                props={{ accountId, blockHeight, postType: "comment" }}
-              />
-            </div>
+            <Widget
+              src="mob.near/widget/N.LikeButton"
+              props={{
+                notifyAccountId,
+                item,
+              }}
+            />
+            <Widget
+              src="mob.near/widget/MainPage.N.Post.ShareButton"
+              props={{ accountId, blockHeight, postType: "comment" }}
+            />
           </div>
         )}
       </div>
