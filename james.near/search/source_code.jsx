@@ -417,6 +417,6 @@ return (
         />
       )}
 
-    {!state.term && <Widget src="hack.near/widget/Applications" />}
+    {!state.term && <Widget src="james.near/widget/apps" />}
   </Wrapper>
 );
