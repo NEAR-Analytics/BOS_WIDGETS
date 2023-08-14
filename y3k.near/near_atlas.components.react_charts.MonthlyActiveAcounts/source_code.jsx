@@ -93,7 +93,7 @@ const series2 = {
 
 const primaryAxis = {
   //   position: "left",
-  // type: "time",
+  type: "time",
   // show: false,
   getValue: (datum) => datum.primary,
 };
@@ -117,10 +117,13 @@ return (
     <ReactChart
       chart_name="BarCustom"
       data={output}
-      secondaryAxes={secondaryAxes}
-      primaryAxis={primaryAxis}
-      width={"200px"}
-      height={"100px"}
+      className={"mx-auto px-4"}
+      options={{
+        secondaryAxes: secondaryAxes,
+        primaryAxis: primaryAxis,
+        width: "500",
+        height: "600",
+      }}
     />
   </div>
 );
