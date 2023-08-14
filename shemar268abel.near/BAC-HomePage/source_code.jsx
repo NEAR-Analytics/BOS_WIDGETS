@@ -108,11 +108,13 @@ return (
     className="container-xl"
     negativeMargin={state.selectedTab === "posts"}
   >
-    <Widget src="shemar268abel.near/widget/community.Page" />
-    <Widget
-      src="shemar268abel.near/widget/DAOs.Card"
-      props={{ daoId: "marmaj-research.sputnik-dao.near" }}
-    />
+    <div>
+      <Widget src="shemar268abel.near/widget/community.Page" />
+      <Widget
+        src="shemar268abel.near/widget/DAOs.Card"
+        props={{ daoId: "marmaj-research.sputnik-dao.near" }}
+      />
+    </div>
     <Tabs
       halfMargin={state.selectedTab === "apps"}
       noMargin={state.selectedTab === "posts"}
