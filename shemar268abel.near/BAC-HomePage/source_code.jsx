@@ -8,7 +8,7 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const activityUrl = `#/near/widget/ActivityPage`;
+const activityUrl = `#/shemar268abel.near/widget/BAC-HomePage`;
 
 const Wrapper = styled.div`
   margin-top: calc(var(--body-top-padding) * -1);
@@ -144,7 +144,7 @@ return (
         <Widget src="shemar268abel.near/widget/MainPage.Content" />
       </Section>
       <Section active={state.selectedTab === "explore"}>
-        <Widget src="shemar268abel.near/widget/Welcome2" />
+        <Widget src="near/widget/ExploreWidgets" />
       </Section>
     </Main>
   </Wrapper>
