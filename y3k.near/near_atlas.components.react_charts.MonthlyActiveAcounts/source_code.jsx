@@ -82,6 +82,7 @@ const series2 = {
 // };
 const primaryAxis = {
   //   position: "left",
+  type: "ordinal",
   show: false,
   getValue: (datum) => datum.primary,
 };
@@ -91,6 +92,7 @@ const secondaryAxes = [
     // position: "top",
     // show: false,
     getValue: (datum) => datum.secondary,
+    type: "linear",
     // If you have a specific value for stackOffsetWiggle, you can replace it here
     // stackOffset: stackOffsetWiggle,
     // stacked: true,
