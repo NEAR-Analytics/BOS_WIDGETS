@@ -190,10 +190,12 @@ function handleOnMouseLeave() {
 }
 
 function onPushEnd() {
+  console.log("in onPushEnd");
   State.update({ loading: false, show: false });
 }
 
 function reactListener(emojiMessage) {
+  console.log("run listener");
   if (state.loading) {
     return;
   }
