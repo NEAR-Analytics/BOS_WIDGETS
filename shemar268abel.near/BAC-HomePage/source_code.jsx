@@ -144,7 +144,7 @@ return (
         <Widget src="shemar268abel.near/widget/MainPage.Content" />
       </Section>
       <Section active={state.selectedTab === "explore"}>
-        <Widget src="near/widget/ExploreWidgets" />
+        <Widget src="shemar268abel.near/widget/Welcome2" />
       </Section>
     </Main>
   </Wrapper>
