@@ -31,7 +31,7 @@ const Gradient = styled.div`
 `;
 
 return (
-  <div>
+  <div style={{ backgroundColor: "#000" }}>
     <Gradient className="d-flex flex-column justify-content-center">
       <h1 class="mb-3 text-white slogan">
         <span class="text-primary-gradient">BAC </span>Inc
