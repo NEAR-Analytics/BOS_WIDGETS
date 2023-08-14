@@ -40,7 +40,7 @@ const dates = data.map((entry) => entry["DAY"]);
 // logic part-2
 
 const stacked_options = {
-  maintainAspectRatio: true,
+  responsive: true,
   scales: {
     y: {
       stacked: true,
