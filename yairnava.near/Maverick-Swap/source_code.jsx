@@ -79,7 +79,7 @@ const TOKENS = [
   {
     name: "WETH",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png",
-    address: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4",
+    address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     coinGeckoId: "usd-coin",
     decimals: 18,
   },
