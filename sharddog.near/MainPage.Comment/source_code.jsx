@@ -16,7 +16,7 @@ const extractNotifyAccountId = (item) => {
   return `${accountId}/post/main` === item.path ? accountId : undefined;
 };
 
-const link = `#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const item = {
   type: "social",
