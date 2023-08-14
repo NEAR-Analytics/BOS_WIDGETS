@@ -23,7 +23,7 @@ return (
           </a>
           <a
             className="btn btn-outline-primary"
-            href="https://bac-inc.near.social"
+            href="https://near.org/shemar268abel.near/widget/DAO.index"
           >
             Community Dao
           </a>
