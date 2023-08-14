@@ -21,12 +21,16 @@ let Style = styled.div`
     text-align: center;
     font-weight: 600;
   }
+
+  .hover-row {
+    cursor: pointer;
+  }
+  .hover-row:hover {
+    background-color: #333;
+  }
+
 `;
 let nodes = rawData.body || [];
-
-const sub_widget_map = {
-  "Play Ember": "https://nearatlas.com/#/y3k.near/widget/WAU_PlayEmber",
-};
 
 function formatPercentNew(text) {
   let number = parseFloat(text);
@@ -155,23 +159,6 @@ const COLUMNS = [
     sort: { sortKey: "DAU / MAU" },
   },
 ];
-const sortFns = {
-  ContractAddress: (array) =>
-    array.sort((a, b) =>
-      a["Contract Address"].localeCompare(b["Contract Address"])
-    ),
-  "Past 30 Days": (array) =>
-    array.sort((a, b) => a["Past 30 Days"] - b["Past 30 Days"]),
-  "30-60 Days Ago": (array) =>
-    array.sort((a, b) => a["30-60 Days Ago"] - b["30-60 Days Ago"]),
-  "M/M": (array) => array.sort((a, b) => a["M/M"] - b["M/M"]),
-  "New MAAs": (array) => array.sort((a, b) => a["New MAAs"] - b["New MAAs"]),
-  "M2 Retention": (array) =>
-    array.sort((a, b) => a["M2 Retention"] - b["M2 Retention"]),
-  "Daily Average": (array) =>
-    array.sort((a, b) => a["Daily Average"] - b["Daily Average"]),
-  "DAU / MAU": (array) => array.sort((a, b) => a["DAU / MAU"] - b["DAU / MAU"]),
-};
 
 function sort_update(sortKey, direction) {
   // Update the sort state
@@ -228,11 +215,9 @@ return (
             {getSortedNodes().map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className={
-                  rowIndex % 2 === 0
-                    ? "bg-gray-800 hover:bg-gray-900"
-                    : "bg-gray-900 hover:bg-gray-800"
-                }
+                className={`hover-row ${
+                  rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"
+                }`}
               >
                 {COLUMNS.map((column, colIndex) => (
                   <td key={colIndex} className="text-white text-center p-2 ">
