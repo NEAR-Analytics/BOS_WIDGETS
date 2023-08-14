@@ -28,6 +28,7 @@ const turnOffModal = (e) => {
 };
 
 const props = {
+  ...props,
   turnOffModal: turnOffModal,
   modalState: state.modalOn,
 };
