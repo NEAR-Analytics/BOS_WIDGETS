@@ -29,12 +29,11 @@ function composeReactionData(reaction) {
     },
   };
 
-  console.log("data: ", data);
-
   return data;
 }
 
 function saveReaction(reaction, onCommit, onCancel) {
+  console.log("in saveReaction: ", reaction);
   if (reaction.emoji) {
     const newData = composeReactionData(reaction);
 
