@@ -6,7 +6,7 @@ return (
         src="mob.near/widget/ComponentSearch"
         props={{
           boostedTag: "app",
-          placeholder: "🔍 Explore",
+          placeholder: "🔭 Explore",
           limit: 10,
           onChange: ({ result }) => {
             State.update({ apps: result });
