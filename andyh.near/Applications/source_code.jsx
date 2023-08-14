@@ -4,6 +4,7 @@ return (
     <div className="mb-2">
       <Widget
         src="andyh.near/widget/ComponentSearch"
+        isTrusted={true}
         props={{
           boostedTag: "app",
           placeholder: "🔍 Search Applications",
@@ -20,6 +21,7 @@ return (
           <div key={i}>
             <Widget
               src="andyh.near/widget/ComponentSearch.Item"
+              isTrusted={true}
               props={{
                 link: `#/${app.widgetSrc}`,
                 accountId: app.accountId,
@@ -43,6 +45,7 @@ return (
 
     <Widget
       src="andyh.near/widget/WidgetIcons"
+      isTrusted={true}
       props={{ tag: "app", limit: 24 }}
     />
   </div>
