@@ -102,7 +102,9 @@ return (
         </div>
       )}
       <div>
-        <UploadButton className="btn px-5 py-2 mt-3">Upload</UploadButton>
+        <UploadButton className="btn px-5 py-2 mt-3" onClick={props.uploadFile}>
+          Upload
+        </UploadButton>
       </div>
     </Modal>
   </Container>
