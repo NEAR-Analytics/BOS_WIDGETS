@@ -340,8 +340,7 @@ return (
       )}
     </div>
     {users.length > state.usersToShow && (
-      <a
-        href="#astro.sking.near/widget/DAO?tab=members&daoId=marmaj-research.sputnik-dao.near"
+      <button
         style={{
           display: "block",
           width: "100%",
@@ -350,18 +349,13 @@ return (
           borderRadius: "10px",
           border: "1px solid #ddd",
           backgroundColor: "#f5f5f5",
-          textAlign: "center",
-          textDecoration: "none",
-          color: "#000",
           cursor: "pointer",
+          color: "#000",
         }}
-        onClick={(e) => {
-          e.preventDefault(); // Prevents default link behavior
-          State.update({ usersToShow: state.usersToShow + 3 });
-        }}
+        onClick={() => State.update({ usersToShow: state.usersToShow + 5 })}
       >
         Show More
-      </a>
+      </button>
     )}
   </Wrapper>
 );
