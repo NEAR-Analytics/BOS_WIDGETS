@@ -16,7 +16,7 @@ const Header = styled.div`
     justify-content:space-between;
     padding:10px;
     box-sizing:border-box;
-    background-color:#000;
+    background-color:#fff;
 `;
 
 const Logo = styled.div`
@@ -33,7 +33,7 @@ const Logo = styled.div`
         padding:0;
         font-size:1.1rem;
         margin-left:.5rem;
-        color:#fff;
+        color:#000;
         font-weight:bold;
     }
 `;
@@ -58,7 +58,7 @@ const Nav = styled.div`
             }
 
             a {
-                color:#fff;
+                color:#000;
                 margin:0;
                 padding:0;
             }
@@ -74,8 +74,6 @@ const Button = styled.a`
     background-color:#fff;
     transition: all .2s;
     font-size:.9rem;
-    border-radius:5px;
-    box-shadow: 0 0 0 2px #fff;
     border:2px solid #000;
 
     &:hover {
