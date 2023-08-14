@@ -17,13 +17,13 @@ if (
       }
     });
 }
-if (state.chainId !== undefined && state.chainId !== 1) {
-  return <p>Switch to Ethereum Mainnet</p>;
+if (state.chainId !== undefined && state.chainId !== 5) {
+  return <p>Switch to Ethereum Goerli</p>;
 }
 
 // FETCH STAKING ABI
 
-const stakingAddress = "0x48AFbBd342F64EF8a9Ab1C143719b63C2AD81710";
+const stakingAddress = "0x748c905130CC15b92B97084Fd1eEBc2d2419146f";
 const tokenDecimals = 18;
 
 const metapoolAbi = [
