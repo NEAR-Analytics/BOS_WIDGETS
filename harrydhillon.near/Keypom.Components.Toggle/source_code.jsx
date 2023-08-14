@@ -19,7 +19,7 @@ const SwitchKnob = styled.div`
   border-radius: 50%;
   background-color: white;
   transform: ${(props) =>
-    props.isOn ? "translateX(26px)" : "translateX(-4px)"};
+    props.isOn ? "translateX(16px)" : "translateX(-4px)"};
 `;
 
 const Switch = (isOn, handleToggle) => (
