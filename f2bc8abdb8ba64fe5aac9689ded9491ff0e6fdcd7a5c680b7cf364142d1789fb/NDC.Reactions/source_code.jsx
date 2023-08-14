@@ -1,4 +1,4 @@
-const { isTest, authorForWidget } = props;
+const { isTest, authorForWidget, elementReactedId } = props;
 
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
@@ -48,7 +48,7 @@ const libCalls = [
     functionName: "getReactionsData",
     key: "reactionsData",
     props: {
-      realArticleId: articleToRenderData.realArticleId,
+      elementReactedId,
       createReaction: state.createReaction,
     },
   },
