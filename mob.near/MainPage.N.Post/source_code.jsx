@@ -75,6 +75,14 @@ const Wrapper = styled.div`
     flex-grow: 1;
     overflow: hidden;
   }
+
+  .buttons {
+    margin-top: 2px;
+    column-gap: 4px;
+    button {
+      opacity: 0.5;
+    }
+  }
 `;
 
 return (
@@ -102,40 +110,32 @@ return (
           />
         </div>
         {blockHeight !== "now" && (
-          <div className="mt-1 d-flex justify-content-between">
-            <div className="me-4">
-              <Widget
-                src="mob.near/widget/CommentButton"
-                props={{
-                  onClick: () =>
-                    !state.showReply && State.update({ showReply: true }),
-                }}
-              />
-            </div>
-            <div className="me-4">
-              <Widget
-                src="mob.near/widget/RepostButton"
-                props={{
-                  notifyAccountId,
-                  item,
-                }}
-              />
-            </div>
-            <div className="me-4">
-              <Widget
-                src="mob.near/widget/LikeButton"
-                props={{
-                  notifyAccountId,
-                  item,
-                }}
-              />
-            </div>
-            <div>
-              <Widget
-                src="mob.near/widget/MainPage.Post.ShareButton"
-                props={{ accountId, blockHeight, postType: "post" }}
-              />
-            </div>
+          <div className="buttons d-flex justify-content-between">
+            <Widget
+              src="mob.near/widget/N.CommentButton"
+              props={{
+                onClick: () =>
+                  !state.showReply && State.update({ showReply: true }),
+              }}
+            />
+            <Widget
+              src="mob.near/widget/N.RepostButton"
+              props={{
+                notifyAccountId,
+                item,
+              }}
+            />
+            <Widget
+              src="mob.near/widget/N.LikeButton"
+              props={{
+                notifyAccountId,
+                item,
+              }}
+            />
+            <Widget
+              src="mob.near/widget/MainPage.N.Post.ShareButton"
+              props={{ accountId, blockHeight, postType: "post" }}
+            />
           </div>
         )}
       </div>
