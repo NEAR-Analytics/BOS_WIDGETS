@@ -40,6 +40,7 @@ const dates = data.map((entry) => entry["DAY"]);
 // logic part-2
 
 const stacked_options = {
+  maintainAspectRatio: true,
   scales: {
     y: {
       stacked: true,
@@ -84,7 +85,9 @@ return (
     <div className="text-bg-dark container">
       {data !== null ? (
         <div className="rounded-4 p-3 mb-4">
-          <div className="">
+          <div
+            style={{ position: "relative", margin: "auto", minWidth: "20vw" }}
+          >
             <BarEl options={stacked_options} data={stacked_bar_data} />
           </div>
         </div>
