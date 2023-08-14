@@ -82,7 +82,7 @@ const series2 = {
 // };
 const primaryAxis = {
   //   position: "left",
-  type: "timeLocal",
+  type: "time",
   show: false,
   getValue: (datum) => datum.primary,
 };
