@@ -221,7 +221,7 @@ const TopImageContainer = styled.div`
   &>img {
     width: 100%;
     max-height: 548px;
-    object-fit: cover;
+    object-fit: contain;
   }
 `;
 
