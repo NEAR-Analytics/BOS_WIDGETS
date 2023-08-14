@@ -819,6 +819,7 @@ return (
                 widgets,
                 isTest,
                 authorForWidget,
+                elementReactedId: articleToRenderData.realArticleId,
               }}
             />
           </ButtonsLowerSection>
