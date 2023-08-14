@@ -13,8 +13,8 @@ const header_map = {
 //   STICKINESS: "DAA / MAA",
 
 const initialState = {
-  selectedMetric: header_map[props.selectedMetric] || header_map["DAA"],
-  project_name: props.project_name || "social.near",
+  selectedMetric: header_map[props.selectedMetric] || header_map["MAA"],
+  project_name: props.project_name || "near",
 };
 
 state = State.init(initialState);
