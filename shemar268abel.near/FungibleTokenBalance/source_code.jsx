@@ -245,7 +245,7 @@ const totalValue = contractData.reduce((total, item) => {
 }, 0);
 
 return (
-  <Root className="p-4">
+  <Root className="p-2">
     {state.activeTokens ? (
       <SendToken>
         <div
