@@ -30,12 +30,6 @@ State.init({
 //=============================================END INITIALIZATION===================================================
 
 //===================================================CONSTS=========================================================
-//TODO pass this
-const item = {
-  type: "social",
-  path: `${data.author}/${addressForArticles}/main`,
-  realArticleId: data.id,
-};
 
 //=================================================END CONSTS=======================================================
 
@@ -824,7 +818,7 @@ return (
               props={{
                 widgets,
                 isTest,
-                item,
+                authorForWidget,
               }}
             />
           </ButtonsLowerSection>
