@@ -34,12 +34,12 @@ const RepostButton = styled.button`
   height: 35px;
   background: inherit;
   &:hover {
-    opacity: 1;
+    opacity: 1 !important;
     color: rgb(0, 184, 124);
     background: rgb(0, 184, 124, 0.1);
   }
   svg {
-    margin-top: -4px;
+    margin-top: -3px;
   }
   .count {
     margin-left: 8px;
