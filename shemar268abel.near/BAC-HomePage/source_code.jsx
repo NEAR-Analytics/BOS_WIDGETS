@@ -137,7 +137,7 @@ return (
 
     <Main>
       <Section active={state.selectedTab === "apps"}>
-        <Widget src="near/widget/FeaturedComponents" />
+        <Widget src="shemar268abel.near/widget/FeaturedComponents" />
         <Widget src="near/widget/LatestComponents" />
       </Section>
       <Section negativeMargin primary active={state.selectedTab === "posts"}>
