@@ -50,7 +50,7 @@ const Nav = styled.div`
 
         li {
             &:not(:last-of-type) {
-                margin-left:1rem;
+                margin-left:2rem;
             }
 
             &:last-of-type {
