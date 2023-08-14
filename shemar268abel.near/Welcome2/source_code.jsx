@@ -34,19 +34,16 @@ return (
     )}
     <div className="text-bg-light rounded-4 p-3 mb-3">
       <div>
-        <h4>Learn More</h4>
-        <div className="mb-2 d-flex gap-2 flex-wrap">
-          <a className="btn btn-outline-primary" href="#">
-            What's Bac Inc?
-          </a>
-          <a
-            className="btn btn-outline-primary"
-            href="https://near.org/shemar268abel.near/widget/DAO.index"
-          >
-            Community Dao
-          </a>
+        <div className="mb-3">
+          <Widget
+            src="shemar268abel.near/widget/Profile.InlineBlock"
+            props={{ accountId: daoId }}
+          />
         </div>
-        <div className="mb-2 d-flex gap-2 flex-wrap">
+        <div
+          className="mb-2 d-flex gap-2 flex-wrap"
+          style={{ justifyContent: "center" }}
+        >
           <a
             className="btn btn-outline-secondary border-0"
             href="#/mob.near/widget/ProfilePage?accountId=bac-inc.near"
