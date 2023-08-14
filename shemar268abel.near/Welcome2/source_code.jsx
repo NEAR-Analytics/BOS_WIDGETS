@@ -81,8 +81,8 @@ return (
     </div>
     <div className="text-bg-light rounded-4 p-3 mb-3">
       <Widget
-        src="shemar268abel.near/widget/FungibleTokenBalance"
-        props={{ accountId: daoId }}
+        src="astraplusplus.ndctools.near/widget/DAO.Proposals.index"
+        props={{ daoId }}
       />
     </div>
     <div className="text-bg-light rounded-4 p-3 mb-3">
