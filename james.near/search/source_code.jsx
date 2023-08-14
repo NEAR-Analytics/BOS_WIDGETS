@@ -5,8 +5,8 @@ const API_URL =
   props.apiUrl ??
   `https://${APPLICATION_ID}-dsn.algolia.net/1/indexes/${INDEX}/query?`;
 const INITIAL_PAGE = props.initialPage ?? 0;
-const facets = props.facets ?? ["Components", "People", "Posts"];
-const tab = props.tab ?? "Components";
+const facets = props.facets ?? ["components", "people", "posts"];
+const tab = props.tab ?? "components";
 const showSearchBar = props.showSearchBar ?? true;
 const showFacets = props.showFacets ?? true;
 const showPagination = props.showPagination ?? true;
@@ -222,9 +222,9 @@ const onPageChange = (pageNumber) => {
 };
 
 const FACET_TO_CATEGORY = {
-  People: "profile",
-  Components: "widget",
-  Posts: "post",
+  people: "profile",
+  components: "widget",
+  posts: "post",
 };
 
 const searchFilters = (facet) => {
