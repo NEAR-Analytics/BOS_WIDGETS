@@ -47,7 +47,10 @@ const libCalls = [
   {
     functionName: "getReactionsData",
     key: "reactionsData",
-    props: { realArticleId: articleToRenderData.realArticleId },
+    props: {
+      realArticleId: articleToRenderData.realArticleId,
+      createReaction: state.createReaction,
+    },
   },
 ];
 
@@ -190,7 +193,6 @@ function handleOnMouseLeave() {
 }
 
 function onPushEnd() {
-  console.log("in onPushEnd");
   State.update({ loading: false, show: false });
 }
 
@@ -212,7 +214,7 @@ function reactListener(emojiMessage) {
   const newLibCalls = [...state.libCalls];
   newLibCalls.push({
     functionName: "createReaction",
-    key: "reactionsData",
+    key: "createReaction",
     props: {
       reaction: emojiToWrite,
       onCommit: onPushEnd,
