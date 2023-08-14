@@ -38,7 +38,6 @@ const Wrapper = styled.div`
     padding: 0 14px 0 42px;
     border: 1px solid #d0d5dd !important;
     background: #ffffff;
-    border-radius: 100px;
   }
 
   button {
