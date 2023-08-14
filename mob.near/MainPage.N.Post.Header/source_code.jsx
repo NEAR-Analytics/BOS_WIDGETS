@@ -40,7 +40,7 @@ const Checkmark = checkmarkColor ? (
 );
 
 return (
-  <div className="d-flex flex-row align-items-center">
+  <div className="d-flex flex-row align-items-center post-header">
     <div className="flex-grow-1" style={{ minWidth: 0, overflow: "hidden" }}>
       <div className="d-flex">
         <div className="d-flex flex-shrink-1 overflow-hidden">
