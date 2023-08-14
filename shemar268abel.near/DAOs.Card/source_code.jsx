@@ -82,31 +82,27 @@ const shortenNumber = (n) => {
 };
 
 const daoLink = ({ daoId, tab }) => {
-  return `/#/shemar268abel.near/widget/DAO.index?daoId=${daoId}${
-    tab && `&tab=${tab}`
-  }`;
+  return `/#/astro.sking.near/widget/DAO?daoId=${daoId}${tab && `&tab=${tab}`}`;
 };
 
 const Wrapper = styled.div`
   border: 1px solid transparent;
-  background-color: #000cc;
 
   &:hover {
-    border: 1px solid transparent;
+    border: 1px solid #4498e0;
   }
 
   .dao-card-stats {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     column-gap: 0.5rem;
-    color: #4498e0cc;
     row-gap: 0.2rem;
 
     & > p:nth-child(1),
     & > p:nth-child(2),
     & > p:nth-child(3) {
       font-size: 0.8rem;
-      color: yellow;
+      color: #4498e0;
       margin: 0;
     }
 
@@ -124,18 +120,31 @@ const Wrapper = styled.div`
   }
 
   a {
-    color: white;
+    color: #4498e0;
     font-size: 0.8rem;
     font-weight: 600;
     text-decoration: none;
 
     &:hover {
-      color: red;
+      color: #4498e0cc;
   }
 `;
 
 return (
   <Wrapper className="ndc-card p-4 d-flex flex-column gap-2 h-100">
+    <Widget
+      src="nui.sking.near/widget/Element.User"
+      props={{
+        accountId: daoId,
+        href: "#/astro.sking.near/widget/DAO?daoId=" + daoId,
+      }}
+    />
+    <p className="text-muted overflow-hidden small my-3 mx-1">
+      {shorten(profile?.description || "", 80)}
+      {profile !== null &&
+        (!profile?.description || profile?.description?.length < 1) &&
+        "No description"}
+    </p>
     <div className="d-grid justify-content-between text-center dao-card-stats mb-3 mt-auto">
       <p>DAO Funds</p>
       <p>Members/Groups</p>
@@ -155,9 +164,13 @@ return (
       </p>
     </div>
     <div className="d-flex gap-2 justify-content-around gap-3 mb-3">
-      <a href={daoLink({ daoId, tab: "projects" })}>
+      <a href={daoLink({ daoId, tab: "settings" })}>
+        <i className="bi me-1 bi-gear" />
+        Settings
+      </a>
+      <a href={daoLink({ daoId, tab: "nfts" })}>
         <i className="bi me-1 bi-image" />
-        Projects
+        NFTs
       </a>
       <a href={daoLink({ daoId, tab: "bounties" })}>
         <i className="bi me-1 bi-briefcase" />
@@ -165,7 +178,7 @@ return (
       </a>
       <a href={daoLink({ daoId, tab: "proposals" })}>
         <i className="bi me-1 bi-question-circle" />
-        Proposals
+        Polls
       </a>
     </div>
     <div className="d-flex gap-2 justify-content-between">
