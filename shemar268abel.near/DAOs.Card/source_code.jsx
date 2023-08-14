@@ -89,7 +89,7 @@ const daoLink = ({ daoId, tab }) => {
 
 const Wrapper = styled.div`
   border: 1px solid transparent;
-  background-color: #0c0c0c;
+  background-color: #000;
 
   &:hover {
     border: 1px solid red;
