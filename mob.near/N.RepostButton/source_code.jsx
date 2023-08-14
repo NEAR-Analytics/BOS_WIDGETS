@@ -38,9 +38,6 @@ const RepostButton = styled.button`
     color: rgb(0, 184, 124);
     background: rgb(0, 184, 124, 0.1);
   }
-  svg {
-    margin-top: -3px;
-  }
   .count {
     margin-left: 8px;
   }
