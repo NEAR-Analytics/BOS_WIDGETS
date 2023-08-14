@@ -43,7 +43,7 @@ return (
           }}
         />
         <Widget
-          src="mob.near/widget/MainPage.Post.Content"
+          src="mob.near/widget/MainPage.N.Post.Content"
           props={{ content, raw }}
         />
         {blockHeight !== "now" && (
