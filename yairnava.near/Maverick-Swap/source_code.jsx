@@ -206,8 +206,6 @@ function getPrice(type, data) {
   asyncFetch(dataUrl).then((res) => {
     const tokenData = res.body;
     const price = Number(tokenData.market_data.current_price.usd);
-    console.log(state.tokenSendSelected);
-    console.log(state.tokenRecieveSelected);
     if (
       (state.tokenSendSelected != null || type) &&
       (state.tokenRecieveSelected != null || !type)
