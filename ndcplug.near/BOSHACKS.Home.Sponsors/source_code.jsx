@@ -142,6 +142,7 @@ const judges = [
       "https://ipfs.near.social/ipfs/bafkreigll53omi7xolt7lhujid4lzxvz6vjuxxqulosftigvhcz46s4x5u",
   },
 ];
+
 const sponsors = [
   {
     url: "https://neardevhub.org",
@@ -206,6 +207,12 @@ const partners = [
     name: "ShardDog",
     image:
       "https://ipfs.near.social/ipfs/bafkreibh4jzae37fo6cpvasg7e6qxfmxjuku5mi3lfow4tni2why632gei",
+  },
+  {
+    url: "https://discoverbos.vercel.app",
+    name: "NEAR Builders Co-Op",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreidbmcb6cgc3rdufv6pj5mvq7i7ytanj4lr77rl6tckxaopy5jpoiq",
   },
   {
     url: "https://marmaj.org/",
