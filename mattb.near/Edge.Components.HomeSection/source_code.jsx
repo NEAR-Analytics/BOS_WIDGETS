@@ -9,7 +9,7 @@ const Jumbotron = styled.div`
     width:100%;
     height:100vh;
     background-position:center;
-    background-size:auto 100%;
+    background-size:cover;
     background-repeat:no-repeat;
     box-shadow: inset 0 5vw 20vw 10vw rgba(255,255,255,1);
 
