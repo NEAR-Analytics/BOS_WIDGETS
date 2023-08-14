@@ -121,7 +121,9 @@ return (
       onClick={repostClick}
     >
       <span className={hasRepost ? "reposted" : ""}>{repostSvg}</span>
-      <span className="count">{repostCount || ""}</span>
+      <span className={`count ${hasRepost ? "reposted" : ""}`}>
+        {repostCount || ""}
+      </span>
     </RepostButton>
   </div>
 );
