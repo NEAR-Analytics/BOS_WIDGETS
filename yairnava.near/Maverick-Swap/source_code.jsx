@@ -79,7 +79,7 @@ const TOKENS = [
   {
     name: "WETH",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png",
-    address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
     coinGeckoId: "usd-coin",
     decimals: 18,
   },
@@ -143,6 +143,7 @@ State.init({
   rate: 0,
   routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
   onApproving: false,
+  onSwap: false,
 });
 
 const switchNetwork = () => {
@@ -205,6 +206,8 @@ function getPrice(type, data) {
   asyncFetch(dataUrl).then((res) => {
     const tokenData = res.body;
     const price = Number(tokenData.market_data.current_price.usd);
+    console.log(state.tokenSendSelected);
+    console.log(state.tokenRecieveSelected);
     if (
       (state.tokenSendSelected != null || type) &&
       (state.tokenRecieveSelected != null || !type)
@@ -315,12 +318,20 @@ const turnTokens = () => {
   const tokenSendSelected = state.tokenSendSelected;
   const tokenRecieveSelected = state.tokenRecieveSelected;
   if (tokenSendSelected && tokenRecieveSelected) {
-    State.update({ tokenSendSelected: null });
-    State.update({ tokenRecieveSelected: null });
+    State.update({ tokenSendSelected: null, tokenRecieveSelected: null });
     setTimeout(() => {
-      State.update({ tokenSendSelected: tokenRecieveSelected });
-      State.update({ tokenRecieveSelected: tokenSendSelected });
-      getPrice(true, tokenRecieveSelected);
+      State.update({
+        tokenSendSelected: tokenRecieveSelected,
+        tokenRecieveSelected: tokenSendSelected,
+      });
+      getErc20Balance(
+        tokenRecieveSelected.address,
+        state.sender,
+        tokenRecieveSelected.decimals,
+        tokenRecieveSelected.name
+      );
+      const price = Number(tokenRecieveSelected.price);
+      State.update({ rate: price / tokenSendSelected.price });
       tokenInApprovaleNeededCheck(tokenRecieveSelected);
     });
   }
@@ -390,10 +401,34 @@ const confirmTransaction = () => {
     gasLimit: 2303039,
   };
   try {
-    router.exactInputSingle(paramsv2, overrides).then((res) => {});
+    router.exactInputSingle(paramsv2, overrides).then((res) => {
+      State.update({
+        onSwap: true,
+      });
+      setTimeout(() => {
+        State.update({
+          tokenSendSelected: null,
+          tokenRecieveSelected: null,
+          amountInput: 0,
+          inputBalance: 0,
+          amountRecieve: 0,
+          rate: 0,
+          poolSelected: null,
+          onSwap: false,
+        });
+      }, 10000);
+    });
   } catch (err) {
     console.log(err);
   }
+};
+
+const getRecipient = () => {
+  return (
+    state.sender.substring(0, 5) +
+    "..." +
+    state.sender.substring(state.sender.length - 4, state.sender.length)
+  ).toUpperCase();
 };
 
 const css = fetch(
@@ -409,6 +444,7 @@ if (!state.theme) {
 `,
   });
 }
+
 const Theme = state.theme;
 return (
   <Theme>
@@ -571,9 +607,11 @@ return (
                 </div>
                 <div class="TokenAmountSection">
                   <div class="TokenAmount">
-                    {(
-                      state.amountInput * parseFloat(state.rate).toFixed(6)
-                    ).toFixed(6)}
+                    {state.amountInput
+                      ? (
+                          state.amountInput * parseFloat(state.rate).toFixed(6)
+                        ).toFixed(6)
+                      : 0}
                   </div>
                   <div class="TokenAmountPreview">
                     {state.rate != 0
@@ -590,9 +628,13 @@ return (
             </div>
             <div class="FeesContainer">
               <div class="Line" />
-              <div class="RateFeeContainer">
-                <div class="RateFeeText">Rate</div>
-                <div class="RateFeeValue">
+              <div class="RecipientContainer">
+                <div class="RecipientText">Recipient</div>
+                <div class="RecipientValue">{getRecipient()}</div>
+              </div>
+              <div class="RecipientContainer">
+                <div class="RecipientText">Rate</div>
+                <div class="RecipientValue">
                   {state.rate != 0
                     ? `1 ${state.tokenSendSelected.name} ≈ ${state.rate.toFixed(
                         6
@@ -600,14 +642,6 @@ return (
               ${state.tokenRecieveSelected.name}`
                     : ""}
                 </div>
-              </div>
-              <div class="RateFeeContainer">
-                <div class="RateFeeText">Network fee</div>
-                <div class="RateFeeValue">Fast • $15.41</div>
-              </div>
-              <div class="RateFeeContainer">
-                <div class="RateFeeText">zkSync fee</div>
-                <div class="RateFeeValue">0.5%</div>
               </div>
             </div>
           </>
@@ -643,14 +677,25 @@ return (
                   </div>
                 )
               ) : cantSwap() && isSufficientBalance() && existPool() ? (
-                <div
-                  class={"ConfirmButton"}
-                  onClick={async () => {
-                    confirmTransaction();
-                  }}
-                >
-                  <div class={"ConfirmText"}>Confirm</div>
-                </div>
+                !state.onSwap ? (
+                  <div
+                    class={"ConfirmButton"}
+                    onClick={async () => {
+                      confirmTransaction();
+                    }}
+                  >
+                    <div class={"ConfirmText"}>Confirm</div>
+                  </div>
+                ) : (
+                  <div
+                    class={"ConfirmButtonDisabled"}
+                    onClick={async () => {
+                      confirmTransaction();
+                    }}
+                  >
+                    <div class={"ConfirmTextDisabled"}>Swap in progress...</div>
+                  </div>
+                )
               ) : (
                 <div class={"ConfirmButtonDisabled"}>
                   <div class={"ConfirmTextDisabled"}>
