@@ -45,7 +45,7 @@ const Items =
 
 const Item = props.styles.Item ?? styled.div``;
 
-const resetSearcheHits = () => {
+const resetSearchHits = () => {
   State.update({
     currentPage: 0,
     search: undefined,
@@ -60,7 +60,7 @@ const writeStateTerm = (term) => {
   });
 
   if (term === "") {
-    resetSearcheHits();
+    resetSearchHits();
   }
 };
 
@@ -209,11 +209,8 @@ const onSearchChange = ({ term }) => {
 const onPageChange = (pageNumber) => {
   const algoliaPageNumber = pageNumber - 1;
   if (algoliaPageNumber === state.currentPage) {
-    console.log(`Selected the same page number as before: ${pageNumber}`);
     return;
   }
-  // Need to clear out old search data otherwise we'll get multiple entries
-  // from the previous pages as well. Seems to be cache issue on near.social.
   State.update({
     search: undefined,
     currentPage: algoliaPageNumber,
@@ -222,7 +219,7 @@ const onPageChange = (pageNumber) => {
 };
 
 const FACET_TO_CATEGORY = {
-  people: "profile",
+  People: "profile",
   components: "widget",
   posts: "post",
 };
@@ -245,7 +242,6 @@ const restrictSearchable = (facet) => {
   const category = FACET_TO_CATEGORY[facet];
   let restrictSearchableAttrs = undefined;
   if (category === "post") {
-    // Only the content should be searchable when the posts facet is selected.
     restrictSearchableAttrs = ["content"];
   }
   return restrictSearchableAttrs;
@@ -260,7 +256,6 @@ const configsPerFacet = (facet) => {
 
 const onFacetClick = (facet) => {
   if (facet === state.facet) {
-    console.log("Clicked the same facet");
     return;
   }
 
@@ -316,10 +311,6 @@ return (
           initialFacet: tab,
         }}
       />
-    )}
-
-    {state.paginate?.hitsTotal == 0 && (
-      <h3>no matches were found for "{state.term}".</h3>
     )}
 
     {state.search?.profiles.length > 0 && (
