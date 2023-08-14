@@ -66,9 +66,8 @@ const updateIsRegistered = () => {
 updateIsRegistered();
 
 const updateEnabledNotifications = () => {
-  Near.asyncView(socialContractId, "is_write_permission_granted", {
-    predecessor_id: contractId,
-    key: `${accountId}/index/notify`,
+  Near.asyncView(contractId, "are_notifications_enabled", {
+    account_id: accountId,
   }).then((res) => {
     State.update({
       enabledNotifications: !!res,
@@ -93,16 +92,26 @@ const registerAccount = () => {
 };
 
 const enableNotifications = () => {
-  Near.call(
-    socialContractId,
-    "grant_write_permission",
+  Near.call([
     {
-      predecessor_id: contractId,
-      keys: [`${accountId}/index/notify`],
+      contractName: socialContractId,
+      methodName: "grant_write_permission",
+      args: {
+        predecessor_id: contractId,
+        keys: [`${accountId}/index/notify`],
+      },
+      gas: "100000000000000",
+      deposit: "50000000000000000000000",
     },
-    "100000000000000",
-    "50000000000000000000000"
-  );
+    {
+      contractName: contractId,
+      methodName: "update_enabled_notifications",
+      args: {
+        account_id: accountId,
+      },
+      gas: "100000000000000",
+    },
+  ]);
   updateIsRegistered();
 };
 
