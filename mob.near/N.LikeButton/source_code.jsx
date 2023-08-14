@@ -28,7 +28,6 @@ if (state.hasLike === true) {
 const accountsWithLikes = Object.keys(likesByUsers);
 const likeCount = accountsWithLikes.length;
 const hasLike = context.accountId && !!likesByUsers[context.accountId];
-hasLike = true;
 
 const heartSvg = (
   <svg
