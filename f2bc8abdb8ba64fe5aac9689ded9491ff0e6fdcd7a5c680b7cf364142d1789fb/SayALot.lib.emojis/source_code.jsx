@@ -91,6 +91,7 @@ function getReactionsData(props) {
 
 function libCall(call) {
   if (call.functionName === "createReaction") {
+    console.log("running createReaction");
     return createReaction(call.props);
   } else if (call.functionName === "getReactionsData") {
     return getReactionsData(props);
