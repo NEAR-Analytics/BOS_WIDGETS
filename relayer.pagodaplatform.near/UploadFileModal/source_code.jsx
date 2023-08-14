@@ -59,6 +59,8 @@ State.init({
     let file = files[0];
 
     if (file) {
+      props.setFile(file);
+
       State.update({
         file: {
           name: file.name,
