@@ -22,7 +22,7 @@ const series1 = {
     const month = date.toLocaleString("default", { month: "long" });
     const year = date.getFullYear();
     return {
-      primary: `${month} ${year}`,
+      primary: date.toLocaleString("default"),
       secondary: Number(item.RETURNING_MAAS),
     };
   }),
@@ -35,7 +35,7 @@ const series2 = {
     const month = date.toLocaleString("default", { month: "long" });
     const year = date.getFullYear();
     return {
-      primary: `${month} ${year}`,
+      primary: date.toLocaleString("default"),
       secondary: Number(item.NEW_MAAS),
     };
   }),
