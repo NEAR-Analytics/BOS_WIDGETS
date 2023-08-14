@@ -318,7 +318,10 @@ return (
       <>
         <Account>
           <div className="mb-3">
-            <Widget src="mob.near/widget/Profile.InlineBlock" />
+            <Widget
+              src="mob.near/widget/Profile.InlineBlock"
+              props={{ accountId }}
+            />
           </div>
           <div class="token-info-wrapper">
             <p>My Assets</p>
