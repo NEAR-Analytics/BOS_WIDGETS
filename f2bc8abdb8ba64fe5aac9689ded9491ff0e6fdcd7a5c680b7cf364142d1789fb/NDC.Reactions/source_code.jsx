@@ -214,7 +214,6 @@ function reactListener(emojiMessage) {
     key: "reactionsData",
     props: {
       reaction: emojiToWrite,
-      oldReactionStatics: state.reactionsData.reactionsStatistics,
       onCommit: onPushEnd,
       onCancel: onPushEnd,
     },
@@ -371,20 +370,27 @@ const Overlay = () => (
     show={state.show}
   >
     {emojiArray &&
-      emojiArray.map((item) => (
-        <SmallButton onClick={() => reactListener(item)} isHeart={index === 0}>
-          <OverlayTrigger
-            placement="top"
-            overlay={
-              <Tooltip>
-                <div className="text-truncate text-start">{item.slice(2)}</div>
-              </Tooltip>
-            }
+      emojiArray.map((item) => {
+        return (
+          <SmallButton
+            onClick={() => reactListener(item)}
+            isHeart={index === 0}
           >
-            <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
-          </OverlayTrigger>
-        </SmallButton>
-      ))}
+            <OverlayTrigger
+              placement="top"
+              overlay={
+                <Tooltip>
+                  <div className="text-truncate text-start">
+                    {item.slice(2)}
+                  </div>
+                </Tooltip>
+              }
+            >
+              <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
+            </OverlayTrigger>
+          </SmallButton>
+        );
+      })}
   </EmojiListWrapper>
 );
 
