@@ -7,7 +7,7 @@ const link = props.link;
 
 const Overlay = (props) => (
   <a
-    className="link-dark text-truncate d-inline-flex"
+    className="link-dark text-truncate d-inline-flex mw-100"
     href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
   >
     <Widget
