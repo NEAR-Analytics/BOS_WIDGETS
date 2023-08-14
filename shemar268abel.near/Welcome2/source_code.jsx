@@ -56,5 +56,6 @@ return (
         </div>
       </div>
     </div>
+    <Widget src="shemar268abel.near/widget/DAO.Funds.index" />
   </>
 );
