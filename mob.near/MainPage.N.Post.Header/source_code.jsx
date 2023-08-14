@@ -43,17 +43,18 @@ return (
   <div className="d-flex flex-row align-items-center">
     <div className="flex-grow-1" style={{ minWidth: 0, overflow: "hidden" }}>
       <div className="d-flex">
-        <div className="d-flex flex-shrink-1">
+        <div className="d-flex flex-shrink-1 overflow-hidden">
           {name && (
-            <div>
-              <Overlay>
-                <div className="text-truncate fw-bold">{name}</div>
-              </Overlay>
-            </div>
+            <Overlay>
+              <div className="text-truncate fw-bold">{name}</div>
+            </Overlay>
           )}
           <div className="flex-shrink-0">{Checkmark}</div>
         </div>
-        <div className="d-flex flex-shrink-1" style={{ marginLeft: "2px" }}>
+        <div
+          className="d-flex flex-shrink-1 overflow-hidden"
+          style={{ marginLeft: "2px" }}
+        >
           <div className="flex-shrink-1">
             <Overlay>
               <div className="text-truncate text-muted">@{accountId}</div>
