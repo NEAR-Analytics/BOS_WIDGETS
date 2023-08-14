@@ -96,6 +96,8 @@ const Wrapper = styled.div`
       width: calc(33% - 1rem);
     }
   }
+  max-width: 600px; // Limit the maximum width
+  margin: 0 auto;    // Center the content
 `;
 
 const renderUserRow = (user, roles, i) => {
