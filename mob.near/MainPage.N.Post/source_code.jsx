@@ -25,10 +25,24 @@ const Wrapper = styled.div`
     position: relative;
     padding: 12px;
     display: flex;
-  }
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 16px !important;
+    }
+    h1, h2, h3, h4, h5, h6, strong, b {
+      font-weight: 500 !important;
+    }
+    p {
+      margin-bottom: 0.5rem;
+      white-space: inherit;
+    }
 
-  .post:hover {
-    background-color: rgba(0, 0, 0, 0.03);
+    :hover {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    .post-header {
+      margin-bottom: 6px;
+    }
   }
 
   .post:not(:last-child):before {
