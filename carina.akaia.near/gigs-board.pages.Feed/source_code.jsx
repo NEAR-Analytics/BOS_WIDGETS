@@ -57,45 +57,35 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  get_root_members: () =>
-    Near.view(devHubAccountId, "get_root_members") ?? null,
-
   has_moderator: ({ account_id }) =>
     Near.view(devHubAccountId, "has_moderator", { account_id }) ?? null,
 
-  create_community: ({ inputs }) =>
-    Near.call(devHubAccountId, "create_community", { inputs }),
-
-  get_community: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
-
-  get_account_community_permissions: ({ account_id, community_handle }) =>
-    Near.view(devHubAccountId, "get_account_community_permissions", {
-      account_id,
-      community_handle,
-    }) ?? null,
-
-  update_community: ({ handle, community }) =>
-    Near.call(devHubAccountId, "update_community", { handle, community }),
+  edit_community: ({ handle, community }) =>
+    Near.call(devHubAccountId, "edit_community", { handle, community }),
 
   delete_community: ({ handle }) =>
     Near.call(devHubAccountId, "delete_community", { handle }),
 
-  update_community_board: ({ handle, board }) =>
-    Near.call(devHubAccountId, "update_community_board", { handle, board }),
+  edit_community_github: ({ handle, github }) =>
+    Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
+    null,
 
-  update_community_github: ({ handle, github }) =>
-    Near.call(devHubAccountId, "update_community_github", { handle, github }),
+  edit_community_board: ({ handle, board }) =>
+    Near.call(devHubAccountId, "edit_community_board", { handle, board }) ??
+    null,
 
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
   get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
 
-  get_all_communities_metadata: () =>
-    Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
+  get_all_communities: () =>
+    Near.view(devHubAccountId, "get_all_communities") ?? null,
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
+
+  get_community: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
 
   get_post: ({ post_id }) =>
     Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
@@ -108,7 +98,10 @@ const DevHub = {
       label,
     }) ?? null,
 
-  useQuery: (name, params) => {
+  get_root_members: () =>
+    Near.view(devHubAccountId, "get_root_members") ?? null,
+
+  useQuery: ({ name, params }) => {
     const initialState = { data: null, error: null, isLoading: true };
 
     const cacheState = useCache(
@@ -191,15 +184,24 @@ const banner = (
       <div className="d-flex justify-content-between">
         <h5 className="h5 m-0">Featured Communities</h5>
       </div>
+
       <div className="d-flex gap-4 justify-content-between">
-        {(Near.view(devHubAccountId, "get_featured_communities") ?? []).map(
-          (community) =>
+        {(DevHub.get_all_communities() ?? [])
+          .filter(({ handle }) =>
+            [
+              "zero-knowledge",
+              "protocol",
+              "contract-standards",
+              "education",
+            ].includes(handle)
+          )
+          .map((community) =>
             widget(
               "entity.community.card",
-              { metadata: community, format: "medium" },
+              { ...community, format: "medium" },
               community.handle
             )
-        )}
+          )}
       </div>
     </div>
 
@@ -238,10 +240,7 @@ const FeedPage = ({ author, recency, tag }) => {
     children: widget("feature.post-search.panel", {
       author: state.author,
       authorQuery: { author: state.author },
-      children: widget("components.layout.Controls", {
-        title: "Post",
-        href: href("Create"),
-      }),
+      children: widget("components.layout.Controls"),
       onAuthorSearch,
       onTagSearch,
       recency,
