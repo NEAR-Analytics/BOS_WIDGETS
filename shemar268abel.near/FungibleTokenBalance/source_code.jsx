@@ -321,14 +321,14 @@ return (
     ) : (
       <>
         <Account>
-          <div className="mb-3">
+          {/*<div className="mb-3">
             <Widget
               src="mob.near/widget/Profile.InlineBlock"
               props={{ accountId }}
             />
-          </div>
+          </div>*/}
           <div class="token-info-wrapper">
-            <p>My Assets</p>
+            <p>Assets</p>
             <p>Token balance</p>
           </div>
         </Account>
