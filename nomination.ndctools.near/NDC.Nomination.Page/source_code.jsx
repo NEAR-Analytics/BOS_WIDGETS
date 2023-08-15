@@ -256,8 +256,8 @@ return (
               key={i}
               src={widgets.header}
               props={{
-                startTime: time[0],
-                endTime: time[1],
+                startTime: time ? time[0] : 0,
+                endTime: time ? time[1] : 0,
                 type: "Nomination",
               }}
             />
@@ -314,7 +314,6 @@ return (
             props={{
               selectedHouse: state.selectedHouse,
               houses: houses,
-              candidates: state.originNominations.length,
               handleSelect: (item) => handleSelect(item),
             }}
           />
