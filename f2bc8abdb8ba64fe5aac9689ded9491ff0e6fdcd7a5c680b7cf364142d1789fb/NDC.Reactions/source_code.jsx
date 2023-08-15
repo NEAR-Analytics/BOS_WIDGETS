@@ -193,8 +193,8 @@ function handleOnMouseLeave() {
 
 function onCommit(emojiToWrite) {
   () => {
-    updateReactionsStatisticsIfUserVoted(emojiToWrite);
     onPushEnd();
+    updateReactionsStatisticsIfUserVoted(emojiToWrite);
   };
 }
 
