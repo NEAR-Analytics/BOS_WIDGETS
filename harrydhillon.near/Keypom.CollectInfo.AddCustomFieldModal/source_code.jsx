@@ -1,4 +1,4 @@
-State.init({ fieldVal: "" });
+State.init({ fieldVal: "",hasBeenEditUpdated:false });
 
 const AddCustomFieldModalJsx = (
   <>
@@ -24,7 +24,6 @@ const AddCustomFieldModalJsx = (
     <button
       onClick={() => {
         props.onSave(state);
-        State.update({ fieldVal: "", hasBeenEditUpdated: false });
       }}
       style={{
         width: "100%",
@@ -55,7 +54,12 @@ const AddCustomFieldModalJsx = (
   </>
 );
 
-if (props.editMode &&props.isOpen && state.fieldVal === "" && !state.hasBeenEditUpdated) {
+if (
+  props.editMode &&
+  props.isOpen &&
+  state.fieldVal === "" &&
+  !state.hasBeenEditUpdated
+) {
   State.update({ fieldVal: props.editVal, hasBeenEditUpdated: true });
 }
 
