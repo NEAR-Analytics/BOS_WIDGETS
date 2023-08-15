@@ -529,7 +529,7 @@ originalComments = originalComments.map((originalComment) => {
   let answers = state.comments.filter((comment) => {
     return (
       comment.value.comment.originalCommentId ===
-      originalComment.value.comment.realArticleId
+      originalComment.value.comment.commentId
     );
   });
   console.log("answers: ", answers);
