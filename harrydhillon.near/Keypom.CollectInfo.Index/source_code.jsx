@@ -41,6 +41,7 @@ State.init({
     { question: "Email", isRequired: true },
     { question: "Full Name", isRequired: false },
   ],
+  isAddCustomFieldModalOpen: false,
 });
 
 return (
@@ -129,33 +130,18 @@ return (
           backgroundColor: "black",
           borderWidth: 0,
           borderRadius: 5,
-          paddingLeft: 10,
+          paddingLeft: 15,
           paddingRight: 15,
-          height: 40,
-          display: "flex",
-          alignItems: "center",
-          fontSize: 14,
         }}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="15"
-          viewBox="0 0 15 15"
-          fill="none"
-          style={{ marginRight: 5, transform: "scale(1.2)" }}
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M7.00016 2.83301C7.32233 2.83301 7.5835 3.09418 7.5835 3.41634V6.91634H11.0835C11.4057 6.91634 11.6668 7.17751 11.6668 7.49967C11.6668 7.82184 11.4057 8.08301 11.0835 8.08301H7.5835V11.583C7.5835 11.9052 7.32233 12.1663 7.00016 12.1663C6.678 12.1663 6.41683 11.9052 6.41683 11.583V8.08301H2.91683C2.59466 8.08301 2.3335 7.82184 2.3335 7.49967C2.3335 7.17751 2.59466 6.91634 2.91683 6.91634H6.41683V3.41634C6.41683 3.09418 6.678 2.83301 7.00016 2.83301Z"
-            fill="white"
-          />
-        </svg>
-        <span style={{ transform: "translate(0px,-1px)" }}>
-          Add custom field
-        </span>
+        Add custom field
       </button>
     </div>
+    <Widget src='harrydhillon.near/widget/Keypom.CollectInfo.AddCustomFieldModal' props={{
+      isOpen:state.isAddCustomFieldModalOpen,
+      onClose:()=>{
+        State.update({isAddCustomFieldModalOpen:false})
+      }
+    }} />
   </>
 );
