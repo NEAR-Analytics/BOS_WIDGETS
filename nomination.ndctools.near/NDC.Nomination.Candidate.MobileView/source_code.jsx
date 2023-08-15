@@ -469,6 +469,8 @@ if (!candidateProps) return <Loader />;
 
 const comments = data.comments[0] ? data.comments[0].comments : [];
 const afilations = JSON.parse(candidateProps.afiliation);
+if (!afilations) return <Loader />;
+
 const afilationsSort = afilations.sort(
   (a, b) => new Date(a.end_date) - new Date(b.end_date)
 );
