@@ -1,4 +1,4 @@
-State.init({ fieldVal: "", hasBeenEditUpdated: false });
+State.init({ fieldVal: "" });
 
 const AddCustomFieldModalJsx = (
   <>
@@ -60,7 +60,6 @@ if (
   state.fieldVal === "" &&
   !state.hasBeenEditUpdated
 ) {
-  console.log('this called')
   State.update({ fieldVal: props.editVal, hasBeenEditUpdated: true });
 }
 
