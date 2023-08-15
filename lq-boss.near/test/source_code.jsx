@@ -226,12 +226,5 @@ return (
         props={{ text: `${formattedReceivedLinear} LiNEAR` }}
       />
     </div>
-    <Widget
-      src={`${config.ownerId}/widget/LiNEAR.Tab`}
-      props={{
-        updateTabName: props.updateTabName,
-        tabName: "stake",
-      }}
-    ></Widget>
   </StakeFormWrapper>
 );
