@@ -256,25 +256,29 @@ return (
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
-              accountId: data.accountId,
+              accountId: data.originalComment.accountId,
               imageClassName: "rounded-circle w-100 h-100",
               style: { width: "25px", height: "25px" },
             }}
           />
-          <CommentUser>{formatName(data.accountId)}</CommentUser>
+          <CommentUser>
+            {formatName(data.originalComment.accountId)}
+          </CommentUser>
         </CommentUserContent>
       </CommentCardHeader>
       <CommentCardContent>
         <Widget
           src="mob.near/widget/SocialMarkdown"
-          props={{ text: data.value.comment.text }}
+          props={{ text: data.originalComment.value.comment.text }}
         />
       </CommentCardContent>
       <CommentCardLowerSection>
         <TimestampCommentDiv>
           <i className="bi bi-clock" />
           <TimestampTextComment>
-            {new Date(data.value.comment.timestamp).toDateString()}
+            {new Date(
+              data.originalComment.value.comment.timestamp
+            ).toDateString()}
           </TimestampTextComment>
         </TimestampCommentDiv>
         <div>
@@ -286,7 +290,7 @@ return (
                 originalComment: orginalCommentData ?? data,
                 widgets,
                 isTest,
-                replyingTo: data.accountId,
+                replyingTo: data.originalComment.accountId,
                 placement: "bottom",
                 onCloseModal: closeModal,
                 // nomination_contract,
@@ -310,7 +314,7 @@ return (
           props={{
             isTest,
             authorForWidget,
-            elementReactedId: data.value.comment.commentId,
+            elementReactedId: data.originalComment.value.comment.commentId,
           }}
         />
       </CommentCardLowerSection>
