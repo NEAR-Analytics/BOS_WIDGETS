@@ -283,11 +283,11 @@ return (
   <Style>
     <div className="text-bg-dark container rounded-4 p-3 mb-4">
       {data !== null ? (
-        <p>
+        <>
           <div class="">
             <div class="">
               <div>
-                <h2 className="text-white-300">Metric: {METRIC_NAME}</h2>
+                <h2 className="text-white-200">Metric: {METRIC_NAME}</h2>
 
                 <label
                   htmlFor="metric-dropdown"
@@ -316,7 +316,7 @@ return (
           </div>
 
           <div></div>
-        </p>
+        </>
       ) : (
         <div>Loading ...</div>
       )}
