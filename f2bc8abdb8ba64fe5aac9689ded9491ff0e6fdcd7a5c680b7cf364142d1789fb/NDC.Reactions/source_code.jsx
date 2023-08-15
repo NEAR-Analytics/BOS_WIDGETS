@@ -150,36 +150,36 @@ State.init({
 //   updateEmojiIfUserVoted();
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
-// function updateReactionsStatisticsIfUserVoted(newEmoji) {
-//   const resObject = arrayLastReactionForEachUser.find(
-//     (item) => item.accountId === accountThatIsLoggedIn
-//   );
-//   if (!resObject) {
-//     arrayLastReactionForEachUser = [
-//       ...arrayLastReactionForEachUser,
-//       {
-//         accountId: accountThatIsLoggedIn,
-//         blockHeight: item.blockHeight,
-//         value: { type: newEmoji },
-//       },
-//     ];
-//   } else {
-//     arrayLastReactionForEachUser =
-//       arrayLastReactionForEachUser &&
-//       arrayLastReactionForEachUser.map((item) => {
-//         if (item.accountId === accountThatIsLoggedIn) {
-//           return { ...item, value: { type: newEmoji } };
-//         }
-//         return item;
-//       });
-//   }
-//   reactionsStatistics =
-//     arrayLastReactionForEachUser &&
-//     countReactionsStats(arrayLastReactionForEachUser);
-//   State.update({
-//     reactionsStatistics,
-//   });
-// }
+function updateReactionsStatisticsIfUserVoted(newEmoji) {
+  const resObject = arrayLastReactionForEachUser.find(
+    (item) => item.accountId === accountThatIsLoggedIn
+  );
+  if (!resObject) {
+    arrayLastReactionForEachUser = [
+      ...arrayLastReactionForEachUser,
+      {
+        accountId: accountThatIsLoggedIn,
+        blockHeight: item.blockHeight,
+        value: { type: newEmoji },
+      },
+    ];
+  } else {
+    arrayLastReactionForEachUser =
+      arrayLastReactionForEachUser &&
+      arrayLastReactionForEachUser.map((item) => {
+        if (item.accountId === accountThatIsLoggedIn) {
+          return { ...item, value: { type: newEmoji } };
+        }
+        return item;
+      });
+  }
+  reactionsStatistics =
+    arrayLastReactionForEachUser &&
+    countReactionsStats(arrayLastReactionForEachUser);
+  State.update({
+    reactionsStatistics,
+  });
+}
 
 // ================= Mouse Handlers ===============
 
@@ -189,6 +189,13 @@ function handleOnMouseEnter() {
 
 function handleOnMouseLeave() {
   State.update({ show: false });
+}
+
+function onCommit(emojiToWrite) {
+  onPushEnd();
+  () => {
+    updateReactionsStatisticsIfUserVoted(emojiToWrite);
+  };
 }
 
 function onPushEnd() {
@@ -217,7 +224,7 @@ function reactListener(emojiMessage) {
     props: {
       elementReactedId,
       reaction: emojiToWrite,
-      onCommit: onPushEnd,
+      onCommit: onCommit(emojiToWrite),
       onCancel: onPushEnd,
     },
   });
