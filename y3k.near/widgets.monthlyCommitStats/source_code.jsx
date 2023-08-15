@@ -33,11 +33,12 @@ const dates = data.map((entry) => entry["YEAR_MONTH"]);
 // logic part-2
 
 const stacked_options = {
+  responsive: true,
   scales: {
     y: {
       stacked: true,
       grid: {
-        color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
+        color: "rgb(41,51,64)", // This will change the gridline color
         borderColor: "rgb(240,255,240)",
       },
       ticks: {
@@ -47,7 +48,7 @@ const stacked_options = {
     x: {
       stacked: true,
       grid: {
-        color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
+        color: "rgb(41,51,64)", // This will change the gridline color
       },
       ticks: {
         color: "rgb(240,255,240)", // This will change the axis text label color
@@ -55,14 +56,13 @@ const stacked_options = {
     },
   },
 };
-
 const stacked_bar_data = {
   dates,
   datasets: [
     {
       label: "COMMITS_COUNT",
       data: COMMITS_COUNT,
-      backgroundColor: "rgb(75, 192, 192)",
+      backgroundColor: "rgb(250,164,58)",
     },
   ],
 };
