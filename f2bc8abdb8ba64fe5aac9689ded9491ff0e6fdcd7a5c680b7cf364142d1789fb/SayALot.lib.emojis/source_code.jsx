@@ -1,4 +1,4 @@
-const { isTest, stateUpdate, libCalls } = props;
+const { isTest, stateUpdate, libCalls, initialEmoji } = props;
 
 const prodAction = "sayALotReaction";
 const testAction = `test_${prodAction}`;
