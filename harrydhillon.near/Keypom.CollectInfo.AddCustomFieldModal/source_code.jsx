@@ -1,4 +1,4 @@
-State.init({ fieldVal:  "" });
+State.init({ fieldVal: "" });
 
 const AddCustomFieldModalJsx = (
   <>
@@ -52,8 +52,8 @@ const AddCustomFieldModalJsx = (
   </>
 );
 
-if(props.editMode){
-  State.update({fieldVal:props.editVal})
+if (props.editMode && state.hasBeenEditUpdated) {
+  State.update({ fieldVal: props.editVal,hasBeenEditUpdated:true });
 }
 
 return (
