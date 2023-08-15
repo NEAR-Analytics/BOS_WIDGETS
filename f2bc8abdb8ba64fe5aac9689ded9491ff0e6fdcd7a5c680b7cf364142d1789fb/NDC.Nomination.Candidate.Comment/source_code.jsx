@@ -17,13 +17,12 @@ State.init({
 
 const CommentCard = styled.div`
   margin-left: ${isReply ? "2rem" : "0"};
-  width: 100%;
   display: flex;
   padding: 14px 16px;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  border-radius: ${isReply ? "15px 50px 30px" : "10px"};
+  border-radius: ${isReply ? "0px 40px 40px 40px" : "10px"};
   background: #fff;
 `;
 
