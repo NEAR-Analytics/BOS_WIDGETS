@@ -173,7 +173,6 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
         return item;
       });
   }
-  console.log("arrayLastReactionForEachUser: ", arrayLastReactionForEachUser);
   reactionsStatistics =
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
@@ -195,6 +194,7 @@ function handleOnMouseLeave() {
 function onCommit(emojiToWrite) {
   () => {
     updateReactionsStatisticsIfUserVoted(emojiToWrite);
+    onPushEnd();
   };
 }
 
