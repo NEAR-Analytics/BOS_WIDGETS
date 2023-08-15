@@ -1,4 +1,4 @@
-State.init({ fieldVal: "" });
+State.init({ fieldVal: props?.editMode?props.editVal: "" });
 
 const AddCustomFieldModalJsx = (
   <>
@@ -7,8 +7,8 @@ const AddCustomFieldModalJsx = (
       props={{
         label: "Add a field you’d like attendees to fill out for this event.",
         inputProps: {
-          placeholder: "",
-          required:true,
+          placeholder: "Enter a question",
+          required: true,
           value: state.fieldVal,
           onChange: (e) => State.update({ fieldVal: e.target.value }),
         },
@@ -23,7 +23,6 @@ const AddCustomFieldModalJsx = (
     />
     <button
       onClick={() => props.onSave(state)}
-      type="submit"
       style={{
         width: "100%",
         backgroundColor: "black",
