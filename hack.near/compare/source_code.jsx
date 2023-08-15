@@ -1,12 +1,12 @@
 if (!props.update) return "";
 
-const update = props.newThing ?? Social.get(`${props.update}`);
+const update = Social.get(`${props.update}`);
 
 if (update === null) return "Loading...";
 
 if (!props.src) return "";
 
-const src = props.src ?? Social.get(`${props.src}`);
+const src = Social.get(`${props.src}`);
 
 if (src === null) return "Loading...";
 
