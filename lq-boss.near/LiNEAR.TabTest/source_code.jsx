@@ -1,10 +1,11 @@
 const TabContainer = styled.div`
+  width:50%;
   display: flex;
   justify-content: center;
   align-items: center;
   background: #373A53;
   border-radius: 8px;
-  padding: 2px;
+  padding: 1px 2px;
   border: 1px #373A53 solid;
 `;
 
