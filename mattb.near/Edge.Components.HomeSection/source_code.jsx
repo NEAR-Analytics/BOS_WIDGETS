@@ -57,6 +57,7 @@ const Details = styled.div`
     box-sizing:border-box;
     padding:.5rem;
     background-color:#000;
+    margin-top:3rem;
 
     div {
         display:flex;
