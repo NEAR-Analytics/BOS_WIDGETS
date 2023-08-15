@@ -1,9 +1,16 @@
-const { widgets, data } = props;
+const { widgets, data, isTest, authorForWidget } = props;
 
 State.init({
   showModal: false,
   hasReply: false,
 });
+
+// function handleDeleteComment() {
+//   Near.call(nomination_contract, "remove_comment", {
+//     candidate: data.candidate,
+//     comment: data.id,
+//   });
+// }
 
 const CommentCard = styled.div`
   width: 100%;
@@ -235,6 +242,8 @@ const formatName = (name) =>
     ? `${name.slice(0, 4)}..${name.slice(name.length - 4, name.length)}`
     : name;
 
+console.log("data: ", data);
+
 return (
   <CommentCard>
     <CommentCardHeader>
@@ -263,6 +272,11 @@ return (
           {new Date(data.value.comment.timestamp).toDateString()}
         </TimestampTextComment>
       </TimestampCommentDiv>
+      //{" "}
+      <Widget
+        src={widgets.reactions}
+        props={{ isTest, authorForWidget, elementReactedId: data }}
+      />
     </CommentCardLowerSection>
   </CommentCard>
 );
