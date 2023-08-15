@@ -1,2 +1,3 @@
 const cb = useComponentCallback(props.renderComponent, ["spaghetti"]);
-return <div>{cb()}</div>;
+console.log({ cb });
+return <div>{cb() || "nothing..."}</div>;
