@@ -33,6 +33,19 @@ const Title = styled.h1`
     margin: 0;
   }
 `;
+
+// 新增切换
+const { tabName } = state;
+State.init({
+  tabName: "stake", // stake | unstake,
+  nearBalance: "",
+});
+
+const updateTabName = (tabName) =>
+  State.update({
+    tabName,
+  });
+
 console.log("hideBanner", !!hideBanner);
 return (
   <Container>
@@ -42,8 +55,8 @@ return (
         <Widget
           src={`lq-boss.near/widget/LiNEAR.TabTest`}
           props={{
-            updateTabName: props.updateTabName,
-            tabName: "unstake",
+            updateTabName,
+            tabName: tabName,
           }}
         ></Widget>
       </Tab>
@@ -52,13 +65,15 @@ return (
       <Widget
         src="lq-boss.near/widget/LiNEARTest"
         props={{
-          tabName: "stake",
+          updateTabName,
+          tabName: tabName,
         }}
       ></Widget>
       <Widget
         src="lq-boss.near/widget/XREFTest"
         props={{
-          tabName: "stake",
+          updateTabName,
+          tabName: tabName,
         }}
       ></Widget>
       <Widget src="lq-boss.near/widget/NearX.StakeTest"></Widget>
