@@ -188,6 +188,11 @@ const StakeFormWrapper = styled.div`
   }
   .contentArea p{
     color: #7C7F96;
+    font-size:14px;
+  }
+  .contentArea hr{
+    background: #373A53;
+    height:2px;
   }
   .arr .bigIcon{
     background: #373A53;
