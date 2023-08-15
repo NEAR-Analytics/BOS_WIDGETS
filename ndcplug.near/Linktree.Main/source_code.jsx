@@ -1,8 +1,3 @@
-State.init({
-  copiedShareUrl: false,
-  hasBeenFlagged: false,
-});
-
 const loggedIn = context.accountId ? props.loggedIn ?? false : false;
 
 const accountId = loggedIn
@@ -10,6 +5,12 @@ const accountId = loggedIn
   : props.accountId ?? "ndcplug.near";
 
 const theme = props.theme ?? "default"; // will add themes later
+
+State.init({
+  copiedShareUrl: false,
+  hasBeenFlagged: false,
+  theme: theme,
+});
 const profile =
   props.profile || Social.get(`${accountId}/profile/**`, "final") || {};
 const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
