@@ -136,6 +136,8 @@ const Theme = styled.div`
 
   .logo-grid {
     text-align: center;
+    position: relative;
+    cursor: pointer;
     > .logo {
       margin-right: 32px;
     }
@@ -151,6 +153,12 @@ const Theme = styled.div`
       color: rgba(255, 255, 255, 0.8);
       margin-bottom: 32px;
       margin-bottom: 64px;
+    }
+    > span {
+      position: absolute;
+      top: -32px;
+      font-weight: bold;
+      font-size: 2.5rem;
     }
   }
 
@@ -274,7 +282,12 @@ return (
   <Theme>
     <div className="logo-grid" onClick={() => setComponent("bridge")}>
       <div className="logo">{logo}</div>
-      {!bridge && <p>(back)</p>}
+      {!bridge && (
+        <>
+          <span>←</span>
+          <p>(back)</p>
+        </>
+      )}
     </div>
 
     <div className="logo-wrap">
