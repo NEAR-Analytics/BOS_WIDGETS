@@ -145,10 +145,6 @@ const curatedComps = [
         widgetName: "Linktree.Main",
       },
       {
-        accountId: "ndcplug.near",
-        widgetName: "Linktree.Main",
-      },
-      {
         accountId: "proofofvibes.near",
         widgetName: "Vibes.DAO.Main",
       },
@@ -162,6 +158,10 @@ const curatedComps = [
       {
         accountId: "baam25.near",
         widgetName: "PrayerTimes",
+      },
+      {
+        accountId: "proofofvibes.near",
+        widgetName: "Medium.main",
       },
     ],
   },
@@ -397,12 +397,12 @@ const curatedComps = [
         widgetName: "Edge.Views.Home",
       },
       {
-        accountId: "mob.near",
-        widgetName: "ComponentSearch.Item",
+        accountId: "nearcon23.near",
+        widgetName: "Index",
       },
       {
-        accountId: "manzanal.near",
-        widgetName: "SerchComponent",
+        accountId: "jgodwil.near",
+        widgetName: "GenaDrop.Home",
       },
     ],
   },
