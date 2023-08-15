@@ -301,7 +301,9 @@ function addCommentListener() {
       originalComment.originalComment.value.comment.realArticleId ??
       article.realArticleId,
     timestamp: Date.now(),
-    originalCommentId: originalComment.commentId ?? article.realArticleId,
+    originalCommentId:
+      originalComment.originalComment.value.comment.commentId ??
+      article.realArticleId,
     commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
   };
   newLibCalls.push({
