@@ -1,27 +1,40 @@
-const { accountId, blockHeight, value } = props;
+const src = props.src;
+const update = props.update;
+const source = Social.get(`${src}`);
+const newVersion = Social.get(`${update}`);
 
-if (!accountId || !blockHeight || !value) {
-  return "";
-}
+const [ownerId, type, name] = src.split("/");
+
+const handleCreate = () =>
+  Social.set({
+    [`${type}`]: {
+      [`${name}`]: {
+        "": `${source}`,
+      },
+    },
+  });
 
 return (
   <div className="m-2">
-    {value.type === "request" && (
-      <Widget
-        src="hack.near/widget/notification.item"
-        props={{
-          L: value.type === "request" && "requested changes",
-          R: (
-            <div className="m-2">
-              <Widget
-                src="mob.near/widget/FollowButton"
-                props={{ accountId }}
-              />
-            </div>
-          ),
-          ...props,
-        }}
-      />
-    )}
+    <Widget
+      src="hack.near/widget/notification.item"
+      props={{
+        L: value.type === "request" && "requested changes",
+        R: (
+          <div className="m-2">
+            {source === newVersion ? (
+              <div className="m-2">
+                <button onClick={handleCreate}>Merge</button>
+              </div>
+            ) : (
+              <div className="m-2">
+                <button disabled>Merged</button>
+              </div>
+            )}
+          </div>
+        ),
+        ...props,
+      }}
+    />
   </div>
 );
