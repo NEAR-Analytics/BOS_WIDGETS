@@ -173,6 +173,7 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
         return item;
       });
   }
+  console.log("arrayLastReactionForEachUser: ", arrayLastReactionForEachUser);
   reactionsStatistics =
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
@@ -189,6 +190,12 @@ function handleOnMouseEnter() {
 
 function handleOnMouseLeave() {
   State.update({ show: false });
+}
+
+function onCommit(emojiToWrite) {
+  () => {
+    updateReactionsStatisticsIfUserVoted(emojiToWrite);
+  };
 }
 
 function onPushEnd() {
@@ -217,7 +224,7 @@ function reactListener(emojiMessage) {
     props: {
       elementReactedId,
       reaction: emojiToWrite,
-      onCommit: onPushEnd,
+      onCommit: onCommit(emojiToWrite),
       onCancel: onPushEnd,
     },
   });
