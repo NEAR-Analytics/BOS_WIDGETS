@@ -3,7 +3,7 @@ background-color:white;
 padding:10px;
 padding-top:30px;
 margin-top:40px;
-margin-bottom:60px;
+margin-bottom:100px;
 border-radius:10px;
   border: 2px solid #B6E8F7;
 `;
@@ -115,6 +115,15 @@ const formContent = () => {
         </div>
         {componentsToRender[state.index]}
       </FormBackground>
+      <div style={{backgroundColor:"white",width:'100%',padding:10,display:'flex',justifyContent:'space-between',bottom:50,left:0,position:'absolute'}}>
+      <button disabled={state.index===0} style={{backgroundColor:"transparent",color:"black",borderWidth:0,}}>
+      Back
+      </button>
+      <button onClick={()=>{
+        State.update({index:state.index+1})
+      }} style={{backgroundColor:"black"}}>
+      Next
+      </button></div>
     </>
   );
 };
