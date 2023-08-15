@@ -22,7 +22,7 @@ const CommentCard = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  border-radius: ${isReply ? "0px 40px 40px 40px" : "10px"};
+  border-radius: ${isReply ? "0px 40px 40px 10px" : "10px"};
   background: #fff;
 `;
 
