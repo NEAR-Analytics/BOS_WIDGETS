@@ -81,7 +81,7 @@ const Background = styled.img`
 `;
 
 return (
-  <Box>
+  <Box id="speakers">
     <Wrapper>
       <p className="title">Speakers.</p>
       <p className="subtitle">A Renaissance of Learned Society</p>
