@@ -24,7 +24,7 @@ const AddCustomFieldModalJsx = (
     <button
       onClick={() => {
         props.onSave(state);
-        State.update({ fieldVal: "" });
+        State.update({ fieldVal: "" ,hasBeenEditUpdated:false });
       }}
       style={{
         width: "100%",
