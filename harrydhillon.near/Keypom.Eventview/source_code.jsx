@@ -43,12 +43,14 @@ return (
   <EventView>
     <TicketDropBackground>
       <ContentDiv>
+      <div style={{pointerEvents:'none'}}>
         <Widget
           src="harrydhillon.near/widget/Keypom.Header"
           props={{
             scaleDown: true,
           }}
         />
+        </div>
         <div
           style={{
             display: "flex",
