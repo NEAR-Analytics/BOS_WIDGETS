@@ -1,6 +1,7 @@
 const { onHide, kudo, comment, edit } = props;
 
 const kudosContract = "kudos.ndctools.near";
+const socialContract = "social.near";
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
