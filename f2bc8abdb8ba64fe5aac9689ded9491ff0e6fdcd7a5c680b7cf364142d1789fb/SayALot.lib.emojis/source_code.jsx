@@ -51,11 +51,8 @@ function getReactionsData(props) {
     order: "desc",
   });
 
-  if (allReactions) {
-  }
-
   const uniqueAccounts = [];
-  const arrayLastReactionForEachUser =
+  let arrayLastReactionForEachUser =
     allReactions &&
     allReactions.filter((obj) => {
       if (!uniqueAccounts.includes(obj.accountId)) {
@@ -70,6 +67,16 @@ function getReactionsData(props) {
     arrayLastReactionForEachUser.find((obj) => {
       return obj.accountId === accountThatIsLoggedIn;
     });
+
+  if (userReaction) {
+    const newArrayOfLastReactions = arrayLastReactionForEachUser.filter(
+      (obj) => {
+        console.log("obj", obj);
+        return obj.accountId !== context.accountId;
+      }
+    );
+    console.log("newArrayOfLastReactions: ", newArrayOfLastReactions);
+  }
 
   // ========= GET REACTIONS STATISTICS =========
   function getReactionStats(acc, reactionObj) {
