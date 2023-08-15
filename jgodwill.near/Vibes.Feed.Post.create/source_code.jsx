@@ -89,20 +89,20 @@ const extractHashtags = (text) => {
 function composeData() {
   content.text =
     content.text +
-    "\n# Vibe-rating  " +
-    "❤️ Friendliness: " +
+    "\n## **Vibe-rating**  " +
+    "❤️ **Friendliness:** " +
     state.friendliness +
     "/" +
     maxSliderPoints +
-    "⚡️ Energy: " +
+    "⚡️ **Energy:** " +
     state.energy +
     "/" +
     maxSliderPoints +
-    "🧊 Density: " +
+    "🧊 **Density:** " +
     state.density +
     "/" +
     maxSliderPoints +
-    "🌈 Diversity: " +
+    "🌈 **Diversity:** " +
     state.diversity +
     "/" +
     maxSliderPoints;
@@ -602,9 +602,17 @@ return (
       <SliderWrapper>
         {showSliders && (
           <div>
-            <label className="slider-label" for="friendlySlider">
-              ❤️ Friendliness :{" "}
-            </label>
+            <div className="col-3">
+              <OverlayTrigger
+                key="top"
+                placement="top"
+                overlay={<Tooltip id={`tooltip-top`}>👋🏾 Message Here</Tooltip>}
+              >
+                <label className="slider-label" for="friendlySlider">
+                  ❤️ Friendliness :{" "}
+                </label>
+              </OverlayTrigger>
+            </div>
             <div className="slider-container">
               <input
                 type="range"
@@ -617,9 +625,17 @@ return (
               />
               <span className="slider-value">{sliderValue}</span>
             </div>
-            <label className="slider-label" for="energySlider">
-              ⚡️ Energy :{" "}
-            </label>
+            <div className="col-3">
+              <OverlayTrigger
+                key="top"
+                placement="top"
+                overlay={<Tooltip id={`tooltip-top`}>👋🏾 Message Here</Tooltip>}
+              >
+                <label className="slider-label" for="energySlider">
+                  ⚡️ Energy :{" "}
+                </label>
+              </OverlayTrigger>
+            </div>
             <div className="slider-container">
               <input
                 type="range"
@@ -632,9 +648,17 @@ return (
               />
               <span className="slider-value">{sliderValue}</span>
             </div>
-            <label className="slider-label" for="densitySlider">
-              🧊 Density :{" "}
-            </label>
+            <div className="col-3">
+              <OverlayTrigger
+                key="top"
+                placement="top"
+                overlay={<Tooltip id={`tooltip-top`}>👋🏾 Message Here</Tooltip>}
+              >
+                <label className="slider-label" for="densitySlider">
+                  🧊 Density :{" "}
+                </label>
+              </OverlayTrigger>
+            </div>
             <div className="slider-container">
               <input
                 type="range"
@@ -647,9 +671,17 @@ return (
               />
               <span className="slider-value">{sliderValue}</span>
             </div>
-            <label className="slider-label" for="diversitySlider">
-              🌈 Diversity :{" "}
-            </label>
+            <div className="col-3">
+              <OverlayTrigger
+                key="top"
+                placement="top"
+                overlay={<Tooltip id={`tooltip-top`}>👋🏾 Message Here</Tooltip>}
+              >
+                <label className="slider-label" for="diversitySlider">
+                  🌈 Diversity :{" "}
+                </label>
+              </OverlayTrigger>
+            </div>
             <div className="slider-container">
               <input
                 type="range"
