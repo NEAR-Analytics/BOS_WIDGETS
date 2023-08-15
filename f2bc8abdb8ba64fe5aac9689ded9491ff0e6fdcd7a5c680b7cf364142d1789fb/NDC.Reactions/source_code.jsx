@@ -48,7 +48,7 @@ const libCalls = [
     key: "reactionsData",
     props: {
       elementReactedId,
-      createReaction: state.createReaction,
+      createdReaction: state.createReaction,
     },
   },
 ];
