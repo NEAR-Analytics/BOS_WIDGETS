@@ -58,17 +58,12 @@ const httpRequestOpt = {
 const baseApi = "https://api.pikespeak.ai";
 
 const endpoints = {
-  sbt: `${baseApi}/sbt/sbt-by-owner?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`,
-  og: `${baseApi}/sbt/sbt-by-owner?holder=${context.accountId}&class_id=${
-    dev ? 2 : 1
-  }&issuer=${issuer}&with_expired=false&registry=${registryContract}`,
   candidateComments: `${baseApi}/nominations/candidates-comments-and-upvotes?candidate=${context.accountId}&contract=${nominationContract}`,
   houseNominations: (house) =>
     `${baseApi}/nominations/house-nominations?house=${house}&contract=${nominationContract}`,
 };
 
 function getVerifiedHuman() {
-  let selfNomination = false;
   const sbtTokens = Near.view(registryContract, "sbt_tokens", {
     issuer: "fractal.i-am-human.near",
   });
@@ -78,15 +73,17 @@ function getVerifiedHuman() {
 
   asyncFetch(endpoints.candidateComments, httpRequestOpt).then((res) => {
     if (res.body.length > 0) {
-      State.update({
-        selfNomination: true,
-      });
+      State.update({ selfNomination: true });
     }
   });
 
   State.update({
-    og: ogTokens.some((sbt) => sbt.owner === context.accountId),
-    sbt: sbtTokens.some((sbt) => sbt.owner === context.accountId),
+    og: ogTokens
+      ? ogTokens.some((sbt) => sbt.owner === context.accountId)
+      : false,
+    sbt: sbtTokens
+      ? sbtTokens.some((sbt) => sbt.owner === context.accountId)
+      : false,
   });
 }
 
