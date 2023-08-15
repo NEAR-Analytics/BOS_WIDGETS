@@ -61,6 +61,13 @@ return (
                 </div>
               )}
               <Widget
+                src="mob.near/widget/N.RepostButton"
+                props={{
+                  item,
+                  disabled: true,
+                }}
+              />
+              <Widget
                 src="mob.near/widget/N.LikeButton"
                 props={{
                   notifyAccountId,
