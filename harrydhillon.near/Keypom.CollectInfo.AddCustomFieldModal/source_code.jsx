@@ -1,4 +1,4 @@
-State.init({ fieldVal: props?.editMode ? props.editVal : "" });
+State.init({ fieldVal:  "" });
 
 const AddCustomFieldModalJsx = (
   <>
@@ -51,6 +51,10 @@ const AddCustomFieldModalJsx = (
     </button>
   </>
 );
+
+if(props.editMode){
+  State.update({fieldVal:props.editVal})
+}
 
 return (
   <Widget
