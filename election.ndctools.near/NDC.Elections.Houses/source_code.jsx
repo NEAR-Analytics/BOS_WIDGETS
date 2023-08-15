@@ -28,6 +28,14 @@ const housesMapping = {
   },
 };
 
+const Loader = () => (
+  <span
+    className="spinner-grow spinner-grow-sm me-1"
+    role="status"
+    aria-hidden="true"
+  />
+);
+
 const Small = styled.small`
   margin-top: 10px;
   font-weight: 400;
