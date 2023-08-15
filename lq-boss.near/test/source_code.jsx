@@ -183,7 +183,7 @@ const StakeFormWrapper = styled.div`
   padding-bottom:20px;
   .contentArea{
     background: red;
-    border-radius: 300px;
+    border-radius: 16px;
     padding:20px 30px;
   }
 `;
