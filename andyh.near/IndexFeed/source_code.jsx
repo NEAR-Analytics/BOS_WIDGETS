@@ -6,7 +6,7 @@ if (!index) {
 const filter = props.filter;
 
 const renderItem =
-  props.renderItem ??
+  props.renderzItem ??
   ((item, i) => (
     <div key={JSON.stringify(item)}>
       #{item.blockHeight}: {JSON.stringify(item)}
