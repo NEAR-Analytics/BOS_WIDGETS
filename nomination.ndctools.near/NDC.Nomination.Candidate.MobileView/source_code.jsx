@@ -552,7 +552,7 @@ return (
           }}
         />
         <div>
-          <div>
+          <div className="d-flex justify-content-between">
             <HeaderDetailContent>
               <TagContainer>
                 <HouseTagDiv>
