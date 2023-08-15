@@ -82,34 +82,34 @@ const handleAddKudo = () => {
       gas: "70000000000000",
       deposit: 100000000000000000000000,
     },
-    {
-      contractName: socialContract,
-      methodName: "set",
-      args: {
-        data: {
-          index: {
-            notify: JSON.stringify({
-              key: state.receiverId,
-              value: { type: "kudo_created" },
-            }),
-          },
-        },
-      },
-    },
+    // {
+    //   contractName: socialContract,
+    //   methodName: "set",
+    //   args: {
+    //     data: {
+    //       index: {
+    //         notify: JSON.stringify({
+    //           key: state.receiverId,
+    //           value: { type: "kudo_created" },
+    //         }),
+    //       },
+    //     },
+    //   },
+    // },
   ];
 
-  if (mentionData.length > 0)
-    data.push({
-      contractName: socialContract,
-      methodName: "set",
-      args: {
-        data: {
-          index: {
-            notify: JSON.stringify(mentionData),
-          },
-        },
-      },
-    });
+  // if (mentionData.length > 0)
+  //   data.push({
+  //     contractName: socialContract,
+  //     methodName: "set",
+  //     args: {
+  //       data: {
+  //         index: {
+  //           notify: JSON.stringify(mentionData),
+  //         },
+  //       },
+  //     },
+  //   });
 
   Near.call(data).then((data) => {
     onHide();
