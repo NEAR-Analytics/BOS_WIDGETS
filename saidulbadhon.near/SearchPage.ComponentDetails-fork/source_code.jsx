@@ -72,7 +72,7 @@ const TabsButton = styled.a`
   font-size: 12px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  color: ${(p) => (p.selected ? theme.buttonColor : theme.textColor3)};
   background: none;
   border: none;
   outline: none;
@@ -192,7 +192,7 @@ return (
           size: "large",
           showTags: false,
           src,
-          theme
+          theme,
         }}
       />
     </SummaryWrapper>
