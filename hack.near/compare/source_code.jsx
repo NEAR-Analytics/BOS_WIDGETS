@@ -11,12 +11,8 @@ const src = Social.get(`${props.src}`);
 if (src === null) return "Loading...";
 
 return (
-  <>
-    {props.exists && (
-      <Widget
-        src="bozon.near/widget/CodeDiff"
-        props={{ currentCode: update, prevCode: src, ...props }}
-      />
-    )}
-  </>
+  <Widget
+    src="bozon.near/widget/CodeDiff"
+    props={{ currentCode: update, prevCode: src, ...props }}
+  />
 );
