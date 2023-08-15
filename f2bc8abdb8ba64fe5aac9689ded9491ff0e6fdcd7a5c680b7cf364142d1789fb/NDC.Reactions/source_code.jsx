@@ -460,7 +460,12 @@ return (
     </EmojiWrapper>
 
     <CallLibrary>
-      {callLibs(libSrcArray, reactionsStateUpdate, state.libCalls)}
+      {callLibs(
+        libSrcArray,
+        reactionsStateUpdate,
+        state.libCalls,
+        initialEmoji
+      )}
     </CallLibrary>
   </>
 );
