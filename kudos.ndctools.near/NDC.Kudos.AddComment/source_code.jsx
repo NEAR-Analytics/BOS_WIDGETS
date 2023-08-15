@@ -137,8 +137,10 @@ const handleAddComment = () => {
       contractName: socialContract,
       methodName: "set",
       args: {
-        index: {
-          notify: JSON.stringify(mentionData),
+        data: {
+          index: {
+            notify: JSON.stringify(mentionData),
+          },
         },
       },
     });
