@@ -51,8 +51,10 @@ const Partners = styled.div`
     padding:4rem 0;
 `;
 
-const Partner = styled.div`
+const Partner = styled.a`
     text-align:center;
+    cursor:pointer;
+    color:#000;
 
     .title {
         font-size:1.3rem;
@@ -63,6 +65,17 @@ const Partner = styled.div`
     .description {
         font-size:.8rem;
         opacity:.6;
+    }
+
+    :hover {
+        color:#000;
+
+        img {
+            filter:grayscale(0);
+        }
+        p {
+            opacity:1;
+        }
     }
 `;
 
@@ -77,6 +90,13 @@ const Background = styled.img`
     background-repeat:no-repeat;
     background-size:cover;
     border-radius:100%;
+    filter:grayscale(100%);
+    transition: all .2s;
+
+    + p {
+        opacity:0;
+        transition: all .2s;
+    }
 `;
 
 return (
@@ -86,7 +106,7 @@ return (
       <p className="subtitle">Backed by the bests</p>
       <Partners>
         {state.partners.map((partner) => (
-          <Partner>
+          <Partner href={partner?.url} target="_blank">
             <Background src={partner.image} />
             <p className="title">{partner.name}</p>
           </Partner>
