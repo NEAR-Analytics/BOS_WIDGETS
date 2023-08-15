@@ -35,16 +35,7 @@ return (
           />
         )}
       </div>
-      <div className="text-nowrap">
-        {props.extraButtons &&
-          props.extraButtons({
-            accountId,
-            widgetName,
-            widgetPath,
-            metadata,
-            onHide,
-          })}
-      </div>
+      <div className="text-nowrap">{renderExtraButtons()}</div>
     </div>
   </div>
 );
