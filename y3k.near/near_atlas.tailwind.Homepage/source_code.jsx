@@ -138,35 +138,27 @@ return (
               : "visibility: hidden"
           }`}
         >
-          <div>
-            <div class="row">
-              <div class="col">
-                <Widget
-                  src="y3k.near/widget/widgets.dailyCommitStats"
-                  props={{}}
-                />
-              </div>
-              <div class="col">
-                <Widget
-                  src="y3k.near/widget/widgets.dailyDevStats"
-                  props={{}}
-                />
-              </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <Widget
+                src="y3k.near/widget/widgets.dailyCommitStats"
+                props={{}}
+              />
             </div>
-
-            <div class="row">
-              <div class="col">
-                <Widget
-                  src="y3k.near/widget/widgets.monthlyCommitStats"
-                  props={{}}
-                />
-              </div>
-              <div class="col">
-                <Widget
-                  src="y3k.near/widget/widgets.monthlyDevStats"
-                  props={{}}
-                />
-              </div>
+            <div>
+              <Widget src="y3k.near/widget/widgets.dailyDevStats" props={{}} />
+            </div>
+            <div>
+              <Widget
+                src="y3k.near/widget/widgets.monthlyCommitStats"
+                props={{}}
+              />
+            </div>
+            <div>
+              <Widget
+                src="y3k.near/widget/widgets.monthlyDevStats"
+                props={{}}
+              />
             </div>
           </div>
         </div>
