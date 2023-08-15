@@ -49,6 +49,8 @@ const Nav = styled.div`
         height:100%;
 
         li {
+            text-transform:uppercase;
+
             &:not(:last-of-type) {
                 margin-left:2rem;
             }
@@ -70,7 +72,7 @@ const Button = styled.a`
     display:block;
     padding:.3rem 1rem!important;
     border:0;
-    color:#000!important;
+    color:#000;
     background-color:#fff;
     transition: all .2s;
     font-size:.9rem;
