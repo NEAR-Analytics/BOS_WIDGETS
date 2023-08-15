@@ -48,6 +48,15 @@ const BottomStyledContainer = styled.div`
   position: absolute;
 `;
 
+const BackButton = styled.button`
+background-color:transparent;
+border-width:0px;
+-webkit-box-shadow: 10px 11px 5px -3px rgba(0,0,0,0.43);
+-moz-box-shadow: 10px 11px 5px -3px rgba(0,0,0,0.43);
+box-shadow: 10px 11px 5px -3px rgba(0,0,0,0.43);
+color:black;
+`;
+
 const AllSteps = [
   {
     label: "Event Info",
@@ -129,21 +138,14 @@ const formContent = () => {
         {componentsToRender[state.index]}
       </FormBackground>
       <BottomStyledContainer>
-        <button
+        <BackButton
           disabled={state.index === 0}
-          style={{
-            backgroundColor: "transparent",
-            color: "black",
-            borderWidth: 0,
-            paddingLeft: 10,
-            paddingRight: 10,
-          }}
           onClick={() => {
             State.update({ index: state.index - 1 });
           }}
         >
           Back
-        </button>
+        </BackButton>
         <button
           onClick={() => {
             State.update({ index: state.index + 1 });
