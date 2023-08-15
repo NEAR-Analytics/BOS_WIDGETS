@@ -573,21 +573,6 @@ return (
                   <NominationUser>{accountId}</NominationUser>
                 </UserLink>
               </NominationTitleContainer>
-              <TagContainer>
-                {CandidateProps.tags
-                  .trim()
-                  .split(",")
-                  .map((tag) => {
-                    return tag && tag != "" ? (
-                      <Widget
-                        src={widgets.styledComponents}
-                        props={{
-                          Tag: { title: tag },
-                        }}
-                      />
-                    ) : null;
-                  })}
-              </TagContainer>
             </HeaderDetailContent>
             {data.nominations.video.length > 0 && (
               <Widget
