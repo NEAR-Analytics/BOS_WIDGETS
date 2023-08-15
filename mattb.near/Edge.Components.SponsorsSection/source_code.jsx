@@ -100,7 +100,7 @@ const Background = styled.img`
 `;
 
 return (
-  <Box>
+  <Box id="partners">
     <Wrapper>
       <p className="title">Partners.</p>
       <p className="subtitle">Backed by the bests</p>
