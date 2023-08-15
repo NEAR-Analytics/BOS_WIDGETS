@@ -56,13 +56,14 @@ const stacked_options = {
     },
   },
 };
+
 const stacked_bar_data = {
   dates,
   datasets: [
     {
       label: "DEVS",
       data: DEVS,
-      backgroundColor: "rgb(250,164,58)",
+      backgroundColor: "rgb(13,131,171)",
     },
   ],
 };
