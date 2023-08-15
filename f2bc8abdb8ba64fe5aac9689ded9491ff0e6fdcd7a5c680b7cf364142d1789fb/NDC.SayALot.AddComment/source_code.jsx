@@ -241,16 +241,6 @@ const CFSubmit = styled.button`
   }
 `;
 
-const HR = style.hr`
-  width: 100%;
-  height: 0px;
-  border: 1px solid rgba(130, 134, 136, 0.20);
-  flex: none;
-  background: rgba(130, 134, 136, 0.20);
-  margin: 0px;
-  flex-grow: 0;
-`;
-
 const {
   widgets,
   isTest,
@@ -365,7 +355,17 @@ return (
                 </BFootercont>
               </BFooter>
             </CommentBody>
-            <HR />
+            <hr
+              styled={{
+                width: "100%",
+                height: "0px",
+                border: "1px solid rgba(130, 134, 136, 0.20)",
+                flex: "none",
+                background: "rgba(130, 134, 136, 0.20)",
+                margin: "0px",
+                flexGrow: "0",
+              }}
+            />
           </>
         )}
         <div className="w-100 col">
