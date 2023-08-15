@@ -1,2 +1,2 @@
-const [value, setValue] = useState("empty");
-return <div>{value}</div>;
+const cb = useComponentCallback(props.renderComponent, ["spaghetti"]);
+return <div>{cb()}</div>;
