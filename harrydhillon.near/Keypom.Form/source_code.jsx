@@ -173,7 +173,6 @@ const formContent = () => {
           />
         </div>
       </Grid>
-      <button>Submit</button>
     </>
   );
 };
