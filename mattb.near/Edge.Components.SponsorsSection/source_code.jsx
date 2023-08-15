@@ -1,20 +1,10 @@
-const SPONSORS = [
-  {
-    image:
-      "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1006,h=1120,fit=crop/mv05earg5BUBeP0L/image-AMqqW4bBVQS86Xr2.png",
-    name: "Computing Architecture & Frameworks",
-  },
-  {
-    image:
-      "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1006,h=1120,fit=crop/mv05earg5BUBeP0L/keszthelyi-timi-JQVX8fkGiC4-unsplash.jpg",
-    name: "Models, Learning, and Inferencing",
-  },
-  {
-    image:
-      "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1006,h=1120,fit=crop/mv05earg5BUBeP0L/justin-schuler-HW_85uPRC1I-unsplash.jpg",
-    name: "Cryptography, Privacy, and Humanity in the Age of AI",
-  },
-];
+State.init({
+  partners: [],
+});
+
+asyncFetch(
+  "https://raw.githubusercontent.com/codingshot/edge-ai-bos/main/content/partners.json"
+).then((data) => State.update({ partners: JSON.parse(data.body) }));
 
 const Box = styled.div`
     padding:2rem;
@@ -54,14 +44,14 @@ const Wrapper = styled.div`
 
 `;
 
-const Sponsors = styled.div`
+const Partners = styled.div`
     display:grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     padding:4rem 0;
 `;
 
-const Sponsor = styled.div`
+const Partner = styled.div`
     text-align:center;
 
     .title {
@@ -92,16 +82,16 @@ const Background = styled.img`
 return (
   <Box>
     <Wrapper>
-      <p className="title">Sponsors.</p>
+      <p className="title">Partners.</p>
       <p className="subtitle">Backed by the bests</p>
-      <Sponsors>
-        {SPONSORS.map((sponsor) => (
-          <Sponsor>
-            <Background src={sponsor.image} />
-            <p className="title">{sponsor.name}</p>
-          </Sponsor>
+      <Partners>
+        {state.partners.map((partner) => (
+          <Partner>
+            <Background src={partner.image} />
+            <p className="title">{partner.name}</p>
+          </Partner>
         ))}
-      </Sponsors>
+      </Partners>
     </Wrapper>
   </Box>
 );
