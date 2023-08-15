@@ -1,5 +1,5 @@
 let { ids, dev } = props;
-ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
+ids = props.ids ? ids : [1, 2, 3];
 
 const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = dev
@@ -103,7 +103,7 @@ function getNominationInfo(house) {
         setTimeout(() => {
           profileData = Social.getr(`${nominee}/profile`);
           nominationData = Social.getr(`${nominee}/nominations`);
-        }, 1000);
+        }, 500);
 
         setTimeout(() => {
           if (data.is_revoked || !profileData || !nominationData) {
