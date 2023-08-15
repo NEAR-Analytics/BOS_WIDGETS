@@ -505,6 +505,10 @@ const TH = styled.th`
   padding: 15px 20px !important;
 `;
 
+const CallLibrary = styled.div`
+  display: none;
+`;
+
 //TODO check this
 const CandidateProps = props.data.nominations ?? {
   name: accountId,
@@ -871,8 +875,8 @@ return (
         </>
       </SecondContainer>
     </Container>
-    <div style={{ display: "none" }}>
+    <CallLibrary>
       {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </div>
+    </CallLibrary>
   </>
 );
