@@ -1,5 +1,9 @@
 const { accountId, blockHeight, value } = props;
 
+if (!accountId || !blockHeight || !value) {
+  return "";
+}
+
 return (
   <div className="m-2">
     {value.type === "fork" && (
