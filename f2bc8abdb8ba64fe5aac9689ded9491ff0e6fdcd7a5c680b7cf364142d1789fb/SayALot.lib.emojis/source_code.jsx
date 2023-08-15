@@ -47,12 +47,11 @@ function saveReaction(reaction, elementReactedId, onCommit, onCancel) {
 function getReactionsData(props) {
   const { elementReactedId, createdReaction } = props;
 
-  console.log("action: ", action);
-  console.log("elementReactedId: ", elementReactedId);
-
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
   });
+
+  console.log("allReactions: ", allReactions);
 
   const uniqueAccounts = [];
   let arrayLastReactionForEachUser =
