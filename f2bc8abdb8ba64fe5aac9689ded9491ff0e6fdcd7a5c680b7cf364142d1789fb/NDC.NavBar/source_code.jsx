@@ -1,5 +1,4 @@
 const {
-  stateUpdate,
   handleGoHomeButton,
   handlePillNavigation,
   brand,
@@ -10,7 +9,31 @@ const {
   writersWhiteList,
   handleFilterArticles,
 } = props;
+function stateUpdate(obj) {
+  State.update(obj);
+}
+const libSrcArray = [
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.article",
+];
 
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
 /*
 ======================================================PILLS EXAMPLE====================================================
     *Note: the first pill allways has to be the first one displayed*
@@ -31,7 +54,27 @@ const {
     
 ============(When modified to be web app we should delete action to replace it with a propper State.update)============
 */
-State.init({ selectedPillIndex: 0 });
+
+const loggedUserAccountId = context.accountId;
+
+const initLibCalls = [
+  {
+    functionName: "canUserCreateArticle",
+    key: "canLoggedUserCreateArticle",
+    props: {
+      accountId: loggedUserAccountId,
+      env: isTest ? "test" : "prod",
+    },
+  },
+];
+
+State.init({
+  selectedPillIndex: 0,
+  libCalls: initLibCalls,
+});
+const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle;
+console.log(canLoggedUserCreateArticle);
+
 const logoRemWidth = brand.logoRemWidth
   ? brand.logoRemWidth + "rem"
   : undefined;
@@ -69,8 +112,6 @@ if (
     </div>
   );
 }
-
-const accountId = context.accountId;
 
 //============================================Styled components==================================================
 const BrandLogoContainer = styled.div`
@@ -204,10 +245,9 @@ return (
                 </li>
               );
             })}
-          {navigationButtons &&
-            accountId &&
-            writersWhiteList &&
-            writersWhiteList.some((whiteAddr) => whiteAddr === accountId) &&
+          {/*navigationButtons &&
+            loggedUserAccountId &&
+            canLoggedUserCreateArticle &&
             navigationButtons.map((button, i) => {
               return !(button.id + "") || !button.title ? (
                 <p className="text-danger border">Button passed wrong</p>
@@ -216,11 +256,12 @@ return (
                   {renderButton(button, i)}
                 </div>
               );
-            })}
+            })*/}
         </ul>
       </div>
       {navigationButtons &&
-        accountId &&
+        loggedUserAccountId &&
+        canLoggedUserCreateArticle &&
         navigationButtons.map((button, i) => {
           return !(button.id + "") || !button.title ? (
             <p className="text-danger border">Button passed wrong</p>
@@ -228,6 +269,9 @@ return (
             <div className="d-none d-md-block">{renderButton(button, i)}</div>
           );
         })}
+    </div>
+    <div style={{ display: "none" }}>
+      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
     </div>
   </div>
 );
