@@ -1,4 +1,17 @@
-const { houses, selectedHouse, handleSelect, votesLeft } = props;
+const { houses, electionContract, selectedHouse, handleSelect, votesLeft } =
+  props;
+
+State.init({ contractHouses: houses ? houses : [] });
+
+if (!houses && electionContract) {
+  const contractHouses = [
+    Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+  ];
+
+  State.update({ contractHouses });
+}
 
 const housesMapping = {
   CouncilOfAdvisors: {
@@ -101,8 +114,8 @@ const HouseItem = ({ house }) => (
 
 return (
   <div>
-    {houses.map((house) => (
-      <HouseItem house={house} />
+    {state.houses.map((house) => (
+      <>{house ? <HouseItem house={house} /> : <Loader />}</>
     ))}
   </div>
 );
