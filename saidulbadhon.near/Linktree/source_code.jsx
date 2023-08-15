@@ -1,4 +1,4 @@
-// BAL Pro MAX ULREA 2 
+// Pro MAX ULREA 2
 
 const profile = {
   avatar:
