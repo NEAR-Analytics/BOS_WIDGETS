@@ -84,10 +84,14 @@ const Button = styled.a`
     max-width:150px;
     box-shadow: 0 0 0 2px #fff;
     border:2px solid #000;
-    text-decoration:none;
+    text-decoration:none!important;
+    transition: all .2s;
+    cursor:pointer;
 
     &:hover, &:focus {
+      background-color:#000;
       color:#fff;
+      transition: all .2s;
     }
 `;
 
