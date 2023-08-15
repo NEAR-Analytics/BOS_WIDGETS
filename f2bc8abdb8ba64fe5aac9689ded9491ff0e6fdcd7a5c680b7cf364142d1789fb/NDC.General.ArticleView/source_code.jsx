@@ -526,14 +526,13 @@ originalComments;
 
 //Add answers to original comments
 originalComments = originalComments.map((originalComment) => {
-  console.log("originalComments: ", originalComment);
   let answers = state.comments.filter((comment) => {
-    console.log("comment: ", comment);
     return (
       comment.value.comment.originalCommentId ===
-      originalComment.value.comment.originalCommentId
+      originalComment.value.comment.realArticleId
     );
   });
+  console.log("answers: ", answers);
   return {
     originalComment,
     answers,
