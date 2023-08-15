@@ -75,7 +75,7 @@ const TabsButton = styled.a`
   padding: 0 12px;
   position: relative;
   color: ${(p) => (p.selected ? theme.buttonColor : theme.textColor3)};
-  background: none;
+  background: ${theme.buttonColor};
   border: none;
   outline: none;
   text-align: center;
