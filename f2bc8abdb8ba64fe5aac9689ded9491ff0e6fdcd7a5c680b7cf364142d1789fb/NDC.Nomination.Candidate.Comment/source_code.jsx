@@ -247,7 +247,7 @@ const formatName = (name) =>
 function closeModal() {
   State.update({ showModal: false });
 }
-
+console.log("data: ", data);
 return (
   <>
     <CommentCard>
