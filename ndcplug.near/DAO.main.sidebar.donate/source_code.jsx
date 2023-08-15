@@ -5,7 +5,7 @@ let hardcode = 420000000000000000000000; // .6
 // let yoctoConvert = props.amount * 1e24;
 // let yoctoConvert = hardcode / 1e24;
 let yoctoConvert = hardcode * 10;
-let reciever = props.reciever ?? "root.near";
+let reciever = props.reciever ?? "vibes.sputnik-dao.near";
 let amount = props.amount ?? 1; // start with 1 NEAR
 
 initState({ amount, reciever });
@@ -20,6 +20,19 @@ const donate = () => {
     {},
     "30000000000000",
     state.amount * 1e24
+  );
+};
+
+const transferNEAR = () => {
+  const oneTeraGas = 1000000000000;
+  const oneNEARInYoctoNEAR = 1000000000000000000000000;
+  // Let's transfer amount NEAR to frol.near
+  Near.call(
+    "transfer-near.near",
+    "transfer_near",
+    reciever,
+    oneTeraGas,
+    state.amount * oneNEARInYoctoNEAR
   );
 };
 const onChangeAmount = (amount) => {
@@ -118,7 +131,7 @@ return (
         <Wrapper>
           <button
             disabled={context.loading}
-            onClick={donate}
+            onClick={transferNEAR}
             className="join-button"
           >
             <i className="bi bi-heart"></i>
