@@ -41,6 +41,7 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
+console.log(elementReactedId);
 
 const libCalls = [
   {
