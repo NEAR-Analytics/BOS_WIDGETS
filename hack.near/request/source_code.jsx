@@ -1,6 +1,8 @@
 if (
   !props.accountId ||
   !context.accountId ||
+  !props.type ||
+  !props.name ||
   context.accountId === props.accountId
 ) {
   return "";
@@ -11,13 +13,13 @@ const data = {
     graph: JSON.stringify({
       key: "request",
       value: {
-        accountId: props.accountId ?? context.accountId,
+        accountId: props.accountId,
         type: props.type,
         name: props.name,
       },
     }),
     notify: JSON.stringify({
-      key: props.accountId ?? context.accountId,
+      key: props.accountId,
       value: {
         type: "request",
       },
