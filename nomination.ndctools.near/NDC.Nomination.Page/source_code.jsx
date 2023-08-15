@@ -246,27 +246,14 @@ const Loader = () => (
 return (
   <>
     <div>
-      {houses.map((house) => (
-        <>
-          {!house ? (
-            <Loader />
-          ) : (
-            <>
-              {house.id === state.selectedHouse && (
-                <Widget
-                  key={i}
-                  src={widgets.header}
-                  props={{
-                    startTime: time ? time[0] : 0,
-                    endTime: time ? time[1] : 0,
-                    type: "Nomination",
-                  }}
-                />
-              )}
-            </>
-          )}
-        </>
-      ))}
+      <Widget
+        src={widgets.header}
+        props={{
+          startTime: time ? time[0] : 0,
+          endTime: time ? time[1] : 0,
+          type: "Nomination",
+        }}
+      />
       <Filter className="d-flex">
         <div className="w-100">
           <Widget
