@@ -50,7 +50,7 @@ function formatCell(text) {
   return (
     <a
       href={
-        "https://nearatlas.com/#/y3k.near/widget/near_atlas.components.detail_chart?project_name=" +
+        "https://beta.nearatlas.com/#/y3k.near/widget/near_atlas.components.detail_chart?project_name=" +
         text
       }
       className="text-red-50 text-wrap "
