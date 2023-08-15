@@ -1,4 +1,4 @@
-const limits = [1, 10, 20, 50];
+const limits = [5, 10, 20, 50];
 
 const getConfig = (network) => {
   switch (network) {
@@ -50,7 +50,7 @@ const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
 
-const Main = styled.div`  
+const Main = styled.div`
   width: 100%;
   height: 100vh;
   color: ${useTheme(light.color, dark.color)};
@@ -72,7 +72,7 @@ const HStack = styled.div`
 const Right = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end; 
+  justify-content: flex-end;
 `;
 
 const Center = styled.div`
