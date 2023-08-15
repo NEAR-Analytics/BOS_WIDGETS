@@ -3,7 +3,7 @@
  * fix alignment on subheader
  */
 const ownerId = "ndcplug.near";
-const availableTabs = ["home", "register", "hackathon", "people"];
+const availableTabs = ["home", "register", "hackathon", "people", "forum"];
 const memberTab = props.memberTab ?? "";
 const resourceTab = props.resourceTab ?? "";
 /**
@@ -25,12 +25,13 @@ const showSidebar = ![].includes(state.tab);
 const isForm = [].includes(state.tab);
 
 const update = (state) => State.update(state);
-
+// /devgovgigs.near/widget/gigs-board.entity.post.List?tag=boshacks
 const tabContentWidget = {
   home: "BOSHACKS.Home.Main",
   register: "BOSHACKS.Register.Main",
   hackathon: "BOSHACKS.Builders.Main",
   people: "BOSHACKS.Members.Main",
+  forum: "BOSHACKS.Forum.Main",
 }[state.tab];
 
 const tabContent = (
