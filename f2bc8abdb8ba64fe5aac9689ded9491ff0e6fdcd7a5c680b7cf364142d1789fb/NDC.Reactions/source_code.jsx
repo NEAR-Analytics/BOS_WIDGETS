@@ -192,9 +192,12 @@ function handleOnMouseLeave() {
 }
 
 function onCommit(emojiToWrite) {
-  onPushEnd();
-  console.log("why not?");
-  updateReactionsStatisticsIfUserVoted(emojiToWrite);
+  console.log("why not1?");
+  () => {
+    onPushEnd();
+    console.log("why not2?");
+    updateReactionsStatisticsIfUserVoted(emojiToWrite);
+  };
 }
 
 function onPushEnd() {
