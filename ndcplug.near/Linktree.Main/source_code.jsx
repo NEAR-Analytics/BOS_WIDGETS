@@ -366,22 +366,27 @@ return (
         padding: "0 8px",
       }}
     >
-      <Widget
-        src="mob.near/widget/Image"
-        props={{
-          image: profile.image,
-          alt: profile.name,
-          fallbackUrl:
-            "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-          style: {
-            height: "100%",
-            maxHeight: 200,
-            borderRadius: "50%",
-            aspectRatio: 1 / 1,
-            objectFit: "cover",
-          },
-        }}
-      />
+      <a
+        href={`https://near.org/near/widget/ProfilePage?accountId=${accountId}`}
+        target="_blank"
+      >
+        <Widget
+          src="mob.near/widget/Image"
+          props={{
+            image: profile.image,
+            alt: profile.name,
+            fallbackUrl:
+              "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+            style: {
+              height: "100%",
+              maxHeight: 200,
+              borderRadius: "50%",
+              aspectRatio: 1 / 1,
+              objectFit: "cover",
+            },
+          }}
+        />
+      </a>
 
       <div
         style={{
@@ -390,11 +395,16 @@ return (
           alignItems: "center",
         }}
       >
-        <h2 style={{ color: props.theme.textColor }}>
-          {profile.name || accountId}
-        </h2>
+        <a
+          href={`https://near.org/near/widget/ProfilePage?accountId=${accountId}`}
+          target="_blank"
+        >
+          <h2 style={{ color: props.theme.textColor }}>
+            {profile.name || accountId}
+          </h2>
 
-        <h5 style={{ color: props.theme.textColor2 }}>@{accountId}</h5>
+          <h5 style={{ color: props.theme.textColor2 }}>@{accountId}</h5>
+        </a>
         {tags.length > 0 && (
           <Section>
             <Widget
@@ -419,7 +429,10 @@ return (
         >
           {profile.linktree.website && (
             <a href={`https://${profile.linktree.website}`} target="_blank">
-              <button style={{ width: "100%" }}>Website</button>
+              <button style={{ width: "100%" }}>
+                {" "}
+                <i className="bi bi-globe"></i> Website
+              </button>
             </a>
           )}
 
