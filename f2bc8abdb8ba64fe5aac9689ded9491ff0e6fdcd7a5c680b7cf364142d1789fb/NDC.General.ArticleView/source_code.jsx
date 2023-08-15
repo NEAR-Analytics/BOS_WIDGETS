@@ -522,7 +522,6 @@ let originalComments = state.comments.filter(
     articleToRenderData.realArticleId
 );
 console.log("SC: ", state.comments);
-console.log("originalComments: ", originalComments);
 
 //Add answers to original comments
 originalComments = originalComments.map((originalComment) => {
@@ -538,6 +537,7 @@ originalComments = originalComments.map((originalComment) => {
     answers,
   };
 });
+console.log("originalComments: ", originalComments);
 
 function stateUpdate(obj) {
   State.update(obj);
