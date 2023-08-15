@@ -8,7 +8,7 @@ return (
       isTrusted={false}
       props={{}}
     />
-    <div className="row mb-3">
+    {/*<div className="row mb-3">
       <Widget src="andyh.near/widget/Applications" />
     </div>
     <div className="row mb-3">
@@ -76,5 +76,6 @@ return (
         <Widget src="andyh.near/widget/PokeFeed" isTrusted={false} />
       </div>
     </div>
+    */}
   </>
 );
