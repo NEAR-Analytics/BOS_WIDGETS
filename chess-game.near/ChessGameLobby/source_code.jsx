@@ -48,7 +48,6 @@ State.init({
   game_id: null,
   replay_game_id: null,
   isRegistered: state.isRegistered,
-  enabledNotifications: state.enabledNotifications,
   gameIds: null,
   finishedGames: null,
   recentFinishedGames: null,
@@ -65,18 +64,7 @@ const updateIsRegistered = () => {
 };
 updateIsRegistered();
 
-const updateEnabledNotifications = () => {
-  Near.asyncView(contractId, "are_notifications_enabled", {
-    account_id: accountId,
-  }).then((res) => {
-    State.update({
-      enabledNotifications: !!res,
-    });
-  });
-};
-updateEnabledNotifications();
-
-if (state.isRegistered == null || state.enabledNotifications == null) {
+if (state.isRegistered == null) {
   return <Widget src={loadingWidget} />;
 }
 
@@ -88,30 +76,6 @@ const registerAccount = () => {
     undefined,
     "50000000000000000000000"
   );
-  updateIsRegistered();
-};
-
-const enableNotifications = () => {
-  Near.call([
-    {
-      contractName: socialContractId,
-      methodName: "grant_write_permission",
-      args: {
-        predecessor_id: contractId,
-        keys: [`${accountId}/index/notify`],
-      },
-      gas: "100000000000000",
-      deposit: "50000000000000000000000",
-    },
-    {
-      contractName: contractId,
-      methodName: "update_enabled_notifications",
-      args: {
-        account_id: accountId,
-      },
-      gas: "100000000000000",
-    },
-  ]);
   updateIsRegistered();
 };
 
@@ -309,22 +273,6 @@ return (
             onClick: registerAccount,
             fontSize: "1.2rem",
             content: "Register Account",
-          }}
-        />
-      </>
-    )}
-    {!state.enabledNotifications && (
-      <>
-        <Disclaimer>
-          You can enable notifications on BOS gateways, which will notify you
-          about your turns and game outcomes.
-        </Disclaimer>
-        <Widget
-          src={buttonWidget}
-          props={{
-            onClick: enableNotifications,
-            fontSize: "1.2rem",
-            content: "Enable Notifications",
           }}
         />
       </>
