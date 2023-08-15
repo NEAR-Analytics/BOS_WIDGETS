@@ -882,7 +882,13 @@ return (
                 />
                 {originalComments.map((data) => (
                   <Widget
-                    props={{ widgets, data, isTest, authorForWidget }}
+                    props={{
+                      widgets,
+                      data,
+                      isTest,
+                      authorForWidget,
+                      isReply: false,
+                    }}
                     src={widgets.comment}
                   />
                 ))}
