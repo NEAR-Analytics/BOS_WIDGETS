@@ -293,7 +293,7 @@ const SetText = (txt) => {
   State.update({ shareText: txt });
 };
 
-console.log("state: ", state);
+console.log("props: ", props);
 
 function addCommentListener() {
   let newLibCalls = [...libCalls];
