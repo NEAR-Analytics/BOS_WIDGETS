@@ -109,9 +109,11 @@ function getReactionsData(props) {
     return acc;
   }
   function countReactionsStats(arr) {
-    console.log(arr);
+    console.log("arr: ", arr);
     Object.values(arr.reduce(getReactionStats, {}));
   }
+
+  console.log("arrayLastReactionForEachUser: ", arrayLastReactionForEachUser);
   let reactionsStatistics =
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
