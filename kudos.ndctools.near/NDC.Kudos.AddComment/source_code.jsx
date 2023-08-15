@@ -132,20 +132,20 @@ const handleAddComment = () => {
     },
   ];
 
-  if (mentionData.length > 0)
-    data.push({
-      contractName: socialContract,
-      methodName: "set",
-      args: {
-        data: {
-          index: {
-            notify: JSON.stringify(mentionData),
-          },
-        },
-      },
-      gas: "30000000000000",
-      deposit: 1000000000000000000000,
-    });
+  // if (mentionData.length > 0)
+  //   data.push({
+  //     contractName: socialContract,
+  //     methodName: "set",
+  //     args: {
+  //       data: {
+  //         index: {
+  //           notify: JSON.stringify(mentionData),
+  //         },
+  //       },
+  //     },
+  //     gas: "30000000000000",
+  //     deposit: 1000000000000000000000,
+  //   });
 
   Near.call(data).then((data) => {
     onHide();
