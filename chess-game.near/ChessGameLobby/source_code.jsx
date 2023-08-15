@@ -45,8 +45,10 @@ const Disclaimer = styled.div`
 `;
 
 State.init({
-  game_id: props.game_id ?? null,
-  replay_game_id: props.replay_game_id ?? null,
+  game_id: props.game_id ? JSON.parse(props.game_id) : null,
+  replay_game_id: props.replay_game_id
+    ? JSON.parse(props.replay_game_id)
+    : null,
   isRegistered: state.isRegistered,
   gameIds: null,
   finishedGames: null,
