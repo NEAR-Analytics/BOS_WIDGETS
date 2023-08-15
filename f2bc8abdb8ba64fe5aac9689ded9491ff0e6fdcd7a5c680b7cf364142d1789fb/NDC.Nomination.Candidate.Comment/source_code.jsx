@@ -16,14 +16,14 @@ State.init({
 // }
 
 const CommentCard = styled.div`
-  margin-left: ${isReply ? "1rem" : "0"};
+  margin-left: ${isReply ? "2rem" : "0"};
   width: 100%;
   display: flex;
   padding: 14px 16px;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  border-radius: 10px;
+  border-radius: ${isReply ? "13% 87% 50% 50% / 49% 46% 54% 50%" : "10px"};
   background: #fff;
 `;
 
