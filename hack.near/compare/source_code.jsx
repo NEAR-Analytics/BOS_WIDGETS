@@ -12,7 +12,7 @@ if (src === null) return "Loading...";
 
 return (
   <>
-    {update && (
+    {props.exists && (
       <Widget
         src="bozon.near/widget/CodeDiff"
         props={{ currentCode: update, prevCode: src, ...props }}
