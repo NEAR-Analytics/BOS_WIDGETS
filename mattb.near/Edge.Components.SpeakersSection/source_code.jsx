@@ -1,26 +1,10 @@
-const SPEAKERS = [
-  {
-    image:
-      "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1006,h=1120,fit=crop/mv05earg5BUBeP0L/image-AMqqW4bBVQS86Xr2.png",
-    name: "Lorem ipsum",
-    twitter: "lorem",
-    description: "This is a test description of the speaker",
-  },
-  {
-    image:
-      "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1006,h=1120,fit=crop/mv05earg5BUBeP0L/keszthelyi-timi-JQVX8fkGiC4-unsplash.jpg",
-    name: "Lorem ipsum",
-    twitter: "ipsum",
-    description: "This is a test description of the speaker",
-  },
-  {
-    image:
-      "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1006,h=1120,fit=crop/mv05earg5BUBeP0L/justin-schuler-HW_85uPRC1I-unsplash.jpg",
-    name: "Lorem ipsum",
-    twitter: "dolor",
-    description: "This is a test description of the speaker",
-  },
-];
+State.init({
+  speakers: [],
+});
+
+asyncFetch(
+  "https://raw.githubusercontent.com/codingshot/edge-ai-bos/main/content/speakers.json"
+).then((data) => State.update({ speakers: JSON.parse(data.body) }));
 
 const Box = styled.div`
     padding:2rem;
@@ -102,7 +86,7 @@ return (
       <p className="title">Speakers.</p>
       <p className="subtitle">A Renaissance of Learned Society</p>
       <Speakers>
-        {SPEAKERS.map((speaker) => (
+        {state.speakers.map((speaker) => (
           <Speaker>
             <Background src={speaker.image} />
             <p className="title">{speaker.name}</p>
