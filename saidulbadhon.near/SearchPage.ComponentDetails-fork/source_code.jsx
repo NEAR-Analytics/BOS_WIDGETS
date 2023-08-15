@@ -80,7 +80,7 @@ const TabsButton = styled.a`
   text-decoration: none !important;
 
   &:hover {
-    color: #11181c;
+    color: ${theme.textColor2};
   }
 
   &::after {
