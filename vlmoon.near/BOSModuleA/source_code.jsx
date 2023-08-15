@@ -1,9 +1,7 @@
-const routes = props["routes"];
-const routesNavigator = props["routesNavigator"];
+const getDependencies = props.dependencies;
 
 return (
   <>
     <h1>Module A</h1>
-    <h2>{routes}</h2>
   </>
 );
