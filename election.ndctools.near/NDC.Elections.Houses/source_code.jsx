@@ -123,7 +123,7 @@ const HouseItem = ({ house }) => (
 return (
   <div>
     {state.houses.map((house) => (
-      <>{house ? <HouseItem house={house} /> : <Loader />}</>
+      <HouseItem house={house} />
     ))}
   </div>
 );
