@@ -13,6 +13,6 @@ if (src === null) return "Loading...";
 return (
   <Widget
     src="bozon.near/widget/CodeDiff"
-    props={{ currentCode: newCode, prevCode: src, ...props }}
+    props={{ currentCode: update, prevCode: src, ...props }}
   />
 );
