@@ -1,5 +1,7 @@
 const accountId = props.debugAccountId ?? context.accountId;
 
+const activeTab_tab = props.tab || "home";
+
 // change this back to !accountId
 if (!accountId) {
 }
@@ -38,7 +40,7 @@ const tabsData = [
   },
 ];
 
-State.init({ activeTab: "home" || "" });
+State.init({ activeTab: activeTab_tab || "home" });
 
 return (
   <div>
