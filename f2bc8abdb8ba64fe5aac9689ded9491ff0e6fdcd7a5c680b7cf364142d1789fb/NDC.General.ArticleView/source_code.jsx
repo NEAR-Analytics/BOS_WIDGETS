@@ -532,7 +532,7 @@ originalComments = originalComments.map((originalComment) => {
       originalComment.value.comment.commentId
     );
   });
-  console.log("answers: ", answers);
+
   return {
     originalComment,
     answers,
