@@ -3,10 +3,10 @@ const daoId = props.daoId ?? "build.sputnik-dao.near";
 const policy = Near.view(daoId, "get_policy");
 const deposit = policy.proposal_bond;
 
-const src = props.src ?? "devs.near/widget/dev.community";
+const src = props.src ?? "hack.near/widget/community";
 
 State.init({
-  selectedTab: props.tab ?? "editor",
+  selectedTab: props.tab ?? "view",
   src,
   update: props.update ?? "",
 });
