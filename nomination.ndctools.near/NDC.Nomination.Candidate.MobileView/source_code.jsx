@@ -472,7 +472,7 @@ const afilations = JSON.parse(candidateProps.afiliation);
 if (!afilations) return <Loader />;
 
 const afilationsSort = afilations.sort(
-  (a, b) => new Date(a.end_date) - new Date(b.end_date)
+  (a, b) => parseInt(a.end_date) - parseInt(b.end_date)
 );
 
 const issues = [
