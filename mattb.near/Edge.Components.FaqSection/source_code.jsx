@@ -52,17 +52,19 @@ const Questions = styled.div`
 `;
 
 const Question = styled.a`
-    cursor:pointer;
     transition: all .2s;
     color:#000;
     text-decoration:none!important;
 
     :hover {
-        background-color:#000;
-        color:#fff;
-        box-shadow: 0 0 0 5px #000;
-        border-color:#fff;
-        transition: all .2s;
+        .title {
+            color:#0A58CA;
+        }
+        .description {
+            opacity:1;
+            color:##0A58CA;
+            transition: all .2s;
+        }
     }
 
     .title, .price {
@@ -74,15 +76,7 @@ const Question = styled.a`
     .description {
         font-size:.8rem;
         opacity:.6;
-    }
-
-    ul {
-        padding:0;
-        padding:0 1.2rem;
-        li {
-            font-size:.8rem;
-            margin-bottom:.2rem;
-        }
+        transition: all .2s;
     }
 `;
 
