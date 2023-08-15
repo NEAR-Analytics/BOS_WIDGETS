@@ -322,7 +322,9 @@ return (
     </CommentCard>
     {!isReply && (
       <>
-        <i className="bi bi-arrow-return-right"></i>
+        {data.answers.length > 0 && (
+          <i className="bi bi-arrow-return-right"></i>
+        )}
         {data.answers.map((answer) => {
           return (
             <Widget
