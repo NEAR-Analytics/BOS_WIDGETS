@@ -1,4 +1,5 @@
-const { widgets, data, isTest, authorForWidget } = props;
+const { widgets, data, isTest, authorForWidget, isReply, orginalCommentData } =
+  props;
 
 State.init({
   showModal: false,
@@ -13,6 +14,7 @@ State.init({
 // }
 
 const CommentCard = styled.div`
+  margin-left: ${isReply ? "1rem" : "0"}
   width: 100%;
   display: flex;
   padding: 14px 16px;
@@ -242,42 +244,91 @@ const formatName = (name) =>
     ? `${name.slice(0, 4)}..${name.slice(name.length - 4, name.length)}`
     : name;
 
+function closeModal() {
+  State.update({ showModal: false });
+}
+
 return (
-  <CommentCard>
-    <CommentCardHeader>
-      <CommentUserContent>
+  <>
+    <CommentCard>
+      <CommentCardHeader>
+        <CommentUserContent>
+          <Widget
+            src="mob.near/widget/ProfileImage"
+            props={{
+              accountId: data.accountId,
+              imageClassName: "rounded-circle w-100 h-100",
+              style: { width: "25px", height: "25px" },
+            }}
+          />
+          <CommentUser>{formatName(data.accountId)}</CommentUser>
+        </CommentUserContent>
+      </CommentCardHeader>
+      <CommentCardContent>
         <Widget
-          src="mob.near/widget/ProfileImage"
+          src="mob.near/widget/SocialMarkdown"
+          props={{ text: data.value.comment.text }}
+        />
+      </CommentCardContent>
+      <CommentCardLowerSection>
+        <TimestampCommentDiv>
+          <i className="bi bi-clock" />
+          <TimestampTextComment>
+            {new Date(data.value.comment.timestamp).toDateString()}
+          </TimestampTextComment>
+        </TimestampCommentDiv>
+        <div>
+          {state.showModal && (
+            <Widget
+              src={widgets.addComment}
+              props={{
+                article: articleToRenderData,
+                originalComment: orginalCommentData ?? data,
+                widgets,
+                isTest,
+                replyingTo: data.accountId,
+                placement: "bottom",
+                onCloseModal: closeModal,
+                // nomination_contract,
+              }}
+            />
+          )}
+          <ReplyCommentButton
+            onClick={async () => {
+              State.update({ showModal: true });
+            }}
+          >
+            <ReplyCommentText>Reply</ReplyCommentText>
+            <ReplyCommentIcon
+              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma6cnsU1NdHPcMbJqmXrUepxbvPuVLEBWzX4jEsaVhaN8?_gl=1*c3nexg*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjEuMTY4NzkwMTUzMS42MC4wLjA."
+              alt="pic"
+            ></ReplyCommentIcon>
+          </ReplyCommentButton>
+        </div>
+        <Widget
+          src={widgets.reactions}
           props={{
-            accountId: data.accountId,
-            imageClassName: "rounded-circle w-100 h-100",
-            style: { width: "25px", height: "25px" },
+            isTest,
+            authorForWidget,
+            elementReactedId: data.value.comment.commentId,
           }}
         />
-        <CommentUser>{formatName(data.accountId)}</CommentUser>
-      </CommentUserContent>
-    </CommentCardHeader>
-    <CommentCardContent>
-      <Widget
-        src="mob.near/widget/SocialMarkdown"
-        props={{ text: data.value.comment.text }}
-      />
-    </CommentCardContent>
-    <CommentCardLowerSection>
-      <TimestampCommentDiv>
-        <i className="bi bi-clock" />
-        <TimestampTextComment>
-          {new Date(data.value.comment.timestamp).toDateString()}
-        </TimestampTextComment>
-      </TimestampCommentDiv>
-      <Widget
-        src={widgets.reactions}
-        props={{
-          isTest,
-          authorForWidget,
-          elementReactedId: data.value.comment.commentId,
-        }}
-      />
-    </CommentCardLowerSection>
-  </CommentCard>
+      </CommentCardLowerSection>
+    </CommentCard>
+    {data.answers.map((answer) => {
+      return (
+        <Widget
+          src={widgets.comment}
+          props={{
+            widgets,
+            data: answer,
+            orginalCommentData: data,
+            isTest,
+            authorForWidget,
+            isReply: true,
+          }}
+        />
+      );
+    })}
+  </>
 );
