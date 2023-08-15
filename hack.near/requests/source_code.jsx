@@ -1,18 +1,19 @@
 const accountId = props.accountId ?? "devs.near";
 
-const items = Social.index("graph", "request");
-
-if (!items) {
-  return "Loading...";
-}
-
-items.reverse();
+const index = {
+  action: "graph",
+  key: "request",
+  options: {
+    limit: 10,
+    order: "desc",
+  },
+};
 
 const ownerId = props.ownerId ?? "hack.near";
 const type = props.type ?? "widget";
 const name = props.name ?? "community";
 
-if (ownerId || !type || !name) {
+if (!ownerId || !type || !name) {
   return "";
 }
 
