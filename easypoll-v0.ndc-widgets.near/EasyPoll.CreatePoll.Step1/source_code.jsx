@@ -27,6 +27,10 @@ const initialFormState = props.initialFormState ?? {
     value: false,
     error: false,
   },
+  ogHumansOnly: {
+    value: false,
+    error: false,
+  },
   officialNDCPoll: {
     value: false,
     error: false,
@@ -264,6 +268,28 @@ return (
         value: state.form.verifiedHumansOnly.value,
         error: state.form.verifiedHumansOnly.error,
         onChange: (v) => onFormFieldChange("verifiedHumansOnly", "value", v),
+      }}
+    />
+    <Widget
+      src={`${widgetOwner}/widget/EasyPoll.Inputs.Toggle`}
+      props={{
+        label: (
+          <>
+            Only OG SBT holders can vote{" "}
+            <img
+              height={25}
+              width={25}
+              style={{
+                marginBottom: 6,
+                marginLeft: 6,
+              }}
+              src="https://bafkreibxlcjksjmbysum4usvwmksi3obsnzg3yvz6tnkbrzzo7z7l7b2da.ipfs.nftstorage.link/"
+            />
+          </>
+        ),
+        value: state.form.ogHumansOnly.value,
+        error: state.form.ogHumansOnly.error,
+        onChange: (v) => onFormFieldChange("ogHumansOnly", "value", v),
       }}
     />
     {whitelist.includes(context.accountId) && (
