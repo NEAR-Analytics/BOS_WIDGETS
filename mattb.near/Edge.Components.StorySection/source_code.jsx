@@ -39,7 +39,7 @@ const Wrapper = styled.div`
 `;
 
 return (
-  <Box>
+  <Box id="about">
     <Wrapper>
       <p className="title">Our Story.</p>
       <p className="subtitle">Open-Source AI & Next-Gen Web Evolution</p>
