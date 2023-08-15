@@ -75,12 +75,13 @@ const Button = styled.a`
     transition: all .2s;
     font-size:.9rem;
     border:2px solid #000;
+    text-decoraction:none!important;
 
-    &:hover {
-      text-decoraction:none;
-    }
-    
-    &:hover {
+    :hover {
+        background-color:#000;
+        color:#fff;
+        box-shadow: 0 0 0 3px #000;
+        border-color:#fff;
         transition: all .2s;
     }
 `;
