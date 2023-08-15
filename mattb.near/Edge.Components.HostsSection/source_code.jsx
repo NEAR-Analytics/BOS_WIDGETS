@@ -1,26 +1,10 @@
-const HOSTS = [
-  {
-    image:
-      "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1006,h=1120,fit=crop/mv05earg5BUBeP0L/image-AMqqW4bBVQS86Xr2.png",
-    name: "Lorem ipsum",
-    twitter: "lorem",
-    description: "This is a test description of the speaker",
-  },
-  {
-    image:
-      "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1006,h=1120,fit=crop/mv05earg5BUBeP0L/keszthelyi-timi-JQVX8fkGiC4-unsplash.jpg",
-    name: "Lorem ipsum",
-    twitter: "ipsum",
-    description: "This is a test description of the speaker",
-  },
-  {
-    image:
-      "https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=1006,h=1120,fit=crop/mv05earg5BUBeP0L/justin-schuler-HW_85uPRC1I-unsplash.jpg",
-    name: "Lorem ipsum",
-    twitter: "dolor",
-    description: "This is a test description of the speaker",
-  },
-];
+State.init({
+  hosts: [],
+});
+
+const HOSTS = asyncFetch(
+  "https://raw.githubusercontent.com/codingshot/edge-ai-bos/main/content/hosts.json"
+).then((data) => State.update({ hosts: JSON.parse(data.body) }));
 
 const Box = styled.div`
     padding:2rem;
@@ -102,7 +86,7 @@ return (
       <p className="title">Hosts.</p>
       <p className="subtitle">Convening visionary researchers worldwide</p>
       <Hosts>
-        {HOSTS.map((speaker) => (
+        {state.hosts.map((speaker) => (
           <Host>
             <Background src={speaker.image} />
             <p className="title">{speaker.name}</p>
