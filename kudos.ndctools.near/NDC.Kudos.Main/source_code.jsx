@@ -29,7 +29,7 @@ const getKudos = () => {
   let data = Social.getr(`${kudosContract}/kudos`);
   let formattedKudos = [];
 
-  if (data) {
+  if (data && Object.entries(data).length > 0) {
     Object.entries(data).map(([receiverId, kudoObject], index) => {
       Object.entries(kudoObject).map(([id, kudo]) => {
         formattedKudos.push({
