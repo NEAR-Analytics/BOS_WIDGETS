@@ -177,56 +177,30 @@ const StakeFormWrapper = styled.div`
   width: 100%;
   max-width: 500px;
   padding-top: 10px;
-  background: #25283A;
+  background: #1A2E33;
   border-radius: 16px;
   margin-top:20px;
   padding-bottom:20px;
   .contentArea{
-    background: #25283A;
-    border-radius: 16px;
-    padding:20px 30px 0 30px;
-  }
-  .contentArea p{
-    color: #7C7F96;
-    font-size:14px;
-  }
-  .contentArea hr{
-    background: #373A53;
-    height:2px;
-  }
-  .arr .bigIcon{
-    background: #373A53;
-  }
-  .arr .boldText{
-    font-weight: 500;
-  }
-  .arr .apr{
-    color: #7C7F96;
-  }
-  .arr .apr .value{
-    color:#FFFFFF;
-    font-weight: 500;
-  }
-  .footer p{
-    color:#FFFFFF;
+    background: red;
+    border-radius: 300px;
+    padding:20px 30px;
   }
 `;
 return (
   <StakeFormWrapper>
-    <div class="arr">
-      <Widget
-        src={`${config.ownerId}/widget/stake-bannerIcon`}
-        props={{
-          firstIconName: "NEAR",
-          firstIconUrl:
-            "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-          secondIconName: "",
-          secondIconUrl:
-            "https://ipfs.near.social/ipfs/bafkreie2nqrjdjka3ckf4doocsrip5hwqrxh37jzwul2nyzeg3badfl2pm",
-          componentType: "liNEAR",
-        }}
-      ></Widget>
-    </div>
+    <Widget
+      src={`${config.ownerId}/widget/stake-bannerIcon`}
+      props={{
+        firstIconName: "NEAR",
+        firstIconUrl:
+          "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+        secondIconName: "LiNEAR",
+        secondIconUrl:
+          "https://ipfs.near.social/ipfs/bafkreie2nqrjdjka3ckf4doocsrip5hwqrxh37jzwul2nyzeg3badfl2pm",
+        componentType: "liNEAR",
+      }}
+    ></Widget>
     <div class="contentArea">
       <Widget
         src={`${config.ownerId}/widget/LiNEAR.Input`}
@@ -247,12 +221,17 @@ return (
           text: "Stake",
         }}
       />
-      <div class="footer">
-        <Widget
-          src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
-          props={{ text: `${formattedReceivedLinear}` }}
-        />
-      </div>
+      <Widget
+        src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
+        props={{ text: `${formattedReceivedLinear} LiNEAR` }}
+      />
     </div>
+    <Widget
+      src={`${config.ownerId}/widget/LiNEAR.Tab`}
+      props={{
+        updateTabName: props.updateTabName,
+        tabName: "stake",
+      }}
+    ></Widget>
   </StakeFormWrapper>
 );
