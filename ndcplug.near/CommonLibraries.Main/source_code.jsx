@@ -259,7 +259,7 @@ const curatedComps = [
     ],
   },
 ];
-const filterTag = props.commonComponentTag ?? "home";
+const filterTag = props.tab ?? "home";
 const debug = props.debug ?? false;
 const id = props.id ?? "";
 
