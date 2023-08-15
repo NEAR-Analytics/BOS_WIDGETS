@@ -293,13 +293,13 @@ const SetText = (txt) => {
   State.update({ shareText: txt });
 };
 
-console.log("props: ", props);
-
 function addCommentListener() {
   let newLibCalls = [...libCalls];
   const comment = {
     text: state.reply,
-    realArticleId: originalComment.realArticleId ?? article.realArticleId,
+    realArticleId:
+      originalComment.originalComment.value.comment.realArticleId ??
+      article.realArticleId,
     timestamp: Date.now(),
     originalCommentId: originalComment.commentId ?? article.realArticleId,
     commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
