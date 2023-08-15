@@ -144,6 +144,24 @@ return (
             />
           </OverlayTrigger>
         )}
+        {poll.ogHumansOnly && (
+          <OverlayTrigger
+            placement={"auto"}
+            overlay={
+              <Tooltip id={`tooltip-og-${poll.title}`}>OGs Only</Tooltip>
+            }
+          >
+            <img
+              height={25}
+              width={25}
+              style={{
+                marginBottom: 6,
+                marginLeft: 6,
+              }}
+              src="https://bafkreibxlcjksjmbysum4usvwmksi3obsnzg3yvz6tnkbrzzo7z7l7b2da.ipfs.nftstorage.link/"
+            />
+          </OverlayTrigger>
+        )}
       </Heading>
 
       <Paragraph>{sliceString(stripMarkdown(poll.description), 300)}</Paragraph>
