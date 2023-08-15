@@ -86,6 +86,8 @@ function getReactionsData(props) {
 
   // ========= GET REACTIONS STATISTICS =========
   function getReactionStats(acc, reactionObj) {
+    console.log("acc", acc);
+    console.log("reactionObj", reactionObj);
     if (reactionObj.value.type === initialEmoji) {
       return acc;
     }
