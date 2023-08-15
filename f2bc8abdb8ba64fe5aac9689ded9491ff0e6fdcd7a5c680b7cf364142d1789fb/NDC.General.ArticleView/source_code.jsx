@@ -515,7 +515,21 @@ const CandidateProps = props.data.nominations ?? {
   tags: ["test", "test2", "martintest3"],
 };
 
-const comments = state.comments;
+//Get basic original comments info
+let originalComments = state.comments.filter(
+  (comment) => comment.originalCommentId === articleToRenderData.realArticleId
+);
+
+//Add answers to original comments
+originalComments = originalComments.map((originalComment) => {
+  let answers = state.comments.filter(
+    (comment) => comment.originalCommentId === originalComment.commentId
+  );
+  return {
+    originalComment,
+    answers,
+  };
+});
 
 function stateUpdate(obj) {
   State.update(obj);
@@ -866,7 +880,7 @@ return (
                     },
                   }}
                 />
-                {comments.map((data) => (
+                {originalComments.map((data) => (
                   <Widget
                     props={{ widgets, data, isTest, authorForWidget }}
                     src={widgets.comment}
