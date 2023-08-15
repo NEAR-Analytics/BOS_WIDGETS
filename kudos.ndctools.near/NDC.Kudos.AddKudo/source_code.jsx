@@ -64,7 +64,7 @@ const handleAddKudo = () => {
       message: state.message,
       icon_cid: state.img.cid,
       kind,
-      hashtags: state.tags.replace(/\s/g, "").split(","),
+      hashtags: state.tags,
     },
     "70000000000000",
     100000000000000000000000
