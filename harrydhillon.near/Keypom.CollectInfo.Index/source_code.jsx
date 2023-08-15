@@ -45,7 +45,7 @@ State.init({
   editMode: false,
   editVal: "",
 });
-
+console.log(state);
 return (
   <>
     <p style={{ fontSize: 20, fontWeight: "500", marginBottom: 0 }}>
@@ -157,34 +157,42 @@ return (
         Add custom field
       </button>
     </div>
-    <Widget
-      src="harrydhillon.near/widget/Keypom.CollectInfo.AddCustomFieldModal"
-      props={{
-        isOpen: state.isAddCustomFieldModalOpen,
-        editMode: state.editMode,
-        editVal: state.editVal,
-        onSave: (data) => {
-          State.update({ isAddCustomFieldModalOpen: false });
-          if (data.fieldVal !== "") {
-            if(state.editMode){
-               const dataState = [...state.data];
+    {state.isAddCustomFieldModalOpen && (
+      <Widget
+        src="harrydhillon.near/widget/Keypom.CollectInfo.AddCustomFieldModal"
+        props={{
+          isOpen: state.isAddCustomFieldModalOpen,
+          editMode: state.editMode,
+          editVal: state.editVal,
+          onSave: (data) => {
+            State.update({ isAddCustomFieldModalOpen: false });
+            if (data.fieldVal !== "") {
+              if (state.editMode) {
+                const dataState = [...state.data];
                 dataState[state.questionToEditIndex].question = data.fieldVal;
-                State.update({ data: dataState,editMode:false,  questionToEditIndex: null,editVal:null });
-            }else{
-  State.update({
-              data: [
-                ...state.data,
-                { question: data.fieldVal, required: false },
-              ],
-            });
+                State.update({
+                  data: dataState,
+                  editMode: false,
+                  questionToEditIndex: null,
+                  editVal: null,
+                });
+              } else {
+                State.update({
+                  data: [
+                    ...state.data,
+                    { question: data.fieldVal, required: false },
+                  ],
+                });
+              }
             }
-          
-          }
-        },
-        onClose: () => {
-          State.update({ isAddCustomFieldModalOpen: false });
-        },
-      }}
-    />
+          },
+          onClose: () => {
+            State.update({ isAddCustomFieldModalOpen: false,   editMode: false,
+                  questionToEditIndex: null,
+                  editVal: null, });
+          },
+        }}
+      />
+    )}
   </>
 );
