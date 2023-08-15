@@ -39,7 +39,7 @@ const Wrapper = styled.div`
 const Tickets = styled.div`
     display:grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 2rem;
     padding:2.5rem 0;
 `;
 
