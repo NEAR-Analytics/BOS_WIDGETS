@@ -193,8 +193,8 @@ function handleOnMouseLeave() {
 
 function onCommit(emojiToWrite) {
   console.log("why not1?");
+  onPushEnd();
   () => {
-    onPushEnd();
     console.log("why not2?");
     updateReactionsStatisticsIfUserVoted(emojiToWrite);
   };
