@@ -86,26 +86,24 @@ function getReactionsData(props) {
 
   // ========= GET REACTIONS STATISTICS =========
   function getReactionStats(acc, reactionObj) {
-    console.log("acc", acc);
-    console.log("reactionObj", reactionObj);
-    if (reactionObj.value.type === initialEmoji) {
+    if (reactionObj.value.reaction === initialEmoji) {
       return acc;
     }
-    if (!acc.hasOwnProperty(reactionObj.value.type)) {
-      acc[reactionObj.value.type] = {
+    if (!acc.hasOwnProperty(reactionObj.value.reaction)) {
+      acc[reactionObj.value.reaction] = {
         quantity: 0,
-        emoji: reactionObj.value.type.slice(0, 2),
-        text: reactionObj.value.type.slice(2),
+        emoji: reactionObj.value.reaction.slice(0, 2),
+        text: reactionObj.value.reaction.slice(2),
         accounts: [],
       };
-      // acc[reactionObj.value.type].quantity = 0;
-      // acc[reactionObj.value.type].emoji = reactionObj.value.type.slice(0, 2);
-      // acc[reactionObj.value.type].accounts = [];
+      // acc[reactionObj.value.reaction].quantity = 0;
+      // acc[reactionObj.value.reaction].emoji = reactionObj.value.reaction.slice(0, 2);
+      // acc[reactionObj.value.reaction].accounts = [];
     }
-    acc[reactionObj.value.type].quantity += 1;
-    acc[reactionObj.value.type].accounts = [
+    acc[reactionObj.value.reaction].quantity += 1;
+    acc[reactionObj.value.reaction].accounts = [
       reactionObj.accountId,
-      ...acc[reactionObj.value.type].accounts,
+      ...acc[reactionObj.value.reaction].accounts,
     ];
 
     return acc;
