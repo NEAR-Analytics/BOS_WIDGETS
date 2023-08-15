@@ -31,7 +31,7 @@ const useTheme = (light, dark) => {
 
 const Table = styled.table`
   border: 1px solid ${useTheme(light.border, dark.border)};
-  background-color: ${useTheme(light.bg, dark.bg)}; 
+  background-color: ${useTheme(light.bg, dark.bg)};
   color: ${useTheme(light.color, dark.color)};
   border-collapse: separate;
   border-spacing: 0;
@@ -57,9 +57,9 @@ const HStack = styled.div`
 `;
 
 const Truncated = styled.div`
-  white-space: nowrap; 
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 `;
 
 const LinkIcon = (width, height) => {
@@ -87,11 +87,11 @@ const LinkIcon = (width, height) => {
 };
 
 const A = styled.a`
-  text-decoration: none; 
+  text-decoration: none;
   color: ${useTheme(light.color, dark.color)};
 
   :hover {
-    text-decoration: none; 
+    text-decoration: none;
     color: ${useTheme(light.color, dark.color)};
   }
 `;
@@ -101,6 +101,18 @@ const Center = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+const truncateStringInMiddle = (str, maxLength) => {
+  if (str.length <= maxLength) {
+    return str;
+  }
+
+  const halfMaxLength = Math.floor(maxLength / 2);
+  const firstHalf = str.slice(0, halfMaxLength);
+  const secondHalf = str.slice(-halfMaxLength);
+
+  return firstHalf + "..." + secondHalf;
+};
 
 return (
   <>
@@ -133,8 +145,8 @@ return (
                         target={"_blank"}
                       >
                         <HStack>
-                          <Truncated>{cid}</Truncated>
-                          <LinkIcon width={"64px"} height={"64px"} />
+                          {truncateStringInMiddle(cid, 8)}
+                          <LinkIcon width={"20px"} height={"20px"} />
                         </HStack>
                       </A>
                     </td>
