@@ -521,8 +521,6 @@ let originalComments = state.comments.filter(
     comment.value.comment.originalCommentId ===
     articleToRenderData.realArticleId
 );
-console.log("SC: ", state.comments);
-console.log("originalComments 1: ", originalComments);
 
 //Add answers to original comments
 originalComments = originalComments.map((originalComment) => {
