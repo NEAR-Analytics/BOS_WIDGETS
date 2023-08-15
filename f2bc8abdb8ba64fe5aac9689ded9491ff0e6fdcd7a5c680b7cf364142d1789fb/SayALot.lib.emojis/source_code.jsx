@@ -46,6 +46,7 @@ function saveReaction(reaction, elementReactedId, onCommit, onCancel) {
 
 function getReactionsData(props) {
   const { elementReactedId, createdReaction } = props;
+  console.log("createdReaction: ", createdReaction);
 
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
@@ -68,7 +69,7 @@ function getReactionsData(props) {
       return obj.accountId === context.accountId;
     });
 
-  if (userReaction) {
+  if (userReaction && createdReaction) {
     const newArrayOfLastReactions = arrayLastReactionForEachUser
       .filter((obj) => {
         return obj.accountId !== context.accountId;
