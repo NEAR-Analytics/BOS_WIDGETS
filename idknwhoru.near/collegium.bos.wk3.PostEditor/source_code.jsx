@@ -4,6 +4,8 @@ State.init({
   content: "",
 });
 
+console.log(Social.index("collegium.post", "main"));
+
 const updateTitle = (titlechangeEvent) => {
   State.update({ title: titlechangeEvent.target.value });
 };
@@ -45,7 +47,17 @@ const PostEditorWrapper = styled.div`
     }
 `;
 
-const data = { collegium: { post: { [state.title]: state.content } } };
+const data = {
+  collegium: { post: { [state.title]: state.content } },
+  index: {
+    "collegium.post": JSON.stringify({
+      key: "main",
+      value: {
+        type: "md",
+      },
+    }),
+  },
+};
 
 return (
   <PostEditorWrapper>
