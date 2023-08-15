@@ -464,6 +464,8 @@ const CommentText = styled.p`
   margin: 0px;
 `;
 
+if (!data) return <Loader />;
+
 const candidateProps = data.nominations;
 if (!candidateProps) return <Loader />;
 
