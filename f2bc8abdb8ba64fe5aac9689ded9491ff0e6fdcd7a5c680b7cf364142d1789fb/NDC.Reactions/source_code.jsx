@@ -192,6 +192,7 @@ function handleOnMouseLeave() {
 }
 
 function onPushEnd() {
+  console.log("in");
   State.update({ loading: false, show: false });
 }
 
@@ -368,51 +369,55 @@ const EmojiListWrapper = styled.div`
   zIndex: 2;
 `;
 
+const SpinnerContainer = styled.div`
+  height: 1rem;
+  width: 1rem;
+  marginTop: 2px;
+`;
+
 const CallLibrary = styled.div`
   display: none;
 `;
 
 // =============== NEW JSX ===============!!!!!!!!
-const Overlay = () => (
-  <EmojiListWrapper
-    onMouseEnter={handleOnMouseEnter}
-    onMouseLeave={handleOnMouseLeave}
-    show={state.show}
-  >
-    {emojiArray &&
-      emojiArray.map((item) => {
-        return (
-          <SmallButton
-            onClick={() => reactListener(item)}
-            isHeart={index === 0}
-          >
-            <OverlayTrigger
-              placement="top"
-              overlay={
-                <Tooltip>
-                  <div className="text-truncate text-start">
-                    {item.slice(2)}
-                  </div>
-                </Tooltip>
-              }
+const Overlay = () => {
+  return (
+    <EmojiListWrapper
+      onMouseEnter={handleOnMouseEnter}
+      onMouseLeave={handleOnMouseLeave}
+      show={state.show}
+    >
+      {emojiArray &&
+        emojiArray.map((item) => {
+          return (
+            <SmallButton
+              onClick={() => reactListener(item)}
+              isHeart={index === 0}
             >
-              <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
-            </OverlayTrigger>
-          </SmallButton>
-        );
-      })}
-  </EmojiListWrapper>
-);
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip>
+                    <div className="text-truncate text-start">
+                      {item.slice(2)}
+                    </div>
+                  </Tooltip>
+                }
+              >
+                <SmallButtonSpan>{item.slice(0, 2)}</SmallButtonSpan>
+              </OverlayTrigger>
+            </SmallButton>
+          );
+        })}
+    </EmojiListWrapper>
+  );
+};
 
 const Spinner = () => {
   return (
-    <div
-      className="spinner-border text-secondary"
-      style={{ height: "1rem", width: "1rem", marginTop: "2px" }}
-      role="status"
-    >
+    <SpinnerContainer className="spinner-border text-secondary" role="status">
       <span className="sr-only" title="Loading..."></span>
-    </div>
+    </SpinnerContainer>
   );
 };
 
