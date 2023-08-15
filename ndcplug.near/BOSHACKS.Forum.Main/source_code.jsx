@@ -2,7 +2,7 @@ return (
   <div>
     <Widget
       src="ndcplug.near/widget/BOSHACKS.Forum.Create"
-      props={{ tag: "boshacks" }}
+      props={{ referral: "boshacks" }}
     />
     <Widget
       src="devgovgigs.near/widget/gigs-board.entity.post.List"
