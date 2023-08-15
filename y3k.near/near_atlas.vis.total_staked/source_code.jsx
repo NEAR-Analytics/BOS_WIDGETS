@@ -2,8 +2,8 @@ let static_file_param = "near_supply_staking.csv";
 // Monthly Active Accounts Example
 // Monthly Active Accounts Example
 let rawData = fetch(
-  "http://localhost:3001/api/static_file_param?filename=" + static_file_param,
-  static_file_param,
+  "https://github-near-data-api.vercel.app/api/static_file_param?filename=" +
+    static_file_param,
   {
     subscribe: true,
     method: "GET",
