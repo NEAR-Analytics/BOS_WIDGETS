@@ -52,8 +52,8 @@ const AddCustomFieldModalJsx = (
   </>
 );
 
-if (props.editMode && state.hasBeenEditUpdated) {
-  State.update({ fieldVal: props.editVal,hasBeenEditUpdated:true });
+if (props.editMode && state.fieldVal==="" && !state.hasBeenEditUpdated) {
+  State.update({ fieldVal: props.editVal, hasBeenEditUpdated: true });
 }
 
 return (
