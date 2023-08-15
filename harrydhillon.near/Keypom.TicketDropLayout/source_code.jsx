@@ -51,10 +51,13 @@ const BottomStyledContainer = styled.div`
 const BackButton = styled.button`
 background-color:transparent;
 border-width:0px;
--webkit-box-shadow: 10px 11px 5px -3px rgba(0,0,0,0.43);
--moz-box-shadow: 10px 11px 5px -3px rgba(0,0,0,0.43);
-box-shadow: 10px 11px 5px -3px rgba(0,0,0,0.43);
 color:black;
+padding-left:10px;
+border-radius:5px;
+box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
+-webkit-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
+-moz-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
+padding-right:10px;
 `;
 
 const AllSteps = [
