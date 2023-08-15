@@ -215,6 +215,8 @@ State.init({
   component: null,
 });
 
+const disableApps = state.sender === "";
+
 const sender = Ethers.send("eth_requestAccounts", [])[0] || "";
 
 if (sender) {
@@ -297,7 +299,7 @@ return (
                 />
                 <h1>Quickswap</h1>
                 <button
-                  disabled={component === "quickswap"}
+                  disabled={disableApps || component === "quickswap"}
                   onClick={() => setComponent("quickswap")}
                 >
                   DEX
@@ -311,7 +313,7 @@ return (
                 />
                 <h1>Gamma</h1>
                 <button
-                  disabled={component === "gamma"}
+                  disabled={disableApps || component === "gamma"}
                   onClick={() => setComponent("gamma")}
                 >
                   Liquidity
@@ -326,7 +328,7 @@ return (
                   />
                   <h1>Aave</h1>
                   <button
-                    disabled={component === "aave"}
+                    disabled={disableApps || component === "aave"}
                     onClick={() => setComponent("aave")}
                   >
                     Lending Protocol
@@ -342,7 +344,7 @@ return (
                 />
                 <h1>Pancake Swap</h1>
                 <button
-                  disabled={component === "pancake"}
+                  disabled={disableApps || component === "pancake"}
                   onClick={() => setComponent("pancake")}
                 >
                   Dex
@@ -356,7 +358,7 @@ return (
                 />
                 <h1>Balancer</h1>
                 <button
-                  disabled={component === "balancer"}
+                  disabled={disableApps || component === "balancer"}
                   onClick={() => setComponent("balancer")}
                 >
                   Dex
