@@ -16,7 +16,7 @@ State.init({
 // }
 
 const CommentCard = styled.div`
-  margin-left: ${isReply ? "1rem" : "0"}
+  margin-left: ${isReply ? "1rem" : "0"};
   width: 100%;
   display: flex;
   padding: 14px 16px;
