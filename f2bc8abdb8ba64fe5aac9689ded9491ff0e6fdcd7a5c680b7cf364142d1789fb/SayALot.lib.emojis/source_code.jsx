@@ -46,7 +46,6 @@ function saveReaction(reaction, elementReactedId, onCommit, onCancel) {
 
 function getReactionsData(props) {
   const { elementReactedId, createdReaction } = props;
-  console.log("createdReaction: ", createdReaction);
 
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
@@ -110,14 +109,13 @@ function getReactionsData(props) {
     return acc;
   }
   function countReactionsStats(arr) {
-    console.log("arr: ", arr);
     Object.values(arr.reduce(getReactionStats, {}));
   }
 
-  console.log("arrayLastReactionForEachUser: ", arrayLastReactionForEachUser);
   let reactionsStatistics =
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
+  console.log("reactionsStatistics: ", reactionsStatistics);
   //reactionsStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
 
   return { reactionsStatistics, userReaction };
