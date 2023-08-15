@@ -68,7 +68,11 @@ const handleAddKudo = () => {
     },
     "70000000000000",
     100000000000000000000000
-  ).then((data) => onHide());
+  ).then((data) => {
+    onHide();
+    notifyAddKudo();
+    notifyMentionComment();
+  });
 };
 
 State.init({
@@ -76,7 +80,36 @@ State.init({
   message: "",
   img: null,
   tags: "",
+  userMentions: [],
 });
+
+const notifyAddKudo = () => {
+  Social.set({
+    index: {
+      notify: JSON.stringify({
+        key: state.receiverId,
+        value: { type: "Kudos.Create" },
+      }),
+    },
+  });
+};
+
+const notifyMentionComment = () => {
+  const mentions = state.userMentions.map((user) => {
+    return {
+      key: user,
+      value: { type: "Kudos.Comment" },
+    };
+  });
+
+  Social.set({
+    index: {
+      notify: JSON.stringify(mentions),
+    },
+  });
+};
+
+console.log(state.userMentions);
 
 return (
   <Modal>
@@ -100,6 +133,8 @@ return (
               src={"rubycop.near/widget/Common.Compose"}
               props={{
                 placeholder: "Left a comment",
+                getMentions: (user) =>
+                  State.update({ userMentions: [...state.userMentions, user] }),
                 handleChange: (text) => {
                   if (text.length > 1000) return;
                   State.update({ message: text });
