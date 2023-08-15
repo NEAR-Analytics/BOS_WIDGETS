@@ -49,7 +49,7 @@ const Wrapper = styled.div`
     }
 
     .post-header {
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
   }
 
