@@ -23,5 +23,6 @@ return (
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.MainTopicsSection`} />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.SpeakersSection`} />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.HostsSection`} />
+    <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.SponsorsSection`} />
   </Main>
 );
