@@ -1,24 +1,51 @@
 const { game_id } = props;
 const contractId = "app.chess-game.near";
 const chessBoardWidget = "chess-game.near/widget/ChessBoard";
-if (!game_id) return <div>"game_id" missing in props</div>;
+if (!game_id) return <div>"game_id" prop required</div>;
 
-const board = Near.view(contractId, "get_board", {
+Near.asyncView(contractId, "get_board", {
   game_id,
-});
-if (!board) return <div />;
-
-const gameInfo = Near.view(contractId, "game_info", {
+})
+  .then((board) => {
+    State.update({
+      board,
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+    State.update({
+      error: err,
+    });
+  });
+Near.asyncView(contractId, "game_info", {
   game_id,
-});
-if (!gameInfo) return <div />;
+})
+  .then((gameInfo) => {
+    State.update({
+      gameInfo,
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+    State.update({
+      error: err,
+    });
+  });
 
 State.init({
-  board,
-  gameInfo,
+  board: state.board,
+  gameInfo: state.gameInfo,
   move: "",
   assetType: state.assetType ?? "default",
+  error: state.error,
 });
+
+if (state.board == null || state.gameInfo == null) {
+  return "loading...";
+}
+if (state.error) {
+  return "The game no longer exists. Please return to lobby";
+}
 
 const BoardView = styled.div`
   display: flex;
