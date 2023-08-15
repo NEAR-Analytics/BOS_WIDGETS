@@ -76,10 +76,16 @@ const parentId = props.parentId ?? null;
 const postId = props.postId ?? null;
 const mode = props.mode ?? "Create";
 
-const referralLabels = props.referral ? [`referral:${props.referral}`] : [];
+const referralLabels = props.referral ? [`${props.referral}`] : [];
 const labelStrings = (props.labels ? props.labels.split(",") : []).concat(
   referralLabels
 );
+// const labelStringsText = "boshacks";
+// const labelStringsInit =
+// const labelsInit = labelStringsInit.map((s) => {
+//   return { name: s };
+// });
+
 const labels = labelStrings.map((s) => {
   return { name: s };
 });
