@@ -15,12 +15,6 @@ function handleSelfRevoke() {
   Near.call(nominationContract, "self_revoke");
 }
 
-const houses = [
-  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
-];
-
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   card: "nomination.ndctools.near/widget/NDC.Nomination.Card",
@@ -298,7 +292,7 @@ return (
             src={widgets.houses}
             props={{
               selectedHouse: state.selectedHouse,
-              houses: houses,
+              electionContract,
               handleSelect: (item) => handleSelect(item),
             }}
           />
