@@ -1,4 +1,4 @@
-State.init({fieldVal:""})
+State.init({ fieldVal: "" });
 
 const AddCustomFieldModalJsx = (
   <>
@@ -8,8 +8,8 @@ const AddCustomFieldModalJsx = (
         label: "Add a field you’d like attendees to fill out for this event.",
         inputProps: {
           placeholder: "",
-          value:state.fieldVal,
-          onChange:(e)=>State.update({fieldVal:e.target.value})
+          value: state.fieldVal,
+          onChange: (e) => State.update({ fieldVal: e.target.value }),
         },
         labelProps: {
           style: {
@@ -21,7 +21,7 @@ const AddCustomFieldModalJsx = (
       src="harrydhillon.near/widget/Keypom.Components.Input"
     />
     <button
-    onClick={()=>props.onSave(state)}
+      onClick={() => props.onSave(state)}
       style={{
         width: "100%",
         backgroundColor: "black",
@@ -34,7 +34,7 @@ const AddCustomFieldModalJsx = (
       Save Field
     </button>
     <button
-    onClick={props.onClose}
+      onClick={props.onClose}
       style={{
         width: "100%",
         backgroundColor: "white",
