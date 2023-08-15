@@ -259,8 +259,9 @@ const curatedComps = [
     ],
   },
 ];
-const filterTag = props.commonComponentTag ?? "dev";
+const filterTag = props.commonComponentTag ?? "home";
 const debug = props.debug ?? false;
+const id = props.id ?? "";
 
 const searchComponents = () => {
   return (
@@ -329,8 +330,8 @@ const renderCategory = (categoryId) => {
   );
 };
 State.init({
-  tab: "home",
-  id: "",
+  tab: filterTag,
+  id: id,
 });
 
 const renderHome = () => {
