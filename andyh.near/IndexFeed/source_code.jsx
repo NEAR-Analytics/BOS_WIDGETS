@@ -6,7 +6,7 @@ if (!index) {
 const filter = props.filter;
 
 const renderItem =
-  props.renderzItem ??
+  props.renderItem ??
   ((item, i) => (
     <div key={JSON.stringify(item)}>
       #{item.blockHeight}: {JSON.stringify(item)}
@@ -16,7 +16,9 @@ const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
-    state.cachedItems[key] = renderItem(item, i);
+    state.cachedItems[key] = props.renderItem
+      ? useComponentCallback(props.renderItem, item, i)
+      : renderItem(item, i);
     State.update();
   }
   return state.cachedItems[key];
