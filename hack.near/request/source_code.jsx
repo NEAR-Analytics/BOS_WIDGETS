@@ -3,6 +3,7 @@ if (
   !context.accountId ||
   !props.type ||
   !props.name ||
+  !props.ownerId ||
   context.accountId === props.accountId
 ) {
   return "";
@@ -19,7 +20,7 @@ const data = {
       },
     }),
     notify: JSON.stringify({
-      key: props.accountId,
+      key: props.ownerId,
       value: {
         type: "request",
       },
