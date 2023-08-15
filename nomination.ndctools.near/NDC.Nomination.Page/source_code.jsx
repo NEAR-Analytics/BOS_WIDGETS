@@ -1,4 +1,3 @@
-// TODO: Should be grabbed from contract side
 let { ids, dev } = props;
 ids = props.ids ? ids : [1, 2, 3]; // for testing purposes
 
@@ -78,12 +77,8 @@ function getVerifiedHuman() {
   });
 
   State.update({
-    og: ogTokens
-      ? ogTokens.some((sbt) => sbt.owner === context.accountId)
-      : false,
-    sbt: sbtTokens
-      ? sbtTokens.some((sbt) => sbt.owner === context.accountId)
-      : false,
+    og: ogTokens.some((sbt) => sbt.owner === context.accountId),
+    sbt: sbtTokens.some((sbt) => sbt.owner === context.accountId),
   });
 }
 
