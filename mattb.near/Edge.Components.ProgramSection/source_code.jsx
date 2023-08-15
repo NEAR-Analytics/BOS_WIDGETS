@@ -126,7 +126,7 @@ const Schedule = styled.div`
 `;
 
 return (
-  <>
+  <div id="programs">
     {state.programs.map((program, idx) => (
       <Box>
         <Wrapper>
@@ -164,5 +164,5 @@ return (
         </Wrapper>
       </Box>
     ))}
-  </>
+  </div>
 );
