@@ -103,7 +103,7 @@ function getNominationInfo(house) {
         setTimeout(() => {
           profileData = Social.getr(`${nominee}/profile`);
           nominationData = Social.getr(`${nominee}/nominations`);
-        }, 500);
+        }, 100);
 
         setTimeout(() => {
           if (data.is_revoked || !profileData || !nominationData) {
