@@ -526,7 +526,7 @@ originalComments;
 
 //Add answers to original comments
 originalComments = originalComments.map((originalComment) => {
-  console.log("originalComments: ", originalComments);
+  console.log("originalComments: ", originalComment);
   let answers = state.comments.filter((comment) => {
     console.log("comment: ", comment);
     return (
