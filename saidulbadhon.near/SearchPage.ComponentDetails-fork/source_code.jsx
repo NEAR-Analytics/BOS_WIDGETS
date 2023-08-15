@@ -85,13 +85,13 @@ const TabsButton = styled.a`
 
   &::after {
     content: "";
-    display: ${(p) => (p.selected ? theme.buttonColor : theme.textColor3)};
+    display: ${(p) => (p.selected ? "block" : "none")};
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 3px;
-    background: #59e692;
+    background: ${(p) => (p.selected ? theme.buttonColor : theme.textColor3)};
   }
 `;
 
