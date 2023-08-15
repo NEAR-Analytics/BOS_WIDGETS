@@ -19,7 +19,7 @@ return (
           >
             <div className="me-2 text-truncate">
               <a
-                href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+                href={`#/andyh.near/widget/ProfilePage?accountId=${accountId}`}
                 className="text-decoration-none link-dark text-truncate"
               >
                 <Widget
