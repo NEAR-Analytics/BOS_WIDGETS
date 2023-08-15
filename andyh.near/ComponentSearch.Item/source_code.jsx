@@ -9,6 +9,14 @@ const image = metadata?.image;
 const onHide = props.onHide;
 const link = props.link;
 
+const renderExtraButtons = useComponentCallback(props.extraButtons, {
+  accountId,
+  widgetName,
+  widgetPath,
+  metadata,
+  onHide,
+});
+
 return (
   <div>
     <div className="d-flex justify-content-between align-items-center mb-3">
@@ -28,14 +36,14 @@ return (
         )}
       </div>
       <div className="text-nowrap">
-        {/*props.extraButtons &&
+        {props.extraButtons &&
           props.extraButtons({
             accountId,
             widgetName,
             widgetPath,
             metadata,
             onHide,
-          })*/}
+          })}
       </div>
     </div>
   </div>
