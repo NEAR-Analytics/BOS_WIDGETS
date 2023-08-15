@@ -84,7 +84,6 @@ const TagContainer = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 4px;
-  margin-top: 5px;
 `;
 const HouseTagDiv = styled.div`
   width: 100%;
@@ -552,76 +551,74 @@ return (
             style: { width: "70px", height: "70px" },
           }}
         />
-        <div>
-          <div className="d-flex justify-content-between align-items-center">
-            <HeaderDetailContent>
-              <TagContainer>
-                <HouseTagDiv>
-                  <HouseTagText style={{ "font-size": "10px" }}>
-                    {props.house == "HouseOfMerit"
-                      ? "House of Merit"
-                      : props.house == "CouncilOfAdvisors"
-                      ? "Council of Advisors"
-                      : "Transparency Commission"}
-                  </HouseTagText>
-                </HouseTagDiv>
-              </TagContainer>
-              <NominationTitleContainer>
-                <UserLink
-                  href={`https://near.org/near/widget/ProfilePage?accountId=${accountId}`}
-                >
-                  <NominationTitle>{CandidateProps.name}</NominationTitle>
-                  <NominationUser>{accountId}</NominationUser>
-                </UserLink>
-              </NominationTitleContainer>
-            </HeaderDetailContent>
-            {data.nominations.video.length > 0 && (
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Link: {
-                    text: `Watch Video`,
-                    className: "primary dark",
-                    icon: <i class="bi bi-play-circle ml-2"></i>,
-                    href: props.data.nominations.video,
-                  },
-                }}
-              />
-            )}
+        <div className="d-flex justify-content-between align-items-center">
+          <HeaderDetailContent>
+            <TagContainer>
+              <HouseTagDiv>
+                <HouseTagText style={{ "font-size": "10px" }}>
+                  {props.house == "HouseOfMerit"
+                    ? "House of Merit"
+                    : props.house == "CouncilOfAdvisors"
+                    ? "Council of Advisors"
+                    : "Transparency Commission"}
+                </HouseTagText>
+              </HouseTagDiv>
+            </TagContainer>
+            <NominationTitleContainer>
+              <UserLink
+                href={`https://near.org/near/widget/ProfilePage?accountId=${accountId}`}
+              >
+                <NominationTitle>{CandidateProps.name}</NominationTitle>
+                <NominationUser>{accountId}</NominationUser>
+              </UserLink>
+            </NominationTitleContainer>
+          </HeaderDetailContent>
+          {data.nominations.video.length > 0 && (
             <Widget
               src={widgets.styledComponents}
               props={{
-                Button: {
-                  text: `+${data.comments[0].upvotes ?? 0}`,
-                  disabled:
-                    !context.accountId ||
-                    !state.verified ||
-                    context.accountId === candidate,
-                  className: `${
-                    context.accountId && state.voted ? "primary" : "secondary"
-                  } dark`,
-                  onClick: handleUpVote,
-                  icon: <i className="bi bi-hand-thumbs-up"></i>,
+                Link: {
+                  text: `Watch Video`,
+                  className: "primary dark",
+                  icon: <i class="bi bi-play-circle ml-2"></i>,
+                  href: props.data.nominations.video,
                 },
               }}
             />
-          </div>
-          <TagContainer>
-            {CandidateProps.tags
-              .trim()
-              .split(",")
-              .map((tag) => {
-                return tag && tag != "" ? (
-                  <Widget
-                    src={widgets.styledComponents}
-                    props={{
-                      Tag: { title: tag },
-                    }}
-                  />
-                ) : null;
-              })}
-          </TagContainer>
+          )}
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Button: {
+                text: `+${data.comments[0].upvotes ?? 0}`,
+                disabled:
+                  !context.accountId ||
+                  !state.verified ||
+                  context.accountId === candidate,
+                className: `${
+                  context.accountId && state.voted ? "primary" : "secondary"
+                } dark`,
+                onClick: handleUpVote,
+                icon: <i className="bi bi-hand-thumbs-up"></i>,
+              },
+            }}
+          />
         </div>
+        <TagContainer className="mt-2 flex-wrap">
+          {CandidateProps.tags
+            .trim()
+            .split(",")
+            .map((tag) => {
+              return tag && tag != "" ? (
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Tag: { title: tag },
+                  }}
+                />
+              ) : null;
+            })}
+        </TagContainer>
       </DetailHeader>
       <PlatformCard>
         <PlatformContent>
