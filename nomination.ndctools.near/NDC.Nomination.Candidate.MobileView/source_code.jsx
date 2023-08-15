@@ -36,6 +36,7 @@ function getVerifiedHuman() {
     State.update({ voted: res.body });
   });
 }
+
 if (state.start) {
   getVerifiedHuman();
   State.update({
@@ -353,27 +354,6 @@ const CandidateTime = styled.p`
   font-weight: 500;
   line-height: 120%;
 `;
-const CandidateTextInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  align-self: stretch;
-`;
-const CandidateTitle = styled.p`
-  color: var(--000000, #000);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 120%;
-  margin: 0px;
-`;
-const CandidateDescription = styled.p`
-  color: var(--primary-828688, #828688);
-  font-size: 12px;
-  line-height: 130%;
-  margin: 0px;
-  text-align: justify;
-`;
 const DeclarationCard = styled.div`
   display: flex;
   padding: 16px 12px;
@@ -495,21 +475,13 @@ const CommentText = styled.p`
   line-height: 24px;
   margin: 0px;
 `;
-let profileInfo = Social.getr(`${context.accountId}/profile`);
-let imageIsNFT = profileInfo.image.nft ? true : false;
-let nftData = profileInfo.image.nft;
-const getNftCid = Near.view(nftData.contractId, "nft_token", {
-  token_id: nftData.tokenId,
-});
-const CandidateProps = props.data.nominations;
-const comments = props.data.comments[0].comments;
-let isNFTURL = CandidateProps.img.url;
 
+const CandidateProps = data.nominations;
+const comments = data.comments[0].comments;
 const afilations = JSON.parse(CandidateProps.afiliation);
-
-const afiilationsSort = afilations
-  .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
-  .reverse();
+const afilationsSort = afilations.sort(
+  (a, b) => new Date(b.end_date) - new Date(a.end_date)
+);
 
 const issues = [
   {
@@ -580,7 +552,7 @@ return (
                 text: `Watch Video`,
                 className: "primary dark",
                 icon: <i class="bi bi-play-circle ml-2"></i>,
-                href: props.data.nominations.video,
+                href: data.nominations.video,
               },
             }}
           />
@@ -651,7 +623,7 @@ return (
           <CandidateHeader>
             <PlatformHeaderText>Candidate Affiliations</PlatformHeaderText>
           </CandidateHeader>
-          {afilations.map((affiliation) => {
+          {afilationsSort.map((affiliation) => {
             return (
               <CandidateInfoDiv>
                 <CandidateInfoHeader>
