@@ -186,14 +186,14 @@ const renderOpenChallenges = (challenges) => {
                 {challengerId.length > 20
                   ? challengerId.substr(0, 20) + "..."
                   : challengerId}{" "}
-                {challengerElo != null && <>({challengerElo.toFixed(2)})</>}
+                {challengerElo != null && <>({challengerElo.toFixed(1)})</>}
               </div>
               <div>vs</div>
               <div>
                 {challengedId.length > 20
                   ? challengedId.substr(0, 20) + "..."
                   : challengedId}{" "}
-                {challengedElo != null && <>({challengedElo.toFixed(2)})</>}
+                {challengedElo != null && <>({challengedElo.toFixed(1)})</>}
               </div>
             </ChallengeInfo>
             {!is_challenger && (
@@ -243,7 +243,7 @@ const renderEloRatings = (eloRatings) => {
     .map(([accountId, eloRating]) => (
       <SearchResult onClick={selectPlayer(accountId)}>
         {accountId.length > 20 ? accountId.substr(0, 20) + "..." : accountId}{" "}
-        (ELO: {eloRating.toFixed(2)})
+        (ELO: {eloRating.toFixed(1)})
       </SearchResult>
     ));
 };
