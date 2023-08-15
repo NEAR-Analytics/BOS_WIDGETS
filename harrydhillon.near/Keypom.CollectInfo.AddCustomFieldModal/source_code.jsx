@@ -8,6 +8,7 @@ const AddCustomFieldModalJsx = (
         label: "Add a field you’d like attendees to fill out for this event.",
         inputProps: {
           placeholder: "",
+          required:true,
           value: state.fieldVal,
           onChange: (e) => State.update({ fieldVal: e.target.value }),
         },
@@ -22,6 +23,7 @@ const AddCustomFieldModalJsx = (
     />
     <button
       onClick={() => props.onSave(state)}
+      type="submit"
       style={{
         width: "100%",
         backgroundColor: "black",
