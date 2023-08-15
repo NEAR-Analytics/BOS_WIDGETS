@@ -522,10 +522,14 @@ let originalComments = state.comments.filter(
     articleToRenderData.realArticleId
 );
 
+originalComments;
+
 //Add answers to original comments
 originalComments = originalComments.map((originalComment) => {
   let answers = state.comments.filter(
-    (comment) => comment.originalCommentId === originalComment.commentId
+    (comment) =>
+      comment.value.comment.originalCommentId ===
+      originalComment.value.comment.originalCommentId
   );
   return {
     originalComment,
