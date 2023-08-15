@@ -109,6 +109,7 @@ function getReactionsData(props) {
     return acc;
   }
   function countReactionsStats(arr) {
+    console.log(arr);
     Object.values(arr.reduce(getReactionStats, {}));
   }
   let reactionsStatistics =
