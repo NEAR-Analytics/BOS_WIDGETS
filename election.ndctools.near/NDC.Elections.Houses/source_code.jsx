@@ -1,7 +1,7 @@
 const { houses, electionContract, selectedHouse, handleSelect, votesLeft } =
   props;
 
-State.init({ contractHouses: houses ? houses : [] });
+State.init({ houses: houses ? houses : [] });
 
 if (!houses && electionContract) {
   const contractHouses = [
@@ -10,7 +10,7 @@ if (!houses && electionContract) {
     Near.view(electionContract, "proposal", { prop_id: ids[2] }),
   ];
 
-  State.update({ contractHouses });
+  State.update({ houses: contractHouses });
 }
 
 const housesMapping = {
