@@ -50,6 +50,7 @@ function getReactionsData(props) {
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
   });
+  console.log(allReactions);
 
   const uniqueAccounts = [];
   let arrayLastReactionForEachUser =
