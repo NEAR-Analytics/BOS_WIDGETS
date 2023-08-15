@@ -1,3 +1,5 @@
+// Pro MAX ULREA 2
+
 const limitPerPage = 21;
 let components = [];
 let totalComponents = 0;
