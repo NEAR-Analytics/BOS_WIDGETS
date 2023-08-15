@@ -63,7 +63,7 @@ const handleAddKudo = () => {
       ? mentions.map((user) => {
           return {
             key: user.slice(1),
-            value: { type: "Kudos.Comment" },
+            value: { type: "mention" },
           };
         })
       : {};
@@ -89,7 +89,7 @@ const handleAddKudo = () => {
         index: {
           notify: JSON.stringify({
             key: state.receiverId,
-            value: { type: "Kudos.Create" },
+            value: { type: "kudo_created" },
           }),
         },
       },
