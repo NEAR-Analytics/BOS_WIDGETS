@@ -173,7 +173,13 @@ const renderGameIds = (gameIds, isFinished, displayPlayers) =>
                   {gameInfo.black.Ai ? (
                     <>AI ({gameInfo.black.Ai})</>
                   ) : (
-                    <>Player ({gameInfo.black.Human})</>
+                    <>
+                      Player (
+                      {gameInfo.black.Human === accountId
+                        ? gameInfo.white.Human
+                        : gameInfo.black.Human}
+                      )
+                    </>
                   )}
                 </div>
               )}
