@@ -117,7 +117,7 @@ return (
                   marginBottom: 5,
                   marginLeft: 0,
                 }}
-                src="https://images.unsplash.com/photo-1479064118661-04dd16543243?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBpY3R1cmVzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+                src="https://i.ibb.co/kx9Y61n/Screenshot-2023-08-15-at-23-44-38.png"
               />
               {props?.eventName !== undefined && props?.eventName !== "" ? (
                 <p style={{ fontSize: 10, marginBottom: 4 }}>
