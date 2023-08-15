@@ -17,7 +17,6 @@ function createReaction(props) {
 }
 
 function composeReactionData(reaction, elementReactedId) {
-  console.log("elementReactedId: ", elementReactedId);
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -46,7 +45,7 @@ function saveReaction(reaction, elementReactedId, onCommit, onCancel) {
 }
 
 function getReactionsData(props) {
-  const { elementReactedId, createReaction } = props;
+  const { elementReactedId, createdReaction } = props;
 
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
@@ -117,10 +116,10 @@ function libCall(call) {
 
 let resultLibCalls = [];
 if (libCalls && libCalls.length > 0) {
-  console.log(
-    "Calling functions",
-    libCalls.map((lc) => lc.functionName)
-  );
+  // console.log(
+  //   "Calling functions",
+  //   libCalls.map((lc) => lc.functionName)
+  // );
   const updateObj = {};
   resultLibCalls = [...libCalls];
   libCalls.forEach((call) => {
