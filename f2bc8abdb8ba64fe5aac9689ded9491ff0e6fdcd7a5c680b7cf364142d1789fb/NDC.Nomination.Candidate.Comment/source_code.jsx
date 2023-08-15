@@ -320,21 +320,25 @@ return (
         />
       </CommentCardLowerSection>
     </CommentCard>
-    {!isReply &&
-      data.answers.map((answer) => {
-        return (
-          <Widget
-            src={widgets.comment}
-            props={{
-              widgets,
-              data: { originalComment: answer },
-              orginalCommentData: data,
-              isTest,
-              authorForWidget,
-              isReply: true,
-            }}
-          />
-        );
-      })}
+    {!isReply && (
+      <>
+        <i className="bi bi-arrow-return-right"></i>
+        {data.answers.map((answer) => {
+          return (
+            <Widget
+              src={widgets.comment}
+              props={{
+                widgets,
+                data: { originalComment: answer },
+                orginalCommentData: data,
+                isTest,
+                authorForWidget,
+                isReply: true,
+              }}
+            />
+          );
+        })}
+      </>
+    )}
   </>
 );
