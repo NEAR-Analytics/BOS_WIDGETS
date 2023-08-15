@@ -58,6 +58,7 @@ box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
 -webkit-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
 -moz-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
 padding-right:10px;
+opacity:${props=>props.disabled?0.5:1};
 `;
 
 const AllSteps = [
