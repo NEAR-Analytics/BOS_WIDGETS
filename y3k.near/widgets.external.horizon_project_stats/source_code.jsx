@@ -1,16 +1,9 @@
 const header_map = {
   DAA: "Daily Active Accounts",
   MAA: "Monthly Active Accounts",
-
   MVT: "Monthly Average Transactions",
   DVT: "Daily Average Transactions",
 };
-
-//   WAU: "Weekly Active Accounts",
-//   M2_RETENTION: "Retention Rate",
-//   NEW_MAA: "New MAAs",
-//   PERCENT_NEW: "% New Accounts",
-//   STICKINESS: "DAA / MAA",
 
 const initialState = {
   selectedMetric: header_map[props.selectedMetric] || header_map["MAA"],
@@ -68,26 +61,6 @@ const colorGenerator = () => {
 };
 
 const getBackgroundColor = colorGenerator();
-
-// function filterByProjectName(arr, project_name) {
-//   console.log("Filtering by project name:", project_name);
-//   console.log("Array before filtering:", arr);
-//   const result = arr.filter((obj) => obj.PROJECT_NAME === project_name);
-//   console.log("Array after filtering:", result);
-//   return result;
-// }
-
-// function sortByActivityDate(arr) {
-//   // Convert the dates to timestamps once
-//   const timestamps = arr.map(item => new Date(item.ACTIVITY_DATE).getTime());
-  
-//   return arr.sort((a, b) => {
-//     const indexA = arr.indexOf(a);
-//     const indexB = arr.indexOf(b);
-//     return timestamps[indexA] - timestamps[indexB];
-//   });
-// }
-
 
 
 function filterByProjectName(arr, project_name) {
@@ -184,9 +157,6 @@ const filteredSortedData = sortByActivityDate(filteredData) || [];
 
 
 
-
-
-
 let newProcessedData = updateProcessedData(
   filteredSortedData,
   initialState.selectedMetric
@@ -208,20 +178,20 @@ console.log(newProcessedData)
       y: {
         stacked: true,
         grid: {
-          color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
-          borderColor: "rgb(240,255,240)",
+        color: "rgb(41,51,64)", // This will change the gridline color
+        borderColor: "rgb(240,255,240)",
         },
         ticks: {
-          color: "rgb(0,0,0)", // This will change the axis text label color
+        color: "rgb(240,255,240)", // This will change the axis text label color
         },
       },
       x: {
         stacked: true,
         grid: {
-          color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
+        color: "rgb(41,51,64)", // This will change the gridline color
         },
         ticks: {
-          color: "rgb(0,0,0)", // This will change the axis text label color
+        color: "rgb(240,255,240)", // This will change the axis text label color
         },
       },
     },
@@ -229,12 +199,7 @@ console.log(newProcessedData)
   });
 }
 
-
-
 fetchData();
-
-
-
 
 </script>
 
