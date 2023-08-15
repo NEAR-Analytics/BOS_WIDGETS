@@ -517,11 +517,10 @@ const CandidateProps = props.data.nominations ?? {
 
 //Get basic original comments info
 let originalComments = state.comments.filter(
-  (comment) => comment.originalCommentId === articleToRenderData.realArticleId
+  (comment) =>
+    comment.value.comment.originalCommentId ===
+    articleToRenderData.realArticleId
 );
-
-console.log("SC: ", state.comments);
-console.log("originalComments: ", originalComments);
 
 //Add answers to original comments
 originalComments = originalComments.map((originalComment) => {
