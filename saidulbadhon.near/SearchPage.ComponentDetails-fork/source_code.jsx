@@ -85,7 +85,7 @@ const TabsButton = styled.a`
 
   &::after {
     content: "";
-    display: ${(p) => (p.selected ? "block" : "none")};
+    display: ${(p) => (p.selected ? theme.buttonColor : theme.textColor3)};
     position: absolute;
     bottom: 0;
     left: 0;
