@@ -86,11 +86,13 @@ const handleAddKudo = () => {
       contractName: socialContract,
       methodName: "set",
       args: {
-        index: {
-          notify: JSON.stringify({
-            key: state.receiverId,
-            value: { type: "kudo_created" },
-          }),
+        data: {
+          index: {
+            notify: JSON.stringify({
+              key: state.receiverId,
+              value: { type: "kudo_created" },
+            }),
+          },
         },
       },
     },
@@ -101,8 +103,10 @@ const handleAddKudo = () => {
       contractName: socialContract,
       methodName: "set",
       args: {
-        index: {
-          notify: JSON.stringify(mentionData),
+        data: {
+          index: {
+            notify: JSON.stringify(mentionData),
+          },
         },
       },
     });
