@@ -3,6 +3,8 @@ if (!accountId) {
   return "You need to login with your Near wallet first!";
 }
 
+console.log("PROPS", props);
+
 const contractId = "app.chess-game.near";
 const socialContractId = "social.near";
 const headerWidget = "chess-game.near/widget/ChessGameHeader";
