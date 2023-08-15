@@ -53,8 +53,8 @@ const curatedComps = [
     icon: "bi-money",
     components: [
       {
-        accountId: "mob.near",
-        widgetName: "CopyButton",
+        accountId: "ndcplug.near",
+        widgetName: "Linktree.Main",
       },
     ],
   },
@@ -73,6 +73,17 @@ const curatedComps = [
     category: "Gaming",
     id: "gaming",
     icon: "bi-money",
+    components: [
+      {
+        accountId: "mob.near",
+        widgetName: "CopyButton",
+      },
+    ],
+  },
+  {
+    category: "NEAR APIs JS Examples",
+    id: "naj",
+    icon: "bi-infinity",
     components: [
       {
         accountId: "mob.near",
@@ -196,6 +207,12 @@ const curatedComps = [
         widgetName: "SerchComponent",
       },
     ],
+  },
+  {
+    category: "DevTooling",
+    id: "tooling",
+    icon: "bi-toolbox",
+    components: [{ accountId: "sourcescan.near", widgetName: "SourceScan" }],
   },
   {
     category: "Time and Date",
