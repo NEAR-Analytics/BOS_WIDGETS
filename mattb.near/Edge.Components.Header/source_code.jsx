@@ -5,8 +5,8 @@ const NAV_LINKS = [
   ["Home", "#"],
   ["About", "#about"],
   ["Speakers", "#speakers"],
-  ["Program", "#program"],
-  ["Sponsors", "#sponsors"],
+  ["Program", "#programs"],
+  ["Partners", "#partners"],
   ["FAQ", "#faq"],
 ];
 
