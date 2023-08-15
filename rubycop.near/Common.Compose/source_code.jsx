@@ -1,4 +1,5 @@
-const { handleChange, rows, placeholder, type, withoutSeparator } = props;
+const { handleChange, rows, placeholder, type, withoutSeparator, getMentions } =
+  props;
 
 State.init({
   text: props.initialText || "",
@@ -13,6 +14,7 @@ const onSelect = (id) => {
   }
   State.update({ text, showAccountAutocomplete: false });
 
+  if (getMentions) getMentions(id);
   if (handleChange) handleChange(text);
 };
 
