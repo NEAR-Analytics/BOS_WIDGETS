@@ -272,10 +272,13 @@ return (
           {new Date(data.value.comment.timestamp).toDateString()}
         </TimestampTextComment>
       </TimestampCommentDiv>
-      //{" "}
       <Widget
         src={widgets.reactions}
-        props={{ isTest, authorForWidget, elementReactedId: data }}
+        props={{
+          isTest,
+          authorForWidget,
+          elementReactedId: data.value.comment.commentId,
+        }}
       />
     </CommentCardLowerSection>
   </CommentCard>
