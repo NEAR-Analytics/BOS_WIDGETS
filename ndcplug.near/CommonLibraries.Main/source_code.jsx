@@ -9,8 +9,8 @@ const curatedComps = [
     icon: "bi-camera",
     components: [
       {
-        accountId: "mob.near",
-        widgetName: "CopyButton",
+        accountId: "mintbase.near",
+        widgetName: "nft-marketplace",
       },
     ],
   },
@@ -20,8 +20,8 @@ const curatedComps = [
     icon: "bi-diamond",
     components: [
       {
-        accountId: "mob.near",
-        widgetName: "CopyButton",
+        accountId: "hackerhouse.near",
+        widgetName: "EVMComponents",
       },
     ],
   },
@@ -31,8 +31,48 @@ const curatedComps = [
     icon: "bi-building",
     components: [
       {
-        accountId: "mob.near",
-        widgetName: "CopyButton",
+        accountId: "easypoll-v0.ndc-widgets.near",
+        widgetName: "EasyPoll",
+      },
+      {
+        accountId: "mattb.near",
+        widgetName: "NDC.Views.Home",
+      },
+      {
+        accountId: "neardigitalcollective.near",
+        widgetName: "NDCDocs",
+      },
+      {
+        accountId: "neardigitalcollective.near",
+        widgetName: "Gigs",
+      },
+      {
+        accountId: "nomination.ndctools.near",
+        widgetName: "NDC.Nomination.Page",
+      },
+      {
+        accountId: "kudos.ndctools.near",
+        widgetName: "NDC.Kudos.Main",
+      },
+      {
+        accountId: "sayalot.near",
+        widgetName: "SayALot",
+      },
+      {
+        accountId: "dokxo.near",
+        widgetName: "FASTSBT",
+      },
+      {
+        accountId: "ndcplug.near",
+        widgetName: "NDC.SBT.main",
+      },
+      {
+        accountId: "minorityprogrammers.near",
+        widgetName: "IAH-Gate",
+      },
+      {
+        accountId: "ndcplug.near",
+        widgetName: "BlueCheck.helper",
       },
     ],
   },
@@ -42,8 +82,40 @@ const curatedComps = [
     icon: "bi-money",
     components: [
       {
-        accountId: "mob.near",
-        widgetName: "CopyButton",
+        accountId: "meta-pool-official.near",
+        widgetName: "MetaPoolStakeEth",
+      },
+      {
+        accountId: "azbang.near",
+        widgetName: "StakeHERE",
+      },
+      {
+        accountId: "aave-v3.near",
+        widgetName: "AAVE",
+      },
+      {
+        accountId: "ref-admin.near",
+        widgetName: "ZKEVM.GAMMA",
+      },
+      {
+        accountId: "ref-admin.near",
+        widgetName: "ZKEVMSwap.zkevm-swap",
+      },
+      {
+        accountId: "chanon.near",
+        widgetName: "1inch",
+      },
+      {
+        accountId: "syi216.near",
+        widgetName: "GNS-Container",
+      },
+      {
+        accountId: "alotaco.near",
+        widgetName: "SushiSwap",
+      },
+      {
+        accountId: "tribos.near",
+        widgetName: "swap",
       },
     ],
   },
@@ -53,8 +125,24 @@ const curatedComps = [
     icon: "bi-money",
     components: [
       {
+        accountId: "near",
+        widgetName: "ProfilePage",
+      },
+      {
+        accountId: "mob.near",
+        widgetName: "ProfilePage",
+      },
+      {
         accountId: "ndcplug.near",
         widgetName: "Linktree.Main",
+      },
+      {
+        accountId: "ndcplug.near",
+        widgetName: "Linktree.Main",
+      },
+      {
+        accountId: "proofofvibes.near",
+        widgetName: "Vibes.DAO.Main",
       },
     ],
   },
@@ -64,8 +152,8 @@ const curatedComps = [
     icon: "bi-money",
     components: [
       {
-        accountId: "mob.near",
-        widgetName: "CopyButton",
+        accountId: "baam25.near",
+        widgetName: "PrayerTimes",
       },
     ],
   },
@@ -75,8 +163,71 @@ const curatedComps = [
     icon: "bi-money",
     components: [
       {
+        accountId: "microchipgnu.near",
+        widgetName: "Game.FlappyBOS",
+      },
+      {
+        accountId: "let45fc.near",
+        widgetName: "LaserChess3D",
+      },
+      {
+        accountId: "chess-game.near",
+        widgetName: "ChessGameLobby",
+      },
+    ],
+  },
+  {
+    category: "DAO",
+    id: "dao",
+    icon: "bi-judge",
+    components: [
+      {
+        accountId: "sking.near",
+        widgetName: "DAO.Page",
+      },
+      {
+        accountId: "hack.near",
+        widgetName: "DAO.Page",
+      },
+      {
+        accountId: "frichard5.near",
+        widgetName: "NDC-Page",
+      },
+      {
+        accountId: "onboarder.near",
+        widgetName: "DAOSocialSearch",
+      },
+      {
+        accountId: "frichard5.near",
+        widgetName: "SputnikBOS.Home",
+      },
+      {
+        accountId: "hack.near",
+        widgetName: "DAO.Profile.Editor",
+      },
+      {
+        accountId: "hack.near",
+        widgetName: "CreateDAO",
+      },
+      {
+        accountId: "sking.near",
+        widgetName: "DAO.Permissions",
+      },
+      {
+        accountId: "sking.near",
+        widgetName: "DAO.PermissionsHelper",
+      },
+      {
         accountId: "mob.near",
-        widgetName: "CopyButton",
+        widgetName: "DAO.Main",
+      },
+      {
+        accountId: "hack.near",
+        widgetName: "Every.DAO",
+      },
+      {
+        accountId: "ndcplug.near",
+        widgetName: "DAO.main.sidebar",
       },
     ],
   },
@@ -86,8 +237,16 @@ const curatedComps = [
     icon: "bi-infinity",
     components: [
       {
-        accountId: "mob.near",
-        widgetName: "CopyButton",
+        accountId: "ndcplug.near",
+        widgetName: "Transfer",
+      },
+      {
+        accountId: "bluntdao.near",
+        widgetName: "RequestASesh",
+      },
+      {
+        accountId: "iam_prometheus.near",
+        widgetName: "genadropMinter",
       },
     ],
   },
@@ -97,8 +256,12 @@ const curatedComps = [
     icon: "bi-brush",
     components: [
       {
-        accountId: "mob.near",
-        widgetName: "CopyButton",
+        accountId: "nomination.ndctools.near",
+        widgetName: "NDC.StyledComponents",
+      },
+      {
+        accountId: "nearui.near",
+        widgetName: "index",
       },
     ],
   },
@@ -114,24 +277,51 @@ const curatedComps = [
     ],
   },
   {
+    category: "Data",
+    id: "data",
+    icon: "bi-link",
+    components: [
+      {
+        accountId: "frichard2.near",
+        widgetName: "most-active-contracts",
+      },
+      {
+        accountId: "mob.near",
+        widgetName: "Explorer",
+      },
+      {
+        accountId: "dataplatform.near",
+        widgetName: "QueryApi.Dashboard",
+      },
+    ],
+  },
+  {
     category: "Complex Apps",
     id: "complex",
     icon: "bi-spin",
     components: [
       {
         accountId: "nearhorizon.near",
-        widgetName: "CopyButton",
+        widgetName: "Index",
+      },
+      {
+        accountId: "devgovgigs.near",
+        widgetName: "Ideas",
+      },
+      {
+        accountId: "astraplusplus.ndctools.near",
+        widgetName: "index",
       },
     ],
   },
   {
     category: "Helper Components",
     id: "helper",
-    icon: "bi-money",
+    icon: "bi-wave",
     components: [
       {
-        accountId: "mob.near",
-        widgetName: "CopyButton",
+        accountId: "proofofvibes.near",
+        widgetName: "LocationHelper",
       },
     ],
   },
@@ -186,6 +376,25 @@ const curatedComps = [
       {
         accountId: "peechz.near",
         widgetName: "TwitterFollowButton",
+      },
+    ],
+  },
+  {
+    category: "Landing Page",
+    icon: "bi-land",
+    id: "landing",
+    components: [
+      {
+        accountId: "mattb.near",
+        widgetName: "Edge.Views.Home",
+      },
+      {
+        accountId: "mob.near",
+        widgetName: "ComponentSearch.Item",
+      },
+      {
+        accountId: "manzanal.near",
+        widgetName: "SerchComponent",
       },
     ],
   },
