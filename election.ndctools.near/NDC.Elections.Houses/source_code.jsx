@@ -1,6 +1,6 @@
-const { houses, electionContract, selectedHouse, handleSelect, votesLeft } =
+let { houses, ids, electionContract, selectedHouse, handleSelect, votesLeft } =
   props;
-
+ids = props.ids ? ids : [1, 2, 3];
 State.init({ houses: houses ? houses : [] });
 
 if (!houses && electionContract) {
