@@ -93,8 +93,8 @@ const sbts = Near.view(registryContract, "sbt_tokens", {
 });
 
 State.update({
-  isKudoMinted: sbts.some((sbt) => sbt.owner === context.accountId),
-  isIAmHuman: isHuman[0][1].length > 0,
+  isKudoMinted: sbts && sbts.some((sbt) => sbt.owner === context.accountId),
+  isIAmHuman: isHuman && isHuman[0][1].length > 0,
 });
 
 getKudos();
