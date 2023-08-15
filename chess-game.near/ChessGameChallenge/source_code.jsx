@@ -149,8 +149,55 @@ const updateChallengedId = ({ target }) => {
   State.update({ challenged_id: target.value });
 };
 const challenge = () => {
-  Near.call(contractId, "challenge", {
-    challenged_id: state.challenged_id,
+  Near.asyncView(contractId, "storage_balance_of", {
+    account_id: state.challenged_id,
+  }).then((isRegistered) => {
+    isRegistered = !!isRegistered;
+    console.log("isRegistered", isRegistered);
+    if (isRegistered) {
+      Near.call(contractId, "challenge", {
+        challenged_id: state.challenged_id,
+      });
+    } else {
+      asyncFetch("https://rpc.mainnet.near.org", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: "dontcare",
+          method: "query",
+          params: {
+            request_type: "view_account",
+            finality: "final",
+            account_id: state.challenged_id,
+          },
+        }),
+      }).then((res) => {
+        console.log("RES", res);
+        if (!res.ok || res.body.error) {
+          return;
+        }
+        Near.call([
+          {
+            contractName: contractId,
+            methodName: "storage_deposit",
+            args: {
+              account_id: state.challenged_id,
+            },
+            deposit: "50000000000000000000000",
+          },
+          {
+            contractName: contractId,
+            methodName: "challenge",
+            args: {
+              challenged_id: state.challenged_id,
+            },
+          },
+        ]);
+      });
+    }
   });
 };
 const acceptChallenge = (challenge_id) => () => {
@@ -263,6 +310,10 @@ return (
         No open challenges found.
         <br />
         Challenge your first opponent now below!
+        <br />
+        If your opponent already registered with the contract, he will show up
+        in the list. If he is not registered you need to pay the storage deposit
+        for him.
       </span>
     ) : (
       renderOpenChallenges(state.openChallenges)
