@@ -177,30 +177,45 @@ const StakeFormWrapper = styled.div`
   width: 100%;
   max-width: 500px;
   padding-top: 10px;
-  background: #1A2E33;
+  background: #25283A;
   border-radius: 16px;
   margin-top:20px;
   padding-bottom:20px;
   .contentArea{
-    background: red;
+    background: #25283A;
     border-radius: 16px;
-    padding:20px 30px;
+    padding:20px 30px 0 30px;
+  }
+  .arr .bigIcon{
+    background: #373A53;
+  }
+  .arr .boldText{
+    font-weight: 500;
+  }
+  .arr .apr{
+    color: #7C7F96;
+  }
+  .arr .apr .value{
+    color:#FFFFFF;
+     font-weight: 500;
   }
 `;
 return (
   <StakeFormWrapper>
-    <Widget
-      src={`${config.ownerId}/widget/stake-bannerIcon`}
-      props={{
-        firstIconName: "NEAR",
-        firstIconUrl:
-          "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-        secondIconName: "LiNEAR",
-        secondIconUrl:
-          "https://ipfs.near.social/ipfs/bafkreie2nqrjdjka3ckf4doocsrip5hwqrxh37jzwul2nyzeg3badfl2pm",
-        componentType: "liNEAR",
-      }}
-    ></Widget>
+    <div class="arr">
+      <Widget
+        src={`${config.ownerId}/widget/stake-bannerIcon`}
+        props={{
+          firstIconName: "NEAR",
+          firstIconUrl:
+            "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+          secondIconName: "",
+          secondIconUrl:
+            "https://ipfs.near.social/ipfs/bafkreie2nqrjdjka3ckf4doocsrip5hwqrxh37jzwul2nyzeg3badfl2pm",
+          componentType: "liNEAR",
+        }}
+      ></Widget>
+    </div>
     <div class="contentArea">
       <Widget
         src={`${config.ownerId}/widget/LiNEAR.Input`}
