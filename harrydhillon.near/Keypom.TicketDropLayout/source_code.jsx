@@ -35,6 +35,18 @@ font-style: normal;
 font-weight: 500;
 `;
 
+
+const BottomStyledContainer = styled.div`
+  background-color: white;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+`;
+
 const AllSteps = [
   {
     label: "Event Info",
@@ -115,15 +127,17 @@ const formContent = () => {
         </div>
         {componentsToRender[state.index]}
       </FormBackground>
-      <div style={{backgroundColor:"white",width:'100%',padding:10,display:'flex',justifyContent:'space-between',bottom:50,left:0,position:'absolute'}}>
-      <button disabled={state.index===0} style={{backgroundColor:"transparent",color:"black",borderWidth:0,}}>
+      <BottomStyledContainer>
+      <button disabled={state.index===0} style={{backgroundColor:"transparent",color:"black",borderWidth:0,paddingLeft:10,paddingRight:10}}  onClick={()=>{
+        State.update({index:state.index-1})
+      }}>
       Back
       </button>
       <button onClick={()=>{
         State.update({index:state.index+1})
       }} style={{backgroundColor:"black"}}>
       Next
-      </button></div>
+      </button></BottomStyledContainer>
     </>
   );
 };
