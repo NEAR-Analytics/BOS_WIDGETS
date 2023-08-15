@@ -1,3 +1,6 @@
+// tab isn't rerederning properly
+// add better icons and actually populate components
+// pass in props so can keep track of state
 const ownerId = "manzanal.near";
 const curatedComps = [
   {
