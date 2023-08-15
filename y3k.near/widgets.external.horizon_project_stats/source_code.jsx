@@ -182,7 +182,7 @@ console.log(newProcessedData)
         borderColor: "rgb(240,255,240)",
         },
         ticks: {
-        color: "rgb(240,255,240)", // This will change the axis text label color
+          color: "rgb(0,0,0)", // This will change the axis text label color
         },
       },
       x: {
@@ -191,7 +191,7 @@ console.log(newProcessedData)
         color: "rgb(41,51,64)", // This will change the gridline color
         },
         ticks: {
-        color: "rgb(240,255,240)", // This will change the axis text label color
+          color: "rgb(0,0,0)", // This will change the axis text label color
         },
       },
     },
