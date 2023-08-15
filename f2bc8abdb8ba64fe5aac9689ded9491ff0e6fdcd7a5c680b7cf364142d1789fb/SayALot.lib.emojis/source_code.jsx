@@ -51,7 +51,11 @@ function getReactionsData(props) {
     order: "desc",
   });
 
-  console.log("allReactions: ", allReactions);
+  if (
+    elementReactedId ==
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702391533"
+  )
+    console.log("allReactions: ", allReactions);
 
   const uniqueAccounts = [];
   let arrayLastReactionForEachUser =
@@ -64,11 +68,23 @@ function getReactionsData(props) {
       return false;
     });
 
+  if (
+    elementReactedId ==
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702391533"
+  )
+    console.log("arrayLastReactionForEachUser: ", arrayLastReactionForEachUser);
+
   const userReaction =
     arrayLastReactionForEachUser &&
     arrayLastReactionForEachUser.find((obj) => {
-      return obj.accountId === accountThatIsLoggedIn;
+      return obj.accountId === context.accountId;
     });
+
+  if (
+    elementReactedId ==
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702391533"
+  )
+    console.log("userReaction: ", userReaction);
 
   if (userReaction) {
     const newArrayOfLastReactions = arrayLastReactionForEachUser.filter(
