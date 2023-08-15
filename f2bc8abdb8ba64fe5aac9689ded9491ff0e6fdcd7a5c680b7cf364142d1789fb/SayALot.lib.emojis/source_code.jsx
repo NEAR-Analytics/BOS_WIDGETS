@@ -120,7 +120,7 @@ function libCall(call) {
   if (call.functionName === "createReaction") {
     return createReaction(call.props);
   } else if (call.functionName === "getReactionsData") {
-    return getReactionsData(props);
+    return getReactionsData(call.props);
   }
 }
 
