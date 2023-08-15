@@ -43,15 +43,14 @@ const Header = styled.div`
   }
 `;
 
-const TagsWrapper = styled.div`
-  margin-bottom: 32px;
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
-const Actions = styled.div`
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
+const TagsWrapper = styled.div`
+  margin-bottom: 32px;
 `;
 
 const Title = styled.h1`
@@ -86,34 +85,6 @@ const Thumbnail = styled.div`
   @media (max-width: 770px) {
     width: 58px;
     height: 58px;
-  }
-`;
-
-const sharedButtonStyles = `
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  height: 32px;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  text-align: center;
-  cursor: pointer;
-
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    outline: none;
-  }
-
-  i {
-    color: #7E868C;
-  }
-
-  .bi-16 {
-    font-size: 16px;
   }
 `;
 
@@ -159,24 +130,37 @@ const Text = styled.p`
 
 return (
   <Wrapper>
-    <Header size={size}>
-      <Thumbnail size={size}>
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: metadata.image,
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreifc4burlk35hxom3klq4mysmslfirj7slueenbj7ddwg7pc6ixomu",
-            alt: metadata.name,
-          }}
-        />
-      </Thumbnail>
-
-      <div>
-        <Title size={size}>{metadata.name || name}</Title>
-        <Text ellipsis>{src}</Text>
-      </div>
-    </Header>
+    <Row>
+      <Header size={size}>
+        <Thumbnail size={size}>
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: metadata.image,
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreifc4burlk35hxom3klq4mysmslfirj7slueenbj7ddwg7pc6ixomu",
+              alt: metadata.name,
+            }}
+          />
+        </Thumbnail>
+        <div>
+          <Title size={size}>{metadata.name || name}</Title>
+          <Text ellipsis>{src}</Text>
+        </div>
+      </Header>
+      <Header size={size}>
+        {context.accountId !== accountId && (
+          <Widget
+            src="hack.near/widget/ForkButton"
+            props={{
+              accountId,
+              type,
+              name,
+            }}
+          />
+        )}
+      </Header>
+    </Row>
 
     {tags.length > 0 && (
       <TagsWrapper>
@@ -187,17 +171,6 @@ return (
           }}
         />
       </TagsWrapper>
-    )}
-
-    {context.accountId !== accountId && (
-      <Widget
-        src="hack.near/widget/ForkButton"
-        props={{
-          accountId,
-          type,
-          name,
-        }}
-      />
     )}
   </Wrapper>
 );
