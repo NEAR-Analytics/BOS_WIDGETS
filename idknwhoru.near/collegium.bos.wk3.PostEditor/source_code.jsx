@@ -4,8 +4,6 @@ State.init({
   content: "",
 });
 
-console.log(Social.index("collegium.post", "main"));
-
 const updateTitle = (titlechangeEvent) => {
   State.update({ title: titlechangeEvent.target.value });
 };
