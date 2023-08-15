@@ -551,26 +551,28 @@ return (
             style: { width: "70px", height: "70px" },
           }}
         />
-        <HeaderDetailContent>
-          <TagContainer>
-            <HouseTagDiv>
-              <HouseTagText style={{ "font-size": "10px" }}>
-                {props.house == "HouseOfMerit"
-                  ? "House of Merit"
-                  : props.house == "CouncilOfAdvisors"
-                  ? "Council of Advisors"
-                  : "Transparency Commission"}
-              </HouseTagText>
-            </HouseTagDiv>
-          </TagContainer>
-          <NominationTitleContainer>
-            <UserLink
-              href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
-            >
-              <NominationTitle>{CandidateProps.name}</NominationTitle>
-              <NominationUser>{accountId}</NominationUser>
-            </UserLink>
-          </NominationTitleContainer>
+        <div>
+          <HeaderDetailContent>
+            <TagContainer>
+              <HouseTagDiv>
+                <HouseTagText style={{ "font-size": "10px" }}>
+                  {props.house == "HouseOfMerit"
+                    ? "House of Merit"
+                    : props.house == "CouncilOfAdvisors"
+                    ? "Council of Advisors"
+                    : "Transparency Commission"}
+                </HouseTagText>
+              </HouseTagDiv>
+            </TagContainer>
+            <NominationTitleContainer>
+              <UserLink
+                href={`https://near.org/near/widget/ProfilePage?accountId=${accountId}`}
+              >
+                <NominationTitle>{CandidateProps.name}</NominationTitle>
+                <NominationUser>{accountId}</NominationUser>
+              </UserLink>
+            </NominationTitleContainer>
+          </HeaderDetailContent>
           <TagContainer>
             {CandidateProps.tags
               .trim()
@@ -586,7 +588,7 @@ return (
                 ) : null;
               })}
           </TagContainer>
-        </HeaderDetailContent>
+        </div>
         {data.nominations.video.length > 0 && (
           <Widget
             src={widgets.styledComponents}
