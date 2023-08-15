@@ -1,4 +1,4 @@
-// BAL
+// BAL Pro MAX
 
 const profile = {
   avatar:
