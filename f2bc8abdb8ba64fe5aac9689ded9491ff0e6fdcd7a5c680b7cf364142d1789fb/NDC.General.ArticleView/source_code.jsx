@@ -536,7 +536,6 @@ originalComments = originalComments.map((originalComment) => {
     answers,
   };
 });
-console.log("originalComments 2: ", originalComments);
 
 function stateUpdate(obj) {
   State.update(obj);
