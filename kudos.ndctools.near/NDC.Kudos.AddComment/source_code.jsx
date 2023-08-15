@@ -127,7 +127,7 @@ const handleAddComment = () => {
         kudos_id: kudo.id,
         message,
       },
-      gas: "300000000000000",
+      gas: "250000000000000",
       deposit: 17000000000000000000000,
     },
   ];
@@ -143,6 +143,8 @@ const handleAddComment = () => {
           },
         },
       },
+      gas: "30000000000000",
+      deposit: 1000000000000000000000,
     });
 
   Near.call(data).then((data) => {
