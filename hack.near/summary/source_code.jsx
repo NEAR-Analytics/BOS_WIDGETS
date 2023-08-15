@@ -1,4 +1,4 @@
-const src = props.src ?? "hack.near/thing/library";
+const src = props.src ?? "hack.near/widget/Academy";
 const primaryAction = props.primaryAction || "viewDetails";
 const [accountId, type, name] = src.split("/");
 const data = Social.get(`${accountId}/${type}/${name}/metadata/**`);
@@ -12,17 +12,6 @@ const size = props.size || "large";
 State.init({
   copiedShareUrl: false,
 });
-
-const primaryActions = {
-  open: {
-    display: "Open",
-    url: appUrl,
-  },
-  viewDetails: {
-    display: "View Details",
-    url: detailsUrl,
-  },
-};
 
 const sizes = {
   medium: {
@@ -189,7 +178,7 @@ return (
       </div>
     </Header>
 
-    {props.showTags && tags.length > 0 && (
+    {tags.length > 0 && (
       <TagsWrapper>
         <Widget
           src="near/widget/Tags"
@@ -200,51 +189,15 @@ return (
       </TagsWrapper>
     )}
 
-    <Actions>
-      <ButtonLink primary href={primaryActions[primaryAction].url}>
-        {primaryActions[primaryAction].display}
-      </ButtonLink>
-
-      <ButtonLink href={`#/edit/${src}`}>
-        {context.accountId === accountId ? (
-          <>
-            <i className="bi bi-pencil-fill"></i> Edit
-          </>
-        ) : (
-          <>
-            <i className="bi bi-git"></i> Fork
-          </>
-        )}
-      </ButtonLink>
-
-      <ButtonLink href={`${detailsUrl}&tab=source`}>
-        <i className="bi bi-code-square"></i>
-        View Source
-      </ButtonLink>
-
-      <OverlayTrigger
-        placement="top"
-        overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
-      >
-        <Button
-          type="button"
-          onMouseLeave={() => {
-            State.update({ copiedShareUrl: false });
-          }}
-          onClick={() => {
-            clipboard.writeText(shareUrl).then(() => {
-              State.update({ copiedShareUrl: true });
-            });
-          }}
-        >
-          {state.copiedShareUrl ? (
-            <i className="bi bi-16 bi-check"></i>
-          ) : (
-            <i className="bi bi-16 bi-link-45deg"></i>
-          )}
-          Share
-        </Button>
-      </OverlayTrigger>
-    </Actions>
+    {context.accountId !== accountId && (
+      <Widget
+        src="hack.near/widget/ForkButton"
+        props={{
+          accountId,
+          type,
+          name,
+        }}
+      />
+    )}
   </Wrapper>
 );
