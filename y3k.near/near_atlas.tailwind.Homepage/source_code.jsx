@@ -114,10 +114,19 @@ return (
           }`}
         >
           <div>
-            <Widget
-              src="abhishekanirudhan.near/widget/NEAR.ATLAS.EconomyPage"
-              props={{}}
-            />
+            <div class="row ">
+              <Widget
+                src="y3k.near/widget/near_atlas.vis.total_supply"
+                props={{}}
+              />
+            </div>
+
+            <div class="row ">
+              <Widget
+                src="y3k.near/widget/near_atlas.vis.total_staked"
+                props={{}}
+              />
+            </div>
           </div>
         </div>
 
