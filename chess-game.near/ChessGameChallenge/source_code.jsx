@@ -186,14 +186,14 @@ const renderOpenChallenges = (challenges) => {
                 {challengerId.length > 20
                   ? challengerId.substr(0, 20) + "..."
                   : challengerId}{" "}
-                {challengerElo != null && <>({challengerElo})</>}
+                {challengerElo != null && <>({challengerElo.toFixed(2)})</>}
               </div>
               <div>vs</div>
               <div>
                 {challengedId.length > 20
                   ? challengedId.substr(0, 20) + "..."
                   : challengedId}{" "}
-                {challengedElo != null && <>({challengedElo})</>}
+                {challengedElo != null && <>({challengedElo.toFixed(2)})</>}
               </div>
             </ChallengeInfo>
             {!is_challenger && (
