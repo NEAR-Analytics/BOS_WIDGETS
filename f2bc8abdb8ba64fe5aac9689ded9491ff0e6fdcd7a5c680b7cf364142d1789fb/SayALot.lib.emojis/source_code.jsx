@@ -90,11 +90,6 @@ function getReactionsData(props) {
       return acc;
     }
 
-    console.log("acc: ", acc);
-    console.log("reactionObj: ", reactionObj);
-    console.log("wut?: ", acc.hasOwnProperty(reactionObj.value.reaction));
-    console.log("!wut?: ", !acc.hasOwnProperty(reactionObj.value.reaction));
-
     if (!acc.hasOwnProperty(reactionObj.value.reaction)) {
       acc[reactionObj.value.reaction] = {
         quantity: 0,
@@ -115,12 +110,13 @@ function getReactionsData(props) {
     return acc;
   }
   function countReactionsStats(arr) {
-    Object.values(arr.reduce(getReactionStats, {}));
+    return Object.values(arr.reduce(getReactionStats, {}));
   }
 
   let reactionsStatistics =
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
+
   console.log("reactionsStatistics: ", reactionsStatistics);
   //reactionsStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
 
