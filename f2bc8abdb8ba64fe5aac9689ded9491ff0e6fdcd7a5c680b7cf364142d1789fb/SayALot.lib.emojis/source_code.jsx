@@ -90,7 +90,11 @@ function getReactionsData(props) {
       return acc;
     }
 
+    console.log("acc: ", acc);
     console.log("reactionObj: ", reactionObj);
+    console.log("wut?: ", acc.hasOwnProperty(reactionObj.value.reaction));
+    console.log("!wut?: ", !acc.hasOwnProperty(reactionObj.value.reaction));
+
     if (!acc.hasOwnProperty(reactionObj.value.reaction)) {
       acc[reactionObj.value.reaction] = {
         quantity: 0,
