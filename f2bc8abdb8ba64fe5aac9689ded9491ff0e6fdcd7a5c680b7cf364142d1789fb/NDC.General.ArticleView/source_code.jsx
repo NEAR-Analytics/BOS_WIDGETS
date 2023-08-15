@@ -867,7 +867,10 @@ return (
                   }}
                 />
                 {comments.map((data) => (
-                  <Widget props={{ widgets, data }} src={widgets.comment} />
+                  <Widget
+                    props={{ widgets, data, isTest, authorForWidget }}
+                    src={widgets.comment}
+                  />
                 ))}
               </CommentSection>
             )}
