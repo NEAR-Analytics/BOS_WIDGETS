@@ -186,6 +186,9 @@ const StakeFormWrapper = styled.div`
     border-radius: 16px;
     padding:20px 30px 0 30px;
   }
+  .contentArea p{
+    color: #7C7F96;
+  }
   .arr .bigIcon{
     background: #373A53;
   }
@@ -197,7 +200,10 @@ const StakeFormWrapper = styled.div`
   }
   .arr .apr .value{
     color:#FFFFFF;
-     font-weight: 500;
+    font-weight: 500;
+  }
+  .footer p{
+    color:#FFFFFF;
   }
 `;
 return (
@@ -236,10 +242,12 @@ return (
           text: "Stake",
         }}
       />
-      <Widget
-        src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
-        props={{ text: `${formattedReceivedLinear} LiNEAR` }}
-      />
+      <div class="footer">
+        <Widget
+          src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
+          props={{ text: `${formattedReceivedLinear}` }}
+        />
+      </div>
     </div>
   </StakeFormWrapper>
 );
