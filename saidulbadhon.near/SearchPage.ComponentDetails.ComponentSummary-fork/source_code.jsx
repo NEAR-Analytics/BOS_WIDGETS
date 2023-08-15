@@ -14,6 +14,7 @@ const appUrl = `/components/${src}`;
 const detailsUrl = `/editor/${src}`;
 const shareUrl = `https://nearpad.dev/components/${src}`;
 const size = props.size || "large";
+const theme = props.theme;
 
 const primaryActions = {
   open: {
@@ -70,7 +71,7 @@ const Actions = styled.div`
 const Title = styled.h1`
   font-size: ${(p) => sizes[p.size].title};
   line-height: 1.2em;
-  color: #11181c;
+  color: ${theme.textColor};
   margin: 0 0 8px;
   font-weight: 600;
 
