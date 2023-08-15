@@ -89,6 +89,8 @@ function getReactionsData(props) {
     if (reactionObj.value.reaction === initialEmoji) {
       return acc;
     }
+
+    console.log("reactionObj: ", reactionObj);
     if (!acc.hasOwnProperty(reactionObj.value.reaction)) {
       acc[reactionObj.value.reaction] = {
         quantity: 0,
