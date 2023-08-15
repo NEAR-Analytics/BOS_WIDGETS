@@ -288,7 +288,7 @@ const approveErc20Token = () => {
             onApproving: false,
             approvalNeeded: false,
           });
-        }, 10000);
+        }, 15000);
       });
   });
 };
@@ -395,7 +395,10 @@ const confirmTransaction = () => {
     sqrtPriceLimitD18: 0,
   };
   const overrides = {
-    value: amountIn,
+    value:
+      state.tokenSendSelected.name == "ETH"
+        ? amountIn
+        : ethers.utils.parseUnits("0", state.tokenSendSelected.decimals),
     gasLimit: 2303039,
   };
   try {
@@ -414,7 +417,7 @@ const confirmTransaction = () => {
           poolSelected: null,
           onSwap: false,
         });
-      }, 10000);
+      }, 15000);
     });
   } catch (err) {
     console.log(err);
