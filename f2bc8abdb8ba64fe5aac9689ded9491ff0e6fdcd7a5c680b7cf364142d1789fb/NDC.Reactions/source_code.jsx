@@ -192,7 +192,6 @@ function handleOnMouseLeave() {
 }
 
 function onPushEnd() {
-  console.log("in");
   State.update({ loading: false, show: false });
 }
 
@@ -448,7 +447,10 @@ return (
           {initialEmoji}
         </Button>
       ) : (
-        <SmallReactButton>
+        <SmallReactButton
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseLeave}
+        >
           {state.loading && <Spinner />}
           {state.reactionsData.reactionsStatistics &&
             state.reactionsData.reactionsStatistics.map((item) =>
