@@ -65,19 +65,6 @@ const Program = styled.div`
     }
 `;
 
-const Background = styled.img`
-    display:block;
-    width:100%;
-    height:100%;
-    max-width:150px;
-    max-height:150px;
-    margin:0 auto;
-    background-position:center;
-    background-repeat:no-repeat;
-    background-size:cover;
-    border-radius:100%;
-`;
-
 const Schedule = styled.div`
     .title {
         text-align:left;
@@ -95,6 +82,13 @@ const Schedule = styled.div`
         li {
             display:flex;
             padding:.5rem;
+            transition: all .2s;
+
+            &:hover {
+                background-color:#000;
+                color:#fff;
+                transition: all .2s;
+            }
 
             &:not(:last-of-type) {
                 margin-bottom:1rem;
@@ -102,7 +96,8 @@ const Schedule = styled.div`
 
             div:first-of-type {
                 min-width:180px;
-                text-align:left;
+                margin-right:20px;
+                text-align:right;
             }
             
             div + div {
