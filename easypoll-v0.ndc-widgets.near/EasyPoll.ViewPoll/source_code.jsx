@@ -6,6 +6,7 @@ const accountId = props.accountId ?? context.accountId;
 const tabs = props.tabs;
 const indexVersion = props.indexVersion ?? "4.0.0";
 const isHuman = props.isHuman;
+const isOg = props.isOg;
 const blockHeight = props.blockHeight ?? "final";
 const showDraft = props.showDraft ?? false;
 const isLoggedIn = accountId ? true : false;
@@ -21,6 +22,9 @@ if (poll === null) {
 if (poll === undefined) {
   return "404 Poll not found";
 }
+
+// pretify
+console.log("poll", poll);
 
 poll = JSON.parse(poll);
 poll.accountId = src.split("/")[0];
@@ -44,6 +48,7 @@ return (
         widgetOwner,
         blockHeight: blockHeight,
         isHuman,
+        isOg,
         poll: poll,
         userAnswers: userAnswers,
         indexVersion,
