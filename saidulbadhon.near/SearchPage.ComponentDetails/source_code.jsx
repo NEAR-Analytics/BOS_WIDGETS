@@ -17,7 +17,9 @@ const code = Social.get(`${accountId}/widget/${widgetName}`);
 const data = Social.get(`${accountId}/widget/${widgetName}/**`);
 const metadata = data.metadata;
 const tags = Object.keys(metadata.tags || {});
+const theme = props.theme;
 // const detailsUrl = `/adminalpha.near/widget/ComponentDetailsPage?src=${src}`;
+
 const detailsUrl = `/search/${src}`;
 const shareUrl = `https://alpha.near.org${detailsUrl}`;
 
@@ -72,7 +74,7 @@ const TabsButton = styled.a`
   font-size: 12px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  color: ${(p) => (p.selected ? theme.buttonColor : theme.textColor3)};
   background: none;
   border: none;
   outline: none;
