@@ -192,11 +192,9 @@ function handleOnMouseLeave() {
 }
 
 function onCommit(emojiToWrite) {
-  () => {
-    onPushEnd();
-    console.log("why not?");
-    updateReactionsStatisticsIfUserVoted(emojiToWrite);
-  };
+  onPushEnd();
+  console.log("why not?");
+  updateReactionsStatisticsIfUserVoted(emojiToWrite);
 }
 
 function onPushEnd() {
@@ -225,7 +223,7 @@ function reactListener(emojiMessage) {
     props: {
       elementReactedId,
       reaction: emojiToWrite,
-      onCommit: onCommit(emojiToWrite),
+      onCommit: onPushEnd,
       onCancel: onPushEnd,
     },
   });
