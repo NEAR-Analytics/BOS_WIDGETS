@@ -33,7 +33,7 @@ const RepostButton = styled.button`
   width: 35px;
   height: 35px;
   background: inherit;
-  &:hover {
+  &:not([disabled]):hover {
     opacity: 1 !important;
     color: rgb(0, 184, 124);
     background: rgb(0, 184, 124, 0.1);
@@ -116,7 +116,9 @@ const repostSvg = (
 return (
   <div className="d-inline-flex align-items-center">
     <RepostButton
-      disabled={state.loading || dataLoading || !context.accountId}
+      disabled={
+        props.disabled || state.loading || dataLoading || !context.accountId
+      }
       title={title}
       onClick={repostClick}
     >
