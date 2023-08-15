@@ -35,11 +35,12 @@ font-style: normal;
 font-weight: 500;
 `;
 
-
 const BottomStyledContainer = styled.div`
   background-color: white;
   width: 100%;
   padding: 10px;
+  padding-left:25px;
+  padding-right:25px;
   display: flex;
   justify-content: space-between;
   bottom: 0;
@@ -128,16 +129,30 @@ const formContent = () => {
         {componentsToRender[state.index]}
       </FormBackground>
       <BottomStyledContainer>
-      <button disabled={state.index===0} style={{backgroundColor:"transparent",color:"black",borderWidth:0,paddingLeft:10,paddingRight:10}}  onClick={()=>{
-        State.update({index:state.index-1})
-      }}>
-      Back
-      </button>
-      <button onClick={()=>{
-        State.update({index:state.index+1})
-      }} style={{backgroundColor:"black"}}>
-      Next
-      </button></BottomStyledContainer>
+        <button
+          disabled={state.index === 0}
+          style={{
+            backgroundColor: "transparent",
+            color: "black",
+            borderWidth: 0,
+            paddingLeft: 10,
+            paddingRight: 10,
+          }}
+          onClick={() => {
+            State.update({ index: state.index - 1 });
+          }}
+        >
+          Back
+        </button>
+        <button
+          onClick={() => {
+            State.update({ index: state.index + 1 });
+          }}
+          style={{ backgroundColor: "black" }}
+        >
+          Next
+        </button>
+      </BottomStyledContainer>
     </>
   );
 };
