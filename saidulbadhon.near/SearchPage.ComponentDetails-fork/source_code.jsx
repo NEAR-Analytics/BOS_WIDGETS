@@ -19,6 +19,7 @@ const metadata = data.metadata;
 const tags = Object.keys(metadata.tags || {});
 const detailsUrl = `/adminalpha.near/widget/ComponentDetailsPage?src=${src}`;
 const shareUrl = `https://nearpad.dev/${detailsUrl}`;
+const theme = props.theme;
 
 const dependencyMatch =
   code && code.matchAll(/<Widget[\s\S]*?src=.*?"(.+)"[\s\S]*?\/>/g);
@@ -191,6 +192,7 @@ return (
           size: "large",
           showTags: false,
           src,
+          theme
         }}
       />
     </SummaryWrapper>
