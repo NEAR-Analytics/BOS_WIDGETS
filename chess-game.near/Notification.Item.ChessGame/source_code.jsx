@@ -62,7 +62,7 @@ switch (value.item.type) {
     profile = Social.getr(`${notifierId}/profile`);
     L = (
       <>
-        {profile.name} accepted your {chessGameTrigger} challenge
+        {profile.name} rejected your {chessGameTrigger} challenge
       </>
     );
     R = "😢";
