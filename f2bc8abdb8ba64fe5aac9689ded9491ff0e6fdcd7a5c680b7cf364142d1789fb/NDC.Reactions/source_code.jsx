@@ -345,28 +345,32 @@ const SmallButtonSpan = styled.span`
 
 // =============== NEW CSS Styles ===============!!!!!!!!
 const EmojiWrapper = styled.div`
-display: inline-block;
-position: relative;
-overflow: visible !important;
-padding-left: 8px;
+  display: inline-block;
+  position: relative;
+  overflow: visible !important;
+  padding-left: 8px;
 `;
 
 const EmojiListWrapper = styled.div`
-display: flex;
-flex-wrap: wrap;
-padding: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+  
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+  position: absolute;
+  right: 0;
+  width: 370px;
+  max-width: 35vw;
+  flex-wrap: wrap;
+  display: ${({ show }) => (show ? "flex" : "none")};
+  transform: translateY(-10%);
+  zIndex: 2;
+`;
 
-background: white;
-border-radius: 1rem;
-box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
-position: absolute;
-right: 0;
-width: 370px;
-max-width: 35vw;
-flex-wrap: wrap;
-display: ${({ show }) => (show ? "flex" : "none")};
-transform: translateY(-10%);
-zIndex: 2;
+const CallLibrary = styled.div`
+  display: none;
 `;
 
 // =============== NEW JSX ===============!!!!!!!!
@@ -454,8 +458,9 @@ return (
           renderReaction(item, false)
         )}
     </EmojiWrapper>
-    <div style={{ display: "none" }}>
+
+    <CallLibrary>
       {callLibs(libSrcArray, reactionsStateUpdate, state.libCalls)}
-    </div>
+    </CallLibrary>
   </>
 );
