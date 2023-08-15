@@ -17,32 +17,20 @@ const widgets = {
 function getVerifiedHuman() {
   asyncFetch(
     `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registry_contract}`,
-    {
-      headers: {
-        "x-api-key": api_key,
-      },
-    }
+    { headers: { "x-api-key": api_key } }
   ).then((res) => {
     State.update({ verified: res.body });
   });
   asyncFetch(
     `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${accountId}&upvoter=${context.accountId}&contract=${nomination_contract}`,
-    {
-      headers: {
-        "x-api-key": api_key,
-      },
-    }
+    { headers: { "x-api-key": api_key } }
   ).then((res) => {
     State.update({ voted: res.body });
   });
 }
 
-if (state.start) {
-  getVerifiedHuman();
-  State.update({
-    start: false,
-  });
-}
+getVerifiedHuman();
+
 function handleUpVote() {
   Near.call(
     nomination_contract,
@@ -476,39 +464,41 @@ const CommentText = styled.p`
   margin: 0px;
 `;
 
-const CandidateProps = data.nominations;
-const comments = data.comments[0].comments;
-const afilations = JSON.parse(CandidateProps.afiliation);
+const candidateProps = data.nominations;
+if (!candidateProps) return <Loader />;
+
+const comments = data.comments[0] ? data.comments[0].comments : [];
+const afilations = JSON.parse(candidateProps.afiliation);
 const afilationsSort = afilations.sort(
-  (a, b) => new Date(b.end_date) - new Date(a.end_date)
+  (a, b) => new Date(a.end_date) - new Date(b.end_date)
 );
 
 const issues = [
   {
-    description: CandidateProps.HAYInvolve,
+    description: candidateProps.HAYInvolve,
     title:
       "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
   },
   {
-    description: CandidateProps.WIYStrategy,
+    description: candidateProps.WIYStrategy,
     title: "What is your strategy to develop the NEAR ecosystem?",
   },
   {
-    description: CandidateProps.Key_Issue_1,
+    description: candidateProps.Key_Issue_1,
     title:
       "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
   },
   {
-    description: CandidateProps.Key_Issue_2,
+    description: candidateProps.Key_Issue_2,
     title:
       "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
   },
   {
-    description: CandidateProps.Key_Issue_3,
+    description: candidateProps.Key_Issue_3,
     title:
       "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
   },
-  { description: CandidateProps.addition_platform, title: "Other Platform" },
+  { description: candidateProps.addition_platform, title: "Other Platform" },
 ];
 
 return (
@@ -539,7 +529,7 @@ return (
             <UserLink
               href={`https://near.org/near/widget/ProfilePage?accountId=${accountId}`}
             >
-              <NominationTitle>{CandidateProps.name}</NominationTitle>
+              <NominationTitle>{candidateProps.name}</NominationTitle>
               <NominationUser>{accountId}</NominationUser>
             </UserLink>
           </NominationTitleContainer>
@@ -577,7 +567,7 @@ return (
       </DetailHeader>
 
       <TagContainer className="mt-2 flex-wrap">
-        {CandidateProps.tags
+        {candidateProps.tags
           .trim()
           .split(",")
           .map((tag) => {
