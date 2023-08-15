@@ -153,10 +153,8 @@ return (
               props={{
                 label: "Tags",
                 placeholder: "Enter tags",
-                setTagsObject: (tags) => {
-                  if (state.tags.length > 0)
-                    State.update({ tags: Object.keys(tags) });
-                },
+                setTagsObject: (tags) =>
+                  State.update({ tags: Object.keys(tags) }),
               }}
             />
           </Section>
