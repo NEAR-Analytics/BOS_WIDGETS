@@ -395,16 +395,11 @@ return (
           alignItems: "center",
         }}
       >
-        <a
-          href={`https://near.org/near/widget/ProfilePage?accountId=${accountId}`}
-          target="_blank"
-        >
-          <h2 style={{ color: props.theme.textColor }}>
-            {profile.name || accountId}
-          </h2>
+        <h2 style={{ color: props.theme.textColor }}>
+          {profile.name || accountId}
+        </h2>
 
-          <h5 style={{ color: props.theme.textColor2 }}>@{accountId}</h5>
-        </a>
+        <h5 style={{ color: props.theme.textColor2 }}>@{accountId}</h5>
         {tags.length > 0 && (
           <Section>
             <Widget
