@@ -73,7 +73,6 @@ State.init({
   libCalls: initLibCalls,
 });
 const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle;
-console.log(canLoggedUserCreateArticle);
 
 const logoRemWidth = brand.logoRemWidth
   ? brand.logoRemWidth + "rem"
