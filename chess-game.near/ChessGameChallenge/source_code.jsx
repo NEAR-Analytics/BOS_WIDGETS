@@ -243,7 +243,7 @@ const renderEloRatings = (eloRatings) => {
     .map(([accountId, eloRating]) => (
       <SearchResult onClick={selectPlayer(accountId)}>
         {accountId.length > 20 ? accountId.substr(0, 20) + "..." : accountId}{" "}
-        (ELO: {eloRating})
+        (ELO: {eloRating.toFixed(2)})
       </SearchResult>
     ));
 };
