@@ -249,7 +249,7 @@ const formatName = (name) =>
 function closeModal() {
   State.update({ showModal: false });
 }
-console.log("data: ", data);
+
 return (
   <>
     <CommentCard>
@@ -321,20 +321,21 @@ return (
         />
       </CommentCardLowerSection>
     </CommentCard>
-    {data.answers.map((answer) => {
-      return (
-        <Widget
-          src={widgets.comment}
-          props={{
-            widgets,
-            data: answer,
-            orginalCommentData: data,
-            isTest,
-            authorForWidget,
-            isReply: true,
-          }}
-        />
-      );
-    })}
+    {!isReply &&
+      data.answers.map((answer) => {
+        return (
+          <Widget
+            src={widgets.comment}
+            props={{
+              widgets,
+              data: { originalComment: answer },
+              orginalCommentData: data,
+              isTest,
+              authorForWidget,
+              isReply: true,
+            }}
+          />
+        );
+      })}
   </>
 );
