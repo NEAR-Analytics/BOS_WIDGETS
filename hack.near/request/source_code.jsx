@@ -1,33 +1,3 @@
-if (
-  !props.accountId ||
-  !context.accountId ||
-  !props.type ||
-  !props.name ||
-  !props.ownerId ||
-  context.accountId === props.accountId
-) {
-  return "";
-}
-
-const data = {
-  index: {
-    graph: JSON.stringify({
-      key: "request",
-      value: {
-        accountId: props.accountId,
-        type: props.type,
-        name: props.name,
-      },
-    }),
-    notify: JSON.stringify({
-      key: props.ownerId,
-      value: {
-        type: "request",
-      },
-    }),
-  },
-};
-
 const Wrapper = styled.div`
   .submit-button {
     display: inline-flex;
@@ -37,7 +7,7 @@ const Wrapper = styled.div`
     padding: 8px 16px;
     height: 39px;
     border-radius: 100px;
-    font-weight: 399;
+    font-weight: 500;
     font-size: 14px;
     line-height: 15px;
     text-align: center;
@@ -61,6 +31,25 @@ const Wrapper = styled.div`
     }
   }
 `;
+
+const data = {
+  index: {
+    graph: JSON.stringify({
+      key: "request",
+      value: {
+        accountId: props.accountId,
+        type: props.type,
+        name: props.name,
+      },
+    }),
+    notify: JSON.stringify({
+      key: props.ownerId,
+      value: {
+        type: "request",
+      },
+    }),
+  },
+};
 
 return (
   <Wrapper className={props.className}>
