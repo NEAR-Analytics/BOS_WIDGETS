@@ -241,6 +241,10 @@ const CFSubmit = styled.button`
   }
 `;
 
+const CallLibrary = styled.div`
+  display: none;
+`;
+
 const {
   widgets,
   isTest,
@@ -340,7 +344,8 @@ return (
                     </BCMProfileUsername>
                   </BCMHeader>
                   <BCMMessage>
-                    {originalComment && originalComment.text}
+                    {originalComment &&
+                      originalComment.originalComment.value.comment.text}
                   </BCMMessage>
                 </BCommentmessage>
               </BComment>
@@ -411,8 +416,8 @@ return (
         </CommentFooter>
       </Container>
     </CommentCard>
-    <div style={{ display: "none" }}>
+    <CallLibrary>
       {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </div>
+    </CallLibrary>
   </ModalCard>
 );
