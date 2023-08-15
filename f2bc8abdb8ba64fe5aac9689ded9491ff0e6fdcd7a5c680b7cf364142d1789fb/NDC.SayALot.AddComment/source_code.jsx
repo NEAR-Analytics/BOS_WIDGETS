@@ -254,6 +254,7 @@ const {
   username,
   placement,
   originalComment,
+  replyingTo,
 } = props;
 
 const libCalls = [];
