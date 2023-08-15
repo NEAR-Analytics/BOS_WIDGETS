@@ -18,16 +18,19 @@ const ModalContent = styled.div`
   border-radius: 4px;
 `;
 
-const Modal = ({ isOpen, onClose, children,title,overlayStyles,contentStyles }) => {
+const Modal = ({
+  isOpen,
+  children,
+  overlayStyles,
+  contentStyles,
+}) => {
   if (!isOpen) return undefined;
 
   return (
     <ModalOverlay {...overlayStyles}>
-      <ModalContent {...contentStyles}>
-          {children}
-      </ModalContent>
+      <ModalContent {...contentStyles}>{children}</ModalContent>
     </ModalOverlay>
   );
 };
 
-return <Modal  {...props} />;
+return <Modal {...props} />;
