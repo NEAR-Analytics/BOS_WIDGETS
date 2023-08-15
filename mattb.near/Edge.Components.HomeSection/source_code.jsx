@@ -52,6 +52,8 @@ const Content = styled.div`
 const Details = styled.div`
     display:flex;
     width:100%;
+    max-width:650px;
+    margin:0 auto;
     box-sizing:border-box;
     padding:.5rem;
     background-color:#000;
@@ -67,7 +69,6 @@ const Details = styled.div`
             margin:0;
             padding:0;
         }
-        margin-right:15px;
         padding-right:10px;
     }
 `;
