@@ -1,18 +1,22 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId ?? "devs.near";
 
-if (!accountId) {
-  return "Please connect your NEAR account :)";
+const items = Social.index("graph", "request");
+
+if (!items) {
+  return "Loading...";
 }
 
-const index = {
-  action: "notify",
-  key: accountId,
-  options: {
-    limit: 10,
-    order: "desc",
-    subscribe: true,
-  },
-};
+items.reverse();
+
+const ownerId = props.ownerId ?? "hack.near";
+const type = props.type ?? "widget";
+const name = props.name ?? "community";
+
+if (ownerId || !type || !name) {
+  return "";
+}
+
+const src = `${ownerId}/${type}/${name}`;
 
 const Wrapper = styled.div`
   padding: 16px;
@@ -23,9 +27,6 @@ const ItemWrapper = styled.div`
 `;
 
 const renderItem = (item, i) => {
-  if (i === 0) {
-    Storage.set("lastBlockHeight", item.blockHeight);
-  }
   return (
     <ItemWrapper>
       <Widget src="hack.near/widget/update" key={i} props={item} />
@@ -33,8 +34,20 @@ const renderItem = (item, i) => {
   );
 };
 
+const handleCreate = () =>
+  Social.set({
+    [`${type}`]: {
+      [`${name}`]: {
+        "": `${src}`,
+      },
+    },
+  });
+
 return (
   <Wrapper>
+    <div className="m-2">
+      <button onClick={handleCreate}>Accept</button>
+    </div>
     <Widget
       src="mob.near/widget/FilteredIndexFeed"
       props={{ index, renderItem }}
