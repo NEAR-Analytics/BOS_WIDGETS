@@ -21,14 +21,6 @@ let Style = styled.div`
     text-align: center;
     font-weight: 600;
   }
-
-  .hover-row {
-    cursor: pointer;
-  }
-  .hover-row:hover {
-    background-color: #333;
-  }
-
 `;
 let nodes = rawData.body || [];
 
@@ -58,10 +50,10 @@ function formatCell(text) {
   return (
     <a
       href={
-        "https://nearatlas.com/#/y3k.near/widget/NEART.ATLAS.DETAILED_PROJECT_DASHBOARD?project_name=" +
+        "https://nearatlas.com/#/y3k.near/widget/near_atlas.components.detail_chart?project_name=" +
         text
       }
-      className="text-warning text-wrap "
+      className="text-red-50 text-wrap "
     >
       {text}
     </a>
@@ -71,11 +63,11 @@ function formatCell(text) {
 function formatText(text) {
   let number = parseFloat(text);
   if (number < 0) {
-    return <span className="text-danger">{number}%</span>;
+    return <span className="text-red-600">{number}%</span>; // Red color for negative numbers
   } else if (number > 0) {
-    return <span className="text-success">{number}%</span>;
+    return <span className="text-green-600">{number}%</span>; // Green color for positive numbers
   } else {
-    return <span className="text-warning">{number}%</span>;
+    return <span className="text-yellow-600">{number}%</span>; // Yellow color for zero
   }
 }
 
@@ -215,12 +207,12 @@ return (
             {getSortedNodes().map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className={`hover-row ${
+                className={` ${
                   rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"
                 }`}
               >
                 {COLUMNS.map((column, colIndex) => (
-                  <td key={colIndex} className="text-white text-center p-2 ">
+                  <td key={colIndex} className="text-center p-2 ">
                     {column.renderCell(row)}
                   </td>
                 ))}
