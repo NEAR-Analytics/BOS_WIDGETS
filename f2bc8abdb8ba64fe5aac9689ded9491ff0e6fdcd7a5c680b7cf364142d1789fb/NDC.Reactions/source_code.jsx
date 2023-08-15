@@ -191,11 +191,14 @@ function handleOnMouseLeave() {
   State.update({ show: false });
 }
 
-function onCommit() {
-  State.update({ loading: false, show: false });
+function onCommit(emojiToWrite) {
+  onPushEnd();
+  () => {
+    updateReactionsStatisticsIfUserVoted(emojiToWrite);
+  };
 }
 
-function onCancel() {
+function onPushEnd() {
   State.update({ loading: false, show: false });
 }
 
@@ -221,8 +224,8 @@ function reactListener(emojiMessage) {
     props: {
       elementReactedId,
       reaction: emojiToWrite,
-      onCommit: onCommit,
-      onCancel: onCancel,
+      onCommit: onCommit(emojiToWrite),
+      onCancel: onPushEnd,
     },
   });
   State.update({ libCalls: newLibCalls });
