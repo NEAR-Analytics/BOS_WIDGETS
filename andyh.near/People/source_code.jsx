@@ -3,7 +3,7 @@ return (
     <h5>People</h5>
     <div className="mb-2">
       <Widget
-        src="mob.near/widget/ProfileSearch"
+        src="andyh.near/widget/ProfileSearch"
         props={{
           limit: 10,
           onChange: ({ result }) => State.update({ profiles: result }),
@@ -30,10 +30,13 @@ return (
             </div>
             <div className="d-none text-nowrap d-md-block">
               <Widget
-                src="mob.near/widget/FollowButton"
+                src="andyh.near/widget/FollowButton"
                 props={{ accountId }}
               />
-              <Widget src="mob.near/widget/PokeButton" props={{ accountId }} />
+              <Widget
+                src="andyh.near/widget/PokeButton"
+                props={{ accountId }}
+              />
             </div>
           </div>
         ))}
