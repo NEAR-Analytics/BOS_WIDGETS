@@ -25,6 +25,7 @@ return (
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.HostsSection`} />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.SponsorsSection`} />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.ProgramSection`} />
+    <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.TicketsSection`} />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.Footer`} />
   </Main>
 );
