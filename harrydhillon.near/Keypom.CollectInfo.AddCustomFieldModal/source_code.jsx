@@ -22,7 +22,9 @@ const AddCustomFieldModalJsx = (
       src="harrydhillon.near/widget/Keypom.Components.Input"
     />
     <button
-      onClick={() => props.onSave(state)}
+      onClick={() => {props.onSave(state)
+      State.update({fieldVal:"",hasBeenEditUpdated:false})
+      }}
       style={{
         width: "100%",
         backgroundColor: "black",
@@ -52,7 +54,7 @@ const AddCustomFieldModalJsx = (
   </>
 );
 
-if (props.editMode && state.fieldVal==="" && !state.hasBeenEditUpdated) {
+if (props.editMode && state.fieldVal === "" && !state.hasBeenEditUpdated) {
   State.update({ fieldVal: props.editVal, hasBeenEditUpdated: true });
 }
 
