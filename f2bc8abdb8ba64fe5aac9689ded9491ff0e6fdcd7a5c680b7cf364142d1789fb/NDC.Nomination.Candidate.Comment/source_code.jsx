@@ -242,8 +242,6 @@ const formatName = (name) =>
     ? `${name.slice(0, 4)}..${name.slice(name.length - 4, name.length)}`
     : name;
 
-console.log("data: ", data);
-
 return (
   <CommentCard>
     <CommentCardHeader>
