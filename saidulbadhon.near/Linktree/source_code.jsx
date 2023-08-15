@@ -1,4 +1,3 @@
-//  THis is the new version
 
 const profile = {
   avatar:
