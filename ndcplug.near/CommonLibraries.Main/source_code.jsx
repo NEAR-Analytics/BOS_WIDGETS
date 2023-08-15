@@ -2,7 +2,7 @@ const ownerId = "manzanal.near";
 const curatedComps = [
   {
     category: "NFT",
-    id: "buttons",
+    id: "nft",
     icon: "bi-camera",
     components: [
       {
@@ -13,7 +13,7 @@ const curatedComps = [
   },
   {
     category: "EVM",
-    id: "buttons",
+    id: "evm",
     icon: "bi-diamond",
     components: [
       {
@@ -24,7 +24,7 @@ const curatedComps = [
   },
   {
     category: "NDC",
-    id: "buttons",
+    id: "ndc",
     icon: "bi-building",
     components: [
       {
@@ -35,7 +35,7 @@ const curatedComps = [
   },
   {
     category: "DeFi",
-    id: "buttons",
+    id: "defi",
     icon: "bi-money",
     components: [
       {
@@ -46,7 +46,7 @@ const curatedComps = [
   },
   {
     category: "Social",
-    id: "buttons",
+    id: "social",
     icon: "bi-money",
     components: [
       {
@@ -57,7 +57,7 @@ const curatedComps = [
   },
   {
     category: "APIs",
-    id: "buttons",
+    id: "api",
     icon: "bi-money",
     components: [
       {
@@ -68,7 +68,7 @@ const curatedComps = [
   },
   {
     category: "Gaming",
-    id: "buttons",
+    id: "gaming",
     icon: "bi-money",
     components: [
       {
@@ -79,7 +79,7 @@ const curatedComps = [
   },
   {
     category: "Styled Components",
-    id: "buttons",
+    id: "style",
     icon: "bi-brush",
     components: [
       {
@@ -90,7 +90,7 @@ const curatedComps = [
   },
   {
     category: "Chain-Agnostic",
-    id: "buttons",
+    id: "agnostic",
     icon: "bi-link",
     components: [
       {
@@ -101,7 +101,7 @@ const curatedComps = [
   },
   {
     category: "Complex Apps",
-    id: "buttons",
+    id: "complex",
     icon: "bi-spin",
     components: [
       {
@@ -112,7 +112,7 @@ const curatedComps = [
   },
   {
     category: "Helper Components",
-    id: "buttons",
+    id: "helper",
     icon: "bi-money",
     components: [
       {
@@ -123,7 +123,7 @@ const curatedComps = [
   },
   {
     category: "Primitives",
-    id: "buttons",
+    id: "primitives",
     icon: "bi-diamond",
     components: [
       {
