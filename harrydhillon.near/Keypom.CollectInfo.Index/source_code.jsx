@@ -42,6 +42,8 @@ State.init({
     { question: "Full Name", isRequired: false },
   ],
   isAddCustomFieldModalOpen: false,
+  editMode: false,
+  editVal: "",
 });
 
 return (
@@ -80,7 +82,13 @@ return (
                 />
               </TableCell>
               <TableCell>
-                <ActionButton>
+                <ActionButton
+                  onClick={() => {
+                    State.update({
+                      data: state.data.filter((item, idx) => idx !== index),
+                    });
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
@@ -96,7 +104,16 @@ return (
                     />
                   </svg>
                 </ActionButton>
-                <ActionButton>
+                <ActionButton
+                  onClick={() => {
+                    State.update({
+                      isAddCustomFieldModalOpen: true,
+                      editMode: true,
+                      questionToEditIndex: index,
+                      editVal: item.question,
+                    });
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="14"
@@ -133,15 +150,41 @@ return (
           paddingLeft: 15,
           paddingRight: 15,
         }}
+        onClick={() => {
+          State.update({ isAddCustomFieldModalOpen: true });
+        }}
       >
         Add custom field
       </button>
     </div>
-    <Widget src='harrydhillon.near/widget/Keypom.CollectInfo.AddCustomFieldModal' props={{
-      isOpen:state.isAddCustomFieldModalOpen,
-      onClose:()=>{
-        State.update({isAddCustomFieldModalOpen:false})
-      }
-    }} />
+    <Widget
+      src="harrydhillon.near/widget/Keypom.CollectInfo.AddCustomFieldModal"
+      props={{
+        isOpen: state.isAddCustomFieldModalOpen,
+        editMode: state.editMode,
+        editVal: state.editVal,
+        onSave: (data) => {
+          State.update({ isAddCustomFieldModalOpen: false });
+          if (data.fieldVal !== "") {
+            if(state.editMode){
+               const dataState = [...state.data];
+                dataState[state.questionToEditIndex].question = data.fieldVal;
+                State.update({ data: dataState,editMode:false,  questionToEditIndex: null,editVal:null });
+            }else{
+  State.update({
+              data: [
+                ...state.data,
+                { question: data.fieldVal, required: false },
+              ],
+            });
+            }
+          
+          }
+        },
+        onClose: () => {
+          State.update({ isAddCustomFieldModalOpen: false });
+        },
+      }}
+    />
   </>
 );
