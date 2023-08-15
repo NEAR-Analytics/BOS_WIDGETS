@@ -12,6 +12,14 @@ const curatedComps = [
         accountId: "mintbase.near",
         widgetName: "nft-marketplace",
       },
+      {
+        accountId: "ndcplug.near",
+        widgetName: "Sharddog.Holders",
+      },
+      {
+        accountId: "genadrop.near",
+        widgetName: "GenaDrop.App.Index",
+      },
     ],
   },
   {
