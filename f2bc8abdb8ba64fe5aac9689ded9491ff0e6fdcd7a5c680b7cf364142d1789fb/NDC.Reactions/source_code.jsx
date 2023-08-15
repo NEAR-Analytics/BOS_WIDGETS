@@ -223,7 +223,7 @@ function reactListener(emojiMessage) {
     props: {
       elementReactedId,
       reaction: emojiToWrite,
-      onCommit: onPushEnd,
+      onCommit: onCommit(emojiToWrite),
       onCancel: onPushEnd,
     },
   });
