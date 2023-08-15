@@ -84,6 +84,7 @@ const TagContainer = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 4px;
+  margin-top: 5px;
 `;
 const HouseTagDiv = styled.div`
   width: 100%;
@@ -552,7 +553,7 @@ return (
           }}
         />
         <div>
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between align-items-center">
             <HeaderDetailContent>
               <TagContainer>
                 <HouseTagDiv>
