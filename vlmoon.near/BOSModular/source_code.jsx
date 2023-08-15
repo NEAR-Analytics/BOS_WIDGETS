@@ -66,7 +66,7 @@ return (
         <Button onClick={routesNavigator.moduleC}>Swap Page to module C</Button>
         <Button onClick={routesNavigator.moduleD}>Swap Page to module D</Button>
       </NavigationBar>
-      <Widget src={routes[state.currentRoute]} props={dependencies} />
+      <Widget src={routes[state.currentRoute]} props={{ dependencies }} />
     </Body>
   </>
 );
