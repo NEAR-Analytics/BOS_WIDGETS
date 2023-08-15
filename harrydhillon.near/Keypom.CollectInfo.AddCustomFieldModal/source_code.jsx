@@ -1,4 +1,4 @@
-State.init({ fieldVal: props?.editMode?props.editVal: "" });
+State.init({ fieldVal: props?.editMode ? props.editVal : "" });
 
 const AddCustomFieldModalJsx = (
   <>
