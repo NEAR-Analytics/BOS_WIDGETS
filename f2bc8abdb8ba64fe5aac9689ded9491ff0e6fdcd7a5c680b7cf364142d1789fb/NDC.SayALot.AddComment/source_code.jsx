@@ -241,6 +241,16 @@ const CFSubmit = styled.button`
   }
 `;
 
+const HR = style.hr`
+  width: 100%;
+  height: 0px;
+  border: 1px solid rgba(130, 134, 136, 0.20);
+  flex: none;
+  background: rgba(130, 134, 136, 0.20);
+  margin: 0px;
+  flex-grow: 0;
+`;
+
 const {
   widgets,
   isTest,
@@ -248,15 +258,13 @@ const {
   onCloseModal,
   isReplying,
   username,
-  profile_picture,
+  placement,
   originalComment,
 } = props;
 
 const libCalls = [];
 
-// const authorForWidget = "kenrou-it.near";
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const authorForWidget = "kenrou-it.near";
 
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.comment`];
 
@@ -317,38 +325,28 @@ return (
     <CommentCard>
       <H1>{isReplying ? "Reply to comment" : "Add a Comment"}</H1>
       <Container>
-        {isReplying && (
+        {replyingTo && (
           <>
             <CommentBody>
               <BComment>
                 <BCommentmessage>
                   <BCMHeader>
                     <BCMProfile>
-                      {profile_picture ? (
-                        <BCMProfileimg
-                          style={{ "border-radius": "20px" }}
-                          alt="pic"
-                          src={
-                            "https://nativonft.mypinata.cloud/ipfs/" +
-                            profile_picture
-                          }
-                        />
-                      ) : (
-                        <BCMProfileimg
-                          alt="pic"
-                          src={
-                            "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmTKv1yHQKRDQcmc5Jkv2jkaTx2Q1jJE9srHEmyYPq53vJ?preview=1"
-                          }
-                        />
-                      )}
+                      <Widget
+                        src="mob.near/widget/ProfileImage"
+                        props={{
+                          accountId: replyingTo,
+                          imageClassName: "rounded-circle w-100 h-100",
+                          style: { width: "25px", height: "25px" },
+                        }}
+                      />
                     </BCMProfile>
                     <BCMProfileUsername>
-                      {username ? "@" + username : "@user.near"}
+                      {replyingTo ? "@" + replyingTo : "@user.near"}
                     </BCMProfileUsername>
                   </BCMHeader>
                   <BCMMessage>
-                    {undefined}
-                    {originalComment && originalComment}
+                    {originalComment && originalComment.text}
                   </BCMMessage>
                 </BCommentmessage>
               </BComment>
@@ -364,46 +362,10 @@ return (
                       style={{ width: "14px", height: "14px" }}
                     />
                   </BFootercontTime>
-                  <BFCButton>
-                    <OverlayTrigger
-                      key={placement}
-                      placement={placement}
-                      overlay={
-                        <Tooltip id={`tooltip-${placement}`}>
-                          {state.shareText}
-                        </Tooltip>
-                      }
-                    >
-                      <BFCButtonitem
-                        onClick={() => {
-                          SetText("Copied to the clipboard");
-                          clipboard.writeText(state.share_url);
-                        }}
-                      >
-                        <BFCBIText>Share</BFCBIText>
-                        <img
-                          alt="share"
-                          src={
-                            "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmdFMobsnCyj9USY2mHtLzhu58Mz6BFpMx7tKPQGoWmsHY?preview=1"
-                          }
-                        />
-                      </BFCButtonitem>
-                    </OverlayTrigger>
-                  </BFCButton>
                 </BFootercont>
               </BFooter>
             </CommentBody>
-            <hr
-              style={{
-                width: "100%",
-                height: "0px",
-                border: "1px solid rgba(130, 134, 136, 0.20)",
-                flex: "none",
-                background: "rgba(130, 134, 136, 0.20)",
-                margin: "0px",
-                "flex-grow": "0",
-              }}
-            />
+            <HR />
           </>
         )}
         <div className="w-100 col">
