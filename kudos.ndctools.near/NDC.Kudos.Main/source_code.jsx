@@ -48,11 +48,6 @@ const getKudos = () => {
     });
   }
 
-  if (formattedKudos.length === 0) {
-    State.update({ kudos: [], emptyResult: false });
-    return;
-  }
-
   let filteredKudos = [];
 
   switch (state.selectedItem) {
@@ -81,10 +76,13 @@ const getKudos = () => {
     );
   }
 
-  State.update({
-    kudos: filteredKudos,
-    emptyResult: filteredKudos.length === 0,
-  });
+  if (formattedKudos.length === 0)
+    State.update({ kudos: [], emptyResult: false });
+  else
+    State.update({
+      kudos: filteredKudos,
+      emptyResult: filteredKudos.length === 0,
+    });
 };
 
 const isHuman = Near.view(registryContract, "is_human", {
@@ -101,6 +99,16 @@ State.update({
 
 getKudos();
 
+const checkTxnMethod = (res, name) => {
+  const txn = res.body.result.transaction;
+
+  return (
+    res.body.result.status.SuccessValue &&
+    txn.signer_id === context.accountId &&
+    txn.actions[0].FunctionCall.method_name === name
+  );
+};
+
 asyncFetch("https://rpc.testnet.near.org", {
   method: "POST",
   headers: {
@@ -114,13 +122,12 @@ asyncFetch("https://rpc.testnet.near.org", {
     params: [transactionHashes, context.accountId],
   }),
 }).then((res) => {
-  const txn = res.body.result.transaction;
-  if (
-    res.body.result.status.SuccessValue &&
-    txn.signer_id === context.accountId &&
-    txn.actions[0].FunctionCall.method_name === "exchange_kudos_for_sbt"
-  )
+  if (checkTxnMethod(res, "exchange_kudos_for_sbt"))
     State.update({ congratsMintModal: true });
+
+  console.log(res);
+  // if (checkTxnMethod(res, "add_kudo"))
+  //   State.update({ congratsMintModal: true });
 });
 
 const Container = styled.div`
