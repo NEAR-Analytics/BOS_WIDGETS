@@ -44,26 +44,30 @@ if (state.feedIndex === "following") {
 }
 
 const Nav = styled.div`
-  .nav-pills {
+    .nav-pills {
+    background: #fbfbfb;
     font-weight: 500;
     --bs-nav-pills-border-radius: 0;
-    --bs-nav-pills-link-active-color: var(--bs-nav-link-color);
-    --bs-nav-pills-link-active-bg: rgba(13, 110, 253, 0.1);
-  }
-  .nav-item:not(:has(> .disabled)):hover {
-    background: rgba(13, 110, 253, 0.15);
+    --bs-nav-link-color: #000;
+    --bs-nav-pills-link-active-color: #000;
+    --bs-nav-pills-link-active-bg: #fbfbfb;
+    --bs-nav-link-padding-y: 0.8rem;
   }
   .nav-link.active {
-    border-bottom: 2px solid rgb(13, 110, 253);
+    border-bottom: 3px solid rgb(13, 110, 253);
   }
 
-  margin: 0 -12px;
+  .nav-item:hover {
+    background: rgba(13, 110, 253, 0.15);
+  }
+
+  margin: -24px -12px 12px;
   border-bottom: 1px solid #eee;
 `;
 
 return (
-  <div className="row">
-    <Nav className="d-lg-block col-lg-8">
+  <>
+    <Nav>
       <ul className="nav nav-pills nav-fill">
         {options.map((option, i) => (
           <li
@@ -85,38 +89,40 @@ return (
         ))}
       </ul>
     </Nav>
-    <div
-      className={`${
-        state.feedIndex === "menu" ? "d-none" : ""
-      } d-lg-block col-lg-8`}
-    >
-      {context.accountId && (
-        <Widget
-          key="compose"
-          src="mob.near/widget/MainPage.N.Compose"
-          props={{}}
-        />
-      )}
-      {state.feedIndex === "hashtag" ? (
-        <Widget
-          key="hash-feed"
-          src="mob.near/widget/Hashtag.N.Feed"
-          props={{ hashtag }}
-        />
-      ) : (
-        <Widget
-          key="reg-feed"
-          src="mob.near/widget/MainPage.N.Feed"
-          props={{ accounts }}
-        />
-      )}
+    <div className="row">
+      <div
+        className={`${
+          state.feedIndex === "menu" ? "d-none" : ""
+        } d-lg-block col-lg-8`}
+      >
+        {context.accountId && (
+          <Widget
+            key="compose"
+            src="mob.near/widget/MainPage.N.Compose"
+            props={{}}
+          />
+        )}
+        {state.feedIndex === "hashtag" ? (
+          <Widget
+            key="hash-feed"
+            src="mob.near/widget/Hashtag.N.Feed"
+            props={{ hashtag }}
+          />
+        ) : (
+          <Widget
+            key="reg-feed"
+            src="mob.near/widget/MainPage.N.Feed"
+            props={{ accounts }}
+          />
+        )}
+      </div>
+      <div
+        className={`${
+          state.feedIndex !== "menu" ? "d-none" : ""
+        } d-lg-block col-lg-4`}
+      >
+        <Widget src="mob.near/widget/Welcome.RHS" props={props} />
+      </div>
     </div>
-    <div
-      className={`${
-        state.feedIndex !== "menu" ? "d-none" : ""
-      } d-lg-block col-lg-4`}
-    >
-      <Widget src="mob.near/widget/Welcome.RHS" props={props} />
-    </div>
-  </div>
+  </>
 );
