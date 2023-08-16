@@ -202,7 +202,7 @@ const contract = new ethers.Contract(
   wallet.abi,
   Ethers.provider().getSigner()
 );
-contract
+const c = contract
   .getTransfers()
   .call()
   .then((transfers) => {
