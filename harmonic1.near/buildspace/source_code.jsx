@@ -57,22 +57,40 @@ return (
         <div className="mb-5" style={{ display: "flex" }}>
           <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
-              Connect with Your Community
+              Simple Profiles to connect with your audience
             </p>
             <p style={{ fontSize: "1.25rem" }}>
-              With our landing page product, you can create your own personal
-              corner on the decentralized web. Host information and updates that
-              you fully own without any intermediaries. With our platform, you
-              can take full control over your content, enjoy fair and
-              transparent compensation, and connect directly with your fans.
+              Create your own personal corner on the decentralised web. Host
+              information and updates for your audience. Save yourself from
+              platform risk and censorship powered by Blockchain technology.
             </p>
           </div>
           <div style={{ flex: 1 }}>
-            <Widget src="harmonic1.near/widget/create.artist" />
+            <Widget
+              src="every.near/widget/every.thing.view"
+              props={{ path: "qsaharmonic.near/thing/artist/Quinn" }}
+            />
           </div>
         </div>
       </div>
-      <h3 style={titleStyle}>Join our Network of Artists</h3>
+      <div style={containerStyles}>
+        <div className="mb-5" style={{ display: "flex" }}>
+          <div style={{ flex: 1 }}>
+            <Widget src="harmonic1.near/widget/create.artist" />
+          </div>
+          <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
+            <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
+              Create your Profile
+            </p>
+            <p style={{ fontSize: "1.25rem" }}>
+              Go ahead and create your Profile that no one but you control.
+              Without the fear of intermediaries platforms, share information
+              with your audeince on your own terms.
+            </p>
+          </div>
+        </div>
+      </div>
+      <h3 style={titleStyle}>Featured Profiles</h3>
       <div>
         <Widget src="harmonic1.near/widget/artist.feed" />
       </div>
