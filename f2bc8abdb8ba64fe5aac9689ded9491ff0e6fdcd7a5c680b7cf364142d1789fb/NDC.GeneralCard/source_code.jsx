@@ -5,7 +5,6 @@ const {
   isTest,
   data,
   displayOverlay,
-  renderReactions,
   handleOpenArticle,
   handleFilterArticles,
   addressForArticles,
@@ -18,14 +17,45 @@ const title = data.articleId;
 const content = data.body;
 const timeLastEdit = data.timeLastEdit;
 
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.upVotes`];
+
+const libCalls = [
+  {
+    functionName: "getUpVotes",
+    key: "upVotes",
+    props: {
+      elementReactedId: data.realArticleId,
+    },
+  },
+];
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
 //TODO ask Dani how are we handling this "verified"
 
 State.init({
   verified: true,
   start: true,
   voted: false,
-  shareText: "Copy link to the clipboard",
   sliceContent: true,
+  libCalls,
 });
 //=============================================END INITIALIZATION===================================================
 
@@ -57,106 +87,18 @@ const getShortUserName = () => {
   return name.length > 20 ? `${name.slice(0, 20)}...` : name;
 };
 
+function upVoteListener() {
+  let newLibCalls = [...libCalls];
+
+  newLibCalls.push({
+    functionName: "addUpVote",
+    key: "addUpVote",
+    props: { elementReactedId: data.realArticleId },
+  });
+  State.update({ libCalls: newLibCalls });
+}
+
 //================================================END FUNCTIONS=====================================================
-
-//=============================================== OLD FUNCTIONS=====================================================
-
-// const isHuman = Near.view(registry_contract, "is_human", {
-//   account: context.accountId,
-// });
-// State.update({ verified: isHuman[0][1].length > 0 });
-
-// const httpRequestOpt = {
-//   headers: { "x-api-key": api_key },
-// };
-
-// function getVerifiedHuman() {
-//   asyncFetch(
-//     `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${data.indexerData.nominee}&upvoter=${context.accountId}`,
-//     httpRequestOpt
-//   ).then((res) => {
-//     State.update({ voted: res.body });
-//   });
-// }
-
-// if (state.start) {
-//   getVerifiedHuman();
-//   State.update({ start: false });
-// }
-
-// function handleUpVote() {
-//   Near.call(
-//     nomination_contract,
-//     state.voted ? "remove_upvote" : "upvote",
-//     {
-//       candidate: data.indexerData.nominee,
-//     },
-//     300000000000000,
-//     state.voted ? 0 : 1000000000000000000000
-//   );
-// }
-
-// function handleShare() {
-//   State.update({ shareText: "Copied" });
-//   clipboard.writeText(
-//     "https://near.org/#/rubycop.near/widget/NDC.Nomination.Candidate.Page?house=" +
-//       data.indexerData.house +
-//       "&candidate=" +
-//       data.indexerData.nominee
-//   );
-// }
-
-// function getComponentURL() {
-//   const url =
-//     "https%3A%2F%2Fnear.org%2F%23%2Frubycop.near%2Fwidget%2FNDC.Nomination.Candidate.Page%3Fhouse%3D" +
-//     data.indexerData.house +
-//     "%26candidate%3D" +
-//     data.indexerData.nominee;
-//   return url;
-// }
-
-// const canUpvote = () =>
-//   state.verified && context.accountId != data.indexerData?.nominee;
-
-// const trimText = (text, limit) => {
-//   if (!text) return "";
-
-//   const _limit = limit ?? 200;
-//   const ending = text.length > _limit ? "..." : "";
-//   const trimmed = text.slice(0, limit ?? 200);
-
-//   return `${trimmed}${ending}`;
-// };
-
-// const keyIssues = [
-//   {
-//     title:
-//       "Involvement in the NEAR ecosystem, qualifications to be a candidate and reasons for being voted",
-//     desc: data.nominationData.HAYInvolve,
-//   },
-//   {
-//     title: "Strategy to develop the NEAR ecosystem",
-//     desc: data.nominationData.WIYStrategy,
-//   },
-//   {
-//     title: "Key Issue 1",
-//     desc: data.nominationData.Key_Issue_1,
-//   },
-//   {
-//     title: "Key Issue 2",
-//     desc: data.nominationData.Key_Issue_2,
-//   },
-//   {
-//     title: "Key Issue 3",
-//     desc: data.nominationData.Key_Issue_3,
-//   },
-//   {
-//     title: "Other Platform",
-//     desc: data.nominationData.addition_platform,
-//   },
-// ];
-
-//==============================================END OLD FUNCTIONS===================================================
 
 //==============================================STYLED COMPONENTS===================================================
 
@@ -689,36 +631,7 @@ return (
             src="mob.near/widget/Profile.OverlayTrigger"
             props={{ accountId, children: inner }}
           />
-          {
-            //   cardType == "nomination" && (
-            //   <ProfilePicture
-            //     src={
-            //       data.imgURL ??
-            //       "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-            //     }
-            //     alt="pic"
-            //   ></ProfilePicture>
-            // )
-          }
           <HeaderContent>
-            {
-              //   cardType == "nomination" && (
-              //   <Widget
-              //     src={widgets.styledComponents}
-              //     props={{
-              //       Tag: {
-              //         title:
-              //           data.indexerData.house == "HouseOfMerit"
-              //             ? "House of Merit"
-              //             : data.indexerData.house == "CouncilOfAdvisors"
-              //             ? "Council of Advisors"
-              //             : "Transparency Commission",
-              //         className: "dark",
-              //       },
-              //     }}
-              //   />
-              // )
-            }
             <HeaderContentText
               onClick={() => {
                 handleOpenArticle(data);
@@ -729,51 +642,19 @@ return (
             </HeaderContentText>
           </HeaderContent>
         </div>
-        {
-          //TODO modify reactions to fit this area properly
-        }
-        {
-          // canUpvote() && cardType == "nomination"(
-          //     <Widget
-          //       src={widgets.styledComponents}
-          //       props={{
-          //         Button: {
-          //           text: `+${data.upVoteData?.upvotes ?? 0}`,
-          //           className: "secondary dark",
-          //           size: "sm",
-          //           onClick: handleUpVote,
-          //           icon: <i className="bi bi-hand-thumbs-up"></i>,
-          //         },
-          //       }}
-          //     />
-          //   )
-        }
+        <Widget
+          src={widgets.styledComponents}
+          props={{
+            Button: {
+              text: `+${data.upVoteData?.upvotes ?? 0}`,
+              className: "secondary dark",
+              size: "sm",
+              onClick: handleUpVote,
+              icon: <i className="bi bi-hand-thumbs-up"></i>,
+            },
+          }}
+        />
       </HeaderCard>
-      {
-        //   cardType == "nomination" && (
-        //   <CollapseCandidate className="w-100">
-        //     <CollapseCandidateContent>
-        //       <CollapseCandidateText>
-        //         Candidate Affiliations
-        //       </CollapseCandidateText>
-        //       <CandidateTagContainer className="w-100 d-flex flex-wrap">
-        //         {JSON.parse(data.nominationData?.afiliation).map((data) => (
-        //           <>
-        //             {data.company_name && (
-        //               <Widget
-        //                 src={widgets.styledComponents}
-        //                 props={{
-        //                   Tag: { title: data.company_name },
-        //                 }}
-        //               />
-        //             )}
-        //           </>
-        //         ))}
-        //       </CandidateTagContainer>
-        //     </CollapseCandidateContent>
-        //   </CollapseCandidate>
-        // )
-      }
       <KeyIssuesHeader>
         <KeyIssuesTitle
           role="button"
@@ -786,21 +667,7 @@ return (
       </KeyIssuesHeader>
       <KeyIssues>
         <KeyIssuesContent>
-          <KeyIssuesContainer>
-            {
-              // cardType == "nomination" &&
-              // keyIssues.map((issue, i) => (
-              //   <div className="w-100" key={i}>
-              //     <KeyIssueTitle>{issue.title}</KeyIssueTitle>
-              //     <KeyIssueDescription className="text-secondary">
-              //       {trimText(issue.desc)}
-              //     </KeyIssueDescription>
-              //     <KeyIssueSeparator />
-              //   </div>
-              // ))
-            }
-            {renderArticleBody()}
-          </KeyIssuesContainer>
+          <KeyIssuesContainer>{renderArticleBody()}</KeyIssuesContainer>
         </KeyIssuesContent>
       </KeyIssues>
       <LowerSection>
@@ -883,5 +750,9 @@ return (
         </LowerSectionContainer>
       </LowerSection>
     </Card>
+
+    <CallLibrary>
+      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+    </CallLibrary>
   </div>
 );
