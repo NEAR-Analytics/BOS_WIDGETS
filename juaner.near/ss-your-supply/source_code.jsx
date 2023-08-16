@@ -11,7 +11,6 @@ const Container = styled.div`
     border-radius: 100px;
   }
   .assets_table {
-    display: block;
     width: 100%;
     tr {
       color: #7c7f96;
@@ -21,10 +20,10 @@ const Container = styled.div`
     th,
     td {
       border: none;
-      font-size: 14px;
     }
     td {
       color: #fff;
+      font-size: 14px;
     }
     th:first-child,
     td:first-child {
@@ -87,17 +86,12 @@ const Container = styled.div`
     line-height: 16px;
     margin-top: 4px;
   }
-  @media (max-width: 900px) {
-    .assets_table {
-      display: none;
-    }
-  }
 `;
 /** base tool start  */
 let accountId = context.accountId;
-// if (!accountId) {
-//   return <Widget src="juaner.near/widget/ref_account-signin" />;
-// }
+if (!accountId) {
+  return <Widget src="juaner.near/widget/ref_account-signin" />;
+}
 const toAPY = (v) => Math.round(v * 100) / 100;
 const shrinkToken = (value, decimals, fixed) => {
   return new Big(value).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
@@ -232,23 +226,15 @@ function getPortfolioRewards(type, token_id, data) {
       );
       const rewardPerDay =
         (boostedShares / totalBoostedShares) * totalRewardsPerDay || 0;
-      return { rewardPerDay, metadata: asset.metadata, rewardAsset };
+      return { rewardPerDay, metadata: asset.metadata };
     });
     return result;
   }
   return [];
 }
 // get portfolio deposited assets
-const renderAssets = (data, hasDollar) => {
-  const formatValue = (v) => {
-    if (Big(v).eq(0)) return "0";
-    if (Big(v).lt(0.01)) return hasDollar ? "<$0.01" : "<0.01";
-    return Big(v).toNumber().toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
-  return data.map((item) => {
+const renderAssets = (data) =>
+  data.map((item) => {
     const {
       icon,
       symbol,
@@ -266,23 +252,17 @@ const renderAssets = (data, hasDollar) => {
       <tr key={token_id}>
         <td>
           <img src={icon || wnearbase64} class="tokenIcon"></img>
-          {symbol !== "wNEAR" ? symbol : "NEAR"}
+          {symbol}
         </td>
         <td>{toAPY(totalApy)}%</td>
         <td>
           {rewardsList.length == 0
             ? "-"
             : rewardsList.map((reward) => {
-                const { rewardPerDay, metadata, rewardAsset } = reward;
+                const { rewardPerDay, metadata } = reward;
                 return (
                   <div class="flex_center">
-                    $
-                    {formatValue(
-                      Big(rewardPerDay || 0)
-                        .mul(rewardAsset?.price?.usd || 0)
-                        .toString(),
-                      true
-                    )}
+                    {Big(rewardPerDay).toFixed(4)}
                     <img
                       class="rewardIcon ml_5"
                       src={metadata.icon || wnearbase64}
@@ -293,19 +273,16 @@ const renderAssets = (data, hasDollar) => {
         </td>
         <td>
           <div className="double_lines">
-            <div>{formatValue(collateralBalance)}</div>
-            <div class="text_grey_color">
-              (${formatValue(collateralUsd, true)})
-            </div>
+            <div>{collateralBalance.toFixed(4)}</div>
+            <div class="text_grey_color">(${collateralUsd.toFixed(2)})</div>
           </div>
         </td>
         <td>
           <div className="double_lines">
-            <div>{formatValue(totalBalance)}</div>
-            <div class="text_grey_color">(${formatValue(usd, true)})</div>
+            <div>{totalBalance.toFixed(4)}</div>
+            <div class="text_grey_color">(${usd.toFixed(2)})</div>
           </div>
         </td>
-
         <td class="table_handlers">
           {!can_use_as_collateral ? null : (
             <div class="adjust_btn">
@@ -339,115 +316,6 @@ const renderAssets = (data, hasDollar) => {
       </tr>
     );
   });
-};
-
-const renderMbAssets = (data, hasDollar) => {
-  const formatValue = (v) => {
-    if (Big(v).eq(0)) return "0";
-    if (Big(v).lt(0.01)) return hasDollar ? "<$0.01" : "<0.01";
-    return Big(v).toNumber().toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
-  return data.map((item) => {
-    const {
-      icon,
-      symbol,
-      totalApy,
-      rewardsList,
-      collateralBalance,
-      collateralUsd,
-      totalBalance,
-      usd,
-      can_use_as_collateral,
-      token_id,
-      asset,
-    } = item;
-    return (
-      <div className="mb_row" key={token_id}>
-        <div className="mb_row_header">
-          <div className="mb_row_token">
-            <img src={icon || wnearbase64} class="tokenIcon"></img>
-            {symbol !== "wNEAR" ? symbol : "NEAR"}
-          </div>
-          <div className="double_lines">
-            <div>{formatValue(totalBalance)}</div>
-            <div class="text_grey_color">(${formatValue(usd, true)})</div>
-          </div>
-        </div>
-        <div className="mb_row_item">
-          <div className="mb_row_label">Supply Apy</div>
-          <div className="mb_row_value">{toAPY(totalApy)}%</div>
-        </div>
-        <div className="mb_row_item">
-          <div className="mb_row_label">Rewards</div>
-          <div className="mb_row_value">
-            {rewardsList.length == 0
-              ? "-"
-              : rewardsList.map((reward) => {
-                  const { rewardPerDay, metadata, rewardAsset } = reward;
-                  return (
-                    <div class="flex_center">
-                      $
-                      {formatValue(
-                        Big(rewardPerDay || 0)
-                          .mul(rewardAsset?.price?.usd || 0)
-                          .toString(),
-                        true
-                      )}
-                      <img
-                        class="rewardIcon ml_5"
-                        src={metadata.icon || wnearbase64}
-                      />
-                    </div>
-                  );
-                })}
-          </div>
-        </div>
-        <div className="mb_row_item">
-          <div className="mb_row_label">Collateral</div>
-          <div className="mb_row_value double_lines">
-            <div>{formatValue(collateralBalance)}</div>
-            <div class="text_grey_color">
-              (${formatValue(collateralUsd, true)})
-            </div>
-          </div>
-        </div>
-        <div className="mb_row_actions">
-          {!can_use_as_collateral ? null : (
-            <div class="action_btn">
-              <Widget
-                src="juaner.near/widget/ref-operation-button"
-                props={{
-                  clickEvent: () => {
-                    changeSelectedToken(asset, "adjust");
-                  },
-                  buttonType: "solid",
-                  actionName: "Adjust",
-                  hoverOn: true,
-                }}
-              />
-            </div>
-          )}
-          <div class="action_btn">
-            <Widget
-              src="juaner.near/widget/ref-operation-button"
-              props={{
-                clickEvent: () => {
-                  changeSelectedToken(asset, "withdraw");
-                },
-                buttonType: "line",
-                actionName: "Withdraw",
-                hoverOn: true,
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  });
-};
 
 function getWnearIcon(icon) {
   State.update({
@@ -471,7 +339,6 @@ return (
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
     <div class="supply_title">You Supplied</div>
-
     <table class="assets_table click">
       <thead>
         <tr>
@@ -493,10 +360,8 @@ return (
           <th scope="col" width="20%"></th>
         </tr>
       </thead>
-
-      {accountId && <tbody>{renderAssets(state.tableData)}</tbody>}
+      <tbody>{renderAssets(state.tableData)}</tbody>
     </table>
-    <div className="mb_table">{renderMbAssets(state.tableData)}</div>
     {/** modal */}
     <Widget
       src="juaner.near/widget/ref-market-supply-adjust"
