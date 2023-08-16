@@ -14,7 +14,38 @@ const homeSelected = (
     />
   </svg>
 );
-
+const resourcesSelected = (
+  <svg
+    width="41"
+    height="41"
+    viewBox="0 0 41 41"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M9 5C6.791 5 5 6.791 5 9V30C5 32.209 6.885 33.313 9 34L20 37V8C14.988 6.656 9 5 9 5ZM33 5C33 5 27.212 6.594 21.951 8H22V37C27.617 35.501 33 34 33 34C35.053 33.469 37 32.209 37 30V9C37 6.791 35.209 5 33 5Z"
+      fill="#00EC97"
+    />
+  </svg>
+);
+const resources = (
+  <svg
+    width="41"
+    height="41"
+    viewBox="0 0 41 41"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M35 30C35 31.104 34.073 31.656 33 32C33 32 27.557 33.515 22 34.977V10L33 7C34.104 7 35 7.896 35 9V30ZM20 34.998C14.538 33.53 9 32 9 32C7.864 31.688 7 31.104 7 30V9C7 7.896 7.896 7 9 7L20 10V34.998ZM33 5C33 5 27.211 6.594 21.95 8C21.291 8.025 20.627 8 19.967 8C14.955 6.656 9 5 9 5C6.791 5 5 6.791 5 9V30C5 32.209 6.885 33.313 9 34C9 34 14.393 35.5 19.967 37H21.992C27.612 35.5 33 34 33 34C35.053 33.469 37 32.209 37 30V9C37 6.791 35.209 5 33 5Z"
+      fill="#343330"
+    />
+  </svg>
+);
 const home = (
   <svg
     width="41"
@@ -353,6 +384,12 @@ const content = (
       id: "forum",
       icon: forum,
       iconSelected: forumSelected,
+    })}
+    {navItem({
+      text: "Resources",
+      id: "resources",
+      icon: resources,
+      iconSelected: resourcesSelected,
     })}
     <NavItem href="https://nearbuilders.com/boshacks" target="-blank">
       {hackathon}
