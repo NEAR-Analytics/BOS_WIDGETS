@@ -1,7 +1,7 @@
 const wallet = {
+  address: "0x3F24dB9F24fa7D563C874FBA46ffe67EC0DE8B8C",
   _format: "hh-sol-artifact-1",
   contractName: "Wallet",
-  address: "0xB9aab5C40bB7eDF923547e666D1cD85ca0033542",
   sourceName: "contracts/Wallet.sol",
   abi: [
     {
