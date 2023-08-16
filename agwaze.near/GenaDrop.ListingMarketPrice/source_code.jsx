@@ -188,9 +188,7 @@ return (
         <BorderedShadowedCard className="shadow-sm rounded-4">
           <div>
             <SecondaryText>
-              {/*{`...${props.state.tokenId?.slice(
-                props.state.tokenId.length / 2
-              )} ${props.state.nftMetadata.name}`}*/}
+              {props.state.tokenInfo.metadata.title || "NFT Name"}
             </SecondaryText>
           </div>
           <ImgCard className="shadow-sm">
