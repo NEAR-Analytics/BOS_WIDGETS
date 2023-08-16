@@ -103,14 +103,31 @@ const TextareaWrapper = styled.div`
   position: relative;
   align-items: stretch;
 
+  textarea {
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid var(--bs-border-color);    
+  }
+
+  textarea::placeholder {
+    padding-top: 4px;
+    font-size: 20px;
+  }
+
+  textarea:focus::placeholder {
+    font-size: inherit;
+    padding-top: 0px;
+  }
+
   &::after,
   textarea {
     width: 100%;
+    padding: 8px 0;
     min-width: 1em;
     height: unset;
-    min-height: 5em;
+    min-height: 3em;
     font: inherit;
-    padding: var(--padding) var(--padding) calc(40px + (var(--padding) * 2)) calc(40px + (var(--padding) * 2));
     margin: 0;
     resize: none;
     background: none;
@@ -119,6 +136,11 @@ const TextareaWrapper = styled.div`
     grid-area: 1 / 1;
     overflow: hidden;
     outline: none;
+  }
+
+  textarea:focus, textarea:not(:empty) {
+    border-bottom: 1px solid var(--bs-border-color);
+    min-height: 5em;
   }
 
   &::after {
@@ -141,6 +163,10 @@ const Wrapper = styled.div`
     margin-top: -4px;
     flex-grow: 1;
     min-width: 0;
+  }
+
+  .up-buttons {
+    margin-left: -16px;
   }
 `;
 
@@ -173,7 +199,7 @@ return (
           </div>
         )}
       </TextareaWrapper>
-      <div className="d-flex flex-row p-2 border-top">
+      <div className="up-buttons d-flex flex-row p-2">
         <div className="flex-grow-1">
           <IpfsImageUpload
             image={state.image}
