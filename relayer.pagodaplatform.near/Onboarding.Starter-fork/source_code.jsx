@@ -193,34 +193,34 @@ if (contract) {
     })
     .catch((err) => console.log(err));
 }
-if (state.transfers.length === 0) {
-  console.log("hhh");
-  contract
-    .getTransfers()
-    .then((transfers) => {
-      const tmp = [...state.transfers];
-      transfers.map((transfer) => {
-        console.log(transfer);
+// if (state.transfers.length === 0) {
+//   console.log("hhh");
+//   contract
+//     .getTransfers()
+//     .then((transfers) => {
+//       const tmp = [...state.transfers];
+//       transfers.map((transfer) => {
+//         console.log(transfer);
 
-        tmp.push({
-          id: Big(transfer[0]).toFixed(0),
-          amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
-          to: transfer[2],
-          sent: transfer[3],
-          approver: transfer[4],
-        });
-      });
-      State.update({ transfers: tmp });
-      console.log(transfers);
-    })
-    .then(() => {
-      console.log(state.transfers);
-      // contract.approveTransfer(0).send({ from: sender });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
+//         tmp.push({
+//           id: Big(transfer[0]).toFixed(0),
+//           amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
+//           to: transfer[2],
+//           sent: transfer[3],
+//           approver: transfer[4],
+//         });
+//       });
+//       State.update({ transfers: tmp });
+//       console.log(transfers);
+//     })
+//     .then(() => {
+//       console.log(state.transfers);
+//       // contract.approveTransfer(0).send({ from: sender });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// }
 return (
   <>
     <p>{state.chainId}</p>
