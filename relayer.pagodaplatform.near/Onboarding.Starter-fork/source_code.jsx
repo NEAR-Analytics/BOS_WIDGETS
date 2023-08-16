@@ -224,8 +224,8 @@ const getTransfers = () => {
       });
   }
 };
-const approveTransfer = (id) => {
-  contract
+const approveTransfer = async (id) => {
+  await contract
     .approveTransfer(id)
     .send({ from: sender })
     .then(() => {
