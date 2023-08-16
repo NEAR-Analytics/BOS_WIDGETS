@@ -274,12 +274,11 @@ const claimCollateral = () => {
 };
 
 const getEntireDebtAndColl = () => {
-  const vesselManagerContract = new ethers.Contract(
-    vesselManagerAddress,
-    vesselManagerAbi.body,
-    Ethers.provider().getSigner()
-  );
-
+  // const vesselManagerContract = new ethers.Contract(
+  //   vesselManagerAddress,
+  //   vesselManagerAbi.body,
+  //   Ethers.provider().getSigner()
+  // );
   // let assets = Object.values(availableAssets);
   // console.log(assets);
   // assets.forEach((asset) => {
