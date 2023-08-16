@@ -203,11 +203,13 @@ const contract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-const createTransfer = async (amount, to) => {
-  await contract.createTransfer(amount, to).send({ from: sender });
-  State.update({
-    transfers: await contract.getTransfers().call(),
-  });
+const createTransfer = (amount, to) => {
+  contract.createTransfer(amount, to).send({ from: sender }).then(() => {
+    State.update({
+      transfers: await contract.getTransfers().call(),
+    });
+
+  })
 };
 
 return (
