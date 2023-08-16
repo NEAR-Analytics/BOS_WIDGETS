@@ -184,7 +184,6 @@ const contract = new ethers.Contract(
   wallet.abi,
   Ethers.provider().getSigner()
 );
-contract.add({ gasLimit: 100000 });
 if (contract) {
   console.log("hhh");
   contract
