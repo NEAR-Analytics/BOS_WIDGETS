@@ -1,11 +1,9 @@
-const dependencies = props.dependencies || {};
+const dependencies = props.dependencies || ["No dependencies"];
+const routesNavigator = props.routesNavigator;
 
 return (
   <>
-    <h1>Module B</h1>
-    <h2>{JSON.stringify(dependencies.routes) ?? "no routes"}</h2>
-    <button onClick={dependencies.routesNavigator.moduleA}>
-      Go to the next module
-    </button>
+    <h1>Module D</h1>
+    <button onClick={routesNavigator.moduleA}>Go to the next module</button>
   </>
 );
