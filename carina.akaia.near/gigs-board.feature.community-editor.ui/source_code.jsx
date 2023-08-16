@@ -108,7 +108,7 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  update_community_github: ({ handle, github }) =>
+  edit_community_github: ({ handle, github }) =>
     Near.call(devHubAccountId, "update_community_github", { handle, github }) ??
     null,
 
@@ -175,19 +175,6 @@ const Viewer = {
       Struct.typeMatch(communityData) &&
       (communityData.admins.includes(context.accountId) ||
         Viewer.role.isDevHubModerator),
-  },
-
-  workspacePermissions: (workspaceId) => {
-    const workspace_id = parseInt(workspaceId);
-
-    const defaultPermissions = { can_configure: false };
-
-    return !isNaN(workspace_id)
-      ? Near.view(devHubAccountId, "get_account_workspace_permissions", {
-          account_id: context.accountId,
-          workspace_id: workspace_id,
-        }) ?? defaultPermissions
-      : defaultPermissions;
   },
 
   role: {
@@ -302,16 +289,7 @@ const CommunityEditorUI = ({ handle: communityHandle }) => {
 
       {
         handle: isCommunityNew ? state.communityData?.handle : communityHandle,
-        [isCommunityNew ? "inputs" : "community"]: {
-          ...state.communityData,
-
-          features: {
-            github: true,
-            board: true,
-            telegram: true,
-            wiki: true,
-          },
-        },
+        [isCommunityNew ? "inputs" : "community"]: state.communityData,
       }
     );
 
