@@ -81,7 +81,7 @@ const borrowerOperationAbi = fetch(
 );
 
 const vesselManagerAbi = fetch(
-  "https://raw.githubusercontent.com/IDKNWHORU/liquity-sepolia/main/trove-manager-abi.json"
+  "https://api.etherscan.io/api?module=contract&action=getabi&address=0xdB5DAcB1DFbe16326C3656a88017f0cB4ece0977"
 );
 
 const priceFeedAddress = "0x07dD4Ce17De84bA13Fc154A7FdB46fC362a41E2C";
