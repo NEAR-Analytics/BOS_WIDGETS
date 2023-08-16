@@ -1,12 +1,14 @@
 const dependencies = props.dependencies || ["No dependencies"];
 const routesNavigator = props.routesNavigator;
 const appThemeService = props.appThemeService;
-const appTheme = appThemeService.getTheme();
+const appTheme = appThemeService?.getTheme();
 
 const Body = styled.div`
   display: flex;
   flex-direction: column;
   height: 800px;
+  wifth : 300px;
+  self-align: center;
   background-color: ${appTheme.colors().backgroundColor};
 `;
 
