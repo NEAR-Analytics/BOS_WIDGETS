@@ -132,7 +132,7 @@ const sendPrompt = () => {
   State.update({ isLoading: true });
 
   asyncFetch(
-    `https://cmvfgq7owf7agld24uu4azhr5m0plyil.lambda-url.us-east-1.on.aws/`,
+    `https://wf46uonphsiphh2tncdm2eigx40wluwj.lambda-url.us-east-1.on.aws/`,
     {
       method: "POST",
       body: JSON.stringify({
@@ -144,13 +144,24 @@ const sendPrompt = () => {
     // console.log("getNamesForOwner raw res", res.body);
 
     const inference = res.body;
-    // console.log(inference);
     const parsed = JSON.parse(inference);
-    if (parsed.action) {
-      console.log(parsed.action);
+    if (parsed.protocol && parsed.protocol === "WETH") {
       const widget = (
         <Widget
-          src="testbrrr.near/widget/Untitled-1"
+          src="testbrrr.near/widget/WETH-Intent"
+          props={{
+            ...parsed,
+            resendPrompt: resendPrompt,
+            inference: inference,
+            onClose: () => State.update({ response: null }),
+          }}
+        />
+      );
+      State.update({ response: parsed.text, widget: widget, isLoading: false });
+    } else if (parsed.protocol && parsed.protocol === "Liquity") {
+      const widget = (
+        <Widget
+          src="testbrrr.near/widget/Liquity-Intent"
           props={{
             ...parsed,
             resendPrompt: resendPrompt,
@@ -174,15 +185,12 @@ return (
       }}
     ></div>
 
-    <h1>Sus Loans</h1>
-
-    {state.widget}
-
+    <h1>Intents</h1>
     <div className="form-group">
       <input
         id="name"
         type="text"
-        placeholder="What is Sus?"
+        placeholder="What is Intents?"
         value={state.prompt}
         onChange={(event) => State.update({ prompt: event.target.value })}
         required
@@ -199,6 +207,8 @@ return (
     ) : null}
 
     {!state.isLoading ? <p>{state.response ? state.response : null}</p> : null}
+
+    {state.widget}
 
     <Button onClick={() => sendPrompt()}>Send</Button>
   </CreatePrompt>
