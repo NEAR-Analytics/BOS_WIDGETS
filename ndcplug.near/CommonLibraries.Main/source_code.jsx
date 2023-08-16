@@ -1,9 +1,12 @@
 // tab isn't rerederning properly
 // add better icons and actually populate components
 // pass in props so can keep track of state
-State.init({
-  selectedTab: props.catTab || "home",
-});
+// make it so on click is home tag
+// add number of stars
+// add hover effect
+// make every header also a filter
+// add selecte tab styling
+
 const ownerId = "manzanal.near";
 const curatedComps = [
   {
@@ -290,7 +293,7 @@ const curatedComps = [
     ],
   },
   {
-    category: "NEAR APIs JS Examples",
+    category: "NEAR APIs JS",
     id: "naj",
     icon: "bi-infinity",
     components: [
@@ -309,7 +312,7 @@ const curatedComps = [
     ],
   },
   {
-    category: "Styled Components",
+    category: "Styled Comps",
     id: "style",
     icon: "bi-brush",
     components: [
@@ -529,6 +532,23 @@ const curatedComps = [
 const filterTag = props.catTab ?? "home";
 const debug = props.debug ?? false;
 const id = props.id ?? "";
+const updateTab = (tab) => {
+  State.update({ selectedTab: tab });
+  console.log("Tab is: " + tab);
+  console.log("SelectedTab is: " + state.selectedTab);
+};
+State.init({
+  catTab: filterTag,
+  id: id,
+  selectedTab: props.catTab || "home",
+});
+
+if (props.catTab && props.catTab !== state.selectedTab) {
+  State.update({
+    selectedTab: props.catTab,
+  });
+}
+const accountUrl = `#/ndcplug.near/widget/BOSHACKS.Index?tab=resources&catTab=${state.selectedTab}`;
 
 const searchComponents = () => {
   return (
@@ -551,12 +571,20 @@ const searchComponents = () => {
         <div className="mb-2">
           {state.components.map((comp, i) => (
             <div class="mb-2" key={i}>
+              {false && (
+                <Widget
+                  src="mob.near/widget/WidgetMetadata"
+                  props={{
+                    accountId: comp.accountId,
+                    widgetName: comp.widgetName,
+                    expanded: true,
+                  }}
+                />
+              )}
               <Widget
-                src="mob.near/widget/WidgetMetadata"
+                src="ndcplug.near/widget/CommonLibraries.Component.Like"
                 props={{
-                  accountId: comp.accountId,
-                  widgetName: comp.widgetName,
-                  expanded: false,
+                  widgetPath: `${comp.accountId}/widget/${comp.widgetName}`,
                 }}
               />
             </div>
@@ -572,7 +600,12 @@ const renderCategory = (categoryId) => {
   const item = curatedComps.find((i) => i.id == categoryId);
   return (
     <div class="mt-3">
-      <div class="text fs-5 text-muted mb-1" id={item.id}>
+      <div
+        class="text fs-5 text-muted mb-1"
+        href={`${accountUrl}&catTab=hackers`}
+        selected={state.selectedTab === item.id}
+        id={item.id}
+      >
         {item.category}
       </div>
       <div class="border border-2 mb-4 rounded"></div>
@@ -580,13 +613,22 @@ const renderCategory = (categoryId) => {
         <div className="row ">
           {item.components.map((comp, i) => (
             <div class="w-100 mb-2">
+              {false && (
+                <Widget
+                  key={i}
+                  src="mob.near/widget/WidgetMetadata"
+                  props={{
+                    accountId: comp.accountId,
+                    widgetName: comp.widgetName,
+                    expanded: false,
+                  }}
+                />
+              )}
               <Widget
                 key={i}
-                src="mob.near/widget/WidgetMetadata"
+                src="ndcplug.near/widget/CommonLibraries.Component.Like"
                 props={{
-                  accountId: comp.accountId,
-                  widgetName: comp.widgetName,
-                  expanded: false,
+                  widgetPath: `${comp.accountId}/widget/${comp.widgetName}`,
                 }}
               />
             </div>
@@ -596,15 +638,10 @@ const renderCategory = (categoryId) => {
     </div>
   );
 };
-State.init({
-  catTab: filterTag,
-  id: id,
-});
 
 const renderHome = () => {
   return (
     <>
-      {searchComponents()}
       <div class="mt-2">
         <h4>Libraries</h4>
         <p class="text text-muted ">
@@ -628,32 +665,70 @@ const onSelect = (selection) => {
 
 const renderContent = {
   home: renderHome(),
-  searchComponents: searchComponents(),
+  //   searchComponents: searchComponents(),
   category: renderCategory(state.id),
 }[state.catTab];
-
+const navItems = curatedComps.map((i) => ({
+  category: i.category,
+  icon: i.icon,
+  id: i.id,
+}));
 return (
   <>
     <div class="row">
       <div class="col-md-3">
-        <Widget
-          src={`ndcplug.near/widget/CommonLibraries.Navbar`}
-          props={{
-            catTab: state.catTab,
-            onSelect,
-            navItems: curatedComps.map((i) => ({
-              category: i.category,
-              icon: i.icon,
-              id: i.id,
-            })),
-          }}
-        />
+        {false && (
+          <Widget
+            src={`ndcplug.near/widget/CommonLibraries.Navbar`}
+            props={{
+              catTab: state.catTab,
+              onSelect,
+              navItems: curatedComps.map((i) => ({
+                category: i.category,
+                icon: i.icon,
+                id: i.id,
+              })),
+            }}
+          />
+        )}
+        <div className="d-flex flex-column">
+          <h4 className="fs-4 text-nowrap d-flex flex-row align-items-center">
+            <span>📚 Libraries</span>
+          </h4>
+          <button className="nav-link mt-2" onClick={() => updateTab("home")}>
+            <i className="bi-house" />
+            <span>Home</span>
+          </button>
+          <button
+            className="nav-link mt-2"
+            onClick={() => updateTab("searchComponents")}
+          >
+            <i className="bi-search" />
+            <span>Search</span>
+          </button>
+          <hr className="border-2" />
+          {navItems.map((item) => {
+            // console.log(item);
+            return (
+              <button
+                className={`nav-link mt-2 rounded-3${
+                  item.id === props.catTab ? "bg-secondary" : ""
+                }`}
+                onClick={() => updateTab(item.id)}
+              >
+                {" "}
+                <i className={item.icon} /> <span>{item.category}</span>{" "}
+              </button>
+            );
+          })}
+        </div>
         <hr className="border-2" />
       </div>
       <div class="col-md-9">
         {" "}
         <h2>Component Libraries</h2>
-        <p class="text text-muted">Librairies for building a better BOS.</p>
+        <p class="text text-muted">Libraries for building a better BOS.</p>
+        {searchComponents()}
         {renderContent}
       </div>
     </div>
