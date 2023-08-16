@@ -44,18 +44,25 @@ const Button = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
   background: inherit;
+  position: relative;
   color: #6c757d;
+  height: 1em;
   svg {
     margin-top: -2px;
   }
   &:not([disabled]):hover {
     opacity: 1 !important;
     color: DeepSkyBlue;
-    background: rgba(0, 191, 255, 0.1);
+
+    &:before {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      background: rgba(0, 191, 255, 0.1);
+    }
   }
 `;
 
