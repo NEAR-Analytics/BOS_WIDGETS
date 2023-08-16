@@ -5,6 +5,7 @@ const appTheme = appThemeService.getTheme();
 
 const H6Text = styled.h6`
   margin: 0;
+  color: ${appTheme.colors().standartText};
 `;
 
 return (
