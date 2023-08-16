@@ -194,12 +194,13 @@ if (state.chainId !== undefined && state.chainId !== 11155111) {
 const iface = new ethers.utils.Interface(wallet.abi);
 
 if (state.contract === undefined) {
+  const con = new ethers.Contract(
+    wallet.address,
+    wallet.abi,
+    Ethers.provider().getSigner()
+  );
   State.update({
-    contract: new ethers.Contract(
-      wallet.address,
-      wallet.abi,
-      Ethers.provider().getSigner()
-    ),
+    contract: con,
   });
 }
 
