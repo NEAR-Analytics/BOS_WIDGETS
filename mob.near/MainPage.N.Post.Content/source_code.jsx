@@ -31,7 +31,7 @@ return content ? (
           <pre>{JSON.stringify(content.image, undefined, 2)}</pre>
         </div>
       ) : (
-        <div className="w-100 rounded-3 text-center">
+        <div className="w-100 rounded-3 text-center mt-2">
           <Widget
             src="mob.near/widget/Image"
             props={{
