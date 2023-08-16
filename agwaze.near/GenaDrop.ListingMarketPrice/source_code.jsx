@@ -94,7 +94,9 @@ const ChainCard = styled.div`
   background-color: #EFF3F9;
   align-items:center;
   gap: 1rem;
-  width: 300px;
+  cursor: pointer;
+  max-width: 320px;
+  width: 80%;
   margin: 1rem auto;
   height: 60px;
   & img{
@@ -109,10 +111,10 @@ const ChainCardMarket = styled.div`
   display: flex;
   background-color: #EFF3F9;
   align-items:center;
-  gap: 1rem;
+  gap: 0.5rem;
   cursor: pointer;
   width: 140px;
-  margin: 1rem auto;
+  margin: 1rem;
   height: 60px;
   & img{
     width: 20px;
@@ -146,7 +148,16 @@ const PriceInput = styled.div`
 const Markets = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     flex-wrap: wrap;
+`;
+
+const MarketOption = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const BlueSub = styled.div`
@@ -328,40 +339,40 @@ return (
               listed on
             </GrayLabel>
             <div className="p-3">
-              <Markets>
-                <ChainCardMarket
-                  className={`${
-                    props.state.fewfar ? "border border-primary" : ""
-                  } rounded-2 p-2`}
-                  onClick={props.selectFewFar}
-                  onChange={props.selectFewFar}
-                >
-                  <img src="https://production.cdn.fewfar.com/static/images/logo.svg" />
-                  Few & Far
-                </ChainCardMarket>
+              <MarketOption>
+                <Markets>
+                  <ChainCardMarket
+                    className={`${
+                      props.state.fewfar ? "border border-primary" : ""
+                    } rounded-3 p-2`}
+                    onClick={props.selectFewFar}
+                    onChange={props.selectFewFar}
+                  >
+                    <img src="https://production.cdn.fewfar.com/static/images/logo.svg" />
+                    Few & Far
+                  </ChainCardMarket>
 
-                <ChainCardMarket
-                  className={`${
-                    props.state.tradeport ? "border border-primary" : ""
-                  } rounded-2 p-2`}
-                  onClick={props.selectTradeport}
-                  onChange={props.selectTradeport}
-                >
-                  <label className="form-check-label" htmlFor="myCheckbox">
-                    <img src="data:image/png;base64,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" />
-                    Tradeport
-                  </label>
-                </ChainCardMarket>
-              </Markets>
+                  <ChainCardMarket
+                    className={`${
+                      props.state.tradeport ? "border border-primary" : ""
+                    } rounded-3 p-2`}
+                    onClick={props.selectTradeport}
+                    onChange={props.selectTradeport}
+                  >
+                    <label className="form-check-label" htmlFor="myCheckbox">
+                      <img src="data:image/png;base64,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" />
+                      Tradeport
+                    </label>
+                  </ChainCardMarket>
+                </Markets>
+              </MarketOption>
               <div className="">
-                <ChainCard className="form-check rounded-4 p-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    checked={props.state.custom}
-                    onChange={props.selectCustom}
-                    id="custombox"
-                  />
+                <ChainCard
+                  onClick={props.selectCustom}
+                  className={`form-check rounded-4 p-3 ${
+                    props.state.custom ? "border border-primary" : ""
+                  }`}
+                >
                   <label className="form-check-label" htmlFor="myCheckbox">
                     Custom Marketplace
                   </label>
