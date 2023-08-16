@@ -81,7 +81,7 @@ const borrowerOperationAbi = fetch(
 );
 
 const vesselManagerAbi = fetch(
-  "https://api.etherscan.io/api?module=contract&action=getabi&address=0xb81abd6e76182d5696789158747b349a9b2e2055"
+  "https://gist.githubusercontent.com/kcole16/667331152bdb1e9cef785e7cd07d6087/raw/52b5f915793ca9ef1d5314c47ab20bddf90aa463/test.json"
 );
 
 const priceFeedAddress = "0x07dD4Ce17De84bA13Fc154A7FdB46fC362a41E2C";
@@ -277,7 +277,7 @@ const getEntireDebtAndColl = () => {
   console.log(vesselManagerAbi);
   const vesselManagerContract = new ethers.Contract(
     vesselManagerAddress,
-    vesselManagerAbi.body.result,
+    vesselManagerAbi.body,
     Ethers.provider().getSigner()
   );
 
