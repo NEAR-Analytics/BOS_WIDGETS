@@ -65,7 +65,9 @@ State.init({
 //=================================================END CONSTS=======================================================
 
 //==================================================FUNCTIONS=======================================================
-
+function stateUpdate(obj) {
+  State.update(obj);
+}
 function getPublicationDate(creationTimestamp) {
   if (creationTimestamp == 0) {
     return "Creation timestamp passed wrong";
