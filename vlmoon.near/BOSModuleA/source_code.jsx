@@ -1,8 +1,8 @@
-const dependencies = props.dependencies;
+const dependencies = props.dependencies || {};
 
 return (
   <>
     <h1>Module A</h1>
-    <h2>{dependencies.routes ?? "no routes"}</h2>
+    <h2>{JSON.stringify(dependencies.routes) ?? "no routes"}</h2>
   </>
 );
