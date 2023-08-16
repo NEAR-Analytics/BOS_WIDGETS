@@ -51,14 +51,15 @@ const Nav = styled.div`
     --bs-nav-link-color: #000;
     --bs-nav-pills-link-active-color: #000;
     --bs-nav-pills-link-active-bg: #fbfbfb;
-    --bs-nav-link-padding-y: 0.8rem;
+    --bs-nav-link-padding-y: 0.75rem;
     border-bottom: 1px solid #eee;
+    padding-top: 3px;
   }
   .nav-link.active {
     border-bottom: 3px solid rgb(13, 110, 253);
   }
 
-  .nav-item:hover {
+  .nav-item:not(:has(> .disabled)):hover {
     background: rgba(13, 110, 253, 0.15);
   }
 
