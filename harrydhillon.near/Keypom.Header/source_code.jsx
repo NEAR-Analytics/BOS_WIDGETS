@@ -46,7 +46,7 @@ return (
         <LinkButton scaleDown={scaledown}>Docs</LinkButton>
         <LinkButton scaleDown={scaledown}>Get In Touch</LinkButton>
         <LinkButton scaleDown={scaledown}>My Drops</LinkButton>
-        <AccountButton scaleDown={scaledown}>harrydhillon.near</AccountButton>
+        <AccountButton scaleDown={scaledown}>georgecostanza.near</AccountButton>
       </div>
     </HeaderContainer>
   </>
