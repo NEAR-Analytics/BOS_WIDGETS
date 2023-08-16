@@ -7,6 +7,49 @@
 // make every header also a filter
 // add selecte tab styling
 
+const Card = styled.div`
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #eceef0;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
+  overflow: hidden;
+  padding: 23px;
+    .join-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    height: 32px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    cursor: pointer;
+    background: #FBFCFD;
+    border: 1px solid #D7DBDF;
+    color: ${props.primary ? "#006ADC" : "#11181C"} !important;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus {
+      background: #ECEDEE;
+      text-decoration: none;
+      outline: none;
+    }
+
+    i {
+      display: inline-block;
+      color: #7E868C;
+    }
+  }
+`;
+
 const ownerId = "manzanal.near";
 const curatedComps = [
   {
@@ -532,23 +575,29 @@ const curatedComps = [
 const filterTag = props.catTab ?? "home";
 const debug = props.debug ?? false;
 const id = props.id ?? "";
-const updateTab = (tab) => {
-  State.update({ selectedTab: tab });
-  console.log("Tab is: " + tab);
-  console.log("SelectedTab is: " + state.selectedTab);
-};
+
 State.init({
   catTab: filterTag,
   id: id,
   selectedTab: props.catTab || "home",
+  accountUrl: `#/ndcplug.near/widget/BOSHACKS.Index?tab=resources&catTab=${state.selectedTab}`,
 });
+const updateTab = (tab) => {
+  State.update({
+    selectedTab: tab,
+    accountUrl: `#/ndcplug.near/widget/BOSHACKS.Index?tab=resources&catTab=${state.selectedTab}`,
+  });
+  //   window.location.href = `${state.accountUrl}`;
+  console.log("Tab is: " + tab);
+  console.log("SelectedTab is: " + state.selectedTab);
+  console.log("AccountURL: " + state.accountUrl);
+};
 
 if (props.catTab && props.catTab !== state.selectedTab) {
   State.update({
     selectedTab: props.catTab,
   });
 }
-const accountUrl = `#/ndcplug.near/widget/BOSHACKS.Index?tab=resources&catTab=${state.selectedTab}`;
 
 const searchComponents = () => {
   return (
@@ -602,7 +651,8 @@ const renderCategory = (categoryId) => {
     <div class="mt-3">
       <div
         class="text fs-5 text-muted mb-1"
-        href={`${accountUrl}&catTab=hackers`}
+        href={`${state.accountUrl}`}
+        target="_blank"
         selected={state.selectedTab === item.id}
         id={item.id}
       >
@@ -675,62 +725,66 @@ const navItems = curatedComps.map((i) => ({
 }));
 return (
   <>
-    <div class="row">
-      <div class="col-md-3">
-        {false && (
-          <Widget
-            src={`ndcplug.near/widget/CommonLibraries.Navbar`}
-            props={{
-              catTab: state.catTab,
-              onSelect,
-              navItems: curatedComps.map((i) => ({
-                category: i.category,
-                icon: i.icon,
-                id: i.id,
-              })),
-            }}
-          />
-        )}
-        <div className="d-flex flex-column">
-          <h4 className="fs-4 text-nowrap d-flex flex-row align-items-center">
-            <span>📚 Libraries</span>
-          </h4>
-          <button className="nav-link mt-2" onClick={() => updateTab("home")}>
-            <i className="bi-house" />
-            <span>Home</span>
-          </button>
-          <button
-            className="nav-link mt-2"
-            onClick={() => updateTab("searchComponents")}
-          >
-            <i className="bi-search" />
-            <span>Search</span>
-          </button>
+    <Card>
+      <div class="row">
+        <div class="col-md-3">
+          {false && (
+            <Widget
+              src={`ndcplug.near/widget/CommonLibraries.Navbar`}
+              props={{
+                catTab: state.catTab,
+                onSelect,
+                navItems: curatedComps.map((i) => ({
+                  category: i.category,
+                  icon: i.icon,
+                  id: i.id,
+                })),
+              }}
+            />
+          )}
+          <div className="d-flex flex-column">
+            <h4 className="fs-4 text-nowrap d-flex flex-row align-items-center">
+              <span>📚 Libraries</span>
+            </h4>
+            <button className="nav-link mt-2" onClick={() => updateTab("home")}>
+              <i className="bi-house" />
+              <span>Home</span>
+            </button>
+            <button
+              className="nav-link mt-2"
+              onClick={() => updateTab("searchComponents")}
+            >
+              <i className="bi-search" />
+              <span>Search</span>
+            </button>
+            <hr className="border-2" />
+            {navItems.map((item) => {
+              // console.log(item);
+              return (
+                <a
+                  className={`join-button rounded-3${
+                    item.id === props.catTab ? "bg-secondary" : ""
+                  }`}
+                  onClick={() => updateTab(item.id)}
+                  href={`${state.accountUrl}`}
+                  target="_blank"
+                >
+                  {" "}
+                  <i className={item.icon} /> <span>{item.category}</span>{" "}
+                </a>
+              );
+            })}
+          </div>
           <hr className="border-2" />
-          {navItems.map((item) => {
-            // console.log(item);
-            return (
-              <button
-                className={`nav-link mt-2 rounded-3${
-                  item.id === props.catTab ? "bg-secondary" : ""
-                }`}
-                onClick={() => updateTab(item.id)}
-              >
-                {" "}
-                <i className={item.icon} /> <span>{item.category}</span>{" "}
-              </button>
-            );
-          })}
         </div>
-        <hr className="border-2" />
+        <div class="col-md-9">
+          {" "}
+          <h2>Component Libraries</h2>
+          <p class="text text-muted">Libraries for building a better BOS.</p>
+          {searchComponents()}
+          {renderContent}
+        </div>
       </div>
-      <div class="col-md-9">
-        {" "}
-        <h2>Component Libraries</h2>
-        <p class="text text-muted">Libraries for building a better BOS.</p>
-        {searchComponents()}
-        {renderContent}
-      </div>
-    </div>
+    </Card>
   </>
 );
