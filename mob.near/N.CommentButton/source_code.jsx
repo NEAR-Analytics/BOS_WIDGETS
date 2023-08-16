@@ -18,7 +18,7 @@ const CommentIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
-    viewBox="-2 -2 20 20"
+    viewBox="0 0 20 20"
     stroke="currentColor"
     strokeWidth="0.5"
     style={{ width: "24px", height: "24px" }}
