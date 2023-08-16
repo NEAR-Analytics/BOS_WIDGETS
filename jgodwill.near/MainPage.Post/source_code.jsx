@@ -9,7 +9,28 @@ const content =
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
-const sender = `${senderProfile.name || senderId.split(".near")[0]}`;
+const sender = `${
+  senderProfile.name ||
+  (senderId.endsWith(".near")
+    ? `@${
+        senderId.length > 20
+          ? `${senderId.slice(0, 10)}...${senderId.slice(senderId.length - 4)}`
+          : `${senderId}`
+      }`
+    : `@${senderId.slice(0, 10)}...${senderId.slice(senderId.length - 4)}`)
+}`;
+const receiver = `${
+  state?.profile?.name ||
+  (accountId.endsWith(".near")
+    ? `@${
+        accountId.length > 20
+          ? `${accountId.slice(0, 10)}...${accountId.slice(
+              accountId.length - 4
+            )}`
+          : `${accountId}`
+      }`
+    : `@${accountId.slice(0, 10)}...${accountId.slice(accountId.length - 4)}`)
+}`;
 const nftDescription = content?.text ?? "BOS minting powered by GenaDrop";
 
 const notifyAccountId = accountId;
@@ -42,14 +63,12 @@ console.log("post date", postDate);
 
 const hasImageInPost = content?.image;
 console.log("content", content);
+console.log("receiver", receiver.length);
 
 const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-
 State.update({
-  description: `${nftDescription.trim().slice(0, 70)}...`,
-  title: `${
-    state?.profile?.name || accountId.split(".near")[0]
-  } ${postDate} 💖 from ${sender}`,
+  description: `${nftDescription.trim().slice(0, 120)}...`,
+  title: `${receiver} ${postDate} 💖 from ${sender}`,
   profile: userProfile,
   content: JSON.parse(
     Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
