@@ -1,6 +1,6 @@
 const wallet = fetch(
   "https://raw.githubusercontent.com/test1883/walley/main/build/contracts/contracts/Wallet.sol/Wallet.json"
-).body;
+);
 
 State.init({
   contract: undefined,
