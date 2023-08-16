@@ -167,6 +167,7 @@ const Wrapper = styled.div`
   }
 
   .up-buttons {
+    margin-top: 6px;
     margin-left: -12px;
   }
 `;
