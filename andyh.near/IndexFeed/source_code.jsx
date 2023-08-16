@@ -17,7 +17,7 @@ const cachedRenderItem = (item, i) => {
 
   if (!(key in state.cachedItems)) {
     state.cachedItems[key] = props.renderItem
-      ? useComponentCallback(props.renderItem, item, i)
+      ? useComponentCallback(props.renderItem, item, i)()
       : renderItem(item, i);
     State.update();
   }
