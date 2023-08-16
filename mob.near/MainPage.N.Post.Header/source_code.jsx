@@ -107,7 +107,7 @@ return (
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          <i className="fs-6 bi bi-three-dots" />
+          <i className="fs-6 bi bi-three-dots-vertical" />
         </Button>
         <ul className="dropdown-menu">
           <li className="dropdown-item">
