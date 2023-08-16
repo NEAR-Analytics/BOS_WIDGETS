@@ -3,12 +3,20 @@ const routesNavigator = props.routesNavigator;
 const appThemeService = props.appThemeService;
 const appTheme = appThemeService.getTheme();
 
+const ColorsInfo = styled.div`
+  height: 300px;
+  width: 300px;
+  background-color: ${appTheme.colors().backgroundColor};
+`;
+
 return (
   <>
     <h1>Module A</h1>
     <h2>{JSON.stringify(dependencies)}</h2>
     <button onClick={routesNavigator.moduleB}>Go to the next module</button>
-    <h6>Current Colors : {JSON.stringify(appTheme.colors())}</h6>
+    <ColorsInfo>
+      <h6>Current Colors : {JSON.stringify(appTheme.colors())}</h6>
+    </ColorsInfo>
     <button onClick={appThemeService.switchToLightTheme}>
       Change App Theme Mode To Light
     </button>
