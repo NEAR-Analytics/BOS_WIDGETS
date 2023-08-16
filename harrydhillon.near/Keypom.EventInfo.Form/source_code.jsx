@@ -31,6 +31,13 @@ font-style: normal;
 font-weight: 500;
 `;
 
+const CheckBoxLabelStyling = styled.div`
+.label{
+color:gray !important;
+font-size:13px;
+}
+`;
+
 const AllSteps = [
   {
     label: "Event Info",
@@ -149,6 +156,7 @@ const formContent = () => {
             </>
           )}
           <div style={{ marginLeft: -5 }}>
+          <CheckBoxLabelStyling>
             <Widget
               src="nui.sking.near/widget/Input.Checkbox"
               props={{
@@ -158,8 +166,11 @@ const formContent = () => {
                   State.update({ isSingleDateEvent: !state.isSingleDateEvent }),
               }}
             />
+            </CheckBoxLabelStyling>
           </div>
-          <Label>Event artwork</Label>
+          <Label style={{ fontWeight: "bold", marginTop: 10 }}>
+            Event artwork
+          </Label>
           <p style={{ fontSize: 12, color: "gray" }}>
             Customize the artwork that appears in the header of the event page.
           </p>
