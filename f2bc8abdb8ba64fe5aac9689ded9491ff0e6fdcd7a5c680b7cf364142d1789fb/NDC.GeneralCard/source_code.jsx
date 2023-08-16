@@ -649,7 +649,7 @@ return (
               text: `+${data.upVoteData?.upvotes ?? 0}`,
               className: "secondary dark",
               size: "sm",
-              onClick: handleUpVote,
+              onClick: upVoteListener,
               icon: <i className="bi bi-hand-thumbs-up"></i>,
             },
           }}
