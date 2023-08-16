@@ -32,7 +32,7 @@ const Wrapper = styled.div`
     h1, h2, h3, h4, h5, h6, strong, b {
       font-weight: 500 !important;
     }
-    p {
+    p, ol, ul, dl {
       margin-bottom: 0.5rem;
       white-space: inherit;
     }
@@ -50,10 +50,6 @@ const Wrapper = styled.div`
 
     .post-header {
       margin: 4px 0;
-    }
-    
-    p:last-child {
-      margin-bottom: 0;
     }
   }
 
