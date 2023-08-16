@@ -214,7 +214,25 @@ if (state.transfers.length === 0) {
   contract
     .getTransfers()
     .then((transfers) => {
+      transfers.map((transfer) => {
+        State.update({
+          transfers: [
+            ...state.transfers,
+            {
+              id: Big(transfer[0]).div(Big(10).pow(18)).toFixed(2),
+              amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(2),
+              to: transfer[2],
+              approvals: transfer[3],
+              sent: transfer[4],
+              approvals: transfer[5],
+            },
+          ],
+        });
+      });
       console.log(transfers);
+    })
+    .then(() => {
+      console.log(state.transfers);
     })
     .catch((err) => {
       console.log(err);
