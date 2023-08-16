@@ -13,6 +13,9 @@ const renderItem =
     </div>
   ));
 const cachedRenderItem = (item, i) => {
+  if (item === "undefined") {
+    return "loading...";
+  }
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
