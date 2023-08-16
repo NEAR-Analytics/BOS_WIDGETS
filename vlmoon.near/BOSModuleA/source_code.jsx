@@ -1,7 +1,7 @@
 const dependencies = props.dependencies || ["No dependencies"];
 const routesNavigator = props.routesNavigator;
 const appThemeService = props.appThemeService;
-const appTheme = appThemeService?.getTheme();
+const appTheme = appThemeService.getTheme();
 
 const Body = styled.div`
   display: flex;
