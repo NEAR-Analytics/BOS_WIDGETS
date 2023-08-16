@@ -121,7 +121,7 @@ const openVessel = () => {
         .toString()
     )
     .then((approveTx) => {
-      console.log(approveTx);
+      State.update({ tx: approveTx.hash });
       return approveTx.wait();
     })
     .then(() => {
@@ -304,6 +304,7 @@ State.init({
   debt: null,
   pendingLUSDDebtReward: null,
   pendingETHReward: null,
+  tx: null,
 });
 
 if (state.sender === undefined) {
@@ -401,6 +402,16 @@ return (
         <p>Collateral: {state.coll} ETH</p>
         <p>Pending ETH Reward: {state.pendingETHReward} ETH</p>
         <p>Pending LUSD Debt Reward: {state.pendingLUSDDebtReward} LUSD</p>
+      </div>
+    ) : (
+      <div></div>
+    )}
+    {state.tx ? (
+      <div>
+        <p>
+          View your transaction:{" "}
+          <a href={"https://goerli.etherscan.io/tx/" + state.tx}>{state.tx}</a>
+        </p>
       </div>
     ) : (
       <div></div>
