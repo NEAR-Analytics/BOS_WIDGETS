@@ -81,7 +81,7 @@ const borrowerOperationAbi = fetch(
 );
 
 const vesselManagerAbi = fetch(
-  "https://api.etherscan.io/api?module=contract&action=getabi&address=0xdB5DAcB1DFbe16326C3656a88017f0cB4ece0977"
+  "https://api.etherscan.io/api?module=contract&action=getabi&address=0xb81abd6e76182d5696789158747b349a9b2e2055"
 );
 
 const priceFeedAddress = "0x07dD4Ce17De84bA13Fc154A7FdB46fC362a41E2C";
