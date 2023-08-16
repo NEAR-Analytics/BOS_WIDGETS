@@ -8,7 +8,7 @@ return (
     <h1>Module A</h1>
     <h2>{JSON.stringify(dependencies)}</h2>
     <button onClick={routesNavigator.moduleB}>Go to the next module</button>
-    <h6>Current Colors : {appTheme.colors()}</h6>
+    <h6>Current Colors : {JSON.stringify(appTheme.colors())}</h6>
     <button onClick={appThemeService.switchToLightTheme}>
       Change App Theme Mode To Light
     </button>
