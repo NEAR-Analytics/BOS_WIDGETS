@@ -233,7 +233,7 @@ if (state.transfers.length === 0) {
     })
     .then(() => {
       console.log(state.transfers);
-      contract.approveTransfer(0).send({ from: sender });
+      // contract.approveTransfer(0).send({ from: sender });
     })
     .catch((err) => {
       console.log(err);
