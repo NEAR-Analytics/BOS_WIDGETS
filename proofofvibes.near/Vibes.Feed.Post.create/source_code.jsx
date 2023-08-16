@@ -625,7 +625,11 @@ return (
               <OverlayTrigger
                 key="top"
                 placement="top"
-                overlay={<Tooltip id={`tooltip-top`}>👋🏾 Message Here</Tooltip>}
+                overlay={
+                  <Tooltip id={`tooltip-top`}>
+                    How friendly was the vibe?
+                  </Tooltip>
+                }
               >
                 <label className="slider-label" for="friendlySlider">
                   ❤️ Friendliness :{" "}
@@ -648,7 +652,12 @@ return (
               <OverlayTrigger
                 key="top"
                 placement="top"
-                overlay={<Tooltip id={`tooltip-top`}>👋🏾 Message Here</Tooltip>}
+                overlay={
+                  <Tooltip id={`tooltip-top`}>
+                    How much energy was the vibe? Was it calm (give low energy)
+                    vs a moshpit (high energy)?
+                  </Tooltip>
+                }
               >
                 <label className="slider-label" for="energySlider">
                   ⚡️ Energy :{" "}
@@ -671,7 +680,12 @@ return (
               <OverlayTrigger
                 key="top"
                 placement="top"
-                overlay={<Tooltip id={`tooltip-top`}>👋🏾 Message Here</Tooltip>}
+                overlay={
+                  <Tooltip id={`tooltip-top`}>
+                    Were you alone (low density) or were you packed like
+                    sardines (high density)?
+                  </Tooltip>
+                }
               >
                 <label className="slider-label" for="densitySlider">
                   🧊 Density :{" "}
@@ -694,7 +708,13 @@ return (
               <OverlayTrigger
                 key="top"
                 placement="top"
-                overlay={<Tooltip id={`tooltip-top`}>👋🏾 Message Here</Tooltip>}
+                overlay={
+                  <Tooltip id={`tooltip-top`}>
+                    Was everyone around you the same type of people (low
+                    diversity), or did everyone bring a unique perspective
+                    culture and background (high diversity)?
+                  </Tooltip>
+                }
               >
                 <label className="slider-label" for="diversitySlider">
                   🌈 Diversity :{" "}
