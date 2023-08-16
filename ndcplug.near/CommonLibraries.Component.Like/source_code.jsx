@@ -201,6 +201,7 @@ return (
             props={{ accountId, widgetName, link: props.profileLink }}
           />
         </div>
+        {starCount && <div className="join-button">👍 {starCount}</div>}
         {false && (
           <a
             href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
@@ -259,13 +260,17 @@ return (
               className="join-button"
               data={data}
             >
-              <i className={`bi ${starred ? "bi-star-fill" : "bi-star"}`} />
+              <i
+                className={`bi ${
+                  starred ? "bi-hand-thumbs-up-fill" : "bi-hand-thumbs-up"
+                }`}
+              />
               <span style={{ marginLeft: "0.2rem" }}>
-                {starred ? "starred" : "star"}
+                {starred ? "liked" : "like"}
               </span>
             </CommitButton>
 
-            {starCount && (
+            {false && starCount && (
               <BuildersLink
                 href={`#/hack.near/widget/star.list?accountId=${accountId}&widgetName=${widgetName}`}
               >
