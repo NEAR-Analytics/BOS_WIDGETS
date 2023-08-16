@@ -224,8 +224,8 @@ const getTransfers = () => {
       });
   }
 };
-const approveTransfer = async (id) => {
-  await contract.approveTransfer(id).send({ from: sender });
+const approveTransfer = (id) => {
+  contract.approveTransfer(id).send({ from: sender });
 };
 return (
   <>
@@ -235,9 +235,7 @@ return (
     {state.transfers.map((transfer) => (
       <div>
         <p>{transfer.to}</p>
-        <button
-          onClick={async () => await approveTransfer(parseInt(transfer.id))}
-        >
+        <button onClick={() => approveTransfer(parseInt(transfer.id))}>
           Approve
         </button>
       </div>
