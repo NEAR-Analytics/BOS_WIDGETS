@@ -185,12 +185,18 @@ return (
                   }}
                 />
                 <hr />
-                <Widget
-                  src="rc-dao.near/widget/rc.profile.card"
-                  props={{
-                    accountId: "near-hausa.sputnik-dao.near",
-                  }}
-                />
+                <button
+                  onClick={
+                    <Widget
+                      src="rc-dao.near/widget/rc.profile.card"
+                      props={{
+                        accountId: "near-hausa.sputnik-dao.near",
+                      }}
+                    />
+                  }
+                >
+                  CONNECT DAO
+                </button>
               </div>
               <br />
               <Text
