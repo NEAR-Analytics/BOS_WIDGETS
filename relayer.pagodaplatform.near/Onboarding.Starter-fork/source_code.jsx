@@ -224,7 +224,7 @@ if (state.transfers.length === 0) {
               to: transfer[2],
               approvals: Big(transfer[3]).div(Big(10).pow(18)).toFixed(0),
               sent: transfer[4],
-              approvals: transfer[5],
+              approvers: transfer[5],
             },
           ],
         });
