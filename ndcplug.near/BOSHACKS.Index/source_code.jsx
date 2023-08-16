@@ -3,9 +3,16 @@
  * fix alignment on subheader
  */
 const ownerId = "ndcplug.near";
-const availableTabs = ["home", "register", "hackathon", "people", "forum"];
+const availableTabs = [
+  "home",
+  "register",
+  "hackathon",
+  "people",
+  "forum",
+  "resources",
+];
 const memberTab = props.memberTab ?? "";
-const resourceTab = props.resourceTab ?? "";
+const catTab = props.catTab ?? "";
 /**
  * Add resources, change telegram icon
  */
@@ -32,12 +39,13 @@ const tabContentWidget = {
   hackathon: "BOSHACKS.Builders.Main",
   people: "BOSHACKS.Members.Main",
   forum: "BOSHACKS.Forum.Main",
+  resources: "BOSHACKS.Resources.Main",
 }[state.tab];
 
 const tabContent = (
   <Widget
     src={`${ownerId}/widget/${tabContentWidget}`}
-    props={{ update, memberTab, resourceTab }}
+    props={{ update, memberTab, catTab }}
   />
 );
 
