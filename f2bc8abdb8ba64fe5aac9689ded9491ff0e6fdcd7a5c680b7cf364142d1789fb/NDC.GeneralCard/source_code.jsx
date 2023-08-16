@@ -94,8 +94,8 @@ function upVoteListener() {
   let newLibCalls = [...libCalls];
 
   let isDelete =
-    state.upVotes.userInteraction.value.isDelete !== undefined
-      ? !state.upVotes.userInteraction.value.isDelete
+    state.upVotes.userInteraction.value.deleteReaction !== undefined
+      ? !state.upVotes.userInteraction.value.deleteReaction
       : false;
 
   function onCommit() {
@@ -630,7 +630,6 @@ const renderArticleBody = () => {
 
 //===============================================END COMPONENTS====================================================
 
-console.log("state.upVotes: ", state.upVotes);
 //===================================================RENDER========================================================
 return (
   <div className="p-2 col-lg-4 col-md-6 col-sm-12">
