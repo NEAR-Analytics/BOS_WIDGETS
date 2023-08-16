@@ -70,7 +70,9 @@ function upVoteListener() {
 
   function onCommit() {
     State.update({
-      numberOfVotes: isDelete ? numberOfVotes - 1 : numberOfVotes + 1,
+      numberOfVotes: isDelete
+        ? state.numberOfVotes - 1
+        : state.numberOfVotes + 1,
     });
   }
 
