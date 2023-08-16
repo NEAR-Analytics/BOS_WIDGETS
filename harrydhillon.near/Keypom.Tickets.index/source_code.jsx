@@ -3,7 +3,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 `;
-State.init({ isCreateTicketModalOpen: true });
+State.init({ isCreateTicketModalOpen: false });
 
 const createTickets = () => {
   return (
