@@ -65,6 +65,8 @@ function stateUpdate(obj) {
   State.update(obj);
 }
 
+console.log(state.numberOfVotes);
+
 function upVoteListener() {
   let newLibCalls = [...libCalls];
 
@@ -97,7 +99,7 @@ return (
       props={{
         Button: {
           text: `+${state.numberOfVotes ?? 0}`,
-          className: getUpVoteButtonClass(),
+          className: `${getUpVoteButtonClass()}`,
           size: "sm",
           onClick: upVoteListener,
           icon: <i className="bi bi-hand-thumbs-up"></i>,
