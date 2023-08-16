@@ -185,6 +185,7 @@ const contract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 if (contract) {
+  console.log("hhh");
   contract
     .createTransfer(1000, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
     .then(() => {
