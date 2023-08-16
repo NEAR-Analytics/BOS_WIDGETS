@@ -1,6 +1,7 @@
 const daos = props.daos;
 const currentPage = props.page ?? 1;
 const resPerPage = props.resPerPage ?? 6;
+const { router } = props;
 
 const createDAOLink = "#/astraplusplus.ndctools.near/widget/index?tab=create-dao";
 
@@ -123,7 +124,7 @@ if (daos && !state.isTyping) {
   });
   paginatedDAOs = filteredDAOs.slice(
     (state.currentPage - 1) * resPerPage,
-    state.currentPage * resPerPage,
+    state.currentPage * resPerPage
   );
 }
 
@@ -142,6 +143,7 @@ const renderDAOsRows = () => {
             src="astraplusplus.ndctools.near/widget/DAOs.Card"
             props={{
               daoId: dao.contract_id,
+              router,
             }}
           />
         </div>
