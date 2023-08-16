@@ -197,12 +197,12 @@ const con = new ethers.Contract(
   wallet.abi,
   Ethers.provider().getSigner()
 );
-const address = async function () {
-  const signer = Ethers.provider().getSigner();
-  const add = await signer.getAddress();
-  console.log(add);
-};
-address();
+// const address = async function () {
+//   const signer = Ethers.provider().getSigner();
+//   const add = await signer.getAddress();
+//   console.log(add);
+// };
+// address();
 return (
   <>
     <p>{state.chainId}</p>
