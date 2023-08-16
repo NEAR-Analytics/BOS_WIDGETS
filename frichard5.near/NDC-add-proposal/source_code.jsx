@@ -33,6 +33,10 @@ const selectToken = (e) => {
     });
 };
 
+const getDescription = (data) => {
+    return `${data.description} ${data.link}`
+}
+
 const getPayload = (type, data) => {
     const ft = ftList.body.find((ft) => ft.token_account_id === state.data.token);
     let decimals = 0;
@@ -47,14 +51,14 @@ const getPayload = (type, data) => {
         case "Vote":
             return {
                 proposal: {
-                    description: data.description,
+                    description: getDescription(data),
                     kind: "Vote",
                 },
             };
         case "Transfer":
             return {
                 proposal: {
-                    description: data.description,
+                    description: getDescription(data),
                     kind: {
                         Transfer: {
                             token_id: data.token,
@@ -68,7 +72,7 @@ const getPayload = (type, data) => {
         case "RemoveMemberFromRole":
             return {
                 proposal: {
-                    description: data.description,
+                    description: getDescription(data),
                     kind: {
                         [type]: {
                             member_id: data.member_id,
@@ -80,11 +84,11 @@ const getPayload = (type, data) => {
         case "AddBounty":
             return {
                 proposal: {
-                    description: data.description,
+                    description: getDescription(data),
                     kind: {
                         AddBounty: {
                             bounty: {
-                                description: data.description,
+                                description: getDescription(data),
                                 token: data.token,
                                 amount: amount,
                                 times: Number(data.times),
@@ -99,7 +103,7 @@ const getPayload = (type, data) => {
         case "BountyDone":
             return {
                 proposal: {
-                    description: data.description,
+                    description: getDescription(data),
                     kind: {
                         BountyDone: {
                             bounty_id: Number(data.bounty_id),
@@ -108,6 +112,25 @@ const getPayload = (type, data) => {
                     },
                 },
             };
+        case "FunctionCall":
+            return {
+                proposal: {
+                    description: getDescription(data),
+                    kind: {
+                        FunctionCall: {
+                            receiver_id: data.contract_name,
+                            actions: [
+                                {
+                                    method_name: data.method_name,
+                                    args: Buffer.from(JSON.stringify(JSON.parse(data.args),)).toString("base64"),
+                                    deposit: data.deposit?data.deposit:"0",
+                                    gas: data.gas?data.gas:"300000000000000"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
     }
 };
 
@@ -134,6 +157,9 @@ const proposalTypes = [
     "BountyDone",
     "AddMemberToRole",
     "RemoveMemberFromRole",
+/*
+    "FunctionCall"
+*/
 ].map((t) => {
     return {
         value: t,
@@ -149,19 +175,20 @@ const fetchPolicy = (params) => {
         },
     }).then(({err, body, ok}) => {
         if (ok) {
+            const roles = body.state.policy.roles
+                .filter((r) => r.kind != "Everyone")
+                .map((r) => {
+                    return {
+                        label: r.name,
+                        value: r.name,
+                    };
+                });
             State.update({
-                roles: body.state.policy.roles
-                    .filter((r) => r.kind != "Everyone")
-                    .map((r) => {
-                        return {
-                            label: r.name,
-                            value: r.name,
-                        };
-                    }),
+                roles,
                 policy: body,
                 data: {
                     ...state.data,
-                    selectedRole: body.state.policy.roles[0].name,
+                    selectedRole: roles[0].value,
                 },
             });
         }
@@ -311,6 +338,20 @@ return (<>
                         placeholder={"Describe your proposal here."}
                     />
                 </InputDescription>
+                <InputText>
+                    <label style={{color: "#8c8c8c"}} for={id}>
+                        {"Link"}
+                    </label>
+                    <input
+                        type="text"
+                        onChange={(e) => {
+                            State.update({
+                                data: {...state.data, link: e.target.value},
+                            });
+                        }}
+                        placeholder={"https://near.gov/somediscussion"}
+                    />
+                </InputText>
                 {state.type === "Transfer" && (
                     <>
                         {AmountComp}
@@ -429,6 +470,81 @@ return (<>
                         </InputText>
                     </>
                 )}
+     {/*           {state.type === "FunctionCall" && (<>
+                    <InputText>
+                        <label style={{color: "#8c8c8c"}} for={id}>
+                            {"Contract Name"}
+                        </label>
+                        <input
+                            type="text"
+                            onChange={(e) => {
+                                State.update({
+                                    data: {...state.data, contract_name: e.target.value},
+                                });
+                            }}
+                            placeholder={"v2.ref-finance.near"}
+                        />
+                    </InputText>
+                    <InputText>
+                        <label style={{color: "#8c8c8c"}} for={id}>
+                            {"Method Name"}
+                        </label>
+                        <input
+                            type="text"
+                            onChange={(e) => {
+                                State.update({
+                                    data: {...state.data, method_name: e.target.value},
+                                });
+                            }}
+                            placeholder={"swap"}
+                        />
+                    </InputText>
+                        <InputText>
+                            <label style={{color: "#8c8c8c"}} for={id}>
+                                {"Deposit"}
+                            </label>
+                            <input
+                                type="text"
+                                onChange={(e) => {
+                                    State.update({
+                                        data: {...state.data, deposit: e.target.value},
+                                    });
+                                }}
+                                defaultValue={"0"}
+                                placeholder={"0"}
+                            />
+                        </InputText>
+                        <InputText>
+                            <label style={{color: "#8c8c8c"}} for={id}>
+                                {"Gas"}
+                            </label>
+                            <input
+                                type="text"
+                                onChange={(e) => {
+                                    State.update({
+                                        data: {...state.data, gas: e.target.value},
+                                    });
+                                }}
+                                defaultValue={"300000000000000"}
+                                placeholder={"300000000000000"}
+                            />
+                        </InputText>
+                        <InputDescription>
+                            <label style={{color: "#8c8c8c"}} for={id}>
+                                {"JSON Args"}
+                            </label>
+                            <textarea
+                                style={{height: "160px"}}
+                                onChange={(e) => {
+                                    State.update({
+                                        data: {...state.data, args: e.target.value},
+                                    });
+                                }}
+                                placeholder={"{}"}
+                            />
+                        </InputDescription>
+                    </>
+                )}*/}
             </ProposalForm>
 
             <button onClick={sendProposal} style={{float: "right"}}>
