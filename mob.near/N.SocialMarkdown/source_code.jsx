@@ -25,6 +25,9 @@ const Wrapper = styled.div`
   p {
     white-space: pre-line;
   }
+  > :last-child {
+    margin-bottom: 0;
+  }
 `;
 
 return (
