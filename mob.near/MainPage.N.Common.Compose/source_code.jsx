@@ -177,7 +177,7 @@ return (
         <div className="flex-grow-1">
           <IpfsImageUpload
             image={state.image}
-            className="btn btn-outline-secondary border-0 rounded-3"
+            className="btn btn-outline-secondary border-0 rounded-5"
           />
         </div>
         <div>{props.composeButton && props.composeButton(onCompose)}</div>
