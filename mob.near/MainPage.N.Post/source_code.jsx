@@ -60,7 +60,7 @@ const Wrapper = styled.div`
     top: 56px;
     bottom: 0;
     width: 2px;
-    background-color: #ccc;
+    background-color: #ddd;
     z-index: -1;
   }
 
@@ -71,7 +71,7 @@ const Wrapper = styled.div`
     top: 0;
     width: 2px;
     height: 8px;
-    background-color: #ccc;
+    background-color: #ddd;
     z-index: -1;
   }
   
