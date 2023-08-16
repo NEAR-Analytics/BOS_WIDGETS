@@ -255,7 +255,9 @@ return (
             </div>
           )}
           <div className="col-lg-12">
-            {props.state.ownsNFT && <h3> Listed Markets</h3>}
+            {typeof props.state.tokenInfo.approved_account_ids === "object" && (
+              <h3> Listed Markets</h3>
+            )}
             <div>
               <ul>
                 {typeof props.state.tokenInfo.approved_account_ids ===
