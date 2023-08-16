@@ -17,19 +17,6 @@ const title = data.articleId;
 const content = data.body;
 const timeLastEdit = data.timeLastEdit;
 
-const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.upVotes`];
-
-const libCalls = [
-  {
-    functionName: "getUpVotes",
-    key: "upVotes",
-    props: {
-      elementReactedId: data.realArticleId,
-      createdInteraction: state.createdInteraction,
-    },
-  },
-];
-
 //TODO ask Dani how are we handling this "verified"
 
 State.init({
@@ -37,7 +24,6 @@ State.init({
   start: true,
   voted: false,
   sliceContent: true,
-  libCalls,
 });
 //=============================================END INITIALIZATION===================================================
 
@@ -46,56 +32,6 @@ State.init({
 //=================================================END CONSTS=======================================================
 
 //==================================================FUNCTIONS=======================================================
-let userJustDeleted =
-  state.createdInteraction !== undefined ? state.createdInteraction : false;
-
-let userJustVoted =
-  state.createdInteraction !== undefined ? !state.createdInteraction : false;
-
-function getNumberOfUpVotes() {
-  if (state.createdInteraction !== undefined && userJustDeleted) {
-    return state.upVotes.reactionsStatistics - 1 ?? 0;
-  } else if (state.createdInteraction !== undefined && userJustVoted) {
-    return state.upVotes.reactionsStatistics + 1 ?? 0;
-  } else {
-    return state.upVotes.reactionsStatistics ?? 0;
-  }
-}
-
-function getUpVoteButtonClass() {
-  if (
-    (state.createdInteraction !== undefined && userJustVoted) ||
-    (state.createdInteraction !== undefined && !userJustDeleted) ||
-    (state.upVotes.userInteraction.value.deleteReaction !== undefined &&
-      !state.upVotes.userInteraction.value.deleteReaction)
-  ) {
-    return "primary";
-  } else {
-    return "secondary dark";
-  }
-}
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
-function stateUpdate(obj) {
-  State.update(obj);
-}
 function getPublicationDate(creationTimestamp) {
   if (creationTimestamp == 0) {
     return "Creation timestamp passed wrong";
@@ -117,32 +53,6 @@ const getShortUserName = () => {
 
   return name.length > 20 ? `${name.slice(0, 20)}...` : name;
 };
-
-function upVoteListener() {
-  let newLibCalls = [...libCalls];
-
-  let isDelete =
-    state.upVotes.userInteraction.value.deleteReaction !== undefined
-      ? !state.upVotes.userInteraction.value.deleteReaction
-      : false;
-
-  function onCommit() {
-    State.update({
-      createdInteraction: isDelete,
-    });
-  }
-
-  newLibCalls.push({
-    functionName: "addVote",
-    key: "addVote",
-    props: {
-      isDelete,
-      elementReactedId: data.realArticleId,
-      onCommit,
-    },
-  });
-  State.update({ libCalls: newLibCalls });
-}
 
 //================================================END FUNCTIONS=====================================================
 
@@ -235,39 +145,7 @@ const NominationUser = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const UpvoteButtonDisabled = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  border-radius: 4px;
-  background: var(--buttons-disable, #c3cace);
-  cursor: default !important;
-`;
 
-const UpvoteButton = styled.button`
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 24px;
-  color: ${(props) => (props.disabled ? "#C3CACE" : "#9333EA")};
-  border: 1px solid #9333ea;
-  border-color: ${(props) => (props.disabled ? "#C3CACE" : "")};
-`;
-
-const UpvoteCount = styled.p`
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  margin: 0px;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-`;
 const Icon = styled.img`
   width: 17px;
   height: 17px;
@@ -693,16 +571,8 @@ return (
           </HeaderContent>
         </div>
         <Widget
-          src={widgets.styledComponents}
-          props={{
-            Button: {
-              text: `+${getNumberOfUpVotes()}`,
-              className: getUpVoteButtonClass(),
-              size: "sm",
-              onClick: upVoteListener,
-              icon: <i className="bi bi-hand-thumbs-up"></i>,
-            },
-          }}
+          src={widgets.upVote}
+          props={{ isTest, authorForWidget, reactedElementData: data, widgets }}
         />
       </HeaderCard>
       <KeyIssuesHeader>
@@ -800,9 +670,5 @@ return (
         </LowerSectionContainer>
       </LowerSection>
     </Card>
-
-    <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </CallLibrary>
   </div>
 );
