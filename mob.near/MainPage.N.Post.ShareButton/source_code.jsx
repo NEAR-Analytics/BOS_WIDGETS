@@ -43,7 +43,7 @@ const Button = styled.button`
   border: 0 !important;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   border-radius: 50%;
   width: 35px;
   height: 35px;
@@ -59,7 +59,8 @@ return (
   blockHeight !== "now" && (
     <span>
       <Button data-bs-toggle="dropdown" aria-expanded="false" title="Share">
-        {shareSvg}
+        <span>{shareSvg}</span>
+        <span className="count" />
       </Button>
       <ul className="dropdown-menu">
         <li>
