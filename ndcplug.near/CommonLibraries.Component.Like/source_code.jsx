@@ -201,7 +201,9 @@ return (
             props={{ accountId, widgetName, link: props.profileLink }}
           />
         </div>
-        {starCount && <div className="join-button">👍 {starCount}</div>}
+        {false && starCount && (
+          <div className="join-button">👍 {starCount}</div>
+        )}
         {false && (
           <a
             href={`#/mob.near/widget/WidgetSource?src=${widgetPath}`}
@@ -267,6 +269,7 @@ return (
               />
               <span style={{ marginLeft: "0.2rem" }}>
                 {starred ? "liked" : "like"}
+                {starCount && `(` + `${starCount}` + `)`}
               </span>
             </CommitButton>
 
