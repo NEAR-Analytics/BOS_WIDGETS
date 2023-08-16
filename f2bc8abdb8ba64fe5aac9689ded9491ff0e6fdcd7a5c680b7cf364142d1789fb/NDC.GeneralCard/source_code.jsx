@@ -346,7 +346,6 @@ const KeyIssuesTitle = styled.p`
   font-size: 14px;
   line-height: 120%;
   margin-bottom: 0;
-  cursor: pointer;
 `;
 const KeyIssuesContainer = styled.div`
   display: flex;
