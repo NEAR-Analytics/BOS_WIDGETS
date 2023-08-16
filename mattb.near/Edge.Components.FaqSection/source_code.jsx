@@ -51,12 +51,21 @@ const Questions = styled.div`
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
     padding:2.5rem 0;
+
+    @media screen and (max-width:800px) {
+        display:block;
+    }
 `;
 
 const Question = styled.a`
+    display:block;
     transition: all .2s;
     color:#000;
     text-decoration:none!important;
+
+    @media screen and (max-width:800px) {
+        margin-bottom:2.5rem;
+    }
 
     :hover {
         .title {
@@ -73,6 +82,10 @@ const Question = styled.a`
         font-size:1.5rem;
         line-height:1.5rem;
         margin-bottom:1.7rem;
+
+        @media screen and (max-width:800px) {
+            margin-bottom:.8rem;
+        }
     }
 
     .description {
