@@ -374,7 +374,8 @@ if (profile === null) {
 
 return (
   <Wrapper>
-    <Widget src="proofofvibes.near/widget/Vibes.Countdown" />
+    {false && <Widget src="proofofvibes.near/widget/Vibes.Countdown" />}
+
     <BackgroundImage>
       <Widget
         src="mob.near/widget/Image"
@@ -458,7 +459,7 @@ return (
           </div>
         </ScoreBoard>
         <ScoreBoard
-          href="https://ProofofVibes.com/apple-playlist"
+          href="https://ProofofVibes.com/apple-worldwide-playlist"
           target="_blank"
         >
           <div>
