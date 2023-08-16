@@ -17,7 +17,7 @@ const item = {
 const link = `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const Wrapper = styled.div`
-  border-bottom: 1px solid var(--bs-border-color);
+  border-bottom: 1px solid #eee;
   margin: 0 -12px;
   line-height: normal;
   
