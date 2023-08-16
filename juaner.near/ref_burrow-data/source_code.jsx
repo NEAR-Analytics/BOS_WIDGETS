@@ -337,9 +337,7 @@ const getProtocolRewards = () => {
     }
   );
   const amount = rewards.reduce((acc, r) => acc + r.dailyAmount * r.price, 0);
-  // .toFixed(4);
-
-  return amount > 0 && amount < 0.0001 ? "< 0.0001" : Big(amount).toFixed(4);
+  return amount;
 };
 const dailyRewards = getProtocolRewards();
 const data = {
