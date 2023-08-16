@@ -717,7 +717,7 @@ const renderContent = {
   home: renderHome(),
   //   searchComponents: searchComponents(),
   category: renderCategory(state.id),
-}[state.catTab];
+}[state.selectedTab];
 const navItems = curatedComps.map((i) => ({
   category: i.category,
   icon: i.icon,
