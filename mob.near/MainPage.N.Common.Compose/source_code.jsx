@@ -107,7 +107,6 @@ const TextareaWrapper = styled.div`
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
-    border-bottom: 1px solid var(--bs-border-color);    
   }
 
   textarea::placeholder {
@@ -132,14 +131,14 @@ const TextareaWrapper = styled.div`
     resize: none;
     background: none;
     appearance: none;
-    border: none;
+    border: 0px solid #eee;
     grid-area: 1 / 1;
     overflow: hidden;
     outline: none;
   }
 
   textarea:focus, textarea:not(:empty) {
-    border-bottom: 1px solid var(--bs-border-color);
+    border-bottom: 1px solid #eee;
     min-height: 5em;
   }
 
@@ -151,7 +150,7 @@ const TextareaWrapper = styled.div`
 `;
 
 const Wrapper = styled.div`
-  border-bottom: 1px solid var(--bs-border-color);
+  border-bottom: 1px solid #eee;
   line-height: normal;
   display: flex;
   padding: 12px 12px 6px;
