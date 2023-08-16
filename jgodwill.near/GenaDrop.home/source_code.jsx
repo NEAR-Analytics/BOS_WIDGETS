@@ -324,6 +324,48 @@ const FeatureContainer = styled.div`
       gap: 2em;
   }
 }
+  .Features_content{
+    display: flex;
+    width: 100%;
+    max-width: 42em;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    grid-gap: 1em;
+    gap: 1em;
+    transition: -webkit-transform 1.25s;
+    transition: transform 1.25s;
+    transition: transform 1.25s,-webkit-transform 1.25s;
+  }
+`;
+
+const FeatureHeading = styled.h3`
+  color: #525c76;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  @media screen and (max-width: 540px){
+  font-size: 1rem;
+  }
+`;
+const FeatureTitle = styled.h3`
+  font-weight: 600;
+  font-size: 2rem;
+  color: #0ff1d40;
+  @media screen and (max-width: 1200px){
+  font-size: 1.5rem;
+  }
+  @media screen and (max-width: 540px){
+  font-size: 1.2rem;
+  }
+`;
+const FeatureDescription = styled.p`
+  color: #525c76;
+  font-weight: 400;
+  font-size: 1.2rem;
+  @media screen and (max-width: 540px){
+  font-size: 1rem;
+  }
 `;
 
 return (
@@ -453,7 +495,7 @@ return (
             </div>
             <a
               className="Features_fLink"
-              href="/#/jgodwill.near/widget/GenaDrop.Minter"
+              href="/#/0xprometheus.near/widget/Genadrop-Ai-Minter"
             >
               <div>Go to Mint</div>
               <DocArrow>{rightArrow}</DocArrow>
