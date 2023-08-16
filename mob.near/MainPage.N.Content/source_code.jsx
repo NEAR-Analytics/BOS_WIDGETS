@@ -2,30 +2,38 @@ const hashtag = props.hashtag;
 
 if (!state || state.hashtag !== hashtag) {
   State.update({
-    feedIndex: hashtag ? 2 : context.accountId ? 0 : 1,
+    feedIndex: hashtag ? "hashtag" : context.accountId ? "following" : "all",
     hashtag,
   });
 }
 
 const options = [
   {
+    id: "following",
     title: "Following",
     disabled: !context.accountId,
   },
   {
+    id: "all",
     title: "All Posts",
+  },
+  {
+    id: "menu",
+    title: "Menu",
+    mobileOnly: true,
   },
 ];
 
 if (hashtag) {
-  options.push({
+  options.splice(2, 0, {
+    id: "hashtag",
     title: `#${hashtag}`,
   });
 }
 
 let accounts = undefined;
 
-if (state.feedIndex === 0) {
+if (state.feedIndex === "following") {
   const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
   if (graph !== null) {
     accounts = Object.keys(graph[context.accountId].graph.follow || {});
@@ -54,17 +62,22 @@ const Nav = styled.div`
 `;
 
 return (
-  <>
-    <Nav>
+  <div className="row">
+    <Nav className="d-lg-block col-lg-8">
       <ul className="nav nav-pills nav-fill">
         {options.map((option, i) => (
-          <li className="nav-item" key={i}>
+          <li
+            className={`nav-item ${option.mobileOnly ? "d-lg-none" : ""}`}
+            key={i}
+          >
             <button
-              className={`nav-link ${state.feedIndex === i ? "active" : ""} ${
-                option.disabled ? "disabled" : ""
-              }`}
+              className={`nav-link ${
+                state.feedIndex === option.id ? "active" : ""
+              } ${option.disabled ? "disabled" : ""}`}
               aria-disabled={!!option.disabled}
-              onClick={() => !option.disabled && State.update({ feedIndex: i })}
+              onClick={() =>
+                !option.disabled && State.update({ feedIndex: option.id })
+              }
             >
               {option.title}
             </button>
@@ -72,13 +85,38 @@ return (
         ))}
       </ul>
     </Nav>
-    {context.accountId && (
-      <Widget src="mob.near/widget/MainPage.N.Compose" props={{}} />
-    )}
-    {state.feedIndex === 2 ? (
-      <Widget src="mob.near/widget/Hashtag.N.Feed" props={{ hashtag }} />
-    ) : (
-      <Widget src="mob.near/widget/MainPage.N.Feed" props={{ accounts }} />
-    )}
-  </>
+    <div
+      className={`${
+        state.feedIndex === "menu" ? "d-none" : ""
+      } d-lg-block col-lg-8`}
+    >
+      {context.accountId && (
+        <Widget
+          key="compose"
+          src="mob.near/widget/MainPage.N.Compose"
+          props={{}}
+        />
+      )}
+      {state.feedIndex === "hashtag" ? (
+        <Widget
+          key="hash-feed"
+          src="mob.near/widget/Hashtag.N.Feed"
+          props={{ hashtag }}
+        />
+      ) : (
+        <Widget
+          key="reg-feed"
+          src="mob.near/widget/MainPage.N.Feed"
+          props={{ accounts }}
+        />
+      )}
+    </div>
+    <div
+      className={`${
+        state.feedIndex !== "menu" ? "d-none" : ""
+      } d-lg-block col-lg-4`}
+    >
+      <Widget src="mob.near/widget/Welcome.RHS" props={props} />
+    </div>
+  </div>
 );
