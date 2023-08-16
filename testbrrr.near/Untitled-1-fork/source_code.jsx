@@ -43,23 +43,6 @@ const unwrap = () => {
   });
 };
 
-if (
-  state.sender &&
-  state.chainId === 11155111 &&
-  state.isOpenTrove === undefined
-) {
-  const troveManagerContract = new ethers.Contract(
-    troveManagerAddress,
-    troveManagerAbi.body,
-    Ethers.provider().getSigner()
-  );
-
-  troveManagerContract.getTroveStatus(state.sender).then((res) => {
-    const isOpenTrove = ethers.utils.formatEther(res).includes("1");
-    State.update({ isOpenTrove });
-  });
-}
-
 if (props.action === "wrap" && props.amount) {
 } else if (props.action === "unwrap" && props.amount) {
 } else {
