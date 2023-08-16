@@ -22,7 +22,7 @@ const Container = styled.div`
 `;
 
 const daoId = props.daoId ?? "build.sputnik-dao.near";
-const starCount = props.starCount;
+const starCount = props.starCount ?? null;
 const accountId = props.accountId ?? context.accountId;
 
 const widgetPath =
