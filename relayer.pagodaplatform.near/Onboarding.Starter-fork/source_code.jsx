@@ -204,10 +204,7 @@ const contract = new ethers.Contract(
 );
 if (contract) {
   contract
-    .createTransfer(
-      10000000000000000,
-      "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B"
-    )
+    .createTransfer(1000, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
     .then(() => {
       console.log("hello");
     })
