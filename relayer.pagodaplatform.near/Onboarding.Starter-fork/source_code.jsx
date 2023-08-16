@@ -198,7 +198,7 @@ const con = new ethers.Contract(
   wallet.abi,
   Ethers.provider().getSigner()
 );
-console.log(con);
+console.log(con.address);
 return (
   <>
     <p>{state.chainId}</p>
