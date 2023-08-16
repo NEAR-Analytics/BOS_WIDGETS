@@ -337,6 +337,14 @@ const FeatureContainer = styled.div`
     transition: transform 1.25s;
     transition: transform 1.25s,-webkit-transform 1.25s;
   }
+ font-size: 1.2rem;
+ .Features_fLink{
+  display: flex;
+  font-weight: 600;
+  gap: .5em;
+  text-decoration: none;
+  color: #0d99ff;
+ }
 `;
 
 const FeatureHeading = styled.h3`
@@ -483,16 +491,16 @@ return (
       <div className="Features_wrapper">
         <div className="Features_featureContainer false features-card">
           <div className="Features_content">
-            <div className="Features_fHeading">CREATE</div>
-            <div className="Features_fTitle">
+            <FeatureHeading>create</FeatureHeading>
+            <FeatureTitle>
               Turn anything into a digital collectible you own with no code in
               minutes
-            </div>
-            <div className="Features_fDescription">
+            </FeatureTitle>
+            <FeatureDescription>
               Directly upload files, render collections, memorialize tweets, use
               your camera, generate unique ART with AI........ to create NFTs
               you own (without any coding knowledge)
-            </div>
+            </FeatureDescription>
             <a
               className="Features_fLink"
               href="/#/0xprometheus.near/widget/Genadrop-Ai-Minter"
