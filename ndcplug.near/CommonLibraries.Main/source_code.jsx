@@ -19,6 +19,29 @@ const Card = styled.div`
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
   padding: 23px;
+      .join-button-active {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    height: 32px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    cursor: pointer;
+    background: #000000;
+    border: 1px solid #D7DBDF;
+    color: #ffffff;
+    white-space: nowrap;
+
+    i {
+      display: inline-block;
+      color: #ffffff;
+    }
+  }
     .join-button {
     display: inline-flex;
     align-items: center;
@@ -764,8 +787,8 @@ return (
               // console.log(item);
               return (
                 <a
-                  className={`join-button rounded-3${
-                    item.id === props.catTab ? "bg-secondary" : ""
+                  className={`join-button${
+                    item.id === props.catTab ? "-active" : ""
                   }`}
                   onClick={() => updateTab(item.id)}
                   href={`${regAccountUrl}${item.id}`}
