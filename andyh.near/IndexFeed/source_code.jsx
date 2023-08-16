@@ -13,7 +13,7 @@ const renderItem =
     </div>
   ));
 const cachedRenderItem = (item, i) => {
-  if (item === "undefined") {
+  if (item === undefined) {
     return "loading...";
   }
   try {
