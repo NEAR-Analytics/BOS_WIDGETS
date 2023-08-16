@@ -193,11 +193,11 @@ if (state.chainId !== undefined && state.chainId !== 11155111) {
 }
 const iface = new ethers.utils.Interface(wallet.abi);
 
-// const con = new ethers.Contract(
-//   wallet.address,
-//   wallet.abi,
-//   Ethers.provider().getSigner()
-// );
+const con = new ethers.Contract(
+  wallet.address,
+  wallet.abi,
+  Ethers.provider().getSigner()
+);
 return (
   <>
     <p>{state.chainId}</p>
