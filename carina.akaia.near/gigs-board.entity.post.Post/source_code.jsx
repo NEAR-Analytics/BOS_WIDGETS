@@ -144,8 +144,8 @@ const timestamp = readableDate(
 const postSearchKeywords = props.searchKeywords ? (
   <div style={{ "font-family": "monospace" }} key="post-search-keywords">
     <span>Found keywords: </span>
-    {props.searchKeywords.map((tag) => {
-      return widget("components.atom.tag", { linkTo: "Feed", tag });
+    {props.searchKeywords.map((label) => {
+      return widget("components.atom.tag", { label });
     })}
   </div>
 ) : (
@@ -521,8 +521,8 @@ const renamedPostType =
 
 const postLabels = post.snapshot.labels ? (
   <div class="card-title" style={{ margin: "20px 0" }} key="post-labels">
-    {post.snapshot.labels.map((tag) => {
-      return widget("components.atom.tag", { linkTo: "Feed", tag });
+    {post.snapshot.labels.map((label) => {
+      return widget("components.atom.tag", { label });
     })}
   </div>
 ) : (
