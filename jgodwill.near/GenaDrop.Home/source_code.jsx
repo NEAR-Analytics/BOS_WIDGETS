@@ -309,7 +309,7 @@ const FeatureContainer = styled.div`
     width: 100%;
   max-width: 1440px;
   }
-  padding: 3em 0px;
+  padding: 4em 0px;
   .Features_featureContainer {
   width: 100%;
   display: flex;
