@@ -5,7 +5,7 @@ const AddCustomFieldModalJsx = (
     <p style={{ fontWeight: "500", marginBottom: -5 }}>Field</p>
     <Widget
       props={{
-        label: "Add a field you’d like attendees to fill out for this event.",
+        label: "Add a question you'd like attendees to fill out for the event.",
         inputProps: {
           placeholder: "Enter a question",
           required: true,
@@ -24,7 +24,7 @@ const AddCustomFieldModalJsx = (
     <button
       onClick={() => {
         props.onSave(state);
-        State.update({ fieldVal: "" ,hasBeenEditUpdated:false });
+        State.update({ fieldVal: "", hasBeenEditUpdated: false });
       }}
       style={{
         width: "100%",
@@ -35,7 +35,7 @@ const AddCustomFieldModalJsx = (
         marginTop: 10,
       }}
     >
-      Save Field
+    {props?.editMode?"Update Field":"Add Field"}
     </button>
     <button
       onClick={props.onClose}
