@@ -31,16 +31,13 @@ const unwrap = () => {
     Ethers.provider().getSigner()
   );
 
-  wethContract.withdraw({
-    ethers.BigNumber.from(
-      (props.amount * 1000000000000000000).toString()
-    ),
-    value: ethers.BigNumber.from(
-      (props.amount * 1000000000000000000).toString()
-    ),
-    // gasPrice: state.gasPrice,
-    gasLimit: 25000000,
-  });
+  wethContract.withdraw(
+    ethers.BigNumber.from((props.amount * 1000000000000000000).toString()),
+    {
+      // gasPrice: state.gasPrice,
+      gasLimit: 25000000,
+    }
+  );
 };
 
 if (props.action === "wrap" && props.amount) {
