@@ -15,7 +15,7 @@ const followers = Social.keys(`*/graph/follow/${accountId}`, "final", {
 });
 
 const numFollowing = following
-  ? Object.keys(following[accountId]?.graph?.follow || {}).length
+  ? Object.keys(following[accountId].graph.follow || {}).length
   : null;
 const numFollowers = followers ? Object.keys(followers || {}).length : null;
 
