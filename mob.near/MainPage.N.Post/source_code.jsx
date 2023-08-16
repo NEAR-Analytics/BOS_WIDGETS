@@ -157,7 +157,7 @@ return (
       </div>
     </div>
     {state.showReply && (
-      <div className="mb-2">
+      <div className="border-top">
         <Widget
           src="mob.near/widget/MainPage.N.Comment.Compose"
           props={{
