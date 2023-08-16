@@ -172,13 +172,12 @@ const wallet = {
 State.init({
   contract: undefined,
   chainId: undefined,
+  balance: 0,
 });
+const sender = Ethers.send("eth_requestAccounts", [])[0];
 
-if (
-  state.chainId === undefined &&
-  ethers !== undefined &&
-  Ethers.send("eth_requestAccounts", [])[0]
-) {
+if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
+if (state.chainId === undefined && ethers !== undefined && sender) {
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
@@ -186,7 +185,13 @@ if (
         State.update({ chainId: chainIdData.chainId });
       }
     });
+  Ethers.provider()
+    .getBalance(sender)
+    .then((balance) => {
+      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
+    });
   console.log("address: ", wallet.address);
+  console.log(sender);
 }
 if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
@@ -197,12 +202,9 @@ const con = new ethers.Contract(
   wallet.abi,
   Ethers.provider().getSigner()
 );
-const signer = ethers.provider().getSigner();
-const add = signer.getAddress();
-console.log(add);
-
 return (
   <>
     <p>{state.chainId}</p>
+    <p>{state.balance}</p>
   </>
 );
