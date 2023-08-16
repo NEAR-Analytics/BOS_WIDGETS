@@ -225,7 +225,15 @@ const getTransfers = () => {
   }
 };
 const approveTransfer = (id) => {
-  contract.approveTransfer(id).send({ from: sender });
+  contract
+    .approveTransfer(id)
+    .send({ from: sender })
+    .then(() => {
+      console.log("hh");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 return (
   <>
