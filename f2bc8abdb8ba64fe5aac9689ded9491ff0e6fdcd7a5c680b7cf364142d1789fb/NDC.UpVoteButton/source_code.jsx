@@ -21,13 +21,15 @@ State.init({
 
 console.log(state.upVotes);
 
-if (state.upVotes) {
+if (state.upVotes.reactionsStatistics) {
   State.update({ numberOfVotes: state.upVotes.reactionsStatistics ?? 0 });
 }
 
 const lastUserVote =
-  state.upVotes &&
-  state.upVotes.filter((vote) => vote.accountId === context.accountId);
+  state.upVotes.reactionsStatistics &&
+  state.upVotes.reactionsStatistics.filter(
+    (vote) => vote.accountId === context.accountId
+  );
 console.log("LUV: ", lastUserVote);
 
 let isDelete;
