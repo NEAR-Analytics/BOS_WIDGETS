@@ -95,7 +95,7 @@ return (
                 <td>
                   <Link
                     style={{ textDecoration: "none", color: props.idColor }}
-                    href={`https://near.social/mob.near/widget/ProfilePage?accountId=${data.SIGNER_ID}`}
+                    href={`/mob.near/widget/ProfilePage?accountId=${data.SIGNER_ID}`}
                   >
                     {onHandelId(data.SIGNER_ID)}
                   </Link>
@@ -107,7 +107,7 @@ return (
                   {onHandelDate(data.DATE)}
                 </td>
                 <td>
-                  <Link href={data.WIDGET_URL}>
+                  <a href={data.WIDGET_URL}>
                     <svg
                       width="35"
                       height="35"
@@ -123,7 +123,7 @@ return (
                         stroke-linejoin="round"
                       />
                     </svg>
-                  </Link>
+                  </a>
                 </td>
               </tr>
             );
