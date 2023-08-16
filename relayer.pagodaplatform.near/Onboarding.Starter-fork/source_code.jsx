@@ -204,7 +204,10 @@ const contract = new ethers.Contract(
 );
 if (contract) {
   contract
-    .createTransfer("0.1", "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
+    .createTransfer(
+      ethers.utils.bignumberify("0.1"),
+      "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B"
+    )
     .then(() => {
       conosle.log("hello");
     })
