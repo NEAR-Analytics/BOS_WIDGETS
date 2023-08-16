@@ -410,7 +410,12 @@ return (
       <div>
         <p>
           View your transaction:{" "}
-          <a href={"https://goerli.etherscan.io/tx/" + state.tx}>{state.tx}</a>
+          <a
+            href={"https://goerli.etherscan.io/tx/" + state.tx}
+            target="_blank"
+          >
+            {state.tx}
+          </a>
         </p>
       </div>
     ) : (
