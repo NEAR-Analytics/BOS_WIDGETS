@@ -17,31 +17,28 @@ const libCalls = [
 
 State.init({
   libCalls,
+  numberOfVotes: state.upVotes.reactionsStatistics ?? 0,
 });
 
-let userJustDeleted =
-  state.createdInteraction !== undefined ? state.createdInteraction : false;
+const lastUserVote = state.upVotes.filter(
+  (vote) => vote.accountId === context.accountId
+);
 
-let userJustVoted =
-  state.createdInteraction !== undefined ? !state.createdInteraction : false;
+let isDelete;
+if (state.createdInteraction !== undefined) {
+  isDelete = !state.createdInteraction;
+} else if (lastUserVote) {
+  isDelete = !lastUserVote.value.deleteReaction;
+} else {
+  isDelete = false;
+}
 
 function getNumberOfUpVotes() {
-  if (state.createdInteraction !== undefined && userJustDeleted) {
-    return state.upVotes.reactionsStatistics - 1 ?? 0;
-  } else if (state.createdInteraction !== undefined && userJustVoted) {
-    return state.upVotes.reactionsStatistics + 1 ?? 0;
-  } else {
-    return state.upVotes.reactionsStatistics ?? 0;
-  }
+  return state.upVotes.reactionsStatistics ?? 0;
 }
 
 function getUpVoteButtonClass() {
-  if (
-    (state.createdInteraction !== undefined && userJustVoted) ||
-    (state.createdInteraction !== undefined && !userJustDeleted) ||
-    (state.upVotes.userInteraction.value.deleteReaction !== undefined &&
-      !state.upVotes.userInteraction.value.deleteReaction)
-  ) {
+  if (isDelete) {
     return "primary";
   } else {
     return "secondary dark";
@@ -74,22 +71,11 @@ function stateUpdate(obj) {
 function upVoteListener() {
   let newLibCalls = [...libCalls];
 
-  let isDelete;
-
-  if (state.createdInteraction !== undefined && userJustDeleted) {
-    isDelete = false;
-  } else if (state.createdInteraction !== undefined && userJustVoted) {
-    isDelete = true;
-  } else {
-    isDelete =
-      state.upVotes.userInteraction.value.deleteReaction !== undefined
-        ? !state.upVotes.userInteraction.value.deleteReaction
-        : false;
-  }
-
   function onCommit() {
     State.update({
-      createdInteraction: isDelete,
+      numberOfVotes: isDelete
+        ? state.numberOfVotes - 1
+        : state.numberOfVotes + 1,
     });
   }
 
