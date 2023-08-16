@@ -1,6 +1,7 @@
 const wallet = {
   _format: "hh-sol-artifact-1",
   contractName: "Wallet",
+  address: "0xB9aab5C40bB7eDF923547e666D1cD85ca0033542",
   sourceName: "contracts/Wallet.sol",
   abi: [
     {
@@ -185,7 +186,7 @@ if (
         State.update({ chainId: chainIdData.chainId });
       }
     });
-  console.log("address: ", wallet);
+  console.log("address: ", wallet.address);
 }
 if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
