@@ -150,6 +150,14 @@ const dependencies = getModuleDependencies(state.currentRoute);
 
 //Dependencies Injections
 
+//Data Layer
+
+//Data Layer
+
+//Service Layer
+
+//Service Layer
+
 return (
   <>
     <uiKitComponents.body>
