@@ -152,7 +152,6 @@ const TextareaWrapper = styled.div`
 
 const Wrapper = styled.div`
   border-bottom: 1px solid var(--bs-border-color);
-  margin: 0 -12px;
   line-height: normal;
   display: flex;
   padding: 12px 12px 6px;
