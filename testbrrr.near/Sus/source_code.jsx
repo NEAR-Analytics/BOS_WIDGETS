@@ -139,6 +139,10 @@ const openVessel = () => {
           gasLimit: 25000000,
         }
       );
+    })
+    .then((finalTx) => {
+      State.update({ tx: finalTx.hash });
+      return finalTx.wait();
     });
 };
 
