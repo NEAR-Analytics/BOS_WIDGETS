@@ -184,44 +184,44 @@ const contract = new ethers.Contract(
   wallet.abi,
   Ethers.provider().getSigner()
 );
-if (contract) {
-  console.log("hhh");
-  contract
-    .createTransfer(1000, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
-    .then(() => {
-      console.log("hello");
-    })
-    .catch((err) => console.log(err));
-}
-// if (state.transfers.length === 0) {
+// if (contract) {
+//   console.log("hhh");
 //   contract
-//     .getTransfers()
-//     .then((transfers) => {
-//       transfers.map((transfer) => {
-//         State.update({
-//           transfers: [
-//             ...state.transfers,
-//             {
-//               id: Big(transfer[0]).div(Big(10).pow(18)).toFixed(0),
-//               amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
-//               to: transfer[2],
-//               approvals: Big(transfer[3]).div(Big(10).pow(18)).toFixed(0),
-//               sent: transfer[4],
-//               approvers: transfer[5],
-//             },
-//           ],
-//         });
-//       });
-//       console.log(transfers);
-//     })
+//     .createTransfer(1000, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
 //     .then(() => {
-//       console.log(state.transfers);
-//       // contract.approveTransfer(0).send({ from: sender });
+//       console.log("hello");
 //     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
+//     .catch((err) => console.log(err));
 // }
+if (state.transfers.length === 0) {
+  contract
+    .getTransfers()
+    .then((transfers) => {
+      transfers.map((transfer) => {
+        State.update({
+          transfers: [
+            ...state.transfers,
+            {
+              id: Big(transfer[0]).div(Big(10).pow(18)).toFixed(0),
+              amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
+              to: transfer[2],
+              approvals: Big(transfer[3]).div(Big(10).pow(18)).toFixed(0),
+              sent: transfer[4],
+              approvers: transfer[5],
+            },
+          ],
+        });
+      });
+      console.log(transfers);
+    })
+    .then(() => {
+      console.log(state.transfers);
+      // contract.approveTransfer(0).send({ from: sender });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 return (
   <>
     <p>{state.chainId}</p>
