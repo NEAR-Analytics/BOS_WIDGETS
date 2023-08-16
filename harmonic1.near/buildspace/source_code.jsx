@@ -89,7 +89,8 @@ return (
             <p style={{ fontSize: "1.25rem" }}>
               Go ahead and create your Profile that no one but you control.
               Without the fear of intermediary platforms, share information with
-              your audience on your own terms.
+              your audience on your own terms. (Saving the Profile needs a NEAR
+              wallet and some near tokens. Working on a gasless solution.)
             </p>
           </div>
         </div>
