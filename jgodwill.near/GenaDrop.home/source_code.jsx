@@ -309,13 +309,12 @@ const FeatureContainer = styled.div`
     width: 100%;
   max-width: 1440px;
   }
-  padding: 3em 0px;
   .Features_featureContainer {
+  padding: 3em;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  grid-gap: 6em;
   gap: 6em;
   margin-bottom: 6em;
   @media screen and (max-width: 900px) {
