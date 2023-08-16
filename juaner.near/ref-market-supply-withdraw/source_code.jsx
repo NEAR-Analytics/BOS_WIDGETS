@@ -1,27 +1,27 @@
 const Container = styled.div`
-   .template{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-left:6px;
-    }
-    .template .title{
-      font-size:14px;
-      color:#7E8A93;
-    }
-    .template .value{
-      font-size:14px;
-      color:#fff;
-    }
-    .template .usd{
-        color:#7E8A93;
-    }
-    .mt_25{
-      margin-top:25px;
-    }
-    .mt-10{
-      margin-top:10px;
-    }
+  .template {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 6px;
+  }
+  .template_title {
+    font-size: 14px;
+    color: #7e8a93;
+  }
+  .template .value {
+    font-size: 14px;
+    color: #fff;
+  }
+  .template .usd {
+    color: #7e8a93;
+  }
+  .mt_25 {
+    margin-top: 25px;
+  }
+  .mt-10 {
+    margin-top: 10px;
+  }
 `;
 const Backdrop = styled.div`
   height: 100vh;
@@ -33,79 +33,85 @@ const Backdrop = styled.div`
   z-index: 1001;
 `;
 const Modal = styled.div`
-  background-color:#1A2E33;
-  border-radius:12px;
-  position:fixed;
-  z-index:1002;
-  width:30rem;
+  background-color: #25283a;
+  border-radius: 12px;
+  position: fixed;
+  z-index: 1002;
+  width: 30rem;
   max-width: 95vw;
   max-height: 80vh;
-  padding:10px 0 20px 0;
-  animation:anishow 0.3s forwards ease-out;
-  left:50%;
-  top:50%;
+  padding: 10px 0 20px 0;
+  animation: anishow 0.3s forwards ease-out;
+  left: 50%;
+  top: 50%;
   @keyframes anishow {
     from {
       opacity: 0;
-      transform:translate(-50%,-70%);
+      transform: translate(-50%, -70%);
     }
     to {
       opacity: 1;
-      transform:translate(-50%,-50%);
+      transform: translate(-50%, -50%);
     }
   }
-    .modal-header{
-      display:flex;
-      align-items:center;
-      justify-content:start;
-      color:#fff;
-      font-weight: 700;
-      font-size: 18px;
-      padding:12px 20px;
-      margin-bottom:16px;
-      border-bottom:2px solid rgba(48, 67, 82, 0.5);
-    } 
-    .modal-header .title{
-       font-weight: 700;
-       font-size: 18px;
-       color:#fff;
-    }
-    .modal-header .btn-close{
-      position:absolute;
-      right:28px;
-      margin:0;
-    }
-    .modal-body {
-        padding:0 16px;
-    }
-    .modal-body .tab{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:30px;
-    }
-    .modal-body .tab span{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:50%;
-      height:40px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 18px;
-      cursor:pointer;
-      color:#fff;
-    }
-    .modal-body .tab span.active{
-      background: #304352;
-    }
-   .btn-close-custom{
-      position:absolute;
-      right:28px;
-      width:12px;
-      height:12px;
-      cursor:pointer;
-    }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 16px;
+    padding: 20px 20px 10px 20px;
+  }
+  .modal_title {
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+  }
+  .modal-header .btn-close {
+    position: absolute;
+    right: 28px;
+    margin: 0;
+  }
+  .modal-body {
+    padding: 0 16px;
+  }
+  .modal-body .tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  .modal-body .tab span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 40px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+    color: #fff;
+  }
+  .modal-body .tab span.active {
+    background: #304352;
+  }
+  .btn-close-custom {
+    position: absolute;
+    right: 28px;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+  }
+  .px-3 {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .pb-2 {
+    padding-bottom: 20px;
+  }
 `;
 /** base tool start  */
 let accountId = context.accountId;
@@ -364,59 +370,61 @@ return (
     {/** modal */}
     <Modal style={{ display: showModal ? "block" : "none" }}>
       <div class="modal-header">
-        <div class="title">Withdraw&nbsp; {selectedTokenMeta.symbol}</div>
+        <div class="modal_title">Withdraw {selectedTokenMeta.symbol}</div>
         <img
           class="btn-close-custom"
           src={closeButtonBase64}
           onClick={closeModal}
         />
       </div>
-      <div class="modal-body">
-        <div class="content">
-          <Widget
-            src="juaner.near/widget/ref-input-box"
-            props={{
-              amount,
-              handleAmount,
-              balance: availableBalance,
-              balance$: availableBalance$,
-              metadata: asset.metadata,
-            }}
-          />
-          {hasError && (
-            <p class="alert alert-danger mt-10" role="alert">
-              Amount greater than available
-            </p>
-          )}
-          <div class="template mt_25">
-            <span class="title">Health Factor</span>
-            <span class="value">
-              {newHealthFactor ? newHealthFactor : healthFactor}%
-            </span>
-          </div>
-          <div class="template mt_25">
-            <span class="title">Remaining Collateral</span>
-            <span class="value">
-              {remainBalance || "-"}
-              <span class="usd">(${remainBalance$ || "0"})</span>
-            </span>
-          </div>
-          <Widget
-            src="juaner.near/widget/ref-withdraw-button"
-            props={{
-              onLoad,
-              selectedTokenId,
-              amount,
-              hasError,
-              account,
-              onLoad,
-              assets,
-              availableBalance,
-              storageToken,
-              isMax,
-            }}
-          />
+      <div class="px-3">
+        <Widget
+          src="juaner.near/widget/ref-input-box"
+          props={{
+            amount,
+            handleAmount,
+            balance: availableBalance,
+            balance$: availableBalance$,
+            metadata: asset.metadata,
+            label: "Available to withdraw",
+          }}
+        />
+        {hasError && (
+          <p class="alert alert-danger mt-10" role="alert">
+            Amount greater than available
+          </p>
+        )}
+      </div>
+      <div class="separator" />
+      <div class="px-3 pb-2">
+        <div class="template mt_25">
+          <span class="template_title">Health Factor</span>
+          <span class="value">
+            {newHealthFactor ? newHealthFactor : healthFactor}%
+          </span>
         </div>
+        <div class="template mt_25">
+          <span class="template_title">Remaining Collateral</span>
+          <span class="value">
+            {remainBalance || "-"}
+            <span class="usd">(${remainBalance$ || "0"})</span>
+          </span>
+        </div>
+        <Widget
+          src="juaner.near/widget/ref-withdraw-button"
+          props={{
+            onLoad,
+            selectedTokenId,
+            amount,
+            hasError,
+            account,
+            onLoad,
+            assets,
+            availableBalance,
+            storageToken,
+            isMax,
+          }}
+        />
       </div>
     </Modal>
     <Backdrop
