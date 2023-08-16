@@ -53,9 +53,7 @@ return (
       ))}
     </ul>
     {context.accountId && (
-      <div className="mb-3">
-        <Widget src="mob.near/widget/MainPage.N.Compose" props={{}} />
-      </div>
+      <Widget src="mob.near/widget/MainPage.N.Compose" props={{}} />
     )}
     {state.feedIndex === 2 ? (
       <Widget src="mob.near/widget/Hashtag.N.Feed" props={{ hashtag }} />
