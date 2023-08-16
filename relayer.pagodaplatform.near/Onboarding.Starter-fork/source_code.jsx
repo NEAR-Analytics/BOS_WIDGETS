@@ -205,7 +205,7 @@ if (state.transfers.length === 0) {
           transfers: [
             ...state.transfers,
             {
-              id: Big(transfer[0]).div(Big(10).pow(18)).toFixed(20),
+              id: Big(transfer[0]).toFixed(20),
               amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
               to: transfer[2],
               sent: transfer[3],
