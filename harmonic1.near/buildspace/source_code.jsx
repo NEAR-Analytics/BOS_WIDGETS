@@ -84,8 +84,8 @@ return (
             </p>
             <p style={{ fontSize: "1.25rem" }}>
               Go ahead and create your Profile that no one but you control.
-              Without the fear of intermediaries platforms, share information
-              with your audeince on your own terms.
+              Without the fear of intermediary platforms, share information with
+              your audience on your own terms.
             </p>
           </div>
         </div>
