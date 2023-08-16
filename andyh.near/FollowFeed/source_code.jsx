@@ -23,7 +23,7 @@ const renderItem = (a) => {
         isTrusted={true}
       />
       <span className="text-muted">
-        {a.value.type === "follow" ? "followed" : "unfollowed"}
+        {a.value?.type === "follow" ? "followed" : "unfollowed"}
       </span>
       <Widget
         src="andyh.near/widget/ProfileLine"
