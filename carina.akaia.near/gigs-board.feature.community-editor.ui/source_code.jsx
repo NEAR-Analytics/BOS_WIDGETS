@@ -285,11 +285,11 @@ const CommunityEditorUI = ({ handle: communityHandle }) => {
   const changesSave = () =>
     Near.call(
       nearDevGovGigsContractAccountId,
-      isCommunityNew ? "add_community" : "edit_community",
+      isCommunityNew ? "create_community" : "update_community",
 
       {
         handle: isCommunityNew ? state.communityData?.handle : communityHandle,
-        community: state.communityData,
+        [isCommunityNew ? "inputs" : "community"]: state.communityData,
       }
     );
 
