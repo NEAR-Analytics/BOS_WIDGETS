@@ -56,6 +56,6 @@ if (state.balance === undefined && sender) {
 // }
 return (
   <>
-    <p>{"h"}</p>
+    <p>{state.balance}</p>
   </>
 );
