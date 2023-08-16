@@ -1,6 +1,9 @@
 // tab isn't rerederning properly
 // add better icons and actually populate components
 // pass in props so can keep track of state
+State.init({
+  selectedTab: props.catTab || "home",
+});
 const ownerId = "manzanal.near";
 const curatedComps = [
   {
@@ -523,7 +526,7 @@ const curatedComps = [
     ],
   },
 ];
-const filterTag = props.tab ?? "home";
+const filterTag = props.catTab ?? "home";
 const debug = props.debug ?? false;
 const id = props.id ?? "";
 
@@ -594,7 +597,7 @@ const renderCategory = (categoryId) => {
   );
 };
 State.init({
-  tab: filterTag,
+  catTab: filterTag,
   id: id,
 });
 
@@ -620,14 +623,14 @@ const renderHome = () => {
 };
 
 const onSelect = (selection) => {
-  State.update({ tab: selection.tab, id: selection.id ? selection.id : "" });
+  State.update({ catTab: selection.tab, id: selection.id ? selection.id : "" });
 };
 
 const renderContent = {
   home: renderHome(),
   searchComponents: searchComponents(),
   category: renderCategory(state.id),
-}[state.tab];
+}[state.catTab];
 
 return (
   <>
@@ -636,7 +639,7 @@ return (
         <Widget
           src={`ndcplug.near/widget/CommonLibraries.Navbar`}
           props={{
-            tab: state.tab,
+            catTab: state.catTab,
             onSelect,
             navItems: curatedComps.map((i) => ({
               category: i.category,
