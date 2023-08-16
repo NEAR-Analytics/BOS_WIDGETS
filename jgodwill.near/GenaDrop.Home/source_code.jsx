@@ -179,17 +179,71 @@ const OrgsSection = styled.div`
     transform:rotate(1turn) translate(0)
   }
 }
-  & .Orgs_icon {
-  position: absolute;
-  width: 5em;
-  -webkit-animation: Orgs_rotate__2EIfH 12s linear infinite;
-  animation: Orgs_rotate__2EIfH 12s linear infinite;
-  animation-delay: 0s;
-  top: -2em;
+.Orgs_celo__1nhAF .Orgs_icon__OjO0f {
+  top:-2em;
+  left:-2em;
+  z-index:-1;
+  -webkit-animation-delay:1s;
+  animation-delay:1s
+}
+.Orgs_mp__iiG4Z .Orgs_icon__OjO0f {
+  bottom:-2em;
+  left:-2em;
+  z-index:-1;
+  -webkit-animation-delay:2s;
+  animation-delay:2s
+}
+.Orgs_algo__xp_dw .Orgs_icon__OjO0f {
+  bottom:-2em;
+  right:-2em;
+  z-index:-1;
+  -webkit-animation-delay:3s;
+  animation-delay:3s
+}
+.Orgs_near__1pWPa .Orgs_icon__OjO0f {
+  top:-2em;
+  right:-2em;
+  z-index:-1;
+  -webkit-animation-delay:4s;
+  animation-delay:4s
+}
+.org.celo .Orgs_icon{
+top: -2em;
   left: -2em;
   z-index: -1;
   -webkit-animation-delay: 1s;
   animation-delay: 1s;
+}
+.org.near .Orgs_icon{
+  top: -2em;
+  right: -2em;
+  z-index: -1;
+  -webkit-animation-delay: 4s;
+  animation-delay: 4s;
+}
+
+.org.mp .Orgs_icon{
+bottom: -2em;
+  left: -2em;
+  z-index: -1;
+  -webkit-animation-delay: 2s;
+  animation-delay: 2s;
+}
+.org.algo .Orgs_icon{
+bottom: -2em;
+  right: -2em;
+  z-index: -1;
+  -webkit-animation-delay: 3s;
+  animation-delay: 3s;
+}
+  & .Orgs_icon {
+  position: absolute;
+  width: 5em;
+position: absolute;
+  width: 5em;
+  -webkit-animation: Orgs_rotate__2EIfH 12s linear infinite;
+  animation: Orgs_rotate__2EIfH 12s linear infinite;
+    animation-delay: 0s;
   @media screen and (max-width: 540px){
   width: 3.5em;
   }
@@ -284,7 +338,7 @@ return (
       </div>
       <div className="left">
         <a
-          className="org"
+          className="org celo"
           href="https://celocommunityfund.org/"
           target="_blank"
           rel="noreferrer"
@@ -301,7 +355,7 @@ return (
           />
         </a>
         <a
-          className="org"
+          className="org near"
           href="https://near.foundation/"
           target="_blank"
           rel="noreferrer"
@@ -318,7 +372,7 @@ return (
           />
         </a>
         <a
-          className="org"
+          className="org mp"
           href="https://www.minorityprogrammers.com/"
           target="_blank"
           rel="noreferrer"
@@ -335,7 +389,7 @@ return (
           />
         </a>
         <a
-          className="org"
+          className="org algo"
           href="https://www.algorand.com/"
           target="_blank"
           rel="noreferrer"
