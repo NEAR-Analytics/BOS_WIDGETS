@@ -232,13 +232,18 @@ return (
         </div>
         <a className="orgs-link" href="#">
           <div>Read Docs</div>
-          <img
-            className="arrow"
-            alt="arrow"
-            src="https://docs.genadrop.io/"
-            target="_blank"
-            rel="noreferrer"
-          />
+          <svg
+            width="25"
+            height="17"
+            viewBox="0 0 25 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0.0117188 9.9492H19.2747L14.3947 14.6952L16.321 16.5687L24.5399 8.57535L16.321 0.582031L14.3947 2.45546L19.2747 7.2015H0.0117188V9.9492Z"
+              fill="current"
+            ></path>
+          </svg>
         </a>
       </div>
       <div className="left">
