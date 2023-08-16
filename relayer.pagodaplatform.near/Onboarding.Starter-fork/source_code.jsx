@@ -199,6 +199,7 @@ if (state.transfers.length === 0) {
     .getTransfers()
     .then((transfers) => {
       transfers.map((transfer) => {
+        console.log("hhhhh");
         State.update({
           transfers: [
             ...state.transfers,
