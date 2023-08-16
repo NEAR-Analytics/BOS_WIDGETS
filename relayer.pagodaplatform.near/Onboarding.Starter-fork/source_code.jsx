@@ -192,13 +192,12 @@ if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
 }
 const iface = new ethers.utils.Interface(wallet.abi);
-
 const con = new ethers.Contract(
   wallet.address,
   wallet.abi,
   Ethers.provider().getSigner()
 );
-console.log(con.address);
+console.log(Ethers.provider().getSigner().getAddress());
 return (
   <>
     <p>{state.chainId}</p>
