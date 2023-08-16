@@ -69,13 +69,13 @@ function upVoteListener() {
   let newLibCalls = [...libCalls];
 
   function onCommit() {
-    console.log("Commited");
-    State.update({
-      numberOfvotesModified: true,
-      numberOfVotes: isDelete
-        ? state.numberOfVotes - 1
-        : state.numberOfVotes + 1,
-    });
+    state.numberOfVotes &&
+      State.update({
+        numberOfvotesModified: true,
+        numberOfVotes: isDelete
+          ? state.numberOfVotes - 1
+          : state.numberOfVotes + 1,
+      });
   }
 
   newLibCalls.push({
@@ -93,8 +93,6 @@ function upVoteListener() {
 const CallLibrary = styled.div`
   display: none;
 `;
-
-console.log(state.numberOfVotes);
 return (
   <>
     <Widget
