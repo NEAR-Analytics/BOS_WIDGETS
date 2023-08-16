@@ -3,6 +3,7 @@ State.init({
   currentAppThemeMode: "lightMode",
 });
 
+//UI Kit Theme
 const appTheme = {
   colors: () => {
     const currentThemeMode = state.currentAppThemeMode;
@@ -71,6 +72,9 @@ const appThemeService = {
   getTheme: () => appTheme,
 };
 
+//UI Kit Theme
+
+//UI Kit Widgets
 const Button = styled.button`
   background: ${appTheme.colors().primary};
   color: ${appTheme.colors().textWhite};
@@ -97,6 +101,15 @@ const NavigationBar = styled.div`
   justify-content: space-around;
 `;
 
+const uiKitComponents = {
+  button: Button,
+  body: Body,
+  navigationBar: NavigationBar,
+};
+//UI Kit Widgets
+
+//Router
+
 const routes = {
   moduleA: "vlmoon.near/widget/BOSModuleA",
   moduleB: "vlmoon.near/widget/BOSModuleB",
@@ -117,6 +130,10 @@ const routesNavigator = {
   moduleD: () => navigateToModule("moduleD"),
 };
 
+//Router
+
+//Dependencies Injections
+
 function getModuleDependencies(moduleRoute) {
   if (moduleRoute === "moduleA") {
     return ["moduleA"];
@@ -128,8 +145,9 @@ function getModuleDependencies(moduleRoute) {
     return ["moduleD"];
   }
 }
-
 const dependencies = getModuleDependencies(state.currentRoute);
+
+//Dependencies Injections
 
 return (
   <>
@@ -142,7 +160,12 @@ return (
       </NavigationBar>
       <Widget
         src={routes[state.currentRoute]}
-        props={{ dependencies, routesNavigator, appThemeService }}
+        props={{
+          dependencies,
+          routesNavigator,
+          appThemeService,
+          uiKitComponents,
+        }}
       />
     </Body>
   </>
