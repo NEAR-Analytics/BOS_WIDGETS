@@ -205,15 +205,15 @@ const contract = new ethers.Contract(
 console.log(state.transfers.length === 0, sender, contract);
 if (state.transfer.length === 0) {
   console.log("jjj");
-  contract
-    .createTransfer(0.1, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
-    .send({ from: sender })
-    .then(() => {
-      console.log("heree");
-      State.update({
-        transfers: contract.getTransfers().call(),
-      });
-    });
+  // contract
+  //   .createTransfer(0.1, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
+  //   .send({ from: sender })
+  //   .then(() => {
+  //     console.log("heree");
+  //     State.update({
+  //       transfers: contract.getTransfers().call(),
+  //     });
+  //   });
   // State.update({
   //   transfers: contract.getTransfers().call(),
   // });
