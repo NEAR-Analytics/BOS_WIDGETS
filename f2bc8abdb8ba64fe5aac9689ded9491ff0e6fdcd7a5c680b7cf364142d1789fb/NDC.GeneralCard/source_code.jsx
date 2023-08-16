@@ -56,6 +56,7 @@ function getNumberOfUpVotes() {
   if (state.createdInteraction !== undefined && userJustDeleted) {
     return state.upVotes.reactionsStatistics - 1 ?? 0;
   } else if (state.createdInteraction !== undefined && userJustVoted) {
+    return state.upVotes.reactionsStatistics + 1 ?? 0;
   } else {
     return state.upVotes.reactionsStatistics ?? 0;
   }
@@ -63,6 +64,7 @@ function getNumberOfUpVotes() {
 
 function getUpVoteButtonClass() {
   if (
+    (state.createdInteraction !== undefined && userJustVoted) ||
     (state.createdInteraction !== undefined && !userJustDeleted) ||
     (state.upVotes.userInteraction.value.deleteReaction !== undefined &&
       !state.upVotes.userInteraction.value.deleteReaction)
