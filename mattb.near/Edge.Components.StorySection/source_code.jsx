@@ -8,6 +8,8 @@ const Box = styled.div`
     min-height:80vh;
     background-color:#fff;
     color:#000;
+    max-width:800px;
+    margin:0 auto;
 
     .title, .subtitle {
         font-family: Times New Roman;
