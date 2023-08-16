@@ -299,7 +299,6 @@ const Editor = ({
   data,
   fieldsRender: customFieldsRender,
   formatter: toFormatted,
-  fullWidth,
   heading,
   isEditorActive,
   isEditingAllowed,
@@ -352,7 +351,6 @@ const Editor = ({
 
   return widget("components.molecule.tile", {
     className: classNames.root,
-    fullWidth,
     heading,
     noFrame: noEditorFrame,
 
@@ -396,10 +394,7 @@ const Editor = ({
             {widget("components.atom.button", {
               classNames: {
                 root: classNames.submit ?? "btn-success",
-
-                adornment: `bi ${
-                  classNames.submitAdornment ?? "bi-check-circle-fill"
-                }`,
+                adornment: `bi ${classNames.submitAdornment}`,
               },
 
               disabled: !form.hasUnsubmittedChanges,
