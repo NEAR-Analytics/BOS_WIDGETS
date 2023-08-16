@@ -1,151 +1,91 @@
 const Container = styled.div`
-    background: #1A2E33;
-    .template{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-left:6px;
+  background-color: #25283a;
+  border-radius: 12px;
+  .template {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 6px;
+  }
+  .assets_table {
+    width: 100%;
+    tr {
+      color: #7c7f96;
+      border: none;
+      height: 50px;
     }
-    .table{
-        margin:0;
+    th,
+    td {
+      border: none;
     }
-    .noBorder{
-      border:none;
+    td {
+      color: #fff;
+      font-size: 14px;
     }
-    .table thead tr{
-        height:50px;
-        border:hidden;
+    th:first-child,
+    td:first-child {
+      padding-left: 20px;
+      min-width: 160px;
     }
-    .table tbody tr{
-        height:50px;
+    th:nth-child(5) {
+      min-width: 120px;
     }
-    .table th{
-        color: #7E8A93;
-        font-size:14px;
-        vertical-align: middle;
+    tbody {
+      .table_handlers div {
+        background-color: rgba(0, 255, 163, 0.6);
+        transition: 0.5s;
+      }
+      tr:hover {
+        background-color: #373a53;
+        border-radius: 12px;
+        .table_handlers div {
+          background-color: #00ffa3;
+        }
+      }
+      tr:last-child td:first-child {
+        border-bottom-left-radius: 12px;
+      }
+      tr:last-child td:last-child {
+        border-bottom-right-radius: 12px;
+      }
     }
-    .table td{
-        color: #fff;
-        font-size:14px;
-        vertical-align: middle;
-        border: none;
-    }
-    .tokenIcon{
-      width: 26px;
-      height: 26px;
-      border-radius:100px;
-      margin-right:8px;
-    }
-    .rewardIcon{
-      width: 16px;
-      height: 16px;
-      border-radius:100px;
-    }
-    .text_green_color{
-      color:#78FF9E;
-    }
-    .ml_4_ne{
-        margin-left:-4px;
-    }
-    .mt_25{
-      margin-top:25px;
-    }
-    .mt-10{
-      margin-top:10px;
-    }
-    .font-18{
-        font-size:18px;
-    }
-    .flex-end{
-      display:flex;
-      align-items:center;
-      justify-content:end;
-      height:50px;
-    }
-`;
-const Backdrop = styled.div`
-  height: 100vh;
-  width: 100vw;
-  background-color: rgba(0, 0, 0, 0.6);
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1001;
-`;
-
-const Modal = styled.div`
-  background-color:#1A2E33;
-  border-radius:12px;
-  position:fixed;
-  z-index:1002;
-  width:30rem;
-  max-width: 95vw;
-  max-height: 80vh;
-  padding:10px 0 20px 0;
-  animation:anishow 0.3s forwards ease-out;
-  left:50%;
-  top:50%;
-  @keyframes anishow {
-    from {
-      opacity: 0;
-      transform:translate(-50%,-70%);
-    }
-    to {
-      opacity: 1;
-      transform:translate(-50%,-50%);
+    .table_handlers {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      padding-right: 10px;
     }
   }
-    .modal-header{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff;
-      font-weight: 700;
-      font-size: 18px;
-      padding:12px;
-      margin-bottom:16px;
-      border-bottom:2px solid rgba(48, 67, 82, 0.5);
-    } 
-    .modal-header .btn-close{
-      position:absolute;
-      right:28px;
-      margin:0;
-    }
-    .modal-body {
-        padding:0 10px;
-    }
-    .modal-body .tab{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:30px;
-    }
-    .modal-body .tab span{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:50%;
-      height:40px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 18px;
-      cursor:pointer;
-      color:#fff;
-    }
-    .modal-body .tab span.active{
-      background: #304352;
-    }
-   .btn-close-custom{
-      position:absolute;
-      right:28px;
-      width:12px;
-      height:12px;
-      cursor:pointer;
-    }
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-    }
+
+  .tokenIcon {
+    width: 26px;
+    height: 26px;
+    border-radius: 100px;
+    margin-right: 8px;
+  }
+  .rewardIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+  }
+  .text_green_color {
+    color: #78ff9e;
+  }
+  .ml_4_ne {
+    margin-left: -4px;
+  }
+  .mt_25 {
+    margin-top: 25px;
+  }
+  .mt-10 {
+    margin-top: 10px;
+  }
+  .font-18 {
+    font-size: 18px;
+  }
+  .title {
+    padding-left: 20px;
+  }
 `;
 
 /** base tool start  */
@@ -158,6 +98,8 @@ let BURROW_CONTRACT = "contract.main.burrow.near";
 let accountId = context.accountId;
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
+
+State.init({ tableData: [] });
 
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -212,17 +154,64 @@ if (!accountId) {
   return <Widget src="juaner.near/widget/ref_account-signin" />;
 }
 const config = Near.view(BURROW_CONTRACT, "get_config");
+const formatAssets = (data) => {
+  const rewardsMap = data.rewards
+    ? data.rewards.reduce((acc, cur) => {
+        return {
+          ...acc,
+          [cur.token_id]: cur,
+        };
+      }, {})
+    : {};
+  const assetsMap = data.assets
+    ? data.assets.reduce((acc, cur) => {
+        return {
+          ...acc,
+          [cur.token_id]: cur,
+        };
+      }, {})
+    : {};
+
+  return data.assets
+    .filter((a) => a.config.can_deposit)
+    .map((asset) => {
+      const { token_id, metadata, price, config } = asset;
+      const r = data.rewards.find((a) => a.token_id === asset.token_id);
+      const netTvlMultiplier = config.net_tvl_multiplier / 10000;
+      const depositApy =
+        r.apyBase + r.apyRewardTvl * netTvlMultiplier + r.apyReward;
+      const hasRewards = rewardsMap[token_id] && assetsMap[token_id];
+      const rewardMap = hasRewards && rewardsMap[token_id];
+      const rewardTokens = rewardMap && rewardMap.rewardTokens;
+      const token_usd_price = price && price.usd;
+      const { volatility_ratio, extra_decimals } = config;
+      const totalLiquidity = B(asset.supplied.balance || 0)
+        .plus(asset.reserved)
+        .toFixed();
+      const decimals = metadata.decimals + extra_decimals;
+      const totalLiquidity_shrink = shrinkToken(totalLiquidity, decimals);
+
+      const totalLiquidity_usd = B(totalLiquidity_shrink || 0)
+        .mul(token_usd_price || 0)
+        .toNumber();
+      return {
+        icon: metadata.icon,
+        symbol: metadata.symbol,
+        depositApy,
+        rewardTokens,
+        volatility_ratio,
+        totalLiquidity_usd,
+        token_id,
+      };
+    });
+};
+
 const onLoad = (data) => {
   State.update(data);
+  // get market can deposit assets
+  if (data.assets?.length) State.update({ tableData: formatAssets(data) });
 };
-const rewardsMap = rewards
-  ? rewards.reduce((acc, cur) => {
-      return {
-        ...acc,
-        [cur.token_id]: cur,
-      };
-    }, {})
-  : {};
+
 const assetsMap = assets
   ? assets.reduce((acc, cur) => {
       return {
@@ -231,33 +220,18 @@ const assetsMap = assets
       };
     }, {})
   : {};
-// get market can deposit assets
-const can_deposit_assets = assets && assets.filter((a) => a.config.can_deposit);
-const market_deposit_assets =
-  can_deposit_assets &&
-  can_deposit_assets.map((asset) => {
-    const { token_id, metadata, price, config } = asset;
-    const r = rewards.find((a) => a.token_id === asset.token_id);
-    const netTvlMultiplier = config.net_tvl_multiplier / 10000;
-    const depositApy =
-      r.apyBase + r.apyRewardTvl * netTvlMultiplier + r.apyReward;
-    const hasRewards = rewardsMap[token_id] && assetsMap[token_id];
-    const rewardMap = hasRewards && rewardsMap[token_id];
-    const rewardTokens = rewardMap && rewardMap.rewardTokens;
-    const token_usd_price = price && price.usd;
-    const { volatility_ratio, extra_decimals } = config;
-    const totalLiquidity = B(asset.supplied.balance || 0)
-      .plus(asset.reserved)
-      .toFixed();
-    const decimals = metadata.decimals + extra_decimals;
-    const totalLiquidity_shrink = shrinkToken(totalLiquidity, decimals);
 
-    const totalLiquidity_usd = nFormat(
-      B(totalLiquidity_shrink || 0)
-        .mul(token_usd_price || 0)
-        .toNumber(),
-      2
-    );
+const renderAssets = (data) =>
+  data.map((record) => {
+    const {
+      icon,
+      symbol,
+      depositApy,
+      rewardTokens,
+      volatility_ratio,
+      token_id,
+      totalLiquidity_usd,
+    } = record;
 
     const rewardTokensImg =
       rewardTokens &&
@@ -272,28 +246,31 @@ const market_deposit_assets =
       });
 
     const cf = volatility_ratio / 100;
+    const totalLiquidity_usd_display = nFormat(totalLiquidity_usd);
     return (
-      <tr>
+      <tr key={token_id}>
         <td>
-          <img src={metadata.icon || wnearbase64} class="tokenIcon"></img>
-          {metadata.symbol}
+          <img src={icon || wnearbase64} class="tokenIcon"></img>
+          {symbol}
         </td>
         <td>{toAPY(depositApy)}%</td>
         <td>{rewardTokensImg}</td>
         <td>{cf}%</td>
-        <td>${totalLiquidity_usd}</td>
-        <td class="flex-end">
-          <Widget
-            src="juaner.near/widget/ref-operation-button"
-            props={{
-              clickEvent: () => {
-                handleSelect(token_id);
-              },
-              buttonType: "solid",
-              actionName: "Supply",
-              hoverOn: true,
-            }}
-          />
+        <td>${totalLiquidity_usd_display}</td>
+        <td>
+          <div class="table_handlers">
+            <Widget
+              src="juaner.near/widget/ref-operation-button"
+              props={{
+                clickEvent: () => {
+                  handleSelect(token_id);
+                },
+                buttonType: "solid",
+                actionName: "Supply",
+                hoverOn: true,
+              }}
+            />
+          </div>
         </td>
       </tr>
     );
@@ -312,47 +289,112 @@ function closeModal() {
     showModal: false,
   });
 }
-function changeTab(tabName) {
-  State.update({
-    tabName,
-  });
-}
 const selectedToken = (selectedTokenId && assetsMap[selectedTokenId]) || {};
 const selectedTokenMeta = selectedToken.metadata || {};
+
+const handleSort = (type, key) => {
+  if (!state.tableData.length) return;
+  State.update({
+    tableData: state.tableData.sort((a, b) =>
+      type === "down" ? a[key] - b[key] : b[key] - a[key]
+    ),
+  });
+};
+
 return (
   <Container>
     {/* load data */}
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
+
     {/* markets */}
-    <div class="fw-bold text-white mt-3 font-18">
+    <div class="fw-bold text-white pt-3 font-18 title">
       <span class="text_green_color">Supply</span> Market
     </div>
-    <table class="table click noBorder">
+    <table class="assets_table click" border="0">
       <thead>
         <tr>
-          <th scope="col" width="15%">
+          <th scope="col" width="20%">
             Assets
           </th>
-          <th scope="col" class="text-start" width="15%">
-            APY
+          <th scope="col" width="15%">
+            <div className="table_sorter">
+              <span>APY</span>
+              <div className="arrows">
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-up"
+                    onClick={() => {
+                      handleSort("up", "depositApy");
+                    }}
+                  />
+                </div>
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-down"
+                    onClick={() => {
+                      handleSort("down", "depositApy");
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </th>
-          <th scope="col" class="text-start" width="15%">
+          <th scope="col" width="15%">
             Rewards
           </th>
           <th scope="col" width="15%">
-            C.F.
+            <div className="table_sorter">
+              <span> C.F.</span>
+              <div className="arrows">
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-up"
+                    onClick={() => {
+                      handleSort("up", "volatility_ratio");
+                    }}
+                  />
+                </div>
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-down"
+                    onClick={() => {
+                      handleSort("down", "volatility_ratio");
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </th>
-          <th scope="col" width="15%">
-            Total Supply
+          <th scope="col" width="20%">
+            <div className="table_sorter">
+              <span>Total Supply</span>
+              <div className="arrows">
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-up"
+                    onClick={() => {
+                      handleSort("up", "totalLiquidity_usd");
+                    }}
+                  />
+                </div>
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-down"
+                    onClick={() => {
+                      handleSort("down", "totalLiquidity_usd");
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </th>
-          <th scope="col" class="text-end"></th>
+          <th scope="col" width="15%"></th>
         </tr>
       </thead>
-      <tbody>{market_deposit_assets}</tbody>
+      <tbody>{renderAssets(state.tableData)}</tbody>
     </table>
-    {/* Modal*/}
     <Widget
       src="juaner.near/widget/ref-market-supply-supply"
       props={{ selectedTokenId, showModal, closeModal, selectedTokenMeta }}
