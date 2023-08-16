@@ -50,7 +50,7 @@ const Hosts = styled.div`
     gap: 1rem;
     padding:2.5rem 0;
 
-    @media screen and (min-width:800px) {
+    @media screen and (max-width:800px) {
         display:block;
     }
 `;
@@ -61,7 +61,7 @@ const Host = styled.div`
     padding: 1.5rem;
     transition: all .2s;
 
-    @media screen and (min-width:800px) {
+    @media screen and (max-width:800px) {
         :not(:last-of-type) {
             margin-bottom:1.5rem;
         }
@@ -113,20 +113,20 @@ return (
       <p className="title">Hosts.</p>
       <p className="subtitle">Convening visionary researchers worldwide</p>
       <Hosts>
-        {state.hosts.map((speaker) => (
+        {state.hosts.map((host) => (
           <Host>
-            <Background src={speaker.image} />
-            <p className="title">{speaker.name}</p>
-            {speaker.twitter && (
+            <Background src={host.image} />
+            <p className="title">{host.name}</p>
+            {host.twitter && (
               <a
-                href={`https://twitter.com/${speaker.twitter}`}
+                href={`https://twitter.com/${host.twitter}`}
                 target="_blank"
                 className="description"
               >
-                @{speaker.twitter}
+                @{host.twitter}
               </a>
             )}
-            <p className="description">{speaker.description}</p>
+            <p className="description">{host.description}</p>
           </Host>
         ))}
       </Hosts>
