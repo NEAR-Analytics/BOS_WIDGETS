@@ -235,7 +235,9 @@ return (
     {state.transfers.map((transfer) => (
       <div>
         <p>{transfer.to}</p>
-        <button onClick={() => approveTransfer(parseInt(transfer.id))}>
+        <button
+          onClick={async () => await approveTransfer(parseInt(transfer.id))}
+        >
           Approve
         </button>
       </div>
