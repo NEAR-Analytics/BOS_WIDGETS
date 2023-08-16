@@ -39,21 +39,22 @@ return (
       />
     </a>
     <div className="d-inline-block">
-      <a href={`#/${widgetPath}`} className="text-decoration-none link-dark">
-        <div className="text-truncate">
+      <div className="text-truncate">
+        {" "}
+        <a href={`#/${widgetPath}`} className="text-decoration-none link-dark">
           <span className="fw-bold">{name}</span>{" "}
-          <span className="fw-normal">
-            {widgetPath}
-            <Widget
-              src="mob.near/widget/CopyButton"
-              props={{
-                text: { widgetPath },
-                onCopy: "Copied widget path to clipboard",
-              }}
-            />
-          </span>
-        </div>
-      </a>
+        </a>{" "}
+        <span className="fw-normal">
+          {widgetPath}
+          <Widget
+            src="mob.near/widget/CopyButton"
+            props={{
+              text: { widgetPath },
+              onCopy: "Copied widget path to clipboard",
+            }}
+          />
+        </span>
+      </div>
 
       <div className="text-truncate text-muted">
         {tags.length > 0 && (
