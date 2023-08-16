@@ -207,9 +207,8 @@ if (state.transfers.length === 0) {
               id: Big(transfer[0]).div(Big(10).pow(18)).toFixed(0),
               amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
               to: transfer[2],
-              approvals: Big(transfer[3]).div(Big(10).pow(18)).toFixed(0),
-              sent: transfer[4],
-              approvers: transfer[5],
+              sent: transfer[3],
+              approvers: transfer[4],
             },
           ],
         });
