@@ -97,6 +97,7 @@ function upVoteListener() {
       : false;
 
   function onCommit() {
+    console.log("Commited");
     State.update({
       createdInteraction: isDelete,
     });
