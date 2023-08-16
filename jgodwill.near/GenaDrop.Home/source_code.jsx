@@ -84,6 +84,13 @@ const OrgsSection = styled.div`
   grid-gap: 4em;
   gap: 4em;
   padding: 3em 0px;
+  .docs-arrow{
+    transition: transform .3s,-webkit-transform .3s;
+    fill: #0d99ff;
+    :hover{
+      transform: translateX(1em);
+    }
+  }
   &>.right{
     flex: 60% 1;
     max-width: 36em;
@@ -144,6 +151,34 @@ const OrgsSection = styled.div`
       border-radius: .7em;
     }
   }
+  @-webkit-keyframes Orgs_rotate__2EIfH {
+  0% {
+    -webkit-transform:rotate(0deg) translate(0);
+    transform:rotate(0deg) translate(0)
+  }
+  50% {
+    -webkit-transform:rotate(1turn) translate(1em,1em);
+    transform:rotate(1turn) translate(1em,1em)
+  }
+  to {
+    -webkit-transform:rotate(1turn) translate(0);
+    transform:rotate(1turn) translate(0)
+  }
+}
+@keyframes Orgs_rotate__2EIfH {
+  0% {
+    -webkit-transform:rotate(0deg) translate(0);
+    transform:rotate(0deg) translate(0)
+  }
+  50% {
+    -webkit-transform:rotate(1turn) translate(1em,1em);
+    transform:rotate(1turn) translate(1em,1em)
+  }
+  to {
+    -webkit-transform:rotate(1turn) translate(0);
+    transform:rotate(1turn) translate(0)
+  }
+}
   & .Orgs_icon {
   position: absolute;
   width: 5em;
@@ -155,7 +190,7 @@ const OrgsSection = styled.div`
   z-index: -1;
   -webkit-animation-delay: 1s;
   animation-delay: 1s;
-  @media screen and (max-width: 540px)
+  @media screen and (max-width: 540px){
   width: 3.5em;
   }
   & .Orgs_logo{
@@ -238,6 +273,7 @@ return (
             viewBox="0 0 25 17"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            className="docs-arrow"
           >
             <path
               d="M0.0117188 9.9492H19.2747L14.3947 14.6952L16.321 16.5687L24.5399 8.57535L16.321 0.582031L14.3947 2.45546L19.2747 7.2015H0.0117188V9.9492Z"
