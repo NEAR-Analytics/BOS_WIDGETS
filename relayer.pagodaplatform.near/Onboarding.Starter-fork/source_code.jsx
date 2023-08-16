@@ -221,7 +221,7 @@ if (contract) {
 //     .catch((err) => {
 //       console.log(err);
 //     });
-}
+// }
 return (
   <>
     <p>{state.chainId}</p>
