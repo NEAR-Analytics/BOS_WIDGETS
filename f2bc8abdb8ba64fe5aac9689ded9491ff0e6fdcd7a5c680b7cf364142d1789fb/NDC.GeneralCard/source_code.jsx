@@ -665,8 +665,10 @@ return (
           src={widgets.styledComponents}
           props={{
             Button: {
-              text: `+${data.upVoteData?.upvotes ?? 0}`,
-              className: "secondary dark",
+              text: `+${state.upVotes.reactionsStatistics ?? 0}`,
+              className: `${
+                state.upVotes.userInteraction ? "primary" : "secondary dark"
+              }`,
               size: "sm",
               onClick: upVoteListener,
               icon: <i className="bi bi-hand-thumbs-up"></i>,
