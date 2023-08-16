@@ -1,5 +1,5 @@
 const wallet = {
-  address: "0x40680D1561A1492Eb0ac4a487b7fEe4d77C9ecD1",
+  address: "0x9788C9cE39c936936DD9708DC7E0aBA5bb6Da47c",
   _format: "hh-sol-artifact-1",
   contractName: "Wallet",
   sourceName: "contracts/Wallet.sol",
