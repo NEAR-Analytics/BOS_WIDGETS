@@ -12,7 +12,9 @@ const embedMentions = props.embedMentions || [];
 const showSliders = props.showSliders ?? true;
 if (!context.accountId) return <></>;
 const maxSliderPoints = 10;
+const sliderChange = false;
 State.init({
+  sliderChange,
   image: {},
   text: `${embedHashtags.map((it) => `#${it} `).join("")} ${embedMentions.map(
     (it) => `@${it}`
@@ -27,23 +29,23 @@ State.init({
 
 const handleSliderFriendliness = (event) => {
   const value = event.target.value;
-  State.update({ friendliness: value });
+  State.update({ friendliness: value, sliderChange: true });
   console.log("New Friendliness Score: " + state.friendliness);
 };
 const handleSliderEnergy = (event) => {
   const value = event.target.value;
   const newText = state.text; // adds to many needs better indicator of this
-  State.update({ energy: value, text: newText });
+  State.update({ energy: value, text: newText, sliderChange: true });
   console.log("New Energy Score: " + state.energy);
 };
 const handleSliderDensity = (event) => {
   const value = event.target.value;
-  State.update({ density: value });
+  State.update({ density: value, sliderChange: true });
   console.log("New Density Score: " + state.density);
 };
 const handleSliderDiversity = (event) => {
   const value = event.target.value;
-  State.update({ diversity: value });
+  State.update({ diversity: value, sliderChange: true });
   console.log("New Diversity Score: " + state.diversity);
 };
 const profile = Social.getr(`${context.accountId}/profile`);
