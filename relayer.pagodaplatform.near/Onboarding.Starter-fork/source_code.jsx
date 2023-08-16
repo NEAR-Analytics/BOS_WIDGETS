@@ -1,4 +1,4 @@
-const { contractAddress, contractABI } = fetch(
+const wallet = fetch(
   "https://raw.githubusercontent.com/test1883/walley/main/build/contracts/contracts/Wallet.sol/Wallet.json"
 ).body;
 
@@ -19,7 +19,7 @@ if (
         State.update({ chainId: chainIdData.chainId });
       }
     });
-  console.log("address: ", contractAddress);
+  console.log("address: ", wallet);
 }
 if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
