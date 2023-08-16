@@ -10,11 +10,12 @@ const Nav = styled.div`
     background: rgba(13, 110, 253, 0.15);
   }
 
+  margin: -24px -12px 0;
   border-bottom: 2px solid #ccc;
 `;
 return (
   <>
-    <Nav className="d-lg-none">
+    <Nav className="">
       <ul className="nav nav-pills nav-fill" id="pills-tab" role="tablist">
         <li className="nav-item" role="presentation">
           <button
