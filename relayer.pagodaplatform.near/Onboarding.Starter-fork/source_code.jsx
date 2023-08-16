@@ -172,7 +172,7 @@ const wallet = {
 State.init({
   chainId: undefined,
   balance: 0,
-  transfers: []
+  transfers: [],
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -204,20 +204,24 @@ const contract = new ethers.Contract(
 );
 
 const createTransfer = async (amount, to) => {
-  await contract.createTransfer(amount, to).send({from: sender})
+  await contract.createTransfer(amount, to).send({ from: sender });
   State.update({
-    transfers: await contract.getTransfers().call()
-  })
-}
-
-const 
+    transfers: await contract.getTransfers().call(),
+  });
+};
 
 return (
   <>
     <p>{state.chainId}</p>
     <p>{state.balance}</p>
-    <button onClick={() => {createTransfer(0.1, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")}}>create</button>
-    {state.transfers.map(transfer => (
+    <button
+      onClick={() => {
+        createTransfer(0.1, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B");
+      }}
+    >
+      create
+    </button>
+    {state.transfers.map((transfer) => (
       <p>{transfer.to}</p>
     ))}
   </>
