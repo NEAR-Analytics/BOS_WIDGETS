@@ -1,5 +1,5 @@
 const widgetOwner = "ihyshan.near";
-const currentLink = "#/astraplusplus.ndctools.near/widget/index";
+const currentLink = "#/ihyshan.near/widget/index";
 let { tab } = props;
 if (!tab) {
   tab = "home";
