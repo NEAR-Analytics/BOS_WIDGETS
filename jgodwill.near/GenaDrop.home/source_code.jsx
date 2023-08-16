@@ -324,6 +324,9 @@ const FeatureContainer = styled.div`
       gap: 2em;
   }
 }
+.Features_featureContainer.reverse{
+  flex-direction: row-reverse;
+}
   .Features_content{
     display: flex;
     width: 100%;
@@ -519,6 +522,40 @@ return (
           <img
             className="Features_image"
             src="https://www.genadrop.io/static/media/app-mint.5d33cb10.svg"
+            alt=""
+          />
+        </div>
+        <div className="Features_featureContainer reverse features-card">
+          <div className="Features_content">
+            <FeatureHeading>MARKETPLACE</FeatureHeading>
+            <FeatureTitle>
+              Distribute the art you own directly to eager collectors & fans
+            </FeatureTitle>
+            <FeatureDescription>
+              Our marketplace is where buyers and collectors trade NFTs
+              effortlessly across the hottest blockchains
+            </FeatureDescription>
+            <div>
+              <div className="Features_fLink">Buy and List NFTs on: </div>
+              <a
+                className="Features_fLink"
+                href="/#/jgodwill.near/widget/GenaDrop.Explore"
+              >
+                <span>NEAR</span>
+                <DocArrow>{rightArrow}</DocArrow>
+              </a>
+              <a
+                className="Features_fLink"
+                href="/#/0xprometheus.near/widget/Eth-Explore"
+              >
+                <span>EVMs</span>
+                <DocArrow>{rightArrow}</DocArrow>
+              </a>
+            </div>
+          </div>
+          <img
+            className="Features_image"
+            src="https://www.genadrop.io/static/media/app-explore.eab9bd86.svg"
             alt=""
           />
         </div>
