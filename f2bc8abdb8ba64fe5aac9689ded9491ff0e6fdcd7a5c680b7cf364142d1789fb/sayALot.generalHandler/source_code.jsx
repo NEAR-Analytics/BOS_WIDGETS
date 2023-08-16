@@ -82,7 +82,6 @@ const widgets = {
   comment: `${authorForWidget}/widget/NDC.Nomination.Candidate.Comment`,
   candidatePage: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page`,
   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  reactions: `${authorForWidget}/widget/NDC.Reactions`,
   upVote: `${authorForWidget}/widget/NDC.UpVoteButton`,
 };
 a;
