@@ -345,6 +345,13 @@ const FeatureContainer = styled.div`
   text-decoration: none;
   color: #0d99ff;
  }
+ .Features_image {
+  width: 100%;
+  max-width: 36em;
+  transition: -webkit-transform 1.65s;
+  transition: transform 1.65s;
+  transition: transform 1.65s,-webkit-transform 1.65s;
+}
 `;
 
 const FeatureHeading = styled.h3`
