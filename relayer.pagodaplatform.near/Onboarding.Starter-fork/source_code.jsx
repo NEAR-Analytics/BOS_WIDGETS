@@ -202,7 +202,7 @@ const address = async function () {
   const add = await signer.getAddress();
   return add;
 };
-console.log(address);
+console.log(address());
 return (
   <>
     <p>{state.chainId}</p>
