@@ -38,7 +38,7 @@ return (
       className="link-dark text-truncate"
     >
       <Widget
-        src="mob.near/widget/Profile.InlineBlock"
+        src="andyh.near/widget/Profile.InlineBlock"
         props={{ accountId, hideDescription: true }}
       />
     </a>
@@ -47,13 +47,13 @@ return (
     </Description>
     <div className="d-flex">
       <div className="me-3">
-        <Widget src="mob.near/widget/FollowStats" props={{ accountId }} />
+        <Widget src="andyh.near/widget/FollowStats" props={{ accountId }} />
       </div>
-      <Widget src="mob.near/widget/FollowsYouBadge" props={{ accountId }} />
+      <Widget src="andyh.near/widget/FollowsYouBadge" props={{ accountId }} />
     </div>
     <div className="d-flex gap-2">
-      <Widget src="mob.near/widget/FollowButton" props={{ accountId }} />
-      <Widget src="mob.near/widget/PokeButton" props={{ accountId }} />
+      <Widget src="andyh.near/widget/FollowButton" props={{ accountId }} />
+      <Widget src="andyh.near/widget/PokeButton" props={{ accountId }} />
     </div>
   </div>
 );
