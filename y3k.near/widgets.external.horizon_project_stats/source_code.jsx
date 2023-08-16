@@ -95,7 +95,6 @@ const months = [
 ];
 
 
-
 function updateProcessedData(filteredSortedData, selectedMetric) {
   const processedData = [];
 
@@ -105,25 +104,38 @@ function updateProcessedData(filteredSortedData, selectedMetric) {
     }
 
     const activity_date = parseUTCDate(datum.ACTIVITY_DATE);
-
+    const isoDate = activity_date.toISOString().slice(0, 10);
     const month =
       months[
-        parseInt(activity_date.toISOString().slice(0, 10).split("-")[1]) - 1
+        parseInt(isoDate.split("-")[1]) - 1
       ];
 
-    let monthData = processedData.find((data) => data.label === month);
+    let monthData;
 
-    if (!monthData) {
-      monthData = {
-        label: month,
-        data: {},
-        backgroundColor: getBackgroundColor(),
-      };
-      processedData.push(monthData);
+    // Check if the selectedMetric is DAA or DVT, and include dates accordingly
+    if (selectedMetric === "DAA" || selectedMetric === "DVT") {
+      monthData = processedData.find((data) => data.label === isoDate); // Using the ISO date as the label
+      if (!monthData) {
+        monthData = {
+          label: isoDate, // Using the ISO date as the label
+          data: {},
+          backgroundColor: getBackgroundColor(),
+        };
+        processedData.push(monthData);
+      }
+    } else {
+      monthData = processedData.find((data) => data.label === month);
+      if (!monthData) {
+        monthData = {
+          label: month,
+          data: {},
+          backgroundColor: getBackgroundColor(),
+        };
+        processedData.push(monthData);
+      }
     }
 
-    monthData.data[activity_date.toISOString().slice(0, 10)] =
-      datum[selectedMetric];
+    monthData.data[isoDate] = datum[selectedMetric];
   });
 
   return processedData;
@@ -157,6 +169,8 @@ let newProcessedData = updateProcessedData(
   filteredSortedData,
   initialState.selectedMetric
 );
+
+console.log(initialState.selectedMetric)
 
 newProcessedData = sortByActivityDate(newProcessedData) || [];
 console.log("newProcessedData")
