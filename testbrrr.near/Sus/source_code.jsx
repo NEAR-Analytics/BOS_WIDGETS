@@ -280,14 +280,19 @@ const getEntireDebtAndColl = () => {
     Ethers.provider().getSigner()
   );
 
-  vesselManagerContract.getEntireDebtAndColl(state.sender).then((results) => {
-    console.log(debt);
-    State.update({
-      debt: results[0].div("1000000000000000000").toString(),
-      coll: ethers.utils.formatEther(results[1].toString()),
-      pendingLUSDDebtReward: results[2].toString(),
-      pendingETHReward: results[3].toString(),
-    });
+  let assets = Object.values(availableAssets);
+  assets.forEach((asset) => {
+    vesselManagerContract
+      .getEntireDebtAndColl(asset, state.sender)
+      .then((results) => {
+        console.log(results);
+        State.update({
+          debt: results[0].div("1000000000000000000").toString(),
+          coll: ethers.utils.formatEther(results[1].toString()),
+          pendingLUSDDebtReward: results[2].toString(),
+          pendingETHReward: results[3].toString(),
+        });
+      });
   });
 };
 
