@@ -50,6 +50,10 @@ const containerStyles = {
   backgroundColor: "#fff", // White background
 };
 
+const feedStyle = {
+  marginBottom: "6rem",
+};
+
 return (
   <>
     <div style={cardStyle} className="m-4 text-center">
@@ -90,9 +94,11 @@ return (
           </div>
         </div>
       </div>
-      <h3 style={titleStyle}>Featured Profiles</h3>
-      <div>
-        <Widget src="harmonic1.near/widget/artist.feed" />
+      <div style={feedStyle}>
+        <h3 style={titleStyle}>Featured Profiles</h3>
+        <div>
+          <Widget src="harmonic1.near/widget/artist.feed" />
+        </div>
       </div>
     </div>
 
