@@ -60,7 +60,7 @@ const tabs = {
 
 if (!props.daoId) {
   // TODO: add a proper error screen
-  return "Please provide a DAO ID";
+  return "research-collective.sputnik-dao.near";
 }
 
 const tabContent = (
