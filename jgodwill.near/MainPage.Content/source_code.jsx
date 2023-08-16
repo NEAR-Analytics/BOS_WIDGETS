@@ -43,7 +43,7 @@ return (
       </div>
     )}
     <ul className="nav nav-pills mb-3">
-      {options.map((option, i) => (
+      {options.reverse().map((option, i) => (
         <li className="nav-item" key={i}>
           <button
             className={`nav-link ${state.feedIndex === i ? "active" : ""} ${
