@@ -222,6 +222,7 @@ const HeaderContentText = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
+  cursor: pointer;
 `;
 const NominationName = styled.p`
   font-weight: 500;
@@ -345,6 +346,7 @@ const KeyIssuesTitle = styled.p`
   font-size: 14px;
   line-height: 120%;
   margin-bottom: 0;
+  cursor: pointer;
 `;
 const KeyIssuesContainer = styled.div`
   display: flex;
@@ -410,6 +412,7 @@ const TextLowerSectionContainer = styled.div`
   gap: 4px;
   width: 239px;
   height: 24px;
+  cursor: pointer;
 
   flex-grow: 1;
 `;
@@ -717,7 +720,11 @@ return (
               //   />
               // )
             }
-            <HeaderContentText>
+            <HeaderContentText
+              onClick={() => {
+                handleOpenArticle(data);
+              }}
+            >
               <NominationName>{getUserName()}</NominationName>
               <NominationUser>{getShortUserName()}</NominationUser>
             </HeaderContentText>
@@ -769,7 +776,13 @@ return (
         // )
       }
       <KeyIssuesHeader>
-        <KeyIssuesTitle>{title}</KeyIssuesTitle>
+        <KeyIssuesTitle
+          onClick={() => {
+            handleOpenArticle(data);
+          }}
+        >
+          {title}
+        </KeyIssuesTitle>
       </KeyIssuesHeader>
       <KeyIssues>
         <KeyIssuesContent>
@@ -805,7 +818,12 @@ return (
             </KeyIssues>
           )}
           <ButtonsLowerSection>
-            <TextLowerSectionContainer className="align-items-center">
+            <TextLowerSectionContainer
+              className="align-items-center"
+              onClick={() => {
+                handleOpenArticle(data);
+              }}
+            >
               <i className="bi bi-clock"></i>
               <TimestampText>
                 <span>{getPublicationDate(timeLastEdit)}</span>
