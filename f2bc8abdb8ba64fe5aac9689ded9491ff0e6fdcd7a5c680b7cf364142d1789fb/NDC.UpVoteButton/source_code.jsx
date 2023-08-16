@@ -69,6 +69,7 @@ function upVoteListener() {
   let newLibCalls = [...libCalls];
 
   function onCommit() {
+    console.log("Commited");
     State.update({
       numberOfVotes: isDelete
         ? state.numberOfVotes - 1
