@@ -48,6 +48,7 @@ const Button = styled.button`
   width: 35px;
   height: 35px;
   background: inherit;
+  color: inherit;
   &:hover {
     opacity: 1 !important;
     color: DeepSkyBlue;
