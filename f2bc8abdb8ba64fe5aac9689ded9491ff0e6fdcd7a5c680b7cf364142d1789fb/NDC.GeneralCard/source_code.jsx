@@ -776,6 +776,7 @@ return (
       }
       <KeyIssuesHeader>
         <KeyIssuesTitle
+          role="button"
           onClick={() => {
             handleOpenArticle(data);
           }}
