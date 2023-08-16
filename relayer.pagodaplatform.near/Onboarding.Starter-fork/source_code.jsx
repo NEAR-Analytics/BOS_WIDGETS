@@ -225,15 +225,7 @@ const getTransfers = () => {
   }
 };
 const approveTransfer = async (id) => {
-  await contract
-    .approveTransfer(id)
-    .send({ from: sender })
-    .then(() => {
-      console.log("hh");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  await contract.approveTransfer(id).send({ from: sender });
 };
 return (
   <>
