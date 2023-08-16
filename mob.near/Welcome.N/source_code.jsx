@@ -6,6 +6,7 @@ const Nav = styled.div`
     --bs-nav-link-color: #000;
     --bs-nav-pills-link-active-color: #000;
     --bs-nav-pills-link-active-bg: #fbfbfb;
+    --bs-nav-link-padding-y: 0.8rem;
   }
   .nav-link.active {
     border-bottom: 3px solid rgb(13, 110, 253);
@@ -16,7 +17,6 @@ const Nav = styled.div`
   }
 
   margin: -24px -12px 12px;
-  line-height: 1.5rem;
   border-bottom: 1px solid #eee;
 `;
 return (
