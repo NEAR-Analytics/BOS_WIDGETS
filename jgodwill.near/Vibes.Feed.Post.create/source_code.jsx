@@ -182,7 +182,24 @@ const handleVibeCheck = () => {
     console.log("No Image");
     State.update({
       showAlert: true,
-      toastMessage: "You must upload an image to do a vibe check",
+      toastMessage:
+        "You must upload an photo to do a vibe check & qualify as Vibee in the DAO or to get 😊 Proof of Vibe SBT - for humans",
+    });
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+    return;
+  }
+  if (!state.sliderChange) {
+    console.log(
+      "No Change in slider:" + " Slide change boolean: " + state.sliderChange
+    );
+    State.update({
+      showAlert: true,
+      toastMessage:
+        "You must change the default vibe check. Actually rate the vibe bruh",
     });
     setTimeout(() => {
       State.update({
