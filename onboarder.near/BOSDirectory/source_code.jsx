@@ -122,7 +122,7 @@ const social = {
     },
     {
       key: 5,
-      name: "NEARPad",
+      name: "Jutsu.ai",
       url: "https://nearpad.dev/",
       image:
         "https://ipfs.near.social/ipfs/bafkreieqikc5u2kxsoeucpticpfeguuge45upykvzayl6rjwgee5e3yr3i",
@@ -132,6 +132,20 @@ const social = {
       deploy: null,
       github: null,
     },
+    {
+      key: 5,
+      name: "NDC",
+      url: "https://app.neardc.org/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreifjozsyr2bmgth3holokwxv5uwzlhm5fggqozwznwyze46lexe4xy",
+      description:
+        "The NDC is a Grassroots Movement, led by the NEAR Community to create Decentralized Web 3.0 Governance on NEAR.",
+      category: ["Social", "NEAR"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcodingshot%2Fneardc-gateway&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
+      github: "https://github.com/codingshot/neardc-gateway",
+    },
+
     {
       key: 4,
       name: "NEAR Atlas",
