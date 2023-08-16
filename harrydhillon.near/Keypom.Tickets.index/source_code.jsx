@@ -26,9 +26,9 @@ const createTickets = () => {
       >
         Create Ticket
       </button>
-      {state.isAddCustomFieldModalOpen && (
+      {state.isCreateTicketModalOpen && (
         <Widget
-          src="harrydhillon.near/widget/Keypom.CollectInfo.AddCustomFieldModal"
+          src="harrydhillon.near/widget/Keypom.Tickets.AddTicketModal"
           props={{
             isOpen: state.isCreateTicketModalOpen,
             onClose: () => {
