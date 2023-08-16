@@ -122,7 +122,7 @@ return (
     </div>
     <div
       className={`${
-        state.feedIndex !== "menu" ? "d-none" : ""
+        state.feedIndex !== "menu" ? "d-none" : "pt-3"
       } d-lg-block col-lg-4`}
     >
       <Widget src="mob.near/widget/Welcome.RHS" props={props} />
