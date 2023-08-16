@@ -79,10 +79,18 @@ const Schedule = styled.div`
         list-style:none;
         padding:1rem;
 
+        @media screen and (max-width:800px) {
+            padding:1rem 0;
+        }
+
         li {
             display:flex;
             padding:.5rem;
             transition: all .2s;
+
+            @media screen and (max-width:800px) {
+                font-size:.8rem;
+            }
 
             &:hover {
                 background-color:#000;
@@ -98,6 +106,12 @@ const Schedule = styled.div`
                 min-width:180px;
                 margin-right:20px;
                 text-align:right;
+
+                @media screen and (max-width:800px) {
+                    min-width:130px;
+                    margin-right:10px;
+                    text-align:left;
+                }
             }
             
             div + div {
