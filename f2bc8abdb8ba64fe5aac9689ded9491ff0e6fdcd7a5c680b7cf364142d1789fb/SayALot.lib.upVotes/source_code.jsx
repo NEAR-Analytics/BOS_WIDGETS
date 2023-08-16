@@ -57,13 +57,13 @@ function getUpVotes(props) {
   return { reactionsStatistics: countUpVotes(), userInteraction };
 }
 
-function addUpVote(props) {
+function addVote(props) {
   const { isDelete, elementReactedId, onCommit, onCancel } = props;
 
   saveUpVote(isDelete, elementReactedId, onCommit, onCancel);
 
   resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "addUpVote";
+    return call.functionName !== "addVote";
   });
 
   return upVote;
@@ -98,8 +98,8 @@ function saveUpVote(isDelete, elementReactedId, onCommit, onCancel) {
 function libCall(call) {
   if (call.functionName === "getUpVotes") {
     return getUpVotes(call.props);
-  } else if (call.functionName === "addUpVote") {
-    return addUpVote(call.props);
+  } else if (call.functionName === "addVote") {
+    return addVote(call.props);
   }
 }
 
