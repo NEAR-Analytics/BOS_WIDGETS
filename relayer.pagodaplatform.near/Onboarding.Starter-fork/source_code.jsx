@@ -201,9 +201,6 @@ if (state.contract === undefined) {
       Ethers.provider().getSigner()
     ),
   });
-}
-
-if (state.contract) {
   console.log(state.contract);
 }
 
