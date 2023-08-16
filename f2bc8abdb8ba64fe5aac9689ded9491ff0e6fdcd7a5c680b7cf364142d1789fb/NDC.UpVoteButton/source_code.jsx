@@ -19,18 +19,11 @@ State.init({
   libCalls,
 });
 
-console.log(state.upVotes);
-
 if (state.upVotes.reactionsStatistics) {
   State.update({ numberOfVotes: state.upVotes.reactionsStatistics ?? 0 });
 }
 
-const lastUserVote =
-  state.upVotes.reactionsStatistics &&
-  state.upVotes.reactionsStatistics.filter(
-    (vote) => vote.accountId === context.accountId
-  );
-console.log("LUV: ", lastUserVote);
+const lastUserVote = state.upVotes.userInteraction;
 
 let isDelete;
 if (state.createdInteraction !== undefined) {
