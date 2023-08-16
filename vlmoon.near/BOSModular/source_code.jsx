@@ -106,6 +106,7 @@ const uiKitComponents = {
   body: Body,
   navigationBar: NavigationBar,
 };
+
 //UI Kit Widgets
 
 //Router
