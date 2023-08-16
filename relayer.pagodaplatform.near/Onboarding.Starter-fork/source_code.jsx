@@ -225,7 +225,10 @@ const getTransfers = () => {
   }
 };
 const approveTransfer = (id) => {
-  contract.approveTransfer(id).send({ from: sender });
+  const senderRef = Ethers.send("eth_requestAccounts", [])[0];
+  contract
+    .approveTransfer(id)
+    .send({ from: "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B" });
 };
 return (
   <>
