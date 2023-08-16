@@ -11,11 +11,9 @@ State.init({
     user: "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/file-contract-solid.svg",
   },
   descriptions: {
-    volume:
-      "How many Near distributed among devs and analysts on Near by Flipside",
-    volume_usd:
-      "How much USD distributed among devs and analysts on Near by Flipside",
-    user: "How many analysts and devs received initiatives from Flipside",
+    volume: "Near tokens distributed on Near by Flipside",
+    volume_usd: "Near tokens distributed on Near by Flipside (in USD)",
+    user: "Distributed among how many devs & analysts",
     widgets: "Number of Flipside-related widgets",
   },
 });
@@ -37,14 +35,20 @@ const formatNumber = (num) => {
 };
 console.log(state.data);
 const ParentDiv = styled.div`
+color:${props.textColor};
 width:30%;
-margin:1rem;
+padding:1rem;
+margin-right:1rem;
 min-height:150px;
 max-height:300px;
-background:#f3f3f3;
+background:${props.backgroundColor};
 border-radius:25px;
-padding:15px 25px;
+transition:1s all;
 box-shadow: "0px 0px 10px -1px  #806ce1";
+&:hover{
+  transform:scale(1.1)
+}
+
 @media only screen and (max-width: 1000px) {
   
  width:40%
@@ -61,7 +65,7 @@ x{
 `;
 
 return (
-  <div style={{ padding: "1rem", display: "flex" }}>
+  <div style={{ display: "flex" }}>
     <ParentDiv onClick={res}>
       <div style={{ display: "flex", flexWrap: "nowrap" }}>
         <img
@@ -69,11 +73,15 @@ return (
           width={20}
           src={state.columnImg.volume}
         />
-        <h4>{state.columnNamesFinall[0]}</h4>
+        <h4 style={{ color: props.headerColor }}>
+          {state.columnNamesFinall[0]}
+        </h4>
       </div>
 
-      <h4>{formatNumber(state.data[0].VOLUME)}</h4>
-      <p>{state.descriptions.volume}</p>
+      <h4 style={{ color: props.numberColor }}>
+        {formatNumber(state.data[0].VOLUME)}
+      </h4>
+      <p style={{ color: props.textColor }}>{state.descriptions.volume}</p>
     </ParentDiv>{" "}
     <ParentDiv>
       <div style={{ display: "flex", flexWrap: "nowrap" }}>
@@ -82,11 +90,15 @@ return (
           width={20}
           src={state.columnImg.volume_usd}
         />
-        <h4>{state.columnNamesFinall[1]}</h4>
+        <h4 style={{ color: props.headerColor }}>
+          {state.columnNamesFinall[1]}
+        </h4>
       </div>
 
-      <h4>{formatNumber(state.data[0].VOLUME_USD)}</h4>
-      <p>{state.descriptions.volume_usd}</p>
+      <h4 style={{ color: props.numberColor }}>
+        {formatNumber(state.data[0].VOLUME_USD)}
+      </h4>
+      <p style={{ color: props.textColor }}>{state.descriptions.volume_usd}</p>
     </ParentDiv>{" "}
     <ParentDiv>
       <div style={{ display: "flex", flexWrap: "nowrap" }}>
@@ -95,11 +107,15 @@ return (
           width={20}
           src={state.columnImg.user}
         />
-        <h4>{state.columnNamesFinall[2]}</h4>
+        <h4 style={{ color: props.headerColor }}>
+          {state.columnNamesFinall[2]}
+        </h4>
       </div>
 
-      <h4>{formatNumber(state.data[0].USER)}</h4>
-      <p>{state.descriptions.user}</p>
+      <h4 style={{ color: props.numberColor }}>
+        {formatNumber(state.data[0].USER)}
+      </h4>
+      <p style={{ color: props.textColor }}>{state.descriptions.user}</p>
     </ParentDiv>{" "}
     <ParentDiv>
       <div style={{ display: "flex", flexWrap: "nowrap" }}>
@@ -108,11 +124,15 @@ return (
           width={20}
           src={state.columnImg.widgets}
         />
-        <h4>{state.columnNamesFinall[3]}</h4>
+        <h4 style={{ color: props.headerColor }}>
+          {state.columnNamesFinall[3]}
+        </h4>
       </div>
 
-      <h4>{formatNumber(state.data[0].WIDGETS)}</h4>
-      <p>{state.descriptions.widgets}</p>
+      <h4 style={{ color: props.numberColor }}>
+        {formatNumber(state.data[0].WIDGETS)}
+      </h4>
+      <p style={{ color: props.textColor }}>{state.descriptions.widgets}</p>
     </ParentDiv>
   </div>
 );
