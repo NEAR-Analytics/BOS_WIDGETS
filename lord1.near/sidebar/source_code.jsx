@@ -27,9 +27,10 @@ border-left:5px solid #fff;
 }
 
 `;
-const SideBarBody = styled.div` position:relative;
+const SideBarBody = styled.div` position:fixed;
 background: ${props.backgroundColor};
 display: flex;
+z-index:1;
 justify-content: space-between;
 flex-direction:column;
 align-items: center;
@@ -37,7 +38,7 @@ align-self: stretch;
 border-radius:15px;
 transition:500ms all;
 width:${state.showFullSide ? "150px" : "80px"};
-height:80vh;
+height:85vh;
 -webkit-box-shadow: 0px 0px 14px -1px rgba(0, 0, 0, 0.8);
   box-shadow: 0px 0px 20px -1px rgba(210, 200, 250, 100);
 
@@ -157,27 +158,27 @@ return (
                 {" "}
                 <SidebarItem onClick={() => pageHandler(0)}>
                   {" "}
-                  <Link href={data.link}>
+                  <a href={data.link}>
                     {" "}
                     <div>
                       {" "}
                       <img width="31" height="30" src={data.image} />{" "}
                       <span> {data.text}</span>{" "}
                     </div>{" "}
-                  </Link>{" "}
+                  </a>{" "}
                 </SidebarItem>{" "}
               </X>
             ) : (
               <SidebarItem onClick={() => pageHandler(0)}>
                 {" "}
-                <Link href={data.link}>
+                <a href={data.link}>
                   {" "}
                   <div>
                     {" "}
                     <img width="31" height="30" src={data.image} />{" "}
                     <span> {data.text}</span>{" "}
                   </div>{" "}
-                </Link>{" "}
+                </a>{" "}
               </SidebarItem>
             )}
           </>
@@ -188,14 +189,14 @@ return (
       {" "}
       <SidebarItem>
         {" "}
-        <Link href="test">
+        <a href="test">
           {" "}
           <div>
             {" "}
             <img width="31" height="30" src={props.footerIcon} />{" "}
             <span> {props.footerText}</span>{" "}
           </div>{" "}
-        </Link>{" "}
+        </a>{" "}
       </SidebarItem>{" "}
     </SidebarItems>{" "}
   </SideBarBody>
