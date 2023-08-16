@@ -59,7 +59,7 @@ function getNumberOfUpVotes() {
 
 function getUpVoteButtonClass() {
   if (
-    !userJustDeleted ||
+    (state.createdInteraction !== undefined && !userJustDeleted) ||
     (state.upVotes.userInteraction.value.deleteReaction !== undefined &&
       !state.upVotes.userInteraction.value.deleteReaction)
   ) {
