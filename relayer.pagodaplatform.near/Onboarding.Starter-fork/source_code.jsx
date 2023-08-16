@@ -202,37 +202,14 @@ const contract = new ethers.Contract(
   wallet.abi,
   Ethers.provider().getSigner()
 );
-const c = contract
-  .getTransfers()
-  .call()
-  .then((transfers) => {
-    conosle.log(transfers);
-  });
-// console.log(state.transfers.length === 0, sender, contract);
-// let tmp = true;
-// if (tmp) {
-//   console.log("jjj");
-//   try {
-//     contract.methods
-//       .createTransfer("0.1", "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
-//       .send({ from: sender });
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   tmp = false;
-// }
-
-// function createTransfer(amount, to) {
-//   contract
-//     .createTransfer(amount, to)
-//     .send({ from: sender })
-//     .then(() => {
-//       State.update({
-//         transfers: contract.getTransfers().call(),
-//       });
-//     });
-// }
-
+if (contract) {
+  contract
+    .createTransfer("0.1", "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
+    .then(() => {
+      conosle.log("hello");
+    })
+    .catch((err) => console.log(err));
+}
 return (
   <>
     <p>{state.chainId}</p>
