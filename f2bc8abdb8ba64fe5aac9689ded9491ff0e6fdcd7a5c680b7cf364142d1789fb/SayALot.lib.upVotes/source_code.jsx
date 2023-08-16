@@ -5,7 +5,6 @@ const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
 function getUpVotes(props) {
-  console.log("in");
   const { elementReactedId, createdInteraction } = props;
 
   const allVotes = Social.index(action, elementReactedId, {
