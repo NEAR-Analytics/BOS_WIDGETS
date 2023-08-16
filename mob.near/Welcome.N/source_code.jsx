@@ -14,7 +14,7 @@ const Nav = styled.div`
 `;
 return (
   <>
-    <Nav className="">
+    <Nav className="d-lg-none">
       <ul className="nav nav-pills nav-fill" id="pills-tab" role="tablist">
         <li className="nav-item" role="presentation">
           <button
