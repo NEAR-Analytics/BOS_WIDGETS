@@ -129,8 +129,7 @@ return (
             <Widget
               src="mob.near/widget/N.CommentButton"
               props={{
-                onClick: () =>
-                  !state.showReply && State.update({ showReply: true }),
+                onClick: () => State.update({ showReply: !state.showReply }),
               }}
             />
             <Widget
@@ -160,7 +159,7 @@ return (
     {state.showReply && (
       <div className="mb-2">
         <Widget
-          src="mob.near/widget/MainPage.Comment.Compose"
+          src="mob.near/widget/MainPage.N.Comment.Compose"
           props={{
             notifyAccountId,
             item,
