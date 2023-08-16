@@ -80,7 +80,7 @@ const TOKENS = [
     name: "WETH",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png",
     address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
-    coinGeckoId: "usd-coin",
+    coinGeckoId: "ethereum",
     decimals: 18,
   },
 ];
@@ -380,6 +380,7 @@ const confirmTransaction = () => {
     routerAbi.body,
     Ethers.provider().getSigner()
   );
+  console.log(state.amountInput);
   let amountIn = ethers.utils.parseUnits(
     state.amountInput,
     state.tokenSendSelected.decimals
@@ -394,8 +395,13 @@ const confirmTransaction = () => {
     amountOutMinimum: 0,
     sqrtPriceLimitD18: 0,
   };
+  const value =
+    state.tokenSendSelected.name == "USDC" ||
+    state.tokenSendSelected.name == "USDC+"
+      ? "0.000001"
+      : "0.000000000000000001";
   let amountIn2 = ethers.utils.parseUnits(
-    "0",
+    value,
     state.tokenSendSelected.decimals
   );
   const overrides = {
@@ -501,9 +507,10 @@ return (
                       {TOKENS.map((token) => {
                         return (
                           <>
-                            {state.tokenRecieveSelected.name != token.name && (
-                              <option>{token.name}</option>
-                            )}
+                            {state.tokenRecieveSelected.name != token.name &&
+                              token.name != "WETH" && (
+                                <option>{token.name}</option>
+                              )}
                           </>
                         );
                       })}
@@ -556,7 +563,7 @@ return (
                   type="button"
                   class="turnButton"
                   onClick={async () => {
-                    turnTokens();
+                    state.tokenRecieveSelected.name != "WETH" && turnTokens();
                   }}
                 >
                   <svg
