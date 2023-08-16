@@ -200,9 +200,9 @@ const con = new ethers.Contract(
 const address = async function () {
   const signer = Ethers.provider().getSigner();
   const add = await signer.getAddress();
-  return add;
+  console.log(add);
 };
-console.log(address());
+address();
 return (
   <>
     <p>{state.chainId}</p>
