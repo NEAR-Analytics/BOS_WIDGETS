@@ -14,15 +14,6 @@ const mintSingle = [
   "function mint(address to, uint256 id, uint256 amount, string memory uri, bytes memory data) public {}",
   "function safeMint(address to, string memory uri) public {}",
 ];
-State.init({
-  title: "",
-  description: "",
-  recipient: "",
-  isSoulBound: false,
-  showAlert: false,
-  toastMessage: "",
-  selectIsOpen: false,
-});
 let accountId = context.accountId;
 const contractAddresses = {
   137: [
@@ -134,7 +125,7 @@ const handleMint = () => {
         console.log("in the promise", res, Id);
         Near.call([
           {
-            contractName: nearContract,
+            contractName: "genadrop-contract.nftgen.near",
             methodName: "nft_mint",
             args: {
               token_id: `${Date.now()}`,
@@ -232,6 +223,15 @@ if (state.sender === undefined) {
     selectedChain: "0",
   });
 }
+State.init({
+  title: "",
+  description: "",
+  recipient: "",
+  isSoulBound: false,
+  showAlert: false,
+  toastMessage: "",
+  selectIsOpen: false,
+});
 
 //select tag
 const handleSelectClick = () => {
@@ -239,6 +239,11 @@ const handleSelectClick = () => {
     selectIsOpen: !state.selectIsOpen,
   });
 };
+
+// const handleOptionClick = (option) => {
+//   setSelectedOption(option);
+//   setIsOpen(false);
+// };
 
 const handleOutsideClick = (e) => {
   if (!e.target.closest(".select-replica__select")) {
@@ -270,76 +275,47 @@ for (let i = 0; i < accounts.length; ++i) {
   allWidgets.push(accountId);
 }
 
-// const onChangeRecipient = (recipient) => {
-//   state.selectedChain === "0"
-//     ? State.update({
-//         recipient: recipient[0],
-//       })
-//     : State.update({
-//         recipient,
-//       });
-// };
 const onChangeRecipient = (recipient) => {
-  State.update({
-    customRecipient: true,
-  });
-
-  if (state.selectedChain == "0") {
-    State.update({
-      recipient: recipient[0],
-    });
-  } else {
-    State.update({
-      recipient,
-    });
-  }
+  state.selectedChain === "0"
+    ? State.update({
+        recipient: recipient[0],
+      })
+    : State.update({
+        recipient,
+      });
 };
-// const handleChainChange = (chain_id) => {
-//   console.log(
-//     "get what we doing:",
-//     chain_id || "no value from event?",
-//     chain_id == "0",
-//     !accountId
-//   );
-//   if (chain_id == "0") {
-//     if (!accountId) {
-//       console.log("not what we thought,:", accountId);
-//       State.update({
-//         showAlert: true,
-//         toastMessage: "Please log in before continuing",
-//       });
-//       return;
-//     }
-//     State.update({
-//       selectedChain: chain_id,
-//     });
-//   }
-//   console.log("encts here", Ethers.send);
-//   Ethers.send("wallet_switchEthereumChain", [
-//     {
-//       chainId: "0x" + Number(chain_id).toString(16),
-//     },
-//   ]).then((data) => console.log("done!!!", data));
-//   console.log("what happens after");
-//   State.update({
-//     selectedChain: chain_id,
-//   });
-//   console.log("afters", state.selectedChain);
-// };
 
 const handleChainChange = (chain_id) => {
-  try {
-    Ethers.send("wallet_switchEthereumChain", [
-      { chainId: `0x${Number(chain_id).toString(16)}` },
-    ]);
-
+  console.log(
+    "get what we doing:",
+    chain_id || "no value from event?",
+    chain_id == "0",
+    !accountId
+  );
+  if (chain_id == "0") {
+    if (!accountId) {
+      console.log("not what we thought,:", accountId);
+      State.update({
+        showAlert: true,
+        toastMessage: "Please log in before continuing",
+      });
+      return;
+    }
     State.update({
       selectedChain: chain_id,
     });
-    console.log(state.selectedChain);
-  } catch (err) {
-    console.log(err);
   }
+  console.log("encts here", Ethers.send);
+  Ethers.send("wallet_switchEthereumChain", [
+    {
+      chainId: "0x" + Number(chain_id).toString(16),
+    },
+  ]).then((data) => console.log("done!!!", data));
+  console.log("what happens after");
+  State.update({
+    selectedChain: chain_id,
+  });
+  console.log("afters", state.selectedChain);
 };
 
 const onChangeDesc = (description) => {
@@ -354,105 +330,104 @@ const handleToggle = () => {
     isSoulBound: !state.isSoulBound,
   });
 };
+// if (state.sender === undefined) {
+//   console.log("of course it's undefined", ethers);
+//   const accounts = Ethers.send("eth_requestAccounts", []);
+//   console.log("account", accounts);
+//   if (accounts.length) {
+//     State.update({ sender: accounts[0] });
+//     console.log("set sender", accounts[0]);
+//   }
+// }
 
 const Heading = styled.p`
-  margin: 3rem auto 0px auto;
+  margin: 3px auto 3px auto;
   font-size: 1em;
-  color: #0f1d40;
-  line-height: 2.1rem;
-  width: 60%;
+  color:#0f1d40;
+  line-height:2.1rem;
+  width:60%;
   text-align: center;
-  font-family: "SF Pro Display", sans-serif;
-`;
-const SubHeading = styled.p`
-  margin: 0 auto 3px auto;
-  font-size: 1em;
-  color: #0f1d40;
-  line-height: 1.4rem;
-  width: 60%;
-  text-align: center;
-  font-family: "SF Pro Display", sans-serif;
+  font-family: "SF Pro Display",sans-serif;
 `;
 
 const ImageUploadCard = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  width: 80%;
+display:flex;
+flex-flow: column nowrap;
+align-items: center;
+  width:80%;
   border: 2px dashed #0d99ff;
   border-radius: 1rem;
-  box-shadow: 4px 4px 20px 6px rgba(0, 0, 0, 0.2);
-  margin: 60px auto;
-  padding: 5rem 1.5rem;
+  box-shadow: 4px 4px 20px 6px rgba(0,0,0,.2);
+  margin:30px auto;
+  padding:1.5rem;
   text-align: center;
 `;
 
 const Main = styled.div`
   display: grid;
   gap: 3rem;
-  align-content: center;
+  align-content:center;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   justify-content: center;
   margin-top: 5px;
-  width: 100%;
+  width:100%;
   padding: 1rem;
-  .button {
-    padding: 0.75em 2em;
-    border-radius: 0.7em;
+  .button{
+    padding: .75em 2em;
+    border-radius: .7em;
     border: 1px solid #0d99ff;
-    transition: all 0.3s;
+    transition: all .3s;
     cursor: pointer;
     color: #fff;
     background: #0d99ff;
-    &:hover {
-      color: #0d99ff;
-      background: #fff;
+    &:hover{
+        color: #0d99ff;
+        background:#fff;
     }
-    @media screen and (max-width: 540px) {
-      padding: 0.5em 2em;
-    }
+  @media screen and (max-width: 540px){
+      padding: .5em 2em;    
+      }
   }
 `;
 
 const Text = styled.p`
-  font-size: 0.9rem;
-  color: #525c76;
-  line-height: 1rem;
-  margin: 3px;
+font-size: .9rem;
+color: #525c76;
+line-height:1.rem;
+margin: 3px;
 `;
 
 const Elipse = styled.div`
-  background-color: #dff3f9;
-  height: 100px;
-  width: 100px;
-  object-fit: contain;
-  border-radius: 50%;
+background-color:#dff3f9;
+height: 100px;
+width: 100px;
+border-radius: 50%;
 `;
 
 const Card = styled.div`
-  padding: 1em;
+padding: 1em;
+border: 1px solid #e5e8eb;
+gap: 2em;
+margin: 10px auto;
+border-radius: .7em;
+& input{
+  display: block;
+  padding:.5em;
+  width:100%;
   border: 1px solid #e5e8eb;
-  gap: 2em;
-  margin: 10px auto;
-  border-radius: 0.7em;
-  & input {
-    display: block;
-    padding: 0.5em;
-    width: 100%;
-    border: 1px solid #e5e8eb;
-    border-radius: 10px;
-    outline: none;
-    background: #f4f5f6;
-    color: #525c76;
-    :focus {
-      box-shadow: none;
-      border: 1px solid #0d99ff;
-    }
-    &::placeholder {
-      color: palevioletred;
-    }
+  border-radius: 10px;
+  outline: none;
+  background: #f4f5f6;
+  color: #525c76;
+  :focus{
+  box-shadow:none;
+    border:1px solid #0d99ff;
   }
-  .soulbound {
+  &::placeholder {
+    color: palevioletred;
+  }
+  }
+  .soulbound{
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -461,29 +436,29 @@ const Card = styled.div`
 
 const ImageCard = styled.div`
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  height: 100%;
-  max-height: 100%;
+  height:100%;
+  max-height:100%;
   width: 90%;
   max-width: 500px;
   border-radius: 1rem;
-  & > img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+  &>img{
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
   }
 `;
 
 const Input = styled.input`
   display: block;
-  padding: 0.5em;
-  width: 100%;
+  padding:.5em;
+  width:100%;
   border: 1px solid #e5e8eb;
   border-radius: 10px;
   outline: none;
   background: #f4f5f6;
   color: #525c76;
-  :focus {
-    border: 1px solid #0d99ff;
+  :focus{
+    border:1px solid #0d99ff;
   }
   ::placeholder {
     color: palevioletred;
@@ -492,15 +467,15 @@ const Input = styled.input`
 
 const TextArea = styled.textarea`
   display: block;
-  padding: 0.5em;
-  width: 100%;
+  padding:.5em;
+  width:100%;
   border: 1px solid #e5e8eb;
   border-radius: 10px;
   outline: none;
   background: #f4f5f6;
   color: #525c76;
-  :focus {
-    border: 1px solid #0d99ff;
+  :focus{
+    border:1px solid #0d99ff;
   }
 `;
 
@@ -513,8 +488,8 @@ const ChainIcon = styled.option`
   display: flex;
   height: 130px;
   padding: 1rem auto;
-  & > img {
-    height: 100px;
+  &>img{
+    height:100px;
     width: 100px;
     object-fit: contain;
   }
@@ -534,11 +509,12 @@ const SelectReplicaContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    // padding: 3px;
     border: 1px solid #ccc;
     gap: 10px;
     border-radius: 4px;
     background-color: #fff;
-    max-width: 200px;
+    width: 200px;
     & > img {
       height: 100%;
       width: 100px;
@@ -548,7 +524,7 @@ const SelectReplicaContainer = styled.div`
 
   & .select-replica__options {
     position: absolute;
-    top: 110%;
+    top: 100%;
     left: 0;
     width: 100%;
     /* height: fit-content; */
@@ -557,9 +533,7 @@ const SelectReplicaContainer = styled.div`
     border-top: none;
     border-radius: 0 0 4px 4px;
     background-color: #fff;
-    margin: auto;
-    max-height: 300px;
-    max-width: 200px;
+    max-height: 250px;
     display: none;
   }
 
@@ -570,7 +544,6 @@ const SelectReplicaContainer = styled.div`
   & .select-replica__option {
     display: flex;
     justify-content: center;
-    max-width: 200px;
     align-items: center;
     cursor: pointer;
     background-color: #fff;
@@ -598,68 +571,68 @@ const SelectGroup = styled.div`
 `;
 
 const ToggleButton = styled.div`
-  /* The switch - the box around the slider */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
+   /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
-  /* Hide default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
 
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
 
-  input:checked + .slider {
-    background-color: #2196f3;
-  }
+input:checked + .slider {
+  background-color: #2196F3;
+}
 
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196f3;
-  }
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
 
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
 
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
 
-  .slider.round:before {
-    border-radius: 50%;
-  }
+.slider.round:before {
+  border-radius: 50%;
+} 
 `;
 
 if (!(state.sender || accountId)) {
@@ -682,47 +655,43 @@ console.log(
 );
 
 return (
-  <div className="container vh-100 d-flex flex-column justify-content-between">
-    <div>
-      {state.showAlert && (
-        <Widget src="jgodwill.near/widget/genalert" props={state} />
-      )}
-      <Heading className="text-center fs-2 fw-bold">
-        Mint NFT on Multiple chains
-      </Heading>
+  <>
+    {state.showAlert && (
+      <Widget src="jgodwill.near/widget/genalert" props={state} />
+    )}
+    <Heading className="text-center fs-2 fw-bold">
+      Mint NFT on Multiple chains
+    </Heading>
 
-      <Main
-        className="container-fluid"
-        onLoad={State.update({ chains: chains })}
-      >
-        {!state.image.cid ? (
-          <div className="flex-grow-1">
-            <SubHeading>
-              Upload an image to create an NFT any of our supported blockchains
-              super fast!
-            </SubHeading>
-            <ImageUploadCard className="flex-grow-1">
-              <Elipse />
-              {accountId || Ethers.provider() ? (
-                <>
-                  <IpfsImageUpload
-                    image={state.image}
-                    className="btn text-decoration-none link-primary pe-auto"
-                  />
-                  <div>
-                    <Text>
-                      We support .jpg, .jpeg, .png, .webp, .gif files and deploy
-                      to Near, Polygon, Celo, Aurora, Avalanche, and Arbitrum
-                    </Text>
-                    <Text>Max file size: 20mb</Text>
-                  </div>
-                </>
-              ) : (
-                <Card>
-                  {state.sender && Ethers.provider() ? (
-                    <SelectGroup className="form-group">
-                      <label htmlFor="chainSelect">Select Chain</label>
-                      {/*<select
+    <Main className="container-fluid">
+      {!state.image.cid ? (
+        <div className="flex-grow-1">
+          <Heading>
+            Upload an image to create an NFT any of our supported blockchains
+            super fast!
+          </Heading>
+          <ImageUploadCard className="flex-grow-1">
+            <Elipse />
+            {accountId || Ethers.provider() ? (
+              <>
+                <IpfsImageUpload
+                  image={state.image}
+                  className="btn text-decoration-none link-primary pe-auto"
+                />
+                <div>
+                  <Text>
+                    We support .jpg, .jpeg, .png, .webp, .gif files and deploy
+                    to Celo, Algorand, Near, and Polygon
+                  </Text>
+                  <Text>Max file size: 20mb</Text>
+                </div>
+              </>
+            ) : (
+              <Card>
+                {state.sender && Ethers.provider() ? (
+                  <SelectGroup className="form-group">
+                    <label htmlFor="chainSelect">Select Chain</label>
+                    {/*<select
                     className="form-select"
                     value={state.selectedChain}
                     onChange={handleChainChange}
@@ -733,173 +702,7 @@ return (
                       </ChainIcon>
                     ))}
                   </select>*/}
-                      <SelectReplicaContainer>
-                        <div
-                          className={`select-replica__select ${
-                            state.selectIsOpen ? "open" : ""
-                          }`}
-                          onClick={handleSelectClick}
-                        >
-                          <div className="select-replica__selected">
-                            {state.chains.filter(
-                              (chain) =>
-                                chain.id === state.selectedChain.toString()
-                            ) ? (
-                              <img
-                                src={state.chains
-                                  .filter(
-                                    (chain) =>
-                                      chain.id ===
-                                      state.selectedChain.toString()
-                                  )
-                                  .map((c) => c.url)}
-                                alt={state.chains
-                                  .filter(
-                                    (chain) =>
-                                      chain.id ===
-                                      state.selectedChain.toString()
-                                  )
-                                  .map((c) => c.name)}
-                              />
-                            ) : (
-                              "Select an option"
-                            )}
-                            <span>▼</span>
-                          </div>
-                          <div
-                            className={`select-replica__options ${
-                              state.selectIsOpen ? "open" : ""
-                            }`}
-                          >
-                            {state.chains.map((chain) =>
-                              chain.id !== state.selectedChain.toString() ? (
-                                <div
-                                  key={chain.id}
-                                  className={`select-replica__option ${
-                                    selectedOption === chain.name
-                                      ? "selected"
-                                      : ""
-                                  }`}
-                                  onClick={() => handleChainChange(chain.id)}
-                                >
-                                  <img src={chain.url} alt={chain.name} />
-                                </div>
-                              ) : (
-                                ""
-                              )
-                            )}
-                          </div>
-                        </div>
-                      </SelectReplicaContainer>
-                      {state.link && (
-                        <a href={`${state.link}`} target="_blank">
-                          View Transaction
-                        </a>
-                      )}
-                    </SelectGroup>
-                  ) : accountId ? (
-                    <SelectGroup>
-                      <label htmlFor="chainSelect">Select Chain</label>
-                      <SelectReplicaContainer>
-                        <div
-                          className={`select-replica__select ${
-                            state.selectIsOpen ? "open" : ""
-                          }`}
-                          onClick={handleSelectClick}
-                        >
-                          <div className="select-replica__selected">
-                            {state.chains.filter(
-                              (chain) =>
-                                chain.id === state.selectedChain.toString()
-                            ) ? (
-                              <img
-                                src={state.chains
-                                  .filter(
-                                    (chain) =>
-                                      chain.id ===
-                                      state.selectedChain.toString()
-                                  )
-                                  .map((c) => c.url)}
-                                alt={state.chains
-                                  .filter(
-                                    (chain) =>
-                                      chain.id ===
-                                      state.selectedChain.toString()
-                                  )
-                                  .map((c) => c.name)}
-                              />
-                            ) : (
-                              "Select an option"
-                            )}
-                            <span>▼</span>
-                          </div>
-                          <div
-                            className={`select-replica__options ${
-                              state.selectIsOpen ? "open" : ""
-                            }`}
-                          >
-                            {state.chains.map((chain) =>
-                              chain.id !== state.selectedChain.toString() ? (
-                                <div
-                                  key={chain.id}
-                                  className={`select-replica__option ${
-                                    selectedOption === chain.name
-                                      ? "selected"
-                                      : ""
-                                  }`}
-                                  onClick={() => handleChainChange(chain.id)}
-                                >
-                                  <img src={chain.url} alt={chain.name} />
-                                </div>
-                              ) : (
-                                ""
-                              )
-                            )}
-                          </div>
-                        </div>
-                      </SelectReplicaContainer>
-                      <div>
-                        <Web3Connect
-                          className="btn mt-3"
-                          connectLabel="Connect with Ethereum Wallet"
-                        />
-                      </div>
-                    </SelectGroup>
-                  ) : (
-                    <Web3Connect
-                      className="btn mt-3"
-                      connectLabel="Connect with Wallet"
-                    />
-                  )}
-                </Card>
-              )}
-            </ImageUploadCard>
-          </div>
-        ) : (
-          <>
-            <Card className="d-flex flex-column align-items-center w-100">
-              <div>
-                <IpfsImageUpload
-                  image={state.image}
-                  className="btn btn-outline-primary border-0 rounded-3"
-                />
-              </div>
-              <ImageCard>
-                <img
-                  src={`https://ipfs.io/ipfs/` + state.image.cid}
-                  alt="uploaded image"
-                  width="100%"
-                  height="100%"
-                  className="rounded-3"
-                />
-              </ImageCard>
-            </Card>
-            <div>
-              <Card>
-                {state.sender && Ethers.provider() ? (
-                  <SelectGroup className="form-group">
-                    <label htmlFor="chainSelect">Select Chain</label>
-                    <SelectReplicaContainer>
+                    <SelectReplicaContainer onClick={handleOutsideClick}>
                       <div
                         className={`select-replica__select ${
                           state.selectIsOpen ? "open" : ""
@@ -907,18 +710,18 @@ return (
                         onClick={handleSelectClick}
                       >
                         <div className="select-replica__selected">
-                          {state.chains.filter(
+                          {chains.filter(
                             (chain) =>
                               chain.id === state.selectedChain.toString()
                           ) ? (
                             <img
-                              src={state.chains
+                              src={chains
                                 .filter(
                                   (chain) =>
                                     chain.id === state.selectedChain.toString()
                                 )
                                 .map((c) => c.url)}
-                              alt={state.chains
+                              alt={chains
                                 .filter(
                                   (chain) =>
                                     chain.id === state.selectedChain.toString()
@@ -928,30 +731,24 @@ return (
                           ) : (
                             "Select an option"
                           )}
-                          <span>▼</span>
+                          <span>🔻</span>
                         </div>
                         <div
                           className={`select-replica__options ${
                             state.selectIsOpen ? "open" : ""
                           }`}
                         >
-                          {state.chains.map((chain) =>
-                            chain.id !== state.selectedChain.toString() ? (
-                              <div
-                                key={chain.id}
-                                className={`select-replica__option ${
-                                  selectedOption === chain.name
-                                    ? "selected"
-                                    : ""
-                                }`}
-                                onClick={() => handleChainChange(chain.id)}
-                              >
-                                <img src={chain.url} alt={chain.name} />
-                              </div>
-                            ) : (
-                              ""
-                            )
-                          )}
+                          {chains.map((chain) => (
+                            <div
+                              key={chain.id}
+                              className={`select-replica__option ${
+                                selectedOption === chain.name ? "selected" : ""
+                              }`}
+                              onClick={() => handleChainChange(chain.id)}
+                            >
+                              <img src={chain.url} alt={chain.name} />
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </SelectReplicaContainer>
@@ -964,7 +761,21 @@ return (
                 ) : accountId ? (
                   <SelectGroup>
                     <label htmlFor="chainSelect">Select Chain</label>
-                    <SelectReplicaContainer>
+                    {/*<SelectTag
+                    className="form-select"
+                    value={state.selectedChain}
+                    onChange={handleChainChange}
+                  >
+                    <option disabled selected>
+                      Select a Chain
+                    </option>
+                    {chains.map((chain) => (
+                      <ChainIcon key={chain.id} value={chain.id}>
+                        <span>{chain.name}</span>
+                      </ChainIcon>
+                    ))}
+                  </SelectTag>*/}
+                    <SelectReplicaContainer onClick={handleOutsideClick}>
                       <div
                         className={`select-replica__select ${
                           state.selectIsOpen ? "open" : ""
@@ -972,18 +783,18 @@ return (
                         onClick={handleSelectClick}
                       >
                         <div className="select-replica__selected">
-                          {state.chains.filter(
+                          {chains.filter(
                             (chain) =>
                               chain.id === state.selectedChain.toString()
                           ) ? (
                             <img
-                              src={state.chains
+                              src={chains
                                 .filter(
                                   (chain) =>
                                     chain.id === state.selectedChain.toString()
                                 )
                                 .map((c) => c.url)}
-                              alt={state.chains
+                              alt={chains
                                 .filter(
                                   (chain) =>
                                     chain.id === state.selectedChain.toString()
@@ -993,30 +804,24 @@ return (
                           ) : (
                             "Select an option"
                           )}
-                          <span>▼</span>
+                          <span>🔻</span>
                         </div>
                         <div
                           className={`select-replica__options ${
                             state.selectIsOpen ? "open" : ""
                           }`}
                         >
-                          {state.chains.map((chain) =>
-                            chain.id !== state.selectedChain.toString() ? (
-                              <div
-                                key={chain.id}
-                                className={`select-replica__option ${
-                                  selectedOption === chain.name
-                                    ? "selected"
-                                    : ""
-                                }`}
-                                onClick={() => handleChainChange(chain.id)}
-                              >
-                                <img src={chain.url} alt={chain.name} />
-                              </div>
-                            ) : (
-                              ""
-                            )
-                          )}
+                          {chains.map((chain) => (
+                            <div
+                              key={chain.id}
+                              className={`select-replica__option ${
+                                selectedOption === chain.name ? "selected" : ""
+                              }`}
+                              onClick={() => handleChainChange(chain.id)}
+                            >
+                              <img src={chain.url} alt={chain.name} />
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </SelectReplicaContainer>
@@ -1034,73 +839,248 @@ return (
                   />
                 )}
               </Card>
+            )}
+          </ImageUploadCard>
+        </div>
+      ) : (
+        <>
+          <Card className="d-flex flex-column align-items-center w-100">
+            <div>
+              <IpfsImageUpload
+                image={state.image}
+                className="btn btn-outline-primary border-0 rounded-3"
+              />
+            </div>
+            <ImageCard>
+              <img
+                src={`https://ipfs.io/ipfs/` + state.image.cid}
+                alt="uploaded image"
+                width="100%"
+                height="100%"
+                className="rounded-3"
+              />
+            </ImageCard>
+          </Card>
+          <div>
+            <Card>
+              {state.sender && Ethers.provider() ? (
+                <SelectGroup className="form-group">
+                  <label htmlFor="chainSelect">Select Chain</label>
+                  {/*<select
+                    className="form-select"
+                    value={state.selectedChain}
+                    onChange={handleChainChange}
+                  >
+                    {chains.map((chain) => (
+                      <ChainIcon key={chain.id} value={chain.id}>
+                        {chain.name}
+                      </ChainIcon>
+                    ))}
+                  </select>*/}
+                  <SelectReplicaContainer onClick={handleOutsideClick}>
+                    <div
+                      className={`select-replica__select ${
+                        state.selectIsOpen ? "open" : ""
+                      }`}
+                      onClick={handleSelectClick}
+                    >
+                      <div className="select-replica__selected">
+                        {chains.filter(
+                          (chain) => chain.id === state.selectedChain.toString()
+                        ) ? (
+                          <img
+                            src={chains
+                              .filter(
+                                (chain) =>
+                                  chain.id === state.selectedChain.toString()
+                              )
+                              .map((c) => c.url)}
+                            alt={chains
+                              .filter(
+                                (chain) =>
+                                  chain.id === state.selectedChain.toString()
+                              )
+                              .map((c) => c.name)}
+                          />
+                        ) : (
+                          "Select an option"
+                        )}
+                        <span>🔻</span>
+                      </div>
+                      <div
+                        className={`select-replica__options ${
+                          state.selectIsOpen ? "open" : ""
+                        }`}
+                      >
+                        {chains.map((chain) => (
+                          <div
+                            key={chain.id}
+                            className={`select-replica__option ${
+                              selectedOption === chain.name ? "selected" : ""
+                            }`}
+                            onClick={() => handleChainChange(chain.id)}
+                          >
+                            <img src={chain.url} alt={chain.name} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </SelectReplicaContainer>
+                  {state.link && (
+                    <a href={`${state.link}`} target="_blank">
+                      View Transaction
+                    </a>
+                  )}
+                </SelectGroup>
+              ) : accountId ? (
+                <SelectGroup>
+                  <label htmlFor="chainSelect">Select Chain</label>
+                  {/*<SelectTag
+                    className="form-select"
+                    value={state.selectedChain}
+                    onChange={handleChainChange}
+                  >
+                    <option disabled selected>
+                      Select a Chain
+                    </option>
+                    {chains.map((chain) => (
+                      <ChainIcon key={chain.id} value={chain.id}>
+                        <span>{chain.name}</span>
+                      </ChainIcon>
+                    ))}
+                  </SelectTag>*/}
+                  <SelectReplicaContainer onClick={handleOutsideClick}>
+                    <div
+                      className={`select-replica__select ${
+                        state.selectIsOpen ? "open" : ""
+                      }`}
+                      onClick={handleSelectClick}
+                    >
+                      <div className="select-replica__selected">
+                        {chains.filter(
+                          (chain) => chain.id === state.selectedChain.toString()
+                        ) ? (
+                          <img
+                            src={chains
+                              .filter(
+                                (chain) =>
+                                  chain.id === state.selectedChain.toString()
+                              )
+                              .map((c) => c.url)}
+                            alt={chains
+                              .filter(
+                                (chain) =>
+                                  chain.id === state.selectedChain.toString()
+                              )
+                              .map((c) => c.name)}
+                          />
+                        ) : (
+                          "Select an option"
+                        )}
+                        <span>🔻</span>
+                      </div>
+                      <div
+                        className={`select-replica__options ${
+                          state.selectIsOpen ? "open" : ""
+                        }`}
+                      >
+                        {chains.map((chain) => (
+                          <div
+                            key={chain.id}
+                            className={`select-replica__option ${
+                              selectedOption === chain.name ? "selected" : ""
+                            }`}
+                            onClick={() => handleChainChange(chain.id)}
+                          >
+                            <img src={chain.url} alt={chain.name} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </SelectReplicaContainer>
+                  <div>
+                    <Web3Connect
+                      className="btn mt-3"
+                      connectLabel="Connect with Ethereum Wallet"
+                    />
+                  </div>
+                </SelectGroup>
+              ) : (
+                <Web3Connect
+                  className="btn mt-3"
+                  connectLabel="Connect with Wallet"
+                />
+              )}
+            </Card>
+            <Card>
+              <div className="soulbound">
+                <p>SoulBound: {state.isSoulBound ? "Enabled" : "Disabled"}</p>
+                {/*<button onClick={handleToggle} className="button">
+                {state.isSoulBound ? "Disable" : "Enable"}
+              </button>*/}
+                <ToggleButton>
+                  <label className="switch">
+                    <input type="checkbox" onChange={handleToggle} />
+                    <span className="slider round"></span>
+                  </label>
+                </ToggleButton>
+              </div>
+            </Card>
+            <Card>
               <Card>
-                <div className="soulbound">
-                  <p>SoulBound: {state.isSoulBound ? "Enabled" : "Disabled"}</p>
-                  <ToggleButton>
-                    <label className="switch">
-                      <input type="checkbox" onChange={handleToggle} />
-                      <span className="slider round"></span>
-                    </label>
-                  </ToggleButton>
-                </div>
+                Title:
+                <Input
+                  type="text"
+                  value={state.title || ""}
+                  onChange={(e) => onChangeTitle(e.target.value)}
+                />
               </Card>
               <Card>
-                <Card>
-                  Title:
+                Description:
+                <TextArea
+                  type="text"
+                  value={state.description || ""}
+                  onChange={(e) => onChangeDesc(e.target.value)}
+                />
+              </Card>
+              <Card>
+                Mint To:
+                {state.selectedChain !== "0" ? (
                   <Input
                     type="text"
-                    value={state.title || ""}
-                    onChange={(e) => onChangeTitle(e.target.value)}
+                    placeholder={
+                      state.selectedChain == "0" ? accountId : state.sender
+                    }
+                    value={state.recipient}
+                    onChange={(e) => onChangeRecipient(e.target.value)}
                   />
-                </Card>
-                <Card>
-                  Description:
-                  <TextArea
-                    type="text"
-                    value={state.description || ""}
-                    onChange={(e) => onChangeDesc(e.target.value)}
+                ) : (
+                  <Typeahead
+                    id="async-example"
+                    className="type-ahead"
+                    isLoading={isLoading}
+                    labelKey="search"
+                    minLength={1}
+                    options={allWidgets}
+                    onChange={(value) => onChangeRecipient(value)}
+                    placeholder={
+                      state.selectedChain == "0" ? accountId : state.sender
+                    }
                   />
-                </Card>
-                <Card>
-                  Mint To:
-                  {state.selectedChain !== "0" ? (
-                    <Input
-                      type="text"
-                      placeholder={
-                        state.selectedChain == "0" ? accountId : state.sender
-                      }
-                      value={state.recipient}
-                      onChange={(e) => onChangeRecipient(e.target.value)}
-                    />
-                  ) : (
-                    <Typeahead
-                      id="async-example"
-                      className="type-ahead"
-                      isLoading={isLoading}
-                      labelKey="search"
-                      minLength={1}
-                      options={allWidgets}
-                      onChange={(value) => onChangeRecipient(value)}
-                      placeholder={
-                        state.selectedChain == "0" ? accountId : state.sender
-                      }
-                    />
-                  )}
-                </Card>
+                )}
               </Card>
-              <button
-                type="button"
-                className="btn btn-primary d-flex flex-column align-items-center mx-auto"
-                onClick={handleMint}
-              >
-                Mint to {contractAddresses[state.selectedChain][1]}
-              </button>
-            </div>
-          </>
-        )}
-      </Main>
-    </div>
+            </Card>
+            <button
+              type="button"
+              className="btn btn-primary d-flex flex-column align-items-center mx-auto"
+              onClick={handleMint}
+            >
+              Mint to {contractAddresses[state.selectedChain][1]}
+            </button>
+          </div>
+        </>
+      )}
+    </Main>
     <Widget src="jgodwill.near/widget/GenaDrop.Footer" />
-  </div>
+  </>
 );
