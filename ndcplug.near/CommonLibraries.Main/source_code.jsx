@@ -582,10 +582,11 @@ State.init({
   selectedTab: props.catTab || "home",
   accountUrl: `#/ndcplug.near/widget/BOSHACKS.Index?tab=resources&catTab=${state.selectedTab}`,
 });
+const regAccountUrl = `#/ndcplug.near/widget/BOSHACKS.Index?tab=resources&catTab=`;
 const updateTab = (tab) => {
   State.update({
     selectedTab: tab,
-    accountUrl: `#/ndcplug.near/widget/BOSHACKS.Index?tab=resources&catTab=${state.selectedTab}`,
+    accountUrl: `#/ndcplug.near/widget/BOSHACKS.Index?tab=resources&catTab=${tab}`,
   });
   //   window.location.href = `${state.accountUrl}`;
   console.log("Tab is: " + tab);
@@ -766,7 +767,7 @@ return (
                     item.id === props.catTab ? "bg-secondary" : ""
                   }`}
                   onClick={() => updateTab(item.id)}
-                  href={`${state.accountUrl}`}
+                  href={`${regAccountUrl}${item.id}`}
                   target="_blank"
                 >
                   {" "}
