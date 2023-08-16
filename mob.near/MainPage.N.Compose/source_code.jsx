@@ -54,30 +54,32 @@ State.init({
 });
 
 return (
-  <div style={{ margin: "0 -12px" }}>
-    <Widget
-      src="mob.near/widget/MainPage.N.Common.Compose"
-      props={{
-        placeholder: "What's happening?",
-        onChange: state.onChange,
-        onHelper: ({ extractMentionNotifications, extractHashtags }) => {
-          State.update({ extractMentionNotifications, extractHashtags });
-        },
-        composeButton: (onCompose) => (
-          <CommitButton
-            disabled={!state.content}
-            force
-            className="btn btn-primary rounded-5"
-            data={composeData}
-            onCommit={() => {
-              onCompose();
-            }}
-          >
-            Post
-          </CommitButton>
-        ),
-      }}
-    />
+  <>
+    <div style={{ margin: "0 -12px" }}>
+      <Widget
+        src="mob.near/widget/MainPage.N.Common.Compose"
+        props={{
+          placeholder: "What's happening?",
+          onChange: state.onChange,
+          onHelper: ({ extractMentionNotifications, extractHashtags }) => {
+            State.update({ extractMentionNotifications, extractHashtags });
+          },
+          composeButton: (onCompose) => (
+            <CommitButton
+              disabled={!state.content}
+              force
+              className="btn btn-primary rounded-5"
+              data={composeData}
+              onCommit={() => {
+                onCompose();
+              }}
+            >
+              Post
+            </CommitButton>
+          ),
+        }}
+      />
+    </div>
     {state.content && (
       <Widget
         src="mob.near/widget/MainPage.N.Post"
@@ -88,5 +90,5 @@ return (
         }}
       />
     )}
-  </div>
+  </>
 );
