@@ -10,12 +10,6 @@ const {
 } = props;
 
 const accountId = articleToRenderData.author;
-// State.init({
-//   verified: false,
-//   start: true,
-//   voted: false,
-//   showDeclaration: false,
-// });
 
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.comment`];
 
@@ -694,6 +688,15 @@ return (
                   // )
                 }
                 <div className="d-flex flex-column">
+                  <Widget
+                    src={widgets.upVote}
+                    props={{
+                      isTest,
+                      authorForWidget,
+                      reactedElementData: articleToRenderData,
+                      widgets,
+                    }}
+                  />
                   <Widget
                     src={widgets.reactions}
                     props={{
