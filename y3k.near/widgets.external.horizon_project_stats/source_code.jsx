@@ -5,14 +5,10 @@ const header_map = {
   DVT: "Daily Average Transactions",
 };
 
-const initialState = {
+const stateJSON = JSON.stringify({
   selectedMetric: header_map[props.selectedMetric] || header_map["MAA"],
   project_name: props.project_name || "near",
-};
-
-state = State.init(initialState);
-
-const stateJSON = JSON.stringify(state);
+});
 
 const generateIframeCode = (stateJSON) => `
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
@@ -207,8 +203,6 @@ fetchData();
 
 return (
   <div>
-    <h1>{state.project_name}</h1>
-
     <iframe
       iframeResizer
       className="w-100"
