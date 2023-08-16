@@ -158,18 +158,6 @@ function changeRangeAmount(e) {
     .toFixed(4);
   handleAmount(amount, isMax);
 }
-
-function quickChangeRangeAmount(valueStr) {
-  const value = Number(valueStr);
-
-  const isMax = Big(value || 0).eq(subBalance || 0);
-  const amount = Big(subBalance || 0)
-    .mul(value || 0)
-    .div(100)
-    .toFixed(4);
-  handleAmount(amount, isMax);
-}
-
 function changeToMax() {
   handleAmount(Big(subBalance || 0).toFixed(), true);
 }
@@ -178,8 +166,16 @@ const rangeAmount =
 const bgLineWidth = rangeAmount + "%";
 const processMarginLeft = -10 - Big(18).mul(rangeAmount).div(100).toNumber();
 function displayAmount() {
-  if (isNaN(Number(amount))) return "";
-  return amount;
+  let result;
+  let v = (amount || 0).toString();
+  if (v.indexOf(".") > -1) {
+    // 小数
+    result = v.replace(/^0+\./g, "0.");
+  } else {
+    // 整数
+    result = v.replace(/^[0]+/, "");
+  }
+  return result || 0;
 }
 function getWnearIcon(icon) {
   State.update({
@@ -193,17 +189,13 @@ return (
       src="juaner.near/widget/ref-icons"
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
-
-    {!props.hideBalanceInputTop && (
-      <div class="valueArea mb-2">
-        <div class="label">{props.label || "Available to supply"}</div>
-        <div>
-          <span class="balance">{subBalance}</span>
-          <span>(${balance$ || "0"})</span>
-        </div>
+    <div class="valueArea mb-2">
+      <div class="label">{props.label || "Available to supply"}</div>
+      <div>
+        <span class="balance">{subBalance}</span>
+        <span>(${balance$ || "0"})</span>
       </div>
-    )}
-
+    </div>
     <div class="inputArea">
       <img src={metadata.icon || wnearbase64} class="tokenIcon" />
       <input
@@ -217,46 +209,12 @@ return (
       </span>
     </div>
 
-    {props.hideBalanceInputTop && (
-      <div
-        class="valueArea mb-2"
-        style={{
-          marginTop: "12px",
-        }}
-      >
-        <div class="">${balance$ || "0"}</div>
-        <div>
-          <span>Balance:</span>
-
-          <span
-            class="balance"
-            style={{
-              color: "#7c7f96",
-            }}
-          >
-            {subBalance}
-          </span>
-        </div>
-      </div>
-    )}
-
     <div class="scale mt_20">
-      {["0", "25", "50", "75", "100"].map((p, i) => {
-        return (
-          <span
-            class="item"
-            style={{
-              cursor: "pointer",
-            }}
-            key={`percent-${p}-${i}`}
-            onClick={() => {
-              quickChangeRangeAmount(p);
-            }}
-          >
-            {p}%
-          </span>
-        );
-      })}
+      <span class="item">0%</span>
+      <span class="item">25%</span>
+      <span class="item">50%</span>
+      <span class="item">75%</span>
+      <span class="item">100%</span>
     </div>
     <div class="rangeArea">
       <input
