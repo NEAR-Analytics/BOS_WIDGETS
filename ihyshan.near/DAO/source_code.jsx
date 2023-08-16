@@ -1,4 +1,4 @@
-const widgetOwner = "astraplusplus.ndctools.near";
+const widgetOwner = "ihyshan.near";
 const currentLink = "#/astraplusplus.ndctools.near/widget/index";
 let { tab } = props;
 if (!tab) {
