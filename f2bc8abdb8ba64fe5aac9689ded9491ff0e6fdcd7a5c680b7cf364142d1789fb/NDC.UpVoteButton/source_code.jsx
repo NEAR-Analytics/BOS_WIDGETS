@@ -97,6 +97,10 @@ function upVoteListener() {
   State.update({ libCalls: newLibCalls });
 }
 
+const CallLibrary = styled.div`
+  display: none;
+`;
+
 return (
   <>
     <Widget
