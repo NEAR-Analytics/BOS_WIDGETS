@@ -46,8 +46,10 @@ State.init({
 //=================================================END CONSTS=======================================================
 
 //==================================================FUNCTIONS=======================================================
+let userJustDeleted =
+  state.createdInteraction !== undefined ? state.createdInteraction : false;
+
 function getNumberOfUpVotes() {
-  let userJustDeleted = state.createdInteraction;
   if (userJustDeleted) {
     return state.upVotes.reactionsStatistics - 1 ?? 0;
   } else {
@@ -57,8 +59,9 @@ function getNumberOfUpVotes() {
 
 function getUpVoteButtonClass() {
   if (
-    !state.createdInteraction ??
-    !state.upVotes.userInteraction.value.deleteReaction
+    !userJustDeleted ||
+    (state.upVotes.userInteraction.value.deleteReaction !== undefined &&
+      !state.upVotes.userInteraction.value.deleteReaction)
   ) {
     return "primary";
   } else {
