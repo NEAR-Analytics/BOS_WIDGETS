@@ -5,6 +5,10 @@ if (!index) {
 
 const filter = props.filter;
 
+let renderItem;
+if (props.renderItem) {
+  renderItem = 
+}
 const renderItem =
   props.renderItem ??
   ((item, i) => (
@@ -162,6 +166,16 @@ if (reverse) {
   items.reverse();
 }
 
+
+return (
+  <Widget
+    src="andyh.near/widget/IndexFeed.Items"
+    props={{ items, manual: props.manual, reverse, fetchMore, hasMore: state.displayCount < filteredItems.length, makeMoreItems, renderItems }}
+    isTrusted={true}
+  />
+);
+
+/*
 const renderedItems = items.map(cachedRenderItem);
 console.log({ renderedItems, items });
 return props.manual ? (
@@ -191,3 +205,4 @@ return props.manual ? (
     {props.footerElement}
   </InfiniteScroll>
 );
+*/
