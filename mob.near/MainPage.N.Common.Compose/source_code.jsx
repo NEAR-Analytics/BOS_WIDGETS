@@ -155,7 +155,7 @@ const Wrapper = styled.div`
   margin: 0 -12px;
   line-height: normal;
   display: flex;
-  padding: 12px;
+  padding: 12px 12px 6px;
 
   .left {
     padding-right: 12px;
