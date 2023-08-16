@@ -366,7 +366,7 @@ const FeatureHeading = styled.h3`
 const FeatureTitle = styled.h3`
   font-weight: 600;
   font-size: 2rem;
-  color: #0ff1d40;
+  color: #0f1d40;
   @media screen and (max-width: 1200px){
   font-size: 1.5rem;
   }
