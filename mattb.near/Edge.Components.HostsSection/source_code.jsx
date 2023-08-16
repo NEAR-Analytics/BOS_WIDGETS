@@ -49,12 +49,37 @@ const Hosts = styled.div`
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     padding:2.5rem 0;
+
+    @media screen and (min-width:800px) {
+        display:block;
+    }
 `;
 
 const Host = styled.div`
     text-align:center;
     border: 1px solid rgba(0,0,0,.05);
     padding: 1.5rem;
+    transition: all .2s;
+
+    @media screen and (min-width:800px) {
+        :not(:last-of-type) {
+            margin-bottom:1.5rem;
+        }
+    }
+
+    :hover {
+        background-color:#000;
+        color:#fff;
+        border-color:#fff;
+        box-shadow: 0 0 0 5px #000;
+        transition: all .2s;
+
+        img {
+            filter:invert(0);
+            transition: all .2s;
+        }
+    }
+
     .title {
         font-size:1.3rem;
         line-height:1.3rem;
@@ -78,6 +103,8 @@ const Background = styled.img`
     background-repeat:no-repeat;
     background-size:cover;
     border-radius:100%;
+    filter:invert(100%);
+    transition: all .2s;
 `;
 
 return (
