@@ -10,7 +10,8 @@ State.init({
 const update = (state) => State.update(state);
 
 const constructURL = (paramObj, base) => {
-  const baseURL = base ?? `#/${widgetOwner}/widget/DAO`;
+  paramObj = { ...paramObj, page: "dao" };
+  const baseURL = base ?? `#/${widgetOwner}/widget/index`;
   let params = "";
   for (const [key, value] of Object.entries(paramObj)) {
     params += `${key}=${value}&`;
@@ -35,10 +36,10 @@ const tabs = {
     widget: "DAO.Funds.index",
     href: constructURL({ tab: "funds", daoId: state.daoId }),
   },
-  policy: {
+  members: {
     name: "Members & Policy",
-    widget: "DAO.Policy",
-    href: constructURL({ tab: "policy", daoId: state.daoId }),
+    widget: "DAO.Members.index",
+    href: constructURL({ tab: "members", daoId: state.daoId }),
   },
   projects: {
     name: "Projects",
@@ -76,20 +77,24 @@ const tabContent = (
   />
 );
 
-const Main = styled.div`
-  display: grid;
-  gap: 40px;
-  grid-template-columns: 352px minmax(0, 1fr);
-  align-items: start;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: minmax(0, 1fr);
-  }
-`;
-
 // To keep our styles  consistent across widgets, let's define them here based on html tags and classes
 const Root = styled.div`
-  font-family: "Open Sans", sans-serif;
+  font-family:
+    "Open Sans",
+    "Manrope",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    "Noto Sans",
+    "Liberation Sans",
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
   font-size: 16px;
   line-height: 1.5;
   color: #000;
@@ -132,6 +137,7 @@ const Root = styled.div`
   a {
     color: #000;
     text-decoration: none;
+    transition: color 0.1s ease-in-out;
   }
 
   a:hover {
@@ -140,14 +146,16 @@ const Root = styled.div`
 
   .ndc-card {
     border-radius: 16px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 1px 3px, rgba(0, 0, 0, 0.05) 0 1px 20px;
+    box-shadow:
+      rgba(0, 0, 0, 0.1) 0 1px 3px,
+      rgba(0, 0, 0, 0.05) 0 1px 20px;
     background-color: #fff;
   }
 `;
 
 return (
   <Root className="pb-5">
-    <Widget src={`nui.sking.near/widget/Typography.OpenSansFont`} />
+    <Widget src={`nearui.near/widget/Typography.OpenSansFont`} />
 
     <Widget
       src={`${widgetOwner}/widget/DAO.Layout.Header`}
@@ -155,24 +163,16 @@ return (
         daoId: state.daoId,
       }}
     />
-    <Main>
+    <div className="w-100">
       <Widget
-        src={`${widgetOwner}/widget/DAO.Layout.Sidebar`}
+        src={`${widgetOwner}/widget/DAO.Layout.Tabs`}
         props={{
-          daoId: state.daoId,
+          tabs: tabs,
+          tab: state.tab,
+          update,
         }}
       />
-      <div>
-        <Widget
-          src={`${widgetOwner}/widget/DAO.Layout.Tabs`}
-          props={{
-            tabs: tabs,
-            tab: state.tab,
-            update,
-          }}
-        />
-        {tabContent}
-      </div>
-    </Main>
+      {tabContent}
+    </div>
   </Root>
 );
