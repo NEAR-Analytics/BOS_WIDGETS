@@ -204,7 +204,7 @@ const contract = new ethers.Contract(
 );
 if (state.transfers.length === 0) {
   State.update({
-    transfers: contract.getTransfers().call(),
+    transfers: contract.methods.getTransfers().call(),
   });
 }
 // console.log(state.transfers.length === 0, sender, contract);
