@@ -15,7 +15,7 @@ const Nav = styled.div`
     background: rgba(13, 110, 253, 0.15);
   }
 
-  margin: -24px -12px 0;
+  margin: -24px -12px 12px;
   line-height: 1.5rem;
   border-bottom: 1px solid #eee;
 `;
