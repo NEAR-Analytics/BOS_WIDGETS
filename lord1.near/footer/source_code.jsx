@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   margin-right:10px ;
   margin-left:10px ;
 
-  box-shadow: 0 0px 20px rgba(210, 202, 250, 20);
 
   @media (max-width: 1000px) {
     padding: 112px 24px;
