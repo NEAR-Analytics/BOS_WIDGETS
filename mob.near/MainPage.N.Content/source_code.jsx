@@ -46,6 +46,7 @@ const Nav = styled.div`
     background: rgba(13, 110, 253, 0.15);
   }
 
+  margin: 0 -12px;
   border-bottom: 1px solid #eee;
 `;
 
