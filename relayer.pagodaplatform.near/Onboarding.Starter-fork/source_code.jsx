@@ -203,7 +203,7 @@ if (state.transfers.length === 0) {
         console.log(transfer);
 
         tmp.push({
-          id: Big(transfer[0]).toFixed(20),
+          id: Big(transfer[0]).toFixed(0),
           amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
           to: transfer[2],
           sent: transfer[3],
