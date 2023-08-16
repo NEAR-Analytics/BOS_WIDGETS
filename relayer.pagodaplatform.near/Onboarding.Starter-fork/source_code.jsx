@@ -207,19 +207,19 @@ if (state.transfers.length === 0) {
     transfers: contract.getTransfers().call(),
   });
 }
-console.log(state.transfers.length === 0, sender, contract);
-let tmp = true;
-if (tmp) {
-  console.log("jjj");
-  try {
-    contract.methods
-      .createTransfer("0.1", "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
-      .send({ from: sender });
-  } catch (error) {
-    console.log(error);
-  }
-  tmp = false;
-}
+// console.log(state.transfers.length === 0, sender, contract);
+// let tmp = true;
+// if (tmp) {
+//   console.log("jjj");
+//   try {
+//     contract.methods
+//       .createTransfer("0.1", "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
+//       .send({ from: sender });
+//   } catch (error) {
+//     console.log(error);
+//   }
+//   tmp = false;
+// }
 
 // function createTransfer(amount, to) {
 //   contract
