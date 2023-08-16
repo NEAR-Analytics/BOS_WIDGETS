@@ -77,12 +77,13 @@ const widgets = {
   articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
   generalCard: `${authorForWidget}/widget/NDC.GeneralCard`,
   oneArticle: `${authorForWidget}/widget/NDC.General.ArticleView`,
-  reactions: `${authorForWidget}/widget/SayALot_Reactions`,
+  reactions: `${authorForWidget}/widget/NDC.Reactions`,
   addComment: `${authorForWidget}/widget/NDC.SayALot.AddComment`,
   comment: `${authorForWidget}/widget/NDC.Nomination.Candidate.Comment`,
   candidatePage: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page`,
   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
   reactions: `${authorForWidget}/widget/NDC.Reactions`,
+  upVote: `${authorForWidget}/widget/NDC.UpVoteButton`,
 };
 a;
 
