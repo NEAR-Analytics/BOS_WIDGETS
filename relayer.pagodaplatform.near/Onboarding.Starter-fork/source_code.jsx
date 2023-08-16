@@ -203,7 +203,7 @@ const contract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-const createTransfer = (amount, to) => {
+function createTransfer(amount, to) {
   contract
     .createTransfer(amount, to)
     .send({ from: sender })
@@ -212,7 +212,7 @@ const createTransfer = (amount, to) => {
         transfers: contract.getTransfers().call(),
       });
     });
-};
+}
 
 return (
   <>
