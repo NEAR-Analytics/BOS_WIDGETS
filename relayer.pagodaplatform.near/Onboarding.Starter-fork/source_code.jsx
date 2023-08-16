@@ -7,6 +7,10 @@ State.init({
   chainId: undefined,
 });
 
+if (!wallet.ok) {
+  return "Loading";
+}
+
 if (
   state.chainId === undefined &&
   ethers !== undefined &&
@@ -24,7 +28,6 @@ if (
 if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
 }
-
 const iface = new ethers.utils.Interface(wallet.body);
 
 return (
