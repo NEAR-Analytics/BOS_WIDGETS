@@ -26,7 +26,7 @@ const Wrapper = styled.div`
     white-space: pre-line;
   }
   > :last-child {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
   }
 `;
 
