@@ -44,7 +44,7 @@ if (state.feedIndex === "following") {
 }
 
 const Nav = styled.div`
-    .nav-pills {
+  .nav-pills {
     background: #fbfbfb;
     font-weight: 500;
     --bs-nav-pills-border-radius: 0;
@@ -52,6 +52,7 @@ const Nav = styled.div`
     --bs-nav-pills-link-active-color: #000;
     --bs-nav-pills-link-active-bg: #fbfbfb;
     --bs-nav-link-padding-y: 0.8rem;
+    border-bottom: 1px solid #eee;
   }
   .nav-link.active {
     border-bottom: 3px solid rgb(13, 110, 253);
@@ -61,39 +62,40 @@ const Nav = styled.div`
     background: rgba(13, 110, 253, 0.15);
   }
 
-  margin: -24px -12px 12px;
-  border-bottom: 1px solid #eee;
+  margin: 0 -12px;
+
+  @media(max-width: 991px) {
+    margin: -24px -12px 0;
+  }
 `;
 
 return (
-  <>
-    <Nav>
-      <ul className="nav nav-pills nav-fill">
-        {options.map((option, i) => (
-          <li
-            className={`nav-item ${option.mobileOnly ? "d-lg-none" : ""}`}
-            key={i}
-          >
-            <button
-              className={`nav-link ${
-                state.feedIndex === option.id ? "active" : ""
-              } ${option.disabled ? "disabled" : ""}`}
-              aria-disabled={!!option.disabled}
-              onClick={() =>
-                !option.disabled && State.update({ feedIndex: option.id })
-              }
+  <div className="row">
+    <div className="col-lg-8">
+      <Nav>
+        <ul className="nav nav-pills nav-fill">
+          {options.map((option, i) => (
+            <li
+              className={`nav-item ${option.mobileOnly ? "d-lg-none" : ""}`}
+              key={i}
             >
-              {option.title}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </Nav>
-    <div className="row">
+              <button
+                className={`nav-link ${
+                  state.feedIndex === option.id ? "active" : ""
+                } ${option.disabled ? "disabled" : ""}`}
+                aria-disabled={!!option.disabled}
+                onClick={() =>
+                  !option.disabled && State.update({ feedIndex: option.id })
+                }
+              >
+                {option.title}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </Nav>
       <div
-        className={`${
-          state.feedIndex === "menu" ? "d-none" : ""
-        } d-lg-block col-lg-8`}
+        className={`${state.feedIndex === "menu" ? "d-none" : ""} d-lg-block`}
       >
         {context.accountId && (
           <Widget
@@ -116,13 +118,13 @@ return (
           />
         )}
       </div>
-      <div
-        className={`${
-          state.feedIndex !== "menu" ? "d-none" : ""
-        } d-lg-block col-lg-4`}
-      >
-        <Widget src="mob.near/widget/Welcome.RHS" props={props} />
-      </div>
     </div>
-  </>
+    <div
+      className={`${
+        state.feedIndex !== "menu" ? "d-none" : ""
+      } d-lg-block col-lg-4`}
+    >
+      <Widget src="mob.near/widget/Welcome.RHS" props={props} />
+    </div>
+  </div>
 );
