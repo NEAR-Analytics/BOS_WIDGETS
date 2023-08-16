@@ -274,6 +274,7 @@ const claimCollateral = () => {
 };
 
 const getEntireDebtAndColl = () => {
+  console.log(vesselManagerAbi);
   const vesselManagerContract = new ethers.Contract(
     vesselManagerAddress,
     vesselManagerAbi.body.result,
