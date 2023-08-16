@@ -121,7 +121,7 @@ return (
       <p className="title">Ticket.</p>
       <p className="subtitle">Be part of the Edge Intelligence Summit</p>
       <Tickets>
-        <Ticket href={EVENT_URL}>
+        <Ticket href={EVENT_URL} target="_blank">
           <p className="title">All day access.</p>
           <p className="price">FREE</p>
           <p className="description">{speaker.description}</p>
@@ -132,7 +132,7 @@ return (
             <li>Networking drinks with speakers & attendees</li>
           </ul>
         </Ticket>
-        <Ticket href={EVENT_URL}>
+        <Ticket href={EVENT_URL} target="_blank">
           <p className="title">#Party.</p>
           <p className="price">FREE</p>
           <p className="description">{speaker.description}</p>
@@ -145,7 +145,9 @@ return (
         </Ticket>
       </Tickets>
 
-      <Button href={EVENT_URL}>GET A TICKET</Button>
+      <Button href={EVENT_URL} target="_blank">
+        GET A TICKET
+      </Button>
     </Wrapper>
   </Box>
 );
