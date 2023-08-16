@@ -99,7 +99,6 @@ function upVoteListener() {
       : false;
 
   function onCommit() {
-    console.log("Commited");
     State.update({
       createdInteraction: isDelete,
     });
@@ -631,6 +630,7 @@ const renderArticleBody = () => {
 
 //===============================================END COMPONENTS====================================================
 
+console.log("state.upVotes: ", state.upVotes);
 //===================================================RENDER========================================================
 return (
   <div className="p-2 col-lg-4 col-md-6 col-sm-12">
