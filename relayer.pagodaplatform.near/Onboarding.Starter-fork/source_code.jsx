@@ -185,42 +185,42 @@ const contract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 contract.add({ gasLimit: 100000 });
-// if (contract) {
-//   console.log("hhh");
-//   contract
-//     .createTransfer(1000, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
-//     .then(() => {
-//       console.log("hello");
-//     })
-//     .catch((err) => console.log(err));
-// }
-if (state.transfers.length === 0) {
+if (contract) {
   console.log("hhh");
   contract
-    .getTransfers()
-    .then((transfers) => {
-      const tmp = [...state.transfers];
-      transfers.map((transfer) => {
-        console.log(transfer);
-
-        tmp.push({
-          id: Big(transfer[0]).toFixed(0),
-          amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
-          to: transfer[2],
-          sent: transfer[3],
-          approver: transfer[4],
-        });
-      });
-      State.update({ transfers: tmp });
-      console.log(transfers);
-    })
+    .createTransfer(1000, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
     .then(() => {
-      console.log(state.transfers);
-      contract.approveTransfer(0).send({ from: sender });
+      console.log("hello");
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => console.log(err));
+}
+// if (state.transfers.length === 0) {
+//   console.log("hhh");
+//   contract
+//     .getTransfers()
+//     .then((transfers) => {
+//       const tmp = [...state.transfers];
+//       transfers.map((transfer) => {
+//         console.log(transfer);
+
+//         tmp.push({
+//           id: Big(transfer[0]).toFixed(0),
+//           amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
+//           to: transfer[2],
+//           sent: transfer[3],
+//           approver: transfer[4],
+//         });
+//       });
+//       State.update({ transfers: tmp });
+//       console.log(transfers);
+//     })
+//     .then(() => {
+//       console.log(state.transfers);
+//       contract.approveTransfer(0).send({ from: sender });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
 }
 return (
   <>
