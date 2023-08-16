@@ -1,6 +1,7 @@
 const { manual, reverse, fetchMore, items, hasMore } = props;
 const makeMoreItems = useComponentCallback(props.makeMoreItems);
 const renderItems = useComponentCallback(props.renderItems, items);
+console.log(props);
 const renderedItems = renderItems();
 console.log({ renderedItems });
 return props.manual ? (
