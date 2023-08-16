@@ -37,11 +37,6 @@ if (state.feedIndex === 0) {
 
 return (
   <>
-    {context.accountId && (
-      <div className="mb-3">
-        <Widget src="mob.near/widget/MainPage.Compose" props={{}} />
-      </div>
-    )}
     <ul className="nav nav-pills mb-3">
       {options.map((option, i) => (
         <li className="nav-item" key={i}>
@@ -57,6 +52,11 @@ return (
         </li>
       ))}
     </ul>
+    {context.accountId && (
+      <div className="mb-3">
+        <Widget src="mob.near/widget/MainPage.N.Compose" props={{}} />
+      </div>
+    )}
     {state.feedIndex === 2 ? (
       <Widget src="mob.near/widget/Hashtag.N.Feed" props={{ hashtag }} />
     ) : (
