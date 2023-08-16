@@ -227,7 +227,8 @@ return (
             <SecondaryText>Description</SecondaryText>
             <p>{props.state.tokenInfo.metadata.description}</p>
           </div>
-          {props.state.tradeportLink && (
+          {Object.keys(props.state.tokenInfo.approved_account_ids || {})
+            .length > 0 && (
             <a
               href={props.state.tradeportLink}
               target="_blank"
@@ -255,9 +256,8 @@ return (
             </div>
           )}
           <div className="col-lg-12">
-            {typeof props.state.tokenInfo.approved_account_ids === "object" && (
-              <h3> Listed Markets</h3>
-            )}
+            {Object.keys(props.state.tokenInfo.approved_account_ids || {})
+              .length > 0 && <h3> Listed Markets</h3>}
             <div>
               <ul>
                 {typeof props.state.tokenInfo.approved_account_ids ===
