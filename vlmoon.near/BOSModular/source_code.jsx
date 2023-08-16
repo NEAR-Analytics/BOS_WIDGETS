@@ -152,13 +152,21 @@ const dependencies = getModuleDependencies(state.currentRoute);
 
 return (
   <>
-    <Body>
-      <NavigationBar>
-        <Button onClick={routesNavigator.moduleA}>Swap Page to module A</Button>
-        <Button onClick={routesNavigator.moduleB}>Swap Page to module B</Button>
-        <Button onClick={routesNavigator.moduleC}>Swap Page to module C</Button>
-        <Button onClick={routesNavigator.moduleD}>Swap Page to module D</Button>
-      </NavigationBar>
+    <uiKitComponents.body>
+      <uiKitComponents.navigationBar>
+        <uiKitComponents.button onClick={routesNavigator.moduleA}>
+          Swap Page to module A
+        </uiKitComponents.button>
+        <uiKitComponents.button onClick={routesNavigator.moduleB}>
+          Swap Page to module B
+        </uiKitComponents.button>
+        <uiKitComponents.button onClick={routesNavigator.moduleC}>
+          Swap Page to module C
+        </uiKitComponents.button>
+        <uiKitComponents.button onClick={routesNavigator.moduleD}>
+          Swap Page to module D
+        </uiKitComponents.button>
+      </uiKitComponents.navigationBar>
       <Widget
         src={routes[state.currentRoute]}
         props={{
@@ -168,6 +176,6 @@ return (
           uiKitComponents,
         }}
       />
-    </Body>
+    </uiKitComponents.body>
   </>
 );
