@@ -256,13 +256,13 @@ return (
         links: [
           {
             text: "Home",
-            link: "lord1.near/widget/home",
+            link: "/home",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
           },
           {
             text: "Dashboards",
-            link: "lord1.near/widget/Flipside-Home-page",
+            link: "Flipside-Home-page",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
           },
@@ -301,7 +301,7 @@ return (
         textcolor: "#fff",
       }}
     />
-    <div style={{ marginLeft: "1rem" }}>
+    <div style={{ marginLeft: "5rem" }}>
       <div
         style={{
           backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
