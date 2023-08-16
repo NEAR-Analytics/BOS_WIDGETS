@@ -19,7 +19,7 @@ State.init({
   libCalls,
 });
 
-if (state.upVotes.reactionsStatistics) {
+if (state.upVotes.reactionsStatistics && !state.numberOfvotesModified) {
   State.update({ numberOfVotes: state.upVotes.reactionsStatistics ?? 0 });
 }
 
@@ -71,6 +71,7 @@ function upVoteListener() {
   function onCommit() {
     console.log("Commited");
     State.update({
+      numberOfvotesModified: true,
       numberOfVotes: isDelete
         ? state.numberOfVotes - 1
         : state.numberOfVotes + 1,
