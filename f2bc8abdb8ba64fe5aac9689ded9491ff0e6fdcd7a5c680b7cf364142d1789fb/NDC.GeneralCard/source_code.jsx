@@ -46,6 +46,15 @@ State.init({
 //=================================================END CONSTS=======================================================
 
 //==================================================FUNCTIONS=======================================================
+function getNumberOfUpVotes() {
+  let userJustDeleted = state.createdInteraction;
+  if (userJustDeleted) {
+    return state.upVotes.reactionsStatistics - 1 ?? 0;
+  } else {
+    return state.upVotes.reactionsStatistics ?? 0;
+  }
+}
+
 function getUpVoteButtonClass() {
   if (
     !state.createdInteraction ??
@@ -678,7 +687,7 @@ return (
           src={widgets.styledComponents}
           props={{
             Button: {
-              text: `+${state.upVotes.reactionsStatistics ?? 0}`,
+              text: `+${getNumberOfUpVotes()}`,
               className: getUpVoteButtonClass(),
               size: "sm",
               onClick: upVoteListener,
