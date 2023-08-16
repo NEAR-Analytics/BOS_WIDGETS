@@ -1,3 +1,5 @@
+const EVENT_URL = "https://partiful.com/e/8fZfzaNqqm8MSTA5I7E7";
+
 const Box = styled.div`
     padding:2rem;
     box-sizing:border-box;
@@ -41,15 +43,26 @@ const Tickets = styled.div`
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
     padding:2.5rem 0;
+
+    @media screen and (max-width:700px) {
+        display:block;
+    }
 `;
 
 const Ticket = styled.a`
+    display:block;
     cursor:pointer;
     border: 1px solid rgba(0,0,0,1);
     padding: 1.5rem;
     transition: all .2s;
     color:#000;
     text-decoration:none!important;
+
+    @media screen and (max-width:700px) {
+        :not(:last-of-type) {
+            margin-bottom:1.5rem;
+        }
+    }
 
     :hover {
         background-color:#000;
@@ -108,7 +121,7 @@ return (
       <Tickets>
         <Ticket>
           <p className="title">All day access.</p>
-          <p className="price">$49</p>
+          <p className="price">FREE</p>
           <p className="description">{speaker.description}</p>
           <ul>
             <li>All talks & panels</li>
@@ -119,7 +132,7 @@ return (
         </Ticket>
         <Ticket>
           <p className="title">#Party.</p>
-          <p className="price">$10</p>
+          <p className="price">FREE</p>
           <p className="description">{speaker.description}</p>
           <ul>
             <li>10 PM - 12 PM</li>
@@ -130,7 +143,7 @@ return (
         </Ticket>
       </Tickets>
 
-      <Button href="#">BUY A TICKET</Button>
+      <Button href={EVENT_URL}>GET A TICKET</Button>
     </Wrapper>
   </Box>
 );
