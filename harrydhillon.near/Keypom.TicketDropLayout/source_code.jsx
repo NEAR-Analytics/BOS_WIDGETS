@@ -129,7 +129,7 @@ const formContent = () => {
               }}
             >
               <Widget
-                src="harrydhillon.near/widget/Keypom.StepLabel"
+                src="harrydhillon.near/widget/Keypom.Components.StepLabel"
                 props={{
                   stepNumber: idx + 1,
                   label: item.label,
