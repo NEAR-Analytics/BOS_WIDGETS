@@ -18,10 +18,6 @@ const GreenButton = styled.div`
   .disabled {
     opacity: 0.5;
   }
-  @media (max-width: 900px) {
-    max-width: 100%;
-    height: 36px;
-  }
 `;
 const GreenLineButton = styled.div`
   padding: 0px 12px;
@@ -41,10 +37,6 @@ const GreenLineButton = styled.div`
   }
   .disabled {
     opacity: 0.5;
-  }
-  @media (max-width: 900px) {
-    max-width: 100%;
-    height: 36px;
   }
 `;
 const { clickEvent, buttonType, actionName, hoverOn } = props;
