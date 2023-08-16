@@ -202,7 +202,7 @@ const contract = new ethers.Contract(
   wallet.abi,
   Ethers.provider().getSigner()
 );
-console.log(contract.getTransfers());
+console.log(contract.getTransfers().then((transfers) => transfers));
 // console.log(state.transfers.length === 0, sender, contract);
 // let tmp = true;
 // if (tmp) {
