@@ -42,7 +42,16 @@ return (
       <a href={`#/${widgetPath}`} className="text-decoration-none link-dark">
         <div className="text-truncate">
           <span className="fw-bold">{name}</span>{" "}
-          <span className="fw-normal">{widgetPath}</span>
+          <span className="fw-normal">
+            {widgetPath}
+            <Widget
+              src="mob.near/widget/CopyButton"
+              props={{
+                text: { widgetPath },
+                onCopy: "Copied widget path to clipboard",
+              }}
+            />
+          </span>
         </div>
       </a>
 
