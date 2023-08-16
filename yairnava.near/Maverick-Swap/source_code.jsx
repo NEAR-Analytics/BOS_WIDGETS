@@ -6,13 +6,13 @@ if (!routerAbi.ok) {
 }
 
 const TOKENS = [
-  {
-    name: "ETH",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/eth.svg",
-    address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
-    coinGeckoId: "ethereum",
-    decimals: 18,
-  },
+  //{
+  //name: "ETH",
+  //icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/eth.svg",
+  //address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
+  //coinGeckoId: "ethereum",
+  //decimals: 18,
+  //},
   {
     name: "USDC",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/usdc.svg",
@@ -86,15 +86,15 @@ const TOKENS = [
 ];
 
 const POOLS = [
-  { name: "ETH-USDC", address: "0x41c8cf74c27554a8972d3bf3d2bd4a14d8b604ab" },
-  { name: "ETH-CBUSD", address: "0x3Ae63FB198652E294B8DE4C2EF659D95D5ff28BE" },
-  { name: "ETH-MAV", address: "0x4D47167e66e86d1a1083f52136832d4f1eF5809A" },
-  { name: "ETH-LUSD", address: "0xB1338207DE233aE6a9A6D63309221b577F8Cd6E8" },
-  { name: "ETH-RETH", address: "0x07e1F845819D7CABc03684fdb4Bf99D5cd2B2964" },
-  { name: "ETH-CBETH", address: "0x23e8d6269717C567e4A2E9680491C8c65B67Ad0d" },
-  { name: "ETH-USD+", address: "0x15461e7D0d6061e082b2c9B641634BB096527679" },
-  { name: "ETH-GRAI", address: "" },
-  { name: "ETH-FRAX", address: "" },
+  { name: "WETH-USDC", address: "0x41c8cf74c27554a8972d3bf3d2bd4a14d8b604ab" },
+  { name: "WETH-CBUSD", address: "0x3Ae63FB198652E294B8DE4C2EF659D95D5ff28BE" },
+  { name: "WETH-MAV", address: "0x4D47167e66e86d1a1083f52136832d4f1eF5809A" },
+  { name: "WETH-LUSD", address: "0xB1338207DE233aE6a9A6D63309221b577F8Cd6E8" },
+  { name: "WETH-RETH", address: "0x07e1F845819D7CABc03684fdb4Bf99D5cd2B2964" },
+  { name: "WETH-CBETH", address: "0x23e8d6269717C567e4A2E9680491C8c65B67Ad0d" },
+  { name: "WETH-USD+", address: "0x15461e7D0d6061e082b2c9B641634BB096527679" },
+  { name: "WETH-GRAI", address: "" },
+  { name: "WETH-FRAX", address: "" },
   { name: "USDC-CBUSD", address: "0x88D29317A355d8586bd0D98E8745ec3171d68F56" },
   { name: "USDC-MAV", address: "0x74E398c79eb7a653b432f6313edF776C8d930142" },
   { name: "USDC-LUSD", address: "0x6A9143A5f9BaF73841992DCB737844e5ad16A283" },
@@ -288,7 +288,7 @@ const approveErc20Token = () => {
             onApproving: false,
             approvalNeeded: false,
           });
-        }, 15000);
+        }, 10000);
       });
   });
 };
@@ -394,13 +394,15 @@ const confirmTransaction = () => {
     amountOutMinimum: 0,
     sqrtPriceLimitD18: 0,
   };
+  let amountIn2 = ethers.utils.parseUnits(
+    "0",
+    state.tokenSendSelected.decimals
+  );
   const overrides = {
-    value:
-      state.tokenSendSelected.name == "ETH"
-        ? amountIn
-        : ethers.utils.parseUnits("0", state.tokenSendSelected.decimals),
+    value: amountIn2,
     gasLimit: 2303039,
   };
+  console.log(overrides);
   try {
     router.exactInputSingle(paramsv2, overrides).then((res) => {
       State.update({
@@ -417,7 +419,7 @@ const confirmTransaction = () => {
           poolSelected: null,
           onSwap: false,
         });
-      }, 15000);
+      }, 10000);
     });
   } catch (err) {
     console.log(err);
