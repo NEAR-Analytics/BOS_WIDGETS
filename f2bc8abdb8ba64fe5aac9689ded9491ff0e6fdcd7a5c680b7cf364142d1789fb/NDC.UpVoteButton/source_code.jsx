@@ -74,10 +74,18 @@ function stateUpdate(obj) {
 function upVoteListener() {
   let newLibCalls = [...libCalls];
 
-  let isDelete =
-    state.upVotes.userInteraction.value.deleteReaction !== undefined
-      ? !state.upVotes.userInteraction.value.deleteReaction
-      : false;
+  let isDelete;
+
+  if (state.createdInteraction !== undefined && userJustDeleted) {
+    isDelete = false;
+  } else if (state.createdInteraction !== undefined && userJustVoted) {
+    isDelete = true;
+  } else {
+    isDetele =
+      state.upVotes.userInteraction.value.deleteReaction !== undefined
+        ? !state.upVotes.userInteraction.value.deleteReaction
+        : false;
+  }
 
   function onCommit() {
     State.update({
