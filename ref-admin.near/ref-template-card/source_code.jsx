@@ -21,29 +21,40 @@ const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 const Card =
   role === "Builder"
     ? styled.div`
+        width:500px;
+        height:320px;
         position: relative;
         display: block;
         overflow: hidden;
         width: 415px;
         border-radius: 16px;
         padding: 0px 0px 16px 0px;
-        background: #1c1e23;
+        background: #373A53;
         border-radius: 16px;
         :hover {
           text-decoration: none;
         }
       `
     : styled.a`
+        width:500px;
+        height:320px;
         position: relative;
         display: block;
         overflow: hidden;
-        width: 415px;
         border-radius: 16px;
         padding: 0px 0px 16px 0px;
-        background: #1c1e23;
+        background:#373A53;
         border-radius: 16px;
         :hover {
           text-decoration: none;
+        }
+        .foot{
+          position:relative;
+          top:-4px;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          padding: 0px 20px;
         }
       `;
 
@@ -83,7 +94,7 @@ const CardContent = styled.div`
   top: 16px;
 `;
 
-const TextLink = styled.a`
+const TextLink = styled.span`
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -103,12 +114,12 @@ const WidgetName = styled.div`
 const Thumbnail = styled.a`
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 7px;
   width: 86px;
   height: 86px;
   flex-shrink: 0;
   z-index: 50;
-  background: #1c1e23;
+  background: #373A53;
   border-radius: 16px;
   overflow: hidden;
   outline: none;
@@ -124,9 +135,7 @@ const Thumbnail = styled.a`
 `;
 
 const TagsWrapper = styled.div`
-  margin-top: 4px;
   display: flex;
-  padding: 0px 20px 0px 20px;
 `;
 
 const Tag = styled.div`
@@ -140,7 +149,7 @@ const Tag = styled.div`
   white-space: nowrap;
   background: rgba(26, 46, 51, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 38px;
+  border-radius: 30px;
 `;
 
 const ProfileIcon = styled.div`
@@ -199,7 +208,7 @@ const BuilderViewWrapper = styled.div`
 
 const Banner = styled.div`
   position: relative;
-  height: 200px;
+  height: 192px;
   width: 100%;
   img {
     object-fit: cover;
@@ -284,7 +293,6 @@ return (
     href={role === "Builder" ? appUrl : appUrlUser}
     title={metadata.description}
   >
-    {props.isHome && <AppliedWrapper> Applied </AppliedWrapper>}
     <Banner
       hover={state.hoverBanner}
       onMouseEnter={() => hoverEnter()}
@@ -355,17 +363,24 @@ return (
               }}
             />
           </ProfileIcon>
-
-          <TextLink href={accountUrl}>{accountId}</TextLink>
+          {/* <TextLink href={accountUrl}>{accountId}</TextLink> */}
+          <TextLink>{accountId}</TextLink>
         </div>
       </CardContent>
     </CardBody>
 
-    <TagsWrapper>
-      {tags.length > 0 &&
-        tags.map((t) => {
-          return <Tag>{t}</Tag>;
-        })}
-    </TagsWrapper>
+    <div className="foot">
+      <TagsWrapper>
+        {tags.length > 0 &&
+          tags.map((t) => {
+            return <Tag>{t}</Tag>;
+          })}
+      </TagsWrapper>
+      <div className="hot">
+        <img src="https://ipfs.near.social/ipfs/bafkreidey5fw6akzzi33hnqocyuk5a2saxra52nv3rzhlbpdzcfcwsziui"></img>
+        <img src="https://ipfs.near.social/ipfs/bafkreidey5fw6akzzi33hnqocyuk5a2saxra52nv3rzhlbpdzcfcwsziui"></img>
+        <img src="https://ipfs.near.social/ipfs/bafkreidey5fw6akzzi33hnqocyuk5a2saxra52nv3rzhlbpdzcfcwsziui"></img>
+      </div>
+    </div>
   </Card>
 );
