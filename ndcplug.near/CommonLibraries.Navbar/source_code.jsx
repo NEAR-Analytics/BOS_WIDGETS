@@ -10,7 +10,7 @@ return (
     <a
       className="nav-link mt-2"
       href={`/ndcplug.near/widget/CommonLibraries.Main?catTab=home`}
-      onClick={() => props.onSelect({ catTab: "home", id: "" })}
+      onClick={() => props.onSelect({ tab: "home", id: "" })}
     >
       <i className="bi-house" />
       <span>Home</span>
@@ -18,7 +18,7 @@ return (
     <a
       className="nav-link mt-2"
       href={`ndcplug.near/widget/CommonLibraries.Main?catTab=searchComponents`}
-      onClick={() => props.onSelect({ catTab: "searchComponents", id: "" })}
+      onClick={() => props.onSelect({ tab: "searchComponents", id: "" })}
     >
       <i className="bi-search" />
       <span>Search</span>
