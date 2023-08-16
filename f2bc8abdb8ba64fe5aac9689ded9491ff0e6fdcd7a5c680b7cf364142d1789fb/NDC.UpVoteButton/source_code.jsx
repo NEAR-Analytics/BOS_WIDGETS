@@ -17,8 +17,11 @@ const libCalls = [
 
 State.init({
   libCalls,
-  numberOfVotes: state.upVotes.reactionsStatistics ?? 0,
 });
+
+if (state.upVotes) {
+  State.update({ numberOfVotes: state.upVotes.reactionsStatistics ?? 0 });
+}
 
 const lastUserVote =
   state.upVotes &&
@@ -31,10 +34,6 @@ if (state.createdInteraction !== undefined) {
   isDelete = !lastUserVote.value.deleteReaction;
 } else {
   isDelete = false;
-}
-
-function getNumberOfUpVotes() {
-  return state.upVotes.reactionsStatistics ?? 0;
 }
 
 function getUpVoteButtonClass() {
@@ -73,9 +72,7 @@ function upVoteListener() {
 
   function onCommit() {
     State.update({
-      numberOfVotes: isDelete
-        ? state.numberOfVotes - 1
-        : state.numberOfVotes + 1,
+      numberOfVotes: isDelete ? numberOfVotes - 1 : numberOfVotes + 1,
     });
   }
 
@@ -101,7 +98,7 @@ return (
       src={widgets.styledComponents}
       props={{
         Button: {
-          text: `+${getNumberOfUpVotes()}`,
+          text: `+${state.numberOfVotes ?? 0}`,
           className: getUpVoteButtonClass(),
           size: "sm",
           onClick: upVoteListener,
