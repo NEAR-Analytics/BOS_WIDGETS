@@ -4,6 +4,7 @@ const routesNavigator = props.routesNavigator;
 return (
   <>
     <h1>Module A</h1>
+    <h2>{JSON.stringify(dependencies)}</h2>
     <button onClick={routesNavigator.moduleB}>Go to the next module</button>
   </>
 );
