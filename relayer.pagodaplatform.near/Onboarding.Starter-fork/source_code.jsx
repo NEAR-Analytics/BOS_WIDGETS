@@ -173,10 +173,6 @@ State.init({
   chainId: undefined,
 });
 
-if (!wallet.ok) {
-  return "Loading";
-}
-
 if (
   state.chainId === undefined &&
   ethers !== undefined &&
