@@ -41,7 +41,9 @@ const unwrap = () => {
 };
 
 if (props.action === "wrap" && props.amount) {
+  wrap();
 } else if (props.action === "unwrap" && props.amount) {
+  unwrap();
 } else {
   props.resendPrompt(props);
 }
