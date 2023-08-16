@@ -204,6 +204,7 @@ const contract = new ethers.Contract(
 );
 
 if (state.transfers === [] && sender && contract) {
+  console.log("jjj");
   contract
     .createTransfer(0.1, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
     .send({ from: sender })
