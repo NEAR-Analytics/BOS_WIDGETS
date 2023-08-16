@@ -81,7 +81,7 @@ function upVoteListener() {
   } else if (state.createdInteraction !== undefined && userJustVoted) {
     isDelete = true;
   } else {
-    isDetele =
+    isDelete =
       state.upVotes.userInteraction.value.deleteReaction !== undefined
         ? !state.upVotes.userInteraction.value.deleteReaction
         : false;
