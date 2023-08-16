@@ -30,6 +30,33 @@ const libCalls = [
   },
 ];
 
+//TODO ask Dani how are we handling this "verified"
+
+State.init({
+  verified: true,
+  start: true,
+  voted: false,
+  sliceContent: true,
+  libCalls,
+});
+//=============================================END INITIALIZATION===================================================
+
+//===================================================CONSTS=========================================================
+
+//=================================================END CONSTS=======================================================
+
+//==================================================FUNCTIONS=======================================================
+function getUpVoteButtonClass() {
+  if (
+    !state.createdInteraction ??
+    !state.upVotes.userInteraction.value.deleteReaction
+  ) {
+    return "primary";
+  } else {
+    return "secondary dark";
+  }
+}
+
 function callLibs(srcArray, stateUpdate, libCalls) {
   return (
     <>
@@ -48,23 +75,6 @@ function callLibs(srcArray, stateUpdate, libCalls) {
     </>
   );
 }
-
-//TODO ask Dani how are we handling this "verified"
-
-State.init({
-  verified: true,
-  start: true,
-  voted: false,
-  sliceContent: true,
-  libCalls,
-});
-//=============================================END INITIALIZATION===================================================
-
-//===================================================CONSTS=========================================================
-
-//=================================================END CONSTS=======================================================
-
-//==================================================FUNCTIONS=======================================================
 function stateUpdate(obj) {
   State.update(obj);
 }
@@ -669,9 +679,7 @@ return (
           props={{
             Button: {
               text: `+${state.upVotes.reactionsStatistics ?? 0}`,
-              className: `${
-                state.upVotes.userInteraction ? "primary" : "secondary dark"
-              }`,
+              className: getUpVoteButtonClass(),
               size: "sm",
               onClick: upVoteListener,
               icon: <i className="bi bi-hand-thumbs-up"></i>,
