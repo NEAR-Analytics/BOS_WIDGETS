@@ -41,7 +41,7 @@ const ShowMore = styled.div`
     top: 2px;
     height: 24px;
     width: 2px;
-    background-image: linear-gradient(to bottom, transparent 75%, #ccc 75%);
+    background-image: linear-gradient(to bottom, transparent 75%, #ddd 75%);
     background-size: 100% 8px;
     background-repeat: repeat-y;
         z-index: -1;
