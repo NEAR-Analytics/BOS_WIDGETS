@@ -48,11 +48,11 @@ const Container = styled.div`
   }
   .block .t {
     font-size: 14px;
-    color: #7c7f96;
+    color: #7e8a93;
   }
   .block .v {
     font-weight: 700;
-    font-size: 20px;
+    font-size: 26px;
     color: #fff;
   }
   .noBorder {
@@ -143,33 +143,30 @@ const Container = styled.div`
       border: 4px solid transparent;
       cursor: pointer;
       transition: 0.5s;
+      :hover {
+        opacity: 0.6;
+        transform: scale(1.2);
+      }
     }
     .arrow-up {
       border-bottom-color: rgb(124, 127, 150);
-      :hover {
-        border-bottom-color: #fff;
-      }
-      &.active {
-        border-bottom-color: #fff;
-      }
     }
     .arrow-down {
       border-top-color: rgb(124, 127, 150);
-      :hover {
-        border-top-color: #fff;
-      }
-      &.active {
-        border-top-color: #fff;
-      }
     }
   }
 `;
 const wnearbase64 =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAYAAAAe2bNZAAAABmJLR0QA/wD/AP+gvaeTAAADvElEQVRYhbWYTUtjVxjH/9fRaFBaK3Q0ahCE3HTR0kWLL0g72nEh6NaAL+BivkIXHUpblWr9Ai78CIKgQqC1xYJNVnWwdiFCF9OS4CRRM2o7TRyw+XWRJk2uebuJ/uFC7jnP89xfzrnPOee5hmwIqJc0LOmxpA8keSW1SnpD0p+SLiT9JumZpF1Je4Zh3Nh5RiUQHcAKEMWeov/5td8FRBPwFZCwCWFVAvgCaKwWxAsc1ghh1RHwrl2QR8DlHYNk9BcwWinIMJC8J5CMEsDH5UDeAa7uGSSjC8DMfb6RA9Ik6WdJ79ma09r0q6R+wzBeS1JdTsdnhUACgYA8Ho8cDofGx8d1fn5u62mrq6tyuVwyTVPBYNDa/b6kT/NaSK8jBdPX4/EgKXsNDQ1xfX1d0Tz4/f48X9M0C5n9DTzMhVkpFjA3WOaam5srCxKPx+ns7LzlW0TLGZB6IGIHRhIrK0X5AZiZmSnoV0RRoF7AaKmguYFmZ2ezv+vq6tja2iros7m5iSSamppYWlqqBAZgRMA3lcJEo1Gmpqay9y0tLRwe5i/SZ2dntLe309bWxt7eHuFwuFKYrwX8UClMLBYjkUjQ19eXbevp6SEa/X//9Pl89Pb2cnx8DGAH5jsBf9iBATg5OaGrqyvbPjg4SDKZJBQKMTo6yunpadbfBsxzkd4rbMEAHBwc0NzcnO3z+XykUqlb/jZgrgTcVAMDsLGxgWEY2f7l5eVaYG6qHpmM5ufns/2GYbC+vl4tzJWA32uBSaVSTE9PZ22cTif7+/vVwDwX8H01MJFIhJGRESKRyK0Mc7vdRCIRuzDf1il9eLalo6MjDQwMqLu7Wx0dHXI6ndre3pbb7ZYkhcNhTUxMKJFI2An7TMBjOyOzu7tLa2srLpeLeDyeZ2vNsMnJSUKhUKUjM2xrb1pYWMDhcCAJv99f0N6aYdY9qoheAA8k2d+1nzx5Uuofsri4WHSDLaKl7GQB7RQ5z1iDud1uLi9Ln9WtGVYG5hXwdt7bA3xZyNI0zbx1ZGdnpyRIRslkkv7+/jwQr9dbyPTprVcZaKRAnRQIBDBNE5fLxdraWkUgGcViMcbGxmhoaMDr9RIMBq0mB4CjYG6RLtzuq16y6iXgKZnspAu4WsvZckoAH5UEyQEaAM7vCeSCcgVcASAT+OWOQQ4oNzUlgBqBz0mXE7XoFfCUYi+rTaiHwDLpldKOXgBLWNeRIjLKm+RBPZD0SNInkj5U+svVW5LelHQl6aXSX672Jf0o6SfDMP6pNP6/QZPF1Du0/sIAAAAASUVORK5CYII=";
+let accountId = context.accountId;
+
+State.init({
+  type: accountId ? "yours" : "market",
+});
 
 const toAPY = (v) => Math.round(v * 100) / 100;
 const shrinkToken = (value, decimals, fixed) => {
-  return new Big(value || 0).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
+  return new Big(value).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
 };
 // get all assets data from burrow contracts
 const {
@@ -179,8 +176,6 @@ const {
   balances,
   selectedTokenId,
   selectedTokenMeta,
-  total_supplied_usd,
-  total_burrowed_usd,
   type,
   showModal,
 } = state;
@@ -221,16 +216,14 @@ const unclaimedRewardsMap = account
       return prev;
     }, {})
   : {};
-let unclaimedRewards$ = Big(0);
-const unclaimedRewardsIcons = Object.keys(unclaimedRewardsMap).map((id) => {
+
+const unclaimedRewards = Object.keys(unclaimedRewardsMap).map((id) => {
   const asset = assets.find((a) => a.token_id === id);
   const decimals = asset.metadata.decimals + asset.config.extra_decimals;
-  const unclaimed = shrinkToken(unclaimedRewardsMap[id], decimals);
-  unclaimedRewards$ = unclaimedRewards$.plus(
-    Big(unclaimed).mul(asset.price.usd || 0)
-  );
   return {
     id,
+    unclaimed: shrinkToken(unclaimedRewardsMap[id], decimals, 4),
+    symbol: asset.metadata.symbol,
     icon: asset.metadata.icon,
   };
 });
@@ -335,9 +328,29 @@ const handleClaimAll = () => {
   });
 };
 // get portfolio borrowed assets
+let yourSuppliedUSD;
+let yourBurrowedUSD;
+const big_total_supplied_usd = Big(total_supplied_usd || 0);
+if (big_total_supplied_usd.gt(0)) {
+  yourSuppliedUSD = big_total_supplied_usd.lt(0.01)
+    ? "<$0.01"
+    : "$" + big_total_supplied_usd.toFixed(2);
+}
+const big_total_burrowed_usd = Big(total_burrowed_usd || 0);
+if (big_total_burrowed_usd.gt(0)) {
+  yourBurrowedUSD = big_total_burrowed_usd.lt(0.01)
+    ? "<$0.01"
+    : "$" + big_total_burrowed_usd.toFixed(2);
+}
 function closeModal() {
   State.update({
     showModal: false,
+  });
+}
+
+function toggleType(type) {
+  State.update({
+    type,
   });
 }
 
@@ -347,39 +360,123 @@ return (
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
-
-    <Widget
-      src="juaner.near/widget/ref-lending-header"
-      props={{ total_supplied_usd, total_burrowed_usd }}
-    />
+    {/* Header */}
+    <div class="header pb-2">
+      <div class="title">Lending</div>
+      <div class="switch">
+        <div
+          class={`switch_item ${state.type === "yours" ? "active" : ""}`}
+          onClick={() => toggleType("yours")}
+        >
+          Yours
+        </div>
+        <div
+          class={`switch_item ${state.type === "market" ? "active" : ""}`}
+          onClick={() => toggleType("market")}
+        >
+          Market
+        </div>
+      </div>
+    </div>
+    {/* Yours */}
+    {state.type === "yours" && (
+      <div class="flex">
+        {!accountId ? null : (
+          <div class="block">
+            <label class="t">Net APY</label>
+            <span class="v">{apyNetValue || "0"}%</span>
+          </div>
+        )}
+        <div class="block">
+          <label class="t">Supplied</label>
+          <span class="v">{yourSuppliedUSD || "$0"}</span>
+        </div>
+        <div class="block">
+          <label class="t">Borrowed</label>
+          <span class="v">{yourBurrowedUSD || "$0"}</span>
+        </div>
+        <div class="block">
+          <label class="t">Health Factor</label>
+          <span class="v" style={{ color: "#00C595" }}>
+            <Widget src="juaner.near/widget/ref-burrow-healthFactor"></Widget>
+          </span>
+        </div>
+        <div class="block noBorder">
+          <label class="t">Unclaimed Rewards</label>
+          <div>
+            <div class="flex_center">
+              {unclaimedRewards.length > 0 ? (
+                <>
+                  {unclaimedRewards.map((reward) => (
+                    <div class="flex_center">
+                      <span class="v mr_10">{reward.unclaimed}</span>
+                      <img src={reward.icon} class="rewardIcon"></img>
+                    </div>
+                  ))}
+                  <div class="claim_button" onClick={handleClaimAll}>
+                    Claim
+                  </div>
+                </>
+              ) : (
+                <span class="v mr_10">0</span>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+    {/* Market */}
+    {state.type === "market" && (
+      <div class="flex">
+        <div class="block">
+          <label class="t">Total Supplied</label>
+          <span class="v">
+            ${state.supplied ? parseInt(state.supplied).toLocaleString() : "0"}
+          </span>
+        </div>
+        <div class="block">
+          <label class="t">Total Borrowed</label>
+          <span class="v">
+            ${state.borrowed ? parseInt(state.borrowed).toLocaleString() : "0"}
+          </span>
+        </div>
+        <div class="block">
+          <label class="t">Available Liquidity</label>
+          <span class="v">
+            $
+            {parseInt(
+              Big(state.supplied || 0)
+                .minus(state.borrowed || 0)
+                .toNumber()
+            ).toLocaleString() || "0"}
+          </span>
+        </div>
+        <div class="block noBorder">
+          <label class="t">Daily Rewards</label>
+          <span class="v">${state.dailyRewards || "0"}</span>
+        </div>
+      </div>
+    )}
 
     {/* supply area */}
     <div class="box_tabel mt_16">
       {/*yours */}
-      <>
-        <Widget
-          src="juaner.near/widget/ss-your-supply"
-          props={{ onLoadState: onLoad }}
-        />
-        <div class="separator" />
-      </>
-
+      <Widget
+        src="juaner.near/widget/ss-your-supply"
+        props={{ onLoadState: onLoad }}
+      />
+      <div class="separator" />
       {/*market */}
       <Widget src="juaner.near/widget/ref-market-supply-assets" />
     </div>
     {/* burrow area */}
     <div class="box_tabel mt_16">
       {/* yours */}
-
-      <>
-        <Widget
-          src="juaner.near/widget/ss-your-burrow"
-          props={{ onLoadState: onLoad }}
-        />
-
-        <div class="separator" />
-      </>
-
+      <Widget
+        src="juaner.near/widget/ss-your-burrow"
+        props={{ onLoadState: onLoad }}
+      />
+      <div class="separator" />
       {/*market */}
       <Widget src="juaner.near/widget/ref-market-burrow-assets" />
     </div>
