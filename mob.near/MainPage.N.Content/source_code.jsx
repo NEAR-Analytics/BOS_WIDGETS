@@ -42,7 +42,7 @@ const Nav = styled.div`
     --bs-nav-pills-link-active-color: var(--bs-nav-link-color);
     --bs-nav-pills-link-active-bg: rgba(13, 110, 253, 0.1);
   }
-  .nav-item:hover {
+  .nav-item:not(:has(> .disabled)):hover {
     background: rgba(13, 110, 253, 0.15);
   }
   .nav-link.active {
