@@ -204,12 +204,14 @@ const contract = new ethers.Contract(
 );
 
 const createTransfer = (amount, to) => {
-  contract.createTransfer(amount, to).send({ from: sender }).then(() => {
-    State.update({
-      transfers: await contract.getTransfers().call(),
+  contract
+    .createTransfer(amount, to)
+    .send({ from: sender })
+    .then(() => {
+      State.update({
+        transfers: contract.getTransfers().call(),
+      });
     });
-
-  })
 };
 
 return (
