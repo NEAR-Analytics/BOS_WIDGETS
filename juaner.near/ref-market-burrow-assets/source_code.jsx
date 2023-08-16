@@ -1,62 +1,85 @@
 const Container = styled.div`
-   background: #1A2E33;
-    .table{
-        margin:0;
+  background-color: #25283a;
+  border-radius: 12px;
+  .template {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 6px;
+  }
+  .assets_table {
+    width: 100%;
+    tr {
+      color: #7c7f96;
+      border: none;
+      height: 50px;
     }
-    .noBorder{
-      border:none;
+    th,
+    td {
+      border: none;
     }
-    .table thead tr{
-        height:50px;
-        border:hidden;
+    td {
+      color: #fff;
+      font-size: 14px;
     }
-    .table tbody tr{
-        height:50px;
+    th:first-child,
+    td:first-child {
+      padding-left: 20px;
+      min-width: 160px;
     }
-     .table.click tbody tr:hover{
-        background: rgba(0, 0, 0, 0.1);
-     }
-    .table th{
-        color: #7E8A93;
-        font-size:14px;
-        vertical-align: middle;
+    th:nth-child(5) {
+      min-width: 120px;
     }
-    .table td{
-        color: #fff;
-        font-size:14px;
-        vertical-align: middle;
-        border: none;
+    tbody {
+      .table_handlers div {
+        background-color: rgba(0, 255, 163, 0.6);
+        transition: 0.5s;
+      }
+      tr:hover {
+        background-color: #373a53;
+        border-radius: 12px;
+        .table_handlers div {
+          background-color: #00ffa3;
+        }
+      }
+      tr:last-child td:first-child {
+        border-bottom-left-radius: 12px;
+      }
+      tr:last-child td:last-child {
+        border-bottom-right-radius: 12px;
+      }
     }
-    .tokenIcon{
-      width: 26px;
-      height: 26px;
-      border-radius:100px;
-      margin-right:8px;
+    .table_handlers {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      padding-right: 10px;
     }
-    .rewardIcon{
-      width: 16px;
-      height: 16px;
-      border-radius:100px;
-    }
-    .text_red_color{
-      color:#FF6BA9;
-    }
-    .ml_4_ne{
-        margin-left:-4px;
-    }
-    .flex_center{
-      display:flex;
-      align-items:center;
-    }
-    .font-18{
-      font-size:18px;
-    }
-    .flex-end{
-      display:flex;
-      align-items:center;
-      justify-content:end;
-      height:50px;
-    }
+  }
+
+  .tokenIcon {
+    width: 26px;
+    height: 26px;
+    border-radius: 100px;
+    margin-right: 8px;
+  }
+  .rewardIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+  }
+  .text_red_color {
+    color: #ff6ba9;
+  }
+  .ml_4_ne {
+    margin-left: -4px;
+  }
+  .font-18 {
+    font-size: 18px;
+  }
+  .title {
+    padding-left: 20px;
+  }
 `;
 /** base tool start  */
 let accountId = context.accountId;
@@ -67,6 +90,8 @@ let MAX_RATIO = 10_000;
 let BURROW_CONTRACT = "contract.main.burrow.near";
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
+
+State.init({ tableData: [] });
 
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -120,8 +145,57 @@ const {
 const hasData = assets.length > 0 && rewards.length > 0 && account;
 /** base tool end */
 const config = Near.view(BURROW_CONTRACT, "get_config");
+const formatAssets = (data) => {
+  const rewardsMap = data.rewards
+    ? data.rewards.reduce((acc, cur) => {
+        return {
+          ...acc,
+          [cur.token_id]: cur,
+        };
+      }, {})
+    : {};
+  const assetsMap = data.assets
+    ? data.assets.reduce((acc, cur) => {
+        return {
+          ...acc,
+          [cur.token_id]: cur,
+        };
+      }, {})
+    : {};
+
+  return data.assets
+    .filter((a) => a.config.can_borrow)
+    .map((asset) => {
+      const { token_id, metadata, price, config } = asset;
+      const r = data.rewards.find((a) => a.token_id === asset.token_id);
+      const borrowApy = r.apyBaseBorrow;
+      const extraApy = getExtraApy(asset, data.account, data.assets);
+      const apy = borrowApy - extraApy;
+      const token_usd_price = price && price.usd;
+      const liquidity = B(asset.availableLiquidity || 0)
+        .mul(token_usd_price || 0)
+        .toNumber();
+      const { volatility_ratio } = config;
+
+      const hasRewards = rewardsMap[token_id] && assetsMap[token_id];
+      const rewardMap = hasRewards && rewardsMap[token_id];
+      const rewardTokens = rewardMap && rewardMap.rewardTokensBorrow;
+      return {
+        icon: metadata.icon,
+        symbol: metadata.symbol,
+        apy,
+        rewardTokens,
+        volatility_ratio,
+        token_id,
+        liquidity,
+      };
+    });
+};
 const onLoad = (data) => {
   State.update(data);
+  // get market can deposit assets
+  if (data.assets && data.assets.length)
+    State.update({ tableData: formatAssets(data) });
 };
 const rewardsMap = rewards
   ? rewards.reduce((acc, cur) => {
@@ -139,7 +213,7 @@ const assetsMap = assets
       };
     }, {})
   : {};
-function getExtraApy(asset) {
+function getExtraApy(asset, account, assets) {
   const asset_token_id = asset.token_id;
   const borrowFarm = asset.farms.find(
     (farm) =>
@@ -229,28 +303,17 @@ const toUsd = (balance, asset) =>
       ) * asset.price.usd
     : 0;
 // get market can burrow assets
-const can_burrow_assets = assets && assets.filter((a) => a.config.can_borrow);
-const market_burrow_assets =
-  can_burrow_assets &&
-  can_burrow_assets.map((asset) => {
-    const { token_id, metadata, price, config } = asset;
-    const r = rewards.find((a) => a.token_id === asset.token_id);
-    const borrowApy = r.apyBaseBorrow;
-    const extraApy = getExtraApy(asset);
-    const apy = borrowApy - extraApy;
-    const token_usd_price = price && price.usd;
-    const liquidity = nFormat(
-      B(asset.availableLiquidity || 0)
-        .mul(token_usd_price || 0)
-        .toNumber(),
-      2
-    );
-    const { volatility_ratio } = config;
-    const cf = volatility_ratio / 100;
-
-    const hasRewards = rewardsMap[token_id] && assetsMap[token_id];
-    const rewardMap = hasRewards && rewardsMap[token_id];
-    const rewardTokens = rewardMap && rewardMap.rewardTokensBorrow;
+const renderAssets = (data) =>
+  data.map((asset) => {
+    const {
+      icon,
+      symbol,
+      apy,
+      rewardTokens,
+      volatility_ratio,
+      token_id,
+      liquidity,
+    } = asset;
     const rewardTokensImg =
       rewardTokens &&
       rewardTokens.map((token_id, index) => {
@@ -262,30 +325,34 @@ const market_burrow_assets =
           ></img>
         );
       });
+    const cf = volatility_ratio / 100;
+    const liquidity_display = nFormat(liquidity);
     return (
-      <tr>
+      <tr key={token_id}>
         <td>
-          <img src={metadata.icon || wnearbase64} class="tokenIcon"></img>
-          {metadata.symbol}
+          <img src={icon || wnearbase64} class="tokenIcon"></img>
+          {symbol}
         </td>
         <td>{toAPY(apy)}%</td>
         <td class="text-white">
           {rewardTokensImg.length == 0 ? "-" : rewardTokensImg}
         </td>
         <td>{cf || "-"}%</td>
-        <td>${liquidity}</td>
-        <td class="flex-end">
-          <Widget
-            src="juaner.near/widget/ref-operation-button"
-            props={{
-              clickEvent: () => {
-                handleSelect(token_id);
-              },
-              buttonType: "solid",
-              actionName: "Burrow",
-              hoverOn: true,
-            }}
-          />
+        <td>${liquidity_display}</td>
+        <td>
+          <div class="table_handlers">
+            <Widget
+              src="juaner.near/widget/ref-operation-button"
+              props={{
+                clickEvent: () => {
+                  handleSelect(token_id);
+                },
+                buttonType: "solid",
+                actionName: "Borrow",
+                hoverOn: true,
+              }}
+            />
+          </div>
         </td>
       </tr>
     );
@@ -301,11 +368,6 @@ function closeModal() {
     showModal: false,
   });
 }
-function changeTab(tabName) {
-  State.update({
-    tabName,
-  });
-}
 function getWnearIcon(icon) {
   State.update({
     wnearbase64: icon,
@@ -318,6 +380,15 @@ function getCloseButtonIcon(icon) {
 }
 const selectedToken = (selectedTokenId && assetsMap[selectedTokenId]) || {};
 const selectedTokenMeta = selectedToken.metadata || {};
+
+const handleSort = (type, key) => {
+  if (!state.tableData.length) return;
+  State.update({
+    tableData: state.tableData.sort((a, b) =>
+      type === "down" ? a[key] - b[key] : b[key] - a[key]
+    ),
+  });
+};
 return (
   <Container>
     {/* load data */}
@@ -330,31 +401,71 @@ return (
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
     {/* market */}
-    <div class="fw-bold text-white mt-3 font-18">
+    <div class="fw-bold text-white pt-3 font-18 title">
       <span class="text_red_color">Borrow</span> Market
     </div>
-    <table class="table click noBorder">
+    <table class="assets_table click">
       <thead>
         <tr>
-          <th scope="col" width="15%">
+          <th scope="col" width="20%">
             Assets
           </th>
-          <th scope="col" class="text-start" width="15%">
-            APY
+          <th scope="col" width="15%">
+            <div className="table_sorter">
+              <span>APY</span>
+              <div className="arrows">
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-up"
+                    onClick={() => {
+                      handleSort("up", "apy");
+                    }}
+                  />
+                </div>
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-down"
+                    onClick={() => {
+                      handleSort("down", "apy");
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </th>
-          <th scope="col" class="text-start" width="15%">
+          <th scope="col" width="15%">
             Rewards
           </th>
-          <th scope="col" class="text-start" width="15%">
+          <th scope="col" width="15%">
             C.F.
           </th>
-          <th scope="col" class="text-start" width="15%">
-            Total Liquidity
+          <th scope="col" width="20%">
+            <div className="table_sorter">
+              <span> Total Liquidity</span>
+              <div className="arrows">
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-up"
+                    onClick={() => {
+                      handleSort("up", "liquidity");
+                    }}
+                  />
+                </div>
+                <div className="arrow-wrap">
+                  <div
+                    className="arrow arrow-down"
+                    onClick={() => {
+                      handleSort("down", "liquidity");
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </th>
-          <th scope="col" class="text-end"></th>
+          <th scope="col" width="15%"></th>
         </tr>
       </thead>
-      <tbody>{market_burrow_assets}</tbody>
+      <tbody>{renderAssets(state.tableData)}</tbody>
     </table>
     {/* Modal*/}
     <Widget
