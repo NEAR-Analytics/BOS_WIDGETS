@@ -49,9 +49,13 @@ State.init({
 let userJustDeleted =
   state.createdInteraction !== undefined ? state.createdInteraction : false;
 
+let userJustVoted =
+  state.createdInteraction !== undefined ? !state.createdInteraction : false;
+
 function getNumberOfUpVotes() {
-  if (userJustDeleted) {
+  if (state.createdInteraction !== undefined && userJustDeleted) {
     return state.upVotes.reactionsStatistics - 1 ?? 0;
+  } else if (state.createdInteraction !== undefined && userJustVoted) {
   } else {
     return state.upVotes.reactionsStatistics ?? 0;
   }
