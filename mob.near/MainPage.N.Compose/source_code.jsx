@@ -54,7 +54,7 @@ State.init({
 });
 
 return (
-  <>
+  <div style={{ margin: "0 -12px" }}>
     <Widget
       src="mob.near/widget/MainPage.N.Common.Compose"
       props={{
@@ -88,5 +88,5 @@ return (
         }}
       />
     )}
-  </>
+  </div>
 );
