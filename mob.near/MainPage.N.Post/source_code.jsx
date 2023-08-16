@@ -84,6 +84,10 @@ const Wrapper = styled.div`
     min-width: 0;
   }
 
+  .buttons-placeholder {
+    padding-bottom: 10px;
+  }
+
   .buttons {
     margin-left: -8px;
     margin-top: 2px;
@@ -120,7 +124,7 @@ return (
           src="mob.near/widget/MainPage.N.Post.Content"
           props={{ content, raw }}
         />
-        {blockHeight !== "now" && (
+        {blockHeight !== "now" ? (
           <div className="buttons d-flex justify-content-between">
             <Widget
               src="mob.near/widget/N.CommentButton"
@@ -148,6 +152,8 @@ return (
               props={{ accountId, blockHeight, postType: "post" }}
             />
           </div>
+        ) : (
+          <div className="buttons-placeholder" />
         )}
       </div>
     </div>
