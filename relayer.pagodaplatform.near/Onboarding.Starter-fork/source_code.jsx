@@ -218,12 +218,14 @@ const getTransfers = () => {
       })
       .then(() => {
         console.log(state.transfers);
-        // contract.approveTransfer(0).send({ from: sender });
       })
       .catch((err) => {
         console.log(err);
       });
   }
+};
+const approveTransfer = (id) => {
+  contract.approveTransfer(id).send({ from: sender });
 };
 return (
   <>
@@ -231,7 +233,10 @@ return (
     <p>{state.balance}</p>
     <button onClick={getTransfers}>Get</button>
     {state.transfers.map((transfer) => (
-      <p>{transfer.to}</p>
+      <div>
+        <p>{transfer.to}</p>
+        <button onClick={() => approveTransfer(transfer.id)}>Approve</button>
+      </div>
     ))}
     <button onClick={createTransfer}>Create</button>
   </>
