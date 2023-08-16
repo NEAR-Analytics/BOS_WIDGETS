@@ -9,7 +9,7 @@ const Button = styled.button`
   background: inherit;
   color: inherit;
   svg {
-    margin-top: -4px;
+    margin-top: -2px;
   }
   &:not([disabled]):hover {
     opacity: 1 !important;
