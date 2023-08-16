@@ -16,13 +16,17 @@ const cachedRenderItem = (item, i) => {
   if (item === "undefined") {
     return "loading...";
   }
-  const key = JSON.stringify(item);
+  try {
+    const key = JSON.stringify(item);
 
-  if (!(key in state.cachedItems)) {
-    state.cachedItems[key] = renderItem(item, i);
-    State.update();
+    if (!(key in state.cachedItems)) {
+      state.cachedItems[key] = renderItem(item, i);
+      State.update();
+    }
+    return state.cachedItems[key];
+  } catch (e) {
+    console.warn(e);
   }
-  return state.cachedItems[key];
 };
 
 index.options = index.options || {};
