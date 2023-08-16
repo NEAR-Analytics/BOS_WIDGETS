@@ -9,18 +9,20 @@ const appTheme = {
     const colors =
       currentThemeMode === "lightMode"
         ? {
+            standartText: "#000000",
+            backgroundColor: "#FFFFFF",
             primary: "#5F8AFA",
             secondary: "#FFFFFF",
             textBlack: "#000000",
             textWhite: "#FFFFFF",
-            backgroundColor: "#FFFFFF",
           }
         : {
+            standartText: "#FFFFFF",
+            backgroundColor: "#333333",
             primary: "#5F8AFA",
             secondary: "#FFFFFF",
             textBlack: "#000000",
             textWhite: "#FFFFFF",
-            backgroundColor: "#333333",
           };
 
     return colors;
