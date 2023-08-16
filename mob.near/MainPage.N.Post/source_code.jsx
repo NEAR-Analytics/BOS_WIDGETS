@@ -51,6 +51,10 @@ const Wrapper = styled.div`
     .post-header {
       margin: 4px 0;
     }
+    
+    p:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .post:not(:last-child):before {
