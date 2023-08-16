@@ -170,9 +170,9 @@ const wallet = {
 };
 
 State.init({
-  contract: undefined,
   chainId: undefined,
   balance: 0,
+  transfers: []
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -197,14 +197,28 @@ if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
 }
 const iface = new ethers.utils.Interface(wallet.abi);
-const con = new ethers.Contract(
+const contract = new ethers.Contract(
   wallet.address,
   wallet.abi,
   Ethers.provider().getSigner()
 );
+
+const createTransfer = async (amount, to) => {
+  await contract.createTransfer(amount, to).send({from: sender})
+  State.update({
+    transfers: await contract.getTransfers().call()
+  })
+}
+
+const 
+
 return (
   <>
     <p>{state.chainId}</p>
     <p>{state.balance}</p>
+    <button onClick={() => {createTransfer(0.1, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")}}>create</button>
+    {state.transfers.map(transfer => (
+      <p>{transfer.to}</p>
+    ))}
   </>
 );
