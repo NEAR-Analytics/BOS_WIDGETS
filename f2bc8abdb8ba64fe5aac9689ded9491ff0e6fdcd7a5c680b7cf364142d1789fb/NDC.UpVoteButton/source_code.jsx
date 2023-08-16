@@ -20,9 +20,9 @@ State.init({
   numberOfVotes: state.upVotes.reactionsStatistics ?? 0,
 });
 
-const lastUserVote = state.upVotes.filter(
-  (vote) => vote.accountId === context.accountId
-);
+const lastUserVote =
+  state.upVotes &&
+  state.upVotes.filter((vote) => vote.accountId === context.accountId);
 
 let isDelete;
 if (state.createdInteraction !== undefined) {
