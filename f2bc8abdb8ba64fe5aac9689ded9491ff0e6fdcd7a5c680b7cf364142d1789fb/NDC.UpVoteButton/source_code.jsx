@@ -65,8 +65,6 @@ function stateUpdate(obj) {
   State.update(obj);
 }
 
-console.log(state.numberOfVotes);
-
 function upVoteListener() {
   let newLibCalls = [...libCalls];
 
@@ -92,6 +90,7 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
+console.log(state.numberOfVotes);
 return (
   <>
     <Widget
