@@ -90,10 +90,25 @@ const getShortUserName = () => {
 function upVoteListener() {
   let newLibCalls = [...libCalls];
 
+  let isDelete =
+    state.upVotes.userInteraction.value.isDelete !== undefined
+      ? !state.upVotes.userInteraction.value.isDelete
+      : false;
+
+  function onCommit() {
+    State.update({
+      createdInteraction: isDelete,
+    });
+  }
+
   newLibCalls.push({
-    functionName: "addUpVote",
-    key: "addUpVote",
-    props: { elementReactedId: data.realArticleId },
+    functionName: "addVote",
+    key: "addVote",
+    props: {
+      isDelete,
+      elementReactedId: data.realArticleId,
+      onCommit,
+    },
   });
   State.update({ libCalls: newLibCalls });
 }
