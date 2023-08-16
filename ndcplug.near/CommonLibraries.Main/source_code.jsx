@@ -718,7 +718,7 @@ const onSelect = (selection) => {
 const renderContent = {
   home: renderHome(),
   //   searchComponents: searchComponents(),
-  category: renderCategory(state.id),
+  category: renderCategory(), // should pass something here
 }[state.selectedTab];
 const navItems = curatedComps.map((i) => ({
   category: i.category,
@@ -769,7 +769,6 @@ return (
                   }`}
                   onClick={() => updateTab(item.id)}
                   href={`${regAccountUrl}${item.id}`}
-                  target="_blank"
                 >
                   {" "}
                   <i className={item.icon} /> <span>{item.category}</span>{" "}
