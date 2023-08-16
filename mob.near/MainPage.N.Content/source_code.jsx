@@ -9,7 +9,7 @@ if (!state || state.hashtag !== hashtag) {
 
 const options = [
   {
-    title: "My Feed",
+    title: "Following",
     disabled: !context.accountId,
   },
   {
