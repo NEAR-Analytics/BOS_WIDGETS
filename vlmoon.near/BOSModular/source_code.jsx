@@ -118,13 +118,13 @@ const routesNavigator = {
 };
 
 function getModuleDependencies(moduleRoute) {
-  if (moduleRoute.toLowerCase() === "moduleA".toLowerCase()) {
+  if (moduleRoute === "moduleA") {
     return ["moduleA"];
-  } else if (moduleRoute.toLowerCase() === "moduleB".toLowerCase()) {
+  } else if (moduleRoute === "moduleB") {
     return ["moduleB"];
-  } else if (moduleRoute.toLowerCase() === "moduleC".toLowerCase()) {
+  } else if (moduleRoute === "moduleC") {
     return ["moduleC"];
-  } else if (moduleRoute.toLowerCase() === "moduleD".toLowerCase()) {
+  } else if (moduleRoute === "moduleD") {
     return ["moduleD"];
   }
 }
