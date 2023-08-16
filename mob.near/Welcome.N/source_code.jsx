@@ -1,21 +1,27 @@
 const Nav = styled.div`
   .nav-pills {
-    background: rgba(0, 0, 0, 0.02);
+    background: #fbfbfb;
     font-weight: 500;
     --bs-nav-pills-border-radius: 0;
-    --bs-nav-pills-link-active-color: var(--bs-nav-link-color);
-    --bs-nav-pills-link-active-bg: rgba(13, 110, 253, 0.1);
+    --bs-nav-link-color: #000;
+    --bs-nav-pills-link-active-color: #000;
+    --bs-nav-pills-link-active-bg: #fbfbfb;
   }
+  .nav-link.active {
+    border-bottom: 3px solid rgb(13, 110, 253);
+  }
+
   .nav-item:hover {
     background: rgba(13, 110, 253, 0.15);
   }
 
   margin: -24px -12px 0;
-  border-bottom: 2px solid #ccc;
+  line-height: 1.5rem;
+  border-bottom: 1px solid #eee;
 `;
 return (
   <>
-    <Nav className="">
+    <Nav className="d-lg-none">
       <ul className="nav nav-pills nav-fill" id="pills-tab" role="tablist">
         <li className="nav-item" role="presentation">
           <button
