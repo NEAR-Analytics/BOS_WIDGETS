@@ -8,7 +8,6 @@ const Container = styled.div`
     margin-left: 6px;
   }
   .assets_table {
-    display: block;
     width: 100%;
     tr {
       color: #7c7f96;
@@ -18,10 +17,10 @@ const Container = styled.div`
     th,
     td {
       border: none;
-      font-size: 14px;
     }
     td {
       color: #fff;
+      font-size: 14px;
     }
     th:first-child,
     td:first-child {
@@ -87,15 +86,6 @@ const Container = styled.div`
   .title {
     padding-left: 20px;
   }
-  @media (max-width: 900px) {
-    background-color: transparent;
-    .assets_table {
-      display: none;
-    }
-    .text_green_color {
-      color: #fff;
-    }
-  }
 `;
 
 /** base tool start  */
@@ -111,14 +101,14 @@ B.DP = 60; // set precision to 60 decimals
 
 State.init({ tableData: [] });
 
-const toAPY = (v) => (v ? (Math.round(v * 100) / 100).toFixed(2) : 0);
+const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
   return B(value).div(B(10).pow(decimals || 0));
 };
 
 const expandToken = (value, decimals) => {
-  return B(value || 0).mul(B(10).pow(decimals || 0));
+  return B(value).mul(B(10).pow(decimals || 0));
 };
 
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
@@ -138,11 +128,14 @@ const nFormat = (num, digits) => {
     { value: 1e3, symbol: "K" },
     { value: 1e6, symbol: "M" },
   ];
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
   var item = lookup
     .slice()
     .reverse()
     .find((item) => num >= item.value);
-  return item ? (num / item.value).toFixed(digits) + item.symbol : "0";
+  return item
+    ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
+    : "0";
 };
 const {
   rewards,
@@ -157,10 +150,9 @@ const {
 } = state;
 const hasData = assets.length > 0 && rewards.length > 0 && account;
 /** base tool end */
-// if (!accountId) {
-//   return <Widget src="juaner.near/widget/ref_account-signin" />;
-// }
-
+if (!accountId) {
+  return <Widget src="juaner.near/widget/ref_account-signin" />;
+}
 const config = Near.view(BURROW_CONTRACT, "get_config");
 const formatAssets = (data) => {
   const rewardsMap = data.rewards
@@ -180,10 +172,8 @@ const formatAssets = (data) => {
       }, {})
     : {};
 
-  const _assets = data.assets
-    .filter(
-      (a) => a.config.can_deposit && !["meta-token.near"].includes(a.token_id)
-    )
+  return data.assets
+    .filter((a) => a.config.can_deposit)
     .map((asset) => {
       const { token_id, metadata, price, config } = asset;
       const r = data.rewards.find((a) => a.token_id === asset.token_id);
@@ -214,17 +204,6 @@ const formatAssets = (data) => {
         token_id,
       };
     });
-  if (!state.activeArrow) {
-    State.update({
-      activeArrow: "up-totalLiquidity_usd",
-    });
-    return _assets.sort((a, b) => b.totalLiquidity_usd - a.totalLiquidity_usd);
-  } else {
-    const [type, key] = state.activeArrow.split("-");
-    return _assets.sort((a, b) =>
-      type === "down" ? a[key] - b[key] : b[key] - a[key]
-    );
-  }
 };
 
 const onLoad = (data) => {
@@ -267,12 +246,12 @@ const renderAssets = (data) =>
       });
 
     const cf = volatility_ratio / 100;
-    const totalLiquidity_usd_display = nFormat(totalLiquidity_usd, 2);
+    const totalLiquidity_usd_display = nFormat(totalLiquidity_usd);
     return (
       <tr key={token_id}>
         <td>
           <img src={icon || wnearbase64} class="tokenIcon"></img>
-          {symbol !== "wNEAR" ? symbol : "NEAR"}
+          {symbol}
         </td>
         <td>{toAPY(depositApy)}%</td>
         <td>{rewardTokensImg}</td>
@@ -294,71 +273,6 @@ const renderAssets = (data) =>
           </div>
         </td>
       </tr>
-    );
-  });
-
-const renderMbAssets = (data, hasDollar) =>
-  data.map((item) => {
-    const {
-      icon,
-      symbol,
-      depositApy,
-      rewardTokens,
-      volatility_ratio,
-      token_id,
-      totalLiquidity_usd,
-    } = item;
-    const rewardTokensImg =
-      rewardTokens &&
-      rewardTokens.map((token_id, index) => {
-        const metadata = assetsMap[token_id].metadata;
-        return (
-          <img
-            class={`rewardIcon ${index > 0 ? "ml_4_ne" : ""}`}
-            src={metadata.icon}
-          ></img>
-        );
-      });
-
-    const cf = volatility_ratio / 100;
-    const totalLiquidity_usd_display = nFormat(totalLiquidity_usd, 2);
-    return (
-      <div className="mb_row" key={token_id}>
-        <div className="mb_row_header">
-          <div className="mb_row_token">
-            <img src={icon || wnearbase64} class="tokenIcon"></img>
-            {symbol !== "wNEAR" ? symbol : "NEAR"}
-          </div>
-          <div className="double_lines">${totalLiquidity_usd_display}</div>
-        </div>
-        <div className="mb_row_item">
-          <div className="mb_row_label">Supply Apy</div>
-          <div className="mb_row_value">{toAPY(depositApy)}%</div>
-        </div>
-        <div className="mb_row_item">
-          <div className="mb_row_label">Rewards</div>
-          <div className="mb_row_value">{rewardTokensImg}</div>
-        </div>
-        <div className="mb_row_item">
-          <div className="mb_row_label">C.F.</div>
-          <div className="mb_row_value">{cf}%</div>
-        </div>
-        <div className="mb_row_actions">
-          <div className="action_btn">
-            <Widget
-              src="juaner.near/widget/ref-operation-button"
-              props={{
-                clickEvent: () => {
-                  handleSelect(token_id);
-                },
-                buttonType: "solid",
-                actionName: "Supply",
-                hoverOn: true,
-              }}
-            />
-          </div>
-        </div>
-      </div>
     );
   });
 
@@ -384,7 +298,6 @@ const handleSort = (type, key) => {
     tableData: state.tableData.sort((a, b) =>
       type === "down" ? a[key] - b[key] : b[key] - a[key]
     ),
-    activeArrow: `${type}-${key}`,
   });
 };
 
@@ -411,9 +324,7 @@ return (
               <div className="arrows">
                 <div className="arrow-wrap">
                   <div
-                    className={`arrow arrow-up ${
-                      state.activeArrow === "up-depositApy" && "active"
-                    }`}
+                    className="arrow arrow-up"
                     onClick={() => {
                       handleSort("up", "depositApy");
                     }}
@@ -421,9 +332,7 @@ return (
                 </div>
                 <div className="arrow-wrap">
                   <div
-                    className={`arrow arrow-down ${
-                      state.activeArrow === "down-depositApy" && "active"
-                    }`}
+                    className="arrow arrow-down"
                     onClick={() => {
                       handleSort("down", "depositApy");
                     }}
@@ -441,9 +350,7 @@ return (
               <div className="arrows">
                 <div className="arrow-wrap">
                   <div
-                    className={`arrow arrow-up ${
-                      state.activeArrow === "up-volatility_ratio" && "active"
-                    }`}
+                    className="arrow arrow-up"
                     onClick={() => {
                       handleSort("up", "volatility_ratio");
                     }}
@@ -451,9 +358,7 @@ return (
                 </div>
                 <div className="arrow-wrap">
                   <div
-                    className={`arrow arrow-down ${
-                      state.activeArrow === "down-volatility_ratio" && "active"
-                    }`}
+                    className="arrow arrow-down"
                     onClick={() => {
                       handleSort("down", "volatility_ratio");
                     }}
@@ -468,9 +373,7 @@ return (
               <div className="arrows">
                 <div className="arrow-wrap">
                   <div
-                    className={`arrow arrow-up ${
-                      state.activeArrow === "up-totalLiquidity_usd" && "active"
-                    }`}
+                    className="arrow arrow-up"
                     onClick={() => {
                       handleSort("up", "totalLiquidity_usd");
                     }}
@@ -478,10 +381,7 @@ return (
                 </div>
                 <div className="arrow-wrap">
                   <div
-                    className={`arrow arrow-down ${
-                      state.activeArrow === "down-totalLiquidity_usd" &&
-                      "active"
-                    }`}
+                    className="arrow arrow-down"
                     onClick={() => {
                       handleSort("down", "totalLiquidity_usd");
                     }}
@@ -493,9 +393,8 @@ return (
           <th scope="col" width="15%"></th>
         </tr>
       </thead>
-      <tbody>{renderAssets(state.tableData) || ""}</tbody>
+      <tbody>{renderAssets(state.tableData)}</tbody>
     </table>
-    <div className="mb_table">{renderMbAssets(state.tableData)}</div>
     <Widget
       src="juaner.near/widget/ref-market-supply-supply"
       props={{ selectedTokenId, showModal, closeModal, selectedTokenMeta }}
