@@ -39,6 +39,26 @@ const Checkmark = checkmarkColor ? (
   ""
 );
 
+const Button = styled.button`
+  border: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  background: inherit;
+  color: #6c757d;
+  svg {
+    margin-top: -2px;
+  }
+  &:not([disabled]):hover {
+    opacity: 1 !important;
+    color: DeepSkyBlue;
+    background: rgba(0, 191, 255, 0.1);
+  }
+`;
+
 return (
   <div className="d-flex flex-row align-items-center post-header">
     <div className="flex-grow-1" style={{ minWidth: 0, overflow: "hidden" }}>
@@ -73,46 +93,43 @@ return (
         </div>
       </div>
     </div>
-    <span className="text-nowrap text-muted">
-      {blockHeight !== "now" && (
-        <span>
-          <a
-            href="javascript:void"
-            className="link-secondary ms-2"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i className="fs-6 bi bi-three-dots" />
-          </a>
-          <ul className="dropdown-menu">
-            <li className="dropdown-item">
-              <a
-                className="link-dark text-decoration-none"
-                href={`${link}&raw=true`}
-              >
-                <i className="bi bi-filetype-raw" /> View raw markdown source
-              </a>
-            </li>
+    {blockHeight !== "now" && (
+      <span>
+        <Button
+          className="text-nowrap"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i className="fs-6 bi bi-three-dots" />
+        </Button>
+        <ul className="dropdown-menu">
+          <li className="dropdown-item">
+            <a
+              className="link-dark text-decoration-none"
+              href={`${link}&raw=true`}
+            >
+              <i className="bi bi-filetype-raw" /> View raw markdown source
+            </a>
+          </li>
+          <li>
+            <Widget
+              src="mob.near/widget/MainPage.Common.HideAccount"
+              props={{ accountId }}
+            />
+          </li>
+          {props.flagItem && (
             <li>
               <Widget
-                src="mob.near/widget/MainPage.Common.HideAccount"
-                props={{ accountId }}
+                src="mob.near/widget/MainPage.Common.FlagContent"
+                props={{
+                  item: props.flagItem,
+                  label: `Flag ${postType} for moderation`,
+                }}
               />
             </li>
-            {props.flagItem && (
-              <li>
-                <Widget
-                  src="mob.near/widget/MainPage.Common.FlagContent"
-                  props={{
-                    item: props.flagItem,
-                    label: `Flag ${postType} for moderation`,
-                  }}
-                />
-              </li>
-            )}
-          </ul>
-        </span>
-      )}
-    </span>
+          )}
+        </ul>
+      </span>
+    )}
   </div>
 );
