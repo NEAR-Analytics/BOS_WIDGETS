@@ -1,76 +1,84 @@
 const hideBanner = props.hideBanner;
 
 const Container = styled.div`
+  .table {
+    margin: 0;
+    border-bottom: 2px solid rgba(48, 67, 82, 0.5);
+  }
+  .table.click tbody tr:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  .table thead tr {
+    height: 50px;
+    border: hidden;
+  }
+  .table tbody tr {
+    height: 50px;
+  }
+  .table th {
+    color: #7e8a93;
+    font-size: 14px;
+    vertical-align: middle;
+  }
+  .table td {
+    color: #fff;
+    font-size: 14px;
+    vertical-align: middle;
+    border: none;
+  }
 
-   .table{
-        margin:0;
-        border-bottom:2px solid rgba(48, 67, 82, 0.5);
-    }
-     .table.click tbody tr:hover{
-        background: rgba(0, 0, 0, 0.1);
-     }
-    .table thead tr{
-        height:50px;
-        border:hidden;
-    }
-    .table tbody tr{
-        height:50px;
-    }
-    .table th{
-        color: #7E8A93;
-        font-size:14px;
-        vertical-align: middle;
-    }
-    .table td{
-        color: #fff;
-        font-size:14px;
-        vertical-align: middle;
-        border: none;
-    }
-
-
-    width:100%;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    .flex-grow{
-      flex-grow: 1;
-    }
-    .splitLine{
-      width:2px;
-      height:700px;
-      background:linear-gradient(90deg, #002C35 0%, rgba(0, 44, 53, 0) 104.92%);
-      margin-right:35px;
-    }
-    .contentOut{
-      padding-top:25px;
-    }
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  .flex-grow {
+    flex-grow: 1;
+  }
+  .contentOut {
+    padding-top: 25px;
+  }
 `;
 const MenuContainer = styled.div`
-    padding:25px 12px 0 12px;
-    .item{
-        display:flex;
-        align-items:center;
-        padding-left:40px;
-        width:167px;
-        height:46px;
-        border-radius: 12px;
-        font-weight: 500;
-        font-size: 14px;
-        color:#7E8A93;
-        cursor:pointer;
-        margin-bottom:20px;
+  padding: 25px 12px 0 12px;
+  margin-right: 35px;
+  .item {
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    width: 167px;
+    height: 46px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #7e8a93;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border-right: 3px solid transparent;
+    transition: 0.5s;
+    :hover {
+      background-image: linear-gradient(
+        270deg,
+        rgba(55, 58, 83, 0) 0%,
+        #373a53 50%,
+        rgba(55, 58, 83, 0) 100%
+      );
+      color: #fff;
     }
-    .item.active{
-        background: #1A2E33;
-        color:#fff;
-    }
-    .item.disable{
-       cursor:not-allowed;
-    }
-    .icon{
-      width:26px;
-    }
+  }
+  .item.active {
+    background-image: linear-gradient(
+      270deg,
+      #373a53 0%,
+      rgba(55, 58, 83, 0) 100%
+    );
+    color: #fff;
+    border-color: #00ffa3;
+  }
+  .item.disable {
+    cursor: not-allowed;
+  }
+  .icon {
+    width: 26px;
+  }
 `;
 const { activeMenu } = state;
 State.init({
@@ -175,7 +183,6 @@ const historyIcon = (
 const SwapContainer = styled.div`
   position: relative;
   left: calc(50% - 215px);
-
 `;
 const SummaryWrapper = styled.div`
   margin-bottom: 50px;
@@ -225,7 +232,6 @@ return (
           Staking
         </div>
       </MenuContainer>
-      <div class="splitLine"></div>
       <div class="flex-grow contentOut">
         {activeMenu == "lending" ? (
           <Widget src="juaner.near/widget/ref-lending" />
@@ -235,7 +241,6 @@ return (
             <Widget src="weige.near/widget/ref-swap" />
           </SwapContainer>
         ) : null}
-
         {activeMenu == "staking" ? (
           <Widget src="ref-admin.near/widget/xBox" />
         ) : null}
