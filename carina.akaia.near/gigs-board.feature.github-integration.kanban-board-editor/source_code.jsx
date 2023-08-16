@@ -253,7 +253,7 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  update_community_github: ({ handle, github }) =>
+  edit_community_github: ({ handle, github }) =>
     Near.call(devHubAccountId, "update_community_github", { handle, github }) ??
     null,
 
@@ -320,19 +320,6 @@ const Viewer = {
       Struct.typeMatch(communityData) &&
       (communityData.admins.includes(context.accountId) ||
         Viewer.role.isDevHubModerator),
-  },
-
-  workspacePermissions: (workspaceId) => {
-    const workspace_id = parseInt(workspaceId);
-
-    const defaultPermissions = { can_configure: false };
-
-    return !isNaN(workspace_id)
-      ? Near.view(devHubAccountId, "get_account_workspace_permissions", {
-          account_id: context.accountId,
-          workspace_id: workspace_id,
-        }) ?? defaultPermissions
-      : defaultPermissions;
   },
 
   role: {
@@ -438,7 +425,7 @@ const GithubKanbanBoardEditor = ({ communityHandle, pageURL }) => {
       );
 
   const onSubmit = () =>
-    DevHub.update_community_github({
+    DevHub.edit_community_github({
       handle: communityHandle,
 
       github: JSON.stringify({
