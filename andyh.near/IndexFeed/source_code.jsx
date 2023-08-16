@@ -5,10 +5,6 @@ if (!index) {
 
 const filter = props.filter;
 
-let renderItem;
-if (props.renderItem) {
-  renderItem = 
-}
 const renderItem =
   props.renderItem ??
   ((item, i) => (
@@ -20,9 +16,7 @@ const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
 
   if (!(key in state.cachedItems)) {
-    state.cachedItems[key] = props.renderItem
-      ? useComponentCallback(props.renderItem, item, i)()
-      : renderItem(item, i);
+    state.cachedItems[key] = renderItem(item, i);
     State.update();
   }
   return state.cachedItems[key];
@@ -166,11 +160,18 @@ if (reverse) {
   items.reverse();
 }
 
-
 return (
   <Widget
     src="andyh.near/widget/IndexFeed.Items"
-    props={{ items, manual: props.manual, reverse, fetchMore, hasMore: state.displayCount < filteredItems.length, makeMoreItems, renderItems }}
+    props={{
+      items,
+      manual: props.manual,
+      reverse,
+      fetchMore,
+      hasMore: state.displayCount < filteredItems.length,
+      makeMoreItems,
+      renderItems,
+    }}
     isTrusted={true}
   />
 );
