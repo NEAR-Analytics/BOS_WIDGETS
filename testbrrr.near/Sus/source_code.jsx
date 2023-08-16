@@ -274,26 +274,27 @@ const claimCollateral = () => {
 };
 
 const getEntireDebtAndColl = () => {
-  // const vesselManagerContract = new ethers.Contract(
-  //   vesselManagerAddress,
-  //   vesselManagerAbi.body,
-  //   Ethers.provider().getSigner()
-  // );
-  // let assets = Object.values(availableAssets);
-  // console.log(assets);
-  // assets.forEach((asset) => {
-  //   vesselManagerContract
-  //     .getEntireDebtAndColl(asset, state.sender)
-  //     .then((results) => {
-  //       console.log(results);
-  //       State.update({
-  //         debt: results[0].div("1000000000000000000").toString(),
-  //         coll: ethers.utils.formatEther(results[1].toString()),
-  //         pendingLUSDDebtReward: results[2].toString(),
-  //         pendingETHReward: results[3].toString(),
-  //       });
-  //     });
-  // });
+  const vesselManagerContract = new ethers.Contract(
+    vesselManagerAddress,
+    vesselManagerAbi.body.result,
+    Ethers.provider().getSigner()
+  );
+
+  let assets = Object.values(availableAssets);
+  console.log(assets);
+  assets.forEach((asset) => {
+    vesselManagerContract
+      .getEntireDebtAndColl(asset, state.sender)
+      .then((results) => {
+        console.log(results);
+        State.update({
+          debt: results[0].div("1000000000000000000").toString(),
+          coll: ethers.utils.formatEther(results[1].toString()),
+          pendingLUSDDebtReward: results[2].toString(),
+          pendingETHReward: results[3].toString(),
+        });
+      });
+  });
 };
 
 State.init({
