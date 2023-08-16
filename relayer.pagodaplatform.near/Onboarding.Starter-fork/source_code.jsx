@@ -235,7 +235,9 @@ return (
     {state.transfers.map((transfer) => (
       <div>
         <p>{transfer.to}</p>
-        <button onClick={() => approveTransfer(transfer.id)}>Approve</button>
+        <button onClick={() => approveTransfer(parseInt(transfer.id))}>
+          Approve
+        </button>
       </div>
     ))}
     <button onClick={createTransfer}>Create</button>
