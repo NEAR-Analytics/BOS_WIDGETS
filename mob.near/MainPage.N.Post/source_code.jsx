@@ -92,9 +92,7 @@ const Wrapper = styled.div`
     margin-left: -8px;
     margin-top: 2px;
     column-gap: 4px;
-    button {
-      opacity: 0.5;
-    }
+    color: #999;
   }
 
   .reposted {
