@@ -17,6 +17,7 @@ const Header = styled.div`
     padding:10px;
     box-sizing:border-box;
     background-color:#fff;
+    z-index:9999;
 `;
 
 const Logo = styled.div`
