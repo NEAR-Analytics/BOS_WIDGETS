@@ -8,7 +8,7 @@ const Box = styled.div`
     min-height:80vh;
     background-color:#fff;
     color:#000;
-    max-width:800px;
+    max-width:1000px;
     margin:0 auto;
 
     .title, .subtitle {
