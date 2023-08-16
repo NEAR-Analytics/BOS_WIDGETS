@@ -109,18 +109,6 @@ const social = {
     },
     {
       key: 2,
-      name: "Mantle Gateway",
-      url: "https://bos.fusionx.finance/",
-      image:
-        "https://ipfs.near.social/ipfs/bafybeiczyp75wbo73m45jwgntr6bkma2rhe6vjem3vac74vurlzu4533u4",
-      description: "A Mantle gateway featuring top DeFi Apps on Mantle network",
-      category: ["DeFi", "EVM", "Mantle"],
-      deploy:
-        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%mantle-bos-gateway&build-command=pnpm%20run%20build&env=NEXT_PUBLIC_NETWORK_ID,NEXT_PUBLIC_HOSTNAME&envDescription=mainnet-near.org&envLink=https%3A%2F%2Fgithub.com%2FNearDeFi%2Fmantle-bos-gateway%2Fblob%2Fmain%2F.env.example",
-      github: "https://github.com/NearDeFi/mantle-bos-gateway",
-    },
-    {
-      key: 2,
       name: "zkEVM Gateway",
       url: "https://bos.quickswap.exchange",
       image:
@@ -134,87 +122,16 @@ const social = {
     },
     {
       key: 5,
-      name: "DiscoverBOS",
-      url: "https://discoverBOS.org/",
-      image:
-        "https://ipfs.near.social/ipfs/bafkreibvkbftan5qp7z3bfhhug4wyylv4jqusagxghaay23ur6h55pxr6a",
-      description:
-        "Discover • Explore • Connect • Learn about the World of BOS",
-      category: ["NEAR", "Ecosystem"],
-      deploy: null,
-      github: "https://github.com/NEARBuilders/discoverbos",
-    },
-    {
-      key: 5,
-      name: "Calimero Chat",
-      url: "https://portal.calimero.network/",
-      image:
-        "https://ipfs.near.social/ipfs/bafkreid3dxlktgfofh5quqozhpjodbcwz35tr7mmfym324qckssaizqkgy",
-      description: "Decentralized slack on Calimero's community shard",
-      category: ["Chat", "Social", "NEAR"],
-      deploy: null,
-      github: null,
-    },
-    {
-      key: 5,
-      name: "Coin98 dApp Store",
-      url: "https://dapps.coin98.com/menu/bos",
-      image:
-        "https://ipfs.near.social/ipfs/bafkreif2drapmwrnkuesydwvs33oalc5znw3zfhhmccicrsh5fz3ndumg4",
-      description:
-        "r dapp store offers hassle-free interaction with the most exciting L2s in the market.",
-      category: ["DeFi", "EVM"],
-      deploy: null,
-      github: null,
-    },
-    {
-      key: 5,
-      name: "DapDap",
-      url: "https://alpha.dapdap.net/",
-      image:
-        "https://ipfs.near.social/ipfs/bafkreienulavlellluopn6eq7432xjeczfajvdjkdvnsvvsdz52ekodkdm",
-      description:
-        "Your universal entry point to L2s. All of DeFi in one stop.",
-      category: ["DeFi", "EVM"],
-      deploy: null,
-      github: null,
-    },
-        {
-      key: 5,
-      name: "Uniswap on Linea",
-      url: "https://linea.dapdap.net/",
-      image:
-        "https://ipfs.near.social/ipfs/bafkreiha2jdblwwbcj63b5u5huxlapicovlaxrvfshym2tqp7ghf42jzdq",
-      description:
-        "Uniswap V3 on Linea w no fees",
-      category: ["DeFi", "EVM", "Linea"],
-      deploy: null,
-      github: null,
-    },
-    {
-      key: 5,
       name: "Jutsu.ai",
-      url: "https://jutsu.ai/",
+      url: "https://nearpad.dev/",
       image:
-        "https://ipfs.near.social/ipfs/bafkreibihmmux4uch7tmbf3k5zgbkapacronaamhmsyqb6g6nmem2tgnwy",
+        "https://ipfs.near.social/ipfs/bafkreieqikc5u2kxsoeucpticpfeguuge45upykvzayl6rjwgee5e3yr3i",
       description:
         "A gateway dedicated to developers. Switch between testnet, built in tutorials, easily estimate storage costs, and collaborate live",
       category: ["Dev", "EVM"],
       deploy: null,
       github: null,
     },
-    {
-      key: 5,
-      name: "Flipside Crypto",
-      url: "https://bos.flipsidecrypto.xyz/",
-      image:
-        "https://ipfs.near.social/ipfs/bafkreiefoqklm6c6wl4gvzwdyrlu5sulatidglz5le2gjwdrfr3hjtiyay",
-      description: "Data analytics gateways",
-      category: ["Data", "NEAR"],
-      deploy: null,
-      github: "https://github.com/FlipsideCrypto/near-bos-gateway",
-    },
-
     {
       key: 5,
       name: "NDC",
@@ -228,24 +145,13 @@ const social = {
         "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcodingshot%2Fneardc-gateway&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
       github: "https://github.com/codingshot/neardc-gateway",
     },
-    {
-      key: 5,
-      name: "BuildDAO",
-      url: "https://nearbuilders.org/",
-      image:
-        "https://ipfs.near.social/ipfs/bafybeiesuksvxvmsuv4cjqe4xb42zufidgarw6otdvpc7xxn6pd7kc4f6u",
-      description: "Empowering builders for a multichain ecosystem",
-      category: ["Social", "NEAR"],
-      deploy: null,
-      github: null,
-    },
 
     {
       key: 4,
       name: "NEAR Atlas",
       url: "https://nearatlas.com/",
       image:
-        "https://ipfs.near.social/ipfs/bafkreid4rcvq5gqjwydwsxkpgp3mpwddwsyoqrezzjd7kizfb3naonkx44",
+        "https://ipfs.near.social/ipfs/bafkreia6etmuxr3xhhpoeqimcl2oyg5ovcsa25e4j4242hy44lk2q73udi",
       description:
         "A viewer for NEAR Analytics powered by the Flipside Crypto API built by the NEAR Foundation",
       category: ["NEAR", "Data"],
@@ -275,17 +181,6 @@ const social = {
       category: ["DeFi", "EVM", "Canto"],
       deploy: null,
       github: null,
-    },
-    {
-      key: 3,
-      name: "CPlanet",
-      url: "https://cplanet.org/",
-      image:
-        "https://ipfs.near.social/ipfs/bafybeia3q6ea377j5zuvtzedjjbm6kin4dtecmwkbbpkujh7srhpsy2b2q",
-      description: "The portal for creatives in the NEAR Ecosystem",
-      category: ["Art", "NEAR", "NFT"],
-      deploy: null,
-      github: "https://github.com/Jikugodwill/bos-cplanet",
     },
     {
       key: 6,
@@ -350,11 +245,22 @@ const social = {
       github: "https://github.com/Harmonic-Guild/viewer",
     },
     {
+      key: 0,
+      name: "Bos.gg",
+      url: "https://bos.gg",
+      image:
+        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
+      description: "Decentralized front ends for evm chains",
+      category: ["EVM", "DeFi"],
+      deploy: null,
+      github: "https://github.com/NearDeFi/bos-viewer",
+    },
+    {
       key: 7,
       name: "Welldone Gateway",
       url: "https://welldone-gateway.vercel.app/",
       image:
-        "https://ipfs.near.social/ipfs/bafkreiayw3qfvtg7sspgs3vquvrkqa467ju7vwkudyxlkkvu7nv5r6p2ka",
+        " https://ipfs.near.social/ipfs/bafkreiapxpmwjsfjy23nvdlnlrza5xp3trvdhk5am3tnpnjnpl6pbctuia",
       description:
         "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
       category: ["NEAR", "Sui", "Aptos"],
