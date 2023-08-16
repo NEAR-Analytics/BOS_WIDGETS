@@ -7,6 +7,9 @@ const Button = styled.button`
   width: 35px;
   height: 35px;
   background: inherit;
+  svg {
+    margin-top: -4px;
+  }
   &:hover {
     opacity: 1 !important;
     color: DeepSkyBlue;
