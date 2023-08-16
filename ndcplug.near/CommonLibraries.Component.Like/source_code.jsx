@@ -198,7 +198,7 @@ return (
         <div className="m-2 mb-3 text-truncate">
           <Widget
             src="ndcplug.near/widget/CommonLibraries.Component.Profile"
-            props={{ accountId, widgetName, link: props.profileLink }}
+            props={{ accountId: ownerId, widgetName, link: props.profileLink }}
           />
         </div>
         {false && starCount && (
