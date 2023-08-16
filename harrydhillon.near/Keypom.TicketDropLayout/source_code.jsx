@@ -58,7 +58,7 @@ box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
 -webkit-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
 -moz-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
 padding-right:10px;
-opacity:${props=>props.disabled?0.5:1};
+opacity:${(props) => (props.disabled ? 0.5 : 1)};
 `;
 
 const AllSteps = [
@@ -105,7 +105,7 @@ const formContent = () => {
             marginTop: -65,
           }}
         >
-          <Widget src="harrydhillon.near/widget/Keypom.TicketLogo" />
+          <Widget src="harrydhillon.near/widget/Keypom.Components.TicketLogo" />
         </div>
         <div
           style={{
