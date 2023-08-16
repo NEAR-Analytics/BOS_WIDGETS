@@ -211,7 +211,7 @@ const contract = new ethers.Contract(
 //     .catch((err) => console.log(err));
 // }
 if (state.transfers.length === 0) {
-  State.update({ transfers: contract.getTransfers().call() });
+  console.log(contract.getTransfers().call());
 }
 return (
   <>
