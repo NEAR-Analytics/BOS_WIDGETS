@@ -1,3 +1,5 @@
+const EVENT_URL = "https://partiful.com/e/8fZfzaNqqm8MSTA5I7E7";
+
 const LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreie26u27gg5sxrotho2ferb7dj75ck6etivegc3do47mfyk2dmpl24";
 
@@ -18,6 +20,17 @@ const Header = styled.div`
     box-sizing:border-box;
     background-color:#fff;
     z-index:9999;
+
+    &::after {
+      z-index:1;
+      content: '';
+      position:absolute;
+      left:0;
+      top:0;
+      width:100%;
+      height:100%;
+      box-shadow: 0 0 20px 10px #fff;
+    }
 `;
 
 const Logo = styled.div`
@@ -103,7 +116,7 @@ return (
           </li>
         ))}
         <li>
-          <Button href="#">TICKET</Button>
+          <Button href={EVENT_URL}>TICKET</Button>
         </li>
       </ul>
     </Nav>
