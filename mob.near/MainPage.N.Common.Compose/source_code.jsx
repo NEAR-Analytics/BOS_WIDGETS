@@ -167,7 +167,7 @@ const Wrapper = styled.div`
   }
 
   .up-buttons {
-    margin-left: -16px;
+    margin-left: -12px;
   }
 `;
 
@@ -200,7 +200,7 @@ return (
           </div>
         )}
       </TextareaWrapper>
-      <div className="up-buttons d-flex flex-row p-2">
+      <div className="up-buttons d-flex flex-row">
         <div className="flex-grow-1">
           <IpfsImageUpload
             image={state.image}
