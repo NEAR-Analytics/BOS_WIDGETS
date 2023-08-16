@@ -197,7 +197,7 @@ return (
       <div className="col-auto">
         <div className="m-2 mb-3 text-truncate">
           <Widget
-            src="hack.near/widget/widget.profile"
+            src="ndcplug.near/widget/CommonLibraries.Component.Profile"
             props={{ accountId, widgetName, link: props.profileLink }}
           />
         </div>
