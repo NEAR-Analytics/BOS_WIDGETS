@@ -84,13 +84,6 @@ const OrgsSection = styled.div`
   grid-gap: 4em;
   gap: 4em;
   padding: 3em 0px;
-  .docs-arrow{
-    transition: transform .3s,-webkit-transform .3s;
-    fill: #0d99ff;
-    :hover{
-      transform: translateX(1em);
-    }
-  }
   &>.right{
     flex: 60% 1;
     max-width: 36em;
@@ -281,11 +274,56 @@ const Accent = styled.span`
 color: #0d99ff;
 `;
 
+const DocArrow = styled.div`
+  .docs-arrow{
+    transition: transform .3s,-webkit-transform .3s;
+    fill: #0d99ff;
+    :hover{
+      transform: translateX(1em);
+    }
+  }
+`;
+
 const Text = styled.p`
 
 `;
 
-const FeatureContainer = styled.div``;
+const rightArrow = (
+  <svg
+    width="25"
+    height="17"
+    viewBox="0 0 25 17"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="docs-arrow"
+  >
+    <path
+      d="M0.0117188 9.9492H19.2747L14.3947 14.6952L16.321 16.5687L24.5399 8.57535L16.321 0.582031L14.3947 2.45546L19.2747 7.2015H0.0117188V9.9492Z"
+      fill="current"
+    ></path>
+  </svg>
+);
+
+const FeatureContainer = styled.div`
+  .Features_wrapper{
+    width: 100%;
+  max-width: 1440px;
+  }
+  .Features_featureContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  grid-gap: 6em;
+  gap: 6em;
+  margin-bottom: 6em;
+  @media screen and (max-width: 900px) {
+      flex-direction: column-reverse;
+      grid-gap: 2em;
+      gap: 2em;
+  }
+}
+`;
 
 return (
   <>
@@ -297,13 +335,13 @@ return (
       <HeaderButtonsContainer>
         <a
           style={{ textDecoration: "none" }}
-          href="https://bos.genadrop.io/#/jgodwill.near/widget/GenaDrop.Minter"
+          href="/#/jgodwill.near/widget/GenaDrop.Minter"
         >
           <PrimaryButton>Create</PrimaryButton>
         </a>
         <a
           style={{ textDecoration: "none" }}
-          href="https://bos.genadrop.io/#/jgodwill.near/widget/GenaDrop.Explore"
+          href="/#/jgodwill.near/widget/GenaDrop.Explore"
         >
           <SecondaryButton>Explore</SecondaryButton>
         </a>
@@ -321,19 +359,7 @@ return (
         </div>
         <a className="orgs-link" href="#">
           <div>Read Docs</div>
-          <svg
-            width="25"
-            height="17"
-            viewBox="0 0 25 17"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="docs-arrow"
-          >
-            <path
-              d="M0.0117188 9.9492H19.2747L14.3947 14.6952L16.321 16.5687L24.5399 8.57535L16.321 0.582031L14.3947 2.45546L19.2747 7.2015H0.0117188V9.9492Z"
-              fill="current"
-            ></path>
-          </svg>
+          <DocArrow>{rightArrow}</DocArrow>
         </a>
       </div>
       <div className="left">
@@ -411,6 +437,34 @@ return (
       <H1 className="text-center">
         The All in One <Accent>No Code Solution</Accent> for your NFT Needs
       </H1>
+      <div className="Features_wrapper">
+        <div className="Features_featureContainer false features-card">
+          <div className="Features_content">
+            <div className="Features_fHeading">CREATE</div>
+            <div className="Features_fTitle">
+              Turn anything into a digital collectible you own with no code in
+              minutes
+            </div>
+            <div className="Features_fDescription">
+              Directly upload files, render collections, memorialize tweets, use
+              your camera, generate unique ART with AI........ to create NFTs
+              you own (without any coding knowledge)
+            </div>
+            <a
+              className="Features_fLink"
+              href="/#/jgodwill.near/widget/GenaDrop.Minter"
+            >
+              <div>Go to Mint</div>
+              <DocArrow>{rightArrow}</DocArrow>
+            </a>
+          </div>
+          <img
+            className="Features_image"
+            src="https://www.genadrop.io/static/media/app-mint.5d33cb10.svg"
+            alt=""
+          />
+        </div>
+      </div>
     </FeatureContainer>
     <Widget src="jgodwill.near/widget/GenaDrop.Footer" />
   </>
