@@ -163,7 +163,7 @@ if (reverse) {
 }
 
 const renderedItems = items.map(cachedRenderItem);
-console.log({ renderedItems });
+console.log({ renderedItems, items });
 return props.manual ? (
   <>
     {reverse && fetchMore}
