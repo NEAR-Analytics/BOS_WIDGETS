@@ -86,6 +86,7 @@ function upVoteListener() {
         numberOfVotes: isDelete
           ? state.numberOfVotes - 1
           : state.numberOfVotes + 1,
+        createdInteraction: !isDelete,
       });
   }
 
