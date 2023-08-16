@@ -1,21 +1,91 @@
 const Container = styled.div`
-  .tokenIcon{
-      width: 26px;
-      height: 26px;
-      border-radius:100px;
-      margin-right:4px;
-    }
-.rewardIcon{
-      width: 16px;
-      height: 16px;
-      border-radius:100px;
+  .tokenIcon {
+    width: 26px;
+    height: 26px;
+    border-radius: 100px;
+    margin-right: 4px;
   }
-  .flex-end{
-      display:flex;
-      align-items:center;
-      justify-content:end;
-      height:50px;
+  .rewardIcon {
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+  }
+  .assets_table {
+    width: 100%;
+    tr {
+      color: #7c7f96;
+      border: none;
+      height: 50px;
     }
+    th,
+    td {
+      border: none;
+    }
+    td {
+      color: #fff;
+      font-size: 14px;
+    }
+    th:first-child,
+    td:first-child {
+      padding-left: 20px;
+      min-width: 160px;
+    }
+    th:nth-child(2) {
+      min-width: 120px;
+    }
+    th:nth-child(5) {
+      min-width: 120px;
+    }
+    th:nth-child(6) {
+      min-width: 140px;
+    }
+    tbody {
+      tr {
+        line-height: 40px;
+      }
+      .adjust_btn {
+        margin-right: 4px;
+      }
+      .withdraw_btn {
+        flex-shrink: 0;
+      }
+      .table_handlers .adjust_btn div {
+        background-color: rgba(0, 255, 163, 0.6);
+        transition: 0.5s;
+      }
+      .table_handlers .withdraw_btn div {
+        border-color: rgba(0, 255, 163, 0.6);
+        color: rgba(0, 255, 163, 0.6);
+        transition: 0.5s;
+      }
+      tr:hover {
+        background-color: #373a53;
+        border-radius: 12px;
+        .table_handlers .adjust_btn div {
+          background-color: #00ffa3;
+        }
+        .table_handlers .withdraw_btn div {
+          border-color: #00ffa3;
+          color: #00ffa3;
+        }
+      }
+    }
+    .table_handlers {
+      display: flex;
+      justify-content: end;
+      margin-top: 12px;
+      padding-right: 10px;
+    }
+  }
+  .supply_title {
+    font-size: 18px;
+    color: #fff;
+    padding-left: 20px;
+  }
+  .double_lines {
+    line-height: 16px;
+    margin-top: 4px;
+  }
 `;
 /** base tool start  */
 let accountId = context.accountId;
@@ -26,6 +96,8 @@ const toAPY = (v) => Math.round(v * 100) / 100;
 const shrinkToken = (value, decimals, fixed) => {
   return new Big(value).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
 };
+State.init({ tableData: [] });
+let total_supplied_usd = Big(0);
 const {
   assets,
   rewards,
@@ -51,12 +123,76 @@ function closeModal() {
     showModalName: "",
   });
 }
+const formatAssets = (data) => {
+  const { account, rewards, assets } = data;
+  const { supplied, collateral } = account;
+  if (!supplied?.length && !collateral?.length) return [];
+  const tokens = new Set([
+    ...supplied.map((a) => a.token_id),
+    ...collateral.map((a) => a.token_id),
+  ]);
+  return [...tokens].map((depositedTokenId) => {
+    const asset = assets.find((a) => a.token_id === depositedTokenId);
+    const netTvlMultiplier = asset.config.net_tvl_multiplier / 10000;
+    const r = rewards.find((a) => a.token_id === asset.token_id);
+    const totalApy =
+      r.apyBase + r.apyRewardTvl * netTvlMultiplier + r.apyReward;
+
+    const decimals = asset.metadata.decimals + asset.config.extra_decimals;
+    const { can_use_as_collateral } = asset.config;
+
+    const suppliedRecord = supplied.find(
+      (s) => s.token_id === depositedTokenId
+    );
+
+    const depositedBalance = suppliedRecord
+      ? Number(shrinkToken(suppliedRecord.balance, decimals))
+      : 0;
+
+    const collateralRecord = collateral.find(
+      (c) => c.token_id === depositedTokenId
+    );
+
+    const collateralBalance = collateralRecord
+      ? Number(shrinkToken(collateralRecord.balance, decimals))
+      : 0;
+
+    const totalBalance = depositedBalance + collateralBalance;
+    const usd = totalBalance * asset.price.usd;
+    const collateralUsd = collateralBalance * asset.price.usd;
+    total_supplied_usd = total_supplied_usd.plus(usd);
+    const rewardsList =
+      getPortfolioRewards("Supplied", depositedTokenId, data) || [];
+    return {
+      icon: asset.metadata.icon,
+      symbol: asset.metadata.symbol,
+      totalApy,
+      rewardsList,
+      collateralBalance,
+      collateralUsd,
+      totalBalance,
+      usd,
+      can_use_as_collateral,
+      token_id: depositedTokenId,
+      asset,
+    };
+  });
+};
 const onLoad = (data) => {
   State.update(data);
+  if (data.assets?.length && data.rewards?.length && data.account) {
+    State.update({ tableData: formatAssets(data) });
+
+    onLoadState &&
+      onLoadState({
+        total_supplied_usd: total_supplied_usd.toFixed(),
+      });
+  }
 };
 
 const hasData = assets.length > 0 && rewards.length > 0 && account;
-function getPortfolioRewards(type, token_id) {
+function getPortfolioRewards(type, token_id, data) {
+  const { account, assets } = data;
   const targetFarm = account.farms.find((farm) => {
     return farm["farm_id"][type] == token_id;
   });
@@ -96,83 +232,60 @@ function getPortfolioRewards(type, token_id) {
   }
   return [];
 }
-const depositedAssets = hasData
-  ? new Set([
-      ...account.supplied.map((a) => a.token_id),
-      ...account.collateral.map((a) => a.token_id),
-    ])
-  : new Set();
 // get portfolio deposited assets
-let total_supplied_usd = Big(0);
-const suppliedAssets = hasData
-  ? [...depositedAssets].map((depositedTokenId) => {
-      const asset = assets.find((a) => a.token_id === depositedTokenId);
-      const netTvlMultiplier = asset.config.net_tvl_multiplier / 10000;
-      const r = rewards.find((a) => a.token_id === asset.token_id);
-      const totalApy =
-        r.apyBase + r.apyRewardTvl * netTvlMultiplier + r.apyReward;
-
-      const decimals = asset.metadata.decimals + asset.config.extra_decimals;
-      const { can_use_as_collateral } = asset.config;
-
-      const supplied = account.supplied.find(
-        (s) => s.token_id === depositedTokenId
-      );
-
-      const depositedBalance = supplied
-        ? Number(shrinkToken(supplied.balance, decimals))
-        : 0;
-
-      const collateral = account.collateral.find(
-        (c) => c.token_id === depositedTokenId
-      );
-
-      const collateralBalance = collateral
-        ? Number(shrinkToken(collateral.balance, decimals))
-        : 0;
-
-      const totalBalance = depositedBalance + collateralBalance;
-      const usd = totalBalance * asset.price.usd;
-      const collateralUsd = collateralBalance * asset.price.usd;
-      total_supplied_usd = total_supplied_usd.plus(usd);
-      const rewardsList =
-        getPortfolioRewards("Supplied", depositedTokenId) || [];
-      return (
-        <tr>
-          <td>
-            <img
-              src={asset.metadata.icon || wnearbase64}
-              class="tokenIcon"
-            ></img>
-            {asset.metadata.symbol}
-          </td>
-          <td class="text-start">{toAPY(totalApy)}%</td>
-          <td class="text-start">
-            {rewardsList.length == 0
-              ? "-"
-              : rewardsList.map((reward) => {
-                  const { rewardPerDay, metadata } = reward;
-                  return (
-                    <div class="flex_center">
-                      {Big(rewardPerDay).toFixed(4)}
-                      <img
-                        class="rewardIcon ml_5"
-                        src={metadata.icon || wnearbase64}
-                      />
-                    </div>
-                  );
-                })}
-          </td>
-          <td class="text-start">
-            {collateralBalance.toFixed(4)}
-            <span class="text_grey_color">(${collateralUsd.toFixed(2)})</span>
-          </td>
-          <td class="text-start">
-            {totalBalance.toFixed(4)}
-            <span class="text_grey_color">(${usd.toFixed(2)})</span>
-          </td>
-          <td class="flex-end">
-            {!can_use_as_collateral ? null : (
+const renderAssets = (data) =>
+  data.map((item) => {
+    const {
+      icon,
+      symbol,
+      totalApy,
+      rewardsList,
+      collateralBalance,
+      collateralUsd,
+      totalBalance,
+      usd,
+      can_use_as_collateral,
+      token_id,
+      asset,
+    } = item;
+    return (
+      <tr key={token_id}>
+        <td>
+          <img src={icon || wnearbase64} class="tokenIcon"></img>
+          {symbol}
+        </td>
+        <td>{toAPY(totalApy)}%</td>
+        <td>
+          {rewardsList.length == 0
+            ? "-"
+            : rewardsList.map((reward) => {
+                const { rewardPerDay, metadata } = reward;
+                return (
+                  <div class="flex_center">
+                    {Big(rewardPerDay).toFixed(4)}
+                    <img
+                      class="rewardIcon ml_5"
+                      src={metadata.icon || wnearbase64}
+                    />
+                  </div>
+                );
+              })}
+        </td>
+        <td>
+          <div className="double_lines">
+            <div>{collateralBalance.toFixed(4)}</div>
+            <div class="text_grey_color">(${collateralUsd.toFixed(2)})</div>
+          </div>
+        </td>
+        <td>
+          <div className="double_lines">
+            <div>{totalBalance.toFixed(4)}</div>
+            <div class="text_grey_color">(${usd.toFixed(2)})</div>
+          </div>
+        </td>
+        <td class="table_handlers">
+          {!can_use_as_collateral ? null : (
+            <div class="adjust_btn">
               <Widget
                 src="juaner.near/widget/ref-operation-button"
                 props={{
@@ -184,8 +297,9 @@ const suppliedAssets = hasData
                   hoverOn: true,
                 }}
               />
-            )}
-            &nbsp;&nbsp;
+            </div>
+          )}
+          <div class="withdraw_btn">
             <Widget
               src="juaner.near/widget/ref-operation-button"
               props={{
@@ -197,18 +311,12 @@ const suppliedAssets = hasData
                 hoverOn: true,
               }}
             />
-          </td>
-        </tr>
-      );
-    })
-  : undefined;
+          </div>
+        </td>
+      </tr>
+    );
+  });
 
-if (suppliedAssets && suppliedAssets.length > 0) {
-  onLoadState &&
-    onLoadState({
-      total_supplied_usd: total_supplied_usd.toFixed(),
-    });
-}
 function getWnearIcon(icon) {
   State.update({
     wnearbase64: icon,
@@ -220,7 +328,7 @@ function getCloseButtonIcon(icon) {
   });
 }
 return (
-  <Container>
+  <Container className="pt-3">
     {/* load data */}
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
@@ -230,29 +338,29 @@ return (
       src="juaner.near/widget/ref-icons"
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
-    <div class="title">You Supplied</div>
-    <table class="table click">
+    <div class="supply_title">You Supplied</div>
+    <table class="assets_table click">
       <thead>
         <tr>
-          <th scope="col" width="15%">
+          <th scope="col" width="20%">
             Assets
           </th>
-          <th scope="col" class="text-start" width="15%">
+          <th scope="col" width="15%">
             Supply APY
           </th>
-          <th scope="col" class="text-start" width="15%">
+          <th scope="col" width="15%">
             Rewards
           </th>
-          <th scope="col" class="text-start" width="15%">
+          <th scope="col" width="15%">
             Collateral
           </th>
-          <th scope="col" class="text-start" width="15%">
+          <th scope="col" width="15%">
             You Supplied
           </th>
-          <th scope="col"></th>
+          <th scope="col" width="20%"></th>
         </tr>
       </thead>
-      <tbody>{suppliedAssets}</tbody>
+      <tbody>{renderAssets(state.tableData)}</tbody>
     </table>
     {/** modal */}
     <Widget
