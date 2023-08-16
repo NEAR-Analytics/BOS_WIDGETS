@@ -203,6 +203,12 @@ const contract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
+if (state.transfers === []) {
+  State.update({
+    transfers: contract.getTransfers().call(),
+  });
+}
+
 function createTransfer(amount, to) {
   contract
     .createTransfer(amount, to)
