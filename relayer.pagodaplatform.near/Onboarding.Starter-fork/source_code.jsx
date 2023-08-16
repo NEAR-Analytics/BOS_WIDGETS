@@ -198,7 +198,9 @@ const con = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 const address = async function () {
-  return Ethers.provider().getSigner().getAddress();
+  const signer = Ethers.provider().getSigner();
+  const add = await signer.getAddress();
+  return add;
 };
 console.log(address);
 return (
