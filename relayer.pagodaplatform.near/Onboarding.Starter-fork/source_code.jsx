@@ -198,22 +198,19 @@ if (state.transfers.length === 0) {
   contract
     .getTransfers()
     .then((transfers) => {
+      const tmp = [...state.transfers];
       transfers.map((transfer) => {
         console.log(transfer);
 
-        State.update({
-          transfers: [
-            ...state.transfers,
-            {
-              id: Big(transfer[0]).toFixed(20),
-              amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
-              to: transfer[2],
-              sent: transfer[3],
-              approver: transfer[4],
-            },
-          ],
+        tmp.push({
+          id: Big(transfer[0]).toFixed(20),
+          amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
+          to: transfer[2],
+          sent: transfer[3],
+          approver: transfer[4],
         });
       });
+      State.update({ transfers: tmp });
       console.log(transfers);
     })
     .then(() => {
