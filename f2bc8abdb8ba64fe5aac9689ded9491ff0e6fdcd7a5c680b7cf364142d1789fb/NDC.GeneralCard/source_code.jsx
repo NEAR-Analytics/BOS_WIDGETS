@@ -25,6 +25,7 @@ const libCalls = [
     key: "upVotes",
     props: {
       elementReactedId: data.realArticleId,
+      createdInteraction: state.createdInteraction,
     },
   },
 ];
