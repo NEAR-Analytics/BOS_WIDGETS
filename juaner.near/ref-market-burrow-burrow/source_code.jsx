@@ -109,9 +109,7 @@ const Modal = styled.div`
 /** base tool start  */
 let accountId = context.accountId;
 if (!accountId) {
-  // return <Widget src="juaner.near/widget/ref_account-signin" />;
-
-  <div></div>;
+  return <Widget src="juaner.near/widget/ref_account-signin" />;
 }
 let MAX_RATIO = 10_000;
 let BURROW_CONTRACT = "contract.main.burrow.near";
@@ -434,7 +432,6 @@ return (
             balance: available,
             balance$: availableUSD,
             metadata: asset.metadata,
-            label: "Available to withdraw",
           }}
         />
         {hasError && (
