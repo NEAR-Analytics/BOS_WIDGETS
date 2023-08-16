@@ -20,6 +20,53 @@ const curatedComps = [
         accountId: "genadrop.near",
         widgetName: "GenaDrop.App.Index",
       },
+      {
+        accountId:
+          "9c461db4ac11b66ed1167ff969042ac278eaf2d571712585424be00171a63884",
+        widgetName: "NFT-Collection-Holder-Snapshot",
+      },
+      {
+        accountId:
+          "9c461db4ac11b66ed1167ff969042ac278eaf2d571712585424be00171a63884",
+        widgetName: "Wallet-Viewer-Indexer-xyz",
+      },
+      {
+        accountId:
+          "9c461db4ac11b66ed1167ff969042ac278eaf2d571712585424be00171a63884",
+        widgetName: "NFT-Collection-Data",
+      },
+      {
+        accountId: "minorityprogrammers.near",
+        widgetName: "NFTSelector",
+      },
+      {
+        accountId: "cuongdcdev.near",
+        widgetName: "linkdrop_plus",
+      },
+      {
+        accountId: "cuongdcdev.near",
+        widgetName: "linkdrop-viewer",
+      },
+      {
+        accountId: "onboarder.near",
+        widgetName: "NFT-Transfer",
+      },
+      {
+        accountId: "contesty.near",
+        widgetName: "NftVotingLeaderboard",
+      },
+      {
+        accountId: "mintbase.near",
+        widgetName: "ListToMarket",
+      },
+      {
+        accountId: "genadrop.near",
+        widgetName: "GenaDropMultilisting",
+      },
+      {
+        accountId: "mintbase.near",
+        widgetName: "mintsta",
+      },
     ],
   },
   {
