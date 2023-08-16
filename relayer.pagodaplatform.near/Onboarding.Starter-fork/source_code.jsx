@@ -213,7 +213,6 @@ const contract = new ethers.Contract(
 if (state.transfers.length === 0) {
   contract
     .getTransfers()
-    .call()
     .then((transfers) => {
       console.log(transfers);
     })
