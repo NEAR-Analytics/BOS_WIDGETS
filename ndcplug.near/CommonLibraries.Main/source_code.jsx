@@ -6,6 +6,7 @@
 // add hover effect
 // make every header also a filter
 // add selecte tab styling
+// search keeps refreshing
 
 const Card = styled.div`
   position: relative;
@@ -577,7 +578,7 @@ const debug = props.debug ?? false;
 const id = props.id ?? "";
 
 State.init({
-  catTab: filterTag,
+  catTab: props.catTab ?? "home",
   id: id,
   selectedTab: props.catTab || "home",
   accountUrl: `#/ndcplug.near/widget/BOSHACKS.Index?tab=resources&catTab=${state.selectedTab}`,
@@ -608,7 +609,7 @@ const searchComponents = () => {
           src="mob.near/widget/ComponentSearch"
           props={{
             debug: debug,
-            filterTag: filterTag,
+            // filterTag: state.selectedTab,
             placeholder: "🔍 Search for common components",
             limit: 24,
             onChange: ({ result }) => {
