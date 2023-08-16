@@ -84,7 +84,7 @@ return (
               <tr>
                 <td>
                   <Link
-                    href={`https://near.social/mob.near/widget/ProfilePage?accountId=${data.SIGNER_ID}`}
+                    href={`/mob.near/widget/ProfilePage?accountId=${data.SIGNER_ID}`}
                   >
                     <Widget
                       src="mob.near/widget/ProfileImage"
