@@ -67,11 +67,21 @@ if (JSON.stringify(data) !== {}) {
   });
 }
 
+const featuredAccountIds = [
+  "harmonic1.near",
+  "qsaharmonic.near",
+  "mzmarshall.near",
+];
+
+const filteredItems = state.allItems
+  ? state.allItems.filter((item) => featuredAccountIds.includes(item.accountId))
+  : [];
+
 return (
   <div className="px-2">
     <Widget
       src="efiz.near/widget/ItemFeed"
-      props={{ items: state.allItems || [], renderItem }}
+      props={{ items: filteredItems || [], renderItem }}
     />
   </div>
 );
