@@ -19,7 +19,7 @@ if (
         State.update({ chainId: chainIdData.chainId });
       }
     });
-  console.log("here");
+  console.log(contractAddress);
 } else {
   console.log("hehe");
 }
@@ -27,7 +27,7 @@ if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
 }
 
-const iface = new ethers.utils.Interface(contractABI);
+// const iface = new ethers.utils.Interface(contractABI);
 
 return (
   <>
