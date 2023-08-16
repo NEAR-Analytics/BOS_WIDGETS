@@ -256,7 +256,7 @@ return (
         links: [
           {
             text: "Home",
-            link: "/home",
+            link: "/lord.social/home",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
           },
@@ -301,7 +301,7 @@ return (
         textcolor: "#fff",
       }}
     />
-    <div style={{ marginLeft: "5rem" }}>
+    <div style={{ marginLeft: "6rem" }}>
       <div
         style={{
           backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
