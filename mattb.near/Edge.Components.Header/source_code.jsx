@@ -22,6 +22,7 @@ const Header = styled.div`
     z-index:9999;
 
     &::after {
+      pointer-events:none;
       z-index:1;
       content: '';
       position:absolute;
