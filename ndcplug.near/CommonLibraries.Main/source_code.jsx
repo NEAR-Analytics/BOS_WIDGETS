@@ -7,6 +7,7 @@
 // make every header also a filter
 // add selecte tab styling
 // search keeps refreshing
+// filter not working, need to show route
 
 const Card = styled.div`
   position: relative;
@@ -725,7 +726,14 @@ const renderHome = () => {
         <div className="mb-3">
           {curatedComps && (
             <div className="mb-6">
-              {curatedComps.map((cat, i) => renderCategory(cat.id))}
+              {state.selected && state.selectedTab !== "home" ? (
+                <>
+                  {" "}
+                  {renderCategory(curatedComps.find((i) => i.id == categoryId))}
+                </>
+              ) : (
+                <>{curatedComps.map((cat, i) => renderCategory(cat.id))}</>
+              )}
             </div>
           )}
         </div>
@@ -743,6 +751,7 @@ const renderContent = {
   //   searchComponents: searchComponents(),
   category: renderCategory(), // should pass something here
 }[state.selectedTab];
+
 const navItems = curatedComps.map((i) => ({
   category: i.category,
   icon: i.icon,
@@ -806,7 +815,8 @@ return (
           <h2>Component Libraries</h2>
           <p class="text text-muted">Libraries for building a better BOS.</p>
           {searchComponents()}
-          {renderContent}
+          {renderHome()}
+          {false && renderContent}
         </div>
       </div>
     </Card>
