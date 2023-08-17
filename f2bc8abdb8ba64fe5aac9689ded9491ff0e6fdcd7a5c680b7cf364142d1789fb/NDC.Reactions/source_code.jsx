@@ -94,11 +94,10 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
       text: reactedStat.text,
     };
   }
-
   if (oldReactionStat) {
-    let newAccountsForOldReactionStat = oldReactionStat.filter(
-      (acc) => acc != accountThatIsLoggedIn
-    );
+    let newAccountsForOldReactionStat = oldReactionStat.filter((acc) => {
+      acc != accountThatIsLoggedIn;
+    });
     console.log(
       "newAccountsForOldReactionStat: ",
       newAccountsForOldReactionStat
