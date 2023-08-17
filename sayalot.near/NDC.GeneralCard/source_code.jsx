@@ -566,10 +566,11 @@ return (
             </HeaderContentText>
           </HeaderContent>
         </div>
-        <Widget
+        {/*<Widget
           src={widgets.upVote}
           props={{ isTest, authorForWidget, reactedElementData: data, widgets }}
         />
+        */}
       </HeaderCard>
       <KeyIssuesHeader>
         <KeyIssuesTitle
