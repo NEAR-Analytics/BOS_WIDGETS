@@ -27,7 +27,7 @@ const cachedRenderItem = (item, i) => {
     }
     return state.cachedItems[key];
   } catch (e) {
-    console.warn(e, { cached: state.cachedItems, state });
+    console.warn(e, { cached: state.cachedItems, state: { ...state } });
   }
 };
 
