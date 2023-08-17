@@ -29,10 +29,10 @@ const nearLabel = (amount, selected) => (
 );
 
 const AddTicketModal = (
-  <div style={{ maxHeight: "80vh", overflowY: "auto",overflowX:'hidden' }}>
+  <div style={{ maxHeight: "80vh", overflowY: "auto", overflowX: "hidden" }}>
     <Widget
       props={{
-        label: "Ticket Name *",
+        label: "Ticket Name*",
         inputProps: {
           placeholder: "Day Pass",
           required: true,
@@ -47,7 +47,7 @@ const AddTicketModal = (
       }}
       src="harrydhillon.near/widget/Keypom.Components.Input"
     />
-    <p style={{ fontWeight: "500", marginBottom: -10 }}>Description *</p>
+    <p style={{ fontWeight: "500", marginBottom: -10 }}>Description*</p>
     <Widget
       props={{
         label:
@@ -73,7 +73,7 @@ const AddTicketModal = (
       src="harrydhillon.near/widget/Keypom.Components.Input"
     />
     <Label style={{ marginLeft: -5, fontWeight: "500" }}>
-      Ticket sales valid through *
+      Ticket sales valid through*
     </Label>
     <div style={{ marginTop: -10 }}>
       <Widget
@@ -114,7 +114,7 @@ const AddTicketModal = (
     <Widget
       src="harrydhillon.near/widget/Keypom.Components.Input"
       props={{
-        label: "Pass valid through *",
+        label: "Pass valid through*",
         labelProps: {
           style: {
             fontWeight: "500",
@@ -128,7 +128,7 @@ const AddTicketModal = (
         },
       }}
     />
-    <p style={{ fontWeight: "500", marginBottom: -10 }}>Number of Tickets *</p>
+    <p style={{ fontWeight: "500", marginBottom: -10 }}>Number of Tickets*</p>
     <Widget
       props={{
         label: "If blank, party can host infinite number of guests.",
@@ -150,7 +150,7 @@ const AddTicketModal = (
       src="harrydhillon.near/widget/Keypom.Components.Input"
     />
     <p style={{ fontWeight: "500", marginBottom: 5 }}>
-      Price per ticket (NEAR) *
+      Price per ticket (NEAR)*
     </p>
     <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
       {nearAmount.map((item) => (
