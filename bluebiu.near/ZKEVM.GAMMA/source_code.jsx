@@ -2,54 +2,92 @@ State.init({
   activePair: defaultPair,
   isPoolFetching: false,
   isUserPositionsFetching: false,
-  chainId: "",
+  chainId: '',
 });
 
-const CONNECT_PROPS = {
-  chainId: 1101,
-  chainName: "Polygon zkEVM",
-  noAccountTips: "Polygon zkEVM Liquidity",
-  wrongNetworkTips: "To proceed, kindly switch to Polygon zkEVM Chain.",
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+const ContainerLogin = styled.div`
+  .web3-connect{
+    width:480px;
+    height:60px;
+    border-radius:10px;
+    background-color:#fff;
+    color:#0F1126;
+    font-size:18px;
+    font-weight:500;
+    border:none;
+    margin-top:20px;
+  }
+`
+if (!sender)
+  return (
+    <ContainerLogin
+      style={{
+        display: "flex",
+        maxWidth: "500px",
+        flexDirection: "column",
+        margin: "80px auto auto auto",
+      }}
+    >
+      <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
+      
+      <Web3Connect className="web3-connect" connectLabel="Connect ETH wallet" />
+    </ContainerLogin>
+  );
+
+// const { chainId } = Ethers.getNetwork();
+Ethers.provider().getNetwork().then((data) => {
+  State.update({
+    chainId: data.chainId
+  })
+})
+const chainIdToSwitch = "0x44D";
+
+const switchChain = () => {
+  const zkevmChain = {
+    chainId: "0x44D",
+    chainName: "Polygon zkEVM",
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://zkevm-rpc.com"],
+    blockExplorerUrls: ["https://zkevm.polygonscan.com"],
+  };
+
+  Ethers.send("wallet_addEthereumChain", [zkevmChain]);
 };
 
 const SwitchWrapper = styled.div`
-  --text-color: rgb(121, 79, 221);
-  --button-color: rgb(121, 79, 221);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter';
+  max-width: 500px;
+  color: #fff;
+  margin: auto;
+  text-align: center;
+  border-radius: 12px;
+  padding: 16px 0;
+  align-items: center;
+  gap: 12px;
+  margin-top:80px;
+  button {
+    background: #8247E5;
+    border: none;
+    &:hover {
+      background: #8257F5;
+    }
+  }
 `;
-
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-
-if (!sender)
-  return (
-    <SwitchWrapper>
-      <Widget
-        src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
-        props={{
-          ...CONNECT_PROPS,
-          isWrongNetwork: false,
-        }}
-      />
-    </SwitchWrapper>
-  );
-
-Ethers.provider()
-  .getNetwork()
-  .then((data) => {
-    State.update({
-      chainId: data.chainId,
-    });
-  });
 
 if (state.chainId !== 1101) {
   return (
     <SwitchWrapper>
-      <Widget
-        src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
-        props={{
-          ...CONNECT_PROPS,
-          isWrongNetwork: true,
-        }}
-      />
+      <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
+      <h4>Please switch to Polygon zkEVM</h4>
+      <button onClick={switchChain}>Switch to Polygon zkEVM</button>
+      <p>**Please refresh once after switch chain**</p>
     </SwitchWrapper>
   );
 }
@@ -113,40 +151,40 @@ const defaultPair = {
 };
 
 const Wrapper = styled.div`
-  align-items: start;
-  gap: 24px;
+    align-items: start;
+    gap: 24px;
 `;
 const VStack = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  .tableTitle {
-    font-size: 18px;
-    color: #7c7f96;
-    font-weight: 500;
-    padding-left: 16px;
-    margin-bottom: 5px;
+  .tableTitle{
+    font-size:18px;
+    color:#7C7F96;
+    font-weight:500;
+    padding-left:16px;
+    margin-bottom:5px;
   }
 `;
 const Button = styled.button`
-  background: #1d1e1f;
-  border-radius: 4px;
-  border: none;
-  max-width: 640px;
-  width: 100%;
-  color: #fff;
-  padding: 8px 0;
-  font-weight: 600;
-  font-size: 14px;
-  position: relative;
-  min-height: 37px;
-  &:hover {
-    background: #2b2a2b;
-  }
-  &:disabled {
-    background: #333;
-    color: #ccc;
-  }
+    background: #1d1e1f;
+    border-radius: 4px;
+    border: none;
+    max-width: 640px;
+    width: 100%;
+    color: #fff;
+    padding: 8px 0;
+    font-weight: 600;
+    font-size: 14px;
+    position: relative;
+    min-height: 37px;
+    &:hover {
+      background: #2b2a2b;
+    }
+    &:disabled {
+      background: #333;
+      color: #ccc;
+    }
 `;
 
 const handlePairClick = (pair) => {
@@ -165,24 +203,24 @@ const {
 
 return (
   <VStack>
+    {/* <Button
+      disabled={isPoolFetching || isUserPositionsFetching}
+      onClick={refetch}
+    >
+      {isPoolFetching || isUserPositionsFetching
+        ? "Fetching Table Data..."
+        : "Refresh"}
+    </Button> */}
+    {/* <div className="tableTitle">Active Liquidity</div> */}
     <Wrapper>
-      <Widget
+    <Widget
         src="bluebiu.near/widget/ZKEVM.gamma-zkevm-vault"
-        props={{
-          pair: activePair,
-          refetch: postRefetch,
-          can_add_action: state.add_action,
-          addAction: props.addAction,
-          toast: props.toast,
-          chainId: state.chainId,
-        }}
+        props={{ pair: activePair, refetch: postRefetch }}
       />
       <Widget
         src="bluebiu.near/widget/ZKEVM.gamma-zkevm-table"
-        props={{ handlePairClick, poolsData, userPositions, activePair }}
+        props={{ handlePairClick, poolsData, userPositions }}
       />
     </Wrapper>
-
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
   </VStack>
 );
