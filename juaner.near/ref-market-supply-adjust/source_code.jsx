@@ -225,6 +225,9 @@ function getHealthFactor() {
     .toFixed(2);
   return Number(healthFactor) < MAX_RATIO ? healthFactor : MAX_RATIO;
 }
+
+const oldHeathFactor = getHealthFactor();
+
 const recomputeHealthFactor = (tokenId, amount) => {
   if (!tokenId || !assets || !account) return null;
   const asset = assets.find((a) => a.token_id === tokenId);
@@ -284,7 +287,7 @@ State.update({
   hasHFError: hFErrorStatus,
 });
 function computeAdjustMaxAmount() {
-  if (!assets || !selectedTokenId || !account) return "0";
+  if (!assets || !selectedTokenId) return "0";
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { metadata, config } = asset;
   const decimals = metadata.decimals + config.extra_decimals;
@@ -350,6 +353,7 @@ return (
             balance: availableBalance,
             balance$: availableBalance$,
             metadata: asset.metadata,
+            hideBalanceInputTop: true,
           }}
         />
         {hasError && (
@@ -368,7 +372,7 @@ return (
         )}
         <div class="template mt_25">
           <span class="template_title">Health Factor</span>
-          <span class="value">{newHealthFactor}%</span>
+          <span class="value">{newHealthFactor || oldHeathFactor}%</span>
         </div>
         <div class="template mt_25">
           <span class="template_title">Use as Collateral</span>
