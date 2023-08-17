@@ -726,10 +726,12 @@ const renderHome = () => {
         <div className="mb-3">
           {curatedComps && (
             <div className="mb-6">
-              {state.selected && state.selectedTab !== "home" ? (
+              {state.selectedTab && state.selectedTab !== "home" ? (
                 <>
                   {" "}
-                  {renderCategory(curatedComps.find((i) => i.id == categoryId))}
+                  {renderCategory(
+                    curatedComps.find((i) => i.id == state.selectedTab)
+                  )}
                 </>
               ) : (
                 <>{curatedComps.map((cat, i) => renderCategory(cat.id))}</>
