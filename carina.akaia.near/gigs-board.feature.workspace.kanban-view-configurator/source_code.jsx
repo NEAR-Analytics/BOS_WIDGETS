@@ -458,6 +458,17 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
           })}
         </div>
 
+        {widget("components.molecule.text-input", {
+          className: "w-100",
+          inputProps: { className: "h-75" },
+          key: "kanban-view-description",
+          label: "Board description",
+          multiline: true,
+          onChange: form.update({ path: ["metadata", "description"] }),
+          placeholder: "Latest NEAR Enhancement Proposals by status.",
+          value: form.values.metadata.description,
+        })}
+
         <div className="d-flex gap-3 flex-column flex-lg-row">
           {widget("components.molecule.text-input", {
             className: "flex-shrink-0",
@@ -473,17 +484,6 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
           })}
         </div>
       </CompactContainer>
-
-      {widget("components.molecule.text-input", {
-        className: "w-100",
-        inputProps: { className: "h-75" },
-        key: "kanban-view-description",
-        label: "Description",
-        multiline: true,
-        onChange: form.update({ path: ["metadata", "description"] }),
-        placeholder: "Latest NEAR Enhancement Proposals by status.",
-        value: form.values.metadata.description,
-      })}
 
       <div className="d-flex align-items-center justify-content-between">
         <span className="d-inline-flex gap-2 m-0">
