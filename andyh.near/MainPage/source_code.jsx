@@ -73,7 +73,7 @@ return (
       </div>
       <div className="col-md-4">
         <h4>Poke activity</h4>
-        <Widget src="andyh.near/widget/PokeFeed" isTrusted={true} />
+        {/*<Widget src="andyh.near/widget/PokeFeed" isTrusted={true} />*/}
       </div>
     </div>
   </>
