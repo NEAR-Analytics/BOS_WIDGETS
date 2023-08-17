@@ -160,12 +160,14 @@ return (
       </div>
       <Markdown text={text} />
 
-      <h3>Assets:</h3>
-      <select onChange={selectAsset} value={state.assetType}>
-        <option value="default">Regular</option>
-        <option value="hk">Hollow Knight Style</option>
-      </select>
-      <Markdown text={assetText} />
+      {
+        // <h3>Assets:</h3>
+        // <select onChange={selectAsset} value={state.assetType}>
+        //   <option value="default">Regular</option>
+        //   <option value="hk">Hollow Knight Style</option>
+        // </select>
+        // <Markdown text={assetText} />
+      }
     </Footer>
   </BoardView>
 );
