@@ -34,7 +34,7 @@ if (
 let isDelete;
 if (state.createdInteraction !== undefined) {
   isDelete = !state.createdInteraction;
-} else if (lastUserVote) {
+} else if (lastUserVote && state.numberOfvotesModified) {
   isDelete = !lastUserVote.value.deleteReaction;
 } else {
   isDelete = false;
@@ -83,7 +83,7 @@ function upVoteListener() {
   function onCommit() {
     state.numberOfVotes &&
       State.update({
-        numberOfvotesModified: true,
+        numberOfvotesModified: !state.numberOfvotesModified,
         numberOfVotes: isDelete
           ? state.numberOfVotes - 1
           : state.numberOfVotes + 1,
