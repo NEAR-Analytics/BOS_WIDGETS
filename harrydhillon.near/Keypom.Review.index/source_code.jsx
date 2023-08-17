@@ -42,7 +42,7 @@ return (
           src="https://i.ibb.co/kx9Y61n/Screenshot-2023-08-15-at-23-44-38.png"
         />
         <div>
-          <Label>Event Name</Label>
+          <Label>Event name</Label>
           <p style={{ fontSize: 12 }}>[Event name]</p>
           <Label>Event description</Label>
           <p style={{ fontSize: 12 }}>
@@ -53,7 +53,7 @@ return (
       </div>
       <div style={{ width: "10%" }} />
       <div style={{ width: "40%" }}>
-        <Label>Event Date</Label>
+        <Label>Event date</Label>
         <p style={{ fontSize: 12 }}>June 16, 2023</p>
         <Label>Event location</Label>
         <p style={{ fontSize: 12 }}>1234 University Ave, Toronto ON Canada</p>
