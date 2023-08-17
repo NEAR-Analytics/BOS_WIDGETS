@@ -167,11 +167,11 @@ const bridgeContractWithdrawl = new ethers.Contract(
 
 function getETHWithdrawals() {
   console.log("getETHWithdrawals");
-  bridgeContractDeposit
-    .queryFilter(bridgeContractDeposit.filters.ETHWithdrawalFinalized(sender))
-    .then((events) => {
-      console.log("finalized", events);
-    });
+  // bridgeContractDeposit
+  //   .queryFilter(bridgeContractDeposit.filters.ETHWithdrawalFinalized(sender))
+  //   .then((events) => {
+  //     console.log("finalized", events);
+  //   });
 
   bridgeContractWithdrawl
     .queryFilter(
