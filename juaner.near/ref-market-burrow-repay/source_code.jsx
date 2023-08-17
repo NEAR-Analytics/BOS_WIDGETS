@@ -430,6 +430,7 @@ return (
             balance: availableBalance,
             balance$: availableBalance$,
             metadata: asset.metadata,
+            label: "Available to repay",
           }}
         />
         {hasError && (
