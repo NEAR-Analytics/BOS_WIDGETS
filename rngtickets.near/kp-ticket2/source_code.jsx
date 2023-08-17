@@ -7,7 +7,7 @@ return (
     <div align="center">
       <div
         style={{
-          backgroundColor: "#ecc2ff",
+          backgroundColor: "#fff",
           width: "300px",
           height: "400px",
           border: "5px solid black",
