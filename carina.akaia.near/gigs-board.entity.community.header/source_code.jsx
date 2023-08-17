@@ -341,7 +341,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
 
         <div className="d-flex align-items-end gap-3">
           {widget("components.molecule.button", {
-            classNames: { root: "btn-outline-primary" },
+            classNames: { root: "btn-outline-light" },
             href: href("community.configuration", { handle }),
             icon: { kind: "bootstrap-icon", variant: "bi-gear-wide-connected" },
             isHidden: !permissions.can_configure,
@@ -350,7 +350,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
           })}
 
           {widget("components.molecule.button", {
-            classNames: { root: "btn-outline-primary" },
+            classNames: { root: "btn-outline-light" },
 
             icon: {
               kind: "bootstrap-icon",
