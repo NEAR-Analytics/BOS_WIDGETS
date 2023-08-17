@@ -61,8 +61,6 @@ State.init({
   libCalls,
 });
 
-console.log("reactionsData: ", state.reactionsData);
-
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
   let currentReactionsStatistics = state.reactionsData.reactionsStatistics;
@@ -121,7 +119,14 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
   console.log("newReactionsStatistics: ", newReactionsStatistics);
 
   State.update({
-    reactionsStatistics: newReactionsStatistics,
+    reactionsData: {
+      reactionsStatistics: newReactionsStatistics,
+      userReaction: {
+        accountId: accountThatIsLoggedIn,
+        blockHeight: 0,
+        value: { reaction: newEmoji, type: "md" },
+      },
+    },
     loading: false,
     show: false,
   });
