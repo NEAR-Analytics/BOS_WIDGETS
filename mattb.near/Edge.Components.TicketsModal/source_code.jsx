@@ -1,3 +1,5 @@
+const { initState } = props;
+
 const WIDGET_OWNER = "mattb.near";
 const URL_EVENT_SF = "https://partiful.com/e/hfRtoRSuVH4tGrzwmOW3";
 const URL_EVENT_NYC = "https://partiful.com/e/8fZfzaNqqm8MSTA5I7E7";
@@ -73,7 +75,7 @@ return (
     src={`${WIDGET_OWNER}/widget/Edge.Components.Modal`}
     props={{
       onClose: (closed) => State.update({ closed: closed }),
-      initState: false,
+      initState: initState ?? false,
       slot: (
         <Content>
           <h1>Choose your ticket.</h1>
