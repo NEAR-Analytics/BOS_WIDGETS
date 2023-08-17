@@ -40,16 +40,15 @@ const RepayContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  .splitDiv {
-    height: 1px;
-    .splitLine {
-      position: absolute;
-      left: 0;
-      right: 0;
-      width: 100%;
-      border-top: 1px solid #332c4b;
-    }
-  }
+  .splitDiv{
+    height:1px;
+   .splitLine{
+     position:absolute;
+     left:0;
+     right:0;
+     width:100%;
+     border-top:1px solid #332C4B;
+   }
 `;
 
 const TokenTexture = styled.div`
@@ -172,10 +171,7 @@ function updateGas() {
 }
 
 updateGas();
-const questionSwitch = Storage.get(
-  "zkevm-aave-question-switch",
-  "guessme.near/widget/ZKEVM.switch_quest_card"
-);
+const questionSwitch = Storage.get("zkevm-aave-question-switch", "guessme.near/widget/ZKEVM.switch_quest_card");
 const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
 
 function bigMin(_a, _b) {
@@ -455,10 +451,9 @@ function repayERC20(shownAmount, actualAmount) {
                 account_id: eth_account_id,
                 account_info: uuid,
                 template: "AAVE",
-                action_switch: questionSwitch == "on" ? "1" : "0",
+                action_switch: questionSwitch == "on" ? '1': '0',
                 action_status: status === 1 ? "Success" : "Failed",
                 tx_id: transactionHash,
-                action_network_id: "zkEVM",
               });
             });
           })
@@ -518,10 +513,9 @@ function repayERC20(shownAmount, actualAmount) {
                   account_id: eth_account_id,
                   account_info: uuid,
                   template: "AAVE",
-                  action_switch: questionSwitch == "on" ? "1" : "0",
+                  action_switch: questionSwitch == "on" ? '1': '0',
                   action_status: status === 1 ? "Success" : "Failed",
                   tx_id: transactionHash,
-                  action_network_id: "zkEVM",
                 });
               });
             });
@@ -582,10 +576,9 @@ function repayETH(shownAmount, actualAmount) {
               account_id: eth_account_id,
               account_info: uuid,
               template: "AAVE",
-              action_switch: questionSwitch == "on" ? "1" : "0",
+              action_switch: questionSwitch == "on" ? '1': '0',
               action_status: status === 1 ? "Success" : "Failed",
               tx_id: transactionHash,
-              action_network_id: "zkEVM",
             });
           });
         })
@@ -593,22 +586,16 @@ function repayETH(shownAmount, actualAmount) {
     })
     .catch(() => State.update({ loading: false }));
 }
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
 function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add ", {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
 }
-const is_disabled =
-  state.loading || Big(balance || 0).lte(0) || Big(state.amount || 0).lte(0);
+const is_disabled = state.loading || Big(balance || 0).lte(0) || Big(state.amount || 0).lte(0);
 return (
   <>
     <Widget
@@ -749,7 +736,7 @@ return (
                 ),
               }}
             />
-            <div className="splitDiv">
+           <div className="splitDiv">
               <div className="splitLine"></div>
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -797,7 +784,7 @@ return (
                   config,
                   children: `Repay ${symbol}`,
                   loading: state.loading,
-                  disabled: is_disabled,
+                  disabled:is_disabled,
                   onClick: () => {
                     const actualAmount = Big(
                       state.amount === shownMaxValue
