@@ -1,4 +1,4 @@
-const widgetOwner = props.widgetOwner ?? "ihyshan.near";
+const widgetOwner = props.widgetOwner ?? "astraplusplus.ndctools.near";
 
 State.init({
   tab: props.tab ?? "home",
@@ -60,7 +60,7 @@ const tabs = {
 
 if (!props.daoId) {
   // TODO: add a proper error screen
-  return "research-collective.sputnik-dao.near";
+  return "Please provide a DAO ID";
 }
 
 const tabContent = (
