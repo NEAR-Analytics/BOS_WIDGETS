@@ -28,7 +28,7 @@ const Overlay = styled.div`
 
 return (
   <>
-    {state.open && (
+    {props.showModal && (
       <Overlay
         onClick={() => {
           State.update({ open: !state.open });
