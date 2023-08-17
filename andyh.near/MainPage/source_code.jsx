@@ -3,11 +3,11 @@ return (
     {context.accountId && (
       <Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={true} />
     )}
-    <Widget
+    {/*<Widget
       src="andyh.near/widget/MainPage.FeaturedApps"
       isTrusted={true}
       props={{}}
-    />
+    />*/}
     <div className="row mb-3">
       <Widget src="andyh.near/widget/Applications" />
     </div>
