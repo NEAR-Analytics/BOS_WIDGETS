@@ -21,9 +21,9 @@ State.init({
 
 let numberOfvotesModified = state.numberOfvotesModified;
 
-if (state.upVotes.reactionsStatistics && !numberOfvotesModified) {
-  State.update({ numberOfVotes: state.upVotes.reactionsStatistics ?? 0 });
-}
+// if (state.upVotes.reactionsStatistics && !numberOfvotesModified) {
+//   State.update({ numberOfVotes: state.upVotes.reactionsStatistics ?? 0 });
+// }
 
 const lastUserVote = state.upVotes.userInteraction;
 if (
@@ -84,7 +84,7 @@ function stateUpdate(obj) {
 
 function upVoteListener() {
   let newLibCalls = [...libCalls];
-  let oldNumberOfvotes = state.numberOfVotes;
+  let oldNumberOfvotes = state.numberOfVotes ?? 0;
 
   function onCommit() {
     State.update({
