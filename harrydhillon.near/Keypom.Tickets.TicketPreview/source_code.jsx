@@ -4,6 +4,17 @@ padding:10px;
 border-radius:5px;
 `;
 
+function extractDateComponents(dateStr) {
+    const dateObj = new Date(dateStr);
+
+    const month = dateObj.toLocaleString('default', { month: 'long' });  // e.g., "August"
+    const date = dateObj.getDate();  // e.g., 3
+    const year = dateObj.getFullYear();  // e.g., 2023
+
+    return `${month} ${date}, ${year}`
+}
+
+
 const PreviewTicketModal = (
   <>
     <Container>
@@ -27,10 +38,10 @@ const PreviewTicketModal = (
             marginBottom: 0,
           }}
         >
-          {props.from} - {props.to} at 7:00 PM PT
+          {extractDateComponents(props.from)} - {extractDateComponents(props.to)} at 7:00 PM PT
         </p>
         <p style={{ fontSize: 12, fontWeight: "500", color: "gray" }}>
-       {props.description}
+          {props.description}
         </p>
         <div style={{ display: "flex", marginBottom: 10 }}>
           <button
@@ -51,9 +62,10 @@ const PreviewTicketModal = (
               backgroundColor: "white",
               fontSize: 14,
               borderRadius: 5,
-              paddingLeft:14,paddingRight:14,
-              marginLeft:5,
-              marginRight:5,
+              paddingLeft: 14,
+              paddingRight: 14,
+              marginLeft: 5,
+              marginRight: 5,
               borderWidth: 1,
               borderColor: "#E2E8F0",
               marginTop: 5,
