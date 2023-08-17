@@ -280,7 +280,6 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
                 label,
                 onChange: form.update({ path: [fieldKey] }),
                 style: { ...style, order },
-                tabIndex: order,
 
                 value:
                   fieldType === "array" && format === "comma-separated"
@@ -290,6 +289,7 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
                 inputProps: {
                   ...(inputProps ?? {}),
                   ...(fieldParamsByType[fieldType].inputProps ?? {}),
+                  tabIndex: order,
                 },
               })
             )}
