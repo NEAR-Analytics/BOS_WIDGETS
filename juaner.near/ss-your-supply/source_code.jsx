@@ -20,10 +20,10 @@ const Container = styled.div`
     th,
     td {
       border: none;
+      font-size: 14px;
     }
     td {
       color: #fff;
-      font-size: 14px;
     }
     th:first-child,
     td:first-child {
@@ -226,15 +226,23 @@ function getPortfolioRewards(type, token_id, data) {
       );
       const rewardPerDay =
         (boostedShares / totalBoostedShares) * totalRewardsPerDay || 0;
-      return { rewardPerDay, metadata: asset.metadata };
+      return { rewardPerDay, metadata: asset.metadata, rewardAsset };
     });
     return result;
   }
   return [];
 }
 // get portfolio deposited assets
-const renderAssets = (data) =>
-  data.map((item) => {
+const renderAssets = (data, hasDollar) => {
+  const formatValue = (v) => {
+    if (Big(v).eq(0)) return "0";
+    if (Big(v).lt(0.01)) return hasDollar ? "<$0.01" : "<0.01";
+    return Big(v).toNumber().toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+  return data.map((item) => {
     const {
       icon,
       symbol,
@@ -252,17 +260,23 @@ const renderAssets = (data) =>
       <tr key={token_id}>
         <td>
           <img src={icon || wnearbase64} class="tokenIcon"></img>
-          {symbol}
+          {symbol !== "wNEAR" ? symbol : "NEAR"}
         </td>
         <td>{toAPY(totalApy)}%</td>
         <td>
           {rewardsList.length == 0
             ? "-"
             : rewardsList.map((reward) => {
-                const { rewardPerDay, metadata } = reward;
+                const { rewardPerDay, metadata, rewardAsset } = reward;
                 return (
                   <div class="flex_center">
-                    {Big(rewardPerDay).toFixed(4)}
+                    $
+                    {formatValue(
+                      Big(rewardPerDay || 0)
+                        .mul(rewardAsset?.price?.usd || 0)
+                        .toString(),
+                      true
+                    )}
                     <img
                       class="rewardIcon ml_5"
                       src={metadata.icon || wnearbase64}
@@ -273,14 +287,16 @@ const renderAssets = (data) =>
         </td>
         <td>
           <div className="double_lines">
-            <div>{collateralBalance.toFixed(4)}</div>
-            <div class="text_grey_color">(${collateralUsd.toFixed(2)})</div>
+            <div>{formatValue(collateralBalance)}</div>
+            <div class="text_grey_color">
+              (${formatValue(collateralUsd, true)})
+            </div>
           </div>
         </td>
         <td>
           <div className="double_lines">
-            <div>{totalBalance.toFixed(4)}</div>
-            <div class="text_grey_color">(${usd.toFixed(2)})</div>
+            <div>{formatValue(totalBalance)}</div>
+            <div class="text_grey_color">(${formatValue(usd, true)})</div>
           </div>
         </td>
         <td class="table_handlers">
@@ -316,6 +332,7 @@ const renderAssets = (data) =>
       </tr>
     );
   });
+};
 
 function getWnearIcon(icon) {
   State.update({
