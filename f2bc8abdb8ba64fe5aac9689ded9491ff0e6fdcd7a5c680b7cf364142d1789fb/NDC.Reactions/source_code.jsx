@@ -96,8 +96,10 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
   }); //Get the previous value of the emoji the user just uploaded
 
   let everyOtherReactionStat = currentReactionsStatistics.filter((item) => {
-    !item.accounts.includes(accountThatIsLoggedIn) &&
-      !newEmoji.includes(item.text);
+    return (
+      !item.accounts.includes(accountThatIsLoggedIn) &&
+      !newEmoji.includes(item.text)
+    );
   }); //Get every other reaction
 
   let newReactionsStatistics;
