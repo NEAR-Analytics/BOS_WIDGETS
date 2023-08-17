@@ -4,13 +4,14 @@ if (!accountId) {
 }
 State.init({
   amount: "0.001",
-  drops: "50",
+  drops: "1",
   name: "",
-  poapTitle: "NEAR Toronto event",
-  poapDesc: "",
+  poapTitle: "NEAR Toronto Rooftop Rendezvous",
+  poapDesc:
+    "Welcome to the 🦩NEAR Toronto: Rooftop Rendezvous🦩, a chill community event that concludes the Blockchain Futurist Conference. Join us as we celebrate the intersection of innovation, technology, and community, immersed in a social atmosphere filled with great people and creativity (more info below). In collaboration with: NEAR Foundation, TENAMINT, Seahorse Social, KPW Comms, Proof of Vibes, Marma J Foundation, NEAR Foundation, Music Feast, GDS Consulting, Brothers Grimm Ultra Premium Vodka, CreativesDAO.",
   img: null,
   desc: "",
-  pw: "",
+  pw: "nt2rr",
   publicKeys: [],
   privKeys: [],
   allPws: [],
@@ -153,7 +154,7 @@ const createDrop = () => {
             media: `https://ipfs.near.social/ipfs/${
               state.img
                 ? state.img.cid
-                : "bafkreihnbofepgt4xkftv4btx4kbg6eia327w5qj7nxrz4bukt2kcxtb24"
+                : "bafkreigkja2hmcudxmxm2nsaee3madvkzjj2wttzr7wiijwgf3hbtaznzy"
             }`,
             description: `${state.poapDesc}`,
             copies: parseInt(`${state.drops}`),
