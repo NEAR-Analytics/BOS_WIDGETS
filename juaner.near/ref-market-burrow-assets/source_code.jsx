@@ -17,10 +17,10 @@ const Container = styled.div`
     th,
     td {
       border: none;
+      font-size: 14px;
     }
     td {
       color: #fff;
-      font-size: 14px;
     }
     th:first-child,
     td:first-child {
@@ -93,7 +93,7 @@ B.DP = 60; // set precision to 60 decimals
 
 State.init({ tableData: [] });
 
-const toAPY = (v) => Math.round(v * 100) / 100;
+const toAPY = (v) => (v ? (Math.round(v * 100) / 100).toFixed(2) : 0);
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
   return B(value).div(B(10).pow(decimals || 0));
@@ -120,14 +120,11 @@ const nFormat = (num, digits) => {
     { value: 1e3, symbol: "K" },
     { value: 1e6, symbol: "M" },
   ];
-  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
   var item = lookup
     .slice()
     .reverse()
     .find((item) => num >= item.value);
-  return item
-    ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
-    : "0";
+  return item ? (num / item.value).toFixed(digits) + item.symbol : "0";
 };
 const {
   rewards,
@@ -164,7 +161,9 @@ const formatAssets = (data) => {
     : {};
 
   return data.assets
-    .filter((a) => a.config.can_borrow)
+    .filter(
+      (a) => a.config.can_borrow && !["meta-token.near"].includes(a.token_id)
+    )
     .map((asset) => {
       const { token_id, metadata, price, config } = asset;
       const r = data.rewards.find((a) => a.token_id === asset.token_id);
@@ -189,13 +188,15 @@ const formatAssets = (data) => {
         token_id,
         liquidity,
       };
-    });
+    })
+    .sort((a, b) => b.liquidity - a.liquidity);
 };
 const onLoad = (data) => {
   State.update(data);
   // get market can deposit assets
-  if (data.assets && data.assets.length)
+  if (data.assets && data.assets.length) {
     State.update({ tableData: formatAssets(data) });
+  }
 };
 const rewardsMap = rewards
   ? rewards.reduce((acc, cur) => {
@@ -326,12 +327,12 @@ const renderAssets = (data) =>
         );
       });
     const cf = volatility_ratio / 100;
-    const liquidity_display = nFormat(liquidity);
+    const liquidity_display = nFormat(liquidity, 2);
     return (
       <tr key={token_id}>
         <td>
           <img src={icon || wnearbase64} class="tokenIcon"></img>
-          {symbol}
+          {symbol !== "wNEAR" ? symbol : "NEAR"}
         </td>
         <td>{toAPY(apy)}%</td>
         <td class="text-white">
@@ -441,7 +442,7 @@ return (
           </th>
           <th scope="col" width="20%">
             <div className="table_sorter">
-              <span> Total Liquidity</span>
+              <span>Liquidity</span>
               <div className="arrows">
                 <div className="arrow-wrap">
                   <div
