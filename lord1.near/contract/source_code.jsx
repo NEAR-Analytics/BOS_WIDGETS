@@ -1,4 +1,4 @@
-const API_KEY = "e79c2e9b-116c-4d8a-9617-5e2471e4deaa";
+const API_KEY = "96ef3daf-8662-4736-b31b-0a4c2b431cc2";
 const themeColors = [
   "#A084E8",
   "#6F61C0",
