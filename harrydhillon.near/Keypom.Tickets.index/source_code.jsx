@@ -82,7 +82,7 @@ const createTickets = () => {
             props={{
               isOpen: state.isCreateTicketModalOpen,
               onSave: (ticketData) => {
-                if (state.edit) {
+                if (state.editMode) {
                   const allTickets = [...state.tickets];
                   allTickets[state.ticketToEdit] = ticketData;
                   State.update({
