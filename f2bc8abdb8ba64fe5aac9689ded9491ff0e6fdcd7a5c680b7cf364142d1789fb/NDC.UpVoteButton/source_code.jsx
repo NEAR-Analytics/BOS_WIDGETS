@@ -35,8 +35,12 @@ if (
 let isDelete;
 if (state.createdInteraction !== undefined) {
   isDelete = !state.createdInteraction;
-} else if (lastUserVote && state.numberOfvotesModified) {
-  isDelete = !lastUserVote.value.deleteReaction;
+} else if (lastUserVote) {
+  if (state.numberOfvotesModified) {
+    isDelete = lastUserVote.value.deleteReaction;
+  } else {
+    isDelete = !lastUserVote.value.deleteReaction;
+  }
 } else {
   isDelete = false;
 }
