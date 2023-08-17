@@ -17,10 +17,10 @@ const Container = styled.div`
     th,
     td {
       border: none;
+      font-size: 14px;
     }
     td {
       color: #fff;
-      font-size: 14px;
     }
     th:first-child,
     td:first-child {
@@ -101,14 +101,14 @@ B.DP = 60; // set precision to 60 decimals
 
 State.init({ tableData: [] });
 
-const toAPY = (v) => Math.round(v * 100) / 100;
+const toAPY = (v) => (v ? (Math.round(v * 100) / 100).toFixed(2) : 0);
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
   return B(value).div(B(10).pow(decimals || 0));
 };
 
 const expandToken = (value, decimals) => {
-  return B(value).mul(B(10).pow(decimals || 0));
+  return B(value || 0).mul(B(10).pow(decimals || 0));
 };
 
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
@@ -128,14 +128,11 @@ const nFormat = (num, digits) => {
     { value: 1e3, symbol: "K" },
     { value: 1e6, symbol: "M" },
   ];
-  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
   var item = lookup
     .slice()
     .reverse()
     .find((item) => num >= item.value);
-  return item
-    ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
-    : "0";
+  return item ? (num / item.value).toFixed(digits) + item.symbol : "0";
 };
 const {
   rewards,
@@ -173,7 +170,9 @@ const formatAssets = (data) => {
     : {};
 
   return data.assets
-    .filter((a) => a.config.can_deposit)
+    .filter(
+      (a) => a.config.can_deposit && !["meta-token.near"].includes(a.token_id)
+    )
     .map((asset) => {
       const { token_id, metadata, price, config } = asset;
       const r = data.rewards.find((a) => a.token_id === asset.token_id);
@@ -203,7 +202,8 @@ const formatAssets = (data) => {
         totalLiquidity_usd,
         token_id,
       };
-    });
+    })
+    .sort((a, b) => b.totalLiquidity_usd - a.totalLiquidity_usd);
 };
 
 const onLoad = (data) => {
@@ -246,12 +246,12 @@ const renderAssets = (data) =>
       });
 
     const cf = volatility_ratio / 100;
-    const totalLiquidity_usd_display = nFormat(totalLiquidity_usd);
+    const totalLiquidity_usd_display = nFormat(totalLiquidity_usd, 2);
     return (
       <tr key={token_id}>
         <td>
           <img src={icon || wnearbase64} class="tokenIcon"></img>
-          {symbol}
+          {symbol !== "wNEAR" ? symbol : "NEAR"}
         </td>
         <td>{toAPY(depositApy)}%</td>
         <td>{rewardTokensImg}</td>
