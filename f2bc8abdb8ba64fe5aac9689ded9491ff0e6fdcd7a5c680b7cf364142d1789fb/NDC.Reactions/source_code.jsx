@@ -69,9 +69,7 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
     item.accounts.includes(accountThatIsLoggedIn)
   );
 
-  console.log("currentReactionsStatistics: ", currentReactionsStatistics);
   let reactedStat = currentReactionsStatistics.find((item) => {
-    console.log("item: ", item, "newEmoji: ", newEmoji);
     newEmoji.includes(item.text);
   });
 
@@ -83,12 +81,13 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
   let newReactionsStatistics;
 
   function getNewStatForEmojiReacted() {
-    console.log("reactedStat: ", reactedStat);
     return {
-      accounts: [...reactedStat.accounts, accountThatIsLoggedIn],
-      emoji: reactedStat.emoji,
-      quantity: reactedStat.quantity++,
-      text: reactedStat.text,
+      accounts: reactedStat
+        ? [...reactedStat.accounts, accountThatIsLoggedIn]
+        : [accountThatIsLoggedIn],
+      emoji: reactedStat ? reactedStat.emoji : newEmoji.slice(0, 2),
+      quantity: reactedStat ? reactedStat.quantity++ : 1,
+      text: reactedStat ? reactedStat.text : newEmoji.slice(2),
     };
   }
   if (oldReactionStat) {
@@ -105,17 +104,17 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
       text: oldReactionStat.text,
     };
 
-    console.log("everyOtherReactionStat: ", everyOtherReactionStat);
-    newReactionsStatistics = [
-      ...everyOtherReactionStat,
-      getNewStatForEmojiReacted(),
-      newValueForOldReactionStat,
-    ];
+    newReactionsStatistics = everyOtherReactionStat
+      ? [
+          ...everyOtherReactionStat,
+          getNewStatForEmojiReacted(),
+          newValueForOldReactionStat,
+        ]
+      : [getNewStatForEmojiReacted(), newValueForOldReactionStat];
   } else {
-    newReactionsStatistics = [
-      ...everyOtherReactionStat,
-      getNewStatForEmojiReacted(),
-    ];
+    newReactionsStatistics = everyOtherReactionStat
+      ? [...everyOtherReactionStat, getNewStatForEmojiReacted()]
+      : [getNewStatForEmojiReacted()];
   }
   console.log("newReactionsStatistics: ", newReactionsStatistics);
 
