@@ -1,4 +1,4 @@
-const { showModal, closeModal } = props;
+let { showModal, closeModal } = props;
 
 State.init({
   showModal: showModal ?? false,
