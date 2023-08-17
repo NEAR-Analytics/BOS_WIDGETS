@@ -117,7 +117,7 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
 
   //If the user has reacted before and is changing it
   console.log("oldReactionStat: ", oldReactionStat);
-  console.log("getNewStatForEmojiReacted: ", getNewStatForEmojiReacted);
+  console.log("getNewStatForEmojiReacted: ", getNewStatForEmojiReacted());
   if (oldReactionStat) {
     //Take out the user's previous reaction from the list of users that have reacted like that
     let newAccountsForOldReactionStat = oldReactionStat.accounts.filter(
