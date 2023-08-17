@@ -225,10 +225,6 @@ function handleOnMouseLeave() {
   State.update({ show: false });
 }
 
-function onCommit() {
-  updateReactionsStatisticsIfUserVoted(emojiToWrite);
-}
-
 function onPushEnd() {
   State.update({ loading: false, show: false });
 }
@@ -247,6 +243,10 @@ function reactListener(emojiMessage) {
     state.reactionsData.userReaction.value.reaction === initialEmoji
       ? emojiArray[0]
       : emojiMessage;
+
+  function onCommit() {
+    updateReactionsStatisticsIfUserVoted(emojiToWrite);
+  }
 
   const newLibCalls = [...state.libCalls];
   newLibCalls.push({
