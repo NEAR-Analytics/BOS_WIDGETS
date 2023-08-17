@@ -35,6 +35,22 @@ if (state.keyUse == 1) {
         src="rngtickets.near/widget/kp-ticket2"
         props={{ key: props.key, pk: props.pk }}
       />
+      <div className="content">
+        <h1>NEAR Toronto: Rooftop Rendezvous🦩</h1>
+        <p>
+          Welcome to the 🦩NEAR Toronto: Rooftop Rendezvous🦩, a chill community
+          event that concludes the Blockchain Futurist Conference. Join us as we
+          celebrate the intersection of innovation, technology, and community,
+          immersed in a social atmosphere filled with great people and
+          creativity (more info below).
+        </p>
+        <p>
+          In collaboration with: NEAR Foundation, TENAMINT, Seahorse Social, KPW
+          Comms, Proof of Vibes, Marma J Foundation, NEAR Foundation, Music
+          Feast, GDS Consulting, Brothers Grimm Ultra Premium Vodka,
+          CreativesDAO.
+        </p>
+      </div>
     </>
   );
 } else if (state.keyUse == 2) {
