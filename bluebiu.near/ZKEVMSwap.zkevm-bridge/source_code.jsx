@@ -3,10 +3,15 @@ const Container = styled.div`
   gap: 8px;
   width: 560px;
   flex-direction: column;
+  // position: fixed;
+  // left: 50%;
+  /* top: 50%; */
   z-index: 0;
+  // transform: translate(-50%);
 `;
 
 const tokens = [
+  // eth testnet assets
   {
     address: "0x0000000000000000000000000000000000000000",
     chainId: 5,
@@ -144,17 +149,12 @@ const tokens = [
 const MAX_AMOUNT =
   "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
-const savedAdd = Storage.get(
-  "savedAdd",
-  "bluebiu.near/widget/ZKEVMSwap.zkevm-bridge"
-);
 State.init({
   gasLimit: ethers.BigNumber.from("300000"),
   isToastOpen: false,
-  add: savedAdd,
+  add: false,
   onChangeAdd: (add) => {
-    State.update({ add: add });
-    Storage.set("savedAdd", add);
+    State.update({ add });
   },
   hide: true,
 });
@@ -264,32 +264,13 @@ const handleBridge = (props) => {
       to: BRIDGE_CONTRACT_ADDRESS,
       data: encodedData,
       value: token.symbol === "ETH" ? amountBig : "0",
+      gasLimit,
     })
     .then((tx) => {
-      console.log("tx: ", tx);
-      tx.wait().then((receipt) => {
-        const { transactionHash, status } = receipt;
-
-        add_action({
-          action_title: `Bridge ${token.symbol} from ${
-            chainId === 1 ? "Ethereum" : "Polygon zkEVM"
-          }`,
-          action_type: "Bridge",
-          action_tokens: JSON.stringify([`${token.symbol}`]),
-          action_amount: amount,
-          account_id: sender,
-          account_info: uuid,
-          template: "native bridge",
-          action_network_id: "zkEVM",
-          action_switch: state.add ? 1 : 0,
-          actions,
-          tx_id: transactionHash,
-          action_status: status === 1 ? "Success" : "Failed",
-        });
-      });
+      consle.log("tx111111:", tx);
     })
     .catch((e) => {
-      console.log("e1111: ", e);
+      console.log("bridge error:", e);
       if (!e.code) {
         State.update({
           isToastOpen: true,
@@ -299,6 +280,8 @@ const handleBridge = (props) => {
             "Please allow a few seconds and press the 'refresh list' button",
         });
 
+        if (!state.add) return;
+
         const uuid = Storage.get(
           "zkevm-warm-up-uuid",
           "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
@@ -306,7 +289,7 @@ const handleBridge = (props) => {
 
         add_action({
           action_title: `Bridge ${token.symbol} from ${
-            chainId === 1 ? "Ethereum" : "Polygon zkEVM"
+            chainId === 1 ? "Ethereum" : "ZKEVM"
           }`,
           action_type: "Bridge",
           action_tokens: JSON.stringify([`${token.symbol}`]),
@@ -314,8 +297,6 @@ const handleBridge = (props) => {
           account_id: sender,
           account_info: uuid,
           template: "native bridge",
-          action_network_id: "zkEVM",
-          action_switch: state.add ? 1 : 0,
         });
       }
     });
@@ -531,10 +512,13 @@ const onConfirm = (props) => {
 };
 
 const onChangeAmount = (props) => {
+  console.log("onChangeAmount", props);
   setIsContractAllowedToSpendToken(props);
 };
 
 const onUpdateToken = (props) => {
+  console.log("props: ", props);
+  console.log("onUpdateToken", props);
   setIsContractAllowedToSpendToken(props);
   setName(props.token);
   setNonce(props);
@@ -586,14 +570,12 @@ return (
       <Widget
         src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
         props={{
-          add: savedAdd,
+          add: state.add,
           onChangeAdd: state.onChangeAdd,
           hide: state.hide,
           source: props.source,
         }}
       />
     </Container>
-
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
   </>
 );
