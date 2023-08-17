@@ -3,7 +3,7 @@ if (!accountId) {
   return "U need to login first or create new NEAR account here:https://shard.dog/go";
 }
 State.init({
-  amount: "0.01",
+  amount: "0.001",
   drops: "50",
   name: "",
   poapTitle: "NEAR Toronto event",
