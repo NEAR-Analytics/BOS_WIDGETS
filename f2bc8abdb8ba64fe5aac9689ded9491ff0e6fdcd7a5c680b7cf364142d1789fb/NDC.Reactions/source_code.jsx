@@ -151,6 +151,7 @@ State.init({
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
+  console.log("in updateReactionsStatisticsIfUserVoted");
   const resObject = arrayLastReactionForEachUser.find(
     (item) => item.accountId === accountThatIsLoggedIn
   );
@@ -194,9 +195,9 @@ function handleOnMouseLeave() {
 function onCommit(emojiToWrite) {
   console.log(1);
   () => {
-    console.log(2);
     onPushEnd();
     updateReactionsStatisticsIfUserVoted(emojiToWrite);
+    console.log(2);
   };
 }
 
