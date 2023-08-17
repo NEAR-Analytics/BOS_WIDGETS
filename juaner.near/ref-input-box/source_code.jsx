@@ -189,13 +189,17 @@ return (
       src="juaner.near/widget/ref-icons"
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
-    <div class="valueArea mb-2">
-      <div class="label">{props.label || "Available to supply"}</div>
-      <div>
-        <span class="balance">{subBalance}</span>
-        <span>(${balance$ || "0"})</span>
+
+    {!props.hideBalanceInputTop && (
+      <div class="valueArea mb-2">
+        <div class="label">{props.label || "Available to supply"}</div>
+        <div>
+          <span class="balance">{subBalance}</span>
+          <span>(${balance$ || "0"})</span>
+        </div>
       </div>
-    </div>
+    )}
+
     <div class="inputArea">
       <img src={metadata.icon || wnearbase64} class="tokenIcon" />
       <input
@@ -208,6 +212,29 @@ return (
         Max
       </span>
     </div>
+
+    {props.hideBalanceInputTop && (
+      <div
+        class="valueArea mb-2"
+        style={{
+          marginTop: "12px",
+        }}
+      >
+        <div class="">${balance$ || "0"}</div>
+        <div>
+          <span>Balance:</span>
+
+          <span
+            class="balance"
+            style={{
+              color: "#7c7f96",
+            }}
+          >
+            {subBalance}
+          </span>
+        </div>
+      </div>
+    )}
 
     <div class="scale mt_20">
       <span class="item">0%</span>
