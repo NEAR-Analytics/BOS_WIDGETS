@@ -1,4 +1,8 @@
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender) return "Please login first";
-
-return <p>Account: {sender}</p>;
+return (
+  <div>
+    <iframe
+      iframeResizer
+      src="https://davidjbradshaw.com/iframe-resizer/example/frame.content.html"
+    />
+  </div>
+);
