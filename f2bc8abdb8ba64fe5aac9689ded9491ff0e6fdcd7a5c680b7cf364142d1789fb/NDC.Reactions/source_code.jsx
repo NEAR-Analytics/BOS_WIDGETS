@@ -55,15 +55,13 @@ const libCalls = !state.updatedReactions
     ]
   : [];
 
-if (!state.updatedReactions) {
-  State.init({
-    emoji: undefined,
-    reactionsData: { reactionsStatistics: [], userReaction: undefined },
-    show: false,
-    loading: false,
-    libCalls,
-  });
-}
+State.init({
+  emoji: undefined,
+  reactionsData: { reactionsStatistics: [], userReaction: undefined },
+  show: false,
+  loading: false,
+  libCalls,
+});
 
 if (
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691530843649" ===
@@ -78,20 +76,22 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
 
   const oldReactionStat = currentReactionsStatistics.find((item) =>
     item.accounts.includes(accountThatIsLoggedIn)
-  );
+  ); //Get the previous reaction of the user.
 
   let reactedStat = currentReactionsStatistics.find((item) => {
     newEmoji.includes(item.text);
-  });
+  }); //Get the previous value of the emoji the user just uploaded
 
   let everyOtherReactionStat = currentReactionsStatistics.filter((item) => {
     !item.accounts.includes(accountThatIsLoggedIn) &&
       !newEmoji.includes(item.text);
-  });
+  }); //Get every other reaction
 
   let newReactionsStatistics;
 
   function getNewStatForEmojiReacted() {
+    //Change the stats of the emoji that was used considering the selection of the user
+    //If that type of reaction was not found previously just add it.
     return {
       accounts: reactedStat
         ? [...reactedStat.accounts, accountThatIsLoggedIn]
@@ -101,13 +101,17 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
       text: reactedStat ? reactedStat.text : newEmoji.slice(2),
     };
   }
+
+  //If the user has reacted before and is changing it
   if (oldReactionStat) {
+    //Take out the user's previous reaction from the list of users that have reacted like that
     let newAccountsForOldReactionStat = oldReactionStat.accounts.filter(
       (acc) => {
         acc != accountThatIsLoggedIn;
       }
     );
 
+    //Change the stats
     let newValueForOldReactionStat = {
       accounts: newAccountsForOldReactionStat,
       emoji: oldReactionStat.emoji,
@@ -115,6 +119,7 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
       text: oldReactionStat.text,
     };
 
+    //Set the new statistics value. If it's the first reaction to the post just add it. If not consider the previous reaction stats.
     newReactionsStatistics = everyOtherReactionStat
       ? [
           ...everyOtherReactionStat,
@@ -122,12 +127,16 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
           newValueForOldReactionStat,
         ]
       : [getNewStatForEmojiReacted(), newValueForOldReactionStat];
+
+    //If it's the first reaction of this user
   } else {
+    //If is the fisrt reaction to the post just add it, if not consider the previous values
     newReactionsStatistics = everyOtherReactionStat
       ? [...everyOtherReactionStat, getNewStatForEmojiReacted()]
       : [getNewStatForEmojiReacted()];
   }
-  console.log(updateReactionsStatisticsIfUserVoted);
+
+  //When update the data considering the existing data format
   State.update({
     reactionsData: {
       reactionsStatistics: newReactionsStatistics,
