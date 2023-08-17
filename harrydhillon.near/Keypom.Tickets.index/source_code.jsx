@@ -54,6 +54,23 @@ State.init({
   ticketPreview: null,
 });
 
+function extractDateComponents(dateStr) {
+  const dateObj = new Date(dateStr);
+
+  const month = dateObj.toLocaleString("default", { month: "long" }); // e.g., "August"
+  const date = dateObj.getDate(); // e.g., 3
+  const year = dateObj.getFullYear(); // e.g., 2023
+
+  return `${month} ${date}, ${year}`;
+}
+
+
+function ellipsisIfExceeds(str) {
+    if (str.length <= maxLength) {
+        return str;
+    }
+    return str.substring(0, 150 - 3) + '...';
+}
 const createTickets = () => {
   return (
     <>
@@ -128,7 +145,24 @@ const createTickets = () => {
               {state.tickets.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell style={{ width: "30%" }}>
-                    {item.ticketName}
+                    <div style={{ fontSize: 16, fontWeight: "500" }}>
+                      {item.ticketName}
+                    </div>
+                    <p
+                      style={{
+                        textOverflow: "ellipsis",
+                        width: 200,
+                        fontSize: 12,
+                        whiteSpace: "nowrap",
+                        marginBottom: 0,
+                      }}
+                    >
+                      {ellipsisIfExceeds(item.description)}
+                    </p>
+                    <div style={{ fontSize: 12, color: "#94A3B8" }}>
+                      {extractDateComponents(item.from)} -{" "}
+                      {extractDateComponents(item.to)}
+                    </div>
                   </TableCell>
                   <TableCell>
                     <UnstyledButton
