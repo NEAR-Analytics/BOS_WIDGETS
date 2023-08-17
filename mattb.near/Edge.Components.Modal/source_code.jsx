@@ -1,7 +1,7 @@
-const { slot, onClose, initState } = props;
+const { slot, onClose, showModal } = props;
 
 State.init({
-  closed: initState ?? true,
+  open: showModal ?? false,
 });
 
 const Slot = () => <>{slot}</>;
@@ -28,13 +28,13 @@ const Overlay = styled.div`
 
 return (
   <>
-    {!state.closed && (
+    {state.open && (
       <Overlay
         onClick={() => {
-          State.update({ closed: !state.closed });
+          State.update({ closed: !state.open });
 
           if (typeof onClose === "function") {
-            onClose(state.closed);
+            onClose(state.open);
           }
         }}
       >
