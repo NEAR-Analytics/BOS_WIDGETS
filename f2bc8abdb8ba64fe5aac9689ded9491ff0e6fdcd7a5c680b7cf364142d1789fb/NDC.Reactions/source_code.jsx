@@ -81,6 +81,7 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
   let newReactionsStatistics;
 
   function getNewStatForEmojiReacted() {
+    console.log("reactedStat: ", reactedStat);
     return {
       accounts: [...reactedStat.accounts, accountThatIsLoggedIn],
       emoji: reactedStat.emoji,
@@ -89,15 +90,10 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
     };
   }
   if (oldReactionStat) {
-    console.log("oldReactionStat: ", oldReactionStat);
     let newAccountsForOldReactionStat = oldReactionStat.accounts.filter(
       (acc) => {
         acc != accountThatIsLoggedIn;
       }
-    );
-    console.log(
-      "newAccountsForOldReactionStat: ",
-      newAccountsForOldReactionStat
     );
 
     let newValueForOldReactionStat = {
@@ -107,6 +103,7 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
       text: oldReactionStat.text,
     };
 
+    console.log("everyOtherReactionStat: ", everyOtherReactionStat);
     newReactionsStatistics = [
       ...everyOtherReactionStat,
       getNewStatForEmojiReacted(),
