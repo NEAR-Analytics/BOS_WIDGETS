@@ -51,6 +51,7 @@ const ActionButton = styled.button`
 State.init({
   isCreateTicketModalOpen: false,
   tickets: [],
+  ticketPreview: null,
 });
 
 const createTickets = () => {
@@ -130,7 +131,13 @@ const createTickets = () => {
                     {item.ticketName}
                   </TableCell>
                   <TableCell>
-                    <UnstyledButton>Preview Ticket</UnstyledButton>
+                    <UnstyledButton
+                      onClick={() => {
+                        State.update({ ticketPreview: item });
+                      }}
+                    >
+                      Preview Ticket
+                    </UnstyledButton>
                   </TableCell>
                   <TableCell>{item.numberOfTickets}</TableCell>
                   <TableCell>{item.ticketPricing}</TableCell>
@@ -174,6 +181,20 @@ const createTickets = () => {
             </tbody>
           </Table>
         </div>
+      )}
+      {!!state.ticketPreview && (
+        <Widget
+          src="harrydhillon.near/widget/Keypom.Tickets.TicketPreview"
+          props={{
+            isOpen: !!state.ticketPreview,
+            ...state.ticketPreview,
+            onClose: () => {
+              State.update({
+                ticketPreview: null,
+              });
+            },
+          }}
+        />
       )}
     </>
   );
