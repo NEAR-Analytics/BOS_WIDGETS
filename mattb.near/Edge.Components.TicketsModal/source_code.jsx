@@ -1,4 +1,8 @@
-const { initState } = props;
+const { initState, onClose } = props;
+
+State.init({
+  closed: initState ?? true,
+});
 
 const WIDGET_OWNER = "mattb.near";
 const URL_EVENT_SF = "https://partiful.com/e/hfRtoRSuVH4tGrzwmOW3";
@@ -74,7 +78,13 @@ return (
   <Widget
     src={`${WIDGET_OWNER}/widget/Edge.Components.Modal`}
     props={{
-      onClose: (closed) => State.update({ closed: closed }),
+      onClose: (closed) => {
+        State.update({ closed: closed });
+
+        if (typeof onClose === "function") {
+          onClose(state.closed);
+        }
+      },
       initState: initState ?? true,
       slot: (
         <Content>
