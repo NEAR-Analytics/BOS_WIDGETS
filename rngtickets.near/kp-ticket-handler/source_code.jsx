@@ -32,7 +32,7 @@ if (state.keyUse == 1) {
   return (
     <>
       <Widget
-        src="mintlu.near/widget/kp-ticket2"
+        src="rngtickets.near/widget/kp-ticket2"
         props={{ key: props.key, pk: props.pk }}
       />
     </>
@@ -75,7 +75,7 @@ if (state.keyUse == 1) {
     <div className="content">
       <h1>Now that you have a wallet...</h1>
       <a
-        href={"https://near.org/learn/#anker_near"}
+        href={"https://near.org/learn"}
         target="_blank"
         rel="noopener noreferrer"
       >
