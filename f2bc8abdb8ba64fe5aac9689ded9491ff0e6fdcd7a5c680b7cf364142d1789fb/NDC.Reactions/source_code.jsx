@@ -151,10 +151,10 @@ State.init({
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
-  console.log("in updateReactionsStatisticsIfUserVoted");
   const resObject = arrayLastReactionForEachUser.find(
     (item) => item.accountId === accountThatIsLoggedIn
   );
+  console.log(resObject);
   if (!resObject) {
     arrayLastReactionForEachUser = [
       ...arrayLastReactionForEachUser,
@@ -174,9 +174,11 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
         return item;
       });
   }
-  reactionsStatistics =
+  let reactionsStatistics =
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
+
+  console.log(reactionsStatistics);
   State.update({
     reactionsStatistics,
   });
@@ -193,9 +195,9 @@ function handleOnMouseLeave() {
 }
 
 function onCommit() {
+  console.log(2);
   onPushEnd();
   updateReactionsStatisticsIfUserVoted(emojiToWrite);
-  console.log(2);
 }
 
 function onPushEnd() {
