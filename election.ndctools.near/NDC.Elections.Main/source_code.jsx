@@ -13,8 +13,6 @@ let houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[2] }),
 ];
 
-console.log(houses);
-
 State.init({
   selectedHouse: ids[0],
   humanVoted: 0,
@@ -58,6 +56,8 @@ if (context.accountId)
   ).then((resp) => {
     if (resp.body) State.update({ myVotes: resp.body });
   });
+
+console.log(state.myVotes);
 
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
