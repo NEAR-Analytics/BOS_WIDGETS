@@ -151,7 +151,7 @@ State.init({
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
-  console.log("ALRFEU: ", arrayLastReactionForEachUser);
+  console.log("RS: ", state.reactionsData.reactionsStatistics);
   const resObject = arrayLastReactionForEachUser.find(
     (item) => item.accountId === accountThatIsLoggedIn
   );
