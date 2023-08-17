@@ -152,12 +152,12 @@ State.init({
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
   let arrayLastReactionForEachUser = state.reactionsData.reactionsStatistics;
-  console.log(arrayLastReactionForEachUser);
+  console.log("arrayLastReactionForEachUser: ", arrayLastReactionForEachUser);
 
   const resObject = arrayLastReactionForEachUser.find(
     (item) => item.accountId === accountThatIsLoggedIn
   );
-  console.log(resObject);
+  console.log("resObject: ", resObject);
   if (!resObject) {
     arrayLastReactionForEachUser = [
       ...arrayLastReactionForEachUser,
