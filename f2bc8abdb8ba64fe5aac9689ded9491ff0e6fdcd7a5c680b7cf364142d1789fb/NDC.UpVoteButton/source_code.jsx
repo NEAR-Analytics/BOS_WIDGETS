@@ -85,14 +85,13 @@ function upVoteListener() {
   let oldNumberOfvotesModified = state.numberOfvotesModified;
 
   function onCommit() {
-    state.numberOfVotes &&
-      State.update({
-        numberOfvotesModified: !oldNumberOfvotesModified,
-        numberOfVotes: isDelete
-          ? state.numberOfVotes - 1
-          : state.numberOfVotes + 1,
-        createdInteraction: !isDelete,
-      });
+    State.update({
+      numberOfvotesModified: !oldNumberOfvotesModified,
+      numberOfVotes: isDelete
+        ? state.numberOfVotes - 1
+        : state.numberOfVotes + 1,
+      createdInteraction: !isDelete,
+    });
   }
 
   newLibCalls.push({
