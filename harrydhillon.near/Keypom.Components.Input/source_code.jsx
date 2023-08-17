@@ -22,10 +22,26 @@ const StyledInput = styled.input`
     }
 `;
 
+const StyledTextArea = styled.textarea`
+    padding: 10px 15px;
+    border: 1px solid lightgray;
+    border-radius: 5px;  // Rounded borders
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: #6C757D;  // Slightly darker border when focused
+    }
+`;
+
+const ComponentToUse = props.isTextArea ?StyledTextArea :StyledInput;
+
 const inputComponent = (label, inputProps, labelProps) => (
   <Wrapper>
     <Label {...labelProps}>{label}</Label>
-    <StyledInput {...inputProps} />
+    <ComponentToUse {...inputProps} />
   </Wrapper>
 );
 
