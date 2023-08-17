@@ -230,12 +230,8 @@ const AddTicketModal = (
   </div>
 );
 
-if (
-  props.editMode &&
-  props.isOpen &&
-  !state.hasBeenEditUpdated
-) {
-  State.update({ fieldVal: props.editVal, hasBeenEditUpdated: true });
+if (props.editMode && props.isOpen && !state.hasBeenEditUpdated) {
+  State.update({ ...props.editVal, hasBeenEditUpdated: true });
 }
 
 return (
