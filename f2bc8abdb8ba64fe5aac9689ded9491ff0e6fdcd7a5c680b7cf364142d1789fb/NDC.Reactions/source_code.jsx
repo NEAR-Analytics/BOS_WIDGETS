@@ -152,6 +152,7 @@ State.init({
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
   let arrayLastReactionForEachUser = state.reactionsData.reactionsStatistics;
+  console.log(arrayLastReactionForEachUser);
 
   const resObject = arrayLastReactionForEachUser.find(
     (item) => item.accountId === accountThatIsLoggedIn
@@ -204,7 +205,6 @@ function handleOnMouseLeave() {
 }
 
 function onCommit() {
-  console.log(2);
   updateReactionsStatisticsIfUserVoted(emojiToWrite);
 }
 
