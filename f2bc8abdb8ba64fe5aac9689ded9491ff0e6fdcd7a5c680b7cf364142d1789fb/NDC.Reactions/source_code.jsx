@@ -176,6 +176,11 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
         return item;
       });
   }
+
+  function countReactionsStats(arr) {
+    return Object.values(arr.reduce(getReactionStats, {}));
+  }
+
   let reactionsStatistics =
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
