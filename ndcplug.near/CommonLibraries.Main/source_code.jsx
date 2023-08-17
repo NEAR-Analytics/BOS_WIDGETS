@@ -1,4 +1,3 @@
-// tab isn't rerederning properly
 // add better icons and actually populate components
 // pass in props so can keep track of state
 // make it so on click is home tag
@@ -7,7 +6,8 @@
 // make every header also a filter
 // add selecte tab styling
 // search keeps refreshing
-// filter not working, need to show route
+// fix search
+// add leaderboard
 
 const Card = styled.div`
   position: relative;
@@ -781,13 +781,16 @@ return (
               <i className="bi-house" />
               <span>Home</span>
             </button>
-            <button
-              className="nav-link mt-2"
-              onClick={() => updateTab("searchComponents")}
-            >
-              <i className="bi-search" />
-              <span>Search</span>
-            </button>
+            {false && (
+              <button
+                className="nav-link mt-2"
+                onClick={() => updateTab("searchComponents")}
+              >
+                <i className="bi-search" />
+                <span>Search</span>
+              </button>
+            )}
+
             <hr className="border-2" />
             {navItems.map((item) => {
               // console.log(item);
