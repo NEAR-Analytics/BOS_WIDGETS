@@ -54,8 +54,6 @@ State.init({
   ticketPreview: null,
 });
 
-console.log(state.tickets);
-
 function extractDateComponents(dateStr) {
   const dateObj = new Date(dateStr);
 
