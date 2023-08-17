@@ -1,7 +1,7 @@
 const { slot, onClose, initState } = props;
 
 State.init({
-  closed: initState || true,
+  closed: initState ?? true,
 });
 
 const Slot = () => <>{slot}</>;
@@ -15,7 +15,6 @@ const Box = styled.div`
 `;
 
 const Overlay = styled.div`
-    position:fixed;
     top:0;
     left:0;
     width:100%;
