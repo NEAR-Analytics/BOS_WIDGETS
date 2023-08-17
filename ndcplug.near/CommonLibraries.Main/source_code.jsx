@@ -729,9 +729,10 @@ const renderHome = () => {
               {state.selectedTab && state.selectedTab !== "home" ? (
                 <>
                   {" "}
-                  {renderCategory(
-                    curatedComps.find((i) => i.id == state.selectedTab)
-                  )}
+                  {true &&
+                    renderCategory(
+                      curatedComps.find((i) => i.id == props.catTab)
+                    )}
                 </>
               ) : (
                 <>{curatedComps.map((cat, i) => renderCategory(cat.id))}</>
