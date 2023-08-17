@@ -1,7 +1,7 @@
-const { initState, onClose } = props;
+const { showModal, closeModal } = props;
 
 State.init({
-  closed: initState ?? true,
+  showModal: showModal ?? false,
 });
 
 const WIDGET_OWNER = "mattb.near";
@@ -78,14 +78,14 @@ return (
   <Widget
     src={`${WIDGET_OWNER}/widget/Edge.Components.Modal`}
     props={{
+      showModal: showModal,
       onClose: (closed) => {
         State.update({ closed: closed });
 
-        if (typeof onClose === "function") {
-          onClose(state.closed);
+        if (typeof closeModal === "function") {
+          closeModal();
         }
       },
-      initState: initState ?? true,
       slot: (
         <Content>
           <h1>Choose your ticket.</h1>
