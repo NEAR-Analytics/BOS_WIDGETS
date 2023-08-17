@@ -216,14 +216,38 @@ const StakeFormWrapper = styled.div`
   width: 100%;
   max-width: 500px;
   padding-top: 10px;
-  background: #1A2E33;
+  background: #25283A;
   border-radius: 16px;
   margin-top:20px;
   padding-bottom:20px;
   .contentArea{
-    background: #142427;
+    background: #25283A;
     border-radius: 16px;
-    padding:20px 30px;
+    padding:20px 30px 0 30px;
+  }
+  .contentArea p{
+    color: #7C7F96;
+    font-size:14px;
+  }
+  .contentArea hr{
+    background: #373A53;
+    height:2px;
+  }
+  .arr .bigIcon{
+    background: #373A53;
+  }
+  .arr .boldText{
+    font-weight: 500;
+  }
+  .arr .apr{
+    color: #7C7F96;
+  }
+  .arr .apr .value{
+    color:#FFFFFF;
+    font-weight: 500;
+  }
+  .footer p{
+    color:#FFFFFF;
   }
 `;
 /** events start */
@@ -336,53 +360,57 @@ const onClickStake = () => {
       });
     }
   }, 500);
-}
-console.log('00000');
+};
+console.log("00000");
 return (
-    <StakeFormWrapper>
+  <StakeFormWrapper>
+    <div class="arr">
       <Widget
         src={`ref-admin.near/widget/stake-bannerIcon`}
         props={{
           firstIconName: "NEAR",
           firstIconUrl:
             "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-          secondIconName: "NearX",
+          secondIconName: "",
           secondIconUrl:
             "https://ipfs.near.social/ipfs/bafkreia7nzk2nlapfchtgtdnguzrz425fdkhqdsx5gwutuvttetao63rii",
           componentType: "NearX",
           apy_value: state.apy,
         }}
       ></Widget>
-      <div class="contentArea">
-        <Widget
-          src={`ref-admin.near/widget/LiNEAR.Input`}
-          props={{
-            placeholder: "0",
-            value: state.inputValue,
-            onChange,
-            onClickMax,
-            inputError: state.inputError,
-            balance: nearBalance,
-          }}
-        />
-        <Widget
-          src={`ref-admin.near/widget/LiNEAR.Button`}
-          props={{
-            onClick: onClickStake,
-            disabled: disabledStakeButton,
-            text: "Stake",
-          }}
-        />
+    </div>
+    <div class="contentArea">
+      <Widget
+        src={`ref-admin.near/widget/LiNEAR.Input`}
+        props={{
+          placeholder: "0",
+          value: state.inputValue,
+          onChange,
+          onClickMax,
+          inputError: state.inputError,
+          balance: nearBalance,
+        }}
+      />
+      <Widget
+        src={`ref-admin.near/widget/LiNEAR.Button`}
+        props={{
+          onClick: onClickStake,
+          disabled: disabledStakeButton,
+          text: "Stake",
+        }}
+      />
+      <div class="footer">
         <Widget
           src={`ref-admin.near/widget/LiNEAR.Message.YouWillReceive`}
           props={{ text: `${youWillReceive} ${tokenName}` }}
         />
       </div>
-      <FooterLink
-        href={`https://www.staderlabs.com/near/lt/near/?tab=Unstake&utm_referral=${utmReferral}`}
-        target="_blank"
-      >
-        Unstake {tokenName}
-      </FooterLink>
-    </StakeFormWrapper>
+    </div>
+    <FooterLink
+      href={`https://www.staderlabs.com/near/lt/near/?tab=Unstake&utm_referral=${utmReferral}`}
+      target="_blank"
+    >
+      Unstake {tokenName}
+    </FooterLink>
+  </StakeFormWrapper>
 );
