@@ -122,7 +122,7 @@ const createDrop = () => {
             copies: parseInt(`${state.drops}`),
           },
         },
-        deposit: "7840000000000000000000",
+        deposit: Near2Yocto(0.1),
       },
       {
         contractName: keypomContract,
