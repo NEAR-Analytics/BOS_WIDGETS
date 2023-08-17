@@ -179,7 +179,7 @@ return (
       fetchMore,
       hasMore: state.displayCount < filteredItems.length,
       makeMoreItems,
-      renderItems: (i) => i.map(renderItem),
+      renderItems: (i) => Promise.all(i.map(renderItem)),
     }}
     isTrusted={true}
   />
