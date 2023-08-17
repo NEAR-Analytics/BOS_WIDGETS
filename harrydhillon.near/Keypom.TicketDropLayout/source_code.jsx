@@ -84,7 +84,7 @@ const componentsToRender = [
   <Widget src="harrydhillon.near/widget/Keypom.EventInfo.Form" />,
   <Widget src="harrydhillon.near/widget/Keypom.CollectInfo.Index" />,
   <Widget src="harrydhillon.near/widget/Keypom.Tickets.index" />,
-  <></>,
+  <Widget src="harrydhillon.near/widget/Keypom.Review.Index" />,
 ];
 
 const formContent = () => {
