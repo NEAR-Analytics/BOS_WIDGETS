@@ -192,7 +192,7 @@ const AddTicketModal = (
     <Widget src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
     <button
       onClick={() => {
-        props.onSave(state);
+        props.onSave({...state,ticketPricing:state.selected === "Custom Amount"?state.nearAmountForTicket:state.selected});
         // State.update({ fieldVal: "", hasBeenEditUpdated: false });
       }}
       style={{
