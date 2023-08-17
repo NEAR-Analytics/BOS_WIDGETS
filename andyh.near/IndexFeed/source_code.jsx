@@ -14,7 +14,6 @@ const renderItem =
     </div>
   ));
 const cachedRenderItem = (item, i) => {
-  console.log({ item });
   if (item === undefined) {
     return "loading...";
   }
@@ -23,6 +22,7 @@ const cachedRenderItem = (item, i) => {
 
     if (!(key in state.cachedItems)) {
       state.cachedItems[key] = renderItem(item, i);
+      console.log({ item, cached: state.cachedItems[key] });
       State.update();
     }
     return state.cachedItems[key];
