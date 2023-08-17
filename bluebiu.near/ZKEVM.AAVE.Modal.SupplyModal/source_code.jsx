@@ -172,10 +172,7 @@ function updateGas() {
 
 updateGas();
 const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
-const questionSwitch = Storage.get(
-  "zkevm-aave-question-switch",
-  "guessme.near/widget/ZKEVM.switch_quest_card"
-);
+const questionSwitch = Storage.get("zkevm-aave-question-switch", "guessme.near/widget/ZKEVM.switch_quest_card");
 
 function getNonce(tokenAddress, userAddress) {
   const token = new ethers.Contract(
@@ -312,9 +309,8 @@ function depositETH(amount) {
           account_id: eth_account_id,
           account_info: uuid,
           template: "AAVE",
-          action_switch: questionSwitch == "on" ? "1" : "0",
+          action_switch: questionSwitch == "on" ? '1': '0',
           action_status: status === 1 ? "Success" : "Failed",
-          action_network_id: "zkEVM",
           tx_id: transactionHash,
         });
       });
@@ -396,8 +392,7 @@ function update() {
 }
 
 update();
-const is_disabled =
-  state.loading || Big(state.amount || 0).lte(0) || Big(balance).lte(0);
+const is_disabled = state.loading || Big(state.amount || 0).lte(0) || Big(balance).lte(0);
 function depositErc20(amount) {
   State.update({
     loading: true,
@@ -440,9 +435,8 @@ function depositErc20(amount) {
                 account_id: eth_account_id,
                 account_info: uuid,
                 template: "AAVE",
-                action_switch: questionSwitch == "on" ? "1" : "0",
+                action_switch: questionSwitch == "on" ? '1': '0',
                 action_status: status === 1 ? "Success" : "Failed",
-                action_network_id: "zkEVM",
                 tx_id: transactionHash,
               });
             });
@@ -490,9 +484,8 @@ function depositErc20(amount) {
                 account_id: eth_account_id,
                 account_info: uuid,
                 template: "AAVE",
-                action_switch: questionSwitch == "on" ? "1" : "0",
+                action_switch: questionSwitch == "on" ? '1': '0',
                 action_status: status === 1 ? "Success" : "Failed",
-                action_network_id: "zkEVM",
                 tx_id: transactionHash,
               });
             });
@@ -576,19 +569,14 @@ const changeValue = (value) => {
   }
   State.update({ amount: value });
 };
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
 function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add ", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify(param_body),
-  });
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(param_body),
+    });
 }
 return (
   <>
@@ -637,8 +625,8 @@ return (
                           }}
                         >
                           {isValid(balance) && balance !== "-"
-                            ? Big(balance).toFixed(7)
-                            : balance}
+                              ? Big(balance).toFixed(7)
+                              : balance}
                         </span>
                       </GrayTexture>
                     </BalanceContainer>
@@ -646,7 +634,7 @@ return (
                 ),
               }}
             />
-            <div className="splitDiv">
+             <div className="splitDiv">
               <div className="splitLine"></div>
             </div>
             <Widget
