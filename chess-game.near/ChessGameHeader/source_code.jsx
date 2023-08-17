@@ -5,7 +5,8 @@ const discordIcon = "chess-game.near/widget/DiscordIcon";
 
 const Header = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   gap: 0.6rem;
   justify-content: center;
 
@@ -30,32 +31,40 @@ const Disclaimer = styled.div`
   font-style: italic;
   font-size: 1.2rem;
 `;
+const Links = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+`;
 
 return (
   <Header>
     <h1>Protocol Pawns</h1>
+    <Widget src="hack.near/widget/star.button" props={{ widgetPath }} />
     <Disclaimer>
       Play chess fully on chain powered by Near Protocol and the BOS. If you
       want to learn more please visit the profile page.
     </Disclaimer>
-    <a
-      href="https://near.social/mob.near/widget/ProfilePage?accountId=chess-game.near"
-      target="_blank"
-    >
-      <Widget src={profileIcon} props={{ height: "2rem" }} />
-      <span>Profile</span>
-    </a>
-    <a href="https://github.com/Protocol-Pawns" target="_blank">
-      <Widget src={githubIcon} props={{ height: "2rem" }} />
-      <span>Github</span>
-    </a>
-    <a href="https://twitter.com/protocolpawns" target="_blank">
-      <Widget src={twitterIcon} props={{ height: "2rem" }} />
-      <span>Twitter</span>
-    </a>
-    <a href="https://discord.com/invite/wKqEnXjaVH" target="_blank">
-      <Widget src={discordIcon} props={{ height: "2rem" }} />
-      <span>Discord</span>
-    </a>
+    <Links>
+      <a
+        href="https://near.social/mob.near/widget/ProfilePage?accountId=chess-game.near"
+        target="_blank"
+      >
+        <Widget src={profileIcon} props={{ height: "2rem" }} />
+        <span>Profile</span>
+      </a>
+      <a href="https://github.com/Protocol-Pawns" target="_blank">
+        <Widget src={githubIcon} props={{ height: "2rem" }} />
+        <span>Github</span>
+      </a>
+      <a href="https://twitter.com/protocolpawns" target="_blank">
+        <Widget src={twitterIcon} props={{ height: "2rem" }} />
+        <span>Twitter</span>
+      </a>
+      <a href="https://discord.com/invite/wKqEnXjaVH" target="_blank">
+        <Widget src={discordIcon} props={{ height: "2rem" }} />
+        <span>Discord</span>
+      </a>
+    </Links>
   </Header>
 );
