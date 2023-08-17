@@ -151,6 +151,7 @@ const formContent = () => {
           Back
         </BackButton>
         <button
+          disabled={state.index === 3}
           onClick={() => {
             State.update({ index: state.index + 1 });
           }}
