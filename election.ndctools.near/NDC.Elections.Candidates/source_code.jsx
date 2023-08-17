@@ -597,7 +597,7 @@ const CastVotes = () => (
       <Info className="text-secondary">
         <i class="bi bi-info-circle"></i>
         {alreadyVotedForHouse() ? (
-          <span>You're already voted for {housesMapping[typ]} house</span>
+          <span>You're already voted for {housesMapping[typ]}</span>
         ) : (
           <span>Make sure you selected all {seats} candidates</span>
         )}
