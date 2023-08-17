@@ -55,9 +55,13 @@ const AddTicketModal = (
         inputProps: {
           placeholder: "Add a description",
           required: true,
-          value: state.ticketName,
-          onChange: (e) => State.update({ ticketName: e.target.value }),
+          value: state.description,
+          style:{
+            minHeight:'130px',
+          },
+          onChange: (e) => State.update({ description: e.target.value }),
         },
+        isTextArea: true,
         labelProps: {
           style: {
             fontWeight: "400",
@@ -120,7 +124,7 @@ const AddTicketModal = (
           placeholder: "Select a date range",
           value: state.date,
           type: "date",
-          onChange: (e) => State.update({ to: e.target.value }),
+          onChange: (e) => State.update({ passValid: e.target.value }),
         },
       }}
     />
@@ -131,8 +135,9 @@ const AddTicketModal = (
         inputProps: {
           placeholder: "Number of tickets",
           required: true,
-          value: state.ticketName,
-          onChange: (e) => State.update({ ticketName: e.target.value }),
+          type:"number",
+          value: state.numberOfTickets,
+          onChange: (e) => State.update({ numberOfTickets: e.target.value }),
         },
         labelProps: {
           style: {
@@ -151,37 +156,43 @@ const AddTicketModal = (
       {nearAmount.map((item) => (
         <div>{nearLabel(item, parseInt(item) === state.selected)}</div>
       ))}
-     {nearLabel("Custom Amount",state.selected==="Custom Amount")}
+      {nearLabel("Custom Amount", state.selected === "Custom Amount")}
     </div>
-    {state.selected==="Custom Amount" && <>
+    {state.selected === "Custom Amount" && (
+      <>
         <Widget
-      props={{
-        label: "Custom Near Amount",
-        inputProps: {
-          placeholder: "Please enter the near amount you want to sell your tickets for",
-          required: true,
-          value: state.ticketName,
-          onChange: (e) => State.update({ nearAmountForTicket: e.target.value }),
-        },
-        labelProps: {
-          style: {
-            fontWeight: "500",
-          },
-        },
-      }}
-      src="harrydhillon.near/widget/Keypom.Components.Input"
-    />
-    </>}
-    {state.selected!=='Custom Amount'&& (
-          <p style={{ color: "gray" }}>
-      Your receive {state.selected} NEAR. Buyer pays {state.selected}.187 NEAR.
-    </p>
+          props={{
+            label: "Custom Near Amount",
+            inputProps: {
+              placeholder:
+                "Please enter the near amount you want to sell your tickets for",
+              required: true,
+              value: state.nearAmountForTicket,
+              type:"number",
+              onChange: (e) =>
+                State.update({ nearAmountForTicket: e.target.value }),
+            },
+            labelProps: {
+              style: {
+                fontWeight: "500",
+              },
+            },
+          }}
+          src="harrydhillon.near/widget/Keypom.Components.Input"
+        />
+      </>
+    )}
+    {state.selected !== "Custom Amount" && (
+      <p style={{ color: "gray" }}>
+        Your receive {state.selected} NEAR. Buyer pays {state.selected}.187
+        NEAR.
+      </p>
     )}
     <p style={{ fontWeight: "500", marginBottom: 0 }}>Ticket Artwork</p>
     <Widget src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
     <button
       onClick={() => {
-        // props.onSave(state);
+        props.onSave(state);
         // State.update({ fieldVal: "", hasBeenEditUpdated: false });
       }}
       style={{
