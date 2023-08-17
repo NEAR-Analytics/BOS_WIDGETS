@@ -9,7 +9,7 @@ return (
         style={{
           backgroundColor: "#ecc2ff",
           width: "300px",
-          height: "450px",
+          height: "400px",
           border: "5px solid black",
           borderRadius: "25px",
         }}
