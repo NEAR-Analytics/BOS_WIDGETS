@@ -432,6 +432,7 @@ return (
             balance: available,
             balance$: availableUSD,
             metadata: asset.metadata,
+            label: "Available to withdraw",
           }}
         />
         {hasError && (
