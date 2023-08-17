@@ -1,4 +1,4 @@
-State.init({ fieldVal: "", selected: 20 });
+State.init({ selected: 20 });
 const Label = styled.p`
 font-size: 16px;
  translate: 3px 8px;
@@ -192,7 +192,13 @@ const AddTicketModal = (
     <Widget src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
     <button
       onClick={() => {
-        props.onSave({...state,ticketPricing:state.selected === "Custom Amount"?state.nearAmountForTicket:state.selected});
+        props.onSave({
+          ...state,
+          ticketPricing:
+            state.selected === "Custom Amount"
+              ? state.nearAmountForTicket
+              : state.selected,
+        });
         // State.update({ fieldVal: "", hasBeenEditUpdated: false });
       }}
       style={{
@@ -223,6 +229,15 @@ const AddTicketModal = (
     </button>
   </div>
 );
+
+if (
+  props.editMode &&
+  props.isOpen &&
+  !state.hasBeenEditUpdated
+) {
+  State.update({ fieldVal: props.editVal, hasBeenEditUpdated: true });
+}
+
 return (
   <Widget
     src="harrydhillon.near/widget/Keypom.Components.Modal"
