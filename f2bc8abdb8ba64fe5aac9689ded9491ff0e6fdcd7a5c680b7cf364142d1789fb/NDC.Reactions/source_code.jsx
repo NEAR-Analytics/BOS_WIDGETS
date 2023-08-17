@@ -146,6 +146,8 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
           newValueForOldReactionStat,
         ]
       : [getNewStatForEmojiReacted(), newValueForOldReactionStat];
+    //Only keep reactions with at least 1 person using it
+    newReactionsStatistics.filter((statistic) => statistic.quantity > 1);
 
     //If it's the first reaction of this user
   } else {
