@@ -461,7 +461,7 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
             key: "kanban-view-tags-required",
 
             label:
-              "Enter tags you want to include. Posts with these tags will display:",
+              "Enter tags you want to include. Posts with these tags will display.",
 
             onChange: form.update({ path: ["config", "tags", "required"] }),
             placeholder: "tag1, tag2",
