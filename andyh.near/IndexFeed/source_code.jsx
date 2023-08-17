@@ -13,23 +13,23 @@ const renderItem =
       #{item.blockHeight}: {JSON.stringify(item)}
     </div>
   ));
-const cachedRenderItem = (item, i) => {
-  if (item === undefined) {
-    return "loading...";
-  }
-  try {
-    const key = JSON.stringify(item);
+// const cachedRenderItem = (item, i) => {
+//   if (item === undefined) {
+//     return "loading...";
+//   }
+//   try {
+//     const key = JSON.stringify(item);
 
-    if (!(key in state.cachedItems)) {
-      state.cachedItems[key] = renderItem(item, i);
-      console.log({ item, cached: state.cachedItems[key] });
-      State.update();
-    }
-    return state.cachedItems[key];
-  } catch (e) {
-    console.warn(e, { cached: state.cachedItems, state: { ...state } });
-  }
-};
+//     if (!(key in state.cachedItems)) {
+//       state.cachedItems[key] = renderItem(item, i);
+//       console.log({ item, cached: state.cachedItems[key] });
+//       State.update();
+//     }
+//     return state.cachedItems[key];
+//   } catch (e) {
+//     console.warn(e, { cached: state.cachedItems, state: { ...state } });
+//   }
+// };
 
 index.options = index.options || {};
 const initialRenderLimit =
@@ -179,7 +179,7 @@ return (
       fetchMore,
       hasMore: state.displayCount < filteredItems.length,
       makeMoreItems,
-      renderItems: (i) => i.map(cachedRenderItem),
+      renderItems: (i) => i.map(renderItem),
     }}
     isTrusted={true}
   />
