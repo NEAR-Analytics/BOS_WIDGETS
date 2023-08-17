@@ -74,80 +74,87 @@ function ellipsisIfExceeds(str) {
   return str.substring(0, 35 - 3) + "...";
 }
 
-const bottomTickets = ["Gold Ticket (VIP)","Bronze Ticket","Silver Ticket"]
+const bottomTickets = ["Gold Ticket (VIP)", "Bronze Ticket", "Silver Ticket"];
 
 return (
-    <>
-  <Table>
-    <TableHead>
-      <TableRow>
-        <TableHeader>Ticket</TableHeader>
-        <TableHeader />
-        <TableHeader># of tickets</TableHeader>
-        <TableHeader>Price (NEAR)</TableHeader>
-        <TableHeader />
-      </TableRow>
-    </TableHead>
-    <tbody style={{ borderRadius: 10 }}>
-      {state.tickets.map((item, index) => (
-        <TableRow key={index}>
-          <TableCell style={{ width: "30%" }}>
-            <div style={{ fontSize: 16, fontWeight: "500" }}>
-              {item.ticketName}
-            </div>
-            <p
-              style={{
-                textOverflow: "ellipsis",
-                width: 200,
-                fontSize: 12,
-                whiteSpace: "nowrap",
-                marginBottom: 0,
-              }}
-            >
-              {ellipsisIfExceeds(item.description)}
-            </p>
-            <div style={{ fontSize: 12, color: "#94A3B8" }}>
-              {extractDateComponents(item.from)} -{" "}
-              {extractDateComponents(item.to)}
-            </div>
-          </TableCell>
-          <TableCell>
-            <UnstyledButton
-              onClick={() => {
-                State.update({ ticketPreview: item });
-              }}
-            >
-              Preview Ticket
-            </UnstyledButton>
-          </TableCell>
-          <TableCell>{item.numberOfTickets}</TableCell>
-          <TableCell>{item.ticketPricing}</TableCell>
-          <TableCell>
-            <ActionButton
-              onClick={() => {
-                State.update({
-                  tickets: state.tickets.filter((item, idx) => idx !== index),
-                });
-              }}
-            >
-              <Widget src="harrydhillon.near/widget/Keypom.Tickets.DeleteSVG" />
-            </ActionButton>
-          </TableCell>
+  <>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableHeader>Ticket</TableHeader>
+          <TableHeader />
+          <TableHeader># of tickets</TableHeader>
+          <TableHeader>Price (NEAR)</TableHeader>
+          <TableHeader />
         </TableRow>
+      </TableHead>
+      <tbody style={{ borderRadius: 10 }}>
+        {state.tickets.map((item, index) => (
+          <TableRow key={index}>
+            <TableCell style={{ width: "30%" }}>
+              <div style={{ fontSize: 16, fontWeight: "500" }}>
+                {item.ticketName}
+              </div>
+              <p
+                style={{
+                  textOverflow: "ellipsis",
+                  width: 200,
+                  fontSize: 12,
+                  whiteSpace: "nowrap",
+                  marginBottom: 0,
+                }}
+              >
+                {ellipsisIfExceeds(item.description)}
+              </p>
+              <div style={{ fontSize: 12, color: "#94A3B8" }}>
+                {extractDateComponents(item.from)} -{" "}
+                {extractDateComponents(item.to)}
+              </div>
+            </TableCell>
+            <TableCell>
+              <UnstyledButton
+                onClick={() => {
+                  State.update({ ticketPreview: item });
+                }}
+              >
+                Preview Ticket
+              </UnstyledButton>
+            </TableCell>
+            <TableCell>{item.numberOfTickets}</TableCell>
+            <TableCell>{item.ticketPricing}</TableCell>
+            <TableCell>
+              <ActionButton
+                onClick={() => {
+                  State.update({
+                    tickets: state.tickets.filter((item, idx) => idx !== index),
+                  });
+                }}
+              >
+                <Widget src="harrydhillon.near/widget/Keypom.Tickets.DeleteSVG" />
+              </ActionButton>
+            </TableCell>
+          </TableRow>
+        ))}
+      </tbody>
+    </Table>
+    <div style={{ width: 350, marginLeft: "auto" }}>
+      {bottomTickets.map((item) => (
+        <div style={{ display: "flex", alignItems: "center" }} key={item}>
+          <div style={{ width: "60%", fontWeight: "600" }}>{item}</div>
+          <div>1.7161 NEAR</div>
+        </div>
       ))}
-    </tbody>
-  </Table>
-  <div style={{width:350,marginLeft:"auto"}}>
-    {bottomTickets.map((item)=>(
-        <div style={{display:'flex',alignItems:"center"}} key={item}>
-        <div style={{width:"60%",fontWeight:"600"}}>{item}</div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginTop: 10,
+          fontWeight: "500",
+        }}
+      >
+        <div style={{ width: "60%" }}>Total</div>
         <div>1.7161 NEAR</div>
-        </div>
-    ))}
-            <div style={{display:'flex',alignItems:"center",marginTop:10,fontWeight:"500"}} >
-       <div style={{width:"60%"}}>Total</div>
-        <div>1.7161 NEAR</div>
-        </div>
+      </div>
     </div>
   </>
 );
