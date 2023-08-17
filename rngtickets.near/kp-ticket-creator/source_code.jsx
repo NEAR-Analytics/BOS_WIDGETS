@@ -171,9 +171,9 @@ const onChangeValue = (t, v) => {
   State.update({
     [t]: v,
   });
-  if (t == "drops" && v > 50) {
+  if (t == "drops" && v > 100) {
     State.update({
-      drops: 50,
+      drops: 100,
     });
   }
   if (t == "name") {
@@ -226,7 +226,7 @@ return (
         <input
           type="number"
           min="1"
-          max="50"
+          max="100"
           defaultValue="2"
           value={state.drops}
           onChange={(e) => onChangeValue("drops", e.target.value)}
