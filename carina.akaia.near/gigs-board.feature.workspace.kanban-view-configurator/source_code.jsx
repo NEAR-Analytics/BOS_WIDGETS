@@ -435,9 +435,9 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
         {widget("components.molecule.text-input", {
           className: "flex-shrink-0",
           key: "kanban-view-title",
-          label: "Name",
+          label: "Board title",
           onChange: form.update({ path: ["metadata", "title"] }),
-          placeholder: "NEAR Protocol NEPs",
+          placeholder: "Enter board title.",
           value: form.values.metadata.title,
         })}
       </div>
@@ -448,9 +448,12 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
             className: "flex-shrink-0",
             format: "comma-separated",
             key: "kanban-view-tags-required",
-            label: "All the tags MUST be presented in posts",
+
+            label:
+              "Enter tags you want to include. Posts with these tags will display:",
+
             onChange: form.update({ path: ["config", "tags", "required"] }),
-            placeholder: "near-protocol-neps, ",
+            placeholder: "tag1, tag2",
             value: form.values.config.tags.required.join(", "),
           })}
         </div>
@@ -460,9 +463,12 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
             className: "flex-shrink-0",
             format: "comma-separated",
             key: "kanban-view-tags-excluded",
-            label: "All the tags MUST NOT be presented in posts",
+
+            label:
+              "Enter tags you want to exclude. Posts with these tags will not show.",
+
             onChange: form.update({ path: ["config", "tags", "excluded"] }),
-            placeholder: "near-protocol-neps, ",
+            placeholder: "tag1, tag2",
             value: form.values.config.tags.excluded.join(", "),
           })}
         </div>
