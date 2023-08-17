@@ -4,7 +4,7 @@ if (!accountId) {
 }
 State.init({
   amount: "0.001",
-  drops: "100",
+  drops: "50",
   name: "",
   poapTitle: "NEAR Toronto event",
   poapDesc: "",
