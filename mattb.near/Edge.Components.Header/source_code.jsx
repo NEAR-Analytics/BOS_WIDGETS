@@ -1,3 +1,5 @@
+const { showModal } = props;
+
 const EVENT_URL = "https://partiful.com/e/8fZfzaNqqm8MSTA5I7E7";
 
 const LOGO_URL =
@@ -93,6 +95,7 @@ const Button = styled.a`
     font-size:.9rem;
     border:2px solid #000;
     text-decoraction:none!important;
+    cursor:pointer;
 
     :hover {
         background-color:#000;
@@ -117,7 +120,15 @@ return (
           </li>
         ))}
         <li>
-          <Button href={EVENT_URL}>TICKET</Button>
+          <Button
+            onClick={() => {
+              if (typeof showModal === "function") {
+                showModal();
+              }
+            }}
+          >
+            TICKET
+          </Button>
         </li>
       </ul>
     </Nav>
