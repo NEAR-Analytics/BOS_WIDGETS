@@ -151,16 +151,17 @@ State.init({
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
-  let arrayLastReactionForEachUser = state.reactionsData.reactionsStatistics;
-  console.log("arrayLastReactionForEachUser: ", arrayLastReactionForEachUser);
+  let currentReactionsStatistics = state.reactionsData.reactionsStatistics;
+  console.log("currentReactionsStatistics: ", currentReactionsStatistics);
 
-  const resObject = arrayLastReactionForEachUser.find(
-    (item) => item.accountId === accountThatIsLoggedIn
+  const resObject = currentReactionsStatistics.find((item) =>
+    item.accounts.includes(accountThatIsLoggedIn)
   );
   console.log("resObject: ", resObject);
+
   if (!resObject) {
-    arrayLastReactionForEachUser = [
-      ...arrayLastReactionForEachUser,
+    currentReactionsStatistics = [
+      ...currentReactionsStatistics,
       {
         accountId: accountThatIsLoggedIn,
         blockHeight: item.blockHeight,
@@ -168,9 +169,9 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
       },
     ];
   } else {
-    arrayLastReactionForEachUser =
-      arrayLastReactionForEachUser &&
-      arrayLastReactionForEachUser.map((item) => {
+    currentReactionsStatistics =
+      currentReactionsStatistics &&
+      currentReactionsStatistics.map((item) => {
         if (item.accountId === accountThatIsLoggedIn) {
           return { ...item, value: { type: newEmoji } };
         }
@@ -183,8 +184,8 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
   }
 
   let reactionsStatistics =
-    arrayLastReactionForEachUser &&
-    countReactionsStats(arrayLastReactionForEachUser);
+    currentReactionsStatistics &&
+    countReactionsStats(currentReactionsStatistics);
 
   console.log(reactionsStatistics);
   State.update({
