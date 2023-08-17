@@ -61,7 +61,12 @@ State.init({
   libCalls,
 });
 
-console.log("reactionsData: ", state.reactionsData);
+if (
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691530843649" ===
+  elementReactedId
+) {
+  console.log("reactionsData: ", state.reactionsData);
+}
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
