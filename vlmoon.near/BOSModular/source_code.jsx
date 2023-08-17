@@ -59,7 +59,6 @@ const appTheme = {
     circle: "50%",
   },
 };
-
 const appThemeService = {
   switchToLightTheme: () =>
     State.update({
@@ -71,7 +70,6 @@ const appThemeService = {
     }),
   getTheme: () => appTheme,
 };
-
 //UI Kit Theme
 
 //UI Kit Widgets
@@ -86,14 +84,12 @@ const Button = styled.button`
   border-radius: ${appTheme.borderRadius.medium};
   align-self: center;
 `;
-
 const Body = styled.div`
   display: flex;
   flex-direction: column;
   height: 800px;
   background-color: ${appTheme.colors().backgroundColor};
 `;
-
 const NavigationBar = styled.div`
   display: flex;
   flex-direction: row;
@@ -106,11 +102,9 @@ const uiKitComponents = {
   body: Body,
   navigationBar: NavigationBar,
 };
-
 //UI Kit Widgets
 
 //Router
-
 const routes = {
   moduleA: "vlmoon.near/widget/BOSModuleA",
   moduleB: "vlmoon.near/widget/BOSModuleB",
@@ -130,11 +124,9 @@ const routesNavigator = {
   moduleC: () => navigateToModule("moduleC"),
   moduleD: () => navigateToModule("moduleD"),
 };
-
 //Router
 
 //Dependencies Injections
-
 function getModuleDependencies(moduleRoute) {
   if (moduleRoute === "moduleA") {
     return ["moduleA"];
@@ -147,15 +139,14 @@ function getModuleDependencies(moduleRoute) {
   }
 }
 const dependencies = getModuleDependencies(state.currentRoute);
-
 //Dependencies Injections
 
 //Data Layer
-
+//Servre data will be fetched there from the url and smart contracts
 //Data Layer
 
 //Service Layer
-
+//App Logic willl execute there
 //Service Layer
 
 return (
