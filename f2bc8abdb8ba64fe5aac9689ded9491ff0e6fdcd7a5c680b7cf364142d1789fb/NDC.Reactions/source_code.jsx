@@ -64,25 +64,19 @@ State.init({
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
   let currentReactionsStatistics = state.reactionsData.reactionsStatistics;
-  console.log("currentReactionsStatistics: ", currentReactionsStatistics);
 
   const oldReactionStat = currentReactionsStatistics.find((item) =>
     item.accounts.includes(accountThatIsLoggedIn)
   );
-  console.log("oldReactionStat: ", oldReactionStat);
-
-  console.log("newEmoji: ", newEmoji);
 
   let reactedStat = currentReactionsStatistics.find((item) =>
     newEmoji.includes(item.text)
   );
-  console.log("reactedStat: ", reactedStat);
 
   let everyOtherReactionStat = currentReactionsStatistics.filter((item) => {
     !item.accounts.includes(accountThatIsLoggedIn) &&
       !newEmoji.includes(item.text);
   });
-  console.log("everyOtherReactionStat: ", everyOtherReactionStat);
 
   let newReactionsStatistics;
 
@@ -95,6 +89,7 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
     };
   }
   if (oldReactionStat) {
+    console.log("oldReactionStat: ", oldReactionStat);
     let newAccountsForOldReactionStat = oldReactionStat.filter((acc) => {
       acc != accountThatIsLoggedIn;
     });
