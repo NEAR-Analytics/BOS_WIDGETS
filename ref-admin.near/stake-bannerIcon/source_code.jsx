@@ -4,7 +4,7 @@ const {
   secondIconName,
   secondIconUrl,
   componentType,
-  apy_value
+  apy_value,
 } = props; // liNEAR, xref, NearX
 const BannerData = styled.div`
   display: flex;
@@ -68,17 +68,17 @@ const ExchangeRoute = styled.div`
 `;
 const arrowIcon = (
   <svg
-    width="19"
-    height="8"
-    viewBox="0 0 19 8"
+    width="16"
+    height="6"
+    viewBox="0 0 16 6"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      fill-rule="evenodd"
-      clipRule="evenodd"
-      d="M13.389 7.51249C13.389 7.9163 13.8588 8.14441 14.1831 7.89809L18.8076 4.3856C19.0641 4.1908 19.0641 3.8092 18.8076 3.6144L14.1831 0.101915C13.8588 -0.144409 13.389 0.0836996 13.389 0.487513V1.78088C13.389 2.04963 13.1682 2.26749 12.8958 2.26749H0.493198C0.220812 2.26749 0 2.48536 0 2.75411V5.24589C0 5.51464 0.220813 5.73251 0.493198 5.73251H12.8958C13.1682 5.73251 13.389 5.95037 13.389 6.21912V7.51249Z"
-      fill="#00FFA3"
+      stroke-linecap="round"
+      d="M1 5H13.5L9.5 1"
+      stroke="#7C7F96"
+      stroke-width="2"
     />
   </svg>
 );
@@ -101,15 +101,15 @@ function getxrefAPY() {
 }
 function getNearXAPY() {
   if (apy_value) {
-    return `${apy_value}%`
+    return `${apy_value}%`;
   } else {
-    return '-'
+    return "-";
   }
 }
 let apy;
-if (componentType == 'liNEAR') {
+if (componentType == "liNEAR") {
   apy = getAPY();
-} else if (componentType == 'NearX') {
+} else if (componentType == "NearX") {
   apy = getNearXAPY();
 } else {
   apy = getxrefAPY();
