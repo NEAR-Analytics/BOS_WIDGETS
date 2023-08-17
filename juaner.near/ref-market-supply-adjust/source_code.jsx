@@ -287,7 +287,7 @@ State.update({
   hasHFError: hFErrorStatus,
 });
 function computeAdjustMaxAmount() {
-  if (!assets || !selectedTokenId) return "0";
+  if (!assets || !selectedTokenId || !account) return "0";
   const asset = assets.find((a) => a.token_id === selectedTokenId);
   const { metadata, config } = asset;
   const decimals = metadata.decimals + config.extra_decimals;
