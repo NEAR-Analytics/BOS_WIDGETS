@@ -3,7 +3,7 @@ const qrPayload = `v2.keypom.near/${props.pk}`;
 const qrSourceImg = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${qrPayload}&format=svg`;
 
 return (
-  <div className="container row mt-3 mb-3">
+  <div className="container row mt-1 mb-1">
     <div align="center">
       <div
         style={{
@@ -15,14 +15,11 @@ return (
         }}
       >
         <br />
-        <br />
         <text style={{ fontSize: 26, fontFamily: "Avenir" }}>
           🎟️ This is your Ticket 🔑
         </text>
         <br />
         <img src={qrSourceImg} alt="" title="" style={{ paddingTop: 15 }} />
-        <br />
-        <br />
       </div>
     </div>
   </div>
