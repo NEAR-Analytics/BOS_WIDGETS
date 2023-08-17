@@ -23,16 +23,6 @@ return (
         <img src={qrSourceImg} alt="" title="" style={{ paddingTop: 15 }} />
         <br />
         <br />
-        <text style={{ fontSize: 18, fontFamily: "Avenir" }}>
-          NEAR Toronto: Rooftop Rendezvous🦩
-        </text>
-        <br></br>
-        <text style={{ fontSize: 11, fontFamily: "Avenir" }}>
-          In collaboration with: NEAR Foundation, TENAMINT, Seahorse Social, KPW
-          Comms, Proof of Vibes, Marma J Foundation, NEAR Foundation, Music
-          Feast, GDS Consulting, Brothers Grimm Ultra Premium Vodka,
-          CreativesDAO.
-        </text>
       </div>
     </div>
   </div>
