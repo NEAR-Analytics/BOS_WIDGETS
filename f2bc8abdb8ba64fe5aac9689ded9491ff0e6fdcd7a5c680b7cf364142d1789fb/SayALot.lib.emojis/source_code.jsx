@@ -117,15 +117,6 @@ function getReactionsData(props) {
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
   //reactionsStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
-  if (
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691530843649" ===
-    elementReactedId
-  ) {
-    console.log("library reactionsData: ", {
-      reactionsStatistics,
-      userReaction,
-    });
-  }
 
   if (reactionsStatistics !== null) {
     resultLibCalls = resultLibCalls.filter((call) => {
