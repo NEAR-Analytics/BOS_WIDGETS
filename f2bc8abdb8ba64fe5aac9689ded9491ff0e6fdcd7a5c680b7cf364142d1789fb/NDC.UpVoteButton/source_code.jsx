@@ -21,7 +21,7 @@ State.init({
 
 let numberOfvotesModified = state.numberOfvotesModified;
 
-if (state.upVotes.reactionsStatistics && numberOfvotesModified) {
+if (state.upVotes.reactionsStatistics && !numberOfvotesModified) {
   State.update({ numberOfVotes: state.upVotes.reactionsStatistics ?? 0 });
 }
 
