@@ -584,7 +584,11 @@ const CastVotes = () => (
     <div className="wrapper">
       <div className="d-flex align-items-end">
         <H3>
-          {seats - myVotesForHouse().length - state.selectedCandidates.length}
+          {alreadyVotedForHouse()
+            ? 0
+            : seats -
+              myVotesForHouse().length -
+              state.selectedCandidates.length}
         </H3>
         <span>/</span>
         <H4>{seats}</H4>
@@ -592,7 +596,11 @@ const CastVotes = () => (
       </div>
       <Info className="text-secondary">
         <i class="bi bi-info-circle"></i>
-        Make sure you selected all {seats} candidates
+        {alreadyVotedForHouse() ? (
+          <span>You're already voted for {housesMapping[typ]} house</span>
+        ) : (
+          <span>Make sure you selected all {seats} candidates</span>
+        )}
       </Info>
     </div>
     <ActionSection className="d-flex gap-2">
