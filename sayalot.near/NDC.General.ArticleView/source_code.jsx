@@ -688,7 +688,7 @@ return (
                   // )
                 }
                 <div className="d-flex flex-column">
-                  <Widget
+                  {/*<Widget
                     src={widgets.upVote}
                     props={{
                       isTest,
@@ -697,6 +697,7 @@ return (
                       widgets,
                     }}
                   />
+                  */}
                   <Widget
                     src={widgets.reactions}
                     props={{
