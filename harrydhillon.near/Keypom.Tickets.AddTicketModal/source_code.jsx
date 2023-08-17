@@ -29,7 +29,7 @@ const nearLabel = (amount, selected) => (
 );
 
 const AddTicketModal = (
-  <div style={{ maxHeight: "80vh", overflowY: "auto" }}>
+  <div style={{ maxHeight: "80vh", overflowY: "auto",overflowX:'hidden' }}>
     <Widget
       props={{
         label: "Ticket Name *",
@@ -210,7 +210,7 @@ const AddTicketModal = (
         marginTop: 10,
       }}
     >
-      {props.editMode?'Update':'Create'}
+      {props.editMode ? "Update" : "Create"}
     </button>
     <button
       onClick={props.onClose}
