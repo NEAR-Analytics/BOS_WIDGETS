@@ -83,13 +83,12 @@ function stateUpdate(obj) {
 function upVoteListener() {
   let newLibCalls = [...libCalls];
   let oldNumberOfvotesModified = state.numberOfvotesModified;
+  let oldNumberOfvotes = state.numberOfVotes;
 
   function onCommit() {
     State.update({
       numberOfvotesModified: !oldNumberOfvotesModified,
-      numberOfVotes: isDelete
-        ? state.numberOfVotes - 1
-        : state.numberOfVotes + 1,
+      numberOfVotes: isDelete ? oldNumberOfvotes - 1 : oldNumberOfvotes + 1,
       createdInteraction: !isDelete,
     });
   }
