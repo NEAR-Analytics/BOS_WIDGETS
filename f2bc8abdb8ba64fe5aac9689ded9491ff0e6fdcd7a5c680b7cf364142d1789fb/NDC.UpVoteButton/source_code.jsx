@@ -19,7 +19,9 @@ State.init({
   libCalls,
 });
 
-if (state.upVotes.reactionsStatistics && !state.numberOfvotesModified) {
+let numberOfvotesModified = state.numberOfvotesModified;
+
+if (state.upVotes.reactionsStatistics && numberOfvotesModified) {
   State.update({ numberOfVotes: state.upVotes.reactionsStatistics ?? 0 });
 }
 
@@ -29,12 +31,12 @@ if (
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691530843649"
 ) {
   console.log("lastUserVote: ", lastUserVote);
-  console.log("numberOfvotesModified: ", state.numberOfvotesModified);
+  console.log("numberOfvotesModified: ", numberOfvotesModified);
 }
 
 let isDelete;
 if (lastUserVote) {
-  if (state.numberOfvotesModified) {
+  if (numberOfvotesModified) {
     isDelete = lastUserVote.value.deleteReaction;
   } else {
     isDelete = !lastUserVote.value.deleteReaction;
@@ -82,12 +84,11 @@ function stateUpdate(obj) {
 
 function upVoteListener() {
   let newLibCalls = [...libCalls];
-  let oldNumberOfvotesModified = state.numberOfvotesModified;
   let oldNumberOfvotes = state.numberOfVotes;
 
   function onCommit() {
     State.update({
-      numberOfvotesModified: !oldNumberOfvotesModified,
+      numberOfvotesModified: !numberOfvotesModified,
       numberOfVotes: isDelete ? oldNumberOfvotes - 1 : oldNumberOfvotes + 1,
       createdInteraction: !isDelete,
     });
