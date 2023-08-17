@@ -87,7 +87,7 @@ const AddTicketModal = (
           },
           inputProps: {
             placeholder: "Select a date range",
-            value: state.date,
+            value: state.from,
             type: "date",
             onChange: (e) => State.update({ from: e.target.value }),
           },
@@ -105,7 +105,7 @@ const AddTicketModal = (
         },
         inputProps: {
           placeholder: "Select a date range",
-          value: state.date,
+          value: state.to,
           type: "date",
           onChange: (e) => State.update({ to: e.target.value }),
         },
@@ -122,7 +122,7 @@ const AddTicketModal = (
         },
         inputProps: {
           placeholder: "Select a date range",
-          value: state.date,
+          value: state.passValid,
           type: "date",
           onChange: (e) => State.update({ passValid: e.target.value }),
         },
