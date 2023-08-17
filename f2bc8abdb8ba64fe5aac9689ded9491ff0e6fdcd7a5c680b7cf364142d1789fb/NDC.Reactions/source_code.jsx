@@ -111,6 +111,10 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
       text: oldReactionStat.text,
     };
 
+    console.log("everyOtherReactionStat: ", everyOtherReactionStat);
+    console.log("getNewStatForEmojiReacted: ", getNewStatForEmojiReacted());
+    console.log("newValueForOldReactionStat: ", newValueForOldReactionStat);
+
     newReactionsStatistics = everyOtherReactionStat
       ? [
           ...everyOtherReactionStat,
