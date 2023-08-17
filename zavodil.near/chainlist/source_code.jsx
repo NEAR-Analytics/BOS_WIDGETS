@@ -3,14 +3,14 @@ let appName = "chainlist";
 let data = {
   [appName]: {
     chains: {
-      [state.chainId]: {
+      [state.chain_id]: {
         coingecko_id: state.coingecko_id,
         name: state.name,
         icon_svg: state.icon_svg,
       },
     },
     contracts: {
-      [state.chainId]: {
+      [state.chain_id]: {
         weth: state.weth,
       },
     },
@@ -34,7 +34,7 @@ const getSvgImage = (svg) => {
 };
 
 const load = () => {
-  const chainId = state.chainId;
+  const chainId = state.chain_id;
   if (!chainId) {
     console.log("No chainId");
   }
@@ -61,8 +61,8 @@ return (
         <input
           type="text"
           class="form-control"
-          value={state.chainId}
-          onChange={(e) => State.update({ chainId: e.target.value })}
+          value={state.chain_id}
+          onChange={(e) => State.update({ chain_id: e.target.value })}
           id="chainId"
         />
       </div>
@@ -71,6 +71,7 @@ return (
           type="button"
           class="form-control mw-200"
           onClick={() => load()}
+          disabled={!state.chain_id}
           value="Load Data by Chain ID"
         />
       </div>
@@ -82,7 +83,7 @@ return (
           type="text"
           class="form-control"
           value={state.coingeckoId}
-          onChange={(e) => State.update({ coingeckoId: e.target.value })}
+          onChange={(e) => State.update({ coingecko_id: e.target.value })}
           id="coingeckoId"
         />
       </div>
@@ -134,7 +135,7 @@ return (
       </div>
 
       <div class="mb-3">
-        <CommitButton disabled={!(state.chainId && state.name)} data={data}>
+        <CommitButton disabled={!(state.chain_id && state.name)} data={data}>
           Add a chain
         </CommitButton>
       </div>
