@@ -76,7 +76,7 @@ const createTickets = () => {
       <CreateTicketContainer>
         <div>
           <p style={{ marginBottom: 0, fontSize: 20, fontWeight: "600" }}>
-            Create Tickets *
+            Create Tickets*
           </p>
           <p style={{ marginBottom: 0 }}>
             Create custom tickets for [event name].
@@ -119,9 +119,9 @@ const createTickets = () => {
               onClose: () => {
                 State.update({
                   isCreateTicketModalOpen: false,
-                      isCreateTicketModalOpen: false,
-                    editMode: false,
-                    editVal: null,
+                  isCreateTicketModalOpen: false,
+                  editMode: false,
+                  editVal: null,
                 });
               },
             }}
