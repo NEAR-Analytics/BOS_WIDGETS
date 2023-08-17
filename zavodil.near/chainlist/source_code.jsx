@@ -4,6 +4,7 @@ let data = {
   [appName]: {
     chains: {
       [state.chainId]: {
+        coingecko_id: state.coingecko_id,
         name: state.name,
         icon_svg: state.icon_svg,
       },
@@ -32,6 +33,24 @@ const getSvgImage = (svg) => {
   );
 };
 
+const load = () => {
+  const chainId = state.chainId;
+  if (!chainId) {
+    console.log("No chainId");
+  }
+  const chainlistData = Social.get(
+    `zavodil.near/chainlist/*/${chainId}/**`,
+    "final"
+  );
+
+  State.update({
+    coingecko_id: chainlistData.chains[chainId].coingecko_id,
+    name: chainlistData.chains[chainId].name,
+    icon_svg: chainlistData.chains[chainId].icon_svg,
+    weth: chainlistData.contracts[chainId].weth,
+  });
+};
+
 return (
   <div class="container">
     <div class="form-floating">
@@ -45,6 +64,26 @@ return (
           value={state.chainId}
           onChange={(e) => State.update({ chainId: e.target.value })}
           id="chainId"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="button"
+          class="form-control mw-200"
+          onClick={() => load()}
+          value="Load Data by Chain ID"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="coingeckoId" class="form-label">
+          Coingecko ID
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          value={state.coingeckoId}
+          onChange={(e) => State.update({ coingeckoId: e.target.value })}
+          id="coingeckoId"
         />
       </div>
       <div class="mb-3">
