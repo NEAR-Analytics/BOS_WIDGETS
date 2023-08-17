@@ -56,8 +56,8 @@ const AddTicketModal = (
           placeholder: "Add a description",
           required: true,
           value: state.description,
-          style:{
-            minHeight:'130px',
+          style: {
+            minHeight: "130px",
           },
           onChange: (e) => State.update({ description: e.target.value }),
         },
@@ -135,7 +135,7 @@ const AddTicketModal = (
         inputProps: {
           placeholder: "Number of tickets",
           required: true,
-          type:"number",
+          type: "number",
           value: state.numberOfTickets,
           onChange: (e) => State.update({ numberOfTickets: e.target.value }),
         },
@@ -168,7 +168,7 @@ const AddTicketModal = (
                 "Please enter the near amount you want to sell your tickets for",
               required: true,
               value: state.nearAmountForTicket,
-              type:"number",
+              type: "number",
               onChange: (e) =>
                 State.update({ nearAmountForTicket: e.target.value }),
             },
