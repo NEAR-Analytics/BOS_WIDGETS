@@ -1,17 +1,16 @@
 const accountId = context.accountId ?? props.accountId;
 if (!accountId) {
-  return "You need to login first or create new NEAR account here: https://shard.dog/go";
+  return "U need to login first or create new NEAR account here:https://shard.dog/go";
 }
 State.init({
   amount: "0.01",
-  drops: "1",
+  drops: "2",
   name: "",
-  poapTitle: "Sunset Soiree by NEAR Toronto",
-  poapDesc:
-    "Elevate your weekend at the stunning Sunset Soiree. Nestled high above the city, the event offers breathtaking panoramic views of Lisbon, setting the stage for relaxed networking and unwinding. Guests can enjoy vibrant conversations, eclectic tunes, and the opportunity to connect with like-minded individuals, all while being inspired by the city's energy and Lisbon's captivating skyline charm.",
+  poapTitle: "",
+  poapDesc: "",
   img: null,
   desc: "",
-  pw: "ssnt",
+  pw: "",
   publicKeys: [],
   privKeys: [],
   allPws: [],
@@ -25,7 +24,7 @@ if (Storage.privateGet("key_list")) {
 }
 
 const keypomContract = "v2.keypom.near";
-const gatewayUrl = "https://near.org/rngtickets.near/widget/kp-ticket-handler";
+const gatewayUrl = "https://near.org/mintlu.near/widget/kp-ticket-handler";
 
 const Yocto2Near = (amount) =>
   new Big(amount).div(new Big(10).pow(24)).toString();
@@ -74,12 +73,12 @@ function generatePasswords() {
 }
 
 const createDrop = () => {
-  const newDropId = Date.now();
+  var newDropId = Date.now();
 
   if (state.name) {
-    newDropId = Number(state.name);
+    newDropId = +state.name;
   }
-  console.log(`State name: ${state.name}`);
+  // console.log(`State name: ${state.name}`);
 
   asyncFetch(
     "https://keypom.sctuts.com/keypair/" +
@@ -107,55 +106,17 @@ const createDrop = () => {
 
     Storage.privateSet("key_list", obj);
 
-    const calls = [
-      {
-        contractName: keypomContract,
-        methodName: "create_drop",
-        gas: "100000000000000",
-
-        args: {
-          public_keys: state.publicKeys,
-          deposit_per_use: Near2Yocto(state.amount ?? "0.05"),
-          drop_id: newDropId.toString(),
-          config: {
-            uses_per_key: 2,
-          },
-
-          passwords_per_use: allPass,
-          fc: {
-            methods: [
-              null,
-              [
-                // mint NFT
-                {
-                  receiver_id: `nft-v2.keypom.near`,
-                  method_name: "nft_mint",
-                  args: "",
-                  drop_id_field: "mint_id",
-                  account_id_field: "receiver_id",
-                  attached_deposit: Near2Yocto(0.1),
-                },
-              ],
-            ],
-          },
-        },
-        deposit: Near2Yocto(0.1),
-      },
-    ];
-    if (!state.name) {
-      calls.unshift({
+    const calls = [];
+    if (state.name) {
+      calls.push({
         contractName: "nft-v2.keypom.near",
         methodName: "create_series",
         gas: "100000000000000",
         args: {
-          mint_id: newDropId,
+          mint_id: +newDropId,
           metadata: {
             title: `${state.poapTitle}`,
-            media: `https://ipfs.near.social/ipfs/${
-              state.img
-                ? state.img.cid
-                : "bafkreibqmnq7rlq2r2ov2a6yfkdwgr5gcgsiihnbr54g4ylrvdsnlym4pe"
-            }`,
+            media: `https://ipfs.near.social/ipfs/${state.img.cid}`,
             description: `${state.poapDesc}`,
             copies: parseInt(`${state.drops}`),
           },
@@ -163,6 +124,40 @@ const createDrop = () => {
         deposit: Near2Yocto(0.1),
       });
     }
+
+    calls.push({
+      contractName: keypomContract,
+      methodName: "create_drop",
+      gas: "100000000000000",
+
+      args: {
+        public_keys: state.publicKeys,
+        deposit_per_use: Near2Yocto(state.amount ?? "0.05"),
+        drop_id: newDropId.toString(),
+        config: {
+          uses_per_key: 2,
+        },
+
+        passwords_per_use: allPass,
+        fc: {
+          methods: [
+            null,
+            [
+              // mint NFT
+              {
+                receiver_id: `nft-v2.keypom.near`,
+                method_name: "nft_mint",
+                args: "",
+                drop_id_field: "mint_id",
+                account_id_field: "receiver_id",
+                attached_deposit: Near2Yocto(0.1),
+              },
+            ],
+          ],
+        },
+      },
+      deposit: Near2Yocto(0.1),
+    });
     Near.call(calls);
   });
 };
@@ -171,14 +166,14 @@ const onChangeValue = (t, v) => {
   State.update({
     [t]: v,
   });
-  if (t == "drops" && v > 100) {
+  if (t == "drops" && v > 50) {
     State.update({
-      drops: 100,
+      drops: 50,
     });
   }
   if (t == "name") {
     State.update({
-      name: v.replace(/\s+/g, "-").toLowerCase(),
+      name: +v,
     });
   }
   if (t == "password") {
@@ -216,7 +211,7 @@ return (
       <h2 className="mt-3">Create Ticket Drop</h2>
       <h4>Event Information</h4>
       <div className="input-field mt-3">
-        Drop id (leave empty to create new):
+        Drop id:
         <input
           type="string"
           value={state.name}
@@ -226,7 +221,7 @@ return (
         <input
           type="number"
           min="1"
-          max="100"
+          max="50"
           defaultValue="2"
           value={state.drops}
           onChange={(e) => onChangeValue("drops", e.target.value)}
@@ -247,42 +242,40 @@ return (
         />
       </div>
     </div>
-    {!state.name && (
-      <div className="container mt-3 pt-3 border-top border-3">
-        <div className="config-drop">
-          <h4>POAP Information</h4>
-          {/*<h6 style={{ color: "orange" }}>
+    <div className="container mt-3 border-top border-3">
+      <div className="config-drop">
+        <h4>POAP Information</h4>
+        <h6 style={{ color: "orange" }}>
           Save this information before creating your drop
-        </h6>*/}
-          Set POAP Image
-          <br />
-          <IpfsImageUpload image={state.img} />
-          <div className="mt-2">
-            {state.img && (
-              <img
-                style={{ maxWidth: 500 }}
-                src={`https://ipfs.near.social/ipfs/${
-                  state.img.cid ?? state.img
-                }`}
-                alt="uploaded"
-              />
-            )}
-          </div>
-          POAP Title:
-          <input
-            type="string"
-            value={state.poapTitle}
-            onChange={(e) => onChangeValue("poapTitle", e.target.value)}
-          />
-          POAP Description:
-          <input
-            type="string"
-            value={state.poapDesc}
-            onChange={(e) => onChangeValue("poapDesc", e.target.value)}
-          />
-          <br />
-          <Markdown className="mt-3" text={state.desc} />
-          {/*
+        </h6>
+        Set POAP Image
+        <br />
+        <IpfsImageUpload image={state.img} />
+        <div className="mt-2">
+          {state.img && (
+            <img
+              style={{ maxWidth: 500 }}
+              src={`https://ipfs.near.social/ipfs/${
+                state.img.cid ?? state.img
+              }`}
+              alt="uploaded"
+            />
+          )}
+        </div>
+        POAP Title:
+        <input
+          type="string"
+          value={state.poapTitle}
+          onChange={(e) => onChangeValue("poapTitle", e.target.value)}
+        />
+        POAP Description:
+        <input
+          type="string"
+          value={state.poapDesc}
+          onChange={(e) => onChangeValue("poapDesc", e.target.value)}
+        />
+        <br />
+        <Markdown className="mt-3" text={state.desc} />
         <CommitButton
           className="btn btn-info"
           data={{
@@ -294,10 +287,8 @@ return (
         >
           Save linkdrop info
         </CommitButton>
-        */}
-        </div>
       </div>
-    )}
+    </div>
     <button
       className="btn btn-lg btn-primary mt-3"
       onClick={(e) => createDrop()}
@@ -333,7 +324,7 @@ return (
               gatewayUrl +
               "?key=" +
               state.publicKeys[i] +
-              "&pk=" +
+              "?pk=" +
               state.privKeys[i];
             //Buffer.from(data, "utf-8").toString("base64")
 
