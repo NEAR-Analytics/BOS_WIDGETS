@@ -211,6 +211,8 @@ const housesMapping = {
 const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
 
+const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
+
 const filteredCandidates = () => {
   let candidates = result;
 
@@ -494,7 +496,7 @@ const CandidateList = ({ candidateId, votes }) => (
           <Votes>
             <input
               id="input"
-              disabled={alreadyVoted(candidateId)}
+              disabled={alreadyVotedForHouse()}
               onClick={() => handleSelectCandidate(candidateId)}
               className="form-check-input"
               type="checkbox"
@@ -615,7 +617,7 @@ const CastVotes = () => (
         props={{
           Button: {
             className: "primary justify-content-center",
-            //disabled: state.selectedCandidates.length === 0,
+            disabled: state.selectedCandidates.length === 0,
             text: `Cast ${state.selectedCandidates.length || ""} Votes`,
             onClick: () =>
               state.tosAgreement
@@ -739,6 +741,8 @@ return (
           ),
           Button: {
             title: "Cast Votes",
+            disabled:
+              state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
             onCancel: () => State.update({ bountyProgramModal: false }),
             onSubmit: handleVote,
           },
