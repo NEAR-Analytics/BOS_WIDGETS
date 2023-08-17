@@ -48,11 +48,11 @@ const Container = styled.div`
   }
   .block .t {
     font-size: 14px;
-    color: #7e8a93;
+    color: #7c7f96;
   }
   .block .v {
     font-weight: 700;
-    font-size: 26px;
+    font-size: 20px;
     color: #fff;
   }
   .noBorder {
@@ -143,16 +143,18 @@ const Container = styled.div`
       border: 4px solid transparent;
       cursor: pointer;
       transition: 0.5s;
-      :hover {
-        opacity: 0.6;
-        transform: scale(1.2);
-      }
     }
     .arrow-up {
       border-bottom-color: rgb(124, 127, 150);
+      :hover {
+        border-bottom-color: #fff;
+      }
     }
     .arrow-down {
       border-top-color: rgb(124, 127, 150);
+      :hover {
+        border-top-color: #fff;
+      }
     }
   }
 `;
@@ -166,7 +168,7 @@ State.init({
 
 const toAPY = (v) => Math.round(v * 100) / 100;
 const shrinkToken = (value, decimals, fixed) => {
-  return new Big(value).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
+  return new Big(value || 0).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
 };
 // get all assets data from burrow contracts
 const {
@@ -176,6 +178,8 @@ const {
   balances,
   selectedTokenId,
   selectedTokenMeta,
+  total_supplied_usd,
+  total_burrowed_usd,
   type,
   showModal,
 } = state;
@@ -216,14 +220,16 @@ const unclaimedRewardsMap = account
       return prev;
     }, {})
   : {};
-
-const unclaimedRewards = Object.keys(unclaimedRewardsMap).map((id) => {
+let unclaimedRewards$ = Big(0);
+const unclaimedRewardsIcons = Object.keys(unclaimedRewardsMap).map((id) => {
   const asset = assets.find((a) => a.token_id === id);
   const decimals = asset.metadata.decimals + asset.config.extra_decimals;
+  const unclaimed = shrinkToken(unclaimedRewardsMap[id], decimals);
+  unclaimedRewards$ = unclaimedRewards$.plus(
+    Big(unclaimed).mul(asset.price.usd || 0)
+  );
   return {
     id,
-    unclaimed: shrinkToken(unclaimedRewardsMap[id], decimals, 4),
-    symbol: asset.metadata.symbol,
     icon: asset.metadata.icon,
   };
 });
@@ -365,19 +371,20 @@ return (
       <div class="title">Lending</div>
       <div class="switch">
         <div
-          class={`switch_item ${state.type === "yours" ? "active" : ""}`}
+          class={`switch_item ${type === "yours" ? "active" : ""}`}
           onClick={() => toggleType("yours")}
         >
           Yours
         </div>
         <div
-          class={`switch_item ${state.type === "market" ? "active" : ""}`}
+          class={`switch_item ${type === "market" ? "active" : ""}`}
           onClick={() => toggleType("market")}
         >
           Market
         </div>
       </div>
     </div>
+
     {/* Yours */}
     {state.type === "yours" && (
       <div class="flex">
@@ -397,7 +404,7 @@ return (
         </div>
         <div class="block">
           <label class="t">Health Factor</label>
-          <span class="v" style={{ color: "#00C595" }}>
+          <span class="v" style={{ color: "#00FFA3" }}>
             <Widget src="juaner.near/widget/ref-burrow-healthFactor"></Widget>
           </span>
         </div>
@@ -405,20 +412,20 @@ return (
           <label class="t">Unclaimed Rewards</label>
           <div>
             <div class="flex_center">
-              {unclaimedRewards.length > 0 ? (
+              {unclaimedRewardsIcons.length ? (
                 <>
-                  {unclaimedRewards.map((reward) => (
-                    <div class="flex_center">
-                      <span class="v mr_10">{reward.unclaimed}</span>
+                  <div class="flex_center">
+                    <span class="v mr_10">${unclaimedRewards$.toFixed(2)}</span>
+                    {unclaimedRewardsIcons.map((reward) => (
                       <img src={reward.icon} class="rewardIcon"></img>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                   <div class="claim_button" onClick={handleClaimAll}>
                     Claim
                   </div>
                 </>
               ) : (
-                <span class="v mr_10">0</span>
+                <span class="v mr_10">$0</span>
               )}
             </div>
           </div>
