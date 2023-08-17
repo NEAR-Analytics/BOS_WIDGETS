@@ -64,12 +64,11 @@ function extractDateComponents(dateStr) {
   return `${month} ${date}, ${year}`;
 }
 
-
 function ellipsisIfExceeds(str) {
-    if (str.length <= maxLength) {
-        return str;
-    }
-    return str.substring(0, 150 - 3) + '...';
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, 150 - 3) + "...";
 }
 const createTickets = () => {
   return (
@@ -120,6 +119,9 @@ const createTickets = () => {
               onClose: () => {
                 State.update({
                   isCreateTicketModalOpen: false,
+                      isCreateTicketModalOpen: false,
+                    editMode: false,
+                    editVal: null,
                 });
               },
             }}
