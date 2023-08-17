@@ -54,6 +54,8 @@ State.init({
   ticketPreview: null,
 });
 
+console.log(state.tickets);
+
 function extractDateComponents(dateStr) {
   const dateObj = new Date(dateStr);
 
@@ -68,7 +70,7 @@ function ellipsisIfExceeds(str) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, 150 - 3) + "...";
+  return str.substring(0, 35 - 3) + "...";
 }
 const createTickets = () => {
   return (
