@@ -78,7 +78,7 @@ return (
   <Widget
     src={`${WIDGET_OWNER}/widget/Edge.Components.Modal`}
     props={{
-      showModal: state.showModal,
+      showModal: props.showModal,
       onClose: (closed) => {
         State.update({ showModal: false });
 
