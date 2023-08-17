@@ -6,11 +6,13 @@ let colors = props.colors ?? [
   "#F19D38",
   "#82E299",
 ];
+const overrideOptions = props.overrideOptions || {};
 const chartOption = {
   title: "chart title",
   subtitle: "",
   legend: false,
   stacking: false,
+  background: "transparent",
   ...props.chartOption,
 };
 let spinnerColors = props?.spinnerColors.length >= 0 && {
@@ -97,7 +99,7 @@ const code = `
 window.addEventListener("message", function (event) {}, false);
 
 const handleMessage = (message) => {
-  const { chartSeries, colors, chartOption } = message;
+  const { chartSeries, colors, chartOption, overrideOptions} = message;
   const stacking = chartOption.stacking
     ? chartOption.stacking === "normal" || chartOption.stacking === "percent"
       ? chartOption.stacking
@@ -105,7 +107,8 @@ const handleMessage = (message) => {
     : undefined;
   const chart = Highcharts.stockChart("container", {
     chart: {
-      zoomType: "xy",
+      backgroundColor:chartOption.background,
+      zoomType: "x",
     },
     colors: colors,
     navigator: {
@@ -128,13 +131,12 @@ const handleMessage = (message) => {
     xAxis: {
       type: "datetime",
       dateTimeLabelFormats: { month: { main: "%b '%Y" } },
-      tickInterval: 30 * 24 * 36e5,
     },
     rangeSelector: {
       buttons: [
         {
           type: "day",
-          count: 1,
+          count: 2,
           text: "1d",
         },
         {
@@ -166,12 +168,13 @@ const handleMessage = (message) => {
       },
     },
     tooltip: {
-      shared: true,
+      split : true,
     },
     legend: {
       enabled: chartOption.legend,
     },
     series: chartSeries.data,
+    ...overrideOptions
   });
   window.iFrameResizer.onMessage = () => {};
 };
@@ -206,6 +209,7 @@ return (
           chartSeries,
           colors,
           chartOption,
+          overrideOptions,
         }}
         onLoad={() => {
           State.update({
@@ -239,7 +243,9 @@ return (
 //     "title": "chart title",
 //     "subtitle": "chart subtitle",
 //     "legend": true - false,
-//     "stacking":"false - normal - percent" // optional , only column charts can be stacked
+//     "stacking":"false - normal - percent" // optional , only column charts can be stacked ,
+//      "background":"black"
 //   },
 //    "spinnerColors":[],  // optional , two colors
+//    "overrideOptions":{}
 // }
