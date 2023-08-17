@@ -44,7 +44,7 @@ const ActionButton = styled.button`
 
 const ticketObj = {
   selected: "Custom Amount",
-  ticketName: "Gold Ticket (VIP)",
+  ticketName: "Gold ticket (VIP)",
   description:
     "This ticket provides you access to the best in class events across the board",
   from: "2023-08-09",
@@ -74,7 +74,7 @@ function ellipsisIfExceeds(str) {
   return str.substring(0, 35 - 3) + "...";
 }
 
-const bottomTickets = ["Gold Ticket (VIP)", "Bronze Ticket", "Silver Ticket"];
+const bottomTickets = ["Gold ticket (VIP)", "Bronze ticket", "Silver ticket"];
 
 return (
   <>
