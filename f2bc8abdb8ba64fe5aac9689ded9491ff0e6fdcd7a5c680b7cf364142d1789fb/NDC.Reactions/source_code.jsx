@@ -42,7 +42,12 @@ const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-console.log("updatedReactions: ", state.updatedReactions);
+if (
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691530843649" ===
+  elementReactedId
+) {
+  console.log("updatedReactions: ", state.updatedReactions);
+}
 
 const libCalls = !state.updatedReactions
   ? [
