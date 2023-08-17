@@ -51,7 +51,6 @@ inner = link ? (
 );
 
 if (props.tooltip === true) {
-  console.log("retruning overlaytrigger");
   return (
     <Widget
       src="andyh.near/widget/Profile.OverlayTrigger"
