@@ -55,13 +55,15 @@ const libCalls = !state.updatedReactions
     ]
   : [];
 
-State.init({
-  emoji: undefined,
-  reactionsData: { reactionsStatistics: [], userReaction: undefined },
-  show: false,
-  loading: false,
-  libCalls,
-});
+if (!state.updatedReactions) {
+  State.init({
+    emoji: undefined,
+    reactionsData: { reactionsStatistics: [], userReaction: undefined },
+    show: false,
+    loading: false,
+    libCalls,
+  });
+}
 
 if (
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691530843649" ===
