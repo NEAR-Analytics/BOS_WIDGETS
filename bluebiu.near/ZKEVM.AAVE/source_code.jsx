@@ -317,9 +317,8 @@ function getMarkets(chainId) {
 // }
 // returns TokenBalance[]
 function getUserBalances(chainId, account, tokens) {
-  const url = `${
-    config.AAVE_API_BASE_URL
-  }/${chainId}/balances?account=${account}&tokens=${tokens.join("|")}`;
+  const url = `${config.AAVE_API_BASE_URL
+    }/${chainId}/balances?account=${account}&tokens=${tokens.join("|")}`;
   return asyncFetch(url);
 }
 
@@ -575,9 +574,9 @@ function updateUserSupplies(marketsMapping, refresh) {
         ...userDeposit,
         ...(market.symbol === config.nativeWrapCurrency.symbol
           ? {
-              ...config.nativeCurrency,
-              supportPermit: true,
-            }
+            ...config.nativeCurrency,
+            supportPermit: true,
+          }
           : {}),
       };
     });
@@ -643,9 +642,9 @@ function updateUserDebts(marketsMapping, assetsToSupply, refresh) {
             ...userDebt,
             ...(market.symbol === config.nativeWrapCurrency.symbol
               ? {
-                  ...config.nativeCurrency,
-                  supportPermit: true,
-                }
+                ...config.nativeCurrency,
+                supportPermit: true,
+              }
               : {}),
             availableBorrows: calculateAvailableBorrows({
               availableBorrowsUSD,
@@ -715,11 +714,10 @@ const Body = styled.div`
   padding-top: 24px;
   min-height: 100vh;
   color: white;
-  .top-title {
-    display: flex;
-    justify-content: space-between;
-    line-height: 48px;
-  }
+  .load{
+    margin-top:50%;
+    transform:translateY(-50%);
+  } 
 `;
 
 const FlexContainer = styled.div`
@@ -732,40 +730,36 @@ const TopContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .tabSwitcher {
-    border: 1px solid #332c4b;
-    background: #222436;
+  .tabSwitcher{
+    position: fixed;
+    top:11%;
+    right: 10%;
+    border:1px solid #332C4B;
+    background:#222436;
     border-radius: 10px;
   }
-  .networkSwitcher {
-    border: 1px solid #332c4b;
-    background: #222436;
+  .networkSwitcher{
+    border:1px solid #332C4B;
+    background:#222436;
     border-radius: 10px;
-    padding: 8px 12px 8px 0;
+    padding:8px 12px 8px 0;
   }
 `;
 const AAVEContainer = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  padding-bottom: 50px;
-  .tip {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  width:100%;
+  margin:0 auto;
+  padding-bottom:50px;
+  .tip{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
   }
-`;
-const TitleText = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 32px;
-  color: #ffffff;
 `;
 // Component body
 const body = loading ? (
   <>
     <Body>
-      <TitleText>Lending</TitleText>
       <div className="load">
         <Widget
           src={`guessme.near/widget/ZKEVM.AAVE.Loader`}
@@ -783,9 +777,8 @@ const body = loading ? (
 ) : (
   <>
     <Body>
-      <div className="top-title">
-        <TitleText>Lending</TitleText>
-        <div className="tabSwitcher">
+      <TopContainer>
+        <div className='tabSwitcher'>
           <Widget
             src={`guessme.near/widget/ZKEVM.AAVE.TabSwitcher`}
             props={{
@@ -795,26 +788,22 @@ const body = loading ? (
             }}
           />
         </div>
-      </div>
-      <TopContainer>
         <Widget
-          src={`bluebiu.near/widget/ZKEVM.AAVE.HeroData`}
+          src={`guessme.near/widget/ZKEVM.AAVE.HeroData`}
           props={{
             config,
-            netWorth: `$ ${
-              state.assetsToBorrow?.netWorthUSD
-                ? Big(state.assetsToBorrow.netWorthUSD).toFixed(2)
-                : "-"
-            }`,
-            netApy: `${
-              state.assetsToBorrow?.netAPY
-                ? Number(
-                    Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
-                  ) === 0
-                  ? "0.00"
-                  : Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
-                : "-"
-            }%`,
+            netWorth: `$ ${state.assetsToBorrow?.netWorthUSD
+              ? Big(state.assetsToBorrow.netWorthUSD).toFixed(2)
+              : "-"
+              }`,
+            netApy: `${state.assetsToBorrow?.netAPY
+              ? Number(
+                Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
+              ) === 0
+                ? "0.00"
+                : Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
+              : "-"
+              }%`,
             healthFactor: formatHealthFactor(state.assetsToBorrow.healthFactor),
             showHealthFactor:
               state.yourBorrows &&
@@ -822,7 +811,7 @@ const body = loading ? (
               state.yourBorrows.debts.length > 0,
           }}
         />
-        <div className="networkSwitcher">
+        <div className='networkSwitcher'>
           <Widget
             src={`bluebiu.near/widget/ZKEVM.AAVE.NetworkSwitcher`}
             props={{
@@ -941,11 +930,12 @@ return (
       />
       {/* Component Body */}
       {body}
-      {!loading ? (
-        <div className="tip">
-          <Widget src={`guessme.near/widget/ZKEVM.switch_quest_card`} />
-        </div>
-      ) : null}
+      {
+        !loading ? <div className="tip"><Widget
+          src={`guessme.near/widget/ZKEVM.switch_quest_card`}
+        /></div> : null
+      }
     </AAVEContainer>
   </>
 );
+
