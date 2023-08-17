@@ -31,7 +31,7 @@ return (
     {state.open && (
       <Overlay
         onClick={() => {
-          State.update({ closed: !state.open });
+          State.update({ open: !state.open });
 
           if (typeof onClose === "function") {
             onClose(state.open);
