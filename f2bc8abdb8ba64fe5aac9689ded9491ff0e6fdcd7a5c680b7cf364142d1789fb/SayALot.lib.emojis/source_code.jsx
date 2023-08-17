@@ -117,7 +117,6 @@ function getReactionsData(props) {
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
   //reactionsStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
-  console.log("arrayLastReactionForEachUser: ", arrayLastReactionForEachUser);
 
   return { reactionsStatistics, userReaction };
 }
