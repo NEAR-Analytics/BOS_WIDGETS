@@ -75,7 +75,7 @@ return (
     src={`${WIDGET_OWNER}/widget/Edge.Components.Modal`}
     props={{
       onClose: (closed) => State.update({ closed: closed }),
-      initState: initState ?? false,
+      initState: initState ?? true,
       slot: (
         <Content>
           <h1>Choose your ticket.</h1>
