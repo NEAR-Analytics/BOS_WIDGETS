@@ -154,42 +154,60 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
   let currentReactionsStatistics = state.reactionsData.reactionsStatistics;
   console.log("currentReactionsStatistics: ", currentReactionsStatistics);
 
-  const resObject = currentReactionsStatistics.find((item) =>
+  const oldReactionStat = currentReactionsStatistics.find((item) =>
     item.accounts.includes(accountThatIsLoggedIn)
   );
-  console.log("resObject: ", resObject);
+  console.log("resObject: ", oldReactionStat);
 
-  if (!resObject) {
-    currentReactionsStatistics = [
-      ...currentReactionsStatistics,
-      {
-        accountId: accountThatIsLoggedIn,
-        blockHeight: item.blockHeight,
-        value: { type: newEmoji },
-      },
+  let reactedStat = currentReactionsStatistics.find((item) =>
+    newEmoji.includes(item.text)
+  );
+  console.log("reactedStat: ", reactedStat);
+
+  let everyOtherReactionStat = currentReactionsStatistics.filter((item) => {
+    !item.accounts.includes(accountThatIsLoggedIn) &&
+      !newEmoji.includes(item.text);
+  });
+  console.log("everyOtherReactionStat: ", everyOtherReactionStat);
+
+  let newReactionsStatistics;
+
+  function getNewStatForEmojiReacted() {
+    return {
+      accounts: [...reactedStat.accounts, accountThatIsLoggedIn],
+      emoji: reactedStat.emoji,
+      quantity: reactedStat.quantity++,
+      text: reactedStat.text,
+    };
+  }
+
+  if (oldReactionStat) {
+    let newAccountsForOldReactionStat = oldReactionStat.filter(
+      (acc) => acc != accountThatIsLoggedIn
+    );
+
+    let newValueForOldReactionStat = {
+      accounts: newAccountsForOldReactionStat,
+      emoji: oldReactionStat.emoji,
+      quantity: oldReactionStat.quantity - 1,
+      text: oldReactionStat.text,
+    };
+
+    newReactionsStatistics = [
+      ...everyOtherReactionStat,
+      getNewStatForEmojiReacted(),
+      newValueForOldReactionStat,
     ];
   } else {
-    currentReactionsStatistics =
-      currentReactionsStatistics &&
-      currentReactionsStatistics.map((item) => {
-        if (item.accountId === accountThatIsLoggedIn) {
-          return { ...item, value: { type: newEmoji } };
-        }
-        return item;
-      });
+    newReactionsStatistics = [
+      ...everyOtherReactionStat,
+      getNewStatForEmojiReacted(),
+    ];
   }
+  console.log("newReactionsStatistics: ", newReactionsStatistics);
 
-  function countReactionsStats(arr) {
-    return Object.values(arr.reduce(getReactionStats, {}));
-  }
-
-  let reactionsStatistics =
-    currentReactionsStatistics &&
-    countReactionsStats(currentReactionsStatistics);
-
-  console.log(reactionsStatistics);
   State.update({
-    reactionsStatistics,
+    reactionsStatistics: newReactionsStatistics,
     loading: false,
     show: false,
   });
