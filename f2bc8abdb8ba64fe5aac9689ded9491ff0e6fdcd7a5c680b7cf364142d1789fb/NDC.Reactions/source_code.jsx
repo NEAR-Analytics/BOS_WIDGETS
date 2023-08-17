@@ -157,7 +157,7 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
   }
 
   //Only keep reactions with at least 1 person using it
-  newReactionsStatistics.filter((statistic) => {
+  newReactionsStatistics = newReactionsStatistics.filter((statistic) => {
     return statistic.quantity > 0;
   });
   console.log("newReactionsStatistics: ", newReactionsStatistics);
