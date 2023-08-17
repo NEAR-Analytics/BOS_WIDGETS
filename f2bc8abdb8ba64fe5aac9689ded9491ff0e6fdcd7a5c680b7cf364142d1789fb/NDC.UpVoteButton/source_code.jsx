@@ -84,7 +84,8 @@ function stateUpdate(obj) {
 
 function upVoteListener() {
   let newLibCalls = [...libCalls];
-  let oldNumberOfvotes = state.numberOfVotes ?? 0;
+  let oldNumberOfvotes =
+    state.numberOfVotes ?? state.upVotes.reactionsStatistics ?? 0;
 
   function onCommit() {
     State.update({
@@ -115,7 +116,9 @@ return (
       src={widgets.styledComponents}
       props={{
         Button: {
-          text: `+${state.numberOfVotes ?? 0}`,
+          text: `+${
+            state.numberOfVotes ?? state.upVotes.reactionsStatistics ?? 0
+          }`,
           className: `${getUpVoteButtonClass()}`,
           size: "sm",
           onClick: upVoteListener,
