@@ -151,6 +151,7 @@ State.init({
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
+  console.log("ALRFEU: ", arrayLastReactionForEachUser);
   const resObject = arrayLastReactionForEachUser.find(
     (item) => item.accountId === accountThatIsLoggedIn
   );
@@ -181,6 +182,8 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
   console.log(reactionsStatistics);
   State.update({
     reactionsStatistics,
+    loading: false,
+    show: false,
   });
 }
 
@@ -196,7 +199,6 @@ function handleOnMouseLeave() {
 
 function onCommit() {
   console.log(2);
-  onPushEnd();
   updateReactionsStatisticsIfUserVoted(emojiToWrite);
 }
 
