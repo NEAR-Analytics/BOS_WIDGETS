@@ -1,7 +1,8 @@
 const API_KEY = props.apiKey;
 const id = props.id;
+const firstReqTime = props.firstReqTime || 5;
 const query = props.query;
-const catchTime = props?.queryOption?.catchTime ?? 5;
+const cacheTime = props?.queryOption?.cacheTime ?? 360;
 const queryRunId = props?.queryRunId;
 const pageQuery =
   props?.queryOption?.page?.number && props?.queryOption?.page?.size
@@ -54,7 +55,7 @@ if (state.isQueryRunning) {
       }
     });
   };
-  timeOutId = setTimeout(refetch, 5000);
+  timeOutId = setTimeout(refetch, firstReqTime * 1000);
 } else {
   clearTimeout(timeOutId);
 }
@@ -122,7 +123,7 @@ const queryFetch = async (query) => {
     params: [
       {
         resultTTLHours: 1,
-        maxAgeMinutes: catchTime,
+        maxAgeMinutes: cacheTime,
         sql: query,
         dataSource: "snowflake-default",
         dataProvider: "flipside",
