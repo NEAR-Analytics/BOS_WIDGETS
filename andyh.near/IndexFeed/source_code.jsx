@@ -180,13 +180,13 @@ return (
       hasMore: state.displayCount < filteredItems.length,
       makeMoreItems,
       renderItems: (i) =>
-        Promise.all(
-          i.map((it, ix) => {
-            const rendered = renderItem(it, ix);
-            console.log({ rendered });
-            return rendered;
-          })
-        ),
+        // Promise.all(
+        i.map((it, ix) => {
+          const rendered = renderItem(it, ix);
+          console.log({ rendered });
+          return rendered;
+        }),
+      // ),
     }}
     isTrusted={true}
   />
