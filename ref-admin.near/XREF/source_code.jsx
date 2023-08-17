@@ -36,16 +36,16 @@ const updateTabName = (tabName) =>
 
 return (
   <Main>
-    {state.tabName === "stake" && (
+    {props.tabName === "stake" && (
       <Widget
         src={`${config.ownerId}/widget/XREF.Stake`}
-        props={{ config, updateTabName }}
+        props={{ config, updateTabName, linearBalance, updateAccountInfo }}
       />
     )}
-    {state.tabName === "unstake" && (
+    {props.tabName === "unstake" && (
       <Widget
         src={`${config.ownerId}/widget/XREF.Unstake`}
-        props={{ config, updateTabName }}
+        props={{ config, updateTabName, linearBalance, updateAccountInfo }}
       />
     )}
   </Main>
