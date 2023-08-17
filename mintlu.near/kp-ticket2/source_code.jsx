@@ -1,4 +1,4 @@
-const qrPayload = `${props.key}/${props.pk}`;
+const qrPayload = `v2.keypom.near/${props.pk}`;
 
 const qrSourceImg = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${qrPayload}&format=svg`;
 
