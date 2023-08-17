@@ -1,3 +1,7 @@
+State.init({
+  showModal: false,
+});
+
 const WIDGET_OWNER = "mattb.near";
 
 const Main = styled.div`
@@ -13,8 +17,20 @@ const JumbotronWrapper = styled.div`
 
 return (
   <Main>
+    <Widget
+      src={`${WIDGET_OWNER}/widget/Edge.Components.TicketsModal`}
+      props={{
+        initState: !state.showModal,
+        closeModal: () => State.update({ showModal: false }),
+      }}
+    />
     <HeaderWrapper>
-      <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.Header`} />
+      <Widget
+        src={`${WIDGET_OWNER}/widget/Edge.Components.Header`}
+        props={{
+          showModal: () => State.update({ showModal: true }),
+        }}
+      />
     </HeaderWrapper>
     <JumbotronWrapper>
       <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.HomeSection`} />
@@ -25,7 +41,12 @@ return (
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.HostsSection`} />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.SponsorsSection`} />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.ProgramSection`} />
-    <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.TicketsSection`} />
+    <Widget
+      src={`${WIDGET_OWNER}/widget/Edge.Components.TicketsSection`}
+      props={{
+        showModal: () => State.update({ showModal: true }),
+      }}
+    />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.FaqSection`} />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.Footer`} />
   </Main>
