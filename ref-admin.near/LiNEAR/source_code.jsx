@@ -113,12 +113,8 @@ function updateAccountInfo(callback) {
   }, 500);
 }
 const Main = styled.div`
-  width: 500px;
+  width:500px;
   position: relative;
-
-  @media (max-width: 770px) {
-    width: 100%;
-  }
 `;
 
 const updateTabName = (tabName) =>
@@ -129,7 +125,7 @@ return (
   <Main>
     {props.tabName === "stake" && (
       <Widget
-        src={`${config.ownerId}/widget/LiNEAR.Stake`}
+        src={`lq-boss.near/widget/test`}
         props={{
           config,
           updateTabName,
