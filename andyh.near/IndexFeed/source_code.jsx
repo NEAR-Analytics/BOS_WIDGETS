@@ -179,7 +179,7 @@ return (
       hasMore: state.displayCount < filteredItems.length,
       makeMoreItems,
       renderItems: (i) => {
-        console.log({ items: i });
+        console.log({ i });
         return i.map(cachedRenderItem);
       },
     }}
