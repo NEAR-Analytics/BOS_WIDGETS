@@ -525,7 +525,7 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
                     path: ["config", "columns", id, "description"],
                   }),
 
-                  placeholder: "Enter a brief description of the new column.",
+                  placeholder: "Enter a brief description of the column.",
                   value: description,
                 })}
 
