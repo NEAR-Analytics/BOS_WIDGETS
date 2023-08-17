@@ -127,6 +127,10 @@ function getReactionsData(props) {
     });
   }
 
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "getReactionsData";
+  });
+
   return { reactionsStatistics, userReaction };
 }
 
