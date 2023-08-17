@@ -479,7 +479,7 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
               "Enter tags you want to exclude. Posts with these tags will not show.",
 
             onChange: form.update({ path: ["config", "tags", "excluded"] }),
-            placeholder: "tag1, tag2",
+            placeholder: "tag3, tag4",
             value: form.values.config.tags.excluded.join(", "),
           })}
         </div>
