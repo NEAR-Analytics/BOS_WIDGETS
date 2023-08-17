@@ -44,7 +44,7 @@ const arrowDown = (
 const ArrowDownWrapper = styled.div`
   position: absolute;
   right: 16px;
-  top: 8px;
+  top: 12px;
 `;
 
 const exchangeIcon = (
@@ -566,8 +566,6 @@ const switchNetwork = (chainId, dex) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-    outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
   });
 };
 
@@ -678,7 +676,7 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
             color: light ? "white" : "",
           }}
         >
-          Polygon zkEVM
+          zkEVM
         </div>
 
         <div className="network-dex">{network.dex}</div>
@@ -762,15 +760,13 @@ const onCallTxComple = (tx) => {
     "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
   );
 
+  if (!state.add) return;
+
   tx.wait().then((receipt) => {
     const { status, transactionHash } = receipt;
 
     add_action({
-      action_title: `Swap ${
-        Number(state.inputAssetAmount) < 0.000001
-          ? "<0.000001"
-          : new Big(state.inputAssetAmount).toFixed(6)
-      }   ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
+      action_title: `Swap ${state.inputAssetAmount} ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
       action_type: "Swap",
       action_tokens: JSON.stringify([
         `${state.inputAsset.metadata.symbol}`,
@@ -781,7 +777,6 @@ const onCallTxComple = (tx) => {
       account_info: uuid,
       template: selectedDex,
       action_status: status === 1 ? "Success" : "Failed",
-      action_switch: state.add ? 1 : 0,
       tx_id: transactionHash,
     });
 
@@ -1088,6 +1083,5 @@ return (
         />
       </div>
     </SwapMainContainer>
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
   </Theme>
 );
