@@ -69,6 +69,7 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
     item.accounts.includes(accountThatIsLoggedIn)
   );
 
+  console.log("currentReactionsStatistics: ", currentReactionsStatistics);
   let reactedStat = currentReactionsStatistics.find((item) => {
     console.log("item: ", item, "newEmoji: ", newEmoji);
     newEmoji.includes(item.text);
