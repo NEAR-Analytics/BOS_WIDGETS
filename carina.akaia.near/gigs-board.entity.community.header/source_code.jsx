@@ -360,6 +360,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
             label: "Share",
             onClick: onShareClick,
             onMouseLeave: () => linkCopyStateToggle(false),
+            title: "Copy link to clipboard",
           })}
         </div>
       </div>
