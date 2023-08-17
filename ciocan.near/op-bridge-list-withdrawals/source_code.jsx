@@ -175,16 +175,20 @@ function getETHWithdrawals() {
 
   bridgeContractWithdrawl
     .queryFilter(
-      bridgeContractWithdrawl.filters.WithdrawalInitiated(_, _, sender)
+      bridgeContractWithdrawl.filters.WithdrawalInitiated(
+        undefined,
+        undefined,
+        sender
+      )
     )
     .then((events) => {
-      //   console.log("initialized", events);
-      events.forEach((ev) => {
-        ev.getTransactionReceipt().then((tx) => {
-          //   const { value, hash } = tx;
-          console.log("tx", tx);
-        });
-      });
+      console.log("initialized", events);
+      // events.forEach((ev) => {
+      //   ev.getTransactionReceipt().then((tx) => {
+      //     //   const { value, hash } = tx;
+      //     console.log("tx", tx);
+      //   });
+      // });
     });
 }
 
