@@ -1,4 +1,4 @@
-const user = "wecare.near";
+const user = "2506.near";
 const props = { name: "Anna" };
 
 return (
