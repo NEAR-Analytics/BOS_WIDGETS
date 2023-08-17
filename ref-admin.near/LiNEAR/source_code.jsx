@@ -125,7 +125,7 @@ return (
   <Main>
     {props.tabName === "stake" && (
       <Widget
-        src={`lq-boss.near/widget/test`}
+        src={`${config.ownerId}/widget/LiNEAR.Stake`}
         props={{
           config,
           updateTabName,
