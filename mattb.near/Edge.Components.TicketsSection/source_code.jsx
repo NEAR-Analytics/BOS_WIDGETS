@@ -1,3 +1,5 @@
+const { showModal } = props;
+
 const EVENT_URL = "https://partiful.com/e/8fZfzaNqqm8MSTA5I7E7";
 
 const Box = styled.div`
@@ -121,7 +123,14 @@ return (
       <p className="title">Ticket.</p>
       <p className="subtitle">Be part of the Edge Intelligence Summit</p>
       <Tickets>
-        <Ticket href={EVENT_URL} target="_blank">
+        <Ticket
+          onClick={() => {
+            if (typeof showModal === "function") {
+              showModal();
+            }
+          }}
+          target="_blank"
+        >
           <p className="title">All day access.</p>
           <p className="price">FREE</p>
           <p className="description">{speaker.description}</p>
@@ -132,7 +141,14 @@ return (
             <li>Networking drinks with speakers & attendees</li>
           </ul>
         </Ticket>
-        <Ticket href={EVENT_URL} target="_blank">
+        <Ticket
+          onClick={() => {
+            if (typeof showModal === "function") {
+              showModal();
+            }
+          }}
+          target="_blank"
+        >
           <p className="title">#Party.</p>
           <p className="price">FREE</p>
           <p className="description">{speaker.description}</p>
@@ -145,7 +161,14 @@ return (
         </Ticket>
       </Tickets>
 
-      <Button href={EVENT_URL} target="_blank">
+      <Button
+        onClick={() => {
+          if (typeof showModal === "function") {
+            showModal();
+          }
+        }}
+        target="_blank"
+      >
         GET A TICKET
       </Button>
     </Wrapper>
