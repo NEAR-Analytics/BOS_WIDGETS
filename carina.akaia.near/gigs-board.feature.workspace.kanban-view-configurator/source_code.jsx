@@ -506,13 +506,13 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
                 {widget("components.molecule.text-input", {
                   className: "flex-grow-1",
                   key: `column-${id}-title`,
-                  label: "Title",
+                  label: "Column title",
 
                   onChange: form.update({
                     path: ["config", "columns", id, "title"],
                   }),
 
-                  placeholder: "👀 Review",
+                  placeholder: "Enter column title.",
                   value: title,
                 })}
 
@@ -525,21 +525,19 @@ const KanbanViewConfigurator = ({ communityHandle, link, permissions }) => {
                     path: ["config", "columns", id, "description"],
                   }),
 
-                  placeholder:
-                    "NEPs that need a review by Subject Matter Experts.",
-
+                  placeholder: "Enter a brief description of the new column.",
                   value: description,
                 })}
 
                 {widget("components.molecule.text-input", {
                   key: `kanban-view-column-${id}-tag`,
-                  label: "Tag",
+                  label: "Enter a single tag to show posts in this column",
 
                   onChange: form.update({
                     path: ["config", "columns", id, "tag"],
                   }),
 
-                  placeholder: "",
+                  placeholder: "Tag-Name",
                   value: tag,
                 })}
               </div>
