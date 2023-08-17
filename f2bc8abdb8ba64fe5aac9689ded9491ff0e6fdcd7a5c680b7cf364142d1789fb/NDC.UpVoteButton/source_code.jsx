@@ -86,9 +86,7 @@ function upVoteListener() {
   function onCommit() {
     state.numberOfVotes &&
       State.update({
-        numberOfvotesModified: state.numberOfvotesModified
-          ? !state.numberOfvotesModified
-          : !isDelete,
+        numberOfvotesModified: !state.numberOfvotesModified,
         numberOfVotes: isDelete
           ? state.numberOfVotes - 1
           : state.numberOfVotes + 1,
