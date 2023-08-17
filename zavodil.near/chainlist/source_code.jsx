@@ -34,6 +34,13 @@ const getSvgImage = (svg) => {
 };
 
 const load = () => {
+  State.update({
+    coingecko_id: null,
+    name: null,
+    icon_svg: null,
+    weth: null,
+  });
+
   const chainId = state.chain_id;
   if (!chainId) {
     console.log("No chainId");
@@ -82,7 +89,7 @@ return (
         <input
           type="text"
           class="form-control"
-          value={state.coingeckoId}
+          value={state.coingecko_id}
           onChange={(e) => State.update({ coingecko_id: e.target.value })}
           id="coingeckoId"
         />
