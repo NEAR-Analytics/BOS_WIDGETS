@@ -30,6 +30,7 @@ if (
 ) {
   console.log("createdInteraction: ", state.createdInteraction);
   console.log("lastUserVote: ", lastUserVote);
+  console.log("numberOfvotesModified: ", state.numberOfvotesModified);
 }
 let isDelete;
 if (state.createdInteraction !== undefined) {
