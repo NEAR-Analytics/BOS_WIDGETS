@@ -9,7 +9,7 @@ return (
       props={{}}
     />
     <div className="row mb-3">
-      <Widget src="andyh.near/widget/Applications" />
+      <Widget src="andyh.near/widget/Applications" isTrusted={true} />
     </div>
     <div className="row mb-3">
       <Widget src="andyh.near/widget/People" isTrusted={true} />
