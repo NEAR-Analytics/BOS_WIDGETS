@@ -1,3 +1,4 @@
+State.init({ cachedItems: {} });
 const index = JSON.parse(JSON.stringify(props.index));
 if (!index) {
   return "props.index is not defined";
@@ -26,7 +27,7 @@ const cachedRenderItem = (item, i) => {
     }
     return state.cachedItems[key];
   } catch (e) {
-    console.warn(e, { cached: state.cachedItems });
+    console.warn(e, { cached: state.cachedItems, state });
   }
 };
 
