@@ -8,6 +8,7 @@ let colors = props.colors ?? [
 ];
 const chartOption = {
   title: "chart title",
+  background: "transparent",
   type: "pie",
   legend: false,
   connector: true,
@@ -115,6 +116,8 @@ const handleMessage = (message) => {
     colors,
     chart: {
       type: "pie",
+        backgroundColor: chartOption.background
+
     },
 
     title: {
