@@ -1,3 +1,5 @@
+const { showModal } = props;
+
 const EVENT_URL = "https://partiful.com/e/8fZfzaNqqm8MSTA5I7E7";
 const BACKGROUND_URL =
   "https://ipfs.near.social/ipfs/bafkreicu37fvfmegp3xealyvr7pihrzb7yif7xq2ihovbdhbo4zmrhwhuu";
@@ -139,7 +141,14 @@ return (
             </a>
           </p>
         </div>
-        <Button href={EVENT_URL} target="_blank">
+        <Button
+          onClick={() => {
+            if (typeof showModal === "function") {
+              showModal();
+            }
+          }}
+          target="_blank"
+        >
           GET TICKET
         </Button>
       </Details>
