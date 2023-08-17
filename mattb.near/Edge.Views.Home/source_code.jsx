@@ -11,6 +11,7 @@ const HeaderWrapper = styled.div`
   position:sticky;
   top:0;
   left:0;
+  z-index:9999;
 `;
 const JumbotronWrapper = styled.div`
 `;
@@ -20,7 +21,7 @@ return (
     <Widget
       src={`${WIDGET_OWNER}/widget/Edge.Components.TicketsModal`}
       props={{
-        initState: !state.showModal,
+        showModal: state.showModal,
         closeModal: () => State.update({ showModal: false }),
       }}
     />
