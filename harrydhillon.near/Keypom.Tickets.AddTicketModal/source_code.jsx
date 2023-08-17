@@ -210,7 +210,7 @@ const AddTicketModal = (
         marginTop: 10,
       }}
     >
-      Save Field
+      {props.editMode?'Update':'Create'}
     </button>
     <button
       onClick={props.onClose}
@@ -242,7 +242,7 @@ return (
       isOpen: props.isOpen,
       contentStyles: {
         style: {
-          width: 550
+          width: 550,
         },
       },
     }}
