@@ -49,7 +49,7 @@ return (
           <Widget
             src="mob.near/widget/CopyButton"
             props={{
-              text: { widgetPath },
+              text: widgetPath,
               onCopy: "Copied widget path to clipboard",
             }}
           />
