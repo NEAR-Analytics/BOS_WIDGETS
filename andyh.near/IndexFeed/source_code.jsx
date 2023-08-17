@@ -178,10 +178,7 @@ return (
       fetchMore,
       hasMore: state.displayCount < filteredItems.length,
       makeMoreItems,
-      renderItems: (i) => {
-        console.log({ i });
-        return i.map(cachedRenderItem);
-      },
+      renderItems: (i) => i.map(cachedRenderItem),
     }}
     isTrusted={true}
   />
