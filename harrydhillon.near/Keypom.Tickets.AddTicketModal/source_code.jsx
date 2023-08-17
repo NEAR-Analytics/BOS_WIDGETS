@@ -242,7 +242,7 @@ return (
       isOpen: props.isOpen,
       contentStyles: {
         style: {
-          width: window.screenWitdth>600?600:350,
+          width: 550
         },
       },
     }}
