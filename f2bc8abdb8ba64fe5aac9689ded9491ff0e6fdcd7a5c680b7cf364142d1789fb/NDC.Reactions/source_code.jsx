@@ -61,7 +61,7 @@ State.init({
   libCalls,
 });
 
-console.log("reactionsData: ", reactionsData);
+console.log("reactionsData: ", state.reactionsData);
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 function updateReactionsStatisticsIfUserVoted(newEmoji) {
