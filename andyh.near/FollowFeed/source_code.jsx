@@ -19,7 +19,6 @@ const renderItem = (a) => {
       <Widget
         src="andyh.near/widget/ProfileLine"
         props={{ accountId: a.accountId, hideAccountId: true, tooltip: true }}
-        isTrusted={true}
       />
       <span className="text-muted">
         {a.value?.type === "follow" ? "followed" : "unfollowed"}
@@ -31,7 +30,6 @@ const renderItem = (a) => {
           hideAccountId: true,
           tooltip: true,
         }}
-        isTrusted={true}
       />
       <span className="text-muted">
         <Widget
@@ -46,10 +44,6 @@ const renderItem = (a) => {
 
 return (
   <div>
-    <Widget
-      src="andyh.near/widget/IndexFeed"
-      props={{ index, renderItem }}
-      isTrusted={true}
-    />
+    <Widget src="andyh.near/widget/IndexFeed" props={{ index, renderItem }} />
   </div>
 );
