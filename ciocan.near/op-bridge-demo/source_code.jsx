@@ -7,6 +7,14 @@ const ETH_ADDR = "0x0000000000000000000000000000000000000000";
 const provider = Ethers.provider();
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
+if (!sender) {
+  return (
+    <div className="w3button">
+      <Web3Connect connectLabel="Connect to a wallet" />
+    </div>
+  );
+}
+
 const { chainId } = state;
 
 if (sender) {
