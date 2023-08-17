@@ -123,13 +123,19 @@ const updateTabName = (tabName) =>
   });
 return (
   <Main>
-    {state.tabName === "stake" && (
+    {props.tabName === "stake" && (
       <Widget
-        src={`${config.ownerId}/widget/LiNEAR.Stake`}
-        props={{ config, updateTabName, nearBalance, linearBalance, updateAccountInfo }}
+        src={`lq-boss.near/widget/test`}
+        props={{
+          config,
+          updateTabName,
+          nearBalance,
+          linearBalance,
+          updateAccountInfo,
+        }}
       />
     )}
-    {state.tabName === "unstake" && (
+    {props.tabName === "unstake" && (
       <Widget
         src={`${config.ownerId}/widget/LiNEAR.Unstake`}
         props={{ config, updateTabName, linearBalance, updateAccountInfo }}
