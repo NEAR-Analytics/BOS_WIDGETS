@@ -33,7 +33,12 @@ return (
       />
     </HeaderWrapper>
     <JumbotronWrapper>
-      <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.HomeSection`} />
+      <Widget
+        src={`${WIDGET_OWNER}/widget/Edge.Components.HomeSection`}
+        props={{
+          showModal: () => State.update({ showModal: true }),
+        }}
+      />
     </JumbotronWrapper>
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.StorySection`} />
     <Widget src={`${WIDGET_OWNER}/widget/Edge.Components.MainTopicsSection`} />
