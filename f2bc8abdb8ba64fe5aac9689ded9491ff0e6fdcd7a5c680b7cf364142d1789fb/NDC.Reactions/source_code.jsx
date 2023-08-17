@@ -159,6 +159,8 @@ function updateReactionsStatisticsIfUserVoted(newEmoji) {
   );
   console.log("resObject: ", oldReactionStat);
 
+  console.log("newEmoji: ", newEmoji);
+
   let reactedStat = currentReactionsStatistics.find((item) =>
     newEmoji.includes(item.text)
   );
