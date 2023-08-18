@@ -156,16 +156,18 @@ const formContent = () => {
             </>
           )}
           <div style={{ marginLeft: -5 }}>
-          <CheckBoxLabelStyling>
-            <Widget
-              src="nui.sking.near/widget/Input.Checkbox"
-              props={{
-                label: "My event is a single day event",
-                checked: state.isSingleDateEvent,
-                onChange: () =>
-                  State.update({ isSingleDateEvent: !state.isSingleDateEvent }),
-              }}
-            />
+            <CheckBoxLabelStyling>
+              <Widget
+                src="nui.sking.near/widget/Input.Checkbox"
+                props={{
+                  label: "My event is a single day event",
+                  checked: state.isSingleDateEvent,
+                  onChange: () =>
+                    State.update({
+                      isSingleDateEvent: !state.isSingleDateEvent,
+                    }),
+                }}
+              />
             </CheckBoxLabelStyling>
           </div>
           <Label style={{ fontWeight: "bold", marginTop: 10 }}>
@@ -180,7 +182,7 @@ const formContent = () => {
           {console.log(state)}
           <Widget
             props={{ ...state, date: state.from }}
-            src="harrydhillon.near/widget/Keypom.Eventview"
+            src="harrydhillon.near/widget/Keypom.EventInfo.Eventview"
           />
         </div>
       </Grid>
