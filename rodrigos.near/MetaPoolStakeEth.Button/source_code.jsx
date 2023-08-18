@@ -2,6 +2,9 @@ const type = props.type || "primary"; // primary || outline
 const size = props.size || "lg"; // lg || base
 const full = props.full || "full"; // full || none
 const padding = props.padding || "normal"; // normal || large
+const disabled = props.disabled || false;
+const onClick = props.onClick || undefined;
+const text = props.text || "";
 
 const Btn = styled.button`
   ${full === "full" && "width: 100%;"}
