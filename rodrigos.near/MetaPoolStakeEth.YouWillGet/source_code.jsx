@@ -1,3 +1,7 @@
+const price = props.price || undefined;
+const iconName = props.iconName || "mpETH";
+const value = props.value || 0;
+
 const Wrapper = styled.div`
     display: block;
     align-items: flex-start;
@@ -101,12 +105,12 @@ return (
             fill="#0C2246"
           />
         </svg>
-        <div>{props?.value || 0}</div>
+        <div>{value}</div>
       </AmountContainer>
     </Top>
     <Bottom>
-      <div>{props.price ? `1 mpETH = ${props.price.toFixed(5)} ETH` : ""}</div>
-      <div styled={{ textAlign: "end" }}>{props?.iconName || "mpETH"}</div>
+      <div>{price ? `1 mpETH = ${price.toFixed(5)} ETH` : ""}</div>
+      <div styled={{ textAlign: "end" }}>{iconName}</div>
     </Bottom>
   </Wrapper>
 );
