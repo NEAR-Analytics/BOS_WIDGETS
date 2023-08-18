@@ -300,7 +300,7 @@ const KanbanView = ({
               <div className="card rounded-4">
                 <div
                   className={[
-                    "card-body d-flex flex-column gap-3",
+                    "card-body d-flex flex-column gap-2",
                     "border border-2 border-secondary rounded-4",
                   ].join(" ")}
                 >
