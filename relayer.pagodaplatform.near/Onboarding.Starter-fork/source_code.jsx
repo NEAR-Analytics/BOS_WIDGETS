@@ -845,7 +845,7 @@ const initTransaction = () => {
   // List the NFT
   console.log(state.name);
   walleyContract.getToken().then((tokenId) => {
-    console.log(Big(tokenId));
+    console.log(Big(tokenId).toFixed(0));
     nftContract.initTransaction(
       walleyAddress,
       state.name,
