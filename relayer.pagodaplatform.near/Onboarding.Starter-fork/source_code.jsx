@@ -63,7 +63,7 @@ const mint = () => {
     .catch((err) => console.log(err));
 };
 
-const initTransfer = () => {
+const initTransaction = () => {
   walleyContract.methods
     .mint()
     .send({ from: sender })
