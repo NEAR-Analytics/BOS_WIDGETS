@@ -13,7 +13,7 @@ const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
   compose: "hack.near/widget/NDC.WG.Compose",
-  deleteGroup: "hack.near/widget/NDC.WG.DeleteGroup",
+  deleteGroup: "hack.near/widget/NDC.WG.Delete",
 };
 
 State.init({
@@ -43,7 +43,7 @@ const getVerifiedHuman = () => {
   });
 };
 
-const getGroupData = () => Social.get(`${daoId}/groups`);
+const getGroupData = (group) => Social.get(`${daoId}/groups/${group}`);
 
 const handleSelect = (item) => {
   switch (item.id) {
