@@ -155,7 +155,7 @@ const formContent = () => {
           onClick={() => {
             State.update({ index: state.index + 1 });
           }}
-          style={{ backgroundColor: "black" }}
+          style={{ backgroundColor: "black", borderWidth: 0 }}
         >
           Next
         </button>
