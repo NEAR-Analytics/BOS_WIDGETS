@@ -3,8 +3,7 @@ const sender = Ethers.send("eth_requestAccounts", [])[0];
 const tokens = props.tokens ?? [];
 
 State.init({
-  ethwithdrawalss: [],
-  ercwithdrawals: [],
+  withdrawals: [],
 });
 
 const { chainId } = state;
@@ -166,7 +165,20 @@ const bridgeContractWithdrawl = new ethers.Contract(
 );
 
 function getETHWithdrawals() {
-  console.log("getETHWithdrawals");
+  // console.log("getETHWithdrawals");
+  const withdrawals = new Map();
+  let completedOperations = 0;
+  let totalOperations = 0;
+
+  function checkAllOperationsComplete() {
+    if (completedOperations === totalOperations) {
+      // console.log("done");
+      State.update({
+        withdrawals,
+      });
+    }
+  }
+
   // bridgeContractDeposit
   //   .queryFilter(bridgeContractDeposit.filters.ETHWithdrawalFinalized(sender))
   //   .then((events) => {
@@ -182,16 +194,86 @@ function getETHWithdrawals() {
       )
     )
     .then((events) => {
-      console.log("initialized", events);
-      // events.forEach((ev) => {
-      //   ev.getTransactionReceipt().then((tx) => {
-      //     //   const { value, hash } = tx;
-      //     console.log("tx", tx);
-      //   });
-      // });
+      console.log("WithdrawalInitiated", events);
+      totalOperations = events.length * 1; // Three async operations for each event
+
+      events
+        .sort((a, b) => b.blockNumber - a.blockNumber)
+        .forEach((event) => {
+          const { args, logIndex, blockNumber, transactionHash } = event;
+          const [l1token, l2token, from, to, amount, extraData] = args;
+          // console.log(transactionHash, event);
+          const token = tokens.find((t) => t.address === l1token);
+
+          withdrawals.set(transactionHash, {
+            l1token,
+            l2token,
+            // from,
+            // to,
+            symbol: token?.symbol ?? "????",
+            amount: ethers.utils.formatUnits(amount, token?.decimals || 18),
+            extraData,
+            logIndex,
+            blockNumber,
+            transactionHash,
+          });
+
+          event.getBlock().then((block) => {
+            // console.log(transactionHash, "block", block);
+            const { timestamp } = block;
+            withdrawals.set(transactionHash, {
+              ...withdrawals.get(transactionHash),
+              timestamp,
+            });
+            completedOperations++;
+            checkAllOperationsComplete();
+          });
+        });
     });
 }
 
 getETHWithdrawals();
 
-return <div>...</div>;
+function renderWithdrawl([_, withdrawl]) {
+  // console.log("withdraw", withdrawl);
+  const { timestamp, amount, transactionHash, symbol } = withdrawl;
+  const date = new Date(timestamp * 1000);
+  const href = `https://${
+    isTestnet ? "goerli-optimism.etherscan.io" : "optimistic.etherscan.io"
+  }/tx/${transactionHash}`;
+  const hash = `${transactionHash.substr(0, 6)}...${transactionHash.substr(
+    -4
+  )}`;
+  return (
+    <tr>
+      <td>{date.toUTCString()}</td>
+      <td>{amount}</td>
+      <td>{symbol}</td>
+      <td>
+        <a href={href} target="_blank">
+          {hash}
+        </a>
+      </td>
+      <td>status</td>
+      <td>
+        <button>action</button>
+      </td>
+    </tr>
+  );
+}
+
+return (
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Amount</th>
+        <th>Token</th>
+        <th>Transaction</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>{[...state.withdrawals].map(renderWithdrawl)}</tbody>
+  </table>
+);
