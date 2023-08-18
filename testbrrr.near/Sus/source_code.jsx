@@ -303,7 +303,7 @@ const getEntireDebtAndColl = () => {
   });
   console.log("these are the balances");
   console.log(balances);
-  State.update({ balances: balances });
+  State.update({ assetBalances: balances });
 };
 
 State.init({
@@ -324,7 +324,7 @@ State.init({
   pendingLUSDDebtReward: null,
   pendingETHReward: null,
   tx: null,
-  balances: [],
+  assetBalances: [],
 });
 
 if (state.sender === undefined) {
@@ -414,7 +414,7 @@ if (
   props.resendPrompt(props);
 }
 
-let balancesList = state.balances.map((balance) => {
+const balancesList = state.assetBalances.map((balance) => {
   return (
     <div>
       <p>Debt: {balance.debt} SUS</p>
