@@ -35,7 +35,6 @@ const renderItem = (a) => {
         <Widget
           src="andyh.near/widget/TimeAgo"
           props={{ blockHeight: a.blockHeight }}
-          isTrusted={true}
         />
       </span>
     </Item>
