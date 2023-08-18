@@ -843,7 +843,7 @@ const initTransaction = () => {
   // walleyContract.mint({ from: sender }).then((t) => {
   // console.log("minted");
   // List the NFT
-  console.log(state.name);
+  console.log(state.storeAddress);
   walleyContract.getToken().then((tokenId) => {
     console.log(Big(tokenId).toFixed(0));
     nftContract.initTransaction(
