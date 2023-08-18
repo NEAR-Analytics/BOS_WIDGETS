@@ -40,7 +40,7 @@ State.init({
   data: [
     { question: "Email", isRequired: true },
     { question: "Full Name", isRequired: false },
-    { question: "how did you find out about this event", isRequired: false },
+    { question: "How did you find out about this event", isRequired: false },
   ],
   isAddCustomFieldModalOpen: false,
   editMode: false,
