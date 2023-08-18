@@ -280,8 +280,6 @@ const handleBridge = (props) => {
             "Please allow a few seconds and press the 'refresh list' button",
         });
 
-        if (!state.add) return;
-
         const uuid = Storage.get(
           "zkevm-warm-up-uuid",
           "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
@@ -297,6 +295,7 @@ const handleBridge = (props) => {
           account_id: sender,
           account_info: uuid,
           template: "native bridge",
+          action_code: state.add ? 1 : 0,
         });
       }
     });
