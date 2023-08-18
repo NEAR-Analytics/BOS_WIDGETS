@@ -156,21 +156,21 @@ asyncFetch("https://api-staging-fur7.onrender.com/transactions/stats").then(
     })
 );
 
-asyncFetch(
-  "https://api-staging-fur7.onrender.com/data/projects?sort=timedesc"
-).then((response) => response.ok && State.update({ projects: response.body }));
+asyncFetch("https://api-staging-fur7.onrender.com/data/projects?sort=timedesc").then(
+  (response) => response.ok && State.update({ projects: response.body })
+);
 
-asyncFetch(
-  "https://api-staging-fur7.onrender.com/data/requests?sort=timedesc"
-).then((response) => response.ok && State.update({ requests: response.body }));
+asyncFetch("https://api-staging-fur7.onrender.com/data/requests?sort=timedesc").then(
+  (response) => response.ok && State.update({ requests: response.body })
+);
 
-asyncFetch(
-  "https://api-staging-fur7.onrender.com/data/vendors?sort=timedesc"
-).then((response) => response.ok && State.update({ vendors: response.body }));
+asyncFetch("https://api-staging-fur7.onrender.com/data/vendors?sort=timedesc").then(
+  (response) => response.ok && State.update({ vendors: response.body })
+);
 
-asyncFetch(
-  "https://api-staging-fur7.onrender.com/data/investors?sort=timedesc"
-).then((response) => response.ok && State.update({ investors: response.body }));
+asyncFetch("https://api-staging-fur7.onrender.com/data/investors?sort=timedesc").then(
+  (response) => response.ok && State.update({ investors: response.body })
+);
 
 return (
   <Container>
