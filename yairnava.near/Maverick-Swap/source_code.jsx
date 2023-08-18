@@ -144,6 +144,7 @@ State.init({
   routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
   onApproving: false,
   onSwap: false,
+  needMoreAllowance: false,
 });
 
 const getNetwork = () => {
@@ -266,6 +267,24 @@ const tokenInApprovaleNeededCheck = (data) => {
   }
 };
 
+const getAccountAllowance = (token) => {
+  asyncFetch(
+    "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+  ).then((res) => {
+    const approveContract = new ethers.Contract(
+      token.address,
+      res.body,
+      Ethers.provider().getSigner()
+    );
+    approveContract
+      .allowance(state.sender, state.routerContract)
+      .then((res) => {
+        State.update({ tokenAllowance: parseInt(res.toString()) });
+        console.log(parseInt(res.toString()));
+      });
+  });
+};
+
 const approveErc20Token = () => {
   asyncFetch(
     "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
@@ -313,6 +332,7 @@ const handleSendSelect = (data) => {
   const token = TOKENS.find((token) => token.name === data.target.value);
   getPrice(true, token);
   tokenInApprovaleNeededCheck(token);
+  getAccountAllowance(token);
 };
 
 const handleRecieveSelect = (data) => {
@@ -323,10 +343,12 @@ const handleRecieveSelect = (data) => {
 const turnTokens = () => {
   const tokenSendSelected = state.tokenSendSelected;
   const tokenRecieveSelected = state.tokenRecieveSelected;
+  getAccountAllowance(tokenRecieveSelected);
   if (tokenSendSelected && tokenRecieveSelected) {
     State.update({ tokenSendSelected: null, tokenRecieveSelected: null });
     setTimeout(() => {
       State.update({
+        amountInput: "",
         tokenSendSelected: tokenRecieveSelected,
         tokenRecieveSelected: tokenSendSelected,
       });
@@ -379,48 +401,9 @@ const isSufficientBalance = () => {
 const setMaxBalance = () => {
   if (state.inputBalance > 0) {
     State.update({ amountInput: state.inputBalance });
+    validateAllowance(state.inputBalance);
   }
 };
-
-// const confirmTransaction = () => {
-//   const router = new ethers.Contract(
-//     state.routerContract,
-//     routerAbi.body,
-//     Ethers.provider().getSigner()
-//   );
-//   let amountIn = ethers.utils.parseUnits(
-//     state.amountInput,
-//     state.tokenSendSelected.decimals
-//   );
-//   const abi = JSON.parse(routerAbi.body);
-//   const iface = new ethers.utils.Interface(abi);
-//   let paramsv2 = {
-//     tokenIn: state.tokenSendSelected.address,
-//     tokenOut: state.tokenRecieveSelected.address,
-//     pool: state.poolSelected,
-//     recipient: state.sender,
-//     deadline: 1e13,
-//     amountIn: amountIn,
-//     amountOutMinimum: 0,
-//     sqrtPriceLimitD18: 0,
-//   };
-
-//   console.log(paramsv2);
-
-//   const encodedData = iface.encodeFunctionData("exactInputSingle", [paramsv2]);
-//   let data = [encodedData];
-//   const overrides = {
-//     value: "0",
-//     gasLimit: 2303039,
-//   };
-//   try {
-//     router.multicall(data, overrides).then((res) => {
-//       console.log(res);
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 
 const confirmTransaction = () => {
   const router = new ethers.Contract(
@@ -428,7 +411,6 @@ const confirmTransaction = () => {
     routerAbi.body,
     Ethers.provider().getSigner()
   );
-  console.log(state.amountInput);
   let amountIn = ethers.utils.parseUnits(
     state.amountInput,
     state.tokenSendSelected.decimals
@@ -443,7 +425,6 @@ const confirmTransaction = () => {
     amountOutMinimum: 0,
     sqrtPriceLimitD18: 0,
   };
-  console.log(paramsv2);
   let amountIn2 = ethers.utils.parseUnits(
     "0",
     state.tokenSendSelected.decimals
@@ -452,7 +433,6 @@ const confirmTransaction = () => {
     value: amountIn2,
     gasLimit: 2303039,
   };
-  console.log(overrides);
   try {
     router.exactInputSingle(paramsv2, overrides).then((res) => {
       State.update({
@@ -482,6 +462,23 @@ const getRecipient = () => {
     "..." +
     state.sender.substring(state.sender.length - 4, state.sender.length)
   ).toUpperCase();
+};
+
+const validateAllowance = (input) => {
+  State.update({ amountInput: input });
+  const divider =
+    state.tokenSendSelected.decimals == 18 ? 1000000000000000000 : 1000000;
+  console.log(state.tokenAllowance);
+  const tokenAllowance = state.tokenAllowance / divider;
+  console.log(tokenAllowance);
+  console.log(state.amountInput * 1);
+  if (input * 1 > tokenAllowance) {
+    console.log("Necesitas más allowance");
+    State.update({ needMoreAllowance: true });
+  } else {
+    console.log("No necesitas más allowance");
+    State.update({ needMoreAllowance: false });
+  }
 };
 
 const css = fetch(
@@ -570,9 +567,7 @@ return (
                     min="0"
                     pattern="^[0-9]*[.]?[0-9]*$"
                     value={state.amountInput}
-                    onChange={(e) =>
-                      State.update({ amountInput: e.target.value })
-                    }
+                    onChange={(e) => validateAllowance(e.target.value)}
                   />
                   <div class="TokenAmountPreview">
                     {state.inputBalance != null ? (
@@ -738,14 +733,25 @@ return (
                 )
               ) : cantSwap() && isSufficientBalance() && existPool() ? (
                 !state.onSwap ? (
-                  <div
-                    class={"ConfirmButton"}
-                    onClick={async () => {
-                      confirmTransaction();
-                    }}
-                  >
-                    <div class={"ConfirmText"}>Confirm</div>
-                  </div>
+                  state.needMoreAllowance ? (
+                    <div
+                      class={"ConfirmButton"}
+                      onClick={async () => {
+                        approveErc20Token();
+                      }}
+                    >
+                      <div class={"ConfirmText"}>Add More Allowance</div>
+                    </div>
+                  ) : (
+                    <div
+                      class={"ConfirmButton"}
+                      onClick={async () => {
+                        confirmTransaction();
+                      }}
+                    >
+                      <div class={"ConfirmText"}>Confirm</div>
+                    </div>
+                  )
                 ) : (
                   <div
                     class={"ConfirmButtonDisabled"}
