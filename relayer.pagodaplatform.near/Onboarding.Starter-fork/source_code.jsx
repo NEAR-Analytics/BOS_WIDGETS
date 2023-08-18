@@ -787,14 +787,14 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
     .then((balance) => {
       State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
     });
-  console.log(sender);
+  // console.log(sender);
 }
 if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
 }
-console.log(NFTManagerABI);
+// console.log(NFTManagerABI);
 const nftIface = new ethers.utils.Interface(NFTManagerABI);
-console.log("hehe");
+// console.log("hehe");
 const nftContract = new ethers.Contract(
   nftAddress,
   NFTManagerABI,
@@ -811,6 +811,7 @@ if (state.stores == []) {
   nftContract
     .getAllStores()
     .then((stores) => {
+      console.log(stores);
       State.update({
         stores,
       });
@@ -824,7 +825,7 @@ if (state.stores == []) {
             storeAddress: store.storeAddress,
           });
       });
-      console.log(state.stores);
+      // console.log(state.stores);
     });
 }
 
@@ -837,47 +838,42 @@ if (store.storeAddress !== "" && isStore && storePendingTransactions == []) {
 }
 
 const initTransaction = () => {
-  walleyContract
-    .mint({ from: sender })
-    .then((t) => {
-      console.log("minted");
-      // List the NFT
-      walleyContract.getToken().then((tokenId) => {
-        nftContract
-          .initTransaction(
-            walleyAddress,
-            tokenId,
-            state.name,
-            `${Math.pow(state.amount, 18)}`,
-            state.storeAddress,
-            state.storeName,
-            {
-              from: sender,
-              value: ethers.utils.parseUnits(`${state.amount}`, 18),
-            }
-          )
-          .then(() => console.log("done"))
-          .catch((err) => console.log(err));
-      });
-    })
-    .catch((err) => console.log("hhhh"));
+  walleyContract.mint({ from: sender }).then((t) => {
+    // console.log("minted");
+    // List the NFT
+    walleyContract.getToken().then((tokenId) => {
+      nftContract.initTransaction(
+        walleyAddress,
+        tokenId,
+        state.name,
+        `${Math.pow(state.amount, 18)}`,
+        state.storeAddress,
+        state.storeName,
+        {
+          from: sender,
+          value: ethers.utils.parseUnits(`${state.amount}`, 18),
+        }
+      );
+      // .then(() => console.log("done"))
+      // .catch((err) => console.log(err));
+    });
+  });
+  // .catch((err) => console.log("hhhh"));
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
-  nftContract
-    .approveTransaction(walleyAddress, tokenId, totalAmount, {
-      from: sender,
-      value: ethers.utils.parseUnits(`${amount - totalAmount}`, 18),
-    })
-    .then(() => console.log("done"))
-    .catch((err) => console.log(err));
+  nftContract.approveTransaction(walleyAddress, tokenId, totalAmount, {
+    from: sender,
+    value: ethers.utils.parseUnits(`${amount - totalAmount}`, 18),
+  });
+  // .then(() => console.log("done"))
+  // .catch((err) => console.log(err));
 };
 
 const addStore = (name, address) => {
-  nftContract
-    .addStore(name, address)
-    .then(() => console.log("done"))
-    .catch((err) => console.log(err));
+  nftContract.addStore(name, address);
+  // .then(() => console.log("done"))
+  // .catch((err) => console.log(err));
 };
 
 return (
