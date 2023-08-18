@@ -64,14 +64,14 @@ const mint = () => {
 };
 
 const initTransaction = () => {
-  walleyContract.methods
+  walleyContract
     .mint()
     .send({ from: sender })
     .on("receipt", function (receipt) {
       console.log("minted");
       // List the NFT
       const tokenId = receipt.events.NFTMinted.returnValues[0];
-      nftContract.methods
+      nftContract
         .initTransaction(
           walleyAddress,
           tokenId,
