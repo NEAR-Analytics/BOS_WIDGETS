@@ -1,4 +1,4 @@
-const { isIAmHuman } = props;
+const { isVerified } = props;
 
 const widget = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
@@ -6,6 +6,13 @@ const widget = {
 
 const Header = styled.div`
   background: black;
+`;
+
+const Toolbar = styled.div`
+  margin-left: 20px;
+  @media only screen and (max-width: 1061px) {
+    margin: 10px 0 0 0;
+  }
 `;
 
 return (
@@ -25,7 +32,7 @@ return (
           "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
       }}
     />
-    {!isIAmHuman && (
+    {!isVerified ? (
       <Widget
         src={widget.styledComponents}
         props={{
@@ -35,6 +42,33 @@ return (
           },
         }}
       />
+    ) : (
+      <Toolbar>
+        {props.createdGroup ? (
+          <Widget
+            src={widget.styledComponents}
+            props={{
+              Button: {
+                className: "danger primary",
+                text: "Delete Work Group",
+                onClick: () => State.update({ showModalDelete: true }),
+                icon: <i class="bi bi-trash"></i>,
+              },
+            }}
+          />
+        ) : (
+          <Widget
+            src={widget.styledComponents}
+            props={{
+              Button: {
+                text: "Create Work Group",
+                onClick: () => State.update({ showModal: true }),
+                icon: <i class="bi bi-plus-lg"></i>,
+              },
+            }}
+          />
+        )}
+      </Toolbar>
     )}
   </Header>
 );
