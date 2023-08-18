@@ -835,7 +835,7 @@ if (store.storeAddress !== "" && isStore && storePendingTransactions == []) {
   });
 }
 
-const initTransaction = (store) => {
+const initTransaction = () => {
   walleyContract
     .mint({ from: sender })
     .then((t) => {
@@ -847,14 +847,17 @@ const initTransaction = (store) => {
             walleyAddress,
             tokenId,
             state.name,
-            `${Math.pow(state.amount,18)}`,
-            store.storeAddress,
-            store.storeName,
-            { from: sender, value: ethers.utils.parseUnits(`${state.amount}`, 18) }
+            `${Math.pow(state.amount, 18)}`,
+            state.storeAddress,
+            state.storeName,
+            {
+              from: sender,
+              value: ethers.utils.parseUnits(`${state.amount}`, 18),
+            }
           )
           .then(() => console.log("done"))
           .catch((err) => console.log(err));
-      })
+      });
     })
     .catch((err) => console.log("hhhh"));
 };
@@ -886,7 +889,10 @@ return (
           type="number"
           onChange={(e) => State.update({ amount: e.target.value })}
         />
-        <input type="text" onChange={(e) => State.update({ name: e.target.value })}
+        <input
+          type="text"
+          onChange={(e) => State.update({ name: e.target.value })}
+        />
         <button onClick={initTransaction}>init</button>
         <button
           onClick={() => {
