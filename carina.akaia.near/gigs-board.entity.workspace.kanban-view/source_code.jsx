@@ -267,7 +267,7 @@ const KanbanView = ({
               },
 
               icon: { kind: "bootstrap-icon", variant: "bi-recycle" },
-              isHidden: "Disabled for MVP", // typeof onDeleteClick !== "function",
+              isHidden: typeof onDeleteClick !== "function",
               label: "Delete",
               onClick: onDeleteClick,
             })}
@@ -300,11 +300,11 @@ const KanbanView = ({
               <div className="card rounded-4">
                 <div
                   className={[
-                    "card-body d-flex flex-column gap-2 p-2",
+                    "card-body d-flex flex-column gap-3 p-2",
                     "border border-2 border-secondary rounded-4",
                   ].join(" ")}
                 >
-                  <span className="d-flex flex-column">
+                  <span className="d-flex flex-column py-1">
                     <h6 className="card-title h6 d-flex align-items-center gap-2 m-0">
                       {column.title}
 
