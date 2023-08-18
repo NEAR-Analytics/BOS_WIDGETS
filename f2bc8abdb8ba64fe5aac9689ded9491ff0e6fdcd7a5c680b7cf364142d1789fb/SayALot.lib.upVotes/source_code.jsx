@@ -70,9 +70,9 @@ function getUpVotes(props) {
 }
 
 function addVote(props) {
-  const { realArticleId, onCommit, onCancel } = props;
+  const { realArticleId } = props;
 
-  saveUpVote(realArticleId, onCommit, onCancel);
+  saveUpVote(realArticleId);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "addVote";
@@ -82,22 +82,20 @@ function addVote(props) {
 }
 
 function deleteVote(props) {
-  const { realArticleId, upVoteId, onCommit, onCancel } = props;
+  const { realArticleId, upVoteId } = props;
 
-  saveDeleteVote(realArticleId, upVoteId, onCommit, onCancel);
+  saveDeleteVote(realArticleId, upVoteId);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "deleteVote";
   });
 }
 
-function saveDeleteVote(realArticleId, upVoteId, onCommit, onCancel) {
+function saveDeleteVote(realArticleId, upVoteId) {
   const newData = composeDeleteUpVoteData(realArticleId, upVoteId);
 
   Social.set(newData, {
     force: true,
-    onCommit,
-    onCancel,
   });
 }
 
@@ -132,13 +130,11 @@ function composeUpVoteData(realArticleId) {
   return data;
 }
 
-function saveUpVote(realArticleId, onCommit, onCancel) {
+function saveUpVote(realArticleId) {
   const newData = composeUpVoteData(realArticleId);
 
   Social.set(newData, {
     force: true,
-    onCommit,
-    onCancel,
   });
 }
 
