@@ -11,7 +11,7 @@ const update = (state) => State.update(state);
 
 const constructURL = (paramObj, base) => {
   paramObj = { ...paramObj, page: "dao" };
-  const baseURL = base ?? `#/shemar268abel.near/widget/Dao.index.BAC-Dao`;
+  const baseURL = base ?? `#/${widgetOwner}/widget/index`;
   let params = "";
   for (const [key, value] of Object.entries(paramObj)) {
     params += `${key}=${value}&`;
