@@ -57,8 +57,8 @@ const endpoints = {
 };
 
 function getVerifiedHuman() {
-  const sbtTokens = Near.view(registryContract, "sbt_tokens", {
-    issuer: "fractal.i-am-human.near",
+  const isHuman = Near.view(registryContract, "is_human", {
+    account: context.accountId,
   });
   const ogTokens = Near.view(registryContract, "sbt_tokens", {
     issuer,
@@ -70,11 +70,9 @@ function getVerifiedHuman() {
     }
   });
 
-  console.log(sbtTokens);
-
   State.update({
     og: ogTokens.some((sbt) => sbt.owner === context.accountId),
-    sbt: sbtTokens.some((sbt) => sbt.owner === context.accountId),
+    sbt: isHuman[0][1].length > 0,
   });
 }
 
