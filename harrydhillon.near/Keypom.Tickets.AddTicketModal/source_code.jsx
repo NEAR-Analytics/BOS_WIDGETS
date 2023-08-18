@@ -182,12 +182,14 @@ const AddTicketModal = (
         />
       </>
     )}
-    {state.selected !== "Custom Amount" && (
       <p style={{ color: "gray" }}>
-        You receive {state.selected} NEAR. Buyer pays {state.selected}.187
+        You receive {state.selected === "Custom Amount"
+              ? state.nearAmountForTicket
+              : state.selected} NEAR. Buyer pays {state.selected === "Custom Amount"
+              ? state.nearAmountForTicket
+              : state.selected}.187
         NEAR.
       </p>
-    )}
     <p style={{ fontWeight: "500", marginBottom: 0 }}>Ticket Artwork</p>
     <Widget src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
     <button
@@ -239,7 +241,7 @@ return (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: AddTicketModal,
-      isOpen: props.isOpen,
+      isOpen:  props.isOpen,
       contentStyles: {
         style: {
           width: 550,
