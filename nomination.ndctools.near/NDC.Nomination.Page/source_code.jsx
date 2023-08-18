@@ -70,6 +70,8 @@ function getVerifiedHuman() {
     }
   });
 
+  console.log(sbtTokens);
+
   State.update({
     og: ogTokens.some((sbt) => sbt.owner === context.accountId),
     sbt: sbtTokens.some((sbt) => sbt.owner === context.accountId),
