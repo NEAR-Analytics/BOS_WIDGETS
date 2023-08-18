@@ -720,7 +720,7 @@ const initTransaction = () => {
         .then(() => console.log("done"))
         .catch((err) => console.log("err"));
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log("hhhh"));
 };
 
 const createTransfer = () => {
