@@ -34,6 +34,7 @@ State.init({
   pendingETHReward: null,
   tx: null,
   balances: [],
+  stopReload: false,
 });
 
 const setcoll = (depositChangeEvent) => {
@@ -310,8 +311,8 @@ let assets = Object.values(availableAssets);
 let balances = [...state.balances];
 
 const processAsset = (index) => {
-  if (index === assets.length - 1) {
-    State.update({ balances: balances });
+  if (index === assets.length - 1 && !state.stopReload) {
+    State.update({ balances: balances, stopReload: true });
     return;
   }
 
@@ -438,6 +439,7 @@ if (
   repayDebtTokens();
 } else if (props.action === "display") {
   console.log("Triggered again");
+  console.log(state.stopReload);
   getEntireDebtAndColl();
 } else if (props.action === "withdraw") {
   withdrawColl();
