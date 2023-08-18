@@ -10,7 +10,9 @@ const getAsset = (asset) => {
 };
 
 const getAssetFromAddress = (address) => {
-  return Object.keys(availableAssets).find((key) => object[key] === address);
+  return Object.keys(availableAssets).find(
+    (key) => availableAssets[key] === address
+  );
 };
 
 const setcoll = (depositChangeEvent) => {
