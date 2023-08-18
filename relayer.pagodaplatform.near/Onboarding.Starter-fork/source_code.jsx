@@ -892,6 +892,8 @@ const getStoreNames = ()=> {
 
 const widgetOptions = () => {
   const options = state.storeNames.map(name =>{ return {text: name,  value:name}})
+
+  console.log(options)
   return options
 }
 
