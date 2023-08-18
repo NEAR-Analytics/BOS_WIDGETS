@@ -109,7 +109,7 @@ const bridgeAbiDeposit = [
   },
 ];
 
-const bridgeAbiWithdrawl = [
+const bridgeAbiWithdrawal = [
   {
     anonymous: false,
     inputs: [
@@ -162,9 +162,9 @@ const bridgeContractDeposit = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-const bridgeContractWithdrawl = new ethers.Contract(
+const bridgeContractWithdrawal = new ethers.Contract(
   OP_BRIDGE_WITHDRAW_CONTRACT,
-  bridgeAbiWithdrawl,
+  bridgeAbiWithdrawal,
   Ethers.provider().getSigner()
 );
 
@@ -189,9 +189,9 @@ function getETHWithdrawals() {
   //     console.log("finalized", events);
   //   });
 
-  bridgeContractWithdrawl
+  bridgeContractWithdrawal
     .queryFilter(
-      bridgeContractWithdrawl.filters.WithdrawalInitiated(
+      bridgeContractWithdrawal.filters.WithdrawalInitiated(
         undefined,
         undefined,
         sender
@@ -238,9 +238,9 @@ function getETHWithdrawals() {
 
 getETHWithdrawals();
 
-function renderWithdrawl([_, withdrawl]) {
-  // console.log("withdraw", withdrawl);
-  const { timestamp, amount, transactionHash, symbol } = withdrawl;
+function renderWithdrawal([_, withdrawal]) {
+  // console.log("withdraw", withdrawal);
+  const { timestamp, amount, transactionHash, symbol } = withdrawal;
   const date = new Date(timestamp * 1000);
   const href = `https://${
     isTestnet ? "goerli-optimism.etherscan.io" : "optimistic.etherscan.io"
@@ -278,6 +278,6 @@ return (
         <th></th>
       </tr>
     </thead>
-    <tbody>{[...state.withdrawals].map(renderWithdrawl)}</tbody>
+    <tbody>{[...state.withdrawals].map(renderWithdrawal)}</tbody>
   </table>
 );
