@@ -160,7 +160,7 @@ return (
         src={widgets.header}
         props={{
           type: "WG",
-          isVerified: sbt,
+          isVerified: !sbt,
         }}
       />
       <Container className="d-flex row justify-content-between w-100">
