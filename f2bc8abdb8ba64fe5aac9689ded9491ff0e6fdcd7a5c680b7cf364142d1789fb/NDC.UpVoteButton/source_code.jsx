@@ -2,6 +2,8 @@ const { isTest, authorForWidget, reactedElementData, widgets } = props;
 
 const data = reactedElementData;
 
+console.log(0, data);
+
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.upVotes`];
 
 const libCalls = [
@@ -9,7 +11,7 @@ const libCalls = [
     functionName: "getUpVotes",
     key: "upVotes",
     props: {
-      elementReactedId: data.realArticleId,
+      realArticleId: data.realArticleId,
     },
   },
 ];
@@ -36,6 +38,7 @@ function getUpVoteButtonClass() {
 }
 
 function callLibs(srcArray, stateUpdate, libCalls) {
+  console.log(1, srcArray);
   return (
     <>
       {srcArray.map((src) => {
@@ -65,7 +68,7 @@ function upVoteButtonListener() {
   if (!hasUserVoted) {
     newLibCalls.push({
       functionName: "addVote",
-      key: "upVotes",
+      key: "newVote",
       props: {
         realArticleId: data.realArticleId,
       },
@@ -73,7 +76,7 @@ function upVoteButtonListener() {
   } else {
     newLibCalls.push({
       functionName: "deleteVote",
-      key: "upVotes",
+      key: "deletedVote",
       props: {
         realArticleId: data.realArticleId,
         upVoteId: userVote.value.upVoteId,
