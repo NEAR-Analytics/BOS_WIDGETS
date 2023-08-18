@@ -771,6 +771,7 @@ State.init({
   storePendingTransactions: [],
   amount: 0,
   name: "",
+  widgetOptions: []
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -828,6 +829,7 @@ if (state.stores.length == 0) {
             storeAddress: store.storeAddress,
             storeNames: getStoreNames()
           });
+          widgetOptions()
       });
       // console.log(state.stores);
     });
@@ -892,9 +894,9 @@ const getStoreNames = ()=> {
 
 const widgetOptions = () => {
   const options = state.storeNames.map(name =>{ return {text: name,  value:name}})
-
-  console.log(options)
-  return options
+  State.update({
+    widgetOptions: options
+  })
 }
 
 return (
@@ -909,7 +911,7 @@ return (
             props={{
               noLabel: true,
               placeholder: "Select a store",
-              options=widgetOptions(),
+              options=state.widgetOptions,
               onChange=(value) => {
                 state.stores.map(store => {
                   if (store.storeName === value) State.update({storeName: value, storeAddress: store.storeAddress})
