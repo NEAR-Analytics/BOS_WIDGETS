@@ -9,6 +9,10 @@ const getAsset = (asset) => {
   return availableAssets[asset];
 };
 
+const getAssetFromAddress = (address) => {
+  return Object.keys(availableAssets).find((key) => object[key] === address);
+};
+
 const setcoll = (depositChangeEvent) => {
   const coll = Number(depositChangeEvent.target.value);
   const { totalcoll } = state;
@@ -274,7 +278,6 @@ const claimCollateral = () => {
 };
 
 const getEntireDebtAndColl = () => {
-  console.log(vesselManagerAbi);
   const vesselManagerContract = new ethers.Contract(
     vesselManagerAddress,
     vesselManagerAbi.body,
@@ -282,20 +285,21 @@ const getEntireDebtAndColl = () => {
   );
 
   let assets = Object.values(availableAssets);
-  console.log(assets);
+  let balances = [];
   assets.forEach((asset) => {
     vesselManagerContract
       .getEntireDebtAndColl(asset, state.sender)
       .then((results) => {
-        console.log(results);
-        State.update({
+        balances.push({
+          asset: getAssetFromAddress(asset),
           debt: results[0].div("1000000000000000000").toString(),
           coll: ethers.utils.formatEther(results[1].toString()),
-          pendingLUSDDebtReward: results[2].toString(),
-          pendingETHReward: results[3].toString(),
+          pendingDebtTokenReward: results[2].toString(),
+          pendingAssetReward: results[3].toString(),
         });
       });
   });
+  State.update({ balances: balances });
 };
 
 State.init({
@@ -316,6 +320,7 @@ State.init({
   pendingLUSDDebtReward: null,
   pendingETHReward: null,
   tx: null,
+  balances: [],
 });
 
 if (state.sender === undefined) {
@@ -404,16 +409,21 @@ if (
 } else {
   props.resendPrompt(props);
 }
-
 return (
   <div>
-    {state.debt ? (
-      <div>
-        <p>Debt: {state.debt} LUSD</p>
-        <p>Collateral: {state.coll} ETH</p>
-        <p>Pending ETH Reward: {state.pendingETHReward} ETH</p>
-        <p>Pending LUSD Debt Reward: {state.pendingLUSDDebtReward} LUSD</p>
-      </div>
+    {state.balances.length > 0 ? (
+      balances.forEach((balance) => {
+        return (
+          <div>
+            <p>Debt: {balance.debt} SUS</p>
+            <p>
+              Collateral: {balance.coll} {balance.asset}
+            </p>
+            <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
+            <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
+          </div>
+        );
+      })
     ) : (
       <div></div>
     )}
