@@ -304,16 +304,11 @@ return (
               props={{
                 inputs: [
                   {
-                    label: "What is the name of your work group? *",
+                    label: "What is the NEAR account of your work group? *",
                     placeholder: "Profile ID",
                     value: state.groupId,
-                    handleChange: (e) => validate("groupName", e.target.value),
-                  },
-                  {
-                    label: "Who are the members of your work group? *",
-                    placeholder: "Accound IDs",
-                    value: state.members,
-                    handleChange: (e) => validate("members", e.target.value),
+                    handleChange: (e) => validate("groupId", e.target.value),
+                    inputType: "text",
                   },
                   {
                     label: "Additional Information",
