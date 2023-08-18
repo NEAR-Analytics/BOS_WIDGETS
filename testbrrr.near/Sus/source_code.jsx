@@ -330,6 +330,7 @@ const getEntireDebtAndColl = () => {
 
   const processAsset = (index) => {
     if (index >= assets.length) {
+      State.update({ balances: balances });
       return;
     }
 
@@ -350,7 +351,6 @@ const getEntireDebtAndColl = () => {
   };
 
   processAsset(0); // Start the chain with the first asset.
-  State.update({ balances: balances });
 };
 
 if (state.sender === undefined) {
