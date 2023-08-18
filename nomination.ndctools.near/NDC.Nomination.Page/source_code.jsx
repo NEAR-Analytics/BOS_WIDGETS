@@ -96,35 +96,28 @@ function getNominationInfo(house) {
         httpRequestOpt
       ).then((info) => {
         let upVoteInfo = info.body[0];
-        let profileData;
         let nominationData;
-        Social.getr(`${nominee}/profile`);
-        Social.getr(`${nominee}/nominations`);
-        setTimeout(() => {
-          profileData = Social.getr(`${nominee}/profile`);
-          nominationData = Social.getr(`${nominee}/nominations`);
-        }, 100);
 
-        setTimeout(() => {
-          if (data.is_revoked || !profileData || !nominationData) {
-            State.update({ loading: false });
-            return;
-          }
+        nominationData = Social.getr(`${nominee}/nominations`);
 
-          objCard = {
-            profileData: profileData,
-            nominationData: nominationData,
-            upVoteData: upVoteInfo,
-            ...objCard,
-          };
-          nominationsArr.push(objCard);
+        if (data.is_revoked || !nominationData) {
+          State.update({ loading: false });
+          return;
+        }
 
-          State.update({
-            nominations: nominationsArr,
-            originNominations: nominationsArr,
-            loading: false,
-          });
-        }, 1000);
+        objCard = {
+          nominationData: nominationData,
+          upVoteData: upVoteInfo,
+          ...objCard,
+        };
+
+        nominationsArr.push(objCard);
+
+        State.update({
+          nominations: nominationsArr,
+          originNominations: nominationsArr,
+          loading: false,
+        });
       });
     }
   });
@@ -165,7 +158,7 @@ const handleFilter = (e) => {
         affiliations.map((af) => af.company_name.toLowerCase());
 
       return (
-        data.profileData.name.toLowerCase().includes(text.toLowerCase()) ||
+        data.nominee.includes(text.toLowerCase()) ||
         (companyNames &&
           companyNames.some((c) => c.includes(text.toLowerCase())))
       );
