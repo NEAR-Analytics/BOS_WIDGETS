@@ -888,16 +888,18 @@ return (
       <div>
         <select
           value={state.storeName}
-          onChange={(e) =>
+          onChange={(e) => {
+            console.log(e.target.value);
             State.update({
-              storeName: e.target.value[0],
-              storeAddress: e.target.value[1],
-            })
-          }
+              storeName: e.target.value,
+            });
+          }}
         >
           {state.stores.map((store) => {
             console.log(store);
-            return <option value={[store[0], store[1]]}>{store[0]}</option>;
+            return (
+              <option value={`${store[0]}:${store[1]}`}>{store[0]}</option>
+            );
           })}
         </select>
         <input
