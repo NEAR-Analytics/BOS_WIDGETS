@@ -23,7 +23,6 @@ const StepLabelContainer = styled.div`
 const Label = styled.p`
 font-size: 16px;
  translate: 5px 8px;
- font-family:Inter V;
 font-style: normal;
 font-weight: 500;
 `;
