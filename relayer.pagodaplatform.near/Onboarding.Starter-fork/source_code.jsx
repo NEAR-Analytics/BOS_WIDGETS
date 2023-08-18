@@ -63,6 +63,24 @@ const mint = () => {
     .catch((err) => console.log(err));
 };
 
+const initTransaction = () => {
+  nftContract
+    .initTransaction(
+      walleyAddress,
+      "1",
+      ethers.utils.toWei("0.1", "ether"),
+      "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
+      "test"
+    )
+    .send({ from: sender, value: "0.1 ether" })
+    .then(() => {
+      console.log("done");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 const createTransfer = () => {
   if (contract) {
     console.log("hhh");
