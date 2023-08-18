@@ -871,6 +871,14 @@ const approveTransaction = (tokenId, totalAmount, amount) => {
     .then(() => console.log("done"))
     .catch((err) => console.log(err));
 };
+
+const addStore = (name, address) => {
+  nftContract
+    .addStore(name, address)
+    .then(() => console.log("done"))
+    .catch((err) => console.log(err));
+};
+
 return (
   <>
     <p>{state.chainId}</p>
