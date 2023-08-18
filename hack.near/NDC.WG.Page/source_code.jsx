@@ -161,6 +161,7 @@ return (
         props={{
           type: "WG",
           isVerified: !sbt,
+          showModal: state.showModal,
         }}
       />
       <Container className="d-flex row justify-content-between w-100">
