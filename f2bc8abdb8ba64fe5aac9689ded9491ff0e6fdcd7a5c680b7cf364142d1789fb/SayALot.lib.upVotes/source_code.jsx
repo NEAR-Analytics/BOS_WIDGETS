@@ -1,5 +1,7 @@
 const { isTest, stateUpdate, libCalls } = props;
 
+console.log("in library")
+
 const prodAction = "sayALotUpVote-v1.0.0";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
