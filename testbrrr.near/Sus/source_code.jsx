@@ -293,7 +293,7 @@ const getEntireDebtAndColl = () => {
       .getEntireDebtAndColl(asset, state.sender)
       .then((results) => {
         State.update({
-          assetBalances: assetBalances.push({
+          assetBalances: state.assetBalances.push({
             asset: getAssetFromAddress(asset),
             debt: results[0].div("1000000000000000000").toString(),
             coll: ethers.utils.formatEther(results[1].toString()),
