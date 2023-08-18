@@ -299,6 +299,7 @@ const renderAssets = (data, hasDollar) => {
             <div class="text_grey_color">(${formatValue(usd, true)})</div>
           </div>
         </td>
+
         <td class="table_handlers">
           {!can_use_as_collateral ? null : (
             <div class="adjust_btn">
