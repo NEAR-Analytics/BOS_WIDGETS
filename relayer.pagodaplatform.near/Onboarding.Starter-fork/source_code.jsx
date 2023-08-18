@@ -132,6 +132,6 @@ return (
     <p>{state.chainId}</p>
     <p>{state.balance}</p>
     <button onClick={mint}>Mint</button>
-    <button onClick={() => initTransaction()}>init</button>
+    <button onClick={initTransaction}>init</button>
   </>
 );
