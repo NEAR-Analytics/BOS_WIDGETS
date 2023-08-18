@@ -301,7 +301,6 @@ const getEntireDebtAndColl = () => {
         });
       });
   });
-  console.log(balances);
   State.update({ balances: balances });
 };
 
@@ -426,7 +425,7 @@ let balancesList = state.balances.map((balance) => {
   );
 });
 
-console.log(balancesList);
+console.log(state.balances);
 
 return (
   <div>
