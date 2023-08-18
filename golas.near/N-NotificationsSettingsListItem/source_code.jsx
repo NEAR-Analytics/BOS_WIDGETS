@@ -1,7 +1,7 @@
 const Card = styled.div`
   display: flex;
   width: 506px;
-  padding: 32px 0px;
+  padding: 24px 0px;
   align-items: flex-start;
   gap: 64px; 
 
