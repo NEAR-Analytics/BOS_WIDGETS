@@ -78,11 +78,11 @@ const youWillReceive =
   state.tokenPrice === undefined
     ? "0"
     : (Big(state.tokenPrice).lte(0)
-        ? Big(0)
-        : Big(isValid(state.inputValue) ? state.inputValue : 0).div(
-            Big(state.tokenPrice)
-          )
-      ).toFixed(5, BIG_ROUND_DOWN);
+      ? Big(0)
+      : Big(isValid(state.inputValue) ? state.inputValue : 0).div(
+        Big(state.tokenPrice)
+      )
+    ).toFixed(5, BIG_ROUND_DOWN);
 
 const Title = styled.h1`
       font-size: 40px;
@@ -383,6 +383,7 @@ return (
       <Widget
         src={`ref-admin.near/widget/LiNEAR.Input`}
         props={{
+          firstIconName: "NEAR",
           placeholder: "0",
           value: state.inputValue,
           onChange,
@@ -397,12 +398,16 @@ return (
           onClick: onClickStake,
           disabled: disabledStakeButton,
           text: "Stake",
+          firstIconName: "NEAR",
         }}
       />
       <div class="footer">
         <Widget
           src={`ref-admin.near/widget/LiNEAR.Message.YouWillReceive`}
-          props={{ text: `${youWillReceive} ${tokenName}` }}
+          props={{
+            text: `${youWillReceive} ${tokenName}`, secondIconName: "NearX",
+            secondIconUrl: "https://ipfs.near.social/ipfs/bafkreia7nzk2nlapfchtgtdnguzrz425fdkhqdsx5gwutuvttetao63rii",
+          }}
         />
       </div>
     </div>
