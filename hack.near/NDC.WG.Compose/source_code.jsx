@@ -325,7 +325,7 @@ return (
               }}
             />
             <Widget
-              src={widgets.members}
+              src={widgets.groupMembers}
               props={{
                 members: state.members,
                 addMember,
