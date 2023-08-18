@@ -828,8 +828,9 @@ if (state.stores.length == 0) {
             storeName: store.storeName,
             storeAddress: store.storeAddress,
             storeNames: getStoreNames(),
+          }).then(() => {
+            widgetOptions();
           });
-        widgetOptions();
       });
       // console.log(state.stores);
     });
