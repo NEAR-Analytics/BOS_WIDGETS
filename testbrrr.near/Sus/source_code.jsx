@@ -301,8 +301,21 @@ const getEntireDebtAndColl = () => {
         });
       });
   });
-  console.log("these are the balances");
-  console.log(balances);
+  const balancesList = state.assetBalances
+    ? state.assetBalances.map((balance) => {
+        return (
+          <div>
+            <p>Debt: {balance.debt} SUS</p>
+            <p>
+              Collateral: {balance.coll} {balance.asset}
+            </p>
+            <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
+            <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
+          </div>
+        );
+      })
+    : null;
+  console.log(balancesList);
   State.update({ assetBalances: balances });
 };
 
@@ -413,21 +426,6 @@ if (
 } else {
   props.resendPrompt(props);
 }
-
-const balancesList = state.assetBalances
-  ? state.assetBalances.map((balance) => {
-      return (
-        <div>
-          <p>Debt: {balance.debt} SUS</p>
-          <p>
-            Collateral: {balance.coll} {balance.asset}
-          </p>
-          <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
-          <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
-        </div>
-      );
-    })
-  : null;
 
 return (
   <div>
