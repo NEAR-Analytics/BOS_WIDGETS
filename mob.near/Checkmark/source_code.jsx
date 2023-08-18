@@ -21,7 +21,11 @@ const Checkmark = (
     ></path>
   </svg>
 );
-const content = isPremium ? Checkmark : "";
+const content = isPremium ? (
+  <span style={{ verticalAlign: center }}>{Checkmark}</span>
+) : (
+  ""
+);
 
 return (
   <Widget
