@@ -98,7 +98,7 @@ function fetchTokens() {
             query: `query MyQuery {
   ${props.chainState} {
     nfts(
-      where: { nft_contract_id: { _eq: "${contractId}" }, token_id: {_eq: "${tokenId}"}}
+      where: { contract_id: { _eq: "${contractId}" }, token_id: {_eq: "${tokenId}"}}
     ) {
       contract_id
       name
