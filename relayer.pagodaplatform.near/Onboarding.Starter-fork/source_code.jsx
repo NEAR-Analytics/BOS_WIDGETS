@@ -716,7 +716,7 @@ const initTransaction = () => {
       "100000000000000000",
       "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
       "Test",
-      { from: sender, value: "0.1 ether" }
+      { from: sender, value: ethers.utils.parseUnits("0.1", 18) }
     )
     .then(() => console.log("done"))
     .catch((err) => console.log(err));
