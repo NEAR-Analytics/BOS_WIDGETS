@@ -184,7 +184,7 @@ const descriptionArea =
   ) : null;
 
 return (
-  <AttractableDiv className={`card my-2 ${borders[snapshot.post_type]}`}>
+  <AttractableDiv className={`card ${borders[snapshot.post_type]}`}>
     {header}
     <div className="card-body">
       {postTitle}
