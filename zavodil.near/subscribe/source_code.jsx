@@ -3,17 +3,21 @@ State.init({ type: "custom", customAmount: 1 });
 const Theme = styled.div`
     .container {
       background-color: white;
-      max-width: 700px;
+     
         background-position: 0px -100px;
         background-repeat: no-repeat;
         background-image: url("https://abs.twimg.com/sticky/illustrations/twitter_blue_images_v2/background-600W.png");
-            padding-left: 72px;
-    padding-right: 72px;
+            padding-left: 12px;
+    padding-right: 12px;
 
     background-size: cover;
      padding-bottom: 100px;
      padding-top: 30px;
     }
+    .container-block {
+        margin: 0 auto;
+         max-width: 500px;
+        }
    .header {
        border-radius: 12px; 
        background-color: black;
@@ -25,6 +29,7 @@ const Theme = styled.div`
 
     font-weight: 800;
     display: flex;
+    gap: 10px;
     // line-height: 24px;
 
     padding-left: 16px;
@@ -33,10 +38,11 @@ const Theme = styled.div`
    }
    .header-text {
      // vertical-align:center;
-     flex: 4.7;
+     flex: 4;
            font-family: inherit;
 
     word-wrap: break-word;
+    padding-bottom: 10px;
     //width: 65%;
     //display: inline-block;
    }
@@ -44,7 +50,7 @@ const Theme = styled.div`
      flex: 1;
      width: 150px;
      min-height: 50px;
-     margin-left: 20px;
+     //margin-left: 20px;
        // width: 20%;
         //height: 20%;
         display: inline-block;
@@ -171,91 +177,97 @@ const deposit = () => {
 return (
   <Theme>
     <div class="container">
-      <div class="header">
-        <div class="header-text">
-          Premium subscribers will get a blue checkmark and extra features.
-        </div>
-        <div class="illustration">
-          <img
-            draggable="false"
-            src="https://abs.twimg.com/responsive-web/client-web/verification-card-v2@3x.8ebee01a.png"
-          />
-        </div>
-      </div>
-
-      <div class="radiogroup">
-        <div class="selector">
-          <div
-            class={`menu-item ${state.type == "annually" ? "menu-active" : ""}`}
-          >
-            <div
-              class="menu-item-text"
-              onClick={() => State.update({ type: "annually" })}
-            >
-              Annually<div class="sale">SAVE 12%</div>
-            </div>
+      <div class="container-block">
+        <div class="header">
+          <div class="header-text">
+            Premium subscribers will get a blue checkmark and extra features.
           </div>
-          <div
-            class={`menu-item ${state.type == "monthly" ? "menu-active" : ""}`}
-            onClick={() => State.update({ type: "monthly" })}
-          >
-            <div class="menu-item-text">Monthly</div>
-          </div>
-          <div
-            class={`menu-item ${state.type == "custom" ? "menu-active" : ""}`}
-            onClick={() => State.update({ type: "custom" })}
-          >
-            <div class="menu-item-text">Custom</div>
-          </div>
-        </div>
-      </div>
-
-      {state.type !== "custom" && (
-        <div class="action">
-          <div class="subscribe">
-            <div class="subscribe-text">
-              {state.type == "monthly" ? (
-                <>8 NEAR / month</>
-              ) : (
-                <>
-                  <span class="old-price">96 NEAR</span> 84 NEAR / year
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-      {state.type === "custom" && (
-        <div class="action">
-          <div class="subscribe-amount-block">
-            <div class="subscribe-amount-text">Enter amount:</div>
-            <input
-              type="text"
-              class="subscribe-amount"
-              value={state.customAmount}
-              onChange={(e) =>
-                State.update({
-                  customAmount: isNumber(e.target.value)
-                    ? parseFloat(e.target.value)
-                    : "",
-                })
-              }
+          <div class="illustration">
+            <img
+              draggable="false"
+              src="https://abs.twimg.com/responsive-web/client-web/verification-card-v2@3x.8ebee01a.png"
             />
-            <div class="subscribe">
+          </div>
+        </div>
+
+        <div class="radiogroup">
+          <div class="selector">
+            <div
+              class={`menu-item ${
+                state.type == "annually" ? "menu-active" : ""
+              }`}
+            >
               <div
-                class={`subscribe-text ${
-                  state.customAmount > 1 ? "" : "disabled"
-                } `}
-                onClick={() => deposit()}
+                class="menu-item-text"
+                onClick={() => State.update({ type: "annually" })}
               >
-                {state.customAmount
-                  ? `Deposit ${state.customAmount} NEAR`
-                  : "Min deposit: 1 NEAR"}
+                Annually<div class="sale">SAVE 12%</div>
+              </div>
+            </div>
+            <div
+              class={`menu-item ${
+                state.type == "monthly" ? "menu-active" : ""
+              }`}
+              onClick={() => State.update({ type: "monthly" })}
+            >
+              <div class="menu-item-text">Monthly</div>
+            </div>
+            <div
+              class={`menu-item ${state.type == "custom" ? "menu-active" : ""}`}
+              onClick={() => State.update({ type: "custom" })}
+            >
+              <div class="menu-item-text">Custom</div>
+            </div>
+          </div>
+        </div>
+
+        {state.type !== "custom" && (
+          <div class="action">
+            <div class="subscribe">
+              <div class="subscribe-text">
+                {state.type == "monthly" ? (
+                  <>8 NEAR / month</>
+                ) : (
+                  <>
+                    <span class="old-price">96 NEAR</span> 84 NEAR / year
+                  </>
+                )}
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+        {state.type === "custom" && (
+          <div class="action">
+            <div class="subscribe-amount-block">
+              <div class="subscribe-amount-text">Enter amount:</div>
+              <input
+                type="text"
+                class="subscribe-amount"
+                value={state.customAmount}
+                onChange={(e) =>
+                  State.update({
+                    customAmount: isNumber(e.target.value)
+                      ? parseFloat(e.target.value)
+                      : "",
+                  })
+                }
+              />
+              <div class="subscribe">
+                <div
+                  class={`subscribe-text ${
+                    state.customAmount > 1 ? "" : "disabled"
+                  } `}
+                  onClick={() => deposit()}
+                >
+                  {state.customAmount
+                    ? `Deposit ${state.customAmount} NEAR`
+                    : "Min deposit: 1 NEAR"}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   </Theme>
 );
