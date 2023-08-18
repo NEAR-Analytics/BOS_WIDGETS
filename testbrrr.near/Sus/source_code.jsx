@@ -415,7 +415,7 @@ if (
 }
 
 console.log("Yo check");
-console.log(balances);
+console.log(state.balances);
 const balancesList = state.balances.map((balance) => {
   console.log(balance);
   return (
