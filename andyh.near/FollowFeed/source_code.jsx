@@ -43,10 +43,6 @@ const renderItem = (a) => {
 
 return (
   <div>
-    <Widget
-      src="andyh.near/widget/IndexFeed"
-      props={{ index, renderItem }}
-      isTrusted={true}
-    />
+    <Widget src="andyh.near/widget/IndexFeed" props={{ index, renderItem }} />
   </div>
 );
