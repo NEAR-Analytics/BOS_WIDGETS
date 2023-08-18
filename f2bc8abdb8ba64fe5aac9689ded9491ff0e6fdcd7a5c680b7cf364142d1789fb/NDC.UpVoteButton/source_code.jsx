@@ -10,37 +10,22 @@ const libCalls = [
     key: "upVotes",
     props: {
       elementReactedId: data.realArticleId,
-      createdInteraction: state.createdInteraction,
     },
   },
 ];
 
 State.init({
   libCalls,
-  createdInteraction: false,
+  upVotes: [],
 });
 
-let numberOfvotesModified = state.numberOfvotesModified;
-
-// if (state.upVotes.reactionsStatistics && !numberOfvotesModified) {
-//   State.update({ numberOfVotes: state.upVotes.reactionsStatistics ?? 0 });
-// }
-
-const lastUserVote = state.upVotes.userInteraction;
-
-let isDelete;
-if (lastUserVote) {
-  if (state.createdInteraction) {
-    isDelete = lastUserVote.value.deleteReaction;
-  } else {
-    isDelete = !lastUserVote.value.deleteReaction;
-  }
-} else {
-  isDelete = false;
-}
+let userVote = state.upVotes.find(
+  (vote) => vote.accountId === context.accountId
+);
+let hasUserVoted = userVote !== undefined;
 
 function getUpVoteButtonClass() {
-  if (isDelete) {
+  if (hasUserVoted) {
     return "primary";
   } else {
     return "secondary dark";
@@ -70,34 +55,34 @@ function stateUpdate(obj) {
   State.update(obj);
 }
 
-function upVoteListener() {
+function upVoteButtonListener() {
   let newLibCalls = [...libCalls];
-  let oldNumberOfvotes =
-    state.numberOfVotes ?? state.upVotes.reactionsStatistics ?? 0;
 
-  function onCommit() {
-    State.update({
-      numberOfvotesModified: !numberOfvotesModified,
-      numberOfVotes: isDelete ? oldNumberOfvotes - 1 : oldNumberOfvotes + 1,
-      createdInteraction: !isDelete,
+  if (userVote) {
+    newLibCalls.push({
+      functionName: "addVote",
+      key: "upVotes",
+      props: {
+        realArticleId: data.realArticleId,
+      },
+    });
+  } else {
+    newLibCalls.push({
+      functionName: "deleteVote",
+      key: "upVotes",
+      props: {
+        realArticleId: data.realArticleId,
+        upVoteId: userVote.value.upVoteId,
+      },
     });
   }
-
-  newLibCalls.push({
-    functionName: "addVote",
-    key: "addVote",
-    props: {
-      isDelete,
-      elementReactedId: data.realArticleId,
-      onCommit,
-    },
-  });
   State.update({ libCalls: newLibCalls });
 }
 
 const CallLibrary = styled.div`
   display: none;
 `;
+
 return (
   <>
     <Widget
@@ -109,7 +94,7 @@ return (
           }`,
           className: `${getUpVoteButtonClass()}`,
           size: "sm",
-          onClick: upVoteListener,
+          onClick: upVoteButtonListener,
           icon: <i className="bi bi-hand-thumbs-up"></i>,
         },
       }}
