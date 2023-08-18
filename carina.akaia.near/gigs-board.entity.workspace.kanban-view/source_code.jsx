@@ -267,7 +267,7 @@ const KanbanView = ({
               },
 
               icon: { kind: "bootstrap-icon", variant: "bi-recycle" },
-              isHidden: typeof onDeleteClick !== "function",
+              isHidden: "Disabled for MVP", // typeof onDeleteClick !== "function",
               label: "Delete",
               onClick: onDeleteClick,
             })}
