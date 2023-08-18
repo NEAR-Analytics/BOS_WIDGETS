@@ -49,7 +49,7 @@ const Container = styled.div`
     .TabsRoot {
         display: flex;
         flex-direction: column;
-        max-width: 500px;
+        max-width: 640px;
     }
 
     .TabsList {
