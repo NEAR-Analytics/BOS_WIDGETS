@@ -106,8 +106,8 @@ return (
               >
                 {ellipsisIfExceeds(item.description)}
               </p>
-              <div style={{ fontSize: 12, color: "#94A3B8" }}>
-                {extractDateComponents(item.from)} -{" "}
+              <div style={{ fontSize: 10, color: "#94A3B8" }}>
+                Purchase Thoough : {extractDateComponents(item.from)} -{" "}
                 {extractDateComponents(item.to)}
               </div>
             </TableCell>
