@@ -89,9 +89,7 @@ return (
       src={widgets.styledComponents}
       props={{
         Button: {
-          text: `+${
-            state.numberOfVotes ?? state.upVotes.reactionsStatistics ?? 0
-          }`,
+          text: `+${state.upVotes.length}`,
           className: `${getUpVoteButtonClass()}`,
           size: "sm",
           onClick: upVoteButtonListener,
