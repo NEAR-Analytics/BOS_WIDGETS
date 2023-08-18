@@ -60,9 +60,9 @@ function stateUpdate(obj) {
 
 function upVoteButtonListener() {
   let newLibCalls = [...state.libCalls];
-  console.log("in upVoteListener", userVote);
+  console.log("in upVoteListener", !hasUserVoted, data);
 
-  if (!userVote) {
+  if (!hasUserVoted) {
     newLibCalls.push({
       functionName: "addVote",
       key: "upVotes",
