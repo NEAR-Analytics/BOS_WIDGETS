@@ -58,7 +58,7 @@ return (
       <Icon>{props.icon}</Icon>
       <Text>
         <div>{props.title}</div>
-        <div>{props.text}</div>
+        {props.text && <div>{props.text}</div>}
       </Text>
     </Content>
     <Switch>S</Switch>
