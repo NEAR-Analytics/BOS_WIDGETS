@@ -430,6 +430,8 @@ const balancesList = state.balances.map((balance) => {
   );
 });
 
+console.log(balancesList);
+
 return (
   <div>
     {balancesList}
