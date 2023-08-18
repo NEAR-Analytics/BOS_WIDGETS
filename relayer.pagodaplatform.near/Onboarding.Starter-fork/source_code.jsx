@@ -824,6 +824,7 @@ if (state.stores == []) {
             storeAddress: store.storeAddress,
           });
       });
+      console.log(state.stores);
     });
 }
 
