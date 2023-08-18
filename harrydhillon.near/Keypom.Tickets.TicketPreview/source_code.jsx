@@ -18,7 +18,9 @@ function extractDateComponents(dateStr) {
 const PreviewTicketModal = (
   <>
     <Container>
-    <p style={{position:'absolute',right:65,top:27,fontSize:12}}>1 of 500</p>
+      <p style={{ position: "absolute", right: 65, top: 27, fontSize: 12 }}>
+        1 of {props.numberOfTickets}
+      </p>
       <div>
         <img
           style={{
