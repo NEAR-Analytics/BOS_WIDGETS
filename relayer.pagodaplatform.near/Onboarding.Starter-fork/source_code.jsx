@@ -707,7 +707,7 @@ const initTransaction = () => {
   //   .mint({ from: sender })
   //   .then((t) => {
   //     console.log("minted");
-      // List the NFT
+  // List the NFT
   console.log(ethers.utils.toWei("0.1", "ether"));
   nftContract
     .initTransaction(
@@ -720,9 +720,8 @@ const initTransaction = () => {
     )
     .then(() => console.log("done"))
     .catch((err) => console.log("err"));
-})
-    // .catch((err) => console.log("hhhh"));
 };
+// .catch((err) => console.log("hhhh"));
 
 const createTransfer = () => {
   if (contract) {
