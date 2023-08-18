@@ -18,7 +18,7 @@ return (
             TextArea: {
               label: input.label,
               placeholder: input.placeholder,
-              maxLength: 2000,
+              maxLength: 100,
               value: input.value,
               handleChange: input.handleChange,
             },
