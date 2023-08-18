@@ -20,6 +20,7 @@ function getUpVotes(props) {
 
   const allVotes = Social.index(action, realArticleId, {
     order: "desc",
+    subscribe: true,
   });
 
   // const uniqueAccounts = [];
