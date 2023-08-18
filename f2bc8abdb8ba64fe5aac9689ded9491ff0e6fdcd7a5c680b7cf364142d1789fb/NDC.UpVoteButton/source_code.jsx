@@ -82,6 +82,7 @@ function upVoteButtonListener() {
   }
   State.update({ libCalls: newLibCalls });
 }
+console.log("LC: ", state.libCalls);
 
 const CallLibrary = styled.div`
   display: none;
