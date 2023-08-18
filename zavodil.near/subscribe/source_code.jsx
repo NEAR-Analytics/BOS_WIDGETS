@@ -1,7 +1,11 @@
 // read previousTimestamp
 // premium.social.near/badge/premium/
 // premium.social.near/badge/premium/accounts/${context.accountId}
-const previousTimestamp = 1756975916422;
+const previousTimestamp = Social.get(
+  `premium.social.near/badge/premium/accounts/${context.accountId}`,
+  "final"
+);
+
 const price = "96000000000000000000000000";
 const priceWholesale = "84000000000000000000000000";
 
@@ -213,8 +217,16 @@ const isNumber = (n) => {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
-const deposit = () => {
-  console.log("F", state.customAmount);
+const deposit = (amount) => {
+  const gas = 200000000000000;
+  const deposit = new Big(amount);
+  Near.call(
+    "premium.social.near",
+    "purchase",
+    { name: "premium" },
+    gas,
+    deposit
+  );
 };
 
 const convertNearToMs = (amount) => {
@@ -290,11 +302,13 @@ return (
             <div class="subscribe">
               <div class="subscribe-text">
                 {state.type == "monthly" ? (
-                  <>8 NEAR / month</>
+                  <div onClick={() => deposit(state.price / 12)}>
+                    8 NEAR / month
+                  </div>
                 ) : (
-                  <>
+                  <div onClick={() => deposit(state.priceWholesale)}>
                     <span class="old-price">96 NEAR</span> 84 NEAR / year
-                  </>
+                  </div>
                 )}
               </div>
             </div>
@@ -323,9 +337,13 @@ return (
               <div class="subscribe">
                 <div
                   class={`subscribe-text ${
-                    state.customAmount > 1 ? "" : "disabled"
+                    state.customAmount >= 1 ? "" : "disabled"
                   } `}
-                  onClick={() => deposit()}
+                  onClick={() =>
+                    deposit(
+                      Big(state.customAmount).mul(Big(10).pow(24)).toFixed()
+                    )
+                  }
                 >
                   {state.customAmount
                     ? `Deposit ${state.customAmount} NEAR`
