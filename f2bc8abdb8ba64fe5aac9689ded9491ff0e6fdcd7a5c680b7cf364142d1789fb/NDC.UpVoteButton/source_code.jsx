@@ -2,8 +2,6 @@ const { isTest, authorForWidget, reactedElementData, widgets } = props;
 
 const data = reactedElementData;
 
-console.log("AFW: ", authorForWidget);
-
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.upVotes`];
 
 const libCalls = [
