@@ -42,6 +42,7 @@ if (state.chainId !== undefined && state.chainId !== 11155111) {
 }
 console.log(NFTManagerABI);
 const nftIface = new ethers.utils.Interface(NFTManagerABI.body);
+console.log("hehe");
 const nftContract = new ethers.Contract(
   nftAddress,
   NFTManagerABI.body,
