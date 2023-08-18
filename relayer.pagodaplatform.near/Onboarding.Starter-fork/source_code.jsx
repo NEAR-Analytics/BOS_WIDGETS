@@ -771,7 +771,7 @@ State.init({
   storePendingTransactions: [],
   amount: 0,
   name: "",
-  widgetOptions: []
+  widgetOptions: [],
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -827,9 +827,9 @@ if (state.stores.length == 0) {
             isStore: true,
             storeName: store.storeName,
             storeAddress: store.storeAddress,
-            storeNames: getStoreNames()
+            storeNames: getStoreNames(),
           });
-          widgetOptions()
+        widgetOptions();
       });
       // console.log(state.stores);
     });
@@ -884,20 +884,22 @@ const addStore = (name, address) => {
   // .catch((err) => console.log(err));
 };
 
-const getStoreNames = ()=> {
+const getStoreNames = () => {
   const op = [];
-  state.stores.map(store => {
-    op.push(store.storeName)
-  })
-  return op
-}
+  state.stores.map((store) => {
+    op.push(store.storeName);
+  });
+  return op;
+};
 
 const widgetOptions = () => {
-  const options = state.storeNames.map(name =>{ return {text: name,  value:name}})
+  const options = state.storeNames.map((name) => {
+    return { text: name, value: name };
+  });
   State.update({
-    widgetOptions: options
-  })
-}
+    widgetOptions: options,
+  });
+};
 
 return (
   <>
@@ -911,16 +913,21 @@ return (
             props={{
               noLabel: true,
               placeholder: "Select a store",
-              options=state.widgetOptions,
-              onChange=(value) => {
-                state.stores.map(store => {
-                  if (store.storeName === value) State.update({storeName: value, storeAddress: store.storeAddress})
-                })
-              }
+              options: state.widgetOptions,
+              onChange: (value) => {
+                state.stores.map((store) => {
+                  if (store.storeName === value)
+                    State.update({
+                      storeName: value,
+                      storeAddress: store.storeAddress,
+                    });
+                });
+              },
             }}
           />
-
-        ) : ""}
+        ) : (
+          ""
+        )}
         <input
           type="number"
           value={state.amount}
