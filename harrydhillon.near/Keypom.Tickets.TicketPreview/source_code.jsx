@@ -24,20 +24,21 @@ const EyeDiv = styled.div`
   width:50px;
   height:50px;
   position:absolute;
-  transform:translate(135px,-70px);
+  transform:translate(140px,-70px);
   border-radius:100px;
   border: 1px solid #00A7E4;
 `;
 
 const PreviewTicketModal = (
   <>
-    
     <Container>
-    <EyeDiv>
-    <div style={{display:'block',margin:"auto",transform:'scale(0.6)'}}>
-      <Widget src="harrydhillon.near/widget/Keypom.Tickets.EyeSVG" />
-      </div>
-    </EyeDiv>
+      <EyeDiv>
+        <div
+          style={{ display: "block", margin: "auto", transform: "scale(0.6)" }}
+        >
+          <Widget src="harrydhillon.near/widget/Keypom.Tickets.EyeSVG" />
+        </div>
+      </EyeDiv>
       <p style={{ position: "absolute", right: 65, top: 27, fontSize: 12 }}>
         1 of {props.numberOfTickets}
       </p>
