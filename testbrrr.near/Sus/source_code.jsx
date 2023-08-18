@@ -292,31 +292,17 @@ const getEntireDebtAndColl = () => {
     vesselManagerContract
       .getEntireDebtAndColl(asset, state.sender)
       .then((results) => {
-        balances.push({
-          asset: getAssetFromAddress(asset),
-          debt: results[0].div("1000000000000000000").toString(),
-          coll: ethers.utils.formatEther(results[1].toString()),
-          pendingDebtTokenReward: results[2].toString(),
-          pendingAssetReward: results[3].toString(),
+        State.update({
+          assetBalances: assetBalances.push({
+            asset: getAssetFromAddress(asset),
+            debt: results[0].div("1000000000000000000").toString(),
+            coll: ethers.utils.formatEther(results[1].toString()),
+            pendingDebtTokenReward: results[2].toString(),
+            pendingAssetReward: results[3].toString(),
+          }),
         });
       });
   });
-  console.log(balances);
-  const balancesList = balances.map((balance) => {
-    console.log(balance);
-    return (
-      <div>
-        <p>Debt: {balance.debt} SUS</p>
-        <p>
-          Collateral: {balance.coll} {balance.asset}
-        </p>
-        <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
-        <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
-      </div>
-    );
-  });
-  console.log(balancesList);
-  State.update({ assetBalances: balances });
 };
 
 State.init({
@@ -426,6 +412,20 @@ if (
 } else {
   props.resendPrompt(props);
 }
+
+const balancesList = assetBalances.map((balance) => {
+  console.log(balance);
+  return (
+    <div>
+      <p>Debt: {balance.debt} SUS</p>
+      <p>
+        Collateral: {balance.coll} {balance.asset}
+      </p>
+      <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
+      <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
+    </div>
+  );
+});
 
 return (
   <div>
