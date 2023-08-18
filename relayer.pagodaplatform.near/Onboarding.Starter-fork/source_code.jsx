@@ -1,4 +1,4 @@
-const nftAddress = "0x3e0f64d801823706f29686eeca0aac521e77674e";
+const nftAddress = "0x42cdfb32980c4537e5d9d257d16d3648350e884d";
 const NFTManagerABI = [
   {
     inputs: [],
@@ -19,6 +19,12 @@ const NFTManagerABI = [
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
       },
       {
         indexed: false,
@@ -65,6 +71,12 @@ const NFTManagerABI = [
       },
       {
         indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        indexed: false,
         internalType: "address",
         name: "storeAddress",
         type: "address",
@@ -94,6 +106,24 @@ const NFTManagerABI = [
   {
     inputs: [
       {
+        internalType: "string",
+        name: "store",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "storeAddress",
+        type: "address",
+      },
+    ],
+    name: "addStore",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "_nftContract",
         type: "address",
@@ -112,6 +142,31 @@ const NFTManagerABI = [
     name: "approveTransaction",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllStores",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "storeName",
+            type: "string",
+          },
+          {
+            internalType: "address",
+            name: "storeAddress",
+            type: "address",
+          },
+        ],
+        internalType: "struct NFTManager.storeDetails[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -144,6 +199,11 @@ const NFTManagerABI = [
             type: "uint256",
           },
           {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
             internalType: "address payable",
             name: "storeAddress",
             type: "address",
@@ -173,7 +233,13 @@ const NFTManagerABI = [
     type: "function",
   },
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "storeAddress",
+        type: "address",
+      },
+    ],
     name: "getStoreActiveTransactions",
     outputs: [
       {
@@ -187,6 +253,11 @@ const NFTManagerABI = [
             internalType: "uint256",
             name: "tokenId",
             type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
           },
           {
             internalType: "address payable",
@@ -225,6 +296,11 @@ const NFTManagerABI = [
         type: "address",
       },
       {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
         internalType: "uint256",
         name: "_tokenId",
         type: "uint256",
@@ -250,8 +326,32 @@ const NFTManagerABI = [
     stateMutability: "payable",
     type: "function",
   },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "stores",
+    outputs: [
+      {
+        internalType: "string",
+        name: "storeName",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "storeAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ];
-const walleyAddress = "0x2ebb88cd2a775308636afad718800bbb82f19137";
+const walleyAddress = "0x70ebdb6cbfda74c9e9e84aadec8ec1d8319085f9";
 const WalleyABI = [
   {
     inputs: [
@@ -653,11 +753,14 @@ const WalleyABI = [
     type: "function",
   },
 ];
-
 State.init({
   chainId: undefined,
   balance: 0,
-  transfers: [],
+  stores: [],
+  isStore: false,
+  storeName: "",
+  storeAddress: "",
+  storePendingTransactions: [],
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -695,94 +798,139 @@ const walleyContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-const mint = () => {
+if (state.stores == []) {
+  nftContract
+    .getAllStores()
+    .then((stores) => {
+      State.update({
+        stores,
+      });
+    })
+    .then(() => {
+      state.stores.map((store) => {
+        if (store.address == sender)
+          State.update({
+            isStore: true,
+            storeName: store.storeName,
+            storeAddress: store.storeAddress,
+          });
+      });
+    });
+}
+
+if (store.storeAddress !== "" && isStore && storePendingTransactions == []) {
+  nft.getStoreActiveTransactions(state.storeAddress).then((stores) => {
+    State.update({
+      storePendingTransactions: stores,
+    });
+  });
+}
+
+const initTransaction = () => {
   walleyContract
     .mint({ from: sender })
-    .then((tokenId) => console.log(tokenId))
-    .then((t) => console.log(t))
-    .catch((err) => console.log(err));
+    .then((t) => {
+      console.log("minted");
+      // List the NFT
+      console.log(ethers.utils.parseUnits("0.1", 18));
+      nftContract
+        .initTransaction(
+          walleyAddress,
+          "1",
+          "Parth Gupta",
+          "100000000000000000",
+          "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
+          "Test",
+          { from: sender, value: ethers.utils.parseUnits("0.1", 18) }
+        )
+        .then(() => console.log("done"))
+        .catch((err) => console.log(err));
+    })
+    .catch((err) => console.log("hhhh"));
 };
-const initTransaction = () => {
-  // walleyContract
-  //   .mint({ from: sender })
-  //   .then((t) => {
-  //     console.log("minted");
-  // List the NFT
-  console.log(ethers.utils.parseUnits("0.1", 18));
-  nftContract
-    .initTransaction(
-      walleyAddress,
-      "1",
-      "100000000000000000",
-      "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
-      "Test",
-      { from: sender, value: ethers.utils.parseUnits("0.1", 18) }
-    )
-    .then(() => console.log("done"))
-    .catch((err) => console.log(err));
-};
-// .catch((err) => console.log("hhhh"));
 
-const approveTransaction = () => {
+const approveTransaction = (tokenId, totalAmount, amount) => {
   nftContract
-    .approveTransaction(walleyAddress, 1, "90000000000000000", {
+    .approveTransaction(walleyAddress, tokenId, totalAmount, {
       from: sender,
-      value: ethers.utils.parseUnits("0.01", 18),
+      value: ethers.utils.parseUnits(`${amount - totalAmount}`, 18),
     })
     .then(() => console.log("done"))
     .catch((err) => console.log(err));
-};
-
-const createTransfer = () => {
-  if (contract) {
-    console.log("hhh");
-    contract
-      .createTransfer(1000, "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B")
-      .then(() => {
-        console.log("hello");
-      })
-      .catch((err) => console.log(err));
-  }
-};
-const getTransfers = () => {
-  if (state.transfers.length === 0) {
-    console.log("hhh");
-    contract
-      .getTransfers()
-      .then((transfers) => {
-        const tmp = [...state.transfers];
-        transfers.map((transfer) => {
-          console.log(transfer);
-
-          tmp.push({
-            id: Big(transfer[0]).toFixed(0),
-            amount: Big(transfer[1]).div(Big(10).pow(18)).toFixed(20),
-            to: transfer[2],
-            sent: transfer[3],
-            approver: transfer[4],
-          });
-        });
-        State.update({ transfers: tmp });
-        console.log(transfers);
-      })
-      .then(() => {
-        console.log(state.transfers);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-};
-const approveTransfer = (id) => {
-  console.log(id);
-  contract.approveTransfer(id).send({ from: sender });
 };
 return (
   <>
     <p>{state.chainId}</p>
     <p>{state.balance}</p>
-    <button onClick={mint}>Mint</button>
-    <button onClick={initTransaction}>init</button>
-    <button onClick={approveTransaction}>approve</button>
+    {!state.isStore ? (
+      <div>
+        <select
+          value={state.storeName}
+          onChange={(e) => State.update({ store: e.target.value })}
+        >
+          {state.stores.map((store) => (
+            <option value={store.storeName}>{store.storeName}</option>
+          ))}
+        </select>
+        <button onClick={initTransaction}>init</button>
+        <button
+          onClick={() => {
+            State.update({ addStore: true });
+          }}
+        >
+          add store
+        </button>
+        {state.addStore ? (
+          <div>
+            <input
+              type="text"
+              onChange={(e) => {
+                State.update({ storeName: e.target.value });
+              }}
+              value={state.storeName}
+            />
+            <input
+              type="text"
+              onChange={(e) => {
+                State.update({ storeAddress: e.target.value });
+              }}
+              value={state.storeAddress}
+            />
+            <button
+              onClick={() => {
+                State.update({ storeAddress: sender });
+              }}
+            >
+              Use current address
+            </button>
+            <button
+              onClick={() => addStore(state.storeName, state.storeAddress)}
+            >
+              Add
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    ) : (
+      <div>
+        {state.storePendingTransactions.map((trans) => (
+          <div>
+            <p>{trans.store}</p>
+            <p>{trans.name}</p>
+            <p>{trans.amount}</p>
+            <input onChange={(e) => State.update({ amount: e.targetvalue })} />
+            <button
+              onClick={() =>
+                approveTransaction(trans.tokenId, state.amount, trans.amount)
+              }
+            >
+              Approve
+            </button>
+          </div>
+        ))}
+      </div>
+    )}
   </>
 );
