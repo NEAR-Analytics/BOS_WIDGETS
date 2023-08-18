@@ -14,6 +14,7 @@ let RealProfileImageAsURL = "";
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   groupInfo: "hack.near/widget/NDC.WG.Compose.Group",
+  groupMembers: "hack.near/widget/NDC.WG.Compose.Members",
   page: "hack.near/widget/NDC.WG.Page",
   tags: "hack.near/widget/NDC.WG.Compose.Tags",
 };
