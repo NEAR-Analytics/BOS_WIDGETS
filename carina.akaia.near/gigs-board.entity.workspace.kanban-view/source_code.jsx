@@ -300,7 +300,7 @@ const KanbanView = ({
               <div className="card rounded-4">
                 <div
                   className={[
-                    "card-body d-flex flex-column gap-2",
+                    "card-body d-flex flex-column gap-2 p-2",
                     "border border-2 border-secondary rounded-4",
                   ].join(" ")}
                 >
@@ -314,7 +314,7 @@ const KanbanView = ({
 
                   <p class="text-secondary m-0">{column.description}</p>
 
-                  <div class="d-flex flex-column gap-3">
+                  <div class="d-flex flex-column gap-2">
                     {column.postIds.map((postId) =>
                       widget(
                         ["entity.workspace", config.ticket_kind].join("."),
