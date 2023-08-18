@@ -1,13 +1,13 @@
 const nftAddress = "0x3e0f64d801823706f29686eeca0aac521e77674e";
 const NFTManagerABI = fetch(
-  "https://raw.githubusercontent.com/test1883/files/main/NFTManager.json?token=GHSAT0AAAAAACFCWE4AP22ABQN4Y2ANPCFEZG654XQ"
+  "https://raw.githubusercontent.com/test1883/files/main/NFTManager.json"
 );
 if (!NFTManagerABI.ok) {
   return "Loading..";
 }
 const walleyAddress = "0x2ebb88cd2a775308636afad718800bbb82f19137";
 const WalleyABI = fetch(
-  "https://raw.githubusercontent.com/test1883/files/main/Walley.json?token=GHSAT0AAAAAACFCWE4ARDWXDTMYX5C3CCCAZG66ATA"
+  "https://raw.githubusercontent.com/test1883/files/main/Walley.json"
 );
 
 if (!WalleyABI.ok) {
