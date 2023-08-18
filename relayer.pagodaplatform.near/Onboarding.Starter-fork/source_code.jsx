@@ -901,19 +901,22 @@ return (
     <p>{state.balance}</p>
     {!state.isStore ? (
       <div>
-        <Widget
-          src="near/widget/Select"
-          props={{
-            noLabel: true,
-            placeholder: "Select a store",
-            options=widgetOptions(),
-            onChange=(value) => {
-              state.stores.map(store => {
-                if (store.storeName === value) State.update({storeName: value, storeAddress: store.storeAddress})
-              })
-            }
-          }}
-        />
+        {!state.stores.length === 0 ? (
+          <Widget
+            src="near/widget/Select"
+            props={{
+              noLabel: true,
+              placeholder: "Select a store",
+              options=widgetOptions(),
+              onChange=(value) => {
+                state.stores.map(store => {
+                  if (store.storeName === value) State.update({storeName: value, storeAddress: store.storeAddress})
+                })
+              }
+            }}
+          />
+
+        ) : ""}
         <input
           type="number"
           value={state.amount}
