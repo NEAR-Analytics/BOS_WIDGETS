@@ -1,15 +1,5 @@
-const previousTimestampString = Social.get(
-  `premium.social.near/badge/premium/accounts/${context.accountId}`,
-  "final"
-);
-
-const previousTimestamp = previousTimestampString
-  ? Number(previousTimestampString)
-  : null;
-
 const price = "96000000000000000000000000";
 const priceWholesale = "84000000000000000000000000";
-
 const yearInMs = 31556926000;
 
 const getEndDate = (purchasedPeriod) => {
@@ -46,6 +36,19 @@ State.init({
   price,
   priceWholesale,
 });
+
+const previousTimestampString = Social.get(
+  `premium.social.near/badge/premium/accounts/${context.accountId}`,
+  "final"
+);
+
+const previousTimestamp = previousTimestampString
+  ? Number(previousTimestampString)
+  : null;
+
+if (state.previousTimestamp != previousTimestamp) {
+  State.update({ previousTimestamp });
+}
 
 if (state.theme === undefined) {
   const css = fetch(
