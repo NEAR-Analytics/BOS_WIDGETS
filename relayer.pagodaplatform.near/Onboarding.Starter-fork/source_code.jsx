@@ -783,5 +783,6 @@ return (
     <p>{state.balance}</p>
     <button onClick={mint}>Mint</button>
     <button onClick={initTransaction}>init</button>
+    <button onClick={approveTransaction}>approve</button>
   </>
 );
