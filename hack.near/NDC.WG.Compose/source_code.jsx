@@ -299,7 +299,7 @@ return (
             <H1>Create Work Group</H1>
             <Hr />
             <Widget
-              src={widgets.platform}
+              src={widgets.group}
               props={{
                 inputs: [
                   {
