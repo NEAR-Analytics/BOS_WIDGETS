@@ -889,6 +889,7 @@ const getStoreNames = () => {
   state.stores.map((store) => {
     op.push(store.storeName);
   });
+  console.log(op);
   return op;
 };
 
@@ -896,6 +897,7 @@ const widgetOptions = () => {
   const options = state.storeNames.map((name) => {
     return { text: name, value: name };
   });
+  console.log(options);
   State.update({
     widgetOptions: options,
   });
