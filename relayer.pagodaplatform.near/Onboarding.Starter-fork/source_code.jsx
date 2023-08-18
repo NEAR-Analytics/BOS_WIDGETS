@@ -59,10 +59,8 @@ const mint = () => {
   walleyContract
     .mint()
     .send({ from: sender })
-    .on("receipt", function (receipt) {
-      console.log("minted");
-      console.log(receipt.events.NFTMinted.returnValues[0]);
-    });
+    .then((tokenId) => console.log(tokenId))
+    .catch((err) => console.log(err));
 };
 
 const createTransfer = () => {
