@@ -327,7 +327,9 @@ const processAsset = (index) => {
         pendingAssetReward: results[3].toString(),
       });
       console.log(index);
-      processAsset(index + 1); // Process the next asset.
+      if (index < assets.length) {
+        processAsset(index + 1); // Process the next asset.
+      }
     });
 };
 
