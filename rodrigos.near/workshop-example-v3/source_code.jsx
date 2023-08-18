@@ -217,7 +217,6 @@ return (
                 state.amount && parseFloat(state.amount) > 0
                   ? (state.amount / 1.1).toFixed(5)
                   : 0,
-              //price: state.metrics ? state.metrics.mpethPrice : 1,
               iconName: "mpETH",
             }}
           />
