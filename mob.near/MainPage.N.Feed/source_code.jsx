@@ -104,6 +104,8 @@ const renderRepost = (a) => {
           marginLeft: "24px",
           marginBottom: "-24px",
           paddingTop: "4px",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {repostSvg}{" "}
