@@ -849,7 +849,7 @@ const initTransaction = () => {
     nftContract.initTransaction(
       walleyAddress,
       state.name,
-      Big(tokenId),
+      Big(tokenId).toFixed(0),
       `${Math.pow(state.amount, 18)}`,
       state.storeAddress,
       state.storeName,
