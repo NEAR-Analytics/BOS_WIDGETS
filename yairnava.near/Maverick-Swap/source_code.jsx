@@ -96,7 +96,7 @@ const POOLS = [
   { name: "WETH-GRAI", address: "" },
   { name: "WETH-FRAX", address: "" },
   { name: "USDC-CBUSD", address: "0x88D29317A355d8586bd0D98E8745ec3171d68F56" },
-  { name: "USDC-MAV", address: "0x74E398c79eb7a653b432f6313edF776C8d930142" },
+  { name: "USDC-MAV", address: "0xbf90be5bbc07fbf548d3bceed34f1d471c018f34" },
   { name: "USDC-LUSD", address: "0x6A9143A5f9BaF73841992DCB737844e5ad16A283" },
   { name: "USDC-RETH", address: "" },
   { name: "USDC-CBETH", address: "" },
@@ -146,15 +146,23 @@ State.init({
   onSwap: false,
 });
 
-const switchNetwork = () => {
+const getNetwork = () => {
   let chainId = 324;
   Ethers.provider()
     .getNetwork()
     .then((res) => {
       if (res.chainId == chainId) {
         State.update({ isZkSync: true });
+      } else {
+        switchNetwork(324);
       }
     });
+};
+
+const switchNetwork = (chainId) => {
+  Ethers.provider().send("wallet_switchEthereumChain", [
+    { chainId: `0x${chainId.toString(16)}` },
+  ]);
 };
 
 const getErc20Balance = (tokenId, receiver, decimals, asset) => {
@@ -297,7 +305,7 @@ if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
-    switchNetwork();
+    getNetwork();
   }
 }
 
@@ -374,6 +382,46 @@ const setMaxBalance = () => {
   }
 };
 
+// const confirmTransaction = () => {
+//   const router = new ethers.Contract(
+//     state.routerContract,
+//     routerAbi.body,
+//     Ethers.provider().getSigner()
+//   );
+//   let amountIn = ethers.utils.parseUnits(
+//     state.amountInput,
+//     state.tokenSendSelected.decimals
+//   );
+//   const abi = JSON.parse(routerAbi.body);
+//   const iface = new ethers.utils.Interface(abi);
+//   let paramsv2 = {
+//     tokenIn: state.tokenSendSelected.address,
+//     tokenOut: state.tokenRecieveSelected.address,
+//     pool: state.poolSelected,
+//     recipient: state.sender,
+//     deadline: 1e13,
+//     amountIn: amountIn,
+//     amountOutMinimum: 0,
+//     sqrtPriceLimitD18: 0,
+//   };
+
+//   console.log(paramsv2);
+
+//   const encodedData = iface.encodeFunctionData("exactInputSingle", [paramsv2]);
+//   let data = [encodedData];
+//   const overrides = {
+//     value: "0",
+//     gasLimit: 2303039,
+//   };
+//   try {
+//     router.multicall(data, overrides).then((res) => {
+//       console.log(res);
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
 const confirmTransaction = () => {
   const router = new ethers.Contract(
     state.routerContract,
@@ -395,13 +443,9 @@ const confirmTransaction = () => {
     amountOutMinimum: 0,
     sqrtPriceLimitD18: 0,
   };
-  const value =
-    state.tokenSendSelected.name == "USDC" ||
-    state.tokenSendSelected.name == "USDC+"
-      ? "0.000001"
-      : "0.000000000000000001";
+  console.log(paramsv2);
   let amountIn2 = ethers.utils.parseUnits(
-    value,
+    "0",
     state.tokenSendSelected.decimals
   );
   const overrides = {
@@ -660,7 +704,13 @@ return (
             <span class="text-white">
               To proceed, please switch to the
               <br />
-              zkSync Era Network using your wallet.
+              <div
+                class="networkNameContainer"
+                onClick={() => switchNetwork(324)}
+              >
+                <span class="networkName">zkSync Era Network</span>
+              </div>
+              using your wallet.
             </span>
           )
         )}
