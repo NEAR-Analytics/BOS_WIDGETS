@@ -108,15 +108,5 @@ return (
     <p>{state.chainId}</p>
     <p>{state.balance}</p>
     <button onClick={mint}>Mint</button>
-    // <button onClick={getTransfers}>Get</button>
-    // {state.transfers.map((transfer) => (
-    //   <div>
-    //     <p>{transfer.to}</p>
-    //     <button onClick={() => approveTransfer(parseInt(transfer.id))}>
-    //       Approve
-    //     </button>
-    //   </div>
-    // ))}
-    // <button onClick={createTransfer}>Create</button>
   </>
 );
