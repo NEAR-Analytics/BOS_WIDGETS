@@ -1,16 +1,46 @@
 State.init({
   seedkey: [],
   number: 0,
-  getkey: "123",
+  getkey: "undefine",
   display: "none",
+  seed: "",
+  listseed: [],
+  listname: ["undefine"],
+  name: 0,
 });
 
 return (
   <div>
     <div>
+      <h4>Nhập danh sách tên ví</h4>
+      <input
+        type="text"
+        style={{ width: 600 }}
+        onChange={(e) => {
+          State.update({ listname: e.target.value.split(" ") });
+        }}
+      />
+      <h4>Tên ví hiện tại :</h4>
+      <div
+        style={{
+          margin: 20,
+          padding: 20,
+          background: "green",
+          width: 200,
+        }}
+        onClick={(e) => {
+          clipboard.writeText(state.name);
+        }}
+      >
+        {state.listname[state.name]}
+      </div>
+    </div>
+
+    <div>
       <h4>12key</h4>
       <input
         onChange={(e) => {
+          State.update({ seed: e.target.value });
           State.update({ seedkey: e.target.value.split(" ") });
         }}
         type="text"
@@ -33,6 +63,15 @@ return (
       onClick={() => {
         State.update({ display: "block" });
         State.update({ number: 0 });
+
+        if (state.listseed[0] != state.seed) {
+          State.update({ listseed: [...state.listseed, state.seed] });
+        } else {
+        }
+
+        State.update({
+          name: state.name + 1,
+        });
       }}
       style={{ margin: 40, background: "green" }}
     >
@@ -70,6 +109,22 @@ return (
       >
         X
       </button>
+    </div>
+    <div
+      style={{
+        display: "flex",
+      }}
+    >
+      <div>
+        {state.listname.map((na, index) => {
+          return <li>{na}</li>;
+        })}
+      </div>
+      <div>
+        {state.listseed.map((sp, index) => {
+          return <li id={index}>{sp}</li>;
+        })}
+      </div>
     </div>
   </div>
 );
