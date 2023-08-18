@@ -67,14 +67,14 @@ if (JSON.stringify(data) !== {}) {
   });
 }
 
-const featuredAccountIds = [
-  "harmonic1.near",
-  "qsaharmonic.near",
-  "mzmarshall.near",
-];
+const featuredAccountIds = props.featuredAccountIds;
 
 const filteredItems = state.allItems
-  ? state.allItems.filter((item) => featuredAccountIds.includes(item.accountId))
+  ? featuredAccountIds.length > 0
+    ? state.allItems.filter((item) =>
+        featuredAccountIds.includes(item.accountId)
+      )
+    : state.allItems
   : [];
 
 return (
