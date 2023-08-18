@@ -307,24 +307,50 @@ const getEntireDebtAndColl = () => {
     Ethers.provider().getSigner()
   );
 
+  // let assets = Object.values(availableAssets);
+  // assets.forEach((asset) => {
+  //   vesselManagerContract
+  //     .getEntireDebtAndColl(asset, state.sender)
+  //     .then((results) => {
+  //       let balances = state.balances;
+  //       console.log(balances);
+  //       State.update({
+  //         balances: balances.push({
+  //           asset: getAssetFromAddress(asset),
+  //           debt: results[0].div("1000000000000000000").toString(),
+  //           coll: ethers.utils.formatEther(results[1].toString()),
+  //           pendingDebtTokenReward: results[2].toString(),
+  //           pendingAssetReward: results[3].toString(),
+  //         }),
+  //       });
+  //     });
+  // });
   let assets = Object.values(availableAssets);
-  assets.forEach((asset) => {
+  let balances = [...state.balances];
+
+  const processAsset = (index) => {
+    if (index >= assets.length) {
+      State.update({ balances: balances });
+      return;
+    }
+
+    let asset = assets[index];
     vesselManagerContract
       .getEntireDebtAndColl(asset, state.sender)
       .then((results) => {
-        let balances = state.balances;
-        console.log(balances);
-        State.update({
-          balances: balances.push({
-            asset: getAssetFromAddress(asset),
-            debt: results[0].div("1000000000000000000").toString(),
-            coll: ethers.utils.formatEther(results[1].toString()),
-            pendingDebtTokenReward: results[2].toString(),
-            pendingAssetReward: results[3].toString(),
-          }),
+        balances.push({
+          asset: getAssetFromAddress(asset),
+          debt: results[0].div("1000000000000000000").toString(),
+          coll: ethers.utils.formatEther(results[1].toString()),
+          pendingDebtTokenReward: results[2].toString(),
+          pendingAssetReward: results[3].toString(),
         });
+
+        processAsset(index + 1); // Process the next asset.
       });
-  });
+  };
+
+  processAsset(0); // Start the chain with the first asset.
 };
 
 if (state.sender === undefined) {
