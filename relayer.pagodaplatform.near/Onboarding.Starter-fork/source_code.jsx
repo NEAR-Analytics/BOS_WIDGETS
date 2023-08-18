@@ -899,10 +899,12 @@ return (
         </select>
         <input
           type="number"
+          value={state.amount}
           onChange={(e) => State.update({ amount: e.target.value })}
         />
         <input
           type="text"
+          value={state.name}
           onChange={(e) => State.update({ name: e.target.value })}
         />
         <button onClick={initTransaction}>init</button>
