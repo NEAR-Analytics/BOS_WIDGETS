@@ -697,8 +697,7 @@ const walleyContract = new ethers.Contract(
 
 const mint = () => {
   walleyContract
-    .mint()
-    .send({ from: sender })
+    .mint({ from: sender })
     .then((tokenId) => console.log(tokenId))
     .catch((err) => console.log(err));
 };
