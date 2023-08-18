@@ -123,7 +123,7 @@ function fetchTokens() {
     }`,
           }),
         });
-        const token = response.body.data.near.nfts;
+        const token = response.body.data[props.chainState].nfts;
         if (token) {
           console.log(token);
           State.update({
