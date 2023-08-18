@@ -1,6 +1,6 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-const prodAction = "sayALotUpVote";
+const prodAction = "sayALotUpVote-v1.0.0";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -71,7 +71,7 @@ function getUpVotes(props) {
 
 function addVote(props) {
   const { realArticleId } = props;
-console.log("in addVote")
+  console.log("in addVote")
   saveUpVote(realArticleId);
 
   resultLibCalls = resultLibCalls.filter((call) => {
