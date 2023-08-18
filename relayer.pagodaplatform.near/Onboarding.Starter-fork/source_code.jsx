@@ -70,9 +70,9 @@ if (walleyAddress) {
       1,
       ethers.utils.toWei("0.1", "ether"),
       "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
-      "test"
+      "test",
+      { from: sender, value: "0.1 ether" }
     )
-    .send({ from: sender, value: "0.1 ether" })
     .then(() => {
       console.log("done");
     })
