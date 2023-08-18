@@ -90,7 +90,7 @@ const createTickets = () => {
           }}
           style={{ backgroundColor: "black", borderWidth: 0 }}
         >
-          Create Ticket
+          Create ticket
         </button>
       </CreateTicketContainer>
       {state.tickets.length !== 0 && (
