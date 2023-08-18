@@ -98,8 +98,20 @@ return (
       <div style={feedStyle}>
         <h3 style={titleStyle}>Featured Profiles</h3>
         <div>
-          <Widget src="harmonic1.near/widget/artist.feed" />
+          <Widget
+            src="harmonic1.near/widget/artist.feed"
+            props={{
+              featuredAccountIds: [
+                "harmonic1.near",
+                "qsaharmonic.near",
+                "mzmarshall.near",
+              ],
+            }}
+          />
         </div>
+        <a href="harmonic1.near/widget/artist.feed">
+          <h4>See more.</h4>
+        </a>
       </div>
     </div>
 
