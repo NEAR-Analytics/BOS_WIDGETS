@@ -3,7 +3,7 @@ const PrimaryButton = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 20px;
   width: 100%;
   background: #00FFA3;
@@ -45,13 +45,13 @@ const type = props.type || "primary"; // primary || outline
 if (type === "outline") {
   return (
     <OutlineButton disabled={props.disabled} onClick={props.onClick}>
-      {props.text}
+      {props.text} {props.firstIconName}
     </OutlineButton>
   );
 } else {
   return (
     <PrimaryButton disabled={props.disabled} onClick={props.onClick}>
-      {props.text}
+      {props.text} {props.firstIconName}
     </PrimaryButton>
   );
 }
