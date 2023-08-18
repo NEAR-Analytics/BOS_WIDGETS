@@ -412,24 +412,23 @@ if (
 } else {
   props.resendPrompt(props);
 }
+
+let balancesList = state.balances.map((balance) => {
+  return (
+    <div>
+      <p>Debt: {balance.debt} SUS</p>
+      <p>
+        Collateral: {balance.coll} {balance.asset}
+      </p>
+      <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
+      <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
+    </div>
+  );
+});
+
 return (
   <div>
-    {state.balances.length > 0 ? (
-      balances.forEach((balance) => {
-        return (
-          <div>
-            <p>Debt: {balance.debt} SUS</p>
-            <p>
-              Collateral: {balance.coll} {balance.asset}
-            </p>
-            <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
-            <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
-          </div>
-        );
-      })
-    ) : (
-      <div></div>
-    )}
+    {balancesList}
     {state.tx ? (
       <div>
         <p>
