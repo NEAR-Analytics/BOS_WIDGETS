@@ -1,8 +1,10 @@
-const { handleClose, nomination_contract } = props;
+const { handleClose } = props;
 
 let SocialContract = "social.near";
 
-let profileInfo = Social.getr(`${context.accountId}/profile`);
+let profileInfo = Social.getr(
+  `${props.accountId ?? context.accountId}/profile`
+);
 
 let imageIsNFT = profileInfo.image.nft ? true : false;
 let imageIsIpfs_cid = profileInfo.image.ipfs_cid ? true : false;
@@ -11,8 +13,7 @@ let RealProfileImageAsURL = "";
 
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
-  affiliations: "hack.near/widget/NDC.WG.Compose.Affiliations",
-  platform: "hack.near/widget/NDC.WG.Compose.Platform",
+  groupInfo: "hack.near/widget/NDC.WG.Compose.Group",
   page: "hack.near/widget/NDC.WG.Page",
   tags: "hack.near/widget/NDC.WG.Compose.Tags",
 };
@@ -48,20 +49,9 @@ State.init({
   },
   name: profileInfo.name ? profileInfo.name : "",
   profileAccount: context.accountId ? "@" + context.accountId : "",
-  GroupName: "",
-  Members: "",
-  Key_Issue_1: "",
-  Key_Issue_2: "",
-  Key_Issue_3: "",
+  groupName: "",
+  members: [],
   details: "",
-  affiliation: [
-    {
-      company_name: "",
-      start_date: "",
-      end_date: "",
-      role: "",
-    },
-  ],
   agreement: "false",
   tags: "",
   error_msg: "",
@@ -156,16 +146,8 @@ const Section = styled.div`
 `;
 
 const validatedInputs = () => {
-  const {
-    img,
-    name,
-    profileAccount,
-    GroupName,
-    Members,
-    affiliation,
-    agreement,
-    tags,
-  } = state;
+  const { img, name, groupAccount, groupName, members, agreement, tags } =
+    state;
 
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
@@ -174,28 +156,19 @@ const validatedInputs = () => {
 
   if (img.cid === null) isValid = false;
   if (isEmpty(name)) isValid = false;
-  if (isEmpty(profileAccount)) isValid = false;
-  if (isEmpty(GroupName)) isValid = false;
-  if (isEmpty(Members)) isValid = false;
+  if (isEmpty(groupAccount)) isValid = false;
+  if (isEmpty(groupName)) isValid = false;
+  if (isEmpty(members)) isValid = false;
   if (tags.split(",").length == 0) isValid = false;
   if (isFalse(agreement)) isValid = false;
-  if (affiliation.length == 0) isValid = false;
-
-  if (affiliation.length > 0) {
-    affiliation.forEach((element) => {
-      if (isEmpty(element.company_name)) isValid = false;
-      if (isEmpty(element.start_date)) isValid = false;
-      if (isEmpty(element.end_date)) isValid = false;
-      if (isEmpty(element.role)) isValid = false;
-    });
-  } else {
+  else {
     isValid = false;
   }
 
   State.update({
     error_msg: isValid
       ? null
-      : error_msg || "* Please complete all required fields",
+      : error_msg || "* Please complete all required fields.",
   });
 
   return isValid;
@@ -225,24 +198,22 @@ const handleName = (item) => State.update({ name: item, error_msg: null });
 const handleProfile = (item) =>
   State.update({ profileAccount: item, error_msg: null });
 
-const addFields = () => {
-  var temp = state.affiliation;
+const addMember = () => {
+  var temp = state.members;
   let object = {
-    company_name: "",
-    start_date: "",
-    end_date: "",
+    memberId: "",
     role: "",
   };
 
   if (temp.length === 6) return;
 
   temp.push(object);
-  State.update({ affiliation: temp, error_msg: null });
+  State.update({ members: temp, error_msg: null });
 };
 
-const removeField = (index) => {
+const removeMember = (index) => {
   State.update({
-    affiliation: state.affiliation.splice(index, 1),
+    members: state.members.splice(index, 1),
     error_msg: null,
   });
 };
@@ -250,11 +221,11 @@ const removeField = (index) => {
 const validate = (key, item, limit) =>
   State.update({ [key]: item.substring(0, limit ?? 2000), error_msg: null });
 
-const validateAffiliations = (params, key, limit) => {
-  let data = state.affiliation;
+const validateMembers = (params, key, limit) => {
+  let data = state.members;
 
   data[params.index][key] = params.event.target.value.substring(0, limit);
-  State.update({ affiliation: data, error_msg: null });
+  State.update({ members: data, error_msg: null });
 };
 
 const handleDeclaration = (agreement) => {
@@ -265,22 +236,18 @@ const handleCreate = () => {
   if (!validatedInputs()) return;
 
   let newstate = Object.assign({}, state);
-  newstate.affiliation = JSON.stringify(newstate.af);
+  newstate.members = JSON.stringify(newstate.af);
   const stateAsString = JSON.stringify(newstate);
   const data = ` {"data":{ "${context.accountId}": {"groups":${stateAsString}} }}`;
   const SocialArgs = JSON.parse(data);
 
-  let CreateGroup_Payload = {
-    contractName: nomination_contract,
-    methodName: "self_nominate",
-    args: {
-      house: state.house_intended,
-      comment: context.accountId,
-      link: "",
-    },
-    gas: 300000000000000,
-    deposit: 100000000000000000000000,
-  };
+  // let CreateGroup_Payload = {
+  //   contractName: daoId,
+  //   methodName: "add_proposal",
+  //   args: {},
+  //   gas: 300000000000000,
+  //   deposit: 100000000000000000000000,
+  // };
 
   let Social_Payload = {
     contractName: SocialContract,
@@ -290,7 +257,7 @@ const handleCreate = () => {
     deposit: 100000000000000000000000,
   };
 
-  Near.call([Social_Payload, SelfNominate_Payload]).then(() => handleClose());
+  Near.call([Social_Payload, CreatGroup_Payload]).then(() => handleClose());
 };
 
 return (
@@ -312,10 +279,9 @@ return (
                   isCid: RealProfileImageCid.IS_CID,
                 },
                 groupAccount: state.groupAccount,
-                affiliation: JSON.stringify(state.affiliation),
-                GroupName: state.GroupName,
-                Members: state.Members,
-                Linktree: state.Linktree,
+                groupName: state.groupName,
+                members: state.members,
+                linktree: state.linktree,
                 details: state.details,
                 tags: state.tags,
               },
@@ -340,14 +306,13 @@ return (
                     label: "What is the name of your work group? *",
                     placeholder: "Profile ID",
                     value: state.groupId,
-                    handleChange: (e) => validate("GroupName", e.target.value),
+                    handleChange: (e) => validate("groupName", e.target.value),
                   },
                   {
-                    label:
-                      "What is your strategy to develop the NEAR ecosystem? *",
-                    placeholder: "Elaborate on your strategy",
-                    value: state.Members,
-                    handleChange: (e) => validate("Members", e.target.value),
+                    label: "Who are the members of your work group? *",
+                    placeholder: "Accound IDs",
+                    value: state.members,
+                    handleChange: (e) => validate("members", e.target.value),
                   },
                   {
                     label: "Additional Information",
@@ -359,37 +324,17 @@ return (
               }}
             />
             <Widget
-              src={widgets.affiliations}
+              src={widgets.members}
               props={{
-                affiliations: state.affiliation,
-                addFields,
-                removeField,
-                handleAFFCompanyName: (params) =>
-                  validateAffiliations(params, "company_name", 500),
-                handleAFFStartdate: (params) =>
-                  validateAffiliations(params, "start_date"),
-                handleAFFEnddate: (params) =>
-                  validateAffiliations(params, "end_date"),
-                handleAFFRole: (params) =>
+                members: state.members,
+                addMember,
+                removeMember,
+                handleMemberAccount: (params) =>
+                  validateMembers(params, "memberId"),
+                handleMemberRole: (params) =>
                   validateAffiliations(params, "role", 500),
               }}
             />
-
-            <Section>
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Input: {
-                    label: "Video Link (optional)",
-                    placeholder:
-                      "Add a Youtube video link that describes your candidacy",
-                    value: state.video,
-                    handleChange: (e) =>
-                      State.update({ video: e.target.value }),
-                  },
-                }}
-              />
-            </Section>
 
             <Widget
               src={widgets.tags}
@@ -424,7 +369,7 @@ return (
                   props={{
                     Button: {
                       text: "Submit",
-                      onClick: () => handleNominate(),
+                      onClick: () => handleCreate(),
                     },
                   }}
                 />
