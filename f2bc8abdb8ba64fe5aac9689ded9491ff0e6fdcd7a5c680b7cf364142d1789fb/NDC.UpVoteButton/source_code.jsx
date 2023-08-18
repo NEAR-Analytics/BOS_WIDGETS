@@ -18,10 +18,13 @@ State.init({
   libCalls,
   upVotes: [],
 });
+console.log("suv: ", state.upVotes);
 
 let userVote = state.upVotes.find(
   (vote) => vote.accountId === context.accountId
 );
+
+console.log("UV: ", userVote);
 let hasUserVoted = userVote !== undefined;
 
 function getUpVoteButtonClass() {
