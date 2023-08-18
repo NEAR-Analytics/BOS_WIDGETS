@@ -17,7 +17,6 @@ const detailsUrl = `/#/ref-admin.near/widget/ComponentDetailsPage?src=${src}`;
 const shareUrl = `https://alpha.near.org${detailsUrl}`;
 const size = props.size || "large";
 const storageCustomHomePage = Storage.privateGet("myHomePagePath");
-console.log("4444444444-storageCustomHomePage", storageCustomHomePage);
 
 const primaryActions = {
   open: {
@@ -44,9 +43,9 @@ const sizes = {
 };
 
 const Wrapper = styled.div`
-  background-size:100% 100%;
-  background-repeat:no-repeat;
-  background-image:url("https://ipfs.near.social/ipfs/bafybeiduczlwb5wvqng2jjyifcyuyj4hs3mpfdgoex6xkswbqyviywkaje");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url("https://ipfs.near.social/ipfs/bafybeiduczlwb5wvqng2jjyifcyuyj4hs3mpfdgoex6xkswbqyviywkaje");
 `;
 
 const Header = styled.div`
@@ -70,14 +69,14 @@ const TagsWrapper = styled.div`
 
 const Actions = styled.div`
   display: flex;
-  align-items:center;
-  justify-content:space-between;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 16px;
-  .actionsDiv{
+  .actionsDiv {
     display: flex;
-    align-items:center;
-    gap:12px;
+    align-items: center;
+    gap: 12px;
   }
 `;
 
@@ -144,37 +143,37 @@ const sharedButtonStyles = `
 `;
 
 const Button = styled.button`
-//   ${sharedButtonStyles}
-//   color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
-//   background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
-//   border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
+  //   ${sharedButtonStyles}
+  //   color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
+  //   background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
+  //   border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
 
-//   &:hover,
-//   &:focus {
-//     background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
-//   }
-background: rgba(26, 46, 51, 0.25);
-  border: 0.5px solid rgba(255, 255, 255, 0.3);
-  border-radius: 38px;
-  color:#fff;
-`;
-
-const ButtonLink = styled.a`
-//   ${sharedButtonStyles}
-//   color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
-//   background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
-//   border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
-
-//   &:hover,
-//   &:focus {
-//     background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
-//   }
+  //   &:hover,
+  //   &:focus {
+  //     background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
+  //   }
   background: rgba(26, 46, 51, 0.25);
   border: 0.5px solid rgba(255, 255, 255, 0.3);
   border-radius: 38px;
-  color:#fff;
-  &:hover{
-    color:#fff;
+  color: #fff;
+`;
+
+const ButtonLink = styled.a`
+  //   ${sharedButtonStyles}
+  //   color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
+  //   background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
+  //   border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
+
+  //   &:hover,
+  //   &:focus {
+  //     background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
+  //   }
+  background: rgba(26, 46, 51, 0.25);
+  border: 0.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 38px;
+  color: #fff;
+  &:hover {
+    color: #fff;
   }
 `;
 
@@ -198,11 +197,7 @@ function applyHomePage() {
   State.update({ commitLoading: true });
   const oldMyHomePagePath = Storage.privateGet("myHomePagePath");
   Storage.privateSet("myHomePagePath", src);
-  console.log(
-    "666666666666-0-成功设置缓存-src-oldMyHomePagePath",
-    src,
-    oldMyHomePagePath
-  );
+
   Social.set(
     {
       myHomePagePath: src,
@@ -215,11 +210,6 @@ function applyHomePage() {
       onCancel: () => {
         State.update({ commitLoading: false });
         Storage.privateSet("myHomePagePath", oldMyHomePagePath);
-        console.log(
-          "666666666666-1-取消操作-src, oldMyHomePagePath",
-          src,
-          oldMyHomePagePath
-        );
       },
     }
   );
