@@ -120,6 +120,15 @@ if (!accountId) {
 }
 let BURROW_CONTRACT = "contract.main.burrow.near";
 let ORACLE_CONTRACT = "priceoracle.near";
+
+const getAccount = () => {
+  if (!accountId) return null;
+  const account = Near.view(BURROW_CONTRACT, "get_account", {
+    account_id: accountId,
+  });
+  return account;
+};
+
 let MAX_RATIO = 10_000;
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
@@ -137,7 +146,8 @@ const {
   assets,
   rewards,
   balances,
-  account,
+  account: accountProps,
+
   amount,
   hasError,
   newHealthFactor,
@@ -145,6 +155,13 @@ const {
   closeButtonBase64,
   isMax,
 } = state;
+
+let account = accountProps;
+
+if (!account) {
+  account = getAccount();
+}
+
 const hasData = assets.length > 0 && rewards.length > 0;
 if (!showModal) {
   State.update({
