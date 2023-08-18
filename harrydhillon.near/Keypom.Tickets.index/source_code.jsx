@@ -92,41 +92,6 @@ const createTickets = () => {
         >
           Create Ticket
         </button>
-        {state.isCreateTicketModalOpen && (
-          <Widget
-            src="harrydhillon.near/widget/Keypom.Tickets.AddTicketModal"
-            props={{
-              isOpen: state.isCreateTicketModalOpen,
-              onSave: (ticketData) => {
-                if (state.editMode) {
-                  const allTickets = [...state.tickets];
-                  allTickets[state.ticketToEdit] = ticketData;
-                  State.update({
-                    tickets: allTickets,
-                    isCreateTicketModalOpen: false,
-                    editMode: false,
-                    editVal: null,
-                  });
-                } else {
-                  State.update({
-                    tickets: [...state.tickets, ticketData],
-                    isCreateTicketModalOpen: false,
-                  });
-                }
-              },
-              editMode: state.editMode,
-              editVal: state.editVal,
-              onClose: () => {
-                State.update({
-                  isCreateTicketModalOpen: false,
-                  isCreateTicketModalOpen: false,
-                  editMode: false,
-                  editVal: null,
-                });
-              },
-            }}
-          />
-        )}
       </CreateTicketContainer>
       {state.tickets.length !== 0 && (
         <div style={{ marginTop: 10 }}>
@@ -227,6 +192,41 @@ const createTickets = () => {
             onClose: () => {
               State.update({
                 ticketPreview: null,
+              });
+            },
+          }}
+        />
+      )}
+      {state.isCreateTicketModalOpen && (
+        <Widget
+          src="harrydhillon.near/widget/Keypom.Tickets.AddTicketModal"
+          props={{
+            isOpen: state.isCreateTicketModalOpen,
+            onSave: (ticketData) => {
+              if (state.editMode) {
+                const allTickets = [...state.tickets];
+                allTickets[state.ticketToEdit] = ticketData;
+                State.update({
+                  tickets: allTickets,
+                  isCreateTicketModalOpen: false,
+                  editMode: false,
+                  editVal: null,
+                });
+              } else {
+                State.update({
+                  tickets: [...state.tickets, ticketData],
+                  isCreateTicketModalOpen: false,
+                });
+              }
+            },
+            editMode: state.editMode,
+            editVal: state.editVal,
+            onClose: () => {
+              State.update({
+                isCreateTicketModalOpen: false,
+                isCreateTicketModalOpen: false,
+                editMode: false,
+                editVal: null,
               });
             },
           }}
