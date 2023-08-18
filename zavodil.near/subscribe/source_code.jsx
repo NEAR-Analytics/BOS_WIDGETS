@@ -1,177 +1,234 @@
-State.init({ type: "custom", customAmount: 1 });
+// read previousTimestamp
+// premium.social.near/badge/premium/
+// premium.social.near/badge/premium/accounts/${context.accountId}
+const previousTimestamp = 1756975916422;
+const price = "96000000000000000000000000";
+const priceWholesale = "84000000000000000000000000";
+
+const yearInMs = 31556926000;
+
+const getEndDate = (purchasedPeriod) => {
+  console.log("purchasedPeriod", purchasedPeriod);
+  const previousTimestamp = state.previousTimestamp ?? Date.now();
+  const nextTimestamp = previousTimestamp + purchasedPeriod;
+  const dateObj = new Date(nextTimestamp);
+
+  const day = dateObj.getDate();
+  const month = dateObj.toLocaleString("default", { month: "long" });
+  const year = dateObj.getFullYear();
+
+  const nthNumber = (number) => {
+    if (number > 3 && number < 21) return "th";
+    switch (number % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
+  return `${month} ${day}${nthNumber(day)}, ${year}`;
+};
+
+State.init({
+  type: "custom",
+  customAmount: 1,
+  previousTimestamp,
+  purchasedPeriod: 0,
+  price,
+  priceWholesale,
+});
 
 const Theme = styled.div`
     .container {
-      background-color: white;
-     
-        background-position: 0px -100px;
-        background-repeat: no-repeat;
-        background-image: url("https://abs.twimg.com/sticky/illustrations/twitter_blue_images_v2/background-600W.png");
-            padding-left: 12px;
-    padding-right: 12px;
+background-color:#fff;
+background-position:0 -100px;
+background-repeat:no-repeat;
+background-image:url(https://pluminite.mypinata.cloud/ipfs/QmPDQvqLE9ZHAMZjPSYLybHprVfiEPCfo9LHy9bVfZZRtd);
+background-size:cover;
+background-position:bottom;
+height:400px;
+padding:30px 12px 100px
+}
 
-    background-size: cover;
-     padding-bottom: 100px;
-     padding-top: 30px;
-    }
-    .container-block {
-        margin: 0 auto;
-         max-width: 500px;
-        }
-   .header {
-       border-radius: 12px; 
-       background-color: black;
-       color: white;
-       padding-top: 12px;
-    padding-right: 16px;
-    font-size: 20px;
-    //width: 65%;
+.container-block {
+margin:0 auto;
+max-width:500px
+}
 
-    font-weight: 800;
-    display: flex;
-    gap: 10px;
-    // line-height: 24px;
+.header {
+border-radius:12px;
+background-color:#000;
+color:#fff;
+padding-top:12px;
+padding-right:16px;
+font-size:20px;
+font-weight:800;
+display:flex;
+gap:10px;
+padding-left:16px;
+width:100%
+}
 
-    padding-left: 16px;
-    width: 100%;
- 
-   }
-   .header-text {
-     // vertical-align:center;
-     flex: 4;
-           font-family: inherit;
+.header-text {
+flex:4;
+font-family:inherit;
+word-wrap:break-word;
+padding-bottom:10px
+}
 
-    word-wrap: break-word;
-    padding-bottom: 10px;
-    //width: 65%;
-    //display: inline-block;
-   }
-   .illustration{
-     flex: 1;
-     width: 150px;
-     min-height: 50px;
-     //margin-left: 20px;
-       // width: 20%;
-        //height: 20%;
-        display: inline-block;
-   }
-   .illustration img {
-       width: 100%
-   }
-   .radiogroup{
-       margin-top: 24px;
-       margin-bottom: 12px;
-      width: 100%;
-      
-   }
-   .selector {
-     display: flex;
-       width: 100%;
-           background-color: rgb(42, 45, 48);
-          // flex-direction: row;
-           padding: 10px;
-            border-radius: 12px;
-            align: center;
-   }
-   .menu-active {
-       background-color: rgb(27, 32, 35);
-       color: rgba(231,233,234,1.00) !important; 
-       border-radius: 12px;
-      
-   }
-    .menu-active .menu-item-text {
-       color: rgba(231,233,234,1.00) !important;        
-   }
-   .menu-item .sale {
-      color: rgb(194, 241, 220);
-      line-height: 12px;
-      font-size: 11px;
-          font-weight: 700;
-          margin-left: 10px;
-   }
-   .menu-item{
-           padding: 4px;
-   flex: 1 1 0%;
-    -webkit-box-align: center;
-          align-items: center;
-          justify-content: center;
-display: flex;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bold;
-  
-   }
-   .menu-item .menu-item-text {
-    color: rgb(113, 118, 123);
-    justify-content: center;
-    display: flex;
-    align-items: center;
+.illustration {
+flex:1;
+width:150px;
+min-height:50px;
+display:inline-block
+}
 
-   }
-  .disabled {
-    pointer-events:none;
-  }
+.illustration img {
+width:100%
+}
+
+.radiogroup {
+margin-top:24px;
+margin-bottom:12px;
+width:100%
+}
+
+.selector {
+display:flex;
+width:100%;
+background-color:#2a2d30;
+padding:10px;
+border-radius:12px;
+align:center
+}
+
+.menu-active {
+background-color:#000;
+color:rgba(231,233,234,1.00)!important;
+border-radius:12px
+}
+
+.menu-active .menu-item-text {
+color:rgba(231,233,234,1.00)!important
+}
+
+.menu-item .sale {
+color:#c2f1dc;
+line-height:12px;
+font-size:11px;
+font-weight:700;
+margin-left:10px
+}
+
+.menu-item {
+padding:4px;
+flex:1 1 0;
+-webkit-box-align:center;
+align-items:center;
+justify-content:center;
+display:flex;
+cursor:pointer;
+text-align:center;
+font-weight:700
+}
+
+.menu-item .menu-item-text {
+color:#71767b;
+justify-content:center;
+display:flex;
+align-items:center
+}
+
+.disabled {
+pointer-events:none
+}
+
 .subscribe {
-  border: black 1px solid;
-     margin: 24px auto 0px;
-  background-color: rgb(239, 243, 244);
-    width: 75%;
-    min-height: 36px;
-        -webkit-box-align: center;
- 
-    text-align: center;
-    border-radius: 999px;
-     display: flex;
-  justify-content: center;
-  align-items: center;   
+border:#000 1px solid;
+margin:24px auto 0;
+background-color:#eff3f4;
+width:75%;
+min-height:36px;
+-webkit-box-align:center;
+text-align:center;
+border-radius:999px;
+display:flex;
+justify-content:center;
+align-items:center
 }
+
 .subscribe-text {
-      cursor: pointer;
-  justify-content: center;
-  font-weight: bold;
-
-    flex-grow: 1;    color: rgb(15, 20, 25);
-
-    flex-direction: row;
+cursor:pointer;
+justify-content:center;
+font-weight:700;
+flex-grow:1;
+color:#0f1419;
+flex-direction:row
 }
-.old-price{
-  text-decoration-line: line-through;
-      font-weight: initial;
+
+.old-price {
+text-decoration-line:line-through;
+font-weight:initial
 }
+
 .subscribe-amount-block {
- 
-  width: 75%;
-  color: white;
-   font-weight: bold;
-   text-align: center;
-        display: flex;
- justify-content: flex-start;
-  align-items: center;   
-      flex-direction: column;
-          margin: 0px auto;
-           margin-top: 24px;
+width:75%;
+color:#fff;
+font-weight:700;
+text-align:center;
+display:flex;
+justify-content:flex-start;
+align-items:center;
+flex-direction:column;
+margin:0 auto;
+margin-top:24px
 }
+
 .subscribe-amount-text {
-    margin-bottom: 8px;
-        color:  rgb(113, 118, 123);
-    font-size: 15px;
+margin-bottom:8px;
+color:#71767b;
+font-size:15px
 }
-.subscribe-amount{
-  width: 100%;
-  text-align: center;
+
+.subscribe-amount {
+width:100%;
+text-align:center
 }
+
 .action {
-  min-height: 200px;
+}
+
+.premium-details {
+padding-top:20px;
+text-align:center
 }
 `;
 
 const isNumber = (n) => {
-  console.log(n);
   return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
 const deposit = () => {
   console.log("F", state.customAmount);
+};
+
+const convertNearToMs = (amount) => {
+  const amountYocto = Big(10).pow(24).mul(Big(amount));
+  const priceRegular = Big(state.price);
+  const priceWholesale = Big(state.priceWholesale);
+
+  const price = amountYocto.gt(priceWholesale) ? priceWholesale : priceRegular;
+
+  const res = amountYocto.mul(Big(yearInMs)).div(price).toFixed(0);
+
+  console.log("r", res);
+
+  return Number(res);
 };
 
 return (
@@ -185,7 +242,7 @@ return (
           <div class="illustration">
             <img
               draggable="false"
-              src="https://abs.twimg.com/responsive-web/client-web/verification-card-v2@3x.8ebee01a.png"
+              src="https://pluminite.mypinata.cloud/ipfs/QmeaN2XXfa9fkaVw9QBpew69MKT7SxJtsgedoqttTfyGLm"
             />
           </div>
         </div>
@@ -199,7 +256,9 @@ return (
             >
               <div
                 class="menu-item-text"
-                onClick={() => State.update({ type: "annually" })}
+                onClick={() =>
+                  State.update({ type: "annually", purchasedPeriod: yearInMs })
+                }
               >
                 Annually<div class="sale">SAVE 12%</div>
               </div>
@@ -208,7 +267,12 @@ return (
               class={`menu-item ${
                 state.type == "monthly" ? "menu-active" : ""
               }`}
-              onClick={() => State.update({ type: "monthly" })}
+              onClick={() =>
+                State.update({
+                  type: "monthly",
+                  purchasedPeriod: yearInMs / 12,
+                })
+              }
             >
               <div class="menu-item-text">Monthly</div>
             </div>
@@ -244,13 +308,17 @@ return (
                 type="text"
                 class="subscribe-amount"
                 value={state.customAmount}
-                onChange={(e) =>
+                onChange={(e) => {
+                  const customAmount = isNumber(e.target.value)
+                    ? parseFloat(e.target.value)
+                    : "";
                   State.update({
-                    customAmount: isNumber(e.target.value)
-                      ? parseFloat(e.target.value)
-                      : "",
-                  })
-                }
+                    customAmount,
+                    purchasedPeriod: customAmount
+                      ? convertNearToMs(customAmount)
+                      : 0,
+                  });
+                }}
               />
               <div class="subscribe">
                 <div
@@ -265,6 +333,16 @@ return (
                 </div>
               </div>
             </div>
+          </div>
+        )}
+        {state.purchasedPeriod > 0 && (
+          <div class="premium-details">
+            You will have premium until: {getEndDate(state.purchasedPeriod)}
+          </div>
+        )}
+        {state.purchasedPeriod == 0 && state.previousTimestamp && (
+          <div class="premium-details">
+            You've already got premium until: {getEndDate(0)}
           </div>
         )}
       </div>
