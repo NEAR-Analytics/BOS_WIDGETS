@@ -15,7 +15,7 @@ const NearAmountBackground = styled.button`
   border:${(props) => (props.selected ? "2px solid #00A7E4 " : "0px")};
 `;
 
-const IconButton =styled.button`
+const IconButton = styled.button`
   background-color:transparent;
   border-width:0px;
   position:absolute;
@@ -36,8 +36,17 @@ const nearLabel = (amount, selected) => (
 );
 
 const AddTicketModal = (
-  <div style={{ maxHeight: "80vh", overflowY: "auto", overflowX: "hidden",position:'relative' }}>
-  <IconButton title="Close Modal" onClick={props.onClose}>X</IconButton>
+  <div
+    style={{
+      maxHeight: "80vh",
+      overflowY: "auto",
+      overflowX: "hidden",
+      position: "relative",
+    }}
+  >
+    <IconButton title="Cancel" onClick={props.onClose}>
+      X
+    </IconButton>
     <Widget
       props={{
         label: "Ticket Name*",
