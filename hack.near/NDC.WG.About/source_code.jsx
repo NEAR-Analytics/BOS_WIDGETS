@@ -9,7 +9,7 @@ const aboutLinks = [
     id: "AboutNEAR",
     title: "Explore NEAR Wiki",
     src: "https://wiki.near.org",
-    img: "https://i.near.social/magic/large/https://near.social/magic/img/account/near",
+    img: "https://ipfs.io/ipfs/bafybeiegcxl662nreuyb4cfleo4hnj3kx27zqvysq3wpjy462kpcfjei3q/near-logo.png",
   },
 ];
 
