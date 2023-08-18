@@ -158,6 +158,18 @@ function changeRangeAmount(e) {
     .toFixed(4);
   handleAmount(amount, isMax);
 }
+
+function quickChangeRangeAmount(valueStr) {
+  const value = Number(valueStr);
+
+  const isMax = Big(value || 0).eq(subBalance || 0);
+  const amount = Big(subBalance || 0)
+    .mul(value || 0)
+    .div(100)
+    .toFixed(4);
+  handleAmount(amount, isMax);
+}
+
 function changeToMax() {
   handleAmount(Big(subBalance || 0).toFixed(), true);
 }
@@ -237,11 +249,22 @@ return (
     )}
 
     <div class="scale mt_20">
-      <span class="item">0%</span>
-      <span class="item">25%</span>
-      <span class="item">50%</span>
-      <span class="item">75%</span>
-      <span class="item">100%</span>
+      {["0", "25", "50", "75", "100"].map((p, i) => {
+        return (
+          <span
+            class="item"
+            style={{
+              cursor: "pointer",
+            }}
+            key={`percent-${p}-${i}`}
+            onClick={() => {
+              quickChangeRangeAmount(p);
+            }}
+          >
+            {p}%
+          </span>
+        );
+      })}
     </div>
     <div class="rangeArea">
       <input
