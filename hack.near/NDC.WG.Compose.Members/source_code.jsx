@@ -26,7 +26,7 @@ const widgets = {
 return (
   <div className="w-100">
     <div className="d-flex justify-content-between pt-2">
-      <H2>Afiliations</H2>
+      <H2>Members</H2>
       <Widget
         src={widgets.styledComponents}
         props={{
@@ -42,7 +42,7 @@ return (
     <Separator />
 
     <div className="w-100">
-      {affiliations.map((form, index) => {
+      {members.map((form, index) => {
         return (
           <div className="bg-white rounded p-4">
             <div>
