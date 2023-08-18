@@ -83,9 +83,9 @@ const Container = styled.div`
 `;
 /** base tool start  */
 let accountId = context.accountId;
-if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
-}
+// if (!accountId) {
+//   return <Widget src="juaner.near/widget/ref_account-signin" />;
+// }
 let MAX_RATIO = 10_000;
 let BURROW_CONTRACT = "contract.main.burrow.near";
 let B = Big();
