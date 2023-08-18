@@ -414,6 +414,8 @@ if (
   props.resendPrompt(props);
 }
 
+console.log("Yo check");
+console.log(balances);
 const balancesList = state.balances.map((balance) => {
   console.log(balance);
   return (
