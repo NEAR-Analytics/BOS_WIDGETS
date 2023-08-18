@@ -413,7 +413,7 @@ if (
   props.resendPrompt(props);
 }
 
-const balancesList = assetBalances.map((balance) => {
+const balancesList = state.assetBalances.map((balance) => {
   console.log(balance);
   return (
     <div>
