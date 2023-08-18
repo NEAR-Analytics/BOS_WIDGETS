@@ -128,7 +128,7 @@ return (
       </div>
     </ExchangeRoute>
     <div class="apr">
-      apr<span class="value">{apy}</span>
+      APR<span class="value">{apy}</span>
     </div>
   </BannerData>
 );
