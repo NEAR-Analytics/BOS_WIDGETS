@@ -63,8 +63,8 @@ const mint = () => {
     .catch((err) => console.log(err));
 };
 
-const initTransaction = () => {
-  nftContract
+const initTransaction = async () => {
+  await nftContract
     .initTransaction(
       walleyAddress,
       "1",
