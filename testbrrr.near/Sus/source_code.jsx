@@ -310,7 +310,7 @@ let assets = Object.values(availableAssets);
 let balances = [...state.balances];
 
 const processAsset = (index) => {
-  if (index >= assets.length) {
+  if (index === assets.length - 1) {
     State.update({ balances: balances });
     return;
   }
