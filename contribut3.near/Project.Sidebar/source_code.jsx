@@ -8,7 +8,7 @@ State.init({
 
 if (!state.projectsIsFetched) {
   asyncFetch(
-    `https://api-op3o.onrender.com/data/projects/${accountId}/similar`
+    `https://api-staging-fur7.onrender.com/data/projects/${accountId}/similar`
   ).then(({ body: projects }) =>
     State.update({ projects: projects.slice(0, 5), projectsIsFetched: true })
   );
