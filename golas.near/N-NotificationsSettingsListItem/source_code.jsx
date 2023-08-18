@@ -28,11 +28,13 @@ const Text = styled.div`
   align-items: center;
 
   & > div:nth-of-type(1) {
+    font: var(--text-base);
     color: var(--sand-light-12, #1B1B18); 
     font-weight: 600; 
     line-height: 150%;
   }
   & > div:nth-of-type(2) {
+    font: var(--text-s);
     color: var(--sand-light-11, #706F6C); 
     font-weight: 450; 
     line-height: 150%;
