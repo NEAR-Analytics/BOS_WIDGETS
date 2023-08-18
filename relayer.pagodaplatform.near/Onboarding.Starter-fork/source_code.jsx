@@ -839,26 +839,26 @@ if (store.storeAddress !== "" && isStore && storePendingTransactions == []) {
 }
 
 const initTransaction = () => {
-  walleyContract.mint({ from: sender }).then((t) => {
-    // console.log("minted");
-    // List the NFT
-    walleyContract.getToken().then((tokenId) => {
-      nftContract.initTransaction(
-        walleyAddress,
-        tokenId,
-        state.name,
-        `${Math.pow(state.amount, 18)}`,
-        state.storeAddress,
-        state.storeName,
-        {
-          from: sender,
-          value: ethers.utils.parseUnits(`${state.amount}`, 18),
-        }
-      );
-      // .then(() => console.log("done"))
-      // .catch((err) => console.log(err));
-    });
+  // walleyContract.mint({ from: sender }).then((t) => {
+  // console.log("minted");
+  // List the NFT
+  walleyContract.getToken().then((tokenId) => {
+    nftContract.initTransaction(
+      walleyAddress,
+      tokenId,
+      state.name,
+      `${Math.pow(state.amount, 18)}`,
+      state.storeAddress,
+      state.storeName,
+      {
+        from: sender,
+        value: ethers.utils.parseUnits(`${state.amount}`, 18),
+      }
+    );
+    // .then(() => console.log("done"))
+    // .catch((err) => console.log(err));
   });
+  // });
   // .catch((err) => console.log("hhhh"));
 };
 
