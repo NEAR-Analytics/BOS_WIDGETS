@@ -86,17 +86,53 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
       });
-      if (tokens.length > 0) {
-        State.update({
-          tokens: [...state.tokens, ...tokens],
-          offset: state.offset + limit,
-
-          hasMore: true,
+      if (!token) {
+        const response = fetch("https://api.indexer.xyz/graphql", {
+          method: "POST",
+          headers: {
+            "x-api-key": "Krqwh4b.bae381951d6050d351945c0c750f1510",
+            "x-api-user": "Banyan",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `query MyQuery {
+  ${props.chainState} {
+    nfts(
+      where: { nft_contract_id: { _eq: "${contractId}" }, token_id: {_eq: "${tokenId}"}}
+    ) {
+      contract_id
+      name
+      media_url
+      token_id
+      media_type
+      owner
+      
+      staked_owner
+      listings {
+        listed
+        price
+      }
+      attributes {
+        rarity
+        value
+        type
+        score
+      }
+     }
+     }
+    }`,
+          }),
         });
-      } else {
-        State.update({
-          hasMore: false,
-        });
+        const token = response.body.data.near.nfts;
+        if (token) {
+          console.log(token);
+          State.update({
+            title: token[0].name,
+            listings: token[0].listings,
+            attributes: token[0].attributes,
+            imageUrl: token[0].media_url,
+          });
+        }
       }
     }
   });
@@ -491,16 +527,31 @@ return (
           <Description>
             <h6>Attributes</h6>
             <AttributeContainer>
-              <Attribute>
-                <div>
-                  <span style={{ color: "#b2b7c2" }}>File Type</span>
-                  <p style={{ marginTop: "10px" }}>PNG</p>
-                </div>
-                <div>
-                  <span style={{ color: "#b2b7c2" }}>Rarity</span>
-                  <p style={{ marginTop: "10px" }}>1%</p>
-                </div>
-              </Attribute>
+              {state.attributes ? (
+                state.attributes.map((data) => (
+                  <Attribute>
+                    <div>
+                      <span style={{ color: "#b2b7c2" }}>File Type</span>
+                      <p style={{ marginTop: "10px" }}>{data.type}</p>
+                    </div>
+                    <div>
+                      <span style={{ color: "#b2b7c2" }}>Rarity</span>
+                      <p style={{ marginTop: "10px" }}>{data.rarity}%</p>
+                    </div>
+                  </Attribute>
+                ))
+              ) : (
+                <Attribute>
+                  <div>
+                    <span style={{ color: "#b2b7c2" }}>File Type</span>
+                    <p style={{ marginTop: "10px" }}>PNG</p>
+                  </div>
+                  <div>
+                    <span style={{ color: "#b2b7c2" }}>Rarity</span>
+                    <p style={{ marginTop: "10px" }}>1%</p>
+                  </div>
+                </Attribute>
+              )}
             </AttributeContainer>
           </Description>
           <Description>
