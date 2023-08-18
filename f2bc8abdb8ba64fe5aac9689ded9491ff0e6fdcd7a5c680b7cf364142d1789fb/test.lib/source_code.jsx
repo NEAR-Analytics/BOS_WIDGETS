@@ -24,6 +24,9 @@ function addTest() {
       }),
     },
   });
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "addTest";
+  });
 }
 
 function libCall(call) {
