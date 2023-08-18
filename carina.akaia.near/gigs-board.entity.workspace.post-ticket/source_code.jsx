@@ -149,7 +149,7 @@ const borders = {
 const renamedPostType =
   snapshot.post_type == "Submission" ? "Solution" : snapshot.post_type;
 
-const postLables = post.snapshot.labels ? (
+const postLabels = post.snapshot.labels ? (
   <div class="card-title">
     {post.snapshot.labels.map((label) => (
       <a href={href("Feed", { label })} key={label}>
@@ -189,7 +189,7 @@ return (
     <div className="card-body">
       {postTitle}
       {descriptionArea}
-      {postLables}
+      {postLabels}
     </div>
   </AttractableDiv>
 );
