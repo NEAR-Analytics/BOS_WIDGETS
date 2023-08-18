@@ -785,6 +785,7 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
   Ethers.provider()
     .getBalance(sender)
     .then((balance) => {
+      console.log(balance);
       State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
     });
   // console.log(sender);
