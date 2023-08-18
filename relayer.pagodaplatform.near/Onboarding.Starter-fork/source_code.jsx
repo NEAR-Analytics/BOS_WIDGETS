@@ -41,17 +41,17 @@ if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
 }
 console.log(NFTManagerABI);
-const nftIface = new ethers.utils.Interface(NFTManagerABI.body);
+const nftIface = new ethers.utils.Interface(JSON.parse(NFTManagerABI.body).abi);
 console.log("hehe");
 const nftContract = new ethers.Contract(
   nftAddress,
-  NFTManagerABI.body,
+  JSON.parse(NFTManagerABI.body).abi,
   Ethers.provider().getSigner()
 );
-const walleyIface = new ethers.utils.Interface(WalleyABI.body);
+const walleyIface = new ethers.utils.Interface(JSON.parse(WalleyABI.body).abi);
 const walleyContract = new ethers.Contract(
   walleyAddress,
-  WalleyABI.body,
+  JSON.parse(WalleyABI.body).abi,
   Ethers.provider().getSigner()
 );
 
