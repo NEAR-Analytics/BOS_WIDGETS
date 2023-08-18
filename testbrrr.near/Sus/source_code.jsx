@@ -334,6 +334,7 @@ const processAsset = (index) => {
 };
 
 const getEntireDebtAndColl = () => {
+  console.log("Called again");
   // let assets = Object.values(availableAssets);
   // assets.forEach((asset) => {
   //   vesselManagerContract
@@ -436,15 +437,13 @@ if (
 } else if (props.action === "repay") {
   repayDebtTokens();
 } else if (props.action === "display") {
+  console.log("Triggered again");
   getEntireDebtAndColl();
 } else if (props.action === "withdraw") {
   withdrawColl();
 } else {
   props.resendPrompt(props);
 }
-
-console.log("Yo check");
-console.log(state.balances);
 
 return (
   <div>
