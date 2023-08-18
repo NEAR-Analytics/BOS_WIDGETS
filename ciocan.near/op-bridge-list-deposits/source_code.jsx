@@ -21,7 +21,7 @@ const isMainnet = chainId === 1 || chainId === 10;
 const isTestnet = chainId === 5 || chainId === 420;
 const isCorrectNetwork = isMainnet || isTestnet;
 
-if (![1, 10].includes(chainId)) {
+if (![1, 5].includes(chainId)) {
   return <h6>Switch to Ethereum network to see the deposits list.</h6>;
 }
 
