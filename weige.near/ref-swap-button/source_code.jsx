@@ -4,7 +4,7 @@ const ButtonWrapper = styled.button`
   border-radius: 12px;
 
   background-color: ${(props) =>
-    props.notEnough ? "rgba(0,255,163, 0.5)" : `rgba(0,255,163, 1)`};
+    props.notEnough ? `rgba(255, 136, 179, 0.5)` : `rgba(0, 255, 163, 1)`};
   font-weight: 700;
   font-size: 18px;
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
@@ -37,10 +37,10 @@ return (
     {noPool
       ? "No pool"
       : !accountId
-      ? "Connect wallet"
-      : notEnough
-      ? "Insufficient Balance"
-      : "Swap"}
+        ? "Connect wallet"
+        : notEnough
+          ? "Insufficient Balance"
+          : "Swap"}
   </ButtonWrapper>
 );
 1;
