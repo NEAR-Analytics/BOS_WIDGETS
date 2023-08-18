@@ -38,7 +38,7 @@ function getUpVotes(props) {
         // }
         // return false;
       })
-      .filter((vote) => !vote.value.isDelete);
+      .filter((vote) => !vote.value.isDelete) ?? [];
   return upVotes;
 
   // const userInteraction =
