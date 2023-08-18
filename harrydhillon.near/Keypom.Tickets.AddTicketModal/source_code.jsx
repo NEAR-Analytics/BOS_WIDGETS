@@ -15,6 +15,13 @@ const NearAmountBackground = styled.button`
   border:${(props) => (props.selected ? "2px solid #00A7E4 " : "0px")};
 `;
 
+const IconButton =styled.button`
+  background-color:transparent;
+  border-width:0px;
+  position:absolute;
+  right:0px;
+`;
+
 const nearAmount = [20, 50, 100, 200];
 
 const nearLabel = (amount, selected) => (
@@ -29,7 +36,8 @@ const nearLabel = (amount, selected) => (
 );
 
 const AddTicketModal = (
-  <div style={{ maxHeight: "80vh", overflowY: "auto", overflowX: "hidden" }}>
+  <div style={{ maxHeight: "80vh", overflowY: "auto", overflowX: "hidden",position:'relative' }}>
+  <IconButton title="Close Modal" onClick={props.onClose}>X</IconButton>
     <Widget
       props={{
         label: "Ticket Name*",
@@ -182,14 +190,17 @@ const AddTicketModal = (
         />
       </>
     )}
-      <p style={{ color: "gray" }}>
-        You receive {state.selected === "Custom Amount"
-              ? state.nearAmountForTicket
-              : state.selected} NEAR. Buyer pays {state.selected === "Custom Amount"
-              ? state.nearAmountForTicket
-              : state.selected}.187
-        NEAR.
-      </p>
+    <p style={{ color: "gray" }}>
+      You receive{" "}
+      {state.selected === "Custom Amount"
+        ? state.nearAmountForTicket
+        : state.selected}{" "}
+      NEAR. Buyer pays{" "}
+      {state.selected === "Custom Amount"
+        ? state.nearAmountForTicket
+        : state.selected}
+      .187 NEAR.
+    </p>
     <p style={{ fontWeight: "500", marginBottom: 0 }}>Ticket Artwork</p>
     <Widget src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
     <button
@@ -241,7 +252,7 @@ return (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: AddTicketModal,
-      isOpen:  props.isOpen,
+      isOpen: props.isOpen,
       contentStyles: {
         style: {
           width: 550,
