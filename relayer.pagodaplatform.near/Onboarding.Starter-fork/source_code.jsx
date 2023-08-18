@@ -708,7 +708,7 @@ const initTransaction = () => {
   //   .then((t) => {
   //     console.log("minted");
   // List the NFT
-  console.log(ethers.utils.toWei("0.1", "ether"));
+  console.log(ethers.utils.parseUnits("0.1", 18).toHexString());
   nftContract
     .initTransaction(
       walleyAddress,
