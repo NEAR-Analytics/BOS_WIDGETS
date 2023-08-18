@@ -345,7 +345,7 @@ const getEntireDebtAndColl = () => {
           pendingDebtTokenReward: results[2].toString(),
           pendingAssetReward: results[3].toString(),
         });
-
+        console.log(index);
         processAsset(index + 1); // Process the next asset.
       });
   };
