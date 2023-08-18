@@ -57,7 +57,7 @@ const walleyContract = new ethers.Contract(
 
 const mint = async () => {
   const tokenId = await walleyContract.mint().send({ from: sender });
-  return tokenId;
+  console.log(tokenId);
 };
 
 const createTransfer = () => {
