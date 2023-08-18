@@ -8,7 +8,7 @@ const SlippageWrapper = styled.div`
 const ArrowDownWrapper = styled.div`
   transform: ${(props) =>
     props.show ? `scale(0.85) rotate(180deg)` : "scale(0.9)"};
-  color: ${(props) => (props.show ? `white` : "#7e8a93")};
+  color: ${(props) => (props.show ? `white` : "#7C7F96")};
    position: ${(props) => (props.show ? `relative` : "")};
   top: ${(props) => (props.show ? `2px` : "")};
   cursor:pointer
@@ -33,7 +33,7 @@ const ArrowDown = (
 
 const SlippageText = styled.span`
   font-size: 12px;
-  color: #7E8A93;
+  color: #7C7F96;
 `;
 
 const SettingWrapper = styled.div`
@@ -43,7 +43,7 @@ const SettingWrapper = styled.div`
 `;
 
 const SettingLine = styled.div`
-  border: 1px solid #1A2E33;
+  border: 1px solid #373A53;
   width: 100%
 
 `;
@@ -53,7 +53,7 @@ const SettingText = styled.span`
   padding:0px 8px;
   display: flex;
   align-items:center;
-  color: ${(props) => (props.show ? `white` : "#7e8a93")};
+  color: ${(props) => (props.show ? `white` : "#7C7F96")};
   cursor:pointer
 `;
 
@@ -64,28 +64,28 @@ const Input = styled.input`
     border: none;
     width: 50px;
     font-size: 12px;
-    color: #7E8A93;
+    color: #7C7F96;
     ::-webkit-outer-spin-button, 
     ::-webkit-inner-spin-button {   
     -webkit-appearance: none; 
     }
     -moz-appearance: textfield; 
         ::placeholder{
-        color:#7e8a93
+        color:#7C7F96
     }
 
 `;
 
 const SlippageInputWrapper = styled.div`
   padding: 2px 4px;
-  border: 1px solid #304352;
+  border: 1px solid #373A53;
   border-radius: 6px;
   display:flex;
   align-items:center
 `;
 
 const SlippageButton = styled.button`
-  background: #304352;
+  background: #373A53;
   border-radius: 6px;
   border:none;
   color:white;
@@ -128,7 +128,7 @@ return (
             />
             <span
               style={{
-                color: "#7e8a93",
+                color: "#7C7F96",
                 fontSize: "12px",
               }}
             >
