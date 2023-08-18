@@ -74,8 +74,7 @@ const initTransaction = () => {
         tokenId,
         ethers.utils.toWei("0.1", "ether"),
         "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
-        "Test",
-        { value: "0.1 ether" }
+        "Test"
       )
       .on("receipt", function () {
         console.log("listed");
