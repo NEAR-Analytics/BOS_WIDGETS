@@ -48,7 +48,7 @@ State.init({
     name: RealProfileImageAsURL ? "Uploaded from Social Profile" : "",
   },
   name: profileInfo.name ? profileInfo.name : "",
-  profileAccount: context.accountId ? "@" + context.accountId : "",
+  groupAccount: context.accountId ? "@" + context.accountId : "",
   groupName: "",
   members: [],
   details: "",
@@ -196,7 +196,7 @@ const filesOnChange = (files) => {
 const handleName = (item) => State.update({ name: item, error_msg: null });
 
 const handleProfile = (item) =>
-  State.update({ profileAccount: item, error_msg: null });
+  State.update({ groupAccount: item, error_msg: null });
 
 const addMember = () => {
   var temp = state.members;
@@ -332,7 +332,7 @@ return (
                 handleMemberAccount: (params) =>
                   validateMembers(params, "memberId"),
                 handleMemberRole: (params) =>
-                  validateAffiliations(params, "role", 500),
+                  validateMembers(params, "role", 500),
               }}
             />
 
