@@ -807,7 +807,8 @@ const walleyContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-if (state.stores == []) {
+if (state.stores.length == 0) {
+  console.log("hee");
   nftContract
     .getAllStores()
     .then((stores) => {
