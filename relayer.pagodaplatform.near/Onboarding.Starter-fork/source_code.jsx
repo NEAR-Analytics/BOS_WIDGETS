@@ -888,6 +888,7 @@ return (
       <div>
         <select
           value={state.storeName}
+          placeholder="hh"
           onChange={(e) => {
             console.log(e.target.value);
             State.update({
