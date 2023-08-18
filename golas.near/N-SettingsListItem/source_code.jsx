@@ -24,6 +24,17 @@ const Icon = styled.div`
 const Text = styled.div`
   justify-content: start;
   align-items: center;
+
+  & > div:nth-of-type(1) {
+    color: var(--sand-light-12, #1B1B18); 
+    font-weight: 600; 
+    line-height: 150%;
+  }
+  & > div:nth-of-type(2) {
+    color: var(--sand-light-11, #706F6C); 
+    font-weight: 450; 
+    line-height: 150%;
+  }
 `;
 
 const Switch = styled.div`
