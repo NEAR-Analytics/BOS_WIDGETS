@@ -7,7 +7,6 @@ const ETH_ADDR_L1 = `0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000`;
 const DEFAULT_AMOUNT_ETH = "0.01";
 const DEFAULT_AMOUNT = ethers.utils.parseUnits(DEFAULT_AMOUNT_ETH, 18);
 const L2_OUTPUT_ORACLE_CONTRACT = `0xE6Dfba0953616Bacab0c9A8ecb3a9BBa77FC15c0`;
-const L2_TO_L1_MESSAGE_PASSER = `0x50CcA47c1e06084459dc83c9E964F4a158cB28Ae`;
 
 // Withdrawal target TX info
 // Call initiateWithdraw so the L2 message is passed
@@ -27,8 +26,6 @@ State.init({
   resolved: Storage.privateGet(STORAGE_RESOLVED),
   messageSlot: Storage.privateGet(STORAGE_MESSAGE_SLOT),
 });
-
-console.log(state);
 
 const provider = Ethers.provider();
 const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -385,7 +382,6 @@ const hashLowLevelMessage = (withdrawal) => {
     withdrawal.value,
     withdrawal.minGasLimit,
     withdrawal.message,
-    // ETH_WITHDRAWAL_MESSAGE,
   ]);
   return ethers.utils.keccak256(encoded);
 };
@@ -423,22 +419,23 @@ const handleWithdrawalProve = () => {
   // console.log(opGoerliProvider);
 
   const { resolved, messageSlot } = state;
-
-  console.log("messageSlot", messageSlot);
+  // TODO what block number will work? This example block number is from explorer and included in a batch for L1: https://goerli-optimism.etherscan.io/block/13472188
+  // const blockNumber = ethers.utils.hexlify(13472188);
+  // working
+  const blockNumber = "latest";
+  console.log(blockNumber);
+  const address = ETH_WITHDRAWAL_CONTRACT;
 
   provider
-    .send("eth_getProof", [
-      sender,
-      [messageSlot],
-      "0x" + resolved.blockNumber.toString(16),
-    ])
+    .send("eth_getProof", [address, [messageSlot], blockNumber])
     .then((proof) => {
-      console.log({
-        accountProof: proof.accountProof,
-        storageProof: proof.storageProof[0].proof,
-        storageValue: BigNumber.from(proof.storageProof[0].value),
-        storageRoot: proof.storageHash,
-      });
+      console.log(proof);
+      // console.log({
+      //   accountProof: proof.accountProof,
+      //   storageProof: proof.storageProof[0].proof,
+      //   storageValue: BigNumber.from(proof.storageProof[0].value),
+      //   storageRoot: proof.storageHash,
+      // });
     });
 };
 
