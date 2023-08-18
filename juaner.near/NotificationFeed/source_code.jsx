@@ -13,7 +13,6 @@ const index = {
     subscribe: true,
   },
 };
-console.log("11111111-00000000-2222222");
 const renderItem = (item, i) => {
   if (i === 0) {
     Storage.set("lastBlockHeight", item.blockHeight);
