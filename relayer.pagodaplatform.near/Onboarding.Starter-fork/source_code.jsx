@@ -767,6 +767,7 @@ State.init({
   isStore: false,
   storeName: "",
   storeAddress: "",
+  storeNames: [],
   storePendingTransactions: [],
   amount: 0,
   name: "",
@@ -825,6 +826,7 @@ if (state.stores.length == 0) {
             isStore: true,
             storeName: store.storeName,
             storeAddress: store.storeAddress,
+            storeNames: getStoreNames()
           });
       });
       // console.log(state.stores);
@@ -880,29 +882,33 @@ const addStore = (name, address) => {
   // .catch((err) => console.log(err));
 };
 
+const getStoreNames = ()=> {
+  const op = [];
+  state.stores.map(store => {
+    op.push(store.storeName)
+  })
+  return op
+}
+
 return (
   <>
     <p>{state.chainId}</p>
     <p>{state.balance}</p>
     {!state.isStore ? (
       <div>
-        <select
-          value={state.storeName}
-          placeholder="hh"
-          onChange={(e) => {
-            console.log(e.target.value);
-            State.update({
-              storeName: e.target.value,
-            });
+        <Widget
+          src="near/widget/Select"
+          props={{
+            noLabel: true,
+            placeholder: "Select a store",
+            options=[...state.storeNames.map(name =>{ return {text: name,  value:name}})],
+            onChange=(value) => {
+              state.stores.map(store => {
+                if (store.storeName === value) State.update({storeName: value, storeAddress: store.storeAddress})
+              })
+            }
           }}
-        >
-          {state.stores.map((store) => {
-            console.log(store);
-            return (
-              <option value={`${store[0]}:${store[1]}`}>{store[0]}</option>
-            );
-          })}
-        </select>
+        />
         <input
           type="number"
           value={state.amount}
