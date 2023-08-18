@@ -8,4 +8,4 @@ if (homepage === null) {
   return "Loading";
 }
 
-return <Widget src={homepage ?? "mob.near/widget/Welcome"} props={props} />;
+return <Widget src={homepage ?? "mob.near/widget/N"} props={props} />;
