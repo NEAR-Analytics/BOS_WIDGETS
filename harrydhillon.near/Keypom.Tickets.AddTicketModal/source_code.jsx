@@ -184,7 +184,7 @@ const AddTicketModal = (
     )}
     {state.selected !== "Custom Amount" && (
       <p style={{ color: "gray" }}>
-        Your receive {state.selected} NEAR. Buyer pays {state.selected}.187
+        You receive {state.selected} NEAR. Buyer pays {state.selected}.187
         NEAR.
       </p>
     )}
