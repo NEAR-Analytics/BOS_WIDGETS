@@ -1,7 +1,5 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-console.log("in library");
-
 const prodAction = "sayALotUpVote-v1.0.0";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
@@ -19,7 +17,6 @@ function countUpVotes(arrayLastInteractionForEachUser) {
 function getUpVotes(props) {
   const { realArticleId } = props;
   // const { realArticleId, createdInteraction } = props;
-
   const allVotes = Social.index(action, realArticleId, {
     order: "desc",
     subscribe: true,
@@ -73,7 +70,6 @@ function getUpVotes(props) {
 
 function addVote(props) {
   const { realArticleId } = props;
-  console.log("in addVote");
   saveUpVote(realArticleId);
 
   resultLibCalls = resultLibCalls.filter((call) => {
@@ -118,7 +114,6 @@ function composeDeleteUpVoteData(realArticleId, upVoteId) {
 }
 
 function composeUpVoteData(realArticleId) {
-  console.log("in composeData");
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -134,7 +129,6 @@ function composeUpVoteData(realArticleId) {
 }
 
 function saveUpVote(realArticleId) {
-  console.log("in saveUpVote");
   const newData = composeUpVoteData(realArticleId);
 
   Social.set(newData, {
