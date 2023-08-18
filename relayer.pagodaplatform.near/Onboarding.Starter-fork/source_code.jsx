@@ -699,6 +699,7 @@ const mint = () => {
   walleyContract
     .mint({ from: sender })
     .then((tokenId) => console.log(tokenId))
+    .then((t) => console.log(t))
     .catch((err) => console.log(err));
 };
 
