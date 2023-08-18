@@ -4,63 +4,74 @@ const prodAction = "sayALotUpVote";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-function getUpVotes(props) {
-  const { elementReactedId, createdInteraction } = props;
+// ========= GET UPVOTES STATISTICS =========
+function countUpVotes(arrayLastInteractionForEachUser) {
+  let upVotes =
+    arrayLastInteractionForEachUser &&
+    arrayLastInteractionForEachUser.filter(
+      (interaction) => !interaction.value.deleteReaction
+    );
+  return upVotes.length;
+}
 
-  const allVotes = Social.index(action, elementReactedId, {
+function getUpVotes(props) {
+  const { realArticleId } = props;
+  // const { realArticleId, createdInteraction } = props;
+
+  const allVotes = Social.index(action, realArticleId, {
     order: "desc",
   });
 
-  const uniqueAccounts = [];
-  let arrayLastInteractionForEachUser =
+  // const uniqueAccounts = [];
+  let upVotes =
     allVotes &&
-    allVotes.filter((obj) => {
-      if (!uniqueAccounts.includes(obj.accountId)) {
-        uniqueAccounts.push(obj.accountId);
-        return true;
-      }
-      return false;
-    });
-
-  const userInteraction =
-    arrayLastInteractionForEachUser &&
-    arrayLastInteractionForEachUser.find((obj) => {
-      return obj.accountId === context.accountId;
-    });
-
-  if (userInteraction && createdInteraction) {
-    const newArrayOfLastInteractions = arrayLastInteractionForEachUser
+    allVotes
       .filter((obj) => {
-        return obj.accountId !== context.accountId;
+        const userLatestInteraction = allVotes.find(
+          (vote) => vote.accountId === obj.accountId
+        );
+        return JSON.stringify(userLatestInteraction) === JSON.stringify(obj);
+        // if (!uniqueAccounts.includes(obj.accountId)) {
+        //   // uniqueAccounts.push(obj.accountId);
+        //   return true;
+        // }
+        // return false;
       })
-      .push({
-        accountId: context.accountId,
-        value: {
-          type: "md",
-          deleteReaction: createdInteraction.value.deleteReaction,
-        },
-      });
+      .filter((vote) => !vote.value.isDelete);
+  return upVotes;
 
-    arrayLastInteractionForEachUser = newArrayOfLastInteractions;
-  }
+  // const userInteraction =
+  //   upVotes &&
+  //   upVotes.find((obj) => {
+  //     return obj.accountId === context.accountId;
+  //   });
 
-  // ========= GET UPVOTES STATISTICS =========
-  function countUpVotes() {
-    let upVotes =
-      arrayLastInteractionForEachUser &&
-      arrayLastInteractionForEachUser.filter(
-        (interaction) => !interaction.value.deleteReaction
-      );
-    return upVotes.length;
-  }
+  // if (userInteraction && createdInteraction) {
+  //   const newArrayOfLastInteractions = upVotes
+  //     .filter((obj) => {
+  //       return obj.accountId !== context.accountId;
+  //     })
+  //     .push({
+  //       accountId: context.accountId,
+  //       value: {
+  //         type: "md",
+  //         deleteReaction: createdInteraction.value.deleteReaction,
+  //       },
+  //     });
 
-  return { reactionsStatistics: countUpVotes(), userInteraction };
+  //   upVotes = newArrayOfLastInteractions;
+  // }
+
+  // return {
+  //   reactionsStatistics: countUpVotes(upVotes),
+  //   userInteraction,
+  // };
 }
 
 function addVote(props) {
-  const { isDelete, elementReactedId, onCommit, onCancel } = props;
+  const { realArticleId, onCommit, onCancel } = props;
 
-  saveUpVote(isDelete, elementReactedId, onCommit, onCancel);
+  saveUpVote(realArticleId, onCommit, onCancel);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "addVote";
@@ -69,14 +80,34 @@ function addVote(props) {
   return upVote;
 }
 
-function composeUpVoteData(isDelete, elementReactedId) {
+function deleteVote(props) {
+  const { realArticleId, upVoteId, onCommit, onCancel } = props;
+
+  saveDeleteVote(realArticleId, upVoteId, onCommit, onCancel);
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "deleteVote";
+  });
+}
+
+function saveDeleteVote(realArticleId, upVoteId, onCommit, onCancel) {
+  const newData = composeDeleteUpVoteData(realArticleId, upVoteId);
+
+  Social.set(newData, {
+    force: true,
+    onCommit,
+    onCancel,
+  });
+}
+
+function composeDeleteUpVoteData(realArticleId, upVoteId) {
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: elementReactedId,
+        key: realArticleId,
         value: {
-          type: "md",
-          deleteReaction: isDelete,
+          isDelete: true,
+          upVoteId,
         },
       }),
     },
@@ -85,8 +116,23 @@ function composeUpVoteData(isDelete, elementReactedId) {
   return data;
 }
 
-function saveUpVote(isDelete, elementReactedId, onCommit, onCancel) {
-  const newData = composeUpVoteData(isDelete, elementReactedId);
+function composeUpVoteData(realArticleId) {
+  const data = {
+    index: {
+      [action]: JSON.stringify({
+        key: realArticleId,
+        value: {
+          upVoteId: `uv-${context.accountId}-${Date.now()}`,
+        },
+      }),
+    },
+  };
+
+  return data;
+}
+
+function saveUpVote(realArticleId, onCommit, onCancel) {
+  const newData = composeUpVoteData(realArticleId);
 
   Social.set(newData, {
     force: true,
@@ -100,6 +146,8 @@ function libCall(call) {
     return getUpVotes(call.props);
   } else if (call.functionName === "addVote") {
     return addVote(call.props);
+  } else if (call.functionName === "deleteVote") {
+    return deleteVote(call.props);
   }
 }
 
