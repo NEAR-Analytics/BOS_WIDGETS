@@ -164,6 +164,5 @@ return (
       makeMoreItems,
       renderItems: (i) => Promise.all(i.map(renderItem)),
     }}
-    isTrusted={true}
   />
 );
