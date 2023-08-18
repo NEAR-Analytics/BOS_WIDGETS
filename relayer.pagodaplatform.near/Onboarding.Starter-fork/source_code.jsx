@@ -885,11 +885,16 @@ return (
       <div>
         <select
           value={state.storeName}
-          onChange={(e) => State.update({ store: e.target.value })}
+          onChange={(e) =>
+            State.update({
+              storeName: e.target.value[0],
+              storeAddress: e.target.value[1],
+            })
+          }
         >
           {state.stores.map((store) => {
             console.log(store);
-            return <option value={store.storeName}>{store.storeName}</option>;
+            return <option value={[store[0], store[1]]}>{store[0]}</option>;
           })}
         </select>
         <input
