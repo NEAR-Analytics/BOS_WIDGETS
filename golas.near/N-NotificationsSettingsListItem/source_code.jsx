@@ -24,8 +24,11 @@ const Icon = styled.div`
 `;
 
 const Text = styled.div`
-  justify-content: start;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1 0 0; 
 
   & > div:nth-of-type(1) {
     font: var(--text-base);
