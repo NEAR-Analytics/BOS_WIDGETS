@@ -254,6 +254,7 @@ return (
       <Widget
         src={`${config.ownerId}/widget/LiNEAR.Input`}
         props={{
+          firstIconName: "REF",
           placeholder: "0",
           value: state.inputValue,
           onChange,
@@ -268,12 +269,16 @@ return (
           onClick: onClickStake,
           disabled: disabledStakeButton,
           text: "Stake",
+          firstIconName: "REF",
         }}
       />
       <div class="footer">
         <Widget
           src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
-          props={{ text: `${youWillReceive} xREF` }}
+          props={{
+            text: `${youWillReceive} xREF`, secondIconName: "xREF",
+            secondIconUrl: "https://ipfs.near.social/ipfs/bafkreierdf2ykpfcctanlt7s5xcd5jp7cydnvm3vztdl7ywlwowvuspg4e",
+          }}
         />
       </div>
     </div>
