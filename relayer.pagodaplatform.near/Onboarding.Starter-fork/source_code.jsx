@@ -890,6 +890,11 @@ const getStoreNames = ()=> {
   return op
 }
 
+const widgetOptions = () => {
+  const options = state.storeNames.map(name =>{ return {text: name,  value:name}})
+  return options
+}
+
 return (
   <>
     <p>{state.chainId}</p>
@@ -901,7 +906,7 @@ return (
           props={{
             noLabel: true,
             placeholder: "Select a store",
-            options=[...state.storeNames.map(name =>{ return {text: name,  value:name}})],
+            options=[...widgetOptions()],
             onChange=(value) => {
               state.stores.map(store => {
                 if (store.storeName === value) State.update({storeName: value, storeAddress: store.storeAddress})
