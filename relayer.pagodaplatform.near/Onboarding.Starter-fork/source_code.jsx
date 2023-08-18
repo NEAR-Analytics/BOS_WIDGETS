@@ -62,17 +62,6 @@ const mint = () => {
     .then((tokenId) => console.log(tokenId))
     .catch((err) => console.log(err));
 };
-if (walleyAddress) {
-  console.log(nftContract);
-  nftContract.initTransaction(
-    walleyAddress,
-    1,
-    ethers.utils.toWei("0.1", "ether"),
-    "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
-    "test",
-    { from: sender, value: "0.1 ether" }
-  );
-}
 
 const initTransfer = () => {
   walleyContract.methods
