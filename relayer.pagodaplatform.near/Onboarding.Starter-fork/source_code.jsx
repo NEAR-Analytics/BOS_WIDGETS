@@ -62,8 +62,7 @@ const mint = () => {
     .then((tokenId) => console.log(tokenId))
     .catch((err) => console.log(err));
 };
-
-const initTransaction = () => {
+if (walleyAddress) {
   nftContract
     .initTransaction(
       walleyAddress,
@@ -79,7 +78,7 @@ const initTransaction = () => {
     .catch((err) => {
       console.log(err);
     });
-};
+}
 
 const createTransfer = () => {
   if (contract) {
