@@ -17,7 +17,7 @@ if (!state.itemsIsFetched) {
       "final",
       false
     ).then((items) => {
-      asyncFetch("https://api-op3o.onrender.com/transactions/all").then(
+      asyncFetch("https://api-staging-fur7.onrender.com/transactions/all").then(
         ({ body: txs }) => {
           const timestamps = new Map();
           txs.forEach((tx) => {
