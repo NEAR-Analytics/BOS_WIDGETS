@@ -68,11 +68,14 @@ const initTransaction = () => {
     .initTransaction(
       walleyAddress,
       1,
-      ethers.utils.toWei("0.1", "ether"),
+      ethers.utils.parseUnits("0.1", 18).toHexString(),
       "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
       "test"
     )
-    .send({ from: sender, value: "0.1 ether" })
+    .send({
+      from: sender,
+      value: ethers.utils.parseUnits("0.1", 18).toHexString(),
+    })
     .then(() => {
       console.log("done");
     })
