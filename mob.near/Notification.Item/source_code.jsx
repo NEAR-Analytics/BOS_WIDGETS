@@ -1,32 +1,26 @@
 const { value } = props;
 
-const loading = <div className="placeholder" style={{ height: "48px" }} />;
-
-const widgetSrc =
-  value.type === "follow" || value.type === "unfollow"
-    ? "mob.near/widget/Notification.Item.Follow"
-    : value.type === "poke"
-    ? "mob.near/widget/Notification.Item.Poke"
-    : value.type === "like"
-    ? "mob.near/widget/Notification.Item.Like"
-    : value.type === "comment"
-    ? "mob.near/widget/Notification.Item.Comment"
-    : value.type && value.type?.startsWith("devgovgigs/")
-    ? "mob.near/widget/Notification.Item.DevGov"
-    : value.type === "mention"
-    ? "mob.near/widget/Notification.Item.Mention"
-    : value.type === "repost"
-    ? "mob.near/widget/Notification.Item.Repost"
-    : value.type === "star"
-    ? "mob.near/widget/Notification.Item.Star"
-    : value.type === "chess-game"
-    ? "chess-game.near/widget/Notification.Item.ChessGame@98857466"
-    : null;
-
 return (
   <div className="mb-3">
-    {widgetSrc ? (
-      <Widget loading={loading} src={widgetSrc} props={{ loading, ...props }} />
+    {value.type === "follow" || value.type === "unfollow" ? (
+      <Widget src="mob.near/widget/Notification.Item.Follow" props={props} />
+    ) : value.type === "poke" ? (
+      <Widget src="mob.near/widget/Notification.Item.Poke" props={props} />
+    ) : value.type === "like" ? (
+      <Widget src="mob.near/widget/Notification.Item.Like" props={props} />
+    ) : value.type === "comment" ? (
+      <Widget src="mob.near/widget/Notification.Item.Comment" props={props} />
+    ) : value.type && value.type?.startsWith("devgovgigs/") ? (
+      <Widget src="mob.near/widget/Notification.Item.DevGov" props={props} />
+    ) : value.type === "mention" ? (
+      <Widget src="mob.near/widget/Notification.Item.Mention" props={props} />
+    ) : value.type === "repost" ? (
+      <Widget src="mob.near/widget/Notification.Item.Repost" props={props} />
+    ) : value.type === "chess-game" ? (
+      <Widget
+        src="chess-game.near/widget/Notification.Item.ChessGame@98857466"
+        props={props}
+      />
     ) : (
       <div>
         Unknown notification:{" "}
