@@ -50,11 +50,8 @@ return (
     <Content>
       <Icon>X</Icon>
       <Text>
-        <div>Push notifications</div>
-        <div>
-          Push notifications are delivered in real-time to your enabled browser
-          or device.
-        </div>
+        <div>{props.title}</div>
+        <div>{props.text}</div>
       </Text>
     </Content>
     <Switch>S</Switch>
