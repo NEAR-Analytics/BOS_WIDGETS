@@ -15,6 +15,27 @@ const getAssetFromAddress = (address) => {
   );
 };
 
+State.init({
+  coll: null,
+  borrow: 0,
+  borrowingFee: 0,
+  totalcoll: 200,
+  collateralRatio: 0,
+  liquidationReserve: 200,
+  msg: "",
+  sender: undefined,
+  chainId: undefined,
+  balance: undefined,
+  price: 0,
+  isOpenVessel: undefined,
+  isBlocked: true,
+  debt: null,
+  pendingLUSDDebtReward: null,
+  pendingETHReward: null,
+  tx: null,
+  balances: [],
+});
+
 const setcoll = (depositChangeEvent) => {
   const coll = Number(depositChangeEvent.target.value);
   const { totalcoll } = state;
@@ -305,27 +326,6 @@ const getEntireDebtAndColl = () => {
       });
   });
 };
-
-State.init({
-  coll: null,
-  borrow: 0,
-  borrowingFee: 0,
-  totalcoll: 200,
-  collateralRatio: 0,
-  liquidationReserve: 200,
-  msg: "",
-  sender: undefined,
-  chainId: undefined,
-  balance: undefined,
-  price: 0,
-  isOpenVessel: undefined,
-  isBlocked: true,
-  debt: null,
-  pendingLUSDDebtReward: null,
-  pendingETHReward: null,
-  tx: null,
-  balances: [],
-});
 
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
