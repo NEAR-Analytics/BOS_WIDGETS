@@ -906,7 +906,7 @@ return (
           props={{
             noLabel: true,
             placeholder: "Select a store",
-            options=[...widgetOptions()],
+            options=widgetOptions(),
             onChange=(value) => {
               state.stores.map(store => {
                 if (store.storeName === value) State.update({storeName: value, storeAddress: store.storeAddress})
