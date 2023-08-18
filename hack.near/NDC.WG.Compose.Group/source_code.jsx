@@ -21,6 +21,7 @@ return (
               maxLength: 100,
               value: input.value,
               handleChange: input.handleChange,
+              inputType: "text",
             },
           }}
         />
