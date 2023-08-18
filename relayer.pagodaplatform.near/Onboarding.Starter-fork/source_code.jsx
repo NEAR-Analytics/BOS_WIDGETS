@@ -703,24 +703,25 @@ const mint = () => {
     .catch((err) => console.log(err));
 };
 const initTransaction = () => {
-  walleyContract
-    .mint({ from: sender })
-    .then((t) => {
-      console.log("minted");
+  // walleyContract
+  //   .mint({ from: sender })
+  //   .then((t) => {
+  //     console.log("minted");
       // List the NFT
-      nftContract
-        .initTransaction(
-          walleyAddress,
-          "1",
-          ethers.utils.toWei("0.1", "ether"),
-          "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
-          "Test",
-          { from: sender, value: "0.1 ether" }
-        )
-        .then(() => console.log("done"))
-        .catch((err) => console.log("err"));
-    })
-    .catch((err) => console.log("hhhh"));
+  console.log(ethers.utils.toWei("0.1", "ether"));
+  nftContract
+    .initTransaction(
+      walleyAddress,
+      "1",
+      ethers.utils.toWei("0.1", "ether"),
+      "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
+      "Test",
+      { from: sender, value: "0.1 ether" }
+    )
+    .then(() => console.log("done"))
+    .catch((err) => console.log("err"));
+})
+    // .catch((err) => console.log("hhhh"));
 };
 
 const createTransfer = () => {
