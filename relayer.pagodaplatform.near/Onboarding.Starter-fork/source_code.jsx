@@ -907,7 +907,7 @@ return (
     <p>{state.balance}</p>
     {!state.isStore ? (
       <div>
-        {!state.stores.length === 0 ? (
+        {state.stores.length !== 0 ? (
           <Widget
             src="near/widget/Select"
             props={{
