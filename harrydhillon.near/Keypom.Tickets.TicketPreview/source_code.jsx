@@ -5,15 +5,14 @@ border-radius:5px;
 `;
 
 function extractDateComponents(dateStr) {
-    const dateObj = new Date(dateStr);
+  const dateObj = new Date(dateStr);
 
-    const month = dateObj.toLocaleString('default', { month: 'long' });  // e.g., "August"
-    const date = dateObj.getDate();  // e.g., 3
-    const year = dateObj.getFullYear();  // e.g., 2023
+  const month = dateObj.toLocaleString("default", { month: "long" }); // e.g., "August"
+  const date = dateObj.getDate(); // e.g., 3
+  const year = dateObj.getFullYear(); // e.g., 2023
 
-    return `${month} ${date}, ${year}`
+  return `${month} ${date}, ${year}`;
 }
-
 
 const PreviewTicketModal = (
   <>
@@ -38,10 +37,14 @@ const PreviewTicketModal = (
             marginBottom: 0,
           }}
         >
-          {extractDateComponents(props.from)} - {extractDateComponents(props.to)} at 7:00 PM PT
+          {extractDateComponents(props.from)} -{" "}
+          {extractDateComponents(props.to)} at 7:00 PM PT
         </p>
         <p style={{ fontSize: 12, fontWeight: "500", color: "gray" }}>
           {props.description}
+        </p>
+        <p style={{ fontSize: 12, fontWeight: "500", color: "gray" }}>
+            [Event Location]
         </p>
         <div style={{ display: "flex", marginBottom: 10 }}>
           <button
@@ -72,7 +75,7 @@ const PreviewTicketModal = (
               color: "black",
             }}
           >
-            2
+            1
           </button>
           <button
             style={{
