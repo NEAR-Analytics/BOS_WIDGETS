@@ -17,7 +17,6 @@ function countUpVotes(arrayLastInteractionForEachUser) {
 function getUpVotes(props) {
   const { realArticleId } = props;
   // const { realArticleId, createdInteraction } = props;
-  console.log(0);
 
   const allVotes = Social.index(action, realArticleId, {
     order: "desc",
@@ -25,7 +24,6 @@ function getUpVotes(props) {
   });
 
   // const uniqueAccounts = [];
-  console.log(1);
   let upVotes =
     allVotes &&
     allVotes
@@ -41,7 +39,6 @@ function getUpVotes(props) {
         // return false;
       })
       .filter((vote) => !vote.value.isDelete);
-  console.log(2);
   return upVotes;
 
   // const userInteraction =
