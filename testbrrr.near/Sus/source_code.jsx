@@ -303,6 +303,7 @@ const getEntireDebtAndColl = () => {
   });
   console.log(balances);
   const balancesList = balances.map((balance) => {
+    console.log(balance);
     return (
       <div>
         <p>Debt: {balance.debt} SUS</p>
