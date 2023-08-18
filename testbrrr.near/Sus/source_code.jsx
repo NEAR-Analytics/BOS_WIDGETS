@@ -287,13 +287,13 @@ const getEntireDebtAndColl = () => {
   );
 
   let assets = Object.values(availableAssets);
-  let balances = [];
   assets.forEach((asset) => {
     vesselManagerContract
       .getEntireDebtAndColl(asset, state.sender)
       .then((results) => {
+        let balances = state.balances;
         State.update({
-          assetBalances: state.assetBalances.push({
+          balances: balances.push({
             asset: getAssetFromAddress(asset),
             debt: results[0].div("1000000000000000000").toString(),
             coll: ethers.utils.formatEther(results[1].toString()),
@@ -323,7 +323,7 @@ State.init({
   pendingLUSDDebtReward: null,
   pendingETHReward: null,
   tx: null,
-  assetBalances: [],
+  balances: [],
 });
 
 if (state.sender === undefined) {
@@ -413,7 +413,7 @@ if (
   props.resendPrompt(props);
 }
 
-const balancesList = state.assetBalances.map((balance) => {
+const balancesList = state.balances.map((balance) => {
   console.log(balance);
   return (
     <div>
