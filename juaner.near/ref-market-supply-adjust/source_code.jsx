@@ -118,6 +118,9 @@ let accountId = context.accountId;
 if (!accountId) {
   return <Widget src="juaner.near/widget/ref_account-signin" />;
 }
+
+let BURROW_CONTRACT = "contract.main.burrow.near";
+
 let MAX_RATIO = 10_000;
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
@@ -129,13 +132,22 @@ const shrinkToken = (value, decimals) => {
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
+
+const getAccount = () => {
+  if (!accountId) return null;
+  const account = Near.view(BURROW_CONTRACT, "get_account", {
+    account_id: accountId,
+  });
+  return account;
+};
+
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 const { showModal, closeModal, selectedTokenId } = props;
 const {
   assets,
   rewards,
   balances,
-  account,
+  account: accountProps,
   amount,
   hasError,
   hasHFError,
@@ -143,6 +155,13 @@ const {
   closeButtonBase64,
   isMax,
 } = state;
+
+let account = accountProps;
+
+if (!account) {
+  account = getAccount();
+}
+
 State.init({
   amount: "0",
 });
