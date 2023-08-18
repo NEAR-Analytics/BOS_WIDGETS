@@ -39,6 +39,16 @@ const ProfileNameSkeleton = styled.div`
   height: 10px;
 `;
 
+function extractDateComponents(dateStr) {
+  const dateObj = new Date(dateStr);
+
+  const month = dateObj.toLocaleString("default", { month: "long" }); // e.g., "August"
+  const date = dateObj.getDate(); // e.g., 3
+  const year = dateObj.getFullYear(); // e.g., 2023
+
+  return `${month} ${date}, ${year}`;
+}
+
 return (
   <EventView>
     <TicketDropBackground>
@@ -154,7 +164,7 @@ return (
         )}
         <p style={{ fontWeight: "600", fontSize: 12, marginTop: 5 }}>Date</p>
         {props?.date !== undefined && props?.date !== "" ? (
-          <p style={{ fontSize: 10, marginTop: -15 }}>{props?.date}</p>
+          <p style={{ fontSize: 10, marginTop: -15 }}>{extractDateComponents(props?.date)}</p>
         ) : (
           <SkeletonWrapper style={{ marginTop: -15 }}>
             <ProfileNameSkeleton />
