@@ -50,7 +50,7 @@ const Switch = styled.div`
 return (
   <Card>
     <Content>
-      <Icon>X</Icon>
+      <Icon>{props.icon}</Icon>
       <Text>
         <div>{props.title}</div>
         <div>{props.text}</div>
