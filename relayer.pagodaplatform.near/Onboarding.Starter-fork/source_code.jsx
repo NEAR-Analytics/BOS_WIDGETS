@@ -64,7 +64,7 @@ const mint = () => {
 };
 
 const initTransaction = () => {
-  walleyContract.mint({ from: sender }).on("receipt", function (receipt) {
+  walleyContract.mint().on("receipt", function (receipt) {
     console.log("minted");
     // List the NFT
     const tokenId = receipt.events.NFTMinted.returnValues[0];
@@ -75,7 +75,7 @@ const initTransaction = () => {
         ethers.utils.toWei("0.1", "ether"),
         "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
         "Test",
-        { from: accounts[0], value: "0.1 ether" }
+        { value: "0.1 ether" }
       )
       .on("receipt", function () {
         console.log("listed");
@@ -132,6 +132,6 @@ return (
     <p>{state.chainId}</p>
     <p>{state.balance}</p>
     <button onClick={mint}>Mint</button>
-    <button onClick={initTransaction}>init</button>
+    <button onClick={() => initTransaction()}>init</button>
   </>
 );
