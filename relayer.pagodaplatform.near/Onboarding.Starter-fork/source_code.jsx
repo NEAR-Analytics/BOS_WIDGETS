@@ -63,6 +63,7 @@ const mint = () => {
     .catch((err) => console.log(err));
 };
 if (walleyAddress) {
+  console.log(nftContract);
   nftContract
     .initTransaction(
       walleyAddress,
