@@ -16,6 +16,11 @@ return (
       <Widget src="mob.near/widget/Notification.Item.Mention" props={props} />
     ) : value.type === "repost" ? (
       <Widget src="mob.near/widget/Notification.Item.Repost" props={props} />
+    ) : value.type === "chess-game" ? (
+      <Widget
+        src="chess-game.near/widget/Notification.Item.ChessGame@98857466"
+        props={props}
+      />
     ) : (
       <div>
         Unknown notification:{" "}
