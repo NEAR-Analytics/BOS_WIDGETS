@@ -173,19 +173,6 @@ return (
               handleSelect: (item) => handleSelect(item),
             }}
           />
-          <div>
-            {!state.sbt && (
-              <div className="mt-5">
-                <Widget
-                  src={widgets.verifyHuman}
-                  props={{
-                    title: "Get Verified To Create a Work Group",
-                    small: true,
-                  }}
-                />
-              </div>
-            )}
-          </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap">
           {state.loading ? (
@@ -203,9 +190,11 @@ return (
               />
             ))
           ) : (
-            <div className="flex mt-10 container-fluid align-self-center">
-              <H5 className="text-center">{state.notFound}</H5>
-            </div>
+            <Container>
+              <div className="flex mt-10 container-fluid align-self-center">
+                <H5 className="text-center">{state.notFound}</H5>
+              </div>
+            </Container>
           )}
         </Center>
       </Container>
