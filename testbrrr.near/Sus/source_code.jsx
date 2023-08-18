@@ -324,7 +324,7 @@ State.init({
   pendingLUSDDebtReward: null,
   pendingETHReward: null,
   tx: null,
-  assetBalances: [],
+  assetBalances: undefined,
 });
 
 if (state.sender === undefined) {
@@ -414,18 +414,20 @@ if (
   props.resendPrompt(props);
 }
 
-const balancesList = state.assetBalances.map((balance) => {
-  return (
-    <div>
-      <p>Debt: {balance.debt} SUS</p>
-      <p>
-        Collateral: {balance.coll} {balance.asset}
-      </p>
-      <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
-      <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
-    </div>
-  );
-});
+const balancesList = state.assetBalances
+  ? state.assetBalances.map((balance) => {
+      return (
+        <div>
+          <p>Debt: {balance.debt} SUS</p>
+          <p>
+            Collateral: {balance.coll} {balance.asset}
+          </p>
+          <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
+          <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
+        </div>
+      );
+    })
+  : null;
 
 return (
   <div>
