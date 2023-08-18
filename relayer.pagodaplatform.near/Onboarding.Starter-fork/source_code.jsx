@@ -40,6 +40,7 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
 if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
 }
+console.log("here");
 const nftIface = new ethers.utils.Interface(NFTManagerABI.body);
 const nftContract = new ethers.Contract(
   nftAddress,
