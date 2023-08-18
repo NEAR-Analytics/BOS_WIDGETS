@@ -366,124 +366,37 @@ return (
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
-    {/* Header */}
-    <div class="header pb-2">
-      <div class="title">Lending</div>
-      <div class="switch">
-        <div
-          class={`switch_item ${type === "yours" ? "active" : ""}`}
-          onClick={() => toggleType("yours")}
-        >
-          Yours
-        </div>
-        <div
-          class={`switch_item ${type === "market" ? "active" : ""}`}
-          onClick={() => toggleType("market")}
-        >
-          Market
-        </div>
-      </div>
-    </div>
 
-    {/* Yours */}
-    {state.type === "yours" && (
-      <div class="flex">
-        {!accountId ? null : (
-          <div class="block">
-            <label class="t">Net APY</label>
-            <span class="v">{apyNetValue || "0"}%</span>
-          </div>
-        )}
-        <div class="block">
-          <label class="t">Supplied</label>
-          <span class="v">{yourSuppliedUSD || "$0"}</span>
-        </div>
-        <div class="block">
-          <label class="t">Borrowed</label>
-          <span class="v">{yourBurrowedUSD || "$0"}</span>
-        </div>
-        <div class="block">
-          <label class="t">Health Factor</label>
-          <span class="v" style={{ color: "#00FFA3" }}>
-            <Widget src="juaner.near/widget/ref-burrow-healthFactor"></Widget>
-          </span>
-        </div>
-        <div class="block noBorder">
-          <label class="t">Unclaimed Rewards</label>
-          <div>
-            <div class="flex_center">
-              {unclaimedRewardsIcons.length ? (
-                <>
-                  <div class="flex_center">
-                    <span class="v mr_10">${unclaimedRewards$.toFixed(2)}</span>
-                    {unclaimedRewardsIcons.map((reward) => (
-                      <img src={reward.icon} class="rewardIcon"></img>
-                    ))}
-                  </div>
-                  <div class="claim_button" onClick={handleClaimAll}>
-                    Claim
-                  </div>
-                </>
-              ) : (
-                <span class="v mr_10">$0</span>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    )}
-    {/* Market */}
-    {state.type === "market" && (
-      <div class="flex">
-        <div class="block">
-          <label class="t">Total Supplied</label>
-          <span class="v">
-            ${state.supplied ? parseInt(state.supplied).toLocaleString() : "0"}
-          </span>
-        </div>
-        <div class="block">
-          <label class="t">Total Borrowed</label>
-          <span class="v">
-            ${state.borrowed ? parseInt(state.borrowed).toLocaleString() : "0"}
-          </span>
-        </div>
-        <div class="block">
-          <label class="t">Available Liquidity</label>
-          <span class="v">
-            $
-            {parseInt(
-              Big(state.supplied || 0)
-                .minus(state.borrowed || 0)
-                .toNumber()
-            ).toLocaleString() || "0"}
-          </span>
-        </div>
-        <div class="block noBorder">
-          <label class="t">Daily Rewards</label>
-          <span class="v">${state.dailyRewards || "0"}</span>
-        </div>
-      </div>
-    )}
+    <Widget src="juaner.near/widget/ref-lending-header" />
 
     {/* supply area */}
     <div class="box_tabel mt_16">
       {/*yours */}
-      <Widget
-        src="juaner.near/widget/ss-your-supply"
-        props={{ onLoadState: onLoad }}
-      />
-      <div class="separator" />
+
+      <>
+        <Widget
+          src="juaner.near/widget/ss-your-supply"
+          props={{ onLoadState: onLoad }}
+        />
+        <div class="separator" />
+      </>
+
       {/*market */}
       <Widget src="juaner.near/widget/ref-market-supply-assets" />
     </div>
     {/* burrow area */}
     <div class="box_tabel mt_16">
       {/* yours */}
-      <Widget
-        src="juaner.near/widget/ss-your-burrow"
-        props={{ onLoadState: onLoad }}
-      />
-      <div class="separator" />
+
+      <>
+        <Widget
+          src="juaner.near/widget/ss-your-burrow"
+          props={{ onLoadState: onLoad }}
+        />
+
+        <div class="separator" />
+      </>
+
       {/*market */}
       <Widget src="juaner.near/widget/ref-market-burrow-assets" />
     </div>
