@@ -14,7 +14,7 @@ return (
       <div className="mb-2">
         {state.profiles.map(({ accountId }, i) => (
           <div
-            key={i}
+            key={accountId}
             className="d-flex justify-content-between align-items-center mb-3"
           >
             <div className="me-2 text-truncate">
