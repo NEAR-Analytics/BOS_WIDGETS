@@ -147,9 +147,10 @@ const {
 } = state;
 const hasData = assets.length > 0 && rewards.length > 0 && account;
 /** base tool end */
-if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
-}
+// if (!accountId) {
+//   return <Widget src="juaner.near/widget/ref_account-signin" />;
+// }
+
 const config = Near.view(BURROW_CONTRACT, "get_config");
 const formatAssets = (data) => {
   const rewardsMap = data.rewards
@@ -395,6 +396,7 @@ return (
       </thead>
       <tbody>{renderAssets(state.tableData)}</tbody>
     </table>
+
     <Widget
       src="juaner.near/widget/ref-market-supply-supply"
       props={{ selectedTokenId, showModal, closeModal, selectedTokenMeta }}
