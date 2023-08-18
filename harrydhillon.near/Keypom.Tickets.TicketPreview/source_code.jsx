@@ -2,6 +2,7 @@ const Container = styled.div`
 border:0.5px solid #00A7E4;
 padding:10px;
 border-radius:5px;
+position:relative;
 `;
 
 function extractDateComponents(dateStr) {
@@ -17,6 +18,7 @@ function extractDateComponents(dateStr) {
 const PreviewTicketModal = (
   <>
     <Container>
+    <p style={{position:'absolute',right:65,top:27,fontSize:12}}>1 of 500</p>
       <div>
         <img
           style={{
@@ -44,7 +46,7 @@ const PreviewTicketModal = (
           {props.description}
         </p>
         <p style={{ fontSize: 12, fontWeight: "500", color: "gray" }}>
-            [Event Location]
+          [Event Location]
         </p>
         <div style={{ display: "flex", marginBottom: 10 }}>
           <button
