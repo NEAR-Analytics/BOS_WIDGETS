@@ -35,7 +35,6 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
     .then((balance) => {
       State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
     });
-  console.log("address: ", wallet.address);
   console.log(sender);
 }
 if (state.chainId !== undefined && state.chainId !== 11155111) {
