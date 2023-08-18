@@ -329,6 +329,9 @@ if (state.sender === undefined) {
 }
 
 const handleSendSelect = (data) => {
+  State.update({
+    amountInput: "",
+  });
   const token = TOKENS.find((token) => token.name === data.target.value);
   getPrice(true, token);
   tokenInApprovaleNeededCheck(token);
