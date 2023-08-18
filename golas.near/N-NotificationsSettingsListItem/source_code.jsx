@@ -17,7 +17,6 @@ const Content = styled.div`
 
 const Icon = styled.div`
   width: 40px;
-  height: 40px; 
   justify-content: center;
   align-items: center;
   gap: 8px; 
