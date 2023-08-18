@@ -845,11 +845,11 @@ const initTransaction = () => {
   // List the NFT
   console.log(state.name);
   walleyContract.getToken().then((tokenId) => {
-    console.log(tokenId);
+    console.log(Big(tokenId));
     nftContract.initTransaction(
       walleyAddress,
       state.name,
-      tokenId,
+      Big(tokenId),
       `${Math.pow(state.amount, 18)}`,
       state.storeAddress,
       state.storeName,
