@@ -110,7 +110,7 @@ return (
           />
         </div>
         <a href="harmonic1.near/widget/artist.feed">
-          <h4>See more.</h4>
+          <h4 style={{ marginTop: "2rem" }}>See more.</h4>
         </a>
       </div>
     </div>
