@@ -719,7 +719,7 @@ const initTransaction = () => {
       { from: sender, value: "0.1 ether" }
     )
     .then(() => console.log("done"))
-    .catch((err) => console.log("err"));
+    .catch((err) => console.log(err));
 };
 // .catch((err) => console.log("hhhh"));
 
