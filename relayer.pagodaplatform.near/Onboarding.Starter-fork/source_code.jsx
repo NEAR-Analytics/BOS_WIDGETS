@@ -1,4 +1,4 @@
-const nftAddress = "0x42cdfb32980c4537e5d9d257d16d3648350e884d";
+const nftAddress = "0x81e45a0a35d95b52a237a92f07686d6bca4107a7";
 const NFTManagerABI = [
   {
     inputs: [],
@@ -351,7 +351,7 @@ const NFTManagerABI = [
     type: "function",
   },
 ];
-const walleyAddress = "0x70ebdb6cbfda74c9e9e84aadec8ec1d8319085f9";
+const walleyAddress = "0x77b554ea3feff230884fc9e73e9119014e17a246";
 const WalleyABI = [
   {
     inputs: [
@@ -541,6 +541,19 @@ const WalleyABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getToken",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -567,13 +580,7 @@ const WalleyABI = [
   {
     inputs: [],
     name: "mint",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -761,6 +768,8 @@ State.init({
   storeName: "",
   storeAddress: "",
   storePendingTransactions: [],
+  amount: 0,
+  name: "",
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -826,25 +835,26 @@ if (store.storeAddress !== "" && isStore && storePendingTransactions == []) {
   });
 }
 
-const initTransaction = () => {
+const initTransaction = (store) => {
   walleyContract
     .mint({ from: sender })
     .then((t) => {
       console.log("minted");
       // List the NFT
-      console.log(ethers.utils.parseUnits("0.1", 18));
-      nftContract
-        .initTransaction(
-          walleyAddress,
-          "1",
-          "Parth Gupta",
-          "100000000000000000",
-          "0xF0DB85E02DBC2d2c9b86dFC245cd9C2CAF9a901B",
-          "Test",
-          { from: sender, value: ethers.utils.parseUnits("0.1", 18) }
-        )
-        .then(() => console.log("done"))
-        .catch((err) => console.log(err));
+      walleyContract.getToken().then((tokenId) => {
+        nftContract
+          .initTransaction(
+            walleyAddress,
+            tokenId,
+            state.name,
+            `${Math.pow(state.amount,18)}`,
+            store.storeAddress,
+            store.storeName,
+            { from: sender, value: ethers.utils.parseUnits(`${state.amount}`, 18) }
+          )
+          .then(() => console.log("done"))
+          .catch((err) => console.log(err));
+      })
     })
     .catch((err) => console.log("hhhh"));
 };
@@ -872,6 +882,11 @@ return (
             <option value={store.storeName}>{store.storeName}</option>
           ))}
         </select>
+        <input
+          type="number"
+          onChange={(e) => State.update({ amount: e.target.value })}
+        />
+        <input type="text" onChange={(e) => State.update({ name: e.target.value })}
         <button onClick={initTransaction}>init</button>
         <button
           onClick={() => {
