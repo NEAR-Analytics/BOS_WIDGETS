@@ -299,7 +299,7 @@ return (
             <H1>Create Work Group</H1>
             <Hr />
             <Widget
-              src={widgets.group}
+              src={widgets.groupInfo}
               props={{
                 inputs: [
                   {
@@ -358,7 +358,7 @@ return (
                   src={widgets.styledComponents}
                   props={{
                     Button: {
-                      className: "secondary dark",
+                      className: "danger ",
                       text: "Cancel",
                       onClick: handleClose,
                     },
