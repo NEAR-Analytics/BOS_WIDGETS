@@ -19,7 +19,7 @@ function countUpVotes(arrayLastInteractionForEachUser) {
 function getUpVotes(props) {
   const { realArticleId } = props;
   // const { realArticleId, createdInteraction } = props;
-
+  console.log(1, realArticleId);
   const allVotes = Social.index(action, realArticleId, {
     order: "desc",
     subscribe: true,
