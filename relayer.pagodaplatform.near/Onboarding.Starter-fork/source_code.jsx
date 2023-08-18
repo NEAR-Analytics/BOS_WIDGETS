@@ -887,9 +887,10 @@ return (
           value={state.storeName}
           onChange={(e) => State.update({ store: e.target.value })}
         >
-          {state.stores.map((store) => (
-            <option value={store.storeName}>{store.storeName}</option>
-          ))}
+          {state.stores.map((store) => {
+            console.log(store);
+            return <option value={store.storeName}>{store.storeName}</option>;
+          })}
         </select>
         <input
           type="number"
