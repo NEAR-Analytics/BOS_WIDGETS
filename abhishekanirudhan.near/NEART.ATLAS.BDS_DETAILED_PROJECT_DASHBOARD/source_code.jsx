@@ -276,7 +276,7 @@ return (
                   <option value="DAU">DAU</option>
                   <option value="ACCTS_CREATED">Accounts Created</option>
                   <option value="NFT_MINTS">NFT Mints</option>
-                  <option value="U_MINTERS">% New Accounts</option>
+                  <option value="U_MINTERS">Unique Minters</option>
                 </select>
 
                 <BarEl options={v_bar_options} data={getBarData()} />
