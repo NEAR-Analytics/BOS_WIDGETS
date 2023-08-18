@@ -723,6 +723,16 @@ const initTransaction = () => {
 };
 // .catch((err) => console.log("hhhh"));
 
+const approveTransaction = () => {
+  nftContract
+    .approveTransaction(walleyAddress, 1, "90000000000000000", {
+      from: sender,
+      value: ethers.utils.parseUnits("0.01", 18),
+    })
+    .then(() => console.log("done"))
+    .catch((err) => console.log(err));
+};
+
 const createTransfer = () => {
   if (contract) {
     console.log("hhh");
