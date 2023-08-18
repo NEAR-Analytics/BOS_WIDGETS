@@ -8,7 +8,7 @@ const timeSub = Number(
 );
 const timeNow = Date.now();
 
-const isPremium = timeNow < timeSub;
+const isPremium = props.isPremium || timeNow < timeSub;
 const Checkmark = (
   <svg
     viewBox="0 0 22 22"
