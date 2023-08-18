@@ -1,5 +1,10 @@
 const disabledInput = props.disabled || false;
 const inputError = props.inputError || false;
+const value = props.value || "0";
+const placeholder = props.placeholder || "Enter ETH amount";
+const onChange = props.onChange || undefined;
+const onClickMax = props.onClickMax || undefined;
+const ethUsdPrice = props.ethUsdPrice || "0";
 
 const Wrapper = styled.div`
     display: block;
@@ -60,18 +65,18 @@ const Highlight = styled.div`
 
 return (
   <Wrapper>
-    <Highlight>{props.placeholder || "Enter ETH amount"}</Highlight>
+    <Highlight>{placeholder}</Highlight>
     <input
       disabled={disabledInput}
       type="number"
       placeholder="0"
-      value={props.value}
-      onChange={props.onChange}
+      value={value}
+      onChange={onChange}
       style={{ color: inputError ? "red" : "inherit" }}
     />
-    <button onClick={() => props.onClickMax()}>Max</button>
+    <button onClick={onClickMax}>Max</button>
     <div style={{ textAlign: "end", color: inputError ? "red" : "inherit" }}>
-      USD {props.ethUsdPrice || 0}
+      USD {ethUsdPrice}
     </div>
   </Wrapper>
 );
