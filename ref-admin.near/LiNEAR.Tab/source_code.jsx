@@ -1,5 +1,5 @@
 const TabContainer = styled.div`
-  width:50%;
+  width:40%;
   display: flex;
   justify-content: center;
   align-items: center;
