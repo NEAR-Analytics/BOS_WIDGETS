@@ -287,7 +287,6 @@ const getEntireDebtAndColl = () => {
   let assets = Object.values(availableAssets);
   let balances = [];
   assets.forEach((asset) => {
-    console.log(asset);
     vesselManagerContract
       .getEntireDebtAndColl(asset, state.sender)
       .then((results) => {
@@ -300,6 +299,7 @@ const getEntireDebtAndColl = () => {
         });
       });
   });
+  console.log(balances);
   State.update({ balances: balances });
 };
 
