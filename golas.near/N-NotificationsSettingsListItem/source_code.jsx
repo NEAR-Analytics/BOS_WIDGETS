@@ -4,6 +4,8 @@ const Card = styled.div`
   padding: 32px 0px;
   align-items: flex-start;
   gap: 64px; 
+
+  border-top: 1px solid var(--sand-light-6, #E3E3E0);
 `;
 
 const Content = styled.div`
