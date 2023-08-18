@@ -29,7 +29,7 @@ if (!state.contributionIsFetched) {
   ).then((contribution) =>
     State.update({ contribution, contributionIsFetched: true })
   );
-  asyncFetch("https://api-op3o.onrender.com/transactions/all").then(
+  asyncFetch("https://api-staging-fur7.onrender.com/transactions/all").then(
     ({ body: txs }) => {
       const tx = txs.find((tx) => {
         return (
