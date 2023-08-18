@@ -888,7 +888,7 @@ const addStore = (name, address) => {
 const getStoreNames = () => {
   const op = [];
   state.stores.map((store) => {
-    op.push(store.storeName);
+    op.push(store[0]);
   });
   console.log(op);
   return op;
