@@ -323,7 +323,7 @@ State.init({
   pendingLUSDDebtReward: null,
   pendingETHReward: null,
   tx: null,
-  assetBalances: undefined,
+  assetBalances: [],
 });
 
 if (state.sender === undefined) {
