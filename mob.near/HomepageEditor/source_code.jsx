@@ -4,7 +4,7 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to edit your homepage";
 }
 
-const defaultHomepage = "mob.near/widget/Welcome";
+const defaultHomepage = "mob.near/widget/N";
 
 const homepage = Social.get(`${accountId}/settings/near.social/homepage`);
 
