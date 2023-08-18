@@ -1,5 +1,6 @@
 const widgetOwner = "astraplusplus.ndctools.near";
 const currentLink = "#/astraplusplus.ndctools.near/widget/index";
+props.daoId = "research-collective.sputnik-dao.near";
 let { tab } = props;
 if (!tab) {
   tab = "home";
