@@ -22,7 +22,7 @@ const fallbackUrl =
   "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
 const inner = fast ? (
-  <div className={className} style={style}>
+  <div className={className} style={style} key={state.fastImageUrl}>
     <img
       className={imageClassName}
       style={imageStyle}
@@ -38,7 +38,7 @@ const inner = fast ? (
     />
   </div>
 ) : (
-  <div className={className} style={style}>
+  <div className={className} style={style} key={JSON.stringify(image)}>
     <Widget
       src="mob.near/widget/Image"
       props={{
