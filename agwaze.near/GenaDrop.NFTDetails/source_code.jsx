@@ -32,17 +32,6 @@ const NoNFTLoading = styled.div`
   align-items: center;
 `;
 
-if (props.contractId && props.tokenId && !state.title) {
-  return (
-    <NoNFTLoading>
-      <img
-        src="https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu"
-        alt=""
-      />
-    </NoNFTLoading>
-  );
-}
-
 const nftMetadata =
   nft.contractMetadata ?? Near.view(contractId, "nft_metadata");
 const tokenMetadata =
@@ -158,6 +147,17 @@ function fetchTokens() {
 }
 
 fetchTokens();
+
+if (props.contractId && props.tokenId && !state.title) {
+  return (
+    <NoNFTLoading>
+      <img
+        src="https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu"
+        alt=""
+      />
+    </NoNFTLoading>
+  );
+}
 if (nftMetadata && tokenMetadata) {
   let tokenMedia = tokenMetadata.media || "";
 
