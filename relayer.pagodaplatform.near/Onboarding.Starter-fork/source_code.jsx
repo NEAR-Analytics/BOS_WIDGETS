@@ -822,15 +822,19 @@ if (state.stores.length == 0) {
     })
     .then(() => {
       state.stores.map((store) => {
-        if (store.address == sender)
+        if (store.address == sender) {
           State.update({
             isStore: true,
             storeName: store.storeName,
             storeAddress: store.storeAddress,
-            storeNames: getStoreNames(),
-          }).then(() => {
-            widgetOptions();
           });
+          return;
+        }
+      });
+      State.update({
+        storeNames: getStoreNames(),
+      }).then(() => {
+        widgetOptions();
       });
       // console.log(state.stores);
     });
