@@ -923,7 +923,7 @@ return (
                 state.stores.map((store) => {
                   if (store[0] === value.text) {
                     State.update({
-                      storeName: value,
+                      storeName: value.text,
                       storeAddress: store[1],
                     });
                   }
