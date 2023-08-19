@@ -912,22 +912,22 @@ if (state.isStore === false && state.userPendingTransactions.length === 0) {
 }
 
 const initTransaction = () => {
-  let tokenId = getToken();
-  console.log("hh ", tokenId);
-  walleyContract
-    .mint({ from: sender })
-    .then((t) => {
-      console.log(t);
-      console.log("minted");
-      // List the NFT
-      console.log(state.storeName);
-      const extToken = setInterval(() => {
-        console.log(getToken(), " : ", tokenId);
-        if (getToken() !== tokenId) {
-          clearInterval(extToken);
-          console.log("hehehehehehehehehhehe");
-          tokenId = getToken();
-          console.log(tokenId);
+  // let tokenId = getToken();
+  // console.log("hh ", tokenId);
+  // walleyContract
+  //   .mint({ from: sender })
+  //   .then((t) => {
+      // console.log(t);
+      // console.log("minted");
+      // // List the NFT
+      // console.log(state.storeName);
+      // const extToken = setInterval(() => {
+      //   console.log(getToken(), " : ", tokenId);
+      //   if (getToken() !== tokenId) {
+      //     clearInterval(extToken);
+      //     console.log("hehehehehehehehehhehe");
+      //     tokenId = getToken();
+      //     console.log(tokenId);
           nftContract
             .initTransaction(
               walleyAddress,
@@ -944,9 +944,9 @@ const initTransaction = () => {
             .then(() => console.log("done"))
             .catch((err) => console.log(err));
         }
-      }, 100);
-    })
-    .catch((err) => console.log(err));
+    //   }, 100);
+    // })
+    // .catch((err) => console.log(err));
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
