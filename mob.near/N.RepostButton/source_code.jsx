@@ -50,6 +50,9 @@ const RepostButton = styled.button`
       background: rgb(0, 184, 124, 0.1);
     }
   }
+  .clicked {
+    color: rgb(0, 184, 124);
+  }
   .count {
     margin-left: 8px;
   }
@@ -134,8 +137,8 @@ return (
       title={title}
       onClick={repostClick}
     >
-      <span className={hasRepost ? "reposted" : ""}>{repostSvg}</span>
-      <span className={`count ${hasRepost ? "reposted" : ""}`}>
+      <span className={hasRepost ? "clicked" : ""}>{repostSvg}</span>
+      <span className={`count ${hasRepost ? "clicked" : ""}`}>
         {repostCount || ""}
       </span>
     </RepostButton>
