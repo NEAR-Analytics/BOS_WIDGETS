@@ -797,7 +797,6 @@ State.init({
   amount: 0,
   name: "",
   widgetOptions: [],
-  tokenId: 0,
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
@@ -842,7 +841,6 @@ const getToken = () => {
   walleyContract.getToken().then((tokenId) => {
     {
       console.log(Big(tokenId).toFixed(0));
-      State.update({ tokenId: Big(tokenId).toFixed(0) });
       return Big(tokenId).toFixed(0);
     }
   });
@@ -919,13 +917,14 @@ const initTransaction = () => {
       const extToken = setInterval(() => {
         if (getToken() !== tokenId) {
           clearInterval(extToken);
+          console.log("hehehehehehehehehhehe");
           tokenId = getToken();
           console.log(tokenId);
           nftContract
             .initTransaction(
               walleyAddress,
               state.name,
-              tokenId,
+              1,
               `${state.amount * Math.pow(10, 18)}`,
               state.storeAddress,
               state.storeName,
