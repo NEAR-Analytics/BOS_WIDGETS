@@ -866,7 +866,8 @@ if (
   state.isStore === false &&
   state.userPendingTransactions.length === 0
 ) {
-  nftContract.getMyActiveTransactions().then((transactions) => {
+  nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
+    console.log("done");
     State.update({
       userPendingTransactions: transactions,
     }).catch((err) => console.log(err));
