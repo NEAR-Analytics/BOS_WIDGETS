@@ -847,7 +847,7 @@ if (
   state.storePendingTransactions.length === 0
 ) {
   console.log("herehehehe");
-  nft
+  nftContract
     .getStoreActiveTransactions(state.storeAddress)
     .then((transactions) => {
       console.log(transactions);
