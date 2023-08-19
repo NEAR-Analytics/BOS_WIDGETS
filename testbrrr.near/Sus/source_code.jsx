@@ -470,7 +470,7 @@ if (
   getEntireDebtAndColl();
 } else if (props.action === "withdraw") {
   withdrawColl();
-} else if (props.action === "addColl") {
+} else if (props.action === "deposit") {
   addColl();
 } else if (props.action === "close") {
   closeVessel();
@@ -478,7 +478,7 @@ if (
   claimCollateral();
 } else if (props.action === "provide") {
   provideToSP();
-} else if (props.action === "withdrawSP") {
+} else if (props.action === "remove") {
   withdrawFromSP();
 } else {
   props.resendPrompt(props);
