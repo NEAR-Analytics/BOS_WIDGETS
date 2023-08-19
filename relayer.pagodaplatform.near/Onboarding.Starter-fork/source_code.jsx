@@ -824,7 +824,7 @@ if (state.stores.length == 0) {
       state.stores.map((store) => {
         console.log(store);
         console.log(sender);
-        if (store[1] === sender) {
+        if (store[1].toLowerCase() === sender) {
           console.log("827");
           State.update({
             isStore: true,
