@@ -855,29 +855,32 @@ if (
 }
 
 const initTransaction = () => {
-  // walleyContract.mint({ from: sender }).then((t) => {
-  // console.log("minted");
-  // List the NFT
-  console.log(state.storeName);
-  walleyContract.getToken().then((tokenId) => {
-    console.log(Big(tokenId).toFixed(0));
-    nftContract.initTransaction(
-      walleyAddress,
-      state.name,
-      Big(tokenId).toFixed(0),
-      `${state.amount * Math.pow(10, 18)}`,
-      state.storeAddress,
-      state.storeName,
-      {
-        from: sender,
-        value: ethers.utils.parseUnits(`${state.amount}`, 18),
-      }
-    );
-    // .then(() => console.log("done"))
-    // .catch((err) => console.log(err));
-  });
-  // });
-  // .catch((err) => console.log("hhhh"));
+  walleyContract
+    .mint({ from: sender })
+    .then((t) => {
+      console.log("minted");
+      // List the NFT
+      console.log(state.storeName);
+      walleyContract.getToken().then((tokenId) => {
+        console.log(Big(tokenId).toFixed(0));
+        nftContract
+          .initTransaction(
+            walleyAddress,
+            state.name,
+            Big(tokenId).toFixed(0),
+            `${state.amount * Math.pow(10, 18)}`,
+            state.storeAddress,
+            state.storeName,
+            {
+              from: sender,
+              value: ethers.utils.parseUnits(`${state.amount}`, 18),
+            }
+          )
+          .then(() => console.log("done"))
+          .catch((err) => console.log(err));
+      });
+    })
+    .catch((err) => console.log("hhhh"));
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
