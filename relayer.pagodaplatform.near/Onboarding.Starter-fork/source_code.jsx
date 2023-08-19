@@ -915,6 +915,7 @@ const initTransaction = () => {
       // List the NFT
       console.log(state.storeName);
       const extToken = setInterval(() => {
+        console.log(getToken(), " : ", tokenId);
         if (getToken() !== tokenId) {
           clearInterval(extToken);
           console.log("hehehehehehehehehhehe");
