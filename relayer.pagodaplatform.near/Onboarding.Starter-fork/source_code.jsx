@@ -903,6 +903,8 @@ const initTransaction = () => {
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
   console.log(amount - totalAmount);
+  console.log(typeof amount);
+  console.log(typeof totalAmount);
   console.log(
     ethers.utils.parseUnits(`${amount.toFixed(5) - totalAmount.toFixed(5)}`, 18)
   );
