@@ -431,7 +431,7 @@ const NoNFTLoading = styled.div`
   align-items: center;
 `;
 
-if (props.nft && !state.title) {
+if (props.contractId && props.tokenId && !state.title) {
   return (
     <NoNFTLoading>
       <img
