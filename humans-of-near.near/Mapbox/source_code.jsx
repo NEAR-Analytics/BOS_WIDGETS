@@ -383,7 +383,15 @@ return (
         <Dialog.Title className="DialogTitle">Redirect</Dialog.Title>
         <Dialog.Description className="DialogDescription">
           Click{" "}
-          <a href={state.url} target="_blank">
+          <a
+            href={state.url}
+            target="_blank"
+            ref={(anchor) => {
+              if (anchor) {
+                anchor.click();
+              }
+            }}
+          >
             {" "}
             here{" "}
           </a>{" "}
