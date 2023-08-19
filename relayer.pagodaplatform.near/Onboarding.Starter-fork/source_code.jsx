@@ -841,7 +841,7 @@ const walleyContract = new ethers.Contract(
 const getToken = () => {
   walleyContract.getToken().then((tokenId) => {
     {
-      console.log(tokenId);
+      console.log(Big(tokenId).toFixed(0));
       State.update({ tokenId: Big(tokenId).toFixed(0) });
       return Big(tokenId).toFixed(0);
     }
@@ -918,6 +918,7 @@ const initTransaction = () => {
       console.log(state.storeName);
       const extToken = setInterval(() => {
         if (getToken() !== tokenId) {
+          clearInterval(extToken);
           tokenId = getToken();
           console.log(tokenId);
           nftContract
@@ -935,7 +936,6 @@ const initTransaction = () => {
             )
             .then(() => console.log("done"))
             .catch((err) => console.log(err));
-          clearInterval(extToken);
         }
       }, 100);
     })
