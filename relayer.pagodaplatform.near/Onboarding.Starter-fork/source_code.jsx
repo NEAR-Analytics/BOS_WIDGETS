@@ -902,21 +902,24 @@ const initTransaction = () => {
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
-  console.log(amount - totalAmount);
+  console.log(parseFloat(amount) - parseFloat(totalAmount));
   console.log(typeof amount);
   console.log(typeof totalAmount);
   console.log(
-    ethers.utils.parseUnits(`${amount.toFixed(5) - totalAmount.toFixed(5)}`, 18)
+    ethers.utils.parseUnits(
+      `${parseFloat(amount) - parseFloat(totalAmount)}`,
+      18
+    )
   );
   nftContract
     .approveTransaction(
       walleyAddress,
       tokenId,
-      `${totalAmount * Math.pow(10, 18)}`,
+      `${parseFloat(totalAmount) * Math.pow(10, 18)}`,
       {
         from: sender,
         value: ethers.utils.parseUnits(
-          `${amount.toFixed(5) - totalAmount.toFixed(5)}`,
+          `${parseFloat(amount) - parseFloat(totalAmount)}`,
           18
         ),
       }
