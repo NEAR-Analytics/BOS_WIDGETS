@@ -881,16 +881,15 @@ const initTransaction = () => {
   walleyContract
     .mint({ from: sender })
     .on("receipt", (receipt) => {
-      console.log(t);
       console.log("minted");
       // List the NFT
       const tokenId = receipt.events.NFTMinted.returnValues[0];
-      console.log(Big(tokenId).toFixed(0));
+      console.log(tokenId);
       nftContract
         .initTransaction(
           walleyAddress,
           state.name,
-          Big(tokenId).toFixed(0),
+          tokenId,
           `${state.amount * Math.pow(10, 18)}`,
           state.storeAddress,
           state.storeName,
