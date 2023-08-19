@@ -90,7 +90,8 @@ const Wrapper = styled.div`
 
   .buttons {
     margin-left: -8px;
-    margin-top: 2px;
+    margin-top: 10px;
+    margin-bottom: 6px;
     column-gap: 4px;
     color: #888;
   }
