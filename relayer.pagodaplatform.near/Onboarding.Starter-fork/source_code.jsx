@@ -838,7 +838,6 @@ const walleyContract = new ethers.Contract(
 );
 
 const getToken = async () => {
-  let token;
   const res = await walleyContract.getToken();
   const token = await res.tokenId;
   return Big(token).toFixed(0);
