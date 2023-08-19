@@ -797,6 +797,7 @@ State.init({
   amount: 0,
   name: "",
   widgetOptions: [],
+  tokenId,
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
@@ -838,19 +839,11 @@ const walleyContract = new ethers.Contract(
 );
 
 const getToken = () => {
-  let token = undefined;
   walleyContract.getToken().then((tokenId) => {
     {
-      console.log(Big(tokenId).toFixed(0));
-      token = Big(tokenId).toFixed(0);
+      State.update({ tokenId: Big(tokenId).toFixed(0) });
     }
   });
-  const timer = setInterval(() => {
-    if (token !== undefined) {
-      clearInterval(timer);
-      return token;
-    }
-  }, 100);
 };
 if (state.stores.length == 0) {
   console.log("hee");
@@ -912,41 +905,34 @@ if (state.isStore === false && state.userPendingTransactions.length === 0) {
 }
 
 const initTransaction = () => {
-  // let tokenId = getToken();
-  // console.log("hh ", tokenId);
-  // walleyContract
-  //   .mint({ from: sender })
-  //   .then((t) => {
-  // console.log(t);
-  // console.log("minted");
-  // // List the NFT
-  // console.log(state.storeName);
-  // const extToken = setInterval(() => {
-  //   console.log(getToken(), " : ", tokenId);
-  //   if (getToken() !== tokenId) {
-  //     clearInterval(extToken);
-  //     console.log("hehehehehehehehehhehe");
-  //     tokenId = getToken();
-  //     console.log(tokenId);
-  nftContract
-    .initTransaction(
-      walleyAddress,
-      state.name,
-      1,
-      `${state.amount * Math.pow(10, 18)}`,
-      state.storeAddress,
-      state.storeName,
-      {
-        from: sender,
-        value: ethers.utils.parseUnits(`${state.amount}`, 18),
-      }
-    )
-    .then(() => console.log("done"))
+  walleyContract
+    .mint({ from: sender })
+    .then((t) => {
+      console.log(t);
+      console.log("minted");
+      // List the NFT
+      getToken().then(() => {
+        console.log(state.storeName);
+        tokenId = getToken() + 1;
+        console.log(tokenId);
+        nftContract
+          .initTransaction(
+            walleyAddress,
+            state.name,
+            tokenId,
+            `${state.amount * Math.pow(10, 18)}`,
+            state.storeAddress,
+            state.storeName,
+            {
+              from: sender,
+              value: ethers.utils.parseUnits(`${state.amount}`, 18),
+            }
+          )
+          .then(() => console.log("done"))
+          .catch((err) => console.log(err));
+      });
+    })
     .catch((err) => console.log(err));
-  // }
-  //   }, 100);
-  // })
-  // .catch((err) => console.log(err));
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
