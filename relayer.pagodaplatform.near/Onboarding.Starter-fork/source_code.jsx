@@ -908,7 +908,7 @@ if (state.isStore === false && state.userPendingTransactions.length === 0) {
 
 const initTransaction = () => {
   let tokenId = getToken();
-  console.log(tokenId);
+  console.log("hh ", tokenId);
   walleyContract
     .mint({ from: sender })
     .then((t) => {
