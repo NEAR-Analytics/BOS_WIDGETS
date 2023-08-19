@@ -116,7 +116,7 @@ const H5 = styled.h5`
 
 return (
   <div>
-    {[...houses, budget].map((house) => (
+    {houses.map((house) => (
       <>
         {house.id === state.selectedHouse && (
           <Widget
@@ -131,16 +131,18 @@ return (
         )}
       </>
     ))}
-    <Filter>
-      <Widget
-        src={widgets.filter}
-        props={{
-          handleFilter,
-          candidateId: state.candidateId,
-          placeholder: "Search by candidate name",
-        }}
-      />
-    </Filter>
+    {budget.id === state.selectedHouse && (
+      <Filter>
+        <Widget
+          src={widgets.filter}
+          props={{
+            handleFilter,
+            candidateId: state.candidateId,
+            placeholder: "Search by candidate name",
+          }}
+        />
+      </Filter>
+    )}
     <Container className="d-flex row">
       <Left className="h-screen col-lg d-flex flex-column justify-content-between">
         <div>
@@ -184,7 +186,7 @@ return (
             )}
           </>
         ))}
-        {budget && (
+        {budget.id === state.selectedHouse && (
           <Widget
             src={widgets.budget}
             props={{
