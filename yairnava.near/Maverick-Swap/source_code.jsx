@@ -175,9 +175,10 @@ const getErc20Balance = (tokenId, receiver, decimals, asset) => {
       .getBalance(state.sender)
       .then((balance) => {
         State.update({
-          inputBalance: parseFloat(
-            ethers.utils.formatUnits(balance, decimals)
-          ).toFixed(6),
+          inputBalance: (
+            parseFloat(ethers.utils.formatUnits(balance, decimals)).toFixed(6) -
+            0.000001
+          ).toString(),
           unFixedInputBalance: balance.toHexString(),
         });
       });
@@ -197,7 +198,9 @@ const getErc20Balance = (tokenId, receiver, decimals, asset) => {
         contract.balanceOf(receiver).then((res) => {
           let balance = ethers.utils.formatUnits(res, decimals);
           State.update({
-            inputBalance: parseFloat(balance).toFixed(6),
+            inputBalance: parseFloat(balance - 0.000001)
+              .toFixed(6)
+              .toString(),
             unFixedInputBalance: res.toHexString(),
           });
         });
@@ -267,7 +270,7 @@ const tokenInApprovaleNeededCheck = (data) => {
   }
 };
 
-const getAccountAllowance = (token) => {
+const getAccountAllowance = (token, vAllowance) => {
   asyncFetch(
     "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
   ).then((res) => {
@@ -280,7 +283,10 @@ const getAccountAllowance = (token) => {
       .allowance(state.sender, state.routerContract)
       .then((res) => {
         State.update({ tokenAllowance: parseInt(res.toString()) });
-        console.log(parseInt(res.toString()));
+        if (vAllowance) {
+          validateAllowance(state.amountInput, parseInt(res.toString()));
+        }
+        console.log("Allowance actual: " + parseInt(res.toString()));
       });
   });
 };
@@ -315,7 +321,8 @@ const approveErc20Token = () => {
             onApproving: false,
             approvalNeeded: false,
           });
-        }, 10000);
+          getAccountAllowance(state.tokenSendSelected, true);
+        }, 20000);
       });
   });
 };
@@ -335,7 +342,7 @@ const handleSendSelect = (data) => {
   const token = TOKENS.find((token) => token.name === data.target.value);
   getPrice(true, token);
   tokenInApprovaleNeededCheck(token);
-  getAccountAllowance(token);
+  getAccountAllowance(token, true);
 };
 
 const handleRecieveSelect = (data) => {
@@ -452,7 +459,7 @@ const confirmTransaction = () => {
           poolSelected: null,
           onSwap: false,
         });
-      }, 10000);
+      }, 15000);
     });
   } catch (err) {
     console.log(err);
@@ -467,14 +474,13 @@ const getRecipient = () => {
   ).toUpperCase();
 };
 
-const validateAllowance = (input) => {
+const validateAllowance = (input, allowanceAmount) => {
   State.update({ amountInput: input });
   const divider =
     state.tokenSendSelected.decimals == 18 ? 1000000000000000000 : 1000000;
-  console.log(state.tokenAllowance);
-  const tokenAllowance = state.tokenAllowance / divider;
-  console.log(tokenAllowance);
-  console.log(state.amountInput * 1);
+  const tokenAllowance = allowanceAmount
+    ? allowanceAmount / divider
+    : state.tokenAllowance / divider;
   if (input * 1 > tokenAllowance) {
     console.log("Necesitas más allowance");
     State.update({ needMoreAllowance: true });
@@ -681,6 +687,11 @@ return (
                 </div>
               </div>
             </div>
+            {(state.onApproving || state.onSwap) && (
+              <div class="RecipientValue">
+                <h6>The transaction is going to be confirmed</h6>
+              </div>
+            )}
             <div class="FeesContainer">
               <div class="Line" />
               <div class="RecipientContainer">
