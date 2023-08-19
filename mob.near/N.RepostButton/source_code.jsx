@@ -28,22 +28,30 @@ const RepostButton = styled.button`
   border: 0 !important;
   display: inline-flex;
   align-items: center;
-  justify-content: left;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  justify-content: center;
+  position: relative;
   background: inherit;
   color: inherit;
+  height: 1em;
+  svg {
+    margin-top: -2px;
+  }
   &:not([disabled]):hover {
     opacity: 1 !important;
     color: rgb(0, 184, 124);
-    background: rgb(0, 184, 124, 0.1);
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 1px;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      background: rgb(0, 184, 124, 0.1);
+    }
   }
   .count {
     margin-left: 8px;
-  }
-  svg {
-    margin-left: -1px;
   }
 `;
 
