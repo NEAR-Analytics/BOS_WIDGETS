@@ -905,7 +905,7 @@ const initTransaction = () => {
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
-  console.log(amount - totalAmount);
+  console.log(ethers.utils.parseUnits(`${amount - totalAmount}`, 18));
   nftContract
     .approveTransaction(
       walleyAddress,
