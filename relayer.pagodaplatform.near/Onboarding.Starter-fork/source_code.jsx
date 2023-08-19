@@ -838,12 +838,14 @@ const walleyContract = new ethers.Contract(
 );
 
 const getToken = () => {
+  let tokenId;
   walleyContract.getToken().then((tokenId) => {
     {
       console.log(Big(tokenId).toFixed(0));
-      return Big(tokenId).toFixed(0);
+      tokenId = Big(tokenId).toFixed(0);
     }
   });
+  return tokenId;
 };
 if (state.stores.length == 0) {
   console.log("hee");
