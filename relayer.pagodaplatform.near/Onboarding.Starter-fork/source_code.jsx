@@ -920,12 +920,10 @@ return (
               options: [...widgetOptions()],
               onChange: (value) => {
                 state.stores.map((store) => {
-                  if (store.storeName === value) {
-                    State.update({
-                      storeName: value,
-                      storeAddress: store.storeAddress,
-                    });
-                  }
+                  State.update({
+                    storeName: value,
+                    storeAddress: store.storeAddress,
+                  });
                 });
               },
             }}
