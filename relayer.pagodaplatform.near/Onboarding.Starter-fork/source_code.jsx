@@ -769,12 +769,15 @@ State.init({
   storeAddress: "",
   storeNames: [],
   storePendingTransactions: [],
+  userPendingTransactions: [],
   amount: 0,
   name: "",
   widgetOptions: [],
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-
+const updateBalance = (balance) => {
+  State.update({ balance });
+};
 if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
 if (state.chainId === undefined && ethers !== undefined && sender) {
   Ethers.provider()
@@ -788,7 +791,7 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
     .getBalance(sender)
     .then((balance) => {
       console.log(balance);
-      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
+      updateBalance(Big(balance).div(Big(10).pow(18)).toFixed(5));
     });
   // console.log(sender);
 }
@@ -858,10 +861,23 @@ if (
     .catch((err) => console.log(err));
 }
 
+if (
+  sender &&
+  state.isStore === false &&
+  state.userPendingTransactions.length === 0
+) {
+  nftContract.getMyActiveTransactions().then((transactions) => {
+    State.update({
+      userPendingTransactions: transactions,
+    }).catch((err) => console.log(err));
+  });
+}
+
 const initTransaction = () => {
   walleyContract
     .mint({ from: sender })
     .then((t) => {
+      console.log(t);
       console.log("minted");
       // List the NFT
       console.log(state.storeName);
@@ -888,23 +904,30 @@ const initTransaction = () => {
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
-  nftContract.approveTransaction(
-    walleyAddress,
-    tokenId,
-    `${totalAmount * Math.pow(10, 18)}`,
-    {
-      from: sender,
-      value: ethers.utils.parseUnits(`${amount - totalAmount}`, 18),
-    }
-  );
-  // .then(() => console.log("done"))
-  // .catch((err) => console.log(err));
+  nftContract
+    .approveTransaction(
+      walleyAddress,
+      tokenId,
+      `${totalAmount * Math.pow(10, 18)}`,
+      {
+        from: sender,
+        value: ethers.utils.parseUnits(`${amount - totalAmount}`, 18),
+      }
+    )
+    .then(() => {
+      const tmp = state.storePendingTransactions.filter(
+        (trans) => Big(trans[1]).toFixed(0) !== tokenId
+      );
+      State.update({ storePendingTransactions: tmp });
+    });
 };
 
 const addStore = (name, address) => {
-  nftContract.addStore(name, address);
-  // .then(() => console.log("done"))
-  // .catch((err) => console.log(err));
+  nftContract.addStore(name, address).then((t) => {
+    console.log(t);
+    const tmp = [...state.stores, [name, address]];
+    State.update({ stores: tmp });
+  });
 };
 
 const getStoreNames = () => {
@@ -1004,6 +1027,14 @@ return (
         ) : (
           ""
         )}
+        Your Store NFTs -
+        {state.userPendingTransactions.map((trans) => (
+          <div>
+            <p>{trans[6]}</p>
+            <p>{trans[2]}</p>
+            <p>{Big(trans[5]).div(Big(10).pow(18)).toFixed(20)} ether</p>
+          </div>
+        ))}
       </div>
     ) : (
       <div>
