@@ -914,6 +914,7 @@ return (
           <Widget
             src="near/widget/Select"
             props={{
+              value: state.storeName,
               noLabel: true,
               placeholder: "Select a store",
               options: [...widgetOptions()],
