@@ -1,189 +1,228 @@
-const {
-  id,
-  typ,
-  seats,
-  electionContract,
-  registryContract,
-  isIAmHuman,
-  myVotes,
-} = props;
+let { ids, org } = props;
 
-const widgets = {
-  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
-  verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
+ids = props.ids ? ids : [1, 2, 3, 4];
+org = props.org ? org : "test"; // for testing purposes
+
+const electionContract = "elections-v1.gwg-testing.near";
+const registryContract = "registry-v1.gwg-testing.near";
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+
+let houses = [
+  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+];
+
+// TODO: uncomment when contract is done
+// let budget = Near.view(electionContract, "proposal", { prop_id: ids[3] });
+let budget = {
+  id: 4,
+  typ: "BudgetPackage",
+  seats: 1,
 };
 
-const H4 = styled.h4`
-  margin-bottom: 0;
-`;
-
-const H3 = styled.h3`
-  margin-bottom: 0;
-`;
-
-const Container = styled.div`
-  position: relative:
-  font-family: Avenir;
-  font-size: 16px;
-`;
-
-const Info = styled.i`
-  font-size: 12px;
-  margin: 0 !important;
-`;
-
-const CandidatesContainer = styled.div`
-  overflow-y: scroll;
-  max-height: 490px;
-  width: 100%;
-`;
-
-const StickyContainer = styled.div`
-  position: "fixed",
-  left: 0;
-  bottom: 0;
-  height: 60px;
-  width: 100%;
-`;
-
-const Icon = styled.i`
-  font-size: 14px;
-`;
-
-const CastVotesSection = styled.div`
-  background: #fdfeff;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  padding: 16px;
-
-  @media (max-width: 400px) {
-    flex-direction: column;
-  }
-
-  .wrapper {
-    @media (max-width: 400px) {
-      width: 100%;
-    }
-  }
-
-  button {
-    @media (max-width: 400px) {
-      width: 100%;
-    }
-  }
-
-  h3,
-  h4 {
-    margin: 0 3px;
-  }
-
-  h3 {
-    font-weight: 900;
-  }
-
-  .text-secondary {
-    margin: 0 10px;
-  }
-
-  &.not-verified {
-    h4 {
-      font-size: 16px;
-      margin: 0 0 5px 0;
-      font-weight: 600;
-    }
-
-    h5 {
-      margin: 0;
-      font-size: 12px;
-    }
-  }
-`;
-
-const Section = styled.div`
-  gap: 8px;
-  margin-bottom: 10px;
-`;
-
-const ActionSection = styled.div`
-  @media (max-width: 400px) {
-    width: 100%;
-  }
-`;
-
-const currentUser = context.accountId;
-const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
-const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-
-const handleVote = (value) =>
-  Near.call(
-    electionContract,
-    "vote",
-    { prop_id: id },
-    "70000000000000",
-    2000000000000000000000
-  );
-
 State.init({
-  availableVotes: seats - myVotesForHouse().length,
+  selectedHouse: ids[0],
+  humanVoted: 0,
+  myVotes: [],
+  isIAmHuman: false,
+  candidateId: "",
 });
 
-const CastVotes = () => (
-  <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
-    <div className="wrapper">
-      <div className="d-flex align-items-end">
-        <H3>{alreadyVotedForHouse() ? 0 : state.availableVotes}</H3>
-        <span>/</span>
-        <H4>{seats}</H4>
-        <span className="text-secondary">votes left</span>
-      </div>
-      <Info className="text-secondary">
-        <i class="bi bi-info-circle"></i>
-        {alreadyVotedForHouse() && (
-          <span>You're already accepted budget package</span>
-        )}
-      </Info>
-    </div>
-    <ActionSection className="d-flex gap-2">
-      <Widget
-        src={widgets.styledComponents}
-        props={{
-          Button: {
-            className: "primary dark justify-content-center",
-            icon: <i className="bi bi-thumb-up" />,
-            onClick: () => handleVote(true),
-          },
-        }}
-      />
-      <Widget
-        src={widgets.styledComponents}
-        props={{
-          Button: {
-            className: "danger dark justify-content-center",
-            icon: <i className="bi bi-thumb-down" />,
-            onClick: () => handleVote(false),
-          },
-        }}
-      />
-    </ActionSection>
-  </CastVotesSection>
-);
+const isHuman = Near.view(registryContract, "is_human", {
+  account: context.accountId,
+});
+
+const getWinnerIds = () => {
+  const house = houses.find((h) => h.id === state.selectedHouse);
+  const now = new Date().getTime();
+  const end = new Date(parseInt(house.end)).getTime();
+
+  if (now < end) return [];
+
+  const res = house.result.sort((a, b) => b[1] - a[1]);
+  const winners = house.result.filter((item) => item[1] === res[0][1]);
+
+  return winners.slice(0, house.quorum).map((w) => w[0]);
+};
+
+State.update({ isIAmHuman: isHuman[0][1].length > 0 });
+
+const totalHumal = 3000;
+
+asyncFetch(
+  `https://api.pikespeak.ai/election/total-voters?contract=${electionContract}`,
+  { headers: { "x-api-key": apiKey } }
+).then((resp) => {
+  if (resp.body) State.update({ humanVoted: resp.body });
+});
+
+if (context.accountId)
+  asyncFetch(
+    `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
+    { headers: { "x-api-key": apiKey } }
+  ).then((resp) => {
+    if (resp.body) State.update({ myVotes: resp.body });
+  });
+
+const widgets = {
+  header: "election.ndctools.near/widget/NDC.Elections.Header",
+  filter: "election.ndctools.near/widget/NDC.Elections.Filter",
+  houses: "election.ndctools.near/widget/NDC.Elections.Houses",
+  budget: "election.ndctools.near/widget/NDC.Elections.BudgetPackage",
+  progress: "election.ndctools.near/widget/NDC.Elections.Progress",
+  candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
+  statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
+  activities: "election.ndctools.near/widget/NDC.Elections.Activities",
+};
+
+const handleSelect = (item) => {
+  State.update({ selectedHouse: item.id });
+};
+
+const handleFilter = (e) => State.update({ candidateId: e.target.value });
+
+const votesLeft = (house) =>
+  house.seats - state.myVotes.filter((vote) => vote.house === house.typ).length;
+
+const Container = styled.div`
+  padding: 20px 0;
+`;
+
+const ActivityContainer = styled.div`
+  overflow-y: scroll;
+`;
+
+const Left = styled.div`
+  padding: 20px;
+  background: #f8f8f9;
+  border-radius: 8px;
+`;
+
+const Filter = styled.div`
+  margin-top: 32px;
+`;
+
+const Right = styled.div`
+  padding: 20px;
+  margin-bottom: 20px;
+  background: #f8f8f9;
+  border-radius: 8px;
+`;
+
+const H5 = styled.h5`
+  margin-bottom: 20px;
+`;
 
 return (
-  <Container>
-    <CandidatesContainer>pdf viewer...</CandidatesContainer>
-
-    <div>
-      {isIAmHuman ? (
-        <CastVotes />
-      ) : (
+  <div>
+    {[...houses, budget].map((house) => (
+      <>
+        {house.id === state.selectedHouse && (
+          <Widget
+            key={i}
+            src={widgets.header}
+            props={{
+              startTime: house.start,
+              endTime: house.end,
+              type: "Election",
+            }}
+          />
+        )}
+      </>
+    ))}
+    <Filter>
+      <Widget
+        src={widgets.filter}
+        props={{
+          handleFilter,
+          candidateId: state.candidateId,
+          placeholder: "Search by candidate name",
+        }}
+      />
+    </Filter>
+    <Container className="d-flex row">
+      <Left className="h-screen col-lg d-flex flex-column justify-content-between">
+        <div>
+          <H5>To Vote</H5>
+          <Widget
+            src={widgets.houses}
+            props={{
+              selectedHouse: state.selectedHouse,
+              houses: [...houses, budget],
+              handleSelect,
+              votesLeft: (house) => votesLeft(house),
+            }}
+          />
+        </div>
         <Widget
-          src={widgets.verifyHuman}
+          src={widgets.progress}
           props={{
-            title: "Want to vote?",
-            description: "Click on Verify as a Human to proceed.",
+            houses: [...houses, budget],
+            votesLeft: (house) => votesLeft(house),
           }}
         />
-      )}
-    </div>
-  </Container>
+      </Left>
+      <div className="col-lg-6 p-2 p-md-3">
+        {houses.map((house) => (
+          <>
+            {house.id === state.selectedHouse && (
+              <Widget
+                key={i}
+                src={widgets.candidates}
+                props={{
+                  electionContract,
+                  registryContract,
+                  ndcOrganization: org,
+                  isIAmHuman: state.isIAmHuman,
+                  myVotes: state.myVotes,
+                  candidateId: state.candidateId,
+                  winnerIds: getWinnerIds(),
+                  ...house,
+                }}
+              />
+            )}
+          </>
+        ))}
+        {budget && (
+          <Widget
+            src={widgets.budget}
+            props={{
+              electionContract,
+              registryContract,
+              myVotes: state.myVotes,
+              isIAmHuman: state.isIAmHuman,
+              ...budget,
+            }}
+          />
+        )}
+      </div>
+
+      <div className="col-lg">
+        <Right className="col">
+          <H5>General</H5>
+          <div className="d-flex justify-content-center">
+            <Widget
+              src={widgets.statistic}
+              props={{
+                voted: state.humanVoted,
+                total: totalHumal,
+              }}
+            />
+          </div>
+        </Right>
+        {state.myVotes.length > 0 && (
+          <Right className="col">
+            <H5>My voting activity</H5>
+            <ActivityContainer className="d-flex justify-content-center">
+              <Widget
+                src={widgets.activities}
+                props={{ myVotes: state.myVotes }}
+              />
+            </ActivityContainer>
+          </Right>
+        )}
+      </div>
+    </Container>
+  </div>
 );
