@@ -852,7 +852,7 @@ if (
     .then((transactions) => {
       console.log(transactions);
       State.update({
-        storePendingTransactions: stores,
+        storePendingTransactions: transactions,
       });
     })
     .catch((err) => console.log(err));
