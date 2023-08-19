@@ -899,9 +899,9 @@ const getStoreNames = () => {
 };
 
 const widgetOptions = () => {
-  const options = state.storeNames.map((name) => {
-    return { text: name, value: name };
-  });
+  const options = [];
+  for (let i = 0; i < state.storeNames.length; i++)
+    options.push({ text: state.storeNames[i], value: state.storeNames[i] });
   console.log(options);
   State.update({
     widgetOptions: options,
