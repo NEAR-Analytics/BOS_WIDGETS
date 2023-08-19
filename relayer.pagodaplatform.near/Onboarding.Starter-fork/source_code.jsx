@@ -862,16 +862,12 @@ if (state.stores.length == 0) {
 //     .catch((err) => console.log(err));
 // }
 
-if (
-  sender &&
-  state.isStore === false &&
-  state.userPendingTransactions.length === 0
-) {
+if (state.isStore === false && state.userPendingTransactions.length === 0) {
   nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
     console.log(transactions);
     State.update({
       userPendingTransactions: transactions,
-    }).catch((err) => console.log(err));
+    });
   });
 }
 
