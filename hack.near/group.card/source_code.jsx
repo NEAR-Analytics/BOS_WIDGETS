@@ -104,7 +104,7 @@ return (
 
       <div>
         <TextLink href={groupUrl} ellipsis bold>
-          {group.name || accountId.split(".near")[0]}
+          {group.name}
         </TextLink>
         <TextLink href={groupUrl} ellipsis>
           @{accountId}
