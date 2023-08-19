@@ -841,7 +841,8 @@ if (state.stores.length == 0) {
     });
 }
 
-if (store.storeAddress !== "" && isStore && storePendingTransactions == []) {
+if (state.storeAddress !== "" && isStore && storePendingTransactions == []) {
+  console.log("herehehehe");
   nft.getStoreActiveTransactions(state.storeAddress).then((stores) => {
     State.update({
       storePendingTransactions: stores,
