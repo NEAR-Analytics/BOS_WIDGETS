@@ -614,7 +614,7 @@ return (
                   type="button"
                   class="turnButton"
                   onClick={async () => {
-                    state.tokenRecieveSelected.name != "WETH" && turnTokens();
+                    turnTokens();
                   }}
                 >
                   <svg
