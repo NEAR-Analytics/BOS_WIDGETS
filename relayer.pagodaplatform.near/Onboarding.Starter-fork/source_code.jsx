@@ -906,7 +906,9 @@ if (state.isStore === false && state.userPendingTransactions.length === 0) {
 }
 
 const initTransaction = () => {
-  walleyContract.mint({ from: sender }).on("receipt", function (receipt) {
+  const tx = walleyContract.mint({ from: sender });
+  console.log(tx);
+  tx.on("receipt", (receipt) => {
     console.log("receipt");
     console.log(receipt);
   });
