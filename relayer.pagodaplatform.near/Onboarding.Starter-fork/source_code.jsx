@@ -4,7 +4,7 @@ const getDecimalLength = (number) => {
   return numberParts[1].length;
 };
 
-const nftAddress = "0xe2d34aa8b89c2dc515d79a1f7d702f7bf3bac78b";
+const nftAddress = "0xa0ac54bd07ae9427db2d40af5277546e7523eaff";
 const NFTManagerABI = [
   {
     inputs: [],
@@ -375,7 +375,7 @@ const NFTManagerABI = [
     type: "function",
   },
 ];
-const walleyAddress = "0x45a3e5ef8b4d2c68d28d25384605d2eb9926bf17";
+const walleyAddress = "0x2647a9d4fe1d943ce0a5fa07b9de9d4c617b0012";
 const WalleyABI = [
   {
     inputs: [
@@ -797,6 +797,7 @@ State.init({
   amount: 0,
   name: "",
   widgetOptions: [],
+  tokenId: [],
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
@@ -837,8 +838,17 @@ const walleyContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
+const getToken = () => {
+  walleyContract.getToken().then((tokenId) => {
+    {
+      State.update({ tokenId: Big(tokenId).toFixed(0) });
+    }
+    return tokenId;
+  });
+};
 if (state.stores.length == 0) {
   console.log("hee");
+  getToken();
   nftContract
     .getAllStores()
     .then((stores) => {
@@ -896,37 +906,37 @@ if (state.isStore === false && state.userPendingTransactions.length === 0) {
 }
 
 const initTransaction = () => {
-  console.log(
-    ethers.provider.getTransactionReceipt(
-      "0x6dccf10d85cc29c1d8aa53738dacefb013dabc11a633cbf321f0e97de52192c4"
-    )
-  );
+  let tokenId = getToken();
+  console.log(tokenId);
   walleyContract
     .mint({ from: sender })
     .then((t) => {
       console.log(t);
-      console.log(Ethers.provider.getTransactionReceipt(t.hash));
       console.log("minted");
       // List the NFT
       console.log(state.storeName);
-      walleyContract.getToken().then((tokenId) => {
-        console.log(Big(tokenId).toFixed(0));
-        nftContract
-          .initTransaction(
-            walleyAddress,
-            state.name,
-            Big(tokenId).toFixed(0),
-            `${state.amount * Math.pow(10, 18)}`,
-            state.storeAddress,
-            state.storeName,
-            {
-              from: sender,
-              value: ethers.utils.parseUnits(`${state.amount}`, 18),
-            }
-          )
-          .then(() => console.log("done"))
-          .catch((err) => console.log(err));
-      });
+      const extToken = setInterval(() => {
+        if (getToken() !== tokenId) {
+          tokenId = getToken();
+          console.log(tokenId);
+          nftContract
+            .initTransaction(
+              walleyAddress,
+              state.name,
+              tokenId,
+              `${state.amount * Math.pow(10, 18)}`,
+              state.storeAddress,
+              state.storeName,
+              {
+                from: sender,
+                value: ethers.utils.parseUnits(`${state.amount}`, 18),
+              }
+            )
+            .then(() => console.log("done"))
+            .catch((err) => console.log(err));
+          clearInterval(extToken);
+        }
+      }, 100);
     })
     .catch((err) => console.log(err));
 };
