@@ -917,36 +917,36 @@ const initTransaction = () => {
   // walleyContract
   //   .mint({ from: sender })
   //   .then((t) => {
-      // console.log(t);
-      // console.log("minted");
-      // // List the NFT
-      // console.log(state.storeName);
-      // const extToken = setInterval(() => {
-      //   console.log(getToken(), " : ", tokenId);
-      //   if (getToken() !== tokenId) {
-      //     clearInterval(extToken);
-      //     console.log("hehehehehehehehehhehe");
-      //     tokenId = getToken();
-      //     console.log(tokenId);
-          nftContract
-            .initTransaction(
-              walleyAddress,
-              state.name,
-              1,
-              `${state.amount * Math.pow(10, 18)}`,
-              state.storeAddress,
-              state.storeName,
-              {
-                from: sender,
-                value: ethers.utils.parseUnits(`${state.amount}`, 18),
-              }
-            )
-            .then(() => console.log("done"))
-            .catch((err) => console.log(err));
-        }
-    //   }, 100);
-    // })
-    // .catch((err) => console.log(err));
+  // console.log(t);
+  // console.log("minted");
+  // // List the NFT
+  // console.log(state.storeName);
+  // const extToken = setInterval(() => {
+  //   console.log(getToken(), " : ", tokenId);
+  //   if (getToken() !== tokenId) {
+  //     clearInterval(extToken);
+  //     console.log("hehehehehehehehehhehe");
+  //     tokenId = getToken();
+  //     console.log(tokenId);
+  nftContract
+    .initTransaction(
+      walleyAddress,
+      state.name,
+      1,
+      `${state.amount * Math.pow(10, 18)}`,
+      state.storeAddress,
+      state.storeName,
+      {
+        from: sender,
+        value: ethers.utils.parseUnits(`${state.amount}`, 18),
+      }
+    )
+    .then(() => console.log("done"))
+    .catch((err) => console.log(err));
+  // }
+  //   }, 100);
+  // })
+  // .catch((err) => console.log(err));
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
