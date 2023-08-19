@@ -923,7 +923,7 @@ const initTransaction = () => {
           .catch((err) => console.log(err));
       });
     })
-    .catch((err) => console.log("hhhh"));
+    .catch((err) => console.log(err));
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
