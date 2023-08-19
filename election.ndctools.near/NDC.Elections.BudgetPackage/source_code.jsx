@@ -172,12 +172,6 @@ return (
   <Container>
     <h1>Budget Package</h1>
     <CandidatesContainer>
-      <embed
-        src="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-        type="application/pdf"
-        width="100%"
-        height="100%"
-      />
       <object
         data="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
         type="application/pdf"
