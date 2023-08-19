@@ -4,7 +4,7 @@ const getDecimalLength = (number) => {
   return numberParts[1].length;
 };
 
-const nftAddress = "0xafa66b7e70483981a56c39b32b69fe123fd7ceaa";
+const nftAddress = "0xe2d34aa8b89c2dc515d79a1f7d702f7bf3bac78b";
 const NFTManagerABI = [
   {
     inputs: [],
@@ -146,6 +146,24 @@ const NFTManagerABI = [
       },
     ],
     name: "approveTransaction",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_nftContract",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "cancelTransaction",
     outputs: [],
     stateMutability: "payable",
     type: "function",
@@ -918,12 +936,6 @@ const approveTransaction = (tokenId, totalAmount, amount) => {
       `${parseFloat(totalAmount) * Math.pow(10, 18)}`,
       {
         from: sender,
-        value: ethers.utils.parseUnits(
-          `${parseFloat(amount - totalAmount).toFixed(
-            Math.max(getDecimalLength(amount), getDecimalLength(totalAmount))
-          )}`,
-          18
-        ),
       }
     )
     .then(() => {
