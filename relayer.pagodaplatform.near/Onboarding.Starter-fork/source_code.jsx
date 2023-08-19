@@ -910,7 +910,7 @@ const initTransaction = () => {
 const approveTransaction = (tokenId, totalAmount, amount) => {
   console.log(
     parseFloat(amount - totalAmount).toFixed(
-      Math.max(getDecimalLength(amount, totalAmount))
+      Math.max(getDecimalLength(amount), getDecimalLength(totalAmount))
     )
   );
   console.log(parseFloat(totalAmount));
