@@ -12,7 +12,14 @@ let houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[1] }),
   Near.view(electionContract, "proposal", { prop_id: ids[2] }),
 ];
-let budget = Near.view(electionContract, "proposal", { prop_id: ids[3] });
+
+// TODO: uncomment when contract is done
+// let budget = Near.view(electionContract, "proposal", { prop_id: ids[3] });
+let budget = {
+  id: 4,
+  typ: "BudgetPackage",
+  seats: 1,
+};
 
 State.init({
   selectedHouse: ids[0],
@@ -183,7 +190,9 @@ return (
             props={{
               electionContract,
               registryContract,
+              myVotes: state.myVotes,
               isIAmHuman: state.isIAmHuman,
+              ...budget,
             }}
           />
         )}
