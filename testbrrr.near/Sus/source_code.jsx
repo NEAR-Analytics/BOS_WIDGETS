@@ -183,7 +183,7 @@ const withdrawDebtTokens = () => {
 
   borrowerOperationContract.withdrawDebtTokens(
     getAsset(props.asset),
-    ethers.BigNumber.from(props.borrow * 100)
+    ethers.BigNumber.from(props.amount * 100)
       .mul("10000000000000000")
       .toString(),
     // ethers.BigNumber.from((state.borrow * 10000000000000000).toString()),
@@ -201,7 +201,7 @@ const withdrawColl = () => {
 
   borrowerOperationContract.withdrawColl(
     getAsset(props.asset),
-    ethers.utils.parseUnits(props.ethCollateralAmount.toString(), "ether"),
+    ethers.BigNumber.from(props.amount * 100),
     "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
     "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
     {
@@ -211,19 +211,40 @@ const withdrawColl = () => {
   );
 };
 
-const repayLUSD = () => {
-  const lUSDContract = new ethers.Contract(
-    lUSDAddress,
-    lUSDContractAbi.body,
+const repayDebtTokens = () => {
+  const borrowerOperationContract = new ethers.Contract(
+    borrowerOperationAddress,
+    borrowerOperationAbi.body.result,
     Ethers.provider().getSigner()
   );
+  borrowerOperationContract.repayDebtTokens(
+    getAsset(props.asset),
+    ethers.BigNumber.from(props.amount * 100)
+      .mul("10000000000000000")
+      .toString(),
+    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+    {
+      gasLimit: 25000000,
+    }
+  );
+};
+
+const addColl = () => {
+  const asset = getAsset(props.asset);
+  const assetContract = new ethers.Contract(
+    asset,
+    AssetContractAbi.body,
+    Ethers.provider().getSigner()
+  );
+
   const borrowerOperationContract = new ethers.Contract(
     borrowerOperationAddress,
     borrowerOperationAbi.body.result,
     Ethers.provider().getSigner()
   );
 
-  lUSDContract
+  assetContract
     .approve(
       borrowerOperationAddress,
       ethers.BigNumber.from(props.amount * 100)
@@ -231,10 +252,12 @@ const repayLUSD = () => {
         .toString()
     )
     .then((approveTx) => {
+      State.update({ tx: approveTx.hash });
       return approveTx.wait();
     })
     .then(() => {
-      borrowerOperationContract.repayLUSD(
+      borrowerOperationContract.addColl(
+        asset,
         ethers.BigNumber.from(props.amount * 100)
           .mul("10000000000000000")
           .toString(),
@@ -244,41 +267,11 @@ const repayLUSD = () => {
           gasLimit: 25000000,
         }
       );
+    })
+    .then((finalTx) => {
+      State.update({ tx: finalTx.hash });
+      return finalTx.wait();
     });
-};
-
-const addColl = () => {
-  const borrowerOperationContract = new ethers.Contract(
-    borrowerOperationAddress,
-    borrowerOperationAbi.body.result,
-    Ethers.provider().getSigner()
-  );
-
-  borrowerOperationContract.addColl(
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-    {
-      value: ethers.BigNumber.from(
-        (props.coll * 1000000000000000000).toString()
-      ),
-      // gasPrice: state.gasPrice,
-      // gasLimit: 25000000,
-    }
-  );
-};
-
-const moveETHGainToVessel = () => {
-  const borrowerOperationContract = new ethers.Contract(
-    borrowerOperationAddress,
-    borrowerOperationAbi.body.result,
-    Ethers.provider().getSigner()
-  );
-
-  borrowerOperationContract.moveETHGainToVessel(
-    state.sender,
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d"
-  );
 };
 
 const closeVessel = () => {
@@ -288,7 +281,7 @@ const closeVessel = () => {
     Ethers.provider().getSigner()
   );
 
-  borrowerOperationContract.closeVessel();
+  borrowerOperationContract.closeVessel(getAsset(props.asset));
 };
 
 const claimCollateral = () => {
@@ -298,7 +291,35 @@ const claimCollateral = () => {
     Ethers.provider().getSigner()
   );
 
-  borrowerOperationContract.claimCollateral();
+  borrowerOperationContract.claimCollateral(getAsset(props.asset));
+};
+
+const provideToSP = () => {
+  const stabilityPoolContract = new ethers.Contract(
+    stabilityPoolAddress,
+    stabilityPoolAbi.body.result,
+    Ethers.provider().getSigner()
+  );
+
+  stabilityPoolContract.provideToSP(
+    ethers.BigNumber.from(props.amount * 100)
+      .mul("10000000000000000")
+      .toString()
+  );
+};
+
+const withdrawFromSP = () => {
+  const stabilityPoolContract = new ethers.Contract(
+    stabilityPoolAddress,
+    stabilityPoolAbi.body.result,
+    Ethers.provider().getSigner()
+  );
+
+  stabilityPoolContract.withdrawFromSP(
+    ethers.BigNumber.from(props.amount * 100)
+      .mul("10000000000000000")
+      .toString()
+  );
 };
 
 const vesselManagerContract = new ethers.Contract(
@@ -335,7 +356,6 @@ const processAsset = (index) => {
 };
 
 const getEntireDebtAndColl = () => {
-  console.log("Called again");
   // let assets = Object.values(availableAssets);
   // assets.forEach((asset) => {
   //   vesselManagerContract
