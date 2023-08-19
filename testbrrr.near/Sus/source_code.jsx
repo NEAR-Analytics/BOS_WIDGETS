@@ -5,6 +5,13 @@ const availableAssets = {
   stETH: "0xcef9cd8bb310022b5582e55891af043213110783",
 };
 
+const assetsArray = [
+  "0x62bc478ffc429161115a6e4090f819ce5c50a5d9",
+  "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6",
+  "0x178e141a0e3b34152f73ff610437a7bf9b83267a",
+  "0xcef9cd8bb310022b5582e55891af043213110783",
+];
+
 const getAsset = (asset) => {
   return availableAssets[asset];
 };
@@ -304,7 +311,8 @@ const provideToSP = () => {
   stabilityPoolContract.provideToSP(
     ethers.BigNumber.from(props.amount * 100)
       .mul("10000000000000000")
-      .toString()
+      .toString(),
+    assetsArray
   );
 };
 
@@ -318,7 +326,8 @@ const withdrawFromSP = () => {
   stabilityPoolContract.withdrawFromSP(
     ethers.BigNumber.from(props.amount * 100)
       .mul("10000000000000000")
-      .toString()
+      .toString(),
+    assetsArray
   );
 };
 
