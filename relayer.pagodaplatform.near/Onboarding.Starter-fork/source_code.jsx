@@ -1049,7 +1049,7 @@ return (
       </div>
     ) : (
       <div>
-        {state.storePendingTransactions.map((trans) => (
+        {/*state.storePendingTransactions.map((trans) => (
           <div>
             <p>{trans[6]}</p>
             <p>{trans[2]}</p>
@@ -1071,7 +1071,7 @@ return (
               Approve
             </button>
           </div>
-        ))}
+        ))*/}
       </div>
     )}
   </>
