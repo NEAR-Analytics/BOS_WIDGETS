@@ -4,7 +4,7 @@ const getDecimalLength = (number) => {
   return numberParts[1].length;
 };
 
-const nftAddress = "0x2677089b1a636fe17887f21d5a4495c34b7ff6f6";
+const nftAddress = "0xf7f236506f5f185dc46135a8c35f6f55e83e56f0";
 const NFTManagerABI = [
   {
     inputs: [],
@@ -375,7 +375,7 @@ const NFTManagerABI = [
     type: "function",
   },
 ];
-const walleyAddress = "0xf83bdc9b324713387780a84530facfd054973640";
+const walleyAddress = "0x055599f29bd2ae4c4abda83d91a4f6ca390eca11";
 const WalleyABI = [
   {
     inputs: [
