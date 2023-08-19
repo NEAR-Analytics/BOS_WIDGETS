@@ -138,10 +138,10 @@ const code = `
       if(user.social !== "https://social.near.page/u/"){
         state.social = true
       }
-      const profileImageURL = "https://i.near.social/magic/large/https://near.social/magic/img/account/"+ user.accountId;
+      
       
        const HTML = '<div class="popup">'+
-          '<img src={profileImageURL} class="logo" />'+
+          '<img src='https://humans.nearverselabs.com/Human.png' class="logo" />'+
           '<div class="gap-14">'+
             '<h6>'+title+'</h6>'+
             '<div class="gap-16">'+
