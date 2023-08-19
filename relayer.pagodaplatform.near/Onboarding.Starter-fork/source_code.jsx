@@ -822,7 +822,9 @@ if (state.stores.length == 0) {
     })
     .then(() => {
       state.stores.map((store) => {
+        console("825");
         if (store[1] === sender) {
+          console.log("827");
           State.update({
             isStore: true,
             storeName: store[0],
@@ -908,7 +910,7 @@ return (
   <>
     <p>{state.chainId}</p>
     <p>{state.balance}</p>
-    {!state.isStore ? (
+    {state.isStore === false ? (
       <div>
         {state.stores.length !== 0 ? (
           <Widget
