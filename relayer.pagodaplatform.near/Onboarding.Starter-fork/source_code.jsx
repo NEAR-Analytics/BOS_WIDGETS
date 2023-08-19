@@ -838,10 +838,11 @@ const walleyContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-const getToken = () => {
+const getToken = (fn) => {
   walleyContract.getToken().then((tokenId) => {
     {
       State.update({ tokenId: Big(tokenId).toFixed(0) });
+      if (fn) fn(Big(tokenId).toFixed(0));
     }
   });
 };
@@ -912,15 +913,14 @@ const initTransaction = () => {
       console.log("minted");
       // List the NFT
       console.log(getToken());
-      getToken().then(() => {
+      getToken((tokenId) => {
         console.log(state.storeName);
-        tokenId = getToken() + 1;
         console.log(tokenId);
         nftContract
           .initTransaction(
             walleyAddress,
             state.name,
-            tokenId,
+            tokenId + 1,
             `${state.amount * Math.pow(10, 18)}`,
             state.storeAddress,
             state.storeName,
