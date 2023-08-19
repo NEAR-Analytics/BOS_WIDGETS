@@ -1,3 +1,16 @@
+let members = Social.keys(
+  `${props.creatorId}/graph/${props.groupId}/*`,
+  "final",
+  {
+    return_type: "BlockHeight",
+    values_only: true,
+  }
+);
+
+if (members === null) {
+  return "";
+}
+
 State.init({
   elements: {},
   inputVal: "",
@@ -29,7 +42,7 @@ function generateUID() {
 const type = group ? "remove" : "add";
 
 const handleCreateGroup = () => {
-  const groupId = generateUID();
+  const groupId = props.groupId ?? generateUID();
   const data = {
     // thing: { // We can create the thing later, just remember to save the UUID in your notes
     //   [groupId]: {
