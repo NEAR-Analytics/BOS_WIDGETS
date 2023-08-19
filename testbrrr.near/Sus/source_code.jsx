@@ -467,11 +467,19 @@ if (
 } else if (props.action === "repay") {
   repayDebtTokens();
 } else if (props.action === "display") {
-  console.log("Triggered again");
-  console.log(state.stopReload);
   getEntireDebtAndColl();
 } else if (props.action === "withdraw") {
   withdrawColl();
+} else if (props.action === "addColl") {
+  addColl();
+} else if (props.action === "close") {
+  closeVessel();
+} else if (props.action === "claim") {
+  claimCollateral();
+} else if (props.action === "provide") {
+  provideToSP();
+} else if (props.action === "withdrawSP") {
+  withdrawFromSP();
 } else {
   props.resendPrompt(props);
 }
