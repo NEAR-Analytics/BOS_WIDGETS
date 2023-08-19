@@ -62,7 +62,7 @@ const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   houses: "election.ndctools.near/widget/NDC.Elections.Houses",
-  budged: "election.ndctools.near/widget/NDC.Elections.BudgetPackage",
+  budget: "election.ndctools.near/widget/NDC.Elections.BudgetPackage",
   progress: "election.ndctools.near/widget/NDC.Elections.Progress",
   candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
   statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
@@ -184,7 +184,6 @@ return (
               electionContract,
               registryContract,
               isIAmHuman: state.isIAmHuman,
-              ...budget,
             }}
           />
         )}
