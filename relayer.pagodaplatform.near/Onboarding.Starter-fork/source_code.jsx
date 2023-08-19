@@ -900,9 +900,7 @@ const initTransaction = () => {
     .mint({ from: sender })
     .then((t) => {
       console.log(t);
-    })
-    .then((h) => {
-      console.log(h);
+      console.log(Ethers.provider.getTransactionReceipt(t.hash));
       console.log("minted");
       // List the NFT
       console.log(state.storeName);
