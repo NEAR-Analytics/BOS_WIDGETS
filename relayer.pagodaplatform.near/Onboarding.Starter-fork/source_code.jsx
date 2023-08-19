@@ -845,6 +845,7 @@ if (state.stores.length == 0) {
 }
 console.log(state.isStore);
 if (
+  state.stores.length !== 0 &&
   state.storeAddress !== "" &&
   state.isStore === true &&
   state.storePendingTransactions.length === 0
@@ -861,18 +862,18 @@ if (
     .catch((err) => console.log(err));
 }
 
-// if (
-//   sender &&
-//   state.isStore === false &&
-//   state.userPendingTransactions.length === 0
-// ) {
-//   nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
-//     console.log(transactions);
-//     State.update({
-//       userPendingTransactions: transactions,
-//     }).catch((err) => console.log(err));
-//   });
-// }
+if (
+  sender &&
+  state.isStore === false &&
+  state.userPendingTransactions.length === 0
+) {
+  nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
+    console.log(transactions);
+    State.update({
+      userPendingTransactions: transactions,
+    }).catch((err) => console.log(err));
+  });
+}
 
 const initTransaction = () => {
   walleyContract
