@@ -903,9 +903,7 @@ const widgetOptions = () => {
   for (let i = 0; i < state.storeNames.length; i++)
     options.push({ text: state.storeNames[i], value: state.storeNames[i] });
   console.log(options);
-  State.update({
-    widgetOptions: options,
-  });
+  return options;
 };
 
 return (
@@ -920,7 +918,7 @@ return (
             props={{
               noLabel: true,
               placeholder: "Select a store",
-              options: state.widgetOptions,
+              options: [...widgetOptions()],
               onChange: (value) => {
                 state.stores.map((store) => {
                   if (store.storeName === value)
