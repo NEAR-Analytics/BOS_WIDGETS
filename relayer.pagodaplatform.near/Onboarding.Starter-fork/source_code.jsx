@@ -902,7 +902,8 @@ const initTransaction = () => {
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
-  console.log(parseFloat(amount) - parseFloat(totalAmount));
+  const SIGDIG = 100000000;
+  console.log(Math.floor(((amount - totalAmount) * SIGDIG) / SIGDIG));
   console.log(parseFloat(amount));
   console.log(parseFloat(totalAmount));
   console.log(Big(totalAmount).toFixed(20));
