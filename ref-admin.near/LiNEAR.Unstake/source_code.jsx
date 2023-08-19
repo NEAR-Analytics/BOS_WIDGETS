@@ -355,31 +355,57 @@ const StakeFormWrapper = styled.div`
   width: 100%;
   max-width: 500px;
   padding-top: 10px;
-  background: #1A2E33;
+  background: #25283a;
   border-radius: 16px;
-  margin-top:20px;
-  padding-bottom:20px;
-  .contentArea{
-    background: #142427;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  .contentArea {
+    background: #25283a;
     border-radius: 16px;
-    padding:20px 30px;
+    padding: 20px 30px 0 30px;
+  }
+  .contentArea p {
+    color: #7c7f96;
+    font-size: 14px;
+  }
+  .contentArea hr {
+    background: #373a53;
+    height: 2px;
+  }
+  .arr .bigIcon {
+    background: #373a53;
+  }
+  .arr .boldText {
+    font-weight: 500;
+  }
+  .arr .apr {
+    color: #7c7f96;
+  }
+  .arr .apr .value {
+    color: #ffffff;
+    font-weight: 500;
+  }
+  .footer p {
+    color: #ffffff;
   }
 `;
 
 return (
   <StakeFormWrapper>
-    <Widget
-      src={`${config.ownerId}/widget/stake-bannerIcon`}
-      props={{
-        firstIconName: "LiNEAR",
-        firstIconUrl:
-          "https://ipfs.near.social/ipfs/bafkreie2nqrjdjka3ckf4doocsrip5hwqrxh37jzwul2nyzeg3badfl2pm",
-        secondIconName: "NEAR",
-        secondIconUrl:
-          "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-        componentType: "liNEAR",
-      }}
-    ></Widget>
+    <div class="arr">
+      <Widget
+        src={`${config.ownerId}/widget/stake-bannerIcon`}
+        props={{
+          firstIconName: "LiNEAR",
+          firstIconUrl:
+            "https://ipfs.near.social/ipfs/bafkreie2nqrjdjka3ckf4doocsrip5hwqrxh37jzwul2nyzeg3badfl2pm",
+          secondIconName: "",
+          secondIconUrl:
+            "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+          componentType: "liNEAR",
+        }}
+      ></Widget>
+    </div>
     <div style={{ display: "none" }}>
       <Widget
         src={`${config.ownerId}/widget/Ref.ref-swap-getEstimate`}
@@ -402,6 +428,7 @@ return (
       <Widget
         src={`${config.ownerId}/widget/LiNEAR.Input`}
         props={{
+          firstIconName: "LiNEAR",
           placeholder: "0",
           value: state.inputValue,
           onChange,
@@ -417,19 +444,20 @@ return (
           disabled: disabledStakeButton,
           text: "Unstake",
           type: "outline",
+          firstIconName: "LiNEAR",
         }}
       />
-      <Widget
-        src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
-        props={{ text: `${formattedReceivedInstantUnstakeNear} NEAR` }}
-      />
+      <div class="footer">
+        <Widget
+          src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
+          props={{
+            text: `${formattedReceivedInstantUnstakeNear} NEAR`,
+            secondIconName: "NEAR",
+            secondIconUrl:
+              "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+          }}
+        />
+      </div>
     </div>
-    <Widget
-      src={`${config.ownerId}/widget/LiNEAR.Tab`}
-      props={{
-        updateTabName: props.updateTabName,
-        tabName: "unstake",
-      }}
-    ></Widget>
   </StakeFormWrapper>
 );
