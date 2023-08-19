@@ -1,11 +1,6 @@
-const accountId = props.accountId;
 const creatorId = props.creatorId;
 
 const groupId = props.groupId;
-
-if (!accountId) {
-  return "";
-}
 
 let members = Social.keys(`${creatorId}/graph/${groupId}/*`, "final", {
   return_type: "BlockHeight",
@@ -13,7 +8,7 @@ let members = Social.keys(`${creatorId}/graph/${groupId}/*`, "final", {
 });
 
 if (members === null) {
-  return "Loading";
+  return "Loading...";
 }
 
 members = Object.entries(members[creatorId]?.graph[groupId] || {});
