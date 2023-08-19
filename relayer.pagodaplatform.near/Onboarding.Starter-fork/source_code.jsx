@@ -906,10 +906,7 @@ const approveTransaction = (tokenId, totalAmount, amount) => {
   console.log(amount);
   console.log(Big(totalAmount).toFixed(20));
   console.log(
-    ethers.utils.parseUnits(
-      `${parseFloat(amount) - parseFloat(totalAmount)}`,
-      18
-    )
+    ethers.utils.parseUnits(`${amount - Big(totalAmount).toFixed(20)}`, 18)
   );
   nftContract
     .approveTransaction(
