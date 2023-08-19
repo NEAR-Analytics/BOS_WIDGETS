@@ -423,6 +423,25 @@ const HandleList = () => {
   console.log(props.singleNftProps);
 };
 
+const NoNFTLoading = styled.div`
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+if (props.nft && !state.title) {
+  return (
+    <NoNFTLoading>
+      <img
+        src="https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu"
+        alt=""
+      />
+    </NoNFTLoading>
+  );
+}
+
 return (
   <Root>
     <MainContainer>
