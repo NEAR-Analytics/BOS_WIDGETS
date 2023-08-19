@@ -822,7 +822,7 @@ if (state.stores.length == 0) {
     })
     .then(() => {
       state.stores.map((store) => {
-        console("825");
+        console.log("825");
         if (store[1] === sender) {
           console.log("827");
           State.update({
