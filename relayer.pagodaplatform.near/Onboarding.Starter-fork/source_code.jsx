@@ -949,8 +949,11 @@ const approveTransaction = (tokenId, totalAmount, amount) => {
 const addStore = (name, address) => {
   nftContract.addStore(name, address).then((t) => {
     console.log(t);
-    const tmp = [...state.stores, [name, address]];
-    State.update({ stores: tmp });
+    const tmp = {
+      stores: [...state.stores, [name, address]],
+      storeNames: [...state.storeNames, name],
+    };
+    State.update(tmp);
   });
 };
 
