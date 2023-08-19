@@ -170,7 +170,23 @@ const CastVotes = () => (
 
 return (
   <Container>
-    <CandidatesContainer>pdf viewer...</CandidatesContainer>
+    <h1>Budget Package</h1>
+    <CandidatesContainer>
+      <object
+        data="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+        type="application/pdf"
+        width="100%"
+        height="100%"
+        aria-labelledby="PDF document"
+      >
+        <p>
+          Your browser does not support PDFs.
+          <a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
+            Download the PDF
+          </a>
+        </p>
+      </object>
+    </CandidatesContainer>
 
     <div>
       {isIAmHuman ? (
