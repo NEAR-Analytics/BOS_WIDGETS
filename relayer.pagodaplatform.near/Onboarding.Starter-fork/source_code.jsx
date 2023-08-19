@@ -906,7 +906,9 @@ const initTransaction = () => {
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
   console.log(amount - totalAmount);
-  console.log(ethers.utils.parseUnits(`${amount - totalAmount}`, 18));
+  console.log(
+    ethers.utils.parseUnits(`${(amount - totalAmount).toFixed(5)}`, 18)
+  );
   nftContract
     .approveTransaction(
       walleyAddress,
@@ -914,7 +916,10 @@ const approveTransaction = (tokenId, totalAmount, amount) => {
       `${totalAmount * Math.pow(10, 18)}`,
       {
         from: sender,
-        value: ethers.utils.parseUnits(`${amount - totalAmount}`, 18),
+        value: ethers.utils.parseUnits(
+          `${(amount - totalAmount).toFixed(5)}`,
+          18
+        ),
       }
     )
     .then(() => {
