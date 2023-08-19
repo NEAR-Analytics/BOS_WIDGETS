@@ -1,3 +1,13 @@
+//utils
+const getLongestDecimalLength = (...numbers) =>
+  numbers.reduce((previousLength, number) => {
+    const numberParts = number.toString().split(".");
+    if (numberParts.length <= 1) return previousLength;
+    return numberParts[1].length > previousLength
+      ? numberParts[1].length
+      : previousLength;
+  }, 0);
+
 const nftAddress = "0x81e45a0a35d95b52a237a92f07686d6bca4107a7";
 const NFTManagerABI = [
   {
@@ -902,9 +912,11 @@ const initTransaction = () => {
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
-  const SIGDIG = 100000000;
-  console.log(Math.floor(((amount - totalAmount) * SIGDIG) / SIGDIG));
-  console.log(parseFloat(amount));
+  console.log(
+    parseFloat(amount - totalAmount).toFixed(
+      getLongestDecimalLength(amount, totalAmount)
+    )
+  );
   console.log(parseFloat(totalAmount));
   console.log(Big(totalAmount).toFixed(20));
   console.log(Big(amount).toFixed(20) - Big(totalAmount).toFixed(20));
