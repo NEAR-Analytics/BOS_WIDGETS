@@ -862,7 +862,7 @@ const initTransaction = () => {
       state.storeName,
       {
         from: sender,
-        value: ethers.utils.parseUnits(`${state.amount}`, 18),
+        value: ethers.utils.parseUnits("0.1", 18),
       }
     );
     // .then(() => console.log("done"))
