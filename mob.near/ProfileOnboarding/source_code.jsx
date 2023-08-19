@@ -93,7 +93,7 @@ return !dismissed && homepage && homepage !== defaultHomepage ? (
       <button
         className="ms-3 btn btn-secondary rounded-5"
         onClick={() => {
-          Storage.set("dismissed2", true);
+          Storage.set("dismissed", true);
         }}
       >
         Dismiss
