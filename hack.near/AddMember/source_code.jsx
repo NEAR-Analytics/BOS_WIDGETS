@@ -1,15 +1,15 @@
 if (
   !props.groupId ||
   !props.accountId ||
-  !props.ownerId ||
+  !props.creatorId ||
   context.accountId === props.accountId ||
-  context.accountId !== props.ownerId
+  context.accountId !== props.creatorId
 ) {
   return "";
 }
 
 const groupEdge = Social.keys(
-  `${props.ownerId}/graph/${props.groupId}/${props.accountId}`,
+  `${props.creatorId}/graph/${props.groupId}/${props.accountId}`,
   undefined,
   {
     values_only: true,
@@ -17,7 +17,7 @@ const groupEdge = Social.keys(
 );
 
 const inverseEdge = Social.keys(
-  `${props.accountId}/graph/${props.groupId}/${props.ownerId}`,
+  `${props.accountId}/graph/${props.groupId}/${props.creatorId}`,
   undefined,
   {
     values_only: true,
