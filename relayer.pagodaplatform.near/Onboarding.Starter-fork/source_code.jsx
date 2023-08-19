@@ -1004,13 +1004,13 @@ return (
       <div>
         {state.storePendingTransactions.map((trans) => (
           <div>
-            <p>{trans.store}</p>
-            <p>{trans.name}</p>
-            <p>{trans.amount}</p>
-            <input onChange={(e) => State.update({ amount: e.targetvalue })} />
+            <p>{trans[6]}</p>
+            <p>{trans[2]}</p>
+            <p>{trans[5]} ether</p>
+            <input onChange={(e) => State.update({ amount: e.target.value })} />
             <button
               onClick={() =>
-                approveTransaction(trans.tokenId, state.amount, trans.amount)
+                approveTransaction(trans[1], state.amount, trans[5])
               }
             >
               Approve
