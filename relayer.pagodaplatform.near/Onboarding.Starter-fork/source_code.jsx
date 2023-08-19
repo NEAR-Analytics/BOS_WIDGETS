@@ -797,7 +797,7 @@ State.init({
   amount: 0,
   name: "",
   widgetOptions: [],
-  tokenId: [],
+  tokenId: 0,
 });
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
@@ -841,9 +841,10 @@ const walleyContract = new ethers.Contract(
 const getToken = () => {
   walleyContract.getToken().then((tokenId) => {
     {
+      console.log(tokenId);
       State.update({ tokenId: Big(tokenId).toFixed(0) });
+      return Big(tokenId).toFixed(0);
     }
-    return tokenId;
   });
 };
 if (state.stores.length == 0) {
