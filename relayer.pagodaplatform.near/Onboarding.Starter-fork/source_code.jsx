@@ -908,20 +908,6 @@ const initTransaction = () => {
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
-  console.log(
-    parseFloat(amount - totalAmount).toFixed(
-      Math.max(getDecimalLength(amount), getDecimalLength(totalAmount))
-    )
-  );
-  console.log(parseFloat(totalAmount));
-  console.log(Big(totalAmount).toFixed(20));
-  console.log(Big(amount).toFixed(20) - Big(totalAmount).toFixed(20));
-  console.log(
-    ethers.utils.parseUnits(
-      `${Big(amount).toFIxed(20) - Big(totalAmount).toFixed(20)}`,
-      18
-    )
-  );
   nftContract
     .approveTransaction(
       walleyAddress,
@@ -930,7 +916,9 @@ const approveTransaction = (tokenId, totalAmount, amount) => {
       {
         from: sender,
         value: ethers.utils.parseUnits(
-          `${Big(amount).toFIxed(20) - Big(totalAmount).toFixed(20)}`,
+          `${parseFloat(amount - totalAmount).toFixed(
+            Math.max(getDecimalLength(amount), getDecimalLength(totalAmount))
+          )}`,
           18
         ),
       }
