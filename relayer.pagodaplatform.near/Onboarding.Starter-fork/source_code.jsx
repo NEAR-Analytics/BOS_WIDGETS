@@ -837,15 +837,11 @@ const walleyContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-const getToken = () => {
+const getToken = async () => {
   let token;
-  walleyContract.getToken().then((tokenId) => {
-    {
-      console.log(Big(tokenId).toFixed(0));
-      token = Big(tokenId).toFixed(0);
-    }
-  });
-  return token;
+  const res = await walleyContract.getToken();
+  const token = await res.tokenId;
+  return Big(token).toFixed(0);
 };
 if (state.stores.length == 0) {
   console.log("hee");
