@@ -1037,15 +1037,19 @@ return (
           ""
         )}
         Your Store NFTs -
-        {state.userPendingTransactions.length !== 0
-          ? state.userPendingTransactions.map((trans) => (
+        {state.userPendingTransactions.length !== 0 ? (
+          <div>
+            {state.userPendingTransactions.map((trans) => (
               <div>
                 <p>{trans[6]}</p>
                 <p>{trans[2]}</p>
                 <p>{Big(trans[5]).div(Big(10).pow(18)).toFixed(20)} ether</p>
               </div>
-            ))
-          : "No pending transactions!"}
+            ))}
+          </div>
+        ) : (
+          "No pending transactions!"
+        )}
       </div>
     ) : (
       <div>
