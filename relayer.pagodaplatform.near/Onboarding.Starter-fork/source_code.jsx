@@ -840,11 +840,11 @@ if (state.stores.length == 0) {
       // console.log(state.stores);
     });
 }
-console.log(state.storeAddress);
+console.log(state.isStore);
 if (
   state.storeAddress !== "" &&
-  state.isStore &&
-  state.storePendingTransactions == []
+  state.isStore === true &&
+  state.storePendingTransactions.length === 0
 ) {
   console.log("herehehehe");
   nft.getStoreActiveTransactions(state.storeAddress).then((stores) => {
