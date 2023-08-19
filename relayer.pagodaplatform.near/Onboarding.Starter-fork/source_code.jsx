@@ -903,7 +903,8 @@ const initTransaction = () => {
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
   console.log(parseFloat(amount) - parseFloat(totalAmount));
-  console.log(amount);
+  console.log(parseFloat(amount));
+  console.log(parseFloat(totalAmount));
   console.log(Big(totalAmount).toFixed(20));
   console.log(Big(amount).toFixed(20) - Big(totalAmount).toFixed(20));
   console.log(
