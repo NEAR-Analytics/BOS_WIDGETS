@@ -905,6 +905,7 @@ const initTransaction = () => {
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
+  console.log(amount - totalAmount);
   nftContract
     .approveTransaction(
       walleyAddress,
