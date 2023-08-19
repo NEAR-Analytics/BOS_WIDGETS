@@ -551,10 +551,13 @@ return (
                       {TOKENS.map((token) => {
                         return (
                           <>
-                            {state.tokenRecieveSelected.name != token.name &&
-                              token.name != "WETH" && (
+                            {
+                              state.tokenRecieveSelected.name != token.name && (
+                                //token.name != "WETH" && (
                                 <option>{token.name}</option>
-                              )}
+                              )
+                              //)
+                            }
                           </>
                         );
                       })}
