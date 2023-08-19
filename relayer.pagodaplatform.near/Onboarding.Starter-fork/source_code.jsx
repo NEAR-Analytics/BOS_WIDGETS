@@ -921,10 +921,10 @@ return (
               onChange: (value) => {
                 console.log(value);
                 state.stores.map((store) => {
-                  if (store.storeName === value) {
+                  if (store[0] === value.text) {
                     State.update({
                       storeName: value,
-                      storeAddress: store.storeAddress,
+                      storeAddress: store[1],
                     });
                   }
                 });
