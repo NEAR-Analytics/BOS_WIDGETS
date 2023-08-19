@@ -1,36 +1,34 @@
-const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
-const creatorId = props.creatorId ?? "*";
-
-const group =
-  props.group ?? Social.get(`${creatorId}/*/${groupId}/**`, "final");
-
-if (!group) {
-  return "";
+const accountId = props.accountId ?? context.accountId;
+if (!accountId) {
+  return "No account ID";
 }
 
-const Container = styled.div`
-  background: #fbfbfb;
-  padding: 23px;
-`;
+const group =
+  props.group ?? Social.getr(`${accountId}/graph/${props.groupId}/**`);
+const fast = !props.group;
+
+if (group === null) {
+  return "Loading...";
+}
 
 return (
-  <Container>
+  <div className="py-1 px-1">
     <div className="mx-auto">
       <Widget
         src="hack.near/widget/group.card"
         props={{
-          groupId,
+          groupId: props.groupId,
           group,
+          link: true,
+          fast,
+          showEditButton: !props.group,
         }}
       />
       <br />
-      <div className="m-2">
-        <h3 className="mb-3">Members</h3>
-        <Widget
-          src="hack.near/widget/group.members"
-          props={{ groupId, group }}
-        />
-      </div>
+      <Widget
+        src="hack.near/widget/group.members"
+        props={{ creatorId: accountId, groupId: props.groupId }}
+      />
     </div>
-  </Container>
+  </div>
 );
