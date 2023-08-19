@@ -822,11 +822,11 @@ if (state.stores.length == 0) {
     })
     .then(() => {
       state.stores.map((store) => {
-        if (store.address == sender) {
+        if (store[1] === sender) {
           State.update({
             isStore: true,
-            storeName: store.storeName,
-            storeAddress: store.storeAddress,
+            storeName: store[0],
+            storeAddress: store[1],
           });
           return;
         }
