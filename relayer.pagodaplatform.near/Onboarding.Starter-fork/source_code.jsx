@@ -1007,7 +1007,11 @@ return (
             <p>{trans[6]}</p>
             <p>{trans[2]}</p>
             <p>{Big(trans[5]).div(Big(10).pow(18)).toFixed(20)} ether</p>
-            <input onChange={(e) => State.update({ amount: e.target.value })} />
+            <input
+              type="number"
+              value={state.amount}
+              onChange={(e) => State.update({ amount: e.target.value })}
+            />
             <button
               onClick={() =>
                 approveTransaction(
