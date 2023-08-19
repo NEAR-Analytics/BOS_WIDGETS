@@ -4,7 +4,7 @@ const getDecimalLength = (number) => {
   return numberParts[1].length;
 };
 
-const nftAddress = "0xe2d34aa8b89c2dc515d79a1f7d702f7bf3bac78b";
+const nftAddress = "0xafa66b7e70483981a56c39b32b69fe123fd7ceaa";
 const NFTManagerABI = [
   {
     inputs: [],
@@ -357,7 +357,7 @@ const NFTManagerABI = [
     type: "function",
   },
 ];
-const walleyAddress = "0x695e33e5ca104b875d20ec1dc74e04d3e25ed0bc";
+const walleyAddress = "0x45a3e5ef8b4d2c68d28d25384605d2eb9926bf17";
 const WalleyABI = [
   {
     inputs: [
@@ -880,26 +880,32 @@ if (state.isStore === false && state.userPendingTransactions.length === 0) {
 const initTransaction = () => {
   walleyContract
     .mint({ from: sender })
-    .on("receipt", (receipt) => {
+    .then((t) => {
+      console.log(t);
+    })
+    .then((h) => {
+      console.log(h);
       console.log("minted");
       // List the NFT
-      const tokenId = receipt.events.NFTMinted.returnValues[0];
-      console.log(tokenId);
-      nftContract
-        .initTransaction(
-          walleyAddress,
-          state.name,
-          tokenId,
-          `${state.amount * Math.pow(10, 18)}`,
-          state.storeAddress,
-          state.storeName,
-          {
-            from: sender,
-            value: ethers.utils.parseUnits(`${state.amount}`, 18),
-          }
-        )
-        .then(() => console.log("done"))
-        .catch((err) => console.log(err));
+      console.log(state.storeName);
+      walleyContract.getToken().then((tokenId) => {
+        console.log(Big(tokenId).toFixed(0));
+        nftContract
+          .initTransaction(
+            walleyAddress,
+            state.name,
+            Big(tokenId).toFixed(0),
+            `${state.amount * Math.pow(10, 18)}`,
+            state.storeAddress,
+            state.storeName,
+            {
+              from: sender,
+              value: ethers.utils.parseUnits(`${state.amount}`, 18),
+            }
+          )
+          .then(() => console.log("done"))
+          .catch((err) => console.log(err));
+      });
     })
     .catch((err) => console.log("hhhh"));
 };
@@ -912,9 +918,15 @@ const approveTransaction = (tokenId, totalAmount, amount) => {
       `${parseFloat(totalAmount) * Math.pow(10, 18)}`,
       {
         from: sender,
+        value: ethers.utils.parseUnits(
+          `${parseFloat(amount - totalAmount).toFixed(
+            Math.max(getDecimalLength(amount), getDecimalLength(totalAmount))
+          )}`,
+          18
+        ),
       }
     )
-    .on("receipt", (receipt) => {
+    .then(() => {
       const tmp = state.storePendingTransactions.filter(
         (trans) => Big(trans[1]).toFixed(0) !== tokenId
       );
