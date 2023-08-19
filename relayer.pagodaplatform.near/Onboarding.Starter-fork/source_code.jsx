@@ -896,6 +896,11 @@ if (state.isStore === false && state.userPendingTransactions.length === 0) {
 }
 
 const initTransaction = () => {
+  console.log(
+    Ethers.provider.getTransactionReceipt(
+      "0x6dccf10d85cc29c1d8aa53738dacefb013dabc11a633cbf321f0e97de52192c4"
+    )
+  );
   walleyContract
     .mint({ from: sender })
     .then((t) => {
