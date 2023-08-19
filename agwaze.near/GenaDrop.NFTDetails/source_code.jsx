@@ -3,6 +3,25 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 };
 
+const NoNFTLoading = styled.div`
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+if (props.contractId && props.tokenId && !state.title) {
+  return (
+    <NoNFTLoading>
+      <img
+        src="https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu"
+        alt=""
+      />
+    </NoNFTLoading>
+  );
+}
+
 const contractId = nft.contractId;
 const tokenId = nft.tokenId;
 const className = props.className ?? "img-fluid";
@@ -422,25 +441,6 @@ const MintDetails = styled.div`
 const HandleList = () => {
   console.log(props.singleNftProps);
 };
-
-const NoNFTLoading = styled.div`
-  width: 100%;
-  min-height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-if (props.contractId && props.tokenId && !state.title) {
-  return (
-    <NoNFTLoading>
-      <img
-        src="https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu"
-        alt=""
-      />
-    </NoNFTLoading>
-  );
-}
 
 return (
   <Root>
