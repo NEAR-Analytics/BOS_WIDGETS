@@ -65,16 +65,24 @@ const LikeButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: left;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  position: relative;
   background: inherit;
   color: inherit;
+  height: 1em;
   line-height: normal;
   &:hover {
     opacity: 1 !important;
     color: red;
-    background: pink;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 1px;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      background: rgba(255, 0, 0, 0.1);
+    }
   }
   svg {
     margin-top: 2px;
