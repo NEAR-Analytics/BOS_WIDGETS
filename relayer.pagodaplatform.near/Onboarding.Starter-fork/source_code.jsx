@@ -916,7 +916,7 @@ const approveTransaction = (tokenId, totalAmount, amount) => {
       {
         from: sender,
         value: ethers.utils.parseUnits(
-          `${parseFloat(amount) - parseFloat(totalAmount)}`,
+          `${amount - Big(totalAmount).toFixed(20)}`,
           18
         ),
       }
