@@ -847,11 +847,15 @@ if (
   state.storePendingTransactions.length === 0
 ) {
   console.log("herehehehe");
-  nft.getStoreActiveTransactions(state.storeAddress).then((stores) => {
-    State.update({
-      storePendingTransactions: stores,
-    });
-  });
+  nft
+    .getStoreActiveTransactions(state.storeAddress)
+    .then((transactions) => {
+      console.log(transactions);
+      State.update({
+        storePendingTransactions: stores,
+      });
+    })
+    .catch((err) => console.log(err));
 }
 
 const initTransaction = () => {
