@@ -511,9 +511,9 @@ return (
             <div>
               <p style={{ color: "#b2b7c2", marginBottom: 0 }}>CURRENT PRICE</p>
               <PriceArea>
-                {state.chain ? (
+                {props.chainState ? (
                   <Logo>
-                    <img src={currentChain[state.chain]} />
+                    <img src={currentChain[props.chainState]} />
                   </Logo>
                 ) : (
                   <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
