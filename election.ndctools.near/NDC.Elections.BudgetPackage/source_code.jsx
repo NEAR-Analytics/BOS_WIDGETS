@@ -1,17 +1,11 @@
 const {
-  electionContract,
-  ndcOrganization,
-  myVotes,
   id,
   typ,
-  ref_link,
-  winnerIds,
-  quorum,
   seats,
-  voters_num,
-  result,
+  electionContract,
+  registryContract,
   isIAmHuman,
-  candidateId,
+  myVotes,
 } = props;
 
 const widgets = {
@@ -117,11 +111,8 @@ const ActionSection = styled.div`
 `;
 
 const currentUser = context.accountId;
-
-const alreadyVoted = (candidateId) =>
-  myVotes.some((voter) => voter.candidate === candidateId);
-
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
+const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 
 const handleVote = (value) =>
   Near.call(
@@ -132,11 +123,7 @@ const handleVote = (value) =>
     2000000000000000000000
   );
 
-const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-
 State.init({
-  start: true,
-  loading: false,
   availableVotes: seats - myVotesForHouse().length,
 });
 
@@ -144,7 +131,7 @@ const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
     <div className="wrapper">
       <div className="d-flex align-items-end">
-        <H3>{alreadyVotedForHouse() ? 0 : seats}</H3>
+        <H3>{alreadyVotedForHouse() ? 0 : state.availableVotes}</H3>
         <span>/</span>
         <H4>{seats}</H4>
         <span className="text-secondary">votes left</span>
