@@ -1,6 +1,6 @@
 let { ids, org } = props;
 
-ids = props.ids ? ids : [1, 2, 3];
+ids = props.ids ? ids : [1, 2, 3, 4];
 org = props.org ? org : "test"; // for testing purposes
 
 const electionContract = "elections-v1.gwg-testing.near";
@@ -12,6 +12,7 @@ let houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[1] }),
   Near.view(electionContract, "proposal", { prop_id: ids[2] }),
 ];
+let budget = Near.view(electionContract, "proposal", { prop_id: ids[3] });
 
 State.init({
   selectedHouse: ids[0],
@@ -57,12 +58,11 @@ if (context.accountId)
     if (resp.body) State.update({ myVotes: resp.body });
   });
 
-console.log(state.myVotes);
-
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   houses: "election.ndctools.near/widget/NDC.Elections.Houses",
+  budged: "election.ndctools.near/widget/NDC.Elections.BudgetPackage",
   progress: "election.ndctools.near/widget/NDC.Elections.Progress",
   candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
   statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
@@ -109,7 +109,7 @@ const H5 = styled.h5`
 
 return (
   <div>
-    {houses.map((house) => (
+    {[...houses, budget].map((house) => (
       <>
         {house.id === state.selectedHouse && (
           <Widget
@@ -142,7 +142,7 @@ return (
             src={widgets.houses}
             props={{
               selectedHouse: state.selectedHouse,
-              houses,
+              houses: [...houses, budget],
               handleSelect,
               votesLeft: (house) => votesLeft(house),
             }}
@@ -151,7 +151,7 @@ return (
         <Widget
           src={widgets.progress}
           props={{
-            houses,
+            houses: [...houses, budget],
             votesLeft: (house) => votesLeft(house),
           }}
         />
@@ -177,6 +177,17 @@ return (
             )}
           </>
         ))}
+        {budget && (
+          <Widget
+            src={widgets.budget}
+            props={{
+              electionContract,
+              registryContract,
+              isIAmHuman: state.isIAmHuman,
+              ...budget,
+            }}
+          />
+        )}
       </div>
 
       <div className="col-lg">
