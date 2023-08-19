@@ -911,6 +911,7 @@ const initTransaction = () => {
       console.log(t);
       console.log("minted");
       // List the NFT
+      console.log(getToken());
       getToken().then(() => {
         console.log(state.storeName);
         tokenId = getToken() + 1;
