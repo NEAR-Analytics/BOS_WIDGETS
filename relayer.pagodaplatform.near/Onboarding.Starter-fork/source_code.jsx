@@ -843,24 +843,24 @@ if (state.stores.length == 0) {
       // console.log(state.stores);
     });
 }
-// console.log(state.isStore);
-// if (
-//   state.stores.length !== 0 &&
-//   state.storeAddress !== "" &&
-//   state.isStore === true &&
-//   state.storePendingTransactions.length === 0
-// ) {
-//   console.log("herehehehe");
-//   nftContract
-//     .getStoreActiveTransactions(state.storeAddress)
-//     .then((transactions) => {
-//       console.log(transactions);
-//       State.update({
-//         storePendingTransactions: transactions,
-//       });
-//     })
-//     .catch((err) => console.log(err));
-// }
+console.log(state.isStore);
+if (
+  state.stores.length !== 0 &&
+  state.storeAddress !== "" &&
+  state.isStore === true &&
+  state.storePendingTransactions.length === 0
+) {
+  console.log("herehehehe");
+  nftContract
+    .getStoreActiveTransactions(state.storeAddress)
+    .then((transactions) => {
+      console.log(transactions);
+      State.update({
+        storePendingTransactions: transactions,
+      });
+    })
+    .catch((err) => console.log(err));
+}
 
 if (state.isStore === false && state.userPendingTransactions.length === 0) {
   nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
