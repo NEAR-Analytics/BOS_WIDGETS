@@ -857,12 +857,12 @@ const initTransaction = () => {
       walleyAddress,
       state.name,
       Big(tokenId).toFixed(0),
-      `${Math.pow(state.amount, 18)}`,
+      `${state.amount * Math.pow(10, 18)}`,
       state.storeAddress,
       state.storeName,
       {
         from: sender,
-        value: ethers.utils.parseUnits("0.1", 18),
+        value: ethers.utils.parseUnits(`${state.amount}`, 18),
       }
     );
     // .then(() => console.log("done"))
