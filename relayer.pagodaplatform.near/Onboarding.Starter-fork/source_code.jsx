@@ -888,10 +888,15 @@ const initTransaction = () => {
 };
 
 const approveTransaction = (tokenId, totalAmount, amount) => {
-  nftContract.approveTransaction(walleyAddress, tokenId, totalAmount, {
-    from: sender,
-    value: ethers.utils.parseUnits(`${amount - totalAmount}`, 18),
-  });
+  nftContract.approveTransaction(
+    walleyAddress,
+    tokenId,
+    `${totalAmount * Math.pow(10, 18)}`,
+    {
+      from: sender,
+      value: ethers.utils.parseUnits(`${amount - totalAmount}`, 18),
+    }
+  );
   // .then(() => console.log("done"))
   // .catch((err) => console.log(err));
 };
