@@ -919,11 +919,14 @@ return (
               placeholder: "Select a store",
               options: [...widgetOptions()],
               onChange: (value) => {
+                console.log(value);
                 state.stores.map((store) => {
-                  State.update({
-                    storeName: value,
-                    storeAddress: store.storeAddress,
-                  });
+                  if (store.storeName === value) {
+                    State.update({
+                      storeName: value,
+                      storeAddress: store.storeAddress,
+                    });
+                  }
                 });
               },
             }}
