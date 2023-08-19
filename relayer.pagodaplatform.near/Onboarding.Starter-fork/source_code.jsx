@@ -843,37 +843,37 @@ if (state.stores.length == 0) {
       // console.log(state.stores);
     });
 }
-console.log(state.isStore);
-if (
-  state.stores.length !== 0 &&
-  state.storeAddress !== "" &&
-  state.isStore === true &&
-  state.storePendingTransactions.length === 0
-) {
-  console.log("herehehehe");
-  nftContract
-    .getStoreActiveTransactions(state.storeAddress)
-    .then((transactions) => {
-      console.log(transactions);
-      State.update({
-        storePendingTransactions: transactions,
-      });
-    })
-    .catch((err) => console.log(err));
-}
+// console.log(state.isStore);
+// if (
+//   state.stores.length !== 0 &&
+//   state.storeAddress !== "" &&
+//   state.isStore === true &&
+//   state.storePendingTransactions.length === 0
+// ) {
+//   console.log("herehehehe");
+//   nftContract
+//     .getStoreActiveTransactions(state.storeAddress)
+//     .then((transactions) => {
+//       console.log(transactions);
+//       State.update({
+//         storePendingTransactions: transactions,
+//       });
+//     })
+//     .catch((err) => console.log(err));
+// }
 
-if (
-  sender &&
-  state.isStore === false &&
-  state.userPendingTransactions.length === 0
-) {
-  nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
-    console.log(transactions);
-    State.update({
-      userPendingTransactions: transactions,
-    }).catch((err) => console.log(err));
-  });
-}
+// if (
+//   sender &&
+//   state.isStore === false &&
+//   state.userPendingTransactions.length === 0
+// ) {
+//   nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
+//     console.log(transactions);
+//     State.update({
+//       userPendingTransactions: transactions,
+//     }).catch((err) => console.log(err));
+//   });
+// }
 
 const initTransaction = () => {
   walleyContract
@@ -908,7 +908,7 @@ const initTransaction = () => {
 const approveTransaction = (tokenId, totalAmount, amount) => {
   console.log(amount - totalAmount);
   console.log(
-    ethers.utils.parseUnits(`${(amount - totalAmount).toFixed(5)}`, 18)
+    ethers.utils.parseUnits(`${amount.toFixed(5) - totalAmount.toFixed(5)}`, 18)
   );
   nftContract
     .approveTransaction(
@@ -918,7 +918,7 @@ const approveTransaction = (tokenId, totalAmount, amount) => {
       {
         from: sender,
         value: ethers.utils.parseUnits(
-          `${(amount - totalAmount).toFixed(5)}`,
+          `${amount.toFixed(5) - totalAmount.toFixed(5)}`,
           18
         ),
       }
@@ -1049,7 +1049,7 @@ return (
       </div>
     ) : (
       <div>
-        {/*state.storePendingTransactions.map((trans) => (
+        {state.storePendingTransactions.map((trans) => (
           <div>
             <p>{trans[6]}</p>
             <p>{trans[2]}</p>
@@ -1071,7 +1071,7 @@ return (
               Approve
             </button>
           </div>
-        ))*/}
+        ))}
       </div>
     )}
   </>
