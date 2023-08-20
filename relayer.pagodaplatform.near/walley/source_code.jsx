@@ -841,7 +841,7 @@ const WalleyContainer = styled.div`
 const WalleyHomeTop = styled.div`
     font-weight: 500;
     font-size: 50px;
-    width: 100%;
+    width: 50%;
     height: 100%;
 `;
 
@@ -849,7 +849,7 @@ const WalleyHomeBottom = styled.div`
     font-weight: 500;
     height: 100%;
     width: 100%;
-    text-align: center;
+    text-align: left;
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
