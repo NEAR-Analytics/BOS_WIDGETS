@@ -825,7 +825,6 @@ const WalleyTitle = styled.h1`
 const WalleyContainer = styled.div`
     background: linear-gradient( to bottom, orange 0%, orange 75%, white 75%, white 100% ); ;
     color: white;
-    border: 2px solid black;
     width: 100%;
     padding: 20px;
     display: flex;
@@ -848,6 +847,10 @@ const WalleyHomeTop = styled.div`
 `;
 
 const WalleyHomeBottom = styled.div`
+    position: relative;
+    top: 50%;
+    background-color: white;
+    border: 1px solid gray;
     font-weight: 500;
     height: 100%;
     width: 100%;
