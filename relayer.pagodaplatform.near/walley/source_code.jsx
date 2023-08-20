@@ -815,7 +815,7 @@ const Root = styled.div`
 
 const WalleyTitle = styled.h1`
     text-align: center;
-    font-weight: 600;
+    font-weight: 900;
 `;
 
 const WalleyContainer = styled.div`
