@@ -829,7 +829,7 @@ const WalleyContainer = styled.div`
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: space-between;
+    align-items: center;
     justify-content: space-betweeen;
 `;
 
@@ -849,11 +849,11 @@ const WalleyHomeTop = styled.div`
 const WalleyHomeBottom = styled.div`
     position: relative;
     top: 50%;
-    height: 100px;
+    height: 200px;
     background-color: white;
     border: 1px solid gray;
     font-weight: 500;
-    width: 60px;
+    width: 100px;
     text-align: left;
 `;
 
