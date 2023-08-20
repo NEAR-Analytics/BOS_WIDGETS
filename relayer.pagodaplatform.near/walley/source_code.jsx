@@ -825,7 +825,7 @@ const WalleyContainer = styled.div`
     background-color: orange;
     width: 750px;
     height: 500px;
-    padding: 10px;
+    padding: 0px;
     display: flex;
     flex-direction: row;
     align-items: space-between;
