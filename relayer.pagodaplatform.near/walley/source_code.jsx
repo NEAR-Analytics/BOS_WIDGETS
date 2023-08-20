@@ -826,9 +826,7 @@ const WalleyContainer = styled.div`
     background: linear-gradient( to bottom, orange 0%, orange 75%, white 75%, white 100% ); ;
     color: white;
     border: 2px solid black;
-    border-radius: 0px 0px 20px 20px;
     width: 100%;
-    height: 300px;
     padding: 20px;
     display: flex;
     flex-direction: column;
