@@ -798,8 +798,9 @@ State.init({
 
 const WalleyContainer = styled.div`
     marging: 0px;
-    width: 100%;
-    height: 100%;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
     background-image: url("https://img.freepik.com/free-vector/black-triangle-wallpaper-background-design_1017-37441.jpg?w=740&t=st=1692527569~exp=1692528169~hmac=14e7e942ee17fa6ad95e4e44f544f32aa72ba739a2d2c965514818ef4d7a86da");
 `;
 
