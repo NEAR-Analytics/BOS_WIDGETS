@@ -22,7 +22,7 @@ function composeReactionData(reaction, elementReactedId) {
       [action]: JSON.stringify({
         key: elementReactedId,
         value: {
-          type: "md",
+          reactionId: `r-${context.accountId}-${Date.now()}`,
           reaction,
         },
       }),
