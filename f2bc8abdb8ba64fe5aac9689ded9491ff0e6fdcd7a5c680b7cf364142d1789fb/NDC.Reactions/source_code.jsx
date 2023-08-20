@@ -50,11 +50,14 @@ const libCalls = [
     key: "reactionsData",
     props: {
       elementReactedId,
-      // createdReaction: state.createReaction,
     },
   },
 ];
 
+// props: {
+//   elementReactedId,
+//   // createdReaction: state.createReaction,
+// },
 // : [];
 
 State.init({
