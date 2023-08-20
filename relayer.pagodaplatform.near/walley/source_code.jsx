@@ -924,19 +924,17 @@ if (state.store.stores.length === 0 && nftContract && sender) {
   nftContract.getAllStores().then((stores) => {
     const storeState = state.store;
     storeState.stores = stores;
-    stores
-      .map((store) => {
-        storeState.storeNames.push(store[0]);
-        if (store[1] === sender) {
-          storeState.isStore = true;
-          storeState.storeName = store[0];
-          storeState.storeAddress = store[1];
-        }
-      })
-      .then(() => {
-        State.update({
-          store: storeState,
-        });
-      });
+    stores.map((store) => {
+      storeState.storeNames.push(store[0]);
+      if (store[1] === sender) {
+        storeState.isStore = true;
+        storeState.storeName = store[0];
+        storeState.storeAddress = store[1];
+      }
+    });
+    State.update({
+      store: storeState,
+    });
+    console.log(state.store);
   });
 } else console.log(state.store);
