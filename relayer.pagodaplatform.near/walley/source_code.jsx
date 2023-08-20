@@ -822,6 +822,7 @@ const WalleyTitle = styled.h1`
 `;
 
 const WalleyContainer = styled.div`
+    background-color: orange;
     width: 750px;
     height: 500px;
     padding: 10px;
@@ -842,9 +843,6 @@ const WalleyHomeRight = styled.div`
     font-weight: 500;
     height: 100%;
     width: 100%;
-    &>button {
-        background-color: orange;
-    }
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
