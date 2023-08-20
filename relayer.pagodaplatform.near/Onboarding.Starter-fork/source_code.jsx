@@ -1002,7 +1002,7 @@ const widgetOptions = () => {
 return (
   <>
     <Widget
-      src="contribut3.near/widget/CardMenu"
+      src="contribut3.near/widget/Card"
       props={{
         header: (
           <>
