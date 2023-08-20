@@ -13,9 +13,7 @@ const premiumUsers = Object.entries(data)
   });
 
 const getDate = (timestamp) => {
-  console.log(timestamp);
   const dateObj = new Date(timestamp);
-  console.log(dateObj);
 
   const day = dateObj.getDate();
   const month = dateObj.toLocaleString("default", { month: "long" });
@@ -40,8 +38,6 @@ const getDate = (timestamp) => {
     .toString()
     .padStart(2, "0")}, ${month} ${day}${nthNumber(day)}, ${year} `;
 };
-
-console.log(premiumUsers);
 
 return (
   <div>
