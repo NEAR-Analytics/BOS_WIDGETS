@@ -823,7 +823,7 @@ const WalleyTitle = styled.h1`
 `;
 
 const WalleyContainer = styled.div`
-    background: linear-gradient( to bottom, white 0%, white 25%, blue 25%, blue 100% ); ;
+    background: linear-gradient( to bottom, orange 0%, orange 25%, white 25%, white 100% ); ;
     color: white;
     border-radius: 0px 0px 20px 20px;
     width: 100%;
@@ -862,8 +862,8 @@ const updateBalance = (balance) => {
 if (!sender) {
   return (
     <Root>
-      <WalleyTitle>Walley.</WalleyTitle>
       <WalleyContainer>
+        <WalleyTitle>Walley.</WalleyTitle>
         <WalleyHomeTop>Highly Secured NFT-based Wallet.</WalleyHomeTop>
         <WalleyHomeBottom>
           Get Started
