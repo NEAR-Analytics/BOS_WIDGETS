@@ -816,13 +816,11 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
     .getBalance(sender)
     .then((balance) => {
       console.log(balance);
-      Ethers.provider().getTransactionReceipt(
-        "0x194d121aee9311f539c67e25d872059ba4a45057ab7f4e09e1adb7ede558d48a",
-        function (er, data) {
-          console.log(data);
-          console.log(er);
-        }
-      );
+      Ethers.provider()
+        .getTransactionReceipt(
+          "0x194d121aee9311f539c67e25d872059ba4a45057ab7f4e09e1adb7ede558d48a"
+        )
+        .then(() => console.log("here"));
       updateBalance(Big(balance).div(Big(10).pow(18)).toFixed(5));
     });
   // console.log(sender);
