@@ -823,7 +823,7 @@ const WalleyTitle = styled.h1`
 `;
 
 const WalleyContainer = styled.div`
-    background: linear-gradient( to bottom, orange 0%, orange 40%, white 40%, white 100% ); ;
+    background: linear-gradient( to bottom, orange 0%, orange 60%, white 60%, white 100% ); ;
     color: white;
     width: 100%;
     padding: 20px;
