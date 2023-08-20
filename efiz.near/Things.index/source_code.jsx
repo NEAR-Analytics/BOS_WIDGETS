@@ -7,6 +7,14 @@ State.init({
   typeName: defaultType,
 });
 
+function handleCreate() {
+  switch (state.typeName) {
+    case "thing": {
+      break;
+    }
+  }
+}
+
 const renderHeader = () => (
   <div className="d-flex justify-content-between gap-2 align-items-center">
     <div className="col">
@@ -17,6 +25,7 @@ const renderHeader = () => (
         widget
       </Button>
     </div>
+    {/** 
     <Widget
       src="nui.sking.near/widget/Input.Button"
       props={{
@@ -27,6 +36,7 @@ const renderHeader = () => (
             fontWeight: 500,
           },
         },
+        onClick: handleCreate,
         children: (
           <>
             Create a new {state.typeName}
@@ -35,6 +45,7 @@ const renderHeader = () => (
         ),
       }}
     />
+    */}
   </div>
 );
 
