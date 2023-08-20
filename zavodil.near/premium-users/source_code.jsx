@@ -3,6 +3,8 @@ const data = Social.get(
   "final"
 );
 
+if (!data) return "Loading";
+
 const now = Date.now();
 const premiumUsers = Object.entries(data)
   .filter((item) => item[1] >= now)
