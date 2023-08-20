@@ -834,14 +834,14 @@ const WalleyContainer = styled.div`
 const WalleyHomeLeft = styled.div`
     font-weight: 500;
     font-size: 50px;
-    width: 50%;
+    width: 100%;
     height: 100%;
 `;
 
 const WalleyHomeRight = styled.div`
     font-weight: 500;
     height: 100%;
-    width: 50%;
+    width: 100%;
     &>button {
         background-color: orange;
     }
