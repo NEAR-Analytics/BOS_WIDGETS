@@ -912,9 +912,7 @@ const nftContract = new ethers.Contract(
   nftAddress,
   NFTManagerABI,
   Ethers.provider().getSigner()
-).then((t) => {
-  console.log(t);
-});
+);
 const walleyIface = new ethers.utils.Interface(WalleyABI);
 const walleyContract = new ethers.Contract(
   walleyAddress,
