@@ -181,6 +181,12 @@ const getUsdValue = (price) => {
   }
 };
 
+const keywordsToCheck = ["tradeport", "mintbase", "fewandfar"];
+
+const matchedKeyWords = (inputString) => {
+  return keywordsToCheck.find((keyword) => inputString.includes(keyword));
+};
+
 return (
   <>
     <div className="container-fluid">
@@ -242,17 +248,6 @@ return (
               {props.state.tokenInfo.media}
             </a>
           </p>
-          {!props.state.ownsNFT && (
-            <div className="alert alert-danger">
-              <i className="bi bi-x"></i> You do not own this NFT & cannot list
-              or transfer it
-            </div>
-          )}
-          {props.state.ownsNFT && (
-            <div className="alert alert-success">
-              <i className="bi bi-x"></i> You own this NFT
-            </div>
-          )}
           <div className="col-lg-12">
             {Object.keys(props.state.tokenInfo.approved_account_ids || {})
               .length > 0 && <h3> Listed Markets</h3>}
@@ -264,12 +259,11 @@ return (
                     (key) => (
                       <li>
                         <a
-                          href={"https://explorer.near.org/accounts/" + key}
+                          href={props.state.tradeportLink}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {key}:{" "}
-                          {props.state.tokenInfo.approved_account_ids[key]}
+                          View on {matchedKeyWords(key)}
                         </a>
                       </li>
                     )
