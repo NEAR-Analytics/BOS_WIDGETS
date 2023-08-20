@@ -1001,8 +1001,56 @@ const widgetOptions = () => {
 
 return (
   <>
+    <Widget
+      src="contribut3.near/widget/CardMenu"
+      props={{
+        header: (
+          <>
+            <p>state.balance</p>
+            <button
+              onClick={() => {
+                State.update({ addStore: true });
+              }}
+            >
+              add store
+            </button>
+            {state.addStore ? (
+              <div>
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    State.update({ storeName: e.target.value });
+                  }}
+                  value={state.storeName}
+                />
+                <input
+                  type="text"
+                  onChange={(e) => {
+                    State.update({ storeAddress: e.target.value });
+                  }}
+                  value={state.storeAddress}
+                />
+                <button
+                  onClick={() => {
+                    State.update({ storeAddress: sender });
+                  }}
+                >
+                  Use current address
+                </button>
+                <button
+                  onClick={() => addStore(state.storeName, state.storeAddress)}
+                >
+                  Add
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
+          </>
+        ),
+      }}
+    />
     <p>{state.chainId}</p>
-    <p>{state.balance}</p>
     {state.isStore === false ? (
       <div>
         {state.stores.length !== 0 ? (
