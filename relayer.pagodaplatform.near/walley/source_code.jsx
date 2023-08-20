@@ -871,7 +871,7 @@ const WalleyIndexBottom = styled.div`
     }
 `;
 
-const WalleyHomeContainer
+const WalleyHomeContainer;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
