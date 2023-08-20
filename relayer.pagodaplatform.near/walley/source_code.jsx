@@ -820,9 +820,11 @@ const updateBalance = (balance) => {
 };
 if (!sender) {
   return (
-    <WalleyContainer>
-      <Web3Connect connectLabel="Connect with Web3" />
-    </WalleyContainer>
+    <Root>
+      <WalleyContainer>
+        <Web3Connect connectLabel="Connect with Web3" />
+      </WalleyContainer>
+    </Root>
   );
 }
 if (state.chainId === undefined && ethers !== undefined && sender) {
