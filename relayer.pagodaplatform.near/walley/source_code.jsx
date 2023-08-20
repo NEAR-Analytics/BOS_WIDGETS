@@ -813,10 +813,11 @@ const Root = styled.div`
     box-sizing: border-box;
 `;
 
-const WalleyTitle = styled.h1`
+const WalleyTitle = styled.div`
     text-align: left;
     font-weight: 900;
     width: 100%;
+    font-size: 30px;
     margin: 0px;
     padding: 5px;
     color: #000D1A; 
@@ -840,11 +841,11 @@ const WalleyHomeTop = styled.div`
     margin-top: 20px;
     color: #000D1A;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 40px;
     height: 100%;
     padding-bottom: 10px;
     @media screen and (max-width: 600px) {
-        font-size: 15px;
+        font-size: 25px;
         font-weight: 700;
     }
 `;
@@ -907,9 +908,7 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
 if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
 }
-// console.log(NFTManagerABI);
 const nftIface = new ethers.utils.Interface(NFTManagerABI);
-// console.log("hehe");
 const nftContract = new ethers.Contract(
   nftAddress,
   NFTManagerABI,
@@ -921,3 +920,7 @@ const walleyContract = new ethers.Contract(
   WalleyABI,
   Ethers.provider().getSigner()
 );
+
+return (
+
+)
