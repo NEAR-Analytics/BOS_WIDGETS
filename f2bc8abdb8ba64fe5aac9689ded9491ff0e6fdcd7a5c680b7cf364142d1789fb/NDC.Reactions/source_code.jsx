@@ -198,6 +198,7 @@ function reactListener(emojiMessage) {
     },
   });
   State.update({ libCalls: newLibCalls });
+}
 
 function reactionsStateUpdate(obj) {
   State.update(obj);
