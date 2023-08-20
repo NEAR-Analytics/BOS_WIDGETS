@@ -835,15 +835,15 @@ const WalleyHomeLeft = styled.div`
     font-weight: 500;
     width: 50%;
     height: 100%;
-    &>button {
-        background-color: orange;
-    }
 `;
 
 const WalleyHomeRight = styled.div`
     font-weight: 500;
     width: 50%;
     height: 100%;
+    &>button {
+        background-color: orange;
+    }
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
