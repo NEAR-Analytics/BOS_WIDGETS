@@ -860,6 +860,9 @@ const WalleyHomeBottom = styled.div`
     box-shadow: 12px 0px 0px 5px #000D1A;
     @media screen and (max-width: 600px) {
         width: 100%;
+        box-shadow: 0px;
+        border: 1px solid #000D1A;
+        border-radius: 20px;
     }
 `;
 
