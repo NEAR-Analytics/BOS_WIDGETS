@@ -121,13 +121,27 @@ const shorten = (str, len) => {
   return str.slice(0, len) + "...";
 };
 
+function getViewPath(path) {
+  switch (type) {
+    case "thing": {
+      return `/every.near/widget/every.thing.view?path=${path}`;
+    }
+    case "type": {
+      return `/every.near/widget/every.type.create?typeSrc=${path}`;
+    }
+    case "widget": {
+      return `/${path}`;
+    }
+  }
+}
+
 function getSourcePath(path) {
   switch (type) {
     case "thing": {
-      return `/${path}`;
+      return `/mob.near/widget/WidgetSource?src=${path}`;
     }
     case "type": {
-      return `/${path}`;
+      return `/every.near/widget/every.type.create?typeSrc=${path}`;
     }
     case "widget": {
       return `/mob.near/widget/WidgetSource?src=${path}`;
@@ -138,7 +152,7 @@ function getSourcePath(path) {
 function getEditPath(path) {
   switch (type) {
     case "thing": {
-      return `/${path}`;
+      return `/efiz.near/widget/every.thing.edit?path=${path}`;
     }
     case "type": {
       return `/every.near/widget/every.type.create?typeSrc=${path}`;
@@ -291,7 +305,7 @@ return (
       </div>
     </div>
     <div className="d-flex gap-2 justify-content-around gap-3 my-3">
-      <a href={`/${path}`} target="_blank">
+      <a href={getViewPath(path)} target="_blank">
         <i className="bi me-1 bi-eye" />
         View
       </a>
