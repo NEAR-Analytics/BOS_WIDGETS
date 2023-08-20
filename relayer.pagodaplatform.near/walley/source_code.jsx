@@ -920,7 +920,3 @@ const walleyContract = new ethers.Contract(
   WalleyABI,
   Ethers.provider().getSigner()
 );
-
-return (
-
-)
