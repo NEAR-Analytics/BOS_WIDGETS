@@ -918,7 +918,7 @@ const initTransaction = () => {
       console.log("minted");
       // List the NFT
       let tm =null
-      while (tm = null) {
+      while (tm == null) {
         Ethers.provider()
           .getTransactionReceipt(t.hash)
           .then((data) => {
