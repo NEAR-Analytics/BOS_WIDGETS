@@ -834,7 +834,9 @@ const WalleyContainer = styled.div`
 `;
 
 const WalleyHomeTop = styled.div`
-    font-weight: 500;
+    margin-top: 20px;
+    color: black;
+    font-weight: 600;
     font-size: 50px;
     width: 50%;
     height: 100%;
