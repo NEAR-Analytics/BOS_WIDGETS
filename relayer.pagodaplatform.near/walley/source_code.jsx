@@ -783,6 +783,7 @@ State.init({
     chainId: undefined,
     balance: 0,
   },
+  theme: undefined,
   store: {
     stores: [],
     storeName: "",
@@ -796,9 +797,15 @@ State.init({
   },
 });
 
+const cssFont = fetch(
+  "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+).body;
+
 const Root = styled.div`
     width: 100%;
     display: flex;
+    font-family: Poppins, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    ${cssFont}
     flex-direction: column;
     padding: 0;
     align-items: center;
@@ -808,6 +815,7 @@ const Root = styled.div`
 
 const WalleyTitle = styled.h1`
     text-align: center;
+    font-weight: 600;
 `;
 
 const WalleyContainer = styled.div`
