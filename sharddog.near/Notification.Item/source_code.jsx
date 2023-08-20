@@ -1,31 +1,31 @@
-const accountId = context.accountId;
-
-if (!accountId) {
-  return "Sign in with NEAR Wallet";
-}
-
-const index = {
-  action: "notify",
-  key: accountId,
-  options: {
-    limit: 10,
-    order: "desc",
-    subscribe: true,
-  },
-};
-
-const renderItem = (item, i) => {
-  if (i === 0) {
-    Storage.set("lastBlockHeight", item.blockHeight);
-  }
-  return (
-    <Widget src="sharddog.near/widget/Notification.Item" key={i} props={item} />
-  );
-};
+const { value } = props;
 
 return (
-  <Widget
-    src="sharddog.near/widget/FilteredIndexFeed"
-    props={{ index, renderItem }}
-  />
+  <div className="mb-3">
+    {value.type === "follow" || value.type === "unfollow" ? (
+      <Widget src="mob.near/widget/Notification.Item.Follow" props={props} />
+    ) : value.type === "poke" ? (
+      <Widget src="mob.near/widget/Notification.Item.Poke" props={props} />
+    ) : value.type === "like" ? (
+      <Widget src="mob.near/widget/Notification.Item.Like" props={props} />
+    ) : value.type === "comment" ? (
+      <Widget src="mob.near/widget/Notification.Item.Comment" props={props} />
+    ) : value.type && value.type?.startsWith("devgovgigs/") ? (
+      <Widget src="mob.near/widget/Notification.Item.DevGov" props={props} />
+    ) : value.type === "mention" ? (
+      <Widget src="mob.near/widget/Notification.Item.Mention" props={props} />
+    ) : value.type === "repost" ? (
+      <Widget src="mob.near/widget/Notification.Item.Repost" props={props} />
+    ) : value.type === "chess-game" ? (
+      <Widget
+        src="chess-game.near/widget/Notification.Item.ChessGame@98857466"
+        props={props}
+      />
+    ) : (
+      <div>
+        Unknown notification:{" "}
+        <span className="font-monospace">{JSON.stringify(value)}</span>
+      </div>
+    )}
+  </div>
 );
