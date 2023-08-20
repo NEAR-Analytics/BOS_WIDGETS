@@ -806,7 +806,7 @@ const Root = styled.div`
     box-sizing: border-box;
 `;
 
-const WalleyTitle = style.h1`
+const WalleyTitle = styled.h1`
     text-align: center;
 `;
 
