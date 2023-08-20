@@ -855,8 +855,12 @@ const WalleyHomeBottom = styled.div`
     height: 350px;
     background-color: white;
     font-weight: 500;
+    width: 400px;
     text-align: left;
     box-shadow: 12px 0px 0px 5px #000D1A;
+    @media screen and (max-width: 600px) {
+        width: 100%;
+    }
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
