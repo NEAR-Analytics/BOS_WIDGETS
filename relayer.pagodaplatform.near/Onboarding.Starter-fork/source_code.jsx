@@ -920,6 +920,7 @@ const initTransaction = () => {
       Ethers.provider()
         .getTransactionReceipt(t.hash)
         .then((data) => {
+          console.log(data);
           console.log(data.logs[2].data);
           tokenId = data.logs[2].data;
           console.log(state.storeName);
