@@ -15,8 +15,7 @@ const tokenId = props.tokenId ?? "1679119560198"; // maybe condtional check if p
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
 // fewfar link // display button if listed // asking them for format and they are working on a fix // https://fewfar.com/genadrop-single-nft-near/1675689302938/
-const tradeportLink =
-  "https://www.tradeport.xyz/near/collection/" + contractId + "/" + tokenId;
+const tradeportLink = `https://www.tradeport.xyz/near/collection/${contractId}?tab=items&tokenId=${tokenId}`;
 // maybe utilize the helper funciton here
 // const fewfarlink =
 const defaultCustomMarket = "apollo42.near";
