@@ -1,4 +1,4 @@
-const nftAddress = "0xf7f236506f5f185dc46135a8c35f6f55e83e56f0";
+const nftAddress = "0x2ff89994bac89d17c7dc101ca9c0e2154737c035";
 const NFTManagerABI = [
   {
     inputs: [],
@@ -369,7 +369,7 @@ const NFTManagerABI = [
     type: "function",
   },
 ];
-const walleyAddress = "0x055599f29bd2ae4c4abda83d91a4f6ca390eca11";
+const walleyAddress = "0xbaeeb75e706cbcdbb4ed815bfb0ea6c8fac2ebcd";
 const WalleyABI = [
   {
     inputs: [
@@ -920,21 +920,36 @@ const walleyContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
+//get stores data
 if (state.store.stores.length === 0 && nftContract && sender) {
   nftContract.getAllStores().then((stores) => {
     const storeState = state.store;
     storeState.stores = stores;
-    stores.map((store) => {
+    let store;
+    for (let i = 0; i < stores.length; i++) {
+      store = stores[i];
       storeState.storeNames.push(store[0]);
       if (store[1] === sender) {
         storeState.isStore = true;
         storeState.storeName = store[0];
         storeState.storeAddress = store[1];
+        nftContract
+          .getStoreActiveTransactions(store[1])
+          .then(
+            (transactions) =>
+              (storeState.storePendingTransactions = transactions)
+          );
       }
-    });
-    State.update({
-      store: storeState,
-    });
+      if (i === stores.length - 1) State.update({ store: storeState });
+    }
     console.log(state.store);
   });
-} else console.log(state.store);
+}
+
+if (store.user.userPendingTransactions.length === 0 && sender && nftContract) {
+  nftContract
+    .getMyActiveTransactions({ from: sender })
+    .then((transactions) =>
+      State.update({ user: { userPendingTransactions: transactions } })
+    );
+}
