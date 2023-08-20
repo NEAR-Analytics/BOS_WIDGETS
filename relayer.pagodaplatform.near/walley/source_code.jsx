@@ -852,11 +852,11 @@ const WalleyHomeBottom = styled.div`
     top: 50%;
     height: 350px;
     background-color: white;
-    border: 1px solid #000D1A;
     border-radius: 20px;
     font-weight: 500;
     width: 400px;
     text-align: left;
+    box-shadow: 12px 0px 0px 5px #000D1A;
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
