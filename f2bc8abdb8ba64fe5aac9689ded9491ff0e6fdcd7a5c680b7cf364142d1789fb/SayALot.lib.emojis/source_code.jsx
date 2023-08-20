@@ -47,7 +47,12 @@ function saveReaction(reaction, elementReactedId, onCommit, onCancel) {
 function getReactionsData(props) {
   // const { elementReactedId, createdReaction } = props;
   const { elementReactedId } = props;
-
+  if (
+    elementReactedId ==
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691530843649"
+  ) {
+    console.log("getReactionsData");
+  }
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
     subscribe: true,
