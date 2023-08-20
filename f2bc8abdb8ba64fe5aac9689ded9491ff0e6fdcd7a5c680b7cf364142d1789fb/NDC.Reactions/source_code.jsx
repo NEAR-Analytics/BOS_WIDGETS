@@ -19,7 +19,7 @@ const accountThatIsLoggedIn = context.accountId;
 
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.emojis`];
 
-function callLibs(srcArray, stateUpdate, libCalls) {
+function callLibs(srcArray, stateUpdate, libCalls, initialEmoji) {
   return (
     <>
       {srcArray.map((src) => {
@@ -30,6 +30,7 @@ function callLibs(srcArray, stateUpdate, libCalls) {
               isTest,
               stateUpdate,
               libCalls,
+              initialEmoji,
             }}
           />
         );
@@ -182,9 +183,6 @@ function reactListener(emojiMessage) {
   if (state.loading) {
     return;
   }
-  State.update({
-    loading: true,
-  });
 
   // decide to put unique emoji or white heart (unreaction emoji)
   const emojiToWrite =
@@ -208,7 +206,7 @@ function reactListener(emojiMessage) {
       onCancel: onPushEnd,
     },
   });
-  State.update({ libCalls: newLibCalls });
+  State.update({ libCalls: newLibCalls, loading: true });
 }
 
 function reactionsStateUpdate(obj) {
