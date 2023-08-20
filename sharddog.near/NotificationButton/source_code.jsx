@@ -22,7 +22,7 @@ const render = (counter, disabled) => {
           {inner}
         </button>
       ) : (
-        <a className={className} href={`#/${notificationFeedSrc}`}>
+        <a className={className} href={`${notificationFeedSrc}`}>
           {inner}
         </a>
       )}
