@@ -831,7 +831,7 @@ const WalleyContainer = styled.div`
     border-radius: 0px 0px 20px 20px;
     width: 100%;
     height: 300px;
-    padding: 0px;
+    padding: 20px;
     display: flex;
     flex-direction: row;
     align-items: space-between;
