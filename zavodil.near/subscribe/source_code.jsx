@@ -29,10 +29,10 @@ const getEndDate = (purchasedPeriod) => {
 };
 
 State.init({
-  type: "custom",
+  type: "annually",
+  purchasedPeriod: yearInMs,
   customAmount: 1,
   previousTimestamp,
-  purchasedPeriod: 0,
   price,
   priceWholesale,
 });
