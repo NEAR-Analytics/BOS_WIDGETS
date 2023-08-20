@@ -864,6 +864,11 @@ const WalleyHomeBottom = styled.div`
         border: 1px solid #000D1A;
         border-radius: 20px;
     }
+    &>button {
+        border: none;
+        background: orange;
+        color: white;
+    }
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
