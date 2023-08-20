@@ -54,6 +54,7 @@ const libCalls = [
     },
   },
 ];
+
 // : [];
 
 State.init({
@@ -63,6 +64,7 @@ State.init({
   loading: false,
   libCalls,
 });
+console.log("reactionsData: ", state.reactionsData);
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
 // function updateReactionsStatisticsIfUserVoted(newEmoji) {
