@@ -45,7 +45,8 @@ function saveReaction(reaction, elementReactedId, onCommit, onCancel) {
 }
 
 function getReactionsData(props) {
-  const { elementReactedId, createdReaction } = props;
+  // const { elementReactedId, createdReaction } = props;
+  const { elementReactedId } = props;
 
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
@@ -69,21 +70,21 @@ function getReactionsData(props) {
       return obj.accountId === context.accountId;
     });
 
-  if (userReaction && createdReaction) {
-    const newArrayOfLastReactions = arrayLastReactionForEachUser
-      .filter((obj) => {
-        return obj.accountId !== context.accountId;
-      })
-      .push({
-        accountId: context.accountId,
-        value: {
-          type: "md",
-          reaction: createdReaction,
-        },
-      });
+  // if (userReaction && createdReaction) {
+  //   const newArrayOfLastReactions = arrayLastReactionForEachUser
+  //     .filter((obj) => {
+  //       return obj.accountId !== context.accountId;
+  //     })
+  //     .push({
+  //       accountId: context.accountId,
+  //       value: {
+  //         type: "md",
+  //         reaction: createdReaction,
+  //       },
+  //     });
 
-    arrayLastReactionForEachUser = newArrayOfLastReactions;
-  }
+  //   arrayLastReactionForEachUser = newArrayOfLastReactions;
+  // }
 
   // ========= GET REACTIONS STATISTICS =========
   function getReactionStats(acc, reactionObj) {
