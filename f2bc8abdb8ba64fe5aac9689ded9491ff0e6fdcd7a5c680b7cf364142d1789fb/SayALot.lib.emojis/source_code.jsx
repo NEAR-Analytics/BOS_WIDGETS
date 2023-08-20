@@ -64,15 +64,19 @@ function getReactionsData(props) {
     console.log("allReactions: ", allReactions);
   }
 
-  const uniqueAccounts = [];
+  // const uniqueAccounts = [];
   let arrayLastReactionForEachUser =
     allReactions &&
     allReactions.filter((obj) => {
-      if (!uniqueAccounts.includes(obj.accountId)) {
-        uniqueAccounts.push(obj.accountId);
-        return true;
-      }
-      return false;
+      const userLatestInteraction = allReactions.find(
+        (vote) => vote.accountId === obj.accountId
+      );
+      return JSON.stringify(userLatestInteraction) === JSON.stringify(obj);
+      // if (!uniqueAccounts.includes(obj.accountId)) {
+      //   uniqueAccounts.push(obj.accountId);
+      //   return true;
+      // }
+      // return false;
     });
 
   const userReaction =
