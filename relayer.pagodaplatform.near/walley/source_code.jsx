@@ -861,7 +861,7 @@ const WalleyHomeBottom = styled.div`
     @media screen and (max-width: 600px) {
         width: 100%;
         box-shadow: none;
-        border: 1px solid #000D1A;
+        border: 1px solid #AA0D1A;
         border-radius: 20px;
     }
     &>button {
