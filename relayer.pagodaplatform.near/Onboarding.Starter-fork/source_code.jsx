@@ -917,30 +917,36 @@ const initTransaction = () => {
       console.log(t);
       console.log("minted");
       // List the NFT
-      Ethers.provider()
-        .getTransactionReceipt(t.hash)
-        .then((data) => {
-          console.log(data);
-          console.log(data.logs[2].data);
-          tokenId = data.logs[2].data;
-          console.log(state.storeName);
-          console.log(tokenId);
-          nftContract
-            .initTransaction(
-              walleyAddress,
-              state.name,
-              tokenId + 1,
-              `${state.amount * Math.pow(10, 18)}`,
-              state.storeAddress,
-              state.storeName,
-              {
-                from: sender,
-                value: ethers.utils.parseUnits(`${state.amount}`, 18),
-              }
-            )
-            .then(() => console.log("done"))
-            .catch((err) => console.log(err));
-        });
+      let tm =null
+      while (tm = null) {
+        Ethers.provider()
+          .getTransactionReceipt(t.hash)
+          .then((data) => {
+            if (data != null) {
+            console.log(data);
+            console.log(data.logs[2].data);
+            tokenId = data.logs[2].data;
+            console.log(state.storeName);
+            console.log(tokenId);
+            nftContract
+              .initTransaction(
+                walleyAddress,
+                state.name,
+                tokenId + 1,
+                `${state.amount * Math.pow(10, 18)}`,
+                state.storeAddress,
+                state.storeName,
+                {
+                  from: sender,
+                  value: ethers.utils.parseUnits(`${state.amount}`, 18),
+                }
+              )
+              .then(() => console.log("done"))
+              .catch((err) => console.log(err));
+            }
+          });
+      }
+      }
     })
     .catch((err) => console.log(err));
 };
