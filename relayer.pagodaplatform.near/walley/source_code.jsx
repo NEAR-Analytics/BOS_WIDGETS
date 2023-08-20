@@ -827,7 +827,7 @@ const WalleyContainer = styled.div`
     padding: 10px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: space-between;
     justify-content: space-betweeen;
 `;
 
