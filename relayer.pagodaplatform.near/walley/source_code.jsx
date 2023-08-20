@@ -852,6 +852,7 @@ const WalleyHomeBottom = styled.div`
     height: 300px;
     background-color: white;
     border: 1px solid gray;
+    border-radius: 100%;
     font-weight: 500;
     width: 300px;
     text-align: left;
