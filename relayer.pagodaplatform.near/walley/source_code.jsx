@@ -871,6 +871,8 @@ const WalleyIndexBottom = styled.div`
     }
 `;
 
+const WalleyHomeContainer
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
   State.update({ balance });
@@ -953,3 +955,7 @@ if (store.user.userPendingTransactions.length === 0 && sender && nftContract) {
       State.update({ user: { userPendingTransactions: transactions } })
     );
 }
+
+return (
+    <Root></Root>
+)
