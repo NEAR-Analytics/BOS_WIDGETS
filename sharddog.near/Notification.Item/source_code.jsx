@@ -1,7 +1,7 @@
 const { value } = props;
 
 return (
-  <div className="mb-3">
+  <div className="mb-3 context-title-text">
     {value.type === "follow" || value.type === "unfollow" ? (
       <Widget src="mob.near/widget/Notification.Item.Follow" props={props} />
     ) : value.type === "poke" ? (
