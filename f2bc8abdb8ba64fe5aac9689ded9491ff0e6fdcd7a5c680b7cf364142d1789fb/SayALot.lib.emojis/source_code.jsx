@@ -55,7 +55,6 @@ function getReactionsData(props) {
   }
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
-    subscribe: true,
   });
 
   const uniqueAccounts = [];
