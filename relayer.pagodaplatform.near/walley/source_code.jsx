@@ -783,7 +783,6 @@ State.init({
     chainId: undefined,
     balance: 0,
   },
-  theme: undefined,
   store: {
     stores: [],
     storeName: "",
@@ -823,7 +822,7 @@ const WalleyTitle = styled.div`
     color: #000D1A; 
 `;
 
-const WalleyContainer = styled.div`
+const WalleyIndexContainer = styled.div`
     
     box-shadow: 12px 0px 0px 5px #000D1A;
     background: linear-gradient( to bottom, orange 0%, orange 50%, #FFF5F5 50%, #FFF5F5 100% ); ;
@@ -837,7 +836,7 @@ const WalleyContainer = styled.div`
     justify-content: space-betweeen;
 `;
 
-const WalleyHomeTop = styled.div`
+const WalleyIndexTop = styled.div`
     margin-top: 20px;
     color: #000D1A;
     font-weight: 600;
@@ -850,7 +849,7 @@ const WalleyHomeTop = styled.div`
     }
 `;
 
-const WalleyHomeBottom = styled.div`
+const WalleyIndexBottom = styled.div`
     position: relative;
     top: 50%;
     height: 350px;
@@ -879,14 +878,14 @@ const updateBalance = (balance) => {
 if (!sender) {
   return (
     <Root>
-      <WalleyContainer>
+      <WalleyIndexContainer>
         <WalleyTitle>Walley.</WalleyTitle>
-        <WalleyHomeTop>Go Phoneless</WalleyHomeTop>
-        <WalleyHomeBottom>
+        <WalleyIndexTop>Go Phoneless</WalleyIndexTop>
+        <WalleyIndexBottom>
           Get Started
           <Web3Connect connectLabel="Connect Wallet" />
-        </WalleyHomeBottom>
-      </WalleyContainer>
+        </WalleyIndexBottom>
+      </WalleyIndexContainer>
     </Root>
   );
 }
@@ -913,7 +912,9 @@ const nftContract = new ethers.Contract(
   nftAddress,
   NFTManagerABI,
   Ethers.provider().getSigner()
-);
+).then((t) => {
+  console.log(t);
+});
 const walleyIface = new ethers.utils.Interface(WalleyABI);
 const walleyContract = new ethers.Contract(
   walleyAddress,
