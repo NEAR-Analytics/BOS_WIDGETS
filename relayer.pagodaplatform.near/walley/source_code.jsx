@@ -819,12 +819,12 @@ const WalleyTitle = styled.h1`
     width: 100%;
     margin: 0px;
     padding: 5px;
-    color: #000; 
+    color: #000D1A; 
 `;
 
 const WalleyContainer = styled.div`
     background: linear-gradient( to bottom, orange 0%, orange 50%, #F9F5FF 50%, #F9F5FF 100% ); ;
-    color: white;
+    color: #000D1A;
     width: 100%;
     padding: 20px;
     display: flex;
@@ -836,7 +836,7 @@ const WalleyContainer = styled.div`
 
 const WalleyHomeTop = styled.div`
     margin-top: 20px;
-    color: black;
+    color: #000D1A;
     font-weight: 600;
     font-size: 20px;
     height: 100%;
