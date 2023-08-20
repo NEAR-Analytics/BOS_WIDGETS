@@ -919,9 +919,11 @@ const initTransaction = () => {
       // List the NFT
       let tm = null;
       while (tm == null) {
+        console.log("hereaaa");
         Ethers.provider()
           .getTransactionReceipt(t.hash)
           .then((data) => {
+            console.log(data);
             if (data != null) {
               console.log(data);
               console.log(data.logs[2].data);
@@ -943,6 +945,7 @@ const initTransaction = () => {
                 )
                 .then(() => console.log("done"))
                 .catch((err) => console.log(err));
+              tm = data;
             }
           });
       }
