@@ -823,7 +823,7 @@ const WalleyTitle = styled.h1`
 
 const WalleyContainer = styled.div`
     background-color: orange;
-    width: 750px;
+    width: 100%;
     height: 500px;
     padding: 0px;
     display: flex;
