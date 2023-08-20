@@ -819,14 +819,11 @@ const WalleyTitle = styled.h1`
     width: 100%;
     margin: 0px;
     padding: 5px;
-    background: orange;
     color: #000; 
-    border: 2px black solid;
-    border-radius: 20px 20px 0px 0px;
 `;
 
 const WalleyContainer = styled.div`
-    background-color: black;
+    background: linear-gradient( to bottom, white 0%, white 25%, blue 25%, blue 100% ); ;
     color: white;
     border-radius: 0px 0px 20px 20px;
     width: 100%;
