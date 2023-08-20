@@ -816,6 +816,7 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
     .getBalance(sender)
     .then((balance) => {
       console.log(balance);
+      console.log(Ethers.provider());
       updateBalance(Big(balance).div(Big(10).pow(18)).toFixed(5));
     });
   // console.log(sender);
@@ -913,13 +914,13 @@ const initTransaction = () => {
     console.log(receipt);
   });
   // .then((t) => {
-  //   console.log(t);
-  //   console.log("minted");
+  // console.log(t);
+  // console.log("minted");
   //   // List the NFT
-  //   console.log(getToken());
+  // console.log(getToken());
   //   getToken((tokenId) => {
-  //     console.log(state.storeName);
-  //     console.log(tokenId);
+  // console.log(state.storeName);
+  // console.log(tokenId);
   //     nftContract
   //       .initTransaction(
   //         walleyAddress,
@@ -933,8 +934,8 @@ const initTransaction = () => {
   //           value: ethers.utils.parseUnits(`${state.amount}`, 18),
   //         }
   //       )
-  //       .then(() => console.log("done"))
-  //       .catch((err) => console.log(err));
+  // .then(() => console.log("done"))
+  // .catch((err) => console.log(err));
   //   });
   // })
   // .catch((err) => console.log(err));
