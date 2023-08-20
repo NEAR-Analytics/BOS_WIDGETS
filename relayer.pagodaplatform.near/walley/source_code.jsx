@@ -796,12 +796,21 @@ State.init({
   },
 });
 
+const Root = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+`;
+
 const WalleyContainer = styled.div`
     marging: 0px;
     box-sizing: border-box;
-    width: 100%;
+    width: 750px;
     height: 500px;
-
+    
     background-image: url("https://img.freepik.com/free-vector/black-triangle-wallpaper-background-design_1017-37441.jpg?w=740&t=st=1692527569~exp=1692528169~hmac=14e7e942ee17fa6ad95e4e44f544f32aa72ba739a2d2c965514818ef4d7a86da");
 `;
 
