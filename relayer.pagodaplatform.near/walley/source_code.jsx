@@ -825,6 +825,25 @@ const WalleyContainer = styled.div`
     width: 750px;
     height: 500px;
     padding: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+`;
+
+const WalleyHomeLeft = styled.div`
+    font-weight: 500;
+    width: 50%;
+    height: 100%;
+    &>button {
+        background-color: orange;
+    }
+`;
+
+const WalleyHomeRight = styled.div`
+    font-weight: 500;
+    width: 50%;
+    height: 100%;
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -836,7 +855,11 @@ if (!sender) {
     <Root>
       <WalleyTitle>Walley.</WalleyTitle>
       <WalleyContainer>
-        <Web3Connect connectLabel="Connect with Web3" />
+        <WalleyHomeLeft>Highly Secured NFT-based Wallet.</WalleyHomeLeft>
+        <WalleyHomeRight>
+          Get Started
+          <Web3Connect connectLabel="Connect Wallet" />
+        </WalleyHomeRight>
       </WalleyContainer>
     </Root>
   );
