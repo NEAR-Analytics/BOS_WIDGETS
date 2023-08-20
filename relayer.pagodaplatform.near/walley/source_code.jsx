@@ -858,7 +858,7 @@ const WalleyHomeBottom = styled.div`
     font-weight: 500;
     width: 400px;
     text-align: left;
-    box-shadow: 12px 0px 0px 5px #DBDED7;
+    box-shadow: 12px 0px 0px 5px #000D1A;
     @media screen and (max-width: 600px) {
         width: 100%;
         box-shadow: none;
