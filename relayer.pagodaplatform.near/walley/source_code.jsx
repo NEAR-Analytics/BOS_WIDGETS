@@ -833,26 +833,23 @@ const WalleyContainer = styled.div`
     height: 300px;
     padding: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: space-between;
     justify-content: space-betweeen;
 `;
 
-const WalleyHomeLeft = styled.div`
+const WalleyHomeTop = styled.div`
     font-weight: 500;
     font-size: 50px;
     width: 100%;
     height: 100%;
 `;
 
-const WalleyHomeRight = styled.div`
+const WalleyHomeBottom = styled.div`
     font-weight: 500;
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
     text-align: center;
-    align-items: center;
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -864,11 +861,11 @@ if (!sender) {
     <Root>
       <WalleyTitle>Walley.</WalleyTitle>
       <WalleyContainer>
-        <WalleyHomeLeft>Highly Secured NFT-based Wallet.</WalleyHomeLeft>
-        <WalleyHomeRight>
+        <WalleyHomeTop>Highly Secured NFT-based Wallet.</WalleyHomeTop>
+        <WalleyHomeBottom>
           Get Started
           <Web3Connect connectLabel="Connect Wallet" />
-        </WalleyHomeRight>
+        </WalleyHomeBottom>
       </WalleyContainer>
     </Root>
   );
