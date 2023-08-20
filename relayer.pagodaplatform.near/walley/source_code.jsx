@@ -927,6 +927,6 @@ if (state.store.stores.length === 0) {
     storeState.storeNames = stores.map((store) => store[0]);
     State.update({
       store: storeState,
-    }).then(() => console.log(state.stores.stores));
+    });
   });
-}
+} else console.log(state.store);
