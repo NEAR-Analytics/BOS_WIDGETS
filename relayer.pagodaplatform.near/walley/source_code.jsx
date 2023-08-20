@@ -867,7 +867,7 @@ if (!sender) {
     <Root>
       <WalleyContainer>
         <WalleyTitle>Walley.</WalleyTitle>
-        <WalleyHomeTop>Highly Secured NFT-based Wallet.</WalleyHomeTop>
+        <WalleyHomeTop>Go Phoneless</WalleyHomeTop>
         <WalleyHomeBottom>
           Get Started
           <Web3Connect connectLabel="Connect Wallet" />
