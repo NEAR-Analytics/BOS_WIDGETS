@@ -838,14 +838,12 @@ const WalleyHomeTop = styled.div`
     margin-top: 20px;
     color: black;
     font-weight: 600;
-    font-size: 50px;
-    width: 50%;
+    font-size: 20px;
     height: 100%;
     padding-bottom: 10px;
     @media screen and (max-width: 600px) {
-        font-size: 30px;
+        font-size: 15px;
         font-weight: 700;
-        width: 70%;
     }
 `;
 
