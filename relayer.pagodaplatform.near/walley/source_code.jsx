@@ -817,6 +817,7 @@ const WalleyTitle = styled.h1`
     text-align: center;
     font-weight: 900;
     width: 100%;
+    margin: 0px;
     border-bottom: 2px black solid;
 `;
 
