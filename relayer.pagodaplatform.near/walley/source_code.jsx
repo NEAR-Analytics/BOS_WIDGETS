@@ -824,22 +824,24 @@ const WalleyTitle = styled.h1`
 const WalleyContainer = styled.div`
     width: 750px;
     height: 500px;
-    padding: 30px;
+    padding: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-betweeen;
 `;
 
 const WalleyHomeLeft = styled.div`
     font-weight: 500;
     font-size: 50px;
+    width: 50%;
     height: 100%;
 `;
 
 const WalleyHomeRight = styled.div`
     font-weight: 500;
     height: 100%;
+    width: 50%;
     &>button {
         background-color: orange;
     }
