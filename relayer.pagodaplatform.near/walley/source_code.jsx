@@ -843,6 +843,7 @@ const WalleyHomeTop = styled.div`
     font-size: 50px;
     width: 50%;
     height: 100%;
+    padding-bottom: 10px;
 `;
 
 const WalleyHomeBottom = styled.div`
