@@ -920,8 +920,8 @@ const walleyContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-if (state.store.stores.length === 0) {
-  walleyContract.getAllStores().then((stores) => {
+if (state.store.stores.length === 0 && nftContract) {
+  nftContract.getAllStores().then((stores) => {
     const storeState = state.store;
     storeState.stores = stores;
     storeState.storeNames = stores.map((store) => store[0]);
