@@ -849,6 +849,10 @@ const WalleyHomeRight = styled.div`
     font-weight: 500;
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
