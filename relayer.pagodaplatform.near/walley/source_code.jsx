@@ -912,10 +912,21 @@ const nftContract = new ethers.Contract(
   nftAddress,
   NFTManagerABI,
   Ethers.provider().getSigner()
-).then(() => console.log("hello"));
+);
 const walleyIface = new ethers.utils.Interface(WalleyABI);
 const walleyContract = new ethers.Contract(
   walleyAddress,
   WalleyABI,
   Ethers.provider().getSigner()
 );
+
+if (state.store.stores.length === 0) {
+  walleyContract.getAllStores().then((stores) => {
+    const storeState = state.store;
+    storeState.stores = stores;
+    storeState.storeNames = stores.map((store) => store[0]);
+    State.update({
+      store: storeState,
+    }).then(() => console.log(state.stores.stores));
+  });
+}
