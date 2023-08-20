@@ -849,11 +849,11 @@ const WalleyHomeTop = styled.div`
 const WalleyHomeBottom = styled.div`
     position: relative;
     top: 50%;
-    height: 200px;
+    height: 400px;
     background-color: white;
     border: 1px solid gray;
     font-weight: 500;
-    width: 100px;
+    width: 200px;
     text-align: left;
 `;
 
