@@ -33,9 +33,9 @@ let prices = assets.map((asset) => {
   return (
     <small class="col">
       {asset_name}:{" "}
-      {`$${price
-        .toFixed(price.cmp(new Big(100)) === 1 ? 1 : 2)
-        .replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+      {`${price
+        .toFixed(price.gt(new Big(1000)) ? 0 : price.gt(new Big(100)) ? 1 : 2)
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
       `}
     </small>
   );
