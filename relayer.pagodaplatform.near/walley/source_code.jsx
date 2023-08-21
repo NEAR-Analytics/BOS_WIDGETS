@@ -246,12 +246,19 @@ if (state.store.stores.length === 0 && nftContract && sender) {
   });
 }
 
+const onTxClick = () => {
+  State.update({ view: "tx", loading: true });
+  nftContract
+    .getMyActiveTransactions({ from: sender })
+    .then((transactions) =>
+      State.update({
+        user: { userPendingTransactions: transactions },
+        loading: false,
+      })
+    );
+};
+
 // if (store.user.userPendingTransactions.length === 0 && sender && nftContract) {
-//   nftContract
-//     .getMyActiveTransactions({ from: sender })
-//     .then((transactions) =>
-//       State.update({ user: { userPendingTransactions: transactions } })
-//     );
 // }
 
 return (
@@ -263,7 +270,7 @@ return (
           <WalleyNavbarButton onClick={() => State.update({ view: "home" })}>
             Home
           </WalleyNavbarButton>
-          <WalleyNavbarButton onClick={() => State.update({ view: "tx" })}>
+          <WalleyNavbarButton onClick={onTxClick}>
             Your Store NFTs
           </WalleyNavbarButton>
           <WalleyNavbarButton onClick={() => State.update({ view: "addSt" })}>
