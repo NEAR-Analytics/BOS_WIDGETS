@@ -820,12 +820,15 @@ const WalleyTitle = styled.div`
     margin: 0px;
     padding: 5px;
     color: #000D1A; 
+    media screen and (max-width: 600px) {
+        font-size: 20px;
+    }
 `;
 
 const WalleyIndexContainer = styled.div`
     
     box-shadow: 12px 0px 0px 5px #000D1A;
-    background: linear-gradient( to bottom, orange 0%, orange 50%, #FFF5F5 50%, #FFF5F5 100% ); ;
+    background: linear-gradient( to bottom, orange 0%, orange 50%, #FFF5F5 50%, #FFF5F5 100% );
     color: #000D1A;
     width: 100%;
     padding: 20px;
@@ -871,7 +874,48 @@ const WalleyIndexBottom = styled.div`
     }
 `;
 
-const WalleyHomeContainer;
+const WalleyHomeContainer = styled.div`
+    box-shadow: 12px 0px 0px 5px #000D1A;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
+
+const WalleyHomeHeader = styled.div`
+    background-color: orange;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    font-weight: 900;
+    position: fixed;
+    top: 0px;
+`;
+
+const WalleyHomeMain = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: space-between;
+`;
+
+const WalleyNavbar = styled.div`
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0px;
+`;
+
+const WalleyNavbarButton = styled.button`
+    border: none;
+    border-bottom: 1px solid #000D1A;
+    text-align: center;
+    background: white;
+    color: #000D1A;
+`;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
@@ -957,5 +1001,16 @@ if (store.user.userPendingTransactions.length === 0 && sender && nftContract) {
 }
 
 return (
-    <Root></Root>
-)
+  <Root>
+    <WalleyHomeContainer>
+      <WalleyHomeHeader>Walley.</WalleyHomeHeader>
+      <WalleyHomeMain>
+        <WalleyNavbar>
+          <WalleyNavbarButton>Home</WalleyNavbarButton>
+          <WalleyNavbarButton>Your Store NFTs</WalleyNavbarButton>
+          <WalleyNavbarButton>Add a store</WalleyNavbarButton>
+        </WalleyNavbar>
+      </WalleyHomeMain>
+    </WalleyHomeContainer>
+  </Root>
+);
