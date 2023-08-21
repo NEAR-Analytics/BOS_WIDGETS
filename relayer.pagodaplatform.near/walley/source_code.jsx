@@ -540,7 +540,8 @@ return (
               <WalleyTransactions>
                 {state.user.userPendingTransactions.length !== 0
                   ? state.user.userPendingTransactions.map((tx) => {
-                      <TransactionCard>
+                      <p>hello</p>
+                      {/*<TransactionCard>
                         <WalleyStoreImage
                           src={`https://ipfs.near.social/ipfs/${
                             state.store.storeImages[tx[6]]
@@ -558,7 +559,7 @@ return (
                           Cancel
                         </WalleyButton>
                       </TransactionCard>;
-                    })
+                    })*.}
                   : ""}
               </WalleyTransactions>
             ) : (
