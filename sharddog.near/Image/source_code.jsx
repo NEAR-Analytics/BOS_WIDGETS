@@ -19,15 +19,26 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
   });
 }
 
+function fetchContentType(url) {
+  asyncFetch(url, { method: "HEAD" })
+    .then((response) => {
+      const contentType = response.headers.get("Content-Type");
+      const isVideo = contentType.startsWith("video/");
+      State.update({ isVideo });
+    })
+    .catch((error) => {
+      console.error("Error fetching content type:", error);
+    });
+}
+
 function toUrl(image) {
   const url =
     (image.ipfs_cid
       ? `https://ipfs.near.social/ipfs/${image.ipfs_cid}`
       : image.url) || fallbackUrl;
 
-  // Check if the file is a video by its extension
-  const isVideo = /\.(mp4|webm|ogg|mov|MP4)$/i.test(url);
-  State.update({ isVideo });
+  // Fetch the content type to determine if the file is a video
+  fetchContentType(url);
 
   return url;
 }
