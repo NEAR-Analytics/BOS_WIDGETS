@@ -1,28 +1,121 @@
-let { dev } = props;
-
-const registryContract = dev
-  ? "registry-v1.gwg-testing.near"
-  : "registry.i-am-human.near";
-const issuer = dev ? "fractal.i-am-human.near" : "community.i-am-human.near";
-const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+const registryContract = "registry.i-am-human.near";
+const issuer = "fractal.i-am-human.near";
 
 const widgets = {
   header: "hack.near/widget/NDC.WG.Header",
   card: "hack.near/widget/NDC.WG.Card",
   about: "hack.near/widget/NDC.WG.About",
-  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
-  verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
+  styledComponents: "hack.near/widget/NDC.StyledComponents",
+  verifyHuman: "hack.near/widget/NDC.VerifyHuman",
   compose: "hack.near/widget/NDC.WG.Compose",
   deleteGroup: "hack.near/widget/NDC.WG.Delete",
+};
+
+const groups = {
+  RC: {
+    title: "Regional Communities",
+    creatorId: "rc-dao.near",
+    members: [
+      "abbakaka.near",
+      "igboze_builder.near",
+      "inspiratibiz.near",
+      "james.near",
+      "yuenisd.near",
+    ],
+    daoId: "rc-dao.sputnik-dao.near",
+  },
+  NFT: {
+    title: "Non-Fungible Tokens",
+    creatorId: "nearnftwg.near",
+    members: ["aescobar.near", "krikkraktrak.near", "nearversedao.near"],
+    daoId: "nearnftwg.sputnik-dao.near",
+  },
+  DeFi: {
+    title: "Decentralized Finance",
+    creatorId: "defindc.near",
+    groupId: "DeFi",
+    members: ["ntare.near"],
+    daoId: "defi-ndc.sputnik-dao.near",
+  },
+  AI: {
+    title: "Artificial Intelligence",
+    creatorId: "ai-dao.near",
+    members: ["damboy22.near"],
+    daoId: "ai-dao.sputnik-dao.near",
+  },
+  Gaming: {
+    title: "Gaming",
+    creatorId: "rc-dao.near",
+    members: ["haenko.near", "dazo_gaming.near", "jeffgold.near"],
+  },
+  Events: {
+    title: "Events",
+    creatorId: "neardigitalcollective.near",
+    members: ["ogruss.near"],
+  },
+  FDAO: {
+    title: "Freelancers",
+    creatorId: "freelancerdao.near",
+    members: [
+      "blaze.near",
+      "fiftycent.near",
+      "atrox1382.near",
+      "robert.near",
+      "kazanderdad.near",
+    ],
+    daoId: "freelancerdao.sputnik-dao.near",
+  },
+  NRC: {
+    title: "Research",
+    creatorId: "research-collective.near",
+    members: ["chloe.near", "earnestetim.near", "xvii.near"],
+    daoId: "research-collective.sputnik-dao.near",
+  },
+  ReFi: {
+    title: "Regenerative Finance",
+    creatorId: "nearrefi.near",
+    members: [
+      "earnestetim.near",
+      "liight.near",
+      "trophy001.near",
+      "skyempire.near",
+      "ndcplug.near",
+      "ntare.near",
+      "wolfwood.near",
+    ],
+    daoId: "refi.sputnik-dao.near",
+  },
+  Aurora: {
+    title: "Aurora",
+    creatorId: "ac-dao.near",
+    members: ["whendacha.near", "techdir.near", "johanga.near"],
+    daoId: "aurora-community-dao.sputnik-dao.near",
+  },
+  Tech: {
+    title: "Technology",
+    creatorId: "neardigitalcollective.near",
+    members: ["robert.near", "jlw.near", "blaze.near"],
+    daoId: "ndc-techwg.sputnik-dao.near",
+  },
+  GWG: {
+    title: "Governance",
+    creatorId: "govworkinggroup.near",
+    members: [
+      "yuensid.near",
+      "fiftycent.near",
+      "atrox1382.near",
+      "robert.near",
+      "kazanderdad.near",
+    ],
+    daoId: "gwg.sputnik-dao.near",
+  },
 };
 
 State.init({
   selectedGroup: "RegionalCommunities",
   start: true,
-  groups: [],
   sbt: false,
   og: false,
-  createdGroup: false,
   groupId: "",
   originGroups: [],
   notFound: "There are no active work groups at the moment.",
@@ -66,36 +159,6 @@ const handleSelect = (item) => {
   State.update({ selectedGroup: item.id });
 };
 
-const handleFilter = (e) => {
-  const text = e.target.value;
-
-  State.update({ groupId: text });
-
-  if (text.length > 0) {
-    let filtered = state.originNominations.filter((data) => {
-      const affiliations = JSON.parse(data.groupData.afiliation);
-      const companyNames =
-        affiliations?.length > 0 &&
-        affiliations.map((af) => af.company_name.toLowerCase());
-
-      return (
-        data.profileData.name.toLowerCase().includes(text.toLowerCase()) ||
-        (companyNames &&
-          companyNames.some((c) => c.includes(text.toLowerCase())))
-      );
-    });
-
-    if (filtered.length > 0) State.update({ groups: filtered });
-    else
-      State.update({
-        notFound: "There are no such groups or affiliations",
-        groups: [],
-      });
-  } else {
-    State.update({ groups: state.originGroups });
-  }
-};
-
 if (state.start) {
   getVerifiedHuman();
   getGroupData("RegionalCommunities");
@@ -104,7 +167,7 @@ if (state.start) {
 }
 
 const widget = {
-  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  styledComponents: "hack.near/widget/NDC.StyledComponents",
 };
 
 const Header = styled.div`
@@ -274,25 +337,16 @@ return (
           </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap">
-          {state.loading ? (
-            <Loader />
-          ) : state.groups.length > 0 ? (
-            state.groups.map((data) => (
-              <Widget
-                src={widgets.card}
-                props={{
-                  data,
-                  registry_contract: registryContract,
-                  api_key: apiKey,
-                  dev,
-                }}
-              />
-            ))
-          ) : (
-            <div className="flex mt-10 container-fluid align-self-center">
-              <H5 className="text-center">{state.notFound}</H5>
-            </div>
-          )}
+          {Object.values(groups).map((group, i) => (
+            <Widget
+              key={i}
+              src={widgets.card}
+              props={{
+                data: group,
+                registry_contract: registryContract,
+              }}
+            />
+          ))}
         </Center>
       </Container>
     </div>
