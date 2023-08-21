@@ -56,10 +56,13 @@ const feedStyle = {
 
 return (
   <>
-    <div style={cardStyle} className="m-4 text-center">
+    <div style={cardStyle} className="m-4">
       <div style={containerStyles}>
         <div className="mb-5" style={{ display: "flex" }}>
-          <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
+          <div
+            style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}
+            className="text-center"
+          >
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
               Promote your art, events, and merch.
             </p>
@@ -78,10 +81,13 @@ return (
       </div>
       <div style={containerStyles}>
         <div className="mb-5" style={{ display: "flex" }}>
-          <div style={{ flex: 1 }}>
+          <div style={{ flex: 0 }}>
             <Widget src="harmonic1.near/widget/create.artist" />
           </div>
-          <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
+          <div
+            style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}
+            className="text-center"
+          >
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
               Simple Profiles to connect with your audience
             </p>
@@ -93,7 +99,7 @@ return (
           </div>
         </div>
       </div>
-      <div style={feedStyle}>
+      <div style={feedStyle} className="text-center">
         <h3 style={titleStyle}>Featured Profiles</h3>
         <div>
           <Widget
