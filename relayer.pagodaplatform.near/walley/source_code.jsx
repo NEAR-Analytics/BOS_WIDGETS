@@ -320,6 +320,7 @@ const onTxClick = () => {
     console.log(transactions);
     const st = state;
     st.user.userPendingTransactions = transactions;
+    console.log(st);
     st.loading = false;
     st.loadingMsg = "";
     State.update(st);
