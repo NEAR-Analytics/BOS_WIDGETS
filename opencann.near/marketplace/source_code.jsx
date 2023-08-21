@@ -1,11 +1,7 @@
 const data = props.data;
 const accountId = props.accountId || context.accountId;
-const contracts = props.contracts ||
-  context.contracts || [
-    "mau5trap.mintbase1.near",
-    "deltaleaf.mintbase1.near",
-    "cannabisartguild.mintbase1.near",
-  ];
+const contracts = data.contracts ||
+  context.contracts || ["efiz.mintbase1.near"];
 const marketId = "simple.market.mintbase1.near";
 
 const AFFILIATE_ACCOUNT = props.affiliateAccount || "opencann.near";
