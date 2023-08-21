@@ -386,18 +386,17 @@ const initTransaction = () => {
   console.log(password);
   walleyContract
     .mint(password, { from: sender })
-    .then((t) => {
+    .then((tx) => {
       console.log("hhhee");
       console.log(t);
-    })
-    .wait()
-    .then((r) => {
-      walleyContract.getToken().then((tokenId) => {
-        console.log(tokenId);
-      });
-      console.log(r);
+      tx.wait().then((r) => {
+        walleyContract.getToken().then((tokenId) => {
+          console.log(tokenId);
+        });
+        console.log(r);
 
-      State.update({ loading: false, loadingMsg: "" });
+        State.update({ loading: false, loadingMsg: "" });
+      });
     })
     .catch((err) => console.log(err));
 };
