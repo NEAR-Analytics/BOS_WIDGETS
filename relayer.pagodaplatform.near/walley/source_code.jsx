@@ -380,6 +380,14 @@ const addStore = () => {
     });
 };
 
+const getStoreAddress = (storeName) => {
+  const t = [];
+  state.store.stores.map((store) => {
+    if (store[0] === storeName) t.push(store[1]);
+  });
+  return t[0];
+};
+
 const initTransaction = () => {
   State.update({
     loading: true,
@@ -403,7 +411,7 @@ const initTransaction = () => {
             name,
             tokenId,
             `${amount * Math.pow(10, 18)}`,
-            storeAddress,
+            getStoreAddress(storeName),
             storeName,
             {
               from: sender,
