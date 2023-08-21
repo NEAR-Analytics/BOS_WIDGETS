@@ -10,16 +10,6 @@ const ItemContainer = styled.div`
   }
 `;
 
-// const HeaderContainer = styled.div`
-//   height: 70px;
-//   width: 100%;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding-inline: 8px;
-//   background-color: blue;
-// `;
-
 const ItemImageContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -27,12 +17,10 @@ const ItemImageContainer = styled.div`
 `;
 
 const ItemTextContainer = styled.div`
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-
 `;
 
 return (
