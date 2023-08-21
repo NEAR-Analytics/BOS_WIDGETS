@@ -125,6 +125,12 @@ const getVerifiedHuman = () => {
     issuer,
   });
 
+  if (!isHuman) {
+    return "";
+  }
+  if (!ogTokens) {
+    return "";
+  }
   State.update({
     og: ogTokens.some((sbt) => sbt.owner === context.accountId),
     sbt: isHuman[0][1].length > 0,
