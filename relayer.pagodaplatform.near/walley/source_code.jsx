@@ -387,54 +387,50 @@ return (
           </WalleyNavbarButton>
         </WalleyNavbar>
         <WalleyHomeBody>
-          {!state.loading ? (
-            <WalleyBalance>
-              Your Balance - {state.balance}
-              <WalleyHomeForm>
-                <Widget
-                  src="near/widget/Select"
-                  props={{
-                    value: state.homeInputs.storeName,
-                    noLabel: true,
-                    placeholder:
-                      state.store.stores.length !== 0
-                        ? "Select a store"
-                        : "No Store Available",
-                    options: [...widgetOptions()],
-                    onChange: (value) => {
-                      homeInputUpdates(value.text, "storeName");
-                    },
-                  }}
-                />
-                <WalleyLabel>
-                  Enter the maximum amount you'd like to spend(in INR)
-                </WalleyLabel>
-                <WalleyInput
-                  type="number"
-                  value={state.homeInputs.amount}
-                  onChange={(e) => homeInputUpdates(e.target.value, "amount")}
-                  placeholder="Amount(in INR)"
-                />
-                <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
-                <WalleyInput
-                  type="text"
-                  onChange={(e) => homeInputUpdates(e.target.value, "name")}
-                  placeholder="Name"
-                />
-                <WalleyLabel>
-                  Set a password for the transaction(will be asked during
-                  checkout)
-                </WalleyLabel>
-                <WalleyInput
-                  type="password"
-                  onChange={(e) => homeInputUpdates(e.target.value, "password")}
-                  placeholder="Password"
-                />
-              </WalleyHomeForm>
-            </WalleyBalance>
-          ) : (
-            <WalleyLoading>{state.loadingMsg}</WalleyLoading>
-          )}
+          <WalleyBalance>
+            Your Balance - {state.balance}
+            <WalleyHomeForm>
+              <Widget
+                src="near/widget/Select"
+                props={{
+                  value: state.homeInputs.storeName,
+                  noLabel: true,
+                  placeholder:
+                    state.store.stores.length !== 0
+                      ? "Select a store"
+                      : "No Store Available",
+                  options: [...widgetOptions()],
+                  onChange: (value) => {
+                    homeInputUpdates(value.text, "storeName");
+                  },
+                }}
+              />
+              <WalleyLabel>
+                Enter the maximum amount you'd like to spend(in INR)
+              </WalleyLabel>
+              <WalleyInput
+                type="number"
+                value={state.homeInputs.amount}
+                onChange={(e) => homeInputUpdates(e.target.value, "amount")}
+                placeholder="Amount(in INR)"
+              />
+              <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
+              <WalleyInput
+                type="text"
+                onChange={(e) => homeInputUpdates(e.target.value, "name")}
+                placeholder="Name"
+              />
+              <WalleyLabel>
+                Set a password for the transaction(will be asked during
+                checkout)
+              </WalleyLabel>
+              <WalleyInput
+                type="password"
+                onChange={(e) => homeInputUpdates(e.target.value, "password")}
+                placeholder="Password"
+              />
+            </WalleyHomeForm>
+          </WalleyBalance>
         </WalleyHomeBody>
       </WalleyHomeMain>
     </WalleyHomeContainer>
