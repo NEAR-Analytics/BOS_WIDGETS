@@ -3,6 +3,8 @@ return (
     <button
       onClick={() => {
         console.log(props);
+        console.log(props.onClick);
+        console.log(typeof props.onClick);
         props.onClick(props.label);
       }}
       style={{ backgroundColor: "#0f0" }}
