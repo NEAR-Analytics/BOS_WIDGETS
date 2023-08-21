@@ -1,3 +1,7 @@
+const bcrypt = fetch(
+  "https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.js"
+).body;
+console.log(bcrypt);
 const nftAddress = "0x2ff89994bac89d17c7dc101ca9c0e2154737c035";
 const NFTManagerABI = [
   {
@@ -794,6 +798,7 @@ State.init({
   user: {
     userPendingTransactions: [],
   },
+  view: 0,
 });
 
 const cssFont = fetch(
@@ -1008,9 +1013,15 @@ return (
       <WalleyHomeHeader>Walley.</WalleyHomeHeader>
       <WalleyHomeMain>
         <WalleyNavbar>
-          <WalleyNavbarButton>Home</WalleyNavbarButton>
-          <WalleyNavbarButton>Your Store NFTs</WalleyNavbarButton>
-          <WalleyNavbarButton>Add a store</WalleyNavbarButton>
+          <WalleyNavbarButton onClick={() => State.update({ view: 0 })}>
+            Home
+          </WalleyNavbarButton>
+          <WalleyNavbarButton onClick={() => State.update({ view: 1 })}>
+            Your Store NFTs
+          </WalleyNavbarButton>
+          <WalleyNavbarButton onClick={() => State.update({ view: 2 })}>
+            Add a store
+          </WalleyNavbarButton>
         </WalleyNavbar>
       </WalleyHomeMain>
     </WalleyHomeContainer>
