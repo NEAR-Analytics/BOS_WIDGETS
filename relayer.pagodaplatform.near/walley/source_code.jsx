@@ -36,6 +36,7 @@ State.init({
     storeAddress: "",
     image: "",
   },
+  storeName: "",
   view: "home",
   loading: false,
   loadingMsg: "Fetching Data",
@@ -438,14 +439,11 @@ return (
                 <WalleyStoreForm>
                   <WalleyLabel>Store Name</WalleyLabel>
                   <WalleyInput
-                    value={state.storeInputs.storeName}
+                    value={state.storeName}
                     type="text"
                     onChange={(e) => {
                       State.update({
-                        storeInputs: {
-                          ...state.storeInputs,
-                          storeName: e.target.value,
-                        },
+                        storeName: e.target.value,
                       });
                     }}
                     placeholder="Enter the Store Name"
