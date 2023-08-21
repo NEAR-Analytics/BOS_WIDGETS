@@ -1,13 +1,5 @@
 return (
-  <div ref="forwardedRef">
-    <button style={{ backgroundColor: "#0f0" }}>
-      {props.label ?? "Default Label"}
-    </button>
-    <iframe
-      style={{ display: "none" }}
-      srcDoc={props.iframe}
-      message={{ exp: props.label || "" }}
-      onMessage={(res1) => console.log("from iframe", res1)}
-    />
-  </div>
+  <button style={{ backgroundColor: "#0f0" }} ref="forwardedRef">
+    {props.label ?? "Default Label"}
+  </button>
 );
