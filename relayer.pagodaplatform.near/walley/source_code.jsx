@@ -25,6 +25,17 @@ State.init({
   user: {
     userPendingTransactions: [],
   },
+  homeInputs: {
+    storeName: "",
+    amount: 0,
+    name: "",
+    password: "",
+  },
+  storeInputs: {
+    storeName: "",
+    storeAddress: "",
+    image: "",
+  },
   view: "home",
   loading: true,
 });
@@ -165,6 +176,13 @@ const WalleyLoading = styled.div`
   font-weight: 700;
 `;
 
+const WalleyHomeForm = styled.div`
+  width: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+`;
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
   State.update({ balance });
@@ -248,18 +266,13 @@ if (state.store.stores.length === 0 && nftContract && sender) {
 
 const onTxClick = () => {
   State.update({ view: "tx", loading: true });
-  nftContract
-    .getMyActiveTransactions({ from: sender })
-    .then((transactions) =>
-      State.update({
-        user: { userPendingTransactions: transactions },
-        loading: false,
-      })
-    );
+  nftContract.getMyActiveTransactions({ from: sender }).then((transactions) =>
+    State.update({
+      user: { userPendingTransactions: transactions },
+      loading: false,
+    })
+  );
 };
-
-// if (store.user.userPendingTransactions.length === 0 && sender && nftContract) {
-// }
 
 return (
   <Root>
@@ -282,7 +295,22 @@ return (
             <WalleyBalance>
               Your Balance - {state.balance}
               {state.view === "home" ? (
-                <p>helloaaaa</p>
+                <>
+                  <Widget
+                    src="near/widget/Select"
+                    props={{
+                      value: state.homeInputs.storeName,
+                      noLabel: true,
+                      placeholder: "Select a store",
+                      options: [...widgetOptions()],
+                      onChange: (value) => {
+                        const homeInputs = state.homeInputs;
+                        homeInputs.storeName = value.text;
+                        State.update({ homeInputs });
+                      },
+                    }}
+                  />
+                </>
               ) : state.view === "tx" ? (
                 <p>helloob</p>
               ) : (
