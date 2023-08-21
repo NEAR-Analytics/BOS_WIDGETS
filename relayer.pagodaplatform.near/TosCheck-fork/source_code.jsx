@@ -1,3 +1,4 @@
-<>
-  <Widget src="near/widget/Onboarding.ComponentCard" props={{ accountId }} />
-</>;
+function app() {
+  return;
+  <div classname='background="yellow"'>Sufyan</div>;
+}
