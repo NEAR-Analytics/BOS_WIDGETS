@@ -149,7 +149,7 @@ const CastVotes = () => (
         props={{
           Button: {
             className: "primary dark justify-content-center",
-            icon: <i className="bi bi-thumb-up" />,
+            icon: <i className="bi bi-hand-thumbs-up" />,
             onClick: () => handleVote(true),
           },
         }}
@@ -159,7 +159,7 @@ const CastVotes = () => (
         props={{
           Button: {
             className: "danger dark justify-content-center",
-            icon: <i className="bi bi-thumb-down" />,
+            icon: <i className="bi bi-hand-thumbs-down" />,
             onClick: () => handleVote(false),
           },
         }}
