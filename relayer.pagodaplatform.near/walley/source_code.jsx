@@ -436,6 +436,7 @@ return (
                 <WalleyStoreForm>
                   <WalleyLabel>Store Name</WalleyLabel>
                   <WalleyInput
+                    value={state.storeInputs.storeName}
                     type="text"
                     onChange={(e) =>
                       storeInputUpdates(e.target.value, "storeName")
@@ -444,6 +445,7 @@ return (
                   />
                   <WalleyLabel>Store Address</WalleyLabel>
                   <WalleyInput
+                    value={state.storeInputs.storeAddress}
                     type="text"
                     onChange={(e) =>
                       storeInputUpdates(e.target.value, "storeAddress")
