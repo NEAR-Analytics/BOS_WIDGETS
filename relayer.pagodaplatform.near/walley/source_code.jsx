@@ -380,7 +380,7 @@ const addStore = () => {
 const initTransaction = () => {
   State.update({ loading: true, loadingMsg: "Minting your NFT" });
   const { storeName, amount, name, password } = state.userInputs;
-
+  console.log(password);
   walleyContract
     .mint(password, { from: sender })
     .then((t) => {
