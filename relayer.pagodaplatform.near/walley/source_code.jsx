@@ -381,18 +381,42 @@ const addStore = () => {
 };
 
 const initTransaction = () => {
-  State.update({ loading: true, loadingMsg: "Minting your NFT" });
+  State.update({
+    loading: true,
+    loadingMsg: "Minting your NFT - Please Pay the gas price",
+  });
   const { storeName, amount, name, password } = state.homeInputs;
   console.log(password);
   walleyContract
     .mint(password, { from: sender })
     .then((tx) => {
+      State.update({ loadingMsg: "Waiting for confirmation" });
       tx.wait().then((r) => {
-        walleyContract.getToken().then((tokenId) => {
-          console.log(tokenId);
+        const tokenId = parseInt(r.logs[2].data, 16);
+        State.update({
+          loadingMsg:
+            "Creating your transaction - Plesae pay the amount you entered + gas",
         });
-        console.log(parseInt(r.logs[2].data, 16));
-        State.update({ loading: false, loadingMsg: "" });
+        nftContract
+          .initTransaction(
+            walleyAddress,
+            name,
+            tokenId,
+            `${amount * Math.pow(10, 18)}`,
+            storeAddress,
+            storeName,
+            {
+              from: sender,
+              value: ethers.utils.parseUnits(`${state.amount}`, 18),
+            }
+          )
+          .then((txInit) => {
+            State.update({ loadingMsg: "Waiting for the final confirmation" });
+            txInit.wait().then((res) => {
+              State.update({ loading: false, loadingMsg: "" });
+            });
+          })
+          .catch((err) => console.log(err));
       });
     })
     .catch((err) => console.log(err));
