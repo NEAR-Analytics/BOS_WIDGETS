@@ -283,7 +283,7 @@ if (state.store.stores.length === 0 && nftContract && sender) {
         store = stores[i];
         storeState.storeNames.push(store[0]);
         storeState.storeImages[store[0]] = store[2];
-        if (store[1] === sender) {
+        if (store[1].toLowerCase() === sender) {
           storeState.isStore = true;
           storeState.storeName = store[0];
           storeState.storeAddress = store[1].toLowerCase();
