@@ -2,7 +2,7 @@ const LogoContainer = styled.div`
   position: absolute;
   top: 20px;
   left: 40px;
-  width:100px;
+  width:80px;
   @media (max-width: 510px) {
     width: 280px;
     top: 10px;
