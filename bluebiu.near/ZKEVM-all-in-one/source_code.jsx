@@ -63,14 +63,23 @@ const MenuContainer = styled.div`
 `;
 
 const { activeMenu } = state;
+
+const storedActiveMenu = Storage.get("activeMenu",'bluebiu.near/widget/ZKEVM-all-in-one');
+
+State.init({
+    activeMenu: storedActiveMenu || "Bridge",
+});
+
+
 State.init({
   activeMenu: "Bridge",
 });
-function changeTab(menu) {
-  State.update({
-    activeMenu: menu,
-  });
-}
+ function changeTab(menu) {
+    State.update({
+      activeMenu: menu,
+    });
+    Storage.set("activeMenu", menu);
+  }
 
 // svg icon start
 const headIcon = (
@@ -190,51 +199,49 @@ return (
           Swap
         </div>
 
-        <div
-          class={`item ${activeMenu == "Liquidity" ? "active" : ""}`}
-          onClick={() => {
-            changeTab("Liquidity");
-          }}
-        >
-          <span class="icon">{liquidityIcon}</span>
-          Liquidity
-        </div>
-        <div
-          class={`item ${activeMenu == "Lending" ? "active" : ""}`}
-          onClick={() => {
-            changeTab("Lending");
-          }}
-        >
-          <span class="icon">{lendingIcon}</span>
-          Lending
-        </div>
-      </MenuContainer>
-      <div class="flex-grow contentOut">
-        {activeMenu == "Bridge" ? (
-          <>
-            <p>Bridge</p>
-            <Widget src="bluebiu.near/widget/ZKEVMSwap.zkevm-bridge" />
-          </>
-        ) : null}
-        {activeMenu == "swap" ? (
-          <>
-            <p>swap</p>
-            <Widget src="bluebiu.near/widget/ZKEVMSwap.zkevm-swap" />
-          </>
-        ) : null}
-        {activeMenu == "Liquidity" ? (
-          <>
-            <p>Liquidity Manage</p>
-            <Widget src="bluebiu.near/widget/ZKEVM.GAMMA" />
-          </>
-        ) : null}
-        {activeMenu == "Lending" ? (
-          <>
-            <p>Lending</p>
-            <Widget src="bluebiu.near/widget/ZKEVM.AAVE" />
-          </>
-        ) : null}
-      </div>
-    </Container>
-  </Layout>
+                <div
+                    class={`item ${activeMenu == "Liquidity" ? "active" : ""}`}
+                    onClick={() => {
+                        changeTab("Liquidity");
+                    }}
+                >
+                    <span class="icon">{liquidityIcon}</span>
+                    Liquidity
+                </div>
+                <div
+                    class={`item ${activeMenu == "Lending" ? "active" : ""}`}
+                    onClick={() => {
+                        changeTab("Lending");
+                    }}
+                >
+                    <span class="icon">{lendingIcon}</span>
+                    Lending
+                </div>
+            </MenuContainer>
+            <div class="flex-grow contentOut">
+                {activeMenu == "Bridge" ? (
+                    <>
+                        <p>Bridge</p>
+                        <Widget src="bluebiu.near/widget/ZKEVMSwap.zkevm-bridge" />
+                    </>
+                ) : null}
+                {activeMenu == "swap" ? (
+                    <>
+                        <p>Swap</p>
+                        <Widget src="bluebiu.near/widget/ZKEVMSwap.zkevm-swap" />
+                    </>
+                ) : null}
+                {activeMenu == "Liquidity" ? (
+                    <>
+                        <Widget src="bluebiu.near/widget/ZKEVM.GAMMA" />
+                    </>
+                ) : null}
+                {activeMenu == "Lending" ? (
+                    <>
+                        <Widget src="bluebiu.near/widget/ZKEVM.AAVE" />
+                    </>
+                ) : null}
+            </div>
+        </Container>
+    </Layout>
 );
