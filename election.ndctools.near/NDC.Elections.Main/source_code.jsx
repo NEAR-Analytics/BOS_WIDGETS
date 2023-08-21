@@ -161,6 +161,7 @@ return (
           src={widgets.progress}
           props={{
             houses: [...houses, budget],
+            handleSelect,
             votesLeft: (house) => votesLeft(house),
           }}
         />
