@@ -322,8 +322,7 @@ const onTxClick = () => {
       user: { userPendingTransactions: transactions },
       loading: false,
       loadingMsg: "",
-    });
-    console.log(state.user.userPendingTransactions);
+    }).then(() => console.log(state.user.userPendingTransactions));
   });
 };
 
