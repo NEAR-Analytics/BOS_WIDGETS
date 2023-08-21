@@ -45,7 +45,7 @@ const groups = {
   },
   Gaming: {
     title: "Gaming",
-    creatorId: "rc-dao.near",
+    creatorId: "haenko.near",
     members: ["haenko.near", "dazo_gaming.near", "jeffgold.near"],
   },
   Events: {
@@ -138,26 +138,26 @@ const getVerifiedHuman = () => {
 
 const getGroupData = (group) => Social.get(`${daoId}/groups/${group}`);
 
-const handleSelect = (item) => {
-  switch (item.id) {
-    case 1:
-      getGroupData("RegionalCommunties");
-      break;
-    case 2:
-      getGroupData("NFT");
-      break;
-    case 3:
-      getGroupData("Gaming");
-      break;
-    case 4:
-      getGroupData("Tech");
-      break;
-    case 5:
-      getGroupData("ReFi");
-      break;
-  }
-  State.update({ selectedGroup: item.id });
-};
+// const handleSelect = (item) => {
+//   switch (item.id) {
+//     case 1:
+//       getGroupData("RegionalCommunties");
+//       break;
+//     case 2:
+//       getGroupData("NFT");
+//       break;
+//     case 3:
+//       getGroupData("Gaming");
+//       break;
+//     case 4:
+//       getGroupData("Tech");
+//       break;
+//     case 5:
+//       getGroupData("ReFi");
+//       break;
+//   }
+//   State.update({ selectedGroup: item.id });
+// };
 
 if (state.start) {
   getVerifiedHuman();
@@ -215,14 +215,6 @@ const Toolbar = styled.div`
     margin: 10px 0 0 0;
   }
 `;
-
-const Loader = () => (
-  <span
-    className="spinner-grow spinner-grow-sm me-1"
-    role="status"
-    aria-hidden="true"
-  />
-);
 
 return (
   <>
@@ -283,7 +275,7 @@ return (
         )}
       </Header>
       <Container className="d-flex row justify-content-between w-100">
-        <Left className="col-lg">
+        <Left className="col-lg mb-3">
           <H5>Learning Together</H5>
           <Widget
             src={widgets.about}
@@ -298,7 +290,7 @@ return (
                 <Widget
                   src={widgets.verifyHuman}
                   props={{
-                    title: "Participate in a Work Group",
+                    title: "Get Verified To Create a Work Group",
                     small: true,
                   }}
                 />
@@ -337,6 +329,8 @@ return (
           </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap">
+          <h3>NDC Work Groups</h3>
+
           {Object.values(groups).map((group, i) => (
             <Widget
               key={i}
