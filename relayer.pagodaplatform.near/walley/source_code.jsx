@@ -274,6 +274,17 @@ const onTxClick = () => {
   );
 };
 
+const widgetOptions = () => {
+  const options = [];
+  for (let i = 0; i < state.stores.storeNames.length; i++)
+    options.push({
+      text: state.stores.storeNames[i],
+      value: state.stores.storeNames[i],
+    });
+  console.log(options);
+  return options;
+};
+
 return (
   <Root>
     <WalleyHomeContainer>
