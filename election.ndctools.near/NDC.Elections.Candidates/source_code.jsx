@@ -491,8 +491,8 @@ const CandidateList = ({ candidateId, votes }) => (
             },
           }}
         />
-        <Votes>{votes}</Votes>
-        {isIAmHuman && winnerIds.length > 0 && (
+        {winnerIds.length > 0 && <Votes>{votes}</Votes>}
+        {isIAmHuman && (
           <Votes>
             <input
               id="input"
@@ -549,19 +549,21 @@ const Filters = () => (
       <Nomination className="text-secondary text-end text-md-start">
         <small>Nomination</small>
       </Nomination>
-      <Votes
-        role="button"
-        className="text-secondary"
-        onClick={() => filterBy({ votes: true })}
-      >
-        <small>Total votes</small>
-        <i
-          className={`bi ${
-            state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
-          }`}
-        />
-      </Votes>
-      {isIAmHuman && winnerIds.length > 0 && (
+      {winnerIds.length > 0 && (
+        <Votes
+          role="button"
+          className="text-secondary"
+          onClick={() => filterBy({ votes: true })}
+        >
+          <small>Total votes</small>
+          <i
+            className={`bi ${
+              state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
+            }`}
+          />
+        </Votes>
+      )}
+      {isIAmHuman && (
         <Action
           role="button"
           className="text-secondary"
