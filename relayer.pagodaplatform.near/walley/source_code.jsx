@@ -254,7 +254,6 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
   Ethers.provider()
     .getBalance(sender)
     .then((balance) => {
-      console.log(balance);
       updateBalance(Big(balance).div(Big(10).pow(18)).toFixed(5));
     });
 }
@@ -273,7 +272,6 @@ const walleyContract = new ethers.Contract(
   WalleyABI,
   Ethers.provider().getSigner()
 );
-console.log(walleyContract);
 //get stores data
 if (state.store.stores.length === 0 && nftContract && sender) {
   walleyContract.getToken().then((tokenId) => {
@@ -410,6 +408,12 @@ const initTransaction = () => {
           loadingMsg:
             "Creating your transaction - Please pay the amount you entered + gas",
         });
+        console.log("hahahaa \n\n\n\n\n");
+        console.log(walleyAddress);
+        console.log(name);
+        console.log(tokenId);
+        console.log(`${amount * Math.pow(10, 18)}`);
+        console.log(getStoreAddress(storeName));
         nftContract
           .initTransaction(
             walleyAddress,
@@ -424,8 +428,10 @@ const initTransaction = () => {
             }
           )
           .then((txInit) => {
+            console.log(txInit);
             State.update({ loadingMsg: "Waiting for the final confirmation" });
             txInit.wait().then((res) => {
+              console.log(res);
               State.update({
                 loading: false,
                 loadingMsg: "",
