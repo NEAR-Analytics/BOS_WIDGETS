@@ -253,7 +253,7 @@ const validatedInputs = () => {
   }
 
   State.update({
-    error_msg: isValid ? null : error_msg.join("\n"),
+    error_msg: isValid ? null : error_msg.join("\\n"),
   });
 
   return isValid;
@@ -535,7 +535,9 @@ return (
 
             {state.error_msg && (
               <ErrorBlock>
-                <label className="text-danger">{state.error_msg}</label>
+                <label className="text-danger text-break">
+                  {state.error_msg}
+                </label>
               </ErrorBlock>
             )}
 
