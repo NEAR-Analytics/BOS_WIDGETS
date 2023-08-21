@@ -1,12 +1,12 @@
 const data = props.data;
 const accountId = props.accountId || context.accountId;
 const contracts = data.contracts ||
-  context.contracts || ["efiz.mintbase1.near"];
+  context.contracts || ["learnernft.learnclub.near"];
 const marketId = "simple.market.mintbase1.near";
 
-const AFFILIATE_ACCOUNT = props.affiliateAccount || "opencann.near";
+const AFFILIATE_ACCOUNT = data.affiliateAccount || "mintbase.near";
 
-const data = fetch("https://graph.mintbase.xyz", {
+const marketData = fetch("https://graph.mintbase.xyz", {
   method: "POST",
   headers: {
     "mb-api-key": "omni-site",
@@ -52,13 +52,13 @@ let buy = (price, token_id, nft_contract_id) => {
   );
 };
 
-if (!data.ok) {
+if (!marketData.ok) {
   return "Loading";
 }
 
 const size = "20em";
 
-return data !== null ? (
+return marketData !== null ? (
   <>
     <div>
       <h4>OpenCann Marketplace</h4>
@@ -71,7 +71,7 @@ return data !== null ? (
       <h5>For Sale</h5>
     </div>
     <div className="d-flex gap-4 flex-wrap">
-      {data.body.data?.mb_views_active_listings_by_contract.map(
+      {marketData.body.data?.mb_views_active_listings_by_contract.map(
         (listing, i) => {
           const priceYocto = listing.price.toLocaleString().replace(/,/g, "");
           const priceNear = YoctoToNear(priceYocto);
@@ -126,10 +126,11 @@ return data !== null ? (
         }
       )}
     </div>
+    <hr></hr>
     <div>
-      <h5>Publish Data</h5>
       <Widget src="flowscience.near/widget/CGD.Factory" props={{ daoId }} />
     </div>
+
     <div class="py-4">
       <Widget src="mintbase.near/widget/BuiltWithMintbase" />
     </div>
