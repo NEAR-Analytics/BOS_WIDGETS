@@ -131,18 +131,18 @@ const Back = styled.a`
 State.init({
   hotActionList: [],
   searchActionList: [],
-  keywords: ''
+  keywords: "",
 });
 function get_hot_action_list() {
-  asyncFetch(
-    "https://bos-api.delink.one/get-hot-action?hot_number=20"
-  ).then((res) => {
-    const result = JSON.parse(res.body || {}).data || [];
-    State.update({
-      hotActionList: result,
-      searchActionList: result,
-    });
-  });
+  asyncFetch("https://bos-api.delink.one/get-hot-action?hot_number=20").then(
+    (res) => {
+      const result = JSON.parse(res.body || {}).data || [];
+      State.update({
+        hotActionList: result,
+        searchActionList: result,
+      });
+    }
+  );
 }
 if (state.hotActionList.length == 0) {
   get_hot_action_list();
@@ -165,7 +165,7 @@ function get_item_title(action) {
   const key_low = state.keywords.toLowerCase();
   const start_key_index = title_low.indexOf(key_low);
   const end_key_index = start_key_index + key_low.length;
-  
+
   const result = [];
   const arr = action_title.split(" ");
   arr.forEach((split) => {
@@ -173,16 +173,18 @@ function get_item_title(action) {
     const end_split_index = start_split_index + split.length;
     const start_index = Math.max(start_key_index, start_split_index);
     const end_index = Math.min(end_key_index, end_split_index);
-    if (end_index > start_index) { // hit
-      result.push(<span style={{color:'#E9F456'}}>{split}</span>, ' ')
-    } else { // not hit
+    if (end_index > start_index) {
+      // hit
+      result.push(<span style={{ color: "#E9F456" }}>{split}</span>, " ");
+    } else {
+      // not hit
       if (Number(split)) {
-        result.push(<label className="num">{split}</label>, ' ')
+        result.push(<label className="num">{split}</label>, " ");
       } else {
-        result.push(split, ' ');
-      } 
+        result.push(split, " ");
+      }
     }
-  })
+  });
   return result;
 }
 const template_icons = {
@@ -191,6 +193,18 @@ const template_icons = {
   "ZkEvm-bridge":
     "https://ipfs.near.social/ipfs/bafkreigu2kdqzug45li74xcdhokazx7gv2yopml6x5bwrnjrkx2qsjrsni",
   AAVE: "https://ipfs.near.social/ipfs/bafkreibveumzusupe5rvk4nffzdipquvatfg5lagg7c6jaor2b3hgigw5e",
+  "native bridge":
+    "https://ipfs.near.social/ipfs/bafkreigu2kdqzug45li74xcdhokazx7gv2yopml6x5bwrnjrkx2qsjrsni",
+  zkEVM:
+    "https://ipfs.near.social/ipfs/bafkreiftqxncp4pt36z5mcfzizbkccoufksmz2f4zhnproxv4krfb5qmsm",
+  "zkEVM-bridge":
+    "https://ipfs.near.social/ipfs/bafkreigu2kdqzug45li74xcdhokazx7gv2yopml6x5bwrnjrkx2qsjrsni",
+  "Pancake Swap":
+    "	https://ipfs.near.social/ipfs/bafkreihxgii2nb7l3vcewru2zldbmjclgbu5ack3obalprqbsx5bj5ufom",
+  QuickSwap:
+    "	https://ipfs.near.social/ipfs/bafkreien6yavqvx5ots2i26ooakiwux77osuzz4fc6qxexvvd7dsoc6274",
+  Balancer:
+    "https://ipfs.near.social/ipfs/bafkreihimomheiwsinao75pw5zxrt36i77fyq72jmpg4irubqjlk6txb6q",
 };
 
 const SwapTokens = [
