@@ -133,7 +133,7 @@ State.init({
   typeSrc: "harmonic1.near",
   selectedType: "harmonic1.near/type/artist",
   view: defaultView,
-  preview: false, //"TEMPLATE",
+  isPreview: false, //"TEMPLATE",
   template: "harmonic1.near/widget/artist",
   templateVal: template,
   thingId,
@@ -146,7 +146,7 @@ const handleOnChange = (value) => {
 const handleApply = () => {
   State.update({
     config: state.data,
-    preview: true,
+    isPreview: !state.isPreview,
     //template: state.templateVal,
   });
   // set the props for the main content
@@ -217,25 +217,38 @@ const handleProfileSave = () => {
     console.log("Needs handle.");
     //Alert does not work.
   } else {
-    State.update({ isModalOpen: true });
+    //State.update({ isModalOpen: true });
+    handleSave();
   }
 };
+
+//  <MainContent>
+//       <>
+//         {(state.isPreview && (
+//           <Widget src={state.template} props={{ data: state.config }} />
+//         )) || <CenteredDiv>Click on Preview to see your profile.</CenteredDiv>}
+//       </>
+//     </MainContent>
 
 return (
   <Container>
     <SidePanel>
       <>
         <FormContainer>
-          <Widget
-            src="efiz.near/widget/create"
-            props={{
-              item: {
-                type: state.selectedType,
-                value: state.data,
-              },
-              onChange: handleOnChange,
-            }}
-          />
+          {state.isPreview ? (
+            <Widget src={state.template} props={{ data: state.config }} />
+          ) : (
+            <Widget
+              src="efiz.near/widget/create"
+              props={{
+                item: {
+                  type: state.selectedType,
+                  value: state.data,
+                },
+                onChange: handleOnChange,
+              }}
+            />
+          )}
         </FormContainer>
         <Footer>
           <Button
@@ -246,18 +259,11 @@ return (
             Save
           </Button>
           <SecondaryButton onClick={() => handleApply()}>
-            Preview{" "}
+            {state.isPreview ? "Edit" : "Preview"}
           </SecondaryButton>
         </Footer>
       </>
     </SidePanel>
-    <MainContent>
-      <>
-        {(state.preview && (
-          <Widget src={state.template} props={{ data: state.config }} />
-        )) || <CenteredDiv>Click on Preview to see your profile.</CenteredDiv>}
-      </>
-    </MainContent>
     {state.isModalOpen && (
       <ModalOverlay>
         <ModalContent>
