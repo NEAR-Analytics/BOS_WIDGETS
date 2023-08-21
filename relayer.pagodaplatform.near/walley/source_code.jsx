@@ -262,7 +262,6 @@ const walleyContract = new ethers.Contract(
   WalleyABI,
   Ethers.provider().getSigner()
 );
-console.log(walleyContract);
 //get stores data
 // if (state.store.stores.length === 0 && nftContract && sender) {
 //   State.update({ loadingMsg: "Fetching Stores" });
