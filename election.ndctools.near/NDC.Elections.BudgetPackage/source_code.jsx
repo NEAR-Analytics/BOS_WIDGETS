@@ -148,7 +148,7 @@ const CastVotes = () => (
         src={widgets.styledComponents}
         props={{
           Button: {
-            className: "primary dark justify-content-center",
+            className: "primary success justify-content-center",
             icon: <i className="bi bi-hand-thumbs-up" />,
             onClick: () => handleVote(true),
           },
@@ -158,7 +158,7 @@ const CastVotes = () => (
         src={widgets.styledComponents}
         props={{
           Button: {
-            className: "danger dark justify-content-center",
+            className: "primary danger justify-content-center",
             icon: <i className="bi bi-hand-thumbs-down" />,
             onClick: () => handleVote(false),
           },
