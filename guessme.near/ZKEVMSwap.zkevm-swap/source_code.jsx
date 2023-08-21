@@ -777,7 +777,7 @@ const onCallTxComple = (tx) => {
       account_info: uuid,
       template: selectedDex,
       action_status: status === 1 ? "Success" : "Failed",
-      action_code: state.add ? 1 : 0,
+      action_switch: state.add ? 1 : 0,
       tx_id: transactionHash,
     });
 
