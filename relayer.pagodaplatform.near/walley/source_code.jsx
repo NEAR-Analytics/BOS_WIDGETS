@@ -8,7 +8,6 @@ const WalleyABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/Walley.json")
     .body
 );
-if (!NFTManagerABI.ok || !WalleyABI.ok) return <p>loading....</p>;
 State.init({
   general: {
     chainId: undefined,
@@ -208,7 +207,7 @@ const walleyContract = new ethers.Contract(
   WalleyABI,
   Ethers.provider().getSigner()
 );
-
+console.log(walleyContract);
 //get stores data
 if (state.store.stores.length === 0 && nftContract && sender) {
   nftContract.getAllStores().then((stores) => {
