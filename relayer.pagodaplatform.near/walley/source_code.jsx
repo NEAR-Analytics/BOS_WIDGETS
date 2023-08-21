@@ -318,11 +318,11 @@ const onTxClick = () => {
   });
   nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
     console.log(transactions);
-    State.update({
-      user: { userPendingTransactions: transactions },
-      loading: false,
-      loadingMsg: "",
-    });
+    const st = state;
+    st.user.userPendingTransactions = transactions;
+    st.loading = false;
+    st.loadingMsg = "";
+    State.update(st);
   });
 };
 
