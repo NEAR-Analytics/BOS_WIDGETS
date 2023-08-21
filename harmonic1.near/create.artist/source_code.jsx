@@ -20,10 +20,12 @@ const SidePanel = styled.div`
   flex-direction: column;
   gap: 10px;
   padding: 20px;
-  background-color: #f2f2f2;
+  background-color: #FAFAFA;
   width: auto;
   z-index: 50;
   min-width: 400px;
+  border: 1px solid;
+  border-radius: 0.5rem;
 `;
 
 const MainContent = styled.div`
@@ -34,6 +36,7 @@ const MainContent = styled.div`
 
 const FormContainer = styled.div`
   border: 1px solid #ccc;
+  border-radius: 0.25rem;
   padding: 20px;
 `;
 
@@ -48,13 +51,26 @@ const Header = styled.div`
 
 const Footer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-direction: row;
+  gap: 10px;
   align-self: flex-start;
   width: 100%;
 `;
 
 const Button = styled.button`
+  background-color:#4472c4;
+  color: white;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  width: 100px;  // specific width
+  `;
+
+const SecondaryButton = styled.button`
+  border-radius: 0.25rem;
+  width: 100px;  // specific width
+  background-color: transparent; 
+  color: #4472c4;
+  border: 1px solid #4472c4;
   `;
 
 const LeftPanelItem = styled.div`
@@ -222,7 +238,6 @@ return (
           />
         </FormContainer>
         <Footer>
-          <Button onClick={() => handleApply()}>Preview</Button>
           <Button
             //onClick={() => State.update({ isModalOpen: true })}
             onClick={() => handleProfileSave()}
@@ -230,6 +245,9 @@ return (
           >
             Save
           </Button>
+          <SecondaryButton onClick={() => handleApply()}>
+            Preview{" "}
+          </SecondaryButton>
         </Footer>
       </>
     </SidePanel>
