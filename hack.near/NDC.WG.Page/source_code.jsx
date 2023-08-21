@@ -290,7 +290,7 @@ return (
                 <Widget
                   src={widgets.verifyHuman}
                   props={{
-                    title: "Get Verified To Create a Work Group",
+                    title: "Get Verified To Create a WG",
                     small: true,
                   }}
                 />
@@ -329,6 +329,8 @@ return (
           </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-row flex-wrap">
+          <h3>NDC Work Groups</h3>
+
           {Object.values(groups).map((group, i) => (
             <Widget
               key={i}
