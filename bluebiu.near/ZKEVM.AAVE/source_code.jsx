@@ -714,10 +714,11 @@ const Body = styled.div`
   padding-top: 24px;
   min-height: 100vh;
   color: white;
-  .load{
-    margin-top:50%;
-    transform:translateY(-50%);
-  } 
+  .top-title{
+    display: flex;
+    justify-content: space-between;
+    line-height:48px;
+  }
 `;
 
 const FlexContainer = styled.div`
@@ -731,9 +732,6 @@ const TopContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   .tabSwitcher{
-    position: fixed;
-    top:11%;
-    right: 10%;
     border:1px solid #332C4B;
     background:#222436;
     border-radius: 10px;
@@ -756,10 +754,17 @@ const AAVEContainer = styled.div`
     bottom:0;
   }
 `;
+const TitleText = styled.div`
+font-size:20px;
+font-weight:700;
+margin-bottom:32px;
+color:#ffffff;
+`;
 // Component body
 const body = loading ? (
   <>
     <Body>
+      <TitleText>Lending</TitleText>
       <div className="load">
         <Widget
           src={`guessme.near/widget/ZKEVM.AAVE.Loader`}
@@ -777,7 +782,8 @@ const body = loading ? (
 ) : (
   <>
     <Body>
-      <TopContainer>
+      <div className="top-title">
+      <TitleText>Lending</TitleText>
         <div className='tabSwitcher'>
           <Widget
             src={`guessme.near/widget/ZKEVM.AAVE.TabSwitcher`}
@@ -788,8 +794,10 @@ const body = loading ? (
             }}
           />
         </div>
+      </div>
+      <TopContainer>
         <Widget
-          src={`guessme.near/widget/ZKEVM.AAVE.HeroData`}
+          src={`bluebiu.near/widget/ZKEVM.AAVE.HeroData`}
           props={{
             config,
             netWorth: `$ ${state.assetsToBorrow?.netWorthUSD
