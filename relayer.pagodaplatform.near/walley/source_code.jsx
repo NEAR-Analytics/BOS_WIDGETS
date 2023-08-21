@@ -37,7 +37,7 @@ State.init({
     image: "",
   },
   view: "home",
-  loading: true,
+  loading: false,
   loadingMsg: "Fetching Data",
 });
 
