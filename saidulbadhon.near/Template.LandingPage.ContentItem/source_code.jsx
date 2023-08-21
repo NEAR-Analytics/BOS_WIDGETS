@@ -2,9 +2,7 @@ const ItemContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-
   min-height: 500px;
-  height: 100%;
 
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
