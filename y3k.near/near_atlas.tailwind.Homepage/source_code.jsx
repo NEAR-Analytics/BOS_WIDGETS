@@ -38,18 +38,18 @@ const tabsData = [
     content:
       "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
   },
-  {
-    name: "dao_world",
-    label: "DAO World",
-    content:
-      "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
-  },
-  {
-    name: "nft_world",
-    label: "NFT World",
-    content:
-      "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
-  },
+  // {
+  //   name: "dao_world",
+  //   label: "DAO World",
+  //   content:
+  //     "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
+  // },
+  // {
+  //   name: "nft_world",
+  //   label: "NFT World",
+  //   content:
+  //     "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
+  // },
 ];
 
 State.init({ activeTab: activeTab_tab || "home" });
