@@ -3,8 +3,7 @@ State.init({
 });
 
 const accountId = props.accountId ?? context.accountId;
-const daoId = props.daoId ?? "cannabis-genome.sputnik-dao.near";
-const ownerId = props.ownerId ?? "opencann.near";
+const daoId = props.daoId ?? "opencann.near";
 
 const page = accountId
   ? Social.get(`${accountId}/settings/dao/page`)
@@ -28,7 +27,7 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const profile = props.profile ?? Social.getr(`${ownerId}/profile`);
+const profile = props.profile ?? Social.getr(`${daoId}/profile`);
 const accountUrl = `#/efiz.near/widget/DAO.Page?`;
 
 const Wrapper = styled.div`
@@ -218,7 +217,7 @@ return (
         <Widget
           src={sidebarTemplate}
           props={{
-            ownerId,
+            daoId,
             profile,
           }}
         />
@@ -277,18 +276,18 @@ return (
 
         {state.selectedTab === "discussion" && (
           <>
-            <Widget src="efiz.near/widget/Chat" props={{ ownerId }} />
+            <Widget src="efiz.near/widget/Chat" props={{ daoId }} />
           </>
         )}
 
         {state.selectedTab === "proposals" && (
-          <Widget src="sking.near/widget/DAO.Proposals" props={{ ownerId }} />
+          <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
         )}
 
         {state.selectedTab === "proposal" && (
           <Widget
             src="sking.near/widget/DAO.Proposal"
-            props={{ ownerId, ...props }}
+            props={{ daoId, ...props }}
           />
         )}
 
