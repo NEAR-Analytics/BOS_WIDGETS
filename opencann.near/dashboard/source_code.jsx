@@ -1,12 +1,14 @@
 State.init({
-  selectedTab: props.tab || "marketplace",
+  selectedTab: props.tab || "discussion",
 });
 
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "cannabis-genome.sputnik-dao.near";
 const ownerId = props.ownerId ?? "opencann.near";
 
-const page = ownerId ? Social.get(`${ownerId}/settings/dao/page`) : undefined;
+const page = accountId
+  ? Social.get(`${accountId}/settings/dao/page`)
+  : undefined;
 
 if (page === null) {
   return "Loading...";
@@ -27,7 +29,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${ownerId}/profile`);
-const accountUrl = `#/opencann.near/widget/dashboard?`;
+const accountUrl = `#/efiz.near/widget/DAO.Page?`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -163,7 +165,7 @@ if (profile === null) {
   return "Loading...";
 }
 
-const sidebarTemplate = "opencann.near/widget/dashboard.sidebar";
+const sidebarTemplate = "hack.near/widget/DAO.Page.Sidebar";
 
 const routes = [
   {
@@ -225,40 +227,45 @@ return (
       <Content>
         <Tabs>
           <TabsButton
-            href={`${accountUrl}&tab=marketplace`}
-            selected={state.selectedTab === "marketplace"}
+            href={`${accountUrl}tab=discussion`}
+            selected={state.selectedTab === "discussion"}
           >
-            Marketplace
+            Discussion
           </TabsButton>
+
           <TabsButton
-            href={`${accountUrl}&tab=publish`}
-            selected={state.selectedTab === "publish"}
+            href={`${accountUrl}tab=proposals`}
+            selected={state.selectedTab === "proposals"}
           >
-            Publish
+            Proposals
           </TabsButton>
+
           <TabsButton
-            href={`${accountUrl}&tab=mydata`}
-            selected={state.selectedTab === "mydata"}
+            href={`${accountUrl}tab=members`}
+            selected={state.selectedTab === "members"}
           >
-            My Data
+            Members
           </TabsButton>
+
           <TabsButton
-            href={`${accountUrl}tab=feed`}
-            selected={state.selectedTab === "feed"}
+            href={`${accountUrl}tab=projects`}
+            selected={state.selectedTab === "projects"}
           >
-            Feed
+            Projects
           </TabsButton>
+
           <TabsButton
             href={`${accountUrl}tab=followers`}
             selected={state.selectedTab === "followers"}
           >
             Followers
           </TabsButton>
+
           <TabsButton
-            href={`${accountUrl}tab=members`}
-            selected={state.selectedTab === "members"}
+            href={`${accountUrl}tab=bounties`}
+            selected={state.selectedTab === "bounties"}
           >
-            Members
+            Bounties
           </TabsButton>
           <TabsButton
             href={`${accountUrl}tab=events`}
@@ -266,51 +273,22 @@ return (
           >
             Events
           </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=projects`}
-            selected={state.selectedTab === "projects"}
-          >
-            Projects
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=proposals`}
-            selected={state.selectedTab === "proposals"}
-          >
-            Proposals
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=bounties`}
-            selected={state.selectedTab === "bounties"}
-          >
-            Bounties
-          </TabsButton>
         </Tabs>
 
-        {state.selectedTab === "feed" && (
+        {state.selectedTab === "discussion" && (
           <>
-            <Widget src="opencann.near/widget/feed" props={{ accountId }} />
+            <Widget src="efiz.near/widget/Chat" props={{ ownerId }} />
           </>
         )}
 
         {state.selectedTab === "proposals" && (
-            <div className="mb-3">
-              <label for="daoId">DAO ID: </label>
-              <a
-                href="https://explorer.near.org/accounts/cannabis-genome.sputnik-dao.near"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                cannabis-genome.sputnik-dao.near
-              </a>
-            </div>
-          ) && (
-            <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
-          )}
+          <Widget src="sking.near/widget/DAO.Proposals" props={{ ownerId }} />
+        )}
 
         {state.selectedTab === "proposal" && (
           <Widget
             src="sking.near/widget/DAO.Proposal"
-            props={{ daoId, ...props }}
+            props={{ ownerId, ...props }}
           />
         )}
 
@@ -321,12 +299,15 @@ return (
         {state.selectedTab === "projects" && (
           <Widget
             src="nearhorizon.near/widget/Project.ListPage"
-            props={{ accountId }}
+            props={{ daoId }}
           />
         )}
 
         {state.selectedTab === "followers" && (
-          <Widget src="near/widget/FollowersList" props={{ accountId }} />
+          <Widget
+            src="near/widget/FollowersList"
+            props={{ accountId: daoId }}
+          />
         )}
 
         {state.selectedTab === "bounties" && (
@@ -342,15 +323,6 @@ return (
             src="sking.near/widget/DAO.Bounty"
             props={{ daoId, ...props }}
           />
-        )}
-        {state.selectedTab === "marketplace" && (
-          <Widget src="opencann.near/widget/marketplace" props={{ ownerId }} />
-        )}
-        {state.selectedTab === "publish" && (
-          <Widget src="opencann.near/widget/publish" props={{ ownerId }} />
-        )}
-        {state.selectedTab === "mydata" && (
-          <Widget src="opencann.near/widget/mydata" props={{ ownerId }} />
         )}
       </Content>
     </Main>
