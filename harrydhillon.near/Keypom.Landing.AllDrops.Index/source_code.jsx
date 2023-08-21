@@ -68,13 +68,19 @@ return (
         <div style={{ width: "300px" }}>
           <Widget src="harrydhillon.near/widget/Keypom.Components.Searchbar" />
         </div>
-           <button
+        <button
           onClick={() => {
             State.update({
               isCreateTicketModalOpen: true,
             });
           }}
-          style={{ backgroundColor: "black", borderWidth: 0,height:43,width:150 ,borderRadius:10}}
+          style={{
+            backgroundColor: "black",
+            borderWidth: 0,
+            height: 43,
+            width: 150,
+            borderRadius: 10,
+          }}
         >
           Create ticket
         </button>
