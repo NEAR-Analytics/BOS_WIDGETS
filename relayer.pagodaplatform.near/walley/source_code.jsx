@@ -25,7 +25,7 @@ State.init({
   user: {
     userPendingTransactions: [],
   },
-  view: 0,
+  view: "0",
 });
 
 const cssFont = fetch(
@@ -249,20 +249,24 @@ return (
       <WalleyHomeHeader>Walley.</WalleyHomeHeader>
       <WalleyHomeMain>
         <WalleyNavbar>
-          <WalleyNavbarButton onClick={() => State.update({ view: 0 })}>
+          <WalleyNavbarButton onClick={() => State.update({ view: "0" })}>
             Home
           </WalleyNavbarButton>
-          <WalleyNavbarButton onClick={() => State.update({ view: 1 })}>
+          <WalleyNavbarButton onClick={() => State.update({ view: "1" })}>
             Your Store NFTs
           </WalleyNavbarButton>
-          <WalleyNavbarButton onClick={() => State.update({ view: 2 })}>
+          <WalleyNavbarButton onClick={() => State.update({ view: "2" })}>
             Add a store
           </WalleyNavbarButton>
         </WalleyNavbar>
         <WalleyHomeBody>
           <WalleyBalance>
             Your Balance - {state.balance}
-            {state.view ? 0("helloaaaa") : state.view ? 1("helloob") : "hello"}
+            {state.view
+              ? "0"("helloaaaa")
+              : state.view
+              ? "1"("helloob")
+              : "hello"}
           </WalleyBalance>
         </WalleyHomeBody>
       </WalleyHomeMain>
