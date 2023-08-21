@@ -22,15 +22,35 @@ const sortedData = data.sort((a, b) => {
 
 const N_USERS = {};
 const TXS = {};
+const dates = [];
 
 sortedData.map((entry) => {
-  N_USERS[entry["DATE"]] = entry["N_USERS"];
-  TXS[entry["DATE"]] = entry["TXS"];
+  const date = entry["DATE"];
+  N_USERS[date] = entry["N_USERS"];
+  TXS[date] = entry["TXS"];
+  dates.push(date);
 });
 
-const dates = sortedData.map((entry) => entry["DATE"]);
+// const sortedEntries_N_USERS = Object.entries(N_USERS).sort((a, b) => {
+//   return new Date(a[0]) - new Date(b[0]);
+// });
+// const sortedN_USERS = Object.fromEntries(sortedEntries_N_USERS);
 
-// console.log(processedData);
+// const sortedEntries_TXS = Object.entries(TXS).sort((a, b) => {
+//   return new Date(a[0]) - new Date(b[0]);
+// });
+// const sortedTXS = Object.fromEntries(sortedEntries_TXS);
+// N_USERS = N_USERS.sort((a, b) => {
+//   return new Date(a["DATE"]) - new Date(b["DATE"]);
+// });
+
+// TXS = TXS.sort((a, b) => {
+//   return new Date(a["DATE"]) - new Date(b["DATE"]);
+// });
+
+// const dates = sortedData.map((entry) => entry["DATE"]);
+
+// console.log(N_USERS);
 
 // logic part-2
 
