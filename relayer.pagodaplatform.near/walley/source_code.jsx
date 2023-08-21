@@ -217,28 +217,32 @@ console.log(walleyContract);
 //get stores data
 if (state.store.stores.length === 0 && nftContract && sender) {
   nftContract.getAllStores().then((stores) => {
-    const storeState = state.store;
-    storeState.stores = stores;
-    let store;
-    for (let i = 0; i < stores.length; i++) {
-      store = stores[i];
-      storeState.storeNames.push(store[0]);
-      storeState.storeImages[store[0]] = store[2];
-      if (store[1] === sender) {
-        storeState.isStore = true;
-        storeState.storeName = store[0];
-        storeState.storeAddress = store[1];
-        nftContract
-          .getStoreActiveTransactions(store[1])
-          .then(
-            (transactions) =>
-              (storeState.storePendingTransactions = transactions)
-          );
+    if (stores.length === 0) {
+      State.update({ loading: false });
+    } else {
+      const storeState = state.store;
+      storeState.stores = stores;
+      let store;
+      for (let i = 0; i < stores.length; i++) {
+        store = stores[i];
+        storeState.storeNames.push(store[0]);
+        storeState.storeImages[store[0]] = store[2];
+        if (store[1] === sender) {
+          storeState.isStore = true;
+          storeState.storeName = store[0];
+          storeState.storeAddress = store[1];
+          nftContract
+            .getStoreActiveTransactions(store[1])
+            .then(
+              (transactions) =>
+                (storeState.storePendingTransactions = transactions)
+            );
+        }
+        if (i === stores.length - 1)
+          State.update({ store: storeState, loading: false });
       }
-      if (i === stores.length - 1)
-        State.update({ store: storeState, loading: false });
+      console.log(state.store);
     }
-    console.log(state.store);
   });
 }
 
