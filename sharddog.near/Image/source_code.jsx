@@ -7,8 +7,9 @@ const thumbnail = props.thumbnail;
 
 State.init({
   image,
-  modalImageUrl: null, // Add modalImageUrl to your State object
-  showModal: false, // Add showModal to your State object
+  modalMediaUrl: null, // Rename to modalMediaUrl
+  showModal: false,
+  isVideo: false, // Add isVideo to your State object
 });
 
 if (JSON.stringify(image) !== JSON.stringify(state.image)) {
@@ -19,11 +20,16 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 }
 
 function toUrl(image) {
-  return (
+  const url =
     (image.ipfs_cid
       ? `https://ipfs.near.social/ipfs/${image.ipfs_cid}`
-      : image.url) || fallbackUrl
-  );
+      : image.url) || fallbackUrl;
+
+  // Check if the file is a video by its extension
+  const isVideo = /\.(mp4|webm|ogg)$/i.test(url);
+  State.update({ isVideo });
+
+  return url;
 }
 
 const thumb = (imageUrl) =>
@@ -45,29 +51,37 @@ return image.nft.contractId && image.nft.tokenId ? (
   />
 ) : (
   <>
-    <img
-      className={className}
-      onClick={() => {
-        // When an image is clicked, update the modal image state and open the modal
-        const imageUrl = state.imageUrl
-          ? thumb(state.imageUrl)
-          : thumb(toUrl(image));
-        State.update({
-          modalImageUrl: imageUrl,
-          showModal: true,
-        });
-      }}
-      style={style}
-      src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
-      alt={alt}
-      onError={() => {
-        if (state.imageUrl !== fallbackUrl) {
+    {state.isVideo ? (
+      <video
+        className={className}
+        controls
+        style={style}
+        src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
+      />
+    ) : (
+      <img
+        className={className}
+        onClick={() => {
+          const mediaUrl = state.imageUrl
+            ? thumb(state.imageUrl)
+            : thumb(toUrl(image));
           State.update({
-            imageUrl: fallbackUrl,
+            modalMediaUrl: mediaUrl,
+            showModal: true,
           });
-        }
-      }}
-    />
+        }}
+        style={style}
+        src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
+        alt={alt}
+        onError={() => {
+          if (state.imageUrl !== fallbackUrl) {
+            State.update({
+              imageUrl: fallbackUrl,
+            });
+          }
+        }}
+      />
+    )}
     {state.showModal && (
       <div
         className="modal fade show d-block"
@@ -83,11 +97,19 @@ return image.nft.contractId && image.nft.tokenId ? (
         >
           <div className="modal-content">
             <div className="modal-body">
-              <img
-                src={state.modalImageUrl}
-                className="img-fluid"
-                alt="Modal"
-              />
+              {state.isVideo ? (
+                <video
+                  src={state.modalMediaUrl}
+                  className="img-fluid"
+                  controls
+                />
+              ) : (
+                <img
+                  src={state.modalMediaUrl}
+                  className="img-fluid"
+                  alt="Modal"
+                />
+              )}
             </div>
           </div>
         </div>
