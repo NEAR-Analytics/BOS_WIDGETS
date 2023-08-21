@@ -1,6 +1,7 @@
 const SearchBar = styled.div`
     display: flex;
     align-items: center;
+    height: 43px;
     border-radius:10px;
     padding-left:10px;
     overflow:hidden;
