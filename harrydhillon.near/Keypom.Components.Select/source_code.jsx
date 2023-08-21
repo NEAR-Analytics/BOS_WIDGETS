@@ -8,7 +8,7 @@ const StyledSelect = styled.select`
 return (
   <StyledSelect {...props.selectProps}>
     <option>{props.label}</option>
-    {(props.options??[]).map((item) => (
+    {(props.options ?? []).map((item) => (
       <option value={item.value}>{item.label}</option>
     ))}
   </StyledSelect>
