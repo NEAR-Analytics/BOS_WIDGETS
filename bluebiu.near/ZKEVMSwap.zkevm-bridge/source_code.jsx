@@ -295,7 +295,7 @@ const handleBridge = (props) => {
           account_id: sender,
           account_info: uuid,
           template: "native bridge",
-          action_code: state.add ? 1 : 0,
+          action_switch: state.add ? 1 : 0,
         });
       }
     });
