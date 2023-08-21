@@ -17,7 +17,6 @@ State.init({
     stores: [],
     storeName: "",
     storeAddress: "",
-    storeNames: [],
     isStore: false,
     storePendingTransactions: [],
     storeImages: {},
@@ -281,7 +280,6 @@ if (state.store.stores.length === 0 && nftContract && sender) {
       let store;
       for (let i = 0; i < stores.length; i++) {
         store = stores[i];
-        storeState.storeNames.push(store[0]);
         storeState.storeImages[store[0]] = store[2];
         if (store[1].toLowerCase() === sender) {
           storeState.isStore = true;
@@ -320,10 +318,10 @@ const onTxClick = () => {
 
 const widgetOptions = () => {
   const options = [];
-  for (let i = 0; i < state.stores.storeNames.length; i++)
+  for (let i = 0; i < state.store.stores.length; i++)
     options.push({
-      text: state.stores.storeNames[i],
-      value: state.stores.storeNames[i],
+      text: state.store.stores[i][0],
+      value: state.store.stores[i][0],
     });
   console.log(options);
   return options;
@@ -359,7 +357,6 @@ const addStore = () => {
         image.cid,
       ]);
       stateT.store.storeImages[storeName] = image.cid;
-      stateT.store.storeNames.push(storeName);
 
       stateT.storeInputs = {
         storeName: "",
