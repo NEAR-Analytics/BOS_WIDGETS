@@ -890,8 +890,8 @@ const WalleyHomeHeader = styled.div`
     height: 50px;
     font-size: 20px;
     font-weight: 900;
-    position: fixed;
-    top: 0vh;
+    position: relative;
+    top: 0px;
 `;
 
 const WalleyHomeMain = styled.div`
