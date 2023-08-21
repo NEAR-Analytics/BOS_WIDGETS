@@ -64,7 +64,7 @@ State.init({
       role: "",
     },
   ],
-  agreement: false,
+  agreement: "false",
   tags: "",
   error_msg: "",
   video: "",
@@ -176,7 +176,7 @@ const validatedInputs = () => {
     afiliation,
     agreement,
   } = state;
-  console.log(state);
+
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
   let isValid = true;
