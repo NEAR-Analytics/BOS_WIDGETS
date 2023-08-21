@@ -185,7 +185,7 @@ return (
   <>
     {!assetData && tokenId && (
       <Widget
-        src="zavodil.near/widget/TokenData"
+        src="zavodil.near/widget/TokenData2"
         props={{
           tokenId,
           coinGeckoTokenId,
