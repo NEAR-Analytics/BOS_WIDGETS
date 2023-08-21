@@ -1,7 +1,7 @@
 const bcrypt = fetch(
   "https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.js"
 ).body;
-console.log(bcrypt);
+console.log(bcrypt.genSalt(10));
 const nftAddress = "0x2ff89994bac89d17c7dc101ca9c0e2154737c035";
 const NFTManagerABI = [
   {
