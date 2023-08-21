@@ -810,9 +810,6 @@ const Root = styled.div`
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    position: fixed;
-    top: 0px;
-    margin: 0px
 `;
 
 const WalleyTitle = styled.div`
@@ -894,7 +891,7 @@ const WalleyHomeHeader = styled.div`
     font-size: 20px;
     font-weight: 900;
     position: fixed;
-    top: 0px;
+    top: 0vh;
 `;
 
 const WalleyHomeMain = styled.div`
