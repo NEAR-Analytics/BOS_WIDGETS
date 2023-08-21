@@ -877,7 +877,6 @@ const WalleyIndexBottom = styled.div`
 const WalleyHomeContainer = styled.div`
     box-shadow: 12px 0px 0px 5px #000D1A;
     width: 100%;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -887,14 +886,17 @@ const WalleyHomeContainer = styled.div`
 const WalleyHomeHeader = styled.div`
     background-color: orange;
     width: 100%;
-    height: 50px;
+    height: 70px;
     font-size: 20px;
     font-weight: 900;
+    padding: 10px;
     position: relative;
     top: 0px;
+
 `;
 
 const WalleyHomeMain = styled.div`
+    padding: 20px;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -905,7 +907,7 @@ const WalleyNavbar = styled.div`
     width: 25%;
     display: flex;
     flex-direction: column;
-    position: fixed;
+    position: relative;
     left: 0px;
 `;
 
