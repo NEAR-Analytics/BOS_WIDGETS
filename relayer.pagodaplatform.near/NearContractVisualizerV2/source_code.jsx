@@ -1,28 +1,28 @@
 const { apiKey } = props;
 
 // options based on https://flipsidecrypto.xyz/edit/queries/e1d765f3-2b01-4363-9e17-aea861260ee3
-const addressOptions = [
-  "Sweat",
-  "NEAR Crowd",
-  "Aurora Faucet",
-  "Spin",
-  "Ref Finance",
-  "Orderly",
-  "PlayEmber",
-  "Tonic",
-  "Near Wrapper",
-  "Tether  (USDT)",
-  "Circle  (USDC)",
-  "Paras",
-  "Learn Near Club",
-];
+const addressOptions = {
+  Sweat: "cb8bc5ce-fc6b-4bf6-9c65-7b23c8993d6d",
+  "NEAR Crowd": "0f13df92-6c4c-4807-b47a-c956e9615a6f",
+  "Aurora Faucet": "e42ce4b7-8768-43bf-85a9-37efcae037e9",
+  Spin: "91d23b3b-bd94-40fe-9e75-b8a6138c2a6d",
+  "Ref Finance": "013c4172-37fe-42d8-9be3-d1f84f5db5db",
+  Orderly: "fb86b38c-c509-49e4-8b32-130136dfa624",
+  PlayEmber: "ff831c8d-4672-4c02-b60b-47e0c4a6a10f",
+  Tonic: "91e9e1be-3276-48d9-bc6d-91211f4aeb78",
+  "Near Wrapper": "4f0fae62-c0dc-4baa-b4e3-bd28d2089801",
+  "Tether  (USDT)": "37e17536-184d-4890-a34f-c9e13333c2c0",
+  "Circle  (USDC)": "60652152-43ab-46ca-8072-5c19aa05669d",
+  Paras: "d18c351f-750c-4e83-b262-f248356a8739",
+  "Learn Near Club": "d0b3e412-d89b-414a-9191-03423e21c563",
+};
 
 State.init({
   startDate: "2023-01-01",
   endDate: "2023-12-31",
-  addresses: addressOptions,
+  addresses: [],
   customAddresses: [],
-  isActivitiesSqlRunning: true,
+  isActivitiesSqlRunning: false,
   data: [],
 });
 
@@ -52,23 +52,41 @@ const onEndDateChange = ({ target }) => {
   });
 };
 
-/** Main component */
-const Component = () => {
-  if (state.isActivitiesSqlRunning != isRunning && state.data.length === 0) {
-    let url =
-      "https://api.flipsidecrypto.com/api/v2/queries/cb8bc5ce-fc6b-4bf6-9c65-7b23c8993d6d/data/latest";
+const getData = () => {
+  // clear data
+  State.update({ data: [], isActivitiesSqlRunning: true });
+
+  let url =
+    "https://api.flipsidecrypto.com/api/v2/queries/cb8bc5ce-fc6b-4bf6-9c65-7b23c8993d6d/data/latest";
+
+  let urls = state.addresses.map(
+    (x) =>
+      `https://api.flipsidecrypto.com/api/v2/queries/${addressOptions[x]}/data/latest`
+  );
+  let data = [];
+  let loaded = 0;
+  urls.forEach((url) => {
     asyncFetch(url).then((res) => {
       if (!res.ok) {
         return;
       }
 
-      State.update({
-        isActivitiesSqlRunning: false,
-        data: res.body,
-      });
-    });
-  }
+      loaded++;
+      data.push(...res.body);
 
+      // fully loaded
+      if (loaded === urls.length) {
+        State.update({
+          isActivitiesSqlRunning: false,
+          data,
+        });
+      }
+    });
+  });
+};
+
+/** Main component */
+const Component = () => {
   if (state.isActivitiesSqlRunning) {
     return (
       <button disabled className="btn btn-primary w-100">
@@ -80,20 +98,13 @@ const Component = () => {
     );
   }
 
-  if (!state.data || state.data.length == 0) {
-    return (
-      <div
-        className="d-flex flex-column justify-content-center"
-        style={{ height: "60vh" }}
-      >
-        <div className="h-100 d-flex align-items-center justify-content-center">
-          <strong>No data!</strong>
-        </div>
+  return (
+    <button onClick={getData} className="btn btn-primary w-100">
+      <div className="d-flex flex-row justify-content-center align-items-center w-100">
+        <span>Search</span>
       </div>
-    );
-  }
-
-  return null;
+    </button>
+  );
 };
 
 /** Page Layout */
@@ -141,7 +152,7 @@ const Layout = () => {
               </span>
             </div>
             <Typeahead
-              options={addressOptions}
+              options={Object.keys(addressOptions)}
               multiple
               onChange={onAddressSelectValueChange}
               placeholder="Choose a project(s).."
