@@ -43,5 +43,6 @@ return (
         }}
       />
     ))}
+    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
   </Container>
 );
