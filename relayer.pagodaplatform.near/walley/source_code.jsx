@@ -366,14 +366,27 @@ const addStore = () => {
       stateT.loading = false;
       stateT.loadingMsg = "";
       if (storeAddress.toLowerCase() === sender) {
-        alert(
-          "Warning - If you have any pending transactions, you won't be able to see them. But they can be completed at the store!"
-        );
+        // alert(
+        //   "Warning - If you have any pending transactions, you won't be able to see them. But they can be completed at the store!"
+        // );
         stateT.store.isStore = true;
         stateT.store.storeAddress = storeAddress.toLowerCase();
         stateT.store.storeName = storeName;
       }
       State.update(stateT);
+    });
+};
+
+const initTransaction = () => {
+  State.update({ loading: true, loadingMsg: "Minting your NFT" });
+  const { storeName, amount, name, password } = stateT.userInputs;
+
+  walleyContract
+    .mint(password, { from: sender })
+    .then((t) => t.wait())
+    .then((r) => {
+      console.log(r);
+      State.update({ loading: false, loadingMsg: "" });
     });
 };
 
@@ -439,6 +452,13 @@ return (
                   onChange={(e) => homeInputUpdates(e.target.value, "password")}
                   placeholder="Password"
                 />
+                <WalleyButton
+                  color="#000D1A"
+                  bg="#FFA500"
+                  onClick={initTransaction}
+                >
+                  Buy The Store NFT
+                </WalleyButton>
               </WalleyHomeForm>
             ) : state.view === "tx" ? (
               <p>helloob</p>
