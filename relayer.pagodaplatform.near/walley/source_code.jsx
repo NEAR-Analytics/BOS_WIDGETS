@@ -460,7 +460,7 @@ return (
               )}
             </WalleyBalance>
           ) : (
-            <WalleyLoading>{state.loading}</WalleyLoading>
+            <WalleyLoading>{state.loadingMsg}</WalleyLoading>
           )}
         </WalleyHomeBody>
       </WalleyHomeMain>
