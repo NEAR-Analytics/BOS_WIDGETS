@@ -27,7 +27,7 @@ function fetchContentType(url) {
       State.update({ isVideo });
     })
     .catch((error) => {
-      console.error("Error fetching content type:", error);
+      console.log("Error fetching content type:", error);
     });
 }
 
