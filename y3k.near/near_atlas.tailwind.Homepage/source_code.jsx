@@ -38,6 +38,12 @@ const tabsData = [
     content:
       "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
   },
+  {
+    name: "dao_world",
+    label: "DAO World",
+    content:
+      "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
+  },
 ];
 
 State.init({ activeTab: activeTab_tab || "home" });
@@ -159,6 +165,31 @@ return (
             <div>
               <Widget
                 src="y3k.near/widget/widgets.monthlyDevStats"
+                props={{}}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          className={`${
+            tabsData.find((tab) => tab.name === state.activeTab).name ===
+            "dao_world"
+              ? ""
+              : "visibility: hidden"
+          }`}
+        >
+          <div className="py-4">
+            <div>
+              <Widget
+                src="y3k.near/widget/near_atlas.components.vis.DAUbyDAO"
+                props={{}}
+              />
+            </div>
+
+            <div>
+              <Widget
+                src="y3k.near/widget/near_atlas.components.table.TopDAOs"
                 props={{}}
               />
             </div>
