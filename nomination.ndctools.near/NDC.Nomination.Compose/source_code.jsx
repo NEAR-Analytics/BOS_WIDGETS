@@ -64,7 +64,7 @@ State.init({
       role: "",
     },
   ],
-  agreement: "false",
+  agreement: false,
   tags: "",
   error_msg: "",
   video: "",
@@ -175,7 +175,6 @@ const validatedInputs = () => {
     Key_Issue_3,
     afiliation,
     agreement,
-    tags,
   } = state;
 
   const isEmpty = (str) => str.trim() === "";
@@ -220,13 +219,9 @@ const validatedInputs = () => {
     isValid = false;
     error_msg.push("Third key issue is empty");
   }
-  if (tags.split(",").length == 0) {
-    isValid = false;
-    error_msg.push("Tags is empty");
-  }
   if (isFalse(agreement)) {
     isValid = false;
-    error_msg.push("Aggreement not checked");
+    error_msg.push("Aggreement is not checked");
   }
   if (afiliation.length == 0) {
     isValid = false;
@@ -447,7 +442,7 @@ return (
                   {
                     label:
                       "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you? *",
-                    placeholder: "Elaborate",
+                    placeholder: "Elaborate on your candidacy",
                     value: state.HAYInvolve,
                     handleChange: (e) => validate("HAYInvolve", e.target.value),
                   },
