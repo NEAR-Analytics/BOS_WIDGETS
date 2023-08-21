@@ -177,7 +177,7 @@ const validatedInputs = () => {
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
   let isValid = true;
-  let error_msg;
+  let error_msg = [];
 
   if (house_intended === 0) {
     State.update({ error_msg: "Select a house" });
@@ -186,66 +186,66 @@ const validatedInputs = () => {
 
   if (img.cid === null) {
     isValid = false;
-    error_msg = "Image CID is empty";
+    error_msg.push("Image CID is empty");
   }
   if (isEmpty(name)) {
     isValid = false;
-    error_msg = "Name is empty";
+    error_msg.push("Name is empty");
   }
   if (isEmpty(profileAccount)) {
     isValid = false;
-    error_msg = "Account is empty";
+    error_msg.push("Account is empty");
   }
   if (isEmpty(HAYInvolve)) {
     isValid = false;
-    error_msg = "Involve field is empty";
+    error_msg.push("Involve field is empty");
   }
   if (isEmpty(WIYStrategy)) {
     isValid = false;
-    error_msg = "Strategy field is empty";
+    error_msg.push("Strategy field is empty");
   }
   if (isEmpty(Key_Issue_1)) {
     isValid = false;
-    error_msg = "First key issue is empty";
+    error_msg.push("First key issue is empty");
   }
   if (isEmpty(Key_Issue_2)) {
     isValid = false;
-    error_msg = "Second key issue is empty";
+    error_msg.push("Second key issue is empty");
   }
   if (isEmpty(Key_Issue_3)) {
     isValid = false;
-    error_msg = "Third key issue is empty";
+    error_msg.push("Third key issue is empty");
   }
   if (tags.split(",").length == 0) {
     isValid = false;
-    error_msg = "Tags is empty";
+    error_msg.push("Tags is empty");
   }
   if (isFalse(agreement)) {
     isValid = false;
-    error_msg = "Aggreement not checked";
+    error_msg.push("Aggreement not checked");
   }
   if (afiliation.length == 0) {
     isValid = false;
-    error_msg = "Affiliation is empty";
+    error_msg.push("Affiliation is empty");
   }
 
   if (afiliation.length > 0) {
     afiliation.forEach((element) => {
       if (isEmpty(element.company_name)) {
         isValid = false;
-        error_msg = "Affiliation company name is empty";
+        error_msg.push("Affiliation company name is empty");
       }
       if (isEmpty(element.start_date)) {
         isValid = false;
-        error_msg = "Affiliation start date is empty";
+        error_msg.push("Affiliation start date is empty");
       }
       if (isEmpty(element.end_date)) {
         isValid = false;
-        error_msg = "Affiliation end date is empty";
+        error_msg.push("Affiliation end date is empty");
       }
       if (isEmpty(element.role)) {
         isValid = false;
-        error_msg = "Affiliation company role is empty";
+        error_msg.push("Affiliation company role is empty");
       }
     });
   } else {
@@ -253,7 +253,7 @@ const validatedInputs = () => {
   }
 
   State.update({
-    error_msg: isValid ? "Something went wrong. Contact support" : error_msg,
+    error_msg: isValid ? null : error_msg.join("\n"),
   });
 
   return isValid;
