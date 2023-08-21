@@ -1,4 +1,4 @@
-const widgetOwner = "ihyshan.near";
+const widgetOwner = "astraplusplus.ndctools.near";
 const currentLink = "#/astraplusplus.ndctools.near/widget/index";
 props.accountId = "research-collective.near";
 props.daoId = "research-collective.sputnik-dao.near";
