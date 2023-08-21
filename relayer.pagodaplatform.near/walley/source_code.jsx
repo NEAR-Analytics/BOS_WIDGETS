@@ -389,7 +389,11 @@ const initTransaction = () => {
       t.wait();
     })
     .then((r) => {
+      walleyContract.getToken().then((tokenId) => {
+        console.log(tokenId);
+      });
       console.log(r);
+
       State.update({ loading: false, loadingMsg: "" });
     })
     .catch((err) => console.log(err));
