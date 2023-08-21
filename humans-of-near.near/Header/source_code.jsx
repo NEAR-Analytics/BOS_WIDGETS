@@ -3,7 +3,7 @@ const LogoContainer = styled.div`
   top: 20px;
   left:10px;
   display:block;
-  
+  overflow:hidden;
   @media (max-width: 510px) {
     width: 280px;
     top: 10px;
