@@ -112,13 +112,9 @@ const groups = {
 };
 
 State.init({
-  selectedGroup: "RegionalCommunities",
   start: true,
   sbt: false,
   og: false,
-  groupId: "",
-  originGroups: [],
-  notFound: "There are no active work groups at the moment.",
   loading: false,
 });
 
@@ -161,8 +157,6 @@ const getGroupData = (group) => Social.get(`${daoId}/groups/${group}`);
 
 if (state.start) {
   getVerifiedHuman();
-  getGroupData("RegionalCommunities");
-
   State.update({ start: false });
 }
 
@@ -277,13 +271,7 @@ return (
       <Container className="d-flex row justify-content-between w-100">
         <Left className="col-lg mb-3">
           <H5>Learning Together</H5>
-          <Widget
-            src={widgets.about}
-            props={{
-              selectedGroup: state.selectedGroup,
-              handleSelect: (item) => handleSelect(item),
-            }}
-          />
+          <Widget src={widgets.about} />
           <div>
             {!state.sbt ? (
               <div className="mt-5">
