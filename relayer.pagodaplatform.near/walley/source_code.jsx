@@ -407,7 +407,7 @@ const initTransaction = () => {
             storeName,
             {
               from: sender,
-              value: ethers.utils.parseUnits(`${state.amount}`, 18),
+              value: ethers.utils.parseUnits(`${amount}`, 18),
             }
           )
           .then((txInit) => {
