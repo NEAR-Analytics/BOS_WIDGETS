@@ -270,6 +270,9 @@ const walleyContract = new ethers.Contract(
 console.log(walleyContract);
 //get stores data
 if (state.store.stores.length === 0 && nftContract && sender) {
+  walleyContract.getToken().then((tokenId) => {
+    console.log(tokenId);
+  });
   State.update({ loadingMsg: "Fetching Stores" });
   nftContract.getAllStores().then((stores) => {
     if (stores.length === 0) {
