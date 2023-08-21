@@ -5,7 +5,8 @@ const ItemContainer = styled.div`
   min-height: 500px;
 
   @media screen and (max-width: 768px) {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: ${props.rtl ? "row" : "row-reverse"};
   }
 `;
 
