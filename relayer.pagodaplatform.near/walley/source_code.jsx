@@ -810,6 +810,11 @@ const Root = styled.div`
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
 `;
 
 const WalleyTitle = styled.div`
