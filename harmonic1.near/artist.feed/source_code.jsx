@@ -67,15 +67,34 @@ if (JSON.stringify(data) !== {}) {
   });
 }
 
+//will display cards all if empty
 const featuredAccountIds = props.featuredAccountIds;
 
-const filteredItems = state.allItems
-  ? featuredAccountIds.length > 0
-    ? state.allItems.filter((item) =>
-        featuredAccountIds.includes(item.accountId)
-      )
-    : state.allItems
-  : [];
+//the ones you don't want to show
+const excludedAccountIds = ["afrobutterfly.near"]; //props.excludedAccountIds;
+//afro is excluded because incomplete profile
+
+// const filteredItems = state.allItems
+//   ? featuredAccountIds.length > 0
+//     ? state.allItems.filter((item) =>
+//         featuredAccountIds.includes(item.accountId)
+//       )
+//     : state.allItems
+//   : [];
+
+let filteredItems = [];
+
+if (state.allItems) {
+  if (featuredAccountIds.length > 0) {
+    filteredItems = state.allItems.filter((item) =>
+      featuredAccountIds.includes(item.accountId)
+    );
+  } else {
+    filteredItems = state.allItems.filter(
+      (item) => !excludedAccountIds.includes(item.accountId)
+    );
+  }
+}
 
 return (
   <div className="px-2">
