@@ -263,38 +263,38 @@ const walleyContract = new ethers.Contract(
 );
 console.log(walleyContract);
 //get stores data
-if (state.store.stores.length === 0 && nftContract && sender) {
-  State.update({ loadingMsg: "Fetching Stores" });
-  nftContract.getAllStores().then((stores) => {
-    if (stores.length === 0) {
-      State.update({ loading: false, loadingMsg: "" });
-    } else {
-      const storeState = state.store;
-      storeState.stores = stores;
-      let store;
-      for (let i = 0; i < stores.length; i++) {
-        store = stores[i];
-        storeState.storeNames.push(store[0]);
-        storeState.storeImages[store[0]] = store[2];
-        if (store[1] === sender) {
-          storeState.isStore = true;
-          storeState.storeName = store[0];
-          storeState.storeAddress = store[1];
-          State.update({ loadingMsg: "Fetching Store Transactions" });
-          nftContract
-            .getStoreActiveTransactions(store[1])
-            .then(
-              (transactions) =>
-                (storeState.storePendingTransactions = transactions)
-            );
-        }
-        if (i === stores.length - 1)
-          State.update({ store: storeState, loading: false, loadingMsg: "" });
-      }
-      console.log(state.store);
-    }
-  });
-}
+// if (state.store.stores.length === 0 && nftContract && sender) {
+//   State.update({ loadingMsg: "Fetching Stores" });
+//   nftContract.getAllStores().then((stores) => {
+//     if (stores.length === 0) {
+//       State.update({ loading: false, loadingMsg: "" });
+//     } else {
+//       const storeState = state.store;
+//       storeState.stores = stores;
+//       let store;
+//       for (let i = 0; i < stores.length; i++) {
+//         store = stores[i];
+//         storeState.storeNames.push(store[0]);
+//         storeState.storeImages[store[0]] = store[2];
+//         if (store[1] === sender) {
+//           storeState.isStore = true;
+//           storeState.storeName = store[0];
+//           storeState.storeAddress = store[1];
+//           State.update({ loadingMsg: "Fetching Store Transactions" });
+//           nftContract
+//             .getStoreActiveTransactions(store[1])
+//             .then(
+//               (transactions) =>
+//                 (storeState.storePendingTransactions = transactions)
+//             );
+//         }
+//         if (i === stores.length - 1)
+//           State.update({ store: storeState, loading: false, loadingMsg: "" });
+//       }
+//       console.log(state.store);
+//     }
+//   });
+// }
 
 const onTxClick = () => {
   State.update({
