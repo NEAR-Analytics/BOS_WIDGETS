@@ -220,12 +220,9 @@ const WalleyStoreButton = styled.button`
 `;
 
 const WalleyTransactions = styled.div`
-  display: block;
 `;
 
 const TransactionCard = styled.div`
-  display: block
-  ;
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
