@@ -11,8 +11,6 @@ const NETWORK_AURORA = "AURORA";
 const NETWORK_POLYGON = "POLYGON";
 const NETWORK_MANTLE = "MANTLE";
 
-console.log("ethers", ethers);
-
 const network = props.network ?? NETWORK_NEAR;
 
 if (!tokenId) return;
