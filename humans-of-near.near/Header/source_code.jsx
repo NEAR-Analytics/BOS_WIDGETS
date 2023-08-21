@@ -3,6 +3,7 @@ const LogoContainer = styled.div`
   top: 20px;
   left:10px;
   display:block;
+  
   @media (max-width: 510px) {
     width: 280px;
     top: 10px;
@@ -12,8 +13,8 @@ const LogoContainer = styled.div`
 const Logo = () => (
   <LogoContainer>
     <svg
-      width="105"
-      height="105"
+      width="135"
+      height="135"
       //viewBox="0 0 135 135"
       //fill="none"
       //xmlns="http://www.w3.org/2000/svg"
