@@ -199,6 +199,12 @@ const WalleyStoreForm = styled.div`
   flex-direction: column;
 `;
 
+const WalleyStoreImage = styled.img`
+  width: 100px;
+  height: 100px;
+  text-align: center;
+`;
+
 const WalleyInput = styled.input`
   display: block;
 `;
@@ -280,7 +286,7 @@ if (state.store.stores.length === 0 && nftContract && sender) {
         if (store[1] === sender) {
           storeState.isStore = true;
           storeState.storeName = store[0];
-          storeState.storeAddress = store[1];
+          storeState.storeAddress = store[1].toLowerCase();
           State.update({ loadingMsg: "Fetching Store Transactions" });
           nftContract
             .getStoreActiveTransactions(store[1])
@@ -341,14 +347,18 @@ const addStore = () => {
   const stateT = state;
   const { storeName, storeAddress, image } = stateT.storeInputs;
   nftContract
-    .addStore(storeName, storeAddress, image)
+    .addStore(storeName, storeAddress, image.cid)
     .then((t) => {
       console.log(t);
       t.wait();
     })
     .then(() => {
-      stateT.store.stores.push([storeName, storeAddress, image]);
-      stateT.store.storeImages[storeName] = image;
+      stateT.store.stores.push([
+        storeName,
+        storeAddress.toLowerCase(),
+        image.cid,
+      ]);
+      stateT.store.storeImages[storeName] = image.cid;
       stateT.store.storeNames.push(storeName);
 
       stateT.storeInputs = {
@@ -358,12 +368,12 @@ const addStore = () => {
       };
       stateT.loading = false;
       stateT.loadingMsg = "";
-      if (storeAddress === sender) {
+      if (storeAddress.toLowerCase() === sender) {
         alert(
           "Warning - If you have any pending transactions, you won't be able to see them. But they can be completed at the store!"
         );
         stateT.store.isStore = true;
-        stateT.store.storeAddress = storeAddress;
+        stateT.store.storeAddress = storeAddress.toLowerCase();
         stateT.store.storeName = storeName;
       }
       State.update(stateT);
@@ -437,6 +447,15 @@ return (
               <p>helloob</p>
             ) : (
               <WalleyStoreForm>
+                {state.storeInputs.image.uploading ? <p>loading</p> : ""}
+                {state.storeInputs.image.cid ? (
+                  <WalleyStoreImage
+                    src={`https://ipfs.near.social/ipfs/${state.storeInputs.image.cid}`}
+                    alt="uploaded"
+                  />
+                ) : (
+                  ""
+                )}
                 <WalleyLabel>Store Name</WalleyLabel>
                 <WalleyInput
                   value={state.storeInputs.storeName}
@@ -460,6 +479,7 @@ return (
                 >
                   Use current address(convert this account into a store)
                 </WalleyStoreButton>
+                <IpfsImageUpload image={state.storeInputs.image} />
                 <WalleyButton color="#000D1A" bg="orange" onClick={addStore}>
                   Add Store
                 </WalleyButton>
