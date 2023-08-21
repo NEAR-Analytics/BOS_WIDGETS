@@ -492,7 +492,7 @@ const CandidateList = ({ candidateId, votes }) => (
           }}
         />
         <Votes>{votes}</Votes>
-        {isIAmHuman && (
+        {isIAmHuman && winnerIds.length > 0 && (
           <Votes>
             <input
               id="input"
@@ -561,7 +561,7 @@ const Filters = () => (
           }`}
         />
       </Votes>
-      {isIAmHuman && (
+      {isIAmHuman && winnerIds.length > 0 && (
         <Action
           role="button"
           className="text-secondary"
@@ -599,7 +599,7 @@ const CastVotes = () => (
         {alreadyVotedForHouse() ? (
           <span>You're already voted for {housesMapping[typ]}</span>
         ) : (
-          <span>Make sure you selected all {seats} candidates</span>
+          <span>Make sure you selected {seats} candidates</span>
         )}
       </Info>
     </div>
