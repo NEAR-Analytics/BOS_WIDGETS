@@ -61,12 +61,11 @@ return (
         <div className="mb-5" style={{ display: "flex" }}>
           <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
-              Simple Profiles to connect with your audience
+              Promote your art, events, and merch.
             </p>
             <p style={{ fontSize: "1.25rem" }}>
-              Create your own personal corner on the decentralised web. Host
-              information and updates for your audience. Save yourself from
-              platform risk and censorship powered by Blockchain technology.
+              Communicate and Coordinate with other artists. Host information
+              and updates for your audience. Make Money.
             </p>
           </div>
           <div style={{ flex: 1 }}>
@@ -84,13 +83,12 @@ return (
           </div>
           <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
-              Create your Profile
+              Simple Profiles to connect with your audience
             </p>
             <p style={{ fontSize: "1.25rem" }}>
               Go ahead and create your Profile that no one but you control.
               Without the fear of intermediary platforms, share information with
-              your audience on your own terms. (Saving the Profile needs a NEAR
-              wallet and some near tokens. Working on a gasless solution.)
+              your audience on your own terms.
             </p>
           </div>
         </div>
@@ -109,7 +107,7 @@ return (
             }}
           />
         </div>
-        <a href="artist.feed">
+        <a href="harmonic1.near/widget/artist.feed">
           <h4 style={{ marginTop: "2rem" }}>See all.</h4>
         </a>
       </div>
