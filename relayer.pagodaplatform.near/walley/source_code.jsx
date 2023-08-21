@@ -389,8 +389,8 @@ const initTransaction = () => {
     .then((t) => {
       console.log("hhhee");
       console.log(t);
-      t.wait();
     })
+    .wait()
     .then((r) => {
       walleyContract.getToken().then((tokenId) => {
         console.log(tokenId);
