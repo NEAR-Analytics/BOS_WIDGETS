@@ -411,13 +411,13 @@ return (
                   <WalleyLabel>
                     Enter the maximum amount you'd like to spend(in INR)
                   </WalleyLabel>
-                  <WalleyInput
+                  <input
                     type="number"
                     onChange={(e) => homeInputUpdates(e.target.value, "amount")}
                     placeholder="Amount(in INR)"
                   />
                   <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
-                  <WalleyInput
+                  <input
                     type="text"
                     onChange={(e) => homeInputUpdates(e.target.value, "name")}
                     placeholder="Name"
@@ -426,7 +426,7 @@ return (
                     Set a password for the transaction(will be asked during
                     checkout)
                   </WalleyLabel>
-                  <WalleyInput
+                  <input
                     type="password"
                     onChange={(e) =>
                       homeInputUpdates(e.target.value, "password")
@@ -439,7 +439,7 @@ return (
               ) : (
                 <WalleyStoreForm>
                   <WalleyLabel>Store Name</WalleyLabel>
-                  <WalleyInput
+                  <input
                     value={state.storeInputs.storeName}
                     type="text"
                     onChange={(e) =>
@@ -448,7 +448,7 @@ return (
                     placeholder="Enter the Store Name"
                   />
                   <WalleyLabel>Store Address</WalleyLabel>
-                  <WalleyInput
+                  <input
                     value={state.storeInputs.storeAddress}
                     type="text"
                     onChange={(e) =>
