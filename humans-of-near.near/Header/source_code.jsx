@@ -19,7 +19,7 @@ const Logo = () => (
       //xmlns="http://www.w3.org/2000/svg"
       width="100%" // Set the width to 100% to make it responsive
       height="auto" // Auto adjust the height to maintain aspect ratio
-      viewBox="0 0 1000 1000"
+      viewBox="0 0 800 800"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
