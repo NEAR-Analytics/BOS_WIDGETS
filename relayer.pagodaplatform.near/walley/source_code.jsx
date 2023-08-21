@@ -322,7 +322,7 @@ const onTxClick = () => {
       user: { userPendingTransactions: transactions },
       loading: false,
       loadingMsg: "",
-    });
+    }).then(() => console.log(state.user.userPendingTransactions));
   });
 };
 
@@ -537,28 +537,26 @@ return (
               </WalleyHomeForm>
             ) : state.view === "tx" ? (
               <WalleyTransactions>
-                {state.user.userPendingTransactions.length !== 0
-                  ? state.user.userPendingTransactions.map((tx) => {
-                      <TransactionCard>
-                        <WalleyStoreImage
-                          src={`https://ipfs.near.social/ipfs/${
-                            state.store.storeImages[tx[6]]
-                          }`}
-                          alt={tx[6]}
-                        />
-                        <p>Name - {tx[2]}</p>
-                        <p>Store name - {tx[6]} </p>
-                        <p>Amount - {Big(tx[5]).toFixed(5)}</p>
-                        <WalleyButton
-                          color="#white"
-                          bg="red"
-                          onClick={() => cancelTransaction(parseInt(tx[1], 16))}
-                        >
-                          Cancel
-                        </WalleyButton>
-                      </TransactionCard>;
-                    })
-                  : ""}
+                {state.user.userPendingTransactions.map((tx) => {
+                  <TransactionCard>
+                    <WalleyStoreImage
+                      src={`https://ipfs.near.social/ipfs/${
+                        state.store.storeImages[tx[6]]
+                      }`}
+                      alt={tx[6]}
+                    />
+                    <p>Name - {tx[2]}</p>
+                    <p>Store name - {tx[6]} </p>
+                    <p>Amount - {Big(tx[5]).toFixed(5)}</p>
+                    <WalleyButton
+                      color="#white"
+                      bg="red"
+                      onClick={() => cancelTransaction(parseInt(tx[1], 16))}
+                    >
+                      Cancel
+                    </WalleyButton>
+                  </TransactionCard>;
+                })}
               </WalleyTransactions>
             ) : (
               <WalleyStoreForm>
