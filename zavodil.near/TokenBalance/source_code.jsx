@@ -25,7 +25,7 @@ const Theme = state.theme;
 return (
   <>
     <Widget
-      src="zavodil.near/widget/TokenData"
+      src="zavodil.near/widget/TokenData2"
       props={{
         tokenId: state.tokenId,
         coinGeckoTokenId: state.coinGeckoTokenId,
