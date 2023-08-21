@@ -411,6 +411,7 @@ return (
                 </WalleyLabel>
                 <WalleyInput
                   type="number"
+                  value={state.homeInputs.amount}
                   onChange={(e) => homeInputUpdates(e.target.value, "amount")}
                   placeholder="Amount(in INR)"
                 />
