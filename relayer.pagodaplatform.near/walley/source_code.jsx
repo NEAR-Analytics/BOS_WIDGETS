@@ -410,12 +410,14 @@ return (
                   Enter the maximum amount you'd like to spend(in INR)
                 </WalleyLabel>
                 <WalleyInput
+                  value={state.homeInputs.amount}
                   type="number"
                   onChange={(e) => homeInputUpdates(e.target.value, "amount")}
                   placeholder="Amount(in INR)"
                 />
                 <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
                 <WalleyInput
+                  value={state.homeInputs.name}
                   type="text"
                   onChange={(e) => homeInputUpdates(e.target.value, "name")}
                   placeholder="Name"
@@ -425,6 +427,7 @@ return (
                   checkout)
                 </WalleyLabel>
                 <WalleyInput
+                  value={state.homeInputs.password}
                   type="password"
                   onChange={(e) => homeInputUpdates(e.target.value, "password")}
                   placeholder="Password"
@@ -436,12 +439,10 @@ return (
               <WalleyStoreForm>
                 <WalleyLabel>Store Name</WalleyLabel>
                 <WalleyInput
-                  value={state.storeName}
+                  value={state.storeInputs.storeName}
                   type="text"
                   onChange={(e) => {
-                    State.update({
-                      storeName: e.target.value,
-                    });
+                    storeInputUpdates(e.target.value, "storeName");
                   }}
                   placeholder="Enter the Store Name"
                 />
@@ -454,7 +455,9 @@ return (
                   }
                   placeholder="Enter the Store Address"
                 />
-                <WalleyStoreButton>
+                <WalleyStoreButton
+                  onClick={() => storeInputUpdates(sender, "storeAddress")}
+                >
                   Use current address(convert this account into a store)
                 </WalleyStoreButton>
                 <WalleyButton color="#000D1A" bg="orange" onClick={addStore}>
