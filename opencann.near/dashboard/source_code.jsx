@@ -3,7 +3,8 @@ State.init({
 });
 
 const accountId = props.accountId ?? context.accountId;
-const daoId = props.daoId ?? "opencann.near";
+const daoId = props.daoId ?? "cannabis-genome.sputnik-dao.near";
+const ownerId = props.ownerId ?? "opencann.near";
 
 const page = accountId
   ? Social.get(`${accountId}/settings/dao/page`)
@@ -27,7 +28,7 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const profile = props.profile ?? Social.getr(`${daoId}/profile`);
+const profile = props.profile ?? Social.getr(`${ownerId}/profile`);
 const accountUrl = `#/opencann.near/widget/dashboard?`;
 
 const Wrapper = styled.div`
@@ -217,7 +218,7 @@ return (
         <Widget
           src={sidebarTemplate}
           props={{
-            daoId,
+            ownerId,
             profile,
           }}
         />
@@ -282,7 +283,7 @@ return (
 
         {state.selectedTab === "discussion" && (
           <>
-            <Widget src="efiz.near/widget/Chat" props={{ daoId }} />
+            <Widget src="efiz.near/widget/Chat" props={{ ownerId }} />
           </>
         )}
 
@@ -330,7 +331,7 @@ return (
           />
         )}
         {state.selectedTab === "marketplace" && (
-          <Widget src="opencann.near/widget/marketplace" props={{ daoId }} />
+          <Widget src="opencann.near/widget/marketplace" props={{ ownerId }} />
         )}
       </Content>
     </Main>
