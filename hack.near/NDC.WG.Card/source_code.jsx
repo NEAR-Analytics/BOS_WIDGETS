@@ -59,7 +59,7 @@ const HeaderContent = styled.div`
   align-items: flex-start;
   padding: 0px;
   gap: 4px;
-  width: 56%;
+  flex-grow: 1;
 `;
 const HeaderTag = styled.div`
   display: flex;
@@ -335,10 +335,11 @@ const Separation = styled.div`
 `;
 
 const Wrapper = styled.div`
-    @media only screen and (max-width: 610px) {
-      width: 100%;
-    }
+
+  @media only screen and (max-width: 610px) {
+    width: 100%;
   }
+  width: 50%;
 `;
 
 const trimText = (text, limit) => {
@@ -359,7 +360,7 @@ return (
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
-              accountId: groupData.accountId,
+              accountId: groupData.creatorId,
               imageClassName: "rounded-circle w-100 h-100",
               style: { minWidth: "45px", height: "45px" },
             }}
