@@ -79,7 +79,7 @@ return (
       {state.tokens?.map((it) => {
         return (
           <Widget
-            src="mob.near/widget/Image"
+            src="sharddog.near/widget/Image"
             props={{
               image: {
                 url: it.media,
