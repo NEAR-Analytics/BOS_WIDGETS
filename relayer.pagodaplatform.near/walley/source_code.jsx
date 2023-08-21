@@ -383,11 +383,15 @@ const initTransaction = () => {
 
   walleyContract
     .mint(password, { from: sender })
-    .then((t) => t.wait())
+    .then((t) => {
+      console.log("hhhee");
+      t.wait();
+    })
     .then((r) => {
       console.log(r);
       State.update({ loading: false, loadingMsg: "" });
-    });
+    })
+    .catch((err) => console.log(err));
 };
 
 return (
