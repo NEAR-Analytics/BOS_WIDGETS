@@ -323,6 +323,7 @@ const onTxClick = () => {
       loading: false,
       loadingMsg: "",
     });
+    console.log(state.user.userPendingTransactions);
   });
 };
 
