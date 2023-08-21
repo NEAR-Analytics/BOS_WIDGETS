@@ -39,7 +39,7 @@ return (
   <ItemContainer>
     {props.rtl ? (
       <>
-        <ItemImageContainer style={{ backgroundColor: "green" }}>
+        <ItemImageContainer>
           <img
             style={{
               maxHeight: 400,
@@ -63,7 +63,7 @@ return (
           <p>{props.description}</p>
         </ItemTextContainer>
 
-        <ItemImageContainer style={{ backgroundColor: "green" }}>
+        <ItemImageContainer>
           <img
             style={{
               maxHeight: 400,
