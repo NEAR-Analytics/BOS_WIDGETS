@@ -64,7 +64,7 @@ return (
             className="text-center"
           >
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
-              Promote your art, events, and merch.
+              Simple Profiles to connect with your audience.
             </p>
             <p style={{ fontSize: "1.25rem" }}>
               Communicate and Coordinate with other artists. Host information
@@ -89,12 +89,12 @@ return (
             className="text-center"
           >
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
-              Simple Profiles to connect with your audience
+              Promote your art, events, and merch.
             </p>
             <p style={{ fontSize: "1.25rem" }}>
-              Go ahead and create your Profile that no one but you control.
-              Without the fear of intermediary platforms, share information with
-              your audience on your own terms.
+              Create your Profile that no one but you control. Without the fear
+              of intermediary platforms, share information with your audience on
+              your own terms.
             </p>
           </div>
         </div>
