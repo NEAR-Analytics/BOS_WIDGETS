@@ -458,7 +458,7 @@ const Graphs = () => {
 };
 
 return (
-  <div className="p-2">
+  <div className="p-2 vh-100">
     {/* <iframe className="w-100" style={{ height: "300px" }} srcDoc={content} /> */}
 
     <Layout />
