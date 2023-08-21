@@ -557,8 +557,8 @@ return (
                         >
                           Cancel
                         </WalleyButton>
-                      </TransactionCard>;
-                  ))
+                      </TransactionCard>
+                    ))
                   : ""}
               </WalleyTransactions>
             ) : (
