@@ -370,67 +370,65 @@ const addStore = () => {
 };
 
 return (
-  // <Root>
-  //   <WalleyHomeContainer>
-  //     <WalleyHomeHeader>Walley.</WalleyHomeHeader>
-  //     <WalleyHomeMain>
-  //       <WalleyNavbar>
-  //         <WalleyNavbarButton onClick={() => State.update({ view: "home" })}>
-  //           Home
-  //         </WalleyNavbarButton>
-  //         <WalleyNavbarButton onClick={onTxClick}>
-  //           Your Store NFTs
-  //         </WalleyNavbarButton>
-  //         <WalleyNavbarButton onClick={() => State.update({ view: "addSt" })}>
-  //           Add a store
-  //         </WalleyNavbarButton>
-  //       </WalleyNavbar>
-  //       <WalleyHomeBody>
-  //         <WalleyBalance>
-  //           Your Balance - {state.balance}
-  <WalleyHomeForm>
-    <Widget
-      src="near/widget/Select"
-      props={{
-        value: state.homeInputs.storeName,
-        noLabel: true,
-        placeholder:
-          state.store.stores.length !== 0
-            ? "Select a store"
-            : "No Store Available",
-        options: [...widgetOptions()],
-        onChange: (value) => {
-          homeInputUpdates(value.text, "storeName");
-        },
-      }}
-    />
-    <WalleyLabel>
-      Enter the maximum amount you'd like to spend(in INR)
-    </WalleyLabel>
-    <WalleyInput
-      type="number"
-      value={state.homeInputs.amount}
-      onChange={(e) => homeInputUpdates(e.target.value, "amount")}
-      placeholder="Amount(in INR)"
-    />
-    <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
-    <WalleyInput
-      type="text"
-      onChange={(e) => homeInputUpdates(e.target.value, "name")}
-      placeholder="Name"
-    />
-    <WalleyLabel>
-      Set a password for the transaction(will be asked during checkout)
-    </WalleyLabel>
-    <WalleyInput
-      type="password"
-      onChange={(e) => homeInputUpdates(e.target.value, "password")}
-      placeholder="Password"
-    />
-  </WalleyHomeForm>
-  //         </WalleyBalance>
-  //       </WalleyHomeBody>
-  //     </WalleyHomeMain>
-  //   </WalleyHomeContainer>
-  // </Root>
+  <Root>
+    <WalleyHomeContainer>
+      <WalleyHomeHeader>Walley.</WalleyHomeHeader>
+      <WalleyHomeMain>
+        <WalleyNavbar>
+          <WalleyNavbarButton onClick={() => State.update({ view: "home" })}>
+            Home
+          </WalleyNavbarButton>
+          <WalleyNavbarButton onClick={onTxClick}>
+            Your Store NFTs
+          </WalleyNavbarButton>
+          <WalleyNavbarButton onClick={() => State.update({ view: "addSt" })}>
+            Add a store
+          </WalleyNavbarButton>
+        </WalleyNavbar>
+        <WalleyHomeBody>
+          <WalleyBalance>Your Balance - {state.balance}</WalleyBalance>
+          <WalleyHomeForm>
+            <Widget
+              src="near/widget/Select"
+              props={{
+                value: state.homeInputs.storeName,
+                noLabel: true,
+                placeholder:
+                  state.store.stores.length !== 0
+                    ? "Select a store"
+                    : "No Store Available",
+                options: [...widgetOptions()],
+                onChange: (value) => {
+                  homeInputUpdates(value.text, "storeName");
+                },
+              }}
+            />
+            <WalleyLabel>
+              Enter the maximum amount you'd like to spend(in INR)
+            </WalleyLabel>
+            <WalleyInput
+              type="number"
+              value={state.homeInputs.amount}
+              onChange={(e) => homeInputUpdates(e.target.value, "amount")}
+              placeholder="Amount(in INR)"
+            />
+            <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
+            <WalleyInput
+              type="text"
+              onChange={(e) => homeInputUpdates(e.target.value, "name")}
+              placeholder="Name"
+            />
+            <WalleyLabel>
+              Set a password for the transaction(will be asked during checkout)
+            </WalleyLabel>
+            <WalleyInput
+              type="password"
+              onChange={(e) => homeInputUpdates(e.target.value, "password")}
+              placeholder="Password"
+            />
+          </WalleyHomeForm>
+        </WalleyHomeBody>
+      </WalleyHomeMain>
+    </WalleyHomeContainer>
+  </Root>
 );
