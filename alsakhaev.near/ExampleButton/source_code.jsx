@@ -1,7 +1,10 @@
 return (
   <div ref="forwardedRef">
     <button
-      onClick={() => console.log(props)}
+      onClick={() => {
+        console.log(props);
+        props.onClick(props.label);
+      }}
       style={{ backgroundColor: "#0f0" }}
     >
       {props.label ?? "Default Label"}
