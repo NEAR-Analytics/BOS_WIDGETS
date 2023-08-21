@@ -67,6 +67,13 @@ return marketData !== null ? (
         NOT publish any sensitive or proprietary information.
       </p>
     </div>
+    <hr></hr>
+    <h5>
+      <a href="https://cannabisgeno.me/survey">
+        *NEW* ~ Submit a Cannabis Experience Report
+      </a>
+    </h5>
+    <hr></hr>
     <div>
       <h5>For Sale</h5>
     </div>
