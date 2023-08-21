@@ -262,11 +262,11 @@ return (
         <WalleyHomeBody>
           <WalleyBalance>
             Your Balance - {state.balance}
-            {state.view
-              ? "home"("helloaaaa")
-              : state.view
-              ? "tx"("helloob")
-              : "hello"}
+            // {state.view
+            //   ? "home"("helloaaaa")
+            //   : state.view
+            //   ? "tx"("helloob")
+            //   : "hello"}
           </WalleyBalance>
         </WalleyHomeBody>
       </WalleyHomeMain>
