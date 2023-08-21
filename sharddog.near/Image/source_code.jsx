@@ -26,7 +26,7 @@ function toUrl(image) {
       : image.url) || fallbackUrl;
 
   // Check if the file is a video by its extension
-  const isVideo = /\.(mp4|webm|ogg)$/i.test(url);
+  const isVideo = /\.(mp4|webm|ogg|mov|MP4)$/i.test(url);
   State.update({ isVideo });
 
   return url;
