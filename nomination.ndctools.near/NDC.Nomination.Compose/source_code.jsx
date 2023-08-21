@@ -145,6 +145,10 @@ const ErrorBlock = styled.div`
   color: #c23f38;
   font-size: 14px;
   margin: 10px 0;
+
+  label {
+    white-space: pre-line;
+  }
 `;
 
 const Hr = styled.div`
@@ -535,9 +539,7 @@ return (
 
             {state.error_msg && (
               <ErrorBlock>
-                <label className="text-danger text-break">
-                  {state.error_msg}
-                </label>
+                <label className="text-danger">{state.error_msg}</label>
               </ErrorBlock>
             )}
 
