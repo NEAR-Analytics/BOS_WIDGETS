@@ -4,7 +4,7 @@ const LogoContainer = styled.div`
   left:10px;
   display:block;
   overflow:hidden;
-  pointer-evetnts:auto;
+  pointer-events:auto;
   @media (max-width: 510px) {
     width: 280px;
     top: 10px;
