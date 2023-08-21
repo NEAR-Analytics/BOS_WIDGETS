@@ -7,7 +7,7 @@ const widgets = {
   about: "hack.near/widget/NDC.WG.About",
   styledComponents: "hack.near/widget/NDC.StyledComponents",
   verifyHuman: "hack.near/widget/NDC.VerifyHuman",
-  compose: "hack.near/widget/NDC.WG.Compose",
+  compose: "hack.near/widget/NDC.WG.Create",
   deleteGroup: "hack.near/widget/NDC.WG.Delete",
 };
 
@@ -115,7 +115,6 @@ State.init({
   start: true,
   sbt: false,
   og: false,
-  loading: false,
 });
 
 const getVerifiedHuman = () => {
@@ -317,7 +316,7 @@ return (
           </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-column">
-          <h3>NDC Work Groups</h3>
+          <h2>NDC Work Groups</h2>
           <div className="d-flex flex-row flex-wrap">
             {Object.values(groups).map((group, i) => (
               <Widget
