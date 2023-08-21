@@ -391,6 +391,7 @@ return (
               Your Balance - {state.balance}
               {state.view === "home" ? (
                 <WalleyHomeForm>
+                  /*
                   <Widget
                     src="near/widget/Select"
                     props={{
@@ -406,6 +407,7 @@ return (
                       },
                     }}
                   />
+                  */
                   <WalleyLabel>
                     Enter the maximum amount you'd like to spend(in INR)
                   </WalleyLabel>
