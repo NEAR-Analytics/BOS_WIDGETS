@@ -167,7 +167,7 @@ const InfoBlock = ({ mobile }) => (
     }`}
   >
     <b className={`mb-0 ${mobile ? "w-50" : ""}`}>
-      NDC NOMINATION AND ELECTION EDUCATION
+      LEARN ABOUT THE WHISTLEBLOWER BOUNTY PROGRAM
     </b>
     <div>
       <Widget
@@ -177,7 +177,7 @@ const InfoBlock = ({ mobile }) => (
             text: "Learn More",
             size: "sm",
             className: "primary dark",
-            href: "https://pages.near.org/blog/ndc-v1-governance-elections-faq",
+            href: "https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0",
           },
         }}
       />
