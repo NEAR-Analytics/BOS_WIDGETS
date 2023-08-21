@@ -26,6 +26,7 @@ State.init({
     userPendingTransactions: [],
   },
   view: "home",
+  loading: true,
 });
 
 const cssFont = fetch(
@@ -159,6 +160,11 @@ const WalleyBalance = styled.p`
   font-weight: 700;
 `;
 
+const WalleyLoading = styled.div`
+  width: 100%;
+  font-weight: 700;
+`;
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
   State.update({ balance });
@@ -229,19 +235,20 @@ if (state.store.stores.length === 0 && nftContract && sender) {
               (storeState.storePendingTransactions = transactions)
           );
       }
-      if (i === stores.length - 1) State.update({ store: storeState });
+      if (i === stores.length - 1)
+        State.update({ store: storeState, loading: false });
     }
     console.log(state.store);
   });
 }
 
-if (store.user.userPendingTransactions.length === 0 && sender && nftContract) {
-  nftContract
-    .getMyActiveTransactions({ from: sender })
-    .then((transactions) =>
-      State.update({ user: { userPendingTransactions: transactions } })
-    );
-}
+// if (store.user.userPendingTransactions.length === 0 && sender && nftContract) {
+//   nftContract
+//     .getMyActiveTransactions({ from: sender })
+//     .then((transactions) =>
+//       State.update({ user: { userPendingTransactions: transactions } })
+//     );
+// }
 
 return (
   <Root>
@@ -260,16 +267,20 @@ return (
           </WalleyNavbarButton>
         </WalleyNavbar>
         <WalleyHomeBody>
-          <WalleyBalance>
-            Your Balance - {state.balance}
-            {state.view === "home" ? (
-              <p>helloaaaa</p>
-            ) : state.view === "tx" ? (
-              <p>helloob</p>
-            ) : (
-              <p>hello</p>
-            )}
-          </WalleyBalance>
+          {!state.loading ? (
+            <WalleyBalance>
+              Your Balance - {state.balance}
+              {state.view === "home" ? (
+                <p>helloaaaa</p>
+              ) : state.view === "tx" ? (
+                <p>helloob</p>
+              ) : (
+                <p>hello</p>
+              )}
+            </WalleyBalance>
+          ) : (
+            <WalleyLoading>loading...</WalleyLoading>
+          )}
         </WalleyHomeBody>
       </WalleyHomeMain>
     </WalleyHomeContainer>
