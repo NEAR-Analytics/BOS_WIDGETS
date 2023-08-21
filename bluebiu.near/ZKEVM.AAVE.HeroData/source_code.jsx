@@ -8,7 +8,6 @@ const HeroDataContainer = styled.div`
   display: flex;
   flex-grow:1;
   gap:50px;
-  padding-left:20px;
 `;
 
 const KVData = styled.div`
