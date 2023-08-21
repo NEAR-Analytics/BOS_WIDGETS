@@ -1,5 +1,5 @@
 return (
-  <div>
+  <div ref="forwardedRef">
     <button
       onClick={() => console.log(props)}
       style={{ backgroundColor: "#0f0" }}
