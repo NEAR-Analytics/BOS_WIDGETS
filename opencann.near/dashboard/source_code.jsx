@@ -330,7 +330,7 @@ return (
           />
         )}
         {state.selectedTab === "marketplace" && (
-          <Widget src="flowscience.near/widget/CGD.Factory" props={{ daoId }} />
+          <Widget src="opencann.near/widget/marketplace" props={{ daoId }} />
         )}
       </Content>
     </Main>
