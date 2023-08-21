@@ -44,6 +44,12 @@ const tabsData = [
     content:
       "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
   },
+  {
+    name: "nft_world",
+    label: "NFT World",
+    content:
+      "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
+  },
 ];
 
 State.init({ activeTab: activeTab_tab || "home" });
@@ -190,6 +196,31 @@ return (
             <div>
               <Widget
                 src="y3k.near/widget/near_atlas.components.table.TopDAOs"
+                props={{}}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          className={`${
+            tabsData.find((tab) => tab.name === state.activeTab).name ===
+            "nft_world"
+              ? ""
+              : "visibility: hidden"
+          }`}
+        >
+          <div className="py-4">
+            <div>
+              <Widget
+                src="y3k.near/widget/near_atlas.components.vis.DAUbyNFTs"
+                props={{}}
+              />
+            </div>
+
+            <div>
+              <Widget
+                src="y3k.near/widget/near_atlas.components.table.TopNFTs"
                 props={{}}
               />
             </div>
