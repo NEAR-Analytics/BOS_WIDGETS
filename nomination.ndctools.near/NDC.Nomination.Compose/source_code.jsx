@@ -184,33 +184,76 @@ const validatedInputs = () => {
     isValid = false;
   }
 
-  if (img.cid === null) isValid = false;
-  if (isEmpty(name)) isValid = false;
-  if (isEmpty(profileAccount)) isValid = false;
-  if (isEmpty(HAYInvolve)) isValid = false;
-  if (isEmpty(WIYStrategy)) isValid = false;
-  if (isEmpty(Key_Issue_1)) isValid = false;
-  if (isEmpty(Key_Issue_2)) isValid = false;
-  if (isEmpty(Key_Issue_3)) isValid = false;
-  if (tags.split(",").length == 0) isValid = false;
-  if (isFalse(agreement)) isValid = false;
-  if (afiliation.length == 0) isValid = false;
+  if (img.cid === null) {
+    isValid = false;
+    error_msg = "Image CID is empty";
+  }
+  if (isEmpty(name)) {
+    isValid = false;
+    error_msg = "Name is empty";
+  }
+  if (isEmpty(profileAccount)) {
+    isValid = false;
+    error_msg = "Account is empty";
+  }
+  if (isEmpty(HAYInvolve)) {
+    isValid = false;
+    error_msg = "Involve field is empty";
+  }
+  if (isEmpty(WIYStrategy)) {
+    isValid = false;
+    error_msg = "Strategy field is empty";
+  }
+  if (isEmpty(Key_Issue_1)) {
+    isValid = false;
+    error_msg = "First key issue is empty";
+  }
+  if (isEmpty(Key_Issue_2)) {
+    isValid = false;
+    error_msg = "Second key issue is empty";
+  }
+  if (isEmpty(Key_Issue_3)) {
+    isValid = false;
+    error_msg = "Third key issue is empty";
+  }
+  if (tags.split(",").length == 0) {
+    isValid = false;
+    error_msg = "Tags is empty";
+  }
+  if (isFalse(agreement)) {
+    isValid = false;
+    error_msg = "Aggreement not checked";
+  }
+  if (afiliation.length == 0) {
+    isValid = false;
+    error_msg = "Affiliation is empty";
+  }
 
   if (afiliation.length > 0) {
     afiliation.forEach((element) => {
-      if (isEmpty(element.company_name)) isValid = false;
-      if (isEmpty(element.start_date)) isValid = false;
-      if (isEmpty(element.end_date)) isValid = false;
-      if (isEmpty(element.role)) isValid = false;
+      if (isEmpty(element.company_name)) {
+        isValid = false;
+        error_msg = "Affiliation company name is empty";
+      }
+      if (isEmpty(element.start_date)) {
+        isValid = false;
+        error_msg = "Affiliation start date is empty";
+      }
+      if (isEmpty(element.end_date)) {
+        isValid = false;
+        error_msg = "Affiliation end date is empty";
+      }
+      if (isEmpty(element.role)) {
+        isValid = false;
+        error_msg = "Affiliation company role is empty";
+      }
     });
   } else {
     isValid = false;
   }
 
   State.update({
-    error_msg: isValid
-      ? null
-      : error_msg || "* Please complete all required fields",
+    error_msg: isValid ? "Something went wrong. Contact support" : error_msg,
   });
 
   return isValid;
@@ -275,9 +318,12 @@ const validate = (key, item, limit) =>
 
 const validateAffiliations = (params, key, limit) => {
   let data = state.afiliation;
+  let error_msg = null;
+
+  if (params.event.target.value === "") error_msg = `"${key}" is empty`;
 
   data[params.index][key] = params.event.target.value.substring(0, limit);
-  State.update({ afiliation: data, error_msg: null });
+  State.update({ afiliation: data, error_msg });
 };
 
 const handleDeclaration = (agreement) => {
