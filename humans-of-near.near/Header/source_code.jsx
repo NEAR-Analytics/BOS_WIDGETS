@@ -12,13 +12,12 @@ const LogoContainer = styled.div`
 const Logo = () => (
   <LogoContainer>
     <svg
-      //width="135"
-      //height="135"
+      width="135"
+      height="135"
       //viewBox="0 0 135 135"
       //fill="none"
       //xmlns="http://www.w3.org/2000/svg"
-      width="100%" // Set the width to 100% to make it responsive
-      height="auto" // Auto adjust the height to maintain aspect ratio
+
       viewBox="0 0 800 800"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
