@@ -391,7 +391,7 @@ const initTransaction = () => {
         walleyContract.getToken().then((tokenId) => {
           console.log(tokenId);
         });
-        console.log(Big(r.logs[2].data).toFixed(0));
+        console.log(parseInt(r.logs[2].data, 16));
         State.update({ loading: false, loadingMsg: "" });
       });
     })
