@@ -1,7 +1,7 @@
 return (
   <div>
     <button
-      onClick={() => console.log(props.label)}
+      onClick={() => props.onData(props.label)}
       style={{ backgroundColor: "#0f0" }}
     >
       {props.label ?? "Default Label"}
