@@ -12,8 +12,8 @@ const LogoContainer = styled.div`
 const Logo = () => (
   <LogoContainer>
     <svg
-      width="135"
-      height="135"
+      width="105"
+      height="105"
       //viewBox="0 0 135 135"
       //fill="none"
       //xmlns="http://www.w3.org/2000/svg"
