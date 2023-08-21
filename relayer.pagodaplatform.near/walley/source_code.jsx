@@ -310,13 +310,14 @@ const onTxClick = () => {
     loading: true,
     loadingMsg: "Fetching transactions",
   });
-  nftContract.getMyActiveTransactions({ from: sender }).then((transactions) =>
+  nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
+    console.log(transactions);
     State.update({
       user: { userPendingTransactions: transactions },
       loading: false,
       loadingMsg: "",
-    })
-  );
+    });
+  });
 };
 
 const widgetOptions = () => {
