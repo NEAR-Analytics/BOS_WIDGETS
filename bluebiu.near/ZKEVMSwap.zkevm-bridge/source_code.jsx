@@ -576,5 +576,7 @@ return (
         }}
       />
     </Container>
+
+    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
   </>
 );
