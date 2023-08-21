@@ -387,14 +387,11 @@ const initTransaction = () => {
   walleyContract
     .mint(password, { from: sender })
     .then((tx) => {
-      console.log("hhhee");
-      console.log(t);
       tx.wait().then((r) => {
         walleyContract.getToken().then((tokenId) => {
           console.log(tokenId);
         });
-        console.log(r);
-
+        console.log(Big(r.logs[2].data).toFixed(0));
         State.update({ loading: false, loadingMsg: "" });
       });
     })
