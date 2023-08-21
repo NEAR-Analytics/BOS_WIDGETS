@@ -219,6 +219,15 @@ const WalleyStoreButton = styled.button`
   display: block;
 `;
 
+const WalleyTransactions = styled.div`
+  display: block;
+`;
+
+const TransactionCard = styled.div`
+  display: block
+  ;
+`;
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
   State.update({ balance });
@@ -348,13 +357,9 @@ const addStore = () => {
   State.update({ loading: true, loadingMsg: "Creating a new store" });
   const stateT = state;
   const { storeName, storeAddress, image } = stateT.storeInputs;
-  nftContract
-    .addStore(storeName, storeAddress, image.cid)
-    .then((t) => {
-      console.log(t);
-      t.wait();
-    })
-    .then(() => {
+  nftContract.addStore(storeName, storeAddress, image.cid).then((t) => {
+    console.log(t);
+    t.wait().then(() => {
       stateT.store.stores.push([
         storeName,
         storeAddress.toLowerCase(),
@@ -379,6 +384,7 @@ const addStore = () => {
       }
       State.update(stateT);
     });
+  });
 };
 
 const getStoreAddress = (storeName) => {
@@ -404,7 +410,7 @@ const initTransaction = () => {
         const tokenId = parseInt(r.logs[2].data, 16);
         State.update({
           loadingMsg:
-            "Creating your transaction - Plesae pay the amount you entered + gas",
+            "Creating your transaction - Please pay the amount you entered + gas",
         });
         nftContract
           .initTransaction(
@@ -422,13 +428,44 @@ const initTransaction = () => {
           .then((txInit) => {
             State.update({ loadingMsg: "Waiting for the final confirmation" });
             txInit.wait().then((res) => {
-              State.update({ loading: false, loadingMsg: "" });
+              State.update({
+                loading: false,
+                loadingMsg: "",
+                userInput: {
+                  storeName: "",
+                  name: "",
+                  amount: "",
+                  password: "",
+                },
+              });
             });
           })
           .catch((err) => console.log(err));
       });
     })
     .catch((err) => console.log(err));
+};
+
+const cancelTransaction = (tokenId) => {
+  State.update({
+    loading: true,
+    loadingMsg: "Cancelling your transaction - Pay for the gas",
+  });
+  nftContract
+    .cancelTransaction(walleyAddress, tokenId, { from: sender })
+    .then((tx) => {
+      State.update({ loadingMsg: "Refunding your amount" });
+      tx.wait().then(() => {
+        const transactions = state.user.userPendingTransactions.filter(
+          (txn) => Big(txn[1]).toFixed(0) !== tokenId
+        );
+        State.update({
+          loading: false,
+          loadingMsg: "",
+          user: { userPendingTransactions: transactions },
+        });
+      });
+    });
 };
 
 return (
@@ -502,7 +539,28 @@ return (
                 </WalleyButton>
               </WalleyHomeForm>
             ) : state.view === "tx" ? (
-              <p>helloob</p>
+              <WalleyTransactions>
+                {state.user.userPendingTransactions.map((tx) => {
+                  <TransactionCard>
+                    <WalleyStoreImage
+                      src={`https://ipfs.near.social/ipfs/${
+                        state.store.storeImages[tx[6]]
+                      }`}
+                      alt={tx[6]}
+                    />
+                    <p>Name - {tx[2]}</p>
+                    <p>Store name - {tx[6]} </p>
+                    <p>Amount - {Big(tx[5]).toFixed(5)}</p>
+                    <WalleyButton
+                      color="#white"
+                      bg="red"
+                      onClick={() => cancelTransaction(parseInt(tx[1], 16))}
+                    >
+                      Cancel
+                    </WalleyButton>
+                  </TransactionCard>;
+                })}
+              </WalleyTransactions>
             ) : (
               <WalleyStoreForm>
                 {state.storeInputs.image.uploading ? <p>loading</p> : ""}
