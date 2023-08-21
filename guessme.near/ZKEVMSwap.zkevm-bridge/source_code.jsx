@@ -575,6 +575,8 @@ return (
           source: props.source,
         }}
       />
+
+      <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
     </Container>
   </>
 );
