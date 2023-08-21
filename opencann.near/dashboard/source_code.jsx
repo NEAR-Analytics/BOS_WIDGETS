@@ -272,6 +272,12 @@ return (
           >
             Events
           </TabsButton>
+          <TabsButton
+            href={`${accountUrl}&tab=marketplace`}
+            selected={state.selectedTab === "marketplace"}
+          >
+            Marketplace
+          </TabsButton>
         </Tabs>
 
         {state.selectedTab === "discussion" && (
@@ -322,6 +328,9 @@ return (
             src="sking.near/widget/DAO.Bounty"
             props={{ daoId, ...props }}
           />
+        )}
+        {state.selectedTab === "marketplace" && (
+          <Widget src="flowscience.near/widget/CGD.Factory" props={{ daoId }} />
         )}
       </Content>
     </Main>
