@@ -117,7 +117,7 @@ const getErc20Tokendata = (tokenId) => {
     name: tokenData.name,
     symbol: tokenData.symbol,
     icon: tokenData.image.small,
-    decimals: tokenData.detail_platforms[coingeckoId].decimal_place,
+    decimals: tokenData.detail_platforms["ethereum"].decimal_place,
   };
 
   const price = Number(tokenData.market_data.current_price.usd);
@@ -201,7 +201,7 @@ switch (network) {
 
     // LOAD TOKEN BALANCE
     if (state.ethAccountId && state.erc20Abi && state.metadata?.decimals) {
-      getErc20Balance(tokenIdForCoingeckoAPI, state.ethAccountId);
+      getErc20Balance(tokenId, state.ethAccountId);
     }
 
     break;
