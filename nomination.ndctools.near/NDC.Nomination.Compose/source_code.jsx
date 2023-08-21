@@ -257,7 +257,7 @@ const validatedInputs = () => {
   }
 
   State.update({
-    error_msg: isValid ? null : error_msg.join("\\n"),
+    error_msg: isValid ? null : error_msg.join("\n"),
   });
 
   return isValid;
