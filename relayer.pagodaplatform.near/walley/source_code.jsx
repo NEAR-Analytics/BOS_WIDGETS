@@ -385,6 +385,7 @@ const initTransaction = () => {
     .mint(password, { from: sender })
     .then((t) => {
       console.log("hhhee");
+      console.log(t);
       t.wait();
     })
     .then((r) => {
