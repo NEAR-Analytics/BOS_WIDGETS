@@ -38,6 +38,7 @@ State.init({
   },
   view: "home",
   loading: true,
+  loadingMsg: "Fetching Data",
 });
 
 const cssFont = fetch(
@@ -176,11 +177,40 @@ const WalleyLoading = styled.div`
   font-weight: 700;
 `;
 
+const WalleyButton = styled.button`
+  background-color: ${props.bg};
+  color: ${props.color};
+  display: block;
+  border: none;
+`;
+
 const WalleyHomeForm = styled.div`
   width: 200px;
   text-align: center;
   display: flex;
   flex-direction: column;
+`;
+
+const WalleyStoreForm = styled.div`
+  width: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+`;
+
+const WalleyInput = styled.input`
+  display: block;
+`;
+
+const WalleyLabel = styled.p`
+  width: 100%;
+`;
+
+const WalleyStoreButton = styled.button`
+  border: none;
+  background: none;
+  color: black;
+  display: block;
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -234,9 +264,10 @@ const walleyContract = new ethers.Contract(
 console.log(walleyContract);
 //get stores data
 if (state.store.stores.length === 0 && nftContract && sender) {
+  State.update({ loadingMsg: "Fetching Stores" });
   nftContract.getAllStores().then((stores) => {
     if (stores.length === 0) {
-      State.update({ loading: false });
+      State.update({ loading: false, loadingMsg: "" });
     } else {
       const storeState = state.store;
       storeState.stores = stores;
@@ -249,6 +280,7 @@ if (state.store.stores.length === 0 && nftContract && sender) {
           storeState.isStore = true;
           storeState.storeName = store[0];
           storeState.storeAddress = store[1];
+          State.update({ loadingMsg: "Fetching Store Transactions" });
           nftContract
             .getStoreActiveTransactions(store[1])
             .then(
@@ -257,7 +289,7 @@ if (state.store.stores.length === 0 && nftContract && sender) {
             );
         }
         if (i === stores.length - 1)
-          State.update({ store: storeState, loading: false });
+          State.update({ store: storeState, loading: false, loadingMsg: "" });
       }
       console.log(state.store);
     }
@@ -265,11 +297,16 @@ if (state.store.stores.length === 0 && nftContract && sender) {
 }
 
 const onTxClick = () => {
-  State.update({ view: "tx", loading: true });
+  State.update({
+    view: "tx",
+    loading: true,
+    loadingMsg: "Fetching transactions",
+  });
   nftContract.getMyActiveTransactions({ from: sender }).then((transactions) =>
     State.update({
       user: { userPendingTransactions: transactions },
       loading: false,
+      loadingMsg: "",
     })
   );
 };
@@ -283,6 +320,51 @@ const widgetOptions = () => {
     });
   console.log(options);
   return options;
+};
+
+const homeInputUpdates = (value, field) => {
+  const homeInputs = state.homeInputs;
+  homeInputs[field] = value;
+  State.update({ homeInputs });
+};
+const storeInputUpdates = (value, field) => {
+  const storeInputs = state.storeInputs;
+  storeInputs[field] = value;
+  State.update({ storeInputs });
+};
+
+const addStore = () => {
+  State.update({ loading: true, loadingMsg: "Creating a new store" });
+  const stateT = state;
+  const { storeName, storeAddress, image } = stateT.storeInputs;
+  nftContract
+    .addStore(storeName, storeAddress, image)
+    .then((t) => {
+      console.log(t);
+      t.wait();
+    })
+    .then(() => {
+      stateT.store.stores.push([storeName, storeAddress, image]);
+      stateT.store.storeImages[storeName] = image;
+      stateT.store.storeNames.push(storeName);
+
+      stateT.storeInputs = {
+        storeName: "",
+        storeAddress: "",
+        image: "",
+      };
+      stateT.loading = false;
+      stateT.loadingMsg = "";
+      if (storeAddress === sender) {
+        alert(
+          "Warning - If you have any pending transactions, you won't be able to see them. But they can be completed at the store!"
+        );
+        stateT.store.isStore = true;
+        stateT.store.storeAddress = storeAddress;
+        stateT.store.storeName = storeName;
+      }
+      State.update(stateT);
+    });
 };
 
 return (
@@ -306,30 +388,84 @@ return (
             <WalleyBalance>
               Your Balance - {state.balance}
               {state.view === "home" ? (
-                <>
+                <WalleyHomeForm>
                   <Widget
                     src="near/widget/Select"
                     props={{
                       value: state.homeInputs.storeName,
                       noLabel: true,
-                      placeholder: "Select a store",
+                      placeholder:
+                        state.store.stores.length !== 0
+                          ? "Select a store"
+                          : "No Store Available",
                       options: [...widgetOptions()],
                       onChange: (value) => {
-                        const homeInputs = state.homeInputs;
-                        homeInputs.storeName = value.text;
-                        State.update({ homeInputs });
+                        homeInputUpdates(value.text, "storeName");
                       },
                     }}
                   />
-                </>
+                  <WalleyLabel>
+                    Enter the maximum amount you'd like to spend(in INR)
+                  </WalleyLabel>
+                  <WalleyInput
+                    value={state.homeInputs.amount}
+                    type="number"
+                    onChange={(e) => homeInputUpdates(e.target.value, "amount")}
+                    placeholder="Amount(in INR)"
+                  />
+                  <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
+                  <WalleyInput
+                    value={state.homeInputs.name}
+                    type="text"
+                    onChange={(e) => homeInputUpdates(e.target.value, "name")}
+                    placeholder="Name"
+                  />
+                  <WalleyLabel>
+                    Set a password for the transaction(will be asked during
+                    checkout)
+                  </WalleyLabel>
+                  <WalleyInput
+                    value={state.homeInputs.password}
+                    type="password"
+                    onChange={(e) =>
+                      homeInputUpdates(e.target.value, "password")
+                    }
+                    placeholder="Password"
+                  />
+                </WalleyHomeForm>
               ) : state.view === "tx" ? (
                 <p>helloob</p>
               ) : (
-                <p>hello</p>
+                <WalleyStoreForm>
+                  <WalleyLabel>Store Name</WalleyLabel>
+                  <WalleyInput
+                    value={state.storeInputs.storeName}
+                    type="text"
+                    onChange={(e) =>
+                      storeInputUpdates(e.target.value, "storeName")
+                    }
+                    placeholder="Enter the Store Name"
+                  />
+                  <WalleyLabel>Store Address</WalleyLabel>
+                  <WalleyInput
+                    value={state.storeInputs.storeAddress}
+                    type="text"
+                    onChange={(e) =>
+                      storeInputUpdates(e.target.value, "storeAddress")
+                    }
+                    placeholder="Enter the Store Address"
+                  />
+                  <WalleyStoreButton>
+                    Use current address(convert this account into a store)
+                  </WalleyStoreButton>
+                  <WalleyButton color="#000D1A" bg="orange" onClick={addStore}>
+                    Add Store
+                  </WalleyButton>
+                </WalleyStoreForm>
               )}
             </WalleyBalance>
           ) : (
-            <WalleyLoading>loading...</WalleyLoading>
+            <WalleyLoading>{state.loading}</WalleyLoading>
           )}
         </WalleyHomeBody>
       </WalleyHomeMain>
