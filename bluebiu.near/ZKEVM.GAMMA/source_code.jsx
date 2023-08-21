@@ -30,7 +30,7 @@ if (!sender)
       }}
     >
       <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
-      
+
       <Web3Connect className="web3-connect" connectLabel="Connect ETH wallet" />
     </ContainerLogin>
   );
@@ -81,14 +81,24 @@ const SwitchWrapper = styled.div`
   }
 `;
 
+const TitleText = styled.div`
+font-size:20px;
+font-weight:700;
+margin-bottom:32px;
+color:#ffffff;
+`;
+
 if (state.chainId !== 1101) {
   return (
-    <SwitchWrapper>
-      <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
-      <h4>Please switch to Polygon zkEVM</h4>
-      <button onClick={switchChain}>Switch to Polygon zkEVM</button>
-      <p>**Please refresh once after switch chain**</p>
-    </SwitchWrapper>
+    <>
+      <TitleText>Liquidity Manage</TitleText>
+      <SwitchWrapper>
+        <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
+        <h4>Please switch to Polygon zkEVM</h4>
+        <button onClick={switchChain}>Switch to Polygon zkEVM</button>
+        <p>**Please refresh once after switch chain**</p>
+      </SwitchWrapper>
+    </>
   );
 }
 
@@ -213,7 +223,7 @@ return (
     </Button> */}
     {/* <div className="tableTitle">Active Liquidity</div> */}
     <Wrapper>
-    <Widget
+      <Widget
         src="bluebiu.near/widget/ZKEVM.gamma-zkevm-vault"
         props={{ pair: activePair, refetch: postRefetch }}
       />
