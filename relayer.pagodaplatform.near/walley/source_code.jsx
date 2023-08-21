@@ -329,7 +329,9 @@ const homeInputUpdates = (value, field) => {
 };
 const storeInputUpdates = (value, field) => {
   const storeInputs = state.storeInputs;
+  console.log(storeInputs);
   storeInputs[field] = value;
+  console.log(storeInputs);
   State.update({ storeInputs });
 };
 
