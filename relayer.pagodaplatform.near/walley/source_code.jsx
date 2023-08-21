@@ -479,6 +479,7 @@ return (
                 >
                   Use current address(convert this account into a store)
                 </WalleyStoreButton>
+                <WalleyLabel>Add Cover Image</WalleyLabel>
                 <IpfsImageUpload image={state.storeInputs.image} />
                 <WalleyButton color="#000D1A" bg="orange" onClick={addStore}>
                   Add Store
