@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 
-const widgetPath = props.widgetPath ?? "devs.near/widget/dev.library";
+const widgetPath = props.widgetPath ?? "every.near/widget/things";
 const [ownerId, widget, widgetName] = widgetPath.split("/");
 
 const starEdge = Social.keys(
@@ -24,13 +24,17 @@ const data = {
       key: "star",
       value: {
         type,
-        src: widgetPath,
+        path: widgetPath,
       },
     }),
     notify: JSON.stringify({
       key: ownerId,
       value: {
         type,
+        item: {
+          path: widgetPath,
+          blockHeight,
+        },
       },
     }),
   },
