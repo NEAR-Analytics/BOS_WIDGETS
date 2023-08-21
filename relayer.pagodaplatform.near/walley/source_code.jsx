@@ -374,7 +374,7 @@ return (
     <WalleyHomeContainer>
       <WalleyHomeHeader>Walley.</WalleyHomeHeader>
       <WalleyHomeMain>
-        <WalleyNavbar>
+        {/*<WalleyNavbar>
           <WalleyNavbarButton onClick={() => State.update({ view: "home" })}>
             Home
           </WalleyNavbarButton>
@@ -384,7 +384,7 @@ return (
           <WalleyNavbarButton onClick={() => State.update({ view: "addSt" })}>
             Add a store
           </WalleyNavbarButton>
-        </WalleyNavbar>
+        </WalleyNavbar> */}
         <WalleyHomeBody>
           <WalleyBalance>Your Balance - {state.balance}</WalleyBalance>
           <WalleyHomeForm>
