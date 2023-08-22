@@ -1,4 +1,7 @@
-const items = JSON.parse(Storage.get("demo-cart-items") || "null");
+const items = JSON.parse(
+  Storage.get("demo-cart-items", "efiz.near/widget/ShoppingCartDemo.list") ||
+    "null"
+);
 
 return (
   <div className="border">
