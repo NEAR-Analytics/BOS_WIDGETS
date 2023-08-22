@@ -101,6 +101,7 @@ const CreateOptions = styled.div`
   grid-template-columns: repeat(2,1fr);
   grid-template-rows: repeat(2,1fr);
   justify-content: space-between;
+  align-items:center;
   margin: 0 auto;
   width: 100%;
   .Create_card {
