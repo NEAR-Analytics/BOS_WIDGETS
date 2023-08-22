@@ -5,7 +5,7 @@ return (
     <div className="me-2 text-truncate">
       <div className="text-truncate">
         <Widget
-          src="mob.near/widget/ProfileLine"
+          src="mob.near/widget/N.ProfileLine"
           props={{ accountId, tooltip: true }}
         />
       </div>
