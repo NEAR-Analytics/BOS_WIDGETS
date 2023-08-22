@@ -208,7 +208,9 @@ const withdrawColl = () => {
 
   borrowerOperationContract.withdrawColl(
     getAsset(props.asset),
-    ethers.BigNumber.from(props.amount * 100),
+    ethers.BigNumber.from(props.amount * 100)
+      .mul("10000000000000000")
+      .toString(),
     "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
     "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
     {
