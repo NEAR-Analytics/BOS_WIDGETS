@@ -714,7 +714,7 @@ return (
                       <p>Name - {tx[2]}</p>
                       <p>Store name - {tx[6]} </p>
                       <p>Max amount - {Big(tx[5]).toFixed(5)}</p>
-                      {state.store?.openModal === parseInt(tx[1], 16) ? (
+                      {state.store.openModal === parseInt(tx[1], 16) ? (
                         <>
                           <WalleyLabel>Please scan the bill - </WalleyLabel>
                           <Files
@@ -725,7 +725,7 @@ return (
                             className="btn btn-outline-primary"
                             onChange={billOnChange}
                           >
-                            {state.store?.bill?.uploading ? (
+                            {state.store.bill.uploading ? (
                               <> Scanning </>
                             ) : (
                               "Scan the bill"
