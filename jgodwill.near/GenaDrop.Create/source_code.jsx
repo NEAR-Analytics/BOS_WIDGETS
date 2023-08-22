@@ -83,6 +83,7 @@ const Desc = styled.p`
   color: #000;
   margin-bottom: 3.2em;
   text-align: center;
+  max-width: 900px;
   @media screen and (max-width: 480px) {
     font-size: 15px;
   }
