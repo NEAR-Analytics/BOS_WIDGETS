@@ -200,14 +200,6 @@ const ButtonNominateContainer = styled.div`
   background: #f8f8f9;
 `;
 
-const Filter = styled.div`
-  margin-top: 32px;
-
-  @media only screen and (max-width: 1061px) {
-    flex-direction: column;
-  }
-`;
-
 const Toolbar = styled.div`
   margin-left: 20px;
   @media only screen and (max-width: 1061px) {
