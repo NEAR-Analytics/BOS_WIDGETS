@@ -47,6 +47,9 @@ const plot = Plot.plot({
       ticks: 4,
       label: "${label}"
   },
+  style: {
+    fontSize: 18
+  },
   marks: [
 
       // Draw year labels, rounding down to draw a year even if the data doesn’t
