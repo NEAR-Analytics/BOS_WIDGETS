@@ -227,22 +227,22 @@ const repayDebtTokens = () => {
     borrowerOperationAbi.body.result,
     Ethers.provider().getSigner()
   );
-  // if (!state.txLock) {
-  //   State.update({ txLock: true });
-  borrowerOperationContract
-    .repayDebtTokens(
-      getAsset(props.asset),
-      ethers.BigNumber.from(props.amount * 100)
-        .mul("10000000000000000")
-        .toString(),
-      "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-      "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-      {
-        gasLimit: 25000000,
-      }
-    )
-    .then(() => State.update({ txLock: false }));
-  // }
+  if (!state.txLock) {
+    State.update({ txLock: true });
+    borrowerOperationContract
+      .repayDebtTokens(
+        getAsset(props.asset),
+        ethers.BigNumber.from(props.amount * 100)
+          .mul("10000000000000000")
+          .toString(),
+        "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+        "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+        {
+          gasLimit: 25000000,
+        }
+      )
+      .then(() => State.update({ txLock: false }));
+  }
 };
 
 const addColl = () => {
