@@ -13,6 +13,8 @@ const renderMention =
           accountId: accountId.toLowerCase(),
           hideAccountId: true,
           tooltip: true,
+          gray: true,
+          hideCheckmark: true,
         }}
       />
     </span>
