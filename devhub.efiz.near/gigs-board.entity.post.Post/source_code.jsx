@@ -53,16 +53,12 @@ function href(widgetName, linkProps) {
 /* END_INCLUDE: "common.jsx" */
 /* INCLUDE: "core/lib/gui/attractable" */
 const AttractableDiv = styled.div`
-  // box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-  border: 2px solid #eceef0;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   transition: box-shadow 0.6s;
 
   &:hover {
-    box-shadow: rgba(48, 48, 48, 0.15) 0px 0.1rem 0.1rem !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   }
-
-  margin-bottom: 16px;
-  margin-top: 1em;
 `;
 
 const AttractableLink = styled.a`
@@ -148,8 +144,8 @@ const timestamp = readableDate(
 const postSearchKeywords = props.searchKeywords ? (
   <div style={{ "font-family": "monospace" }} key="post-search-keywords">
     <span>Found keywords: </span>
-    {props.searchKeywords.map((label) => {
-      return widget("components.atom.tag", { label });
+    {props.searchKeywords.map((tag) => {
+      return widget("components.atom.tag", { linkTo: "Feed", tag });
     })}
   </div>
 ) : (
@@ -523,10 +519,10 @@ const editorsFooter = props.isPreview ? null : (
 const renamedPostType =
   snapshot.post_type == "Submission" ? "Solution" : snapshot.post_type;
 
-const postLabels = post.snapshot.labels ? (
+const tags = post.snapshot.labels ? (
   <div class="card-title" style={{ margin: "20px 0" }} key="post-labels">
-    {post.snapshot.labels.map((label) => {
-      return widget("components.atom.tag", { label });
+    {post.snapshot.labels.map((tag) => {
+      return widget("components.atom.tag", { linkTo: "Feed", tag });
     })}
   </div>
 ) : (
@@ -547,11 +543,44 @@ const postTitle =
     </h5>
   );
 
+const tokenMapping = {
+  NEAR: "NEAR",
+  USDT: {
+    NEP141: {
+      address: "usdt.tether-token.near",
+    },
+  },
+  // Add more tokens here as needed
+};
+
+const reverseTokenMapping = Object.keys(tokenMapping).reduce(
+  (reverseMap, key) => {
+    const value = tokenMapping[key];
+    if (typeof value === "object") {
+      reverseMap[JSON.stringify(value)] = key;
+    }
+    return reverseMap;
+  },
+  {}
+);
+
+function tokenResolver(token) {
+  if (typeof token === "string") {
+    return token;
+  } else if (typeof token === "object") {
+    const tokenString = reverseTokenMapping[JSON.stringify(token)];
+    return tokenString || null;
+  } else {
+    return null; // Invalid input
+  }
+}
+
 const postExtra =
   snapshot.post_type == "Sponsorship" ? (
     <div key="post-extra">
       <h6 class="card-subtitle mb-2 text-muted">
-        Maximum amount: {snapshot.amount} {snapshot.sponsorship_token}
+        Maximum amount: {snapshot.amount}{" "}
+        {tokenResolver(snapshot.sponsorship_token)}
       </h6>
       <h6 class="card-subtitle mb-2 text-muted">
         Supervisor:{" "}
@@ -760,7 +789,7 @@ return (
           {descriptionArea}
         </>
       )}
-      {postLabels}
+      {tags}
       {buttonsFooter}
       {editorsFooter}
       {postsList}
