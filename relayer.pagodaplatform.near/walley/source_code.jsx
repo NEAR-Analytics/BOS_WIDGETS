@@ -23,6 +23,7 @@ State.init({
     openModal: 0,
     approvePassword: "",
     bill: { uploading: false, amount: null },
+    totalAmount: 0,
   },
   user: {
     userPendingTransactions: [],
@@ -486,77 +487,119 @@ const cancelTransaction = (tokenId) => {
   });
 };
 
-const billOnChange = (files) => {
-  if (files) {
-    console.log(files[0]);
-    State.update({
-      store: { ...state.store, bill: { uploading: true, amount: null } },
-    });
-    let reader = new FileReader();
-    reader.onloadend = () => {
-      let formdata = new FormData();
-      formdata.append("language", "eng");
-      formdata.append("isOverlayRequired", "false");
-      formdata.append("base64Image", reader.result);
-      formdata.append("iscreatesearchablepdf", "false");
-      formdata.append("scale", "true");
-      formdata.append("isTable", "true");
-      formdata.append("issearchablepdfhidetextlayer", "false");
-      formdata.append("OCREngine", "3");
+// const billOnChange = (files) => {
+//   if (files) {
+//     console.log(files[0]);
+//     State.update({
+//       store: { ...state.store, bill: { uploading: true, amount: null } },
+//     });
+//     let reader = new FileReader();
+//     reader.onloadend = () => {
+//       let formdata = new FormData();
+//       formdata.append("language", "eng");
+//       formdata.append("isOverlayRequired", "false");
+//       formdata.append("base64Image", reader.result);
+//       formdata.append("iscreatesearchablepdf", "false");
+//       formdata.append("scale", "true");
+//       formdata.append("isTable", "true");
+//       formdata.append("issearchablepdfhidetextlayer", "false");
+//       formdata.append("OCREngine", "3");
 
-      let requestOptions = {
-        method: "POST",
-        headers: { apikey: "K82213475788957" },
-        body: formdata,
-        redirect: "follow",
-      };
+//       let requestOptions = {
+//         method: "POST",
+//         headers: { apikey: "K82213475788957" },
+//         body: formdata,
+//         redirect: "follow",
+//       };
 
-      fetch("https://api.ocr.space/parse/image", requestOptions)
-        .then((response) => response.json())
-        .then((result) => parseReceipt(result))
-        .catch((error) => console.log("error", error));
-    };
-    reader.readAsDataURL(files[0]);
-  }
-};
+//       fetch("https://api.ocr.space/parse/image", requestOptions)
+//         .then((response) => response.json())
+//         .then((result) => parseReceipt(result))
+//         .catch((error) => console.log("error", error));
+//     };
+//     reader.readAsDataURL(files[0]);
+//   }
+// };
 
-const parseReceipt = (receiptObject) => {
-  console.log(receiptObject);
-  console.log(typeof receiptObject);
-  if (typeof receiptObject === "object") {
-    const receiptDetails = receiptObject.ParsedResults[0];
-    const receiptLines = receiptDetails.TextOverlay.Lines;
-    parseReceiptText(receiptDetails.ParsedText);
-  } else if (typeof receiptObject == "string") {
-    console.log(receipt);
-  }
-};
-const parseReceiptText = (receiptText) => {
-  // extremely reliant on this one receipt
-  let receiptContent = receiptText.split("\t\r\n").map((element) => {
-    return element.toLowerCase().replace("\t", " ");
+// const parseReceipt = (receiptObject) => {
+//   console.log(receiptObject);
+//   console.log(typeof receiptObject);
+//   if (typeof receiptObject === "object") {
+//     const receiptDetails = receiptObject.ParsedResults[0];
+//     const receiptLines = receiptDetails.TextOverlay.Lines;
+//     parseReceiptText(receiptDetails.ParsedText);
+//   } else if (typeof receiptObject == "string") {
+//     console.log(receipt);
+//   }
+// };
+// const parseReceiptText = (receiptText) => {
+//   // extremely reliant on this one receipt
+//   let receiptContent = receiptText.split("\t\r\n").map((element) => {
+//     return element.toLowerCase().replace("\t", " ");
+//   });
+
+//   const receiptTotal = receiptContent[21].replace(/\D/g, "");
+//   const subTotal = receiptContent[
+//     receiptContent.findIndex((v) => v.includes("subtotal"))
+//   ].replace(/\D/g, "");
+//   const VAT = receiptContent[20].replace(/\D/g, "");
+//   const receipt = {
+//     store: receiptContent[0].split("\t")[1],
+//     date: receiptContent[6].split(" ")[0],
+//     subtotal:
+//       subTotal.substring(0, subTotal.length - 2) +
+//       "." +
+//       subTotal.substring(subTotal.length - 2),
+//     total:
+//       receiptTotal.substring(0, receiptTotal.length - 2) +
+//       "." +
+//       receiptTotal.substring(receiptTotal.length - 2),
+//     vat: VAT.substring(0, VAT.length - 2) + "." + VAT.substring(VAT.length - 2),
+//   };
+//   console.log(receipt);
+// };
+
+const approveTransaction = (tokenId) => {
+  State.update({
+    loading: true,
+    loadingMsg: "Checking the password",
   });
-
-  const receiptTotal = receiptContent[21].replace(/\D/g, "");
-  const subTotal = receiptContent[
-    receiptContent.findIndex((v) => v.includes("subtotal"))
-  ].replace(/\D/g, "");
-  const VAT = receiptContent[20].replace(/\D/g, "");
-  const receipt = {
-    store: receiptContent[0].split("\t")[1],
-    date: receiptContent[6].split(" ")[0],
-    subtotal:
-      subTotal.substring(0, subTotal.length - 2) +
-      "." +
-      subTotal.substring(subTotal.length - 2),
-    total:
-      receiptTotal.substring(0, receiptTotal.length - 2) +
-      "." +
-      receiptTotal.substring(receiptTotal.length - 2),
-    vat: VAT.substring(0, VAT.length - 2) + "." + VAT.substring(VAT.length - 2),
-  };
-  console.log(receipt);
+  walleyContract.returnPass(tokenId).then((password) => {
+    if (state.user.cancelPassword === password) {
+      State.update({
+        loadingMsg: "Approving your transaction - Pay for the gas",
+      });
+      nftContract
+        .approveTransaction(
+          walleyAddress,
+          tokenId,
+          `${parseFloat(state.store.totalAmount) * Math.pow(10, 18)}`,
+          {
+            from: sender,
+          }
+        )
+        .then((tx) => {
+          State.update({
+            loadingMsg: "Waiting for confirmation - Refunding the change",
+          });
+          tx.wait().then((res) => {
+            const tmp = state.sstore.storePendingTransactions.filter(
+              (trans) => Big(trans[1]).toFixed(0) !== tokenId
+            );
+            State.update({
+              store: { ...state.store, storePendingTransactions: tmp },
+              loadingMsg: "",
+              loading: false,
+            });
+          });
+        });
+    } else {
+      console.log("Please re-check the password");
+      State.update({ loading: false, loadingMsg: "" });
+    }
+  });
 };
+
 return (
   <WalleyHomeContainer>
     <WalleyHomeHeader>Walley.</WalleyHomeHeader>
@@ -779,7 +822,7 @@ return (
                       <p>Max amount - {Big(tx[5]).toFixed(5)}</p>
                       {state.store.openModal === parseInt(tx[1], 16) ? (
                         <>
-                          <WalleyLabel>Please scan the bill - </WalleyLabel>
+                          {/*<WalleyLabel>Please scan the bill - </WalleyLabel>
                           <Files
                             multiple={false}
                             accepts={["image/*"]}
@@ -793,7 +836,35 @@ return (
                             ) : (
                               "Scan the bill"
                             )}
-                          </Files>
+                          </Files>*/}
+                          <WalleyInput
+                            value={state.store.totalAmount}
+                            onChange={(e) =>
+                              State.update({
+                                store: {
+                                  ...state.store,
+                                  totalAmount: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                          <WalleyButton
+                            color="#white"
+                            bg="blue"
+                            onClick={() =>
+                              State.update({
+                                store: {
+                                  ...state.store,
+                                  approvePassword: "",
+                                  bill: { uploading: false, amount: null },
+                                  totalAmount: null,
+                                  openModal: 0,
+                                },
+                              })
+                            }
+                          >
+                            Close
+                          </WalleyButton>
                           <WalleyButton
                             color="#white"
                             bg="blue"
