@@ -3,9 +3,10 @@ if (!props.data || !props.columns) {
 }
 State.init({ currentPage: 1 });
 const data = props.data || [];
-const rowsCount = props.rowsCount || 5;
+const rowsCount = props.rowsCount || null;
 
 const handlePagination = () => {
+  if (!rowsCount) return { table: data };
   const currentPage = state.currentPage;
   const totalPages = Math.ceil(data.length / rowsCount);
   const currentTableData = data.slice(
@@ -18,8 +19,10 @@ const handlePagination = () => {
 };
 
 return (
-  <div className="table-responsive">
-    <table className="table table-hover table-striped table-borderless ">
+  <div className=" table-responsive">
+    <table
+      className={`table table-hover table-striped table-borderless ${props.className}`}
+    >
       <thead>
         <tr>
           {props.columns.map((th) => (
@@ -31,43 +34,52 @@ return (
       </thead>
       <tbody>
         {props.data.length > 0 &&
-          handlePagination().table.map((row) => {
+          handlePagination().table.map((row, i) => {
             return (
               <tr key={row.project}>
-                {props.columns.map((td) => (
-                  <td>{row[td.key]}</td>
-                ))}
+                {props.columns.map((td) => {
+                  const key = td.key ? row[td.key] : i + 1;
+                  return <td>{key}</td>;
+                })}
               </tr>
             );
           })}
       </tbody>
     </table>
-    <div className="py-4">
-      <div>
-        <ul className="pagination pagination-sm gap-2 justify-content-center">
-          {props.data.length > 0 &&
-            handlePagination().buttons.map((btn, i) => {
-              return (
-                <li key={i} className="page-item">
-                  <button
-                    onClick={() => State.update({ currentPage: i + 1 })}
-                    className={`page-link btn ${
-                      btn ? "text-bg-secondary" : "text-bg-light"
-                    } border-dark`}
-                  >
-                    {i + 1}
-                  </button>
-                </li>
-              );
-            })}
-        </ul>
+    {!props.rowsCount ? (
+      ""
+    ) : (
+      <div className="py-4">
+        <div>
+          <ul className="pagination pagination-sm gap-2 justify-content-center">
+            {props.data.length > 0 &&
+              handlePagination().buttons.map((btn, i) => {
+                return (
+                  <li key={i} className="page-item">
+                    <button
+                      onClick={() => State.update({ currentPage: i + 1 })}
+                      className={`page-link btn ${
+                        btn ? "text-bg-secondary" : "text-bg-light"
+                      } border-dark`}
+                    >
+                      {i + 1}
+                    </button>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
       </div>
-    </div>
+    )}
   </div>
 );
 
 // const props = {
 //   data: [],
-//   rowsCount: 5,
-//   columns: [{ title: "title", key: "key in data" }],
+//   columns: [
+//     { title: "id" }, //if key does not provided , rows will be ascending numbers
+//     { title: "title", key: "key in data" },
+//   ],
+//   rowsCount: 2, // if zero or null , the whole table will be render
+//   className: "table-bordered",
 // };
