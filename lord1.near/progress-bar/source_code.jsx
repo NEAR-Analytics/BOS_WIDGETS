@@ -71,7 +71,7 @@ const RegisterdNumber = styled.div`
 const width = props.widgetBarWidth ? props.widgetBarWidth : "500";
 const currTheme = props.currTheme === "dark" ? "dark" : "light";
 
-const percentage = (`${props.inside}` / 100) * 100;
+const percentage = (`${props.inside}` / `${props.total}`) * 100;
 const roundPercentage = Math.round(percentage);
 
 return (
@@ -85,7 +85,7 @@ return (
     <ProgressWrap>
       <ProgrssBar percentage={roundPercentage} />
     </ProgressWrap>
-    <RegisterdNumber currTheme={currTheme}>
+    <RegisterdNumber currTheme={"light"}>
       {props.inside}/{props.total}
     </RegisterdNumber>
   </MainWrapper>
