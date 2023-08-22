@@ -31,6 +31,9 @@ const plot = Plot.plot({
   x: {type: "${isXDate ? "date" : "band"}",},
   ${isXDate ? `x: (d) => d3.utcDay(d.${xColumn}),` : ""}
   y: {grid: true, label: "${label}"},
+  style: {
+    fontSize: 30
+  },
   color: { legend: true },
   marks: [
     Plot.ruleY([0]),
@@ -53,4 +56,3 @@ return (
       srcDoc={code}
     />
   </div>
-);
