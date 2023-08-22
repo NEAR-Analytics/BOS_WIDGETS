@@ -15,12 +15,12 @@ if (props.post.id !== "1691462269182611456") {
 }
 
 function handleBlur(e) {
-  e.stopPropagation();
+  e.preventDefault();
   State.update({ isVisible: false });
 }
 
 function handleUnblur(e) {
-  e.stopPropagation();
+  e.preventDefault();
   State.update({ isVisible: true });
 }
 
