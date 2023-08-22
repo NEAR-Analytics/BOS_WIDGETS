@@ -10,14 +10,14 @@ return (
           {value.item.path === `${accountId}/post/main` ? (
             <a
               className="fw-bold text-muted"
-              href={`#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
+              href={`/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
             >
               post
             </a>
           ) : value.item.path === `${accountId}/post/comment` ? (
             <a
               className="fw-bold text-muted"
-              href={`#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
+              href={`/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
             >
               comment
             </a>
@@ -29,15 +29,15 @@ return (
       R:
         value.item.path === `${accountId}/post/main` ? (
           <a
-            className="btn btn-outline-dark"
-            href={`#/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
+            className="btn btn-outline-dark rounded-5"
+            href={`/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             View post
           </a>
         ) : value.item.path === `${accountId}/post/comment` ? (
           <a
-            className="btn btn-outline-dark"
-            href={`#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
+            className="btn btn-outline-dark rounded-5"
+            href={`/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             View comment
           </a>
