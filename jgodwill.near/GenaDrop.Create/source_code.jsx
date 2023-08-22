@@ -88,6 +88,7 @@ const Desc = styled.p`
 }
 `;
 const Header = styled.div`
+    margin-top: 2rem;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
