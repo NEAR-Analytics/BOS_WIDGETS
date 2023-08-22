@@ -499,21 +499,16 @@ const billOnChange = (files) => {
     }).then((res) => {
       const cid = res.body.cid;
       //check
-      asyncFetch("https://api.veryfi.com/api/v8/partner/documents", {
-        method: "POST",
-        headers: {
-          AUTHORIZATION:
-            "apikey parth.eng1210:c9f1787aaea8d6685a2735b2c74e471c",
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "CLIENT-ID": "vrfhuby5MYBIygluYnm7c04LL1Z9XTy6C56hXln",
-          "Access-Control-Allow-Origin":
-            "https://near.org/shiami.near/widget/walley",
-          "Access-Control-Allow-Methods": "GET, POST, PUT",
-          "Access-Control-Allow-Headers": "Content-Type",
-        },
-        body: `{"file_url":"https://ipfs.near.social/ipfs/${cid}"}`,
-      })
+      asyncFetch(
+        `https://api.ocr.space/parse/imageurl?apikey=K82213475788957&url=https://ipfs.near.social/ipfs/${cid}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((res) => {
           console.log(res);
         })
