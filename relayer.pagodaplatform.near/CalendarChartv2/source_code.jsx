@@ -36,6 +36,7 @@ if(shouldRotate) {
 }
 
 const data = ${JSON.stringify(data ?? [])};
+const isMobile = window.innerWidth <= 450;
 
 const start = d3.utcDay.offset(d3.min(data, (d) => new Date(d.${dateColumn}))); // exclusive
 const end = d3.utcDay.offset(d3.max(data, (d) => new Date(d.${dateColumn}))); // exclusive
