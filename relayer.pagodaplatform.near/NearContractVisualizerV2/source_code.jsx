@@ -332,7 +332,7 @@ const Graphs = () => {
             </div>
             <div className="col-sm-12 col-lg-6">
               <Widget
-                src="kida.near/widget/Untitled-3"
+                src="leslug.near/widget/LineChart"
                 props={{
                   xColumn: "DATE",
                   yColumn: "USERS",
