@@ -311,7 +311,7 @@ const Graphs = () => {
             </div>
           </div>
           {/** Calendar Chart */}
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="leslug.near/widget/CalendarChartv2"
             props={{
@@ -327,7 +327,7 @@ const Graphs = () => {
           />
 
           {/** Line Chart */}
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="kida.near/widget/Untitled-3"
             props={{
@@ -342,7 +342,7 @@ const Graphs = () => {
               title: "Number of Unique Wallets by Date",
             }}
           />
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="kida.near/widget/Untitled-3"
             props={{
@@ -357,7 +357,7 @@ const Graphs = () => {
               title: "Number of Contract Calls by Date",
             }}
           />
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="kida.near/widget/Untitled-3"
             props={{
@@ -372,7 +372,7 @@ const Graphs = () => {
               title: "NEAR Volume by Date",
             }}
           />
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="kida.near/widget/Untitled-3"
             props={{
@@ -387,7 +387,7 @@ const Graphs = () => {
               title: "Average Near Volume by Date",
             }}
           />
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="kida.near/widget/Untitled-3"
             props={{
@@ -402,7 +402,7 @@ const Graphs = () => {
               title: "Gas Used by Date",
             }}
           />
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="kida.near/widget/Untitled-3"
             props={{
@@ -419,7 +419,7 @@ const Graphs = () => {
           />
 
           {/** Area Chart */}
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="kida.near/widget/Untitled-5"
             props={{
@@ -434,7 +434,7 @@ const Graphs = () => {
               title: "Cumulative Volume (NEAR)",
             }}
           />
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="kida.near/widget/Untitled-5"
             props={{
@@ -449,7 +449,7 @@ const Graphs = () => {
               title: "Cumulative Number of TRANSACTIONS",
             }}
           />
-          <div className="mt-5"></div>
+          <div className="col-sm-12 col-lg-6 mt-5"></div>
           <Widget
             src="kida.near/widget/Untitled-5"
             props={{
