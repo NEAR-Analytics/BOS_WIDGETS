@@ -75,7 +75,9 @@ const Wrapper = styled.div`
   }
 `;
 
-if (props.post.id !== "1691462269182611456") {
+const tweetIdsWithContent = ["1691462269182611456", "1454091121320206337"];
+
+if (!tweetIdsWithContent.includes(props.post.id)) {
   return <></>;
 }
 
