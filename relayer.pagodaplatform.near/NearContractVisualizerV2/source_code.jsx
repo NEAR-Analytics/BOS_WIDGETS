@@ -348,7 +348,7 @@ const Graphs = () => {
             </div>
             <div className="col-sm-12 col-lg-6">
               <Widget
-                src="kida.near/widget/Untitled-3"
+                src="leslug.near/widget/LineChart"
                 props={{
                   xColumn: "DATE",
                   yColumn: "CALL_CONTRACTS",
@@ -364,7 +364,7 @@ const Graphs = () => {
             </div>
             <div className="col-sm-12 col-lg-6">
               <Widget
-                src="kida.near/widget/Untitled-3"
+                src="leslug.near/widget/LineChart"
                 props={{
                   xColumn: "DATE",
                   yColumn: "NEAR_AMOUNT",
@@ -380,7 +380,7 @@ const Graphs = () => {
             </div>
             <div className="col-sm-12 col-lg-6">
               <Widget
-                src="kida.near/widget/Untitled-3"
+                src="leslug.near/widget/LineChart"
                 props={{
                   xColumn: "DATE",
                   yColumn: "AVG_NEAR_AMOUNT",
@@ -396,7 +396,7 @@ const Graphs = () => {
             </div>
             <div className="col-sm-12 col-lg-6">
               <Widget
-                src="kida.near/widget/Untitled-3"
+                src="leslug.near/widget/LineChart"
                 props={{
                   xColumn: "DATE",
                   yColumn: "GAS_AMOUNT",
@@ -412,7 +412,7 @@ const Graphs = () => {
             </div>
             <div className="col-sm-12 col-lg-6">
               <Widget
-                src="kida.near/widget/Untitled-3"
+                src="leslug.near/widget/LineChart"
                 props={{
                   xColumn: "DATE",
                   yColumn: "AVG_GAS_AMOUNT",
@@ -430,7 +430,7 @@ const Graphs = () => {
             {/** Area Chart */}
             <div className="col-sm-12 col-lg-6">
               <Widget
-                src="kida.near/widget/Untitled-5"
+                src="leslug.near/widget/AreaChart"
                 props={{
                   xColumn: "DATE",
                   yColumn: "CUM_NEAR_AMOUNT",
@@ -446,7 +446,7 @@ const Graphs = () => {
             </div>
             <div className="col-sm-12 col-lg-6">
               <Widget
-                src="kida.near/widget/Untitled-5"
+                src="leslug.near/widget/AreaChart"
                 props={{
                   xColumn: "DATE",
                   yColumn: "CUM_TRANSACTIONS",
@@ -462,7 +462,7 @@ const Graphs = () => {
             </div>
             <div className="col-12">
               <Widget
-                src="kida.near/widget/Untitled-5"
+                src="leslug.near/widget/AreaChart"
                 props={{
                   xColumn: "DATE",
                   yColumn: "CUM_CALL_CONTRACTS",
