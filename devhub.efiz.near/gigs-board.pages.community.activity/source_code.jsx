@@ -57,8 +57,8 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  edit_community_github: ({ handle, github }) =>
-    Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
+  update_community_github: ({ handle, github }) =>
+    Near.call(devHubAccountId, "update_community_github", { handle, github }) ??
     null,
 
   get_access_control_info: () =>
@@ -67,7 +67,7 @@ const DevHub = {
   get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
 
   get_all_communities: () =>
-    Near.view(devHubAccountId, "get_all_communities") ?? null,
+    Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
@@ -134,7 +134,8 @@ const CommunityActivityPage = ({ handle }) => {
                   <small class="text-muted">
                     <span>Required tags:</span>
                     {widget("components.atom.tag", {
-                      label: communityData.tag,
+                      linkTo: "Feed",
+                      ...communityData,
                     })}
                   </small>
                   {widget("components.layout.Controls", {
@@ -150,12 +151,9 @@ const CommunityActivityPage = ({ handle }) => {
             </div>
           </div>
           <div class="col-md-3 container-fluid">
-            <Widget
-              src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.pages.community.sidebar`}
-              props={{
-                label: communityData.tag,
-              }}
-            />
+            {widget("entity.community.sidebar", {
+              handle: communityData.handle,
+            })}
           </div>
         </div>
       ) : (
