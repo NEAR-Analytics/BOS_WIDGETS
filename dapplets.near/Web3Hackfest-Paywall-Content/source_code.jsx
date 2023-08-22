@@ -20,7 +20,6 @@ if (props.post.id !== "1691462269182611456") {
 
 function handleBlur() {
   State.update({ isVisible: false });
-  testCall();
   return false;
 }
 
@@ -28,6 +27,8 @@ function handleUnblur() {
   State.update({ isVisible: true });
   return false;
 }
+
+console.log(props.post);
 
 return (
   <Wrapper>
