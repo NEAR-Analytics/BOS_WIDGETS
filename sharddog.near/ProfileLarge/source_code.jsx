@@ -159,6 +159,9 @@ return (
         <div className="collapse public-tags">
           <Widget src="mob.near/widget/PublicTags" props={{ accountId }} />
         </div>
+        <br />
+        <div className="text-truncate text-dark">My Recent ShardDogs</div>
+        <Widget src="sharddog.near/widget/MyShardDogs" props={{ accountId }} />
       </div>
     </div>
   </div>
