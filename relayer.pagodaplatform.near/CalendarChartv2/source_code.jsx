@@ -1,6 +1,11 @@
 const { dateColumn, dataColumn, data, legendMax, legendMin, label, title, id } =
   props;
 const code = `
+<style>
+  figure {
+    margin: 0;
+  }
+</style>
 <!-- observerable plot -->
 <div id="myplot" style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
 
