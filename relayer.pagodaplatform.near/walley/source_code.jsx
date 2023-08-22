@@ -492,20 +492,29 @@ const billOnChange = (files) => {
     State.update({
       store: { ...state.store, bill: { uploading: true, amount: null } },
     });
-    asyncFetch(
-      "https://api.mindee.net/v1/products/mindee/invoices/v4/predict",
-      {
+    asyncFetch("https://ipfs.near.social/add", {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: files[0],
+    }).then((res) => {
+      const cid = res.body.cid;
+
+      asyncFetch("https://api.veryfi.com/api/v8/partner/documents", {
         method: "POST",
         headers: {
-          Authorization: "Token 8f03518ad4e3fea9c1753f51820f1941",
+          AUTHORIZATION:
+            "apikey parth.eng1210:c9f1787aaea8d6685a2735b2c74e471c",
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "CLIENT-ID": "vrfhuby5MYBIygluYnm7c04LL1Z9XTy6C56hXln",
         },
-        body: files,
-      }
-    )
-      .then((res) => {
-        console.log(res);
+        body: `{"file_url":"https://ipfs.near.social/ipfs/${cid}"}`,
       })
-      .catch((err) => console.log(err));
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+    });
   }
 };
 
