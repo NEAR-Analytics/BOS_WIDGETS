@@ -44,12 +44,14 @@ const onCustomAddressesValueChange = ({ target }) => {
 const onStartDateChange = ({ target }) => {
   State.update({
     startDate: target.value,
+    data: [],
   });
 };
 
 const onEndDateChange = ({ target }) => {
   State.update({
     endDate: target.value,
+    data: [],
   });
 };
 
@@ -127,8 +129,7 @@ const Layout = () => {
               className="form-control"
               value={state.startDate}
               disabled={state.isActivitiesSqlRunning}
-              onFocus={() => State.update({ data: [] })}
-              onBlur={getData}
+              // onBlur={getData}
             />
           </div>
         </div>
@@ -145,8 +146,7 @@ const Layout = () => {
               className="form-control"
               value={state.endDate}
               disabled={state.isActivitiesSqlRunning}
-              onFocus={() => State.update({ data: [] })}
-              onBlur={getData}
+              // onBlur={getData}
             />
           </div>
         </div>
