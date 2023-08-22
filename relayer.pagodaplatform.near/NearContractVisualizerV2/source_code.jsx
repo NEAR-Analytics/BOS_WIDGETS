@@ -311,7 +311,7 @@ const Graphs = () => {
             </div>
           </div>
           {/** Calendar Chart */}
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
+          <div className="mt-5"></div>
           <Widget
             src="leslug.near/widget/CalendarChartv2"
             props={{
@@ -327,129 +327,138 @@ const Graphs = () => {
           />
 
           {/** Line Chart */}
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
-          <Widget
-            src="kida.near/widget/Untitled-3"
-            props={{
-              xColumn: "DATE",
-              yColumn: "USERS",
-              data: newData,
-              legendMax: maxUser,
-              legendMin: 0,
-              label: "Count",
-              strokeColumn: "PROJECT_NAME",
-              isXDate: true,
-              title: "Number of Unique Wallets by Date",
-            }}
-          />
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
-          <Widget
-            src="kida.near/widget/Untitled-3"
-            props={{
-              xColumn: "DATE",
-              yColumn: "CALL_CONTRACTS",
-              data: newData,
-              legendMax: maxContractCalls,
-              legendMin: 0,
-              label: "Count",
-              strokeColumn: "PROJECT_NAME",
-              isXDate: true,
-              title: "Number of Contract Calls by Date",
-            }}
-          />
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
-          <Widget
-            src="kida.near/widget/Untitled-3"
-            props={{
-              xColumn: "DATE",
-              yColumn: "NEAR_AMOUNT",
-              data: newData,
-              legendMax: maxVolume,
-              legendMin: 0,
-              label: "Volume",
-              strokeColumn: "PROJECT_NAME",
-              isXDate: true,
-              title: "NEAR Volume by Date",
-            }}
-          />
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
-          <Widget
-            src="kida.near/widget/Untitled-3"
-            props={{
-              xColumn: "DATE",
-              yColumn: "AVG_NEAR_AMOUNT",
-              data: newData,
-              legendMax: maxAvgAmount,
-              legendMin: 0,
-              label: "Volume",
-              strokeColumn: "PROJECT_NAME",
-              isXDate: true,
-              title: "Average Near Volume by Date",
-            }}
-          />
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
-          <Widget
-            src="kida.near/widget/Untitled-3"
-            props={{
-              xColumn: "DATE",
-              yColumn: "GAS_AMOUNT",
-              data: newData,
-              legendMax: maxGas,
-              legendMin: 0,
-              label: "Gas Used",
-              strokeColumn: "PROJECT_NAME",
-              isXDate: true,
-              title: "Gas Used by Date",
-            }}
-          />
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
-          <Widget
-            src="kida.near/widget/Untitled-3"
-            props={{
-              xColumn: "DATE",
-              yColumn: "AVG_GAS_AMOUNT",
-              data: newData,
-              legendMax: maxAvgGasAmount,
-              legendMin: 0,
-              label: "Gas Used",
-              strokeColumn: "PROJECT_NAME",
-              isXDate: true,
-              title: "Average Gas Used by Date",
-            }}
-          />
+          <div className="row">
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="kida.near/widget/Untitled-3"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "USERS",
+                  data: newData,
+                  legendMax: maxUser,
+                  legendMin: 0,
+                  label: "Count",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "Number of Unique Wallets by Date",
+                }}
+              />
+            </div>
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="kida.near/widget/Untitled-3"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "CALL_CONTRACTS",
+                  data: newData,
+                  legendMax: maxContractCalls,
+                  legendMin: 0,
+                  label: "Count",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "Number of Contract Calls by Date",
+                }}
+              />
+            </div>
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="kida.near/widget/Untitled-3"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "NEAR_AMOUNT",
+                  data: newData,
+                  legendMax: maxVolume,
+                  legendMin: 0,
+                  label: "Volume",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "NEAR Volume by Date",
+                }}
+              />
+            </div>
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="kida.near/widget/Untitled-3"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "AVG_NEAR_AMOUNT",
+                  data: newData,
+                  legendMax: maxAvgAmount,
+                  legendMin: 0,
+                  label: "Volume",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "Average Near Volume by Date",
+                }}
+              />
+            </div>
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="kida.near/widget/Untitled-3"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "GAS_AMOUNT",
+                  data: newData,
+                  legendMax: maxGas,
+                  legendMin: 0,
+                  label: "Gas Used",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "Gas Used by Date",
+                }}
+              />
+            </div>
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="kida.near/widget/Untitled-3"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "AVG_GAS_AMOUNT",
+                  data: newData,
+                  legendMax: maxAvgGasAmount,
+                  legendMin: 0,
+                  label: "Gas Used",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "Average Gas Used by Date",
+                }}
+              />
+            </div>
 
-          {/** Area Chart */}
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
-          <Widget
-            src="kida.near/widget/Untitled-5"
-            props={{
-              xColumn: "DATE",
-              yColumn: "CUM_NEAR_AMOUNT",
-              data: newData,
-              legendMax: totalVolume,
-              legendMin: 0,
-              label: "Volume",
-              strokeColumn: "PROJECT_NAME",
-              isXDate: true,
-              title: "Cumulative Volume (NEAR)",
-            }}
-          />
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
-          <Widget
-            src="kida.near/widget/Untitled-5"
-            props={{
-              xColumn: "DATE",
-              yColumn: "CUM_TRANSACTIONS",
-              data: newData,
-              legendMax: totalTransactions,
-              legendMin: 0,
-              label: "Count",
-              strokeColumn: "PROJECT_NAME",
-              isXDate: true,
-              title: "Cumulative Number of TRANSACTIONS",
-            }}
-          />
-          <div className="col-sm-12 col-lg-6 mt-5"></div>
+            {/** Area Chart */}
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="kida.near/widget/Untitled-5"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "CUM_NEAR_AMOUNT",
+                  data: newData,
+                  legendMax: totalVolume,
+                  legendMin: 0,
+                  label: "Volume",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "Cumulative Volume (NEAR)",
+                }}
+              />
+            </div>
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="kida.near/widget/Untitled-5"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "CUM_TRANSACTIONS",
+                  data: newData,
+                  legendMax: totalTransactions,
+                  legendMin: 0,
+                  label: "Count",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "Cumulative Number of TRANSACTIONS",
+                }}
+              />
+            </div>
+          </div>
           <Widget
             src="kida.near/widget/Untitled-5"
             props={{
