@@ -16,10 +16,12 @@ if (props.post.id !== "1691462269182611456") {
 
 function handleBlur() {
   State.update({ isVisible: false });
+  return false;
 }
 
 function handleUnblur() {
   State.update({ isVisible: true });
+  return false;
 }
 
 return (
