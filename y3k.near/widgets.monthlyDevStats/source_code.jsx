@@ -33,7 +33,13 @@ const dates = data.map((entry) => entry["YEAR_MONTH"]);
 // logic part-2
 
 const stacked_options = {
-  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      display: true,
+      position: "bottom",
+    },
+  },
   scales: {
     y: {
       stacked: true,
