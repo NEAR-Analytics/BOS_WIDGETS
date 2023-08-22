@@ -227,9 +227,9 @@ const repayDebtTokens = () => {
     borrowerOperationAbi.body.result,
     Ethers.provider().getSigner()
   );
-  console.log(borrowerOperationContract);
-  console.log(asset);
   if (!state.txLock) {
+    console.log(borrowerOperationContract);
+    console.log(asset);
     State.update({ txLock: true });
     borrowerOperationContract
       .repayDebtTokens(
