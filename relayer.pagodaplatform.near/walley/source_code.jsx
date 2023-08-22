@@ -230,6 +230,9 @@ const WalleyTransactions = styled.div`
 const TransactionCard = styled.div`
 `;
 
+const WalleyStoreBody = styled.div`
+`;
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
   State.update({ balance });
@@ -590,7 +593,7 @@ return (
                                 <WalleyLabel>
                                   Enter the transacation password
                                 </WalleyLabel>
-                                <Walleyinput
+                                <WalleyInput
                                   type="password"
                                   value={state.user.cancelPassword}
                                   onChange={(e) =>
