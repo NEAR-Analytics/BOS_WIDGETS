@@ -10,8 +10,51 @@ const Wrapper = styled.div`
     aspect-ratio: 1.777;
   }
 
-  .content-blur-wrapper {
+  .unlock-content-overlay {
+    display: flex;
+    width: 411px;
+    height: 231px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  }
 
+  .unlock-content-overlay > .text {
+    color: #000;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .unlock-content-overlay > .price {
+    color: #000;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .unlock-content-overlay > .main-button {
+    display: flex;
+    padding: 7px 30px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 20px;
+    background: #1D9BF0;
+    color: #FFF;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
   }
 `;
 
@@ -39,7 +82,11 @@ return (
       />
     ) : (
       <div className="content-blur-wrapper">
-        <div></div>
+        <div className="unlock-content-overlay">
+          <div className="text">Unlock this Tweet</div>
+          <div className="price">0.5 $NEAR</div>
+          <button className="main-button">Buy</button>
+        </div>
         <img
           className="content-image"
           onClick={handleUnblur}
