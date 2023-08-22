@@ -2,7 +2,10 @@ State.init({ isVisible: false });
 
 const Wrapper = styled.div`
   .content-image {
+    margin-top: 12px;
     width: 100%;
+    border-radius: 16px;
+    border: 1px solid rgb(207, 217, 222);
   }
 `;
 
