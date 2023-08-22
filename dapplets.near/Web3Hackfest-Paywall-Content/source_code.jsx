@@ -71,7 +71,7 @@ const Wrapper = styled.div`
   }
 
   .content-image {
-    object-fit: cover;
+    width: 100%;
   }
 `;
 
