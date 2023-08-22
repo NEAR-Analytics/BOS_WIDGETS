@@ -57,7 +57,6 @@ const handleCreateGroup = () => {
         key: groupId,
         value: {
           type,
-          data: state.elements,
         },
       }),
     },
