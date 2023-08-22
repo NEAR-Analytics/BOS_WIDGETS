@@ -35,7 +35,7 @@ const end = d3.utcDay.offset(d3.max(data, (d) => new Date(d.${dateColumn}))); //
 
 const plot = Plot.plot({
   padding: 0,
-  height: shouldRotate? '80vw' : undefined,
+  height: shouldRotate? 350 : undefined,
   width: 780,
   x: {axis: null},
   y: {
