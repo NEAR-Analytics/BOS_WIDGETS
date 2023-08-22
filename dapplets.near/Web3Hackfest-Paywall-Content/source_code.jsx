@@ -116,10 +116,10 @@ return (
             </div>
           ) : (
             <div className="unlock-content-overlay">
-              <div className="text">Connect your wallet</div>
-              <div className="price">This Tweet is locked</div>
+              <div className="text">Unlock this Tweet</div>
+              <div className="price">0.5 $NEAR</div>
               <button className="main-button" onClick={() => props.onConnect}>
-                Connect
+                Connect Wallet
               </button>
             </div>
           )}
