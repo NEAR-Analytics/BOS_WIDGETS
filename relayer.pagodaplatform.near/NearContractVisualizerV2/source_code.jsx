@@ -118,7 +118,7 @@ const Layout = () => {
       <div className="row">
         <div className="col-sm-12 col-lg-6 mb-3">
           <div className="input-group">
-            <div className="input-group-prepend">
+            <div className="input-group-prepend" style={{ width: 100 }}>
               <span className="input-group-text">
                 <span>From</span>
               </span>
@@ -135,7 +135,7 @@ const Layout = () => {
         </div>
         <div className="col-sm-12 col-lg-6 mb-3">
           <div className="input-group">
-            <div className="input-group-prepend">
+            <div className="input-group-prepend" style={{ width: 100 }}>
               <span className="input-group-text">
                 <span>To</span>
               </span>
@@ -152,7 +152,7 @@ const Layout = () => {
         </div>
         <div className="col-12 mb-3">
           <div className="input-group">
-            <div className="input-group-prepend">
+            <div className="input-group-prepend" style={{ width: 100 }}>
               <span className="input-group-text">
                 <span>Addresses</span>
               </span>
