@@ -79,7 +79,7 @@ const Title = styled.h1`
 }
 `;
 const Desc = styled.p`
-    font-size: 1.25rem;
+  font-size: 1.25rem;
   color: #000;
   margin-bottom: 3.2em;
   text-align: center;
