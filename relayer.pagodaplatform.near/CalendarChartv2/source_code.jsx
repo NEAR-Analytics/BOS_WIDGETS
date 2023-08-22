@@ -60,6 +60,12 @@ const plot = Plot.plot({
       ticks: 4,
       label: "${label}"
   },
+  style: {
+    // fontSize: 35,
+    maxWidth: isMobile? 'unset' : undefined,
+    paddingLeft: isMobile? 550 : undefined,
+    overflow: 'visible',
+  },
   marks: [
 
       // Draw year labels, rounding down to draw a year even if the data doesn’t
