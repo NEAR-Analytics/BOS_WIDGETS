@@ -491,6 +491,19 @@ const billOnChange = (files) => {
     State.update({
       store: { ...state.store, bill: { uploading: true, amount: null } },
     });
+    asyncFetch(
+      "https://api.mindee.net/v1/products/mindee/invoices/v4/predict",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Token 8f03518ad4e3fea9c1753f51820f1941",
+        },
+        body: files[0],
+      }
+    ).then((res) => {
+      console.log(res);
+    });
   }
 };
 
