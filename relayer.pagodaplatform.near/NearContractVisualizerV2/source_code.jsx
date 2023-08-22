@@ -315,7 +315,7 @@ const Graphs = () => {
 
           {/** Line Chart */}
           <div className="row">
-            <div className="col-sm-12 col-lg-6">
+            <div className="col-12">
               <Widget
                 src="leslug.near/widget/CalendarChartv2"
                 props={{
@@ -327,22 +327,6 @@ const Graphs = () => {
                   label: "Count",
                   title: "Number of Transactions by Date",
                   heightMultiplier: years.length,
-                }}
-              />
-            </div>
-            <div className="col-sm-12 col-lg-6">
-              <Widget
-                src="kida.near/widget/Untitled-5"
-                props={{
-                  xColumn: "DATE",
-                  yColumn: "CUM_CALL_CONTRACTS",
-                  data: newData,
-                  legendMax: totalCallContracts,
-                  legendMin: 0,
-                  label: "Count",
-                  strokeColumn: "PROJECT_NAME",
-                  isXDate: true,
-                  title: "Cumulative Contract Calls",
                 }}
               />
             </div>
@@ -473,6 +457,22 @@ const Graphs = () => {
                   strokeColumn: "PROJECT_NAME",
                   isXDate: true,
                   title: "Cumulative Number of TRANSACTIONS",
+                }}
+              />
+            </div>
+            <div className="col-12">
+              <Widget
+                src="kida.near/widget/Untitled-5"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "CUM_CALL_CONTRACTS",
+                  data: newData,
+                  legendMax: totalCallContracts,
+                  legendMin: 0,
+                  label: "Count",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "Cumulative Contract Calls",
                 }}
               />
             </div>
