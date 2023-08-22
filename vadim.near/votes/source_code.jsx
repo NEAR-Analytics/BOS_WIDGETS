@@ -38,6 +38,18 @@ if (data.ok) {
         </thead>
         <tbody>{rows}</tbody>
       </table>
+      <p>
+        <small>
+          Data is retrieved automatically from the
+          <a
+            href="https://github.com/zavodil/near-nft-owners-list/blob/main/.github/workflows/indexed.yml"
+            target="_blank"
+          >
+            NEAR Public indexer
+          </a>{" "}
+          with a slight delay.
+        </small>
+      </p>
     </>
   );
 } else return "Loading";
