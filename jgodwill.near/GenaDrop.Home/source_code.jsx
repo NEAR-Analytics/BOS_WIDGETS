@@ -186,9 +186,6 @@ const OrgsSection = styled.div`
   -webkit-animation-delay:2s;
   animation-delay:2s
 }
-.Org_logo{
-  width: 100%;
-}
 .Orgs_algo__xp_dw .Orgs_icon__OjO0f {
   bottom:-2em;
   right:-2em;
@@ -245,7 +242,7 @@ position: absolute;
   }
   & .Orgs_logo{
     @media screen and (max-width: 540px){
-      width: 4em;
+      width: 3em;
     }
   }
   }
