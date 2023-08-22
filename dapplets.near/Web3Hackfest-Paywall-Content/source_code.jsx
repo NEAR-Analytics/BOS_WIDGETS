@@ -6,6 +6,6 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper>
-    <div className="text">Hello World</div>
+    <div className="text">{props.post.id}</div>
   </Wrapper>
 );
