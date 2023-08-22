@@ -240,7 +240,7 @@ position: absolute;
   @media screen and (max-width: 540px){
   width: 3.5em;
   }
-  & .Orgs_logo{
+  & .Org_logo{
     @media screen and (max-width: 540px){
       width: 100%;
     }
