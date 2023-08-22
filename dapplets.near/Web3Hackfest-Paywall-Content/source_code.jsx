@@ -19,7 +19,6 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: 16px;
-    background-image: url(https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/1691462269182611456-blur.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -98,7 +97,7 @@ return (
         <div
           className="unlock-content-overlay"
           style={{
-            backgroundImage: `https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png`,
+            backgroundImage: `url(https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png)`,
           }}
         >
           <div className="text">Unlock this Tweet</div>
