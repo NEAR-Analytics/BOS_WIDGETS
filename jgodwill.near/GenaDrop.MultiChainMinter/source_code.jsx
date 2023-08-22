@@ -341,10 +341,19 @@ const handleToggle = () => {
 // }
 
 const Heading = styled.p`
-  margin: 3px auto 3px auto;
+  margin: 3rem auto 0px auto;
   font-size: 1em;
   color:#0f1d40;
   line-height:2.1rem;
+  width:60%;
+  text-align: center;
+  font-family: "SF Pro Display",sans-serif;
+`;
+const SubHeading = styled.p`
+  margin: 0 auto 3px auto;
+  font-size: 1em;
+  color:#0f1d40;
+  line-height:1.4rem;
   width:60%;
   text-align: center;
   font-family: "SF Pro Display",sans-serif;
@@ -666,10 +675,10 @@ return (
     <Main className="container-fluid">
       {!state.image.cid ? (
         <div className="flex-grow-1">
-          <Heading>
+          <SubHeading>
             Upload an image to create an NFT any of our supported blockchains
             super fast!
-          </Heading>
+          </SubHeading>
           <ImageUploadCard className="flex-grow-1">
             <Elipse />
             {accountId || Ethers.provider() ? (
@@ -681,7 +690,7 @@ return (
                 <div>
                   <Text>
                     We support .jpg, .jpeg, .png, .webp, .gif files and deploy
-                    to Celo, Algorand, Near, and Polygon
+                    to Near, Polygon, Celo, Aurora, Avalanche, and Arbitrum
                   </Text>
                   <Text>Max file size: 20mb</Text>
                 </div>
