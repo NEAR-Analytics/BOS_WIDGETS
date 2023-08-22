@@ -9,17 +9,21 @@ const Wrapper = styled.div`
     border: 1px solid rgb(207, 217, 222);
     aspect-ratio: 1.777;
     cursor: default;
+    position: relative;
   }
 
   .unlock-content-overlay {
     display: flex;
-    width: 100%;
-    height: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 16px;
     background-color: rgba(255,255,255,0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .unlock-content-overlay > .text {
