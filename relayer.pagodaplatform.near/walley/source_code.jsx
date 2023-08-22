@@ -1,9 +1,9 @@
-const nftAddress = "0x135c0830a9eeba7a635fa12eefa529ebb5c571a3";
+const nftAddress = "0x4c34aee82b595972c8ea380581d0c85a77559b3d";
 const NFTManagerABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/NFTManager.json")
     .body
 );
-const walleyAddress = "0x74cbb281da1eb6abcce471883330055b1696572e";
+const walleyAddress = "0xe732f892cee5cf521eded4cae2e668d3ef60bfb7";
 const WalleyABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/Walley.json")
     .body
