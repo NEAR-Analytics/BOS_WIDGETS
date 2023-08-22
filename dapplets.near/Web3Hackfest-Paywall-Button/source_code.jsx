@@ -73,8 +73,8 @@ return (
         style={{
           opacity: props.disabled ? ".5" : "1",
           display: "flex",
-          "align-items": "center",
-          "margin-right": props.label?.toString() ? "12px" : 0,
+          alignItems: "center",
+          marginRight: props.label?.toString() ? "12px" : 0,
         }}
       >
         <img src={props.icon} className="button-img-display" />
