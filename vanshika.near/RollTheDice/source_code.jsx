@@ -61,7 +61,7 @@ return (
                 ? img4
                 : state.face2 === 5
                 ? img5
-                : state.face2 === 7
+                : state.face2 === 6
                 ? img6
                 : "https://link"
             }
