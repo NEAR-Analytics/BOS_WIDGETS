@@ -86,5 +86,6 @@ return (
         </button>
       </div>
     </HeaderFlex>
+    <Widget src="harrydhillon.near/widget/Keypom.Landing.AllDrops.Table" />
   </div>
 );
