@@ -702,8 +702,8 @@ return (
         ) : (
           <WalleyStoreBody>
             <WalleyTransactions>
-              {state.user.storePendingTransactions.length !== 0
-                ? state.user.storePendingTransactions.map((tx) => (
+              {state.store.storePendingTransactions.length !== 0
+                ? state.store.storePendingTransactions.map((tx) => (
                     <TransactionCard>
                       <WalleyStoreImage
                         src={`https://ipfs.near.social/ipfs/${
