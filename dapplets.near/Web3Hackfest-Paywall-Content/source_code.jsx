@@ -109,7 +109,9 @@ return (
           <div className="unlock-content-overlay">
             <div className="text">Unlock this Tweet</div>
             <div className="price">0.5 $NEAR</div>
-            <button className="main-button">Buy</button>
+            <button className="main-button" onClick={handleUnblur}>
+              Buy
+            </button>
           </div>
         </>
       )}
