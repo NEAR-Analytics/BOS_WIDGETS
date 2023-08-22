@@ -114,6 +114,10 @@ const CreateOptions = styled.div`
   width: 100%;
   cursor: pointer;
   text-align: center;
+  @media screen and (max-width: 480px) {
+    padding: 1.25rem 1rem;
+    max-height: 180px;
+}
   .Create_icon {
   background: #f3f6fc;
   border-radius: 50%;
