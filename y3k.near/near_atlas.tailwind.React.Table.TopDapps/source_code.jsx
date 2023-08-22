@@ -184,8 +184,11 @@ function getSortedNodes() {
 return (
   <div className="bg-dark rounded-lg mb-12 overflow-hidden w-full">
     {data !== null ? (
-      <div style={{ "min-width": "780px" }} className="bg-dark w-full">
-        <table className="table-auto w-full ">
+      <div
+        style={{ "min-width": "780px" }}
+        className="bg-dark w-full overflow-x-auto overflow-y-auto"
+      >
+        <table className="table-auto w-full overflow-scroll">
           <thead className="bg-gray-700">
             <tr>
               {COLUMNS.map((column, index) => (
