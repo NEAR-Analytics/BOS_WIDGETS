@@ -11,6 +11,11 @@ const {
 } = props;
 const code = `
 <!-- observerable plot -->
+<style>
+  figure > svg {
+    max-width: unset;
+  }
+</style>
 <div id="myplot" style="width: 100%; display: flex; align-items: center; justify-content: center;"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="module">
@@ -32,7 +37,7 @@ const plot = Plot.plot({
   ${isXDate ? `x: (d) => d3.utcDay(d.${xColumn}),` : ""}
   y: {grid: true, label: "${label}"},
   style: {
-    fontSize: 30
+    fontSize: 35
   },
   color: { legend: true },
   marks: [
