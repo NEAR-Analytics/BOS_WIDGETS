@@ -242,7 +242,7 @@ position: absolute;
   }
   & .Orgs_logo{
     @media screen and (max-width: 540px){
-      width: 3em;
+      width: 100%;
     }
   }
   }
