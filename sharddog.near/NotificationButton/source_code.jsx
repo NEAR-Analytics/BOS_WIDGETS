@@ -1,4 +1,4 @@
-const notificationFeedSrc = "sharddog.near/widget/NotificationFeed";
+const notificationFeedSrc = "#/sharddog.near/widget/NotificationFeed";
 
 const render = (counter, disabled) => {
   const className = "btn p-0 btn-sm border-0 link-dark";
