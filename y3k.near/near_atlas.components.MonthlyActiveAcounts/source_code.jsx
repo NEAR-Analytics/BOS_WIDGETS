@@ -41,6 +41,12 @@ const dates = data.map((entry) => entry["DAY"]);
 
 const stacked_options = {
   responsive: true,
+  plugins: {
+    legend: {
+      display: true,
+      position: "bottom",
+    },
+  },
   scales: {
     y: {
       stacked: true,
