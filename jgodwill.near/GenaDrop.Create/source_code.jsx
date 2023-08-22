@@ -166,38 +166,27 @@ const CreateOptions = styled.div`
 }
 }
 `;
-const handleCreateClick = () => {
-  State.update({
-    createSelected: true,
-  });
-};
 return (
   <>
-    {!state.createSelected ? (
-      <Header>
-        <Title>Create</Title>
-        <Desc>
-          Create all types of NFTs, automatically indexed in our marketplace. AI
-          Create Digital art with AI Digital Art Upload an image and mint
-        </Desc>
-        <CreateOptions>
-          {options.map((opt) => (
-            <a
-              src={opt.link}
-              className="Create_card"
-              onClick={handleCreateClick}
-            >
-              <div className="Create_icon">{opt.icon}</div>
-              <div className="Create_cardTitle">{opt.name}</div>
-              <div className="Create_cardDescription">{opt.description}</div>
-            </a>
-          ))}
-        </CreateOptions>
-      </Header>
-    ) : (
-      <div>
-        <Widget href="/#/jgodwill.near/widget/GenaDrop.MultiChainMinter" />
-      </div>
-    )}
+    <Header>
+      <Title>Create</Title>
+      <Desc>
+        Create all types of NFTs, automatically indexed in our marketplace. AI
+        Create Digital art with AI Digital Art Upload an image and mint
+      </Desc>
+      <CreateOptions>
+        {options.map((opt) => (
+          <a
+            href={opt.link}
+            className="Create_card"
+            onClick={handleCreateClick}
+          >
+            <div className="Create_icon">{opt.icon}</div>
+            <div className="Create_cardTitle">{opt.name}</div>
+            <div className="Create_cardDescription">{opt.description}</div>
+          </a>
+        ))}
+      </CreateOptions>
+    </Header>
   </>
 );
