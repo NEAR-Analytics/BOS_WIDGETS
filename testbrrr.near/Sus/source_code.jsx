@@ -347,10 +347,10 @@ const processAsset = (index) => {
   }
 
   let asset = assets[index];
-  console.log(asset);
   vesselManagerContract
     .getEntireDebtAndColl(asset, state.sender)
     .then((results) => {
+      console.log(result);
       balances.push({
         asset: getAssetFromAddress(asset),
         debt: results[0].div("1000000000000000000").toString(),
@@ -358,7 +358,6 @@ const processAsset = (index) => {
         pendingDebtTokenReward: results[2].toString(),
         pendingAssetReward: results[3].toString(),
       });
-      console.log(index);
       if (index < assets.length) {
         processAsset(index + 1); // Process the next asset.
       }
