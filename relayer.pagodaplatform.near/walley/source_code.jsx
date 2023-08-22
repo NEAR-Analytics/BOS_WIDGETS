@@ -492,33 +492,75 @@ const billOnChange = (files) => {
     State.update({
       store: { ...state.store, bill: { uploading: true, amount: null } },
     });
-    asyncFetch("https://ipfs.near.social/add", {
-      method: "POST",
-      headers: { Accept: "application/json" },
-      body: files[0],
-    }).then((res) => {
-      const cid = res.body.cid;
-      //check
-      asyncFetch(
-        `https://api.ocr.space/parse/imageurl?apikey=K82213475788957&url=https://ipfs.near.social/ipfs/${cid}&filetype=${
-          files[0].type.split("/")[0]
-        }&isTable=true`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.log(err));
-    });
+    let reader = new FileReader();
+    reader.onloadend = function () {
+      let myHeaders = new Headers();
+      // INSERT API KEY HERE
+      myHeaders.append("apikey", "K82213475788957");
+
+      let formdata = new FormData();
+      formdata.append("language", "eng");
+      formdata.append("isOverlayRequired", "false");
+      formdata.append("base64Image", reader.result);
+      formdata.append("iscreatesearchablepdf", "false");
+      formdata.append("scale", "true");
+      formdata.append("isTable", "true");
+      formdata.append("issearchablepdfhidetextlayer", "false");
+      formdata.append("OCREngine", "3");
+
+      let requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+        redirect: "follow",
+      };
+
+      fetch("https://api.ocr.space/parse/image", requestOptions)
+        .then((response) => response.json())
+        .then((result) => parseReceipt(result))
+        .catch((error) => console.log("error", error));
+    };
+    reader.readAsDataURL(files[0]);
   }
 };
 
+function parseReceipt(receiptObject) {
+  console.log(receiptObject);
+  console.log(typeof receiptObject);
+  if (typeof receiptObject === "object") {
+    const receiptDetails = receiptObject.ParsedResults[0];
+    const receiptLines = receiptDetails.TextOverlay.Lines;
+    parseReceiptText(receiptDetails.ParsedText);
+  } else if (typeof receiptObject == "string") {
+    console.log(receipt);
+  }
+}
+const parseReceiptText = (receiptText) => {
+  // extremely reliant on this one receipt
+  let receiptContent = receiptText.split("\t\r\n").map((element) => {
+    return element.toLowerCase().replace("\t", " ");
+  });
+
+  const receiptTotal = receiptContent[21].replace(/\D/g, "");
+  const subTotal = receiptContent[
+    receiptContent.findIndex((v) => v.includes("subtotal"))
+  ].replace(/\D/g, "");
+  const VAT = receiptContent[20].replace(/\D/g, "");
+  const receipt = {
+    store: receiptContent[0].split("\t")[1],
+    date: receiptContent[6].split(" ")[0],
+    subtotal:
+      subTotal.substring(0, subTotal.length - 2) +
+      "." +
+      subTotal.substring(subTotal.length - 2),
+    total:
+      receiptTotal.substring(0, receiptTotal.length - 2) +
+      "." +
+      receiptTotal.substring(receiptTotal.length - 2),
+    vat: VAT.substring(0, VAT.length - 2) + "." + VAT.substring(VAT.length - 2),
+  };
+  console.log(receipt);
+};
 return (
   <WalleyHomeContainer>
     <WalleyHomeHeader>Walley.</WalleyHomeHeader>
