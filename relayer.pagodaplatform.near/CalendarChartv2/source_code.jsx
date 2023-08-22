@@ -94,6 +94,10 @@ div.append(plot);
 return (
   <div className="w-100 d-flex flex-column align-items-center">
     {props.title && <strong>{props.title}</strong>}
-    <iframe className="w-100" style={{ height: 350 }} srcDoc={code} />
+    <iframe
+      className="w-100"
+      style={{ height: 350 * props.heightMultiplier }}
+      srcDoc={code}
+    />
   </div>
 );
