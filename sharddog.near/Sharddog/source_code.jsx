@@ -35,7 +35,7 @@ function fetchTokens() {
         State.update({
           tokens: [...state.tokens, ...tokens],
           offset: state.offset + limit,
-          hasMore: true,
+          hasMore: false,
         });
       } else {
         State.update({
