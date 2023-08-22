@@ -34,7 +34,7 @@ const plot = Plot.plot({
   y: {grid: true, label: "${label}"},
   color: { legend: true },
   style: {
-    // fontSize: 35,
+    fontSize: isMobile? undefined : 20,
     maxWidth: isMobile? 'unset' : undefined,
     paddingLeft: isMobile? 550 : undefined,
     overflow: 'visible'
