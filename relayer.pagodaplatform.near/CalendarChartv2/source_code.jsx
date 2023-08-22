@@ -1,6 +1,7 @@
 const { dateColumn, dataColumn, data, legendMax, legendMin, label, title } =
   props;
 const shouldRotate = window.innerWidth <= 450;
+console.log(shouldRotate);
 const code = `
 <!-- observerable plot -->
 <div id="myplot" style="width: 100%; display: flex; align-items: center; justify-content: center;" style="${
