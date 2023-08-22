@@ -18,14 +18,6 @@ if (props.post.id !== "1691462269182611456") {
   return <></>;
 }
 
-console.log(Near.view("nearsocialexamples.near", "get_greeting"));
-
-const testCall = () => {
-  return Near.call("nearsocialexamples.near", "set_greeting", {
-    message: "Hi Near Social",
-  });
-};
-
 function handleBlur() {
   State.update({ isVisible: false });
   testCall();
