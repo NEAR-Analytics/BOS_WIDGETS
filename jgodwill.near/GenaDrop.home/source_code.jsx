@@ -324,7 +324,7 @@ const FeatureContainer = styled.div`
       gap: 2em;
   }
 }
-.Features_featureContainer.reverse{
+.reverse{
   flex-direction: row-reverse;
 }
   .Features_content{
