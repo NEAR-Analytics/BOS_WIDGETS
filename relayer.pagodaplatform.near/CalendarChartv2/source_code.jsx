@@ -1,12 +1,8 @@
 const { dateColumn, dataColumn, data, legendMax, legendMin, label, title } =
   props;
-const shouldRotate = window.innerWidth <= 450;
-console.log(shouldRotate, window.innerWidth);
 const code = `
 <!-- observerable plot -->
-<div id="myplot" style="width: 100%; display: flex; align-items: center; justify-content: center;" style="${
-  shouldRotate ? "transform: rotate(90deg)" : ""
-}"></div>
+<div id="myplot" style="width: 100%; display: flex; align-items: center; justify-content: center;"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="module">
 
@@ -25,6 +21,10 @@ function calendar({
     inset,
     ...options
   };
+}
+
+if(window.innerWidth <= 450) {
+  document.querySelector('#myplot').style.transform = 'rotate(90deg)';
 }
 
 const data = ${JSON.stringify(data ?? [])};
