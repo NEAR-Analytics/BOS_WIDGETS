@@ -264,8 +264,6 @@ const Graphs = () => {
       maxTransaction < TRANSACTIONS ? TRANSACTIONS : maxTransaction;
   }
 
-  console.log(years);
-
   return (
     <>
       {state.data.length > 0 && (
