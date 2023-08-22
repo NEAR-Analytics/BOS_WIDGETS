@@ -98,15 +98,15 @@ return (
         />
       ) : (
         <>
+          <img
+            className="content-image"
+            src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png`}
+          />
           <div className="unlock-content-overlay">
             <div className="text">Unlock this Tweet</div>
             <div className="price">0.5 $NEAR</div>
             <button className="main-button">Buy</button>
           </div>
-          <img
-            className="content-image"
-            src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png`}
-          />
         </>
       )}
     </div>
