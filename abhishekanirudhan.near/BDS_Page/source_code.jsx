@@ -59,7 +59,7 @@ return (
           <div className="py-5">
             <div class="row py-5">
               <div class="card shadow-sm bg-dark">
-                <h1 class="fw-light">BD NFT Projects</h1>
+                <h1 class="fw-light">BD NFT/Relayer Projects</h1>
 
                 <Widget src="abhishekanirudhan.near/widget/NEAR.ATLAS.BDS_NFT_PROJECTS" />
               </div>
