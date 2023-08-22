@@ -14,18 +14,28 @@ if (props.post.id !== "1691462269182611456") {
   return <></>;
 }
 
+function handleBlur(e) {
+  e.stopPropagation();
+  State.update({ isVisible: false });
+}
+
+function handleUnblur(e) {
+  e.stopPropagation();
+  State.update({ isVisible: true });
+}
+
 return (
   <Wrapper>
     {state.isVisible ? (
       <img
         className="content-image"
-        onClick={() => State.update({ isVisible: false })}
+        onClick={handleBlur}
         src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-original.png`}
       />
     ) : (
       <img
         className="content-image"
-        onClick={() => State.update({ isVisible: true })}
+        onClick={handleUnblur}
         src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png`}
       />
     )}
