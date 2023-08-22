@@ -9,7 +9,6 @@ const code = `
 <!-- observerable plot -->
 <div id="myplot" style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
 
-    ${props.title ? `<strong>${props.title}</strong>` : ""}
     </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="module">
@@ -110,6 +109,7 @@ div.append(plot);
 
 return (
   <div className="w-100 d-flex flex-column align-items-center">
+    {props.title && <strong>${props.title}</strong>}
     <iframe
       id={props.id ?? "calendar-chart"}
       className="w-100"
