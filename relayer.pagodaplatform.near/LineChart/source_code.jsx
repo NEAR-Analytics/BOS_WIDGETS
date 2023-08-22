@@ -37,7 +37,9 @@ const plot = Plot.plot({
   ${isXDate ? `x: (d) => d3.utcDay(d.${xColumn}),` : ""}
   y: {grid: true, label: "${label}"},
   style: {
-    fontSize: 35
+    // fontSize: 35,
+    maxWidth: 'unset',
+    paddingLeft: 400,
   },
   color: { legend: true },
   marks: [
