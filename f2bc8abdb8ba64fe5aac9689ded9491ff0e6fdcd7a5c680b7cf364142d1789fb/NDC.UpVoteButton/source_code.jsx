@@ -2,8 +2,6 @@ const { isTest, authorForWidget, reactedElementData, widgets } = props;
 
 const data = reactedElementData;
 
-console.log(reactedElementData);
-
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.upVotes`];
 
 const libCalls = [
@@ -11,7 +9,7 @@ const libCalls = [
     functionName: "getUpVotes",
     key: "upVotes",
     props: {
-      realArticleId: data.realArticleId,
+      realArticleId: data.realArticleId ?? `${data.author}-${data.timeCreate}`,
     },
   },
 ];
@@ -66,7 +64,8 @@ function upVoteButtonListener() {
       functionName: "addVote",
       key: "newVote",
       props: {
-        realArticleId: data.realArticleId,
+        realArticleId:
+          data.realArticleId ?? `${data.author}-${data.timeCreate}`,
       },
     });
   } else {
@@ -74,7 +73,8 @@ function upVoteButtonListener() {
       functionName: "deleteVote",
       key: "deletedVote",
       props: {
-        realArticleId: data.realArticleId,
+        realArticleId:
+          data.realArticleId ?? `${data.author}-${data.timeCreate}`,
         upVoteId: userVote.value.upVoteId,
       },
     });
