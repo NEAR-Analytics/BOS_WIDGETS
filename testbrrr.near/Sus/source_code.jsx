@@ -110,7 +110,7 @@ const borrowerOperationAddress = "0xf58cc15b92ee257bc55958c846100dbb38775595";
 
 const vesselManagerAddress = "0x53325aF728a5F9bBDD00768628487c85686c0223";
 
-const stabilityPoolAddress = "0xBF4145c4C2E9D448787f3be6d90a677b54aec9ef";
+const stabilityPoolAddress = "0x8f8941F1900E9C0cE06Dce3Af19aA8DF26a6964f";
 
 const borrowerOperationAbi = fetch(
   "https://api.etherscan.io/api?module=contract&action=getabi&address=0x9c4e709632b752b4744a37bd991ba31f320fa82b"
@@ -118,6 +118,10 @@ const borrowerOperationAbi = fetch(
 
 const vesselManagerAbi = fetch(
   "https://gist.githubusercontent.com/kcole16/667331152bdb1e9cef785e7cd07d6087/raw/52b5f915793ca9ef1d5314c47ab20bddf90aa463/test.json"
+);
+
+const stabilityPoolAbi = fetch(
+  "https://gist.githubusercontent.com/kcole16/7b83188f08f15112d2221bd08e15a893/raw/91c3f7b06b1aa9e5405fc4c993a51dcb7fd6b8ac/abi.json"
 );
 
 const priceFeedAddress = "0x07dD4Ce17De84bA13Fc154A7FdB46fC362a41E2C";
@@ -234,8 +238,6 @@ const repayDebtTokens = () => {
     Ethers.provider().getSigner()
   );
   if (!state.txLock) {
-    console.log(borrowerOperationContract);
-    console.log(asset);
     State.update({ txLock: true });
     borrowerOperationContract
       .repayDebtTokens(
@@ -320,31 +322,40 @@ const claimCollateral = () => {
 const provideToSP = () => {
   const stabilityPoolContract = new ethers.Contract(
     stabilityPoolAddress,
-    stabilityPoolAbi.body.result,
+    stabilityPoolAbi.body,
     Ethers.provider().getSigner()
   );
 
-  stabilityPoolContract.provideToSP(
-    ethers.BigNumber.from(props.amount * 100)
-      .mul("10000000000000000")
-      .toString(),
-    assetsArray
-  );
+  if (!state.txLock) {
+    State.update({ txLock: true });
+    stabilityPoolContract
+      .provideToSP(
+        ethers.BigNumber.from(props.amount * 100)
+          .mul("10000000000000000")
+          .toString(),
+        assetsArray
+      )
+      .then(() => State.update({ txLock: false }));
+  }
 };
 
 const withdrawFromSP = () => {
   const stabilityPoolContract = new ethers.Contract(
     stabilityPoolAddress,
-    stabilityPoolAbi.body.result,
+    stabilityPoolAbi.body,
     Ethers.provider().getSigner()
   );
-
-  stabilityPoolContract.withdrawFromSP(
-    ethers.BigNumber.from(props.amount * 100)
-      .mul("10000000000000000")
-      .toString(),
-    assetsArray
-  );
+  if (!state.txLock) {
+    State.update({ txLock: true });
+    stabilityPoolContract
+      .withdrawFromSP(
+        ethers.BigNumber.from(props.amount * 100)
+          .mul("10000000000000000")
+          .toString(),
+        assetsArray
+      )
+      .then(() => State.update({ txLock: false }));
+  }
 };
 
 const vesselManagerContract = new ethers.Contract(
