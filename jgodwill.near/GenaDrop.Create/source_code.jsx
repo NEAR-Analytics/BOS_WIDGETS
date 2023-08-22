@@ -59,11 +59,13 @@ const options = [
     name: "AI",
     icon: aiIcon,
     description: "Create Digital art with AI",
+    link: "#/0xprometheus.near/widget/Genadrop-Ai-Minter",
   },
   {
-    name: "Art",
+    name: "Digital Art",
     icon: artIcon,
     description: "Upload an image and mint",
+    link: "#/jgodwill.near/widget/GenaDrop.MultiChainMinter",
   },
 ];
 const Title = styled.h1`
@@ -163,23 +165,38 @@ const CreateOptions = styled.div`
 }
 }
 `;
+const handleCreateClick = () => {
+  State.update({
+    createSelected: true,
+  });
+};
 return (
   <>
-    <Header>
-      <Title>Create</Title>
-      <Desc>
-        Create all types of NFTs, automatically indexed in our marketplace. AI
-        Create Digital art with AI Digital Art Upload an image and mint
-      </Desc>
-      <CreateOptions>
-        {options.map((opt) => (
-          <div className="Create_card">
-            <div className="Create_icon">{opt.icon}</div>
-            <div className="Create_cardTitle">{opt.name}</div>
-            <div className="Create_cardDescription">{opt.description}</div>
-          </div>
-        ))}
-      </CreateOptions>
-    </Header>
+    {!state.createSelected ? (
+      <Header>
+        <Title>Create</Title>
+        <Desc>
+          Create all types of NFTs, automatically indexed in our marketplace. AI
+          Create Digital art with AI Digital Art Upload an image and mint
+        </Desc>
+        <CreateOptions>
+          {options.map((opt) => (
+            <a
+              src={opt.link}
+              className="Create_card"
+              onClick={handleCreateClick}
+            >
+              <div className="Create_icon">{opt.icon}</div>
+              <div className="Create_cardTitle">{opt.name}</div>
+              <div className="Create_cardDescription">{opt.description}</div>
+            </a>
+          ))}
+        </CreateOptions>
+      </Header>
+    ) : (
+      <div>
+        <Widget src="/#/jgodwill.near/widget/GenaDrop.MultiChainMinter" />
+      </div>
+    )}
   </>
 );
