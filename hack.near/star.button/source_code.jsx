@@ -33,7 +33,6 @@ const data = {
         type,
         item: {
           path: thingPath,
-          blockHeight,
         },
       },
     }),
