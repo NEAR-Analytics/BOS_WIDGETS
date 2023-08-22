@@ -126,6 +126,11 @@ const CreateOptions = styled.div`
   display: flex;
   width: 6.5rem;
   height: 6.5rem;
+  @media screen and (max-width: 480px) {
+    width: 57px;
+    height: 57px;
+    padding: 8px;
+}
   svg {
     height: 100%;
     width: 100%;
