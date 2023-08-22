@@ -108,8 +108,8 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  edit_community_github: ({ handle, github }) =>
-    Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
+  update_community_github: ({ handle, github }) =>
+    Near.call(devHubAccountId, "update_community_github", { handle, github }) ??
     null,
 
   get_access_control_info: () =>
@@ -118,7 +118,7 @@ const DevHub = {
   get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
 
   get_all_communities: () =>
-    Near.view(devHubAccountId, "get_all_communities") ?? null,
+    Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
@@ -175,6 +175,19 @@ const Viewer = {
       Struct.typeMatch(communityData) &&
       (communityData.admins.includes(context.accountId) ||
         Viewer.role.isDevHubModerator),
+  },
+
+  workspacePermissions: (workspaceId) => {
+    const workspace_id = parseInt(workspaceId);
+
+    const defaultPermissions = { can_configure: false };
+
+    return !isNaN(workspace_id)
+      ? Near.view(devHubAccountId, "get_account_workspace_permissions", {
+          account_id: context.accountId,
+          workspace_id: workspace_id,
+        }) ?? defaultPermissions
+      : defaultPermissions;
   },
 
   role: {
@@ -285,11 +298,20 @@ const CommunityEditorUI = ({ handle: communityHandle }) => {
   const changesSave = () =>
     Near.call(
       nearDevGovGigsContractAccountId,
-      isCommunityNew ? "add_community" : "edit_community",
+      isCommunityNew ? "create_community" : "update_community",
 
       {
         handle: isCommunityNew ? state.communityData?.handle : communityHandle,
-        community: state.communityData,
+        [isCommunityNew ? "inputs" : "community"]: {
+          ...state.communityData,
+
+          features: {
+            github: true,
+            board: true,
+            telegram: true,
+            wiki: true,
+          },
+        },
       }
     );
 
@@ -413,6 +435,8 @@ const CommunityEditorUI = ({ handle: communityHandle }) => {
 
                   placeholder:
                     "Tell more about your community. This will appear in the About section of your community’s homepage.",
+
+                  resize: "none",
                 },
 
                 label: "Bio",
@@ -421,25 +445,26 @@ const CommunityEditorUI = ({ handle: communityHandle }) => {
               },
 
               twitter_handle: {
-                inputProps: { min: 2, max: 60 },
-                label: "Twitter handle",
+                inputProps: { prefix: "https://twitter.com/", min: 2, max: 60 },
+                label: "Twitter",
                 order: 2,
               },
 
               github_handle: {
-                inputProps: { min: 2, max: 60 },
-                label: "Github organization handle",
+                inputProps: { prefix: "https://github.com/", min: 2, max: 60 },
+                label: "Github",
                 order: 3,
               },
 
               telegram_handle: {
+                inputProps: { prefix: "https://t.me/", min: 2, max: 60 },
                 format: "comma-separated",
-                label: "Telegram handles",
+                label: "Telegram",
                 order: 4,
               },
 
               website_url: {
-                inputProps: { min: 2, max: 60 },
+                inputProps: { prefix: "https://", min: 2, max: 60 },
                 label: "Website",
                 order: 5,
               },
