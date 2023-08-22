@@ -10,8 +10,8 @@ const fast = !!props.fast || (!props.profile && accountId);
 
 const name = profile.name ?? accountId;
 const title = props.title ?? `${name} @${accountId}`;
-const tooltip =
-  props.tooltip && (props.tooltip === true ? title : props.tooltip);
+const fullTooltip = props.tooltip === true;
+const tooltip = props.tooltip && (fullTooltip ? title : props.tooltip);
 
 const GrayWrapper = props.gray
   ? styled.span`
@@ -57,7 +57,7 @@ const Wrap = (props) => {
   );
 
   return tooltip ? (
-    props.tooltip === true ? (
+    fullTooltip === true ? (
       <Widget
         src="mob.near/widget/Profile.OverlayTrigger"
         props={{ accountId, children: inner }}
