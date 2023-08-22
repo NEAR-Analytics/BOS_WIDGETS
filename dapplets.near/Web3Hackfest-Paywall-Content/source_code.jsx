@@ -3,14 +3,16 @@ State.init({ isVisible: false });
 const Wrapper = styled.div`
   .content-image {
     width: 100%;
-    aspect-ratio: 1.777;
-    cursor: default;
   }
 
   .content-blur-wrapper {
+    overflow: hidden;
+    width: 100%;
     margin-top: 12px;
     border-radius: 16px;
     border: 1px solid rgb(207, 217, 222);
+    aspect-ratio: 1.777;
+    cursor: default;
   }
 
   .unlock-content-overlay {
