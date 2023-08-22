@@ -27,6 +27,17 @@ const tagsArray = state.tags;
 
 const accountId = context.accountId;
 
+function getRealArticleId() {
+  if (editArticleData) {
+    return (
+      editArticleData.realArticleId ??
+      `${editArticleData.author}-${editArticleData.timeCreate}`
+    );
+  } else {
+    return `${accountId}-${Date.now()}`;
+  }
+}
+
 const getArticleData = () => {
   const args = {
     articleId: editArticleData.articleId ?? state.articleId,
@@ -38,8 +49,7 @@ const getArticleData = () => {
     version: editArticleData ? editArticleData.version + 1 : 0,
     navigation_id: null,
     tags: tagsArray,
-    realArticleId:
-      editArticleData.realArticleId ?? `${accountId}-${Date.now()}`,
+    realArticleId: getRealArticleId(),
   };
   return args;
 };
