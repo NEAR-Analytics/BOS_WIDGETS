@@ -7,7 +7,7 @@ const Wrapper = styled.div`
 `;
 
 if (props.post.id !== "1691462269182611456") {
-  return null;
+  return <></>;
 }
 
 return (
