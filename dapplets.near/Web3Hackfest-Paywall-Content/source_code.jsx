@@ -63,6 +63,7 @@ const Wrapper = styled.div`
     line-height: normal;
     border: none;
     cursor: pointer;
+    transition-duration: 0.2s;
   }
 
   .unlock-content-overlay > .main-button:hover {
