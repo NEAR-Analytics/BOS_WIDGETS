@@ -28,8 +28,6 @@ function handleUnblur() {
   return false;
 }
 
-console.log(props.post);
-
 return (
   <Wrapper>
     {state.isVisible ? (
