@@ -499,7 +499,7 @@ const billOnChange = (files) => {
           Accept: "application/json",
           Authorization: "Token 8f03518ad4e3fea9c1753f51820f1941",
         },
-        body: files[0],
+        body: files,
       }
     ).then((res) => {
       console.log(res);
