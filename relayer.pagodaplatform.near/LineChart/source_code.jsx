@@ -40,7 +40,7 @@ const plot = Plot.plot({
   style: {
     // fontSize: 35,
     maxWidth: isMobile? 'unset' : undefined,
-    paddingLeft: isMobile? 400 : undefined,
+    paddingLeft: isMobile? 550 : undefined,
   },
   color: { legend: true },
   marks: [
