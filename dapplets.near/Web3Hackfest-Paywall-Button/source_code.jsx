@@ -39,12 +39,6 @@ const Wrapper = styled.div`
   background-color: rgb(239 243 244 / 10%);
 }
 
-.button-basic {
-  padding: 0;
-  border: none;
-  border-radius: 7px;
-}
-
 .button-img-display {
   fill: currentcolor;
   height: auto;
@@ -62,7 +56,7 @@ return (
   <Wrapper>
     <div
       role="button"
-      className={`button-default button-basic ${
+      className={`button-default ${
         props.dark ? "button-dark" : "button-light"
       }`}
       onClick={() => props.onClick()}
