@@ -37,6 +37,7 @@ const plot = Plot.plot({
     // fontSize: 35,
     maxWidth: isMobile? 'unset' : undefined,
     paddingLeft: isMobile? 550 : undefined,
+    overflow: 'visible'
   },
   marks: [
     Plot.ruleY([0]),
