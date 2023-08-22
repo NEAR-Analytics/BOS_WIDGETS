@@ -64,6 +64,10 @@ const Wrapper = styled.div`
     border: none;
     cursor: pointer;
   }
+
+  .unlock-content-overlay > .main-button:hover {
+    background-color: rgb(26,140,216);
+  }
 `;
 
 if (props.post.id !== "1691462269182611456") {
