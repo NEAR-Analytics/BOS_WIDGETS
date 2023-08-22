@@ -276,7 +276,7 @@ const Graphs = () => {
         <>
           <div className="mt-5"></div>
           <div className="row mb-3">
-            <div className="col-4 p-2">
+            <div className="col-sm-12 col-lg-4 p-2">
               <div className="card shadow p-3 d-flex flex-column align-items-center justify-content-center">
                 <span>Total Transactions</span>
                 <strong style={{ fontSize: 25 }}>
@@ -287,7 +287,7 @@ const Graphs = () => {
                 </strong>
               </div>
             </div>
-            <div className="col-4 p-2">
+            <div className="col-sm-12 col-lg-4 p-2">
               <div className="card shadow p-3 d-flex flex-column align-items-center justify-content-center">
                 <span>Total Near Volume (NEAR)</span>
                 <strong style={{ fontSize: 25 }}>
@@ -298,7 +298,7 @@ const Graphs = () => {
                 </strong>
               </div>
             </div>
-            <div className="col-4 p-2">
+            <div className="col-sm-12 col-lg-4 p-2">
               <div className="card shadow p-3 d-flex flex-column align-items-center justify-content-center">
                 <span>Total Gas (NEAR)</span>
                 <strong style={{ fontSize: 25 }}>
