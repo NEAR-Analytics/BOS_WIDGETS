@@ -192,7 +192,6 @@ const Layout = () => {
 
 // rerendering issues need to be solved
 const Graphs = () => {
-  console.log("rerendering");
   let { data } = state;
 
   let txByDate = {};
@@ -301,7 +300,7 @@ const Graphs = () => {
           {/** Calendar Chart */}
           <div className="mt-5"></div>
           <Widget
-            src="kida.near/widget/Untitled-2"
+            src="leslug.near/widget/CalendarChartv2"
             props={{
               dateColumn: "DATE",
               dataColumn: "TRANSACTIONS",
