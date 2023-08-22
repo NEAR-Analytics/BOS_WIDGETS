@@ -4,7 +4,7 @@ const thingPath = props.thingPath ?? "mob.near/widget/MetadataEditor";
 const [ownerId, thingType, thingName] = thingPath.split("/");
 
 const starEdge = Social.keys(
-  `${accountId}/graph/star/${thingType}/${ownerId}/${thingName}`,
+  `${accountId}/graph/star/${ownerId}/${thingType}/${thingName}`,
   undefined,
   {
     values_only: true,
