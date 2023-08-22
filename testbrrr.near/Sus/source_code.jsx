@@ -105,7 +105,7 @@ const validateVessel = () => {
   State.update({ msg: "", isBlocked: false });
 };
 
-const borrowerOperationAddress = "0x395e9d30c83462aad9b5ab9dc35aa75d64122499";
+const borrowerOperationAddress = "0xf58cc15b92ee257bc55958c846100dbb38775595";
 
 const vesselManagerAddress = "0x53325aF728a5F9bBDD00768628487c85686c0223";
 
