@@ -38,8 +38,8 @@ const plot = Plot.plot({
   y: {grid: true, label: "${label}"},
   style: {
     // fontSize: 35,
-    maxWidth: 'unset',
-    paddingLeft: 400,
+    maxWidth: shouldRotate? 'unset' : undefined,
+    paddingLeft: shouldRotate? 400 : undefined,
   },
   color: { legend: true },
   marks: [
