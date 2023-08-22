@@ -4,13 +4,6 @@ const data = reactedElementData;
 
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.upVotes`];
 
-if (
-  reactedElementData.realArticleId ==
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1689817432336"
-) {
-  console.log("Q si papá");
-}
-
 const libCalls = [
   {
     functionName: "getUpVotes",
