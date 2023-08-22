@@ -214,12 +214,19 @@ const Graphs = () => {
   let lowerAddressOptions = state.addresses.map((x) => x.toLowerCase());
 
   let newData = [];
+  let years = [];
 
   data.forEach((x) => {
-    let timestamp = new Date(x).getTime();
+    let xDate = new Date(x);
+    let year = xDate.getFullYear();
+    let timestamp = xDate.getTime();
+
+    if (!years.includes(year)) {
+      years.push(year);
+    }
+
     // filter time
     if (timestamp < startDateTimestamp || timestamp > endDateTimestamp) {
-      console.log({ startDateTimestamp, endDateTimestamp, timestamp });
       return;
     }
 
@@ -309,6 +316,7 @@ const Graphs = () => {
               legendMin: 0,
               label: "Count",
               title: "Number of Transactions by Date",
+              heightMultiplier: years.length,
             }}
           />
 
