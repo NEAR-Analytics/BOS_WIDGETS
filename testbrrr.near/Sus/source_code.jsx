@@ -243,7 +243,7 @@ const repayDebtTokens = () => {
           gasLimit: 25000000,
         }
       )
-      .then(() => State.update({ txLock: false }));
+      .then(() => props.onClose());
   }
 };
 
