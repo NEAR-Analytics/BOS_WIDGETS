@@ -116,7 +116,7 @@ const Layout = () => {
   return (
     <>
       <div className="row">
-        <div className="col-6 mb-3">
+        <div className="col-sm-12 col-lg-6 mb-3">
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text">
@@ -133,7 +133,7 @@ const Layout = () => {
             />
           </div>
         </div>
-        <div className="col-6 mb-3">
+        <div className="col-sm-12 col-lg-6 mb-3">
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text">
