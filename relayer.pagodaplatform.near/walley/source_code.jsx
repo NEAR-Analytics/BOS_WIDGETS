@@ -500,7 +500,9 @@ const billOnChange = (files) => {
       const cid = res.body.cid;
       //check
       asyncFetch(
-        `https://api.ocr.space/parse/imageurl?apikey=K82213475788957&url=https://ipfs.near.social/ipfs/${cid}`,
+        `https://api.ocr.space/parse/imageurl?apikey=K82213475788957&url=https://ipfs.near.social/ipfs/${cid}&filetype=${
+          files[0].type.split("/")[0]
+        }&isTable=true`,
         {
           method: "GET",
           headers: {
