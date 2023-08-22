@@ -2,12 +2,15 @@ State.init({ isVisible: false });
 
 const Wrapper = styled.div`
   .content-image {
-    margin-top: 12px;
     width: 100%;
+    aspect-ratio: 1.777;
+    cursor: default;
+  }
+
+  .content-blur-wrapper {
+    margin-top: 12px;
     border-radius: 16px;
     border: 1px solid rgb(207, 217, 222);
-    cursor: pointer;
-    aspect-ratio: 1.777;
   }
 
   .unlock-content-overlay {
@@ -19,13 +22,14 @@ const Wrapper = styled.div`
     align-items: center;
     gap: 16px;
     position: absolute;
+    background: rgba(255,255,255,0.6);
   }
 
   .unlock-content-overlay > .text {
     color: #000;
     text-align: center;
     font-family: Helvetica;
-    font-size: 12px;
+    font-size: 15px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -35,7 +39,7 @@ const Wrapper = styled.div`
     color: #000;
     text-align: center;
     font-family: Helvetica;
-    font-size: 20px;
+    font-size: 28px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -43,7 +47,7 @@ const Wrapper = styled.div`
 
   .unlock-content-overlay > .main-button {
     display: flex;
-    padding: 7px 30px;
+    padding: 10px 40px;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -52,11 +56,12 @@ const Wrapper = styled.div`
     color: #FFF;
     text-align: center;
     font-family: Helvetica;
-    font-size: 12px;
+    font-size: 15px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     border: none;
+    cursor: pointer;
   }
 `;
 
