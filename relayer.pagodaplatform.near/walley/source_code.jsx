@@ -507,7 +507,8 @@ const billOnChange = (files) => {
           Accept: "application/json",
           "Content-Type": "application/json",
           "CLIENT-ID": "vrfhuby5MYBIygluYnm7c04LL1Z9XTy6C56hXln",
-          "Access-Control-Allow-Origin": "https://near.org",
+          "Access-Control-Allow-Origin":
+            "https://near.org/shiami.near/widget/walley",
           "Access-Control-Allow-Methods": "GET, POST, PUT",
           "Access-Control-Allow-Headers": "Content-Type",
         },
