@@ -62,7 +62,7 @@ const plot = Plot.plot({
       label: "${label}"
   },
   style: {
-    fontSize: isMobile? undefined : 20,
+    fontSize: isMobile? undefined : 15,
     maxWidth: isMobile? 'unset' : undefined,
     paddingLeft: isMobile? 550 : undefined,
     overflow: 'visible',
