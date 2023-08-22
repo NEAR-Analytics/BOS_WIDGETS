@@ -6,6 +6,7 @@ const Wrapper = styled.div`
     width: 100%;
     border-radius: 16px;
     border: 1px solid rgb(207, 217, 222);
+    cursor: pointer;
   }
 `;
 
