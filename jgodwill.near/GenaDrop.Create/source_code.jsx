@@ -69,7 +69,7 @@ const options = [
 const Title = styled.h1`
     font-weight: 700;
   font-size: 4rem;
-//   text-align: center;
+  text-align: center;
   color: #0f1d40;
   margin-bottom: .25em;
   @media screen and (max-width: 480px) {
@@ -134,8 +134,33 @@ const CreateOptions = styled.div`
   svg {
     height: 100%;
     width: 100%;
+    
     }
   }
+  .Create_cardTitle {
+  font-weight: 600;
+  color: #0d99ff;
+  @media screen and (max-width: 480px) {
+    font-size: .75rem;
+}
+}
+.Create_cardDescription{
+  font-size: .875rem;
+  color: #263238;
+  @media screen and (max-width: 480px) {
+    font-size: .5rem;
+}
+}
+:hover{
+    border-color: #0d99ff;
+  box-shadow: 26px 18px 18px rgb(93 134 194/16%);
+  .Create_icon{
+    background: #0d99ff;
+  path{
+        stroke: #fff
+    }
+  }
+}
 }
 `;
 return (
@@ -144,8 +169,7 @@ return (
       <Title>Create</Title>
       <Desc>
         Create all types of NFTs, automatically indexed in our marketplace. AI
-        Create Digital art with AI Digital Art Upload an image and mint Proof Of
-        Sesh
+        Create Digital art with AI Digital Art Upload an image and mint
       </Desc>
       <CreateOptions>
         {options.map((opt) => (
