@@ -460,29 +460,29 @@ const initTransaction = () => {
 
 const cancelTransaction = (tokenId) => {
   walleyContract.returnPass(tokenId).then((password) => {
-    if (state.user.cancelPassword === password) {
-      State.update({
-        loading: true,
-        loadingMsg: "Cancelling your transaction - Pay for the gas",
-      });
-      nftContract
-        .cancelTransaction(walleyAddress, tokenId, { from: sender })
-        .then((tx) => {
-          State.update({ loadingMsg: "Refunding your amount" });
-          tx.wait().then((r) => {
-            const transactions = state.user.userPendingTransactions.filter(
-              (txn) => Big(txn[1]).toFixed(0) !== tokenId
-            );
-            State.update({
-              loading: false,
-              loadingMsg: "",
-              user: { userPendingTransactions: transactions },
-            });
+    // if (state.user.cancelPassword === password) {
+    State.update({
+      loading: true,
+      loadingMsg: "Cancelling your transaction - Pay for the gas",
+    });
+    nftContract
+      .cancelTransaction(walleyAddress, tokenId, { from: sender })
+      .then((tx) => {
+        State.update({ loadingMsg: "Refunding your amount" });
+        tx.wait().then((r) => {
+          const transactions = state.user.userPendingTransactions.filter(
+            (txn) => Big(txn[1]).toFixed(0) !== tokenId
+          );
+          State.update({
+            loading: false,
+            loadingMsg: "",
+            user: { userPendingTransactions: transactions },
           });
         });
-    } else {
-      console.log("Please re-check the password");
-    }
+      });
+    // } else {
+    //   console.log("Please re-check the password");
+    // }
   });
 };
 
