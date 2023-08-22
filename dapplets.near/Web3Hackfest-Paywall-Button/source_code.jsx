@@ -64,20 +64,20 @@ return (
       role="button"
       className="button-default"
       onClick={() => props.onClick()}
-      styles={{
+      style={{
         opacity: props.disabled ? ".5" : "1",
       }}
       disabled={props.disabled}
     >
       <div
-        styles={{
+        style={{
           opacity: props.disabled ? ".5" : "1",
           display: "flex",
           "align-items": "center",
           "margin-right": props.label?.toString() ? "12px" : 0,
         }}
       >
-        <img src={props.icon} class="button-img-display" />
+        <img src={props.icon} className="button-img-display" />
       </div>
       <div>
         <span>{props.label}</span>
