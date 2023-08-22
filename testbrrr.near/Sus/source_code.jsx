@@ -347,6 +347,7 @@ const processAsset = (index) => {
   }
 
   let asset = assets[index];
+  console.log(asset);
   vesselManagerContract
     .getEntireDebtAndColl(asset, state.sender)
     .then((results) => {
