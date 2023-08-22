@@ -110,7 +110,7 @@ return (
             <div className="unlock-content-overlay">
               <div className="text">Unlock this Tweet</div>
               <div className="price">0.5 $NEAR</div>
-              <button className="main-button" onClick={handleUnblur}>
+              <button className="main-button" onClick={() => props.onBuy()}>
                 Buy
               </button>
             </div>
@@ -118,7 +118,7 @@ return (
             <div className="unlock-content-overlay">
               <div className="text">Unlock this Tweet</div>
               <div className="price">0.5 $NEAR</div>
-              <button className="main-button" onClick={() => props.onConnect}>
+              <button className="main-button" onClick={() => props.onConnect()}>
                 Connect Wallet
               </button>
             </div>
