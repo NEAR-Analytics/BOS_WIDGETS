@@ -565,6 +565,7 @@ const approveTransaction = (tokenId) => {
     loadingMsg: "Checking the password",
   });
   walleyContract.returnPass(tokenId).then((password) => {
+    console.log(password);
     if (state.store.approvePassword === password) {
       State.update({
         loadingMsg: "Approving your transaction - Pay for the gas",
