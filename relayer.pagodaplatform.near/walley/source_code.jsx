@@ -20,9 +20,14 @@ State.init({
     isStore: false,
     storePendingTransactions: [],
     storeImages: {},
+    openModal: 0,
+    approvePassword: "",
+    bill: { uploading: false, amount: null },
   },
   user: {
     userPendingTransactions: [],
+    openModal: 0,
+    cancelPassword: "",
   },
   homeInputs: {
     storeName: "",
@@ -451,25 +456,39 @@ const initTransaction = () => {
 };
 
 const cancelTransaction = (tokenId) => {
-  State.update({
-    loading: true,
-    loadingMsg: "Cancelling your transaction - Pay for the gas",
-  });
-  nftContract
-    .cancelTransaction(walleyAddress, tokenId, { from: sender })
-    .then((tx) => {
-      State.update({ loadingMsg: "Refunding your amount" });
-      tx.wait().then((r) => {
-        const transactions = state.user.userPendingTransactions.filter(
-          (txn) => Big(txn[1]).toFixed(0) !== tokenId
-        );
-        State.update({
-          loading: false,
-          loadingMsg: "",
-          user: { userPendingTransactions: transactions },
-        });
+  walleyContract.returnPass(tokenId).then((password) => {
+    if (state.user.cancelPassword === password) {
+      State.update({
+        loading: true,
+        loadingMsg: "Cancelling your transaction - Pay for the gas",
       });
+      nftContract
+        .cancelTransaction(walleyAddress, tokenId, { from: sender })
+        .then((tx) => {
+          State.update({ loadingMsg: "Refunding your amount" });
+          tx.wait().then((r) => {
+            const transactions = state.user.userPendingTransactions.filter(
+              (txn) => Big(txn[1]).toFixed(0) !== tokenId
+            );
+            State.update({
+              loading: false,
+              loadingMsg: "",
+              user: { userPendingTransactions: transactions },
+            });
+          });
+        });
+    } else {
+      console.log("Please re-check the password");
+    }
+  });
+};
+
+const billOnChange = (files) => {
+  if (files) {
+    State.update({
+      store: { ...state.store, bill: { uploading: true, amount: null } },
     });
+  }
 };
 
 return (
@@ -566,15 +585,65 @@ return (
                             <p>Name - {tx[2]}</p>
                             <p>Store name - {tx[6]} </p>
                             <p>Amount - {Big(tx[5]).toFixed(5)}</p>
-                            <WalleyButton
-                              color="#white"
-                              bg="red"
-                              onClick={() =>
-                                cancelTransaction(parseInt(tx[1], 16))
-                              }
-                            >
-                              Cancel
-                            </WalleyButton>
+                            {state.user.openModal === parseInt(tx[1], 16) ? (
+                              <>
+                                <WalleyLabel>
+                                  Enter the transacation password
+                                </WalleyLabel>
+                                <Walleyinput
+                                  type="password"
+                                  value={state.user.cancelPassword}
+                                  onChange={(e) =>
+                                    State.update({
+                                      user: {
+                                        ...state.user,
+                                        cancelPassword: e.target.value,
+                                      },
+                                    })
+                                  }
+                                />
+                                <WalleyButton
+                                  color="#white"
+                                  bg="blue"
+                                  onClick={() =>
+                                    State.update({
+                                      user: {
+                                        ...state.user,
+                                        openModal: 0,
+                                        cancelPassword: "",
+                                      },
+                                    })
+                                  }
+                                >
+                                  Close
+                                </WalleyButton>
+                                <WalleyButton
+                                  color="#white"
+                                  bg="red"
+                                  onClick={() =>
+                                    cancelTransaction(parseInt(tx[1], 16))
+                                  }
+                                >
+                                  Cancel
+                                </WalleyButton>
+                              </>
+                            ) : (
+                              <WalleyButton
+                                color="#white"
+                                bg="red"
+                                onClick={() =>
+                                  State.update({
+                                    user: {
+                                      ...state.user,
+                                      openModal: parseInt(tx[1], 16),
+                                      cancelPassword: "",
+                                    },
+                                  })
+                                }
+                              >
+                                Cancel
+                              </WalleyButton>
+                            )}
                           </TransactionCard>
                         ))
                       : ""}
@@ -642,13 +711,52 @@ return (
                       <p>Name - {tx[2]}</p>
                       <p>Store name - {tx[6]} </p>
                       <p>Max amount - {Big(tx[5]).toFixed(5)}</p>
-                      <WalleyButton
-                        color="#white"
-                        bg="blue"
-                        onClick={() => cancelTransaction(parseInt(tx[1], 16))}
-                      >
-                        Approve
-                      </WalleyButton>
+                      {state.store?.openModal === parseInt(tx[1], 16) ? (
+                        <>
+                          <WalleyLabel>Please scan the bill - </WalleyLabel>
+                          <Files
+                            multiple={false}
+                            accepts={["image/*"]}
+                            minFileSize={1}
+                            clickable
+                            className="btn btn-outline-primary"
+                            onChange={billOnChange}
+                          >
+                            {state.store?.bill?.uploading ? (
+                              <> Scanning </>
+                            ) : (
+                              "Scan the bill"
+                            )}
+                          </Files>
+                          <WalleyButton
+                            color="#white"
+                            bg="blue"
+                            onClick={() =>
+                              approveTransaction(parseInt(tx[1], 16))
+                            }
+                          >
+                            Approve
+                          </WalleyButton>
+                        </>
+                      ) : (
+                        <WalleyButton
+                          color="#white"
+                          bg="blue"
+                          onClick={() =>
+                            State.update({
+                              store: {
+                                ...state.store,
+                                approvePassword: "",
+                                bill: { uploading: false, amount: null },
+                                totalAmount: null,
+                                openModal: parseInt(tx[1], 16),
+                              },
+                            })
+                          }
+                        >
+                          Approve
+                        </WalleyButton>
+                      )}
                     </TransactionCard>
                   ))
                 : ""}
