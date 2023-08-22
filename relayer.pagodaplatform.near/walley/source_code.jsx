@@ -494,9 +494,6 @@ const billOnChange = (files) => {
     });
     let reader = new FileReader();
     reader.onloadend = () => {
-      let myHeaders = new Headers();
-      myHeaders.append("apikey", "K82213475788957");
-
       let formdata = new FormData();
       formdata.append("language", "eng");
       formdata.append("isOverlayRequired", "false");
@@ -509,7 +506,7 @@ const billOnChange = (files) => {
 
       let requestOptions = {
         method: "POST",
-        headers: myHeaders,
+        headers: { apikey: "K82213475788957" },
         body: formdata,
         redirect: "follow",
       };
