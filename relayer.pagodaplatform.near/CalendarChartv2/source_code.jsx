@@ -96,7 +96,7 @@ return (
     {props.title && <strong>{props.title}</strong>}
     <iframe
       className="w-100"
-      style={{ height: 350 * props.heightMultiplier }}
+      style={{ height: 250 * props.heightMultiplier }}
       srcDoc={code}
     />
   </div>
