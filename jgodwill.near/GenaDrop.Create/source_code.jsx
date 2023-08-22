@@ -103,7 +103,7 @@ const CreateOptions = styled.div`
   justify-content: space-between;
   align-items:center;
   margin: 0 auto;
-  width: 100%;
+  width: 90%;
   .Create_card {
   background: #fff;
   text-decoration: none;
