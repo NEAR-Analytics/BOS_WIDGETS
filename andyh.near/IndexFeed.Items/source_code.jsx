@@ -1,8 +1,6 @@
 const { manual, reverse, fetchMore, items, hasMore } = props;
 const makeMoreItems = useComponentCallback(props.makeMoreItems);
 const renderItems = useComponentCallback(props.renderItems, items);
-const renderedItems = renderItems();
-console.log({ items, renderedItems });
 
 return props.manual ? (
   <>
@@ -27,7 +25,7 @@ return props.manual ? (
     }
   >
     {props.headerElement}
-    {renderedItems}
+    {renderItems()}
     {props.footerElement}
   </InfiniteScroll>
 );
