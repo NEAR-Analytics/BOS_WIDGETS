@@ -310,24 +310,42 @@ const Graphs = () => {
               </div>
             </div>
           </div>
-          {/** Calendar Chart */}
+
           <div className="mt-5"></div>
-          <Widget
-            src="leslug.near/widget/CalendarChartv2"
-            props={{
-              dateColumn: "DATE",
-              dataColumn: "TRANSACTIONS",
-              data: txByDateArray,
-              legendMax: maxTransaction,
-              legendMin: 0,
-              label: "Count",
-              title: "Number of Transactions by Date",
-              heightMultiplier: years.length,
-            }}
-          />
 
           {/** Line Chart */}
           <div className="row">
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="leslug.near/widget/CalendarChartv2"
+                props={{
+                  dateColumn: "DATE",
+                  dataColumn: "TRANSACTIONS",
+                  data: txByDateArray,
+                  legendMax: maxTransaction,
+                  legendMin: 0,
+                  label: "Count",
+                  title: "Number of Transactions by Date",
+                  heightMultiplier: years.length,
+                }}
+              />
+            </div>
+            <div className="col-sm-12 col-lg-6">
+              <Widget
+                src="kida.near/widget/Untitled-5"
+                props={{
+                  xColumn: "DATE",
+                  yColumn: "CUM_CALL_CONTRACTS",
+                  data: newData,
+                  legendMax: totalCallContracts,
+                  legendMin: 0,
+                  label: "Count",
+                  strokeColumn: "PROJECT_NAME",
+                  isXDate: true,
+                  title: "Cumulative Contract Calls",
+                }}
+              />
+            </div>
             <div className="col-sm-12 col-lg-6">
               <Widget
                 src="kida.near/widget/Untitled-3"
@@ -459,20 +477,6 @@ const Graphs = () => {
               />
             </div>
           </div>
-          <Widget
-            src="kida.near/widget/Untitled-5"
-            props={{
-              xColumn: "DATE",
-              yColumn: "CUM_CALL_CONTRACTS",
-              data: newData,
-              legendMax: totalCallContracts,
-              legendMin: 0,
-              label: "Count",
-              strokeColumn: "PROJECT_NAME",
-              isXDate: true,
-              title: "Cumulative Contract Calls",
-            }}
-          />
         </>
       )}
     </>
