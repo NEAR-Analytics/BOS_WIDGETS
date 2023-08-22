@@ -217,10 +217,6 @@ const fieldParamsByType = {
     name: "components.molecule.text-input",
     inputProps: { type: "text" },
   },
-
-  markdown: {
-    name: "components.molecule.markdown-editor"
-  },
 };
 
 const defaultFieldsRender = ({ schema, form, isEditable }) => (
@@ -235,14 +231,9 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
           "m-0",
         ].join(" ");
 
-        let fieldType;
-        if (Array.isArray(form.values[fieldKey])) {
-          fieldType = "array";
-        } else if (format === "markdown") {
-          fieldType = "markdown";
-        } else {
-          fieldType = typeof (form.values[fieldKey] ?? "");
-        }
+        const fieldType = Array.isArray(form.values[fieldKey])
+          ? "array"
+          : typeof (form.values[fieldKey] ?? "");
 
         return (
           <>
@@ -308,6 +299,7 @@ const Editor = ({
   data,
   fieldsRender: customFieldsRender,
   formatter: toFormatted,
+  fullWidth,
   heading,
   isEditorActive,
   isEditingAllowed,
@@ -360,6 +352,7 @@ const Editor = ({
 
   return widget("components.molecule.tile", {
     className: classNames.root,
+    fullWidth,
     heading,
     noFrame: noEditorFrame,
 
@@ -403,7 +396,10 @@ const Editor = ({
             {widget("components.atom.button", {
               classNames: {
                 root: classNames.submit ?? "btn-success",
-                adornment: `bi ${classNames.submitAdornment}`,
+
+                adornment: `bi ${
+                  classNames.submitAdornment ?? "bi-check-circle-fill"
+                }`,
               },
 
               disabled: !form.hasUnsubmittedChanges,
