@@ -47,6 +47,12 @@ const area_chart_data = {
 
 const stacked_options = {
   maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      display: true,
+      position: "bottom",
+    },
+  },
   scales: {
     y: {
       grid: {
