@@ -565,7 +565,7 @@ const approveTransaction = (tokenId) => {
     loadingMsg: "Checking the password",
   });
   walleyContract.returnPass(tokenId).then((password) => {
-    if (state.user.cancelPassword === password) {
+    if (state.store.approvePassword === password) {
       State.update({
         loadingMsg: "Approving your transaction - Pay for the gas",
       });
@@ -583,7 +583,7 @@ const approveTransaction = (tokenId) => {
             loadingMsg: "Waiting for confirmation - Refunding the change",
           });
           tx.wait().then((res) => {
-            const tmp = state.sstore.storePendingTransactions.filter(
+            const tmp = state.store.storePendingTransactions.filter(
               (trans) => Big(trans[1]).toFixed(0) !== tokenId
             );
             State.update({
@@ -837,6 +837,7 @@ return (
                               "Scan the bill"
                             )}
                           </Files>*/}
+                          <WalleyLabel>Total Bill Amount</WalleyLabel>
                           <WalleyInput
                             value={state.store.totalAmount}
                             onChange={(e) =>
@@ -844,6 +845,18 @@ return (
                                 store: {
                                   ...state.store,
                                   totalAmount: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                          <WalleyLabel>Transaction Password</WalleyLabel>
+                          <WalleyInput
+                            value={state.store.approvePassword}
+                            onChange={(e) =>
+                              State.update({
+                                store: {
+                                  ...state.store,
+                                  approvePassword: e.target.value,
                                 },
                               })
                             }
