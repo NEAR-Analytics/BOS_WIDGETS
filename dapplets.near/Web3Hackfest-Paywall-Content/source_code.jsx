@@ -8,11 +8,17 @@ const Wrapper = styled.div`
     border: 1px solid rgb(207, 217, 222);
     cursor: pointer;
   }
+
+  .content-blur-wrapper {
+
+  }
 `;
 
 if (props.post.id !== "1691462269182611456") {
   return <></>;
 }
+
+console.log(Near.view("nearsocialexamples.near", "get_greeting"));
 
 function handleBlur() {
   State.update({ isVisible: false });
@@ -33,11 +39,14 @@ return (
         src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-original.png`}
       />
     ) : (
-      <img
-        className="content-image"
-        onClick={handleUnblur}
-        src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png`}
-      />
+      <div className="content-blur-wrapper">
+        <div></div>
+        <img
+          className="content-image"
+          onClick={handleUnblur}
+          src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png`}
+        />
+      </div>
     )}
   </Wrapper>
 );
