@@ -7,6 +7,7 @@ const Wrapper = styled.div`
     border-radius: 16px;
     border: 1px solid rgb(207, 217, 222);
     cursor: pointer;
+    aspect-ratio: 2;
   }
 
   .content-blur-wrapper {
