@@ -57,45 +57,22 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  get_root_members: () =>
-    Near.view(devHubAccountId, "get_root_members") ?? null,
-
-  has_moderator: ({ account_id }) =>
-    Near.view(devHubAccountId, "has_moderator", { account_id }) ?? null,
-
-  create_community: ({ inputs }) =>
-    Near.call(devHubAccountId, "create_community", { inputs }),
-
-  get_community: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
-
-  get_account_community_permissions: ({ account_id, community_handle }) =>
-    Near.view(devHubAccountId, "get_account_community_permissions", {
-      account_id,
-      community_handle,
-    }) ?? null,
-
-  update_community: ({ handle, community }) =>
-    Near.call(devHubAccountId, "update_community", { handle, community }),
-
-  delete_community: ({ handle }) =>
-    Near.call(devHubAccountId, "delete_community", { handle }),
-
-  update_community_board: ({ handle, board }) =>
-    Near.call(devHubAccountId, "update_community_board", { handle, board }),
-
   update_community_github: ({ handle, github }) =>
-    Near.call(devHubAccountId, "update_community_github", { handle, github }),
+    Near.call(devHubAccountId, "update_community_github", { handle, github }) ??
+    null,
 
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
   get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
 
-  get_all_communities_metadata: () =>
+  get_all_communities: () =>
     Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
+
+  get_community: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
 
   get_post: ({ post_id }) =>
     Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
@@ -108,7 +85,10 @@ const DevHub = {
       label,
     }) ?? null,
 
-  useQuery: (name, params) => {
+  get_root_members: () =>
+    Near.view(devHubAccountId, "get_root_members") ?? null,
+
+  useQuery: ({ name, params }) => {
     const initialState = { data: null, error: null, isLoading: true };
 
     const cacheState = useCache(
@@ -134,22 +114,16 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
-const CommunityActivityPage = ({ handle, transactionHashes }) => {
-  State.init({ isSpawnerHidden: true });
-
-  const spawnerToggle = (forcedState) =>
-    State.update((lastKnownState) => ({
-      ...lastKnownState,
-      isSpawnerHidden: !(forcedState ?? lastKnownState.isSpawnerHidden),
-    }));
-
+const CommunityActivityPage = ({ handle }) => {
   const communityData = DevHub.get_community({ handle });
 
-  return widget("entity.community.layout", {
-    path: [{ label: "Communities", pageId: "communities" }],
-    title: "Activity",
-    handle,
+  if (communityData === null) {
+    return <div>Loading...</div>;
+  }
 
+  return widget("components.template.community-page", {
+    handle,
+    title: "Activity",
     children:
       communityData !== null ? (
         <div class="row">
@@ -159,41 +133,23 @@ const CommunityActivityPage = ({ handle, transactionHashes }) => {
                 <div class="d-flex align-items-center justify-content-between">
                   <small class="text-muted">
                     <span>Required tags:</span>
-
                     {widget("components.atom.tag", {
                       linkTo: "Feed",
                       ...communityData,
                     })}
                   </small>
-
-                  {widget("components.molecule.button", {
-                    icon: {
-                      type: "bootstrap_icon",
-                      variant: "bi-plus-circle-fill",
-                    },
-
-                    isHidden: !state.isSpawnerHidden,
-                    label: "Post",
-                    onClick: () => spawnerToggle(true),
+                  {widget("components.layout.Controls", {
+                    labels: communityData.tag,
                   })}
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col">
-                {widget("entity.post.Spawner", {
-                  isHidden: state.isSpawnerHidden,
-                  onCancel: () => spawnerToggle(false),
-                  tags: [communityData.tag],
-                  transactionHashes,
-                })}
-
                 {widget("entity.post.List", { tag: communityData.tag })}
               </div>
             </div>
           </div>
-
           <div class="col-md-3 container-fluid">
             {widget("entity.community.sidebar", {
               handle: communityData.handle,
