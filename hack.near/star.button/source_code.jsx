@@ -13,7 +13,7 @@ const starEdge = Social.keys(
 
 const starred = starEdge && Object.keys(starEdge).length > 0;
 
-const type = star ? "unstar" : "star";
+const type = starred ? "unstar" : "star";
 
 const data = {
   graph: {
