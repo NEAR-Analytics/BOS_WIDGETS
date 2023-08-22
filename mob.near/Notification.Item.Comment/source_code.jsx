@@ -8,7 +8,7 @@ return (
         <>
           <a
             className="fw-bold text-muted"
-            href={`#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
+            href={`/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             replied
           </a>{" "}
@@ -16,7 +16,7 @@ return (
           {value.item.path === `${context.accountId}/post/main` ? (
             <a
               className="fw-bold text-muted"
-              href={`#/mob.near/widget/MainPage.Post.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+              href={`/mob.near/widget/MainPage.N.Post.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
             >
               post
             </a>
@@ -28,8 +28,8 @@ return (
       R: (
         <>
           <a
-            className="btn btn-outline-dark"
-            href={`#/mob.near/widget/MainPage.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
+            className="btn btn-outline-dark rounded-5"
+            href={`/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`}
           >
             View comment
           </a>
