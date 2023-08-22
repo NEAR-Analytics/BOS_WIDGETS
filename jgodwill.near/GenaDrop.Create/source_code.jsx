@@ -115,6 +115,7 @@ const CreateOptions = styled.div`
   justify-content: center;
   padding: 3.5rem 1rem;
   width: 100%;
+  max-width: 500px;
   cursor: pointer;
   text-align: center;
   @media screen and (max-width: 480px) {
