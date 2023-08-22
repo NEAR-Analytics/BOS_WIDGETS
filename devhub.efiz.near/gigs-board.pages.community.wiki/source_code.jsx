@@ -57,45 +57,22 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  get_root_members: () =>
-    Near.view(devHubAccountId, "get_root_members") ?? null,
-
-  has_moderator: ({ account_id }) =>
-    Near.view(devHubAccountId, "has_moderator", { account_id }) ?? null,
-
-  create_community: ({ inputs }) =>
-    Near.call(devHubAccountId, "create_community", { inputs }),
-
-  get_community: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
-
-  get_account_community_permissions: ({ account_id, community_handle }) =>
-    Near.view(devHubAccountId, "get_account_community_permissions", {
-      account_id,
-      community_handle,
-    }) ?? null,
-
-  update_community: ({ handle, community }) =>
-    Near.call(devHubAccountId, "update_community", { handle, community }),
-
-  delete_community: ({ handle }) =>
-    Near.call(devHubAccountId, "delete_community", { handle }),
-
-  update_community_board: ({ handle, board }) =>
-    Near.call(devHubAccountId, "update_community_board", { handle, board }),
-
   update_community_github: ({ handle, github }) =>
-    Near.call(devHubAccountId, "update_community_github", { handle, github }),
+    Near.call(devHubAccountId, "update_community_github", { handle, github }) ??
+    null,
 
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
   get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
 
-  get_all_communities_metadata: () =>
+  get_all_communities: () =>
     Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
+
+  get_community: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
 
   get_post: ({ post_id }) =>
     Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
@@ -108,7 +85,10 @@ const DevHub = {
       label,
     }) ?? null,
 
-  useQuery: (name, params) => {
+  get_root_members: () =>
+    Near.view(devHubAccountId, "get_root_members") ?? null,
+
+  useQuery: ({ name, params }) => {
     const initialState = { data: null, error: null, isLoading: true };
 
     const cacheState = useCache(
@@ -134,6 +114,19 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
+const onMention = (accountId) => (
+  <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
+    <Widget
+      src="neardevgov.near/widget/ProfileLine"
+      props={{
+        accountId: accountId.toLowerCase(),
+        hideAccountId: true,
+        tooltip: true,
+      }}
+    />
+  </span>
+);
+
 const WikiPage = ({ handle, id }) => {
   const communityData = DevHub.get_community({ handle });
 
@@ -142,14 +135,15 @@ const WikiPage = ({ handle, id }) => {
     content_markdown: "This page doesn't exist.",
   };
 
-  return widget("entity.community.layout", {
-    path: [{ label: "Communities", pageId: "communities" }],
+  return widget("components.template.community-page", {
     handle,
     title: name,
 
     children:
       communityData !== null ? (
-        <div>{widget("components.molecule.markdown-viewer", { text })}</div>
+        <div>
+          <Markdown className="card-text" {...{ onMention, text }} />
+        </div>
       ) : (
         <div className={typeof id !== "string" ? "alert alert-danger" : ""}>
           {typeof id === "string"
