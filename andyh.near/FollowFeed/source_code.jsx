@@ -19,7 +19,7 @@ const renderItem = (a) => {
       <Widget
         src="andyh.near/widget/ProfileLine"
         props={{ accountId: a.accountId, hideAccountId: true, tooltip: true }}
-        isTrusted={true}
+        isTrusted={false}
       />
       <span className="text-muted">
         {a.value?.type === "follow" ? "followed" : "unfollowed"}
@@ -31,13 +31,13 @@ const renderItem = (a) => {
           hideAccountId: true,
           tooltip: true,
         }}
-        isTrusted={true}
+        isTrusted={false}
       />
       <span className="text-muted">
         <Widget
           src="andyh.near/widget/TimeAgo"
           props={{ blockHeight: a.blockHeight }}
-          isTrusted={true}
+          isTrusted={false}
         />
       </span>
     </Item>
