@@ -497,7 +497,6 @@ const billOnChange = (files) => {
       {
         method: "POST",
         headers: {
-          Accept: "multipart/form-data",
           Authorization: "Token 8f03518ad4e3fea9c1753f51820f1941",
         },
         body: files,
