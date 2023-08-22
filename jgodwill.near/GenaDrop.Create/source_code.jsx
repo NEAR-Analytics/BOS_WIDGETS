@@ -105,6 +105,7 @@ const CreateOptions = styled.div`
   width: 100%;
   .Create_card {
   background: #fff;
+  text-decoration: none;
   border: 1px solid #e5e8eb;
   box-shadow: 26px 18px 18px rgba(93,134,194,.05);
   border-radius: 20px;
