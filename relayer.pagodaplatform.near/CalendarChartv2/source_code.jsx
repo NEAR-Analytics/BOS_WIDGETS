@@ -29,6 +29,7 @@ const shouldRotate = window.innerWidth <= 450;
 
 if(shouldRotate) {
   document.querySelector('#myplot').style.transform = 'rotate(90deg)';
+  window.postMessage("hi", "hihi");
 }
 
 const data = ${JSON.stringify(data ?? [])};
