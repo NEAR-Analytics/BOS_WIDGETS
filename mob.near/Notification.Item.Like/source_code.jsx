@@ -10,14 +10,14 @@ return (
           {value.item.path === `${context.accountId}/post/main` ? (
             <a
               className="fw-bold text-muted"
-              href={`#/mob.near/widget/MainPage.Post.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+              href={`#/mob.near/widget/MainPage.N.Post.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
             >
               post
             </a>
           ) : value.item.path === `${context.accountId}/post/comment` ? (
             <a
               className="fw-bold text-muted"
-              href={`#/mob.near/widget/MainPage.Comment.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
+              href={`#/mob.near/widget/MainPage.N.Comment.Page?accountId=${context.accountId}&blockHeight=${value.item.blockHeight}`}
             >
               comment
             </a>
