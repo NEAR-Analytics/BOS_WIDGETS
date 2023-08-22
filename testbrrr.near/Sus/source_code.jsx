@@ -350,7 +350,7 @@ const processAsset = (index) => {
   vesselManagerContract
     .getEntireDebtAndColl(asset, state.sender)
     .then((results) => {
-      console.log(result);
+      console.log(results);
       balances.push({
         asset: getAssetFromAddress(asset),
         debt: results[0].div("1000000000000000000").toString(),
