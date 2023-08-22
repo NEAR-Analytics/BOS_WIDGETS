@@ -32,7 +32,7 @@ function fetchTokens() {
       const tokens = res.body.data.mb_views_nft_tokens;
 
       State.update({
-        tokens: [...state.tokens, ...tokens],
+        tokens: [...tokens],
         hasMore: false,
       });
     }
