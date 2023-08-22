@@ -22,16 +22,20 @@ function calendar({
     ...options
   };
 }
-const data = ${JSON.stringify(data ?? [])};
 const shouldRotate = window.innerWidth <= 450;
+
+if(shouldRotate) {
+  document.querySelector('#myplot').style.transform = 'rotate(90deg)';
+}
+
+const data = ${JSON.stringify(data ?? [])};
 
 const start = d3.utcDay.offset(d3.min(data, (d) => new Date(d.${dateColumn}))); // exclusive
 const end = d3.utcDay.offset(d3.max(data, (d) => new Date(d.${dateColumn}))); // exclusive
 
 const plot = Plot.plot({
   padding: 0,
-  margin: shouldRotate? '0' : 'unset',
-  height: shouldRotate? '80vw' : 'unset',
+  height: shouldRotate? '80vw' : undefined,
   width: 780,
   x: {axis: null},
   y: {
@@ -50,8 +54,7 @@ const plot = Plot.plot({
       label: "${label}"
   },
   style: {
-    fontSize: 16,
-    transform: shouldRotate? 'rotate(90deg)' : 'unset',
+    fontSize: 16
   },
   marks: [
 
