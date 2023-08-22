@@ -39,43 +39,59 @@ const imgWrapperStyle = {
   marginRight: "0.1em",
 };
 
-const Tooltip = (props) => {
-  if (tooltip) {
-    if (props.tooltip === true) {
-      return (
-        <Widget
-          src="mob.near/widget/Profile.OverlayTrigger"
-          props={{ accountId, children: inner }}
-        />
-      );
-    } else {
-      return (
-        <OverlayTrigger placement="auto" overlay={<Tooltip>{tooltip}</Tooltip>}>
-          {inner}
-        </OverlayTrigger>
-      );
-    }
-  }
+const Wrap = (props) => {
+  const inner = link ? (
+    <a
+      href={
+        link !== true
+          ? link
+          : `/mob.near/widget/ProfilePage?accountId=${accountId}`
+      }
+      className="text-truncate d-inline-flex"
+      style={{ color: "inherit" }}
+    >
+      {props.children}
+    </a>
+  ) : (
+    <span className="text-truncate d-inline-flex">{props.children}</span>
+  );
+
+  return tooltip ? (
+    props.tooltip === true ? (
+      <Widget
+        src="mob.near/widget/Profile.OverlayTrigger"
+        props={{ accountId, children: inner }}
+      />
+    ) : (
+      <OverlayTrigger placement="auto" overlay={<Tooltip>{tooltip}</Tooltip>}>
+        {inner}
+      </OverlayTrigger>
+    )
+  ) : (
+    inner
+  );
 };
 
-let inner = (
+return (
   <GrayWrapper>
-    {!hideImage && (
-      <Widget
-        key="image"
-        src="mob.near/widget/ProfileImage"
-        loading={<div style={imgWrapperStyle} />}
-        props={{
-          fast,
-          style: imgWrapperStyle,
-          profile,
-          accountId,
-          className: "d-inline-block",
-          imageClassName: "rounded-circle w-100 h-100",
-        }}
-      />
-    )}
-    {!hideName && <span key="name">{name}</span>}
+    <Wrap>
+      {!hideImage && (
+        <Widget
+          key="image"
+          src="mob.near/widget/ProfileImage"
+          loading={<div style={imgWrapperStyle} />}
+          props={{
+            fast,
+            style: imgWrapperStyle,
+            profile,
+            accountId,
+            className: "d-inline-block",
+            imageClassName: "rounded-circle w-100 h-100",
+          }}
+        />
+      )}
+      {!hideName && <span key="name">{name}</span>}
+    </Wrap>
     {!hideCheckmark && (
       <Widget
         key="checkmark"
@@ -83,26 +99,12 @@ let inner = (
         props={{ accountId }}
       />
     )}
-    {!hideAccountId && (
-      <span key="accountId" className="text-muted">
-        @{accountId}
-      </span>
-    )}
+    <Wrap>
+      {!hideAccountId && (
+        <span key="accountId" className="text-muted">
+          @{accountId}
+        </span>
+      )}
+    </Wrap>
   </GrayWrapper>
-);
-
-inner = link ? (
-  <a
-    href={
-      link !== true
-        ? link
-        : `/mob.near/widget/ProfilePage?accountId=${accountId}`
-    }
-    className="text-truncate d-inline-flex"
-    style={{ color: "inherit" }}
-  >
-    {inner}
-  </a>
-) : (
-  <span className="text-truncate d-inline-flex">{inner}</span>
 );
