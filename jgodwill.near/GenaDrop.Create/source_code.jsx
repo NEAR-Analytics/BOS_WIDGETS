@@ -76,7 +76,7 @@ const Title = styled.h1`
   margin-bottom: .25em;
   @media screen and (max-width: 480px) {
     font-size: 2rem;
-}
+  }
 `;
 const Desc = styled.p`
   font-size: 1.25rem;
@@ -85,7 +85,7 @@ const Desc = styled.p`
   text-align: center;
   @media screen and (max-width: 480px) {
     font-size: 15px;
-}
+  }
 `;
 const Header = styled.div`
     margin-top: 2rem;
