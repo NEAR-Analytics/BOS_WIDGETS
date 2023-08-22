@@ -106,13 +106,23 @@ return (
             className="content-image"
             src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png`}
           />
-          <div className="unlock-content-overlay">
-            <div className="text">Unlock this Tweet</div>
-            <div className="price">0.5 $NEAR</div>
-            <button className="main-button" onClick={handleUnblur}>
-              Buy
-            </button>
-          </div>
+          {props.accountId ? (
+            <div className="unlock-content-overlay">
+              <div className="text">Unlock this Tweet</div>
+              <div className="price">0.5 $NEAR</div>
+              <button className="main-button" onClick={handleUnblur}>
+                Buy
+              </button>
+            </div>
+          ) : (
+            <div className="unlock-content-overlay">
+              <div className="text">Connect your wallet</div>
+              <div className="price">This Tweet is locked</div>
+              <button className="main-button" onClick={() => props.onConnect}>
+                Connect
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>
