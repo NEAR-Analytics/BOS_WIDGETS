@@ -327,7 +327,7 @@ const FeatureContainer = styled.div`
 .Features_featureContainer.reverse{
   flex-direction: row-reverse;
     @media screen and (max-width: 900px) {
-      flex-direction: column;
+      flex-direction: column-reverse;
   }
 }
   .Features_content{
