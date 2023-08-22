@@ -64,7 +64,7 @@ const AutoComplete = styled.div`
 
 function textareaInputHandler(value) {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
-  State.update({ text: value, showAccountAutocomplete, description: value });
+  State.update({ text: value, showAccountAutocomplete });
 }
 
 function autoCompleteAccountId(id) {
@@ -100,7 +100,7 @@ initState({
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "",
-  token: props.token ?? "NEAR",
+  token: props.token ?? "USDT",
   supervisor: props.supervisor ?? "neardevgov.near",
   githubLink: props.githubLink ?? "",
   warning: "",
@@ -334,10 +334,19 @@ const nameDiv = (
 const descriptionDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-6 fw-bold mb-1">Description</p>
-    {widget("components.molecule.markdown-editor", {
-      content: state.description,
-      onChange: (content) => textareaInputHandler(content),
-    })}
+    <textarea
+      value={state.description}
+      type="text"
+      rows={6}
+      className="form-control"
+      onInput={(event) => textareaInputHandler(event.target.value)}
+      onKeyUp={(event) => {
+        if (event.key === "Escape") {
+          State.update({ showAccountAutocomplete: false });
+        }
+      }}
+      onChange={(event) => State.update({ description: event.target.value })}
+    />
     {autocompleteEnabled && state.showAccountAutocomplete && (
       <AutoComplete>
         <Widget
@@ -406,13 +415,12 @@ const fundraisingDiv = (
       <select
         onChange={(event) => State.update({ token: event.target.value })}
         class="form-select"
-        aria-label="Default select example"
+        aria-label="Default select"
       >
-        <option selected value="NEAR">
-          NEAR
+        <option selected value="USDT">
+          USDT
         </option>
-        <option value="USDC">USDC</option>
-        <option value="USD">USD</option>
+        <option value="NEAR">NEAR</option>
       </select>
     </div>
     <div className="col-lg-6 mb-2">
