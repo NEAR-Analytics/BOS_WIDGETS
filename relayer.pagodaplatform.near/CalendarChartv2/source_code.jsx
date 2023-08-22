@@ -29,12 +29,6 @@ const shouldRotate = window.innerWidth <= 450;
 
 if(shouldRotate) {
   document.querySelector('#myplot').style.transform = 'rotate(90deg)';
-  window.parent.document.getElementById("${
-    props.id ?? "calendar-chart"
-  }").height = '400px';
-  window.parent.document.getElementById("${
-    props.id ?? "calendar-chart"
-  }").width = '600px';
 }
 
 const data = ${JSON.stringify(data ?? [])};
