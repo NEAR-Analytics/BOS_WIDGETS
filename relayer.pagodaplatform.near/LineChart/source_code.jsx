@@ -23,6 +23,7 @@ const code = `
 import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
 
 const data = ${JSON.stringify(data ?? [])};
+const isMobile = window.innerWidth <= 450;
 
 // convert to date object
 if(1 == ${isXDate ? "1" : "0"}) {
@@ -38,8 +39,8 @@ const plot = Plot.plot({
   y: {grid: true, label: "${label}"},
   style: {
     // fontSize: 35,
-    maxWidth: shouldRotate? 'unset' : undefined,
-    paddingLeft: shouldRotate? 400 : undefined,
+    maxWidth: isMobile? 'unset' : undefined,
+    paddingLeft: isMobile? 400 : undefined,
   },
   color: { legend: true },
   marks: [
