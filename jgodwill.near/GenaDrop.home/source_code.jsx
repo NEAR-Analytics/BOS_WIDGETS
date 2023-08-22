@@ -324,8 +324,11 @@ const FeatureContainer = styled.div`
       gap: 2em;
   }
 }
-.reverse{
+.Features_featureContainer.reverse{
   flex-direction: row-reverse;
+    @media screen and (max-width: 900px) {
+      flex-direction: column;
+  }
 }
   .Features_content{
     display: flex;
