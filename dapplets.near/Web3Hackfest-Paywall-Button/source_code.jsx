@@ -62,7 +62,7 @@ return (
   <Wrapper>
     <div
       role="button"
-      className="button-default"
+      className="button-default button-basic"
       onClick={() => props.onClick()}
       style={{
         opacity: props.disabled ? ".5" : "1",
