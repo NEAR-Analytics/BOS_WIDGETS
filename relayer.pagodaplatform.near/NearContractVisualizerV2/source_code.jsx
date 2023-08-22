@@ -221,13 +221,13 @@ const Graphs = () => {
     let year = xDate.getFullYear();
     let timestamp = xDate.getTime();
 
-    if (!years.includes(year)) {
-      years.push(year);
-    }
-
     // filter time
     if (timestamp < startDateTimestamp || timestamp > endDateTimestamp) {
       return;
+    }
+
+    if (!years.includes(year)) {
+      years.push(year);
     }
 
     // filter addresses
