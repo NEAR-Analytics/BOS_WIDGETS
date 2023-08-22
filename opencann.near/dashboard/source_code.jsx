@@ -218,7 +218,7 @@ return (
         <Widget
           src={sidebarTemplate}
           props={{
-            ownerId,
+            daoId,
             profile,
           }}
         />
@@ -227,10 +227,10 @@ return (
       <Content>
         <Tabs>
           <TabsButton
-            href={`${accountUrl}tab=discussion`}
-            selected={state.selectedTab === "discussion"}
+            href={`${accountUrl}tab=feed`}
+            selected={state.selectedTab === "feed"}
           >
-            Discussion
+            Feed
           </TabsButton>
 
           <TabsButton
@@ -281,9 +281,9 @@ return (
           </TabsButton>
         </Tabs>
 
-        {state.selectedTab === "discussion" && (
+        {state.selectedTab === "feed" && (
           <>
-            <Widget src="efiz.near/widget/Chat" props={{ ownerId }} />
+            <Widget src="opencann.near/widget/feed" props={{ daoId }} />
           </>
         )}
 
