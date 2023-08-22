@@ -217,7 +217,7 @@ const Graphs = () => {
   let years = [];
 
   data.forEach((x) => {
-    let xDate = new Date(x);
+    let xDate = new Date(x.DATE);
     let year = xDate.getFullYear();
     let timestamp = xDate.getTime();
 
@@ -263,6 +263,8 @@ const Graphs = () => {
     maxTransaction =
       maxTransaction < TRANSACTIONS ? TRANSACTIONS : maxTransaction;
   }
+
+  console.log(years);
 
   return (
     <>
