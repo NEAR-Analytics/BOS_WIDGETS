@@ -493,9 +493,8 @@ const billOnChange = (files) => {
       store: { ...state.store, bill: { uploading: true, amount: null } },
     });
     let reader = new FileReader();
-    reader.onloadend = function () {
+    reader.onloadend = () => {
       let myHeaders = new Headers();
-      // INSERT API KEY HERE
       myHeaders.append("apikey", "K82213475788957");
 
       let formdata = new FormData();
@@ -524,7 +523,7 @@ const billOnChange = (files) => {
   }
 };
 
-function parseReceipt(receiptObject) {
+const parseReceipt = (receiptObject) => {
   console.log(receiptObject);
   console.log(typeof receiptObject);
   if (typeof receiptObject === "object") {
@@ -534,7 +533,7 @@ function parseReceipt(receiptObject) {
   } else if (typeof receiptObject == "string") {
     console.log(receipt);
   }
-}
+};
 const parseReceiptText = (receiptText) => {
   // extremely reliant on this one receipt
   let receiptContent = receiptText.split("\t\r\n").map((element) => {
