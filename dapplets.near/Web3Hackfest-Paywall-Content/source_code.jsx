@@ -12,12 +12,13 @@ const Wrapper = styled.div`
 
   .unlock-content-overlay {
     display: flex;
-    width: 411px;
-    height: 231px;
+    width: 100%;
+    height: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 16px;
+    position: absolute;
   }
 
   .unlock-content-overlay > .text {
@@ -55,6 +56,7 @@ const Wrapper = styled.div`
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    border: none;
   }
 `;
 
