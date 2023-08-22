@@ -19,10 +19,7 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: 16px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: white;
+    background-color: rgba(255,255,255,0.6);
   }
 
   .unlock-content-overlay > .text {
@@ -68,6 +65,12 @@ const Wrapper = styled.div`
   .unlock-content-overlay > .main-button:hover {
     background-color: rgb(26,140,216);
   }
+
+  .content-image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
 `;
 
 if (props.post.id !== "1691462269182611456") {
@@ -94,16 +97,17 @@ return (
           src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-original.png`}
         />
       ) : (
-        <div
-          className="unlock-content-overlay"
-          style={{
-            backgroundImage: `url(https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png)`,
-          }}
-        >
-          <div className="text">Unlock this Tweet</div>
-          <div className="price">0.5 $NEAR</div>
-          <button className="main-button">Buy</button>
-        </div>
+        <>
+          <div className="unlock-content-overlay">
+            <div className="text">Unlock this Tweet</div>
+            <div className="price">0.5 $NEAR</div>
+            <button className="main-button">Buy</button>
+          </div>
+          <img
+            className="content-image"
+            src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png`}
+          />
+        </>
       )}
     </div>
   </Wrapper>
