@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 
-const thingPath = props.thingPath ?? "every.near/widget/things";
+const thingPath = props.thingPath ?? "mob.near/widget/MetadataEditor";
 const [ownerId, thingType, thingName] = thingPath.split("/");
 
 const starEdge = Social.keys(
@@ -17,7 +17,7 @@ const type = star ? "unstar" : "star";
 
 const data = {
   graph: {
-    star: { [thingPath]: starred ? null : "" },
+    star: { [ownerId]: { [thingType]: { [thingName]: starred ? null : "" } } },
   },
   index: {
     graph: JSON.stringify({
