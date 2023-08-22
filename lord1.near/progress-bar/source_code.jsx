@@ -21,6 +21,7 @@ const ProgrssBar = styled.div`
   width: ${({ percentage }) => `${percentage}%`};
   height: 18px;
   border-radius: 30px;
+  
   position: relative;
   background-image: linear-gradient(to right,${props.gradiantcolorleft} ,${
   props.gradiantcolorright
@@ -30,11 +31,11 @@ const ProgrssBar = styled.div`
 
 const PercentageValue = styled.span`
   position: absolute;
+  visibility: ${props.visibilitypercent}  ;
   height: 20px;
   text-align: right;
   left: ${({ left }) => `calc(${left}% - 15px)`};
-  color: ${({ currTheme }) =>
-    currTheme === "light" ? `${props.percentcolor}` : "#fff"};
+  color: ${props.currTheme};
   top: -4px;
 
 `;
@@ -56,11 +57,12 @@ const InfoContainer = styled.div`
 const RegisterdNumber = styled.div`
   width: 100%;
   display:block;
+  visibility: ${props.visibilitydivision}  ;
   padding-right: 2px;
   padding-top: 2px;
   text-align: right;
   font-size: 14px;
-  color: ${({ currTheme }) => (currTheme === "light" ? "#2F373E" : "#fff")};
+  color: ${props.currTheme};
   @media (min-width: 480px) {
     font-size: 14px;
     padding-right: 4px;
@@ -69,7 +71,6 @@ const RegisterdNumber = styled.div`
 `;
 
 const width = props.widgetBarWidth ? props.widgetBarWidth : "500";
-const currTheme = props.currTheme === "dark" ? "dark" : "light";
 
 const percentage = (`${props.inside}` / `${props.total}`) * 100;
 const roundPercentage = Math.round(percentage);
@@ -77,7 +78,7 @@ const roundPercentage = Math.round(percentage);
 return (
   <MainWrapper width={width}>
     <InfoContainer>
-      <PercentageValue left={roundPercentage} currTheme={currTheme}>
+      <PercentageValue left={roundPercentage}>
         {roundPercentage}%
       </PercentageValue>
     </InfoContainer>
@@ -85,8 +86,20 @@ return (
     <ProgressWrap>
       <ProgrssBar percentage={roundPercentage} />
     </ProgressWrap>
-    <RegisterdNumber currTheme={"light"}>
+    <RegisterdNumber>
       {props.inside}/{props.total}
     </RegisterdNumber>
   </MainWrapper>
 );
+
+//{
+//  "inside": "206",
+//  "total": "3608",
+//  "currTheme": "#F29BC0",
+//  "widgetBarWidth": "100",
+//  "backgroundcolor": "#E5E9EC",
+//  "gradiantcolorleft": "#FFD50D",
+//  "gradiantcolorright": "#F29BC0",
+//  "visibilitydivision": "hidden",
+//  "visibilitypercent": "visible"
+//}
