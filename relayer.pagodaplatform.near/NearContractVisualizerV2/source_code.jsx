@@ -30,6 +30,7 @@ State.init({
 const onAddressSelectValueChange = (value) => {
   State.update({
     addresses: value,
+    data: [],
   });
 };
 
@@ -54,10 +55,11 @@ const onEndDateChange = ({ target }) => {
 
 const getData = () => {
   // clear data
-  State.update({ data: [], isActivitiesSqlRunning: true });
+  if (state.addresses.length === 0) {
+    return;
+  }
 
-  let url =
-    "https://api.flipsidecrypto.com/api/v2/queries/cb8bc5ce-fc6b-4bf6-9c65-7b23c8993d6d/data/latest";
+  State.update({ data: [], isActivitiesSqlRunning: true });
 
   let urls = state.addresses.map(
     (x) =>
@@ -125,6 +127,8 @@ const Layout = () => {
               className="form-control"
               value={state.startDate}
               disabled={state.isActivitiesSqlRunning}
+              onFocus={() => State.update({ data: [] })}
+              onBlur={getData}
             />
           </div>
         </div>
@@ -141,6 +145,8 @@ const Layout = () => {
               className="form-control"
               value={state.endDate}
               disabled={state.isActivitiesSqlRunning}
+              onFocus={() => State.update({ data: [] })}
+              onBlur={getData}
             />
           </div>
         </div>
