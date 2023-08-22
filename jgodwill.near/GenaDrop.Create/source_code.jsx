@@ -196,7 +196,7 @@ return (
       </Header>
     ) : (
       <div>
-        <Widget src="/#/jgodwill.near/widget/GenaDrop.MultiChainMinter" />
+        <Widget href="/#/jgodwill.near/widget/GenaDrop.MultiChainMinter" />
       </div>
     )}
   </>
