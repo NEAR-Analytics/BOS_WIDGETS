@@ -88,14 +88,10 @@ const stacked_bar_data = {
 
 return (
   <Style>
-    <div className="text-bg-dark container">
+    <div className="text-bg-dark rounded-4 p-3 mb-4">
       {data !== null ? (
-        <div className="rounded-4 p-3 mb-4">
-          <div
-            style={{ position: "relative", margin: "auto", minWidth: "20vw" }}
-          >
-            <BarEl options={stacked_options} data={stacked_bar_data} />
-          </div>
+        <div>
+          <BarEl options={stacked_options} data={stacked_bar_data} />
         </div>
       ) : (
         <div>Loading ...</div>
