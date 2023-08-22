@@ -488,6 +488,7 @@ const cancelTransaction = (tokenId) => {
 
 const billOnChange = (files) => {
   if (files) {
+    console.log(files);
     State.update({
       store: { ...state.store, bill: { uploading: true, amount: null } },
     });
