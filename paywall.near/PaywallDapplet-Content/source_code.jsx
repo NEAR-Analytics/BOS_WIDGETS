@@ -1,3 +1,18 @@
+const { contentId, accountId, onBuy, onConnect, loading } = props;
+
+const tweetIdsWithContent = ["1691462269182611456", "1454091121320206337"];
+
+const isPurchased = Near.view("app.paywall.near", "purchased", {
+  account_id: accountId,
+  content_id: contentId,
+});
+
+const price = "0.5";
+
+if (!tweetIdsWithContent.includes(contentId)) {
+  return <></>;
+}
+
 const Wrapper = styled.div`
   .content-blur-wrapper {
     overflow: hidden;
@@ -73,40 +88,28 @@ const Wrapper = styled.div`
   }
 `;
 
-const tweetIdsWithContent = ["1691462269182611456", "1454091121320206337"];
-
-const isPurchased = Near.view("app.paywall.near", "purchased", {
-  account_id: props.accountId,
-  content_id: props.contentId,
-});
-
-if (!tweetIdsWithContent.includes(props.contentId)) {
-  return <></>;
-}
-
 return (
   <Wrapper>
     <div className="content-blur-wrapper">
       {isPurchased === null ? null : isPurchased ? (
         <img
           className="content-image"
-          onClick={handleBlur}
-          src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.contentId}-original.png`}
+          src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${contentId}-original.png`}
         />
       ) : (
         <>
           <img
             className="content-image"
-            src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.contentId}-blur.png`}
+            src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${contentId}-blur.png`}
           />
-          {props.accountId ? (
+          {accountId ? (
             <div className="unlock-content-overlay">
               <div className="text">Unlock this Tweet</div>
-              <div className="price">0.5 $NEAR</div>
+              <div className="price">{price} $NEAR</div>
               <button
                 className="main-button"
-                onClick={() => props.onBuy?.("0.5")}
-                disabled={props.loading}
+                onClick={() => onBuy?.({ contentId, price })}
+                disabled={loading}
               >
                 Buy
               </button>
@@ -114,11 +117,11 @@ return (
           ) : (
             <div className="unlock-content-overlay">
               <div className="text">Unlock this Tweet</div>
-              <div className="price">0.5 $NEAR</div>
+              <div className="price">{price} $NEAR</div>
               <button
                 className="main-button"
-                onClick={() => props.onConnect?.()}
-                disabled={props.loading}
+                onClick={() => onConnect?.()}
+                disabled={loading}
               >
                 Connect Wallet
               </button>
