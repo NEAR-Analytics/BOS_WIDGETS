@@ -69,6 +69,11 @@ const endorsements = [
     body: "CouncilOfAdvisors",
     reason: "Known operator in the space with technical background, CEO of NEAR Foundation, former MD at Circle",
   },
+        {
+    accountId: "achildhoodhero.near",
+    body: "CouncilOfAdvisors",
+    reason: "You wouldn't even know whats going on in NEAR if it weren't for this mans right here. NEARWEEK over everything",
+  },
       {
     accountId: "chefsale.near",
     body: "CouncilOfAdvisors",
