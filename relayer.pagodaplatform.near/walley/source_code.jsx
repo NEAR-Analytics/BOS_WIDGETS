@@ -56,7 +56,7 @@ const cssFont = fetch(
 
 const Root = styled.div`
     width: 100vw;
-    height: 100vw;
+    height: 100vh;
     display: flex;
     font-family: Poppins, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     ${cssFont}
