@@ -1,8 +1,14 @@
 const { address } = props;
-if (!address) return "";
+if (!address) {
+  console.log("no address");
+  return "";
+}
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
-if (!account) return "";
+if (!account) {
+  console.log("no account");
+  return "";
+}
 
 if (address === "native") {
   const provider = Ethers.provider();
@@ -11,11 +17,29 @@ if (address === "native") {
   });
   return "";
 }
-const erc20Abi = Storage.privateGet("erc20Abi");
-if (!erc20Abi) return "";
 const TokenContract = new ethers.Contract(
   address,
-  erc20Abi,
+  [
+    {
+      constant: true,
+      inputs: [
+        {
+          name: "_owner",
+          type: "address",
+        },
+      ],
+      name: "balanceOf",
+      outputs: [
+        {
+          name: "balance",
+          type: "uint256",
+        },
+      ],
+      payable: false,
+      stateMutability: "view",
+      type: "function",
+    },
+  ],
   Ethers.provider().getSigner()
 );
 TokenContract.balanceOf(account).then((rawBalance) => {
