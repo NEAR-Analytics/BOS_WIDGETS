@@ -65,6 +65,7 @@ const Root = styled.div`
     padding: 0;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 `;
 
 const WalleyTitle = styled.div`
@@ -87,7 +88,6 @@ const WalleyIndexContainer = styled.div`
 `;
 
 const WalleyIndexBody = styled.div`
-  margin: 50px;
   display: flex;
   flex-direction: column;
   text-align: left;
