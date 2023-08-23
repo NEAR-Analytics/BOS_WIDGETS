@@ -111,12 +111,11 @@ const WalleyIndexDesc = styled.div`
 
 const WalleyIndexMain = styled.div`
     font-weight: 500;
-    text-align: center;
     &>button {
         border: none;
         background: orange;
         color: white;
-        margin-left: 10px;
+        margin-left: 20px;
     }
 `;
 
@@ -241,7 +240,7 @@ if (!sender) {
         <WalleyIndexBody>
           <WalleyIndexDesc>Highly Secured NFT-based Wallet.</WalleyIndexDesc>
           <WalleyIndexMain>
-            Get Started
+            Get Started -
             <Web3Connect connectLabel="Connect Wallet" />
           </WalleyIndexMain>
         </WalleyIndexBody>
