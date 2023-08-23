@@ -117,6 +117,7 @@ const WalleyIndexDesc = styled.div`
 const WalleyIndexMain = styled.div`
     margin-top: 20px;
     width: 100%;
+    padding: 20px;
     &>span {
       font-weight: 500;
       @media screen and (max-width: 600px) {
@@ -137,7 +138,6 @@ const WalleyIndexMain = styled.div`
           position: fixed;
           bottom: 0px;
           left: 0px;
-          margin: 20px;
         }
     }
 `;
