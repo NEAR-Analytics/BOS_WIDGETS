@@ -1,6 +1,6 @@
 if (!props.update) return "Update function is required";
 
-initState({
+State.init({
   uploading: false,
   files: [],
 });
