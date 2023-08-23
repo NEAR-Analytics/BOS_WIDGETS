@@ -132,7 +132,9 @@ const WalleyIndexMain = styled.div`
           margin-left: 0px;
           text-align: center;
           position: fixed;
-          bottom: 20px;
+          bottom: 0px;
+          left: 0px;
+          margin: 20px;
         }
     }
 `;
