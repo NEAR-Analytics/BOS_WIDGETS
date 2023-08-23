@@ -75,9 +75,7 @@ const Container = styled.div`
 `;
 /** base tool start  */
 let accountId = context.accountId;
-if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
-}
+
 let B = Big();
 B.DP = 60; // set precision to 60 decimals
 State.init({ tableData: [] });
@@ -381,8 +379,10 @@ return (
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>{renderAssets(state.tableData)}</tbody>
+
+      {accountId && <tbody>{renderAssets(state.tableData)}</tbody>}
     </table>
+
     {/** modal */}
     <Widget
       src="juaner.near/widget/ref-market-burrow-repay"
