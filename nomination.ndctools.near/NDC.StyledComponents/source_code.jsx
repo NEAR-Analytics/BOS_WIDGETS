@@ -372,7 +372,7 @@ if (TextArea)
       {TextArea.maxLength && (
         <div className="d-flex justify-content-end">
           <small style={{ fontSize: 12 }} className="text-secondary">
-            {parseInt(TextArea.maxLength) - TextArea.value.length ?? 0} left
+            {TextArea.value.length ?? 0} / {parseInt(TextArea.maxLength)}
           </small>
         </div>
       )}
