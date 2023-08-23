@@ -20,7 +20,16 @@ const purchases = buyerAccountId
     )
   : false;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  .main-container {
+    padding: 10px;
+  }
+
+  .content-card {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+`;
 
 if (purchases === null) {
   return <div>Loading...</div>;
@@ -28,9 +37,10 @@ if (purchases === null) {
 
 return (
   <Wrapper>
+    <div className="main-container">
     {purchases.map((contentId) => (
-      <div>
-        <div>{contentId}</div>
+      <div className="content-card">
+        <div>Tweet ID: {contentId}</div>
         <Widget
           key={contentId}
           src={`paywall.near/widget/PaywallDapplet-Content`}
@@ -38,5 +48,6 @@ return (
         />
       </div>
     ))}
+    </div>
   </Wrapper>
 );
