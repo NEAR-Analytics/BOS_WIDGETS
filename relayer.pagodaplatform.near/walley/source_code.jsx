@@ -131,6 +131,7 @@ const WalleyIndexMain = styled.div`
         margin-left: 20px;
         @media screen and (max-width: 600px) {
           diplay: block;
+          width: 100%;
           margin-left: 0px;
           text-align: center;
           position: fixed;
