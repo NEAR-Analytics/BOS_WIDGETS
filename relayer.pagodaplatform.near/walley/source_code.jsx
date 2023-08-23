@@ -65,7 +65,6 @@ const Root = styled.div`
     padding: 0;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
 `;
 
 const WalleyTitle = styled.div`
