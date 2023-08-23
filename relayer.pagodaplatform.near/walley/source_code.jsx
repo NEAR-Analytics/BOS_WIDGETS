@@ -175,7 +175,6 @@ const WalleyHomeContainer = styled.div`
 
 const WalleyHomeHeader = styled.div`
     width: 100%;
-    height: 70px;
     font-size: 30px;
     font-weight: 900;
     padding: 10px;
