@@ -97,7 +97,7 @@ return (
   <BiggerCard>
     <Card>
       <CardLeft>
-        <Avatar href={profileUrl}>
+        <Avatar href={nominationLink}>
           <Widget
             src="mob.near/widget/Image"
             props={{
