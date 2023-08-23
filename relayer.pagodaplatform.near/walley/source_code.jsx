@@ -182,6 +182,9 @@ const WalleyHomeHeader = styled.div`
     position: fixed;
     top: 0px;
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 
 `;
 
