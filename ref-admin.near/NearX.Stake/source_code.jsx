@@ -289,7 +289,7 @@ const onChange = (e) => {
     ) {
       State.update({
         inputValue: stakeAmount,
-        inputError: "Stake at least 1 NEAR",
+        inputError: "at least 1 NEAR",
       });
     } else {
       State.update({
@@ -313,7 +313,7 @@ const onClickMax = () => {
   ) {
     State.update({
       inputValue: nearBalance,
-      inputError: "Stake at least 1 NEAR",
+      inputError: "at least 1 NEAR",
     });
     return;
   } else {
@@ -338,7 +338,7 @@ const onClickStake = () => {
       stakeAmount === "" ||
       Big(stakeAmount).lt(1)
     ) {
-      State.update({ inputError: "Stake at least 1 NEAR" });
+      State.update({ inputError: "at least 1 NEAR" });
     } else if (Big(stakeAmount).gt(Big(nearBalance))) {
       State.update({
         inputError: `Max is ${nearBalance} NEAR`,
