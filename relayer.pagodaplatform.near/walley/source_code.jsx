@@ -94,6 +94,7 @@ const WalleyIndexBody = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
+  width: 300px;
 `;
 
 const WalleyIndexDesc = styled.div`
