@@ -1158,7 +1158,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             },
             inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
             outputAssetTokenId: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
-            routerContract: "", // Mantle
+            routerContract: "0x319B69888b0d11cEC22caA5034e25FfFBDc88421", // Agni SwapRouter
             dexName: "Agni",
             erc20Abi: state.erc20Abi,
             routerAbi: state.routerAbi,
