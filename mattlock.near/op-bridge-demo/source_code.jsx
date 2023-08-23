@@ -19,13 +19,22 @@ const ETH_WITHDRAWAL_TARGET = `0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000`;
 // Storage keys
 const STORAGE_RESOLVED = "__STORAGE_RESOLVED";
 const STORAGE_MESSAGE_SLOT = "__STORAGE_MESSAGE_SLOT";
+const STORAGE_L2_INDEX = "__STORAGE_L2_INDEX";
 
 State.init({
   console: "Welcome!",
   transactionHash: `0x38082f56332ef0c5640487a47412aace70db81cdd0bb40e9a896a85953324ba0`,
   resolved: Storage.privateGet(STORAGE_RESOLVED),
   messageSlot: Storage.privateGet(STORAGE_MESSAGE_SLOT),
+  l2OutputIndex: Storage.privateGet(STORAGE_L2_INDEX),
 });
+
+const opGoerliProvider = new ethers.providers.JsonRpcProvider(
+  "https://goerli.optimism.io"
+);
+const goerliProvider = new ethers.providers.JsonRpcProvider(
+  "https://rpc.ankr.com/eth_goerli"
+);
 
 const provider = Ethers.provider();
 const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -305,7 +314,7 @@ const handleWithdrawalReceipt = () => {
       };
 
       Storage.privateSet(STORAGE_RESOLVED, resolved);
-      State.update({ console: JSON.stringify(resolved) });
+      State.update({ console: "Receipt Updated ✅" });
     })
     .catch((e) => {
       console.log(e);
@@ -320,40 +329,33 @@ const getMessageBedrockOutput = (l2BlockNumber, callback) => {
     l2BlockNumber,
   ]);
 
-  Ethers.provider()
-    .call({
-      to: L2_OUTPUT_ORACLE_CONTRACT,
-      data: encodedData,
-    })
-    .then((l2OutputIndexRaw) => {
-      const l2OutputIndex = outputIface.decodeFunctionResult(
-        "getL2OutputIndexAfter(uint256)",
-        l2OutputIndexRaw
-      )[0];
+  const contract = new ethers.Contract(
+    L2_OUTPUT_ORACLE_CONTRACT,
+    outputAbi,
+    goerliProvider
+  );
 
+  console.log(contract);
+
+  contract
+    .getL2OutputIndexAfter(l2BlockNumber)
+    // Ethers.provider()
+    //   .call({
+    //     to: L2_OUTPUT_ORACLE_CONTRACT,
+    //     data: encodedData,
+    //   })
+    .then((l2OutputIndex) => {
       console.log("l2OutputIndex:", l2OutputIndex.toString());
 
-      const encodedData = outputIface.encodeFunctionData("getL2Output", [
-        l2OutputIndex.toString(),
-      ]);
-
-      Ethers.provider()
-        .call({
-          to: L2_OUTPUT_ORACLE_CONTRACT,
-          data: encodedData,
-        })
-        .then((l2OutputRaw) => {
-          console.log("l2OutputRaw:", l2OutputRaw);
-
-          const proposal = outputIface.decodeFunctionResult(
-            "getL2Output(uint256)",
-            l2OutputRaw
-          );
+      contract
+        .getL2Output(l2OutputIndex.toString())
+        .then((proposal) => {
+          console.log("proposal data:", proposal);
 
           callback({
-            outputRoot: proposal[0][0],
-            l1Timestamp: proposal[0][1].toNumber(),
-            l2BlockNumber: proposal[0][2].toNumber(),
+            outputRoot: proposal[0],
+            l1Timestamp: proposal[1].toNumber(),
+            l2BlockNumber: proposal[2].toNumber(),
             l2OutputIndex: l2OutputIndex.toNumber(),
           });
         })
@@ -409,34 +411,72 @@ const handleWithdrawalProof = () => {
     console.log("messageSlot", messageSlot);
 
     Storage.privateSet(STORAGE_MESSAGE_SLOT, messageSlot);
+    Storage.privateSet(STORAGE_L2_INDEX, output.l2OutputIndex);
+
+    State.update({ console: `Proof data updated ✅` });
   });
 };
 
-const handleWithdrawalProve = () => {
-  // const opGoerliProvider = Ethers.provider(
-  //   "https://optimism-goerli.blockpi.network/v1/rpc/public"
-  // );
-  // console.log(opGoerliProvider);
-
-  const { resolved, messageSlot } = state;
-  // TODO what block number will work? This example block number is from explorer and included in a batch for L1: https://goerli-optimism.etherscan.io/block/13472188
-  // const blockNumber = ethers.utils.hexlify(13472188);
-  // working
-  const blockNumber = "latest";
-  console.log(blockNumber);
-  const address = ETH_WITHDRAWAL_CONTRACT;
-
-  provider
-    .send("eth_getProof", [address, [messageSlot], blockNumber])
+const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
+  opGoerliProvider
+    .send("eth_getProof", [ETH_WITHDRAWAL_CONTRACT, [slot], l2BlockNumber])
     .then((proof) => {
-      console.log(proof);
-      // console.log({
-      //   accountProof: proof.accountProof,
-      //   storageProof: proof.storageProof[0].proof,
-      //   storageValue: BigNumber.from(proof.storageProof[0].value),
-      //   storageRoot: proof.storageHash,
-      // });
+      const stateTrieProof = {
+        accountProof: proof.accountProof,
+        storageProof: proof.storageProof[0].proof,
+        storageValue: Big(parseInt(proof.storageProof[0].value)),
+        storageRoot: proof.storageHash,
+      };
+      console.log("stateTrieProof", stateTrieProof);
+
+      opGoerliProvider
+        .send("eth_getBlockByNumber", [l2BlockNumber, false])
+        .then((block) => {
+          console.log("block", block);
+
+          callback({
+            outputRootProof: {
+              version: [],
+              stateRoot: block.stateRoot,
+              messagePasserStorageRoot: stateTrieProof.storageRoot,
+              latestBlockhash: block.hash,
+            },
+            withdrawalProof: stateTrieProof.storageProof,
+            l2OutputIndex: state.l2OutputIndex,
+          });
+        });
     });
+};
+
+const handleWithdrawalProve = () => {
+  const { resolved, messageSlot } = state;
+  const blockNumber = ethers.utils.hexlify(resolved.blockNumber);
+  console.log("blockNumber", blockNumber);
+
+  getBedrockMessageProof(blockNumber, messageSlot, (proof) => {
+    const { resolved: withdrawal, l2OutputIndex } = state.resolved;
+
+    const args = [
+      [
+        withdrawal.messageNonce,
+        withdrawal.sender,
+        withdrawal.target,
+        withdrawal.value,
+        withdrawal.minGasLimit,
+        withdrawal.message,
+      ],
+      proof.l2OutputIndex,
+      [
+        proof.outputRootProof.version,
+        proof.outputRootProof.stateRoot,
+        proof.outputRootProof.messagePasserStorageRoot,
+        proof.outputRootProof.latestBlockhash,
+      ],
+      proof.withdrawalProof,
+    ];
+
+    console.log("proof args:", args);
+  });
 };
 
 if (!sender) {
@@ -456,30 +496,22 @@ return (
     )}
     {isGoerli && (
       <>
-        <h3>Deposits:</h3>
+        <h3>Deposits & Withdrawals</h3>
         <Widget src={`ciocan.near/widget/op-bridge-list`} />
+
         <button onClick={handleDepositETH}>
           Deposit {DEFAULT_AMOUNT_ETH} ETH to L2
         </button>
         <br />
         <br />
         <p>To initiate a withdraw, switch to OP Goerli network</p>
-
-        <h3>Get Withdrawal Proof from L1:</h3>
-        <input
-          placeholder="withdrawal tx hash"
-          value={JSON.stringify(state.resolved)}
-          onChange={(e) => State.update({ resolved: e.target.value })}
-          type="text"
-        />
-        <br />
-        <button onClick={handleWithdrawalProof}>
-          Prove Withdrawal of {DEFAULT_AMOUNT_ETH} ETH on L2
-        </button>
       </>
     )}
     {isOPGoerli && (
       <>
+        <h3>Deposits & Withdrawals</h3>
+        <Widget src={`ciocan.near/widget/op-bridge-list`} />
+
         <button onClick={handleWithdrawalInitiating}>
           Initiate Withdrawal of {DEFAULT_AMOUNT_ETH} ETH on L2
         </button>
@@ -489,7 +521,7 @@ return (
           To make a deposit, or prove a withdraw, switch to ETH Goerli network
         </p>
 
-        <h3>Get Withdrawal Receipt from L2:</h3>
+        <h3>Get Withdrawal Receipt from L2 TX Hash:</h3>
         <input
           placeholder="withdrawal tx hash"
           value={state.transactionHash}
@@ -497,17 +529,28 @@ return (
           type="text"
         />
         <br />
-        <button onClick={handleWithdrawalReceipt}>Get Receipt</button>
+        <button onClick={handleWithdrawalReceipt}>
+          Step 1. Get Withdrawal Receipt
+        </button>
 
-        <h3>Get Withdrawal Proof from L2:</h3>
-        <input
-          placeholder="messageSlot hash"
-          value={state.messageSlot}
-          onChange={(e) => State.update({ messageSlot: e.target.value })}
-          type="text"
-        />
-        <br />
-        <button onClick={handleWithdrawalProve}>Get Proof</button>
+        {state.transactionHash && (
+          <>
+            <br />
+            <br />
+            <button onClick={handleWithdrawalProof}>
+              Step 2. Get Withdrawal Proof Data
+            </button>
+          </>
+        )}
+        {state.messageSlot && (
+          <>
+            <br />
+            <br />
+            <button onClick={handleWithdrawalProve}>
+              Step3. Prove Withdrawal
+            </button>
+          </>
+        )}
       </>
     )}
   </div>
