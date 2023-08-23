@@ -111,6 +111,9 @@ const WalleyIndexDesc = styled.div`
 
 const WalleyIndexMain = styled.div`
     font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     &>button {
         border: none;
         background: orange;
