@@ -274,11 +274,13 @@ return (
                   value={selectedMetric}
                   onChange={handleDropdownChange}
                 >
+                  <option value="DAA">DAA</option>
+                  <option value="WAU">WAU</option>
                   <option value="MAU">MAU</option>
-                  <option value="DAU">DAU</option>
-                  <option value="ACCTS_CREATED">Accounts Created</option>
-                  <option value="NFT_MINTS">NFT Mints</option>
-                  <option value="U_MINTERS">Unique Minters</option>
+                  <option value="M2_RETENTION">Retention Rate</option>
+                  <option value="NEW_MAA">New MAAs</option>
+                  <option value="PERCENT_NEW">Percent New Accounts</option>
+                  <option value="STICKINESS">Stickiness</option>
                 </select>
 
                 <BarEl options={v_bar_options} data={getBarData()} />
