@@ -77,7 +77,7 @@ const Wrapper = styled.div`
 
 const tweetIdsWithContent = ["1691462269182611456", "1454091121320206337"];
 
-if (!tweetIdsWithContent.includes(props.post.id)) {
+if (!tweetIdsWithContent.includes(props.contentId)) {
   return <></>;
 }
 
@@ -98,13 +98,13 @@ return (
         <img
           className="content-image"
           onClick={handleBlur}
-          src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-original.png`}
+          src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.contentId}-original.png`}
         />
       ) : (
         <>
           <img
             className="content-image"
-            src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.post.id}-blur.png`}
+            src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${props.contentId}-blur.png`}
           />
           {props.accountId ? (
             <div className="unlock-content-overlay">
@@ -112,7 +112,7 @@ return (
               <div className="price">0.5 $NEAR</div>
               <button
                 className="main-button"
-                onClick={() => props.onBuy()}
+                onClick={() => props.onBuy?.()}
                 disabled={props.loading}
               >
                 Buy
@@ -124,7 +124,7 @@ return (
               <div className="price">0.5 $NEAR</div>
               <button
                 className="main-button"
-                onClick={() => props.onConnect()}
+                onClick={() => props.onConnect?.()}
                 disabled={props.loading}
               >
                 Connect Wallet
