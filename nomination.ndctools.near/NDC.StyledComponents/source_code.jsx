@@ -2,7 +2,7 @@ const { Button, Dropdown, TextArea, Input, Link, Tag, _contract } = props;
 
 const contract = _contract ?? "nomination.ndctools.near";
 
-State.init({ textArea: "" });
+State.init({ textArea: "", input: "" });
 
 const Styled = {
   Button: styled.button`
@@ -368,8 +368,8 @@ if (TextArea)
       <Styled.TextArea
         placeholder={TextArea.placeholder}
         onChange={(e) => {
-          State.update({ textArea: e.target.value });
           TextArea.handleChange();
+          State.update({ textArea: e.target.value });
         }}
         rows={5}
       />
@@ -388,10 +388,13 @@ if (Input)
     <div>
       <Label>{Input.label}</Label>
       <Styled.Input
-        value={Input.value}
+        value={state.value}
         type={Input.type ?? "text"}
         placeholder={Input.placeholder}
-        onChange={Input.handleChange}
+        onChange={(e) => {
+          Input.handleChange();
+          State.update({ input: e.target.value });
+        }}
         maxLength={Input.maxLength}
         min={Input.min}
         max={Input.max}
