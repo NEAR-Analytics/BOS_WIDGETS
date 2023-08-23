@@ -68,6 +68,9 @@ const Root = styled.div`
     box-sizing: border-box;
     height: 100vh;
     width: 100vw;
+    @media screen and (max-width: 600px) {
+      background-position: 70% 70%;
+    }
 `;
 
 const WalleyTitle = styled.div`
@@ -97,8 +100,10 @@ const WalleyIndexBody = styled.div`
   flex-direction: column;
   text-align: left;
   width: 500px;
+  padding-left: 50px;
   @media screen and (max-width:600px) {
     width: 100%;
+    padding-left: 0;
     align-items: center;
   }
 `;
