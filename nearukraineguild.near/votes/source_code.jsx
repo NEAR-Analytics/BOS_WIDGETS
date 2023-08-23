@@ -101,6 +101,26 @@ const wallets = [
   "izubair.near",
 ];
 
+const baseApi = "https://api.pikespeak.ai";
+
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+const httpRequestOpt = {
+  headers: { "x-api-key": apiKey },
+};
+
+const houseNominations = (house) =>
+  `${baseApi}/nominations/house-nominations?house=${house}&contract=nominations.ndc-gwg.near`;
+
+let walletData = [
+  fetch(houseNominations("HouseOfMerit"), httpRequestOpt).body,
+  fetch(houseNominations("TransparencyCommission"), httpRequestOpt).body,
+  fetch(houseNominations("CouncilOfAdvisors"), httpRequestOpt).body,
+];
+
+const filteredWalletData = walletData.map((group) => {
+  return group.filter((entry) => wallets.includes(entry.nominee));
+});
+
 const getData = (wallet) => {
   let profile = Social.getr(`${wallet}/profile`);
   let nominations = Social.getr(`${wallet}/nominations`);
@@ -127,8 +147,6 @@ const handleWalletChange = (e) => {
     wallet,
   });
 
-  console.log("wallet", wallet);
-
   getData(wallet);
 };
 
@@ -148,6 +166,11 @@ const TableHeader = styled.th`
   line-height: 14px;
 `;
 
+const GroupLabel = styled.option`
+  font-weight: bold;
+  background-color: #eee;
+`;
+
 const rednerSelector = () => (
   <select
     class="form-select"
@@ -163,10 +186,15 @@ const rednerSelector = () => (
     onChange={handleWalletChange}
     value={state.wallet}
   >
-    {wallets.map((wallet) => (
-      <option key={index} value={wallet}>
-        {wallet}
-      </option>
+    {filteredWalletData.map((houseData, index) => (
+      <>
+        <GroupLabel disabled>{houseData[0].house}</GroupLabel>
+        {houseData.map((walletItem, walletIndex) => (
+          <option key={walletIndex} value={walletItem.nominee}>
+            {walletItem.nominee}
+          </option>
+        ))}
+      </>
     ))}
   </select>
 );
