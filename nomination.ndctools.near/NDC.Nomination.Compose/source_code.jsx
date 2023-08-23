@@ -359,7 +359,7 @@ return (
                 Key_Issue_2: state.Key_Issue_2,
                 Key_Issue_3: state.Key_Issue_3,
                 addition_platform: state.addition_platform,
-                tags: state.tags,
+                tags: state.tags.join(","),
                 video: state.video,
               },
               indexerData: {
