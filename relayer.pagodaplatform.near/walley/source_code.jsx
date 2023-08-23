@@ -83,19 +83,19 @@ const WalleyIndexContainer = styled.div`
     background: url("https://img.freepik.com/free-vector/abstract-black-shapes-background-design_1017-31904.jpg?w=826&t=st=1692784084~exp=1692784684~hmac=640a88623947cac46d90337f2d03281af01efcdcd5aa64901719774754bd75b3");
     background-size: cover;
     height: 100vh;
-    color: #000D1A;
+    color: #fff;
     width: 100%;
     padding: 20px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     text-align: center;
     justify-content: space-betweeen;
 `;
 
-const WalleyIndexTop = styled.div`
+const WalleyIndexDesc = styled.div`
     margin-top: 20px;
-    color: #000D1A;
+    color: #fff;
     font-weight: 600;
     font-size: 40px;
     height: 100%;
@@ -106,9 +106,7 @@ const WalleyIndexTop = styled.div`
     }
 `;
 
-const WalleyIndexBottom = styled.div`
-    position: relative;
-    top: 50%;
+const WalleyIndexMain = styled.div`
     height: 350px;
     background-color: white;
     font-weight: 500;
@@ -246,11 +244,11 @@ if (!sender) {
     <Root>
       <WalleyIndexContainer>
         <WalleyTitle>Walley.</WalleyTitle>
-        <WalleyIndexTop>Go Phoneless</WalleyIndexTop>
-        <WalleyIndexBottom>
+        <WalleyIndexDesc>Go Phoneless</WalleyIndexDesc>
+        <WalleyIndexMain>
           Get Started
           <Web3Connect connectLabel="Connect Wallet" />
-        </WalleyIndexBottom>
+        </WalleyIndexMain>
       </WalleyIndexContainer>
     </Root>
   );
