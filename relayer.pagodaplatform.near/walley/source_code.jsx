@@ -91,17 +91,17 @@ const WalleyIndexContainer = styled.div`
 `;
 
 const WalleyIndexBody = styled.div`
+  margin: 50px;
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 300px;
+  width: 400px;
 `;
 
 const WalleyIndexDesc = styled.div`
-    margin-top: 20px;
     color: #fff;
     font-weight: 600;
-    font-size: 40px;
+    font-size: 60px;
     padding-bottom: 10px;
     @media screen and (max-width: 600px) {
         font-size: 25px;
