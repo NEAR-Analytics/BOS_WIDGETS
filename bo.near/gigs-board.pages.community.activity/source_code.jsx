@@ -134,22 +134,18 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
-const CommunityActivityPage = ({ handle, transactionHashes }) => {
-  State.init({ isSpawnerHidden: true });
-
-  const spawnerToggle = (forcedState) =>
-    State.update((lastKnownState) => ({
-      ...lastKnownState,
-      isSpawnerHidden: !(forcedState ?? lastKnownState.isSpawnerHidden),
-    }));
-
+const CommunityActivityPage = ({ handle }) => {
   const communityData = DevHub.get_community({ handle });
+
+  if (communityData === null) {
+    return <div>Loading...</div>;
+  }
 
   return widget("entity.community.layout", {
     path: [{ label: "Communities", pageId: "communities" }],
-    title: "Activity",
     handle,
 
+    title: "Activity",
     children:
       communityData !== null ? (
         <div class="row">
@@ -159,41 +155,23 @@ const CommunityActivityPage = ({ handle, transactionHashes }) => {
                 <div class="d-flex align-items-center justify-content-between">
                   <small class="text-muted">
                     <span>Required tags:</span>
-
                     {widget("components.atom.tag", {
                       linkTo: "Feed",
                       ...communityData,
                     })}
                   </small>
-
-                  {widget("components.molecule.button", {
-                    icon: {
-                      type: "bootstrap_icon",
-                      variant: "bi-plus-circle-fill",
-                    },
-
-                    isHidden: !state.isSpawnerHidden,
-                    label: "Post",
-                    onClick: () => spawnerToggle(true),
+                  {widget("components.layout.Controls", {
+                    labels: communityData.tag,
                   })}
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col">
-                {widget("entity.post.Spawner", {
-                  isHidden: state.isSpawnerHidden,
-                  onCancel: () => spawnerToggle(false),
-                  tags: [communityData.tag],
-                  transactionHashes,
-                })}
-
                 {widget("entity.post.List", { tag: communityData.tag })}
               </div>
             </div>
           </div>
-
           <div class="col-md-3 container-fluid">
             {widget("entity.community.sidebar", {
               handle: communityData.handle,
