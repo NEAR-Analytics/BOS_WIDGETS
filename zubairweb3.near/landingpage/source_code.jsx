@@ -205,7 +205,7 @@ return (
           style={{ width: "150px", margin: "15px 0" }}
         >
           <a
-            href="https://t.me/etcentre"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfmGbjrbj8mvgXEkrQdV8PYkvPTWOMvpjxOCdIOI2Mo-Y7AIQ/viewform"
             target="blank"
             style={{ textDecoration: "none", color: "#fff" }}
           >
@@ -225,6 +225,57 @@ return (
             Subscribe to our newsletter
           </a>
         </button>
+      </div>
+    </div>
+
+    <div
+      class="d-flex container-fluid justify-content-between align-items-center"
+      style={{
+        height: "350px",
+        textAlign: "center",
+        color: "#585858",
+      }}
+    >
+      <div>
+        <p>
+          <b>Other services:</b> <br />
+          A.I bot trading <br />
+          Consultation <br />
+          Fund Management <br />
+          <b>Please contact for more Information</b> <br />{" "}
+          Thetradingpostfx@gmail.com
+        </p>
+      </div>
+
+      <div>
+        <p>
+          <b>Social</b> <br />
+          <a
+            href="https://twitter.com/eielhart_?s=21"
+            style={{ marginRight: "15px" }}
+          >
+            <img
+              src="https://res.cloudinary.com/dfbqtfoxu/image/upload/v1692804459/twitter1_oxt91b.png"
+              width="40px"
+              height="40px"
+            />
+          </a>
+          <a href="https://t.me/etcentre">
+            <img
+              src="https://res.cloudinary.com/dfbqtfoxu/image/upload/v1692804459/telegram_wfphvt.png"
+              width="40px"
+              height="40px"
+            />
+          </a>
+        </p>
+      </div>
+
+      <div>
+        <p>
+          <b>Legal:</b> <br />
+          Terms of service <br />
+          Privacy
+        </p>
       </div>
     </div>
   </>
