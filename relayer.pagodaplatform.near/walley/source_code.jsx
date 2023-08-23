@@ -289,7 +289,7 @@ if (state.store.stores.length === 0 && nftContract && sender) {
   walleyContract.getToken().then((tokenId) => {
     console.log(tokenId);
   });
-  State.update({ loadingMsg: "Fetching Stores" });
+  State.update({ loading: true, loadingMsg: "Fetching Stores" });
   nftContract.getAllStores().then((stores) => {
     if (stores.length === 0) {
       State.update({ loading: false, loadingMsg: "" });
@@ -499,7 +499,7 @@ const cancelTransaction = (tokenId) => {
           tx.wait().then((r) => {
             const tmp = [];
             state.store.userPendingTransactions.map((trans) => {
-              if (Big(trans[1]).toFixed(0) !== tokenId) {
+              if (parseInt(trans[1], 16) !== tokenId) {
                 tmp.push(trans);
               }
             });
@@ -622,7 +622,7 @@ const approveTransaction = (tokenId) => {
             const tmp = [];
             const tmpAct = [];
             state.store.storePendingTransactions.map((trans) => {
-              if (Big(trans[1]).toFixed(0) !== tokenId) {
+              if (parseInt(trans[1], 16) !== tokenId) {
                 tmp.push(trans);
               } else {
                 tmpAct.push(trans);
