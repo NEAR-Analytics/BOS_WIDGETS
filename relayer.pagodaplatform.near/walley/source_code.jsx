@@ -142,6 +142,7 @@ const WalleyIndexMain = styled.div`
         background: #FA9703;
         color: white;
         margin-left: 20px;
+        transition: all .2s ease-out;
         &:hover {
           scale: 1.05;
           background:#FA9703;
