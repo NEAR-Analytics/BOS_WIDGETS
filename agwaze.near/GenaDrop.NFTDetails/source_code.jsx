@@ -101,7 +101,7 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
       });
-      if (!token && props.nftState === "near") {
+      if (!token && props.chainState === "near") {
         let response = fetch(
           "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
           {
