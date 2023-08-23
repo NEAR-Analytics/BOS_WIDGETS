@@ -658,7 +658,10 @@ const approveTransaction = (tokenId) => {
 
 return (
   <WalleyHomeContainer>
-    <WalleyHomeHeader>Walley.</WalleyHomeHeader>
+    <WalleyHomeHeader>
+      <p>Walley.</p>
+      <WalleyBalance>Your Balance - {state.balance}</WalleyBalance>
+    </WalleyHomeHeader>
     <WalleyHomeMain>
       {!state.loading ? (
         !state.store.isStore ? (
@@ -682,178 +685,157 @@ return (
               </WalleyNavbarButton>
             </WalleyNavbar>
             <WalleyHomeBody>
-              <WalleyBalance>
-                Your Balance - {state.balance}
-                {state.view === "home" ? (
-                  <WalleyHomeForm>
-                    <Widget
-                      src="near/widget/Select"
-                      props={{
-                        value: state.homeInputs.storeName,
-                        noLabel: true,
-                        placeholder:
-                          state.store.stores.length !== 0
-                            ? "Select a store"
-                            : "No Store Available",
-                        options: [...widgetOptions()],
-                        onChange: (value) => {
-                          homeInputUpdates(value.text, "storeName");
-                        },
-                      }}
-                    />
-                    <WalleyLabel>
-                      Enter the maximum amount you'd like to spend(in INR)
-                    </WalleyLabel>
-                    <WalleyInput
-                      value={state.homeInputs.amount}
-                      type="number"
-                      onChange={(e) =>
-                        homeInputUpdates(e.target.value, "amount")
-                      }
-                      placeholder="Amount(in INR)"
-                    />
-                    <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
-                    <WalleyInput
-                      value={state.homeInputs.name}
-                      type="text"
-                      onChange={(e) => homeInputUpdates(e.target.value, "name")}
-                      placeholder="Name"
-                    />
-                    <WalleyLabel>
-                      Set a password for the transaction(will be asked during
-                      checkout)
-                    </WalleyLabel>
-                    <WalleyInput
-                      value={state.homeInputs.password}
-                      type="password"
-                      onChange={(e) =>
-                        homeInputUpdates(e.target.value, "password")
-                      }
-                      placeholder="Password"
-                    />
-                    <WalleyButton
-                      color="#000D1A"
-                      bg="#FFA500"
-                      onClick={initTransaction}
-                    >
-                      Buy The Store NFT
-                    </WalleyButton>
-                  </WalleyHomeForm>
-                ) : state.view === "tx" ? (
-                  <WalleyTransactions>
-                    {state.user.userPendingTransactions.length !== 0
-                      ? state.user.userPendingTransactions.map((tx) => (
-                          <TransactionCard>
-                            <WalleyStoreImage
-                              src={`https://ipfs.near.social/ipfs/${
-                                state.store.storeImages[tx[6]]
-                              }`}
-                              alt={tx[6]}
-                            />
-                            <p>Name - {tx[2]}</p>
-                            <p>Store name - {tx[6]} </p>
-                            <p>Amount - {Big(tx[5]).toFixed(5)}</p>
-                            {state.user.openModal === parseInt(tx[1], 16) ? (
-                              <>
-                                <WalleyLabel>
-                                  Enter the transacation password
-                                </WalleyLabel>
-                                <WalleyInput
-                                  type="password"
-                                  value={state.user.cancelPassword}
-                                  onChange={(e) =>
-                                    State.update({
-                                      user: {
-                                        ...state.user,
-                                        cancelPassword: e.target.value,
-                                      },
-                                    })
-                                  }
-                                />
-                                <WalleyButton
-                                  color="#white"
-                                  bg="blue"
-                                  onClick={() =>
-                                    State.update({
-                                      user: {
-                                        ...state.user,
-                                        openModal: 0,
-                                        cancelPassword: "",
-                                      },
-                                    })
-                                  }
-                                >
-                                  Close
-                                </WalleyButton>
-                                <WalleyButton
-                                  color="#white"
-                                  bg="red"
-                                  onClick={() =>
-                                    cancelTransaction(parseInt(tx[1], 16))
-                                  }
-                                >
-                                  Cancel
-                                </WalleyButton>
-                              </>
-                            ) : (
+              {state.view === "home" ? (
+                <WalleyHomeForm>
+                  <Widget
+                    src="near/widget/Select"
+                    props={{
+                      value: state.homeInputs.storeName,
+                      noLabel: true,
+                      placeholder:
+                        state.store.stores.length !== 0
+                          ? "Select a store"
+                          : "No Store Available",
+                      options: [...widgetOptions()],
+                      onChange: (value) => {
+                        homeInputUpdates(value.text, "storeName");
+                      },
+                    }}
+                  />
+                  <WalleyLabel>
+                    Enter the maximum amount you'd like to spend(in INR)
+                  </WalleyLabel>
+                  <WalleyInput
+                    value={state.homeInputs.amount}
+                    type="number"
+                    onChange={(e) => homeInputUpdates(e.target.value, "amount")}
+                    placeholder="Amount(in INR)"
+                  />
+                  <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
+                  <WalleyInput
+                    value={state.homeInputs.name}
+                    type="text"
+                    onChange={(e) => homeInputUpdates(e.target.value, "name")}
+                    placeholder="Name"
+                  />
+                  <WalleyLabel>
+                    Set a password for the transaction(will be asked during
+                    checkout)
+                  </WalleyLabel>
+                  <WalleyInput
+                    value={state.homeInputs.password}
+                    type="password"
+                    onChange={(e) =>
+                      homeInputUpdates(e.target.value, "password")
+                    }
+                    placeholder="Password"
+                  />
+                  <WalleyButton
+                    color="#000D1A"
+                    bg="#FFA500"
+                    onClick={initTransaction}
+                  >
+                    Buy The Store NFT
+                  </WalleyButton>
+                </WalleyHomeForm>
+              ) : state.view === "tx" ? (
+                <WalleyTransactions>
+                  {state.user.userPendingTransactions.length !== 0
+                    ? state.user.userPendingTransactions.map((tx) => (
+                        <TransactionCard>
+                          <WalleyStoreImage
+                            src={`https://ipfs.near.social/ipfs/${
+                              state.store.storeImages[tx[6]]
+                            }`}
+                            alt={tx[6]}
+                          />
+                          <p>Name - {tx[2]}</p>
+                          <p>Store name - {tx[6]} </p>
+                          <p>Amount - {Big(tx[5]).toFixed(5)}</p>
+                          {state.user.openModal === parseInt(tx[1], 16) ? (
+                            <>
+                              <WalleyLabel>
+                                Enter the transacation password
+                              </WalleyLabel>
+                              <WalleyInput
+                                type="password"
+                                value={state.user.cancelPassword}
+                                onChange={(e) =>
+                                  State.update({
+                                    user: {
+                                      ...state.user,
+                                      cancelPassword: e.target.value,
+                                    },
+                                  })
+                                }
+                              />
                               <WalleyButton
                                 color="#white"
-                                bg="red"
+                                bg="blue"
                                 onClick={() =>
                                   State.update({
                                     user: {
                                       ...state.user,
-                                      openModal: parseInt(tx[1], 16),
+                                      openModal: 0,
                                       cancelPassword: "",
                                     },
                                   })
                                 }
                               >
+                                Close
+                              </WalleyButton>
+                              <WalleyButton
+                                color="#white"
+                                bg="red"
+                                onClick={() =>
+                                  cancelTransaction(parseInt(tx[1], 16))
+                                }
+                              >
                                 Cancel
                               </WalleyButton>
-                            )}
-                          </TransactionCard>
-                        ))
-                      : "No pending transactions"}
-                  </WalleyTransactions>
-                ) : state.view === "txPast" ? (
-                  <WalleyTransactions>
-                    {state.user.userPastTransactions.length !== 0
-                      ? state.user.userPastTransactions.map((tx) => (
-                          <TransactionCard>
-                            <WalleyStoreImage
-                              src={`https://ipfs.near.social/ipfs/${
-                                state.store.storeImages[tx[6]]
-                              }`}
-                              alt={tx[6]}
-                            />
-                            <p>Name - {tx[2]}</p>
-                            <p>Store name - {tx[6]} </p>
-                            <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
-                            <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
-                            {state.user.openReceipt ===
-                            Big(tx[1]).toFixed(0) ? (
-                              <>
-                                <WalleyStoreImage
-                                  src={`https://ipfs.near.social/ipfs/${tx[7]}`}
-                                  alt={tx[7]}
-                                />
-                                <WalleyButton
-                                  color="#000D1A"
-                                  bg="orange"
-                                  onClick={() =>
-                                    State.update({
-                                      user: {
-                                        ...state.user,
-                                        openReceipt: 0,
-                                      },
-                                    })
-                                  }
-                                >
-                                  Close Receipt
-                                </WalleyButton>
-                              </>
-                            ) : (
+                            </>
+                          ) : (
+                            <WalleyButton
+                              color="#white"
+                              bg="red"
+                              onClick={() =>
+                                State.update({
+                                  user: {
+                                    ...state.user,
+                                    openModal: parseInt(tx[1], 16),
+                                    cancelPassword: "",
+                                  },
+                                })
+                              }
+                            >
+                              Cancel
+                            </WalleyButton>
+                          )}
+                        </TransactionCard>
+                      ))
+                    : "No pending transactions"}
+                </WalleyTransactions>
+              ) : state.view === "txPast" ? (
+                <WalleyTransactions>
+                  {state.user.userPastTransactions.length !== 0
+                    ? state.user.userPastTransactions.map((tx) => (
+                        <TransactionCard>
+                          <WalleyStoreImage
+                            src={`https://ipfs.near.social/ipfs/${
+                              state.store.storeImages[tx[6]]
+                            }`}
+                            alt={tx[6]}
+                          />
+                          <p>Name - {tx[2]}</p>
+                          <p>Store name - {tx[6]} </p>
+                          <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
+                          <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
+                          {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
+                            <>
+                              <WalleyStoreImage
+                                src={`https://ipfs.near.social/ipfs/${tx[7]}`}
+                                alt={tx[7]}
+                              />
                               <WalleyButton
                                 color="#000D1A"
                                 bg="orange"
@@ -861,55 +843,66 @@ return (
                                   State.update({
                                     user: {
                                       ...state.user,
-                                      openReceipt: Big(tx[1]).toFixed(0),
+                                      openReceipt: 0,
                                     },
                                   })
                                 }
                               >
-                                Show Receipt
+                                Close Receipt
                               </WalleyButton>
-                            )}
-                          </TransactionCard>
-                        ))
-                      : "No past transactions found"}
-                  </WalleyTransactions>
-                ) : (
-                  <WalleyStoreForm>
-                    <WalleyLabel>Store Name</WalleyLabel>
-                    <WalleyInput
-                      value={state.storeInputs.storeName}
-                      type="text"
-                      onChange={(e) => {
-                        storeInputUpdates(e.target.value, "storeName");
-                      }}
-                      placeholder="Enter the Store Name"
-                    />
-                    <WalleyLabel>Store Address</WalleyLabel>
-                    <WalleyInput
-                      value={state.storeInputs.storeAddress}
-                      type="text"
-                      onChange={(e) =>
-                        storeInputUpdates(e.target.value, "storeAddress")
-                      }
-                      placeholder="Enter the Store Address"
-                    />
-                    <WalleyStoreButton
-                      onClick={() => storeInputUpdates(sender, "storeAddress")}
-                    >
-                      Use current address(convert this account into a store)
-                    </WalleyStoreButton>
-                    <WalleyLabel>Add Cover Image</WalleyLabel>
-                    <IpfsImageUpload image={state.storeInputs.image} />
-                    <WalleyButton
-                      color="#000D1A"
-                      bg="orange"
-                      onClick={addStore}
-                    >
-                      Add Store
-                    </WalleyButton>
-                  </WalleyStoreForm>
-                )}
-              </WalleyBalance>
+                            </>
+                          ) : (
+                            <WalleyButton
+                              color="#000D1A"
+                              bg="orange"
+                              onClick={() =>
+                                State.update({
+                                  user: {
+                                    ...state.user,
+                                    openReceipt: Big(tx[1]).toFixed(0),
+                                  },
+                                })
+                              }
+                            >
+                              Show Receipt
+                            </WalleyButton>
+                          )}
+                        </TransactionCard>
+                      ))
+                    : "No past transactions found"}
+                </WalleyTransactions>
+              ) : (
+                <WalleyStoreForm>
+                  <WalleyLabel>Store Name</WalleyLabel>
+                  <WalleyInput
+                    value={state.storeInputs.storeName}
+                    type="text"
+                    onChange={(e) => {
+                      storeInputUpdates(e.target.value, "storeName");
+                    }}
+                    placeholder="Enter the Store Name"
+                  />
+                  <WalleyLabel>Store Address</WalleyLabel>
+                  <WalleyInput
+                    value={state.storeInputs.storeAddress}
+                    type="text"
+                    onChange={(e) =>
+                      storeInputUpdates(e.target.value, "storeAddress")
+                    }
+                    placeholder="Enter the Store Address"
+                  />
+                  <WalleyStoreButton
+                    onClick={() => storeInputUpdates(sender, "storeAddress")}
+                  >
+                    Use current address(convert this account into a store)
+                  </WalleyStoreButton>
+                  <WalleyLabel>Add Cover Image</WalleyLabel>
+                  <IpfsImageUpload image={state.storeInputs.image} />
+                  <WalleyButton color="#000D1A" bg="orange" onClick={addStore}>
+                    Add Store
+                  </WalleyButton>
+                </WalleyStoreForm>
+              )}
             </WalleyHomeBody>
           </>
         ) : (
