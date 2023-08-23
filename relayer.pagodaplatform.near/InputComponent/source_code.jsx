@@ -42,7 +42,7 @@ const InputContainer = styled.div`
 `;
 console.log("props:", props);
 console.log("props:");
-const { key, value } = inputFieldData;
+const { key, value } = props;
 return (
   <div>
     <InputLabel>{key}</InputLabel>
