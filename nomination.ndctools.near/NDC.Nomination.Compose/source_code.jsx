@@ -18,35 +18,7 @@ const widgets = {
   tags: "nomination.ndctools.near/widget/NDC.Nomination.Compose.Tags",
 };
 
-if (imageIsNFT) {
-  let nftData = profileInfo.image.nft;
-  const getNftCid = Near.view(nftData.contractId, "nft_token", {
-    token_id: nftData.tokenId,
-  });
-
-  RealProfileImageAsURL =
-    "https://nativonft.mypinata.cloud/ipfs/" + getNftCid.metadata.media;
-  console.log("was nft", RealProfileImageAsURL);
-}
-
-if (imageIsIpfs_cid) {
-  RealProfileImageAsURL =
-    "https://nativonft.mypinata.cloud/ipfs/" + profileInfo.image.ipfs_cid;
-  console.log("was ipfs", RealProfileImageAsURL);
-}
-
-if (imageIsUrl) {
-  RealProfileImageAsURL = profileInfo.image.url;
-  console.log("was url", RealProfileImageAsURL);
-}
-
 State.init({
-  theme,
-  img: {
-    uploading: "false",
-    url: RealProfileImageAsURL,
-    name: RealProfileImageAsURL ? "Uploaded from Social Profile" : "",
-  },
   name: profileInfo.name ? profileInfo.name : "",
   profileAccount: context.accountId ? "@" + context.accountId : "",
   house_intended: 0,
@@ -527,7 +499,7 @@ return (
               props={{
                 agreement: state.agreement,
                 tags: state.tags,
-                handleTags: (e) => validate("tags", e.target.value, 500),
+                handleTags: (tags) => State.update({ tags: Object.keys(tags) }),
                 handleDeclaration,
               }}
             />
@@ -555,7 +527,7 @@ return (
                   props={{
                     Button: {
                       text: "Submit",
-                      onClick: () => handleNominate(),
+                      onClick: handleNominate,
                     },
                   }}
                 />
