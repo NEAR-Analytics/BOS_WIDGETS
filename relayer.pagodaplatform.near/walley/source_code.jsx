@@ -111,13 +111,12 @@ const WalleyIndexDesc = styled.div`
 
 const WalleyIndexMain = styled.div`
     font-weight: 500;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    text-align: center;
     &>button {
         border: none;
         background: orange;
         color: white;
+        margin-left: 10px;
     }
 `;
 
