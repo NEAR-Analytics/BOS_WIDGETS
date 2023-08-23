@@ -18,7 +18,35 @@ const widgets = {
   tags: "nomination.ndctools.near/widget/NDC.Nomination.Compose.Tags",
 };
 
+if (imageIsNFT) {
+  let nftData = profileInfo.image.nft;
+  const getNftCid = Near.view(nftData.contractId, "nft_token", {
+    token_id: nftData.tokenId,
+  });
+
+  RealProfileImageAsURL =
+    "https://nativonft.mypinata.cloud/ipfs/" + getNftCid.metadata.media;
+  console.log("was nft", RealProfileImageAsURL);
+}
+
+if (imageIsIpfs_cid) {
+  RealProfileImageAsURL =
+    "https://nativonft.mypinata.cloud/ipfs/" + profileInfo.image.ipfs_cid;
+  console.log("was ipfs", RealProfileImageAsURL);
+}
+
+if (imageIsUrl) {
+  RealProfileImageAsURL = profileInfo.image.url;
+  console.log("was url", RealProfileImageAsURL);
+}
+
 State.init({
+  theme,
+  img: {
+    uploading: "false",
+    url: RealProfileImageAsURL,
+    name: RealProfileImageAsURL ? "Uploaded from Social Profile" : "",
+  },
   name: profileInfo.name ? profileInfo.name : "",
   profileAccount: context.accountId ? "@" + context.accountId : "",
   house_intended: 0,
@@ -117,10 +145,6 @@ const ErrorBlock = styled.div`
   color: #c23f38;
   font-size: 14px;
   margin: 10px 0;
-
-  label {
-    white-space: pre-line;
-  }
 `;
 
 const Hr = styled.div`
@@ -147,84 +171,46 @@ const validatedInputs = () => {
     Key_Issue_3,
     afiliation,
     agreement,
+    tags,
   } = state;
 
   const isEmpty = (str) => str.trim() === "";
   const isFalse = (check) => check === "false";
   let isValid = true;
-  let error_msg = [];
+  let error_msg;
 
   if (house_intended === 0) {
     State.update({ error_msg: "Select a house" });
     isValid = false;
   }
 
-  if (img.cid === null) {
-    isValid = false;
-    error_msg.push("Image CID is empty");
-  }
-  if (isEmpty(name)) {
-    isValid = false;
-    error_msg.push("Name is empty");
-  }
-  if (isEmpty(profileAccount)) {
-    isValid = false;
-    error_msg.push("Account is empty");
-  }
-  if (isEmpty(HAYInvolve)) {
-    isValid = false;
-    error_msg.push("Involve field is empty");
-  }
-  if (isEmpty(WIYStrategy)) {
-    isValid = false;
-    error_msg.push("Strategy field is empty");
-  }
-  if (isEmpty(Key_Issue_1)) {
-    isValid = false;
-    error_msg.push("First key issue is empty");
-  }
-  if (isEmpty(Key_Issue_2)) {
-    isValid = false;
-    error_msg.push("Second key issue is empty");
-  }
-  if (isEmpty(Key_Issue_3)) {
-    isValid = false;
-    error_msg.push("Third key issue is empty");
-  }
-  if (isFalse(agreement)) {
-    isValid = false;
-    error_msg.push("Aggreement is not checked");
-  }
-  if (afiliation.length == 0) {
-    isValid = false;
-    error_msg.push("Affiliation is empty");
-  }
+  if (img.cid === null) isValid = false;
+  if (isEmpty(name)) isValid = false;
+  if (isEmpty(profileAccount)) isValid = false;
+  if (isEmpty(HAYInvolve)) isValid = false;
+  if (isEmpty(WIYStrategy)) isValid = false;
+  if (isEmpty(Key_Issue_1)) isValid = false;
+  if (isEmpty(Key_Issue_2)) isValid = false;
+  if (isEmpty(Key_Issue_3)) isValid = false;
+  if (tags.split(",").length == 0) isValid = false;
+  if (isFalse(agreement)) isValid = false;
+  if (afiliation.length == 0) isValid = false;
 
   if (afiliation.length > 0) {
     afiliation.forEach((element) => {
-      if (isEmpty(element.company_name)) {
-        isValid = false;
-        error_msg.push("Affiliation company name is empty");
-      }
-      if (isEmpty(element.start_date)) {
-        isValid = false;
-        error_msg.push("Affiliation start date is empty");
-      }
-      if (isEmpty(element.end_date)) {
-        isValid = false;
-        error_msg.push("Affiliation end date is empty");
-      }
-      if (isEmpty(element.role)) {
-        isValid = false;
-        error_msg.push("Affiliation company role is empty");
-      }
+      if (isEmpty(element.company_name)) isValid = false;
+      if (isEmpty(element.start_date)) isValid = false;
+      if (isEmpty(element.end_date)) isValid = false;
+      if (isEmpty(element.role)) isValid = false;
     });
   } else {
     isValid = false;
   }
 
   State.update({
-    error_msg: isValid ? null : error_msg.join("\n"),
+    error_msg: isValid
+      ? null
+      : error_msg || "* Please complete all required fields",
   });
 
   return isValid;
@@ -289,12 +275,9 @@ const validate = (key, item, limit) =>
 
 const validateAffiliations = (params, key, limit) => {
   let data = state.afiliation;
-  let error_msg = null;
-
-  if (params.event.target.value === "") error_msg = `"${key}" is empty`;
 
   data[params.index][key] = params.event.target.value.substring(0, limit);
-  State.update({ afiliation: data, error_msg });
+  State.update({ afiliation: data, error_msg: null });
 };
 
 const handleDeclaration = (agreement) => {
@@ -359,7 +342,7 @@ return (
                 Key_Issue_2: state.Key_Issue_2,
                 Key_Issue_3: state.Key_Issue_3,
                 addition_platform: state.addition_platform,
-                tags: state.tags.join(","),
+                tags: state.tags,
                 video: state.video,
               },
               indexerData: {
@@ -414,7 +397,7 @@ return (
                   {
                     label:
                       "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you? *",
-                    placeholder: "Elaborate on your candidacy",
+                    placeholder: "Elaborate",
                     value: state.HAYInvolve,
                     handleChange: (e) => validate("HAYInvolve", e.target.value),
                   },
@@ -499,7 +482,7 @@ return (
               props={{
                 agreement: state.agreement,
                 tags: state.tags,
-                handleTags: (tags) => State.update({ tags: Object.keys(tags) }),
+                handleTags: (e) => validate("tags", e.target.value, 500),
                 handleDeclaration,
               }}
             />
@@ -527,7 +510,7 @@ return (
                   props={{
                     Button: {
                       text: "Submit",
-                      onClick: handleNominate,
+                      onClick: () => handleNominate(),
                     },
                   }}
                 />
