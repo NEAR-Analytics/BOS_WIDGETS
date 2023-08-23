@@ -1,14 +1,8 @@
 const { address } = props;
-if (!address) {
-  console.log("no address");
-  return "";
-}
+if (!address) return "";
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
-if (!account) {
-  console.log("no account");
-  return "";
-}
+if (!account) return "";
 
 if (address === "native") {
   const provider = Ethers.provider();
