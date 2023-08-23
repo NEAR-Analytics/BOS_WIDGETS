@@ -17,7 +17,7 @@ function sortByActivityDate(arr) {
 }
 
 const rawData = fetch(
-  "https://api.flipsidecrypto.com/api/v2/queries/e69f56e6-e84f-4b96-957c-6d7c5ea75f4a/data/latest",
+  "https://api.flipsidecrypto.com/api/v2/queries/2178cb0c-4446-48cb-8622-7d6d5e95e9e6/data/latest",
   {
     subscribe: true,
     method: "GET",
@@ -133,7 +133,7 @@ if (!finalData) {
   return <h1> 🪄 Loading MAGIC 🪄</h1>;
 }
 
-const project_name = props.project_name || "SailGP";
+const project_name = props.project_name || "Sweat Economy";
 
 const METRIC_NAME = `"${project_name}'s ${state.metric_period}"`;
 
@@ -226,11 +226,13 @@ const handleDropdownChange = (e) => {
 };
 
 const header_map = {
-  DAU: "Daily Active Accounts",
+  DAA: "Daily Active Accounts",
+  WAU: "Weekly Active Accounts",
   MAU: "Monthly Active Accounts",
-  ACCTS_CREATED: "Accounts Created",
-  NFT_MINTS: "NFT Mints",
-  U_MINTERS: "Unique Minters",
+  M2_RETENTION: "Retention Rate",
+  NEW_MAA: "New Accounts",
+  PERCENT_NEW: "Percent New Accounts",
+  STICKINESS: "Stickiness",
 };
 const getBarData = () => {
   const { selectedMetric } = state;
