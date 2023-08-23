@@ -101,7 +101,7 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
       });
-      if (!token) {
+      if (!token && props.nftState === "near") {
         let response = fetch(
           "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
           {
@@ -112,7 +112,7 @@ function fetchTokens() {
             body: JSON.stringify({
               query: `
             query MyQuery {
-             nfts(where: {tokenID: "1664304736705"}) {
+             nfts(where: {tokenID: "${tokenId}"}) {
                 category
                 chain
                 createdAtTimestamp
