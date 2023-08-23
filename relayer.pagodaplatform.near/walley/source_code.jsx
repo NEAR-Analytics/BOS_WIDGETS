@@ -78,9 +78,6 @@ const WalleyTitle = styled.div`
     margin: 0px;
     padding: 5px;
     color: #fff; 
-    @media screen and (max-width: 600px) {
-        font-size: 20px;
-    }
 `;
 
 const WalleyIndexContainer = styled.div`
@@ -105,10 +102,6 @@ const WalleyIndexDesc = styled.div`
     font-weight: 600;
     font-size: 60px;
     padding-bottom: 10px;
-    @media screen and (max-width: 600px) {
-        font-size: 25px;
-        font-weight: 700;
-    }
 `;
 
 const WalleyIndexMain = styled.div`
