@@ -102,6 +102,75 @@ function fetchTokens() {
         title: token.title,
       });
       if (!token) {
+        let response = fetch(
+          "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              query: `
+            query MyQuery {
+             nfts(where: {tokenID: "1664304736705"}) {
+                category
+                chain
+                createdAtTimestamp
+                id
+                isSold
+                isListed
+                price
+                tokenID
+                owner {
+                    id
+                }
+                tokenIPFSPath
+                transactions {
+                  price
+                }
+                }
+            }
+        `,
+            }),
+          }
+        );
+        const collectionData = response.body.data.nfts;
+
+        if (collectionData) {
+          const nftBody = collectionData.map((data) => {
+            const fetchIPFSData = fetch(
+              data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
+            );
+
+            if (fetchIPFSData.ok) {
+              const nft = fetchIPFSData.body;
+              let nftObject = {};
+              nftObject.contract_id = data.id;
+              nftObject.sold = data.isSold;
+              nftObject.isListed = data.isListed;
+              nftObject.owner = data.owner.id;
+              nftObject.price = data.price;
+              nftObject.token_id = data.tokenID;
+              nftObject.name = nft?.name;
+              nftObject.description = nft?.description;
+              nftObject.attributes = nft?.properties;
+              nftObject.image = nft?.image.replace(
+                "ipfs://",
+                "https://ipfs.io/ipfs/"
+              );
+              return nftObject;
+            }
+          });
+          State.update({
+            title: nftBody[0].name,
+            imageUrl: nftBody[0].image,
+            owner: nftBody[0]?.owner,
+            description: nftBody[0]?.description,
+            price: nftBody[0].price,
+          });
+        }
+      }
+      if (!token) {
         const response = fetch("https://api.indexer.xyz/graphql", {
           method: "POST",
           headers: {
@@ -140,7 +209,6 @@ function fetchTokens() {
         });
         const token = response.body.data[props.chainState].nfts;
         if (token) {
-          console.log(token);
           State.update({
             title: token[0].name,
             listings: token[0].listings,
@@ -456,6 +524,19 @@ const HandleList = () => {
   console.log(props.singleNftProps);
 };
 
+const getUsdValue = (price) => {
+  const res = fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${
+      props.chainState ?? "near"
+    }&vs_currencies=usd`
+  );
+  if (res.ok) {
+    const multiplyBy = Object.values(res?.body)[0]?.usd;
+    const value = multiplyBy * price.toFixed(2);
+    return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
+  }
+};
+
 return (
   <Root>
     <MainContainer>
@@ -524,15 +605,18 @@ return (
                       ? (
                           state.listings.price / 1000000000000000000000000
                         ).toFixed(2)
+                      : state.price
+                      ? (state.price / 1000000000000000000000000).toFixed(2)
                       : "0.00"
                   }`}
                 </h6>
-                <span>{` ($${
+                <span>{` (${
                   state.listings.price
-                    ? (
-                        (state.listings.price / 1000000000000000000000000) *
-                        1.56
-                      ).toFixed(2)
+                    ? getUsdValue(
+                        state.listings.price / 1000000000000000000000000
+                      )
+                    : state.price
+                    ? getUsdValue(state.price / 1000000000000000000000000)
                     : "0.00"
                 })`}</span>
               </PriceArea>
