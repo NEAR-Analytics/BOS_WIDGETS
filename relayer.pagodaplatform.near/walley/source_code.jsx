@@ -89,7 +89,6 @@ const WalleyIndexContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     justify-content: space-betweeen;
 `;
 
@@ -97,6 +96,7 @@ const WalleyIndexBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: space-between;
+  text-align: left;
   justify-content: space-betweeen;
 `;
 
