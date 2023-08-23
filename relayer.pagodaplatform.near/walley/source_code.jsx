@@ -23,7 +23,7 @@ State.init({
     storeImages: {},
     openModal: 0,
     approvePassword: "",
-    bill: { uploading: false, amount: null },
+    bill: { uploading: false, cid: null },
     totalAmount: 0,
   },
   user: {
@@ -1008,6 +1008,7 @@ return (
                                 color="#white"
                                 bg="blue"
                                 onClick={() => {
+                                  console.log(state.store.bill.cid);
                                   if (state.store.bill.cid) {
                                     approveTransaction(parseInt(tx[1], 16));
                                   } else {
