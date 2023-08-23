@@ -83,6 +83,7 @@ const WalleyIndexContainer = styled.div`
     
     box-shadow: 12px 0px 0px 5px #000D1A;
     background: url("https://i.ibb.co/tQFpnz1/24771098-sl-0210121-40570-25.jpg");
+    height: 100vh;
     color: #000D1A;
     width: 100%;
     padding: 20px;
