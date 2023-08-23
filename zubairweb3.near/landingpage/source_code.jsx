@@ -73,7 +73,7 @@ return (
     <div style={{ width: "100%" }}>
       <div
         class="d-flex flex-sm-column flex-md-row align-items-center"
-        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
+        style={{ width: "90%", margin: "80px auto", gap: "100px" }}
       >
         <div style={{ width: "70%" }}>
           <h3 style={{ fontSize: "1.8em", color: "blueviolet" }}>
@@ -100,7 +100,7 @@ return (
 
       <div
         class="d-flex flex-sm-column flex-md-row align-items-center"
-        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
+        style={{ width: "90%", margin: "80px auto", gap: "100px" }}
       >
         <div style={{ width: "30%" }}>
           <img
@@ -127,7 +127,7 @@ return (
 
       <div
         class="d-flex flex-sm-column flex-md-row align-items-center"
-        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
+        style={{ width: "90%", margin: "80px auto", gap: "100px" }}
       >
         <div style={{ width: "70%" }}>
           <h3 style={{ fontSize: "1.8em", color: "blueviolet" }}>
@@ -154,7 +154,7 @@ return (
 
       <div
         class="d-flex flex-sm-column flex-md-row align-items-center"
-        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
+        style={{ width: "90%", margin: "80px auto", gap: "100px" }}
       >
         <div style={{ width: "30%" }}>
           <img
