@@ -214,7 +214,10 @@ const WalleyHomeBody = styled.div`
 `;
 
 const WalleyBalance = styled.p`
-  font-weight: 700;
+  font-weight: 500;
+  font-size: 15px
+  background-color: #4169E1;
+  border-radius: 30px;
 `;
 
 const WalleyLoading = styled.div`
