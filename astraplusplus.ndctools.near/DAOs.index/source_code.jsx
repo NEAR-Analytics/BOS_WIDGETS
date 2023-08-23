@@ -3,11 +3,12 @@ const getFollowedDAOs = (accountId) => {
     return_type: "BlockHeight",
   });
 
-  if (following === null) return null;
-
-  following = Object.keys(following[accountId].graph.follow || {}).filter(
-    (account) => account.endsWith(".sputnik-dao.near"),
-  );
+  following =
+    following === null
+      ? null
+      : Object.keys(following[accountId].graph.follow).filter((account) =>
+          account.endsWith(".sputnik-dao.near"),
+        );
   return following;
 };
 
@@ -62,18 +63,21 @@ if (filter === "followedDAOs") {
     contract_id: dao,
   }));
 } else {
-  daos = fetch(forgeUrl(`https://api.pikespeak.ai/daos/all`, {}), {
-    mode: "cors",
-    headers: {
-      "x-api-key": publicApiKey,
-      "cache-control": "max-age=86400", // 1 day
-    },
-  });
-  if (daos === null) return "";
-  daos = daos?.body;
+  daos = useCache(
+    () =>
+      asyncFetch(forgeUrl(`https://api.pikespeak.ai/daos/all`, {}), {
+        mode: "cors",
+        headers: {
+          "x-api-key": publicApiKey,
+          "cache-control": "max-age=86400", // 1 day
+        },
+      }).then((res) => res.body),
+    "all-daos",
+    { subscribe: false },
+  );
 }
 
-const createDAOLink = "#/astraplusplus.ndctools.near/widget/home?tab=create-dao";
+const createDAOLink = "#/astraplusplus.ndctools.near/widget/index?tab=create-dao";
 
 const renderHeader = () => (
   <div className="d-flex justify-content-between gap-2 align-items-center">
