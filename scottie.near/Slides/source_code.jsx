@@ -146,50 +146,76 @@ const deleteDeck = () => {
   });
 };
 
-const getAllSlides = () => {
-  const slides = Near.view(contract, "get_slides", {
-    key: state.selectedUser,
-    deck_name: state.deckName,
-  });
+const viewHandler = (cb, fn, args) => {
+  const result = Near.view(contract, fn, args);
 
-  const slidesParsed = JSON.parse(slides);
-
-  if (slidesParsed !== "None") {
-    State.update({
-      slides: slidesParsed,
-      viewing: true,
-      currentIndex: 0,
-    });
+  if (result) {
+    cb(result);
+  } else {
+    setTimeout(() => {
+      viewHandler(cb, fn, args);
+    }, 250);
   }
 };
 
-const getAllDecks = () => {
-  const decks = Near.view(contract, "get_deck_names", {
+const getAllSlides = () => {
+  const fn = "get_slides";
+  const args = {
     key: state.selectedUser,
-  });
+    deck_name: state.deckName,
+  };
 
-  const decksParsed = JSON.parse(decks);
+  viewHandler(
+    (slides) => {
+      const slidesParsed = JSON.parse(slides);
 
-  const options = decksParsed.map((deckName, index) => ({
-    value: `deck${index + 1}`,
-    label: deckName,
-  }));
+      if (slidesParsed !== "None") {
+        State.update({
+          slides: slidesParsed,
+          viewing: true,
+          currentIndex: 0,
+        });
+      }
+    },
+    fn,
+    args
+  );
+};
 
-  options.sort((a, b) => {
-    if (a.label < b.label) {
-      return -1;
-    }
-    if (a.label > b.label) {
-      return 1;
-    }
-    return 0;
-  });
+const getAllDecks = () => {
+  const fn = "get_deck_names";
+  const args = {
+    key: state.selectedUser,
+  };
 
-  State.update({
-    decks: decksParsed,
-    deckOptions: options,
-    deckName: options[0].label,
-  });
+  viewHandler(
+    (decks) => {
+      const decksParsed = JSON.parse(decks);
+
+      const options = decksParsed.map((deckName, index) => ({
+        value: `deck${index + 1}`,
+        label: deckName,
+      }));
+
+      options.sort((a, b) => {
+        if (a.label < b.label) {
+          return -1;
+        }
+        if (a.label > b.label) {
+          return 1;
+        }
+        return 0;
+      });
+
+      State.update({
+        decks: decksParsed,
+        deckOptions: options,
+        deckName: options[0].label,
+      });
+    },
+    fn,
+    args
+  );
 };
 
 const nextSlide = () => {
