@@ -366,14 +366,7 @@ if (TextArea)
       <Styled.TextArea
         value={TextArea.value}
         placeholder={TextArea.placeholder}
-        onChange={() => {
-          if (
-            TextArea.maxLength &&
-            (TextArea.value.length ?? 0) > parseInt(TextArea.maxLength)
-          )
-            return;
-          TextArea.handleChange();
-        }}
+        onChange={TextArea.handleChange}
         rows={5}
       />
       {TextArea.maxLength && (
