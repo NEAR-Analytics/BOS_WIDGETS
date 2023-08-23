@@ -368,7 +368,7 @@ if (TextArea)
       <Styled.TextArea
         placeholder={TextArea.placeholder}
         onChange={(e) => {
-          TextArea.handleChange();
+          TextArea.handleChange(e);
           State.update({ textArea: e.target.value });
         }}
         rows={5}
@@ -392,7 +392,7 @@ if (Input)
         type={Input.type ?? "text"}
         placeholder={Input.placeholder}
         onChange={(e) => {
-          Input.handleChange();
+          Input.handleChange(e);
           State.update({ input: e.target.value });
         }}
         maxLength={Input.maxLength}
