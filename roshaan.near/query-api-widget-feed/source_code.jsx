@@ -1,9 +1,6 @@
 //props widget_activity_feed
-const widget_activity_feed =
-  props.widget_activity_feed || "widget-activity-feed";
 
-const GRAPHQL_ENDPOINT =
-  props.GRAPHQL_ENDPOINT || "near-queryapi.dev.api.pagoda.co";
+const GRAPHQL_ENDPOINT = "near-queryapi.api.pagoda.co";
 
 const LIMIT = 10;
 const accountId = props.accountId || "roshaan.near" || context.accountId;
@@ -108,6 +105,7 @@ const RowContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-x: auto;
+  align-items: center;
 
 `;
 
@@ -120,8 +118,6 @@ const Text = styled.p`
   color: ${(p) => (p.bold ? "black !important" : "#687076 !important")};
   white-space: nowrap;
 `;
-
-if (!widget_activity_feed) return "missing widget_activity_feed";
 
 State.init({
   widgetActivities: [],
@@ -141,7 +137,6 @@ const widgetActivitySubscription = `
       account_id
       block_height
       block_timestamp
-      bytes_committed
       id
       receipt_id
       widget_name
