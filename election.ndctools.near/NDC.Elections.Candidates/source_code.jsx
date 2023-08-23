@@ -491,7 +491,7 @@ const CandidateList = ({ candidateId, votes }) => (
             },
           }}
         />
-        {winnerIds.length > 0 && <Votes>{votes}</Votes>}
+        {myVotesForHouse.length > 0 && <Votes>{votes}</Votes>}
         {isIAmHuman && (
           <Votes>
             <input
@@ -549,7 +549,7 @@ const Filters = () => (
       <Nomination className="text-secondary text-end text-md-start">
         <small>Nomination</small>
       </Nomination>
-      {winnerIds.length > 0 && (
+      {myVotesForHouse.length > 0 && (
         <Votes
           role="button"
           className="text-secondary"
