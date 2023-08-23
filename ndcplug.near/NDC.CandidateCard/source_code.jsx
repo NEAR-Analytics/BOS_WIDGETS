@@ -1,5 +1,6 @@
 const accountId = props.accountId ?? "root.near";
 const body = props.body ?? "NDC"; // pass ndc body
+const reason = props.reason ?? "I like them"; // reason for ndc support
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const myProfile =
   props.profile || Social.get(`${context.accountId}/profile/**`, "final");
@@ -21,6 +22,9 @@ const Card = styled.div`
   align-items: center;
   gap: 16px;
   width: 100%;
+
+`;
+const BiggerCard = styled.div`
   border-radius: 12px;
   background: #fff;
   border: 1px solid #eceef0;
@@ -90,6 +94,7 @@ const TagsWrapper = styled.div`
 `;
 
 return (
+    <BiggerCard>
   <Card>
     <CardLeft>
       <Avatar href={profileUrl}>
@@ -137,5 +142,8 @@ return (
         props={{ accountId: props.accountId }}
       />
     )}
+    
   </Card>
+  <p>{reason}</p>
+  </BiggerCard>
 );
