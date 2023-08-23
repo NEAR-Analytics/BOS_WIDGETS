@@ -185,6 +185,11 @@ const WalleyHomeHeader = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    &>p {
+      @media screen and (max-width: 600px) {
+        text-align: center;
+      }
+    }
 
 `;
 
