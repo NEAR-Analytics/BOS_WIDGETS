@@ -113,7 +113,7 @@ const WalleyIndexDesc = styled.div`
     font-weight: 500;
     font-size: 50px;
     padding-bottom: 10px;
-    margin-top: 100px;
+    margin-top: 50px;
     @media screen and (max-width: 400px) {
       margin-top: 150px;
       font-size: 40px;
