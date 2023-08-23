@@ -35,7 +35,7 @@ const endorsements = [
     reason: "Watchu know about Web3 Creatives winning a grammy?",
   },
               {
-    accountId: "kennyg.near",
+    accountId: "kennyj.near",
     body: "HouseOfMerit",
     reason: "BluntDAO over everything",
   },
@@ -98,6 +98,11 @@ const endorsements = [
     accountId: "cryptois.near",
     body: "TransparencyCommission",
     reason: "History of technical support, community based organizing.",
+  },
+      {
+    accountId: "crans.near",
+    body: "TransparencyCommission",
+    reason: "Dont disrespect creatives dao or well smack the paintbrush right out yo hand .",
   },
 ];
 return (
