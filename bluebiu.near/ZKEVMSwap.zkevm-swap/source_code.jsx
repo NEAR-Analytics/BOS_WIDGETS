@@ -766,7 +766,11 @@ const onCallTxComple = (tx) => {
     const { status, transactionHash } = receipt;
 
     add_action({
-      action_title: `Swap ${state.inputAssetAmount} ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
+      action_title: `Swap ${
+        Number(state.inputAssetAmount) < 0.000001
+          ? "<0.000001"
+          : new Big(state.inputAssetAmount).toFixed(6)
+      }   ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
       action_type: "Swap",
       action_tokens: JSON.stringify([
         `${state.inputAsset.metadata.symbol}`,
