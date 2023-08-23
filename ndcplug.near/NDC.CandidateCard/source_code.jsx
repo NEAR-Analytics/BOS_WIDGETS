@@ -94,56 +94,71 @@ const TagsWrapper = styled.div`
 `;
 
 return (
-    <BiggerCard>
-  <Card>
-    <CardLeft>
-      <Avatar href={profileUrl}>
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: profile.image,
-            alt: profile.name,
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-          }}
-        />
-      </Avatar>
+  <BiggerCard>
+    <Card>
+      <CardLeft>
+        <Avatar href={profileUrl}>
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: profile.image,
+              alt: profile.name,
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+            }}
+          />
+        </Avatar>
 
-      <div>
-        <TextLink href={nominationLink} ellipsis bold>
-          {profile.name || accountId.split(".near")[0]}
-        </TextLink>
-        <TextLink href={nominationLink} ellipsis>
-          @{accountId}
-        </TextLink>
+        <div>
+          <TextLink href={nominationLink} ellipsis bold>
+            {profile.name || accountId.split(".near")[0]}
+          </TextLink>
+          <TextLink href={nominationLink} ellipsis>
+            @{accountId}
+          </TextLink>
 
-        {tags.length > 0 && (
-          <TagsWrapper>
-            <Widget src="near/widget/Tags" props={{ tags, scroll: true }} />
-          </TagsWrapper>
-        )}
-      </div>
-    </CardLeft>
-    {!!context.accountId && context.accountId !== props.accountId && (
+          {tags.length > 0 && (
+            <TagsWrapper>
+              <Widget src="near/widget/Tags" props={{ tags, scroll: true }} />
+            </TagsWrapper>
+          )}
+        </div>
+      </CardLeft>
       <Widget
-        src="ndcplug.near/widget/ProfileCard.NFTButton"
+        src="nomination.ndctools.near/widget/NDC.StyledComponents"
         props={{
-          title: `NDC Endorsement ${accountId}`,
-          description: description,
-          receiver: accountId,
-          buttonName: "NFT  Endorsement",
-          image: image,
+          Tag: {
+            title:
+              body == "HouseOfMerit"
+                ? "House of Merit"
+                : body == "CouncilOfAdvisors"
+                ? "Council of Advisors"
+                                : body == "TransparencyComission"
+                ? "Transparency Comission"
+                : " NDC",
+            className: "dark",
+          },
         }}
       />
-    )}
-    {!!context.accountId && context.accountId !== props.accountId && (
-      <Widget
-        src="near/widget/FollowButton"
-        props={{ accountId: props.accountId }}
-      />
-    )}
-    
-  </Card>
-  <p>{reason}</p>
+      {!!context.accountId && context.accountId !== props.accountId && (
+        <Widget
+          src="ndcplug.near/widget/ProfileCard.NFTButton"
+          props={{
+            title: `NDC Endorsement ${accountId}`,
+            description: description,
+            receiver: accountId,
+            buttonName: "NFT  Endorsement",
+            image: image,
+          }}
+        />
+      )}
+      {!!context.accountId && context.accountId !== props.accountId && (
+        <Widget
+          src="near/widget/FollowButton"
+          props={{ accountId: props.accountId }}
+        />
+      )}
+    </Card>
+    <p>{reason}</p>
   </BiggerCard>
 );
