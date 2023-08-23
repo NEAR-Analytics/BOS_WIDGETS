@@ -139,7 +139,7 @@ const WalleyIndexMain = styled.div`
         @media screen and (max-width: 600px) {
           width: 100%;
           height: 50px;
-          font-size: 30px;
+          font-size: 15px;
           display: block;
           margin-left: 0px;
         }
