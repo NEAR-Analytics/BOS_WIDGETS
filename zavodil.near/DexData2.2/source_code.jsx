@@ -38,18 +38,16 @@ if (debug) {
         props.onLoad(data);
       }
 
-      // review swap data for debug mode
-
-      data.sender = "0xCde2aE6aAaFDf4Af492d65561Cc1fF4989c32c5a";
+      data.sender = "0x487D484614d26A89c3079Ae58109E474599555be";
       data.inputAssetAmount = "4123";
-      data.inputAssetTokenId = "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035";
+      data.inputAssetTokenId = "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9";
       data.inputAsset = {
         metadata: {
           symbol: "USDC",
           decimals: 6,
         },
       };
-      data.outputAssetTokenId = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
+      data.outputAssetTokenId = "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE";
       data.outputAsset = {
         metadata: {
           symbol: "WETH",
@@ -61,8 +59,9 @@ if (debug) {
       };
 
       data.callTx(data, f, undefined, undefined, undefined, [
-        "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+        "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE",
+        "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000",
+        "0x487D484614d26A89c3079Ae58109E474599555be",
       ]);
 
       State.update({ debugOutput: <div>Data: [{JSON.stringify(data)}]</div> });
@@ -505,6 +504,83 @@ const callTxTrisolaris = (input, onComplete, gasPrice, gasLimit) => {
   }
 };
 
+const callTxAgniSwap = (
+  input,
+  onComplete,
+  gasPrice,
+  gasLimit,
+  sqrtPriceLimitX96,
+  path
+) => {
+  console.log("callTxAgniSwap", input, path);
+  if (
+    input.sender &&
+    input.routerContract !== undefined &&
+    input.routerAbi &&
+    input.inputAssetAmount &&
+    input.inputAsset.metadata.decimals
+  ) {
+    const value = expandToken(
+      input.inputAssetAmount,
+      input.inputAsset.metadata.decimals
+    ).toFixed();
+
+    const swapContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
+
+    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    if (path.length === 2) {
+      // tokenIn tokenOut fee recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
+
+      /*
+      const gas = Ethers.provider().estimateGas(
+        input.routerContract,
+        "0xc04b8d59",
+        Ethers.provider().parseEther("1.0")
+      );*/
+
+      swapContract
+        .exactInputSingle(
+          [
+            input.inputAssetTokenId,
+            input.outputAssetTokenId,
+            500,
+            input.sender,
+            deadline.toFixed(),
+            value,
+            "0",
+            sqrtPriceLimitX96 ?? 0,
+          ],
+          {
+            gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.05", "gwei"),
+            gasLimit: gasLimit ?? 400000,
+          }
+        )
+        .then((transactionHash) => {
+          onComplete(transactionHash);
+        })
+        .catch((ex) => console.log("exactInputSingle ex", ex));
+    } else if (path.length > 2) {
+      // path recepient deadline amountIn amountOutMinimum
+      const pathBytes =
+        "0x" + path.map((address) => address.substr(2)).join("");
+
+      swapContract
+        .exactInput([pathBytes, input.sender, deadline.toFixed(), value, "0"], {
+          gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.05", "gwei"),
+          gasLimit: gasLimit ?? 400000,
+        })
+        .then((transactionHash) => {
+          onComplete(transactionHash);
+        });
+    }
+  }
+};
+
 const callTxQuickSwap = (
   input,
   onComplete,
@@ -561,7 +637,7 @@ const callTxQuickSwap = (
         "0x" + path.map((address) => address.substr(2)).join("");
 
       swapContract
-        .exactInput([pathBytes, input.sender, deadline, value, "0"], {
+        .exactInput([pathBytes, input.sender, deadline.toFixed(), value, "0"], {
           gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
           gasLimit: gasLimit ?? 300000,
         })
@@ -1127,7 +1203,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
 
           if (state.routerAbi == undefined) {
             const routerAbi = fetch(
-              "https://gist.githubusercontent.com/zavodil/a50ed9fcd2e1ba1adc40db19a94c79fe/raw/a3b92a2b9120d7d503e01714980ad44bd10c9030/quickswap_swapRouter_zkevm.json"
+              "https://gist.githubusercontent.com/zavodil/a66629902b78819f3f1b6de01d7c33e8/raw/19c25b0eaa84c8aa68e411c9049e55b86579c12f/agni.abi.json"
             );
             if (!routerAbi.ok) {
               return "Loading";
@@ -1162,7 +1238,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             dexName: "Agni",
             erc20Abi: state.erc20Abi,
             routerAbi: state.routerAbi,
-            callTx: callTxQuickSwap,
+            callTx: callTxAgniSwap,
             callTokenApproval: callTokenApprovalEVM,
           });
           State.update({ loadComplete: true });
