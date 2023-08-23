@@ -68,8 +68,8 @@ const chartOption = () => {
     [{ data: [] }, { data: [] }]
   );
 
-  seriesData[0].name = chart.stakTitle;
-  seriesData[1].name = chart.unstakTitle;
+  seriesData[0].name = chart.oppTitle;
+  seriesData[1].name = chart.negTitle;
   seriesData[0].type = chart.type;
   seriesData[1].type = chart.type;
   const type = chart.type;
