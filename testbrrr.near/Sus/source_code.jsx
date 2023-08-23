@@ -160,6 +160,7 @@ const openVessel = () => {
   );
 
   vesselManagerContract.isVesselActive(asset, state.sender).then((isActive) => {
+    console.log(isActive);
     if (isActive) {
       console.log("Vessel is already active for this asset");
       return;
