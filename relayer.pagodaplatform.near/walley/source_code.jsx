@@ -110,6 +110,7 @@ const WalleyIndexDesc = styled.div`
 `;
 
 const WalleyIndexMain = styled.div`
+    margin-top: 20px;
     font-weight: 500;
     &>button {
         border: none;
