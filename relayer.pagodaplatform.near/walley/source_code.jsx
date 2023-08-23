@@ -114,12 +114,21 @@ const WalleyIndexDesc = styled.div`
 
 const WalleyIndexMain = styled.div`
     margin-top: 20px;
-    font-weight: 500;
+    &>span {
+      font-weight: 500;
+      @media screen and (max-width: 600px) {
+        display: none;
+      }
+    }
     &>button {
         border: none;
         background: #FA9703;
         color: white;
         margin-left: 20px;
+        @media screen and (max-width: 600px) {
+          position: fixed;
+          bottom: 0;
+        }
     }
 `;
 
@@ -246,7 +255,7 @@ if (!sender) {
             Go Phoneless With the Highly Secured NFT-based Wallet.
           </WalleyIndexDesc>
           <WalleyIndexMain>
-            Get Started -
+            <span>Get Started -</span>
             <Web3Connect connectLabel="Connect Wallet" />
           </WalleyIndexMain>
         </WalleyIndexBody>
