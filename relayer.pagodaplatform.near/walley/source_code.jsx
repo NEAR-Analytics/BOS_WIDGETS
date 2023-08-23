@@ -169,6 +169,8 @@ const WalleyHomeContainer = styled.div`
     color: #fff;
     display: flex;
     flex-direction: column;
+    position: fixed;
+    top: 0px;
     @media screen and (max-width: 600px) {
       background-position: 70% 70%;
     }
@@ -180,8 +182,6 @@ const WalleyHomeHeader = styled.div`
     font-weight: 900;
     padding: 10px;
     padding-bottom: 0px;
-    position: fixed;
-    top: 0px;
     color: #fff;
     display: flex;
     flex-direction: column;
