@@ -36,8 +36,11 @@ return (
         >
           <button
             type="button"
-            class="btn btn-primary"
-            style={{ width: "150px" }}
+            style={{
+              width: "150px",
+              backgroundColor: "#00ffae",
+              border: "none",
+            }}
           >
             <a
               href="https://t.me/etcentre"
@@ -48,7 +51,13 @@ return (
             </a>
           </button>
           <button
-            style={{ color: "#fff", width: "250px", marginTop: "15px" }}
+            style={{
+              color: "#fff",
+              width: "250px",
+              marginTop: "15px",
+              backgroundColor: "rgb(131, 96, 195)",
+              border: "none",
+            }}
             type="button"
             class="btn btn-outline-secondary"
           >
@@ -201,8 +210,12 @@ return (
       >
         <button
           type="button"
-          class="btn btn-primary"
-          style={{ width: "150px", margin: "15px 0" }}
+          style={{
+            width: "150px",
+            margin: "15px 0",
+            backgroundColor: "#00ffae",
+            border: "none",
+          }}
         >
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLSfmGbjrbj8mvgXEkrQdV8PYkvPTWOMvpjxOCdIOI2Mo-Y7AIQ/viewform"
@@ -213,9 +226,14 @@ return (
           </a>
         </button>
         <button
-          style={{ color: "#fff", width: "250px", marginTop: "15px" }}
+          style={{
+            color: "#fff",
+            width: "250px",
+            marginTop: "15px",
+            backgroundColor: "rgb(131, 96, 195)",
+            border: "none",
+          }}
           type="button"
-          class="btn btn-outline-secondary"
         >
           <a
             href="https://dropouts-newsletter.beehiiv.com/subscribe"
@@ -249,7 +267,9 @@ return (
 
       <div>
         <p>
-          <b>Social</b> <br />
+          <p>
+            <b>Social</b>
+          </p>{" "}
           <a
             href="https://twitter.com/eielhart_?s=21"
             style={{ marginRight: "15px" }}
