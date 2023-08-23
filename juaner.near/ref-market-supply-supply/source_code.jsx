@@ -131,7 +131,8 @@ const Modal = styled.div`
 `;
 let accountId = context.accountId;
 if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
+  // return <Widget src="juaner.near/widget/ref_account-signin" />;
+  <div></div>;
 }
 let BURROW_CONTRACT = "contract.main.burrow.near";
 const NO_STORAGE_DEPOSIT_CONTRACTS = ["aurora", "meta-pool.near"];
