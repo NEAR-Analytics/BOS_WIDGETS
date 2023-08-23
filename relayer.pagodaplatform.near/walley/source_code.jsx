@@ -166,6 +166,7 @@ const WalleyHomeContainer = styled.div`
     font-family: Poppins, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     height: 100vh;
     width: 100%;
+    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
