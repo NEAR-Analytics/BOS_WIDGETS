@@ -82,7 +82,7 @@ const WalleyTitle = styled.div`
 const WalleyIndexContainer = styled.div`
     
     box-shadow: 12px 0px 0px 5px #000D1A;
-    background: linear-gradient( to bottom, orange 0%, orange 50%, #FFF5F5 50%, #FFF5F5 100% );
+    background: url("https://i.ibb.co/tQFpnz1/24771098-sl-0210121-40570-25.jpg");
     color: #000D1A;
     width: 100%;
     padding: 20px;
