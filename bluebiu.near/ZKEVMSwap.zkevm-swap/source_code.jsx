@@ -44,7 +44,7 @@ const arrowDown = (
 const ArrowDownWrapper = styled.div`
   position: absolute;
   right: 16px;
-  top: 12px;
+  top: 8px;
 `;
 
 const exchangeIcon = (
@@ -766,7 +766,11 @@ const onCallTxComple = (tx) => {
     const { status, transactionHash } = receipt;
 
     add_action({
-      action_title: `Swap ${state.inputAssetAmount} ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
+      action_title: `Swap ${
+        Number(state.inputAssetAmount) < 0.000001
+          ? "<0.000001"
+          : new Big(state.inputAssetAmount).toFixed(6)
+      }   ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
       action_type: "Swap",
       action_tokens: JSON.stringify([
         `${state.inputAsset.metadata.symbol}`,
@@ -777,7 +781,7 @@ const onCallTxComple = (tx) => {
       account_info: uuid,
       template: selectedDex,
       action_status: status === 1 ? "Success" : "Failed",
-      action_code: state.add ? 1 : 0,
+      action_switch: state.add ? 1 : 0,
       tx_id: transactionHash,
     });
 
@@ -1084,5 +1088,6 @@ return (
         />
       </div>
     </SwapMainContainer>
+    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
   </Theme>
 );
