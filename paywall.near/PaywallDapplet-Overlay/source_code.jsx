@@ -1,19 +1,19 @@
 /**
- * We use payerAccountId instead of accountId because it's reserved parameter in embeded pages
+ * We use buyerAccountId instead of accountId because it's reserved parameter in embeded pages
  * https://github.com/near/near-discovery/blob/dc58aa1c8ef5d4c0a5e19839230148009834088a/src/pages/embed/%5BaccountId%5D/widget/%5BcomponentName%5D.tsx#L16
  */
-const { payerAccountId } = props;
+const { buyerAccountId } = props;
 
-if (!payerAccountId) {
+if (!buyerAccountId) {
   return <div>Connect your Wallet</div>;
 }
 
-const purchases = payerAccountId
+const purchases = buyerAccountId
   ? Near.view(
       "app.paywall.near",
       "purchases",
       {
-        account_id: payerAccountId,
+        account_id: buyerAccountId,
       },
       "final",
       true
