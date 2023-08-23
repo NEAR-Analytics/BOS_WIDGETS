@@ -215,7 +215,7 @@ const WalleyHomeBody = styled.div`
 const WalleyBalance = styled.span`
   padding: 5px;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 15px;
   background-color: #4169E1;
   border-radius: 30px;
   &>svg {
