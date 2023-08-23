@@ -152,11 +152,31 @@ return (
             <TableCell>{item.link}</TableCell>
             <TableCell>{ChipDisplay(item.status)}</TableCell>
             <TableCell>
-              <ActionButton>View Details</ActionButton>
+              <ActionButton
+                onClick={() => {
+                  State.update({ ticketPreview: item });
+                }}
+              >
+                View Details
+              </ActionButton>
             </TableCell>
           </TableRow>
         ))}
       </tbody>
     </Table>
+    {!!state.ticketPreview && (
+      <Widget
+        src="harrydhillon.near/widget/Keypom.Landing.TicketDetails.Preview"
+        props={{
+          isOpen: !!state.ticketPreview,
+          ...state.ticketPreview,
+          onClose: () => {
+            State.update({
+              ticketPreview: null,
+            });
+          },
+        }}
+      />
+    )}
   </div>
 );
