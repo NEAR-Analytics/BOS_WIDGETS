@@ -133,7 +133,7 @@ const Modal = styled.div`
 /** base tool start  */
 let accountId = context.accountId;
 if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
+  return <div></div>;
 }
 let MAX_RATIO = 10_000;
 let B = Big();
