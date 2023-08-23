@@ -65,6 +65,8 @@ if (widgetName === 'ref-home' || widgetName === 'xBox' || widgetName === 'nearco
     hrefSrc = '/polygon-zkevm';
 } else if (widgetName === 'ZKEVM.ExecuteRecords' || widgetName === 'ZKEVM.QuestionList' || widgetName === 'warmup') {
     hrefSrc = '/warmup';
+}else if (widgetName === 'Base.BaseDex') {
+    hrefSrc = '/base';
 }
 
 return (
