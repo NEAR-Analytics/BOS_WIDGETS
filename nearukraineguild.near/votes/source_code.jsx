@@ -1,3 +1,79 @@
+let layout = [
+  {
+    type: "row",
+    content: [
+      {
+        type: "text",
+        variants: ["lg"],
+        rows: 1,
+        style: {
+          width: "50%",
+        },
+      },
+      {
+        type: "text",
+        variants: ["sm"],
+        rows: 1,
+        style: {
+          width: "80px",
+          marginStart: "auto",
+        },
+      },
+    ],
+  },
+  {
+    type: "row",
+    variants: ["me-auto"],
+    content: [
+      {
+        type: "avatar",
+        variants: ["md", "me-1"],
+      },
+      {
+        type: "text",
+        variants: ["md"],
+        rows: 1,
+        style: {
+          width: "150px",
+        },
+      },
+    ],
+  },
+  {
+    type: "box",
+    variants: ["lg", "mb-5"],
+  },
+  {
+    type: "row",
+    variants: ["flex-column"],
+    content: [
+      {
+        type: "box",
+        variants: ["rounded-5"],
+        style: {
+          height: "46px",
+        },
+        count: 3,
+      },
+    ],
+  },
+  {
+    type: "row",
+    variants: ["justify-content-start", "mt-4"],
+    content: [
+      {
+        type: "box",
+        variants: ["rounded-5"],
+        count: 2,
+        style: {
+          height: "38px",
+          width: "160px",
+        },
+      },
+    ],
+  },
+];
+
 State.init({
   wallet: "kiskesis.near",
   profile: {},
@@ -87,14 +163,46 @@ if (state.data.ok) {
 
   return (
     <>
-      {rednerSelector()}
-      <h1>Fantastic users who voted for {state.profile.name.toUpperCase()}</h1>
-      <a
-        href="/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=vadim.near"
-        class="btn btn-primary mt-2"
-      >
-        VOTE FOR {state.profile.name.toUpperCase()}!
-      </a>
+      <div class="container p-3 d-flex flex-column align-items-center">
+        {rednerSelector()}
+      </div>
+      <Widget
+        src={`nearui.near/widget/Typography.Text`}
+        props={{
+          children: `Fantastic users who voted for ${state.profile.name.toUpperCase()}`,
+          tag: "h1",
+          size: "5",
+          weight: "bold",
+          color: "default",
+          className: "mt-4 mb-2",
+          otherProps: {
+            id: "my-text",
+          },
+        }}
+      />
+      <div class="mt-3 mb-3">
+        <Widget
+          src="nearui.near/widget/Element.User"
+          props={{
+            accountId: state.wallet,
+            options: {
+              size: "lg",
+              showSocialName: true,
+              showImage: true,
+              showHumanBadge: true,
+            },
+          }}
+        />
+      </div>
+      <Widget
+        src="nearui.near/widget/Input.Button"
+        props={{
+          children: `VOTE FOR ${state.profile.name.toUpperCase()}!`,
+          variant: "success",
+          href: `/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${state.wallet}`,
+          size: "lg",
+        }}
+      />
       <table class="table table-sm mt-4">
         <thead>
           <tr>
@@ -120,8 +228,5 @@ if (state.data.ok) {
   );
 } else
   return (
-    <>
-      "Loading"
-      <button onClick={fetchVotesData}>Click</button>
-    </>
+    <Widget src="nearui.near/widget/Feedback.Skeleton" props={{ layout }} />
   );
