@@ -608,7 +608,7 @@ const approveTransaction = (tokenId) => {
         .approveTransaction(
           walleyAddress,
           tokenId,
-          `${parseFloat(state.store.totalAmount) * Math.pow(10, 18)}`,
+          `${state.store.totalAmount * Math.pow(10, 18)}`,
           state.store.bill.cid,
           {
             from: sender,
@@ -835,10 +835,8 @@ return (
                             Big(tx[1]).toFixed(0) ? (
                               <>
                                 <WalleyStoreImage
-                                  src={`https://ipfs.near.social/ipfs/${
-                                    state.user.openReceipt[tx[8]]
-                                  }`}
-                                  alt={tx[8]}
+                                  src={`https://ipfs.near.social/ipfs/${tx[7]}`}
+                                  alt={tx[7]}
                                 />
                                 <WalleyButton
                                   color="#000D1A"
@@ -1057,10 +1055,8 @@ return (
                         {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
                           <>
                             <WalleyStoreImage
-                              src={`https://ipfs.near.social/ipfs/${
-                                state.user.openReceipt[tx[8]]
-                              }`}
-                              alt={tx[8]}
+                              src={`https://ipfs.near.social/ipfs/${tx[7]}`}
+                              alt={tx[7]}
                             />
                             <WalleyButton
                               color="#000D1A"
