@@ -116,7 +116,8 @@ const Modal = styled.div`
 /** base tool start  */
 let accountId = context.accountId;
 if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
+  <div></div>;
+  // return <Widget src="juaner.near/widget/ref_account-signin" />;
 }
 
 let BURROW_CONTRACT = "contract.main.burrow.near";
