@@ -246,7 +246,7 @@ if (isActonBridge) {
       highlight,
       full: token.highlight,
       left: token.highlight.substring(highlight.length, token.highlight.length),
-      dappName: "zkEVM-bridge",
+      dappName: "native bridge",
       matched:
         (matchOnSymbol || !quantityOrSymbol) &&
         (matchOnNetwork || !onOrNetwork),
