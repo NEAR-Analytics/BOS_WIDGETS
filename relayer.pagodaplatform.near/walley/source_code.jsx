@@ -103,7 +103,6 @@ const WalleyIndexDesc = styled.div`
     color: #fff;
     font-weight: 600;
     font-size: 40px;
-    height: 100%;
     padding-bottom: 10px;
     @media screen and (max-width: 600px) {
         font-size: 25px;
@@ -112,15 +111,7 @@ const WalleyIndexDesc = styled.div`
 `;
 
 const WalleyIndexMain = styled.div`
-    height: 350px;
     font-weight: 500;
-    width: 400px;
-    @media screen and (max-width: 600px) {
-        width: 100%;
-        box-shadow: none;
-        border: 1px solid #DBDED7;
-        border-radius: 20px;
-    }
     &>button {
         border: none;
         background: orange;
