@@ -50,7 +50,7 @@ const PreviewTicketModal = (
       }}
     >
       <div>
-        <p style={{ marginBottom: 0 }}>Link</p>
+        <p style={{ marginBottom: 0, fontWeight: "500" }}>Link</p>
         <p style={{ fontSize: 14, color: "#1E293B" }}>{props.link}</p>
       </div>
       {ChipDisplay("Claimed")}
@@ -63,15 +63,15 @@ const PreviewTicketModal = (
       }}
     >
       <div style={{ width: "50%" }}>
-        <p style={{ marginBottom: 0 }}>Full Name</p>
+        <p style={{ marginBottom: 0, fontWeight: "500" }}>Full Name</p>
         <p style={{ fontSize: 14, color: "#1E293B" }}>{props.name}</p>
       </div>
       <div style={{ width: "50%" }}>
-        <p style={{ marginBottom: 0 }}>Email</p>
+        <p style={{ marginBottom: 0, fontWeight: "500" }}>Email</p>
         <p style={{ fontSize: 14, color: "#1E293B" }}>{props.email}</p>
       </div>
     </div>
-    <p style={{ fontSize: 18 }}>Attendee questions and responses</p>
+    <p style={{ fontSize: 18, fontWeight: "500"}}>Attendee questions and responses</p>
     <div>
       <p style={{ marginBottom: 0, fontWeight: "500" }}>
         How did you hear about Keypom?
