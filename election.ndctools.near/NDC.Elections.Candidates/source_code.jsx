@@ -369,8 +369,8 @@ const loadSocialDBData = () => {
 };
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-const isVisible = alreadyVotedForHouse.length > 0 || winnerIds.length > 0;
-console.log(alreadyVotedForHouse.length);
+const isVisible = alreadyVotedForHouse().length > 0 || winnerIds.length > 0;
+
 State.init({
   start: true,
   loading: false,
