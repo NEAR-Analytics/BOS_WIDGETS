@@ -213,7 +213,8 @@ const WalleyHomeBody = styled.div`
   width: 75%;
 `;
 
-const WalleyBalance = styled.p`
+const WalleyBalance = styled.span`
+  padding: 5px;
   font-weight: 500;
   font-size: 15px;
   background-color: #4169E1;
