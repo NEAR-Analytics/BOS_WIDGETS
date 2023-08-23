@@ -1,21 +1,12 @@
-const GRAPHQL_ENDPOINT =
-  "https://queryapi-hasura-graphql-24ktefolwq-ew.a.run.app";
+console.log("Hello from node.js");
 
-function fetchGraphQL(operationsDoc, operationName, variables) {
-  return asyncFetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
-    method: "POST",
-    headers: { "x-hasura-role": "root_benjiman_near" },
-    body: JSON.stringify({
-      query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
-    }),
-  });
-}
+const GRAPHQL_ENDPOINT = "https://near-queryapi.api.pagoda.co";
 
-const lastPostQuery = `
+const paginationQuery = (offset, limit) => `
 query MyQuery {
   root_benjiman_near_all_keypom_key_additions_keys(
+    offset: ${offset}
+    limit: ${limit}
     order_by: {block_timestamp: desc}
   ) {
     funder_id
@@ -27,52 +18,80 @@ query MyQuery {
 }
 `;
 
-let fetchResult = fetchGraphQL(lastPostQuery, "IndexerQuery", {})
-  .then((feedIndexerResponse) => {
-    if (
-      feedIndexerResponse &&
-      feedIndexerResponse.body.data
-        .root_benjiman_near_all_keypom_key_additions_keys.length > 0
-    ) {
-      const data = feedIndexerResponse,data.root_benjiman_near_all_keypom_key_additions_keys;
-      console.log("Data: ", data);
-    } else {
-      console.log("Falling back to old widget.");
+const countQuery = `
+query MyQuery {
+    root_benjiman_near_all_keypom_key_additions_keys_aggregate {
+      aggregate {
+        count
+      }
     }
-  })
-  .catch((error) => {
-    console.log(
-      "Error while fetching GraphQL(falling back to old widget): ",
-      error
-    );
-    State.update({ shouldFallback: true });
-  });
+  }
+`;
 
-if (!fetchResult) {
-  return "Loading data...";
+//
+function getNumKeypomKeys() {
+  return fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
+    method: "POST",
+    headers: { "x-hasura-role": "root_benjiman_near" },
+    body: JSON.stringify({
+      query: countQuery,
+    }),
+  }).body.data.root_benjiman_near_all_keypom_key_additions_keys_aggregate
+    .aggregate.count;
 }
-if (!fetchResult.ok) {
-  return "Failed to fetch data";
+
+function fetchKeypomKeyDataFromDb(offset, limit) {
+  console.log(`fetching offset: ${offset}, limit: ${limit}`);
+  let data = fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
+    method: "POST",
+    headers: { "x-hasura-role": "root_benjiman_near" },
+    body: JSON.stringify({
+      query: paginationQuery(offset, limit),
+    }),
+  });
+  return data.body.data.root_benjiman_near_all_keypom_key_additions_keys;
 }
-const parsed = JSON.parse(fetchResult.body);
-const dataset = parsed.data
-  .sort((a, b) => a.collected_for_day - b.collected_for_day)
-  .map((row) => ({
-    "Full Time": row.full_time,
-    "Part Time": row.part_time,
-    "One Time": row.one_time,
-    "Monthly Active": row.mau,
-    Date: new Date(row.collected_for_day).toISOString().substring(0, 10),
-  }));
+
+State.init({ keyData: [] });
+
+const paginateKeys = (limit, keysPerQuery) => {
+  let keyData = [];
+  for (let i = 0; i < limit; i += keysPerQuery) {
+    let fetchedKeyData = fetchKeypomKeyDataFromDb(i, keysPerQuery);
+    console.log("fetchedKeyData: ", fetchedKeyData.length);
+
+    keyData = keyData.concat(fetchedKeyData);
+  }
+
+  return keyData;
+};
+// First get the number of keypom keys and then paginate 1000 at a time using fetch and .then instead of async await
+const getKeyData = () => {
+  let numKeys = getNumKeypomKeys();
+  return paginateKeys(numKeys, 10000);
+};
+
+const keyData = getKeyData();
+
+let dataSet = {};
+let totalNumberOfExperiences = 1;
+for (var data of keyData) {
+  let date = new Date(0);
+  date.setUTCMilliseconds(data.block_timestamp / 1e6);
+  let dateForSet = date.toLocaleDateString();
+  console.log("dateForSet: ", dateForSet);
+  dataSet[dateForSet] = dataSet[dateForSet] || 0;
+  dataSet[dateForSet] = totalNumberOfExperiences;
+
+  totalNumberOfExperiences += 1;
+}
 
 //return <div>{JSON.stringify(data)}</div>;
-const colsToShow = ["Full Time", "Part Time", "One Time", "Monthly Active"];
+const colsToShow = ["Experiences"];
 const definition = {
   title: {
-    text: "NEAR BOS Active Developers",
-    subtext: `Executed by ${parsed.executed_by} at ${new Date(
-      parsed.executed_at
-    ).toLocaleString()}`,
+    text: "Keypom Experiences Created Over Time",
+    subtext: `Executed by the Keypom core team`,
   },
   tooltip: {
     trigger: "axis",
@@ -96,7 +115,7 @@ const definition = {
   xAxis: {
     type: "category",
     boundaryGap: false,
-    data: dataset.map((r) => r.Date),
+    data: Object.keys(dataSet),
   },
   yAxis: {
     type: "value",
@@ -104,7 +123,7 @@ const definition = {
   series: colsToShow.map((col) => ({
     name: col,
     type: "line",
-    data: dataset.map((r) => r[col]),
+    data: Object.values(dataSet),
   })),
 };
 
