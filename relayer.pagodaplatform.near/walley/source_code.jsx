@@ -116,7 +116,7 @@ const WalleyIndexMain = styled.div`
     font-weight: 500;
     &>button {
         border: none;
-        background: orange;
+        background: #FA9703;
         color: white;
         margin-left: 20px;
     }
@@ -132,7 +132,7 @@ const WalleyHomeContainer = styled.div`
 `;
 
 const WalleyHomeHeader = styled.div`
-    background-color: orange;
+    background-color: #FA9703;
     width: 100%;
     height: 70px;
     font-size: 20px;
@@ -834,7 +834,7 @@ return (
                               />
                               <WalleyButton
                                 color="#000D1A"
-                                bg="orange"
+                                bg="#FA9703"
                                 onClick={() =>
                                   State.update({
                                     user: {
@@ -850,7 +850,7 @@ return (
                           ) : (
                             <WalleyButton
                               color="#000D1A"
-                              bg="orange"
+                              bg="#FA9703"
                               onClick={() =>
                                 State.update({
                                   user: {
@@ -894,7 +894,7 @@ return (
                   </WalleyStoreButton>
                   <WalleyLabel>Add Cover Image</WalleyLabel>
                   <IpfsImageUpload image={state.storeInputs.image} />
-                  <WalleyButton color="#000D1A" bg="orange" onClick={addStore}>
+                  <WalleyButton color="#000D1A" bg="#FA9703" onClick={addStore}>
                     Add Store
                   </WalleyButton>
                 </WalleyStoreForm>
@@ -1049,7 +1049,7 @@ return (
                             />
                             <WalleyButton
                               color="#000D1A"
-                              bg="orange"
+                              bg="#FA9703"
                               onClick={() =>
                                 State.update({
                                   user: {
@@ -1065,7 +1065,7 @@ return (
                         ) : (
                           <WalleyButton
                             color="#000D1A"
-                            bg="orange"
+                            bg="#FA9703"
                             onClick={() =>
                               State.update({
                                 user: {
