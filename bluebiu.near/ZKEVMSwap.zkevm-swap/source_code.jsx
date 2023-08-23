@@ -44,7 +44,7 @@ const arrowDown = (
 const ArrowDownWrapper = styled.div`
   position: absolute;
   right: 16px;
-  top: 12px;
+  top: 8px;
 `;
 
 const exchangeIcon = (
