@@ -89,9 +89,9 @@ const Container = styled.div`
 `;
 /** base tool start  */
 let accountId = context.accountId;
-if (!accountId) {
-  return <Widget src="juaner.near/widget/ref_account-signin" />;
-}
+// if (!accountId) {
+//   return <Widget src="juaner.near/widget/ref_account-signin" />;
+// }
 const toAPY = (v) => Math.round(v * 100) / 100;
 const shrinkToken = (value, decimals, fixed) => {
   return new Big(value).div(new Big(10).pow(decimals || 0)).toFixed(fixed);
@@ -357,6 +357,7 @@ return (
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
     <div class="supply_title">You Supplied</div>
+
     <table class="assets_table click">
       <thead>
         <tr>
@@ -378,8 +379,10 @@ return (
           <th scope="col" width="20%"></th>
         </tr>
       </thead>
-      <tbody>{renderAssets(state.tableData)}</tbody>
+
+      {accountId && <tbody>{renderAssets(state.tableData)}</tbody>}
     </table>
+
     {/** modal */}
     <Widget
       src="juaner.near/widget/ref-market-supply-adjust"
