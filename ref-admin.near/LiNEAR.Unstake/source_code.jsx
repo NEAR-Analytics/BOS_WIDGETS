@@ -161,7 +161,7 @@ const onChange = (e) => {
         unstakeMax: false,
         onClickMax: false,
         inputValue: unstakeAmount,
-        inputError: `Stake at least ${nearPriceInLiNEAR} LiNEAR`,
+        inputError: `at least ${nearPriceInLiNEAR} LiNEAR`,
       });
     } else {
       State.update({
@@ -189,7 +189,7 @@ const onClickMax = () => {
     State.update({
       unstakeMax: true,
       inputValue: formattedLinearBalance,
-      inputError: `Stake at least ${nearPriceInLiNEAR} NEAR`,
+      inputError: `at least ${nearPriceInLiNEAR} NEAR`,
     });
     return;
   } else {
