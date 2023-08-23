@@ -272,7 +272,7 @@ return (
     <div className="quest-title-wrapper">
       <div className="quest-title">
         {hotIcon}
-        Hot ZkEvm DApps{" "}
+        Hot zkEVM DApps{" "}
       </div>
     </div>
 
@@ -291,7 +291,7 @@ return (
         src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
         props={{
           background: "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
-          dappName: "ZkEvm-bridge",
+          dappName: "zkEVM-bridge",
           creator: "guessme.near",
           widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
           src: "https://assets.ref.finance/images/zkevm-swap.png",
