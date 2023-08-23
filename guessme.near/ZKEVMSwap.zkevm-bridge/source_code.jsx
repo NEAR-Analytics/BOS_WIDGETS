@@ -287,7 +287,7 @@ const handleBridge = (props) => {
 
         add_action({
           action_title: `Bridge ${token.symbol} from ${
-            chainId === 1 ? "Ethereum" : "ZKEVM"
+            chainId === 1 ? "Ethereum" : "zkEVM"
           }`,
           action_type: "Bridge",
           action_tokens: JSON.stringify([`${token.symbol}`]),
