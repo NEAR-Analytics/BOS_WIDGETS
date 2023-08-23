@@ -87,7 +87,7 @@ if (!tweetIdsWithContent.includes(props.contentId)) {
 return (
   <Wrapper>
     <div className="content-blur-wrapper">
-      {isPurchased ? (
+      {isPurchased === null ? null : isPurchased ? (
         <img
           className="content-image"
           onClick={handleBlur}
