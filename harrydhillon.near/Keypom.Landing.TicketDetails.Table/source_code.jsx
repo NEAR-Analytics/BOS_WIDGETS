@@ -54,7 +54,7 @@ for (let i = 0; i < 20; i++) {
   drops.push(drop);
 }
 
-function Chip({ label, color ,backgroundColor}) {
+function Chip({ label, color, backgroundColor }) {
   const style = {
     padding: "8px 16px",
     borderRadius: "100px",
@@ -86,7 +86,11 @@ function ChipDisplay(name) {
 
   return (
     <div>
-      <Chip label={name} color={items[name].fontColor} backgroundColor={items[name].backgroundColor} />
+      <Chip
+        label={name}
+        color={items[name].fontColor}
+        backgroundColor={items[name].backgroundColor}
+      />
     </div>
   );
 }
