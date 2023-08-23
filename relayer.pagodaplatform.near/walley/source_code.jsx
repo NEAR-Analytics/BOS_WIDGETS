@@ -93,6 +93,9 @@ const WalleyIndexBody = styled.div`
   flex-direction: column;
   text-align: left;
   width: 500px;
+  @media screen and (max-width:600px) {
+    width: 100%;
+  }
 `;
 
 const WalleyIndexDesc = styled.div`
@@ -100,6 +103,9 @@ const WalleyIndexDesc = styled.div`
     font-weight: 600;
     font-size: 60px;
     padding-bottom: 10px;
+    @media screen and (max-width:600px) {
+    font-size: 50px;
+  }
 `;
 
 const WalleyIndexMain = styled.div`
