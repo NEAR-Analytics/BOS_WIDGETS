@@ -23,46 +23,19 @@ function isValid(a) {
   if (a === "") return false;
   return true;
 }
+
 function formatAmount(a) {
   return isValid(a)
     ? Number(a).toLocaleString(undefined, {
-        minimumFractionDigits: 5,
-        maximumFractionDigits: 5,
-      })
+      minimumFractionDigits: 5,
+      maximumFractionDigits: 5,
+    })
     : a;
 }
 
 /** common lib end */
-function getNearBalance(accountId) {
-  const account = fetch(config.nodeUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: "dontcare",
-      method: "query",
-      params: {
-        request_type: "view_account",
-        finality: "final",
-        account_id: accountId,
-      },
-    }),
-  });
-  const { amount, storage_usage } = account.body.result;
-  const COMMON_MIN_BALANCE = 0.05;
-  if (!amount) return "-";
-  const availableBalance = Big(amount || 0).minus(
-    Big(storage_usage).mul(Big(10).pow(19))
-  );
-  const balance = availableBalance
-    .div(Big(10).pow(NEAR_DECIMALS))
-    .minus(COMMON_MIN_BALANCE);
-  return balance.lt(0) ? "0" : balance.toFixed(5, BIG_ROUND_DOWN);
-}
-
-const nearBalance = getNearBalance(accountId);
+const nearBalance = props.nearBalance || "-";
+const linearBalance = props.linearBalance || "-";
 
 /** events start */
 const onChange = (e) => {
@@ -98,7 +71,7 @@ const onChange = (e) => {
     ) {
       State.update({
         inputValue: stakeAmount,
-        inputError: "Stake at least 1 NEAR",
+        inputError: "at least 1 NEAR",
       });
     } else {
       State.update({
@@ -122,7 +95,7 @@ const onClickMax = () => {
   ) {
     State.update({
       inputValue: nearBalance,
-      inputError: "Stake at least 1 NEAR",
+      inputError: "at least 1 NEAR",
     });
     return;
   } else {
@@ -147,7 +120,7 @@ const onClickStake = async () => {
       stakeAmount === "" ||
       Big(stakeAmount).lt(1)
     ) {
-      State.update({ inputError: "Stake at least 1 NEAR" });
+      State.update({ inputError: "at least 1 NEAR" });
     } else if (Big(stakeAmount).gt(Big(nearBalance))) {
       State.update({
         inputError: `Max is ${nearBalance} NEAR`,
@@ -155,25 +128,34 @@ const onClickStake = async () => {
     } else setInputError("");
     return;
   }
-  Near.call(
-    config.contractId,
-    "deposit_and_stake",
-    {},
-    undefined,
-    Big(state.inputValue).mul(Big(10).pow(NEAR_DECIMALS)).toFixed(0)
-  );
-  // check and update balance
-  const interval = setInterval(() => {
-    const balance = getNearBalance(accountId);
-    if (balance !== nearBalance) {
-      clearInterval(interval);
-      State.update({
-        inputValue: "",
-        inputError: "",
-        nearBalance: balance,
-      });
-    }
-  }, 500);
+
+  const stake = {
+    contractName: config.contractId,
+    methodName: "deposit_and_stake",
+    deposit: Big(state.inputValue).mul(Big(10).pow(NEAR_DECIMALS)).toFixed(0),
+    args: {},
+  };
+  const registerFt = {
+    contractName: config.contractId,
+    methodName: "ft_balance_of",
+    args: {
+      account_id: accountId,
+    },
+  };
+  const txs = [stake];
+  // If account has no LiNEAR, we assume she/he needs to register LiNEAR token.
+  // By adding a `ft_balance_of` function call, the NEAR indexer will automatically
+  // add LiNEAR token into caller's NEAR wallet token list.
+  if (Number(linearBalance) === 0) {
+    txs.push(registerFt);
+  }
+
+  Near.call(txs);
+
+  // update account balances
+  if (props.updateAccountInfo) {
+    props.updateAccountInfo();
+  }
 };
 /** events end */
 
@@ -195,35 +177,61 @@ const StakeFormWrapper = styled.div`
   width: 100%;
   max-width: 500px;
   padding-top: 10px;
-  background: #1A2E33;
+  background: #25283A;
   border-radius: 16px;
   margin-top:20px;
   padding-bottom:20px;
   .contentArea{
-    background: #142427;
+    background: #25283A;
     border-radius: 16px;
-    padding:20px 30px;
+    padding:20px 30px 0 30px;
+  }
+  .contentArea p{
+    color: #7C7F96;
+    font-size:14px;
+  }
+  .contentArea hr{
+    background: #373A53;
+    height:2px;
+  }
+  .arr .bigIcon{
+    background: #373A53;
+  }
+  .arr .boldText{
+    font-weight: 500;
+  }
+  .arr .apr{
+    color: #7C7F96;
+  }
+  .arr .apr .value{
+    color:#FFFFFF;
+    font-weight: 500;
+  }
+  .footer p{
+    color:#FFFFFF;
   }
 `;
-
 return (
   <StakeFormWrapper>
-    <Widget
-      src={`${config.ownerId}/widget/stake-bannerIcon`}
-      props={{
-        firstIconName: "NEAR",
-        firstIconUrl:
-          "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-        secondIconName: "LiNEAR",
-        secondIconUrl:
-          "https://ipfs.near.social/ipfs/bafkreie2nqrjdjka3ckf4doocsrip5hwqrxh37jzwul2nyzeg3badfl2pm",
-        componentType: "liNEAR",
-      }}
-    ></Widget>
+    <div class="arr">
+      <Widget
+        src={`${config.ownerId}/widget/stake-bannerIcon`}
+        props={{
+          firstIconName: "NEAR",
+          firstIconUrl:
+            "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+          secondIconName: "",
+          secondIconUrl:
+            "https://ipfs.near.social/ipfs/bafkreie2nqrjdjka3ckf4doocsrip5hwqrxh37jzwul2nyzeg3badfl2pm",
+          componentType: "liNEAR",
+        }}
+      ></Widget>
+    </div>
     <div class="contentArea">
       <Widget
         src={`${config.ownerId}/widget/LiNEAR.Input`}
         props={{
+          firstIconName: "NEAR",
           placeholder: "0",
           value: state.inputValue,
           onChange,
@@ -238,19 +246,18 @@ return (
           onClick: onClickStake,
           disabled: disabledStakeButton,
           text: "Stake",
+          firstIconName: "NEAR",
         }}
       />
-      <Widget
-        src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
-        props={{ text: `${formattedReceivedLinear} LiNEAR` }}
-      />
+      <div class="footer">
+        <Widget
+          src={`${config.ownerId}/widget/LiNEAR.Message.YouWillReceive`}
+          props={{
+            text: `${formattedReceivedLinear}`, secondIconName: "LiNEAR",
+            secondIconUrl: "https://ipfs.near.social/ipfs/bafkreie2nqrjdjka3ckf4doocsrip5hwqrxh37jzwul2nyzeg3badfl2pm",
+          }}
+        />
+      </div>
     </div>
-    <Widget
-      src={`${config.ownerId}/widget/LiNEAR.Tab`}
-      props={{
-        updateTabName: props.updateTabName,
-        tabName: "stake",
-      }}
-    ></Widget>
   </StakeFormWrapper>
 );
