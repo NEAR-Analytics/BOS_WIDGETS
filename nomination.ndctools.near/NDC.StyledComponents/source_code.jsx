@@ -52,11 +52,11 @@ const Styled = {
       }
 
       &.success {
-        background: #5BC65F;
+        background: #5bc65f;
         color: #fff;
 
         &:hover {
-          background: #239F28;
+          background: #239f28;
         }
       }
     }
@@ -366,7 +366,14 @@ if (TextArea)
       <Styled.TextArea
         value={TextArea.value}
         placeholder={TextArea.placeholder}
-        onChange={TextArea.handleChange}
+        onChange={() => {
+          if (
+            TextArea.maxLength &&
+            (TextArea.value.length ?? 0) > TextArea.maxLength
+          )
+            return;
+          TextArea.handleChange();
+        }}
         rows={5}
       />
       {TextArea.maxLength && (
