@@ -72,8 +72,8 @@ return (
         <img
           src="https://res.cloudinary.com/dfbqtfoxu/image/upload/v1692790055/headerImage_ses4ka.svg"
           alt="hero-image"
-          width="300px"
-          height="300px"
+          width="400px"
+          height="400px"
         />
       </div>
     </div>
