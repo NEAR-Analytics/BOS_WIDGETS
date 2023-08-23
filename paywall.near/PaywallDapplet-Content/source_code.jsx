@@ -16,7 +16,7 @@ if (!content) {
   return <></>;
 }
 
-const isPurchased = Near.view("app.paywall.near", "purchased", {
+const isPurchased = Near.asyncView("app.paywall.near", "purchased", {
   account_id: accountId,
   content_id: contentId,
 });
