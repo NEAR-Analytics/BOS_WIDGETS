@@ -369,7 +369,7 @@ if (TextArea)
         onChange={() => {
           if (
             TextArea.maxLength &&
-            (TextArea.value.length ?? 0) > TextArea.maxLength
+            (TextArea.value.length ?? 0) > parseInt(TextArea.maxLength)
           )
             return;
           TextArea.handleChange();
