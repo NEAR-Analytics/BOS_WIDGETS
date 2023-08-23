@@ -16,10 +16,16 @@ if (!content) {
   return <></>;
 }
 
-const isPurchased = Near.asyncView("app.paywall.near", "purchased", {
-  account_id: accountId,
-  content_id: contentId,
-});
+const isPurchased = Near.view(
+  "app.paywall.near",
+  "purchased",
+  {
+    account_id: accountId,
+    content_id: contentId,
+  },
+  "final",
+  true
+);
 
 const price = "0.5";
 
