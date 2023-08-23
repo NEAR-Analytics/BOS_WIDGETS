@@ -147,6 +147,9 @@ const WalleyIndexMain = styled.div`
           scale: 1.05;
           background:#FA9703;
         }
+        &:active {
+          background:#FA9703;
+        }
         @media screen and (max-width: 600px) {
           width: 100%;
           height: 50px;
