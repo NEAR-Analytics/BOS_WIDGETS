@@ -23,13 +23,20 @@ const purchases = buyerAccountId
 const Wrapper = styled.div``;
 
 if (purchases === null) {
-  return <div>Loading...</div>
+  return <div>Loading...</div>;
 }
 
 return (
   <Wrapper>
     {purchases.map((contentId) => (
-      <div key={contentId}>{contentId}</div>
+      <div>
+        <div>{contentId}</div>
+        <Widget
+          key={contentId}
+          src={`paywall.near/widget/PaywallDapplet-Content`}
+          props={{ accountId: buyerAccountId, contentId: contentId }}
+        />
+      </div>
     ))}
   </Wrapper>
 );
