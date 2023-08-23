@@ -41,7 +41,7 @@ function formatCell(text) {
   return (
     <a
       href={
-        "https://nearatlas.com/#/abhishekanirudhan.near/widget/NEART.ATLAS.BDS_DETAILED_PROJECT_DASHBOARD?project_name=" +
+        "https://nearatlas.com/#/abhishekanirudhan.near/widget/NEAR.ATLAS.BDS_NFT_DETAILED_PROJECT_DASHBOARD?project_name=" +
         text
       }
       className="text-warning text-wrap "
