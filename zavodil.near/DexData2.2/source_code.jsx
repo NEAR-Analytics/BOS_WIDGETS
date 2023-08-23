@@ -566,8 +566,27 @@ const callTxAgniSwap = (
         .catch((ex) => console.log("exactInputSingle ex", ex));
     } else if (path.length > 2) {
       // path recepient deadline amountIn amountOutMinimum
-      const pathBytes =
-        "0x" + path.map((address) => address.substr(2)).join("");
+
+      const encodePath = (path, fees) => {
+        if (path.length != fees.length + 1) {
+          throw new Error("path/fee lengths do not match");
+        }
+
+        let encoded = "0x";
+        for (let i = 0; i < fees.length; i++) {
+          // 20 byte encoding of the address
+          encoded += path[i].slice(2);
+          // 3 byte encoding of the fee
+          encoded += fees[i].toString(16).padStart(2 * FEE_SIZE, "0");
+        }
+        // encode the final token
+        encoded += path[path.length - 1].slice(2);
+
+        return encoded.toLowerCase();
+      };
+
+      const fees = path.length == 2 ? ["000064"] : ["0001f4", "000064"];
+      const pathBytes = encodePath(path, fees);
 
       swapContract
         .exactInput([pathBytes, input.sender, deadline.toFixed(), value, "0"], {
