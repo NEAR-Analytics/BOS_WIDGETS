@@ -142,6 +142,9 @@ const WalleyIndexMain = styled.div`
         background: #FA9703;
         color: white;
         margin-left: 20px;
+        &:hover {
+          scale: 1.1;
+        }
         @media screen and (max-width: 600px) {
           width: 100%;
           height: 50px;
