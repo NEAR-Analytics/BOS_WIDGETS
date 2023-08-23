@@ -75,7 +75,7 @@ const WalleyTitle = styled.div`
     margin: 0px;
     padding: 5px;
     color: #fff; 
-    media screen and (max-width: 600px) {
+    @media screen and (max-width: 600px) {
         font-size: 20px;
     }
 `;
