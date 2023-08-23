@@ -333,11 +333,15 @@ const onTxClick = () => {
     loadingMsg: "Fetching transactions",
   });
   nftContract.getMyTransactions({ from: sender }).then((transactions) => {
-    const st = state.user;
+    const st = [];
     transactions.map((txn) => {
-      if (txn[8] === false) st.userPendingTransactions.push(txn);
+      if (txn[8] === false) st.push(txn);
     });
-    State.update({ user: st, loading: false, loadingMsg: "" });
+    State.update({
+      user: { ...state.user, userPendingTransactions: st },
+      loading: false,
+      loadingMsg: "",
+    });
   });
 };
 
@@ -348,11 +352,15 @@ const onTxPastClick = () => {
     loadingMsg: "Fetching past transactions",
   });
   nftContract.getMyTransactions({ from: sender }).then((transactions) => {
-    const st = state.user;
+    const st = [];
     transactions.map((txn) => {
-      if (txn[8] === true) st.userPastTransactions.push(txn);
+      if (txn[8] === true) st.push(txn);
     });
-    State.update({ user: st, loading: false, loadingMsg: "" });
+    State.update({
+      user: { ...state.user, userPastTransactions: st },
+      loading: false,
+      loadingMsg: "",
+    });
   });
 };
 
