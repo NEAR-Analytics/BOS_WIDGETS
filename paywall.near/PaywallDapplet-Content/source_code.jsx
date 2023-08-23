@@ -18,7 +18,7 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: 16px;
-    background-color: rgba(255,255,255,0.6);
+    background-color: rgba(255, 255, 255, 0.6);
     position: absolute;
     top: 0;
     left: 0;
@@ -53,8 +53,8 @@ const Wrapper = styled.div`
     align-items: center;
     gap: 10px;
     border-radius: 20px;
-    background: #1D9BF0;
-    color: #FFF;
+    background: #1d9bf0;
+    color: #fff;
     text-align: center;
     font-family: Helvetica;
     font-size: 15px;
@@ -67,7 +67,7 @@ const Wrapper = styled.div`
   }
 
   .unlock-content-overlay > .main-button:hover {
-    background-color: rgb(26,140,216);
+    background-color: rgb(26, 140, 216);
   }
 
   .content-image {
