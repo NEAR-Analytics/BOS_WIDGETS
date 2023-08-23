@@ -946,9 +946,7 @@ return (
                           {state.store.openModal === parseInt(tx[1], 16) ? (
                             <>
                               <WalleyLabel>Please scan the bill - </WalleyLabel>
-                              <IpfsImageUpload
-                                image={state.storeInputs.image}
-                              />
+                              <IpfsImageUpload image={state.store.bill} />
                               {/*<Files
                             multiple={false}
                             accepts={["image/*"]}
@@ -977,6 +975,7 @@ return (
                               />
                               <WalleyLabel>Transaction Password</WalleyLabel>
                               <WalleyInput
+                                type="password"
                                 value={state.store.approvePassword}
                                 onChange={(e) =>
                                   State.update({
