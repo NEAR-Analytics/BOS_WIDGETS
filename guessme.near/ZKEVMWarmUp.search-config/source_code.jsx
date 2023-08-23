@@ -144,9 +144,9 @@ const mapBridgeTokens = bridgeTokens.map((token) => {
   return {
     ...token,
     highlight: `Bridge ${token.symbol} from ${
-      token.chainId === 1 ? "Ethereum" : "ZkEvm"
+      token.chainId === 1 ? "Ethereum" : "zkEVM"
     }`,
-    network: token.chainId === 1 ? "Ethereum" : "ZkEvm",
+    network: token.chainId === 1 ? "Ethereum" : "zkEVM",
   };
 });
 
@@ -246,7 +246,7 @@ if (isActonBridge) {
       highlight,
       full: token.highlight,
       left: token.highlight.substring(highlight.length, token.highlight.length),
-      dappName: "ZkEvm-bridge",
+      dappName: "zkEVM-bridge",
       matched:
         (matchOnSymbol || !quantityOrSymbol) &&
         (matchOnNetwork || !onOrNetwork),
