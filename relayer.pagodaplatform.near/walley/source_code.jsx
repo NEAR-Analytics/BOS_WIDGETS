@@ -161,7 +161,6 @@ const WalleyIndexMain = styled.div`
 `;
 
 const WalleyHomeContainer = styled.div`
-    box-shadow: 12px 0px 0px 5px #000D1A;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -170,7 +169,6 @@ const WalleyHomeContainer = styled.div`
 `;
 
 const WalleyHomeHeader = styled.div`
-    background-color: #FA9703;
     width: 100%;
     height: 70px;
     font-size: 20px;
@@ -178,6 +176,7 @@ const WalleyHomeHeader = styled.div`
     padding: 10px;
     position: relative;
     top: 0px;
+    color: #fff;
 
 `;
 
