@@ -94,7 +94,6 @@ const WalleyIndexBody = styled.div`
   width: 500px;
   @media screen and (max-width:600px) {
     width: 100%;
-    text-align: center;
     align-items: center;
   }
 `;
