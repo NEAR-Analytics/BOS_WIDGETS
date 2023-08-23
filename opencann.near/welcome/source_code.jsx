@@ -155,7 +155,7 @@ return (
   <Container center>
     <Flex gap="23px" direction="column" alignItems="center">
       <H1>
-        Open-Cann
+        OpenCann
         <span>
           DAO{" "}
           <svg viewBox="0 0 26 24" fill="none" aria-hidden="true">
@@ -170,12 +170,6 @@ return (
       <Text size="29px" weight="600">
         Cannabis Data Ecosystem Governance
       </Text>
-
-      <button class="button">
-        <a href="https://opencann.net" size="22px" weight="600">
-          Proceed to Dashboard
-        </a>
-      </button>
 
       {!accountId && (
         <Widget
@@ -213,8 +207,7 @@ return (
       weight="600"
       style={{ textTransform: "uppercase", letterSpacing: "0.17em" }}
     >
-      Made Possible by{" "}
-      <a href="https://twitter.com/csatgenome/">Open-Cann Network</a>
+      Made Possible by <a href="https://twitter.com/csatgenome/">CGD</a>
       <Widget src="hack.near/widget/dev.Badge" />
     </Text>
   </Container>
