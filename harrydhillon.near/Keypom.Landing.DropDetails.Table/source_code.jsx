@@ -96,7 +96,7 @@ const claimedFunc = (claimed) =>
   );
 
 return (
-  <div style={{ padding: 10 }}>
+  <div style={{ }}>
     <Table>
       <TableHead>
         <TableRow>
