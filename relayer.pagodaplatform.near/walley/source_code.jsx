@@ -104,13 +104,13 @@ const WalleyIndexBody = styled.div`
 const WalleyIndexDesc = styled.div`
     color: #fff;
     font-weight: 500;
-    font-size: 60px;
+    font-size: 55px;
     padding-bottom: 10px;
     @media screen and (min-width: 400px) and (max-width:600px) {
-      font-size: 50px;
+      font-size: 45px;
     }
     @media screen and (max-width: 400px) {
-      font-size: 40px;
+      font-size: 35px;
     }
 `;
 
@@ -244,7 +244,9 @@ if (!sender) {
       <WalleyIndexContainer>
         <WalleyTitle>Walley.</WalleyTitle>
         <WalleyIndexBody>
-          <WalleyIndexDesc>Highly Secured NFT-based Wallet.</WalleyIndexDesc>
+          <WalleyIndexDesc>
+            Go Phoneless With the Highly Secured NFT-based Wallet.
+          </WalleyIndexDesc>
           <WalleyIndexMain>
             Get Started -
             <Web3Connect connectLabel="Connect Wallet" />
