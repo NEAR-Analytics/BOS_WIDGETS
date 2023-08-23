@@ -1,6 +1,20 @@
 const { contentId, accountId, onBuy, onConnect, loading } = props;
 
-const tweetIdsWithContent = ["1691462269182611456", "1454091121320206337"];
+function getContentById(contentId) {
+  return {
+    id: contentId,
+    blurredImage:
+      "https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/1691462269182611456-blur.png",
+    originalImage:
+      "https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/1691462269182611456-original.png",
+  };
+}
+
+const content = getContentById(contentId);
+
+if (!content) {
+  return <></>;
+}
 
 const isPurchased = Near.view("app.paywall.near", "purchased", {
   account_id: accountId,
@@ -8,10 +22,6 @@ const isPurchased = Near.view("app.paywall.near", "purchased", {
 });
 
 const price = "0.5";
-
-if (!tweetIdsWithContent.includes(contentId)) {
-  return <></>;
-}
 
 const Wrapper = styled.div`
   .content-blur-wrapper {
@@ -84,7 +94,7 @@ const Wrapper = styled.div`
   }
 
   .unlock-content-overlay > .main-button:disabled {
-    background: #5eb6f1;
+    background: #99cdf8;
     cursor: default;
   }
 
@@ -96,8 +106,8 @@ const Wrapper = styled.div`
 const Loader = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="32px"
-    height="32px"
+    width="20px"
+    height="20px"
     viewBox="0 0 100 100"
     preserveAspectRatio="xMidYMid"
   >
@@ -126,16 +136,10 @@ return (
   <Wrapper>
     <div className="content-blur-wrapper">
       {isPurchased === null ? null : isPurchased ? (
-        <img
-          className="content-image"
-          src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${contentId}-original.png`}
-        />
+        <img className="content-image" src={content.originalImage} />
       ) : (
         <>
-          <img
-            className="content-image"
-            src={`https://miscellaneous.s3-website.fr-par.scw.cloud/web3hackfest-2023/${contentId}-blur.png`}
-          />
+          <img className="content-image" src={content.blurredImage} />
           {accountId ? (
             <div className="unlock-content-overlay">
               <div className="text">Unlock this Tweet</div>
@@ -145,7 +149,7 @@ return (
                 onClick={() => onBuy?.({ contentId, price })}
                 disabled={loading}
               >
-                {loading ? <Loader /> : "Connect Wallet"}
+                {loading ? <Loader /> : "Buy"}
               </button>
             </div>
           ) : (
