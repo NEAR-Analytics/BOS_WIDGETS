@@ -1,11 +1,11 @@
-const QUERYAPI_ENDPOINT = `https://queryapi-hasura-graphql-24ktefolwq-ew.a.run.app/v1/graphql/`;
+const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql/`;
 
 State.init({
   data: [],
 });
 
 const query = `query user_activity {
-    roshaan_near_user_activity_user_last_activity(order_by: {block_height: desc}) {
+    roshaan_near_user_activity_user_last_activity(order_by: {block_height: desc} limit: 50) {
       activity_id
       block_height
       account_id
@@ -101,6 +101,13 @@ const renderData = (a) => {
                     <Text className="col-auto">
                       Last Online: {date.toDateString()}
                     </Text>
+                    <>
+                      <Widget
+                        src="mob.near/widget/TimeAgo"
+                        props={{ blockHeight: a.block_height }}
+                      />{" "}
+                      ago
+                    </>
                   </>
                 ),
               }}
@@ -108,17 +115,6 @@ const renderData = (a) => {
           </div>
         </div>
       </Header>
-      <Body>
-        <Content>
-          <>
-            <Widget
-              src="mob.near/widget/TimeAgo"
-              props={{ blockHeight: a.block_height }}
-            />{" "}
-            ago
-          </>
-        </Content>
-      </Body>
     </Activity>
   );
 };
