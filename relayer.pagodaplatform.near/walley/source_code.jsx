@@ -80,7 +80,7 @@ const WalleyTitle = styled.div`
 `;
 
 const WalleyIndexContainer = styled.div`
-    background: url("https://i.ibb.co/tQFpnz1/24771098-sl-0210121-40570-25.jpg");
+    background: url("https://img.freepik.com/free-vector/abstract-black-shapes-background-design_1017-31904.jpg?w=826&t=st=1692784084~exp=1692784684~hmac=640a88623947cac46d90337f2d03281af01efcdcd5aa64901719774754bd75b3");
     background-size: cover;
     height: 100vh;
     color: #000D1A;
