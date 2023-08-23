@@ -1,11 +1,3 @@
-let Greet = "Good evening";
-
-const Button = styled.button`
-  padding: 10px;
-  border: 2px solid blue;
-  border-radius: 4px;
-`;
-
 return (
   <>
     <div
@@ -75,6 +67,115 @@ return (
           width="350px"
           height="350px"
         />
+      </div>
+    </div>
+
+    <div style={{ width: "100%" }}>
+      <div
+        class="d-flex flex-sm-column flex-md-row align-items-center"
+        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
+      >
+        <div style={{ width: "70%" }}>
+          <h3 style={{ fontSize: "1.8em", color: "blueviolet" }}>
+            Master Market Analysis for Forex and Crypto Trading
+          </h3>
+          <p style={{ fontSize: "1.2em" }}>
+            With Dropouts' College, you can elevate your trading game regardless
+            of your current skill level. We offer comprehensive, free courses
+            that cover everything from the basics to advanced trading strategies
+            in both forex and crypto markets. Propel your trading journey today
+            with our expert guidance
+          </p>
+        </div>
+        <div style={{ width: "30%" }}>
+          <img
+            src="https://res.cloudinary.com/dfbqtfoxu/image/upload/v1692804471/section-image_jy0maq.jpg"
+            alt="crypto"
+            width="300px"
+            height="300px"
+            style={{ borderRadius: "50%", border: "4px solid #a68484" }}
+          />
+        </div>
+      </div>
+
+      <div
+        class="d-flex flex-sm-column flex-md-row align-items-center"
+        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
+      >
+        <div style={{ width: "30%" }}>
+          <img
+            src="https://res.cloudinary.com/dfbqtfoxu/image/upload/v1692804473/section-image3_jnzej2.jpg"
+            alt="crypto"
+            width="300px"
+            height="300px"
+            style={{ borderRadius: "50%", border: "4px solid #a68484" }}
+          />
+        </div>
+        <div style={{ width: "70%" }}>
+          <h3 style={{ fontSize: "1.8em", color: "blueviolet" }}>
+            Master Market Analysis, For Free
+          </h3>
+          <p style={{ fontSize: "1.2em" }}>
+            Grow your trading prowess with our comprehensive course. Receive
+            free, lesson-by-lesson PDFs direct to your inbox, providing you with
+            a solid foundation in market analysis for both Forex and Crypto
+            trading. Advance your skills at no cost today with Dropouts’
+            College.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="d-flex flex-sm-column flex-md-row align-items-center"
+        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
+      >
+        <div style={{ width: "70%" }}>
+          <h3 style={{ fontSize: "1.8em", color: "blueviolet" }}>
+            Master the Market, Manage the Risk
+          </h3>
+          <p style={{ fontSize: "1.2em" }}>
+            Trading is not just about buying and selling—it's a game of
+            psychology and risk management. At Dropouts' College, gain an edge
+            with mentorship on market analysis, risk management, and trading
+            psychology. Learn to navigate both forex and crypto markets
+            confidently, from basic to advanced levels.
+          </p>
+        </div>
+        <div style={{ width: "30%" }}>
+          <img
+            src="https://res.cloudinary.com/dfbqtfoxu/image/upload/v1692804469/section-image2_hyv6i6.jpg"
+            alt="crypto"
+            width="300px"
+            height="300px"
+            style={{ borderRadius: "50%", border: "4px solid #a68484" }}
+          />
+        </div>
+      </div>
+
+      <div
+        class="d-flex flex-sm-column flex-md-row align-items-center"
+        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
+      >
+        <div style={{ width: "30%" }}>
+          <img
+            src="https://res.cloudinary.com/dfbqtfoxu/image/upload/v1692804456/section-image5_sje5r0.svg"
+            alt="crypto"
+            width="300px"
+            height="300px"
+            style={{ borderRadius: "50%", border: "4px solid #a68484" }}
+          />
+        </div>
+        <div style={{ width: "70%" }}>
+          <h3 style={{ fontSize: "1.8em", color: "blueviolet" }}>
+            Join a thriving community of eager learners.
+          </h3>
+          <p style={{ fontSize: "1.2em" }}>
+            Step into a dynamic and supportive learning environment where you're
+            not alone. Join over 100 students who are already gaining valuable
+            insights on market analysis for forex and crypto trading, from basic
+            to advanced levels, for free.
+          </p>
+        </div>
       </div>
     </div>
   </>
