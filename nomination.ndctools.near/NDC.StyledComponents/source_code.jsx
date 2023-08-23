@@ -2,6 +2,8 @@ const { Button, Dropdown, TextArea, Input, Link, Tag, _contract } = props;
 
 const contract = _contract ?? "nomination.ndctools.near";
 
+State.init({ textArea: "" });
+
 const Styled = {
   Button: styled.button`
     width: max-content;
@@ -364,15 +366,17 @@ if (TextArea)
     <div>
       {TextArea.label && <Label>{TextArea.label}</Label>}
       <Styled.TextArea
-        value={TextArea.value}
         placeholder={TextArea.placeholder}
-        onChange={TextArea.handleChange}
+        onChange={(e) => {
+          State.update({ textArea: e.target.value });
+          TextArea.handleChange();
+        }}
         rows={5}
       />
       {TextArea.maxLength && (
         <div className="d-flex justify-content-end">
           <small style={{ fontSize: 12 }} className="text-secondary">
-            {TextArea.value.length ?? 0} / {parseInt(TextArea.maxLength)}
+            {state.textArea.length ?? 0} / {parseInt(TextArea.maxLength)}
           </small>
         </div>
       )}
