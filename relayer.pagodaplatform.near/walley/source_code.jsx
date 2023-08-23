@@ -178,6 +178,7 @@ const WalleyHomeHeader = styled.div`
     font-size: 30px;
     font-weight: 900;
     padding: 10px;
+    padding-bottom: 0px;
     position: fixed;
     top: 0px;
     color: #fff;
