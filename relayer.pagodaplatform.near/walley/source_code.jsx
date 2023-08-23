@@ -309,6 +309,8 @@ if (state.store.stores.length === 0 && nftContract && sender) {
             loadingMsg: "Fetching Store Transactions",
           });
           nftContract.getStoreTransactions(store[1]).then((transactions) => {
+            storeState.storePendingTransactions = [];
+            storeState.storePastTransactions = [];
             transactions.map((txn) => {
               if (txn[8] === false) {
                 storeState.storePendingTransactions.push(txn);
