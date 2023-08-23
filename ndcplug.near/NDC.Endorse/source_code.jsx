@@ -142,20 +142,20 @@ return (
     <h1>Howdy I'm 🔌Plug</h1>
     <p>Support Me by Signing the Petition</p>
     <Column>
-    <div className="endorsment">
-      {endorsements.map((endorsement) => (
-        <Widget
-          src="ndcplug.near/widget/NDC.CandidateCard"
-          props={{
-            accountId: endorsement.accountId,
-            body: endorsement.body,
-            reason: endorsement.reason,
-          }}
-        />
-      ))}
+      <div className="endorsment">
+        {endorsements.map((endorsement) => (
+          <Widget
+            src="ndcplug.near/widget/NDC.CandidateCard"
+            props={{
+              accountId: endorsement.accountId,
+              body: endorsement.body,
+              reason: endorsement.reason,
+            }}
+          />
+        ))}
       </div>
-      <div  className="petition">
-      <Widget src="ndcplug.near/widget/NDC.PlugSupport"/>
+      <div className="petition">
+        <Widget src="ndcplug.near/widget/NDC.PlugSupport" />
       </div>
     </Column>
   </div>
