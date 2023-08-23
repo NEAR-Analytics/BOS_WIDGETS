@@ -115,25 +115,29 @@ return (
             <TableCell>{item.pricePerTicket}</TableCell>
             <TableCell>Preview</TableCell>
             <TableCell>
-          <div style={{gap:"10px",display:'flex'}}>
-              <ActionButton
-                onClick={() => {
-                  State.update({
-                    tickets: state.tickets.filter((item, idx) => idx !== index),
-                  });
-                }}
-              >
-                <Widget src="harrydhillon.near/widget/Keypom.Tickets.DeleteSVG" />
-              </ActionButton>
-              <ActionButton
-                onClick={() => {
-                  State.update({
-                    tickets: state.tickets.filter((item, idx) => idx !== index),
-                  });
-                }}
-              >
-                <Widget src="harrydhillon.near/widget/Keypom.Landing.DropDetails.ExternalLinkSVG" />
-              </ActionButton>
+              <div style={{ gap: "10px", display: "flex" }}>
+                <ActionButton
+                  onClick={() => {
+                    State.update({
+                      tickets: state.tickets.filter(
+                        (item, idx) => idx !== index
+                      ),
+                    });
+                  }}
+                >
+                  <Widget src="harrydhillon.near/widget/Keypom.Tickets.DeleteSVG" />
+                </ActionButton>
+                <ActionButton
+                  onClick={() => {
+                    State.update({
+                      tickets: state.tickets.filter(
+                        (item, idx) => idx !== index
+                      ),
+                    });
+                  }}
+                >
+                  <Widget src="harrydhillon.near/widget/Keypom.Landing.DropDetails.ExternalLinkSVG" />
+                </ActionButton>
               </div>
             </TableCell>
           </TableRow>
