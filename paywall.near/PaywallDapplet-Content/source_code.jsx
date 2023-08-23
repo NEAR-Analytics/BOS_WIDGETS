@@ -1,5 +1,3 @@
-State.init({ isVisible: false });
-
 const Wrapper = styled.div`
   .content-blur-wrapper {
     overflow: hidden;
@@ -77,24 +75,19 @@ const Wrapper = styled.div`
 
 const tweetIdsWithContent = ["1691462269182611456", "1454091121320206337"];
 
+const isPurchased = Near.view("app.paywall.near", "purchased", {
+  account_id: props.accountId,
+  content_id: props.contentId,
+});
+
 if (!tweetIdsWithContent.includes(props.contentId)) {
   return <></>;
-}
-
-function handleBlur() {
-  State.update({ isVisible: false });
-  return false;
-}
-
-function handleUnblur() {
-  State.update({ isVisible: true });
-  return false;
 }
 
 return (
   <Wrapper>
     <div className="content-blur-wrapper">
-      {state.isVisible ? (
+      {isPurchased ? (
         <img
           className="content-image"
           onClick={handleBlur}
@@ -112,7 +105,7 @@ return (
               <div className="price">0.5 $NEAR</div>
               <button
                 className="main-button"
-                onClick={() => props.onBuy?.()}
+                onClick={() => props.onBuy?.("0.5")}
                 disabled={props.loading}
               >
                 Buy
