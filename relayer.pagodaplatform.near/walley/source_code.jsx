@@ -121,6 +121,7 @@ const WalleyIndexMain = styled.div`
       font-weight: 500;
       @media screen and (max-width: 600px) {
         display: none;
+        width: 0px;
       }
     }
     &>button {
