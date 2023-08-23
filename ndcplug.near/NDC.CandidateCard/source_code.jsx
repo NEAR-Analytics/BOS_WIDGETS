@@ -133,7 +133,7 @@ return (
                 ? "House of Merit"
                 : body == "CouncilOfAdvisors"
                 ? "Council of Advisors"
-                                : body == "TransparencyComission"
+                : body == "TransparencyCommission"
                 ? "Transparency Comission"
                 : " NDC",
             className: "dark",
