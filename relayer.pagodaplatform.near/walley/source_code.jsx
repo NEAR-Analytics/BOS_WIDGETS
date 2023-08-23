@@ -87,10 +87,18 @@ const WalleyIndexContainer = styled.div`
     width: 100%;
     padding: 20px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     text-align: center;
     justify-content: space-betweeen;
+`;
+
+const WalleyIndexBody = styled.div`
+  display: flex;
+  flex-direction: rox;
+  align-items: center;
+  text-align: center;
+  justify-content: space-betweeen;
 `;
 
 const WalleyIndexDesc = styled.div`
@@ -244,11 +252,13 @@ if (!sender) {
     <Root>
       <WalleyIndexContainer>
         <WalleyTitle>Walley.</WalleyTitle>
-        <WalleyIndexDesc>Go Phoneless</WalleyIndexDesc>
-        <WalleyIndexMain>
-          Get Started
-          <Web3Connect connectLabel="Connect Wallet" />
-        </WalleyIndexMain>
+        <WalleyIndexBody>
+          <WalleyIndexDesc>Go Phoneless</WalleyIndexDesc>
+          <WalleyIndexMain>
+            Get Started
+            <Web3Connect connectLabel="Connect Wallet" />
+          </WalleyIndexMain>
+        </WalleyIndexBody>
       </WalleyIndexContainer>
     </Root>
   );
