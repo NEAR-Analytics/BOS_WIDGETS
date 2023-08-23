@@ -73,7 +73,7 @@ return (
     <div style={{ width: "100%" }}>
       <div
         class="d-flex flex-sm-column flex-md-row align-items-center"
-        style={{ width: "90%", margin: "80px auto", gap: "100px" }}
+        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
       >
         <div style={{ width: "70%" }}>
           <h3 style={{ fontSize: "1.8em", color: "blueviolet" }}>
@@ -100,7 +100,7 @@ return (
 
       <div
         class="d-flex flex-sm-column flex-md-row align-items-center"
-        style={{ width: "90%", margin: "80px auto", gap: "100px" }}
+        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
       >
         <div style={{ width: "30%" }}>
           <img
@@ -127,7 +127,7 @@ return (
 
       <div
         class="d-flex flex-sm-column flex-md-row align-items-center"
-        style={{ width: "90%", margin: "80px auto", gap: "100px" }}
+        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
       >
         <div style={{ width: "70%" }}>
           <h3 style={{ fontSize: "1.8em", color: "blueviolet" }}>
@@ -154,7 +154,7 @@ return (
 
       <div
         class="d-flex flex-sm-column flex-md-row align-items-center"
-        style={{ width: "90%", margin: "80px auto", gap: "100px" }}
+        style={{ width: "80%", margin: "80px auto", gap: "100px" }}
       >
         <div style={{ width: "30%" }}>
           <img
@@ -176,6 +176,55 @@ return (
             to advanced levels, for free.
           </p>
         </div>
+      </div>
+    </div>
+
+    <div
+      class="container-fluid py-4"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#fff",
+        height: "350px",
+        backgroundImage: "linear-gradient(to right, #8360c3, #2ebf91)",
+      }}
+    >
+      <h3>Ready to get started ?</h3>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <button
+          type="button"
+          class="btn btn-primary"
+          style={{ width: "150px", margin: "15px 0" }}
+        >
+          <a
+            href="https://t.me/etcentre"
+            target="blank"
+            style={{ textDecoration: "none", color: "#fff" }}
+          >
+            Register Now{" "}
+          </a>
+        </button>
+        <button
+          style={{ color: "#fff", width: "250px", marginTop: "15px" }}
+          type="button"
+          class="btn btn-outline-secondary"
+        >
+          <a
+            href="https://dropouts-newsletter.beehiiv.com/subscribe"
+            target="blank"
+            style={{ textDecoration: "none", color: "#fff" }}
+          >
+            Subscribe to our newsletter
+          </a>
+        </button>
       </div>
     </div>
   </>
