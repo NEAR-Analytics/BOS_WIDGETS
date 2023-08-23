@@ -19,6 +19,7 @@ State.init({
     storeAddress: "",
     isStore: false,
     storePendingTransactions: [],
+    storePastTransactions: [],
     storeImages: {},
     openModal: 0,
     approvePassword: "",
@@ -27,6 +28,7 @@ State.init({
   },
   user: {
     userPendingTransactions: [],
+    userPastTransactions: [],
     openModal: 0,
     cancelPassword: "",
   },
@@ -301,13 +303,19 @@ if (state.store.stores.length === 0 && nftContract && sender) {
           storeState.isStore = true;
           storeState.storeName = store[0];
           storeState.storeAddress = store[1].toLowerCase();
-          State.update({ loadingMsg: "Fetching Store Transactions" });
-          nftContract
-            .getStoreActiveTransactions(store[1])
-            .then(
-              (transactions) =>
-                (storeState.storePendingTransactions = transactions)
-            );
+          State.update({
+            loading: true,
+            loadingMsg: "Fetching Store Transactions",
+          });
+          nftContract.getStoreTransactions(store[1]).then((transactions) => {
+            transactions.map((txn) => {
+              if (txn[8] === false) {
+                storeState.storePendingTransactions.push(txn);
+              } else {
+                storeState.storePastTransactions.push(txn);
+              }
+            });
+          });
         }
         if (i === stores.length - 1)
           State.update({ store: storeState, loading: false, loadingMsg: "" });
@@ -323,14 +331,27 @@ const onTxClick = () => {
     loading: true,
     loadingMsg: "Fetching transactions",
   });
-  nftContract.getMyActiveTransactions({ from: sender }).then((transactions) => {
-    console.log(transactions);
-    const st = state;
-    st.user.userPendingTransactions = transactions;
-    console.log(st);
-    st.loading = false;
-    st.loadingMsg = "";
-    State.update(st);
+  nftContract.getMyTransactions({ from: sender }).then((transactions) => {
+    const st = state.user;
+    transactions.map((txn) => {
+      if (txn[8] === false) st.userPendingTransactions.push(txn);
+    });
+    State.update({ user: st, loading: false, loadingMsg: "" });
+  });
+};
+
+const onTxPastClick = () => {
+  State.update({
+    view: "txPast",
+    loading: true,
+    loadingMsg: "Fetching past transactions",
+  });
+  nftContract.getMyTransactions({ from: sender }).then((transactions) => {
+    const st = state.user;
+    transactions.map((txn) => {
+      if (txn[8] === true) st.userPastTransactions.push(txn);
+    });
+    State.update({ user: st, loading: false, loadingMsg: "" });
   });
 };
 
@@ -417,12 +438,6 @@ const initTransaction = () => {
           loadingMsg:
             "Creating your transaction - Please pay the amount you entered + gas",
         });
-        console.log("hahahaa \n\n\n\n\n");
-        console.log(walleyAddress);
-        console.log(name);
-        console.log(tokenId);
-        console.log(`${amount * Math.pow(10, 18)}`);
-        console.log(getStoreAddress(storeName));
         nftContract
           .initTransaction(
             walleyAddress,
@@ -471,13 +486,21 @@ const cancelTransaction = (tokenId) => {
         .then((tx) => {
           State.update({ loadingMsg: "Refunding your amount" });
           tx.wait().then((r) => {
-            const transactions = state.user.userPendingTransactions.filter(
-              (txn) => Big(txn[1]).toFixed(0) !== tokenId
-            );
+            const tmp = [];
+            state.store.userPendingTransactions.map((trans) => {
+              if (Big(trans[1]).toFixed(0) !== tokenId) {
+                tmp.push(trans);
+              }
+            });
             State.update({
               loading: false,
               loadingMsg: "",
-              user: { userPendingTransactions: transactions },
+              user: {
+                ...state.user,
+                userPendingTransactions: tmp,
+                cancelPassword: "",
+                openModal: 0,
+              },
             });
           });
         });
@@ -584,11 +607,30 @@ const approveTransaction = (tokenId) => {
             loadingMsg: "Waiting for confirmation - Refunding the change",
           });
           tx.wait().then((res) => {
-            const tmp = state.store.storePendingTransactions.filter(
-              (trans) => Big(trans[1]).toFixed(0) !== tokenId
-            );
+            const tmp = [];
+            const tmpAct = [];
+            state.store.storePendingTransactions.map((trans) => {
+              if (Big(trans[1]).toFixed(0) !== tokenId) {
+                tmp.push(trans);
+              } else {
+                tmpAct.push(trans);
+                tmpAct[0][7] = "receipt";
+                tmpAct[0][8] = true;
+              }
+            });
             State.update({
-              store: { ...state.store, storePendingTransactions: tmp },
+              store: {
+                ...state.store,
+                storePendingTransactions: tmp,
+                storePastTransactions: [
+                  ...state.store.storePastTransactions,
+                  tmpAct,
+                ],
+                openModal: 0,
+                approvePassword: "",
+                bill: { uploading: false, amount: null },
+                totalAmount: 0,
+              },
               loadingMsg: "",
               loading: false,
             });
@@ -616,6 +658,9 @@ return (
               </WalleyNavbarButton>
               <WalleyNavbarButton onClick={onTxClick}>
                 Your Store NFTs
+              </WalleyNavbarButton>
+              <WalleyNavbarButton onClick={onTxPastClick}>
+                Receipts
               </WalleyNavbarButton>
               <WalleyNavbarButton
                 onClick={() => State.update({ view: "addSt" })}
@@ -758,17 +803,40 @@ return (
                         ))
                       : ""}
                   </WalleyTransactions>
+                ) : state.view === "txPast" ? (
+                  <WalleyTransactions>
+                    {state.user.userPastTransactions.length !== 0
+                      ? state.user.userPastTransactions.map((tx) => (
+                          <TransactionCard>
+                            <WalleyStoreImage
+                              src={`https://ipfs.near.social/ipfs/${
+                                state.store.storeImages[tx[6]]
+                              }`}
+                              alt={tx[6]}
+                            />
+                            <p>Name - {tx[2]}</p>
+                            <p>Store name - {tx[6]} </p>
+                            <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
+                            <WalleyButton
+                              color="#000D1A"
+                              bg="orange"
+                              onClick={() =>
+                                State.update({
+                                  user: {
+                                    ...state.user,
+                                    openReceipt: Big(tx[1]).toFixed(0),
+                                  },
+                                })
+                              }
+                            >
+                              Show Receipt
+                            </WalleyButton>
+                          </TransactionCard>
+                        ))
+                      : ""}
+                  </WalleyTransactions>
                 ) : (
                   <WalleyStoreForm>
-                    {state.storeInputs.image.uploading ? <p>loading</p> : ""}
-                    {state.storeInputs.image.cid ? (
-                      <WalleyStoreImage
-                        src={`https://ipfs.near.social/ipfs/${state.storeInputs.image.cid}`}
-                        alt="uploaded"
-                      />
-                    ) : (
-                      ""
-                    )}
                     <WalleyLabel>Store Name</WalleyLabel>
                     <WalleyInput
                       value={state.storeInputs.storeName}
