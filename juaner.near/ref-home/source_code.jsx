@@ -190,17 +190,6 @@ const SummaryWrapper = styled.div`
 // svg icon end
 return (
   <>
-    {!hideBanner && (
-      <SummaryWrapper>
-        <Widget
-          src="ref-admin.near/widget/ComponentBanner"
-          props={{
-            size: "large",
-            src: "juaner.near/widget/ref-home",
-          }}
-        />
-      </SummaryWrapper>
-    )}
     <Container>
       <MenuContainer>
         <div
