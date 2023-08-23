@@ -153,43 +153,56 @@ const openVessel = () => {
     Ethers.provider().getSigner()
   );
 
-  if (!state.txLock) {
-    State.update({ txLock: true });
-    assetContract
-      .approve(
-        borrowerOperationAddress,
-        ethers.BigNumber.from(props.collateralAmount * 100)
-          .mul("10000000000000000")
-          .toString()
-      )
-      .then((approveTx) => {
-        State.update({ tx: approveTx.hash });
-        return approveTx.wait();
-      })
-      .then(() => {
-        borrowerOperationContract.openVessel(
-          asset,
+  const vesselManagerContract = new ethers.Contract(
+    vesselManagerAddress,
+    vesselManagerAbi.body,
+    Ethers.provider().getSigner()
+  );
+
+  vesselManagerContract.isVesselActive(asset, state.sender).then((isActive) => {
+    if (isActive) {
+      console.log("Vessel is already active for this asset");
+      return;
+    }
+
+    if (!state.txLock) {
+      State.update({ txLock: true });
+      assetContract
+        .approve(
+          borrowerOperationAddress,
           ethers.BigNumber.from(props.collateralAmount * 100)
             .mul("10000000000000000")
-            .toString(),
-          ethers.BigNumber.from(props.susAmount * 100)
-            .mul("10000000000000000")
-            .toString(),
-          "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-          "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-          {
-            gasLimit: 2500000,
-          }
-        );
-      })
-      .then((finalTx) => {
-        State.update({ tx: finalTx.hash });
-        return finalTx.wait();
-      })
-      .then(() => {
-        State.update({ txLock: false });
-      });
-  }
+            .toString()
+        )
+        .then((approveTx) => {
+          State.update({ tx: approveTx.hash });
+          return approveTx.wait();
+        })
+        .then(() => {
+          borrowerOperationContract.openVessel(
+            asset,
+            ethers.BigNumber.from(props.collateralAmount * 100)
+              .mul("10000000000000000")
+              .toString(),
+            ethers.BigNumber.from(props.susAmount * 100)
+              .mul("10000000000000000")
+              .toString(),
+            "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+            "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+            {
+              gasLimit: 2500000,
+            }
+          );
+        })
+        .then((finalTx) => {
+          State.update({ tx: finalTx.hash });
+          return finalTx.wait();
+        })
+        .then(() => {
+          State.update({ txLock: false });
+        });
+    }
+  });
 };
 
 const withdrawDebtTokens = () => {
