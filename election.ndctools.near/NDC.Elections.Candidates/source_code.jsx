@@ -369,6 +369,7 @@ const loadSocialDBData = () => {
 };
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
+const isVisible = alreadyVotedForHouse.length > 0 || winnerIds.length > 0;
 
 State.init({
   start: true,
@@ -422,20 +423,22 @@ const CandidateList = ({ candidateId, votes }) => (
       winnerId={winnerIds.includes(candidateId)}
     >
       <div className="d-flex w-100 align-items-center">
-        <Expand>
-          <i
-            className={`${
-              state.selected === candidateId
-                ? "bi bi-chevron-down"
-                : "bi bi-chevron-right"
-            }`}
-            onClick={(e) =>
-              State.update({
-                selected: state.selected === candidateId ? null : candidateId,
-              })
-            }
-          />
-        </Expand>
+        {isVisible && (
+          <Expand>
+            <i
+              className={`${
+                state.selected === candidateId
+                  ? "bi bi-chevron-down"
+                  : "bi bi-chevron-right"
+              }`}
+              onClick={(e) =>
+                State.update({
+                  selected: state.selected === candidateId ? null : candidateId,
+                })
+              }
+            />
+          </Expand>
+        )}
 
         {isIAmHuman && (
           <Bookmark
@@ -491,7 +494,7 @@ const CandidateList = ({ candidateId, votes }) => (
             },
           }}
         />
-        {myVotesForHouse.length > 0 && <Votes>{votes}</Votes>}
+        {isVisible && <Votes>{votes}</Votes>}
         {isIAmHuman && (
           <Votes>
             <input
@@ -509,7 +512,7 @@ const CandidateList = ({ candidateId, votes }) => (
         )}
       </div>
     </CandidateItem>
-    {state.selected === candidateId && (
+    {state.selected === candidateId && isVisible && (
       <Widget src={widgets.voters} props={{ candidateId, isIAmHuman }} />
     )}
   </div>
@@ -518,7 +521,7 @@ const CandidateList = ({ candidateId, votes }) => (
 const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
     <div className="d-flex align-items-center w-100">
-      <Expand />
+      {isVisible && <Expand />}
       {isIAmHuman && (
         <Bookmark
           role="button"
@@ -549,7 +552,7 @@ const Filters = () => (
       <Nomination className="text-secondary text-end text-md-start">
         <small>Nomination</small>
       </Nomination>
-      {myVotesForHouse.length > 0 && (
+      {isVisible && (
         <Votes
           role="button"
           className="text-secondary"
