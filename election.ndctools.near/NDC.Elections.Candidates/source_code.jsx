@@ -369,7 +369,8 @@ const loadSocialDBData = () => {
 };
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-const isVisible = alreadyVotedForHouse().length > 0 || winnerIds.length > 0;
+const isVisible = () =>
+  alreadyVotedForHouse().length > 0 || winnerIds.length > 0;
 
 State.init({
   start: true,
@@ -423,7 +424,7 @@ const CandidateList = ({ candidateId, votes }) => (
       winnerId={winnerIds.includes(candidateId)}
     >
       <div className="d-flex w-100 align-items-center">
-        {isVisible && (
+        {isVisible() && (
           <Expand>
             <i
               className={`${
@@ -494,7 +495,7 @@ const CandidateList = ({ candidateId, votes }) => (
             },
           }}
         />
-        {isVisible && <Votes>{votes}</Votes>}
+        {isVisible() && <Votes>{votes}</Votes>}
         {isIAmHuman && (
           <Votes>
             <input
@@ -512,7 +513,7 @@ const CandidateList = ({ candidateId, votes }) => (
         )}
       </div>
     </CandidateItem>
-    {state.selected === candidateId && isVisible && (
+    {state.selected === candidateId && isVisible() && (
       <Widget src={widgets.voters} props={{ candidateId, isIAmHuman }} />
     )}
   </div>
@@ -521,7 +522,7 @@ const CandidateList = ({ candidateId, votes }) => (
 const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
     <div className="d-flex align-items-center w-100">
-      {isVisible && <Expand />}
+      {isVisible() && <Expand />}
       {isIAmHuman && (
         <Bookmark
           role="button"
@@ -552,7 +553,7 @@ const Filters = () => (
       <Nomination className="text-secondary text-end text-md-start">
         <small>Nomination</small>
       </Nomination>
-      {isVisible && (
+      {isVisible() && (
         <Votes
           role="button"
           className="text-secondary"
