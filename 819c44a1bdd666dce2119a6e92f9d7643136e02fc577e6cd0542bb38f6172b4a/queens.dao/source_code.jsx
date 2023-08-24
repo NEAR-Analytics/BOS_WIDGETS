@@ -259,41 +259,41 @@ return (
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}tab=proposals`}
+          href={`?tab=proposals`}
           selected={state.selectedTab === "proposals"}
         >
           Proposals
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}tab=members`}
+          href={`?tab=members`}
           selected={state.selectedTab === "members"}
         >
           Members
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}tab=projects`}
+          href={`?tab=projects`}
           selected={state.selectedTab === "projects"}
         >
           Projects
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}tab=followers`}
+          href={`?}tab=followers`}
           selected={state.selectedTab === "followers"}
         >
           Followers
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}tab=bounties`}
+          href={`?tab=bounties`}
           selected={state.selectedTab === "bounties"}
         >
           Bounties
         </TabsButton>
         <TabsButton
-          href={`${accountUrl}tab=events`}
+          href={`?tab=events`}
           selected={state.selectedTab === "events"}
         >
           Events
