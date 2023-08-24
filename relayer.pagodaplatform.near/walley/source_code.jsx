@@ -246,7 +246,6 @@ const WalleyLoading = styled.div`
   align-items: center;
   test-align: center;
   font-weight: 700;
-  display: ${(props) => (props.loading ? "block" : "none")};
 `;
 
 const WalleyModal = styled.div`
@@ -750,9 +749,13 @@ return (
       </WalleyBalance>
     </WalleyHomeHeader>
     <WalleyHomeMain>
-      <WalleyLoading loading={state.loading}>
-        <WalleyModal>{state.loadingMsg}</WalleyModal>
-      </WalleyLoading>
+      {state.loading ? (
+        <WalleyLoading>
+          <WalleyModal>{state.loadingMsg}</WalleyModal>
+        </WalleyLoading>
+      ) : (
+        ""
+      )}
       {!state.store.isStore ? (
         <>
           <WalleyNavbar>
