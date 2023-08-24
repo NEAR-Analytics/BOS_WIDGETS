@@ -9,10 +9,11 @@ const containerStyle = {
   paddingTop: "30px",
   backgroundImage:
     "url('https://ik.imagekit.io/n7h27i0lh/v960-ning-08-klhoizzv.jpeg?updatedAt=1692893730584')",
+  //backgroundColor: "black",
   backgroundSize: "cover",
   backgroundPosition: "center",
   //backgroundRepeat: "no-repeat",
-  height: "70vh",
+  height: "100%",
 };
 
 const profileInfoStyle = {
