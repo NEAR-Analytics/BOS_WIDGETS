@@ -645,7 +645,13 @@ return (
           </PriceBucket>
           <Description>
             <h6>Description</h6>
-            <span>{state.description || "Ai generated sunset cliffs"}</span>
+            <span>
+              {state.description
+                ? state.description
+                : tokenId && !state.description
+                ? "--No Description--"
+                : "Ai generated sunset cliffs"}
+            </span>
           </Description>
           <Description>
             <h6>Attributes</h6>
@@ -683,13 +689,17 @@ return (
               <span>Mint Address</span>
               <a
                 target="_blank"
-                href={`https://explorer.near.org/?query=${
-                  state.owner || "genadrop-contract.nftgen.near"
-                }`}
+                href={
+                  state.owner && tokenId
+                    ? `https://explorer.near.org/?query=${
+                        state.owner || "genadrop-contract.nftgen.near"
+                      }`
+                    : "#"
+                }
               >
                 {state.owner.length > 12
                   ? state.owner.slice(0, 12) + "..." + "near"
-                  : state.owner ||
+                  : !state.owner && tokenId ? "----":
                     "genadrop-contract.nftgen.near".slice(0, 8) +
                       "..." +
                       "near"}
