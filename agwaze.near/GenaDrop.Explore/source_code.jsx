@@ -306,6 +306,14 @@ const InputContainer = styled.div`
     }
 `;
 
+const NoNFTLoading = styled.div`
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Hero = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -377,7 +385,6 @@ return (
           <option value="near">Near</option>
           <option value="aptos">Aptos</option>
           <option value="sui">Sui</option>
-          <option value="stacks">Stacks</option>
         </select>
       </InputContainer>
     </Hero>
@@ -431,7 +438,6 @@ return (
                             ? nft.owner.slice(0, 12) + "..."
                             : nft.owner}
                         </p>
-                        
                       </div>
                     ) : (
                       nft.nft_state && (
@@ -477,21 +483,29 @@ return (
                         )
                       ) : nft.price ? (
                         <ChainPrice>
-                        <img src={currentChain[state.chain].img} alt="" />
-                        <PriceArea>
-                          <h6>
-                            {(nft.price / 1000000000000000000000000).toFixed(2)}
-                          </h6>
-                          <span>({getUsdValue(nft.price / 1000000000000000000000000)})</span>
-                        </PriceArea>
+                          <img src={currentChain[state.chain].img} alt="" />
+                          <PriceArea>
+                            <h6>
+                              {(nft.price / 1000000000000000000000000).toFixed(
+                                2
+                              )}
+                            </h6>
+                            <span>
+                              (
+                              {getUsdValue(
+                                nft.price / 1000000000000000000000000
+                              )}
+                              )
+                            </span>
+                          </PriceArea>
                         </ChainPrice>
                       ) : (
                         <ChainPrice>
-                        <img src={currentChain[state.chain].img} alt="" />
-                        <PriceArea>
-                          <h6>0.00</h6>
-                          <span>($0.00)</span>
-                        </PriceArea>
+                          <img src={currentChain[state.chain].img} alt="" />
+                          <PriceArea>
+                            <h6>0.00</h6>
+                            <span>($0.00)</span>
+                          </PriceArea>
                         </ChainPrice>
                       )}
                     </div>
@@ -607,7 +621,12 @@ return (
         )}
       </NFTCards>
     ) : (
-      <div>No NFTs available.</div>
+      <NoNFTLoading>
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu"
+          alt=""
+        />
+      </NoNFTLoading>
     )}
     <Widget src="jgodwill.near/widget/GenaDrop.Footer" />
   </>
