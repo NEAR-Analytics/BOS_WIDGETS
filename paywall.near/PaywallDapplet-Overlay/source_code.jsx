@@ -5,17 +5,14 @@
 const { buyerAccountId } = props;
 
 const Wrapper = styled.div`
-  html,
-  body {
-    background: #f5f5f5 !important;
-  }
-
   .main-container {
     padding: 15px;
     background: #f5f5f5;
 
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       Helvetica, Arial, sans-serif;
+
+    height: calc(100vh - 14px);
   }
 
   .top-description {
