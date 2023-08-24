@@ -201,7 +201,7 @@ const WalleyHomeMain = styled.div`
 `;
 
 const WalleyNavbar = styled.div`
-    width: 25%;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     position: relative;
