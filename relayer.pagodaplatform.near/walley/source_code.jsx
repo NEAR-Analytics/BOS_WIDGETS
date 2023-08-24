@@ -381,6 +381,8 @@ const WalleyTransactions = styled.div`
   height: 300px;
   overflow-y: scroll;
   padding: 0px 20px 20px 20px;
+  display: grid;
+  grid-gap: 20px;
   &::-webkit-scrollbar {
     width: 7px;
   }
@@ -409,10 +411,9 @@ const TransactionCard = styled.div`
   box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
   border-radius: 150px;
   padding: 30px;
-  margin: 20px 0px;
-  &:first-child {
-    margin-top: 0px;
-  }
+  display: flex;
+  flex-direction: column;
+  grid-column: 1/2;
 `;
 
 const WalleyStoreBody = styled.div`
