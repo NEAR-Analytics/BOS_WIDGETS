@@ -37,8 +37,8 @@ if (data.ok) {
       .map((line) => line.split("|"))
       .filter((data) => data.length === 3)
       .sort((a, b) => {
-        if (Date(a[2]) < Date(b[2])) return -1;
-        if (Date(a[2]) > Date(b[2])) return 1;
+        if (Date.parse(a[2]) < Date.parse(b[2])) return 1;
+        if (Date.parse(a[2]) > Date.parse(b[2])) return -1;
         return 0;
       })
   ).map((item) => {
