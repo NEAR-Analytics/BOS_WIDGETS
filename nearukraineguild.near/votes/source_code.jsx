@@ -79,6 +79,7 @@ State.init({
   profile: {},
   nominations: {},
   data: {},
+  comments: [],
 });
 
 const wallets = [
@@ -104,12 +105,13 @@ const wallets = [
 const baseApi = "https://api.pikespeak.ai";
 
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+const nominationContract = "nominations.ndc-gwg.near";
 const httpRequestOpt = {
   headers: { "x-api-key": apiKey },
 };
 
 const houseNominations = (house) =>
-  `${baseApi}/nominations/house-nominations?house=${house}&contract=nominations.ndc-gwg.near`;
+  `${baseApi}/nominations/house-nominations?house=${house}&contract=${nominationContract}`;
 
 let walletData = [
   fetch(houseNominations("HouseOfMerit"), httpRequestOpt).body,
@@ -121,12 +123,18 @@ const filteredWalletData = walletData.map((group) => {
   return group.filter((entry) => wallets.includes(entry.nominee));
 });
 
+asyncFetch(
+  `https://api.pikespeak.ai/nominations/candidates-comments-and-upvotes?candidate=${state.wallet}&contract=${nominationContract}`,
+  httpRequestOpt
+).then((res) => {
+  State.update({ comments: res.body[0] });
+});
+
+console.log("comments", state.comments);
+
 const getData = (wallet) => {
   let profile = Social.getr(`${wallet}/profile`);
   let nominations = Social.getr(`${wallet}/nominations`);
-
-  console.log("profile", profile);
-  console.log("nominations", nominations);
 
   const data = fetch(
     `https://raw.githubusercontent.com/kiskesis/ndc-voters/main/${wallet}_output_votes.txt`
@@ -199,6 +207,62 @@ const rednerSelector = () => (
   </select>
 );
 
+function handleUpVote() {
+  Near.call(
+    nomination_contract,
+    state.voted ? "remove_upvote" : "upvote",
+    {
+      candidate: accountId,
+    },
+    300000000000000,
+    state.voted ? 0 : 1000000000000000000000
+  );
+}
+
+const UpvoteButtonDisabled = styled.button`
+  display: flex;
+  padding: 2px 12px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  border: solid 1px transparent;
+  background: var(--buttons-disable, #c3cace);
+  cursor: default !important;
+`;
+
+const UpvoteButton = styled.button`
+  display: flex;
+  padding: 2px 12px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  border: solid 1px transparent;
+  background-image: linear-gradient(#f8f8f9, #f8f8f9),
+    radial-gradient(
+      circle at left top,
+      rgb(147, 51, 234) 0%,
+      rgb(79, 70, 229) 100%
+    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+`;
+
+const UpvoteCount = styled.p`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 24px;
+  margin: 0px;
+  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+`;
+
+const RightMarginDiv = styled.div`
+  margin-right: 10px; /* Adjust the margin value as needed */
+`;
+
 if (state.data.ok) {
   const rows = state.data.body
     .split("\n")
@@ -264,15 +328,37 @@ if (state.data.ok) {
           }}
         />
       </div>
-      <Widget
-        src="nearui.near/widget/Input.Button"
-        props={{
-          children: `VOTE FOR ${state.profile.name.toUpperCase()}!`,
-          variant: "success",
-          href: `/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=${state.nominations.house_intended}&accountId=${state.wallet}`,
-          size: "lg",
-        }}
-      />
+      <div class="d-flex">
+        <RightMarginDiv>
+          <Widget
+            src="nearui.near/widget/Input.Button"
+            props={{
+              children: `VOTE FOR ${state.profile.name.toUpperCase()}!`,
+              variant: "success",
+              href: `/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=${state.nominations.house_intended}&accountId=${state.wallet}`,
+              size: "lg",
+            }}
+          />
+        </RightMarginDiv>
+
+        <Widget
+          src="nomination.ndctools.near/widget/NDC.StyledComponents"
+          props={{
+            Button: {
+              text: `+${state.comments.upvotes ?? 0}`,
+              disabled:
+                !context.accountId ||
+                !state.verified ||
+                context.accountId === accountId,
+              className: `${
+                context.accountId && state.voted ? "primary" : "secondary"
+              } dark`,
+              onClick: handleUpVote,
+              icon: <i className="bi bi-hand-thumbs-up"></i>,
+            },
+          }}
+        />
+      </div>
       <Text
         props={{
           children: `Fantastic users who voted for ${state.profile.name.toUpperCase()}`,
