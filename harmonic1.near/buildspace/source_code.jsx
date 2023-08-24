@@ -120,7 +120,7 @@ return (
             }}
           />
         </div>
-        <a href={feedURL}>
+        <a href="artist.feed">
           <h4 style={{ marginTop: "2rem" }}>See all.</h4>
         </a>
       </div>
