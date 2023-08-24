@@ -131,9 +131,23 @@ return (
 
     {state.candidate && (
       <div class="sp-3">
-        <span>Link to this paget for selected candidate:</span>
+        <span>Link to this page for selected candidate:</span>
         <a href={link}>{link}</a>
       </div>
     )}
+
+    <hr />
+    <p>
+      <small>
+        Data is retrieved automatically from the
+        <a
+          href="https://github.com/zavodil/near-nft-owners-list/blob/main/.github/workflows/indexed.yml"
+          target="_blank"
+        >
+          NEAR Public indexer
+        </a>{" "}
+        with a slight delay.
+      </small>
+    </p>
   </>
 );
