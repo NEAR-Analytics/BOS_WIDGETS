@@ -392,11 +392,6 @@ function handleFilterArticles(filter) {
   });
 }
 
-console.log(
-  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: ",
-  state.displayedTabId
-);
-
 function handleBackButton() {
   props.editArticleData
     ? State.update({
