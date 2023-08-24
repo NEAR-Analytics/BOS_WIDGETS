@@ -254,7 +254,7 @@ function handleUpVote() {
 
 function handleVoteAll() {
   const coalitionVote = wallets
-    .filter(({ voted }) => voted)
+    .filter(({ voted }) => !voted)
     .map(({ wallet }) => {
       return {
         contractName: nominationContract,
