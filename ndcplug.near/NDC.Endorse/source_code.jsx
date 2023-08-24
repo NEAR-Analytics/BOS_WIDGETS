@@ -15,6 +15,11 @@ const endorsements = [
     body: "HouseOfMerit",
     reason: "OG BOS DEV before it was BOS, Holding it down at Proximity",
   },
+    {
+    accountId: "gagdiez.near",
+    body: "CouncilOfAdvisors",
+    reason: "OG Dev Rel at Pagoda",
+  },
   // {
   //   accountId: "kiskesis.near",
   //   body: "HouseOfMerit",
