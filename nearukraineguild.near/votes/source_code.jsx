@@ -133,7 +133,7 @@ asyncFetch(
 });
 
 asyncFetch(
-  `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registry_contract}`,
+  `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`,
   httpRequestOpt
 ).then((res) => {
   console.log("hui", res);
