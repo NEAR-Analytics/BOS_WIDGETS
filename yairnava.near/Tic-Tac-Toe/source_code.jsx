@@ -66,41 +66,13 @@ function handleClick(i) {
     xIsNext: !state.xIsNext,
   });
 
-const winner = calculateWinner(state.squares);
+  const winner = calculateWinner(state.squares);
 
   // CPU's turn
   if (!state.xIsNext && !winner) {
     setTimeout(() => {
       const emptySquares = getEmptySquares(squares);
       if (emptySquares.length > 0) {
-        // Check for winning move
-        for (let i = 0; i < emptySquares.length; i++) {
-          const cloneSquares = squares.slice();
-          cloneSquares[emptySquares[i]] = "O";
-          if (calculateWinner(cloneSquares) === "O") {
-            squares[emptySquares[i]] = "O";
-            State.update({
-              squares: squares,
-              xIsNext: !state.xIsNext,
-            });
-            return;
-          }
-        }
-
-        // Check for blocking player's winning move
-        for (let i = 0; i < emptySquares.length; i++) {
-          const cloneSquares = squares.slice();
-          cloneSquares[emptySquares[i]] = "X";
-          if (calculateWinner(cloneSquares) === "X") {
-            squares[emptySquares[i]] = "O";
-            State.update({
-              squares: squares,
-              xIsNext: !state.xIsNext,
-            });
-            return;
-          }
-        }
-
         // Make a random move if no winning or blocking move found
         if (emptySquares.length > 0) {
           const randomMove = getRandomMove(emptySquares);
