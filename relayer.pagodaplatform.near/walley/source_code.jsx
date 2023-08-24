@@ -179,19 +179,19 @@ const WalleyHomeContainer = styled.div`
     flex-direction: column;
     position: fixed;
     top: 0px;
-    ::-webkit-scrollbar {
+    &::-webkit-scrollbar {
       width: 10px;
     }
 
-    ::-webkit-scrollbar-track {
+    &::-webkit-scrollbar-track {
       background: #f1f1f1; 
     }
     
-    ::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
       background: #888; 
     }
 
-    ::-webkit-scrollbar-thumb:hover {
+    &::-webkit-scrollbar-thumb:hover {
       background: #555; 
     }
     @media screen and (max-width: 600px) {
