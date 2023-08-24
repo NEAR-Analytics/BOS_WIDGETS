@@ -115,15 +115,6 @@ const List = styled.div`
   }
 `;
 
-const optionsMap = {
-  timeasc: "Oldest first",
-  timedesc: "Newest first",
-  nameasc: "Alphabetical",
-  namedesc: "Reverse alphabetical",
-  recentasc: "Oldest activity first",
-  recentdesc: "Most recently active first",
-};
-
 return (
   <Container>
     <Heading>
