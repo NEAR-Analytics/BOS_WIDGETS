@@ -811,11 +811,11 @@ return (
                     opacity="0"
                     transform="rotate(180 12 12)"
                   ></rect>
-                  <circle cx="4" cy="12" r="1"></circle>
+                  <circle cx="0" cy="12" r="1"></circle>
                   <rect
                     width="14"
                     height="2"
-                    x="7"
+                    x="3"
                     y="11"
                     rx=".94"
                     ry=".94"
@@ -823,7 +823,7 @@ return (
                   <rect
                     width="18"
                     height="2"
-                    x="3"
+                    x="0"
                     y="16"
                     rx=".94"
                     ry=".94"
@@ -831,7 +831,7 @@ return (
                   <rect
                     width="18"
                     height="2"
-                    x="3"
+                    x="0"
                     y="6"
                     rx=".94"
                     ry=".94"
