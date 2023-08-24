@@ -752,7 +752,7 @@ return (
       {state.loading ? (
         <WalleyLoading>
           <WalleyModal>
-            <img src="https://svgshare.com/i/wt4.svg" title="" />
+            <img src="https://svgshare.com/i/wuF.svg" title="" />
             <p>{state.loadingMsg}</p>
           </WalleyModal>
         </WalleyLoading>
