@@ -26,6 +26,7 @@ index.options.limit = Math.min(
 const reverse = !!props.reverse;
 
 const initialItems = Social.index(index.action, index.key, index.options);
+console.log({ initialItems });
 if (initialItems === null) {
   return "";
 }
@@ -151,7 +152,7 @@ const items = filteredItems ? filteredItems.slice(0, state.displayCount) : [];
 if (reverse) {
   items.reverse();
 }
-console.log({ items, filteredItems });
+console.log({ items, filteredItems, state });
 return (
   <Widget
     src="andyh.near/widget/IndexFeed.Items"
