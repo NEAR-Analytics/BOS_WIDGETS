@@ -169,7 +169,9 @@ const formatAssets = (data) => {
         };
       }, {})
     : {};
-
+  State.update({
+    activeArrow: "up-totalLiquidity_usd",
+  });
   return data.assets
     .filter(
       (a) => a.config.can_deposit && !["meta-token.near"].includes(a.token_id)
@@ -294,11 +296,13 @@ const selectedToken = (selectedTokenId && assetsMap[selectedTokenId]) || {};
 const selectedTokenMeta = selectedToken.metadata || {};
 
 const handleSort = (type, key) => {
+  console.log(type, key, state.tableData);
   if (!state.tableData.length) return;
   State.update({
     tableData: state.tableData.sort((a, b) =>
       type === "down" ? a[key] - b[key] : b[key] - a[key]
     ),
+    activeArrow: `${type}-${key}`,
   });
 };
 
@@ -325,7 +329,9 @@ return (
               <div className="arrows">
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-up"
+                    className={`arrow arrow-up ${
+                      state.activeArrow === "up-depositApy" && "active"
+                    }`}
                     onClick={() => {
                       handleSort("up", "depositApy");
                     }}
@@ -333,7 +339,9 @@ return (
                 </div>
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-down"
+                    className={`arrow arrow-down ${
+                      state.activeArrow === "down-depositApy" && "active"
+                    }`}
                     onClick={() => {
                       handleSort("down", "depositApy");
                     }}
@@ -351,7 +359,9 @@ return (
               <div className="arrows">
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-up"
+                    className={`arrow arrow-up ${
+                      state.activeArrow === "up-volatility_ratio" && "active"
+                    }`}
                     onClick={() => {
                       handleSort("up", "volatility_ratio");
                     }}
@@ -359,7 +369,9 @@ return (
                 </div>
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-down"
+                    className={`arrow arrow-down ${
+                      state.activeArrow === "down-volatility_ratio" && "active"
+                    }`}
                     onClick={() => {
                       handleSort("down", "volatility_ratio");
                     }}
@@ -374,7 +386,9 @@ return (
               <div className="arrows">
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-up"
+                    className={`arrow arrow-up ${
+                      state.activeArrow === "up-totalLiquidity_usd" && "active"
+                    }`}
                     onClick={() => {
                       handleSort("up", "totalLiquidity_usd");
                     }}
@@ -382,7 +396,10 @@ return (
                 </div>
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-down"
+                    className={`arrow arrow-down ${
+                      state.activeArrow === "down-totalLiquidity_usd" &&
+                      "active"
+                    }`}
                     onClick={() => {
                       handleSort("down", "totalLiquidity_usd");
                     }}
