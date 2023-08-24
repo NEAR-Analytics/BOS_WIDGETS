@@ -151,7 +151,11 @@ return (
             <Widget src="harmonic1.near/widget/create.artist" />
           </div>
           <div
-            style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}
+            style={{
+              flex: 1,
+              paddingLeft: "",
+              padding: "2rem",
+            }}
             className="text-center"
           >
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
