@@ -62,17 +62,14 @@ scene("game", () => {
 
 	onKeyPress("space", () => {
 		bean.jump(JUMP_FORCE)
-		play("wooosh")
 	})
 
 	onClick(() => {
 		bean.jump(JUMP_FORCE)
-		play("wooosh")
 	})
 
 	onTouchStart(() => {
 		bean.jump(JUMP_FORCE)
-		play("wooosh")
 	})
 
 	function spawnPipe() {
@@ -106,7 +103,6 @@ scene("game", () => {
 
 	bean.onCollide("pipe", () => {
 		go("lose", score)
-		play("hit")
 		addKaboom(bean.pos)
 	})
 
