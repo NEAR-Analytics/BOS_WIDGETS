@@ -2,8 +2,7 @@ const OWNER_ID = "minorityprogrammers.near";
 let accountId = context.accountId;
 
 const DEFAULT_NFT_TITLE = "My awesome NFT";
-const DEFAULT_NFT_DESCRIPTION =
-  "I've just created a brand new NFT using GenaDrop";
+const DEFAULT_NFT_DESCRIPTION = "I've just created an NFT using GenaDrop";
 
 State.init({
   title: DEFAULT_NFT_TITLE,
