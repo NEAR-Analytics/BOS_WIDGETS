@@ -206,14 +206,22 @@ const WalleyNavbar = styled.div`
     flex-direction: column;
     position: relative;
     left: 0px;
+    height: 100%;
+    text-align: center;
 `;
 
 const WalleyNavbarButton = styled.button`
     border: none;
-    border-bottom: 1px solid #000D1A;
     text-align: center;
-    background: white;
-    color: #000D1A;
+    background: none;
+    color: #fff;
+`;
+
+const NavLine = styled.span`
+  width: 1px;
+  height: 50px;
+  background: white;
+  margin: 4px 0px 4px 0px;
 `;
 
 const WalleyHomeBody = styled.div`
@@ -777,18 +785,23 @@ return (
       {!state.store.isStore ? (
         <>
           <WalleyNavbar>
+            <NavLine></NavLine>
             <WalleyNavbarButton onClick={() => State.update({ view: "home" })}>
               Home
             </WalleyNavbarButton>
+            <NavLine></NavLine>
             <WalleyNavbarButton onClick={onTxClick}>
               Your Store NFTs
             </WalleyNavbarButton>
+            <NavLine></NavLine>
             <WalleyNavbarButton onClick={onTxPastClick}>
               Receipts
             </WalleyNavbarButton>
+            <NavLine></NavLine>
             <WalleyNavbarButton onClick={() => State.update({ view: "addSt" })}>
               Add a store
             </WalleyNavbarButton>
+            <NavLineLast></NavLineLast>
           </WalleyNavbar>
           <WalleyHomeBody>
             {state.view === "home" ? (
