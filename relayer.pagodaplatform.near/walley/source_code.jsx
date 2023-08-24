@@ -350,7 +350,7 @@ const WalleyHomeForm = styled.div`
     margin-bottom: 5px;
     border: 2px solid #555;
   }
-  &>select {
+  &>div[type="button"] {
     background: none;
     border: 2px solid #555;
     color: white;
