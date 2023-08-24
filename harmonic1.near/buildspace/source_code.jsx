@@ -54,6 +54,13 @@ const feedStyle = {
   marginBottom: "6rem",
 };
 
+let feedURL;
+if (window.location.pathname === "/") {
+  feedURL = "harmonic1.near/widget/artist.feed";
+} else {
+  feedURL = "artist.feed";
+}
+
 return (
   <>
     <div style={cardStyle} className="m-4">
@@ -113,7 +120,7 @@ return (
             }}
           />
         </div>
-        <a href="artist.feed">
+        <a href={feedURL}>
           <h4 style={{ marginTop: "2rem" }}>See all.</h4>
         </a>
       </div>
