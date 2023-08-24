@@ -207,7 +207,7 @@ const WalleyNavbar = styled.div`
     position: relative;
     left: 0px;
     height: 100%;
-    text-align: center;
+    text-align: left;
 `;
 
 const WalleyNavbarButton = styled.button`
@@ -221,13 +221,13 @@ const NavLine = styled.span`
   width: 1px;
   height: 50px;
   background: white;
-  margin: 4px auto 4px auto;
+  margin: 4px 0 4px 0;
 `;
 const NavLineLast = styled.span`
   width: 1px;
   height: 100%;
   background: white;
-  margin: 4px auto 4px auto;
+  margin: 4px 0 4px 0;
 `;
 
 const WalleyHomeBody = styled.div`
