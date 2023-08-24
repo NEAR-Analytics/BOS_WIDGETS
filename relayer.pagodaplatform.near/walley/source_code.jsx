@@ -212,7 +212,7 @@ const WalleyNavbar = styled.div`
 
 const WalleyNavbarButton = styled.button`
     border: none;
-    text-align: center;
+    text-align: left;
     background: none;
     color: #fff;
 `;
