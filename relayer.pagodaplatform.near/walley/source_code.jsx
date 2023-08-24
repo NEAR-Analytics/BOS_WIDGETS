@@ -389,8 +389,10 @@ const WalleyTransactions = styled.div`
 const WalleySearch = styled.div`
   display: flex;
   flex-direction: row;
+  padding: 0px 10px;
   &>button {
     width: 150px;
+    margin-right: 20px;
   }
 `;
 
