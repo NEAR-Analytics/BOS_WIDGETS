@@ -238,7 +238,7 @@ const WalleyLoading = styled.div`
   height: 100vh;
   position: fixed;
   top: 0;
-  background: rgb(66, 66, 66, 0.4);
+  background: rgb(66, 66, 66, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
