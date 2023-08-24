@@ -362,7 +362,6 @@ function handleOpenArticle(articleToRenderData) {
   State.update({
     displayedTabId: tabs.SHOW_ARTICLE.id,
     articleToRenderData,
-    editArticleData: undefined,
   });
 }
 
