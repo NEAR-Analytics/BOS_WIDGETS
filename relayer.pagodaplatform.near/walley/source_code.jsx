@@ -246,6 +246,7 @@ const WalleyLoading = styled.div`
   align-items: center;
   test-align: center;
   font-weight: 700;
+  transition: 0.2 all ease-in-out;
 `;
 
 const WalleyModal = styled.div`
