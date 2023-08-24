@@ -423,6 +423,8 @@ function callLibs(srcArray, stateUpdate, libCalls) {
   );
 }
 
+console.log("state.displayedTabId: ", state.displayedTabId);
+
 //===============================================END FUNCTIONS======================================================
 return (
   <>
