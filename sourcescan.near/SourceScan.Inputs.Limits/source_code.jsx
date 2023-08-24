@@ -10,12 +10,14 @@ const dark = {
   bg: "#28282b",
   color: "#e6eaee",
   border: "#748094",
+  hoverBorder: "#4e5460",
 };
 
 const light = {
   bg: "#e3e8ef",
   color: "#4c5566",
   border: "#748094",
+  hoverBorder: "#d8dfe7",
 };
 
 const useTheme = (light, dark) => {
@@ -31,7 +33,12 @@ const Select = styled.select`
   padding-left: 10px;
   padding-right: 10px;
   text-align: start;
+  transition: border 0.1s ease-in-out;
   color: ${useTheme(light.color, dark.color)};
+
+  :hover {
+    border: 1px solid ${useTheme(light.hoverBorder, dark.hoverBorder)};
+  }
 `;
 
 return (
