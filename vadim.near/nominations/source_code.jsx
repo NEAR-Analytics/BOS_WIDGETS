@@ -7,15 +7,17 @@ houses.map((house) => {
       house,
     });
 
-    State.update({
-      [house]: Object.values(
-        nominations.sort((a, b) => {
-          if (a[1] < b[1]) return 1;
-          if (a[1] > b[1]) return -1;
-          return 0;
-        })
-      ).map((item) => item[0]),
-    });
+    if (nominations) {
+      State.update({
+        [house]: Object.values(
+          nominations.sort((a, b) => {
+            if (a[1] < b[1]) return 1;
+            if (a[1] > b[1]) return -1;
+            return 0;
+          })
+        ).map((item) => item[0]),
+      });
+    }
   } else {
     if (state[house].includes(state.candidate)) {
       selectedHouse = house;
