@@ -341,9 +341,10 @@ function getValidEditArticleDataTags() {
   let tags = state.editArticleData.tags;
   let newFormatTags = {};
 
-  tags.map((tag) => {
-    newFormatTags[tag] = "";
-  });
+  tags &&
+    tags.map((tag) => {
+      newFormatTags[tag] = "";
+    });
   return newFormatTags;
 }
 
