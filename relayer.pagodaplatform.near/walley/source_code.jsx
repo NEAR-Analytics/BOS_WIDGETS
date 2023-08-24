@@ -409,7 +409,7 @@ const WalleySearch = styled.div`
 
 const TransactionCard = styled.div`
   background: rgb(66, 66, 66);
-  box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
   border-radius: 20px;
   padding: 30px;
 `;
