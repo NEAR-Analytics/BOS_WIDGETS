@@ -380,8 +380,6 @@ function handleFilterArticles(filter) {
   });
 }
 
-console.log("editArticleData: ", props.editArticleData);
-
 function handleBackButton() {
   props.editArticleData
     ? State.update({
