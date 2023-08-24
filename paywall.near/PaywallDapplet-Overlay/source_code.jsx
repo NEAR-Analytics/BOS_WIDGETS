@@ -13,6 +13,7 @@ const Wrapper = styled.div`
       Helvetica, Arial, sans-serif;
 
     height: calc(100vh - 14px);
+    width: 100%;
   }
 
   .top-description {
