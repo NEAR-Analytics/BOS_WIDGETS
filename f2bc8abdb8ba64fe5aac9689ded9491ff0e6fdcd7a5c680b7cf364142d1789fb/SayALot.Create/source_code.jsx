@@ -176,7 +176,9 @@ return (
           // )
         }
         <SecondContainer>
-          <h1 className="mb-3">Create Article</h1>
+          <h1 className="mb-3">
+            {editArticleData ? "Edit Article" : "Create Article"}
+          </h1>
           <div>
             <div>
               <Widget
@@ -185,7 +187,7 @@ return (
                   Button: {
                     className: "primary dark",
                     disable: state.articleId > 0 || state.articleBody > 0,
-                    text: "Save article",
+                    text: editArticleData ? "Save edition" : "Save article",
                     onClick: createArticleListener,
                     icon: <i className="bi bi-check2"></i>,
                   },
