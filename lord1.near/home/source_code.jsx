@@ -280,7 +280,7 @@ return (
           },
           {
             text: "Im human",
-            link: "xxx",
+            link: "im-human",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
           },
