@@ -94,7 +94,7 @@ if (profile === null) {
 let authorProfile = {};
 if (state.filterBy.parameterName == "author") {
   authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
-  if (!authorProfile) return "Loading...";
+  // if (!authorProfile) return "Loading...";
 }
 
 const brand = {
