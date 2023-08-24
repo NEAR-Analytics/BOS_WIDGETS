@@ -64,7 +64,7 @@ return (
         links: [
           {
             text: "Home",
-            link: "home",
+            link: "http://flipsidecrypto.xyz/",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
           },
@@ -75,7 +75,7 @@ return (
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
           },
           {
-            text: "Contracts",
+            text: "../../leslug.near/widget/NearContractVisualizerV2",
             link: "xxx",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
@@ -88,7 +88,7 @@ return (
           },
           {
             text: "Im human",
-            link: "im-human",
+            link: "xxx",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
           },
@@ -123,7 +123,7 @@ return (
         <Widget
           src="efiz.near/widget/marquee"
           props={{
-            text: "Broaden your horizen with Flipside",
+            text: "Broaden your horizon with Flipside",
             fontFamily: "Arial",
             fontSize: "20px",
             backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
@@ -139,7 +139,12 @@ return (
           src="https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/lightmode.svg"
         />
       </div>
-      <div>
+      <div
+        style={{
+          background: `${state.light ? "rgb(241,242,245)" : "rgb(25,33,50)"}`,
+        }}
+        className="sticky-top p-4"
+      >
         <div>
           <Container>
             <ul className="tabContent">
@@ -174,6 +179,8 @@ return (
             </ul>
           </Container>
         </div>
+      </div>
+      <div>
         <div className="content">
           {state.tab === "sbt-area" && (
             <Widget src="lord1.near/widget/sbt-area" />
