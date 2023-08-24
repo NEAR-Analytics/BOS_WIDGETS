@@ -26,7 +26,7 @@ const CurrencySymbol = styled.div`
 `;
 const CurrencyName = styled.div`
   font-size: 14px;
-  color: #4f5375;
+  color: #fff;
 `;
 const CurrencyIcon = styled.img`
   width: 36px;
