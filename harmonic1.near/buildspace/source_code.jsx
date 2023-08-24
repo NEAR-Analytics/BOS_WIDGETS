@@ -80,6 +80,35 @@ const ChildContainer = styled.div`
   }
 `;
 
+const ChildContainer2 = styled.div`
+  display: flex;
+  > div {
+    flex: 1;
+    padding: 2rem;
+  }
+
+  > div:first-child {
+    order: 1;
+    padding-left: 4rem;
+  }
+
+  > div:last-child {
+    order: 2;
+  }
+  
+  // For mobile screens
+  @media (max-width: 768px) {
+    flex-direction: column;
+    > div:first-child {
+      order: 2; // This will make the first child appear second on mobile
+    }
+
+    > div:last-child {
+      order: 1; // This will make the second child appear first on mobile
+    }
+  }
+`;
+
 const feedStyle = {
   marginBottom: "6rem",
 };
@@ -117,7 +146,7 @@ return (
         </ChildContainer>
       </Container>
       <Container>
-        <ChildContainer>
+        <ChildContainer2>
           <div style={{ flex: 0 }}>
             <Widget src="harmonic1.near/widget/create.artist" />
           </div>
@@ -134,7 +163,7 @@ return (
               your own terms.
             </p>
           </div>
-        </ChildContainer>
+        </ChildContainer2>
       </Container>
       <div style={feedStyle} className="text-center">
         <h3 style={titleStyle}>Featured Profiles</h3>
