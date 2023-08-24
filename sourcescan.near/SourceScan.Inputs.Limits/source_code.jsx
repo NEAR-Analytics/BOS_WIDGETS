@@ -27,7 +27,7 @@ const useTheme = (light, dark) => {
 const Select = styled.select`
   border: 1px solid ${useTheme(light.border, dark.border)};
   background-color: transparent;
-  border-radius: 5px;
+  border-radius: 6px;
   height: 36px;
   width: 76px;
   padding-left: 10px;
