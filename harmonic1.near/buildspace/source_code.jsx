@@ -46,7 +46,7 @@ const containerStyles = {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  height: "90vh", // Full viewport height
+  height: "70vh", // Full viewport height
   backgroundColor: "#fff", // White background
 };
 
@@ -137,9 +137,15 @@ return (
               and updates for your audience. Make Money.
             </p>
           </div>
-          <div style={{ flex: 1 }}>
+          <div
+            style={{
+              flex: 1,
+              borderRadius: "1rem",
+              border: "0.5px solid black",
+            }}
+          >
             <Widget
-              src="every.near/widget/every.thing.view"
+              src="harmonic1.near/widget/every.thing.view"
               props={{ path: "qsaharmonic.near/thing/artist/Quinn" }}
             />
           </div>
