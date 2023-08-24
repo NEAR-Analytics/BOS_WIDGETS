@@ -250,7 +250,7 @@ const WalleyModal = styled.div`
   width: 200px;
   height: 200px;
   background: rgb(66, 66, 66);
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
 `;
 
 const WalleyButton = styled.button`
