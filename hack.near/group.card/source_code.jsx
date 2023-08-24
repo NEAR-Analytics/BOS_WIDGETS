@@ -1,19 +1,19 @@
-const accountId = props.accountId;
+const creatorId = props.creatorId;
 const groupId = props.groupId;
 
-const groupMembers = Social.get(`${accountId}/graph/${groupId}/**`, "final");
+const groupMembers = Social.get(`${creatorId}/graph/${groupId}/**`, "final");
 
 if (groupMembers === null) {
   return "";
 }
-const groupInfo = Social.get(`${accountId}/thing/group/${groupId}/**`, "final");
+const groupInfo = Social.get(`${creatorId}/thing/group/${groupId}/**`, "final");
 
 if (groupInfo === null) {
   return "";
 }
 
 const tags = Object.keys(groupInfo.tags || {});
-const groupUrl = `#/hack.near/widget/group.members?creatorId=${accountId}`;
+const groupUrl = `#/hack.near/widget/group.members?creatorId=${creatorId}`;
 
 State.init({
   show: false,
@@ -114,7 +114,7 @@ return (
           {groupInfo.name}
         </TextLink>
         <TextLink href={groupUrl} ellipsis>
-          @{accountId}
+          @{creatorId}
         </TextLink>
 
         {tags.length > 0 && (
@@ -124,12 +124,5 @@ return (
         )}
       </div>
     </CardLeft>
-
-    {!!context.accountId && context.accountId !== props.accountId && (
-      <Widget
-        src="near/widget/FollowButton"
-        props={{ accountId: props.accountId }}
-      />
-    )}
   </Card>
 );
