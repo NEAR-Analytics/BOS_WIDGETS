@@ -252,7 +252,7 @@ return (
     <Content>
       <Tabs>
         <TabsButton
-          href={`${accountUrl}tab=discussion`}
+          href={`?tab=discussion`}
           selected={state.selectedTab === "discussion"}
         >
           Discussion
