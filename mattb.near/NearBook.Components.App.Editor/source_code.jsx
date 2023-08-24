@@ -154,6 +154,11 @@ const TextVisualizer = styled.div`
     position:absolute;
     top:0;
     left:0;
+
+    * {
+        margin:0;
+        padding:0;
+    }
 `;
 
 return (
@@ -162,9 +167,9 @@ return (
       <Logo>n</Logo>
       <Options>
         <li
-           onMouseDown={(e) => {
-                e.preventDefault();
-           }}
+          onMouseDown={(e) => {
+            e.preventDefault();
+          }}
           onClick={(e) => {
             State.update({ bold: !state.bold });
 
@@ -189,9 +194,12 @@ return (
               });
               State.update({
                 format: newFormat,
+              });
+
+              State.update({
                 document: {
-                    ...state.document,
-                    richText: getRichText()
+                  ...state.document,
+                  richText: getRichText(),
                 }
               });
             }
@@ -199,12 +207,8 @@ return (
         >
           B
         </li>
-        <li>
-        I
-        </li>
-        <li>
-        U
-        </li>
+        <li>I</li>
+        <li>U</li>
       </Options>
     </Toolbar>
     <Document>
