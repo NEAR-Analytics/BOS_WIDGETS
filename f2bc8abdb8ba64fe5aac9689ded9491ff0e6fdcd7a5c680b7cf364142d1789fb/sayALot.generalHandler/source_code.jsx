@@ -33,7 +33,7 @@ State.init({
 if (state.filterBy.parameterName != "") {
   let newLibCalls = state.libCalls;
 
-  newLibCalls.props.filterBy = state.filterBy;
+  newLibCalls.props["filterBy"] = state.filterBy;
 
   State.update({ libCalls: newLibCalls });
 }
