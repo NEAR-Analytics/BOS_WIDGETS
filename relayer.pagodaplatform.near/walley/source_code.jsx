@@ -410,7 +410,7 @@ const TransactionCard = styled.div`
   border-radius: 100px;
   padding: 30px;
   margin: 20px 0px;
-  &::first-child {
+  &:first-child {
     margin-top: 0px;
   }
 `;
