@@ -1,6 +1,13 @@
-const accountId = context.accountId;
+const creatorId = props.creatorId ?? context.accountId;
+const groupId = props.groupId ?? "83dc9a797ac0ellif3mt0a1aee215d3088";
 
-if (!accountId) {
+let members = Social.getr(`${creatorId}/graph/${groupId}`, "final", {});
+
+if (members === null) {
+  return "";
+}
+
+if (!creatorId) {
   return "Please connect your NEAR account :)";
 }
 
@@ -12,27 +19,45 @@ function generateUID() {
   );
 }
 
-const groupId = props.groupId ?? "83dc9a797ac0ellif3mt0a1aee215d3088";
-
-let group = Social.getr(`${accountId}/graph/${groupId}`);
-
-if (group === null) {
-  return "Loading...";
-}
-
 State.init({
-  group,
+  groupId,
 });
+
+const type = group ? "remove" : "add";
+
+const handleCreateGroup = () => {
+  const groupId = groupId ?? generateUID();
+  const data = {
+    graph: {
+      [groupId]: state.members,
+    },
+    index: {
+      graph: JSON.stringify({
+        key: groupId,
+        value: {
+          type,
+        },
+      }),
+    },
+  };
+
+  Social.set(data, {
+    onCommit: () => {},
+    onCancel: () => {},
+  });
+};
 
 return (
   <>
     <div className="row">
-      <div className="col-lg-6">
-        <div>
-          <h4>Edit Group</h4>
-          <p>
-            <i>{groupId}</i>
-          </p>
+      <div className="col-lg-6 mt-2">
+        <div className="mb-2">
+          <h3>Group Details</h3>
+          <input
+            style={{ fontSize: "15px" }}
+            value={state.groupId}
+            onChange={(e) => State.update({ groupId: e.target.value })}
+          />
         </div>
         <div className="mb-2">
           <Widget
@@ -81,21 +106,21 @@ return (
           <CommitButton
             data={{ thing: { group: { [`${groupId}`]: state.group } } }}
           >
-            Save
+            update
           </CommitButton>
           <a
             className="btn btn-outline-primary ms-2"
-            href={`#/hack.near/widget/group.members?creatorId=${accountId}?`}
+            href={`#/hack.near/widget/group.members?creatorId=${creatorId}?`}
           >
-            View
+            view
           </a>
         </div>
       </div>
       <div className="col-lg-6">
         <div className="m-2">
           <Widget
-            src="hack.near/widget/group"
-            props={{ creatorId: accountId, groupId, group: state.group }}
+            src="hack.near/widget/group.save"
+            props={{ creatorId, groupId }}
           />
         </div>
       </div>
