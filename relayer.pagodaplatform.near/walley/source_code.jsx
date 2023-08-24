@@ -225,7 +225,7 @@ const WalleyBalance = styled.span`
   font-weight: 500;
   font-size: 15px;
   width: 150px;
-  background-color: #4169E1;
+  background-color: #424242;
   border-radius: 30px;
   text-align: center;
   &>svg {
