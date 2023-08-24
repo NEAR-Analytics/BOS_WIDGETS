@@ -342,7 +342,9 @@ const WalleyHomeForm = styled.div`
   height: 500px;
   border-radius: 20px;
   text-align: center;
-  display: flex;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(1, 1fr);
   flex-direction: column;
   padding: 20px;
 `;
