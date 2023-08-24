@@ -179,6 +179,21 @@ const WalleyHomeContainer = styled.div`
     flex-direction: column;
     position: fixed;
     top: 0px;
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #888; 
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555; 
+    }
     @media screen and (max-width: 600px) {
       background-position: 70% 70%;
     }
@@ -366,7 +381,7 @@ const WalleyStoreButton = styled.button`
 
 const WalleyTransactions = styled.div`
   height: 400px;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const TransactionCard = styled.div`
