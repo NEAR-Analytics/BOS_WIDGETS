@@ -42,7 +42,7 @@ const HStack = styled.div`
 const SearchInput = styled.input`
   height: 36px;
   width: 126px;
-  border-radius: 5px;
+  border-radius: 6px;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 5px;
@@ -61,7 +61,7 @@ const SearchButton = styled.button`
   height: 36px;
   width: 96px;
   font-weight: 600;
-  border-radius: 5px;
+  border-radius: 6px;
   padding-top: 5px;
   padding-bottom: 5px;
   border: 1px solid transparent;
