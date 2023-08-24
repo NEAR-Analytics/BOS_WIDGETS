@@ -383,6 +383,14 @@ const WalleyTransactions = styled.div`
   }
 `;
 
+const WalleySearch = styled.div`
+  display: flex;
+  flex-direction: row;
+  &>button {
+    width: 100px;
+  }
+`;
+
 const TransactionCard = styled.div`
 `;
 
@@ -968,22 +976,24 @@ return (
                 ) : (
                   ""
                 )}
-                <WalleyInput
-                  value={state.search.store}
-                  onChange={(e) =>
-                    State.update({
-                      search: { ...state.search, store: e.target.value },
-                    })
-                  }
-                  placeholder="Search by Store Name"
-                />
-                <WalleyButton
-                  bg="#424242"
-                  color="white"
-                  onClick={() => State.update({ newTxn: true })}
-                >
-                  Buy NFT
-                </WalleyButton>
+                <WalleySearch>
+                  <WalleyButton
+                    bg="#424242"
+                    color="white"
+                    onClick={() => State.update({ newTxn: true })}
+                  >
+                    Buy New NFT
+                  </WalleyButton>
+                  <WalleyInput
+                    value={state.search.store}
+                    onChange={(e) =>
+                      State.update({
+                        search: { ...state.search, store: e.target.value },
+                      })
+                    }
+                    placeholder="Search by Store Name"
+                  />
+                </WalleySearch>
                 <WalleyTransactions>
                   {state.user.userPendingTransactions.length !== 0
                     ? state.user.userPendingTransactions
