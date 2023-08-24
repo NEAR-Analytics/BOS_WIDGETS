@@ -60,7 +60,7 @@ if (window.location.pathname === "/") {
 } else {
   feedURL = "artist.feed";
 }
-
+console.log("Path", window.location.pathname);
 return (
   <>
     <div style={cardStyle} className="m-4">
