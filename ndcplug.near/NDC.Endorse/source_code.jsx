@@ -15,11 +15,11 @@ const endorsements = [
     body: "HouseOfMerit",
     reason: "OG BOS DEV before it was BOS, Holding it down at Proximity",
   },
-  {
-    accountId: "kiskesis.near",
-    body: "HouseOfMerit",
-    reason: "Dev and holding it down for NEAR Ukraine community",
-  },
+  // {
+  //   accountId: "kiskesis.near",
+  //   body: "HouseOfMerit",
+  //   reason: "Dev and holding it down for NEAR Ukraine community",
+  // },
   {
     accountId: "louisliu.near",
     body: "HouseOfMerit",
@@ -113,7 +113,7 @@ const endorsements = [
   {
     accountId: "cryptois.near",
     body: "TransparencyCommission",
-    reason: "History of technical support, community based organizing.",
+    reason: "Deep tech background, OG at Octopus Network, community based organizing and BluntDAO OG.",
   },
   {
     accountId: "crans.near",
@@ -143,20 +143,20 @@ return (
     <p>Support Me by Signing the Petition</p>
     <a href="https://neardc.org/vote-plug">neardc.org/vote-plug</a>
     <Column>
-    <div className="endorsment">
-      {endorsements.map((endorsement) => (
-        <Widget
-          src="ndcplug.near/widget/NDC.CandidateCard"
-          props={{
-            accountId: endorsement.accountId,
-            body: endorsement.body,
-            reason: endorsement.reason,
-          }}
-        />
-      ))}
+      <div className="endorsment">
+        {endorsements.map((endorsement) => (
+          <Widget
+            src="ndcplug.near/widget/NDC.CandidateCard"
+            props={{
+              accountId: endorsement.accountId,
+              body: endorsement.body,
+              reason: endorsement.reason,
+            }}
+          />
+        ))}
       </div>
-      <div  className="petition">
-      <Widget src="ndcplug.near/widget/NDC.PlugSupport"/>
+      <div className="petition">
+        <Widget src="ndcplug.near/widget/NDC.PlugSupport" />
       </div>
     </Column>
   </div>
