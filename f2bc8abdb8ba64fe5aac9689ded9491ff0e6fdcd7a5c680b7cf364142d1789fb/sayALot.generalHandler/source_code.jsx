@@ -34,15 +34,10 @@ State.init({
   libCalls: initLibCalls,
 });
 
-if (state.filterBy.parameterName != "" || state.handleBackClicked) {
-  console.log(1, state.libCalls);
-  let newLibCalls = state.libCalls;
+let newLibCalls = state.libCalls;
+newLibCalls[0].props.filterBy = state.filterBy;
 
-  newLibCalls[0].props.filterBy = state.filterBy;
-  console.log(2);
-
-  State.update({ libCalls: newLibCalls, handleBackClicked: false });
-}
+State.update({ libCalls: newLibCalls });
 
 //=============================================END INITIALIZATION===================================================
 
