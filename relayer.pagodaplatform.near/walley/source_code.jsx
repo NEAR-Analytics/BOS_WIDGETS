@@ -368,19 +368,19 @@ const WalleyTransactions = styled.div`
   height: 400px;
   overflow-y: scroll;
   &::-webkit-scrollbar {
-    width: 10px;
+    width: 2px;
   }
 
   &::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: rgb(0,0,0); 
   }
   
   &::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: #424242; 
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+    background: #404040; 
   }
 `;
 
