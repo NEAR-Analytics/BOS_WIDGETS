@@ -249,6 +249,11 @@ const NavLineLast = styled.span`
 const WalleyHomeBody = styled.div`
   width: 100%;
   padding: 0px 10px;
+  &>.txn {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 600;
+  }
 `;
 
 const WalleyBalance = styled.span`
@@ -999,6 +1004,7 @@ return (
                     placeholder="Search Transactions by Store Name"
                   />
                 </WalleySearch>
+                <p className="txn">Your Transactions - </p>
                 <WalleyTransactions>
                   {state.user.userPendingTransactions.length !== 0
                     ? state.user.userPendingTransactions
