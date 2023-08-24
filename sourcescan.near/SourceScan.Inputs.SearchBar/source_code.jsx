@@ -32,10 +32,12 @@ const handleChange = (e) => {
 const HStack = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 10px;
 `;
 
 const SearchInput = styled.input`
+  height: 36px;
+  width: 126px;
   border-radius: 5px;
   padding-left: 10px;
   padding-right: 10px;
@@ -43,17 +45,19 @@ const SearchInput = styled.input`
   padding-bottom: 5px;
   border: 1px solid ${useTheme(light.border, dark.border)};
   color: ${useTheme(light.color, dark.color)};
-  background-color: ${useTheme(light.bg, dark.bg)}; 
+  background-color: ${useTheme(light.bg, dark.bg)};
 `;
 
 const SearchButton = styled.button`
+  height: 36px;
+  width: 96px;
   font-weight: 600;
   border-radius: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
   border: 1px solid transparent;
   color: ${useTheme(light.color, dark.color)};
-  background-color: ${useTheme(light.button.bg, dark.button.bg)}; 
+  background-color: ${useTheme(light.button.bg, dark.button.bg)};
   transition: background-color 0.1s ease-in-out;
 
   :hover {
