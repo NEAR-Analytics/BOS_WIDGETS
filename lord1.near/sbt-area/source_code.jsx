@@ -274,35 +274,6 @@ return (
   >
     <div className="pl-2">
       <div
-        style={{
-          backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
-          borderRadius: "15px",
-          display: "flex",
-          justifyContent: "space-between",
-          padding: ".5rem",
-          marginBottom: "1rem",
-        }}
-      >
-        <Widget
-          src="efiz.near/widget/marquee"
-          props={{
-            text: "Broaden your horizen with Flipside",
-            fontFamily: "Arial",
-            fontSize: "20px",
-            backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
-            height: "60px",
-            width: "100%",
-            textColor: "white",
-          }}
-        />
-
-        <img
-          onClick={handelLight}
-          Width={30}
-          src="https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/lightmode.svg"
-        />
-      </div>
-      <div
         className="shadow-sm pb-2 rounded-4"
         style={{ background: "#ebe7fd" }}
       >
@@ -614,18 +585,6 @@ return (
           </div>
         </div>{" "}
       </div>
-      <Widget
-        src="lord1.near/widget/footer"
-        props={{
-          beBackground: "#fff",
-          titlenelowBackground: `${state.light ? "#806ce1" : "#806ce1"}`,
-          titleBackground: `${state.light ? "#fff" : "#fff"}`,
-          svgBackground: "#806ce1",
-          fromBackground: `${state.light ? "#d2cafa" : "rgb(55,72,107)"}`,
-          toBackground: `${state.light ? "#d2cafa" : "rgb(55,72,107)"}`,
-          belowBackground: `${state.light ? "#806ce1" : "#d2cafa"}`,
-        }}
-      />
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
         {state.error.length > 0 &&
           state.error.map((er) => (
