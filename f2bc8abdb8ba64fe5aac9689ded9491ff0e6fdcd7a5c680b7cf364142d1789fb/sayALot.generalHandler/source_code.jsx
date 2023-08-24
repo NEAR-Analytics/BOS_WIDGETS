@@ -35,9 +35,11 @@ State.init({
 });
 
 if (state.filterBy.parameterName != "") {
+  console.log(1);
   let newLibCalls = state.libCalls;
 
   newLibCalls.props.filterBy = state.filterBy;
+  console.log(2);
 
   State.update({ libCalls: newLibCalls });
 }
