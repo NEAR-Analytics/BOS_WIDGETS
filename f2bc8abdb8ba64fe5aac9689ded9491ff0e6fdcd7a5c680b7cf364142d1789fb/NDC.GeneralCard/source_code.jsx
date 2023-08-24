@@ -16,6 +16,7 @@ const accountId = data.author;
 const title = data.articleId;
 const content = data.body;
 const timeLastEdit = data.timeLastEdit;
+const realArticleId = data.realArticleId ?? `${data.author}-${data.timeCreate}`;
 
 //TODO ask Dani how are we handling this "verified"
 
@@ -544,7 +545,7 @@ return (
             isReplying: false,
             isTest,
             username: data.author,
-            realArticleId: data.realArticleId,
+            realArticleId,
             onCloseModal: () => State.update({ showModal: false }),
           }}
         />
@@ -620,7 +621,7 @@ return (
                 widgets,
                 isTest,
                 authorForWidget,
-                elementReactedId: data.realArticleId,
+                elementReactedId: realArticleId,
               }}
             />
           </ButtonsLowerSection>
