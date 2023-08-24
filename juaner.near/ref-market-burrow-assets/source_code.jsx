@@ -194,6 +194,7 @@ const formatAssets = (data) => {
     .sort((a, b) => b.liquidity - a.liquidity);
 };
 const onLoad = (data) => {
+  console.log("onLoad");
   State.update(data);
   // get market can deposit assets
   if (data.assets && data.assets.length) {
@@ -478,7 +479,7 @@ return (
           <th scope="col" width="15%"></th>
         </tr>
       </thead>
-      <tbody>{renderAssets(state.tableData)}</tbody>
+      <tbody>{renderAssets(state.tableData) || ""}</tbody>
     </table>
     {/* Modal*/}
     <Widget
