@@ -350,6 +350,11 @@ const WalleyHomeForm = styled.div`
     margin-bottom: 5px;
     border: 2px solid #555;
   }
+  &>select {
+    background: none;
+    border: 2px solid #555;
+    color: white;
+  }
 `;
 
 const WalleyStoreForm = styled.div`
