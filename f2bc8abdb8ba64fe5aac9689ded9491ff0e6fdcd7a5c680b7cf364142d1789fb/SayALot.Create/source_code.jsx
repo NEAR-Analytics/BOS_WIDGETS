@@ -109,154 +109,158 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
-return state.createdArticle ? (
-  <Widget
-    src={widgets.oneArticle}
-    props={{
-      widgets,
-      isTest,
-      handleFilterArticles,
-      articleToRenderData: state.createdArticle,
-      authorForWidget,
-      handleEditArticle,
-    }}
-  />
-) : (
-  <CreationContainer className="container-fluid">
-    {
-      //   state.saveComplete && (
-      //   <a
-      //     style={{
-      //       position: "absolute",
-      //       top: "0",
-      //       height: "100%",
-      //       width: "100%",
-      //       backdropFilter: "blur(5px)",
-      //     }}
-      //     href={
-      //       isTest
-      //         ? `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&isTest=${isTest}&blockHeight=now`
-      //         : `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&blockHeight=now`
-      //     }
-      //   >
-      //     <div
-      //       style={{
-      //         width: "50%",
-      //         margin: "0 auto",
-      //         position: "relative",
-      //         top: "40vh",
-      //       }}
-      //     >
-      //       <h3
-      //         style={{
-      //           textAlign: "center",
-      //           color: "black",
-      //           backgroundColor: "rgb(230, 230, 230)",
-      //           zIndex: "2",
-      //         }}
-      //         className="rounded-pill p-3"
-      //       >
-      //         Click to continue
-      //       </h3>
-      //     </div>
-      //   </a>
-      // )
-    }
-    <SecondContainer>
-      <h1 className="mb-3">Create Article</h1>
-      <div>
-        <div>
-          <Widget
-            src={"rubycop.near/widget/NDC.StyledComponents"}
-            props={{
-              Button: {
-                className: "primary dark",
-                disable: state.articleId > 0 || state.articleBody > 0,
-                text: "Save article",
-                onClick: createArticleListener,
-                icon: <i className="bi bi-check2"></i>,
-              },
-            }}
-          />
-
-          {
-            //   <Button
-            //   type="submit"
-            //   disable={state.articleId > 0 || state.articleBody > 0}
-            //   onClick={saveHandler}
-            // >
-            //   {state.saving && (
-            //     <div
-            //       className="spinner-border text-secondary"
-            //       style={{ height: "1rem", width: "1rem" }}
-            //       role="status"
-            //     >
-            //       <span className="sr-only" title="Loading..."></span>
-            //     </div>
-            //   )}
-            //   Save Article
-            // </Button>
-          }
-        </div>
-        <div className="d-flex flex-column pt-3">
-          <label for="inputArticleId">
-            Input article id (case-sensitive, without spaces):
-          </label>
-          <label for="inputArticleId" className="small text-danger">
-            {state.errorId}
-          </label>
-          <Widget
-            src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
-            props={{
-              firstText: state.articleId,
-              stateUpdate: (obj) => State.update(obj),
-              filterText: (e) => e.target.value.replace(/\s+/g, ""),
-              editable: editArticleData,
-            }}
-          />
-        </div>
-        <div className="d-flex flex-column pt-3">
-          <Widget
-            src={`${authorForWidget}/widget/TagsEditor`}
-            props={{
-              initialTagsObject: state.tags,
-              placeholder: "Input tags",
-              setTagsObject: (tags) => {
-                state.tags = Object.keys(tags);
-                State.update();
-              },
-            }}
-          />
-        </div>
-        <div className="d-flex flex-column pt-3">
-          <label for="textareaArticleBody">
-            Input article body (in makrdown format):
-          </label>
-          <label for="textareaArticleBody" className="small text-danger">
-            {state.errorBody}
-          </label>
-          <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
-            <div className="w-50">
+return (
+  <>
+    {state.createdArticle ? (
+      <Widget
+        src={widgets.oneArticle}
+        props={{
+          widgets,
+          isTest,
+          handleFilterArticles,
+          articleToRenderData: state.createdArticle,
+          authorForWidget,
+          handleEditArticle,
+        }}
+      />
+    ) : (
+      <CreationContainer className="container-fluid">
+        {
+          //   state.saveComplete && (
+          //   <a
+          //     style={{
+          //       position: "absolute",
+          //       top: "0",
+          //       height: "100%",
+          //       width: "100%",
+          //       backdropFilter: "blur(5px)",
+          //     }}
+          //     href={
+          //       isTest
+          //         ? `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&isTest=${isTest}&blockHeight=now`
+          //         : `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&blockHeight=now`
+          //     }
+          //   >
+          //     <div
+          //       style={{
+          //         width: "50%",
+          //         margin: "0 auto",
+          //         position: "relative",
+          //         top: "40vh",
+          //       }}
+          //     >
+          //       <h3
+          //         style={{
+          //           textAlign: "center",
+          //           color: "black",
+          //           backgroundColor: "rgb(230, 230, 230)",
+          //           zIndex: "2",
+          //         }}
+          //         className="rounded-pill p-3"
+          //       >
+          //         Click to continue
+          //       </h3>
+          //     </div>
+          //   </a>
+          // )
+        }
+        <SecondContainer>
+          <h1 className="mb-3">Create Article</h1>
+          <div>
+            <div>
               <Widget
-                src="mob.near/widget/MarkdownEditorIframe"
+                src={"rubycop.near/widget/NDC.StyledComponents"}
                 props={{
-                  initialText: initialBody,
-                  onChange: (articleBody) => State.update({ articleBody }),
+                  Button: {
+                    className: "primary dark",
+                    disable: state.articleId > 0 || state.articleBody > 0,
+                    text: "Save article",
+                    onClick: createArticleListener,
+                    icon: <i className="bi bi-check2"></i>,
+                  },
+                }}
+              />
+
+              {
+                //   <Button
+                //   type="submit"
+                //   disable={state.articleId > 0 || state.articleBody > 0}
+                //   onClick={saveHandler}
+                // >
+                //   {state.saving && (
+                //     <div
+                //       className="spinner-border text-secondary"
+                //       style={{ height: "1rem", width: "1rem" }}
+                //       role="status"
+                //     >
+                //       <span className="sr-only" title="Loading..."></span>
+                //     </div>
+                //   )}
+                //   Save Article
+                // </Button>
+              }
+            </div>
+            <div className="d-flex flex-column pt-3">
+              <label for="inputArticleId">
+                Input article id (case-sensitive, without spaces):
+              </label>
+              <label for="inputArticleId" className="small text-danger">
+                {state.errorId}
+              </label>
+              <Widget
+                src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
+                props={{
+                  firstText: state.articleId,
+                  stateUpdate: (obj) => State.update(obj),
+                  filterText: (e) => e.target.value.replace(/\s+/g, ""),
+                  editable: editArticleData,
                 }}
               />
             </div>
-            <div className="w-50">
+            <div className="d-flex flex-column pt-3">
               <Widget
-                src="mob.near/widget/SocialMarkdown"
-                props={{ text: state.articleBody }}
+                src={`${authorForWidget}/widget/TagsEditor`}
+                props={{
+                  initialTagsObject: state.tags,
+                  placeholder: "Input tags",
+                  setTagsObject: (tags) => {
+                    state.tags = Object.keys(tags);
+                    State.update();
+                  },
+                }}
               />
             </div>
+            <div className="d-flex flex-column pt-3">
+              <label for="textareaArticleBody">
+                Input article body (in makrdown format):
+              </label>
+              <label for="textareaArticleBody" className="small text-danger">
+                {state.errorBody}
+              </label>
+              <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
+                <div className="w-50">
+                  <Widget
+                    src="mob.near/widget/MarkdownEditorIframe"
+                    props={{
+                      initialText: initialBody,
+                      onChange: (articleBody) => State.update({ articleBody }),
+                    }}
+                  />
+                </div>
+                <div className="w-50">
+                  <Widget
+                    src="mob.near/widget/SocialMarkdown"
+                    props={{ text: state.articleBody }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
+        </SecondContainer>
+        <div style={{ display: "none" }}>
+          {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
         </div>
-      </div>
-    </SecondContainer>
-    <div style={{ display: "none" }}>
-      {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
-    </div>
-  </CreationContainer>
+      </CreationContainer>
+    )}
+  </>
 );
