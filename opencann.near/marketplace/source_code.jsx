@@ -68,12 +68,6 @@ return marketData !== null ? (
       </p>
     </div>
     <hr></hr>
-    <h5>
-      <a href="https://cannabisgeno.me/survey">
-        *NEW* ~ Submit a Cannabis Experience Report
-      </a>
-    </h5>
-    <hr></hr>
     <div>
       <h5>For Sale</h5>
     </div>
@@ -132,10 +126,6 @@ return marketData !== null ? (
           );
         }
       )}
-    </div>
-    <hr></hr>
-    <div>
-      <Widget src="flowscience.near/widget/CGD.Factory" props={{ daoId }} />
     </div>
 
     <div class="py-4">
