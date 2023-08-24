@@ -268,7 +268,7 @@ return (
           },
           {
             text: "Contracts",
-            link: "leslug.near/widget/NearContractVisualizerV2",
+            link: "../../leslug.near/widget/NearContractVisualizerV2",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
           },
