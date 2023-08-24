@@ -110,7 +110,7 @@ return (
         )}
       </div>
     </div>
-    <br />
+    <hr />
     <div>
       {Object.keys(state.members).map((a) => {
         return (
