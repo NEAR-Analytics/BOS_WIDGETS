@@ -13,11 +13,14 @@ const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
 const fast = props.fast || (!props.profile && !!accountId);
-State.init({
-  fastImageUrl: `https://i.near.social/magic/${
-    thumbnail || "large"
-  }/https://near.social/magic/img/account/${accountId}`,
-});
+if (accountId !== state.accountId) {
+  State.update({
+    fastImageUrl: `https://i.near.social/magic/${
+      thumbnail || "large"
+    }/https://near.social/magic/img/account/${accountId}`,
+    accountId,
+  });
+}
 const fallbackUrl =
   "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
