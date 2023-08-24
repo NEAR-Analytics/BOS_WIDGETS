@@ -1,6 +1,3 @@
-if (!props.src) {
-  return <>Plz set url first!</>;
-}
 const css = styled.b`
 html {overflow: auto;}    
 html,
@@ -25,7 +22,7 @@ return (
   <>
     <css>
       <iframe
-        src={props.src}
+        src={"https://www.w3schools.com/"}
         frameborder="0"
         marginheight="0"
         marginwidth="0"
