@@ -98,6 +98,12 @@ return (
       <div
         className={`${state.feedIndex === "menu" ? "d-none" : ""} d-lg-block`}
       >
+        <Widget
+          key="onboarding"
+          loading=""
+          src="mob.near/widget/N.ProfileOnboarding"
+          props={{}}
+        />
         {context.accountId && (
           <Widget
             key="compose"
