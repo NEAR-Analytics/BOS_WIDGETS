@@ -212,6 +212,8 @@ const WalleyNavbar = styled.div`
     &>svg {
       text-align: left; 
       padding: 0;
+      height: 30px;
+      width: 30px;
     }
 `;
 
