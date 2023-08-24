@@ -13,7 +13,8 @@ const containerStyle = {
   backgroundSize: "cover",
   backgroundPosition: "center",
   //backgroundRepeat: "no-repeat",
-  //height: "100vh",
+  minHeight: "100vh", // At least the full height of the viewport
+  height: "auto",
 };
 
 const profileInfoStyle = {
