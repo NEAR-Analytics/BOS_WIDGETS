@@ -26,7 +26,6 @@ index.options.limit = Math.min(
 const reverse = !!props.reverse;
 
 const initialItems = Social.index(index.action, index.key, index.options);
-console.log({ initialItems });
 if (initialItems === null) {
   return "";
 }
@@ -55,6 +54,7 @@ if (state.jInitialItems !== jInitialItems) {
   const jIndex = JSON.stringify(index);
   const nextFetchFrom = computeFetchFrom(initialItems, index.options.limit);
   if (jIndex !== state.jIndex || nextFetchFrom !== state.initialNextFetchFrom) {
+    console.log({ updated: intiialItems });
     State.update({
       jIndex,
       jInitialItems,
