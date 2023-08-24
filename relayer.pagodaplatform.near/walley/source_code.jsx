@@ -347,7 +347,7 @@ const WalleyInput = styled.input`
   padding: 10px;
   border-radius: 20px;
   background: none;
-  border: 1px solid rgb(66, 66, 66, 0.7)
+  border: 1px solid rgb(66, 66, 66, 0.7);
 `;
 
 const WalleyLabel = styled.p`
