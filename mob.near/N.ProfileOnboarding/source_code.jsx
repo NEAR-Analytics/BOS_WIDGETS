@@ -13,9 +13,17 @@ if (profile === null) {
 const name = profile.name;
 const image = profile.image;
 
+const Wrapper = styled.div`
+  border-bottom: 1px solid #eee;
+  margin: 0 -12px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+`;
+
 const renderEditProfile = (content) => {
   return (
-    <div className="d-flex align-items-center flex-row p-2 rounded-0 border-bottom">
+    <Wrapper className="d-flex align-items-center flex-row p-2">
       <div className="flex-shrink-1 me-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +47,7 @@ const renderEditProfile = (content) => {
           </a>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
