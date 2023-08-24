@@ -112,7 +112,7 @@ const ChildContainer2 = styled.div`
 const TextContainer = styled.div`
   flex: 1;
   padding: 2rem;
-  //padding-left: 4rem;
+  padding-left: 4rem;
   text-align: center;
   display: flex;            // Convert the container to a flex container
   flex-direction: column;  // Stack children vertically
