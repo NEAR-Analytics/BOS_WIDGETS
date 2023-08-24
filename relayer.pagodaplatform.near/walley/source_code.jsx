@@ -246,14 +246,12 @@ const WalleyLoading = styled.div`
   align-items: center;
   test-align: center;
   font-weight: 700;
-  transition: all 1s ease-in-out;
   display: ${(props) => (props.loading ? "block" : "none")};
-  opacity: ${(props) => (props.loading ? "1" : "0")};
 `;
 
 const WalleyModal = styled.div`
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
   background: rgb(66, 66, 66);
   box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
 `;
