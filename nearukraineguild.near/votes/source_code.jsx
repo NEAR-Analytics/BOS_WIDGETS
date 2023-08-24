@@ -137,8 +137,13 @@ asyncFetch(
   `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registryContract}`,
   httpRequestOpt
 ).then((res) => {
-  console.log("hui", res);
   State.update({ verified: res.body });
+});
+asyncFetch(
+  `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${state.wallet}&upvoter=${context.accountId}&contract=${nominationContract}`,
+  httpRequestOpt
+).then((res) => {
+  State.update({ voted: res.body });
 });
 
 const getData = (wallet) => {
@@ -221,7 +226,7 @@ function handleUpVote() {
     nominationContract,
     state.voted ? "remove_upvote" : "upvote",
     {
-      candidate: accountId,
+      candidate: state.wallet,
     },
     300000000000000,
     state.voted ? 0 : 1000000000000000000000
@@ -358,7 +363,7 @@ if (state.data.ok) {
               disabled:
                 !context.accountId ||
                 !state.verified ||
-                context.accountId === accountId,
+                context.accountId === state.wallet,
               className: `${
                 context.accountId && state.voted ? "primary" : "secondary"
               } dark`,
