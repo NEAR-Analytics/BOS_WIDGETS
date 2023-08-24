@@ -89,7 +89,6 @@ const ChildContainer2 = styled.div`
 
   > div:first-child {
     order: 1;
-    padding-left: 4rem;
   }
 
   > div:last-child {
