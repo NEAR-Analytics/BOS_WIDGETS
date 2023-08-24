@@ -7,6 +7,7 @@ const initLibCalls = [
     key: "articles",
     props: {
       env: isTest ? "test" : "prod",
+      filterBy: state.filterBy,
     },
   },
 ];
