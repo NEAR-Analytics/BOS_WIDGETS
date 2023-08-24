@@ -365,6 +365,7 @@ const WalleyStoreButton = styled.button`
 `;
 
 const WalleyTransactions = styled.div`
+  overflow: scroll;
 `;
 
 const TransactionCard = styled.div`
