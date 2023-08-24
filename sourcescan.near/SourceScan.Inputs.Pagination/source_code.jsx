@@ -10,6 +10,7 @@ const dark = {
   border: "#748094",
   button: {
     bg: "#39393c",
+    hoverBg: "#4b4b4b",
   },
 };
 
@@ -19,6 +20,7 @@ const light = {
   border: "#748094",
   button: {
     bg: "#eef2f6",
+    hoverBg: "#e3e8ef",
   },
 };
 
@@ -43,7 +45,7 @@ const PageButton = styled.button`
   transition: background-color 0.1s ease-in-out;
 
   :hover {
-    background-color: ${useTheme(light.bg, dark.bg)};
+    background-color: ${useTheme(light.button.hoverBg, dark.button.hoverBg)};
   }
 `;
 
