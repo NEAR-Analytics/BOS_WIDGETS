@@ -503,11 +503,10 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
-//TODO check this
-const CandidateProps = props.data.nominations ?? {
-  name: accountId,
-  tags: ["test", "test2", "martintest3"],
-};
+// const CandidateProps = props.data.nominations ?? {
+//   name: accountId,
+//   tags: ["test", "test2", "martintest3"],
+// };
 
 //Get basic original comments info
 let originalComments = state.comments.filter(
