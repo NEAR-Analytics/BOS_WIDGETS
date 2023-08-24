@@ -130,7 +130,16 @@ asyncFetch(
   State.update({ comments: res.body[0] });
 });
 
-console.log("comments", state.comments);
+asyncFetch(
+  `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registry_contract}`,
+  {
+    headers: {
+      "x-api-key": api_key,
+    },
+  }
+).then((res) => {
+  State.update({ verified: res.body });
+});
 
 const getData = (wallet) => {
   let profile = Social.getr(`${wallet}/profile`);
