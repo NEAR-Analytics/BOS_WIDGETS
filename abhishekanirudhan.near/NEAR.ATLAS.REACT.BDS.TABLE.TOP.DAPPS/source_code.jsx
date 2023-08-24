@@ -104,7 +104,6 @@ const COLUMNS = [
     renderCell: (item) => formatPercentNew(item["M2 Retention"]),
     sort: { sortKey: "M2 Retention" },
   },
-
   {
     label: <p className="text-center text-white text-wrap ">Average DAU</p>,
     renderCell: (item) => formatNumberDecimal(item["Daily Average"]),
@@ -115,6 +114,39 @@ const COLUMNS = [
     label: <p className="text-center text-white text-wrap ">Stickiness</p>,
     renderCell: (item) => formatPercentNew(item["DAU / MAU"]),
     sort: { sortKey: "DAU / MAU" },
+  },
+  {
+    label: (
+      <p className="text-center text-white text-wrap ">Transactions (30d)</p>
+    ),
+    renderCell: (item) => formatPercentNew(item["Txns 30 Days"]),
+    sort: { sortKey: "Txns 30 Days" },
+  },
+  {
+    label: <p className="text-center text-white text-wrap ">Avg Tx per MAU</p>,
+    renderCell: (item) => formatPercentNew(item["Avg Tx per MAU"]),
+    sort: { sortKey: "Avg Tx per MAU" },
+  },
+  {
+    label: (
+      <p className="text-center text-white text-wrap ">Total Transactions</p>
+    ),
+    renderCell: (item) => formatPercentNew(item["Total Txns"]),
+    sort: { sortKey: "Total Txns" },
+  },
+  {
+    label: (
+      <p className="text-center text-white text-wrap ">Total Fee Generated</p>
+    ),
+    renderCell: (item) => formatPercentNew(item["Total Fee Generated"]),
+    sort: { sortKey: "Total Fee Generated" },
+  },
+  {
+    label: (
+      <p className="text-center text-white text-wrap ">Total Gas Consumed</p>
+    ),
+    renderCell: (item) => formatPercentNew(item["Gas Consumed"]),
+    sort: { sortKey: "Gas Consumed" },
   },
 ];
 const sortFns = {
