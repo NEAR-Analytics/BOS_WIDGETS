@@ -346,6 +346,9 @@ const WalleyHomeForm = styled.div`
   grid-template-columns: repeat(1, 1fr);
   flex-direction: column;
   padding: 20px;
+  &>input {
+    margin-bottom: 5px;
+  }
 `;
 
 const WalleyStoreForm = styled.div`
