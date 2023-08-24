@@ -74,6 +74,8 @@ let layout = [
   },
 ];
 
+const registryContract = "registry.i-am-human.near";
+
 State.init({
   wallet: "kiskesis.near",
   profile: {},
@@ -132,12 +134,9 @@ asyncFetch(
 
 asyncFetch(
   `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registry_contract}`,
-  {
-    headers: {
-      "x-api-key": api_key,
-    },
-  }
+  httpRequestOpt
 ).then((res) => {
+  console.log("hui", res);
   State.update({ verified: res.body });
 });
 
