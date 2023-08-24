@@ -1,22 +1,4 @@
-State.init({
-  elements: {},
-  inputVal: "",
-});
-
-function addElement(newElement) {
-  State.update({
-    elements: { ...state.elements, [newElement]: "" },
-  });
-}
-
-function removeElement(elementKey) {
-  const updatedElements = { ...state.elements };
-  delete updatedElements[elementKey];
-
-  State.update({
-    elements: updatedElements,
-  });
-}
+const { handleClose } = props;
 
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 
@@ -27,6 +9,12 @@ if (policy === null) {
 }
 
 const deposit = policy.proposal_bond;
+
+let members = Social.getr(`${context.accountId}/graph/${groupId}`, "final", {});
+
+if (members === null) {
+  return "";
+}
 
 function generateUID() {
   return (
@@ -65,7 +53,7 @@ const handleProposal = () => {
       methodName: "add_proposal",
       args: {
         proposal: {
-          description: "create DAO group on NEAR Social",
+          description: "create group on the BOS",
           kind: {
             FunctionCall: {
               receiver_id: "social.near",
@@ -84,28 +72,14 @@ const handleProposal = () => {
       deposit: deposit,
       gas: "219000000000000",
     },
-  ]);
+  ]).then(() => handleClose());
 };
-
-const { handleClose } = props;
 
 let SocialContract = "social.near";
 
 const widgets = {
-  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  styledComponents: "hack.near/widget/NDC.StyledComponents",
 };
-
-State.init({
-  groupImage: {
-    uploading: "false",
-    url: RealProfileImageAsURL,
-    name: RealProfileImageAsURL ? "Uploaded from NEAR Social Profile" : "",
-  },
-  groupName: groupInfo.name ? groupInfo.name : "",
-  groupAccount: props.groupAccount ? "@" + context.accountId : "",
-  agreement: "false",
-  error_msg: "",
-});
 
 const CardStyled = styled.div`
   width: 100%;
@@ -128,8 +102,8 @@ const CardForm = styled.div`
 const H1 = styled.h1`
   margin-bottom: 10px;
   font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 555;
+  font-size: 23px;
 `;
 
 const Submitcontainer = styled.div`
@@ -140,13 +114,6 @@ const Submitcontainer = styled.div`
   margin-bottom: 16px;
   @media only screen and (max-width: 480px) {
     margin-top: 10px;
-  }
-`;
-
-const HiddeableWidget = styled.div`
-  display: none;
-  @media (max-width: 480px) {
-    display: block;
   }
 `;
 
@@ -178,12 +145,6 @@ const ComponentWrapper = styled.div`
   }
 `;
 
-const ErrorBlock = styled.div`
-  color: #c23f38;
-  font-size: 14px;
-  margin: 10px 0;
-`;
-
 const Hr = styled.div`
   height: 1px;
   margin: 15px 0;
@@ -195,97 +156,8 @@ const Section = styled.div`
   margin: 12px 0;
 `;
 
-const validatedInputs = () => {
-  const { img, groupAccount, groupName, members, agreement } = state;
-
-  const isEmpty = (str) => str.trim() === "";
-  const isFalse = (check) => check === "false";
-  let isValid = true;
-  let error_msg;
-
-  if (img.cid === null) isValid = false;
-  if (isEmpty(groupAccount)) isValid = false;
-  if (isEmpty(groupName)) isValid = false;
-  if (isEmpty(members)) isValid = false;
-  if (isFalse(agreement)) isValid = false;
-  else {
-    isValid = false;
-  }
-
-  State.update({
-    error_msg: isValid
-      ? null
-      : error_msg || "* Please complete all required fields.",
-  });
-
-  return isValid;
-};
-
-const uploadFileUpdateState = (body) => {
-  asyncFetch("https://ipfs.near.social/add", {
-    method: "POST",
-    headers: { Accept: "application/json" },
-    body,
-  }).then(async (res) => {
-    const _cid = res.body.cid;
-    const _name = body.name;
-    State.update({ img: { uploading: "true", cid: _cid, name: _name } });
-  });
-};
-
-const filesOnChange = (files) => {
-  if (files) {
-    State.update({ error_msg: null });
-    uploadFileUpdateState(files[0]);
-  }
-};
-
-const handleName = (item) => State.update({ groupName: item, error_msg: null });
-
-const handleProfile = (item) =>
-  State.update({ groupAccount: item, error_msg: null });
-
-const addMember = () => {
-  var temp = state.members;
-  let object = {
-    memberId: "",
-    role: "",
-  };
-
-  if (temp.length === 6) return;
-
-  temp.push(object);
-  State.update({ members: temp, error_msg: null });
-};
-
-const removeMember = (index) => {
-  State.update({
-    members: state.members.splice(index, 1),
-    error_msg: null,
-  });
-};
-
-const validate = (key, item, limit) =>
-  State.update({ [key]: item.substring(0, limit ?? 2000), error_msg: null });
-
-const validateMembers = (params, key, limit) => {
-  let data = state.members;
-
-  data[params.index][key] = params.event.target.value.substring(0, limit);
-  State.update({ members: data, error_msg: null });
-};
-
-const handleDeclaration = (agreement) => {
-  State.update({ agreement: agreement.toString, error_msg: null });
-};
-
 const handleCreate = () => {
-  if (!validatedInputs()) return;
-
-  let newstate = Object.assign({}, state);
-  newstate.members = JSON.stringify(newstate.af);
-  const stateAsString = JSON.stringify(newstate);
-  const data = ` {"data":{ "${context.accountId}": {"groups":${stateAsString}} }}`;
+  const data = `{"data":{ "${context.accountId}": {"thing": { "group" ${stateAsString}} }}`;
   const SocialArgs = JSON.parse(data);
 
   // let CreateGroup_Payload = {
@@ -311,45 +183,16 @@ return (
   <Modal>
     <ComponentWrapper>
       <CardStyled name="compose">
-        <div className="d-flex flex-column ">
+        <div className="d-flex flex-column">
           <CardForm>
-            <H1>Create Work Group</H1>
-            <Hr />
-            <Widget
-              src={widgets.groupInfo}
-              props={{
-                inputs: [
-                  {
-                    label: "What is the NEAR account of your work group? *",
-                    placeholder: "Profile ID",
-                    value: state.groupId,
-                    handleChange: (e) => validate("groupId", e.target.value),
-                    inputType: "text",
-                  },
-                  {
-                    label: "Additional Information",
-                    placeholder: "Elaborate on this work group. *",
-                    value: state.details,
-                    handleChange: (e) => validate("details", e.target.value),
-                  },
-                ],
-              }}
-            />
-
-            {state.error_msg && (
-              <ErrorBlock>
-                <label className="text-danger">{state.error_msg}</label>
-              </ErrorBlock>
-            )}
-
-            <div className="col-sm-12 px-4 w-100">
+            <div className="d-flex justify-content-between align-items-center">
+              <H1>Create Work Group</H1>
               <Submitcontainer>
                 <Widget
                   src={widgets.styledComponents}
                   props={{
                     Button: {
-                      className: "danger ",
-                      text: "Cancel",
+                      text: "Close",
                       onClick: handleClose,
                     },
                   }}
@@ -359,12 +202,17 @@ return (
                   props={{
                     Button: {
                       text: "Submit",
-                      onClick: () => handleCreate(),
+                      onClick: () => handleProposal(),
                     },
                   }}
                 />
               </Submitcontainer>
             </div>
+            <Hr />
+            <Widget
+              src="hack.near/widget/group.editor"
+              props={{ creatorId: context.accountId }}
+            />
           </CardForm>
         </div>
       </CardStyled>
