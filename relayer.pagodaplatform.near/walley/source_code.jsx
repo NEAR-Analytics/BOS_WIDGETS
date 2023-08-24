@@ -763,12 +763,16 @@ return (
       </WalleyBalance>
     </WalleyHomeHeader>
     <WalleyHomeMain>
-      <WalleyLoading>
-        <WalleyModal>
-          <img src="https://svgshare.com/i/wuF.svg" title="" />
-          <p>{state.loadingMsg}</p>
-        </WalleyModal>
-      </WalleyLoading>
+      {state.loading ? (
+        <WalleyLoading>
+          <WalleyModal>
+            <img src="https://svgshare.com/i/wuF.svg" title="" />
+            <p>{state.loadingMsg}</p>
+          </WalleyModal>
+        </WalleyLoading>
+      ) : (
+        ""
+      )}
       {!state.store.isStore ? (
         <>
           <WalleyNavbar>
