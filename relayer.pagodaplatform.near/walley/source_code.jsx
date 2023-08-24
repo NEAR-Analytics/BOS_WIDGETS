@@ -463,7 +463,7 @@ if (state.store.stores.length === 0 && nftContract && sender) {
 
 const onTxInit = () => {
   State.update({
-    view: "tx",
+    view: "home",
     loading: true,
     loadingMsg: "Fetching transactions",
   });
