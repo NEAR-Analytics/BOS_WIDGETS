@@ -39,7 +39,7 @@ const PageButton = styled.button`
   border-radius: 5px;
   border: 1px solid transparent;
   color: ${useTheme(light.color, dark.color)};
-  background-color: ${useTheme(light.button.bg, dark.button.bg)}; 
+  background-color: ${useTheme(light.button.bg, dark.button.bg)};
   transition: background-color 0.1s ease-in-out;
 
   :hover {
@@ -80,6 +80,7 @@ return (
           1
         ).map((x, i) => (
           <PageButton
+            key={i}
             onClick={() => props.handlePageChange(x)}
             style={
               state.selectedPage === x + 1
