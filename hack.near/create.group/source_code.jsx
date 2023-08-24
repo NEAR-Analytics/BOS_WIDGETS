@@ -1,16 +1,3 @@
-let members = Social.keys(
-  `${props.creatorId}/graph/${props.groupId}/*`,
-  "final",
-  {
-    return_type: "BlockHeight",
-    values_only: true,
-  }
-);
-
-if (members === null) {
-  return "";
-}
-
 State.init({
   elements: {},
   inputVal: "",
@@ -97,6 +84,7 @@ const isValid = isNearAddress(accountId);
 return (
   <>
     <div>
+      <h4>Membership</h4>
       <input onChange={(e) => State.update({ inputVal: e.target.value })} />
       <br />
       <button disabled={!isValid} onClick={() => addElement(state.inputVal)}>
