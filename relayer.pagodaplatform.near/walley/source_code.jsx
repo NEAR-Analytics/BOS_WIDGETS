@@ -309,6 +309,8 @@ const WalleyButton = styled.button`
   padding: 10px;
   border: 0px;
   font-weight: 500;
+  box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
+
 `;
 
 const WalleyHomeOverlay = styled.div`
