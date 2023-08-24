@@ -95,6 +95,7 @@ const httpRequestOpt = {
 
 const wallets = [
   "kiskesis.near",
+  "whendacha.near",
   "evangel.near",
   "haenko.near",
   "yonota.near",
