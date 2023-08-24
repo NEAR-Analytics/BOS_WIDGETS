@@ -309,6 +309,8 @@ function convertArticlesTagsToValidFormat(articlesArray) {
 }
 
 function filterArticlesByTag(filterBy, articles) {
+  console.log("filterBy: ", filterBy);
+  console.log("articles: ", articles);
   if (filterBy.parameterName !== "tag") return articles;
 
   return articles.filter((article) => {
