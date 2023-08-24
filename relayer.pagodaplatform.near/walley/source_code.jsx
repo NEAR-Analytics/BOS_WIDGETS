@@ -384,6 +384,7 @@ const WalleyTransactions = styled.div`
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(2, 1fr);
+  justiy-content: center;
   &::-webkit-scrollbar {
     width: 7px;
   }
