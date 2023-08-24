@@ -13,7 +13,7 @@ const containerStyle = {
   backgroundSize: "cover",
   backgroundPosition: "center",
   //backgroundRepeat: "no-repeat",
-  height: "100%",
+  //height: "100vh",
 };
 
 const profileInfoStyle = {
