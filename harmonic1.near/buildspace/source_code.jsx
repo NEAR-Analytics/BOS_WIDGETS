@@ -3,7 +3,7 @@ const cardStyle = {
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "column", // To align children vertically
-  minHeight: "80vh", // Set the minimum height to take the full screen height
+  minHeight: "50vh", // Set the minimum height to take the full screen height
   // Rest of your styles...
 };
 
@@ -57,11 +57,14 @@ const Container = styled.div`
   alignItems: center;
   height: 90vh;
   background-color: #fff;
+  // Mobile screens
+  @media (max-width: 768px) {
+    margin-top: 10rem;
+  }
 `;
 
 const ChildContainer = styled.div`
   display: flex;
-  margin-bottom: 5rem;
   > div {
     flex: 1;
     padding: 2rem;
@@ -73,6 +76,7 @@ const ChildContainer = styled.div`
   // Mobile screens
   @media (max-width: 768px) {
     flex-direction: column;
+    margin-bottom: 5rem;
   }
 `;
 
