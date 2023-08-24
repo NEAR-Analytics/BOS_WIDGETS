@@ -272,9 +272,7 @@ const buttons = state.data.map((button) => {
       }}
       onClick={() => openModal(button.id)}
     >
-      {button.title.length > 100
-        ? button.title.slice(0, 100) + "..."
-        : button.title}
+      {button.title}
     </button>
   );
 });
