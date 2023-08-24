@@ -99,7 +99,7 @@ const getCandidates = (house) => {
   ));
 };
 
-const link = `https://near.social/widgets/vadim.near/nominations?accountId=${state.candidate}`;
+const link = `https://near.social/vadim.near/widget/nominations?accountId=${state.candidate}`;
 
 return (
   <>
