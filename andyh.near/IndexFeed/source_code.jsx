@@ -14,7 +14,7 @@ const renderItem =
     </div>
   ));
 
-console.log("INDEX FEED");
+console.log("INDEX FEED", props.spaghetti);
 
 index.options = index.options || {};
 const initialRenderLimit =
