@@ -306,6 +306,7 @@ const handleNominate = () => {
 
   let newstate = Object.assign({}, state);
   newstate.afiliation = JSON.stringify(newstate.afiliation);
+  newstate.tags = newstate.tags.join(",");
   const stateAsString = JSON.stringify(newstate);
   const data = ` {"data":{ "${context.accountId}": {"nominations":${stateAsString}} }}`;
   const SocialArgs = JSON.parse(data);
@@ -336,49 +337,6 @@ const handleNominate = () => {
 return (
   <Modal>
     <ComponentWrapper>
-      <div
-        style={{
-          display: "flex",
-          "justify-content": "center",
-        }}
-      >
-        <HiddeableWidget>
-          <Widget
-            src={widgets.page}
-            props={{
-              nominationData: {
-                img: {
-                  cid: state.img.cid,
-                  isCid: RealProfileImageCid.IS_CID,
-                },
-                profileAccount: state.profileAccount,
-                afiliation: JSON.stringify(state.afiliation),
-                HAYInvolve: state.HAYInvolve,
-                WIYStrategy: state.WIYStrategy,
-                Key_Issue_1: state.Key_Issue_1,
-                Key_Issue_2: state.Key_Issue_2,
-                Key_Issue_3: state.Key_Issue_3,
-                addition_platform: state.addition_platform,
-                tags: state.tags.join(","),
-                video: state.video,
-              },
-              indexerData: {
-                house: state.house_intended,
-                timestamp: "",
-                nominee: "",
-              },
-              profileData: {
-                name: state.name,
-              },
-              upVoteData: {
-                upvotes: "0",
-                comments: [],
-              },
-              preview: true,
-            }}
-          />
-        </HiddeableWidget>
-      </div>
       <CardStyled name="compose">
         <div className="d-flex flex-column ">
           <H1>Self Nominate</H1>
