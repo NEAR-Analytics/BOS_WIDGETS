@@ -3,7 +3,7 @@ const cardStyle = {
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "column", // To align children vertically
-  minHeight: "50vh", // Set the minimum height to take the full screen height
+  minHeight: "80vh", // Set the minimum height to take the full screen height
   // Rest of your styles...
 };
 
