@@ -75,26 +75,26 @@ return (
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
           },
           {
-            text: "Contract",
+            text: "Contracts",
             link: "../../leslug.near/widget/NearContractVisualizerV2",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
           },
           {
             text: "Network",
-            link: "xxx",
+            link: "network",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-8.svg",
           },
           {
             text: "Im human",
-            link: "xxx",
+            link: "im-human",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
           },
           {
             text: "Near social",
-            link: "xxx",
+            link: "near-social",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
           },
@@ -208,5 +208,4 @@ return (
       />
     </div>
   </div>
-);
 );
