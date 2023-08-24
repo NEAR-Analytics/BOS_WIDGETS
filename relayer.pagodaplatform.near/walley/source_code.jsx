@@ -339,7 +339,6 @@ const WalleyHomeForm = styled.div`
   background: rgb(66, 66, 66);
   box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
   width: 400px;
-  height: 500px;
   border-radius: 20px;
   text-align: center;
   display: grid;
@@ -944,6 +943,7 @@ return (
                 {state.newTxn ? (
                   <WalleyHomeOverlay>
                     <WalleyHomeForm>
+                      <WalleyLabel>Select a Store</WalleyLabel>
                       <Widget
                         src="near/widget/Select"
                         props={{
