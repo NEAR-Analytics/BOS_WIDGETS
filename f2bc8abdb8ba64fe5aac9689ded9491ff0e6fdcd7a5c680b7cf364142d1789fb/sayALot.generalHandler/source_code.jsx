@@ -405,7 +405,7 @@ function handleGoHomeButton() {
 }
 
 function handlePillNavigation(navegateTo) {
-  stateUpdate({ displayedTabId: navegateTo, editArticleData: undefined });
+  State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
 function callLibs(srcArray, stateUpdate, libCalls) {
