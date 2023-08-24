@@ -7,8 +7,10 @@ const dark = {
   bg: "#28282b",
   color: "#e6eaee",
   border: "#748094",
+  hoverBorder: "#4e5460",
   button: {
     bg: "#39393c",
+    hoverBg: "#5e5e60",
   },
 };
 
@@ -16,8 +18,10 @@ const light = {
   bg: "#e3e8ef",
   color: "#4c5566",
   border: "#748094",
+  hoverBorder: "#d8dfe7",
   button: {
     bg: "#eef2f6",
+    hoverBg: "#e3e8ef",
   },
 };
 
@@ -46,6 +50,11 @@ const SearchInput = styled.input`
   border: 1px solid ${useTheme(light.border, dark.border)};
   color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.bg, dark.bg)};
+  transition: border 0.1s ease-in-out;
+
+  :hover {
+    border: 1px solid ${useTheme(light.hoverBorder, dark.hoverBorder)};
+  }
 `;
 
 const SearchButton = styled.button`
@@ -61,7 +70,7 @@ const SearchButton = styled.button`
   transition: background-color 0.1s ease-in-out;
 
   :hover {
-    background-color: ${useTheme(light.bg, dark.bg)};
+    background-color: ${useTheme(light.button.hoverBg, dark.button.hoverBg)};
   }
 `;
 
