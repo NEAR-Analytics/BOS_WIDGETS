@@ -56,9 +56,9 @@ function canUserEditArticle(props) {
 }
 
 function createArticle(props) {
-  const { article } = props;
+  const { article, onCommit, onCancel } = props;
 
-  saveHandler(article);
+  saveHandler(article, onCommit, onCancel);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "createArticle";
@@ -96,12 +96,14 @@ function composeData(article) {
   return data;
 }
 
-const saveHandler = (article) => {
+const saveHandler = (article, onCommit, onCancel) => {
   if (article.articleId && article.body) {
     const newData = composeData(article);
 
     Social.set(newData, {
       force: true,
+      onCommit,
+      onCancel,
     });
     // onCancel: () => {
     //   State.update({ saving: false });
