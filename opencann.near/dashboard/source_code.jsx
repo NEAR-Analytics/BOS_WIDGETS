@@ -285,6 +285,12 @@ return (
           >
             Publish
           </TabsButton>
+          <TabsButton
+            href={`${accountUrl}&tab=mydata`}
+            selected={state.selectedTab === "mydata"}
+          >
+            My Data
+          </TabsButton>
         </Tabs>
 
         {state.selectedTab === "feed" && (
@@ -340,6 +346,9 @@ return (
           <Widget src="opencann.near/widget/marketplace" props={{ ownerId }} />
         )}
         {state.selectedTab === "publish" && (
+          <Widget src="opencann.near/widget/publish" props={{ ownerId }} />
+        )}
+        {state.selectedTab === "mydata" && (
           <Widget src="opencann.near/widget/publish" props={{ ownerId }} />
         )}
       </Content>
