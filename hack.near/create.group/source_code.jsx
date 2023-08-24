@@ -84,7 +84,7 @@ const isValid = isNearAddress(accountId);
 return (
   <>
     <div>
-      <h4>Membership</h4>
+      <h3>Membership</h3>
       <input onChange={(e) => State.update({ inputVal: e.target.value })} />
       <br />
       <button disabled={!isValid} onClick={() => addElement(state.inputVal)}>
@@ -103,7 +103,6 @@ return (
             create
           </button>
           <hr />
-          <h3>Group Members</h3>
         </div>
       )}
       {Object.keys(state.elements).map((a) => {
