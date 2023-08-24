@@ -33,7 +33,7 @@ const init = () => {
 kaboom()
 
 loadSprite("bean", "https://kaboomjs.com/sprites/bean.png")
-// loadSound("score", "https://kaboomjs.com/sounds/score.mp3")
+loadSound("score", "https://kaboomjs.com/sounds/score.mp3")
 // loadSound("wooosh", "https://kaboomjs.com/sounds/wooosh.mp3")
 // loadSound("hit", "https://kaboomjs.com/sounds/hit.mp3")
 
