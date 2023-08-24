@@ -3,21 +3,18 @@ let { selectedHouse, handleSelect, votesLeft } = props;
 const houses = [
   {
     id: 1,
-    title: "House of Merit",
-    src: "https://bafkreihoomeeaeyqerqftn3n7yb2jrnmqtpwgpsl3xpelek6qmly3qzob4.ipfs.nftstorage.link",
-    typ: "HouseOfMerit",
-    seats: 15,
-  },
-  {
-    id: 2,
     title: "Council Of Advisors",
     src: "https://bafkreidejnek5zzwlhd3lxnr7s3tvtrgul6jobfpikbs7zjkpuovxdz7je.ipfs.nftstorage.link",
     typ: "CouncilOfAdvisors",
+    seats: 15,
+  },
+  {
+    title: "House of Merit",
+    src: "https://bafkreihoomeeaeyqerqftn3n7yb2jrnmqtpwgpsl3xpelek6qmly3qzob4.ipfs.nftstorage.link",
+    typ: "HouseOfMerit",
     seats: 7,
   },
-
   {
-    id: 3,
     title: "Transparency Commission",
     src: "https://bafkreihcog3rs2gj4wgwfixk6yqir7k3csyaqiqwcvm2gedlh6dlvr7ik4.ipfs.nftstorage.link",
     typ: "TransparencyCommission",
