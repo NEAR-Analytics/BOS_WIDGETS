@@ -46,18 +46,11 @@ function getWritersWhitelist(env) {
 function canUserCreateArticle(props) {
   const { env, accountId } = props;
 
-  resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "canUserCreateArticle";
-  });
   return getWritersWhitelist(env).includes(accountId);
 }
 
 function canUserEditArticle(props) {
   const { article } = props;
-
-  resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "canUserEditArticle";
-  });
 
   return article.author === context.accountId;
 }
