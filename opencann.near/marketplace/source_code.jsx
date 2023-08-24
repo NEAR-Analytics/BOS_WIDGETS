@@ -1,7 +1,7 @@
 const data = props.data;
 const accountId = props.accountId || context.accountId;
 const contracts = data.contracts ||
-  context.contracts || ["learnernft.learnclub.near"];
+  context.contracts || ["learnernft.learnclub.near", "opencann.mintbase1.near"];
 const marketId = "simple.market.mintbase1.near";
 
 const AFFILIATE_ACCOUNT = data.affiliateAccount || "mintbase.near";
