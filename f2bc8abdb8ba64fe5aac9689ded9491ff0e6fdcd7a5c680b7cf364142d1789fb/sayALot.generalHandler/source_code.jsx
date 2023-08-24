@@ -338,7 +338,6 @@ const finalArticles = state.articles;
 
 //=================================================FUNCTIONS========================================================
 function getValidEditArticleDataTags() {
-  console.log(1);
   let tags = state.editArticleData.tags;
   let newFormatTags = {};
 
@@ -346,7 +345,6 @@ function getValidEditArticleDataTags() {
     tags.map((tag) => {
       newFormatTags[tag] = "";
     });
-  console.log(2);
   return newFormatTags;
 }
 
