@@ -37,7 +37,6 @@ State.init({
     },
   ],
   agreement: "false",
-  tags: "",
   error_msg: "",
   video: "",
   tags: [],
