@@ -296,6 +296,7 @@ const WalleyModal = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  border-radius: 20px;
   &>img {
     width: 70px;
     height: 70px;
@@ -339,9 +340,11 @@ const WalleyHomeForm = styled.div`
   box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
   width: 400px;
   height: 400px;
+  border-radius: 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
+  padding: 20px;
 `;
 
 const WalleyStoreForm = styled.div`
