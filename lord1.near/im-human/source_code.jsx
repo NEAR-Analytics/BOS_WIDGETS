@@ -75,8 +75,8 @@ return (
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
           },
           {
-            text: "../../leslug.near/widget/NearContractVisualizerV2",
-            link: "xxx",
+            text: "Contract",
+            link: "../../leslug.near/widget/NearContractVisualizerV2",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
           },
@@ -208,4 +208,5 @@ return (
       />
     </div>
   </div>
+);
 );
