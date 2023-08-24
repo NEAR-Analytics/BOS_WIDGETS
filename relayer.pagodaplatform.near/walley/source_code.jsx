@@ -409,9 +409,8 @@ const TransactionCard = styled.div`
   background: rgb(66, 66, 66);
   box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
   border-radius: 150px;
+  width: 50%;
   padding: 30px;
-  display: flex;
-  flex-direction: column;
   grid-column: 1/span 1;
 `;
 
