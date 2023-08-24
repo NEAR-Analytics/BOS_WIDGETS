@@ -306,7 +306,7 @@ const WalleyButton = styled.button`
   display: block;
   width: 100%;
   border-radius: 20px;
-  padding: 10px
+  padding: 10px;
   border: 0px;
   font-weight: 500;
 `;
