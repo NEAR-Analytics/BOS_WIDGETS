@@ -105,8 +105,6 @@ const wallets = [
   "luciotato.near",
   "kemo.near",
   "maxkott.near",
-  "planetaworld.near",
-  "igboze_builder.near",
   "blaze.near",
   "techdir.near",
   "rahulgoel.near",
