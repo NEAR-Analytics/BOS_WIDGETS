@@ -279,6 +279,12 @@ return (
           >
             Marketplace
           </TabsButton>
+          <TabsButton
+            href={`${accountUrl}&tab=publish`}
+            selected={state.selectedTab === "publish"}
+          >
+            Publish
+          </TabsButton>
         </Tabs>
 
         {state.selectedTab === "feed" && (
@@ -332,6 +338,12 @@ return (
         )}
         {state.selectedTab === "marketplace" && (
           <Widget src="opencann.near/widget/marketplace" props={{ ownerId }} />
+        )}
+        {state.selectedTab === "publish" && (
+          <Widget
+            src="flowscience.near/widget/CGD.factory"
+            props={{ ownerId }}
+          />
         )}
       </Content>
     </Main>
