@@ -45,12 +45,21 @@ function getWritersWhitelist(env) {
 
 function canUserCreateArticle(props) {
   const { env, accountId } = props;
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "canUserCreateArticle";
+  });
   return getWritersWhitelist(env).includes(accountId);
 }
 
 function canUserEditArticle(props) {
-  const { article, accountId } = props;
-  return false;
+  const { article } = props;
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "canUserEditArticle";
+  });
+
+  return article.author === context.accountId;
 }
 
 function createArticle(props) {
@@ -111,6 +120,7 @@ function getArticlesIndexes(props) {
   const { accountId } = props;
   return Social.index(action, "main", {
     order: "desc",
+    subscribe: true,
     accountId,
   });
 }
