@@ -94,6 +94,7 @@ const ChildContainer2 = styled.div`
 
   > div:last-child {
     order: 2;
+    padding: 2rem;
   }
   
   // For mobile screens
@@ -107,9 +108,6 @@ const ChildContainer2 = styled.div`
       order: 1; // This will make the second child appear first on mobile
     }
     margin-bottom: 5rem;
-    > div {
-        padding: 2rem;
-    }
   }
 `;
 
