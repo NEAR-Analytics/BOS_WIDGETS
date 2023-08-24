@@ -8,22 +8,22 @@ if (members === null) {
 }
 
 State.init({
-  elements: {},
+  members,
   inputVal: "",
 });
 
-function addElement(newElement) {
+function addMember(newMember) {
   State.update({
-    elements: { ...state.elements, [newElement]: "" },
+    members: { ...state.members, [newMember]: "" },
   });
 }
 
-function removeElement(elementKey) {
-  const updatedElements = { ...state.elements };
-  delete updatedElements[elementKey];
+function removeMember(memberKey) {
+  const updatedMembers = { ...state.members };
+  delete updatedMembers[memberKey];
 
   State.update({
-    elements: updatedElements,
+    members: updatedMembers,
   });
 }
 
@@ -38,15 +38,10 @@ function generateUID() {
 const type = group ? "remove" : "add";
 
 const handleCreateGroup = () => {
-  const groupId = props.groupId ?? generateUID();
+  const groupId = groupId ?? generateUID();
   const data = {
-    // thing: { // We can create the thing later, just remember to save the UUID in your notes
-    //   [groupId]: {
-    //     ...
-    //   },
-    // },
     graph: {
-      [groupId]: state.elements,
+      [groupId]: state.members,
     },
     index: {
       graph: JSON.stringify({
@@ -84,11 +79,9 @@ function isNearAddress(address) {
   return true;
 }
 
-const accountId = props.accountId ?? state.inputVal;
+const memberId = props.memberId ?? state.inputVal;
 
-const memberId = JSON.stringify(state.elements[0]);
-
-const isValid = isNearAddress(accountId);
+const isValid = isNearAddress(memberId);
 
 return (
   <>
@@ -96,13 +89,13 @@ return (
       <h3>Membership</h3>
       <input onChange={(e) => State.update({ inputVal: e.target.value })} />
       <br />
-      <button disabled={!isValid} onClick={() => addElement(state.inputVal)}>
+      <button disabled={!isValid} onClick={() => addMember(state.inputVal)}>
         add
       </button>
     </div>
     <br />
     <div>
-      {Object.keys(state.elements).length > 0 && (
+      {Object.keys(state.members).length > 0 && (
         <div>
           <button
             className="btn btn-success"
@@ -114,7 +107,7 @@ return (
           <hr />
         </div>
       )}
-      {Object.keys(state.elements).map((a) => {
+      {Object.keys(state.members).map((a) => {
         return (
           <div className="d-flex m-2 p-2 justify-content-between align-items-center">
             <div className="d-flex align-items-center">
@@ -123,7 +116,7 @@ return (
             <button
               className="btn btn-danger m-1"
               disabled={!isNearAddress(a)}
-              onClick={() => removeElement(a)}
+              onClick={() => removeMember(a)}
             >
               remove
             </button>
