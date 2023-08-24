@@ -10,7 +10,6 @@ const {
   handleFilterArticles,
 } = props;
 
-console.log("bbbbbbbbbbbbbbbbbb: ", displayedTabId);
 function stateUpdate(obj) {
   State.update(obj);
 }
