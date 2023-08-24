@@ -197,6 +197,7 @@ const WalleyHomeMain = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
+    height: 100%;
     align-items: space-between;
 `;
 
