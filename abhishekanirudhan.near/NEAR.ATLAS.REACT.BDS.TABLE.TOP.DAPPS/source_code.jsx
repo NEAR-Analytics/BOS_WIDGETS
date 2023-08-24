@@ -124,21 +124,21 @@ const COLUMNS = [
   },
   {
     label: <p className="text-center text-white text-wrap ">Avg Tx per MAU</p>,
-    renderCell: (item) => formatPercentNew(item["Avg Tx per MAU"]),
+    renderCell: (item) => formatNumberDecimal(item["Avg Tx per MAU"]),
     sort: { sortKey: "Avg Tx per MAU" },
   },
   {
     label: (
       <p className="text-center text-white text-wrap ">Total Transactions</p>
     ),
-    renderCell: (item) => formatPercentNew(item["Total Txns"]),
+    renderCell: (item) => formatNumber(item["Total Txns"]),
     sort: { sortKey: "Total Txns" },
   },
   {
     label: (
       <p className="text-center text-white text-wrap ">Total Fee Generated</p>
     ),
-    renderCell: (item) => formatPercentNew(item["Total Fee Generated"]),
+    renderCell: (item) => formatNumber(item["Total Fee Generated"]),
     sort: { sortKey: "Total Fee Generated" },
   },
   {
@@ -164,7 +164,16 @@ const sortFns = {
     array.sort((a, b) => a["M2 Retention"] - b["M2 Retention"]),
   "Daily Average": (array) =>
     array.sort((a, b) => a["Daily Average"] - b["Daily Average"]),
-  "DAU / MAU": (array) => array.sort((a, b) => a["DAU / MAU"] - b["DAU / MAU"]),
+  "Txns 30 Days": (array) =>
+    array.sort((a, b) => a["Txns 30 Days"] - b["Txns 30 Days"]),
+  "Avg Tx per MAU": (array) =>
+    array.sort((a, b) => a["Avg Tx per MAU"] - b["Avg Tx per MAU"]),
+  "Total Txns": (array) =>
+    array.sort((a, b) => a["Total Txns"] - b["Total Txns"]),
+  "Total Fee Generated": (array) =>
+    array.sort((a, b) => a["Total Fee Generated"] - b["Total Fee Generated"]),
+  "Gas Consumed": (array) =>
+    array.sort((a, b) => a["Gas Consumed"] - b["Gas Consumed"]),
 };
 
 return (
