@@ -1,11 +1,8 @@
-const accountId = props.accountId ?? context.accountId;
-if (!accountId) {
-  return "No account ID";
-}
+const creatorId = props.creatorId;
+const groupId = props.groupId;
 
 const group =
-  props.group ?? Social.getr(`${accountId}/graph/${props.groupId}/**`);
-const fast = !props.group;
+  props.group ?? Social.get(`${creatorId}/thing/group/${groupId}/**`, "final");
 
 if (group === null) {
   return "Loading...";
@@ -17,17 +14,14 @@ return (
       <Widget
         src="hack.near/widget/group.card"
         props={{
-          groupId: props.groupId,
-          group,
-          link: true,
-          fast,
-          showEditButton: !props.group,
+          creatorId,
+          groupId,
         }}
       />
       <br />
       <Widget
         src="hack.near/widget/group.members"
-        props={{ creatorId: accountId, groupId: props.groupId }}
+        props={{ creatorId, groupId }}
       />
     </div>
   </div>
