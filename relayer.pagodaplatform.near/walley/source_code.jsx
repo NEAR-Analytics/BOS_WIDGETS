@@ -380,7 +380,7 @@ const WalleyStoreButton = styled.button`
 const WalleyTransactions = styled.div`
   height: 300px;
   overflow-y: scroll;
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
   &::-webkit-scrollbar {
     width: 7px;
   }
