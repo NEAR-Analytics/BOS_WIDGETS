@@ -385,6 +385,9 @@ const WalleyTransactions = styled.div`
   grid-gap: 20px;
   grid-template-columns: repeat(2, 1fr);
   justiy-content: space-evenly;
+  @media screen and (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
   &::-webkit-scrollbar {
     width: 7px;
   }
