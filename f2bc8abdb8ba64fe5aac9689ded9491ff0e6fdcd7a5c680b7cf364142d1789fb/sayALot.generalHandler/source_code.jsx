@@ -402,11 +402,19 @@ function handleBackButton() {
     ? State.update({
         displayedTabId: tabs.SHOW_ARTICLE.id,
         editArticleData: undefined,
+        filterBy: {
+          parameterName: "",
+          parameterValue: undefined,
+        },
       })
     : State.update({
         displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
         articleToRenderData: {},
         editArticleData: undefined,
+        filterBy: {
+          parameterName: "",
+          parameterValue: undefined,
+        },
       });
 }
 
