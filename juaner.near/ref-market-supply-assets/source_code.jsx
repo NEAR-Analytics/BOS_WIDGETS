@@ -298,10 +298,12 @@ const selectedTokenMeta = selectedToken.metadata || {};
 const handleSort = (type, key) => {
   console.log(type, key, state.tableData);
   if (!state.tableData.length) return;
+  const data = state.tableData.sort((a, b) =>
+    type === "down" ? a[key] - b[key] : b[key] - a[key]
+  );
+  console.log(data);
   State.update({
-    tableData: state.tableData.sort((a, b) =>
-      type === "down" ? a[key] - b[key] : b[key] - a[key]
-    ),
+    tableData: data,
     activeArrow: `${type}-${key}`,
   });
 };
@@ -411,7 +413,7 @@ return (
           <th scope="col" width="15%"></th>
         </tr>
       </thead>
-      <tbody>{renderAssets(state.tableData)}</tbody>
+      <tbody>{renderAssets(state.tableData) || ""}</tbody>
     </table>
 
     <Widget
