@@ -152,8 +152,6 @@ asyncFetch(
   State.update({ verified: res.body });
 });
 
-console.log("wallets", wallets);
-
 asyncFetch(
   `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${state.wallet}&upvoter=${context.accountId}&contract=${nominationContract}`,
   httpRequestOpt
@@ -254,7 +252,7 @@ function handleUpVote() {
 
 function handleVoteAll() {
   const coalitionVote = wallets
-    .filter(({ voted }) => !voted)
+    .filter(({ wallet, voted }) => !voted && context.accountId !== wallet)
     .map(({ wallet }) => {
       return {
         contractName: nominationContract,
@@ -346,6 +344,7 @@ if (state.data.ok) {
       <div class="container p-3 pt-1 d-flex flex-column align-items-center">
         <Button
           props={{
+            disabled: !context.accountId || !state.verified,
             className: "mb-4",
             children: `VOTE FOR COALITION!`,
             variant: "primary",
