@@ -159,7 +159,9 @@ const formatAssets = (data) => {
         };
       }, {})
     : {};
-
+  State.update({
+    activeArrow: "up-liquidity",
+  });
   return data.assets
     .filter(
       (a) => a.config.can_borrow && !["meta-token.near"].includes(a.token_id)
@@ -383,11 +385,13 @@ const selectedToken = (selectedTokenId && assetsMap[selectedTokenId]) || {};
 const selectedTokenMeta = selectedToken.metadata || {};
 
 const handleSort = (type, key) => {
+  console.log(type, key, state.tableData);
   if (!state.tableData.length) return;
   State.update({
     tableData: state.tableData.sort((a, b) =>
       type === "down" ? a[key] - b[key] : b[key] - a[key]
     ),
+    activeArrow: `${type}-${key}`,
   });
 };
 return (
@@ -417,7 +421,9 @@ return (
               <div className="arrows">
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-up"
+                    className={`arrow arrow-up ${
+                      state.activeArrow === "up-apy" && "active"
+                    }`}
                     onClick={() => {
                       handleSort("up", "apy");
                     }}
@@ -425,7 +431,9 @@ return (
                 </div>
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-down"
+                    className={`arrow arrow-down ${
+                      state.activeArrow === "down-apy" && "active"
+                    }`}
                     onClick={() => {
                       handleSort("down", "apy");
                     }}
@@ -446,7 +454,9 @@ return (
               <div className="arrows">
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-up"
+                    className={`arrow arrow-up ${
+                      state.activeArrow === "up-liquidity" && "active"
+                    }`}
                     onClick={() => {
                       handleSort("up", "liquidity");
                     }}
@@ -454,7 +464,9 @@ return (
                 </div>
                 <div className="arrow-wrap">
                   <div
-                    className="arrow arrow-down"
+                    className={`arrow arrow-down ${
+                      state.activeArrow === "down-liquidity" && "active"
+                    }`}
                     onClick={() => {
                       handleSort("down", "liquidity");
                     }}
