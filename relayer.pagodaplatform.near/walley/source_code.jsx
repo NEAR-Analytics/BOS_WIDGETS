@@ -217,7 +217,7 @@ const WalleyNavbarButton = styled.button`
     background: none;
     color: #fff;
     padding:0px;
-    font-weight: 500px;
+    font-weight: 500;
 `;
 
 const NavLine = styled.span`
