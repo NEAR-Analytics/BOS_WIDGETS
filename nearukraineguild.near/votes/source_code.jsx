@@ -218,7 +218,7 @@ const rednerSelector = () => (
 
 function handleUpVote() {
   Near.call(
-    nomination_contract,
+    nominationContract,
     state.voted ? "remove_upvote" : "upvote",
     {
       candidate: accountId,
