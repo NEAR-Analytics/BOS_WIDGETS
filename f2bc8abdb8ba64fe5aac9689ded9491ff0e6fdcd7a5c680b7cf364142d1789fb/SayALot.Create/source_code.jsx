@@ -7,6 +7,9 @@ const {
   initialCreateState,
   editArticleData,
   callLibs,
+  widgets,
+  handleFilterArticles,
+  handleEditArticle,
 } = props;
 
 const libSrcArray = [
@@ -106,7 +109,19 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
-return (
+return state.createdArticle ? (
+  <Widget
+    src={widgets.oneArticle}
+    props={{
+      widgets,
+      isTest,
+      handleFilterArticles,
+      articleToRenderData: state.createdArticle,
+      authorForWidget,
+      handleEditArticle,
+    }}
+  />
+) : (
   <CreationContainer className="container-fluid">
     {
       //   state.saveComplete && (
