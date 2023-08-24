@@ -1,1 +1,1 @@
-return <Widget>Hello World</div>;
+return <div>Hello World</div>;
