@@ -131,7 +131,7 @@ return (
             className="text-center"
           >
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
-              Simple Profiles to connect with your audience.
+              Promote your art, events, and merch.
             </p>
             <p style={{ fontSize: "1.25rem" }}>
               Communicate and Coordinate with other artists. Host information
@@ -148,7 +148,7 @@ return (
       </Container>
       <Container>
         <ChildContainer2>
-          <div style={{ flex: 0 }}>
+          <div style={{ flex: 1 }}>
             <Widget src="harmonic1.near/widget/create.artist" />
           </div>
           <div
