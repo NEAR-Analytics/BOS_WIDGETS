@@ -159,10 +159,8 @@ const formatAssets = (data) => {
         };
       }, {})
     : {};
-  State.update({
-    activeArrow: "up-liquidity",
-  });
-  return data.assets
+
+  const _assets = data.assets
     .filter(
       (a) => a.config.can_borrow && !["meta-token.near"].includes(a.token_id)
     )
@@ -190,11 +188,21 @@ const formatAssets = (data) => {
         token_id,
         liquidity,
       };
-    })
-    .sort((a, b) => b.liquidity - a.liquidity);
+    });
+
+  if (!state.activeArrow) {
+    State.update({
+      activeArrow: "up-liquidity",
+    });
+    return _assets.sort((a, b) => b.liquidity - a.liquidity);
+  } else {
+    const [type, key] = state.activeArrow.split("-");
+    return _assets.sort((a, b) =>
+      type === "down" ? a[key] - b[key] : b[key] - a[key]
+    );
+  }
 };
 const onLoad = (data) => {
-  console.log("onLoad");
   State.update(data);
   // get market can deposit assets
   if (data.assets && data.assets.length) {
@@ -386,7 +394,6 @@ const selectedToken = (selectedTokenId && assetsMap[selectedTokenId]) || {};
 const selectedTokenMeta = selectedToken.metadata || {};
 
 const handleSort = (type, key) => {
-  console.log(type, key, state.tableData);
   if (!state.tableData.length) return;
   State.update({
     tableData: state.tableData.sort((a, b) =>
