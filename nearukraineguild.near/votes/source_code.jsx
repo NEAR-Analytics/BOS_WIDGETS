@@ -85,6 +85,14 @@ State.init({
   verified: false,
 });
 
+const baseApi = "https://api.pikespeak.ai";
+
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+const nominationContract = "nominations.ndc-gwg.near";
+const httpRequestOpt = {
+  headers: { "x-api-key": apiKey },
+};
+
 const wallets = [
   "kiskesis.near",
   "evangel.near",
@@ -103,15 +111,17 @@ const wallets = [
   "rahulgoel.near",
   "tolmindev.near",
   "izubair.near",
-];
+].map((wallet) => {
+  const res = fetch(
+    `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${wallet}&upvoter=${context.accountId}&contract=${nominationContract}`,
+    httpRequestOpt
+  );
 
-const baseApi = "https://api.pikespeak.ai";
-
-const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
-const nominationContract = "nominations.ndc-gwg.near";
-const httpRequestOpt = {
-  headers: { "x-api-key": apiKey },
-};
+  return {
+    wallet: wallet,
+    voted: res.body,
+  };
+});
 
 const houseNominations = (house) =>
   `${baseApi}/nominations/house-nominations?house=${house}&contract=${nominationContract}`;
@@ -123,7 +133,9 @@ let walletData = [
 ];
 
 const filteredWalletData = walletData.map((group) => {
-  return group.filter((entry) => wallets.includes(entry.nominee));
+  return group.filter((entry) =>
+    wallets.some(({ wallet }) => wallet === entry.nominee)
+  );
 });
 
 asyncFetch(
@@ -139,6 +151,9 @@ asyncFetch(
 ).then((res) => {
   State.update({ verified: res.body });
 });
+
+console.log("wallets", wallets);
+
 asyncFetch(
   `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${state.wallet}&upvoter=${context.accountId}&contract=${nominationContract}`,
   httpRequestOpt
@@ -238,17 +253,19 @@ function handleUpVote() {
 }
 
 function handleVoteAll() {
-  const coalitionVote = wallets.map((wallet) => {
-    return {
-      contractName: nominationContract,
-      methodName: "upvote",
-      args: {
-        candidate: wallet,
-      },
-      deposit: 300000000000000,
-      gas: 1000000000000000000000,
-    };
-  });
+  const coalitionVote = wallets
+    .filter(({ voted }) => voted)
+    .map(({ wallet }) => {
+      return {
+        contractName: nominationContract,
+        methodName: "upvote",
+        args: {
+          candidate: wallet,
+        },
+        deposit: 300000000000000,
+        gas: 1000000000000000000000,
+      };
+    });
 
   Near.call(coalitionVote);
 }
