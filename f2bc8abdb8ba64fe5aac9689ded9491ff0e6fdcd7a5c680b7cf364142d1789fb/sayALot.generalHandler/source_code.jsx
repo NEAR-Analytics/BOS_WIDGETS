@@ -7,7 +7,6 @@ const initLibCalls = [
     key: "articles",
     props: {
       env: isTest ? "test" : "prod",
-      filterBy: state.filterBy,
     },
   },
 ];
@@ -30,6 +29,14 @@ State.init({
   authorsProfiles: [],
   libCalls: initLibCalls,
 });
+
+if (state.filterBy.parameterName != "") {
+  let newLibCalls = state.libCalls;
+
+  newLibCalls.props.filterBy = state.filterBy;
+
+  State.update({ libCalls: newLibCalls });
+}
 
 //=============================================END INITIALIZATION===================================================
 
