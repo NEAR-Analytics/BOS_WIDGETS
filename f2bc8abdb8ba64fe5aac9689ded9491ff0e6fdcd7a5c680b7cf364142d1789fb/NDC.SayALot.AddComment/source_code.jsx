@@ -257,6 +257,14 @@ const {
   replyingTo,
 } = props;
 
+let realArticleId;
+if (originalComment) {
+  realArticleId = originalComment.originalComment.value.comment.realArticleId;
+} else {
+  realArticleId =
+    article.realArticleId ?? `${article.author}-${article.timeCreate}`;
+}
+
 const libCalls = [];
 
 const authorForWidget = "kenrou-it.near";
@@ -302,13 +310,12 @@ function addCommentListener() {
   let newLibCalls = [...libCalls];
   const comment = {
     text: state.reply,
-    realArticleId:
-      originalComment.originalComment.value.comment.realArticleId ??
-      article.realArticleId,
+    realArticleId,
     timestamp: Date.now(),
     originalCommentId:
       originalComment.originalComment.value.comment.commentId ??
-      article.realArticleId,
+      article.realArticleId ??
+      `${article.author}-${article.timeCreate}`,
     commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
   };
   newLibCalls.push({
