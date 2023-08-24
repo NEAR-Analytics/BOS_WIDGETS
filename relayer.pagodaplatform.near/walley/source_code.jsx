@@ -170,7 +170,10 @@ const WalleyHomeContainer = styled.div`
     background-size: cover;
     font-family: Poppins, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     height: 100vh;
-    width: 100%;
+    width: 100vw;
+    ::placeholder {
+      color: rgb(255, 255, 255, 0.5);
+    }
     color: #fff;
     display: flex;
     flex-direction: column;
