@@ -15,14 +15,12 @@ const currentChain = {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
   },
   aptos: {
-    img: "https://assets-global.website-files.com/606f63778ec431ec1b930f1f/63dbd502218a274f2a602968_aptos.png",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqBinSwbRdx76qY4A3qvVkM9g_mKoGCBDT0sqTT02TgRvKquV2Vlc8fSRmLyuhBS3-CaA&usqp=CAU",
   },
   sui: {
     img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
   },
 };
-
-
 
 function fetchData() {
   State.update({ nftData: [] });
@@ -398,11 +396,11 @@ return (
           onChange={seachInputHandler}
         />{" "}
         <SelectChain>
-        <select value={chain} onChange={handleDropdownChange}>
-          <option value="near">Near</option>
-          <option value="aptos">Aptos</option>
-          <option value="sui">Sui</option>
-        </select>
+          <select value={chain} onChange={handleDropdownChange}>
+            <option value="near">Near</option>
+            <option value="aptos">Aptos</option>
+            <option value="sui">Sui</option>
+          </select>
         </SelectChain>
       </InputContainer>
     </Hero>
@@ -487,15 +485,17 @@ return (
                       {nft.listings && nft.listings[0] ? (
                         typeof nft.listings[0].price === "number" ? (
                           <ChainPrice>
-                          <img src={currentChain[state.chain].img} alt=""  />
-                          <PriceArea>
-                            <h6>{`${
-                              nft.listings[0].price.toFixed(2) /
-                              state.conversion
-                            }`}</h6>
-                            <span>{`(${getUsdValue(nft.listings[0].price.toFixed(2) /
-                              state.conversion)})`}</span>
-                          </PriceArea>
+                            <img src={currentChain[state.chain].img} alt="" />
+                            <PriceArea>
+                              <h6>{`${
+                                nft.listings[0].price.toFixed(2) /
+                                state.conversion
+                              }`}</h6>
+                              <span>{`(${getUsdValue(
+                                nft.listings[0].price.toFixed(2) /
+                                  state.conversion
+                              )})`}</span>
+                            </PriceArea>
                           </ChainPrice>
                         ) : (
                           <div>Not for Sale</div>
@@ -614,20 +614,50 @@ return (
                       <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
                         Price
                       </div>
-                      {nft.listings &&
-                      nft.listings[0] &&
-                      typeof nft.listings[0].price === "number" ? (
-                        <PriceArea>
-                          <h6>{`${
-                            nft.listings[0].price.toFixed(2) / 100000000
-                          }APT`}</h6>
-                          <span>{` ($${(
-                            (nft.listings[0].price / 100000000) *
-                            state.chainRate
-                          ).toFixed(2)})`}</span>
-                        </PriceArea>
+                      {nft.listings && nft.listings[0] ? (
+                        typeof nft.listings[0].price === "number" ? (
+                          <ChainPrice>
+                            <img src={currentChain[state.chain].img} alt="" />
+                            <PriceArea>
+                              <h6>{`${
+                                nft.listings[0].price.toFixed(2) /
+                                state.conversion
+                              }`}</h6>
+                              <span>{`(${getUsdValue(
+                                nft.listings[0].price.toFixed(2) /
+                                  state.conversion
+                              )})`}</span>
+                            </PriceArea>
+                          </ChainPrice>
+                        ) : (
+                          <div>Not for Sale</div>
+                        )
+                      ) : nft.price ? (
+                        <ChainPrice>
+                          <img src={currentChain[state.chain].img} alt="" />
+                          <PriceArea>
+                            <h6>
+                              {(nft.price / 1000000000000000000000000).toFixed(
+                                2
+                              )}
+                            </h6>
+                            <span>
+                              (
+                              {getUsdValue(
+                                nft.price / 1000000000000000000000000
+                              )}
+                              )
+                            </span>
+                          </PriceArea>
+                        </ChainPrice>
                       ) : (
-                        <div>Not for Sale</div>
+                        <ChainPrice>
+                          <img src={currentChain[state.chain].img} alt="" />
+                          <PriceArea>
+                            <h6>0.00</h6>
+                            <span>($0.00)</span>
+                          </PriceArea>
+                        </ChainPrice>
                       )}
                     </div>
                   </div>
