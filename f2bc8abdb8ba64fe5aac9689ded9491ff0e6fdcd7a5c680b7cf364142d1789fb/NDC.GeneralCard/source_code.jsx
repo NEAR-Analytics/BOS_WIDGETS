@@ -467,22 +467,23 @@ const inner = (
 const renderTags = () => {
   return (
     <>
-      {tags.map((tag) => {
-        const filter = { filterBy: "tag", value: tag };
+      {tags &&
+        tags.map((tag) => {
+          const filter = { filterBy: "tag", value: tag };
 
-        return (
-          <div onClick={() => handleFilterArticles(filter)}>
-            {tag && (
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Tag: { title: tag },
-                }}
-              />
-            )}
-          </div>
-        );
-      })}
+          return (
+            <div onClick={() => handleFilterArticles(filter)}>
+              {tag && (
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Tag: { title: tag },
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
     </>
   );
 };
