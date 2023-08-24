@@ -111,8 +111,13 @@ const saveHandler = (article, onCommit, onCancel) => {
   }
 };
 
-function getArticlesIndexes(props) {
-  const { accountId } = props;
+function getArticlesIndexes(filterBy) {
+  let accountId = undefined;
+
+  if (filterBy.parameterName === "author") {
+    accountId = filterBy.parameterValue;
+  }
+
   return Social.index(action, "main", {
     order: "desc",
     subscribe: true,
@@ -142,9 +147,7 @@ function getArticleBlackListByRealArticleId() {
   ];
 }
 
-function filterInvalidArticlesIndexes(props, articlesIndexes) {
-  const { env } = props;
-
+function filterInvalidArticlesIndexes(env, articlesIndexes) {
   return articlesIndexes
     .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
     .filter(
@@ -191,8 +194,7 @@ function getArticle(articleIndex) {
   return articleParsed;
 }
 
-function getOldArticleBasicDataArray(props) {
-  const { env } = props;
+function getOldArticleBasicDataArray(env) {
   if (env === "test") {
     return [
       {
@@ -254,24 +256,25 @@ function getOldArticleBasicDataArray(props) {
   }
 }
 
-function getNewFormatValidArticles(props) {
-  const articlesIndexes = getArticlesIndexes(props);
+function getNewFormatValidArticles(env, filterBy) {
+  const articlesIndexes = getArticlesIndexes(env, filterBy);
   const validArticlesIndexes = filterInvalidArticlesIndexes(
-    props,
+    env,
     articlesIndexes
   );
   const validLatestEdits = getLatestEdits(validArticlesIndexes);
   return validLatestEdits.map(getArticle);
 }
 
-function getOldFormatArticles(props) {
-  const oldBasicDataArray = getOldArticleBasicDataArray(props);
+function getOldFormatArticles(env) {
+  const oldBasicDataArray = getOldArticleBasicDataArray(env);
   return oldBasicDataArray.map(getArticle);
 }
 
 function getLastEditArticles(props) {
-  const oldFormatArticles = getOldFormatArticles(props);
-  const newFormatArticles = getNewFormatValidArticles(props);
+  const { env, filterBy } = props;
+  const oldFormatArticles = getOldFormatArticles(env);
+  const newFormatArticles = getNewFormatValidArticles(env, filterBy);
 
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
@@ -283,7 +286,7 @@ function getLastEditArticles(props) {
   );
 
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
-  const filteredArticles = filterArticles(props, lastEditionArticles);
+  const filteredArticles = filterArticles(filterBy, lastEditionArticles);
   const validFormatFilteredArticles =
     convertArticlesTagsToValidFormat(filteredArticles);
 
@@ -305,17 +308,16 @@ function convertArticlesTagsToValidFormat(articlesArray) {
   return validFormatArticlesArray;
 }
 
-function filterArticlesByTag(props, articles) {
-  const { tag } = props;
-  if (!tag) return articles;
+function filterArticlesByTag(filterBy, articles) {
+  if (filterBy.parameterName !== "tag") return articles;
 
   return articles.filter((article) => {
-    return article.tags.includes(tag);
+    return article.tags.includes(filterBy.parameterValue);
   });
 }
 
-function filterArticles(props, articles) {
-  const byTag = filterArticlesByTag(props, articles);
+function filterArticles(filterBy, articles) {
+  const byTag = filterArticlesByTag(filterBy, articles);
 
   return byTag;
 }
