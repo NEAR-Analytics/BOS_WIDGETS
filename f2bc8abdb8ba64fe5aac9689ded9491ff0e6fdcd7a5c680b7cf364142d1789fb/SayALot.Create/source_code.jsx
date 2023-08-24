@@ -10,6 +10,7 @@ const {
   widgets,
   handleFilterArticles,
   handleEditArticle,
+  handlerStateUpdate,
 } = props;
 
 const libSrcArray = [
