@@ -1,65 +1,31 @@
 const creatorId = props.creatorId ?? context.accountId;
-const groupId = props.groupId ?? "83dc9a797ac0ellif3mt0a1aee215d3088";
-
-let members = Social.getr(`${creatorId}/graph/${groupId}`, "final", {});
-
-if (members === null) {
-  return "";
-}
+const groupId = props.groupId;
 
 if (!creatorId) {
   return "Please connect your NEAR account :)";
 }
 
-function generateUID() {
-  return (
-    Math.random().toString(16).slice(2) +
-    Date.now().toString(36) +
-    Math.random().toString(16).slice(2)
-  );
-}
-
 State.init({
   groupId,
+  group,
 });
-
-const type = group ? "remove" : "add";
-
-const handleCreateGroup = () => {
-  const groupId = groupId ?? generateUID();
-  const data = {
-    graph: {
-      [groupId]: state.members,
-    },
-    index: {
-      graph: JSON.stringify({
-        key: groupId,
-        value: {
-          type,
-        },
-      }),
-    },
-  };
-
-  Social.set(data, {
-    onCommit: () => {},
-    onCancel: () => {},
-  });
-};
 
 return (
   <>
     <div className="row">
       <div className="col-lg-6 mt-2">
-        <div className="mb-2">
+        <div className="mb-3">
           <h5>Details</h5>
           <input
             style={{ fontSize: "15px" }}
-            value={state.groupId}
             onChange={(e) => State.update({ groupId: e.target.value })}
           />
         </div>
-        <div className="mb-2">
+        <Widget
+          src="hack.near/widget/group.card"
+          props={{ creatorId, groupId, group: state.group }}
+        />
+        <div className="mb-2 mt-3">
           <Widget
             src="near/widget/MetadataEditor"
             props={{
@@ -109,8 +75,8 @@ return (
             update
           </CommitButton>
           <a
-            className="btn btn-outline-primary ms-2"
-            href={`#/hack.near/widget/group.members?creatorId=${creatorId}?`}
+            className="btn btn-primary ms-2"
+            href={`#/hack.near/widget/group?creatorId=${creatorId}&groupId=${groupId}`}
           >
             view
           </a>
@@ -120,7 +86,7 @@ return (
         <div className="m-2">
           <Widget
             src="hack.near/widget/group.save"
-            props={{ creatorId, groupId }}
+            props={{ creatorId, groupId: state.groupId }}
           />
         </div>
       </div>
