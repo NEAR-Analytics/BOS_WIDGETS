@@ -18,7 +18,7 @@ const isNftHolder = false;
 if (nftData > 0) {
   isNftHolder = true;
 }
-const accountUrl = `#/near/widget/ProfilePage?accountId=819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a`;
+const accountUrl = `#/819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a/widget/queens.dao`;
 
 const Wrapper = styled.div`
   --section-gap: 23px;
@@ -192,7 +192,29 @@ const TabsButton = styled.a`
   }
  
 `;
+const PopupWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  padding: 16px;
 
+  @media (max-width: 600px) {
+    padding: 0;
+    & > * {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+  }
+`;
 return (
   <Wrapper>
     <Container>
@@ -230,80 +252,101 @@ return (
     <Content>
       <Tabs>
         <TabsButton
-          href={`${accountUrl}&tab=overview`}
-          selected={state.selectedTab === "overview"}
-        >
-          Members
-        </TabsButton>
-
-        <TabsButton
-          href={`${accountUrl}&tab=apps`}
-          selected={state.selectedTab === "apps"}
+          href={`${accountUrl}tab=discussion`}
+          selected={state.selectedTab === "discussion"}
         >
           Discussion
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}&tab=nfts`}
-          selected={state.selectedTab === "nfts"}
+          href={`${accountUrl}tab=proposals`}
+          selected={state.selectedTab === "proposals"}
         >
-          Job Board
+          Proposals
         </TabsButton>
 
         <TabsButton
-          href={`${accountUrl}&tab=followers`}
+          href={`${accountUrl}tab=members`}
+          selected={state.selectedTab === "members"}
+        >
+          Members
+        </TabsButton>
+
+        <TabsButton
+          href={`${accountUrl}tab=projects`}
+          selected={state.selectedTab === "projects"}
+        >
+          Projects
+        </TabsButton>
+
+        <TabsButton
+          href={`${accountUrl}tab=followers`}
           selected={state.selectedTab === "followers"}
+        >
+          Followers
+        </TabsButton>
+
+        <TabsButton
+          href={`${accountUrl}tab=bounties`}
+          selected={state.selectedTab === "bounties"}
+        >
+          Bounties
+        </TabsButton>
+        <TabsButton
+          href={`${accountUrl}tab=events`}
+          selected={state.selectedTab === "events"}
         >
           Events
         </TabsButton>
-
-        <TabsButton
-          href={`${accountUrl}&tab=explorer`}
-          selected={state.selectedTab === "explorer"}
-        >
-          Explorer
-        </TabsButton>
       </Tabs>
-      {state.selectedTab === "overview" && (
+
+      {state.selectedTab === "discussion" && (
+        <>
+          <Widget src="efiz.near/widget/Chat" props={{ daoId }} />
+        </>
+      )}
+
+      {state.selectedTab === "proposals" && (
+        <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
+      )}
+
+      {state.selectedTab === "proposal" && (
         <Widget
-          src="near/widget/FollowersList"
-          props={{
-            accountId:
-              "819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a",
-          }}
+          src="sking.near/widget/DAO.Proposal"
+          props={{ daoId, ...props }}
         />
       )}
 
-      {state.selectedTab === "nfts" && (
-        <Widget src="near/widget/NFTCollection" props={{ accountId }} />
+      {state.selectedTab === "members" && (
+        <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
       )}
-      {state.selectedTab === "apps" && (
-        <Widget src="near/widget/ComponentCollection" props={{ accountId }} />
-      )}
-      {state.selectedTab === "followers" && (
-        <Widget src="near/widget/FollowersList" props={{ accountId }} />
-      )}
-      {state.selectedTab === "following" && (
-        <Widget src="near/widget/FollowingList" props={{ accountId }} />
-      )}
-      {state.selectedTab === "explorer" && (
+
+      {state.selectedTab === "projects" && (
         <Widget
-          src="near/widget/Explorer.Account"
-          props={{
-            accountId,
-            network: context.networkId,
-            language: "en",
-            baseUrl: props.baseUrl,
-          }}
+          src="nearhorizon.near/widget/Project.ListPage"
+          props={{ daoId }}
+        />
+      )}
+
+      {state.selectedTab === "followers" && (
+        <Widget src="near/widget/FollowersList" props={{ accountId: daoId }} />
+      )}
+
+      {state.selectedTab === "bounties" && (
+        <Widget src="sking.near/widget/DAO.Bounties" props={{ daoId }} />
+      )}
+
+      {state.selectedTab === "events" && (
+        <Widget src="evrything.near/widget/Calendar" props={{ daoId }} />
+      )}
+
+      {state.selectedTab === "bounty" && (
+        <Widget
+          src="sking.near/widget/DAO.Bounty"
+          props={{ daoId, ...props }}
         />
       )}
     </Content>
-    {isNftHolder && (
-      <div className="m-2 mb-5">
-        <h5 className="mb-3">Non-Fungible Things</h5>
-        <Widget src="near/widget/NFTCollection" props={{ accountId }} />
-      </div>
-    )}
 
     <br />
 
