@@ -55,7 +55,7 @@ const feedStyle = {
 };
 
 let feedURL;
-if (window.location.pathname === "harmonic1.near/widget/buildspace") {
+if (window.location.pathname === "harmonic1.near/widget/") {
   feedURL = "artist.feed";
 } else {
   feedURL = "harmonic1.near/widget/artist.feed";
