@@ -258,7 +258,7 @@ position: absolute;
 const H1 = styled.h1`
   font-size: 3rem;
   font-weight: 600;
-  margin-bottom: 1em;
+  // margin-bottom: 1em;
     @media screen and (max-width: 1200px){
       font-size: 2.5rem;
     }
@@ -498,7 +498,7 @@ return (
       </div>
     </OrgsSection>
     <FeatureContainer>
-      <H1 className="text-center">
+      <H1 className="text-center mb-5">
         The All in One <Accent>No Code Solution</Accent> for your NFT Needs
       </H1>
       <div className="Features_wrapper">
@@ -561,6 +561,30 @@ return (
             src="https://www.genadrop.io/static/media/app-explore.eab9bd86.svg"
             alt=""
           />
+        </div>
+      </div>
+    </FeatureContainer>
+    <FeatureContainer>
+      <div className="Features_featureContainer reverse features-card">
+        <div className="Features_content text-center">
+          <H1 className="text-center">
+            NFTs created with <Accent>Genadrop</Accent>
+          </H1>
+          <FeatureDescription>
+            Notable NFTs that were easily created with GenaDrop
+          </FeatureDescription>
+        </div>
+      </div>
+    </FeatureContainer>
+    <FeatureContainer>
+      <div className="Features_featureContainer reverse features-card">
+        <div className="Features_content text-center">
+          <H1 className="text-center">
+            Our <Accent>Partners</Accent>
+          </H1>
+          <FeatureDescription>
+            Notable NFTs that were easily created with GenaDrop
+          </FeatureDescription>
         </div>
       </div>
     </FeatureContainer>
