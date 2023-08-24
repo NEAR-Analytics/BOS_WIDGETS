@@ -169,10 +169,8 @@ const formatAssets = (data) => {
         };
       }, {})
     : {};
-  State.update({
-    activeArrow: "up-totalLiquidity_usd",
-  });
-  return data.assets
+
+  const _assets = data.assets
     .filter(
       (a) => a.config.can_deposit && !["meta-token.near"].includes(a.token_id)
     )
@@ -205,8 +203,18 @@ const formatAssets = (data) => {
         totalLiquidity_usd,
         token_id,
       };
-    })
-    .sort((a, b) => b.totalLiquidity_usd - a.totalLiquidity_usd);
+    });
+  if (!state.activeArrow) {
+    State.update({
+      activeArrow: "up-totalLiquidity_usd",
+    });
+    return _assets.sort((a, b) => b.totalLiquidity_usd - a.totalLiquidity_usd);
+  } else {
+    const [type, key] = state.activeArrow.split("-");
+    return _assets.sort((a, b) =>
+      type === "down" ? a[key] - b[key] : b[key] - a[key]
+    );
+  }
 };
 
 const onLoad = (data) => {
@@ -296,14 +304,11 @@ const selectedToken = (selectedTokenId && assetsMap[selectedTokenId]) || {};
 const selectedTokenMeta = selectedToken.metadata || {};
 
 const handleSort = (type, key) => {
-  console.log(type, key, state.tableData);
   if (!state.tableData.length) return;
-  const data = state.tableData.sort((a, b) =>
-    type === "down" ? a[key] - b[key] : b[key] - a[key]
-  );
-  console.log(data);
   State.update({
-    tableData: data,
+    tableData: state.tableData.sort((a, b) =>
+      type === "down" ? a[key] - b[key] : b[key] - a[key]
+    ),
     activeArrow: `${type}-${key}`,
   });
 };
