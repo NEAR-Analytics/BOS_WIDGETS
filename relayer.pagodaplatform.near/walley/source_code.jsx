@@ -253,7 +253,7 @@ const WalleyHomeBody = styled.div`
     text-align: left;
     font-size: 20px;
     font-weight: 600;
-    padding: 20px 0px;
+    padding: 20px 0px 0px 0px;
   }
 `;
 
