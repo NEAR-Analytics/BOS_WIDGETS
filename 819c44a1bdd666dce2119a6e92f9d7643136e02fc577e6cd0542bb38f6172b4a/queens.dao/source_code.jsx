@@ -4,10 +4,10 @@ const role = props.role ?? "community";
 const contractId = "mint.sharddog.near";
 
 State.init({
-  selectedTab: props.tab || "overview",
+  selectedTab: props.tab || "discussion",
 });
 
-const tab = props.tab === "following" ? props.tab : "members";
+//const tab = props.tab === "following" ? props.tab : "members";
 
 const nftData = Near.view(contractId, "nft_supply_for_owner", {
   account_id: accountId,
