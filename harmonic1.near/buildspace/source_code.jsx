@@ -94,7 +94,6 @@ const ChildContainer2 = styled.div`
 
   > div:last-child {
     order: 2;
-    padding: 2rem;
   }
   
   // For mobile screens
