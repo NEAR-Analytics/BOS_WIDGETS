@@ -149,10 +149,16 @@ const Container = styled.div`
       :hover {
         border-bottom-color: #fff;
       }
+      &.active {
+        border-bottom-color: #fff;
+      }
     }
     .arrow-down {
       border-top-color: rgb(124, 127, 150);
       :hover {
+        border-top-color: #fff;
+      }
+      &.active {
         border-top-color: #fff;
       }
     }
@@ -334,20 +340,6 @@ const handleClaimAll = () => {
   });
 };
 // get portfolio borrowed assets
-let yourSuppliedUSD;
-let yourBurrowedUSD;
-const big_total_supplied_usd = Big(total_supplied_usd || 0);
-if (big_total_supplied_usd.gt(0)) {
-  yourSuppliedUSD = big_total_supplied_usd.lt(0.01)
-    ? "<$0.01"
-    : "$" + big_total_supplied_usd.toFixed(2);
-}
-const big_total_burrowed_usd = Big(total_burrowed_usd || 0);
-if (big_total_burrowed_usd.gt(0)) {
-  yourBurrowedUSD = big_total_burrowed_usd.lt(0.01)
-    ? "<$0.01"
-    : "$" + big_total_burrowed_usd.toFixed(2);
-}
 function closeModal() {
   State.update({
     showModal: false,
@@ -367,12 +359,14 @@ return (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
 
-    <Widget src="juaner.near/widget/ref-lending-header" />
+    <Widget
+      src="juaner.near/widget/ref-lending-header"
+      props={{ total_supplied_usd, total_burrowed_usd }}
+    />
 
     {/* supply area */}
     <div class="box_tabel mt_16">
       {/*yours */}
-
       <>
         <Widget
           src="juaner.near/widget/ss-your-supply"
