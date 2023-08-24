@@ -70,6 +70,8 @@ const Main = styled.div`
   height: 100vh;
   color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.bg, dark.bg)};
+  overflow-y: auto;
+  padding-bottom: 80px;
 `;
 
 const Stack = styled.div`
