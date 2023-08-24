@@ -57,6 +57,14 @@ const getArticleData = () => {
   return args;
 };
 
+function onCommit() {
+  State.update({ showCreatedArticle: true });
+}
+
+function onCancel() {
+  State.update({ createdArticle: undefined });
+}
+
 function createArticleListener() {
   const article = getArticleData();
   const newLibCalls = [...state.libCalls];
@@ -65,6 +73,8 @@ function createArticleListener() {
     key: "createdArticle",
     props: {
       article,
+      onCommit,
+      onCancel,
     },
   });
   State.update({ libCalls: newLibCalls });
@@ -110,10 +120,11 @@ const SecondContainer = styled.div`
 `;
 
 console.log("createdArticle: ", state.createdArticle);
+console.log("showCreatedArticle: ", state.showCreatedArticle);
 
 return (
   <>
-    {state.createdArticle ? (
+    {state.createdArticle && state.showCreatedArticle ? (
       <Widget
         src={widgets.oneArticle}
         props={{
