@@ -13,6 +13,8 @@ const Item = styled.div`
   overflow-x: hidden;
 `;
 
+console.log({ [ props ]})
+
 const renderItem = (a) => {
   return (
     <Item key={JSON.stringify(a)} className="mb-2">
