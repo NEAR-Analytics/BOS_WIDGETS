@@ -250,20 +250,22 @@ function handleUpVote() {
   );
 }
 
+const filteredWallets = wallets.filter(
+  ({ wallet, voted }) => !voted && context.accountId !== wallet
+);
+
 function handleVoteAll() {
-  const coalitionVote = wallets
-    .filter(({ wallet, voted }) => !voted && context.accountId !== wallet)
-    .map(({ wallet }) => {
-      return {
-        contractName: nominationContract,
-        methodName: "upvote",
-        args: {
-          candidate: wallet,
-        },
-        deposit: Big(10).pow(21).mul(1),
-        gas: Big(10).pow(12).mul(200),
-      };
-    });
+  const coalitionVote = filteredWallets.map(({ wallet }) => {
+    return {
+      contractName: nominationContract,
+      methodName: "upvote",
+      args: {
+        candidate: wallet,
+      },
+      deposit: Big(10).pow(21).mul(1),
+      gas: Big(10).pow(12).mul(200),
+    };
+  });
 
   Near.call(coalitionVote);
 }
@@ -344,7 +346,10 @@ if (state.data.ok) {
       <div class="container p-3 pt-1 d-flex flex-column align-items-center">
         <Button
           props={{
-            disabled: !context.accountId || !state.verified,
+            disabled:
+              !context.accountId ||
+              !state.verified ||
+              filteredWallets.length === 0,
             className: "mb-4",
             children: `VOTE FOR COALITION!`,
             variant: "primary",
