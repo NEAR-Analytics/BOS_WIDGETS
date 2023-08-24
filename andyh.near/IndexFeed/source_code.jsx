@@ -14,6 +14,8 @@ const renderItem =
     </div>
   ));
 
+console.log("INDEX FEED");
+
 index.options = index.options || {};
 const initialRenderLimit =
   props.initialRenderLimit ?? index.options.limit ?? 10;
