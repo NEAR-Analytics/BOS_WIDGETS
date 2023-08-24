@@ -223,6 +223,12 @@ const NavLine = styled.span`
   background: white;
   margin: 4px 0px 4px 0px;
 `;
+const NavLineLast = styled.span`
+  width: 1px;
+  height: 100%;
+  background: white;
+  margin: 4px 0px 4px 0px;
+`;
 
 const WalleyHomeBody = styled.div`
   width: 75%;
