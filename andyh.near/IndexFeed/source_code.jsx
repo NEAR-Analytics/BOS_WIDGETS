@@ -14,8 +14,6 @@ const renderItem =
     </div>
   ));
 
-console.log("INDEX FEED", props.index.spaghetti);
-
 index.options = index.options || {};
 const initialRenderLimit =
   props.initialRenderLimit ?? index.options.limit ?? 10;
@@ -28,7 +26,6 @@ index.options.limit = Math.min(
 const reverse = !!props.reverse;
 
 const initialItems = Social.index(index.action, index.key, index.options);
-console.log({ initialItems });
 if (initialItems === null) {
   return "";
 }
@@ -155,7 +152,6 @@ if (reverse) {
   items.reverse();
 }
 
-console.log("returning!");
 return (
   <Widget
     src="andyh.near/widget/IndexFeed.Items"
