@@ -4,10 +4,6 @@ const font = fetch(
   "https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
 ).body;
 
-if (!font) {
-  return;
-}
-
 const getConfig = (network) => {
   switch (network) {
     case "mainnet":
