@@ -139,12 +139,7 @@ return (
           src="https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/lightmode.svg"
         />
       </div>
-      <div
-        style={{
-          background: `${state.light ? "rgb(241,242,245)" : "rgb(25,33,50)"}`,
-        }}
-        className="sticky-top p-4"
-      >
+      <div>
         <div>
           <Container>
             <ul className="tabContent">
@@ -179,8 +174,6 @@ return (
             </ul>
           </Container>
         </div>
-      </div>
-      <div>
         <div className="content">
           {state.tab === "sbt-area" && (
             <Widget src="lord1.near/widget/sbt-area" />
