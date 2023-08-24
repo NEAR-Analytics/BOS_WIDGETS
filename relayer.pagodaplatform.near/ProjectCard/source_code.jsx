@@ -74,30 +74,21 @@ line-height: 22px; /* 137.5% */
                 color:#FFFFFF;
             }
 `;
-let imgurl;
-let header;
-let subHeader;
-let description;
-let amount;
-let participants;
-
-props.projectDetails.map((projectDetail, index) => {
-  imgurl = projectDetail[index][0];
-  header = projectDetail[index][1];
-  subHeader = projectDetail[index][2];
-  description = projectDetail[index][3];
-  amount = projectDetail[index][4];
-  participants = projectDetail[index][5];
-});
 return (
   <ProjectCardContainer>
     <ProjectCardImageContainer>
-      <img class="project-img" src={imgurl} />
+      <img
+        class="project-img"
+        src="https://i.ibb.co/XVPkfnt/Frame-626790.png"
+      />
     </ProjectCardImageContainer>
     <ProjectCardDetails>
-      <h3>{header}</h3>
-      <h6 class="sub-header">{subHeader}</h6>
-      <p>{description}</p>
+      <h3>BrainWave</h3>
+      <h6 class="sub-header">0.003 ETH</h6>
+      <p>
+        A start-up that uses neuroscience to develop AI algorithms for better
+        decision-making.
+      </p>
       <div class="line"></div>
 
       <div>
@@ -105,14 +96,14 @@ return (
         <span class="span-dot">
           ...............................................................................................
         </span>
-        <span class="span-txt">${amount}</span>
+        <span class="span-txt">$3,003,212</span>
       </div>
       <div>
         <span class="span-txt">Participants</span>
         <span class="span-dot">
           ..................................................
         </span>
-        <span class="span-txt">{participants}</span>
+        <span class="span-txt">3498</span>
       </div>
     </ProjectCardDetails>
     <div>
