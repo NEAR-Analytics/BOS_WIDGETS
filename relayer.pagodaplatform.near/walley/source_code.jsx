@@ -247,7 +247,7 @@ const WalleyLoading = styled.div`
   test-align: center;
   font-weight: 700;
   transition: 0.2 all ease-in-out;
-  display: ${(props) => (props.loading ? "none" : "block")};
+  display: ${(props) => (props.loading ? "block" : "none")};
 `;
 
 const WalleyModal = styled.div`
