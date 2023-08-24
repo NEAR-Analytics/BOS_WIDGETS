@@ -7,7 +7,7 @@ if (!groupId) {
 
 let members = Social.getr(`${creatorId}/graph/${groupId}`, "final", {});
 
-if (members === null) {
+if (!members) {
   return "group not found";
 }
 
