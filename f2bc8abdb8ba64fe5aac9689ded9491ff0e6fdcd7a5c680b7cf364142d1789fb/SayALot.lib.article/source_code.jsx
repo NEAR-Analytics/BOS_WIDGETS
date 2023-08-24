@@ -111,19 +111,10 @@ const saveHandler = (article, onCommit, onCancel) => {
   }
 };
 
-function getArticlesIndexes(filterBy) {
-  let accountId = undefined;
-
-  if (filterBy.parameterName === "author") {
-    accountId = filterBy.parameterValue;
-  }
-
-  console.log(666, filterBy, accountId);
-
+function getArticlesIndexes() {
   return Social.index(action, "main", {
     order: "desc",
     subscribe: true,
-    accountId,
   });
 }
 
@@ -315,18 +306,33 @@ function convertArticlesTagsToValidFormat(articlesArray) {
   return validFormatArticlesArray;
 }
 
-function filterArticlesByTag(filterBy, articles) {
-  if (filterBy.parameterName !== "tag") return articles;
-
+function filterArticlesByTag(tag, articles) {
   return articles.filter((article) => {
-    return article.tags.includes(filterBy.parameterValue);
+    return article.tags.includes(tag);
+  });
+}
+
+function filterArticlesByAuthor(author, articles) {
+  return articles.filter((article) => {
+    return article.author === author;
   });
 }
 
 function filterArticles(filterBy, articles) {
-  const byTag = filterArticlesByTag(filterBy, articles);
+  let filteredArticles;
 
-  return byTag;
+  if (filterBy.parameterName == "tag") {
+    filteredArticles = filterArticlesByTag(filterBy.parameterValue, articles);
+  } else if (filterBy.parameterName == "author") {
+    filteredArticles = filterArticlesByAuthor(
+      filterBy.parameterValue,
+      articles
+    );
+  } else {
+    filteredArticles = articles;
+  }
+
+  return filteredArticles;
 }
 
 function libCall(call) {
