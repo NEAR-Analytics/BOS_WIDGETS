@@ -517,9 +517,6 @@ return (
           initialCreateState,
           editArticleData: state.editArticleData,
           callLibs,
-          widgets,
-          handleFilterArticles,
-          handleEditArticle,
         }}
       />
     )}
