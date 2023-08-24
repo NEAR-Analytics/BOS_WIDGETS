@@ -129,6 +129,7 @@ return marketData !== null ? (
     </div>
 
     <div class="py-4">
+      <hr></hr>
       <Widget src="mintbase.near/widget/BuiltWithMintbase" />
     </div>
   </>
