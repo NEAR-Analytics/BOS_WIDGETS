@@ -340,10 +340,7 @@ return (
           <Widget src="opencann.near/widget/marketplace" props={{ ownerId }} />
         )}
         {state.selectedTab === "publish" && (
-          <Widget
-            src="flowscience.near/widget/CGD.factory"
-            props={{ ownerId }}
-          />
+          <Widget src="opencann.near/widget/publish" props={{ ownerId }} />
         )}
       </Content>
     </Main>
