@@ -49,7 +49,7 @@ const Toolbar = styled.div`
     width:100%;
     height:50px;
     background-color:#fff;
-    border-bottom: 1px solid rgba(0,0,0,.05);
+    border: 1px solid rgba(0,0,0,.05);
 `;
 
 const Logo = styled.div`
@@ -75,7 +75,7 @@ const Wrapper = styled.div`
     flex-direction:column;
     width:100%;
     height:100%;
-    max-width:1080px;
+    max-width:800px;
     margin: 0 auto;
 `;
 
@@ -200,7 +200,7 @@ return (
                 document: {
                   ...state.document,
                   richText: getRichText(),
-                }
+                },
               });
             }
           }}
