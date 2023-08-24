@@ -39,7 +39,7 @@ State.init({
   agreement: "false",
   error_msg: "",
   video: "",
-  tags: [],
+  tags: "",
 });
 
 const CardStyled = styled.div`
