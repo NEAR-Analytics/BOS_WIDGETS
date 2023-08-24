@@ -9,12 +9,14 @@ const houses = [
     seats: 15,
   },
   {
+    id: 2,
     title: "House of Merit",
     src: "https://bafkreihoomeeaeyqerqftn3n7yb2jrnmqtpwgpsl3xpelek6qmly3qzob4.ipfs.nftstorage.link",
     typ: "HouseOfMerit",
     seats: 7,
   },
   {
+    id: 3,
     title: "Transparency Commission",
     src: "https://bafkreihcog3rs2gj4wgwfixk6yqir7k3csyaqiqwcvm2gedlh6dlvr7ik4.ipfs.nftstorage.link",
     typ: "TransparencyCommission",
