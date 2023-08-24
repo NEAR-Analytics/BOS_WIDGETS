@@ -141,13 +141,6 @@ const COLUMNS = [
     renderCell: (item) => formatNumber(item["Total Fee Generated"]),
     sort: { sortKey: "Total Fee Generated" },
   },
-  {
-    label: (
-      <p className="text-center text-white text-wrap ">Total Gas Consumed</p>
-    ),
-    renderCell: (item) => formatPercentNew(item["Gas Consumed"]),
-    sort: { sortKey: "Gas Consumed" },
-  },
 ];
 const sortFns = {
   ContractAddress: (array) =>
@@ -172,8 +165,6 @@ const sortFns = {
     array.sort((a, b) => a["Total Txns"] - b["Total Txns"]),
   "Total Fee Generated": (array) =>
     array.sort((a, b) => a["Total Fee Generated"] - b["Total Fee Generated"]),
-  "Gas Consumed": (array) =>
-    array.sort((a, b) => a["Gas Consumed"] - b["Gas Consumed"]),
 };
 
 return (
