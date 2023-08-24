@@ -250,7 +250,7 @@ const WalleyHomeBody = styled.div`
   width: 100%;
   padding: 0px 10px;
   &>.txn {
-    text-align: center;
+    text-align: left;
     font-size: 20px;
     font-weight: 600;
   }
