@@ -134,9 +134,8 @@ return (
               Simple Profiles to connect with your audience.
             </p>
             <p style={{ fontSize: "1.25rem" }}>
-              Create your Profile that no one but you control. Without the fear
-              of intermediary platforms, share information with your audience on
-              your own terms.
+              Communicate and Coordinate with other artists. Host information
+              and updates for your audience. Make Money.
             </p>
           </div>
           <div style={{ flex: 1 }}>
@@ -163,18 +162,6 @@ return (
               Create your Profile that no one but you control. Without the fear
               of intermediary platforms, share information with your audience on
               your own terms.
-            </p>
-          </div>
-          <div
-            style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}
-            className="text-center"
-          >
-            <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
-              Simple Profiles to connect with your audience.
-            </p>
-            <p style={{ fontSize: "1.25rem" }}>
-              Communicate and Coordinate with other artists. Host information
-              and updates for your audience. Make Money.
             </p>
           </div>
         </ChildContainer2>
