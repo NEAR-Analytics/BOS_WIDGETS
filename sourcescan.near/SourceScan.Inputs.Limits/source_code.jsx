@@ -26,8 +26,11 @@ const Select = styled.select`
   border: 1px solid ${useTheme(light.border, dark.border)};
   background-color: transparent;
   border-radius: 5px;
-  width: 55px;
-  text-align: center;
+  height: 36px;
+  width: 76px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: start;
   color: ${useTheme(light.color, dark.color)};
 `;
 
@@ -38,8 +41,8 @@ return (
     overlay={<Tooltip id={`tooltip-${placement}`}>{state.label}</Tooltip>}
   >
     <Select onChange={(e) => props.handleOptionsChange(e)}>
-      {state.limits.map((limit) => (
-        <option value={limit} selected={state.selectedLimit === limit}>
+      {state.limits.map((limit, i) => (
+        <option key={i} value={limit} selected={state.selectedLimit === limit}>
           {limit}
         </option>
       ))}
