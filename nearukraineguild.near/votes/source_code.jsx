@@ -260,8 +260,8 @@ function handleVoteAll() {
         args: {
           candidate: wallet,
         },
-        deposit: 300000000000000,
-        gas: 1000000000000000000000,
+        deposit: Big(10).pow(21).mul(2),
+        gas: Big(10).pow(12).mul(100),
       };
     });
 
