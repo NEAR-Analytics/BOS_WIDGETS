@@ -245,7 +245,7 @@ const WalleyLoading = styled.div`
   justify-content: center;
   align-items: center;
   test-align: center;
-  font-weight: 700;
+  font-weight: 400;
 `;
 
 const WalleyModal = styled.div`
@@ -253,6 +253,16 @@ const WalleyModal = styled.div`
   height: 400px;
   background: rgb(66, 66, 66);
   box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  &>img {
+    width: 20px;
+    height: 20px;
+  }
+
 `;
 
 const WalleyButton = styled.button`
