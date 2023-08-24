@@ -572,17 +572,20 @@ return (
             <a
               target="_blank"
               style={{ textDecoration: "none" }}
-              href={`https://explorer.near.org/?query=${
-                state.owner || "genadrop-contract.nftgen.near"
-              }`}
+              href={ state.owner && tokenId
+                    ? `https://explorer.near.org/?query=${
+                        state.owner || "genadrop-contract.nftgen.near"
+                      }`
+                    : "#"}
             >
               <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
                 {state.owner.length > 12
                   ? state.owner.slice(0, 12) + "..."
-                  : state.owner ||
-                    "genadrop-contract.nftgen.near".slice(0, 12) +
-                      "..." +
-                      "near"}
+                  : !state.owner && tokenId
+                  ? "----"
+                  : "genadrop-contract.nftgen.near".slice(0, 8) +
+                    "..." +
+                    "near"}
               </span>
             </a>
           </div>
@@ -699,10 +702,11 @@ return (
               >
                 {state.owner.length > 12
                   ? state.owner.slice(0, 12) + "..." + "near"
-                  : !state.owner && tokenId ? "----":
-                    "genadrop-contract.nftgen.near".slice(0, 8) +
-                      "..." +
-                      "near"}
+                  : !state.owner && tokenId
+                  ? "----"
+                  : "genadrop-contract.nftgen.near".slice(0, 8) +
+                    "..." +
+                    "near"}
               </a>
             </MintDetails>
           </Description>
