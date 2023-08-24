@@ -301,9 +301,12 @@ const WalleyModal = styled.div`
 `;
 
 const WalleyButton = styled.button`
-  background-color: ${props.bg};
-  color: ${props.color};
+  background-color: ${(props) => props.bg};
+  color: ${(props) => props.color};
   display: block;
+  width: 100%;
+  border-radius: 20px;
+  padding: 10px
   border: none;
 `;
 
@@ -974,7 +977,11 @@ return (
                   }
                   placeholder="Search by Store Name"
                 />
-                <WalleyButton onClick={() => State.update({ newTxn: true })}>
+                <WalleyButton
+                  bg="#424242"
+                  color="white"
+                  onClick={() => State.update({ newTxn: true })}
+                >
                   Buy NFT
                 </WalleyButton>
                 <WalleyTransactions>
