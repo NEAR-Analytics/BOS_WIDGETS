@@ -799,9 +799,9 @@ return (
         <>
           <WalleyNavbar>
             <svg
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
+              width="1000"
+              height="1000"
+              viewBox="0 0 1000 1000"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
