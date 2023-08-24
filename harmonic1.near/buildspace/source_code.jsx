@@ -109,6 +109,21 @@ const ChildContainer2 = styled.div`
   }
 `;
 
+const TextContainer = styled.div`
+  flex: 1;
+  padding: 2rem;
+  //padding-left: 4rem;
+  text-align: center;
+  display: flex;            // Convert the container to a flex container
+  flex-direction: column;  // Stack children vertically
+  justify-content: center; // Center children vertically
+  align-items: center;     // Center children horizontally
+
+  @media (max-width: 768px) {
+    padding-left: 2rem;
+  }
+`;
+
 const feedStyle = {
   marginBottom: "6rem",
 };
@@ -119,16 +134,18 @@ if (window.location.pathname === "harmonic1.near/widget/") {
 } else {
   feedURL = "harmonic1.near/widget/artist.feed";
 }
-console.log("Path", window.location.pathname);
+
+// <div
+//             style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}
+//             className="text-center"
+//           >
+//console.log("Path", window.location.pathname);
 return (
   <>
     <div style={cardStyle} className="m-4">
       <Container>
         <ChildContainer>
-          <div
-            style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}
-            className="text-center"
-          >
+          <TextContainer>
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
               Simple Profiles to connect with your audience.
             </p>
@@ -136,7 +153,7 @@ return (
               Communicate and Coordinate with other artists. Host information
               and updates for your audience. Make Money.
             </p>
-          </div>
+          </TextContainer>
           <div
             style={{
               flex: 1,
@@ -156,14 +173,7 @@ return (
           <div style={{ flex: 1 }}>
             <Widget src="harmonic1.near/widget/create.artist" />
           </div>
-          <div
-            style={{
-              flex: 1,
-              paddingLeft: "",
-              padding: "2rem",
-            }}
-            className="text-center"
-          >
+          <TextContainer>
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
               Promote your art, events, and merch.
             </p>
@@ -172,7 +182,7 @@ return (
               of intermediary platforms, share information with your audience on
               your own terms.
             </p>
-          </div>
+          </TextContainer>
         </ChildContainer2>
       </Container>
       <div style={feedStyle} className="text-center">
