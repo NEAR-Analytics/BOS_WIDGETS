@@ -800,14 +800,44 @@ return (
           <WalleyNavbar>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="45"
-              height="45"
-              fill="none"
+              viewBox="0 0 24 24"
+              id="menu"
             >
-              <path
-                d="M32.6106 3.51592H5.27254C2.34926 3.4043 2.34926 7.84769 5.27254 7.73608H32.5016C35.3718 7.84769 35.4834 3.51592 32.6132 3.51592H32.6106ZM5.27254 20.3912C2.46087 20.3912 2.46087 24.6088 5.27254 24.6088H20.6862C23.5564 24.6088 23.5564 20.3912 20.6862 20.3912H5.27254ZM5.27254 37.2666C2.46087 37.2666 2.46087 41.4841 5.27254 41.4841H39.8125C42.6242 41.4841 42.6242 37.2666 39.8125 37.2666H5.27254Z"
-                fill="#fff"
-              />
+              <g data-name="Layer 2">
+                <g data-name="menu-2">
+                  <rect
+                    width="24"
+                    height="24"
+                    opacity="0"
+                    transform="rotate(180 12 12)"
+                  ></rect>
+                  <circle cx="4" cy="12" r="1"></circle>
+                  <rect
+                    width="14"
+                    height="2"
+                    x="7"
+                    y="11"
+                    rx=".94"
+                    ry=".94"
+                  ></rect>
+                  <rect
+                    width="18"
+                    height="2"
+                    x="3"
+                    y="16"
+                    rx=".94"
+                    ry=".94"
+                  ></rect>
+                  <rect
+                    width="18"
+                    height="2"
+                    x="3"
+                    y="6"
+                    rx=".94"
+                    ry=".94"
+                  ></rect>
+                </g>
+              </g>
             </svg>
             <NavLine></NavLine>
             <WalleyNavbarButton onClick={() => State.update({ view: "home" })}>
