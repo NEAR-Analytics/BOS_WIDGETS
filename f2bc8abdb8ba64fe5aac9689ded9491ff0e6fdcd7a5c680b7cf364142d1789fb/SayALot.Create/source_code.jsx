@@ -109,6 +109,8 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
+console.log(state.createdArticle);
+
 return (
   <>
     {state.createdArticle ? (
