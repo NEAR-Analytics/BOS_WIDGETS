@@ -22,6 +22,8 @@ const currentChain = {
   },
 };
 
+
+
 function fetchData() {
   State.update({ nftData: [] });
 
@@ -367,6 +369,20 @@ justify-content: space-between;
   }
 `;
 
+const SelectChain = styled.div`
+    select {
+    margin: 0 10px;
+    border: 1px solid #0d99ff;
+    cursor: pointer;
+    border-radius: 7px;
+    height: 35px;
+    background: transparent;
+   }
+   select:focus {
+    outline: none;
+   }
+`;
+
 return (
   <>
     <Hero className="w-100">
@@ -381,11 +397,13 @@ return (
           placeholder="Search NFTs"
           onChange={seachInputHandler}
         />{" "}
+        <SelectChain>
         <select value={chain} onChange={handleDropdownChange}>
           <option value="near">Near</option>
           <option value="aptos">Aptos</option>
           <option value="sui">Sui</option>
         </select>
+        </SelectChain>
       </InputContainer>
     </Hero>
     {state.nftData.length > 0 ? (
@@ -466,18 +484,19 @@ return (
                       <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
                         Price
                       </div>
-                      {nft.listings[0] ? (
+                      {nft.listings && nft.listings[0] ? (
                         typeof nft.listings[0].price === "number" ? (
+                          <ChainPrice>
+                          <img src={currentChain[state.chain].img} alt=""  />
                           <PriceArea>
                             <h6>{`${
                               nft.listings[0].price.toFixed(2) /
                               state.conversion
-                            }${state.chain}`}</h6>
-                            <span>{` ($${(
-                              (nft.listings[0].price / state.conversion) *
-                              state.chainRate
-                            ).toFixed(2)})`}</span>
+                            }`}</h6>
+                            <span>{`(${getUsdValue(nft.listings[0].price.toFixed(2) /
+                              state.conversion)})`}</span>
                           </PriceArea>
+                          </ChainPrice>
                         ) : (
                           <div>Not for Sale</div>
                         )
