@@ -159,6 +159,8 @@ return (
               flex: 1,
               borderRadius: "1rem",
               border: "0.5px solid black",
+              maxHeight: "500px", // or whatever height you want to set
+              overflow: "auto",
             }}
           >
             <Widget
