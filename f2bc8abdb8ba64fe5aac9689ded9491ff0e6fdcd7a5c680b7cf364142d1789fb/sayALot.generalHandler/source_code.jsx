@@ -7,6 +7,10 @@ const initLibCalls = [
     key: "articles",
     props: {
       env: isTest ? "test" : "prod",
+      filterBy: {
+        parameterName: "",
+        parameterValue: undefined,
+      },
     },
   },
 ];
@@ -33,7 +37,7 @@ State.init({
 if (state.filterBy.parameterName != "") {
   let newLibCalls = state.libCalls;
 
-  newLibCalls.props["filterBy"] = state.filterBy;
+  newLibCalls.props.filterBy = state.filterBy;
 
   State.update({ libCalls: newLibCalls });
 }
