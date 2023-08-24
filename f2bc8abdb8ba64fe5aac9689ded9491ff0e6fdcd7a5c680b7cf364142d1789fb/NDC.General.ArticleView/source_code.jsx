@@ -713,7 +713,7 @@ return (
                         Button: {
                           text: `Edit`,
                           className: `primary dark`,
-                          onClick: () => handleEditArticle(articleToRenderData),
+                          onClick: handleEditArticle(articleToRenderData),
                           icon: <i className="bi bi-pencil"></i>,
                         },
                       }}
