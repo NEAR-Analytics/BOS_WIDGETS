@@ -365,7 +365,7 @@ const WalleyStoreButton = styled.button`
 `;
 
 const WalleyTransactions = styled.div`
-  height: 100%;
+  height: 500px;
   overflow: scroll;
 `;
 
