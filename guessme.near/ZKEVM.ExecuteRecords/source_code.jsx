@@ -303,8 +303,18 @@ const select_action_list = [
 ];
 const select_template_list = [
   { id: "", name: "All Templates" },
-  { id: "ZkEvm", name: "ZkEvm", icon: template_icons["ZkEvm"] },
-  { id: "ZkEvm-bridge", name: "Bridge", icon: template_icons["ZkEvm-bridge"] },
+  { id: "Balancer", name: "Balancer", icon: template_icons["Balancer"] },
+  { id: "QuickSwap", name: "QuickSwap", icon: template_icons["QuickSwap"] },
+  {
+    id: "Pancake Swap",
+    name: "Pancake Swap",
+    icon: template_icons["Pancake Swap"],
+  },
+  {
+    id: "native bridge",
+    name: "native bridge",
+    icon: template_icons["native bridge"],
+  },
   { id: "AAVE", name: "AAVE", icon: template_icons["AAVE"] },
 ];
 console.log("select_template_list", select_template_list);
