@@ -248,6 +248,7 @@ const NavLineLast = styled.span`
 
 const WalleyHomeBody = styled.div`
   width: 100%;
+  padding: 0px 10px;
 `;
 
 const WalleyBalance = styled.span`
@@ -389,7 +390,6 @@ const WalleyTransactions = styled.div`
 const WalleySearch = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 0px 10px;
   &>button {
     width: 150px;
     margin-right: 20px;
