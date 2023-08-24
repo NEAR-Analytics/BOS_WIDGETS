@@ -247,7 +247,7 @@ const NavLineLast = styled.span`
 `;
 
 const WalleyHomeBody = styled.div`
-  width: 75%;
+  width: 100%;
 `;
 
 const WalleyBalance = styled.span`
@@ -368,7 +368,7 @@ const WalleyTransactions = styled.div`
   height: 400px;
   overflow-y: scroll;
   &::-webkit-scrollbar {
-    width: 2px;
+    width: 7px;
   }
 
   &::-webkit-scrollbar-track {
@@ -377,10 +377,6 @@ const WalleyTransactions = styled.div`
   
   &::-webkit-scrollbar-thumb {
     background: #424242; 
-  }
-
-  &::-webkit-scrollbar:hover {
-    width: 7px; 
   }
 `;
 
