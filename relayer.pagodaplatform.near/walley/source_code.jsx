@@ -408,6 +408,7 @@ const TransactionCard = styled.div`
   box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
   border-radius: 100px;
   padding: 30px;
+  margin: 20px;
 `;
 
 const WalleyStoreBody = styled.div`
