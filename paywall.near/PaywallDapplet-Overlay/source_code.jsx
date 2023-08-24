@@ -54,6 +54,11 @@ if (!buyerAccountId) {
   return (
     <Wrapper>
       <div className="main-container">
+        <div className="top-description">
+          The Paywall Dapplet seamlessly integrates with Twitter, utilizing the
+          NEAR Protocol and NEAR BOS to display paid content, a solution
+          developed during the Web3 Hackfest 2023 hackathon.
+        </div>
         <div className="top-description">Connect your wallet</div>
       </div>
     </Wrapper>
@@ -75,7 +80,13 @@ const purchases = buyerAccountId
 if (purchases === null) {
   return (
     <Wrapper>
-      <div className="main-container"></div>
+      <div className="main-container">
+        <div className="top-description">
+          The Paywall Dapplet seamlessly integrates with Twitter, utilizing the
+          NEAR Protocol and NEAR BOS to display paid content, a solution
+          developed during the Web3 Hackfest 2023 hackathon.
+        </div>
+      </div>
     </Wrapper>
   );
 }
