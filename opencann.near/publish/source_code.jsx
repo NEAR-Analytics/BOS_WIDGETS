@@ -151,18 +151,9 @@ const onChangePurpose = (purpose) => {
 
 return (
   <div className="mb-3">
-    <div>
-      <hr></hr>
-      <h5>
-        <a href="https://cannabisgeno.me/survey">
-          *NEW* ~ Submit a Cannabis Experience Report
-        </a>
-      </h5>
-      <hr></hr>
-    </div>
-    <h3>CGD SubDAO Factory</h3>
+    <h3>Publish a New Data Set</h3>
     <div className="mb-2">
-      Name of SubDAO or Data Set
+      Name of Data Set
       <input type="text" onChange={(e) => onChangeName(e.target.value)} />
     </div>
     <div className="mb-2">
@@ -177,7 +168,7 @@ return (
     <Widget src="nearhorizon.near/widget/IpfsFilesUpload" />
     <Widget src="sking.near/widget/DAO.Permissions" />
     <button className="btn btn-outline-success mt-3" onClick={handleCreate}>
-      Create SubDAO
+      Publish Data Set
     </button>
   </div>
 );
