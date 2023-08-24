@@ -161,7 +161,7 @@ return (
               border: "0.5px solid black",
               maxHeight: "500px", // or whatever height you want to set
               overflow: "auto",
-              margin: "2rem",
+              //margin: "2rem",
             }}
           >
             <Widget
