@@ -1,12 +1,19 @@
 const accountId = props.accountId;
-const group = Social.get(`${accountId}/graph/${props.groupId}/**`, "final");
+const groupId = props.groupId;
 
-if (group === null) {
+const groupMembers = Social.get(`${accountId}/graph/${groupId}/**`, "final");
+
+if (groupMembers === null) {
+  return "";
+}
+const groupInfo = Social.get(`${accountId}/thing/group/${groupId}/**`, "final");
+
+if (groupInfo === null) {
   return "";
 }
 
-const tags = Object.keys(group.tags || {});
-const groupUrl = `#/near/widget/group.members?creatorId=${accountId}`;
+const tags = Object.keys(groupInfo.tags || {});
+const groupUrl = `#/hack.near/widget/group.members?creatorId=${accountId}`;
 
 State.init({
   show: false,
@@ -94,8 +101,8 @@ return (
         <Widget
           src="mob.near/widget/Image"
           props={{
-            image: group.image,
-            alt: group.name,
+            image: groupInfo.image,
+            alt: groupInfo.name,
             fallbackUrl:
               "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
           }}
@@ -104,7 +111,7 @@ return (
 
       <div>
         <TextLink href={groupUrl} ellipsis bold>
-          {group.name}
+          {groupInfo.name}
         </TextLink>
         <TextLink href={groupUrl} ellipsis>
           @{accountId}
