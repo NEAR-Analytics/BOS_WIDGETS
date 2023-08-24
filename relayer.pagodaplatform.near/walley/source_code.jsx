@@ -262,6 +262,10 @@ const WalleyModal = styled.div`
     width: 70px;
     height: 70px;
   }
+  @media screen and (max-width: 500px) {
+    width: 340px;
+    height: 340px;
+  }
 
 `;
 
