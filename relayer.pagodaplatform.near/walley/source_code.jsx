@@ -348,6 +348,7 @@ const WalleyHomeForm = styled.div`
   padding: 20px;
   &>input {
     margin-bottom: 5px;
+    border: 2px solid #555;
   }
 `;
 
