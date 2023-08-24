@@ -412,7 +412,7 @@ const TransactionCard = styled.div`
   padding: 30px;
   display: flex;
   flex-direction: column;
-  grid-column: 1/2;
+  grid-column: 1/span 1;
 `;
 
 const WalleyStoreBody = styled.div`
