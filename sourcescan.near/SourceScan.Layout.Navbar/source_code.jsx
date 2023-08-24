@@ -37,9 +37,18 @@ const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
 
-const HStack = styled.div`
+const MainHStack = styled.div`
   width: 100%;
-  padding-top: 20px;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MiddleHStack = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -61,20 +70,16 @@ const NavButton = styled.button`
   transition: background-color 0.1s ease-in-out;
 
   :hover {
-    background-color: ${useTheme(light.button.bg, dark.button.bg)}; 
+    background-color: ${useTheme(light.button.bg, dark.button.bg)};
   }
 `;
 
 const NetworkSwitcherContainer = styled.div`
-  position: absolute;
-  top: 30px;
-  left: 20px;
+  padding-left: 28px;
 `;
 
 const ThemeChangerContainer = styled.div`
-  position: absolute;
-  top: 30px;
-  right: 20px;
+  padding-right: 28px;
 `;
 
 const Logo = styled.img`
@@ -83,7 +88,7 @@ const Logo = styled.img`
 `;
 
 return (
-  <>
+  <MainHStack>
     <NetworkSwitcherContainer>
       <Widget
         src={`${state.ownerId}/widget/SourceScan.Inputs.NetworkSwitcher`}
@@ -92,23 +97,23 @@ return (
         }}
       />
     </NetworkSwitcherContainer>
-    <HStack>
+    <MiddleHStack>
       <Logo
         src={
           "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
         }
         width={"100px"}
       />
-      {pages.map((page) => {
+      {pages.map((page, i) => {
         return page.href ? (
-          <a href={page.href} target={"_blank"}>
+          <a key={i} href={page.href} target={"_blank"}>
             <NavButton>{page.label}</NavButton>
           </a>
         ) : (
-          <NavButton>{page.label}</NavButton>
+          <NavButton key={i}>{page.label}</NavButton>
         );
       })}
-    </HStack>
+    </MiddleHStack>
     <ThemeChangerContainer>
       <Widget
         src={`${state.ownerId}/widget/SourceScan.Inputs.ThemeChanger`}
@@ -118,5 +123,5 @@ return (
         }}
       />
     </ThemeChangerContainer>
-  </>
+  </MainHStack>
 );
