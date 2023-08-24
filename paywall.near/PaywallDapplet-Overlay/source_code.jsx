@@ -5,6 +5,11 @@
 const { buyerAccountId } = props;
 
 const Wrapper = styled.div`
+  html,
+  body {
+    background: #f5f5f5 !important;
+  }
+
   .main-container {
     padding: 15px;
     background: #f5f5f5;
