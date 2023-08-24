@@ -240,7 +240,7 @@ const WalleyLoading = styled.div`
   top: 0;
   background: rgb(66, 66, 66, 0.4);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   test-align: center;
   font-weight: 700;
