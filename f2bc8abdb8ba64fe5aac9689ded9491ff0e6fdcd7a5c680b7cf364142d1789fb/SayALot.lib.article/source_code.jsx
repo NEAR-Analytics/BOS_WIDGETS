@@ -286,9 +286,14 @@ function getLastEditArticles(props) {
   );
 
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
-  const filteredArticles = filterArticles(filterBy, lastEditionArticles);
-  const validFormatFilteredArticles =
-    convertArticlesTagsToValidFormat(filteredArticles);
+
+  const validFormatLastEditionArticles =
+    convertArticlesTagsToValidFormat(lastEditionArticles);
+
+  const validFormatFilteredArticles = filterArticles(
+    filterBy,
+    validFormatLastEditionArticles
+  );
 
   return validFormatFilteredArticles;
 }
