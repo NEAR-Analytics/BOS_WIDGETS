@@ -10,6 +10,18 @@ initState({
   conversion: 0,
 });
 
+const currentChain = {
+  near: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+  },
+  aptos: {
+    img: "https://assets-global.website-files.com/606f63778ec431ec1b930f1f/63dbd502218a274f2a602968_aptos.png",
+  },
+  sui: {
+    img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
+  },
+};
+
 function fetchData() {
   State.update({ nftData: [] });
 
@@ -34,6 +46,7 @@ function fetchData() {
       media_url
       ranking
       rarity
+      contract_id
       token_id
       listings {
         price
@@ -63,16 +76,16 @@ function fetchData() {
       }
     };
     priceConvert(state.chain);
-  }else {
-     let response = fetch(
-    "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
+  } else {
+    let response = fetch(
+      "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: `
             query MyQuery {
              nfts( orderBy: createdAtTimestamp) {
                 category
@@ -89,63 +102,57 @@ function fetchData() {
                 tokenIPFSPath
                 transactions {
                   price
-                  txDate
-                  txId
-                  to {
-                    id
-                  }
-                  owner: from {
-                    id
-                  }
-                  type
                 }
                 }
             }
         `,
-      }),
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      return "Loading";
     }
-  );
+    const collectionData = response.body.data.nfts;
 
-  if (!response.ok) {
-    return "Loading";
+    if (collectionData) {
+      const nftBody = collectionData.map((data) => {
+        const fetchIPFSData = fetch(
+          data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
+        );
+
+        if (fetchIPFSData.status === 403) {
+          return State.update({ error: true });
+        }
+        if (!fetchIPFSData.ok) {
+          return "Loading NFTS from IPFS";
+        }
+        if (fetchIPFSData.ok) {
+          const nft = fetchIPFSData.body;
+
+          let nftObject = {};
+          nftObject.contract_id = data.id;
+          nftObject.sold = data.isSold;
+          nftObject.isListed = data.isListed;
+          nftObject.owner = data.owner.id;
+          nftObject.price = data.price;
+          nftObject.token_id = data.tokenID;
+          nftObject.name = nft?.name;
+          nftObject.description = nft?.description;
+          nftObject.media_url = nft?.image.replace(
+            "ipfs://",
+            "https://ipfs.io/ipfs/"
+          );
+          return nftObject;
+        }
+      });
+      State.update({
+        nftData: nftBody,
+      });
+    }
   }
-  const collectionData = response.body.data.nfts;
-
-  if (collectionData) {
-    const nftBody = collectionData.map((data) => {
-      const fetchIPFSData = fetch(
-        data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
-      );
-
-      if (fetchIPFSData.status === 403) {
-        return State.update({ error: true });
-      }
-      if (!fetchIPFSData.ok) {
-        return "Loading NFTS from IPFS";
-      }
-      if (fetchIPFSData.ok) {
-        const nft = fetchIPFSData.body;
-
-        let nftObject = {};
-        nftObject.contract_id = data.id;
-        nftObject.sold = data.isSold;
-        nftObject.isListed = data.isListed;
-        nftObject.owner = data.owner.id;
-        nftObject.price = data.price;
-        nftObject.token_id = data.tokenID;
-        nftObject.name = nft?.name;
-        nftObject.description = nft?.description;
-        nftObject.media_url = nft?.image.replace("ipfs://", "https://ipfs.io/ipfs/");
-        return nftObject;
-      }
-    });
-    State.update({
-      nftData: nftBody,
-    });
-  }
-  }
-
 }
+
 fetchData();
 const updateInputCollectionSlug = (e) => {
   State.update({ inputCollectionSlug: e.target.value });
@@ -175,6 +182,19 @@ const isPriceValid = typeof nft.listings[0]?.price === "number";
 
 const handleDropdownChange = (event) => {
   State.update({ chain: event.target.value });
+};
+
+const getUsdValue = (price) => {
+  const res = fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${
+      state.chain ?? "near"
+    }&vs_currencies=usd`
+  );
+  if (res.ok) {
+    const multiplyBy = Object.values(res?.body)[0]?.usd;
+    const value = multiplyBy * price.toFixed(2);
+    return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
+  }
 };
 
 const Stats = styled.div`
@@ -327,6 +347,18 @@ const PriceArea = styled.div`
   }
 `;
 
+const ChainPrice = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+  img {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+  }
+`;
+
 return (
   <>
     <Hero className="w-100">
@@ -354,10 +386,10 @@ return (
         {state.searchTerm === "" ? (
           state.nftData.map((nft) => (
             <a
-              href={`#/mob.near/widget/MyPage?accountId=${nft.nft_state.owner}`}
+              href={`#/agwaze.near/widget/GenaDrop.NFTDetails?contractId=${nft.contract_id}&tokenId=${nft.token_id}&chainState=${state.chain}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <NFTCard classNmae="card">
+              <NFTCard className="card">
                 <ImageCard>
                   <img
                     src={nft.media_url}
@@ -369,9 +401,7 @@ return (
                 </ImageCard>
                 <NFTCardText>
                   <hr />
-                  <div className="d-flex my-4 justify-content-between w-100 px-2">
-                    <RankCard>Rank: {nft.ranking}</RankCard>
-                  </div>
+                  <div className="d-flex my-4 justify-content-between w-100 px-2"></div>
                   <div className="px-2">
                     <div style={{ color: "#a4a9b6" }}>Name</div>
                     <h3
@@ -393,29 +423,27 @@ return (
                     }}
                     className="px-2"
                   >
-                    <div>
-                      <div style={{ color: "#a4a9b6" }}>Token ID</div>
-                      <p
-                        style={{
-                          fontSize: "14px",
-                          marginBottom: "5px",
-                          color: "#0d99ff",
-                        }}
-                      >
-                        {nft.token_id.length > 30
-                          ? `${nft.token_id.slice(0, 30)}...`
-                          : nft.token_id}
-                      </p>
-                    </div>
-                    {nft.nft_state && (
+                    {nft.owner ? (
                       <div>
                         <div style={{ color: "#a4a9b6" }}>Owner</div>
-                        <p style={{ fontSize: "14px" }}>
-                          {nft.nft_state.owner.length > 12
-                            ? nft.nft_state.owner.slice(0, 12) + "..."
-                            : nft.nft_state.owner}
+                        <p style={{ fontSize: "14px", color: "#0d99ff" }}>
+                          {nft.owner.length > 12
+                            ? nft.owner.slice(0, 12) + "..."
+                            : nft.owner}
                         </p>
+                        
                       </div>
+                    ) : (
+                      nft.nft_state && (
+                        <div>
+                          <div style={{ color: "#a4a9b6" }}>Owner</div>
+                          <p style={{ fontSize: "14px" }}>
+                            {nft.nft_state.owner.length > 12
+                              ? nft.nft_state.owner.slice(0, 12) + "..."
+                              : nft.nft_state.owner}
+                          </p>
+                        </div>
+                      )
                     )}
                   </div>
                   <hr />
@@ -432,20 +460,39 @@ return (
                       <div style={{ color: "#a4a9b6", fontSize: "1.1rem" }}>
                         Price
                       </div>
-                      {nft.listings &&
-                      nft.listings[0] &&
-                      typeof nft.listings[0].price === "number" ? (
+                      {nft.listings[0] ? (
+                        typeof nft.listings[0].price === "number" ? (
+                          <PriceArea>
+                            <h6>{`${
+                              nft.listings[0].price.toFixed(2) /
+                              state.conversion
+                            }${state.chain}`}</h6>
+                            <span>{` ($${(
+                              (nft.listings[0].price / state.conversion) *
+                              state.chainRate
+                            ).toFixed(2)})`}</span>
+                          </PriceArea>
+                        ) : (
+                          <div>Not for Sale</div>
+                        )
+                      ) : nft.price ? (
+                        <ChainPrice>
+                        <img src={currentChain[state.chain].img} alt="" />
                         <PriceArea>
-                          <h6>{`${
-                            nft.listings[0].price.toFixed(2) / state.conversion
-                          }${state.chain}`}</h6>
-                          <span>{` ($${(
-                            (nft.listings[0].price / state.conversion) *
-                            state.chainRate
-                          ).toFixed(2)})`}</span>
+                          <h6>
+                            {(nft.price / 1000000000000000000000000).toFixed(2)}
+                          </h6>
+                          <span>({getUsdValue(nft.price / 1000000000000000000000000)})</span>
                         </PriceArea>
+                        </ChainPrice>
                       ) : (
-                        <div>Not for Sale</div>
+                        <ChainPrice>
+                        <img src={currentChain[state.chain].img} alt="" />
+                        <PriceArea>
+                          <h6>0.00</h6>
+                          <span>($0.00)</span>
+                        </PriceArea>
+                        </ChainPrice>
                       )}
                     </div>
                   </div>
@@ -472,7 +519,6 @@ return (
                 <NFTCardText>
                   <hr />
                   <div className="d-flex my-4 justify-content-between w-100 px-2">
-                    <RankCard>Rank: {Math.round(nft.ranking)}</RankCard>
                     <div>{nft.nft_state_lists[0].list_contract.name}</div>
                   </div>
                   <div className="px-2">
