@@ -379,8 +379,8 @@ const WalleyTransactions = styled.div`
     background: #424242; 
   }
 
-  &::-webkit-scrollbar-thumb:hover {
-    background: #404040; 
+  &::-webkit-scrollbar:hover {
+    width: 7px; 
   }
 `;
 
