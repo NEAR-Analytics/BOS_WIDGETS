@@ -221,13 +221,13 @@ const NavLine = styled.span`
   width: 1px;
   height: 50px;
   background: white;
-  margin: 4px 0px 4px 0px;
+  margin: 4px auto 4px auto;
 `;
 const NavLineLast = styled.span`
   width: 1px;
   height: 100%;
   background: white;
-  margin: 4px 0px 4px 0px;
+  margin: 4px auto 4px auto;
 `;
 
 const WalleyHomeBody = styled.div`
