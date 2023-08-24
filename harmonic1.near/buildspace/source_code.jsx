@@ -55,10 +55,10 @@ const feedStyle = {
 };
 
 let feedURL;
-if (window.location.pathname === "/") {
-  feedURL = "harmonic1.near/widget/artist.feed";
-} else {
+if (window.location.pathname === "harmonic1.near/widget/buildspace") {
   feedURL = "artist.feed";
+} else {
+  feedURL = "harmonic1.near/widget/artist.feed";
 }
 console.log("Path", window.location.pathname);
 return (
@@ -120,7 +120,7 @@ return (
             }}
           />
         </div>
-        <a href="artist.feed">
+        <a href={feedURL}>
           <h4 style={{ marginTop: "2rem" }}>See all.</h4>
         </a>
       </div>
