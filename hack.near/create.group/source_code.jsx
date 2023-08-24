@@ -1,3 +1,12 @@
+const creatorId = props.creatorId ?? context.accountId;
+const groupId = props.groupId ?? "83dc9a797ac0ellif3mt0a1aee215d3088";
+
+let members = Social.getr(`${creatorId}/graph/${groupId}`, "final", {});
+
+if (members === null) {
+  return "";
+}
+
 State.init({
   elements: {},
   inputVal: "",
