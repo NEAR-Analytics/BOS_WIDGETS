@@ -343,6 +343,7 @@ const WalleyStoreImage = styled.img`
 
 const WalleyInput = styled.input`
   display: block;
+  width: 100%;
 `;
 
 const WalleyLabel = styled.p`
@@ -951,6 +952,7 @@ return (
                       search: { ...state.search, store: e.target.value },
                     })
                   }
+                  placeholder="Search by Store Name"
                 />
                 <WalleyButton onClick={() => State.update({ newTxn: true })}>
                   Buy NFT
