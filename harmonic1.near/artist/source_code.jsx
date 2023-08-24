@@ -5,13 +5,14 @@ const containerStyle = {
   display: "flex", // Using flex to display contents side by side
   flexDirection: "column",
   alignItems: "center", // Vertically centering the contents
-  justifyContent: "center",
+  //justifyContent: "center",
   paddingTop: "30px",
   backgroundImage:
     "url('https://ik.imagekit.io/n7h27i0lh/v960-ning-08-klhoizzv.jpeg?updatedAt=1692893730584')",
   backgroundSize: "cover",
   backgroundPosition: "center",
-  backgroundRepeat: "no-repeat",
+  //backgroundRepeat: "no-repeat",
+  height: "100vh",
 };
 
 const profileInfoStyle = {
