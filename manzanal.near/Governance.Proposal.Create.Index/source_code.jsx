@@ -6,9 +6,58 @@ const mpip_id = props.mpip_id ?? null;
 const update = props.update;
 const transactionHashes = props.transactionHashes;
 const title = props.edit ? "Edit proposal" : "Create Proposal";
+const META_VOTE_CONTRACT_ID = "meta-vote.near";
+const contractId = props.contractId || "v006.mpip.near";
 State.init({
   openModal: false,
+  allVotingPower: null,
+  allVotingPowerIsFetched: false,
+  proposalThresholdReached: false,
+  proposalThresholdReachedIsFetched: false,
 });
+const yoctoToNear = (amountYocto) =>
+  new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
+
+if (!state.allVotingPowerIsFetched) {
+  Near.asyncView(
+    META_VOTE_CONTRACT_ID,
+    "get_all_locking_positions",
+    { voter_id: context.accountId },
+    "final",
+    false
+  ).then((allLockingPositions) => {
+    const voting_power = allLockingPositions.reduce(
+      (accumulator, lockingPosition) =>
+        lockingPosition.is_locked
+          ? accumulator + parseInt(lockingPosition.voting_power)
+          : accumulator,
+      0
+    );
+    const votingPowerYocto = voting_power.toLocaleString("fullwide", {
+      useGrouping: false,
+    });
+    State.update({
+      allVotingPower: yoctoToNear(voting_power),
+      allVotingPowerIsFetched: true,
+      allVotingPowerYocto:    yoctoToNear(votingPowerYocto) + "000000000000000000000000",
+    });
+  });
+}
+
+if (state.allVotingPowerIsFetched && !state.proposalThresholdReachedIsFetched) {
+  Near.asyncView(
+    contractId,
+    "check_proposal_threshold",
+    { voting_power:  state.allVotingPowerYocto },
+    "final",
+    false
+  ).then((passed) => {
+    State.update({
+      proposalThresholdReached: passed,
+      proposalThresholdReachedIsFetched: true,
+    });
+  });
+}
 
 const Wrapper = styled.div`
   margin: 16px auto;
@@ -107,6 +156,10 @@ if (transactionHashes) {
     update({ transactionHashesIsHandled: true });
   }
 }
+
+if (!state.allVotingPowerIsFetched || !state.proposalThresholdReachedIsFetched) return <>Loading</>;
+
+if (!state.proposalThresholdReached) return <>Proposal threshold is not reached. You are not able to create proposals</>
 
 return (
   <Wrapper>
