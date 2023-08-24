@@ -4,7 +4,7 @@ const role = props.role ?? "community";
 const contractId = "mint.sharddog.near";
 
 State.init({
-  selectedTab: props.tab || "events",
+  selectedTab: props.tab || "discussion",
 });
 
 //const tab = props.tab === "following" ? props.tab : "members";
