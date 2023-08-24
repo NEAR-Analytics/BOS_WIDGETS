@@ -349,7 +349,7 @@ return (
           <Widget src="opencann.near/widget/publish" props={{ ownerId }} />
         )}
         {state.selectedTab === "mydata" && (
-          <Widget src="opencann.near/widget/publish" props={{ ownerId }} />
+          <Widget src="opencann.near/widget/mydata" props={{ ownerId }} />
         )}
       </Content>
     </Main>
