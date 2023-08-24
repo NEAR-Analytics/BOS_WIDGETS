@@ -1,5 +1,13 @@
 const limits = [5, 10, 20, 50];
 
+const font = fetch(
+  "https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+).body;
+
+if (!font) {
+  return;
+}
+
 const getConfig = (network) => {
   switch (network) {
     case "mainnet":
@@ -7,7 +15,7 @@ const getConfig = (network) => {
         app: "https://sourcescan.2bb.dev",
         ownerId: "sourcescan.near",
         rpcUrl: "https://rpc.mainnet.near.org",
-        contractId: "v1.sourcescan.near",
+        contractId: "sourcescan.near",
         apiHost: "https://sourcescan.2bb.dev",
       };
     case "testnet":
@@ -15,7 +23,7 @@ const getConfig = (network) => {
         app: "https://sourcescan.testnet.2bb.dev",
         ownerId: "sourcescan.testnet",
         rpcUrl: "https://rpc.testnet.near.org",
-        contractId: "v5.sourcescan.testnet",
+        contractId: "sourcescan.testnet",
         apiHost: "https://sourcescan.2bb.dev",
       };
     default:
@@ -49,6 +57,13 @@ const light = {
 const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
+
+const GlobalStyle = styled.div`
+  * {
+    font-family: "Source Code Pro", cursive;
+  }
+  ${font}
+`;
 
 const Main = styled.div`
   width: 100%;
@@ -139,61 +154,63 @@ const handlePageChange = (x) => {
 };
 
 return (
-  <Main>
-    <Stack>
-      <Widget
-        src={`${state.config.ownerId}/widget/SourceScan.Layout.Navbar`}
-        props={{
-          app: state.config.app,
-          theme: state.theme,
-          switchTheme: switchTheme,
-        }}
-      />
-      <Center>
-        <HStack>
-          <Widget
-            src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
-            props={{
-              theme: state.theme,
-              handleSubmit: handleSubmit,
-              value: state.search,
-            }}
-          />
-          <Widget
-            src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
-            props={{
-              handleOptionsChange: handleOptionsChange,
-              theme: state.theme,
-              limits: limits,
-              selectedLimit: state.limit,
-            }}
-          />
-        </HStack>
-      </Center>
-      <Center>
-        <Stack>
-          <Widget
-            src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
-            props={{
-              theme: state.theme,
-              contracts: state.contracts,
-              rpcUrl: state.config.rpcUrl,
-              apiHost: state.config.apiHost,
-            }}
-          />
-          <Center>
+  <GlobalStyle>
+    <Main>
+      <Stack>
+        <Widget
+          src={`${state.config.ownerId}/widget/SourceScan.Layout.Navbar`}
+          props={{
+            app: state.config.app,
+            theme: state.theme,
+            switchTheme: switchTheme,
+          }}
+        />
+        <Center>
+          <HStack>
             <Widget
-              src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
+              src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
               props={{
                 theme: state.theme,
-                pages: state.pages,
-                selectedPage: state.selectedPage,
-                handlePageChange: handlePageChange,
+                handleSubmit: handleSubmit,
+                value: state.search,
               }}
             />
-          </Center>
-        </Stack>
-      </Center>
-    </Stack>
-  </Main>
+            <Widget
+              src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
+              props={{
+                handleOptionsChange: handleOptionsChange,
+                theme: state.theme,
+                limits: limits,
+                selectedLimit: state.limit,
+              }}
+            />
+          </HStack>
+        </Center>
+        <Center>
+          <Stack>
+            <Widget
+              src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
+              props={{
+                theme: state.theme,
+                contracts: state.contracts,
+                rpcUrl: state.config.rpcUrl,
+                apiHost: state.config.apiHost,
+              }}
+            />
+            <Center>
+              <Widget
+                src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
+                props={{
+                  theme: state.theme,
+                  pages: state.pages,
+                  selectedPage: state.selectedPage,
+                  handlePageChange: handlePageChange,
+                }}
+              />
+            </Center>
+          </Stack>
+        </Center>
+      </Stack>
+    </Main>
+  </GlobalStyle>
 );
