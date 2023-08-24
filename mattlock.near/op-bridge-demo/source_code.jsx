@@ -7,7 +7,9 @@ const ETH_ADDR_L1 = `0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000`;
 const DEFAULT_AMOUNT_ETH = "0.01";
 const DEFAULT_AMOUNT = ethers.utils.parseUnits(DEFAULT_AMOUNT_ETH, 18);
 const L2_OUTPUT_ORACLE_CONTRACT = `0xE6Dfba0953616Bacab0c9A8ecb3a9BBa77FC15c0`;
-
+const L1_OPTIMISM_PORTAL_CONTRACT = `0x9e760aBd847E48A56b4a348Cba56Ae7267FeCE80`;
+const HASH_ZERO =
+  "0x0000000000000000000000000000000000000000000000000000000000000000";
 // Withdrawal target TX info
 // Call initiateWithdraw so the L2 message is passed
 // Following TX example here: https://goerli-optimism.etherscan.io/tx/0xb59ff0af1db39be0cc03e7410621ed21ce60e5833f8c4bf97d8747bd8d033bc8
@@ -189,32 +191,91 @@ const outputAbi = [
 ];
 const outputIface = new ethers.utils.Interface(outputAbi);
 
-const crossDomainAbi = [
+const proofAbi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_target",
-        type: "address",
+        components: [
+          {
+            internalType: "uint256",
+            name: "nonce",
+            type: "uint256",
+          },
+          {
+            internalType: "address",
+            name: "sender",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "target",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "value",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "gasLimit",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "data",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Types.WithdrawalTransaction",
+        name: "_tx",
+        type: "tuple",
       },
       {
         internalType: "uint256",
-        name: "_gasLimit",
+        name: "_l2OutputIndex",
         type: "uint256",
       },
       {
-        internalType: "bytes",
-        name: "_data",
-        type: "bytes",
+        components: [
+          {
+            internalType: "bytes32",
+            name: "version",
+            type: "bytes32",
+          },
+          {
+            internalType: "bytes32",
+            name: "stateRoot",
+            type: "bytes32",
+          },
+          {
+            internalType: "bytes32",
+            name: "messagePasserStorageRoot",
+            type: "bytes32",
+          },
+          {
+            internalType: "bytes32",
+            name: "latestBlockhash",
+            type: "bytes32",
+          },
+        ],
+        internalType: "struct Types.OutputRootProof",
+        name: "_outputRootProof",
+        type: "tuple",
+      },
+      {
+        internalType: "bytes[]",
+        name: "_withdrawalProof",
+        type: "bytes[]",
       },
     ],
-    name: "initiateWithdrawal",
+    name: "proveWithdrawalTransaction",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];
-const crossDomainIface = new ethers.utils.Interface(crossDomainAbi);
+const proofIface = new ethers.utils.Interface(proofAbi);
 
 function handleDepositETH() {
   if (!isGoerli)
@@ -436,7 +497,7 @@ const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
 
           callback({
             outputRootProof: {
-              version: [],
+              version: HASH_ZERO,
               stateRoot: block.stateRoot,
               messagePasserStorageRoot: stateTrieProof.storageRoot,
               latestBlockhash: block.hash,
@@ -454,7 +515,7 @@ const handleWithdrawalProve = () => {
   console.log("blockNumber", blockNumber);
 
   getBedrockMessageProof(blockNumber, messageSlot, (proof) => {
-    const { resolved: withdrawal, l2OutputIndex } = state.resolved;
+    const { resolved: withdrawal, l2OutputIndex } = state;
 
     const args = [
       [
@@ -476,6 +537,27 @@ const handleWithdrawalProve = () => {
     ];
 
     console.log("proof args:", args);
+
+    if (!isGoerli) {
+      return State.update({
+        console: "switch to Goerli to sign the proof",
+      });
+    }
+
+    const contract = new ethers.Contract(
+      L1_OPTIMISM_PORTAL_CONTRACT,
+      proofAbi,
+      Ethers.provider().getSigner()
+    );
+
+    contract
+      .proveWithdrawalTransaction(...args)
+      .then((tx) => {
+        console.log("tx output:", tx);
+      })
+      .catch((e) => {
+        console.log("error", e);
+      });
   });
 };
 
@@ -505,6 +587,16 @@ return (
         <br />
         <br />
         <p>To initiate a withdraw, switch to OP Goerli network</p>
+
+        {state.messageSlot && (
+          <>
+            <br />
+            <br />
+            <button onClick={handleWithdrawalProve}>
+              Step3. Prove Withdrawal
+            </button>
+          </>
+        )}
       </>
     )}
     {isOPGoerli && (
