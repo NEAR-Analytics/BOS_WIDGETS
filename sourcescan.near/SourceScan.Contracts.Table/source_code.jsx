@@ -36,24 +36,30 @@ const Table = styled.table`
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 10px;
-
+  text-align: start;
   th {
     padding: 15px;
   }
 
   td {
-    max-width: 200px;
     border-top: 0.5px dashed ${useTheme(light.border, dark.border)};
     padding: 15px;
   }
 `;
 
+const THead = styled.thead`
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 100;
+  color: ${useTheme(light.border, dark.border)};
+`;
+
 const HStack = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
+  justify-content: start;
+  align-items: start;
+  gap: 8px;
 `;
 
 const Truncated = styled.div`
@@ -71,16 +77,18 @@ const LinkIcon = (width, height) => {
   return (
     <SVG
       xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="w-6 h-6"
+      viewBox="0 0 20 20"
+      fill="currentColor"
     >
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+        fill-rule="evenodd"
+        d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
+        clip-rule="evenodd"
+      />
+      <path
+        fill-rule="evenodd"
+        d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
+        clip-rule="evenodd"
       />
     </SVG>
   );
@@ -120,35 +128,52 @@ return (
       <>Nothing here...</>
     ) : (
       <Table>
-        <thead>
+        <THead>
           <tr>
             <th>Contract</th>
             <th>Lang</th>
-            <th>Source</th>
+            <th>IPFS</th>
+            <th>Github</th>
             <th>Approved</th>
           </tr>
-        </thead>
+        </THead>
         <tbody>
           {state.contracts
-            ? state.contracts.map((contract) => {
+            ? state.contracts.map((contract, i) => {
                 const contractId = contract[0];
                 const lang = contract[1].lang;
                 const cid = contract[1].cid;
-
+                const deploy_tx = contract[1].deploy_tx;
+                const github = contract[1].github;
                 return (
-                  <tr>
+                  <tr key={i}>
                     <td>{contractId}</td>
                     <td>{lang}</td>
                     <td>
-                      <A
-                        href={`${props.apiHost}/ipfs/${cid}`}
-                        target={"_blank"}
-                      >
-                        <HStack>
-                          {truncateStringInMiddle(cid, 8)}
+                      <HStack>
+                        {truncateStringInMiddle(cid, 8)}
+                        <A
+                          href={`${props.apiHost}/ipfs/${cid}`}
+                          target={"_blank"}
+                        >
                           <LinkIcon width={"20px"} height={"20px"} />
+                        </A>
+                      </HStack>
+                    </td>
+                    <td>
+                      {github ? (
+                        <HStack>
+                          {github.owner}/{github.repo}
+                          <A
+                            href={`https://github.com/${github.owner}/${github.repo}/tree/${github.sha}`}
+                            target={"_blank"}
+                          >
+                            <LinkIcon width={"20px"} height={"20px"} />
+                          </A>
                         </HStack>
-                      </A>
+                      ) : (
+                        "None"
+                      )}
                     </td>
                     <td>
                       <Center>
