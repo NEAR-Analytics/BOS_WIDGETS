@@ -50,6 +50,32 @@ const containerStyles = {
   backgroundColor: "#fff", // White background
 };
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  alignItems: center;
+  height: 90vh;
+  background-color: #fff;
+`;
+
+const ChildContainer = styled.div`
+  display: flex;
+  margin-bottom: 5rem;
+  > div {
+    flex: 1;
+    padding: 2rem;
+  }
+  > div:first-child {
+    padding-left: 4rem;
+  }
+
+  // Mobile screens
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
 const feedStyle = {
   marginBottom: "6rem",
 };
@@ -64,8 +90,8 @@ console.log("Path", window.location.pathname);
 return (
   <>
     <div style={cardStyle} className="m-4">
-      <div style={containerStyles}>
-        <div className="mb-5" style={{ display: "flex" }}>
+      <Container>
+        <ChildContainer>
           <div
             style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}
             className="text-center"
@@ -84,10 +110,10 @@ return (
               props={{ path: "qsaharmonic.near/thing/artist/Quinn" }}
             />
           </div>
-        </div>
-      </div>
-      <div style={containerStyles}>
-        <div className="mb-5" style={{ display: "flex" }}>
+        </ChildContainer>
+      </Container>
+      <Container>
+        <ChildContainer>
           <div style={{ flex: 0 }}>
             <Widget src="harmonic1.near/widget/create.artist" />
           </div>
@@ -104,8 +130,8 @@ return (
               your own terms.
             </p>
           </div>
-        </div>
-      </div>
+        </ChildContainer>
+      </Container>
       <div style={feedStyle} className="text-center">
         <h3 style={titleStyle}>Featured Profiles</h3>
         <div>
