@@ -377,7 +377,6 @@ function handleFilterArticles(filter) {
   State.update({
     displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
     filterBy: { parameterName: filter.filterBy, parameterValue: filter.value },
-    editArticleData: undefined,
   });
 }
 
@@ -390,7 +389,6 @@ function handleBackButton() {
     : State.update({
         displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
         articleToRenderData: {},
-        editArticleData: undefined,
       });
 }
 
@@ -399,12 +397,11 @@ function handleGoHomeButton() {
     displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
     articleToRenderData: {},
     filterBy: { parameterName: "", parameterValue: {} },
-    editArticleData: undefined,
   });
 }
 
 function handlePillNavigation(navegateTo) {
-  stateUpdate({ displayedTabId: navegateTo, editArticleData: undefined });
+  stateUpdate({ displayedTabId: navegateTo });
 }
 
 function callLibs(srcArray, stateUpdate, libCalls) {
