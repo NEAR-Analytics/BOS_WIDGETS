@@ -387,7 +387,7 @@ const WalleySearch = styled.div`
   display: flex;
   flex-direction: row;
   &>button {
-    width: 100px;
+    width: 150px;
   }
 `;
 
@@ -991,7 +991,7 @@ return (
                         search: { ...state.search, store: e.target.value },
                       })
                     }
-                    placeholder="Search by Store Name"
+                    placeholder="Search Transactions by Store Name"
                   />
                 </WalleySearch>
                 <WalleyTransactions>
