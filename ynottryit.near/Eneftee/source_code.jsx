@@ -124,11 +124,10 @@ const ActionButton = styled.button`
 return data !== null ? (
   <MainContainer>
     <Header>
-      <h2 style={{ fontWeight: 600 }}>NFT Marketplace List on Jutsu</h2>
+      <h2 style={{ fontWeight: 600 }}>NFT Marketplace built using Jutsu AI</h2>
       <p>
-        The Jutsu Marketplace component is a customizable widget for NFT-based
-        dApps that allows developers to easily integrate a fully functional NFT
-        marketplace.
+        Customizable widget for NFT-based dApps allowing developers to integrate
+        a fully functional NFT marketplace with one click build & deploy action.
       </p>
     </Header>
 
