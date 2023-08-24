@@ -82,6 +82,7 @@ State.init({
   nominations: {},
   data: {},
   comments: [],
+  verified: false,
 });
 
 const wallets = [
