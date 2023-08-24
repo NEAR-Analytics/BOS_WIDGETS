@@ -1,6 +1,7 @@
 const index = {
   action: "graph",
   key: "follow",
+  spaghetti: 11,
   options: {
     subscribe: true,
     limit: 5,
