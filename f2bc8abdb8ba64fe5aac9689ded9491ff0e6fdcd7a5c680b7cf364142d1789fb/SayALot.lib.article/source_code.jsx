@@ -259,7 +259,7 @@ function getOldArticleBasicDataArray(env) {
 }
 
 function getNewFormatValidArticles(env, filterBy) {
-  const articlesIndexes = getArticlesIndexes(env, filterBy);
+  const articlesIndexes = getArticlesIndexes(filterBy);
   const validArticlesIndexes = filterInvalidArticlesIndexes(
     env,
     articlesIndexes
