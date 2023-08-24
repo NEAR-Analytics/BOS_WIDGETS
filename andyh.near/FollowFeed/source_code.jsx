@@ -13,7 +13,7 @@ const Item = styled.div`
   overflow-x: hidden;
 `;
 
-console.log({ props });
+console.log({ ...props });
 
 const renderItem = (a) => {
   return (
