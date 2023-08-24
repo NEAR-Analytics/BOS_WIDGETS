@@ -86,7 +86,7 @@ const isValid = isNearAddress(memberId);
 return (
   <>
     <div>
-      <h3>Membership</h3>
+      <h5>Membership</h5>
       <input
         placeholder="<example>.near"
         onChange={(e) => State.update({ inputVal: e.target.value })}
