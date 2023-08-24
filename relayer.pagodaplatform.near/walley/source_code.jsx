@@ -344,6 +344,10 @@ const WalleyStoreImage = styled.img`
 const WalleyInput = styled.input`
   display: block;
   width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  background: none;
+  border: 1px solid rgb(66, 66, 66, 0.7)
 `;
 
 const WalleyLabel = styled.p`
