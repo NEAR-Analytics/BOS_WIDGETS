@@ -52,7 +52,7 @@ return (
     <div className="row">
       <div className="col-lg-6 mt-2">
         <div className="mb-2">
-          <h3>Group Details</h3>
+          <h5>Details</h5>
           <input
             style={{ fontSize: "15px" }}
             value={state.groupId}
