@@ -34,14 +34,14 @@ State.init({
   libCalls: initLibCalls,
 });
 
-if (state.filterBy.parameterName != "") {
+if (state.filterBy.parameterName != "" || state.handleBackClicked) {
   console.log(1, state.libCalls);
   let newLibCalls = state.libCalls;
 
   newLibCalls[0].props.filterBy = state.filterBy;
   console.log(2);
 
-  State.update({ libCalls: newLibCalls });
+  State.update({ libCalls: newLibCalls, handleBackClicked: false });
 }
 
 //=============================================END INITIALIZATION===================================================
@@ -405,6 +405,7 @@ function handleBackButton() {
         filterBy: {
           parameterName: "",
           parameterValue: undefined,
+          handleBackClicked: true,
         },
       })
     : State.update({
@@ -414,6 +415,7 @@ function handleBackButton() {
         filterBy: {
           parameterName: "",
           parameterValue: undefined,
+          handleBackClicked: true,
         },
       });
 }
