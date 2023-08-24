@@ -26,6 +26,10 @@ const SidePanel = styled.div`
   min-width: 400px;
   border: 1px solid;
   border-radius: 0.5rem;
+  @media (max-width: 768px) {
+        min-width: 100%;  // Take up full width on mobile
+        box-sizing: border-box;  // Ensure padding and borders are included in the width calculation
+}
 `;
 
 const MainContent = styled.div`
