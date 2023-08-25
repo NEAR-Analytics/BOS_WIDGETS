@@ -552,6 +552,6 @@ return (
     )}
 
     {confirmUI}
-    <button onClick={confirmAction()}>Confirm Action</button>
+    <button onClick={() => confirmAction()}>Confirm Action</button>
   </div>
 );
