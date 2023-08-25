@@ -953,9 +953,10 @@ return (
               <>
                 {state.newTxn ? (
                   <WalleyHomeOverlay
+                    id="overlay"
                     onClick={(e) => {
                       console.log(e.target);
-                      if (this === e.target) {
+                      if ("overlay" === e.target.id) {
                         State.update({ newTxn: false });
                       }
                     }}
