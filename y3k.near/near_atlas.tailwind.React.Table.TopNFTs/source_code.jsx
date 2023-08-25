@@ -12,7 +12,7 @@ let rawData = fetch(
 
 // data.body = data.body.sort((a, b) => new Date(a.MONTH) - new Date(b.MONTH));
 
-State.init({ setSortConfig: { key: "RECEIVER_ID", direction: "asc" } });
+State.init({ setSortConfig: { key: "", direction: "asc" } });
 
 let Style = styled.div`
   .table-header {
@@ -194,6 +194,23 @@ function getSortedNodes() {
   return nodes; // Return original nodes if no sorting
 }
 
+// Function to get the top 100 sorted nodes based on TRANSFERS_LAST_3_DAYS
+function getTop100SortedNodes() {
+  // First, ensure nodes is defined and is an array
+  if (!nodes || !Array.isArray(nodes)) {
+    return [];
+  }
+
+  // Sort based on TRANSFERS_LAST_3_DAYS in descending order
+  const sortedNodes = [...nodes].sort((a, b) => {
+    return b["TRANSFERS_LAST_3_DAYS"] - a["TRANSFERS_LAST_3_DAYS"];
+  });
+
+  // Return top 100 items after sorting
+  return sortedNodes.slice(0, 100);
+}
+const nodesTop100 = getTop100SortedNodes();
+
 return (
   <div className="bg-dark rounded-lg mb-12 overflow-hidden w-full">
     {data !== null ? (
@@ -220,7 +237,7 @@ return (
             </tr>
           </thead>
           <tbody>
-            {nodes.map((row, rowIndex) => (
+            {nodesTop100.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
                 className={`${
