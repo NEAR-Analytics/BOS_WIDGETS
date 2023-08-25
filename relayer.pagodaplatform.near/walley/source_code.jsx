@@ -227,6 +227,8 @@ const WalleyNavbar = styled.div`
     }
     @media screen and (max-width: 600px) {
         flex-direction: row;
+        justify-content: space-between;
+        text-align: center;
         font-size: 12px;
     }
 `;
