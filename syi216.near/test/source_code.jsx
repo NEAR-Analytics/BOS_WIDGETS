@@ -33,7 +33,8 @@ const getTransactions = () => {
 
 if (data.state.reloadTransactions) {
   console.log("recargar transacciones");
-  //getTransactions();
+  data.handleReload;
+  getTransactions();
 }
 
 const getDescription = (status) => {
