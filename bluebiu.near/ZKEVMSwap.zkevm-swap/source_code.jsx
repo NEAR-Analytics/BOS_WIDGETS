@@ -77,6 +77,7 @@ if (sender) {
     .catch(() => {});
 }
 
+const clooseAdd = Storage.get("clooseAdd", "bluebiu.near/widget/ZKEVMSwap.zkevm-swap");
 State.init({
   inputAssetModalHidden: true,
   outputAssetModalHidden: true,
@@ -112,7 +113,7 @@ State.init({
       outputAssetAmount: value === null ? "" : value.estimate,
     });
   },
-  add: false,
+  add: clooseAdd,
   hasGetStorage: false,
   noPool: false,
 });
@@ -1065,11 +1066,12 @@ return (
           src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
           props={{
             ...props,
-            add: state.add,
+            add: clooseAdd,
             onChangeAdd: (value) => {
               State.update({
                 add: value,
               });
+              Storage.set("clooseAdd", value);
             },
             hide:
               !state?.outputAsset ||
