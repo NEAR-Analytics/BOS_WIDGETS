@@ -17,12 +17,20 @@ const dark = {
   bg: "#28282b",
   color: "#e6eaee",
   border: "#748094",
+  button: {
+    bg: "#39393c",
+    hoverBg: "#5e5e60",
+  },
 };
 
 const light = {
   bg: "#e3e8ef",
   color: "#4c5566",
   border: "#748094",
+  button: {
+    bg: "#eef2f6",
+    hoverBg: "#e3e8ef",
+  },
 };
 
 const useTheme = (light, dark) => {
@@ -33,6 +41,7 @@ const Center = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 `;
 
 const Table = styled.table`
@@ -61,7 +70,9 @@ const Table = styled.table`
     padding: 15px;
   }
 
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 600px) {
+    border: none;
+
     thead {
       display: none;
     }
@@ -72,7 +83,11 @@ const Table = styled.table`
     }
 
     tr {
-      margin-bottom: 0.625rem;
+      border-radius: 10px;
+      display: block;
+      width: full;
+      border: 1px solid ${useTheme(light.border, dark.border)};
+      margin-bottom: 40px;
     }
 
     td {
@@ -81,6 +96,7 @@ const Table = styled.table`
       align-items: end;
       justify-content: end;
       text-align: end;
+      border: none;
     }
 
     td:before {
@@ -103,6 +119,22 @@ const HStack = styled.div`
   justify-content: start;
   align-items: start;
   gap: 8px;
+`;
+
+const Desktop = styled.div`
+  display: flex;
+
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const Mobile = styled.div`
+  display: none;
+
+  @media only screen and (max-width: 600px) {
+    display: flex;
+  }
 `;
 
 const LinkIcon = (width, height) => {
@@ -162,6 +194,23 @@ const A = styled.a`
   }
 `;
 
+const Button = styled.button`
+  height: 36px;
+  width: 96px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 1px solid transparent;
+  color: ${useTheme(light.color, dark.color)};
+  background-color: ${useTheme(light.button.bg, dark.button.bg)};
+  transition: background-color 0.1s ease-in-out;
+
+  :hover {
+    background-color: ${useTheme(light.button.hoverBg, dark.button.hoverBg)};
+  }
+`;
+
 const truncateStringInMiddle = (str, maxLength) => {
   if (str.length <= maxLength) {
     return str;
@@ -175,7 +224,7 @@ const truncateStringInMiddle = (str, maxLength) => {
 };
 
 return (
-  <Center>
+  <>
     {state.contracts.length === 0 ? (
       <>Nothing here...</>
     ) : (
@@ -187,7 +236,9 @@ return (
             <th>IPFS</th>
             <th>Github</th>
             <th>Approved</th>
-            <th></th>
+            <Desktop>
+              <th></th>
+            </Desktop>
           </tr>
         </thead>
         <tbody>
@@ -243,23 +294,28 @@ return (
                         />
                       </Center>
                     </td>
-                    <td>
-                      <OverlayTrigger
-                        key={state.placement}
-                        placement={state.placement}
-                        overlay={
-                          <Tooltip id={`tooltip-${placement}`}>
-                            Show More
-                          </Tooltip>
-                        }
-                      >
-                        <A
-                          href={`/${state.ownerId}/widget/SourceScan.Contracts.Info?contractId=${contractId}`}
-                          target={"_blank"}
+                    <td data-width={"0%"} align-items={"center"}>
+                      <Desktop>
+                        <OverlayTrigger
+                          key={state.placement}
+                          placement={state.placement}
+                          overlay={
+                            <Tooltip id={`tooltip-${placement}`}>
+                              Show More
+                            </Tooltip>
+                          }
                         >
-                          <InfoIcon width={"20px"} height={"20px"} />
-                        </A>
-                      </OverlayTrigger>
+                          <A
+                            href={`/${state.ownerId}/widget/SourceScan.Contracts.Info?contractId=${contractId}`}
+                            target={"_blank"}
+                          >
+                            <InfoIcon width={"20px"} height={"20px"} />
+                          </A>
+                        </OverlayTrigger>
+                      </Desktop>
+                      <Mobile>
+                        <Button>More</Button>
+                      </Mobile>
                     </td>
                   </tr>
                 );
@@ -268,5 +324,5 @@ return (
         </tbody>
       </Table>
     )}
-  </Center>
+  </>
 );
