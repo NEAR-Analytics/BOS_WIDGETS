@@ -10,7 +10,6 @@ const {
   handleFilterArticles,
   filterParameter,
   handleBackButton,
-  handleGoHomeButton,
   tabs,
 } = props;
 
@@ -183,6 +182,23 @@ const renderButton = (button, i) => {
 
 //==================================================FUNCTIONS====================================================
 
+function realHandleBackButton() {
+  State.update({
+    selectedPillIndex: 0,
+    selectedButtonIndex: undefined,
+  });
+
+  handleBackButton();
+}
+
+function realHandleGoHome() {
+  State.update({
+    selectedPillIndex: 0,
+    selectedButtonIndex: undefined,
+  });
+  handleGoHomeButton();
+}
+
 //================================================END FUNCTIONS===================================================
 return (
   <div className="navbar navbar-expand-md border-bottom mb-3">
@@ -293,20 +309,8 @@ return (
         onClick={
           displayedTabId == tabs.SHOW_ARTICLE.id ||
           (editArticleData && tabs.ARTICLE_WORKSHOP.id)
-            ? () => {
-                State.update({
-                  selectedPillIndex: 0,
-                  selectedButtonIndex: undefined,
-                });
-                handleBackButton();
-              }
-            : () => {
-                State.update({
-                  selectedPillIndex: 0,
-                  selectedButtonIndex: undefined,
-                });
-                handleGoHomeButton();
-              }
+            ? realHandleBackButton
+            : realHandleGoHome
         }
         className="my-3"
       >
