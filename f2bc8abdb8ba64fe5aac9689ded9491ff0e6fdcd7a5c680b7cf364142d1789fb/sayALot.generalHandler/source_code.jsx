@@ -93,7 +93,6 @@ const widgets = {
   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
   upVote: `${authorForWidget}/widget/NDC.UpVoteButton`,
 };
-a;
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
@@ -345,6 +344,12 @@ Term 2
 const finalArticles = state.articles;
 //===============================================END GET DATA=======================================================
 
+//=============================================STYLED COMPONENTS====================================================
+const CallLibrary = styled.div`
+  display: none;
+`;
+//===========================================END STYLED COMPONENTS==================================================
+
 //=================================================FUNCTIONS========================================================
 function getValidEditArticleDataTags() {
   let tags = state.editArticleData.tags;
@@ -383,7 +388,6 @@ function handleEditArticle(articleData) {
   });
 }
 
-// TODO fix
 function handleFilterArticles(filter) {
   State.update({
     displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
@@ -547,8 +551,8 @@ return (
         }}
       />
     )}
-    <div style={{ display: "none" }}>
+    <CallLibrary>
       {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </div>
+    </CallLibrary>
   </>
 );
