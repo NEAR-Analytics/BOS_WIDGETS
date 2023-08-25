@@ -180,7 +180,7 @@ return (
     )}
     <div className="me-3">
       <button className="btn btn-success m-2" onClick={handleBoostProposal}>
-        Request a Boost
+        Request NRC to Boost
       </button>
     </div>
     <div className="mt-3 ps-5">
