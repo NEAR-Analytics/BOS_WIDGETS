@@ -1,26 +1,34 @@
+// Styled component
+const Wrapper = styled.div`
+  #pills-tab,
+  #pills-tabContent {
+    display: none;
+  }
+`;
+
 // Initialize state and variables
 const accountId = context.accountId;
-
-// Check for NEAR wallet authentication
 if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
 
-let daoId = "research-collective.sputnik-dao.near";
+const daoId = "research-collective.sputnik-dao.near";
 let profile = Social.getr(`${daoId}/profile`);
-
-// Display a loading state if the profile is null
 if (profile === null) {
   return "Loading";
 }
 
-// Initialize the state
 State.init({
   profile,
 });
 
+// Function to handle the proposal for updating the DAO profile
+const handleProfileUpdateProposal = () => {
+  // Your proposal logic here
+};
+
 return (
-  <div>
+  <Wrapper>
     <div className="row">
       <div className="col-lg-6">
         <div>
@@ -31,7 +39,39 @@ return (
             src="near/widget/MetadataEditor"
             props={{
               initialMetadata: profile,
-              onChange: (profile) => State.update({ profile }),
+              onChange: (newProfile) => State.update({ profile: newProfile }),
+              options: {
+                name: { label: "Name" },
+                image: { label: "Profile picture" },
+                backgroundImage: { label: "Background image" },
+                description: { label: "About" },
+                tags: {
+                  label: "Tags",
+                  tagsPattern: "*/profile/tags/*",
+                  placeholder:
+                    "rust, engineer, artist, humanguild, nft, learner, founder",
+                },
+                linktree: {
+                  links: [
+                    {
+                      label: "Twitter",
+                      prefix: "https://twitter.com/",
+                      name: "twitter",
+                    },
+                    {
+                      label: "Github",
+                      prefix: "https://github.com/",
+                      name: "github",
+                    },
+                    {
+                      label: "Telegram",
+                      prefix: "https://t.me/",
+                      name: "telegram",
+                    },
+                    { label: "Website", prefix: "https://", name: "website" },
+                  ],
+                },
+              },
             }}
           />
         </div>
@@ -54,5 +94,5 @@ return (
         </div>
       </div>
     </div>
-  </div>
+  </Wrapper>
 );
