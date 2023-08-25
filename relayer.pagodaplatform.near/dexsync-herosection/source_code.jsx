@@ -13,6 +13,7 @@ display: flex-col;
 
 const MainText = styled.h1`
 font-style: normal;
+color:white;
 font-weight: 700;
 width: 320px;
 font-size: 36px;
