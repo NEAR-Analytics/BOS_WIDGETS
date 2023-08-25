@@ -1,7 +1,3 @@
-const data = props;
-
-console.log(data.state);
-
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
 State.init({
@@ -30,12 +26,6 @@ const getTransactions = () => {
     });
   });
 };
-
-if (data.state.reloadTransactions) {
-  console.log("recargar transacciones");
-  data.handleReload;
-  getTransactions();
-}
 
 const getDescription = (status) => {
   switch (status) {
