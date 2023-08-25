@@ -6,6 +6,7 @@ const {
   onLoadSwapCall,
   sender,
   amountIn,
+  onSwapCallBack,
 } = props;
 
 const qs = `${tokenIn.address}-${tokenOut.address}-${amountIn}-${selectedDex}`;
@@ -28,9 +29,19 @@ const exactInputAbi = [
       {
         components: [
           {
-            internalType: "bytes",
-            name: "path",
-            type: "bytes",
+            internalType: "address",
+            name: "tokenIn",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "tokenOut",
+            type: "address",
+          },
+          {
+            internalType: "uint24",
+            name: "fee",
+            type: "uint24",
           },
           {
             internalType: "address",
@@ -52,13 +63,18 @@ const exactInputAbi = [
             name: "amountOutMinimum",
             type: "uint256",
           },
+          {
+            internalType: "uint160",
+            name: "sqrtPriceLimitX96",
+            type: "uint160",
+          },
         ],
-        internalType: "struct ISwapRouter.ExactInputParams",
+        internalType: "struct ISwapRouter.ExactInputSingleParams",
         name: "params",
         type: "tuple",
       },
     ],
-    name: "exactInput",
+    name: "exactInputSingle",
     outputs: [
       {
         internalType: "uint256",
@@ -78,7 +94,7 @@ const selectedDexItem = config.dapps.find((dapp) => dapp.name === selectedDex);
 
 const signer = Ethers.provider().getSigner();
 
-const callSwap = () => {
+const callSwap = (fee) => {
   const swapContract = new ethers.Contract(
     selectedDexItem.swapRouter,
     exactInputAbi,
@@ -87,20 +103,30 @@ const callSwap = () => {
 
   const value = expandToken(amountIn, tokenIn.decimals).toFixed();
 
-  const path = [tokenIn.address, tokenOut.address];
-  const pathBytes = "0x" + path.map((address) => address.substr(2)).join("");
-
   const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
 
+  const inputs = [
+    tokenIn.address,
+    tokenOut.address,
+    fee,
+    sender,
+    deadline.toFixed(),
+    value,
+    "0",
+    0,
+  ];
+
   swapContract
-    .exactInput([pathBytes, sender, deadline, value, "0"], {
+    .exactInputSingle(inputs, {
       gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
       gasLimit: gasLimit ?? 300000,
     })
     .then((tx) => {
       tx.wait().then((receipt) => {
         const { status, transactionHash } = receipt;
+        console.log("transactionHash: ", transactionHash);
         // TODO: add action
+        onSwapCallBack();
       });
     })
     .catch(() => {});
