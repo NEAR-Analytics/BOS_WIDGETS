@@ -393,6 +393,7 @@ const loadSocialDBData = () => {
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () => myVotesForHouse().length > 0 || winnerIds.length > 0;
+const userSelection = Storage.privateGet("election_user_selection");
 
 State.init({
   reload: true,
@@ -403,7 +404,7 @@ State.init({
   bookmarked: [],
   tosAgreementInput: false,
   tosAgreement: false,
-  selectedCandidates: JSON.parse(Storage.privateGet("election_user_selection")),
+  selectedCandidates: JSON.parse(userSelection ?? "[]"),
   voters: [],
   candidates: result,
   filter: {
