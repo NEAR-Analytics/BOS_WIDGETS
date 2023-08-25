@@ -54,13 +54,19 @@ if (data.ok) {
 const votes = (state?.candidates[state.candidate] ?? []).map((record) =>
   Object.entries(record).map((item) => (
     <div class="row align-items-start">
-      <div class="col col-md-8 overflow-hidden ps-0 pb-1">
+      <div
+        class="col col-md-8 overflow-hidden ps-0 pb-1"
+        style={{ minWidth: "100px" }}
+      >
         <Widget
           src="mob.near/widget/Profile.ShortInlineBlock"
           props={{ accountId: item[0], tooltip: false }}
         />
       </div>
-      <div class="col col-md-4" style={{ whiteSpace: "nowrap" }}>
+      <div
+        class="col col-md-4"
+        style={{ whiteSpace: "nowrap", minWidth: "35px" }}
+      >
         <small>{item[1].substr(5, 11).replace("-", "/")}</small>
       </div>
     </div>
@@ -103,7 +109,7 @@ const link = `https://near.social/vadim.near/widget/nominations?accountId=${stat
 
 return (
   <>
-    <h1 class="text-center">All votes for NDC Nominations</h1>
+    <h1 class="text-center">All upvotes for NDC Nominations</h1>
     <div class="container">
       <div class="row">
         {houses.map((house) => (
@@ -114,14 +120,17 @@ return (
         ))}
 
         <div class="col col-3 align-self-start">
-          <strong>Votes for {state.candidate}</strong>
+          <strong>
+            Votes for {state.candidate}:{" "}
+            {state.candidates[state.candidate].length}
+          </strong>
           <div class="pb-2">
             <a
               href={`/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=${selectedHouse}&accountId=${state.candidate}`}
               class="btn btn-primary mt-2"
               target="_blank"
             >
-              Vote
+              Upvote!
             </a>
           </div>
           <div class="container">{votes}</div>
