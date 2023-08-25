@@ -4,7 +4,9 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
 
-let profile = Social.getr(`$research-collective.sputnik-dao.near/profile`);
+let daoId = "research-collective.sputnik-dao.near";
+
+let profile = Social.getr(`${daoId}/profile`);
 
 if (profile === null) {
   return "Loading";
@@ -26,7 +28,7 @@ return (
     <div className="row">
       <div className="col-lg-6">
         <div>
-          <h4>Edit profile of @{accountId}</h4>
+          <h4>Edit profile of @{daoId}</h4>
         </div>
         <div className="mb-2">
           <Widget
@@ -79,9 +81,7 @@ return (
           </CommitButton>
           <a
             className="btn btn-outline-primary ms-2"
-            href={`#/near/widget/ProfilePage?accountId=${
-              research - collective.sputnik - dao.near
-            }`}
+            href={`#/near/widget/ProfilePage?accountId=${daoId}`}
           >
             View profile
           </a>
@@ -91,7 +91,7 @@ return (
         <div>
           <Widget
             src="near/widget/ProfilePage"
-            props={{ accountId, profile: state.profile }}
+            props={{ daoId, profile: state.profile }}
           />
         </div>
       </div>
