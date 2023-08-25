@@ -410,7 +410,7 @@ State.init({
     my_votes: false,
   },
   filterOption: "",
-  blacklisted: true,
+  blacklisted: false,
   greylisted: false,
   showToSModal: false,
   bountyProgramModal: false,
