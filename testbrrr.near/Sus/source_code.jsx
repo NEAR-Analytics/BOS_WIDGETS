@@ -409,7 +409,8 @@ const processAsset = (index, balances) => {
 };
 
 const getEntireDebtAndColl = () => {
-  processAsset(0, []); // Start the chain with the first asset.
+  let balances = [...state.balances];
+  processAsset(0, balances); // Start the chain with the first asset.
 };
 
 if (state.sender === undefined) {
