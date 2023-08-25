@@ -112,10 +112,8 @@ if (sender) {
 const isMainnet = chainId === 1 || chainId === 10;
 const isTestnet = chainId === 5 || chainId === 420;
 const isCorrectNetwork = isMainnet || isTestnet;
-
-if (![1, 5].includes(chainId)) {
-  //  return <h6>Switch to Ethereum network to see the deposits list.</h6>;
-}
+const isEthNetwork = [1, 5].includes(chainId);
+const isOpNetwork = [10, 420].includes(chainId);
 
 const OP_BRIDGE_DEPOSIT_CONTRACT = isTestnet
   ? "0x636Af16bf2f682dD3109e60102b8E1A089FedAa8"
@@ -636,32 +634,44 @@ return (
         </Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content className="TabsContent" value="deposits">
-        <table>
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Amount</th>
-              <th>Token</th>
-              <th>Transaction</th>
-            </tr>
-          </thead>
-          <tbody>{deposits.map(renderDeposit)}</tbody>
-        </table>
+        {!isEthNetwork ? (
+          <h6>Switch to Ethereum network to see the deposits list.</h6>
+        ) : (
+          <>
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Amount</th>
+                  <th>Token</th>
+                  <th>Transaction</th>
+                </tr>
+              </thead>
+              <tbody>{deposits.map(renderDeposit)}</tbody>
+            </table>
+          </>
+        )}
       </Tabs.Content>
       <Tabs.Content className="TabsContent" value="withdrawals">
-        <table>
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Amount</th>
-              <th>Token</th>
-              <th>Transaction</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>{[...state.withdrawals].map(renderWithdrawal)}</tbody>
-        </table>
+        {!isOpNetwork ? (
+          <h6>Switch to Optimism network to see the withdrawal list.</h6>
+        ) : (
+          <>
+            <table>
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Amount</th>
+                  <th>Token</th>
+                  <th>Transaction</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>{[...state.withdrawals].map(renderWithdrawal)}</tbody>
+            </table>
+          </>
+        )}
       </Tabs.Content>
     </Tabs.Root>
   </Container>
