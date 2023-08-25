@@ -1,16 +1,3 @@
-const Container = styled.div`
-background-color: #141414;
-  width: 102%;
-    height: 100vh;
-    display:flex;
-      overflow: hidden; /* Add overflow hidden to hide overflowing content */
-
-`;
-
-const HeroSections = styled.div`
-margin-top: 100px;
-`;
-
 const HeroSection = styled.div`
 width: 100vw;
 display: flex;
@@ -95,27 +82,25 @@ const BannerImage = styled.img`
 `;
 
 return (
-  <HeroSections>
-    <HeroSection>
-      <LeftDiv>
-        <MainText>
-          Say doodbye to tab clutter qith <GrayText>our innovative</GrayText>{" "}
-          <PurpleText>chrome extension</PurpleText>
-        </MainText>
-        <a href="https://dex-sync.vercel.app/" target="_blank">
-          <Button>Go to app</Button>
-        </a>
-      </LeftDiv>
+  <HeroSection>
+    <LeftDiv>
+      <MainText>
+        Say doodbye to tab clutter qith <GrayText>our innovative</GrayText>{" "}
+        <PurpleText>chrome extension</PurpleText>
+      </MainText>
+      <a href="https://dex-sync.vercel.app/" target="_blank">
+        <Button>Go to app</Button>
+      </a>
+    </LeftDiv>
 
-      <RightDiv>
-        <Mesh>
-          <MeshImage src="https://i.ibb.co/8gF6vxB/Frame-3.png" />
-        </Mesh>
+    <RightDiv>
+      <Mesh>
+        <MeshImage src="https://i.ibb.co/8gF6vxB/Frame-3.png" />
+      </Mesh>
 
-        <Banner>
-          <BannerImage src="https://i.ibb.co/r2F3T6D/Group-10.png" />
-        </Banner>
-      </RightDiv>
-    </HeroSection>
-  </HeroSections>
+      <Banner>
+        <BannerImage src="https://i.ibb.co/r2F3T6D/Group-10.png" />
+      </Banner>
+    </RightDiv>
+  </HeroSection>
 );
