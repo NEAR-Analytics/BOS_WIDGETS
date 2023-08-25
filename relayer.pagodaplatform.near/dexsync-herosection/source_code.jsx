@@ -32,10 +32,10 @@ margin-top: 30px;
   text-decoration: none;
   cursor: pointer;
   font: bold;
-  padding: 12px 32px;
+  padding: 12px 42px;
   font-size: 16px;
-background: #FFFFFF;
-  color: black; /* Set text color to white */
+background: #898989;
+  color: white; /* Set text color to white */
   border: 1px solid #6F3CE4; /* Add border at the bottom */
   display: inline-block; /* Display as inline-block to fit content */
 `;
