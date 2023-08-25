@@ -18,6 +18,14 @@ const getRichText = () => {
           text.substring(val.end + positions, text.length);
 
         positions += TEXT_FORMATS[val.type].length * 2;
+      } else {
+        if (state[val.type]) {
+          text =
+            text.substring(0, val.start + positions) +
+            TEXT_FORMATS[val.type] +
+            text.substring(val.start + positions, text.length) +
+            TEXT_FORMATS[val.type];
+        }
       }
     });
 
@@ -112,6 +120,7 @@ const BodyArea = styled.textarea`
     font-size:1rem;
     color:transparent;
     caret-color:black;
+    resize:none;
 
     ::placeholder {
         color:rgba(0,0,0,.4)!important;
@@ -125,6 +134,7 @@ const Options = styled.ul`
     padding:0;
     margin:0;
     padding:1rem;
+    flex-grow:1;
 
     li {
         display:flex;
@@ -158,6 +168,43 @@ const TextVisualizer = styled.div`
     * {
         margin:0;
         padding:0;
+    }
+`;
+
+const Actions = styled.div`
+    padding: .7rem;
+    
+    .save, .back {
+        padding:.3rem 1rem;
+        border:0;
+        border-radius:5px;
+        font-size:.8rem;
+        transition: all .2s;
+
+        :hover {
+            transition: all .2s;
+            opacity:.9;
+        }
+    }
+
+    .save {
+        background-color: #2142e7;
+        color:#fff;
+
+        :hover {
+            background-color: #2142e7;
+        }
+    }
+
+    .back {
+        opacity:.6;
+        color:#000;
+        background-color:#fff;
+        box-shadow: inset 0 0 0 2px rgba(0,0,0,.1);
+
+        :hover {
+            opacity:.9;
+        }
     }
 `;
 
@@ -210,6 +257,10 @@ return (
         <li>I</li>
         <li>U</li>
       </Options>
+      <Actions>
+        <button className="back">Close</button>
+        <button className="save">Save</button>
+      </Actions>
     </Toolbar>
     <Document>
       <Wrapper>
