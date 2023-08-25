@@ -153,30 +153,15 @@ const Section = styled.div`
 `;
 
 const handleCreate = () => {
-  const groupData = state.group;
-  const membersData = state.members;
-
-  const proposal_args = JSON.stringify({
-    data: {
-      [daoId]: {
-        graph: {
-          [groupId]: "",
-        },
-      },
-    },
-  });
-
-  const ProposalArgs = Buffer.from(proposal_args, "utf-8").toString("base64");
-
   let Members_Payload = {
     contractName: "social.near",
     methodName: "set",
     args: {
       data: {
-        creatorId: {
+        [creatorId]: {
           graph: {
-            groupId: {
-              membersData,
+            [groupId]: {
+              ...state.members,
             },
           },
         },
@@ -191,11 +176,11 @@ const handleCreate = () => {
     methodName: "set",
     args: {
       data: {
-        creatorId: {
+        [creatorId]: {
           thing: {
             group: {
-              groupId: {
-                groupData,
+              [groupId]: {
+                ...state.group,
               },
             },
           },
@@ -205,6 +190,18 @@ const handleCreate = () => {
     gas: 300000000000000,
     deposit: 100000000000000000000000,
   };
+
+  const proposal_args = JSON.stringify({
+    data: {
+      [daoId]: {
+        graph: {
+          [groupId]: "",
+        },
+      },
+    },
+  });
+
+  const ProposalArgs = Buffer.from(proposal_args, "utf-8").toString("base64");
 
   let Proposal_Payload = {
     contractName: daoId,
