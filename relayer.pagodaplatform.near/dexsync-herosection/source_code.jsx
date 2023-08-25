@@ -3,7 +3,7 @@ const accountId = props.accountId || context.accountId;
 const HeroSection = styled.div`
 width: 100vw;
 display: flex;
-margin-top: 120px;
+margin-top: 100px;
 // position: relative;
 `;
 
