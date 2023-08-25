@@ -223,7 +223,8 @@ const WalleyNavbar = styled.div`
       width: 24px;
     }
     @media screen and (max-width: 600px) {
-        display: none;
+        flex-direction: row;
+        font-size: 12px;
     }
 `;
 
