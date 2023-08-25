@@ -61,8 +61,6 @@ const Mesh = styled.div`
 const MeshImage = styled.img`
   width: 100%;
   height: 100%;
-    border: 1px solid #6F3CE4; /* Add border at the bottom */
-
   object-fit: cover; /* Adjust to your desired object-fit behavior */
 `;
 
