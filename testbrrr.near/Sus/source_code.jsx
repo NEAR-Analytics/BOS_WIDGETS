@@ -388,21 +388,23 @@ const processAsset = (index) => {
   }
 
   let asset = assets[index];
-  vesselManagerContract
-    .getEntireDebtAndColl(asset, state.sender)
-    .then((results) => {
-      console.log(results);
-      balances.push({
-        asset: getAssetFromAddress(asset),
-        debt: results[0].div("1000000000000000000").toString(),
-        coll: ethers.utils.formatEther(results[1].toString()),
-        pendingDebtTokenReward: results[2].toString(),
-        pendingAssetReward: results[3].toString(),
+  if (asset) {
+    vesselManagerContract
+      .getEntireDebtAndColl(asset, state.sender)
+      .then((results) => {
+        console.log(results);
+        balances.push({
+          asset: getAssetFromAddress(asset),
+          debt: results[0].div("1000000000000000000").toString(),
+          coll: ethers.utils.formatEther(results[1].toString()),
+          pendingDebtTokenReward: results[2].toString(),
+          pendingAssetReward: results[3].toString(),
+        });
+        if (index < assets.length) {
+          processAsset(index + 1); // Process the next asset.
+        }
       });
-      if (index < assets.length) {
-        processAsset(index + 1); // Process the next asset.
-      }
-    });
+  }
 };
 
 const getEntireDebtAndColl = () => {
