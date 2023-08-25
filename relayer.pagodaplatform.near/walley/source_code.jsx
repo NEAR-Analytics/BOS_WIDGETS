@@ -949,81 +949,74 @@ return (
             <NavLineLast></NavLineLast>
           </WalleyNavbar>
           <WalleyHomeBody>
+            {state.newTxn ? (
+              <WalleyHomeOverlay
+                id="overlay"
+                onClick={(e) => {
+                  if ("overlay" === e.target.id) {
+                    State.update({ newTxn: false });
+                  }
+                }}
+              >
+                <WalleyHomeForm>
+                  <WalleyLabel>Select a Store</WalleyLabel>
+                  <Widget
+                    src="near/widget/Select"
+                    props={{
+                      value: state.homeInputs.storeName,
+                      noLabel: true,
+                      placeholder:
+                        state.store.stores.length !== 0
+                          ? "Select a store"
+                          : "No Store Available",
+                      options: [...widgetOptions()],
+                      onChange: (value) => {
+                        homeInputUpdates(value.text, "storeName");
+                      },
+                    }}
+                  />
+                  <WalleyLabel>
+                    Enter the maximum amount you'd like to spend(in INR)
+                  </WalleyLabel>
+                  <WalleyInput
+                    value={state.homeInputs.amount}
+                    type="number"
+                    onChange={(e) => homeInputUpdates(e.target.value, "amount")}
+                    placeholder="Amount(in INR)"
+                  />
+                  <WalleyLabel>Name(will be asked at the store)</WalleyLabel>
+                  <WalleyInput
+                    value={state.homeInputs.name}
+                    type="text"
+                    onChange={(e) => homeInputUpdates(e.target.value, "name")}
+                    placeholder="Name"
+                  />
+                  <WalleyLabel>
+                    Set a password for the transaction(will be asked during
+                    checkout)
+                  </WalleyLabel>
+                  <WalleyInput
+                    value={state.homeInputs.password}
+                    type="password"
+                    onChange={(e) =>
+                      homeInputUpdates(e.target.value, "password")
+                    }
+                    placeholder="Password"
+                  />
+                  <WalleyButton
+                    color="#000D1A"
+                    bg="#FFA500"
+                    onClick={initTransaction}
+                  >
+                    Buy The Store NFT
+                  </WalleyButton>
+                </WalleyHomeForm>
+              </WalleyHomeOverlay>
+            ) : (
+              ""
+            )}
             {state.view === "home" ? (
               <>
-                {state.newTxn ? (
-                  <WalleyHomeOverlay
-                    id="overlay"
-                    onClick={(e) => {
-                      console.log(e.target);
-                      if ("overlay" === e.target.id) {
-                        State.update({ newTxn: false });
-                      }
-                    }}
-                  >
-                    <WalleyHomeForm>
-                      <WalleyLabel>Select a Store</WalleyLabel>
-                      <Widget
-                        src="near/widget/Select"
-                        props={{
-                          value: state.homeInputs.storeName,
-                          noLabel: true,
-                          placeholder:
-                            state.store.stores.length !== 0
-                              ? "Select a store"
-                              : "No Store Available",
-                          options: [...widgetOptions()],
-                          onChange: (value) => {
-                            homeInputUpdates(value.text, "storeName");
-                          },
-                        }}
-                      />
-                      <WalleyLabel>
-                        Enter the maximum amount you'd like to spend(in INR)
-                      </WalleyLabel>
-                      <WalleyInput
-                        value={state.homeInputs.amount}
-                        type="number"
-                        onChange={(e) =>
-                          homeInputUpdates(e.target.value, "amount")
-                        }
-                        placeholder="Amount(in INR)"
-                      />
-                      <WalleyLabel>
-                        Name(will be asked at the store)
-                      </WalleyLabel>
-                      <WalleyInput
-                        value={state.homeInputs.name}
-                        type="text"
-                        onChange={(e) =>
-                          homeInputUpdates(e.target.value, "name")
-                        }
-                        placeholder="Name"
-                      />
-                      <WalleyLabel>
-                        Set a password for the transaction(will be asked during
-                        checkout)
-                      </WalleyLabel>
-                      <WalleyInput
-                        value={state.homeInputs.password}
-                        type="password"
-                        onChange={(e) =>
-                          homeInputUpdates(e.target.value, "password")
-                        }
-                        placeholder="Password"
-                      />
-                      <WalleyButton
-                        color="#000D1A"
-                        bg="#FFA500"
-                        onClick={initTransaction}
-                      >
-                        Buy The Store NFT
-                      </WalleyButton>
-                    </WalleyHomeForm>
-                  </WalleyHomeOverlay>
-                ) : (
-                  ""
-                )}
                 <WalleySearch>
                   <WalleyButton
                     bg="#424242"
@@ -1046,7 +1039,11 @@ return (
                 <WalleyTransactions>
                   {state.user.userPendingTransactions.length !== 0
                     ? state.user.userPendingTransactions
-                        .filter((tx) => tx[6].includes(state.search.store))
+                        .filter((tx) =>
+                          tx[6]
+                            .toLowerCase()
+                            .includes(state.search.store.toLowerCase())
+                        )
                         .map((tx) => (
                           <TransactionCard>
                             <WalleyStoreImage
@@ -1123,61 +1120,89 @@ return (
                 </WalleyTransactions>
               </>
             ) : state.view === "txPast" ? (
-              <WalleyTransactions>
-                {state.user.userPastTransactions.length !== 0
-                  ? state.user.userPastTransactions.map((tx) => (
-                      <TransactionCard>
-                        <WalleyStoreImage
-                          src={`https://ipfs.near.social/ipfs/${
-                            state.store.storeImages[tx[6]]
-                          }`}
-                          alt={tx[6]}
-                        />
-                        <p>Name - {tx[2]}</p>
-                        <p>Store name - {tx[6]} </p>
-                        <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
-                        <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
-                        {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
-                          <>
+              <>
+                <WalleySearch>
+                  <WalleyButton
+                    bg="#424242"
+                    color="white"
+                    onClick={() => State.update({ newTxn: true })}
+                  >
+                    Buy New NFT
+                  </WalleyButton>
+                  <WalleyInput
+                    value={state.search.store}
+                    onChange={(e) =>
+                      State.update({
+                        search: { ...state.search, store: e.target.value },
+                      })
+                    }
+                    placeholder="Search Transactions by Store Name"
+                  />
+                </WalleySearch>
+                <p className="txn">Your Receipts</p>
+                <WalleyTransactions>
+                  {state.user.userPastTransactions.length !== 0
+                    ? state.user.userPastTransactions
+                        .filter((tx) =>
+                          tx[6]
+                            .toLowerCase()
+                            .includes(state.search.store.toLowerCase())
+                        )
+                        .map((tx) => (
+                          <TransactionCard>
                             <WalleyStoreImage
-                              src={`https://ipfs.near.social/ipfs/${tx[7]}`}
-                              alt={tx[7]}
+                              src={`https://ipfs.near.social/ipfs/${
+                                state.store.storeImages[tx[6]]
+                              }`}
+                              alt={tx[6]}
                             />
-                            <WalleyButton
-                              color="#000D1A"
-                              bg="#FA9703"
-                              onClick={() =>
-                                State.update({
-                                  user: {
-                                    ...state.user,
-                                    openReceipt: 0,
-                                  },
-                                })
-                              }
-                            >
-                              Close Receipt
-                            </WalleyButton>
-                          </>
-                        ) : (
-                          <WalleyButton
-                            color="#000D1A"
-                            bg="#FA9703"
-                            onClick={() =>
-                              State.update({
-                                user: {
-                                  ...state.user,
-                                  openReceipt: Big(tx[1]).toFixed(0),
-                                },
-                              })
-                            }
-                          >
-                            Show Receipt
-                          </WalleyButton>
-                        )}
-                      </TransactionCard>
-                    ))
-                  : "No past transactions found"}
-              </WalleyTransactions>
+                            <p>Name - {tx[2]}</p>
+                            <p>Store name - {tx[6]} </p>
+                            <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
+                            <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
+                            {state.user.openReceipt ===
+                            Big(tx[1]).toFixed(0) ? (
+                              <>
+                                <WalleyStoreImage
+                                  src={`https://ipfs.near.social/ipfs/${tx[7]}`}
+                                  alt={tx[7]}
+                                />
+                                <WalleyButton
+                                  color="#000D1A"
+                                  bg="#FA9703"
+                                  onClick={() =>
+                                    State.update({
+                                      user: {
+                                        ...state.user,
+                                        openReceipt: 0,
+                                      },
+                                    })
+                                  }
+                                >
+                                  Close Receipt
+                                </WalleyButton>
+                              </>
+                            ) : (
+                              <WalleyButton
+                                color="#000D1A"
+                                bg="#FA9703"
+                                onClick={() =>
+                                  State.update({
+                                    user: {
+                                      ...state.user,
+                                      openReceipt: Big(tx[1]).toFixed(0),
+                                    },
+                                  })
+                                }
+                              >
+                                Show Receipt
+                              </WalleyButton>
+                            )}
+                          </TransactionCard>
+                        ))
+                    : "No past transactions found"}
+                </WalleyTransactions>
+              </>
             ) : (
               <WalleyStoreForm>
                 <WalleyLabel>Store Name</WalleyLabel>
