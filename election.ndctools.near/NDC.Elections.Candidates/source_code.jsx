@@ -810,33 +810,48 @@ return (
           ),
           description: (
             <>
-              <p className="text-secondary">
-                Don't sell your vote and risk being banned from governance.
-                Instead report bad actors and claim a bounty up to 2,500 NEAR.
-                Learn more about{" "}
-                <ALink
-                  title="Whistleblower Bounty Program"
-                  href="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
-                />
-              </p>
+              <div className="d-flex gap-2">
+                <h2>
+                  <b>1</b>
+                </h2>
+                <p className="text-secondary text-start">
+                  Don't sell your vote and risk being banned from governance.
+                  Instead report bad actors and claim a bounty up to 2,500 NEAR.
+                  Learn more about{" "}
+                  <ALink
+                    title="Whistleblower Bounty Program"
+                    href="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
+                  />
+                </p>
+              </div>
+              <div className="d-flex gap-2">
+                <h2>
+                  <b>2</b>
+                </h2>
+                <p className="text-secondary text-start">
+                  A bond of <b>{state.greylisted ? MAX_BOND : MIN_BOND} NEAR</b>{" "}
+                  is required to vote. If you are a fair voter, this bond will
+                  returned to you after the election results are reviewed and
+                  rectified.
+                </p>
+              </div>
+              <div className="d-flex gap-2">
+                <h2>
+                  <b>3</b>
+                </h2>
+                <p className="text-secondary text-start">
+                  You votes <b>cannot</b> be changed.
+                </p>
+              </div>
 
-              <p className="text-secondary">
-                A bond of <b>{state.greylisted ? MAX_BOND : MIN_BOND} NEAR</b>{" "}
-                is required to vote. If you are a fair voter, this bond will
-                returned to you after the election results are reviewed and
-                rectified.
-              </p>
-
-              <p className="text-secondary">
-                You votes <b>cannot</b> be changed.
-              </p>
-
-              <p className="text-secondary mt-2">
-                <b>Voters without reputation need to be verified</b> by the
-                Election Integrity Council or place a substantial bond to vote.
-                If you are a fair voter, this bond will be returned to you once
-                the election results are reviewed and ratified.
-              </p>
+              {state.greylisted && (
+                <p className="text-secondary mt-2">
+                  <b>Voters without reputation need to be verified</b> by the
+                  Election Integrity Council or place a substantial bond to
+                  vote. If you are a fair voter, this bond will be returned to
+                  you once the election results are reviewed and ratified.
+                </p>
+              )}
             </>
           ),
           Button: {
