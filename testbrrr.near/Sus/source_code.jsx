@@ -382,13 +382,12 @@ let assets = Object.values(availableAssets);
 let balances = [...state.balances];
 
 const processAsset = (index) => {
-  if (index === assets.length - 1 && !state.stopReload) {
-    console.log(balances);
-    State.update({ balances: balances, stopReload: true });
-    return;
-  }
-  console.log("WTF");
-  console.log(balances);
+  // if (index === assets.length - 1 && !state.stopReload) {
+  //   console.log(balances);
+  //   return;
+  // }
+  // console.log("WTF");
+  // console.log(balances);
   let asset = assets[index];
   if (asset) {
     vesselManagerContract
@@ -403,6 +402,8 @@ const processAsset = (index) => {
         });
         if (index < assets.length) {
           processAsset(index + 1); // Process the next asset.
+        } else {
+          State.update({ balances: balances, stopReload: true });
         }
       });
   }
