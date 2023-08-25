@@ -360,6 +360,8 @@ const loadInitData = () => {
     prop_id: id,
   });
 
+  console.log(electionStatus);
+
   switch (electionStatus) {
     case "ONGOING":
       const policy = Near.view(electionContract, "accepted_policy", {
