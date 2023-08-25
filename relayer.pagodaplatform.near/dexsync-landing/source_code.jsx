@@ -9,6 +9,8 @@ background-color: #141414;
 
 const HeroSections = styled.div`
 margin-top: 100px;
+height: 600px;
+overflow: hidden
 `;
 
 const BannerImage = styled.img`
