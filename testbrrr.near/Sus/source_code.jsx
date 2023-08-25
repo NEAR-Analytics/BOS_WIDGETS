@@ -108,7 +108,7 @@ const validateVessel = () => {
 
 const borrowerOperationAddress = "0xf58cc15b92ee257bc55958c846100dbb38775595";
 
-const vesselManagerAddress = "0x53325aF728a5F9bBDD00768628487c85686c0223";
+const vesselManagerAddress = "0x2979F8010b9fA8Da13Cc4Ff42bd0115dC855A779";
 
 const stabilityPoolAddress = "0x8f8941F1900E9C0cE06Dce3Af19aA8DF26a6964f";
 
