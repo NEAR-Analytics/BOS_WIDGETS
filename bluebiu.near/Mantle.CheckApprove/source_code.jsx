@@ -100,7 +100,7 @@ const TokenContract = new ethers.Contract(
 
 const handleApprove = (amountIn, tokenIn) => {
   TokenContract.approve(
-    selectedDexItem.factory,
+    selectedDexItem.swapRouter,
     ethers.utils.parseUnits(amountIn, tokenIn.decimals)
   )
     .then((tx) => {
@@ -114,19 +114,32 @@ const handleApprove = (amountIn, tokenIn) => {
         });
       });
     })
-    .catch(() => {});
+    .catch((e) => {
+      console.log(e, "error:");
+    });
 };
 
 const getAllowance = () => {
-  TokenContract.allowance(sender, selectedDexItem.factory).then(
+  TokenContract.allowance(sender, selectedDexItem.swapRouter).then(
     (allowanceRaw) => {
-      console.log("allowanceRaw: ", allowanceRaw);
+      const parsedAllowance = Big(Number(allowanceRaw._hex))
+        .div(Big(10).pow(tokenIn.decimals))
+        .toFixed();
+      console.log(
+        "allowanceRaw: ",
+        Number(allowanceRaw._hex),
+        parsedAllowance,
+        amountIn
+      );
+
+      const isApproved = Number(parsedAllowance) >= Number(amountIn);
+
       loadApprove({
-        isApproved: !Big(Number(allowanceRaw._hex)).eq(0),
+        isApproved: isApproved,
         handleApprove: handleApprove,
       });
       State.update({
-        isApproved: !Big(Number(allowanceRaw._hex)).eq(0),
+        isApproved: isApproved,
       });
     }
   );
