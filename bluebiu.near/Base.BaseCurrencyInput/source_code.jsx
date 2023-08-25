@@ -156,7 +156,11 @@ return (
     )}
     <InputField>
       <InputWarpper>
-        <Input value={props.amount} onChange={handlers.handleInputChange} />
+        <Input
+          value={props.amount}
+          disabled={props.disabled}
+          onChange={handlers.handleInputChange}
+        />
       </InputWarpper>
       <Value>≈ ${utils.valueFormated(props.amount)}</Value>
     </InputField>
