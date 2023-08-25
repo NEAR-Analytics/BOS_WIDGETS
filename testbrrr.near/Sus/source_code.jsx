@@ -379,13 +379,8 @@ const vesselManagerContract = new ethers.Contract(
 );
 
 let assets = Object.values(availableAssets);
-// let balances = [...state.balances];
 
 const processAsset = (index, balances) => {
-  // if (index > assets.length - 1 && !state.stopReload) {
-  //   State.update({ stopReload: true });
-  //   return;
-  // }
   let asset = assets[index];
   if (asset && !state.stopReload) {
     vesselManagerContract
@@ -398,21 +393,9 @@ const processAsset = (index, balances) => {
           pendingDebtTokenReward: results[2].toString(),
           pendingAssetReward: results[3].toString(),
         });
-        console.log("WTF");
-        console.log(balances);
-        console.log(index);
-        console.log(state.stopReload);
-        if (index !== assets.length && !state.stopReload) {
-          // State.update({ balances: balances });
-          console.log("Eventually moving forward");
-          processAsset(index + 1, balances); // Process the next asset.
-        } else {
-          console.log("Saving here");
-          State.update({ balances: balances, stopReload: true });
-        }
+        processAsset(index + 1, balances); // Process the next asset.
       });
   } else {
-    console.log("Saving here");
     State.update({ balances: balances, stopReload: true });
   }
 };
