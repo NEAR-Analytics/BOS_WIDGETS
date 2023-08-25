@@ -177,10 +177,10 @@ return (
   <Wrapper>
     <div className={basic ? "content-wrapper-basic" : "content-blur-wrapper"}>
       {isPurchased === null ? null : isPurchased ? (
-        <img className="content-image" src={content.originalImage} />
+        <img className="content-image" src={content.original} />
       ) : (
         <>
-          <img className="content-image" src={content.blurredImage} />
+          <img className="content-image" src={content.blurred} />
           {accountId ? (
             <div className="unlock-content-overlay">
               <div className="text">Unlock this Tweet</div>
