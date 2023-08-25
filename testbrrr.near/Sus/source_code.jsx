@@ -406,14 +406,15 @@ const getEntireDebtAndColl = () => {
 };
 
 const renderConfirmationUI = (props) => {
-  console.log(props);
   return (
     <div>
-      {Object.entries(props).map(([key, value]) => (
-        <div key={key}>
-          <strong>{key}:</strong> {value.toString()}
-        </div>
-      ))}
+      {Object.entries(props)
+        .filter(([key, value]) => typeof value !== "function")
+        .map(([key, value]) => (
+          <div key={key}>
+            <strong>{key}:</strong> {value.toString()}
+          </div>
+        ))}
     </div>
   );
 };
@@ -515,7 +516,7 @@ if (
   props.resendPrompt(props);
 }
 
-let confirmUI = renderConfirmationUI();
+let confirmUI = props ? renderConfirmationUI() : null;
 
 return (
   <div>
