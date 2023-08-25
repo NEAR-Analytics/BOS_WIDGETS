@@ -64,9 +64,9 @@ const MeshImage = styled.img`
 `;
 
 const Banner = styled.div`
-  width: 500px;
+  width: 600px;
   position: absolute;
-  margin-left: 50px;
+  margin-left: 20px;
   margin-top: 190px;
   top: 0;
 `;
