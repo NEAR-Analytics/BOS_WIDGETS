@@ -47,7 +47,7 @@ const getWinnerIds = () => {
 };
 
 State.update({ isIAmHuman: isHuman[0][1].length > 0 });
-
+console.log(state.isIAmHuman);
 const totalHumal = 3000;
 
 asyncFetch(
