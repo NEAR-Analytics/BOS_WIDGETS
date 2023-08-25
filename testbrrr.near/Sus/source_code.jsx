@@ -392,7 +392,6 @@ const processAsset = (index) => {
     vesselManagerContract
       .getEntireDebtAndColl(asset, state.sender)
       .then((results) => {
-        console.log(results);
         balances.push({
           asset: getAssetFromAddress(asset),
           debt: results[0].div("1000000000000000000").toString(),
@@ -526,6 +525,9 @@ if (
 } else {
   props.resendPrompt(props);
 }
+
+console.log("Balances");
+console.log(balances);
 
 return (
   <div>
