@@ -14,9 +14,6 @@ const {
   candidateId,
 } = props;
 
-console.log(id);
-console.log(props);
-
 const widgets = {
   voters: "election.ndctools.near/widget/NDC.Elections.Voters",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
@@ -358,8 +355,9 @@ const filterBy = (option) => {
 };
 
 const loadInitData = () => {
+  console.log(props.id);
   const electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: id,
+    prop_id: props.id,
   });
 
   switch (electionStatus) {
