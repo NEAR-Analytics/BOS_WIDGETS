@@ -125,6 +125,7 @@ const handleVote = (value) =>
 
 State.init({
   availableVotes: seats - myVotesForHouse().length,
+  content: "",
 });
 
 const CastVotes = () => (
@@ -180,15 +181,15 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
-const res = fetch(
+asyncFetch(
   "https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/"
-);
-if (res.body) console.log(JSON.parse(res.body));
+).then((data) => State.update({ content: data.body }));
 
 return (
   <Container>
     <h1>Budget Package</h1>
     <CandidatesContainer>
+      {state.content}
       <a href="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/">
         View Budget Package profileData
         <i className="ml-2 bi bi-box-arrow-up-right" />
