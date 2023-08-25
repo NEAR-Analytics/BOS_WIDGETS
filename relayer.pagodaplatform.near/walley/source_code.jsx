@@ -231,6 +231,11 @@ const WalleyNavbarButton = styled.button`
     color: #fff;
     padding:0px;
     font-weight: 500;
+    &>span {
+      @media screen and (max-width: 600px) {
+        display: none;
+      }
+    }
 `;
 
 const NavLine = styled.span`
@@ -450,6 +455,7 @@ const TransactionCard = styled.div`
   border: 1px solid #424242;
   border-radius: 20px;
   padding: 30px;
+
 `;
 
 const WalleyStoreBody = styled.div`
@@ -955,15 +961,15 @@ return (
             </svg>
             <NavLine></NavLine>
             <WalleyNavbarButton onClick={() => State.update({ view: "home" })}>
-              Home
+              <span>Home</span>
             </WalleyNavbarButton>
             <NavLine></NavLine>
             <WalleyNavbarButton onClick={onTxPastClick}>
-              Receipts
+              <span>Receipts</span>
             </WalleyNavbarButton>
             <NavLine></NavLine>
             <WalleyNavbarButton onClick={() => State.update({ view: "addSt" })}>
-              Add a store
+              <span>Add a store</span>
             </WalleyNavbarButton>
             <NavLineLast></NavLineLast>
           </WalleyNavbar>
@@ -1267,13 +1273,13 @@ return (
             </svg>
             <NavLine></NavLine>
             <WalleyNavbarButton onClick={() => State.update({ view: "home" })}>
-              Home
+              <span>Home</span>
             </WalleyNavbarButton>
             <NavLine></NavLine>
             <WalleyNavbarButton
               onClick={() => State.update({ view: "txPast" })}
             >
-              Receipts
+              <span>Receipts</span>
             </WalleyNavbarButton>
             <NavLineLast></NavLineLast>
           </WalleyNavbar>
