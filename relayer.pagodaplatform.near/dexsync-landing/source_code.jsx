@@ -9,7 +9,6 @@ background-color: #141414;
 
 const HeroSections = styled.div`
 margin-top: 100px;
-height: 300px;
 overflow: hidden
 `;
 
