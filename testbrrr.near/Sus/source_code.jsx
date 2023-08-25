@@ -382,8 +382,6 @@ let assets = Object.values(availableAssets);
 let balances = [...state.balances];
 
 const processAsset = (index) => {
-  console.log("other balances");
-  console.log(state.balances);
   if (index === assets.length - 1 && !state.stopReload) {
     State.update({ balances: balances, stopReload: true });
     return;
@@ -510,10 +508,10 @@ if (
 }
 
 console.log("Balances");
-console.log(state.balances);
+console.log(balances);
 return (
   <div>
-    {state.balances.map((balance) => {
+    {balances.map((balance) => {
       return (
         <div>
           <p>Debt: {balance.debt} SUS</p>
