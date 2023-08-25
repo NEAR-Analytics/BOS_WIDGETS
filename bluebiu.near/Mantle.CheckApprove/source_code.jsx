@@ -6,6 +6,7 @@ const {
   loadApprove,
   amountIn,
   isApprovedOut,
+  forceReload,
 } = props;
 const selectedDexItem = config.dapps.find((dapp) => dapp.name === selectedDex);
 const Erc20Abi = [
@@ -76,7 +77,7 @@ const Erc20Abi = [
   },
 ];
 
-const queryString = `${tokenIn.address}-${selectedDex}-${isApprovedOut}`;
+const queryString = `${tokenIn.address}-${selectedDex}-${isApprovedOut}-${forceReload}-${amountIn}`;
 
 State.init({
   isApproved: true,
@@ -93,7 +94,9 @@ if (queryString !== state.cacheString) {
 if (!sender) return <div></div>;
 
 const TokenContract = new ethers.Contract(
-  tokenIn.address,
+  tokenIn.symbol === config.NATIVE_TOKEN_SYMBOL
+    ? config.WRAP_NATIVE_TOKEN_ADDRESS
+    : tokenIn.address,
   Erc20Abi,
   Ethers.provider().getSigner()
 );
@@ -145,10 +148,6 @@ const getAllowance = () => {
   );
 };
 
-if (tokenIn.symbol !== config.NATIVE_TOKEN_SYMBOL) {
-  console.log("check allowance 11");
-
-  getAllowance();
-}
+getAllowance();
 
 return <div></div>;
