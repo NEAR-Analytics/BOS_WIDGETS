@@ -529,20 +529,22 @@ if (
 console.log("Balances");
 console.log(balances);
 
+let balancesList = balances.map((balance) => {
+  return (
+    <div>
+      <p>Debt: {balance.debt} SUS</p>
+      <p>
+        Collateral: {balance.coll} {balance.asset}
+      </p>
+      <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
+      <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
+    </div>
+  );
+});
+
 return (
   <div>
-    {balances.map((balance) => {
-      return (
-        <div>
-          <p>Debt: {balance.debt} SUS</p>
-          <p>
-            Collateral: {balance.coll} {balance.asset}
-          </p>
-          <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
-          <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
-        </div>
-      );
-    })}
+    {balancesList}
 
     {state.tx ? (
       <div>
