@@ -800,20 +800,19 @@ return (
               <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
               <div className="mt-4">
                 {state.greylisted ? (
-                  <>Additional Verification Required</>
+                  <>Additional Verification Required.</>
                 ) : (
-                  <>You are about to cast your votes</>
+                  <>You are about to cast your votes.</>
                 )}
-                .
               </div>
             </div>
           ),
           description: (
             <>
               <div className="d-flex gap-2">
-                <h2>
+                <h3>
                   <b>1</b>
-                </h2>
+                </h3>
                 <p className="text-secondary text-start">
                   Don't sell your vote and risk being banned from governance.
                   Instead report bad actors and claim a bounty up to 2,500 NEAR.
@@ -825,9 +824,9 @@ return (
                 </p>
               </div>
               <div className="d-flex gap-2">
-                <h2>
+                <h3>
                   <b>2</b>
-                </h2>
+                </h3>
                 <p className="text-secondary text-start">
                   A bond of <b>{state.greylisted ? MAX_BOND : MIN_BOND} NEAR</b>{" "}
                   is required to vote. If you are a fair voter, this bond will
@@ -836,9 +835,9 @@ return (
                 </p>
               </div>
               <div className="d-flex gap-2">
-                <h2>
+                <h3>
                   <b>3</b>
-                </h2>
+                </h3>
                 <p className="text-secondary text-start">
                   You votes <b>cannot</b> be changed.
                 </p>
