@@ -527,7 +527,7 @@ if (
 }
 
 console.log("Balances");
-console.log(balances);
+console.log(balances[0].asset);
 
 let balancesList = balances.map((balance) => {
   console.log(balances);
