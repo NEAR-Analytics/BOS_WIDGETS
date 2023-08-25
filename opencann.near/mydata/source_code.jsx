@@ -57,6 +57,18 @@ const Wrapper = styled.div`
   gap: 48px;
 `;
 
+const Form = styled.div`
+  display: block;
+  text-decoration: none;
+  padding-top: 100%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 12px 16px rgba(16, 24, 40, 0.08),
+    0px 4px 6px rgba(16, 24, 40, 0.03);
+  }
+`;
+
 const Items = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -132,7 +144,7 @@ if (hasFinishedLoading && allNfts.length === 0) {
 return (
   <Wrapper>
     <div>
-      <Widget src="mintbase.near/widget/ListToMarket" props={{ ownerId }} />
+      <Widget src="trechriron.near/widget/OptInUserPage" props={{ ownerId }} />
     </div>
     <Items>
       {allNfts.map((nft, i) => (
@@ -161,5 +173,8 @@ return (
         Load More
       </Button>
     )}
+    <div>
+      <Widget src="mintbase.near/widget/ListToMarket" props={{ ownerId }} />
+    </div>
   </Wrapper>
 );
