@@ -104,6 +104,17 @@ const H5 = styled.h5`
   margin-bottom: 20px;
 `;
 
+const rand = (array) => {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+
+  return array;
+};
+
 return (
   <>
     <div>
@@ -174,6 +185,7 @@ return (
                     candidateId: state.candidateId,
                     winnerIds: getWinnerIds(),
                     ...house,
+                    result: rand(house.result),
                   }}
                 />
               )}
