@@ -1,3 +1,7 @@
+const data = props;
+
+console.log(data);
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
 State.init({
