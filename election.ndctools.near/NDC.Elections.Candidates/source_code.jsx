@@ -266,6 +266,8 @@ const handleSelectCandidate = (candidateId) => {
   const currentVotes = seats - myVotesForHouse().length - selectedItems.length;
   if (currentVotes < 0) return;
 
+  Storage.privateSet("election_user_selection", JSON.stringify(selectedItems));
+
   State.update({
     selectedCandidates: selectedItems,
     availableVotes: currentVotes,
@@ -401,7 +403,7 @@ State.init({
   bookmarked: [],
   tosAgreementInput: false,
   tosAgreement: false,
-  selectedCandidates: [],
+  selectedCandidates: JSON.parse(Storage.privatGet("election_user_selection")),
   voters: [],
   candidates: result,
   filter: {
