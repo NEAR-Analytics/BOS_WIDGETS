@@ -89,7 +89,11 @@ return (
   <HeroSection>
     <LeftDiv>
       <Hello>
-        Hey <PurpleText>@{accountId}</PurpleText>
+        Hey{" "}
+        <PurpleText>
+          {accountId}
+          {accountId ? `@ ${accountId}` : "Folks"}
+        </PurpleText>
       </Hello>
       <MainText>
         Discover the Ultimate <GrayText>Meta DEX Aggregator:</GrayText>{" "}
