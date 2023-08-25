@@ -4,9 +4,7 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
 
-let profile = Social.getr(
-  `${research - collective.sputnik - dao.near}/profile`
-);
+let profile = Social.getr(`$research-collective.sputnik-dao.near/profile`);
 
 if (profile === null) {
   return "Loading";
@@ -81,7 +79,9 @@ return (
           </CommitButton>
           <a
             className="btn btn-outline-primary ms-2"
-            href={`#/near/widget/ProfilePage?accountId=${accountId}`}
+            href={`#/near/widget/ProfilePage?accountId=${
+              research - collective.sputnik - dao.near
+            }`}
           >
             View profile
           </a>
