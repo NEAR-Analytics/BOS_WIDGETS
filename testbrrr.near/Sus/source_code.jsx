@@ -405,6 +405,18 @@ const getEntireDebtAndColl = () => {
   processAsset(0, balances); // Start the chain with the first asset.
 };
 
+const renderConfirmationUI = (props) => {
+  return (
+    <div>
+      {Object.entries(props).map(([key, value]) => (
+        <div key={key}>
+          <strong>{key}:</strong> {value.toString()}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
@@ -502,6 +514,8 @@ if (
   props.resendPrompt(props);
 }
 
+let confirmUI = renderConfirmationUI();
+
 return (
   <div>
     {state.balances.map((balance) => {
@@ -532,5 +546,7 @@ return (
     ) : (
       <div></div>
     )}
+
+    {confirmUI}
   </div>
 );
