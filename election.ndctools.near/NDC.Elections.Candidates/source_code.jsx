@@ -855,14 +855,16 @@ return (
             title: "Cast Your Votes",
             disabled:
               state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
-            onCancel: () => State.update({ bountyProgramModal: false }),
+            onCancel: () =>
+              State.update({ bountyProgramModal: false, reload: false }),
             onSubmit: handleVote,
           },
           SecondaryButton: {
             type: state.greylisted ? "Link" : "Button",
             title: state.greylisted ? "Apply to Verify" : "Cancel",
             href: GREYLIST_VERIFY_LINK,
-            onClick: () => State.update({ bountyProgramModal: false }),
+            onClick: () =>
+              State.update({ bountyProgramModal: false, reload: false }),
           },
         }}
       />
