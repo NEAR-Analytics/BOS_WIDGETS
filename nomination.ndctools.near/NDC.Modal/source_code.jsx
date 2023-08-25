@@ -1,4 +1,4 @@
-const { title, description, content, Button, SecondaryButton, footer } = props;
+const { title, description, content, Button, SecondaryButton } = props;
 
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
@@ -15,14 +15,13 @@ const Modal = styled.div`
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(3px);
 `;
 
 const ComponentWrapper = styled.div`
   position: absolute;
   width: 100%;
   z-index: 100;
-  top: 55%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
@@ -71,22 +70,10 @@ return (
             <Widget
               src={widgets.styledComponents}
               props={{
-                [SecondaryButton.type ?? "Button"]: {
-                  className: "secondary dark",
+                Button: {
                   disabled: SecondaryButton.disabled,
                   text: SecondaryButton.title,
-                  onClick:
-                    SecondaryButton.type === "Link"
-                      ? null
-                      : SecondaryButton.onSubmit,
-                  href:
-                    SecondaryButton.type === "Link"
-                      ? SecondaryButton.href
-                      : null,
-                  doNotOpenNew:
-                    SecondaryButton.type === "Link"
-                      ? SecondaryButton.doNotOpenNew
-                      : null,
+                  onClick: SecondaryButton.onSubmit,
                 },
               }}
             />
@@ -105,18 +92,14 @@ return (
           <Widget
             src={widgets.styledComponents}
             props={{
-              [Button.type ?? "Button"]: {
-                text: Button.title,
+              Button: {
                 disabled: Button.disabled,
-                onClick: Button.type === "Link" ? null : Button.onSubmit,
-                href: Button.type === "Link" ? Button.href : null,
-                doNotOpenNew:
-                  Button.type === "Link" ? Button.doNotOpenNew : null,
+                text: Button.title,
+                onClick: Button.onSubmit,
               },
             }}
           />
         </div>
-        {footer}
       </ModalContent>
     </ComponentWrapper>
   </Modal>
