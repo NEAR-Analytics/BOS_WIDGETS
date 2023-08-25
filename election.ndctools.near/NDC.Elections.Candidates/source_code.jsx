@@ -206,11 +206,20 @@ const ActionSection = styled.div`
 `;
 
 const currentUser = context.accountId;
+
 const housesMapping = {
   CouncilOfAdvisors: "Council Of Advisors",
   HouseOfMerit: "House of Merit",
   TransparencyCommission: "Transparency Commission",
 };
+
+const electionStatus = Near.view(electionContract, "proposal_status", {
+  prop_id: id,
+});
+
+const policy = Near.view(electionContract, "accepted_policy", {
+  user: context.accountId,
+});
 
 const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
@@ -355,16 +364,8 @@ const filterBy = (option) => {
 };
 
 const loadInitData = () => {
-  const electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: props.id,
-  });
-  console.log(electionStatus);
-
-  switch (electionStatus) {
+  switch (state.electionStatus) {
     case "ONGOING":
-      const policy = Near.view(electionContract, "accepted_policy", {
-        user: context.accountId,
-      });
       State.update({
         candidates: filteredCandidates(),
         tosAgreement: !!policy,
@@ -401,6 +402,7 @@ const isVisible = () => myVotesForHouse().length > 0 || winnerIds.length > 0;
 State.init({
   start: true,
   loading: false,
+  electionStatus,
   availableVotes: seats - myVotesForHouse().length,
   selected: null,
   bookmarked: [],
