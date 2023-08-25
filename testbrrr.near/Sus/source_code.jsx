@@ -386,9 +386,6 @@ const processAsset = (index, balances) => {
     State.update({ stopReload: true });
     return;
   }
-  console.log("WTF");
-  console.log(balances);
-  State.update({ balances: balances });
   let asset = assets[index];
   if (asset) {
     vesselManagerContract
@@ -401,6 +398,7 @@ const processAsset = (index, balances) => {
           pendingDebtTokenReward: results[2].toString(),
           pendingAssetReward: results[3].toString(),
         });
+
         if (index !== assets.length && !state.stopReload) {
           // State.update({ balances: balances });
           processAsset(index + 1, balances); // Process the next asset.
