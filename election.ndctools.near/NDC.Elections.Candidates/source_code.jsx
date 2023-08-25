@@ -219,6 +219,7 @@ const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 
 const filteredCandidates = () => {
   let candidates = result;
+  console.log(candidates);
 
   if (state.filterOption === "bookmark")
     candidates = state.filter.bookmark
