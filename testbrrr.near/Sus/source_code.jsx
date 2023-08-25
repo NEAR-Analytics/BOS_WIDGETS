@@ -411,6 +411,9 @@ const processAsset = (index, balances) => {
           State.update({ balances: balances, stopReload: true });
         }
       });
+  } else {
+    console.log("Saving here");
+    State.update({ balances: balances, stopReload: true });
   }
 };
 
