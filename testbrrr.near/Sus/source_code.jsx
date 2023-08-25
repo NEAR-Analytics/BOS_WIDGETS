@@ -378,10 +378,9 @@ const vesselManagerContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-let assets = Object.values(availableAssets);
-let balances = [...state.balances];
-
 const processAsset = (index) => {
+  let assets = Object.values(availableAssets);
+  let balances = [...state.balances];
   if (index === assets.length - 1 && !state.stopReload) {
     State.update({ balances: balances, stopReload: true });
     return;
@@ -525,23 +524,6 @@ if (
 } else {
   props.resendPrompt(props);
 }
-
-console.log("Balances");
-console.log(balances[0].asset);
-
-let balancesList = balances.map((balance) => {
-  console.log(balances);
-  return (
-    <div>
-      <p>Debt: {balance.debt} SUS</p>
-      <p>
-        Collateral: {balance.coll} {balance.asset}
-      </p>
-      <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
-      <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
-    </div>
-  );
-});
 
 return (
   <div>
