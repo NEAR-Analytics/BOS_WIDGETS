@@ -61,7 +61,7 @@ const handleProfileUpdateProposal = () => {
           },
         },
       },
-      deposit: "10000000000000000000000", // 0.1 NEAR
+      deposit: "19000000000000000000000", // 0.1 NEAR
       gas: "219000000000000", // Gas limit allocated for the smart contract execution
     },
   ]);
