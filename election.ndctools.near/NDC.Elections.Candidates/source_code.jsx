@@ -798,46 +798,49 @@ return (
           title: (
             <div>
               <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
-              <div className="mt-4">You are about to cast your votes.</div>
+              <div className="mt-4">
+                {state.greylisted ? (
+                  <>Additional Verification Required</>
+                ) : (
+                  <>You are about to cast your votes</>
+                )}
+                .
+              </div>
             </div>
           ),
           description: (
             <>
-              <p>
-                Do you know about the{" "}
+              <p className="text-secondary">
+                Don't sell your vote and risk being banned from governance.
+                Instead report bad actors and claim a bounty up to 2,500 NEAR.
+                Learn more about{" "}
                 <ALink
                   title="Whistleblower Bounty Program"
                   href="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
                 />
-                ? The Whistleblower Bounty Program offers up to 2,000 NEAR for
-                whistleblowers who come forward to share instances of vote
-                buying, account buying, election fraud, and other violations of
-                the <ALink title="Fair Voting Policy" href={FAIR_POLICY_DOC} />.
               </p>
-              <p>
-                You will be bonding{" "}
-                <b>{state.greylisted ? MAX_BOND : MIN_BOND} NEAR</b> during the
-                election period. This bond will be returned to you after the
-                election results are reviewed and validated.
+
+              <p className="text-secondary">
+                A bond of <b>{state.greylisted ? MAX_BOND : MIN_BOND} NEAR</b>{" "}
+                is required to vote. If you are a fair voter, this bond will
+                returned to you after the election results are reviewed and
+                rectified.
               </p>
-              <p>
-                Make sure you vote for all the seats in this house. You can only
-                vote once and past votes cannot be changed.
+
+              <p className="text-secondary">
+                You votes <b>cannot</b> be changed.
+              </p>
+
+              <p className="text-secondary mt-2">
+                <b>Voters without reputation need to be verified</b> by the
+                Election Integrity Council or place a substantial bond to vote.
+                If you are a fair voter, this bond will be returned to you once
+                the election results are reviewed and ratified.
               </p>
             </>
           ),
-          content: (
-            <Section className="d-flex d-flex justify-content-center w-100 my-4">
-              I understand the{" "}
-              <ALink
-                title="Whistleblower Bounty Program"
-                href="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
-              />
-              .
-            </Section>
-          ),
           Button: {
-            title: "Cast Votes",
+            title: "Cast Your Votes",
             disabled:
               state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
             onCancel: () => State.update({ bountyProgramModal: false }),
