@@ -181,7 +181,7 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
-const Content = () => <>Budget package ...</>;
+const Content = () => <p>Budget package ...</p>;
 
 return (
   <Container>
@@ -189,7 +189,7 @@ return (
     <CandidatesContainer>
       <Content />
       <a href="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/">
-        View Budget Package profileData
+        View Budget Package
         <i className="ml-2 bi bi-box-arrow-up-right" />
       </a>
     </CandidatesContainer>
