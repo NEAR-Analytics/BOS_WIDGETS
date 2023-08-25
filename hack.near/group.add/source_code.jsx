@@ -99,7 +99,7 @@ const handleCreate = () => {
                 method_name: "set",
                 args: ProposalArgs,
                 deposit: "100000000000000000000000",
-                gas: "285000000000000",
+                gas: "300000000000000",
               },
             ],
           },
@@ -107,7 +107,7 @@ const handleCreate = () => {
       },
     },
     deposit: deposit,
-    gas: "219000000000000",
+    gas: "235000000000000",
   };
   Near.call([Proposal_Payload]);
 };
