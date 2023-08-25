@@ -402,7 +402,7 @@ const WalleyLabel = styled.p`
 const WalleyStoreButton = styled.button`
   border: none;
   background: none;
-  color: black;
+  color: #5290f2;
   display: block;
 `;
 
@@ -966,7 +966,7 @@ return (
                     placeholder="Password"
                   />
                   <WalleyButton
-                    color="#000D1A"
+                    color="#fff"
                     bg="#FFA500"
                     onClick={initTransaction}
                   >
@@ -1012,7 +1012,7 @@ return (
                   </WalleyStoreButton>
                   <WalleyLabel>Add Cover Image</WalleyLabel>
                   <IpfsImageUpload image={state.storeInputs.image} />
-                  <WalleyButton color="#000D1A" bg="#FA9703" onClick={addStore}>
+                  <WalleyButton color="#fff" bg="#FA9703" onClick={addStore}>
                     Add Store
                   </WalleyButton>
                 </WalleyStoreForm>
@@ -1173,7 +1173,7 @@ return (
                                   alt={tx[7]}
                                 />
                                 <WalleyButton
-                                  color="#000D1A"
+                                  color="#fff"
                                   bg="#FA9703"
                                   onClick={() =>
                                     State.update({
@@ -1189,7 +1189,7 @@ return (
                               </>
                             ) : (
                               <WalleyButton
-                                color="#000D1A"
+                                color="#fff"
                                 bg="#FA9703"
                                 onClick={() =>
                                   State.update({
@@ -1367,7 +1367,7 @@ return (
                             alt={tx[7]}
                           />
                           <WalleyButton
-                            color="#000D1A"
+                            color="#fff"
                             bg="#FA9703"
                             onClick={() =>
                               State.update({
@@ -1383,7 +1383,7 @@ return (
                         </>
                       ) : (
                         <WalleyButton
-                          color="#000D1A"
+                          color="#fff"
                           bg="#FA9703"
                           onClick={() =>
                             State.update({
