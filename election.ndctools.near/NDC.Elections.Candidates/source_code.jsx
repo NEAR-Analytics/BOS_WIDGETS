@@ -56,7 +56,7 @@ const StyledLink = styled.a`
   }
 `;
 
-const CandidateItem = styled.div`
+const CandidateItemRow = styled.div`
   padding: 0 20px;
   height: 48px;
   border-radius: 12px;
@@ -87,7 +87,7 @@ const Bookmark = styled.div`
 
   #bookmark.bi-bookmark-fill {
     color: ${(props) =>
-      props.winnerId || props.selected ? "#fff" : "#4F46E5"};
+      props.winnerId || props.selected ? "#fff" : "#4498E0"};
   }
 
   @media (max-width: 400px) {
@@ -290,7 +290,12 @@ const handleBookmarkCandidate = (candidateId) => {
       onCommit: () => {
         if (selectedItems.length === 0)
           State.update({ selectedCandidates: result });
-        State.update({ bookmarked: selectedItems, loading: false });
+
+        State.update({
+          bookmarked: selectedItems,
+          loading: false,
+          start: true,
+        });
       },
       onCancel: () => State.update({ loading: false }),
     }
@@ -418,8 +423,12 @@ State.init({
   blacklistedModal: true,
 });
 
-loadInitData();
-loadSocialDBData();
+if (state.start) {
+  loadInitData();
+  loadSocialDBData();
+
+  State.update({ start: false });
+}
 
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
@@ -440,9 +449,9 @@ const Loader = () => (
   />
 );
 
-const CandidateList = ({ candidateId, votes }) => (
+const CandidateItem = ({ candidateId, votes }) => (
   <div>
-    <CandidateItem
+    <CandidateItemRow
       className="d-flex align-items-center justify-content-between"
       selected={state.selected === candidateId}
       winnerId={winnerIds.includes(candidateId)}
@@ -519,7 +528,7 @@ const CandidateList = ({ candidateId, votes }) => (
             },
           }}
         />
-        {isVisible() && <Votes>{votes}</Votes>}
+        {isVisibleisVisible() && <Votes>{votes}</Votes>}
         {isIAmHuman && (
           <Votes>
             <input
@@ -536,7 +545,7 @@ const CandidateList = ({ candidateId, votes }) => (
           </Votes>
         )}
       </div>
-    </CandidateItem>
+    </CandidateItemRow>
     {state.selected === candidateId && isVisible() && (
       <Widget src={widgets.voters} props={{ candidateId, isIAmHuman }} />
     )}
@@ -860,7 +869,7 @@ return (
           <Filters />
           <CandidatesContainer>
             {state.candidates.map(([candidateId, votes], index) => (
-              <CandidateList
+              <CandidateItem
                 candidateId={candidateId}
                 votes={votes}
                 key={index}
