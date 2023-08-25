@@ -8,6 +8,10 @@ const {
   displayedTabId,
   writersWhiteList,
   handleFilterArticles,
+  filterParameter,
+  handleBackButton,
+  handleGoHomeButton,
+  tabs,
 } = props;
 
 function stateUpdate(obj) {
@@ -141,6 +145,14 @@ const StylessATag = styled.a`
         text-decoration: none;
     }
 `;
+
+const BackButton = styled.div`
+  cursor: pointer;
+`;
+
+const CallLibrary = styled.div`
+  display: none;
+`;
 //============================================End styled components==============================================
 
 //=================================================Components====================================================
@@ -270,8 +282,41 @@ return (
           );
         })}
     </div>
-    <div style={{ display: "none" }}>
+
+    {(((filterParameter == "tag" || filterParameter == "author") &&
+      displayedTabId == tabs.SHOW_ARTICLES_LIST.id) ||
+      displayedTabId == tabs.SHOW_ARTICLE.id ||
+      displayedTabId == tabs.ARTICLE_WORKSHOP.id ||
+      displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id) && (
+      <BackButton
+        style={{ cursor: "pointer" }}
+        onClick={
+          displayedTabId == tabs.SHOW_ARTICLE.id ||
+          (editArticleData && tabs.ARTICLE_WORKSHOP.id)
+            ? () => {
+                State.update({
+                  selectedPillIndex: 0,
+                  selectedButtonIndex: undefined,
+                });
+                handleBackButton();
+              }
+            : () => {
+                State.update({
+                  selectedPillIndex: 0,
+                  selectedButtonIndex: undefined,
+                });
+                handleGoHomeButton();
+              }
+        }
+        className="my-3"
+      >
+        <i className="bi bi-chevron-left mr-2"></i>
+        Back
+      </BackButton>
+    )}
+
+    <CallLibrary>
       {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </div>
+    </CallLibrary>
   </div>
 );
