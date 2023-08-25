@@ -159,16 +159,6 @@ const CastVotes = () => (
         src={widgets.styledComponents}
         props={{
           Button: {
-            text: "Abstain",
-            className: "secondary dark justify-content-center",
-            onClick: () => handleVote(2),
-          },
-        }}
-      />
-      <Widget
-        src={widgets.styledComponents}
-        props={{
-          Button: {
             text: "No",
             className: "primary danger justify-content-center",
             icon: <i className="bi bi-hand-thumbs-down" />,
@@ -176,52 +166,22 @@ const CastVotes = () => (
           },
         }}
       />
+      <Widget
+        src={widgets.styledComponents}
+        props={{
+          Button: {
+            text: "Abstain",
+            className: "justify-content-center",
+            icon: <i className="bi bi-x-lg" />,
+            onClick: () => handleVote(2),
+          },
+        }}
+      />
     </ActionSection>
   </CastVotesSection>
 );
 
-const Content = () => (
-  <>
-    <h5>NEAR Digital Collective Fair Voting Policy</h5>
-    <p>
-      <b>I. Preamble The NEAR Digital</b>
-    </p>
-    <p>
-      Collective (“NDC”) is dedicated to creating a fair, transparent, and
-      decentralized voting mechanism for its community. We believe in the power
-      of our community, and we aim to transition governance in a way that values
-      every voice and contribution. As part of our commitment, we have created
-      this Fair Voting Policy (“Policy”), which outlines our principles and
-      procedures. By casting your vote, you agree to adhere to and respect the
-      terms and policies outlined in this document.{" "}
-    </p>
-    <p>
-      The purpose of this Policy is to ensure that all voting processes within
-      the NDC are carried out in a manner that respects democratic principles,
-      promotes equal participation, and maintains transparency and
-      accountability, in alignment with our goal to transition towards
-      decentralized, community-driven governance.{" "}
-    </p>
-    <p>
-      This Policy applies to all eligible voters in the NDC and encompasses all
-      voting processes, including but not limited to elections, nominations,
-      general votes, veto votes and motions
-    </p>
-    <p>
-      <b>II. The Election Integrity Council</b>
-    </p>
-    <p>
-      The Election Integrity Council is an independent body of individuals with
-      a clear mandate to oversee the first ever NDC election. It is composed of
-      sharp minded individuals who do not run for a position in the election and
-      have shown great value to NEAR and its Ecosystem. Members will be
-      appointed through both the OG SBT holder group and the NDC Legal Working
-      Group. The Election Integrity Council will be responsible for the
-      enforcement of this Policy, prevent and investigate electoral fraud and
-      take action when breaches of this Policy have been detected.
-    </p>
-  </>
-);
+const Content = () => <>Budget package ...</>;
 
 return (
   <Container>
