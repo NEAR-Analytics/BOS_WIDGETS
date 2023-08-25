@@ -1,6 +1,4 @@
-const { electionContract, quorum } = props;
-
-const BLACKLISTED_COUNT = 911;
+const { electionContract } = props;
 
 const Chart = styled.div`
   width: 150px;
@@ -50,28 +48,20 @@ const H5 = styled.h5`
   }
 `;
 
-const registryContract = "registry.i-am-human.near";
-const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
-
 State.init({
   total: 0,
   voted: 0,
 });
 
-asyncFetch(`https://api.pikespeak.ai/election/iah-by-flag`, {
-  headers: { "x-api-key": apiKey },
-}).then((resp) => {
-  if (resp.body)
-    State.update({
-      total: parseInt(resp.body.total_iah) - parseInt(resp.body.black_list),
-    });
+const total = Near.view("registry.i-am-human.near", "sbt_supply", {
+  issuer: "fractal.i-am-human.near",
 });
 
 asyncFetch(
   `https://api.pikespeak.ai/election/total-voters?contract=${electionContract}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
-  if (resp.body) State.update({ voted: resp.body });
+  if (resp.body) State.update({ voted: resp.body, total });
 });
 
 const percent = state.total > 0 ? (state.voted / state.total) * 100 : 0;
@@ -81,13 +71,8 @@ return (
     <Chart voted={percent}>
       <span>{percent.toFixed(1)}%</span>
     </Chart>
-    <div className="text-center">
-      <H5>
-        <b>{state.voted}</b>/<small>{state.total} Humans Voted</small>
-      </H5>
-      <H5>
-        <small>Quorum: {quorum}</small>
-      </H5>
-    </div>
+    <H5>
+      <b>{state.voted}</b>/<small>{state.total} Humans Voted</small>
+    </H5>
   </div>
 );
