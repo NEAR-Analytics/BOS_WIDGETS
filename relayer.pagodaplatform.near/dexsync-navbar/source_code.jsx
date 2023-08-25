@@ -10,12 +10,11 @@ const NavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #2E2E2E; /* Add border at the bottom */
 `;
 
 const Logo = styled.img`
-  height: 50px;
-  width: 100px;
+  height: 55px;
+  width: 130px;
   object-fit: contain;
 `;
 
@@ -30,7 +29,7 @@ const NavLink = styled.div`
     color: #757479;
   text-decoration: none;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 16px;
   transition: text-decoration 0.3s;
 
   &:hover {
@@ -42,7 +41,7 @@ const Button = styled.div`
   text-decoration: none;
   cursor: pointer;
   padding: 8px 24px;
-  font-size: 12px;
+  font-size: 16px;
   background-color: #6F3CE4;
   color: white; /* Set text color to white */
   border: none;
