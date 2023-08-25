@@ -1,3 +1,5 @@
+const accountId = props.accountId || context.accountId;
+
 const HeroSection = styled.div`
 width: 100vw;
 display: flex;
@@ -77,9 +79,18 @@ const BannerImage = styled.img`
   object-fit: cover; /* Adjust to your desired object-fit behavior */
 `;
 
+const Hello = styled.span`
+  color: white;
+  font-size: 18px;
+  margin-bottom: 15px;
+`;
+
 return (
   <HeroSection>
     <LeftDiv>
+      <Hello>
+        Hey <PurpleText>@{accountId}</PurpleText>
+      </Hello>
       <MainText>
         Discover the Ultimate <GrayText>Meta DEX Aggregator:</GrayText>{" "}
         <PurpleText>One Platform, Best Prices!</PurpleText>
