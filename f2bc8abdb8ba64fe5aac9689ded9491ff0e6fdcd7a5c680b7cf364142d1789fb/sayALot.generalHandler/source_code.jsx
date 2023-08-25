@@ -466,28 +466,12 @@ return (
         navigationButtons,
         displayedTabId: state.displayedTabId,
         handleFilterArticles,
+        filterParameter: state.filterBy.parameterName,
+        handleBackButton,
+        handleGoHomeButton,
+        tabs,
       }}
     />
-    {(((state.filterBy.parameterName == "tag" ||
-      state.filterBy.parameterName == "author") &&
-      state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id) ||
-      state.displayedTabId == tabs.SHOW_ARTICLE.id ||
-      state.displayedTabId == tabs.ARTICLE_WORKSHOP.id ||
-      state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id) && (
-      <div
-        style={{ cursor: "pointer" }}
-        onClick={
-          state.displayedTabId == tabs.SHOW_ARTICLE.id ||
-          (state.editArticleData && tabs.ARTICLE_WORKSHOP.id)
-            ? handleBackButton
-            : handleGoHomeButton
-        }
-        className="my-3"
-      >
-        <i className="bi bi-chevron-left mr-2"></i>
-        Back
-      </div>
-    )}
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
