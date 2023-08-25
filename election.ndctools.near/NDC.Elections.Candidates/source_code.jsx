@@ -403,7 +403,7 @@ State.init({
   bookmarked: [],
   tosAgreementInput: false,
   tosAgreement: false,
-  selectedCandidates: JSON.parse(Storage.privatGet("election_user_selection")),
+  selectedCandidates: JSON.parse(Storage.privateGet("election_user_selection")),
   voters: [],
   candidates: result,
   filter: {
