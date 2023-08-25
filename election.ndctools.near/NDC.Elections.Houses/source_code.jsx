@@ -1,7 +1,7 @@
 let { houses, ids, electionContract, selectedHouse, handleSelect, votesLeft } =
   props;
 ids = props.ids ? ids : [1, 2, 3, 4];
-State.init({ houses: houses ? houses : [] });
+State.init({ houses: houses ?? [] });
 
 if (!houses && electionContract) {
   const contractHouses = [
@@ -26,7 +26,7 @@ const housesMapping = {
     title: "Transparency Commission",
     src: "https://bafkreihcog3rs2gj4wgwfixk6yqir7k3csyaqiqwcvm2gedlh6dlvr7ik4.ipfs.nftstorage.link",
   },
-  BudgetPackage: {
+  SetupPackage: {
     title: "Budget Package",
     src: "https://bafkreidsg3gntb4grebr6rpvffhzkwdt2siel7ucl3hpsj5i7qqu426dgq.ipfs.nftstorage.link",
   },
