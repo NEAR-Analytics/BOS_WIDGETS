@@ -411,25 +411,23 @@ State.init({
   blacklistedModal: true,
 });
 
-if (state.start) {
-  const electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: props.id,
-  });
+const electionStatus = Near.view(electionContract, "proposal_status", {
+  prop_id: props.id,
+});
 
-  const policy = Near.view(electionContract, "accepted_policy", {
-    user: context.accountId,
-  });
+const policy = Near.view(electionContract, "accepted_policy", {
+  user: context.accountId,
+});
 
-  const bookmarked = loadSocialDBData();
+const bookmarked = loadSocialDBData();
 
-  State.update({
-    electionStatus,
-    policy,
-    start: false,
-    candidates: filteredCandidates(),
-    bookmarked,
-  });
-}
+State.update({
+  electionStatus,
+  policy,
+  start: false,
+  candidates: filteredCandidates(),
+  bookmarked,
+});
 
 loadInitData();
 
