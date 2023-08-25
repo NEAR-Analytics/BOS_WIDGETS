@@ -56,7 +56,6 @@ const Layout = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  z-index: 1;
   justify-content: center;
   .tip-wrapper {
     position: absolute;
@@ -168,7 +167,7 @@ return (
   <Layout>
     <Wrapper>
       <div>
-        Sync to ZkEvm Warm up
+        Sync to zkEVM Warm up
         <a className="highlight" href="/warmup">
           [My Quest]
         </a>{" "}
