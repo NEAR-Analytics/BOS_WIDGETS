@@ -381,6 +381,8 @@ const vesselManagerContract = new ethers.Contract(
 const processAsset = (index) => {
   let assets = Object.values(availableAssets);
   let balances = [...state.balances];
+  console.log("other balances");
+  console.log(state.balances);
   if (index === assets.length - 1 && !state.stopReload) {
     State.update({ balances: balances, stopReload: true });
     return;
@@ -406,25 +408,6 @@ const processAsset = (index) => {
 };
 
 const getEntireDebtAndColl = () => {
-  // let assets = Object.values(availableAssets);
-  // assets.forEach((asset) => {
-  //   vesselManagerContract
-  //     .getEntireDebtAndColl(asset, state.sender)
-  //     .then((results) => {
-  //       let balances = state.balances;
-  //       console.log(balances);
-  //       State.update({
-  //         balances: balances.push({
-  //           asset: getAssetFromAddress(asset),
-  //           debt: results[0].div("1000000000000000000").toString(),
-  //           coll: ethers.utils.formatEther(results[1].toString()),
-  //           pendingDebtTokenReward: results[2].toString(),
-  //           pendingAssetReward: results[3].toString(),
-  //         }),
-  //       });
-  //     });
-  // });
-
   processAsset(0); // Start the chain with the first asset.
 };
 
