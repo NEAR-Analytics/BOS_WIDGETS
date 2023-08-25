@@ -382,7 +382,7 @@ let assets = Object.values(availableAssets);
 // let balances = [...state.balances];
 
 const processAsset = (index, balances) => {
-  if (index === assets.length - 1 && !state.stopReload) {
+  if (index > assets.length - 1 && !state.stopReload) {
     State.update({ balances: balances, stopReload: true });
     return;
   }
