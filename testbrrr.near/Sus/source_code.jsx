@@ -531,7 +531,7 @@ console.log(balances);
 
 return (
   <div>
-    {state.balances.map((balance) => {
+    {balances.map((balance) => {
       return (
         <div>
           <p>Debt: {balance.debt} SUS</p>
