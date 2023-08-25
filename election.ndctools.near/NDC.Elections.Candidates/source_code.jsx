@@ -243,6 +243,7 @@ const filteredCandidates = () => {
           alreadyVoted(candidateId)
         )
       : result;
+  console.log("candidateId", candidateId);
   if (candidateId)
     candidates = result.filter(([candidate, _vote], _index) =>
       candidate.toLowerCase().includes(candidateId.toLowerCase())
