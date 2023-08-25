@@ -213,14 +213,6 @@ const housesMapping = {
   TransparencyCommission: "Transparency Commission",
 };
 
-const electionStatus = Near.view(electionContract, "proposal_status", {
-  prop_id: props.id,
-});
-
-const policy = Near.view(electionContract, "accepted_policy", {
-  user: context.accountId,
-});
-
 const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
 
@@ -367,33 +359,26 @@ const loadInitData = () => {
   switch (state.electionStatus) {
     case "ONGOING":
       State.update({
-        candidates: filteredCandidates(),
         tosAgreement: !!policy,
         bountyProgramModal: !!policy,
       });
       break;
     case "COOLDOWN":
       State.update({
-        candidates: filteredCandidates(),
         showReviewModal: true,
       });
       break;
     default:
-      State.update({
-        candidates: filteredCandidates(),
-      });
+      console.log();
   }
 };
 
 const loadSocialDBData = () => {
   let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
 
-  State.update({
-    bookmarked:
-      _bookmarked && _bookmarked[_bookmarked.length - 1]
-        ? _bookmarked[_bookmarked.length - 1].value
-        : [],
-  });
+  return _bookmarked && _bookmarked[_bookmarked.length - 1]
+    ? _bookmarked[_bookmarked.length - 1].value
+    : [];
 };
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
@@ -402,7 +387,7 @@ const isVisible = () => myVotesForHouse().length > 0 || winnerIds.length > 0;
 State.init({
   start: true,
   loading: false,
-  electionStatus,
+  electionStatus: "NOT_STARTED",
   availableVotes: seats - myVotesForHouse().length,
   selected: null,
   bookmarked: [],
@@ -427,11 +412,26 @@ State.init({
 });
 
 if (state.start) {
-  loadInitData();
-  loadSocialDBData();
+  const electionStatus = Near.view(electionContract, "proposal_status", {
+    prop_id: props.id,
+  });
 
-  State.update({ start: false });
+  const policy = Near.view(electionContract, "accepted_policy", {
+    user: context.accountId,
+  });
+
+  const bookmarked = loadSocialDBData();
+
+  State.update({
+    electionStatus,
+    policy,
+    start: false,
+    candidates: filteredCandidates(),
+    bookmarked,
+  });
 }
+
+loadInitData();
 
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
