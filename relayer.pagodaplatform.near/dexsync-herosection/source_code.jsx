@@ -32,7 +32,7 @@ margin-top: 30px;
   text-decoration: none;
   cursor: pointer;
   font: bold;
-  padding: 12px 42px;
+  padding: 12px 52px;
   font-size: 16px;
 background: #FFFFFF;
   color: black; /* Set text color to white */
