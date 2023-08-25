@@ -514,6 +514,7 @@ return (
           currency: state.outputCurrency,
           amount: state.outputCurrencyAmount,
           updateTokenBalance: state.updateOutputTokenBalance,
+          disabled: true,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -525,18 +526,6 @@ return (
             State.update({
               updateOutputTokenBalance: false,
             });
-          },
-          onAmountChange: (val) => {
-            State.update({
-              outputCurrencyAmount: val,
-              tradeType: "out",
-              loading:
-                val &&
-                Number(val) &&
-                state.inputCurrency.address &&
-                state.outputCurrency.address,
-            });
-            if (val && Number(val)) debouncedGetBestTrade();
           },
         }}
       />
@@ -579,43 +568,27 @@ return (
             });
           },
           onSelect: (currency) => {
-            const updatedParams =
-              state.currencySelectType === 0
-                ? {
-                    inputCurrency: currency,
-                    outputCurrencyAmount: "",
-                    noPair: false,
-                    updateInputTokenBalance: true,
-                  }
-                : {
-                    outputCurrency: currency,
-                    inputCurrencyAmount: "",
-                    noPair: false,
-                    updateOutputTokenBalance: true,
-                  };
-            if (
-              state.currencySelectType === 0 &&
-              currency.address === state.outputCurrency.address
-            ) {
-              updatedParams.outputCurrency = null;
-              updatedParams.outputCurrencyAmount = "";
+            const updatedParams = {
+              outputCurrencyAmount: "",
+              noPair: false,
+              updateInputTokenBalance: true,
+            };
+            if (state.currencySelectType === 0) {
+              updatedParams.inputCurrency = currency;
+              if (currency.address === state.outputCurrency.address)
+                updatedParams.outputCurrency = null;
+            }
+            if (state.currencySelectType === 1) {
+              updatedParams.outputCurrency = currency;
+              if (currency.address === state.inputCurrency.address) {
+                updatedParams.inputCurrency = null;
+                updatedParams.inputCurrencyAmount = "";
+              }
             }
             if (
-              state.currencySelectType === 1 &&
-              currency.address === state.inputCurrency.address
-            ) {
-              updatedParams.inputCurrency = null;
-              updatedParams.inputCurrencyAmount = "";
-            }
-            if (
-              (state.currencySelectType === 1 &&
-                state.outputCurrencyAmount &&
-                Number(state.outputCurrencyAmount) &&
-                state.outputCurrency?.address) ||
-              (state.currencySelectType === 0 &&
-                state.inputCurrencyAmount &&
-                Number(state.inputCurrencyAmount) &&
-                state.inputCurrency?.address)
+              state.inputCurrencyAmount &&
+              Number(state.inputCurrencyAmount) &&
+              state.inputCurrency?.address
             ) {
               updatedParams.loading = true;
             }
