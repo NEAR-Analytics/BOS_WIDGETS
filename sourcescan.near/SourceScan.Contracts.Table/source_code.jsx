@@ -134,6 +134,7 @@ const Mobile = styled.div`
 
   @media only screen and (max-width: 600px) {
     display: flex;
+    width: 230%;
   }
 `;
 
@@ -194,9 +195,10 @@ const A = styled.a`
   }
 `;
 
-const Button = styled.button`
+const Button = styled.a`
   height: 36px;
   width: 96px;
+  text-align: center;
   font-weight: 600;
   border-radius: 6px;
   padding-top: 5px;
@@ -206,6 +208,13 @@ const Button = styled.button`
   background-color: ${useTheme(light.button.bg, dark.button.bg)};
   transition: background-color 0.1s ease-in-out;
 
+  &:hover,
+  &:focus {
+    background: #ecedee;
+    text-decoration: none;
+    outline: none;
+    color: ${useTheme(light.color, dark.color)};
+  }
   :hover {
     background-color: ${useTheme(light.button.hoverBg, dark.button.hoverBg)};
   }
@@ -294,7 +303,7 @@ return (
                         />
                       </Center>
                     </td>
-                    <td data-width={"0%"} align-items={"center"}>
+                    <td>
                       <Desktop>
                         <OverlayTrigger
                           key={state.placement}
@@ -314,7 +323,12 @@ return (
                         </OverlayTrigger>
                       </Desktop>
                       <Mobile>
-                        <Button>More</Button>
+                        <Button
+                          href={`/${state.ownerId}/widget/SourceScan.Contracts.Info?contractId=${contractId}`}
+                          target={"_blank"}
+                        >
+                          More
+                        </Button>
                       </Mobile>
                     </td>
                   </tr>
