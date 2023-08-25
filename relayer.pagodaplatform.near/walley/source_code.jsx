@@ -419,7 +419,7 @@ const WalleyTransactions = styled.div`
 const WalleySearch = styled.div`
   display: flex;
   padding: 0px 10px;
-  flex-direction: row;
+  flex-direction: row-reverse;
   @media screen and (max-width: 400px) {
     flex-direction: column;
   }
