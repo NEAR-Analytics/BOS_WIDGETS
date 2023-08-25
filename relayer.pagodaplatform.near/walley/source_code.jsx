@@ -238,11 +238,6 @@ const WalleyNavbarButton = styled.button`
     color: #fff;
     padding:0px;
     font-weight: 500;
-    &>span {
-      @media screen and (max-width: 600px) {
-        display: none;
-      }
-    }
 `;
 
 const NavLine = styled.span`
