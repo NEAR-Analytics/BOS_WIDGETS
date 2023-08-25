@@ -858,7 +858,7 @@ return (
 
     <Container>
       <h2>{housesMapping[typ]}</h2>
-      <small>{result.length} Candidates</small>
+      <small className="text-secondary mb-3">{result.length} Candidates</small>
       {state.candidates.length > 0 ? (
         <>
           <Filters />
