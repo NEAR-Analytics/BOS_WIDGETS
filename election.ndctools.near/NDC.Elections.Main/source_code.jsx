@@ -23,7 +23,6 @@ let budget = {
 
 State.init({
   selectedHouse: ids[0],
-  humanVoted: 0,
   myVotes: [],
   isIAmHuman: false,
   candidateId: "",
@@ -47,15 +46,6 @@ const getWinnerIds = () => {
 };
 
 State.update({ isIAmHuman: isHuman[0][1].length > 0 });
-console.log(state.isIAmHuman);
-const totalHumal = 3000;
-
-asyncFetch(
-  `https://api.pikespeak.ai/election/total-voters?contract=${electionContract}`,
-  { headers: { "x-api-key": apiKey } }
-).then((resp) => {
-  if (resp.body) State.update({ humanVoted: resp.body });
-});
 
 if (context.accountId)
   asyncFetch(
@@ -207,13 +197,7 @@ return (
           <Right className="col">
             <H5>General</H5>
             <div className="d-flex justify-content-center">
-              <Widget
-                src={widgets.statistic}
-                props={{
-                  voted: state.humanVoted,
-                  total: totalHumal,
-                }}
-              />
+              <Widget src={widgets.statistic} props={{ electionContract }} />
             </div>
           </Right>
           {state.myVotes.length > 0 && (
