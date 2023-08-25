@@ -530,6 +530,7 @@ console.log("Balances");
 console.log(balances);
 
 let balancesList = balances.map((balance) => {
+  console.log(balances);
   return (
     <div>
       <p>Debt: {balance.debt} SUS</p>
