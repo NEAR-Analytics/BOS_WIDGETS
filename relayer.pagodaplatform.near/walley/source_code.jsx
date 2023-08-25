@@ -422,10 +422,10 @@ const WalleySearch = styled.div`
   &>button {
     width: 120px;
     margin-right: 20px;
-    font-size: 20px;
+    font-size: 16px;
   }
   &>input {
-    font-size: 20px;
+    font-size: 16px;
   }
 `;
 
