@@ -82,7 +82,7 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: 16px;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.7);
     position: absolute;
     top: 0;
     left: 0;
