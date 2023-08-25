@@ -85,14 +85,16 @@ const getErc20Balance = () => {
         "balanceOf",
         rawBalance
       );
-      onLoad?.({ balance: receiverBalanceHex.toString(), loaded: true });
+
+      onLoad({ balance: receiverBalanceHex.toString(), loaded: true });
     });
 };
 
 const getNativeBalance = () => {
   const provider = Ethers.provider();
   provider.getBalance(sender).then((rawBalance) => {
-    props?.onLoad({
+    console.log("rawBalance: ", rawBalance.toString());
+    onLoad({
       balance: rawBalance.toString(),
       loaded: true,
     });
