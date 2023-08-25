@@ -18,8 +18,7 @@ const Panel = styled.div`
   padding: 10px 15px;
 `;
 
-const query = window.location.search;
-console.log("query", query);
+console.log(props.accountId ?? context.accountId);
 
 State.init({
   activeTab: 1,
