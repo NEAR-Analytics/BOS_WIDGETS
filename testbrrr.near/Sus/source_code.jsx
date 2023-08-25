@@ -382,10 +382,10 @@ let assets = Object.values(availableAssets);
 // let balances = [...state.balances];
 
 const processAsset = (index, balances) => {
-  if (index > assets.length - 1 && !state.stopReload) {
-    State.update({ stopReload: true });
-    return;
-  }
+  // if (index > assets.length - 1 && !state.stopReload) {
+  //   State.update({ stopReload: true });
+  //   return;
+  // }
   let asset = assets[index];
   if (asset) {
     vesselManagerContract
