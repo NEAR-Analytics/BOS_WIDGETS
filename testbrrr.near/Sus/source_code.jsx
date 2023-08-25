@@ -508,8 +508,6 @@ if (
   props.resendPrompt(props);
 }
 
-console.log("Balances");
-console.log(balances);
 return (
   <div>
     {balances.map((balance) => {
