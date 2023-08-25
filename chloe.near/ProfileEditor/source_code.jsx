@@ -1,21 +1,28 @@
-// Initialize state and variables
+// State and variable initialization
 const accountId = context.accountId;
+
+// Enforce NEAR wallet authentication
 if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
 
+// DAO and profile information retrieval
 let daoId = "research-collective.sputnik-dao.near";
 let profile = Social.getr(`${daoId}/profile`);
+
+// Return a loading state if the profile is null
 if (profile === null) {
   return "Loading";
 }
 
+// Initialize the state with the profile
 State.init({
   profile,
 });
 
-// Function to handle the proposal for updating the DAO profile
+// Function to create a DAO proposal for updating the profile
 const handleProfileUpdateProposal = () => {
+  // Serialize the profile state to a base64 encoded string
   const profile_update_args = JSON.stringify({
     data: {
       [daoId]: {
@@ -31,6 +38,7 @@ const handleProfileUpdateProposal = () => {
     "utf-8"
   ).toString("base64");
 
+  // NEAR blockchain call to add the proposal
   Near.call([
     {
       contractName: daoId,
@@ -46,7 +54,7 @@ const handleProfileUpdateProposal = () => {
                   method_name: "set",
                   args: proposal_update_args,
                   deposit: "10000000000000000000000", // 0.1 NEAR
-                  gas: "219000000000000", // As per your usual setting
+                  gas: "219000000000000", // Specified gas amount
                 },
               ],
             },
@@ -54,12 +62,12 @@ const handleProfileUpdateProposal = () => {
         },
       },
       deposit: "10000000000000000000000", // 0.1 NEAR
-      gas: "219000000000000", // As per your usual setting
+      gas: "219000000000000", // Specified gas amount
     },
   ]);
 };
 
-// Main JSX component
+// Main React JSX component for the profile editing interface
 return (
   <div>
     <div className="row">
