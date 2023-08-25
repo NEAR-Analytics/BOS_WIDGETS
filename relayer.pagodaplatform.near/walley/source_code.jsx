@@ -379,8 +379,13 @@ const WalleyHomeForm = styled.div`
 const WalleyStoreOverlay = WalleyHomeOverlay;
 const WalleyStoreForm = WalleyHomeForm;
 
+const WalleyImageContainer = styled.div`
+  width: 200px;
+  height: 200px;
+`;
+
 const WalleyStoreImage = styled.img`
-  width: 100px;
+  width: 200px;
   text-align: center;
 `;
 
@@ -1056,12 +1061,14 @@ return (
                         )
                         .map((tx) => (
                           <TransactionCard>
-                            <WalleyStoreImage
-                              src={`https://ipfs.near.social/ipfs/${
-                                state.store.storeImages[tx[6]]
-                              }`}
-                              alt={tx[6]}
-                            />
+                            <WalleyImageContainer>
+                              <WalleyStoreImage
+                                src={`https://ipfs.near.social/ipfs/${
+                                  state.store.storeImages[tx[6]]
+                                }`}
+                                alt={tx[6]}
+                              />
+                            </WalleyImageContainer>
                             <TransactionCardMain>
                               <p>Name - {tx[2]}</p>
                               <p>Store name - {tx[6]} </p>
@@ -1162,12 +1169,14 @@ return (
                         )
                         .map((tx) => (
                           <TransactionCard>
-                            <WalleyStoreImage
-                              src={`https://ipfs.near.social/ipfs/${
-                                state.store.storeImages[tx[6]]
-                              }`}
-                              alt={tx[6]}
-                            />
+                            <WalleyImageContainer>
+                              <WalleyStoreImage
+                                src={`https://ipfs.near.social/ipfs/${
+                                  state.store.storeImages[tx[6]]
+                                }`}
+                                alt={tx[6]}
+                              />
+                            </WalleyImageContainer>
                             <TransactionCardMain>
                               <p>Name - {tx[2]}</p>
                               <p>Store name - {tx[6]} </p>
@@ -1249,12 +1258,14 @@ return (
                 ? state.store.storePendingTransactions.length !== 0
                   ? state.store.storePendingTransactions.map((tx) => (
                       <TransactionCard>
-                        <WalleyStoreImage
-                          src={`https://ipfs.near.social/ipfs/${
-                            state.store.storeImages[tx[6]]
-                          }`}
-                          alt={tx[6]}
-                        />
+                        <WalleyImageContainer>
+                          <WalleyStoreImage
+                            src={`https://ipfs.near.social/ipfs/${
+                              state.store.storeImages[tx[6]]
+                            }`}
+                            alt={tx[6]}
+                          />
+                        </WalleyImageContainer>
                         <TransactionCardMain>
                           <p>Name - {tx[2]}</p>
                           <p>Store name - {tx[6]} </p>
@@ -1360,12 +1371,14 @@ return (
                 : state.store.storePastTransactions.length !== 0
                 ? state.store.storePastTransactions.map((tx) => (
                     <TransactionCard>
-                      <WalleyStoreImage
-                        src={`https://ipfs.near.social/ipfs/${
-                          state.store.storeImages[tx[6]]
-                        }`}
-                        alt={tx[6]}
-                      />
+                      <WalleyImageContainer>
+                        <WalleyStoreImage
+                          src={`https://ipfs.near.social/ipfs/${
+                            state.store.storeImages[tx[6]]
+                          }`}
+                          alt={tx[6]}
+                        />
+                      </WalleyImageContainer>
                       <TransactionCardMain>
                         <p>Name - {tx[2]}</p>
                         <p>Store name - {tx[6]} </p>
