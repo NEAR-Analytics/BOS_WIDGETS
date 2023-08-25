@@ -52,7 +52,8 @@ State.init({
   view: "home",
   loading: true,
   loadingMsg: "Fetching Data",
-  newTransaction: false,
+  newTxn: false,
+  addSt: false,
 });
 
 const cssFont = fetch(
@@ -375,12 +376,8 @@ const WalleyHomeForm = styled.div`
   }
 `;
 
-const WalleyStoreForm = styled.div`
-  width: 200px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-`;
+const WalleyStoreOverlay = WalleyHomeOverlay;
+const WalleyStoreForm = WalleyHomeForm;
 
 const WalleyStoreImage = styled.img`
   width: 100px;
@@ -762,78 +759,6 @@ const cancelTransaction = (tokenId) => {
   });
 };
 
-// const billOnChange = (files) => {
-//   if (files) {
-//     console.log(files[0]);
-//     State.update({
-//       store: { ...state.store, bill: { uploading: true, amount: null } },
-//     });
-//     let reader = new FileReader();
-//     reader.onloadend = () => {
-//       let formdata = new FormData();
-//       formdata.append("language", "eng");
-//       formdata.append("isOverlayRequired", "false");
-//       formdata.append("base64Image", reader.result);
-//       formdata.append("iscreatesearchablepdf", "false");
-//       formdata.append("scale", "true");
-//       formdata.append("isTable", "true");
-//       formdata.append("issearchablepdfhidetextlayer", "false");
-//       formdata.append("OCREngine", "3");
-
-//       let requestOptions = {
-//         method: "POST",
-//         headers: { apikey: "K82213475788957" },
-//         body: formdata,
-//         redirect: "follow",
-//       };
-
-//       fetch("https://api.ocr.space/parse/image", requestOptions)
-//         .then((response) => response.json())
-//         .then((result) => parseReceipt(result))
-//         .catch((error) => console.log("error", error));
-//     };
-//     reader.readAsDataURL(files[0]);
-//   }
-// };
-
-// const parseReceipt = (receiptObject) => {
-//   console.log(receiptObject);
-//   console.log(typeof receiptObject);
-//   if (typeof receiptObject === "object") {
-//     const receiptDetails = receiptObject.ParsedResults[0];
-//     const receiptLines = receiptDetails.TextOverlay.Lines;
-//     parseReceiptText(receiptDetails.ParsedText);
-//   } else if (typeof receiptObject == "string") {
-//     console.log(receipt);
-//   }
-// };
-// const parseReceiptText = (receiptText) => {
-//   // extremely reliant on this one receipt
-//   let receiptContent = receiptText.split("\t\r\n").map((element) => {
-//     return element.toLowerCase().replace("\t", " ");
-//   });
-
-//   const receiptTotal = receiptContent[21].replace(/\D/g, "");
-//   const subTotal = receiptContent[
-//     receiptContent.findIndex((v) => v.includes("subtotal"))
-//   ].replace(/\D/g, "");
-//   const VAT = receiptContent[20].replace(/\D/g, "");
-//   const receipt = {
-//     store: receiptContent[0].split("\t")[1],
-//     date: receiptContent[6].split(" ")[0],
-//     subtotal:
-//       subTotal.substring(0, subTotal.length - 2) +
-//       "." +
-//       subTotal.substring(subTotal.length - 2),
-//     total:
-//       receiptTotal.substring(0, receiptTotal.length - 2) +
-//       "." +
-//       receiptTotal.substring(receiptTotal.length - 2),
-//     vat: VAT.substring(0, VAT.length - 2) + "." + VAT.substring(VAT.length - 2),
-//   };
-//   console.log(receipt);
-// };
-
 const approveTransaction = (tokenId) => {
   State.update({
     loading: true,
@@ -980,7 +905,7 @@ return (
               <span>Receipts</span>
             </WalleyNavbarButton>
             <NavLine></NavLine>
-            <WalleyNavbarButton onClick={() => State.update({ view: "addSt" })}>
+            <WalleyNavbarButton onClick={() => State.update({ addSt: true })}>
               <span>Add a store</span>
             </WalleyNavbarButton>
             <NavLineLast></NavLineLast>
@@ -1049,6 +974,49 @@ return (
                   </WalleyButton>
                 </WalleyHomeForm>
               </WalleyHomeOverlay>
+            ) : (
+              ""
+            )}
+            {state.addSt ? (
+              <WalleyStoreOverlay
+                id="overlay"
+                onClick={(e) => {
+                  if ("overlay" === e.target.id) {
+                    State.update({ addSt: false });
+                  }
+                }}
+              >
+                <WalleyStoreForm>
+                  <WalleyLabel>Store Name</WalleyLabel>
+                  <WalleyInput
+                    value={state.storeInputs.storeName}
+                    type="text"
+                    onChange={(e) => {
+                      storeInputUpdates(e.target.value, "storeName");
+                    }}
+                    placeholder="Enter the Store Name"
+                  />
+                  <WalleyLabel>Store Address</WalleyLabel>
+                  <WalleyInput
+                    value={state.storeInputs.storeAddress}
+                    type="text"
+                    onChange={(e) =>
+                      storeInputUpdates(e.target.value, "storeAddress")
+                    }
+                    placeholder="Enter the Store Address"
+                  />
+                  <WalleyStoreButton
+                    onClick={() => storeInputUpdates(sender, "storeAddress")}
+                  >
+                    Use current address(convert this account into a store)
+                  </WalleyStoreButton>
+                  <WalleyLabel>Add Cover Image</WalleyLabel>
+                  <IpfsImageUpload image={state.storeInputs.image} />
+                  <WalleyButton color="#000D1A" bg="#FA9703" onClick={addStore}>
+                    Add Store
+                  </WalleyButton>
+                </WalleyStoreForm>
+              </WalleyStoreOverlay>
             ) : (
               ""
             )}
@@ -1241,36 +1209,7 @@ return (
                 </WalleyTransactions>
               </>
             ) : (
-              <WalleyStoreForm>
-                <WalleyLabel>Store Name</WalleyLabel>
-                <WalleyInput
-                  value={state.storeInputs.storeName}
-                  type="text"
-                  onChange={(e) => {
-                    storeInputUpdates(e.target.value, "storeName");
-                  }}
-                  placeholder="Enter the Store Name"
-                />
-                <WalleyLabel>Store Address</WalleyLabel>
-                <WalleyInput
-                  value={state.storeInputs.storeAddress}
-                  type="text"
-                  onChange={(e) =>
-                    storeInputUpdates(e.target.value, "storeAddress")
-                  }
-                  placeholder="Enter the Store Address"
-                />
-                <WalleyStoreButton
-                  onClick={() => storeInputUpdates(sender, "storeAddress")}
-                >
-                  Use current address(convert this account into a store)
-                </WalleyStoreButton>
-                <WalleyLabel>Add Cover Image</WalleyLabel>
-                <IpfsImageUpload image={state.storeInputs.image} />
-                <WalleyButton color="#000D1A" bg="#FA9703" onClick={addStore}>
-                  Add Store
-                </WalleyButton>
-              </WalleyStoreForm>
+              ""
             )}
           </WalleyHomeBody>
         </>
