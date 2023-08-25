@@ -29,6 +29,12 @@ const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
 
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Table = styled.table`
   border: 1px solid ${useTheme(light.border, dark.border)};
   background-color: ${useTheme(light.bg, dark.bg)};
@@ -37,6 +43,15 @@ const Table = styled.table`
   border-spacing: 0;
   border-radius: 10px;
   text-align: start;
+  width: 50%;
+
+  thead {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 100;
+    color: ${useTheme(light.border, dark.border)};
+  }
+
   th {
     padding: 15px;
   }
@@ -45,13 +60,41 @@ const Table = styled.table`
     border-top: 0.5px dashed ${useTheme(light.border, dark.border)};
     padding: 15px;
   }
-`;
 
-const THead = styled.thead`
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 100;
-  color: ${useTheme(light.border, dark.border)};
+  @media only screen and (max-width: 800px) {
+    thead {
+      display: none;
+    }
+
+    th {
+      display: block;
+      width: 100%;
+    }
+
+    tr {
+      margin-bottom: 0.625rem;
+    }
+
+    td {
+      position: relative;
+      display: flex;
+      align-items: end;
+      justify-content: end;
+      text-align: end;
+    }
+
+    td:before {
+      width: 100%;
+      content: attr(data-label);
+      text-transform: uppercase;
+      padding-right: 20px;
+      font-size: 12px;
+      font-weight: 100;
+      color: ${useTheme(light.border, dark.border)};
+      font-weight: bold;
+      text-align: start;
+    }
+  }
 `;
 
 const HStack = styled.div`
@@ -60,12 +103,6 @@ const HStack = styled.div`
   justify-content: start;
   align-items: start;
   gap: 8px;
-`;
-
-const Truncated = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `;
 
 const LinkIcon = (width, height) => {
@@ -81,14 +118,14 @@ const LinkIcon = (width, height) => {
       fill="currentColor"
     >
       <path
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
-        clip-rule="evenodd"
+        clipRule="evenodd"
       />
       <path
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
-        clip-rule="evenodd"
+        clipRule="evenodd"
       />
     </SVG>
   );
@@ -125,12 +162,6 @@ const A = styled.a`
   }
 `;
 
-const Center = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const truncateStringInMiddle = (str, maxLength) => {
   if (str.length <= maxLength) {
     return str;
@@ -144,12 +175,12 @@ const truncateStringInMiddle = (str, maxLength) => {
 };
 
 return (
-  <>
+  <Center>
     {state.contracts.length === 0 ? (
       <>Nothing here...</>
     ) : (
       <Table>
-        <THead>
+        <thead>
           <tr>
             <th>Contract</th>
             <th>Lang</th>
@@ -158,7 +189,7 @@ return (
             <th>Approved</th>
             <th></th>
           </tr>
-        </THead>
+        </thead>
         <tbody>
           {state.contracts
             ? state.contracts.map((contract, i) => {
@@ -169,9 +200,9 @@ return (
                 const github = contract[1].github;
                 return (
                   <tr key={i}>
-                    <td>{contractId}</td>
-                    <td>{lang}</td>
-                    <td>
+                    <td data-label={"Contract"}>{contractId}</td>
+                    <td data-label={"Lang"}>{lang}</td>
+                    <td data-label={"IPFS"}>
                       <HStack>
                         {truncateStringInMiddle(cid, 8)}
                         <A
@@ -182,7 +213,7 @@ return (
                         </A>
                       </HStack>
                     </td>
-                    <td>
+                    <td data-label={"Github"}>
                       {github ? (
                         <HStack>
                           {github.owner}/{github.repo}
@@ -197,7 +228,7 @@ return (
                         "None"
                       )}
                     </td>
-                    <td>
+                    <td data-label={"Approved"}>
                       <Center>
                         <Widget
                           src={`${state.ownerId}/widget/SourceScan.Contracts.Approved`}
@@ -213,12 +244,22 @@ return (
                       </Center>
                     </td>
                     <td>
-                      <A
-                        href={`/${state.ownerId}/widget/Contracts.Info?contractId=${contractId}`}
-                        target={"_blank"}
+                      <OverlayTrigger
+                        key={state.placement}
+                        placement={state.placement}
+                        overlay={
+                          <Tooltip id={`tooltip-${placement}`}>
+                            Show More
+                          </Tooltip>
+                        }
                       >
-                        <InfoIcon width={"20px"} height={"20px"} />
-                      </A>
+                        <A
+                          href={`/${state.ownerId}/widget/SourceScan.Contracts.Info?contractId=${contractId}`}
+                          target={"_blank"}
+                        >
+                          <InfoIcon width={"20px"} height={"20px"} />
+                        </A>
+                      </OverlayTrigger>
                     </td>
                   </tr>
                 );
@@ -227,5 +268,5 @@ return (
         </tbody>
       </Table>
     )}
-  </>
+  </Center>
 );
