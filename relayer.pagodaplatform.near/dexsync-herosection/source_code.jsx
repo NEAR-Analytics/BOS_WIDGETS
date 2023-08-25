@@ -51,7 +51,7 @@ const PurpleText = styled.span`
 const Mesh = styled.div`
   color: #6F3CE4; /* Set your desired color */
   width: 950px;
-  left: 450px;
+  left: 400px;
   margin-top: 10px;
   position: absolute;
   top: 0;
