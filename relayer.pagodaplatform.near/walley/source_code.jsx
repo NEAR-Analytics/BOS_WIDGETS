@@ -953,7 +953,7 @@ return (
               <>
                 {state.newTxn ? (
                   <WalleyHomeOverlay
-                    onClick={() => {
+                    onClick={(e) => {
                       if (this === e.target) {
                         State.update({ newTxn: false });
                       }
