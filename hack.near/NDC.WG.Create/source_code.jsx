@@ -246,6 +246,7 @@ return (
                   src={widgets.styledComponents}
                   props={{
                     Button: {
+                      style: "danger",
                       text: "Close",
                       onClick: handleClose,
                     },
