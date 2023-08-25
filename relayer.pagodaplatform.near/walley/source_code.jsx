@@ -224,6 +224,7 @@ const WalleyNavbar = styled.div`
       text-align: left; 
       padding: 0;
       width: 24px;
+      display: none;
     }
     @media screen and (max-width: 600px) {
         flex-direction: row;
