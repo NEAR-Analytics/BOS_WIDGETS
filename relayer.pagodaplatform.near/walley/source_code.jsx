@@ -954,6 +954,7 @@ return (
                 {state.newTxn ? (
                   <WalleyHomeOverlay
                     onClick={(e) => {
+                      console.log(e.target);
                       if (this === e.target) {
                         State.update({ newTxn: false });
                       }
