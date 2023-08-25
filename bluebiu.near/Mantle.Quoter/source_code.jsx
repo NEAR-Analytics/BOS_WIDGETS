@@ -78,6 +78,118 @@ const abiFusion_Ammos = [
   },
 ];
 
+const abiIzi = [
+  {
+    inputs: [
+      {
+        internalType: "bytes[]",
+        name: "data",
+        type: "bytes[]",
+      },
+    ],
+    name: "multicall",
+    outputs: [
+      {
+        internalType: "bytes[]",
+        name: "results",
+        type: "bytes[]",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "tokenX",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenY",
+        type: "address",
+      },
+      {
+        internalType: "uint24",
+        name: "fee",
+        type: "uint24",
+      },
+      {
+        internalType: "uint128",
+        name: "amount",
+        type: "uint128",
+      },
+      {
+        internalType: "int24",
+        name: "lowPt",
+        type: "int24",
+      },
+    ],
+    name: "swapX2Y",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amountY",
+        type: "uint256",
+      },
+      {
+        internalType: "int24",
+        name: "finalPoint",
+        type: "int24",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "tokenX",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenY",
+        type: "address",
+      },
+      {
+        internalType: "uint24",
+        name: "fee",
+        type: "uint24",
+      },
+      {
+        internalType: "uint128",
+        name: "amount",
+        type: "uint128",
+      },
+      {
+        internalType: "int24",
+        name: "highPt",
+        type: "int24",
+      },
+    ],
+    name: "swapY2X",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amountX",
+        type: "uint256",
+      },
+      {
+        internalType: "int24",
+        name: "finalPoint",
+        type: "int24",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
 const { amountIn, tokenIn, tokenOut, loadAmountOut, config, selectedDex } =
   props;
 
@@ -103,7 +215,7 @@ const getAbi = (selectedDex) => {
 
 const selectedDexItem = config.dapps.find((dapp) => dapp.name === selectedDex);
 
-const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
+const quoteSingleAgni = (amountIn, tokenIn, tokenOut, fee, finalList) => {
   const abi = getAbi(selectedDex);
 
   console.log("selectedDexItem.quoter: ", selectedDexItem.quoter);
@@ -169,6 +281,93 @@ const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
     });
 };
 
+const qouteSingleIzi = (amountIn, tokenIn, tokenOut, fee, finalList) => {
+  const abi = abiIzi;
+
+  const tokenInAddress = tokenIn.address;
+
+  const tokenOutAddress = tokenOut.address;
+
+  const isX2Y = tokenInAddress.toLowerCase() < tokenOutAddress.toLowerCase();
+  console.log("isX2Y: ", isX2Y);
+
+  console.log("selectedDexItem.quoter: ", selectedDexItem.quoter);
+
+  const boundaryPt = isX2Y ? -799999 : 799999;
+  console.log("boundaryPt: ", boundaryPt);
+  const iface = new ethers.utils.Interface(abi);
+
+  const inputs = isX2Y
+    ? [
+        tokenInAddress,
+        tokenOutAddress,
+        fee,
+        ethers.utils.parseUnits(amountIn, tokenIn.decimals),
+        boundaryPt,
+      ]
+    : [
+        tokenOutAddress,
+        tokenInAddress,
+        fee,
+        ethers.utils.parseUnits(amountIn, tokenIn.decimals),
+        boundaryPt,
+      ];
+
+  const method = isX2Y ? "swapX2Y" : "swapY2X";
+
+  console.log("inputs: ", inputs);
+
+  const encodedData = iface.encodeFunctionData(method, inputs);
+  console.log("encodedData: ", encodedData);
+
+  const quoterContractId = selectedDexItem.quoter;
+  console.log("quoterContractId: ", quoterContractId);
+
+  return Ethers.provider()
+    .call({
+      to: quoterContractId,
+      data: encodedData,
+    })
+    .then((data) => {
+      const res = iface.decodeFunctionResult(method, data);
+      console.log("resdata: ", res);
+
+      const amountName = isX2Y ? "amountY" : "amountX";
+
+      const rawAmountOut = Big(Number(res[amountName]._hex)).toFixed();
+      const parsedAmountOut = new Big(rawAmountOut)
+        .div(Big(10).pow(tokenOut.decimals))
+        .toFixed();
+
+      return [
+        ...finalList,
+        {
+          fee: fee,
+          amountOut: parsedAmountOut,
+          success: true,
+        },
+      ];
+    })
+    .catch((e) => {
+      return [
+        ...finalList,
+        {
+          fee: fee,
+          amountOut: "0",
+          success: false,
+        },
+      ];
+    });
+};
+
+const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
+  if (selectedDex === "iZiSwap") {
+    return qouteSingleIzi(amountIn, tokenIn, tokenOut, fee, finalList);
+  } else {
+    return quoteSingleAgni(amountIn, tokenIn, tokenOut, fee, finalList);
+  }
+};
+
 const quoteAll = () => {
   State.update({
     quoting: true,
@@ -208,6 +407,8 @@ const quoteAll = () => {
             State.update({ quoteDone: true, quoting: false });
             loadAmountOut({
               ...maxAmountOutEstimate,
+              quoteDone,
+              quoting,
             });
           });
         });
