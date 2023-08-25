@@ -152,8 +152,8 @@ const sendPrompt = () => {
           props={{
             ...parsed,
             resendPrompt: resendPrompt,
-            inference: inference,
-            onClose: () => State.update({ response: null }),
+            // inference: inference,
+            // onClose: () => State.update({ response: null }),
           }}
         />
       );
@@ -173,7 +173,7 @@ return (
     ></div>
 
     <h1>Sus Loans</h1>
-    <div className="form-group">
+    <div className="form-group" style={{ display: "flex" }}>
       <input
         id="name"
         type="text"
@@ -181,7 +181,18 @@ return (
         value={state.prompt}
         onChange={(event) => State.update({ prompt: event.target.value })}
         required
+        style={{ width: "80%", height: "50px" }}
       />
+      <Button
+        onClick={() => sendPrompt()}
+        style={{ width: "20%", height: "50px" }}
+      >
+        <img
+          src="https://ipfs.io/ipfs/bafybeihvhlxx4km5dhtgr43kspxlbqkkrviszdplrk6q74nqqmgqqihiba/send%281%29.png"
+          alt="arrow"
+          style={{ height: "100%" }}
+        />
+      </Button>
     </div>
 
     {state.isLoading ? (
@@ -196,7 +207,5 @@ return (
     {!state.isLoading ? <p>{state.response ? state.response : null}</p> : null}
 
     {state.widget}
-
-    <Button onClick={() => sendPrompt()}>Send</Button>
   </CreatePrompt>
 );
