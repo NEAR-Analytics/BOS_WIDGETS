@@ -194,15 +194,17 @@ return (
         </Center>
         <Center>
           <Stack>
-            <Widget
-              src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
-              props={{
-                theme: state.theme,
-                contracts: state.contracts,
-                rpcUrl: state.config.rpcUrl,
-                apiHost: state.config.apiHost,
-              }}
-            />
+            <Center>
+              <Widget
+                src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
+                props={{
+                  theme: state.theme,
+                  contracts: state.contracts,
+                  rpcUrl: state.config.rpcUrl,
+                  apiHost: state.config.apiHost,
+                }}
+              />
+            </Center>
             <Center>
               <Widget
                 src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
