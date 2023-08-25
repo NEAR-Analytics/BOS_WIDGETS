@@ -73,7 +73,14 @@ return (
                 [SecondaryButton.type ?? "Button"]: {
                   disabled: SecondaryButton.disabled,
                   text: SecondaryButton.title,
-                  onClick: SecondaryButton.onSubmit,
+                  onClick:
+                    SecondaryButton.type === "Button"
+                      ? SecondaryButton.onSubmit
+                      : null,
+                  href:
+                    SecondaryButton.type === "Link"
+                      ? SecondaryButton.href
+                      : null,
                 },
               }}
             />
@@ -81,7 +88,7 @@ return (
             <Widget
               src={widgets.styledComponents}
               props={{
-                [Button.type ?? "Button"]: {
+                Button: {
                   className: "secondary dark",
                   text: "Cancel",
                   onClick: Button.onCancel,
@@ -92,7 +99,7 @@ return (
           <Widget
             src={widgets.styledComponents}
             props={{
-              [Button.type ?? "Button"]: {
+              Button: {
                 disabled: Button.disabled,
                 text: Button.title,
                 onClick: Button.onSubmit,
