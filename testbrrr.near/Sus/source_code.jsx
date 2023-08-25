@@ -516,7 +516,7 @@ if (
   props.resendPrompt(props);
 }
 
-let confirmUI = props ? renderConfirmationUI() : null;
+let confirmUI = renderConfirmationUI(props);
 
 return (
   <div>
