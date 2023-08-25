@@ -423,9 +423,15 @@ const WalleySearch = styled.div`
     width: 150px;
     margin-right: 20px;
     font-size: 16px;
+    @media screen and (max-width: 400px) {
+      font-size: 10px;
+    }
   }
   &>input {
     font-size: 16px;
+    @media screen and (max-width: 400px) {
+      font-size: 10px;
+    }
   }
 `;
 
