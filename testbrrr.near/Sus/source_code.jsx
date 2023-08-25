@@ -525,6 +525,8 @@ if (
   props.resendPrompt(props);
 }
 
+console.log("Balances");
+console.log(state.balances);
 return (
   <div>
     {state.balances.map((balance) => {
