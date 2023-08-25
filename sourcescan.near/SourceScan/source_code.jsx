@@ -68,6 +68,8 @@ const GlobalStyle = styled.div`
 const Main = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.bg, dark.bg)};
   overflow-y: auto;
@@ -81,12 +83,16 @@ const Main = styled.div`
 const Stack = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 30px;
 `;
 
 const HStack = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   gap: 15px;
 `;
 
@@ -94,12 +100,6 @@ const Right = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-`;
-
-const Center = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const switchTheme = () => {
@@ -162,63 +162,51 @@ const handlePageChange = (x) => {
 return (
   <GlobalStyle>
     <Main>
-      <Stack>
+      <Widget
+        src={`${state.config.ownerId}/widget/SourceScan.Layout.Navbar`}
+        props={{
+          app: state.config.app,
+          theme: state.theme,
+          switchTheme: switchTheme,
+        }}
+      />
+      <HStack style={{ paddingTop: "80px" }}>
         <Widget
-          src={`${state.config.ownerId}/widget/SourceScan.Layout.Navbar`}
+          src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
           props={{
-            app: state.config.app,
             theme: state.theme,
-            switchTheme: switchTheme,
+            handleSubmit: handleSubmit,
+            value: state.search,
           }}
         />
-        <Center style={{ paddingTop: "80px" }}>
-          <HStack>
-            <Widget
-              src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
-              props={{
-                theme: state.theme,
-                handleSubmit: handleSubmit,
-                value: state.search,
-              }}
-            />
-            <Widget
-              src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
-              props={{
-                handleOptionsChange: handleOptionsChange,
-                theme: state.theme,
-                limits: limits,
-                selectedLimit: state.limit,
-              }}
-            />
-          </HStack>
-        </Center>
-        <Center>
-          <Stack>
-            <Center>
-              <Widget
-                src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
-                props={{
-                  theme: state.theme,
-                  contracts: state.contracts,
-                  rpcUrl: state.config.rpcUrl,
-                  apiHost: state.config.apiHost,
-                }}
-              />
-            </Center>
-            <Center>
-              <Widget
-                src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
-                props={{
-                  theme: state.theme,
-                  pages: state.pages,
-                  selectedPage: state.selectedPage,
-                  handlePageChange: handlePageChange,
-                }}
-              />
-            </Center>
-          </Stack>
-        </Center>
-      </Stack>
+        <Widget
+          src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
+          props={{
+            handleOptionsChange: handleOptionsChange,
+            theme: state.theme,
+            limits: limits,
+            selectedLimit: state.limit,
+          }}
+        />
+      </HStack>
+      <Widget
+        src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
+        props={{
+          theme: state.theme,
+          contracts: state.contracts,
+          rpcUrl: state.config.rpcUrl,
+          apiHost: state.config.apiHost,
+        }}
+      />
+      <Widget
+        src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
+        props={{
+          theme: state.theme,
+          pages: state.pages,
+          selectedPage: state.selectedPage,
+          handlePageChange: handlePageChange,
+        }}
+      />
     </Main>
   </GlobalStyle>
 );
