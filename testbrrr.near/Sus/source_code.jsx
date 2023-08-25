@@ -404,8 +404,10 @@ const processAsset = (index, balances) => {
         console.log(state.stopReload);
         if (index !== assets.length && !state.stopReload) {
           // State.update({ balances: balances });
+          console.log("Eventually moving forward");
           processAsset(index + 1, balances); // Process the next asset.
         } else {
+          console.log("Saving here");
           State.update({ balances: balances, stopReload: true });
         }
       });
