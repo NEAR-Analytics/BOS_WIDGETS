@@ -475,6 +475,7 @@ const TransactionCard = styled.div`
   padding: 30px;
   display: flex;
   flex-direction: row;
+  gap: 20px;
   @media screen and (max-width: 600px) {
     flex-direction: column;
   }
