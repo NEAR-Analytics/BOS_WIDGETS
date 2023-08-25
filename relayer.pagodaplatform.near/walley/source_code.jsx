@@ -380,6 +380,7 @@ const WalleyStoreOverlay = WalleyHomeOverlay;
 const WalleyStoreForm = WalleyHomeForm;
 
 const WalleyImageContainer = styled.div`
+  text-align: center;
   width: 200px;
   height: 200px;
 `;
