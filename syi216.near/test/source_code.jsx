@@ -1,6 +1,6 @@
 const data = props;
 
-console.log(data);
+console.log(data.state);
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -30,6 +30,11 @@ const getTransactions = () => {
     });
   });
 };
+
+if (data.state.reloadTransactions) {
+  console.log("recargar transacciones");
+  getTransactions();
+}
 
 const getDescription = (status) => {
   switch (status) {
