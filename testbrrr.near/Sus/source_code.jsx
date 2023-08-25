@@ -379,9 +379,9 @@ const vesselManagerContract = new ethers.Contract(
 );
 
 let assets = Object.values(availableAssets);
-let balances = [...state.balances];
+// let balances = [...state.balances];
 
-const processAsset = (index) => {
+const processAsset = (index, balances) => {
   if (index === assets.length - 1 && !state.stopReload) {
     State.update({ balances: balances, stopReload: true });
     return;
@@ -401,15 +401,15 @@ const processAsset = (index) => {
           pendingAssetReward: results[3].toString(),
         });
         if (index < assets.length) {
-          State.update({ balances: balances });
-          processAsset(index + 1); // Process the next asset.
+          // State.update({ balances: balances });
+          processAsset(index + 1, balances); // Process the next asset.
         }
       });
   }
 };
 
 const getEntireDebtAndColl = () => {
-  processAsset(0); // Start the chain with the first asset.
+  processAsset(0, []); // Start the chain with the first asset.
 };
 
 if (state.sender === undefined) {
