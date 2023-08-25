@@ -18,7 +18,7 @@ const Panel = styled.div`
   padding: 10px 15px;
 `;
 
-console.log(props.accountId ?? context.accountId);
+console.log("prop.acountId", props.accountId ?? context.accountId);
 
 State.init({
   activeTab: 1,
