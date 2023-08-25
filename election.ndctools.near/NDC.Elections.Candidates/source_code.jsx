@@ -207,6 +207,10 @@ const ActionSection = styled.div`
   }
 `;
 
+const Rule = styled.div`
+  color: #f29bc0;
+`;
+
 const currentUser = context.accountId;
 
 const housesMapping = {
@@ -809,7 +813,7 @@ return (
           ),
           description: (
             <>
-              <div className="d-flex gap-2">
+              <Rule className="d-flex gap-2">
                 <h3>1</h3>
                 <p className="text-secondary text-start">
                   Don't sell your vote and risk being banned from governance.
@@ -820,8 +824,8 @@ return (
                     href="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
                   />
                 </p>
-              </div>
-              <div className="d-flex gap-2">
+              </Rule>
+              <Rule className="d-flex gap-2">
                 <h3>2</h3>
                 <p className="text-secondary text-start">
                   A bond of <b>{state.greylisted ? MAX_BOND : MIN_BOND} NEAR</b>{" "}
@@ -829,13 +833,13 @@ return (
                   returned to you after the election results are reviewed and
                   rectified.
                 </p>
-              </div>
-              <div className="d-flex gap-2">
+              </Rule>
+              <Rule className="d-flex gap-2">
                 <h3>3</h3>
                 <p className="text-secondary text-start">
                   You votes <b>cannot</b> be changed.
                 </p>
-              </div>
+              </Rule>
 
               {state.greylisted && (
                 <p className="text-secondary mt-2">
