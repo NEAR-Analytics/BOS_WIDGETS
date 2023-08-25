@@ -382,10 +382,10 @@ let assets = Object.values(availableAssets);
 let balances = [...state.balances];
 
 const processAsset = (index) => {
-  // if (index === assets.length - 1 && !state.stopReload) {
-  //   console.log(balances);
-  //   return;
-  // }
+  if (index === assets.length - 1 && !state.stopReload) {
+    State.update({ balances: balances, stopReload: true });
+    return;
+  }
   // console.log("WTF");
   // console.log(balances);
   let asset = assets[index];
@@ -403,8 +403,6 @@ const processAsset = (index) => {
         if (index < assets.length) {
           State.update({ balances: balances });
           processAsset(index + 1); // Process the next asset.
-        } else {
-          State.update({ balances: balances, stopReload: true });
         }
       });
   }
