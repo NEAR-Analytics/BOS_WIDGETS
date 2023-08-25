@@ -280,7 +280,7 @@ return (
         </TabsButton>
 
         <TabsButton
-          href={`?}tab=followers`}
+          href={`?tab=followers`}
           selected={state.selectedTab === "followers"}
         >
           Followers
