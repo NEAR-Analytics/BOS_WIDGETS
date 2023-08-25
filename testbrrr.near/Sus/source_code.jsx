@@ -406,6 +406,7 @@ const getEntireDebtAndColl = () => {
 };
 
 const renderConfirmationUI = (props) => {
+  console.log(props);
   return (
     <div>
       {Object.entries(props).map(([key, value]) => (
