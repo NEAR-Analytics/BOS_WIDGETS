@@ -528,7 +528,7 @@ const CandidateItem = ({ candidateId, votes }) => (
             },
           }}
         />
-        {isVisibleisVisible() && <Votes>{votes}</Votes>}
+        {isVisible() && <Votes>{votes}</Votes>}
         {isIAmHuman && (
           <Votes>
             <input
