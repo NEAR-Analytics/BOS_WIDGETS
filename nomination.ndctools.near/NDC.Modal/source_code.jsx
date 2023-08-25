@@ -71,6 +71,7 @@ return (
               src={widgets.styledComponents}
               props={{
                 [SecondaryButton.type ?? "Button"]: {
+                  className: "secondary dark",
                   disabled: SecondaryButton.disabled,
                   text: SecondaryButton.title,
                   onClick:
