@@ -19,7 +19,7 @@ const Panel = styled.div`
 `;
 
 const query = window.location.search;
-console.log(query);
+console.log("query", query);
 
 State.init({
   activeTab: 1,
