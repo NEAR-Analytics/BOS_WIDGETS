@@ -23,6 +23,10 @@ const widgets = {
 
 const POLICY_HASH =
   "f1c09f8686fe7d0d798517111a66675da0012d8ad1693a47e0e2a7d3ae1c69d4";
+const BLACKLIST_VERIFY_LINK = "";
+const GREYLIST_VERIFY_LINK = "";
+const MIN_BOND = 3;
+const MAX_BOND = 300;
 
 const H4 = styled.h4`
   margin-bottom: 0;
@@ -299,7 +303,7 @@ const handleVote = () =>
     "vote",
     { prop_id: id, vote: state.selectedCandidates },
     "70000000000000",
-    2000000000000000000000
+    (state.greylisted ? MAX_BOND : MIN_BOND) * 100000000000000000000000
   ).then((data) => State.update({ bountyProgramModal: false }));
 
 const handleAcceptToS = () => {
@@ -346,15 +350,32 @@ const filterBy = (option) => {
 };
 
 const loadInitData = () => {
-  const policy = Near.view(electionContract, "accepted_policy", {
-    user: context.accountId,
+  const electionStatus = Near.view(electionContract, "proposal_status", {
+    prop_id: id,
   });
 
-  State.update({
-    candidates: filteredCandidates(),
-    tosAgreement: !!policy,
-    bountyProgramModal: !!policy,
-  });
+  switch (electionStatus) {
+    case "ONGOING":
+      const policy = Near.view(electionContract, "accepted_policy", {
+        user: context.accountId,
+      });
+      State.update({
+        candidates: filteredCandidates(),
+        tosAgreement: !!policy,
+        bountyProgramModal: !!policy,
+      });
+      break;
+    case "COOLDOWN":
+      State.update({
+        candidates: filteredCandidates(),
+        showReviewModal: true,
+      });
+      break;
+    default:
+      State.update({
+        candidates: filteredCandidates(),
+      });
+  }
 };
 
 const loadSocialDBData = () => {
@@ -389,8 +410,12 @@ State.init({
     my_votes: false,
   },
   filterOption: "",
+  blacklisted: false,
+  greylisted: false,
   showToSModal: false,
   bountyProgramModal: false,
+  showReviewModal: false,
+  blacklistedModal: true,
 });
 
 loadInitData();
@@ -499,7 +524,7 @@ const CandidateList = ({ candidateId, votes }) => (
           <Votes>
             <input
               id="input"
-              disabled={alreadyVotedForHouse()}
+              disabled={alreadyVotedForHouse() || state.blacklisted}
               onClick={() => handleSelectCandidate(candidateId)}
               className="form-check-input"
               type="checkbox"
@@ -603,6 +628,8 @@ const CastVotes = () => (
         <i class="bi bi-info-circle"></i>
         {alreadyVotedForHouse() ? (
           <span>You're already voted for {housesMapping[typ]}</span>
+        ) : state.blacklisted ? (
+          <span>Your account is blacklisted</span>
         ) : (
           <span>Make sure you selected {seats} candidates</span>
         )}
@@ -630,7 +657,8 @@ const CastVotes = () => (
         props={{
           Button: {
             className: "primary justify-content-center",
-            disabled: state.selectedCandidates.length === 0,
+            disabled:
+              state.selectedCandidates.length === 0 || state.blacklisted,
             text: `Cast ${state.selectedCandidates.length || ""} Votes`,
             onClick: () =>
               state.tosAgreement
@@ -651,6 +679,61 @@ const ALink = ({ title, href }) => (
 
 return (
   <>
+    {state.showReviewModal && (
+      <Widget
+        src={widgets.modal}
+        props={{
+          title: (
+            <div>
+              <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
+              <div className="mt-4">Election results are under review</div>
+            </div>
+          ),
+          description:
+            "Election results are under review by Election integrity Councils. Please wait it may takes a few days",
+          Button: {
+            title: "I understand",
+            onCancel: () => State.update({ showReviewModal: false }),
+            onSubmit: () => State.update({ showReviewModal: false }),
+          },
+        }}
+      />
+    )}
+    {state.blacklisted && state.blacklistedModal && (
+      <Widget
+        src={widgets.modal}
+        props={{
+          title: (
+            <div>
+              <img src="https://bafkreignre4f27jsdgxt25pgnenjyqfw55pkhtnu5gkv7vhex3ttv45pbe.ipfs.nftstorage.link" />
+              <div className="mt-4">You are on the election blacklist. </div>
+            </div>
+          ),
+          description: (
+            <>
+              The community has voted to block backlisted accounts from voting
+              in the NDC general election. You have been blacklisted due
+              previously violating the
+              <ALink
+                title="Fair Voting Policy."
+                href="https://bafkreieiqabf6k675f3doqdztej53qmiybmhiaqgjaqmj673wbxxq5muke.ipfs.nftstorage.link/"
+              />
+              .
+            </>
+          ),
+          Button: {
+            title: "I understand",
+            onCancel: () => State.update({ blacklistedModal: false }),
+            onSubmit: () => State.update({ blacklistedModal: false }),
+          },
+          SecondaryButton: {
+            type: "Link",
+            title: "Appeal the Decision",
+            href: BLACKLIST_VERIFY_LINK,
+          },
+        }}
+      />
+    )}
     {state.showToSModal && (
       <Widget
         src={widgets.modal}
@@ -732,9 +815,10 @@ return (
                 .
               </p>
               <p>
-                You will be bonding xN during the election period. This bond
-                will be returned to you after the election results are reviewed
-                and validated.
+                You will be bonding{" "}
+                <b>{state.greylisted ? MAX_BOND : MIN_BOND} NEAR</b> during the
+                election period. This bond will be returned to you after the
+                election results are reviewed and validated.
               </p>
               <p>
                 Make sure you vote for all the seats in this house. You can only
@@ -758,6 +842,12 @@ return (
               state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
             onCancel: () => State.update({ bountyProgramModal: false }),
             onSubmit: handleVote,
+          },
+          SecondaryButton: {
+            type: state.greylisted ? "Link" : "Button",
+            title: state.greylisted ? "Apply to Verify" : "Cancel",
+            href: GREYLIST_VERIFY_LINK,
+            onClick: () => State.update({ bountyProgramModal: false }),
           },
         }}
       />
