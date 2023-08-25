@@ -67,7 +67,7 @@ const GlobalStyle = styled.div`
 
 const Main = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.bg, dark.bg)};
   overflow-y: auto;
