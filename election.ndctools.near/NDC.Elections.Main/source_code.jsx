@@ -7,6 +7,24 @@ const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry.i-am-human.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
+State.init({
+  selectedHouse: ids[0],
+  myVotes: [],
+  isIAmHuman: false,
+  candidateId: "",
+});
+
+const rand = (array) => {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+
+  return array;
+};
+
 let houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[0] }),
   Near.view(electionContract, "proposal", { prop_id: ids[1] }),
@@ -20,13 +38,7 @@ let budget = {
   typ: "BudgetPackage",
   seats: 1,
 };
-
-State.init({
-  selectedHouse: ids[0],
-  myVotes: [],
-  isIAmHuman: false,
-  candidateId: "",
-});
+houses = houses.map((house) => rand(house.result));
 
 const isHuman = Near.view(registryContract, "is_human", {
   account: context.accountId,
@@ -104,17 +116,6 @@ const H5 = styled.h5`
   margin-bottom: 20px;
 `;
 
-const rand = (array) => {
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-
-  return array;
-};
-
 return (
   <>
     <div>
@@ -185,7 +186,6 @@ return (
                     candidateId: state.candidateId,
                     winnerIds: getWinnerIds(),
                     ...house,
-                    result: rand(house.result),
                   }}
                 />
               )}
