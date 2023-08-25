@@ -10,12 +10,6 @@ if (policy === null) {
 
 const deposit = policy.proposal_bond;
 
-let members = Social.getr(`${context.accountId}/graph/${groupId}`, "final", {});
-
-if (members === null) {
-  return "";
-}
-
 function generateUID() {
   return (
     Math.random().toString(16).slice(2) +
@@ -25,55 +19,6 @@ function generateUID() {
 }
 
 const groupId = props.groupId ?? generateUID();
-
-const group_args = JSON.stringify({
-  data: {
-    [daoId]: {
-      graph: {
-        [groupId]: state.elements,
-      },
-      index: {
-        post: JSON.stringify({
-          key: "group",
-          value: {
-            type: "work",
-          },
-        }),
-      },
-    },
-  },
-});
-
-const proposal_args = Buffer.from(group_args, "utf-8").toString("base64");
-
-const handleProposal = () => {
-  Near.call([
-    {
-      contractName: daoId,
-      methodName: "add_proposal",
-      args: {
-        proposal: {
-          description: "create group on the BOS",
-          kind: {
-            FunctionCall: {
-              receiver_id: "social.near",
-              actions: [
-                {
-                  method_name: "set",
-                  args: proposal_args,
-                  deposit: "100000000000000000000000",
-                  gas: "219000000000000",
-                },
-              ],
-            },
-          },
-        },
-      },
-      deposit: deposit,
-      gas: "219000000000000",
-    },
-  ]).then(() => handleClose());
-};
 
 let SocialContract = "social.near";
 
@@ -157,26 +102,83 @@ const Section = styled.div`
 `;
 
 const handleCreate = () => {
-  const data = `{"data":{ "${context.accountId}": {"thing": { "group" ${stateAsString}} }}`;
-  const SocialArgs = JSON.parse(data);
+  const groupData = `{ "data": {
+    "${context.accountId}": {
+      "thing": {
+        "group": {
+        "${groupId}": ${state.group},
+        },
+      },
+    },
+  }}`;
+  const membersData = `{ "data": {
+    "${context.accountId}": {
+      "graph": {
+        "${groupId}": ${state.members},
+        },
+      },
+    },
+  }}`;
 
-  // let CreateGroup_Payload = {
-  //   contractName: daoId,
-  //   methodName: "add_proposal",
-  //   args: {},
-  //   gas: 300000000000000,
-  //   deposit: 100000000000000000000000,
-  // };
+  const MembersArgs = JSON.parse(membersData);
+  const GroupArgs = JSON.parse(groupData);
 
-  let Social_Payload = {
+  const proposal_args = JSON.stringify({
+    data: {
+      [daoId]: {
+        graph: {
+          [groupId]: "",
+        },
+      },
+    },
+  });
+
+  const ProposalArgs = Buffer.from(proposal_args, "utf-8").toString("base64");
+
+  let Members_Payload = {
     contractName: SocialContract,
     methodName: "set",
-    args: SocialArgs,
+    args: MembersArgs,
     gas: 300000000000000,
     deposit: 100000000000000000000000,
   };
 
-  Near.call([Social_Payload, CreatGroup_Payload]).then(() => handleClose());
+  let Group_Payload = {
+    contractName: SocialContract,
+    methodName: "set",
+    args: GroupArgs,
+    gas: 300000000000000,
+    deposit: 100000000000000000000000,
+  };
+
+  let Proposal_Payload = {
+    contractName: daoId,
+    methodName: "add_proposal",
+    args: {
+      proposal: {
+        description: "create group on the BOS",
+        kind: {
+          FunctionCall: {
+            receiver_id: "social.near",
+            actions: [
+              {
+                method_name: "set",
+                args: ProposalArgs,
+                deposit: "100000000000000000000000",
+                gas: "285000000000000",
+              },
+            ],
+          },
+        },
+      },
+    },
+    deposit: deposit,
+    gas: "219000000000000",
+  };
+
+  Near.call([Group_Payload, Members_Payload, Proposal_Payload]).then(() =>
+    handleClose()
+  );
 };
 
 return (
