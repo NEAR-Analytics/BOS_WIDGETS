@@ -34,6 +34,13 @@ const Card =
         :hover {
           text-decoration: none;
         }
+        @media (max-width: 900px) {
+          width:100%;
+          height:264px;
+          .hot{
+            display:none;
+          }
+        }
       `
     : styled.a`
         width:500px;
@@ -55,6 +62,13 @@ const Card =
           align-items:center;
           justify-content:space-between;
           padding: 0px 20px;
+        }
+        @media (max-width: 900px) {
+          width:100%;
+          height:264px;
+          .hot{
+            display:none;
+          }
         }
       `;
 
@@ -132,6 +146,14 @@ const Thumbnail = styled.a`
     height: 100%;
     border-radius: 16px;
   }
+  @media (max-width: 900px) {
+    width: 74px;
+    height: 74px;
+    img {
+      width: 60px;
+      height: 60px;
+    }
+  }
 `;
 
 const TagsWrapper = styled.div`
@@ -150,6 +172,27 @@ const Tag = styled.div`
   background: rgba(26, 46, 51, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 30px;
+  @media (max-width: 900px) {
+    color:#000000;
+    font-size:12px;
+    padding:2px 10px;
+    background: ${({ content }) => {
+    if (content === 'bridge') {
+      return 'rgba(227, 233, 157, 1)';
+    } else if (content === 'dexes') {
+      return 'rgba(172, 252, 237, 1)';
+    } else if (content === 'lending') {
+      return 'rgba(173, 255, 181, 1)';
+    } else if (content === 'liquid-staking') {
+      return 'rgba(193, 191, 255, 1)';
+    } else if (content === 'staking') {
+      return 'rgba(193, 191, 255, 1)';
+    } else {
+      return 'rgba(26, 46, 51, 0.25)';
+    }
+  }};;
+    border:none;
+  }
 `;
 
 const ProfileIcon = styled.div`
@@ -214,6 +257,9 @@ const Banner = styled.div`
     object-fit: cover;
     width: 100%;
     height: 100%;
+  }
+  @media (max-width: 900px) {
+    height:160px;
   }
 `;
 
@@ -373,7 +419,7 @@ return (
       <TagsWrapper>
         {tags.length > 0 &&
           tags.map((t) => {
-            return <Tag>{t}</Tag>;
+            return <Tag content={t}>{t}</Tag>;
           })}
       </TagsWrapper>
       <div className="hot">
