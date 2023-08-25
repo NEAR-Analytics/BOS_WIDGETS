@@ -512,7 +512,7 @@ if (
 
 return (
   <div>
-    {balances.map((balance) => {
+    {state.balances.map((balance) => {
       return (
         <div>
           <p>Debt: {balance.debt} SUS</p>
