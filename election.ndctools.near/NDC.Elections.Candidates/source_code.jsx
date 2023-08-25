@@ -863,7 +863,7 @@ return (
             type: state.greylisted ? "Link" : "Button",
             title: state.greylisted ? "Apply to Verify" : "Cancel",
             href: GREYLIST_VERIFY_LINK,
-            onClick: () =>
+            onSubmit: () =>
               State.update({ bountyProgramModal: false, reload: false }),
           },
         }}
