@@ -44,6 +44,16 @@ const PurpleText = styled.span`
   color: #6F3CE4; /* Set your desired color */
 `;
 
+const Mesh = styled.div`
+  color: #6F3CE4; /* Set your desired color */
+  width: 610px;
+  height: 489px;
+  padding-top: 100px; /* Adjust the padding as needed */
+  position: absolute;
+  right: -250px; /* Position it to the left, one full width away */
+  top: 0;
+`;
+
 return (
   <HeroSection>
     <LeftDiv>
@@ -57,7 +67,9 @@ return (
     </LeftDiv>
 
     <RightDiv>
-      <img src="https://i.ibb.co/8gF6vxB/Frame-3.png" />
+      <Mesh>
+        <img src="https://i.ibb.co/8gF6vxB/Frame-3.png" />
+      </Mesh>
     </RightDiv>
   </HeroSection>
 );
