@@ -56,7 +56,6 @@ const Layout = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  z-index: 1;
   justify-content: center;
   .tip-wrapper {
     position: absolute;
