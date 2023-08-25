@@ -340,57 +340,81 @@ const getBestTrade = () => {
         throw Error("Get pair address error");
       }
       const PairContract = getPairContract(_pairAddress);
-      PairContract["token0"]().then((_token0) => {
-        PairContract.getReserves().then((res) => {
-          const [reserve0, reserve1] = res;
+      PairContract["token0"]()
+        .then((_token0) => {
+          PairContract.getReserves()
+            .then((res) => {
+              const [reserve0, reserve1] = res;
 
-          const currentCurrency =
-            state.tradeType === "in"
-              ? state.inputCurrency
-              : state.outputCurrency;
-          const currentAmount = Big(
-            state.tradeType === "in"
-              ? state.inputCurrencyAmount
-              : state.outputCurrencyAmount
-          )
-            .mul(0.995)
-            .toString();
-          const type =
-            _token0 ===
-            (currentCurrency.address === "native"
-              ? WETH_ADDRESS
-              : currentCurrency.address)
-              ? "in"
-              : "out";
+              const currentCurrency =
+                state.tradeType === "in"
+                  ? state.inputCurrency
+                  : state.outputCurrency;
+              const currentAmount = Big(
+                state.tradeType === "in"
+                  ? state.inputCurrencyAmount
+                  : state.outputCurrencyAmount
+              )
+                .mul(0.995)
+                .toString();
+              const type =
+                _token0 ===
+                (currentCurrency.address === "native"
+                  ? WETH_ADDRESS
+                  : currentCurrency.address)
+                  ? "in"
+                  : "out";
 
-          RouterContract[type === "in" ? "getAmountOut" : "getAmountIn"](
-            ethers.utils.parseUnits(currentAmount, currentCurrency.decimals),
-            reserve0,
-            reserve1
-          ).then((_outAmount) => {
-            const outCurrency =
-              state.tradeType === "in"
-                ? state.outputCurrency
-                : state.inputCurrency;
-            const outAmount = Big(
-              ethers.utils.formatUnits(_outAmount, outCurrency.decimals)
-            ).toFixed(4);
-            State.update(
-              state.tradeType === "in"
-                ? {
-                    outputCurrencyAmount: outAmount,
+              RouterContract[type === "in" ? "getAmountOut" : "getAmountIn"](
+                ethers.utils.parseUnits(
+                  currentAmount,
+                  currentCurrency.decimals
+                ),
+                reserve0,
+                reserve1
+              )
+                .then((_outAmount) => {
+                  const outCurrency =
+                    state.tradeType === "in"
+                      ? state.outputCurrency
+                      : state.inputCurrency;
+                  const outAmount = Big(
+                    ethers.utils.formatUnits(_outAmount, outCurrency.decimals)
+                  ).toFixed(4);
+                  State.update(
+                    state.tradeType === "in"
+                      ? {
+                          outputCurrencyAmount: outAmount,
+                          loading: false,
+                          noPair: false,
+                        }
+                      : {
+                          inputCurrencyAmount: outAmount,
+                          loading: false,
+                          noPair: false,
+                        }
+                  );
+                })
+                .catch(() => {
+                  State.update({
                     loading: false,
-                    noPair: false,
-                  }
-                : {
-                    inputCurrencyAmount: outAmount,
-                    loading: false,
-                    noPair: false,
-                  }
-            );
+                    noPair: true,
+                  });
+                });
+            })
+            .catch(() => {
+              State.update({
+                loading: false,
+                noPair: true,
+              });
+            });
+        })
+        .catch(() => {
+          State.update({
+            loading: false,
+            noPair: true,
           });
         });
-      });
     })
     .catch((err) => {
       console.log(err);
