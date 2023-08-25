@@ -544,6 +544,8 @@ let balancesList = balances.map((balance) => {
 });
 
 console.log(balancesList);
+console.log("State balances");
+console.log(state.balances);
 
 return (
   <div>
