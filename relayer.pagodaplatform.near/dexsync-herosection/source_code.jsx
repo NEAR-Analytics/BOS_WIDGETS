@@ -1,28 +1,44 @@
+const Container = styled.div`
+background-color: #141414;
+  width: 102%;
+    height: 100vh;
+    display:flex;
+      overflow: hidden; /* Add overflow hidden to hide overflowing content */
+
+`;
+
+const HeroSections = styled.div`
+margin-top: 100px;
+`;
+
 const HeroSection = styled.div`
+width: 100vw;
 display: flex;
-margin-top: 50px;
-position: relative;
+margin-top: 120px;
+// position: relative;
 `;
 
 const LeftDiv = styled.div`
-display: flex-col;
+  display: flex;
+  flex-direction: column;
+  width: 50%; /* Set the width to half of the screen */
   margin-left: 45px;
-
 `;
 
 const RightDiv = styled.div`
-display: flex-col;
+  display: flex;
+  flex-direction: column;
+  width: 50%; /* Set the width to half of the screen */
   margin-right: 45px;
-
 `;
 
 const MainText = styled.h1`
 font-style: normal;
 color:white;
 font-weight: 700;
-width: 320px;
-font-size: 36px;
-line-height: 40px;`;
+width: 600px;
+font-size: 56px;
+line-height: 56px;`;
 
 const Button = styled.div`
 margin-top: 30px;
@@ -47,10 +63,11 @@ const PurpleText = styled.span`
 
 const Mesh = styled.div`
   color: #6F3CE4; /* Set your desired color */
-  width: 610px;
-  height: 489px;
+  width: 950px;
+  left: 530px;
+  margin-top: 80px;
+
   position: absolute;
-  right: -250px; /* Position it to the left, one full width away */
   top: 0;
 `;
 
@@ -59,14 +76,15 @@ const MeshImage = styled.img`
   height: 100%;
     border: 1px solid #6F3CE4; /* Add border at the bottom */
 
-
   object-fit: cover; /* Adjust to your desired object-fit behavior */
 `;
 
 const Banner = styled.div`
-  width: 340px;
+  width: 500px;
   position: absolute;
-  margin-left: 50px;
+  margin-left: 80px;
+  margin-top: 190px;
+
   top: 0;
 `;
 
@@ -77,25 +95,27 @@ const BannerImage = styled.img`
 `;
 
 return (
-  <HeroSection>
-    <LeftDiv>
-      <MainText>
-        Say doodbye to tab clutter qith <GrayText>our innovative</GrayText>{" "}
-        <PurpleText>chrome extension</PurpleText>
-      </MainText>
-      <a href="https://dex-sync.vercel.app/" target="_blank">
-        <Button>Go to app</Button>
-      </a>
-    </LeftDiv>
+  <HeroSections>
+    <HeroSection>
+      <LeftDiv>
+        <MainText>
+          Say doodbye to tab clutter qith <GrayText>our innovative</GrayText>{" "}
+          <PurpleText>chrome extension</PurpleText>
+        </MainText>
+        <a href="https://dex-sync.vercel.app/" target="_blank">
+          <Button>Go to app</Button>
+        </a>
+      </LeftDiv>
 
-    <RightDiv>
-      <Mesh>
-        <MeshImage src="https://i.ibb.co/8gF6vxB/Frame-3.png" />
-      </Mesh>
+      <RightDiv>
+        <Mesh>
+          <MeshImage src="https://i.ibb.co/8gF6vxB/Frame-3.png" />
+        </Mesh>
 
-      <Banner>
-        <BannerImage src="https://i.ibb.co/r2F3T6D/Group-10.png" />
-      </Banner>
-    </RightDiv>
-  </HeroSection>
+        <Banner>
+          <BannerImage src="https://i.ibb.co/r2F3T6D/Group-10.png" />
+        </Banner>
+      </RightDiv>
+    </HeroSection>
+  </HeroSections>
 );
