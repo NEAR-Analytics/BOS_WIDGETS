@@ -194,7 +194,7 @@ const handleCreate = () => {
   const proposal_args = JSON.stringify({
     data: {
       [daoId]: {
-        graph: {
+        groups: {
           [groupId]: "",
         },
       },
