@@ -235,7 +235,7 @@ return (
                       });
                     }}
                     className={`nav-link ${
-                      id === displayedTabId
+                      pill.id === displayedTabId
                         ? "active text-decoration-underline"
                         : "text-decoration-none"
                     } `}
