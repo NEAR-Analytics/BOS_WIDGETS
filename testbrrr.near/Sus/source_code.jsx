@@ -378,9 +378,10 @@ const vesselManagerContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
+let assets = Object.values(availableAssets);
+let balances = [...state.balances];
+
 const processAsset = (index) => {
-  let assets = Object.values(availableAssets);
-  let balances = [...state.balances];
   console.log("other balances");
   console.log(state.balances);
   if (index === assets.length - 1 && !state.stopReload) {
