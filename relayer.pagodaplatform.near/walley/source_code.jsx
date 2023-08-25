@@ -1,3 +1,8 @@
+const unixToDate = (time) => {
+  const d = new Date(time * 1000);
+  return d.toLocaleString();
+};
+
 const nftAddress = "0x2e0f4a4123d0072f46bf67127270a80114541d86";
 const NFTManagerABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/NFTManager.json")
@@ -1081,6 +1086,7 @@ return (
                               <p>Name - {tx[2]}</p>
                               <p>Store name - {tx[6]} </p>
                               <p>Amount - {Big(tx[5]).toFixed(5)}</p>
+                              <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                               {state.user.openModal === parseInt(tx[1], 16) ? (
                                 <>
                                   <WalleyLabel>
@@ -1190,6 +1196,8 @@ return (
                               <p>Store name - {tx[6]} </p>
                               <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
                               <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
+
+                              <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                               {state.user.openReceipt ===
                               Big(tx[1]).toFixed(0) ? (
                                 <>
@@ -1278,6 +1286,8 @@ return (
                           <p>Name - {tx[2]}</p>
                           <p>Store name - {tx[6]} </p>
                           <p>Max amount - {Big(tx[5]).toFixed(5)}</p>
+
+                          <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                           {state.store.openModal === parseInt(tx[1], 16) ? (
                             <>
                               <WalleyLabel>Please scan the bill - </WalleyLabel>
@@ -1393,6 +1403,8 @@ return (
                         <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
 
                         <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
+
+                        <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                         {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
                           <>
                             <WalleyStoreImage
