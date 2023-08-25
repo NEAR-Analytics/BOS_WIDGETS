@@ -262,6 +262,7 @@ const handleSelectCandidate = (candidateId) => {
   State.update({
     selectedCandidates: selectedItems,
     availableVotes: currentVotes,
+    reload: false,
   });
 };
 
@@ -295,7 +296,7 @@ const handleBookmarkCandidate = (candidateId) => {
         State.update({
           bookmarked: selectedItems,
           loading: false,
-          start: true,
+          reload: true,
         });
       },
       onCancel: () => State.update({ loading: false }),
@@ -331,7 +332,7 @@ const handleAcceptToS = () => {
   );
 };
 
-const filterBy = (option) => {
+const handleFilter = (option) => {
   let filterOption = "";
   let filter = {};
 
@@ -352,7 +353,7 @@ const filterBy = (option) => {
     filter = { my_votes: !state.filter.my_votes };
   }
 
-  State.update({ filterOption, filter });
+  State.update({ filterOption, filter, reload: true });
 };
 
 const loadInitData = () => {
@@ -385,7 +386,7 @@ const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () => myVotesForHouse().length > 0 || winnerIds.length > 0;
 
 State.init({
-  start: true,
+  reload: true,
   loading: false,
   electionStatus: "NOT_STARTED",
   availableVotes: seats - myVotesForHouse().length,
@@ -411,25 +412,26 @@ State.init({
   blacklistedModal: true,
 });
 
-const electionStatus = Near.view(electionContract, "proposal_status", {
-  prop_id: props.id,
-});
+if (state.reload) {
+  const electionStatus = Near.view(electionContract, "proposal_status", {
+    prop_id: props.id,
+  });
 
-const policy = Near.view(electionContract, "accepted_policy", {
-  user: context.accountId,
-});
+  const policy = Near.view(electionContract, "accepted_policy", {
+    user: context.accountId,
+  });
 
-const bookmarked = loadSocialDBData();
+  const bookmarked = loadSocialDBData();
 
-State.update({
-  electionStatus,
-  policy,
-  start: false,
-  candidates: filteredCandidates(),
-  bookmarked,
-});
+  State.update({
+    electionStatus,
+    policy,
+    candidates: filteredCandidates(),
+    bookmarked,
+  });
 
-loadInitData();
+  loadInitData();
+}
 
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
@@ -561,7 +563,7 @@ const Filters = () => (
         <Bookmark
           role="button"
           className="text-secondary"
-          onClick={() => filterBy({ bookmark: true })}
+          onClick={() => handleFilter({ bookmark: true })}
         >
           <small>Bookmark</small>
           <i
@@ -573,7 +575,7 @@ const Filters = () => (
       )}
       <Candidates
         className="text-secondary"
-        onClick={() => filterBy({ candidates: true })}
+        onClick={() => handleFilter({ candidates: true })}
       >
         <small>Candidate</small>
         <i
@@ -591,7 +593,7 @@ const Filters = () => (
         <Votes
           role="button"
           className="text-secondary"
-          onClick={() => filterBy({ votes: true })}
+          onClick={() => handleFilter({ votes: true })}
         >
           <small>Total votes</small>
           <i
@@ -605,7 +607,7 @@ const Filters = () => (
         <Action
           role="button"
           className="text-secondary"
-          onClick={() => filterBy({ my_votes: true })}
+          onClick={() => handleFilter({ my_votes: true })}
         >
           <small>My votes</small>
           <i
