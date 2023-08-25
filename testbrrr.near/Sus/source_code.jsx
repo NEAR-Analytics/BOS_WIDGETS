@@ -387,7 +387,7 @@ const processAsset = (index, balances) => {
   //   return;
   // }
   let asset = assets[index];
-  if (asset) {
+  if (asset && !state.stopReload) {
     vesselManagerContract
       .getEntireDebtAndColl(asset, state.sender)
       .then((results) => {
