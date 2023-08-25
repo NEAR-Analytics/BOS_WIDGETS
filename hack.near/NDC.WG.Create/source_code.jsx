@@ -106,7 +106,7 @@ const handleCreate = () => {
     "${context.accountId}": {
       "thing": {
         "group": {
-        "${groupId}": ${state.group},
+        "${groupId}": "${state.group}",
         },
       },
     },
@@ -114,7 +114,7 @@ const handleCreate = () => {
   const membersData = `{ "data": {
     "${context.accountId}": {
       "graph": {
-        "${groupId}": ${state.members},
+        "${groupId}": "${state.members}",
         },
       },
     },
