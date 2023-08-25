@@ -204,7 +204,7 @@ return (
                   props={{
                     Button: {
                       text: "Submit",
-                      onClick: () => handleProposal(),
+                      onClick: () => handleCreate(),
                     },
                   }}
                 />
@@ -212,7 +212,7 @@ return (
             </div>
             <Hr />
             <Widget
-              src="hack.near/widget/group.editor"
+              src="hack.near/widget/group.edit"
               props={{ creatorId: context.accountId }}
             />
           </CardForm>
