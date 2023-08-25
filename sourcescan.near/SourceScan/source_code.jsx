@@ -170,43 +170,45 @@ return (
           switchTheme: switchTheme,
         }}
       />
-      <HStack style={{ paddingTop: "80px" }}>
+      <Stack>
+        <HStack style={{ paddingTop: "80px" }}>
+          <Widget
+            src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
+            props={{
+              theme: state.theme,
+              handleSubmit: handleSubmit,
+              value: state.search,
+            }}
+          />
+          <Widget
+            src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
+            props={{
+              handleOptionsChange: handleOptionsChange,
+              theme: state.theme,
+              limits: limits,
+              selectedLimit: state.limit,
+            }}
+          />
+        </HStack>
         <Widget
-          src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
+          src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
           props={{
             theme: state.theme,
-            handleSubmit: handleSubmit,
-            value: state.search,
+            contracts: state.contracts,
+            rpcUrl: state.config.rpcUrl,
+            apiHost: state.config.apiHost,
           }}
         />
         <Widget
-          src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
+          src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
           props={{
-            handleOptionsChange: handleOptionsChange,
             theme: state.theme,
-            limits: limits,
-            selectedLimit: state.limit,
+            pages: state.pages,
+            selectedPage: state.selectedPage,
+            handlePageChange: handlePageChange,
           }}
         />
-      </HStack>
-      <Widget
-        src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
-        props={{
-          theme: state.theme,
-          contracts: state.contracts,
-          rpcUrl: state.config.rpcUrl,
-          apiHost: state.config.apiHost,
-        }}
-      />
-      <Widget
-        src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
-        props={{
-          theme: state.theme,
-          pages: state.pages,
-          selectedPage: state.selectedPage,
-          handlePageChange: handlePageChange,
-        }}
-      />
+      </Stack>
     </Main>
   </GlobalStyle>
 );
