@@ -355,10 +355,10 @@ const filterBy = (option) => {
 };
 
 const loadInitData = () => {
-  console.log(props.id);
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
   });
+  console.log(electionStatus);
 
   switch (electionStatus) {
     case "ONGOING":
