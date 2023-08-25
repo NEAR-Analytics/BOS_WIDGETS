@@ -155,6 +155,32 @@ const curatedComps = [
     ],
   },
   {
+    category: "BOS Notifications",
+    id: "notification",
+    icon: "bi-bell",
+    components: [
+      {
+        accountId: "mob.near",
+        widgetName: "NotificationFeed",
+      },
+            {
+        accountId: "near",
+        widgetName: "Notification",
+      },
+    ],
+  },
+  {
+    category: "Storage API",
+    id: "storage",
+    icon: "bi-database",
+    components: [
+      {
+        accountId: "efiz.near",
+        widgetName: "ShoppingCartDemo",
+      },
+    ],
+  },
+  {
     category: "NDC",
     id: "ndc",
     icon: "bi-building",
