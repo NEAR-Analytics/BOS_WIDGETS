@@ -492,7 +492,7 @@ if (
     typeof props.collateralAmount === "number" &&
     props.collateralAmount > 0
   ) {
-    openVessel();
+    // openVessel();
   } else {
     props.resendPrompt(props);
   }
