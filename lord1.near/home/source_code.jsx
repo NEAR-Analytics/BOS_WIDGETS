@@ -273,22 +273,10 @@ return (
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
           },
           {
-            text: "Network",
-            link: "xxx",
-            image:
-              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-8.svg",
-          },
-          {
             text: "Im human",
             link: "im-human",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
-          },
-          {
-            text: "Near social",
-            link: "xxx",
-            image:
-              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
           },
           {
             text: "Tracker",
