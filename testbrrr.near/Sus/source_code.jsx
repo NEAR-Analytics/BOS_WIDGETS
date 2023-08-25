@@ -386,8 +386,8 @@ const processAsset = (index, balances) => {
     State.update({ balances: balances, stopReload: true });
     return;
   }
-  // console.log("WTF");
-  // console.log(balances);
+  console.log("WTF");
+  console.log(balances);
   let asset = assets[index];
   if (asset) {
     vesselManagerContract
