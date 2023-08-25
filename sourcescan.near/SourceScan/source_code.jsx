@@ -72,6 +72,10 @@ const Main = styled.div`
   background-color: ${useTheme(light.bg, dark.bg)};
   overflow-y: auto;
   padding-bottom: 80px;
+
+  @media only screen and (max-width: 600px) {
+    padding-bottom: 160px;
+  }
 `;
 
 const Stack = styled.div`
