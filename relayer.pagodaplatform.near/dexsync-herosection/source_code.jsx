@@ -81,8 +81,8 @@ return (
   <HeroSection>
     <LeftDiv>
       <MainText>
-        Say doodbye to tab clutter qith <GrayText>our innovative</GrayText>{" "}
-        <PurpleText>chrome extension</PurpleText>
+        Discover the Ultimate <GrayText>Meta DEX Aggregator:</GrayText>{" "}
+        <PurpleText>One Platform, Best Prices!</PurpleText>
       </MainText>
       <a href="https://dex-sync.vercel.app/" target="_blank">
         <Button>Go to app</Button>
