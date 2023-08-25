@@ -952,7 +952,9 @@ return (
             {state.view === "home" ? (
               <>
                 {state.newTxn ? (
-                  <WalleyHomeOverlay>
+                  <WalleyHomeOverlay
+                    onClick={() => State.update({ newTxn: false })}
+                  >
                     <WalleyHomeForm>
                       <WalleyLabel>Select a Store</WalleyLabel>
                       <Widget
