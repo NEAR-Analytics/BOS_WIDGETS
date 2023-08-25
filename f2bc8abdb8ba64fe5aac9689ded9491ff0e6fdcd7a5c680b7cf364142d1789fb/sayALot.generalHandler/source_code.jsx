@@ -468,7 +468,6 @@ return (
         handleFilterArticles,
         filterParameter: state.filterBy.parameterName,
         handleBackButton,
-        handleGoHomeButton,
         tabs,
       }}
     />
