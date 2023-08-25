@@ -207,6 +207,9 @@ const WalleyHomeMain = styled.div`
     width: 100%;
     height: 100%;
     align-items: space-between;
+    @media screen and (max-width: 600px) {
+      flex-direction: row;
+    }
 `;
 
 const WalleyNavbar = styled.div`
@@ -225,7 +228,6 @@ const WalleyNavbar = styled.div`
     @media screen and (max-width: 600px) {
         flex-direction: row;
         font-size: 12px;
-        
     }
 `;
 
