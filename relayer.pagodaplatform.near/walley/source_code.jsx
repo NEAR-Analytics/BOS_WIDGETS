@@ -314,7 +314,7 @@ const WalleyButton = styled.button`
   display: block;
   width: 100%;
   border-radius: 20px;
-  padding: 10px;
+  padding: 7px;
   border: 0px;
   font-weight: 500;
   box-shadow: rgb(0, 0, 0, 0.19) 0px 10px 20px, rgb(0, 0, 0, 0.23) 0px 6px 6px;
@@ -374,7 +374,7 @@ const WalleyStoreImage = styled.img`
 const WalleyInput = styled.input`
   display: block;
   width: 100%;
-  padding: 10px;
+  padding: 6px;
   border-radius: 20px;
   background: none;
   border: 2px solid rgb(66, 66, 66);
