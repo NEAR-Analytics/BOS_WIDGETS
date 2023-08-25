@@ -686,6 +686,13 @@ const ALink = ({ title, href }) => (
   </a>
 );
 
+function rand(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
 return (
   <>
     {state.showReviewModal && (
@@ -868,7 +875,7 @@ return (
         <>
           <Filters />
           <CandidatesContainer>
-            {state.candidates.map(([candidateId, votes], index) => (
+            {rand(state.candidates).map(([candidateId, votes], index) => (
               <CandidateItem
                 candidateId={candidateId}
                 votes={votes}
