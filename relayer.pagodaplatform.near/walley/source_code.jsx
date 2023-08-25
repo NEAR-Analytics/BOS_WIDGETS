@@ -386,6 +386,7 @@ const WalleyImageContainer = styled.div`
 `;
 
 const WalleyStoreImage = styled.img`
+  maring: 0 auto;
   width: 200px;
   text-align: center;
 `;
