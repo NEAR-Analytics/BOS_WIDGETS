@@ -13,8 +13,8 @@ const NavbarContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  height: 55px;
-  width: 130px;
+  height: 65px;
+  width: 160px;
   object-fit: contain;
 `;
 
@@ -29,7 +29,7 @@ const NavLink = styled.div`
     color: #757479;
   text-decoration: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   transition: text-decoration 0.3s;
 
   &:hover {
@@ -41,7 +41,7 @@ const Button = styled.div`
   text-decoration: none;
   cursor: pointer;
   padding: 8px 24px;
-  font-size: 16px;
+  font-size: 18px;
   background-color: #6F3CE4;
   color: white; /* Set text color to white */
   border: none;
