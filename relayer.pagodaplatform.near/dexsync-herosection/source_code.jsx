@@ -51,9 +51,8 @@ const PurpleText = styled.span`
 const Mesh = styled.div`
   color: #6F3CE4; /* Set your desired color */
   width: 950px;
-  left: 530px;
-  margin-top: 80px;
-
+  left: 450px;
+  margin-top: 100px;
   position: absolute;
   top: 0;
 `;
@@ -67,9 +66,8 @@ const MeshImage = styled.img`
 const Banner = styled.div`
   width: 500px;
   position: absolute;
-  margin-left: 80px;
+  margin-left: 50px;
   margin-top: 190px;
-
   top: 0;
 `;
 
