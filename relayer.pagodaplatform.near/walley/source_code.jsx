@@ -418,19 +418,26 @@ const WalleyTransactions = styled.div`
 
 const WalleySearch = styled.div`
   display: flex;
+  padding: 0px 10px;
   flex-direction: row;
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+  }
   &>button {
     width: 150px;
     margin-right: 20px;
     font-size: 16px;
     @media screen and (max-width: 400px) {
-      font-size: 10px;
+      width: 100%;
+      margin-right: 0px;
+      font-size: 13px;
     }
   }
   &>input {
     font-size: 16px;
     @media screen and (max-width: 400px) {
-      font-size: 10px;
+      width: 100%;
+      font-size: 13px;
     }
   }
 `;
