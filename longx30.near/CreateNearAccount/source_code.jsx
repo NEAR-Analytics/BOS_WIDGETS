@@ -68,10 +68,12 @@ const onChange = (e) => {
 return (
   <MainLayout>
     <InputLayout
-      placeholder={placeholder}
+      placeholder={placeholder || "New account Id"}
       onChange={onChange}
       value={state.newAccountId}
     />
-    <ButtonPrimary onClick={createAccount}>{titleBtn}</ButtonPrimary>
+    <ButtonPrimary onClick={createAccount}>
+      {titleBtn || "Create Account"}
+    </ButtonPrimary>
   </MainLayout>
 );
