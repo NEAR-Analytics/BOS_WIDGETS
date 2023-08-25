@@ -14,6 +14,9 @@ const {
   candidateId,
 } = props;
 
+console.log(id);
+console.log(props);
+
 const widgets = {
   voters: "election.ndctools.near/widget/NDC.Elections.Voters",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
@@ -219,7 +222,6 @@ const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 
 const filteredCandidates = () => {
   let candidates = result;
-  console.log(candidates);
 
   if (state.filterOption === "bookmark")
     candidates = state.filter.bookmark
@@ -359,8 +361,6 @@ const loadInitData = () => {
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: id,
   });
-
-  console.log(electionStatus);
 
   switch (electionStatus) {
     case "ONGOING":
