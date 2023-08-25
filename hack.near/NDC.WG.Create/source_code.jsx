@@ -71,8 +71,6 @@ const memberId = props.memberId ?? state.newMember;
 
 const isValid = isNearAddress(memberId);
 
-let SocialContract = "social.near";
-
 const widgets = {
   styledComponents: "hack.near/widget/NDC.StyledComponents",
 };
@@ -172,7 +170,7 @@ const handleCreate = () => {
   };
 
   let Group_Payload = {
-    contractName: SocialContract,
+    contractName: "social.near",
     methodName: "set",
     args: {
       data: {
@@ -217,7 +215,7 @@ const handleCreate = () => {
                 method_name: "set",
                 args: ProposalArgs,
                 deposit: "100000000000000000000000",
-                gas: "285000000000000",
+                gas: "300000000000000",
               },
             ],
           },
@@ -225,7 +223,7 @@ const handleCreate = () => {
       },
     },
     deposit: deposit,
-    gas: "219000000000000",
+    gas: "235000000000000",
   };
 
   Near.call([Group_Payload, Members_Payload, Proposal_Payload]).then(() =>
