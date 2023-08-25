@@ -23,6 +23,8 @@ const widgets = {
 
 const POLICY_HASH =
   "f1c09f8686fe7d0d798517111a66675da0012d8ad1693a47e0e2a7d3ae1c69d4";
+const FAIR_POLICY_DOC =
+  "https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link";
 const BLACKLIST_VERIFY_LINK = "";
 const GREYLIST_VERIFY_LINK = "";
 const MIN_BOND = 3;
@@ -243,7 +245,7 @@ const filteredCandidates = () => {
           alreadyVoted(candidateId)
         )
       : result;
-  console.log("candidateId", candidateId);
+
   if (candidateId)
     candidates = result.filter(([candidate, _vote], _index) =>
       candidate.toLowerCase().includes(candidateId.toLowerCase())
@@ -371,7 +373,7 @@ const loadInitData = () => {
       });
       break;
     default:
-      console.log();
+      0;
   }
 };
 
@@ -727,11 +729,7 @@ return (
               The community has voted to block backlisted accounts from voting
               in the NDC general election. You have been blacklisted due
               previously violating the
-              <ALink
-                title="Fair Voting Policy."
-                href="https://bafkreieiqabf6k675f3doqdztej53qmiybmhiaqgjaqmj673wbxxq5muke.ipfs.nftstorage.link/"
-              />
-              .
+              <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />.
             </>
           ),
           Button: {
@@ -762,10 +760,7 @@ return (
           description: (
             <>
               Please make sure to read and understand the{" "}
-              <ALink
-                title="Fair Voting Policy."
-                href="https://bafkreieiqabf6k675f3doqdztej53qmiybmhiaqgjaqmj673wbxxq5muke.ipfs.nftstorage.link/"
-              />
+              <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
               which outlines the responsibilities of each voter.
             </>
           ),
@@ -780,10 +775,7 @@ return (
                 }
               />
               I agree with{" "}
-              <ALink
-                title="Fair Voting Policy."
-                href="https://bafkreieiqabf6k675f3doqdztej53qmiybmhiaqgjaqmj673wbxxq5muke.ipfs.nftstorage.link/"
-              />
+              <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
             </Section>
           ),
           Button: {
@@ -820,12 +812,7 @@ return (
                 ? The Whistleblower Bounty Program offers up to 2,000 NEAR for
                 whistleblowers who come forward to share instances of vote
                 buying, account buying, election fraud, and other violations of
-                the{" "}
-                <ALink
-                  title="Fair Voting Policy"
-                  href="https://bafkreieiqabf6k675f3doqdztej53qmiybmhiaqgjaqmj673wbxxq5muke.ipfs.nftstorage.link/"
-                />
-                .
+                the <ALink title="Fair Voting Policy" href={FAIR_POLICY_DOC} />.
               </p>
               <p>
                 You will be bonding{" "}
