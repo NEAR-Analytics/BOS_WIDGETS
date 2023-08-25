@@ -401,6 +401,7 @@ const processAsset = (index) => {
           pendingAssetReward: results[3].toString(),
         });
         if (index < assets.length) {
+          State.update({ balances: balances });
           processAsset(index + 1); // Process the next asset.
         } else {
           State.update({ balances: balances, stopReload: true });
