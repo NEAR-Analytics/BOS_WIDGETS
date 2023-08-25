@@ -1,12 +1,20 @@
 const creatorId = props.creatorId ?? context.accountId;
-const groupId = props.groupId;
 
 if (!creatorId) {
   return "Please connect your NEAR account :)";
 }
 
+function generateUID() {
+  return (
+    Math.random().toString(16).slice(2) +
+    Date.now().toString(36) +
+    Math.random().toString(16).slice(2)
+  );
+}
+
+const groupId = props.groupId ?? generateUID();
+
 State.init({
-  groupId,
   group,
 });
 
@@ -14,9 +22,7 @@ return (
   <>
     <div className="row">
       <div className="col-lg-6 mt-2">
-        <div className="mb-3">
-          <h5>Details</h5>
-        </div>
+        <h5>Details</h5>
         <Widget
           src="hack.near/widget/group.card"
           props={{ creatorId, groupId, group: state.group }}
@@ -69,7 +75,7 @@ return (
         <div className="m-2">
           <Widget
             src="hack.near/widget/group.list"
-            props={{ creatorId, groupId: state.groupId }}
+            props={{ creatorId, groupId }}
           />
         </div>
       </div>
