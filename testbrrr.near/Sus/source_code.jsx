@@ -481,40 +481,42 @@ if (
   });
 }
 
-if (
-  props.action === "borrow" &&
-  props.susAmount &&
-  props.collateralAmount &&
-  props.asset
-) {
+const confirmAction = () => {
   if (
-    typeof props.susAmount === "number" &&
-    typeof props.collateralAmount === "number" &&
-    props.collateralAmount > 0
+    props.action === "borrow" &&
+    props.susAmount &&
+    props.collateralAmount &&
+    props.asset
   ) {
-    // openVessel();
+    if (
+      typeof props.susAmount === "number" &&
+      typeof props.collateralAmount === "number" &&
+      props.collateralAmount > 0
+    ) {
+      openVessel();
+    } else {
+      props.resendPrompt(props);
+    }
+  } else if (props.action === "repay") {
+    repayDebtTokens();
+  } else if (props.action === "display") {
+    getEntireDebtAndColl();
+  } else if (props.action === "withdraw") {
+    withdrawColl();
+  } else if (props.action === "deposit") {
+    addColl();
+  } else if (props.action === "close") {
+    closeVessel();
+  } else if (props.action === "claim") {
+    claimCollateral();
+  } else if (props.action === "provide") {
+    provideToSP();
+  } else if (props.action === "remove") {
+    withdrawFromSP();
   } else {
     props.resendPrompt(props);
   }
-} else if (props.action === "repay") {
-  repayDebtTokens();
-} else if (props.action === "display") {
-  getEntireDebtAndColl();
-} else if (props.action === "withdraw") {
-  withdrawColl();
-} else if (props.action === "deposit") {
-  addColl();
-} else if (props.action === "close") {
-  closeVessel();
-} else if (props.action === "claim") {
-  claimCollateral();
-} else if (props.action === "provide") {
-  provideToSP();
-} else if (props.action === "remove") {
-  withdrawFromSP();
-} else {
-  props.resendPrompt(props);
-}
+};
 
 let confirmUI = renderConfirmationUI(props);
 
@@ -550,5 +552,6 @@ return (
     )}
 
     {confirmUI}
+    <button onClick={confirmAction()}>Confirm Action</button>
   </div>
 );
