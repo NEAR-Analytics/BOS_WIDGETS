@@ -52,7 +52,7 @@ const Mesh = styled.div`
   color: #6F3CE4; /* Set your desired color */
   width: 950px;
   left: 400px;
-  margin-top: 15px;
+  margin-top: 40px;
   position: absolute;
   top: 0;
 `;
