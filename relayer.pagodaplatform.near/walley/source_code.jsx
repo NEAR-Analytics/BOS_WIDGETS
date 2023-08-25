@@ -222,6 +222,9 @@ const WalleyNavbar = styled.div`
       padding: 0;
       width: 24px;
     }
+    @media screen and (max-width: 600px) {
+        display: none;
+    }
 `;
 
 const WalleyNavbarButton = styled.button`
