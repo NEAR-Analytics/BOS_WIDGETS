@@ -63,10 +63,11 @@ return (
         address: currency.address,
         isNative: currency.symbol === config.NATIVE_TOKEN_SYMBOL,
         onLoad: (data) => {
+          console.log("data: ", data);
           const updatedData = {
             balanceLoaded: data.loaded,
+            balance: data.balance,
           };
-          if (data.loaded) updatedData.balance = data.balance;
           State.update(updatedData);
         },
       }}
