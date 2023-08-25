@@ -953,7 +953,11 @@ return (
               <>
                 {state.newTxn ? (
                   <WalleyHomeOverlay
-                    onClick={() => State.update({ newTxn: false })}
+                    onClick={() => {
+                      if (this === e.target) {
+                        State.update({ newTxn: false });
+                      }
+                    }}
                   >
                     <WalleyHomeForm>
                       <WalleyLabel>Select a Store</WalleyLabel>
