@@ -180,7 +180,7 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
-fetch(
+asyncFetch(
   "https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/"
 ).then((data) => console.log(data));
 
