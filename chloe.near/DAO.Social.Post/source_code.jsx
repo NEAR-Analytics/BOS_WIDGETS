@@ -179,8 +179,9 @@ return (
       </div>
     )}
     <div className="me-3">
+      //{" "}
       <button className="btn btn-primary m-2" onClick={handleProposal}>
-        Submit to NEARWEEK
+        // Submit to NEARWEEK //{" "}
       </button>
       <button className="btn btn-success m-2" onClick={handleBoostProposal}>
         Request a Boost
