@@ -186,9 +186,9 @@ const WalleyHomeContainer = styled.div`
 
 const WalleyHomeHeader = styled.div`
     width: 100%;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 900;
-    padding: 10px;
+    padding: 8px;
     padding-bottom: 0px;
     color: #fff;
     display: flex;
@@ -201,7 +201,7 @@ const WalleyHomeHeader = styled.div`
 `;
 
 const WalleyHomeMain = styled.div`
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -210,7 +210,7 @@ const WalleyHomeMain = styled.div`
 `;
 
 const WalleyNavbar = styled.div`
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -248,10 +248,10 @@ const NavLineLast = styled.span`
 
 const WalleyHomeBody = styled.div`
   width: 100%;
-  padding: 0px 10px;
+  padding: 0px 8px;
   &>.txn {
     text-align: left;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 600;
     padding: 20px 0px 0px 0px;
   }
@@ -260,8 +260,8 @@ const WalleyHomeBody = styled.div`
 const WalleyBalance = styled.span`
   padding: 5px;
   font-weight: 500;
-  font-size: 15px;
-  width: 150px;
+  font-size: 12px;
+  width: 120px;
   background-color: #424242;
   border-radius: 30px;
   text-align: center;
@@ -393,9 +393,9 @@ const WalleyStoreButton = styled.button`
 `;
 
 const WalleyTransactions = styled.div`
-  height: 350px;
+  height: 500px;
   overflow-y: scroll;
-  padding: 0px 20px 20px 20px;
+  padding: 0px 15px 15px 15px;
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(2, 1fr);
@@ -420,7 +420,7 @@ const WalleySearch = styled.div`
   display: flex;
   flex-direction: row;
   &>button {
-    width: 150px;
+    width: 120px;
     margin-right: 20px;
   }
 `;
