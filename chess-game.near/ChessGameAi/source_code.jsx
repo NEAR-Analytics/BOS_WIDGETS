@@ -1,3 +1,4 @@
+const contractId = "app.chess-game.near";
 const buttonWidget = "chess-game.near/widget/ChessGameButton";
 
 State.init({
