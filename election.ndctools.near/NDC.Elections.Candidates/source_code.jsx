@@ -810,9 +810,7 @@ return (
           description: (
             <>
               <div className="d-flex gap-2">
-                <h3>
-                  <b>1</b>
-                </h3>
+                <h3>1</h3>
                 <p className="text-secondary text-start">
                   Don't sell your vote and risk being banned from governance.
                   Instead report bad actors and claim a bounty up to 2,500 NEAR.
@@ -824,9 +822,7 @@ return (
                 </p>
               </div>
               <div className="d-flex gap-2">
-                <h3>
-                  <b>2</b>
-                </h3>
+                <h3>2</h3>
                 <p className="text-secondary text-start">
                   A bond of <b>{state.greylisted ? MAX_BOND : MIN_BOND} NEAR</b>{" "}
                   is required to vote. If you are a fair voter, this bond will
@@ -835,9 +831,7 @@ return (
                 </p>
               </div>
               <div className="d-flex gap-2">
-                <h3>
-                  <b>3</b>
-                </h3>
+                <h3>3</h3>
                 <p className="text-secondary text-start">
                   You votes <b>cannot</b> be changed.
                 </p>
