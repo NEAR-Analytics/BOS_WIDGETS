@@ -1,14 +1,19 @@
 const HeroSection = styled.div`
 display: flex;
 margin-top: 50px
+
 `;
 
 const LeftDiv = styled.div`
 display: flex-col;
+  margin-left: 45px;
+
 `;
 
 const RightDiv = styled.div`
 display: flex-col;
+  margin-right: 45px;
+
 `;
 
 const MainText = styled.h1`
