@@ -180,10 +180,19 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
+fetch(
+  "https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/"
+).then((data) => console.log(data));
+
 return (
   <Container>
     <h1>Budget Package</h1>
-    <CandidatesContainer></CandidatesContainer>
+    <CandidatesContainer>
+      <a href="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/">
+        View Budget Package profileData
+        <i className="ml-2 bi bi-box-arrow-up-right" />
+      </a>
+    </CandidatesContainer>
 
     <div>
       {isIAmHuman ? (
