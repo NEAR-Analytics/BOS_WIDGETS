@@ -422,6 +422,7 @@ const WalleySearch = styled.div`
   &>button {
     width: 120px;
     margin-right: 20px;
+    font-size: 10px;
   }
 `;
 
