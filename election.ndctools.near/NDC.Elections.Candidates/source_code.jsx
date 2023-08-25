@@ -363,8 +363,8 @@ const loadInitData = () => {
   switch (state.electionStatus) {
     case "ONGOING":
       State.update({
-        tosAgreement: !!policy,
-        bountyProgramModal: !!policy,
+        tosAgreement: !!state.acceptedPolicy,
+        bountyProgramModal: !!state.acceptedPolicy,
       });
       break;
     case "COOLDOWN":
@@ -420,7 +420,7 @@ if (state.reload) {
     prop_id: props.id,
   });
 
-  const policy = Near.view(electionContract, "accepted_policy", {
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
     user: context.accountId,
   });
 
@@ -428,7 +428,7 @@ if (state.reload) {
 
   State.update({
     electionStatus,
-    policy,
+    acceptedPolicy,
     candidates: filteredCandidates(),
     bookmarked,
   });
@@ -858,7 +858,7 @@ return (
 
     <Container>
       <h2>{housesMapping[typ]}</h2>
-      <small className="text-secondary mb-3">{result.length} Candidates</small>
+      <small className="text-secondary">{result.length} Candidates</small>
       {state.candidates.length > 0 ? (
         <>
           <Filters />
