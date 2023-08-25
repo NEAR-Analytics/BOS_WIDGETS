@@ -351,6 +351,7 @@ const WalleyHomeForm = styled.div`
     border: 2px solid #555;
   }
   div[type="button"] {
+    border-radius: 20px;
     background: none;
     border: 2px solid #555;
     color: white;
