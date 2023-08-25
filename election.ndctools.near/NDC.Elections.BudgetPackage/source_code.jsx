@@ -150,7 +150,7 @@ const CastVotes = () => (
           Button: {
             className: "primary success justify-content-center",
             icon: <i className="bi bi-hand-thumbs-up" />,
-            onClick: () => handleVote(true),
+            onClick: () => handleVote(0),
           },
         }}
       />
@@ -160,7 +160,17 @@ const CastVotes = () => (
           Button: {
             className: "primary danger justify-content-center",
             icon: <i className="bi bi-hand-thumbs-down" />,
-            onClick: () => handleVote(false),
+            onClick: () => handleVote(1),
+          },
+        }}
+      />
+      <Widget
+        src={widgets.styledComponents}
+        props={{
+          Button: {
+            title: "Abstain",
+            className: "primary danger justify-content-center",
+            onClick: () => handleVote(2),
           },
         }}
       />
@@ -171,23 +181,7 @@ const CastVotes = () => (
 return (
   <Container>
     <h1>Budget Package</h1>
-    <CandidatesContainer>
-      <iframe src="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"></iframe>
-      {/* <object
-        data="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-        type="application/pdf"
-        width="100%"
-        height="100%"
-        aria-labelledby="PDF document"
-      >
-        <p>
-          Your browser does not support PDFs.
-          <a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf">
-            Download the PDF
-          </a>
-        </p>
-      </object> */}
-    </CandidatesContainer>
+    <CandidatesContainer></CandidatesContainer>
 
     <div>
       {isIAmHuman ? (
