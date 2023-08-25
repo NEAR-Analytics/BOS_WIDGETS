@@ -13,13 +13,7 @@ let houses = [
   Near.view(electionContract, "proposal", { prop_id: ids[2] }),
 ];
 
-// TODO: uncomment when contract is done
-// let budget = Near.view(electionContract, "proposal", { prop_id: ids[3] });
-let budget = {
-  id: 4,
-  typ: "BudgetPackage",
-  seats: 1,
-};
+let budget = Near.view(electionContract, "proposal", { prop_id: ids[3] });
 
 State.init({
   selectedHouse: ids[0],
@@ -115,118 +109,120 @@ const H5 = styled.h5`
 `;
 
 return (
-  <div>
-    {houses.map((house) => (
-      <>
-        {house.id === state.selectedHouse && (
+  <>
+    <div>
+      {houses.map((house) => (
+        <>
+          {house.id === state.selectedHouse && (
+            <Widget
+              key={i}
+              src={widgets.header}
+              props={{
+                startTime: house.start,
+                endTime: house.end,
+                type: "Election",
+                isWhistleblower: true,
+              }}
+            />
+          )}
+        </>
+      ))}
+      {budget.id !== state.selectedHouse && (
+        <Filter>
           <Widget
-            key={i}
-            src={widgets.header}
+            src={widgets.filter}
             props={{
-              startTime: house.start,
-              endTime: house.end,
-              type: "Election",
-              isWhistleblower: true,
+              handleFilter,
+              candidateId: state.candidateId,
+              placeholder: "Search by candidate name",
             }}
           />
-        )}
-      </>
-    ))}
-    {budget.id === state.selectedHouse && (
-      <Filter>
-        <Widget
-          src={widgets.filter}
-          props={{
-            handleFilter,
-            candidateId: state.candidateId,
-            placeholder: "Search by candidate name",
-          }}
-        />
-      </Filter>
-    )}
-    <Container className="d-flex row">
-      <Left className="h-screen col-lg d-flex flex-column justify-content-between">
-        <div>
-          <H5>To Vote</H5>
+        </Filter>
+      )}
+      <Container className="d-flex row">
+        <Left className="h-screen col-lg d-flex flex-column justify-content-between">
+          <div>
+            <H5>To Vote</H5>
+            <Widget
+              src={widgets.houses}
+              props={{
+                selectedHouse: state.selectedHouse,
+                houses: [...houses, budget],
+                handleSelect,
+                votesLeft: (house) => votesLeft(house),
+              }}
+            />
+          </div>
           <Widget
-            src={widgets.houses}
+            src={widgets.progress}
             props={{
-              selectedHouse: state.selectedHouse,
               houses: [...houses, budget],
               handleSelect,
               votesLeft: (house) => votesLeft(house),
             }}
           />
-        </div>
-        <Widget
-          src={widgets.progress}
-          props={{
-            houses: [...houses, budget],
-            handleSelect,
-            votesLeft: (house) => votesLeft(house),
-          }}
-        />
-      </Left>
-      <div className="col-lg-6 p-2 p-md-3">
-        {houses.map((house) => (
-          <>
-            {house.id === state.selectedHouse && (
-              <Widget
-                key={i}
-                src={widgets.candidates}
-                props={{
-                  electionContract,
-                  registryContract,
-                  ndcOrganization: org,
-                  isIAmHuman: state.isIAmHuman,
-                  myVotes: state.myVotes,
-                  candidateId: state.candidateId,
-                  winnerIds: getWinnerIds(),
-                  ...house,
-                }}
-              />
-            )}
-          </>
-        ))}
-        {budget.id === state.selectedHouse && (
-          <Widget
-            src={widgets.budget}
-            props={{
-              electionContract,
-              registryContract,
-              myVotes: state.myVotes,
-              isIAmHuman: state.isIAmHuman,
-              ...budget,
-            }}
-          />
-        )}
-      </div>
-
-      <div className="col-lg">
-        <Right className="col">
-          <H5>General</H5>
-          <div className="d-flex justify-content-center">
+        </Left>
+        <div className="col-lg-6 p-2 p-md-3">
+          {houses.map((house) => (
+            <>
+              {house.id === state.selectedHouse && (
+                <Widget
+                  key={i}
+                  src={widgets.candidates}
+                  props={{
+                    electionContract,
+                    registryContract,
+                    ndcOrganization: org,
+                    isIAmHuman: state.isIAmHuman,
+                    myVotes: state.myVotes,
+                    candidateId: state.candidateId,
+                    winnerIds: getWinnerIds(),
+                    ...house,
+                  }}
+                />
+              )}
+            </>
+          ))}
+          {budget.id === state.selectedHouse && (
             <Widget
-              src={widgets.statistic}
+              src={widgets.budget}
               props={{
-                voted: state.humanVoted,
-                total: totalHumal,
+                electionContract,
+                registryContract,
+                myVotes: state.myVotes,
+                isIAmHuman: state.isIAmHuman,
+                ...budget,
               }}
             />
-          </div>
-        </Right>
-        {state.myVotes.length > 0 && (
+          )}
+        </div>
+
+        <div className="col-lg">
           <Right className="col">
-            <H5>My voting activity</H5>
-            <ActivityContainer className="d-flex justify-content-center">
+            <H5>General</H5>
+            <div className="d-flex justify-content-center">
               <Widget
-                src={widgets.activities}
-                props={{ myVotes: state.myVotes }}
+                src={widgets.statistic}
+                props={{
+                  voted: state.humanVoted,
+                  total: totalHumal,
+                }}
               />
-            </ActivityContainer>
+            </div>
           </Right>
-        )}
-      </div>
-    </Container>
-  </div>
+          {state.myVotes.length > 0 && (
+            <Right className="col">
+              <H5>My voting activity</H5>
+              <ActivityContainer className="d-flex justify-content-center">
+                <Widget
+                  src={widgets.activities}
+                  props={{ myVotes: state.myVotes }}
+                />
+              </ActivityContainer>
+            </Right>
+          )}
+        </div>
+      </Container>
+    </div>
+  </>
 );
