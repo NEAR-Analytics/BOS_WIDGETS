@@ -183,7 +183,8 @@ return (
             <p style={{ fontSize: "1.25rem" }}>
               Create your Profile that no one but you control. Without the fear
               of intermediary platforms, share information with your audience on
-              your own terms.
+              your own terms. Check out our{" "}
+              <a href="https://youtu.be/55wqXhVTlLI">How To</a> video.
             </p>
           </TextContainer>
         </ChildContainer2>
