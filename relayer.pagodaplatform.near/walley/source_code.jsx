@@ -437,14 +437,14 @@ const WalleySearch = styled.div`
   display: flex;
   padding: 0px 10px;
   flex-direction: row;
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 600px) {
     flex-direction: column-reverse;
   }
   &>button {
     width: 150px;
     margin-right: 20px;
     font-size: 16px;
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 600px) {
       width: 100%;
       margin-right: 0px;
       font-size: 13px;
