@@ -1,7 +1,6 @@
 const HeroSection = styled.div`
 display: flex;
 margin-top: 50px
-
 `;
 
 const LeftDiv = styled.div`
@@ -58,7 +57,7 @@ return (
     </LeftDiv>
 
     <RightDiv>
-      <img src="" />
+      <img src="https://i.ibb.co/8gF6vxB/Frame-3.png" />
     </RightDiv>
   </HeroSection>
 );
