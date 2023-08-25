@@ -24,7 +24,47 @@ State.init({
 
 // Function to handle the proposal for updating the DAO profile
 const handleProfileUpdateProposal = () => {
-  // Your proposal logic here
+  const profile_update_args = JSON.stringify({
+    data: {
+      [daoId]: {
+        profile: {
+          main: JSON.stringify(state.profile),
+        },
+      },
+    },
+  });
+
+  const proposal_update_args = Buffer.from(
+    profile_update_args,
+    "utf-8"
+  ).toString("base64");
+
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: "Update DAO profile on NEAR Social",
+          kind: {
+            FunctionCall: {
+              receiver_id: "social.near",
+              actions: [
+                {
+                  method_name: "set",
+                  args: proposal_update_args,
+                  deposit: "10000000000000000000000", // 0.1 NEAR
+                  gas: "219000000000000", // Gas limit allocated for the smart contract execution
+                },
+              ],
+            },
+          },
+        },
+      },
+      deposit: "10000000000000000000000", // 0.1 NEAR
+      gas: "219000000000000", // Gas limit allocated for the smart contract execution
+    },
+  ]);
 };
 
 return (
