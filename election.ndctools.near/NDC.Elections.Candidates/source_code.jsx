@@ -214,7 +214,7 @@ const housesMapping = {
 };
 
 const electionStatus = Near.view(electionContract, "proposal_status", {
-  prop_id: id,
+  prop_id: props.id,
 });
 
 const policy = Near.view(electionContract, "accepted_policy", {
@@ -315,7 +315,7 @@ const handleVote = () =>
   Near.call(
     electionContract,
     "vote",
-    { prop_id: id, vote: state.selectedCandidates },
+    { prop_id: props.id, vote: state.selectedCandidates },
     "70000000000000",
     (state.greylisted ? MAX_BOND : MIN_BOND) * 100000000000000000000000
   ).then((data) => State.update({ bountyProgramModal: false }));
