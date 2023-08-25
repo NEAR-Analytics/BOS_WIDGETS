@@ -1,3 +1,9 @@
+const creatorId = props.creatorId ?? context.accountId;
+
+if (!creatorId) {
+  return "Please connect your NEAR account :)";
+}
+
 const { handleClose } = props;
 
 const daoId = props.daoId ?? "build.sputnik-dao.near";
@@ -19,6 +25,51 @@ function generateUID() {
 }
 
 const groupId = props.groupId ?? generateUID();
+
+State.init({
+  group,
+  members: { [creatorId]: "" },
+  newMember: "",
+});
+
+function addMember(newMember) {
+  State.update({
+    members: { ...state.members, [newMember]: "" },
+  });
+}
+
+function removeMember(memberKey) {
+  const updatedMembers = { ...state.members };
+  delete updatedMembers[memberKey];
+
+  State.update({
+    members: updatedMembers,
+  });
+}
+
+function isNearAddress(address) {
+  if (typeof address !== "string") {
+    return false;
+  }
+  if (!address.endsWith(".near")) {
+    return false;
+  }
+  const parts = address.split(".");
+  if (parts.length !== 2) {
+    return false;
+  }
+  if (parts[0].length < 2 || parts[0].length > 32) {
+    return false;
+  }
+  if (!/^[a-z0-9_-]+$/i.test(parts[0])) {
+    return false;
+  }
+  return true;
+}
+
+const memberId = props.memberId ?? state.newMember;
+
+const isValid = isNearAddress(memberId);
 
 let SocialContract = "social.near";
 
@@ -211,10 +262,102 @@ return (
               </Submitcontainer>
             </div>
             <Hr />
-            <Widget
-              src="hack.near/widget/group.edit"
-              props={{ creatorId: context.accountId }}
-            />
+            <div className="row">
+              <div className="col-lg-6 mt-2">
+                <h5>Details</h5>
+                <Widget
+                  src="hack.near/widget/group.card"
+                  props={{ creatorId, groupId, group: state.group }}
+                />
+                <div className="mb-2 mt-3">
+                  <Widget
+                    src="near/widget/MetadataEditor"
+                    props={{
+                      initialMetadata: group,
+                      onChange: (group) => State.update({ group }),
+                      options: {
+                        name: { label: "Name" },
+                        image: { label: "Logo" },
+                        description: { label: "About" },
+                        tags: {
+                          label: "Tags",
+                          tagsPattern: `*/${groupId}/tags/*`,
+                          placeholder:
+                            "art, gov, edu, dev, com, nft, ai, social",
+                        },
+                        linktree: {
+                          links: [
+                            {
+                              label: "Twitter",
+                              prefix: "https://twitter.com/",
+                              name: "twitter",
+                            },
+                            {
+                              label: "Github",
+                              prefix: "https://github.com/",
+                              name: "github",
+                            },
+                            {
+                              label: "Telegram",
+                              prefix: "https://t.me/",
+                              name: "telegram",
+                            },
+                            {
+                              label: "Website",
+                              prefix: "https://",
+                              name: "website",
+                            },
+                          ],
+                        },
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <div>
+                  <h5>Account ID</h5>
+                  <input
+                    placeholder="<example>.near"
+                    onChange={(e) =>
+                      State.update({ newMember: e.target.value })
+                    }
+                  />
+                  <div className="d-flex align-items-center mt-2">
+                    <button
+                      className="btn btn-primary m-2"
+                      disabled={!isValid}
+                      onClick={() => addMember(state.newMember)}
+                    >
+                      add
+                    </button>
+                  </div>
+                </div>
+                <hr />
+                <div>
+                  <h5>Members</h5>
+                  {Object.keys(state.members).map((a) => {
+                    return (
+                      <div className="d-flex m-2 p-2 justify-content-between align-items-center">
+                        <div className="d-flex align-items-center">
+                          <Widget
+                            src="mob.near/widget/Profile"
+                            props={{ accountId: a }}
+                          />
+                        </div>
+                        <button
+                          className="btn btn-danger m-1"
+                          disabled={!isNearAddress(a)}
+                          onClick={() => removeMember(a)}
+                        >
+                          remove
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
           </CardForm>
         </div>
       </CardStyled>
