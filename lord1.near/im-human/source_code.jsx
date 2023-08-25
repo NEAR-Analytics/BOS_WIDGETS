@@ -64,7 +64,7 @@ return (
         links: [
           {
             text: "Home",
-            link: "home",
+            link: "http://flipsidecrypto.xyz/",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
           },
@@ -76,27 +76,15 @@ return (
           },
           {
             text: "Contracts",
-            link: "../../leslug.near/widget/NearContractVisualizerV2",
+            link: "xxx",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
           },
           {
-            text: "Network",
-            link: "network",
-            image:
-              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-8.svg",
-          },
-          {
             text: "Im human",
-            link: "im-human",
+            link: "xxx",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
-          },
-          {
-            text: "Near social",
-            link: "near-social",
-            image:
-              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
           },
           {
             text: "Tracker",
@@ -123,7 +111,7 @@ return (
         <Widget
           src="efiz.near/widget/marquee"
           props={{
-            text: "Broaden your horizon with Flipside",
+            text: "Broaden your horizen with Flipside",
             fontFamily: "Arial",
             fontSize: "20px",
             backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
@@ -139,12 +127,7 @@ return (
           src="https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/lightmode.svg"
         />
       </div>
-      <div
-        style={{
-          background: `${state.light ? "rgb(241,242,245)" : "rgb(25,33,50)"}`,
-        }}
-        className="sticky-top p-4"
-      >
+      <div>
         <div>
           <Container>
             <ul className="tabContent">
@@ -179,8 +162,6 @@ return (
             </ul>
           </Container>
         </div>
-      </div>
-      <div>
         <div className="content">
           {state.tab === "sbt-area" && (
             <Widget src="lord1.near/widget/sbt-area" />
