@@ -1,10 +1,8 @@
-let { houses, ids, electionContract, selectedHouse, votesLeft, urlProps } =
+let { houses, ids, electionContract, selectedHouse, handleSelect, votesLeft } =
   props;
-ids = ids ?? [1, 2, 3, 4];
-
+ids = props.ids ? ids : [1, 2, 3, 4];
 State.init({ houses: houses ?? [] });
 
-// for nominations (only 3 houses to display)
 if (!houses && electionContract) {
   const contractHouses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
@@ -30,7 +28,7 @@ const housesMapping = {
   },
   SetupPackage: {
     title: "Budget Package",
-    src: "https://ipfs.near.social/ipfs/bafkreicljooupjpwmdlja2ocjg3sljvknlq5iriahqbqiwob635l2vszqa",
+    src: "https://bafkreidsg3gntb4grebr6rpvffhzkwdt2siel7ucl3hpsj5i7qqu426dgq.ipfs.nftstorage.link",
   },
 };
 
@@ -54,12 +52,6 @@ const H6 = styled.h6`
 
 const ImgContainer = styled.div`
   margin-right: 20px;
-
-  img {
-    border-radius: 50%;
-    height: 40px;
-    max-height: "40px";
-  }
 `;
 
 const CompletedIcon = styled.i`
@@ -73,46 +65,41 @@ const CompletedIcon = styled.i`
   }
 `;
 
-const ItemContainer = styled.a`
+const ItemContainer = styled.div`
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
   background: ${(props) => (props.selected ? "#4BA6EE" : "#fff")};
   color: ${(props) => (props.selected ? "white" : "inherit")};
-  text-decoration: none;
 
   &:hover {
-    text-decoration: none;
-    color: ${(props) => (props.selected ? "#fff" : "#000")};
     background: ${(props) => (props.selected ? "#4BA6EE" : "#fff")};
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   }
 `;
 
-const buildURL = (houseId) => {
-  const arr = [];
-  if (!urlProps) return "";
-
-  if (urlProps.ids) arr.push(`ids=${urlProps.ids}`);
-  if (urlProps.election_contract)
-    arr.push(`election_contract=${urlProps.election_contract}`);
-  if (urlProps.registry_contract)
-    arr.push(`registry_contract=${urlProps.registry_contract}`);
-  arr.push(`house=${houseId}`);
-
-  return "?" + arr.join("&");
-};
-
 const HouseItem = ({ house }) => (
   <ItemContainer
+    role="button"
     className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
-    href={buildURL(house.id)}
+    onClick={() => handleSelect(house)}
     selected={selectedHouse === house.id}
   >
     <div className="d-flex align-items-center">
       <ImgContainer>
-        <img
-          src={housesMapping[house.typ].src}
-          alt={housesMapping[house.typ].title}
+        <Widget
+          src="mob.near/widget/Image"
+          props={{
+            image: { url: housesMapping[house.typ].src },
+            alt: housesMapping[house.typ].title,
+            style: {
+              height: "40px",
+              objectFit: "cover",
+              maxHeight: "40px",
+              borderRadius: "50%",
+            },
+            fallbackUrl:
+              "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+          }}
         />
       </ImgContainer>
       <div>
