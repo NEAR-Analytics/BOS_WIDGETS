@@ -1,7 +1,7 @@
 const NavbarContainer = styled.div`
   position: absolute;
   width: 100%;
-  background: rgba(56, 51, 51, 0.1);
+  background: #141414;
   backdrop-filter: blur(5px);
   padding-top: 14px;
   padding-bottom: 14px;
