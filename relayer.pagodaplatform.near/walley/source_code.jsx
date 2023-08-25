@@ -420,7 +420,7 @@ const WalleySearch = styled.div`
   display: flex;
   flex-direction: row;
   &>button {
-    width: 120px;
+    width: 150px;
     margin-right: 20px;
     font-size: 16px;
   }
