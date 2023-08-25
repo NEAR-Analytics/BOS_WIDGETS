@@ -208,7 +208,7 @@ const WalleyHomeMain = styled.div`
     height: 100%;
     align-items: space-between;
     @media screen and (max-width: 600px) {
-      flex-direction: row;
+      flex-direction: column;
     }
 `;
 
