@@ -444,7 +444,7 @@ const WalleySearch = styled.div`
 `;
 
 const TransactionCard = styled.div`
-  height: auto;
+  height: 300px;
   background: rgb(66, 66, 66, 0.6);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
   border: 1px solid #424242;
