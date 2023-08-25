@@ -118,7 +118,7 @@ return (
         props={{
           placeholder: "Receive Wallet",
           titleBtn: "Mint NFT",
-          tokenSeriesId: "497768",
+          tokenSeriesId: "497769",
         }}
       />
     </ContainerBorder>
