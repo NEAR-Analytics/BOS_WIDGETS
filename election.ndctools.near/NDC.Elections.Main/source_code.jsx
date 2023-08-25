@@ -38,7 +38,6 @@ let budget = {
   typ: "BudgetPackage",
   seats: 1,
 };
-houses = houses.map((house) => rand(house.result));
 
 const isHuman = Near.view(registryContract, "is_human", {
   account: context.accountId,
@@ -57,7 +56,9 @@ const getWinnerIds = () => {
   return winners.slice(0, house.quorum).map((w) => w[0]);
 };
 
-State.update({ isIAmHuman: isHuman[0][1].length > 0 });
+State.update({ isIAmHuman: isHuman[0][1].length > 0, houses });
+
+houses = state.houses.map((house) => rand(house.result));
 
 if (context.accountId)
   asyncFetch(
