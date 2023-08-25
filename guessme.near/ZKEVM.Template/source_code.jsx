@@ -29,6 +29,9 @@ right: 32px;
     margin-left: -24px;
     margin-top:10px;
   }
+  @media (max-width: 900px) {
+    display:none;
+  }
 `;
 
 const SearchIcon = (
