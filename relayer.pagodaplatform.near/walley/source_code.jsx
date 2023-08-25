@@ -471,6 +471,9 @@ const TransactionCard = styled.div`
   }
 `;
 
+const TransactionCardMain = styled.div`
+`;
+
 const WalleyStoreBody = styled.div`
 `;
 
