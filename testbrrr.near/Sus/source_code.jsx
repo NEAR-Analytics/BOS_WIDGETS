@@ -383,11 +383,12 @@ let assets = Object.values(availableAssets);
 
 const processAsset = (index, balances) => {
   if (index > assets.length - 1 && !state.stopReload) {
-    State.update({ balances: balances, stopReload: true });
+    State.update({ stopReload: true });
     return;
   }
   console.log("WTF");
   console.log(balances);
+  State.update({ balances: balances });
   let asset = assets[index];
   if (asset) {
     vesselManagerContract
