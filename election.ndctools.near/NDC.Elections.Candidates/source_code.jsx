@@ -665,11 +665,13 @@ const CastVotes = () => (
             Button: {
               className: "secondary dark justify-content-center text-nowrap",
               text: "Reset Selection",
-              onClick: () =>
+              onClick: () => {
+                Storage.privateSet("election_user_selection", "[]");
                 State.update({
                   selectedCandidates: [],
                   availableVotes: seats - myVotesForHouse().length,
-                }),
+                });
+              },
             },
           }}
         />
@@ -681,7 +683,9 @@ const CastVotes = () => (
             className: "primary justify-content-center",
             disabled:
               state.selectedCandidates.length === 0 || state.blacklisted,
-            text: `Cast ${state.selectedCandidates.length || ""} Votes`,
+            text: `Cast ${state.selectedCandidates.length || ""} Vote${
+              state.selectedCandidates.length === 1 ? "" : "s"
+            }`,
             onClick: () =>
               state.tosAgreement
                 ? State.update({ bountyProgramModal: true })
@@ -855,7 +859,9 @@ return (
             </>
           ),
           Button: {
-            title: "Cast Your Votes",
+            title: `Cast ${state.selectedCandidates.length || ""} Vote${
+              state.selectedCandidates.length === 1 ? "" : "s"
+            }`,
             disabled:
               state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
             onCancel: () =>
