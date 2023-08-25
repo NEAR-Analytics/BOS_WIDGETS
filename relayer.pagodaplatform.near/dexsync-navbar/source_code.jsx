@@ -21,7 +21,7 @@ const Logo = styled.img`
 const NavLinks = styled.div`
   list-style: none;
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   color: #757479;
 `;
 
