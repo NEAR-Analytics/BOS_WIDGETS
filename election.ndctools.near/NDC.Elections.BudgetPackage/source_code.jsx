@@ -148,6 +148,7 @@ const CastVotes = () => (
         src={widgets.styledComponents}
         props={{
           Button: {
+            text: "Yes",
             className: "primary success justify-content-center",
             icon: <i className="bi bi-hand-thumbs-up" />,
             onClick: () => handleVote(0),
@@ -158,9 +159,9 @@ const CastVotes = () => (
         src={widgets.styledComponents}
         props={{
           Button: {
-            className: "primary danger justify-content-center",
-            icon: <i className="bi bi-hand-thumbs-down" />,
-            onClick: () => handleVote(1),
+            text: "Abstain",
+            className: "secondary dark justify-content-center",
+            onClick: () => handleVote(2),
           },
         }}
       />
@@ -168,9 +169,10 @@ const CastVotes = () => (
         src={widgets.styledComponents}
         props={{
           Button: {
-            title: "Abstain",
+            text: "No",
             className: "primary danger justify-content-center",
-            onClick: () => handleVote(2),
+            icon: <i className="bi bi-hand-thumbs-down" />,
+            onClick: () => handleVote(1),
           },
         }}
       />
