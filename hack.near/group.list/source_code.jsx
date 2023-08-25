@@ -1,19 +1,12 @@
 const creatorId = props.creatorId ?? context.accountId;
-const groupId = props.groupId;
 
-if (!groupId) {
-  return "requires `groupId` property";
-}
-
-let members = Social.getr(`${creatorId}/graph/${groupId}`, "final", {});
-
-if (!members) {
-  return "group not found";
+if (!creatorId) {
+  return "";
 }
 
 State.init({
-  members,
-  inputVal: "",
+  members: { [creatorId]: "" },
+  newMember: "",
 });
 
 function addMember(newMember) {
@@ -30,38 +23,6 @@ function removeMember(memberKey) {
     members: updatedMembers,
   });
 }
-
-function generateUID() {
-  return (
-    Math.random().toString(16).slice(2) +
-    Date.now().toString(36) +
-    Math.random().toString(16).slice(2)
-  );
-}
-
-const type = group ? "remove" : "add";
-
-const handleSaveGroup = () => {
-  const groupId = groupId ?? generateUID();
-  const data = {
-    graph: {
-      [groupId]: state.members,
-    },
-    index: {
-      graph: JSON.stringify({
-        key: groupId,
-        value: {
-          type,
-        },
-      }),
-    },
-  };
-
-  Social.set(data, {
-    onCommit: () => {},
-    onCancel: () => {},
-  });
-};
 
 function isNearAddress(address) {
   if (typeof address !== "string") {
@@ -83,23 +44,23 @@ function isNearAddress(address) {
   return true;
 }
 
-const memberId = props.memberId ?? state.inputVal;
+const memberId = props.memberId ?? state.newMember;
 
 const isValid = isNearAddress(memberId);
 
 return (
   <>
     <div>
-      <h5>Membership</h5>
+      <h5>Account ID</h5>
       <input
         placeholder="<example>.near"
-        onChange={(e) => State.update({ inputVal: e.target.value })}
+        onChange={(e) => State.update({ newMember: e.target.value })}
       />
       <div className="d-flex align-items-center mt-2">
         <button
           className="btn btn-primary m-2"
           disabled={!isValid}
-          onClick={() => addMember(state.inputVal)}
+          onClick={() => addMember(state.newMember)}
         >
           add
         </button>
@@ -107,6 +68,7 @@ return (
     </div>
     <hr />
     <div>
+      <h5>Members</h5>
       {Object.keys(state.members).map((a) => {
         return (
           <div className="d-flex m-2 p-2 justify-content-between align-items-center">
