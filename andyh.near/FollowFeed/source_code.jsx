@@ -14,7 +14,7 @@ const Item = styled.div`
   overflow-x: hidden;
 `;
 
-console.log({ ...props });
+console.log("FOLLOWFEED");
 
 const renderItem = (a) => {
   return (
