@@ -50,9 +50,7 @@ const IB = "nearui.near/widget/Input.Button";
 return (
   <div className="p-4 bg-white rounded-4">
     <div className="d-flex flex-column gap-3">
-      <h3>
-        {buttonChildren || "Create Project"}
-      </h3>
+      <h3>{buttonChildren || "Create Project"}</h3>
       {widget(IT, {
         label: "Title",
         placeholder: "My project",
