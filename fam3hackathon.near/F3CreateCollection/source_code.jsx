@@ -59,8 +59,7 @@ const createCollection = () => {
 
 return (
   <div>
-    <ButtonPrimary onClick={createCollection}>Create Collection</ButtonPrimary>
-
     <TextPrimary>Collection Id: {Storage.get("collectionId")}</TextPrimary>
+    <ButtonPrimary onClick={createCollection}>Create Collection</ButtonPrimary>
   </div>
 );
