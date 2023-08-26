@@ -7,12 +7,18 @@ return (
     props={{
       Left: () => (
         <>
-          <Widget src="createit.near/widget/layouts.placeholder" props={{}} />
+          <Widget
+            src="createit.near/widget/layouts.placeholder"
+            props={{}}
+          />
         </>
       ),
       Right: () => (
         <>
-          <Widget src="createit.near/widget/layouts.placeholder" props={{}} />
+          <Widget
+            src="createit.near/widget/layouts.placeholder"
+            props={{}}
+          />
         </>
       ),
     }}
