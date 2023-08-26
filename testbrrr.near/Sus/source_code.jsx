@@ -447,17 +447,23 @@ const getEntireDebtAndColl = () => {
 };
 
 const renderConfirmationUI = (props) => {
-  return (
-    <div>
-      {Object.entries(props)
-        .filter(([key, value]) => typeof value !== "function" && key !== "text")
-        .map(([key, value]) => (
-          <div key={key}>
-            <strong>{key}:</strong> {value.toString()}
-          </div>
-        ))}
-    </div>
-  );
+  if (props.action === "display") {
+    getEntireDebtAndColl();
+  } else {
+    return (
+      <div>
+        {Object.entries(props)
+          .filter(
+            ([key, value]) => typeof value !== "function" && key !== "text"
+          )
+          .map(([key, value]) => (
+            <div key={key}>
+              <strong>{key}:</strong> {value.toString()}
+            </div>
+          ))}
+      </div>
+    );
+  }
 };
 
 if (state.sender === undefined) {
