@@ -28,7 +28,6 @@ const MainLayout = styled.div`
     width: 100vw;
     padding: 24px;
     max-width: 100%;
-    marigin-top:200px
 `;
 
 const TextPrimary = styled.div`
@@ -103,25 +102,35 @@ State.init({
 });
 
 return (
-  <MainLayout>
-    <ContainerBorder>
-      <TextPrimary>WELLCOME TO W3W</TextPrimary>
-      <Widget
-        src={`longx30.near/widget/CreateNearAccount`}
-        props={{
-          placeholder: "Your Account ID",
-          titleBtn: "Create Account",
-        }}
-      />
+  <div>
+    <div
+      styled={{
+        height: "300px",
+        width: "100%",
+        background: "red",
+        display: "flex",
+      }}
+    />
+    <MainLayout>
+      <ContainerBorder>
+        <TextPrimary>WELLCOME TO W3W</TextPrimary>
+        <Widget
+          src={`longx30.near/widget/CreateNearAccount`}
+          props={{
+            placeholder: "Your Account ID",
+            titleBtn: "Create Account",
+          }}
+        />
 
-      <Widget
-        src={`longx30.near/widget/MintNearNft`}
-        props={{
-          placeholder: "Receive Wallet",
-          titleBtn: "Mint NFT",
-          tokenSeriesId: "497786",
-        }}
-      />
-    </ContainerBorder>
-  </MainLayout>
+        <Widget
+          src={`longx30.near/widget/MintNearNft`}
+          props={{
+            placeholder: "Receive Wallet",
+            titleBtn: "Mint NFT",
+            tokenSeriesId: "497786",
+          }}
+        />
+      </ContainerBorder>
+    </MainLayout>
+  </div>
 );
