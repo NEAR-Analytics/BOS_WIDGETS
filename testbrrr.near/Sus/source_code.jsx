@@ -430,20 +430,17 @@ const getEntireDebtAndColl = () => {
     stabilityPoolAbi.body,
     Ethers.provider().getSigner()
   );
-  if (!state.txLock) {
-    State.update({ txLock: true });
-    stabilityPoolContract
-      .getCompoundedDebtTokenDeposits(state.sender)
-      .then((results) => {
-        console.log(results);
-        State.update({
-          stabilityBalances: results.div("1000000000000000000").toString(),
-        });
-      })
-      .then(() => {
-        processAsset(0, balances); // Start the chain with the first asset.
+  stabilityPoolContract
+    .getCompoundedDebtTokenDeposits(state.sender)
+    .then((results) => {
+      console.log(results);
+      State.update({
+        stabilityBalances: results.div("1000000000000000000").toString(),
       });
-  }
+    })
+    .then(() => {
+      processAsset(0, balances); // Start the chain with the first asset.
+    });
 };
 
 const renderConfirmationUI = (props) => {
