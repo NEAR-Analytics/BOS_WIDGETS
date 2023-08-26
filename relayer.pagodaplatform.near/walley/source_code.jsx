@@ -553,6 +553,7 @@ return (
               <Styles.WalleyHomeOverlay
                 id="overlay"
                 onClick={(e) => {
+                  e.stopPropagation();
                   if ("overlay" === e.target.id) {
                     State.update({ newTxn: false });
                   }
@@ -621,6 +622,7 @@ return (
               <Styles.WalleyStoreOverlay
                 id="overlay"
                 onClick={(e) => {
+                  e.stopPropagation();
                   console.log("here");
                   if ("overlay" === e.target.id) {
                     State.update({ addSt: false });
@@ -669,6 +671,7 @@ return (
               <Styles.TransactionModal
                 id="#modal"
                 onClick={(e) => {
+                  e.stopPropagation();
                   if (e.target.id === "overlay")
                     State.update({
                       user: {
