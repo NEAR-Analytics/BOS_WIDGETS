@@ -622,8 +622,8 @@ return (
                 id="overlay"
                 onClick={(e) => {
                   console.log("here");
-                  if (e.target.id === "file") {
-                    document.getElementById("file").click();
+                  if (e.target.id === "click") {
+                    document.getElementById("click").click();
                   }
                   if ("overlay" === e.target.id) {
                     State.update({ addSt: false });
@@ -659,7 +659,6 @@ return (
                     id="click"
                     type="file"
                     onChange={() => console.log("hello")}
-                    onClick={(e) => console.log(Event.stopPropagation())}
                   />
                   <Styles.WalleyButton
                     color="#fff"
