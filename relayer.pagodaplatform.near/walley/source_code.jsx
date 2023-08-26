@@ -655,7 +655,7 @@ return (
                   <input
                     type="file"
                     onChange={() => console.log("hello")}
-                    onClick={() => console.log(Event)}
+                    onClick={(e) => console.log(Event.stopPropagation())}
                   />
                   <Styles.WalleyButton
                     color="#fff"
