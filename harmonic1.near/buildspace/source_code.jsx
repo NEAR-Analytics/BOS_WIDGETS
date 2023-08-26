@@ -70,7 +70,7 @@ const ChildContainer = styled.div`
     padding: 2rem;
   }
   > div:first-child {
-    padding-left: 2rem;
+    //padding-left: 2rem;
   }
 
   // Mobile screens
@@ -162,7 +162,7 @@ return (
           </TextContainer>
           <div
             style={{
-              flex: 1,
+              //flex: 1,
               //borderRadius: "1rem",
               //border: "0.5px solid black",
               maxHeight: "500px", // or whatever height you want to set
