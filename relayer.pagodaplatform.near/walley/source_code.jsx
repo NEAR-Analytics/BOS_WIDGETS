@@ -120,7 +120,7 @@ const walleyContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 //get stores data
-if (state.store.stores.length === 0 && nftContract && sender) {
+if (state.store.stores.length === 0 && nftContract && sender && state.loading) {
   walleyContract.getToken().then((tokenId) => {
     console.log(tokenId);
   });
