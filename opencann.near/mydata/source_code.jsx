@@ -176,5 +176,11 @@ return (
     <div>
       <Widget src="mintbase.near/widget/ListToMarket" props={{ ownerId }} />
     </div>
+    <hr></hr>
+    <div>
+      <h5> List on Optimism </h5>
+      <Widget src="ciocan.near/widget/op-bridge-demo" props={{ ownerId }} />
+      <Widget src="ciocan.near/widget/op-bridge-list" props={{ ownerId }} />
+    </div>
   </Wrapper>
 );
