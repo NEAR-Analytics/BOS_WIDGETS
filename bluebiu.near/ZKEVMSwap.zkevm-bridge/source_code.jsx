@@ -144,7 +144,10 @@ const tokens = [
 const MAX_AMOUNT =
   "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
-const savedAdd = Storage.get("savedAdd", "bluebiu.near/widget/ZKEVMSwap.zkevm-bridge");
+const savedAdd = Storage.get(
+  "savedAdd",
+  "bluebiu.near/widget/ZKEVMSwap.zkevm-bridge"
+);
 State.init({
   gasLimit: ethers.BigNumber.from("300000"),
   isToastOpen: false,
@@ -213,7 +216,7 @@ if (sender) {
     .then(({ chainId }) => {
       State.update({ chainId });
     })
-    .catch((e) => { });
+    .catch((e) => {});
 }
 
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
@@ -283,14 +286,16 @@ const handleBridge = (props) => {
         );
 
         add_action({
-          action_title: `Bridge ${token.symbol} from ${chainId === 1 ? "Ethereum" : "zkEVM"
-            }`,
+          action_title: `Bridge ${token.symbol} from ${
+            chainId === 1 ? "Ethereum" : "zkEVM"
+          }`,
           action_type: "Bridge",
           action_tokens: JSON.stringify([`${token.symbol}`]),
           action_amount: amount,
           account_id: sender,
           account_info: uuid,
           template: "native bridge",
+          action_network_id: "zkEVM",
           action_switch: state.add ? 1 : 0,
         });
       }
@@ -462,7 +467,7 @@ const handlePermit = (props) => {
       console.log("permitData", permit);
       handleBridge({ ...props, permit });
     })
-    .catch(() => { });
+    .catch(() => {});
 };
 
 const approve = (props) => {
