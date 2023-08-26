@@ -553,7 +553,6 @@ return (
               <Styles.WalleyHomeOverlay
                 id="overlay"
                 onClick={(e) => {
-                  e.stopPropagation();
                   if ("overlay" === e.target.id) {
                     State.update({ newTxn: false });
                   }
@@ -622,7 +621,6 @@ return (
               <Styles.WalleyStoreOverlay
                 id="overlay"
                 onClick={(e) => {
-                  e.stopPropagation();
                   console.log("here");
                   if ("overlay" === e.target.id) {
                     State.update({ addSt: false });
@@ -654,7 +652,11 @@ return (
                     Use current address(convert this account into a store)
                   </Styles.WalleyStoreButton>
                   <Styles.WalleyLabel>Add Cover Image</Styles.WalleyLabel>
-                  <input type="file" onChange={() => console.log("hello")} />
+                  <input
+                    type="file"
+                    onChange={() => console.log("hello")}
+                    onClick={(e) => e.stopPropagation()}
+                  />
                   <Styles.WalleyButton
                     color="#fff"
                     bg="#FA9703"
@@ -671,7 +673,6 @@ return (
               <Styles.TransactionModal
                 id="#modal"
                 onClick={(e) => {
-                  e.stopPropagation();
                   if (e.target.id === "overlay")
                     State.update({
                       user: {
