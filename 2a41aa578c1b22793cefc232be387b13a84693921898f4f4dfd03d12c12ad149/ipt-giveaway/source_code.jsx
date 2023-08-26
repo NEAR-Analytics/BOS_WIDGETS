@@ -71,6 +71,7 @@ if (
   // console.log("get network data");
 
   console.log("provider", Ethers.provider());
+
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
@@ -246,7 +247,7 @@ const handleSubmit = () => {
 
 const switchImpetus = () => {
   console.log("switching network");
-  Ethers.provider.getBalance("0x6Be02d1d3665660d22FF9624b7BE0551ee1Ac91b");
+
   Ethers.send("wallet_addEthereumChain", [
     {
       chainId: "0x142",
