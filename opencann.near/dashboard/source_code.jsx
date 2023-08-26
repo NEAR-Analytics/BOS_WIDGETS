@@ -165,7 +165,7 @@ if (profile === null) {
   return "Loading...";
 }
 
-const sidebarTemplate = "hack.near/widget/DAO.Page.Sidebar";
+const sidebarTemplate = "opencann.near/widget/dashboard.sidebar";
 
 const routes = [
   {
