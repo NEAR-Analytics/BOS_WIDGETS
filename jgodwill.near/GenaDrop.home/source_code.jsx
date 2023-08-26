@@ -23,9 +23,6 @@ font-size: 2.6vw;
 font-weight: 500;
 text-align: center;
 color: #2d3748;
-//  @media (max-width: 992px) {
-//     text-align:center;
-//   }
 `;
 
 const HeaderButtonsContainer = styled.div`
