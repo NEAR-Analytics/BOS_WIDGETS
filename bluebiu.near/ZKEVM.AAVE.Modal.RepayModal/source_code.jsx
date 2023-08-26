@@ -171,7 +171,10 @@ function updateGas() {
 }
 
 updateGas();
-const questionSwitch = Storage.get("zkevm-aave-question-switch", "guessme.near/widget/ZKEVM.switch_quest_card");
+const questionSwitch = Storage.get(
+  "zkevm-aave-question-switch",
+  "guessme.near/widget/ZKEVM.switch_quest_card"
+);
 const eth_account_id = Ethers.send("eth_requestAccounts", [])[0];
 
 function bigMin(_a, _b) {
@@ -451,9 +454,10 @@ function repayERC20(shownAmount, actualAmount) {
                 account_id: eth_account_id,
                 account_info: uuid,
                 template: "AAVE",
-                action_switch: questionSwitch == "on" ? '1': '0',
+                action_switch: questionSwitch == "on" ? "1" : "0",
                 action_status: status === 1 ? "Success" : "Failed",
                 tx_id: transactionHash,
+                action_network_id: "zkEVM",
               });
             });
           })
@@ -513,9 +517,10 @@ function repayERC20(shownAmount, actualAmount) {
                   account_id: eth_account_id,
                   account_info: uuid,
                   template: "AAVE",
-                  action_switch: questionSwitch == "on" ? '1': '0',
+                  action_switch: questionSwitch == "on" ? "1" : "0",
                   action_status: status === 1 ? "Success" : "Failed",
                   tx_id: transactionHash,
+                  action_network_id: "zkEVM",
                 });
               });
             });
@@ -576,9 +581,10 @@ function repayETH(shownAmount, actualAmount) {
               account_id: eth_account_id,
               account_info: uuid,
               template: "AAVE",
-              action_switch: questionSwitch == "on" ? '1': '0',
+              action_switch: questionSwitch == "on" ? "1" : "0",
               action_status: status === 1 ? "Success" : "Failed",
               tx_id: transactionHash,
+              action_network_id: "zkEVM",
             });
           });
         })
@@ -595,7 +601,8 @@ function add_action(param_body) {
     body: JSON.stringify(param_body),
   });
 }
-const is_disabled = state.loading || Big(balance || 0).lte(0) || Big(state.amount || 0).lte(0);
+const is_disabled =
+  state.loading || Big(balance || 0).lte(0) || Big(state.amount || 0).lte(0);
 return (
   <>
     <Widget
@@ -736,7 +743,7 @@ return (
                 ),
               }}
             />
-           <div className="splitDiv">
+            <div className="splitDiv">
               <div className="splitLine"></div>
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -784,7 +791,7 @@ return (
                   config,
                   children: `Repay ${symbol}`,
                   loading: state.loading,
-                  disabled:is_disabled,
+                  disabled: is_disabled,
                   onClick: () => {
                     const actualAmount = Big(
                       state.amount === shownMaxValue
