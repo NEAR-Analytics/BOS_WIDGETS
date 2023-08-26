@@ -190,7 +190,7 @@ return (
                     <p>Store name - {tx[6]} </p>
                     <p>Max amount - {Big(tx[5]).toFixed(5)}</p>
 
-                    <p>Time - {props.unixToDate(parseInt(tx[10], 16))}</p>
+                    <p>Time - {props.props.(parseInt(tx[10], 16))}</p>
                     <WalleyButton
                       color="white"
                       bg="blue"
@@ -230,7 +230,7 @@ return (
 
                   <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
 
-                  <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
+                  <p>Time - {props.unixToDate(parseInt(tx[10], 16))}</p>
                   {props.user.openReceipt === Big(tx[1]).toFixed(0) ? (
                     <>
                       <WalleyStoreImage
