@@ -13,11 +13,14 @@ const update = (k, v) => State.update({ [k]: v });
 
 return (
   <>
-    {widget(template ?? "createit.near/widget/templates.ui.navbar.default", {
-      open: state.mobileNavbarOpen,
-      setOpen: (v) => update("mobileNavbarOpen", v),
-      pages,
-      onPageChange
-    })}
+    {widget(
+      template ?? "createit.near/widget/templates.ui.navbar.default",
+      {
+        open: state.mobileNavbarOpen,
+        setOpen: (v) => update("mobileNavbarOpen", v),
+        pages,
+        onPageChange,
+      },
+    )}
   </>
 );
