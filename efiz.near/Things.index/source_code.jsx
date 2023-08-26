@@ -1,5 +1,5 @@
 const defaultFilters = props.defaultFilters ?? {};
-const defaultType = props.defaultType || "thing";
+const defaultType = props.defaultType || "widget";
 
 const Button = styled.button``;
 
