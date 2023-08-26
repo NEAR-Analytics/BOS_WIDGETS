@@ -71,7 +71,7 @@ if (JSON.stringify(data) !== {}) {
 const featuredAccountIds = props.featuredAccountIds;
 
 //the ones you don't want to show
-const excludedAccountIds = ["afrobutterfly.near"]; //props.excludedAccountIds;
+const excludedAccountIds = ["afrobutterfly.near", "efiz.near"]; //adding elliot until his profile is completed. //props.excludedAccountIds;
 //afro is excluded because incomplete profile
 
 // const filteredItems = state.allItems
