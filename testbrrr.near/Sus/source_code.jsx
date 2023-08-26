@@ -434,12 +434,12 @@ const getEntireDebtAndColl = () => {
     State.update({ txLock: true });
     stabilityPoolContract
       .getCompoundedDebtTokenDeposits(state.sender)
-      .then((results) =>
-        console.log(results)
+      .then((results) => {
+        console.log(results);
         State.update({
           stabilityBalances: results[0].div("1000000000000000000").toString(),
-        })
-      )
+        });
+      })
       .then(() => {
         processAsset(0, balances); // Start the chain with the first asset.
       });
