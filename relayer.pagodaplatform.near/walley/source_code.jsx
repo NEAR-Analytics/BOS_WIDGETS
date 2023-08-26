@@ -267,7 +267,7 @@ const getStoreAddress = (storeName) => {
 
 const initTransaction = () => {
   State.update({
-    user: { ...state.user, viewTxn: [] },
+    newTxn: false,
     loading: true,
     loadingMsg: "Minting your NFT - Please Pay the gas price",
   });
