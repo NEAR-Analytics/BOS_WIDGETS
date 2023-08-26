@@ -49,7 +49,7 @@ State.init({
   storeInputs: {
     storeName: "",
     storeAddress: "",
-    image: "",
+    image: null,
   },
   search: {
     store: "",
