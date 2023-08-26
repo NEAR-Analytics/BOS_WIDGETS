@@ -65,7 +65,7 @@ const Root = styled.div`
   
   iframe {
     width: 800px; 
-    height: 900px;
+    height: 100vh;
     border: none;
   }
 
