@@ -66,12 +66,7 @@ State.init({
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
 ).body;
-const fetchStyles = fetch(
-  "https://raw.githubusercontent.com/test1883/files/main/Styles.json"
-);
-if (!fetchStyles.ok) return "Loading Styles";
-console.log(JSON.parse(fetchStyles.body));
-const Styles = JSON.parse(fetchStyles.body);
+const Styles = props.Styles;
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
   State.update({ balance });
