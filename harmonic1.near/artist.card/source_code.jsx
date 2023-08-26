@@ -50,6 +50,8 @@ return (
   // Have to rewrite thing veiwer to do so.
   <a
     href={`/#/harmonic1.near/widget/every.thing.view?path=${path}/${handle}`}
+    target="_blank"
+    rel="noopener noreferrer"
     style={{
       color: "black",
     }}
