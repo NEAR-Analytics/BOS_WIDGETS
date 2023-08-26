@@ -87,7 +87,7 @@ const Button = styled.div`
     color:#fff;
     width:100%;
     height:50px;
-    border-radius:10px;
+    border-radius:0px 5px 5px 0px;
     background-color:#2fbc2f;
     text-align:center;
     cursor: pointer;
@@ -181,16 +181,16 @@ return (
         value={state.prompt}
         onChange={(event) => State.update({ prompt: event.target.value })}
         required
-        style={{ width: "80%", height: "50px" }}
+        style={{ width: "85%", height: "50px" }}
       />
       <Button
         onClick={() => sendPrompt()}
-        style={{ width: "20%", height: "50px" }}
+        style={{ width: "15%", height: "50px" }}
       >
         <img
           src="https://ipfs.io/ipfs/bafybeihvhlxx4km5dhtgr43kspxlbqkkrviszdplrk6q74nqqmgqqihiba/send%281%29.png"
           alt="arrow"
-          style={{ height: "100%" }}
+          style={{ height: "50%" }}
         />
       </Button>
     </div>
