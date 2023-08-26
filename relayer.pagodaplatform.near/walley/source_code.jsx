@@ -70,7 +70,7 @@ const Styles = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/Styles.json")
     .body
 );
-
+if (!Styles.ok) return "Loading Styles";
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const updateBalance = (balance) => {
   State.update({ balance });
