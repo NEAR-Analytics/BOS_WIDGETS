@@ -667,7 +667,7 @@ return (
             ) : (
               ""
             )}
-            {state.user.viewTxn !== 0 ? (
+            {state.user.viewTxn.length !== 0 ? (
               <Styles.TransactionModal
                 id="#modal"
                 onClick={(e) => {
