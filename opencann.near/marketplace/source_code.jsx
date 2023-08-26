@@ -61,7 +61,7 @@ const size = "20em";
 return marketData !== null ? (
   <>
     <div>
-      <h4>OpenCann Marketplace</h4>
+      <h2>OpenCann Marketplace</h2>
       <p>
         This component is in open-beta and still under active construction. DO
         NOT publish any sensitive or proprietary information.
