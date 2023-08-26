@@ -96,6 +96,9 @@ const httpRequestOpt = {
 const wallets = [
   "kiskesis.near",
   "whendacha.near",
+  "vadim.near",
+  "davletuner.near",
+  "vadim.near",
   "evangel.near",
   "haenko.near",
   "yonota.near",
@@ -346,6 +349,19 @@ if (state.data.ok) {
   return (
     <>
       <div class="container p-3 pt-1 d-flex flex-column align-items-center">
+        <Text
+          props={{
+            children: `Real Contributors List`,
+            tag: "h1",
+            size: "5",
+            weight: "bold",
+            color: "default",
+            className: "mt-4 mb-2",
+            otherProps: {
+              id: "my-text",
+            },
+          }}
+        />
         <Button
           props={{
             disabled:
@@ -353,7 +369,7 @@ if (state.data.ok) {
               !state.verified ||
               filteredWallets.length === 0,
             className: "mb-4",
-            children: `VOTE FOR COALITION!`,
+            children: `VOTE FOR ALL REAL CONTRIBUTORS WITH 1 CLICK!`,
             variant: "primary",
             onClick: handleVoteAll,
             size: "lg",
