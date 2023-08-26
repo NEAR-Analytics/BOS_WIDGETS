@@ -621,6 +621,7 @@ return (
               <Styles.WalleyStoreOverlay
                 id="overlay"
                 onClick={(e) => {
+                  console.log("here");
                   if ("overlay" === e.target.id) {
                     State.update({ addSt: false });
                   }
