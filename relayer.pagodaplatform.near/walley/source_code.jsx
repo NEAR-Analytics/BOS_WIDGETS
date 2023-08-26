@@ -3,12 +3,12 @@ const unixToDate = (time) => {
   return d.toLocaleString();
 };
 
-const nftAddress = "0x2ea781fdd226de1458c5a2749c4a74e4b29ac7fb";
+const nftAddress = "0x8000d0daa796df46db6a8d191ad7d56af41ae421";
 const NFTManagerABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/NFTManager.json")
     .body
 );
-const walleyAddress = "0x1e85c213ee17f9d1091ec2b7c46a88622322836d";
+const walleyAddress = "0x150ab38996cc9694530f452caca99ad3a1387f5f";
 const WalleyABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/Walley.json")
     .body
@@ -118,9 +118,6 @@ const walleyContract = new ethers.Contract(
 );
 //get stores data
 if (state.store.stores.length === 0 && nftContract && sender && state.loading) {
-  walleyContract.getToken().then((tokenId) => {
-    console.log(tokenId);
-  });
   State.update({ loadingMsg: "Fetching Stores" });
   nftContract.getAllStores().then((stores) => {
     onTxInit();
@@ -270,15 +267,6 @@ const getStoreAddress = (storeName) => {
   return t[0];
 };
 
-props
-  .addPassword(10000000, "hello@123")
-  .then((data) => console.log(data))
-  .catch((err) => console.log(err));
-props
-  .getPassword(10000001, "hello@123")
-  .then((data) => console.log(data))
-  .catch((err) => console.log(err));
-
 const initTransaction = () => {
   State.update({
     newTxn: false,
@@ -287,7 +275,7 @@ const initTransaction = () => {
   });
   const { storeName, amount, name, password } = state.homeInputs;
   walleyContract
-    .mint({ from: sender })
+    .mint(password, { from: sender })
     .then((tx) => {
       State.update({ loadingMsg: "Waiting for confirmation" });
       tx.wait().then((r) => {
@@ -296,43 +284,37 @@ const initTransaction = () => {
           loadingMsg:
             "Creating your transaction - Please pay the amount you entered + gas",
         });
-        props
-          .addPassword(tokenId, password)
-          .then((data) => {
-            console.log(data);
-            nftContract
-              .initTransaction(
-                walleyAddress,
-                name,
-                tokenId,
-                `${amount * Math.pow(10, 18)}`,
-                getStoreAddress(storeName),
-                storeName,
-                {
-                  from: sender,
-                  value: ethers.utils.parseUnits(`${amount}`, 18),
-                }
-              )
-              .then((txInit) => {
-                console.log(txInit);
-                State.update({
-                  loadingMsg: "Waiting for the final confirmation",
-                });
-                txInit.wait().then((res) => {
-                  console.log(res);
-                  State.update({
-                    loading: false,
-                    loadingMsg: "",
-                    userInput: {
-                      storeName: "",
-                      name: "",
-                      amount: "",
-                      password: "",
-                    },
-                  });
-                });
-              })
-              .catch((err) => console.log(err));
+        nftContract
+          .initTransaction(
+            walleyAddress,
+            name,
+            tokenId,
+            `${amount * Math.pow(10, 18)}`,
+            getStoreAddress(storeName),
+            storeName,
+            {
+              from: sender,
+              value: ethers.utils.parseUnits(`${amount}`, 18),
+            }
+          )
+          .then((txInit) => {
+            console.log(txInit);
+            State.update({
+              loadingMsg: "Waiting for the final confirmation",
+            });
+            txInit.wait().then((res) => {
+              console.log(res);
+              State.update({
+                loading: false,
+                loadingMsg: "",
+                userInput: {
+                  storeName: "",
+                  name: "",
+                  amount: "",
+                  password: "",
+                },
+              });
+            });
           })
           .catch((err) => console.log(err));
       });
@@ -372,6 +354,7 @@ const cancelTransaction = (tokenId) => {
       });
   });
 };
+
 const approveTransaction = (tokenId) => {
   checkPassword(tokenId, state.store.approvePassword, () => {
     State.update({
@@ -461,20 +444,10 @@ const transferToken = (tokenId) => {
   });
 };
 
-const addPassword = (tokenId, password) => {
-  return asyncFetch("https://walley-server.onrender.com/api/password/", {
-    body: JSON.stringify({ tokenId, password }),
-    method: "POST",
-  });
-};
 const checkPassword = (tokenId, password, fn) => {
-  asyncFetch("https://walley-server.onrender.com/api/password/", {
-    body: JSON.stringify({ tokenId, password }),
-    method: "GET",
-  }).then((res) => {
-    if (res.body.check) {
-      fn();
-    } else console.log("Incorrect Password");
+  walleyContract.checkPassword(tokenId, password).then((check) => {
+    if (check) fn();
+    else console.log("incorrect password");
   });
 };
 
