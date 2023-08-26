@@ -152,7 +152,7 @@ return (
   <>
     <div style={cardStyle} className="m-4">
       <Container>
-        <ChildContainer2>
+        <ChildContainer>
           <TextContainer>
             <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
               Simple Profiles to connect with your audience.
@@ -177,7 +177,7 @@ return (
               props={{ path: "qsaharmonic.near/thing/artist/Quinn" }}
             />
           </div>
-        </ChildContainer2>
+        </ChildContainer>
       </Container>
       <Container>
         <ChildContainer2>
