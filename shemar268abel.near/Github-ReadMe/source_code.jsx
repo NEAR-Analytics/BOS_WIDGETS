@@ -61,11 +61,11 @@ document.addEventListener("DOMContentLoaded", function() {
 </html>
   `;
 
-  const Root= styled.div`
+const Root = styled.div`
   
   iframe {
-    width: 100%; 
-    height: 100vh;
+    width: 800px; 
+    height: 900px;
     border: none;
   }
 
@@ -77,10 +77,10 @@ document.addEventListener("DOMContentLoaded", function() {
             overflow: hidden; /* Prevent potential scrollbars */
     }
 
-  `
+  `;
 
 return (
   <Root>
-    <iframe srcDoc={code}/>
+    <iframe srcDoc={code} />
   </Root>
 );
