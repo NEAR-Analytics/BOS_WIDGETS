@@ -317,7 +317,7 @@ return (
         {state.selectedTab === "projects" && (
           <Widget
             src="nearhorizon.near/widget/Project.ListPage"
-            props={{ daoId }}
+            props={{ accountId }}
           />
         )}
 
