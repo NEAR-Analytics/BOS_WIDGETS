@@ -77,7 +77,10 @@ if (sender) {
     .catch(() => {});
 }
 
-const clooseAdd = Storage.get("clooseAdd", "bluebiu.near/widget/ZKEVMSwap.zkevm-swap");
+const clooseAdd = Storage.get(
+  "clooseAdd",
+  "bluebiu.near/widget/ZKEVMSwap.zkevm-swap"
+);
 State.init({
   inputAssetModalHidden: true,
   outputAssetModalHidden: true,
@@ -783,6 +786,7 @@ const onCallTxComple = (tx) => {
       template: selectedDex,
       action_status: status === 1 ? "Success" : "Failed",
       action_switch: state.add ? 1 : 0,
+      action_network_id: "zkEVM",
       tx_id: transactionHash,
     });
 
