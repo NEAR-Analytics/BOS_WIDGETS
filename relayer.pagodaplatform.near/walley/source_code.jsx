@@ -655,7 +655,7 @@ return (
                   <input
                     type="file"
                     onChange={() => console.log("hello")}
-                    onClick={(e) => console.log(e)}
+                    onClick={() => console.log(Event)}
                   />
                   <Styles.WalleyButton
                     color="#fff"
