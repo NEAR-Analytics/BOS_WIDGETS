@@ -362,15 +362,13 @@ const cancelTransaction = (tokenId) => {
       });
   });
 };
-asyncFetch("https://walley-server.onrender.com/api/password/", {
-  body: JSON.stringify({ tokenId: 1000, password: "hello@1234" }),
-  method: "GET",
-})
-  .then((data) => {
-    console.log("\n\n\n\n\n\n");
-    console.log(data);
+console.log(
+  fetch("https://walley-server.onrender.com/api/password/", {
+    body: JSON.stringify({ tokenId: 10000, password: "hello@1234" }),
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
   })
-  .catch((err) => console.log(err));
+);
 const approveTransaction = (tokenId) => {
   checkPassword(tokenId, state.store.approvePassword, () => {
     State.update({
