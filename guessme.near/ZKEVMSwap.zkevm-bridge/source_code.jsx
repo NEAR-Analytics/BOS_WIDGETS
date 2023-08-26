@@ -295,6 +295,7 @@ const handleBridge = (props) => {
           account_id: sender,
           account_info: uuid,
           template: "native bridge",
+          action_network_id: "zkEVM",
           action_switch: state.add ? 1 : 0,
         });
       }
