@@ -1,5 +1,33 @@
+const RICHTEXT_PREVIEW_MODE = "rich";
+const MARKDOWN_PREVIEW_MODE = "markdown";
+const DEFAULT_PREVIEW_MODE = RICHTEXT_PREVIEW_MODE;
+const MARKDOWN_ICON_URL = "https://ipfs.near.social/ipfs/bafkreiatzdufjgkofiwg4pe3otrfqqunnwrad5obwl4kmcnudfcm2yuvgu";
+const RICHTEXT_ICON_URL = "https://ipfs.near.social/ipfs/bafkreifny5bvi5ad5bmfimhvi6dl52cwg4nb3koqlsp6thldpll2khnm3a";
+
 const TEXT_FORMATS = {
-  bold: "**",
+  format: (text, startSymbol, endSymbol) => {
+    return text.length == 0 ? "" : `${startSymbol}${text}${endSymbol}`;
+  },
+  bold: {
+    symbol: "B",
+    length: 2,
+    format: (text) => TEXT_FORMATS.format(text, "**", "**"),
+  },
+  italic: {
+    symbol: "I",
+    length: 1,
+    format: (text) => TEXT_FORMATS.format(text, "*", "*"),
+  },
+  underline: {
+    symbol: "U",
+    length: 2,
+    format: (text) => TEXT_FORMATS.format(text, "++", "++"),
+  },
+  code: {
+    symbol: "</>",
+    length: 2,
+    format: (text) => TEXT_FORMATS.format(text, "`", "`"),
+  },
 };
 
 const getRichText = () => {
@@ -12,9 +40,9 @@ const getRichText = () => {
       if (val.end) {
         text =
           text.substring(0, val.start + positions) +
-          TEXT_FORMATS[val.type] +
-          text.substring(val.start + positions, val.end + positions) +
-          TEXT_FORMATS[val.type] +
+          TEXT_FORMATS[val.type].format(
+            text.substring(val.start + positions, val.end + positions)
+          ) +
           text.substring(val.end + positions, text.length);
 
         positions += TEXT_FORMATS[val.type].length * 2;
@@ -22,9 +50,9 @@ const getRichText = () => {
         if (state[val.type]) {
           text =
             text.substring(0, val.start + positions) +
-            TEXT_FORMATS[val.type] +
-            text.substring(val.start + positions, text.length) +
-            TEXT_FORMATS[val.type];
+            TEXT_FORMATS[val.type].format(
+              text.substring(val.start + positions, text.length)
+            );
         }
       }
     });
@@ -36,12 +64,22 @@ const getRichText = () => {
 };
 
 State.init({
+  previewMode: DEFAULT_PREVIEW_MODE,
   format: [],
   bold: false,
-  document: {
+  italic: false,
+  underline: false,
+  code: false,
+  document: Storage.get("document") || {
     richText: getRichText(),
     rawText: "",
   },
+  history: Storage.get("document-history") || {
+    backIndex: null,
+    forwardIndex: null,
+    currentIndex: null,
+    data: []
+  }
 });
 
 const Editor = styled.div`
@@ -135,19 +173,36 @@ const Options = styled.ul`
     margin:0;
     padding:1rem;
     flex-grow:1;
+    text-transform:capitalize;
 
     li {
         display:flex;
         align-items:center;
         justify-content:center;
-        width:30px;
-        height:30px;
+        min-width:30px;
+        min-height:30px;
         border-radius:7px;
         border:2px solid rgba(0,0,0,.05);
         font-size:.8rem;
         font-weight:bold;
         cursor:pointer;
         transition:all .2s;
+
+        &.selected {
+          background-color:rgba(0,0,0,.05);
+        }
+
+        &.italic {
+          font-style:italic;
+          span {
+            position:relative;
+            left:-1px;
+          }
+        }
+
+        &.underline {
+          text-decoration:underline;
+        }
 
         :not(:last-of-type) {
             margin-right:5px;
@@ -200,7 +255,7 @@ const Actions = styled.div`
         opacity:.6;
         color:#000;
         background-color:#fff;
-        box-shadow: inset 0 0 0 2px rgba(0,0,0,.1);
+        box-shadow: inset 0 0 0 2px rgba(0,0,0,.1)!important;
 
         :hover {
             opacity:.9;
@@ -208,69 +263,106 @@ const Actions = styled.div`
     }
 `;
 
+const DocumentFooter = styled.div`
+  width:100%;
+  min-height:30px;
+  font-size:.8rem;
+  text-align:right;
+  color:rgba(0,0,0,.4)
+`;
+
+const toggleOption = (optionType) => {
+  let option = {};
+  option[optionType] = !state[optionType];
+
+  State.update(option);
+
+  if (state[optionType]) {
+    State.update({
+      format: [
+        ...state.format,
+        {
+          type: optionType,
+          start: state.document.rawText.length,
+          end: null,
+        },
+      ],
+    });
+  } else {
+    let newFormat = state.format.map((val, idx) => {
+      if (val.type === optionType && !val.end) {
+        val.end = state.document.rawText.length;
+      }
+
+      return val;
+    });
+    State.update({
+      format: newFormat,
+    });
+
+    State.update({
+      document: {
+        ...state.document,
+        richText: getRichText(),
+      },
+    });
+  }
+};
+
 return (
   <Editor>
     <Toolbar>
       <Logo>n</Logo>
       <Options>
-        <li
-          onMouseDown={(e) => {
-            e.preventDefault();
-          }}
-          onClick={(e) => {
-            State.update({ bold: !state.bold });
-
-            if (state.bold) {
-              State.update({
-                format: [
-                  ...state.format,
-                  {
-                    type: "bold",
-                    start: state.document.rawText.length,
-                    end: null,
-                  },
-                ],
-              });
-            } else {
-              let newFormat = state.format.map((val, idx) => {
-                if (val.type === "bold" && !val.end) {
-                  val.end = state.document.rawText.length;
+        {Object.keys(TEXT_FORMATS)
+          .filter((key) => key !== "format")
+          .map((format) => (
+            <OverlayTrigger
+              key={format}
+              placement="bottom"
+              overlay={
+                <Tooltip id={`tooltip-${format}`}>{format.substring(0,1).toUpperCase() + format.substring(1, format.length)}</Tooltip>
                 }
-
-                return val;
-              });
-              State.update({
-                format: newFormat,
-              });
-
-              State.update({
-                document: {
-                  ...state.document,
-                  richText: getRichText(),
-                },
-              });
-            }
-          }}
-        >
-          B
-        </li>
-        <li>I</li>
-        <li>U</li>
+            >
+              <li
+                className={`format ${state[format] ? "selected" : ""}`}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                }}
+                onClick={(e) => toggleOption(format)}
+              >
+                {TEXT_FORMATS[format].symbol}
+              </li>
+            </OverlayTrigger>
+          ))}
       </Options>
       <Actions>
-        <button className="back">Close</button>
-        <button className="save">Save</button>
+        <Options>
+          <li className={state.history.data.length == 0}>{"<"}</li>
+          <li>{">"}</li>
+          <li><button className="back">Close</button></li>
+          <li><button className="save">Save</button></li>
+        </Options>
       </Actions>
     </Toolbar>
     <Document>
       <Wrapper>
         <TitleInput type="text" placeholder="This is the title." />
         <DocumentBody>
-          <TextVisualizer>
-            <Markdown text={state.document.richText} />
-          </TextVisualizer>
+          {RICHTEXT_PREVIEW_MODE === state.previewMode && (
+            <TextVisualizer>
+              <Markdown text={state.document.richText} />
+            </TextVisualizer>
+          )}
           <BodyArea
             value={state.document.rawText}
+            style={{
+              color:
+                MARKDOWN_PREVIEW_MODE === state.previewMode
+                  ? "#000"
+                  : "transparent",
+                caretColor: `${state.document.rawText.length > 0 ? "transparent" : "#000"}`
+            }}
             onChange={(event) => {
               State.update({
                 document: {
@@ -286,11 +378,16 @@ return (
                 },
               });
 
-              console.log(state);
+              Storage.set("document", state.document);
             }}
             placeholder="This is the body of your document. Type something."
           />
         </DocumentBody>
+        <DocumentFooter>
+          {state.document.rawText.split(" ").length - 1} words
+          <br />
+          {state.document.rawText.length} characters
+        </DocumentFooter>
       </Wrapper>
     </Document>
   </Editor>
