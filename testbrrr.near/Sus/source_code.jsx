@@ -437,7 +437,7 @@ const getEntireDebtAndColl = () => {
       .then((results) => {
         console.log(results);
         State.update({
-          stabilityBalances: results[0].div("1000000000000000000").toString(),
+          stabilityBalances: results.div("1000000000000000000").toString(),
         });
       })
       .then(() => {
