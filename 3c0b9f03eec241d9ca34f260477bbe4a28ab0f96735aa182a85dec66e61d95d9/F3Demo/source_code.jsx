@@ -28,6 +28,7 @@ const MainLayout = styled.div`
     width: 100vw;
     padding: 24px;
     max-width: 100%;
+    marigin-top:200px
 `;
 
 const TextPrimary = styled.div`
@@ -63,7 +64,7 @@ const ContainerBorder = styled.div`
     border-style: solid;
     border-color: transparent;
     max-width: 100%;
-    margin-top: 500px;
+    margin-top: 300px;
 `;
 
 const InputLayout = styled.input`
