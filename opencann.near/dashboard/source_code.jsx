@@ -3,8 +3,8 @@ State.init({
 });
 
 const accountId = props.accountId ?? context.accountId;
-const daoId = props.daoId ?? "cannabis-genome.sputnik-dao.near";
-const addressId = props.addressId ?? "opencann.near";
+const daoId = "cannabis-genome.sputnik-dao.near";
+const popId = "opencann.near";
 
 const page = accountId
   ? Social.get(`${accountId}/settings/dao/page`)
@@ -28,7 +28,7 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const profile = props.profile ?? Social.getr(`${addressId}/profile`);
+const profile = props.profile ?? Social.getr(`${"opencann.near"}/profile`);
 const accountUrl = `#/opencann.near/widget/dashboard?`;
 
 const Wrapper = styled.div`
@@ -218,7 +218,7 @@ return (
         <Widget
           src={sidebarTemplate}
           props={{
-            addressId,
+            popId,
             profile,
           }}
         />
