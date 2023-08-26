@@ -1,6 +1,5 @@
-//add an input box to upload a dataset to IPFS
-//add a feature to post in CGD Community as a proposal & specify which members/groups can vote to approve (e.g. enable cofounders for the subDAO)
-//add feature to customize dao config permissions and vote policies
+//integrate with feed, proposals, create subdao groups,
+//integrate with marketplace
 
 const accountId = props.accountId ?? context.accountId;
 
@@ -152,6 +151,10 @@ const onChangePurpose = (purpose) => {
 return (
   <div className="mb-3">
     <h3>Publish a New Data Set</h3>
+    <p>
+      This component is in open-beta and still under active construction. DO NOT
+      publish any sensitive or proprietary information.
+    </p>
     <div className="mb-2">
       Name of Data Set
       <input type="text" onChange={(e) => onChangeName(e.target.value)} />
