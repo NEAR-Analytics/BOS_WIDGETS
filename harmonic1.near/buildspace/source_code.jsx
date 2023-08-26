@@ -65,12 +65,14 @@ const Container = styled.div`
 
 const ChildContainer = styled.div`
   display: flex;
+  //flex-direction: column;  // added this line
+  align-items: center;  // added this line
   > div {
     flex: 1;
     padding: 2rem;
   }
   > div:first-child {
-    //padding-left: 2rem;
+    padding-left: 2rem;
   }
 
   // Mobile screens
