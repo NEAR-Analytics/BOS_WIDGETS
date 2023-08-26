@@ -605,6 +605,8 @@ return (
     )}
 
     {confirmUI}
-    <Button onClick={() => confirmAction()}>Confirm Action</Button>
+    {!props.action !== "display" ? (
+      <Button onClick={() => confirmAction()}>Confirm Action</Button>
+    ) : null}
   </div>
 );
