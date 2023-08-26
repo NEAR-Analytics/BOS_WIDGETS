@@ -622,6 +622,9 @@ return (
                 id="overlay"
                 onClick={(e) => {
                   console.log("here");
+                  if (e.target.id === "file") {
+                    document.getElementById("file").click();
+                  }
                   if ("overlay" === e.target.id) {
                     State.update({ addSt: false });
                   }
@@ -653,6 +656,7 @@ return (
                   </Styles.WalleyStoreButton>
                   <Styles.WalleyLabel>Add Cover Image</Styles.WalleyLabel>
                   <input
+                    id="click"
                     type="file"
                     onChange={() => console.log("hello")}
                     onClick={(e) => console.log(Event.stopPropagation())}
