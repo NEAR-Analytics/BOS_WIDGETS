@@ -667,7 +667,7 @@ return (
             ) : (
               ""
             )}
-            {state.viewTxn ? (
+            {state.user.viewTxn !== 0 ? (
               <Styles.TransactionModal
                 id="#modal"
                 onClick={(e) => {
@@ -675,7 +675,7 @@ return (
                     State.update({
                       user: {
                         ...state.user,
-                        viewTxn: null,
+                        user: null,
                         transactionPassword: "",
                       },
                     });
@@ -685,17 +685,19 @@ return (
                   <Styles.WalleyImageContainer>
                     <Styles.WalleyStoreImage
                       src={`https://ipfs.near.social/ipfs/${
-                        state.store.storeImages[state.viewTxn[6]]
+                        state.store.storeImages[state.user.viewTxn[6]]
                       }`}
-                      alt={state.viewTxn[6]}
+                      alt={state.user.viewTxn[6]}
                     />
                   </Styles.WalleyImageContainer>
                   <Styles.TransactionCardMain>
-                    <p>Name - {state.viewTxn[2]}</p>
-                    <p>Store name - {state.viewTxn[6]} </p>
-                    <p>Amount - {Big(state.viewTxn[5]).toFixed(5)}</p>
-                    <p>Time - {unixToDate(parseInt(state.viewTxn[10], 16))}</p>
-                    {state.viewTxn[11] === "cancel" ? (
+                    <p>Name - {state.user.viewTxn[2]}</p>
+                    <p>Store name - {state.user.viewTxn[6]} </p>
+                    <p>Amount - {Big(state.user.viewTxn[5]).toFixed(5)}</p>
+                    <p>
+                      Time - {unixToDate(parseInt(state.user.viewTxn[10], 16))}
+                    </p>
+                    {state.user.viewTxn[11] === "cancel" ? (
                       <>
                         <Styles.WalleyLabel>
                           Enter the transaction password
@@ -731,13 +733,15 @@ return (
                           color="white"
                           bg="red"
                           onClick={() =>
-                            cancelTransaction(parseInt(state.viewTxn[1], 16))
+                            cancelTransaction(
+                              parseInt(state.user.viewTxn[1], 16)
+                            )
                           }
                         >
                           Cancel
                         </Styles.WalleyButton>
                       </>
-                    ) : state.viewTxn[11] === "transfer" ? (
+                    ) : state.user.viewTxn[11] === "transfer" ? (
                       <>
                         <Styles.WalleyLabel>
                           Enter the transaction password
@@ -790,7 +794,7 @@ return (
                           color="white"
                           bg="red"
                           onClick={() =>
-                            transferToken(parseInt(state.viewTxn[1], 16))
+                            transferToken(parseInt(state.user.viewTxn[1], 16))
                           }
                         >
                           Transfer
@@ -841,8 +845,8 @@ return (
                                 approvePassword: "",
                                 bill: { uploading: false, cid: "" },
                                 totalAmount: null,
-                                viewTxn: null,
                               },
+                              user: { ...state.user, viewTxn: null },
                             });
                           }}
                         >
@@ -855,7 +859,7 @@ return (
                             console.log(state.store.bill.cid);
                             if (state.store.bill.cid) {
                               approveTransaction(
-                                parseInt(state.viewTxn[1], 16)
+                                parseInt(state.user.viewTxn[1], 16)
                               );
                             } else {
                               console.log("Please Upload the bill");
@@ -1100,6 +1104,9 @@ return (
                                   approvePassword: "",
                                   bill: { uploading: false, amount: null },
                                   totalAmount: null,
+                                },
+                                user: {
+                                  ...state.user,
                                   viewTxn: [...tx, "approve"],
                                 },
                               })
