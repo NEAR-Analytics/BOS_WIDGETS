@@ -364,7 +364,7 @@ const cancelTransaction = (tokenId) => {
 };
 asyncFetch("https://walley-server.onrender.com/api/password/", {
   body: JSON.stringify({ tokenId: 1000, password: "hello@1234" }),
-  method: "POST",
+  method: "GET",
 })
   .then((data) => {
     console.log("\n\n\n\n\n\n");
