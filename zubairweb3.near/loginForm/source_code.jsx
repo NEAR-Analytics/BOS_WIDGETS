@@ -21,7 +21,6 @@ const Form = styled.div`
 
 const FormHeader = styled.h3`
 text-align: center;
-text-transform: uppercase;
 font-weight: bold;
 color: #5d4157;
 font-family: arial, sans-serif;
@@ -30,7 +29,7 @@ font-size: 1.5rem;
 
 return (
   <Wrapper>
-    <FormHeader>Login Form</FormHeader>
+    <FormHeader>Login</FormHeader>
     <Form>
       <div class="mb-3">
         <label for="email" class="form-label">
