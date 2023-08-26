@@ -139,7 +139,10 @@ return marketData !== null ? (
         }
       )}
     </div>
-
+    <div class="py-4">
+      <hr></hr>
+      <Widget src="nearui.near/widget/Data.Balances.demo" />
+    </div>
     <div class="py-4">
       <hr></hr>
       <Widget src="mintbase.near/widget/BuiltWithMintbase" />
