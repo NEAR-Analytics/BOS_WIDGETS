@@ -60,7 +60,7 @@ return (
       </div>
       <div className="m-1 position-relative">
         <h5 className="card-title mb-2">{name}</h5>
-        <p>{bio}</p>
+        <p>{bio.length > 31 ? bio.slice(0, 31) + "..." : bio}</p>
       </div>
     </Card>
   </a>
