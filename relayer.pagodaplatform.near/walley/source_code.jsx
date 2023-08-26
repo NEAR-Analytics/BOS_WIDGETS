@@ -3,12 +3,12 @@ const unixToDate = (time) => {
   return d.toLocaleString();
 };
 
-const nftAddress = "0xadbdf3dac05e226b5557c91fe115cfc3993313cb";
+const nftAddress = "0x2ea781fdd226de1458c5a2749c4a74e4b29ac7fb";
 const NFTManagerABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/NFTManager.json")
     .body
 );
-const walleyAddress = "0xb3e43c90bf198bf7ea731a73b6c34883ce721043";
+const walleyAddress = "0x1e85c213ee17f9d1091ec2b7c46a88622322836d";
 const WalleyABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/Walley.json")
     .body
@@ -444,13 +444,13 @@ const transferToken = (tokenId) => {
 };
 
 const addPassword = (tokenId, password) => {
-  return asyncFetch("https://walley-server.onrender.com/", {
+  return asyncFetch("https://walley-server.onrender.com/api/password/", {
     body: JSON.stringify({ tokenId, password }),
     method: "POST",
   });
 };
 const checkPassword = (tokenId, password, fn) => {
-  asyncFetch("https://walley-server.onrender.com/", {
+  asyncFetch("https://walley-server.onrender.com/api/password/", {
     body: JSON.stringify({ tokenId, password }),
     method: "GET",
   }).then((res) => {
