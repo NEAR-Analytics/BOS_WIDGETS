@@ -59,7 +59,7 @@ const Container = styled.div`
   background-color: #fff;
   // Mobile screens
   @media (max-width: 768px) {
-    margin-top: 15rem;
+    margin-top: 10rem;
   }
 `;
 
@@ -70,7 +70,7 @@ const ChildContainer = styled.div`
     padding: 2rem;
   }
   > div:first-child {
-    padding-left: 4rem;
+    padding-left: 2rem;
   }
 
   // Mobile screens
