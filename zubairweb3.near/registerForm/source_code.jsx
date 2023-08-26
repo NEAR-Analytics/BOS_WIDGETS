@@ -9,7 +9,7 @@ border-radius: 15px;
 const Form = styled.div`
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 50%;
     margin: 20px auto;
     color: #5d4157;
 `;
