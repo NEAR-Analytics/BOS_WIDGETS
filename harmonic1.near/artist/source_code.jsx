@@ -76,7 +76,7 @@ return (
     <img src={data.avatar} alt="Musician's Avatar" style={imageStyle} />
     <div style={profileInfoStyle}>
       <h1 style={headingStyle}>{data.name}</h1>
-      // <hr style={{ width: "90%", margin: "10px auto" }} />{" "}
+      {/*<hr style={{ width: "90%", margin: "10px auto" }} /> */}
       {/* Added this line for the horizontal rule */}
       <h4 style={bioStyle}>{data.bio}</h4>
       {data.links && data.links.length > 0 && (
