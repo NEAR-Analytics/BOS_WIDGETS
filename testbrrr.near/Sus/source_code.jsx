@@ -22,6 +22,27 @@ const getAssetFromAddress = (address) => {
   );
 };
 
+const Button = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    color:#fff;
+    width:100%;
+    height:50px;
+    border-radius:10px;
+    background-color:#2fbc2f;
+    text-align:center;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 3px 3px rgba(0,0,0,.3);
+
+    &:active {
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      transform: translateY(2px);
+    }
+`;
+
 State.init({
   coll: null,
   borrow: 0,
@@ -409,7 +430,7 @@ const renderConfirmationUI = (props) => {
   return (
     <div>
       {Object.entries(props)
-        .filter(([key, value]) => typeof value !== "function")
+        .filter(([key, value]) => typeof value !== "function" && key !== "text")
         .map(([key, value]) => (
           <div key={key}>
             <strong>{key}:</strong> {value.toString()}
@@ -552,6 +573,6 @@ return (
     )}
 
     {confirmUI}
-    <button onClick={() => confirmAction()}>Confirm Action</button>
+    <Button onClick={() => confirmAction()}>Confirm Action</Button>
   </div>
 );
