@@ -190,7 +190,7 @@ return (
             }}
           >
             <img
-              src="https://ik.imagekit.io/n7h27i0lh/Screenshot%202023-08-25%20at%202.29.52%20PM.png?updatedAt=1693071441894"
+              src="https://ik.imagekit.io/n7h27i0lh/Screenshot%202023-08-26%20at%2011.49.15%20PM.png?updatedAt=1693073971511"
               style={{
                 width: "100%",
                 height: "100%",
