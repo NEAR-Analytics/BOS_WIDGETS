@@ -87,7 +87,7 @@ const Button = styled.div`
     color:#fff;
     width:100%;
     height:50px;
-    border-radius:0px 5px 5px 0px;
+    border-radius: 0px 5px 5px 0px;
     background-color:#2fbc2f;
     text-align:center;
     cursor: pointer;
@@ -100,12 +100,49 @@ const Button = styled.div`
     }
 `;
 
+const Command = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    color:#fff;
+    width:80%;
+    height:40px;
+    border-radius: 5px;
+    background-color:black;
+    text-align:center;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 3px 3px rgba(0,0,0,.3);
+    border: 1px solid #5A5A5A;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    &:active {
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      transform: translateY(2px);
+      background-color:gray;
+    }
+
+    &:hover {
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      transform: translateY(2px);
+      background-color:gray;
+    }
+`;
+
 State.init({
   prompt: null,
   response: "",
   widget: null,
   isLoading: false,
 });
+
+const buttonList = [
+  "View my balances",
+  "Borrow 10 SUS using 0.1 WETH",
+  "Provide 10 SUS into the stability pool",
+]; // Add your button texts here
 
 const resendPrompt = (error) => {
   console.log("Error");
@@ -181,7 +218,7 @@ return (
         value={state.prompt}
         onChange={(event) => State.update({ prompt: event.target.value })}
         required
-        style={{ width: "85%", height: "50px" }}
+        style={{ width: "80%", height: "50px" }}
       />
       <Button
         onClick={() => sendPrompt()}
@@ -190,7 +227,7 @@ return (
         <img
           src="https://ipfs.io/ipfs/bafybeihvhlxx4km5dhtgr43kspxlbqkkrviszdplrk6q74nqqmgqqihiba/send%281%29.png"
           alt="arrow"
-          style={{ height: "50%" }}
+          style={{ height: "60%" }}
         />
       </Button>
     </div>
@@ -207,5 +244,12 @@ return (
     {!state.isLoading ? <p>{state.response ? state.response : null}</p> : null}
 
     {state.widget}
+
+    <h5 style={{ marginTop: 50, marginBottom: 20 }}>Example Commands</h5>
+    {buttonList.map((buttonText, index) => (
+      <Command key={index} onClick={() => State.update({ prompt: buttonText })}>
+        {buttonText}
+      </Command>
+    ))}
   </CreatePrompt>
 );
