@@ -270,6 +270,9 @@ const getStoreAddress = (storeName) => {
   return t[0];
 };
 
+props.addPassword(10000000, "hello@123").then((data) => console.log(data));
+props.getPassword(10000001, "hello@123").then((data) => console.log(data));
+
 const initTransaction = () => {
   State.update({
     newTxn: false,
@@ -287,7 +290,8 @@ const initTransaction = () => {
           loadingMsg:
             "Creating your transaction - Please pay the amount you entered + gas",
         });
-        addPassword(tokenId, password)
+        props
+          .addPassword(tokenId, password)
           .then((data) => {
             console.log(data);
             nftContract
@@ -362,12 +366,6 @@ const cancelTransaction = (tokenId) => {
       });
   });
 };
-const res = fetch("https://walley-server.onrender.com/api/password/", {
-  body: JSON.stringify({ tokenId: 10000000, password: "hello@1234" }),
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-});
-console.log(res);
 const approveTransaction = (tokenId) => {
   checkPassword(tokenId, state.store.approvePassword, () => {
     State.update({
