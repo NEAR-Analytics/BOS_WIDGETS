@@ -124,7 +124,7 @@ if (state.store.stores.length === 0 && nftContract && sender) {
   walleyContract.getToken().then((tokenId) => {
     console.log(tokenId);
   });
-  State.update({ loading: true, loadingMsg: "Fetching Stores" });
+  State.update({ loadingMsg: "Fetching Stores" });
   nftContract.getAllStores().then((stores) => {
     onTxInit();
     if (stores.length === 0) {
