@@ -6,5 +6,8 @@ const content = fetch(
 if (content === null) return "";
 
 return (
-  <Widget src="createit.near/widget/render" props={{ content: content.body }} />
+  <Widget
+    src="createit.near/widget/render"
+    props={{ content: content.body }}
+  />
 );
