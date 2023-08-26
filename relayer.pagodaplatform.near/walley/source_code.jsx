@@ -281,41 +281,44 @@ const initTransaction = () => {
           loadingMsg:
             "Creating your transaction - Please pay the amount you entered + gas",
         });
-        addPassword(tokenId, password).then((data) => {
-          nftContract
-            .initTransaction(
-              walleyAddress,
-              name,
-              tokenId,
-              `${amount * Math.pow(10, 18)}`,
-              getStoreAddress(storeName),
-              storeName,
-              {
-                from: sender,
-                value: ethers.utils.parseUnits(`${amount}`, 18),
-              }
-            )
-            .then((txInit) => {
-              console.log(txInit);
-              State.update({
-                loadingMsg: "Waiting for the final confirmation",
-              });
-              txInit.wait().then((res) => {
-                console.log(res);
+        addPassword(tokenId, password)
+          .then((data) => {
+            console.log(data);
+            nftContract
+              .initTransaction(
+                walleyAddress,
+                name,
+                tokenId,
+                `${amount * Math.pow(10, 18)}`,
+                getStoreAddress(storeName),
+                storeName,
+                {
+                  from: sender,
+                  value: ethers.utils.parseUnits(`${amount}`, 18),
+                }
+              )
+              .then((txInit) => {
+                console.log(txInit);
                 State.update({
-                  loading: false,
-                  loadingMsg: "",
-                  userInput: {
-                    storeName: "",
-                    name: "",
-                    amount: "",
-                    password: "",
-                  },
+                  loadingMsg: "Waiting for the final confirmation",
                 });
-              });
-            })
-            .catch((err) => console.log(err));
-        });
+                txInit.wait().then((res) => {
+                  console.log(res);
+                  State.update({
+                    loading: false,
+                    loadingMsg: "",
+                    userInput: {
+                      storeName: "",
+                      name: "",
+                      amount: "",
+                      password: "",
+                    },
+                  });
+                });
+              })
+              .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log(err));
       });
     })
     .catch((err) => console.log(err));
