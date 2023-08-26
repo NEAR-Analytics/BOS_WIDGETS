@@ -1,30 +1,21 @@
-const Wrapper = styled.div`
-background-image: linear-gradient(to right, #c79081, #dfa579);
-width: 80%;
-padding: 20px;
-border-radius: 20px;
-margin: auto;
-`;
-
 const Form = styled.div`
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 30%;
     margin: 20px auto;
-    color: #5d4157;
     
 `;
 
 const FormHeader = styled.h3`
 text-align: center;
-font-weight: 800;
-color: #5d4157;
+font-weight: bold;
+color: #0d6efd;
 font-family: arial, sans-serif;
 font-size: 1.5rem;
 `;
 
 return (
-  <Wrapper>
+  <div>
     <FormHeader>Register Form</FormHeader>
     <Form>
       <div class="mb-3">
@@ -99,13 +90,9 @@ return (
           Remember me
         </label>
       </div>
-      <button
-        type="submit"
-        style={{ backgroundColor: "#5d4157", color: "#fff" }}
-        class="btn"
-      >
+      <button type="submit" class="btn btn-primary">
         Submit
       </button>
     </Form>
-  </Wrapper>
+  </div>
 );
