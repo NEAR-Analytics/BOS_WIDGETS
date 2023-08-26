@@ -144,6 +144,11 @@ if (hasFinishedLoading && allNfts.length === 0) {
 return (
   <Wrapper>
     <div>
+      <p>
+        This component is in open-beta and still under active construction. DO
+        NOT publish any sensitive or proprietary information.
+      </p>
+      <hr></hr>
       <Widget src="trechriron.near/widget/OptInUserPage" props={{ ownerId }} />
     </div>
     <Items>
