@@ -11,6 +11,8 @@ const {
   authorForWidget,
 } = props;
 
+console.log("data: ", data);
+
 const tags = data.tags;
 const accountId = data.author;
 const title = data.articleId;
