@@ -63,7 +63,7 @@ const ContainerBorder = styled.div`
     border-style: solid;
     border-color: transparent;
     max-width: 100%;
-    margin-top: 300px;
+    margin-top: 500px;
 `;
 
 const InputLayout = styled.input`
@@ -118,7 +118,7 @@ return (
         props={{
           placeholder: "Receive Wallet",
           titleBtn: "Mint NFT",
-          tokenSeriesId: "497773",
+          tokenSeriesId: "497786",
         }}
       />
     </ContainerBorder>
