@@ -80,7 +80,7 @@ return (
         }}
       />
 
-      <div style={{ background: "#fff", width: "100%", height: "1px" }}></div>
+      <div style={{ border: "1px dashed #fff" }}></div>
 
       <Widget
         src={`fam3hackathon.near/widget/F3CreateCollection`}
