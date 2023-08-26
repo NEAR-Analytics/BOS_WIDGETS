@@ -21,6 +21,7 @@ const Form = styled.div`
 
 const FormHeader = styled.h3`
 text-align: center;
+text-transform: uppercase;
 font-weight: bold;
 color: #5d4157;
 font-family: arial, sans-serif;
