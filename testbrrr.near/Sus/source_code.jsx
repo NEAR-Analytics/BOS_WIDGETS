@@ -64,6 +64,7 @@ State.init({
   tx: null,
   balances: [],
   stopReload: false,
+  stabilityBalances: 0,
 });
 
 const setcoll = (depositChangeEvent) => {
@@ -423,7 +424,25 @@ const processAsset = (index, balances) => {
 
 const getEntireDebtAndColl = () => {
   let balances = [...state.balances];
-  processAsset(0, balances); // Start the chain with the first asset.
+
+  const stabilityPoolContract = new ethers.Contract(
+    stabilityPoolAddress,
+    stabilityPoolAbi.body,
+    Ethers.provider().getSigner()
+  );
+  if (!state.txLock) {
+    State.update({ txLock: true });
+    stabilityPoolContract
+      .getCompoundedDebtTokenDeposits(state.sender)
+      .then((results) =>
+        State.update({
+          stabilityBalances: results[0].div("1000000000000000000").toString(),
+        })
+      )
+      .then(() => {
+        processAsset(0, balances); // Start the chain with the first asset.
+      });
+  }
 };
 
 const renderConfirmationUI = (props) => {
@@ -555,6 +574,12 @@ return (
         </div>
       );
     })}
+
+    {state.stabilityBalances !== 0 ? (
+      <div>
+        <p>Stability Pool: {state.stabilityBalances} SUS</p>
+      </div>
+    ) : null}
 
     {state.tx ? (
       <div>
