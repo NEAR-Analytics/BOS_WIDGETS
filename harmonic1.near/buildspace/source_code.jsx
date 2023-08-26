@@ -59,7 +59,8 @@ const Container = styled.div`
   background-color: #fff;
   // Mobile screens
   @media (max-width: 768px) {
-    margin-top: 10rem;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
   }
 `;
 
