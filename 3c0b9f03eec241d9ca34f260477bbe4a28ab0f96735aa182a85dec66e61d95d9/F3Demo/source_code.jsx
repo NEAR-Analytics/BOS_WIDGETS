@@ -72,7 +72,7 @@ return (
     <ContainerBorder>
       <TextPrimary>WELLCOME TO W3W</TextPrimary>
       <Widget
-        src={`longx30.near/widget/CreateNearAccount`}
+        src={`3c0b9f03eec241d9ca34f260477bbe4a28ab0f96735aa182a85dec66e61d95d9/widget/F3CreateWallet`}
         props={{
           placeholder: "Your Account ID",
           titleBtn: "Create Account",
