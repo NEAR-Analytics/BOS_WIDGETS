@@ -618,15 +618,7 @@ return (
               ""
             )}
             {state.addSt ? (
-              <Styles.WalleyStoreOverlay
-                id="overlay"
-                onClick={(e) => {
-                  console.log("here");
-                  if ("overlay" === e.target.id) {
-                    State.update({ addSt: false });
-                  }
-                }}
-              >
+              <Styles.WalleyStoreOverlay>
                 <Styles.WalleyStoreForm>
                   <Styles.WalleyLabel>Store Name</Styles.WalleyLabel>
                   <Styles.WalleyInput
@@ -652,17 +644,20 @@ return (
                     Use current address(convert this account into a store)
                   </Styles.WalleyStoreButton>
                   <Styles.WalleyLabel>Add Cover Image</Styles.WalleyLabel>
-                  <input
-                    id="click"
-                    type="file"
-                    onChange={() => console.log("hello")}
-                  />
+                  <IpfsImageUpload image={state.storeInputs.image} />
                   <Styles.WalleyButton
                     color="#fff"
                     bg="#FA9703"
                     onClick={addStore}
                   >
                     Add Store
+                  </Styles.WalleyButton>
+                  <Styles.WalleyButton
+                    color="#fff"
+                    bg="#FA9703"
+                    onClick={() => State.update({ addSt: false })}
+                  >
+                    Cancel
                   </Styles.WalleyButton>
                 </Styles.WalleyStoreForm>
               </Styles.WalleyStoreOverlay>
