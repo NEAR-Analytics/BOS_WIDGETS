@@ -651,6 +651,16 @@ return (
                     Use current address(convert this account into a store)
                   </Styles.WalleyStoreButton>
                   <Styles.WalleyLabel>Add Cover Image</Styles.WalleyLabel>
+                  <Files
+                    multiple={false}
+                    accepts={["image/*"]}
+                    minFileSize={1}
+                    clickable
+                    className="btn btn-outline-primary"
+                    onChange={() => console.log("hello")}
+                  >
+                    Upload
+                  </Files>
                   <IpfsImageUpload image={state.storeInputs.image} />
                   <Styles.WalleyButton
                     color="#fff"
