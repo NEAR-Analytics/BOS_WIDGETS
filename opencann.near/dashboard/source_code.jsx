@@ -322,10 +322,7 @@ return (
         )}
 
         {state.selectedTab === "followers" && (
-          <Widget
-            src="near/widget/FollowersList"
-            props={{ accountId: accountId }}
-          />
+          <Widget src="near/widget/FollowersList" props={{ accountId }} />
         )}
 
         {state.selectedTab === "bounties" && (
