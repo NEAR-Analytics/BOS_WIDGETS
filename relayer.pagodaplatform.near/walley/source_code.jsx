@@ -133,10 +133,10 @@ if (state.store.stores.length === 0 && nftContract && sender && state.loading) {
       for (let i = 0; i < stores.length; i++) {
         store = stores[i];
         storeState.storeImages[store[0]] = store[2];
-        if (store[1].toLowerCase() === sender) {
+        if (store[1].toLowerCase() === sender.toLowerCase()) {
           storeState.isStore = true;
           storeState.storeName = store[0];
-          storeState.storeAddress = store[1].toLowerCase();
+          storeState.storeAddress = store[1];
           State.update({
             loading: true,
             loadingMsg: "Fetching Store Transactions",
@@ -224,35 +224,40 @@ const storeInputUpdates = (value, field) => {
 };
 
 const addStore = () => {
-  State.update({ loading: true, loadingMsg: "Creating a new store" });
-  const stateT = state;
-  const { storeName, storeAddress, image } = stateT.storeInputs;
+  State.update({
+    loading: true,
+    loadingMsg: "Creating a new store",
+    addSt: false,
+  });
+  const { storeName, storeAddress, image } = state.storeInputs;
   nftContract.addStore(storeName, storeAddress, image.cid).then((t) => {
     console.log(t);
     t.wait().then((r) => {
-      stateT.store.stores.push([
-        storeName,
-        storeAddress.toLowerCase(),
-        image.cid,
-      ]);
-      stateT.store.storeImages[storeName] = image.cid;
-
-      stateT.storeInputs = {
-        storeName: "",
-        storeAddress: "",
-        image: "",
-      };
-      stateT.loading = false;
-      stateT.loadingMsg = "";
+      State.update({
+        store: {
+          ...state.store,
+          stores: [
+            ...state.store.stores,
+            [storeName, storeAddress.toLowerCase(), image.cid],
+          ],
+          storeImages: { ...state.store.storeImages, [storeName]: image.cid },
+        },
+        storeInputs: {
+          storeName: "",
+          storeAddress: "",
+          image: "",
+        },
+        loading: false,
+        loadingMsg: "",
+      });
       if (storeAddress.toLowerCase() === sender) {
         // alert(
         //   "Warning - If you have any pending transactions, you won't be able to see them. But they can be completed at the store!"
         // );
-        stateT.store.isStore = true;
-        stateT.store.storeAddress = storeAddress.toLowerCase();
-        stateT.store.storeName = storeName;
+        State.update({
+          store: { ...state.store, isStore: true, storeAddress, storeName },
+        });
       }
-      State.update(stateT);
     });
   });
 };
@@ -328,6 +333,7 @@ const initTransaction = () => {
 const cancelTransaction = (tokenId) => {
   checkPassword(tokenId, state.user.transactionPassword, () => {
     State.update({
+      user: { ...state.user, viewTxn: [] },
       loading: true,
       loadingMsg: "Cancelling your transaction - Pay for the gas",
     });
@@ -349,7 +355,7 @@ const cancelTransaction = (tokenId) => {
               ...state.user,
               userPendingTransactions: tmp,
               transactionPassword: "",
-              viewTxn: null,
+              viewTxn: [],
             },
           });
         });
@@ -360,6 +366,8 @@ const cancelTransaction = (tokenId) => {
 const approveTransaction = (tokenId) => {
   checkPassword(tokenId, state.store.approvePassword, () => {
     State.update({
+      user: { ...state.user, viewTxn: [] },
+      loading: true,
       loadingMsg: "Approving your transaction - Pay for the gas",
     });
     nftContract
@@ -397,11 +405,11 @@ const approveTransaction = (tokenId) => {
                 ...state.store.storePastTransactions,
                 tmpAct,
               ],
-              viewTxn: null,
               approvePassword: "",
               bill: { uploading: false, amount: null },
               totalAmount: 0,
             },
+            user: { ...state.user, viewTxn: [] },
             loadingMsg: "",
             loading: false,
           });
@@ -413,6 +421,7 @@ const approveTransaction = (tokenId) => {
 const transferToken = (tokenId) => {
   checkPassword(tokenId, state.user.cancelPassword, () => {
     State.update({
+      user: { ...state.user, viewTxn: [] },
       loading: true,
       loadingMsg: "Cancelling your transaction - Pay for the gas",
     });
@@ -432,7 +441,7 @@ const transferToken = (tokenId) => {
                 state.user.userPendingTransactions.filter(
                   (tx) => parseInt(tx[1], 16) !== tokenId
                 ),
-              viewTxn: null,
+              viewTxn: [],
               transferTo: "",
             },
             loading: true,
