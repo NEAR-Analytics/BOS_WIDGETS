@@ -1,21 +1,6 @@
-const balances = null;
-
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800;900&display=swap"
 ).body;
-
-const formatNumber = (num) => {
-  if (num >= 1000000000) {
-    return (num / 1000000000).toFixed(1).replace(/\.0$/, "") + "b";
-  }
-  if (num >= 1000000) {
-    return (num / 1000000).toFixed(1).replace(/\.0$/, "") + "m";
-  }
-  if (num >= 1000) {
-    return (num / 1000).toFixed(1).replace(/\.0$/, "") + "k";
-  }
-  return num;
-};
 
 const MainLayout = styled.div`
     font-family: Jost, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -77,25 +62,6 @@ const InputLayout = styled.input`
     width: 100%;
     color: #fff;
 `;
-
-if (!balances) {
-  const baseApi = "https://api.pikespeak.ai";
-  const publicApiKey = "b7ae87d9-c374-46b3-bbe2-3696def948ea";
-  const fetchApiConfig = {
-    mode: "cors",
-    headers: {
-      "x-api-key": publicApiKey,
-    },
-  };
-  const res = fetch(
-    `${baseApi}/account/balances?accounts=${[
-      props.accountId ?? context.accountId ?? "bobo.near",
-    ]}`,
-    fetchApiConfig
-  );
-
-  balances = res.body;
-}
 
 State.init({
   userName: "",
