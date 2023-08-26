@@ -218,7 +218,7 @@ return (
         <Widget
           src={sidebarTemplate}
           props={{
-            daoId,
+            accountId,
             profile,
           }}
         />
