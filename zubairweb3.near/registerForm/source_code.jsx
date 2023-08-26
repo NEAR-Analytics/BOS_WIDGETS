@@ -24,7 +24,7 @@ font-size: 1.5rem;
 
 return (
   <Wrapper>
-    <FormHeader>Register Form</FormHeader>
+    <FormHeader>Register</FormHeader>
     <Form>
       <div class="mb-3">
         <label for="surname" class="form-label">
