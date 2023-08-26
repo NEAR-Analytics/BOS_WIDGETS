@@ -69,7 +69,19 @@ return marketData !== null ? (
     </div>
     <hr></hr>
     <div>
+      <h5>Explore</h5>
+      <p>
+        Replace "opencann.near" with any contract address to view public data.
+      </p>
+      <Widget src="opencann.near/widget/explorer" />
+    </div>
+    <hr></hr>
+    <div>
       <h5>For Sale</h5>
+      <p>
+        Showing NFTs listed by contracts learnernft.learnclub.near and
+        opencann.mintbase1.near.
+      </p>
     </div>
     <div className="d-flex gap-4 flex-wrap">
       {marketData.body.data?.mb_views_active_listings_by_contract.map(
