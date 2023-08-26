@@ -778,6 +778,7 @@ const onCallTxComple = (tx) => {
       ]),
       action_amount: state.inputAssetAmount,
       account_id: state.sender,
+      action_network_id: "zkEVM",
       account_info: uuid,
       template: selectedDex,
       action_status: status === 1 ? "Success" : "Failed",
