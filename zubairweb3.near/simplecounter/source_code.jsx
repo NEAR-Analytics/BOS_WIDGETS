@@ -18,6 +18,9 @@ return (
     style={{
       backgroundImage: "linear-gradient(to right, #FF61D2, #FE9090)",
       height: "100vh",
+      width: "70%",
+      margin: "auto",
+      borderRadius: "15px",
     }}
   >
     <div style={{ textAlign: "center" }}>
