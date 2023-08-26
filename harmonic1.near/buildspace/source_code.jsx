@@ -126,6 +126,11 @@ const TextContainer = styled.div`
 
 const feedStyle = {
   marginBottom: "6rem",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  //justifyContent: "center",
+  minHeight: "100vh",
 };
 
 let feedURL;
