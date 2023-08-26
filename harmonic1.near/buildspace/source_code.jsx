@@ -178,10 +178,6 @@ return (
               and updates for your audience. Make Money.
             </p>
           </TextContainer>
-          <Widget
-            src="harmonic1.near/widget/every.thing.view"
-            props={{ path: "qsaharmonic.near/thing/artist/Quinn" }}
-          />
         </ChildContainer>
       </Container>
       <Container>
