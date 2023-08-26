@@ -179,6 +179,25 @@ return (
               and updates for your audience. Make Money.
             </p>
           </TextContainer>
+          <div
+            style={{
+              flex: 1,
+              //borderRadius: "1rem",
+              //border: "0.5px solid black",
+              maxHeight: "500px", // or whatever height you want to set
+              //overflow: "auto",
+              //margin: "2rem",
+            }}
+          >
+            <img
+              src="https://ik.imagekit.io/n7h27i0lh/Screenshot%202023-08-25%20at%202.29.52%20PM.png?updatedAt=1693071441894"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover", // cover, contain, fill, none, scale-down
+              }}
+            />
+          </div>
         </ChildContainer>
       </Container>
       <Container>
