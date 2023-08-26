@@ -499,7 +499,7 @@ return (
                 src="mob.near/widget/ProfileImage"
                 props={{
                   accountId,
-                  imageClassName: "rounded-circle w-100 h-100",
+                  imageClassName: "rounded-circle w-100",
                   style: {
                     width: "100px",
                     height: "100px",
