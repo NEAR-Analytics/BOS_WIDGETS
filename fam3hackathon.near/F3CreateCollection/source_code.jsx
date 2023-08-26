@@ -58,8 +58,8 @@ const createCollection = () => {
 };
 
 return (
-  <div>
-    <TextPrimary>Collection Id: {Storage.get("collectionId")}</TextPrimary>
+  <div style={{ display: "flex", alignItems: "center" }}>
     <ButtonPrimary onClick={createCollection}>Create Collection</ButtonPrimary>
+    <TextPrimary>Collection Id: {Storage.get("collectionId")}</TextPrimary>
   </div>
 );
