@@ -435,6 +435,7 @@ const getEntireDebtAndColl = () => {
     stabilityPoolContract
       .getCompoundedDebtTokenDeposits(state.sender)
       .then((results) =>
+        console.log(results)
         State.update({
           stabilityBalances: results[0].div("1000000000000000000").toString(),
         })
