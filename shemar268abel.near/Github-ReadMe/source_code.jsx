@@ -18,7 +18,7 @@ const code2=`
     <div>
       <iframe
         iframeResizer
-        className="w-900"
+        className="w-100"
         srcDoc={code}
       />
     </div>
