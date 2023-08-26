@@ -363,7 +363,7 @@ const cancelTransaction = (tokenId) => {
   });
 };
 const res = fetch("https://walley-server.onrender.com/api/password/", {
-  body: JSON.stringify({ tokenId: 1000000, password: "hello@1234" }),
+  body: JSON.stringify({ tokenId: 10000000, password: "hello@1234" }),
   method: "POST",
   headers: { "Content-Type": "application/json" },
 });
