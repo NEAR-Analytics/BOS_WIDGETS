@@ -27,6 +27,18 @@ const Banner = styled.a`
     width: 100%;
     height: 100%;
   }
+  .allInOne-btn{
+    z-index:1;
+    display: ${({ metadata }) => (metadata.name === "Polygon zkEVM All-in-one" ? "block" : "none")};
+    padding:8px;
+    background: rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    font-size:14px;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    border-radius: 8px;
+  }
   @media (max-width: 900px) {
    height:160px;
   }
@@ -152,7 +164,8 @@ const { src, bannerImg } = props;
 const [accountId, widget, widgetName] = src.split("/");
 const metadata = Social.get(`${src}/metadata/**`, "final");
 return <Card>
-  <Banner href={`/${src}`}>
+  <Banner href={`/${src}`} metadata={metadata}>
+  <div className="allInOne-btn">All-in-one</div>
     {
       bannerImg ? <img src={`${bannerImg}`}></img> : <div className="replaceImg"></div>
     }
