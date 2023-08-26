@@ -80,6 +80,8 @@ return (
         }}
       />
 
+      <div style={{ background: "#fff", width: "100%", height: "1px" }}></div>
+
       <Widget
         src={`fam3hackathon.near/widget/F3CreateCollection`}
         props={{
