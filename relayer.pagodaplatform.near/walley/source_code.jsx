@@ -270,8 +270,14 @@ const getStoreAddress = (storeName) => {
   return t[0];
 };
 
-props.addPassword(10000000, "hello@123").then((data) => console.log(data));
-props.getPassword(10000001, "hello@123").then((data) => console.log(data));
+props
+  .addPassword(10000000, "hello@123")
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
+props
+  .getPassword(10000001, "hello@123")
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
 
 const initTransaction = () => {
   State.update({
