@@ -11,8 +11,6 @@ const {
   authorForWidget,
 } = props;
 
-console.log("data: ", data);
-
 const tags = data.tags;
 const accountId = data.author;
 const title = data.articleId;
@@ -545,6 +543,7 @@ return (
           src={widgets.addComment}
           props={{
             widgets,
+            article: data,
             isReplying: false,
             isTest,
             username: data.author,
