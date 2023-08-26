@@ -622,10 +622,6 @@ return (
                 id="overlay"
                 onClick={(e) => {
                   console.log("here");
-                  if (e.target.id === "click") {
-                    console.log(document.getElementById("click"));
-                    document.getElementById("click").click();
-                  }
                   if ("overlay" === e.target.id) {
                     State.update({ addSt: false });
                   }
