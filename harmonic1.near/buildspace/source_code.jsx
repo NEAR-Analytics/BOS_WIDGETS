@@ -148,6 +148,22 @@ if (window.location.pathname === "harmonic1.near/widget/") {
 //           >
 //console.log("Path", window.location.pathname);
 
+//  <div
+//             style={{
+//               flex: 1,
+//               //borderRadius: "1rem",
+//               //border: "0.5px solid black",
+//               maxHeight: "500px", // or whatever height you want to set
+//               overflow: "auto",
+//               //margin: "2rem",
+//             }}
+//           >
+//             <Widget
+//               src="harmonic1.near/widget/every.thing.view"
+//               props={{ path: "qsaharmonic.near/thing/artist/Quinn" }}
+//             />
+//           </div>
+
 return (
   <>
     <div style={cardStyle} className="m-4">
@@ -162,21 +178,10 @@ return (
               and updates for your audience. Make Money.
             </p>
           </TextContainer>
-          <div
-            style={{
-              flex: 1,
-              //borderRadius: "1rem",
-              //border: "0.5px solid black",
-              maxHeight: "500px", // or whatever height you want to set
-              overflow: "auto",
-              //margin: "2rem",
-            }}
-          >
-            <Widget
-              src="harmonic1.near/widget/every.thing.view"
-              props={{ path: "qsaharmonic.near/thing/artist/Quinn" }}
-            />
-          </div>
+          <Widget
+            src="harmonic1.near/widget/every.thing.view"
+            props={{ path: "qsaharmonic.near/thing/artist/Quinn" }}
+          />
         </ChildContainer>
       </Container>
       <Container>
