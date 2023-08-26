@@ -201,7 +201,7 @@ return (
             src="harmonic1.near/widget/artist.feed"
             props={{
               featuredAccountIds: [
-                "harmonic1.near",
+                //"harmonic1.near",
                 "qsaharmonic.near",
                 "mzmarshall.near",
               ],
