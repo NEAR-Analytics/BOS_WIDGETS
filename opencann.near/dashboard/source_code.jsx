@@ -324,7 +324,7 @@ return (
         {state.selectedTab === "followers" && (
           <Widget
             src="near/widget/FollowersList"
-            props={{ accountId: "cannabisgenome.near" }}
+            props={{ accountId: ["opencann.near", "cannabisgenome.near"] }}
           />
         )}
 
