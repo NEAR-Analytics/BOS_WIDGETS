@@ -64,7 +64,8 @@ document.addEventListener("DOMContentLoaded", function() {
 const Root = styled.div`
   
   iframe {
-    width: 800px; 
+    max-width: 900px; 
+    min-width: 750px; 
     height: 100vh;
     border: none;
   }
