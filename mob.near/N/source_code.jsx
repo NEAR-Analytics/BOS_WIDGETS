@@ -107,6 +107,7 @@ return (
         {context.accountId && (
           <Widget
             key="compose"
+            loading=""
             src="mob.near/widget/MainPage.N.Compose"
             props={{}}
           />
