@@ -23,7 +23,7 @@ if (data.ok) {
   return (
     <>
       <h2>
-        𝕽𝖊𝖘𝖕𝖊𝖈𝖙 𝕽𝖎𝖉𝖊 𝕺𝖗 𝕯𝖎𝖊 𝕱𝖆𝖒
+        𝕵𝖔𝖗𝖉𝖆𝖓 𝖋𝖔𝖗 𝕮𝖔𝖚𝖓𝖈𝖎𝖑
         <br />
       </h2>
 
@@ -59,19 +59,18 @@ if (data.ok) {
       </a>
       <br />
       <br />
-
-      <h2>
+<hr/>
+    <div>
+      <h3>
         Who Voted for
         <br />
         staRpauSe ᵏʷʰʸᶜ.ⁿᵉᵃʳ ⁉️
-      </h2>
-      <h2>
+      </h3>
+      <h3>
         助力Jordan
         <br />
         打call (っ◔◡◔)っ ♥ 666 ♥
-        <br />
-      </h2>
-
+      </h3>
       <table class="table table-sm mt-4">
         <thead>
           <tr>
@@ -95,6 +94,8 @@ if (data.ok) {
           </i>
         </small>
       </p>
+      </div>
     </>
+    
   );
 } else return "Loading";
