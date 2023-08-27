@@ -8,6 +8,7 @@ const renderMention =
       style={{ color: "var(--bs-link-color)" }}
     >
       <Widget
+        loading={<div>{accountId.toLowerCase()}</div>}
         src="mob.near/widget/N.ProfileLine"
         props={{
           accountId: accountId.toLowerCase(),
