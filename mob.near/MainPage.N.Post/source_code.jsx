@@ -76,7 +76,7 @@ const Wrapper = styled.div`
   }
   
   .left {
-    padding-right: 12px;
+    margin-right: 12px;
     min-width: 40px;
   }
   .right {
