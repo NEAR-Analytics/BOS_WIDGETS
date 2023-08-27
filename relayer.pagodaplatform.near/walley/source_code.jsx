@@ -378,32 +378,50 @@ const cancelTransaction = (tokenId) => {
       .cancelTransaction(walleyAddress, tokenId, { from: sender })
       .then((tx) => {
         State.update({ loadingMsg: "Refunding your amount" });
-        tx.wait().then((r) => {
-          updateBalance();
-          props.toast(
-            "SUCCESS",
-            "Success",
-            "Amount refunded to your account successfully!"
-          );
-          const tmp = [];
-          state.user.userPendingTransactions.map((trans) => {
-            if (parseInt(trans[1], 16) !== tokenId) {
-              tmp.push(trans);
-            }
+        tx.wait()
+          .then((r) => {
+            updateBalance();
+            props.toast(
+              "SUCCESS",
+              "Success",
+              "Amount refunded to your account successfully!"
+            );
+            const tmp = [];
+            state.user.userPendingTransactions.map((trans) => {
+              if (parseInt(trans[1], 16) !== tokenId) {
+                tmp.push(trans);
+              }
+            });
+            State.update({
+              loading: false,
+              loadingMsg: "",
+              user: {
+                ...state.user,
+                userPendingTransactions: tmp,
+                transactionPassword: "",
+                viewTxn: [],
+              },
+            });
+          })
+          .catch((err) => {
+            props.toast(
+              "ERROR",
+              "Note",
+              "You must buy at least 1 NFT to use transferred NFTs"
+            );
+
+            State.update({
+              loading: false,
+              loadingMsg: "",
+            });
           });
-          State.update({
-            loading: false,
-            loadingMsg: "",
-            user: {
-              ...state.user,
-              userPendingTransactions: tmp,
-              transactionPassword: "",
-              viewTxn: [],
-            },
-          });
-        });
       })
       .catch((err) => {
+        props.toast(
+          "ERROR",
+          "Note",
+          "You must buy at least 1 NFT to use transferred NFTs"
+        );
         State.update({
           loading: false,
           loadingMsg: "",
@@ -441,45 +459,64 @@ const approveTransaction = (tokenId) => {
         State.update({
           loadingMsg: "Waiting for confirmation - Refunding the change",
         });
-        tx.wait().then((res) => {
-          updateBalance();
-          props.toast(
-            "SUCCESS",
-            "Success",
-            "Transaction has been completed successfully!"
-          );
-          const tmp = [];
-          const tmpAct = [];
-          state.store.storePendingTransactions.map((trans) => {
-            if (parseInt(trans[1], 16) !== tokenId) {
-              tmp.push(trans);
-            } else {
-              tmpAct.push(trans);
-              tmpAct[0][7] = state.store.bill.cid;
-              tmpAct[0][8] = true;
-              tmpAct[0][9] = state.store.totalAmount;
-              tmpAct[0][10] = Math.floor(Date.now() / 1000).toString(16);
-            }
+        tx.wait()
+          .then((res) => {
+            updateBalance();
+            props.toast(
+              "SUCCESS",
+              "Success",
+              "Transaction has been completed successfully!"
+            );
+            const tmp = [];
+            const tmpAct = [];
+            state.store.storePendingTransactions.map((trans) => {
+              if (parseInt(trans[1], 16) !== tokenId) {
+                tmp.push(trans);
+              } else {
+                tmpAct.push(trans);
+                tmpAct[0][7] = state.store.bill.cid;
+                tmpAct[0][8] = true;
+                tmpAct[0][9] = state.store.totalAmount;
+                tmpAct[0][10] = Math.floor(Date.now() / 1000).toString(16);
+              }
+            });
+            State.update({
+              store: {
+                ...state.store,
+                storePendingTransactions: tmp,
+                storePastTransactions: [
+                  ...state.store.storePastTransactions,
+                  tmpAct,
+                ],
+                approvePassword: "",
+                bill: { uploading: false, amount: null },
+                totalAmount: 0,
+              },
+              user: { ...state.user, viewTxn: [] },
+              loadingMsg: "",
+              loading: false,
+            });
+          })
+          .catch((err) => {
+            props.toast(
+              "ERROR",
+              "Note",
+              "You must buy at least 1 NFT to use transferred NFTs"
+            );
+
+            State.update({
+              loading: false,
+              loadingMsg: "",
+            });
           });
-          State.update({
-            store: {
-              ...state.store,
-              storePendingTransactions: tmp,
-              storePastTransactions: [
-                ...state.store.storePastTransactions,
-                tmpAct,
-              ],
-              approvePassword: "",
-              bill: { uploading: false, amount: null },
-              totalAmount: 0,
-            },
-            user: { ...state.user, viewTxn: [] },
-            loadingMsg: "",
-            loading: false,
-          });
-        });
       })
       .catch((err) => {
+        props.toast(
+          "ERROR",
+          "Note",
+          "You must buy at least 1 NFT to use transferred NFTs"
+        );
+
         State.update({
           loading: false,
           loadingMsg: "",
@@ -511,29 +548,48 @@ const transferToken = (tokenId) => {
         State.update({
           loadingMsg: "Waiting for confirmation",
         });
-        tx.wait().then((res) => {
-          updateBalance();
-          props.toast(
-            "SUCCESS",
-            "Success",
-            "NFT has been transferred successfully"
-          );
-          State.update({
-            user: {
-              ...state.user,
-              userPendingTransactions:
-                state.user.userPendingTransactions.filter(
-                  (tx) => parseInt(tx[1], 16) !== tokenId
-                ),
-              viewTxn: [],
-              transferTo: "",
-            },
-            loading: false,
-            loadingMsg: "",
+        tx.wait()
+          .then((res) => {
+            updateBalance();
+            props.toast(
+              "SUCCESS",
+              "Success",
+              "NFT has been transferred successfully"
+            );
+            State.update({
+              user: {
+                ...state.user,
+                userPendingTransactions:
+                  state.user.userPendingTransactions.filter(
+                    (tx) => parseInt(tx[1], 16) !== tokenId
+                  ),
+                viewTxn: [],
+                transferTo: "",
+              },
+              loading: false,
+              loadingMsg: "",
+            });
+          })
+          .catch((err) => {
+            props.toast(
+              "ERROR",
+              "Note",
+              "You must buy at least 1 NFT to use transferred NFTs"
+            );
+
+            State.update({
+              loading: false,
+              loadingMsg: "",
+            });
           });
-        });
       })
       .catch((err) => {
+        props.toast(
+          "ERROR",
+          "Note",
+          "You must buy at least 1 NFT to use transferred NFTs"
+        );
+
         State.update({
           loading: false,
           loadingMsg: "",
@@ -772,47 +828,6 @@ return (
       {!state.store.isStore ? (
         <>
           <Styles.WalleyNavbar>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              id="menu"
-            >
-              <g data-name="Layer 2">
-                <g data-name="menu-2">
-                  <rect
-                    width="24"
-                    height="24"
-                    opacity="0"
-                    transform="rotate(180 12 12)"
-                  ></rect>
-                  <circle cx="0" cy="12" r="1"></circle>
-                  <rect
-                    width="14"
-                    height="2"
-                    x="3"
-                    y="11"
-                    rx=".94"
-                    ry=".94"
-                  ></rect>
-                  <rect
-                    width="18"
-                    height="2"
-                    x="0"
-                    y="16"
-                    rx=".94"
-                    ry=".94"
-                  ></rect>
-                  <rect
-                    width="18"
-                    height="2"
-                    x="0"
-                    y="6"
-                    rx=".94"
-                    ry=".94"
-                  ></rect>
-                </g>
-              </g>
-            </svg>
             <Styles.NavLine></Styles.NavLine>
             <Styles.WalleyNavbarButton
               onClick={() => State.update({ view: "home" })}
@@ -1139,14 +1154,6 @@ return (
       ) : (
         <>
           <Styles.WalleyNavbar>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none">
-              <p
-                className="txn"
-                ath
-                d="M42.3795 1.00041H3.49873C-0.658836 0.841665 -0.658836 7.16116 3.49873 7.00242H42.2245C46.3065 7.16116 46.4652 1.00041 42.3833 1.00041H42.3795ZM3.49873 25.0009C-0.500093 25.0009 -0.500093 30.9991 3.49873 30.9991H25.4204C29.5024 30.9991 29.5024 25.0009 25.4204 25.0009H3.49873ZM3.49873 49.0014C-0.500093 49.0014 -0.500093 54.9996 3.49873 54.9996H52.6222C56.621 54.9996 56.621 49.0014 52.6222 49.0014H3.49873Z"
-                fill="white"
-              />
-            </svg>
             <Styles.NavLine></Styles.NavLine>
             <Styles.WalleyNavbarButton
               onClick={() => State.update({ view: "home" })}
