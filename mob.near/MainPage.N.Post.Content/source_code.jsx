@@ -9,7 +9,7 @@ return content ? (
       ) : (
         <div className="text-break">
           <Widget
-            loading="<div />"
+            loading={<div />}
             src="mob.near/widget/N.SocialMarkdown"
             props={{
               text: content.text,
