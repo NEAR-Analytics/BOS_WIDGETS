@@ -752,14 +752,7 @@ return (
           </Styles.WalleyNavbar>
           <Styles.WalleyHomeBody>
             {state.newTxn ? (
-              <Styles.WalleyHomeOverlay
-                id="overlay"
-                onClick={(e) => {
-                  if ("overlay" === e.target.id) {
-                    State.update({ newTxn: false });
-                  }
-                }}
-              >
+              <Styles.WalleyHomeOverlay>
                 <Styles.WalleyHomeForm>
                   <Styles.WalleyLabel>Select a Store</Styles.WalleyLabel>
                   <Widget
@@ -807,6 +800,14 @@ return (
                     }
                     placeholder="Password"
                   />
+                  <Styles.WalleyButtonRow>
+                  <Styles.WalleyButton
+                    color="#fff"
+                    bg="#FA9703"
+                    onClick={() => State.update({ newTxn: false })}
+                  >
+                    Cancel
+                  </Styles.WalleyButton>
                   <Styles.WalleyButton
                     color="#fff"
                     bg="#FFA500"
@@ -814,6 +815,7 @@ return (
                   >
                     Buy The Store NFT
                   </Styles.WalleyButton>
+                  </Styles.WalleyButtonRow>
                 </Styles.WalleyHomeForm>
               </Styles.WalleyHomeOverlay>
             ) : (
@@ -847,13 +849,7 @@ return (
                   </Styles.WalleyStoreButton>
                   <Styles.WalleyLabel>Add Cover Image</Styles.WalleyLabel>
                   <IpfsImageUpload image={state.storeInputs.image} />
-                  <Styles.WalleyButton
-                    color="#fff"
-                    bg="#FA9703"
-                    onClick={addStore}
-                  >
-                    Add Store
-                  </Styles.WalleyButton>
+                  <Styles.WalleyButtonRow>
                   <Styles.WalleyButton
                     color="#fff"
                     bg="#FA9703"
@@ -861,6 +857,14 @@ return (
                   >
                     Cancel
                   </Styles.WalleyButton>
+                  <Styles.WalleyButton
+                    color="#fff"
+                    bg="#FA9703"
+                    onClick={addStore}
+                  >
+                    Add Store
+                  </Styles.WalleyButton>
+                  </Styles.WalleyButtonRow>
                 </Styles.WalleyStoreForm>
               </Styles.WalleyStoreOverlay>
             ) : (
@@ -910,6 +914,7 @@ return (
                               <p>Store name - {tx[6]} </p>
                               <p>Amount - {Big(tx[5]).toFixed(5)}</p>
                               <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
+                              <Styles.WalleyButtonRow>
                               <Styles.WalleyButton
                                 color="white"
                                 bg="red"
@@ -940,6 +945,7 @@ return (
                               >
                                 Cancel
                               </Styles.WalleyButton>
+                              </Styles.WalleyButtonRow>
                             </Styles.TransactionCardMain>
                           </Styles.TransactionCard>
                         ))
@@ -994,7 +1000,7 @@ return (
                               <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                               {state.user.openReceipt ===
                               Big(tx[1]).toFixed(0) ? (
-                                <>
+                                <Style.TransactionModal>
                                   <Styles.WalleyStoreImage
                                     src={`https://ipfs.near.social/ipfs/${tx[7]}`}
                                     alt={tx[7]}
@@ -1013,7 +1019,7 @@ return (
                                   >
                                     Close Receipt
                                   </Styles.WalleyButton>
-                                </>
+                                </Style.TransactionModal>
                               ) : (
                                 <Styles.WalleyButton
                                   color="#fff"
@@ -1156,7 +1162,7 @@ return (
 
                           <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                           {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
-                            <>
+                            <Styles.TransactionModal>
                               <Styles.WalleyStoreImage
                                 src={`https://ipfs.near.social/ipfs/${tx[7]}`}
                                 alt={tx[7]}
@@ -1175,7 +1181,7 @@ return (
                               >
                                 Close Receipt
                               </Styles.WalleyButton>
-                            </>
+                            </Styles.Styles.TransactionModal>
                           ) : (
                             <Styles.WalleyButton
                               color="#fff"
