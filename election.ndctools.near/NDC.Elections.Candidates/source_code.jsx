@@ -372,6 +372,31 @@ const handleFilter = (option) => {
   State.update({ filterOption, filter, reload: true });
 };
 
+const handleStateTransition = () => {
+  if (state.filterOption !== "") return;
+
+  switch (state.electionStatus) {
+    case "ONGOING":
+      State.update({
+        tosAgreement: !!state.acceptedPolicy,
+        showMintPolicyModal: !!state.acceptedPolicy && !state.hasPolicyNFT,
+        bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
+        showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
+      });
+      break;
+    case "COOLDOWN":
+      State.update({
+        showReviewModal: true,
+      });
+      break;
+    case "ENDED":
+      State.update({ winnerIds });
+      break;
+    default:
+      0;
+  }
+};
+
 const loadSocialDBData = () => {
   let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
 
@@ -450,18 +475,7 @@ State.init({
   winnerIds: [],
 });
 
-console.log("--state--", state);
-
 if (state.reload) {
-  // if (state.filterOption !== "") {
-  //   State.update({
-  //     bookmarked,
-  //     candidates: filteredCandidates(),
-  //   });
-
-  //   return;
-  // }
-
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
   });
@@ -484,36 +498,15 @@ if (state.reload) {
 
   const bookmarked = loadSocialDBData();
 
-  switch (state.electionStatus) {
-    case "ONGOING":
-      State.update({
-        electionStatus,
-        acceptedPolicy,
-        tosAgreement: !!state.acceptedPolicy,
-        showMintPolicyModal: !!state.acceptedPolicy && !state.hasPolicyNFT,
-        bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
-        showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
-        bookmarked,
-        candidates: filteredCandidates(),
-      });
-      break;
-    case "COOLDOWN":
-      State.update({
-        showReviewModal: true,
-        bookmarked,
-        candidates: filteredCandidates(),
-      });
-      break;
-    case "ENDED":
-      State.update({
-        winnerIds,
-        bookmarked,
-        candidates: filteredCandidates(),
-      });
-      break;
-    default:
-      0;
-  }
+  State.update({
+    electionStatus,
+    acceptedPolicy,
+    winnerIds,
+    bookmarked,
+    candidates: filteredCandidates(),
+  });
+
+  handleStateTransition();
 }
 
 const UserLink = ({ title, src }) => (
