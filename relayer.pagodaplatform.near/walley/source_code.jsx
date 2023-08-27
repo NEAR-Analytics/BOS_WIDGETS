@@ -157,8 +157,8 @@ const storeTxn = (address) => {
       } else {
         storeState.storePastTransactions.push(txn);
       }
+      State.update({ store: storeState });
     });
-    State.update({ store: storeState });
   });
 };
 
