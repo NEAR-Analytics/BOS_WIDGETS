@@ -9,6 +9,17 @@ const tableStyle = {
   borderRadius: "0.25rem",
   overflow: "hidden",
 };
+const thStyle = {
+  backgroundColor: "#f2f2f2",
+  padding: "8px",
+  textAlign: "left",
+  borderBottom: "1px solid #e5e7eb",
+};
+const tdStyle = {
+  padding: "8px",
+  textAlign: "left",
+  borderBottom: "1px solid #e5e7eb",
+};
 return (
   <div>
     <h3 style={{ fontWeight: "bold" }}>
