@@ -46,7 +46,6 @@ if (data) {
 }
 
 function onSearchChange({ result, term }) {
-  console.log(result, term);
   if (term.trim()) {
     State.update({ searchResults: result || [] });
   } else {
