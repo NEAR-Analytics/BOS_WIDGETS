@@ -801,20 +801,20 @@ return (
                     placeholder="Password"
                   />
                   <Styles.WalleyButtonRow>
-                  <Styles.WalleyButton
-                    color="#fff"
-                    bg="#FA9703"
-                    onClick={() => State.update({ newTxn: false })}
-                  >
-                    Cancel
-                  </Styles.WalleyButton>
-                  <Styles.WalleyButton
-                    color="#fff"
-                    bg="#FFA500"
-                    onClick={initTransaction}
-                  >
-                    Buy The Store NFT
-                  </Styles.WalleyButton>
+                    <Styles.WalleyButton
+                      color="#fff"
+                      bg="#FA9703"
+                      onClick={() => State.update({ newTxn: false })}
+                    >
+                      Cancel
+                    </Styles.WalleyButton>
+                    <Styles.WalleyButton
+                      color="#fff"
+                      bg="#FFA500"
+                      onClick={initTransaction}
+                    >
+                      Buy The Store NFT
+                    </Styles.WalleyButton>
                   </Styles.WalleyButtonRow>
                 </Styles.WalleyHomeForm>
               </Styles.WalleyHomeOverlay>
@@ -850,20 +850,20 @@ return (
                   <Styles.WalleyLabel>Add Cover Image</Styles.WalleyLabel>
                   <IpfsImageUpload image={state.storeInputs.image} />
                   <Styles.WalleyButtonRow>
-                  <Styles.WalleyButton
-                    color="#fff"
-                    bg="#FA9703"
-                    onClick={() => State.update({ addSt: false })}
-                  >
-                    Cancel
-                  </Styles.WalleyButton>
-                  <Styles.WalleyButton
-                    color="#fff"
-                    bg="#FA9703"
-                    onClick={addStore}
-                  >
-                    Add Store
-                  </Styles.WalleyButton>
+                    <Styles.WalleyButton
+                      color="#fff"
+                      bg="#FA9703"
+                      onClick={() => State.update({ addSt: false })}
+                    >
+                      Cancel
+                    </Styles.WalleyButton>
+                    <Styles.WalleyButton
+                      color="#fff"
+                      bg="#FA9703"
+                      onClick={addStore}
+                    >
+                      Add Store
+                    </Styles.WalleyButton>
                   </Styles.WalleyButtonRow>
                 </Styles.WalleyStoreForm>
               </Styles.WalleyStoreOverlay>
@@ -915,36 +915,36 @@ return (
                               <p>Amount - {Big(tx[5]).toFixed(5)}</p>
                               <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                               <Styles.WalleyButtonRow>
-                              <Styles.WalleyButton
-                                color="white"
-                                bg="red"
-                                onClick={() =>
-                                  State.update({
-                                    user: {
-                                      ...state.user,
-                                      viewTxn: [...tx, "transfer"],
-                                      transactionPassword: "",
-                                    },
-                                  })
-                                }
-                              >
-                                Transfer
-                              </Styles.WalleyButton>
-                              <Styles.WalleyButton
-                                color="white"
-                                bg="red"
-                                onClick={() =>
-                                  State.update({
-                                    user: {
-                                      ...state.user,
-                                      viewTxn: [...tx, "cancel"],
-                                      transactionPassword: "",
-                                    },
-                                  })
-                                }
-                              >
-                                Cancel
-                              </Styles.WalleyButton>
+                                <Styles.WalleyButton
+                                  color="white"
+                                  bg="red"
+                                  onClick={() =>
+                                    State.update({
+                                      user: {
+                                        ...state.user,
+                                        viewTxn: [...tx, "transfer"],
+                                        transactionPassword: "",
+                                      },
+                                    })
+                                  }
+                                >
+                                  Transfer
+                                </Styles.WalleyButton>
+                                <Styles.WalleyButton
+                                  color="white"
+                                  bg="red"
+                                  onClick={() =>
+                                    State.update({
+                                      user: {
+                                        ...state.user,
+                                        viewTxn: [...tx, "cancel"],
+                                        transactionPassword: "",
+                                      },
+                                    })
+                                  }
+                                >
+                                  Cancel
+                                </Styles.WalleyButton>
                               </Styles.WalleyButtonRow>
                             </Styles.TransactionCardMain>
                           </Styles.TransactionCard>
@@ -1181,7 +1181,7 @@ return (
                               >
                                 Close Receipt
                               </Styles.WalleyButton>
-                            </Styles.Styles.TransactionModal>
+                            </Styles.TransactionModal>
                           ) : (
                             <Styles.WalleyButton
                               color="#fff"
