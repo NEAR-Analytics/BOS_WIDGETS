@@ -75,14 +75,14 @@ return (
             });
           }}
           style={{
-            backgroundColor: "black",
+            backgroundColor: "#1E293B",
             borderWidth: 0,
             height: 43,
             width: 150,
             borderRadius: 10,
           }}
         >
-          Create ticket
+          Create Drop
         </button>
       </div>
     </HeaderFlex>
