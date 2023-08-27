@@ -50,24 +50,64 @@ const imageStyle = {
 //   boxShadow: "0 4px 8px rgba(0,0,0,0.1)", // Optional: adds a soft shadow for depth
 // };
 
-const linkCardStyle = {
-  display: "block", // Changed to block
-  margin: "10px auto", // Center the block and increase spacing
-  padding: "10px 10px", // Increased padding for top and bottom
-  width: "350px", // Set to take most of the parent's width, adjust as necessary
-  backgroundColor: "rgba(255, 255, 255, 0.8)", //"#4472c4",
-  borderRadius: "10px", // Increased border-radius
-  color: "#1f355c",
-  textDecoration: "none",
-  fontSize: "20px",
-  textAlign: "center", // Center the text inside the tile
-  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-  //opacity: "0.8",
-};
+// const linkCardStyle = {
+//   display: "block", // Changed to block
+//   margin: "10px auto", // Center the block and increase spacing
+//   padding: "10px 10px", // Increased padding for top and bottom
+//   width: "350px", // Set to take most of the parent's width, adjust as necessary
+//   backgroundColor: "rgba(255, 255, 255, 0.8)", //"#4472c4",
+//   borderRadius: "10px", // Increased border-radius
+//   color: "#1f355c",
+//   textDecoration: "none",
+//   fontSize: "20px",
+//   textAlign: "center", // Center the text inside the tile
+//   boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+//   //opacity: "0.8",
+// };
+
+// const linkArray = {
+//   marginTop: "40px",
+//   margin: "2rem",
+// };
 
 const linkArray = {
   marginTop: "40px",
   margin: "2rem",
+  display: "flex", // Added this to make it a flex container
+  flexWrap: "wrap", // Allow the items to wrap to the next line
+};
+
+// const linkCardStyle = {
+//   flex: "0 0 calc(50% - 20px)", // Each item takes up half the container's width minus the margins
+//   margin: "10px", // Margin to add space between cards
+//   padding: "10px 10px",
+//   height: "100px", // Set a fixed height
+//   backgroundColor: "rgba(255, 255, 255, 0.8)",
+//   borderRadius: "10px",
+//   color: "#1f355c",
+//   textDecoration: "none",
+//   fontSize: "20px",
+//   textAlign: "center",
+//   boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+// };
+
+const linkCardStyle = {
+  flex: "0 0 calc(50% - 20px)", // Each item takes up half the container's width minus the margins
+  margin: "10px", // Margin to add space between cards
+  padding: "10px 10px",
+  height: "100px", // Set a fixed height
+  backgroundColor: "rgba(255, 255, 255, 0.8)",
+  borderRadius: "10px",
+  color: "#1f355c",
+  textDecoration: "none",
+  fontSize: "20px",
+  textAlign: "center",
+  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+
+  // Add these to vertically and horizontally center the text
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 return (
