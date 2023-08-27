@@ -222,6 +222,14 @@ const addStore = () => {
     props.toast("ERROR", "Note", "Please fill in all the details!");
     return;
   }
+  if (state.store.storeImages[storeName]) {
+    props.toast(
+      "ERROR",
+      "Note",
+      "Store already exists! Please choose a different name."
+    );
+    return;
+  }
   if (!ethers.utils.isAddress(storeAddress)) {
     props.toast(
       "ERROR",
