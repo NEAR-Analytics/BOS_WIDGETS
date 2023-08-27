@@ -26,9 +26,9 @@ const POLICY_HASH =
 const FAIR_POLICY_DOC =
   "https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link";
 const FAIR_POLICY_NFT =
-  "https://ipfs.near.social/ipfs/bafkreieluw5zdp72k5u4sucars5wrhktbdco26zv3wgg66kzo36yeqmpoy";
+  "https://ipfs.near.social/ipfs/bafkreiabsu7xhumhim4gxj5h7umopc3b5ekppeofwwizsf5loqs2vcntpm";
 const I_VOTED_NFT =
-  "https://ipfs.near.social/ipfs/bafkreibt2e3ksi5rqaqdh2v6zuwdjrkp6bvihmtms6zfhs2d7nsyarjgmu";
+  "https://ipfs.near.social/ipfs/bafkreiewiq4puwmcu7ciztsfqvmpl3gsumfgsm5r22g24abiynoeghsyey";
 const MINT_VOTING_POLICY_NFT = "shard.dog/fairvoting";
 const MINT_I_VOTED_NFT = "shard.dog/ivoted";
 const BLACKLIST_VERIFY_LINK = "";
