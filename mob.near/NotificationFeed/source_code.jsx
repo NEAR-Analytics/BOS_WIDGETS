@@ -21,7 +21,9 @@ const renderItem = (item, i) => {
   return (
     <Widget
       loading={
-        <div className="mb-3 placeholder-glow" style={{ minHeight: "48px" }} />
+        <div className="mb-3">
+          <div className="placeholder" style={{ minHeight: "48px" }} />
+        </div>
       }
       src="mob.near/widget/Notification.Item"
       key={i}
@@ -31,8 +33,10 @@ const renderItem = (item, i) => {
 };
 
 return (
-  <Widget
-    src="mob.near/widget/FilteredIndexFeed"
-    props={{ index, renderItem }}
-  />
+  <div className="placeholder-glow">
+    <Widget
+      src="mob.near/widget/FilteredIndexFeed"
+      props={{ index, renderItem }}
+    />
+  </div>
 );
