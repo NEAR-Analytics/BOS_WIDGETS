@@ -62,7 +62,7 @@ const renderItem = (a) => {
       <Widget
         loading={
           <div
-            className="placeholder d-inline-block"
+            className="placeholder d-inline-block rounded-3"
             style={{ width: "3em", height: "3em" }}
           />
         }
