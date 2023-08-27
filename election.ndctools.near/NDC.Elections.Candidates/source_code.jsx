@@ -417,7 +417,7 @@ const fetchGraphQL = (series) => {
         }
       `,
       variables: {},
-      operationName: MyQuery,
+      operationName: "MyQuery",
     }),
   }).then((result) => result.json());
 };
