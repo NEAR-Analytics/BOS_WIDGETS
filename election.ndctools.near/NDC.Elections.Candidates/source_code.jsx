@@ -889,8 +889,8 @@ return (
           ),
           description: (
             <>
-              <img src={FAIR_POLICY_NFT} />
-              <div className="mt-4">
+              <img width={300} src={FAIR_POLICY_NFT} />
+              <div className="mt-4 mb-4">
                 Please make sure to read and understand the{" "}
                 <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
                 which outlines the responsibilities of each voter.
@@ -989,8 +989,10 @@ return (
         props={{
           title: (
             <div>
-              <img src={I_VOTED_NFT} />
-              <div className="mt-4">Congratulations! Mint “I Voted” NFT</div>
+              <img width={300} src={I_VOTED_NFT} />
+              <div className="mt-4 mb-4">
+                Congratulations! Mint “I Voted” NFT
+              </div>
             </div>
           ),
           description:
