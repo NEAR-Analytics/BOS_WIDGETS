@@ -53,6 +53,7 @@ return (
     loading={false}
     src="mob.near/widget/FilteredIndexFeed"
     props={{
+      loading: false,
       index,
       reverse: true,
       manual: true,
