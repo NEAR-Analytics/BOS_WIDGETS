@@ -46,44 +46,54 @@ return (
           }}
         />
         <Widget
+          loading={
+            <div
+              className="overflow-hidden w-100 placeholder-glow"
+              style={{ minHeight: "100px" }}
+            />
+          }
           src="mob.near/widget/MainPage.N.Post.Content"
           props={{ content, raw }}
         />
-        <div className="buttons">
-          {blockHeight !== "now" && (
-            <div className="mt-1 d-flex justify-content-between">
-              {parentItem && (
-                <div key="comment">
-                  <Widget
-                    src="mob.near/widget/N.CommentButton"
-                    props={{
-                      onClick: () =>
-                        !state.showReply && State.update({ showReply: true }),
-                    }}
-                  />
-                </div>
-              )}
-              <Widget
-                src="mob.near/widget/N.RepostButton"
-                props={{
-                  item,
-                  disabled: true,
-                }}
-              />
-              <Widget
-                src="mob.near/widget/N.LikeButton"
-                props={{
-                  notifyAccountId,
-                  item,
-                }}
-              />
-              <Widget
-                src="mob.near/widget/MainPage.N.Post.ShareButton"
-                props={{ accountId, blockHeight, postType: "comment" }}
-              />
-            </div>
-          )}
-        </div>
+        {blockHeight !== "now" ? (
+          <div className="buttons d-flex justify-content-between">
+            {parentItem && (
+              <div key="comment">
+                <Widget
+                  loading=""
+                  src="mob.near/widget/N.CommentButton"
+                  props={{
+                    onClick: () =>
+                      !state.showReply && State.update({ showReply: true }),
+                  }}
+                />
+              </div>
+            )}
+            <Widget
+              loading=""
+              src="mob.near/widget/N.RepostButton"
+              props={{
+                item,
+                disabled: true,
+              }}
+            />
+            <Widget
+              loading=""
+              src="mob.near/widget/N.LikeButton"
+              props={{
+                notifyAccountId,
+                item,
+              }}
+            />
+            <Widget
+              loading=""
+              src="mob.near/widget/MainPage.N.Post.ShareButton"
+              props={{ accountId, blockHeight, postType: "comment" }}
+            />
+          </div>
+        ) : (
+          <div className="buttons-placeholder" />
+        )}
       </div>
     </div>
     {state.showReply && (
