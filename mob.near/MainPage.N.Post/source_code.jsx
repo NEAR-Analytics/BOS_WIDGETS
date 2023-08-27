@@ -114,6 +114,7 @@ return (
       </div>
       <div className="right">
         <Widget
+          loading={`<div className="post-header" />`}
           src="mob.near/widget/MainPage.N.Post.Header"
           props={{
             accountId,
@@ -124,18 +125,21 @@ return (
           }}
         />
         <Widget
+          loading={`<div className="overflow-hidden w-100" style={{minHeight: "150px"}}/>`}
           src="mob.near/widget/MainPage.N.Post.Content"
           props={{ content, raw }}
         />
         {blockHeight !== "now" ? (
           <div className="buttons d-flex justify-content-between">
             <Widget
+              loading=""
               src="mob.near/widget/N.CommentButton"
               props={{
                 onClick: () => State.update({ showReply: !state.showReply }),
               }}
             />
             <Widget
+              loading=""
               src="mob.near/widget/N.RepostButton"
               props={{
                 notifyAccountId,
@@ -143,6 +147,7 @@ return (
               }}
             />
             <Widget
+              loading=""
               src="mob.near/widget/N.LikeButton"
               props={{
                 notifyAccountId,
@@ -150,6 +155,7 @@ return (
               }}
             />
             <Widget
+              loading=""
               src="mob.near/widget/MainPage.N.Post.ShareButton"
               props={{ accountId, blockHeight, postType: "post" }}
             />
@@ -162,6 +168,7 @@ return (
     {state.showReply && (
       <div className="border-top">
         <Widget
+          loading=""
           src="mob.near/widget/MainPage.N.Comment.Compose"
           props={{
             notifyAccountId,
@@ -172,6 +179,7 @@ return (
       </div>
     )}
     <Widget
+      loading=""
       src="mob.near/widget/MainPage.N.Comment.Feed"
       props={{
         item,
