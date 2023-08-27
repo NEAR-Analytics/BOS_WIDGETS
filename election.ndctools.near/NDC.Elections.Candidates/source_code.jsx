@@ -434,7 +434,6 @@ State.init({
   reload: true,
   loading: false,
   electionStatus: "NOT_STARTED",
-  availableVotes: seats - myVotesForHouse().length,
   selected: null,
   bookmarked: [],
   tosAgreementInput: false,
@@ -756,7 +755,6 @@ const CastVotes = () => (
                 Storage.privateSet("election_user_selection", "[]");
                 State.update({
                   selectedCandidates: [],
-                  availableVotes: seats - myVotesForHouse().length,
                 });
               },
             },
