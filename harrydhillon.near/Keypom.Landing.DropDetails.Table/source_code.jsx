@@ -52,6 +52,7 @@ for (let i = 0; i < 20; i++) {
     numberOfTicket: `${["0", "30", "6", "20"][Math.floor(Math.random() * 4)]}/${
       ["100", "200", "150", "200"][Math.floor(Math.random() * 4)]
     }`, // Randomly select between 'Event', 'NFT', and 'Token'
+    description: "Mercedem aut nummos unde unde...",
     pricePerTicket: 50, // Generate a random date between 2020-01-01 and 2023-08-22
   };
 
@@ -96,7 +97,7 @@ const claimedFunc = (claimed) =>
   );
 
 return (
-  <div style={{ }}>
+  <div style={{}}>
     <Table>
       <TableHead>
         <TableRow>
@@ -110,7 +111,20 @@ return (
       <tbody>
         {drops.map((item) => (
           <TableRow key={item.ticketName}>
-            <TableCell>{item.ticketName}</TableCell>
+            <TableCell>
+              <div style={{ alignItems: "center", display: "flex" }}>
+                <img
+                  style={{ marginRight: 5 }}
+                  src="https://i.ibb.co/3pBgVZD/Image-thumb.png"
+                />
+                <div>
+                  <p style={{marginBottom:-2,fontWeight:"500"}}>{item.ticketName}</p>
+                  <p style={{marginBottom:0,fontSize:14}}>{item.description}</p>
+                  <p style={{marginBottom:0,fontSize:12,color:"#94A3B8"}}>Sep 12, 2023 - Aug 20, 2023</p>
+                    <p style={{marginBottom:0,fontSize:12,color:"#94A3B8"}}>Sep 12, 2023 - Aug 20, 2023</p>
+                </div>
+              </div>
+            </TableCell>
             <TableCell>{item.numberOfTicket}</TableCell>
             <TableCell>{item.pricePerTicket}</TableCell>
             <TableCell>Preview</TableCell>
