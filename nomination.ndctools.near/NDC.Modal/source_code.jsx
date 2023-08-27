@@ -21,7 +21,7 @@ const ComponentWrapper = styled.div`
   position: absolute;
   width: 100%;
   z-index: 100;
-  top: 50%;
+  top: 55%;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
