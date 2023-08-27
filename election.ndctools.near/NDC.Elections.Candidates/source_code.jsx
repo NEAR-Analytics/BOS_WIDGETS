@@ -276,6 +276,7 @@ const handleSelectCandidate = (candidateId) => {
   Storage.privateSet("election_user_selection", JSON.stringify(selectedItems));
 
   State.update({
+    selectedCandidates: selectedItems,
     availableVotes: currentVotes,
     reload: false,
   });
