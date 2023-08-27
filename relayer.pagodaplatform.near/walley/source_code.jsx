@@ -437,7 +437,7 @@ const transferToken = (tokenId) => {
               viewTxn: [],
               transferTo: "",
             },
-            loading: true,
+            loading: false,
             loadingMsg: "",
           });
         });
