@@ -17,16 +17,23 @@ for (let i = 0; i < accounts.length; ++i) {
 
   allWidgets.push(
     <a
-      href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+      href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
       className="text-decoration-none"
       key={i}
     >
       <Widget
+        loading={
+          <div
+            className="placeholder rounded-circle"
+            style={{ width: "3em", height: "3em" }}
+          />
+        }
         src="mob.near/widget/ProfileImage"
         props={{
           accountId,
           tooltip: true,
           className: "d-inline-block overflow-hidden",
+          imageClassName: "rounded-circle w-100 h-100",
         }}
       />
     </a>
@@ -35,7 +42,7 @@ for (let i = 0; i < accounts.length; ++i) {
 
 return (
   <div>
-    <div class="d-flex flex-wrap gap-1">{allWidgets}</div>
+    <div class="d-flex flex-wrap gap-1 placeholder-glow">{allWidgets}</div>
     <div>Total {numAccounts} profiles</div>
   </div>
 );
