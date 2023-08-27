@@ -81,7 +81,12 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
   );
   const desc = index.options.order === "desc";
 
-  const initialItems = Social.index(index.action, index.key, index.options);
+  const initialItems = Social.index(
+    index.action,
+    index.key,
+    index.options,
+    index.cacheOptions
+  );
   if (initialItems === null) {
     continue;
   }
