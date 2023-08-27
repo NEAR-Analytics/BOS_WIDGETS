@@ -780,7 +780,7 @@ const ALink = ({ title, href }) => (
   </a>
 );
 
-setTimeout(200);
+setTimeout(1000);
 
 return (
   <>
