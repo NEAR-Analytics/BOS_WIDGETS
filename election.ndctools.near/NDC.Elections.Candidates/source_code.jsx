@@ -484,11 +484,8 @@ if (state.reload) {
       let data = result.body.data;
       if (data) {
         const tokens = data.nft_tokens;
-        if (
-          tokens.length > 0 &&
-          tokens.slice(-1).last_transfer_timestamp === null
-        );
-        State.update({ hasPolicyNFT });
+        if (tokens.length > 0 && tokens[0].last_transfer_timestamp === null)
+          State.update({ hasPolicyNFT });
       }
     }
   });
@@ -498,11 +495,8 @@ if (state.reload) {
       let data = result.body.data;
       if (data) {
         const tokens = data.nft_tokens;
-        if (
-          tokens.length > 0 &&
-          tokens.slice(-1).last_transfer_timestamp === null
-        );
-        State.update({ hasIVotedNFT });
+        if (tokens.length > 0 && tokens[0].last_transfer_timestamp === null)
+          State.update({ hasIVotedNFT });
       }
     }
   });
