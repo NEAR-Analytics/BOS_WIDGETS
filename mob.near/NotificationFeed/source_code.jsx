@@ -12,6 +12,9 @@ const index = {
     order: "desc",
     subscribe: true,
   },
+  cacheOptions: {
+    ignoreCache: true,
+  },
 };
 
 const renderItem = (item, i) => {
