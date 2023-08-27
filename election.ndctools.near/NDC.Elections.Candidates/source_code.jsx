@@ -5,7 +5,6 @@ const {
   id,
   typ,
   ref_link,
-  winnerIds,
   quorum,
   seats,
   voters_num,
@@ -378,6 +377,9 @@ const loadInitData = () => {
         showReviewModal: true,
       });
       break;
+    case "ENDED":
+      State.update({ winnerIds });
+      break;
     default:
       0;
   }
@@ -392,7 +394,8 @@ const loadSocialDBData = () => {
 };
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-const isVisible = () => myVotesForHouse().length > 0 || winnerIds.length > 0;
+const isVisible = () =>
+  myVotesForHouse().length > 0 || state.winnerIds.length > 0;
 const userSelection = Storage.privateGet("election_user_selection");
 
 State.init({
@@ -420,6 +423,7 @@ State.init({
   bountyProgramModal: false,
   showReviewModal: false,
   blacklistedModal: true,
+  winnerIds: [],
 });
 
 if (state.reload) {
@@ -431,11 +435,16 @@ if (state.reload) {
     user: context.accountId,
   });
 
+  const winnerIds = Near.view(electionContract, "winners_by_house", {
+    prop_id: state.selectedHouse,
+  });
+
   const bookmarked = loadSocialDBData();
 
   State.update({
     electionStatus,
     acceptedPolicy,
+    winnerIds,
     candidates: filteredCandidates(),
     bookmarked,
   });
@@ -467,7 +476,7 @@ const CandidateItem = ({ candidateId, votes }) => (
     <CandidateItemRow
       className="d-flex align-items-center justify-content-between"
       selected={state.selected === candidateId}
-      winnerId={winnerIds.includes(candidateId)}
+      winnerId={state.winnerIds.includes(candidateId)}
     >
       <div className="d-flex w-100 align-items-center">
         {isVisible() && (
@@ -490,7 +499,7 @@ const CandidateItem = ({ candidateId, votes }) => (
         {isIAmHuman && (
           <Bookmark
             selected={state.selected === candidateId}
-            winnerId={winnerIds.includes(candidateId)}
+            winnerId={state.winnerIds.includes(candidateId)}
           >
             {state.loading === candidateId ? (
               <Loader />
@@ -520,7 +529,7 @@ const CandidateItem = ({ candidateId, votes }) => (
             src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
             title={candidateId}
           />
-          {winnerIds.includes(candidateId) && (
+          {state.winnerIds.includes(candidateId) && (
             <Winner className="bi bi-trophy p-1" />
           )}
         </div>
@@ -537,7 +546,7 @@ const CandidateItem = ({ candidateId, votes }) => (
               href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
               inverse:
                 state.selected === candidateId ||
-                winnerIds.includes(candidateId),
+                state.winnerIds.includes(candidateId),
             },
           }}
         />
