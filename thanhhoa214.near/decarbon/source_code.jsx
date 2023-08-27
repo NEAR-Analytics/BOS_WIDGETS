@@ -1,3 +1,6 @@
+const { body: tableData } = fetch(
+  "https://decarbon-protocol.vercel.app/api/table"
+);
 const cardStyle = {
   border: "1px solid #e5e7eb",
   padding: "1rem",
@@ -49,20 +52,6 @@ return (
             border: "1px solid #e5e7eb",
           }}
         />
-        <select
-          style={{
-            padding: "0.5rem 0.75rem",
-            borderRadius: "0.25rem",
-            border: "1px solid #e5e7eb",
-          }}
-        >
-          <option>NEAR (mainnet)</option>
-          <option>NEAR (testnet)</option>
-          <option>Polkadot (mainnet)</option>
-          <option>Polkadot (testnet)</option>
-          <option>Ethereum (mainnet)</option>
-          <option>Ethereum (testnet)</option>
-        </select>
       </div>
     </div>
   </div>
