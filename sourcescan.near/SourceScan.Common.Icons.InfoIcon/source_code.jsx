@@ -8,7 +8,7 @@ const InfoIcon = (width, height) => {
     <SVG
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      fill={`${useTheme(light.color, dark.color)}`}
+      fill={`currentColor`}
     >
       <path
         fill-rule="evenodd"
