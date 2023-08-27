@@ -153,11 +153,6 @@ while (filteredItems.length < state.displayCount) {
         continue;
       }
     }
-    if (filter.require) {
-      if (!(bestItem.accountId in filter.require)) {
-        continue;
-      }
-    }
   }
   filteredItems.push(bestItem);
 }
@@ -255,7 +250,6 @@ return props.manual ? (
   <InfiniteScroll
     pageStart={0}
     loadMore={makeMoreItems}
-    threshold={props.threshold ?? 250}
     hasMore={state.displayCount <= filteredItems.length}
     loader={loader}
   >
