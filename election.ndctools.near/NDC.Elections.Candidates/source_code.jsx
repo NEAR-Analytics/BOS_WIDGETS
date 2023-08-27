@@ -277,7 +277,6 @@ const handleSelectCandidate = (candidateId) => {
 
   State.update({
     selectedCandidates: selectedItems,
-    availableVotes: currentVotes,
     reload: false,
   });
 };
