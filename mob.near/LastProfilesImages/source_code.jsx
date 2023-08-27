@@ -24,7 +24,7 @@ for (let i = 0; i < accounts.length; ++i) {
       <Widget
         loading={
           <div
-            className="placeholder rounded-circle"
+            className="placeholder d-inline-block rounded-circle"
             style={{ width: "3em", height: "3em" }}
           />
         }
