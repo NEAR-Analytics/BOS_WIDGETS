@@ -229,6 +229,16 @@ const addStore = () => {
     loadingMsg: "Creating a new store",
     addSt: false,
   });
+  if (storeName === "" || storeAddress === "" || image === "") {
+    props.toast("ERROR", "Error", "Please fill in all the details!");
+  }
+  if (!ethers.utils.isAddress(storeAddress)) {
+    props.toast(
+      "ERROR",
+      "Error",
+      "Store Address is not valid. Please try again!"
+    );
+  }
   const { storeName, storeAddress, image } = state.storeInputs;
   nftContract.addStore(storeName, storeAddress, image.cid).then((t) => {
     console.log(t);
@@ -255,6 +265,7 @@ const addStore = () => {
           store: { ...state.store, isStore: true, storeAddress, storeName },
         });
       }
+      props.toast("SUCCESS", "Success", "Store Created Successfully");
     });
   });
 };
