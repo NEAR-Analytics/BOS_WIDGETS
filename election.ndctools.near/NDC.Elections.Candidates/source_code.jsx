@@ -402,31 +402,25 @@ const loadSocialDBData = () => {
     : [];
 };
 
-function fetchGraphQL(operationsDoc, operationName, variables) {
+fetchGraphQL = (series) => {
   return fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
     body: JSON.stringify({
-      query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
+      query: `
+        query MyQuery {
+          nft_tokens(
+            where: {nft_contract_id: {_eq: "mint.sharddog.near"}, token_id: {_regex: "^${series}:"}, owner: {_eq: "orangejoe.near"}}
+            order_by: {minted_timestamp: asc}
+          ) {
+            last_transfer_timestamp
+          }
+        }
+      `,
+      variables: {},
+      operationName: MyQuery,
     }),
   }).then((result) => result.json());
-}
-
-const operationsDoc = (series) => `
-  query MyQuery {
-    nft_tokens(
-      where: {nft_contract_id: {_eq: "mint.sharddog.near"}, token_id: {_regex: "^${series}:"}, owner: {_eq: "orangejoe.near"}}
-      order_by: {minted_timestamp: asc}
-    ) {
-      last_transfer_timestamp
-    }
-  }
-`;
-
-function fetchMyQuery(series) {
-  return fetchGraphQL(operationsDoc(series), "MyQuery", {});
-}
+};
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
@@ -481,7 +475,7 @@ if (state.reload) {
     prop_id: id,
   });
 
-  fetchMyQuery(NFT_SERIES[0])
+  fetchGraphQL(NFT_SERIES[0])
     .then(({ data, errors }) => {
       if (errors) console.log(errors);
 
@@ -491,7 +485,7 @@ if (state.reload) {
     })
     .catch((error) => console.log(error));
 
-  fetchMyQuery(NFT_SERIES[1])
+  fetchGraphQL(NFT_SERIES[1])
     .then(({ data, errors }) => {
       if (errors) console.log(errors);
 
