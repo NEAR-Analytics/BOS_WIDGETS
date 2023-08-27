@@ -15,7 +15,14 @@ const index = {
 
 const renderItem = (item, i) => {
   return (
-    <Widget src="mob.near/widget/Notification.Item" key={i} props={item} />
+    <Widget
+      loading={
+        <div className="mb-3 placeholder-glow" style={{ minHeight: "48px" }} />
+      }
+      src="mob.near/widget/Notification.Item"
+      key={i}
+      props={item}
+    />
   );
 };
 
@@ -32,7 +39,7 @@ return (
       }}
     />
     <div>
-      <a href="#/mob.near/widget/NotificationFeed">View other notifications</a>
+      <a href="/mob.near/widget/NotificationFeed">View other notifications</a>
     </div>
   </>
 );
