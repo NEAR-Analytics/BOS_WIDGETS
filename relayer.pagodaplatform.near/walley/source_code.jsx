@@ -800,7 +800,7 @@ return (
                           Transfer
                         </Styles.WalleyButton>
                       </>
-                    ) : (
+                    ) : state.user.viewTxn[11] === "approve" ? (
                       <>
                         <Styles.WalleyLabel>
                           Please upload the bill -{" "}
@@ -869,6 +869,8 @@ return (
                           Approve
                         </Styles.WalleyButton>
                       </>
+                    ) : (
+                      ""
                     )}
                   </Styles.TransactionCardMain>
                 </Styles.TransactionCard>
