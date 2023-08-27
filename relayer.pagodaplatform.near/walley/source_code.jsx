@@ -446,12 +446,15 @@ const transferToken = (tokenId) => {
 };
 
 const checkPassword = (tokenId, password, fn) => {
-  walleyContract.checkPassword(tokenId, password).then((check) => {
-    if (check) {
-      console.log("heheheh");
-      fn();
-    } else console.log("incorrect password");
-  });
+  walleyContract
+    .checkPassword(tokenId, password)
+    .then((check) => {
+      if (check) {
+        console.log("heheheh");
+        fn();
+      } else console.log("incorrect password");
+    })
+    .catch((err) => console.log(err));
 };
 
 return (
