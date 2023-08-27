@@ -251,9 +251,6 @@ const addStore = () => {
         loadingMsg: "",
       });
       if (storeAddress.toLowerCase() === sender) {
-        // alert(
-        //   "Warning - If you have any pending transactions, you won't be able to see them. But they can be completed at the store!"
-        // );
         State.update({
           store: { ...state.store, isStore: true, storeAddress, storeName },
         });
@@ -458,7 +455,6 @@ const checkPassword = (tokenId, password, fn) => {
     })
     .catch((err) => console.log(err));
 };
-console.log(props.click());
 return (
   <Styles.WalleyHomeContainer>
     <Styles.WalleyHomeHeader>
@@ -737,7 +733,14 @@ return (
             </Styles.WalleyNavbarButton>
             <Styles.NavLine></Styles.NavLine>
             <Styles.WalleyNavbarButton
-              onClick={() => State.update({ addSt: true })}
+              onClick={() => {
+                props.toast(
+                  "INFO",
+                  "Note",
+                  "If you have any pending transactions, you won't be able to see them. But they can be completed at the store!"
+                );
+                State.update({ addSt: true });
+              }}
             >
               <span>Add a store</span>
             </Styles.WalleyNavbarButton>
