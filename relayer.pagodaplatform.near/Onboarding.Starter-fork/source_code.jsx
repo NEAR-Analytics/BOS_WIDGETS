@@ -7,5 +7,3 @@ return (
     <Widget />
   </>
 );
-forum;
-returul;
