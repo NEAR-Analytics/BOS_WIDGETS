@@ -647,7 +647,7 @@ return (
                 )}{" "}
                 ETH
               </p>
-              <p>Time - {unixToDate(parseInt(state.user.viewTxn[10], 16))}</p>
+              <p>Time - {unixToDate(Big(state.user.viewTxn[10]).toFixed(0))}</p>
               {state.user.viewTxn[11] === "cancel" ? (
                 <>
                   <Styles.WalleyLabel>
@@ -1007,7 +1007,7 @@ return (
                                 ETH
                               </p>
                               <p className="txn">
-                                Time - {unixToDate(parseInt(tx[10], 16))}
+                                Time - {unixToDate(Big(tx[10]).toFixed(0))}
                               </p>
                               <Styles.WalleyButtonRow>
                                 <Styles.WalleyButton
@@ -1104,7 +1104,7 @@ return (
                               </p>
 
                               <p className="txn">
-                                Time - {unixToDate(parseInt(tx[10], 16))}
+                                Time - {unixToDate(Big(tx[10])).toFixed(0)}
                               </p>
                               {state.user.openReceipt ===
                               Big(tx[1]).toFixed(0) ? (
@@ -1213,10 +1213,11 @@ return (
                               Max amount -{" "}
                               {parseFloat(
                                 Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
-                              )}
+                              )}{" "}
+                              ETH
                             </p>
 
-                            <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
+                            <p>Time - {unixToDate(Big(tx[10]).toFixed(0))}</p>
                             <Styles.WalleyButton
                               className="blue"
                               onClick={() =>
@@ -1264,17 +1265,19 @@ return (
                             Max Amount -{" "}
                             {parseFloat(
                               Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
-                            )}
+                            )}{" "}
+                            ETH
                           </p>
 
                           <p>
                             Total Bill Amount -{" "}
                             {parseFloat(
                               Big(tx[9]).div(Big(10).pow(18)).toFixed(5)
-                            )}
+                            )}{" "}
+                            ETH
                           </p>
 
-                          <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
+                          <p>Time - {unixToDate(Big(tx[10]).toFixed(0))}</p>
                           {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
                             <Styles.TransactionModal>
                               <Styles.WalleyStoreImage
