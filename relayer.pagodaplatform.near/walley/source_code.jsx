@@ -116,7 +116,7 @@ const walleyContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 //get stores data
-if (state.store.stores.length === 0 && nftContract && sender && state.loading) {
+if (state.store.stores.length === 0 && nftContract && sender) {
   State.update({ loadingMsg: "Fetching Stores" });
   nftContract.getAllStores().then((stores) => {
     onTxInit();
@@ -155,7 +155,6 @@ if (state.store.stores.length === 0 && nftContract && sender && state.loading) {
     }
   });
 }
-
 const onTxInit = () => {
   State.update({
     view: "home",
@@ -349,7 +348,6 @@ const initTransaction = () => {
             });
           })
           .catch((err) => {
-            console.log(err);
             State.update({
               loading: false,
               loadingMsg: "",
@@ -460,6 +458,7 @@ const approveTransaction = (tokenId) => {
               tmpAct[0][7] = state.store.bill.cid;
               tmpAct[0][8] = true;
               tmpAct[0][9] = state.store.totalAmount;
+              tmpAct[0][10] = Math.floor(Date.now() / 1000).toString(16);
             }
           });
           State.update({
