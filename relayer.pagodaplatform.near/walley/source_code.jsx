@@ -492,7 +492,7 @@ return (
       )}
 
       {state.user.viewTxn.length !== 0 ? (
-        <Styles.TransactionModal>
+        <Styles.WalleyModal>
           <Styles.TransactionCard>
             <Styles.WalleyImageContainer>
               <Styles.WalleyStoreImage
@@ -676,7 +676,7 @@ return (
               )}
             </Styles.TransactionCardMain>
           </Styles.TransactionCard>
-        </Styles.TransactionModal>
+        </Styles.WalleyModal>
       ) : (
         ""
       )}
