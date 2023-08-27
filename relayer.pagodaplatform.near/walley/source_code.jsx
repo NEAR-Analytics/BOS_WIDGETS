@@ -131,6 +131,8 @@ if (state.store.stores.length === 0 && nftContract && sender && state.loading) {
       for (let i = 0; i < stores.length; i++) {
         store = stores[i];
         storeState.storeImages[store[0]] = store[2];
+        console.log(store[1]);
+        console.log(sender);
         if (store[1].toLowerCase() === sender.toLowerCase()) {
           storeState.isStore = true;
           storeState.storeName = store[0];
