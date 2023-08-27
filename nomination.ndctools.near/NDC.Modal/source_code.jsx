@@ -100,10 +100,11 @@ return (
           <Widget
             src={widgets.styledComponents}
             props={{
-              Button: {
-                disabled: Button.disabled,
+              [Button.type ?? "Button"]: {
                 text: Button.title,
-                onClick: Button.onSubmit,
+                disabled: Button.disabled,
+                onClick: Button.type === "Button" ? Button.onSubmit : null,
+                href: Button.type === "Link" ? Button.href : null,
               },
             }}
           />
