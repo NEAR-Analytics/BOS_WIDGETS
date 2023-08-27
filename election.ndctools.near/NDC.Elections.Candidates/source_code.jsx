@@ -326,7 +326,7 @@ const handleVote = () =>
     "vote",
     { prop_id: props.id, vote: state.selectedCandidates },
     "110000000000000",
-    (state.greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000
+    (state.greylisted ? MAX_BOND : MIN_BOND) * 100000000000000000000000
   ).then((data) => State.update({ bountyProgramModal: false }));
 
 const handleAcceptToS = () => {
@@ -373,11 +373,6 @@ const handleFilter = (option) => {
 };
 
 const loadInitData = () => {
-  let bookmarked;
-  let electionStatus;
-  let acceptedPolicy;
-  let winnerIds;
-
   if (state.filterOption !== "") {
     State.update({
       bookmarked,
@@ -387,14 +382,15 @@ const loadInitData = () => {
     return;
   }
 
-  bookmarked = loadSocialDBData();
-  electionStatus = Near.view(electionContract, "proposal_status", {
+  const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
   });
-  acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
     user: context.accountId,
   });
-  winnerIds = Near.view(electionContract, "winners_by_house", {
+
+  const winnerIds = Near.view(electionContract, "winners_by_house", {
     prop_id: id,
   });
 
@@ -405,6 +401,8 @@ const loadInitData = () => {
   fetchGraphQL(NFT_SERIES[1]).then((result) =>
     processNFTAvailability(result, "hasIVotedNFT")
   );
+
+  const bookmarked = loadSocialDBData();
 
   switch (state.electionStatus) {
     case "ONGOING":
