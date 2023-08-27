@@ -1057,10 +1057,74 @@ return (
             <Styles.NavLineLast></Styles.NavLineLast>
           </Styles.WalleyNavbar>
           <Styles.WalleyStoreBody>
+            <Styles.WalleySearch>
+              <Styles.WalleyInput
+                value={state.search.user}
+                onChange={(e) =>
+                  State.update({
+                    search: { ...state.search, user: e.target.value },
+                  })
+                }
+                placeholder="Search Transactions by User Name"
+              />
+            </Styles.WalleySearch>
             <Styles.WalleyTransactions>
               {state.view === "home"
                 ? state.store.storePendingTransactions.length !== 0
-                  ? state.store.storePendingTransactions.map((tx) => (
+                  ? state.store.storePendingTransactions
+                      .filter((tx) =>
+                        tx[6]
+                          .toLowerCase()
+                          .includes(state.search.store.toLowerCase())
+                      )
+                      .map((tx) => (
+                        <Styles.TransactionCard>
+                          <Styles.WalleyImageContainer>
+                            <Styles.WalleyStoreImage
+                              src={`https://ipfs.near.social/ipfs/${
+                                state.store.storeImages[tx[6]]
+                              }`}
+                              alt={tx[6]}
+                            />
+                          </Styles.WalleyImageContainer>
+                          <Styles.TransactionCardMain>
+                            <p>Name - {tx[2]}</p>
+                            <p>Store name - {tx[6]} </p>
+                            <p>Max amount - {Big(tx[5]).toFixed(5)}</p>
+
+                            <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
+                            <Styles.WalleyButton
+                              color="white"
+                              bg="blue"
+                              onClick={() =>
+                                State.update({
+                                  store: {
+                                    ...state.store,
+                                    approvePassword: "",
+                                    bill: { uploading: false, amount: null },
+                                    totalAmount: null,
+                                  },
+                                  user: {
+                                    ...state.user,
+                                    viewTxn: [...tx, "approve"],
+                                  },
+                                })
+                              }
+                            >
+                              Approve
+                            </Styles.WalleyButton>
+                          </Styles.TransactionCardMain>
+                        </Styles.TransactionCard>
+                      ))
+                  : "No pending transactions"
+                : state.store.storePastTransactions.length !== 0
+                ? state.store.storePastTransactions
+                    .filter((tx) =>
+                      tx[6]
+                        .toLowerCase()
+                        .includes(state.search.store.toLowerCase())
+                    )
+                    .map((tx) => (
                       <Styles.TransactionCard>
                         <Styles.WalleyImageContainer>
                           <Styles.WalleyStoreImage
@@ -1073,58 +1137,33 @@ return (
                         <Styles.TransactionCardMain>
                           <p>Name - {tx[2]}</p>
                           <p>Store name - {tx[6]} </p>
-                          <p>Max amount - {Big(tx[5]).toFixed(5)}</p>
+                          <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
+
+                          <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
 
                           <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
-                          <Styles.WalleyButton
-                            color="white"
-                            bg="blue"
-                            onClick={() =>
-                              State.update({
-                                store: {
-                                  ...state.store,
-                                  approvePassword: "",
-                                  bill: { uploading: false, amount: null },
-                                  totalAmount: null,
-                                },
-                                user: {
-                                  ...state.user,
-                                  viewTxn: [...tx, "approve"],
-                                },
-                              })
-                            }
-                          >
-                            Approve
-                          </Styles.WalleyButton>
-                        </Styles.TransactionCardMain>
-                      </Styles.TransactionCard>
-                    ))
-                  : "No pending transactions"
-                : state.store.storePastTransactions.length !== 0
-                ? state.store.storePastTransactions.map((tx) => (
-                    <Styles.TransactionCard>
-                      <Styles.WalleyImageContainer>
-                        <Styles.WalleyStoreImage
-                          src={`https://ipfs.near.social/ipfs/${
-                            state.store.storeImages[tx[6]]
-                          }`}
-                          alt={tx[6]}
-                        />
-                      </Styles.WalleyImageContainer>
-                      <Styles.TransactionCardMain>
-                        <p>Name - {tx[2]}</p>
-                        <p>Store name - {tx[6]} </p>
-                        <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
-
-                        <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
-
-                        <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
-                        {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
-                          <>
-                            <Styles.WalleyStoreImage
-                              src={`https://ipfs.near.social/ipfs/${tx[7]}`}
-                              alt={tx[7]}
-                            />
+                          {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
+                            <>
+                              <Styles.WalleyStoreImage
+                                src={`https://ipfs.near.social/ipfs/${tx[7]}`}
+                                alt={tx[7]}
+                              />
+                              <Styles.WalleyButton
+                                color="#fff"
+                                bg="#FA9703"
+                                onClick={() =>
+                                  State.update({
+                                    user: {
+                                      ...state.user,
+                                      openReceipt: 0,
+                                    },
+                                  })
+                                }
+                              >
+                                Close Receipt
+                              </Styles.WalleyButton>
+                            </>
+                          ) : (
                             <Styles.WalleyButton
                               color="#fff"
                               bg="#FA9703"
@@ -1132,33 +1171,17 @@ return (
                                 State.update({
                                   user: {
                                     ...state.user,
-                                    openReceipt: 0,
+                                    openReceipt: Big(tx[1]).toFixed(0),
                                   },
                                 })
                               }
                             >
-                              Close Receipt
+                              Show Receipt
                             </Styles.WalleyButton>
-                          </>
-                        ) : (
-                          <Styles.WalleyButton
-                            color="#fff"
-                            bg="#FA9703"
-                            onClick={() =>
-                              State.update({
-                                user: {
-                                  ...state.user,
-                                  openReceipt: Big(tx[1]).toFixed(0),
-                                },
-                              })
-                            }
-                          >
-                            Show Receipt
-                          </Styles.WalleyButton>
-                        )}
-                      </Styles.TransactionCardMain>
-                    </Styles.TransactionCard>
-                  ))
+                          )}
+                        </Styles.TransactionCardMain>
+                      </Styles.TransactionCard>
+                    ))
                 : "No past transactions found"}
             </Styles.WalleyTransactions>
           </Styles.WalleyStoreBody>
