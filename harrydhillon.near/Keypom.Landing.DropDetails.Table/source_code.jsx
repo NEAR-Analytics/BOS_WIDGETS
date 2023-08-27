@@ -89,6 +89,17 @@ const Uncalimed = styled.div`
         width:fit-content;
 `;
 
+const ActionButton2 = styled.button`
+  padding: 5px 10px;
+  color:#00A7E4;
+  background-color:transparent;
+  border-width: 0px;
+  cursor: pointer;
+  &:focus {
+        outline: none;
+      }
+`;
+
 const claimedFunc = (claimed) =>
   claimed ? (
     <CompletelyClaimed>Claimed</CompletelyClaimed>
@@ -118,16 +129,30 @@ return (
                   src="https://i.ibb.co/3pBgVZD/Image-thumb.png"
                 />
                 <div>
-                  <p style={{marginBottom:-2,fontWeight:"500"}}>{item.ticketName}</p>
-                  <p style={{marginBottom:0,fontSize:14}}>{item.description}</p>
-                  <p style={{marginBottom:0,fontSize:12,color:"#94A3B8"}}>Sep 12, 2023 - Aug 20, 2023</p>
-                    <p style={{marginBottom:0,fontSize:12,color:"#94A3B8"}}>Sep 12, 2023 - Aug 20, 2023</p>
+                  <p style={{ marginBottom: -2, fontWeight: "500" }}>
+                    {item.ticketName}
+                  </p>
+                  <p style={{ marginBottom: 0, fontSize: 14 }}>
+                    {item.description}
+                  </p>
+                  <p
+                    style={{ marginBottom: 0, fontSize: 12, color: "#94A3B8" }}
+                  >
+                    Sep 12, 2023 - Aug 20, 2023
+                  </p>
+                  <p
+                    style={{ marginBottom: 0, fontSize: 12, color: "#94A3B8" }}
+                  >
+                    Sep 12, 2023 - Aug 20, 2023
+                  </p>
                 </div>
               </div>
             </TableCell>
             <TableCell>{item.numberOfTicket}</TableCell>
             <TableCell>{item.pricePerTicket}</TableCell>
-            <TableCell>Preview</TableCell>
+            <TableCell>
+              <ActionButton2>Preview</ActionButton2>
+            </TableCell>
             <TableCell>
               <div style={{ gap: "10px", display: "flex" }}>
                 <ActionButton
