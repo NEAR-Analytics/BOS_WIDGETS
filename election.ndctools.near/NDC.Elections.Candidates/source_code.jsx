@@ -402,7 +402,7 @@ const loadSocialDBData = () => {
     : [];
 };
 
-fetchGraphQL = (series) => {
+const fetchGraphQL = (series) => {
   return fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
     body: JSON.stringify({
