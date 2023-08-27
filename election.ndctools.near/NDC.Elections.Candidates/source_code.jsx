@@ -408,7 +408,7 @@ const loadSocialDBData = () => {
 function fetchGraphQL(series) {
   return asyncFetch(QUERY_API_ENDPOINT, {
     method: "POST",
-    headers: { "x-hasura-role": electionContract },
+    headers: { "mb-api-key": "anon", "x-hasura-role": electionContract },
     body: JSON.stringify({
       queries: `
         query MyQuery {
