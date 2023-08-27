@@ -127,8 +127,8 @@ return (
         <Widget
           loading={
             <div
-              className="overflow-hidden w-100"
-              style={{ minHeight: "150px" }}
+              className="overflow-hidden w-100 placeholder-glow"
+              style={{ minHeight: "100px" }}
             />
           }
           src="mob.near/widget/MainPage.N.Post.Content"
