@@ -1,3 +1,10 @@
+State.init({
+  tooltip: props.tooltip || {
+    placement: "top",
+    label: "Not Approved",
+  },
+});
+
 const CrossIcon = (width, height) => {
   const SVG = styled.svg`
       width: ${width}
@@ -15,4 +22,16 @@ const CrossIcon = (width, height) => {
   );
 };
 
-return <CrossIcon width={props.width} height={props.height} />;
+return (
+  <OverlayTrigger
+    key={state.tooltip.placement}
+    placement={state.tooltip.placement}
+    overlay={
+      <Tooltip id={`tooltip-${placement}`}>
+        {state.error ? "Error" : "Not approved"}
+      </Tooltip>
+    }
+  >
+    <CrossIcon width={props.width} height={props.height} />
+  </OverlayTrigger>
+);
