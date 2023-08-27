@@ -15,6 +15,7 @@ const renderItem = (a) =>
   a.value.type === "md" && (
     <Widget
       key={JSON.stringify(a)}
+      loading={<div className="w-100" style={{ minHeight: "200px" }} />}
       src="mob.near/widget/MainPage.N.Comment"
       props={{
         accountId: a.accountId,
