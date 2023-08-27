@@ -453,14 +453,14 @@ State.init({
 console.log("--state--", state);
 
 if (state.reload) {
-  if (state.filterOption !== "") {
-    State.update({
-      bookmarked,
-      candidates: filteredCandidates(),
-    });
+  // if (state.filterOption !== "") {
+  //   State.update({
+  //     bookmarked,
+  //     candidates: filteredCandidates(),
+  //   });
 
-    return;
-  }
+  //   return;
+  // }
 
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
