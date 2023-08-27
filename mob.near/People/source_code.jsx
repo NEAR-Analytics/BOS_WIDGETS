@@ -3,6 +3,11 @@ return (
     <h5>People</h5>
     <div className="mb-2">
       <Widget
+        loading={
+          <div className="input-group">
+            <input type="text" className="form-control" />
+          </div>
+        }
         src="mob.near/widget/ProfileSearch"
         props={{
           limit: 10,
