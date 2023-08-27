@@ -17,7 +17,7 @@ const TableRow = styled.tr`
 `;
 
 const TableHeader = styled.th`
-  padding: 8px;
+  padding: 14px;
   font-weight:500;
   text-align: left;
 `;
