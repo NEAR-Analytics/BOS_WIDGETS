@@ -184,7 +184,7 @@ return (
       </div>
     )}
     <Widget
-      loading={<></>}
+      loading={false}
       src="mob.near/widget/MainPage.N.Comment.Feed"
       props={{
         item,
