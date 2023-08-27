@@ -8,7 +8,8 @@ const endorsements = [
   {
     accountId: "cameron.near",
     body: "HouseOfMerit",
-    reason: "Onboarding more people into NEAR than you can imagine. Certified BluntDAO OG",
+    reason:
+      "Onboarding more people into NEAR than you can imagine. Certified BluntDAO OG",
   },
   {
     accountId: "vadim.near",
@@ -30,10 +31,11 @@ const endorsements = [
     body: "HouseOfMerit",
     reason: "Fouder of Octopus.network and OG Dev.",
   },
-    {
+  {
     accountId: "vlad.near",
     body: "HouseOfMerit",
-    reason: "Co-Founder of Human Guild. Built Web4 the BOS before the BOS. Early NEAR OG, like no windows with Alex and Illia.. Certified BluntDAO OG",
+    reason:
+      "Co-Founder of Human Guild. Built Web4 the BOS before the BOS. Early NEAR OG, like no windows with Alex and Illia.. Certified BluntDAO OG",
   },
   {
     accountId: "chloe.near",
@@ -127,11 +129,10 @@ const endorsements = [
     reason:
       "Dont disrespect creatives dao or well smack the paintbrush right out yo hand .",
   },
-    {
+  {
     accountId: "robert.near",
     body: "CouncilOfAdvisors",
-    reason:
-      "Regen, built NDC systems, built the token to even let you vote.",
+    reason: "Regen, built NDC systems, built the token to even let you vote.",
   },
 ];
 
@@ -151,19 +152,20 @@ width: 30%
 `;
 return (
   <>
+    <Widget src="ndcplug.near/widget/nominations" />
     <h1> 🔌Plug's Endorsements</h1>
     <a href="https://neardc.org/vote-plug">neardc.org/vote-plug</a>
-      <div className="endorsment">
-        {endorsements.map((endorsement) => (
-          <Widget
-            src="ndcplug.near/widget/NDC.CandidateCard"
-            props={{
-              accountId: endorsement.accountId,
-              body: endorsement.body,
-              reason: endorsement.reason,
-            }}
-          />
-        ))}
-      </div>
+    <div className="endorsment">
+      {endorsements.map((endorsement) => (
+        <Widget
+          src="ndcplug.near/widget/NDC.CandidateCard"
+          props={{
+            accountId: endorsement.accountId,
+            body: endorsement.body,
+            reason: endorsement.reason,
+          }}
+        />
+      ))}
+    </div>
   </>
 );
