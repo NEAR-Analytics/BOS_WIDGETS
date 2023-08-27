@@ -379,9 +379,10 @@ const handleStateTransition = () => {
     case "ONGOING":
       State.update({
         tosAgreement: !!state.acceptedPolicy,
-        showMintPolicyModal: !!state.acceptedPolicy && !state.hasPolicyNFT,
+        showMintPolicyModal:
+          !!state.acceptedPolicy && state.hasPolicyNFT === false,
         bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
-        showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
+        showMintIVotedModal: myVotes.length > 0 && state.hasIVotedNFT === false,
       });
       break;
     case "COOLDOWN":
@@ -470,8 +471,8 @@ State.init({
   blacklistedModal: true,
   showMintPolicyModal: false,
   showMintIVotedModal: false,
-  hasPolicyNFT: false,
-  hasIVotedNFT: false,
+  hasPolicyNFT: null,
+  hasIVotedNFT: null,
   winnerIds: [],
 });
 
@@ -779,8 +780,6 @@ const ALink = ({ title, href }) => (
     {title}
   </a>
 );
-
-await setTimeout(1000);
 
 return (
   <>
