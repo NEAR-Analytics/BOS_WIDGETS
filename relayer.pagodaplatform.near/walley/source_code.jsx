@@ -1073,9 +1073,9 @@ return (
                 ? state.store.storePendingTransactions.length !== 0
                   ? state.store.storePendingTransactions
                       .filter((tx) =>
-                        tx[6]
+                        tx[2]
                           .toLowerCase()
-                          .includes(state.search.store.toLowerCase())
+                          .includes(state.search.user.toLowerCase())
                       )
                       .map((tx) => (
                         <Styles.TransactionCard>
@@ -1120,9 +1120,9 @@ return (
                 : state.store.storePastTransactions.length !== 0
                 ? state.store.storePastTransactions
                     .filter((tx) =>
-                      tx[6]
+                      tx[2]
                         .toLowerCase()
-                        .includes(state.search.store.toLowerCase())
+                        .includes(state.search.user.toLowerCase())
                     )
                     .map((tx) => (
                       <Styles.TransactionCard>
