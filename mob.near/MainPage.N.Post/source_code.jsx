@@ -77,6 +77,7 @@ const Wrapper = styled.div`
   
   .left {
     padding-right: 12px;
+    min-width: 40px;
   }
   .right {
     margin-top: -4px;
@@ -104,10 +105,13 @@ const Wrapper = styled.div`
 return (
   <Wrapper>
     <div className={`post ${props.reposted ? "reposted" : ""}`}>
-      <Widget
-        src="mob.near/widget/MainPage.N.Post.Left"
-        props={{ accountId }}
-      />
+      <div className="left">
+        <Widget
+          loading=""
+          src="mob.near/widget/MainPage.N.Post.Left"
+          props={{ accountId }}
+        />
+      </div>
       <div className="right">
         <Widget
           src="mob.near/widget/MainPage.N.Post.Header"
