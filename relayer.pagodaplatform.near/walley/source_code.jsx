@@ -3,12 +3,12 @@ const unixToDate = (time) => {
   return d.toLocaleString();
 };
 
-const nftAddress = "0xa871cfdb523c40eeb460ae857d52b6ffb28cca4c";
+const nftAddress = "0x229e500a8c7e5cb8b304dbb8d84eb02fa82fb20c";
 const NFTManagerABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/NFTManager.json")
     .body
 );
-const walleyAddress = "0xed05c6dd7c8a1e3edfbb5c6ad55933fb2597ee92";
+const walleyAddress = "0x6486c6eacec3985dbbd5dd65c0cde45122f0db35";
 const WalleyABI = JSON.parse(
   fetch("https://raw.githubusercontent.com/test1883/files/main/Walley.json")
     .body
