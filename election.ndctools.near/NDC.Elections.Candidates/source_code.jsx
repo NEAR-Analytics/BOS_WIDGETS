@@ -29,8 +29,8 @@ const FAIR_POLICY_NFT =
   "https://ipfs.near.social/ipfs/bafkreiabsu7xhumhim4gxj5h7umopc3b5ekppeofwwizsf5loqs2vcntpm";
 const I_VOTED_NFT =
   "https://ipfs.near.social/ipfs/bafkreiewiq4puwmcu7ciztsfqvmpl3gsumfgsm5r22g24abiynoeghsyey";
-const MINT_VOTING_POLICY_NFT = "shard.dog/fairvoting";
-const MINT_I_VOTED_NFT = "shard.dog/ivoted";
+const MINT_VOTING_POLICY_NFT = "https://shard.dog/fairvoting/";
+const MINT_I_VOTED_NFT = "https://shard.dog/ivoted";
 const BLACKLIST_VERIFY_LINK = "";
 const GREYLIST_VERIFY_LINK = "";
 const MIN_BOND = 3;
@@ -580,17 +580,28 @@ const CandidateItem = ({ candidateId, votes }) => (
         )}
         <div className="d-flex align-items-center">
           <Widget
-            src="mob.near/widget/ProfileImage"
+            src="near/widget/AccountProfileOverlay"
             props={{
               accountId: candidateId,
-              imageClassName: "rounded-circle w-100 h-100",
-              style: { width: "24px", height: "24px", marginRight: 5 },
+              children: (
+                <>
+                  <Widget
+                    src="mob.near/widget/ProfileImage"
+                    props={{
+                      accountId: candidateId,
+                      imageClassName: "rounded-circle w-100 h-100",
+                      style: { width: "24px", height: "24px", marginRight: 5 },
+                    }}
+                  />
+                  <UserLink
+                    src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
+                    title={candidateId}
+                  />
+                </>
+              ),
             }}
           />
-          <UserLink
-            src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
-            title={candidateId}
-          />
+
           {state.winnerIds.includes(candidateId) && (
             <Winner className="bi bi-trophy p-1" />
           )}
