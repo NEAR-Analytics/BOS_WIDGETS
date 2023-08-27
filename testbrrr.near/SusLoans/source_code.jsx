@@ -142,6 +142,11 @@ const buttonList = [
   "View my balances",
   "Borrow 10 SUS using 0.1 WETH",
   "Provide 10 SUS into the stability pool",
+  "Remove 10 SUS from the stability pool",
+  "Repay 10 SUS against WETH debt",
+  "Withdraw 0.1 WETH",
+  "Deposit 0.1 WETH",
+  "Close my SUS position for WETH",
 ]; // Add your button texts here
 
 const resendPrompt = (error) => {
@@ -245,7 +250,7 @@ return (
 
     {state.widget}
 
-    <h5 style={{ marginTop: 50, marginBottom: 20 }}>Example Commands</h5>
+    <h5 style={{ marginTop: 50, marginBottom: 20 }}>Quick Commands</h5>
     {buttonList.map((buttonText, index) => (
       <Command key={index} onClick={() => State.update({ prompt: buttonText })}>
         {buttonText}
