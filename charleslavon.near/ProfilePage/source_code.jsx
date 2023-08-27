@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "posts",
+  selectedTab: props.tab || "apps",
 });
 
 const accountId = props.accountId || "charleslavon.near";
@@ -193,6 +193,7 @@ return (
           >
             Links
           </TabsButton>
+
         </Tabs>
 
         {state.selectedTab === "posts" && (
@@ -221,6 +222,8 @@ return (
             props={{ components: topComponents }}
           />
         )}
+
+
       </Content>
     </Main>
   </Wrapper>
