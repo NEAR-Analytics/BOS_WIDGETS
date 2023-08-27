@@ -60,7 +60,6 @@ return (
             </Overlay>
           )}
           <div className="flex-shrink-0">
-            {" "}
             <Widget
               loading={""}
               src="mob.near/widget/Checkmark"
@@ -83,7 +82,11 @@ return (
               "now"
             ) : (
               <a className="text-muted" href={link}>
-                <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+                <Widget
+                  loading=""
+                  src="mob.near/widget/TimeAgo"
+                  props={{ blockHeight }}
+                />
               </a>
             )}
           </div>
