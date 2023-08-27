@@ -619,7 +619,7 @@ return (
     )}
 
     {!state.success ? confirmUI : <p>Transaction complete</p>}
-    {props.action !== "display" ? (
+    {props.action !== "display" && !state.success ? (
       <Button onClick={() => confirmAction()}>Confirm Action</Button>
     ) : null}
   </div>
