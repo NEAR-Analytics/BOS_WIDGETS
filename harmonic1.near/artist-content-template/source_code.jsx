@@ -7,8 +7,7 @@ const containerStyle = {
   alignItems: "center", // Vertically centering the contents
   //justifyContent: "center",
   paddingTop: "30px",
-  backgroundImage:
-    "url('https://ik.imagekit.io/n7h27i0lh/v960-ning-08-klhoizzv.jpeg?updatedAt=1692893730584')",
+  //backgroundImage:    "url('https://ik.imagekit.io/n7h27i0lh/v960-ning-08-klhoizzv.jpeg?updatedAt=1692893730584')",
   //backgroundColor: "black",
   backgroundSize: "cover",
   backgroundPosition: "center",
@@ -79,6 +78,15 @@ return (
       {/*<hr style={{ width: "90%", margin: "10px auto" }} /> */}
       {/* Added this line for the horizontal rule */}
       <h4 style={bioStyle}>{data.bio}</h4>
+      {data.links && data.links.length > 0 && (
+        <div style={linkArray}>
+          {data.links.map((link, index) => (
+            <a key={index} href={link.value} style={linkCardStyle}>
+              {link.key}
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   </div>
 );
