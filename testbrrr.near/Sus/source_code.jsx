@@ -36,6 +36,7 @@ const Button = styled.div`
     cursor: pointer;
     user-select: none;
     box-shadow: 0 3px 3px rgba(0,0,0,.3);
+    margin-top: 15px;
 
     &:active {
       box-shadow: 0 0 0 rgba(0,0,0,0);
