@@ -3,19 +3,19 @@ const endorsements = [
     accountId: "ogruss.near",
     body: "HouseOfMerit",
     reason:
-      "Community Behind NEAR, natural born hustler, been putting on for NEAR IRL, has NEAR tatted on him, yall not about this life",
+      "Community Behind NEAR, natural born hustler, been putting on for NEAR IRL, has NEAR tatted on him, yall not about this life. Certified BLUNT DAO OG",
   },
   {
     accountId: "cameron.near",
     body: "HouseOfMerit",
-    reason: "Onboarding more people into NEAR than you can imagine.",
+    reason: "Onboarding more people into NEAR than you can imagine. Certified BluntDAO OG",
   },
   {
     accountId: "vadim.near",
     body: "HouseOfMerit",
     reason: "OG BOS DEV before it was BOS, Holding it down at Proximity",
   },
-    {
+  {
     accountId: "gagdiez.near",
     body: "CouncilOfAdvisors",
     reason: "OG Dev Rel at Pagoda",
@@ -29,6 +29,11 @@ const endorsements = [
     accountId: "louisliu.near",
     body: "HouseOfMerit",
     reason: "Fouder of Octopus.network and OG Dev.",
+  },
+    {
+    accountId: "vlad.near",
+    body: "HouseOfMerit",
+    reason: "Co-Founder of Human Guild. Built Web4 the BOS before the BOS. Early NEAR OG, like no windows with Alex and Illia.. Certified BluntDAO OG",
   },
   {
     accountId: "chloe.near",
@@ -87,16 +92,11 @@ const endorsements = [
     reason:
       "You wouldn't even know whats going on in NEAR if it weren't for this mans right here. NEARWEEK over everything",
   },
-  {
-    accountId: "chefsale.near",
-    body: "CouncilOfAdvisors",
-    reason: "Watchu know about private shards",
-  },
-  //       {
-  //     accountId: "guille.near",
-  //     body: "CouncilOfAdvisors",
-  //     reason: "Minttickt founder, been supporting of builder intiatives since I've been doing them",
-  //   },
+  // {
+  //   accountId: "chefsale.near",
+  //   body: "CouncilOfAdvisors",
+  //   reason: "Watchu know about private shards",
+  // },
   {
     accountId: "blaze.near",
     body: "CouncilOfAdvisors",
@@ -118,13 +118,20 @@ const endorsements = [
   {
     accountId: "cryptois.near",
     body: "TransparencyCommission",
-    reason: "Deep tech background, OG at Octopus Network, community based organizing and BluntDAO OG.",
+    reason:
+      "Deep tech background, OG at Octopus Network, community based organizing and BluntDAO OG.",
   },
   {
     accountId: "crans.near",
     body: "TransparencyCommission",
     reason:
       "Dont disrespect creatives dao or well smack the paintbrush right out yo hand .",
+  },
+    {
+    accountId: "robert.near",
+    body: "CouncilOfAdvisors",
+    reason:
+      "Regen, built NDC systems, built the token to even let you vote.",
   },
 ];
 
@@ -143,11 +150,9 @@ width: 30%
   }
 `;
 return (
-  <div>
-    <h1>Howdy I'm 🔌Plug</h1>
-    <p>Support Me by Signing the Petition</p>
+  <>
+    <h1> 🔌Plug's Endorsements</h1>
     <a href="https://neardc.org/vote-plug">neardc.org/vote-plug</a>
-    <Column>
       <div className="endorsment">
         {endorsements.map((endorsement) => (
           <Widget
@@ -160,9 +165,5 @@ return (
           />
         ))}
       </div>
-      <div className="petition">
-        <Widget src="ndcplug.near/widget/NDC.PlugSupport" />
-      </div>
-    </Column>
-  </div>
+  </>
 );
