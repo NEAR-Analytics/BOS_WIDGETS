@@ -483,30 +483,18 @@ if (state.reload) {
   fetchGraphQL(NFT_SERIES[1]).then((result) =>
     processNFTAvailability(result, "hasIVotedNFT")
   );
+  const electionStatus = Near.view(electionContract, "proposal_status", {
+    prop_id: props.id,
+  });
+
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+    user: context.accountId,
+  });
+
+  const winnerIds = Near.view(electionContract, "winners_by_house", {
+    prop_id: id,
+  });
   const bookmarked = loadSocialDBData();
-
-  setTimeout(() => {
-    const electionStatus =
-      Near.view(electionContract, "proposal_status", {
-        prop_id: props.id,
-      }) ?? state.electionStatus;
-
-    const acceptedPolicy =
-      Near.view(electionContract, "accepted_policy", {
-        user: context.accountId,
-      }) ?? state.acceptedPolicy;
-
-    const winnerIds =
-      Near.view(electionContract, "winners_by_house", {
-        prop_id: id,
-      }) ?? state.winnerIds;
-
-    State.update({
-      electionStatus,
-      acceptedPolicy,
-      winnerIds,
-    });
-  }, 200);
 
   State.update({
     electionStatus,
