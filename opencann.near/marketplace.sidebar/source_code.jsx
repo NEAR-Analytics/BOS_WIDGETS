@@ -71,6 +71,11 @@ return (
             Analytics
           </a>
         </li>
+        <li style={sidebar.li}>
+          <a href="#" style={sidebar.a}>
+            Data Farming
+          </a>
+        </li>
       </ul>
     </div>
   </>
