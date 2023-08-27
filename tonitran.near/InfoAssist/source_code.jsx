@@ -275,7 +275,7 @@ return (
                   target="_blank"
                   class="mt-2 text-indigo-500 hover:text-indigo-400"
                 >
-                  Link đầy đủ
+                  Original Source
                 </a>
                 <div class="mt-1">
                   <div
@@ -294,7 +294,7 @@ return (
                           rows="2"
                           maxlength="200"
                           class="px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:shadow-outline"
-                          placeholder="Nhập câu hỏi ..."
+                          placeholder="Input your question ..."
                           value={state.queryText}
                           onChange={(e) => setQueryText(e.target.value)}
                           onKeyUp={(e) => handleKeyPress(e)}
