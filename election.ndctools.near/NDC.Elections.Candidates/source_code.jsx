@@ -758,7 +758,9 @@ const CastVotes = () => (
               state.selectedCandidates.length === 1 ? "" : "s"
             }`,
             onClick: () =>
-              state.tosAgreement
+              !!state.acceptedPolicy && !state.hasPolicyNFT
+                ? State.update({ showMintPolicyModal: true })
+                : state.hasPolicyNFT
                 ? State.update({ bountyProgramModal: true })
                 : State.update({ showToSModal: true }),
           },
