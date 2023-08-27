@@ -31,6 +31,11 @@ function customDecodeURIComponent(encodedStr) {
 
 State.init({
   ownerId: useNetwork("sourcescan.near", "sourcescan.testnet"),
+  apiHost: "https://sourcescan.2bb.dev",
+  rpcUrl: useNetwork(
+    "https://rpc.mainnet.near.org",
+    "https://rpc.testnet.near.org"
+  ),
   theme:
     typeof props.theme === "string"
       ? JSON.parse(customDecodeURIComponent(props.theme))
@@ -39,25 +44,24 @@ State.init({
           color: "#4c5566",
           border: "1px dashed #748094",
           text: {
-            fontSize: "18px",
+            fontSize: "16px",
           },
           heading: {
-            fontSize: "20px",
+            fontSize: "18px",
             fontWeight: "600",
             underline: true,
           },
         },
   contract: null,
+  wasm: { value: null, error: false },
+  tx: { value: null, error: false },
 });
-
-console.log(state.theme);
 
 const getContract = async () => {
   Near.asyncView(state.ownerId, "get_contract", {
     contract_id: props.contractId,
   })
     .then((res) => {
-      console.log(res);
       State.update({
         contract: res,
       });
@@ -77,6 +81,7 @@ const Main = styled.div`
   background-color: ${state.theme.bg};
   padding: 18px;
   width: 50%;
+  color: ${state.theme.color};
   border: ${state.theme.border};
   border-radius: 16px;
   display: flex;
@@ -120,7 +125,6 @@ const HStack = styled.div`
 const UHeading = styled.div`
   font-size: ${state.theme.heading.fontSize};
   font-weight: ${state.theme.heading.fontWeight};
-  color: ${state.theme.color};
   text-decoration: ${state.theme.heading.underline ? "underline" : "none"};
   text-underline-offset: 6px;
   text-decoration-style: dashed;
@@ -130,7 +134,6 @@ const UHeading = styled.div`
 const Heading = styled.div`
   font-size: ${state.theme.heading.fontSize};
   font-weight: ${state.theme.heading.fontWeight};
-  color: ${state.theme.color};
 `;
 
 const Desktop = styled.div`
@@ -182,6 +185,83 @@ const truncateStringInMiddle = (str, maxLength) => {
   return firstHalf + "..." + secondHalf;
 };
 
+const wasmCheck = () => {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: "dontcare",
+      method: "query",
+      params: {
+        request_type: "view_code",
+        finality: "final",
+        account_id: props.contractId,
+      },
+    }),
+  };
+  asyncFetch(state.rpcUrl, options)
+    .then((rpc_res) => {
+      asyncFetch(`${state.apiHost}/ipfs/${state.contract.cid}/wasm_code_base64`)
+        .then((ipfs_res) => {
+          State.update({
+            wasm: {
+              value: rpc_res.body.result.code_base64 === ipfs_res.body,
+              error: false,
+            },
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          State.update({
+            wasm: {
+              value: null,
+              error: true,
+            },
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        wasm: {
+          error: true,
+        },
+      });
+      console.log(err);
+    });
+};
+
+const txCheck = () => {
+  asyncFetch(`${state.apiHost}/api/ipfs/getTxHash`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: `{ "cid": "${state.contract.cid}" }`,
+  })
+    .then((res) => {
+      State.update({
+        tx: {
+          value: res.body.tx_hash === state.contract.deploy_tx,
+          error: false,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      State.update({
+        tx: { value: null, error: true },
+      });
+    });
+};
+
+if (state.contract) {
+  wasmCheck();
+  txCheck();
+}
+
 return (
   <Center>
     {!state.contract ? (
@@ -207,6 +287,68 @@ return (
         </HStack>
         <Stack>
           <UHeading>Security Checks</UHeading>
+          <Stack>
+            <HStack>
+              {state.wasm.value === null ? (
+                <Widget
+                  src={`${state.ownerId}/widget/SourceScan.Common.Spinner`}
+                />
+              ) : state.wasm.value ? (
+                <Widget
+                  src={`${state.ownerId}/widget/SourceScan.Common.Icons.CheckIcon`}
+                  props={{
+                    width: "20px",
+                    height: "20px",
+                    tooltip: { placement: props.placement, label: "Approved" },
+                  }}
+                />
+              ) : (
+                <Widget
+                  src={`${state.ownerId}/widget/SourceScan.Common.Icons.CrossIcon`}
+                  props={{
+                    width: "20px",
+                    height: "20px",
+                    tooltip: {
+                      placement: props.placement,
+                      label: state.wasm.error ? "Error" : "Not approved",
+                    },
+                  }}
+                />
+              )}
+              <Text>
+                Wasm Code {state.wasm.value ? "Matches" : "Mismatches"}
+              </Text>
+            </HStack>
+            <HStack>
+              {state.tx.value === null ? (
+                <Widget
+                  src={`${state.ownerId}/widget/SourceScan.Common.Spinner`}
+                />
+              ) : state.tx.value ? (
+                <Widget
+                  src={`${state.ownerId}/widget/SourceScan.Common.Icons.CheckIcon`}
+                  props={{
+                    width: "20px",
+                    height: "20px",
+                    tooltip: { placement: props.placement, label: "Approved" },
+                  }}
+                />
+              ) : (
+                <Widget
+                  src={`${state.ownerId}/widget/SourceScan.Common.Icons.CrossIcon`}
+                  props={{
+                    width: "32px",
+                    height: "32px",
+                    tooltip: {
+                      placement: props.placement,
+                      label: state.tx.error ? "Error" : "Not approved",
+                    },
+                  }}
+                />
+              )}
+              <Text>Deploy Tx {state.tx.value ? "Matches" : "Mismatches"}</Text>
+            </HStack>
+          </Stack>
         </Stack>
         <Stack>
           <UHeading>Deploy Tx</UHeading>
@@ -249,7 +391,7 @@ return (
               <Text>{truncateStringInMiddle(state.contract.cid, 8)}</Text>
             </Mobile>
             <A
-              href={`https://sourcescan.2bb.dev/ipfs/${state.contract.cid}`}
+              href={`${state.apiHost}/ipfs/${state.contract.cid}`}
               target={"_blank"}
             >
               <Widget
