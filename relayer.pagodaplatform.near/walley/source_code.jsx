@@ -1068,12 +1068,12 @@ return (
                 placeholder="Search Transactions by User Name"
               />
             </Styles.WalleySearch>
+            {state.view === "home" ? (
+              <p>Pending Transactions(NFTs)</p>
+            ) : (
+              <p>Past Transactions</p>
+            )}
             <Styles.WalleyTransactions>
-              {state.view === "home" ? (
-                <p>Pending Transactions(NFTs)</p>
-              ) : (
-                <p>Past Transactions</p>
-              )}
               {state.view === "home"
                 ? state.store.storePendingTransactions.length !== 0
                   ? state.store.storePendingTransactions
