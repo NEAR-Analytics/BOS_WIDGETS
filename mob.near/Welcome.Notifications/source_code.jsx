@@ -11,6 +11,9 @@ const index = {
     limit: 3,
     order: "desc",
   },
+  cacheOptions: {
+    ignoreCache: true,
+  },
 };
 
 const renderItem = (item, i) => {
