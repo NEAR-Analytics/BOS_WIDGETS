@@ -349,6 +349,9 @@ const addColl = () => {
     .then((finalTx) => {
       State.update({ tx: finalTx.hash });
       return finalTx.wait();
+    })
+    .then(() => {
+      State.update({ txLock: false, success: true });
     });
 };
 
@@ -359,7 +362,15 @@ const closeVessel = () => {
     Ethers.provider().getSigner()
   );
 
-  borrowerOperationContract.closeVessel(getAsset(props.asset));
+  borrowerOperationContract
+    .closeVessel(getAsset(props.asset))
+    .then((finalTx) => {
+      State.update({ tx: finalTx.hash });
+      return finalTx.wait();
+    })
+    .then(() => {
+      State.update({ txLock: false, success: true });
+    });
 };
 
 const claimCollateral = () => {
@@ -369,7 +380,15 @@ const claimCollateral = () => {
     Ethers.provider().getSigner()
   );
 
-  borrowerOperationContract.claimCollateral(getAsset(props.asset));
+  borrowerOperationContract
+    .claimCollateral(getAsset(props.asset))
+    .then((finalTx) => {
+      State.update({ tx: finalTx.hash });
+      return finalTx.wait();
+    })
+    .then(() => {
+      State.update({ txLock: false, success: true });
+    });
 };
 
 const provideToSP = () => {
@@ -388,7 +407,13 @@ const provideToSP = () => {
           .toString(),
         assetsArray
       )
-      .then(() => State.update({ txLock: false }));
+      .then((finalTx) => {
+        State.update({ tx: finalTx.hash });
+        return finalTx.wait();
+      })
+      .then(() => {
+        State.update({ txLock: false, success: true });
+      });
   }
 };
 
@@ -407,7 +432,13 @@ const withdrawFromSP = () => {
           .toString(),
         assetsArray
       )
-      .then(() => State.update({ txLock: false }));
+      .then((finalTx) => {
+        State.update({ tx: finalTx.hash });
+        return finalTx.wait();
+      })
+      .then(() => {
+        State.update({ txLock: false, success: true });
+      });
   }
 };
 
@@ -466,6 +497,7 @@ const renderConfirmationUI = (props) => {
   } else {
     return (
       <div>
+        <h5>Transaction Details</h5>
         {Object.entries(props)
           .filter(
             ([key, value]) => typeof value !== "function" && key !== "text"
