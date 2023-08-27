@@ -462,7 +462,7 @@ State.init({
   hasIVotedNFT: false,
   winnerIds: [],
 });
-
+console.log(state.hasPolicyNFT);
 if (state.reload) {
   let hasPolicyNFT = false;
   let hasIVotedNFT = false;
