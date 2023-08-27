@@ -2,6 +2,7 @@ const { accountId, value } = props;
 
 return (
   <Widget
+    loading={props.loading}
     src="mob.near/widget/Notification.Item.LR"
     props={{
       L: (
