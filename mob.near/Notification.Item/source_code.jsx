@@ -1,59 +1,32 @@
 const { value } = props;
 
-const placeholder = (
+const loading = (
   <div className="placeholder-glow" style={{ minHeight: "48px" }} />
 );
 
+const widgetSrc =
+  value.type === "follow" || value.type === "unfollow"
+    ? "mob.near/widget/Notification.Item.Follow"
+    : value.type === "poke"
+    ? "mob.near/widget/Notification.Item.Poke"
+    : value.type === "like"
+    ? "mob.near/widget/Notification.Item.Like"
+    : value.type === "comment"
+    ? "mob.near/widget/Notification.Item.Comment"
+    : value.type && value.type?.startsWith("devgovgigs/")
+    ? "mob.near/widget/Notification.Item.DevGov"
+    : value.type === "mention"
+    ? "mob.near/widget/Notification.Item.Mention"
+    : value.type === "repost"
+    ? "mob.near/widget/Notification.Item.Repost"
+    : value.type === "chess-game"
+    ? "chess-game.near/widget/Notification.Item.ChessGame@98857466"
+    : null;
+
 return (
   <div className="mb-3">
-    {value.type === "follow" || value.type === "unfollow" ? (
-      <Widget
-        loading={placeholder}
-        src="mob.near/widget/Notification.Item.Follow"
-        props={props}
-      />
-    ) : value.type === "poke" ? (
-      <Widget
-        loading={placeholder}
-        src="mob.near/widget/Notification.Item.Poke"
-        props={props}
-      />
-    ) : value.type === "like" ? (
-      <Widget
-        loading={placeholder}
-        src="mob.near/widget/Notification.Item.Like"
-        props={props}
-      />
-    ) : value.type === "comment" ? (
-      <Widget
-        loading={placeholder}
-        src="mob.near/widget/Notification.Item.Comment"
-        props={props}
-      />
-    ) : value.type && value.type?.startsWith("devgovgigs/") ? (
-      <Widget
-        loading={placeholder}
-        src="mob.near/widget/Notification.Item.DevGov"
-        props={props}
-      />
-    ) : value.type === "mention" ? (
-      <Widget
-        loading={placeholder}
-        src="mob.near/widget/Notification.Item.Mention"
-        props={props}
-      />
-    ) : value.type === "repost" ? (
-      <Widget
-        loading={placeholder}
-        src="mob.near/widget/Notification.Item.Repost"
-        props={props}
-      />
-    ) : value.type === "chess-game" ? (
-      <Widget
-        loading={placeholder}
-        src="chess-game.near/widget/Notification.Item.ChessGame@98857466"
-        props={props}
-      />
+    {widgetSrc ? (
+      <Widget loading={loading} src={widgetSrc} props={{ loading, ...props }} />
     ) : (
       <div>
         Unknown notification:{" "}
