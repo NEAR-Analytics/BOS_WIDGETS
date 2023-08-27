@@ -114,7 +114,7 @@ return (
       </div>
       <div className="right">
         <Widget
-          loading={`<div className="post-header" />`}
+          loading={<div className="post-header" />}
           src="mob.near/widget/MainPage.N.Post.Header"
           props={{
             accountId,
@@ -125,7 +125,12 @@ return (
           }}
         />
         <Widget
-          loading={`<div className="overflow-hidden w-100" style={{minHeight: "150px"}}/>`}
+          loading={
+            <div
+              className="overflow-hidden w-100"
+              style={{ minHeight: "150px" }}
+            />
+          }
           src="mob.near/widget/MainPage.N.Post.Content"
           props={{ content, raw }}
         />
