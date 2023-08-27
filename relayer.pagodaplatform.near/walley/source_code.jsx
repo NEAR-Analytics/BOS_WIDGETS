@@ -1104,7 +1104,7 @@ return (
                               </p>
 
                               <p className="txn">
-                                Time - {unixToDate(Big(tx[10])).toFixed(0)}
+                                Time - {unixToDate(Big(tx[10]).toFixed(0))}
                               </p>
                               {state.user.openReceipt ===
                               Big(tx[1]).toFixed(0) ? (
