@@ -40,7 +40,6 @@ return (
       >
         Address
       </label>
-      <div></div>
       <div style={{ display: "flex", gap: "0.5rem" }}>
         <input
           id="address"
@@ -53,6 +52,9 @@ return (
           }}
         />
       </div>
+    </div>
+    <div style={cardStyle}>
+      <Widget src="thanhhoa214.near/widget/carbon-table" />
     </div>
   </div>
 );
