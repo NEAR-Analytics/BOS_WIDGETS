@@ -341,6 +341,7 @@ const initTransaction = () => {
             });
           })
           .catch((err) => {
+            console.log(err);
             State.update({
               loading: false,
               loadingMsg: "",
