@@ -1,5 +1,4 @@
 const unixToDate = (time) => {
-  console.log(time);
   const d = new Date(time * 1000);
   return d.toLocaleString();
 };
@@ -50,7 +49,7 @@ State.init({
   storeInputs: {
     storeName: "",
     storeAddress: "",
-    image: null,
+    image: "",
   },
   search: {
     store: "",
@@ -65,10 +64,13 @@ State.init({
 });
 
 const Styles = props.Styles;
-console.log(props);
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-const updateBalance = (balance) => {
-  State.update({ balance });
+const updateBalance = () => {
+  Ethers.provider()
+    .getBalance(sender)
+    .then((balance) => {
+      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(5) });
+    });
 };
 if (!sender) {
   return (
@@ -96,11 +98,7 @@ if (state.chainId === undefined && ethers !== undefined && sender) {
         State.update({ chainId: chainIdData.chainId });
       }
     });
-  Ethers.provider()
-    .getBalance(sender)
-    .then((balance) => {
-      updateBalance(Big(balance).div(Big(10).pow(18)).toFixed(5));
-    });
+  updateBalance();
 }
 if (state.chainId !== undefined && state.chainId !== 11155111) {
   return <p>Switch to Ethereum Sepolia</p>;
@@ -131,8 +129,6 @@ if (state.store.stores.length === 0 && nftContract && sender && state.loading) {
       for (let i = 0; i < stores.length; i++) {
         store = stores[i];
         storeState.storeImages[store[0]] = store[2];
-        console.log(store[1]);
-        console.log(sender);
         if (store[1].toLowerCase() === sender.toLowerCase()) {
           storeState.isStore = true;
           storeState.storeName = store[0];
@@ -156,7 +152,6 @@ if (state.store.stores.length === 0 && nftContract && sender && state.loading) {
         if (i === stores.length - 1)
           State.update({ store: storeState, loading: false, loadingMsg: "" });
       }
-      console.log(state.store);
     }
   });
 }
@@ -206,7 +201,6 @@ const widgetOptions = () => {
       text: state.store.stores[i][0],
       value: state.store.stores[i][0],
     });
-  console.log(options);
   return options;
 };
 
@@ -217,9 +211,7 @@ const homeInputUpdates = (value, field) => {
 };
 const storeInputUpdates = (value, field) => {
   const storeInputs = state.storeInputs;
-  console.log(storeInputs);
   storeInputs[field] = value;
-  console.log(storeInputs);
   State.update({ storeInputs });
 };
 
@@ -227,13 +219,13 @@ const addStore = () => {
   const { storeName, storeAddress, image } = state.storeInputs;
 
   if (storeName === "" || storeAddress === "" || image === "") {
-    props.toast("ERROR", "Error", "Please fill in all the details!");
+    props.toast("ERROR", "Note", "Please fill in all the details!");
     return;
   }
   if (!ethers.utils.isAddress(storeAddress)) {
     props.toast(
       "ERROR",
-      "Error",
+      "Note",
       "Store Address is not valid. Please try again!"
     );
     return;
@@ -244,7 +236,6 @@ const addStore = () => {
     addSt: false,
   });
   nftContract.addStore(storeName, storeAddress, image.cid).then((t) => {
-    console.log(t);
     t.wait().then((r) => {
       State.update({
         store: {
@@ -268,6 +259,7 @@ const addStore = () => {
           store: { ...state.store, isStore: true, storeAddress, storeName },
         });
       }
+      updateBalance();
       props.toast("SUCCESS", "Success", "Store Created Successfully");
     });
   });
@@ -282,17 +274,30 @@ const getStoreAddress = (storeName) => {
 };
 
 const initTransaction = () => {
+  const { storeName, amount, name, password } = state.homeInputs;
+  if (storeName === "" || name === "" || !amount || password === "") {
+    props.toast("ERROR", "Note", "Please fill in all the details!");
+    return;
+  }
+  if (password.length < 8) {
+    props.toast("ERROR", "Note", "Password must contain atleast 8 characters!");
+    return;
+  }
+  if (amount <= 0) {
+    props.toast("ERROR", "Note", "Amount must be greater than 0");
+    return;
+  }
   State.update({
     newTxn: false,
     loading: true,
     loadingMsg: "Minting your NFT - Please Pay the gas price",
   });
-  const { storeName, amount, name, password } = state.homeInputs;
   walleyContract
     .mint(password, { from: sender })
     .then((tx) => {
       State.update({ loadingMsg: "Waiting for confirmation" });
       tx.wait().then((r) => {
+        updateBalance();
         const tokenId = parseInt(r.logs[2].data, 16);
         State.update({
           loadingMsg:
@@ -312,12 +317,17 @@ const initTransaction = () => {
             }
           )
           .then((txInit) => {
-            console.log(txInit);
             State.update({
               loadingMsg: "Waiting for the final confirmation",
             });
             txInit.wait().then((res) => {
-              console.log(res);
+              onTxInit();
+              updateBalance();
+              props.toast(
+                "SUCCESS",
+                "Success",
+                "Transaction Created Successfully"
+              );
               State.update({
                 loading: false,
                 loadingMsg: "",
@@ -330,13 +340,27 @@ const initTransaction = () => {
               });
             });
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            State.update({
+              loading: false,
+              loadingMsg: "",
+            });
+          });
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      State.update({
+        loading: false,
+        loadingMsg: "",
+      });
+    });
 };
 
 const cancelTransaction = (tokenId) => {
+  if (state.user.transactionPassword < 8) {
+    props.toast("ERROR", "Note", "Password must contain atleast 8 characters!");
+    return;
+  }
   checkPassword(tokenId, state.user.transactionPassword, () => {
     State.update({
       user: { ...state.user, viewTxn: [] },
@@ -348,6 +372,12 @@ const cancelTransaction = (tokenId) => {
       .then((tx) => {
         State.update({ loadingMsg: "Refunding your amount" });
         tx.wait().then((r) => {
+          updateBalance();
+          props.toast(
+            "SUCCESS",
+            "Success",
+            "Amount refunded to your account successfully!"
+          );
           const tmp = [];
           state.user.userPendingTransactions.map((trans) => {
             if (parseInt(trans[1], 16) !== tokenId) {
@@ -365,11 +395,25 @@ const cancelTransaction = (tokenId) => {
             },
           });
         });
+      })
+      .catch((err) => {
+        State.update({
+          loading: false,
+          loadingMsg: "",
+        });
       });
   });
 };
 
 const approveTransaction = (tokenId) => {
+  if (state.store.totalAmount <= 0) {
+    props.toast("ERROR", "Note", "Amount must be greater than 0");
+    return;
+  }
+  if (state.store.approvePassword < 8) {
+    props.toast("ERROR", "Note", "Password must contain atleast 8 characters!");
+    return;
+  }
   checkPassword(tokenId, state.store.approvePassword, () => {
     State.update({
       user: { ...state.user, viewTxn: [] },
@@ -391,6 +435,12 @@ const approveTransaction = (tokenId) => {
           loadingMsg: "Waiting for confirmation - Refunding the change",
         });
         tx.wait().then((res) => {
+          updateBalance();
+          props.toast(
+            "SUCCESS",
+            "Success",
+            "Transaction has been completed successfully!"
+          );
           const tmp = [];
           const tmpAct = [];
           state.store.storePendingTransactions.map((trans) => {
@@ -420,11 +470,25 @@ const approveTransaction = (tokenId) => {
             loading: false,
           });
         });
+      })
+      .catch((err) => {
+        State.update({
+          loading: false,
+          loadingMsg: "",
+        });
       });
   });
 };
 
 const transferToken = (tokenId) => {
+  if (state.user.transactionPassword < 8) {
+    props.toast("ERROR", "Note", "Password must contain atleast 8 characters!");
+    return;
+  }
+  if (!ethers.utils.isAddress(state.user.transferTo)) {
+    props.toast("ERROR", "Note", "Enter a valid address!");
+    return;
+  }
   checkPassword(tokenId, state.user.transactionPassword, () => {
     State.update({
       user: { ...state.user, viewTxn: [] },
@@ -440,6 +504,12 @@ const transferToken = (tokenId) => {
           loadingMsg: "Waiting for confirmation",
         });
         tx.wait().then((res) => {
+          updateBalance();
+          props.toast(
+            "SUCCESS",
+            "Success",
+            "NFT has been transferred successfully"
+          );
           State.update({
             user: {
               ...state.user,
@@ -454,20 +524,22 @@ const transferToken = (tokenId) => {
             loadingMsg: "",
           });
         });
+      })
+      .catch((err) => {
+        State.update({
+          loading: false,
+          loadingMsg: "",
+        });
       });
   });
 };
 
 const checkPassword = (tokenId, password, fn) => {
-  walleyContract
-    .checkPassword(tokenId, password)
-    .then((check) => {
-      if (check) {
-        console.log("heheheh");
-        fn();
-      } else console.log("incorrect password");
-    })
-    .catch((err) => console.log(err));
+  walleyContract.checkPassword(tokenId, password).then((check) => {
+    if (check) {
+      fn();
+    } else props.toast("ERROR", "Note", "Please enter the correct passsword");
+  });
 };
 return (
   <Styles.WalleyHomeContainer>
@@ -668,13 +740,11 @@ return (
                     <Styles.WalleyButton
                       className="blue"
                       onClick={() => {
-                        console.log(state.store.bill.cid);
                         if (state.store.bill.cid) {
                           approveTransaction(
                             parseInt(state.user.viewTxn[1], 16)
                           );
                         } else {
-                          console.log("Please Upload the bill");
                         }
                       }}
                     >
