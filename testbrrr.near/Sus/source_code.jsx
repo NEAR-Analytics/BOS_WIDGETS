@@ -65,6 +65,7 @@ State.init({
   balances: [],
   stopReload: false,
   stabilityBalances: 0,
+  success: false,
 });
 
 const setcoll = (depositChangeEvent) => {
@@ -222,7 +223,7 @@ const openVessel = () => {
           return finalTx.wait();
         })
         .then(() => {
-          State.update({ txLock: false });
+          State.update({ txLock: false, success: true });
         });
     }
   });
@@ -235,15 +236,23 @@ const withdrawDebtTokens = () => {
     Ethers.provider().getSigner()
   );
 
-  borrowerOperationContract.withdrawDebtTokens(
-    getAsset(props.asset),
-    ethers.BigNumber.from(props.amount * 100)
-      .mul("10000000000000000")
-      .toString(),
-    // ethers.BigNumber.from((state.borrow * 10000000000000000).toString()),
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
-    "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d"
-  );
+  borrowerOperationContract
+    .withdrawDebtTokens(
+      getAsset(props.asset),
+      ethers.BigNumber.from(props.amount * 100)
+        .mul("10000000000000000")
+        .toString(),
+      // ethers.BigNumber.from((state.borrow * 10000000000000000).toString()),
+      "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d",
+      "0x1Bc65296aa95A0fD41d6A8AEb34C49665c6de81d"
+    )
+    .then((finalTx) => {
+      State.update({ tx: finalTx.hash });
+      return finalTx.wait();
+    })
+    .then(() => {
+      State.update({ txLock: false, success: true });
+    });
 };
 
 const withdrawColl = () => {
@@ -601,7 +610,7 @@ return (
       <div></div>
     )}
 
-    {confirmUI}
+    {!state.success ? confirmUI : <p>Transaction complete</p>}
     {props.action !== "display" ? (
       <Button onClick={() => confirmAction()}>Confirm Action</Button>
     ) : null}
