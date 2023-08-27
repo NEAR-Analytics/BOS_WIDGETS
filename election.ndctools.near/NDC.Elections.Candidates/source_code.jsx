@@ -408,42 +408,36 @@ const loadInitData = () => {
     );
   }, 200);
 
-  if (
-    bookmarked !== null &&
-    electionStatus !== null &&
-    acceptedPolicy !== null &&
-    winnerIds !== null
-  )
-    switch (state.electionStatus) {
-      case "ONGOING":
-        State.update({
-          electionStatus,
-          acceptedPolicy,
-          tosAgreement: !!acceptedPolicy,
-          showMintPolicyModal: !!acceptedPolicy && !state.hasPolicyNFT,
-          bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
-          showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
-          bookmarked,
-          candidates: filteredCandidates(),
-        });
-        break;
-      case "COOLDOWN":
-        State.update({
-          showReviewModal: true,
-          bookmarked,
-          candidates: filteredCandidates(),
-        });
-        break;
-      case "ENDED":
-        State.update({
-          winnerIds,
-          bookmarked,
-          candidates: filteredCandidates(),
-        });
-        break;
-      default:
-        0;
-    }
+  switch (state.electionStatus) {
+    case "ONGOING":
+      State.update({
+        electionStatus,
+        acceptedPolicy,
+        tosAgreement: !!acceptedPolicy,
+        showMintPolicyModal: !!acceptedPolicy && !state.hasPolicyNFT,
+        bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
+        showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
+        bookmarked,
+        candidates: filteredCandidates(),
+      });
+      break;
+    case "COOLDOWN":
+      State.update({
+        showReviewModal: true,
+        bookmarked,
+        candidates: filteredCandidates(),
+      });
+      break;
+    case "ENDED":
+      State.update({
+        winnerIds,
+        bookmarked,
+        candidates: filteredCandidates(),
+      });
+      break;
+    default:
+      0;
+  }
 };
 
 const loadSocialDBData = () => {
