@@ -372,70 +372,6 @@ const handleFilter = (option) => {
   State.update({ filterOption, filter, reload: true });
 };
 
-const loadInitData = () => {
-  if (state.filterOption !== "") {
-    State.update({
-      bookmarked,
-      candidates: filteredCandidates(),
-    });
-
-    return;
-  }
-
-  const electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: props.id,
-  });
-
-  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-    user: context.accountId,
-  });
-
-  const winnerIds = Near.view(electionContract, "winners_by_house", {
-    prop_id: id,
-  });
-
-  fetchGraphQL(NFT_SERIES[0]).then((result) =>
-    processNFTAvailability(result, "hasPolicyNFT")
-  );
-
-  fetchGraphQL(NFT_SERIES[1]).then((result) =>
-    processNFTAvailability(result, "hasIVotedNFT")
-  );
-
-  const bookmarked = loadSocialDBData();
-
-  switch (state.electionStatus) {
-    case "ONGOING":
-      State.update({
-        electionStatus,
-        acceptedPolicy,
-        tosAgreement: !!acceptedPolicy,
-        showMintPolicyModal: !!acceptedPolicy && !state.hasPolicyNFT,
-        bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
-        showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
-        bookmarked,
-        candidates: filteredCandidates(),
-      });
-      break;
-    case "COOLDOWN":
-      State.update({
-        showReviewModal: true,
-        bookmarked,
-        candidates: filteredCandidates(),
-      });
-      break;
-    case "ENDED":
-      State.update({
-        winnerIds,
-        bookmarked,
-        candidates: filteredCandidates(),
-      });
-      break;
-    default:
-      0;
-  }
-};
-
 const loadSocialDBData = () => {
   let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
 
@@ -513,6 +449,72 @@ State.init({
   hasIVotedNFT: false,
   winnerIds: [],
 });
+
+const loadInitData = () => {
+  if (state.filterOption !== "") {
+    State.update({
+      bookmarked,
+      candidates: filteredCandidates(),
+    });
+
+    return;
+  }
+
+  const electionStatus = Near.view(electionContract, "proposal_status", {
+    prop_id: props.id,
+  });
+
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+    user: context.accountId,
+  });
+
+  const winnerIds = Near.view(electionContract, "winners_by_house", {
+    prop_id: id,
+  });
+
+  fetchGraphQL(NFT_SERIES[0]).then((result) =>
+    processNFTAvailability(result, "hasPolicyNFT")
+  );
+
+  fetchGraphQL(NFT_SERIES[1]).then((result) =>
+    processNFTAvailability(result, "hasIVotedNFT")
+  );
+
+  const bookmarked = loadSocialDBData();
+
+  switch (state.electionStatus) {
+    case "ONGOING":
+      State.update({
+        electionStatus,
+        acceptedPolicy,
+        tosAgreement: !!state.acceptedPolicy,
+        showMintPolicyModal: !!state.acceptedPolicy && !state.hasPolicyNFT,
+        bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
+        showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
+        bookmarked,
+        candidates: filteredCandidates(),
+      });
+      break;
+    case "COOLDOWN":
+      State.update({
+        showReviewModal: true,
+        bookmarked,
+        candidates: filteredCandidates(),
+      });
+      break;
+    case "ENDED":
+      State.update({
+        winnerIds,
+        bookmarked,
+        candidates: filteredCandidates(),
+      });
+      break;
+    default:
+      0;
+  }
+};
+
+console.log("--state--", state);
 
 if (state.reload) loadInitData();
 
