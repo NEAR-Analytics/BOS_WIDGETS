@@ -32,6 +32,9 @@ const ActionButton = styled.button`
   background-color:transparent;
   border-width: 0px;
   cursor: pointer;
+  &:focus {
+        outline: none;
+      }
 `;
 
 const drops = [];
@@ -161,7 +164,7 @@ return (
                   State.update({ ticketPreview: item });
                 }}
               >
-                View Details
+                View details
               </ActionButton>
             </TableCell>
           </TableRow>
