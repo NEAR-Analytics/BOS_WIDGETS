@@ -1,8 +1,6 @@
 const { value } = props;
 
-const loading = (
-  <div className="placeholder-glow" style={{ minHeight: "48px" }} />
-);
+const loading = <div className="placeholder" style={{ minHeight: "48px" }} />;
 
 const widgetSrc =
   value.type === "follow" || value.type === "unfollow"
