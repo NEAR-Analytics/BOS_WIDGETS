@@ -780,6 +780,8 @@ const ALink = ({ title, href }) => (
   </a>
 );
 
+setTimeout(200);
+
 return (
   <>
     {state.showReviewModal && (
