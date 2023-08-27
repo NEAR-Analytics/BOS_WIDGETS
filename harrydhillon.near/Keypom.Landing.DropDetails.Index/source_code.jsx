@@ -75,7 +75,7 @@ return (
     >
       <p style={{ fontSize: "30px", marginBottom: 0 }}>All Tickets</p>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <RedButton>Delete All</RedButton>
+        <RedButton>Delete all</RedButton>
         <RedButton style={{ color: "#000" }}>Export .CSV</RedButton>
       </div>
     </div>
