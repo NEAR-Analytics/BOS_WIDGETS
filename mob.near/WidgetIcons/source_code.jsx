@@ -55,14 +55,14 @@ const renderTag = (tag, tagBadge) => (
 const renderItem = (a) => {
   return (
     <a
-      href={`/${a.accountId}/widget/${a.widgetName}`}
+      href={`#/${a.accountId}/widget/${a.widgetName}`}
       className="text-decoration-none"
       key={JSON.stringify(a)}
     >
       <Widget
         loading={
           <div
-            className="placeholder d-inline-block rounded-3"
+            className="placeholder d-inline-block"
             style={{ width: "3em", height: "3em" }}
           />
         }
@@ -85,7 +85,7 @@ if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
 }
 
 return (
-  <div className="d-flex flex-wrap gap-1 placeholder-glow">
+  <div className="d-flex flex-wrap gap-1 my-3 placeholder-glow">
     {state.allItems
       .slice(0, props.limit ? parseInt(props.limit) : 999)
       .map(renderItem)}
