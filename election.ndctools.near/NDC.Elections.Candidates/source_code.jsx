@@ -276,7 +276,7 @@ const handleSelectCandidate = (candidateId) => {
   Storage.privateSet("election_user_selection", JSON.stringify(selectedItems));
 
   State.update({
-    selectedCandidates: selectedItems,
+    availableVotes: currentVotes,
     reload: false,
   });
 };
@@ -434,6 +434,7 @@ State.init({
   reload: true,
   loading: false,
   electionStatus: "NOT_STARTED",
+  availableVotes: seats - myVotesForHouse().length,
   selected: null,
   bookmarked: [],
   tosAgreementInput: false,
@@ -755,6 +756,7 @@ const CastVotes = () => (
                 Storage.privateSet("election_user_selection", "[]");
                 State.update({
                   selectedCandidates: [],
+                  availableVotes: seats - myVotesForHouse().length,
                 });
               },
             },
