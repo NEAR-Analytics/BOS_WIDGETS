@@ -22,7 +22,7 @@ const renderItem = (item, i) => {
     <Widget
       loading={
         <div className="mb-3">
-          <div className="placeholder" style={{ minHeight: "48px" }} />
+          <div className="placeholder" style={{ height: "48px" }} />
         </div>
       }
       src="mob.near/widget/Notification.Item"
