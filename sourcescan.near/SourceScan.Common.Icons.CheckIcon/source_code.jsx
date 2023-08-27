@@ -1,3 +1,10 @@
+State.init({
+  tooltip: props.tooltip || {
+    placement: "top",
+    label: "Approved",
+  },
+});
+
 const CheckIcon = (width, height) => {
   const SVG = styled.svg`
       width: ${width}
@@ -19,4 +26,14 @@ const CheckIcon = (width, height) => {
   );
 };
 
-return <CheckIcon width={props.width} height={props.height} />;
+return (
+  <OverlayTrigger
+    key={state.tooltip.placement}
+    placement={state.tooltip.placement}
+    overlay={
+      <Tooltip id={`tooltip-${placement}`}>{state.tooltip.label}</Tooltip>
+    }
+  >
+    <CheckIcon width={props.width} height={props.height} />
+  </OverlayTrigger>
+);
