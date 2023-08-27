@@ -876,7 +876,9 @@ return (
                     placeholder="Search Transactions by Store Name"
                   />
                 </Styles.WalleySearch>
-                <p className="txn">Your Transactions</p>
+                <p className="txn" className="txn">
+                  Your Transactions
+                </p>
                 <Styles.WalleyTransactions>
                   {state.user.userPendingTransactions.length !== 0
                     ? state.user.userPendingTransactions
@@ -896,10 +898,14 @@ return (
                               />
                             </Styles.WalleyImageContainer>
                             <Styles.TransactionCardMain>
-                              <p>Name - {tx[2]}</p>
-                              <p>Store name - {tx[6]} </p>
-                              <p>Amount - {Big(tx[5]).toFixed(5)}</p>
-                              <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
+                              <p className="txn">Name - {tx[2]}</p>
+                              <p className="txn">Store name - {tx[6]} </p>
+                              <p className="txn">
+                                Amount - {Big(tx[5]).toFixed(5)}
+                              </p>
+                              <p className="txn">
+                                Time - {unixToDate(parseInt(tx[10], 16))}
+                              </p>
                               <Styles.WalleyButtonRow>
                                 <Styles.WalleyButton
                                   className="blue"
@@ -955,7 +961,9 @@ return (
                     placeholder="Search Transactions by Store Name"
                   />
                 </Styles.WalleySearch>
-                <p className="txn">Your Receipts</p>
+                <p className="txn" className="txn">
+                  Your Receipts
+                </p>
                 <Styles.WalleyTransactions>
                   {state.user.userPastTransactions.length !== 0
                     ? state.user.userPastTransactions
@@ -975,12 +983,18 @@ return (
                               />
                             </Styles.WalleyImageContainer>
                             <Styles.TransactionCardMain>
-                              <p>Name - {tx[2]}</p>
-                              <p>Store name - {tx[6]} </p>
-                              <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
-                              <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
+                              <p className="txn">Name - {tx[2]}</p>
+                              <p className="txn">Store name - {tx[6]} </p>
+                              <p className="txn">
+                                Max Amount - {Big(tx[5]).toFixed(5)}
+                              </p>
+                              <p className="txn">
+                                Total Bill Amount - {Big(tx[9]).toFixed(5)}
+                              </p>
 
-                              <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
+                              <p className="txn">
+                                Time - {unixToDate(parseInt(tx[10], 16))}
+                              </p>
                               {state.user.openReceipt ===
                               Big(tx[1]).toFixed(0) ? (
                                 <Style.TransactionModal>
@@ -1032,7 +1046,9 @@ return (
         <>
           <Styles.WalleyNavbar>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none">
-              <path
+              <p
+                className="txn"
+                ath
                 d="M42.3795 1.00041H3.49873C-0.658836 0.841665 -0.658836 7.16116 3.49873 7.00242H42.2245C46.3065 7.16116 46.4652 1.00041 42.3833 1.00041H42.3795ZM3.49873 25.0009C-0.500093 25.0009 -0.500093 30.9991 3.49873 30.9991H25.4204C29.5024 30.9991 29.5024 25.0009 25.4204 25.0009H3.49873ZM3.49873 49.0014C-0.500093 49.0014 -0.500093 54.9996 3.49873 54.9996H52.6222C56.621 54.9996 56.621 49.0014 52.6222 49.0014H3.49873Z"
                 fill="white"
               />
@@ -1064,9 +1080,9 @@ return (
               />
             </Styles.WalleySearch>
             {state.view === "home" ? (
-              <p>Pending Transactions(NFTs)</p>
+              <p className="txn">Pending Transactions(NFTs)</p>
             ) : (
-              <p>Past Transactions</p>
+              <p className="txn">Past Transactions</p>
             )}
             <Styles.WalleyTransactions>
               {state.view === "home"
