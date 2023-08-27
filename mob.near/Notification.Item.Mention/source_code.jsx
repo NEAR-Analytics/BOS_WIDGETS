@@ -7,7 +7,7 @@ return (
     props={{
       L: (
         <>
-          mention you in their
+          mentioned you in their
           {value.item.path === `${accountId}/post/main` ? (
             <a
               className="fw-bold text-muted"
