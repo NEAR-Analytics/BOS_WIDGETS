@@ -526,8 +526,7 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      color="white"
-                      bg="blue"
+                      className="orange"
                       onClick={() =>
                         State.update({
                           user: {
@@ -541,8 +540,7 @@ return (
                       Close
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      color="white"
-                      bg="red"
+                      className="red"
                       onClick={() =>
                         cancelTransaction(parseInt(state.user.viewTxn[1], 16))
                       }
@@ -587,8 +585,7 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      color="white"
-                      bg="blue"
+                      className="orange"
                       onClick={() =>
                         State.update({
                           user: {
@@ -602,8 +599,7 @@ return (
                       Close
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      color="white"
-                      bg="red"
+                      className="blue"
                       onClick={() =>
                         transferToken(parseInt(state.user.viewTxn[1], 16))
                       }
@@ -645,8 +641,7 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      color="white"
-                      bg="blue"
+                      className="orange"
                       onClick={() => {
                         State.update({
                           store: {
@@ -662,8 +657,7 @@ return (
                       Close
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      color="white"
-                      bg="blue"
+                      className="blue"
                       onClick={() => {
                         console.log(state.store.bill.cid);
                         if (state.store.bill.cid) {
@@ -802,15 +796,13 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      color="#fff"
-                      bg="#FA9703"
+                      className="orange"
                       onClick={() => State.update({ newTxn: false })}
                     >
                       Cancel
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      color="#fff"
-                      bg="#FFA500"
+                      className="blue"
                       onClick={initTransaction}
                     >
                       Buy The Store NFT
@@ -851,17 +843,12 @@ return (
                   <IpfsImageUpload image={state.storeInputs.image} />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      color="#fff"
-                      bg="#FA9703"
+                      className="orange"
                       onClick={() => State.update({ addSt: false })}
                     >
                       Cancel
                     </Styles.WalleyButton>
-                    <Styles.WalleyButton
-                      color="#fff"
-                      bg="#FA9703"
-                      onClick={addStore}
-                    >
+                    <Styles.WalleyButton className="blue" onClick={addStore}>
                       Add Store
                     </Styles.WalleyButton>
                   </Styles.WalleyButtonRow>
@@ -874,8 +861,7 @@ return (
               <>
                 <Styles.WalleySearch>
                   <Styles.WalleyButton
-                    bg="#424242"
-                    color="white"
+                    className="orange"
                     onClick={() => State.update({ newTxn: true })}
                   >
                     Buy New NFT
@@ -916,8 +902,7 @@ return (
                               <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                               <Styles.WalleyButtonRow>
                                 <Styles.WalleyButton
-                                  color="white"
-                                  bg="red"
+                                  className="blue"
                                   onClick={() =>
                                     State.update({
                                       user: {
@@ -931,8 +916,7 @@ return (
                                   Transfer
                                 </Styles.WalleyButton>
                                 <Styles.WalleyButton
-                                  color="white"
-                                  bg="red"
+                                  className="red"
                                   onClick={() =>
                                     State.update({
                                       user: {
@@ -956,8 +940,7 @@ return (
               <>
                 <Styles.WalleySearch>
                   <Styles.WalleyButton
-                    bg="#424242"
-                    color="white"
+                    className="orange"
                     onClick={() => State.update({ newTxn: true })}
                   >
                     Buy New NFT
@@ -1006,8 +989,7 @@ return (
                                     alt={tx[7]}
                                   />
                                   <Styles.WalleyButton
-                                    color="#fff"
-                                    bg="#FA9703"
+                                    className="orange"
                                     onClick={() =>
                                       State.update({
                                         user: {
@@ -1022,8 +1004,7 @@ return (
                                 </Style.TransactionModal>
                               ) : (
                                 <Styles.WalleyButton
-                                  color="#fff"
-                                  bg="#FA9703"
+                                  className="orange"
                                   onClick={() =>
                                     State.update({
                                       user: {
@@ -1113,8 +1094,7 @@ return (
 
                             <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                             <Styles.WalleyButton
-                              color="white"
-                              bg="blue"
+                              className="blue"
                               onClick={() =>
                                 State.update({
                                   store: {
@@ -1168,8 +1148,7 @@ return (
                                 alt={tx[7]}
                               />
                               <Styles.WalleyButton
-                                color="#fff"
-                                bg="#FA9703"
+                                className="orange"
                                 onClick={() =>
                                   State.update({
                                     user: {
@@ -1184,8 +1163,7 @@ return (
                             </Styles.TransactionModal>
                           ) : (
                             <Styles.WalleyButton
-                              color="#fff"
-                              bg="#FA9703"
+                              className="orange"
                               onClick={() =>
                                 State.update({
                                   user: {
