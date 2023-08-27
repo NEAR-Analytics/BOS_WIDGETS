@@ -410,7 +410,7 @@ function fetchGraphQL(series) {
     method: "POST",
     headers: { "mb-api-key": "anon", "x-hasura-role": electionContract },
     body: JSON.stringify({
-      queries: `
+      query: `
         query MyQuery {
           nft_tokens(
             where: {nft_contract_id: {_eq: "mint.sharddog.near"}, token_id: {_regex: "^${series}:"}, owner: {_eq: "orangejoe.near"}}
