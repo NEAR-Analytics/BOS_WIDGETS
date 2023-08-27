@@ -479,27 +479,25 @@ if (state.reload) {
     prop_id: id,
   });
 
-  fetchGraphQL(NFT_SERIES[0]).then((result) => {
+  const processNFTAvailability = (result, key) => {
     if (result.status === 200) {
       let data = result.body.data;
       if (data) {
         const tokens = data.nft_tokens;
-        if (tokens.length > 0 && tokens[0].last_transfer_timestamp === null)
-          State.update({ hasPolicyNFT });
-      }
-    }
-  });
 
-  fetchGraphQL(NFT_SERIES[1]).then((result) => {
-    if (result.status === 200) {
-      let data = result.body.data;
-      if (data) {
-        const tokens = data.nft_tokens;
         if (tokens.length > 0 && tokens[0].last_transfer_timestamp === null)
-          State.update({ hasIVotedNFT });
+          State.update({ [key]: true });
       }
     }
-  });
+  };
+
+  fetchGraphQL(NFT_SERIES[0]).then((result) =>
+    processNFTAvailability(result, "hasPolicyNFT")
+  );
+
+  fetchGraphQL(NFT_SERIES[1]).then((result) =>
+    processNFTAvailability(result, "hasIVotedNFT")
+  );
 
   const bookmarked = loadSocialDBData();
 
