@@ -489,6 +489,208 @@ return (
       ) : (
         ""
       )}
+
+      {state.user.viewTxn.length !== 0 ? (
+        <Styles.TransactionModal
+          id="#modal"
+          onClick={(e) => {
+            if (e.target.id === "overlay")
+              State.update({
+                user: {
+                  ...state.user,
+                  user: null,
+                  transactionPassword: "",
+                },
+              });
+          }}
+        >
+          <Styles.TransactionCard>
+            <Styles.WalleyImageContainer>
+              <Styles.WalleyStoreImage
+                src={`https://ipfs.near.social/ipfs/${
+                  state.store.storeImages[state.user.viewTxn[6]]
+                }`}
+                alt={state.user.viewTxn[6]}
+              />
+            </Styles.WalleyImageContainer>
+            <Styles.TransactionCardMain>
+              <p>Name - {state.user.viewTxn[2]}</p>
+              <p>Store name - {state.user.viewTxn[6]} </p>
+              <p>Amount - {Big(state.user.viewTxn[5]).toFixed(5)}</p>
+              <p>Time - {unixToDate(parseInt(state.user.viewTxn[10], 16))}</p>
+              {state.user.viewTxn[11] === "cancel" ? (
+                <>
+                  <Styles.WalleyLabel>
+                    Enter the transaction password
+                  </Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    type="password"
+                    value={state.user.transactionPassword}
+                    onChange={(e) =>
+                      State.update({
+                        user: {
+                          ...state.user,
+                          transactionPassword: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <Styles.WalleyButton
+                    color="white"
+                    bg="blue"
+                    onClick={() =>
+                      State.update({
+                        user: {
+                          ...state.user,
+                          viewTxn: null,
+                          transactionPassword: "",
+                        },
+                      })
+                    }
+                  >
+                    Close
+                  </Styles.WalleyButton>
+                  <Styles.WalleyButton
+                    color="white"
+                    bg="red"
+                    onClick={() =>
+                      cancelTransaction(parseInt(state.user.viewTxn[1], 16))
+                    }
+                  >
+                    Cancel
+                  </Styles.WalleyButton>
+                </>
+              ) : state.user.viewTxn[11] === "transfer" ? (
+                <>
+                  <Styles.WalleyLabel>
+                    Enter the transaction password
+                  </Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    type="password"
+                    placeholder="Enter the transaction password"
+                    value={state.user.transactionPassword}
+                    onChange={(e) =>
+                      State.update({
+                        user: {
+                          ...state.user,
+                          transactionPassword: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <Styles.WalleyLabel>
+                    Enter the Receiver's Address
+                  </Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    type="text"
+                    value={state.user.transferTo}
+                    placeholder="Receiver's Address"
+                    onChange={(e) =>
+                      State.update({
+                        user: {
+                          ...state.user,
+                          transferTo: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <Styles.WalleyButton
+                    color="white"
+                    bg="blue"
+                    onClick={() =>
+                      State.update({
+                        user: {
+                          ...state.user,
+                          viewTxn: null,
+                          transactionPassword: "",
+                        },
+                      })
+                    }
+                  >
+                    Close
+                  </Styles.WalleyButton>
+                  <Styles.WalleyButton
+                    color="white"
+                    bg="red"
+                    onClick={() =>
+                      transferToken(parseInt(state.user.viewTxn[1], 16))
+                    }
+                  >
+                    Transfer
+                  </Styles.WalleyButton>
+                </>
+              ) : state.user.viewTxn[11] === "approve" ? (
+                <>
+                  <Styles.WalleyLabel>
+                    Please upload the bill -{" "}
+                  </Styles.WalleyLabel>
+                  <IpfsImageUpload image={state.store.bill} />
+                  <Styles.WalleyLabel>Total Bill Amount</Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    value={state.store.totalAmount}
+                    onChange={(e) =>
+                      State.update({
+                        store: {
+                          ...state.store,
+                          totalAmount: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <Styles.WalleyLabel>Transaction Password</Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    type="password"
+                    value={state.store.approvePassword}
+                    onChange={(e) =>
+                      State.update({
+                        store: {
+                          ...state.store,
+                          approvePassword: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <Styles.WalleyButton
+                    color="white"
+                    bg="blue"
+                    onClick={() => {
+                      State.update({
+                        store: {
+                          ...state.store,
+                          approvePassword: "",
+                          bill: { uploading: false, cid: "" },
+                          totalAmount: null,
+                        },
+                        user: { ...state.user, viewTxn: null },
+                      });
+                    }}
+                  >
+                    Close
+                  </Styles.WalleyButton>
+                  <Styles.WalleyButton
+                    color="white"
+                    bg="blue"
+                    onClick={() => {
+                      console.log(state.store.bill.cid);
+                      if (state.store.bill.cid) {
+                        approveTransaction(parseInt(state.user.viewTxn[1], 16));
+                      } else {
+                        console.log("Please Upload the bill");
+                      }
+                    }}
+                  >
+                    Approve
+                  </Styles.WalleyButton>
+                </>
+              ) : (
+                ""
+              )}
+            </Styles.TransactionCardMain>
+          </Styles.TransactionCard>
+        </Styles.TransactionModal>
+      ) : (
+        ""
+      )}
       {!state.store.isStore ? (
         <>
           <Styles.WalleyNavbar>
@@ -664,217 +866,6 @@ return (
                   </Styles.WalleyButton>
                 </Styles.WalleyStoreForm>
               </Styles.WalleyStoreOverlay>
-            ) : (
-              ""
-            )}
-            {state.user.viewTxn.length !== 0 ? (
-              <Styles.TransactionModal
-                id="#modal"
-                onClick={(e) => {
-                  if (e.target.id === "overlay")
-                    State.update({
-                      user: {
-                        ...state.user,
-                        user: null,
-                        transactionPassword: "",
-                      },
-                    });
-                }}
-              >
-                <Styles.TransactionCard>
-                  <Styles.WalleyImageContainer>
-                    <Styles.WalleyStoreImage
-                      src={`https://ipfs.near.social/ipfs/${
-                        state.store.storeImages[state.user.viewTxn[6]]
-                      }`}
-                      alt={state.user.viewTxn[6]}
-                    />
-                  </Styles.WalleyImageContainer>
-                  <Styles.TransactionCardMain>
-                    <p>Name - {state.user.viewTxn[2]}</p>
-                    <p>Store name - {state.user.viewTxn[6]} </p>
-                    <p>Amount - {Big(state.user.viewTxn[5]).toFixed(5)}</p>
-                    <p>
-                      Time - {unixToDate(parseInt(state.user.viewTxn[10], 16))}
-                    </p>
-                    {state.user.viewTxn[11] === "cancel" ? (
-                      <>
-                        <Styles.WalleyLabel>
-                          Enter the transaction password
-                        </Styles.WalleyLabel>
-                        <Styles.WalleyInput
-                          type="password"
-                          value={state.user.transactionPassword}
-                          onChange={(e) =>
-                            State.update({
-                              user: {
-                                ...state.user,
-                                transactionPassword: e.target.value,
-                              },
-                            })
-                          }
-                        />
-                        <Styles.WalleyButton
-                          color="white"
-                          bg="blue"
-                          onClick={() =>
-                            State.update({
-                              user: {
-                                ...state.user,
-                                viewTxn: null,
-                                transactionPassword: "",
-                              },
-                            })
-                          }
-                        >
-                          Close
-                        </Styles.WalleyButton>
-                        <Styles.WalleyButton
-                          color="white"
-                          bg="red"
-                          onClick={() =>
-                            cancelTransaction(
-                              parseInt(state.user.viewTxn[1], 16)
-                            )
-                          }
-                        >
-                          Cancel
-                        </Styles.WalleyButton>
-                      </>
-                    ) : state.user.viewTxn[11] === "transfer" ? (
-                      <>
-                        <Styles.WalleyLabel>
-                          Enter the transaction password
-                        </Styles.WalleyLabel>
-                        <Styles.WalleyInput
-                          type="password"
-                          placeholder="Enter the transaction password"
-                          value={state.user.transactionPassword}
-                          onChange={(e) =>
-                            State.update({
-                              user: {
-                                ...state.user,
-                                transactionPassword: e.target.value,
-                              },
-                            })
-                          }
-                        />
-                        <Styles.WalleyLabel>
-                          Enter the Receiver's Address
-                        </Styles.WalleyLabel>
-                        <Styles.WalleyInput
-                          type="text"
-                          value={state.user.transferTo}
-                          placeholder="Receiver's Address"
-                          onChange={(e) =>
-                            State.update({
-                              user: {
-                                ...state.user,
-                                transferTo: e.target.value,
-                              },
-                            })
-                          }
-                        />
-                        <Styles.WalleyButton
-                          color="white"
-                          bg="blue"
-                          onClick={() =>
-                            State.update({
-                              user: {
-                                ...state.user,
-                                viewTxn: null,
-                                transactionPassword: "",
-                              },
-                            })
-                          }
-                        >
-                          Close
-                        </Styles.WalleyButton>
-                        <Styles.WalleyButton
-                          color="white"
-                          bg="red"
-                          onClick={() =>
-                            transferToken(parseInt(state.user.viewTxn[1], 16))
-                          }
-                        >
-                          Transfer
-                        </Styles.WalleyButton>
-                      </>
-                    ) : state.user.viewTxn[11] === "approve" ? (
-                      <>
-                        <Styles.WalleyLabel>
-                          Please upload the bill -{" "}
-                        </Styles.WalleyLabel>
-                        <IpfsImageUpload image={state.store.bill} />
-                        <Styles.WalleyLabel>
-                          Total Bill Amount
-                        </Styles.WalleyLabel>
-                        <Styles.WalleyInput
-                          value={state.store.totalAmount}
-                          onChange={(e) =>
-                            State.update({
-                              store: {
-                                ...state.store,
-                                totalAmount: e.target.value,
-                              },
-                            })
-                          }
-                        />
-                        <Styles.WalleyLabel>
-                          Transaction Password
-                        </Styles.WalleyLabel>
-                        <Styles.WalleyInput
-                          type="password"
-                          value={state.store.approvePassword}
-                          onChange={(e) =>
-                            State.update({
-                              store: {
-                                ...state.store,
-                                approvePassword: e.target.value,
-                              },
-                            })
-                          }
-                        />
-                        <Styles.WalleyButton
-                          color="white"
-                          bg="blue"
-                          onClick={() => {
-                            State.update({
-                              store: {
-                                ...state.store,
-                                approvePassword: "",
-                                bill: { uploading: false, cid: "" },
-                                totalAmount: null,
-                              },
-                              user: { ...state.user, viewTxn: null },
-                            });
-                          }}
-                        >
-                          Close
-                        </Styles.WalleyButton>
-                        <Styles.WalleyButton
-                          color="white"
-                          bg="blue"
-                          onClick={() => {
-                            console.log(state.store.bill.cid);
-                            if (state.store.bill.cid) {
-                              approveTransaction(
-                                parseInt(state.user.viewTxn[1], 16)
-                              );
-                            } else {
-                              console.log("Please Upload the bill");
-                            }
-                          }}
-                        >
-                          Approve
-                        </Styles.WalleyButton>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </Styles.TransactionCardMain>
-                </Styles.TransactionCard>
-              </Styles.TransactionModal>
             ) : (
               ""
             )}
