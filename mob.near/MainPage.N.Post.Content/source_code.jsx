@@ -9,6 +9,7 @@ return content ? (
       ) : (
         <div className="text-break">
           <Widget
+            loading="<div />"
             src="mob.near/widget/N.SocialMarkdown"
             props={{
               text: content.text,
@@ -33,6 +34,7 @@ return content ? (
       ) : (
         <div className="w-100 rounded-3 text-center mt-2">
           <Widget
+            loading={<div className="img-fluid rounded-3 placeholder-glow" />}
             src="mob.near/widget/Image"
             props={{
               image: content.image,
