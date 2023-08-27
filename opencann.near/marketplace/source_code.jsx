@@ -134,6 +134,25 @@ return marketData !== null ? (
               >
                 Buy {priceNear} N
               </button>
+              <button
+                style={{
+                  border: "1px solid black",
+                  backgroundColor: "lightgreen",
+                  color: "black",
+                  fontSize: "18px",
+                  cursor: "pointer",
+                  width: size,
+                  height: "2em",
+                  objectFit: "cover",
+                  minWidth: size,
+                  minHeight: "2em",
+                  maxWidth: size,
+                  maxHeight: "2em",
+                }}
+              >
+                <Widget src="mob.near/widget/LikeButton" />
+                Like
+              </button>
             </div>
           );
         }
@@ -141,6 +160,7 @@ return marketData !== null ? (
     </div>
     <div class="py-4">
       <hr></hr>
+      <Widget src="denysk.near/widget/PriceStats" />
       <Widget src="nearui.near/widget/Data.Balances.demo" />
     </div>
     <div class="py-4">
