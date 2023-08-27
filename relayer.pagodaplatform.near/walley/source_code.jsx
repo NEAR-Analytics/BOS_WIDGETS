@@ -651,7 +651,7 @@ return (
               <p>Name - {state.user.viewTxn[2]}</p>
               <p>Store name - {state.user.viewTxn[6]} </p>
               <p>Amount - {Big(state.user.viewTxn[5]).toFixed(5)}</p>
-              <p>Time - {unixToDate(parseInt(state.user.viewTxn[10], 16))}</p>
+              <p>Time - {unixToDate(Big(state.user.viewTxn[10]).toFixed(0))}</p>
               {state.user.viewTxn[11] === "cancel" ? (
                 <>
                   <Styles.WalleyLabel>
@@ -1013,7 +1013,7 @@ return (
                                 Amount - {Big(tx[5]).toFixed(5)}
                               </p>
                               <p className="txn">
-                                Time - {unixToDate(parseInt(tx[10], 16))}
+                                Time - {unixToDate(Big(tx[10]).toFixed(0))}
                               </p>
                               <Styles.WalleyButtonRow>
                                 <Styles.WalleyButton
@@ -1102,7 +1102,7 @@ return (
                               </p>
 
                               <p className="txn">
-                                Time - {unixToDate(parseInt(tx[10], 16))}
+                                Time - {unixToDate(Big(tx[10]).toFixed())}
                               </p>
                               {state.user.openReceipt ===
                               Big(tx[1]).toFixed(0) ? (
@@ -1209,7 +1209,7 @@ return (
                             <p>Store name - {tx[6]} </p>
                             <p>Max amount - {Big(tx[5]).toFixed(5)}</p>
 
-                            <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
+                            <p>Time - {unixToDate(Big(tx[10]).toFixed(0))}</p>
                             <Styles.WalleyButton
                               className="orange"
                               onClick={() =>
@@ -1257,7 +1257,7 @@ return (
 
                           <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
 
-                          <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
+                          <p>Time - {unixToDate(Big(tx[10]).toFixed(0))}</p>
                           {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
                             <Styles.TransactionModal>
                               <Styles.WalleyStoreImage
