@@ -19,7 +19,14 @@ const renderItem = (item, i) => {
     Storage.set("lastBlockHeight", item.blockHeight);
   }
   return (
-    <Widget src="mob.near/widget/Notification.Item" key={i} props={item} />
+    <Widget
+      loading={
+        <div className="mb-3 placeholder-glow" style={{ minHeight: "48px" }} />
+      }
+      src="mob.near/widget/Notification.Item"
+      key={i}
+      props={item}
+    />
   );
 };
 
