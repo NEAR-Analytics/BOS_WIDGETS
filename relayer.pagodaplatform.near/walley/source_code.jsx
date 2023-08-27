@@ -137,17 +137,7 @@ if (state.store.stores.length === 0 && nftContract && sender) {
             loading: true,
             loadingMsg: "Fetching Store Transactions",
           });
-          nftContract.getStoreTransactions(store[1]).then((transactions) => {
-            storeState.storePendingTransactions = [];
-            storeState.storePastTransactions = [];
-            transactions.map((txn) => {
-              if (txn[8] === false) {
-                storeState.storePendingTransactions.push(txn);
-              } else {
-                storeState.storePastTransactions.push(txn);
-              }
-            });
-          });
+          storeTxn(store[1]);
         }
         if (i === stores.length - 1)
           State.update({ store: storeState, loading: false, loadingMsg: "" });
@@ -155,6 +145,23 @@ if (state.store.stores.length === 0 && nftContract && sender) {
     }
   });
 }
+
+const storeTxn = (address) => {
+  const storeState = state.store;
+  nftContract.getStoreTransactions(address).then((transactions) => {
+    storeState.storePendingTransactions = [];
+    storeState.storePastTransactions = [];
+    transactions.map((txn) => {
+      if (txn[8] === false) {
+        storeState.storePendingTransactions.push(txn);
+      } else {
+        storeState.storePastTransactions.push(txn);
+      }
+    });
+    State.update({ store: storeState });
+  });
+};
+
 const onTxInit = () => {
   State.update({
     view: "home",
@@ -430,7 +437,7 @@ const cancelTransaction = (tokenId) => {
   });
 };
 
-const approveTransaction = (tokenId) => {
+const approveTransaction = (tokenId, address) => {
   if (state.store.totalAmount <= 0) {
     props.toast("ERROR", "Note", "Amount must be greater than 0");
     return;
@@ -467,27 +474,10 @@ const approveTransaction = (tokenId) => {
               "Success",
               "Transaction has been completed successfully!"
             );
-            const tmp = [];
-            const tmpAct = [];
-            state.store.storePendingTransactions.map((trans) => {
-              if (parseInt(trans[1], 16) !== tokenId) {
-                tmp.push(trans);
-              } else {
-                tmpAct.push(trans);
-                tmpAct[0][7] = state.store.bill.cid;
-                tmpAct[0][8] = true;
-                tmpAct[0][9] = state.store.totalAmount;
-                tmpAct[0][10] = Math.floor(Date.now() / 1000).toString(16);
-              }
-            });
+            storeTxn(address);
             State.update({
               store: {
                 ...state.store,
-                storePendingTransactions: tmp,
-                storePastTransactions: [
-                  ...state.store.storePastTransactions,
-                  tmpAct,
-                ],
                 approvePassword: "",
                 bill: { uploading: false, amount: null },
                 totalAmount: 0,
@@ -650,8 +640,14 @@ return (
             <Styles.TransactionCardMain>
               <p>Name - {state.user.viewTxn[2]}</p>
               <p>Store name - {state.user.viewTxn[6]} </p>
-              <p>Amount - {Big(state.user.viewTxn[5]).toFixed(5)}</p>
-              <p>Time - {unixToDate(Big(state.user.viewTxn[10]).toFixed(0))}</p>
+              <p>
+                Amount -{" "}
+                {parseFloat(
+                  Big(state.user.viewTxn[5]).div(Big(10).pow(18)).toFixed(5)
+                )}{" "}
+                ETH
+              </p>
+              <p>Time - {unixToDate(parseInt(state.user.viewTxn[10], 16))}</p>
               {state.user.viewTxn[11] === "cancel" ? (
                 <>
                   <Styles.WalleyLabel>
@@ -671,7 +667,7 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="grey"
+                      className="orange"
                       onClick={() =>
                         State.update({
                           user: {
@@ -701,7 +697,6 @@ return (
                   </Styles.WalleyLabel>
                   <Styles.WalleyInput
                     type="password"
-                    placeholder="Enter the transaction password"
                     value={state.user.transactionPassword}
                     onChange={(e) =>
                       State.update({
@@ -718,7 +713,6 @@ return (
                   <Styles.WalleyInput
                     type="text"
                     value={state.user.transferTo}
-                    placeholder="Receiver's Address"
                     onChange={(e) =>
                       State.update({
                         user: {
@@ -730,7 +724,7 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="grey"
+                      className="orange"
                       onClick={() =>
                         State.update({
                           user: {
@@ -744,7 +738,7 @@ return (
                       Close
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      className="orange"
+                      className="blue"
                       onClick={() =>
                         transferToken(parseInt(state.user.viewTxn[1], 16))
                       }
@@ -786,7 +780,7 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="grey"
+                      className="orange"
                       onClick={() => {
                         State.update({
                           store: {
@@ -802,11 +796,12 @@ return (
                       Close
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      className="orange"
+                      className="blue"
                       onClick={() => {
                         if (state.store.bill.cid) {
                           approveTransaction(
-                            parseInt(state.user.viewTxn[1], 16)
+                            parseInt(state.user.viewTxn[1], 16),
+                            state.user.viewTxn[3]
                           );
                         } else {
                         }
@@ -874,13 +869,12 @@ return (
                     }}
                   />
                   <Styles.WalleyLabel>
-                    Enter the maximum amount you'd like to spend(in INR)
+                    Enter the maximum amount you'd like to spend(in ETH)
                   </Styles.WalleyLabel>
                   <Styles.WalleyInput
                     value={state.homeInputs.amount}
                     type="number"
                     onChange={(e) => homeInputUpdates(e.target.value, "amount")}
-                    placeholder="Amount(in INR)"
                   />
                   <Styles.WalleyLabel>
                     Name(will be asked at the store)
@@ -889,7 +883,6 @@ return (
                     value={state.homeInputs.name}
                     type="text"
                     onChange={(e) => homeInputUpdates(e.target.value, "name")}
-                    placeholder="Name"
                   />
                   <Styles.WalleyLabel>
                     Set a password for the transaction(will be asked during
@@ -901,17 +894,16 @@ return (
                     onChange={(e) =>
                       homeInputUpdates(e.target.value, "password")
                     }
-                    placeholder="Password"
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="grey"
+                      className="orange"
                       onClick={() => State.update({ newTxn: false })}
                     >
                       Cancel
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      className="orange"
+                      className="blue"
                       onClick={initTransaction}
                     >
                       Buy The Store NFT
@@ -932,7 +924,6 @@ return (
                     onChange={(e) => {
                       storeInputUpdates(e.target.value, "storeName");
                     }}
-                    placeholder="Enter the Store Name"
                   />
                   <Styles.WalleyLabel>Store Address</Styles.WalleyLabel>
                   <Styles.WalleyInput
@@ -941,7 +932,6 @@ return (
                     onChange={(e) =>
                       storeInputUpdates(e.target.value, "storeAddress")
                     }
-                    placeholder="Enter the Store Address"
                   />
                   <Styles.WalleyStoreButton
                     onClick={() => storeInputUpdates(sender, "storeAddress")}
@@ -952,12 +942,12 @@ return (
                   <IpfsImageUpload image={state.storeInputs.image} />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="grey"
+                      className="orange"
                       onClick={() => State.update({ addSt: false })}
                     >
                       Cancel
                     </Styles.WalleyButton>
-                    <Styles.WalleyButton className="orange" onClick={addStore}>
+                    <Styles.WalleyButton className="blue" onClick={addStore}>
                       Add Store
                     </Styles.WalleyButton>
                   </Styles.WalleyButtonRow>
@@ -1010,14 +1000,18 @@ return (
                               <p className="txn">Name - {tx[2]}</p>
                               <p className="txn">Store name - {tx[6]} </p>
                               <p className="txn">
-                                Amount - {Big(tx[5]).toFixed(5)}
+                                Amount -{" "}
+                                {parseFloat(
+                                  Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
+                                )}{" "}
+                                ETH
                               </p>
                               <p className="txn">
-                                Time - {unixToDate(Big(tx[10]).toFixed(0))}
+                                Time - {unixToDate(parseInt(tx[10], 16))}
                               </p>
                               <Styles.WalleyButtonRow>
                                 <Styles.WalleyButton
-                                  className="grey"
+                                  className="blue"
                                   onClick={() =>
                                     State.update({
                                       user: {
@@ -1095,14 +1089,22 @@ return (
                               <p className="txn">Name - {tx[2]}</p>
                               <p className="txn">Store name - {tx[6]} </p>
                               <p className="txn">
-                                Max Amount - {Big(tx[5]).toFixed(5)}
+                                Max Amount -{" "}
+                                {parseFloat(
+                                  Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
+                                )}{" "}
+                                ETH
                               </p>
                               <p className="txn">
-                                Total Bill Amount - {Big(tx[9]).toFixed(5)}
+                                Total Bill Amount -{" "}
+                                {parseFloat(
+                                  Big(tx[9]).div(Big(10).pow(18)).toFixed(5)
+                                )}{" "}
+                                ETH
                               </p>
 
                               <p className="txn">
-                                Time - {unixToDate(Big(tx[10]).toFixed())}
+                                Time - {unixToDate(parseInt(tx[10], 16))}
                               </p>
                               {state.user.openReceipt ===
                               Big(tx[1]).toFixed(0) ? (
@@ -1207,11 +1209,16 @@ return (
                           <Styles.TransactionCardMain>
                             <p>Name - {tx[2]}</p>
                             <p>Store name - {tx[6]} </p>
-                            <p>Max amount - {Big(tx[5]).toFixed(5)}</p>
+                            <p>
+                              Max amount -{" "}
+                              {parseFloat(
+                                Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
+                              )}
+                            </p>
 
-                            <p>Time - {unixToDate(Big(tx[10]).toFixed(0))}</p>
+                            <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                             <Styles.WalleyButton
-                              className="orange"
+                              className="blue"
                               onClick={() =>
                                 State.update({
                                   store: {
@@ -1253,11 +1260,21 @@ return (
                         <Styles.TransactionCardMain>
                           <p>Name - {tx[2]}</p>
                           <p>Store name - {tx[6]} </p>
-                          <p>Max Amount - {Big(tx[5]).toFixed(5)}</p>
+                          <p>
+                            Max Amount -{" "}
+                            {parseFloat(
+                              Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
+                            )}
+                          </p>
 
-                          <p>Total Bill Amount - {Big(tx[9]).toFixed(5)}</p>
+                          <p>
+                            Total Bill Amount -{" "}
+                            {parseFloat(
+                              Big(tx[9]).div(Big(10).pow(18)).toFixed(5)
+                            )}
+                          </p>
 
-                          <p>Time - {unixToDate(Big(tx[10]).toFixed(0))}</p>
+                          <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                           {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
                             <Styles.TransactionModal>
                               <Styles.WalleyStoreImage
