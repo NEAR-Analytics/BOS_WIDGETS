@@ -369,7 +369,7 @@ const handleFilter = (option) => {
     filter = { my_votes: !state.filter.my_votes };
   }
 
-  State.update({ filterOption, filter, reload: true });
+  State.update({ filterOption, filter, reload: false });
 };
 
 const handleStateTransition = () => {
