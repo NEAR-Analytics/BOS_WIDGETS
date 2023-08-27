@@ -450,7 +450,9 @@ State.init({
   winnerIds: [],
 });
 
-const loadInitData = () => {
+console.log("--state--", state);
+
+if (state.reload) {
   if (state.filterOption !== "") {
     State.update({
       bookmarked,
@@ -512,11 +514,7 @@ const loadInitData = () => {
     default:
       0;
   }
-};
-
-console.log("--state--", state);
-
-if (state.reload) loadInitData();
+}
 
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
