@@ -27,10 +27,13 @@ const item = {
 return (
   <>
     <div className={`post ${highlight ? "bg-warning bg-opacity-10" : ""}`}>
-      <Widget
-        src="mob.near/widget/MainPage.N.Post.Left"
-        props={{ accountId }}
-      />
+      <div className="left">
+        <Widget
+          loading=""
+          src="mob.near/widget/MainPage.N.Post.Left"
+          props={{ accountId }}
+        />
+      </div>
       <div className="right">
         <Widget
           src="mob.near/widget/MainPage.N.Post.Header"
