@@ -9,7 +9,12 @@ return content ? (
       ) : (
         <div className="text-break">
           <Widget
-            loading={<div className="w-100 placeholder-glow" />}
+            loading={
+              <div
+                className="w-100 placeholder-glow"
+                style={{ minHeight: "100px" }}
+              />
+            }
             src="mob.near/widget/N.SocialMarkdown"
             props={{
               text: content.text,
