@@ -138,10 +138,6 @@ function playAudio() {
 }
 
 function handleKeyPress(event) {
-  console.log("handleKeyPress is called");
-  console.log("event.key: ", event.key);
-  console.log("state.queryText: ", state.queryText);
-
   if (event.key === "Enter" && state.queryText.trim() !== "") {
     console.log("going to call onSendClick...");
     onSendClick(state.selectingId, state.queryText);
@@ -150,28 +146,6 @@ function handleKeyPress(event) {
 
 function updateChatbox(question, answer) {
   console.log("updateChatbox is called");
-  // const sanitizedQuestion = question.replace(/[&<>"']/g, (match) => {
-  //   switch (match) {
-  //     case "&":
-  //       return "&amp;";
-  //     case "<":
-  //       return "&lt;";
-  //     case ">":
-  //       return "&gt;";
-  //     case '"':
-  //       return "&quot;";
-  //     case "'":
-  //       return "&#39;";
-  //     default:
-  //       return match;
-  //   }
-  // });
-
-  // const newChatContent =
-  //   state.chatcontent +
-  //   `<p class="text-right text-white-500">Q: ` +
-  //   sanitizedQuestion +
-  //   `</p>`;
 
   const newChatContent =
     state.chatcontent + "Q: " + question + "\r\n" + "A: " + answer + "\r\n";
@@ -247,17 +221,12 @@ function onSendClick(articleId, queryText) {
 }
 
 if (!state.isFetched) {
-  console.log("In if");
   asyncFetch("https://news.nftfi.cloud/titles/").then(({ body }) => {
     State.update({ data: body, isFetched: true });
     console.log("Finish fectching");
   });
 }
-console.log("End if ");
 
-console.log("Continue");
-
-console.log("calling state.data.map((button)");
 const buttons = state.data.map((button) => {
   return (
     <button
@@ -272,7 +241,7 @@ const buttons = state.data.map((button) => {
       }}
       onClick={() => openModal(button.id)}
     >
-      {button.title}
+      ({button.published.split("-").slice(1).join("-")}) {button.title}
     </button>
   );
 });
@@ -281,6 +250,9 @@ return (
   <div>
     <Wrapper>
       <a class="play-btn" href="#" onClick={() => playAudio()}></a>
+      <div style={{ textAlign: "center" }}>
+        ( Selected Category = "Blockchain" )
+      </div>
     </Wrapper>
     {state.isButtonShow && buttons}
     {state.isModalOpen && (
