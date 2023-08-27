@@ -336,7 +336,7 @@ const cancelTransaction = (tokenId) => {
         State.update({ loadingMsg: "Refunding your amount" });
         tx.wait().then((r) => {
           const tmp = [];
-          state.store.userPendingTransactions.map((trans) => {
+          state.user.userPendingTransactions.map((trans) => {
             if (parseInt(trans[1], 16) !== tokenId) {
               tmp.push(trans);
             }
