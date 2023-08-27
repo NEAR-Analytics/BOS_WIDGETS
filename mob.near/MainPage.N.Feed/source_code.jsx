@@ -40,6 +40,11 @@ const renderPost = (a) => {
   return (
     <div key={JSON.stringify(a)}>
       <Widget
+        loading={
+          <div className="w-100" style={{ minHeight: "200px" }}>
+            Post
+          </div>
+        }
         src="mob.near/widget/MainPage.N.Post"
         props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
       />
