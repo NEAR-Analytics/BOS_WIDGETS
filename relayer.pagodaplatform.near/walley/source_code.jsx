@@ -1069,6 +1069,11 @@ return (
               />
             </Styles.WalleySearch>
             <Styles.WalleyTransactions>
+              {state.view === "home" ? (
+                <p>Pending Transactions(NFTs)</p>
+              ) : (
+                <p>Past Transactions</p>
+              )}
               {state.view === "home"
                 ? state.store.storePendingTransactions.length !== 0
                   ? state.store.storePendingTransactions
