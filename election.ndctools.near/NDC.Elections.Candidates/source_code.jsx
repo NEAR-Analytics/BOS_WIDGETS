@@ -498,10 +498,10 @@ if (state.reload) {
   const bookmarked = loadSocialDBData();
 
   State.update({
-    electionStatus,
-    acceptedPolicy,
-    winnerIds,
-    bookmarked,
+    electionStatus: electionStatus ?? state.electionStatus,
+    acceptedPolicy: acceptedPolicy ?? state.acceptedPolicy,
+    winnerIds: winnerIds ?? state.winnerIds,
+    bookmarked: bookmarked ?? state.bookmarked,
     candidates: filteredCandidates(),
   });
 
