@@ -458,7 +458,7 @@ const checkPassword = (tokenId, password, fn) => {
     })
     .catch((err) => console.log(err));
 };
-props.click();
+console.log(props.click);
 return (
   <Styles.WalleyHomeContainer>
     <Styles.WalleyHomeHeader>
