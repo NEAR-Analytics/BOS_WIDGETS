@@ -352,7 +352,6 @@ return (
         </Stack>
         <Stack>
           <UHeading>Deploy Tx</UHeading>
-
           <HStack>
             <Desktop>
               <Text>{state.contract.deploy_tx}</Text>
@@ -379,7 +378,7 @@ return (
         </Stack>
         <Stack>
           <UHeading>Lang</UHeading>
-          <Text>{state.contract.lang}</Text>
+          <Text>{state.contract.lang === "ts" ? "TypeScript" : "Rust"}</Text>
         </Stack>
         <Stack>
           <UHeading>IPFS</UHeading>
