@@ -156,6 +156,7 @@ const Wrapper = styled.div`
   padding: 12px 12px 6px;
 
   .left {
+    min-width: 40px;
     padding-right: 12px;
   }
   .right {
@@ -172,8 +173,13 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper>
-    <Widget src="mob.near/widget/MainPage.N.Post.Left" props={{ accountId }} />
-
+    <div className="left">
+      <Widget
+        loading=""
+        src="mob.near/widget/MainPage.N.Post.Left"
+        props={{ accountId }}
+      />
+    </div>
     <div className="right">
       <TextareaWrapper data-value={state.text || ""}>
         <textarea
