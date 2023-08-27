@@ -146,7 +146,7 @@ function handleKeyPress(event) {
 
 function updateChatbox(question, answer) {
   console.log("updateChatbox is called");
- 
+
   const newChatContent =
     state.chatcontent + "Q: " + question + "\r\n" + "A: " + answer + "\r\n";
 
@@ -221,7 +221,6 @@ function onSendClick(articleId, queryText) {
 }
 
 if (!state.isFetched) {
-
   asyncFetch("https://news.nftfi.cloud/titles/").then(({ body }) => {
     State.update({ data: body, isFetched: true });
     console.log("Finish fectching");
@@ -252,8 +251,8 @@ return (
     <Wrapper>
       <a class="play-btn" href="#" onClick={() => playAudio()}></a>
       <div style={{ textAlign: "center" }}>
- ( Selected Category = "Blockchain" )
- </div>
+        ( Selected Category = "Blockchain" )
+      </div>
     </Wrapper>
     {state.isButtonShow && buttons}
     {state.isModalOpen && (
@@ -276,7 +275,7 @@ return (
                   target="_blank"
                   class="mt-2 text-indigo-500 hover:text-indigo-400"
                 >
-                  Link đầy đủ
+                  Original Source
                 </a>
                 <div class="mt-1">
                   <div
@@ -295,7 +294,7 @@ return (
                           rows="2"
                           maxlength="200"
                           class="px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:shadow-outline"
-                          placeholder="Nhập câu hỏi ..."
+                          placeholder="Input your question ..."
                           value={state.queryText}
                           onChange={(e) => setQueryText(e.target.value)}
                           onKeyUp={(e) => handleKeyPress(e)}
