@@ -104,7 +104,7 @@ return (
     <Items>
       {components.map((component, i) => (
         <Widget
-          src="${REPL_ACCOUNT}/widget/ComponentCard"
+          src="near/widget/ComponentCard"
           props={{
             src: `${component.accountId}/widget/${component.widgetName}`,
             blockHeight: component.blockHeight,
