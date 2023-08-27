@@ -193,7 +193,6 @@ return (
           >
             Links
           </TabsButton>
-
         </Tabs>
 
         {state.selectedTab === "posts" && (
@@ -222,8 +221,6 @@ return (
             props={{ components: topComponents }}
           />
         )}
-
-
       </Content>
     </Main>
   </Wrapper>
