@@ -118,9 +118,9 @@ const handleVote = (value) =>
   Near.call(
     electionContract,
     "vote",
-    { prop_id: id },
+    { prop_id: id, vote: [value] },
     "70000000000000",
-    2000000000000000000000
+    150000000
   );
 
 State.init({
@@ -151,7 +151,7 @@ const CastVotes = () => (
             text: "Yes",
             className: "primary success justify-content-center",
             icon: <i className="bi bi-hand-thumbs-up" />,
-            onClick: () => handleVote(0),
+            onClick: () => handleVote("yes"),
           },
         }}
       />
@@ -162,7 +162,7 @@ const CastVotes = () => (
             text: "No",
             className: "primary danger justify-content-center",
             icon: <i className="bi bi-hand-thumbs-down" />,
-            onClick: () => handleVote(1),
+            onClick: () => handleVote("no"),
           },
         }}
       />
@@ -173,7 +173,7 @@ const CastVotes = () => (
             text: "Abstain",
             className: "justify-content-center",
             icon: <i className="bi bi-x-lg" />,
-            onClick: () => handleVote(2),
+            onClick: () => handleVote("abstain"),
           },
         }}
       />
