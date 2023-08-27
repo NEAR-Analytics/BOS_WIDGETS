@@ -372,29 +372,78 @@ const handleFilter = (option) => {
   State.update({ filterOption, filter, reload: true });
 };
 
-const handleStateTransition = () => {
-  if (state.filterOption !== "") return;
+const loadInitData = () => {
+  let bookmarked;
+  let electionStatus;
+  let acceptedPolicy;
+  let winnerIds;
 
-  switch (state.electionStatus) {
-    case "ONGOING":
-      State.update({
-        tosAgreement: !!state.acceptedPolicy,
-        showMintPolicyModal: !!state.acceptedPolicy && !state.hasPolicyNFT,
-        bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
-        showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
-      });
-      break;
-    case "COOLDOWN":
-      State.update({
-        showReviewModal: true,
-      });
-      break;
-    case "ENDED":
-      State.update({ winnerIds });
-      break;
-    default:
-      0;
+  if (state.filterOption !== "") {
+    State.update({
+      bookmarked,
+      candidates: filteredCandidates(),
+    });
+
+    return;
   }
+
+  setTimeout(() => {
+    bookmarked = loadSocialDBData();
+    electionStatus = Near.view(electionContract, "proposal_status", {
+      prop_id: props.id,
+    });
+    acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+      user: context.accountId,
+    });
+    winnerIds = Near.view(electionContract, "winners_by_house", {
+      prop_id: id,
+    });
+
+    fetchGraphQL(NFT_SERIES[0]).then((result) =>
+      processNFTAvailability(result, "hasPolicyNFT")
+    );
+
+    fetchGraphQL(NFT_SERIES[1]).then((result) =>
+      processNFTAvailability(result, "hasIVotedNFT")
+    );
+  }, 200);
+
+  if (
+    bookmarked !== null &&
+    electionStatus !== null &&
+    acceptedPolicy !== null &&
+    winnerIds !== null
+  )
+    switch (state.electionStatus) {
+      case "ONGOING":
+        State.update({
+          electionStatus,
+          acceptedPolicy,
+          tosAgreement: !!acceptedPolicy,
+          showMintPolicyModal: !!acceptedPolicy && !state.hasPolicyNFT,
+          bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
+          showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
+          bookmarked,
+          candidates: filteredCandidates(),
+        });
+        break;
+      case "COOLDOWN":
+        State.update({
+          showReviewModal: true,
+          bookmarked,
+          candidates: filteredCandidates(),
+        });
+        break;
+      case "ENDED":
+        State.update({
+          winnerIds,
+          bookmarked,
+          candidates: filteredCandidates(),
+        });
+        break;
+      default:
+        0;
+    }
 };
 
 const loadSocialDBData = () => {
@@ -425,6 +474,18 @@ function fetchGraphQL(series) {
     }),
   });
 }
+
+const processNFTAvailability = (result, key) => {
+  if (result.status === 200) {
+    let data = result.body.data;
+    if (data) {
+      const tokens = data.nft_tokens;
+
+      if (tokens.length > 0 && tokens[0].last_transfer_timestamp === null)
+        State.update({ [key]: true });
+    }
+  }
+};
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
@@ -462,55 +523,8 @@ State.init({
   hasIVotedNFT: false,
   winnerIds: [],
 });
-console.log(state.hasPolicyNFT);
-if (state.reload) {
-  let hasPolicyNFT = false;
-  let hasIVotedNFT = false;
 
-  const electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: props.id,
-  });
-
-  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-    user: context.accountId,
-  });
-
-  const winnerIds = Near.view(electionContract, "winners_by_house", {
-    prop_id: id,
-  });
-
-  const processNFTAvailability = (result, key) => {
-    if (result.status === 200) {
-      let data = result.body.data;
-      if (data) {
-        const tokens = data.nft_tokens;
-
-        if (tokens.length > 0 && tokens[0].last_transfer_timestamp === null)
-          State.update({ [key]: true });
-      }
-    }
-  };
-
-  fetchGraphQL(NFT_SERIES[0]).then((result) =>
-    processNFTAvailability(result, "hasPolicyNFT")
-  );
-
-  fetchGraphQL(NFT_SERIES[1]).then((result) =>
-    processNFTAvailability(result, "hasIVotedNFT")
-  );
-
-  const bookmarked = loadSocialDBData();
-
-  State.update({
-    electionStatus,
-    acceptedPolicy,
-    winnerIds,
-    bookmarked,
-    candidates: filteredCandidates(),
-  });
-
-  handleStateTransition();
-}
+if (state.reload) loadInitData();
 
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
