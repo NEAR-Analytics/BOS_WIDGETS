@@ -26,19 +26,8 @@ if (data.ok) {
         𝕵𝖔𝖗𝖉𝖆𝖓 𝖋𝖔𝖗 𝕮𝖔𝖚𝖓𝖈𝖎𝖑
         <br />
       </h2>
-      <h2>
-        kwhyc.near
-        <br />
-      </h2>
+
       <small>
-        <a
-          target="_top"
-          href="/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=CouncilOfAdvisors&accountId=kwhyc.near"
-        >
-          Read my nomination platform
-        </a>
-        <br />
-        <br />
         <i>
           Who made NFT on Near? 𝕵𝖔𝖗𝖉𝖆𝖓 <br />
           Who made DAO on Near? 𝕵𝖔𝖗𝖉𝖆𝖓 <br />
@@ -46,9 +35,9 @@ if (data.ok) {
         </i>
       </small>
       <br />
+
       <a
-        target="_top"
-        href="/election.ndctools.near/widget/NDC.Elections.Main?house=2"
+        href="/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=CouncilOfAdvisors&accountId=kwhyc.near"
         class="btn btn-primary mt-2"
       >
         VOTE FOR JORDAN 👍
@@ -63,81 +52,50 @@ if (data.ok) {
       </small>
       <br />
       <a
-        target="_top"
-        href="/election.ndctools.near/widget/NDC.Elections.Main?house=2"
+        href="/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=CouncilOfAdvisors&accountId=kwhyc.near"
         class="btn btn-primary mt-2"
       >
         为TA助力 👍
       </a>
       <br />
       <br />
-      <hr />
-      <h3>How?</h3>
-      Meet the
-      <a
-        target="_top"
-        href="https://pbs.twimg.com/media/F5N_VxsWsAAdDNn?format=jpg&name=large"
-      >
-        voting criteria
-      </a>{" "}
-      &{" "}
-      <a
-        target="_top"
-        href="https://near.org/election.ndctools.near/widget/NDC.Elections.Main?house=2"
-      >
-        select kwhyc.near
-      </a>{" "}
-      before September 22nd, 2023.
-      <br />
-      <br />
-      <h3>Why?</h3>
-      The election chooses who will manage a 5.7M community treasury.{" "}
-      <a
-        target="_top"
-        href="https://pbs.twimg.com/media/F4ZRETpXAAAhcjT?format=jpg&name=4096x4096"
-      >
-        Infographic with details.
-      </a>
-      <br />
-      <br />
-      <h3>kwhyc.near?</h3>
-      Yeah it's the address I used while testing SBTs for NDC and it stuck 🤷
-      <hr />
-      <div>
-        <h3>
-          Who Stands With
-          <br />
-          staRpauSe ᵏʷʰʸᶜ.ⁿᵉᵃʳ ⁉️
-        </h3>
-        <h3>
-          助力Jordan
-          <br />
-          打call (っ◔◡◔)っ ♥ 666 ♥
-        </h3>
-        <table class="table table-sm mt-4">
-          <thead>
-            <tr>
-              <th scope="col">User</th>
-              <th scope="col">Vote date (UTC)</th>
-            </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </table>
-        <p>
-          <small>
-            <i>
-              Data is
-              <a
-                href="https://github.com/starpause/near-nft-owners-list/blob/main/.github/workflows/indexed.yml"
-                target="_blank"
-              >
-                retrieved automatically
-              </a>{" "}
-              from the NEAR Public indexer with a slight delay.
-            </i>
-          </small>
-        </p>
+<hr/>
+    <div>
+      <h3>
+        Who Voted for
+        <br />
+        staRpauSe ᵏʷʰʸᶜ.ⁿᵉᵃʳ ⁉️
+      </h3>
+      <h3>
+        助力Jordan
+        <br />
+        打call (っ◔◡◔)っ ♥ 666 ♥
+      </h3>
+      <table class="table table-sm mt-4">
+        <thead>
+          <tr>
+            <th scope="col">User</th>
+            <th scope="col">Vote date (UTC)</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+      <p>
+        <small>
+          <i>
+            Data is
+            <a
+              href="https://github.com/starpause/near-nft-owners-list/blob/main/.github/workflows/indexed.yml"
+              target="_blank"
+            >
+              retrieved automatically
+            </a>{" "}
+            from the NEAR Public indexer with a slight delay.
+          </i>
+        </small>
+      </p>
       </div>
     </>
+    
   );
 } else return "Loading";
