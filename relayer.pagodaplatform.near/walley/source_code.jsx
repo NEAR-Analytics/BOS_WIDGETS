@@ -671,7 +671,7 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="orange"
+                      className="grey"
                       onClick={() =>
                         State.update({
                           user: {
@@ -730,7 +730,7 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="orange"
+                      className="grey"
                       onClick={() =>
                         State.update({
                           user: {
@@ -744,7 +744,7 @@ return (
                       Close
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      className="blue"
+                      className="orange"
                       onClick={() =>
                         transferToken(parseInt(state.user.viewTxn[1], 16))
                       }
@@ -786,7 +786,7 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="orange"
+                      className="grey"
                       onClick={() => {
                         State.update({
                           store: {
@@ -802,7 +802,7 @@ return (
                       Close
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      className="blue"
+                      className="orange"
                       onClick={() => {
                         if (state.store.bill.cid) {
                           approveTransaction(
@@ -905,13 +905,13 @@ return (
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="orange"
+                      className="grey"
                       onClick={() => State.update({ newTxn: false })}
                     >
                       Cancel
                     </Styles.WalleyButton>
                     <Styles.WalleyButton
-                      className="blue"
+                      className="orange"
                       onClick={initTransaction}
                     >
                       Buy The Store NFT
@@ -952,12 +952,12 @@ return (
                   <IpfsImageUpload image={state.storeInputs.image} />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
-                      className="orange"
+                      className="grey"
                       onClick={() => State.update({ addSt: false })}
                     >
                       Cancel
                     </Styles.WalleyButton>
-                    <Styles.WalleyButton className="blue" onClick={addStore}>
+                    <Styles.WalleyButton className="orange" onClick={addStore}>
                       Add Store
                     </Styles.WalleyButton>
                   </Styles.WalleyButtonRow>
@@ -1017,7 +1017,7 @@ return (
                               </p>
                               <Styles.WalleyButtonRow>
                                 <Styles.WalleyButton
-                                  className="blue"
+                                  className="grey"
                                   onClick={() =>
                                     State.update({
                                       user: {
@@ -1211,7 +1211,7 @@ return (
 
                             <p>Time - {unixToDate(parseInt(tx[10], 16))}</p>
                             <Styles.WalleyButton
-                              className="blue"
+                              className="orange"
                               onClick={() =>
                                 State.update({
                                   store: {
