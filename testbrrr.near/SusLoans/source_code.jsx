@@ -248,7 +248,7 @@ return (
 
     {!state.isLoading ? <p>{state.response ? state.response : null}</p> : null}
 
-    {state.widget}
+    {!state.isLoading ? state.widget : null}
 
     <h5 style={{ marginTop: 50, marginBottom: 20 }}>Quick Commands</h5>
     {buttonList.map((buttonText, index) => (
