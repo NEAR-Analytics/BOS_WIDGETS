@@ -60,6 +60,12 @@ const renderItem = (a) => {
       key={JSON.stringify(a)}
     >
       <Widget
+        loading={
+          <div
+            className="placeholder d-inline-block"
+            style={{ width: "3em", height: "3em" }}
+          />
+        }
         src="mob.near/widget/WidgetImage"
         props={{
           tooltip: true,
@@ -79,7 +85,7 @@ if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
 }
 
 return (
-  <div className="d-flex flex-wrap gap-1 my-3">
+  <div className="d-flex flex-wrap gap-1 my-3 placeholder-glow">
     {state.allItems
       .slice(0, props.limit ? parseInt(props.limit) : 999)
       .map(renderItem)}
