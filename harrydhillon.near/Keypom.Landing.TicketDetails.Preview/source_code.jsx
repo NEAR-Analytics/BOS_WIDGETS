@@ -74,6 +74,7 @@ const PreviewTicketModal = (
     <p style={{ fontSize: 18, fontWeight: "500" }}>
       Attendee questions and responses
     </p>
+    <hr style={{backgroundColor:"#F1F5F9",border:"none",height:4}} />
     <div>
       <p style={{ marginBottom: 0, fontWeight: "500" }}>
         How did you hear about Keypom?
