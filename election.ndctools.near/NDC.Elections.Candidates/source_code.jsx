@@ -879,14 +879,7 @@ return (
       <Widget
         src={widgets.modal}
         props={{
-          title: (
-            <div>
-              <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
-              <div className="mt-4">
-                Before you vote, mint Fair Voting Policy NFT.
-              </div>
-            </div>
-          ),
+          title: "Before you vote, mint Fair Voting Policy NFT.",
           description: (
             <>
               <img width={300} src={FAIR_POLICY_NFT} />
@@ -987,16 +980,16 @@ return (
       <Widget
         src={widgets.modal}
         props={{
-          title: (
+          title: "Congratulations! Mint “I Voted” NFT",
+          description: (
             <div>
               <img width={300} src={I_VOTED_NFT} />
               <div className="mt-4 mb-4">
-                Congratulations! Mint “I Voted” NFT
+                Celebrate for voting in the inaugural election of NEAR and mint
+                your “I Voted” NFT! 🎉
               </div>
             </div>
           ),
-          description:
-            "Celebrate for voting in the inaugural election of NEAR and mint your “I Voted” NFT! 🎉",
           Button: {
             type: "Link",
             title: "Mint I voted NFT",
