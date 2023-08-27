@@ -7,6 +7,9 @@ const index = [
       order: "desc",
       accountId: props.accounts,
     },
+    cacheOptions: {
+      ignoreCache: true,
+    },
   },
   {
     action: "repost",
@@ -15,6 +18,9 @@ const index = [
       limit: 10,
       order: "desc",
       accountId: props.accounts,
+    },
+    cacheOptions: {
+      ignoreCache: true,
     },
   },
 ];
