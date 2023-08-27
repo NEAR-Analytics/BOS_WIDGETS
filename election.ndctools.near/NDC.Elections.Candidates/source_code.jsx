@@ -369,7 +369,7 @@ const handleFilter = (option) => {
     filter = { my_votes: !state.filter.my_votes };
   }
 
-  State.update({ filterOption, filter, reload: false });
+  State.update({ filterOption, filter, reload: true });
 };
 
 const handleStateTransition = () => {
@@ -462,56 +462,64 @@ State.init({
 });
 
 if (state.reload) {
-  let hasPolicyNFT = false;
-  let hasIVotedNFT = false;
+  let electionStatus;
+  let acceptedPolicy;
+  let winnerIds;
+  let hasPolicyNFT;
+  let hasIVotedNFT;
 
-  const electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: props.id,
-  });
+  if (state.filterOption !== "") {
+    const bookmarked = loadSocialDBData();
 
-  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-    user: context.accountId,
-  });
+    State.update({
+      winnerIds,
+      bookmarked,
+      candidates: filteredCandidates(),
+    });
+  } else {
+    electionStatus = Near.view(electionContract, "proposal_status", {
+      prop_id: props.id,
+    });
 
-  const winnerIds = Near.view(electionContract, "winners_by_house", {
-    prop_id: id,
-  });
+    acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+      user: context.accountId,
+    });
 
-  fetchGraphQL(NFT_SERIES[0]).then((result) => {
-    if (result.status === 200) {
-      let data = result.body.data;
-      if (data) {
-        const tokens = data.nft_tokens;
-        if (tokens.length > 0)
-          hasPolicyNFT = tokens.slice(-1).last_transfer_timestamp === null;
+    winnerIds = Near.view(electionContract, "winners_by_house", {
+      prop_id: id,
+    });
+
+    fetchGraphQL(NFT_SERIES[0]).then((result) => {
+      if (result.status === 200) {
+        let data = result.body.data;
+        if (data) {
+          const tokens = data.nft_tokens;
+          if (tokens.length > 0)
+            hasPolicyNFT = tokens.slice(-1).last_transfer_timestamp === null;
+        }
       }
-    }
-  });
+    });
 
-  fetchGraphQL(NFT_SERIES[1]).then((result) => {
-    if (result.status === 200) {
-      let data = result.body.data;
-      if (data) {
-        const tokens = data.nft_tokens;
-        if (tokens.length > 0)
-          hasIVotedNFT = tokens.slice(-1).last_transfer_timestamp === null;
+    fetchGraphQL(NFT_SERIES[1]).then((result) => {
+      if (result.status === 200) {
+        let data = result.body.data;
+        if (data) {
+          const tokens = data.nft_tokens;
+          if (tokens.length > 0)
+            hasIVotedNFT = tokens.slice(-1).last_transfer_timestamp === null;
+        }
       }
-    }
-  });
+    });
 
-  const bookmarked = loadSocialDBData();
+    State.update({
+      electionStatus,
+      acceptedPolicy,
+      hasPolicyNFT,
+      hasIVotedNFT,
+    });
 
-  State.update({
-    electionStatus,
-    acceptedPolicy,
-    winnerIds,
-    bookmarked,
-    hasPolicyNFT,
-    hasIVotedNFT,
-    candidates: filteredCandidates(),
-  });
-
-  handleStateTransition();
+    handleStateTransition();
+  }
 }
 
 const UserLink = ({ title, src }) => (
