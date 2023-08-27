@@ -436,7 +436,7 @@ if (state.reload) {
   });
 
   const winnerIds = Near.view(electionContract, "winners_by_house", {
-    prop_id: state.selectedHouse,
+    prop_id: id,
   });
 
   const bookmarked = loadSocialDBData();
