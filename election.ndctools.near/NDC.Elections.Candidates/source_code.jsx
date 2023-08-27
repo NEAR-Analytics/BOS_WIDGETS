@@ -20,6 +20,7 @@ const widgets = {
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
 };
 
+const QUERY_API_ENDPOINT = "https://graph.mintbase.xyz/mainnet";
 const POLICY_HASH =
   "f1c09f8686fe7d0d798517111a66675da0012d8ad1693a47e0e2a7d3ae1c69d4";
 const FAIR_POLICY_DOC =
@@ -402,11 +403,12 @@ const loadSocialDBData = () => {
     : [];
 };
 
-const fetchGraphQL = (series) => {
-  return fetch("https://graph.mintbase.xyz/mainnet", {
+function fetchGraphQL(series) {
+  return asyncFetch(QUERY_API_ENDPOINT, {
     method: "POST",
+    headers: { "x-hasura-role": electionContract },
     body: JSON.stringify({
-      query: `
+      queries: `
         query MyQuery {
           nft_tokens(
             where: {nft_contract_id: {_eq: "mint.sharddog.near"}, token_id: {_regex: "^${series}:"}, owner: {_eq: "orangejoe.near"}}
@@ -419,8 +421,8 @@ const fetchGraphQL = (series) => {
       variables: {},
       operationName: "MyQuery",
     }),
-  }).then((result) => result.json());
-};
+  });
+}
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
@@ -475,25 +477,27 @@ if (state.reload) {
     prop_id: id,
   });
 
-  fetchGraphQL(NFT_SERIES[0])
-    .then(({ data, errors }) => {
-      if (errors) console.log(errors);
+  fetchGraphQL(NFT_SERIES[0]).then((result) => {
+    if (result.status === 200) {
+      let data = result.body.data;
+      if (data) {
+        const tokens = data.nft_tokens;
+        if (tokens.length > 0)
+          hasPolicyNFT = tokens.slice(-1).last_transfer_timestamp === null;
+      }
+    }
+  });
 
-      const tokens = data.nft_tokens;
-      if (tokens.length > 0)
-        hasPolicyNFT = tokens.slice(-1).last_transfer_timestamp === null;
-    })
-    .catch((error) => console.log(error));
-
-  fetchGraphQL(NFT_SERIES[1])
-    .then(({ data, errors }) => {
-      if (errors) console.log(errors);
-
-      const tokens = data.nft_tokens;
-      if (tokens.length > 0)
-        hasIVotedNFT = tokens.slice(-1).last_transfer_timestamp === null;
-    })
-    .catch((error) => console.log(error));
+  fetchGraphQL(NFT_SERIES[1]).then((result) => {
+    if (result.status === 200) {
+      let data = result.body.data;
+      if (data) {
+        const tokens = data.nft_tokens;
+        if (tokens.length > 0)
+          hasIVotedNFT = tokens.slice(-1).last_transfer_timestamp === null;
+      }
+    }
+  });
 
   const bookmarked = loadSocialDBData();
 
