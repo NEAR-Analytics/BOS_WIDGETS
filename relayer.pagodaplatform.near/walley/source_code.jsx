@@ -524,30 +524,32 @@ return (
                       })
                     }
                   />
-                  <Styles.WalleyButton
-                    color="white"
-                    bg="blue"
-                    onClick={() =>
-                      State.update({
-                        user: {
-                          ...state.user,
-                          viewTxn: [],
-                          transactionPassword: "",
-                        },
-                      })
-                    }
-                  >
-                    Close
-                  </Styles.WalleyButton>
-                  <Styles.WalleyButton
-                    color="white"
-                    bg="red"
-                    onClick={() =>
-                      cancelTransaction(parseInt(state.user.viewTxn[1], 16))
-                    }
-                  >
-                    Cancel
-                  </Styles.WalleyButton>
+                  <Styles.WalleyButtonRow>
+                    <Styles.WalleyButton
+                      color="white"
+                      bg="blue"
+                      onClick={() =>
+                        State.update({
+                          user: {
+                            ...state.user,
+                            viewTxn: [],
+                            transactionPassword: "",
+                          },
+                        })
+                      }
+                    >
+                      Close
+                    </Styles.WalleyButton>
+                    <Styles.WalleyButton
+                      color="white"
+                      bg="red"
+                      onClick={() =>
+                        cancelTransaction(parseInt(state.user.viewTxn[1], 16))
+                      }
+                    >
+                      Cancel
+                    </Styles.WalleyButton>
+                  </Styles.WalleyButtonRow>
                 </>
               ) : state.user.viewTxn[11] === "transfer" ? (
                 <>
@@ -583,30 +585,32 @@ return (
                       })
                     }
                   />
-                  <Styles.WalleyButton
-                    color="white"
-                    bg="blue"
-                    onClick={() =>
-                      State.update({
-                        user: {
-                          ...state.user,
-                          viewTxn: [],
-                          transactionPassword: "",
-                        },
-                      })
-                    }
-                  >
-                    Close
-                  </Styles.WalleyButton>
-                  <Styles.WalleyButton
-                    color="white"
-                    bg="red"
-                    onClick={() =>
-                      transferToken(parseInt(state.user.viewTxn[1], 16))
-                    }
-                  >
-                    Transfer
-                  </Styles.WalleyButton>
+                  <Styles.WalleyButtonRow>
+                    <Styles.WalleyButton
+                      color="white"
+                      bg="blue"
+                      onClick={() =>
+                        State.update({
+                          user: {
+                            ...state.user,
+                            viewTxn: [],
+                            transactionPassword: "",
+                          },
+                        })
+                      }
+                    >
+                      Close
+                    </Styles.WalleyButton>
+                    <Styles.WalleyButton
+                      color="white"
+                      bg="red"
+                      onClick={() =>
+                        transferToken(parseInt(state.user.viewTxn[1], 16))
+                      }
+                    >
+                      Transfer
+                    </Styles.WalleyButton>
+                  </Styles.WalleyButtonRow>
                 </>
               ) : state.user.viewTxn[11] === "approve" ? (
                 <>
@@ -639,37 +643,41 @@ return (
                       })
                     }
                   />
-                  <Styles.WalleyButton
-                    color="white"
-                    bg="blue"
-                    onClick={() => {
-                      State.update({
-                        store: {
-                          ...state.store,
-                          approvePassword: "",
-                          bill: { uploading: false, cid: "" },
-                          totalAmount: null,
-                        },
-                        user: { ...state.user, viewTxn: [] },
-                      });
-                    }}
-                  >
-                    Close
-                  </Styles.WalleyButton>
-                  <Styles.WalleyButton
-                    color="white"
-                    bg="blue"
-                    onClick={() => {
-                      console.log(state.store.bill.cid);
-                      if (state.store.bill.cid) {
-                        approveTransaction(parseInt(state.user.viewTxn[1], 16));
-                      } else {
-                        console.log("Please Upload the bill");
-                      }
-                    }}
-                  >
-                    Approve
-                  </Styles.WalleyButton>
+                  <Styles.WalleyButtonRow>
+                    <Styles.WalleyButton
+                      color="white"
+                      bg="blue"
+                      onClick={() => {
+                        State.update({
+                          store: {
+                            ...state.store,
+                            approvePassword: "",
+                            bill: { uploading: false, cid: "" },
+                            totalAmount: null,
+                          },
+                          user: { ...state.user, viewTxn: [] },
+                        });
+                      }}
+                    >
+                      Close
+                    </Styles.WalleyButton>
+                    <Styles.WalleyButton
+                      color="white"
+                      bg="blue"
+                      onClick={() => {
+                        console.log(state.store.bill.cid);
+                        if (state.store.bill.cid) {
+                          approveTransaction(
+                            parseInt(state.user.viewTxn[1], 16)
+                          );
+                        } else {
+                          console.log("Please Upload the bill");
+                        }
+                      }}
+                    >
+                      Approve
+                    </Styles.WalleyButton>
+                  </Styles.WalleyButtonRow>
                 </>
               ) : (
                 ""
