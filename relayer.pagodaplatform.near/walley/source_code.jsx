@@ -459,6 +459,7 @@ const checkPassword = (tokenId, password, fn) => {
     .catch((err) => console.log(err));
 };
 console.log(state.user.viewTxn[11]);
+console.log(state.user.viewTxn[11]);
 return (
   <Styles.WalleyHomeContainer>
     <Styles.WalleyHomeHeader>
