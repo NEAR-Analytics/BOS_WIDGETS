@@ -492,19 +492,7 @@ return (
       )}
 
       {state.user.viewTxn.length !== 0 ? (
-        <Styles.TransactionModal
-          id="#modal"
-          onClick={(e) => {
-            if (e.target.id === "overlay")
-              State.update({
-                user: {
-                  ...state.user,
-                  user: null,
-                  transactionPassword: "",
-                },
-              });
-          }}
-        >
+        <Styles.TransactionModal>
           <Styles.TransactionCard>
             <Styles.WalleyImageContainer>
               <Styles.WalleyStoreImage
@@ -543,7 +531,7 @@ return (
                       State.update({
                         user: {
                           ...state.user,
-                          viewTxn: null,
+                          viewTxn: [],
                           transactionPassword: "",
                         },
                       })
@@ -602,7 +590,7 @@ return (
                       State.update({
                         user: {
                           ...state.user,
-                          viewTxn: null,
+                          viewTxn: [],
                           transactionPassword: "",
                         },
                       })
@@ -662,7 +650,7 @@ return (
                           bill: { uploading: false, cid: "" },
                           totalAmount: null,
                         },
-                        user: { ...state.user, viewTxn: null },
+                        user: { ...state.user, viewTxn: [] },
                       });
                     }}
                   >
