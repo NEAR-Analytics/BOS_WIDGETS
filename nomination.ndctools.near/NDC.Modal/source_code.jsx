@@ -76,9 +76,9 @@ return (
                   disabled: SecondaryButton.disabled,
                   text: SecondaryButton.title,
                   onClick:
-                    SecondaryButton.type === "Button"
-                      ? SecondaryButton.onSubmit
-                      : null,
+                    SecondaryButton.type === "Link"
+                      ? null
+                      : SecondaryButton.onSubmit,
                   href:
                     SecondaryButton.type === "Link"
                       ? SecondaryButton.href
@@ -104,7 +104,7 @@ return (
               [Button.type ?? "Button"]: {
                 text: Button.title,
                 disabled: Button.disabled,
-                onClick: Button.type === "Button" ? Button.onSubmit : null,
+                onClick: Button.type === "Link" ? null : Button.onSubmit,
                 href: Button.type === "Link" ? Button.href : null,
               },
             }}
