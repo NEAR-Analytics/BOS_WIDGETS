@@ -134,6 +134,12 @@ const endorsements = [
     body: "CouncilOfAdvisors",
     reason: "Regen, built NDC systems, built the token to even let you vote.",
   },
+    {
+    accountId: "odins_eyehole.near",
+    body: "HouseOfMerit",
+    reason: "Regen, holding NEAR Community on the Back and Certified BluntDAO OG.",
+  },
+  
 ];
 
 const Column = styled.div`
