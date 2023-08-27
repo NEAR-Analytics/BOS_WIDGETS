@@ -24,10 +24,17 @@ const POLICY_HASH =
   "f1c09f8686fe7d0d798517111a66675da0012d8ad1693a47e0e2a7d3ae1c69d4";
 const FAIR_POLICY_DOC =
   "https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link";
+const FAIR_POLICY_NFT =
+  "https://ipfs.near.social/ipfs/bafkreieluw5zdp72k5u4sucars5wrhktbdco26zv3wgg66kzo36yeqmpoy";
+const I_VOTED_NFT =
+  "https://ipfs.near.social/ipfs/bafkreibt2e3ksi5rqaqdh2v6zuwdjrkp6bvihmtms6zfhs2d7nsyarjgmu";
+const MINT_VOTING_POLICY_NFT = "shard.dog/fairvoting";
+const MINT_I_VOTED_NFT = "shard.dog/ivoted";
 const BLACKLIST_VERIFY_LINK = "";
 const GREYLIST_VERIFY_LINK = "";
 const MIN_BOND = 3;
 const MAX_BOND = 300;
+const NFT_SERIES = [124, 125];
 
 const H4 = styled.h4`
   margin-bottom: 0;
@@ -328,13 +335,13 @@ const handleAcceptToS = () => {
     electionContract,
     "accept_fair_voting_policy",
     { policy: POLICY_HASH },
-    "70000000000000",
+    70000000000000,
     1000000000000000000000
   ).then((data) =>
     State.update({
       showToSModal: false,
       tosAgreement: true,
-      bountyProgramModal: true,
+      showMintPolicyModal: true,
       loading: false,
     })
   );
@@ -364,12 +371,14 @@ const handleFilter = (option) => {
   State.update({ filterOption, filter, reload: true });
 };
 
-const loadInitData = () => {
+const handleStateTransition = () => {
   switch (state.electionStatus) {
     case "ONGOING":
       State.update({
         tosAgreement: !!state.acceptedPolicy,
-        bountyProgramModal: !!state.acceptedPolicy,
+        showMintPolicyModal: !!state.acceptedPolicy && !state.hasPolicyNFT,
+        bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
+        showMintIVotedModal: myVotes.length > 0 && !state.hasIVotedNFT,
       });
       break;
     case "COOLDOWN":
@@ -392,6 +401,32 @@ const loadSocialDBData = () => {
     ? _bookmarked[_bookmarked.length - 1].value
     : [];
 };
+
+function fetchGraphQL(operationsDoc, operationName, variables) {
+  return fetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: variables,
+      operationName: operationName,
+    }),
+  }).then((result) => result.json());
+}
+
+const operationsDoc = (series) => `
+  query MyQuery {
+    nft_tokens(
+      where: {nft_contract_id: {_eq: "mint.sharddog.near"}, token_id: {_regex: "^${series}:"}, owner: {_eq: "orangejoe.near"}}
+      order_by: {minted_timestamp: asc}
+    ) {
+      last_transfer_timestamp
+    }
+  }
+`;
+
+function fetchMyQuery(series) {
+  return fetchGraphQL(operationsDoc(series), "MyQuery", {});
+}
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
@@ -423,10 +458,17 @@ State.init({
   bountyProgramModal: false,
   showReviewModal: false,
   blacklistedModal: true,
+  showMintPolicyModal: false,
+  showMintIVotedModal: false,
+  hasPolicyNFT: false,
+  hasIVotedNFT: false,
   winnerIds: [],
 });
 
 if (state.reload) {
+  let hasPolicyNFT = false;
+  let hasIVotedNFT = false;
+
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
   });
@@ -439,17 +481,39 @@ if (state.reload) {
     prop_id: id,
   });
 
+  fetchMyQuery(NFT_SERIES[0])
+    .then(({ data, errors }) => {
+      if (errors) console.log(errors);
+
+      const tokens = data.nft_tokens;
+      if (tokens.length > 0)
+        hasPolicyNFT = tokens.slice(-1).last_transfer_timestamp === null;
+    })
+    .catch((error) => console.log(error));
+
+  fetchMyQuery(NFT_SERIES[1])
+    .then(({ data, errors }) => {
+      if (errors) console.log(errors);
+
+      const tokens = data.nft_tokens;
+      if (tokens.length > 0)
+        hasIVotedNFT = tokens.slice(-1).last_transfer_timestamp === null;
+    })
+    .catch((error) => console.log(error));
+
   const bookmarked = loadSocialDBData();
 
   State.update({
     electionStatus,
     acceptedPolicy,
     winnerIds,
-    candidates: filteredCandidates(),
     bookmarked,
+    hasPolicyNFT,
+    hasIVotedNFT,
+    candidates: filteredCandidates(),
   });
 
-  loadInitData();
+  handleStateTransition();
 }
 
 const UserLink = ({ title, src }) => (
@@ -779,9 +843,11 @@ return (
           ),
           description: (
             <>
-              Please make sure to read and understand the{" "}
-              <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
-              which outlines the responsibilities of each voter.
+              <div className="mt-4">
+                Please make sure to read and understand the{" "}
+                <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
+                which outlines the responsibilities of each voter.
+              </div>
             </>
           ),
           content: (
@@ -807,6 +873,38 @@ return (
             disabled: !state.tosAgreementInput,
             onCancel: () => State.update({ showToSModal: false }),
             onSubmit: handleAcceptToS,
+          },
+        }}
+      />
+    )}
+    {state.showMintPolicyModal && (
+      <Widget
+        src={widgets.modal}
+        props={{
+          title: (
+            <div>
+              <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
+              <div className="mt-4">
+                Before you vote, mint Fair Voting Policy NFT.
+              </div>
+            </div>
+          ),
+          description: (
+            <>
+              <img src={FAIR_POLICY_NFT} />
+              <div className="mt-4">
+                Please make sure to read and understand the{" "}
+                <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
+                which outlines the responsibilities of each voter.
+              </div>
+            </>
+          ),
+          Button: {
+            type: "Link",
+            title: "Mint Fair Voting NFT",
+            onCancel: () =>
+              State.update({ showMintPolicyModal: false, reload: false }),
+            href: MINT_VOTING_POLICY_NFT,
           },
         }}
       />
@@ -883,6 +981,33 @@ return (
             href: GREYLIST_VERIFY_LINK,
             onSubmit: () =>
               State.update({ bountyProgramModal: false, reload: false }),
+          },
+        }}
+      />
+    )}
+    {state.showMintIVotedModal && (
+      <Widget
+        src={widgets.modal}
+        props={{
+          title: (
+            <div>
+              <img src={I_VOTED_NFT} />
+              <div className="mt-4">Congratulations! Mint “I Voted” NFT</div>
+            </div>
+          ),
+          description:
+            "Celebrate for voting in the inaugural election of NEAR and mint your “I Voted” NFT! 🎉",
+          Button: {
+            type: "Link",
+            title: "Mint I voted NFT",
+            onCancel: () =>
+              State.update({ showMintIVotedModal: false, reload: false }),
+            href: MINT_I_VOTED_NFT,
+          },
+          SecondaryButton: {
+            type: "Link",
+            title: "Tweet I Voted",
+            href: SHARE_LINK,
           },
         }}
       />
