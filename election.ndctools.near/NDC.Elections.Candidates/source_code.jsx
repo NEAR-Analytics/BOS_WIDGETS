@@ -584,7 +584,7 @@ const CandidateItem = ({ candidateId, votes }) => (
             props={{
               accountId: candidateId,
               children: (
-                <>
+                <div className="d-flex justify-items-center">
                   <Widget
                     src="mob.near/widget/ProfileImage"
                     props={{
@@ -597,7 +597,7 @@ const CandidateItem = ({ candidateId, votes }) => (
                     src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
                     title={candidateId}
                   />
-                </>
+                </div>
               ),
             }}
           />
