@@ -1,9 +1,16 @@
+
+const GradientBackground = styled.div`
+background: rgb(182,232,247);
+padding:1px;
+    border-radius: 10px;
+    width:33%;
+background: linear-gradient(180deg, rgba(182,232,247,1) 41%, rgba(255,207,234,1) 96%);
+`;
+
 const ContainerDiv = styled.div`
     padding:14px;
     background-color:white;
-    border: 2px solid #B6E8F7;
     border-radius: 10px;
-    width:33%;
 `;
 
 const RedButton = styled.div`
@@ -47,7 +54,8 @@ return (
       }}
     >
       {DataToShow.map((item) => (
-        <ContainerDiv key={item.label}>
+        <GradientBackground  key={item.label}>
+        <ContainerDiv>
           <p style={{ fontSize: 16, letterSpacing: 0.5, marginBottom: 0 }}>
             {item.label}
           </p>
@@ -62,6 +70,7 @@ return (
             {item.value}
           </p>
         </ContainerDiv>
+        </GradientBackground>
       ))}
     </div>
     <div
