@@ -325,8 +325,8 @@ const handleVote = () =>
     electionContract,
     "vote",
     { prop_id: props.id, vote: state.selectedCandidates },
-    "70000000000000",
-    (state.greylisted ? MAX_BOND : MIN_BOND) * 100000000000000000000000
+    "110000000000000",
+    (state.greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000
   ).then((data) => State.update({ bountyProgramModal: false }));
 
 const handleAcceptToS = () => {
