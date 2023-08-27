@@ -8,12 +8,9 @@ const index = {
   action: "notify",
   key: accountId,
   options: {
-    limit: 50,
+    limit: 10,
     order: "desc",
     subscribe: true,
-  },
-  cacheOptions: {
-    ignoreCache: true,
   },
 };
 
@@ -24,9 +21,7 @@ const renderItem = (item, i) => {
   return (
     <Widget
       loading={
-        <div className="mb-3">
-          <div className="placeholder" style={{ height: "48px" }} />
-        </div>
+        <div className="mb-3 placeholder-glow" style={{ minHeight: "48px" }} />
       }
       src="mob.near/widget/Notification.Item"
       key={i}
@@ -36,10 +31,8 @@ const renderItem = (item, i) => {
 };
 
 return (
-  <div className="placeholder-glow">
-    <Widget
-      src="mob.near/widget/FilteredIndexFeed"
-      props={{ index, renderItem }}
-    />
-  </div>
+  <Widget
+    src="mob.near/widget/FilteredIndexFeed"
+    props={{ index, renderItem }}
+  />
 );
