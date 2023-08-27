@@ -475,9 +475,9 @@ State.init({
   winnerIds: [],
 });
 
-let electionStatus;
-let acceptedPolicy;
-let winnerIds;
+let electionStatus = false;
+let acceptedPolicy = false;
+let winnerIds = [];
 
 if (state.reload) {
   fetchGraphQL(NFT_SERIES[0]).then((result) =>
