@@ -15,6 +15,7 @@ const Modal = styled.div`
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(3px);
 `;
 
 const ComponentWrapper = styled.div`
