@@ -412,11 +412,11 @@ const approveTransaction = (tokenId) => {
 };
 
 const transferToken = (tokenId) => {
-  checkPassword(tokenId, state.user.cancelPassword, () => {
+  checkPassword(tokenId, state.user.transactionPassword, () => {
     State.update({
       user: { ...state.user, viewTxn: [] },
       loading: true,
-      loadingMsg: "Cancelling your transaction - Pay for the gas",
+      loadingMsg: "Transferring your Token - Pay for the gas",
     });
     nftContract
       .transferNFT(walleyAddress, tokenId, state.user.transferTo, {
@@ -424,7 +424,7 @@ const transferToken = (tokenId) => {
       })
       .then((tx) => {
         State.update({
-          loadingMsg: "Waiting for confirmation - Refunding the change",
+          loadingMsg: "Waiting for confirmation",
         });
         tx.wait().then((res) => {
           State.update({
