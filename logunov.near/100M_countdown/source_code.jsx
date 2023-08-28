@@ -35,7 +35,7 @@ const TextBottomest = styled.div`
 `;
 
 const height = parseInt(Near.block("final").header.height);
-const diffSec = Math.max(100_000_000 - height, 0);
+const diff = Math.max(100_000_000 - height, 0);
 const timeAgo = (diffSec) => {
   console.log(diffSec);
 
@@ -44,11 +44,15 @@ const timeAgo = (diffSec) => {
 
   const min = (diffSec - sec) / 60;
   if (diffSec < 60 * 60) {
+    console.log("min");
+    console.log(diffSec);
     return `${min | 0}m ${sec | 0}s`;
   }
 
   const hour = (diffSec - min * 60 - sec) / (60 * 60);
   if (diffSec < 24 * 60 * 60) {
+    console.log("hour");
+    console.log(diffSec);
     return `${hour | 0}h ${min | 0}m ${sec | 0}s`;
   }
 
@@ -61,12 +65,12 @@ return (
     {
       <TextBlock>
         <UserAmount>
-          {diffSec.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+          {diff.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
         </UserAmount>
         <TextBottom>blocks till 100M with 100% protocol uptime 🎉</TextBottom>
         <br />
         <br />
-        <TextBottomest>Remaining time: {timeAgo(diffSec)}</TextBottomest>
+        <TextBottomest>Remaining time: {timeAgo(diff)}</TextBottomest>
         <TextBottomest>Current block: {height}</TextBottomest>
       </TextBlock>
     }
