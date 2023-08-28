@@ -11,7 +11,7 @@ return (
     <div className="row mb-3">
       <Widget src="andyh.near/widget/Applications" isTrusted={true} />
     </div>
-    <div className="row mb-3">
+    {/*<div className="row mb-3">
       <Widget src="andyh.near/widget/People" isTrusted={true} />
     </div>
     <div className="row mb-3">
@@ -64,12 +64,12 @@ return (
           </a>
         </div>
       </div>
-    </div>
+    </div>*/}
 
     <div className="row mb-3">
       <div className="col-md-8">
         <h4>Follow activity</h4>
-        <Widget src="andyh.near/widget/FollowFeed" isTrusted={true} />
+        {/*<Widget src="andyh.near/widget/FollowFeed" isTrusted={true} />*/}
       </div>
       <div className="col-md-4">
         <h4>Poke activity</h4>
