@@ -115,6 +115,7 @@ return (
             </svg>
           </span>
         </div>
+        <div class="Line mx-3" />
         {state.transactions.length > 0 ? (
           <table className="table table-sm">
             <thead>
@@ -143,7 +144,9 @@ return (
             </tbody>
           </table>
         ) : (
-          <span class="text-white">No pending transactions found, reload to check again</span>
+          <span class="text-white">
+            No pending transactions found, reload to check again
+          </span>
         )}
       </div>
     </div>
