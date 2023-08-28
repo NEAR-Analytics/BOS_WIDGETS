@@ -4,8 +4,13 @@ const HeaderFlex = styled.div`
     justify-content: space-between;
 `;
 
+const Container = styled.div`
+  padding:10px;
+  background: linear-gradient(0deg, rgba(220,244,251,1) 0%, rgba(251,254,255,1) 95%, rgba(255,255,255,1) 100%);
+`;
+
 return (
-  <div style={{ padding: 10 }}>
+  <Container>
     <HeaderFlex>
       <h3>All Drops</h3>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -87,5 +92,5 @@ return (
       </div>
     </HeaderFlex>
     <Widget src="harrydhillon.near/widget/Keypom.Landing.AllDrops.Table" />
-  </div>
+  </Container>
 );
