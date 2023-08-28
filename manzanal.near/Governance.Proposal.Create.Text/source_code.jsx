@@ -129,6 +129,7 @@ const handleProposal = () => {
         extra: "",
       },
       gas: gas,
+      deposit: state.storageRequired
     },
   ]);
 };
