@@ -105,6 +105,7 @@ const wallets = [
   "yonota.near",
   "johanga108.near",
   "dk_51.near",
+  "rubycop.near",
   "lolson.near",
   "moska.near",
   "iamanansari.near",
