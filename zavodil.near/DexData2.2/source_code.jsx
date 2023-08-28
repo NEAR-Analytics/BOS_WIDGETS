@@ -1134,6 +1134,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d",
             "0xFa94348467f64D5A457F75F8bc40495D33c65aBB",
           ],
+          coingeckoNetworkHandle: "aurora",
           inputAssetTokenId: "0xB12BFcA5A55806AaF64E99521918A4bf0fC40802",
           outputAssetTokenId: "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d",
           routerContract: "0x2CB45Edb4517d5947aFdE3BEAbF95A582506858B",
@@ -1238,19 +1239,10 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             assets: [
               "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9", // USDC
               "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111", // WETH
-              "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000", // MNT
+              "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8", // WMNT
               "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE", // USDT
             ],
-            coinGeckoTokenIds: {
-              "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9":
-                "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-              "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111":
-                "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-              "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000":
-                "0x3c3a81e81dc49a522a592e7622a7e711c06bf354",
-              "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE":
-                "0xdac17f958d2ee523a2206206994597c13d831ec7",
-            },
+            coingeckoNetworkHandle: "mantle",
             inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
             outputAssetTokenId: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
             routerContract: "0x319B69888b0d11cEC22caA5034e25FfFBDc88421", // Agni SwapRouter
