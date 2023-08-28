@@ -4,7 +4,7 @@ ids = props.ids ? ids : [1, 2, 3, 4];
 org = props.org ? org : "NDC";
 
 const electionContract = "elections-v1.gwg-testing.near";
-const registryContract = "registry.i-am-human.near";
+const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 let houses = [
