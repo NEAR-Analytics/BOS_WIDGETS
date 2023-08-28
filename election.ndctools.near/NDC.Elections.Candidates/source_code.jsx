@@ -337,8 +337,7 @@ const handleVote = () => {
     methodName: "is_human_call",
     args: { ctr: electionContract, function: "bond", payload: "" },
     gas: "110000000000000",
-    deposit:
-      (state.greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000,
+    deposit: (greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000,
   };
 
   const arr = state.alreadyBonded ? [voteFunc] : [bondFunc, voteFunc];
@@ -649,7 +648,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           <Votes>
             <input
               id="input"
-              disabled={alreadyVotedForHouse() || state.blacklisted}
+              disabled={alreadyVotedForHouse() || blacklisted}
               onClick={() => handleSelectCandidate(candidateId)}
               className="form-check-input"
               type="checkbox"
@@ -753,7 +752,7 @@ const CastVotes = () => (
         <i class="bi bi-info-circle"></i>
         {alreadyVotedForHouse() ? (
           <span>You're already voted for {housesMapping[typ]}</span>
-        ) : state.blacklisted ? (
+        ) : blacklisted ? (
           <span>Your account is blacklisted</span>
         ) : (
           <span>Make sure you selected {seats} candidates</span>
@@ -784,8 +783,7 @@ const CastVotes = () => (
         props={{
           Button: {
             className: "primary justify-content-center",
-            disabled:
-              state.selectedCandidates.length === 0 || state.blacklisted,
+            disabled: state.selectedCandidates.length === 0 || blacklisted,
             text: `Cast ${state.selectedCandidates.length || ""} Vote${
               state.selectedCandidates.length === 1 ? "" : "s"
             }`,
@@ -830,7 +828,7 @@ return (
         }}
       />
     )}
-    {state.blacklisted && state.blacklistedModal && (
+    {blacklisted && blacklistedModal && (
       <Widget
         src={widgets.modal}
         props={{
@@ -942,7 +940,7 @@ return (
             <div>
               <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
               <div className="mt-4">
-                {state.greylisted ? (
+                {greylisted ? (
                   <>Additional Verification Required.</>
                 ) : (
                   <>You are about to cast your votes.</>
@@ -967,8 +965,8 @@ return (
               <Rule className="d-flex gap-2">
                 <h3>2</h3>
                 <p className="text-secondary text-start">
-                  A bond of <b>{state.greylisted ? MAX_BOND : MIN_BOND} NEAR</b>{" "}
-                  is required to vote. If you are a fair voter, this bond will
+                  A bond of <b>{greylisted ? MAX_BOND : MIN_BOND} NEAR</b> is
+                  required to vote. If you are a fair voter, this bond will
                   returned to you after the election results are reviewed and
                   rectified.
                 </p>
@@ -980,7 +978,7 @@ return (
                 </p>
               </Rule>
 
-              {state.greylisted && (
+              {greylisted && (
                 <p className="text-secondary mt-2">
                   <b>Voters without reputation need to be verified</b> by the
                   Election Integrity Council or place a substantial bond to
@@ -1001,8 +999,8 @@ return (
             onSubmit: handleVote,
           },
           SecondaryButton: {
-            type: state.greylisted ? "Link" : "Button",
-            title: state.greylisted ? "Apply to Verify" : "Cancel",
+            type: greylisted ? "Link" : "Button",
+            title: greylisted ? "Apply to Verify" : "Cancel",
             href: GREYLIST_VERIFY_LINK,
             onSubmit: () =>
               State.update({ bountyProgramModal: false, reload: false }),
