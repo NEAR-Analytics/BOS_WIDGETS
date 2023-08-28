@@ -815,7 +815,7 @@ return (
       </div>
     </div>
     <Widget
-      src="yairnava.near/widget/Maverick-Swap-Transactions"
+      src="owa-is-bos.near/widget/Maverick-Swap-Transactions"
       props={{
         state,
         handleReload: () => State.update({ reloadTransactions: false }),
