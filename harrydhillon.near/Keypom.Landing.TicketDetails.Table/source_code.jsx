@@ -50,8 +50,8 @@ function randomDate(start, end) {
 if (drops.length === 0) {
   for (let i = 0; i < 20; i++) {
     const drop = {
-      name: `Full Name`, // Just giving a sequential name for simplicity
-      email: `email@email.com`, // Randomly select between 'Event', 'NFT', and 'Token'
+      name: `Elaine Benes`, // Just giving a sequential name for simplicity
+      email: `elaine.benes@keypom.xyz`, // Randomly select between 'Event', 'NFT', and 'Token'
       link: "keypom.xyz/#rf5hhfaxm", // Generate a random date between 2020-01-01 and 2023-08-22
       status: ["Purchased", "Claimed", "Scanned"][
         Math.floor(Math.random() * 3)
