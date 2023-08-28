@@ -155,7 +155,7 @@ const COLUMNS = [
     label: (
       <p className="text-center text-white text-wrap ">Total Transactions</p>
     ),
-    renderCell: (item) => formatPercentNew(item["Total Transactions"]),
+    renderCell: (item) => formatNumber(item["Total Transactions"]),
     sort: { sortKey: "Total Transactions" },
   },
   {
@@ -164,12 +164,12 @@ const COLUMNS = [
         Transactions - 30 Days
       </p>
     ),
-    renderCell: (item) => formatPercentNew(item["Transactions - 30 Days"]),
+    renderCell: (item) => formatNumber(item["Transactions - 30 Days"]),
     sort: { sortKey: "Transactions - 30 Days" },
   },
   {
     label: <p className="text-center text-white text-wrap ">Avg Txn per MAU</p>,
-    renderCell: (item) => formatPercentNew(item["Avg Txn per MAU"]),
+    renderCell: (item) => formatNumber(item["Avg Txn per MAU"]),
     sort: { sortKey: "Avg Txn per MAU" },
   },
 ];
