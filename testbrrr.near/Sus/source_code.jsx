@@ -631,6 +631,24 @@ let confirmUI = renderConfirmationUI(props);
 
 return (
   <div>
+    {!state.success ? confirmUI : <p>Transaction complete</p>}
+
+    {state.tx && !state.success ? (
+      <div>
+        <p>
+          View your transaction:{" "}
+          <a
+            href={"https://goerli.etherscan.io/tx/" + state.tx}
+            target="_blank"
+          >
+            {state.tx}
+          </a>
+        </p>
+      </div>
+    ) : (
+      <div></div>
+    )}
+
     {state.balances.map((balance) => {
       return (
         <div>
@@ -650,23 +668,6 @@ return (
       </div>
     ) : null}
 
-    {state.tx && !state.success ? (
-      <div>
-        <p>
-          View your transaction:{" "}
-          <a
-            href={"https://goerli.etherscan.io/tx/" + state.tx}
-            target="_blank"
-          >
-            {state.tx}
-          </a>
-        </p>
-      </div>
-    ) : (
-      <div></div>
-    )}
-
-    {!state.success ? confirmUI : <p>Transaction complete</p>}
     {props.action !== "display" && !state.success ? (
       <Button onClick={() => confirmAction()}>Confirm Action</Button>
     ) : null}
