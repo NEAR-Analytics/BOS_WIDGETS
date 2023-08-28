@@ -1043,7 +1043,7 @@ return (
                               />
                             </Styles.WalleyImageContainer>
                             <Styles.TransactionCardMain>
-                              {getTable(txn, false)}
+                              {getTable(tx, false)}
                               <Styles.WalleyButtonRow>
                                 <Styles.WalleyButton
                                   className="grey"
@@ -1121,7 +1121,7 @@ return (
                               />
                             </Styles.WalleyImageContainer>
                             <Styles.TransactionCardMain>
-                              {getTable(txn, true)}
+                              {getTable(tx, true)}
                               {state.user.openReceipt ===
                               Big(tx[1]).toFixed(0) ? (
                                 <Style.TransactionModal>
@@ -1223,7 +1223,7 @@ return (
                             />
                           </Styles.WalleyImageContainer>
                           <Styles.TransactionCardMain>
-                            {getTable(txn, false)}
+                            {getTable(tx, false)}
                             <Styles.WalleyButton
                               className="orange"
                               onClick={() =>
@@ -1265,7 +1265,7 @@ return (
                           />
                         </Styles.WalleyImageContainer>
                         <Styles.TransactionCardMain>
-                          {getTable(txn, true)}
+                          {getTable(tx, true)}
                           {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
                             <Styles.TransactionModal>
                               <Styles.WalleyStoreImage
