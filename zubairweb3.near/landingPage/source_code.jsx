@@ -16,7 +16,13 @@ return (
       }}
     >
       <div class="text-center">
-        {current_user ? <User>{current_user}</User> : <User>No user_id</User>}
+        {current_user ? (
+          <User>{current_user}</User>
+        ) : (
+          <a href="https://near.org/signin">
+            <button>Login to NEAR</button>
+          </a>
+        )}
         <h1 style={{ fontSize: "3.5em" }}>
           Master the markets with <br />
           Dropouts' College
