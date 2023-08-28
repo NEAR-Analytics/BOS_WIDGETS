@@ -511,3 +511,212 @@ if (!state.theme) {
 `,
   });
 }
+
+const Theme = state.theme;
+return (
+  <Theme>
+    <div class="text-center mt-1">
+      <div class="MainContainer">
+        <div class="ProtocolContainer">
+          <div class="ProtocolNetworkContainet">
+            <div class="ProtocolNetworkTextSection">
+              <div class="ProtocolText">PROTOCOL</div>
+            </div>
+            <div class="ProtocolNetworkSection">
+              <div class="ProtocolNetworkContainer">
+                <img
+                  class="ProtocolImg"
+                  src="https://etherscan.io/token/images/maverick_32.png"
+                />
+                <div class="NetworkText">Maverick</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="titleSection">
+          <div class="titleSwap">SWAP</div>
+        </div>
+        {state.isZkSync ? (
+          <>
+            <div class="SendRecieveContainer">
+              <div class="SendContainer">
+                <div class="TokenSection">
+                  {state.tokenSendSelected ? (
+                    <img class="TokenImg" src={state.tokenSendSelected.icon} />
+                  ) : null}
+
+                  <div class="TokenNameSection">
+                    <div class="TokenAction">SEND {"->"}</div>
+                    <select
+                      class="TokenNameSelect"
+                      value={
+                        state.tokenSendSelected
+                          ? state.tokenSendSelected.name
+                          : "default"
+                      }
+                      onChange={handleSendSelect}
+                    >
+                      <option
+                        value="default"
+                        disabled={state.tokenSendSelected}
+                      >
+                        Select Token
+                      </option>
+                      {TOKENS.map((token) => {
+                        return (
+                          <>
+                            {
+                              state.tokenRecieveSelected.name != token.name && (
+                                //token.name != "WETH" && (
+                                <option>{token.name}</option>
+                              )
+                              //)
+                            }
+                          </>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
+                <div class="TokenAmountSection">
+                  <input
+                    class="TokenAmountInput"
+                    type="text"
+                    placeholder="0"
+                    inputmode="decimal"
+                    min="0"
+                    pattern="^[0-9]*[.]?[0-9]*$"
+                    value={state.amountInput}
+                    onChange={(e) => validateAllowance(e.target.value)}
+                  />
+                  <div class="TokenAmountPreview">
+                    {state.inputBalance != null ? (
+                      state.inputBalance && state.inputBalance > 0 ? (
+                        <span>
+                          Balance: {state.inputBalance}
+                          <span
+                            class="UserBalance"
+                            onClick={async () => {
+                              setMaxBalance();
+                            }}
+                          >
+                            MAX
+                          </span>
+                        </span>
+                      ) : (
+                        "Balance: 0"
+                      )
+                    ) : (
+                      "Balance: 0"
+                    )}
+                  </div>
+                  {!isSufficientBalance() ? (
+                    <div class="TokenInsufficientBalance">
+                      Insufficient Balance
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+              <div class="turnSection">
+                <button
+                  type="button"
+                  class="turnButton"
+                  onClick={async () => {
+                    turnTokens();
+                  }}
+                >
+                  <svg
+                    class="turnImg"
+                    focusable="false"
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    data-testid="ArrowsUpDownIcon"
+                  >
+                    <path d="M11.95 7.95l-1.414 1.414L8 6.828 8 20H6V6.828L3.465 9.364 2.05 7.95 7 3l4.95 4.95zm10 8.1L17 21l-4.95-4.95 1.414-1.414 2.537 2.536L16 4h2v13.172l2.536-2.536 1.414 1.414z"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="RecieveContainer">
+                <div class="TokenSection">
+                  {state.tokenRecieveSelected ? (
+                    <img
+                      class="TokenImg"
+                      src={state.tokenRecieveSelected.icon}
+                    />
+                  ) : null}
+
+                  <div class="TokenNameSection">
+                    <div class="TokenAction">{"->"} RECEIVE</div>
+                    <select
+                      class="TokenNameSelect"
+                      value={
+                        state.tokenRecieveSelected
+                          ? state.tokenRecieveSelected.name
+                          : "default"
+                      }
+                      onChange={handleRecieveSelect}
+                    >
+                      <option
+                        value="default"
+                        disabled={state.tokenRecieveSelected}
+                      >
+                        Select Token
+                      </option>
+                      {TOKENS.map((token) => {
+                        return (
+                          <>
+                            {state.tokenSendSelected.name != token.name && (
+                              <option>{token.name}</option>
+                            )}
+                          </>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
+                <div class="TokenAmountSection">
+                  <div class="TokenAmount">
+                    {state.amountInput
+                      ? (
+                          state.amountInput * parseFloat(state.rate).toFixed(6)
+                        ).toFixed(6)
+                      : 0}
+                  </div>
+                  <div class="TokenAmountPreview">
+                    {state.rate != 0
+                      ? `${
+                          "≈ " +
+                          (
+                            state.amountInput * state.tokenSendSelected.price
+                          ).toFixed(6)
+                        } USD`
+                      : ""}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {(state.onApproving || state.onSwap) && (
+              <div class="RecipientValue">
+                <h6>The transaction is going to be confirmed</h6>
+              </div>
+            )}
+          </>
+        ) : (
+          state.sender && (
+            <span class="text-white">
+              To proceed, please switch to the
+              <br />
+              <div
+                class="networkNameContainer"
+                onClick={() => switchNetwork(324)}
+              >
+                <span class="networkName">zkSync Era Network</span>
+              </div>
+              using your wallet.
+            </span>
+          )
+        )}
+      </div>
+    </div>
+  </Theme>
+);
