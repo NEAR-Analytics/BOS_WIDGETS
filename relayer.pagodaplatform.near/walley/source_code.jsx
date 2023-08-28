@@ -608,38 +608,40 @@ const checkPassword = (tokenId, password, fn) => {
 
 const getTable = (txn, store) => {
   console.log(txn);
-  return (
-    <table className="table">
-      <tbody>
-        <tr>
-          <td>Name</td>
-          <td>Store Name</td>
-          {store ? (
-            <>
-              <td>Max Allowance</td>
-              <td>Total Bill Amount</td>
-            </>
-          ) : (
-            <td>Allowance</td>
-          )}
-          <td>At</td>
-        </tr>
-        <tr>
-          <td>{txn[2]}</td>
-          <td>{txn[6]}</td>
-          {store ? (
-            <>
-              <td>{Big(tx[5]).toFixed(5)}</td>
-              <td>{Big(tx[9]).toFixed(5)}</td>
-            </>
-          ) : (
-            <td>{Big(txn[5]).toFixed(5)}</td>
-          )}
-          <td>{unixToDate(Big(txn[10]).toFixed(0))}</td>
-        </tr>
-      </tbody>
-    </table>
-  );
+  if (txn !== undefined) {
+    return (
+      <table className="table">
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>Store Name</td>
+            {store ? (
+              <>
+                <td>Max Allowance</td>
+                <td>Total Bill Amount</td>
+              </>
+            ) : (
+              <td>Allowance</td>
+            )}
+            <td>At</td>
+          </tr>
+          <tr>
+            <td>{txn[2]}</td>
+            <td>{txn[6]}</td>
+            {store ? (
+              <>
+                <td>{Big(tx[5]).toFixed(5)}</td>
+                <td>{Big(tx[9]).toFixed(5)}</td>
+              </>
+            ) : (
+              <td>{Big(txn[5]).toFixed(5)}</td>
+            )}
+            <td>{unixToDate(Big(txn[10]).toFixed(0))}</td>
+          </tr>
+        </tbody>
+      </table>
+    );
+  } else return "";
 };
 
 return (
