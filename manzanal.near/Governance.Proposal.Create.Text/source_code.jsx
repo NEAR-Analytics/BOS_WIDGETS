@@ -198,9 +198,9 @@ return (
         value: state.title,
         onChange: (title) => onChangeTitle(title),
         validate: () => {
-          if (state.title.length > 50) {
+          if (state.title.length > 80) {
             State.update({
-              titleError: "Title must be less than 50 characters",
+              titleError: "Title must be less than 80 characters",
             });
             return;
           }
@@ -220,10 +220,10 @@ return (
         onChange: (shortDescription) =>
           onChangeShortDescription(shortDescription),
         validate: () => {
-          if (state.shortDescription.length > 100) {
+          if (state.shortDescription.length > 180) {
             State.update({
               shortDescriptionError:
-                "Short Description must be less than 100 characters",
+                "Short Description must be less than 180 characters",
             });
             return;
           }
@@ -291,7 +291,8 @@ return (
     )}
     {state.isValid && (
       <div className="text-info d-flex justify-content-end text-right">
-        A deposit of {yoctoToNear(state.storageRequired)} NEAR will be required for storage
+        A deposit of {yoctoToNear(state.storageRequired)} NEAR will be required
+        for storage
       </div>
     )}
   </>
