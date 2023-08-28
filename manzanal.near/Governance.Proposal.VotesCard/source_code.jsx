@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const authorId = "manzanal.near";
-const contractId = props.contractId || "v006.mpip.near";
+const contractId = props.contractId || "mpip.meta-pool-dao.near";
 const accountVotes = props.accountVotes;
 console.log("votes", accountVotes);
 const Container = styled.div`
