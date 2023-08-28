@@ -601,7 +601,7 @@ const getTable = (txn, store) => {
   console.log(txn);
   if (txn !== undefined) {
     return (
-      <table className="table">
+      <table className="table text-white">
         <tbody>
           <tr>
             <td>Name</td>
@@ -615,17 +615,17 @@ const getTable = (txn, store) => {
             <>
               <tr>
                 <td>Max Allowance</td>
-                <td>{Big(txn[5]).toFixed(5)}</td>
+                <td>{Big(txn[5]).div().toFixed(5)}</td>
               </tr>
               <tr>
                 <td>Total Bill Amount</td>
-                <td>{Big(txn[9]).toFixed(5)}</td>
+                <td>{Big(txn[9]).div(Big(10).pow(18)).toFixed(5)} ETH</td>
               </tr>
             </>
           ) : (
             <tr>
               <td>Allowance</td>
-              <td>{Big(txn[5]).toFixed(5)}</td>
+              <td>{Big(txn[5]).div(Big(10).pow(18)).toFixed(5)} ETH</td>
             </tr>
           )}
           <tr>
