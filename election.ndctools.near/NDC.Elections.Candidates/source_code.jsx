@@ -339,7 +339,7 @@ const handleVote = () => {
   const bondFunc = {
     contractName: registryContract,
     methodName: "is_human_call",
-    args: { ctr: electionContract, function: "bond", payload: "" },
+    args: { ctr: electionContract, function: "bond", payload: {} },
     gas: "110000000000000",
     deposit: (greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000,
   };
