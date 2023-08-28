@@ -188,15 +188,7 @@ const Text = styled.p`
 `;
 
 const Content = () => (
-  <embed
-    src="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link"
-    name="2A6EA9FB7B426643D0A26B43BF2BBD90"
-    style="position:absolute; left: 0; top: 0;"
-    width="100%"
-    height="100%"
-    type="application/pdf"
-    internalid="2A6EA9FB7B426643D0A26B43BF2BBD90"
-  />
+  <iframe src="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link" />
 );
 
 return (
