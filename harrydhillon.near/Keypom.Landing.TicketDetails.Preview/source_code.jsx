@@ -40,7 +40,7 @@ function ChipDisplay(name) {
 }
 
 const PreviewTicketModal = (
-  <>
+  <div style={{padding:5}}>
     <p style={{ fontWeight: "500" }}>Attendee Details</p>
     <div
       style={{
@@ -71,7 +71,7 @@ const PreviewTicketModal = (
         <p style={{ fontSize: 14, color: "#1E293B" }}>{props.email}</p>
       </div>
     </div>
-       <hr style={{ backgroundColor: "#F1F5F9", border: "none", height: 4 }} />
+    <hr style={{ backgroundColor: "#F1F5F9", border: "none", height: 4 }} />
     <p style={{ fontSize: 18, fontWeight: "500" }}>
       Attendee questions and responses
     </p>
@@ -112,7 +112,7 @@ const PreviewTicketModal = (
     >
       Close
     </button>
-  </>
+  </div>
 );
 
 return (
@@ -124,6 +124,8 @@ return (
       contentStyles: {
         style: {
           width: 500,
+          borderRadius: 15,
+          border:'0.1px solid #30C9F3'
         },
       },
     }}
