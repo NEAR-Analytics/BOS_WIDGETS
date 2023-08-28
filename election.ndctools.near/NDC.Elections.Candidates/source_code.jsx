@@ -336,7 +336,7 @@ const handleVote = () => {
     args: { ctr: electionContract, function: "bond", payload: "" },
     gas: "110000000000000",
     deposit:
-      (state.greylisted ? MAX_BOND : MIN_BOND) * 100000000000000000000000,
+      (state.greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000,
   };
 
   const arr = state.alreadyBonded ? [voteFunc] : [bondFunc, voteFunc];
