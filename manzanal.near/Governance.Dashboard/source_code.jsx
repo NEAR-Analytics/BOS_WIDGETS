@@ -1,5 +1,5 @@
 const authorId = props.authorId || "manzanal.near";
-const contractId = props.contractId || "v006.mpip.near";
+const contractId = props.contractId || "mpip.meta-pool-dao.near";
 const availableContent = ["proposals", "voters", "votes"];
 
 const getContent = (content) => {
