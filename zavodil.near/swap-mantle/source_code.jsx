@@ -496,6 +496,8 @@ const switchNetwork = (chainId, dex) => {
 
 const networkList = NETWORKS.map((network) => network.chainId); //  [1, 1101];
 
+console.log("s", state);
+
 const openNetworkList = () => {
   State.update({ isNetworkSelectOpen: true, isTokenDialogOpen: false });
 };
@@ -523,6 +525,7 @@ const assetsList = state.assets
           network: state.network,
           hideZeroBalance: true,
           fractionDigits: 4,
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
         }}
       ></Widget>
     ))
@@ -643,13 +646,14 @@ return (
     />
     {state.network && state.inputAsset && state.inputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/AssetListModal"
+        src="zavodil.near/widget/AssetListModal2"
         props={{
           hidden: state.inputAssetModalHidden ?? true,
           network: state.network,
           assets: state.assets,
           coinGeckoTokenIds: state.coinGeckoTokenIds,
           selectedAssets: [state.inputAssetTokenId],
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
           onClick: (tokenId) => {
             State.update({
               inputAssetModalHidden: true,
@@ -664,13 +668,14 @@ return (
     )}
     {state.network && state.outputAsset && state.outputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/AssetListModal"
+        src="zavodil.near/widget/AssetListModal2"
         props={{
           hidden: state.outputAssetModalHidden ?? true,
           assets: state.assets,
           coinGeckoTokenIds: state.coinGeckoTokenIds,
           network: state.network,
           selectedAssets: [state.outputAssetTokenId],
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
           onClick: (tokenId) => {
             State.update({
               outputAssetModalHidden: true,
@@ -695,6 +700,7 @@ return (
           NETWORK_ZKEVM,
           NETWORK_AURORA,
           NETWORK_POLYGON,
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
           onLoad: (inputAsset) => {
             console.log("TokenData onLoad inputAsset", inputAsset);
             inputAsset.metadata.symbol =
@@ -718,6 +724,7 @@ return (
           NETWORK_ZKEVM,
           NETWORK_AURORA,
           NETWORK_POLYGON,
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
           onLoad: (outputAsset) => {
             console.log("TokenData onLoad outputAsset", outputAsset);
             outputAsset.metadata.symbol =
