@@ -189,7 +189,12 @@ const Text = styled.p`
 
 const Content = () => (
   <div>
-    <iframe src="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link" />
+    <iframe
+      sandbox="allow-same-origin allow-forms allow-scripts"
+      width="468"
+      height="60"
+      src="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link"
+    ></iframe>
   </div>
 );
 
