@@ -435,6 +435,14 @@ return (
               </Header>
               <Content style={{ color: `${state.light ? "black" : "#fff"}` }}>
                 Use Livequery and enjoy high speed
+                <a
+                  href="https://flipsidecrypto.xyz/"
+                  target="_blank"
+                  style={{ color: "#806ce1" }}
+                  li
+                >
+                  Click here.
+                </a>
               </Content>
             </Item>
             <Item value="education">
@@ -461,7 +469,15 @@ return (
                 </Trigger>
               </Header>
               <Content style={{ color: `${state.light ? "black" : "#fff"}` }}>
-                Learn and earn at the same time.
+                Learn and earn at the same time
+                <a
+                  href="https://discord.com/invite/ZmU3jQuu6W"
+                  target="_blank"
+                  style={{ color: "#806ce1" }}
+                  li
+                >
+                  Click here.
+                </a>
               </Content>
             </Item>
 
@@ -486,7 +502,15 @@ return (
                 </Trigger>
               </Header>
               <Content style={{ color: `${state.light ? "black" : "#fff"}` }}>
-                Earn Near token by solving bounties
+                Earn Near token by solving bounties{" "}
+                <a
+                  href="https://v2.metricsdao.xyz/app/challenges"
+                  target="_blank"
+                  style={{ color: "#806ce1" }}
+                  li
+                >
+                  Click here.
+                </a>
               </Content>
             </Item>
           </Accordion>
