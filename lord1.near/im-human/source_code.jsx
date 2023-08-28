@@ -70,7 +70,7 @@ return (
           },
           {
             text: "Dashboards",
-            link: "Flipside-Home-page",
+            link: "../../lord1.near/widget/im-humanFlipside-Home-page",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
           },
