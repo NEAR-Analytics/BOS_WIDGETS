@@ -367,7 +367,7 @@ return (
           onClick: () => State.update({ tabs: "home", content: "" }),
           className: "mt-2",
           variant: "primary",
-          href: `meta-pool-official.near/widget/ImprovementProposals?tab=home`,
+          href: `/meta-pool-official.near/widget/ImprovementProposals?tab=home`,
         }}
       />
     </div>
