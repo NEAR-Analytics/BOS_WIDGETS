@@ -1,13 +1,13 @@
-// for goerli
-const OP_BRIDGE_DEPOSIT_CONTRACT = "0x636Af16bf2f682dD3109e60102b8E1A089FedAa8";
+// for Sepolia
+const OP_BRIDGE_DEPOSIT_CONTRACT = "0x16Fc5058F25648194471939df75CF27A2fdC48BC";
 const OP_BRIDGE_WITHDRAW_CONTRACT =
   "0x4200000000000000000000000000000000000010";
 const ETH_ADDR = "0x0000000000000000000000000000000000000000";
 const ETH_ADDR_L1 = `0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000`;
 const DEFAULT_AMOUNT_ETH = "0.01";
 const DEFAULT_AMOUNT = ethers.utils.parseUnits(DEFAULT_AMOUNT_ETH, 18);
-const L2_OUTPUT_ORACLE_CONTRACT = `0xE6Dfba0953616Bacab0c9A8ecb3a9BBa77FC15c0`;
-const L1_OPTIMISM_PORTAL_CONTRACT = `0x9e760aBd847E48A56b4a348Cba56Ae7267FeCE80`;
+const L2_OUTPUT_ORACLE_CONTRACT = `0x90E9c4f8a994a250F6aEfd61CAFb4F2e895D458F`;
+const L1_OPTIMISM_PORTAL_CONTRACT = `0x16Fc5058F25648194471939df75CF27A2fdC48BC`;
 const HASH_ZERO =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 // Withdrawal target TX info
@@ -15,27 +15,27 @@ const HASH_ZERO =
 // Following TX example here: https://goerli-optimism.etherscan.io/tx/0xb59ff0af1db39be0cc03e7410621ed21ce60e5833f8c4bf97d8747bd8d033bc8
 // Manually adjusted amount to 0.01
 const ETH_WITHDRAWAL_MESSAGE = `0x32b7006d000000000000000000000000deaddeaddeaddeaddeaddeaddeaddeaddead0000000000000000000000000000000000000000000000000000002386f26fc10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000`;
-const ETH_WITHDRAWAL_CONTRACT = `0x4200000000000000000000000000000000000016`;
 const ETH_WITHDRAWAL_TARGET = `0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000`;
 
 // Storage keys
+const STORAGE_RECEIPT_HASH = "__STORAGE_RECEIPT_HASH";
 const STORAGE_RESOLVED = "__STORAGE_RESOLVED";
 const STORAGE_MESSAGE_SLOT = "__STORAGE_MESSAGE_SLOT";
 const STORAGE_L2_INDEX = "__STORAGE_L2_INDEX";
 
 State.init({
   console: "Welcome!",
-  transactionHash: `0x38082f56332ef0c5640487a47412aace70db81cdd0bb40e9a896a85953324ba0`,
+  transactionHash: Storage.privateGet(STORAGE_RECEIPT_HASH),
   resolved: Storage.privateGet(STORAGE_RESOLVED),
   messageSlot: Storage.privateGet(STORAGE_MESSAGE_SLOT),
   l2OutputIndex: Storage.privateGet(STORAGE_L2_INDEX),
 });
 
-const opGoerliProvider = new ethers.providers.JsonRpcProvider(
-  "https://goerli.optimism.io"
+const opSepoliaProvider = new ethers.providers.JsonRpcProvider(
+  "https://sepolia.optimism.io"
 );
 const goerliProvider = new ethers.providers.JsonRpcProvider(
-  "https://rpc.ankr.com/eth_goerli"
+  "https://gateway.tenderly.co/public/sepolia"
 );
 
 const provider = Ethers.provider();
@@ -49,11 +49,17 @@ if (sender) {
     .then(({ chainId }) => {
       State.update({ chainId });
     });
+  Ethers.provider()
+    .getBalance(sender)
+    .then((rawBalance) => {
+      const balance = ethers.utils.formatEther(rawBalance);
+      State.update({ balance });
+    });
 }
 
 const isMainnet = chainId === 1 || chainId === 10;
-const isOPGoerli = chainId === 420;
-const isGoerli = chainId === 5;
+const isOPSepolia = chainId === 11155420;
+const isSepolia = chainId === 11155111;
 
 const bridgeAbi = [
   {
@@ -278,9 +284,9 @@ const proofAbi = [
 const proofIface = new ethers.utils.Interface(proofAbi);
 
 function handleDepositETH() {
-  if (!isGoerli)
+  if (!isSepolia)
     return State.update({
-      console: `switch to Goerli Testnet (not Optimism Goerli, ETH Goerli) to deposit ETH to OP Goerli`,
+      console: `switch to Sepolia Testnet (not Optimism Sepolia, ETH Sepolia) to deposit ETH to OP Sepolia`,
     });
 
   const encodedData = bridgeIface.encodeFunctionData(
@@ -305,24 +311,19 @@ function handleDepositETH() {
 }
 
 function handleWithdrawalInitiating() {
-  if (!isOPGoerli)
-    return State.update({
-      console: `switch to OP Goerli testnet to initiate a withdrawal transaction`,
-    });
-
   console.log("withdraw");
 
-  const encodedData = crossDomainIface.encodeFunctionData(
-    "initiateWithdrawal(address, uint256, bytes)",
-    [ETH_WITHDRAWAL_TARGET, 0, ETH_WITHDRAWAL_MESSAGE]
+  const encodedData = withdrawIface.encodeFunctionData(
+    "withdraw(address, uint256, uint32, bytes)",
+    [ETH_WITHDRAWAL_TARGET, DEFAULT_AMOUNT, 0, []]
   );
 
-  console.log("encoded");
+  console.log("encoded", encodedData);
 
   Ethers.provider()
     .getSigner()
     .sendTransaction({
-      to: ETH_WITHDRAWAL_CONTRACT,
+      to: OP_BRIDGE_WITHDRAW_CONTRACT,
       data: encodedData,
       value: DEFAULT_AMOUNT,
       gasLimit,
@@ -336,8 +337,8 @@ function handleWithdrawalInitiating() {
 }
 
 const handleWithdrawalReceipt = () => {
-  if (!isOPGoerli) {
-    return State.update({ console: `please switch to OP Goerli` });
+  if (!isOPSepolia) {
+    return State.update({ console: `please switch to OP Sepolia` });
   }
 
   const { transactionHash } = state;
@@ -376,6 +377,7 @@ const handleWithdrawalReceipt = () => {
 
       Storage.privateSet(STORAGE_RESOLVED, resolved);
       State.update({ console: "Receipt Updated ✅" });
+      console.log(resolved);
     })
     .catch((e) => {
       console.log(e);
@@ -386,25 +388,16 @@ const handleWithdrawalReceipt = () => {
 };
 
 const getMessageBedrockOutput = (l2BlockNumber, callback) => {
-  const encodedData = outputIface.encodeFunctionData("getL2OutputIndexAfter", [
-    l2BlockNumber,
-  ]);
-
   const contract = new ethers.Contract(
     L2_OUTPUT_ORACLE_CONTRACT,
     outputAbi,
     goerliProvider
   );
 
-  console.log(contract);
+  console.log("L2_OUTPUT_ORACLE_CONTRACT", contract);
 
   contract
     .getL2OutputIndexAfter(l2BlockNumber)
-    // Ethers.provider()
-    //   .call({
-    //     to: L2_OUTPUT_ORACLE_CONTRACT,
-    //     data: encodedData,
-    //   })
     .then((l2OutputIndex) => {
       console.log("l2OutputIndex:", l2OutputIndex.toString());
 
@@ -479,8 +472,15 @@ const handleWithdrawalProof = () => {
 };
 
 const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
-  opGoerliProvider
-    .send("eth_getProof", [ETH_WITHDRAWAL_CONTRACT, [slot], l2BlockNumber])
+  l2BlockNumber = l2BlockNumber.replace("0x0", "0x");
+  console.log(`getBedrockMessageProof`, l2BlockNumber, slot);
+
+  opSepoliaProvider
+    .send("eth_getProof", [
+      OP_BRIDGE_WITHDRAW_CONTRACT,
+      [slot],
+      l2BlockNumber.replace("0x0", "0x"),
+    ])
     .then((proof) => {
       const stateTrieProof = {
         accountProof: proof.accountProof,
@@ -490,7 +490,7 @@ const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
       };
       console.log("stateTrieProof", stateTrieProof);
 
-      opGoerliProvider
+      opSepoliaProvider
         .send("eth_getBlockByNumber", [l2BlockNumber, false])
         .then((block) => {
           console.log("block", block);
@@ -538,9 +538,11 @@ const handleWithdrawalProve = () => {
 
     console.log("proof args:", args);
 
-    if (!isGoerli) {
+    if (!isSepolia) {
+      const error = "switch to Sepolia to sign the proof";
+      console.log(error);
       return State.update({
-        console: "switch to Goerli to sign the proof",
+        console: error,
       });
     }
 
@@ -573,20 +575,23 @@ return (
   <div>
     <h3>Console:</h3>
     <p>{state.console}</p>
-    {!isGoerli && !isOPGoerli && (
-      <p>Please switch to ETH Goerli or OP Goerli</p>
+    {!isSepolia && !isOPSepolia && (
+      <p>Please switch to ETH Sepolia or OP Sepolia</p>
     )}
-    {isGoerli && (
+    {isSepolia && (
       <>
-        <h3>Deposits & Withdrawals</h3>
-        <Widget src={`ciocan.near/widget/op-bridge-list`} />
+        <h3>Network: ETH Sepolia</h3>
+        <p>Balance: {state.balance} ETH</p>
+
+        {/*<h3>Deposits & Withdrawals</h3>
+        <Widget src={`ciocan.near/widget/op-bridge-list`} />*/}
 
         <button onClick={handleDepositETH}>
           Deposit {DEFAULT_AMOUNT_ETH} ETH to L2
         </button>
         <br />
         <br />
-        <p>To initiate a withdraw, switch to OP Goerli network</p>
+        <p>To initiate a withdraw, switch to OP Sepolia network</p>
 
         {state.messageSlot && (
           <>
@@ -599,10 +604,12 @@ return (
         )}
       </>
     )}
-    {isOPGoerli && (
+    {isOPSepolia && (
       <>
-        <h3>Deposits & Withdrawals</h3>
-        <Widget src={`ciocan.near/widget/op-bridge-list`} />
+        <h3>Network: OP Sepolia</h3>
+        <p>Balance: {state.balance} ETH</p>
+        {/*<h3>Deposits & Withdrawals</h3>
+        <Widget src={`ciocan.near/widget/op-bridge-list`} />*/}
 
         <button onClick={handleWithdrawalInitiating}>
           Initiate Withdrawal of {DEFAULT_AMOUNT_ETH} ETH on L2
@@ -610,14 +617,17 @@ return (
         <br />
         <br />
         <p>
-          To make a deposit, or prove a withdraw, switch to ETH Goerli network
+          To make a deposit, or prove a withdraw, switch to ETH Sepolia network
         </p>
 
         <h3>Get Withdrawal Receipt from L2 TX Hash:</h3>
         <input
           placeholder="withdrawal tx hash"
           value={state.transactionHash}
-          onChange={(e) => State.update({ transactionHash: e.target.value })}
+          onChange={({ target: { value } }) => {
+            State.update({ transactionHash: value });
+            Storage.privateSet(STORAGE_RECEIPT_HASH, value);
+          }}
           type="text"
         />
         <br />
