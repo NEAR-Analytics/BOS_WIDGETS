@@ -615,11 +615,11 @@ const getTable = (txn, store) => {
             <>
               <tr>
                 <td>Max Allowance</td>
-                <td>{Big(tx[5]).toFixed(5)}</td>
+                <td>{Big(txn[5]).toFixed(5)}</td>
               </tr>
               <tr>
                 <td>Total Bill Amount</td>
-                <td>{Big(tx[9]).toFixed(5)}</td>
+                <td>{Big(txn[9]).toFixed(5)}</td>
               </tr>
             </>
           ) : (
