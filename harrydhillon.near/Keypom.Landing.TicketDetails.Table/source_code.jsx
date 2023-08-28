@@ -6,6 +6,7 @@ const Table = styled.table`
   margin: 20px 0;
   border-collapse: separate;
   border-spacing: 0;
+  background-color:white;
 `;
 
 const TableHead = styled.thead`
