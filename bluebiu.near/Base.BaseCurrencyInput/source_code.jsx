@@ -85,7 +85,7 @@ const utils = {
     if (!state.balanceLoaded) return "Loading";
     if (state.balance === "0") return "0";
     if (Big(state.balance).lt(0.0001)) return Big(state.balance).toPrecision(1);
-    return Big(state.balance).toFixed(4);
+    return Big(state.balance).toFixed(4, 0);
   },
   valueFormated: (amount) => {
     const prices = Storage.privateGet("tokensPrice");
