@@ -262,7 +262,7 @@ return (
           },
           {
             text: "Dashboards",
-            link: "Flipside-Home-page",
+            link: "../../lord1.near/widget/Flipside-Home-page",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
           },
@@ -274,7 +274,7 @@ return (
           },
           {
             text: "Im human",
-            link: "im-human",
+            link: "../../lord1.near/widget/im-human",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
           },
