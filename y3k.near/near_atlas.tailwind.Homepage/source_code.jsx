@@ -90,33 +90,38 @@ const tabsData = [
   {
     name: "home",
     label: "Home",
-    content:
-      "Ut irure mollit nulla eiusmod excepteur laboris elit sit anim magna tempor excepteur labore nulla.",
+    content: "...",
+    widgets: [
+      "y3k.near/widget/near_atlas.components.MonthlyActiveAcounts",
+      "y3k.near/widget/near_atlas.tailwind.React.Table.TopDapps",
+    ],
   },
   {
     name: "economy",
     label: "Economy",
-    content:
-      "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
+    content: "...",
+    widgets: [
+      "y3k.near/widget/near_atlas.vis.total_supply",
+      "y3k.near/widget/near_atlas.vis.total_staked",
+    ],
   },
   {
     name: "dev_world",
     label: "Dev World",
-    content:
-      "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
+    content: "...",
+    widgets: [
+      "y3k.near/widget/widgets.dailyCommitStats",
+      "y3k.near/widget/widgets.dailyDevStats",
+      "y3k.near/widget/widgets.monthlyCommitStats",
+      "y3k.near/widget/widgets.monthlyDevStats",
+    ],
   },
-  // {
-  //   name: "dao_world",
-  //   label: "DAO World",
-  //   content:
-  //     "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
-  // },
-  // {
-  //   name: "nft_world",
-  //   label: "NFT World",
-  //   content:
-  //     "Fugiat dolor et quis in incididunt aute. Ullamco voluptate consectetur dolor officia sunt est dolor sint.",
-  // },
+  {
+    name: "nft_world",
+    label: "NFT World",
+    content: "...",
+    widgets: ["y3k.near/widget/near_atlas.tailwind.React.Table.TopNFTs"],
+  },
 ];
 
 State.init({ activeTab: activeTab_tab || "home" });
@@ -147,137 +152,13 @@ return (
     </div>
     <div className="col-span-4">
       <div class="container m-auto grid">
-        {/* <p>{tabsData.find((tab) => tab.name === state.activeTab).content}</p> */}
-
-        <div
-          className={`${
-            tabsData.find((tab) => tab.name === state.activeTab).name === "home"
-              ? ""
-              : "visibility: hidden"
-          }`}
-        >
-          <div>
-            <Widget
-              src="y3k.near/widget/near_atlas.components.MonthlyActiveAcounts"
-              props={{}}
-            />
-          </div>
-
-          <div>
-            <Widget
-              src="y3k.near/widget/near_atlas.tailwind.React.Table.TopDapps"
-              props={{}}
-            />
-          </div>
-        </div>
-
-        <div
-          className={`${
-            tabsData.find((tab) => tab.name === state.activeTab).name ===
-            "economy"
-              ? ""
-              : "visibility: hidden"
-          }`}
-        >
-          <div>
-            <div class="row ">
-              <Widget
-                src="y3k.near/widget/near_atlas.vis.total_supply"
-                props={{}}
-              />
+        {tabsData
+          .find((tab) => tab.name === state.activeTab)
+          .widgets.map((widgetSrc) => (
+            <div key={widgetSrc}>
+              <Widget src={widgetSrc} props={{}} />
             </div>
-
-            <div class="row ">
-              <Widget
-                src="y3k.near/widget/near_atlas.vis.total_staked"
-                props={{}}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={`${
-            tabsData.find((tab) => tab.name === state.activeTab).name ===
-            "dev_world"
-              ? ""
-              : "visibility: hidden"
-          }`}
-        >
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <Widget
-                src="y3k.near/widget/widgets.dailyCommitStats"
-                props={{}}
-              />
-            </div>
-            <div>
-              <Widget src="y3k.near/widget/widgets.dailyDevStats" props={{}} />
-            </div>
-            <div>
-              <Widget
-                src="y3k.near/widget/widgets.monthlyCommitStats"
-                props={{}}
-              />
-            </div>
-            <div>
-              <Widget
-                src="y3k.near/widget/widgets.monthlyDevStats"
-                props={{}}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={`${
-            tabsData.find((tab) => tab.name === state.activeTab).name ===
-            "dao_world"
-              ? ""
-              : "visibility: hidden"
-          }`}
-        >
-          <div className="py-4">
-            <div>
-              <Widget
-                src="y3k.near/widget/near_atlas.components.vis.DAUbyDAO"
-                props={{}}
-              />
-            </div>
-
-            <div>
-              <Widget
-                src="y3k.near/widget/near_atlas.components.table.TopDAOs"
-                props={{}}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={`${
-            tabsData.find((tab) => tab.name === state.activeTab).name ===
-            "nft_world"
-              ? ""
-              : "visibility: hidden"
-          }`}
-        >
-          <div className="py-4">
-            <div>
-              <Widget
-                src="y3k.near/widget/near_atlas.components.vis.DAUbyNFTs"
-                props={{}}
-              />
-            </div>
-
-            <div>
-              <Widget
-                src="y3k.near/widget/near_atlas.components.table.TopNFTs"
-                props={{}}
-              />
-            </div>
-          </div>
-        </div>
+          ))}
       </div>
     </div>
   </div>
