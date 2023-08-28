@@ -213,7 +213,7 @@ const Section = styled.div`
 `;
 
 const GraylistedAlert = styled.div`
-  background: #fdfeff;
+  background: rgb(236 236 236);
 `;
 
 const ActionSection = styled.div`
@@ -983,7 +983,7 @@ return (
               </Rule>
 
               {greylisted && (
-                <GraylistedAlert className="p-3 bg-secondary rounded">
+                <GraylistedAlert className="p-3 mb-2 rounded">
                   <b>Voters without reputation need to be verified</b> by the
                   Election Integrity Council or place a substantial bond to
                   vote. If you are a fair voter, this bond will be returned to
