@@ -684,7 +684,7 @@ return (
               />
             </Styles.WalleyImageContainer>
             <Styles.TransactionCardMain>
-              {getTable(state.user.viewTxn)}
+              {getTable(state.user.viewTxn, false)}
               {state.user.viewTxn[11] === "cancel" ? (
                 <>
                   <Styles.WalleyLabel>
@@ -1040,7 +1040,7 @@ return (
                               />
                             </Styles.WalleyImageContainer>
                             <Styles.TransactionCardMain>
-                              {getTable(txn)}
+                              {getTable(txn, false)}
                               <Styles.WalleyButtonRow>
                                 <Styles.WalleyButton
                                   className="grey"
@@ -1220,7 +1220,7 @@ return (
                             />
                           </Styles.WalleyImageContainer>
                           <Styles.TransactionCardMain>
-                            {getTable(txn)}
+                            {getTable(txn, false)}
                             <Styles.WalleyButton
                               className="orange"
                               onClick={() =>
