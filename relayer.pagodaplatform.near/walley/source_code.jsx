@@ -735,36 +735,40 @@ return (
                 </>
               ) : state.user.viewTxn[11] === "transfer" ? (
                 <>
-                  <Styles.WalleyLabel>
-                    Enter the transaction password
-                  </Styles.WalleyLabel>
-                  <Styles.WalleyInput
-                    type="password"
-                    value={state.user.transactionPassword}
-                    onChange={(e) =>
-                      State.update({
-                        user: {
-                          ...state.user,
-                          transactionPassword: e.target.value,
-                        },
-                      })
-                    }
-                  />
-                  <Styles.WalleyLabel>
-                    Enter the Receiver's Address
-                  </Styles.WalleyLabel>
-                  <Styles.WalleyInput
-                    type="text"
-                    value={state.user.transferTo}
-                    onChange={(e) =>
-                      State.update({
-                        user: {
-                          ...state.user,
-                          transferTo: e.target.value,
-                        },
-                      })
-                    }
-                  />
+                  <Styles.WalleyButtonRow>
+                    <Styles.WalleyLabel>
+                      Enter the transaction password
+                    </Styles.WalleyLabel>
+                    <Styles.WalleyInput
+                      type="password"
+                      value={state.user.transactionPassword}
+                      onChange={(e) =>
+                        State.update({
+                          user: {
+                            ...state.user,
+                            transactionPassword: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </Styles.WalleyButtonRow>
+                  <Styles.WalleyButtonRow>
+                    <Styles.WalleyLabel>
+                      Enter the Receiver's Address
+                    </Styles.WalleyLabel>
+                    <Styles.WalleyInput
+                      type="text"
+                      value={state.user.transferTo}
+                      onChange={(e) =>
+                        State.update({
+                          user: {
+                            ...state.user,
+                            transferTo: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </Styles.WalleyButtonRow>
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
                       className="grey"
