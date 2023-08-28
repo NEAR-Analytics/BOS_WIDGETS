@@ -138,7 +138,7 @@ let walletData = [
   fetch(houseNominations("CouncilOfAdvisors"), httpRequestOpt).body,
 ];
 
-const filteredWalletData = state.walletData.map((group) => {
+const filteredWalletData = walletData.map((group) => {
   return group.filter((entry) =>
     wallets.some(({ wallet }) => wallet === entry.nominee)
   );
