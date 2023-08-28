@@ -1,11 +1,11 @@
 const accountId = context.accountId;
 
-const likesByUsers = props.likesByUsers || {};
+const accounts = Array.isArray(props.accounts)
+  ? props.accounts
+  : Object.keys(props.accounts || {}).reverse();
 const limit = props.limit ?? 5;
 
-let likes = Object.keys(likesByUsers).reverse();
-
-const graphLikes = [];
+const graphAccounts = [];
 const nonGraph = [];
 
 const graph =
@@ -14,21 +14,21 @@ const graph =
       .follow) ||
   {};
 
-likes.forEach((accountId) => {
+accounts.forEach((accountId) => {
   if (accountId in graph) {
-    graphLikes.push(accountId);
+    graphAccounts.push(accountId);
   } else {
     nonGraph.push(accountId);
   }
 });
 
-let faces = [...graphLikes, ...nonGraph];
+let faces = [...graphAccounts, ...nonGraph];
 
-const numLikes = likes.length;
+const numAccounts = accounts.length;
 
-const children = <span>{numLikes}</span>;
+const children = <span>{numAccounts}</span>;
 
-return numLikes > 0 ? (
+return numAccounts > 0 ? (
   <Widget
     loading={children}
     src="mob.near/widget/N.Common.OverlayTrigger"
