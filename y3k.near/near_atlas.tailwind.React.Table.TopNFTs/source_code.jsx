@@ -17,10 +17,10 @@ State.init({
   currentPage: 1,
 });
 
-function getNodesForCurrentPage() {
-  const startIndex = (state.currentPage - 1) * 10;
-  const endIndex = startIndex + 10;
-  return nodesTop100.slice(startIndex, endIndex);
+function getNodesForCurrentPage(allNodes) {
+  const startIndex = (state.currentPage - 1) * 20;
+  const endIndex = startIndex + 20;
+  return allNodes.slice(startIndex, endIndex);
 }
 
 function nextPage() {
@@ -74,7 +74,7 @@ function formatCell(text) {
       //   "https://beta.nearatlas.com/#/y3k.near/widget/near_atlas.components.detail_chart?project_name=" +
       //   text
       // }
-      className="text-red-50 text-wrap "
+      className="text-red-50 text-wrap break-words"
     >
       {text}
     </a>
@@ -99,7 +99,7 @@ const data = {
 const COLUMNS = [
   {
     label: (
-      <p className="text-center text-white text-sm font-semibold p-2 text-wrap">
+      <p className="text-white text-sm font-semibold p-2 text-wrap ">
         RECEIVER_ID
       </p>
     ),
@@ -179,40 +179,37 @@ function sort_update(sortKey, direction) {
     setSortConfig: { key: sortKey, direction },
   });
 }
-
-// Function to get the sorted nodes
 function getSortedNodes() {
   // Get the current sort configuration from the state
   const sortConfig = state.setSortConfig;
 
-  //   console.log(sortConfig.key);
-
-  // Apply sorting if there's a sort key and direction
+  // Check if there's a sort key and direction
   if (sortConfig && sortConfig.key && sortConfig.direction) {
     const sortedNodes = [...(nodes || [])];
+
     sortedNodes.sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === "asc" ? -1 : 1;
+      // Check if the data type is string
+      if (typeof a[sortConfig.key] === "string") {
+        return sortConfig.direction === "asc"
+          ? a[sortConfig.key].localeCompare(b[sortConfig.key])
+          : b[sortConfig.key].localeCompare(a[sortConfig.key]);
+      } else {
+        // For other data types (numbers, dates, etc.)
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? 1 : -1;
+        }
       }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === "asc" ? 1 : -1;
-      }
-      return 0;
+      return 0; // If values are equal
     });
-    console.log(sortedNodes);
 
     return sortedNodes;
   }
 
-  //   //
-  //   if (!sortedNodes || sortedNodes.length === 0) {
-  //     return [];
-  //   }
-  //   console.log("state:", state); // Check if state is defined and has the expected structure
-  //   console.log("nodes:", nodes); // Check if nodes is defined and has the expected structure
-  //   console.log("sortedNodes:", sortedNodes); // Check if state is defined and has the expected structure
-
-  return nodes; // Return original nodes if no sorting
+  // If no sort configuration, return original nodes
+  return nodes;
 }
 
 // Function to get the top 100 sorted nodes based on TRANSFERS_LAST_3_DAYS
@@ -230,8 +227,8 @@ function getTop100SortedNodes() {
   // Return top 100 items after sorting
   return sortedNodes.slice(0, 100);
 }
-const nodesTop100 = getTop100SortedNodes();
-const nodesForCurrentPage = getNodesForCurrentPage();
+const sortedNodes = getSortedNodes();
+const nodesForRendering = getNodesForCurrentPage(sortedNodes);
 
 return (
   <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto bg-dark">
@@ -254,7 +251,7 @@ return (
           </tr>
         </thead>
         <tbody>
-          {nodesForCurrentPage.map((row, rowIndex) => (
+          {nodesForRendering.map((row, rowIndex) => (
             <tr className={rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"}>
               {COLUMNS.map((column) => (
                 <td className="px-5 py-5 border-b border-gray-700 text-sm">
