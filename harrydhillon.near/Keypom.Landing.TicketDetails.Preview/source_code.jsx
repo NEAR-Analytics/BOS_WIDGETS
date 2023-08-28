@@ -40,8 +40,8 @@ function ChipDisplay(name) {
 }
 
 const PreviewTicketModal = (
-  <div style={{padding:5}}>
-    <p style={{ fontWeight: "500" }}>Attendee Details</p>
+  <div style={{ padding: 25 ,backgroundColor:"white",borderRadius:12}}>
+    <p style={{ fontWeight: "500" }}>Attendee details</p>
     <div
       style={{
         display: "flex",
@@ -105,7 +105,7 @@ const PreviewTicketModal = (
         fontSize: 14,
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: "lightgray",
+        borderColor: "#E2E8F0",
         marginTop: 5,
         color: "black",
       }}
@@ -125,7 +125,9 @@ return (
         style: {
           width: 500,
           borderRadius: 15,
-          border:'0.1px solid #30C9F3'
+          padding: 2,
+          overflow:"hidden",
+          background:" linear-gradient(180deg, rgba(182,232,247,1) 41%, rgba(255,207,234,1) 96%)",
         },
       },
     }}
