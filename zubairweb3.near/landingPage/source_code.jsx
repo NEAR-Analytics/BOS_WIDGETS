@@ -16,7 +16,7 @@ return (
       }}
     >
       <div class="text-center">
-        {current_user ? <User>{current_user}</User> : "No user_id"}
+        {current_user ? <User>{current_user}</User> : <User>No user_id</User>}
         <h1 style={{ fontSize: "3.5em" }}>
           Master the markets with <br />
           Dropouts' College
