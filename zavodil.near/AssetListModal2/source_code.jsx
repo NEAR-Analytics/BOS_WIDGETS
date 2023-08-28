@@ -165,7 +165,7 @@ const assetList = assets
   .map((tokenId) => {
     return (
       <Widget
-        src="zavodil.near/widget/AssetListItem"
+        src="zavodil.near/widget/AssetListItem2"
         props={{
           tokenId,
           coinGeckoTokenId: coinGeckoTokenIds?.[tokenId] ?? tokenId,
@@ -178,6 +178,7 @@ const assetList = assets
             State.update({ cache });
           },
           assetData: state.cache[tokenId],
+          coingeckoNetworkHandle,
           onClick: () => {
             console.log(`${tokenId} selected`);
             if (props.onClick) {
