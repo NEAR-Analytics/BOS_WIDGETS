@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 const authorId = props.authorId || "manzanal.near";
-const contractId = props.contractId || "v006.mpip.near";
+const contractId = props.contractId || "mpip.meta-pool-dao.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const edit = props.edit ?? false;
 const mpip_id = props.mpip_id ?? null;
