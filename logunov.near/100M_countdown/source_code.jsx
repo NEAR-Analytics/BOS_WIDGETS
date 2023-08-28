@@ -50,7 +50,6 @@ const timeAgo = (diffSec) => {
     return `${hour | 0}h ${min | 0}m ${sec | 0}s`;
   }
 
-  console.log(diffSec - hour * 60 * 60 - min * 60 - sec);
   const days = (diffSec - hour * 60 * 60 - min * 60 - sec) / (24 * 60 * 60);
   return `${days | 0}d ${hour | 0}h ${min | 0}m ${sec | 0}s`;
 };
