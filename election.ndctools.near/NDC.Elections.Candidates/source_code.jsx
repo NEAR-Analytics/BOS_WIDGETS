@@ -22,7 +22,7 @@ const widgets = {
 
 const QUERY_API_ENDPOINT = "https://graph.mintbase.xyz/mainnet";
 const POLICY_HASH =
-  "f1c09f8686fe7d0d798517111a66675da0012d8ad1693a47e0e2a7d3ae1c69d4";
+  "99c19c7a4ea920bb2ae2c5a214b35f6c0393e518e7637b2d6dccf365dd62a047";
 const FAIR_POLICY_DOC =
   "https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link";
 const FAIR_POLICY_NFT =
