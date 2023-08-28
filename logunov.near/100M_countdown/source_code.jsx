@@ -38,4 +38,17 @@ const testView = () => {
   });
 };
 
-return <Container>{Near.block("final").header.height}</Container>;
+return (
+  <Container>
+    {
+      <TextBlock>
+        <UserAmount>
+          {(100_000_000 - parseInt(Near.block("final").header.height))
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+        </UserAmount>
+        <TextBottom>blocks till 100M with 100% uptime 🎉</TextBottom>
+      </TextBlock>
+    }
+  </Container>
+);
