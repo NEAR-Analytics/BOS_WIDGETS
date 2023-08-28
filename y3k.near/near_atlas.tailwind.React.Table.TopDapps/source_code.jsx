@@ -150,6 +150,28 @@ const COLUMNS = [
     renderCell: (item) => formatPercentNew(item["DAU / MAU"]),
     sort: { sortKey: "DAU / MAU" },
   },
+
+  {
+    label: (
+      <p className="text-center text-white text-wrap ">Total Transactions</p>
+    ),
+    renderCell: (item) => formatPercentNew(item["Total Transactions"]),
+    sort: { sortKey: "Total Transactions" },
+  },
+  {
+    label: (
+      <p className="text-center text-white text-wrap ">
+        Transactions - 30 Days
+      </p>
+    ),
+    renderCell: (item) => formatPercentNew(item["Transactions - 30 Days"]),
+    sort: { sortKey: "Transactions - 30 Days" },
+  },
+  {
+    label: <p className="text-center text-white text-wrap ">Avg Txn per MAU</p>,
+    renderCell: (item) => formatPercentNew(item["Avg Txn per MAU"]),
+    sort: { sortKey: "Avg Txn per MAU" },
+  },
 ];
 
 function sort_update(sortKey, direction) {
