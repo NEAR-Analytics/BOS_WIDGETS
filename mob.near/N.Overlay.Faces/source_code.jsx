@@ -26,7 +26,7 @@ let faces = [...graphAccounts, ...nonGraph];
 
 const numAccounts = accounts.length;
 
-const children = <span>{numAccounts}</span>;
+const children = numAccounts;
 
 return numAccounts > 0 ? (
   <Widget
