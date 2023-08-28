@@ -1,4 +1,5 @@
 State.init({
+  chainlistLoaded: false,
   erc20abiUrl:
     "https://ipfs.near.social/ipfs/bafkreidpdrcww6sjppxnjjgvlyk7l6k7ihbizufihoxtmzqhsxy3jj3fru",
 });
@@ -13,6 +14,7 @@ const airdrops = [
     gasLimit: "2000000",
     claimMethod: "claim",
     claimableTokensMethod: "claimableTokens",
+    rpcUrl: "https://arb1.arbitrum.io/rpc",
   },
 ];
 
@@ -22,70 +24,81 @@ if (!receiver) {
   return <Web3Connect />;
 }
 
-if (!state.network) {
+if (!chainlistLoaded) {
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
-      const chainId = chainIdData.chainId;
-      const chainlistData = Social.get(
-        `zavodil.near/chainlist/chains/${chainId}/**`,
-        "final"
-      );
+      const chainlist = Social.get(`zavodil.near/chainlist/chains/**`, "final");
+      /*
+      let networkName, networkIcon;
+      let chainlist = [];
 
-      if (chainlistData.name) {
+      console.log(chainlistData);
+
+      Object.keys(chainlistData).map((chainId) => {
+        if (chainId == chainIdData[chainId]) {
+          // current chain
+          networkName = chainlistData[chainId].name;
+          networkIcon = chainlistData[chainId].icon_svg;
+        }
+        chainlist[chainId] = chainlistData[chainId];
+      });
+
+      console.log("chainlist", chainlist);*/
+
+      if (chainlist) {
         State.update({
-          network: chainlistData.name,
-          icon: chainlistData.icon_svg,
+          chainlistLoaded: true,
+          chainlist,
+          chainId: chainIdData.chainId,
         });
       }
     });
 }
 
 const airdrop = airdrops[0];
+const airdropChain = state.chainlist[airdrop.chainId];
 
-const claimableTokens = (airdrop) => {
+console.log("airdropChain", airdropChain);
+airdrop.networkName = airdropChain.name;
+
+const createContract = (contractId, abi, rpcUrl) => {
+  return new ethers.Contract(
+    contractId,
+    abi,
+    new ethers.providers.JsonRpcProvider(rpcUrl)
+  );
+};
+
+const getClaimableTokens = (airdrop) => {
   if (state.contractABI !== undefined) {
-    const iface = new ethers.utils.Interface(state.contractABI);
-    const encodedData = iface.encodeFunctionData(
-      airdrop.claimableTokensMethod,
-      [receiver]
-    );
+    console.log("getClaimableTokens...");
 
-    Ethers.provider()
-      .call({
-        to: airdrop.contractId,
-        data: encodedData,
-      })
-      .then((rawClaimableTokens) => {
-        const claimableTokensHex = iface.decodeFunctionResult(
-          airdrop.claimableTokensMethod,
-          rawClaimableTokens
-        );
-
+    createContract(airdrop.contractId, state.contractABI, airdrop.rpcUrl)
+      [airdrop.claimableTokensMethod](receiver)
+      .then((claimableTokensHex) =>
         State.update({
           claimableTokens: parseFloat(Big(claimableTokensHex).toFixed()),
-        });
-      });
+        })
+      );
   }
 };
 
 const getTokenSymbol = (airdrop) => {
   if (state.erc20ABI !== undefined) {
-    const iface = new ethers.utils.Interface(state.erc20ABI);
-    const encodedData = iface.encodeFunctionData("symbol", []);
+    console.log("getTokenSymbol...");
 
-    Ethers.provider()
-      .call({
-        to: airdrop.tokenId,
-        data: encodedData,
-      })
-      .then((rawData) => {
+    createContract(airdrop.tokenId, state.erc20ABI, airdrop.rpcUrl)
+      .symbol()
+      .then((tokenSymbol) =>
         State.update({
-          tokenSymbol: iface.decodeFunctionResult("symbol", rawData),
-        });
-      });
+          tokenSymbol,
+        })
+      );
   }
 };
+
+console.log("state", state);
 
 const claim = (airdrop) => {
   const contract = new ethers.Contract(
@@ -126,7 +139,7 @@ const loadErc20ABI = (url) => {
 
 console.log("state", state);
 
-if (state.network) {
+if (state.chainlistLoaded) {
   console.log("Loading airdrop", airdrop);
   if (state.contractABI === undefined) {
     loadAirdropABI(airdrop);
@@ -141,14 +154,20 @@ if (state.network) {
   }
 
   if (state.claimableTokens === undefined && state.contractABI !== undefined) {
-    claimableTokens(airdrop);
+    getClaimableTokens(airdrop);
   } else {
     const claimButton = state.claimableTokens ? (
-      <a class="btn btn-primary" onClick={() => claim(airdrop)}>
-        Claim
-      </a>
+      state.chainId == airdrop.chainId ? (
+        <a class="btn btn-primary" onClick={() => claim(airdrop)}>
+          Claim
+        </a>
+      ) : (
+        <a class="btn btn-primary" onClick={() => claim(airdrop)}>
+          Switch to {airdrop.networkName}
+        </a>
+      )
     ) : (
-      ""
+      "Unable to claim"
     );
     return (
       <div>
