@@ -188,7 +188,9 @@ const Text = styled.p`
 `;
 
 const Content = () => (
-  <iframe src="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link" />
+  <div>
+    <iframe src="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link" />
+  </div>
 );
 
 return (
