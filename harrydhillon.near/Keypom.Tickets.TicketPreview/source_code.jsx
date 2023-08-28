@@ -39,9 +39,12 @@ const PreviewTicketModal = (
           <Widget src="harrydhillon.near/widget/Keypom.Tickets.EyeSVG" />
         </div>
       </EyeDiv>
-      <p style={{ position: "absolute", right: 65, top: 27, fontSize: 12 }}>
-        1 of {props.numberOfTickets}
-      </p>
+      {!!props.numberOfTickets && (
+        <p style={{ position: "absolute", right: 65, top: 27, fontSize: 12 }}>
+          1 of {props.numberOfTickets}
+        </p>
+      )}
+
       <div>
         <img
           style={{
