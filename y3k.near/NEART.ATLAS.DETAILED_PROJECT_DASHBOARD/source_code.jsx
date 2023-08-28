@@ -2,6 +2,7 @@ const initialState = {
   selectedMetric: "MAU",
   processedData: processedData,
   metric_period: "Monthly",
+  project_name: props.project_name || "Sweat Economy",
 };
 
 state = State.init(initialState);
@@ -133,11 +134,11 @@ if (!finalData) {
   return <h1> 🪄 Loading MAGIC 🪄</h1>;
 }
 
-const project_name = props.project_name || "Sweat Economy";
+// const project_name = props.project_name || "Sweat Economy";
 
-const METRIC_NAME = `"${project_name}'s ${state.metric_period}"`;
+const METRIC_NAME = `"${state.project_name}'s ${state.metric_period}"`;
 
-const filteredData = filterByProjectName(finalData, project_name) || [];
+const filteredData = filterByProjectName(finalData, state.project_name) || [];
 
 const filteredSortedData = sortByActivityDate(filteredData) || [];
 
@@ -218,13 +219,6 @@ const v_bar_options = {
 
 // logic part-3
 
-const handleDropdownChange = (e) => {
-  console.log("selectedMetric:", e.target.value);
-  State.update({
-    selectedMetric: e.target.value,
-  });
-};
-
 const header_map = {
   DAA: "Daily Active Accounts",
   WAU: "Weekly Active Accounts",
@@ -237,9 +231,41 @@ const header_map = {
   TX_30_Days: "Transactions - 30 Days",
   AVG_TXT_MAU: "Avg Txn per MAU",
 };
+
+// adding project selector:
+
+// 1. Create a function to extract unique project names:
+function getUniqueProjectNames(data) {
+  const projectNamesSet = new Set();
+  data.forEach((item) => {
+    if (item.PROJECT_NAME) {
+      projectNamesSet.add(item.PROJECT_NAME);
+    }
+  });
+  return [...projectNamesSet];
+}
+
+// 2. Get the unique project names from `finalData`:
+const uniqueProjectNames = getUniqueProjectNames(finalData);
+
+// 3. Create a handler for the project name dropdown change:
+const handleProjectDropdownChange = (e) => {
+  console.log("selectedProject:", e.target.value);
+  State.update({
+    project_name: e.target.value,
+  });
+};
+
+const handleDropdownChange = (e) => {
+  // console.log("selectedMetric:", e.target.value);
+  State.update({
+    selectedMetric: e.target.value,
+  });
+};
+
 const getBarData = () => {
   const { selectedMetric } = state;
-  console.log(selectedMetric);
+  // console.log(selectedMetric);
   State.update({ processedData: [] });
 
   let newProcessedData = updateProcessedData(
@@ -252,8 +278,8 @@ const getBarData = () => {
     metric_period: header_map[selectedMetric],
   });
 
-  console.log(newProcessedData);
-  console.log("processedData WAA");
+  // console.log(newProcessedData);
+  // console.log("processedData WAA");
 
   return {
     v_bar_labels,
@@ -288,6 +314,19 @@ return (
                   <option value="Total_Transactions">Total Transactions</option>
                   <option value="TX_30_Days">Transactions - 30 Days</option>
                   <option value="AVG_TXT_MAU">Avg Txn per MAU</option>
+                </select>
+
+                <label htmlFor="project-dropdown">Select Project: </label>
+                <select
+                  id="project-dropdown"
+                  value={project_name}
+                  onChange={handleProjectDropdownChange}
+                >
+                  {uniqueProjectNames.map((name) => (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  ))}
                 </select>
 
                 <BarEl options={v_bar_options} data={getBarData()} />
