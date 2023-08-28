@@ -700,6 +700,24 @@ return (
                 <h6>The transaction is going to be confirmed</h6>
               </div>
             )}
+            <div class="FeesContainer">
+              <div class="Line" />
+              <div class="RecipientContainer">
+                <div class="RecipientText">Recipient</div>
+                <div class="RecipientValue">{getRecipient()}</div>
+              </div>
+              <div class="RecipientContainer">
+                <div class="RecipientText">Rate</div>
+                <div class="RecipientValue">
+                  {state.rate != 0
+                    ? `1 ${state.tokenSendSelected.name} ≈ ${state.rate.toFixed(
+                        6
+                      )}
+              ${state.tokenRecieveSelected.name}`
+                    : ""}
+                </div>
+              </div>
+            </div>
           </>
         ) : (
           state.sender && (
@@ -716,7 +734,92 @@ return (
             </span>
           )
         )}
+        <div class="ConfirmContainer">
+          {!state.onApproving ? (
+            state.sender && state.isZkSync ? (
+              state.approvalNeeded ? (
+                state.inputBalance && state.inputBalance > 0 ? (
+                  <div
+                    class={"ConfirmButton"}
+                    onClick={async () => {
+                      approveErc20Token();
+                    }}
+                  >
+                    <div class={"ConfirmText"}>
+                      {`Approve ${state.tokenSendSelected.name}`}
+                    </div>
+                  </div>
+                ) : (
+                  <div class={"ConfirmButtonDisabled"}>
+                    <div class={"ConfirmTextDisabled"}>
+                      {`You don't have balance to approve`}
+                    </div>
+                  </div>
+                )
+              ) : cantSwap() && isSufficientBalance() && existPool() ? (
+                !state.onSwap ? (
+                  state.needMoreAllowance ? (
+                    <div
+                      class={"ConfirmButton"}
+                      onClick={async () => {
+                        approveErc20Token();
+                      }}
+                    >
+                      <div class={"ConfirmText"}>Add More Allowance</div>
+                    </div>
+                  ) : (
+                    <div
+                      class={"ConfirmButton"}
+                      onClick={async () => {
+                        confirmTransaction();
+                      }}
+                    >
+                      <div class={"ConfirmText"}>Confirm</div>
+                    </div>
+                  )
+                ) : (
+                  <div
+                    class={"ConfirmButtonDisabled"}
+                    onClick={async () => {
+                      confirmTransaction();
+                    }}
+                  >
+                    <div class={"ConfirmTextDisabled"}>Swap in progress...</div>
+                  </div>
+                )
+              ) : (
+                <div class={"ConfirmButtonDisabled"}>
+                  <div class={"ConfirmTextDisabled"}>
+                    {existPool()
+                      ? isSufficientBalance()
+                        ? "Select a Pair and Amount"
+                        : "Insufficient Balance"
+                      : "Pool Not Deployed"}
+                  </div>
+                </div>
+              )
+            ) : (
+              <Web3Connect
+                className="ConfirmButton ConfirmText"
+                connectLabel="Connect Wallet"
+              />
+            )
+          ) : (
+            <div class={"ConfirmButtonDisabled"}>
+              <div class={"ConfirmTextDisabled"}>
+                {`${state.tokenSendSelected.name} it's being approved...`}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
+    <Widget
+      src="yairnava.near/widget/Maverick-Swap-Transactions"
+      props={{
+        state,
+        handleReload: () => State.update({ reloadTransactions: false }),
+      }}
+    />
   </Theme>
 );
