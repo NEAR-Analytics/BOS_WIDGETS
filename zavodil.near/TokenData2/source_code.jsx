@@ -1,4 +1,4 @@
-const { tokenId, coinGeckoTokenId } = props;
+const { tokenId, coinGeckoTokenId, coingeckoNetworkHandle } = props;
 
 const accountId = context.accountId;
 const debug = props.debug ?? false;
@@ -12,7 +12,6 @@ const NETWORK_POLYGON = "POLYGON";
 const NETWORK_MANTLE = "MANTLE";
 
 const network = props.network ?? NETWORK_NEAR;
-const coingeckoNetworkHandle = props.coingeckoNetworkHandle;
 
 if (!tokenId) return;
 
@@ -112,12 +111,15 @@ const getErc20Tokendata = (tokenId) => {
   }
 
   const tokenData = data.body;
+  console.log("tokenData", tokenData);
 
   const metadata = {
     name: tokenData.name,
     symbol: tokenData.symbol,
     icon: tokenData.image.small,
-    decimals: tokenData.detail_platforms["ethereum"].decimal_place,
+    decimals:
+      tokenData.detail_platforms[coingeckoNetworkHandle ?? "ethereum"]
+        .decimal_place,
   };
 
   const price = Number(tokenData.market_data.current_price.usd);
