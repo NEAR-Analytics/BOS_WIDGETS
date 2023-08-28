@@ -147,6 +147,7 @@ if (state.store.stores.length === 0 && nftContract && sender) {
 }
 
 const storeTxn = (address) => {
+  console.log("heere");
   const storeState = state.store;
   nftContract.getStoreTransactions(address).then((transactions) => {
     storeState.storePendingTransactions = [];
