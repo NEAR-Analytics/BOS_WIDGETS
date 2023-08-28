@@ -297,7 +297,7 @@ return (
           ),
           onClick: () => State.update({ tab: "createproposal", content: "" }),
           variant: "success",
-          href: `/${authorId}/widget/Governance.Index?tab=createproposal`,
+          href: `/meta-pool-official.near/widget/ImprovementProposals?tab=createproposal`,
         }}
       />
     </Section>
