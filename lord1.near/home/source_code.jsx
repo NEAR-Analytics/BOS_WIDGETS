@@ -481,7 +481,7 @@ return (
                     />
                   </svg>
                   <h5 style={{ color: `${state.light ? "black" : "#fff"}` }}>
-                    Near bounties
+                    NEAR Analytics Challenges
                   </h5>
                 </Trigger>
               </Header>
