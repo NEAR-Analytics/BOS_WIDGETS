@@ -614,28 +614,31 @@ const getTable = (txn, store) => {
         <tbody>
           <tr>
             <td>Name</td>
-            <td>Store Name</td>
-            {store ? (
-              <>
-                <td>Max Allowance</td>
-                <td>Total Bill Amount</td>
-              </>
-            ) : (
-              <td>Allowance</td>
-            )}
-            <td>At</td>
+            <td>{txn[2]}</td>
           </tr>
           <tr>
-            <td>{txn[2]}</td>
+            <td>Store Name</td>
             <td>{txn[6]}</td>
-            {store ? (
-              <>
+          </tr>
+          {store ? (
+            <>
+              <tr>
+                <td>Max Allowance</td>
                 <td>{Big(tx[5]).toFixed(5)}</td>
+              </tr>
+              <tr>
+                <td>Total Bill Amount</td>
                 <td>{Big(tx[9]).toFixed(5)}</td>
-              </>
-            ) : (
+              </tr>
+            </>
+          ) : (
+            <tr>
+              <td>Allowance</td>
               <td>{Big(txn[5]).toFixed(5)}</td>
-            )}
+            </tr>
+          )}
+          <tr>
+            <td>At</td>
             <td>{unixToDate(Big(txn[10]).toFixed(0))}</td>
           </tr>
         </tbody>
