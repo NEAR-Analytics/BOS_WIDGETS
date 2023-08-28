@@ -46,7 +46,9 @@ const renderPost = (a) => {
   return (
     <div key={JSON.stringify(a)}>
       <Widget
-        loading={<div className="w-100" style={{ minHeight: "200px" }} />}
+        loading={
+          <div className="w-100 placeholder" style={{ height: "200px" }} />
+        }
         src="mob.near/widget/MainPage.N.Post"
         props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
       />
@@ -119,6 +121,7 @@ const renderRepost = (a) => {
         <span style={{ marginLeft: "8px" }}>
           Reposted by{" "}
           <Widget
+            loading={a.accountId}
             src="mob.near/widget/N.ProfileLine"
             props={{
               accountId: a.accountId,
@@ -130,6 +133,9 @@ const renderRepost = (a) => {
         </span>
       </div>
       <Widget
+        loading={
+          <div className="w-100 placeholder" style={{ height: "200px" }} />
+        }
         src="mob.near/widget/MainPage.N.Post"
         props={{
           accountId: post.accountId,
@@ -145,5 +151,10 @@ const renderItem = (item) =>
   item.action === "post" ? renderPost(item) : renderRepost(item);
 
 return (
-  <Widget src="mob.near/widget/MergedIndexFeed" props={{ index, renderItem }} />
+  <div className="placeholder-glow">
+    <Widget
+      src="mob.near/widget/MergedIndexFeed"
+      props={{ index, renderItem }}
+    />
+  </div>
 );
