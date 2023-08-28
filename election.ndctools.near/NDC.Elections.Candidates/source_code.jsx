@@ -1,5 +1,6 @@
 const {
   electionContract,
+  registryContract,
   ndcOrganization,
   myVotes,
   id,
@@ -20,6 +21,7 @@ const widgets = {
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
 };
 
+const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const QUERY_API_ENDPOINT = "https://graph.mintbase.xyz/mainnet";
 const POLICY_HASH =
   "99c19c7a4ea920bb2ae2c5a214b35f6c0393e518e7637b2d6dccf365dd62a047";
@@ -33,8 +35,8 @@ const MINT_VOTING_POLICY_NFT = "https://shard.dog/fairvoting/";
 const MINT_I_VOTED_NFT = "https://shard.dog/ivoted";
 const BLACKLIST_VERIFY_LINK = "";
 const GREYLIST_VERIFY_LINK = "";
-const MIN_BOND = 3;
-const MAX_BOND = 300;
+const MIN_BOND = 0.01; //3
+const MAX_BOND = 0.02; //300;
 const NFT_SERIES = [124, 125];
 
 const H4 = styled.h4`
@@ -320,14 +322,27 @@ const handleBookmarkCandidate = (candidateId) => {
   );
 };
 
-const handleVote = () =>
-  Near.call(
-    electionContract,
-    "vote",
-    { prop_id: props.id, vote: state.selectedCandidates },
-    "110000000000000",
-    (state.greylisted ? MAX_BOND : MIN_BOND) * 100000000000000000000000
-  ).then((data) => State.update({ bountyProgramModal: false }));
+const handleVote = () => {
+  const voteFunc = {
+    contractName: electionContract,
+    methodName: "vote",
+    args: { prop_id: props.id, vote: state.selectedCandidates },
+    gas: "110000000000000",
+  };
+
+  const bondFunc = {
+    contractName: registryContract,
+    methodName: "is_human_call",
+    args: { ctr: electionContract, function: "bond", payload: "" },
+    gas: "110000000000000",
+    deposit:
+      (state.greylisted ? MAX_BOND : MIN_BOND) * 100000000000000000000000,
+  };
+
+  const arr = state.alreadyBonded ? [voteFunc] : [bondFunc, voteFunc];
+
+  Near.call(arr).then((data) => State.update({ bountyProgramModal: false }));
+};
 
 const handleAcceptToS = () => {
   State.update({ loading: true });
@@ -449,6 +464,7 @@ State.init({
   loading: false,
   electionStatus: "NOT_STARTED",
   acceptedPolicy: false,
+  alreadyBonded: false,
   availableVotes: seats - myVotesForHouse().length,
   selected: null,
   bookmarked: [],
@@ -486,6 +502,14 @@ if (state.reload) {
   fetchGraphQL(NFT_SERIES[1]).then((result) =>
     processNFTAvailability(result, "hasIVotedNFT")
   );
+
+  asyncFetch(
+    `https://api.pikespeak.ai/election/already_bonded?contract=${electionContract}`,
+    { headers: { "x-api-key": apiKey } }
+  ).then((resp) => {
+    if (resp.body) State.update({ alreadyBonded: resp.body });
+  });
+
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
   });
@@ -497,6 +521,7 @@ if (state.reload) {
   const winnerIds = Near.view(electionContract, "winners_by_house", {
     prop_id: id,
   });
+
   const bookmarked = loadSocialDBData();
 
   State.update({
