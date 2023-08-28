@@ -499,7 +499,7 @@ if (state.reload) {
 
   State.update({
     electionStatus: electionStatus ?? state.electionStatus,
-    acceptedPolicy: acceptedPolicy ?? state.acceptedPolicy,
+    acceptedPolicy: acceptedPolicy === POLICY_HASH ?? state.acceptedPolicy,
     winnerIds: winnerIds ?? state.winnerIds,
     bookmarked: bookmarked ?? state.bookmarked,
     candidates: filteredCandidates(),
