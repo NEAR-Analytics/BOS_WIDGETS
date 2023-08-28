@@ -1,4 +1,4 @@
-const contractId = props.contractId || "v006.mpip.near";
+const contractId = props.contractId || "mpip.meta-pool-dao.near";
 const accountId = props.accountId ?? context.accountId;
 const authorId = props.authorId || "manzanal.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
