@@ -22,6 +22,12 @@ const RedButton = styled.div`
     border-radius:10px;
 `;
 
+const Container = styled.div`
+  padding:10px;
+  background: linear-gradient(0deg, rgba(220,244,251,1) 0%, rgba(251,254,255,1) 95%, rgba(255,255,255,1) 100%);
+`;
+
+
 const DataToShow = [
   {
     label: "Sold",
@@ -38,7 +44,7 @@ const DataToShow = [
 ];
 
 return (
-  <div style={{ padding: 10 }}>
+  <Container>
     <p style={{ fontSize: 12, letterSpacing: 0.5, marginBottom: 0 }}>
       <span style={{ color: "gray" }}>All Drops</span> {">"} Star Invader 3
     </p>
@@ -115,5 +121,5 @@ return (
       </div>
     </div>
     <Widget src="harrydhillon.near/widget/Keypom.Landing.TicketDetails.Table" />
-  </div>
+  </Container>
 );
