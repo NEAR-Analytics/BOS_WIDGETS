@@ -64,7 +64,7 @@ return (
         links: [
           {
             text: "Home",
-            link: "home",
+            link: "../../lord1.near/widget/home",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
           },
@@ -76,13 +76,13 @@ return (
           },
           {
             text: "Contracts",
-            link: "xxx",
+            link: "../../leslug.near/widget/NearContractVisualizerV2",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
           },
           {
             text: "Im human",
-            link: "xxx",
+            link: "../../lord1.near/widget/im-human",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
           },
