@@ -40,18 +40,18 @@ const timeAgo = (diffSec) => {
   const sec = diffSec % 60;
   if (diffSec < 60) return `${diffSec | 0}s`;
 
-  const min = (diffSec - sec) / 60;
-  console.log(diffSec < 60 * 60);
+  const min = ((diffSec - sec) / 60) % 60;
   if (diffSec < 60 * 60) {
     return `${min | 0}m ${sec | 0}s`;
   }
 
-  const hour = (diffSec - min * 60 - sec) / 60;
+  const hour = ((diffSec - min * 60 - sec) / (60 * 60)) % 24;
   if (diffSec < 24 * 60 * 60) {
     return `${hour | 0}h ${min | 0}m ${sec | 0}s`;
   }
 
-  const days = (diffSec - hour * 60 * 60 - min * 60 - sec) / 24;
+  console.log(diffSec - hour * 60 * 60 - min * 60 - sec);
+  const days = (diffSec - hour * 60 * 60 - min * 60 - sec) / (24 * 60 * 60);
   return `${days | 0}d ${hour | 0}h ${min | 0}m ${sec | 0}s`;
 };
 
@@ -65,7 +65,7 @@ return (
         <TextBottom>blocks till 100M with 100% protocol uptime 🎉</TextBottom>
         <br />
         <br />
-        <TextBottomest>Remaining time: {timeAgo(diff)}</TextBottomest>
+        <TextBottomest>Remaining time: {timeAgo(diff * 1.3)}</TextBottomest>
         <TextBottomest>Current block: {height}</TextBottomest>
       </TextBlock>
     }
