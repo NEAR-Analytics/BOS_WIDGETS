@@ -83,6 +83,7 @@ State.init({
   data: {},
   comments: [],
   verified: false,
+  filteredWalletData: [],
 });
 
 const baseApi = "https://api.pikespeak.ai";
@@ -137,10 +138,14 @@ let walletData = [
   fetch(houseNominations("CouncilOfAdvisors"), httpRequestOpt).body,
 ];
 
-const filteredWalletData = walletData.map((group) => {
+const filteredWalletData = state.walletData.map((group) => {
   return group.filter((entry) =>
     wallets.some(({ wallet }) => wallet === entry.nominee)
   );
+});
+
+State.update({
+  filteredWalletData,
 });
 
 asyncFetch(
@@ -230,7 +235,7 @@ const rednerSelector = () => (
     onChange={handleWalletChange}
     value={state.wallet}
   >
-    {filteredWalletData.map((houseData, index) => (
+    {state.filteredWalletData.map((houseData, index) => (
       <>
         <GroupLabel disabled>{houseData[0].house}</GroupLabel>
         {houseData.map((walletItem, walletIndex) => (
