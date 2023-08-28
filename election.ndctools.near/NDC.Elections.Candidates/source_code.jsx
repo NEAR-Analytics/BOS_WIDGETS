@@ -377,13 +377,17 @@ const handleStateTransition = () => {
 
   switch (state.electionStatus) {
     case "ONGOING":
-      State.update({
-        tosAgreement: !!state.acceptedPolicy,
-        showMintPolicyModal:
-          !!state.acceptedPolicy && state.hasPolicyNFT === false,
-        bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
-        showMintIVotedModal: myVotes.length > 0 && state.hasIVotedNFT === false,
-      });
+      if (!state.acceptedPolicy)
+        State.update({
+          showToSModal: true,
+        });
+      else
+        State.update({
+          showMintPolicyModal: state.hasPolicyNFT === false,
+          bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
+          showMintIVotedModal:
+            myVotes.length > 0 && state.hasIVotedNFT === false,
+        });
       break;
     case "COOLDOWN":
       State.update({
@@ -448,6 +452,7 @@ State.init({
   reload: true,
   loading: false,
   electionStatus: "NOT_STARTED",
+  acceptedPolicy: false,
   availableVotes: seats - myVotesForHouse().length,
   selected: null,
   bookmarked: [],
@@ -469,6 +474,7 @@ State.init({
   bountyProgramModal: false,
   showReviewModal: false,
   blacklistedModal: true,
+
   showMintPolicyModal: false,
   showMintIVotedModal: false,
   hasPolicyNFT: null,
@@ -765,7 +771,7 @@ const CastVotes = () => (
             onClick: () =>
               !!state.acceptedPolicy && !state.hasPolicyNFT
                 ? State.update({ showMintPolicyModal: true })
-                : state.hasPolicyNFT
+                : !!state.acceptedPolicy && state.hasPolicyNFT
                 ? State.update({ bountyProgramModal: true })
                 : State.update({ showToSModal: true }),
           },
