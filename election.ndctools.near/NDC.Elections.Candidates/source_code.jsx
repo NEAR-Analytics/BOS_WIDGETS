@@ -12,6 +12,8 @@ const {
   result,
   isIAmHuman,
   candidateId,
+  blacklisted,
+  greylisted,
 } = props;
 
 const widgets = {
@@ -480,8 +482,6 @@ State.init({
     my_votes: false,
   },
   filterOption: "",
-  blacklisted: false,
-  greylisted: false,
   showToSModal: false,
   bountyProgramModal: false,
   showReviewModal: false,
