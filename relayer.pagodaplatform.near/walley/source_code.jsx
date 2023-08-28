@@ -1020,7 +1020,6 @@ return (
                 <Styles.WalleyTransactions>
                   {state.user.userPendingTransactions.length !== 0 ? (
                     state.user.userPendingTransactions
-                      .reverse()
                       .filter((tx) =>
                         tx[6]
                           .toLowerCase()
@@ -1101,7 +1100,6 @@ return (
                 <Styles.WalleyTransactions>
                   {state.user.userPastTransactions.length !== 0 ? (
                     state.user.userPastTransactions
-                      .reverse()
                       .filter((tx) =>
                         tx[6]
                           .toLowerCase()
@@ -1208,7 +1206,6 @@ return (
               {state.view === "home" ? (
                 state.store.storePendingTransactions.length !== 0 ? (
                   state.store.storePendingTransactions
-                    .reverse()
                     .filter((tx) =>
                       tx[2]
                         .toLowerCase()
@@ -1253,7 +1250,6 @@ return (
                 )
               ) : state.store.storePastTransactions.length !== 0 ? (
                 state.store.storePastTransactions
-                  .reverse()
                   .filter((tx) =>
                     tx[2]
                       .toLowerCase()
