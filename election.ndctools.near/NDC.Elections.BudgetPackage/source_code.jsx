@@ -115,13 +115,7 @@ const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 
 const handleVote = (value) =>
-  Near.call(
-    electionContract,
-    "vote",
-    { prop_id: id, vote: [value] },
-    "70000000000000",
-    150000000
-  );
+  Near.call(electionContract, "vote", { prop_id: id, vote: [value] });
 
 State.init({
   availableVotes: seats - myVotesForHouse().length,
