@@ -1,4 +1,3 @@
-
 const GradientBackground = styled.div`
 background: rgb(182,232,247);
 padding:1px;
@@ -24,6 +23,12 @@ const RedButton = styled.div`
     border-radius:10px;
 `;
 
+const Container = styled.div`
+  padding:10px;
+background: linear-gradient(180deg, rgba(242,252,255,1) 18%, rgba(203,239,255,1) 100%);
+
+`;
+
 const DataToShow = [
   {
     label: "Sold",
@@ -40,7 +45,7 @@ const DataToShow = [
 ];
 
 return (
-  <div style={{ padding: 10 }}>
+  <Container>
     <p style={{ fontSize: 12, letterSpacing: 0.5, marginBottom: 0 }}>
       <span style={{ color: "gray" }}>All Drops</span> {">"} Star Invader 3
     </p>
@@ -54,22 +59,22 @@ return (
       }}
     >
       {DataToShow.map((item) => (
-        <GradientBackground  key={item.label}>
-        <ContainerDiv>
-          <p style={{ fontSize: 16, letterSpacing: 0.5, marginBottom: 0 }}>
-            {item.label}
-          </p>
-          <p
-            style={{
-              fontSize: "30px",
-              marginTop: 0,
-              marginBottom: 0,
-              fontWeight: "500",
-            }}
-          >
-            {item.value}
-          </p>
-        </ContainerDiv>
+        <GradientBackground key={item.label}>
+          <ContainerDiv>
+            <p style={{ fontSize: 16, letterSpacing: 0.5, marginBottom: 0 }}>
+              {item.label}
+            </p>
+            <p
+              style={{
+                fontSize: "30px",
+                marginTop: 0,
+                marginBottom: 0,
+                fontWeight: "500",
+              }}
+            >
+              {item.value}
+            </p>
+          </ContainerDiv>
         </GradientBackground>
       ))}
     </div>
@@ -89,5 +94,5 @@ return (
       </div>
     </div>
     <Widget src="harrydhillon.near/widget/Keypom.Landing.DropDetails.Table" />
-  </div>
+  </Container>
 );
