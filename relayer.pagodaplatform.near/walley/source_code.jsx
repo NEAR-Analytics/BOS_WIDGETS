@@ -681,14 +681,6 @@ return (
       {state.user.viewTxn.length !== 0 ? (
         <Styles.TransactionModal>
           <Styles.TransactionCard>
-            <Styles.WalleyImageContainer>
-              <Styles.WalleyStoreImage
-                src={`https://ipfs.near.social/ipfs/${
-                  state.store.storeImages[state.user.viewTxn[6]]
-                }`}
-                alt={state.user.viewTxn[6]}
-              />
-            </Styles.WalleyImageContainer>
             <Styles.TransactionCardMain>
               {getTable(state.user.viewTxn, false)}
               {state.user.viewTxn[11] === "cancel" ? (
@@ -735,40 +727,36 @@ return (
                 </>
               ) : state.user.viewTxn[11] === "transfer" ? (
                 <>
-                  <Styles.WalleyButtonRow>
-                    <Styles.WalleyLabel>
-                      Enter the transaction password
-                    </Styles.WalleyLabel>
-                    <Styles.WalleyInput
-                      type="password"
-                      value={state.user.transactionPassword}
-                      onChange={(e) =>
-                        State.update({
-                          user: {
-                            ...state.user,
-                            transactionPassword: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </Styles.WalleyButtonRow>
-                  <Styles.WalleyButtonRow>
-                    <Styles.WalleyLabel>
-                      Enter the Receiver's Address
-                    </Styles.WalleyLabel>
-                    <Styles.WalleyInput
-                      type="text"
-                      value={state.user.transferTo}
-                      onChange={(e) =>
-                        State.update({
-                          user: {
-                            ...state.user,
-                            transferTo: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </Styles.WalleyButtonRow>
+                  <Styles.WalleyLabel>
+                    Enter the transaction password
+                  </Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    type="password"
+                    value={state.user.transactionPassword}
+                    onChange={(e) =>
+                      State.update({
+                        user: {
+                          ...state.user,
+                          transactionPassword: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <Styles.WalleyLabel>
+                    Enter the Receiver's Address
+                  </Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    type="text"
+                    value={state.user.transferTo}
+                    onChange={(e) =>
+                      State.update({
+                        user: {
+                          ...state.user,
+                          transferTo: e.target.value,
+                        },
+                      })
+                    }
+                  />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
                       className="grey"
