@@ -64,7 +64,7 @@ return (
         links: [
           {
             text: "Home",
-            link: "http://flipsidecrypto.xyz/",
+            link: "home",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
           },
