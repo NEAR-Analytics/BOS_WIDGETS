@@ -1211,7 +1211,7 @@ return (
                             />
                           </Styles.WalleyImageContainer>
                           <Styles.TransactionCardMain>
-                            {getTable(tx, true)}
+                            {getTable(tx, false)}
                             <Styles.WalleyButton
                               className="orange"
                               onClick={() =>
