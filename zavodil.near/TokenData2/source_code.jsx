@@ -12,6 +12,7 @@ const NETWORK_POLYGON = "POLYGON";
 const NETWORK_MANTLE = "MANTLE";
 
 const network = props.network ?? NETWORK_NEAR;
+const coingeckoNetworkHandle = props.coingeckoNetworkHandle;
 
 if (!tokenId) return;
 
@@ -101,10 +102,10 @@ const getErc20Balance = (tokenId, receiver) => {
 };
 
 const getErc20Tokendata = (tokenId) => {
-  let dataUrl = `https://api.coingecko.com/api/v3/coins/ethereum/contract/${tokenId}`;
-  if (network === NETWORK_AURORA) {
-    dataUrl = `https://api.coingecko.com/api/v3/coins/aurora/contract/${tokenId}`;
-  }
+  let dataUrl = `https://api.coingecko.com/api/v3/coins/${
+    coingeckoNetworkHandle ?? "ethereum"
+  }/contract/${tokenId}`;
+
   const data = fetch(dataUrl);
   if (!data.ok) {
     return "Loading";
@@ -188,12 +189,10 @@ switch (network) {
       State.update({ erc20Abi: erc20Abi.body });
     }
 
-    let tokenIdForCoingeckoAPI;
-    if ([NETWORK_AURORA, NETWORK_ETH].includes(network)) {
-      tokenIdForCoingeckoAPI = tokenId;
-    } else {
-      tokenIdForCoingeckoAPI = coinGeckoTokenId;
-    }
+    let tokenIdForCoingeckoAPI =
+      !!coingeckoNetworkHandle || !coingeckoNetworkHandle
+        ? tokenId
+        : coinGeckoTokenId;
 
     // LOAD TOKEN METADATA & PRICE
     getErc20Tokendata(tokenIdForCoingeckoAPI);
