@@ -29,7 +29,6 @@ const Button = styled.div`
     font-weight:bold;
     color:#fff;
     width:100%;
-    max-width: 400px
     height:50px;
     border-radius:10px;
     background-color:#2fbc2f;
