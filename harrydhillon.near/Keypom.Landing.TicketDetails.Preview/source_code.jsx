@@ -40,7 +40,7 @@ function ChipDisplay(name) {
 }
 
 const PreviewTicketModal = (
-  <div style={{ padding: 25 ,backgroundColor:"white",borderRadius:12}}>
+  <div style={{ padding: 25, backgroundColor: "white", borderRadius: 12 }}>
     <p style={{ fontWeight: "500" }}>Attendee details</p>
     <div
       style={{
@@ -120,14 +120,17 @@ return (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: PreviewTicketModal,
+      background:
+        "linear-gradient(180deg, rgba(242,252,255,1) 18%, rgba(203,239,255,1) 100%)",
       isOpen: props.isOpen,
       contentStyles: {
         style: {
           width: 500,
           borderRadius: 15,
           padding: 2,
-          overflow:"hidden",
-          background:" linear-gradient(180deg, rgba(182,232,247,1) 41%, rgba(255,207,234,1) 96%)",
+          overflow: "hidden",
+          background:
+            " linear-gradient(180deg, rgba(182,232,247,1) 41%, rgba(255,207,234,1) 96%)",
         },
       },
     }}
