@@ -615,7 +615,9 @@ const getTable = (txn, store) => {
             <>
               <tr>
                 <td>Max Allowance</td>
-                <td>{Big(txn[5]).div().toFixed(5)}</td>
+                <td>
+                  {parseFloat(Big(txn[5]).div(Big(10).pow(18)).toFixed(5))}
+                </td>
               </tr>
               <tr>
                 <td>Total Bill Amount</td>
