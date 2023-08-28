@@ -111,7 +111,7 @@ return (
         <Widget
           src="efiz.near/widget/marquee"
           props={{
-            text: "Broaden your horizen with Flipside",
+            text: "Broaden your horizon with Flipside",
             fontFamily: "Arial",
             fontSize: "20px",
             backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
