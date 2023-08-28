@@ -24,9 +24,8 @@ const RedButton = styled.div`
 
 const Container = styled.div`
   padding:10px;
-  background: linear-gradient(0deg, rgba(220,244,251,1) 0%, rgba(251,254,255,1) 95%, rgba(255,255,255,1) 100%);
+background: linear-gradient(180deg, rgba(242,252,255,1) 18%, rgba(203,239,255,1) 100%);
 `;
-
 
 const DataToShow = [
   {
