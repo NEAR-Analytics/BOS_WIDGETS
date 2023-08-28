@@ -24,7 +24,7 @@ function getNodesForCurrentPage(allNodes) {
 }
 
 function nextPage() {
-  if (state.currentPage < Math.ceil(nodesTop100.length / 10)) {
+  if (state.currentPage < Math.ceil(sortedNodes.length / 10)) {
     State.update({ currentPage: state.currentPage + 1 });
   }
 }
@@ -68,7 +68,11 @@ function formatNumberDecimal(text) {
 }
 
 function formatCell(text) {
-  return <a className="text-red-50 whitespace-normal break-words">{text}</a>;
+  return (
+    <a className="text-red-50 whitespace-normal break-words block max-w-xs">
+      {text}
+    </a>
+  );
 }
 
 function formatText(text) {
@@ -222,7 +226,7 @@ const nodesForRendering = getNodesForCurrentPage(sortedNodes);
 
 return (
   <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto bg-dark">
-    <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+    <div className="inline-block min-w-full max-w-full overflow-x-auto shadow rounded-lg overflow-hidden">
       <table className="min-w-full leading-normal">
         <thead>
           <tr>
@@ -244,7 +248,11 @@ return (
           {nodesForRendering.map((row, rowIndex) => (
             <tr className={rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"}>
               {COLUMNS.map((column) => (
-                <td className="px-5 py-5 border-b border-gray-700 text-sm">
+                <td
+                  className={`px-5 py-5 border-b border-gray-700 text-sm ${
+                    column.sort.sortKey === "RECEIVER_ID" ? "max-w-xs" : ""
+                  }`}
+                >
                   {column.renderCell(row)}
                 </td>
               ))}
@@ -255,8 +263,8 @@ return (
       <div className="px-5 py-5 bg-gray-800 border-t flex flex-col xs:flex-row items-center xs:justify-between">
         <span className="text-xs xs:text-sm text-white">
           Showing {(state.currentPage - 1) * 10 + 1} to
-          {Math.min(state.currentPage * 10, nodesTop100.length)} of{" "}
-          {nodesTop100.length} Entries
+          {Math.min(state.currentPage * 10, sortedNodes.length)} of{" "}
+          {sortedNodes.length} Entries
         </span>
         <div className="inline-flex mt-2 xs:mt-0">
           <button
