@@ -630,7 +630,10 @@ const getTable = (txn, store) => {
           )}
           <tr>
             <td>At</td>
-            <td>{unixToDate(Big(txn[10]).toFixed(0))}</td>
+            <td>
+              {unixToDate(Big(txn[10]).toFixed(0)).split("/")[0]} <br />{" "}
+              {unixToDate(Big(txn[10]).toFixed(0)).split("/")[1]}
+            </td>
           </tr>
         </tbody>
       </table>
