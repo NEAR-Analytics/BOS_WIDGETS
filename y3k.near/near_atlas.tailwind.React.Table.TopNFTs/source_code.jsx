@@ -18,13 +18,13 @@ State.init({
 });
 
 function getNodesForCurrentPage() {
-  const startIndex = (state.currentPage - 1) * 20;
-  const endIndex = startIndex + 20;
+  const startIndex = (state.currentPage - 1) * 10;
+  const endIndex = startIndex + 10;
   return nodesTop100.slice(startIndex, endIndex);
 }
 
 function nextPage() {
-  if (state.currentPage < Math.ceil(nodesTop100.length / 20)) {
+  if (state.currentPage < Math.ceil(nodesTop100.length / 10)) {
     State.update({ currentPage: state.currentPage + 1 });
   }
 }
@@ -267,8 +267,8 @@ return (
       </table>
       <div className="px-5 py-5 bg-gray-800 border-t flex flex-col xs:flex-row items-center xs:justify-between">
         <span className="text-xs xs:text-sm text-white">
-          Showing {(state.currentPage - 1) * 20 + 1} to
-          {Math.min(state.currentPage * 20, nodesTop100.length)} of{" "}
+          Showing {(state.currentPage - 1) * 10 + 1} to
+          {Math.min(state.currentPage * 10, nodesTop100.length)} of{" "}
           {nodesTop100.length} Entries
         </span>
         <div className="inline-flex mt-2 xs:mt-0">
