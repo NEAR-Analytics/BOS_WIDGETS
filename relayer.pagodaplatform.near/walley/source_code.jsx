@@ -137,7 +137,17 @@ if (state.store.stores.length === 0 && nftContract && sender) {
             loading: true,
             loadingMsg: "Fetching Store Transactions",
           });
-          storeTxn(store[1]);
+          nftContract.getStoreTransactions(store[1]).then((transactions) => {
+            storeState.storePendingTransactions = [];
+            storeState.storePastTransactions = [];
+            transactions.map((txn) => {
+              if (txn[8] === false) {
+                storeState.storePendingTransactions.push(txn);
+              } else {
+                storeState.storePastTransactions.push(txn);
+              }
+            });
+          });
         }
         if (i === stores.length - 1)
           State.update({ store: storeState, loading: false, loadingMsg: "" });
@@ -145,23 +155,6 @@ if (state.store.stores.length === 0 && nftContract && sender) {
     }
   });
 }
-
-const storeTxn = (address) => {
-  const storeState = state.store;
-  nftContract.getStoreTransactions(address).then((transactions) => {
-    storeState.storePendingTransactions = [];
-    storeState.storePastTransactions = [];
-    transactions.map((txn) => {
-      if (txn[8] === false) {
-        storeState.storePendingTransactions.push(txn);
-      } else {
-        storeState.storePastTransactions.push(txn);
-      }
-      State.update({ store: storeState });
-    });
-  });
-};
-
 const onTxInit = () => {
   State.update({
     view: "home",
@@ -437,7 +430,7 @@ const cancelTransaction = (tokenId) => {
   });
 };
 
-const approveTransaction = (tokenId, address) => {
+const approveTransaction = (tokenId) => {
   if (state.store.totalAmount <= 0) {
     props.toast("ERROR", "Note", "Amount must be greater than 0");
     return;
@@ -474,10 +467,27 @@ const approveTransaction = (tokenId, address) => {
               "Success",
               "Transaction has been completed successfully!"
             );
-            storeTxn(address);
+            const tmp = [];
+            const tmpAct = [];
+            state.store.storePendingTransactions.map((trans) => {
+              if (parseInt(trans[1], 16) !== tokenId) {
+                tmp.push(trans);
+              } else {
+                tmpAct.push(trans);
+                tmpAct[0][7] = state.store.bill.cid;
+                tmpAct[0][8] = true;
+                tmpAct[0][9] = state.store.totalAmount;
+                tmpAct[0][10] = Math.floor(Date.now() / 1000).toString(16);
+              }
+            });
             State.update({
               store: {
                 ...state.store,
+                storePendingTransactions: tmp,
+                storePastTransactions: [
+                  ...state.store.storePastTransactions,
+                  tmpAct,
+                ],
                 approvePassword: "",
                 bill: { uploading: false, amount: null },
                 totalAmount: 0,
@@ -595,6 +605,42 @@ const checkPassword = (tokenId, password, fn) => {
     } else props.toast("ERROR", "Note", "Please enter the correct passsword");
   });
 };
+
+const getTable = (txn, store) => {
+  return (
+    <table className="table">
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td>Store Name</td>
+          {store ? (
+            <>
+              <td>Max Allowance</td>
+              <td>Total Bill Amount</td>
+            </>
+          ) : (
+            <td>Allowance</td>
+          )}
+          <td>At</td>
+        </tr>
+        <tr>
+          <td>{txn[2]}</td>
+          <td>{txn[6]}</td>
+          {store ? (
+            <>
+              <td>{Big(tx[5]).toFixed(5)}</td>
+              <td>{Big(tx[9]).toFixed(5)}</td>
+            </>
+          ) : (
+            <td>{Big(txn[5]).toFixed(5)}</td>
+          )}
+          <td>{unixToDate(Big(txn[10]).toFixed(0))}</td>
+        </tr>
+      </tbody>
+    </table>
+  );
+};
+
 return (
   <Styles.WalleyHomeContainer>
     <Styles.WalleyHomeHeader>
@@ -638,16 +684,7 @@ return (
               />
             </Styles.WalleyImageContainer>
             <Styles.TransactionCardMain>
-              <p>Name - {state.user.viewTxn[2]}</p>
-              <p>Store name - {state.user.viewTxn[6]} </p>
-              <p>
-                Amount -{" "}
-                {parseFloat(
-                  Big(state.user.viewTxn[5]).div(Big(10).pow(18)).toFixed(5)
-                )}{" "}
-                ETH
-              </p>
-              <p>Time - {unixToDate(Big(state.user.viewTxn[10]).toFixed(0))}</p>
+              {getTable(state.user.viewTxn)}
               {state.user.viewTxn[11] === "cancel" ? (
                 <>
                   <Styles.WalleyLabel>
@@ -697,6 +734,7 @@ return (
                   </Styles.WalleyLabel>
                   <Styles.WalleyInput
                     type="password"
+                    placeholder="Enter the transaction password"
                     value={state.user.transactionPassword}
                     onChange={(e) =>
                       State.update({
@@ -713,6 +751,7 @@ return (
                   <Styles.WalleyInput
                     type="text"
                     value={state.user.transferTo}
+                    placeholder="Receiver's Address"
                     onChange={(e) =>
                       State.update({
                         user: {
@@ -800,8 +839,7 @@ return (
                       onClick={() => {
                         if (state.store.bill.cid) {
                           approveTransaction(
-                            parseInt(state.user.viewTxn[1], 16),
-                            state.user.viewTxn[3]
+                            parseInt(state.user.viewTxn[1], 16)
                           );
                         } else {
                         }
@@ -869,12 +907,13 @@ return (
                     }}
                   />
                   <Styles.WalleyLabel>
-                    Enter the maximum amount you'd like to spend(in ETH)
+                    Enter the maximum amount you'd like to spend(in INR)
                   </Styles.WalleyLabel>
                   <Styles.WalleyInput
                     value={state.homeInputs.amount}
                     type="number"
                     onChange={(e) => homeInputUpdates(e.target.value, "amount")}
+                    placeholder="Amount(in INR)"
                   />
                   <Styles.WalleyLabel>
                     Name(will be asked at the store)
@@ -883,6 +922,7 @@ return (
                     value={state.homeInputs.name}
                     type="text"
                     onChange={(e) => homeInputUpdates(e.target.value, "name")}
+                    placeholder="Name"
                   />
                   <Styles.WalleyLabel>
                     Set a password for the transaction(will be asked during
@@ -894,6 +934,7 @@ return (
                     onChange={(e) =>
                       homeInputUpdates(e.target.value, "password")
                     }
+                    placeholder="Password"
                   />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
@@ -924,6 +965,7 @@ return (
                     onChange={(e) => {
                       storeInputUpdates(e.target.value, "storeName");
                     }}
+                    placeholder="Enter the Store Name"
                   />
                   <Styles.WalleyLabel>Store Address</Styles.WalleyLabel>
                   <Styles.WalleyInput
@@ -932,6 +974,7 @@ return (
                     onChange={(e) =>
                       storeInputUpdates(e.target.value, "storeAddress")
                     }
+                    placeholder="Enter the Store Address"
                   />
                   <Styles.WalleyStoreButton
                     onClick={() => storeInputUpdates(sender, "storeAddress")}
@@ -997,18 +1040,7 @@ return (
                               />
                             </Styles.WalleyImageContainer>
                             <Styles.TransactionCardMain>
-                              <p className="txn">Name - {tx[2]}</p>
-                              <p className="txn">Store name - {tx[6]} </p>
-                              <p className="txn">
-                                Amount -{" "}
-                                {parseFloat(
-                                  Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
-                                )}{" "}
-                                ETH
-                              </p>
-                              <p className="txn">
-                                Time - {unixToDate(Big(tx[10]).toFixed(0))}
-                              </p>
+                              {getTable(txn)}
                               <Styles.WalleyButtonRow>
                                 <Styles.WalleyButton
                                   className="grey"
@@ -1086,26 +1118,7 @@ return (
                               />
                             </Styles.WalleyImageContainer>
                             <Styles.TransactionCardMain>
-                              <p className="txn">Name - {tx[2]}</p>
-                              <p className="txn">Store name - {tx[6]} </p>
-                              <p className="txn">
-                                Max Amount -{" "}
-                                {parseFloat(
-                                  Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
-                                )}{" "}
-                                ETH
-                              </p>
-                              <p className="txn">
-                                Total Bill Amount -{" "}
-                                {parseFloat(
-                                  Big(tx[9]).div(Big(10).pow(18)).toFixed(5)
-                                )}{" "}
-                                ETH
-                              </p>
-
-                              <p className="txn">
-                                Time - {unixToDate(Big(tx[10]).toFixed(0))}
-                              </p>
+                              {getTable(txn, true)}
                               {state.user.openReceipt ===
                               Big(tx[1]).toFixed(0) ? (
                                 <Style.TransactionModal>
@@ -1207,17 +1220,7 @@ return (
                             />
                           </Styles.WalleyImageContainer>
                           <Styles.TransactionCardMain>
-                            <p>Name - {tx[2]}</p>
-                            <p>Store name - {tx[6]} </p>
-                            <p>
-                              Max amount -{" "}
-                              {parseFloat(
-                                Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
-                              )}{" "}
-                              ETH
-                            </p>
-
-                            <p>Time - {unixToDate(Big(tx[10]).toFixed(0))}</p>
+                            {getTable(txn)}
                             <Styles.WalleyButton
                               className="orange"
                               onClick={() =>
@@ -1259,25 +1262,7 @@ return (
                           />
                         </Styles.WalleyImageContainer>
                         <Styles.TransactionCardMain>
-                          <p>Name - {tx[2]}</p>
-                          <p>Store name - {tx[6]} </p>
-                          <p>
-                            Max Amount -{" "}
-                            {parseFloat(
-                              Big(tx[5]).div(Big(10).pow(18)).toFixed(5)
-                            )}{" "}
-                            ETH
-                          </p>
-
-                          <p>
-                            Total Bill Amount -{" "}
-                            {parseFloat(
-                              Big(tx[9]).div(Big(10).pow(18)).toFixed(5)
-                            )}{" "}
-                            ETH
-                          </p>
-
-                          <p>Time - {unixToDate(Big(tx[10]).toFixed(0))}</p>
+                          {getTable(txn, true)}
                           {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
                             <Styles.TransactionModal>
                               <Styles.WalleyStoreImage
