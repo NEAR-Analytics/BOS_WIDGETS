@@ -305,24 +305,19 @@ function handleDepositETH() {
 }
 
 function handleWithdrawalInitiating() {
-  if (!isOPGoerli)
-    return State.update({
-      console: `switch to OP Goerli testnet to initiate a withdrawal transaction`,
-    });
-
   console.log("withdraw");
 
-  const encodedData = crossDomainIface.encodeFunctionData(
-    "initiateWithdrawal(address, uint256, bytes)",
-    [ETH_WITHDRAWAL_TARGET, 0, ETH_WITHDRAWAL_MESSAGE]
+  const encodedData = withdrawIface.encodeFunctionData(
+    "withdraw(address, uint256, uint32, bytes)",
+    [ETH_WITHDRAWAL_TARGET, DEFAULT_AMOUNT, 0, []]
   );
 
-  console.log("encoded");
+  console.log("encoded", encodedData);
 
   Ethers.provider()
     .getSigner()
     .sendTransaction({
-      to: ETH_WITHDRAWAL_CONTRACT,
+      to: OP_BRIDGE_WITHDRAW_CONTRACT,
       data: encodedData,
       value: DEFAULT_AMOUNT,
       gasLimit,
