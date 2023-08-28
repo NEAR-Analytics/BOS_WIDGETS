@@ -319,7 +319,7 @@ const RightMarginDiv = styled.div`
   margin-right: 10px; /* Adjust the margin value as needed */
 `;
 
-if (state.data.ok) {
+if (state.data?.ok) {
   const rows = state.data.body
     .split("\n")
     .map((line) => line.split("|"))
