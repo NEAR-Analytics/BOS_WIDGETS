@@ -1022,59 +1022,61 @@ return (
                   Your Transactions
                 </p>
                 <Styles.WalleyTransactions>
-                  {state.user.userPendingTransactions.length !== 0
-                    ? state.user.userPendingTransactions
-                        .filter((tx) =>
-                          tx[6]
-                            .toLowerCase()
-                            .includes(state.search.store.toLowerCase())
-                        )
-                        .map((tx) => (
-                          <Styles.TransactionCard>
-                            <Styles.WalleyImageContainer>
-                              <Styles.WalleyStoreImage
-                                src={`https://ipfs.near.social/ipfs/${
-                                  state.store.storeImages[tx[6]]
-                                }`}
-                                alt={tx[6]}
-                              />
-                            </Styles.WalleyImageContainer>
-                            <Styles.TransactionCardMain>
-                              {getTable(tx, false)}
-                              <Styles.WalleyButtonRow>
-                                <Styles.WalleyButton
-                                  className="grey"
-                                  onClick={() =>
-                                    State.update({
-                                      user: {
-                                        ...state.user,
-                                        viewTxn: [...tx, "transfer"],
-                                        transactionPassword: "",
-                                      },
-                                    })
-                                  }
-                                >
-                                  Transfer
-                                </Styles.WalleyButton>
-                                <Styles.WalleyButton
-                                  className="red"
-                                  onClick={() =>
-                                    State.update({
-                                      user: {
-                                        ...state.user,
-                                        viewTxn: [...tx, "cancel"],
-                                        transactionPassword: "",
-                                      },
-                                    })
-                                  }
-                                >
-                                  Cancel
-                                </Styles.WalleyButton>
-                              </Styles.WalleyButtonRow>
-                            </Styles.TransactionCardMain>
-                          </Styles.TransactionCard>
-                        ))
-                    : "No pending transactions found"}
+                  {state.user.userPendingTransactions.length !== 0 ? (
+                    state.user.userPendingTransactions
+                      .filter((tx) =>
+                        tx[6]
+                          .toLowerCase()
+                          .includes(state.search.store.toLowerCase())
+                      )
+                      .map((tx) => (
+                        <Styles.TransactionCard>
+                          <Styles.WalleyImageContainer>
+                            <Styles.WalleyStoreImage
+                              src={`https://ipfs.near.social/ipfs/${
+                                state.store.storeImages[tx[6]]
+                              }`}
+                              alt={tx[6]}
+                            />
+                          </Styles.WalleyImageContainer>
+                          <Styles.TransactionCardMain>
+                            {getTable(tx, false)}
+                            <Styles.WalleyButtonRow>
+                              <Styles.WalleyButton
+                                className="grey"
+                                onClick={() =>
+                                  State.update({
+                                    user: {
+                                      ...state.user,
+                                      viewTxn: [...tx, "transfer"],
+                                      transactionPassword: "",
+                                    },
+                                  })
+                                }
+                              >
+                                Transfer
+                              </Styles.WalleyButton>
+                              <Styles.WalleyButton
+                                className="red"
+                                onClick={() =>
+                                  State.update({
+                                    user: {
+                                      ...state.user,
+                                      viewTxn: [...tx, "cancel"],
+                                      transactionPassword: "",
+                                    },
+                                  })
+                                }
+                              >
+                                Cancel
+                              </Styles.WalleyButton>
+                            </Styles.WalleyButtonRow>
+                          </Styles.TransactionCardMain>
+                        </Styles.TransactionCard>
+                      ))
+                  ) : (
+                    <p>No pending transactions found</p>
+                  )}
                 </Styles.WalleyTransactions>
               </>
             ) : state.view === "txPast" ? (
@@ -1100,65 +1102,67 @@ return (
                   Your Receipts
                 </p>
                 <Styles.WalleyTransactions>
-                  {state.user.userPastTransactions.length !== 0
-                    ? state.user.userPastTransactions
-                        .filter((tx) =>
-                          tx[6]
-                            .toLowerCase()
-                            .includes(state.search.store.toLowerCase())
-                        )
-                        .map((tx) => (
-                          <Styles.TransactionCard>
-                            <Styles.WalleyImageContainer>
-                              <Styles.WalleyStoreImage
-                                src={`https://ipfs.near.social/ipfs/${
-                                  state.store.storeImages[tx[6]]
-                                }`}
-                                alt={tx[6]}
-                              />
-                            </Styles.WalleyImageContainer>
-                            <Styles.TransactionCardMain>
-                              {getTable(tx, true)}
-                              {state.user.openReceipt ===
-                              Big(tx[1]).toFixed(0) ? (
-                                <Style.TransactionModal>
-                                  <Styles.WalleyStoreImage
-                                    src={`https://ipfs.near.social/ipfs/${tx[7]}`}
-                                    alt={tx[7]}
-                                  />
-                                  <Styles.WalleyButton
-                                    className="orange"
-                                    onClick={() =>
-                                      State.update({
-                                        user: {
-                                          ...state.user,
-                                          openReceipt: 0,
-                                        },
-                                      })
-                                    }
-                                  >
-                                    Close Receipt
-                                  </Styles.WalleyButton>
-                                </Style.TransactionModal>
-                              ) : (
+                  {state.user.userPastTransactions.length !== 0 ? (
+                    state.user.userPastTransactions
+                      .filter((tx) =>
+                        tx[6]
+                          .toLowerCase()
+                          .includes(state.search.store.toLowerCase())
+                      )
+                      .map((tx) => (
+                        <Styles.TransactionCard>
+                          <Styles.WalleyImageContainer>
+                            <Styles.WalleyStoreImage
+                              src={`https://ipfs.near.social/ipfs/${
+                                state.store.storeImages[tx[6]]
+                              }`}
+                              alt={tx[6]}
+                            />
+                          </Styles.WalleyImageContainer>
+                          <Styles.TransactionCardMain>
+                            {getTable(tx, true)}
+                            {state.user.openReceipt ===
+                            Big(tx[1]).toFixed(0) ? (
+                              <Styles.TransactionModal>
+                                <Styles.WalleyStoreImage
+                                  src={`https://ipfs.near.social/ipfs/${tx[7]}`}
+                                  alt={tx[7]}
+                                />
                                 <Styles.WalleyButton
                                   className="orange"
                                   onClick={() =>
                                     State.update({
                                       user: {
                                         ...state.user,
-                                        openReceipt: Big(tx[1]).toFixed(0),
+                                        openReceipt: 0,
                                       },
                                     })
                                   }
                                 >
-                                  Show Receipt
+                                  Close Receipt
                                 </Styles.WalleyButton>
-                              )}
-                            </Styles.TransactionCardMain>
-                          </Styles.TransactionCard>
-                        ))
-                    : "No past transactions found"}
+                              </Styles.TransactionModal>
+                            ) : (
+                              <Styles.WalleyButton
+                                className="orange"
+                                onClick={() =>
+                                  State.update({
+                                    user: {
+                                      ...state.user,
+                                      openReceipt: Big(tx[1]).toFixed(0),
+                                    },
+                                  })
+                                }
+                              >
+                                Show Receipt
+                              </Styles.WalleyButton>
+                            )}
+                          </Styles.TransactionCardMain>
+                        </Styles.TransactionCard>
+                      ))
+                  ) : (
+                    <p>No past transactions found</p>
+                  )}
                 </Styles.WalleyTransactions>
               </>
             ) : (
@@ -1201,51 +1205,9 @@ return (
               <p className="txn">Past Transactions</p>
             )}
             <Styles.WalleyTransactions>
-              {state.view === "home"
-                ? state.store.storePendingTransactions.length !== 0
-                  ? state.store.storePendingTransactions
-                      .filter((tx) =>
-                        tx[2]
-                          .toLowerCase()
-                          .includes(state.search.user.toLowerCase())
-                      )
-                      .map((tx) => (
-                        <Styles.TransactionCard>
-                          <Styles.WalleyImageContainer>
-                            <Styles.WalleyStoreImage
-                              src={`https://ipfs.near.social/ipfs/${
-                                state.store.storeImages[tx[6]]
-                              }`}
-                              alt={tx[6]}
-                            />
-                          </Styles.WalleyImageContainer>
-                          <Styles.TransactionCardMain>
-                            {getTable(tx, false)}
-                            <Styles.WalleyButton
-                              className="orange"
-                              onClick={() =>
-                                State.update({
-                                  store: {
-                                    ...state.store,
-                                    approvePassword: "",
-                                    bill: { uploading: false, amount: null },
-                                    totalAmount: null,
-                                  },
-                                  user: {
-                                    ...state.user,
-                                    viewTxn: [...tx, "approve"],
-                                  },
-                                })
-                              }
-                            >
-                              Approve
-                            </Styles.WalleyButton>
-                          </Styles.TransactionCardMain>
-                        </Styles.TransactionCard>
-                      ))
-                  : "No pending transactions"
-                : state.store.storePastTransactions.length !== 0
-                ? state.store.storePastTransactions
+              {state.view === "home" ? (
+                state.store.storePendingTransactions.length !== 0 ? (
+                  state.store.storePendingTransactions
                     .filter((tx) =>
                       tx[2]
                         .toLowerCase()
@@ -1262,46 +1224,92 @@ return (
                           />
                         </Styles.WalleyImageContainer>
                         <Styles.TransactionCardMain>
-                          {getTable(tx, true)}
-                          {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
-                            <Styles.TransactionModal>
-                              <Styles.WalleyStoreImage
-                                src={`https://ipfs.near.social/ipfs/${tx[7]}`}
-                                alt={tx[7]}
-                              />
-                              <Styles.WalleyButton
-                                className="orange"
-                                onClick={() =>
-                                  State.update({
-                                    user: {
-                                      ...state.user,
-                                      openReceipt: 0,
-                                    },
-                                  })
-                                }
-                              >
-                                Close Receipt
-                              </Styles.WalleyButton>
-                            </Styles.TransactionModal>
-                          ) : (
+                          {getTable(tx, false)}
+                          <Styles.WalleyButton
+                            className="orange"
+                            onClick={() =>
+                              State.update({
+                                store: {
+                                  ...state.store,
+                                  approvePassword: "",
+                                  bill: { uploading: false, amount: null },
+                                  totalAmount: null,
+                                },
+                                user: {
+                                  ...state.user,
+                                  viewTxn: [...tx, "approve"],
+                                },
+                              })
+                            }
+                          >
+                            Approve
+                          </Styles.WalleyButton>
+                        </Styles.TransactionCardMain>
+                      </Styles.TransactionCard>
+                    ))
+                ) : (
+                  <p>No pending transactions</p>
+                )
+              ) : state.store.storePastTransactions.length !== 0 ? (
+                state.store.storePastTransactions
+                  .filter((tx) =>
+                    tx[2]
+                      .toLowerCase()
+                      .includes(state.search.user.toLowerCase())
+                  )
+                  .map((tx) => (
+                    <Styles.TransactionCard>
+                      <Styles.WalleyImageContainer>
+                        <Styles.WalleyStoreImage
+                          src={`https://ipfs.near.social/ipfs/${
+                            state.store.storeImages[tx[6]]
+                          }`}
+                          alt={tx[6]}
+                        />
+                      </Styles.WalleyImageContainer>
+                      <Styles.TransactionCardMain>
+                        {getTable(tx, true)}
+                        {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
+                          <Styles.TransactionModal>
+                            <Styles.WalleyStoreImage
+                              src={`https://ipfs.near.social/ipfs/${tx[7]}`}
+                              alt={tx[7]}
+                            />
                             <Styles.WalleyButton
                               className="orange"
                               onClick={() =>
                                 State.update({
                                   user: {
                                     ...state.user,
-                                    openReceipt: Big(tx[1]).toFixed(0),
+                                    openReceipt: 0,
                                   },
                                 })
                               }
                             >
-                              Show Receipt
+                              Close Receipt
                             </Styles.WalleyButton>
-                          )}
-                        </Styles.TransactionCardMain>
-                      </Styles.TransactionCard>
-                    ))
-                : "No past transactions found"}
+                          </Styles.TransactionModal>
+                        ) : (
+                          <Styles.WalleyButton
+                            className="orange"
+                            onClick={() =>
+                              State.update({
+                                user: {
+                                  ...state.user,
+                                  openReceipt: Big(tx[1]).toFixed(0),
+                                },
+                              })
+                            }
+                          >
+                            Show Receipt
+                          </Styles.WalleyButton>
+                        )}
+                      </Styles.TransactionCardMain>
+                    </Styles.TransactionCard>
+                  ))
+              ) : (
+                <p>No past transactions found</p>
+              )}
             </Styles.WalleyTransactions>
           </Styles.WalleyStoreBody>
         </>
