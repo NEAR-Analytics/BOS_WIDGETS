@@ -1,6 +1,7 @@
 let { ids, dev } = props;
 ids = props.ids ? ids : [1, 2, 3];
 
+const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = dev
   ? "registry-v1.gwg-testing.near"
   : "registry.i-am-human.near";
@@ -17,7 +18,7 @@ function handleSelfRevoke() {
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   card: "nomination.ndctools.near/widget/NDC.Nomination.Card",
-  houses: "nomination.ndctools.near/widget/NDC.Elections.Houses",
+  houses: "election.ndctools.near/widget/NDC.Elections.Houses",
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
@@ -102,7 +103,7 @@ const getNominationInfo = (house) => {
         setTimeout(() => {
           profileData = Social.getr(`${nominee}/profile`);
           nominationData = Social.getr(`${nominee}/nominations`);
-        }, 100);
+        }, 1000);
 
         setTimeout(() => {
           if (data.is_revoked || !profileData || !nominationData) {
@@ -297,6 +298,7 @@ return (
             src={widgets.houses}
             props={{
               selectedHouse: state.selectedHouse,
+              electionContract,
               handleSelect: (item) => handleSelect(item),
             }}
           />
@@ -326,6 +328,7 @@ return (
                   data,
                   registry_contract: registryContract,
                   nomination_contract: nominationContract,
+                  election_contract: electionContract,
                   api_key: apiKey,
                   dev,
                 }}
