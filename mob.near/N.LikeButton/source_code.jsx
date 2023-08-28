@@ -141,7 +141,11 @@ return (
         {hasLike ? heartFillSvg : heartSvg}
       </span>
       <span className={`count ${hasLike ? "liked" : ""}`}>
-        {likeCount || ""}
+        <Widget
+          loading={likeCount || ""}
+          src="mob.near/widget/N.Overlay.Faces"
+          props={{ accounts: likesByUsers, limit: 10 }}
+        />
       </span>
     </LikeButton>
   </div>
