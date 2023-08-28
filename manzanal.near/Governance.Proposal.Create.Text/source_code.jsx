@@ -291,7 +291,7 @@ return (
     )}
     {state.isValid && (
       <div className="text-info d-flex justify-content-end text-right">
-        A deposit of {state.storageRequired} NEAR will be required for storage
+        A deposit of {yoctoToNear(state.storageRequired)} NEAR will be required for storage
       </div>
     )}
   </>
