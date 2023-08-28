@@ -123,7 +123,7 @@ const getContent = {
   ),
   createproposal: (
     <Widget
-      src={`${authorId}/widget/Governance.Proposal.Create.Index`}
+      src={`meta-pool-official.near/widget/ImprovementProposals.Proposal.Create.Index`}
       props={{
         tab: state.tab,
         update,
@@ -136,7 +136,7 @@ const getContent = {
   ),
   proposal: (
     <Widget
-      src={`${authorId}/widget/Governance.Proposal.Index`}
+      src={`meta-pool-official.near/widget/ImprovementProposals.Proposal.Index`}
       props={{
         tab: state.tab,
         update,
@@ -154,7 +154,7 @@ return (
   <Container>
     <Header>
       <a
-        href={`/${authorId}/widget/Governance.Index?tab=home`}
+        href={`/meta-pool-official.near/widget/ImprovementProposals?tab=home`}
         onClick={() =>
           update({
             tab: "home",
