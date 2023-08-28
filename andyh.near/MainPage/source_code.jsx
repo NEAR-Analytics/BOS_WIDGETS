@@ -1,8 +1,9 @@
 return (
   <>
-    {context.accountId && (
-      <Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={true} />
-    )}
+    {context.accountId &&
+      {
+        /*<Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={true} />*/
+      }}
     {/*<Widget
       src="andyh.near/widget/MainPage.FeaturedApps"
       isTrusted={true}
