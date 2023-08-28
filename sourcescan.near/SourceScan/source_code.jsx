@@ -172,6 +172,88 @@ const handlePageChange = (x) => {
   searchContracts();
 };
 
+const pages = {
+  main: (
+    <Stack style={{ paddingTop: "80px" }}>
+      <SearchStack>
+        <Widget
+          src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
+          props={{
+            theme: state.theme,
+            handleSubmit: handleSubmit,
+            value: state.search,
+          }}
+        />
+        <Widget
+          src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
+          props={{
+            handleOptionsChange: handleOptionsChange,
+            theme: state.theme,
+            limits: limits,
+            selectedLimit: state.limit,
+          }}
+        />
+      </SearchStack>
+      <Widget
+        src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
+        props={{
+          theme: state.theme,
+          contracts: state.contracts,
+          rpcUrl: state.config.rpcUrl,
+          apiHost: state.config.apiHost,
+        }}
+      />
+      <Widget
+        src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
+        props={{
+          theme: state.theme,
+          pages: state.pages,
+          selectedPage: state.selectedPage,
+          handlePageChange: handlePageChange,
+        }}
+      />
+    </Stack>
+  ),
+  contract: (
+    <Stack style={{ paddingTop: "80px" }}>
+      <Widget
+        src={`${state.config.ownerId}/widget/SourceScan.Contracts.Info`}
+        props={{
+          contractId: props.contractId,
+          theme: useTheme(
+            {
+              bg: light.bg,
+              color: light.color,
+              border: `1px dashed ${light.border}`,
+              text: {
+                fontSize: "16px",
+              },
+              heading: {
+                fontSize: "18px",
+                fontWeight: "600",
+                underline: true,
+              },
+            },
+            {
+              bg: dark.bg,
+              color: dark.color,
+              border: `1px dashed ${dark.border}`,
+              text: {
+                fontSize: "16px",
+              },
+              heading: {
+                fontSize: "18px",
+                fontWeight: "600",
+                underline: true,
+              },
+            }
+          ),
+        }}
+      />
+    </Stack>
+  ),
+};
+
 return (
   <GlobalStyle>
     <Main>
@@ -183,45 +265,7 @@ return (
           switchTheme: switchTheme,
         }}
       />
-      <Stack>
-        <SearchStack style={{ paddingTop: "80px" }}>
-          <Widget
-            src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
-            props={{
-              theme: state.theme,
-              handleSubmit: handleSubmit,
-              value: state.search,
-            }}
-          />
-          <Widget
-            src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
-            props={{
-              handleOptionsChange: handleOptionsChange,
-              theme: state.theme,
-              limits: limits,
-              selectedLimit: state.limit,
-            }}
-          />
-        </SearchStack>
-        <Widget
-          src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
-          props={{
-            theme: state.theme,
-            contracts: state.contracts,
-            rpcUrl: state.config.rpcUrl,
-            apiHost: state.config.apiHost,
-          }}
-        />
-        <Widget
-          src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
-          props={{
-            theme: state.theme,
-            pages: state.pages,
-            selectedPage: state.selectedPage,
-            handlePageChange: handlePageChange,
-          }}
-        />
-      </Stack>
+      {props.page === "contract" ? pages.contract : pages.main}
     </Main>
   </GlobalStyle>
 );
