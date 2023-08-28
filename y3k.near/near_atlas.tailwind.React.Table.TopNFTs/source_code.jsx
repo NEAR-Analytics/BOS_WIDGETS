@@ -12,7 +12,28 @@ let rawData = fetch(
 
 // data.body = data.body.sort((a, b) => new Date(a.MONTH) - new Date(b.MONTH));
 
-State.init({ setSortConfig: { key: "", direction: "asc" } });
+State.init({
+  setSortConfig: { key: "", direction: "asc" },
+  currentPage: 1,
+});
+
+function getNodesForCurrentPage() {
+  const startIndex = (state.currentPage - 1) * 20;
+  const endIndex = startIndex + 20;
+  return nodesTop100.slice(startIndex, endIndex);
+}
+
+function nextPage() {
+  if (state.currentPage < Math.ceil(nodesTop100.length / 20)) {
+    State.update({ currentPage: state.currentPage + 1 });
+  }
+}
+
+function previousPage() {
+  if (state.currentPage > 1) {
+    State.update({ currentPage: state.currentPage - 1 });
+  }
+}
 
 let Style = styled.div`
   .table-header {
@@ -210,52 +231,61 @@ function getTop100SortedNodes() {
   return sortedNodes.slice(0, 100);
 }
 const nodesTop100 = getTop100SortedNodes();
+const nodesForCurrentPage = getNodesForCurrentPage();
 
 return (
-  <div className="bg-dark rounded-lg mb-12 overflow-hidden w-full">
-    {data !== null ? (
-      <div
-        style={{ "min-width": "780px" }}
-        className="bg-dark w-full overflow-x-auto overflow-y-auto"
-      >
-        <table className="table-auto w-full overflow-scroll">
-          <thead className="bg-gray-700">
-            <tr>
-              {COLUMNS.map((column, index) => (
-                <th
-                  key={index}
-                  className="text-white text-center font-semibold p-2 border-b border-gray-300 cursor-pointer"
-                  onClick={() => {
-                    const direction =
-                      state.setSortConfig.direction === "asc" ? "desc" : "asc";
-                    sort_update(column.sort.sortKey, direction);
-                  }}
-                >
-                  {column.label}
-                </th>
+  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto bg-dark">
+    <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+      <table className="min-w-full leading-normal">
+        <thead>
+          <tr>
+            {COLUMNS.map((column) => (
+              <th
+                className="px-5 py-3 border-b-2 border-gray-700 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider cursor-pointer"
+                onClick={() => {
+                  const direction =
+                    state.setSortConfig.direction === "asc" ? "desc" : "asc";
+                  sort_update(column.sort.sortKey, direction);
+                }}
+              >
+                {column.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {nodesForCurrentPage.map((row, rowIndex) => (
+            <tr className={rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"}>
+              {COLUMNS.map((column) => (
+                <td className="px-5 py-5 border-b border-gray-700 text-sm">
+                  {column.renderCell(row)}
+                </td>
               ))}
             </tr>
-          </thead>
-          <tbody>
-            {nodesTop100.map((row, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className={`${
-                  rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"
-                }`}
-              >
-                {COLUMNS.map((column, colIndex) => (
-                  <td key={colIndex} className="text-center p-2 ">
-                    {column.renderCell(row)}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
+      <div className="px-5 py-5 bg-gray-800 border-t flex flex-col xs:flex-row items-center xs:justify-between">
+        <span className="text-xs xs:text-sm text-white">
+          Showing {(state.currentPage - 1) * 20 + 1} to
+          {Math.min(state.currentPage * 20, nodesTop100.length)} of{" "}
+          {nodesTop100.length} Entries
+        </span>
+        <div className="inline-flex mt-2 xs:mt-0">
+          <button
+            onClick={previousPage}
+            className="text-sm bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-l"
+          >
+            Prev
+          </button>
+          <button
+            onClick={nextPage}
+            className="text-sm bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-r"
+          >
+            Next
+          </button>
+        </div>
       </div>
-    ) : (
-      <div className="text-white text-center p-4">Loading ...</div>
-    )}
+    </div>
   </div>
 );
