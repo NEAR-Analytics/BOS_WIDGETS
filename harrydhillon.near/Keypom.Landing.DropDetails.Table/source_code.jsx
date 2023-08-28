@@ -4,6 +4,7 @@ const Table = styled.table`
   overflow:hidden;
   border:0.1px solid #30C9F3;
   margin: 20px 0;
+  background-color:white;
   border-collapse: separate;
   border-spacing: 0;
 `;
@@ -50,7 +51,7 @@ for (let i = 0; i < 20; i++) {
   const drop = {
     ticketName: `Ticket ${i + 1}`, // Just giving a sequential name for simplicity
     numberOfTicket: `${["0", "30", "6", "20"][Math.floor(Math.random() * 4)]}/${
-      ["100", "200", "150", "200"][Math.floor(Math.random() * 4)]
+      ["100", "200", "150", "200", "∞"][Math.floor(Math.random() * 5)]
     }`, // Randomly select between 'Event', 'NFT', and 'Token'
     description: "Mercedem aut nummos unde unde...",
     pricePerTicket: 50, // Generate a random date between 2020-01-01 and 2023-08-22
