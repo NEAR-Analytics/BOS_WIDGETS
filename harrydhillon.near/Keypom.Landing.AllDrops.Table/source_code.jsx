@@ -1,6 +1,7 @@
 const Table = styled.table`
   width: 100%;
   border-radius: 8px;
+  background-color:white;
   overflow:hidden;
   border:0.1px solid #30C9F3;
   margin: 20px 0;
