@@ -118,7 +118,7 @@ const handleVote = (value) =>
   Near.call(
     electionContract,
     "vote",
-    { prop_id: id, vote: [] },
+    { prop_id: id, vote: [value] },
     "70000000000000",
     150000000
   );
