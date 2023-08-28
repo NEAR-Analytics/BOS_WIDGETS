@@ -16,6 +16,15 @@ State.init({
   profile,
 });
 
+const Wrapper = styled.div`
+  --padding: 24px;
+  position: relative;
+
+  @media (max-width: 1200px) {
+    --padding: 12px;
+  }
+`;
+
 // Function to handle the proposal for updating the DAO profile
 const handleProfileUpdateProposal = () => {
   const profile_update_args = JSON.stringify({
