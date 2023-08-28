@@ -650,7 +650,7 @@ return (
       </div>
     ) : null}
 
-    {state.tx ? (
+    {state.tx && !state.success ? (
       <div>
         <p>
           View your transaction:{" "}
