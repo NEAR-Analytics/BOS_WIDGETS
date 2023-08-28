@@ -20,6 +20,8 @@ State.init({
   myVotes: [],
   winnerIds: [],
   isIAmHuman: false,
+  blacklisted: false,
+  greylisted: false,
   candidateId: "",
 });
 
@@ -31,7 +33,16 @@ const winnerIds = Near.view(electionContract, "winners_by_house", {
   prop_id: state.selectedHouse,
 });
 
-State.update({ isIAmHuman: isHuman[0][1].length > 0, winnerIds });
+const flagged = Near.view(electionContract, "account_flagged", {
+  account: context.accountId,
+});
+
+State.update({
+  isIAmHuman: isHuman[0][1].length > 0,
+  winnerIds,
+  blacklisted: flagged === "Blacklisted",
+  greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
+});
 
 if (context.accountId)
   asyncFetch(
@@ -170,6 +181,8 @@ return (
                     myVotes: state.myVotes,
                     candidateId: state.candidateId,
                     winnerIds: state.winnerIds,
+                    blacklisted: state.blacklisted,
+                    greylisted: state.greylisted,
                     ...house,
                     result: rand(house.result),
                   }}
