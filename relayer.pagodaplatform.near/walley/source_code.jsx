@@ -874,7 +874,6 @@ return (
             </Styles.WalleyNavbarButton>
             <Styles.NavLine></Styles.NavLine>
             <Styles.WalleyNavbarButton
-              className={state.addSt ? "grey" : ""}
               onClick={() => {
                 props.toast(
                   "INFO",
