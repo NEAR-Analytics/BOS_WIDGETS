@@ -1115,7 +1115,7 @@ return (
                             {getTable(tx, true)}
                             {state.user.openReceipt ===
                             Big(tx[1]).toFixed(0) ? (
-                              <Styles.TransactionModal>
+                              <Styles.TransactionModal className="receipt">
                                 <Styles.WalleyStoreImage
                                   src={`https://ipfs.near.social/ipfs/${tx[7]}`}
                                   alt={tx[7]}
@@ -1262,7 +1262,7 @@ return (
                       <Styles.TransactionCardMain>
                         {getTable(tx, true)}
                         {state.user.openReceipt === Big(tx[1]).toFixed(0) ? (
-                          <Styles.TransactionModal>
+                          <Styles.TransactionModal className="receipt">
                             <Styles.WalleyStoreImage
                               src={`https://ipfs.near.social/ipfs/${tx[7]}`}
                               alt={tx[7]}
