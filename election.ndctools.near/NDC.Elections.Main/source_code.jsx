@@ -18,6 +18,7 @@ let budget = Near.view(electionContract, "proposal", { prop_id: ids[3] });
 State.init({
   selectedHouse: ids[0],
   myVotes: [],
+  winnerIds: [],
   isIAmHuman: false,
   candidateId: "",
 });
@@ -26,7 +27,11 @@ const isHuman = Near.view(registryContract, "is_human", {
   account: context.accountId,
 });
 
-State.update({ isIAmHuman: isHuman[0][1].length > 0 });
+const winnerIds = Near.view(electionContract, "winners_by_house", {
+  prop_id: state.selectedHouse,
+});
+
+State.update({ isIAmHuman: isHuman[0][1].length > 0, winnerIds });
 
 if (context.accountId)
   asyncFetch(
@@ -164,7 +169,7 @@ return (
                     isIAmHuman: state.isIAmHuman,
                     myVotes: state.myVotes,
                     candidateId: state.candidateId,
-                    winnerIds: getWinnerIds(),
+                    winnerIds: state.winnerIds,
                     ...house,
                     result: rand(house.result),
                   }}
