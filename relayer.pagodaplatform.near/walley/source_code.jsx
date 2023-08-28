@@ -346,7 +346,7 @@ const initTransaction = () => {
               State.update({
                 loading: false,
                 loadingMsg: "",
-                userInput: {
+                homeInputs: {
                   storeName: "",
                   name: "",
                   amount: "",
