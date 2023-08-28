@@ -3,6 +3,7 @@ return (
     {context.accountId &&
       {
         /*<Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={true} />*/
+        <h4>ProfileOnboarding</h4>
       }}
     {/*<Widget
       src="andyh.near/widget/MainPage.FeaturedApps"
