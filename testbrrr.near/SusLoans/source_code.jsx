@@ -1,7 +1,7 @@
 const CreatePrompt = styled.div`
         margin:auto;
         width:100%;
-        max-width: 400px;
+        max-width: 420px;
         border: 1px solid rgba(0,0,0, .15);
         padding: 1.5rem;
         border-radius: .7rem;
