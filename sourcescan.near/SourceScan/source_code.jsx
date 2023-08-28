@@ -102,6 +102,19 @@ const Right = styled.div`
   justify-content: flex-end;
 `;
 
+const SearchStack = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+    gap: 30px;
+  }
+`;
+
 const switchTheme = () => {
   const themeToChange = useTheme("dark", "light");
   State.update({
@@ -171,7 +184,7 @@ return (
         }}
       />
       <Stack>
-        <HStack style={{ paddingTop: "80px" }}>
+        <SearchStack style={{ paddingTop: "80px" }}>
           <Widget
             src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
             props={{
@@ -189,7 +202,7 @@ return (
               selectedLimit: state.limit,
             }}
           />
-        </HStack>
+        </SearchStack>
         <Widget
           src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
           props={{
