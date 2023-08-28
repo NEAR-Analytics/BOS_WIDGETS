@@ -21,6 +21,7 @@ const tooltip =
 const inner = (
   <div className={className} style={style}>
     <Widget
+      loading={<div className={imageClassName} style={imageStyle} />}
       src="mob.near/widget/Image"
       props={{
         image,
