@@ -1,5 +1,3 @@
-const data = props;
-
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
 State.init({
@@ -27,11 +25,6 @@ const getTransactions = () => {
     });
   });
 };
-
-if (data.state.reloadTransactions) {
-  data.handleReload;
-  getTransactions();
-}
 
 const getDescription = (status) => {
   switch (status) {
@@ -122,6 +115,7 @@ return (
             </svg>
           </span>
         </div>
+        <div class="Line" />
         {state.transactions.length > 0 ? (
           <table className="table table-sm">
             <thead>
