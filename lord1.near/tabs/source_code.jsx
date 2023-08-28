@@ -1,6 +1,6 @@
 State.init({
   data: [],
-  columnNamesFinall: ["Near", "USD", "User", "Widget"],
+  columnNamesFinall: ["Near", "USD", "Analysts", "Components"],
   columnImg: {
     volume:
       "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/chart-line-solid.svg",
@@ -11,10 +11,10 @@ State.init({
     user: "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/file-contract-solid.svg",
   },
   descriptions: {
-    volume: "Near tokens distributed on Near by Flipside",
-    volume_usd: "Near tokens distributed on Near by Flipside (in USD)",
-    user: "Distributed among how many devs & analysts",
-    widgets: "Number of Flipside-related widgets",
+    volume: "NEAR tokens distributed to Analysts by Flipside",
+    volume_usd: "USD value of NEAR tokens distributed to Analysts by Flipside",
+    user: "Number of Analysts earning NEAR on Flipside",
+    widgets: "Number of Flipside related components",
   },
 });
 const data = fetch(
