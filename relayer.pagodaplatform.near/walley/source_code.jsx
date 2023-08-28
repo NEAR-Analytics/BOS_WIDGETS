@@ -861,15 +861,20 @@ return (
             <Styles.NavLine></Styles.NavLine>
             <Styles.WalleyNavbarButton
               onClick={() => State.update({ view: "home" })}
+              className={state.view === "home" ? "grey" : ""}
             >
               <span>Home</span>
             </Styles.WalleyNavbarButton>
             <Styles.NavLine></Styles.NavLine>
-            <Styles.WalleyNavbarButton onClick={onTxPastClick}>
+            <Styles.WalleyNavbarButton
+              onClick={onTxPastClick}
+              className={state.view === "txPast" ? "grey" : ""}
+            >
               <span>Receipts</span>
             </Styles.WalleyNavbarButton>
             <Styles.NavLine></Styles.NavLine>
             <Styles.WalleyNavbarButton
+              className={state.addSt ? "grey" : ""}
               onClick={() => {
                 props.toast(
                   "INFO",
@@ -1168,12 +1173,14 @@ return (
             <Styles.NavLine></Styles.NavLine>
             <Styles.WalleyNavbarButton
               onClick={() => State.update({ view: "home" })}
+              className={state.view === "home" ? "grey" : ""}
             >
               <span>Home</span>
             </Styles.WalleyNavbarButton>
             <Styles.NavLine></Styles.NavLine>
             <Styles.WalleyNavbarButton
               onClick={() => State.update({ view: "txPast" })}
+              className={state.view === "txPast" ? "grey" : ""}
             >
               <span>Receipts</span>
             </Styles.WalleyNavbarButton>
