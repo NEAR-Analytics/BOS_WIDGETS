@@ -145,6 +145,7 @@ State.init({
   onApproving: false,
   onSwap: false,
   needMoreAllowance: false,
+  reloadTransactions: false,
 });
 
 const getNetwork = () => {
@@ -159,6 +160,11 @@ const getNetwork = () => {
       }
     });
 };
+
+function handleReloadTransactions() {
+  console.log();
+  State.update({ reloadTransactions: false });
+}
 
 const switchNetwork = (chainId) => {
   Ethers.provider().send("wallet_switchEthereumChain", [
@@ -447,6 +453,7 @@ const confirmTransaction = () => {
     router.exactInputSingle(paramsv2, overrides).then((res) => {
       State.update({
         onSwap: true,
+        reloadTransactions: true,
       });
       setTimeout(() => {
         State.update({
@@ -458,6 +465,7 @@ const confirmTransaction = () => {
           rate: 0,
           poolSelected: null,
           onSwap: false,
+          reloadTransactions: true,
         });
       }, 15000);
     });
@@ -806,5 +814,12 @@ return (
         </div>
       </div>
     </div>
+    <Widget
+      src="yairnava.near/widget/Maverick-Swap-Transactions"
+      props={{
+        state,
+        handleReload: () => State.update({ reloadTransactions: false }),
+      }}
+    />
   </Theme>
 );
