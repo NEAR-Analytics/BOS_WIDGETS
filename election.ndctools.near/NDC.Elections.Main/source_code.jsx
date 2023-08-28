@@ -4,7 +4,7 @@ ids = props.ids ? ids : [1, 2, 3, 4];
 org = props.org ? org : "NDC";
 
 const electionContract = "elections-v1.gwg-testing.near";
-const registryContract = "registry.i-am-human.near";
+const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 let houses = [
@@ -25,19 +25,6 @@ State.init({
 const isHuman = Near.view(registryContract, "is_human", {
   account: context.accountId,
 });
-
-const getWinnerIds = () => {
-  const house = houses.find((h) => h.id === state.selectedHouse);
-  const now = new Date().getTime();
-  const end = new Date(parseInt(house.end)).getTime();
-
-  if (now < end) return [];
-
-  const res = house.result.sort((a, b) => b[1] - a[1]);
-  const winners = house.result.filter((item) => item[1] === res[0][1]);
-
-  return winners.slice(0, house.quorum).map((w) => w[0]);
-};
 
 State.update({ isIAmHuman: isHuman[0][1].length > 0 });
 
