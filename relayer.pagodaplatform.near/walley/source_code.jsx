@@ -693,23 +693,21 @@ return (
               {getTable(state.user.viewTxn, false)}
               {state.user.viewTxn[11] === "cancel" ? (
                 <>
-                  <Styles.WalleyButtonRow>
-                    <Styles.WalleyLabel>
-                      Enter the transaction password
-                    </Styles.WalleyLabel>
-                    <Styles.WalleyInput
-                      type="password"
-                      value={state.user.transactionPassword}
-                      onChange={(e) =>
-                        State.update({
-                          user: {
-                            ...state.user,
-                            transactionPassword: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </Styles.WalleyButtonRow>
+                  <Styles.WalleyLabel>
+                    Enter the transaction password
+                  </Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    type="password"
+                    value={state.user.transactionPassword}
+                    onChange={(e) =>
+                      State.update({
+                        user: {
+                          ...state.user,
+                          transactionPassword: e.target.value,
+                        },
+                      })
+                    }
+                  />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
                       className="grey"
@@ -798,43 +796,35 @@ return (
                 </>
               ) : state.user.viewTxn[11] === "approve" ? (
                 <>
-                  <Styles.WalleyButtonRow>
-                    <Styles.WalleyLabel>
-                      Please upload the bill
-                    </Styles.WalleyLabel>
-                    <IpfsImageUpload image={state.store.bill} />
-                  </Styles.WalleyButtonRow>
-                  <Styles.WalleyButtonRow>
-                    <Styles.WalleyLabel>Total Bill Amount</Styles.WalleyLabel>
-                    <Styles.WalleyInput
-                      value={state.store.totalAmount}
-                      onChange={(e) =>
-                        State.update({
-                          store: {
-                            ...state.store,
-                            totalAmount: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </Styles.WalleyButtonRow>
-                  <Styles.WalleyButtonRow>
-                    <Styles.WalleyLabel>
-                      Transaction Password
-                    </Styles.WalleyLabel>
-                    <Styles.WalleyInput
-                      type="password"
-                      value={state.store.approvePassword}
-                      onChange={(e) =>
-                        State.update({
-                          store: {
-                            ...state.store,
-                            approvePassword: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </Styles.WalleyButtonRow>
+                  <Styles.WalleyLabel>
+                    Please upload the bill -{" "}
+                  </Styles.WalleyLabel>
+                  <IpfsImageUpload image={state.store.bill} />
+                  <Styles.WalleyLabel>Total Bill Amount</Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    value={state.store.totalAmount}
+                    onChange={(e) =>
+                      State.update({
+                        store: {
+                          ...state.store,
+                          totalAmount: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <Styles.WalleyLabel>Transaction Password</Styles.WalleyLabel>
+                  <Styles.WalleyInput
+                    type="password"
+                    value={state.store.approvePassword}
+                    onChange={(e) =>
+                      State.update({
+                        store: {
+                          ...state.store,
+                          approvePassword: e.target.value,
+                        },
+                      })
+                    }
+                  />
                   <Styles.WalleyButtonRow>
                     <Styles.WalleyButton
                       className="grey"
