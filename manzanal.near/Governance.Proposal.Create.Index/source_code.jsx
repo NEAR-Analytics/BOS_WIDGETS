@@ -7,7 +7,7 @@ const update = props.update;
 const transactionHashes = props.transactionHashes;
 const title = props.edit ? "Edit proposal" : "Create Proposal";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
-const contractId = props.contractId || "v006.mpip.near";
+const contractId = props.contractId || "mpip.meta-pool-dao.near";
 State.init({
   openModal: false,
   allVotingPower: null,
@@ -39,7 +39,8 @@ if (!state.allVotingPowerIsFetched) {
     State.update({
       allVotingPower: yoctoToNear(voting_power),
       allVotingPowerIsFetched: true,
-      allVotingPowerYocto:    yoctoToNear(votingPowerYocto) + "000000000000000000000000",
+      allVotingPowerYocto:
+        yoctoToNear(votingPowerYocto) + "000000000000000000000000",
     });
   });
 }
@@ -48,7 +49,7 @@ if (state.allVotingPowerIsFetched && !state.proposalThresholdReachedIsFetched) {
   Near.asyncView(
     contractId,
     "check_proposal_threshold",
-    { voting_power:  state.allVotingPowerYocto },
+    { voting_power: state.allVotingPowerYocto },
     "final",
     false
   ).then((passed) => {
@@ -157,9 +158,13 @@ if (transactionHashes) {
   }
 }
 
-if (!state.allVotingPowerIsFetched || !state.proposalThresholdReachedIsFetched) return <>Loading</>;
+if (!state.allVotingPowerIsFetched || !state.proposalThresholdReachedIsFetched)
+  return <>Loading</>;
 
-if (!state.proposalThresholdReached) return <>Proposal threshold is not reached. You are not able to create proposals</>
+if (!state.proposalThresholdReached)
+  return (
+    <>Proposal threshold is not reached. You are not able to create proposals</>
+  );
 
 return (
   <Wrapper>
