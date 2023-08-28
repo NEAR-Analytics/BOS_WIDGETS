@@ -225,6 +225,7 @@ const openVessel = () => {
         })
         .then(() => {
           State.update({ txLock: false, success: true });
+          getEntireDebtAndColl();
         });
     }
   });
@@ -253,6 +254,7 @@ const withdrawDebtTokens = () => {
     })
     .then(() => {
       State.update({ txLock: false, success: true });
+      getEntireDebtAndColl();
     });
 };
 
@@ -282,6 +284,7 @@ const withdrawColl = () => {
     })
     .then(() => {
       State.update({ txLock: false, success: true });
+      getEntireDebtAndColl();
     });
 };
 
@@ -305,7 +308,14 @@ const repayDebtTokens = () => {
           gasLimit: 25000000,
         }
       )
-      .then(() => State.update({ txLock: false }));
+      .then((finalTx) => {
+        State.update({ tx: finalTx.hash });
+        return finalTx.wait();
+      })
+      .then(() => {
+        State.update({ txLock: false, success: true });
+        getEntireDebtAndColl();
+      });
   }
 };
 
@@ -353,6 +363,7 @@ const addColl = () => {
     })
     .then(() => {
       State.update({ txLock: false, success: true });
+      getEntireDebtAndColl();
     });
 };
 
@@ -371,6 +382,7 @@ const closeVessel = () => {
     })
     .then(() => {
       State.update({ txLock: false, success: true });
+      getEntireDebtAndColl();
     });
 };
 
@@ -389,6 +401,7 @@ const claimCollateral = () => {
     })
     .then(() => {
       State.update({ txLock: false, success: true });
+      getEntireDebtAndColl();
     });
 };
 
@@ -414,6 +427,7 @@ const provideToSP = () => {
       })
       .then(() => {
         State.update({ txLock: false, success: true });
+        getEntireDebtAndColl();
       });
   }
 };
@@ -439,6 +453,7 @@ const withdrawFromSP = () => {
       })
       .then(() => {
         State.update({ txLock: false, success: true });
+        getEntireDebtAndColl();
       });
   }
 };
@@ -528,52 +543,52 @@ if (state.balance === undefined && state.sender) {
     });
 }
 
-if (
-  state.sender &&
-  Ethers.send("eth_requestAccounts", [])[0] &&
-  state.chainId === 11155111 &&
-  state.price === 0
-) {
-  const priceFeedContract = new ethers.Contract(
-    priceFeedAddress,
-    priceFeedAbi.body,
-    Ethers.provider().getSigner()
-  );
+// if (
+//   state.sender &&
+//   Ethers.send("eth_requestAccounts", [])[0] &&
+//   state.chainId === 11155111 &&
+//   state.price === 0
+// ) {
+//   const priceFeedContract = new ethers.Contract(
+//     priceFeedAddress,
+//     priceFeedAbi.body,
+//     Ethers.provider().getSigner()
+//   );
 
-  const vesselManagerContract = new ethers.Contract(
-    vesselManagerAddress,
-    vesselManagerAbi.body,
-    Ethers.provider().getSigner()
-  );
+//   const vesselManagerContract = new ethers.Contract(
+//     vesselManagerAddress,
+//     vesselManagerAbi.body,
+//     Ethers.provider().getSigner()
+//   );
 
-  priceFeedContract.getPrice().then((priceRes) => {
-    const price = Number(ethers.utils.formatEther(priceRes));
+//   priceFeedContract.getPrice().then((priceRes) => {
+//     const price = Number(ethers.utils.formatEther(priceRes));
 
-    State.update({ price });
-    vesselManagerContract.getTCR(priceRes).then((tcrRes) => {
-      const tcr = Number(ethers.utils.formatEther(tcrRes)) * 100;
+//     State.update({ price });
+//     vesselManagerContract.getTCR(priceRes).then((tcrRes) => {
+//       const tcr = Number(ethers.utils.formatEther(tcrRes)) * 100;
 
-      State.update({ tcr });
-    });
-  });
-}
+//       State.update({ tcr });
+//     });
+//   });
+// }
 
-if (
-  state.sender &&
-  state.chainId === 11155111 &&
-  state.isOpenVessel === undefined
-) {
-  const vesselManagerContract = new ethers.Contract(
-    vesselManagerAddress,
-    vesselManagerAbi.body,
-    Ethers.provider().getSigner()
-  );
+// if (
+//   state.sender &&
+//   state.chainId === 11155111 &&
+//   state.isOpenVessel === undefined
+// ) {
+//   const vesselManagerContract = new ethers.Contract(
+//     vesselManagerAddress,
+//     vesselManagerAbi.body,
+//     Ethers.provider().getSigner()
+//   );
 
-  vesselManagerContract.getVesselStatus(state.sender).then((res) => {
-    const isOpenVessel = ethers.utils.formatEther(res).includes("1");
-    State.update({ isOpenVessel });
-  });
-}
+//   vesselManagerContract.getVesselStatus(state.sender).then((res) => {
+//     const isOpenVessel = ethers.utils.formatEther(res).includes("1");
+//     State.update({ isOpenVessel });
+//   });
+// }
 
 const confirmAction = () => {
   if (
