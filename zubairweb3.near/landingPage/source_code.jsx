@@ -20,7 +20,7 @@ return (
           <User>{current_user}</User>
         ) : (
           <a href="https://near.org/signin">
-            <button>Login to NEAR</button>
+            <button>Connect with NEAR</button>
           </a>
         )}
         <h1 style={{ fontSize: "3.5em" }}>
