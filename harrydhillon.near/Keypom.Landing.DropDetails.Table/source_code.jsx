@@ -54,6 +54,8 @@ for (let i = 0; i < 20; i++) {
       ["100", "200", "150", "200", "∞"][Math.floor(Math.random() * 5)]
     }`, // Randomly select between 'Event', 'NFT', and 'Token'
     description: "Mercedem aut nummos unde unde...",
+    from: new Date("Auguest 20 2023"),
+    to: new Date("September 14 2023"),
     pricePerTicket: 50, // Generate a random date between 2020-01-01 and 2023-08-22
   };
 
@@ -139,12 +141,12 @@ return (
                   <p
                     style={{ marginBottom: 0, fontSize: 12, color: "#94A3B8" }}
                   >
-                    Sep 12, 2023 - Aug 20, 2023
+                    Aug 20, 2023 - Sep 12, 2023
                   </p>
                   <p
                     style={{ marginBottom: 0, fontSize: 12, color: "#94A3B8" }}
                   >
-                    Sep 12, 2023 - Aug 20, 2023
+                    Aug 20, 2023 - Sep 12, 2023
                   </p>
                 </div>
               </div>
@@ -152,7 +154,13 @@ return (
             <TableCell>{item.numberOfTicket}</TableCell>
             <TableCell>{item.pricePerTicket}</TableCell>
             <TableCell>
-              <ActionButton2>Preview</ActionButton2>
+              <ActionButton2
+                onClick={() => {
+                  State.update({ ticketPreview: item });
+                }}
+              >
+                Preview
+              </ActionButton2>
             </TableCell>
             <TableCell>
               <div style={{ gap: "10px", display: "flex" }}>
@@ -184,5 +192,19 @@ return (
         ))}
       </tbody>
     </Table>
+    {!!state.ticketPreview && (
+      <Widget
+        src="harrydhillon.near/widget/Keypom.Tickets.TicketPreview"
+        props={{
+          isOpen: !!state.ticketPreview,
+          ...state.ticketPreview,
+          onClose: () => {
+            State.update({
+              ticketPreview: null,
+            });
+          },
+        }}
+      />
+    )}
   </div>
 );
