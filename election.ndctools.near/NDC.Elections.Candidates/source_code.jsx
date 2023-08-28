@@ -400,7 +400,6 @@ const handleStateTransition = () => {
       if (!!state.acceptedPolicy)
         State.update({
           showMintPolicyModal: state.hasPolicyNFT === false,
-          bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
           showMintIVotedModal:
             myVotes.length > 0 && state.hasIVotedNFT === false,
         });
