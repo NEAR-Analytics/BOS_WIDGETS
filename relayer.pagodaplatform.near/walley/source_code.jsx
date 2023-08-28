@@ -607,6 +607,7 @@ const checkPassword = (tokenId, password, fn) => {
 };
 
 const getTable = (txn, store) => {
+  console.log(txn);
   return (
     <table className="table">
       <tbody>
