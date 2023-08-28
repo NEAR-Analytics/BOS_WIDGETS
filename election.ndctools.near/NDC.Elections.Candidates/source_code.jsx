@@ -377,11 +377,7 @@ const handleStateTransition = () => {
 
   switch (state.electionStatus) {
     case "ONGOING":
-      if (!state.acceptedPolicy)
-        State.update({
-          showToSModal: true,
-        });
-      else
+      if (!!state.acceptedPolicy)
         State.update({
           showMintPolicyModal: state.hasPolicyNFT === false,
           bountyProgramModal: state.hasPolicyNFT && myVotes.length === 0,
