@@ -72,7 +72,7 @@ State.init({
 return (
   <>
     <Widget
-      src="mob.near/widget/Common.Compose"
+      src="mob.near/widget/MainPage.N.Common.Compose"
       props={{
         placeholder: "Reply",
         initialText: props.initialText,
@@ -84,7 +84,7 @@ return (
           <CommitButton
             disabled={!state.content}
             force
-            className="btn btn-dark rounded-3"
+            className="btn btn-primary rounded-5"
             data={composeData}
             onCommit={() => {
               onCompose();
@@ -97,17 +97,15 @@ return (
       }}
     />
     {state.content && (
-      <div className="mt-3">
-        <Widget
-          src="mob.near/widget/MainPage.Comment"
-          props={{
-            item,
-            accountId: context.accountId,
-            content: state.content,
-            blockHeight: "now",
-          }}
-        />
-      </div>
+      <Widget
+        src="mob.near/widget/MainPage.N.Comment"
+        props={{
+          item,
+          accountId: context.accountId,
+          content: state.content,
+          blockHeight: "now",
+        }}
+      />
     )}
   </>
 );
