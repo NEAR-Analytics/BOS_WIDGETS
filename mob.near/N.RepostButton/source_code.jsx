@@ -137,7 +137,11 @@ return (
     >
       <span className={hasRepost ? "clicked" : ""}>{repostSvg}</span>
       <span className={`count ${hasRepost ? "clicked" : ""}`}>
-        {repostCount || ""}
+        <Widget
+          loading={repostCount || ""}
+          src="mob.near/widget/N.Overlay.Faces"
+          props={{ accounts: repostsByUsers, limit: 10 }}
+        />
       </span>
     </RepostButton>
   </div>
