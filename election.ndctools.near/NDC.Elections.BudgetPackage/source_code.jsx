@@ -171,7 +171,7 @@ const CastVotes = () => (
         props={{
           Button: {
             text: "Abstain",
-            className: "justify-content-center",
+            className: "primary justify-content-center",
             icon: <i className="bi bi-x-lg" />,
             onClick: () => handleVote("abstain"),
           },
@@ -181,8 +181,14 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
+const Text = styled.p`
+  font-size: 10px;
+  line-height: 16px;
+  text-align: justify;
+`;
+
 const Content = () => (
-  <small>
+  <Text className="text-secondary">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
     tempor incididunt ut labore et dolore magna aliqua. Sed viverra ipsum nunc
     aliquet bibendum enim. Congue mauris rhoncus aenean vel elit scelerisque
@@ -293,7 +299,7 @@ const Content = () => (
     cursus mattis molestie a iaculis at. Eget velit aliquet sagittis id
     consectetur purus ut faucibus. Etiam sit amet nisl purus in mollis nunc sed
     id. At risus viverra adipiscing at in. Risus feugiat in ante metus.
-  </small>
+  </Text>
 );
 
 return (
