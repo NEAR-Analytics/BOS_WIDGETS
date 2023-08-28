@@ -116,6 +116,28 @@ const COLUMNS = [
     renderCell: (item) => formatPercentNew(item["DAU / MAU"]),
     sort: { sortKey: "DAU / MAU" },
   },
+
+  {
+    label: (
+      <p className="text-center text-white text-wrap ">Total Transactions</p>
+    ),
+    renderCell: (item) => formatNumber(item["Total Transactions"]),
+    sort: { sortKey: "Total Transactions" },
+  },
+  {
+    label: (
+      <p className="text-center text-white text-wrap ">
+        Transactions - 30 Days
+      </p>
+    ),
+    renderCell: (item) => formatNumber(item["Transactions - 30 Days"]),
+    sort: { sortKey: "Transactions - 30 Days" },
+  },
+  {
+    label: <p className="text-center text-white text-wrap ">Avg Txn per MAU</p>,
+    renderCell: (item) => formatNumber(item["Avg Txn per MAU"]),
+    sort: { sortKey: "Avg Txn per MAU" },
+  },
 ];
 const sortFns = {
   ContractAddress: (array) =>
@@ -133,6 +155,15 @@ const sortFns = {
   "Daily Average": (array) =>
     array.sort((a, b) => a["Daily Average"] - b["Daily Average"]),
   "DAU / MAU": (array) => array.sort((a, b) => a["DAU / MAU"] - b["DAU / MAU"]),
+
+  "Total Transactions": (array) =>
+    array.sort((a, b) => a["Total Transactions"] - b["Total Transactions"]),
+  "Transactions - 30 Days": (array) =>
+    array.sort(
+      (a, b) => a["Transactions - 30 Days"] - b["Transactions - 30 Days"]
+    ),
+  "Avg Txn per MAU": (array) =>
+    array.sort((a, b) => a["Avg Txn per MAU"] - b["Avg Txn per MAU"]),
 };
 
 return (
