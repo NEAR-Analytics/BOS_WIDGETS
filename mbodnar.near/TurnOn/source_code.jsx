@@ -4,9 +4,9 @@ const isPushManagerSupported = props?.isPushManagerSupported;
 const isPermisionGranted = props?.isPermisionGranted;
 
 State.init({
-  notificationSupported: "",
-  pushManagerSupported: "",
-  permisionGranted: "",
+  notificationSupported: "x",
+  pushManagerSupported: "x",
+  permisionGranted: "x",
 });
 
 console.log("xxx");
