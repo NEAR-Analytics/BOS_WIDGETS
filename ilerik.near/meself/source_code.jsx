@@ -102,12 +102,14 @@ return (
     Iframes below
     <div className="d-flex">
       <iframe
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
         className="w-50 border"
         srcDoc={code}
         message={{ exp: state.text || "" }}
         onMessage={(res1) => State.update({ res1 })}
       />
       <iframe
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
         className="w-50 border"
         srcDoc={code}
         message={{ exp: (state.text || "") + " + ' banana'" }}
