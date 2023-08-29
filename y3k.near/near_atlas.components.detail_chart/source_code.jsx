@@ -348,7 +348,11 @@ return (
                   onChange={handleProjectDropdownChange}
                 >
                   {uniqueProjectNames.map((name) => (
-                    <option key={name} value={name}>
+                    <option
+                      key={name}
+                      value={name}
+                      selected={name === state.project_name}
+                    >
                       {name}
                     </option>
                   ))}
