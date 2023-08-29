@@ -38,7 +38,6 @@ const renderItem = (item, i) => {
     <ItemWrapper>
       {item.value.type === "merge" && (
         <>
-          <p>{JSON.stringify(item)}</p>
           <div className="d-flex justify-content-between row text-truncate text-muted">
             <div className="text-truncate col-auto">
               <div className="row">
