@@ -21,41 +21,37 @@ const formatTime = (time) => (time < 10 ? `0${time}` : time);
 
 const timer = setInterval(() => {
   const now = new Date().getTime();
-  const start = new Date(parseInt(startTime)).getTime();
   const end = new Date(parseInt(endTime)).getTime();
   let title = "";
 
-  let diff;
-  if (now < start)
-    diff = new Date(parseInt(start)).getTime() - new Date().getTime();
-  else if (now > start && now < end)
-    diff = new Date(parseInt(end)).getTime() - new Date().getTime();
-  else diff = 0;
+  let diff = end - now;
 
-  let days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+  if (diff > 0) {
+    title = <>Course Starts</>;
 
-  if (now < start) title = <>BOS HACKS STARTS</>;
-  else if (now > start && now < end) title = <>BOS HACKS SUBMISSION</>;
-  else {
+    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    State.update({
+      days: days,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds,
+      title: title,
+    });
+  } else {
     title = <>{type} is ended</>;
-    days = 0;
-    hours = 0;
-    minutes = 0;
-    seconds = 0;
+    State.update({
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      title: title,
+    });
+    clearInterval(timer); // Stop the timer
   }
-
-  State.update({
-    days: days,
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds,
-    title: title,
-  });
-
-  clearInterval(timer);
 }, 1000);
 
 const H1 = styled.h1`
