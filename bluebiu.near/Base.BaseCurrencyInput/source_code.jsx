@@ -69,7 +69,6 @@ const Amount = styled.div`
   font-size: 14px;
   line-height: 16px;
   text-align: right;
-  text-decoration: underline;
   cursor: pointer;
 `;
 // styled area end
