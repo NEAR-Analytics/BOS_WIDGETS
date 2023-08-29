@@ -16,7 +16,11 @@ const handleMerge = () =>
   });
 
 return (
-  <button className="btn btn-success" onClick={handleMerge}>
-    Merge
-  </button>
+  <>
+    {creatorId === context.accountId && (
+      <button className="btn btn-success" onClick={handleMerge}>
+        Merge
+      </button>
+    )}
+  </>
 );
