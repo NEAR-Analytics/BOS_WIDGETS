@@ -112,7 +112,7 @@ const update = (state) => State.update(state);
 const getContent = {
   home: (
     <Widget
-      src={`${authorId}/widget/Governance.Dashboard`}
+      src={`meta-pool-official.near/widget/ImprovementProposals.Dashboard`}
       props={{
         tab: state.tab,
         update,
