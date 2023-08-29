@@ -48,6 +48,7 @@ function getComments(props) {
   const { realArticleId } = props;
   return Social.index(action, realArticleId, {
     order: "desc",
+    subscribe: true,
   });
 }
 
