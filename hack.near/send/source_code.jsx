@@ -167,6 +167,7 @@ return (
       send request
     </CommitButton>
     <hr />
+    <h3>Review</h3>
     <Widget
       src="hack.near/widget/compare"
       props={{ src: state.src, update: state.update }}
