@@ -126,13 +126,13 @@ return (
     </div>
     <div className="m-1">
       <h3>request changes</h3>
-      <p>ask someone to update something they created</p>
+      <p>ask someone to update anything they created</p>
       <ol>
-        <li>fork anything you want to update</li>
-        <li>make helpful edits and suggestions</li>
-        <li>notify the original creator</li>
+        <li>fork / duplicate whatever you want to update</li>
+        <li>make helpful edits and suggestions, then save</li>
+        <li>notify the original creator with a requested action</li>
       </ol>
-      <p>builders can review, approve, and merge automatically</p>
+      <p>creators can review, approve, and merge automatically</p>
 
       <h5 className="mt-4">original source path</h5>
       <p>
@@ -152,7 +152,7 @@ return (
       />
     </div>
     <h5 className="m-1 mt-4">path of updated version</h5>
-    <p className="m-1">
+    <p className="m-1 mt-2">
       <i>new thing to be merged with original:</i>
     </p>
     <div className="input-group m-1 mb-2">
