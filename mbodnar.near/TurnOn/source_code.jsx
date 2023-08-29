@@ -28,10 +28,17 @@ return (
   <div>
     <button onClick={turnOn}>Turn On</button>
     <br />
-    <span>Notifications supported: {state.notificationSupported}</span>
+    <span>
+      Notifications supported: {isNotificationSupported() ? "true" : "false"}
+    </span>
     <br />
     <span>PushManager supported: {state.pushManagerSupported}</span>
     <br />
     <span>permision granted: {state.permisionGranted}</span>
+    // <span>Notifications supported: {state.notificationSupported}</span>
+    // <br />
+    // <span>PushManager supported: {state.pushManagerSupported}</span>
+    // <br />
+    // <span>permision granted: {state.permisionGranted}</span>
   </div>
 );
