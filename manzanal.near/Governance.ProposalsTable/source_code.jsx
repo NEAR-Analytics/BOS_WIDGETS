@@ -1,6 +1,6 @@
 let proposals = props.proposals;
 const authorId = props.authorId || "manzanal.near";
-const contractId = props.contractId || "mpip.meta-pool-dao.near";
+const contractId = props.contractId || "v006.mpip.near";
 State.init({});
 
 // sort proposals by mpip_id descending
@@ -184,7 +184,7 @@ return (
           <tr className="align-middle">
             <td class="text-start">
               <a
-                href={`/meta-pool-official.near/widget/ImprovementProposals?tab=proposal&mpip_id=${proposal.mpip_id}`}
+                href={`/${authorId}/widget/Governance.Index?tab=proposal&mpip_id=${proposal.mpip_id}`}
                 onClick={() =>
                   props.update({
                     tab: "proposal",
