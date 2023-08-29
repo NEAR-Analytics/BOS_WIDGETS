@@ -106,7 +106,7 @@ const Command = styled.div`
     justify-content:center;
     font-weight:bold;
     color:#fff;
-    width:80%;
+    width:300px;
     height:40px;
     border-radius: 5px;
     background-color:black;
@@ -129,6 +129,21 @@ const Command = styled.div`
       transform: translateY(2px);
       background-color:gray;
     }
+
+`;
+
+const ButtonContainer = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    width: 650px!important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 `;
 
 State.init({
@@ -207,54 +222,63 @@ const sendPrompt = () => {
 };
 
 return (
-  <CreatePrompt>
-    <div
-      style={{
-        display: "none",
-      }}
-    ></div>
+  <div>
+    <CreatePrompt>
+      <div
+        style={{
+          display: "none",
+        }}
+      ></div>
 
-    <h1>Sus Loans</h1>
-    <div className="form-group" style={{ display: "flex" }}>
-      <input
-        id="name"
-        type="text"
-        placeholder="What is Sus?"
-        value={state.prompt}
-        onChange={(event) => State.update({ prompt: event.target.value })}
-        required
-        style={{ width: "80%", height: "50px" }}
-      />
-      <Button
-        onClick={() => sendPrompt()}
-        style={{ width: "15%", height: "50px" }}
-      >
-        <img
-          src="https://ipfs.io/ipfs/bafybeihvhlxx4km5dhtgr43kspxlbqkkrviszdplrk6q74nqqmgqqihiba/send%281%29.png"
-          alt="arrow"
-          style={{ height: "60%" }}
+      <h1>Sus Loans</h1>
+      <div className="form-group" style={{ display: "flex" }}>
+        <input
+          id="name"
+          type="text"
+          placeholder="What is Sus?"
+          value={state.prompt}
+          onChange={(event) => State.update({ prompt: event.target.value })}
+          required
+          style={{ width: "80%", height: "50px" }}
         />
-      </Button>
-    </div>
+        <Button
+          onClick={() => sendPrompt()}
+          style={{ width: "15%", height: "50px" }}
+        >
+          <img
+            src="https://ipfs.io/ipfs/bafybeihvhlxx4km5dhtgr43kspxlbqkkrviszdplrk6q74nqqmgqqihiba/send%281%29.png"
+            alt="arrow"
+            style={{ height: "60%" }}
+          />
+        </Button>
+      </div>
 
-    {state.isLoading ? (
-      <img
-        height="20"
-        width="70"
-        style={{ margin: 10 }}
-        src="https://ipfs.io/ipfs/bafkreidmr43cuwv5kre4fzrum4lgpkkiwwj47nl54hunfsvgutyhocklza"
-      />
-    ) : null}
+      {state.isLoading ? (
+        <img
+          height="20"
+          width="70"
+          style={{ margin: 10 }}
+          src="https://ipfs.io/ipfs/bafkreidmr43cuwv5kre4fzrum4lgpkkiwwj47nl54hunfsvgutyhocklza"
+        />
+      ) : null}
 
-    {!state.isLoading ? <p>{state.response ? state.response : null}</p> : null}
+      {!state.isLoading ? (
+        <p>{state.response ? state.response : null}</p>
+      ) : null}
 
-    {!state.isLoading ? state.widget : null}
+      {!state.isLoading ? state.widget : null}
 
-    <h5 style={{ marginTop: 50, marginBottom: 20 }}>Quick Commands</h5>
-    {buttonList.map((buttonText, index) => (
-      <Command key={index} onClick={() => State.update({ prompt: buttonText })}>
-        {buttonText}
-      </Command>
-    ))}
-  </CreatePrompt>
+      <h5 style={{ marginTop: 50, marginBottom: 20 }}>Quick Commands</h5>
+    </CreatePrompt>
+    <ButtonContainer>
+      {buttonList.map((buttonText, index) => (
+        <Command
+          key={index}
+          onClick={() => State.update({ prompt: buttonText })}
+        >
+          {buttonText}
+        </Command>
+      ))}
+    </ButtonContainer>
+  </div>
 );
