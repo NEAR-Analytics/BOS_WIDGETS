@@ -61,17 +61,12 @@ const chainBalance =
     ? Number(state.nearBalance)
     : Number(state.ethBalance);
 
-console.log("chainBalance: ", chainBalance);
-
 const showToken = !onlyShowHasBalance || (!!state.loadDone && chainBalance > 0);
 
 const StyledToken =
   !bothConnected || chainBalance == 0 ? TokenDark : TokenLight;
 
-console.log({
-  state,
-  symbol: token.symbol,
-});
+console.log("nearbalance", state.nearBalance, "ethbalance", state.ethBalance);
 
 return (
   <>
