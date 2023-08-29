@@ -7,6 +7,17 @@ const middlePool =
 
 const useMiddlePool = tokenIn !== middlePool && tokenOut !== middlePool;
 
+const WMNT = "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8";
+const MNT = "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead0000";
+
+if (tokenIn == MNT) {
+  tokenIn = WMNT;
+}
+
+if (tokenOut == MNT) {
+  tokenOut = WMNT;
+}
+
 const optionDirectSwap = {
   name: "directSwap",
   path: [tokenIn, tokenOut],
@@ -41,7 +52,7 @@ const quoterABI =
 
 const quoterContractJson = fetch(quoterABI);
 if (!quoterContractJson.ok) {
-  return "Loading";
+  return "";
 }
 
 const encodePath = (path, fees) => {
