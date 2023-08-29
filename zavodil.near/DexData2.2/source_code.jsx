@@ -39,29 +39,31 @@ if (debug) {
       }
 
       data.sender = "0x487D484614d26A89c3079Ae58109E474599555be";
-      data.inputAssetAmount = "4123";
-      data.inputAssetTokenId = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
+      data.inputAssetAmount = "0.5";
+
+      data.inputAssetTokenId = "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9";
       data.inputAsset = {
+        metadata: {
+          symbol: "USDC",
+          decimals: 6,
+        },
+      };
+
+      data.outputAssetTokenId = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
+      data.outputAsset = {
         metadata: {
           symbol: "MNT",
           decimals: 18,
         },
       };
-      data.outputAssetTokenId = "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE";
-      data.outputAsset = {
-        metadata: {
-          symbol: "WETH",
-          decimals: 18,
-        },
-      };
+
       const f = (e) => {
         console.log(e);
       };
 
       data.callTx(data, f, undefined, undefined, undefined, [
-        "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE",
-        "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000",
-        "0x487D484614d26A89c3079Ae58109E474599555be",
+        data.inputAssetTokenId,
+        data.outputAssetTokenId,
       ]);
 
       State.update({ debugOutput: <div>Data: [{JSON.stringify(data)}]</div> });
@@ -510,7 +512,8 @@ const callTxAgniSwap = (
   gasPrice,
   gasLimit,
   sqrtPriceLimitX96,
-  path
+  path,
+  amountOutMinimum
 ) => {
   console.log("callTxAgniSwap", input, path);
   if (
@@ -533,7 +536,90 @@ const callTxAgniSwap = (
 
     const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
 
-    if (path.length === 2) {
+    const WMNT = "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8";
+    const MNT = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
+
+    if (path[path.length - 1] === MNT || path[0] === MNT) {
+      // Native MNT multicall
+      let attachedValue = "0";
+      if (path[0] === MNT) {
+        path[0] = WMNT;
+        attachedValue = value;
+      }
+
+      if (path[path.length - 1] === MNT) {
+        path[path.length - 1] = WMNT;
+      }
+
+      if (path[0] == path[path.length - 1]) {
+        console.log("Illegal swap");
+        return "";
+      }
+
+      console.log("path", path);
+
+      const tokenInAddress = path[0];
+      const tokenOutAddress = path[path.length - 1];
+
+      const inputs = [
+        tokenInAddress,
+        tokenOutAddress,
+        "500",
+        /*input.outputAssetTokenId === MNT
+          ? input.outputAssetTokenId
+          : input.sender,*/
+        input.sender,
+        deadline.toFixed(),
+        value,
+        amountOutMinimum ?? "0",
+        "0",
+      ];
+
+      const multicallParams = [];
+
+      const iface = new ethers.utils.Interface(input.routerAbi);
+
+      console.log("iface", iface, inputs);
+
+      const encodedDataCallSwap = iface.encodeFunctionData(
+        "exactInputSingle((address,address,uint24,address,uint256,uint256,uint256,uint160))",
+        [inputs]
+      );
+
+      console.log("encodedDataCallSwap", encodedDataCallSwap);
+
+      multicallParams.push(encodedDataCallSwap);
+
+      if (input.outputAssetTokenId === MNT) {
+        console.log("unwrapWMNT push");
+        multicallParams.push(
+          iface.encodeFunctionData("unwrapWMNT", [
+            amountOutMinimum ?? "0",
+            input.sender,
+          ])
+        );
+      }
+
+      console.log("multicallParams", multicallParams, gasPrice);
+
+      const multicallContract = swapContract;
+
+      const options = {
+        gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
+        gasLimit: gasLimit ?? 300000,
+        value: attachedValue,
+      };
+
+      multicallContract
+        .multicall(multicallParams, options)
+        .then((tx) => {
+          tx.wait().then((receipt) => {
+            const { status, transactionHash } = receipt;
+            console.log("transactionHash: ", transactionHash);
+          });
+        })
+        .catch(() => {});
+    } else if (path.length === 2) {
       // tokenIn tokenOut fee recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
 
       /*
