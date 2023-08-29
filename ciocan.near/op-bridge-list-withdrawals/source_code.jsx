@@ -199,7 +199,7 @@ function getETHWithdrawals() {
     )
     .then((events) => {
       console.log("WithdrawalInitiated", events);
-      totalOperations = events.length * 1; // Three async operations for each event
+      totalOperations = events.length * 1; // async operations for each event
 
       events
         .sort((a, b) => b.blockNumber - a.blockNumber)
@@ -231,6 +231,31 @@ function getETHWithdrawals() {
             });
             completedOperations++;
             checkAllOperationsComplete();
+          });
+
+          event.getTransactionReceipt().then((receipt) => {
+            console.log("receipt", receipt);
+            const abi = [
+              "event Transfer (address indexed from, address indexed to, uint256 value)",
+              "event Burn (address indexed _account, uint256 _amount)",
+              "event SentMessage (address indexed target, address sender, bytes message, uint256 messageNonce, uint256 gasLimit)",
+              "event WithdrawalInitiated (address indexed _l1Token, address indexed _l2Token, address indexed _from, address _to, uint256 _amount, bytes _data)",
+            ];
+            const iface = new ethers.utils.Interface(abi);
+            Ethers.provider()
+              .getTransactionReceipt(receipt.transactionHash)
+              .then((l2Rcpt) => {
+                const logEvents = l2Rcpt.logs
+                  .map((x) => {
+                    try {
+                      const res = iface.parseLog(x);
+                      res.address = x.address;
+                      return res;
+                    } catch (e) {}
+                  })
+                  .filter((e) => e != undefined);
+                console.log("logEvents", logEvents);
+              });
           });
         });
     });
