@@ -128,15 +128,6 @@ const COLUMNS = [
     renderCell: (item) => item["ALL_TRANSFERS"],
     sort: { sortKey: "ALL_TRANSFERS" },
   },
-  {
-    label: (
-      <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
-        HOLDERS_COUNT
-      </p>
-    ),
-    renderCell: (item) => item["HOLDERS_COUNT"],
-    sort: { sortKey: "HOLDERS_COUNT" },
-  },
 
   {
     label: (
