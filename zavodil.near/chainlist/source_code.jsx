@@ -7,6 +7,7 @@ let data = {
         coingecko_id: state.coingecko_id,
         name: state.name,
         icon_svg: state.icon_svg,
+        rpc_url: state.rpc_url,
       },
     },
     contracts: {
@@ -17,7 +18,7 @@ let data = {
   },
 };
 
-const getSvgImage = (svg) => {
+const getSvgImage = (svg, className, width) => {
   if (!svg) return;
 
   const buff = new Buffer(svg);
@@ -25,17 +26,19 @@ const getSvgImage = (svg) => {
 
   return (
     <img
-      style={{ maxWidth: "32px" }}
-      class="img-thumbnail mt-2"
+      style={{ maxWidth: width ?? "32px" }}
+      class={`img-thumbnail ${className}`}
       src={`data:image/svg+xml;base64,${base64data}`}
       alt=""
     />
   );
 };
 
-const load = () => {
+if (state.refresh) {
   State.update({
+    state: false,
     coingecko_id: null,
+    rpc_url: null,
     name: null,
     icon_svg: null,
     weth: null,
@@ -52,11 +55,50 @@ const load = () => {
 
   State.update({
     coingecko_id: chainlistData.chains[chainId].coingecko_id,
+    rpc_url: chainlistData.chains[chainId].rpc_url,
     name: chainlistData.chains[chainId].name,
     icon_svg: chainlistData.chains[chainId].icon_svg,
     weth: chainlistData.contracts[chainId].weth,
   });
-};
+}
+
+let chainlistData = [];
+
+if (!state.chainlistLoaded) {
+  const chainlist = Social.get(`zavodil.near/chainlist/chains/**`, "final");
+
+  if (chainlist) {
+    State.update({
+      chainlistLoaded: true,
+      chainlist,
+    });
+  }
+} else {
+  chainlistData = Object.keys(state.chainlist).map((chainId) => (
+    <div>
+      <h5>{state.chainlist[chainId].name}</h5>
+      <div>
+        chainId: {chainId}{" "}
+        <button
+          class="btn btn-secondary btn-sm"
+          onClick={() => {
+            State.update({ chain_id: chainId, refresh: true });
+          }}
+        >
+          Load
+        </button>
+      </div>
+      {Object.keys(state.chainlist[chainId]).map((name) => (
+        <div>
+          {name}:{" "}
+          {name === "icon_svg"
+            ? getSvgImage(state.chainlist[chainId][name], "", "16px")
+            : state.chainlist[chainId][name]}
+        </div>
+      ))}
+    </div>
+  ));
+}
 
 return (
   <div class="container">
@@ -76,8 +118,8 @@ return (
       <div class="mb-3">
         <input
           type="button"
-          class="form-control mw-200"
-          onClick={() => load()}
+          class="btn btn-secondary mw-200"
+          onClick={() => State.update({ refresh: true })}
           disabled={!state.chain_id}
           value="Load Data by Chain ID"
         />
@@ -92,6 +134,18 @@ return (
           value={state.coingecko_id}
           onChange={(e) => State.update({ coingecko_id: e.target.value })}
           id="coingeckoId"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="rpcUrl" class="form-label">
+          RPC URL
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          value={state.rpc_url}
+          onChange={(e) => State.update({ rpc_url: e.target.value })}
+          id="rpcUrl"
         />
       </div>
       <div class="mb-3">
@@ -125,7 +179,7 @@ return (
           }
           id="icon_svg"
         />
-        {state.icon_svg && <>{getSvgImage(state.icon_svg)}</>}
+        {state.icon_svg && <>{getSvgImage(state.icon_svg, "mt-2")}</>}
       </div>
 
       <div class="mb-3">
@@ -147,5 +201,9 @@ return (
         </CommitButton>
       </div>
     </div>
+
+    <hr />
+    <h3>Existing data: </h3>
+    {chainlistData}
   </div>
 );
