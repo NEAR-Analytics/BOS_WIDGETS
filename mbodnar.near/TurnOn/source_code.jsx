@@ -32,13 +32,10 @@ return (
       Notifications supported: {isNotificationSupported() ? "true" : "false"}
     </span>
     <br />
-    <span>PushManager supported: {state.pushManagerSupported}</span>
+    <span>
+      PushManager supported: {isPushManagerSupported() ? "true" : "false"}
+    </span>
     <br />
-    <span>permision granted: {state.permisionGranted}</span>
-    // <span>Notifications supported: {state.notificationSupported}</span>
-    // <br />
-    // <span>PushManager supported: {state.pushManagerSupported}</span>
-    // <br />
-    // <span>permision granted: {state.permisionGranted}</span>
+    <span>permision granted: {isPermisionGranted() ? "true" : "false"}</span>
   </div>
 );
