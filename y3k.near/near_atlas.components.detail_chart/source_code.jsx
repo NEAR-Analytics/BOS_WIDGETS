@@ -5,6 +5,8 @@ const initialState = {
   project_name: props.project_name || "Sweat Economy",
 };
 
+console.log(initialState);
+
 state = State.init(initialState);
 
 function filterByProjectName(arr, project_name) {
@@ -38,35 +40,31 @@ function parseUTCDate(dateString) {
 }
 
 let Style = styled.div`
+  .bar {
+    transition: fill 0.2s;
+  }
 
+  .bar:hover {
+    fill: #ffa726;
+  }
 
-                  .bar {
-                    transition: fill 0.2s;
-                  }
+  .bar-chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-                  .bar:hover {
-                    fill: #ffa726;
-                  }
+    svg {
+      width: 80%;
+    }
 
-                  .bar-chart {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                  }
-
-                    svg {
-                      width: 80%;
-                    }
-
-                    rect {
-                      shape-rendering: crispEdges;
-                      fill: #61dafb;
-                      stroke: #333;
-                      stroke-width: 1;
-                    }
-
-
-                    `;
+    rect {
+      shape-rendering: crispEdges;
+      fill: #61dafb;
+      stroke: #333;
+      stroke-width: 1;
+    }
+`;
 
 const colorGenerator = () => {
   const colors = [
@@ -249,8 +247,6 @@ const header_map = {
   PERCENT_NEW: "% New Accounts",
   STICKINESS: "DAA / MAA",
   TXNS: "Transactions",
-  //   TX_30_Days: "Transactions - 30 Days",
-  //   AVG_TXT_MAU: "Avg Txn per MAU",
 };
 
 // adding project selector:
@@ -271,7 +267,7 @@ const uniqueProjectNames = getUniqueProjectNames(finalData);
 
 // 3. Create a handler for the project name dropdown change:
 const handleProjectDropdownChange = (e) => {
-  console.log("selectedProject:", e.target.value);
+  // console.log("selectedProject:", e.target.value);
   State.update({
     project_name: e.target.value,
   });
@@ -286,7 +282,7 @@ const handleDropdownChange = (e) => {
 
 const getBarData = () => {
   const { selectedMetric } = state;
-  console.log(selectedMetric);
+  // console.log(selectedMetric);
   State.update({ processedData: [] });
 
   let newProcessedData = updateProcessedData(
@@ -297,10 +293,10 @@ const getBarData = () => {
   State.update({
     processedData: newProcessedData,
     metric_period: header_map[selectedMetric],
+    project_name: props.project_name,
   });
 
-  console.log(newProcessedData);
-  console.log("processedData WAA");
+  console.log(state);
 
   return {
     v_bar_labels,
