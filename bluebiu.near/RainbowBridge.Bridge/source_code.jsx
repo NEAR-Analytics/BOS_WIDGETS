@@ -103,10 +103,10 @@ const tokenList = [
 const { accountId } = context;
 
 const ethIcon =
-  "	https://ipfs.near.social/ipfs/bafkreicxwo5knrruycnmm4m3ays5qidadxsgxcpgrz3ijikvpzql7l7pee";
+  "https://ipfs.near.social/ipfs/bafkreicxwo5knrruycnmm4m3ays5qidadxsgxcpgrz3ijikvpzql7l7pee";
 
 const nearIcon =
-  "	https://ipfs.near.social/ipfs/bafkreihnvs6cfknhtffsiloh5ea2qowajjcsndjh4by7bubbtyjia3yo6q";
+  "https://ipfs.near.social/ipfs/bafkreihnvs6cfknhtffsiloh5ea2qowajjcsndjh4by7bubbtyjia3yo6q";
 
 const switchIcon = (
   <svg
@@ -1034,6 +1034,28 @@ return (
           State.update({
             nearBalance: data.nearBalance,
             ethBalance: data.ethBalance,
+          });
+        },
+      }}
+    />
+
+    <Widget
+      src="bluebiu.near/widget/RainbowBridge.transfer"
+      props={{
+        token: state.selectToken,
+        config,
+        sender: state.sender,
+        amountIn: state.amount,
+        forceReload: state.forceReload,
+        sourceBridge: state.from,
+        callBack: () => {
+          State.update({
+            forceReload: !state.forceReload,
+          });
+        },
+        loadTransder: (data) => {
+          State.update({
+            transfer: data.transfer,
           });
         },
       }}
