@@ -61,12 +61,10 @@ const renderItem = (item, i) => {
               </div>
             </div>
             <div className="text-truncate col-auto float-right">
-              <button
-                className="btn btn-outline-secondary me-1"
-                onClick={handleReview}
-              >
-                Review
-              </button>
+              <Widget
+                src="hack.near/widget/review.modal"
+                props={{ src: item.value.src, update: item.value.update }}
+              />
               <Widget
                 src="hack.near/widget/merge"
                 props={{ src: item.value.src, update: item.value.update }}
