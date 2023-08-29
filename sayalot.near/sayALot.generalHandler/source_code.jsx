@@ -7,6 +7,10 @@ const initLibCalls = [
     key: "articles",
     props: {
       env: isTest ? "test" : "prod",
+      filterBy: {
+        parameterName: "",
+        parameterValue: undefined,
+      },
     },
   },
 ];
@@ -30,13 +34,18 @@ State.init({
   libCalls: initLibCalls,
 });
 
+let newLibCalls = state.libCalls;
+newLibCalls[0].props.filterBy = state.filterBy;
+
+State.update({ libCalls: newLibCalls });
+
 //=============================================END INITIALIZATION===================================================
 
 //==================================================CONSTS==========================================================
 
 const authorForWidget = "sayalot.near";
 // const authorForWidget =
-// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "sayALot.generalHandler";
@@ -84,7 +93,6 @@ const widgets = {
   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
   upVote: `${authorForWidget}/widget/NDC.UpVoteButton`,
 };
-a;
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
@@ -94,7 +102,7 @@ if (profile === null) {
 let authorProfile = {};
 if (state.filterBy.parameterName == "author") {
   authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
-  if (!authorProfile) return "Loading...";
+  // if (!authorProfile) return "Loading...";
 }
 
 const brand = {
@@ -336,14 +344,21 @@ Term 2
 const finalArticles = state.articles;
 //===============================================END GET DATA=======================================================
 
+//=============================================STYLED COMPONENTS====================================================
+const CallLibrary = styled.div`
+  display: none;
+`;
+//===========================================END STYLED COMPONENTS==================================================
+
 //=================================================FUNCTIONS========================================================
 function getValidEditArticleDataTags() {
   let tags = state.editArticleData.tags;
   let newFormatTags = {};
 
-  tags.map((tag) => {
-    newFormatTags[tag] = "";
-  });
+  tags &&
+    tags.map((tag) => {
+      newFormatTags[tag] = "";
+    });
   return newFormatTags;
 }
 
@@ -362,6 +377,7 @@ function handleOpenArticle(articleToRenderData) {
   State.update({
     displayedTabId: tabs.SHOW_ARTICLE.id,
     articleToRenderData,
+    editArticleData: undefined,
   });
 }
 
@@ -372,11 +388,11 @@ function handleEditArticle(articleData) {
   });
 }
 
-// TODO fix
 function handleFilterArticles(filter) {
   State.update({
     displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
     filterBy: { parameterName: filter.filterBy, parameterValue: filter.value },
+    editArticleData: undefined,
   });
 }
 
@@ -385,10 +401,21 @@ function handleBackButton() {
     ? State.update({
         displayedTabId: tabs.SHOW_ARTICLE.id,
         editArticleData: undefined,
+        filterBy: {
+          parameterName: "",
+          parameterValue: undefined,
+          handleBackClicked: true,
+        },
       })
     : State.update({
         displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
         articleToRenderData: {},
+        editArticleData: undefined,
+        filterBy: {
+          parameterName: "",
+          parameterValue: undefined,
+          handleBackClicked: true,
+        },
       });
 }
 
@@ -397,11 +424,12 @@ function handleGoHomeButton() {
     displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
     articleToRenderData: {},
     filterBy: { parameterName: "", parameterValue: {} },
+    editArticleData: undefined,
   });
 }
 
 function handlePillNavigation(navegateTo) {
-  stateUpdate({ displayedTabId: navegateTo });
+  State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
 function callLibs(srcArray, stateUpdate, libCalls) {
@@ -438,28 +466,11 @@ return (
         navigationButtons,
         displayedTabId: state.displayedTabId,
         handleFilterArticles,
+        filterParameter: state.filterBy.parameterName,
+        handleBackButton,
+        tabs,
       }}
     />
-    {(((state.filterBy.parameterName == "tag" ||
-      state.filterBy.parameterName == "author") &&
-      state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id) ||
-      state.displayedTabId == tabs.SHOW_ARTICLE.id ||
-      state.displayedTabId == tabs.ARTICLE_WORKSHOP.id ||
-      state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id) && (
-      <div
-        style={{ cursor: "pointer" }}
-        onClick={
-          state.displayedTabId == tabs.SHOW_ARTICLE.id ||
-          (state.editArticleData && tabs.ARTICLE_WORKSHOP.id)
-            ? handleBackButton
-            : handleGoHomeButton
-        }
-        className="my-3"
-      >
-        <i className="bi bi-chevron-left mr-2"></i>
-        Back
-      </div>
-    )}
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
@@ -517,11 +528,14 @@ return (
           initialCreateState,
           editArticleData: state.editArticleData,
           callLibs,
+          widgets,
+          handleFilterArticles,
+          handleEditArticle,
         }}
       />
     )}
-    <div style={{ display: "none" }}>
+    <CallLibrary>
       {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </div>
+    </CallLibrary>
   </>
 );
