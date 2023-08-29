@@ -453,8 +453,12 @@ const confirmTransaction = () => {
     router.exactInputSingle(paramsv2, overrides).then((res) => {
       State.update({
         onSwap: true,
-        reloadTransactions: true,
       });
+      setTimeout(() => {
+        State.update({
+          reloadTransactions: true,
+        });
+      }, 5000);
       setTimeout(() => {
         State.update({
           tokenSendSelected: null,
