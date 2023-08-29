@@ -4,22 +4,17 @@ const isPushManagerSupported = props?.isPushManagerSupported;
 const isPermisionGranted = props?.isPermisionGranted;
 
 State.init({
-  notificationSupported: isNotificationSupported(),
-  pushManagerSupported: isPushManagerSupported(),
-  permisionGranted: isPermisionGranted(),
+  notificationSupported: isNotificationSupported().toString(),
+  pushManagerSupported: isPushManagerSupported().toString(),
+  permisionGranted: isPermisionGranted().toString(),
 });
 
-console.log("xxx");
-console.log("isNotificationSupported", isNotificationSupported);
-console.log("isNotificationSupported()", isNotificationSupported());
-
 const turnOn = () => {
-  console.log("XXXXXXXXXXXXXXXX");
   handleTurnOn().then(() => {
     State.update({
       notificationSupported: isNotificationSupported().toString(),
-      pushManagerSupported: isPushManagerSupported(),
-      permisionGranted: isPermisionGranted(),
+      pushManagerSupported: isPushManagerSupported().toString(),
+      permisionGranted: isPermisionGranted().toString(),
     });
   });
 };
