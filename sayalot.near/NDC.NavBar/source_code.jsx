@@ -8,7 +8,11 @@ const {
   displayedTabId,
   writersWhiteList,
   handleFilterArticles,
+  filterParameter,
+  handleBackButton,
+  tabs,
 } = props;
+
 function stateUpdate(obj) {
   State.update(obj);
 }
@@ -140,6 +144,14 @@ const StylessATag = styled.a`
         text-decoration: none;
     }
 `;
+
+const BackButton = styled.div`
+  cursor: pointer;
+`;
+
+const CallLibrary = styled.div`
+  display: none;
+`;
 //============================================End styled components==============================================
 
 //=================================================Components====================================================
@@ -170,81 +182,101 @@ const renderButton = (button, i) => {
 
 //==================================================FUNCTIONS====================================================
 
+function realHandleBackButton() {
+  State.update({
+    selectedPillIndex: 0,
+    selectedButtonIndex: undefined,
+  });
+
+  handleBackButton();
+}
+
+function realHandleGoHome() {
+  State.update({
+    selectedPillIndex: 0,
+    selectedButtonIndex: undefined,
+  });
+  handleGoHomeButton();
+}
+
 //================================================END FUNCTIONS===================================================
 return (
-  <div className="navbar navbar-expand-md border-bottom mb-3">
-    <div className="container-fluid">
-      {brand && (
-        <BrandLogoContainer
-          className="navbar-brand text-decoration-none"
-          onClick={handleGoHomeButton}
+  <>
+    <div className="navbar navbar-expand-md border-bottom mb-3">
+      <div className="container-fluid">
+        {brand && (
+          <BrandLogoContainer
+            className="navbar-brand text-decoration-none"
+            onClick={handleGoHomeButton}
+          >
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                // image: metadata.image,
+                className: "w-100 h-100",
+                style: {
+                  objectFit: "cover",
+                },
+                thumbnail: false,
+                fallbackUrl: brand.logoHref,
+                alt: brand.brandName ?? "",
+              }}
+            />
+          </BrandLogoContainer>
+        )}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              // image: metadata.image,
-              className: "w-100 h-100",
-              style: {
-                objectFit: "cover",
-              },
-              thumbnail: false,
-              fallbackUrl: brand.logoHref,
-              alt: brand.brandName ?? "",
-            }}
-          />
-        </BrandLogoContainer>
-      )}
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div
-        className="collapse navbar-collapse justify-content-center"
-        id="navbarNav"
-      >
-        <ul className="navbar-nav">
-          {pills &&
-            pills.map((pill, i) => {
-              return !(pill.id + "") || !pill.title ? (
-                <p className="text-danger border">Pill passed wrong</p>
-              ) : (
-                <li className="nav-item">
-                  <Pill
-                    style={
-                      state.selectedPillIndex == i ? { color: activeColor } : {}
-                    }
-                    onClick={() => {
-                      //First one is set to be de "Home" one
-                      if (pill.id == 0) {
-                        const filter = { filterBy: "" };
-                        handleFilterArticles(filter);
-                      } else {
-                        handlePillNavigation(pill.id);
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div
+          className="collapse navbar-collapse justify-content-center"
+          id="navbarNav"
+        >
+          <ul className="navbar-nav">
+            {pills &&
+              pills.map((pill, i) => {
+                return !(pill.id + "") || !pill.title ? (
+                  <p className="text-danger border">Pill passed wrong</p>
+                ) : (
+                  <li className="nav-item">
+                    <Pill
+                      style={
+                        state.selectedPillIndex == i
+                          ? { color: activeColor }
+                          : {}
                       }
-                      State.update({
-                        selectedPillIndex: i,
-                        selectedButtonIndex: undefined,
-                      });
-                    }}
-                    className={`nav-link ${
-                      id === displayedTabId
-                        ? "active text-decoration-underline"
-                        : "text-decoration-none"
-                    } `}
-                  >
-                    {pill.title}
-                  </Pill>
-                </li>
-              );
-            })}
-          {/*navigationButtons &&
+                      onClick={() => {
+                        //First one is set to be de "Home" one
+                        if (pill.id == 0) {
+                          const filter = { filterBy: "" };
+                          handleFilterArticles(filter);
+                        } else {
+                          handlePillNavigation(pill.id);
+                        }
+                        State.update({
+                          selectedPillIndex: i,
+                          selectedButtonIndex: undefined,
+                        });
+                      }}
+                      className={`nav-link ${
+                        pill.id === displayedTabId
+                          ? "active text-decoration-underline"
+                          : "text-decoration-none"
+                      } `}
+                    >
+                      {pill.title}
+                    </Pill>
+                  </li>
+                );
+              })}
+            {/*navigationButtons &&
             loggedUserAccountId &&
             canLoggedUserCreateArticle &&
             navigationButtons.map((button, i) => {
@@ -256,21 +288,43 @@ return (
                 </div>
               );
             })*/}
-        </ul>
+          </ul>
+        </div>
+        {navigationButtons &&
+          loggedUserAccountId &&
+          canLoggedUserCreateArticle &&
+          navigationButtons.map((button, i) => {
+            return !(button.id + "") || !button.title ? (
+              <p className="text-danger border">Button passed wrong</p>
+            ) : (
+              <div className="d-none d-md-block">{renderButton(button, i)}</div>
+            );
+          })}
       </div>
-      {navigationButtons &&
-        loggedUserAccountId &&
-        canLoggedUserCreateArticle &&
-        navigationButtons.map((button, i) => {
-          return !(button.id + "") || !button.title ? (
-            <p className="text-danger border">Button passed wrong</p>
-          ) : (
-            <div className="d-none d-md-block">{renderButton(button, i)}</div>
-          );
-        })}
     </div>
-    <div style={{ display: "none" }}>
+
+    {(((filterParameter == "tag" || filterParameter == "author") &&
+      displayedTabId == tabs.SHOW_ARTICLES_LIST.id) ||
+      displayedTabId == tabs.SHOW_ARTICLE.id ||
+      displayedTabId == tabs.ARTICLE_WORKSHOP.id ||
+      displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id) && (
+      <BackButton
+        style={{ cursor: "pointer" }}
+        onClick={
+          displayedTabId == tabs.SHOW_ARTICLE.id ||
+          (editArticleData && tabs.ARTICLE_WORKSHOP.id)
+            ? realHandleBackButton
+            : realHandleGoHome
+        }
+        className="my-3"
+      >
+        <i className="bi bi-chevron-left mr-2"></i>
+        Back
+      </BackButton>
+    )}
+
+    <CallLibrary>
       {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </div>
-  </div>
+    </CallLibrary>
+  </>
 );
