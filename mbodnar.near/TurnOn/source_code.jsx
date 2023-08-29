@@ -25,7 +25,7 @@ return (
   <div>
     <button onClick={turnOn}>Turn On</button>
     <br />
-    state: (<div onClick={checkState}>check</div>)
+    state: (<span onClick={checkState}>check</span>)
     <br />
     <span>Notifications supported: {state.notificationSupported}</span>
     <br />
