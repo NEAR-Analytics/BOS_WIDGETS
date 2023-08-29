@@ -557,7 +557,7 @@ return (
           marginBottom: "20px",
         }}
       >
-        Recent Flipside-related widgets
+        Recent Flipside related components
       </h4>
       <Widget
         src="lord1.near/widget/recent-widgets"
