@@ -107,7 +107,7 @@ const getErc20Tokendata = (tokenId) => {
 
   const data = fetch(dataUrl);
   if (!data.ok) {
-    return "Loading";
+    return "";
   }
 
   const tokenData = data.body;
@@ -185,7 +185,7 @@ switch (network) {
         "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
       );
       if (!erc20Abi.ok) {
-        return "Loading";
+        return "";
       }
 
       State.update({ erc20Abi: erc20Abi.body });
