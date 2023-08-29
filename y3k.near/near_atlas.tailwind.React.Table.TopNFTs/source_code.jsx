@@ -53,7 +53,8 @@ function formatPercentNew(text) {
 function formatNumber(num) {
   return (
     <span className="text-white text-sm p-2">
-      {num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
+      // {num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
+      {num}
     </span>
   );
 }
@@ -103,67 +104,78 @@ const COLUMNS = [
   {
     label: (
       <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
-        TRANSFERS_LAST_3_DAYS
+        TRANSFERS_3D
       </p>
     ),
-    renderCell: (item) => formatNumber(item["TRANSFERS_LAST_3_DAYS"]),
-    sort: { sortKey: "TRANSFERS_LAST_3_DAYS" },
+    renderCell: (item) => item["TRANSFERS_3D"],
+    sort: { sortKey: "TRANSFERS_3D" },
   },
   {
     label: (
       <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
-        TRANSFERS_LAST_24_HOURS
+        TRANSFERS_24H
       </p>
     ),
-    renderCell: (item) => formatNumber(item["TRANSFERS_LAST_24_HOURS"]),
-    sort: { sortKey: "TRANSFERS_LAST_24_HOURS" },
+    renderCell: (item) => item["TRANSFERS_24H"],
+    sort: { sortKey: "TRANSFERS_24H" },
   },
   {
     label: (
       <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
-        TOTAL_TRANSFERS
+        ALL_TRANSFERS
       </p>
     ),
-    renderCell: (item) => formatNumber(item["TOTAL_TRANSFERS"]),
-    sort: { sortKey: "TOTAL_TRANSFERS" },
+    renderCell: (item) => item["ALL_TRANSFERS"],
+    sort: { sortKey: "ALL_TRANSFERS" },
   },
-  {
-    label: (
-      <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
-        TOTAL_DEPOSIT
-      </p>
-    ),
-    renderCell: (item) => formatNumberDecimal(item["TOTAL_DEPOSIT"]),
-    sort: { sortKey: "TOTAL_DEPOSIT" },
-  },
-  {
-    label: (
-      <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
-        TOTAL_GAS_USED
-      </p>
-    ),
-    renderCell: (item) => formatNumberDecimal(item["TOTAL_GAS_USED"]),
-    sort: { sortKey: "TOTAL_GAS_USED" },
-  },
-
   {
     label: (
       <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
         HOLDERS_COUNT
       </p>
     ),
-    renderCell: (item) => formatNumber(item["HOLDERS_COUNT"]),
+    renderCell: (item) => item["HOLDERS_COUNT"],
     sort: { sortKey: "HOLDERS_COUNT" },
   },
 
   {
     label: (
       <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
-        TOKEN_COUNT
+        TOKENS
       </p>
     ),
-    renderCell: (item) => formatNumber(item["TOKEN_COUNT"]),
-    sort: { sortKey: "TOKEN_COUNT" },
+    renderCell: (item) => item["TOKENS"],
+    sort: { sortKey: "TOKENS" },
+  },
+
+  {
+    label: (
+      <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
+        OWNERS
+      </p>
+    ),
+    renderCell: (item) => item["OWNERS"],
+    sort: { sortKey: "OWNERS" },
+  },
+
+  {
+    label: (
+      <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
+        TRANSACTIONS
+      </p>
+    ),
+    renderCell: (item) => item["TRANSACTIONS"],
+    sort: { sortKey: "TRANSACTIONS" },
+  },
+
+  {
+    label: (
+      <p className="text-center text-white text-sm font-semibold p-2 text-wrap ">
+        MINTS
+      </p>
+    ),
+    renderCell: (item) => item["MINTS"],
+    sort: { sortKey: "MINTS" },
   },
 ];
 
@@ -206,16 +218,16 @@ function getSortedNodes() {
   return nodes;
 }
 
-// Function to get the top 100 sorted nodes based on TRANSFERS_LAST_3_DAYS
+// Function to get the top 100 sorted nodes based on TRANSFERS_3D
 function getTop100SortedNodes() {
   // First, ensure nodes is defined and is an array
   if (!nodes || !Array.isArray(nodes)) {
     return [];
   }
 
-  // Sort based on TRANSFERS_LAST_3_DAYS in descending order
+  // Sort based on TRANSFERS_3D in descending order
   const sortedNodes = [...nodes].sort((a, b) => {
-    return b["TRANSFERS_LAST_3_DAYS"] - a["TRANSFERS_LAST_3_DAYS"];
+    return b["TRANSFERS_3D"] - a["TRANSFERS_3D"];
   });
 
   // Return top 100 items after sorting
@@ -223,64 +235,72 @@ function getTop100SortedNodes() {
 }
 const sortedNodes = getSortedNodes();
 const nodesForRendering = getNodesForCurrentPage(sortedNodes);
-
 return (
-  <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto bg-dark">
-    <div className="inline-block min-w-full max-w-full overflow-x-auto shadow rounded-lg overflow-hidden">
-      <table className="min-w-full leading-normal">
-        <thead>
-          <tr>
-            {COLUMNS.map((column) => (
-              <th
-                className="px-5 py-3 border-b-2 border-gray-700 bg-gray-900 text-left text-xs font-semibold text-white uppercase tracking-wider cursor-pointer"
-                onClick={() => {
-                  const direction =
-                    state.setSortConfig.direction === "asc" ? "desc" : "asc";
-                  sort_update(column.sort.sortKey, direction);
-                }}
-              >
-                {column.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {nodesForRendering.map((row, rowIndex) => (
-            <tr className={rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"}>
+  <div className="bg-dark rounded-lg mb-12 overflow-hidden w-full">
+    {data !== null ? (
+      <div
+        style={{ "min-width": "780px" }}
+        className="bg-dark w-full overflow-x-auto overflow-y-auto"
+      >
+        <table className="table-auto w-full overflow-scroll">
+          <thead className="bg-gray-700">
+            <tr>
               {COLUMNS.map((column) => (
-                <td
-                  className={`px-5 py-5 border-b border-gray-700 text-sm ${
-                    column.sort.sortKey === "RECEIVER_ID" ? "max-w-xs" : ""
-                  }`}
+                <th
+                  className="text-white text-center font-semibold p-2 border-b border-gray-300 cursor-pointer"
+                  onClick={() => {
+                    const direction =
+                      state.setSortConfig.direction === "asc" ? "desc" : "asc";
+                    sort_update(column.sort.sortKey, direction);
+                  }}
                 >
-                  {column.renderCell(row)}
-                </td>
+                  {column.label}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="px-5 py-5 bg-gray-800 border-t flex flex-col xs:flex-row items-center xs:justify-between">
-        <span className="text-xs xs:text-sm text-white">
-          Showing {(state.currentPage - 1) * 10 + 1} to
-          {Math.min(state.currentPage * 10, sortedNodes.length)} of{" "}
-          {sortedNodes.length} Entries
-        </span>
-        <div className="inline-flex mt-2 xs:mt-0">
-          <button
-            onClick={previousPage}
-            className="text-sm bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-l"
-          >
-            Prev
-          </button>
-          <button
-            onClick={nextPage}
-            className="text-sm bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-r"
-          >
-            Next
-          </button>
+          </thead>
+          <tbody>
+            {nodesForRendering.map((row, rowIndex) => (
+              <tr
+                className={rowIndex % 2 === 0 ? "bg-gray-800" : "bg-gray-900"}
+              >
+                {COLUMNS.map((column) => (
+                  <td
+                    className={`text-white text-center p-2 ${
+                      column.sort.sortKey === "RECEIVER_ID" ? "max-w-xs" : ""
+                    }`}
+                  >
+                    {column.renderCell(row)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="px-5 py-5 bg-gray-800 border-t flex flex-col xs:flex-row items-center xs:justify-between">
+          <span className="text-xs xs:text-sm text-white">
+            Showing {(state.currentPage - 1) * 10 + 1} to
+            {Math.min(state.currentPage * 10, sortedNodes.length)} of{" "}
+            {sortedNodes.length} Entries
+          </span>
+          <div className="inline-flex mt-2 xs:mt-0">
+            <button
+              onClick={previousPage}
+              className="text-sm bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-l"
+            >
+              Prev
+            </button>
+            <button
+              onClick={nextPage}
+              className="text-sm bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-r"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    ) : (
+      <div className="text-white text-center p-4">Loading ...</div>
+    )}
   </div>
 );
