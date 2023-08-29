@@ -16,11 +16,11 @@ if (qs !== state.cacheQs) {
     cacheQs: qs,
   });
 } else {
-  return <div></div>;
+  return "";
 }
 
 if (!sender) {
-  return <div></div>;
+  return "";
 }
 
 const exactInputAbi = [
