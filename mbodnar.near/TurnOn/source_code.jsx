@@ -36,6 +36,6 @@ return (
     <br />
     <span>PushManager supported: {state.pushManagerSupported}</span>
     <br />
-    <span>permision granted: {state.permisionGranted}</span>
+    <span>Permision granted: {state.permisionGranted}</span>
   </div>
 );
