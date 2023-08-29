@@ -10,6 +10,9 @@ const {
 } = props;
 
 const accountId = articleToRenderData.author;
+const realArticleId =
+  articleToRenderData.realArticleId ??
+  `${articleToRenderData.author}-${articleToRenderData.timeCreate}`;
 
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.comment`];
 
@@ -49,7 +52,7 @@ const libCalls = [
   {
     functionName: "getValidComments",
     key: "comments",
-    props: { realArticleId: articleToRenderData.realArticleId },
+    props: { realArticleId },
   },
 ];
 
@@ -503,17 +506,14 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
-//TODO check this
-const CandidateProps = props.data.nominations ?? {
-  name: accountId,
-  tags: ["test", "test2", "martintest3"],
-};
+// const CandidateProps = props.data.nominations ?? {
+//   name: accountId,
+//   tags: ["test", "test2", "martintest3"],
+// };
 
 //Get basic original comments info
 let originalComments = state.comments.filter(
-  (comment) =>
-    comment.value.comment.originalCommentId ===
-    articleToRenderData.realArticleId
+  (comment) => comment.value.comment.originalCommentId === realArticleId
 );
 
 //Add answers to original comments
@@ -688,7 +688,7 @@ return (
                   // )
                 }
                 <div className="d-flex flex-column">
-                  {/*<Widget
+                  <Widget
                     src={widgets.upVote}
                     props={{
                       isTest,
@@ -697,14 +697,13 @@ return (
                       widgets,
                     }}
                   />
-                  */}
                   <Widget
                     src={widgets.reactions}
                     props={{
                       widgets,
                       isTest,
                       authorForWidget,
-                      elementReactedId: articleToRenderData.realArticleId,
+                      elementReactedId: realArticleId,
                     }}
                   />
                   {context.accountId == accountId && (
