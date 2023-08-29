@@ -4,6 +4,7 @@ const isPushManagerSupported = props?.isPushManagerSupported;
 const isPermisionGranted = props?.isPermisionGranted;
 
 console.log("xxx");
+console.log("isNotificationSupported", isNotificationSupported);
 
 return (
   <div>
