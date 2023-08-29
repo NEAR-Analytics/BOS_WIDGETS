@@ -1,1 +1,1 @@
-return <Widget src="andyh.near/widget/StateTest" isTrusted={true} />;
+return <Widget src="andyh.near/widget/StateTestParent" isTrusted={true} />;
