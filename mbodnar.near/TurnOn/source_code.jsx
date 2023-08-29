@@ -9,19 +9,23 @@ State.init({
   permisionGranted: isPermisionGranted().toString(),
 });
 
-const turnOn = () => {
-  handleTurnOn().then(() => {
-    State.update({
-      notificationSupported: isNotificationSupported().toString(),
-      pushManagerSupported: isPushManagerSupported().toString(),
-      permisionGranted: isPermisionGranted().toString(),
-    });
+const checkState = () =>
+  State.update({
+    notificationSupported: isNotificationSupported().toString(),
+    pushManagerSupported: isPushManagerSupported().toString(),
+    permisionGranted: isPermisionGranted().toString(),
   });
-};
+
+const turnOn = () =>
+  handleTurnOn().then(() => {
+    checkState();
+  });
 
 return (
   <div>
     <button onClick={turnOn}>Turn On</button>
+    <br />
+    state: (<div onClick={checkState}>check</div>)
     <br />
     <span>Notifications supported: {state.notificationSupported}</span>
     <br />
