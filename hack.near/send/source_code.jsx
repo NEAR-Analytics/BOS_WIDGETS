@@ -31,18 +31,11 @@ function generateUID() {
 const requestId = props.requestId ?? generateUID();
 
 const data = {
-  graph: {
-    request: {
-      merge: {
-        src: state.src,
-        update: state.update,
-      },
-    },
-  },
   index: {
     graph: JSON.stringify({
       key: "request",
       value: {
+        type: "merge",
         src: state.src,
         update: state.update,
       },
@@ -50,9 +43,10 @@ const data = {
     notify: JSON.stringify({
       key: creatorId,
       value: {
-        type: "merge",
+        type: "request",
         template: "hack.near/widget/notification",
         data: {
+          type: "merge",
           src: state.src,
           update: state.update,
         },
@@ -67,9 +61,77 @@ const requests = Social.index("notify", context.accountId, {
   subscribe: true,
 });
 
+const Container = styled.div`
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .top-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .bell-icon {
+    font-size: 28px;
+    color: #000;
+    margin-left: 8px;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .bell-icon:hover {
+    color: #000;
+  }
+
+  .bell-icon .bi-bell {
+    display: inline;
+  }
+
+  .bell-icon .bi-bell-fill {
+    display: none;
+  }
+
+  .bell-icon:hover .bi-bell {
+    display: none;
+  }
+
+  .bell-icon:hover .bi-bell-fill {
+    display: inline;
+  }
+
+  @media (max-width: 576px) {
+    .profile-image {
+      width: 160px;
+      height: 160px;
+    }
+  }
+`;
+
 return (
-  <>
-    <h5 className="p-1">original source:</h5>
+  <Container>
+    <div className="d-flex flex-wrap justify-content-between mb-3">
+      <div className="m-1">
+        <h1>GitBos</h1>
+      </div>
+      <div className="ms-auto me-0 me-md-2 d-flex align-items-center">
+        <div className="top-right">
+          <a href="/hack.near/widget/request.index" className="bell-icon me-2">
+            <i className="bi bi-bell"></i>
+            <i className="bi bi-bell-fill"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div className="m-1">
+      <h3>Request Changes</h3>
+      <h5 className="mt-4">original source path</h5>
+      <p>
+        <i>input anything to be updated:</i>
+      </p>
+    </div>
+
     <div className="input-group m-1 mb-2">
       <input
         className="form-control"
@@ -81,10 +143,13 @@ return (
         }}
       />
     </div>
-    <h5 className="p-1">updated version:</h5>
+    <h5 className="m-1 mt-4">path of updated version</h5>
+    <p className="m-1">
+      <i>input new thing to be merged with original:</i>
+    </p>
     <div className="input-group m-1 mb-2">
       <input
-        className="form-control"
+        className="form-control mt-2"
         defaultValue={state.update}
         onChange={(e) => {
           State.update({
@@ -93,13 +158,18 @@ return (
         }}
       />
     </div>
-    <CommitButton className="btn btn-outline-secondary m-1" force data={data}>
+    <CommitButton
+      disabled={source === newVersion}
+      className="btn btn-outline-secondary m-1 mt-3"
+      data={data}
+    >
       <i className="bi bi-git"></i>
-      Submit
+      send request
     </CommitButton>
-    <button className="btn btn-outline-secondary m-1" onClick={handleCreate}>
-      <i className="bi bi-stars"></i>
-      Create
-    </button>
-  </>
+    <hr />
+    <Widget
+      src="hack.near/widget/compare"
+      props={{ src: state.src, update: state.update }}
+    />
+  </Container>
 );
