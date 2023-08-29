@@ -4,11 +4,20 @@ const {
   sender,
   loadTransder,
   amountIn,
-  isApprovedOut,
   forceReload,
   sourceBridge,
   callBack,
 } = props;
+
+const qs = `${token.ethereum_address}-${token.near_address}-${sourceBridge}-${amountIn}-${forceReload}`;
+
+if (qs !== state.cacheQs) {
+  State.update({
+    cacheQs: qs,
+  });
+} else {
+  return "";
+}
 
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
@@ -903,13 +912,14 @@ if (queryString !== state.cacheString) {
   return "";
 }
 
+// near to eth
 const sendNearToEthereum = () => {
   const recipient = sender.replace("0x", "");
   const tx = [
     {
       contractName: "e-near.near",
       methodName: "migrate_to_ethereum",
-      gas: "10" + "0".repeat(12),
+      gas: "300" + "0".repeat(12),
       deposit: expandToken(amountIn, token.decimals).toFixed(),
       args: {
         eth_recipient: recipient,
@@ -920,6 +930,7 @@ const sendNearToEthereum = () => {
   Near.call(tx);
 };
 
+// near to near
 const sendNearToNear = () => {
   return eNearContract
     .transferToNear(expandToken(amountIn, token.decimals).toFixed(), accountId)
@@ -928,8 +939,72 @@ const sendNearToNear = () => {
     });
 };
 
-const sendEthToEthereum = () => {
-  return etherCustodianContract.depositToNear();
+const sendEthToNear = () => {
+  return etherCustodianContract
+    .depositToNear(accountId, 0, {
+      value: expandToken(amountIn, token.decimals).toFixed(),
+    })
+    .then(() => {
+      callBack && callBack();
+    });
 };
 
-const sendEthToNear = () => {};
+const sendEthToEthereum = () => {
+  const recipient_id = ethers.utils.arrayify(ethers.utils.getAddress(sender));
+  const amount = expandToken(amountIn, token.decimals).toFixed();
+
+  const args = {
+    recipient_id,
+    amount,
+  };
+
+  const bufferArgs = Buffer.from(JSON.stringify(args));
+
+  const tx = [
+    {
+      contractName: "aurora",
+      methodName: "withdraw",
+      args: bufferArgs,
+      deposit: 1,
+      gas: "300" + "0".repeat(12),
+    },
+  ];
+
+  Near.call(tx);
+};
+
+// nep141 to eth
+const sendNep141toEth = () => {
+  const tx = [
+    {
+      contractName: token.near_address,
+      methodName: "withdraw",
+      gas: "300" + "0".repeat(12),
+
+      deposit: 1,
+      args: {
+        amount: expandToken(amountIn, token.decimals).toFixed(),
+        recipient: sender.replace("0x", ""),
+      },
+    },
+  ];
+
+  Near.call(tx);
+};
+
+// erc20 to near
+const sendERC20toNear = () => {
+  ethLockerContract
+    .lockToken(
+      token.ethereum_address,
+      expandToken(amountIn, token.decimals).toFixed(),
+      accountId
+    )
+    .then(() => {
+      callBack && callBack();
+    });
+};
+
+loadTransder({
+  transfer: sendEthToEthereum,
+});
