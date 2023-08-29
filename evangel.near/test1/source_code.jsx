@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+React, { useState };
 State.init({
   answer: "",
   showOptions: false,
@@ -279,11 +279,11 @@ return (
           This is the explanation for Option 1.
         </p>
       </div>
-
-      {showContinueButton && (
-  <div>
-    <button onClick={handleContinueButton}>Continue</button>
-  </div>
+    )}
+    {showContinueButton && (
+      <div>
+        <button onClick={handleContinueButton}>Continue</button>
+      </div>
     )}
 
     {state.answer6 === "56" && (
