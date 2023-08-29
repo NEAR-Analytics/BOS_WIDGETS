@@ -1,1 +1,1 @@
-return <Widget src="andyh.near/widget/StateTest" />;
+return <Widget src="andyh.near/widget/StateTest" isTrusted={true} />;
