@@ -293,7 +293,6 @@ const getBarData = () => {
   State.update({
     processedData: newProcessedData,
     metric_period: header_map[selectedMetric],
-    project_name: props.project_name,
   });
 
   console.log(state);
