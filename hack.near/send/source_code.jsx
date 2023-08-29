@@ -113,7 +113,7 @@ return (
   <Container>
     <div className="d-flex flex-wrap justify-content-between mb-3">
       <div className="m-1">
-        <h1>GitBos</h1>
+        <h1>gitbos</h1>
       </div>
       <div className="ms-auto me-0 me-md-2 d-flex align-items-center">
         <div className="top-right">
@@ -125,10 +125,18 @@ return (
       </div>
     </div>
     <div className="m-1">
-      <h3>Request Changes</h3>
+      <h3>request changes</h3>
+      <p>ask someone to update something they created</p>
+      <ol>
+        <li>fork anything you want to update</li>
+        <li>make helpful edits and suggestions</li>
+        <li>notify the original creator</li>
+      </ol>
+      <p>builders can review, approve, and merge automatically</p>
+
       <h5 className="mt-4">original source path</h5>
       <p>
-        <i>input anything to be updated:</i>
+        <i>some thing to be updated:</i>
       </p>
     </div>
 
@@ -145,7 +153,7 @@ return (
     </div>
     <h5 className="m-1 mt-4">path of updated version</h5>
     <p className="m-1">
-      <i>input new thing to be merged with original:</i>
+      <i>new thing to be merged with original:</i>
     </p>
     <div className="input-group m-1 mb-2">
       <input
@@ -167,7 +175,7 @@ return (
       send request
     </CommitButton>
     <hr />
-    <h3>Review</h3>
+    <h3>review</h3>
     <Widget
       src="hack.near/widget/compare"
       props={{ src: state.src, update: state.update }}
