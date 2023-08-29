@@ -13,6 +13,7 @@ console.log("xxx");
 console.log("isNotificationSupported", isNotificationSupported);
 
 const turnOn = async () => {
+  console.log("XXXXXXXXXXXXXXXX");
   await handleTurnOn();
 
   State.update({
