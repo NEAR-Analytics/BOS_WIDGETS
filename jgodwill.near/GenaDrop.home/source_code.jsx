@@ -396,7 +396,7 @@ return (
       <HeaderButtonsContainer>
         <a
           style={{ textDecoration: "none" }}
-          href="/#/jgodwill.near/widget/GenaDrop.Minter"
+          href="/#/jgodwill.near/widget/GenaDrop.Create"
         >
           <PrimaryButton>Create</PrimaryButton>
         </a>
