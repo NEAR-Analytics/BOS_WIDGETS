@@ -12,6 +12,7 @@ State.init({
   notificationSupported: isNotificationSupported().toString(),
   pushManagerSupported: isPushManagerSupported().toString(),
   permisionGranted: isPermisionGranted().toString(),
+  pending: false,
 });
 
 const checkState = () =>
@@ -21,10 +22,12 @@ const checkState = () =>
     permisionGranted: isPermisionGranted().toString(),
   });
 
-const turnOn = () =>
+const turnOn = () => {
+  State.update({ permisionGranted: "pending" });
   handleTurnOn().then(() => {
     checkState();
   });
+};
 
 return (
   <div>
