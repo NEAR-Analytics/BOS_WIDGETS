@@ -1,14 +1,14 @@
 const src = props.src;
 const update = props.update;
 
-const source = Social.get(`${src}`);
-const newVersion = Social.get(`${update}`);
-
-if (!src || !newVersion) {
+if (!src || !update) {
   return "";
 }
 
 const [creatorId, type, name] = src.split("/");
+
+const source = Social.get(`${src}`);
+const newVersion = Social.get(`${update}`);
 
 const handleMerge = () =>
   Social.set({
