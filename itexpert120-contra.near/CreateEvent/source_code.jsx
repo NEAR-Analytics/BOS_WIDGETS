@@ -43,12 +43,12 @@ return (
     <div>
       {!state.event ? (
         <Widget
-          src="itexpert120.near/widget/EventForm"
+          src="itexpert120-contra.near/widget/EventForm"
           props={{ addEvent: addEvent }}
         />
       ) : (
         <Widget
-          src="itexpert120.near/widget/EventView"
+          src="itexpert120-contra.near/widget/EventView"
           props={{ data: state.event.data }}
         />
       )}
