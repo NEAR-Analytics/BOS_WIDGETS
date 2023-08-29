@@ -14,11 +14,6 @@ console.log("isNotificationSupported", isNotificationSupported);
 console.log("isNotificationSupported()", isNotificationSupported());
 
 const turnOn = async () => {
-  State.update({
-    notificationSupported: isNotificationSupported(),
-    pushManagerSupported: isPushManagerSupported(),
-    permisionGranted: isPermisionGranted(),
-  });
   console.log("XXXXXXXXXXXXXXXX");
   await handleTurnOn();
 
@@ -31,7 +26,7 @@ const turnOn = async () => {
 
 return (
   <div>
-    <button onClick={handleTurnOn}>Turn On</button>
+    <button onClick={turnOn}>Turn On</button>
     <br />
     <span>Notifications supported: {state.notificationSupported}</span>
     <br />
