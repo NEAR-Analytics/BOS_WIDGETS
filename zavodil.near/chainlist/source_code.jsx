@@ -17,6 +17,7 @@ let data = {
     },
   },
 };
+console.log(data, state);
 
 const getSvgImage = (svg, className, width) => {
   if (!svg) return;
@@ -35,8 +36,9 @@ const getSvgImage = (svg, className, width) => {
 };
 
 if (state.refresh) {
+  console.log("Refresh");
   State.update({
-    state: false,
+    refresh: false,
     coingecko_id: null,
     rpc_url: null,
     name: null,
@@ -126,7 +128,7 @@ return (
       </div>
       <div class="mb-3">
         <label for="coingeckoId" class="form-label">
-          Coingecko ID
+          Coingecko API ID
         </label>
         <input
           type="text"
