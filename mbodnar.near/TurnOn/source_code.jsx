@@ -30,7 +30,7 @@ return (
   <div>
     <button onClick={turnOn}>Turn On</button>
     <br />
-    state: (<span onClick={checkState}>check</span>)
+    state: (<Check onClick={checkState}>check</Check>)
     <br />
     <span>Notifications supported: {state.notificationSupported}</span>
     <br />
