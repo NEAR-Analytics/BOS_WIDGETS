@@ -19,7 +19,7 @@ const accountThatIsLoggedIn = context.accountId;
 
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.emojis`];
 
-function callLibs(srcArray, stateUpdate, libCalls) {
+function callLibs(srcArray, stateUpdate, libCalls, initialEmoji) {
   return (
     <>
       {srcArray.map((src) => {
@@ -30,6 +30,7 @@ function callLibs(srcArray, stateUpdate, libCalls) {
               isTest,
               stateUpdate,
               libCalls,
+              initialEmoji,
             }}
           />
         );
@@ -42,16 +43,23 @@ const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
+// const libCalls = !state.updatedReactions
+//   ?
 const libCalls = [
   {
     functionName: "getReactionsData",
     key: "reactionsData",
     props: {
       elementReactedId,
-      createdReaction: state.createReaction,
     },
   },
 ];
+
+// props: {
+//   elementReactedId,
+//   // createdReaction: state.createReaction,
+// },
+// : [];
 
 State.init({
   emoji: undefined,
@@ -61,125 +69,101 @@ State.init({
   libCalls,
 });
 
-// ========= UNFILTERED REACTIONS and SOCIAL.INDEX =========
-// const path = isTest ? "test_reaction" : "reaction";
-// const unfilteredReactions = Social.index(path, item, {
-//   order: "desc",
-// });
-
-// if (!unfilteredReactions) {
-//   return "Loading...";
-// }
-
-// ========= ARRAY LAST REACTION FOR EACH USER =========
-// arrayLastReactionForEachUser - array of objects {accountId, blockHeight, value: {type: "😁 LOL"}}
-// const uniqueAccounts = [];
-// const arrayLastReactionForEachUser =
-//   unfilteredReactions &&
-//   unfilteredReactions.filter((obj) => {
-//     if (!uniqueAccounts.includes(obj.accountId)) {
-//       uniqueAccounts.push(obj.accountId);
-//       return true;
-//     }
-//     return false;
-//   });
-
-// ========= GET USER EMOJI =========
-// const userReaction = arrayLastReactionForEachUser.find((obj) => {
-//   return obj.accountId === accountThatIsLoggedIn;
-// });
-
-// // ========= GET REACTIONS STATISTICS =========
-// const getReactionStats = (acc, reactionObj) => {
-//   if (reactionObj.value.type === initialEmoji) {
-//     return acc;
-//   }
-//   if (!acc.hasOwnProperty(reactionObj.value.type)) {
-//     acc[reactionObj.value.type] = {
-//       quantity: 0,
-//       emoji: reactionObj.value.type.slice(0, 2),
-//       text: reactionObj.value.type.slice(2),
-//       accounts: [],
-//     };
-//     // acc[reactionObj.value.type].quantity = 0;
-//     // acc[reactionObj.value.type].emoji = reactionObj.value.type.slice(0, 2);
-//     // acc[reactionObj.value.type].accounts = [];
-//   }
-//   acc[reactionObj.value.type].quantity += 1;
-//   acc[reactionObj.value.type].accounts = [
-//     reactionObj.accountId,
-//     ...acc[reactionObj.value.type].accounts,
-//   ];
-
-//   return acc;
-// };
-// const countReactionsStats = (arr) =>
-//   Object.values(arr.reduce(getReactionStats, {}));
-// let reactionsStatistics =
-//   arrayLastReactionForEachUser &&
-//   countReactionsStats(arrayLastReactionForEachUser);
-// if (
-//   state.reactionsStatistics.length === 0 ||
-//   state.reactionsStatistics === null
-// ) {
-//   State.update({
-//     reactionsStatistics,
-//   });
-// }
-// //reactionsStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
-
-// // ========= CHECK DOES USER VOTED =========
-// const doesUserVoted = () => {
-//   const resObject = arrayLastReactionForEachUser.find(
-//     (item) => item.accountId === accountThatIsLoggedIn
-//   );
-//   return resObject;
-// };
-
-// ========= UPDATE EMOJI STATE IF USER VOTED SOMETIME BEFORE =========
-// function updateEmojiIfUserVoted() {
-//   const resObject = arrayLastReactionForEachUser.find(
-//     (item) => item.accountId === accountThatIsLoggedIn
-//   );
-//   if (resObject) {
-//     State.update({ emoji: resObject.value.type });
-//   }
-// }
-// state.emoji === undefined &&
-//   arrayLastReactionForEachUser &&
-//   updateEmojiIfUserVoted();
+if (
+  elementReactedId ==
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691530843649"
+) {
+  console.log("reactionsData: ", state.reactionsData);
+}
 
 // ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
-function updateReactionsStatisticsIfUserVoted(newEmoji) {
-  const resObject = arrayLastReactionForEachUser.find(
-    (item) => item.accountId === accountThatIsLoggedIn
-  );
-  if (!resObject) {
-    arrayLastReactionForEachUser = [
-      ...arrayLastReactionForEachUser,
-      {
-        accountId: accountThatIsLoggedIn,
-        blockHeight: item.blockHeight,
-        value: { type: newEmoji },
-      },
-    ];
-  } else {
-    arrayLastReactionForEachUser =
-      arrayLastReactionForEachUser &&
-      arrayLastReactionForEachUser.map((item) => {
-        if (item.accountId === accountThatIsLoggedIn) {
-          return { ...item, value: { type: newEmoji } };
-        }
-        return item;
-      });
-  }
-  reactionsStatistics =
-    arrayLastReactionForEachUser &&
-    countReactionsStats(arrayLastReactionForEachUser);
-  State.update({
-    reactionsStatistics,
-  });
-}
+// function updateReactionsStatisticsIfUserVoted(newEmoji) {
+//   let currentReactionsStatistics = state.reactionsData.reactionsStatistics;
+
+//   const oldReactionStat = currentReactionsStatistics.find((item) =>
+//     item.accounts.includes(accountThatIsLoggedIn)
+//   ); //Get the previous reaction of the user.
+
+//   let reactedStat = currentReactionsStatistics.find((item) => {
+//     newEmoji.includes(item.text);
+//   }); //Get the previous value of the emoji the user just uploaded
+
+//   let everyOtherReactionStat = currentReactionsStatistics.filter((item) => {
+//     return (
+//       !item.accounts.includes(accountThatIsLoggedIn) &&
+//       !newEmoji.includes(item.text)
+//     );
+//   }); //Get every other reaction
+
+//   let newReactionsStatistics;
+
+//   function getNewStatForEmojiReacted() {
+//     //Change the stats of the emoji that was used considering the selection of the user
+//     //If that type of reaction was not found previously just add it.
+//     return {
+//       accounts: reactedStat
+//         ? [...reactedStat.accounts, accountThatIsLoggedIn]
+//         : [accountThatIsLoggedIn],
+//       emoji: reactedStat ? reactedStat.emoji : newEmoji.slice(0, 2),
+//       quantity: reactedStat ? reactedStat.quantity++ : 1,
+//       text: reactedStat ? reactedStat.text : newEmoji.slice(2),
+//     };
+//   }
+
+//   //If the user has reacted before and is changing it
+//   if (oldReactionStat) {
+//     //Take out the user's previous reaction from the list of users that have reacted like that
+//     let newAccountsForOldReactionStat = oldReactionStat.accounts.filter(
+//       (acc) => {
+//         acc != accountThatIsLoggedIn;
+//       }
+//     );
+
+//     //Change the stats
+//     let newValueForOldReactionStat = {
+//       accounts: newAccountsForOldReactionStat,
+//       emoji: oldReactionStat.emoji,
+//       quantity: oldReactionStat.quantity - 1,
+//       text: oldReactionStat.text,
+//     };
+
+//     //Set the new statistics value. If it's the first reaction to the post just add it. If not consider the previous reaction stats.
+//     newReactionsStatistics = everyOtherReactionStat
+//       ? [
+//           ...everyOtherReactionStat,
+//           getNewStatForEmojiReacted(),
+//           newValueForOldReactionStat,
+//         ]
+//       : [getNewStatForEmojiReacted(), newValueForOldReactionStat];
+
+//     //If it's the first reaction of this user
+//   } else {
+//     //If is the fisrt reaction to the post just add it, if not consider the previous values
+//     newReactionsStatistics = everyOtherReactionStat
+//       ? [...everyOtherReactionStat, getNewStatForEmojiReacted()]
+//       : [getNewStatForEmojiReacted()];
+//   }
+
+//   //Only keep reactions with at least 1 person using it
+//   newReactionsStatistics = newReactionsStatistics.filter((statistic) => {
+//     return statistic.quantity > 0;
+//   });
+
+//   //When update the data considering the existing data format
+//   State.update({
+//     reactionsData: {
+//       reactionsStatistics: newReactionsStatistics,
+//       userReaction: {
+//         accountId: accountThatIsLoggedIn,
+//         blockHeight: 0,
+//         value: { reaction: newEmoji, type: "md" },
+//       },
+//     },
+//     loading: false,
+//     show: false,
+//     updatedReactions: true,
+//   });
+// }
 
 // ================= Mouse Handlers ===============
 
@@ -191,13 +175,6 @@ function handleOnMouseLeave() {
   State.update({ show: false });
 }
 
-function onCommit(emojiToWrite) {
-  onPushEnd();
-  () => {
-    updateReactionsStatisticsIfUserVoted(emojiToWrite);
-  };
-}
-
 function onPushEnd() {
   State.update({ loading: false, show: false });
 }
@@ -206,9 +183,6 @@ function reactListener(emojiMessage) {
   if (state.loading) {
     return;
   }
-  State.update({
-    loading: true,
-  });
 
   // decide to put unique emoji or white heart (unreaction emoji)
   const emojiToWrite =
@@ -217,6 +191,10 @@ function reactListener(emojiMessage) {
       ? emojiArray[0]
       : emojiMessage;
 
+  // function onCommit() {
+  //   updateReactionsStatisticsIfUserVoted(emojiToWrite);
+  // }
+
   const newLibCalls = [...state.libCalls];
   newLibCalls.push({
     functionName: "createReaction",
@@ -224,55 +202,15 @@ function reactListener(emojiMessage) {
     props: {
       elementReactedId,
       reaction: emojiToWrite,
-      onCommit: onCommit(emojiToWrite),
+      onCommit: onPushEnd,
       onCancel: onPushEnd,
     },
   });
-  State.update({ libCalls: newLibCalls });
-
-  // let data;
-
-  // if (isTest) {
-  //   data = {
-  //     index: {
-  //       test_reaction: JSON.stringify({
-  //         key: item,
-  //         value: {
-  //           type: emojiToWrite,
-  //         },
-  //       }),
-  //     },
-  //   };
-  // } else {
-  //   data = {
-  //     index: {
-  //       reaction: JSON.stringify({
-  //         key: item,
-  //         value: {
-  //           type: emojiToWrite,
-  //         },
-  //       }),
-  //     },
-  //   };
-  // // }
-
-  // Social.set(data, {
-  //   onCommit: () => {
-  //     updateReactionsStatisticsIfUserVoted(emojiToWrite);
-  //     State.update({ emoji: emojiToWrite, loading: false, show: false });
-  //   },
-  //   onCancel: () => State.update({ loading: false, show: false }),
-  // });
+  State.update({ libCalls: newLibCalls, loading: true });
 }
 
 function reactionsStateUpdate(obj) {
   State.update(obj);
-}
-
-function showWhenCalled(objText) {
-  return state.showReactionsListModal == objText
-    ? { display: "block", backdropFilter: "blur(3px)", cursor: "auto" }
-    : {};
 }
 
 // =============== CSS Styles ===============
