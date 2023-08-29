@@ -22,7 +22,7 @@ const handleMerge = () =>
 return (
   <>
     {creatorId === context.accountId && (
-      <div>
+      <span>
         {source !== newVersion ? (
           <button
             disabled={source == newVersion}
@@ -40,7 +40,7 @@ return (
             Merged
           </button>
         )}
-      </div>
+      </span>
     )}
   </>
 );
