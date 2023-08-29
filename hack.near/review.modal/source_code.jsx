@@ -5,7 +5,10 @@ const toggle = props.toggle ?? (
 );
 const toggleContainerProps = props.toggleContainerProps ?? {};
 const content = props.content ?? (
-  <Widget src="hack.near/widget/compare" props={{ props.src, props.update }} />
+  <Widget
+    src="hack.near/widget/compare"
+    props={{ src: props.src, update: props.update }}
+  />
 );
 const open = props.open;
 const onOpenChange = props.onOpenChange;
