@@ -39,7 +39,7 @@ if (debug) {
       }
 
       data.sender = "0x487D484614d26A89c3079Ae58109E474599555be";
-      data.inputAssetAmount = "0.5";
+      data.inputAssetAmount = "0.3";
 
       data.inputAssetTokenId = "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9";
       data.inputAsset = {
@@ -61,10 +61,30 @@ if (debug) {
         console.log(e);
       };
 
-      data.callTx(data, f, undefined, undefined, undefined, [
-        data.inputAssetTokenId,
-        data.outputAssetTokenId,
-      ]);
+      /*data.callTx(
+        data,
+        f,
+        undefined,
+        undefined,
+        undefined,
+        [data.inputAssetTokenId, data.outputAssetTokenId],
+        "675169011484526500"
+      );*/
+
+      Ethers.provider()
+        .getFeeData()
+        .then((gasData) => {
+          data.callTx(
+            data,
+            f,
+            //Big(gasData.gasPrice).div(Big(10).pow(9)).toFixed(10) /*"120"*/,
+            "0.05",
+            undefined,
+            undefined,
+            [data.inputAssetTokenId, data.outputAssetTokenId],
+            "605169011484526500"
+          );
+        });
 
       State.update({ debugOutput: <div>Data: [{JSON.stringify(data)}]</div> });
     }
@@ -515,7 +535,7 @@ const callTxAgniSwap = (
   path,
   amountOutMinimum
 ) => {
-  console.log("callTxAgniSwap", input, path);
+  console.log("callTxAgniSwap", input, path, amountOutMinimum);
   if (
     input.sender &&
     input.routerContract !== undefined &&
@@ -565,10 +585,9 @@ const callTxAgniSwap = (
         tokenInAddress,
         tokenOutAddress,
         "500",
-        /*input.outputAssetTokenId === MNT
-          ? input.outputAssetTokenId
-          : input.sender,*/
-        input.sender,
+        input.outputAssetTokenId === MNT
+          ? "0x0000000000000000000000000000000000000000"
+          : input.sender,
         deadline.toFixed(),
         value,
         amountOutMinimum ?? "0",
@@ -594,7 +613,7 @@ const callTxAgniSwap = (
         console.log("unwrapWMNT push");
         multicallParams.push(
           iface.encodeFunctionData("unwrapWMNT", [
-            amountOutMinimum ?? "0",
+            "0", //amountOutMinimum ?? "0",
             input.sender,
           ])
         );
