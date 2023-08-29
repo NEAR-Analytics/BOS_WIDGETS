@@ -64,12 +64,10 @@ const renderItem = (item, i) => {
               >
                 Review
               </button>
-              {item.value.src.split[0] === context.accountId && (
-                <Widget
-                  src="hack.near/widget/merge"
-                  props={{ src: item.value.src, update: item.value.update }}
-                />
-              )}
+              <Widget
+                src="hack.near/widget/merge"
+                props={{ src: item.value.src, update: item.value.update }}
+              />
             </div>
           </div>
           <div>
