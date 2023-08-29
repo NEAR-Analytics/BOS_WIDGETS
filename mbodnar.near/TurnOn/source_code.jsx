@@ -1,3 +1,8 @@
+const Check = styled.span`
+  color: blue;
+  cursor: pointer;
+`;
+
 const handleTurnOn = props?.handleTurnOn;
 const isNotificationSupported = props?.isNotificationSupported;
 const isPushManagerSupported = props?.isPushManagerSupported;
