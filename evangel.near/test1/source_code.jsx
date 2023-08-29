@@ -1,4 +1,17 @@
-React, { useState };
+import React, { useState } from "react";
+
+State.init({
+  // ... (your existing code)
+});
+
+function YourComponent() {
+  // ... (your existing code)
+
+  return <div>{/* ... (your JSX code) */}</div>;
+}
+
+export default YourComponent;
+
 State.init({
   answer: "",
   showOptions: false,
