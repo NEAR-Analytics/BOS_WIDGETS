@@ -106,7 +106,7 @@ const Command = styled.div`
     justify-content:center;
     font-weight:bold;
     color:#fff;
-    width:300px;
+    width:80%;
     height:40px;
     border-radius: 5px;
     background-color:black;
@@ -130,6 +130,10 @@ const Command = styled.div`
       background-color:gray;
     }
 
+    @media (min-width: 768px) {
+        width: 300px;
+    }
+
 `;
 
 const ButtonContainer = styled.div`
@@ -137,6 +141,7 @@ const ButtonContainer = styled.div`
   margin-right: auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   @media (min-width: 768px) {
     width: 650px!important;
