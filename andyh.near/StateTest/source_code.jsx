@@ -1,5 +1,7 @@
 State.init({ x: -1, y: -1, z: -1 });
 
+console.log({ state });
+
 return (
   <>
     <span>x: {state.x}</span>{" "}
