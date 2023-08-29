@@ -1,10 +1,6 @@
 const src = props.src;
 const update = props.update;
 
-if (!src || !update) {
-  return "";
-}
-
 const [creatorId, type, name] = src.split("/");
 
 const source = Social.get(`${src}`);
