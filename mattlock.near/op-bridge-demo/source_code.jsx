@@ -526,7 +526,7 @@ const hashLowLevelMessage = (withdrawal) => {
 const hashMessageHash = (messageHash) => {
   const data = ethers.utils.defaultAbiCoder.encode(
     ["bytes32", "uint256"],
-    [ethers.utils.hexlify(messageHash), 0]
+    [ethers.utils.hexlify(messageHash), HASH_ZERO]
   );
   return ethers.utils.keccak256(data);
 };
@@ -575,11 +575,10 @@ const handleWithdrawalProve = (which) => {
     console.log("hash", hash);
     const messageSlot = hashMessageHash(hash);
     console.log("messageSlot", messageSlot);
+    const l2BlockNumber = ethers.utils.hexlify(output.l2BlockNumber);
+    console.log("l2BlockNumber", l2BlockNumber);
 
-    const blockNumber = ethers.utils.hexlify(withdrawal.blockNumber);
-    console.log("blockNumber", blockNumber);
-
-    getBedrockMessageProof(blockNumber, messageSlot, (proof) => {
+    getBedrockMessageProof(l2BlockNumber, messageSlot, (proof) => {
       const args = [
         [
           withdrawal.messageNonce,
