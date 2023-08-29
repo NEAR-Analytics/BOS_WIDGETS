@@ -1,6 +1,10 @@
 const src = props.src;
 const update = props.update;
 
+if (!src || !update) {
+  return "";
+}
+
 const [creatorId, type, name] = src.split("/");
 
 const source = Social.get(`${src}`);
@@ -18,9 +22,25 @@ const handleMerge = () =>
 return (
   <>
     {creatorId === context.accountId && (
-      <button className="btn btn-success" onClick={handleMerge}>
-        Merge
-      </button>
+      <div>
+        {source !== newVersion ? (
+          <button
+            disabled={source == newVersion}
+            className="btn btn-success"
+            onClick={handleMerge}
+          >
+            Merge
+          </button>
+        ) : (
+          <button
+            disabled={source === newVersion}
+            className="btn btn-success"
+            onClick={handleMerge}
+          >
+            Merged
+          </button>
+        )}
+      </div>
     )}
   </>
 );
