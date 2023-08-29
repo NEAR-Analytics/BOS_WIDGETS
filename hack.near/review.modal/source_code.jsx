@@ -31,7 +31,7 @@ const Overlay = styled.div`
 
 const Content = styled.div`
   min-width: 500px;
-  max-width: 1800px;
+  max-width: 80%;
   margin-top: 20px;
   margin-bottom: 20px;
   outline: none !important;
