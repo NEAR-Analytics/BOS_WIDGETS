@@ -1,4 +1,4 @@
-const ownerId = "ndcplug.near";
+const ownerId = "xvii.near";
 
 const Title = styled.div`
 padding: 3em;
