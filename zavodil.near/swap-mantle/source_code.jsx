@@ -125,6 +125,9 @@ if (!state.theme) {
   State.update({
     theme: styled.div`
     ${css}
+    pre {
+        display: none
+    }
     .container-button {
       position: relative;
       font-family: 'Inter';
@@ -146,6 +149,7 @@ const currentAccountId =
   getEVMAccountId() !== "" ? getEVMAccountId() : context.accountId;
 
 const rearrangeAssets = () => {
+  console.log("rearrangeAssets");
   State.update({
     inputAssetTokenId: state.outputAssetTokenId,
     outputAssetTokenId: state.inputAssetTokenId,
@@ -206,8 +210,28 @@ const assetContainer = (
   amountName,
   assetNameOnClick
 ) => {
-  if (!assetData) return;
   const useSpacer = !!isInputAsset;
+
+  if (!assetData) {
+    return useSpacer ? (
+      <div
+        style={{
+          height: "100%",
+          background: "#2d2f30",
+          color: "white",
+          flex: "1",
+          display: "flex",
+
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ margin: "0 auto" }}>
+          <Widget src="zavodil.near/widget/spinner" loading={loadingBlock} />
+        </div>
+      </div>
+    ) : null;
+  }
 
   const assetContainerClass = useSpacer
     ? "asset-container-top"
@@ -216,14 +240,14 @@ const assetContainer = (
     <>
       <div
         class={`${assetContainerClass} asset-container`}
-        style={{ border: 0 }}
+        style={{ border: 0, minHeight: "77px" }}
       >
         <div class="swap-currency-input">
           <div class="swap-currency-input-block">
             <div class="swap-currency-input-top">
               <input
                 class="input-asset-amount"
-                nputmode="decimal"
+                inputmode="decimal"
                 autocomplete="off"
                 autocorrect="off"
                 type="text"
@@ -395,6 +419,7 @@ const ContainerNetwork = styled.div`
   align-items: center;
   gap: 12px;
   margin-left: 8px;
+  min-height: 24px;
 
   .label {
     font-family: 'Inter';
@@ -477,7 +502,6 @@ const caretSvg = (
   </svg>
 );
 
-const { isNetworkSelectOpen } = state;
 const selectedChainId = state.selectedChainId ?? 0;
 const selectedDex = state.selectedDex;
 
@@ -496,8 +520,6 @@ const switchNetwork = (chainId, dex) => {
 
 const networkList = NETWORKS.map((network) => network.chainId); //  [1, 1101];
 
-console.log("s", state);
-
 const openNetworkList = () => {
   State.update({ isNetworkSelectOpen: true, isTokenDialogOpen: false });
 };
@@ -515,10 +537,13 @@ NETWORKS.map(
     })
 );
 
+const loadingBlock = "";
+
 const assetsList = state.assets
   ? state.assets.map((tokenId) => (
       <Widget
-        src="zavodil.near/widget/TokenBalance"
+        src="zavodil.near/widget/TokenBalance2"
+        loading={loadingBlock}
         props={{
           tokenId: tokenId,
           coinGeckoTokenId: state.coinGeckoTokenIds[tokenId],
@@ -561,7 +586,13 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
   let network = networks[chainKey];
   return (
     <li
-      onClick={() => switchNetwork(Number(network.chainId), network.dex ?? "")}
+      onClick={() => {
+        if (network.chainId !== state.selectedChainId) {
+          switchNetwork(Number(network.chainId), network.dex ?? "");
+        } else {
+          State.update({ isNetworkSelectOpen: false });
+        }
+      }}
     >
       <img style={{ width: "16px" }} src={network.icon} />
       <span>
@@ -629,8 +660,10 @@ console.log("selectedDex", state.selectedDex, selectedDex);
 
 return (
   <Theme>
+    <div id="rr"></div>
     <Widget
       src="zavodil.near/widget/DexData2.2"
+      loading={loadingBlock}
       props={{
         onLoad: onDexDataLoad,
         NETWORK_NEAR,
@@ -647,6 +680,7 @@ return (
     {state.network && state.inputAsset && state.inputAssetTokenId && (
       <Widget
         src="zavodil.near/widget/AssetListModal2"
+        loading={loadingBlock}
         props={{
           hidden: state.inputAssetModalHidden ?? true,
           network: state.network,
@@ -669,6 +703,7 @@ return (
     {state.network && state.outputAsset && state.outputAssetTokenId && (
       <Widget
         src="zavodil.near/widget/AssetListModal2"
+        loading={loadingBlock}
         props={{
           hidden: state.outputAssetModalHidden ?? true,
           assets: state.assets,
@@ -690,6 +725,7 @@ return (
     {!state.inputAsset && state.network && state.inputAssetTokenId && (
       <Widget
         src="zavodil.near/widget/TokenData2"
+        loading={loadingBlock}
         props={{
           tokenId: state.inputAssetTokenId,
           coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
@@ -713,6 +749,7 @@ return (
     {!state.outputAsset && state.network && state.outputAssetTokenId && (
       <Widget
         src="zavodil.near/widget/TokenData2"
+        loading={loadingBlock}
         props={{
           tokenId: state.outputAssetTokenId,
           coinGeckoTokenId:
@@ -739,6 +776,7 @@ return (
       state.outputAsset && (
         <Widget
           src="weige.near/widget/ref-swap-getEstimate"
+          loading={loadingBlock}
           props={{
             loadRes: state.loadRes,
             tokenIn: getRefTokenObject(
@@ -770,6 +808,7 @@ return (
         <>
           <Widget
             src="zavodil.near/widget/quickswap-v3-getEstimate"
+            loading={loadingBlock}
             props={{
               loadRes: state.loadRes,
               tokenIn: state.inputAssetTokenId,
@@ -800,6 +839,7 @@ return (
         <>
           <Widget
             src="zavodil.near/widget/mantle-getEstimate"
+            loading={loadingBlock}
             props={{
               loadRes: state.loadRes,
               tokenIn: state.inputAssetTokenId,
@@ -830,6 +870,7 @@ return (
         <>
           <Widget
             src="zavodil.near/widget/uni-v3-getEstimate"
+            loading={loadingBlock}
             props={{
               loadRes: state.loadRes,
               tokenIn: state.inputAssetTokenId,
@@ -861,6 +902,7 @@ return (
         <>
           <Widget
             src="zavodil.near/widget/balancer-queryBatchSwap"
+            loading={loadingBlock}
             props={{
               loadRes: state.loadRes,
               tokenIn: state.inputAssetTokenId,
@@ -898,7 +940,16 @@ return (
     <div class="swap-root">
       <div class="swap-main-container">
         <div class="swap-main-column">
-          <div class="swap-page" style={{ border: "none", outline: "none" }}>
+          <div
+            class="swap-page"
+            style={{
+              border: "none",
+              outline: "none",
+              minHeight: "312px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {false && state.network && state.dexName && (
               <span class="swap-header">
                 {state.dexName} ({state.network})
@@ -912,7 +963,7 @@ return (
                     {getFromNetworkLabel()}
                     {caretSvg}
                   </NetworkSelectorButton>
-                  {isNetworkSelectOpen && (
+                  {state.isNetworkSelectOpen && (
                     <NetworkList>
                       <div
                         style={{
@@ -933,11 +984,23 @@ return (
                 </div>
               </ContainerNetwork>
             )}
-            <div style={{ display: "flex", paddingLeft: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                paddingLeft: "10px",
+                minHeight: "20px",
+              }}
+            >
               {assetsList}
             </div>
-
-            <div class="top-container">
+            <div
+              class="top-container"
+              style={{
+                minHeight: "77px",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               {assetContainer(
                 true,
                 state.inputAsset,
@@ -947,8 +1010,17 @@ return (
                 }
               )}
             </div>
-            <div class="bottom-container">
-              <div>
+            <div
+              class="bottom-container"
+              style={{
+                minHeight: "168px",
+                height: "100%",
+                flex: "1 1 0%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div style={{ height: "100%", flex: 1 }}>
                 {assetContainer(
                   fasle,
                   state.outputAsset,
@@ -958,6 +1030,7 @@ return (
                   }
                 )}
                 {!!state.outputAssetAmount &&
+                  state.outputAsset &&
                   state.inputAssetTokenId !== state.outputAssetTokenId && (
                     <div class="swap-price-container">
                       <div class="swap-price-block">
@@ -988,7 +1061,10 @@ return (
                               </span>
                               <div class="swap-price-details-text">
                                 <button class="swap-price-details-text-button">
-                                  <div class="swap-price-details-rate">
+                                  <div
+                                    class="swap-price-details-rate"
+                                    style={{ fontSize: "10px" }}
+                                  >
                                     {Number(state.inputAssetAmount) === 0 ||
                                     Number(state.outputAssetAmount) === 0
                                       ? " "
@@ -1003,7 +1079,7 @@ return (
                                   </div>
                                   <div
                                     class="swap-price-details-price"
-                                    style={{ fontSize: "8px" }}
+                                    style={{ fontSize: "10px" }}
                                   >
                                     {Number(state.inputAssetAmount) === 0 ||
                                     Number(state?.outputAsset?.price) === 0
@@ -1117,6 +1193,7 @@ return (
               />
             </div>
           )}
+          <button onClick={rearrangeAssets}>Re</button>
         </div>
       </div>
     </div>
