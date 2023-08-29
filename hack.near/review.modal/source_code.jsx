@@ -30,7 +30,7 @@ const Overlay = styled.div`
 `;
 
 const Content = styled.div`
-  min-width: 500px;
+  min-width: 800px;
   max-width: 80%;
   margin-top: 20px;
   margin-bottom: 20px;
