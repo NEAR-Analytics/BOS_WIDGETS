@@ -168,7 +168,7 @@ if (state.sender && state.network === NETWORK_MANTLE) {
 
   const wethAbi = fetch(wethAbiUrl);
   if (!wethAbi.ok) {
-    return "Loading";
+    return null;
   }
 
   const iface = new ethers.utils.Interface(wethAbi.body);
@@ -1193,7 +1193,6 @@ return (
               />
             </div>
           )}
-          <button onClick={rearrangeAssets}>Re</button>
         </div>
       </div>
     </div>
