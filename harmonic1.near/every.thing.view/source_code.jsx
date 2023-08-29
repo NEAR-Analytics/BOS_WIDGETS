@@ -58,7 +58,7 @@ function Thing() {
           );
         }
         // determine the widget to render this thing (is there a default view?)
-        console.log(options.templateOverride);
+        console.log("TemplateOverride", options.templateOverride);
         const widgetSrc =
           options?.templateOverride ||
           thing.template?.src ||
