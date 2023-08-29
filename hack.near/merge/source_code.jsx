@@ -18,3 +18,9 @@ const handleMerge = () =>
       },
     },
   });
+
+return (
+  <button className="btn btn-success" onClick={handleMerge}>
+    Merge
+  </button>
+);
