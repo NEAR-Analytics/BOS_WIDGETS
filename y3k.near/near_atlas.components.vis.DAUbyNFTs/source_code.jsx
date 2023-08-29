@@ -1,5 +1,5 @@
 let raw_data = fetch(
-  "https://api.flipsidecrypto.com/api/v2/queries/6728e603-7140-48b7-b735-20c0cf6e54ee/data/latest",
+  "https://api.flipsidecrypto.com/api/v2/queries/85ecddf4-cc9f-44a5-b8a5-72afb25cbf1e/data/latest",
   {
     subscribe: true,
     method: "GET",
@@ -17,40 +17,17 @@ let Style = styled.div`
 // logic start
 
 const sortedData = data.sort((a, b) => {
-  return new Date(a["DATE"]) - new Date(b["DATE"]);
+  return new Date(a["DAY"]) - new Date(b["DAY"]);
 });
 
-const N_USERS = {};
-const TXS = {};
+const TXNS = {};
 const dates = [];
 
 sortedData.map((entry) => {
-  const date = entry["DATE"];
-  N_USERS[date] = entry["N_USERS"];
-  TXS[date] = entry["TXS"];
+  const date = entry["DAY"];
+  TXNS[date] = entry["TXNS"];
   dates.push(date);
 });
-
-// const sortedEntries_N_USERS = Object.entries(N_USERS).sort((a, b) => {
-//   return new Date(a[0]) - new Date(b[0]);
-// });
-// const sortedN_USERS = Object.fromEntries(sortedEntries_N_USERS);
-
-// const sortedEntries_TXS = Object.entries(TXS).sort((a, b) => {
-//   return new Date(a[0]) - new Date(b[0]);
-// });
-// const sortedTXS = Object.fromEntries(sortedEntries_TXS);
-// N_USERS = N_USERS.sort((a, b) => {
-//   return new Date(a["DATE"]) - new Date(b["DATE"]);
-// });
-
-// TXS = TXS.sort((a, b) => {
-//   return new Date(a["DATE"]) - new Date(b["DATE"]);
-// });
-
-// const dates = sortedData.map((entry) => entry["DATE"]);
-
-// console.log(N_USERS);
 
 // logic part-2
 
@@ -82,13 +59,8 @@ const stacked_bar_data = {
   dates,
   datasets: [
     {
-      label: "N# USERS",
-      data: N_USERS,
-      backgroundColor: "rgb(250,164,58)",
-    },
-    {
-      label: "TXS",
-      data: TXS,
+      label: "TXNS",
+      data: TXNS,
       backgroundColor: "rgb(13,131,171)",
     },
   ],
