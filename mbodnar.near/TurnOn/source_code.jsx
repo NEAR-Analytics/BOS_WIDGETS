@@ -11,6 +11,7 @@ State.init({
 
 console.log("xxx");
 console.log("isNotificationSupported", isNotificationSupported);
+console.log("isNotificationSupported()", isNotificationSupported());
 
 const turnOn = async () => {
   console.log("XXXXXXXXXXXXXXXX");
