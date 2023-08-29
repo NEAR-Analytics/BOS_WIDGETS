@@ -67,13 +67,13 @@ const GlobalStyle = styled.div`
 
 const Main = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   color: ${useTheme(light.color, dark.color)};
   background-color: ${useTheme(light.bg, dark.bg)};
   overflow-y: auto;
   padding-bottom: 80px;
+  min-height: 100vh;
 
   @media only screen and (max-width: 600px) {
     padding-bottom: 160px;
@@ -96,12 +96,6 @@ const HStack = styled.div`
   gap: 15px;
 `;
 
-const Right = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-`;
-
 const SearchStack = styled.div`
   display: flex;
   flex-direction: row;
@@ -113,6 +107,15 @@ const SearchStack = styled.div`
     flex-direction: column;
     gap: 30px;
   }
+`;
+
+const Content = styled.div`
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 `;
 
 const switchTheme = () => {
@@ -174,7 +177,7 @@ const handlePageChange = (x) => {
 
 const pages = {
   main: (
-    <Stack style={{ paddingTop: "80px" }}>
+    <>
       <SearchStack>
         <Widget
           src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
@@ -212,10 +215,10 @@ const pages = {
           handlePageChange: handlePageChange,
         }}
       />
-    </Stack>
+    </>
   ),
   contract: (
-    <Stack style={{ paddingTop: "80px" }}>
+    <>
       <Widget
         src={`${state.config.ownerId}/widget/SourceScan.Contracts.Info`}
         props={{
@@ -250,7 +253,7 @@ const pages = {
           ),
         }}
       />
-    </Stack>
+    </>
   ),
 };
 
@@ -265,7 +268,7 @@ return (
           switchTheme: switchTheme,
         }}
       />
-      {props.page === "contract" ? pages.contract : pages.main}
+      <Content>{pages[props.page] ? pages[props.page] : pages.main}</Content>
     </Main>
   </GlobalStyle>
 );
