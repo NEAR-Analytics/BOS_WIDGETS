@@ -5,7 +5,7 @@ State.init({
 });
 
 const getTransactions = () => {
-  const status = ["verified", "failed"];
+  const status = ["verified", "failed", "proved"];
 
   if (!sender) return;
   asyncFetch(
@@ -36,7 +36,7 @@ const getDescription = (status) => {
     case "included":
       message = "Transaction executed in zkSync Era";
       break;
-    case "proved":
+    case "committed":
       message = "Transaction sent to Ethereum";
       break;
   }
