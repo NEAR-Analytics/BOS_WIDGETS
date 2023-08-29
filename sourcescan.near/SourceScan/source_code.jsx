@@ -75,7 +75,7 @@ const Main = styled.div`
   padding-bottom: 80px;
   min-height: 100vh;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     padding-bottom: 160px;
   }
 `;
@@ -103,7 +103,7 @@ const SearchStack = styled.div`
   align-items: center;
   gap: 15px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     flex-direction: column;
     gap: 30px;
   }
