@@ -168,7 +168,7 @@ if (state.sender && state.network === NETWORK_MANTLE) {
 
   const wethAbi = fetch(wethAbiUrl);
   if (!wethAbi.ok) {
-    return null;
+    return "";
   }
 
   const iface = new ethers.utils.Interface(wethAbi.body);
