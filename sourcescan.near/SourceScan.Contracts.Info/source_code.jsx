@@ -2,33 +2,6 @@ const useNetwork = (mainnet, testnet) => {
   return context.networkId === "mainnet" ? mainnet : testnet;
 };
 
-function customDecodeURIComponent(encodedStr) {
-  const specialChars = {
-    "%21": "!",
-    "%23": "#",
-    "%24": "$",
-    "%26": "&",
-    "%27": "'",
-    "%28": "(",
-    "%29": ")",
-    "%2A": "*",
-    "%2B": "+",
-    "%2C": ",",
-    "%2F": "/",
-    "%3A": ":",
-    "%3B": ";",
-    "%3D": "=",
-    "%3F": "?",
-    "%40": "@",
-    "%5B": "[",
-    "%5D": "]",
-  };
-
-  return encodedStr.replace(/%[0-9a-fA-F]{2}/g, (match) => {
-    return specialChars[match] || match;
-  });
-}
-
 State.init({
   ownerId: useNetwork("sourcescan.near", "sourcescan.testnet"),
   apiHost: "https://sourcescan.2bb.dev",
@@ -36,22 +9,19 @@ State.init({
     "https://rpc.mainnet.near.org",
     "https://rpc.testnet.near.org"
   ),
-  theme:
-    typeof props.theme === "string"
-      ? JSON.parse(customDecodeURIComponent(props.theme))
-      : props.theme || {
-          bg: "#e3e8ef",
-          color: "#4c5566",
-          border: "1px dashed #748094",
-          text: {
-            fontSize: "16px",
-          },
-          heading: {
-            fontSize: "18px",
-            fontWeight: "600",
-            underline: true,
-          },
-        },
+  theme: props.theme || {
+    bg: "#e3e8ef",
+    color: "#4c5566",
+    border: "1px dashed #748094",
+    text: {
+      fontSize: "16px",
+    },
+    heading: {
+      fontSize: "18px",
+      fontWeight: "600",
+      underline: true,
+    },
+  },
   contract: null,
   wasm: { value: null, error: false },
   tx: { value: null, error: false },
@@ -80,7 +50,6 @@ if (!props.contractId) {
 const Main = styled.div`
   background-color: ${state.theme.bg};
   padding: 18px;
-  width: 50%;
   color: ${state.theme.color};
   border: ${state.theme.border};
   border-radius: 16px;
@@ -91,8 +60,7 @@ const Main = styled.div`
   justify-content: start;
   gap: 30px;
 
-  @media only screen and (max-width: 600px) {
-    width: 80%;
+  @media only screen and (max-width: 750px) {
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -100,14 +68,16 @@ const Main = styled.div`
 `;
 
 const Stack = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: start;
   text-align: start;
-  gap: 5px;
+  gap: 8px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
+    width: 90%;
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -115,11 +85,20 @@ const Stack = styled.div`
 `;
 
 const HStack = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
+  text-align: start;
   gap: 5px;
+
+  @media only screen and (max-width: 750px) {
+    width: 90%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const UHeading = styled.div`
@@ -139,7 +118,7 @@ const Heading = styled.div`
 const Desktop = styled.div`
   display: flex;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     display: none;
   }
 `;
@@ -147,7 +126,7 @@ const Desktop = styled.div`
 const Mobile = styled.div`
   display: none;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     display: flex;
   }
 `;
@@ -158,9 +137,22 @@ const Text = styled.div`
 `;
 
 const Center = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (max-width: 750px) {
+    width: 90%;
+  }
+`;
+
+const EPContainer = styled.div`
+  max-width: 100%;
+
+  @media only screen and (max-width: 750px) {
+    max-width: 90%;
+  }
 `;
 
 const A = styled.a`
@@ -374,7 +366,9 @@ return (
         </Stack>
         <Stack>
           <UHeading>Entry Point</UHeading>
-          <Text>{state.contract.entry_point}</Text>
+          <EPContainer>
+            <Text>{state.contract.entry_point}</Text>
+          </EPContainer>
         </Stack>
         <Stack>
           <UHeading>Lang</UHeading>
@@ -400,7 +394,24 @@ return (
             </A>
           </HStack>
         </Stack>
-        {state.contract.github ? <UHeading>Github</UHeading> : null}
+        {state.contract.github ? (
+          <Stack>
+            <UHeading>Github</UHeading>
+            <Widget
+              src={`${state.ownerId}/widget/SourceScan.Common.Github.GithubLink`}
+              props={{
+                github: state.contract.github,
+                theme: {
+                  color: state.theme.color,
+                  heading: {
+                    fontSize: state.heading.fontSize,
+                    fontWeight: "800",
+                  },
+                },
+              }}
+            />
+          </Stack>
+        ) : null}
       </Main>
     )}
   </Center>
