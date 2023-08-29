@@ -53,8 +53,7 @@ function formatPercentNew(text) {
 function formatNumber(num) {
   return (
     <span className="text-white text-sm p-2">
-      // {num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
-      {num}
+      {num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
     </span>
   );
 }
@@ -107,7 +106,7 @@ const COLUMNS = [
         TRANSFERS_3D
       </p>
     ),
-    renderCell: (item) => item["TRANSFERS_3D"],
+    renderCell: (item) => formatNumber(item["TRANSFERS_3D"]),
     sort: { sortKey: "TRANSFERS_3D" },
   },
   {
@@ -116,7 +115,7 @@ const COLUMNS = [
         TRANSFERS_24H
       </p>
     ),
-    renderCell: (item) => item["TRANSFERS_24H"],
+    renderCell: (item) => formatNumber(item["TRANSFERS_24H"]),
     sort: { sortKey: "TRANSFERS_24H" },
   },
   {
@@ -125,7 +124,7 @@ const COLUMNS = [
         ALL_TRANSFERS
       </p>
     ),
-    renderCell: (item) => item["ALL_TRANSFERS"],
+    renderCell: (item) => formatNumber(item["ALL_TRANSFERS"]),
     sort: { sortKey: "ALL_TRANSFERS" },
   },
 
@@ -135,7 +134,7 @@ const COLUMNS = [
         TOKENS
       </p>
     ),
-    renderCell: (item) => item["TOKENS"],
+    renderCell: (item) => formatNumber(item["TOKENS"]),
     sort: { sortKey: "TOKENS" },
   },
 
@@ -145,7 +144,7 @@ const COLUMNS = [
         OWNERS
       </p>
     ),
-    renderCell: (item) => item["OWNERS"],
+    renderCell: (item) => formatNumber(item["OWNERS"]),
     sort: { sortKey: "OWNERS" },
   },
 
@@ -155,7 +154,7 @@ const COLUMNS = [
         TRANSACTIONS
       </p>
     ),
-    renderCell: (item) => item["TRANSACTIONS"],
+    renderCell: (item) => formatNumber(item["TRANSACTIONS"]),
     sort: { sortKey: "TRANSACTIONS" },
   },
 
@@ -165,7 +164,7 @@ const COLUMNS = [
         MINTS
       </p>
     ),
-    renderCell: (item) => item["MINTS"],
+    renderCell: (item) => formatNumber(item["MINTS"]),
     sort: { sortKey: "MINTS" },
   },
 ];
