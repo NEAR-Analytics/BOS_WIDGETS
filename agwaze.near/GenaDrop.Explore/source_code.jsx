@@ -22,10 +22,58 @@ const currentChain = {
   },
 };
 
+const currentChainProps = {
+  near: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+    livePrice: "near",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
+    chain: "near",
+    id: "1112",
+    logoUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+  },
+  aurora: {
+    img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
+    id: "1313161554",
+    chain: "Aurora",
+    livePrice: "ethereum",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
+  },
+  arbitrum: {
+    img: "https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1680097630",
+    id: "42161",
+    chain: "Arbitrum",
+    livePrice: "ethereum",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
+  },
+  celo: {
+    img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
+    id: "42220",
+    livePrice: "celo",
+    chain: "Celo",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
+  },
+  polygon: {
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Polygon_Blockchain_Matic_Logo.svg/880px-Polygon_Blockchain_Matic_Logo.svg.png",
+    id: "137",
+    chain: "Polygon",
+    livePrice: "matic-network",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
+  },
+  aptos: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqBinSwbRdx76qY4A3qvVkM9g_mKoGCBDT0sqTT02TgRvKquV2Vlc8fSRmLyuhBS3-CaA&usqp=CAU",
+  },
+  sui: {
+    img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
+  },
+};
+
 function fetchData() {
   State.update({ nftData: [] });
 
-  if (state.chain !== "near") {
+  if (state.chain === "aptos" || state.chain === "sui") {
     const response = fetch("https://api.indexer.xyz/graphql", {
       method: "POST",
       headers: {
@@ -77,15 +125,13 @@ function fetchData() {
     };
     priceConvert(state.chain);
   } else {
-    let response = fetch(
-      "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: `
+    let response = fetch(`${currentChainProps[state.chain].subgraph}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
             query MyQuery {
              nfts( orderBy: createdAtTimestamp) {
                 category
@@ -106,9 +152,8 @@ function fetchData() {
                 }
             }
         `,
-        }),
-      }
-    );
+      }),
+    });
 
     if (!response.ok) {
       return "Loading";
@@ -187,7 +232,7 @@ const handleDropdownChange = (event) => {
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
-      state.chain ?? "near"
+      currentChainProps[state.chain]?.livePrice
     }&vs_currencies=usd`
   );
   if (res.ok) {
@@ -361,8 +406,9 @@ flex-direction: row;
 align-items: center;
 justify-content: space-between;
   img {
-    width: 15px;
-    height: 15px;
+    min-width: 15px;
+    min-height: 15px;
+    max-width: 15px;
     margin-right: 5px;
   }
 `;
@@ -381,6 +427,9 @@ const SelectChain = styled.div`
    }
 `;
 
+const PRICE_CONVERSION_CONSTANT =
+  state.chain == "near" ? 1000000000000000000000000 : 1000000000000000000;
+
 return (
   <>
     <Hero className="w-100">
@@ -398,6 +447,10 @@ return (
         <SelectChain>
           <select value={chain} onChange={handleDropdownChange}>
             <option value="near">Near</option>
+            <option value="aurora">Aurora</option>
+            <option value="celo">Celo</option>
+            <option value="polygon">Polygon</option>
+            <option value="arbitrum">Arbitrum</option>
             <option value="aptos">Aptos</option>
             <option value="sui">Sui</option>
           </select>
@@ -485,7 +538,10 @@ return (
                       {nft.listings && nft.listings[0] ? (
                         typeof nft.listings[0].price === "number" ? (
                           <ChainPrice>
-                            <img src={currentChain[state.chain].img} alt="" />
+                            <img
+                              src={currentChainProps[state.chain].img}
+                              alt=""
+                            />
                             <PriceArea>
                               <h6>{`${
                                 nft.listings[0].price.toFixed(2) /
@@ -502,17 +558,20 @@ return (
                         )
                       ) : nft.price ? (
                         <ChainPrice>
-                          <img src={currentChain[state.chain].img} alt="" />
+                          <img
+                            src={currentChainProps[state.chain].img}
+                            alt=""
+                          />
                           <PriceArea>
                             <h6>
-                              {(nft.price / 1000000000000000000000000).toFixed(
+                              {(nft.price / PRICE_CONVERSION_CONSTANT).toFixed(
                                 2
                               )}
                             </h6>
                             <span>
                               (
                               {getUsdValue(
-                                nft.price / 1000000000000000000000000
+                                nft.price / PRICE_CONVERSION_CONSTANT
                               )}
                               )
                             </span>
@@ -520,7 +579,10 @@ return (
                         </ChainPrice>
                       ) : (
                         <ChainPrice>
-                          <img src={currentChain[state.chain].img} alt="" />
+                          <img
+                            src={currentChainProps[state.chain].img}
+                            alt=""
+                          />
                           <PriceArea>
                             <h6>0.00</h6>
                             <span>($0.00)</span>
@@ -617,7 +679,10 @@ return (
                       {nft.listings && nft.listings[0] ? (
                         typeof nft.listings[0].price === "number" ? (
                           <ChainPrice>
-                            <img src={currentChain[state.chain].img} alt="" />
+                            <img
+                              src={currentChainProps[state.chain].img}
+                              alt=""
+                            />
                             <PriceArea>
                               <h6>{`${
                                 nft.listings[0].price.toFixed(2) /
@@ -634,17 +699,20 @@ return (
                         )
                       ) : nft.price ? (
                         <ChainPrice>
-                          <img src={currentChain[state.chain].img} alt="" />
+                          <img
+                            src={currentChainProps[state.chain].img}
+                            alt=""
+                          />
                           <PriceArea>
                             <h6>
-                              {(nft.price / 1000000000000000000000000).toFixed(
+                              {(nft.price / PRICE_CONVERSION_CONSTANT).toFixed(
                                 2
                               )}
                             </h6>
                             <span>
                               (
                               {getUsdValue(
-                                nft.price / 1000000000000000000000000
+                                nft.price / PRICE_CONVERSION_CONSTANT
                               )}
                               )
                             </span>
