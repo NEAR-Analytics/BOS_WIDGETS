@@ -40,11 +40,11 @@ if (debug) {
 
       data.sender = "0x487D484614d26A89c3079Ae58109E474599555be";
       data.inputAssetAmount = "4123";
-      data.inputAssetTokenId = "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9";
+      data.inputAssetTokenId = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
       data.inputAsset = {
         metadata: {
-          symbol: "USDC",
-          decimals: 6,
+          symbol: "MNT",
+          decimals: 18,
         },
       };
       data.outputAssetTokenId = "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE";
@@ -1239,7 +1239,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111", // WETH
               "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8", // WMNT
               "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE", // USDT
-              "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead0000", // MNT
+              "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000", // MNT
             ],
             coingeckoNetworkHandle: "mantle",
             inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
