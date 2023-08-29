@@ -34,9 +34,6 @@ State.init({
 });
 
 const renderItem = (item, i) => {
-  const handleReview = () => {
-    State.update({ showDetails: true });
-  };
   return (
     <ItemWrapper>
       {item.value.type === "merge" && (
