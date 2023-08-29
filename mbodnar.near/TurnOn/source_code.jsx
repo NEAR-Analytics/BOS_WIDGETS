@@ -13,9 +13,9 @@ console.log("xxx");
 console.log("isNotificationSupported", isNotificationSupported);
 console.log("isNotificationSupported()", isNotificationSupported());
 
-const turnOn = () => {
+const turnOn = async () => {
   console.log("XXXXXXXXXXXXXXXX");
-  handleTurnOn();
+  await handleTurnOn();
 
   State.update({
     notificationSupported: isNotificationSupported(),
