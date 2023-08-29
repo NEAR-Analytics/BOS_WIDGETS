@@ -1,6 +1,6 @@
 const path = props.path; // every piece of data on social contract has a path
 const blockHeight = props.blockHeight || "final"; // and a blockHeight (~version)
-const options = props.options;
+const templateOverride = props.templateOverride;
 
 // split the path
 const parts = path.split("/");
@@ -58,11 +58,9 @@ function Thing() {
           );
         }
         // determine the widget to render this thing (is there a default view?)
-        console.log("TemplateOverride", options.templateOverride);
+        console.log("TemplateOverride", templateOverride);
         const widgetSrc =
-          options?.templateOverride ||
-          thing.template?.src ||
-          typeObj?.widgets?.view;
+          templateOverride || thing.template?.src || typeObj?.widgets?.view;
         //Template
         //hard code until finding template override prop
         //const widgetSrc = "harmonic1.near/widget/artist2";
