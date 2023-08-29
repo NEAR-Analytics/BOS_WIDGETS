@@ -227,9 +227,9 @@ const header_map = {
   NEW_MAA: "New MAAs",
   PERCENT_NEW: "% New Accounts",
   STICKINESS: "DAA / MAA",
-  Total_Transactions: "Total Transactions",
-  TX_30_Days: "Transactions - 30 Days",
-  AVG_TXT_MAU: "Avg Txn per MAU",
+  TXNS: "Transactions",
+  //   TX_30_Days: "Transactions - 30 Days",
+  //   AVG_TXT_MAU: "Avg Txn per MAU",
 };
 
 // adding project selector:
@@ -311,9 +311,7 @@ return (
                   <option value="PERCENT_NEW">% New Accounts</option>
                   <option value="STICKINESS">DAA / MAA</option>
 
-                  <option value="Total_Transactions">Total Transactions</option>
-                  <option value="TX_30_Days">Transactions - 30 Days</option>
-                  <option value="AVG_TXT_MAU">Avg Txn per MAU</option>
+                  <option value="TXNS">Transactions</option>
                 </select>
 
                 <label htmlFor="project-dropdown">Select Project: </label>
