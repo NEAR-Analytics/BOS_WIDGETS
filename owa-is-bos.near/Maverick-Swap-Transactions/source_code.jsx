@@ -28,12 +28,12 @@ const getTransactions = () => {
 
 const getDescription = (status) => {
   switch (status) {
-    case "pending":
-      return "Transaction pending to be executed in zkSync Era";
     case "included":
       return "Transaction executed in zkSync Era";
     case "committed":
       return "Transaction sent to Ethereum";
+    default:
+      return "Transaction pending to be executed in zkSync Era";
   }
 };
 
