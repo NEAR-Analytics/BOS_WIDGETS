@@ -38,6 +38,15 @@ if (sender) {
     });
 }
 
+const loadEstimationResult = (value) => {
+  console.log("loadRes", value);
+  if (value.estimate === "NaN") value.estimate = 0;
+  State.update({
+    estimate: value,
+    outputAssetAmount: value === null ? "" : value.estimate,
+  });
+};
+
 State.init({
   rpcError: false,
   isNetworkSelectOpen: false,
@@ -49,14 +58,7 @@ State.init({
   reloadPools: false,
   estimate: {},
   selectedDex: props.dex ?? DEFAULT_DEX,
-  loadRes: (value) => {
-    console.log("loadRes", value);
-    if (value.estimate === "NaN") value.estimate = 0;
-    State.update({
-      estimate: value,
-      outputAssetAmount: value === null ? "" : value.estimate,
-    });
-  },
+  loadRes: loadEstimationResult,
 });
 
 const reload = () => {
@@ -71,14 +73,7 @@ const reload = () => {
     reloadPools: false,
     estimate: {},
     selectedDex: props.dex ?? DEFAULT_DEX,
-    loadRes: (value) => {
-      console.log("loadRes", value);
-      if (value.estimate === "NaN") value.estimate = 0;
-      State.update({
-        estimate: value,
-        outputAssetAmount: value === null ? "" : value.estimate,
-      });
-    },
+    loadRes: loadEstimationResult,
   });
 };
 
@@ -272,9 +267,9 @@ const assetContainer = (
                         <>Undefined</>
                       )}
                     </div>
-                    <span class="input-asset-token-ticker">
+                    <small class="input-asset-token-ticker">
                       {assetData.metadata.symbol}
-                    </span>
+                    </small>
                   </div>
                   <svg width="6" height="4" viewBox="0 0 6 4" fill="none">
                     <path
@@ -375,6 +370,14 @@ const tokenInApprovaleNeededCheck = () => {
         [getEVMAccountId(), state.routerContract]
       );
 
+      if (
+        state.network === NETWORK_MANTLE &&
+        state.inputAssetTokenId === "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000"
+      ) {
+        // MNT always approved
+        return false;
+      }
+
       return Ethers.provider()
         .call({
           to: state.inputAssetTokenId,
@@ -388,7 +391,7 @@ const tokenInApprovaleNeededCheck = () => {
 
           if (tokenAllowance) {
             State.update({
-              approvalNeeded: new Big(tokenAllowance).toFixed() == "0",
+              approvalNeeded: new Big(tokenAllowance).toFixed(0) == "0",
             });
           }
         });
@@ -1113,15 +1116,19 @@ return (
                           tokenInApprovaleNeededCheck();
                         });
                       } else {
-                        state.callTokenApproval(
-                          state,
-                          () => {
-                            onCallTxComple();
-                            tokenInApprovaleNeededCheck();
-                          },
-                          undefined /* "120"*/,
-                          undefined /* 100000 */
-                        );
+                        Ethers.provider()
+                          .getFeeData()
+                          .then((data) => {
+                            state.callTokenApproval(
+                              state,
+                              () => {
+                                onCallTxComple();
+                                tokenInApprovaleNeededCheck();
+                              },
+                              Big(data.gasPrice).toFixed(0) /*"120"*/,
+                              100000
+                            );
+                          });
                       }
                     }}
                   >
@@ -1162,7 +1169,52 @@ return (
                         } else if (state.network === NETWORK_POLYGON) {
                           state.callTx(state, onCallTxComple);
                         } else if (state.network === NETWORK_MANTLE) {
-                          console.log("state.path", state.estimate.path);
+                          const WMNT =
+                            "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8";
+                          const MNT =
+                            "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
+
+                          if (
+                            state.inputAssetTokenId === MNT &&
+                            state.estimate.path[0] === WMNT
+                          ) {
+                            state.estimate.path[0] = MNT;
+                          }
+
+                          if (
+                            state.inputAssetTokenId === MNT &&
+                            state.estimate.path[
+                              state.estimate.path.length - 1
+                            ] === WMNT
+                          ) {
+                            state.estimate.path[
+                              state.estimate.path.length - 1
+                            ] = MNT;
+                          }
+
+                          const amountOutMinimum =
+                            state.estimate.estimate * 0.995;
+
+                          Ethers.provider()
+                            .getFeeData()
+                            .then((data) => {
+                              state.callTx(
+                                state,
+                                onCallTxComple,
+                                Big(data.gasPrice)
+                                  .div(Big(10).pow(9))
+                                  .toFixed(10) /*"120"*/,
+                                undefined,
+                                undefined,
+                                state.estimate.path,
+                                expandToken(
+                                  amountOutMinimum,
+                                  state.outputAsset.metadata.decimals
+                                ).toFixed(0)
+                              );
+                            });
+
+                          /*
                           state.callTx(
                             state,
                             onCallTxComple,
@@ -1170,7 +1222,7 @@ return (
                             undefined,
                             undefined,
                             state.estimate.path
-                          );
+                          );*/
                         }
                       }
                     }}
