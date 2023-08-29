@@ -12,15 +12,12 @@ const UUID = {
 };
 
 
-const accountId = context.accountId;
-const toggleNewEventModal = props.toggleNewEventModal;
-
-if (!accountId) {
-  return "Please connect your NEAR account";
-}
+State.init({
+  event: props.event || null,
+});
 
 const addEvent = (target) => {
-  const thingId = target.data.id;
+  const thingId = UUID.generate();
 
   // index new event
   Social.set({
@@ -39,20 +36,22 @@ const addEvent = (target) => {
   });
 
   State.update({ event: target });
-  toggleNewEventModal();
-};
-
-const proposeEvent = (target) => {
-  console.log(target);
 };
 
 return (
   <>
     <div>
-      <Widget
-        src="itexpert120-contra.near/widget/EventForm"
-        props={{ addEvent: addEvent, proposeEvent: proposeEvent }}
-      />
+      {!state.event ? (
+        <Widget
+          src="itexpert120.near/widget/EventForm"
+          props={{ addEvent: addEvent }}
+        />
+      ) : (
+        <Widget
+          src="itexpert120.near/widget/EventView"
+          props={{ data: state.event.data }}
+        />
+      )}
     </div>
   </>
 );
