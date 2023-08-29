@@ -8,7 +8,7 @@ const middlePool =
 const useMiddlePool = tokenIn !== middlePool && tokenOut !== middlePool;
 
 const WMNT = "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8";
-const MNT = "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead0000";
+const MNT = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
 
 if (tokenIn == MNT) {
   tokenIn = WMNT;
