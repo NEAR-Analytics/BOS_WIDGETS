@@ -28,6 +28,7 @@ const getTransactions = () => {
 };
 
 const getDescription = (status) => {
+  console.log(status);
   var message = "";
   switch (status) {
     case "included":
