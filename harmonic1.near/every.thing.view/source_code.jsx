@@ -58,13 +58,13 @@ function Thing() {
           );
         }
         // determine the widget to render this thing (is there a default view?)
-        // const widgetSrc =
-        //   options?.templateOverride ||
-        //   thing.template?.src ||
-        //   typeObj?.widgets?.view;
-        // Template
+        const widgetSrc =
+          options?.templateOverride ||
+          thing.template?.src ||
+          typeObj?.widgets?.view;
+        //Template
         //hard code until finding template override prop
-        const widgetSrc = "harmonic1.near/widget/artist2";
+        //const widgetSrc = "harmonic1.near/widget/artist2";
         return (
           <Widget
             src={widgetSrc}
