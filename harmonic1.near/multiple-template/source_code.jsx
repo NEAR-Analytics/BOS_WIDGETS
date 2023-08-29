@@ -4,6 +4,7 @@ const Wrapper = styled.div`
 
 const FlexContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 `;
 
@@ -41,6 +42,17 @@ return (
             path: "harmonic1.near/thing/artist/jas",
             options: {
               templateOverride: "harmonic1.near/widget/artist-content-template",
+            },
+          }}
+        />
+      </FlexChild>
+      <FlexChild>
+        <Widget
+          src="harmonic1.near/widget/every.thing.view"
+          props={{
+            path: "harmonic1.near/thing/artist/jas",
+            options: {
+              templateOverride: "harmonic1.near/widget/artist2",
             },
           }}
         />
