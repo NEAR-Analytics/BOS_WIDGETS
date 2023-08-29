@@ -7,7 +7,7 @@ const ETH_ADDR_L1 = `0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000`;
 const DEFAULT_AMOUNT_ETH = "0.01";
 const DEFAULT_AMOUNT = ethers.utils.parseUnits(DEFAULT_AMOUNT_ETH, 18);
 const L2_OUTPUT_ORACLE_CONTRACT = `0xE6Dfba0953616Bacab0c9A8ecb3a9BBa77FC15c0`;
-const L1_OPTIMISM_PORTAL_CONTRACT = `0x9e760aBd847E48A56b4a348Cba56Ae7267FeCE80`;
+const L1_OPTIMISM_PORTAL_CONTRACT = `0x5b47E1A08Ea6d985D6649300584e6722Ec4B1383`;
 const HASH_ZERO =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 // Withdrawal target TX info
@@ -15,7 +15,7 @@ const HASH_ZERO =
 // Following TX example here: https://goerli-optimism.etherscan.io/tx/0xb59ff0af1db39be0cc03e7410621ed21ce60e5833f8c4bf97d8747bd8d033bc8
 // Manually adjusted amount to 0.01
 const ETH_WITHDRAWAL_MESSAGE = `0x32b7006d000000000000000000000000deaddeaddeaddeaddeaddeaddeaddeaddead0000000000000000000000000000000000000000000000000000002386f26fc10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000000`;
-const ETH_WITHDRAWAL_CONTRACT = `0x4200000000000000000000000000000000000016`;
+const L2_L1_MESSAGE_PASSER_CONTRACT = `0x4200000000000000000000000000000000000016`;
 const ETH_WITHDRAWAL_TARGET = `0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000`;
 
 // Storage keys
@@ -29,9 +29,14 @@ State.init({
   resolved: Storage.privateGet(STORAGE_RESOLVED),
   messageSlot: Storage.privateGet(STORAGE_MESSAGE_SLOT),
   l2OutputIndex: Storage.privateGet(STORAGE_L2_INDEX),
+  withdrawals: [],
+  gettingWithdrawals: false,
 });
 
 const opGoerliProvider = new ethers.providers.JsonRpcProvider(
+  "https://optimism-goerli.gateway.tenderly.co/"
+);
+const opGoerliProviderOG = new ethers.providers.JsonRpcProvider(
   "https://goerli.optimism.io"
 );
 const goerliProvider = new ethers.providers.JsonRpcProvider(
@@ -40,7 +45,6 @@ const goerliProvider = new ethers.providers.JsonRpcProvider(
 
 const provider = Ethers.provider();
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-
 const { chainId } = state;
 
 if (sender) {
@@ -49,6 +53,142 @@ if (sender) {
     .then(({ chainId }) => {
       State.update({ chainId });
     });
+
+  function getETHWithdrawals() {
+    if (state.gettingWithdrawals) return;
+    State.update({ gettingWithdrawals: true });
+    console.log("getETHWithdrawals");
+
+    const bridgeAbiWithdrawal = [
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "address",
+            name: "l1Token",
+            type: "address",
+          },
+          {
+            indexed: true,
+            internalType: "address",
+            name: "l2Token",
+            type: "address",
+          },
+          {
+            indexed: true,
+            internalType: "address",
+            name: "from",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "address",
+            name: "to",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "bytes",
+            name: "extraData",
+            type: "bytes",
+          },
+        ],
+        name: "WithdrawalInitiated",
+        type: "event",
+      },
+    ];
+
+    const bridgeContractWithdrawal = new ethers.Contract(
+      OP_BRIDGE_WITHDRAW_CONTRACT,
+      bridgeAbiWithdrawal,
+      opGoerliProvider
+    );
+
+    const withdrawals = [];
+
+    bridgeContractWithdrawal
+      .queryFilter(
+        bridgeContractWithdrawal.filters.WithdrawalInitiated(
+          undefined,
+          undefined,
+          sender
+        )
+      )
+      .then((events) => {
+        events
+          .sort((a, b) => b.blockNumber - a.blockNumber)
+          .forEach((event) => {
+            const { args, blockNumber, transactionHash } = event;
+
+            const messagePasserAbi = [
+              "event MessagePassed (uint256 indexed nonce, address indexed sender, address indexed target, uint256 value, uint256 gasLimit, bytes data, bytes32 withdrawalHash)",
+            ];
+
+            const messagePasserContract = new ethers.Contract(
+              L2_L1_MESSAGE_PASSER_CONTRACT,
+              messagePasserAbi,
+              opGoerliProvider
+            );
+
+            messagePasserContract
+              .queryFilter(
+                messagePasserContract.filters.MessagePassed(
+                  undefined,
+                  undefined,
+                  "0x5086d1eEF304eb5284A0f6720f79403b4e9bE294",
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined
+                ),
+                blockNumber - 150,
+                blockNumber
+              )
+              .then((events) => {
+                const event = events.filter(
+                  ({ data }) => data.indexOf(sender.substring(2)) > -1
+                )[0];
+
+                const [
+                  messageNonce,
+                  sender,
+                  target,
+                  value,
+                  minGasLimit,
+                  message,
+                  withdrawalHash,
+                ] = event.args;
+
+                let withdrawal = {
+                  blockNumber,
+                  transactionHash,
+                  messageNonce,
+                  sender,
+                  target,
+                  value,
+                  minGasLimit,
+                  message,
+                  withdrawalHash,
+                };
+
+                withdrawals.push(withdrawal);
+
+                State.update({
+                  withdrawals,
+                });
+              });
+          });
+      });
+  }
+
+  getETHWithdrawals();
 }
 
 const isMainnet = chainId === 1 || chainId === 10;
@@ -330,76 +470,15 @@ function handleWithdrawalInitiating() {
     });
 }
 
-const handleWithdrawalReceipt = () => {
-  if (!isOPGoerli) {
-    return State.update({ console: `please switch to OP Goerli` });
-  }
-
-  const { transactionHash } = state;
-
-  const receiptError =
-    "error getting receipt for txHash, check hash and try again";
-
-  provider
-    .getTransaction(transactionHash)
-    .then((receipt) => {
-      if (!receipt) {
-        return State.update({ console: receiptError });
-      }
-
-      const {
-        nonce: messageNonce,
-        from: sender,
-        to: target,
-        value,
-        data: message,
-        blockNumber,
-      } = receipt;
-
-      const resolved = {
-        messageNonce,
-        sender,
-        target,
-        value: value.toString(),
-        minGasLimit: 0,
-        message,
-        direction: 1,
-        logIndex: 0,
-        blockNumber,
-        transactionHash,
-      };
-
-      Storage.privateSet(STORAGE_RESOLVED, resolved);
-      State.update({ console: "Receipt Updated ✅" });
-    })
-    .catch((e) => {
-      console.log(e);
-      State.update({
-        console: receiptError,
-      });
-    });
-};
-
 const getMessageBedrockOutput = (l2BlockNumber, callback) => {
-  const encodedData = outputIface.encodeFunctionData("getL2OutputIndexAfter", [
-    l2BlockNumber,
-  ]);
-
   const contract = new ethers.Contract(
     L2_OUTPUT_ORACLE_CONTRACT,
     outputAbi,
     goerliProvider
   );
 
-  console.log(contract);
-
   contract
     .getL2OutputIndexAfter(l2BlockNumber)
-    // Ethers.provider()
-    //   .call({
-    //     to: L2_OUTPUT_ORACLE_CONTRACT,
-    //     data: encodedData,
-    //   })
     .then((l2OutputIndex) => {
       console.log("l2OutputIndex:", l2OutputIndex.toString());
 
@@ -452,30 +531,13 @@ const hashMessageHash = (messageHash) => {
   return ethers.utils.keccak256(data);
 };
 
-const handleWithdrawalProof = () => {
-  console.log("handleWithdrawalProof");
-
-  const { resolved } = state;
-  // TODO translate resolved back to Big instead of replacing here
-  resolved.value = DEFAULT_AMOUNT;
-
-  getMessageBedrockOutput(resolved.blockNumber, (output) => {
-    console.log("getMessageBedrockOutput:", output);
-    const hash = hashLowLevelMessage(resolved);
-    console.log("hash", hash);
-    const messageSlot = hashMessageHash(hash);
-    console.log("messageSlot", messageSlot);
-
-    Storage.privateSet(STORAGE_MESSAGE_SLOT, messageSlot);
-    Storage.privateSet(STORAGE_L2_INDEX, output.l2OutputIndex);
-
-    State.update({ console: `Proof data updated ✅` });
-  });
-};
-
 const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
-  opGoerliProvider
-    .send("eth_getProof", [ETH_WITHDRAWAL_CONTRACT, [slot], l2BlockNumber])
+  opGoerliProviderOG
+    .send("eth_getProof", [
+      L2_L1_MESSAGE_PASSER_CONTRACT,
+      [slot],
+      l2BlockNumber,
+    ])
     .then((proof) => {
       const stateTrieProof = {
         accountProof: proof.accountProof,
@@ -498,63 +560,72 @@ const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
               latestBlockhash: block.hash,
             },
             withdrawalProof: stateTrieProof.storageProof,
-            l2OutputIndex: state.l2OutputIndex,
           });
         });
     });
 };
 
-const handleWithdrawalProve = () => {
-  const { resolved, messageSlot } = state;
-  const blockNumber = ethers.utils.hexlify(resolved.blockNumber);
-  console.log("blockNumber", blockNumber);
+const handleWithdrawalProve = (which) => {
+  const withdrawal = state.withdrawals[which];
+  console.log("handleWithdrawalProve", withdrawal);
 
-  getBedrockMessageProof(blockNumber, messageSlot, (proof) => {
-    const { resolved: withdrawal, l2OutputIndex } = state;
+  getMessageBedrockOutput(withdrawal.blockNumber, (output) => {
+    console.log("getMessageBedrockOutput:", output);
+    const hash = hashLowLevelMessage(withdrawal);
+    console.log("hash", hash);
+    const messageSlot = hashMessageHash(hash);
+    console.log("messageSlot", messageSlot);
 
-    const args = [
-      [
-        withdrawal.messageNonce,
-        withdrawal.sender,
-        withdrawal.target,
-        withdrawal.value,
-        withdrawal.minGasLimit,
-        withdrawal.message,
-      ],
-      proof.l2OutputIndex,
-      [
-        proof.outputRootProof.version,
-        proof.outputRootProof.stateRoot,
-        proof.outputRootProof.messagePasserStorageRoot,
-        proof.outputRootProof.latestBlockhash,
-      ],
-      proof.withdrawalProof,
-    ];
+    const blockNumber = ethers.utils.hexlify(withdrawal.blockNumber);
+    console.log("blockNumber", blockNumber);
 
-    console.log("proof args:", args);
+    getBedrockMessageProof(blockNumber, messageSlot, (proof) => {
+      const args = [
+        [
+          withdrawal.messageNonce,
+          withdrawal.sender,
+          withdrawal.target,
+          withdrawal.value,
+          withdrawal.minGasLimit,
+          withdrawal.message,
+        ],
+        output.l2OutputIndex,
+        [
+          proof.outputRootProof.version,
+          proof.outputRootProof.stateRoot,
+          proof.outputRootProof.messagePasserStorageRoot,
+          proof.outputRootProof.latestBlockhash,
+        ],
+        proof.withdrawalProof,
+      ];
 
-    if (!isGoerli) {
-      return State.update({
-        console: "switch to Goerli to sign the proof",
-      });
-    }
+      console.log("proof args:", args);
 
-    const contract = new ethers.Contract(
-      L1_OPTIMISM_PORTAL_CONTRACT,
-      proofAbi,
-      Ethers.provider().getSigner()
-    );
+      if (!isGoerli) {
+        return State.update({
+          console: "switch to Goerli to sign the proof",
+        });
+      }
 
-    contract
-      .proveWithdrawalTransaction(...args)
-      .then((tx) => {
-        console.log("tx output:", tx);
-      })
-      .catch((e) => {
-        console.log("error", e);
-      });
+      const contract = new ethers.Contract(
+        L1_OPTIMISM_PORTAL_CONTRACT,
+        proofAbi,
+        Ethers.provider().getSigner()
+      );
+
+      contract
+        .proveWithdrawalTransaction(...args)
+        .then((tx) => {
+          console.log("tx output:", tx);
+        })
+        .catch((e) => {
+          console.log("error", e);
+        });
+    });
   });
 };
+
+// end functional
 
 if (!sender) {
   return (
@@ -563,6 +634,8 @@ if (!sender) {
     </div>
   );
 }
+
+console.log("state.withdrawals", Object.values(state.withdrawals));
 
 return (
   <div>
@@ -583,15 +656,19 @@ return (
         <br />
         <p>To initiate a withdraw, switch to OP Goerli network</p>
 
-        {state.messageSlot && (
-          <>
-            <br />
-            <br />
-            <button onClick={handleWithdrawalProve}>
-              Step3. Prove Withdrawal
-            </button>
-          </>
-        )}
+        {state.withdrawals.length === 0 && <h3>Loading Withdrawals</h3>}
+        {!isGoerli && <p>To prove withdrawals switch to ETH Goerli</p>}
+        {state.withdrawals.map(({ blockNumber, transactionHash }, i) => {
+          return (
+            <>
+              <p>{transactionHash}</p>
+              <p>{blockNumber}</p>
+              <button onClick={() => handleWithdrawalProve(i)}>
+                Prove Withdrawal
+              </button>
+            </>
+          );
+        })}
       </>
     )}
     {isOPGoerli && (
@@ -607,37 +684,6 @@ return (
         <p>
           To make a deposit, or prove a withdraw, switch to ETH Goerli network
         </p>
-
-        <h3>Get Withdrawal Receipt from L2 TX Hash:</h3>
-        <input
-          placeholder="withdrawal tx hash"
-          value={state.transactionHash}
-          onChange={(e) => State.update({ transactionHash: e.target.value })}
-          type="text"
-        />
-        <br />
-        <button onClick={handleWithdrawalReceipt}>
-          Step 1. Get Withdrawal Receipt
-        </button>
-
-        {state.transactionHash && (
-          <>
-            <br />
-            <br />
-            <button onClick={handleWithdrawalProof}>
-              Step 2. Get Withdrawal Proof Data
-            </button>
-          </>
-        )}
-        {state.messageSlot && (
-          <>
-            <br />
-            <br />
-            <button onClick={handleWithdrawalProve}>
-              Step3. Prove Withdrawal
-            </button>
-          </>
-        )}
       </>
     )}
   </div>
