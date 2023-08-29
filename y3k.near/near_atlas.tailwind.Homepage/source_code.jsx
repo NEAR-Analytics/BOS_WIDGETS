@@ -121,7 +121,7 @@ const tabsData = [
     label: "NFT World",
     content: "...",
     widgets: [
-      "y3k.near/widget/near_atlas.components.MonthlyNFTAcounts",
+      "y3k.near/widget/near_atlas.components.vis.DAUbyNFTs",
       "y3k.near/widget/near_atlas.tailwind.React.Table.TopNFTs",
     ],
   },
