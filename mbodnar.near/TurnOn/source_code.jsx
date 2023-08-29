@@ -3,6 +3,8 @@ const isNotificationSupported = props.isNotificationSupported;
 const isPushManagerSupported = props.isPushManagerSupported;
 const isPermisionGranted = props.isPermisionGranted;
 
+console.log("xxx");
+
 return (
   <div>
     <button onClick={handleTurnOn}>Turn On</button>
