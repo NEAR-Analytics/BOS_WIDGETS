@@ -45,7 +45,11 @@ return (
             0) && (
           <button
             class="input-asset-token"
-            style={{ paddingRight: "4px", display: "inline-block" }}
+            style={{
+              paddingRight: "4px",
+              display: "inline-block",
+              whiteSpace: "nowrap",
+            }}
           >
             <span class="input-asset-token-menu">
               <div class="input-asset-token-name">
@@ -60,12 +64,12 @@ return (
                     <>Undefined</>
                   )}
                 </div>
-                <span class="input-asset-token-ticker">
+                <small class="input-asset-token-ticker">
                   {parseFloat(state.assetData.balance_hr).toFixed(
                     state.fractionDigits
                   )}
                   {state.assetData.metadata.symbol}
-                </span>
+                </small>
               </div>
             </span>
           </button>
