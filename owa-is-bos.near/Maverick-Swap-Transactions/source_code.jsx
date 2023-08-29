@@ -20,6 +20,7 @@ const getTransactions = () => {
         !status.includes(item.status)
       );
     });
+    console.log(transactions);
     State.update({
       transactions: transactions,
     });
