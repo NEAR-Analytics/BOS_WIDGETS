@@ -16,6 +16,7 @@ const accountId = data.author;
 const title = data.articleId;
 const content = data.body;
 const timeLastEdit = data.timeLastEdit;
+const realArticleId = data.realArticleId ?? `${data.author}-${data.timeCreate}`;
 
 //TODO ask Dani how are we handling this "verified"
 
@@ -466,22 +467,23 @@ const inner = (
 const renderTags = () => {
   return (
     <>
-      {tags.map((tag) => {
-        const filter = { filterBy: "tag", value: tag };
+      {tags &&
+        tags.map((tag) => {
+          const filter = { filterBy: "tag", value: tag };
 
-        return (
-          <div onClick={() => handleFilterArticles(filter)}>
-            {tag && (
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Tag: { title: tag },
-                }}
-              />
-            )}
-          </div>
-        );
-      })}
+          return (
+            <div onClick={() => handleFilterArticles(filter)}>
+              {tag && (
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Tag: { title: tag },
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
     </>
   );
 };
@@ -541,10 +543,11 @@ return (
           src={widgets.addComment}
           props={{
             widgets,
+            article: data,
             isReplying: false,
             isTest,
             username: data.author,
-            realArticleId: data.realArticleId,
+            realArticleId,
             onCloseModal: () => State.update({ showModal: false }),
           }}
         />
@@ -566,11 +569,10 @@ return (
             </HeaderContentText>
           </HeaderContent>
         </div>
-        {/*<Widget
+        <Widget
           src={widgets.upVote}
           props={{ isTest, authorForWidget, reactedElementData: data, widgets }}
         />
-        */}
       </HeaderCard>
       <KeyIssuesHeader>
         <KeyIssuesTitle
@@ -621,7 +623,7 @@ return (
                 widgets,
                 isTest,
                 authorForWidget,
-                elementReactedId: data.realArticleId,
+                elementReactedId: realArticleId,
               }}
             />
           </ButtonsLowerSection>
