@@ -3,7 +3,7 @@ const externalLink = props.url;
 
 const clickbaitPrompt =
   props.clickbaitPrompt ??
-  `Test your knowledge of the NDC and the upcoming elections with @nearuaguild, your knowledge should be rewarded so head over to Zealy for further rewards! 💰\n\n#NEAR #BOS\n${externalLink}`;
+  `Test your knowledge of the @neardc and the upcoming elections with @nearuaguild, your knowledge should be rewarded so head over to Zealy for further rewards! 💰\n\n#NEAR #BOS$`;
 
 const twitterUrl = new URL("https://twitter.com/intent/tweet");
 twitterUrl.searchParams.set("text", clickbaitPrompt);
