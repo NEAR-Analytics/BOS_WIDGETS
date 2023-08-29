@@ -128,7 +128,7 @@ return (
     <br />
     <div>
       <h5>Question 1:</h5>
-      <p>What does the "BOS" acronym stand for?</p>
+      <p>What does the "NDC" acronym stand for?</p>
       <input
         className="form-control"
         placeholder="Your answer goes here :)"
