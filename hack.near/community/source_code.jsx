@@ -1,12 +1,12 @@
 const accountId = props.accountId ?? context.accountId;
 
-const ownerId = props.ownerId ?? "hack.near";
+const creatorId = props.creatorId ?? "hack.near";
 const pageId = props.pageId ?? "community.page";
 
 return (
   <>
     <Widget
-      src={`${ownerId}/widget/${pageId}`}
+      src={`${creatorId}/widget/${pageId}`}
       props={{
         accountId,
         communityId: "every.near",
