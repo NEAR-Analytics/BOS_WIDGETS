@@ -17,7 +17,7 @@ const turnOn = () => {
   console.log("XXXXXXXXXXXXXXXX");
   handleTurnOn().then(() => {
     State.update({
-      notificationSupported: isNotificationSupported(),
+      notificationSupported: isNotificationSupported().toString(),
       pushManagerSupported: isPushManagerSupported(),
       permisionGranted: isPermisionGranted(),
     });
