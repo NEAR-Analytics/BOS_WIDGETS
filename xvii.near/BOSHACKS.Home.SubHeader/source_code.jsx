@@ -135,7 +135,7 @@ return (
         <p>
           {" "}
           Learn more
-          <a href="https://nearbuilders.com/bounty" target="_blank">
+          <a href="https://hackmd.io/Jz4_FasRQGWdGGuifBU6Kw" target="_blank">
             here
           </a>
         </p>
