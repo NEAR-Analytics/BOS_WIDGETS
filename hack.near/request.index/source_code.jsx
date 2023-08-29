@@ -34,6 +34,9 @@ State.init({
 });
 
 const renderItem = (item, i) => {
+  const handleReview = () => {
+    State.update({ showDetails: true });
+  };
   return (
     <ItemWrapper>
       {item.value.type === "merge" && (
@@ -60,7 +63,7 @@ const renderItem = (item, i) => {
             <div className="text-truncate col-auto float-right">
               <button
                 className="btn btn-outline-secondary me-1"
-                onClick={() => State.update({ showDetails: true })}
+                onClick={handleReview}
               >
                 Review
               </button>
