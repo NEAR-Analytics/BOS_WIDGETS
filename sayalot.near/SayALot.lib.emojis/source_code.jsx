@@ -22,7 +22,7 @@ function composeReactionData(reaction, elementReactedId) {
       [action]: JSON.stringify({
         key: elementReactedId,
         value: {
-          type: "md",
+          reactionId: `r-${context.accountId}-${Date.now()}`,
           reaction,
         },
       }),
@@ -45,21 +45,26 @@ function saveReaction(reaction, elementReactedId, onCommit, onCancel) {
 }
 
 function getReactionsData(props) {
-  const { elementReactedId, createdReaction } = props;
-
+  // const { elementReactedId, createdReaction } = props;
+  const { elementReactedId } = props;
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
+    subscribe: true,
   });
 
-  const uniqueAccounts = [];
+  // const uniqueAccounts = [];
   let arrayLastReactionForEachUser =
     allReactions &&
     allReactions.filter((obj) => {
-      if (!uniqueAccounts.includes(obj.accountId)) {
-        uniqueAccounts.push(obj.accountId);
-        return true;
-      }
-      return false;
+      const userLatestInteraction = allReactions.find(
+        (vote) => vote.accountId === obj.accountId
+      );
+      return JSON.stringify(userLatestInteraction) === JSON.stringify(obj);
+      // if (!uniqueAccounts.includes(obj.accountId)) {
+      //   uniqueAccounts.push(obj.accountId);
+      //   return true;
+      // }
+      // return false;
     });
 
   const userReaction =
@@ -68,21 +73,21 @@ function getReactionsData(props) {
       return obj.accountId === context.accountId;
     });
 
-  if (userReaction && createdReaction) {
-    const newArrayOfLastReactions = arrayLastReactionForEachUser
-      .filter((obj) => {
-        return obj.accountId !== context.accountId;
-      })
-      .push({
-        accountId: context.accountId,
-        value: {
-          type: "md",
-          reaction: createdReaction,
-        },
-      });
+  // if (userReaction && createdReaction) {
+  //   const newArrayOfLastReactions = arrayLastReactionForEachUser
+  //     .filter((obj) => {
+  //       return obj.accountId !== context.accountId;
+  //     })
+  //     .push({
+  //       accountId: context.accountId,
+  //       value: {
+  //         type: "md",
+  //         reaction: createdReaction,
+  //       },
+  //     });
 
-    arrayLastReactionForEachUser = newArrayOfLastReactions;
-  }
+  //   arrayLastReactionForEachUser = newArrayOfLastReactions;
+  // }
 
   // ========= GET REACTIONS STATISTICS =========
   function getReactionStats(acc, reactionObj) {
@@ -117,6 +122,12 @@ function getReactionsData(props) {
     arrayLastReactionForEachUser &&
     countReactionsStats(arrayLastReactionForEachUser);
   //reactionsStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
+
+  // if (reactionsStatistics !== null) {
+  //   resultLibCalls = resultLibCalls.filter((call) => {
+  //     return call.functionName !== "getReactionsData";
+  //   });
+  // }
 
   return { reactionsStatistics, userReaction };
 }
