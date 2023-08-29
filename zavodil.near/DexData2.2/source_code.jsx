@@ -991,7 +991,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/0xnakato/80ca6221ef258b7b27bf309c8a3eeff2/raw/50b1b27d5a5741a37667d35e62b7f9bccd0c5847/SyncSwapRouter.json"
           );
           if (!routerAbi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ routerAbi: routerAbi.body });
         }
@@ -1001,7 +1001,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/0xnakato/13e8393c09ea842912f5f2e5995e9770/raw/7d4edfa0a29de02f7b84d4fb79f1e6125ed0e7cc/SyncSwapClassicPoolFactory.json"
           );
           if (!factoryAbi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ factoryAbi: factoryAbi.body });
         }
@@ -1011,13 +1011,12 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
           );
           if (!erc20Abi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ erc20Abi: erc20Abi.body });
         }
 
-        if (!state.routerAbi || !state.factoryAbi || !state.erc20Abi)
-          return "Loading ABIs";
+        if (!state.routerAbi || !state.factoryAbi || !state.erc20Abi) return "";
 
         onLoad({
           network: NETWORK_ZKSYNC,
@@ -1053,7 +1052,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
           );
           if (!erc20Abi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ erc20Abi: erc20Abi.body });
         }
@@ -1063,13 +1062,13 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/zavodil/108a3719d4ac4b53131b09872ff81b83/raw/82561cf48afcc72861fa8fa8283b33c04da316d7/SwapRouter02.json"
           );
           if (!routerAbi.ok) {
-            return "Loading";
+            return "";
           }
 
           State.update({ routerAbi: routerAbi.body });
         }
 
-        if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+        if (!state.routerAbi || !state.erc20Abi) return "";
 
         onLoad({
           network: NETWORK_ETH,
@@ -1097,7 +1096,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://raw.githubusercontent.com/trisolaris-labs/interface/main/src/constants/abis/polygon/IUniswapV2Router02.json"
           );
           if (!routerAbi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ routerAbi: routerAbi.body });
         }
@@ -1107,7 +1106,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
           );
           if (!erc20Abi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ erc20Abi: erc20Abi.body });
         }
@@ -1117,13 +1116,12 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://raw.githubusercontent.com/DaniPopes/uniswap-rs/9a7c8f9aadc38b458eac6571509d354859e6cca0/abi/IUniswapV2Factory.json"
           );
           if (!factoryAbi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ factoryAbi: factoryAbi.body });
         }
 
-        if (!state.routerAbi || !state.factoryAbi || !state.erc20Abi)
-          return "Loading ABIs";
+        if (!state.routerAbi || !state.factoryAbi || !state.erc20Abi) return "";
 
         onLoad({
           network: NETWORK_AURORA,
@@ -1155,7 +1153,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
           );
           if (!erc20Abi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ erc20Abi: erc20Abi.body });
         }
@@ -1165,13 +1163,13 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://raw.githubusercontent.com/gerrrg/balancer-tutorials/master/abis/Vault.json"
           );
           if (!routerAbi.ok) {
-            return "Loading";
+            return "";
           }
 
           State.update({ routerAbi: routerAbi.body });
         }
 
-        if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+        if (!state.routerAbi || !state.erc20Abi) return "";
 
         onLoad({
           network: NETWORK_POLYGON,
@@ -1216,7 +1214,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
             );
             if (!erc20Abi.ok) {
-              return "Loading";
+              return "";
             }
             State.update({ erc20Abi: erc20Abi.body });
           }
@@ -1226,13 +1224,13 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://gist.githubusercontent.com/zavodil/a66629902b78819f3f1b6de01d7c33e8/raw/19c25b0eaa84c8aa68e411c9049e55b86579c12f/agni.abi.json"
             );
             if (!routerAbi.ok) {
-              return "Loading";
+              return "";
             }
 
             State.update({ routerAbi: routerAbi.body });
           }
 
-          if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+          if (!state.routerAbi || !state.erc20Abi) return "";
 
           onLoad({
             network: NETWORK_MANTLE,
@@ -1241,6 +1239,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111", // WETH
               "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8", // WMNT
               "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE", // USDT
+              "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead0000", // MNT
             ],
             coingeckoNetworkHandle: "mantle",
             inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
@@ -1263,7 +1262,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
             );
             if (!erc20Abi.ok) {
-              return "Loading";
+              return "";
             }
             State.update({ erc20Abi: erc20Abi.body });
           }
@@ -1273,13 +1272,13 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://gist.githubusercontent.com/zavodil/a50ed9fcd2e1ba1adc40db19a94c79fe/raw/a3b92a2b9120d7d503e01714980ad44bd10c9030/quickswap_swapRouter_zkevm.json"
             );
             if (!routerAbi.ok) {
-              return "Loading";
+              return "";
             }
 
             State.update({ routerAbi: routerAbi.body });
           }
 
-          if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+          if (!state.routerAbi || !state.erc20Abi) return "";
 
           onLoad({
             network: NETWORK_ZKEVM,
@@ -1321,7 +1320,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
             );
             if (!erc20Abi.ok) {
-              return "Loading";
+              return "";
             }
             State.update({ erc20Abi: erc20Abi.body });
           }
@@ -1331,13 +1330,13 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://raw.githubusercontent.com/gerrrg/balancer-tutorials/master/abis/Vault.json"
             );
             if (!routerAbi.ok) {
-              return "Loading";
+              return "";
             }
 
             State.update({ routerAbi: routerAbi.body });
           }
 
-          if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+          if (!state.routerAbi || !state.erc20Abi) return "";
 
           onLoad({
             network: NETWORK_ZKEVM,
@@ -1380,7 +1379,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
             );
             if (!erc20Abi.ok) {
-              return "Loading";
+              return "";
             }
             State.update({ erc20Abi: erc20Abi.body });
           }
@@ -1391,13 +1390,13 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://gist.githubusercontent.com/zavodil/c51f14cbc5c379ab15548dcd63bee279/raw/1f797efe368cadd6c817df0a736f1ea9a522bd8a/PancakeMixedRouteQuoterV1ABI?1"
             );
             if (!routerAbi.ok) {
-              return "Loading";
+              return "";
             }
 
             State.update({ routerAbi: routerAbi.body });
           }
 
-          if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+          if (!state.routerAbi || !state.erc20Abi) return "";
 
           onLoad({
             network: NETWORK_ZKEVM,
