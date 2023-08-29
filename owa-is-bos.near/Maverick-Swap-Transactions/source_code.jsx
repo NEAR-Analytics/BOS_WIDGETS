@@ -40,6 +40,7 @@ const getDescription = (status) => {
       message = "Transaction pending to be executed in zkSync Era";
       break;
   }
+  console.log(message);
   return message;
 };
 
