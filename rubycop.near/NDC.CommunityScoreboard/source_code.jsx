@@ -58,6 +58,10 @@ const Tag = styled.div`
   font-size: 11px;
 `;
 
+const H3 = styled.h3`
+  text-transform: capitalize;
+`;
+
 if (state.data.length === 0)
   return (
     <>
@@ -70,9 +74,9 @@ return (
     <div className="w-50">
       <h1>NDC Community users</h1>
       <div className="d-flex justify-content-between align-items-center">
-        <h3>
+        <H3>
           <b>{community}</b>
-        </h3>
+        </H3>
         <Tag>{vertical}</Tag>
       </div>
       <small>Total users: {state.data.length}</small>
