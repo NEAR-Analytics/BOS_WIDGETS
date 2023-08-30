@@ -126,6 +126,16 @@ const COLUMNS = [
     renderCell: (item) => formatNumber(item["Unique Minters - 30d"]),
     sort: { sortKey: "Unique Minters - 30d" },
   },
+  {
+    label: <p className="text-center text-white text-wrap ">Transactions</p>,
+    renderCell: (item) => formatNumber(item["TXNS"]),
+    sort: { sortKey: "TXNS" },
+  },
+  {
+    label: <p className="text-center text-white text-wrap ">Transactions</p>,
+    renderCell: (item) => formatNumber(item["TXNS_30D"]),
+    sort: { sortKey: "TXNS_30D" },
+  },
 ];
 const sortFns = {
   ContractAddress: (array) =>
@@ -145,6 +155,8 @@ const sortFns = {
     array.sort((a, b) => a["NFT Mints - 30d"] - b["NFT Mints - 30d"]),
   "Unique Minters - 30d": (array) =>
     array.sort((a, b) => a["Unique Minters - 30d"] - b["Unique Minters - 30d"]),
+  TXNS: (array) => array.sort((a, b) => a["TXNS"] - b["TXNS"]),
+  TXNS_30d: (array) => array.sort((a, b) => a["TXNS_30d"] - b["TXNS_30d"]),
 };
 
 return (
