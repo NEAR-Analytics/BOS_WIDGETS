@@ -142,7 +142,7 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
       });
-      if (!token && props.chainState === ("aptos" || "sui")) {
+      if (!token && props.chainState !== ("aptos" || "sui")) {
         let response = fetch(currentChainProps[props.chainState]?.subgraph, {
           method: "POST",
           headers: {
