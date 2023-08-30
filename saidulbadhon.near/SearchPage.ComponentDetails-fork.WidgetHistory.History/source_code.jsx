@@ -1,13 +1,8 @@
-/*
----props---
-
-widgetPath: string,
-count(count: number)?: function,
-
-*/
 
 if (typeof props.widgetPath !== "string")
   return "send {widgetPath} as string in props";
+
+const theme = props.theme;
 
 State.init({
   selectedTab: "code",
@@ -101,13 +96,16 @@ const TabsButton = styled.button`
   line-height: 17px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  // color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  color: ${(p) => (p.selected ? theme.buttonColor: theme.textColor)};
+
   background: none;
   border: none;
   outline: none;
 
   &:hover {
-    color: #11181C;
+    // color: #11181C;
+    color: ${theme.buttonColor};
   }
 
   &::after {
@@ -128,8 +126,8 @@ return (
       <div>incorrent widget path</div>
     ) : (
       <div>
-        <div div class="card mb-3">
-          <h3 class="card-header">{blocksChanges.length} Commits</h3>
+        <div div class="card mb-3"style={{color: theme.ui}}>
+          <h3 class="card-header" style={{color: theme.textColor}}>{blocksChanges.length} Commits</h3>
 
           <div class="list-group">
             {blocksChanges
