@@ -72,6 +72,8 @@ const Partners = styled.div`
 }
 .splide.is-initialized, .splide.is-rendered {
   visibility: visible;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
 }
 .splide__list {
   -webkit-backface-visibility: hidden;
@@ -79,8 +81,11 @@ const Partners = styled.div`
   display: -ms-flexbox;
   display: flex;
   height: 100%;
+  width: 100%;
   margin: 0 !important;
   padding: 0 !important;
+   animation: moveSlideshow 60s linear infinite;
+   transform: translate3d(0, 0, 0);
 }
 li{
     list-style: none;
@@ -113,6 +118,11 @@ a {
   filter:none;
   -webkit-filter:grayscale(0);
   filter:grayscale(0)
+}
+@keyframes moveSlideshow {  
+  100% { 
+    -webkit-transform: translateX(-200%);  
+  }
 }
 `;
 return (
