@@ -28,16 +28,16 @@ State.init({
 // });
 
 if (state.reload) {
+  const isHuman = Near.view(registryContract, "is_human", {
+    account: context.accountId,
+  });
+
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
     Near.view(electionContract, "proposal", { prop_id: ids[1] }),
     Near.view(electionContract, "proposal", { prop_id: ids[2] }),
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
-
-  const isHuman = Near.view(registryContract, "is_human", {
-    account: context.accountId,
-  });
 
   const winnerIds = Near.view(electionContract, "winners_by_house", {
     prop_id: state.selectedHouse,
