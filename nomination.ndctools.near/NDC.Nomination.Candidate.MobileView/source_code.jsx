@@ -559,7 +559,7 @@ return (
               disabled:
                 !context.accountId ||
                 !state.verified ||
-                context.accountId === candidate,
+                context.accountId === accountId,
               className: `${
                 context.accountId && state.voted ? "primary" : "secondary"
               } dark`,
