@@ -192,7 +192,7 @@ const Budget = styled.div`
 
 const Content = () => (
   <Budget>
-    <p>
+    <p className="text-secondary">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Velit laoreet id donec
       ultrices. Fringilla ut morbi tincidunt augue interdum velit euismod in
