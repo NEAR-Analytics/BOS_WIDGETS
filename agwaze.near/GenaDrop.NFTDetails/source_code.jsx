@@ -427,7 +427,8 @@ const PriceBucket = styled.div`
 
 const Logo = styled.div`
     &>img {
-        width: 30px;
+        width: 20px;
+        margin-right: 5px;
     }
 `;
 
