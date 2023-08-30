@@ -83,7 +83,7 @@ const shortenNumber = (n) => {
 };
 
 const daoLink = ({ daoId, tab }) => {
-  return `#/astraplusplus.ndctools.near/widget/index?page=dao&daoId=${daoId}${
+  return `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${daoId}${
     tab && `&tab=${tab}`
   }`;
 };
