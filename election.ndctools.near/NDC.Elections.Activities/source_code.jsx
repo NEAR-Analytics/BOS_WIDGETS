@@ -89,7 +89,7 @@ return (
             src={widgets.styledComponents}
             props={{
               Tag: {
-                title: housesMapping(vote.house),
+                title: housesMapping[vote.house],
                 className: "dark",
               },
             }}
