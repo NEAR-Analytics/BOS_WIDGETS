@@ -233,6 +233,7 @@ const housesMapping = {
   CouncilOfAdvisors: "Council Of Advisors",
   HouseOfMerit: "House of Merit",
   TransparencyCommission: "Transparency Commission",
+  SetupPackage: "Budget Package",
 };
 
 const alreadyVoted = (candidateId) =>
