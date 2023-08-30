@@ -3,13 +3,6 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 };
 
-const currentChain = {
-  near: "https://ipfs.near.social/ipfs/bafkreidptf634houwtbxryegonzyys3wnz3m75zqyxfcot5u42slwdtb2e",
-  sui: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
-  aptos:
-    "data:image/png;base64,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",
-};
-
 const contractId = nft.contractId;
 const tokenId = nft.tokenId;
 const className = props.className ?? "img-fluid";
@@ -30,6 +23,54 @@ State.init({
   owner: "",
   imageUrl: null,
 });
+
+const currentChainProps = {
+  near: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+    livePrice: "near",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
+    chain: "near",
+    id: "1112",
+    logoUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+  },
+  aurora: {
+    img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
+    id: "1313161554",
+    chain: "Aurora",
+    livePrice: "ethereum",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
+  },
+  arbitrum: {
+    img: "https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1680097630",
+    id: "42161",
+    chain: "Arbitrum",
+    livePrice: "ethereum",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
+  },
+  celo: {
+    img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
+    id: "42220",
+    livePrice: "celo",
+    chain: "Celo",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
+  },
+  polygon: {
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Polygon_Blockchain_Matic_Logo.svg/880px-Polygon_Blockchain_Matic_Logo.svg.png",
+    id: "137",
+    chain: "Polygon",
+    livePrice: "matic-network",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
+  },
+  aptos: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqBinSwbRdx76qY4A3qvVkM9g_mKoGCBDT0sqTT02TgRvKquV2Vlc8fSRmLyuhBS3-CaA&usqp=CAU",
+  },
+  sui: {
+    img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
+  },
+};
 
 const NoNFTLoading = styled.div`
   width: 100%;
@@ -101,16 +142,14 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
       });
-      if (!token && props.chainState === "near") {
-        let response = fetch(
-          "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              query: `
+      if (!token && props.chainState === ("aptos" || "sui")) {
+        let response = fetch(currentChainProps[props.chainState]?.subgraph, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `
             query MyQuery {
              nfts(where: {tokenID: "${tokenId}"}) {
                 category
@@ -131,9 +170,8 @@ function fetchTokens() {
                 }
             }
         `,
-            }),
-          }
-        );
+          }),
+        });
         const collectionData = response.body.data.nfts;
 
         if (collectionData) {
@@ -537,6 +575,9 @@ const getUsdValue = (price) => {
   }
 };
 
+const PRICE_CONVERSION_CONSTANT =
+  props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
+
 return (
   <Root>
     <MainContainer>
@@ -572,11 +613,13 @@ return (
             <a
               target="_blank"
               style={{ textDecoration: "none" }}
-              href={ state.owner && tokenId
-                    ? `https://explorer.near.org/?query=${
-                        state.owner || "genadrop-contract.nftgen.near"
-                      }`
-                    : "#"}
+              href={
+                state.owner && tokenId
+                  ? `https://explorer.near.org/?query=${
+                      state.owner || "genadrop-contract.nftgen.near"
+                    }`
+                  : "#"
+              }
             >
               <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
                 {state.owner.length > 12
@@ -597,7 +640,7 @@ return (
               <PriceArea>
                 {props.chainState ? (
                   <Logo>
-                    <img src={currentChain[props.chainState]} />
+                    <img src={currentChainProps[props.chainState]?.img} />
                   </Logo>
                 ) : (
                   <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
