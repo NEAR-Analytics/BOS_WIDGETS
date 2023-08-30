@@ -143,8 +143,8 @@ return (
     <div>
       {context.accountId ? (
         <Widget
-          src="evangel.near/widget/connect"
-          props={{ accountId: "evangel.near" }}
+          src="hack.near/widget/connect.button"
+          props={{ accountId: "hack.near" }}
         />
       ) : (
         <Widget
@@ -327,8 +327,14 @@ return (
                   <h4>
                     <br />
                     Submit a screenshot of a completed test showing your Near
-                    Social account to receive a reward in Zealy for your
-                    knowledge.
+                    Social account to receive a reward in{" "}
+                    <a
+                      href="https://zealy.io/c/nearukraineguild/questboard"
+                      target="_blank"
+                    >
+                      Zealy
+                    </a>{" "}
+                    for your knowledge.
                   </h4>
                 </a>
               </p>
