@@ -3,7 +3,7 @@ State.init({
 });
 
 asyncFetch(
-  "https://scoreboard-ophc7vkxsq-uc.a.run.app/scoreboard?communityName=zomland&communityVertical=gaming",
+  `https://scoreboard-ophc7vkxsq-uc.a.run.app/scoreboard?communityName=${community}&communityVertical=${vertical}`,
   {
     method: "GET",
     headers: {
@@ -60,7 +60,7 @@ return (
     <div className="w-50">
       <div className="d-flex justify-content-between align-items-center">
         <h2>
-          <b>{props.communityName}</b>
+          <b>{props.community}</b>
         </h2>
         <Tag>{props.vertical}</Tag>
       </div>
