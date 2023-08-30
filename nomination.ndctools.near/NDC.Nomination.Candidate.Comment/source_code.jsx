@@ -256,6 +256,8 @@ const formatName = (name) =>
     ? `${name.slice(0, 4)}..${name.slice(name.length - 4, name.length)}`
     : name;
 
+const handleFlag = () => {};
+
 return (
   <CommentCard owner={data.commentator === data.candidate}>
     <CommentCardHeader>
@@ -293,6 +295,8 @@ return (
       <CommentButtonDiv>
         {data.removed ? (
           <></>
+        ) : data.flagged ? (
+          <i className="bi bi-flag-fill" />
         ) : context.accountId == data.commentator ? (
           <Widget
             src={widgets.styledComponents}
@@ -307,7 +311,7 @@ return (
             }}
           />
         ) : (
-          <></>
+          <i className="bi bi-flag" onClick={handleFlag} />
         )}
       </CommentButtonDiv>
     </CommentCardLowerSection>
