@@ -31,6 +31,7 @@ const currentChainProps = {
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
     chain: "near",
     id: "1112",
+    explorer: "https://explorer.near.org/?query=",
     logoUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
   },
@@ -38,6 +39,7 @@ const currentChainProps = {
     img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
     id: "1313161554",
     chain: "Aurora",
+     explorer: "https://aurorascan.dev/",
     livePrice: "ethereum",
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
@@ -46,6 +48,7 @@ const currentChainProps = {
     img: "https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1680097630",
     id: "42161",
     chain: "Arbitrum",
+    explorer: "https://arbiscan.io/",
     livePrice: "ethereum",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
   },
@@ -53,6 +56,7 @@ const currentChainProps = {
     img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
     id: "42220",
     livePrice: "celo",
+    explorer: "https://explorer.celo.org/address",
     chain: "Celo",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
   },
@@ -61,6 +65,7 @@ const currentChainProps = {
     id: "137",
     chain: "Polygon",
     livePrice: "matic-network",
+    explorer: "https://polygonscan.com/address/",
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
@@ -615,16 +620,15 @@ return (
               style={{ textDecoration: "none" }}
               href={
                 state.owner && tokenId
-                  ? `https://explorer.near.org/?query=${
-                      state.owner || "genadrop-contract.nftgen.near"
-                    }`
+                  ? currentChainProps[props.chainState]?.explorer + state.owner
                   : "#"
               }
             >
               <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
-                {state.owner.length > 12
-                  ? state.owner.slice(0, 12) + "..."
-                  : !state.owner && tokenId
+                {state.owner?.length > 25
+                  ? state.owner.slice(0, 8) + "..." +state.owner.slice(34) 
+                  : state.owner?.length < 25  ?  state.owner.slice(0, 12) + "...near":
+                  !state.owner && tokenId
                   ? "----"
                   : "genadrop-contract.nftgen.near".slice(0, 8) +
                     "..." +
@@ -736,16 +740,15 @@ return (
               <a
                 target="_blank"
                 href={
-                  state.owner && tokenId
-                    ? `https://explorer.near.org/?query=${
-                        state.owner || "genadrop-contract.nftgen.near"
-                      }`
-                    : "#"
-                }
+                state.owner && tokenId
+                  ? currentChainProps[props.chainState]?.explorer + state.owner
+                  : "#"
+              }
               >
-                {state.owner?.length > 12
+                {state.owner?.length > 25
                   ? state.owner.slice(0, 8) + "..." +state.owner.slice(34) 
-                  : !state.owner && tokenId
+                  : state.owner?.length < 25  ?  state.owner.slice(0, 12) + "...near":
+                  !state.owner && tokenId
                   ? "----"
                   : "genadrop-contract.nftgen.near".slice(0, 8) +
                     "..." +
