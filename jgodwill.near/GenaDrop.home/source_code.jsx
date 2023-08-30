@@ -479,7 +479,7 @@ return (
           />
           <img
             className="Orgs_icon"
-            src="https://www.genadrop.com/static/media/logo-celo-icon.d1fed266.png"
+            src="https://www.genadrop.comhttps://www.genadrop.io/static/media/logo-celo-icon.d1fed266.png"
             alt=""
           />
         </a>
@@ -496,7 +496,7 @@ return (
           />
           <img
             className="Orgs_icon"
-            src="https://www.genadrop.com/static/media/logo-near-icon.df006c52.png"
+            src="https://www.genadrop.comhttps://www.genadrop.io/static/media/logo-near-icon.df006c52.png"
             alt=""
           />
         </a>
@@ -508,12 +508,12 @@ return (
         >
           <img
             className="Orgs_logo"
-            src="https://www.genadrop.com/static/media/logo-mp.73b4202c.png"
+            src="https://www.genadrop.comhttps://www.genadrop.io/static/media/logo-mp.73b4202c.png"
             alt="MPA"
           />
           <img
             className="Orgs_icon"
-            src="https://www.genadrop.com/static/media/logo-polygon-icon.e75cb119.png"
+            src="https://www.genadrop.comhttps://www.genadrop.io/static/media/logo-polygon-icon.e75cb119.png"
             alt=""
           />
         </a>
@@ -530,7 +530,7 @@ return (
           />
           <img
             className="Orgs_icon"
-            src="https://www.genadrop.com/static/media/logo-algo-icon.2b812f73.png"
+            src="https://www.genadrop.comhttps://www.genadrop.io/static/media/logo-algo-icon.2b812f73.png"
             alt=""
           />
         </a>
@@ -563,7 +563,7 @@ return (
           </div>
           <img
             className="Features_image"
-            src="https://www.genadrop.io/static/media/app-mint.5d33cb10.svg"
+            src="https://www.genadrop.iohttps://www.genadrop.io/static/media/app-mint.5d33cb10.svg"
             alt=""
           />
         </div>
@@ -597,7 +597,7 @@ return (
           </div>
           <img
             className="Features_image"
-            src="https://www.genadrop.io/static/media/app-explore.eab9bd86.svg"
+            src="https://www.genadrop.iohttps://www.genadrop.io/static/media/app-explore.eab9bd86.svg"
             alt=""
           />
         </div>
@@ -648,6 +648,7 @@ return (
           <FeatureDescription>
             Notable NFTs that were easily created with GenaDrop
           </FeatureDescription>
+    <Widget src="jgodwill.near/widget/GenaDrop.Home.PartnersCarousel" />
         </div>
       </div>
     </FeatureContainer>
