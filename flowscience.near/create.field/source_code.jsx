@@ -138,7 +138,7 @@ State.init({
   selectedType: "flowscience.near/type/field",
   view: defaultView,
   isPreview: false, //"TEMPLATE",
-  template: "flowscience.near/type/field",
+  template: "evrything.near/widget/Everything.Type.Details",
   templateVal: template,
   thingId,
 });
