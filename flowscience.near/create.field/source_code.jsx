@@ -169,7 +169,7 @@ const handleSave = () => {
 
   const data = {
     thing: {
-      artist: {
+      field: {
         [thingId]: JSON.stringify({
           data: state.config,
           template: {
