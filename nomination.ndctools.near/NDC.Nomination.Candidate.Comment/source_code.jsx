@@ -300,7 +300,7 @@ return (
               Button: {
                 text: "Delete",
                 size: "sm",
-                className: "danger",
+                className: "primary danger",
                 onClick: handleDeleteComment,
                 icon: <i className="bi bi-trash"></i>,
               },
