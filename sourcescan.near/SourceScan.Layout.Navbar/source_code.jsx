@@ -45,7 +45,7 @@ const useTheme = (light, dark) => {
 const Main = styled.div`
   padding-top: 6px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     padding-top: 22px;
   }
 `;
@@ -58,7 +58,7 @@ const RStack = styled.div`
   align-items: center;
   flex-direction: row;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     flex-direction: column;
   }
 `;
@@ -89,19 +89,23 @@ const NavButton = styled.button`
 `;
 
 const NetworkSwitcherContainer = styled.div`
+  left: 0;
+  position: absolute;
   padding-left: 28px;
   padding-right: 28px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     display: none;
   }
 `;
 
 const ThemeChangerContainer = styled.div`
+  position: absolute;
+  right: 0;
   padding-left: 28px;
   padding-right: 28px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     display: none;
   }
 `;
@@ -110,7 +114,7 @@ const Logo = styled.img`
   cursor: pointer;
   filter: ${useTheme("invert(0)", "invert(1)")};
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     display: none;
   }
 `;
@@ -120,7 +124,7 @@ const MobileLogo = styled.img`
   cursor: pointer;
   filter: ${useTheme("invert(0)", "invert(1)")};
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 750px) {
     display: flex;
   }
 `;
@@ -137,19 +141,23 @@ return (
         />
       </NetworkSwitcherContainer>
       <RStack>
-        <MobileLogo
-          src={
-            "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
-          }
-          width={"100px"}
-        />
-        <HStack>
-          <Logo
+        <a href={`#/${state.ownerId}/widget/SourceScan`} target={"_self"}>
+          <MobileLogo
             src={
               "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
             }
             width={"100px"}
           />
+        </a>
+        <HStack>
+          <a href={`#/${state.ownerId}/widget/SourceScan`} target={"_self"}>
+            <Logo
+              src={
+                "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
+              }
+              width={"100px"}
+            />
+          </a>
           {pages.map((page, i) => {
             return page.href ? (
               <a key={i} href={page.href} target={page.target}>
