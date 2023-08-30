@@ -57,7 +57,7 @@ const currentChainProps = {
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
   },
   polygon: {
-    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Polygon_Blockchain_Matic_Logo.svg/880px-Polygon_Blockchain_Matic_Logo.svg.png",
+    img: "https://altcoinsbox.com/wp-content/uploads/2023/03/matic-logo.webp",
     id: "137",
     chain: "Polygon",
     livePrice: "matic-network",
@@ -565,7 +565,7 @@ const HandleList = () => {
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
-      props.chainState ?? "near"
+      currentChainProps[props.chainState]?.livePrice
     }&vs_currencies=usd`
   );
   if (res.ok) {
@@ -652,7 +652,7 @@ return (
                           state.listings.price / 1000000000000000000000000
                         ).toFixed(2)
                       : state.price
-                      ? (state.price / 1000000000000000000000000).toFixed(2)
+                      ? (state.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
                       : "0.00"
                   }`}
                 </h6>
@@ -662,7 +662,7 @@ return (
                         state.listings.price / 1000000000000000000000000
                       )
                     : state.price
-                    ? getUsdValue(state.price / 1000000000000000000000000)
+                    ? getUsdValue(state.price / PRICE_CONVERSION_CONSTANT)
                     : "0.00"
                 })`}</span>
               </PriceArea>
@@ -743,8 +743,8 @@ return (
                     : "#"
                 }
               >
-                {state.owner.length > 12
-                  ? state.owner.slice(0, 12) + "..." + "near"
+                {state.owner?.length > 12
+                  ? state.owner.slice(0, 8) + "..." + props.chainState === "near" ? "near":state.owner.slice(39) 
                   : !state.owner && tokenId
                   ? "----"
                   : "genadrop-contract.nftgen.near".slice(0, 8) +
