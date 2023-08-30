@@ -290,22 +290,7 @@ return (
             whitelist,
           }}
         />
-
-        {role === "Builder" && (
-          <AddComponentWrapper href={"/sandbox"}>
-            {addComponentIcon}
-            <span>Add Template</span>
-          </AddComponentWrapper>
-        )}
       </FlexStart>
-
-      {/* <FunctionArea>
-        <FunctionWrapper>
-          {sortIcon}
-
-          <span>Latest</span>
-        </FunctionWrapper>
-      </FunctionArea> */}
     </div>
 
     <ContentWrapper>
@@ -320,8 +305,12 @@ return (
             return state.searchResults.map((_) => _.widgetSrc).includes(d.src);
           })
           .map(({ item }) => item)}
-
-        <Widget src="ref-admin.near/widget/rainbow-card" />
+        {!!state.searchResults &&
+        !state.searchResults.includes("ref-admin.near/widget/rainbow-card") ? (
+          <div></div>
+        ) : (
+          <Widget src="ref-admin.near/widget/rainbow-card" />
+        )}
       </Items>
     </ContentWrapper>
   </Wrapper>
