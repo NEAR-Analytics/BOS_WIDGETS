@@ -834,8 +834,7 @@ return (
                 props={{
                   Button: {
                     text: "Add a Comment",
-                    disabled:
-                      !state.verified || context.accountId === accountId,
+                    disabled: !context.accountId || !state.verified,
                     className: "primary w-100 mt-4 mb-2 justify-content-center",
                     onClick: () => State.update({ showModal: true }),
                     icon: <i className="bi bi-plus-lg"></i>,
