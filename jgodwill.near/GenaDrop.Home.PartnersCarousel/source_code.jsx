@@ -214,7 +214,7 @@ a {
 }
 @keyframes moveSlideshow {  
   100% { 
-    transform: translateX(-200%);  
+    transform: translateX(-66.6666%);  
   }
 }
 `;
