@@ -82,9 +82,16 @@ const JsonContainer = styled.div`
 `;
 
 // Flex container for the widgets
-const FlexContainer = styled.div`
+const FlexContainerRow = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px; // Adds space between children
+`;
+
+const FlexContainerColumn = styled.div`
+  display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 20px; // Adds space between children
 `;
@@ -104,7 +111,7 @@ return (
       <h1>Template Library for your Link in Bio Profiles</h1>
     </Info>
     {/* Widgets */}
-    <FlexContainer>
+    <FlexContainerRow>
       <FlexChild>
         <Widget
           src="harmonic1.near/widget/every.thing.view"
@@ -120,6 +127,8 @@ return (
           }}
         />
       </FlexChild>
+    </FlexContainerRow>
+    <FlexContainerColumn>
       <FlexChild>
         <Widget
           src="harmonic1.near/widget/every.thing.view"
@@ -129,7 +138,16 @@ return (
           }}
         />
       </FlexChild>
-    </FlexContainer>
+      <FlexChild>
+        <Widget
+          src="harmonic1.near/widget/every.thing.view"
+          props={{
+            path: "harmonic1.near/thing/artist/jas",
+            templateOverride: "harmonic1.near/widget/artist3",
+          }}
+        />
+      </FlexChild>
+    </FlexContainerColumn>
     {/* JSON Container */}
     <div style={{ "margin-top": "50px" }}>
       <h3>All the above templates are rendered using the thing data below.</h3>
