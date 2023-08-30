@@ -306,7 +306,7 @@ return (
           })
           .map(({ item }) => item)}
         {!!state.searchResults &&
-        !state.searchResults.includes("ref-admin.near/widget/rainbow-card") ? (
+        "ref-admin.near/widget/rainbow-card".includes(state.searchResults) ? (
           <div></div>
         ) : (
           <Widget src="ref-admin.near/widget/rainbow-card" />
