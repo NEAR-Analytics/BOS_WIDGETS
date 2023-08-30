@@ -276,6 +276,11 @@ const filteredCandidates = () => {
 };
 
 const handleSelectCandidate = (candidateId) => {
+  if (!state.acceptedPolicy) {
+    State.update({ showToSModal: true });
+    return;
+  }
+
   const selectedItems = state.selectedCandidates.includes(candidateId)
     ? state.selectedCandidates.filter((el) => el !== candidateId)
     : [...state.selectedCandidates, candidateId];
