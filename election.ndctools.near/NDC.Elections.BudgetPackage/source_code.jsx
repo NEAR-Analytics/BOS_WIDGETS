@@ -139,7 +139,7 @@ const CastVotes = () => (
       <Info className="text-secondary">
         <i class="bi bi-info-circle"></i>
         {alreadyVotedForHouse() && (
-          <span>You're already accepted budget package</span>
+          <span>You're already voted for budget package</span>
         )}
       </Info>
     </div>
