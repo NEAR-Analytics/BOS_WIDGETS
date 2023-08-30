@@ -326,7 +326,7 @@ const Content = () => (
 
 return (
   <Container>
-    <h1>Budget Package</h1>
+    <h2>Budget Package</h2>
     <a href="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/">
       View Budget Package
       <i className="ml-2 bi bi-box-arrow-up-right" />
