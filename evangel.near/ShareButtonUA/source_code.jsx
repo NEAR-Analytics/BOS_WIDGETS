@@ -9,7 +9,10 @@ const twitterUrl = new URL("https://twitter.com/intent/tweet");
 twitterUrl.searchParams.set("text", clickbaitPrompt);
 
 const mailtoUrl = new URL("mailto:");
-mailtoUrl.searchParams.set("subject", `Check out this ${postType} on NEAR`);
+mailtoUrl.searchParams.set(
+  "subject",
+  `Test your knowledge of the NDC and the upcoming elections with NEAR Ukraine Guild, your knowledge should be rewarded so head over to Zealy for further rewards! 💰`
+);
 mailtoUrl.searchParams.set(
   "body",
   `Take a look this ${postType}.
