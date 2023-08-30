@@ -26,7 +26,8 @@ const CommentCard = styled.div`
   align-items: flex-start;
   gap: 12px;
   border-radius: 10px;
-  background: #fff;
+  background: ${(props) => (props.owner ? "#4ba6ee17" : "#fff")};
+  border: 1px solid ${(props) => (props.owner ? "#4BA6EE" : "#fff")};
 `;
 
 const CommentCardHeader = styled.div`
@@ -256,7 +257,7 @@ const formatName = (name) =>
     : name;
 
 return (
-  <CommentCard>
+  <CommentCard owner={data.commentator === data.candidate}>
     <CommentCardHeader>
       <CommentUserContent>
         <Widget
