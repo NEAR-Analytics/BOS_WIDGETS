@@ -35,6 +35,42 @@ const partnersList = [
     website: "https://www.onboarddao.com/",
     imageSrc: "/static/media/onboarddao.3a02aa23.svg",
   },
+  {
+    website: "https://www.herdrop.com/",
+    imageSrc: "/static/media/herdao.18aa16e7.png",
+  },
+  {
+    website: "https://proofofvibes.vercel.app/",
+    imageSrc: "/static/media/proofofvibes.3ec1baec.svg",
+  },
+  {
+    website: "https://www.bluntdao.com/",
+    imageSrc: "/static/media/bluntdao.6154b86b.svg",
+  },
+  {
+    website: "https://www.onboarddao.com/",
+    imageSrc: "/static/media/onboarddao.3a02aa23.svg",
+  },
+  {
+    website: "https://www.herdrop.com/",
+    imageSrc: "/static/media/herdao.18aa16e7.png",
+  },
+  {
+    website: "https://app.proofofvibes.com/",
+    imageSrc: "/static/media/proofofvibes.3ec1baec.svg",
+  },
+  {
+    website: "https://www.bluntdao.com/",
+    imageSrc: "/static/media/bluntdao.6154b86b.svg",
+  },
+  {
+    website: "http://twitter.com/AuroraNftClub/",
+    imageSrc: "/static/media/auroranft.d651860a.png",
+  },
+  {
+    website: "https://www.onboarddao.com/",
+    imageSrc: "/static/media/onboarddao.3a02aa23.svg",
+  },
 ];
 
 const displayedPartnersList = partnersList.map((partner, index) => (
