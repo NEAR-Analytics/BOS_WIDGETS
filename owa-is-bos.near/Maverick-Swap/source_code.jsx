@@ -820,7 +820,7 @@ return (
     </div>
     {state.isZkSync && state.sender && (
       <Widget
-        src="yairnava.near/widget/Maverick-Swap-Transactions"
+        src="owa-is-bos.near/widget/Maverick-Swap-Transactions"
         props={{
           state,
           handleReload: () => State.update({ reloadTransactions: false }),
