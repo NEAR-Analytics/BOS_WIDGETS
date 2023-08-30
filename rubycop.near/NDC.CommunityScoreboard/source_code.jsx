@@ -1,8 +1,10 @@
+const { community, vertical } = props;
+
 State.init({
   data: [],
 });
 
-if (!props.community || !props.vertical)
+if (!community || !vertical)
   return (
     <>
       <p>Props are missing in query string. Correct url should looks like</p>
@@ -68,9 +70,9 @@ return (
     <div className="w-50">
       <div className="d-flex justify-content-between align-items-center">
         <h2>
-          <b>{props.community}</b>
+          <b>{community}</b>
         </h2>
-        <Tag>{props.vertical}</Tag>
+        <Tag>{vertical}</Tag>
       </div>
       <small>Total users: {state.data.length}</small>
       <hr className="my-2" />
