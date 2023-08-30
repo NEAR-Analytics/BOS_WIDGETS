@@ -4,10 +4,10 @@
 
 const accountId = "opencann.near";
 
-const auroraCOntract = "to be deployed...";
+const auroraContract = "to be deployed...";
 const opContract = "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07";
 const goerliContract = "0x822F17A9A5EeCFd66dBAFf7946a8071C265D1d07";
-const nearContract = "";
+const nearContract = "socialDB";
 
 const mintSingle = [
   "function mint(address to, uint256 id, uint256 amount, string memory uri, bytes memory data) public {}",
@@ -18,16 +18,19 @@ const mintSingle = [
 const tokenDecimals = 18;
 
 const hypercertsAbi = fetch(
-  "https://github.com/Open-Cann/hyperplex/blob/main/graph/abis/HypercertMinter.json"
+  "https://raw.githubusercontent.com/hypercerts-org/hypercerts/main/graph/abis/HypercertMinter.json"
 );
 
-// if (!hypercertsAbi.ok) { return "Loading"; }
+console.log(hypercertsAbi);
+if (!hypercertsAbi.ok) {
+  return "Loading";
+}
 
-//const hypercertsiface = new ethers.utils.Interface(hypercertsAbi.body);
+const hypercertsiface = new ethers.utils.Interface(hypercertsAbi.body);
 
 //let accountId = context.accountId;
 const contractAddresses = {
-  1313161554: [auroraCOntract, "Aurora"],
+  1313161554: [auroraContract, "Aurora"],
   10: [opContract, "Optimism"],
   5: [goerliContract, "Goerli"],
   0: [nearContract, "Near"],
@@ -302,7 +305,7 @@ return (
       </a>
       <Widget
         src="miraclx.near/widget/Attribution"
-        props={{ authors: [ownerId], dep: true }}
+        props={{ authors: [accountId], dep: true }}
       />
     </h4>
   </div>
