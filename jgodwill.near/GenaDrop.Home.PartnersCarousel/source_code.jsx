@@ -82,15 +82,6 @@ const Partners = styled.div`
   margin: 0 !important;
   padding: 0 !important;
 }
-.splide__list {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  display: -ms-flexbox;
-  display: flex;
-  height: 100%;
-  margin: 0 !important;
-  padding: 0 !important;
-}
 li{
     list-style: none;
 }
@@ -111,6 +102,8 @@ a {
 .MediaBar_slide img {
   height: 4rem;
   width:auto;
+  aspect-ratio: 3/2;
+  object-fit: contain;
   filter:gray;
   -webkit-filter:grayscale(1);
   filter:grayscale(1);
@@ -143,7 +136,6 @@ return (
             className="splide__list"
             id="splide01-list"
             role="presentation"
-            style={{ transform: "translateX(-2278.27px)" }}
           >
             {displayedPartnersList}
           </ul>
