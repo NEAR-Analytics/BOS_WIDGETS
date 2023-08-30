@@ -388,6 +388,11 @@ const FeatureContainer = styled.div`
   margin-bottom: .5em;
   border-radius: 1em;
 }
+@media screen and (max-width: 540px) {
+  .GenadropCreatedNFTs_card:nth-child(2) {
+    display: none;
+  }
+}
 `;
 
 const FeatureHeading = styled.h3`
@@ -603,6 +608,12 @@ return (
           <FeatureDescription>
             Notable NFTs that were easily created with GenaDrop
           </FeatureDescription>
+          <a
+            style={{ textDecoration: "none" }}
+            href="/#/jgodwill.near/widget/GenaDrop.Create"
+          >
+            <PrimaryButton>Create</PrimaryButton>
+          </a>
           <div className="GenadropCreatedNFTs_cardGrid">
             <div className="GenadropCreatedNFTs_card">
               <div className="GenadropCreatedNFTs_imgContainer">
