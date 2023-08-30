@@ -37,7 +37,7 @@ function onSearchChange({ result, term }) {
   if (term.trim()) {
     State.update({ searchResults: result || [], term: term.trim() });
   } else {
-    State.update({ searchResults: null });
+    State.update({ searchResults: null, term: "" });
   }
 }
 
