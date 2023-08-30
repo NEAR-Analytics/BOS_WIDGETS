@@ -32,10 +32,11 @@ const Info = styled.i`
   margin: 0 !important;
 `;
 
-const CandidatesContainer = styled.div`
+const TextContainer = styled.div`
   overflow-y: scroll;
   max-height: 490px;
   width: 100%;
+  margin: 10px;
 `;
 
 const StickyContainer = styled.div`
@@ -180,15 +181,18 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
-const BudgetText = styled.p`
-  line-height: 16px;
-  font-size: 12px;
-  text-align: justify;
+const Budget = styled.div`
+  padding: 10px;
+  p {
+    line-height: 16px;
+    font-size: 12px;
+    text-align: justify;
+  }
 `;
 
 const Content = () => (
-  <div>
-    <BudgetText>
+  <Budget>
+    <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Velit laoreet id donec
       ultrices. Fringilla ut morbi tincidunt augue interdum velit euismod in
@@ -313,8 +317,8 @@ const Content = () => (
       adipiscing elit duis tristique sollicitudin nibh. Sit amet purus gravida
       quis blandit turpis cursus. Ut sem viverra aliquet eget sit amet tellus
       cras.
-    </BudgetText>
-  </div>
+    </p>
+  </Budget>
 );
 
 return (
@@ -324,9 +328,9 @@ return (
       View Budget Package
       <i className="ml-2 bi bi-box-arrow-up-right" />
     </a>
-    <CandidatesContainer>
+    <TextContainer>
       <Content />
-    </CandidatesContainer>
+    </TextContainer>
 
     <div>
       {isIAmHuman ? (
