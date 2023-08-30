@@ -1,68 +1,44 @@
-const dummyData = {
-  id: "something",
-  title: "Test Event",
-  description: {
-    content: "Test",
-  },
-  start: "2023-08-29",
-  startTime: "13:43",
-  end: "2023-08-29",
-  endTime: "14:45",
-  location: "Earth",
-  link: "https://test.com",
-  organizer: "itexpert120.near",
-  hashTags: ["test"],
-  background: {
-    url: "https://png.pngtree.com/thumb_back/fh260/background/20200714/pngtree-modern-double-color-futuristic-neon-background-image_351866.jpg",
-  },
-  logo: {
-    url: "https://static.wikia.nocookie.net/gameofthronesfanon/images/e/e8/Geralt2-e1520342690656_%282%29.jpg",
-  },
-  isAllDay: false,
+// helper function to fetch all events
+const fetchAllEvents = () => {
+  const index = Social.index("every", "every.near/type/event");
+
+  let fetchedEvents = [];
+
+  index.map((item) => {
+    const path = `${item.accountId}/thing/${item.value.id}`;
+    const blockHeight = item.blockHeight;
+
+    const eventThing = Social.getr(path, blockHeight);
+    fetchedEvents.push(eventThing.data);
+  });
+
+  return fetchedEvents;
 };
 
-const dummyData2 = {
-  id: "something",
-  title: "Test Event 2",
-  description: {
-    content: "Test",
-  },
-  start: "2023-08-29",
-  startTime: "15:43",
-  end: "2023-08-29",
-  endTime: "16:45",
-  location: "Earth",
-  link: "https://test.com",
-  organizer: "itexpert120.near",
-  hashTags: ["test"],
-  background: {
-    url: "https://png.pngtree.com/thumb_back/fh260/background/20200714/pngtree-modern-double-color-futuristic-neon-background-image_351866.jpg",
-  },
-  logo: {
-    url: "https://static.wikia.nocookie.net/gameofthronesfanon/images/e/e8/Geralt2-e1520342690656_%282%29.jpg",
-  },
-  isAllDay: true,
-};
 
-const fetchedEvents = Social.get("every.near/type/event/*");
+const fetchedEvents = fetchAllEvents();
 
-console.log(fetchedEvents);
-
-const events = fetchedEvents || [dummyData, dummyData2];
-const formattedEvents = events.map((event) => {
+const formattedEvents = fetchedEvents.map((event) => {
   return {
     title: event.title,
-    start: `${event.start}T${event.startTime}`,
-    end: `${event.end}T${event.endTime}`,
+    start: new Date(`${event.start} ${event.startTime}`),
+    end: new Date(`${event.end} ${event.endTime}`),
     url: event.link,
-    allDay: event.isAllDay,
+    allDay: event.isAllDay === "true",
     editable: false,
+    extendedProps: {
+      category: event.category,
+    },
   };
 });
 
+if (!formattedEvents) {
+  return <div>Loading...</div>;
+}
+
 return (
   <Widget
-    src="evrything.near/widget/Calendar"
+    src="itexpert120-contra.near/widget/Calendar"
     props={{ events: formattedEvents }}
   />
 );
