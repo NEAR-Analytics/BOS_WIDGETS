@@ -2,6 +2,18 @@ State.init({
   data: [],
 });
 
+if (!props.community || !props.vertical)
+  return (
+    <>
+      <h4>Props are missing in query string</h4>
+      <p>e.g.</p>
+      <small>
+        https://near.org/rubycop.near/widget/NDC.CommunityScorboard
+        <b>?community=zomland&vertical=gaming</b>
+      </small>
+    </>
+  );
+
 asyncFetch(
   `https://scoreboard-ophc7vkxsq-uc.a.run.app/scoreboard?communityName=${community}&communityVertical=${vertical}`,
   {
@@ -50,18 +62,6 @@ if (state.data.length === 0)
   return (
     <>
       <Loader /> Fetching data ...
-    </>
-  );
-
-if (!props.community || !props.vertical)
-  return (
-    <>
-      <h4>Props are missing in query string</h4>
-      <p>e.g.</p>
-      <small>
-        https://near.org/rubycop.near/widget/NDC.CommunityScorboard
-        <b>?community=zomland&vertical=gaming</b>
-      </small>
     </>
   );
 
