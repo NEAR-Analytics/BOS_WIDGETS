@@ -6,6 +6,9 @@ count(count: number)?: function,
 
 */
 
+const theme : props.theme;
+
+
 if (typeof props.widgetPath !== "string")
   return "send {widgetPath} as string in props";
 
@@ -101,13 +104,15 @@ const TabsButton = styled.button`
   line-height: 17px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  // color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  color: ${(p) => (p.selected ? theme.buttonColor : theme.textColor2)};
   background: none;
   border: none;
   outline: none;
 
   &:hover {
-    color: #11181C;
+    // color: #11181C;
+      color: ${theme.buttonColor};
   }
 
   &::after {
