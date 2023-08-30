@@ -1,3 +1,4 @@
+const themeColor = props.themeColor;
 const generaltheme = {
   height: "110px",
   align: "center",
@@ -6,59 +7,17 @@ const generaltheme = {
   fontsize: "100",
   fontweight: "25px",
   afterbrand: "",
-  afterbrandcolor: "#789efb",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
-  color1brand: "#000",
-  color2brand: "#806ce1",
-  colordescription: "#806ce1",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
   fontsubtitle: " Arial, sans-serif",
   background:
+    themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
-const props = {
-  theme: "light",
-};
-const theme = props.theme || "light";
-let themeColors = null;
-if (theme === "light") {
-  themeColors = {
-    page_bg: "rgb(241,242,245)",
-    search_btn_bg: "rgb(210, 202, 250)",
-    search_btn_bg_hover: "rgb(188 175 251)",
-    search_btn_text: "rgb(25,33,50)",
-    input_bg: "rgb(255, 255, 255)",
-    input_bg_hover: "rgb(209 ,213 ,225)",
-    input_text: "",
-    input_border: "rgb(209 ,213 ,225)",
-    table_bg: "transparent",
-    table_color: "rgb(25,33,50)",
-    table_border_color: "",
-    table_accent_bg: "",
-    table_striped_color: "rgb(25,33,50)",
-    table_striped_bg: "",
-    table_hover_color: "rgb(25,33,50)",
-    table_hover_bg: "",
-  };
-} else {
-  themeColors = {
-    page_bg: "rgb(25,33,50)",
-    search_btn_bg: "rgb(49,62,89)",
-    search_btn_bg_hover: "rgba(49,62,89,0.8)",
-    search_btn_text: "rgb(255,255,255)",
-    input_bg: "rgb(49,62,89)",
-    input_bg_hover: "rgba(49,62,89,0.8)",
-    input_text: "rgb(255,255,255)",
-    input_border: "rgba(49,62,89,0.8)",
-    table_bg: "transparent",
-    table_color: "rgb(255,255,255)",
-    table_border_color: "",
-    table_accent_bg: "",
-    table_striped_color: "rgb(255,255,255)",
-    table_striped_bg: "",
-    table_hover_color: "rgb(255,255,255)",
-    table_hover_bg: "",
-  };
-}
+
 const queryHashes = [{ id: 1, hash: "cbcc0950-c11a-46c5-9e86-72eb9cc9566f" }];
 
 State.init({
@@ -159,27 +118,27 @@ if (state.error.length > 0) {
 }
 
 const Input = styled.input`
-color:${themeColors.input_text};
-background-color:${themeColors.input_bg};
-border: 1px solid ${themeColors.input_border};
+color:${themeColor?.search_sbt?.input_text_color};
+background-color:${themeColor?.search_sbt?.input_bg};
+border: 1px solid ${themeColor?.search_sbt?.input_border};
 &:focus{
-  background-color:${themeColors.input_bg};
-  color:${themeColors.input_text};
-border: 1px solid ${themeColors.input_border};
+  background-color:${themeColor?.search_sbt?.input_bg};
+  color:${themeColor?.search_sbt?.input_text_color};
+border: 1px solid ${themeColor?.search_sbt?.input_border};
 };
 &:hover{
-  background-color:${themeColors.input_bg_hover}
+  background-color:${themeColor?.search_sbt?.input_bg_hover}
 };
 
 `;
 const Button = styled.button`
-    color: ${themeColors.search_btn_text};
+    color: ${themeColor?.search_sbt?.search_btn_text};
     font-size: 16px;
     padding: 0.5rem 1rem;
     font-weight: 400;
-    background-color: ${themeColors.search_btn_bg};
-    &:hover {background-color: ${themeColors.search_btn_bg_hover}};
-    border: 1px solid ${themeColors.search_btn_bg};
+    background-color: ${themeColor?.search_sbt?.search_btn_bg};
+    &:hover {background-color: ${themeColor?.search_sbt?.search_btn_bg_hover}};
+    border: 1px solid ${themeColor?.search_sbt?.search_btn_bg};
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
     min-height: calc(1.5em + 1rem + 2px);
     border-radius: 40px;
@@ -187,41 +146,38 @@ const Button = styled.button`
     letter-spacing: 0.01em;
 `;
 const Table = styled.table`
-  --bs-table-color: ${themeColors.table_color};
-  --bs-table-bg: ${themeColors.table_bg};
-  --bs-table-border-color: '';
-  --bs-table-accent-bg: #ca232300;
-  --bs-table-striped-color: ${themeColors.table_striped_color};
-  --bs-table-striped-bg: rgba(0,0,0,.05);
-  --bs-table-active-color: "";
-  --bs-table-active-bg: rgba(0,0,0,.1);
-  --bs-table-hover-color: ${themeColors.table_hover_color};
-  --bs-table-hover-bg:""
+  --bs-table-color: ${themeColor?.search_sbt?.table_color};
+  --bs-table-bg: ${themeColor?.search_sbt?.table_bg};
+  --bs-table-border-color: ${themeColor?.search_sbt?.table_border_color};
+  --bs-table-accent-bg: ${themeColor?.search_sbt?.table_accent_bg};
+  --bs-table-striped-color: ${themeColor?.search_sbt?.table_striped_color};
+  --bs-table-striped-bg:${themeColor?.search_sbt?.table_striped_bg};
+  --bs-table-hover-color: ${themeColor?.search_sbt?.table_hover_color};
+  --bs-table-hover-bg:${themeColor?.search_sbt?.table_hover_bg}
 `;
 return (
-  <div
-    style={{ backgroundColor: themeColors.page_bg }}
-    className="container-fluid py-2 rounded-4"
-  >
-    <div className="shadow-sm  rounded-4" style={{ background: "#ebe7fd" }}>
-      <Widget src="lord1.near/widget/header-dynamic" props={generaltheme} />
-      <div className="toast-container position-fixed bottom-0 end-0 p-3">
-        {state.error.length > 0 &&
-          state.error.map((er) => (
-            <div
-              className="toast show align-items-center text-bg-danger border-0"
-              role="alert"
-              aria-live="assertive"
-              aria-atomic="true"
-            >
-              <div className="d-flex">
-                <div className="toast-body">{er}</div>
-              </div>
+  <div className="container-fluid py-2 rounded-4">
+    <div className="toast-container position-fixed bottom-0 end-0 p-3">
+      {state.error.length > 0 &&
+        state.error.map((er) => (
+          <div
+            className="toast show align-items-center text-bg-danger border-0"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div className="d-flex">
+              <div className="toast-body">{er}</div>
             </div>
-          ))}
-      </div>
+          </div>
+        ))}
     </div>
-
+    <div
+      className="shadow-sm  rounded-4"
+      style={{ background: themeColor?.search_sbt?.card_bg }}
+    >
+      <Widget src="lord1.near/widget/header-dynamic" props={generaltheme} />
+    </div>
     <div className="search py-4">
       <div className="row">
         <div className="col-8 ">
@@ -255,10 +211,13 @@ return (
       </div>
     </div>
 
-    <div className={`shadow-sm rounded h-100 `}>
+    <div
+      style={{ background: themeColor?.search_sbt?.card_bg }}
+      className={`shadow-sm rounded h-100 `}
+    >
       {!state.isLoading && state.data && (
         <div
-          style={{ backgroundColor: themeColors.table_bg }}
+          style={{ backgroundColor: themeColor?.search_sbt?.table_bg }}
           className="table-responsive"
         >
           <Table
@@ -386,3 +345,33 @@ return (
     </div>
   </div>
 );
+// const props = {
+//   themeColor: {
+//     dynamic_header: {
+//       afterbrandcolor: "#789efb",
+//       color1brand: "#000",
+//       color2brand: "#806ce1",
+//       colordescription: "#806ce1",
+//       background:
+//         "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+//     },
+//     search_sbt: {
+//       card_bg: "rgb(49, 62, 89)",
+//       search_btn_bg: "rgb(49,62,89)",
+//       search_btn_bg_hover: "rgba(49,62,89,0.8)",
+//       search_btn_text: "rgb(255,255,255)",
+//       input_bg: "rgb(49,62,89)",
+//       input_bg_hover: "rgba(49,62,89,0.8)",
+//       input_text_color: "rgb(255,255,255)",
+//       input_border: "rgba(49,62,89,0.8)",
+//       table_bg: "transparent",
+//       table_color: "rgb(255,255,255)",
+//       table_border_color: "",
+//       table_accent_bg: "",
+//       table_striped_color: "rgb(255,255,255)",
+//       table_striped_bg: "",
+//       table_hover_color: "rgb(255,255,255)",
+//       table_hover_bg: "",
+//     },
+//   },
+// };
