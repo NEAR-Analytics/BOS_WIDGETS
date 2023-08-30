@@ -81,7 +81,7 @@ const Partners = styled.div`
   display: -ms-flexbox;
   display: flex;
   height: 100%;
-  width: 2526px;
+  width: 100%;
   margin: 0 !important;
   padding: 0 !important;
    animation: moveSlideshow 60s linear infinite;
