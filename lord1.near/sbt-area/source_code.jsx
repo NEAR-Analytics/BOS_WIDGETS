@@ -4,7 +4,7 @@ const generaltheme = {
   align: "center",
   description:
     "Tracking the activity of Soul Bound Token holders on the NEAR ecosystem.",
-  brand: "Im Human tracking 👋",
+  brand: "I Am Human SBT tracker 👋",
   fontsize: "100",
   fontweight: "25px",
   afterbrand: "",
