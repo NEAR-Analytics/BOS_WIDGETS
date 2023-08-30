@@ -283,8 +283,6 @@ const handleSelectCandidate = (candidateId) => {
   const currentVotes = seats - myVotesForHouse().length - selectedItems.length;
   if (currentVotes < 0) return;
 
-  Storage.privateSet("election_user_selection", JSON.stringify(selectedItems));
-
   State.update({
     selectedCandidates: selectedItems,
     availableVotes: currentVotes,
@@ -463,7 +461,6 @@ const processNFTAvailability = (result, key) => {
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
   myVotesForHouse().length > 0 || state.winnerIds.length > 0;
-const userSelection = Storage.privateGet("election_user_selection");
 
 State.init({
   reload: true,
