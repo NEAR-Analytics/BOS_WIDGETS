@@ -43,7 +43,7 @@ return (
         className="d-flex justify-content-between align-items-center"
       >
         <div className="d-flex align-items-center">
-          {vote.house ? (
+          {vote.house !== "SetupPackage" ? (
             <Widget
               src="mob.near/widget/ProfileImage"
               props={{
@@ -80,7 +80,8 @@ return (
           src={widgets.styledComponents}
           props={{
             Tag: {
-              title: vote.house ?? "Budget Package",
+              title:
+                vote.house === "SetupPackage" ? "Budget Package" : vote.house,
               className: "dark",
             },
           }}
