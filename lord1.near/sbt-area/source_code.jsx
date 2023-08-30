@@ -1,3 +1,4 @@
+const themeColor = props.themeColor;
 const generaltheme = {
   height: "110px",
   align: "center",
@@ -6,13 +7,14 @@ const generaltheme = {
   fontsize: "100",
   fontweight: "25px",
   afterbrand: "",
-  afterbrandcolor: "#789efb",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
-  color1brand: "#000",
-  color2brand: "#806ce1",
-  colordescription: "#806ce1",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
   fontsubtitle: " Arial, sans-serif",
   background:
+    themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 const areatheme = {
@@ -24,13 +26,14 @@ const areatheme = {
   fontsize: "300",
   fontweight: "25px",
   afterbrand: "interactions",
-  afterbrandcolor: "#789efb",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
-  color1brand: "#000",
-  color2brand: "#806ce1",
-  colordescription: "#806ce1",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
   fontsubtitle: " Arial, sans-serif",
   background:
+    themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 const projecttheme = {
@@ -42,13 +45,14 @@ const projecttheme = {
   fontsize: "300",
   fontweight: "25px",
   afterbrand: "interactions",
-  afterbrandcolor: "#789efb",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
-  color1brand: "#000",
-  color2brand: "#806ce1",
-  colordescription: "#806ce1",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
   fontsubtitle: " Arial, sans-serif",
   background:
+    themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
@@ -60,13 +64,14 @@ const daotheme = {
   fontsize: "300",
   fontweight: "25px",
   afterbrand: "interactions",
-  afterbrandcolor: "#789efb",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
-  color1brand: "#000",
-  color2brand: "#806ce1",
-  colordescription: "#806ce1",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
   fontsubtitle: " Arial, sans-serif",
   background:
+    themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 const flowtheme = {
@@ -78,13 +83,14 @@ const flowtheme = {
   fontsize: "100",
   fontweight: "15px",
   afterbrand: "interactions",
-  afterbrandcolor: "#789efb",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
-  color1brand: "#000",
-  color2brand: "#806ce1",
-  colordescription: "#806ce1",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
   fontsubtitle: " Arial, sans-serif",
   background:
+    themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
@@ -96,13 +102,14 @@ const staketheme = {
   fontsize: "100",
   fontweight: "15px",
   afterbrand: "interactions",
-  afterbrandcolor: "#789efb",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
-  color1brand: "#000",
-  color2brand: "#806ce1",
-  colordescription: "#806ce1",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
   fontsubtitle: " Arial, sans-serif",
   background:
+    themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
@@ -154,16 +161,6 @@ const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
     },
 
     overrideOptions: {
-      chart: {
-        backgroundColor: "transparent",
-        zooming: {
-          mouseWheel: false,
-        },
-      },
-      xAxis: {
-        type: "datetime",
-        dateTimeLabelFormats: { month: { main: "%b %Y" } },
-      },
       plotOptions: {
         column: {
           stacking: "false",
@@ -173,7 +170,8 @@ const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
         },
       },
     },
-    spinnerColors: ["#6F61C0", "#241468"],
+    themeColor: { chart: themeColor.chart },
+    spinnerColors: themeColor.spinnerColors,
   };
   return props;
 };
@@ -194,7 +192,8 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
       connector: false,
       ...chartOption,
     },
-    spinnerColors: ["#6F61C0", "#241468"],
+    themeColor: { chart: themeColor.chart },
+    spinnerColors: themeColor.spinnerColors,
   };
   return props;
 };
@@ -268,30 +267,30 @@ if (state.error.length > 0) {
 }
 
 return (
-  <div
-    style={{ backgroundColor: themeColors.page_bg }}
-    className="container-fluid py-2"
-  >
+  <div className="container-fluid py-2">
     <div className="pl-2">
       <div
-        className="shadow-sm pb-2 rounded-4"
-        style={{ background: "#ebe7fd" }}
+        className="my-4 shadow-sm pb-2 rounded-4"
+        style={{ background: themeColor?.sbt_area?.section_bg }}
       >
         <Widget src="lord1.near/widget/header-dynamic" props={generaltheme} />
         <div style={{ marginLeft: "1rem" }}>
           <Widget
             src="lord1.near/widget/tab-sbt"
             props={{
-              backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
-              textColor: `${state.light ? "#fff" : "#fff"}`,
-              headerColor: `${state.light ? "#806ce1" : "#806ce1"}`,
-              numberColor: `${state.light ? "#fff" : "#fff"}`,
+              backgroundColor: themeColor?.tab_sbt?.backgroundColor,
+              textColor: themeColor?.tab_sbt?.textColor,
+              headerColor: themeColor?.tab_sbt?.headerColor,
+              numberColor: themeColor?.tab_sbt?.numberColor,
             }}
           />
         </div>
       </div>
-      <div className="row w-100 py-4">
-        <div className="shadow-sm bg-light rounded-2">
+      <div className="row g-4 w-100 pb-2 px-2 mx-0">
+        <div
+          style={{ background: themeColor?.sbt_area?.card_bg }}
+          className="shadow-sm rounded-2"
+        >
           <Widget
             src="lord1.near/widget/mix-chart"
             props={getMixProps(
@@ -311,7 +310,7 @@ return (
                   id: 1,
                 },
               ],
-              ["#A084E8", "#F79BD3"],
+              themeColor?.chartColor,
               {
                 title: "SBT Minters",
                 subtitle: "New Address : with less than 10 days history",
@@ -323,23 +322,22 @@ return (
       </div>
       <div className="row w-100 py-4 g-4">
         <div className=" col-12 col-md-6">
-          <div className="w-100 mx-auto shadow-sm bg-light rounded-4">
-            <h6 style={{ color: "#806ce1" }} className="pt-4 ps-4">
-              <i> Distribution (SBT Wallet's Age)</i>{" "}
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4"
+          >
+            <h6
+              style={{ color: themeColor?.sbt_area?.card_title_color }}
+              className="pt-4 ps-4"
+            >
+              <i> Distribution (SBT Wallet's Age)</i>
             </h6>
             <Widget
               src="lord1.near/widget/Pie-chart"
               props={getPieProps(
                 state.data?.hash2?.data,
                 ["date_diff", "signer"],
-                [
-                  "#A084E8",
-                  "#6F61C0",
-                  "#241468",
-                  "#9F0D7F",
-                  "#EA1179",
-                  "#F79BD3",
-                ],
+                themeColor.chartColor,
                 {
                   title: "",
                   type: "pie",
@@ -351,23 +349,22 @@ return (
           </div>
         </div>
         <div className=" col-12 col-md-6">
-          <div className="w-100 mx-auto shadow-sm bg-light rounded-4">
-            <h6 style={{ color: "#806ce1" }} className="pt-4 ps-4">
-              <i> Distribution (SBT Wallet's Trxs)</i>{" "}
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4"
+          >
+            <h6
+              style={{ color: themeColor?.sbt_area?.card_title_color }}
+              className="pt-4 ps-4"
+            >
+              <i> Distribution (SBT Wallet's Trxs)</i>
             </h6>
             <Widget
               src="lord1.near/widget/Pie-chart"
               props={getPieProps(
                 state.data?.hash3?.data,
                 ["number_of_transaction", "signer"],
-                [
-                  "#A084E8",
-                  "#6F61C0",
-                  "#241468",
-                  "#9F0D7F",
-                  "#EA1179",
-                  "#F79BD3",
-                ],
+                themeColor.chartColor,
                 {
                   title: "",
                   type: "pie",
@@ -380,13 +377,17 @@ return (
         </div>
       </div>
 
-      <div className="shadow-sm  rounded-4" style={{ background: "#ebe7fd" }}>
+      <div
+        className="my-4 shadow-sm  rounded-4"
+        style={{ background: themeColor?.sbt_area?.section_bg }}
+      >
         <Widget src="lord1.near/widget/header-dynamic" props={areatheme} />
         <div className="row w-100 pb-2 px-2 mx-0">
-          <div className="shadow-sm bg-light rounded-2">
+          <div className="shadow-sm rounded-2">
             <Widget
               src="lord1.near/widget/table-pagination"
               props={{
+                themeColor: { table_pagination: themeColor.table_pagination },
                 data: state.data?.hash4?.data,
                 rowsCount: 10,
                 columns: [
@@ -400,17 +401,24 @@ return (
               }}
             />
           </div>
-        </div>{" "}
+        </div>
       </div>
 
-      <div className="shadow-sm  rounded-4" style={{ background: "#ebe7fd" }}>
+      <div
+        className="my-4 shadow-sm  rounded-4"
+        style={{ background: themeColor?.sbt_area?.section_bg }}
+      >
         <Widget src="lord1.near/widget/header-dynamic" props={projecttheme} />
         <div className="row g-4 w-100 pb-2 mx-0">
           <div className="col-6">
-            <div className="shadow-sm bg-light rounded-2">
+            <div
+              style={{ background: themeColor?.sbt_area?.card_bg }}
+              className="shadow-sm rounded-2"
+            >
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
                   data: state.data?.hash5?.data,
                   columns: [
                     { title: "Project", key: "PROJECT" },
@@ -422,10 +430,14 @@ return (
             </div>
           </div>
           <div className="col-6">
-            <div className="shadow-sm bg-light rounded-2">
+            <div
+              style={{ background: themeColor?.sbt_area?.card_bg }}
+              className="shadow-sm rounded-2"
+            >
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
                   data: state.data?.hash6?.data,
                   columns: [
                     { title: "Project", key: "PROJECT" },
@@ -437,10 +449,11 @@ return (
             </div>
           </div>
           <div className="col-6">
-            <div className="shadow-sm bg-light rounded-2">
+            <div className="shadow-sm rounded-2">
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
                   data: state.data?.hash7?.data,
                   columns: [
                     { title: "Project", key: "PROJECT" },
@@ -452,10 +465,11 @@ return (
             </div>
           </div>
           <div className="col-6">
-            <div className="shadow-sm bg-light rounded-2">
+            <div className="shadow-sm rounded-2">
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
                   data: state.data?.hash8?.data,
 
                   columns: [
@@ -469,10 +483,13 @@ return (
           </div>
         </div>
       </div>
-      <div className="shadow-sm  rounded-4" style={{ background: "#ebe7fd" }}>
+      <div
+        className="my-4 shadow-sm  rounded-4"
+        style={{ background: themeColor?.sbt_area?.card_bg }}
+      >
         <Widget src="lord1.near/widget/header-dynamic" props={staketheme} />
         <div className="row w-100 pb-2 px-2 mx-0">
-          <div className="shadow-sm bg-light rounded-2">
+          <div className="shadow-sm rounded-2">
             <Widget
               src="lord1.near/widget/multiple-mix-chart"
               props={{
@@ -510,17 +527,21 @@ return (
                     type: "column",
                   },
                 ],
-                colors: ["#A084E8", "#F79BD3"],
-                spinnerColors: ["#A084E8", "#F79BD3"],
+                themeColor: { chart: themeColor.chart },
+                colors: themeColor.chartColor,
+                spinnerColors: themeColor?.spinnerColors,
               }}
             />
           </div>
         </div>
       </div>
-      <div className="shadow-sm  rounded-4" style={{ background: "#ebe7fd" }}>
+      <div
+        className="my-4 shadow-sm  rounded-4"
+        style={{ background: themeColor?.sbt_area?.section_bg }}
+      >
         <Widget src="lord1.near/widget/header-dynamic" props={flowtheme} />
         <div className="row g-4 w-100 pb-2 px-2 mx-0">
-          <div className="shadow-sm bg-light rounded-2">
+          <div className="shadow-sm rounded-2">
             <Widget
               src="lord1.near/widget/multiple-mix-chart"
               props={{
@@ -560,20 +581,25 @@ return (
                     type: "column",
                   },
                 ],
-                colors: ["#A084E8", "#F79BD3"],
-                spinnerColors: ["#A084E8", "#F79BD3"],
+                themeColor: { chart: themeColor.chart },
+                colors: themeColor.chartColor,
+                spinnerColors: themeColor?.spinnerColors,
               }}
             />
           </div>
-        </div>{" "}
+        </div>
       </div>
-      <div className="shadow-sm  rounded-4" style={{ background: "#ebe7fd" }}>
+      <div
+        className="my-4 shadow-sm  rounded-4"
+        style={{ background: themeColor?.sbt_area?.card_bg }}
+      >
         <Widget src="lord1.near/widget/header-dynamic" props={daotheme} />
         <div className="row w-100 pb-2 px-2 mx-0">
-          <div className="shadow-sm bg-light rounded-2">
+          <div className="shadow-sm rounded-2">
             <Widget
               src="lord1.near/widget/table-pagination"
               props={{
+                themeColor: { table_pagination: themeColor.table_pagination },
                 data: state.data?.hash11?.data,
                 columns: [
                   { title: "Project", key: "project" },
@@ -583,7 +609,7 @@ return (
               }}
             />
           </div>
-        </div>{" "}
+        </div>
       </div>
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
         {state.error.length > 0 &&
@@ -603,4 +629,27 @@ return (
     </div>
   </div>
 );
-37;
+
+// const props = {
+//   themeColor: {
+//     dynamic_header: {
+//       afterbrandcolor: "#789efb",
+//       color1brand: "#000",
+//       color2brand: "#806ce1",
+//       colordescription: "#806ce1",
+//       background:
+//         "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+//     },
+//     tab_sbt: {
+//       backgroundColor: "rgb(49,62,89)",
+//       textColor: "#fff",
+//       headerColor: "#806ce1",
+//       numberColor: "#fff",
+//     },
+//     sbt_area: {
+//       section_bg: "rgba(25,33,80)",
+//       card_bg: "rgb(49, 62, 89)",
+//       card_title_color: "#806ce1",
+//     },
+//   },
+// };
