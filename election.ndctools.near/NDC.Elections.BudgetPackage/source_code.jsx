@@ -112,14 +112,14 @@ const ActionSection = styled.div`
   }
 `;
 
+const currentUser = context.accountId;
+const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
+const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
+
 State.init({
   reload: false,
   availableVotes: seats - myVotesForHouse().length,
 });
-
-const currentUser = context.accountId;
-const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
-const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 
 const handleVote = (value) => {
   const voteFunc = {
