@@ -1,18 +1,11 @@
 let { ids } = props;
 
 ids = props.ids ? ids : [1, 2, 3, 4];
+const budgetId = 4;
 
 const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
-
-let houses = [
-  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
-];
-
-let budget = Near.view(electionContract, "proposal", { prop_id: ids[3] });
 
 State.init({
   selectedHouse: ids[0],
@@ -23,41 +16,53 @@ State.init({
   greylisted: false,
   candidateId: "",
   alreadyBonded: false,
+  reload: true,
+  houses: [],
 });
 
-asyncFetch(
-  `https://api.pikespeak.ai/election/already_bonded?contract=${electionContract}`,
-  { headers: { "x-api-key": apiKey } }
-).then((resp) => {
-  if (resp.body) State.update({ alreadyBonded: resp.body });
-});
+// asyncFetch(
+//   `https://api.pikespeak.ai/election/already_bonded?contract=${electionContract}`,
+//   { headers: { "x-api-key": apiKey } }
+// ).then((resp) => {
+//   if (resp.body) State.update({ alreadyBonded: resp.body });
+// });
 
-const isHuman = Near.view(registryContract, "is_human", {
-  account: context.accountId,
-});
+if (state.reload) {
+  let houses = [
+    Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[3] }),
+  ];
 
-const winnerIds = Near.view(electionContract, "winners_by_house", {
-  prop_id: state.selectedHouse,
-});
-
-const flagged = Near.view(electionContract, "account_flagged", {
-  account: context.accountId,
-});
-
-State.update({
-  isIAmHuman: isHuman[0][1].length > 0,
-  winnerIds,
-  blacklisted: flagged === "Blacklisted",
-  greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
-});
-
-if (context.accountId)
-  asyncFetch(
-    `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
-    { headers: { "x-api-key": apiKey } }
-  ).then((resp) => {
-    if (resp.body) State.update({ myVotes: resp.body });
+  const isHuman = Near.view(registryContract, "is_human", {
+    account: context.accountId,
   });
+
+  const winnerIds = Near.view(electionContract, "winners_by_house", {
+    prop_id: state.selectedHouse,
+  });
+
+  const flagged = Near.view(electionContract, "account_flagged", {
+    account: context.accountId,
+  });
+
+  State.update({
+    isIAmHuman: isHuman[0][1].length > 0,
+    winnerIds,
+    blacklisted: flagged === "Blacklisted",
+    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
+    houses,
+  });
+
+  if (context.accountId)
+    asyncFetch(
+      `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
+      { headers: { "x-api-key": apiKey } }
+    ).then((resp) => {
+      if (resp.body) State.update({ myVotes: resp.body, reload: false });
+    });
+}
 
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
@@ -131,7 +136,7 @@ const rand = (array) => {
 return (
   <>
     <div>
-      {[...houses, budget].map((house) => (
+      {state.houses.map((house) => (
         <>
           {house.id === state.selectedHouse && (
             <Widget
@@ -147,7 +152,7 @@ return (
           )}
         </>
       ))}
-      {budget.id !== state.selectedHouse && (
+      {state.selectedHouse !== budgetId && (
         <Filter>
           <Widget
             src={widgets.filter}
@@ -167,7 +172,7 @@ return (
               src={widgets.houses}
               props={{
                 selectedHouse: state.selectedHouse,
-                houses: [...houses, budget],
+                houses: state.houses,
                 handleSelect,
                 votesLeft: (house) => votesLeft(house),
               }}
@@ -194,7 +199,7 @@ return (
             <Widget
               src={widgets.progress}
               props={{
-                houses: [...houses, budget],
+                houses: state.houses,
                 handleSelect,
                 votesLeft: (house) => votesLeft(house),
               }}
@@ -202,36 +207,38 @@ return (
           )}
         </Left>
         <div className="col-lg-6 p-2 p-md-3">
-          {houses.map((house) => (
+          {state.houses.map((house) => (
             <>
-              {house.id === state.selectedHouse && (
-                <Widget
-                  key={i}
-                  src={widgets.candidates}
-                  props={{
-                    electionContract,
-                    registryContract,
-                    ndcOrganization: "NDC",
-                    result: rand(house.result),
-                    ...state,
-                    ...house,
-                  }}
-                />
-              )}
+              {house.id === state.selectedHouse &&
+                state.selectedHouse !== budgetId && (
+                  <Widget
+                    key={i}
+                    src={widgets.candidates}
+                    props={{
+                      electionContract,
+                      registryContract,
+                      ndcOrganization: "NDC",
+                      result: rand(house.result),
+                      ...state,
+                      ...house,
+                    }}
+                  />
+                )}
+              {house.id === state.selectedHouse &&
+                state.selectedHouse === budgetId && (
+                  <Widget
+                    src={widgets.budget}
+                    props={{
+                      electionContract,
+                      registryContract,
+                      myVotes: state.myVotes,
+                      isIAmHuman: state.isIAmHuman,
+                      ...house,
+                    }}
+                  />
+                )}
             </>
           ))}
-          {budget.id === state.selectedHouse && (
-            <Widget
-              src={widgets.budget}
-              props={{
-                electionContract,
-                registryContract,
-                myVotes: state.myVotes,
-                isIAmHuman: state.isIAmHuman,
-                ...budget,
-              }}
-            />
-          )}
         </div>
 
         <div className="col-lg">
