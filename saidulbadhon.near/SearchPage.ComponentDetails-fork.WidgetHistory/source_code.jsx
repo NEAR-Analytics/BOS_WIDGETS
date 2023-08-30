@@ -13,7 +13,6 @@ State.init({
 
 return (
   <div>
-    <h1 class="text-center">{state.widgetPath}</h1>
     <div class="input-group mb-3">
       <input
         class="form-control"
