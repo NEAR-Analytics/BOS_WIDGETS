@@ -51,6 +51,13 @@ const Styled = {
         &:hover {
           background: #c23f38;
         }
+
+        &:disabled {
+          &:hover {
+            background: #c3cace;
+            color: #828688;
+          }
+        }
       }
 
       &.success {
@@ -59,6 +66,13 @@ const Styled = {
 
         &:hover {
           background: #239f28;
+        }
+
+        &:disabled {
+          &:hover {
+            background: #c3cace;
+            color: #828688;
+          }
         }
       }
     }
