@@ -8,6 +8,8 @@ const Wrapper = styled.div`
 
     border-radius: 4px;
     background: #FFE3E3;
+
+    width: 100%;
 `;
 
 const Label = styled.div`
