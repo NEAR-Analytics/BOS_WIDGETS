@@ -119,7 +119,7 @@ const COLUMNS = [
     label: (
       <p className="text-center text-white text-wrap ">Transactions (30d)</p>
     ),
-    renderCell: (item) => formatPercentNew(item["Txns 30 Days"]),
+    renderCell: (item) => formatNumber(item["Txns 30 Days"]),
     sort: { sortKey: "Txns 30 Days" },
   },
   {
