@@ -308,7 +308,7 @@ return (
         {!!state.searchResults &&
         ("ref-admin.near/widget/rainbow-card".includes(state.searchResults) ||
           "NEAR-Ethereum Bridge"
-            .toLocaleLowerCase()
+            .toLowerCase()
             .includes(state.searchResults)) ? (
           <div></div>
         ) : (
