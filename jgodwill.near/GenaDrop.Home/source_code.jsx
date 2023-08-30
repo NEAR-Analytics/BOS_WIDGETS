@@ -355,6 +355,10 @@ const FeatureContainer = styled.div`
   transition: transform 1.65s;
   transition: transform 1.65s,-webkit-transform 1.65s;
 }
+.centered{
+  align-items: center;
+  text-align: center;
+}
 `;
 
 const FeatureHeading = styled.h3`
@@ -562,8 +566,8 @@ return (
       </div>
     </FeatureContainer>
     <FeatureContainer>
-      <div className="Features_featureContainer reverse features-card">
-        <div className="Features_content text-center">
+      <div className="Features_featureContainer features-card">
+        <div className="Features_content centered">
           <H1 className="text-center">
             NFTs created with <Accent>Genadrop</Accent>
           </H1>
@@ -574,8 +578,8 @@ return (
       </div>
     </FeatureContainer>
     <FeatureContainer>
-      <div className="Features_featureContainer reverse features-card">
-        <div className="Features_content text-center">
+      <div className="Features_featureContainer features-card">
+        <div className="Features_content centered">
           <H1 className="text-center">
             Our <Accent>Partners</Accent>
           </H1>
