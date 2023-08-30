@@ -25,10 +25,16 @@ const List = styled.div`
   width: 100%;
 `;
 
+const BPImg = styled.img`
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+`;
+
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
-console.log(myVotes);
+
 return (
   <List>
     {myVotes.map((vote) => (
@@ -37,14 +43,21 @@ return (
         className="d-flex justify-content-between align-items-center"
       >
         <div className="d-flex align-items-center">
-          <Widget
-            src="mob.near/widget/ProfileImage"
-            props={{
-              accountId: vote.candidate,
-              imageClassName: "rounded-circle w-100 h-100",
-              style: { width: "32px", height: "32px", marginRight: 8 },
-            }}
-          />
+          {vote.house ? (
+            <Widget
+              src="mob.near/widget/ProfileImage"
+              props={{
+                accountId: vote.candidate,
+                imageClassName: "rounded-circle",
+                style: { width: "32px", height: "32px", marginRight: 8 },
+              }}
+            />
+          ) : (
+            <BPImg
+              className="rounded-circle"
+              src="https://bafkreidsg3gntb4grebr6rpvffhzkwdt2siel7ucl3hpsj5i7qqu426dgq.ipfs.nftstorage.link"
+            />
+          )}
           <div className="row">
             <StyledLink
               href={`https://near.org/near/widget/ProfilePage?accountId=${vote.candidate}`}
@@ -67,7 +80,7 @@ return (
           src={widgets.styledComponents}
           props={{
             Tag: {
-              title: vote.house,
+              title: vote.house ?? "Budget Package",
               className: "dark",
             },
           }}
