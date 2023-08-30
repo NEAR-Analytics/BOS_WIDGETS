@@ -1,6 +1,6 @@
 State.init({
   data: [],
-  columnNamesFinall: ["Near", "Fee", "User", "Transactions"],
+  columnNamesFinall: ["Holdings", "Fees", "Users", "Transactions"],
   columnImg: {
     AMOUNT_NEAR:
       "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/chart-line-solid.svg",
@@ -11,10 +11,10 @@ State.init({
       "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/file-contract-solid.svg",
   },
   descriptions: {
-    AMOUNT_NEAR: "Total SBT holder's transaction volume(Near)",
-    fee: "Total SBT holder's transaction fees(Near)",
-    active_users: "Number of SBT holder",
-    transactions: "Number of SBT holder's transactions",
+    AMOUNT_NEAR: "Total SBT holders' transaction volume",
+    fee: "Total SBT holders' transaction fees (in NEAR)",
+    active_users: "Number of SBT holders",
+    transactions: "Number of SBT holders' transactions",
   },
 });
 const data = fetch(
