@@ -25,7 +25,7 @@ const SendControls = styled.div`
   gap: 1em;
   margin: 0.5em;
   position: sticky;
-  bottom: 0;
+  bottom: 10px;
 `;
 const container = {
   display: "flex",
@@ -37,7 +37,7 @@ const container = {
 };
 const Header = styled.div`
   width: 100%;
-  padding: 50px 0;
+  padding: 50px 10px;
   font-weight: 600;
   font-size: 30px;
   position: sticky;
@@ -48,12 +48,15 @@ const Header = styled.div`
 
 const Wrapper = styled.div`
   background-color: #010322;
+  height: 100vh;
 `;
 
 return (
   <Wrapper>
     <Header>
       <p>🥷🏻 Near BootCamp 23 DAO ⛓️ 🕵️‍♂️</p>
+      <button>Chat</button>
+      <button>Proposals</button>
     </Header>
     <div style={container}>
       {messages.reverse().map((message) => (
@@ -86,7 +89,9 @@ return (
                 }`,
                 borderRadius: "12px",
                 padding: "10px",
-                color: `${accountId === message.author && "#FFFFFF"}`,
+                color: `${
+                  accountId === message.author ? "#FFFFFF" : "#000000"
+                }`,
               }}
             >
               {message.text}
@@ -111,6 +116,7 @@ return (
         </div>
       ))}
       <SendControls>
+        <button>📃</button>
         <input
           type="text"
           onInput={(e) => State.update({ message: e.target.value })}
