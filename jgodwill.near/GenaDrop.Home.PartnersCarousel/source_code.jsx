@@ -132,11 +132,7 @@ return (
           aria-live="off"
           aria-relevant="additions"
         >
-          <ul
-            className="splide__list"
-            id="splide01-list"
-            role="presentation"
-          >
+          <ul className="splide__list" id="splide01-list" role="presentation">
             {displayedPartnersList}
           </ul>
         </div>
