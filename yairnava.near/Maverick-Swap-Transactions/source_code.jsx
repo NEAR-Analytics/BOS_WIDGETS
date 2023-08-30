@@ -5,7 +5,7 @@ State.init({
 });
 
 const getTransactions = () => {
-  const status = ["verified", "failed"];
+  const status = ["verified", "failed", "proved"];
 
   if (!sender) return;
   asyncFetch(
@@ -20,6 +20,7 @@ const getTransactions = () => {
         !status.includes(item.status)
       );
     });
+    console.log(transactions);
     State.update({
       transactions: transactions,
     });
@@ -27,14 +28,19 @@ const getTransactions = () => {
 };
 
 const getDescription = (status) => {
+  var message = "";
   switch (status) {
+    case "pending":
+      message = "Transaction pending to be executed in zkSync Era";
+      break;
     case "included":
-      return "Transaction executed in zkSync Era";
+      message = "Transaction executed in zkSync Era";
+      break;
     case "committed":
-      return "Transaction sent to Ethereum";
-    default:
-      return "Transaction pending to be executed in zkSync Era";
+      message = "Transaction sent to Ethereum";
+      break;
   }
+  return message;
 };
 
 getTransactions();
