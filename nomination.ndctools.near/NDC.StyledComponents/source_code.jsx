@@ -32,31 +32,12 @@ const Styled = {
         }
       }
 
-      &:disabled {
-        cursor: not-allowed;
-        background: #c3cace;
-        color: #828688;
-        border: 0;
-
-        &:hover {
-          background: #c3cace;
-          color: #828688;
-        }
-      }
-
       &.danger {
         background: #dd5e56;
         color: #fff;
 
         &:hover {
           background: #c23f38;
-        }
-
-        &:disabled {
-          &:hover {
-            background: #c3cace;
-            color: #828688;
-          }
         }
       }
 
@@ -67,12 +48,17 @@ const Styled = {
         &:hover {
           background: #239f28;
         }
+      }
 
-        &:disabled {
-          &:hover {
-            background: #c3cace;
-            color: #828688;
-          }
+      &:disabled {
+        cursor: not-allowed;
+        background: #c3cace;
+        color: #828688;
+        border: 0;
+
+        &:hover {
+          background: #c3cace;
+          color: #828688;
         }
       }
     }
