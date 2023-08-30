@@ -23,13 +23,6 @@ const Loader = () => (
   />
 );
 
-if (state.data.length === 0)
-  return (
-    <>
-      <Loader /> Fetching data ...
-    </>
-  );
-
 const UserName = styled.div`
   color: inherit !important;
   white-space: nowrap;
@@ -49,11 +42,28 @@ const Tag = styled.div`
   border: 1px solid #4ba6ee;
   color: #4ba6ee;
   border-radius: 100px;
-    font-weight: 500;
-    font-size: 11px;
-
-  
+  font-weight: 500;
+  font-size: 11px;
 `;
+
+if (state.data.length === 0)
+  return (
+    <>
+      <Loader /> Fetching data ...
+    </>
+  );
+
+if (!props.community || !props.vertical)
+  return (
+    <>
+      <h4>Props are missing in query string</h4>
+      <p>e.g.</p>
+      <small>
+        https://near.org/rubycop.near/widget/NDC.CommunityScorboard
+        <b>?community=zomland&vertical=gaming</b>
+      </small>
+    </>
+  );
 
 return (
   <div className="d-flex justify-content-center w-100">
