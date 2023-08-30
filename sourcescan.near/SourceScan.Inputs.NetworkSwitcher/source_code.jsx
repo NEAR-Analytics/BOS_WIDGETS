@@ -84,18 +84,23 @@ const DropDown = styled.div`
     background-color: ${useTheme(light.bg, dark.bg)};
     border-radius: 8px;
     width: 122px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    height: 40px;
+    z-index: 10;
   }
 
   .dropdown-content a {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    padding: 6px;
+    height: 100%;
     font-weight: 600;
     color: ${useTheme(light.color, dark.color)};
     cursor: pointer;
     border-radius: 8px;
-    padding: 12px 16px;
     text-decoration: none;
-    display: block;
   }
 
   .dropdown-content a:hover {
@@ -103,7 +108,7 @@ const DropDown = styled.div`
   }
 
   .dropdown:hover .dropdown-content {
-    display: block;
+    display: flex;
   }
 
   .dropdown:hover .dropbtn {
