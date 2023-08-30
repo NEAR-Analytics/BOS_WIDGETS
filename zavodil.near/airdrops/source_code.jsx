@@ -222,7 +222,7 @@ const NavBar = (
 
       {state.loginTab == "address" && (
         <div>
-          <div>Enter you address:</div>
+          <div>Enter your address:</div>
           <input
             type="text"
             class="form-control mb-2"
@@ -236,7 +236,7 @@ const NavBar = (
           </button>
         </div>
       )}
-      {state.senderId && <div>You address: {state.senderId}</div>}
+      {state.senderId && <div>Your address: {state.senderId}</div>}
     </div>
   </>
 );
