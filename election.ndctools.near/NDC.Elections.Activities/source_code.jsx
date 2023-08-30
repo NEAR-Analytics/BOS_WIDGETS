@@ -35,6 +35,13 @@ const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
 
+const housesMapping = {
+  CouncilOfAdvisors: "Council Of Advisors",
+  HouseOfMerit: "House of Merit",
+  TransparencyCommission: "Transparency Commission",
+  SetupPackage: "Budget Package",
+};
+
 return (
   <List>
     {myVotes
@@ -82,8 +89,7 @@ return (
             src={widgets.styledComponents}
             props={{
               Tag: {
-                title:
-                  vote.house === "SetupPackage" ? "BudgetPackage" : vote.house,
+                title: housesMapping(vote.house),
                 className: "dark",
               },
             }}
