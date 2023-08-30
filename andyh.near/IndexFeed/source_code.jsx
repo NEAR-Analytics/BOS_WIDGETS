@@ -155,7 +155,7 @@ if (reverse) {
 console.log("INDEXFEED", {
   items,
   filteredItems,
-  state: Object.fromEntries(Object.entries(state)),
+  state,
 });
 return (
   <Widget
