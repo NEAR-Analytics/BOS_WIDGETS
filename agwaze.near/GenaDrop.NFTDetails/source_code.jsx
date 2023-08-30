@@ -56,7 +56,7 @@ const currentChainProps = {
     img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
     id: "42220",
     livePrice: "celo",
-    explorer: "https://explorer.celo.org/address",
+    explorer: "https://explorer.celo.org/address/",
     chain: "Celo",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
   },
