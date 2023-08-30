@@ -102,7 +102,7 @@ const TimerContainer = styled.div`
     font-size: 48px;
     font-weight: 700;
     color: #ffd50d;
-    width: 100px;
+    width: 200px;
     line-height: 1;
   }
   small {
