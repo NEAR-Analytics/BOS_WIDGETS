@@ -62,18 +62,15 @@ if (filter === "followedDAOs") {
     contract_id: dao,
   }));
 } else {
-  daos = useCache(
-    () =>
-      asyncFetch(forgeUrl(`https://api.pikespeak.ai/daos/all`, {}), {
-        mode: "cors",
-        headers: {
-          "x-api-key": publicApiKey,
-          "cache-control": "max-age=86400", // 1 day
-        },
-      }).then((res) => res.body),
-    "all-daos",
-    { subscribe: false },
-  );
+  daos = fetch(forgeUrl(`https://api.pikespeak.ai/daos/all`, {}), {
+    mode: "cors",
+    headers: {
+      "x-api-key": publicApiKey,
+      "cache-control": "max-age=86400", // 1 day
+    },
+  });
+  if (daos === null) return "";
+  daos = daos?.body;
 }
 
 const createDAOLink = "#/astraplusplus.ndctools.near/widget/home?tab=create-dao";
