@@ -78,7 +78,7 @@ const handleUnbond = () => {
   Near.call(
     registryContract,
     "is_human_call",
-    { ctr: electionContract, function: "bond", payload: "{}" },
+    { ctr: electionContract, function: "unbond", payload: "{}" },
     "110000000000000"
   ).then((data) => State.update({ alreadyBonded: false }));
 };
