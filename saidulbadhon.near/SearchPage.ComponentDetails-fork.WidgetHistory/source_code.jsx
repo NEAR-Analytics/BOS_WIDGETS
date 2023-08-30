@@ -14,10 +14,10 @@ State.init({
 return (
   <div>
     <Widget
-      src={`bozon.near/widget/WidgetHistory.History`}
+      src={`saidulbadhon.near/widget/SearchPage.ComponentDetails-fork.WidgetHistory.History`}
       props={{
         widgetPath: state.widgetPath,
-        theme: props.theme
+        theme: props.theme,
       }}
     />
   </div>
