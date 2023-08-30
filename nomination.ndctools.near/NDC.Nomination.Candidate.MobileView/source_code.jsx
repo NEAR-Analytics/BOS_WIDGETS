@@ -556,7 +556,10 @@ return (
           props={{
             Button: {
               text: `+${data.comments[0].upvotes ?? 0}`,
-              disabled: !context.accountId || !state.verified,
+              disabled:
+                !context.accountId ||
+                !state.verified ||
+                context.accountId === candidate,
               className: `${
                 context.accountId && state.voted ? "primary" : "secondary"
               } dark`,
