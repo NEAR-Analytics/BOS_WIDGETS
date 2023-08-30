@@ -269,13 +269,13 @@ return (
           links: [
             {
               text: "Home",
-              link: "home",
+              link: "../../lord1.near/widget/home",
               image:
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
             },
             {
               text: "Dashboards",
-              link: "Flipside-Home-page",
+              link: "../../lord1.near/widget/Flipside-Home-page",
               image:
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
             },
@@ -286,22 +286,10 @@ return (
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
             },
             {
-              text: "Network",
-              link: "network",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-8.svg",
-            },
-            {
               text: "Im human",
-              link: "im-human",
+              link: "../../lord1.near/widget/im-human",
               image:
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
-            },
-            {
-              text: "Near social",
-              link: "near-social",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
             },
             {
               text: "Tracker",
