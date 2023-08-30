@@ -249,6 +249,8 @@ const allProps = {
       "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
     onClickMax: onClickMaxNear,
     onSubmit: onSubmitStake,
+    stakeInfoLeftText: "Available to Stake",
+    stakeInforRightText: "Staked amount",
   },
   delayed: {
     tokenInputBalance: state.stNearBalance,
@@ -267,6 +269,8 @@ const allProps = {
       "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
     onClickMax: onClickMaxStNear,
     onSubmit: onSubmitDelayedUnstake,
+    stakeInfoLeftText: "Available to Unstake",
+    stakeInforRightText: "NEAR available amount",
   },
   fast: {
     tokenInputBalance: state.stNearBalance,
@@ -285,6 +289,8 @@ const allProps = {
       "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
     onClickMax: onClickMaxStNear,
     onSubmit: onSubmitFastUnstake,
+    stakeInfoLeftText: "Available to Unstake",
+    stakeInforRightText: "NEAR available amount",
   },
 }[state.action];
 
