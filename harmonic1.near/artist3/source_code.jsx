@@ -1,7 +1,7 @@
 const Wrapper = styled.div`
   display: flex;
   background-color: #c5f003;
-  height: 100vh;
+  height: 80vh;
   color: black;
 `;
 
