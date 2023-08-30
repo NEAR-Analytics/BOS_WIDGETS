@@ -13,8 +13,7 @@ State.init({
 
 return (
   <div>
-    <h1 class="text-center">Widget History</h1>
-
+    <h1 class="text-center">{state.widgetPath}</h1>
     <div class="input-group mb-3">
       <input
         class="form-control"
@@ -27,7 +26,6 @@ return (
         }}
       />
     </div>
-
     <Widget
       src={`bozon.near/widget/WidgetHistory.History`}
       props={{
