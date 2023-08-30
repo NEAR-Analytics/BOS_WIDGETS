@@ -306,8 +306,10 @@ return (
           })
           .map(({ item }) => item)}
         {!!state.term &&
-        ("ref-admin.near/widget/rainbow-card".includes(state.term) ||
-          "NEAR-Ethereum Bridge".toLowerCase().includes(state.term)) ? (
+        !(
+          "ref-admin.near/widget/rainbow-card".includes(state.term) ||
+          "NEAR-Ethereum Bridge".toLowerCase().includes(state.term)
+        ) ? (
           <div></div>
         ) : (
           <Widget src="ref-admin.near/widget/rainbow-card" />
