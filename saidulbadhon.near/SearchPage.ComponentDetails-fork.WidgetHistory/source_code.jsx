@@ -17,6 +17,7 @@ return (
       src={`bozon.near/widget/WidgetHistory.History`}
       props={{
         widgetPath: state.widgetPath,
+        theme: props.theme
       }}
     />
   </div>
