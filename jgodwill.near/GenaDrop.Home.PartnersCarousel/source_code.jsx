@@ -52,7 +52,7 @@ const displayedPartnersList = partnersList.map((partner, index) => (
         href={partner.website}
         target="_blank"
         rel="noreferrer"
-        className="MediaBar_slide__1kp_U"
+        className="MediaBar_slide"
         tabindex="-1"
       >
         <img
@@ -93,6 +93,33 @@ const Partners = styled.div`
 }
 li{
     list-style: none;
+}
+.MediaBar_slide{
+  display: flex;
+  position: relative;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  z-index: 2;
+}
+a {
+  text-decoration: none;
+  color: unset;
+  cursor: pointer;
+}
+
+.MediaBar_slide img {
+  height:4rem;
+  width:auto;
+  filter:gray;
+  -webkit-filter:grayscale(1);
+  filter:grayscale(1);
+  transition:all .3s
+}
+.MediaBar_slide img:hover {
+  filter:none;
+  -webkit-filter:grayscale(0);
+  filter:grayscale(0)
 }
 `;
 return (
