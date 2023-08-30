@@ -39,7 +39,7 @@ margin-top: 1.5em;
 const PrimaryButton = styled.div`
 padding: .75em 4em;
 border-radius: .7em;
-color: var(--main-color);
+color: #0d99ff;
 border: 1px solid transparent;
 transition: all .3s;
 cursor: pointer;
@@ -56,7 +56,7 @@ cursor: pointer;
 const SecondaryButton = styled.div`
     padding: .75em 4em;
     border-radius: .7em;
-    color: var(--main-color);
+    color: #0d99ff;
     border: 1px solid transparent;
     transition: all .3s;
     cursor: pointer;
@@ -393,6 +393,10 @@ const FeatureContainer = styled.div`
     display: none;
   }
 }
+.extra{
+  padding: .7rem 1.2rem;
+  border: 1px solid #0d99ff;
+}
 `;
 
 const FeatureHeading = styled.h3`
@@ -612,7 +616,7 @@ return (
             style={{ textDecoration: "none" }}
             href="/#/jgodwill.near/widget/GenaDrop.Create"
           >
-            <PrimaryButton>Create</PrimaryButton>
+            <PrimaryButton className="extra">Create Now</PrimaryButton>
           </a>
           <div className="GenadropCreatedNFTs_cardGrid">
             <div className="GenadropCreatedNFTs_card">
