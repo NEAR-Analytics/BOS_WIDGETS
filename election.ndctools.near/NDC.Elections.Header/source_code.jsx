@@ -34,7 +34,12 @@ const timer = setInterval(() => {
 
   if (now < start) title = <>Time before {type} starts</>;
   else if (now > start && now < end)
-    title = <>Time remaining in current {type}</>;
+    title =
+      type === "Nomination" ? (
+        <>TIME LEFT TO NOMINATE - ELECTIONS START SEPT 8</>
+      ) : (
+        <>Time remaining in current {type}</>
+      );
   else {
     title = <>{type} is ended</>;
     days = 0;
