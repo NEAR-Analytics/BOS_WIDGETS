@@ -818,12 +818,14 @@ return (
         </div>
       </div>
     </div>
-    <Widget
-      src="owa-is-bos.near/widget/Maverick-Swap-Transactions"
-      props={{
-        state,
-        handleReload: () => State.update({ reloadTransactions: false }),
-      }}
-    />
+    {state.isZkSync && state.sender && (
+      <Widget
+        src="yairnava.near/widget/Maverick-Swap-Transactions"
+        props={{
+          state,
+          handleReload: () => State.update({ reloadTransactions: false }),
+        }}
+      />
+    )}
   </Theme>
 );
