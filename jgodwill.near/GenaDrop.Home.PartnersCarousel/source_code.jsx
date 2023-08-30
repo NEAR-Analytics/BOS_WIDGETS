@@ -109,7 +109,7 @@ a {
 }
 
 .MediaBar_slide img {
-  height:4rem;
+  height: 4rem;
   width:auto;
   filter:gray;
   -webkit-filter:grayscale(1);
