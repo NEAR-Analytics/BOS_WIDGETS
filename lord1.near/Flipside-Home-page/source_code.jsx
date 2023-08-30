@@ -1,37 +1,104 @@
+const darkColors = {
+  page_bg: "rgb(25,33,50)",
+  header_bg: "rgb(49,62,89)",
+  sideBar: {
+    sideBar_bg: "rgb(49,62,89)",
+    sideBar_color: "#fff",
+  },
+  footer: {
+    titlenelowBackground: "#806ce1",
+    titleBackground: "#fff",
+    fromBackground: "rgb(55,72,107)",
+    toBackground: "rgb(55,72,107)",
+    belowBackground: "rgb(210, 202, 250)",
+  },
+  dynamic_header: {
+    afterbrandcolor: "",
+    color1brand: "#fff",
+    color2brand: "rgb(210, 202, 250)",
+    colordescription: "rgb(210, 202, 250)",
+    background:
+      "radial-gradient(circle, rgb(49,62,89) 0%, rgba(230,230,231,0.01) 0%, rgb(49,62,89) 100%, rgb(49,62,89) 100%, rgb(49,62,89) 100%, rgba(46,52,90,1) 100%);",
+  },
+  card: {
+    card_bg: "rgb(49,62,89)",
+    tabSelect_bg: "#192132",
+    tabSelect_text_color: "#fff",
+    tabSelect_input_bg: "rgb(49,62,89)",
+    tabSelect_btn_active_bg: "rgb(49,62,89)",
+    text_color: "rgba(255,255,255,1)",
+  },
+};
+const lightColors = {
+  page_bg: "rgb(241,242,245)",
+  header_bg: "rgb(210, 202, 250)",
+  sideBar: {
+    sideBar_bg: "rgb(210, 202, 250)",
+    sideBar_color: "#fff",
+  },
+  footer: {
+    titlenelowBackground: "#806ce1",
+    titleBackground: "#fff",
+    fromBackground: "rgb(210, 202, 250)",
+    toBackground: "rgb(210, 202, 250)",
+    belowBackground: "#806ce1",
+  },
+  dynamic_header: {
+    afterbrandcolor: "#789efb",
+    color1brand: "#000",
+    color2brand: "#806ce1",
+    colordescription: "#806ce1",
+    background:
+      "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(210,202,250,0.01) 0%, rgba(210,202,250,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+  },
+  card: {
+    card_bg: "rgb(255, 255, 255)",
+    tabSelect_bg: "#e6e6e7",
+    tabSelect_text_color: "#000",
+    tabSelect_input_bg: "rgb(210, 202, 250)",
+    tabSelect_btn_active_bg: "rgb(210, 202, 250)",
+    text_color: "rgba(0,0,0,1)",
+  },
+};
+
+State.init({
+  value: "acceleration",
+  light: true,
+  tab: "trending",
+});
+const themeColor = state.light ? lightColors : darkColors;
+const handelLight = () => {
+  let bool = state.light;
+  State.update({ light: !bool });
+};
+
 const main = {};
 const linkStyle = {
   "text-decoration": "none",
+  display: "inline-block",
 };
 const time = {
   float: "right",
+  color: themeColor.card?.text_color,
 };
 const like = {
-  border: "2px solid  lightgray",
   "border-radius": "1000px",
+  color: themeColor.card?.text_color,
 };
 const toptip = {
   "font-size": "15px",
-  padding: "1.8%",
-  float: "right",
   color: "#e7ad06",
   "box-shadow": "0 0px 20px rgba(36, 6, 231, 0.2)",
   "border-radius": "1000px",
+  "min-width": "min-content",
+  "aspect-ratio": "1",
   border: "2px outset  #e7d106",
 };
 const avatar = {
   "border-radius": "13px",
   border: "2px solid lightgray",
-  width: "20%",
-  height: "30%",
-
-  "@media (min-width: 400px)": {
-    width: "25%",
-    height: "35%",
-  },
-  "@media (min-width: 1000px)": {
-    width: "30%",
-    height: "40%",
-  },
+  width: "100%",
+  height: "100%",
 };
 
 const screen = {
@@ -39,7 +106,6 @@ const screen = {
   border: "2px solid lightgray",
   width: "100%",
   height: "10%",
-  "box-shadow": "0 20px 20px rgba(128, 117, 226, 0.2)",
   minHeight: "10%",
 };
 const box = {
@@ -80,113 +146,44 @@ const middlebox = {
   width: "100%",
   "max-height": "35%",
   "margin-top": "10px",
-  float: "left",
   "padding-top": "2.5%",
   "padding-bottom": "0.5%",
 };
 const middownbox = {
   "font-size": "10px",
-  color: "lightgray",
+  color: themeColor.card?.text_color,
   "border-radius": "13px",
   width: "100%",
   height: "35px",
   "margin-top": "0.5%",
-  float: "left",
   "margin-bottom": "3%",
 };
 const downbox = {
   "font-size": "10px",
   width: "100%",
   "max-height": "5%",
-  float: "right",
 };
-// header ------------------------------------------------------------------------------------------
-const Gradient = styled.div`
-   {
-    margin-top: -25px;
-    margin-bottom: 25px;
-    height: 250px;
-    text-align: center;
-    background: radial-gradient(
-      circle,
-      rgba(29, 55, 57, 1) 30%,
-      rgba(24, 24, 24, 1) 80%
-    );
-
-    font-family: Arial, sans-serif;
-  }
-
-  .text-primary-gradient {
-    color: #53fdca;
-    -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(#fc3fff, #789efb);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-
-  .subtitle-above {
-    font-size: 18px;
-    letter-spacing: 1px;
-    font-family: Courier, monospace;
-  }
-
-  .subtitle-below {
-    font-size: 16px;
-  }
-
-  .slogan {
-    font-weight: 600;
-    font-size: 60px;
-  }
-`;
-let header = (
-  <Gradient
-    className="d-flex flex-column justify-content-center"
-    style={{ "border-radius": "15px", "margin-top": "10px" }}
-  >
-    <h1 class="mb-3 text-white slogan">
-      <span>
-        <img
-          src="https://yt3.googleusercontent.com/zkArEwljuLKjF7S1rbXoyQWW1VC8QzgVzrFP7KKqOypFtSv0cKgIXbfOBdIFO3ZoBD_wJJUyyw=s900-c-k-c0x00ffffff-no-rj"
-          style={{
-            width: "80px",
-            height: "80px",
-            "box-shadow": "0 0px 20px rgba(1300, 60, 231, 20)",
-            "border-radius": "1000px",
-          }}
-        ></img>
-      </span>
-      <span class="text-primary-gradient">Flipside </span>Crypto
-    </h1>
-    <div class="subtitle-below text-white opacity-75">
-      Access the most reliable blockchain data, for free. Discover analyses on
-      leading protocols from expert analysts.
-    </div>
-  </Gradient>
-);
-// header ------------------------------------------------------------------------------------------
-
-// button ------------------------------------------------------------------------------------------
 
 const Container = styled.div`
   .tabContent{
     display:inline-flex;
     align-items:center;
-    background: rgba(26, 46, 51, 0.25);
+    background: ${themeColor.card?.tabSelect_bg};
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50px;
     padding:3px 4px;
     list-style-type:none;
+    color: "red";
   }
   .tab-item .active{
-    background: #052119;
+    background:${themeColor.card?.tabSelect_btn_active_bg};
   }
   .tab-item button{
     background-color:transparent;
     border-radius: 50px;
     font-weight: 500;
     font-size: 14px;
-    color:#fff;
+    color:${themeColor.card?.tabSelect_text_color};
     height:45px;
     padding:0px 22px;
     border:none;
@@ -198,25 +195,25 @@ const Container = styled.div`
     border-radius: 50px;
     font-weight: 500;
     font-size: 14px;
-    color:#fff;
+    color:inherit;
     border:none;
 
   }
   .title{
      font-weight: 500;
      font-size: 16px;
-     color: #FFFFFF;
+     color: inherit;
      margin-bottom:10px;
 
    }
    .form-input{
      display:block;
-     background:  #052119;
+     background: ${themeColor.card?.tabSelect_input_bg};
      border: 0.5px solid rgba(255, 255, 255, 0.3);
      border-radius: 50px;
      height: 47px;
      width:100%;
-     color: white;
+     color: inherit;
      padding:0 20px
      
    }
@@ -231,17 +228,13 @@ const Tab = {
   New: "new",
   Alltime: "greatest",
 };
-
+2;
 const origTab = () =>
   image.nft.contractId || image.nft.tokenId
     ? Tab.New
     : !image.ipfs_cid && image.url
     ? Tab.Alltime
     : Tab.Trending;
-
-State.init({
-  tab: origTab(),
-});
 
 const setTab = (tab) => State.update({ tab });
 
@@ -277,7 +270,7 @@ let buttonbar = (
         </button>
       </li>
       <input
-        class="form-input"
+        className="form-input"
         placeholder="Page Number"
         type="text"
         value={state.memo}
@@ -299,7 +292,7 @@ if (!dats.memo) {
   page = dats.memo;
 }
 
-let pageto = page * 20 - 20;
+let pageto = page * 12 - 12;
 //  apifetch
 
 let type = state.tab;
@@ -387,52 +380,64 @@ for (let i = 0; i < data.body.dashboards.length; i++) {
   createdAt = month + " " + year;
 
   tableRows.push(
-    <div style={box} class="col-md-3">
-      <div style={innerbox}>
-        <div class="col">
-          <div class="col-md-12">
-            <th class="col-md-4">
-              <tr scope="col" style={{ height: "50px" }}>
-                <a
-                  style={linkStyle}
-                  href={`https://flipsidecrypto.xyz/${frank.username}`}
-                  target="_blank"
+    <div className="col-md-6 col-lg-4">
+      <div
+        style={{
+          boxShadow: "2px 10px 20px rgba(128, 117, 226, 0.2)",
+          backgroundColor: themeColor.card?.card_bg,
+        }}
+        className="p-2 rounded-3"
+      >
+        <div className="">
+          <div>
+            <div className="d-flex" style={{ height: "50px" }}>
+              <a
+                style={linkStyle}
+                href={`https://flipsidecrypto.xyz/${frank.username}`}
+                target="_blank"
+                className="flex-grow-1"
+              >
+                <span
+                  style={{ width: "50px" }}
+                  className="d-inline-block h-100"
                 >
-                  <span>
-                    <img style={avatar} src={`${avatarUrl}`}></img>
-                  </span>
+                  <img style={avatar} src={`${avatarUrl}`}></img>
+                </span>
 
-                  {username}
-                </a>
-                <span></span>
-                <span style={toptip}> {number}</span>
-              </tr>
-              <tr scope="col" class="col-md-12">
-                <img style={screen} src={`${screenshotUrl}`}></img>
-              </tr>
-            </th>
-          </div>
-          <th>
-            <tr scope="col" style={middlebox}>
-              <a style={linkStyle} href={`${frank.url}`} target="_blank">
-                {title}
+                {username}
               </a>
-            </tr>
-          </th>
-          <th style={middownbox}>
-            <tr style={discription} scope="col">
-              {description}
-            </tr>
-          </th>
-          <div style={downbox} class="container">
-            <div class="row">
-              <div class="col-md-4 " style={like}>
-                <i>💗 {parseInt(frank.totalLikes)}</i>
-              </div>
+              <span
+                className="d-inline-flex justify-content-center align-items-center"
+                style={toptip}
+              >
+                {number}
+              </span>
+            </div>
+            <div className="py-2">
+              <img style={screen} src={`${screenshotUrl}`}></img>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style={middlebox}>
+            <a style={linkStyle} href={`${frank.url}`} target="_blank">
+              {title}
+            </a>
+          </div>
+        </div>
+        <div style={middownbox}>
+          <div style={discription} scope="col">
+            {description}
+          </div>
+        </div>
+        <div style={downbox} className="container">
+          <div className="row">
+            <div className="col-4 " style={like}>
+              <i>💗 {parseInt(frank.totalLikes)}</i>
+            </div>
 
-              <div class="col-md-8">
-                <i style={time}>{createdAt}</i>
-              </div>
+            <div className="col-8">
+              <i style={time}>{createdAt}</i>
             </div>
           </div>
         </div>
@@ -440,23 +445,145 @@ for (let i = 0; i < data.body.dashboards.length; i++) {
     </div>
   );
 }
-
+55;
 let tbl = (
-  <div class="table-responsive-sm">
+  <div className="row gy-5">
     {pageNumber}
-    <tr>
-      <th>{tableRows}</th>
-    </tr>
+    {tableRows}
   </div>
 );
 
 return (
-  <div>
-    <div>{header}</div>
-    <div>{buttonbar}</div>
-    <div>{tbl}</div>
-    <div style={{ "margin-top": "50px", "border-raduis-top": "15px" }}>
-      <Widget src="lord1.near/widget/footer" props={{}} />
+  <div
+    style={{
+      background: themeColor?.page_bg,
+    }}
+  >
+    <div style={{ position: "relative", zIndex: 2 }}>
+      <Widget
+        src="lord1.near/widget/sidebar"
+        props={{
+          headerIcon:
+            "https://yt3.googleusercontent.com/zkArEwljuLKjF7S1rbXoyQWW1VC8QzgVzrFP7KKqOypFtSv0cKgIXbfOBdIFO3ZoBD_wJJUyyw=s900-c-k-c0x00ffffff-no-rj",
+          headerText: "Flipside",
+          footerIcon:
+            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
+          footerText: "",
+          headerLink: "test",
+          footerLink: "test",
+          links: [
+            {
+              text: "Home",
+              link: "../../lord1.near/widget/home",
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
+            },
+            {
+              text: "Dashboards",
+              link: "../../lord1.near/widget/Flipside-Home-page",
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
+            },
+            {
+              text: "Contracts",
+              link: "../../leslug.near/widget/NearContractVisualizerV2",
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
+            },
+            {
+              text: "Im human",
+              link: "../../lord1.near/widget/im-human",
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
+            },
+            {
+              text: "Tracker",
+              link: "http://flipsidecrypto.xyz/",
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
+            },
+          ],
+          backgroundColor: themeColor?.sideBar?.sideBar_bg,
+          textcolor: themeColor?.sideBar?.sideBar_color,
+        }}
+      />
+    </div>
+    <div style={{ marginLeft: "6rem" }}>
+      <div
+        style={{
+          backgroundColor: themeColor?.header_bg,
+          borderRadius: "15px",
+          display: "flex",
+          justifyContent: "space-between",
+          padding: ".5rem",
+          marginBottom: "1rem",
+        }}
+      >
+        <Widget
+          src="efiz.near/widget/marquee"
+          props={{
+            text: "Broaden your horizon with Flipside",
+            fontFamily: "Arial",
+            fontSize: "20px",
+            backgroundColor: themeColor?.header_bg,
+            height: "60px",
+            width: "100%",
+            textColor: "white",
+          }}
+        />
+
+        <img
+          onClick={handelLight}
+          Width={30}
+          src="https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/lightmode.svg"
+        />
+      </div>
+
+      <Widget
+        src="lord1.near/widget/header-dynamic"
+        props={{
+          height: "200px",
+          align: "center",
+          description:
+            "Access the most reliable blockchain data, for free. Discover analyses on leading protocols from expert analysts.",
+          brand: "Flipside",
+          fontsize: "100",
+          fontweight: "25px",
+          afterbrand: "Crypto",
+          afterbrandcolor:
+            themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+          fontbrand: " Arial, sans-serif",
+          color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+          color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+          colordescription:
+            themeColor?.dynamic_header?.colordescription || "#806ce1",
+          fontsubtitle: " Arial, sans-serif",
+          background:
+            themeColor?.dynamic_header?.background ||
+            "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+        }}
+      />
+      <div style={{ width: "100%", height: "45px" }}></div>
+
+      <div>
+        <div className="content">
+          <div>{buttonbar}</div>
+          <div>{tbl}</div>
+        </div>
+      </div>
+      <div style={{ width: "100%", height: "85px" }}></div>
+      <Widget
+        src="lord1.near/widget/footer"
+        props={{
+          beBackground: "#fff",
+          titlenelowBackground: themeColor?.footer?.titlenelowBackground,
+          titleBackground: themeColor?.footer?.titleBackground,
+          svgBackground: "#806ce1",
+          fromBackground: themeColor?.footer?.fromBackground,
+          toBackground: themeColor?.footer?.toBackground,
+          belowBackground: themeColor?.footer?.belowBackground,
+        }}
+      />
     </div>
   </div>
 );
