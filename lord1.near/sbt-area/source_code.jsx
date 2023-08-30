@@ -2,7 +2,8 @@ const themeColor = props.themeColor;
 const generaltheme = {
   height: "110px",
   align: "center",
-  description: "Tracking the activity of SBT holders on Near ecosystem.",
+  description:
+    "Tracking the activity of Soul Bound Token holders on the NEAR ecosystem.",
   brand: "Im Human tracking 👋",
   fontsize: "100",
   fontweight: "25px",
@@ -20,12 +21,11 @@ const generaltheme = {
 const areatheme = {
   height: "150px",
   align: "left",
-  description:
-    "Tracking the activity of SBT holders on various web3 areas like NFT, Cex, Dex & others. Where are they most active ?!",
-  brand: "Area",
+  description: "In which categories are SBT holders most active?",
+  brand: "Activity",
   fontsize: "300",
   fontweight: "25px",
-  afterbrand: "interactions",
+  afterbrand: " by category",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -39,8 +39,7 @@ const areatheme = {
 const projecttheme = {
   height: "150px",
   align: "left",
-  description:
-    "Tracking the activity of SBT holders on various web3 platforms.Where are they most active ?!",
+  description: "Which projects do SBT holders use most?",
   brand: "Project",
   fontsize: "300",
   fontweight: "25px",
@@ -59,11 +58,11 @@ const projecttheme = {
 const daotheme = {
   height: "150px",
   align: "left",
-  description: "Tracking the activity of SBT holders on various web3 Dao.",
-  brand: "Dao",
+  description: "SBT holders activity per DAO",
+  brand: "DAO",
   fontsize: "300",
   fontweight: "25px",
-  afterbrand: "interactions",
+  afterbrand: "Activity",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -77,12 +76,11 @@ const daotheme = {
 const flowtheme = {
   height: "110px",
   align: "center",
-  description:
-    "Tracking the activity of SBT holders on various Cex (Like inflow/outflow).",
-  brand: "Cex flow",
+  description: "SBT holders inflow and outflow of funds from and to CEXs",
+  brand: "CEX inflow vs outflow",
   fontsize: "100",
   fontweight: "15px",
-  afterbrand: "interactions",
+  afterbrand: "",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -97,7 +95,7 @@ const flowtheme = {
 const staketheme = {
   height: "110px",
   align: "center",
-  description: "Tracking the activity of SBT holders on Staking/Unstaking.",
+  description: "NEAR staking and unstaking activity of SBT holders",
   brand: "Staking",
   fontsize: "100",
   fontweight: "15px",
@@ -310,7 +308,7 @@ return (
                   id: 1,
                 },
               ],
-              themeColor?.chartColor,
+              themeColor.chartColor,
               {
                 title: "SBT Minters",
                 subtitle: "New Address : with less than 10 days history",
@@ -330,7 +328,7 @@ return (
               style={{ color: themeColor?.sbt_area?.card_title_color }}
               className="pt-4 ps-4"
             >
-              <i> Distribution (SBT Wallet's Age)</i>
+              <i> Age of SBT wallets distribution</i>
             </h6>
             <Widget
               src="lord1.near/widget/Pie-chart"
@@ -357,7 +355,7 @@ return (
               style={{ color: themeColor?.sbt_area?.card_title_color }}
               className="pt-4 ps-4"
             >
-              <i> Distribution (SBT Wallet's Trxs)</i>
+              <i> SBT wallet transaction count distribution</i>
             </h6>
             <Widget
               src="lord1.near/widget/Pie-chart"
@@ -383,7 +381,10 @@ return (
       >
         <Widget src="lord1.near/widget/header-dynamic" props={areatheme} />
         <div className="row w-100 pb-2 px-2 mx-0">
-          <div className="shadow-sm rounded-2">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="shadow-sm rounded-2 overflow-auto"
+          >
             <Widget
               src="lord1.near/widget/table-pagination"
               props={{
@@ -413,7 +414,7 @@ return (
           <div className="col-6">
             <div
               style={{ background: themeColor?.sbt_area?.card_bg }}
-              className="shadow-sm rounded-2"
+              className="shadow-sm rounded-2 overflow-auto"
             >
               <Widget
                 src="lord1.near/widget/table-pagination"
@@ -432,7 +433,7 @@ return (
           <div className="col-6">
             <div
               style={{ background: themeColor?.sbt_area?.card_bg }}
-              className="shadow-sm rounded-2"
+              className="shadow-sm rounded-2 overflow-auto"
             >
               <Widget
                 src="lord1.near/widget/table-pagination"
@@ -449,7 +450,10 @@ return (
             </div>
           </div>
           <div className="col-6">
-            <div className="shadow-sm rounded-2">
+            <div
+              style={{ background: themeColor?.sbt_area?.card_bg }}
+              className="shadow-sm rounded-2 overflow-auto"
+            >
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
@@ -465,7 +469,10 @@ return (
             </div>
           </div>
           <div className="col-6">
-            <div className="shadow-sm rounded-2">
+            <div
+              style={{ background: themeColor?.sbt_area?.card_bg }}
+              className="shadow-sm rounded-2 overflow-auto"
+            >
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
@@ -485,11 +492,14 @@ return (
       </div>
       <div
         className="my-4 shadow-sm  rounded-4"
-        style={{ background: themeColor?.sbt_area?.card_bg }}
+        style={{ background: themeColor?.sbt_area?.section_bg }}
       >
         <Widget src="lord1.near/widget/header-dynamic" props={staketheme} />
         <div className="row w-100 pb-2 px-2 mx-0">
-          <div className="shadow-sm rounded-2">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="shadow-sm rounded-2"
+          >
             <Widget
               src="lord1.near/widget/multiple-mix-chart"
               props={{
@@ -541,7 +551,10 @@ return (
       >
         <Widget src="lord1.near/widget/header-dynamic" props={flowtheme} />
         <div className="row g-4 w-100 pb-2 px-2 mx-0">
-          <div className="shadow-sm rounded-2">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="shadow-sm rounded-2"
+          >
             <Widget
               src="lord1.near/widget/multiple-mix-chart"
               props={{
@@ -591,11 +604,14 @@ return (
       </div>
       <div
         className="my-4 shadow-sm  rounded-4"
-        style={{ background: themeColor?.sbt_area?.card_bg }}
+        style={{ background: themeColor?.sbt_area?.section_bg }}
       >
         <Widget src="lord1.near/widget/header-dynamic" props={daotheme} />
         <div className="row w-100 pb-2 px-2 mx-0">
-          <div className="shadow-sm rounded-2">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="shadow-sm rounded-2 overflow-auto"
+          >
             <Widget
               src="lord1.near/widget/table-pagination"
               props={{
