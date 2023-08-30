@@ -39,7 +39,7 @@ const cards = [
 ];
 
 return (
-  <div className="bg-gray-900 text-white">
+  <div className="bg-gray-900 text-white w-full">
     <div className="flex flex-col py-4 px-12">
       <div className="py-4">
         <div className="py-8">
