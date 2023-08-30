@@ -68,10 +68,11 @@ if (state.data.length === 0)
 return (
   <div className="d-flex justify-content-center w-100">
     <div className="w-50">
+      <h1>NDC Community users</h1>
       <div className="d-flex justify-content-between align-items-center">
-        <h2>
+        <h3>
           <b>{community}</b>
-        </h2>
+        </h3>
         <Tag>{vertical}</Tag>
       </div>
       <small>Total users: {state.data.length}</small>
