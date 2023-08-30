@@ -359,6 +359,35 @@ const FeatureContainer = styled.div`
   align-items: center;
   text-align: center;
 }
+
+.GenadropCreatedNFTs_cardGrid {
+  display: flex;
+  grid-gap: .6em;
+  .GenadropCreatedNFTs_card {
+  height: 20em;
+  width: 18em;
+  flex: 0 0 auto;
+  padding: .5em .5em 2em;
+  border-radius: 1em;
+  border: 1px solid #e5e8eb;
+  .GenadropCreatedNFTs_imgContainer{
+  height: 17em;
+  }
+ }
+}
+.GenadropCreatedNFTs_container * {
+  transition: max-width .3s;
+}
+.GenadropCreatedNFTs_imgContainer img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: -webkit-transform .3s;
+  transition: transform .3s;
+  transition: transform .3s,-webkit-transform .3s;
+  margin-bottom: .5em;
+  border-radius: 1em;
+}
 `;
 
 const FeatureHeading = styled.h3`
@@ -574,6 +603,24 @@ return (
           <FeatureDescription>
             Notable NFTs that were easily created with GenaDrop
           </FeatureDescription>
+          <div className="GenadropCreatedNFTs_cardGrid">
+            <div className="GenadropCreatedNFTs_card">
+              <div className="GenadropCreatedNFTs_imgContainer">
+                <img
+                  src="https://genadrop.mypinata.cloud/ipfs/QmXY1BPKQ1SpxpaYo7H1MQqcSKZ2oCUtMCuLFk8gXZF347"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div className="GenadropCreatedNFTs_card">
+              <div className="GenadropCreatedNFTs_imgContainer">
+                <img
+                  src="https://genadrop.mypinata.cloud/ipfs/QmaphvDPQ9q6Fa5EZN8QKcQtMYtwtb5pvGzeCkCKUuHAtV"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </FeatureContainer>
