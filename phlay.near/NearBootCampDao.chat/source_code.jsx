@@ -34,6 +34,7 @@ const container = {
   gap: 20,
   backgroundColor: "#010322",
   padding: "0.5em 4vw",
+  height: "100vh",
 };
 const Header = styled.div`
   width: 100%;
@@ -48,7 +49,6 @@ const Header = styled.div`
 
 const Wrapper = styled.div`
   background-color: #010322;
-  height: 100vh;
 `;
 
 return (
