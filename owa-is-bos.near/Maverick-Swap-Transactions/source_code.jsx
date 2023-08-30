@@ -121,7 +121,7 @@ return (
             </svg>
           </span>
         </div>
-        <div class="Line mx-2" />
+        <div class="Line mx-3" />
         {state.transactions.length > 0 ? (
           <table className="table table-sm">
             <thead>
