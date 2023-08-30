@@ -110,23 +110,25 @@ const ThemeChangerContainer = styled.div`
   }
 `;
 
-const Logo = styled.img`
-  cursor: pointer;
-  filter: ${useTheme("invert(0)", "invert(1)")};
+const Mobile = styled.div`
+  display: none;
+
+  @media only screen and (max-width: 750px) {
+    display: flex;
+  }
+`;
+
+const Desktop = styled.div`
+  display: flex;
 
   @media only screen and (max-width: 750px) {
     display: none;
   }
 `;
 
-const MobileLogo = styled.img`
-  display: none;
+const Logo = styled.img`
   cursor: pointer;
   filter: ${useTheme("invert(0)", "invert(1)")};
-
-  @media only screen and (max-width: 750px) {
-    display: flex;
-  }
 `;
 
 return (
@@ -141,15 +143,7 @@ return (
         />
       </NetworkSwitcherContainer>
       <RStack>
-        <a href={`#/${state.ownerId}/widget/SourceScan`} target={"_self"}>
-          <MobileLogo
-            src={
-              "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
-            }
-            width={"100px"}
-          />
-        </a>
-        <HStack>
+        <Mobile>
           <a href={`#/${state.ownerId}/widget/SourceScan`} target={"_self"}>
             <Logo
               src={
@@ -158,6 +152,18 @@ return (
               width={"100px"}
             />
           </a>
+        </Mobile>
+        <HStack>
+          <Desktop>
+            <a href={`#/${state.ownerId}/widget/SourceScan`} target={"_self"}>
+              <Logo
+                src={
+                  "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
+                }
+                width={"100px"}
+              />
+            </a>
+          </Desktop>
           {pages.map((page, i) => {
             return page.href ? (
               <a key={i} href={page.href} target={page.target}>
