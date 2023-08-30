@@ -114,7 +114,6 @@ function updateAccountInfo(callback) {
 }
 const Main = styled.div`
   width: 500px;
-
   position: relative;
 `;
 
