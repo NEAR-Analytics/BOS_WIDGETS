@@ -31,48 +31,6 @@ const nameHeader = <h4 className="mt-0 mb-0 truncate">{name}</h4>;
 
 return (
   <div className="bg-white shadow-md rounded overflow-hidden">
-    <div className="px-4 pt-0 pb-5 bg-gray-800 relative">
-      {backgroundImage && (
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: backgroundImage,
-            alt: "profile background",
-            className: "position-absolute w-100 h-100",
-            style: { objectFit: "cover", left: 0, top: 0 },
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-          }}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      )}
-      {showEditButton && (
-        <a
-          href="#/mob.near/widget/ProfileEditor"
-          className="btn mt-4 text-white float-right relative z-10"
-        >
-          Edit profile
-        </a>
-      )}
-      <div
-        className="profile-picture inline-block"
-        style={{ transform: "translateY(28px)" }}
-      >
-        <Widget
-          src="mob.near/widget/ProfileImage"
-          props={{
-            profile,
-            fast,
-            accountId,
-            style: { width: "10rem", height: "10rem" },
-            className: "mb-2",
-            imageClassName: "rounded-full w-full h-full object-cover block",
-            thumbnail: false,
-          }}
-          className="mb-2 rounded-full w-40 h-40"
-        />
-      </div>
-    </div>
     <div className="bg-gray-100 px-4 pb-4">
       <div className="flex justify-between pt-3 mb-2">
         <div className="pt-12">
