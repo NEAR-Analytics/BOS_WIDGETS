@@ -88,7 +88,7 @@ const Timer = styled.div`
     font-size: 48px;
     font-weight: 800;
     color: #ffd50d;
-    width: 120px;
+    width: 200px;
     line-height: 1;
   }
   small {
