@@ -15,7 +15,7 @@ const light = {
   bg: "#e3e8ef",
   color: "#4c5566",
   border: "#748094",
-  hoverBg: "#e3e8ef",
+  hoverBg: "#eef2f6",
 };
 
 const useTheme = (light, dark) => {
@@ -76,16 +76,20 @@ const DropDown = styled.div`
 
   .dropdown-content {
     display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     position: absolute;
     border: 1px dashed ${useTheme(light.border, dark.border)};
     background-color: ${useTheme(light.bg, dark.bg)};
     border-radius: 8px;
-    min-width: 160px;
+    width: 122px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
   }
 
   .dropdown-content a {
+    font-weight: 600;
     color: ${useTheme(light.color, dark.color)};
     cursor: pointer;
     border-radius: 8px;
