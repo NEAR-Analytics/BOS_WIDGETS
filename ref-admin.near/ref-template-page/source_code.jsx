@@ -294,9 +294,12 @@ return (
     </div>
 
     <ContentWrapper>
-      {state.searchResults?.length === 0 && (
-        <Text>No components matched your search.</Text>
-      )}
+      {state.searchResults?.length === 0 &&
+        !!state.term &&
+        !(
+          "ref-admin.near/widget/rainbow-card".includes(state.term) ||
+          "NEAR-Ethereum Bridge".toLowerCase().includes(state.term)
+        ) && <Text>No components matched your search.</Text>}
 
       <Items>
         {itemList
