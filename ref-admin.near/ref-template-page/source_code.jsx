@@ -35,7 +35,7 @@ State.init({
 
 function onSearchChange({ result, term }) {
   if (term.trim()) {
-    State.update({ searchResults: result || [] });
+    State.update({ searchResults: result || [], term: term.trim() });
   } else {
     State.update({ searchResults: null });
   }
@@ -305,11 +305,9 @@ return (
             return state.searchResults.map((_) => _.widgetSrc).includes(d.src);
           })
           .map(({ item }) => item)}
-        {!!state.searchResults &&
-        ("ref-admin.near/widget/rainbow-card".includes(state.searchResults) ||
-          "NEAR-Ethereum Bridge"
-            .toLowerCase()
-            .includes(state.searchResults)) ? (
+        {!!state.term &&
+        ("ref-admin.near/widget/rainbow-card".includes(state.term) ||
+          "NEAR-Ethereum Bridge".toLowerCase().includes(state.term)) ? (
           <div></div>
         ) : (
           <Widget src="ref-admin.near/widget/rainbow-card" />
