@@ -1,10 +1,68 @@
+const themeColor = props.themeColor;
+const theme = themeColor?.chart
+  ? {
+      title: {
+        style: {
+          color: themeColor.chart?.title,
+        },
+      },
+      subtitle: {
+        style: {
+          color: themeColor.chart?.subtitle,
+        },
+      },
+      xAxis: { labels: { style: { color: themeColor.chart?.xAxis } } },
+      yAxis: { labels: { style: { color: themeColor.chart?.yAxis } } },
+
+      legend: {
+        itemStyle: {
+          color: themeColor.chart?.legend,
+        },
+        itemHoverStyle: {
+          color: themeColor.chart?.legendHover,
+        },
+      },
+      rangeSelector: {
+        buttonTheme: {
+          fill: themeColor?.chart?.rangeSelector?.btn_bg,
+
+          style: {
+            color: themeColor?.chart?.rangeSelector?.btn_color,
+          },
+          states: {
+            hover: {
+              fill: themeColor?.chart?.rangeSelector?.btn_hover_bg,
+              style: {
+                color: themeColor?.chart?.rangeSelector?.btn_hover_color,
+              },
+            },
+            select: {
+              fill: themeColor?.chart?.rangeSelector?.btn_active_bg,
+              style: {
+                color: themeColor?.chart?.rangeSelector?.btn_active_color,
+              },
+            },
+          },
+        },
+
+        inputStyle: {
+          color: themeColor?.chart?.rangeSelector?.inputColor,
+        },
+        labelStyle: {
+          color: themeColor?.chart?.rangeSelector?.labels,
+        },
+      },
+    }
+  : {};
+
 const series = props.series ?? [];
 let colors = props.colors ?? [
-  "#4498E0",
-  "#FFD50D",
-  "#F29BC0",
-  "#F19D38",
-  "#82E299",
+  "#A084E8",
+  "#6F61C0",
+  "#241468",
+  "#9F0D7F",
+  "#EA1179",
+  "#F79BD3",
 ];
 const overrideOptions = props.overrideOptions || {};
 const chartOption = {
@@ -12,7 +70,6 @@ const chartOption = {
   subtitle: "",
   legend: false,
   stacking: false,
-  background: "transparent",
   ...props.chartOption,
 };
 let spinnerColors = props?.spinnerColors.length >= 0 && {
@@ -99,16 +156,23 @@ const code = `
 window.addEventListener("message", function (event) {}, false);
 
 const handleMessage = (message) => {
-  const { chartSeries, colors, chartOption, overrideOptions} = message;
+  const { chartSeries, colors, chartOption, overrideOptions, theme} = message;
   const stacking = chartOption.stacking
     ? chartOption.stacking === "normal" || chartOption.stacking === "percent"
       ? chartOption.stacking
       : undefined
     : undefined;
-  const chart = Highcharts.stockChart("container", {
+
+   Highcharts.theme=theme;
+   Highcharts.setOptions( Highcharts.theme);
+
+  const chart = 
+  Highcharts.stockChart("container", {
     chart: {
-      backgroundColor:chartOption.background,
-      zoomType: "x",
+      backgroundColor: "transparent",
+      zooming: {
+        mouseWheel: false,
+      },
     },
     colors: colors,
     navigator: {
@@ -130,7 +194,6 @@ const handleMessage = (message) => {
     yAxis: chartSeries.yAxis,
     xAxis: {
       type: "datetime",
-      dateTimeLabelFormats: { month: { main: "%b '%Y" } },
     },
     rangeSelector: {
       buttons: [
@@ -210,6 +273,7 @@ return (
           colors,
           chartOption,
           overrideOptions,
+          theme,
         }}
         onLoad={() => {
           State.update({
@@ -247,5 +311,25 @@ return (
 //      "background":"black"
 //   },
 //    "spinnerColors":[],  // optional , two colors
-//    "overrideOptions":{}
+//    "overrideOptions":{},
+//  themeColor: {
+//     chart: {
+//       title: "red",
+//       subtitle: "blue",
+//       xAxis: "red",
+//       yAxis: "blue",
+//       legend: "green",
+//       legendHover: "blue",
+//       rangeSelector: {
+//         labels: "red",
+//         inputColor: "blue",
+//         btn_bg: "red",
+//         btn_color: "blue",
+//         btn_hover_bg: "red",
+//         btn_hover_color: "blue",
+//         btn_active_bg: "red",
+//         btn_active_color: "blue",
+//       },
+//     },
+//   },
 // }
