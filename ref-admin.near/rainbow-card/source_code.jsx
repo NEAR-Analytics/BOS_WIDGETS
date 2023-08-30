@@ -3,7 +3,7 @@ const Card = styled.a`
   background-color: #373a53;
   height: 320px;
   width: 500px;
-  text-decoration: none;
+
 
   @media (max-width: 900px) {
     width: 100%;
@@ -156,7 +156,12 @@ const src = "rainbow-bridge";
 const accountId = "bluebiu.near";
 
 return (
-  <Card href={`/${src}`}>
+  <Card
+    href={`/${src}`}
+    style={{
+      textDecoration: "none",
+    }}
+  >
     <Banner href={`/${src}`}>
       <img
         style={{
