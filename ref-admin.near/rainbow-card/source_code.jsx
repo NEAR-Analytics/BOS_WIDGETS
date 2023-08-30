@@ -1,4 +1,4 @@
-const Card = styled.div`
+const Card = styled.a`
   border-radius: 20px;
   background-color: #373a53;
   height: 320px;
@@ -154,7 +154,7 @@ const src = "rainbow-bridge";
 const accountId = "bluebiu.near";
 
 return (
-  <Card>
+  <Card href={`/${src}`}>
     <Banner href={`/${src}`}>
       <img
         style={{
