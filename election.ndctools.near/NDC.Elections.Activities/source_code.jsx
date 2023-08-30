@@ -81,7 +81,7 @@ return (
           props={{
             Tag: {
               title:
-                vote.house === "SetupPackage" ? "Budget Package" : vote.house,
+                vote.house === "SetupPackage" ? "BudgetPackage" : vote.house,
               className: "dark",
             },
           }}
