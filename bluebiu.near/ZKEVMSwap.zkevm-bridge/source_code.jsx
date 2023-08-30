@@ -3,15 +3,10 @@ const Container = styled.div`
   gap: 8px;
   width: 560px;
   flex-direction: column;
-  // position: fixed;
-  // left: 50%;
-  /* top: 50%; */
   z-index: 0;
-  // transform: translate(-50%);
 `;
 
 const tokens = [
-  // eth testnet assets
   {
     address: "0x0000000000000000000000000000000000000000",
     chainId: 5,
@@ -149,12 +144,17 @@ const tokens = [
 const MAX_AMOUNT =
   "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
+const savedAdd = Storage.get(
+  "savedAdd",
+  "bluebiu.near/widget/ZKEVMSwap.zkevm-bridge"
+);
 State.init({
   gasLimit: ethers.BigNumber.from("300000"),
   isToastOpen: false,
-  add: false,
+  add: savedAdd,
   onChangeAdd: (add) => {
-    State.update({ add });
+    State.update({ add: add });
+    Storage.set("savedAdd", add);
   },
   hide: true,
 });
@@ -287,7 +287,7 @@ const handleBridge = (props) => {
 
         add_action({
           action_title: `Bridge ${token.symbol} from ${
-            chainId === 1 ? "Ethereum" : "ZKEVM"
+            chainId === 1 ? "Ethereum" : "zkEVM"
           }`,
           action_type: "Bridge",
           action_tokens: JSON.stringify([`${token.symbol}`]),
@@ -295,6 +295,7 @@ const handleBridge = (props) => {
           account_id: sender,
           account_info: uuid,
           template: "native bridge",
+          action_network_id: "zkEVM",
           action_switch: state.add ? 1 : 0,
         });
       }
@@ -569,7 +570,7 @@ return (
       <Widget
         src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
         props={{
-          add: state.add,
+          add: savedAdd,
           onChangeAdd: state.onChangeAdd,
           hide: state.hide,
           source: props.source,
