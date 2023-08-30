@@ -5,11 +5,9 @@ State.init({
 if (!props.community || !props.vertical)
   return (
     <>
-      <h6>Props are missing in query string</h6>
-      <p>Correct url should looks like</p>
-      <small>
-        https://near.org/rubycop.near/widget/NDC.CommunityScoreboard
-        <b>?community=zomland&vertical=gaming</b>
+      <p>Props are missing in query string. Correct url should looks like</p>
+      <small className="text-secondary">
+        https://near.org/rubycop.near/widget/NDC.CommunityScoreboard?community=zomland&vertical=gaming
       </small>
     </>
   );
