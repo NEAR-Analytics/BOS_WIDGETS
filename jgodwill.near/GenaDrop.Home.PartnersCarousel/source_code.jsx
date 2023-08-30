@@ -80,12 +80,16 @@ const Partners = styled.div`
   backface-visibility: hidden;
   display: -ms-flexbox;
   display: flex;
+  justify-content: 
   height: 100%;
   width: 100%;
   margin: 0 !important;
   padding: 0 !important;
    animation: moveSlideshow 60s linear infinite;
    transform: translate3d(0, 0, 0);
+   &:hover{
+    animation-play-state: paused;
+   }
 }
 li{
     list-style: none;
@@ -130,7 +134,6 @@ return (
     <div className="Partners_wrapper">
       <div
         className="splide is-initialized splide--loop splide--ltr splide--draggable is-active"
-        extensions="[object Object]"
         id="splide01"
         role="region"
         aria-roledescription="carousel"
