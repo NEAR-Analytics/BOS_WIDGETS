@@ -490,6 +490,7 @@ const renderTokens = (
         onClick={() => {
           State.update({ token: "near" });
         }}
+        href={`/meta-pool-official.near/widget/MetaPoolStake.Near?token=near`}
         active={state.token === "near"}
       >
         <div>
@@ -511,6 +512,7 @@ const renderTokens = (
         onClick={() => {
           State.update({ token: "wnear" });
         }}
+        href={`/meta-pool-official.near/widget/MetaPoolStake.Near.wNear?token=wnear`}
         active={state.token === "wnear"}
       >
         <div>
