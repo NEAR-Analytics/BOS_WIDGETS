@@ -77,7 +77,7 @@ if (filter === "followedDAOs") {
   );
 }
 
-const createDAOLink = "#/astraplusplus.ndctools.near/widget/index?tab=create-dao";
+const createDAOLink = "#/astraplusplus.ndctools.near/widget/home?tab=create-dao";
 
 const renderHeader = () => (
   <div className="d-flex justify-content-between gap-2 align-items-center">
