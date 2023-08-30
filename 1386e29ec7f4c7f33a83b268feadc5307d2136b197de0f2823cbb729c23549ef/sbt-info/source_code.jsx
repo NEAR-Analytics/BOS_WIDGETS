@@ -89,6 +89,7 @@ const getMixProps = (data, dateKey, colors, chartOption) => {
         },
       },
     },
+    themeColor: { chart: themeColor.chart },
     spinnerColors: themeColor.spinnerColors,
   };
 
@@ -111,6 +112,7 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
       connector: false,
       ...chartOption,
     },
+    themeColor: { chart: themeColor.chart },
     spinnerColors: themeColor.spinnerColors,
   };
   return props;
