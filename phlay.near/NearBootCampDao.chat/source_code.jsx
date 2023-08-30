@@ -33,8 +33,7 @@ const container = {
   width: "100%",
   gap: 20,
   backgroundColor: "#010322",
-  padding: "0.5em 4vw",
-  height: "100vh",
+  padding: "40px 4vw",
 };
 const Header = styled.div`
   width: 100%;
