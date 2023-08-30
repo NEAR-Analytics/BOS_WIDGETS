@@ -174,7 +174,7 @@ const Partners = styled.div`
   width: 100%;
   margin: 0 !important;
   padding: 0 !important;
-   animation: moveSlideshow 60s linear infinite;
+   animation: moveSlideshow 80s linear infinite;
    transform: translate3d(0, 0, 0);
    &:hover{
     animation-play-state: paused;
