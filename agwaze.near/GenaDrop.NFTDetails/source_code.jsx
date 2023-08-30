@@ -39,7 +39,7 @@ const currentChainProps = {
     img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
     id: "1313161554",
     chain: "Aurora",
-     explorer: "https://aurorascan.dev/",
+    explorer: "https://aurorascan.dev/",
     livePrice: "ethereum",
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
@@ -428,7 +428,6 @@ const PriceBucket = styled.div`
 const Logo = styled.div`
     &>img {
         width: 30px;
-        border-radius: 100%;
     }
 `;
 
@@ -626,9 +625,10 @@ return (
             >
               <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
                 {state.owner?.length > 25
-                  ? state.owner.slice(0, 8) + "..." +state.owner.slice(34) 
-                  : state.owner?.length < 25  ?  state.owner.slice(0, 12) + "...near":
-                  !state.owner && tokenId
+                  ? state.owner.slice(0, 8) + "..." + state.owner.slice(34)
+                  : state.owner?.length < 25
+                  ? state.owner.slice(0, 12) + "...near"
+                  : !state.owner && tokenId
                   ? "----"
                   : "genadrop-contract.nftgen.near".slice(0, 8) +
                     "..." +
@@ -740,15 +740,17 @@ return (
               <a
                 target="_blank"
                 href={
-                state.owner && tokenId
-                  ? currentChainProps[props.chainState]?.explorer + state.owner
-                  : "#"
-              }
+                  state.owner && tokenId
+                    ? currentChainProps[props.chainState]?.explorer +
+                      state.owner
+                    : "#"
+                }
               >
                 {state.owner?.length > 25
-                  ? state.owner.slice(0, 8) + "..." +state.owner.slice(34) 
-                  : state.owner?.length < 25  ?  state.owner.slice(0, 12) + "...near":
-                  !state.owner && tokenId
+                  ? state.owner.slice(0, 8) + "..." + state.owner.slice(34)
+                  : state.owner?.length < 25
+                  ? state.owner.slice(0, 12) + "...near"
+                  : !state.owner && tokenId
                   ? "----"
                   : "genadrop-contract.nftgen.near".slice(0, 8) +
                     "..." +
