@@ -4,6 +4,8 @@ if (typeof props.widgetPath !== "string")
 
 const theme = props.theme;
 
+console.log(theme)
+
 State.init({
   selectedTab: "code",
   selectedBlockHeight: null,
@@ -39,6 +41,12 @@ const renderBlockChangesLink = (blockHeight) => {
         className={`list-group-item list-group-item-action ${
           state.selectedBlockHeight != blockHeight ? "" : "list-group-item-info"
         }`}
+        style={{backgroundColor: theme.ui,
+        
+        color: theme.textColor3,
+
+        borderBottom: `1px ${theme.borderColor} solid`,
+        }}
         onClick={() => {
           State.update({ selectedBlockHeight: blockHeight });
         }}
@@ -126,15 +134,15 @@ return (
       <div>incorrent widget path</div>
     ) : (
       <div>
-        <div div class="card mb-3"style={{color: theme.ui}}>
+        <div  class="card mb-3"style={{backgroundColor: theme.backgroundColor}}>
           <h3 class="card-header" style={{color: theme.textColor}}>{blocksChanges.length} Commits</h3>
 
-          <div class="list-group">
+          <div class="list-group" >
             {blocksChanges
               .slice(0, 5)
               .map((height) => renderBlockChangesLink(height))}
 
-            <div class="collapse" id="collapseExample">
+            <div class="collapse" id="collapseExample" >
               {blocksChanges
                 .slice(5)
                 .map((height) => renderBlockChangesLink(height))}
@@ -143,6 +151,7 @@ return (
             {blocksChanges.length > 5 && (
               <button
                 class="list-group-item active"
+                style={{backgroundColor: theme.buttonCOlor}}
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseExample"
