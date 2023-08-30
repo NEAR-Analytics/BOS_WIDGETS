@@ -214,6 +214,7 @@ a {
 @keyframes moveSlideshow {  
   100% { 
     -webkit-transform: translateX(-200%);  
+      transform: translateX(-200%);  
   }
 }
 `;
