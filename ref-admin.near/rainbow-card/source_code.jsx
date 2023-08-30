@@ -3,12 +3,13 @@ const Card = styled.a`
   background-color: #373a53;
   height: 320px;
   width: 500px;
+  text-decoration: none;
+
   @media (max-width: 900px) {
     width: 100%;
     margin-top: -12px;
     height: 264px;
   }
-  text-decoration: none;
 `;
 const Banner = styled.a`
   position: relative;
