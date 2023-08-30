@@ -1,12 +1,70 @@
+const themeColor = props.themeColor;
+const theme = themeColor?.chart
+  ? {
+      title: {
+        style: {
+          color: themeColor.chart?.title,
+        },
+      },
+      subtitle: {
+        style: {
+          color: themeColor.chart?.subtitle,
+        },
+      },
+      xAxis: { labels: { style: { color: themeColor.chart?.xAxis } } },
+      yAxis: { labels: { style: { color: themeColor.chart?.yAxis } } },
+
+      legend: {
+        itemStyle: {
+          color: themeColor.chart?.legend,
+        },
+        itemHoverStyle: {
+          color: themeColor.chart?.legendHover,
+        },
+      },
+      rangeSelector: {
+        buttonTheme: {
+          fill: themeColor?.chart?.rangeSelector?.btn_bg,
+
+          style: {
+            color: themeColor?.chart?.rangeSelector?.btn_color,
+          },
+          states: {
+            hover: {
+              fill: themeColor?.chart?.rangeSelector?.btn_hover_bg,
+              style: {
+                color: themeColor?.chart?.rangeSelector?.btn_hover_color,
+              },
+            },
+            select: {
+              fill: themeColor?.chart?.rangeSelector?.btn_active_bg,
+              style: {
+                color: themeColor?.chart?.rangeSelector?.btn_active_color,
+              },
+            },
+          },
+        },
+
+        inputStyle: {
+          color: themeColor?.chart?.rangeSelector?.inputColor,
+        },
+        labelStyle: {
+          color: themeColor?.chart?.rangeSelector?.labels,
+        },
+      },
+    }
+  : {};
+
 if (!props.data && !props.charts) return "charts and data props are required.";
 const data = props.data ?? [];
 const charts = props.charts ?? [];
 let colors = props.colors ?? [
-  "#F19D38",
-  "#4498E0",
-  "#FFD50D",
-  "#F29BC0",
-  "#82E299",
+  "#A084E8",
+  "#6F61C0",
+  "#241468",
+  "#9F0D7F",
+  "#EA1179",
+  "#F79BD3",
 ];
 const overrideOptions = props.overrideOptions || {};
 const extraButtons = props.extraButtons || {};
@@ -102,8 +160,8 @@ const code = `
 window.addEventListener("message", function (event) {}, false);
 
 const handleMessage = (message) => {
-  const { colors, chartOption, overrideOptions } = message;
-
+  const { colors, chartOption, overrideOptions, theme } = message;
+    Highcharts.setOptions(theme);
   const chart = Highcharts.stockChart("container", {
     chart: {
       backgroundColor:"rgb(0,0,0,0)",
@@ -131,9 +189,9 @@ const handleMessage = (message) => {
     yAxis: chartOption.yAxis,
     xAxis: {
       type: "datetime",
-      dateTimeLabelFormats: { month: { main: "%b '%Y" } },
     },
     rangeSelector: {
+
       buttons: [
         {
           type: "day",
@@ -181,10 +239,9 @@ window.iFrameResizer = {
   </script>
 </html>
 `;
-console.log(state);
 return (
   <div
-    className="w-100 "
+    className="w-100"
     style={{
       minHeight: "300px",
       minWidth: "300px",
@@ -205,6 +262,7 @@ return (
           colors,
           chartOption: chartOption(),
           overrideOptions,
+          theme,
         }}
         onLoad={() => {
           State.update({
@@ -266,4 +324,24 @@ return (
 //   colors: ["yellow", "brown"], // optional
 //   spinnerColors: ["yellow", "brown"], // optional , two colors
 //   overrideOptions: {}, //opt to over ride chart options
+//   themeColor: {
+//     chart: {
+//       title: "red",
+//       subtitle: "blue",
+//       xAxis: "red",
+//       yAxis: "blue",
+//       legend: "green",
+//       legendHover: "blue",
+//       rangeSelector: {
+//         labels: "red",
+//         inputColor: "blue",
+//         btn_bg: "red",
+//         btn_color: "blue",
+//         btn_hover_bg: "red",
+//         btn_hover_color: "blue",
+//         btn_active_bg: "red",
+//         btn_active_color: "blue",
+//       },
+//     },
+//   },
 // };
