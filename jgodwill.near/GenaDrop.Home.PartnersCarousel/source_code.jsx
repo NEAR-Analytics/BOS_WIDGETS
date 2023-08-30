@@ -168,7 +168,8 @@ const Partners = styled.div`
   backface-visibility: hidden;
   display: -ms-flexbox;
   display: flex;
-  justify-content: 
+  justify-content: center;
+ position: 0 -200px;
   height: 100%;
   width: 100%;
   margin: 0 !important;
