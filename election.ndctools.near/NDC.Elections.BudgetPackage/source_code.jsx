@@ -7,12 +7,16 @@ const {
   isIAmHuman,
   myVotes,
   alreadyBonded,
+  greylisted,
 } = props;
 
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
 };
+
+const MIN_BOND = 0.01; //3
+const MAX_BOND = 0.02; //300;
 
 const H4 = styled.h4`
   margin-bottom: 0;
