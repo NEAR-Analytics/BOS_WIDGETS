@@ -73,7 +73,7 @@ const H1 = styled.h1`
 
 const H6 = styled.h6`
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   margin-right: 32px;
   margin-bottom: 0;
   line-height: 1.5;
@@ -88,7 +88,7 @@ const Timer = styled.div`
     font-size: 48px;
     font-weight: 800;
     color: #ffd50d;
-    width: 100px;
+    width: 120px;
     line-height: 1;
   }
   small {
