@@ -744,7 +744,7 @@ return (
                 }
               >
                 {state.owner?.length > 12
-                  ? state.owner.slice(0, 8) + "..." + props.chainState === "near" ? "near":state.owner.slice(39) 
+                  ? state.owner.slice(0, 8) + "..." + props.chainState === "near" ? "near":state.owner.slice(30) 
                   : !state.owner && tokenId
                   ? "----"
                   : "genadrop-contract.nftgen.near".slice(0, 8) +
