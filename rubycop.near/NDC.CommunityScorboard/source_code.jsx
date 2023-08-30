@@ -26,7 +26,7 @@ const Loader = () => (
 if (state.data.length === 0)
   return (
     <>
-      <Loader /> Fetching users
+      <Loader /> Fetching data ...
     </>
   );
 
@@ -40,10 +40,30 @@ const UserName = styled.div`
   width: 200px;
 `;
 
+const Tag = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 8px;
+  border: 1px solid #4ba6ee;
+  color: #4ba6ee;
+  border-radius: 100px;
+    font-weight: 500;
+    font-size: 11px;
+
+  
+`;
+
 return (
   <div className="d-flex justify-content-center w-100">
     <div className="w-50">
-      <h2>ZomLand Community</h2>
+      <div className="d-flex justify-content-between align-items-center">
+        <h2>
+          <b>{props.communityName}</b>
+        </h2>
+        <Tag>{props.vertical}</Tag>
+      </div>
       <small>Total users: {state.data.length}</small>
       <hr className="my-2" />
       {state.data.length > 0 ? (
