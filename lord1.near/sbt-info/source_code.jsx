@@ -360,7 +360,7 @@ return (
           <Widget
             src="lord1.near/widget/mix-chart"
             props={getMixProps(
-              state4.data?.hash4?.data,
+              state.data?.hash4?.data,
               "expires_at",
               themeColor.chartColor,
               {
@@ -374,7 +374,7 @@ return (
     </div>
     <div
       className="shadow-sm  rounded-4"
-      style={{ background: themeColor?.sbt_info?.card_bg }}
+      style={{ background: themeColor?.sbt_info?.section_bg }}
     >
       <Widget src="lord1.near/widget/header-dynamic" props={nominatetheme} />
     </div>
