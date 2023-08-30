@@ -170,6 +170,7 @@ const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
         },
       },
     },
+    themeColor: { chart: themeColor.chart },
     spinnerColors: themeColor.spinnerColors,
   };
   return props;
@@ -191,6 +192,7 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
       connector: false,
       ...chartOption,
     },
+    themeColor: { chart: themeColor.chart },
     spinnerColors: themeColor.spinnerColors,
   };
   return props;
@@ -328,7 +330,7 @@ return (
               style={{ color: themeColor?.sbt_area?.card_title_color }}
               className="pt-4 ps-4"
             >
-              <i> Distribution (SBT Wallet's Age)</i>{" "}
+              <i> Distribution (SBT Wallet's Age)</i>
             </h6>
             <Widget
               src="lord1.near/widget/Pie-chart"
@@ -355,7 +357,7 @@ return (
               style={{ color: themeColor?.sbt_area?.card_title_color }}
               className="pt-4 ps-4"
             >
-              <i> Distribution (SBT Wallet's Trxs)</i>{" "}
+              <i> Distribution (SBT Wallet's Trxs)</i>
             </h6>
             <Widget
               src="lord1.near/widget/Pie-chart"
@@ -385,6 +387,7 @@ return (
             <Widget
               src="lord1.near/widget/table-pagination"
               props={{
+                themeColor: { table_pagination: themeColor.table_pagination },
                 data: state.data?.hash4?.data,
                 rowsCount: 10,
                 columns: [
@@ -415,6 +418,7 @@ return (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
                   data: state.data?.hash5?.data,
                   columns: [
                     { title: "Project", key: "PROJECT" },
@@ -433,6 +437,7 @@ return (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
                   data: state.data?.hash6?.data,
                   columns: [
                     { title: "Project", key: "PROJECT" },
@@ -448,6 +453,7 @@ return (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
                   data: state.data?.hash7?.data,
                   columns: [
                     { title: "Project", key: "PROJECT" },
@@ -463,6 +469,7 @@ return (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
                   data: state.data?.hash8?.data,
 
                   columns: [
@@ -520,6 +527,7 @@ return (
                     type: "column",
                   },
                 ],
+                themeColor: { chart: themeColor.chart },
                 colors: themeColor.chartColor,
                 spinnerColors: themeColor?.spinnerColors,
               }}
@@ -573,12 +581,13 @@ return (
                     type: "column",
                   },
                 ],
+                themeColor: { chart: themeColor.chart },
                 colors: themeColor.chartColor,
                 spinnerColors: themeColor?.spinnerColors,
               }}
             />
           </div>
-        </div>{" "}
+        </div>
       </div>
       <div
         className="my-4 shadow-sm  rounded-4"
@@ -590,6 +599,7 @@ return (
             <Widget
               src="lord1.near/widget/table-pagination"
               props={{
+                themeColor: { table_pagination: themeColor.table_pagination },
                 data: state.data?.hash11?.data,
                 columns: [
                   { title: "Project", key: "project" },
@@ -599,7 +609,7 @@ return (
               }}
             />
           </div>
-        </div>{" "}
+        </div>
       </div>
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
         {state.error.length > 0 &&
