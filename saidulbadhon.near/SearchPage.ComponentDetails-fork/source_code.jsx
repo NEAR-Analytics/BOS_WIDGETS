@@ -330,7 +330,8 @@ return (
     {state.selectedTab === "history" && (
       <HistoryContainer>
         <Widget
-          src="bozon.near/widget/WidgetHistory"
+          // src="bozon.near/widget/WidgetHistory"
+          src="saidulbadhon.near/widget/SearchPage.ComponentDetails-fork.WidgetHistory"
           props={{ widgetPath: src }}
         />
       </HistoryContainer>
