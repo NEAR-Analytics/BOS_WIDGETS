@@ -28,7 +28,7 @@ const List = styled.div`
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
-console.log(vote);
+console.log(myVotes);
 return (
   <List>
     {myVotes.map((vote) => (
