@@ -143,8 +143,8 @@ return (
     <div>
       {context.accountId ? (
         <Widget
-          src="hack.near/widget/connect.button"
-          props={{ accountId: "academy.near" }}
+          src="evangel.near/widget/connect"
+          props={{ accountId: "evangel.near" }}
         />
       ) : (
         <Widget
