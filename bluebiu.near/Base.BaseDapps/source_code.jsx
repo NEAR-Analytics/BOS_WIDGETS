@@ -48,7 +48,7 @@ const dapps = [
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreih6mzl5vxgoodw53byblg4wvgsdvrzn573zrhoo3ccnkhgup7mebu",
     icon: "https://ipfs.near.social/ipfs/bafkreigpgcamevg6gqoazybmzcz4rvlk3x4twqfvbbd4llx5wrtqi7peqa",
-    tags: ["Dexes", "BASE"],
+    tags: ["Dexes"],
   },
 ];
 
