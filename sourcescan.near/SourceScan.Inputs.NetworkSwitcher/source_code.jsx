@@ -2,19 +2,20 @@ const networks = ["mainnet", "testnet"];
 
 State.init({
   theme: props.theme || "light",
-  network: context.networkId,
 });
 
 const dark = {
   bg: "#28282b",
   color: "#e6eaee",
   border: "#748094",
+  hoverBg: "#4b4b4b",
 };
 
 const light = {
   bg: "#e3e8ef",
   color: "#4c5566",
   border: "#748094",
+  hoverBg: "#e3e8ef",
 };
 
 const useTheme = (light, dark) => {
@@ -23,14 +24,22 @@ const useTheme = (light, dark) => {
 
 const Select = styled.select`
   font-weight: 600;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  cursor: pointer;
   border: 1px dashed ${useTheme(light.border, dark.border)};
-  background-color: transparent;
-  border-radius: 5px;
-  width: 100px;
+  background-color: ${useTheme(light.bg, dark.bg)};
+  border-radius: 8px;
+  width: 122px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   color: ${useTheme(light.color, dark.color)};
+  transition: background-color 0.1s ease-in-out;
+
+  :hover {
+    background-color: ${useTheme(light.hoverBg, dark.hoverBg)};
+  }
 `;
 
 const strCapitalize = (str) => {
@@ -39,12 +48,84 @@ const strCapitalize = (str) => {
   return str.replace(/^./, (match) => match.toUpperCase());
 };
 
+const DropDown = styled.div`
+  .dropbtn {
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px dashed ${useTheme(light.border, dark.border)};
+    background-color: ${useTheme(light.bg, dark.bg)};
+    border-radius: 8px;
+    width: 122px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: ${useTheme(light.color, dark.color)};
+    transition: background-color 0.1s ease-in-out;
+
+    :hover {
+      background-color: ${useTheme(light.hoverBg, dark.hoverBg)};
+    }
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    border: 1px dashed ${useTheme(light.border, dark.border)};
+    background-color: ${useTheme(light.bg, dark.bg)};
+    border-radius: 8px;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: ${useTheme(light.color, dark.color)};
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {
+    background-color: ${useTheme(light.hoverBg, dark.hoverBg)};
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown:hover .dropbtn {
+    background-color: ${useTheme(light.hoverBg, dark.hoverBg)};
+  }
+`;
+
+const appHref = (network) => {
+  return network === "mainnet"
+    ? "https://near.org/sourcescan.near/widget/SourceScan"
+    : "https://test.near.org/sourcescan.testnet/widget/SourceScan";
+};
+
 return (
-  <Select>
-    {networks.map((network) => (
-      <option value={network} disabled={state.network !== network}>
-        {strCapitalize(network)}
-      </option>
-    ))}
-  </Select>
+  <DropDown>
+    <div class="dropdown">
+      <button class="dropbtn">{strCapitalize(context.networkId)}</button>
+      <div class="dropdown-content">
+        {networks
+          .filter((n) => n !== context.networkId)
+          .map((network, i) => (
+            <a key={i} href={appHref(network)} target={"_self"}>
+              {strCapitalize(network)}
+            </a>
+          ))}
+      </div>
+    </div>
+  </DropDown>
 );
