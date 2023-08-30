@@ -6,6 +6,7 @@ const {
   registryContract,
   isIAmHuman,
   myVotes,
+  alreadyBonded,
 } = props;
 
 const widgets = {
@@ -111,21 +112,35 @@ const ActionSection = styled.div`
   }
 `;
 
+State.init({
+  reload: false,
+  availableVotes: seats - myVotesForHouse().length,
+});
+
 const currentUser = context.accountId;
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 
-const handleVote = (value) =>
-  Near.call(
-    electionContract,
-    "vote",
-    { prop_id: id, vote: [value] },
-    "110000000000000"
-  );
+const handleVote = (value) => {
+  const voteFunc = {
+    contractName: electionContract,
+    methodName: "vote",
+    args: { prop_id: props.id, vote: [value] },
+    gas: "110000000000000",
+  };
 
-State.init({
-  availableVotes: seats - myVotesForHouse().length,
-});
+  const bondFunc = {
+    contractName: registryContract,
+    methodName: "is_human_call",
+    args: { ctr: electionContract, function: "bond", payload: "{}" },
+    gas: "110000000000000",
+    deposit: (greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000,
+  };
+
+  const arr = alreadyBonded ? [voteFunc] : [bondFunc, voteFunc];
+
+  Near.call(arr).then((data) => State.update({ reload: true }));
+};
 
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
