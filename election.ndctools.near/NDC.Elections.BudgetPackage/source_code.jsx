@@ -180,15 +180,15 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
-const Text = styled.p`
-  font-size: 10px;
+const BudgetText = styled.p`
   line-height: 16px;
+  font-size: 12px;
   text-align: justify;
 `;
 
 const Content = () => (
   <div>
-    <small>
+    <BudgetText>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Velit laoreet id donec
       ultrices. Fringilla ut morbi tincidunt augue interdum velit euismod in
@@ -204,6 +204,7 @@ const Content = () => (
       vitae congue. Ut lectus arcu bibendum at varius vel. Turpis tincidunt id
       aliquet risus feugiat in ante.
       <br />
+      <br />
       Dolor morbi non arcu risus quis varius. Tortor dignissim convallis aenean
       et tortor at risus viverra. Purus ut faucibus pulvinar elementum integer
       enim neque volutpat ac. Nullam eget felis eget nunc. Risus commodo viverra
@@ -213,6 +214,7 @@ const Content = () => (
       Vel eros donec ac odio tempor orci dapibus. Placerat orci nulla
       pellentesque dignissim enim sit amet venenatis urna. Vulputate ut pharetra
       sit amet aliquam id. Molestie at elementum eu facilisis sed.
+      <br />
       <br />
       Aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros.
       Donec ac odio tempor orci dapibus. Ultrices tincidunt arcu non sodales
@@ -238,6 +240,7 @@ const Content = () => (
       feugiat pretium nibh ipsum. Quam quisque id diam vel quam elementum
       pulvinar etiam.
       <br />
+      <br />
       Nulla malesuada pellentesque elit eget gravida cum sociis natoque. Cras
       sed felis eget velit aliquet sagittis. Mollis nunc sed id semper risus in
       hendrerit. Nullam eget felis eget nunc lobortis mattis aliquam faucibus
@@ -251,12 +254,14 @@ const Content = () => (
       turpis tincidunt id aliquet risus feugiat in ante. A scelerisque purus
       semper eget duis at.
       <br />
+      <br />
       Non sodales neque sodales ut etiam sit amet nisl. Arcu vitae elementum
       curabitur vitae. Ac turpis egestas maecenas pharetra. Massa tempor nec
       feugiat nisl pretium fusce id. Pharetra et ultrices neque ornare aenean
       euismod elementum nisi. Augue neque gravida in fermentum et. Morbi
       tristique senectus et netus et malesuada fames. Arcu cursus euismod quis
       viverra. Sit amet dictum sit amet. Odio eu feugiat pretium nibh.
+      <br />
       <br />
       Ornare suspendisse sed nisi lacus sed viverra tellus. Feugiat in ante
       metus dictum at tempor. Diam sollicitudin tempor id eu nisl nunc mi ipsum
@@ -272,6 +277,7 @@ const Content = () => (
       congue. Posuere morbi leo urna molestie at. Risus nullam eget felis eget
       nunc.
       <br />
+      <br />
       Ultrices eros in cursus turpis massa. Et molestie ac feugiat sed lectus.
       Nisi scelerisque eu ultrices vitae auctor. Lobortis mattis aliquam
       faucibus purus in. Dictum non consectetur a erat nam. Interdum velit
@@ -284,6 +290,7 @@ const Content = () => (
       facilisis. Pretium quam vulputate dignissim suspendisse. Leo duis ut diam
       quam nulla. Velit sed ullamcorper morbi tincidunt.
       <br />
+      <br />
       Cras sed felis eget velit aliquet sagittis id. Nunc id cursus metus
       aliquam eleifend. Lectus quam id leo in. Consequat mauris nunc congue nisi
       vitae suscipit tellus mauris a. Donec enim diam vulputate ut pharetra sit
@@ -293,6 +300,7 @@ const Content = () => (
       Condimentum mattis pellentesque id nibh tortor. Egestas congue quisque
       egestas diam in arcu cursus. A diam maecenas sed enim ut sem viverra
       aliquet.
+      <br />
       <br />
       Tortor at risus viverra adipiscing at in. Nisl rhoncus mattis rhoncus
       urna. Odio facilisis mauris sit amet massa vitae. Mattis pellentesque id
@@ -305,19 +313,19 @@ const Content = () => (
       adipiscing elit duis tristique sollicitudin nibh. Sit amet purus gravida
       quis blandit turpis cursus. Ut sem viverra aliquet eget sit amet tellus
       cras.
-    </small>
+    </BudgetText>
   </div>
 );
 
 return (
   <Container>
     <h1>Budget Package</h1>
+    <a href="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/">
+      View Budget Package
+      <i className="ml-2 bi bi-box-arrow-up-right" />
+    </a>
     <CandidatesContainer>
       <Content />
-      <a href="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/">
-        View Budget Package
-        <i className="ml-2 bi bi-box-arrow-up-right" />
-      </a>
     </CandidatesContainer>
 
     <div>
