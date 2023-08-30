@@ -8,6 +8,7 @@ const Card = styled.a`
     margin-top: -12px;
     height: 264px;
   }
+  text-decoration: none;
 `;
 const Banner = styled.a`
   position: relative;
