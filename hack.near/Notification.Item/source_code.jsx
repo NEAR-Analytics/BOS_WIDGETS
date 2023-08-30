@@ -26,7 +26,11 @@ const widgetSrc =
 return (
   <div className="mb-3">
     {widgetSrc ? (
-      <Widget loading={loading} src={widgetSrc} props={{ loading, ...props }} />
+      <Widget
+        loading={loading}
+        src={widgetSrc}
+        props={{ loading, src: value.src, update: value.update, ...props }}
+      />
     ) : (
       <div>
         Unknown notification:{" "}
