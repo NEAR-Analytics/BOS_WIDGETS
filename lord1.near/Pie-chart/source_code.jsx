@@ -1,19 +1,46 @@
+const themeColor = props.themeColor;
+const theme = themeColor?.chart
+  ? {
+      title: {
+        style: {
+          color: themeColor.chart?.title,
+        },
+      },
+      subtitle: {
+        style: {
+          color: themeColor.chart?.subtitle,
+        },
+      },
+      xAxis: { labels: { style: { color: themeColor.chart?.xAxis } } },
+      yAxis: { labels: { style: { color: themeColor.chart?.yAxis } } },
+
+      legend: {
+        itemStyle: {
+          color: themeColor.chart?.legend,
+        },
+        itemHoverStyle: {
+          color: themeColor.chart?.legendHover,
+        },
+      },
+    }
+  : {};
 const data = props.data ?? [];
 let colors = props.colors ?? [
-  "#4498E0",
-  "#FFD50D",
-  "#F29BC0",
-  "#F19D38",
-  "#82E299",
+  "#A084E8",
+  "#6F61C0",
+  "#241468",
+  "#9F0D7F",
+  "#EA1179",
+  "#F79BD3",
 ];
 const chartOption = {
   title: "chart title",
-  background: "transparent",
   type: "pie",
   legend: false,
   connector: true,
   ...props.chartOption,
 };
+const overrideOptions = props.overrideOptions || {};
 let spinnerColors = props?.spinnerColors.length >= 0 && {
   color1: props?.spinnerColors[0],
   color2: props?.spinnerColors[1],
@@ -74,7 +101,7 @@ const formatNumber = (num) => {
 };
 
 const handleMessage = (message) => {
-  const { data, colors, chartOption } = message;
+  const { data, colors, chartOption, overrideOptions, theme } = message;
   const total = data.reduce((t, i) => {
     return t + i[1];
   }, 0);
@@ -112,12 +139,13 @@ const handleMessage = (message) => {
           },
         };
 
+    Highcharts.theme=theme;
+    Highcharts.setOptions( Highcharts.theme);
   const chart = Highcharts.chart("container", {
     colors,
     chart: {
       type: "pie",
-        backgroundColor: chartOption.background
-
+      backgroundColor: "transparent"
     },
 
     title: {
@@ -191,6 +219,7 @@ const handleMessage = (message) => {
         data,
       },
     ],
+    ...overrideOptions
   });
   window.iFrameResizer.onMessage = () => {};
 };
@@ -227,6 +256,8 @@ return (
           data,
           colors,
           chartOption,
+          overrideOptions,
+          theme,
         }}
         onLoad={() => {
           State.update({
@@ -251,4 +282,25 @@ return (
 //     connector: false,
 //   },
 //   spinnerColors: [], //optional : tow colors
+//   overrideOptions:{} // opt
+//   themeColor: {
+//     chart: { //optional
+//       title: "red",
+//       subtitle: "blue",
+//       xAxis: "red",
+//       yAxis: "blue",
+//       legend: "green",
+//       legendHover: "blue",
+//       rangeSelector: {
+//         labels: "red",
+//         inputColor: "blue",
+//         btn_bg: "red",
+//         btn_color: "blue",
+//         btn_hover_bg: "red",
+//         btn_hover_color: "blue",
+//         btn_active_bg: "red",
+//         btn_active_color: "blue",
+//       },
+//     },
+//   },
 // };
