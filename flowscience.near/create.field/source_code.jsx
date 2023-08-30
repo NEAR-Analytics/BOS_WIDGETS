@@ -143,11 +143,11 @@ State.init({
   thingId,
 });
 
-const handleOnChange = (value) => {
+const fieldNameOnChange = (value) => {
   State.update({ data: { ...state.data, ...value } });
 };
 
-const handleApply = () => {
+const fieldNameApply = () => {
   State.update({
     config: state.data,
     isPreview: !state.isPreview,
@@ -156,10 +156,10 @@ const handleApply = () => {
   // set the props for the main content
 };
 
-const handleSave = () => {
+const fieldNameSave = () => {
   // create the thing
   State.update({ isModalOpen: false });
-  const thingId = state.data.handle;
+  const thingId = state.data.fieldName;
   //state.thingId || Math.random();
   let edges = [];
   if (buildEdges) {
@@ -207,22 +207,22 @@ const handleSave = () => {
   });
 };
 
-const handleTypeChange = (e) => {
+const fieldNameTypeChange = (e) => {
   State.update({ selectedType: e.target.value, templateVal: "", data: {} });
 };
 
-const handleProfileSave = () => {
+const fieldNameProfileSave = () => {
   State.update({
     config: state.data,
   });
-  //check if handle is present
-  // in future check if handle is unique
-  if (!state.data.handle) {
-    console.log("Needs handle.");
+  //check if fieldName is present
+  // in future check if fieldName is unique
+  if (!state.data.fieldName) {
+    console.log("Needs fieldName.");
     //Alert does not work.
   } else {
     //State.update({ isModalOpen: true });
-    handleSave();
+    fieldNameSave();
   }
 };
 
@@ -249,7 +249,7 @@ return (
                   type: state.selectedType,
                   value: state.data,
                 },
-                onChange: handleOnChange,
+                onChange: fieldNameOnChange,
               }}
             />
           )}
@@ -257,12 +257,12 @@ return (
         <Footer>
           <Button
             //onClick={() => State.update({ isModalOpen: true })}
-            onClick={() => handleProfileSave()}
+            onClick={() => fieldNameProfileSave()}
             disabled={state.config === undefined}
           >
             Save
           </Button>
-          <SecondaryButton onClick={() => handleApply()}>
+          <SecondaryButton onClick={() => fieldNameApply()}>
             {state.isPreview ? "Edit" : "Preview"}
           </SecondaryButton>
         </Footer>
@@ -278,7 +278,7 @@ return (
               value: { data: state.config, template: { src: state.template } },
             }}
           />
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={fieldNameSave}>Save</Button>
           <Button onClick={() => State.update({ isModalOpen: false })}>
             Cancel
           </Button>
