@@ -149,6 +149,7 @@ const CastVotes = () => (
         props={{
           Button: {
             text: "Yes",
+            disabled: alreadyVotedForHouse(),
             className: "primary success justify-content-center",
             icon: <i className="bi bi-hand-thumbs-up" />,
             onClick: () => handleVote("yes"),
@@ -160,6 +161,7 @@ const CastVotes = () => (
         props={{
           Button: {
             text: "No",
+            disabled: alreadyVotedForHouse(),
             className: "primary danger justify-content-center",
             icon: <i className="bi bi-hand-thumbs-down" />,
             onClick: () => handleVote("no"),
@@ -171,6 +173,7 @@ const CastVotes = () => (
         props={{
           Button: {
             text: "Abstain",
+            disabled: alreadyVotedForHouse(),
             className: "primary justify-content-center",
             icon: <i className="bi bi-x-lg" />,
             onClick: () => handleVote("abstain"),
