@@ -195,7 +195,7 @@ return (
         <i className="bi bi-list"></i>
       </MobileToggle>
       <a
-        href="#/astraplusplus.ndctools.near/widget/index"
+        href="#/astraplusplus.ndctools.near/widget/home"
         className="h4 text-decoration-none fw-bold text-black m-0"
       >
         <Widget
