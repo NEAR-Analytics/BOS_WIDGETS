@@ -68,6 +68,19 @@ const feeds = [
       postTemplate: "proofofvibes.near/widget/Vibes.Feed.View.main",
     },
   },
+  {
+    name: "gm",
+    data: {
+      sources: [
+        {
+          domain: "post",
+          key: "main",
+        },
+      ],
+      typeWhitelist: ["md"],
+      postTemplate: "simonemelanie.near/widget/GM",
+    },
+  },
 ];
 
 State.init({
