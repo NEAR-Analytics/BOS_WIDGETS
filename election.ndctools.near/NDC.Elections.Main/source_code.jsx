@@ -131,7 +131,7 @@ const rand = (array) => {
 return (
   <>
     <div>
-      {houses.map((house) => (
+      {[...houses, budget].map((house) => (
         <>
           {house.id === state.selectedHouse && (
             <Widget
