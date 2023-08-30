@@ -1,6 +1,6 @@
 const daoId = props.daoId;
 const profile = daoId ? Social.get(`${daoId}/profile/**`, "final") : {};
-const currentLink = `#/astraplusplus.ndctools.near/widget/index?page=dao&daoId=${daoId}`;
+const currentLink = `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${daoId}`;
 const accountId = context.accountId;
 
 State.init({
