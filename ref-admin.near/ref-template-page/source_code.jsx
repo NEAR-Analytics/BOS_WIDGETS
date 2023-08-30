@@ -51,6 +51,9 @@ const Wrapper = styled.div`
   gap: 48px;
   padding-bottom: 48px;
   padding-top: 18px;
+  @media (max-width: 900px) {
+    padding-top: 0;
+  }
 `;
 
 const Text = styled.p`
@@ -81,27 +84,31 @@ const Text = styled.p`
 `;
 
 const Items = styled.div`
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(auto-fill, 415px);
-  gap: 20px;
-  height: 100%;
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+  @media (max-width: 900px) {
+    display: inline-grid;
+    width: 100%;
+  }
 `;
 
 const Item = styled.div`
-  :hover {
-    transform: ${(p) => (p.role === "Builder" ? "" : "scale(1.05)")};
-  }
+  // :hover {
+  //   transform: ${(p) => (p.role === "Builder" ? "" : "scale(1.05)")};
+  // }
 `;
 
 const FlexStart = styled.div`
   display: flex;
   align-items: center;
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 
 const ContentWrapper = styled.div`
   display: flex;
-  margin-top: 20px;
 `;
 
 const FunctionArea = styled.div`
@@ -263,20 +270,6 @@ const itemList = [
   },
 ];
 
-const displayItems = [];
-
-if (
-  Social.get(`${context.accountId}/myHomePagePath`) ===
-    `juaner.near/widget/ref-home` ||
-  !Social.get(`${context.accountId}/myHomePagePath`)
-) {
-  displayItems.push(itemList[0]);
-  displayItems.push(itemList[1]);
-} else {
-  displayItems.push(itemList[1]);
-  displayItems.push(itemList[0]);
-}
-
 return (
   <Wrapper className="">
     <div
@@ -287,7 +280,6 @@ return (
       }}
     >
       <FlexStart>
-        {/*
         <Widget
           src="ref-admin.near/widget/ref-template-search"
           props={{
@@ -298,7 +290,6 @@ return (
             whitelist,
           }}
         />
-        */}
 
         {role === "Builder" && (
           <AddComponentWrapper href={"/sandbox"}>
@@ -323,12 +314,14 @@ return (
       )}
 
       <Items>
-        {displayItems
+        {itemList
           .filter((d) => {
             if (!state.searchResults) return true;
             return state.searchResults.map((_) => _.widgetSrc).includes(d.src);
           })
           .map(({ item }) => item)}
+
+        <Widget src="ref-admin.near/widget/rainbow-card" />
       </Items>
     </ContentWrapper>
   </Wrapper>
