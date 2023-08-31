@@ -281,6 +281,10 @@ const handleSelectCandidate = (candidateId) => {
     State.update({ showToSModal: true });
     return;
   }
+  if (!!state.acceptedPolicy && !state.hasPolicyNFT) {
+    State.update({ showMintPolicyModal: true });
+    return;
+  }
 
   const selectedItems = state.selectedCandidates.includes(candidateId)
     ? state.selectedCandidates.filter((el) => el !== candidateId)
@@ -788,9 +792,7 @@ const CastVotes = () => (
               state.selectedCandidates.length === 1 ? "" : "s"
             }`,
             onClick: () =>
-              !!state.acceptedPolicy && !state.hasPolicyNFT
-                ? State.update({ showMintPolicyModal: true })
-                : !!state.acceptedPolicy && state.hasPolicyNFT
+              !!state.acceptedPolicy && state.hasPolicyNFT
                 ? State.update({ bountyProgramModal: true })
                 : State.update({ showToSModal: true }),
           },
