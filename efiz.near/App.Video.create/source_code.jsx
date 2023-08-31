@@ -146,7 +146,7 @@ return (
       <h2>Upload to Livepeer</h2>
 
       <Widget
-        src={"livepeer.near/widget/Inputs.File"}
+        src={"efiz.near/widget/Inputs.File"}
         props={{
           label: "Video",
           id: "livepeer-video",
@@ -189,7 +189,7 @@ return (
         }}
       />
       <Widget
-        src="livepeer.near/widget/Livepeer.Creator"
+        src="efiz.near/widget/Livepeer.Creator"
         props={{
           video: state.currentUpload,
           metadata: { title, description },
@@ -209,7 +209,7 @@ return (
       />
       {state.playbackId && (
         <Widget
-          src="livepeer.near/widget/Livepeer.Player"
+          src="efiz.near/widget/Livepeer.Player"
           props={{
             playbackId: state.playbackId,
             title: state.title,
