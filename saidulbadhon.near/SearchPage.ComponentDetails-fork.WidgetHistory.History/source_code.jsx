@@ -3,8 +3,6 @@ if (typeof props.widgetPath !== "string")
 
 const theme = props.theme;
 
-console.log(theme);
-
 State.init({
   selectedTab: "code",
   selectedBlockHeight: null,
@@ -41,7 +39,6 @@ const BlockChangesLink = styled.button`
 `;
 
 const renderBlockChangesLink = (blockHeight) => {
-  console.log(state.selectedBlockHeight != blockHeight);
   return (
     <BlockChangesLink
       className={`list-group-item list-group-item-action ${
@@ -113,7 +110,6 @@ const TabsButton = styled.button`
   line-height: 17px;
   padding: 0 12px;
   position: relative;
-  // color: ${(p) => (p.selected ? "#11181C" : "#687076")};
   color: ${(p) => (p.selected ? theme.buttonColor : theme.textColor)};
 
   background: none;
@@ -123,7 +119,6 @@ const TabsButton = styled.button`
   transition: all .2s ease-in-out;
 
   &:hover {
-    // color: #11181C;
     color: ${theme.buttonColor};
   }
 
@@ -150,7 +145,7 @@ return (
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          color: theme.textColor,
+          color: theme.textColor3,
         }}
       >
         History for this component does not exist.
