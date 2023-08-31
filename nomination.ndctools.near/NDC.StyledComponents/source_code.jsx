@@ -281,7 +281,7 @@ if (Link)
         Link.className ?? "primary"
       } gap-1`}
       href={Link.href}
-      target="_blank"
+      target={Link.doNotOpenNew ? "" : "_blank"}
       disabled={Link.disabled}
       inverse={Link.inverse}
     >
