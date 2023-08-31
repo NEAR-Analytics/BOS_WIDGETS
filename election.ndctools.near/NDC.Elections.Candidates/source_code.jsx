@@ -281,7 +281,7 @@ const handleSelectCandidate = (candidateId) => {
     State.update({ showToSModal: true });
     return;
   }
-  if (!!state.acceptedPolicy && !state.hasPolicyNFT) {
+  if (!!state.acceptedPolicy && state.hasPolicyNFT === false) {
     State.update({ showMintPolicyModal: true });
     return;
   }
