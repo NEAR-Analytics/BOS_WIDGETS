@@ -37,7 +37,7 @@ return (
         2
       )}
     </pre>
-    <pre>{JSON.stringify(Social.get(`mob.near/widget/**`), null, 2)}</pre>
+    // <pre>{JSON.stringify(Social.get(`mob.near/widget/**`), null, 2)}</pre>
     {messages.reverse().map((message) => (
       <Message>
         <Widget
