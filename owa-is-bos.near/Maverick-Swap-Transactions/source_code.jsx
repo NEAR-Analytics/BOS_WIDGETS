@@ -71,7 +71,7 @@ return (
   <Theme>
     <div class="text-center mt-1">
       <div class="MainContainer">
-        {state.sender ? (
+        {state.sender != "" ? (
           <>
             <div
               style={{
