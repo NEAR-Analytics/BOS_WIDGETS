@@ -649,7 +649,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           )}
         </div>
       </div>
-      <div className="d-flex w-100 align-items-center justify-content-between">
+      <div className="d-flex w-100 align-items-center justify-content-around">
         <Widget
           src={widgets.styledComponents}
           props={{
@@ -719,7 +719,7 @@ const Filters = () => (
         />
       </Candidates>
     </div>
-    <div className="d-flex w-100 align-items-center justify-content-between">
+    <div className="d-flex w-100 align-items-center justify-content-around">
       <Nomination className="text-secondary text-end text-md-start">
         <small>Nomination</small>
       </Nomination>
