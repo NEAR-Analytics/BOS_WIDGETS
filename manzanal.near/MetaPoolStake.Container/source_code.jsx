@@ -1,8 +1,8 @@
 const accountId = context.accountId;
 const getUserAddress = props.getUserAddress;
 const update = props.update;
-const token = state.token;
-const action = state.action;
+const token = props.token;
+const action = props.action;
 
 // STYLED COMPONENTS
 
