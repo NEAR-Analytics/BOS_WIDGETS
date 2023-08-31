@@ -22,6 +22,7 @@ const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   modal: "nomination.ndctools.near/widget/NDC.Modal",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
+  budget: "election.ndctools.near/widget/NDC.Elections.BudgetPackage",
 };
 
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
@@ -333,11 +334,11 @@ const handleBookmarkCandidate = (candidateId) => {
   );
 };
 
-const handleVote = () => {
+const handleVote = (vote) => {
   const voteFunc = {
     contractName: electionContract,
     methodName: "vote",
-    args: { prop_id: props.id, vote: state.selectedCandidates },
+    args: { prop_id: props.id, vote },
     gas: "110000000000000",
   };
 
@@ -995,7 +996,7 @@ return (
               state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
             onCancel: () =>
               State.update({ bountyProgramModal: false, reload: false }),
-            onSubmit: handleVote,
+            onSubmit: () => handleVote(state.selectedCandidates),
           },
           SecondaryButton: {
             type: greylisted ? "Link" : "Button",
@@ -1039,38 +1040,45 @@ return (
 
     <Container>
       <h2>{housesMapping[typ]}</h2>
-      <small className="text-secondary">{result.length} Candidates</small>
-      {state.candidates.length > 0 ? (
-        <>
-          <Filters />
-          <CandidatesContainer>
-            {state.candidates.map(([candidateId, votes], index) => (
-              <CandidateItem
-                candidateId={candidateId}
-                votes={votes}
-                key={index}
-              />
-            ))}
-          </CandidatesContainer>
-        </>
+
+      {typ === "SetupPackage" ? (
+        <Widget src={widgets.budget} props={{ handleVote }} />
       ) : (
-        <div className="d-flex p-5 justify-content-center">
-          There are no candidates found
-        </div>
+        <>
+          <small className="text-secondary">{result.length} Candidates</small>
+          {state.candidates.length > 0 ? (
+            <>
+              <Filters />
+              <CandidatesContainer>
+                {state.candidates.map(([candidateId, votes], index) => (
+                  <CandidateItem
+                    candidateId={candidateId}
+                    votes={votes}
+                    key={index}
+                  />
+                ))}
+              </CandidatesContainer>
+            </>
+          ) : (
+            <div className="d-flex p-5 justify-content-center">
+              There are no candidates found
+            </div>
+          )}
+          <div>
+            {isIAmHuman ? (
+              <CastVotes />
+            ) : (
+              <Widget
+                src={widgets.verifyHuman}
+                props={{
+                  title: "Want to vote?",
+                  description: "Click on Verify as a Human to proceed.",
+                }}
+              />
+            )}
+          </div>
+        </>
       )}
-      <div>
-        {isIAmHuman ? (
-          <CastVotes />
-        ) : (
-          <Widget
-            src={widgets.verifyHuman}
-            props={{
-              title: "Want to vote?",
-              description: "Click on Verify as a Human to proceed.",
-            }}
-          />
-        )}
-      </div>
     </Container>
   </>
 );
