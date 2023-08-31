@@ -1,4 +1,4 @@
-const ROOT_ACCOUNT = props.ROOT_ACCOUNT ?? "livepeer.near";
+const ROOT_ACCOUNT = props.ROOT_ACCOUNT ?? "efiz.near";
 
 const propsTable = `
 | Prop Name  | Type/Values  | Default Value  | Description |
