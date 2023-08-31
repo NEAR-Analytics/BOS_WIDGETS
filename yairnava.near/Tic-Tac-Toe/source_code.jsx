@@ -125,9 +125,6 @@ function renderSquare(i) {
 
 const winner = calculateWinner(state.squares);
 const emptySquares = getEmptySquares(state.squares);
-
-console.log(emptySquares);
-
 if (winner) {
   State.update({
     winner: winner,
