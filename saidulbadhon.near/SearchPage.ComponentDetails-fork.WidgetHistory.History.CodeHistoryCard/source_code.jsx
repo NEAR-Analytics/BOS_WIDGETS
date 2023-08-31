@@ -52,10 +52,18 @@ return (
               data-toggle="tooltip"
               data-placement="top"
               title="Copy Widget"
-              onClick={() =>
-                props?.copyToClipboard &&
-                props?.copyToClipboard(props.prevBlockHeight,lineCountPrevCode )
-              }
+              onClick={() => {
+                // const currentCode = Social.get(
+                //   `${props.pathToWidget}`,
+                //   props.currentBlockHeight
+                // );
+
+                const prevCode = props.prevBlockHeight
+                  ? Social.get(`${props.pathToWidget}`, props.prevBlockHeight)
+                  : undefined;
+
+                props?.copyToClipboard && props?.copyToClipboard(prevCode);
+              }}
             >
               <i class="bi bi-clipboard-check"></i>
             </button>
