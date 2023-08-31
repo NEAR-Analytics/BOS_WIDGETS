@@ -142,32 +142,20 @@ return (
       width: "100%",
       display: "flex",
       justifyContent: "center",
+      width: "100%",
+      height: "100%",
+      backgroundImage: "url(https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/gameboy.png)",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "400px",
+      backgroundPosition: "top"
     }}
   >
     <div
       style={{
         textAlign: "center",
+        marginTop: "85px"
       }}
     >
-      <div
-        style={{
-          marginBottom: 10,
-        }}
-      >
-        <button
-          className="btn btn-outline-primary btn-sm"
-          onClick={() =>
-            State.update({
-              squares: Array(9).fill(null),
-              xIsNext: true,
-              winner: null,
-              status: null,
-            })
-          }
-        >
-          Reset Game
-        </button>
-      </div>
       <div style={borderRow}>
         {renderSquare(0)}
         {renderSquare(1)}
@@ -183,12 +171,27 @@ return (
         {renderSquare(7)}
         {renderSquare(8)}
       </div>
+      <div>
+        {state.status}
+      </div>
       <div
         style={{
-          marginBottom: 10,
+          marginTop: "20px",
         }}
       >
-        {state.status}
+        <button
+          className="btn bg-dark btn-sm text-white"
+          onClick={() =>
+            State.update({
+              squares: Array(9).fill(null),
+              xIsNext: true,
+              winner: null,
+              status: null,
+            })
+          }
+        >
+          Reset Game
+        </button>
       </div>
     </div>
   </div>
