@@ -259,22 +259,19 @@ return (
         }}
       />
       {!!state.sender ? (
-          <Widget
-            src={`${authorId}/widget/MetaPoolStake.Common.Button`}
-            props={{
-              onClick: () => onSubmit(),
-              disabled: state.loading,
-              text: state.loading ? "Wait..." :  state.buttonText,
-            }}
-          />
-        ) : (
-          <ButtonConnectContainer>
-            <Web3Connect
-              connectLabel="Connect wallet"
-              className="buttonClass"
-            />
-          </ButtonConnectContainer>
-        )}
+        <Widget
+          src={`${authorId}/widget/MetaPoolStake.Common.Button`}
+          props={{
+            onClick: () => onSubmit(),
+            disabled: state.loading,
+            text: state.loading ? "Wait..." : buttonText,
+          }}
+        />
+      ) : (
+        <ButtonConnectContainer>
+          <Web3Connect connectLabel="Connect wallet" className="buttonClass" />
+        </ButtonConnectContainer>
+      )}
     </StakeFormWrapper>
     <Widget
       src={`${authorId}/widget/MetaPoolStake.Common.Popup.Index`}
