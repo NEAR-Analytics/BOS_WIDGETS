@@ -832,6 +832,7 @@ const CastBudgetVote = () => (
             disabled: alreadyVotedForHouse() || blacklisted,
             onClick: () => {
               const res = handleSelectCandidate(["yes"]);
+              console.log(res);
               if (res) handleVote();
             },
           },
