@@ -164,7 +164,7 @@ return (
         </Filter>
       )}
       <Container className="d-flex row">
-        <Left className="h-screen col-lg d-flex flex-column justify-content-between">
+        <Left className="h-screen col-lg-3 d-flex flex-column justify-content-between">
           <div>
             <H5>To Vote</H5>
             <Widget
@@ -226,7 +226,7 @@ return (
           ))}
         </div>
 
-        <div className="col-lg">
+        <div className="col-lg-3">
           <Right className="col">
             <H5>General</H5>
             <div className="d-flex justify-content-center">
