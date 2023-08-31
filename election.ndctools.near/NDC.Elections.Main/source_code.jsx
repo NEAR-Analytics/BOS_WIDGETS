@@ -216,9 +216,9 @@ return (
                     electionContract,
                     registryContract,
                     ndcOrganization: "NDC",
-                    result: rand(house.result),
                     ...state,
                     ...house,
+                    result: rand(house.result),
                   }}
                 />
               )}
