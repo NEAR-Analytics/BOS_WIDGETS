@@ -41,8 +41,7 @@ const BLACKLIST_VERIFY_LINK = "";
 const GREYLIST_VERIFY_LINK = "";
 const MIN_BOND = 0.01; //3
 const MAX_BOND = 0.02; //300;
-// const NFT_SERIES = [124, 125];
-const NFT_SERIES = [1, 2];
+const NFT_SERIES = [190, 191];
 
 const H4 = styled.h4`
   margin-bottom: 0;
@@ -414,7 +413,9 @@ const handleStateTransition = () => {
         State.update({
           showMintPolicyModal: state.hasPolicyNFT === false,
           showMintIVotedModal:
-            state.hasVotedOnAllProposals && state.hasIVotedNFT === false,
+            state.hasVotedOnAllProposals &&
+            state.hasIVotedNFT === false &&
+            state.hasPolicyNFT === true,
         });
       break;
     case "COOLDOWN":
@@ -1010,6 +1011,7 @@ return (
             onCancel: () =>
               State.update({ showMintPolicyModal: false, reload: false }),
             href: MINT_VOTING_POLICY_NFT,
+            doNotOpenNew: true,
           },
         }}
       />
@@ -1110,6 +1112,7 @@ return (
             onCancel: () =>
               State.update({ showMintIVotedModal: false, reload: false }),
             href: MINT_I_VOTED_NFT,
+            doNotOpenNew: true,
           },
           SecondaryButton: {
             type: "Link",
