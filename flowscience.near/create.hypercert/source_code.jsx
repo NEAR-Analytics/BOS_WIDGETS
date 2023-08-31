@@ -142,7 +142,7 @@ State.init({
   selectedType: "flowscience.near/type/fileformat",
   view: defaultView,
   isPreview: false, //"TEMPLATE",
-  template: "",
+  template: "flowscience.near/type/fileformat",
   templateVal: template,
   thingId,
 });
@@ -275,7 +275,7 @@ return (
     {state.isModalOpen && (
       <ModalOverlay>
         <ModalContent>
-          <ModalTitle>Create Profile</ModalTitle>
+          <ModalTitle>Create Hypercert</ModalTitle>
           <Widget
             src="efiz.near/widget/Every.Raw.View"
             props={{
