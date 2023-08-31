@@ -1,7 +1,18 @@
+const useNetwork = (mainnet, testnet) => {
+  return context.networkId === "mainnet" ? mainnet : testnet;
+};
+
+const useThemeName = (light, dark) => {
+  return state.theme.name === "light" ? light : dark;
+};
+
 const pages = [
   {
     label: "SourceScan",
-    href: props.app || "https://sourcescan.2bb.dev",
+    href: useNetwork(
+      "https://sourcescan.2bb.dev",
+      "https://sourcescan.testnet.2bb.dev"
+    ),
     target: "_blank",
   },
   {
@@ -11,36 +22,15 @@ const pages = [
   },
 ];
 
-const useNetwork = (mainnet, testnet) => {
-  return context.networkId === "mainnet" ? mainnet : testnet;
-};
-
 State.init({
-  theme: props.theme || "light",
+  theme: props.theme || {
+    name: "light",
+    bg: "#e3e8ef",
+    color: "#4c5566",
+    border: "#748094",
+  },
   ownerId: useNetwork("sourcescan.near", "sourcescan.testnet"),
 });
-
-const dark = {
-  bg: "#28282b",
-  color: "#e6eaee",
-  border: "#748094",
-  button: {
-    bg: "#39393c",
-  },
-};
-
-const light = {
-  bg: "#e3e8ef",
-  color: "#4c5566",
-  border: "#748094",
-  button: {
-    bg: "#eef2f6",
-  },
-};
-
-const useTheme = (light, dark) => {
-  return state.theme === "light" ? light : dark;
-};
 
 const Main = styled.div`
   padding-top: 6px;
@@ -79,12 +69,12 @@ const NavButton = styled.button`
   height: 40px;
   border-radius: 40px;
   border: 1px solid transparent;
-  color: ${useTheme(light.color, dark.color)};
-  background-color: ${useTheme(light.bg, dark.bg)};
+  color: ${state.theme.color};
+  background-color: ${state.theme.bg};
   transition: background-color 0.1s ease-in-out;
 
   :hover {
-    background-color: ${useTheme(light.button.bg, dark.button.bg)};
+    background-color: ${state.theme.hover.bg};
   }
 `;
 
@@ -128,7 +118,7 @@ const Desktop = styled.div`
 
 const Logo = styled.img`
   cursor: pointer;
-  filter: ${useTheme("invert(0)", "invert(1)")};
+  filter: ${useThemeName("invert(0)", "invert(1)")};
 `;
 
 return (
