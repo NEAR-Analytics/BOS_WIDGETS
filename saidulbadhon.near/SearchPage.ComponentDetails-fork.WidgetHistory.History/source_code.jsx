@@ -1,10 +1,9 @@
-
 if (typeof props.widgetPath !== "string")
   return "send {widgetPath} as string in props";
 
 const theme = props.theme;
 
-console.log(theme)
+console.log(theme);
 
 State.init({
   selectedTab: "code",
@@ -34,26 +33,36 @@ function getDatastringFromBlockHeight(blockHeight) {
   return date.toDateString() + " " + date.toLocaleTimeString();
 }
 
+const BlockChangesLink = styled.button`
+  transition: all .2s ease-in-out;
+  &:hover {
+    color: ${theme.buttonColor} !important;
+  }
+`;
+
 const renderBlockChangesLink = (blockHeight) => {
+  console.log(state.selectedBlockHeight != blockHeight);
   return (
-    <div>
-      <button
-        className={`list-group-item list-group-item-action ${
-          state.selectedBlockHeight != blockHeight ? "" : "list-group-item-info"
-        }`}
-        style={{backgroundColor: theme.ui,
-        
-        color: theme.textColor3,
+    <BlockChangesLink
+      className={`list-group-item list-group-item-action ${
+        state.selectedBlockHeight != blockHeight ? "" : "list-group-item-info"
+      }`}
+      style={{
+        backgroundColor: theme.ui,
+
+        color:
+          state.selectedBlockHeight != blockHeight
+            ? theme.textColor3
+            : theme.buttonColor,
 
         borderBottom: `1px ${theme.borderColor} solid`,
-        }}
-        onClick={() => {
-          State.update({ selectedBlockHeight: blockHeight });
-        }}
-      >
-        #{blockHeight} * {getDatastringFromBlockHeight(blockHeight)}
-      </button>
-    </div>
+      }}
+      onClick={() => {
+        State.update({ selectedBlockHeight: blockHeight });
+      }}
+    >
+      #{blockHeight} * {getDatastringFromBlockHeight(blockHeight)}
+    </BlockChangesLink>
   );
 };
 
@@ -105,11 +114,13 @@ const TabsButton = styled.button`
   padding: 0 12px;
   position: relative;
   // color: ${(p) => (p.selected ? "#11181C" : "#687076")};
-  color: ${(p) => (p.selected ? theme.buttonColor: theme.textColor)};
+  color: ${(p) => (p.selected ? theme.buttonColor : theme.textColor)};
 
   background: none;
   border: none;
   outline: none;
+
+  transition: all .2s ease-in-out;
 
   &:hover {
     // color: #11181C;
@@ -134,15 +145,20 @@ return (
       <div>incorrent widget path</div>
     ) : (
       <div>
-        <div  class="card mb-3"style={{backgroundColor: theme.backgroundColor}}>
-          <h3 class="card-header" style={{color: theme.textColor}}>{blocksChanges.length} Commits</h3>
+        <div
+          class="card mb-3"
+          style={{ backgroundColor: theme.backgroundColor }}
+        >
+          <h3 class="card-header" style={{ color: theme.textColor }}>
+            {blocksChanges.length} Commits
+          </h3>
 
-          <div class="list-group" >
+          <div class="list-group">
             {blocksChanges
               .slice(0, 5)
               .map((height) => renderBlockChangesLink(height))}
 
-            <div class="collapse" id="collapseExample" >
+            <div class="collapse" id="collapseExample">
               {blocksChanges
                 .slice(5)
                 .map((height) => renderBlockChangesLink(height))}
@@ -151,7 +167,7 @@ return (
             {blocksChanges.length > 5 && (
               <button
                 class="list-group-item active"
-                style={{backgroundColor: theme.buttonCOlor}}
+                style={{ backgroundColor: theme.buttonCOlor }}
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseExample"
