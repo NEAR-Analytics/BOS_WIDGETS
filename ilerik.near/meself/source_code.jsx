@@ -7,12 +7,12 @@ State.init({
 // 'http://localhost:8765/gun'
 
 const code = `
-<h1>Todo</h1>
+  <h1>Todo List (powered by GunDB) </h1>
 
     <form id="sign">
       <input id="alias" placeholder="username">
       <input id="pass" type="password" placeholder="passphrase">
-      <input id="in" type="submit" value="sign in">
+      <input id="in" type="button" value="sign in">
       <input id="up" type="button" value="sign up">
     </form>
 
@@ -20,12 +20,12 @@ const code = `
 
     <form id="said">
         <input id="say">
-        <input id="speak" type="submit" value="speak">
+        <input id="speak" type="button" value="speak">
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/gun/examples/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+    <script src="https://meself-git-main-eriklite.vercel.app/gundb/sea.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gun/lib/webrtc.js"></script>
     <script>
     var gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
@@ -38,12 +38,12 @@ const code = `
       user.create($('#alias').val(), $('#pass').val());
     });
 
-    $('#sign').on('submit', function(e){
+    $('#in').on('click', function(e){
       e.preventDefault();
       user.auth($('#alias').val(), $('#pass').val());
     });
 
-    $('#said').on('submit', function(e){
+    $('#speak').on('click', function(e){
       e.preventDefault();
       if(!user.is){ return }
       user.get('said').set($('#say').val());
@@ -73,11 +73,11 @@ function initWASM() {
 
 return (
   <>
-    Iframes below
+    Iframes below:
     <div className="d-flex">
       <iframe
-        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
-        className="w-50 border"
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+        className="w-100 border"
         srcDoc={code}
       />
     </div>
