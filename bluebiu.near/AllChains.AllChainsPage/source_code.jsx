@@ -105,6 +105,11 @@ const data = [
         name: 'NEAR Staking',
         icon: 'https://ipfs.near.social/ipfs/bafkreihiv2dr4rruznpehhd7eoxaem2otpokj7y2uj6tzqpgmb2otlcynq',
         tags: ["Staking"],
+      },
+      {
+        name: 'NEAR-Ethereum Bridge',
+        icon: 'https://ipfs.near.social/ipfs/bafkreidt7vuqqkkdhq4hm24izay4y7vrratoju3jou6szecv3xvuv5a3b4',
+        tags: ["Bridge"],
       }
     ],
   },
@@ -221,7 +226,7 @@ const data = [
     bannerIcon: 'https://ipfs.near.social/ipfs/bafkreie3rxllt4uknrcjhqcldharoxad3bbkfhjbmeceapiefjyi77cewe',
     src: 'polygon.technology',
     chainId: '137 (0x89)',
-    technology: 'Optimistic Rollup',
+    technology: '-',
     token: 'MATIC',
     bgColor: '#373A53',
     new: 0,
@@ -291,10 +296,10 @@ const data = [
   {
     title: 'Gnosis',
     bannerIcon: 'https://ipfs.near.social/ipfs/bafkreiea7fmpsak7jjgyzkpnrfs2r34z6ckwub6wzvyukqyuq3cixtzgde',
-    src: 'metis.io',
+    src: 'gnosis.io',
     chainId: '100 (0x64)',
     technology: 'ZK Rollup',
-    token: 'xDAI',
+    token: 'GNO',
     bgColor: '#373A53',
     new: false,
     opacity: true,
