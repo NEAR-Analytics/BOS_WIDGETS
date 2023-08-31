@@ -12,7 +12,6 @@ const VoteRow = styled.a`
 const StyledLink = styled.a`
   color: black;
   text-decoration: none !important;
-  width: 50% !important;
   font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
