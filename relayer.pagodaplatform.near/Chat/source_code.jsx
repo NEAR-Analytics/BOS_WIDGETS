@@ -28,16 +28,16 @@ const sendMessage = () => {
 
 return (
   <>
-    <pre>
-      {JSON.stringify(
-        Social.index("post", "main", {
-          accountId: "nectar.near",
-        }),
-        null,
-        2
-      )}
-    </pre>
-    // <pre>{JSON.stringify(Social.get(`mob.near/widget/**`), null, 2)}</pre>
+    // <pre>
+    //   {JSON.stringify(
+    //     Social.index("post", "main", {
+    //       accountId: "nectar.near",
+    //     }),
+    //     null,
+    //     2
+    //   )}
+    // </pre>
+    <pre>{JSON.stringify(Social.get(`mob.near/widget/**`), null, 2)}</pre>
     {messages.reverse().map((message) => (
       <Message>
         <Widget
