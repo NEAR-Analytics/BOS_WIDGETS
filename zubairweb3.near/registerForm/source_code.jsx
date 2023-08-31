@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 background-image: linear-gradient(to right, #c79081, #dfa579);
 width: 80%;
 padding: 20px;
-margin: auto;
+margin: 10px auto;
 border-radius: 15px;
 @media (max-width: 650px){
   width: 100%;
