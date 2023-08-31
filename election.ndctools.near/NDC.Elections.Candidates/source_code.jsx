@@ -277,6 +277,7 @@ const filteredCandidates = () => {
 };
 
 const handleSelectCandidate = (candidateId) => {
+  console.log(state);
   if (!state.acceptedPolicy) {
     State.update({ showToSModal: true });
     return;
@@ -832,7 +833,6 @@ const CastBudgetVote = () => (
             disabled: alreadyVotedForHouse() || blacklisted,
             onClick: () => {
               const res = handleSelectCandidate(["yes"]);
-              console.log(res);
               if (res) handleVote();
             },
           },
