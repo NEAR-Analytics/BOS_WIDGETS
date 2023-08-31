@@ -16,6 +16,7 @@ const borderRow = {
   clear: "both",
   content: "",
   display: "table",
+  opacity: "0.7"
 };
 
 function calculateWinner(squares) {
