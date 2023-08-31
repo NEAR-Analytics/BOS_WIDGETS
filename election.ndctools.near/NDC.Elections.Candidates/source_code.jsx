@@ -462,8 +462,9 @@ const processNFTAvailability = (result, key) => {
     if (data) {
       const tokens = data.nft_tokens;
 
-      if (tokens.length > 0 && tokens[0].last_transfer_timestamp === null)
-        State.update({ [key]: true });
+      State.update({
+        [key]: tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
+      });
     }
   }
 };
