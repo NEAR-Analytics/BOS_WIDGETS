@@ -125,11 +125,13 @@ return (
         />
       </div>
       <div class="mb-3">
+        <label for="gender" class="form-label">
+          Gender
+        </label>
         <select
           class="form-select"
           onChange={(e) => State.update({ gender: e.target.value })}
         >
-          <option selected>Gender</option>
           <option value="male" name="gender">
             Male
           </option>
@@ -139,11 +141,13 @@ return (
         </select>
       </div>
       <div class="mb-3">
+        <label for="occupation" class="form-label">
+          Occupation
+        </label>
         <select
           class="form-select"
           onChange={(e) => State.update({ occupation: e.target.value })}
         >
-          <option selected>Occupation</option>
           <option value="near-developer" name="occupation">
             NEAR Developer
           </option>
