@@ -1,11 +1,4 @@
-console.log(props);
-
-let rawData = fetch(props.apiURL, {
-  method: "GET",
-  headers: {
-    Accept: "*/*",
-  },
-});
+let rawData = props.rawData;
 
 // data.body = data.body.sort((a, b) => new Date(a.MONTH) - new Date(b.MONTH));
 
