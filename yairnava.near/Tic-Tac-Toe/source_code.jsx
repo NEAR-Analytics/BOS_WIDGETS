@@ -143,7 +143,7 @@ return (
       display: "flex",
       justifyContent: "center",
       width: "100%",
-      height: "100%",
+      height: "308px",
       backgroundImage: "url(https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/gameboy.png)",
       backgroundRepeat: "no-repeat",
       backgroundSize: "370px",
