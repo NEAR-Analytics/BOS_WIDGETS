@@ -6,6 +6,8 @@ function handleClick() {
 
 return (
   <div>
+    <div>Network: {context.networkId}</div>
+    <div>Account: {context.accountId}</div>
     <div>Click to buy content</div>
     <div>
       <button onClick={handleClick}>Send TX</button>
