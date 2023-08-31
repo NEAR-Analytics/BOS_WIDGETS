@@ -1,3 +1,5 @@
+console.log(props);
+
 let rawData = fetch(props.apiURL, {
   subscribe: true,
   method: "GET",
