@@ -6,7 +6,7 @@ return (
       Navigator: {
         // template for your navbar
         src: {
-          path: "livepeer.near/widget/App.Header",
+          path: "efiz.near/widget/App.Header",
           blockHeight: "final",
         },
         theme: "", // TODO: add theme
@@ -14,25 +14,25 @@ return (
       routes: {
         browse: {
           src: {
-            path: "livepeer.near/widget/App.Video.browse",
+            path: "efiz.near/widget/App.Video.browse",
             blockHeight: "final",
           },
         },
         view: {
           src: {
-            path: "livepeer.near/widget/App.Video.view",
+            path: "efiz.near/widget/App.Video.view",
             blockHeight: "final",
           },
         },
         create: {
           src: {
-            path: "livepeer.near/widget/App.Video.create",
+            path: "efiz.near/widget/App.Video.create",
             blockHeight: "final",
           },
         },
         library: {
           src: {
-            path: "livepeer.near/widget/Library.index",
+            path: "efiz.near/widget/Library.index",
             blockHeight: "final",
           },
         },
