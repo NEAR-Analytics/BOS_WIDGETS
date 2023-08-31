@@ -18,6 +18,7 @@ return (
       props={{
         widgetPath: state.widgetPath,
         theme: props.theme,
+        copyToClipboard: props.copyToClipboard
       }}
     />
   </div>
