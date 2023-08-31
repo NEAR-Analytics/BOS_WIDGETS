@@ -37,6 +37,13 @@ if (state.chainId !== undefined && state.chainId !== 1313161554) {
   return <p>Switch to Aurora</p>;
 }
 
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
+
 function isValid(a) {
   if (!a) return false;
   if (isNaN(Number(a))) return false;
