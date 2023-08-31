@@ -69,11 +69,12 @@ function blockHeightToWidgetCode(blockHeight) {
     <div class="mb-3">
       <Widget
         key={blockHeight}
-        src={`bozon.near/widget/WidgetHistory.CodeHistoryCard`}
+        src={`saidulbadhon.near/widget/SearchPage.ComponentDetails-fork.WidgetHistory.History.CodeHistoryCard`}
         props={{
           pathToWidget: props.widgetPath,
           currentBlockHeight: blockHeight,
           prevBlockHeight: blocksChanges[index + 1],
+          copyToClipboard: props.copyToClipboard ,
         }}
       />
     </div>
