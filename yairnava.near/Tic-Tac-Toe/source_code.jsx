@@ -172,13 +172,13 @@ return (
         {renderSquare(8)}
       </div>
       <div style={{
-        fontSize: "15px"
+        fontSize: "9px",
       }}>
         {state.status}
       </div>
       <div
         style={{
-          marginTop: "7px",
+          marginTop: "13px",
         }}
       >
         <button
