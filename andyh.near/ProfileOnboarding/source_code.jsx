@@ -18,7 +18,7 @@ if (!accountId) {
 }
 
 const profile = Social.getr(`${accountId}/profile`);
-
+console.log({ accountId, profile });
 if (profile === null) {
   return "";
 }
