@@ -1042,7 +1042,18 @@ return (
       <h2>{housesMapping[typ]}</h2>
 
       {typ === "SetupPackage" ? (
-        <Widget src={widgets.budget} props={{ handleVote }} />
+        <Widget
+          src={widgets.budget}
+          props={{
+            typ,
+            seats,
+            electionContract,
+            registryContract,
+            isIAmHuman,
+            myVotes,
+            handleVote,
+          }}
+        />
       ) : (
         <>
           <small className="text-secondary">{result.length} Candidates</small>
