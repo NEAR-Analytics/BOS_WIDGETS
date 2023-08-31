@@ -125,10 +125,21 @@ const Votes = styled.div``;
 
 const Action = styled.div``;
 
-const Nomination = styled.div`
+const Nomination = styled.div``;
+
+const NominationLink = styled.div`
   display: block;
+
   @media (max-width: 768px) {
     display: none;
+  }
+`;
+
+const NominationLinkMobile = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
   }
 `;
 
@@ -655,21 +666,40 @@ const CandidateItem = ({ candidateId, votes }) => (
         </div>
       </div>
       <div className="d-flex w-100 align-items-center justify-content-around">
-        <Widget
-          src={widgets.styledComponents}
-          props={{
-            Link: {
-              size: "sm",
-              className: "secondary dark",
-              text: "Nomination",
-              icon: <i className="bi bi-box-arrow-up-right" />,
-              href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
-              inverse:
-                state.selected === candidateId ||
-                state.winnerIds.includes(candidateId),
-            },
-          }}
-        />
+        <NominationLink>
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Link: {
+                size: "sm",
+                className: "secondary dark",
+                text: "Nomination",
+                icon: <i className="bi bi-box-arrow-up-right" />,
+                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
+                inverse:
+                  state.selected === candidateId ||
+                  state.winnerIds.includes(candidateId),
+              },
+            }}
+          />
+        </NominationLink>
+        <NominationLinkMobile>
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Link: {
+                size: "sm",
+                className: "secondary dark",
+                text: "",
+                icon: <i className="bi bi-box-arrow-up-right" />,
+                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
+                inverse:
+                  state.selected === candidateId ||
+                  state.winnerIds.includes(candidateId),
+              },
+            }}
+          />
+        </NominationLinkMobile>
         {isVisible() && <Votes>{votes}</Votes>}
         {isIAmHuman && (
           <Votes>
