@@ -62,7 +62,7 @@ return (
                 //   ? Social.get(`${props.pathToWidget}`, props.prevBlockHeight)
                 //   : undefined;
 
-                props?.copyToClipboard && props?.copyToClipboard(prevCode);
+                props?.copyToClipboard && props?.copyToClipboard(currentCode);
               }}
             >
               <i class="bi bi-clipboard-check"></i>
