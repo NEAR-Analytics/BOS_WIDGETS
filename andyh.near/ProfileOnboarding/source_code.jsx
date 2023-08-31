@@ -56,4 +56,50 @@ if (
   );
 }
 
-return <></>;
+const dismissed = Storage.get("dismissed");
+const defaultHomepage = "mob.near/widget/N";
+const homepage = Social.get(`${accountId}/settings/near.social/homepage`);
+
+if (homepage === null) {
+  return "";
+}
+
+return !dismissed && homepage && homepage !== defaultHomepage ? (
+  <div className="alert alert-info rounded-4 mb-3">
+    <p>
+      <b>Try new Near Social design</b>
+    </p>
+    <div>
+      <img
+        className="mw-100"
+        style={{ maxHeight: "300px" }}
+        src="https://ipfs.near.social/ipfs/bafkreicmkcqm64uikr2ilfcgrcpnv6rbnf6umeu6b3plzhvhvpnbqjvvii"
+        alt="N Preview"
+      />
+    </div>
+    <div className="mt-3">
+      <CommitButton
+        className="btn btn-primary rounded-5"
+        data={{
+          settings: {
+            "near.social": {
+              homepage: defaultHomepage,
+            },
+          },
+        }}
+      >
+        Switch to new design
+      </CommitButton>
+      <button
+        className="ms-3 btn btn-secondary rounded-5"
+        onClick={() => {
+          Storage.set("dismissed", true);
+        }}
+      >
+        Dismiss
+      </button>
+    </div>
+  </div>
+) : (
+  ""
+);
