@@ -12,7 +12,7 @@ const VoteRow = styled.a`
 const StyledLink = styled.a`
   color: black;
   text-decoration: none !important;
-  width: 100px !important;
+  width: 50% !important;
   font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
@@ -51,7 +51,7 @@ return (
           href={`https://explorer.mainnet.near.org/transactions/${vote.transaction_id}`}
           className="d-flex justify-content-between align-items-center"
         >
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center w-50">
             {vote.house !== "SetupPackage" ? (
               <Widget
                 src="mob.near/widget/ProfileImage"
@@ -85,15 +85,17 @@ return (
               </small>
             </div>
           </div>
-          <Widget
-            src={widgets.styledComponents}
-            props={{
-              Tag: {
-                title: housesMapping[vote.house],
-                className: "dark",
-              },
-            }}
-          />
+          <div className="w-50">
+            <Widget
+              src={widgets.styledComponents}
+              props={{
+                Tag: {
+                  title: housesMapping[vote.house],
+                  className: "dark",
+                },
+              }}
+            />
+          </div>
         </VoteRow>
       ))}
   </List>
