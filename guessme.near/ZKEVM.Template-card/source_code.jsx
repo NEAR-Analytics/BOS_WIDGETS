@@ -118,6 +118,8 @@ const Label = styled.div`
       return 'rgba(227, 233, 157, 1)';
     } else if (content === 'dexes') {
       return 'rgba(172, 252, 237, 1)';
+    } else if (content === 'dex') {
+      return 'rgba(172, 252, 237, 1)';
     } else if (content === 'lending') {
       return 'rgba(173, 255, 181, 1)';
     } else if (content === 'liquid-staking') {
