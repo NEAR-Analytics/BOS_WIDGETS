@@ -12,7 +12,7 @@ let Wrapper = styled.div`
 background-image: linear-gradient(to right, #42275a, #734b6d);
 display: flex;
 flex-direction: column;
-width: 100vw;
+width: 100%;
 height: 100vh;
 align-items: center;
 justify-content: center;
@@ -22,7 +22,7 @@ justify-content: center;
 `;
 
 let Content = styled.div`
-width: 60vw;
+width: 60%;
 text-align: center;
 background: #000428;
 border: 2px solid #42275a;
