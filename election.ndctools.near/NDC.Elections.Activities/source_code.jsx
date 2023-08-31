@@ -30,6 +30,10 @@ const BPImg = styled.img`
   margin-right: 8px;
 `;
 
+const Tag = styled.div`
+  margin-left: 10px;
+`;
+
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
@@ -86,7 +90,7 @@ return (
               </small>
             </div>
           </div>
-          <div className="w-50">
+          <Tag className="w-50">
             <Widget
               src={widgets.styledComponents}
               props={{
@@ -96,7 +100,7 @@ return (
                 },
               }}
             />
-          </div>
+          </Tag>
         </VoteRow>
       ))}
   </List>
