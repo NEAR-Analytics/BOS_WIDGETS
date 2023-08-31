@@ -35,7 +35,7 @@ const Tag = styled.div`
 `;
 
 const AccountBlock = styled.div`
-  width: 83px;
+  width: 84px;
 `;
 
 const widgets = {
