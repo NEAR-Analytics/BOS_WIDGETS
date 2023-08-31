@@ -57,16 +57,16 @@ font-family: arial, sans-serif;
 font-size: 1.5rem;
 `;
 
-// let current_user = context.accountId;
-// if (!current_user) {
-//   return (
-//     <div>
-//       <a href="https://near.org/signin">
-//         <button>Connect with NEAR account</button>
-//       </a>
-//     </div>
-//   );
-// }
+let current_user = context.accountId;
+if (!current_user) {
+  return (
+    <div style={{ textAlign: "center" }}>
+      <a href="https://near.org/signin">
+        <button>Connect with NEAR account</button>
+      </a>
+    </div>
+  );
+}
 return (
   <Wrapper>
     <FormHeader>Register</FormHeader>
