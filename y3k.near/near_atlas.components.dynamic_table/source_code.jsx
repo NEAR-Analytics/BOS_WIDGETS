@@ -1,4 +1,3 @@
-// Monthly Active Accounts Example
 let rawData = fetch(props.apiURL, {
   subscribe: true,
   method: "GET",
