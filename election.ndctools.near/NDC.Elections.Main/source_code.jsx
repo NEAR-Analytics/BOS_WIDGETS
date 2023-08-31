@@ -68,7 +68,6 @@ const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   houses: "election.ndctools.near/widget/NDC.Elections.Houses",
-  budget: "election.ndctools.near/widget/NDC.Elections.BudgetPackage",
   progress: "election.ndctools.near/widget/NDC.Elections.Progress",
   candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
   statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
@@ -209,33 +208,20 @@ return (
         <div className="col-lg-6 p-2 p-md-3">
           {state.houses.map((house) => (
             <>
-              {house.id === state.selectedHouse &&
-                state.selectedHouse !== budgetId && (
-                  <Widget
-                    key={i}
-                    src={widgets.candidates}
-                    props={{
-                      electionContract,
-                      registryContract,
-                      ndcOrganization: "NDC",
-                      result: rand(house.result),
-                      ...state,
-                      ...house,
-                    }}
-                  />
-                )}
-              {house.id === state.selectedHouse &&
-                state.selectedHouse === budgetId && (
-                  <Widget
-                    src={widgets.budget}
-                    props={{
-                      electionContract,
-                      registryContract,
-                      ...state,
-                      ...house,
-                    }}
-                  />
-                )}
+              {house.id === state.selectedHouse && (
+                <Widget
+                  key={i}
+                  src={widgets.candidates}
+                  props={{
+                    electionContract,
+                    registryContract,
+                    ndcOrganization: "NDC",
+                    result: rand(house.result),
+                    ...state,
+                    ...house,
+                  }}
+                />
+              )}
             </>
           ))}
         </div>
