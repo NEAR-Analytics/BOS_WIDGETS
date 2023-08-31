@@ -52,7 +52,7 @@ function getRandomMove(emptySquares) {
 
 State.init({
   squares: Array(9).fill(null),
-  xIsNext: true,
+  xIsNext: Math.random() < 0.5,
   winner: null,
 });
 
@@ -126,6 +126,7 @@ function renderSquare(i) {
 
 const winner = calculateWinner(state.squares);
 const emptySquares = getEmptySquares(state.squares);
+
 if (winner) {
   State.update({
     winner: winner,
@@ -140,6 +141,10 @@ if (winner) {
   State.update({
     status: "Turn: " + (state.xIsNext ? "Player" : "CPU"),
   });
+}
+
+if (emptySquares.length == 9 && !state.xIsNext) {
+  handleClick(Math.floor(Math.random() * 9))
 }
 
 return (
@@ -194,7 +199,7 @@ return (
           onClick={() =>
             State.update({
               squares: Array(9).fill(null),
-              xIsNext: true,
+              xIsNext: Math.random() < 0.5,
               winner: null,
               status: null,
             })
