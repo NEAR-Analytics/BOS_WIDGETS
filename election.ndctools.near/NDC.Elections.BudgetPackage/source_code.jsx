@@ -6,8 +6,7 @@ const {
   registryContract,
   isIAmHuman,
   myVotes,
-  alreadyBonded,
-  greylisted,
+  handleVote,
 } = props;
 
 const widgets = {
@@ -125,27 +124,6 @@ State.init({
   availableVotes: seats - myVotesForHouse().length,
 });
 
-const handleVote = (value) => {
-  const voteFunc = {
-    contractName: electionContract,
-    methodName: "vote",
-    args: { prop_id: props.id, vote: [value] },
-    gas: "110000000000000",
-  };
-
-  const bondFunc = {
-    contractName: registryContract,
-    methodName: "is_human_call",
-    args: { ctr: electionContract, function: "bond", payload: "{}" },
-    gas: "110000000000000",
-    deposit: (greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000,
-  };
-
-  const arr = alreadyBonded ? [voteFunc] : [bondFunc, voteFunc];
-
-  Near.call(arr).then((data) => State.update({ reload: true }));
-};
-
 const CastVotes = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
     <div className="wrapper">
@@ -171,7 +149,7 @@ const CastVotes = () => (
             disabled: alreadyVotedForHouse(),
             className: "primary success justify-content-center",
             icon: <i className="bi bi-hand-thumbs-up" />,
-            onClick: () => handleVote("yes"),
+            onClick: () => handleVote(["yes"]),
           },
         }}
       />
@@ -183,7 +161,7 @@ const CastVotes = () => (
             disabled: alreadyVotedForHouse(),
             className: "primary danger justify-content-center",
             icon: <i className="bi bi-hand-thumbs-down" />,
-            onClick: () => handleVote("no"),
+            onClick: () => handleVote(["no"]),
           },
         }}
       />
@@ -195,7 +173,7 @@ const CastVotes = () => (
             disabled: alreadyVotedForHouse(),
             className: "primary justify-content-center",
             icon: <i className="bi bi-x-lg" />,
-            onClick: () => handleVote("abstain"),
+            onClick: () => handleVote(["abstain"]),
           },
         }}
       />
@@ -344,8 +322,7 @@ const Content = () => (
 );
 
 return (
-  <Container>
-    <h2>Budget Package</h2>
+  <>
     <a href="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/">
       View Budget Package
       <i className="ml-2 bi bi-box-arrow-up-right" />
@@ -367,5 +344,5 @@ return (
         />
       )}
     </div>
-  </Container>
+  </>
 );
