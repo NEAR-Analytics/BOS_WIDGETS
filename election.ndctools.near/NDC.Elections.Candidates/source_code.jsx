@@ -832,7 +832,7 @@ const CastBudgetVote = () => (
             icon: <i className="bi bi-hand-thumbs-up" />,
             disabled: alreadyVotedForHouse() || blacklisted,
             onClick: () => {
-              const res = handleSelectCandidate(["yes"]);
+              const res = handleSelectCandidate("yes");
               if (res) handleVote();
             },
           },
@@ -847,7 +847,7 @@ const CastBudgetVote = () => (
             icon: <i className="bi bi-hand-thumbs-down" />,
             disabled: alreadyVotedForHouse() || blacklisted,
             onClick: () => {
-              const res = handleSelectCandidate(["no"]);
+              const res = handleSelectCandidate("no");
               if (res) handleVote();
             },
           },
@@ -862,7 +862,7 @@ const CastBudgetVote = () => (
             icon: <i className="bi bi-x-lg" />,
             disabled: alreadyVotedForHouse() || blacklisted,
             onClick: () => {
-              const res = handleSelectCandidate(["abstain"]);
+              const res = handleSelectCandidate("abstain");
               if (res) handleVote();
             },
           },
