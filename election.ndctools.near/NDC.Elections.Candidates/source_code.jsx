@@ -41,7 +41,7 @@ const BLACKLIST_VERIFY_LINK = "";
 const GREYLIST_VERIFY_LINK = "";
 const MIN_BOND = 0.01; //3
 const MAX_BOND = 0.02; //300;
-const NFT_SERIES = [124, 125];
+const NFT_SERIES = [1, 2];
 
 const H4 = styled.h4`
   margin-bottom: 0;
@@ -461,7 +461,7 @@ const processNFTAvailability = (result, key) => {
     let data = result.body.data;
     if (data) {
       const tokens = data.nft_tokens;
-
+      console.log(tokens);
       State.update({
         [key]: tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
       });
