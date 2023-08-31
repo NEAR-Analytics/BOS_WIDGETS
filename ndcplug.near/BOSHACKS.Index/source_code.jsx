@@ -1,5 +1,5 @@
 /**
- * Change telegram tab, add resource tag
+ * Change telegram tab, add submission tab
  * fix alignment on subheader
  */
 const ownerId = "ndcplug.near";
