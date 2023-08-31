@@ -225,7 +225,7 @@ const renderTokens = (
         onClick={() => {
           update({ token: "wnear" });
         }}
-        href={`/meta-pool-official.near/widget/MetaPoolStake.Near.wNear?token=wnear`}
+        href={`/meta-pool-official.near/widget/MetaPoolStake.wNear?token=wnear`}
         active={token === "wnear"}
       >
         <div>
