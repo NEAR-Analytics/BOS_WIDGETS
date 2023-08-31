@@ -414,7 +414,7 @@ const handleStateTransition = () => {
         State.update({
           showMintPolicyModal: state.hasPolicyNFT === false,
           showMintIVotedModal:
-            myVotes.length > 0 && state.hasIVotedNFT === false,
+            state.hasVotedOnAllProposals && state.hasIVotedNFT === false,
         });
       break;
     case "COOLDOWN":
@@ -481,6 +481,7 @@ State.init({
   loading: false,
   electionStatus: "NOT_STARTED",
   acceptedPolicy: false,
+  hasVotedOnAllProposals: false,
   availableVotes: seats - myVotesForHouse().length,
   selected: null,
   bookmarked: [],
@@ -521,6 +522,14 @@ if (state.reload) {
     prop_id: props.id,
   });
 
+  const hasVotedOnAllProposals = Near.view(
+    electionContract,
+    "has_voted_on_all_proposals",
+    {
+      user: context.accountId,
+    }
+  );
+
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
     user: context.accountId,
   });
@@ -537,6 +546,7 @@ if (state.reload) {
     winnerIds: winnerIds ?? state.winnerIds,
     bookmarked: bookmarked ?? state.bookmarked,
     candidates: filteredCandidates(),
+    hasVotedOnAllProposals,
   });
 
   handleStateTransition();
