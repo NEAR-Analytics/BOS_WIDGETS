@@ -908,8 +908,10 @@ return (
             "Election results are under review by Election integrity Councils. Please wait it may takes a few days",
           Button: {
             title: "I understand",
-            onCancel: () => State.update({ showReviewModal: false }),
-            onSubmit: () => State.update({ showReviewModal: false }),
+            onCancel: () =>
+              State.update({ showReviewModal: false, reload: false }),
+            onSubmit: () =>
+              State.update({ showReviewModal: false, reload: false }),
           },
         }}
       />
