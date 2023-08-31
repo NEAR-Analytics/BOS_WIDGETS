@@ -4,6 +4,8 @@ const DexConfig = {
   BaseSwap: {
     factoryAddress: "0xFDa619b6d20975be80A10332cD39b9a4b0FAa8BB",
     routerAddress: "0x327Df1E6de05895d2ab08513aaDD9313Fe505d86",
+    uniType: "v2",
+
     defaultCurrencies: {
       input: {
         chainId: 8453,
@@ -26,6 +28,8 @@ const DexConfig = {
   RocketSwap: {
     factoryAddress: "0x1B8128c3A1B7D20053D10763ff02466ca7FF99FC",
     routerAddress: "0x4cf76043B3f97ba06917cBd90F9e3A2AAC1B306e",
+    uniType: "v2",
+
     defaultCurrencies: {
       input: {
         chainId: 8453,
@@ -48,6 +52,7 @@ const DexConfig = {
   SwapBased: {
     factoryAddress: "0x04C9f118d21e8B767D2e50C946f0cC9F6C367300",
     routerAddress: "0xaaa3b1F1bd7BCc97fD1917c18ADE665C5D31F066",
+    uniType: "v2",
     defaultCurrencies: {
       input: {
         chainId: 8453,
@@ -70,6 +75,8 @@ const DexConfig = {
   Synthswap: {
     factoryAddress: "0x4bd16d59A5E1E0DB903F724aa9d721a31d7D720D",
     routerAddress: "0x8734B3264Dbd22F899BCeF4E92D442d538aBefF0",
+    uniType: "v2",
+
     defaultCurrencies: {
       input: {
         chainId: 8453,
@@ -89,6 +96,30 @@ const DexConfig = {
       },
     },
   },
+  HorizonDEX: {
+    factoryAddress: "0x07AceD5690e09935b1c0e6E88B772d9440F64718",
+    routerAddress: "0x99AEC509174Cbf06F8F7E15dDEeB7bcC32363827",
+    quoterAddress: "0x94ddDe405A00180891eD79Dc1147F0d841c30D73",
+    uniType: "v3",
+    defaultCurrencies: {
+      input: {
+        chainId: 8453,
+        address: "native",
+        decimals: 18,
+        symbol: "ETH",
+        name: "Ether",
+        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+      },
+      output: {
+        chainId: 8453,
+        address: "0x081AD949deFe648774C3B8deBe0E4F28a80716dc",
+        decimals: 18,
+        symbol: "HZN",
+        name: "Horizon",
+        icon: "https://assets.coingecko.com/coins/images/31156/small/Circle_logo_black_%281%29.png?1691040942",
+      },
+    },
+  },
 };
 let initialLoading = false;
 if (Storage.privateGet("prevTitle") !== title || !state.config) {
@@ -96,6 +127,7 @@ if (Storage.privateGet("prevTitle") !== title || !state.config) {
     config: DexConfig[title],
     inputCurrency: DexConfig[title].defaultCurrencies.input,
     outputCurrency: DexConfig[title].defaultCurrencies.output,
+    uniType: DexConfig[title].type,
     inputCurrencyAmount: "1",
     outputCurrencyAmount: "",
     maxInputBalance: "0",
@@ -319,6 +351,11 @@ const getBestTrade = () => {
     );
     return;
   }
+
+  const curDexUniType = DexConfig[title].uniType;
+  console.log("curDexUniType: ", curDexUniType);
+
+  if (curDexUniType === "v3") return;
 
   FactoryContract.getPair(
     state.inputCurrency.address === "native"
@@ -552,6 +589,8 @@ return (
           },
           noPair: state.noPair,
           loading: state.loading,
+          fee: state.v3Fee,
+          uniType: DexConfig[title].uniType,
         }}
       />
     </Panel>
@@ -594,6 +633,25 @@ return (
             }
             State.update(updatedParams);
             if (updatedParams.loading) getBestTrade();
+          },
+        }}
+      />
+    )}
+
+    {DexConfig[title].uniType === "v3" && (
+      <Widget
+        src="bluebiu.near/widget/Base.BaseQuoterV3"
+        props={{
+          amountIn: state.inputCurrencyAmount,
+          tokenIn: state.inputCurrency,
+          tokenOut: state.outputCurrency,
+          quoterContractId: DexConfig[title].quoterAddress,
+          loadAmountOut: (data) => {
+            State.update({
+              outputCurrencyAmount: data.amountOut,
+              v3Fee: data.fee,
+              loading: false,
+            });
           },
         }}
       />
