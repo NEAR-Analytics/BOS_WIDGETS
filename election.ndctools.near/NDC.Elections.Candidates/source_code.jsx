@@ -447,7 +447,12 @@ function fetchGraphQL(series) {
       query: `
         query MyQuery {
           nft_tokens(
-            where: {nft_contract_id: {_eq: "mint.sharddog.near"}, token_id: {_regex: "^${series}:"}, owner: {_eq: "${context.accountId}"}}
+            where: {
+              nft_contract_id: {
+                _eq: "mint.sharddog.near"
+              },
+              token_id: {_regex: "^${series}:"},
+              owner: {_eq: "${currentUser}"}}
             order_by: {minted_timestamp: asc}
           ) {
             last_transfer_timestamp
@@ -526,13 +531,11 @@ if (state.reload) {
   const hasVotedOnAllProposals = Near.view(
     electionContract,
     "has_voted_on_all_proposals",
-    {
-      user: context.accountId,
-    }
+    { user: currentUser }
   );
 
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-    user: context.accountId,
+    user: currentUser,
   });
 
   const winnerIds = Near.view(electionContract, "winners_by_house", {
