@@ -146,14 +146,14 @@ return (
       height: "100%",
       backgroundImage: "url(https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/gameboy.png)",
       backgroundRepeat: "no-repeat",
-      backgroundSize: "377px",
+      backgroundSize: "370px",
       backgroundPosition: "top"
     }}
   >
     <div
       style={{
         textAlign: "center",
-        marginTop: "79px"
+        marginTop: "77px"
       }}
     >
       <div style={borderRow}>
@@ -172,13 +172,13 @@ return (
         {renderSquare(8)}
       </div>
       <div style={{
-        fontSize: "12px"
+        fontSize: "15px"
       }}>
         {state.status}
       </div>
       <div
         style={{
-          marginTop: "13px",
+          marginTop: "7px",
         }}
       >
         <button
