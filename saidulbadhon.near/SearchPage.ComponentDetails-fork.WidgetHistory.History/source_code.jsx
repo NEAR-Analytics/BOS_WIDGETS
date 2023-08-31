@@ -142,7 +142,19 @@ const TabsButton = styled.button`
 return (
   <div>
     {!blocksChanges ? (
-      <div>incorrent widget path</div>
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          minHeight: 300,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          color: theme.textColor,
+        }}
+      >
+        History for this component does not exist.
+      </div>
     ) : (
       <div>
         <div
