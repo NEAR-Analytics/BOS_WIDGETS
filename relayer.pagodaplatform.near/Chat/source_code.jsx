@@ -28,7 +28,6 @@ const sendMessage = () => {
 
 return (
   <>
-    <pre>{JSON.stringify(Social.get(`mob.near/widget/**`), null, 2)}</pre>
     {messages.reverse().map((message) => (
       <Message>
         <Widget
