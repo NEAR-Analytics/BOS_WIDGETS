@@ -754,7 +754,7 @@ const Filters = () => (
         />
       </Candidates>
     </div>
-    <div className="d-flex w-100 align-items-center justify-content-around">
+    <div className="d-flex w-100 align-items-center justify-content-end gap-4">
       <Nomination className="text-secondary text-end text-md-end">
         <small>Nomination</small>
       </Nomination>
