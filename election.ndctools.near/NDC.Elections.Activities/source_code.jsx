@@ -72,22 +72,26 @@ return (
                 />
               )}
             </div>
-            <div className="row">
-              <StyledLink
-                href={`https://near.org/near/widget/ProfilePage?accountId=${vote.candidate}`}
-              >
-                {vote.candidate}
-              </StyledLink>
-              <small className="text-secondary">
-                {new Date(vote.timestamp).toLocaleDateString("en-US", {
-                  day: "2-digit",
-                  month: "short",
-                })}
-                &middot;
-                {new Date(vote.timestamp).toLocaleTimeString("en-US", {
-                  hour: "2-digit",
-                })}
-              </small>
+            <div className="d-flex flex-col">
+              <div>
+                <StyledLink
+                  href={`https://near.org/near/widget/ProfilePage?accountId=${vote.candidate}`}
+                >
+                  {vote.candidate}
+                </StyledLink>
+              </div>
+              <div>
+                <small className="text-secondary">
+                  {new Date(vote.timestamp).toLocaleDateString("en-US", {
+                    day: "2-digit",
+                    month: "short",
+                  })}
+                  &middot;
+                  {new Date(vote.timestamp).toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                  })}
+                </small>
+              </div>
             </div>
           </div>
           <Tag className="w-50">
