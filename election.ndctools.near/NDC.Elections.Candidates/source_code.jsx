@@ -720,7 +720,7 @@ const Filters = () => (
       </Candidates>
     </div>
     <div className="d-flex w-100 align-items-center justify-content-around">
-      <Nomination className="text-secondary text-end text-md-start">
+      <Nomination className="text-secondary text-end text-md-end">
         <small>Nomination</small>
       </Nomination>
       {isVisible() && (
@@ -729,7 +729,9 @@ const Filters = () => (
           className="text-secondary"
           onClick={() => handleFilter({ votes: true })}
         >
-          <small>Total votes</small>
+          <Nomination className="text-secondary text-end text-md-end">
+            <small>Total Votes</small>
+          </Nomination>
           <i
             className={`bi ${
               state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
