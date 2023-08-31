@@ -729,9 +729,7 @@ const Filters = () => (
           className="text-secondary"
           onClick={() => handleFilter({ votes: true })}
         >
-          <Nomination className="text-secondary text-end text-md-end">
-            <small>Total Votes</small>
-          </Nomination>
+          <small>Total votes</small>
           <i
             className={`bi ${
               state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
