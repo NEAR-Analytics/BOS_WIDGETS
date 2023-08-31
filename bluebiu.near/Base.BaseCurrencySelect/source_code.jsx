@@ -55,6 +55,7 @@ const Title = styled.div`
 const CurrencyList = styled.div`
   padding: 0px 30px 20px;
   max-height: calc(80vh - 120px);
+  overflow-x: auto;
 `;
 const Empty = styled.div`
   min-height: 100px;
@@ -152,6 +153,22 @@ const Tokens = {
     name: "Synth Token",
     icon: "https://www.synthswap.io/_next/image?url=%2Fimages%2Ftokens%2Fsynth.png&w=64&q=100",
   },
+  "0x081AD949deFe648774C3B8deBe0E4F28a80716dc": {
+    chianId: 8453,
+    address: "0x081AD949deFe648774C3B8deBe0E4F28a80716dc",
+    decimals: 18,
+    symbol: "HZN",
+    name: "Horizon",
+    icon: "https://assets.coingecko.com/coins/images/31156/small/Circle_logo_black_%281%29.png?1691040942",
+  },
+  "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22": {
+    chainId: 8453,
+    address: "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
+    decimals: 18,
+    symbol: "cbETH",
+    name: "Coinbase Wrapped Staked ETH",
+    icon: "https://assets.coingecko.com/coins/images/27008/small/cbeth.png?1661390066",
+  },
 };
 const DexTokens = {
   BaseSwap: [
@@ -187,16 +204,26 @@ const DexTokens = {
     Tokens["0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"],
     Tokens["0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"],
   ],
+  HorizonDEX: [
+    Tokens["0x081AD949deFe648774C3B8deBe0E4F28a80716dc"],
+    Tokens["0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22"],
+    Tokens["0x4200000000000000000000000000000000000006"],
+    Tokens["native"],
+    Tokens["0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"],
+    Tokens["0xEB466342C4d449BC9f53A865D5Cb90586f405215"],
+    Tokens["0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"],
+    Tokens["0x78a087d713Be963Bf307b18F2Ff8122EF9A63ae9"],
+    Tokens["0x27D2DECb4bFC9C76F0309b8E88dec3a601Fe25a8"],
+  ],
 };
 const { title } = props;
 
-if (Storage.privateGet("prevCurrencyTitle") !== title) {
+if (Storage.privateGet("prevCurrencyTitle") !== title || !state.tokens) {
   State.update({
     tokens: DexTokens[title],
   });
   Storage.privateSet("prevCurrencyTitle", title);
 }
-
 const handleSearch = (e) => {
   State.update({
     tokens: e.target.value
