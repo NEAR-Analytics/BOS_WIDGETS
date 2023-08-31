@@ -124,11 +124,19 @@ function renderSquare(i) {
 }
 
 const winner = calculateWinner(state.squares);
+const emptySquares = getEmptySquares(state.squares);
+
+console.log(emptySquares);
 
 if (winner) {
   State.update({
     winner: winner,
-    status: "Winner: " + (winner == "X" ? "Player" : "CPU"),
+    status: "Winner: " + (winner === "X" ? "Player" : "CPU"),
+  });
+} else if (emptySquares.length === 0) {
+  console.log("It's a draw!");
+  State.update({
+    status: "It's a draw!",
   });
 } else {
   State.update({
