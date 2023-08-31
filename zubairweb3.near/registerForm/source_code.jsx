@@ -33,6 +33,9 @@ width: 80%;
 padding: 20px;
 margin: auto;
 border-radius: 15px;
+@media (max-width: 650px){
+  width: 100%;
+}
 `;
 
 const Form = styled.div`
@@ -41,6 +44,9 @@ const Form = styled.div`
     width: 50%;
     margin: 20px auto;
     color: #5d4157;
+    @media (max-width: 650px){
+  width: 90%;
+}
 `;
 
 const FormHeader = styled.h3`
@@ -51,16 +57,16 @@ font-family: arial, sans-serif;
 font-size: 1.5rem;
 `;
 
-let current_user = context.accountId;
-if (!current_user) {
-  return (
-    <div>
-      <a href="https://near.org/signin">
-        <button>Connect with NEAR account</button>
-      </a>
-    </div>
-  );
-}
+// let current_user = context.accountId;
+// if (!current_user) {
+//   return (
+//     <div>
+//       <a href="https://near.org/signin">
+//         <button>Connect with NEAR account</button>
+//       </a>
+//     </div>
+//   );
+// }
 return (
   <Wrapper>
     <FormHeader>Register</FormHeader>
