@@ -1,5 +1,4 @@
 State.init({
-  sender: null,
   transactions: [],
 });
 
@@ -12,7 +11,7 @@ if (state.sender === undefined) {
 
 const getTransactions = () => {
   const status = ["verified", "failed", "proved"];
-
+  console.log("sender: " + state.sender);
   if (!state.sender) return;
   asyncFetch(
     `https://block-explorer-api.mainnet.zksync.io/transactions?address=${state.sender}&pageSize=10&page=1`
@@ -71,7 +70,7 @@ return (
   <Theme>
     <div class="text-center mt-1">
       <div class="MainContainer">
-        {state.sender != "" ? (
+        {state.sender ? (
           <>
             <div
               style={{
