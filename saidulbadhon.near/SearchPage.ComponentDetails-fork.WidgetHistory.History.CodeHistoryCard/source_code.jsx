@@ -54,7 +54,7 @@ return (
               title="Copy Widget"
               onClick={() =>
                 props?.copyToClipboard &&
-                props?.copyToClipboard(props.pathToWidget)
+                props?.copyToClipboard(props.prevBlockHeight,lineCountPrevCode )
               }
             >
               <i class="bi bi-clipboard-check"></i>
