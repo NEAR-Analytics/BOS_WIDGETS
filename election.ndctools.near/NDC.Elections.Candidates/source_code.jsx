@@ -41,7 +41,7 @@ const BLACKLIST_VERIFY_LINK = "";
 const GREYLIST_VERIFY_LINK = "";
 const MIN_BOND = 0.01; //3
 const MAX_BOND = 0.02; //300;
-const NFT_SERIES = [1, 2];
+const NFT_SERIES = [124, 125]; // [1, 2];
 
 const H4 = styled.h4`
   margin-bottom: 0;
@@ -803,6 +803,63 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
+const CastBudgetVote = () => (
+  <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
+    <div className="wrapper">
+      <div className="d-flex align-items-end">
+        <H3>{alreadyVotedForHouse() ? 0 : state.availableVotes}</H3>
+        <span>/</span>
+        <H4>{seats}</H4>
+        <span className="text-secondary">votes left</span>
+      </div>
+      <Info className="text-secondary">
+        <i class="bi bi-info-circle"></i>
+        {alreadyVotedForHouse() && (
+          <span>You're already voted for budget package</span>
+        )}
+      </Info>
+    </div>
+    <ActionSection className="d-flex gap-2">
+      <Widget
+        src={widgets.styledComponents}
+        props={{
+          Button: {
+            text: "Yes",
+            disabled: alreadyVotedForHouse(),
+            className: "primary success justify-content-center",
+            icon: <i className="bi bi-hand-thumbs-up" />,
+            onClick: () => handleVote(["yes"]),
+          },
+        }}
+      />
+      <Widget
+        src={widgets.styledComponents}
+        props={{
+          Button: {
+            text: "No",
+            disabled: alreadyVotedForHouse(),
+            className: "primary danger justify-content-center",
+            icon: <i className="bi bi-hand-thumbs-down" />,
+            onClick: () => handleVote(["no"]),
+          },
+        }}
+      />
+      <Widget
+        src={widgets.styledComponents}
+        props={{
+          Button: {
+            text: "Abstain",
+            disabled: alreadyVotedForHouse(),
+            className: "primary justify-content-center",
+            icon: <i className="bi bi-x-lg" />,
+            onClick: () => handleVote(["abstain"]),
+          },
+        }}
+      />
+    </ActionSection>
+  </CastVotesSection>
+);
+
 const ALink = ({ title, href }) => (
   <a href={href} target={"_blank"} rel={"noopener"}>
     {title}
@@ -1043,20 +1100,8 @@ return (
 
     <Container>
       <h2>{housesMapping[typ]}</h2>
-
       {typ === "SetupPackage" ? (
-        <Widget
-          src={widgets.budget}
-          props={{
-            typ,
-            seats,
-            electionContract,
-            registryContract,
-            isIAmHuman,
-            myVotes,
-            handleVote,
-          }}
-        />
+        <Widget src={widgets.budget} />
       ) : (
         <>
           <small className="text-secondary">{result.length} Candidates</small>
@@ -1078,21 +1123,21 @@ return (
               There are no candidates found
             </div>
           )}
-          <div>
-            {isIAmHuman ? (
-              <CastVotes />
-            ) : (
-              <Widget
-                src={widgets.verifyHuman}
-                props={{
-                  title: "Want to vote?",
-                  description: "Click on Verify as a Human to proceed.",
-                }}
-              />
-            )}
-          </div>
         </>
       )}
+      <div>
+        {isIAmHuman ? (
+          <>{typ === "SetupPackage" ? <CastBudgetVote /> : <CastVotes />}</>
+        ) : (
+          <Widget
+            src={widgets.verifyHuman}
+            props={{
+              title: "Want to vote?",
+              description: "Click on Verify as a Human to proceed.",
+            }}
+          />
+        )}
+      </div>
     </Container>
   </>
 );
