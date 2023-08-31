@@ -1,32 +1,19 @@
 State.init({
-  theme: props.theme || "light",
+  theme: props.theme || {
+    name: "light",
+    bg: "#e3e8ef",
+    color: "#4c5566",
+    border: "#748094",
+    hover: {
+      bg: "#eef2f6",
+      border: "#d8dfe7",
+    },
+  },
   value: props.value || "",
 });
 
-const dark = {
-  bg: "#28282b",
-  color: "#e6eaee",
-  border: "#748094",
-  hoverBorder: "#4e5460",
-  button: {
-    bg: "#39393c",
-    hoverBg: "#5e5e60",
-  },
-};
-
-const light = {
-  bg: "#e3e8ef",
-  color: "#4c5566",
-  border: "#748094",
-  hoverBorder: "#d8dfe7",
-  button: {
-    bg: "#eef2f6",
-    hoverBg: "#e3e8ef",
-  },
-};
-
-const useTheme = (light, dark) => {
-  return state.theme === "light" ? light : dark;
+const useThemeName = (light, dark) => {
+  return state.theme.name === "light" ? light : dark;
 };
 
 const handleChange = (e) => {
@@ -41,19 +28,19 @@ const HStack = styled.div`
 
 const SearchInput = styled.input`
   height: 36px;
-  width: 126px;
+  width: ${props.inputWidth || "126px"};
   border-radius: 6px;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
-  border: 1px solid ${useTheme(light.border, dark.border)};
-  color: ${useTheme(light.color, dark.color)};
-  background-color: ${useTheme(light.bg, dark.bg)};
+  border: 1px solid ${state.theme.border};
+  color: ${state.theme.color};
+  background-color: ${state.theme.bg};
   transition: border 0.1s ease-in-out;
 
   :hover {
-    border: 1px solid ${useTheme(light.hoverBorder, dark.hoverBorder)};
+    border: 1px solid ${state.theme.hover.border};
   }
 `;
 
@@ -64,20 +51,20 @@ const SearchButton = styled.button`
   border-radius: 6px;
   padding-top: 5px;
   padding-bottom: 5px;
-  border: 1px solid transparent;
-  color: ${useTheme(light.color, dark.color)};
-  background-color: ${useTheme(light.button.bg, dark.button.bg)};
+  border: 1px dashed ${state.theme.border};
+  color: ${state.theme.color};
+  background-color: ${state.theme.bg};
   transition: background-color 0.1s ease-in-out;
 
   :hover {
-    background-color: ${useTheme(light.button.hoverBg, dark.button.hoverBg)};
+    background-color: ${state.theme.hover.bg};
   }
 `;
 
 return (
   <HStack>
     <SearchInput
-      placeholder={"Account ID"}
+      placeholder={props.placeholder || "Search"}
       value={state.value}
       onChange={handleChange}
       autoFocus
