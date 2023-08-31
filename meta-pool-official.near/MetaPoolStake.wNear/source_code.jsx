@@ -33,7 +33,7 @@ if (
       }
     });
 }
-if (state.chainId !== undefined && state.chainId !== 5) {
+if (state.chainId !== undefined && state.chainId !== 1313161554) {
   return <p>Switch to Aurora</p>;
 }
 
@@ -164,7 +164,7 @@ const getStNearBalance = (receiver) => {
     });
 };
 
-const getWNearBalance = (receiver) => {
+const wNearBalance = (receiver) => {
   const encodedData = iface.encodeFunctionData("balanceOf", [receiver]);
 
   return Ethers.provider()
@@ -268,8 +268,8 @@ const onClickMaxStNear = () => {
 const updateData = () => {
   fetchNearPrice();
   fetchMetrics();
-  getwNearBalance();
-  getStNearBalance();
+  wNearBalance();
+  stNearBalance();
 };
 
 if (!state.dataIntervalStarted) {
@@ -299,6 +299,8 @@ const allProps = {
       "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
     onClickMax: onClickMaxNear,
     onSubmit: onSubmitStake,
+    stakeInfoLeftText: "Available to Unstake",
+    stakeInforRightText: "NEAR available amount",
   },
   fast: {
     tokenInputBalance: state.stNearBalance,
@@ -317,6 +319,8 @@ const allProps = {
       "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
     onClickMax: onClickMaxStNear,
     onSubmit: onSubmitFastUnstake,
+    stakeInfoLeftText: "Available to Unstake",
+    stakeInforRightText: "NEAR available amount",
   },
 }[state.action];
 
