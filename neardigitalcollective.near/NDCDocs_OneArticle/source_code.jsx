@@ -49,6 +49,10 @@ const articlesIndex = Social.index(addressForArticles, "main", {
   accountId: state.article.author,
 });
 
+if (!articlesIndex) {
+  return "Loading...";
+}
+
 const resultArticles =
   articlesIndex &&
   articlesIndex.reduce((acc, { accountId, blockHeight }) => {
