@@ -48,18 +48,17 @@ return (
             {getDatastringFromBlockHeight(props.currentBlockHeight)}
 
             <button
-            style={{marginLeft: 8}}
+              style={{ marginLeft: 8 }}
               data-toggle="tooltip"
               data-placement="top"
               title="Copy Widget"
               onClick={() =>
-               props?.copyToClipboard && props?.copyToClipboard(`${accountId}/widget/${widgetName}`)
+                props?.copyToClipboard &&
+                props?.copyToClipboard(props.pathToWidget)
               }
             >
               <i class="bi bi-clipboard-check"></i>
             </button>
-
-
           </div>
         </div>
       </small>
