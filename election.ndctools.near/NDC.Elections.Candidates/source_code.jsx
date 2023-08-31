@@ -298,6 +298,8 @@ const handleSelectCandidate = (candidateId) => {
     availableVotes: currentVotes,
     reload: false,
   });
+
+  return true;
 };
 
 const selectedBookmarks = (candidateId) => {
@@ -338,11 +340,11 @@ const handleBookmarkCandidate = (candidateId) => {
   );
 };
 
-const handleVote = (vote) => {
+const handleVote = () => {
   const voteFunc = {
     contractName: electionContract,
     methodName: "vote",
-    args: { prop_id: props.id, vote },
+    args: { prop_id: props.id, vote: state.selectedCandidates },
     gas: "110000000000000",
   };
 
@@ -825,10 +827,13 @@ const CastBudgetVote = () => (
         props={{
           Button: {
             text: "Yes",
-            disabled: alreadyVotedForHouse(),
             className: "primary success justify-content-center",
             icon: <i className="bi bi-hand-thumbs-up" />,
-            onClick: () => handleVote(["yes"]),
+            disabled: alreadyVotedForHouse() || blacklisted,
+            onClick: () => {
+              const res = handleSelectCandidate(["yes"]);
+              if (res) handleVote();
+            },
           },
         }}
       />
@@ -837,10 +842,13 @@ const CastBudgetVote = () => (
         props={{
           Button: {
             text: "No",
-            disabled: alreadyVotedForHouse(),
             className: "primary danger justify-content-center",
             icon: <i className="bi bi-hand-thumbs-down" />,
-            onClick: () => handleVote(["no"]),
+            disabled: alreadyVotedForHouse() || blacklisted,
+            onClick: () => {
+              const res = handleSelectCandidate(["no"]);
+              if (res) handleVote();
+            },
           },
         }}
       />
@@ -849,10 +857,13 @@ const CastBudgetVote = () => (
         props={{
           Button: {
             text: "Abstain",
-            disabled: alreadyVotedForHouse(),
             className: "primary justify-content-center",
             icon: <i className="bi bi-x-lg" />,
-            onClick: () => handleVote(["abstain"]),
+            disabled: alreadyVotedForHouse() || blacklisted,
+            onClick: () => {
+              const res = handleSelectCandidate(["abstain"]);
+              if (res) handleVote();
+            },
           },
         }}
       />
@@ -1056,7 +1067,7 @@ return (
               state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
             onCancel: () =>
               State.update({ bountyProgramModal: false, reload: false }),
-            onSubmit: () => handleVote(state.selectedCandidates),
+            onSubmit: handleVote,
           },
           SecondaryButton: {
             type: greylisted ? "Link" : "Button",
