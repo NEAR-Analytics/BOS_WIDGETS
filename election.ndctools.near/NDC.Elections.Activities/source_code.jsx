@@ -34,6 +34,10 @@ const Tag = styled.div`
   margin-left: 10px;
 `;
 
+const AccountBlock = styled.div`
+  max-width: 83px;
+`;
+
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
@@ -72,7 +76,7 @@ return (
                 />
               )}
             </div>
-            <div className="d-flex flex-column">
+            <AccountBlock className="d-flex flex-column">
               <StyledLink
                 href={`https://near.org/near/widget/ProfilePage?accountId=${vote.candidate}`}
               >
@@ -89,7 +93,7 @@ return (
                   hour: "2-digit",
                 })}
               </small>
-            </div>
+            </AccountBlock>
           </div>
           <Tag className="w-50">
             <Widget
