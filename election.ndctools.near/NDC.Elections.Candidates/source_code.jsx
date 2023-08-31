@@ -41,7 +41,8 @@ const BLACKLIST_VERIFY_LINK = "";
 const GREYLIST_VERIFY_LINK = "";
 const MIN_BOND = 0.01; //3
 const MAX_BOND = 0.02; //300;
-const NFT_SERIES = [124, 125]; // [1, 2];
+// const NFT_SERIES = [124, 125];
+const NFT_SERIES = [1, 2];
 
 const H4 = styled.h4`
   margin-bottom: 0;
@@ -277,7 +278,6 @@ const filteredCandidates = () => {
 };
 
 const handleSelectCandidate = (candidateId) => {
-  console.log(state);
   if (!state.acceptedPolicy) {
     State.update({ showToSModal: true });
     return;
@@ -486,7 +486,7 @@ State.init({
   bookmarked: [],
   tosAgreementInput: false,
   tosAgreement: false,
-  selectedCandidates: JSON.parse(userSelection ?? "[]"),
+  selectedCandidates: [],
   voters: [],
   candidates: result,
   filter: {
