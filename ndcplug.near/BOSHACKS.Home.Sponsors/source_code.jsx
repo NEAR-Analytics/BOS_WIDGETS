@@ -221,10 +221,10 @@ const partners = [
       "https://pbs.twimg.com/profile_images/1621907418467663877/JcB4OAXp_400x400.jpg",
   },
   {
-    url: "https://nearpad.dev",
+    url: "https://jutsu.ai",
     name: "Jutsu",
     image:
-      "https://ipfs.near.social/ipfs/bafkreidzmgel7mlhidphpbxhcsxol2lj6u6rd2kfcw5rqd2wyemthjffdi",
+      "https://ipfs.near.social/ipfs/bafkreiehrsxfl5xgr3srq2c73ecbxhfl2jpogzifkfihsbbfjh2hbmo2nu",
   },
   {
     url: "https://twitter.com/NEAR_Toronto",
