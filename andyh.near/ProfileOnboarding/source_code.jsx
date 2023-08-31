@@ -57,7 +57,7 @@ if (
 }
 
 const dismissed = Storage.get("dismissed");
-const defaultHomepage = "mob.near/widget/N";
+const defaultHomepage = "andyh.near/widget/N";
 const homepage = Social.get(`${accountId}/settings/near.social/homepage`);
 
 if (homepage === null) {
