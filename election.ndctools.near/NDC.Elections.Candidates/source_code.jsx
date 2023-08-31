@@ -459,13 +459,13 @@ function fetchGraphQL(series) {
     }),
   });
 }
-
+console.log(state);
 const processNFTAvailability = (result, key) => {
   if (result.status === 200) {
     let data = result.body.data;
     if (data) {
       const tokens = data.nft_tokens;
-      console.log(tokens);
+      console.log(key, tokens);
       State.update({
         [key]: tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
       });
@@ -510,15 +510,15 @@ State.init({
   winnerIds: [],
 });
 
+fetchGraphQL(NFT_SERIES[0]).then((result) =>
+  processNFTAvailability(result, "hasPolicyNFT")
+);
+
+fetchGraphQL(NFT_SERIES[1]).then((result) =>
+  processNFTAvailability(result, "hasIVotedNFT")
+);
+
 if (state.reload) {
-  fetchGraphQL(NFT_SERIES[0]).then((result) =>
-    processNFTAvailability(result, "hasPolicyNFT")
-  );
-
-  fetchGraphQL(NFT_SERIES[1]).then((result) =>
-    processNFTAvailability(result, "hasIVotedNFT")
-  );
-
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
   });
