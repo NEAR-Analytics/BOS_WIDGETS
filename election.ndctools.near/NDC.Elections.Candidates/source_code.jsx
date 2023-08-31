@@ -125,7 +125,12 @@ const Votes = styled.div``;
 
 const Action = styled.div``;
 
-const Nomination = styled.div``;
+const Nomination = styled.div`
+  display: block;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
 
 const FilterRow = styled.div`
   padding: 15px 20px;
