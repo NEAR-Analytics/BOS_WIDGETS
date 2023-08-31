@@ -43,15 +43,39 @@ State.init({
 });
 
 const dark = {
+  name: "dark",
   bg: "#28282b",
   color: "#e6eaee",
   border: "#748094",
+  hover: {
+    bg: "#39393c",
+    border: "#4e5460",
+  },
+  text: {
+    fontSize: "16px",
+  },
+  heading: {
+    fontSize: "18px",
+    fontWeight: "600",
+  },
 };
 
 const light = {
+  name: "light",
   bg: "#e3e8ef",
   color: "#4c5566",
   border: "#748094",
+  hover: {
+    bg: "#eef2f6",
+    border: "#d8dfe7",
+  },
+  text: {
+    fontSize: "16px",
+  },
+  heading: {
+    fontSize: "18px",
+    fontWeight: "600",
+  },
 };
 
 const useTheme = (light, dark) => {
@@ -182,7 +206,8 @@ const pages = {
         <Widget
           src={`${state.config.ownerId}/widget/SourceScan.Inputs.SearchBar`}
           props={{
-            theme: state.theme,
+            placeholder: "Account ID",
+            theme: useTheme(light, dark),
             handleSubmit: handleSubmit,
             value: state.search,
           }}
@@ -191,7 +216,7 @@ const pages = {
           src={`${state.config.ownerId}/widget/SourceScan.Inputs.Limits`}
           props={{
             handleOptionsChange: handleOptionsChange,
-            theme: state.theme,
+            theme: useTheme(light, dark),
             limits: limits,
             selectedLimit: state.limit,
           }}
@@ -200,7 +225,7 @@ const pages = {
       <Widget
         src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
         props={{
-          theme: state.theme,
+          theme: useTheme(light, dark),
           contracts: state.contracts,
           rpcUrl: state.config.rpcUrl,
           apiHost: state.config.apiHost,
@@ -209,7 +234,7 @@ const pages = {
       <Widget
         src={`${state.config.ownerId}/widget/SourceScan.Inputs.Pagination`}
         props={{
-          theme: state.theme,
+          theme: useTheme(light, dark),
           pages: state.pages,
           selectedPage: state.selectedPage,
           handlePageChange: handlePageChange,
@@ -218,42 +243,34 @@ const pages = {
     </>
   ),
   contract: (
-    <>
-      <Widget
-        src={`${state.config.ownerId}/widget/SourceScan.Contracts.Info`}
-        props={{
-          contractId: props.contractId,
-          theme: useTheme(
-            {
-              bg: light.bg,
-              color: light.color,
-              border: `1px dashed ${light.border}`,
-              text: {
-                fontSize: "16px",
-              },
-              heading: {
-                fontSize: "18px",
-                fontWeight: "600",
-                underline: true,
-              },
+    <Widget
+      src={`${state.config.ownerId}/widget/SourceScan.Contracts.Info`}
+      props={{
+        contractId: props.contractId,
+        theme: useTheme(
+          {
+            ...light,
+            border: `1px dashed ${light.border}`,
+            heading: {
+              ...light.heading,
+              underline: true,
             },
-            {
-              bg: dark.bg,
-              color: dark.color,
-              border: `1px dashed ${dark.border}`,
-              text: {
-                fontSize: "16px",
-              },
-              heading: {
-                fontSize: "18px",
-                fontWeight: "600",
-                underline: true,
-              },
-            }
-          ),
-        }}
-      />
-    </>
+          },
+          {
+            ...dark,
+            border: `1px dashed ${dark.border}`,
+          }
+        ),
+      }}
+    />
+  ),
+  upload: (
+    <Widget
+      src={`${state.config.ownerId}/widget/SourceScan.Upload.Github`}
+      props={{
+        theme: useTheme(light, dark),
+      }}
+    />
   ),
 };
 
@@ -263,8 +280,7 @@ return (
       <Widget
         src={`${state.config.ownerId}/widget/SourceScan.Layout.Navbar`}
         props={{
-          app: state.config.app,
-          theme: state.theme,
+          theme: useTheme(light, dark),
           switchTheme: switchTheme,
         }}
       />
