@@ -5,7 +5,7 @@ State.init({
   message: "",
 });
 
-const messages = Near.view(contract, "get_messages", { limit: 3 });
+const messages = Near.view(contract, "get_messages", { limit: 100 });
 
 const Message = styled.div`
   display: flex;
