@@ -3,9 +3,7 @@ const url =
 const Main = styled.div`
 height: 100%;
 overflow: unset;
-position: absolute;
 width: 100%;
-z-index: 1;
 iframe{
     height: inherit;
 }
