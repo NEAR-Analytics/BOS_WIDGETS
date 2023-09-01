@@ -1,18 +1,26 @@
 const authorId = "meta-pool-official.near";
 
-const {isSignedIn, action, update, state, onSubmitStake, onSubmitFastUnstake, onSubmitDelayedUnstake} = props;
+const {
+  isSignedIn,
+  action,
+  update,
+  state,
+  onSubmitStake,
+  onSubmitFastUnstake,
+  onSubmitDelayedUnstake,
+  handleInputNear,
+  handleInputStNear
+} = props;
 const tokenInputUsd =
   action == "stake" ? state.nearUsdPrice : state.metrics?.st_near_price_usd;
 const tokenOutputUsd =
   action == "stake" ? state.metrics?.st_near_price_usd : state.nearUsdPrice;
 
-const onSubmit = 
-{
+const onSubmit = {
   stake: onSubmitStake,
   delayed: onSubmitDelayedUnstake,
-  fast: onSubmitFastUnstake
+  fast: onSubmitFastUnstake,
 }[props.action];
-
 
 const StakeContainer = styled.div`
     width: 100%;
@@ -180,7 +188,11 @@ return (
           <StakeFormTopContainerLeft>
             <StakeFormTopContainerLeftContent1>
               <StakeFormTopContainerLeftContent1Container>
-                <span>{action == "stake" ? "Available to Stake" : "Available to Unstake"}</span>
+                <span>
+                  {action == "stake"
+                    ? "Available to Stake"
+                    : "Available to Unstake"}
+                </span>
               </StakeFormTopContainerLeftContent1Container>
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
@@ -208,7 +220,13 @@ return (
           <StakeFormTopContainerRight>
             <StakeFormTopContainerRightContent1>
               <StakeFormTopContainerRightContent1Container>
-                <span>{action = "stake" ?  "Staked amount" : "NEAR available amount"}</span>
+                <span>
+                  {
+                    (action = "stake"
+                      ? "Staked amount"
+                      : "NEAR available amount")
+                  }
+                </span>
               </StakeFormTopContainerRightContent1Container>
             </StakeFormTopContainerRightContent1>
             <StakeFormTopContainerRightContent2>
@@ -232,12 +250,18 @@ return (
           placeholder:
             action == "stake" ? "Enter NEAR amount" : "Enter stNEAR amount",
           value: state.value,
-          onChange: (e) => action == "stake" ?  handleInputNear(e.target.value) : handleInputStNear(e.target.value),
+          onChange: (e) =>
+            action == "stake"
+              ? handleInputNear(e.target.value)
+              : handleInputStNear(e.target.value),
           onClickMax: action == "stake" ? onClickMaxNear : onClickMaxStNear,
           inputError: state.validation !== "",
           balance: tokenInputBalance ?? "-",
           iconName: tokenInput,
-          iconUrl: action == "stake" ?  "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly" :  "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
+          iconUrl:
+            action == "stake"
+              ? "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly"
+              : "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
         }}
       />
       {state.validation !== "" && (
@@ -253,7 +277,10 @@ return (
           iconName: tokenOutput,
           token: tokenInput,
           tokenStake: tokenOutput,
-          iconUrl: action == "stake" ?  "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq" :  "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
+          iconUrl:
+            action == "stake"
+              ? "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq"
+              : "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
         }}
       />
       <Widget
