@@ -252,6 +252,7 @@ const renderActions = (
         onClick={() => {
           update({ action: "stake" });
           State.update({ action: "stake" });
+          console.log("action", "stake", state.action);
         }}
         active={state.action === "stake"}
       >
@@ -276,6 +277,7 @@ const renderActions = (
         onClick={() => {
           update({ action: "fast" });
           State.update({ action: "fast" });
+          console.log("action", "fast", state.action);
         }}
         active={state.action === "fast"}
       >
@@ -302,6 +304,7 @@ const renderActions = (
           onClick={() => {
             update({ action: "delayed" });
             State.update({ action: "delayed" });
+            console.log("action", "delayed", state.action);
           }}
           active={state.action === "delayed"}
         >
