@@ -38,7 +38,8 @@ const I_VOTED_NFT =
 const MINT_VOTING_POLICY_NFT = "https://shard.dog/fairvoting/";
 const MINT_I_VOTED_NFT = "https://shard.dog/ivoted";
 const BLACKLIST_VERIFY_LINK = "";
-const GREYLIST_VERIFY_LINK = "";
+const GREYLIST_VERIFY_LINK =
+  "https://airtable.com/appgHJzUuw1Kb2GJV/shrCdvjmWMzwaMEj8";
 const MIN_BOND = 0.01; //3
 const MAX_BOND = 0.02; //300;
 const NFT_SERIES = [190, 191];
