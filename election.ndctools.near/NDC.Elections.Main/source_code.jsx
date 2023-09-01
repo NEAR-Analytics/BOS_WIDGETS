@@ -72,6 +72,7 @@ const widgets = {
   candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
   statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
   activities: "election.ndctools.near/widget/NDC.Elections.Activities",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
 };
 
 const handleSelect = (item) => {
