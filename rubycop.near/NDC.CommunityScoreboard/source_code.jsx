@@ -59,6 +59,8 @@ const communityData = state.data.filter(
   (i) => i["community-name"] === state.community
 );
 
+console.log(state);
+
 const getCommunities = () => {
   const data = state.data.map((item) => item["community-name"]);
   return [...new Set(data)].sort((a, b) => a - b);
@@ -74,7 +76,7 @@ return (
           props={{
             label: "Select community",
             value: state.community,
-            onChange: (item) => State.update({ community: item }),
+            onChange: (item) => State.update({ community: item.text }),
             options: getCommunities().map((community) => {
               return {
                 text: community,
@@ -91,7 +93,7 @@ return (
             <H3>
               <b>{state.community}</b>
             </H3>
-            <Tag>{communityData[0].vertical}</Tag>
+            <Tag>{communityData[0]["community-vertical"]}</Tag>
           </div>
           <small>Total users: {communityData.length}</small>
           <hr className="my-2" />
