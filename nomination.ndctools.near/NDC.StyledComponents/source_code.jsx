@@ -191,6 +191,11 @@ const Styled = {
         }
       }
 
+      &.success {
+        border: 1px solid #5bc65f;
+        color: #5bc65f;
+      }
+
       &:disabled {
         border-color: #c3cace;
         color: #828688;
