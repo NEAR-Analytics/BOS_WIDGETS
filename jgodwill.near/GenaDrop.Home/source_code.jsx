@@ -732,6 +732,12 @@ return (
             Notable NFTs that were easily created with GenaDrop
           </FeatureDescription>
           <Widget src="jgodwill.near/widget/GenaDrop.Home.PartnersCarousel" />
+          <a
+            style={{ textDecoration: "none" }}
+            href="/#/jgodwill.near/widget/GenaDrop.Partner"
+          >
+            <PrimaryButton className="extra">Apply for Partnership</PrimaryButton>
+          </a>
         </div>
       </div>
     </FeatureContainer>
