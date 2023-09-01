@@ -933,6 +933,7 @@ const CastBudgetVote = () => (
           },
         }}
       />
+      {console.log(result)}
       <Widget
         src={widgets.styledComponents}
         props={{
