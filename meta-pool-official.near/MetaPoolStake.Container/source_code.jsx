@@ -3,11 +3,6 @@ const getUserAddress = props.getUserAddress;
 const token = props.token;
 const action = props.action;
 
-State.init({
-  token,
-  action,
-});
-
 // STYLED COMPONENTS
 
 const PageContainer = styled.div`
@@ -250,10 +245,9 @@ const renderActions = (
       <ActionItem
         onClick={() => {
           props.update({ action: "stake" });
-          State.update({ action: "stake" });
-          console.log("action", "stake", state.action);
+          // State.update({ action: "stake" });
         }}
-        active={state.action === "stake"}
+        active={action === "stake"}
       >
         <div>Stake</div>
         <div>
@@ -275,10 +269,8 @@ const renderActions = (
       <ActionItem
         onClick={() => {
           props.update({ action: "fast" });
-          State.update({ action: "fast" });
-          console.log("action", "fast", state.action);
         }}
-        active={state.action === "fast"}
+        active={action === "fast"}
       >
         <div>Fast Unstake</div>
         <div>
@@ -302,10 +294,8 @@ const renderActions = (
         <ActionItem
           onClick={() => {
             props.update({ action: "delayed" });
-            State.update({ action: "delayed" });
-            console.log("action", "delayed", state.action);
           }}
-          active={state.action === "delayed"}
+          active={action === "delayed"}
         >
           <div>Delayed Unstake</div>
           <div>
