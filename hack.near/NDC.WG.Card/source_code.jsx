@@ -385,7 +385,6 @@ return (
                 props={{
                   Link: {
                     text: "View",
-                    size: "sm",
                     className: "primary w-100 justify-content-center",
                     href: `${widgets.groupPage}?accountId=${groupData.creatorId}`,
                     icon: <i className="bi bi-eye-fill fs-6"></i>,
