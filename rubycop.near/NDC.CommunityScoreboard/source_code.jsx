@@ -104,7 +104,7 @@ return (
           <small>Rank: -</small>
           <br />
           <small>Total users: {communityData.length}</small>
-          <hr className="my-2" />
+          <hr className="mt-3 mb-4" />
 
           {communityData
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
