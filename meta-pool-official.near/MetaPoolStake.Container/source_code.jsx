@@ -201,7 +201,7 @@ const renderTokens = (
     <TokensList>
       <TokensItem
         href={`/meta-pool-official.near/widget/MetaPoolStake.Near`}
-        active={token === "near"}
+        active={state.token === "near"}
       >
         <div>
           <div>NEAR</div>
@@ -218,7 +218,7 @@ const renderTokens = (
       </TokensItem>
       <TokensItem
         href={`/meta-pool-official.near/widget/MetaPoolStake.wNear`}
-        active={token === "wnear"}
+        active={state.token === "wnear"}
       >
         <div>
           <div>wNEAR</div>
