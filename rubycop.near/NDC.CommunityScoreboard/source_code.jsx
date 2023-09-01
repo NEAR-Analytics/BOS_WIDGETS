@@ -51,9 +51,19 @@ const H3 = styled.h3`
 const Container = styled.div`
   flex-direction: row;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
   }
+`;
+
+const Section = styled.div`
+  background: #fdfeff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 10px;
+  max-height: 100vh;
+  overflow: auto; 
 `;
 
 if (state.data.length === 0)
@@ -94,7 +104,7 @@ const bestOnVertical = () => {
 return (
   <div className="d-flex justify-content-center w-100">
     <Container className="d-flex justify-content-between gap-5 w-100">
-      <div className="w-100">
+      <Section className="w-100">
         <h3>NDC Community users</h3>
         <div className="mt-3 mb-4">
           <Widget
@@ -171,65 +181,66 @@ return (
               ))}
           </>
         )}
-      </div>
-      <div className="w-100">
-        <div className="mt-3">
-          <h3> Best of Users </h3>
-          <div className="d-flex justify-content-between my-2">
-            <div className="w-25">
-              <small className="text-secondary">#</small>
-            </div>
-            <div className="w-100">
-              <small className="text-secondary">Community</small>
-            </div>
-            <div className="w-50">
-              <small className="text-secondary">Users</small>
-            </div>
-            <div className="w-100">
-              <small className="text-secondary">Category</small>
-            </div>
+      </Section>
+      <Section className="w-100">
+        <h3> Best of Category </h3>
+        <div className="d-flex justify-content-between my-2">
+          <div className="w-100">
+            <small className="text-secondary">Category</small>
           </div>
-          <hr className="my-2" />
-          {Object.values(formData)
-            .sort((a, b) => b.length - a.length)
-            .map((item, index) => (
-              <div className="d-flex justify-content-between my-2">
-                <div className="w-25">
-                  <small>{index + 1}</small>
-                </div>
-                <div className="w-100">
-                  <small>{item[0]["community-name"]}</small>
-                </div>
-                <div className="w-50">
-                  <small>{item.length}</small>
-                </div>
-                <div className="w-100">
-                  <small>{item[0]["community-vertical"]}</small>
-                </div>
-              </div>
-            ))}
+          <div className="w-100">
+            <small className="text-secondary">Community</small>
+          </div>
+          <div className="w-50">
+            <small className="text-secondary">Users</small>
+          </div>
+          <div className="w-25">
+            <small className="text-secondary">#</small>
+          </div>
         </div>
-        <div className="mt-3">
-          <h3> Best of Category </h3>
+        <hr className="my-2" />
+        {bestOnVertical().map((item) => (
           <div className="d-flex justify-content-between my-2">
             <div className="w-100">
-              <small className="text-secondary">Category</small>
+              <small>{item[0]["community-vertical"]}</small>
             </div>
             <div className="w-100">
-              <small className="text-secondary">Community</small>
+              <small>{item[0]["community-name"]}</small>
             </div>
             <div className="w-50">
-              <small className="text-secondary">Users</small>
+              <small>{item.length}</small>
             </div>
             <div className="w-25">
-              <small className="text-secondary">#</small>
+              <small>
+                {getCommunityNames().indexOf(item[0]["community-name"]) + 1}
+              </small>
             </div>
           </div>
-          <hr className="my-2" />
-          {bestOnVertical().map((item) => (
+        ))}
+      </Section>
+      <Section className="w-100">
+        <h3> Best of Users </h3>
+        <div className="d-flex justify-content-between my-2">
+          <div className="w-25">
+            <small className="text-secondary">#</small>
+          </div>
+          <div className="w-100">
+            <small className="text-secondary">Community</small>
+          </div>
+          <div className="w-50">
+            <small className="text-secondary">Users</small>
+          </div>
+          <div className="w-100">
+            <small className="text-secondary">Category</small>
+          </div>
+        </div>
+        <hr className="my-2" />
+        {Object.values(formData)
+          .sort((a, b) => b.length - a.length)
+          .map((item, index) => (
             <div className="d-flex justify-content-between my-2">
-              <div className="w-100">
-                <small>{item[0]["community-vertical"]}</small>
+              <div className="w-25">
+                <small>{index + 1}</small>
               </div>
               <div className="w-100">
                 <small>{item[0]["community-name"]}</small>
@@ -237,15 +248,12 @@ return (
               <div className="w-50">
                 <small>{item.length}</small>
               </div>
-              <div className="w-25">
-                <small>
-                  {getCommunityNames().indexOf(item[0]["community-name"]) + 1}
-                </small>
+              <div className="w-100">
+                <small>{item[0]["community-vertical"]}</small>
               </div>
             </div>
           ))}
-        </div>
-      </div>
+      </Section>
     </Container>
   </div>
 );
