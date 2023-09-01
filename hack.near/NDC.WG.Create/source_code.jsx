@@ -1,12 +1,14 @@
 const creatorId = props.creatorId ?? context.accountId;
 
-if (!creatorId) {
-  return "Please connect your NEAR account :)";
+const daos = Near.view("sputnik-dao.near", "get_dao_list");
+
+if (daos === null) {
+  return "Loading...";
 }
 
 const { handleClose } = props;
 
-const daoId = props.daoId ?? "build.sputnik-dao.near";
+const daoId = props.daoId ?? "hack.near";
 
 const policy = Near.view(daoId, "get_policy");
 
@@ -15,6 +17,10 @@ if (policy === null) {
 }
 
 const deposit = policy.proposal_bond;
+
+const groups = Social.get(`${daoId}/thing/directory`);
+
+const groupArray = JSON.parse(groups);
 
 function generateUID() {
   return (
@@ -30,6 +36,7 @@ State.init({
   group,
   members: { [creatorId]: "" },
   newMember: "",
+  isDao: false,
 });
 
 function addMember(newMember) {
@@ -70,6 +77,12 @@ function isNearAddress(address) {
 const memberId = props.memberId ?? state.newMember;
 
 const isValid = isNearAddress(memberId);
+
+const checkAddress = (daos) => {
+  if (daos.indexOf(creatorId) !== -1) {
+    return State.update({ isDao: true });
+  }
+};
 
 const widgets = {
   styledComponents: "hack.near/widget/NDC.StyledComponents",
@@ -151,24 +164,6 @@ const Section = styled.div`
 `;
 
 const handleCreate = () => {
-  let Members_Payload = {
-    contractName: "social.near",
-    methodName: "set",
-    args: {
-      data: {
-        [creatorId]: {
-          graph: {
-            [groupId]: {
-              ...state.members,
-            },
-          },
-        },
-      },
-    },
-    gas: 300000000000000,
-    deposit: 100000000000000000000000,
-  };
-
   let Group_Payload = {
     contractName: "social.near",
     methodName: "set",
@@ -176,11 +171,42 @@ const handleCreate = () => {
       data: {
         [creatorId]: {
           thing: {
-            group: {
-              [groupId]: {
-                ...state.group,
-              },
+            [groupId]: {
+              ...state.group,
             },
+          },
+          graph: {
+            [groupId]: {
+              ...state.members,
+            },
+          },
+          index: {
+            graph: JSON.stringify({
+              key: "request",
+              value: {
+                type: "add",
+                thing: {
+                  [groupId]: {
+                    ...state.group,
+                  },
+                },
+              },
+            }),
+            notify: JSON.stringify({
+              key: creatorId,
+              value: {
+                type: "request",
+                template: "hack.near/widget/notification",
+                data: {
+                  type: "add",
+                  thing: {
+                    [groupId]: {
+                      ...state.members,
+                    },
+                  },
+                },
+              },
+            }),
           },
         },
       },
@@ -189,46 +215,7 @@ const handleCreate = () => {
     deposit: 100000000000000000000000,
   };
 
-  const proposal_args = JSON.stringify({
-    data: {
-      [daoId]: {
-        groups: {
-          [groupId]: "",
-        },
-      },
-    },
-  });
-
-  const ProposalArgs = Buffer.from(proposal_args, "utf-8").toString("base64");
-
-  let Proposal_Payload = {
-    contractName: daoId,
-    methodName: "add_proposal",
-    args: {
-      proposal: {
-        description: "create group on the BOS",
-        kind: {
-          FunctionCall: {
-            receiver_id: "social.near",
-            actions: [
-              {
-                method_name: "set",
-                args: ProposalArgs,
-                deposit: "100000000000000000000000",
-                gas: "300000000000000",
-              },
-            ],
-          },
-        },
-      },
-    },
-    deposit: deposit,
-    gas: "235000000000000",
-  };
-
-  Near.call([Group_Payload, Members_Payload, Proposal_Payload]).then(() =>
-    handleClose()
-  );
+  Near.call(Group_Payload).then(() => handleClose());
 };
 
 return (
