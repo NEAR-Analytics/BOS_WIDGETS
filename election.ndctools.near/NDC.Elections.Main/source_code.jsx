@@ -1,6 +1,6 @@
 let { ids } = props;
 
-ids = props.ids ? ids : [1, 2, 3, 4];
+ids = ids ? JSON.parse(ids) : [1, 2, 3, 4];
 const budgetId = 4;
 
 const electionContract = "elections-v1.gwg-testing.near";
