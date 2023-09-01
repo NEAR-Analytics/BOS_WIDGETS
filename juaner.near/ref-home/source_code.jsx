@@ -232,15 +232,6 @@ return (
           Swap
         </div>
         <div
-          class={`item ${activeMenu == "staking" ? "active" : ""}`}
-          onClick={() => {
-            changeTab("staking");
-          }}
-        >
-          <span class="icon">{stakingIcon}</span>
-          Staking
-        </div>
-        <div
           onClick={() => {
             changeTab("lending");
           }}
@@ -248,6 +239,15 @@ return (
         >
           <span class="icon">{lendingIcon}</span>
           Lending
+        </div>
+        <div
+          class={`item ${activeMenu == "staking" ? "active" : ""}`}
+          onClick={() => {
+            changeTab("staking");
+          }}
+        >
+          <span class="icon">{stakingIcon}</span>
+          Staking
         </div>
       </MenuContainer>
       <div class="flex-grow contentOut">
