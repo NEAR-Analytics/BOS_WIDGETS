@@ -15,6 +15,10 @@ const widgets = {
 
 const groups = Social.get(`${daoId}/thing/directory`);
 
+if (!groups) {
+  return "";
+}
+
 const groupArray = JSON.parse(groups);
 
 State.init({
