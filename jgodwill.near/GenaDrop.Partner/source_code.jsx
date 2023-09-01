@@ -5,7 +5,7 @@ height: 100vh;
 overflow: unset;
 width: 100%;
 iframe{
-    height: inherit;
+    height: calc(100vh - 120px);
 }
 `;
 return (
