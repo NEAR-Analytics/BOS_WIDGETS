@@ -113,7 +113,7 @@ return (
               "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
           }}
         />
-        {!sbt ? (
+        {!state.sbt ? (
           <Widget
             src={widget.styledComponents}
             props={{
