@@ -275,7 +275,7 @@ const renderActions = (
       <ActionItem
         onClick={() => {
           update({ action: "fast" });
-          State.update({ action: "stake" });
+          State.update({ action: "fast" });
         }}
         active={state.action === "fast"}
       >
@@ -301,7 +301,7 @@ const renderActions = (
         <ActionItem
           onClick={() => {
             update({ action: "delayed" });
-            State.update({ action: "stake" });
+            State.update({ action: "delayed" });
           }}
           active={state.action === "delayed"}
         >
