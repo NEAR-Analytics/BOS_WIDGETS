@@ -21,35 +21,16 @@ if (!groups) {
 
 const groupArray = JSON.parse(groups);
 
-State.init({
-  start: true,
-  sbt: false,
-  og: false,
+// IAH Verification
+let human = false;
+const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
+  account: props.accountId ?? context.accountId,
 });
 
-const getVerifiedHuman = () => {
-  const isHuman = Near.view(registryContract, "is_human", {
-    account: context.accountId,
-  });
-  const ogTokens = Near.view(registryContract, "sbt_tokens", {
-    issuer,
-  });
-
-  if (!isHuman) {
-    return "";
+for (let i = 0; i < userSBTs.length; i++) {
+  if ("fractal.i-am-human.near" == userSBTs[i][0]) {
+    human = true;
   }
-  if (!ogTokens) {
-    return "";
-  }
-  State.update({
-    og: ogTokens.some((sbt) => sbt.owner === context.accountId),
-    sbt: isHuman[0][1].length > 0,
-  });
-};
-
-if (state.start) {
-  getVerifiedHuman();
-  State.update({ start: false });
 }
 
 const widget = {
@@ -113,7 +94,7 @@ return (
               "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
           }}
         />
-        {!state.sbt ? (
+        {!human ? (
           <Widget
             src={widget.styledComponents}
             props={{
