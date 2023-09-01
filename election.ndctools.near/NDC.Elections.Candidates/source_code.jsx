@@ -93,7 +93,7 @@ const CandidateItemRow = styled.div`
   &:hover {
     background: ${(props) =>
       props.winnerId
-        ? "rgb(137 201 139)"
+        ? "rgb(206 233 207)"
         : props.selected
         ? "#4aa6ee"
         : "#d4e4f461"};
