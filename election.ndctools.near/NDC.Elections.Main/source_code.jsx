@@ -175,6 +175,7 @@ return (
                 endTime: house.end,
                 type: "Election",
                 isWhistleblower: true,
+                ids,
               }}
             />
           )}
