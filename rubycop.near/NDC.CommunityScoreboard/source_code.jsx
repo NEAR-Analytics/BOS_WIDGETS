@@ -67,6 +67,13 @@ const Section = styled.div`
   font-size: 14px;
 `;
 
+const Row = styled.div`
+  border-bottom: 1px solid #ececec;
+  padding: 5px 7px;
+  margin: 3px 0;
+  border-radius: 5px;
+`;
+
 if (state.data.length === 0)
   return (
     <>
@@ -148,7 +155,7 @@ return (
             {communityUsers
               .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
               .map((user) => (
-                <div className="d-flex justify-content-between align-items-center p-1">
+                <Row className="d-flex justify-content-between align-items-center">
                   <Widget
                     src="near/widget/AccountProfileOverlay"
                     props={{
@@ -183,7 +190,7 @@ return (
                       hour: "2-digit",
                     })}
                   </small>
-                </div>
+                </Row>
               ))}
           </>
         )}
@@ -206,7 +213,7 @@ return (
         </div>
         <hr className="my-2" />
         {bestOnVertical().map((item) => (
-          <div className="d-flex justify-content-between my-2">
+          <Row className="d-flex justify-content-between">
             <div className="w-100">
               <small>{item[0]["community-vertical"]}</small>
             </div>
@@ -221,12 +228,12 @@ return (
                 {getCommunityNames().indexOf(item[0]["community-name"]) + 1}
               </small>
             </div>
-          </div>
+          </Row>
         ))}
       </Section>
       <Section className="w-100">
         <h4> Best of Users </h4>
-        <div className="d-flex justify-content-between my-2">
+        <div className="d-flex justify-content-between py-2">
           <div className="w-25">
             <small className="text-secondary">#</small>
           </div>
@@ -244,7 +251,7 @@ return (
         {Object.values(formData)
           .sort((a, b) => b.length - a.length)
           .map((item, index) => (
-            <div className="d-flex justify-content-between my-2">
+            <Row className="d-flex justify-content-between">
               <div className="w-25">
                 <small>{index + 1}</small>
               </div>
@@ -257,7 +264,7 @@ return (
               <div className="w-100">
                 <small>{item[0]["community-vertical"]}</small>
               </div>
-            </div>
+            </Row>
           ))}
       </Section>
     </Container>
