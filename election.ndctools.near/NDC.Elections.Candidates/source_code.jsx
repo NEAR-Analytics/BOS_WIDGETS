@@ -78,14 +78,25 @@ const CandidateItemRow = styled.div`
   margin-bottom: 8px;
   border: 1px solid;
   background: ${(props) =>
-    props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#F8F8F9"};
+    props.winnerId
+      ? "rgb(206 233 207)"
+      : props.selected
+      ? "#4aa6ee"
+      : "#F8F8F9"};
   border-color: ${(props) =>
-    props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#F8F8F9"};
-  color: ${(props) => (props.selected || props.winnerId ? "white" : "inherit")};
+    props.winnerId
+      ? "rgb(137 201 139)"
+      : props.selected
+      ? "#4aa6ee"
+      : "#F8F8F9"};
 
   &:hover {
     background: ${(props) =>
-      props.winnerId ? "#239F28" : props.selected ? "#4aa6ee" : "#d4e4f461"};
+      props.winnerId
+        ? "rgb(137 201 139)"
+        : props.selected
+        ? "#4aa6ee"
+        : "#d4e4f461"};
   
   @media (max-width: 400px) {
     padding: 0 10px;
