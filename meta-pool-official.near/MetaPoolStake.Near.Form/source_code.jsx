@@ -227,7 +227,7 @@ return (
               <StakeFormTopContainerRightContent1Container>
                 <span>
                   {
-                    (action = "stake"
+                    (state.action = "stake"
                       ? "Staked amount"
                       : "NEAR available amount")
                   }
