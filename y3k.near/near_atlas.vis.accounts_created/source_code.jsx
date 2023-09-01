@@ -22,17 +22,16 @@ const sortedData = data.sort((a, b) => {
   return new Date(a["DAY"]) - new Date(b["DAY"]);
 });
 
-const NEW_ACCOUNT = {};
-const NEW_ACCOUNT_OVERTIME = {};
+const WALLETS_CREATED = {};
+const TOTAL_WALLETS = {};
 
 data.map((entry) => {
-  NEW_ACCOUNT[entry["DAY"]] = entry["COUNT(*)"];
-  NEW_ACCOUNT_OVERTIME[entry["DAY"]] =
-    entry["SUM(COUNT(*)) OVER (ORDER BY DAY)"];
+  WALLETS_CREATED[entry["DAY"]] = entry["WALLETS_CREATED"];
+  TOTAL_WALLETS[entry["DAY"]] = entry["TOTAL_WALLETS"];
 });
 
 // console.log(data);
-// console.log(NEW_ACCOUNT_OVERTIME);
+// console.log(TOTAL_WALLETS);
 
 const dates = data.map((entry) => entry["DAY"]);
 
@@ -87,14 +86,14 @@ const stacked_bar_data = {
   dates,
   datasets: [
     {
-      label: "NEW_ACCOUNT",
-      data: NEW_ACCOUNT,
+      label: "WALLETS_CREATED",
+      data: WALLETS_CREATED,
       backgroundColor: "rgb(250,164,58)",
       yAxisID: "y",
     },
     {
-      label: "NEW_ACCOUNT_OVERTIME",
-      data: NEW_ACCOUNT_OVERTIME,
+      label: "TOTAL_WALLETS",
+      data: TOTAL_WALLETS,
       backgroundColor: "rgb(13,131,171)",
       yAxisID: "y1",
     },
