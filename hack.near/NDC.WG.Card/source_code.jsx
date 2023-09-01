@@ -359,7 +359,7 @@ return (
           />
           <HeaderContent>
             <UserLink
-              href={`${widgets.groupPage}?accountId=${groupData.creatorId}`}
+              href={`/${widgets.groupPage}?accountId=${groupData.creatorId}`}
             >
               <GroupName>{groupData.title}</GroupName>
               <GroupCreator>{groupData.creatorId}</GroupCreator>
@@ -377,7 +377,7 @@ return (
                   Link: {
                     text: "View",
                     className: "primary w-100 justify-content-center",
-                    href: `${widgets.groupPage}?accountId=${groupData.creatorId}`,
+                    href: `/${widgets.groupPage}?accountId=${groupData.creatorId}`,
                     icon: <i className="bi bi-eye-fill fs-6"></i>,
                   },
                 }}
