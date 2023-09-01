@@ -137,6 +137,17 @@ return (
         <Left className="col-lg mb-3">
           <H5>Learning Together</H5>
           <Widget src={widgets.about} />
+          <div className="mt-5">
+            <Widget
+              src={widget.styledComponents}
+              props={{
+                Link: {
+                  text: "Participate in Elections",
+                  href: "/election.ndctools.near/widget/NDC.Elections.Main",
+                },
+              }}
+            />
+          </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-column">
           <h2>NDC Work Groups</h2>
