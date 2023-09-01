@@ -487,7 +487,7 @@ const processNFTAvailability = (result, key) => {
     let data = result.body.data;
     if (data) {
       const tokens = data.nft_tokens;
-      console.log(tokens);
+
       State.update({
         [key]: tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
       });
