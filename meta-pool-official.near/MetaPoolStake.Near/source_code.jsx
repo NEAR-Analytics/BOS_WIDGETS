@@ -21,7 +21,7 @@ State.init({
   stNearBalanceIsFetched: false,
   dataIntervalStarted: false,
   token: "near", // "near" | "wnear"
-  action: "fast", // "
+  action: "stake", // "
 });
 
 function isValid(a) {
@@ -227,32 +227,33 @@ if (!state.dataIntervalStarted) {
 
   setInterval(() => {
     updateData();
-  }, 10000);
+  }, 20000);
 }
+
 return (
-    <Widget
-      src={`${authorId}/widget/MetaPoolStake.Container`}
-      props={{
-        update,
-        token: state.token,
-        action: state.action,
-        getUserAddress,
-        children: (
-          <Widget
-            src={`${authorId}/widget/MetaPoolStake.Near.Form`}
-            props={{
-              update,
-              state,
-              isSignedIn,
-              onSubmitDelayedUnstake,
-              onSubmitFastUnstake,
-              onSubmitStake,
-              handleInputNear,
-              handleInputStNear,
-            }}
-          />
-        ),
-      }}
-    />
-  
+  <Widget
+    src={`${authorId}/widget/MetaPoolStake.Container`}
+    props={{
+      update,
+      state,
+      getUserAddress,
+      children: (
+        <Widget
+          src={`${authorId}/widget/MetaPoolStake.Near.Form`}
+          props={{
+            update,
+            state,
+            isSignedIn,
+            onSubmitDelayedUnstake,
+            onSubmitFastUnstake,
+            onSubmitStake,
+            handleInputNear,
+            handleInputStNear,
+            onClickMaxNear,
+            onClickMaxStNear,
+          }}
+        />
+      ),
+    }}
+  />
 );
