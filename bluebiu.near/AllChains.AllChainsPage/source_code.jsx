@@ -145,8 +145,8 @@ const data = [
         tags: ["Liquidity Manage"],
       },
       {
-        name: 'AAVE v3',
-        icon: 'https://ipfs.near.social/ipfs/bafkreig26prcw7wzmw3g2ylh2yrjzsijdvfacs36zznybslln3mxn53rki',
+        name: '0vix Lending',
+        icon: 'https://ipfs.near.social/ipfs/bafkreihf73onkriuxrajsirkm2usq2kgzdb4ectoewn3f77oe5yurjdpn4',
         tags: ["Lending"],
       }
     ],
