@@ -878,9 +878,11 @@ const CastBudgetVote = () => (
         <span className="text-secondary">votes left</span>
       </div>
       <Info className="text-secondary">
-        <i class="bi bi-info-circle"></i>
         {alreadyVotedForHouse() && (
-          <span>You're already voted for budget package</span>
+          <>
+            <i class="bi bi-info-circle"></i>
+            <span>You're already voted for budget package</span>
+          </>
         )}
       </Info>
     </div>
@@ -889,9 +891,17 @@ const CastBudgetVote = () => (
         src={widgets.styledComponents}
         props={{
           Button: {
-            text: "Yes",
+            text:
+              state.winnerIds.length > 0
+                ? `Yes - ${result.find((item) => item[0] === "Yes")[1]}`
+                : "Yes",
             className: "primary success justify-content-center",
-            icon: <i className="bi bi-hand-thumbs-up" />,
+            icon:
+              state.winnerIds.length > 0 ? (
+                ""
+              ) : (
+                <i className="bi bi-hand-thumbs-up" />
+              ),
             disabled: alreadyVotedForHouse() || blacklisted,
             onClick: () => {
               const res = handleSelectCandidate("yes");
@@ -904,9 +914,17 @@ const CastBudgetVote = () => (
         src={widgets.styledComponents}
         props={{
           Button: {
-            text: "No",
+            text:
+              state.winnerIds.length > 0
+                ? `No - ${result.find((item) => item[0] === "No")[1]}`
+                : "No",
             className: "primary danger justify-content-center",
-            icon: <i className="bi bi-hand-thumbs-down" />,
+            icon:
+              state.winnerIds.length > 0 ? (
+                ""
+              ) : (
+                <i className="bi bi-hand-thumbs-down" />
+              ),
             disabled: alreadyVotedForHouse() || blacklisted,
             onClick: () => {
               const res = handleSelectCandidate("no");
@@ -919,9 +937,13 @@ const CastBudgetVote = () => (
         src={widgets.styledComponents}
         props={{
           Button: {
-            text: "Abstain",
+            text:
+              state.winnerIds.length > 0
+                ? `Abstain - ${result.find((item) => item[0] === "Abstain")[1]}`
+                : "Abstain",
             className: "primary justify-content-center",
-            icon: <i className="bi bi-x-lg" />,
+            icon:
+              state.winnerIds.length > 0 ? "" : <i className="bi bi-x-lg" />,
             disabled: alreadyVotedForHouse() || blacklisted,
             onClick: () => {
               const res = handleSelectCandidate("abstain");
