@@ -532,6 +532,10 @@ State.init({
   winnerIds: [],
 });
 
+const winnerIds = Near.view(electionContract, "winners_by_house", {
+  prop_id: id,
+});
+
 if (state.reload) {
   fetchGraphQL(NFT_SERIES[0]).then((result) =>
     processNFTAvailability(result, "hasPolicyNFT")
@@ -553,10 +557,6 @@ if (state.reload) {
 
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
     user: currentUser,
-  });
-
-  const winnerIds = Near.view(electionContract, "winners_by_house", {
-    prop_id: id,
   });
 
   const bookmarked = loadSocialDBData();
