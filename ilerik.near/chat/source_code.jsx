@@ -116,6 +116,122 @@ const Wrapper = styled.div`
 
 
 const code = `
+    <style>
+    .chat__heading {
+      position: fixed;
+      text-align: center;
+      z-index: 1;
+      width: 100%;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .chat__form-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      padding: 10px 20px;
+      position: fixed;
+      z-index: 1;
+      bottom: 0;
+    }
+
+    .chat__form {
+      display: flex;
+      justify-content: center;
+      height: 50px;
+      background-color: white;
+      border: 2px solid white;
+      max-width: 900px;
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    .chat__name-input {
+      flex: 1;
+      padding: 10px;
+    }
+
+    .chat__message-input {
+      flex: 5;
+      padding: 10px;
+    }
+
+    .chat__submit {
+      padding: 10px;
+      color: white;
+      border-radius: 5px;
+    }
+
+    .chat__submit:hover::after {
+      background-color: rgba(0,0,0,0.2);
+    }
+
+    .chat__submit:focus::after {
+      background-color: rgba(0,0,0,0.2);
+    }
+
+    .chat__submit::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      background-color: rgba(0,0,0,0);
+    }
+
+    .chat__message-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      overflow-y: auto;
+      padding: 60px 20px;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.2);
+      min-height: 100vh;
+    }
+
+    .chat__message {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      width: 100%;
+      position: relative;
+      max-width: 900px;
+    }
+
+    .chat__name {
+      margin-right: 20px;
+    }
+
+    .chat__when {
+      position: absolute;
+      top: 0;
+      right: 2em;
+      padding: 10px;
+      background: rgba(100%, 100%, 100%, 0.9);
+      opacity: 0;
+      border-radius: 5px;
+    }
+
+    .chat__message:hover .chat__when {
+      opacity: 1;
+      right: 0em;
+    }
+
+    @media (max-width: 567px) {
+      .chat__heading {
+        font-size: 30px;
+      }
+    }
+    </style>
+
     <div class="chat hue2 page">
         <h2 id='title' class="chat__heading hue2 whitet">Have a Conversation...</h2>
         <ul class="chat__message-list">
@@ -203,9 +319,9 @@ const code = `
 
 return (
     <Wrapper>
-      <div className="d-flex">
+      <div className="d-flex" style={{ width: "100%", height: "100vh"}}>
         <iframe          
-          className="d-flex"
+          className="d-flex" style={{ width: "100%", height: "100vh"}}
           srcDoc={code}
         />
       </div>
