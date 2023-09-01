@@ -59,7 +59,6 @@ return (
       <div className="d-flex align-items-center mt-2">
         <button
           className="btn btn-primary m-2"
-          disabled={!isValid}
           onClick={() => addMember(state.newMember)}
         >
           add
