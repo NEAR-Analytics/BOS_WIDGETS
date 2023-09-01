@@ -27,6 +27,10 @@ State.init({
 //   if (resp.body) State.update({ alreadyBonded: resp.body });
 // });
 
+const winnerIds = Near.view(electionContract, "winners_by_house", {
+  prop_id: state.selectedHouse,
+});
+
 if (state.reload) {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
@@ -37,10 +41,6 @@ if (state.reload) {
 
   const isHuman = Near.view(registryContract, "is_human", {
     account: context.accountId,
-  });
-
-  const winnerIds = Near.view(electionContract, "winners_by_house", {
-    prop_id: state.selectedHouse,
   });
 
   const flagged = Near.view(electionContract, "account_flagged", {
