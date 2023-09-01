@@ -55,31 +55,25 @@ if (state.data.length === 0)
     </>
   );
 
-const communityItem = state.data.find(
-  (i) => i.community_name === state.community_name
-);
-
 const communityData = state.data.filter(
-  (i) => i.community_name === state.community_name
+  (i) => i["community-name"] === state.community
 );
 
 return (
   <div className="d-flex justify-content-center w-100">
     <div className="w-50">
       <Widget
-        src={"nomination.ndctools.near/widget/NDC.StyledComponents"}
+        src={"near/widget/Select"}
         props={{
-          Dropdown: {
-            label: "Select community",
-            value: state.community,
-            handleChange: (item) => State.update({ community: item }),
-            options: state.data.map((item) => {
-              return {
-                title: item.community_name,
-                value: item.community_name,
-              };
-            }),
-          },
+          label: "Select community",
+          value: state.community,
+          onChange: (item) => State.update({ community: item }),
+          options: state.data.map((item) => {
+            return {
+              text: item["community-name"],
+              value: item["community-name"],
+            };
+          }),
         }}
       />
       <h1>NDC Community users</h1>
@@ -87,7 +81,7 @@ return (
         <H3>
           <b>{state.community}</b>
         </H3>
-        <Tag>{communityItem.vertical}</Tag>
+        <Tag>{communityData[0].vertical}</Tag>
       </div>
       <small>Total users: {communityData.length}</small>
       <hr className="my-2" />
