@@ -84,7 +84,7 @@ return (
   <div className="d-flex justify-content-center w-100">
     <Container>
       <h1>NDC Community users</h1>
-      <div className="my-2">
+      <div className="mt-3 mb-4">
         <Widget
           src={"near/widget/Select"}
           props={{
@@ -112,7 +112,7 @@ return (
           <small>Rank: -</small>
           <br />
           <small>Total users: {communityData.length}</small>
-          <hr className="mt-3 mb-4" />
+          <hr className="my-2" />
 
           {communityData
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
