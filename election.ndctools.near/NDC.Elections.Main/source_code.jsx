@@ -180,19 +180,18 @@ return (
 
           {state.winnerIds.length > 0 ? (
             <>
-              {state.alreadyBonded && (
-                <div className="mt-5">
-                  <Widget
-                    src={widgets.styledComponents}
-                    props={{
-                      Button: {
-                        text: "Unbond & Mint I Voted SBT",
-                        onClick: handleUnbond,
-                      },
-                    }}
-                  />
-                </div>
-              )}
+              <div className="mt-5">
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Button: {
+                      disabled: !state.alreadyBonded,
+                      text: "Unbond & Mint I Voted SBT",
+                      onClick: handleUnbond,
+                    },
+                  }}
+                />
+              </div>
             </>
           ) : (
             <Widget
