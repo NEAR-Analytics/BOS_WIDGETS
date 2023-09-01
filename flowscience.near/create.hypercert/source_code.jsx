@@ -15,6 +15,10 @@ if (type !== "") {
   typeSrc = parts[0];
 }
 
+if (!data) {
+  return <p>Loading...</p>;
+}
+
 const Container = styled.div`
     display: flex;
   `;
