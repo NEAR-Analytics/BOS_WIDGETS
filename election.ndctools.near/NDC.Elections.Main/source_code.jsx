@@ -216,11 +216,12 @@ return (
                   Voted” SBT
                 </h5>
               </div>
-              <div className="mt-5">
+              <div className="mt-3">
                 <Widget
                   src={widgets.styledComponents}
                   props={{
                     Button: {
+                      className: "w-full justify-content-center",
                       disabled: !state.alreadyBonded,
                       text: "Unbond & Mint I Voted SBT",
                       onClick: handleUnbond,
