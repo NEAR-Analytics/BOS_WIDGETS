@@ -2,9 +2,11 @@ State.init({
   accountBalance: 0,
 });
 
+let account = Ethers.send("eth_requestAccounts", [])[0];
+if (!account) return "Please login first";
+
 const res = Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x144" }]);
 
-let account = Ethers.send("eth_requestAccounts", [])[0];
 Ethers.provider()
   .getBalance(account)
   .then((data) => {
