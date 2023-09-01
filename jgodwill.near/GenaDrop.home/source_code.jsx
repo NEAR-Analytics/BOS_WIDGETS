@@ -284,6 +284,42 @@ const DocArrow = styled.div`
 const Text = styled.p`
 
 `;
+const Sect = styled.div`
+.early-access_container {
+  width: 100%;
+  padding: 0 4em;
+  margin-bottom: 6em;
+  margin-top: 6em;
+}
+a {
+  text-decoration: none;
+  color: unset;
+  cursor: pointer;
+}
+.early-access_wrapper {
+  width: 100%;
+  max-width: -webkit-max-content;
+  max-width: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5em;
+  grid-gap: 1em;
+  gap: 1em;
+  margin: 0 auto;
+  color: #0d99ff;
+  background: #f2f7ff;
+  svg {
+    width: 1.5em;
+    transition: .3s;
+    fill: #525c76;
+  }
+  p {
+  font-size: 1.5rem;
+  color: #525c76;
+}
+}
+`;
 
 const rightArrow = (
   <svg
@@ -536,6 +572,53 @@ return (
         </a>
       </div>
     </OrgsSection>
+    <Sect>
+      <div className="early-access_container">
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSeVwZlJOkX_i9g8ogHlB_Jvnt0iYSTsXvzdJygCZx3XZQEnUw/viewform"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div className="early-access_wrapper">
+            <svg
+              width="26"
+              height="26"
+              viewBox="0 0 26 26"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.5835 18.1102L18.1205 15.6612C18.3335 15.5547 18.3335 15.2352 18.014 15.1288L12.1575 14.0639C12.0511 14.0639 12.0511 13.9575 11.9446 13.9575L9.4955 8.52691C9.38902 8.31395 9.06957 8.31395 9.06957 8.52691L8.00476 14.3834C8.00476 14.4899 7.89828 14.4899 7.89828 14.5964L2.5742 16.9389C2.36124 17.0454 2.36124 17.3649 2.68068 17.4714L8.43068 18.5362C8.53717 18.5362 8.53717 18.6426 8.64365 18.6426L11.0927 24.0732C11.1992 24.2862 11.5186 24.2862 11.6251 23.9667L12.6899 18.1102C12.477 18.2167 12.477 18.1102 12.5835 18.1102Z"
+                fill="black"
+              ></path>
+              <path
+                d="M15.777 5.65377L17.9067 4.26951C18.0131 4.16303 17.9067 4.05655 17.8002 4.05655H15.2446H15.1381L13.7539 1.92692C13.6474 1.82044 13.5409 1.92692 13.5409 2.0334V4.58896V4.69544L11.4113 6.0797C11.3048 6.18618 11.4113 6.29266 11.5178 6.29266H14.0733H14.1798L15.5641 8.42229C15.6706 8.52877 15.777 8.42229 15.777 8.31581V5.65377Z"
+                fill="black"
+              ></path>
+              <path
+                d="M22.3822 11.8304L25.0443 10.6591C25.1508 10.6591 25.1508 10.4462 25.0443 10.4462L22.2758 9.91377C22.2758 9.91377 22.1693 9.91377 22.1693 9.80729L21.1045 7.25174C21.1045 7.14525 20.8915 7.14525 20.8915 7.25174L20.3591 10.0203C20.3591 10.0203 20.3591 10.1267 20.2526 10.1267L17.697 11.1916C17.5906 11.1916 17.5906 11.4045 17.697 11.4045L20.4656 11.9369C20.4656 11.9369 20.572 11.9369 20.572 12.0434L21.7433 14.7054C21.7433 14.8119 21.9563 14.8119 21.9563 14.7054L22.3822 11.8304C22.3822 11.9369 22.3822 11.8304 22.3822 11.8304Z"
+                fill="black"
+              ></path>
+            </svg>
+            <p>
+              Get Our Team to Support Your NFT Drop + Brand Coming Into Web3
+            </p>
+            <svg
+              width="25"
+              height="17"
+              viewBox="0 0 25 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.0117188 9.9492H19.2747L14.3947 14.6952L16.321 16.5687L24.5399 8.57535L16.321 0.582031L14.3947 2.45546L19.2747 7.2015H0.0117188V9.9492Z"
+                fill="current"
+              ></path>
+            </svg>
+          </div>
+        </a>
+      </div>
+    </Sect>
     <FeatureContainer>
       <H1 className="text-center mb-5">
         The All in One <Accent>No Code Solution</Accent> for your NFT Needs
@@ -648,7 +731,7 @@ return (
           <FeatureDescription>
             Notable NFTs that were easily created with GenaDrop
           </FeatureDescription>
-    <Widget src="jgodwill.near/widget/GenaDrop.Home.PartnersCarousel" />
+          <Widget src="jgodwill.near/widget/GenaDrop.Home.PartnersCarousel" />
         </div>
       </div>
     </FeatureContainer>
