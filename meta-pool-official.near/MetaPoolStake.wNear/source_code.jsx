@@ -341,7 +341,7 @@ const allProps = {
 
 return (
   <Widget
-    src={`manzanal.near/widget/MetaPoolStake.Container`}
+    src={`${authorId}/widget/MetaPoolStake.Container`}
     props={{
       update,
       token: state.token,
