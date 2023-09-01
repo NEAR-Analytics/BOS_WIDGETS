@@ -19,20 +19,30 @@ const ContainerLogin = styled.div`
     margin-top:20px;
   }
 `
+const TitleText = styled.div`
+font-size:20px;
+font-weight:700;
+margin-bottom:32px;
+color:#ffffff;
+`;
+
 if (!sender)
   return (
-    <ContainerLogin
-      style={{
-        display: "flex",
-        maxWidth: "500px",
-        flexDirection: "column",
-        margin: "80px auto auto auto",
-      }}
-    >
-      <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
+      <>
+      <TitleText>Liquidity Manage</TitleText>
+      <ContainerLogin
+            style={{
+              display: "flex",
+              maxWidth: "500px",
+              flexDirection: "column",
+              margin: "80px auto auto auto",
+            }}
+          >
+            <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
 
-      <Web3Connect className="web3-connect" connectLabel="Connect ETH wallet" />
-    </ContainerLogin>
+            <Web3Connect className="web3-connect" connectLabel="Connect ETH wallet" />
+          </ContainerLogin>
+      </>
   );
 
 // const { chainId } = Ethers.getNetwork();
@@ -79,13 +89,6 @@ const SwitchWrapper = styled.div`
       background: #8257F5;
     }
   }
-`;
-
-const TitleText = styled.div`
-font-size:20px;
-font-weight:700;
-margin-bottom:32px;
-color:#ffffff;
 `;
 
 if (state.chainId !== 1101) {
