@@ -104,7 +104,7 @@ const bestOnVertical = () => {
 
 return (
   <div className="d-flex justify-content-center w-100">
-    <Container className="d-flex justify-content-between gap-5 w-100">
+    <Container className="d-flex justify-content-between gap-3 w-100">
       <Section className="w-100">
         <h4>NDC Community users</h4>
         <div className="mt-3 mb-4">
