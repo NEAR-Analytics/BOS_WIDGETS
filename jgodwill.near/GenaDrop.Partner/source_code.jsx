@@ -1,5 +1,5 @@
 const url =
-  "https://docs.google.com/forms/d/e/1FAIpQLSexslat5Sca-I0M0Tmrq0HFNo8Z4JXDKfeMUIJ7kcaWoQvzBA/formResponse?embedded=true";
+  "https://docs.google.com/forms/d/e/1FAIpQLSexslat5Sca-I0M0Tmrq0HFNo8Z4JXDKfeMUIJ7kcaWoQvzBA/viewform";
 const Main = styled.div`
 height: 100vh;
 overflow: unset;
@@ -10,6 +10,6 @@ iframe{
 `;
 return (
   <Main>
-    <iframe src={url} style={{ width: "100%" }} />
+    <iframe src={url} style={{ width: "100%" }} frameborder="0" marginheight="0" marginwidth="0" />
   </Main>
 );
