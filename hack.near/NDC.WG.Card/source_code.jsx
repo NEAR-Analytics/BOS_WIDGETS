@@ -19,7 +19,7 @@ State.init({
 
 const widgets = {
   styledComponents: "hack.near/widget/NDC.StyledComponents",
-  groupPage: "hack.near/widget/NDC.WG.Group.Page",
+  groupPage: "near/widget/ProfilePage",
 };
 
 const isHuman = Near.view(registry_contract, "is_human", {
@@ -367,7 +367,7 @@ return (
           />
           <HeaderContent>
             <UserLink
-              href={`${widgets.groupPage}?group=${groupData.groupId}&accountId=${groupData.creatorId}`}
+              href={`${widgets.groupPage}?accountId=${groupData.creatorId}`}
             >
               <GroupName>{groupData.title}</GroupName>
               <GroupCreator>{groupData.creatorId}</GroupCreator>
