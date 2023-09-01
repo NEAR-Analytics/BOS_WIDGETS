@@ -59,12 +59,18 @@ const communityData = state.data.filter(
   (i) => i["community-name"] === state.community
 );
 
-console.log(state);
-
 const getCommunities = () => {
   const data = state.data.map((item) => item["community-name"]);
   return [...new Set(data)].sort((a, b) => a - b);
 };
+
+const groupBy = (data, type) =>
+  data.reduce((group, item) => {
+    group[type] = group[type] ?? [];
+    group[type].push(item[type]);
+
+    return group;
+  }, {});
 
 return (
   <div className="d-flex justify-content-center w-100">
@@ -95,6 +101,8 @@ return (
             </H3>
             <Tag>{communityData[0]["community-vertical"]}</Tag>
           </div>
+          <small>Rank: -</small>
+          <br />
           <small>Total users: {communityData.length}</small>
           <hr className="my-2" />
 
