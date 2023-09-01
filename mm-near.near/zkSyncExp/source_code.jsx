@@ -3,7 +3,7 @@ State.init({
 });
 
 let account = Ethers.send("eth_requestAccounts", [])[0];
-if (!account) return "Please login first";
+if (!account) return "Please connect wallet first";
 
 const res = Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x144" }]);
 
