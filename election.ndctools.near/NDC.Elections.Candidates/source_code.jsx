@@ -684,13 +684,12 @@ const CandidateItem = ({ candidateId, votes }) => (
             props={{
               Link: {
                 size: "sm",
-                className: "secondary dark",
+                className: state.winnerIds.includes(candidateId)
+                  ? "secondary success"
+                  : "secondary dark",
                 text: "Nomination",
                 icon: <i className="bi bi-box-arrow-up-right" />,
                 href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
-                inverse:
-                  state.selected === candidateId ||
-                  state.winnerIds.includes(candidateId),
               },
             }}
           />
