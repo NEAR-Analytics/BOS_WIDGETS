@@ -9,6 +9,8 @@ const {
   onSubmitDelayedUnstake,
   handleInputNear,
   handleInputStNear,
+  onClickMaxNear,
+  onClickMaxStNear,
 } = props;
 const tokenInputUsd =
   state.action == "stake"
