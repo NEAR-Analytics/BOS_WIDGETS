@@ -1,17 +1,8 @@
+const creatorId = props.creatorId ?? context.accountId;
+
 const groupId = props.groupId ?? "cefe2651fd468lm0x9mg91d69d351d0c4";
 
-const groupData = props.data ?? {
-  title: "Regional Communities",
-  creatorId: "rc-dao.near",
-  members: [
-    "abbakaka.near",
-    "igboze_builder.near",
-    "inspiratibiz.near",
-    "james.near",
-    "yuenisd.near",
-  ],
-  daoId: "rc-dao.sputnik-dao.near",
-};
+const groupData = props.data ?? Social.get(`${creatorId}/thing/${groupId}/**`);
 
 State.init({
   verified: false,
