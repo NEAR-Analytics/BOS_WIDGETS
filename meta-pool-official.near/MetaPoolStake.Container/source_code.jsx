@@ -1,6 +1,5 @@
 const accountId = context.accountId;
 const getUserAddress = props.getUserAddress;
-const update = props.update;
 const token = props.token;
 const action = props.action;
 
@@ -250,7 +249,7 @@ const renderActions = (
     <TokensList>
       <ActionItem
         onClick={() => {
-          update({ action: "stake" });
+          props.update({ action: "stake" });
           State.update({ action: "stake" });
           console.log("action", "stake", state.action);
         }}
@@ -275,7 +274,7 @@ const renderActions = (
       </ActionItem>
       <ActionItem
         onClick={() => {
-          update({ action: "fast" });
+          props.update({ action: "fast" });
           State.update({ action: "fast" });
           console.log("action", "fast", state.action);
         }}
@@ -302,7 +301,7 @@ const renderActions = (
       {token == "near" && (
         <ActionItem
           onClick={() => {
-            update({ action: "delayed" });
+            props.update({ action: "delayed" });
             State.update({ action: "delayed" });
             console.log("action", "delayed", state.action);
           }}
