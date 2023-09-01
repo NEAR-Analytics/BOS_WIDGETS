@@ -49,10 +49,10 @@ const H3 = styled.h3`
 `;
 
 const Container = styled.div`
-  width: 50%;
+  flex-direction: row;
 
   @media (max-width: 768px) {
-    width: 100%;
+    flex-direction: column;
   }
 `;
 
@@ -63,99 +63,189 @@ if (state.data.length === 0)
     </>
   );
 
-const communityData = state.data.filter(
-  (i) => i["community-name"] === state.community
-);
+const formData = {};
 
-const getCommunities = () => {
-  const data = state.data.map((item) => item["community-name"]);
-  return [...new Set(data)].sort((a, b) => a - b);
+state.data.map((item) => {
+  if (formData[item["community-name"]])
+    formData[item["community-name"]].push(item);
+  else formData[item["community-name"]] = [item];
+});
+
+const communityUsers = formData[state.community];
+const getCommunityVerticals = () => {
+  const arr = Object.values(formData).map(
+    (arr) => arr[0]["community-vertical"]
+  );
+  return [...new Set(arr)];
 };
+const getCommunityNames = () =>
+  Object.values(formData)
+    .sort((a, b) => b.length - a.length)
+    .map((u) => u[0]["community-name"]);
 
-const groupBy = (data, type) =>
-  data.reduce((group, item) => {
-    group[type] = group[type] ?? [];
-    group[type].push(item[type]);
+const bestOnVertical = () => {
+  const users = Object.values(formData).sort((a, b) => b.length - a.length);
 
-    return group;
-  }, {});
+  return getCommunityVerticals().map((vertical) =>
+    users.find((c) => c[0]["community-vertical"] === vertical)
+  );
+};
 
 return (
   <div className="d-flex justify-content-center w-100">
-    <Container>
-      <h1>NDC Community users</h1>
-      <div className="mt-3 mb-4">
-        <Widget
-          src={"near/widget/Select"}
-          props={{
-            label: "Select community",
-            value: state.community,
-            onChange: (item) => State.update({ community: item.text }),
-            options: getCommunities().map((community) => {
-              return {
-                text: community,
-                value: community,
-              };
-            }),
-          }}
-        />
+    <Container className="d-flex justify-content-between gap-5 w-100">
+      <div className="w-100">
+        <h3>NDC Community users</h3>
+        <div className="mt-3 mb-4">
+          <Widget
+            src={"near/widget/Select"}
+            props={{
+              label: "Select community",
+              value: state.community,
+              onChange: (item) => State.update({ community: item.text }),
+              options: getCommunityNames().map((community) => {
+                return {
+                  text: community,
+                  value: community,
+                };
+              }),
+            }}
+          />
+        </div>
+
+        {communityUsers && (
+          <>
+            <div className="d-flex justify-content-between align-items-center">
+              <H3>
+                <b>{state.community}</b>
+              </H3>
+              <Tag>{communityUsers[0]["community-vertical"]}</Tag>
+            </div>
+            <small>
+              Rank:
+              {getCommunityNames().indexOf(state.community) + 1}
+            </small>
+            <br />
+            <small>Total users: {communityUsers.length}</small>
+            <hr className="my-2" />
+
+            {communityUsers
+              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+              .map((user) => (
+                <div className="d-flex justify-content-between align-items-center p-1">
+                  <Widget
+                    src="near/widget/AccountProfileOverlay"
+                    props={{
+                      accountId: user.account,
+                      children: (
+                        <div className="d-flex justify-items-center">
+                          <Widget
+                            src="mob.near/widget/ProfileImage"
+                            props={{
+                              accountId: user.account,
+                              imageClassName: "rounded-circle w-100 h-100",
+                              style: {
+                                width: "24px",
+                                height: "24px",
+                                marginRight: 5,
+                              },
+                            }}
+                          />
+                          <UserName>{user.account}</UserName>
+                        </div>
+                      ),
+                    }}
+                  />
+
+                  <small className="text-secondary">
+                    {new Date(user.created_at).toLocaleDateString("en-US", {
+                      day: "2-digit",
+                      month: "short",
+                    })}
+                    &middot;
+                    {new Date(user.created_at).toLocaleTimeString("en-US", {
+                      hour: "2-digit",
+                    })}
+                  </small>
+                </div>
+              ))}
+          </>
+        )}
       </div>
-
-      {communityData.length > 0 && (
-        <>
-          <div className="d-flex justify-content-between align-items-center">
-            <H3>
-              <b>{state.community}</b>
-            </H3>
-            <Tag>{communityData[0]["community-vertical"]}</Tag>
+      <div className="w-100">
+        <div className="mt-3">
+          <h3> Best of Users </h3>
+          <div className="d-flex justify-content-between my-2">
+            <div className="w-25">
+              <small className="text-secondary">#</small>
+            </div>
+            <div className="w-100">
+              <small className="text-secondary">Community</small>
+            </div>
+            <div className="w-50">
+              <small className="text-secondary">Users</small>
+            </div>
+            <div className="w-100">
+              <small className="text-secondary">Category</small>
+            </div>
           </div>
-          <small>Rank: -</small>
-          <br />
-          <small>Total users: {communityData.length}</small>
           <hr className="my-2" />
-
-          {communityData
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-            .map((user) => (
-              <div className="d-flex justify-content-between align-items-center p-1">
-                <Widget
-                  src="near/widget/AccountProfileOverlay"
-                  props={{
-                    accountId: user.account,
-                    children: (
-                      <div className="d-flex justify-items-center">
-                        <Widget
-                          src="mob.near/widget/ProfileImage"
-                          props={{
-                            accountId: user.account,
-                            imageClassName: "rounded-circle w-100 h-100",
-                            style: {
-                              width: "24px",
-                              height: "24px",
-                              marginRight: 5,
-                            },
-                          }}
-                        />
-                        <UserName>{user.account}</UserName>
-                      </div>
-                    ),
-                  }}
-                />
-
-                <small className="text-secondary">
-                  {new Date(user.created_at).toLocaleDateString("en-US", {
-                    day: "2-digit",
-                    month: "short",
-                  })}
-                  &middot;
-                  {new Date(user.created_at).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                  })}
-                </small>
+          {Object.values(formData)
+            .sort((a, b) => b.length - a.length)
+            .map((item, index) => (
+              <div className="d-flex justify-content-between my-2">
+                <div className="w-25">
+                  <small>{index + 1}</small>
+                </div>
+                <div className="w-100">
+                  <small>{item[0]["community-name"]}</small>
+                </div>
+                <div className="w-50">
+                  <small>{item.length}</small>
+                </div>
+                <div className="w-100">
+                  <small>{item[0]["community-vertical"]}</small>
+                </div>
               </div>
             ))}
-        </>
-      )}
+        </div>
+        <div className="mt-3">
+          <h3> Best of Category </h3>
+          <div className="d-flex justify-content-between my-2">
+            <div className="w-100">
+              <small className="text-secondary">Category</small>
+            </div>
+            <div className="w-100">
+              <small className="text-secondary">Community</small>
+            </div>
+            <div className="w-50">
+              <small className="text-secondary">Users</small>
+            </div>
+            <div className="w-25">
+              <small className="text-secondary">#</small>
+            </div>
+          </div>
+          <hr className="my-2" />
+          {bestOnVertical().map((item) => (
+            <div className="d-flex justify-content-between my-2">
+              <div className="w-100">
+                <small>{item[0]["community-vertical"]}</small>
+              </div>
+              <div className="w-100">
+                <small>{item[0]["community-name"]}</small>
+              </div>
+              <div className="w-50">
+                <small>{item.length}</small>
+              </div>
+              <div className="w-25">
+                <small>
+                  {getCommunityNames().indexOf(item[0]["community-name"]) + 1}
+                </small>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </Container>
   </div>
 );
