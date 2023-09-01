@@ -3,7 +3,7 @@ const onChange = ({ target }) => {
 };
 
 const onClick = () => {
-  asyncFetch("http://localhost:3001/near", {
+  asyncFetch("https://api.welldonestudio.io/universal-tx-serializer/near", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(JSON.parse(state.json)),
