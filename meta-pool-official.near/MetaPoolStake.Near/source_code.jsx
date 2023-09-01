@@ -117,10 +117,7 @@ function getNearBalance(onInvalidate) {
     }
   });
 }
-const update = (state) => State.update({ state });
-
-
-const updateAction = (action) => State.update({ action });
+const update = (state) => State.update(state);
 
 const onSubmitStake = () => {
   const deposit = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
@@ -232,15 +229,7 @@ if (!state.dataIntervalStarted) {
     updateData();
   }, 10000);
 }
-
-const renderit = {
-  stake: <p>stake</p>,
-  fast: <p>fast</p>,
-  delayed: <p>delayed</p>,
-}[state.action];
 return (
-  <>
-    {renderit}
     <Widget
       src={`${authorId}/widget/MetaPoolStake.Container`}
       props={{
@@ -252,7 +241,7 @@ return (
           <Widget
             src={`${authorId}/widget/MetaPoolStake.Near.Form`}
             props={{
-              action: state.action,
+              update,
               state,
               isSignedIn,
               onSubmitDelayedUnstake,
@@ -265,5 +254,5 @@ return (
         ),
       }}
     />
-  </>
+  
 );
