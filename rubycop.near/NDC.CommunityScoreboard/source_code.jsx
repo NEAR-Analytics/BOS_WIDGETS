@@ -48,6 +48,14 @@ const H3 = styled.h3`
   text-transform: capitalize;
 `;
 
+const Container = styled.div`
+  width: 50%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
 if (state.data.length === 0)
   return (
     <>
@@ -74,7 +82,7 @@ const groupBy = (data, type) =>
 
 return (
   <div className="d-flex justify-content-center w-100">
-    <div className="w-50">
+    <Container>
       <h1>NDC Community users</h1>
       <div className="my-2">
         <Widget
@@ -148,6 +156,6 @@ return (
             ))}
         </>
       )}
-    </div>
+    </Container>
   </div>
 );
