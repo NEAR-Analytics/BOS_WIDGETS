@@ -2,7 +2,6 @@ const authorId = "meta-pool-official.near";
 
 const {
   isSignedIn,
-  action,
   update,
   state,
   onSubmitStake,
@@ -12,15 +11,19 @@ const {
   handleInputStNear,
 } = props;
 const tokenInputUsd =
-  state.action == "stake" ? state.nearUsdPrice : state.metrics?.st_near_price_usd;
+  state.action == "stake"
+    ? state.nearUsdPrice
+    : state.metrics?.st_near_price_usd;
 const tokenOutputUsd =
-  state.action == "stake" ? state.metrics?.st_near_price_usd : state.nearUsdPrice;
+  state.action == "stake"
+    ? state.metrics?.st_near_price_usd
+    : state.nearUsdPrice;
 
 const onSubmit = {
   stake: onSubmitStake,
   delayed: onSubmitDelayedUnstake,
   fast: onSubmitFastUnstake,
-}[props.action];
+}[state.action];
 
 const StakeContainer = styled.div`
     width: 100%;
@@ -197,7 +200,9 @@ return (
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
               <span>
-                {state.action == "stake" ? state.nearBalance : state.stNearBalance}
+                {state.action == "stake"
+                  ? state.nearBalance
+                  : state.stNearBalance}
                 {state.action == "stake" ? "NEAR" : "stNEAR"}
               </span>
             </StakeFormTopContainerLeftContent2>
@@ -231,7 +236,9 @@ return (
             </StakeFormTopContainerRightContent1>
             <StakeFormTopContainerRightContent2>
               <span>
-                {state.action == "stake" ? state.stNearBalance : state.nearBalance}
+                {state.action == "stake"
+                  ? state.stNearBalance
+                  : state.nearBalance}
                 {state.action == "stake" ? "stNEAR" : "NEAR"}
               </span>
             </StakeFormTopContainerRightContent2>
@@ -248,13 +255,16 @@ return (
               ? (tokenInputUsd * parseFloat(state.value)).toFixed(2)
               : "0",
           placeholder:
-            state.action == "stake" ? "Enter NEAR amount" : "Enter stNEAR amount",
+            state.action == "stake"
+              ? "Enter NEAR amount"
+              : "Enter stNEAR amount",
           value: state.value,
           onChange: (e) =>
             state.action == "stake"
               ? handleInputNear(e.target.value)
               : handleInputStNear(e.target.value),
-          onClickMax: state.action == "stake" ? onClickMaxNear : onClickMaxStNear,
+          onClickMax:
+            state.action == "stake" ? onClickMaxNear : onClickMaxStNear,
           inputError: state.validation !== "",
           balance: tokenInputBalance ?? "-",
           iconName: tokenInput,
