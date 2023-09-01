@@ -26,7 +26,7 @@ const UserName = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 14px;
+  font-size: 12px;
   padding-top: 2px;
   width: 200px;
 `;
@@ -64,6 +64,7 @@ const Section = styled.div`
   margin-top: 10px;
   max-height: 100vh;
   overflow: auto; 
+  font-size: 14px;
 `;
 
 if (state.data.length === 0)
@@ -105,7 +106,7 @@ return (
   <div className="d-flex justify-content-center w-100">
     <Container className="d-flex justify-content-between gap-5 w-100">
       <Section className="w-100">
-        <h3>NDC Community users</h3>
+        <h4>NDC Community users</h4>
         <div className="mt-3 mb-4">
           <Widget
             src={"near/widget/Select"}
@@ -125,18 +126,23 @@ return (
 
         {communityUsers && (
           <>
-            <div className="d-flex justify-content-between align-items-center">
-              <H3>
-                <b>{state.community}</b>
-              </H3>
+            <h5>{state.community}</h5>
+            <div className="d-flex gap-2">
+              <Tag>
+                Rank: {getCommunityNames().indexOf(state.community) + 1}
+              </Tag>
+              <Tag>Users: {communityUsers.length}</Tag>
               <Tag>{communityUsers[0]["community-vertical"]}</Tag>
             </div>
-            <small>
-              Rank:
-              {getCommunityNames().indexOf(state.community) + 1}
-            </small>
-            <br />
-            <small>Total users: {communityUsers.length}</small>
+
+            <div className="d-flex justify-content-between my-2">
+              <div>
+                <small className="text-secondary">User Profile</small>
+              </div>
+              <div>
+                <small className="text-secondary">Joined at</small>
+              </div>
+            </div>
             <hr className="my-2" />
 
             {communityUsers
@@ -183,7 +189,7 @@ return (
         )}
       </Section>
       <Section className="w-100">
-        <h3> Best of Category </h3>
+        <h4> Best of Category </h4>
         <div className="d-flex justify-content-between my-2">
           <div className="w-100">
             <small className="text-secondary">Category</small>
@@ -219,7 +225,7 @@ return (
         ))}
       </Section>
       <Section className="w-100">
-        <h3> Best of Users </h3>
+        <h4> Best of Users </h4>
         <div className="d-flex justify-content-between my-2">
           <div className="w-25">
             <small className="text-secondary">#</small>
