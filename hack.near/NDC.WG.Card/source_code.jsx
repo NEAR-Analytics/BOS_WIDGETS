@@ -1,7 +1,8 @@
+const groupId = props.groupId ?? "cefe2651fd468lm0x9mg91d69d351d0c4";
+
 const groupData = props.data ?? {
   title: "Regional Communities",
   creatorId: "rc-dao.near",
-  groupId: "RC",
   members: [
     "abbakaka.near",
     "igboze_builder.near",
@@ -378,22 +379,20 @@ return (
       <LowerSection>
         <LowerSectionContainer>
           <div className="d-flex w-100 align-items-center">
-            {!groupData.preview && (
-              <div className="d-flex w-100 gap-2 justify-content-between">
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Link: {
-                      text: "View",
-                      size: "sm",
-                      className: "primary w-100 justify-content-center",
-                      href: `${widgets.groupPage}?accountId=${groupData.creatorId}`,
-                      icon: <i className="bi bi-eye-fill fs-6"></i>,
-                    },
-                  }}
-                />
-              </div>
-            )}
+            <div className="d-flex w-100 gap-2 justify-content-between">
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Link: {
+                    text: "View",
+                    size: "sm",
+                    className: "primary w-100 justify-content-center",
+                    href: `${widgets.groupPage}?accountId=${groupData.creatorId}`,
+                    icon: <i className="bi bi-eye-fill fs-6"></i>,
+                  },
+                }}
+              />
+            </div>
           </div>
         </LowerSectionContainer>
       </LowerSection>
