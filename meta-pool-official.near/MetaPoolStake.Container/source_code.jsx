@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 const getUserAddress = props.getUserAddress;
-const token = props.token;
-const action = props.action;
+const token = props.token || "near";
+const action = props.action || "stake";
 
 // STYLED COMPONENTS
 
