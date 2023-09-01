@@ -1,4 +1,4 @@
-const creatorId = props.creatorId ?? context.accountId;
+const creatorId = props.creatorId ?? "hack.near";
 
 const groupId = props.groupId ?? "cefe2651fd468lm0x9mg91d69d351d0c4";
 
@@ -353,7 +353,6 @@ return (
             src="mob.near/widget/ProfileImage"
             props={{
               accountId: groupData.creatorId,
-              tooltip: true,
               imageClassName: "rounded-circle w-100 h-100",
               style: { minWidth: "45px", height: "45px" },
             }}
