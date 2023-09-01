@@ -673,7 +673,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           />
 
           {state.winnerIds.includes(candidateId) && (
-            <Winner className="bi bi-trophy p-1 text-success" />
+            <Winner className="bi bi-trophy-fill p-1 text-success" />
           )}
         </div>
       </div>
