@@ -893,7 +893,7 @@ const CastBudgetVote = () => (
           Button: {
             text:
               state.winnerIds.length > 0
-                ? `Yes - ${result.find((item) => item[0] === "Yes")[1]}`
+                ? `Yes - ${result.find((item) => item[0] === "yes")[1]}`
                 : "Yes",
             className: "primary success justify-content-center",
             icon:
@@ -916,7 +916,7 @@ const CastBudgetVote = () => (
           Button: {
             text:
               state.winnerIds.length > 0
-                ? `No - ${result.find((item) => item[0] === "No")[1]}`
+                ? `No - ${result.find((item) => item[0] === "no")[1]}`
                 : "No",
             className: "primary danger justify-content-center",
             icon:
@@ -933,14 +933,13 @@ const CastBudgetVote = () => (
           },
         }}
       />
-      {console.log(result)}
       <Widget
         src={widgets.styledComponents}
         props={{
           Button: {
             text:
               state.winnerIds.length > 0
-                ? `Abstain - ${result.find((item) => item[0] === "Abstain")[1]}`
+                ? `Abstain - ${result.find((item) => item[0] === "abstain")[1]}`
                 : "Abstain",
             className: "primary justify-content-center",
             icon:
