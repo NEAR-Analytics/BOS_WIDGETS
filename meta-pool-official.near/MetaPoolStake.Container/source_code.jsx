@@ -114,7 +114,7 @@ const TokensList = styled.div`
   gap: 10px;
 `;
 
-const TokensItem = styled.button`
+const TokensItem = styled.a`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
