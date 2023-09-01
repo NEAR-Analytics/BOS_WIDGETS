@@ -387,7 +387,7 @@ return (
                       text: "View",
                       size: "sm",
                       className: "primary w-100 justify-content-center",
-                      href: `${widgets.groupPage}?group=${groupData.groupId}&accountId=${groupData.creatorId}`,
+                      href: `${widgets.groupPage}?&accountId=${groupData.creatorId}`,
                       icon: <i className="bi bi-eye-fill fs-6"></i>,
                     },
                   }}
