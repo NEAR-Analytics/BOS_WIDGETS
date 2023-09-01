@@ -192,8 +192,8 @@ const Styled = {
       }
 
       &.success {
-        border: 1px solid #5bc65f;
-        color: #5bc65f;
+        border: 1px solid rgb(35, 159, 40);
+        color: rgb(35, 159, 40);
       }
 
       &:disabled {
