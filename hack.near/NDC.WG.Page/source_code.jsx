@@ -13,7 +13,9 @@ const widgets = {
   deleteGroup: "hack.near/widget/NDC.WG.Delete",
 };
 
-const groups = Social.get(`${daoId}/directory/**`);
+const groups = Social.get(`${daoId}/thing/directory`);
+
+const groupArray = JSON.parse(groups);
 
 State.init({
   start: true,
@@ -40,27 +42,6 @@ const getVerifiedHuman = () => {
     sbt: isHuman[0][1].length > 0,
   });
 };
-
-// const handleSelect = (item) => {
-//   switch (item.id) {
-//     case 1:
-//       getGroupData("RegionalCommunties");
-//       break;
-//     case 2:
-//       getGroupData("NFT");
-//       break;
-//     case 3:
-//       getGroupData("Gaming");
-//       break;
-//     case 4:
-//       getGroupData("Tech");
-//       break;
-//     case 5:
-//       getGroupData("ReFi");
-//       break;
-//   }
-//   State.update({ selectedGroup: item.id });
-// };
 
 if (state.start) {
   getVerifiedHuman();
@@ -175,13 +156,12 @@ return (
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-column">
           <h2>NDC Work Groups</h2>
           <div className="d-flex flex-row flex-wrap">
-            {Object.values(groups).map((group, i) => (
+            {groupArray.map((group, i) => (
               <Widget
                 key={i}
                 src={widgets.card}
                 props={{
-                  data: group,
-                  registry_contract: registryContract,
+                  groupId: group,
                 }}
               />
             ))}
