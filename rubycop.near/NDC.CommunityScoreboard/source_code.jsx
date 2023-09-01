@@ -73,6 +73,12 @@ const Row = styled.div`
   margin: 3px 0;
   border-radius: 5px;
 `;
+const Header = styled.div`
+  background: black;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+`;
 
 if (state.data.length === 0)
   return (
@@ -110,10 +116,17 @@ const bestOnVertical = () => {
 };
 
 return (
-  <div className="d-flex justify-content-center w-100">
-    <Container className="d-flex justify-content-between gap-3 w-100">
+  <div className="d-flex flex-column justify-content-center w-100">
+    <Header className="d-flex p-3 px-4 align-items-center rounded gap-2">
+      <img
+        height="30px"
+        src="https://pbs.twimg.com/profile_images/1622941553839816707/nmf3MWw1_400x400.jpg"
+      />
+      <span>Communities</span>
+    </Header>
+    <Container className="d-flex justify-content-between gap-3 mt-3 w-100">
       <Section className="w-100">
-        <h4>NDC Community users</h4>
+        <h4>Community Users</h4>
         <div className="mt-3 mb-4">
           <Widget
             src={"near/widget/Select"}
@@ -197,7 +210,7 @@ return (
       </Section>
       <Section className="w-100">
         <h4> Best of Category </h4>
-        <div className="d-flex justify-content-between my-2">
+        <div className="d-flex justify-content-between mt-3 mb-2">
           <div className="w-100">
             <small className="text-secondary">Category</small>
           </div>
@@ -233,7 +246,7 @@ return (
       </Section>
       <Section className="w-100">
         <h4> Best of Users </h4>
-        <div className="d-flex justify-content-between py-2">
+        <div className="d-flex justify-content-between mt-3 mb-2">
           <div className="w-25">
             <small className="text-secondary">#</small>
           </div>
