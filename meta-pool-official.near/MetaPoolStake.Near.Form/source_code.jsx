@@ -9,12 +9,12 @@ const {
   onSubmitFastUnstake,
   onSubmitDelayedUnstake,
   handleInputNear,
-  handleInputStNear
+  handleInputStNear,
 } = props;
 const tokenInputUsd =
-  action == "stake" ? state.nearUsdPrice : state.metrics?.st_near_price_usd;
+  state.action == "stake" ? state.nearUsdPrice : state.metrics?.st_near_price_usd;
 const tokenOutputUsd =
-  action == "stake" ? state.metrics?.st_near_price_usd : state.nearUsdPrice;
+  state.action == "stake" ? state.metrics?.st_near_price_usd : state.nearUsdPrice;
 
 const onSubmit = {
   stake: onSubmitStake,
@@ -189,7 +189,7 @@ return (
             <StakeFormTopContainerLeftContent1>
               <StakeFormTopContainerLeftContent1Container>
                 <span>
-                  {action == "stake"
+                  {state.action == "stake"
                     ? "Available to Stake"
                     : "Available to Unstake"}
                 </span>
@@ -197,8 +197,8 @@ return (
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
               <span>
-                {action == "stake" ? state.nearBalance : state.stNearBalance}
-                {action == "stake" ? "NEAR" : "stNEAR"}
+                {state.action == "stake" ? state.nearBalance : state.stNearBalance}
+                {state.action == "stake" ? "NEAR" : "stNEAR"}
               </span>
             </StakeFormTopContainerLeftContent2>
           </StakeFormTopContainerLeft>
@@ -231,8 +231,8 @@ return (
             </StakeFormTopContainerRightContent1>
             <StakeFormTopContainerRightContent2>
               <span>
-                {action == "stake" ? state.stNearBalance : state.nearBalance}
-                {action == "stake" ? "stNEAR" : "NEAR"}
+                {state.action == "stake" ? state.stNearBalance : state.nearBalance}
+                {state.action == "stake" ? "stNEAR" : "NEAR"}
               </span>
             </StakeFormTopContainerRightContent2>
           </StakeFormTopContainerRight>
@@ -248,18 +248,18 @@ return (
               ? (tokenInputUsd * parseFloat(state.value)).toFixed(2)
               : "0",
           placeholder:
-            action == "stake" ? "Enter NEAR amount" : "Enter stNEAR amount",
+            state.action == "stake" ? "Enter NEAR amount" : "Enter stNEAR amount",
           value: state.value,
           onChange: (e) =>
-            action == "stake"
+            state.action == "stake"
               ? handleInputNear(e.target.value)
               : handleInputStNear(e.target.value),
-          onClickMax: action == "stake" ? onClickMaxNear : onClickMaxStNear,
+          onClickMax: state.action == "stake" ? onClickMaxNear : onClickMaxStNear,
           inputError: state.validation !== "",
           balance: tokenInputBalance ?? "-",
           iconName: tokenInput,
           iconUrl:
-            action == "stake"
+            state.action == "stake"
               ? "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly"
               : "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
         }}
@@ -278,7 +278,7 @@ return (
           token: tokenInput,
           tokenStake: tokenOutput,
           iconUrl:
-            action == "stake"
+            state.action == "stake"
               ? "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq"
               : "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
         }}
@@ -289,7 +289,7 @@ return (
           disabled: !isSignedIn,
           onClick: () => onSubmit(),
           text: isSignedIn
-            ? action == "stake"
+            ? state.action == "stake"
               ? "Stake now"
               : "Unstake"
             : "Connect wallet",
