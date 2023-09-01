@@ -1,6 +1,8 @@
 const accountId = context.accountId;
 const getUserAddress = props.getUserAddress;
-const state = props.state;
+const update = props.update;
+const token = props.token;
+const action = props.action;
 
 // STYLED COMPONENTS
 
@@ -112,7 +114,7 @@ const TokensList = styled.div`
   gap: 10px;
 `;
 
-const TokensItem = styled.a`
+const TokensItem = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -200,8 +202,8 @@ const renderTokens = (
     <Text>Select token</Text>
     <TokensList>
       <TokensItem
-        href={`/meta-pool-official.near/widget/MetaPoolStake.Near`}
-        active={state.token === "near"}
+        href={`/meta-pool-official.near/widget/MetaPoolStake.Near?token=near`}
+        active={token === "near"}
       >
         <div>
           <div>NEAR</div>
@@ -217,8 +219,8 @@ const renderTokens = (
         />
       </TokensItem>
       <TokensItem
-        href={`/meta-pool-official.near/widget/MetaPoolStake.wNear`}
-        active={state.token === "wnear"}
+        href={`/meta-pool-official.near/widget/MetaPoolStake.wNear?token=wnear`}
+        active={token === "wnear"}
       >
         <div>
           <div>wNEAR</div>
@@ -243,10 +245,9 @@ const renderActions = (
     <TokensList>
       <ActionItem
         onClick={() => {
-          props.update({ action: "stake" });
-          // State.update({ action: "stake" });
+          update({ action: "stake" });
         }}
-        active={state.action == "stake"}
+        active={action === "stake"}
       >
         <div>Stake</div>
         <div>
@@ -267,9 +268,9 @@ const renderActions = (
       </ActionItem>
       <ActionItem
         onClick={() => {
-          props.update({ action: "fast" });
+          update({ action: "fast" });
         }}
-        active={state.action == "fast"}
+        active={action === "fast"}
       >
         <div>Fast Unstake</div>
         <div>
@@ -292,9 +293,9 @@ const renderActions = (
       {token == "near" && (
         <ActionItem
           onClick={() => {
-            props.update({ action: "delayed" });
+            update({ action: "delayed" });
           }}
-          active={state.action == "delayed"}
+          active={action === "delayed"}
         >
           <div>Delayed Unstake</div>
           <div>
