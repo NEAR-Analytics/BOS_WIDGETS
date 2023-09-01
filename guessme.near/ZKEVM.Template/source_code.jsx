@@ -82,11 +82,11 @@ const templates = [
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreih77ecmgng2fpy6mblk2aipt3agwm3anjldcyktx2j6kssggpelue",
   },
-  {
-    src: "guessme.near/widget/ZKEVM.AAVE",
-    bannerImg:
-      "https://ipfs.near.social/ipfs/bafkreibmqzfwki7zye6ruqi3hifgexs6g5nv4qvzcmrm73lnra5mbkdrxe",
-  },
+  // {
+  //   src: "guessme.near/widget/ZKEVM.AAVE",
+  //   bannerImg:
+  //     "https://ipfs.near.social/ipfs/bafkreibmqzfwki7zye6ruqi3hifgexs6g5nv4qvzcmrm73lnra5mbkdrxe",
+  // },
   {
     src: "bluebiu.near/widget/0vix.Lending",
     bannerImg:
