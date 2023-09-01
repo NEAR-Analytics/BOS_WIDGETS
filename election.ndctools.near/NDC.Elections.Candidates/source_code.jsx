@@ -440,6 +440,7 @@ const handleStateTransition = () => {
       });
       break;
     case "ENDED":
+      console.log(winnerIds);
       State.update({ winnerIds });
       break;
     default:
