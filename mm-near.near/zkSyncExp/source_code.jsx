@@ -1,16 +1,17 @@
-let greeting = "Have a great days2";
+State.init({
+  accountBalance: 0,
+});
 
-console.log(`Failed to switch chain to. Add the chain to wallet`);
-Ethers.send("wallet_addEthereumChain", [
-  {
-    chainId: 0x144,
-    chainName: "zkSync Era",
-    nativeCurrency: "ETH",
-    rpcUrls: ["https://mainnet.era.zksync.io"],
-  },
-]);
+const res = Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x144" }]);
 
-const res = Ethers.send("wallet_switchEthereumChain", [{ chainId: 0x144 }]);
+let account = Ethers.send("eth_requestAccounts", [])[0];
+Ethers.provider()
+  .getBalance(account)
+  .then((data) => {
+    State.update({
+      accountBalance: parseInt(data.toString()) / 1000000000000000000,
+    });
+  });
 
 return (
   <>
@@ -18,10 +19,11 @@ return (
       <h1>Hello {props.name}</h1>
 
       <p>
-        {" "}
-        {greeting} {"res was "}
-        {res}
-        {" ."}
+        {"Your zkSync account is:"}
+        {account}
+      </p>
+      <p>
+        {" Balance is: "} {state.accountBalance}
       </p>
     </div>
   </>
