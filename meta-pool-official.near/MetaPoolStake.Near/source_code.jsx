@@ -21,7 +21,7 @@ State.init({
   stNearBalanceIsFetched: false,
   dataIntervalStarted: false,
   token: "near", // "near" | "wnear"
-  action: "stake", // "
+  action: "fast", // "
 });
 
 function isValid(a) {
@@ -118,6 +118,9 @@ function getNearBalance(onInvalidate) {
   });
 }
 const update = (state) => State.update({ state });
+
+
+const updateAction = (action) => State.update({ action });
 
 const onSubmitStake = () => {
   const deposit = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
@@ -230,85 +233,37 @@ if (!state.dataIntervalStarted) {
   }, 10000);
 }
 
-// parametrize props
-const allProps = {
-  stake: {
-    tokenInputBalance: state.nearBalance,
-    tokenInput: "NEAR",
-    tokenOutputBalance: state.stNearBalance,
-    tokenOutput: "stNEAR",
-    tokenInputUsd: state.nearUsdPrice,
-    tokenOutputUsd: state.metrics?.st_near_price_usd,
-    apy: state.metrics?.st_near_30_day_apy,
-    inputPlaceholder: "Enter NEAR amount",
-    buttonText: "Stake now",
-    handleInput: handleInputNear,
-    tokenInputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-    tokenOutputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
-    onClickMax: onClickMaxNear,
-    onSubmit: onSubmitStake,
-    stakeInfoLeftText: "Available to Stake",
-    stakeInforRightText: "Staked amount",
-  },
-  delayed: {
-    tokenInputBalance: state.stNearBalance,
-    tokenInput: "stNEAR",
-    tokenOutputBalance: state.nearBalance,
-    tokenOutput: "NEAR",
-    tokenInputUsd: state.metrics?.st_near_price_usd,
-    tokenOutputUsd: state.nearUsdPrice,
-    apy: state.metrics?.st_near_30_day_apy,
-    inputPlaceholder: "Enter stNEAR amount",
-    buttonText: "Unstake",
-    handleInput: handleInputStNear,
-    tokenOutputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-    tokenInputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
-    onClickMax: onClickMaxStNear,
-    onSubmit: onSubmitDelayedUnstake,
-    stakeInfoLeftText: "Available to Unstake",
-    stakeInforRightText: "NEAR available amount",
-  },
-  fast: {
-    tokenInputBalance: state.stNearBalance,
-    tokenInput: "stNEAR",
-    tokenOutputBalance: state.nearBalance,
-    tokenOutput: "NEAR",
-    tokenInputUsd: state.metrics?.st_near_price_usd,
-    tokenOutputUsd: state.nearUsdPrice,
-    apy: state.metrics?.st_near_30_day_apy,
-    inputPlaceholder: "Enter stNEAR amount",
-    buttonText: "Unstake",
-    handleInput: handleInputStNear,
-    tokenOutputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-    tokenInputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
-    onClickMax: onClickMaxStNear,
-    onSubmit: onSubmitFastUnstake,
-    stakeInfoLeftText: "Available to Unstake",
-    stakeInforRightText: "NEAR available amount",
-  },
+const renderit = {
+  stake: <p>stake</p>,
+  fast: <p>fast</p>,
+  delayed: <p>delayed</p>,
 }[state.action];
-
-
 return (
-  <Widget
-    src={`${authorId}/widget/MetaPoolStake.Container`}
-    props={{
-      update,
-      token: state.token,
-      action: state.action,
-      getUserAddress,
-      children: (
-        <Widget
-          src={`${authorId}/widget/MetaPoolStake.Near.Form`}
-          props={{ ...allProps, update, state, isSignedIn }}
-        />
-      ),
-    }}
-  />
+  <>
+    {renderit}
+    <Widget
+      src={`${authorId}/widget/MetaPoolStake.Container`}
+      props={{
+        update,
+        token: state.token,
+        action: state.action,
+        getUserAddress,
+        children: (
+          <Widget
+            src={`${authorId}/widget/MetaPoolStake.Near.Form`}
+            props={{
+              action: state.action,
+              state,
+              isSignedIn,
+              onSubmitDelayedUnstake,
+              onSubmitFastUnstake,
+              onSubmitStake,
+              handleInputNear,
+              handleInputStNear,
+            }}
+          />
+        ),
+      }}
+    />
+  </>
 );
