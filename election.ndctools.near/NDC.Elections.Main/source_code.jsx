@@ -221,7 +221,7 @@ return (
                   src={widgets.styledComponents}
                   props={{
                     Button: {
-                      className: "w-full justify-content-center",
+                      className: "primary w-100 justify-content-center",
                       disabled: !state.alreadyBonded,
                       text: "Unbond & Mint I Voted SBT",
                       onClick: handleUnbond,
