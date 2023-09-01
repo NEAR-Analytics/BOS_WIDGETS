@@ -1,7 +1,6 @@
 const accountId = context.accountId;
 const getUserAddress = props.getUserAddress;
-const token = props.token || "near";
-const action = props.action || "stake";
+const state = props.state;
 
 // STYLED COMPONENTS
 
@@ -247,7 +246,7 @@ const renderActions = (
           props.update({ action: "stake" });
           // State.update({ action: "stake" });
         }}
-        active={action === "stake"}
+        active={state.action == "stake"}
       >
         <div>Stake</div>
         <div>
@@ -270,7 +269,7 @@ const renderActions = (
         onClick={() => {
           props.update({ action: "fast" });
         }}
-        active={action === "fast"}
+        active={state.action == "fast"}
       >
         <div>Fast Unstake</div>
         <div>
@@ -295,7 +294,7 @@ const renderActions = (
           onClick={() => {
             props.update({ action: "delayed" });
           }}
-          active={action === "delayed"}
+          active={state.action == "delayed"}
         >
           <div>Delayed Unstake</div>
           <div>
