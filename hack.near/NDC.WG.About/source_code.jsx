@@ -68,7 +68,7 @@ const LinkItem = ({ link }) => (
     role="button"
     className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
   >
-    <StyledLink href={link.src}>
+    <StyledLink href={link.src} target="_blank">
       <div className="d-flex align-items-center">
         <ImgContainer>
           <Widget
