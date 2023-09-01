@@ -584,6 +584,8 @@ if (state.reload) {
   handleStateTransition();
 }
 
+const isBudgetWinner = (item) => result.sort((a, b) => b[1] - a[1])[0] === item;
+
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
     <StyledLink href={src} target="_blank">
@@ -902,8 +904,13 @@ const CastBudgetVote = () => (
               ) : (
                 <i className="bi bi-hand-thumbs-up" />
               ),
-            disabled: alreadyVotedForHouse() || blacklisted,
+            disabled:
+              state.winnerIds.length > 0
+                ? !isBudgetWinner("yes")
+                : alreadyVotedForHouse() || blacklisted,
             onClick: () => {
+              if (state.winnerIds.length > 0) return;
+
               const res = handleSelectCandidate("yes");
               if (res) handleVote();
             },
@@ -925,8 +932,13 @@ const CastBudgetVote = () => (
               ) : (
                 <i className="bi bi-hand-thumbs-down" />
               ),
-            disabled: alreadyVotedForHouse() || blacklisted,
+            disabled:
+              state.winnerIds.length > 0
+                ? !isBudgetWinner("no")
+                : alreadyVotedForHouse() || blacklisted,
             onClick: () => {
+              if (state.winnerIds.length > 0) return;
+
               const res = handleSelectCandidate("no");
               if (res) handleVote();
             },
@@ -944,8 +956,13 @@ const CastBudgetVote = () => (
             className: "primary justify-content-center",
             icon:
               state.winnerIds.length > 0 ? "" : <i className="bi bi-x-lg" />,
-            disabled: alreadyVotedForHouse() || blacklisted,
+            disabled:
+              state.winnerIds.length > 0
+                ? !isBudgetWinner("abstain")
+                : alreadyVotedForHouse() || blacklisted,
             onClick: () => {
+              if (state.winnerIds.length > 0) return;
+
               const res = handleSelectCandidate("abstain");
               if (res) handleVote();
             },
