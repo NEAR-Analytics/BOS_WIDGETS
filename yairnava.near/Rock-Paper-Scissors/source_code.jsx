@@ -82,26 +82,31 @@ return (
                     transform: "rotate(180deg)",
                     marginTop: "-15px",
                     marginBottom: "10px",
+                    opacity: "0.8"
                   }}
                   src={getComputerChoiceImg(state.computerChoice)}
                 />
               </div>
               <div class="col-12">
                 <img
-                  style={{ height: "50px" }}
+                  style={{ height: "50px", opacity: "0.8" }}
                   src={getComputerChoiceImg(state.playerChoice)}
                 />
               </div>
               <div class="col-12">
                 <p>Player</p>
               </div>
-              <div class="col-12">
+              <div class="col-12" style={{
+                marginTop: "-15px",
+                fontSize: "9px",
+                color: "white",
+              }}>
                 <p>{state.result}</p>
               </div>
             </div>
           </Container>
           <button
-            style={{ marginTop: "5px" }}
+            style={{ marginTop: "-14px" }}
             className="btn bg-dark btn-sm text-white"
             onClick={() =>
               State.update({
@@ -121,19 +126,19 @@ return (
             <p>Choose an option</p>
             <Choice onClick={() => playGame("rock")}>
               <img
-                style={{ height: "50px" }}
+                style={{ height: "50px" , opacity: "0.8"}}
                 src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/piedra.png"
               />
             </Choice>
             <Choice onClick={() => playGame("paper")}>
               <img
-                style={{ height: "50px" }}
+                style={{ height: "50px", opacity: "0.8" }}
                 src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/papel.png"
               />
             </Choice>
             <Choice onClick={() => playGame("scissors")}>
               <img
-                style={{ height: "50px" }}
+                style={{ height: "50px", opacity: "0.8" }}
                 src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/tijera.png"
               />
             </Choice>
