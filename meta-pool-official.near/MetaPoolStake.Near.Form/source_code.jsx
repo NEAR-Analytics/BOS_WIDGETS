@@ -1,23 +1,18 @@
 const authorId = "meta-pool-official.near";
-const isSignedIn = props.isSignedIn;
-const tokenInputBalance = props.tokenInputBalance;
-const tokenInput = props.tokenInput;
-const tokenOutputBalance = props.tokenOutputBalance;
-const tokenOutput = props.tokenOutput;
-const tokenInputUsd = props.tokenInputUsd;
-const tokenOutputUsd = props.tokenOutputUsd;
-const apy = props.apy;
-const inputPlaceholder = props.inputPlaceholder;
-const buttonText = props.buttonText;
-const state = props.state;
-const update = props.update;
-const handleInput = props.handleInput;
-const onSubmit = props.onSubmit;
-const tokenInputIconUrl = props.tokenInputIconUrl;
-const tokenOutputIconUrl = props.tokenOutputIconUrl;
-const onClickMax = props.onClickMax;
-const stakeInfoLeftText = props.stakeInfoLeftText ?? "Available to stake";
-const stakeInfoRightText = props.stakeInfoRightText ?? "Staked amount";
+
+const {isSignedIn, action, update, state, onSubmitStake, onSubmitFastUnstake, onSubmitDelayedUnstake} = props;
+const tokenInputUsd =
+  action == "stake" ? state.nearUsdPrice : state.metrics?.st_near_price_usd;
+const tokenOutputUsd =
+  action == "stake" ? state.metrics?.st_near_price_usd : state.nearUsdPrice;
+
+const onSubmit = 
+{
+  stake: onSubmitStake,
+  delayed: onSubmitDelayedUnstake,
+  fast: onSubmitFastUnstake
+}[props.action];
+
 
 const StakeContainer = styled.div`
     width: 100%;
@@ -185,13 +180,13 @@ return (
           <StakeFormTopContainerLeft>
             <StakeFormTopContainerLeftContent1>
               <StakeFormTopContainerLeftContent1Container>
-                <span>{stakeInfoLeftText}</span>
+                <span>{action == "stake" ? "Available to Stake" : "Available to Unstake"}</span>
               </StakeFormTopContainerLeftContent1Container>
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
               <span>
-                {tokenInputBalance ?? (!isSignedIn ? "0" : "...")}&nbsp;
-                {tokenInput}
+                {action == "stake" ? state.nearBalance : state.stNearBalance}
+                {action == "stake" ? "NEAR" : "stNEAR"}
               </span>
             </StakeFormTopContainerLeftContent2>
           </StakeFormTopContainerLeft>
@@ -203,20 +198,23 @@ return (
               </StakeFormTopContainerCenterContent1Container>
             </StakeFormTopContainerCenterContent1>
             <StakeFormTopContainerCenterContent2>
-              {apy ? apy.toFixed(2) : "..."}%
+              {state.metrics
+                ? state.metrics?.st_near_30_day_apy.toFixed(2)
+                : "..."}
+              %
             </StakeFormTopContainerCenterContent2>
           </StakeFormTopContainerCenter>
 
           <StakeFormTopContainerRight>
             <StakeFormTopContainerRightContent1>
               <StakeFormTopContainerRightContent1Container>
-                <span>{stakeInfoRightText}</span>
+                <span>{action = "stake" ?  "Staked amount" : "NEAR available amount"}</span>
               </StakeFormTopContainerRightContent1Container>
             </StakeFormTopContainerRightContent1>
             <StakeFormTopContainerRightContent2>
               <span>
-                {tokenOutputBalance ?? (!isSignedIn ? "0" : "...")}
-                &nbsp;{tokenOutput}
+                {action == "stake" ? state.stNearBalance : state.nearBalance}
+                {action == "stake" ? "stNEAR" : "NEAR"}
               </span>
             </StakeFormTopContainerRightContent2>
           </StakeFormTopContainerRight>
@@ -231,14 +229,15 @@ return (
             tokenInputUsd && state.value
               ? (tokenInputUsd * parseFloat(state.value)).toFixed(2)
               : "0",
-          placeholder: inputPlaceholder,
+          placeholder:
+            action == "stake" ? "Enter NEAR amount" : "Enter stNEAR amount",
           value: state.value,
-          onChange: (e) => handleInput(e.target.value),
-          onClickMax,
+          onChange: (e) => action == "stake" ?  handleInputNear(e.target.value) : handleInputStNear(e.target.value),
+          onClickMax: action == "stake" ? onClickMaxNear : onClickMaxStNear,
           inputError: state.validation !== "",
           balance: tokenInputBalance ?? "-",
           iconName: tokenInput,
-          iconUrl: tokenInputIconUrl,
+          iconUrl: action == "stake" ?  "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly" :  "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
         }}
       />
       {state.validation !== "" && (
@@ -254,7 +253,7 @@ return (
           iconName: tokenOutput,
           token: tokenInput,
           tokenStake: tokenOutput,
-          iconUrl: tokenOutputIconUrl,
+          iconUrl: action == "stake" ?  "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq" :  "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
         }}
       />
       <Widget
@@ -262,7 +261,11 @@ return (
         props={{
           disabled: !isSignedIn,
           onClick: () => onSubmit(),
-          text: isSignedIn ? buttonText : "Connect wallet",
+          text: isSignedIn
+            ? action == "stake"
+              ? "Stake now"
+              : "Unstake"
+            : "Connect wallet",
         }}
       />
     </StakeFormWrapper>
