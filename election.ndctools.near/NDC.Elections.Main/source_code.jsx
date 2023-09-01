@@ -122,6 +122,34 @@ const H5 = styled.h5`
   margin-bottom: 20px;
 `;
 
+const UnbondContainer = styled.div`
+  background: #fdfeff;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  h3,
+  h4 {
+    margin: 0 3px;
+  }
+  h3 {
+    font-weight: 900;
+  }
+  .text-secondary {
+    margin: 0 10px;
+  }
+  &.not-verified {
+    h4 {
+      font-size: 16px;
+      margin: 0 0 5px 0;
+      font-weight: 600;
+    }
+    h5 {
+      margin: 0;
+      font-size: 12px;
+    }
+  }
+`;
+
 const rand = (array) => {
   for (var i = array.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
@@ -180,7 +208,14 @@ return (
           </div>
 
           {state.winnerIds.length > 0 ? (
-            <>
+            <UnbondContainer className={`not-verified d-flex flex-column`}>
+              <div>
+                <h4>Unbond NEAR & Mint SBT</h4>
+                <h5 className="text-secondary">
+                  Congratulations! You can now unbond NEAR and mint the “I
+                  Voted” SBT
+                </h5>
+              </div>
               <div className="mt-5">
                 <Widget
                   src={widgets.styledComponents}
@@ -193,7 +228,7 @@ return (
                   }}
                 />
               </div>
-            </>
+            </UnbondContainer>
           ) : (
             <Widget
               src={widgets.progress}
