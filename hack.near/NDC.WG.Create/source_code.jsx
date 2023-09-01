@@ -173,6 +173,7 @@ const handleCreate = () => {
           thing: {
             [groupId]: {
               ...state.group,
+              members: groupArray,
             },
           },
           graph: {
@@ -188,6 +189,8 @@ const handleCreate = () => {
                 thing: {
                   [groupId]: {
                     ...state.group,
+                    members: groupArray,
+                    newMember: memberId,
                   },
                 },
               },
@@ -201,7 +204,9 @@ const handleCreate = () => {
                   type: "add",
                   thing: {
                     [groupId]: {
-                      ...state.members,
+                      ...state.group,
+                      members: groupArray,
+                      newMember: memberId,
                     },
                   },
                 },
