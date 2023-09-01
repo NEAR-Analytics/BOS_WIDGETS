@@ -584,7 +584,8 @@ if (state.reload) {
   handleStateTransition();
 }
 
-const isBudgetWinner = (item) => result.sort((a, b) => b[1] - a[1])[0] === item;
+const isBudgetWinner = (item) =>
+  result.sort((a, b) => b[1] - a[1])[0][0] === item;
 
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
