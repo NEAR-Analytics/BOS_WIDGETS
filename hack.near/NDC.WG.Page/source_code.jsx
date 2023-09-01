@@ -109,7 +109,7 @@ return (
               "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
           }}
         />
-        {!isVerified ? (
+        {!sbt ? (
           <Widget
             src={widget.styledComponents}
             props={{
@@ -127,8 +127,8 @@ return (
                 props={{
                   Button: {
                     className: "danger primary",
-                    text: "Delete Work Group",
-                    onClick: () => State.update({ showModalDelete: true }),
+                    text: "Edit Work Group",
+                    onClick: () => State.update({ showModal: true }),
                     icon: <i class="bi bi-trash"></i>,
                   },
                 }}
