@@ -254,7 +254,10 @@ return (
                     ndcOrganization: "NDC",
                     ...state,
                     ...house,
-                    result: rand(house.result),
+                    result:
+                      state.winnerIds.length > 0
+                        ? house.result.sort((a, b) => b[1] - a[1])
+                        : rand(house.result),
                   }}
                 />
               )}
