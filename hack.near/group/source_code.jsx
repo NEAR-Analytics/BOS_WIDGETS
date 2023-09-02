@@ -2,7 +2,7 @@ const creatorId = props.creatorId;
 const groupId = props.groupId;
 
 const group =
-  props.group ?? Social.get(`${creatorId}/thing/group/${groupId}/**`, "final");
+  props.group ?? Social.get(`${creatorId}/thing/${groupId}/**`, "final");
 
 if (group === null) {
   return "Loading...";
