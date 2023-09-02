@@ -54,15 +54,30 @@ async function startFetchMyQuery() {
 startFetchMyQuery();
 console.log(state.widgetData[0][0]);
 
+function addEllipsis(str) {
+  if (str.length > 200) {
+    return str.substring(0, 200) + '...';
+  } else {
+    return str;
+  }
+}
 return (
   <div>
-    {state.widgetData.map((item) => (
+    {state.widgetData[0].map((item) => (
       <div style={{ padding: 10, backgroundColor: "lightGray", margin: 3 }}>
         <p style={{ paddingBottom: -20 }}>
-          Widget Name :{item[0].widget_name}{" "}
+          <span style={{ fontWeight: "bold" }}>Widget Name</span> :{" "}
+          {item.widget_name}{" "}
         </p>
-        <p>Widget Name :{item[0].widget_search_term} </p>
-        <p>Widget Code :{item[0].widget_code} </p>
+        <p>
+          {" "}
+          <span style={{ fontWeight: "bold" }}>Widget Name</span> :{" "}
+          {item.widget_search_term}{" "}
+        </p>
+        <p>
+          <span style={{ fontWeight: "bold" }}>Widget Code</span> :{" "}
+          {addEllipsis(item.widget_code)}{" "}
+        </p>
       </div>
     ))}
   </div>
