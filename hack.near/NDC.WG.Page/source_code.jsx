@@ -8,7 +8,7 @@ const widgets = {
   card: "hack.near/widget/NDC.WG.Card",
   about: "hack.near/widget/NDC.WG.About",
   styledComponents: "hack.near/widget/NDC.StyledComponents",
-  verifyHuman: "hack.near/widget/NDC.VerifyHuman",
+  participate: "hack.near/widget/NDC.Participate",
   compose: "hack.near/widget/NDC.WG.Create",
   deleteGroup: "hack.near/widget/NDC.WG.Delete",
 };
@@ -138,15 +138,15 @@ return (
           <H5>Learning Together</H5>
           <Widget src={widgets.about} />
           <div className="mt-5">
-            <Widget
-              src={widget.styledComponents}
-              props={{
-                Link: {
-                  text: "Participate in Elections",
-                  href: "/election.ndctools.near/widget/NDC.Elections.Main",
-                },
-              }}
-            />
+            {!state.sbt && (
+              <Widget
+                src={widgets.participate}
+                props={{
+                  title: "Use Your Voice!",
+                  small: true,
+                }}
+              />
+            )}
           </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-column">
