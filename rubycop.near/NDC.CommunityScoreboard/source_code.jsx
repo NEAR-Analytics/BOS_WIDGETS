@@ -81,6 +81,17 @@ const Header = styled.div`
   font-weight: 600;
 `;
 
+const Category = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 450px;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
+`;
+
 if (state.data.length === 0)
   return (
     <>
@@ -279,9 +290,9 @@ return (
               <small className="text-secondary">7d</small>
             </div>
           </div>
-          <div className="w-100">
+          <Category>
             <small className="text-secondary">Category</small>
-          </div>
+          </Category>
         </div>
         <hr className="my-2" />
         {Object.values(formData)
@@ -306,9 +317,9 @@ return (
                   )}
                 </div>
               </div>
-              <div className="w-100">
+              <Category>
                 <small>{item[0]["community-vertical"]}</small>
-              </div>
+              </Category>
             </Row>
           ))}
       </Section>
