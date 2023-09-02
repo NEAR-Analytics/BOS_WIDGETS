@@ -66,6 +66,7 @@ const renderItem = (item) => {
                 src="hack.near/widget/group.add"
                 props={{
                   groupId: Object.keys(item.value.thing)[0],
+                  accountId,
                 }}
               />
             </div>
