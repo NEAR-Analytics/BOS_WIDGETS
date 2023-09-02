@@ -271,10 +271,10 @@ return (
           <div className="w-100">
             <small className="text-secondary">Community</small>
           </div>
-          <div className="w-50">
-            <small className="text-secondary">Users</small>
-          </div>
-          <div className="w-50">
+          <div className="w-100 d-flex justify-content-start align-items-center gap-3">
+            <div className="w-25">
+              <small className="text-secondary">Users</small>
+            </div>
             <small className="text-secondary">7d</small>
           </div>
           <div className="w-100">
@@ -292,10 +292,11 @@ return (
               <div className="w-100">
                 <small>{item[0]["community-name"]}</small>
               </div>
-              <div className="w-50">
-                <small>{item.length}</small>
-              </div>
-              <div className="w-50">
+              <div className="w-100 d-flex justify-content-start gap-3">
+                <div className="w-25">
+                  <small>{item.length}</small>
+                </div>
+
                 {userIncome(item) > 0 ? (
                   <small className="text-success">+{userIncome(item)}</small>
                 ) : (
