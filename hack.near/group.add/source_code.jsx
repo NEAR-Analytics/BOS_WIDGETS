@@ -24,7 +24,6 @@ function addGroup(groupId) {
 
   State.update({
     groups: state.groups,
-    added: true,
   });
 }
 
