@@ -72,6 +72,7 @@ const Row = styled.div`
   padding: 5px 7px;
   margin: 3px 0;
   border-radius: 5px;
+  font-weight: ${(props) => (props.index < 10 ? "600" : "inherit")};
 `;
 const Header = styled.div`
   background: black;
@@ -114,6 +115,23 @@ const bestOnVertical = () => {
     users.find((c) => c[0]["community-vertical"] === vertical)
   );
 };
+
+const getLastWeeksDate = () => {
+  const now = new Date();
+
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
+};
+
+const dateInRange = (date) => {
+  const today = new Date().getTime();
+  const target = new Date(date).getTime();
+  const weekAgo = getLastWeeksDate().getTime();
+
+  return target >= weekAgo && target < today;
+};
+
+const userIncome = (item) =>
+  item.filter((user) => dateInRange(user.created_at)).length;
 
 return (
   <div className="d-flex flex-column justify-content-center w-100">
@@ -253,8 +271,11 @@ return (
           <div className="w-100">
             <small className="text-secondary">Community</small>
           </div>
-          <div className="w-50">
+          <div className="w-25">
             <small className="text-secondary">Users</small>
+          </div>
+          <div className="w-50">
+            <small className="text-secondary">7d Income</small>
           </div>
           <div className="w-100">
             <small className="text-secondary">Category</small>
@@ -264,15 +285,22 @@ return (
         {Object.values(formData)
           .sort((a, b) => b.length - a.length)
           .map((item, index) => (
-            <Row className="d-flex justify-content-between">
+            <Row className="d-flex justify-content-between" index={index}>
               <div className="w-25">
                 <small>{index + 1}</small>
               </div>
               <div className="w-100">
                 <small>{item[0]["community-name"]}</small>
               </div>
-              <div className="w-50">
+              <div className="w-25">
                 <small>{item.length}</small>
+              </div>
+              <div className="w-50">
+                {userIncome(item) > 0 ? (
+                  <small className="text-success">+{userIncome(item)}</small>
+                ) : (
+                  <small className="text-secondary">{userIncome(item)}</small>
+                )}
               </div>
               <div className="w-100">
                 <small>{item[0]["community-vertical"]}</small>
