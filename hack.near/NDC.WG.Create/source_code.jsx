@@ -20,7 +20,7 @@ const deposit = policy.proposal_bond;
 
 const groups = Social.get(`${daoId}/thing/directory`);
 
-const groupArray = JSON.parse(groups);
+const groupsArray = JSON.parse(groups);
 
 function generateUID() {
   return (
@@ -31,6 +31,8 @@ function generateUID() {
 }
 
 const groupId = props.groupId ?? generateUID();
+
+const groupMembers = Social.get(`${creatorId}/graph/${groupId}`);
 
 State.init({
   group,
@@ -173,7 +175,7 @@ const handleCreate = () => {
           thing: {
             [groupId]: {
               ...state.group,
-              members: groupArray,
+              ...state.members,
             },
           },
           graph: {
@@ -189,14 +191,14 @@ const handleCreate = () => {
                 thing: {
                   [groupId]: {
                     ...state.group,
-                    members: groupArray,
+                    members: groupMembers,
                     newMember: memberId,
                   },
                 },
               },
             }),
             notify: JSON.stringify({
-              key: creatorId,
+              key: daoId,
               value: {
                 type: "request",
                 template: "hack.near/widget/notification",
@@ -205,7 +207,7 @@ const handleCreate = () => {
                   thing: {
                     [groupId]: {
                       ...state.group,
-                      members: groupArray,
+                      members: groupsArray,
                       newMember: memberId,
                     },
                   },
