@@ -175,7 +175,7 @@ const handleCreate = () => {
           thing: {
             [groupId]: {
               ...state.group,
-              ...state.members,
+              members: { ...state.members },
             },
           },
           graph: {
