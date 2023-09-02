@@ -25,6 +25,7 @@ function handleShare() {
 }
 
 const Card = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -365,6 +366,17 @@ return (
               <GroupName>{groupData.title}</GroupName>
               <GroupCreator>{groupData.creatorId}</GroupCreator>
             </UserLink>
+            <div>
+              {creatorId === context.accountId && (
+                <a
+                  key="edit"
+                  href={"/hack.near/widget/group.editor"}
+                  className="position-absolute top-0 end-0 link-secondary small me-3 mt-2"
+                >
+                  <i className="bi bi-pencil" /> Edit Card
+                </a>
+              )}
+            </div>
           </HeaderContent>
         </div>
       </HeaderCard>
