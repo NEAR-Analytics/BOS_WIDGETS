@@ -1,8 +1,6 @@
-const creatorId = props.creatorId;
+const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
-const groupId = props.groupId;
-
-let members = Social.keys(`${creatorId}/graph/${groupId}/*`, "final", {
+let members = Social.keys(`*/graph/${groupId}/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
@@ -11,7 +9,9 @@ if (members === null) {
   return "Loading...";
 }
 
-members = Object.entries(members[creatorId]?.graph[groupId] || {});
+const groupKey = Object.keys(members)[0];
+
+members = Object.entries(members[groupKey]?.graph[groupId] || {});
 members.sort((a, b) => b[1] - a[1]);
 return (
   <>
