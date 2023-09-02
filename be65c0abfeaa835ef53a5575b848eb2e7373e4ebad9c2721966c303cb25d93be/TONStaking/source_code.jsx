@@ -15,21 +15,23 @@ if (state.chainId !== undefined && state.chainId !== 1) {
   return <p>Switch to Ethereum Mainnet</p>;
 }
 
-const ABI = ["function claim(address) external"];
-
 // setup constants
 const lockTOSDividendProxyAddress =
   "0x17332F84Cc0bbaD551Cd16675F406A0a2c55E28C";
 const WTONAddress = "0xc4a11aaf6ea915ed7ac194161d2fc9384f15bff2";
 const wtonDecimals = 27;
 
-const lockTOSDividendProxyContract = new ethers.Contract(
-  lockTOSDividendProxyAddress,
-  ABI,
-  Ethers.provider()
-);
-
 const handleClaim = () => {
+  if (Number(state.claimable) === 0) return;
+
+  const ABI = ["function claim(address) external"];
+
+  const lockTOSDividendProxyContract = new ethers.Contract(
+    lockTOSDividendProxyAddress,
+    ABI,
+    Ethers.provider().getSigner()
+  );
+
   lockTOSDividendProxyContract.claim(WTONAddress).then((transactionHash) => {
     State.update({ tx: transactionHash });
     console.log("transactionHash is " + transactionHash);
