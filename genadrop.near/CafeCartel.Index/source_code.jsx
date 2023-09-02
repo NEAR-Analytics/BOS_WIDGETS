@@ -1,42 +1,17 @@
-console.log("Location: " + location);
-const hashtag = props.hashtag || "ProofOfVibes";
+/**To-Do  filter out location nad hard code hashtag */
 
-const findLocation = () => {
-  asyncFetch(
-    "https://api.geoapify.com/v1/ipinfo?&apiKey=0485481476634b4d98f7d337d4821f52"
-  ).then((data) => {
-    console.log("Location from request: " + data.body.city.name);
-    // location = data.body.city.name;
-    State.update({
-      location: data.body.city.name,
-      // location: data.body.city.name + ", " + data.body.country.name,
-    });
-  });
-};
-findLocation();
-const location = props.location || state.location;
+const hashtag = props.hashtag || "APAC";
 
-console.log("Location after find location: " + state.location);
 
 const hashtags = hashtag && hashtag.split(",")?.map((it) => it.trim());
-hashtags.push(location);
+hashtags.push("ProofOfCafe");
 const mention = props.mention || "";
 const mentions = mention && mention.split(",")?.map((it) => it.trim());
-const thisComponent = `https://near.org/proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`; // need to onchange to this
+
 
 State.update({ thisComponent, mention });
-const onChangeLocation = (location) => {
-  State.update({
-    location,
-  });
-  recalculateComponent();
-};
-const recalculateComponent = () => {
-  const componentName = `https://near.org/proofofvibes.near/widget/Vibes.Feed.main?mention=${state.mention}&location=${state.location}`;
-  State.update({
-    thisComponent: componentName,
-  });
-};
+
+
 const Card = styled.div`
 padding: 1em;
 border: 1px solid #e5e8eb;
@@ -136,44 +111,17 @@ const Wrapper = styled.div`
 
 return (
   <div>
-    <Card>
-      <div className="row">
-        <div className="col-9">
-          <Input
-            type="text"
-            onChange={(e) => onChangeLocation(e.target.value)}
-            placeholder={"Current Location: " + state.location}
-          />
-        </div>
-        <div className="col-3">
-          <Actions>
-            <Wrapper>
-              <a href={state.thisComponent} target="_blank">
-                <button
-                  disabled={context.loading}
-                  onClick={donate}
-                  className="location-button"
-                >
-                  <i className="bi-geo-fill"></i>
-                  Update Location
-                </button>
-              </a>
-            </Wrapper>
-          </Actions>
-        </div>
-      </div>
-    </Card>
+
 
     <Widget
       src="efiz.near/widget/every.feed.view"
       props={{
-        location: state.location,
         data: {
           hashtagWhitelist: hashtags,
           typeWhitelist: ["md"],
           embedMentions: mentions,
           postTemplate: "proofofvibes.near/widget/Vibes.Feed.View.main",
-          composeTemplate: "proofofvibes.near/widget/Vibes.Feed.Post.create",
+          composeTemplate: "genadrop.near/widget/CafeCartel.Post",
         },
       }}
     />
