@@ -5,7 +5,7 @@ let members = Social.keys(`*/graph/${groupId}/*`, "final", {
   values_only: true,
 });
 
-if (members === null) {
+if (!members) {
   return "Loading...";
 }
 
