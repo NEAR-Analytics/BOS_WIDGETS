@@ -60,6 +60,7 @@ const renderItem = (item, i) => {
                 src="hack.near/widget/group.add"
                 props={{
                   groupId: Object.keys(item.value.thing)[0],
+                  accountId,
                 }}
               />
             </div>
@@ -74,7 +75,7 @@ return (
   <div className="m-2">
     <Widget
       src="mob.near/widget/FilteredIndexFeed"
-      props={{ loading: false, index, renderItem }}
+      props={{ loading, index, renderItem }}
     />
   </div>
 );
