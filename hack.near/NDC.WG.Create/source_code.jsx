@@ -192,7 +192,6 @@ const handleCreate = () => {
                   [groupId]: {
                     ...state.group,
                     members: { ...state.members },
-                    newMember: memberId,
                   },
                 },
               },
@@ -208,8 +207,6 @@ const handleCreate = () => {
                     [groupId]: {
                       ...state.group,
                       members: { ...state.members },
-
-                      newMember: memberId,
                     },
                   },
                 },
