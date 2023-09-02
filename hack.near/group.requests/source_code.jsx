@@ -31,7 +31,7 @@ margin-top: 23px;
   }
 `;
 
-const renderItem = (item) => {
+const renderItem = (item, i) => {
   return (
     <ItemWrapper>
       {item.value.type === "add" && (
