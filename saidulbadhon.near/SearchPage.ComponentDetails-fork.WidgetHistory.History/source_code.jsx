@@ -219,7 +219,9 @@ return (
         )}
 
         {state.selectedTab == "render" && (
-          <div>{blockHeightToWidgetRender(state.selectedBlockHeight)}</div>
+          <div style={{ backgroundColor: "#FFFFFF" }}>
+            {blockHeightToWidgetRender(state.selectedBlockHeight)}
+          </div>
         )}
       </div>
     )}
