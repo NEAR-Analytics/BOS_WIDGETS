@@ -8,8 +8,13 @@ if (group === null) {
   return "Loading...";
 }
 
+const Container = styled.div`
+  background: #fbfbfb;
+  padding: 23px;
+`;
+
 return (
-  <div className="py-1 px-1">
+  <Container>
     <div className="mx-auto">
       <Widget
         src="hack.near/widget/group.card"
@@ -27,5 +32,5 @@ return (
         />
       </div>
     </div>
-  </div>
+  </Container>
 );
