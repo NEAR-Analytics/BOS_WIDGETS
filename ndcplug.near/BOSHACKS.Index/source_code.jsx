@@ -1,6 +1,6 @@
 /**
  * Change telegram tab, add submission tab
- * fix alignment on subheader
+ * fix alignment on subheade
  */
 const ownerId = "ndcplug.near";
 const availableTabs = [
