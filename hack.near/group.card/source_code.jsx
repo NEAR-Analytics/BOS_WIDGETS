@@ -1,5 +1,5 @@
-const creatorId = props.creatorId;
-const groupId = props.groupId;
+const creatorId = props.creatorId ?? "james.near";
+const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
 const groupMembers = Social.get(`${creatorId}/graph/${groupId}/**`, "final");
 
@@ -7,7 +7,7 @@ if (groupMembers === null) {
   return "";
 }
 const groupInfo =
-  props.group ?? Social.get(`${creatorId}/thing/group/${groupId}/**`, "final");
+  props.group ?? Social.get(`${creatorId}/thing/${groupId}/**`, "final");
 
 if (groupInfo === null) {
   return "";
