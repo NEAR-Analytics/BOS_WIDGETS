@@ -80,6 +80,13 @@ const Header = styled.div`
   font-size: 18px;
   font-weight: 600;
 `;
+const Name = styled.div`
+  width: 400px;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
+`;
 
 if (state.data.length === 0)
   return (
@@ -268,13 +275,13 @@ return (
           <div className="w-25">
             <small className="text-secondary">#</small>
           </div>
-          <div className="w-100">
+          <Name>
             <small className="text-secondary">Community</small>
+          </Name>
+          <div className="w-50">
+            <small className="text-secondary">Users</small>
           </div>
-          <div className="w-100 d-flex justify-content-start align-items-center gap-3">
-            <div className="w-25">
-              <small className="text-secondary">Users</small>
-            </div>
+          <div className="w-50">
             <small className="text-secondary">7d</small>
           </div>
           <div className="w-100">
@@ -289,14 +296,13 @@ return (
               <div className="w-25">
                 <small>{index + 1}</small>
               </div>
-              <div className="w-100">
+              <Name>
                 <small>{item[0]["community-name"]}</small>
+              </Name>
+              <div className="w-50">
+                <small>{item.length}</small>
               </div>
-              <div className="w-100 d-flex justify-content-start gap-3">
-                <div className="w-25">
-                  <small>{item.length}</small>
-                </div>
-
+              <div className="w-50">
                 {userIncome(item) > 0 ? (
                   <small className="text-success">+{userIncome(item)}</small>
                 ) : (
