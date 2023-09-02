@@ -4,10 +4,20 @@ const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
 const directory = Social.get(`${accountId}/thing/directory`);
 
+const groups = JSON.parse(directory);
+
 State.init({
-  groups: directory,
+  groups,
   added: false,
 });
+
+const checkDirectory = (groups) => {
+  if (groups.indexOf(groupId) !== -1) {
+    return State.update({ added: true });
+  }
+};
+
+const done = checkDirectory(groups);
 
 function addGroup(groupId) {
   state.groups.push(groupId);
@@ -19,6 +29,8 @@ function addGroup(groupId) {
 }
 
 const handleSave = () => {
+  addGroup(groupId);
+
   const data = {
     thing: {
       directory: state.groups,
@@ -29,23 +41,19 @@ const handleSave = () => {
 };
 
 return (
-  <div>
-    <div style={{ overflow: "auto", maxWidth: "100%" }}>
-      <p>{JSON.stringify(state.added)}</p>
-      <p>{groupId}</p>
-      <p>{state.groups}</p>
-    </div>
+  <>
     <span>
-      <button className="btn btn-primary" onClick={() => addGroup(groupId)}>
-        Add
-      </button>
-      {!added ? (
-        <button className="btn btn-success" onClick={handleSave}>
-          Approve
+      {!done ? (
+        <button
+          disabled={done}
+          className="btn btn-success"
+          onClick={handleSave}
+        >
+          Add
         </button>
       ) : (
         <button
-          disabled={added}
+          disabled={done}
           className="btn btn-success"
           onClick={handleSave}
         >
@@ -53,6 +61,5 @@ return (
         </button>
       )}
     </span>
-    <br />
-  </div>
+  </>
 );
