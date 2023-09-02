@@ -71,7 +71,7 @@ return (
         </p>
         <p>
           {" "}
-          <span style={{ fontWeight: "bold" }}>Widget Name</span> :{" "}
+          <span style={{ fontWeight: "bold" }}>Widget Search Term</span> :{" "}
           {item.widget_search_term}{" "}
         </p>
         <p>
