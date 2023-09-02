@@ -31,10 +31,6 @@ margin-top: 23px;
   }
 `;
 
-State.init({
-  showDetails: false,
-});
-
 const renderItem = (item, i) => {
   return (
     <ItemWrapper>
@@ -73,19 +69,6 @@ const renderItem = (item, i) => {
                 }}
               />
             </div>
-          </div>
-          <div>
-            {state.showDetails && (
-              <CodeWrapper>
-                <Widget
-                  src={`hack.near/widget/compare`}
-                  props={{
-                    src: item.value.src,
-                    update: item.value.update,
-                  }}
-                />
-              </CodeWrapper>
-            )}
           </div>
         </>
       )}
