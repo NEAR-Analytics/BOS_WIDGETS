@@ -63,6 +63,10 @@ if (groupData) {
 
 const groupMembers = Social.get(`${creatorId}/graph/${state.groupId}/**`);
 
+if (groupMembers) {
+  State.update({ exists: true });
+}
+
 const handleCreate = () => {
   let Group_Payload = {
     contractName: "social.near",
@@ -189,7 +193,7 @@ return (
             <hr />
             <div>
               <h5>Members</h5>
-              {groupId ? (
+              {initMembers ? (
                 <div>
                   {Object.keys(state.members).map((a) => {
                     return (
