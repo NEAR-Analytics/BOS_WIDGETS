@@ -4,27 +4,92 @@ if (!creatorId) {
   return "Please connect your NEAR account :)";
 }
 
-function generateUID() {
-  return (
-    Math.random().toString(16).slice(2) +
-    Date.now().toString(36) +
-    Math.random().toString(16).slice(2)
-  );
-}
+const groupId = props.groupId;
 
-const groupId = props.groupId ?? generateUID();
+const initMembers = Social.get(`${creatorId}/graph/${groupId}/**`);
 
 State.init({
   groupId,
   group,
+  members: initMembers || { [context.accountId]: "" },
+  newMember: "",
   exists: false,
 });
+
+function addMember(newMember) {
+  State.update({
+    members: { ...state.members, [newMember]: "" },
+  });
+}
+
+function removeMember(memberKey) {
+  const updatedMembers = { ...state.members };
+  delete updatedMembers[memberKey];
+
+  State.update({
+    members: updatedMembers,
+  });
+}
+
+function isNearAddress(address) {
+  if (typeof address !== "string") {
+    return false;
+  }
+  if (!address.endsWith(".near")) {
+    return false;
+  }
+  const parts = address.split(".");
+  if (parts.length !== 2) {
+    return false;
+  }
+  if (parts[0].length < 2 || parts[0].length > 32) {
+    return false;
+  }
+  if (!/^[a-z0-9_-]+$/i.test(parts[0])) {
+    return false;
+  }
+  return true;
+}
+
+const memberId = props.memberId ?? state.newMember;
+
+const isValid = isNearAddress(memberId);
 
 const groupData = Social.get(`${creatorId}/graph/${state.groupId}/**`);
 
 if (groupData) {
   State.update({ exists: true });
 }
+
+const groupMembers = Social.get(`${creatorId}/graph/${state.groupId}/**`);
+
+const handleCreate = () => {
+  let Group_Payload = {
+    contractName: "social.near",
+    methodName: "set",
+    args: {
+      data: {
+        [creatorId]: {
+          thing: {
+            [state.groupId]: {
+              ...state.group,
+              members: { ...state.members },
+            },
+          },
+          graph: {
+            [state.groupId]: {
+              ...state.members,
+            },
+          },
+        },
+      },
+    },
+    gas: 300000000000000,
+    deposit: 100000000000000000000000,
+  };
+
+  Near.call(Group_Payload).then(() => handleClose());
+};
 
 return (
   <>
@@ -35,14 +100,28 @@ return (
           placeholder="groupId"
           onChange={(e) => State.update({ groupId: e.target.value })}
         />
-        <div className="mt-3">
-          {state.exists && (
-            <Widget
-              src="hack.near/widget/group.card"
-              props={{ groupId: state.groupId }}
-            />
-          )}
-        </div>
+        {state.exists && (
+          <>
+            <div className="mt-3">
+              <Widget
+                src="hack.near/widget/group.card"
+                props={{ groupId: state.groupId }}
+              />
+            </div>
+            <div className="mt-3">
+              <button className="btn btn-success me-2" onClick={handleCreate}>
+                Update
+              </button>
+              <button
+                className="btn btn-secondary me-2"
+                href={`/hack.near/widget/group?groupId=${state.groupId}`}
+              >
+                View Group
+              </button>
+            </div>
+          </>
+        )}
+
         {state.exists && (
           <div className="mb-2 mt-3">
             <Widget
@@ -91,12 +170,72 @@ return (
       </div>
       <div className="col-lg-6">
         {state.exists && (
-          <div className="m-2">
-            <Widget
-              src="hack.near/widget/group.list"
-              props={{ creatorId, groupId: state.groupId }}
-            />
-          </div>
+          <>
+            <div>
+              <h5>Account ID</h5>
+              <input
+                placeholder="<example>.near"
+                onChange={(e) => State.update({ newMember: e.target.value })}
+              />
+              <div className="d-flex align-items-center mt-2">
+                <button
+                  className="btn btn-primary m-2"
+                  onClick={() => addMember(state.newMember)}
+                >
+                  add
+                </button>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <h5>Members</h5>
+              {groupId ? (
+                <div>
+                  {Object.keys(state.members).map((a) => {
+                    return (
+                      <div className="d-flex m-2 p-2 justify-content-between align-items-center">
+                        <div className="d-flex align-items-center">
+                          <Widget
+                            src="mob.near/widget/Profile"
+                            props={{ accountId: a }}
+                          />
+                        </div>
+                        <button
+                          className="btn btn-danger m-1"
+                          disabled={!isNearAddress(a)}
+                          onClick={() => removeMember(a)}
+                        >
+                          remove
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div>
+                  {Object.keys(groupMembers).map((a) => {
+                    return (
+                      <div className="d-flex m-2 p-2 justify-content-between align-items-center">
+                        <div className="d-flex align-items-center">
+                          <Widget
+                            src="mob.near/widget/Profile"
+                            props={{ accountId: a }}
+                          />
+                        </div>
+                        <button
+                          className="btn btn-danger m-1"
+                          disabled={!isNearAddress(a)}
+                          onClick={() => removeMember(a)}
+                        >
+                          remove
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>
