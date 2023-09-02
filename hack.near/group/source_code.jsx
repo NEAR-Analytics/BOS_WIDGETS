@@ -1,5 +1,5 @@
-const creatorId = props.creatorId;
-const groupId = props.groupId;
+const creatorId = props.creatorId ?? "james.near";
+const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
 const group =
   props.group ?? Social.get(`${creatorId}/thing/${groupId}/**`, "final");
@@ -19,10 +19,13 @@ return (
         }}
       />
       <br />
-      <Widget
-        src="hack.near/widget/group.members"
-        props={{ creatorId, groupId }}
-      />
+      <div className="m-2">
+        <h3 className="mb-3">Members</h3>
+        <Widget
+          src="hack.near/widget/group.members"
+          props={{ creatorId, groupId }}
+        />
+      </div>
     </div>
   </div>
 );
