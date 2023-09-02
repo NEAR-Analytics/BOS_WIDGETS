@@ -42,13 +42,13 @@ const handleSave = () => {
 return (
   <>
     <span>
-      {!done ? (
+      {done ? (
         <button
           disabled={done}
           className="btn btn-success"
           onClick={handleSave}
         >
-          Add
+          Done
         </button>
       ) : (
         <button
@@ -56,7 +56,7 @@ return (
           className="btn btn-success"
           onClick={handleSave}
         >
-          Done
+          Add
         </button>
       )}
     </span>
