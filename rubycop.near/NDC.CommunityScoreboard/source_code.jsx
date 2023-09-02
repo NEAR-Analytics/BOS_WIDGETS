@@ -74,11 +74,19 @@ const Row = styled.div`
   border-radius: 5px;
   font-weight: ${(props) => (props.index < 10 ? "600" : "inherit")};
 `;
+
 const Header = styled.div`
   background: black;
   color: white;
   font-size: 18px;
   font-weight: 600;
+`;
+
+const Users = styled.div`
+  width: 400px;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 if (state.data.length === 0)
@@ -271,14 +279,14 @@ return (
           <div className="w-100">
             <small className="text-secondary">Community</small>
           </div>
-          <div className="w-100 d-flex">
+          <Users className="d-flex">
             <div className="w-50">
               <small className="text-secondary">Users</small>
             </div>
             <div className="w-50">
               <small className="text-secondary">7d</small>
             </div>
-          </div>
+          </Users>
           <div className="w-100">
             <small className="text-secondary">Category</small>
           </div>
@@ -294,7 +302,7 @@ return (
               <div className="w-100">
                 <small>{item[0]["community-name"]}</small>
               </div>
-              <div className="w-100 d-flex">
+              <Users className="d-flex">
                 <div className="w-50">
                   <small>{item.length}</small>
                 </div>
@@ -305,7 +313,7 @@ return (
                     <small className="text-secondary">{userIncome(item)}</small>
                   )}
                 </div>
-              </div>
+              </Users>
               <div className="w-100">
                 <small>{item[0]["community-vertical"]}</small>
               </div>
