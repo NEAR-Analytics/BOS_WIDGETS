@@ -18,7 +18,7 @@ function MainComponent(props, context) {
       <h1>
         {props.customWelcomeMessage ??
           "Welcome to the home page of the first TypeScript BOS component"}
-        , {context.accountId}
+        , {context.accountId ?? "anonymous user"}
       </h1>
       <p>
         Learn more at{" "}
