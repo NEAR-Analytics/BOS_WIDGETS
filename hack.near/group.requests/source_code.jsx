@@ -31,7 +31,7 @@ margin-top: 23px;
   }
 `;
 
-const renderItem = (item, i) => {
+const renderItem = (item) => {
   return (
     <ItemWrapper>
       {item.value.type === "add" && (
@@ -78,7 +78,6 @@ const renderItem = (item, i) => {
 
 return (
   <div className="m-2">
-    <p>{groups}</p>
     <Widget
       src="mob.near/widget/FilteredIndexFeed"
       props={{ index, renderItem }}
