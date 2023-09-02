@@ -1,11 +1,5 @@
 const accountId = props.accountId ?? context.accountId;
 
-const requests = Social.index("graph", "request", {
-  limit: 10,
-  order: "desc",
-  subscribe: true,
-});
-
 const index = {
   action: "graph",
   key: "request",
