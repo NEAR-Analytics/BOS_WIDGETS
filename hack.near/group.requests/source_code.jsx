@@ -1,0 +1,104 @@
+const accountId = props.accountId ?? context.accountId;
+
+const requests = Social.index("graph", "request", {
+  limit: 10,
+  order: "desc",
+  subscribe: true,
+});
+
+const index = {
+  action: "graph",
+  key: "request",
+  options: {
+    limit: 10,
+    order: "desc",
+  },
+};
+
+const ItemWrapper = styled.div`
+  margin-bottom: 12px;
+`;
+
+let CodeWrapper = styled.div`
+margin-top: 23px;
+  & > pre > div {
+    margin: 0px !important;
+  }
+
+  & > pre {
+    margin: 0px !important;
+    border-radius: 0px 0px 5px 5px;
+  }
+`;
+
+State.init({
+  showDetails: false,
+});
+
+const renderItem = (item, i) => {
+  return (
+    <ItemWrapper>
+      {item.value.type === "add" && (
+        <>
+          <div className="d-flex justify-content-between row text-truncate text-muted">
+            <div className="text-truncate col-auto">
+              <div className="row">
+                <div className="col-auto m-1">
+                  <Widget
+                    src="mob.near/widget/Profile"
+                    props={{ accountId: item.accountId, tooltip: true }}
+                  />{" "}
+                </div>
+                <div className="col-auto m-1">
+                  {item.value.type === "add" && "created a work group"}
+                  <Widget
+                    src="mob.near/widget/TimeAgo"
+                    props={{ blockHeight: item.blockHeight }}
+                  />
+                  ago
+                </div>
+              </div>
+            </div>
+            <div className="text-truncate col-auto float-right">
+              <Widget
+                src="hack.near/widget/group.review"
+                props={{
+                  groupId: Object.keys(item.value.thing)[0],
+                }}
+              />
+              <Widget
+                src="hack.near/widget/group.add"
+                props={{
+                  groupId: Object.keys(item.value.thing)[0],
+                }}
+              />
+            </div>
+          </div>
+          <div>
+            {state.showDetails && (
+              <CodeWrapper>
+                <Widget
+                  src={`hack.near/widget/compare`}
+                  props={{
+                    src: item.value.src,
+                    update: item.value.update,
+                  }}
+                />
+              </CodeWrapper>
+            )}
+          </div>
+        </>
+      )}
+    </ItemWrapper>
+  );
+};
+
+return (
+  <div className="m-2">
+    <p>{groups}</p>
+    <Widget
+      src="mob.near/widget/FilteredIndexFeed"
+      props={{ index, renderItem }}
+    />
+  </div>
+);
