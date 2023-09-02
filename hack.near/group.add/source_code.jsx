@@ -1,6 +1,7 @@
 const accountId = props.accountId ?? context.accountId;
 
-const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
+const groupId =
+  JSON.stringify(props.groupId) ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
 const directory = Social.get(`${accountId}/thing/directory`);
 
