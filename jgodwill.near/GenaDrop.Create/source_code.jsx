@@ -192,5 +192,6 @@ return (
         ))}
       </CreateOptions>
     </Header>
+      <Widget src="jgodwill.near/widget/GenaDrop.Footer" />
   </>
 );
