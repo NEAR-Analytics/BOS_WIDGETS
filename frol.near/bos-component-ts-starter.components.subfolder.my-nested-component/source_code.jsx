@@ -3,8 +3,11 @@ License: MIT
 Author: frol.near
 Homepage: https://github.com/frol/bos-component-ts-starter#readme
 */
-/* INCLUDE: "common.jsx" */
-/* END_INCLUDE: "common.jsx" */
+/* INCLUDE: "includes/common.jsx" */
+function someFunction() {
+  return "someFunction output";
+}
+/* END_INCLUDE: "includes/common.jsx" */
 
 
 
