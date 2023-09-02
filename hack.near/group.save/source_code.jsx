@@ -1,11 +1,10 @@
-const creatorId = props.creatorId ?? context.accountId;
 const groupId = props.groupId;
 
 if (!groupId) {
   return "requires `groupId` property";
 }
 
-let members = Social.getr(`${creatorId}/graph/${groupId}`, "final", {});
+let members = Social.getr(`*/graph/${groupId}`, "final", {});
 
 if (!members) {
   return "group not found";
