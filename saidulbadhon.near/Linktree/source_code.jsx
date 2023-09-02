@@ -1,4 +1,5 @@
-//
+// test
+
 const profile = {
   avatar:
     "https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
@@ -47,7 +48,6 @@ return (
       gap: 16,
       height: "100%",
       padding: "0 8px",
-      width: "100%",
     }}
   >
     <img
