@@ -1,1 +1,1 @@
-return <div>New changes are live</div>;
+return <div>New changes live</div>;
