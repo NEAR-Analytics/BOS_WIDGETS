@@ -15,10 +15,7 @@ if (state.chainId !== undefined && state.chainId !== 1) {
   return <p>Switch to Ethereum Mainnet</p>;
 }
 
-const ABI = [
-  "function claimable(address, address) external view returns (uint256)",
-  "function claim(address) external",
-];
+const ABI = ["function claim(address) external"];
 
 // setup constants
 const lockTOSDividendProxyAddress =
@@ -29,30 +26,8 @@ const wtonDecimals = 27;
 const lockTOSDividendProxyContract = new ethers.Contract(
   lockTOSDividendProxyAddress,
   ABI,
-  Ethers.provider().getSigner()
+  Ethers.provider()
 );
-
-// HELPER FUNCTIONS
-const getStakedBalance = (receiver) => {
-  const encodedData = iface.encodeFunctionData("balanceOf", [receiver]);
-
-  return Ethers.provider()
-    .call({
-      to: lidoContract,
-      data: encodedData,
-    })
-    .then((rawBalance) => {
-      const receiverBalanceHex = iface.decodeFunctionResult(
-        "balanceOf",
-        rawBalance
-      );
-
-      return Big(receiverBalanceHex.toString())
-        .div(Big(10).pow(tokenDecimals))
-        .toFixed(2)
-        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-    });
-};
 
 const handleClaim = () => {
   lockTOSDividendProxyContract.claim(WTONAddress).then((transactionHash) => {
@@ -72,16 +47,31 @@ if (state.sender === undefined) {
 
 // FETCH CLAIMABLE WTON AMOUNT
 if (state.claimable === undefined && state.sender) {
-  lockTOSDividendProxyContract
-    .claimable(state.sender, WTONAddress)
-    .then((claimable) => {
-      console.log(claimable);
+  const iface = new ethers.utils.Interface([
+    "function claimable(address, address) external view returns (uint256)",
+  ]);
+  const encodedData = iface.encodeFunctionData("claimable", [
+    state.sender,
+    WTONAddress,
+  ]);
+  return Ethers.provider()
+    .call({
+      to: lockTOSDividendProxyAddress,
+      data: encodedData,
+    })
+    .then((rawdata) => {
+      const claimableHex = iface.decodeFunctionResult("claimable", rawdata);
+
+      console.log(claimableHex);
+
+      const claimable = Big(claimableHex.toString())
+        .div(Big(10).pow(wtonDecimals))
+        .toFixed(2)
+        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
       State.update({
         claimable: Big(claimable).div(Big(10).pow(wtonDecimals)).toFixed(2),
       });
-    })
-    .catch((err) => {
-      console.log(err);
     });
 }
 
@@ -133,12 +123,19 @@ return (
         </div>
       </div>
       <div class="LidoStakeForm">
-        <button
-          class="LidoStakeFormSubmitContainer"
-          onClick={() => handleClaim()}
-        >
-          <span>Claim</span>
-        </button>
+        {!!state.sender ? (
+          <button
+            class="LidoStakeFormSubmitContainer"
+            onClick={() => handleClaim()}
+          >
+            <span>Claim</span>
+          </button>
+        ) : (
+          <Web3Connect
+            className="LidoStakeFormSubmitContainer"
+            connectLabel="Connect with Web3"
+          />
+        )}
       </div>
     </div>
   </Theme>
