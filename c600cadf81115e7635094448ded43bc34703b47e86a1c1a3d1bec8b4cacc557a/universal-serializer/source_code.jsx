@@ -24,7 +24,7 @@ return (
       </p>
       <textarea rows="4" cols="50" onChange={onChange} />
       <button id="clickButton" onClick={onClick}>
-        Next
+        Send
       </button>
       <p>
         <b> Serialized Tx: </b> {state.result}{" "}
