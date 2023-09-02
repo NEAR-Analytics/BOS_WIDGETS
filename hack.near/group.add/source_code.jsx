@@ -1,132 +1,58 @@
-const creatorId = props.creatorId ?? context.accountId;
+const accountId = props.accountId ?? context.accountId;
 
-if (!creatorId) {
-  return "Please connect your NEAR account :)";
-}
+const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
-const daoId = props.daoId ?? "build.sputnik-dao.near";
-
-const policy = Near.view(daoId, "get_policy");
-
-if (policy === null) {
-  return "Loading...";
-}
-
-const deposit = policy.proposal_bond;
-
-function generateUID() {
-  return (
-    Math.random().toString(16).slice(2) +
-    Date.now().toString(36) +
-    Math.random().toString(16).slice(2)
-  );
-}
+const directory = Social.get(`${accountId}/thing/directory`);
 
 State.init({
-  groupId: props.groupId ?? "",
-  group,
-  members: { [creatorId]: "" },
-  newMember: "",
+  groups: directory,
+  added: false,
 });
 
-function addMember(newMember) {
-  State.update({
-    members: { ...state.members, [newMember]: "" },
-  });
-}
-
-function removeMember(memberKey) {
-  const updatedMembers = { ...state.members };
-  delete updatedMembers[memberKey];
+function addGroup(groupId) {
+  state.groups.push(groupId);
 
   State.update({
-    members: updatedMembers,
+    groups: state.groups,
+    added: true,
   });
 }
 
-function isNearAddress(address) {
-  if (typeof address !== "string") {
-    return false;
-  }
-  if (!address.endsWith(".near")) {
-    return false;
-  }
-  const parts = address.split(".");
-  if (parts.length !== 2) {
-    return false;
-  }
-  if (parts[0].length < 2 || parts[0].length > 32) {
-    return false;
-  }
-  if (!/^[a-z0-9_-]+$/i.test(parts[0])) {
-    return false;
-  }
-  return true;
-}
-
-const memberId = props.memberId ?? state.newMember;
-
-const isValid = isNearAddress(memberId);
-
-const widgets = {
-  styledComponents: "hack.near/widget/NDC.StyledComponents",
-};
-
-const handleCreate = () => {
-  const proposal_args = JSON.stringify({
-    data: {
-      [daoId]: {
-        groups: {
-          [state.groupId]: "",
-        },
-      },
+const handleSave = () => {
+  const data = {
+    thing: {
+      directory: state.groups,
     },
-  });
-
-  const ProposalArgs = Buffer.from(proposal_args, "utf-8").toString("base64");
-
-  let Proposal_Payload = {
-    contractName: daoId,
-    methodName: "add_proposal",
-    args: {
-      proposal: {
-        description: "create group on the BOS",
-        kind: {
-          FunctionCall: {
-            receiver_id: "social.near",
-            actions: [
-              {
-                method_name: "set",
-                args: ProposalArgs,
-                deposit: "100000000000000000000000",
-                gas: "300000000000000",
-              },
-            ],
-          },
-        },
-      },
-    },
-    deposit: deposit,
-    gas: "235000000000000",
   };
-  Near.call([Proposal_Payload]);
+
+  Social.set(data);
 };
 
 return (
-  <>
-    <input
-      placeholder="Group ID"
-      onChange={(e) => State.update({ groupId: e.target.value })}
-    />
+  <div>
+    <div style={{ overflow: "auto", maxWidth: "100%" }}>
+      <p>{JSON.stringify(state.added)}</p>
+      <p>{groupId}</p>
+      <p>{state.groups}</p>
+    </div>
+    <span>
+      <button className="btn btn-primary" onClick={() => addGroup(groupId)}>
+        Add
+      </button>
+      {!added ? (
+        <button className="btn btn-success" onClick={handleSave}>
+          Approve
+        </button>
+      ) : (
+        <button
+          disabled={added}
+          className="btn btn-success"
+          onClick={handleSave}
+        >
+          Done
+        </button>
+      )}
+    </span>
     <br />
-    <Widget
-      src={widgets.styledComponents}
-      props={{
-        Button: {
-          text: "Submit",
-          onClick: () => handleCreate(),
-        },
-      }}
-    />
-  </>
+  </div>
 );
