@@ -167,7 +167,6 @@ return (
                 totalSupplyUsd: data.totalSupplyUsd,
                 totalBorrowUsd: data.totalBorrowUsd,
               });
-              handleTotalUpdate(data);
             },
           }}
         />
