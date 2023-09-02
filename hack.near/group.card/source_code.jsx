@@ -1,20 +1,23 @@
-const creatorId = props.creatorId ?? "james.near";
 const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
-const groupMembers = Social.get(`${creatorId}/graph/${groupId}/**`, "final");
+const groupMembers = Social.get(`*/graph/${groupId}/**`, "final");
 
 if (groupMembers === null) {
   return "";
 }
-const groupInfo =
-  props.group ?? Social.get(`${creatorId}/thing/${groupId}/**`, "final");
+const groupInfo = props.group ?? Social.get(`*/thing/${groupId}/**`, "final");
 
 if (groupInfo === null) {
   return "";
 }
 
-const tags = Object.keys(groupInfo.tags || {});
-const groupUrl = `#/hack.near/widget/group.members?creatorId=${creatorId}`;
+const groupKey = Object.keys(groupInfo)[0];
+
+const tags = Object.keys(
+  groupInfo[groupKey].thing[Object.keys(groupInfo[groupKey].thing)[0]].tags ||
+    {}
+);
+const groupUrl = `/hack.near/widget/group?groupId=${groupId}`;
 
 State.init({
   show: false,
@@ -102,8 +105,12 @@ return (
         <Widget
           src="mob.near/widget/Image"
           props={{
-            image: groupInfo.image,
-            alt: groupInfo.name,
+            image:
+              groupInfo[groupKey].thing[Object.keys(groupInfo[groupKey].thing)]
+                .image,
+            alt: groupInfo[groupKey].thing[
+              Object.keys(groupInfo[groupKey].thing)
+            ].name,
             fallbackUrl:
               "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
           }}
@@ -112,10 +119,13 @@ return (
 
       <div>
         <TextLink href={groupUrl} ellipsis bold>
-          {groupInfo.name}
+          {
+            groupInfo[groupKey].thing[Object.keys(groupInfo[groupKey].thing)[0]]
+              .name
+          }
         </TextLink>
         <TextLink href={groupUrl} ellipsis>
-          @{creatorId}
+          @{Object.keys(groupInfo)}
         </TextLink>
 
         {tags.length > 0 && (
