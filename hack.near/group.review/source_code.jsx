@@ -1,18 +1,13 @@
-const creatorId = props.creatorId ?? "james.near";
 const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
 const toggle = props.toggle ?? (
-  <button
-    onClick={props.action}
-    className="btn btn-outline-secondary"
-    role="none"
-  >
+  <button className="btn btn-outline-secondary" role="none">
     Review
   </button>
 );
 const toggleContainerProps = props.toggleContainerProps ?? {};
 const content = props.content ?? (
-  <Widget src="hack.near/widget/group" props={{ creatorId, groupId }} />
+  <Widget src="hack.near/widget/group" props={{ groupId }} />
 );
 const open = props.open;
 const onOpenChange = props.onOpenChange;
