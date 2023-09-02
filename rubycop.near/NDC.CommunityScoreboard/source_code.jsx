@@ -80,13 +80,6 @@ const Header = styled.div`
   font-size: 18px;
   font-weight: 600;
 `;
-const Name = styled.div`
-  width: 400px;
-
-  @media (max-width: 1200px) {
-    width: 100%;
-  }
-`;
 
 if (state.data.length === 0)
   return (
@@ -275,14 +268,16 @@ return (
           <div className="w-25">
             <small className="text-secondary">#</small>
           </div>
-          <Name>
+          <div className="w-100">
             <small className="text-secondary">Community</small>
-          </Name>
-          <div className="w-50">
-            <small className="text-secondary">Users</small>
           </div>
-          <div className="w-50">
-            <small className="text-secondary">7d</small>
+          <div className="w-100 d-flex">
+            <div className="w-50">
+              <small className="text-secondary">Users</small>
+            </div>
+            <div className="w-50">
+              <small className="text-secondary">7d</small>
+            </div>
           </div>
           <div className="w-100">
             <small className="text-secondary">Category</small>
@@ -296,18 +291,20 @@ return (
               <div className="w-25">
                 <small>{index + 1}</small>
               </div>
-              <Name>
+              <div className="w-100">
                 <small>{item[0]["community-name"]}</small>
-              </Name>
-              <div className="w-50">
-                <small>{item.length}</small>
               </div>
-              <div className="w-50">
-                {userIncome(item) > 0 ? (
-                  <small className="text-success">+{userIncome(item)}</small>
-                ) : (
-                  <small className="text-secondary">{userIncome(item)}</small>
-                )}
+              <div className="w-100 d-flex">
+                <div className="w-50">
+                  <small>{item.length}</small>
+                </div>
+                <div className="w-50">
+                  {userIncome(item) > 0 ? (
+                    <small className="text-success">+{userIncome(item)}</small>
+                  ) : (
+                    <small className="text-secondary">{userIncome(item)}</small>
+                  )}
+                </div>
               </div>
               <div className="w-100">
                 <small>{item[0]["community-vertical"]}</small>
