@@ -74,7 +74,7 @@ function blockHeightToWidgetCode(blockHeight) {
           pathToWidget: props.widgetPath,
           currentBlockHeight: blockHeight,
           prevBlockHeight: blocksChanges[index + 1],
-          copyToClipboard: props.copyToClipboard ,
+          copyToClipboard: props.copyToClipboard,
         }}
       />
     </div>
@@ -210,7 +210,7 @@ return (
             }
             selected={state.selectedTab == "render"}
           >
-            Render
+            Preview
           </TabsButton>
         </Tabs>
 
