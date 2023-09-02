@@ -1,9 +1,7 @@
 const FooterWrapper = styled.div`
 background: #0082e0;
-position: absolute;
-top: calc(100vh - 272px);
-width: 100vw;
-z-index: 1;
+position: sticky;
+bottom: 0px;
 & *{
   margin: 0;
   padding: 0;
