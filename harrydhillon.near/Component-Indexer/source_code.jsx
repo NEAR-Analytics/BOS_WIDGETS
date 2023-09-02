@@ -22,6 +22,8 @@ async function fetchGraphQL(operationsDoc, operationName, variables) {
 }
 
 
+
+
 const operationsDoc = `
 query MyQuery {
   harrydhillon_near_widget_search_widget_activity(limit: 10) {
