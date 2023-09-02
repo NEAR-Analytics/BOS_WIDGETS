@@ -370,7 +370,7 @@ return (
               {creatorId === context.accountId && (
                 <a
                   key="edit"
-                  href={"/hack.near/widget/group.editor"}
+                  href={`/hack.near/widget/group.data?groupId=${groupId}`}
                   className="position-absolute top-0 end-0 link-secondary small me-3 mt-2"
                 >
                   <i className="bi bi-pencil" /> Edit Card
