@@ -1,11 +1,11 @@
-const creatorId = props.creatorId ?? context.accountId;
+const creatorId = props.creatorId ?? "james.near";
+const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
-if (!creatorId) {
-  return "";
-}
+const groupData = Social.get(`${creatorId}/thing/${groupId}/**`);
+const initMembers = Social.get(`${creatorId}/graph/${groupId}/**`);
 
 State.init({
-  members: { [creatorId]: "" },
+  members: initMembers || { [context.accountId]: "" },
   newMember: "",
 });
 
