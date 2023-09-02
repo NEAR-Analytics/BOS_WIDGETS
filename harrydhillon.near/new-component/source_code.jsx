@@ -1,3 +1,1 @@
-return <div>
-cool stuff
-</div>;
+return <div>cool stuff is here</div>;
