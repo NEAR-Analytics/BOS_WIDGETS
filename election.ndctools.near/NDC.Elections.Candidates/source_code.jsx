@@ -35,9 +35,10 @@ const FAIR_POLICY_NFT =
   "https://ipfs.near.social/ipfs/bafkreiabsu7xhumhim4gxj5h7umopc3b5ekppeofwwizsf5loqs2vcntpm";
 const I_VOTED_NFT =
   "https://ipfs.near.social/ipfs/bafkreiewiq4puwmcu7ciztsfqvmpl3gsumfgsm5r22g24abiynoeghsyey";
-const MINT_VOTING_POLICY_NFT = "https://shard.dog/fairvoting/";
+const MINT_VOTING_POLICY_NFT = "https://shard.dog/fairvoting";
 const MINT_I_VOTED_NFT = "https://shard.dog/ivoted";
-const BLACKLIST_VERIFY_LINK = "";
+const BLACKLIST_VERIFY_LINK =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdQYxiUcxpiCDVKnN55Q7T2fnUPt0VjRdzo46qEkV7ub5mWFw/viewform";
 const GREYLIST_VERIFY_LINK =
   "https://airtable.com/appgHJzUuw1Kb2GJV/shrCdvjmWMzwaMEj8";
 const MIN_BOND = 0.01; //3
