@@ -98,7 +98,7 @@ const handleCreate = () => {
 return (
   <>
     <div className="row">
-      <div className="col-lg-6 mt-2">
+      <div className="col-lg-6">
         <h5>Edit Group</h5>
         <input
           placeholder="groupId"
