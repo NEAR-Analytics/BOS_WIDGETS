@@ -46,7 +46,7 @@ const renderItem = (item) => {
                   />{" "}
                 </div>
                 <div className="col-auto m-1">
-                  {item.value.type === "add" && "created a work group"}
+                  {item.value.type === "add" && "proposed a work group"}
                   <Widget
                     src="mob.near/widget/TimeAgo"
                     props={{ blockHeight: item.blockHeight }}
@@ -66,7 +66,6 @@ const renderItem = (item) => {
                 src="hack.near/widget/group.add"
                 props={{
                   groupId: Object.keys(item.value.thing)[0],
-                  accountId: accountId,
                 }}
               />
             </div>
@@ -81,7 +80,7 @@ return (
   <div className="m-2">
     <Widget
       src="mob.near/widget/FilteredIndexFeed"
-      props={{ index, renderItem }}
+      props={{ loading: false, index, renderItem }}
     />
   </div>
 );
