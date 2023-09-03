@@ -594,41 +594,8 @@ return (
                 </div>
               </div>
             </th>
-            {/* <th>
-              <div className="head_th" onClick={switch_status_select}>
-                Status
-                <span className="arrow" style={{ marginLeft: "5px" }}>
-                  {arrow_down_icon}
-                </span>
-                <div
-                  className={`select ${
-                    state.status_select_box_status ? "show" : "hide"
-                  }`}
-                >
-                  {select_status_list.map((item) => {
-                    return (
-                      <div
-                        key={item.name}
-                        onClick={() => {
-                          State.update({
-                            search_status: item.id,
-                            current_page: 1,
-                          });
-                        }}
-                        className={`item ${
-                          state.search_status == item.id ? "active" : ""
-                        }`}
-                      >
-                        {item.name}
-                        <span className="selected_icon">{selected_icon}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </th> */}
+
             <th>Time</th>
-            {/* <th>Tx</th> */}
           </tr>
         </thead>
         <tbody>
@@ -647,27 +614,8 @@ return (
                     ></img>
                     {record.template}
                   </td>
-                  {/* <td>
-                  <Status status={record.action_status}>
-                    {record.action_status}
-                  </Status>
-                </td> */}
+
                   <td>{getTime(record.timestamp)}</td>
-                  {/* <td>
-                  <Tx>
-                    <a href={goTxDetail(record)} target="_blank">{displayTx(record.tx_id)}</a>
-                    {record.tx_id ? (
-                      <span
-                        onClick={() => {
-                          clipboard.writeText(record.tx_id);
-                        }}
-                        className="copy"
-                      >
-                        {copy_icon}
-                      </span>
-                    ) : null}
-                  </Tx>
-                </td> */}
                 </tr>
               );
             })}
