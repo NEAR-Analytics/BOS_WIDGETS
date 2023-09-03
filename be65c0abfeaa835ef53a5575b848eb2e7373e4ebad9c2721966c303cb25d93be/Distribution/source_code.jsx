@@ -1,61 +1,26 @@
-// DETECT SENDER
-if (state.sender === undefined) {
-  const accounts = Ethers.send("eth_requestAccounts", []);
-  if (accounts.length) {
-    State.update({ sender: accounts[0] });
+if (Ethers.provider() !== null) {
+  // DETECT SENDER
+  if (state.sender === undefined) {
+    const accounts = Ethers.send("eth_requestAccounts", []);
+    if (accounts.length) {
+      State.update({ sender: accounts[0] });
+    }
   }
-}
 
-if (
-  state.chainId === undefined &&
-  ethers !== undefined &&
-  Ethers.send("eth_requestAccounts", []) !== null
-) {
-  Ethers.provider()
-    .getNetwork()
-    .then((chainIdData) => {
-      if (chainIdData?.chainId) {
-        State.update({ chainId: chainIdData.chainId });
-      }
-    });
-}
+  if (state.chainId === undefined) {
+    Ethers.provider()
+      .getNetwork()
+      .then((chainIdData) => {
+        if (chainIdData?.chainId) {
+          State.update({ chainId: chainIdData.chainId });
+        }
+      });
+  }
 
-if (state.chainId !== undefined && state.chainId !== 1) {
-  return <p>Switch to Ethereum Mainnet</p>;
-}
+  if (state.chainId !== undefined && state.chainId !== 1) {
+    return <p>Switch to Ethereum Mainnet</p>;
+  }
 
-if (state.idx === undefined) {
-  State.update({ idx: 1 });
-}
-
-// setup constants
-const WTONAddress = "0xc4a11aaf6ea915ed7ac194161d2fc9384f15bff2";
-const wtonDecimals = 27;
-
-// FETCH CSS
-const cssFont = fetch(
-  "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
-).body;
-const css = fetch(
-  "https://pluminite.mypinata.cloud/ipfs/Qmboz8aoSvVXLeP5pZbRtNKtDD3kX5D9DEnfMn2ZGSJWtP"
-).body;
-
-if (!cssFont || !css) return "";
-
-if (!state.theme) {
-  State.update({
-    theme: styled.div`
-      font-family: Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-        Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-        sans-serif;
-      ${cssFont}
-      ${css}
-    `,
-  });
-}
-const Theme = state.theme;
-
-if (state.sender !== undefined) {
   if (state.currentBlockNumber === undefined) {
     Ethers.provider()
       .getBlockNumber()
@@ -65,6 +30,10 @@ if (state.sender !== undefined) {
   }
 
   if (state.currentBlockNumber !== undefined) {
+    if (state.idx === undefined) {
+      State.update({ idx: 1 });
+    }
+
     const fromBlock = state.currentBlockNumber - 6400 * state.idx;
     const filter = {
       fromBlock: fromBlock,
@@ -72,7 +41,7 @@ if (state.sender !== undefined) {
       topics: [ethers.utils.id("Comitted(address)")],
     };
 
-    if (state.lastUpdatedBlockNumber === undefined && state.sender) {
+    if (state.lastUpdatedBlockNumber === undefined) {
       Ethers.provider()
         .getLogs(filter)
         .then((logs) => {
@@ -95,6 +64,29 @@ if (state.sender !== undefined) {
     }
   }
 }
+
+// FETCH CSS
+const cssFont = fetch(
+  "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
+).body;
+const css = fetch(
+  "https://pluminite.mypinata.cloud/ipfs/Qmboz8aoSvVXLeP5pZbRtNKtDD3kX5D9DEnfMn2ZGSJWtP"
+).body;
+
+if (!cssFont || !css) return "";
+
+if (!state.theme) {
+  State.update({
+    theme: styled.div`
+        font-family: Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+          Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+          sans-serif;
+        ${cssFont}
+        ${css}
+      `,
+  });
+}
+const Theme = state.theme;
 
 return (
   <Theme>
