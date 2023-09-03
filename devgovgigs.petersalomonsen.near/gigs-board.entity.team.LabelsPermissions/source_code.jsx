@@ -134,8 +134,6 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
-const isContractOwner = nearDevGovGigsContractAccountId == context.accountId;
-
 const access_info = DevHub.get_access_control_info() ?? null;
 
 if (!access_info) {
@@ -157,45 +155,19 @@ const permissionExplainer = (permission) => {
   }
 };
 
-function unsetRestrictedRules(name) {
-  Near.call([
-    {
-      contractName: nearDevGovGigsContractAccountId,
-      methodName: "unset_restricted_rules",
-      args: {
-        rules: [name],
-      },
-      deposit: Big(0).pow(21),
-      gas: Big(10).pow(12).mul(100),
-    },
-  ]);
-}
-
 return (
-  <div className="card" key="labelpermissions">
-    <div className="card-body">
+  <div className="card border-secondary" key="labelpermissions">
+    <div className="card-header">
       <i class="bi-lock-fill"> </i>
       <small class="text-muted">Restricted Labels</small>
     </div>
     <ul class="list-group list-group-flush">
       {Object.entries(rules_list).map(([pattern, metadata]) => (
         <li class="list-group-item" key={pattern}>
-          <div class="d-flex justify-content-between">
-            <div>
-              <span class="badge text-bg-primary" key={`${pattern}-permission`}>
-                {permissionExplainer(pattern)}
-              </span>
-              {metadata.description}
-            </div>
-            {props.editMode && (
-              <button
-                className="btn btn-sm btn-light"
-                onClick={() => unsetRestrictedRules(pattern)}
-              >
-                Remove label
-              </button>
-            )}
-          </div>
+          <span class="badge text-bg-primary" key={`${pattern}-permission`}>
+            {permissionExplainer(pattern)}
+          </span>{" "}
+          {metadata.description}
         </li>
       ))}
     </ul>
