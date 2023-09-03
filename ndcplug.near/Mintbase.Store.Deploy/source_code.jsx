@@ -1,4 +1,8 @@
-const mainnet = props.mainnet ?? false;
+/**
+ * Add error check for contract name
+ *
+ */
+const mainnet = props.mainnet ?? true;
 const contract_id = mainnet ? "mintbase1.near" : "mintspace2.testnet";
 const func = "create_store";
 const owner_id = context.accountId;
@@ -44,44 +48,47 @@ const onChangeSymbol = (symbol_name) => {
 };
 
 const deployStore = () => {
-  if (!(state.symbol_name && state.name )) {
+  if (!(state.symbol_name && state.name)) {
+    console.log("You need a sybol and name to deploy a storefront on mintbase");
     return;
   }
-      const gas = 200000000000000;
-    const deposit = 10000000000000000000000; // change to 6.5 N
-      Near.call([
-      {
-        contractName:  contract_id,
-        methodName: func,
-        args: {
-          owner_id: owner_id,
-          metadata: {
-            spec: spec,
-            name: state.name,
-            symbol: state.symbol_name,
-            icon, icon,
-            base_uri: base_uri,
-            reference: state.reference,
-            reference_hash: state.reference_hash,
-            media: `https://ipfs.io/ipfs/${state.image.cid}`,
-            reference: `ipfs://${cid}`,
-          },
+  const gas = 200000000000000; // check if gas is correct
+  const deposit = 6500000000000000000000000; // change to 6.5 N
+  Near.call([
+    {
+      contractName: contract_id,
+      methodName: func,
+      args: {
+        owner_id: owner_id,
+        metadata: {
+          spec: spec,
+          name: state.name,
+          symbol: state.symbol_name,
+          icon,
+          icon,
+          base_uri: base_uri,
+          reference: state.reference,
+          reference_hash: state.reference_hash,
         },
-        gas: gas,
-        deposit: deposit,
       },
-    ]);
+      gas: gas,
+      deposit: deposit,
+    },
+  ]);
 };
-return <div>
- <h1>Deploy Store on Mintbase</h1>
+return (
+  <div>
+    <h1>Deploy Store on Mintbase</h1>
     <div>
-      Contract Name:
+      Contract Name*:
       <input type="text" onChange={(e) => onChangeName(e.target.value)} />
     </div>
     <div>
-      Symbol (max 3 letters):
+      Symbol* (max 3 letters):
       <input type="text" onChange={(e) => onChangeSymbol(e.target.value)} />
-          <div>
-      <button onClick={deployStore}>Deploy Store 6.5N</button>
+      <div>
+        <button onClick={deployStore}>Deploy Store 6.5N</button>
+      </div>
     </div>
-    </div></div>;
+  </div>
+);
