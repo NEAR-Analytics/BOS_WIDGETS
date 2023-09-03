@@ -8,12 +8,6 @@
  */
 
 /**
- * App index key to store things (only rooms as this app is re fetching messages from ChatV1)
- * It should use a non "-dev" key for V3. This is being used because rooms were already created
- */
-const APP_INDEX_KEY = "widget-bbclan-chatroom";
-
-/**
  * App setup
  */
 const isMember = props.isMember ?? true;
