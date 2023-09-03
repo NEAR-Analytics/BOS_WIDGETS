@@ -1,7 +1,8 @@
 if (!props.src) {
   return (
     <>
-      Plz set url first (Also make sure the site allows embedded in an iframe)
+      Plz set url first (Also make sure the site allows embedded in an iframe).
+      <img src="https://ipfs.near.social/ipfs/bafkreicr5adykiqkdnop3w3qex7hocnzz37jelt6ejdeegpmtzqq3he6ye" />
     </>
   );
 }
