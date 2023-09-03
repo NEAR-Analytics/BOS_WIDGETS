@@ -93,10 +93,8 @@ const hackathons = {
       url: "https://boshacks.com",
       image:
         "https://ipfs.near.social/ipfs/bafkreihkncb6ywpzwma7y4ocu6uip5yaxdz6zrhj75cgqeanhmivxr6xaq",
-      description:
-        "Virtual BOS native hackathon",
-      category: ["IRL", "Hybrid", "Virtual", 
-    "BOS","Multichain"],
+      description: "Virtual BOS native hackathon",
+      category: ["IRL", "Hybrid", "Virtual", "BOS", "Multichain"],
       startDate: "8/25/2023",
       endDate: "9/10/2023",
       prizeAmount: "$17,000+",
@@ -115,12 +113,12 @@ const hackathons = {
       category: ["NEAR", "BOS", "Social"],
       startDate: "8/7/2023",
       endDate: "8/28/2023",
-      prizeAmount: "$17,000+",
+      prizeAmount: "$110,000+",
       done: false,
       active: true,
       irlOnly: false,
     },
-        {
+    {
       key: 2,
       name: "EthAccra",
       url: "https://www.ethaccra.xyz/",
@@ -136,7 +134,7 @@ const hackathons = {
       active: true,
       irlOnly: true,
     },
-            {
+    {
       key: 2,
       name: "Encode x NEAR Horizon Hackathon",
       url: "https://www.encode.club/encode-near-horizon-hackathon",
@@ -152,14 +150,13 @@ const hackathons = {
       active: false,
       irlOnly: false,
     },
-            {
+    {
       key: 2,
       name: "NEARCON 2023",
       url: "https://nearcon.org/",
       image:
         "https://pages.near.org/wp-content/uploads/2023/06/Screenshot-2023-06-06-at-4.11.07-PM-600x333.png",
-      description:
-        "The biggest experience of the year is near",
+      description: "The biggest experience of the year is near",
       category: ["NEAR", "IRL", "BOS"],
       startDate: "11/7/2023",
       endDate: "11/10/2023",
@@ -168,7 +165,7 @@ const hackathons = {
       active: false,
       irlOnly: true,
     },
-            {
+    {
       key: 2,
       name: "Eth Global Istanbul",
       url: "https://ethglobal.com/events/istanbul/",
@@ -184,7 +181,7 @@ const hackathons = {
       active: false,
       irlOnly: true,
     },
-            {
+    {
       key: 2,
       name: "Eth Global New York",
       url: "https://web3-hackfest.devfolio.co/",
@@ -200,7 +197,6 @@ const hackathons = {
       active: false,
       irlOnly: true,
     },
-    
   ],
 };
 
@@ -368,13 +364,13 @@ const allCategories = (filteredCats) =>
       <div className="row my-3">
         <div className="d-flex justify-content-between">
           <div className="float-left mx-3">
-                        {gateway.prizeAmount && (
-<div className="prize-amount">{gateway.prizeAmount}</div>
-
+            {gateway.prizeAmount && (
+              <div className="prize-amount">{gateway.prizeAmount}</div>
             )}
-                                    {gateway.startDate  && gateway.endDate && (
-<div className="date">{gateway.startDate} - {gateway.endDate}</div>
-
+            {gateway.startDate && gateway.endDate && (
+              <div className="date">
+                {gateway.startDate} - {gateway.endDate}
+              </div>
             )}
           </div>
         </div>
