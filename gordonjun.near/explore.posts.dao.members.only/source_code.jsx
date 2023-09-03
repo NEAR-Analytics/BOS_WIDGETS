@@ -153,7 +153,6 @@ const ChatroomWrapper = styled.div`
   padding: 24px 24px 0;
   flex-direction: row;
   max-height: 500px;
-  overflow-y: auto;
 `;
 
 const Text = styled.p`
