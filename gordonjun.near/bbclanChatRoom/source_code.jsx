@@ -16,18 +16,8 @@ const APP_INDEX_KEY = "widget-bbclan-chatroom";
 /**
  * App setup
  */
-const daoId = props.daoId ?? "bbclan.near";
+const isMember = props.isMember ?? false;
 const room = props.room ?? "bbclan";
-
-let daoFollowers = Social.keys(`*/graph/follow/${daoId}`, "final", {
-  return_type: "BlockHeight",
-  values_only: true,
-});
-
-let accounts = undefined;
-accounts = Object.keys(daoFollowers || {});
-
-const isMember = accounts.includes(context.accountId);
 
 const externalAppUrl = "https://bbclan-chatroom.web.app/";
 
