@@ -2,7 +2,7 @@ if (!props.src) {
   return (
     <>
       Plz set url first! (Also make sure the site allows embedded in an iframe)!
-      <a href="mob.near/widget/WidgetSource?src=cuongdcdev.near/widget/IframeEmbedExternal">
+      <a href="https://near.org/mob.near/widget/WidgetSource?src=cuongdcdev.near/widget/IframeEmbedExternal">
         Read guide here
       </a>
     </>
