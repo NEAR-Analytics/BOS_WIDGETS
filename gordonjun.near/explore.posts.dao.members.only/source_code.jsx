@@ -74,12 +74,11 @@ const Content = styled.div`
   }
 `;
 
-const ComposeWrapper = styled.div`
-  border-top: 1px solid #eceef0;
+const HeaderWrapper = styled.div`
+  border-bottom: 1px solid #eceef0;
 `;
 
 const FilterWrapper = styled.div`
-  border-top: 1px solid #eceef0;
   padding: 24px 24px 0;
   display: flex;
   flex-direction: row;
@@ -151,7 +150,6 @@ const FeedWrapper = styled.div`
 `;
 
 const ChatroomWrapper = styled.div`
-  border-top: 1px solid #eceef0;
   padding: 24px 24px 0;
   flex-direction: row;
   max-height: 500px;
@@ -218,15 +216,17 @@ return (
   <>
     {isMember ? (
       <Content>
-        <h2 className="mb-3">post</h2>
-        <ComposeWrapper>
-          <Widget src="hack.near/widget/create.posts" props={{ domains }} />
-        </ComposeWrapper>
+        <HeaderWrapper>
+          <h2 className="mb-3">post</h2>
+        </HeaderWrapper>
+        <Widget src="hack.near/widget/create.posts" props={{ domains }} />
 
-        <h2 className="mb-3">explore</h2>
-        <div className="mt-3 mb-3">
-          <Text>check out what the other bbclan members are up to</Text>
-        </div>
+        <HeaderWrapper>
+          <h2 className="mb-3">explore</h2>
+          <div className="mt-3 mb-3">
+            <Text>check out what the other bbclan members are up to</Text>
+          </div>
+        </HeaderWrapper>
 
         <FilterWrapper>
           <PillSelect>
@@ -277,10 +277,12 @@ return (
           />
         </FeedWrapper>
 
-        <h2 className="mt-3 mb-3">gather</h2>
-        <div className="mt-3 mb-3">
-          <Text>a chatroom just for bbclan members</Text>
-        </div>
+        <HeaderWrapper>
+          <h2 className="mt-3 mb-3">gather</h2>
+          <div className="mt-3 mb-3">
+            <Text>a chatroom just for bbclan members</Text>
+          </div>
+        </HeaderWrapper>
         <ChatroomWrapper>
           <Widget
             src="gordonjun.near/widget/bbclanChatRoom"
