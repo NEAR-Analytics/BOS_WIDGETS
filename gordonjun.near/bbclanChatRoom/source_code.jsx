@@ -29,7 +29,7 @@ accounts = Object.keys(daoFollowers || {});
 
 const isMember = accounts.includes(context.accountId);
 
-const externalAppUrl = "https://bbclan-chatroom.web.app";
+const externalAppUrl = "http://localhost:3000";
 
 const path = props.path;
 const initialViewHeight = 740;
@@ -122,21 +122,6 @@ const sendMessageHandler = (request, response) => {
     error: "you must provide the roomId and a message prop",
   });
 };
-
-// Helpers
-const fetchRooms = () => {
-  const data = Social.index(APP_INDEX_KEY, "room", {
-    subscribe: true,
-    limit: 1000,
-    order: "desc",
-  });
-
-  if (!data) return null;
-
-  const sorted = data.sort((m1, m2) => m2.blockHeight - m1.blockHeight);
-  return sorted.map((roomData) => roomData.value); // ["room-name"]
-};
-// Helpers END
 
 return (
   <div>
