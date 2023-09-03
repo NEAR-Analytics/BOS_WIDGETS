@@ -1,4 +1,4 @@
-const creatorId = props.creatorId ?? "hack.near";
+const creatorId = props.creatorId ?? context.accountId;
 
 const groupId = props.groupId ?? "cefe2651fd468lm0x9mg91d69d351d0c4";
 
@@ -367,7 +367,7 @@ return (
               <GroupCreator>{groupData.creatorId}</GroupCreator>
             </UserLink>
             <div>
-              {creatorId === context.accountId && (
+              {groupData.creatorId === context.accountId && (
                 <a
                   key="edit"
                   href={`/hack.near/widget/group.data?groupId=${groupId}`}
