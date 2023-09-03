@@ -1,4 +1,3 @@
-props.src = "http://localhost";
 if (!props.src) {
   return (
     <>
