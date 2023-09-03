@@ -29,7 +29,7 @@ accounts = Object.keys(daoFollowers || {});
 
 const isMember = accounts.includes(context.accountId);
 
-const externalAppUrl = "http://localhost:3000";
+const externalAppUrl = "https://bbclan-chatroom.web.app/";
 
 const path = props.path;
 const initialViewHeight = 740;
