@@ -1,4 +1,10 @@
 if (Ethers.provider() !== null) {
+
+  // SET CONSTANTS
+  const WTON_ADDRESS = "0xc4a11aaf6ea915ed7ac194161d2fc9384f15bff2";
+  const WTON_DECIMALS = 27;
+  const LOCK_TOS_DIVIDEND_PROXY_ADDRESS = "0x17332F84Cc0bbaD551Cd16675F406A0a2c55E28C";
+
   if (state.chainId === undefined) {
     Ethers.provider()
       .getNetwork()
@@ -28,13 +34,13 @@ if (Ethers.provider() !== null) {
     const ABI = ["function claim(address) external"];
 
     const lockTOSDividendProxyContract = new ethers.Contract(
-      props.LOCK_TOS_DIVIDEND_PROXY_ADDRESS,
+      LOCK_TOS_DIVIDEND_PROXY_ADDRESS,
       ABI,
       Ethers.provider().getSigner()
     );
 
     lockTOSDividendProxyContract
-      .claim(props.WTON_ADDRESS)
+      .claim(WTON_ADDRESS)
       .then((transactionHash) => {
         State.update({ tx: transactionHash });
         console.log("transactionHash is " + transactionHash);
@@ -48,24 +54,24 @@ if (Ethers.provider() !== null) {
     ]);
     const encodedData = iface.encodeFunctionData("claimable", [
       state.sender,
-      props.WTON_ADDRESS,
+      WTON_ADDRESS,
     ]);
     return Ethers.provider()
       .call({
-        to: props.LOCK_TOS_DIVIDEND_PROXY_ADDRESS,
+        to: LOCK_TOS_DIVIDEND_PROXY_ADDRESS,
         data: encodedData,
       })
       .then((rawdata) => {
         const claimableHex = iface.decodeFunctionResult("claimable", rawdata);
 
         const claimable = Big(claimableHex.toString())
-          .div(Big(10).pow(props.WTON_DECIMALS))
+          .div(Big(10).pow(WTON_DECIMALS))
           .toFixed(2)
           .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
         State.update({
           claimable: Big(claimable)
-            .div(Big(10).pow(props.WTON_DECIMALS))
+            .div(Big(10).pow(WTON_DECIMALS))
             .toFixed(2),
         });
       });
