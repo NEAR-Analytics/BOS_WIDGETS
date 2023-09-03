@@ -149,15 +149,17 @@ return (
         NOT publish any sensitive or proprietary information.
       </p>
       <hr></hr>
-      <Widget
-        src="near/widget/Explorer.Account"
-        props={{
-          accountId,
-          network: context.networkId,
-          language: "en",
-          baseUrl: props.baseUrl,
-        }}
-      />
+      <div>
+        <Widget
+          src="near/widget/Explorer.Account"
+          props={{
+            accountId,
+            network: context.networkId,
+            language: "en",
+            baseUrl: props.baseUrl,
+          }}
+        />
+      </div>
       <Widget src="opencann.near/widget/user.data.input" props={{ ownerId }} />
     </div>
     <Items>
