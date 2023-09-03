@@ -1,26 +1,24 @@
 if (!props.src) {
-  return <>Plz set url first!</>;
+  return (
+    <>
+      Plz set url first (Also make sure the site allows embedded in an iframe)
+    </>
+  );
 }
 const css = styled.b`
-html {overflow: auto;}    
-html,
-body,
-div,
+html {overflow: auto};
 iframe {
     margin: 0px;
     padding: 0px;
     height: 100%;
     min-height: 5000px;
     border: none;
-}
-iframe {
     display: block;
     width: 100%;
     border: none;
     overflow-y: auto;
     overflow-x: hidden;
-}
-`;
+}`;
 return (
   <>
     <css>
