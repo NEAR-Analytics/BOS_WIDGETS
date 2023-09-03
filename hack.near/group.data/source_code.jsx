@@ -52,12 +52,6 @@ const memberId = props.memberId ?? state.newMember;
 
 const isValid = isNearAddress(memberId);
 
-const groupData = Social.get(`${creatorId}/thing/${groupId}/**`);
-
-if (groupData) {
-  State.update({ exists: true });
-}
-
 const handleCreate = () => {
   let Group_Payload = {
     contractName: "social.near",
