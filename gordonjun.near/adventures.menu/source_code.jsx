@@ -1,6 +1,5 @@
 return (
   <div>
-    <br />
     <div class="card border-secondary">
       <div class="nav navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
