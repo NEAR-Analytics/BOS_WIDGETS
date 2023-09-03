@@ -89,7 +89,7 @@ const labels = labelStrings.map((s) => {
 
 initState({
   seekingFunding: false,
-
+  //
   author_id: context.accountId,
   // Should be a list of objects with field "name".
   labels,
@@ -101,7 +101,7 @@ initState({
   description: props.description ?? "",
   amount: props.amount ?? "",
   token: props.token ?? "USDT",
-  supervisor: props.supervisor ?? "neardevdao.near",
+  supervisor: props.supervisor ?? "neardevgov.near",
   githubLink: props.githubLink ?? "",
   warning: "",
   waitForDraftStateRestore: true,
@@ -146,8 +146,7 @@ const onSubmit = () => {
       state.description,
       state.amount,
       state.token,
-      state.supervisor,
-      state.seekingFunding
+      state.supervisor
     ),
   };
 
@@ -325,7 +324,6 @@ const nameDiv = (
   <div className="col-lg-6 mb-2">
     <p className="fs-6 fw-bold mb-1">Title</p>
     <input
-      data-testid="input-title"
       type="text"
       value={state.name}
       onChange={(event) => State.update({ name: event.target.value })}
@@ -336,13 +334,19 @@ const nameDiv = (
 const descriptionDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-6 fw-bold mb-1">Description</p>
-    {widget("components.molecule.markdown-editor", {
-      data: { handler: state.handler, content: state.description },
-      onChange: (content) => {
-        State.update({ description: content, handler: "update" });
-        textareaInputHandler(content);
-      },
-    })}
+    <textarea
+      value={state.description}
+      type="text"
+      rows={6}
+      className="form-control"
+      onInput={(event) => textareaInputHandler(event.target.value)}
+      onKeyUp={(event) => {
+        if (event.key === "Escape") {
+          State.update({ showAccountAutocomplete: false });
+        }
+      }}
+      onChange={(event) => State.update({ description: event.target.value })}
+    />
     {autocompleteEnabled && state.showAccountAutocomplete && (
       <AutoComplete>
         <Widget
@@ -370,7 +374,6 @@ const isFundraisingDiv = (
         <label class="form-check-label">
           <button
             className="btn btn-light p-0"
-            data-testid="btn-request-funding"
             style={{
               backgroundColor: state.seekingFunding ? "#0C7283" : "inherit",
               color: "#f3f3f3",
@@ -410,21 +413,19 @@ const fundraisingDiv = (
     <div className="col-lg-6  mb-2">
       Currency
       <select
-        data-testid="select-currency"
         onChange={(event) => State.update({ token: event.target.value })}
         class="form-select"
-        aria-label="Select currency"
-        value={state.token}
+        aria-label="Default select"
       >
-        <option value="USDT">USDT</option>
+        <option selected value="USDT">
+          USDT
+        </option>
         <option value="NEAR">NEAR</option>
-        <option value="USDC">USDC</option>
       </select>
     </div>
     <div className="col-lg-6 mb-2">
       Requested amount <span class="text-muted fw-normal">(Numbers Only)</span>
       <input
-        data-testid="input-amount"
         type="number"
         value={parseInt(state.amount) > 0 ? state.amount : ""}
         min={0}
@@ -450,7 +451,6 @@ const fundraisingDiv = (
           @
         </span>
         <input
-          data-testid="input-supervisor"
           type="text"
           class="form-control"
           placeholder="Enter username"
@@ -462,13 +462,10 @@ const fundraisingDiv = (
   </div>
 );
 
-function generateDescription(text, amount, token, supervisor, seekingFunding) {
-  const fundingText =
-    amount > 0 && token ? `###### Requested amount: ${amount} ${token}\n` : "";
-  const supervisorText = supervisor
-    ? `###### Requested sponsor: @${supervisor}\n`
-    : "";
-  return seekingFunding ? `${fundingText}${supervisorText}${text}` : text;
+function generateDescription(text, amount, token, supervisor) {
+  const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
+  if (amount > 0 && token && supervisor) return funding + text;
+  return text;
 }
 
 return (
@@ -533,7 +530,6 @@ return (
                 <button
                   onClick={onSolutionClick}
                   type="button"
-                  data-testid="btn-solution"
                   class={`btn btn-outline-secondary`}
                   style={
                     state.postType !== "Idea"
@@ -576,15 +572,11 @@ return (
                 {state.seekingFunding && fundraisingDiv}
               </div>
               <button
-                data-testid="btn-submit"
                 style={{
                   width: "7rem",
                   backgroundColor: "#0C7283",
                   color: "#f3f3f3",
                 }}
-                disabled={
-                  state.seekingFunding && (!state.amount || state.amount < 1)
-                }
                 className="btn btn-light mb-2 p-3"
                 onClick={onSubmit}
               >
@@ -610,8 +602,7 @@ return (
                         state.description,
                         state.amount,
                         state.token,
-                        state.supervisor,
-                        state.seekingFunding
+                        state.supervisor
                       ),
                       github_link: state.githubLink,
                     },
