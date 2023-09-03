@@ -9,11 +9,8 @@ const useThemeName = (light, dark) => {
 const pages = [
   {
     label: "SourceScan",
-    href: useNetwork(
-      "https://sourcescan.2bb.dev",
-      "https://sourcescan.testnet.2bb.dev"
-    ),
-    target: "_blank",
+    href: `#/${state.ownerId}/widget/SourceScan?page=upload`,
+    target: "_self",
   },
   {
     label: "Contracts",
@@ -134,7 +131,10 @@ return (
       </NetworkSwitcherContainer>
       <RStack>
         <Mobile>
-          <a href={`#/${state.ownerId}/widget/SourceScan`} target={"_self"}>
+          <a
+            href={`#/${state.ownerId}/widget/SourceScan?page=upload`}
+            target={"_self"}
+          >
             <Logo
               src={
                 "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
@@ -145,7 +145,10 @@ return (
         </Mobile>
         <HStack>
           <Desktop>
-            <a href={`#/${state.ownerId}/widget/SourceScan`} target={"_self"}>
+            <a
+              href={`#/${state.ownerId}/widget/SourceScan?page=upload`}
+              target={"_self"}
+            >
               <Logo
                 src={
                   "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
