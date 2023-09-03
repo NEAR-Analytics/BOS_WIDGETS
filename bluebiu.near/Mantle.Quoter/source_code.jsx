@@ -372,6 +372,21 @@ const quoteAll = () => {
   State.update({
     quoting: true,
   });
+  console.log("tokenIn: ", tokenIn, tokenOut);
+
+  if (tokenIn.address === tokenOut.address) {
+    const amountOut = amountIn;
+    console.log("amountOut: ", amountOut);
+    State.update({ quoteDone: true, quoting: false });
+    loadAmountOut({
+      fee: 0,
+      amountOut: amountOut,
+      quoteDone: true,
+      quoting: false,
+      success: true,
+    });
+    return;
+  }
 
   quoteSingle(amountIn, tokenIn, tokenOut, feeList[0], []).then(
     (finalList0) => {
