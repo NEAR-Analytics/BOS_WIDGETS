@@ -1,34 +1,35 @@
-const creatorId = props.creatorId ?? context.accountId;
+const creatorId = props.creatorId ?? "james.near";
 
 if (!creatorId) {
   return "Please connect your NEAR account :)";
 }
 
-const groupId = props.groupId;
+const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
-const initMembers = Social.get(`${creatorId}/graph/${groupId}/**`);
+const initMembers = Social.get(`${creatorId}/thing/${groupId}/members/*`);
 
 State.init({
-  groupId,
   group,
-  members: initMembers || { [context.accountId]: "" },
+  members: initMembers,
   newMember: "",
   exists: false,
 });
 
+if (initMembers) {
+  State.update({ exists: true });
+}
+
 function addMember(newMember) {
-  State.update({
-    members: { ...state.members, [newMember]: "" },
-  });
+  const updatedMembers = { ...state.members, [newMember]: "" };
+
+  State.update({ members: updatedMembers });
 }
 
 function removeMember(memberKey) {
   const updatedMembers = { ...state.members };
   delete updatedMembers[memberKey];
 
-  State.update({
-    members: updatedMembers,
-  });
+  State.update({ members: updatedMembers });
 }
 
 function isNearAddress(address) {
@@ -55,13 +56,15 @@ const memberId = props.memberId ?? state.newMember;
 
 const isValid = isNearAddress(memberId);
 
-const groupData = Social.get(`${creatorId}/graph/${state.groupId}/**`);
+const groupData = Social.get(`${creatorId}/thing/${state.groupId}/**`);
 
 if (groupData) {
   State.update({ exists: true });
 }
 
-const groupMembers = Social.get(`${creatorId}/graph/${state.groupId}/**`);
+const groupMembers = Social.get(
+  `${creatorId}/thing/${state.groupId}/members/*`
+);
 
 if (groupMembers) {
   State.update({ exists: true });
@@ -100,13 +103,9 @@ return (
     <div className="row">
       <div className="col-lg-6">
         <h5>Edit Group</h5>
-        <input
-          placeholder="groupId"
-          onChange={(e) => State.update({ groupId: e.target.value })}
-        />
         {state.exists && (
           <>
-            <div className="mt-3">
+            <div className="mt-2">
               <Widget
                 src="hack.near/widget/group.card"
                 props={{ groupId: state.groupId }}
@@ -114,13 +113,13 @@ return (
             </div>
             <div className="mt-3">
               <button className="btn btn-success me-2" onClick={handleCreate}>
-                Update
+                update
               </button>
               <button
                 className="btn btn-secondary me-2"
                 href={`/hack.near/widget/group?groupId=${state.groupId}`}
               >
-                View Group
+                view
               </button>
             </div>
           </>
@@ -139,7 +138,7 @@ return (
                   description: { label: "About" },
                   tags: {
                     label: "Tags",
-                    tagsPattern: `*/${groupId}/tags/*`,
+                    tagsPattern: `*/${state.groupId}/tags/*`,
                     placeholder: "art, gov, edu, dev, com, nft, ai, social",
                   },
                   linktree: {
@@ -183,7 +182,7 @@ return (
               />
               <div className="d-flex align-items-center mt-2">
                 <button
-                  className="btn btn-primary m-2"
+                  className="btn btn-primary mt-2"
                   onClick={() => addMember(state.newMember)}
                 >
                   add
@@ -193,51 +192,25 @@ return (
             <hr />
             <div>
               <h5>Members</h5>
-              {initMembers ? (
-                <div>
-                  {Object.keys(state.members).map((a) => {
-                    return (
-                      <div className="d-flex m-2 p-2 justify-content-between align-items-center">
-                        <div className="d-flex align-items-center">
-                          <Widget
-                            src="mob.near/widget/Profile"
-                            props={{ accountId: a }}
-                          />
-                        </div>
-                        <button
-                          className="btn btn-danger m-1"
-                          disabled={!isNearAddress(a)}
-                          onClick={() => removeMember(a)}
-                        >
-                          remove
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div>
-                  {Object.keys(groupMembers).map((a) => {
-                    return (
-                      <div className="d-flex m-2 p-2 justify-content-between align-items-center">
-                        <div className="d-flex align-items-center">
-                          <Widget
-                            src="mob.near/widget/Profile"
-                            props={{ accountId: a }}
-                          />
-                        </div>
-                        <button
-                          className="btn btn-danger m-1"
-                          disabled={!isNearAddress(a)}
-                          onClick={() => removeMember(a)}
-                        >
-                          remove
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+              {Object.keys(state.members).map((a) => {
+                return (
+                  <div className="d-flex m-2 p-2 justify-content-between align-items-center">
+                    <div className="d-flex align-items-center">
+                      <Widget
+                        src="mob.near/widget/Profile"
+                        props={{ accountId: a }}
+                      />
+                    </div>
+                    <button
+                      className="btn btn-danger m-1"
+                      disabled={!isNearAddress(a)}
+                      onClick={() => removeMember(a)}
+                    >
+                      remove
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </>
         )}
