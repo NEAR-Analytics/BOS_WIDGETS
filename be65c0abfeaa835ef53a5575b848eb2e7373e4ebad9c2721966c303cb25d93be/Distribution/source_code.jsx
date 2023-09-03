@@ -1,7 +1,15 @@
+// DETECT SENDER
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
+
 if (
   state.chainId === undefined &&
   ethers !== undefined &&
-  Ethers.send("eth_requestAccounts", [])[0]
+  Ethers.send("eth_requestAccounts", []) !== null
 ) {
   Ethers.provider()
     .getNetwork()
@@ -11,6 +19,7 @@ if (
       }
     });
 }
+
 if (state.chainId !== undefined && state.chainId !== 1) {
   return <p>Switch to Ethereum Mainnet</p>;
 }
@@ -22,15 +31,6 @@ if (state.idx === undefined) {
 // setup constants
 const WTONAddress = "0xc4a11aaf6ea915ed7ac194161d2fc9384f15bff2";
 const wtonDecimals = 27;
-
-// DETECT SENDER
-if (state.sender === undefined) {
-  const accounts = Ethers.send("eth_requestAccounts", []);
-  if (accounts.length) {
-    State.update({ sender: accounts[0] });
-    console.log("set sender", accounts[0]);
-  }
-}
 
 // FETCH CSS
 const cssFont = fetch(
@@ -55,44 +55,45 @@ if (!state.theme) {
 }
 const Theme = state.theme;
 
-if (state.currentBlockNumber === undefined) {
-  Ethers.provider()
-    .getBlockNumber()
-    .then((blockNumber) => {
-      State.update({ currentBlockNumber: blockNumber });
-    });
-}
+if (state.sender !== undefined) {
+  if (state.currentBlockNumber === undefined) {
+    Ethers.provider()
+      .getBlockNumber()
+      .then((blockNumber) => {
+        State.update({ currentBlockNumber: blockNumber });
+      });
+  }
 
-if (state.currentBlockNumber === undefined) return;
+  if (state.currentBlockNumber !== undefined) {
+    const fromBlock = state.currentBlockNumber - 6400 * state.idx;
+    const filter = {
+      fromBlock: fromBlock,
+      address: "0x710936500ac59e8551331871cbad3d33d5e0d909",
+      topics: [ethers.utils.id("Comitted(address)")],
+    };
 
-const fromBlock = state.currentBlockNumber - 6400 * state.idx;
-const filter = {
-  fromBlock: fromBlock,
-  address: "0x710936500ac59e8551331871cbad3d33d5e0d909",
-  topics: [ethers.utils.id("Comitted(address)")],
-};
-
-console.log(`last ${state.lastUpdatedTimestamp}`);
-if (state.lastUpdatedBlockNumber === undefined) {
-  Ethers.provider()
-    .getLogs(filter)
-    .then((logs) => {
-      if (logs.length === 0) {
-        State.update({ idx: state.idx + 1 });
-        return;
-      }
-
+    if (state.lastUpdatedBlockNumber === undefined && state.sender) {
       Ethers.provider()
-        .getBlock(logs[logs.length - 1].blockNumber)
-        .then((block) => {
-          const date = new Date(block.timestamp * 1000);
-          State.update({
-            lastUpdatedTimestamp:
-              date.toLocaleDateString() + " " + date.toLocaleTimeString(),
-            lastUpdatedBlockNumber: logs[logs.length - 1].blockNumber,
-          });
+        .getLogs(filter)
+        .then((logs) => {
+          if (logs.length === 0) {
+            State.update({ idx: state.idx + 1 });
+            return;
+          }
+
+          Ethers.provider()
+            .getBlock(logs[logs.length - 1].blockNumber)
+            .then((block) => {
+              const date = new Date(block.timestamp * 1000);
+              State.update({
+                lastUpdatedTimestamp:
+                  date.toLocaleDateString() + " " + date.toLocaleTimeString(),
+                lastUpdatedBlockNumber: logs[logs.length - 1].blockNumber,
+              });
+            });
         });
-    });
+    }
+  }
 }
 
 return (
