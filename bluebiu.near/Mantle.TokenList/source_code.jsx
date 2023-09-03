@@ -1,4 +1,4 @@
-const { config, sender, curToken, onClose, hidden } = props;
+const { config, sender, curToken, onClose, hidden, selectedDex } = props;
 
 const title = "Select a token";
 const network = config.MAINTLE_NAME;
@@ -76,7 +76,9 @@ const containsSearchBy = (assetData) => {
 };
 
 const assetList = assets
-  .filter((token) => containsSearchBy(token))
+  .filter(
+    (token) => token.onDexes.includes(selectedDex) && containsSearchBy(token)
+  )
   .map((token) => {
     return (
       <Widget
