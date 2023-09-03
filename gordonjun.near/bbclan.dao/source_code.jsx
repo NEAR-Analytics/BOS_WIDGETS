@@ -173,15 +173,5 @@ return (
         )}
       </div>
     </ExploreContainer>
-
-    <Container>
-      <Flex>
-        <img
-          src="https://media.tenor.com/QQ6iIPq9emoAAAAC/warm-snow.gif"
-          alt="Footer GIF"
-          style={{ maxWidth: "100%", height: "auto" }}
-        />
-      </Flex>
-    </Container>
   </Wrapper>
 );
