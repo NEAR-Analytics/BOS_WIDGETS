@@ -114,9 +114,11 @@ const sendMessageHandler = (request, response) => {
 };
 
 const Wrapper = styled.div`
-  padding: 24px;
-  margin-bottom: 20px;
-  clear: both; 
+  max-height: 500px;
+  height: 100%; /* Set an explicit height */
+  display: block;
+  clear: both;
+  overflow-y: auto; /* Add vertical scrollbar when content exceeds max-height */
 `;
 
 return (
