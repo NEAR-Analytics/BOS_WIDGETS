@@ -121,6 +121,10 @@ const Container = styled.div`
   }
 `;
 
+const ExploreContainer = styled.div`
+  margin-bottom: 250px;
+`;
+
 return (
   <Wrapper>
     <Container>
@@ -157,16 +161,18 @@ return (
     </div>
     <br />
 
-    <div>
-      {widgets.map(
-        ({ src, requiresLogin }, i) =>
-          (!requiresLogin || context.accountId) && (
-            <div key={i} className="p-3 mb-3">
-              <Widget src={src} props={props} />
-            </div>
-          )
-      )}
-    </div>
+    <ExploreContainer>
+      <div>
+        {widgets.map(
+          ({ src, requiresLogin }, i) =>
+            (!requiresLogin || context.accountId) && (
+              <div key={i} className="p-3 mb-3">
+                <Widget src={src} props={props} />
+              </div>
+            )
+        )}
+      </div>
+    </ExploreContainer>
 
     <Container>
       <Flex>
