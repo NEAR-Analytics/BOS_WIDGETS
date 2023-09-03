@@ -113,17 +113,24 @@ const sendMessageHandler = (request, response) => {
   });
 };
 
+const Wrapper = styled.div`
+  padding: 24px;
+  margin-bottom: 20px;
+`;
+
 return (
   <div>
-    <Widget
-      src="wendersonpires.near/widget/NearSocialBridgeCore"
-      props={{
-        externalAppUrl,
-        path,
-        initialViewHeight,
-        initialPayload,
-        requestHandler,
-      }}
-    />
+    <Wrapper>
+      <Widget
+        src="wendersonpires.near/widget/NearSocialBridgeCore"
+        props={{
+          externalAppUrl,
+          path,
+          initialViewHeight,
+          initialPayload,
+          requestHandler,
+        }}
+      />
+    </Wrapper>
   </div>
 );
