@@ -21,28 +21,32 @@ let daoFollowers = Social.keys(`*/graph/follow/${daoId}`, "final", {
   values_only: true,
 });
 
+let daoFollowersAccounts = Object.keys(daoFollowers || {});
+
+const isMember = daoFollowersAccounts.includes(context.accountId);
+
 let accounts = undefined;
 
-if (state.selectedTab === "following" && context.accountId) {
-  const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
-  if (graph !== null) {
-    daoFollowers = Object.entries(daoFollowers || {}).map(
-      ([accountId]) => accountId
-    );
-    const followings = Object.entries(graph || {}).map(
-      ([accountId]) => accountId
-    );
-    const daoFollowings = daoFollowers.filter((accountId) =>
-      followings.includes(accountId)
-    );
-    accounts = Object.keys(daoFollowings || {});
-    accounts.push(context.accountId);
+if (isMember) {
+  if (state.selectedTab === "following" && context.accountId) {
+    const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
+    if (graph !== null) {
+      daoFollowers = Object.entries(daoFollowers || {}).map(
+        ([accountId]) => accountId
+      );
+      const followings = Object.entries(graph || {}).map(
+        ([accountId]) => accountId
+      );
+      const daoFollowings = daoFollowers.filter((accountId) =>
+        followings.includes(accountId)
+      );
+      accounts = Object.keys(daoFollowings || {});
+    } else {
+      accounts = [];
+    }
   } else {
-    accounts = [];
+    accounts = daoFollowersAccounts;
   }
-} else {
-  accounts = Object.keys(daoFollowers || {});
-  accounts.push(context.accountId);
 }
 
 function selectTab(selectedTab) {
@@ -146,6 +150,14 @@ const FeedWrapper = styled.div`
   }
 `;
 
+const ChatroomWrapper = styled.div`
+  border-top: 1px solid #eceef0;
+  padding: 24px 24px 0;
+  flex-direction: row;
+  max-height: 500px;
+  overflow-y: auto;
+`;
+
 const Text = styled.p`
   font-family: "FK Grotesk", sans-serif;
   font-size: ${(p) => p.size ?? "14px"};
@@ -204,7 +216,7 @@ const Flex = styled.div`
 
 return (
   <>
-    {context.accountId ? (
+    {isMember ? (
       <Content>
         <h2 className="mb-3">post</h2>
         <ComposeWrapper>
@@ -264,13 +276,25 @@ return (
             }}
           />
         </FeedWrapper>
+
+        <h2 className="mt-3 mb-3">gather</h2>
+        <div className="mt-3 mb-3">
+          <Text>a chatroom just for bbclan members</Text>
+        </div>
+        <ChatroomWrapper>
+          <Widget
+            src="gordonjun.near/widget/bbclanChatRoom"
+            props={{ isMember, room }}
+          />
+        </ChatroomWrapper>
       </Content>
     ) : (
       <Container>
         <Flex>
           <div className="mt-3">
             <TextLarge style={{ maxWidth: "600px" }}>
-              Please log-in to post and explore chat by bbclan members.
+              Please follow bbclan's page to post, explore chat and gather with
+              bbclan members.
             </TextLarge>
           </div>
         </Flex>
