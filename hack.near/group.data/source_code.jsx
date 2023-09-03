@@ -1,9 +1,5 @@
 const creatorId = props.creatorId ?? "james.near";
 
-if (!creatorId) {
-  return "Please connect your NEAR account :)";
-}
-
 const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
 const initMembers = Social.get(`${creatorId}/thing/${groupId}/members/*`);
