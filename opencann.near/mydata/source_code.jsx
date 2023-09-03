@@ -1,7 +1,14 @@
 const accountId = props.accountId || context.accountId;
 
 if (!accountId) {
-  return "";
+  return "No account ID";
+}
+
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const fast = !props.profile;
+
+if (profile === null) {
+  return "Loading";
 }
 
 const limitPerPage = 20;
