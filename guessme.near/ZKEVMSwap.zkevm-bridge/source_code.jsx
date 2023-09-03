@@ -1,13 +1,16 @@
 const Container = styled.div`
   display: flex;
   gap: 8px;
-  width: 560px;
   flex-direction: column;
-  position: fixed;
-  left: 50%;
+  /* position: fixed; */
+  align-items: center;
+  /* justify-content: center; */
+
+  /* left: 50%; */
   /* top: 50%; */
   z-index: 0;
-  transform: translate(-50%);
+  width: 100%;
+  /* transform: translate(-50%); */
 `;
 
 const tokens = [
