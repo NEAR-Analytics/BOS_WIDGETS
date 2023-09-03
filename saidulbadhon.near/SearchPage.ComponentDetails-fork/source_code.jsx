@@ -18,7 +18,7 @@ const data = Social.get(`${accountId}/widget/${widgetName}/**`);
 const metadata = data.metadata;
 const tags = Object.keys(metadata.tags || {});
 const detailsUrl = `/adminalpha.near/widget/ComponentDetailsPage?src=${src}`;
-const shareUrl = `https://nearpad.dev/${detailsUrl}`;
+const shareUrl = `https://jutsu.ai/${detailsUrl}`;
 const theme = props.theme;
 
 const dependencyMatch =
