@@ -149,7 +149,7 @@ return (
         NOT publish any sensitive or proprietary information.
       </p>
       <hr></hr>
-      <Widget src="trechriron.near/widget/OptInUserPage" props={{ ownerId }} />
+      <Widget src="opencann.near/widget/user.data.input" props={{ ownerId }} />
     </div>
     <Items>
       {allNfts.map((nft, i) => (
