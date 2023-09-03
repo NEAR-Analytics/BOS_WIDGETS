@@ -150,7 +150,7 @@ return (
           </div>
         </Left>
         <Center className="col-lg-9 px-2 px-md-3 d-flex flex-column">
-          <h2>NDC Work Groups</h2>
+          <h2 className="m-2">NDC Work Groups</h2>
           <div className="d-flex flex-row flex-wrap">
             {groupArray.map((group, i) => (
               <Widget
