@@ -50,7 +50,6 @@ if (Ethers.provider() !== null) {
       state.sender,
       props.WTON_ADDRESS,
     ]);
-
     return Ethers.provider()
       .call({
         to: props.LOCK_TOS_DIVIDEND_PROXY_ADDRESS,
