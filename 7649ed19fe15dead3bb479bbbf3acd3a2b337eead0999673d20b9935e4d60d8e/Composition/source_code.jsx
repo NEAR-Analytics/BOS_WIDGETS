@@ -1,88 +1,3 @@
-const Layout = styled.div``;
-
-const Container = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  .flex-grow {
-    flex-grow: 1;
-  }
-  .contentOut {
-    padding-top: 25px;
-    margin-left: 35px; /* 添加这行 */
-  }
-  .contentOut p {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #ffffff;
-  }
-`;
-
-const MenuContainer = styled.div`
-  margin-right: 35px;
-  .item {
-    display: flex;
-    align-items: center;
-    padding-left: 40px;
-    width: 180px;
-    height: 64px;
-    font-weight: 500;
-    font-size: 16px;
-    color: #7e8a93;
-    cursor: pointer;
-    margin-bottom: 2px;
-    border-right: 3px solid transparent;
-    transition: 0.5s;
-    :hover {
-      background-image: linear-gradient(
-        270deg,
-        rgba(55, 58, 83, 0) 0%,
-        #373a53 50%,
-        rgba(55, 58, 83, 0) 100%
-      );
-      color: #fff;
-    }
-  }
-  .item.active {
-    background-image: linear-gradient(
-      270deg,
-      #373a53 0%,
-      rgba(55, 58, 83, 0) 100%
-    );
-    color: #fff;
-    border-color: #794fdd;
-  }
-  .item.disable {
-    cursor: not-allowed;
-  }
-  .icon {
-    width: 26px;
-  }
-`;
-
-const { activeMenu } = state;
-
-const storedActiveMenu = Storage.get(
-  "activeMenu",
-  "bluebiu.near/widget/ZKEVM-all-in-one"
-);
-
-State.init({
-  activeMenu: storedActiveMenu || "Bridge",
-});
-
-State.init({
-  activeMenu: "Bridge",
-});
-function changeTab(menu) {
-  State.update({
-    activeMenu: menu,
-  });
-  Storage.set("activeMenu", menu);
-}
-
 // svg icon start
 const headIcon = (
   <svg
@@ -207,6 +122,94 @@ const lendingIcon = (
   </svg>
 );
 
+const Layout = styled.div``;
+
+const Container = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  .flex-grow {
+    flex-grow: 1;
+  }
+  .contentOut {
+    padding-top: 25px;
+    margin-left: 35px; /* 添加这行 */
+  }
+  .contentOut p {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+`;
+
+const MenuContainer = styled.div`
+  margin-right: 35px;
+  .item {
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    width: 180px;
+    height: 64px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #7e8a93;
+    cursor: pointer;
+    margin-bottom: 2px;
+    border-right: 3px solid transparent;
+    transition: 0.5s;
+    :hover {
+      background-image: linear-gradient(
+        270deg,
+        rgba(55, 58, 83, 0) 0%,
+        #373a53 50%,
+        rgba(55, 58, 83, 0) 100%
+      );
+      color: #fff;
+    }
+  }
+  .item.active {
+    background-image: linear-gradient(
+      270deg,
+      #373a53 0%,
+      rgba(55, 58, 83, 0) 100%
+    );
+    color: #fff;
+    border-color: #794fdd;
+  }
+  .item.disable {
+    cursor: not-allowed;
+  }
+  .icon {
+    width: 26px;
+  }
+`;
+
+// function / variables
+
+const { activeMenu } = state;
+
+const storedActiveMenu = Storage.get(
+  "activeMenu",
+  "bluebiu.near/widget/ZKEVM-all-in-one"
+);
+
+State.init({
+  activeMenu: storedActiveMenu || "Bridge",
+});
+
+State.init({
+  activeMenu: "Bridge",
+});
+
+function changeTab(menu) {
+  State.update({
+    activeMenu: menu,
+  });
+  Storage.set("activeMenu", menu);
+}
+
 // user의 값은 자신의 지갑 주소를 입력해주세요.
 const user = "7649ed19fe15dead3bb479bbbf3acd3a2b337eead0999673d20b9935e4d60d8e";
 
@@ -216,7 +219,7 @@ return (
 
     <hr />
     {/** 자신이 만든 Greeter 컴포넌트를 불러올 수 있습니다. **/}
-    <Widget src={`${user}/widget/Composition`} props={props} />
+    {/** <Widget src={`${user}/widget/Composition`} props={props} /> **/}
 
     <Layout>
       <Container>
