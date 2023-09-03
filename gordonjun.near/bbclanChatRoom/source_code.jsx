@@ -17,7 +17,7 @@ const APP_INDEX_KEY = "widget-bbclan-chatroom";
  * App setup
  */
 const daoId = props.daoId ?? "bbclan.near";
-const room = props.room ?? "bbclan-chatroom";
+const room = props.room ?? "bbclan";
 
 let daoFollowers = Social.keys(`*/graph/follow/${daoId}`, "final", {
   return_type: "BlockHeight",
