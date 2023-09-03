@@ -16,7 +16,7 @@ const APP_INDEX_KEY = "widget-bbclan-chatroom";
 /**
  * App setup
  */
-const isMember = props.isMember ?? false;
+const isMember = props.isMember ?? true;
 const room = props.room ?? "bbclan";
 
 const externalAppUrl = "https://bbclan-chatroom.web.app/";
@@ -116,6 +116,7 @@ const sendMessageHandler = (request, response) => {
 const Wrapper = styled.div`
   padding: 24px;
   margin-bottom: 20px;
+  clear: both; 
 `;
 
 return (
