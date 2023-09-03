@@ -8,13 +8,6 @@ const tab = props.tab === "following" ? props.tab : "members";
 
 const defaultWidgets = [
   {
-    src: "gordonjun.near/widget/adventures.menu",
-  },
-  {
-    src: "gordonjun.near/widget/dev.search.dao.members.only",
-    props: { daoId: daoId },
-  },
-  {
     src: "gordonjun.near/widget/explore.posts.dao.members.only",
     props: { daoId: daoId },
   },
@@ -122,7 +115,6 @@ const Container = styled.div`
 `;
 
 const ExploreContainer = styled.div`
-  margin-bottom: 250px;
 `;
 
 return (
@@ -137,6 +129,14 @@ return (
         <br />
         <br />
         <H1>bbclan</H1>
+        {accountId && (
+          <div className="mt-3 mb-4">
+            <Widget
+              src="nycdao.near/widget/nyc.subscribe"
+              props={{ accountId, daoId }}
+            />
+          </div>
+        )}
         <div className="mt-3">
           <Text style={{ maxWidth: "600px" }}>
             A clan that was formed by two individuals named Bibi and Pipi. These
