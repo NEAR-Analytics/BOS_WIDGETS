@@ -135,6 +135,7 @@ const { add, onChangeAdd, source, hide } = props;
 
 const onAdd = () => {
   Storage.set("storeCheckTip", 1);
+  Storage.privateSet("store_add", "true");
   State.update({
     storeShowTip: false,
   });
@@ -143,11 +144,20 @@ const onAdd = () => {
 
 const onCancel = () => {
   Storage.set("storeCheckTip", 1);
+  Storage.privateSet("store_add", "false");
+
   State.update({
     storeShowTip: false,
   });
   onChangeAdd(false);
 };
+
+const store_add = Storage.privateGet("store_add");
+console.log("store_add: ", store_add);
+
+if (store_add === "true") {
+  onAdd();
+}
 
 const storeCheckTip = Storage.get(
   "storeCheckTip",
