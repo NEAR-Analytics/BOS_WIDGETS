@@ -77,6 +77,7 @@ const deployStore = () => {
   ]);
 };
 return (
+    <>
   <div>
     <h1>Deploy Store on Mintbase</h1>
     <div>
@@ -90,5 +91,8 @@ return (
         <button onClick={deployStore}>Deploy Store 6.5N</button>
       </div>
     </div>
+
   </div>
+      <Widget src="mintbase.near/widget/PoweredByMintbase"/>
+  </>
 );
