@@ -2,7 +2,6 @@ const { title, description, small } = props;
 
 const Container = styled.div`
   background: #fdfeff;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 16px;
   h3,
