@@ -180,8 +180,6 @@ const renderPagination = () => (
   </div>
 );
 
-console.log("daos", daos, "filteredDAOs", filteredDAOs);
-
 return (
   <>
     {renderSubheader()}
