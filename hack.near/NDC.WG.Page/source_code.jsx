@@ -138,7 +138,7 @@ return (
           <H5>Learning Together</H5>
           <Widget src={widgets.about} />
           <div className="mt-5">
-            {!state.sbt && (
+            {state.sbt && (
               <Widget
                 src={widgets.participate}
                 props={{
