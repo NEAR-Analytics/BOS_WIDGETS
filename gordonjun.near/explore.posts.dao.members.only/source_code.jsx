@@ -203,6 +203,7 @@ const Flex = styled.div`
   align-items: center;
   flex-direction: column;
   flex-wrap: "nowrap";
+  text-align: center;
 
   @media (max-width: 998px) {
     flex-direction: column;
