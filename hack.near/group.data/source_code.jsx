@@ -1,6 +1,6 @@
-const creatorId = props.creatorId ?? "james.near";
+const creatorId = props.creatorId || "james.near";
 
-const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
+const groupId = props.groupId || "6fd36ddf4884flm20pbe91e7b208b88d16";
 
 const initMembers = Social.get(`${creatorId}/thing/${groupId}/members/*`);
 
@@ -45,7 +45,7 @@ function isNearAddress(address) {
   return true;
 }
 
-const memberId = props.memberId ?? state.newMember;
+const memberId = props.memberId || state.newMember;
 
 const isValid = isNearAddress(memberId);
 
