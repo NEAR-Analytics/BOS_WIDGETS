@@ -56,17 +56,9 @@ const memberId = props.memberId ?? state.newMember;
 
 const isValid = isNearAddress(memberId);
 
-const groupData = Social.get(`${creatorId}/thing/${state.groupId}/**`);
+const groupData = Social.get(`${creatorId}/thing/${groupId}/**`);
 
 if (groupData) {
-  State.update({ exists: true });
-}
-
-const groupMembers = Social.get(
-  `${creatorId}/thing/${state.groupId}/members/*`
-);
-
-if (groupMembers) {
   State.update({ exists: true });
 }
 
@@ -78,13 +70,13 @@ const handleCreate = () => {
       data: {
         [creatorId]: {
           thing: {
-            [state.groupId]: {
+            [groupId]: {
               ...state.group,
               members: { ...state.members },
             },
           },
           graph: {
-            [state.groupId]: {
+            [groupId]: {
               ...state.members,
             },
           },
@@ -106,10 +98,7 @@ return (
         {state.exists && (
           <>
             <div className="mt-2">
-              <Widget
-                src="hack.near/widget/group.card"
-                props={{ groupId: state.groupId }}
-              />
+              <Widget src="hack.near/widget/group.card" props={{ groupId }} />
             </div>
             <div className="mt-3">
               <button className="btn btn-success me-2" onClick={handleCreate}>
@@ -117,7 +106,7 @@ return (
               </button>
               <button
                 className="btn btn-secondary me-2"
-                href={`/hack.near/widget/group?groupId=${state.groupId}`}
+                href={`/hack.near/widget/group?groupId=${groupId}`}
               >
                 view
               </button>
@@ -138,7 +127,7 @@ return (
                   description: { label: "About" },
                   tags: {
                     label: "Tags",
-                    tagsPattern: `*/${state.groupId}/tags/*`,
+                    tagsPattern: `*/${groupId}/tags/*`,
                     placeholder: "art, gov, edu, dev, com, nft, ai, social",
                   },
                   linktree: {
