@@ -10,6 +10,7 @@ const availableTabs = [
   "people",
   "forum",
   "resources",
+  "events",
 ];
 const memberTab = props.memberTab ?? "";
 const catTab = props.catTab ?? "";
@@ -40,6 +41,7 @@ const tabContentWidget = {
   people: "BOSHACKS.Members.Main",
   forum: "BOSHACKS.Forum.Main",
   resources: "BOSHACKS.Resources.Main",
+  events: "BOSHACKS.Events.Index"
 }[state.tab];
 
 const tabContent = (
