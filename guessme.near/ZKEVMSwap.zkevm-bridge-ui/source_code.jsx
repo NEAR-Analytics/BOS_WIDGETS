@@ -2,6 +2,7 @@ const DeskLayout = styled.div`
   /* height: 100vh; */
 
   /* The scrollbar track */
+  width: 560px;
 `;
 
 const Layout = styled.div`
