@@ -457,13 +457,13 @@ const content = (
       iconSelected: homeSelected,
     })}
     {navItem({
-      text: "People",
+      text: "Community",
       id: "people",
       icon: speakers,
       iconSelected: speakersSelected,
     })}
     {navItem({
-      text: "Forum",
+      text: "Marketplace",
       id: "forum",
       icon: forum,
       iconSelected: forumSelected,
