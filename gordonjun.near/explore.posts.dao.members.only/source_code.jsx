@@ -152,7 +152,6 @@ const FeedWrapper = styled.div`
 const ChatroomWrapper = styled.div`
   padding: 24px 24px 0;
   flex-direction: row;
-  max-height: 500px;
 `;
 
 const Text = styled.p`
