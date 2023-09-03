@@ -331,7 +331,16 @@ const config = {
       symbol: "WBTC",
       decimals: 8,
       icon: "https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png",
-      onDexes: ["Agni Finance", "FusionX V3", "iZiSwap", "Ammos Finance"],
+      onDexes: ["FusionX V3", "iZiSwap", "Ammos Finance"],
+    },
+
+    {
+      address: "0xAfAF32C57659BC9992b43bc6840A9d997632a0F5",
+      chainId: MANTLE_MAINNET_CHAIN_ID,
+      symbol: "DAI",
+      decimals: 18,
+      icon: "https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png?1687143508",
+      onDexes: ["Ammos Finance"],
     },
     {
       address: "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8",
@@ -339,7 +348,7 @@ const config = {
       symbol: "WMNT",
       decimals: 18,
       icon: "https://assets.coingecko.com/coins/images/30983/small/mantle.jpeg?1689416644",
-      onDexes: ["Agni Finance", "FusionX V3", "iZiSwap", "Ammos Finance"],
+      onDexes: ["FusionX V3", "iZiSwap", "Ammos Finance"],
     },
   ],
   defaultDex,
@@ -446,7 +455,7 @@ if (!state.sender || state.selectedChainId !== 5000) {
       src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
       props={{
         title: title,
-        src: "	https://ipfs.near.social/ipfs/bafkreiajvwzt4jfhveovrctyojmcabm5x2nkpho6n2mrlg4c5b6nht3v3a",
+        src: "https://ipfs.near.social/ipfs/bafkreiajvwzt4jfhveovrctyojmcabm5x2nkpho6n2mrlg4c5b6nht3v3a",
         imgStyle: {
           width: "538px",
           height: "203px",
@@ -492,8 +501,6 @@ const loadApprove = (data) => {
   });
 };
 
-console.log("state.isApproved: ", state.isApproved);
-
 const onButtonClick = () => {
   if (!state.isApproved) {
     return state.handleApprove(state.tokenInAmount, tokenIn.decimals);
@@ -511,7 +518,7 @@ const canSwap =
 const insufficientBalance =
   state.tokenInBalance !== "" &&
   Number(state.tokenInBalance || 0) < Number(state.tokenInAmount || 0) &&
-  state.tokenin.address !== state.tokenOut.address &&
+  state.tokenIn.address !== state.tokenOut.address &&
   !!state.sender &&
   Number(state.tokenInAmount || 0) > 0;
 
@@ -542,9 +549,15 @@ return (
               });
             },
             onChangeAmount: (amount) => {
-              console.log("amount: ", amount);
+              const targetValue = amount;
+              if (targetValue !== "" && !targetValue.match(/^\d*(\.\d*)?$/)) {
+                return;
+              }
+
+              let tokenInAmount = targetValue.replace(/^0+/, "0"); // remove prefix 0
+
               State.update({
-                tokenInAmount: amount,
+                tokenInAmount: tokenInAmount,
               });
 
               debounceAmountQuote();
