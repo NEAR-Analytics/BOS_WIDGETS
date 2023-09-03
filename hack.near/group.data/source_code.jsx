@@ -1,8 +1,12 @@
-const creatorId = props.creatorId || "james.near";
-
 const groupId = props.groupId || "6fd36ddf4884flm20pbe91e7b208b88d16";
 
-const initMembers = Social.get(`${creatorId}/thing/${groupId}/members/*`);
+const initMembers = Social.get(
+  `${context.accountId}/thing/${groupId}/members/*`
+);
+
+if (!initMembers) {
+  return "group not found";
+}
 
 State.init({
   group,
@@ -55,7 +59,7 @@ const handleCreate = () => {
     methodName: "set",
     args: {
       data: {
-        [creatorId]: {
+        [context.accountId]: {
           thing: {
             [groupId]: {
               ...state.group,
