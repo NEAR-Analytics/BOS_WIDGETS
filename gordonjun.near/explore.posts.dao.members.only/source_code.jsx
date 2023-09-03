@@ -216,6 +216,15 @@ return (
     {isMember ? (
       <Content>
         <HeaderWrapper>
+          <h2 className="mb-3">apps</h2>
+        </HeaderWrapper>
+        <Widget
+          src="gordonjun.near/widget/dev.search.dao.members.only"
+          props={{ daoId: daoId }}
+        />
+        <br />
+
+        <HeaderWrapper>
           <h2 className="mb-3">post</h2>
         </HeaderWrapper>
         <Widget src="hack.near/widget/create.posts" props={{ domains }} />
