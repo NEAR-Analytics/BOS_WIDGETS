@@ -113,8 +113,8 @@ const hackathons = {
       description:
         "large-scale hackathon festival for web2 & web3 startup builders, developers, and creators with a series of multichain developer bootcamps and workshops, sponsored by DevHub, Pagoda, Proximity Lab, Near Foundation, Web3Foundation, QuillAudit",
       category: ["NEAR", "BOS", "Social"],
-      startDate: "8/25/2023",
-      endDate: "9/10/2023",
+      startDate: "8/7/2023",
+      endDate: "8/28/2023",
       prizeAmount: "$17,000+",
       done: false,
       active: true,
@@ -135,6 +135,22 @@ const hackathons = {
       done: false,
       active: true,
       irlOnly: true,
+    },
+            {
+      key: 2,
+      name: "Encode x NEAR Horizon Hackathon",
+      url: "https://www.encode.club/encode-near-horizon-hackathon",
+      image:
+        "https://ipfs.near.social/ipfs/bafybeieginwovr7btytjiwk3jwplbggk7tt4qsxdj7gw6lepk5ndv3p44e",
+      description:
+        "A 4-week hackathon centred around building on NEAR Protocol as a part of the NEAR Horizon initiative to support builders.",
+      category: ["NEAR", "BOS", "Virtual"],
+      startDate: "9/19/2023",
+      endDate: "10/15/2023",
+      prizeAmount: "$23,000+",
+      done: false,
+      active: false,
+      irlOnly: false,
     },
             {
       key: 2,
@@ -241,6 +257,22 @@ const Card = styled.div`
     overflow: hidden;
     transition: all 0.3s ease-in-out;
    }
+  .prize-amount {
+    background-color: gray;
+    color: white;
+       border-radius: 10px;
+       padding: 0.25em;
+       text-align: center;
+
+  }
+    .date {
+    background-color: black;
+    color: white;
+       border-radius: 10px;
+       padding: 0.25em;
+              text-align: center;
+
+  }
 `;
 
 const Hero = styled.div`
@@ -336,19 +368,15 @@ const allCategories = (filteredCats) =>
       <div className="row my-3">
         <div className="d-flex justify-content-between">
           <div className="float-left mx-3">
-            {gateway.github && (
-              <Widget
-                src="ndcplug.near/widget/Deploy.GithubButton"
-                props={{ link: gateway.github }}
-              />
+                        {gateway.prizeAmount && (
+<div className="prize-amount">{gateway.prizeAmount}</div>
+
+            )}
+                                    {gateway.startDate  && gateway.endDate && (
+<div className="date">{gateway.startDate} - {gateway.endDate}</div>
+
             )}
           </div>
-          {gateway.deploy && (
-            <Widget
-              src="ndcplug.near/widget/Deploy.VercelButton"
-              props={{ link: gateway.deploy }}
-            />
-          )}
         </div>
       </div>
     </Card>
