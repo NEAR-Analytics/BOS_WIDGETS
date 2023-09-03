@@ -7,7 +7,7 @@ const Styled = styled.div`
 return (
   <Styled>
     <Widget
-      src="cuongdcdev.near/widget/IframeEmbed"
+      src="cuongdcdev.near/widget/IframeEmbedExternal"
       props={{
         src: "https://vbivn-links.vercel.app/",
       }}
