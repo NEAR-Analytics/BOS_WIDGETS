@@ -22,6 +22,58 @@ if (qs !== state.cacheQs) {
 if (!sender) {
   return "";
 }
+const wethAddress = "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8";
+
+const handleWrap = (type, onSuccess, onError) => {
+  const WethContract = new ethers.Contract(
+    wethAddress,
+    [
+      {
+        constant: false,
+        inputs: [],
+        name: "deposit",
+        outputs: [],
+        payable: true,
+        stateMutability: "payable",
+        type: "function",
+      },
+      {
+        constant: false,
+        inputs: [{ internalType: "uint256", name: "wad", type: "uint256" }],
+        name: "withdraw",
+        outputs: [],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+
+  if (type === 1) {
+    WethContract.deposit({
+      value: ethers.utils.parseEther(amountIn),
+    })
+      .then((tx) => {
+        tx.wait().then((res) => {
+          onSuccess?.(res);
+        });
+      })
+      .catch((err) => {
+        onError?.();
+      });
+  } else {
+    WethContract.withdraw(ethers.utils.parseEther(amountIn))
+      .then((tx) => {
+        tx.wait().then((res) => {
+          onSuccess?.(res);
+        });
+      })
+      .catch((err) => {
+        onError?.();
+      });
+  }
+};
 
 const exactInputAbi = [
   {
@@ -872,6 +924,22 @@ const callSwapIzi = (fee) => {
 };
 
 if (Number(amountIn) > 0 && onLoadSwapCall) {
+  if (tokenIn.symbol === "MNT" && tokenOut.symbol == "WMNT") {
+    onLoadSwapCall({
+      callSwap: () => handleWrap(1),
+    });
+
+    return;
+  }
+
+  if (tokenIn.symbol === "WMNT" && tokenOut.symbol == "MNT") {
+    onLoadSwapCall({
+      callSwap: () => handleWrap(2),
+    });
+
+    return;
+  }
+
   if (selectedDex === "iZiSwap") {
     onLoadSwapCall({ callSwap: callSwapIzi });
   } else {
