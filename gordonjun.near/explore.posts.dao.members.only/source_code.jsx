@@ -216,6 +216,14 @@ return (
     {isMember ? (
       <Content>
         <HeaderWrapper>
+          <h2 className="mb-3">adventures</h2>
+        </HeaderWrapper>
+        <br />
+        <Widget src="gordonjun.near/widget/adventures.menu" />
+        <br />
+        <br />
+
+        <HeaderWrapper>
           <h2 className="mb-3">apps</h2>
         </HeaderWrapper>
         <Widget
@@ -223,11 +231,13 @@ return (
           props={{ daoId: daoId }}
         />
         <br />
+        <br />
 
         <HeaderWrapper>
           <h2 className="mb-3">post</h2>
         </HeaderWrapper>
         <Widget src="hack.near/widget/create.posts" props={{ domains }} />
+        <br />
 
         <HeaderWrapper>
           <h2 className="mb-3">explore</h2>
@@ -284,6 +294,7 @@ return (
             }}
           />
         </FeedWrapper>
+        <br />
 
         <HeaderWrapper>
           <h2 className="mt-3 mb-3">gather</h2>
@@ -299,7 +310,7 @@ return (
         </ChatroomWrapper>
       </Content>
     ) : (
-      <Container>
+      <Content>
         <Flex>
           <div className="mt-3">
             <TextLarge style={{ maxWidth: "600px" }}>
@@ -308,7 +319,7 @@ return (
             </TextLarge>
           </div>
         </Flex>
-      </Container>
+      </Content>
     )}
   </>
 );
