@@ -6,8 +6,8 @@ const Container = styled.div`
   position: relative;
   svg {
     position: absolute;
-    right: -100px;
-    bottom: 32px;
+    right: 300px;
+    bottom: 28px;
   }
   .highlight {
     font-weight: 700;
