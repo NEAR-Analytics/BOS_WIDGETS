@@ -25,6 +25,11 @@ const searchIcon = (
   </svg>
 );
 
+const topImg = 'https://ipfs.near.social/ipfs/bafkreih4g6tq57itr2w3qy6gtrix6adxv3dr6ilgqrofqm7jr67gmpitju'
+
+const trendsImg = 'https://ipfs.near.social/ipfs/bafkreiajqyqbq3egqtu6ddznvl6caghpjffulhfia4f6bsmmlo76t5qosq'
+
+
 const titleIcon = (
   <svg
     width="193"
@@ -54,215 +59,299 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
-  }
 
-  .header-title {
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 48px;
-    text-align: left;
-    padding-bottom: 16px;
-  }
-
-  .mobile {
-    display: none;
-  }
-
-  .title-icon {
-    display: none;
-    margin-top: -36px;
-  }
-  .header-description {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 24px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #979abe;
-  }
-
-  .make-quest {
-    display: none;
-    width: 100%;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 24px;
-    text-align: center;
-    border-radius: 12px;
-    padding: 16px 0;
-    color: #02051e;
-    background: linear-gradient(180deg, #eef3bf 0%, #e9f456 100%);
-  }
-  .input-wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    gap: 32px;
-
-    .input-search-wrapper {
-      position: relative;
-      width: 100%;
-    }
-
-    .search-wrapper {
-      position: absolute;
-      right: 12px;
-      top: 12px;
-    }
-
-    .input-records {
-      background: none;
-      color: #ebf479;
-      border: 1px solid #eef3bc;
+      .header-title {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 48px;
       text-align: left;
-      outline: none;
+      padding-bottom: 16px;
+    }
+
+    .header-title-mobile{
+      display: none;
+    }
+
+    .title-icon-mobile{
+      display: none;
+      margin-top: -36px;
+    }
+    .header-description {
       font-size: 20px;
       font-weight: 500;
       line-height: 24px;
-      padding: 14px;
-      width: 100%;
-      border-radius: 16px;
-      ::placeholder {
-        color: rgba(235, 244, 121, 0.3);
-      }
-    }
-
-    .input-button {
-      width: 169px;
-      height: 64px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, #eef3bf 0%, #e9f456 100%);
-      text-align: center;
-      color: #02051e;
-      flex-shrink: 0;
-      cursor: pointer;
-      vertical-align: middle;
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
-  }
-
-  .quest-title-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .quest-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 22px;
-    text-align: left;
-  }
-
-  .view-all {
-    color: #ecf488;
-    border: 1px solid #ecf488;
-    width: 100px;
-    border-radius: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 14px;
-    padding: 6px 0px;
-    cursor: pointer;
-    :hover {
-      text-decoration: none;
-    }
-  }
-
-  .execute-records {
-    color: #ecf488;
-    border: 1px solid #ecf488;
-    width: 139px;
-    border-radius: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 14px;
-    padding: 6px 0px;
-    :hover {
-      text-decoration: none;
-    }
-  }
-
-  .trend-card {
-    width: 250px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .trend-card-text {
-      color: white;
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 24px;
       letter-spacing: 0em;
-      text-align: center;
+      text-align: left;
+      color: #979abe;
+    }
+  }
 
-      .trend-card-text-number {
-        color: #979abe;
-        font-size: 14px;
-        font-weight: 400;
+  .pc-page{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 28px;
+      .input-wrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      gap: 32px;
+
+      .input-search-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      .search-wrapper {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+      }
+
+      .input-records {
+        background: none;
+        color: #ebf479;
+        border: 1px solid #eef3bc;
         text-align: left;
+        outline: none;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 24px;
+        padding: 14px;
+        width: 100%;
+        border-radius: 16px;
+        ::placeholder {
+          color: rgba(235, 244, 121, 0.3);
+        }
+      }
+
+      .input-button {
+        width: 169px;
+        height: 64px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #eef3bf 0%, #e9f456 100%);
+        text-align: center;
+        color: #02051e;
+        flex-shrink: 0;
+        cursor: pointer;
+        vertical-align: middle;
+        padding-top: 20px;
+        padding-bottom: 20px;
       }
     }
 
-    .trend-card-dapp-name {
+    .quest-title-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .quest-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 22px;
+      text-align: left;
+    }
+
+    .view-all {
+      color: #ecf488;
+      border: 1px solid #ecf488;
+      width: 100px;
+      border-radius: 20px;
+      text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
       gap: 6px;
-      .trend-card-dapp-name-icon {
-        width: 26px;
-        height: 26px;
-        border-radius: 8px;
+      font-size: 14px;
+      padding: 6px 0px;
+      cursor: pointer;
+      :hover {
+        text-decoration: none;
+      }
+    }
+
+    .execute-records {
+      color: #ecf488;
+      border: 1px solid #ecf488;
+      width: 139px;
+      border-radius: 20px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 14px;
+      padding: 6px 0px;
+      :hover {
+        text-decoration: none;
+      }
+    }
+
+    .trend-card {
+      width: 250px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .trend-card-text {
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+        letter-spacing: 0em;
+        text-align: center;
+
+        .trend-card-text-number {
+          color: #979abe;
+          font-size: 14px;
+          font-weight: 400;
+          text-align: left;
+        }
       }
 
-      .trend-card-dapp-name-text {
-        color: #979abe;
-        font-size: 14px;
-        font-weight: 400;
-        text-align: left;
+      .trend-card-dapp-name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 6px;
+        .trend-card-dapp-name-icon {
+          width: 26px;
+          height: 26px;
+          border-radius: 8px;
+        }
+
+        .trend-card-dapp-name-text {
+          color: #979abe;
+          font-size: 14px;
+          font-weight: 400;
+          text-align: left;
+        }
       }
     }
   }
 
+  .mobile-page{
+  display: none;
+  }
+
   @media (max-width: 900px) {
-    .header-title {
-      font-size: 26px;
+
+    .header{
+      .header-title{
+        font-size: 26px;
+      }
+      .header-title-pc{
+        display: none;
+      }
+      .header-title-mobile{
+        display: block;
+        line-height: 36px;
+      }
+      .title-icon-mobile{
+        display: inline-block;
+      }
+      .header-description{
+        font-size: 16px;
+        letter-spacing: 0.4px;
+        line-height: 20px;
+      }
     }
-    .pc {
+
+    .pc-page{
       display: none;
     }
-    .mobile {
+
+    .mobile-page{
       display: block;
-      line-height: 36px;
+        .make-quest-btn{
+          width: 100%;
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 24px;
+          text-align: center;
+          border-radius: 12px;
+          padding: 16px 0;
+          color: #02051E;
+          background: linear-gradient(180deg, #EEF3BF 0%, #E9F456 100%);
+      }
+        .tip-list {
+          margin: 10px 0;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          .tip-list-right{
+            margin-top: 36px;
+          }
+        }
     }
-    .title-icon {
-      display: inline-block;
+  }
+`;
+
+const Container = styled.div`
+  width: 100%;
+  .contentOut {
+    padding-top: 25px;
+    margin-left: 35px; /* 添加这行 */
+  }
+  .contentOut p {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+`;
+
+const MenuContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  .item {
+    flex-grow: 1;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 500;
+    font-size: 16px;
+    color: #7e8a93;
+    cursor: pointer;
+    margin-bottom: 2px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    .item-img{
+      width: 100%;
+      height: 42px;
+      img{
+        width: 40px;
+        height: 40px;
+      }
     }
-    .header-description {
-      font-size: 16px;
-      letter-spacing: 0.4px;
-      line-height: 20px;
-    }
-    .search {
-      display: none;
-    }
-    .make-quest {
-      display: block;
-    }
+  }
+  .item.active {
+    color: #fff;
+    position: relative;
+  }
+  .item.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #E9F456;
+    border-radius: 5px;
+}
+  .item.disable {
+    cursor: not-allowed;
+  }
+  .icon {
+    width: 26px;
   }
 `;
 
@@ -290,18 +379,40 @@ const ArrowRight = (
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
+
+const { activeMenu } = state;
+
+const storedActiveMenu = Storage.get(
+  "activeMenu",
+  "guessme.near/widget/ZKEVMWarmUp.warm-up"
+);
+
+State.init({
+  activeMenu: storedActiveMenu || "myQuest",
+});
+
+State.init({
+  activeMenu: "myQuest",
+});
+function changeTab(menu) {
+  State.update({
+    activeMenu: menu,
+  });
+  Storage.set("activeMenu", menu);
+}
+
+
 return (
   <Wrapper>
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
 
     <div className="header">
-      <div className="header-title pc">Participate In Polygon zkEVM Easily</div>
-      <div className="header-title mobile">
-        Participate in
-        <br />
+      <div className="header-title header-title-pc">Participate In  Polygon zkEVM easily</div>
+      <div className="header-title header-title-mobile">
+        Participate in<br />
         Polygon zkEVM easily
       </div>
-      <div className="title-icon">{titleIcon}</div>
+      <div className="title-icon-mobile">{titleIcon}</div>
 
       <div className="header-description">
         Keep track of your activity and loyalty, make sure we are ready for any
@@ -309,93 +420,151 @@ return (
       </div>
     </div>
 
-    <div className="make-quest">Make A Quest</div>
+    <div className="pc-page">
 
-    <div className="search">
       <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
-    </div>
 
-    <div className="quest-title-wrapper">
-      <div className="quest-title">
-        {myQuestIcon}
-        My Quest
+      <div className="quest-title-wrapper">
+        <div className="quest-title">
+          {myQuestIcon}
+          My Quest
+        </div>
+
+        <a
+          href="/guessme.near/widget/ZKEVM.ExecuteRecords"
+          className="execute-records"
+        >
+          Execute Records
+        </a>
       </div>
 
-      <a
-        href="/guessme.near/widget/ZKEVM.ExecuteRecords"
-        className="execute-records"
-      >
-        Execute Records
-      </a>
-    </div>
+      <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" />
 
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" />
+      <div className="quest-title-wrapper">
+        <div className="quest-title">
+          {trendIcon}
+          Quest Trends{" "}
+        </div>
 
-    <div className="quest-title-wrapper">
-      <div className="quest-title">
-        {trendIcon}
-        Quest Trends{" "}
+        <a className="view-all" href="/guessme.near/widget/ZKEVM.QuestionList">
+          <span>View All</span>
+          {ArrowRight}
+        </a>
       </div>
 
-      <a className="view-all" href="/guessme.near/widget/ZKEVM.QuestionList">
-        <span>View All</span>
-        {ArrowRight}
-      </a>
+      <Widget src="guessme.near/widget/ZKEVMWarmUp.trend-list" />
+
+      <div className="quest-title-wrapper">
+        <div className="quest-title">
+          {hotIcon}
+          Hot Polygon zkEVM DApps{" "}
+        </div>
+      </div>
+
+      <CardListWrapper>
+        <Widget
+          src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+          props={{
+            background: "linear-gradient(180deg, #8C36D8 0%, #24264C 100%)",
+            dappName: "Polygon zkEVM Dex",
+            creator: "guessme.near",
+            widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
+            src: "https://assets.ref.finance/images/zkevm-swap.png",
+          }}
+        />
+        <Widget
+          src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+          props={{
+            background: "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
+            dappName: "zkEVM-bridge",
+            creator: "guessme.near",
+            widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
+            src: "https://assets.ref.finance/images/zkevm-swap.png",
+          }}
+        />
+
+        <Widget
+          src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+          props={{
+            background: "linear-gradient(180deg, #895C5C 0%, #343149 100%)",
+            dappName: "Gamma",
+            creator: "guessme.near",
+            widgetSrc: "guessme.near/widget/ZKEVM.GAMMA",
+
+            src: "https://assets.ref.finance/images/zkevm-swap.png",
+          }}
+        />
+
+        <Widget
+          src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+          props={{
+            background: "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
+            dappName: "AAVE v3",
+            creator: "guessme.near",
+            widgetSrc: "guessme.near/widget/ZKEVM.AAVE",
+            src: "https://assets.ref.finance/images/zkevm-swap.png",
+          }}
+        />
+      </CardListWrapper>
     </div>
 
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.trend-list" />
+    <div className="mobile-page">
+      <div className="make-quest-btn">Make A Quest</div>
+      <div className="tip-list">
+        <div className="tip-list-left"> <img src={topImg} alt="" /></div>
+        <div className="tip-list-right"> <img src={trendsImg} alt="" /></div>
+      </div>
+      <div className="mobile-tab">
+        <Container>
+          <MenuContainer>
+            <div
+              onClick={() => {
+                changeTab("myQuest");
+              }}
+              class={`item ${activeMenu == "myQuest" ? "active" : ""}`}
+            >
+              <div className="item-img">{myQuestIcon}</div>
+              <div className="item-text">My Quest</div>
+            </div>
+            <div
+              onClick={() => {
+                changeTab("questTrends");
+              }}
+              class={`item ${activeMenu == "questTrends" ? "active" : ""}`}
+            >
+              <div className="item-img">{trendIcon}</div>
+              <div className="item-text">Quest Trends{" "}</div>
+            </div>
 
-    <div className="quest-title-wrapper">
-      <div className="quest-title">
-        {hotIcon}
-        Hot Polygon zkEVM DApps{" "}
+            <div
+              class={`item ${activeMenu == "zkEVMDApps" ? "active" : ""}`}
+              onClick={() => {
+                changeTab("zkEVMDApps");
+              }}
+            >
+              <div className="item-img">{hotIcon}</div>
+              <div className="item-text">Hot Polygon<br />zkEVM DApps{" "}</div>
+            </div>
+          </MenuContainer>
+          <div class="flex-grow contentOut">
+            {activeMenu == "myQuest" ? (
+              <>
+                1
+              </>
+            ) : null}
+            {activeMenu == "questTrends" ? (
+              <>
+                2
+              </>
+            ) : null}
+            {activeMenu == "zkEVMDApps" ? (
+              <>
+                3
+              </>
+            ) : null}
+          </div>
+        </Container>
       </div>
     </div>
-
-    <CardListWrapper>
-      <Widget
-        src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-        props={{
-          background: "linear-gradient(180deg, #8C36D8 0%, #24264C 100%)",
-          dappName: "Polygon zkEVM Dex",
-          creator: "guessme.near",
-          widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
-          src: "https://assets.ref.finance/images/zkevm-swap.png",
-        }}
-      />
-      <Widget
-        src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-        props={{
-          background: "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
-          dappName: "zkEVM-bridge",
-          creator: "guessme.near",
-          widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
-          src: "https://assets.ref.finance/images/zkevm-swap.png",
-        }}
-      />
-
-      <Widget
-        src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-        props={{
-          background: "linear-gradient(180deg, #895C5C 0%, #343149 100%)",
-          dappName: "Gamma",
-          creator: "guessme.near",
-          widgetSrc: "guessme.near/widget/ZKEVM.GAMMA",
-
-          src: "https://assets.ref.finance/images/zkevm-swap.png",
-        }}
-      />
-
-      <Widget
-        src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-        props={{
-          background: "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
-          dappName: "AAVE v3",
-          creator: "guessme.near",
-          widgetSrc: "guessme.near/widget/ZKEVM.AAVE",
-          src: "https://assets.ref.finance/images/zkevm-swap.png",
-        }}
-      />
-    </CardListWrapper>
   </Wrapper>
 );
