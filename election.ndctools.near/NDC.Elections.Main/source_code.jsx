@@ -164,9 +164,7 @@ if (state.reload) {
       { headers: { "x-api-key": apiKey } }
     ).then((resp) => {
       if (resp.body) {
-        const myVotes = resp.body.filter((vote) =>
-          ids.includes(vote.proposal_id)
-        );
+        const myVotes = resp.body;
 
         State.update({ myVotes, reload: false });
       }
