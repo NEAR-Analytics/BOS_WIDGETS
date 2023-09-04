@@ -688,12 +688,13 @@ return (
               </PriceArea>
             </div>
             <div>
-              {state.listings.price && context.contractId !== state.owner || state.owner !== state.sender ? (
+              {(state.listings.price && context.contractId !== state.owner) ||
+              state.owner !== state.sender ? (
                 <button>Buy</button>
               ) : state.owner === context.accountId ||
                 state.owner === state.sender ? (
                 <a
-                  href={`#/agwaze.near/widget/GenaDrop.NFTListing?tokenId=${tokenId}&contractId=${contractId}?chainState=${props.chainState}`}
+                  href={`#/agwaze.near/widget/GenaDrop.NFTListing?tokenId=${tokenId}&contractId=${contractId}&chainState=${props.chainState}`}
                 >
                   <button>List</button>
                 </a>
