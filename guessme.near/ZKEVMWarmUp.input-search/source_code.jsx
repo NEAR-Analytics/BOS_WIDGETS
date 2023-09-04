@@ -102,6 +102,33 @@ const Wrapper = styled.div`
       background: rgba(24, 26, 39, 0.3);
     }
   }
+
+  @media (max-width:900px){
+    height: 65vh;
+    .input-wrapper {
+      .input-records{
+       border-bottom: 1px solid #e9f456;
+       border-top: none;
+       border-left: none;
+       border-right: none;
+       border-radius : 0;
+      }
+     .input-button{
+      width: 162px;
+      height: 50px;
+      position: fixed;
+      bottom: 30px;
+      right: 20px;
+      line-height: 14px;
+      font-size: 16px;
+      } 
+    }
+    .search-hint-list{
+      width: 100%;
+      overflow: auto;
+      height: 55vh;
+    }
+  }
 `;
 
 const iconsMap = {
@@ -331,9 +358,8 @@ if (
   (isRepay || isBorrow) &&
   (!!state.selectClose || state?.hintList?.length === 1)
 ) {
-  link = `/bluebiu.near/widget/0vix.Lending?tab=${
-    isRepay ? "repay" : "borrow"
-  }`;
+  link = `/bluebiu.near/widget/0vix.Lending?tab=${isRepay ? "repay" : "borrow"
+    }`;
 }
 
 if (isSupply && (!!state.selectClose || state?.hintList?.length === 1)) {
