@@ -151,9 +151,18 @@ const onChangePurpose = (purpose) => {
 return (
   <div className="mb-3">
     <h3>Publish a New Data Set</h3>
+    <hr></hr>
+    <h5>
+      <a href="https://cannabisgeno.me/survey">
+        *Note: please visit our old website to submit survey responses
+      </a>
+    </h5>
+    <hr></hr>
     <p>
-      This component is in open-beta and still under active construction. DO NOT
-      publish any sensitive or proprietary information.
+      Disclaimer: all parts of this component below this message are in
+      open-beta and still under active development. DO NOT publish any sensitive
+      or proprietary information. We will not be liable for data shared through
+      this platform.
     </p>
     <div className="mb-2">
       Name of Data Set
