@@ -229,6 +229,14 @@ const iconMap = {
       src="https://repository-images.githubusercontent.com/440462673/6872d684-f7ed-463c-9a5c-76542eddbcc4"
     />
   ),
+
+  "0vix Lending": (
+    <img
+      className="quest-card-name-icon "
+      src="https://ipfs.near.social/ipfs/bafkreigyodedyhiqmstq3g5edcqw25yyari4y3rcbsnqtxldb2zb2vpah4"
+    />
+  ),
+
   "native bridge": (
     <svg
       width="26"
