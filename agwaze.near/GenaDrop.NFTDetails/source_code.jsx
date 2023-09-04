@@ -354,8 +354,6 @@ if (state.sender === undefined) {
   }
 }
 
-
-
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
@@ -690,11 +688,12 @@ return (
               </PriceArea>
             </div>
             <div>
-              {state.listings.price && context.contractId !== state.owner ? (
+              {state.listings.price && context.contractId !== state.owner || state.owner !== state.sender ? (
                 <button>Buy</button>
-              ) : (state.owner === context.accountId) || (state.owner === state.sender ) ? (
+              ) : state.owner === context.accountId ||
+                state.owner === state.sender ? (
                 <a
-                  href={`#/agwaze.near/widget/GenaDrop.NFTListing?tokenId=${tokenId}&contractId=${contractId}`}
+                  href={`#/agwaze.near/widget/GenaDrop.NFTListing?tokenId=${tokenId}&contractId=${contractId}?chainState=${props.chainState}`}
                 >
                   <button>List</button>
                 </a>
