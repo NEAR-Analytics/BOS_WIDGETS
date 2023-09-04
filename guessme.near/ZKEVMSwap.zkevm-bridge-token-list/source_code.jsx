@@ -39,6 +39,10 @@ const CurrentToken = styled.div`
     position: absolute;
     right: 12px;
     top: 7px;
+
+    @media (max-width: 1023px) {
+      transform: scale(0.9);
+    }
   }
 `;
 
@@ -49,6 +53,11 @@ const BoxWrapper = styled.div`
   border-radius: 16px;
   padding: 8px 0px;
   width: 488px;
+
+  @media (max-width: 1023px) {
+    width: 300px;
+  }
+
   right: 0px;
   max-height: 250px;
   z-index: 100;
