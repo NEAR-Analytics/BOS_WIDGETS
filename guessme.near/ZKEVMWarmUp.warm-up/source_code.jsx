@@ -25,6 +25,12 @@ const searchIcon = (
   </svg>
 );
 
+const titleIcon = (
+  <svg width="193" height="16" viewBox="0 0 193 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 14.0001C36 10.5001 112.6 3.20006 147 2.00006C190 0.500062 199.5 4.50006 185 8.00006" stroke="#E9F456" stroke-width="3" stroke-linecap="round" />
+  </svg>
+)
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,6 +52,15 @@ const Wrapper = styled.div`
     text-align: left;
     padding-bottom: 16px;
   }
+
+  .mobile{
+    display: none;
+  }
+
+  .title-icon{
+    display: none;
+    margin-top: -36px;
+  }
   .header-description {
     font-size: 20px;
     font-weight: 500;
@@ -53,6 +68,19 @@ const Wrapper = styled.div`
     letter-spacing: 0em;
     text-align: left;
     color: #979abe;
+  }
+
+  .make-quest{
+    display: none;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 12px;
+    padding: 16px 0;
+    color: #02051E;
+    background: linear-gradient(180deg, #EEF3BF 0%, #E9F456 100%);
   }
   .input-wrapper {
     display: flex;
@@ -198,6 +226,33 @@ const Wrapper = styled.div`
       }
     }
   }
+
+  @media (max-width: 900px) {
+    .header-title{
+      font-size: 26px;
+    }
+    .pc{
+      display: none;
+    }
+    .mobile{
+      display: block;
+      line-height: 36px;
+    }
+    .title-icon{
+      display: inline-block;
+    }
+    .header-description{
+      font-size: 16px;
+      letter-spacing: 0.4px;
+      line-height: 20px;
+    }
+    .search{
+      display: none;
+    }
+    .make-quest{
+      display: block;
+    }
+  }
 `;
 
 const CardListWrapper = styled.div`
@@ -229,7 +284,12 @@ return (
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
 
     <div className="header">
-      <div className="header-title">Participate In zkEVM Easily</div>
+      <div className="header-title pc">Participate In zkEVM Easily</div>
+      <div className="header-title mobile">
+        Participate in<br />
+        Polygon zkEVM easily
+      </div>
+      <div className="title-icon">{titleIcon}</div>
 
       <div className="header-description">
         Keep track of your activity and loyalty, make sure we are ready for any
@@ -237,7 +297,14 @@ return (
       </div>
     </div>
 
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
+    <div className="make-quest">
+      Make A Quest
+      
+    </div>
+
+    <div className="search">
+      <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
+    </div>
 
     <div className="quest-title-wrapper">
       <div className="quest-title">
