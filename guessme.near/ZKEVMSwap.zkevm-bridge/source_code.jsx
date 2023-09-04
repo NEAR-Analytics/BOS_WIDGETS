@@ -1,9 +1,11 @@
+const { layout } = props;
+
 const Container = styled.div`
   display: flex;
   gap: 8px;
   flex-direction: column;
   /* position: fixed; */
-  align-items: center;
+  align-items: ${layout === "left" ? "start" : "center"};
   /* justify-content: center; */
 
   /* left: 50%; */
