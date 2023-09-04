@@ -230,25 +230,9 @@ return (
         <div className="d-flex justify-content-between align-items-center">
           <H1>Create Work Group</H1>
           <Submitcontainer>
-            <Widget
-              src={widgets.styledComponents}
-              props={{
-                Button: {
-                  style: "danger",
-                  text: "Close",
-                  onClick: handleClose,
-                },
-              }}
-            />
-            <Widget
-              src={widgets.styledComponents}
-              props={{
-                Button: {
-                  text: "Submit",
-                  onClick: () => handleCreate(),
-                },
-              }}
-            />
+            <button className="btn btn-success m-1" onClick={handleCreate}>
+              Submit
+            </button>
           </Submitcontainer>
         </div>
         <Hr />
@@ -349,3 +333,4 @@ return (
     </div>
   </>
 );
+no;
