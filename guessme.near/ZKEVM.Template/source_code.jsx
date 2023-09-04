@@ -3,6 +3,11 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 30px 36px;
   color: #fff;
+
+  @media (max-width: 900px) {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 `;
 
 const Search = styled.div`
