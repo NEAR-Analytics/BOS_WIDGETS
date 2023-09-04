@@ -53,10 +53,10 @@ const currentChainProps = {
 
 const chains = ["polygon", "aurora", "arbitrum", "celo"];
 
-const chainState = chains.find((data) => data.includes("polygon"));
+const chainState = chains.find((data) => data.includes(props.chainState));
 
 if (chainState) {
-  let response = fetch(currentChainProps["polygon"]?.subgraph, {
+  let response = fetch(currentChainProps[props.chainState]?.subgraph, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -64,7 +64,7 @@ if (chainState) {
     body: JSON.stringify({
       query: `
             query MyQuery {
-             nfts(where: {tokenID: "249170"}) {
+             nfts(where: {tokenID: "${props.tokenId}"}) {
                 category
                 chain
                 createdAtTimestamp
@@ -459,7 +459,7 @@ return (
                 <div className="d-flex align-items-center gap-3">
                   <span>{getUsdValue(props.state.amount / 1e24 || 0)}</span>
                   <PriceInput className="border rounded">
-                    <img src={currentChainProps["polygon"].img} />
+                    <img src={currentChainProps[props.chainState || 'near'].img} />
                     <input
                       type="number"
                       placeholder={props.state.amount / 1e24}
