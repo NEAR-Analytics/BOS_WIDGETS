@@ -168,7 +168,7 @@ if (state.reload) {
           ids.includes(vote.proposal_id)
         );
 
-        console.log(myVotes);
+        console.log(resp.body);
 
         State.update({ myVotes, reload: false });
       }
