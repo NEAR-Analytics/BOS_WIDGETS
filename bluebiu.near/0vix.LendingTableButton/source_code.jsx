@@ -13,6 +13,9 @@ const Button = styled.button`
   &.primary {
     background-color: #8b71c2;
   }
+  @media (max-width: 640px) {
+    width: 100%;
+  }
 `;
 
 const { isPrimary, text, onClick } = props;
