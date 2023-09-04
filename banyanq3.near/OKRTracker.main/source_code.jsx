@@ -213,7 +213,7 @@ return (
       <Widget
         src="hackerhouse.near/widget/ProgressBar"
         props={{
-          infoTitle: "Q2 Builders Who Shipped 1+ Component",
+          infoTitle: "Q3 Builders Who Shipped 1+ Component",
           numerator: numberOfBuildersWhoDeployed,
           total: builderTarget,
         }}
@@ -247,7 +247,7 @@ return (
     </div>
     <p> Current NYC Followers: {nycFollowers}</p>
     <p> Current SF Followers: {sfFollowers}</p>
-    <h3 className="m-2">Q2 BOS Builders</h3>
+    <h3 className="m-2">Q3 BOS Builders</h3>
     <div className="m-2">Total Widgets: {totalWidgetCount}</div>{" "}
     {accountWidgetCount.map((rank, index) => {
       let accountId = rank.accountId;
