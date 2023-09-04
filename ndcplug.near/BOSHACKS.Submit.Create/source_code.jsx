@@ -146,6 +146,7 @@ initState({
   seekingFunding: false,
   selectedElements: [],
   projectUrl: "",
+  demoUrl: "",
 
   //
   author_id: context.accountId,
@@ -209,7 +210,8 @@ const onSubmit = () => {
       state.supervisor,
       state.bounty,
       state.teammates,
-      state.projectUrl
+      state.projectUrl,
+      state.demoUrl
     ),
   };
 
@@ -474,6 +476,25 @@ const projectDiv = (
     />
   </div>
 );
+const demoDiv = (
+  <div className="col-lg-12 mb-2">
+    <p className="fs-6 fw-bold mb-1">Demo Link</p>
+    <p class="text-muted w-75 my-1"> Put a URL of your demo/pitch </p>
+    <textarea
+      value={state.demoUrl}
+      type="text"
+      rows={1}
+      className="form-control"
+      onInput={(event) => textareaInputHandlerTeam(event.target.value)}
+      onKeyUp={(event) => {
+        if (event.key === "Escape") {
+          State.update({ showAccountAutocomplete: false });
+        }
+      }}
+      onChange={(event) => State.update({ demoUrl: event.target.value })}
+    />
+  </div>
+);
 const bountiesDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-6 fw-bold mb-1">Bounties</p>
@@ -605,17 +626,20 @@ function generateDescription(
   supervisor,
   bounty,
   teammates,
-  projectUrl
+  projectUrl,
+  demoUrl
 ) {
-  const bountyLine = `\n###### Bounties:\n ${bounty}\n`;
-  const teammateLine = `\n###### Teammates:\n ${teammates}\n`;
+  const bountyLine = `\n###### 💸 Bounties:\n ${bounty}\n`;
+  const teammateLine = `\n###### 👭 Teammates:\n ${teammates}\n`;
 
-  const projectLine =  `\n###### Project Link:\n ${projectUrl}\n`;
+  const projectLine = `\n###### 🔗 Project Link:\n ${projectUrl}\n`;
+  const demoLine = `\n###### 🎥 Demo Link:\n ${demoUrl}\n`;
   const newText = text;
   if (bounty.length > 0) newText += bountyLine;
-  
+
   if (teammates.length > 0) newText += teammateLine;
-    if (projectUrl.length > 0) newText += projectLine;
+  if (projectUrl.length > 0) newText += projectLine;
+  if (demoUrl.length > 0) newText += demoLine;
 
   const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
@@ -671,6 +695,7 @@ return (
                 {bountiesDiv}
                 {teamDiv}
                 {projectDiv}
+                {demoDiv}
                 {labelEditor}
 
                 {state.seekingFunding && fundraisingDiv}
@@ -709,7 +734,8 @@ return (
                         state.supervisor,
                         state.bounty,
                         state.teammates,
-                        state.projectUrl
+                        state.projectUrl,
+                        state.demoUrl
                       ),
                       github_link: state.githubLink,
                     },
