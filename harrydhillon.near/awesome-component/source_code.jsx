@@ -1,1 +1,1 @@
-return <div>Hello World is amazing</div>;
+return <div>New component</div>;
