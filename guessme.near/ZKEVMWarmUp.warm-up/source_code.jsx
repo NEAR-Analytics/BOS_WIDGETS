@@ -382,6 +382,9 @@ const CardListWrapper = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: ${(props) => (props.isMyQuest ? "18px" : "32px")};
+  @media (max-width:900px) {
+    
+  }
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -578,7 +581,51 @@ return (
             ) : null}
             {activeMenu == "zkEVMDApps" ? (
               <>
-                3
+                <CardListWrapper>
+                  <Widget
+                    src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+                    props={{
+                      background: "linear-gradient(180deg, #8C36D8 0%, #24264C 100%)",
+                      dappName: "Polygon zkEVM Dex",
+                      creator: "guessme.near",
+                      widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
+                      src: "https://assets.ref.finance/images/zkevm-swap.png",
+                    }}
+                  />
+                  <Widget
+                    src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+                    props={{
+                      background: "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
+                      dappName: "zkEVM-bridge",
+                      creator: "guessme.near",
+                      widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
+                      src: "https://assets.ref.finance/images/zkevm-swap.png",
+                    }}
+                  />
+
+                  <Widget
+                    src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+                    props={{
+                      background: "linear-gradient(180deg, #895C5C 0%, #343149 100%)",
+                      dappName: "Gamma",
+                      creator: "guessme.near",
+                      widgetSrc: "guessme.near/widget/ZKEVM.GAMMA",
+
+                      src: "https://assets.ref.finance/images/zkevm-swap.png",
+                    }}
+                  />
+
+                  <Widget
+                    src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+                    props={{
+                      background: "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
+                      dappName: "0vix Lending",
+                      creator: "bluebiu.near",
+                      widgetSrc: "bluebiu.near/widget/0vix.Lending",
+                      src: "https://assets.ref.finance/images/zkevm-swap.png",
+                    }}
+                  />
+                </CardListWrapper>
               </>
             ) : null}
           </div>
