@@ -12,6 +12,9 @@ const Line = styled.div`
   height: 42px;
   width: 1px;
   background-color: #332c4b;
+  @media (max-width: 640px) {
+    display: none;
+  }
 `;
 const Label = styled.div`
   font-size: 16px;
@@ -19,6 +22,10 @@ const Label = styled.div`
   line-height: 20px;
   text-align: center;
   padding-bottom: 6px;
+  @media (max-width: 640px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
 `;
 const Value = styled.div`
   display: flex;
