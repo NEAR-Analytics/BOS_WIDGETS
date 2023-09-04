@@ -30,7 +30,7 @@ State.init({
   blacklisted: false,
   greylisted: false,
   candidateId: "",
-  isBonded: true,
+  isBonded: false,
   reload: true,
   houses: [],
   acceptedPolicy: false,
