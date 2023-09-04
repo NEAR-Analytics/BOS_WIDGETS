@@ -5,11 +5,8 @@ const Container = styled.div`
   gap: 8px;
   flex-direction: column;
   /* position: fixed; */
-  align-items: ${layout === "left" ? "start" : "center"};
-  /* justify-content: center; */
+  align-items: center;
 
-  /* left: 50%; */
-  /* top: 50%; */
   z-index: 0;
   width: 100%;
   /* transform: translate(-50%); */
@@ -545,7 +542,11 @@ if (chainId === undefined) return <div />;
 
 return (
   <>
-    <Container>
+    <Container
+      style={{
+        alignItems: layout == "left" ? "start" : "center",
+      }}
+    >
       <Widget
         src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
         props={{ tokens }}
