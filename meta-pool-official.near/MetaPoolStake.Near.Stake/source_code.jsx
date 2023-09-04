@@ -1,13 +1,13 @@
 const authorId = "meta-pool-official.near";
+const tokenDecimals = 24;
+const contractId = "meta-pool.near";
+const GAS = "200000000000000";
+const { isSignedIn, update, state, handleInputNear, onClickMaxNear } = props;
 
-const {
-  isSignedIn,
-  update,
-  state,
-  onSubmitStake,
-  handleInputNear,
-  onClickMaxNear,
-} = props;
+const onSubmitStake = () => {
+  const deposit = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
+  Near.call(contractId, "deposit_and_stake", {}, GAS, deposit);
+};
 
 const StakeContainer = styled.div`
     width: 100%;
