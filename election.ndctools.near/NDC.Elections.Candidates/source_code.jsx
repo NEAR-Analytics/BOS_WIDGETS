@@ -886,6 +886,8 @@ console.log(
     ? !isBudgetWinner("yes")
     : !votedForBudget("yes") || blacklisted
 );
+console.log(blacklisted);
+console.log("---", !votedForBudget("yes"));
 
 const CastBudgetVote = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
