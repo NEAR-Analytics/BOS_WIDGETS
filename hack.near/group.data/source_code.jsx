@@ -1,28 +1,29 @@
-const groupId = props.groupId || "6fd36ddf4884flm20pbe91e7b208b88d16";
+const groupId = props.groupId || "5d8c50e9c475elm0wxzpcb8d5980836595";
 
-const initMembers = Social.get(
-  `${context.accountId}/thing/${groupId}/members/*`
-);
-
-if (!initMembers) {
+if (!groupId) {
   return "group not found";
 }
 
+const initMembers =
+  Social.get(`${context.accountId}/thing/${groupId}/members`) || [];
+
 State.init({
+  groupId,
   group,
   members: initMembers,
   newMember: "",
 });
 
 function addMember(newMember) {
+  state.members.push(newMember);
+
   State.update({
-    members: { ...state.members, [newMember]: "" },
+    members: state.members,
   });
 }
 
 function removeMember(memberKey) {
-  const updatedMembers = { ...state.members };
-  delete updatedMembers[memberKey];
+  const updatedMembers = state.members.filter((member) => member !== memberKey);
 
   State.update({
     members: updatedMembers,
@@ -61,13 +62,13 @@ const handleCreate = () => {
       data: {
         [context.accountId]: {
           thing: {
-            [groupId]: {
+            [state.groupId]: {
               ...state.group,
               members: { ...state.members },
             },
           },
           graph: {
-            [groupId]: {
+            [state.groupId]: {
               ...state.members,
             },
           },
@@ -81,112 +82,154 @@ const handleCreate = () => {
   Near.call(Group_Payload).then(() => handleClose());
 };
 
+const groupData = Social.get(
+  `${context.accountId}/thing/${state.groupId}/members`
+);
+
 return (
   <>
     <div className="row">
       <div className="col-lg-6">
         <h5>Edit Group</h5>
-        <>
-          <div className="mt-2">
-            <Widget src="hack.near/widget/group.card" props={{ groupId }} />
-          </div>
-          <div className="mt-3">
-            <button className="btn btn-success me-2" onClick={handleCreate}>
-              update
-            </button>
-            <button
-              className="btn btn-secondary me-2"
-              href={`/hack.near/widget/group?groupId=${groupId}`}
-            >
-              view
-            </button>
-          </div>
-        </>
-        <div className="mb-2 mt-3">
-          <Widget
-            src="near/widget/MetadataEditor"
-            props={{
-              initialMetadata: group,
-              onChange: (group) => State.update({ group }),
-              options: {
-                name: { label: "Name" },
-                image: { label: "Logo" },
-                description: { label: "About" },
-                tags: {
-                  label: "Tags",
-                  tagsPattern: `*/${groupId}/tags/*`,
-                  placeholder: "art, gov, edu, dev, com, nft, ai, social",
-                },
-                linktree: {
-                  links: [
-                    {
-                      label: "Twitter",
-                      prefix: "https://twitter.com/",
-                      name: "twitter",
-                    },
-                    {
-                      label: "Github",
-                      prefix: "https://github.com/",
-                      name: "github",
-                    },
-                    {
-                      label: "Telegram",
-                      prefix: "https://t.me/",
-                      name: "telegram",
-                    },
-                    {
-                      label: "Website",
-                      prefix: "https://",
-                      name: "website",
-                    },
-                  ],
-                },
-              },
-            }}
-          />
-        </div>
-      </div>
-      <div className="col-lg-6">
-        <>
-          <div>
-            <h5>Account ID</h5>
-            <input
-              placeholder="<example>.near"
-              onChange={(e) => State.update({ newMember: e.target.value })}
-            />
-            <div className="d-flex align-items-center mt-2">
+        <input
+          placeholder={groupId}
+          onChange={(e) => State.update({ groupId: e.target.value })}
+        />
+        {groupData && (
+          <>
+            <div className="mt-3">
+              <button className="btn btn-success me-2" onClick={handleCreate}>
+                save
+              </button>
               <button
-                className="btn btn-primary mt-2"
-                onClick={() => addMember(state.newMember)}
+                className="btn btn-secondary me-2"
+                href={`/hack.near/widget/group?groupId=${groupId}`}
               >
-                add
+                view
               </button>
             </div>
-          </div>
-          <hr />
-          <div>
-            <h5>Members</h5>
-            {Object.keys(state.members).map((a) => {
-              return (
-                <div className="d-flex m-2 p-2 justify-content-between align-items-center">
-                  <div className="d-flex align-items-center">
-                    <Widget
-                      src="mob.near/widget/Profile"
-                      props={{ accountId: a }}
-                    />
-                  </div>
-                  <button
-                    className="btn btn-danger m-1"
-                    disabled={!isNearAddress(a)}
-                    onClick={() => removeMember(a)}
-                  >
-                    remove
-                  </button>
+            <div className="mt-4">
+              <h5>Details</h5>
+              <Widget
+                src="near/widget/MetadataEditor"
+                props={{
+                  initialMetadata: group,
+                  onChange: (group) => State.update({ group }),
+                  options: {
+                    name: {
+                      label: "Name",
+                    },
+                    image: { label: "Logo" },
+                    description: { label: "About" },
+                    tags: {
+                      label: "Tags",
+                      tagsPattern: `*/${groupId}/tags/*`,
+                      placeholder: "art, gov, edu, dev, com, nft, ai, social",
+                    },
+                    linktree: {
+                      links: [
+                        {
+                          label: "Twitter",
+                          prefix: "https://twitter.com/",
+                          name: "twitter",
+                        },
+                        {
+                          label: "Github",
+                          prefix: "https://github.com/",
+                          name: "github",
+                        },
+                        {
+                          label: "Telegram",
+                          prefix: "https://t.me/",
+                          name: "telegram",
+                        },
+                        {
+                          label: "Website",
+                          prefix: "https://",
+                          name: "website",
+                        },
+                      ],
+                    },
+                  },
+                }}
+              />
+            </div>
+          </>
+        )}
+      </div>
+      <div className="col-lg-6">
+        {groupData && (
+          <>
+            <div>
+              <h5>Add Members</h5>
+              <input
+                placeholder="<example>.near"
+                onChange={(e) => State.update({ newMember: e.target.value })}
+              />
+              <div className="d-flex align-items-center mt-2">
+                <button
+                  className="btn btn-primary mt-2"
+                  onClick={() => addMember(state.newMember)}
+                >
+                  add
+                </button>
+              </div>
+            </div>
+            <br />
+            {state.groupId === groupId ? (
+              <div>
+                <h5>Profiles</h5>
+
+                {JSON.parse(state.members).map((a, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="d-flex m-2 p-2 justify-content-between align-items-center"
+                    >
+                      <Widget
+                        key={i}
+                        src="mob.near/widget/Profile"
+                        props={{ accountId: a }}
+                      />
+                      <button
+                        className="btn btn-danger m-1"
+                        onClick={() => removeMember(a)}
+                      >
+                        remove
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <>
+                <div>
+                  <h5>Profiles</h5>
+                  {JSON.parse(groupData).map((a, i) => {
+                    return (
+                      <div
+                        key={i}
+                        className="d-flex m-2 p-2 justify-content-between align-items-center"
+                      >
+                        <Widget
+                          key={i}
+                          src="mob.near/widget/Profile"
+                          props={{ accountId: a }}
+                        />
+                        <button
+                          className="btn btn-danger m-1"
+                          onClick={() => removeMember(a)}
+                        >
+                          remove
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
-          </div>
-        </>
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   </>
