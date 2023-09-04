@@ -459,7 +459,9 @@ return (
                 <div className="d-flex align-items-center gap-3">
                   <span>{getUsdValue(props.state.amount / 1e24 || 0)}</span>
                   <PriceInput className="border rounded">
-                    <img src={currentChainProps[props.chainState || 'near'].img} />
+                    <img
+                      src={currentChainProps[props.chainState || "near"].img}
+                    />
                     <input
                       type="number"
                       placeholder={props.state.amount / 1e24}
