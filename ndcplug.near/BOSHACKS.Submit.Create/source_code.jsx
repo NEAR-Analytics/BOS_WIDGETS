@@ -1,3 +1,6 @@
+/**
+ * Require a project link
+ */
 const nearDevGovGigsContractAccountId =
   props.nearDevGovGigsContractAccountId || "devgovgigs.near".split("/", 1)[0];
 
@@ -12,7 +15,6 @@ function widget(widgetName, widgetProps, key) {
     nearDevGovGigsWidgetsAccountId: props.nearDevGovGigsWidgetsAccountId,
     referral: props.referral,
   };
-
 
   return (
     <Widget
@@ -61,11 +63,18 @@ const AutoComplete = styled.div`
   }
 `;
 
-
-
 function textareaInputHandler(value) {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
   State.update({ text: value, showAccountAutocomplete });
+}
+function textareaInputHandlerTeam(value) {
+  const showAccountAutocompleteTeam = /@[\w][^\s]*$/.test(value);
+  State.update({ text1: value, showAccountAutocompleteTeam });
+}
+function autoCompleteAccountIdTeam(id) {
+  let description = state.teammates.replace(/[\s]{0,1}@[^\s]*$/, "");
+  let teammates = `${description} @${id}`.trim() + " ";
+  State.update({ teammates, showAccountAutocompleteTeam: false });
 }
 
 function autoCompleteAccountId(id) {
@@ -98,12 +107,11 @@ const elements = [
   "CreativesDAO",
   "GenaDrop",
   "NDC GWG",
-  "Milachain",
+  "Mailchain",
   "Indexer.xyz",
   "NEAR ReFI",
   "ProofOfVibes",
 ];
-
 
 const handleSelect = (id) => {
   // check if already selected
@@ -118,27 +126,26 @@ const handleSelect = (id) => {
     // update in state, so there is a smooth experience
     State.update({
       selectedElements: updatedElements,
-      bounty: bountyString, 
+      bounty: bountyString,
     });
   } else {
     // not selected, so add to array
     const updatedElements = [...state.selectedElements, id];
     // update in local storage so it can be picked up by the cart
-        const bountyString = JSON.stringify(updatedElements);
+    const bountyString = JSON.stringify(updatedElements);
     console.log("Bounty String: " + bountyString);
     // update in state, so there is a smooth experience
     State.update({
       selectedElements: updatedElements,
-            bounty: bountyString, 
-
+      bounty: bountyString,
     });
   }
 };
 
-
 initState({
   seekingFunding: false,
-    selectedElements: [],
+  selectedElements: [],
+  projectUrl: "",
 
   //
   author_id: context.accountId,
@@ -199,7 +206,10 @@ const onSubmit = () => {
       state.description,
       state.amount,
       state.token,
-      state.supervisor
+      state.supervisor,
+      state.bounty,
+      state.teammates,
+      state.projectUrl
     ),
   };
 
@@ -414,6 +424,56 @@ const descriptionDiv = (
     )}
   </div>
 );
+const teamDiv = (
+  <div className="col-lg-12 mb-2">
+    <p className="fs-6 fw-bold mb-1">Teammates</p>
+    <p class="text-muted w-75 my-1"> @ the near addresses of your teammates</p>
+    <textarea
+      value={state.teammates}
+      type="text"
+      rows={2}
+      className="form-control"
+      onInput={(event) => textareaInputHandlerTeam(event.target.value)}
+      onKeyUp={(event) => {
+        if (event.key === "Escape") {
+          State.update({ showAccountAutocomplete: false });
+        }
+      }}
+      onChange={(event) => State.update({ teammates: event.target.value })}
+    />
+    {autocompleteEnabled && state.showAccountAutocompleteTeam && (
+      <AutoComplete>
+        <Widget
+          src="near/widget/AccountAutocomplete"
+          props={{
+            term: state.text1.split("@").pop(),
+            onSelect: autoCompleteAccountIdTeam,
+            onClose: () => State.update({ showAccountAutocomplete: false }),
+          }}
+        />
+      </AutoComplete>
+    )}
+  </div>
+);
+const projectDiv = (
+  <div className="col-lg-12 mb-2">
+    <p className="fs-6 fw-bold mb-1">Project Link</p>
+    <p class="text-muted w-75 my-1"> Put a URL of your project </p>
+    <textarea
+      value={state.projectUrl}
+      type="text"
+      rows={1}
+      className="form-control"
+      onInput={(event) => textareaInputHandlerTeam(event.target.value)}
+      onKeyUp={(event) => {
+        if (event.key === "Escape") {
+          State.update({ showAccountAutocomplete: false });
+        }
+      }}
+      onChange={(event) => State.update({ projectUrl: event.target.value })}
+    />
+  </div>
+);
 const bountiesDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-6 fw-bold mb-1">Bounties</p>
@@ -435,19 +495,6 @@ const bountiesDiv = (
         </div>
       ))}
     </div>
-
-    {autocompleteEnabled && state.showAccountAutocomplete && (
-      <AutoComplete>
-        <Widget
-          src="near/widget/AccountAutocomplete"
-          props={{
-            term: state.text.split("@").pop(),
-            onSelect: autoCompleteAccountId,
-            onClose: () => State.update({ showAccountAutocomplete: false }),
-          }}
-        />
-      </AutoComplete>
-    )}
   </div>
 );
 
@@ -557,13 +604,22 @@ function generateDescription(
   token,
   supervisor,
   bounty,
-  teammates
+  teammates,
+  projectUrl
 ) {
   const bountyLine = `\n###### Bounties:\n ${bounty}\n`;
-  if (bounty.length > 0) return text + bountyLine;
+  const teammateLine = `\n###### Teammates:\n ${teammates}\n`;
+
+  const projectLine =  `\n###### Project Link:\n ${projectUrl}\n`;
+  const newText = text;
+  if (bounty.length > 0) newText += bountyLine;
+  
+  if (teammates.length > 0) newText += teammateLine;
+    if (projectUrl.length > 0) newText += projectLine;
+
   const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
-  return text;
+  return newText;
 }
 
 return (
@@ -613,6 +669,8 @@ return (
                 {nameDiv}
                 {descriptionDiv}
                 {bountiesDiv}
+                {teamDiv}
+                {projectDiv}
                 {labelEditor}
 
                 {state.seekingFunding && fundraisingDiv}
@@ -649,7 +707,9 @@ return (
                         state.amount,
                         state.token,
                         state.supervisor,
-                        state.bounty
+                        state.bounty,
+                        state.teammates,
+                        state.projectUrl
                       ),
                       github_link: state.githubLink,
                     },
