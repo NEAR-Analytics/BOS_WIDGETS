@@ -275,7 +275,7 @@ const alreadyVoted = (candidateId) =>
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 const votedForBudget = (vote) => {
   const myBVote = myVotes.find((voter) => voter.house === typ);
-  console.log(myBVote);
+
   if (myBVote) myBVote.candidate === vote;
 };
 
@@ -879,6 +879,12 @@ const CastVotes = () => (
       />
     </ActionSection>
   </CastVotesSection>
+);
+
+console.log(
+  state.winnerIds.length > 0
+    ? !isBudgetWinner("yes")
+    : !votedForBudget("yes") || blacklisted
 );
 
 const CastBudgetVote = () => (
