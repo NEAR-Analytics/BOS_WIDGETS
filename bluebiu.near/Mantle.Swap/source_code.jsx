@@ -384,6 +384,56 @@ State.init({
   tokenOutBalance,
 });
 
+if (
+  !state.tokenIn.onDexes.includes(state.selectedDex) &&
+  !state.tokenOut.onDexes.includes(state.selectedDex)
+) {
+  const newTokenIn = config.tokens.find((token) => {
+    return (
+      token.onDexes.includes(state.selectedDex) &&
+      token.symbol !== state.tokenOut.symbol
+    );
+  });
+
+  const newTokenOut = config.tokens.find((token) => {
+    return (
+      token.onDexes.includes(state.selectedDex) &&
+      token.symbol !== newTokenIn.symbol
+    );
+  });
+
+  State.update({
+    tokenIn: newTokenIn,
+    tokenOut: newTokenOut,
+  });
+}
+
+if (!state.tokenIn.onDexes.includes(state.selectedDex)) {
+  const newTokenIn = config.tokens.find((token) => {
+    return (
+      token.onDexes.includes(state.selectedDex) &&
+      token.symbol !== state.tokenOut.symbol
+    );
+  });
+
+  State.update({
+    tokenIn: newTokenIn,
+  });
+}
+
+if (!state.tokenOut.onDexes.includes(state.selectedDex)) {
+  const newTokenOut = config.tokens.find((token) => {
+    return (
+      token.onDexes.includes(state.selectedDex) &&
+      token.symbol !== state.tokenIn.symbol
+    );
+  });
+
+  State.update({
+    tokenOut: newTokenOut,
+  });
+}
+
 const selectedDex = state.selectedDex;
 
 const switchNetwork = (chainId, dex) => {
