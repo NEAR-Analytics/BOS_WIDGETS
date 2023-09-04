@@ -89,18 +89,12 @@ return (
       />
     </BackgroundImage>
     <Tabs>
-              <TabsButton
-            href={`https://creativesdao.org`} target="_blank"
-          >
-            CreativesDAO
-          </TabsButton>
-              <TabsButton
-                       href={`https://linktr.ee/elcafecartel_`} target="_blank"
-          >
-            Cafe Cartel
-          </TabsButton>
-
-
-        </Tabs>
+      <TabsButton href={`https://creativesdao.org/telegram`} target="_blank">
+        CreativesDAO
+      </TabsButton>
+      <TabsButton href={`https://linktr.ee/elcafecartel_`} target="_blank">
+        Cafe Cartel
+      </TabsButton>
+    </Tabs>
   </div>
 );
