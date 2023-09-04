@@ -338,16 +338,21 @@ const handleVote = () => {
 
   const arr = isBonded ? [voteFunc] : [bondFunc, voteFunc];
 
-  Near.call(arr).then((data) =>
-    State.update({
-      bountyProgramModal: false,
-      reload: true,
-    })
-  );
+  State.update({
+    bountyProgramModal: false,
+    reload: true,
+  });
+
+  Near.call(arr);
 };
 
 const handleAcceptToS = () => {
-  State.update({ loading: true });
+  State.update({
+    showToSModal: false,
+    tosAgreement: true,
+    showMintPolicyModal: true,
+    reload: true,
+  });
 
   Near.call(
     electionContract,
@@ -355,14 +360,6 @@ const handleAcceptToS = () => {
     { policy: POLICY_HASH },
     70000000000000,
     1000000000000000000000
-  ).then((data) =>
-    State.update({
-      showToSModal: false,
-      tosAgreement: true,
-      showMintPolicyModal: true,
-      loading: false,
-      reload: true,
-    })
   );
 };
 
