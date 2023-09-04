@@ -151,7 +151,7 @@ const uuid = Storage.get(
 
 const quest_url = `https://bos-api.delink.one/get-action-by-account?account_id=${
   sender || ""
-}&account_info=${uuid}`;
+}&account_info=${uuid}&action_network_id=zkEVM`;
 
 const noQuestTip = (
   <NoQuestWrapper>
