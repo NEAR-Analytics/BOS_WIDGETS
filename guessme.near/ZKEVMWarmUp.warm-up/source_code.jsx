@@ -25,10 +25,11 @@ const searchIcon = (
   </svg>
 );
 
-const topImg = 'https://ipfs.near.social/ipfs/bafkreih4g6tq57itr2w3qy6gtrix6adxv3dr6ilgqrofqm7jr67gmpitju'
+const topImg =
+  "https://ipfs.near.social/ipfs/bafkreih4g6tq57itr2w3qy6gtrix6adxv3dr6ilgqrofqm7jr67gmpitju";
 
-const trendsImg = 'https://ipfs.near.social/ipfs/bafkreiajqyqbq3egqtu6ddznvl6caghpjffulhfia4f6bsmmlo76t5qosq'
-
+const trendsImg =
+  "https://ipfs.near.social/ipfs/bafkreiajqyqbq3egqtu6ddznvl6caghpjffulhfia4f6bsmmlo76t5qosq";
 
 const titleIcon = (
   <svg
@@ -60,7 +61,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     gap: 4px;
 
-      .header-title {
+    .header-title {
       font-size: 40px;
       font-weight: 700;
       line-height: 48px;
@@ -68,11 +69,11 @@ const Wrapper = styled.div`
       padding-bottom: 16px;
     }
 
-    .header-title-mobile{
+    .header-title-mobile {
       display: none;
     }
 
-    .title-icon-mobile{
+    .title-icon-mobile {
       display: none;
       margin-top: -36px;
     }
@@ -86,12 +87,12 @@ const Wrapper = styled.div`
     }
   }
 
-  .pc-page{
+  .pc-page {
     display: flex;
     flex-direction: column;
     width: 100%;
     gap: 28px;
-      .input-wrapper {
+    .input-wrapper {
       display: flex;
       align-items: center;
       position: relative;
@@ -237,59 +238,58 @@ const Wrapper = styled.div`
     }
   }
 
-  .mobile-page{
-  display: none;
+  .mobile-page {
+    display: none;
   }
 
   @media (max-width: 900px) {
-
-    .header{
-      .header-title{
+    .header {
+      .header-title {
         font-size: 26px;
       }
-      .header-title-pc{
+      .header-title-pc {
         display: none;
       }
-      .header-title-mobile{
+      .header-title-mobile {
         display: block;
         line-height: 36px;
       }
-      .title-icon-mobile{
+      .title-icon-mobile {
         display: inline-block;
       }
-      .header-description{
+      .header-description {
         font-size: 16px;
         letter-spacing: 0.4px;
         line-height: 20px;
       }
     }
 
-    .pc-page{
+    .pc-page {
       display: none;
     }
 
-    .mobile-page{
+    .mobile-page {
       display: block;
-        .make-quest-btn{
-          width: 100%;
-          font-size: 20px;
-          font-weight: 700;
-          line-height: 24px;
-          text-align: center;
-          border-radius: 12px;
-          padding: 16px 0;
-          color: #02051E;
-          background: linear-gradient(180deg, #EEF3BF 0%, #E9F456 100%);
+      .make-quest-btn {
+        width: 100%;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: center;
+        border-radius: 12px;
+        padding: 16px 0;
+        color: #02051e;
+        background: linear-gradient(180deg, #eef3bf 0%, #e9f456 100%);
       }
-        .tip-list {
-          margin: 10px 0;
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          .tip-list-right{
-            margin-top: 36px;
-          }
+      .tip-list {
+        margin: 10px 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .tip-list-right {
+          margin-top: 36px;
         }
+      }
     }
   }
 `;
@@ -320,14 +320,14 @@ const MenuContainer = styled.div`
     color: #7e8a93;
     cursor: pointer;
     margin-bottom: 2px;
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    .item-img{
+    .item-img {
       width: 100%;
       height: 42px;
-      img{
+      img {
         width: 40px;
         height: 40px;
       }
@@ -344,9 +344,9 @@ const MenuContainer = styled.div`
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: #E9F456;
+    background-color: #e9f456;
     border-radius: 5px;
-}
+  }
   .item.disable {
     cursor: not-allowed;
   }
@@ -379,7 +379,6 @@ const ArrowRight = (
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
-
 const { activeMenu } = state;
 
 const storedActiveMenu = Storage.get(
@@ -401,15 +400,17 @@ function changeTab(menu) {
   Storage.set("activeMenu", menu);
 }
 
-
 return (
   <Wrapper>
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
 
     <div className="header">
-      <div className="header-title header-title-pc">Participate In  Polygon zkEVM easily</div>
+      <div className="header-title header-title-pc">
+        Participate In Polygon zkEVM easily
+      </div>
       <div className="header-title header-title-mobile">
-        Participate in<br />
+        Participate in
+        <br />
         Polygon zkEVM easily
       </div>
       <div className="title-icon-mobile">{titleIcon}</div>
@@ -421,7 +422,6 @@ return (
     </div>
 
     <div className="pc-page">
-
       <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
 
       <div className="quest-title-wrapper">
@@ -499,9 +499,9 @@ return (
           src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
           props={{
             background: "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
-            dappName: "AAVE v3",
-            creator: "guessme.near",
-            widgetSrc: "guessme.near/widget/ZKEVM.AAVE",
+            dappName: "0vix Lending",
+            creator: "bluebiu.near",
+            widgetSrc: "bluebiu.near/widget/0vix.Lending",
             src: "https://assets.ref.finance/images/zkevm-swap.png",
           }}
         />
@@ -511,8 +511,14 @@ return (
     <div className="mobile-page">
       <div className="make-quest-btn">Make A Quest</div>
       <div className="tip-list">
-        <div className="tip-list-left"> <img src={topImg} alt="" /></div>
-        <div className="tip-list-right"> <img src={trendsImg} alt="" /></div>
+        <div className="tip-list-left">
+          {" "}
+          <img src={topImg} alt="" />
+        </div>
+        <div className="tip-list-right">
+          {" "}
+          <img src={trendsImg} alt="" />
+        </div>
       </div>
       <div className="mobile-tab">
         <Container>
@@ -533,7 +539,7 @@ return (
               class={`item ${activeMenu == "questTrends" ? "active" : ""}`}
             >
               <div className="item-img">{trendIcon}</div>
-              <div className="item-text">Quest Trends{" "}</div>
+              <div className="item-text">Quest Trends </div>
             </div>
 
             <div
@@ -543,25 +549,13 @@ return (
               }}
             >
               <div className="item-img">{hotIcon}</div>
-              <div className="item-text">Hot Polygon<br />zkEVM DApps{" "}</div>
+              <div className="item-text">Hot Polygon zkEVM DApps </div>
             </div>
           </MenuContainer>
           <div class="flex-grow contentOut">
-            {activeMenu == "myQuest" ? (
-              <>
-                1
-              </>
-            ) : null}
-            {activeMenu == "questTrends" ? (
-              <>
-                2
-              </>
-            ) : null}
-            {activeMenu == "zkEVMDApps" ? (
-              <>
-                3
-              </>
-            ) : null}
+            {activeMenu == "myQuest" ? <>1</> : null}
+            {activeMenu == "questTrends" ? <>2</> : null}
+            {activeMenu == "zkEVMDApps" ? <>3</> : null}
           </div>
         </Container>
       </div>
