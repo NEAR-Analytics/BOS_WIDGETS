@@ -131,11 +131,11 @@ const Back = styled.a`
 State.init({
   hotActionList: [],
   searchActionList: [],
-  keywords: ''
+  keywords: "",
 });
 function get_hot_action_list() {
   asyncFetch(
-    "https://bos-api.delink.one/get-hot-action?hot_number=20"
+    "https://bos-api.delink.one/get-hot-action?hot_number=20&action_network_id=zkEVM"
   ).then((res) => {
     const result = JSON.parse(res.body || {}).data || [];
     State.update({
@@ -165,7 +165,7 @@ function get_item_title(action) {
   const key_low = state.keywords.toLowerCase();
   const start_key_index = title_low.indexOf(key_low);
   const end_key_index = start_key_index + key_low.length;
-  
+
   const result = [];
   const arr = action_title.split(" ");
   arr.forEach((split) => {
@@ -173,16 +173,18 @@ function get_item_title(action) {
     const end_split_index = start_split_index + split.length;
     const start_index = Math.max(start_key_index, start_split_index);
     const end_index = Math.min(end_key_index, end_split_index);
-    if (end_index > start_index) { // hit
-      result.push(<span style={{color:'#E9F456'}}>{split}</span>, ' ')
-    } else { // not hit
+    if (end_index > start_index) {
+      // hit
+      result.push(<span style={{ color: "#E9F456" }}>{split}</span>, " ");
+    } else {
+      // not hit
       if (Number(split)) {
-        result.push(<label className="num">{split}</label>, ' ')
+        result.push(<label className="num">{split}</label>, " ");
       } else {
-        result.push(split, ' ');
-      } 
+        result.push(split, " ");
+      }
     }
-  })
+  });
   return result;
 }
 const template_icons = {
