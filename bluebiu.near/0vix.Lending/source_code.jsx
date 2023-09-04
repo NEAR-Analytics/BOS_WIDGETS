@@ -118,7 +118,8 @@ const MARKETS = {
 };
 
 const Container = styled.div`
-  width: 858px;
+  width: 100%;
+  max-width: 858px;
   margin: 0 auto;
   position: relative;
   height: 100%;
@@ -235,6 +236,9 @@ return (
             }}
           />
         </>
+      )}
+      {!state.updateData && (
+        <Widget src="bluebiu.near/widget/0vix.LendingQuest" />
       )}
     </Container>
     <Widget
