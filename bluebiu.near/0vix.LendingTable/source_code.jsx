@@ -55,6 +55,10 @@ const Row = styled.div`
     .special-key {
       display: none;
     }
+
+    &:last-child {
+      border-radius: 10px;
+    }
   }
 `;
 const RowHeader = styled.div`
@@ -81,6 +85,7 @@ const NormalCell = styled.div`
   @media (max-width: 640px) {
     justify-content: space-between;
     padding: 10px 20px 5px;
+    align-items: flex-start;
     .column-name {
       display: block;
     }
@@ -112,6 +117,9 @@ const Cell = styled.div`
   font-weight: 500;
   @media (max-width: 640px) {
     width: 100% !important;
+    &:first-child {
+      margin-bottom: 10px;
+    }
   }
 `;
 const Total = styled.div`
