@@ -13,6 +13,7 @@ State.init({
   description: "",
   date: null,
   isSingleDateEvent: false,
+  isReadDataFromLocal: false,
 });
 
 const Grid = styled.div`
@@ -54,6 +55,28 @@ const AllSteps = [
   },
 ];
 
+const setInput = (key, value) => {
+  const getValue = Storage.get("formValues");
+  console.log(getValue);
+  if (getValue === undefined) {
+    const values = { [key]: value };
+    Storage.set(`formValues`, JSON.stringify(values));
+  } else {
+    const parsedJson = JSON.parse(getValue);
+    const newValuesToSet = { ...parsedJson, [key]: value };
+    Storage.set(`formValues`, JSON.stringify(newValuesToSet));
+  }
+  State.update({ [key]: value });
+};
+
+if (!state.isReadDataFromLocal) {
+  const getValue = Storage.get("formValues");
+  if (getValue) {
+    State.update({ ...JSON.parse(getValue) });
+    console.log(getValue, state.isReadDataFromLocal);
+  }
+}
+
 const formContent = () => {
   return (
     <>
@@ -66,7 +89,9 @@ const formContent = () => {
               inputProps: {
                 placeholder: "Add the name of your event",
                 value: state.eventName,
-                onChange: (e) => State.update({ eventName: e.target.value }),
+                onChange: (e) => {
+                  setInput("eventName", e.target.value);
+                },
               },
             }}
           />
@@ -77,7 +102,7 @@ const formContent = () => {
               inputProps: {
                 placeholder: "Add a description to your event",
                 value: state.description,
-                onChange: (e) => State.update({ description: e.target.value }),
+                onChange: (e) => setInput("description", e.target.value),
               },
             }}
           />
@@ -89,7 +114,7 @@ const formContent = () => {
               inputProps: {
                 placeholder: "Add a location or address to your event",
                 value: state.location,
-                onChange: (e) => State.update({ location: e.target.value }),
+                onChange: (e) => setInput("location", e.target.value),
               },
             }}
           />
@@ -110,7 +135,7 @@ const formContent = () => {
                   inputProps: {
                     value: state.date,
                     type: "date",
-                    onChange: (e) => State.update({ from: e.target.value }),
+                    onChange: (e) => setInput("from", e.target.value),
                   },
                 }}
               />
@@ -131,7 +156,7 @@ const formContent = () => {
                       placeholder: "Select a date range",
                       value: state.date,
                       type: "date",
-                      onChange: (e) => State.update({ from: e.target.value }),
+                      onChange: (e) => setInput("from", e.target.value),
                     },
                   }}
                 />
@@ -147,9 +172,9 @@ const formContent = () => {
                   },
                   inputProps: {
                     placeholder: "Select a date range",
-                    value: state.date,
+                    value: state.to,
                     type: "date",
-                    onChange: (e) => State.update({ to: e.target.value }),
+                    onChange: (e) => setInput("to", e.target.value),
                   },
                 }}
               />
@@ -179,7 +204,6 @@ const formContent = () => {
           <Widget src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
         </div>
         <div style={{ padding: 10 }}>
-          {console.log(state)}
           <Widget
             props={{ ...state, date: state.from }}
             src="harrydhillon.near/widget/Keypom.EventInfo.Eventview"
