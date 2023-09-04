@@ -269,11 +269,8 @@ const handleBridge = (props) => {
       value: token.symbol === "ETH" ? amountBig : "0",
       gasLimit,
     })
-    .then((tx) => {
-      consle.log("tx111111:", tx);
-    })
+    .then((tx) => {})
     .catch((e) => {
-      console.log("bridge error:", e);
       if (!e.code) {
         State.update({
           isToastOpen: true,
@@ -290,7 +287,7 @@ const handleBridge = (props) => {
 
         add_action({
           action_title: `Bridge ${token.symbol} from ${
-            chainId === 1 ? "Ethereum" : "zkEVM"
+            chainId === 1 ? "Ethereum" : "Polygon zkEVM"
           }`,
           action_type: "Bridge",
           action_tokens: JSON.stringify([`${token.symbol}`]),
