@@ -505,7 +505,7 @@ const processNFTAvailability = (result, key) => {
       const tokens = data.nft_tokens;
 
       State.update({
-        [key]: tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
+        [key]: true, //tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
       });
     }
   }
@@ -543,7 +543,7 @@ State.init({
 
   showMintPolicyModal: false,
   showMintIVotedModal: false,
-  hasPolicyNFT: true,
+  hasPolicyNFT: null,
   hasIVotedNFT: null,
   winnerIds: [],
 });
