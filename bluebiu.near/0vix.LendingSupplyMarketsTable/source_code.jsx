@@ -10,7 +10,7 @@ const data = assets.map((record) => {
     totalSupply_value: Big(record.totalSupply)
       .mul(record.underlyingPrice)
       .toString(),
-    loanToValue: record.loanToValue,
+    loanToValue: Number(record.loanToValue).toFixed(2) + "%",
     balance: record.userUnderlyingBalance,
     balance_value: Big(record.userUnderlyingBalance)
       .mul(record.underlyingPrice)
