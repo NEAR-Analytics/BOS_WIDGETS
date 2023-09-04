@@ -1,7 +1,7 @@
 let { ids } = props;
 
 ids = ids ? JSON.parse(ids) : [1, 2, 3, 4];
-const budgetId = 4;
+const budgetId = ids[3];
 
 const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
