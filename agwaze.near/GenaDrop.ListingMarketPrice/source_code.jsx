@@ -291,7 +291,7 @@ State.init({
 
 const getUsdValue = (price) => {
   const res = fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${props.chainState}&vs_currencies=usd`
+    `https://api.coingecko.com/api/v3/simple/price?ids=${currentChainProps[props.chainState.livePrice]}&vs_currencies=usd`
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
@@ -457,7 +457,7 @@ return (
                 <div className="d-flex align-items-center gap-3">
                   <span>{getUsdValue(props.state.amount / 1e24 || 0)}</span>
                   <PriceInput className="border rounded">
-                    <img src={currentChainProps['polygon'].img} />
+                    <img src={currentChainProps["polygon"].img} />
                     <input
                       type="number"
                       placeholder={props.state.amount / 1e24}
@@ -546,7 +546,7 @@ return (
             )}
           </div>
           <div className="d-flex flex-column align-items-center text-center">
-            {(props.state.ownsNFT || state.owner === state.sender) ?(
+            {props.state.ownsNFT || state.owner === state.sender ? (
               <button
                 type="button"
                 className="btn btn-primary mt-3"
@@ -554,12 +554,11 @@ return (
               >
                 List
               </button>
-            ): (
-               <button type="button" className="btn btn-secondary mt-3">
+            ) : (
+              <button type="button" className="btn btn-secondary mt-3">
                 You Can Only List An NFT You Own
               </button>
             )}
-
           </div>
         </div>
       </Main>
