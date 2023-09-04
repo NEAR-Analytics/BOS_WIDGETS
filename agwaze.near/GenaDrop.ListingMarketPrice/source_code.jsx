@@ -1,6 +1,125 @@
-// if (!props.tokenId) {
-//   return <div></div>;
-// }
+const currentChainProps = {
+  near: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+    livePrice: "near",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
+    chain: "near",
+    id: "1112",
+    explorer: "https://explorer.near.org/?query=",
+    logoUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+  },
+  aurora: {
+    img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
+    id: "1313161554",
+    chain: "Aurora",
+    explorer: "https://aurorascan.dev/",
+    livePrice: "ethereum",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
+  },
+  arbitrum: {
+    img: "https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1680097630",
+    id: "42161",
+    chain: "Arbitrum",
+    explorer: "https://arbiscan.io/",
+    livePrice: "ethereum",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
+  },
+  celo: {
+    img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
+    id: "42220",
+    livePrice: "celo",
+    explorer: "https://explorer.celo.org/address/",
+    chain: "Celo",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
+  },
+  polygon: {
+    img: "https://altcoinsbox.com/wp-content/uploads/2023/03/matic-logo.webp",
+    id: "137",
+    chain: "Polygon",
+    livePrice: "matic-network",
+    explorer: "https://polygonscan.com/address/",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
+  },
+  aptos: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqBinSwbRdx76qY4A3qvVkM9g_mKoGCBDT0sqTT02TgRvKquV2Vlc8fSRmLyuhBS3-CaA&usqp=CAU",
+  },
+  sui: {
+    img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
+  },
+};
+
+const chains = ["polygon", "aurora", "arbitrum", "celo"];
+
+const chainState = chains.find((data) => data.includes("polygon"));
+
+if (chainState) {
+  let response = fetch(currentChainProps["polygon"]?.subgraph, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: `
+            query MyQuery {
+             nfts(where: {tokenID: "249170"}) {
+                category
+                chain
+                createdAtTimestamp
+                id
+                isSold
+                isListed
+                price
+                tokenID
+                owner {
+                    id
+                }
+                tokenIPFSPath
+                transactions {
+                  price
+                }
+                }
+            }
+        `,
+    }),
+  });
+  const collectionData = response.body.data.nfts;
+  if (collectionData) {
+    const nftBody = collectionData.map((data) => {
+      const fetchIPFSData = fetch(
+        data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
+      );
+
+      if (fetchIPFSData.ok) {
+        const nft = fetchIPFSData.body;
+        let nftObject = {};
+        nftObject.contract_id = data.id;
+        nftObject.sold = data.isSold;
+        nftObject.isListed = data.isListed;
+        nftObject.owner = data.owner.id;
+        nftObject.price = data.price;
+        nftObject.token_id = data.tokenID;
+        nftObject.name = nft?.name;
+        nftObject.description = nft?.description;
+        nftObject.attributes = nft?.properties;
+        nftObject.image = nft?.image.replace(
+          "ipfs://",
+          "https://ipfs.io/ipfs/"
+        );
+        return nftObject;
+      }
+    });
+    State.update({
+      title: nftBody[0].name,
+      imageUrl: nftBody[0].image,
+      owner: nftBody[0]?.owner,
+      description: nftBody[0]?.description,
+      price: nftBody[0].price,
+    });
+  }
+}
 
 const Label = styled.p`
   font-size: 1.1rem;
@@ -69,6 +188,7 @@ const ImgCard = styled.div`
   margin: 0 auto;
   &>img{
   object-fit: cover;
+  width: 100%;
   }
   object-fit:cover;
 `;
@@ -171,12 +291,11 @@ State.init({
 
 const getUsdValue = (price) => {
   const res = fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd`
+    `https://api.coingecko.com/api/v3/simple/price?ids=${props.chainState}&vs_currencies=usd`
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
     const value = multiplyBy * price.toFixed(2);
-    console.log(value.toFixed(4));
     return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
   }
 };
@@ -187,6 +306,21 @@ const matchedKeyWords = (inputString) => {
   return keywordsToCheck.find((keyword) => inputString.includes(keyword));
 };
 
+const getSender = () => {
+  return !state.sender
+    ? ""
+    : state.sender.substring(0, 6) +
+        "..." +
+        state.sender.substring(state.sender.length - 4, state.sender.length);
+};
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
+
 return (
   <>
     <div className="container-fluid">
@@ -194,20 +328,26 @@ return (
         <BorderedShadowedCard className="shadow-sm rounded-4">
           <div>
             <SecondaryText>
-              {props.state.tokenInfo.metadata.title || "NFT Name"}
+              {state.title
+                ? state.title
+                : props.state.tokenInfo.metadata.title || "NFT Name"}
             </SecondaryText>
           </div>
           <ImgCard className="shadow-sm">
-            <Widget
-              src="mob.near/widget/NftImage"
-              props={{
-                nft: {
-                  tokenId: props.state.tokenId,
-                  contractId: props.state.contractId,
-                },
-                className: "col-lg-12",
-              }}
-            />
+            {state.imageUrl ? (
+              <img src={state.imageUrl} alt="nft_image" />
+            ) : (
+              <Widget
+                src="mob.near/widget/NftImage"
+                props={{
+                  nft: {
+                    tokenId: props.state.tokenId,
+                    contractId: props.state.contractId,
+                  },
+                  className: "col-lg-12",
+                }}
+              />
+            )}
           </ImgCard>
           <div className="d-flex justify-content-between mt-3">
             <span>
@@ -229,7 +369,9 @@ return (
           </div>
           <div className="card rounded-4 shadow-sm p-3 my-3">
             <SecondaryText>Description</SecondaryText>
-            <p>{props.state.tokenInfo.metadata.description}</p>
+            <p>
+              {props.state.tokenInfo.metadata.description ?? state.description}
+            </p>
           </div>
           {Object.keys(props.state.tokenInfo.approved_account_ids || {})
             .length > 0 && (
@@ -315,7 +457,7 @@ return (
                 <div className="d-flex align-items-center gap-3">
                   <span>{getUsdValue(props.state.amount / 1e24 || 0)}</span>
                   <PriceInput className="border rounded">
-                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMSAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2LjU1MjggMS4wMTUyOEwxMi4zNzIyIDcuMjIyMjJDMTIuMzEyNyA3LjMxMTYxIDEyLjI4NzUgNy40MTk1NCAxMi4zMDE0IDcuNTI2MDRDMTIuMzE1MyA3LjYzMjU0IDEyLjM2NzMgNy43MzA0MiAxMi40NDc3IDcuODAxNTZDMTIuNTI4MiA3Ljg3MjcxIDEyLjYzMTcgNy45MTIzMSAxMi43MzkxIDcuOTEzMDVDMTIuODQ2NSA3LjkxMzc4IDEyLjk1MDUgNy44NzU1OSAxMy4wMzE5IDcuODA1NTZMMTcuMTQ3MiA0LjIzNjExQzE3LjE3MTMgNC4yMTQ1MyAxNy4yMDEyIDQuMjAwNDUgMTcuMjMzMiA0LjE5NTU3QzE3LjI2NTIgNC4xOTA2OCAxNy4yOTc5IDQuMTk1MjIgMTcuMzI3NCA0LjIwODYyQzE3LjM1NjggNC4yMjIwMyAxNy4zODE3IDQuMjQzNzEgMTcuMzk5MSA0LjI3MTA0QzE3LjQxNjQgNC4yOTgzNiAxNy40MjU0IDQuMzMwMTQgMTcuNDI1IDQuMzYyNVYxNS41Mzc1QzE3LjQyNSAxNS41NzE3IDE3LjQxNDQgMTUuNjA1MSAxNy4zOTQ4IDE1LjYzMzFDMTcuMzc1MiAxNS42NjExIDE3LjM0NzQgMTUuNjgyNCAxNy4zMTUyIDE1LjY5NDFDMTcuMjgzMSAxNS43MDU4IDE3LjI0ODEgMTUuNzA3MyAxNy4yMTUxIDE1LjY5ODRDMTcuMTgyIDE1LjY4OTUgMTcuMTUyNSAxNS42NzA3IDE3LjEzMDYgMTUuNjQ0NEw0LjY5MTY3IDAuNzU0MTY3QzQuNDkxNTkgMC41MTc5MSA0LjI0MjQ2IDAuMzI4MDYzIDMuOTYxNiAwLjE5NzgyNEMzLjY4MDczIDAuMDY3NTg1IDMuMzc0ODcgNy45Mjk3N2UtMDUgMy4wNjUyOCA3LjM2MDk0ZS0wOEgyLjYzMDU2QzIuMDY1NSA3LjM2MDk0ZS0wOCAxLjUyMzU4IDAuMjI0NDY5IDEuMTI0MDMgMC42MjQwMjVDMC43MjQ0NjggMS4wMjM1OCAwLjUgMS41NjU1IDAuNSAyLjEzMDU2VjE3Ljg2OTRDMC41IDE4LjQzNDUgMC43MjQ0NjggMTguOTc2NCAxLjEyNDAzIDE5LjM3NkMxLjUyMzU4IDE5Ljc3NTUgMi4wNjU1IDIwIDIuNjMwNTYgMjBDMi45OTQ4OCAyMC4wMDAxIDMuMzUzMTYgMTkuOTA2OCAzLjY3MTE5IDE5LjcyOTFDMy45ODkyMiAxOS41NTEzIDQuMjU2NCAxOS4yOTUxIDQuNDQ3MjIgMTguOTg0N0w4LjYyNzc4IDEyLjc3NzhDOC42ODczMiAxMi42ODg0IDguNzEyNDggMTIuNTgwNSA4LjY5ODYgMTIuNDc0QzguNjg0NzIgMTIuMzY3NSA4LjYzMjc0IDEyLjI2OTYgOC41NTIyOCAxMi4xOTg0QzguNDcxODIgMTIuMTI3MyA4LjM2ODMyIDEyLjA4NzcgOC4yNjA5MiAxMi4wODdDOC4xNTM1MiAxMi4wODYyIDguMDQ5NDggMTIuMTI0NCA3Ljk2ODA2IDEyLjE5NDRMMy44NTI3OCAxNS43NjM5QzMuODI4NjYgMTUuNzg1NSAzLjc5ODc4IDE1Ljc5OTYgMy43NjY3OSAxNS44MDQ0QzMuNzM0OCAxNS44MDkzIDMuNzAyMDggMTUuODA0OCAzLjY3MjYzIDE1Ljc5MTRDMy42NDMxNyAxNS43NzggMy42MTgyNiAxNS43NTYzIDMuNjAwOTIgMTUuNzI5QzMuNTgzNTggMTUuNzAxNiAzLjU3NDU4IDE1LjY2OTkgMy41NzUgMTUuNjM3NVY0LjQ1OTcyQzMuNTc1MDEgNC40MjU1MSAzLjU4NTU1IDQuMzkyMTMgMy42MDUxOSA0LjM2NDEyQzMuNjI0ODMgNC4zMzYxIDMuNjUyNjEgNC4zMTQ4MSAzLjY4NDc3IDQuMzAzMTNDMy43MTY5MyA0LjI5MTQ1IDMuNzUxOSA0LjI4OTk1IDMuNzg0OTQgNC4yOTg4M0MzLjgxNzk3IDQuMzA3NzIgMy44NDc0OCA0LjMyNjU1IDMuODY5NDQgNC4zNTI3OEwxNi4zMDY5IDE5LjI0NThDMTYuNTA3IDE5LjQ4MjEgMTYuNzU2MiAxOS42NzE5IDE3LjAzNyAxOS44MDIyQzE3LjMxNzkgMTkuOTMyNCAxNy42MjM3IDE5Ljk5OTkgMTcuOTMzMyAyMEgxOC4zNjgxQzE4LjY0OCAyMC4wMDAyIDE4LjkyNTIgMTkuOTQ1MiAxOS4xODM4IDE5LjgzODJDMTkuNDQyNSAxOS43MzEyIDE5LjY3NzUgMTkuNTc0MyAxOS44NzU1IDE5LjM3NjVDMjAuMDczNSAxOS4xNzg2IDIwLjIzMDUgMTguOTQzNyAyMC4zMzc3IDE4LjY4NTFDMjAuNDQ0OCAxOC40MjY1IDIwLjUgMTguMTQ5NCAyMC41IDE3Ljg2OTRWMi4xMzA1NkMyMC41IDEuNTY1NSAyMC4yNzU1IDEuMDIzNTggMTkuODc2IDAuNjI0MDI1QzE5LjQ3NjQgMC4yMjQ0NjkgMTguOTM0NSA3LjM2MDk0ZS0wOCAxOC4zNjk0IDcuMzYwOTRlLTA4QzE4LjAwNTEgLTkuNTY1MjRlLTA1IDE3LjY0NjggMC4wOTMxNzYgMTcuMzI4OCAwLjI3MDkxNEMxNy4wMTA4IDAuNDQ4NjUxIDE2Ljc0MzYgMC43MDQ5MjQgMTYuNTUyOCAxLjAxNTI4WiIgZmlsbD0iIzExMTgxQyIvPgo8L3N2Zz4K" />
+                    <img src={currentChainProps['polygon'].img} />
                     <input
                       type="number"
                       placeholder={props.state.amount / 1e24}
@@ -327,77 +469,84 @@ return (
                 </div>
               </div>
             </div>
-            <hr className="m-auto" />
-            <GrayLabel className="mt-3 mx-3 mb-0">
-              Select any of the NEAR marketplace where you want your NFTs to be
-              listed on
-            </GrayLabel>
-            <div className="p-3">
-              <MarketOption>
-                <Markets>
-                  <ChainCardMarket
-                    className={`${
-                      props.state.fewfar ? "border border-primary" : ""
-                    } rounded-3 p-2`}
-                    onClick={props.selectFewFar}
-                    onChange={props.selectFewFar}
-                  >
-                    <img src="https://production.cdn.fewfar.com/static/images/logo.svg" />
-                    Few & Far
-                  </ChainCardMarket>
+            {!state.title && (
+              <>
+                <hr className="m-auto" />
+                <GrayLabel className="mt-3 mx-3 mb-0">
+                  Select any of the NEAR marketplace where you want your NFTs to
+                  be listed on
+                </GrayLabel>
+                <div className="p-3">
+                  <MarketOption>
+                    <Markets>
+                      <ChainCardMarket
+                        className={`${
+                          props.state.fewfar ? "border border-primary" : ""
+                        } rounded-3 p-2`}
+                        onClick={props.selectFewFar}
+                        onChange={props.selectFewFar}
+                      >
+                        <img src="https://production.cdn.fewfar.com/static/images/logo.svg" />
+                        Few & Far
+                      </ChainCardMarket>
 
-                  <ChainCardMarket
-                    className={`${
-                      props.state.tradeport ? "border border-primary" : ""
-                    } rounded-3 p-2`}
-                    onClick={props.selectTradeport}
-                    onChange={props.selectTradeport}
-                  >
-                    <label className="form-check-label" htmlFor="myCheckbox">
-                      <img src="data:image/png;base64,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" />
-                      Tradeport
-                    </label>
-                  </ChainCardMarket>
-                </Markets>
-              </MarketOption>
-              <div className="">
-                <ChainCard
-                  onClick={props.selectCustom}
-                  className={`form-check rounded-4 p-3 ${
-                    props.state.custom ? "border border-primary" : ""
-                  }`}
-                >
-                  <label className="form-check-label" htmlFor="myCheckbox">
-                    Custom Marketplace
-                  </label>
-                </ChainCard>
-                {props.state.custom && (
+                      <ChainCardMarket
+                        className={`${
+                          props.state.tradeport ? "border border-primary" : ""
+                        } rounded-3 p-2`}
+                        onClick={props.selectTradeport}
+                        onChange={props.selectTradeport}
+                      >
+                        <label
+                          className="form-check-label"
+                          htmlFor="myCheckbox"
+                        >
+                          <img src="data:image/png;base64,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" />
+                          Tradeport
+                        </label>
+                      </ChainCardMarket>
+                    </Markets>
+                  </MarketOption>
                   <div className="">
-                    Custom Marketplace
-                    <input
-                      type="text"
-                      placeholder={props.state.customMarketLink}
-                      onChange={(e) =>
-                        props.onChangeCustomMarket(e.target.value)
-                      }
-                    />
+                    <ChainCard
+                      onClick={props.selectCustom}
+                      className={`form-check rounded-4 p-3 ${
+                        props.state.custom ? "border border-primary" : ""
+                      }`}
+                    >
+                      <label className="form-check-label" htmlFor="myCheckbox">
+                        Custom Marketplace
+                      </label>
+                    </ChainCard>
+                    {props.state.custom && (
+                      <div className="">
+                        Custom Marketplace
+                        <input
+                          type="text"
+                          placeholder={props.state.customMarketLink}
+                          onChange={(e) =>
+                            props.onChangeCustomMarket(e.target.value)
+                          }
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <GrayLabel>
+                    * You will pay some gas in Ⓝ to deposit NEAR to marketplace
+                    address then list your NFT
+                  </GrayLabel>
+                </div>
+                {props.state.custom && !props.state.validMarketLink && (
+                  <div className="alert alert-danger">
+                    <i className="bi bi-x"></i> Not a Valid NEAR Contract for
+                    your custom Marketplace
                   </div>
                 )}
-              </div>
-              <GrayLabel>
-                * You will pay some gas in Ⓝ to deposit NEAR to marketplace
-                address then list your NFT
-              </GrayLabel>
-            </div>
-            {props.state.custom && !props.state.validMarketLink && (
-              <div className="alert alert-danger">
-                <i className="bi bi-x"></i> Not a Valid NEAR Contract for your
-                custom Marketplace
-              </div>
+              </>
             )}
           </div>
           <div className="d-flex flex-column align-items-center text-center">
-            {props.state.ownsNFT && (
+            {(props.state.ownsNFT || state.owner === state.sender) ?(
               <button
                 type="button"
                 className="btn btn-primary mt-3"
@@ -405,13 +554,12 @@ return (
               >
                 List
               </button>
-            )}
-
-            {!props.state.ownsNFT && (
-              <button type="button" className="btn btn-secondary mt-3">
+            ): (
+               <button type="button" className="btn btn-secondary mt-3">
                 You Can Only List An NFT You Own
               </button>
             )}
+
           </div>
         </div>
       </Main>
