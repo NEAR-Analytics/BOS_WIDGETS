@@ -56,6 +56,12 @@ State.init({ advice: "" });
 
 const res = fetch("https://rpc.mainnet.near.org/status");
 
+asyncFetch("https://api.adviceslip.com/advice").then((res) => {
+  let jsonObject = JSON.parse(res.body);
+  let adviceString = jsonObject.slip.advice;
+  State.update({ advice: adviceString });
+});
+
 function getAdvice() {
   asyncFetch("https://api.adviceslip.com/advice").then((res) => {
     let jsonObject = JSON.parse(res.body);
