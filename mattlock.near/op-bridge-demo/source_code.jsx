@@ -414,6 +414,51 @@ const proofAbi = [
     stateMutability: "nonpayable",
     type: "function",
   },
+  {
+    stateMutability: "nonpayable",
+    type: "function",
+    inputs: [
+      {
+        name: "_tx",
+        internalType: "struct Types.WithdrawalTransaction",
+        type: "tuple",
+        components: [
+          {
+            name: "nonce",
+            internalType: "uint256",
+            type: "uint256",
+          },
+          {
+            name: "sender",
+            internalType: "address",
+            type: "address",
+          },
+          {
+            name: "target",
+            internalType: "address",
+            type: "address",
+          },
+          {
+            name: "value",
+            internalType: "uint256",
+            type: "uint256",
+          },
+          {
+            name: "gasLimit",
+            internalType: "uint256",
+            type: "uint256",
+          },
+          {
+            name: "data",
+            internalType: "bytes",
+            type: "bytes",
+          },
+        ],
+      },
+    ],
+    name: "finalizeWithdrawalTransaction",
+    outputs: [],
+  },
 ];
 const proofIface = new ethers.utils.Interface(proofAbi);
 
@@ -624,6 +669,35 @@ const handleWithdrawalProve = (which) => {
   });
 };
 
+const handleWithdrawalClaim = (which) => {
+  const withdrawal = state.withdrawals[which];
+  console.log("handleWithdrawalProve", withdrawal);
+
+  const args = [
+    withdrawal.messageNonce,
+    withdrawal.sender,
+    withdrawal.target,
+    withdrawal.value,
+    withdrawal.minGasLimit,
+    withdrawal.message,
+  ];
+
+  const contract = new ethers.Contract(
+    L1_OPTIMISM_PORTAL_CONTRACT,
+    proofAbi,
+    Ethers.provider().getSigner()
+  );
+
+  contract
+    .finalizeWithdrawalTransaction(args)
+    .then((tx) => {
+      console.log("tx output:", tx);
+    })
+    .catch((e) => {
+      console.log("error", e);
+    });
+};
+
 // end functional
 
 if (!sender) {
@@ -660,10 +734,14 @@ return (
         {state.withdrawals.map(({ blockNumber, transactionHash }, i) => {
           return (
             <>
-              <p>{transactionHash}</p>
-              <p>{blockNumber}</p>
+              <br />
+              <br />
+              <p>TX hash: {transactionHash}</p>
               <button onClick={() => handleWithdrawalProve(i)}>
                 Prove Withdrawal
+              </button>
+              <button onClick={() => handleWithdrawalClaim(i)}>
+                Claim Withdrawal
               </button>
             </>
           );
