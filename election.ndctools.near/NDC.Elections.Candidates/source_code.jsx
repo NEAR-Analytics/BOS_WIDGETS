@@ -543,7 +543,7 @@ State.init({
 
   showMintPolicyModal: false,
   showMintIVotedModal: false,
-  hasPolicyNFT: null,
+  hasPolicyNFT: true,
   hasIVotedNFT: null,
   winnerIds: [],
 });
