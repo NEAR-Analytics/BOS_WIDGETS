@@ -315,7 +315,7 @@ return (
             />
           </div>
 
-          {state.winnerIds.length > 0 ? (
+          {state.winnerIds.length > 0 && state.isBonded ? (
             <UnbondContainer className={`not-verified d-flex flex-column`}>
               <div>
                 <h4>Unbond NEAR & Mint SBT</h4>
