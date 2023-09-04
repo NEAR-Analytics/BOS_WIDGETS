@@ -304,6 +304,42 @@ const Wrapper = styled.div`
         color: #02051e;
         background: linear-gradient(180deg, #eef3bf 0%, #e9f456 100%);
       }
+      .overlay{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: black;
+        opacity: 0.5;
+        z-index: 1000;
+      }
+      .quest-btn-popups{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        height: 70vh;
+        background-color: #1E202F;
+        z-index: 1001;
+        border-radius: 12px 12px 0 0;
+        padding: 22px;
+        .cancel{
+        width: 162px;
+        height: 50px;
+        position: fixed;
+        bottom: 30px;
+        left: 20px;
+        color: #E9F456;
+        font-size: 16px;
+        border: 1px #E9F456 solid;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 12px;
+      }
+      }
+    
       .tip-list {
         margin: 10px 0;
         width: 100%;
@@ -389,7 +425,7 @@ const CardListWrapper = styled.div`
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
-const { activeMenu } = state;
+const { activeMenu, showPopup } = state;
 
 const storedActiveMenu = Storage.get(
   "activeMenu",
@@ -397,6 +433,7 @@ const storedActiveMenu = Storage.get(
 );
 
 State.init({
+  showPopup: false,
   activeMenu: storedActiveMenu || "myQuest",
 });
 
@@ -408,6 +445,17 @@ function changeTab (menu) {
     activeMenu: menu,
   });
   Storage.set("activeMenu", menu);
+}
+function handleMakeQuestBtnClick () {
+  State.update({
+    showPopup: true,
+  });
+}
+
+function handleCancelClick() {
+  State.update({
+    showPopup: false,
+  });
 }
 
 return (
@@ -519,7 +567,16 @@ return (
     </div>
 
     <div className="mobile-page">
-      <div className="make-quest-btn">Make A Quest</div>
+      <div className="make-quest-btn" onClick={handleMakeQuestBtnClick}>Make A Quest</div>
+      {showPopup ? (
+        <>
+          <div className="overlay"></div>
+          <div className="quest-btn-popups">
+            <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
+            <div className="cancel" onClick={handleCancelClick}>Cancel</div>
+          </div>
+        </>
+      ) : null}
       <div className="tip-list">
         <div className="tip-list-left">
           {" "}
