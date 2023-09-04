@@ -54,6 +54,11 @@ const Wrapper = styled.div`
   @media (max-width: 900px) {
     padding-top: 0;
   }
+
+  @media (max-width: 900px) {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 `;
 
 const Text = styled.p`
