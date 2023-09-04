@@ -165,10 +165,8 @@ if (state.reload) {
     ).then((resp) => {
       if (resp.body) {
         const myVotes = resp.body.filter((vote) =>
-          ids.includes(vote.proposal_id)
+          ids.includes(parseInt(vote.proposal_id))
         );
-
-        console.log(resp.body);
 
         State.update({ myVotes, reload: false });
       }
