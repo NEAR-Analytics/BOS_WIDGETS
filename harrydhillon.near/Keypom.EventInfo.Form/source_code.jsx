@@ -72,8 +72,10 @@ const setInput = (key, value) => {
 if (!state.isReadDataFromLocal) {
   const getValue = Storage.get("formValues");
   if (getValue) {
-    State.update({ ...JSON.parse(getValue) });
+    State.update({ ...JSON.parse(getValue), isReadDataFromLocal: true });
     console.log(getValue, state.isReadDataFromLocal);
+  } else {
+    State.update({ isReadDataFromLocal: true });
   }
 }
 
