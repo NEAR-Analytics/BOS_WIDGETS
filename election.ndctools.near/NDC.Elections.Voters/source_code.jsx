@@ -1,4 +1,4 @@
-const { candidateId, isIAmHuman } = props;
+const { candidateId, isIAmHuman, ids } = props;
 
 const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
@@ -11,7 +11,11 @@ asyncFetch(
   `https://api.pikespeak.ai/election/votes-by-candidate?contract=${electionContract}&candidate=${candidateId}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
-  State.update({ voters: resp.body });
+  const voters = resp.body.filter((vote) =>
+    ids.includes(parseInt(vote.proposal_id))
+  );
+
+  State.update({ voters, reload: false });
 });
 
 const VotersContainer = styled.div`
@@ -99,7 +103,7 @@ return (
             }}
           />
           <UserLink
-            src={`https://www.near.org/near/widget/ProfilePage?accountId=${voter.voter}`}
+            src={`https://near.org/near/widget/ProfilePage?accountId=${voter.voter}`}
             title={voter.voter}
           />
         </div>
