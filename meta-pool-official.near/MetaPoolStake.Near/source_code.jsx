@@ -20,7 +20,7 @@ State.init({
   stNearBalance: null,
   stNearBalanceIsFetched: false,
   dataIntervalStarted: false,
-  action: props.action || "stake"
+  action: props.action || "stake",
 });
 
 function isValid(a) {
@@ -118,35 +118,6 @@ function getNearBalance(onInvalidate) {
 }
 const update = (state) => State.update(state);
 
-const onSubmitStake = () => {
-  const deposit = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
-  Near.call(contractId, "deposit_and_stake", {}, GAS, deposit);
-};
-
-const onSubmitDelayedUnstake = () => {
-  // manage register stNEAR - should make a call attached
-  const args = {
-    amount: Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0),
-  };
-  Near.call(contractId, "unstake", args, GAS, 0);
-};
-
-const onSubmitFastUnstake = () => {
-  // manage register stNEAR - should make a call attached
-  const l = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
-  const e = l.mul(state.metrics.st_near_price_usd);
-  const tx = {
-    contractName: contractId,
-    methodName: "liquid_unstake",
-    deposit: 0,
-    args: {
-      st_near_to_burn: l.toFixed(0),
-      min_expected_near: e.sub(ONE_NEAR.divn(10)).toFixed(0),
-    },
-  };
-  Near.call([tx]);
-};
-
 const handleInputNear = (value) => {
   if (
     (parseFloat(value) < 1 && parseFloat(value) > 0) ||
@@ -204,7 +175,7 @@ const onClickMaxNear = () => {
   handleInputNear(value);
 };
 
-const onClickMaxStNear = () => {
+const onClickMaxstNear = () => {
   const value =
     state.stNearBalance > 0.1
       ? (parseFloat(state.stNearBalance) - 0.1).toFixed(2)
@@ -229,20 +200,43 @@ if (!state.dataIntervalStarted) {
   }, 20000);
 }
 
-return (
-        <Widget
-          src={`${authorId}/widget/MetaPoolStake.Near.Form`}
-          props={{
-            update,
-            state,
-            isSignedIn,
-            onSubmitDelayedUnstake,
-            onSubmitFastUnstake,
-            onSubmitStake,
-            handleInputNear,
-            handleInputStNear,
-            onClickMaxNear,
-            onClickMaxStNear,
-          }}
-        />
-);
+const render = {
+  stake: (
+    <Widget
+      src={`${authorId}/widget/MetaPoolStake.Near.Stake`}
+      props={{
+        update,
+        state,
+        isSignedIn,
+        handleInputNear,
+        onClickMaxNear,
+      }}
+    />
+  ),
+  fast: (
+    <Widget
+      src={`${authorId}/widget/MetaPoolStake.Near.FastUnstake`}
+      props={{
+        update,
+        state,
+        isSignedIn,
+        handleInputStNear,
+        onClickMaxstNear,
+      }}
+    />
+  ),
+  delayed: (
+    <Widget
+      src={`${authorId}/widget/MetaPoolStake.Near.DelayUnstake`}
+      props={{
+        update,
+        state,
+        isSignedIn,
+        handleInputStNear,
+        onClickMaxstNear,
+      }}
+    />
+  ),
+}[state.action];
+
+return <>{render}</>;
