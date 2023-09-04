@@ -7,6 +7,18 @@ const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
+const widgets = {
+  header: "election.ndctools.near/widget/NDC.Elections.Header",
+  filter: "election.ndctools.near/widget/NDC.Elections.Filter",
+  houses: "election.ndctools.near/widget/NDC.Elections.Houses",
+  progress: "election.ndctools.near/widget/NDC.Elections.Progress",
+  candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
+  statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
+  activities: "election.ndctools.near/widget/NDC.Elections.Activities",
+  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
+  stepper: "election.ndctools.near/widget/NDC.Stepper",
+};
+
 State.init({
   selectedHouse: ids[0],
   myVotes: [],
@@ -18,7 +30,34 @@ State.init({
   isBonded: true,
   reload: true,
   houses: [],
+  acceptedPolicy: false,
+  hasVotedOnAllProposals: false,
+  hasPolicyNFT: null,
+  hasIVotedNFT: null,
 });
+
+const steps = [
+  {
+    title: "Accept Policy",
+    completed: state.acceptedPolicy,
+  },
+  {
+    title: "Mint Policy NFT",
+    completed: state.hasPolicyNFT,
+  },
+  {
+    title: "Voted",
+    completed: state.hasVotedOnAllProposals,
+  },
+  {
+    title: "Minted I Voted NFT",
+    completed: state.hasIVotedNFT,
+  },
+  {
+    title: "Unbond & Mint I Voted SBT",
+    completed: state.hasVotedOnAllProposals,
+  },
+];
 
 // asyncFetch(
 //   `https://api.pikespeak.ai/election/already_bonded?contract=${electionContract}`,
@@ -26,6 +65,45 @@ State.init({
 // ).then((resp) => {
 //   if (resp.body) State.update({ isBonded: resp.body });
 // });
+
+function fetchGraphQL(series) {
+  return asyncFetch(QUERY_API_ENDPOINT, {
+    method: "POST",
+    headers: { "mb-api-key": "anon", "x-hasura-role": electionContract },
+    body: JSON.stringify({
+      query: `
+        query MyQuery {
+          nft_tokens(
+            where: {
+              nft_contract_id: {
+                _eq: "mint.sharddog.near"
+              },
+              token_id: {_regex: "^${series}:"},
+              owner: {_eq: "${currentUser}"}}
+            order_by: {minted_timestamp: asc}
+          ) {
+            last_transfer_timestamp
+          }
+        }
+      `,
+      variables: {},
+      operationName: "MyQuery",
+    }),
+  });
+}
+
+const processNFTAvailability = (result, key) => {
+  if (result.status === 200) {
+    let data = result.body.data;
+    if (data) {
+      const tokens = data.nft_tokens;
+
+      State.update({
+        [key]: tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
+      });
+    }
+  }
+};
 
 const winnerIds = Near.view(electionContract, "winners_by_house", {
   prop_id: state.selectedHouse,
@@ -47,12 +125,32 @@ if (state.reload) {
     account: context.accountId,
   });
 
+  fetchGraphQL(NFT_SERIES[0]).then((result) =>
+    processNFTAvailability(result, "hasPolicyNFT")
+  );
+
+  fetchGraphQL(NFT_SERIES[1]).then((result) =>
+    processNFTAvailability(result, "hasIVotedNFT")
+  );
+
+  const hasVotedOnAllProposals = Near.view(
+    electionContract,
+    "has_voted_on_all_proposals",
+    { user: currentUser }
+  );
+
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+    user: currentUser,
+  });
+
   State.update({
     isIAmHuman: isHuman[0][1].length > 0,
     winnerIds,
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
     houses,
+    acceptedPolicy: acceptedPolicy === POLICY_HASH ?? state.acceptedPolicy,
+    hasVotedOnAllProposals,
   });
 
   if (context.accountId)
@@ -63,17 +161,6 @@ if (state.reload) {
       if (resp.body) State.update({ myVotes: resp.body, reload: false });
     });
 }
-
-const widgets = {
-  header: "election.ndctools.near/widget/NDC.Elections.Header",
-  filter: "election.ndctools.near/widget/NDC.Elections.Filter",
-  houses: "election.ndctools.near/widget/NDC.Elections.Houses",
-  progress: "election.ndctools.near/widget/NDC.Elections.Progress",
-  candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
-  statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
-  activities: "election.ndctools.near/widget/NDC.Elections.Activities",
-  styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
-};
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
@@ -108,6 +195,10 @@ const Left = styled.div`
 `;
 
 const Filter = styled.div`
+  margin-top: 20px;
+`;
+
+const Stepper = styled.div`
   margin-top: 32px;
 `;
 
@@ -181,6 +272,9 @@ return (
           )}
         </>
       ))}
+      <Stepper>
+        <Widget src={widgets.stepper} props={{ steps }} />
+      </Stepper>
       {state.selectedHouse !== budgetId && (
         <Filter>
           <Widget
