@@ -13,6 +13,7 @@ function widget(widgetName, widgetProps, key) {
     referral: props.referral,
   };
 
+
   return (
     <Widget
       src={`${nearDevGovGigsWidgetsAccountId}/widget/gigs-board.${widgetName}`}
@@ -60,6 +61,8 @@ const AutoComplete = styled.div`
   }
 `;
 
+
+
 function textareaInputHandler(value) {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
   State.update({ text: value, showAccountAutocomplete });
@@ -91,8 +94,52 @@ const labels = labelStrings.map((s) => {
   return { name: s };
 });
 
+const elements = [
+  "CreativesDAO",
+  "GenaDrop",
+  "NDC GWG",
+  "Milachain",
+  "Indexer.xyz",
+  "NEAR ReFI",
+  "ProofOfVibes",
+];
+
+
+const handleSelect = (id) => {
+  // check if already selected
+  if (state.selectedElements.includes(id)) {
+    // if already selected, remove check
+    const updatedElements = state.selectedElements.filter(
+      (elementId) => elementId !== id
+    );
+    // update in local storage so it can be picked up by the cart
+    const bountyString = JSON.stringify(updatedElements);
+    console.log("Bounty String: " + bountyString);
+    // update in state, so there is a smooth experience
+    State.update({
+      selectedElements: updatedElements,
+      bounty: bountyString, 
+    });
+  } else {
+    // not selected, so add to array
+    const updatedElements = [...state.selectedElements, id];
+    // update in local storage so it can be picked up by the cart
+        const bountyString = JSON.stringify(updatedElements);
+    console.log("Bounty String: " + bountyString);
+    // update in state, so there is a smooth experience
+    State.update({
+      selectedElements: updatedElements,
+            bounty: bountyString, 
+
+    });
+  }
+};
+
+
 initState({
   seekingFunding: false,
+    selectedElements: [],
+
   //
   author_id: context.accountId,
   // Should be a list of objects with field "name".
@@ -103,8 +150,8 @@ initState({
   postType: "Solution",
   name: props.name ?? "",
   description: props.description ?? "",
-    bounty: props.bounty ?? "",
-
+  bounty: props.bounty ?? "",
+  teammates: "",
   amount: props.amount ?? "",
   token: props.token ?? "USDT",
   supervisor: props.supervisor ?? "neardevgov.near",
@@ -370,21 +417,25 @@ const descriptionDiv = (
 const bountiesDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-6 fw-bold mb-1">Bounties</p>
-      <p class="text-muted w-75 my-1"> Enter the bounties you are opting in for
-              </p>
-    <textarea
-      value={state.bounty}
-      type="text"
-      rows={6}
-      className="form-control"
-      onInput={(event) => textareaInputHandler(event.target.value)}
-      onKeyUp={(event) => {
-        if (event.key === "Escape") {
-          State.update({ showAccountAutocomplete: false });
-        }
-      }}
-      onChange={(event) => State.update({ bounty: event.target.value })}
-    />
+    <p class="text-muted w-75 my-1">
+      {" "}
+      Check the bounties you are opting in for
+    </p>
+
+    <div className="border">
+      {elements?.map((it) => (
+        <div key={it} className="d-flex align-items-center mb-3">
+          <p className="mb-0">{it}</p>
+          <input
+            type="checkbox"
+            checked={state.selectedElements.includes(it)}
+            onChange={() => handleSelect(it)}
+            className="form-check-input ms-3"
+          />
+        </div>
+      ))}
+    </div>
+
     {autocompleteEnabled && state.showAccountAutocomplete && (
       <AutoComplete>
         <Widget
@@ -500,9 +551,16 @@ const fundraisingDiv = (
   </div>
 );
 
-function generateDescription(text, amount, token, supervisor, bounty) {
-    const bountyLine =  `\n###### Bounties:\n###### ${bounty}\n`;
-      if (bounty.length > 0) return  text + bountyLine;
+function generateDescription(
+  text,
+  amount,
+  token,
+  supervisor,
+  bounty,
+  teammates
+) {
+  const bountyLine = `\n###### Bounties:\n ${bounty}\n`;
+  if (bounty.length > 0) return text + bountyLine;
   const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
   return text;
@@ -554,7 +612,7 @@ return (
               <div className="row">
                 {nameDiv}
                 {descriptionDiv}
-                  {bountiesDiv}
+                {bountiesDiv}
                 {labelEditor}
 
                 {state.seekingFunding && fundraisingDiv}
