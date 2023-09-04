@@ -325,9 +325,9 @@ const select_status_list = [
 ];
 State.init({
   record_list: [],
-  action_select_box_status: false, // true 显示， false 关闭
-  template_select_box_status: false, // true 显示， false 关闭
-  status_select_box_status: false, // true 显示， false 关闭
+  action_select_box_status: false,
+  template_select_box_status: false,
+  status_select_box_status: false,
 
   search_action: "",
   search_template: "",
@@ -343,7 +343,7 @@ const uuid = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
 );
 function get_my_records_list_by_condition() {
-  const params_str = `account_id=${eth_account_id}&page_number=${state.current_page}&page_size=${state.page_size}&action_type=${state.search_action}&action_status=${state.search_status}&template=${state.search_template}&account_info=${uuid}`;
+  const params_str = `account_id=${eth_account_id}&page_number=${state.current_page}&page_size=${state.page_size}&action_type=${state.search_action}&action_status=${state.search_status}&template=${state.search_template}&account_info=${uuid}&action_network_id=zkEVM`;
   asyncFetch(
     `https://bos-api.delink.one/get-action-records-by-account?${params_str}`
   ).then((res) => {
