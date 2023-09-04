@@ -229,8 +229,8 @@ return (
           onChange: (e) => handleInputNear(e.target.value),
           onClickMax: onClickMaxNear,
           inputError: state.validation !== "",
-          balance: tokenInputBalance ?? "-",
-          iconName: tokenInput,
+          balance: nearBalance ?? "-",
+          iconName: "NEAR",
           iconUrl:
             "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
         }}
