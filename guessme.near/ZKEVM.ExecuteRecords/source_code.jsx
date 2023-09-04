@@ -293,6 +293,8 @@ const template_icons = {
     "	https://ipfs.near.social/ipfs/bafkreien6yavqvx5ots2i26ooakiwux77osuzz4fc6qxexvvd7dsoc6274",
   Balancer:
     "https://ipfs.near.social/ipfs/bafkreihimomheiwsinao75pw5zxrt36i77fyq72jmpg4irubqjlk6txb6q",
+  "0vix Lending":
+    "https://ipfs.near.social/ipfs/bafkreigyodedyhiqmstq3g5edcqw25yyari4y3rcbsnqtxldb2zb2vpah4",
 };
 const select_action_list = [
   { id: "", name: "All Actions" },
@@ -315,9 +317,12 @@ const select_template_list = [
     name: "native bridge",
     icon: template_icons["native bridge"],
   },
-  { id: "AAVE", name: "AAVE", icon: template_icons["AAVE"] },
+  {
+    id: "0vix Lending",
+    name: "0vix Lending",
+    icon: template_icons["0vix Lending"],
+  },
 ];
-console.log("select_template_list", select_template_list);
 const select_status_list = [
   { id: "", name: "All Status" },
   { id: "Success", name: "Success" },
@@ -328,7 +333,6 @@ State.init({
   action_select_box_status: false,
   template_select_box_status: false,
   status_select_box_status: false,
-
   search_action: "",
   search_template: "",
   search_status: "",
