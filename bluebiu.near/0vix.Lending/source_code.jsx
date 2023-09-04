@@ -28,7 +28,7 @@ if (!account) {
 }
 State.init({
   chainId: -1,
-  type: 0, // 0 for supply, 1 for borrow
+  type: props.tab === "borrow" ? 1 : 0, // 0 for supply, 1 for borrow
   showDialog: false,
   tableButtonClickData: null,
   updateData: true,
