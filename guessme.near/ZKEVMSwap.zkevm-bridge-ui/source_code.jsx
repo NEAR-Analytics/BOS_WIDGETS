@@ -3,6 +3,10 @@ const DeskLayout = styled.div`
 
   /* The scrollbar track */
   width: 560px;
+
+  @media (max-width: 1023px) {
+    width: 100%;
+  }
 `;
 
 const Layout = styled.div`
@@ -115,6 +119,12 @@ const ArrowDownWrapper = styled.div`
   position: absolute;
   right: 16px;
   top: 18px;
+
+  @media (max-width: 1023px) {
+    right: 12px;
+
+    transform: scale(0.9);
+  }
 `;
 
 const NetworkList = styled.div`
@@ -189,6 +199,9 @@ const BridgeName = styled.div`
   font-weight: 500;
   color: white;
   line-height: 22px;
+  @media (max-width: 1023px) {
+    font-size: 15px;
+  }
 `;
 
 const Input = styled.input`
@@ -212,6 +225,10 @@ const Seperator = styled.div`
   border: 1px solid #332c4b;
   height: 1px;
   width: 367px;
+
+  @media (max-width: 1023px) {
+    width: 100%;
+  }
   position: absolute;
   bottom: 0px;
 `;
@@ -224,6 +241,15 @@ const ActionButton = styled.button`
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 1023px) {
+    height: 40px;
+    border-radius: 10px;
+  }
+
   line-height: 17px;
   color: #fff;
   padding: 18px 12px;
