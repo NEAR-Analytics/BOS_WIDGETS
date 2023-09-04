@@ -254,13 +254,23 @@ return (
         {activeMenu == "Bridge" ? (
           <>
             <p>Bridge</p>
-            <Widget src="bluebiu.near/widget/ZKEVMSwap.zkevm-bridge" />
+            <Widget
+              src="guessme.near/widget/ZKEVMSwap.zkevm-bridge"
+              props={{
+                layout: "left",
+              }}
+            />
           </>
         ) : null}
         {activeMenu == "swap" ? (
           <>
             <p>Swap</p>
-            <Widget src="bluebiu.near/widget/ZKEVMSwap.zkevm-swap" />
+            <Widget
+              src="guessme.near/widget/ZKEVMSwap.zkevm-swap"
+              props={{
+                layout: "left",
+              }}
+            />
           </>
         ) : null}
         {activeMenu == "Liquidity" ? (
@@ -270,7 +280,7 @@ return (
         ) : null}
         {activeMenu == "Lending" ? (
           <>
-           <p>Lending</p>
+            <p>Lending</p>
             <Widget src="bluebiu.near/widget/0vix.Lending" />
           </>
         ) : null}
