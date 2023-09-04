@@ -43,7 +43,7 @@ const tabContentWidget = {
   forum: "BOSHACKS.Forum.Main",
   resources: "BOSHACKS.Resources.Main",
   events: "BOSHACKS.Events.Index",
-  submit: "BOSHACKS.Forum.Main",
+  submit: "BOSHACKS.Submit.Main",
 }[state.tab];
 
 const tabContent = (
