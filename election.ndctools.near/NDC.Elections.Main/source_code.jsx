@@ -301,8 +301,9 @@ return (
               props={{
                 selectedHouse: state.selectedHouse,
                 houses: state.houses,
+                ids,
                 handleSelect,
-                votesLeft: (house) => votesLeft(house),
+                votesLeft,
               }}
             />
           </div>
