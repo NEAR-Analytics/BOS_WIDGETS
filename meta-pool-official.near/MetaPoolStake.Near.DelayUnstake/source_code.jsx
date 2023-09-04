@@ -1,12 +1,10 @@
 const authorId = "meta-pool-official.near";
+const tokenDecimals = 24;
+const contractId = "meta-pool.near";
+const GAS = "200000000000000";
 
-const {
-  isSignedIn,
-  update,
-  state,
-  handleInputstNear,
-  onClickMaxstNear,
-} = props;
+const { isSignedIn, update, state, handleInputstNear, onClickMaxstNear } =
+  props;
 
 const onSubmitDelayedUnstake = () => {
   // manage register stNEAR - should make a call attached
