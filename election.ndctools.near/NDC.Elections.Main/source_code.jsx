@@ -167,7 +167,7 @@ if (state.reload) {
     });
 }
 
-console.log(myVotes);
+console.log(state.myVotes);
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
