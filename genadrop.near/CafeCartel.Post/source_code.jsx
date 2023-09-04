@@ -14,7 +14,7 @@ State.init({
   image: {},
   text: `${embedHashtags.map((it) => `#${it} `).join("")} ${embedMentions.map(
     (it) => `@${it}`
-  )} @elcafecartel.near @creativesdao.near`,
+  )} @elcafecartel.near @creatives.sputnik-dao.near @sharddog.near`,
   showPreview: false,
   friendliness: 5,
   energy: 5,
