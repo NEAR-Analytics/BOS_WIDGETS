@@ -22,8 +22,6 @@ const currentChain = {
   },
 };
 
-
-
 const currentChainProps = {
   near: {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
@@ -244,6 +242,21 @@ const getUsdValue = (price) => {
   }
 };
 
+const getSender = () => {
+  return !state.sender
+    ? ""
+    : state.sender.substring(0, 6) +
+        "..." +
+        state.sender.substring(state.sender.length - 4, state.sender.length);
+};
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
+
 const Stats = styled.div`
       display: flex;
       align-items: center;
@@ -374,6 +387,16 @@ const Hero = styled.div`
   padding: 2rem;
 `;
 
+const MyAcc = styled.p`
+    margin: 0;
+    margin-left: 8px;
+    color: #0a2830;
+    background: transparent;
+    border: 1px solid #0d99ff;
+    padding: 5px;
+    border-radius: 10px;
+`;
+
 const RankCard = styled.span`
   background-color: rgba(28,27,28,.06);
   border-radius: .5rem;
@@ -457,6 +480,13 @@ return (
             <option value="sui">Sui</option>
           </select>
         </SelectChain>
+        {state.sender ? (
+          <div>
+            <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
+          </div>
+        ) : (
+          <Web3Connect connectLabel="Connect Wallet" className="w-50" />
+        )}
       </InputContainer>
     </Hero>
     {state.nftData.length > 0 ? (
