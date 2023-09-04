@@ -275,6 +275,7 @@ const alreadyVoted = (candidateId) =>
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 const votedForBudget = (vote) => {
   const myBVote = myVotes.find((voter) => voter.house === typ);
+  console.log(myBVote);
   if (myBVote) myBVote.candidate === vote;
 };
 
