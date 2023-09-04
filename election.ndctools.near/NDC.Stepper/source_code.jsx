@@ -14,7 +14,7 @@ const Step = styled.li`
     border: 1.5px solid;
     border-color: ${(props) => (props.completed ? "#5bc65f" : "#4BA6EE")};
     background-color: ${(props) => (props.completed ? "#5bc65f" : "#fff")};
-    margin: 0 auto 10px;
+    margin: 0 auto 1rem;
   }
 
   &:not(:last-child) {
@@ -35,27 +35,14 @@ const Step = styled.li`
     position: absolute;
     left: calc(50% - calc(16px / 2));
   }
-
-  h6 {
-    font-size: 12px;
-  }
-
-  small {
-    @media (max-width: 400px) {
-      font-size: 12px;
-      padding: 5px;
-    }
-  }
 `;
 
 return (
   <div className="d-flex">
     {props.steps.map((step) => (
       <Step completed={step.completed}>
-        <small className={step.completed ? "fw-bolder" : "text-secondary"}>
-          {step.title}
-        </small>
-        <h6 className="text-secondary">{step.description}</h6>
+        <h6>{step.title}</h6>
+        <small className="text-secondary">{step.description}</small>
         {step.completed && <i className="bi bi-check" />}
       </Step>
     ))}
