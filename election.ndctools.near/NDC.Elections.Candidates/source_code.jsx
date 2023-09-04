@@ -273,11 +273,6 @@ const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
 
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
-const votedForBudget = (vote) => {
-  const myBVote = myVotes.find((voter) => voter.house === "SetupPackage");
-  console.log(myVotes);
-  if (myBVote) myBVote.candidate === vote;
-};
 
 const filteredCandidates = () => {
   let candidates = result;
@@ -880,8 +875,6 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
-console.log(votedForBudget("yes"));
-
 const CastBudgetVote = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
     <div className="wrapper">
@@ -919,9 +912,9 @@ const CastBudgetVote = () => (
             disabled:
               state.winnerIds.length > 0
                 ? !isBudgetWinner("yes")
-                : !votedForBudget("yes") || blacklisted,
+                : !alreadyVoted("yes") || blacklisted,
             onClick: () => {
-              if (state.winnerIds.length > 0 || votedForBudget("yes")) return;
+              if (state.winnerIds.length > 0 || alreadyVoted("yes")) return;
 
               const res = handleSelectCandidate("yes");
               if (res) handleVote();
@@ -947,9 +940,9 @@ const CastBudgetVote = () => (
             disabled:
               state.winnerIds.length > 0
                 ? !isBudgetWinner("no")
-                : !votedForBudget("no") || blacklisted,
+                : !alreadyVoted("no") || blacklisted,
             onClick: () => {
-              if (state.winnerIds.length > 0 || votedForBudget("no")) return;
+              if (state.winnerIds.length > 0 || alreadyVoted("no")) return;
 
               const res = handleSelectCandidate("no");
               if (res) handleVote();
@@ -971,10 +964,9 @@ const CastBudgetVote = () => (
             disabled:
               state.winnerIds.length > 0
                 ? !isBudgetWinner("abstain")
-                : !votedForBudget("abstain") || blacklisted,
+                : !alreadyVoted("abstain") || blacklisted,
             onClick: () => {
-              if (state.winnerIds.length > 0 || votedForBudget("abstain"))
-                return;
+              if (state.winnerIds.length > 0 || alreadyVoted("abstain")) return;
 
               const res = handleSelectCandidate("abstain");
               if (res) handleVote();
