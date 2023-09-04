@@ -630,7 +630,7 @@ return (
         ) : state.filteredNFTData.length > 0 ? (
           state.filteredNFTData.map((nft) => (
             <a
-              href={`#/mob.near/widget/MyPage?accountId=${nft.nft_state.owner}`}
+              href={`#/agwaze.near/widget/GenaDrop.NFTDetails?contractId=${nft.contract_id}&tokenId=${nft.token_id}&chainState=${state.chain}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <NFTCard classNmae="card">
