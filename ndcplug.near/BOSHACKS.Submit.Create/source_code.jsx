@@ -103,6 +103,8 @@ initState({
   postType: "Solution",
   name: props.name ?? "",
   description: props.description ?? "",
+    bounty: props.bounty ?? "",
+
   amount: props.amount ?? "",
   token: props.token ?? "USDT",
   supervisor: props.supervisor ?? "neardevgov.near",
@@ -365,6 +367,38 @@ const descriptionDiv = (
     )}
   </div>
 );
+const bountiesDiv = (
+  <div className="col-lg-12 mb-2">
+    <p className="fs-6 fw-bold mb-1">Bounties</p>
+      <p class="text-muted w-75 my-1"> Enter the bounties you are opting in for
+              </p>
+    <textarea
+      value={state.bounty}
+      type="text"
+      rows={6}
+      className="form-control"
+      onInput={(event) => textareaInputHandler(event.target.value)}
+      onKeyUp={(event) => {
+        if (event.key === "Escape") {
+          State.update({ showAccountAutocomplete: false });
+        }
+      }}
+      onChange={(event) => State.update({ bounty: event.target.value })}
+    />
+    {autocompleteEnabled && state.showAccountAutocomplete && (
+      <AutoComplete>
+        <Widget
+          src="near/widget/AccountAutocomplete"
+          props={{
+            term: state.text.split("@").pop(),
+            onSelect: autoCompleteAccountId,
+            onClose: () => State.update({ showAccountAutocomplete: false }),
+          }}
+        />
+      </AutoComplete>
+    )}
+  </div>
+);
 
 const isFundraisingDiv = (
   // This is jank with just btns and not radios. But the radios were glitchy af
@@ -466,7 +500,9 @@ const fundraisingDiv = (
   </div>
 );
 
-function generateDescription(text, amount, token, supervisor) {
+function generateDescription(text, amount, token, supervisor, bounty) {
+    const bountyLine =  `\n###### Bounties:\n###### ${bounty}\n`;
+      if (bounty.length > 0) return  text + bountyLine;
   const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
   return text;
@@ -518,6 +554,7 @@ return (
               <div className="row">
                 {nameDiv}
                 {descriptionDiv}
+                  {bountiesDiv}
                 {labelEditor}
 
                 {state.seekingFunding && fundraisingDiv}
@@ -553,7 +590,8 @@ return (
                         state.description,
                         state.amount,
                         state.token,
-                        state.supervisor
+                        state.supervisor,
+                        state.bounty
                       ),
                       github_link: state.githubLink,
                     },
