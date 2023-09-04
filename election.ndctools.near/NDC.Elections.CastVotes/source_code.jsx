@@ -251,4 +251,4 @@ const CastBudgetVote = () => (
   </CastVotesSection>
 );
 
-return <>{typ === "SetupBudget" ? <CastBudgetVote /> : <CastVotes />}</>;
+return <>{typ === "SetupPackage" ? <CastBudgetVote /> : <CastVotes />}</>;
