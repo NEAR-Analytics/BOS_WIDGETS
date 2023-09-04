@@ -98,7 +98,9 @@ const H3 = styled.h3`
 const isBudgetWinner = (item) =>
   result.sort((a, b) => b[1] - a[1])[0][0] === item;
 
-const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
+function alreadyVotedForHouse() {
+  return myVotes.some((voter) => voter.house === typ);
+}
 
 const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
