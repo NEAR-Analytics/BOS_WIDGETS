@@ -1,4 +1,12 @@
-const elements = ["CreativesDAO","GenaDrop", "NDC GWG", "Milachain", "Indexer.xyz", "NEAR ReFI", "ProofOfVibes"];
+const elements = [
+  "CreativesDAO",
+  "GenaDrop",
+  "NDC GWG",
+  "Milachain",
+  "Indexer.xyz",
+  "NEAR ReFI",
+  "ProofOfVibes",
+];
 
 State.init({
   selectedElements: [],
@@ -12,7 +20,7 @@ const handleSelect = (id) => {
       (elementId) => elementId !== id
     );
     // update in local storage so it can be picked up by the cart
-    Storage.set("demo-cart-items", JSON.stringify(updatedElements));
+    Storage.set("bounties", JSON.stringify(updatedElements));
     // update in state, so there is a smooth experience
     State.update({
       selectedElements: updatedElements,
