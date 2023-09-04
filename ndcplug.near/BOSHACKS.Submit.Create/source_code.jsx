@@ -3,6 +3,7 @@ const nearDevGovGigsContractAccountId =
 
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId || "devgovgigs.near".split("/", 1)[0];
+const prependTitle = "BOSHACKS Submission: ";
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -144,7 +145,7 @@ const onSubmit = () => {
   let labels = state.labelStrings;
 
   let body = {
-    name: state.name,
+    name: prependTitle + state.name,
     description: generateDescription(
       state.description,
       state.amount,
@@ -518,7 +519,7 @@ return (
                 {nameDiv}
                 {descriptionDiv}
                 {labelEditor}
-  
+
                 {state.seekingFunding && fundraisingDiv}
               </div>
               <button
@@ -547,7 +548,7 @@ return (
                       editor_id: state.editor_id,
                       labels: state.labelStrings,
                       post_type: state.postType,
-                      name: state.name,
+                      name: prependTitle + state.name,
                       description: generateDescription(
                         state.description,
                         state.amount,
