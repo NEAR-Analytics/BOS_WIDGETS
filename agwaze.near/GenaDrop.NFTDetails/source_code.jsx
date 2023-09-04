@@ -339,6 +339,23 @@ const replaceIpfs = (imageUrl) => {
   }
 };
 
+const getSender = () => {
+  return !state.sender
+    ? ""
+    : state.sender.substring(0, 6) +
+        "..." +
+        state.sender.substring(state.sender.length - 4, state.sender.length);
+};
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
+
+
+
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
@@ -675,7 +692,7 @@ return (
             <div>
               {state.listings.price && context.contractId !== state.owner ? (
                 <button>Buy</button>
-              ) : state.owner === context.accountId ? (
+              ) : (state.owner === context.accountId) || (state.owner === state.sender ) ? (
                 <a
                   href={`#/agwaze.near/widget/GenaDrop.NFTListing?tokenId=${tokenId}&contractId=${contractId}`}
                 >
