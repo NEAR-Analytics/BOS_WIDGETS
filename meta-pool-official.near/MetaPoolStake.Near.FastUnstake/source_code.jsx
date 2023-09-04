@@ -4,10 +4,25 @@ const {
   isSignedIn,
   update,
   state,
-  onSubmitFastUnstake,
   handleInputstNear,
   onClickMaxstNear,
 } = props;
+
+const onSubmitFastUnstake = () => {
+  // manage register stNEAR - should make a call attached
+  const l = Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0);
+  const e = l.mul(state.metrics.st_near_price_usd);
+  const tx = {
+    contractName: contractId,
+    methodName: "liquid_unstake",
+    deposit: 0,
+    args: {
+      st_near_to_burn: l.toFixed(0),
+      min_expected_near: e.sub(ONE_NEAR.divn(10)).toFixed(0),
+    },
+  };
+  Near.call([tx]);
+};
 
 const StakeContainer = styled.div`
     width: 100%;
