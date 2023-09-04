@@ -361,6 +361,7 @@ return (
                     electionContract,
                     registryContract,
                     ndcOrganization: "NDC",
+                    ids,
                     ...state,
                     ...house,
                     result:
