@@ -15,7 +15,7 @@ State.init({
   blacklisted: false,
   greylisted: false,
   candidateId: "",
-  alreadyBonded: false,
+  isBonded: true,
   reload: true,
   houses: [],
 });
@@ -24,7 +24,7 @@ State.init({
 //   `https://api.pikespeak.ai/election/already_bonded?contract=${electionContract}`,
 //   { headers: { "x-api-key": apiKey } }
 // ).then((resp) => {
-//   if (resp.body) State.update({ alreadyBonded: resp.body });
+//   if (resp.body) State.update({ isBonded: resp.body });
 // });
 
 const winnerIds = Near.view(electionContract, "winners_by_house", {
@@ -85,7 +85,7 @@ const handleUnbond = () => {
     "is_human_call",
     { ctr: electionContract, function: "unbond", payload: "{}" },
     "110000000000000"
-  ).then((data) => State.update({ alreadyBonded: false }));
+  ).then((data) => State.update({ isBonded: false }));
 };
 
 const handleFilter = (e) => State.update({ candidateId: e.target.value });
@@ -223,7 +223,7 @@ return (
                   props={{
                     Button: {
                       className: "primary w-100 justify-content-center",
-                      disabled: !state.alreadyBonded,
+                      disabled: !state.isBonded,
                       text: "Unbond & Mint I Voted SBT",
                       onClick: handleUnbond,
                     },
