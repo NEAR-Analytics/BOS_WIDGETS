@@ -14,7 +14,7 @@ State.init({
   image: {},
   text: `${embedHashtags.map((it) => `#${it} `).join("")} ${embedMentions.map(
     (it) => `@${it}`
-  )} @elcafecartel.near @creatives.sputnik-dao.near @sharddog.near`,
+  )} @elcafecartel.near @creativesdao.sputnik-dao.near @sharddog.near`,
   showPreview: false,
   friendliness: 5,
   energy: 5,
@@ -356,8 +356,8 @@ const Actions = styled.div`
 
   .commit-post-button,
   .preview-post-button {
-    background: #59e692;
-    color: #09342e;
+    background: #FEC804;
+    color: #000000;
     border-radius: 40px;
     height: 40px;
     padding: 0 35px;
