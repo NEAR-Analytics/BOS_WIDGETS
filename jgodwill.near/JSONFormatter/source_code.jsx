@@ -4,12 +4,6 @@ State.init({
   fiexedJsonErrors: "",
 });
 
-// if (!props.jsonCode) {
-//   State.update({
-//     jsonStr: JSON.stringify(props.jsonCode),
-//   });
-// }
-
 console.log(state.jsonStr);
 
 function formatClickHandler() {
@@ -175,11 +169,7 @@ return (
             readOnly
           />
         </div>
-        //{" "}
         <div class="output-actions">
-          // <button onClick={clickCopyHandler}>Copy to clipboard</button>
-          // <button onClick={fileDownloadHandler}>Download as file</button>
-          //{" "}
         </div>
       </>
     )}
