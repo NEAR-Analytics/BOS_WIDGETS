@@ -146,9 +146,7 @@ const onDexDataLoad = (data) => {
   });
 };
 
-const Theme = styled.div`
-  font-size: 18px;
-`;
+const Theme = styled.div``;
 
 const currentAccountId =
   getEVMAccountId() !== "" ? getEVMAccountId() : context.accountId;
@@ -175,8 +173,6 @@ const changeAmount = (e) => {
 };
 
 // REUSABLE UI ELEMEETS
-
-console.log("output amount", state.outputAssetAmount);
 
 const assetContainer = (
   isInputAsset,
@@ -360,10 +356,9 @@ const SwapMainContainer = styled.div`
   align-items: start;
   gap: 8px;
   font-size: 18px;
-  position: fixed;
-  left: 50%;
-  /* top: 50%; */
-  transform: translate(-50%);
+
+  justify-content: center;
+  padding-top: 50px;
 
   .invalid-pool-tip {
     font-size: 18px;
@@ -689,22 +684,20 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
 
 if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
-    <Theme>
-      <SwapMainContainer class="">
-        To proceed, kindly switch to zkEVM.
-        <Widget
-          src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
-          props={{
-            title: "Polygon zkEVM Swap",
-            src: "https://assets.ref.finance/images/zkevm-swap.png",
-            imgStyle: {
-              width: "528px",
-              height: "216px",
-            },
-          }}
-        />
-      </SwapMainContainer>
-    </Theme>
+    <SwapMainContainer class="">
+      To proceed, kindly switch to zkEVM.
+      <Widget
+        src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
+        props={{
+          title: "Polygon zkEVM Swap",
+          src: "https://assets.ref.finance/images/zkevm-swap.png",
+          imgStyle: {
+            width: "528px",
+            height: "216px",
+          },
+        }}
+      />
+    </SwapMainContainer>
   );
 }
 
@@ -817,7 +810,7 @@ if (!state.sender || selectedChainId !== 1101) {
 }
 
 return (
-  <Theme>
+  <>
     <Widget
       src="guessme.near/widget/ZKEVMSwap.zkevm-dexData"
       props={{
@@ -1090,5 +1083,5 @@ return (
       </div>
     </SwapMainContainer>
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
-  </Theme>
+  </>
 );
