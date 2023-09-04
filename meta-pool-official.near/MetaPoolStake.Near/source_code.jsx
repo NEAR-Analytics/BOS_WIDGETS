@@ -237,6 +237,6 @@ const render = {
       }}
     />
   ),
-}[state.action];
+}[props.action];
 
 return <>{render}</>;
