@@ -196,8 +196,6 @@ const isActionBorrow = "borrow".includes(action.toLowerCase());
 
 const isActionRepay = "repay".includes(action.toLowerCase());
 
-console.log("isActionSwap: ", isActionSwap, isActonBridge);
-
 if (
   !isActionSwap &&
   !isActonBridge &&
