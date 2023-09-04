@@ -26,10 +26,21 @@ const searchIcon = (
 );
 
 const titleIcon = (
-  <svg width="193" height="16" viewBox="0 0 193 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 14.0001C36 10.5001 112.6 3.20006 147 2.00006C190 0.500062 199.5 4.50006 185 8.00006" stroke="#E9F456" stroke-width="3" stroke-linecap="round" />
+  <svg
+    width="193"
+    height="16"
+    viewBox="0 0 193 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M2 14.0001C36 10.5001 112.6 3.20006 147 2.00006C190 0.500062 199.5 4.50006 185 8.00006"
+      stroke="#E9F456"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
   </svg>
-)
+);
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,11 +64,11 @@ const Wrapper = styled.div`
     padding-bottom: 16px;
   }
 
-  .mobile{
+  .mobile {
     display: none;
   }
 
-  .title-icon{
+  .title-icon {
     display: none;
     margin-top: -36px;
   }
@@ -70,7 +81,7 @@ const Wrapper = styled.div`
     color: #979abe;
   }
 
-  .make-quest{
+  .make-quest {
     display: none;
     width: 100%;
     font-size: 20px;
@@ -79,8 +90,8 @@ const Wrapper = styled.div`
     text-align: center;
     border-radius: 12px;
     padding: 16px 0;
-    color: #02051E;
-    background: linear-gradient(180deg, #EEF3BF 0%, #E9F456 100%);
+    color: #02051e;
+    background: linear-gradient(180deg, #eef3bf 0%, #e9f456 100%);
   }
   .input-wrapper {
     display: flex;
@@ -228,28 +239,28 @@ const Wrapper = styled.div`
   }
 
   @media (max-width: 900px) {
-    .header-title{
+    .header-title {
       font-size: 26px;
     }
-    .pc{
+    .pc {
       display: none;
     }
-    .mobile{
+    .mobile {
       display: block;
       line-height: 36px;
     }
-    .title-icon{
+    .title-icon {
       display: inline-block;
     }
-    .header-description{
+    .header-description {
       font-size: 16px;
       letter-spacing: 0.4px;
       line-height: 20px;
     }
-    .search{
+    .search {
       display: none;
     }
-    .make-quest{
+    .make-quest {
       display: block;
     }
   }
@@ -284,9 +295,10 @@ return (
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
 
     <div className="header">
-      <div className="header-title pc">Participate In zkEVM Easily</div>
+      <div className="header-title pc">Participate In Polygon zkEVM Easily</div>
       <div className="header-title mobile">
-        Participate in<br />
+        Participate in
+        <br />
         Polygon zkEVM easily
       </div>
       <div className="title-icon">{titleIcon}</div>
@@ -297,10 +309,7 @@ return (
       </div>
     </div>
 
-    <div className="make-quest">
-      Make A Quest
-      
-    </div>
+    <div className="make-quest">Make A Quest</div>
 
     <div className="search">
       <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
@@ -339,7 +348,7 @@ return (
     <div className="quest-title-wrapper">
       <div className="quest-title">
         {hotIcon}
-        Hot zkEVM DApps{" "}
+        Hot Polygon zkEVM DApps{" "}
       </div>
     </div>
 
