@@ -61,6 +61,33 @@ const DevHub = {
     Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
     null,
 
+  create_workspace: ({ author_community_handle, metadata }) =>
+    Near.call(devHubAccountId, "create_workspace", {
+      author_community_handle,
+      metadata,
+    }) ?? null,
+
+  delete_workspace: ({ id }) =>
+    Near.call(devHubAccountId, "delete_workspace", { id }) ?? null,
+
+  update_workspace_metadata: ({ metadata }) =>
+    Near.call(devHubAccountId, "update_workspace_metadata", { metadata }) ??
+    null,
+
+  get_workspace_views_metadata: ({ workspace_id }) =>
+    Near.view(devHubAccountId, "get_workspace_views_metadata", {
+      workspace_id,
+    }) ?? null,
+
+  create_workspace_view: ({ view }) =>
+    Near.call(devHubAccountId, "create_workspace_view", { view }) ?? null,
+
+  update_workspace_view: ({ view }) =>
+    Near.call(devHubAccountId, "update_workspace_view", { view }) ?? null,
+
+  delete_workspace_view: ({ id }) =>
+    Near.call(devHubAccountId, "delete_workspace_view", { id }) ?? null,
+
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
@@ -114,32 +141,6 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
-/* INCLUDE: "entity/viewer" */
-const access_control_info = DevHub.useQuery({
-  name: "access_control_info",
-});
-
-const Viewer = {
-  can: {
-    editCommunity: (communityData) =>
-      Struct.typeMatch(communityData) &&
-      (communityData.admins.includes(context.accountId) ||
-        Viewer.role.isDevHubModerator),
-  },
-
-  role: {
-    isDevHubModerator:
-      access_control_info.data === null || access_control_info.isLoading
-        ? false
-        : access_control_info.data.members_list[
-            "team:moderators"
-          ]?.children?.includes?.(context.accountId) ?? false,
-  },
-};
-/* END_INCLUDE: "entity/viewer" */
-
-const isContractOwner = nearDevGovGigsContractAccountId == context.accountId;
-
 const access_info = DevHub.get_access_control_info() ?? null;
 
 if (!access_info) {
@@ -161,45 +162,19 @@ const permissionExplainer = (permission) => {
   }
 };
 
-function unsetRestrictedRules(name) {
-  let txn = [];
-  txn.push({
-    contractName: nearDevGovGigsContractAccountId,
-    methodName: "unset_restricted_rules",
-    args: {
-      rules: [name],
-    },
-    deposit: Big(0).pow(21),
-    gas: Big(10).pow(12).mul(100),
-  });
-  Near.call(txn);
-}
-
 return (
-  <div className="card" key="labelpermissions">
-    <div className="card-body">
+  <div className="card border-secondary" key="labelpermissions">
+    <div className="card-header">
       <i class="bi-lock-fill"> </i>
       <small class="text-muted">Restricted Labels</small>
     </div>
     <ul class="list-group list-group-flush">
       {Object.entries(rules_list).map(([pattern, metadata]) => (
         <li class="list-group-item" key={pattern}>
-          <div class="d-flex justify-content-between">
-            <div>
-              <span class="badge text-bg-primary" key={`${pattern}-permission`}>
-                {permissionExplainer(pattern)}
-              </span>
-              {metadata.description}
-            </div>
-            {(Viewer.role.isDevHubModerator || isContractOwner) && (
-              <button
-                className="btn btn-sm btn-light"
-                onClick={() => unsetRestrictedRules(pattern)}
-              >
-                Remove label
-              </button>
-            )}
-          </div>
+          <span class="badge text-bg-primary" key={`${pattern}-permission`}>
+            {permissionExplainer(pattern)}
+          </span>{" "}
+          {metadata.description}
         </li>
       ))}
     </ul>
