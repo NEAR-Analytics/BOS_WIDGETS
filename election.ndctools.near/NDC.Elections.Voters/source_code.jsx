@@ -15,7 +15,7 @@ asyncFetch(
     ids.includes(parseInt(vote.proposal_id))
   );
 
-  console.log(vote);
+  console.log(resp.body);
 
   State.update({ voters, reload: false });
 });
