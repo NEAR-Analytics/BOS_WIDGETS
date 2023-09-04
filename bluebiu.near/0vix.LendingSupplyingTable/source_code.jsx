@@ -13,7 +13,6 @@ const data = assets
         .mul(record.underlyingPrice)
         .toString(),
       isCollateral: record.userMerberShip,
-      loanToValue: record.loanToValue,
       address: record.address,
     };
   });
