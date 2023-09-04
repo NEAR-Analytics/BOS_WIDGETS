@@ -2,15 +2,12 @@
 
 const hashtag = props.hashtag || "APAC";
 
-
 const hashtags = hashtag && hashtag.split(",")?.map((it) => it.trim());
 hashtags.push("ProofOfCafe");
 const mention = props.mention || "";
 const mentions = mention && mention.split(",")?.map((it) => it.trim());
 
-
 State.update({ thisComponent, mention });
-
 
 const Card = styled.div`
 padding: 1em;
@@ -111,8 +108,7 @@ const Wrapper = styled.div`
 
 return (
   <div>
-
-
+    <Widget src="genadrop.near/widget/CafeCartel.Header" />
     <Widget
       src="efiz.near/widget/every.feed.view"
       props={{
