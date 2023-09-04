@@ -5,6 +5,7 @@ const onChange = props.onChange;
 const amount = "10000000000000000000000"; // 0.01 NEAR // amount to list at, by default its for other marketplaces
 const accountId = context.accountId ?? props.accountId; // add check for context it
 const ownerId = "minorityprogrammers.near"; // attribution
+const chainState= props.chainState
 const nft = props.nft ?? {
   contractId: props.contractId,
   tokenId: props.tokenId,
@@ -38,7 +39,6 @@ const nftMetadata = Near.view(contractId, "nft_metadata"); // get the contract n
 const tokenInfo = Near.view(contractId, "nft_token", {
   token_id: tokenId,
 });
-console.log(tokenInfo.approved_account_ids);
 initState({
   contractId: contractId,
   tokenId: tokenId,
@@ -419,6 +419,7 @@ return (
             selectFewFar,
             selectCustom,
             selectMintbase,
+            chainState,
             onChangeCustomMarket,
             onChangeAmount,
             list,
