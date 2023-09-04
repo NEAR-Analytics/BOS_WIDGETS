@@ -275,7 +275,7 @@ const alreadyVoted = (candidateId) =>
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 const votedForBudget = (vote) => {
   const myBVote = myVotes.find((voter) => voter.house === "SetupPackage");
-
+  console.log(myVotes);
   if (myBVote) myBVote.candidate === vote;
 };
 
@@ -461,7 +461,6 @@ const handleStateTransition = () => {
       });
       break;
     case "ENDED":
-      console.log(winnerIds);
       State.update({ winnerIds });
       break;
     default:
