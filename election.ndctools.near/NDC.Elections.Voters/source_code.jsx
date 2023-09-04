@@ -11,12 +11,11 @@ asyncFetch(
   `https://api.pikespeak.ai/election/votes-by-candidate?contract=${electionContract}&candidate=${candidateId}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
-  console.log(resp.body);
-  // const voters = resp.body.filter((vote) =>
-  //   ids.includes(parseInt(vote.proposal_id))
-  // );
+  const voters = resp.body.filter((vote) =>
+    ids.includes(parseInt(vote.proposal_id))
+  );
 
-  State.update({ voters: resp.body, reload: false });
+  State.update({ voters, reload: false });
 });
 
 const VotersContainer = styled.div`
