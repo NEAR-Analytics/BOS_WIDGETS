@@ -163,7 +163,13 @@ if (state.reload) {
       `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
       { headers: { "x-api-key": apiKey } }
     ).then((resp) => {
-      if (resp.body) State.update({ myVotes: resp.body, reload: false });
+      if (resp.body) {
+        const myVotes = resp.body.filter((vote) =>
+          ids.includes(vote.proposal_id)
+        );
+
+        State.update({ myVotes, reload: false });
+      }
     });
 }
 
