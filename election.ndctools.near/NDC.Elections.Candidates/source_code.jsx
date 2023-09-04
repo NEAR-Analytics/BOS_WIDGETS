@@ -505,7 +505,7 @@ const processNFTAvailability = (result, key) => {
       const tokens = data.nft_tokens;
 
       State.update({
-        [key]: true//tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
+        [key]: true, //tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
       });
     }
   }
@@ -915,7 +915,11 @@ const CastBudgetVote = () => (
                 ? !isBudgetWinner("yes")
                 : alreadyVotedForHouse().candidate !== "yes" || blacklisted,
             onClick: () => {
-              if (state.winnerIds.length > 0 || ) return;
+              if (
+                state.winnerIds.length > 0 ||
+                alreadyVotedForHouse().candidate === "yes"
+              )
+                return;
 
               const res = handleSelectCandidate("yes");
               if (res) handleVote();
@@ -943,7 +947,11 @@ const CastBudgetVote = () => (
                 ? !isBudgetWinner("no")
                 : alreadyVotedForHouse().candidate !== "no" || blacklisted,
             onClick: () => {
-              if (state.winnerIds.length > 0) return;
+              if (
+                state.winnerIds.length > 0 ||
+                alreadyVotedForHouse().candidate === "no"
+              )
+                return;
 
               const res = handleSelectCandidate("no");
               if (res) handleVote();
@@ -967,7 +975,11 @@ const CastBudgetVote = () => (
                 ? !isBudgetWinner("abstain")
                 : alreadyVotedForHouse().candidate !== "abstain" || blacklisted,
             onClick: () => {
-              if (state.winnerIds.length > 0) return;
+              if (
+                state.winnerIds.length > 0 ||
+                alreadyVotedForHouse().candidate === "abstain"
+              )
+                return;
 
               const res = handleSelectCandidate("abstain");
               if (res) handleVote();
