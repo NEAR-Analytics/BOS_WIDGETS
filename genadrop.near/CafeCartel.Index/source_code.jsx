@@ -1,5 +1,14 @@
 /**To-Do  filter out location nad hard code hashtag */
-
+const Text = styled.p`
+  font-family: "Playfair Display";
+  font-size: ${(p) => p.size ?? "18px"};
+  line-height: ${(p) => p.lineHeight ?? "1.5"};
+  font-weight: ${(p) => p.weight ?? "400"};
+  color: ${(p) => p.color ?? "#000"};
+  margin: 0;
+  align-content: "center";
+  justify-content: "center";
+`;
 const hashtag = props.hashtag || "APAC";
 
 const hashtags = hashtag && hashtag.split(",")?.map((it) => it.trim());
@@ -121,5 +130,6 @@ return (
         },
       }}
     />
+    <Widget src="genadrop.near/widget/CafeCartel.Footer" />
   </div>
 );
