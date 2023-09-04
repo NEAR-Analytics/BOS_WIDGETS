@@ -82,7 +82,7 @@ const Container = styled.div`
             cursor: pointer;
             margin: 5px 0;
             .template_item {
-              dispplay: flex;
+              display: flex;
               align-items: center;
               img {
                 margin-right: 10px;
