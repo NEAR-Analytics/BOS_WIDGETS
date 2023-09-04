@@ -240,11 +240,6 @@ const handleSelectClick = () => {
   });
 };
 
-// const handleOptionClick = (option) => {
-//   setSelectedOption(option);
-//   setIsOpen(false);
-// };
-
 const handleOutsideClick = (e) => {
   if (!e.target.closest(".select-replica__select")) {
     State.update({
@@ -330,15 +325,6 @@ const handleToggle = () => {
     isSoulBound: !state.isSoulBound,
   });
 };
-// if (state.sender === undefined) {
-//   console.log("of course it's undefined", ethers);
-//   const accounts = Ethers.send("eth_requestAccounts", []);
-//   console.log("account", accounts);
-//   if (accounts.length) {
-//     State.update({ sender: accounts[0] });
-//     console.log("set sender", accounts[0]);
-//   }
-// }
 
 const Heading = styled.p`
   margin: 3rem auto 0px auto;
@@ -770,20 +756,6 @@ return (
                 ) : accountId ? (
                   <SelectGroup>
                     <label htmlFor="chainSelect">Select Chain</label>
-                    {/*<SelectTag
-                    className="form-select"
-                    value={state.selectedChain}
-                    onChange={handleChainChange}
-                  >
-                    <option disabled selected>
-                      Select a Chain
-                    </option>
-                    {chains.map((chain) => (
-                      <ChainIcon key={chain.id} value={chain.id}>
-                        <span>{chain.name}</span>
-                      </ChainIcon>
-                    ))}
-                  </SelectTag>*/}
                     <SelectReplicaContainer onClick={handleOutsideClick}>
                       <div
                         className={`select-replica__select ${
@@ -875,17 +847,6 @@ return (
               {state.sender && Ethers.provider() ? (
                 <SelectGroup className="form-group">
                   <label htmlFor="chainSelect">Select Chain</label>
-                  {/*<select
-                    className="form-select"
-                    value={state.selectedChain}
-                    onChange={handleChainChange}
-                  >
-                    {chains.map((chain) => (
-                      <ChainIcon key={chain.id} value={chain.id}>
-                        {chain.name}
-                      </ChainIcon>
-                    ))}
-                  </select>*/}
                   <SelectReplicaContainer onClick={handleOutsideClick}>
                     <div
                       className={`select-replica__select ${
@@ -944,20 +905,6 @@ return (
               ) : accountId ? (
                 <SelectGroup>
                   <label htmlFor="chainSelect">Select Chain</label>
-                  {/*<SelectTag
-                    className="form-select"
-                    value={state.selectedChain}
-                    onChange={handleChainChange}
-                  >
-                    <option disabled selected>
-                      Select a Chain
-                    </option>
-                    {chains.map((chain) => (
-                      <ChainIcon key={chain.id} value={chain.id}>
-                        <span>{chain.name}</span>
-                      </ChainIcon>
-                    ))}
-                  </SelectTag>*/}
                   <SelectReplicaContainer onClick={handleOutsideClick}>
                     <div
                       className={`select-replica__select ${
@@ -1024,9 +971,6 @@ return (
             <Card>
               <div className="soulbound">
                 <p>SoulBound: {state.isSoulBound ? "Enabled" : "Disabled"}</p>
-                {/*<button onClick={handleToggle} className="button">
-                {state.isSoulBound ? "Disable" : "Enable"}
-              </button>*/}
                 <ToggleButton>
                   <label className="switch">
                     <input type="checkbox" onChange={handleToggle} />
