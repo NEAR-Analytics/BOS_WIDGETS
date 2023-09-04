@@ -257,7 +257,7 @@ return (
         props={{
           disabled: !isSignedIn,
           onClick: () => onSubmitFastUnstake(),
-          text: isSignedIn ? "Stake now" : "Connect wallet",
+          text: isSignedIn ? "Unstake" : "Connect wallet",
         }}
       />
     </StakeFormWrapper>
