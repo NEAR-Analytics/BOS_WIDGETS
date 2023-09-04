@@ -64,7 +64,7 @@ if (chainState) {
     body: JSON.stringify({
       query: `
             query MyQuery {
-             nfts(where: {tokenID: "${props.tokenId}"}) {
+             nfts(where: {tokenID: "${props.state.tokenId}"}) {
                 category
                 chain
                 createdAtTimestamp
