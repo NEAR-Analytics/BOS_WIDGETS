@@ -10,7 +10,7 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 }; // just in case need to pass in a NFT
 const NEAR_NOMINATION_EXP = 24;
-const contractId = "genadrop-contract.nftgen.near"; // default nft contract
+const contractId = "nft.genadrop.near"; // default nft contract
 const tokenId = "1679119560198"; // maybe condtional check if props is eempty // default nft
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
