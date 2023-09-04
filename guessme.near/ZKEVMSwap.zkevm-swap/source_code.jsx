@@ -351,13 +351,15 @@ const ExchangeWrapper = () => {
   );
 };
 
+const { layout } = props;
+
 const SwapMainContainer = styled.div`
   display: flex;
   align-items: start;
   gap: 8px;
   font-size: 18px;
 
-  justify-content: center;
+  justify-content: ${layout == "left" ? "start" : "center"};
   padding-top: 50px;
 
   .invalid-pool-tip {
