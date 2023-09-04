@@ -29,6 +29,10 @@ const ModalContainer = styled.div`
   background: linear-gradient(0deg, #181a27, #181a27),
     linear-gradient(0deg, #332c4b, #332c4b);
 
+  @media (max-width: 1023px) {
+    width: 100%;
+  }
+
   color: white;
   padding-top: 16px;
   z-index: 999;
