@@ -46,7 +46,7 @@ initState({
   msg: msg,
   fnfMsg: fnfMsg,
   trpMsg: trpMsg,
-  chainState: chainState,
+  chainState: 'polygon',
   tradeportLink: tradeportLink,
   custom: false,
   customMarketLink: defaultCustomMarket,
