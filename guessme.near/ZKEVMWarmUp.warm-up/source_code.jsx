@@ -48,6 +48,28 @@ const titleIcon = (
   </svg>
 );
 
+const ArrowRight = (
+  <svg
+    width="16"
+    height="8"
+    viewBox="0 0 16 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15.3536 4.35355C15.5488 4.15829 15.5488 3.84171 15.3536 3.64645L12.1716 0.464467C11.9763 0.269205 11.6597 0.269205 11.4645 0.464467C11.2692 0.659729 11.2692 0.976312 11.4645 1.17157L14.2929 4L11.4645 6.82843C11.2692 7.02369 11.2692 7.34027 11.4645 7.53553C11.6597 7.7308 11.9763 7.7308 12.1716 7.53553L15.3536 4.35355ZM-4.37114e-08 4.5L15 4.5L15 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
+      fill="#EBF479"
+    />
+  </svg>
+);
+
+const myQuestImgUrl = 'https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy'
+
+const trendImgUrl = 'https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy'
+
+const hotImgUrl = 'https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy'
+
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -243,8 +265,9 @@ const Wrapper = styled.div`
   }
 
   @media (max-width: 900px) {
-    .header {
-      .header-title {
+    padding: 0px 16px;
+    .header{
+      .header-title{
         font-size: 26px;
       }
       .header-title-pc {
@@ -298,7 +321,6 @@ const Container = styled.div`
   width: 100%;
   .contentOut {
     padding-top: 25px;
-    margin-left: 35px; /* 添加这行 */
   }
   .contentOut p {
     font-size: 20px;
@@ -362,21 +384,6 @@ const CardListWrapper = styled.div`
   gap: ${(props) => (props.isMyQuest ? "18px" : "32px")};
 `;
 
-const ArrowRight = (
-  <svg
-    width="16"
-    height="8"
-    viewBox="0 0 16 8"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M15.3536 4.35355C15.5488 4.15829 15.5488 3.84171 15.3536 3.64645L12.1716 0.464467C11.9763 0.269205 11.6597 0.269205 11.4645 0.464467C11.2692 0.659729 11.2692 0.976312 11.4645 1.17157L14.2929 4L11.4645 6.82843C11.2692 7.02369 11.2692 7.34027 11.4645 7.53553C11.6597 7.7308 11.9763 7.7308 12.1716 7.53553L15.3536 4.35355ZM-4.37114e-08 4.5L15 4.5L15 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
-      fill="#EBF479"
-    />
-  </svg>
-);
-
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
 const { activeMenu } = state;
@@ -393,7 +400,7 @@ State.init({
 State.init({
   activeMenu: "myQuest",
 });
-function changeTab(menu) {
+function changeTab (menu) {
   State.update({
     activeMenu: menu,
   });
@@ -529,7 +536,9 @@ return (
               }}
               class={`item ${activeMenu == "myQuest" ? "active" : ""}`}
             >
-              <div className="item-img">{myQuestIcon}</div>
+              <div className="item-img">
+                <img src={myQuestImgUrl} alt="" />
+              </div>
               <div className="item-text">My Quest</div>
             </div>
             <div
@@ -538,8 +547,10 @@ return (
               }}
               class={`item ${activeMenu == "questTrends" ? "active" : ""}`}
             >
-              <div className="item-img">{trendIcon}</div>
-              <div className="item-text">Quest Trends </div>
+              <div className="item-img">
+                <img src={trendImgUrl} alt="" />
+              </div>
+              <div className="item-text">Quest Trends{" "}</div>
             </div>
 
             <div
@@ -548,14 +559,28 @@ return (
                 changeTab("zkEVMDApps");
               }}
             >
-              <div className="item-img">{hotIcon}</div>
-              <div className="item-text">Hot Polygon zkEVM DApps </div>
+              <div className="item-img">
+                <img src={hotImgUrl} alt="" />
+              </div>
+              <div className="item-text">Hot Polygon<br />zkEVM DApps{" "}</div>
             </div>
           </MenuContainer>
           <div class="flex-grow contentOut">
-            {activeMenu == "myQuest" ? <>1</> : null}
-            {activeMenu == "questTrends" ? <>2</> : null}
-            {activeMenu == "zkEVMDApps" ? <>3</> : null}
+            {activeMenu == "myQuest" ? (
+              <>
+                <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" />
+              </>
+            ) : null}
+            {activeMenu == "questTrends" ? (
+              <>
+                <Widget src="guessme.near/widget/ZKEVMWarmUp.trend-list" />
+              </>
+            ) : null}
+            {activeMenu == "zkEVMDApps" ? (
+              <>
+                3
+              </>
+            ) : null}
           </div>
         </Container>
       </div>
