@@ -45,6 +45,13 @@ const ArrowDownWrapper = styled.div`
   position: absolute;
   right: 16px;
   top: 12px;
+
+  @media (max-width: 1023px) {
+    top: 4px;
+    right: 12px;
+
+    transform: scale(0.9);
+  }
 `;
 
 const exchangeIcon = (
@@ -146,8 +153,6 @@ const onDexDataLoad = (data) => {
   });
 };
 
-const Theme = styled.div``;
-
 const currentAccountId =
   getEVMAccountId() !== "" ? getEVMAccountId() : context.accountId;
 
@@ -171,8 +176,6 @@ const changeAmount = (e) => {
 
   State.update({ inputAssetAmount: amount });
 };
-
-// REUSABLE UI ELEMEETS
 
 const assetContainer = (
   isInputAsset,
@@ -213,16 +216,11 @@ const assetContainer = (
                       alt={`${assetData.metadata.name} logo`}
                       src={assetData.metadata.icon}
                       class="input-asset-token-icon-img"
-                      style={{
-                        width: "32px",
-                      }}
                     />
                   ) : (
                     <div
-                      className=""
+                      className="input-asset-token-icon-img"
                       style={{
-                        width: "30px",
-                        height: "30px",
                         borderRadius: "100%",
                       }}
                     ></div>
@@ -267,8 +265,6 @@ const assetContainer = (
     </>
   );
 };
-
-// SWAP METHODS
 
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
@@ -359,7 +355,15 @@ const SwapMainContainer = styled.div`
   gap: 8px;
   font-size: 18px;
 
-  justify-content: ${layout == "left" ? "start" : "center"};
+  @media (max-width: 1023px) {
+    flex-direction: column;
+    .swap-selected-dex {
+      display: none;
+    }
+    padding-top: 0px;
+  }
+
+  justify-content: center;
   padding-top: 50px;
 
   .invalid-pool-tip {
@@ -387,6 +391,19 @@ const NetworkList = styled.div`
     linear-gradient(0deg, #332c4b, #332c4b);
   border: 1px solid #332c4b;
   overflow: hidden;
+
+  @media (max-width: 1023px) {
+    border: none;
+    flex-direction: row;
+    background: none;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+    padding: 8px;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
 `;
 
 const NetWorkItem = styled.li`
@@ -398,17 +415,30 @@ const NetWorkItem = styled.li`
   border-radius: 12px;
   opacity: 0.5;
   cursor: pointer;
+
   img {
     padding-top: 4px;
   }
   .network-name {
     font-size: 16px;
     color: #979abe;
+    white-space: nowrap;
   }
   .network-dex {
     font-size: 18px;
     color: white;
     font-weight: bold;
+
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1023px) {
+    .network-name {
+      font-size: 13px;
+    }
+    .network-dex {
+      font-size: 15px;
+    }
   }
 
   &:hover {
@@ -426,10 +456,21 @@ const Seperator = styled.div`
   width: 327px;
   position: absolute;
   bottom: 0px;
+
+  @media (max-width: 1023px) {
+    width: 100%;
+  }
 `;
 
 const SwapPage = styled.div`
   width: 560px;
+
+  margin-bottom: 8px;
+
+  @media (max-width: 1023px) {
+    width: 100%;
+    padding: 16px;
+  }
 
   .swap-button {
     font-size: bold;
@@ -437,10 +478,20 @@ const SwapPage = styled.div`
     width: 100%;
     height: 100%;
     padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 1023px) {
+      height: 40px;
+    }
   }
 
   .swap-button-text {
     font-size: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .swap-button-enabled {
@@ -460,6 +511,18 @@ const SwapPage = styled.div`
   }
 
   min-height: 451px;
+
+  @media (max-width: 1023px) {
+    min-height: 423px;
+    .swap-button {
+      height: 40px;
+    }
+
+    button {
+      height: 40px;
+    }
+  }
+
   padding: 28px;
   background: linear-gradient(0deg, #181a27, #181a27),
     linear-gradient(0deg, #332c4b, #332c4b);
@@ -495,6 +558,28 @@ const SwapPage = styled.div`
     padding: 8px;
     width: 159px;
     border-radius: 23px;
+
+    .input-asset-token-icon-img {
+      width: 32px;
+    }
+
+    .input-asset-token-ticker {
+      font-size: 18px;
+    }
+
+    @media (max-width: 1023px) {
+      width: 115px;
+
+      padding: 4px 6px;
+
+      .input-asset-token-icon-img {
+        width: 22px;
+      }
+
+      .input-asset-token-ticker {
+        font-size: 15px;
+      }
+    }
   }
   .input-asset-details-row {
     display: flex;
@@ -686,7 +771,12 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
 
 if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
-    <SwapMainContainer class="">
+    <SwapMainContainer
+      class=""
+      style={{
+        justifyContent: layout == "left" ? "start" : "center",
+      }}
+    >
       To proceed, kindly switch to zkEVM.
       <Widget
         src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
@@ -931,9 +1021,19 @@ return (
         />
       )}
 
-    <SwapMainContainer>
+    <SwapMainContainer
+      style={{
+        justifyContent: layout == "left" ? "start" : "center",
+      }}
+    >
       {state.network && state.dexName && (
-        <div>
+        <div
+          className=""
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+          }}
+        >
           <div
             style={{
               color: "#794FDD",
@@ -943,7 +1043,9 @@ return (
           >
             Chain & Dapp
           </div>
-          <NetworkList>{networksDropDown}</NetworkList>
+          <NetworkList className="network-drop-down-container">
+            {networksDropDown}
+          </NetworkList>
         </div>
       )}
 
@@ -954,6 +1056,7 @@ return (
             paddingLeft: "12px",
             fontWeight: 500,
           }}
+          className="swap-selected-dex"
         >
           {/* Swap */}
           {selectedDex}
