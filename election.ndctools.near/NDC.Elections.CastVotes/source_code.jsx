@@ -164,7 +164,7 @@ const CastBudgetVote = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
     <div className="wrapper">
       <div className="d-flex align-items-end">
-        <H3>{alreadyVotedForHouse() ? 0 : state.availableVotes}</H3>
+        <H3>{alreadyVotedForHouse() ? 0 : 1}</H3>
         <span>/</span>
         <H4>{seats}</H4>
         <span className="text-secondary">votes left</span>
@@ -192,9 +192,9 @@ const CastBudgetVote = () => (
               <i className="bi bi-hand-thumbs-up" />
             ),
             disabled:
-              winnerIds.length > 0
-                ? !isBudgetWinner("yes")
-                : !alreadyVoted("yes") || blacklisted,
+              blacklisted ||
+              (alreadyVotedForHouse() && !alreadyVoted("yes")) ||
+              (winnerIds.length > 0 && !isBudgetWinner("yes")),
             onClick: () => {
               if (winnerIds.length > 0 || alreadyVoted("yes")) return;
 
@@ -217,9 +217,9 @@ const CastBudgetVote = () => (
               <i className="bi bi-hand-thumbs-down" />
             ),
             disabled:
-              winnerIds.length > 0
-                ? !isBudgetWinner("no")
-                : !alreadyVoted("no") || blacklisted,
+              blacklisted ||
+              (alreadyVotedForHouse() && !alreadyVoted("no")) ||
+              (winnerIds.length > 0 && !isBudgetWinner("no")),
             onClick: () => {
               if (winnerIds.length > 0 || alreadyVoted("no")) return;
 
@@ -240,9 +240,9 @@ const CastBudgetVote = () => (
             className: "primary justify-content-center",
             icon: winnerIds.length === 0 && <i className="bi bi-x-lg" />,
             disabled:
-              winnerIds.length > 0
-                ? !isBudgetWinner("abstain")
-                : !alreadyVoted("abstain") || blacklisted,
+              blacklisted ||
+              (alreadyVotedForHouse() && !alreadyVoted("abstain")) ||
+              (winnerIds.length > 0 && !isBudgetWinner("abstain")),
             onClick: () => {
               if (winnerIds.length > 0 || alreadyVoted("abstain")) return;
 
