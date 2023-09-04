@@ -273,6 +273,10 @@ const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
 
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
+const votedForBudget = (vote) => {
+  const myBVote = myVotes.find((voter) => voter.house === typ);
+  if (myBVote) myBVote.candidate === vote;
+};
 
 const filteredCandidates = () => {
   let candidates = result;
@@ -913,13 +917,9 @@ const CastBudgetVote = () => (
             disabled:
               state.winnerIds.length > 0
                 ? !isBudgetWinner("yes")
-                : alreadyVotedForHouse().candidate !== "yes" || blacklisted,
+                : !votedForBudget("yes") || blacklisted,
             onClick: () => {
-              if (
-                state.winnerIds.length > 0 ||
-                alreadyVotedForHouse().candidate === "yes"
-              )
-                return;
+              if (state.winnerIds.length > 0 || votedForBudget("yes")) return;
 
               const res = handleSelectCandidate("yes");
               if (res) handleVote();
@@ -945,13 +945,9 @@ const CastBudgetVote = () => (
             disabled:
               state.winnerIds.length > 0
                 ? !isBudgetWinner("no")
-                : alreadyVotedForHouse().candidate !== "no" || blacklisted,
+                : !votedForBudget("no") || blacklisted,
             onClick: () => {
-              if (
-                state.winnerIds.length > 0 ||
-                alreadyVotedForHouse().candidate === "no"
-              )
-                return;
+              if (state.winnerIds.length > 0 || votedForBudget("no")) return;
 
               const res = handleSelectCandidate("no");
               if (res) handleVote();
@@ -973,12 +969,9 @@ const CastBudgetVote = () => (
             disabled:
               state.winnerIds.length > 0
                 ? !isBudgetWinner("abstain")
-                : alreadyVotedForHouse().candidate !== "abstain" || blacklisted,
+                : !votedForBudget("abstain") || blacklisted,
             onClick: () => {
-              if (
-                state.winnerIds.length > 0 ||
-                alreadyVotedForHouse().candidate === "abstain"
-              )
+              if (state.winnerIds.length > 0 || votedForBudget("abstain"))
                 return;
 
               const res = handleSelectCandidate("abstain");
