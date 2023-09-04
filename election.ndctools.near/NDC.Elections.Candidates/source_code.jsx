@@ -274,7 +274,7 @@ const alreadyVoted = (candidateId) =>
 
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 const votedForBudget = (vote) => {
-  const myBVote = myVotes.find((voter) => voter.house === typ);
+  const myBVote = myVotes.find((voter) => voter.house === "SetupPackage");
 
   if (myBVote) myBVote.candidate === vote;
 };
@@ -510,7 +510,7 @@ const processNFTAvailability = (result, key) => {
       const tokens = data.nft_tokens;
 
       State.update({
-        [key]: true, //tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
+        [key]: tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
       });
     }
   }
@@ -881,13 +881,7 @@ const CastVotes = () => (
   </CastVotesSection>
 );
 
-console.log(
-  state.winnerIds.length > 0
-    ? !isBudgetWinner("yes")
-    : !votedForBudget("yes") || blacklisted
-);
-console.log(blacklisted);
-console.log("---", !votedForBudget("yes"));
+console.log(votedForBudget("yes"));
 
 const CastBudgetVote = () => (
   <CastVotesSection className="d-flex align-items-center justify-content-between gap-3">
