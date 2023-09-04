@@ -104,7 +104,7 @@ const processNFTAvailability = (result, key) => {
       const tokens = data.nft_tokens;
 
       State.update({
-        [key]: true, // tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
+        [key]: tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
       });
     }
   }
@@ -172,8 +172,6 @@ if (state.reload) {
       }
     });
 }
-
-console.log(state.myVotes);
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
