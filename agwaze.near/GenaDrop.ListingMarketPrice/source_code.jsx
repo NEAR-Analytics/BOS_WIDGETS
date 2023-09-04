@@ -53,10 +53,10 @@ const currentChainProps = {
 
 const chains = ["polygon", "aurora", "arbitrum", "celo"];
 
-const chainState = chains.find((data) => data.includes(props.chainState));
+const chainState = chains.find((data) => data.includes(props.state.chainState));
 
 if (chainState) {
-  let response = fetch(currentChainProps[props.chainState]?.subgraph, {
+  let response = fetch(currentChainProps[props.state.chainState]?.subgraph, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -292,7 +292,7 @@ State.init({
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
-      currentChainProps[props.chainState].livePrice
+      currentChainProps[props.state.chainState].livePrice
     }&vs_currencies=usd`
   );
   if (res.ok) {
@@ -460,7 +460,9 @@ return (
                   <span>{getUsdValue(props.state.amount / 1e24 || 0)}</span>
                   <PriceInput className="border rounded">
                     <img
-                      src={currentChainProps[props.chainState || "near"].img}
+                      src={
+                        currentChainProps[props.state.chainState || "near"].img
+                      }
                     />
                     <input
                       type="number"
