@@ -519,11 +519,13 @@ if (isSwap) {
 }
 
 if (isSupply) {
-  link = "/guessme.near/widget/ZKEVM.AAVE";
+  link = "/bluebiu.near/widget/0vix.Lending?tab=supply";
 }
 
 if (isBorrow || isRepay) {
-  link = "/guessme.near/widget/ZKEVM.AAVE?tab=borrow";
+  link = `/bluebiu.near/widget/0vix.Lending?tab=${
+    isRepay ? "repay" : "borrow"
+  }`;
 }
 
 const onSaveParams = () => {
