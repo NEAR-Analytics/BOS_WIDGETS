@@ -6,6 +6,12 @@ const Switcher = styled.div`
   color: #fff;
   width: 440px;
   margin: 20px auto 10px;
+  @media (max-width: 640px) {
+    padding: 4px;
+    background-color: #222436;
+    margin: 20px 0px;
+    width: 100%;
+  }
 `;
 const Item = styled.div`
   height: 36px;
