@@ -177,7 +177,7 @@ return (
   <Layout>
     <Wrapper>
       <div>
-        Sync to zkEVM Warm up
+        Sync to Polygon zkEVM
         <a className="highlight" href="/warmup">
           [My Quest]
         </a>{" "}
