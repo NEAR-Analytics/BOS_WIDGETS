@@ -100,6 +100,9 @@ const isBudgetWinner = (item) =>
 
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 
+const alreadyVoted = (candidateId) =>
+  myVotes.some((voter) => voter.candidate === candidateId);
+
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 
 const CastVotes = () => (
