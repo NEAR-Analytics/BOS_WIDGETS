@@ -7,6 +7,9 @@ const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
+const NFT_SERIES = [190, 191];
+const QUERY_API_ENDPOINT = "https://graph.mintbase.xyz/mainnet";
+
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
@@ -35,6 +38,8 @@ State.init({
   hasPolicyNFT: null,
   hasIVotedNFT: null,
 });
+
+const currentUser = context.accountId;
 
 const steps = [
   {
@@ -149,7 +154,7 @@ if (state.reload) {
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
     houses,
-    acceptedPolicy: acceptedPolicy === POLICY_HASH ?? state.acceptedPolicy,
+    acceptedPolicy,
     hasVotedOnAllProposals,
   });
 
