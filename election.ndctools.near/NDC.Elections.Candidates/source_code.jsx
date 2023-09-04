@@ -14,7 +14,7 @@ const {
   candidateId,
   blacklisted,
   greylisted,
-  alreadyBonded,
+  isBonded,
 } = props;
 
 const widgets = {
@@ -35,6 +35,8 @@ const FAIR_POLICY_NFT =
   "https://ipfs.near.social/ipfs/bafkreiabsu7xhumhim4gxj5h7umopc3b5ekppeofwwizsf5loqs2vcntpm";
 const I_VOTED_NFT =
   "https://ipfs.near.social/ipfs/bafkreiewiq4puwmcu7ciztsfqvmpl3gsumfgsm5r22g24abiynoeghsyey";
+const SHARE_LINK =
+  "https://twitter.com/intent/tweet?text=I%20minted%20%E2%80%9CI%20Voted%E2%80%9D%20NFT%20during%20NDC%20Elections!%20%F0%9F%8E%89%0A%0ACheck%20election%20here%3A%20https%3A//near.org/election.ndctools.near/widget/NDC.Elections.Main%0A%0A%23NDC%20%23NEAR";
 const MINT_VOTING_POLICY_NFT = "https://shard.dog/fairvoting";
 const MINT_I_VOTED_NFT = "https://shard.dog/ivoted";
 const BLACKLIST_VERIFY_LINK =
@@ -385,7 +387,7 @@ const handleVote = () => {
     deposit: (greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000,
   };
 
-  const arr = alreadyBonded ? [voteFunc] : [bondFunc, voteFunc];
+  const arr = isBonded ? [voteFunc] : [bondFunc, voteFunc];
 
   Near.call(arr).then((data) => State.update({ bountyProgramModal: false }));
 };
