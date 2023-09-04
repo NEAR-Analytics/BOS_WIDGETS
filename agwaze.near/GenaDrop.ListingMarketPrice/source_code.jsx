@@ -462,7 +462,7 @@ return (
                     <img src={currentChainProps["polygon"].img} />
                     <input
                       type="number"
-                      placeholder={props.state.amount  / 1e24}
+                      placeholder={props.state.amount / 1e24}
                       onChange={(e) => {
                         props.onChangeAmount(e.target.value);
                       }}
