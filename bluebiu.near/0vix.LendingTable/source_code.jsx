@@ -3,6 +3,11 @@ const Table = styled.div`
   background-color: #181a27;
   border: 1px solid #332c4b;
   border-radius: 12px;
+
+  @media (max-width: 640px) {
+    background-color: transparent;
+    border: none;
+  }
 `;
 const Title = styled.div`
   padding: 30px 30px 10px;
@@ -10,6 +15,10 @@ const Title = styled.div`
   font-weight: 700;
   line-height: 22px;
   color: #fff;
+  @media (max-width: 640px) {
+    font-size: 16px;
+    padding: 0px;
+  }
 `;
 const Header = styled.div`
   font-size: 14px;
@@ -18,6 +27,9 @@ const Header = styled.div`
   padding: 10px 30px;
   display: flex;
   color: #7c7f96;
+  @media (max-width: 640px) {
+    display: none;
+  }
 `;
 const Column = styled.div``;
 const Row = styled.div`
@@ -31,6 +43,51 @@ const Row = styled.div`
   }
   &:hover {
     background-color: rgba(53, 55, 73, 0.5);
+  }
+  @media (max-width: 640px) {
+    background-color: #181a27;
+    border: 1px solid #332c4b;
+    border-radius: 10px;
+    flex-direction: column;
+    height: auto;
+    padding: 20px 0px;
+    margin-top: 10px;
+    .special-key {
+      display: none;
+    }
+  }
+`;
+const RowHeader = styled.div`
+  display: flex;
+  @media (max-width: 640px) {
+    justify-content: space-between;
+    padding: 0px 20px 10px;
+    border-bottom: 1px solid #2e3145;
+  }
+  @media (min-width: 640px) {
+    .special-total {
+      display: none;
+    }
+  }
+`;
+const NormalCell = styled.div`
+  display: flex;
+  align-items: center;
+  .column-name {
+    display: none;
+    color: #7c7f96;
+    font-size: 13px;
+  }
+  @media (max-width: 640px) {
+    justify-content: space-between;
+    padding: 10px 20px 5px;
+    .column-name {
+      display: block;
+    }
+    .row-value {
+      color: #fff;
+      font-size: 15px;
+    }
   }
 `;
 const Asset = styled.div`
@@ -53,30 +110,50 @@ const Cell = styled.div`
   color: #fff;
   font-size: 16px;
   font-weight: 500;
+  @media (max-width: 640px) {
+    width: 100% !important;
+  }
 `;
 const Total = styled.div`
   color: #fff;
   font-size: 16px;
   font-weight: 500;
+  @media (max-width: 640px) {
+    text-align: right;
+  }
 `;
 const TotalValue = styled.div`
   color: #7c7f96;
   font-size: 14px;
   font-weight: 500;
+  @media (max-width: 640px) {
+    text-align: right;
+  }
 `;
 const Buttons = styled.div`
   display: flex;
   justify-content: flex-end;
+  @media (max-width: 640px) {
+    justify-content: center;
+    width: 100%;
+    padding: 10px 20px 0px;
+  }
 `;
 const Spacer = styled.div`
   width: 10px;
 `;
 const Flex = styled.div`
   display: flex;
+  flex-grow: 1;
 `;
 
 const { title, columns, data, buttons, onButtonClick } = props;
-
+const specialTotal = [
+  "userSupply",
+  "totalSupply",
+  "userBorrow",
+  "totalBorrows",
+];
 const formatTotal = (total) => {
   const BTotal = Big(total);
   if (BTotal.eq(0)) return "0";
@@ -85,23 +162,29 @@ const formatTotal = (total) => {
   if (BTotal.lt(1e6)) return BTotal.div(1e3).toFixed(2) + "K";
   return BTotal.div(1e6).toFixed(2) + "M";
 };
-
-const renderAssetName = (record) => {
+const renderTotal = (record, key, isSpecialKey) => {
   return (
-    <Asset>
-      <Logo src={record.logo} />
-      <Name>{record.name}</Name>
-    </Asset>
-  );
-};
-const renderTotal = (record, key) => {
-  return (
-    <div>
+    <div className={`${isSpecialKey && "special-total"}`}>
       <Total>{formatTotal(record[key])}</Total>
       <TotalValue>${formatTotal(record[`${key}_value`])}</TotalValue>
     </div>
   );
 };
+const renderAssetName = (record) => {
+  return (
+    <RowHeader>
+      <Asset>
+        <Logo src={record.logo} />
+        <Name>{record.name}</Name>
+      </Asset>
+      {record.userSupply && renderTotal(record, "userSupply", true)}
+      {record.totalSupply && renderTotal(record, "totalSupply", true)}
+      {record.userBorrow && renderTotal(record, "userBorrow", true)}
+      {record.totalBorrows && renderTotal(record, "totalBorrows", true)}
+    </RowHeader>
+  );
+};
+
 const renderCollateral = (record) => {
   return (
     <Widget
@@ -120,12 +203,7 @@ const renderCollateral = (record) => {
     />
   );
 };
-
-const CELL_MAP = {
-  name: renderAssetName,
-  total: renderTotal,
-  collateral: renderCollateral,
-};
+const renderApy = (record) => <div className="apy">{record.apy}</div>;
 
 return (
   <Table>
@@ -137,16 +215,19 @@ return (
         </Column>
       ))}
     </Header>
+
     {data?.map((record, i) => (
       <Row key={i}>
         {columns?.map((column) => (
           <Cell
             key={column.key || column.type}
+            className={specialTotal.includes(column.key) && "special-key"}
             style={{
               width: column.width,
               textAlign: column.type === "button" ? "right" : "left",
             }}
           >
+            {column.type === "name" && renderAssetName(record)}
             {column.type === "button" && (
               <Buttons>
                 {buttons?.map((button, j) => (
@@ -168,11 +249,18 @@ return (
                 ))}
               </Buttons>
             )}
-            {column.type !== "button" && CELL_MAP[column.type]
-              ? CELL_MAP[column.type](record, column.key)
-              : column.key === "loanToValue"
-              ? Number(record[column.key]).toFixed(2) + "%"
-              : record[column.key]}
+            {!["name", "button"].includes(column.type) && (
+              <NormalCell>
+                <div className="column-name">{column.name}</div>
+                <div className="row-value">
+                  {column.type === "total" && renderTotal(record, column.key)}
+                  {column.type === "apy" && renderApy(record)}
+                  {column.type === "collateral" && renderCollateral(record)}
+                  {!["total", "apy", "collateral"].includes(column.type) &&
+                    record[column.key]}
+                </div>
+              </NormalCell>
+            )}
           </Cell>
         ))}
       </Row>
