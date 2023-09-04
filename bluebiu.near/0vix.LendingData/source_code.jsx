@@ -206,7 +206,6 @@ let count = 0;
 let oTokensLength = Object.values(markets).length;
 
 const formatedData = (key) => {
-  console.log("key", key);
   if (count < 5) return;
   count = 0;
   oTokensLength = Object.values(markets).length;
@@ -548,7 +547,6 @@ const getCTokensData = () => {
 };
 
 const init = () => {
-  console.log("starting init data");
   getUnitrollerData();
   getUnderlyPrice();
   getOTokenLiquidity();
