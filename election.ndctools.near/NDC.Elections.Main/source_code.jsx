@@ -60,7 +60,7 @@ const steps = [
   },
   {
     title: 'Unbonded & Minted "I Voted SBT"',
-    completed: state.hasVotedOnAllProposals,
+    completed: state.isBonded,
   },
 ];
 
@@ -156,6 +156,7 @@ if (state.reload) {
     houses,
     acceptedPolicy,
     hasVotedOnAllProposals,
+    hasIVotedSbt,
   });
 
   if (context.accountId)
