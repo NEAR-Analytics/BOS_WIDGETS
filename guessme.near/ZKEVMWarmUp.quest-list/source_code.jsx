@@ -135,6 +135,15 @@ const NoQuestWrapper = styled.div`
       top: 36px;
     }
   }
+  @media (max-width: 900px) {
+    .search-tip {
+      display:none;
+    }
+
+    .trends-tip {
+      display:none;
+    }
+  }
 `;
 
 const CardListWrapper = styled.div`
