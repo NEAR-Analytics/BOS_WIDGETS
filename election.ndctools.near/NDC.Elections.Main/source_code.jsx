@@ -132,7 +132,7 @@ if (state.reload) {
     account: context.accountId,
   });
 
-  const flagged = Near.view(electionContract, "account_flagged", {
+  const flagged = Near.view(registryContract, "account_flagged", {
     account: context.accountId,
   });
 
@@ -166,6 +166,8 @@ if (state.reload) {
       if (resp.body) State.update({ myVotes: resp.body, reload: false });
     });
 }
+
+console.log(myVotes);
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
