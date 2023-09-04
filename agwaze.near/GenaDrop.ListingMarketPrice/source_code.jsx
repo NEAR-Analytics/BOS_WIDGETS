@@ -291,7 +291,9 @@ State.init({
 
 const getUsdValue = (price) => {
   const res = fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${currentChainProps[props.chainState.livePrice]}&vs_currencies=usd`
+    `https://api.coingecko.com/api/v3/simple/price?ids=${
+      currentChainProps[props.chainState].livePrice
+    }&vs_currencies=usd`
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
@@ -460,7 +462,7 @@ return (
                     <img src={currentChainProps["polygon"].img} />
                     <input
                       type="number"
-                      placeholder={props.state.amount / 1e24}
+                      placeholder={props.state.amount  / 1e24}
                       onChange={(e) => {
                         props.onChangeAmount(e.target.value);
                       }}
