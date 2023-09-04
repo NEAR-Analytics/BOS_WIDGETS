@@ -134,15 +134,15 @@ State.init({
   keywords: "",
 });
 function get_hot_action_list() {
-  asyncFetch("https://bos-api.delink.one/get-hot-action?hot_number=20").then(
-    (res) => {
-      const result = JSON.parse(res.body || {}).data || [];
-      State.update({
-        hotActionList: result,
-        searchActionList: result,
-      });
-    }
-  );
+  asyncFetch(
+    "https://bos-api.delink.one/get-hot-action?hot_number=20&action_network_id=zkEVM"
+  ).then((res) => {
+    const result = JSON.parse(res.body || {}).data || [];
+    State.update({
+      hotActionList: result,
+      searchActionList: result,
+    });
+  });
 }
 if (state.hotActionList.length == 0) {
   get_hot_action_list();
