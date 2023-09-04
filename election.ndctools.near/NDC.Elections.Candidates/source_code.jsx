@@ -16,6 +16,9 @@ const {
   blacklisted,
   greylisted,
   isBonded,
+  acceptedPolicy,
+  hasPolicyNFT,
+  hasIVotedNFT,
 } = props;
 
 const widgets = {
@@ -309,11 +312,11 @@ const filteredCandidates = () => {
 };
 
 const handleSelectCandidate = (candidateId) => {
-  if (!state.acceptedPolicy) {
+  if (!acceptedPolicy) {
     State.update({ showToSModal: true });
     return;
   }
-  if (!!state.acceptedPolicy && state.hasPolicyNFT === false) {
+  if (!!acceptedPolicy && hasPolicyNFT === false) {
     State.update({ showMintPolicyModal: true });
     return;
   }
@@ -441,13 +444,13 @@ const handleStateTransition = () => {
 
   switch (state.electionStatus) {
     case "ONGOING":
-      if (!!state.acceptedPolicy)
+      if (!!acceptedPolicy)
         State.update({
-          showMintPolicyModal: state.hasPolicyNFT === false,
+          showMintPolicyModal: hasPolicyNFT === false,
           showMintIVotedModal:
             state.hasVotedOnAllProposals &&
-            state.hasIVotedNFT === false &&
-            state.hasPolicyNFT === true,
+            hasIVotedNFT === false &&
+            hasPolicyNFT === true,
         });
       break;
     case "COOLDOWN":
@@ -552,14 +555,6 @@ const winnerIds = Near.view(electionContract, "winners_by_house", {
 });
 
 if (state.reload) {
-  fetchGraphQL(NFT_SERIES[0]).then((result) =>
-    processNFTAvailability(result, "hasPolicyNFT")
-  );
-
-  fetchGraphQL(NFT_SERIES[1]).then((result) =>
-    processNFTAvailability(result, "hasIVotedNFT")
-  );
-
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
   });
@@ -578,7 +573,7 @@ if (state.reload) {
 
   State.update({
     electionStatus: electionStatus ?? state.electionStatus,
-    acceptedPolicy: acceptedPolicy === POLICY_HASH ?? state.acceptedPolicy,
+    acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
     winnerIds: winnerIds ?? state.winnerIds,
     bookmarked: bookmarked ?? state.bookmarked,
     candidates: filteredCandidates(),
@@ -865,7 +860,7 @@ const CastVotes = () => (
               state.selectedCandidates.length === 1 ? "" : "s"
             }`,
             onClick: () =>
-              !!state.acceptedPolicy && state.hasPolicyNFT
+              !!acceptedPolicy && hasPolicyNFT
                 ? State.update({ bountyProgramModal: true })
                 : State.update({ showToSModal: true }),
           },
