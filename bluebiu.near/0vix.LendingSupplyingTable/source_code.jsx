@@ -21,7 +21,7 @@ return data.length ? (
   <Widget
     src="bluebiu.near/widget/0vix.LendingTable"
     props={{
-      title: "Supplying",
+      title: "Your Supplied",
       columns: [
         {
           type: "name",
