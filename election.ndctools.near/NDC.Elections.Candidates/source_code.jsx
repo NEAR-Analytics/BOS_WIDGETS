@@ -505,7 +505,7 @@ const processNFTAvailability = (result, key) => {
       const tokens = data.nft_tokens;
 
       State.update({
-        [key]: true, //tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
+        [key]: true//tokens.length > 0 && tokens[0].last_transfer_timestamp === null,
       });
     }
   }
@@ -913,9 +913,9 @@ const CastBudgetVote = () => (
             disabled:
               state.winnerIds.length > 0
                 ? !isBudgetWinner("yes")
-                : alreadyVotedForHouse() || blacklisted,
+                : alreadyVotedForHouse().candidate !== "yes" || blacklisted,
             onClick: () => {
-              if (state.winnerIds.length > 0) return;
+              if (state.winnerIds.length > 0 || ) return;
 
               const res = handleSelectCandidate("yes");
               if (res) handleVote();
@@ -941,7 +941,7 @@ const CastBudgetVote = () => (
             disabled:
               state.winnerIds.length > 0
                 ? !isBudgetWinner("no")
-                : alreadyVotedForHouse() || blacklisted,
+                : alreadyVotedForHouse().candidate !== "no" || blacklisted,
             onClick: () => {
               if (state.winnerIds.length > 0) return;
 
@@ -965,7 +965,7 @@ const CastBudgetVote = () => (
             disabled:
               state.winnerIds.length > 0
                 ? !isBudgetWinner("abstain")
-                : alreadyVotedForHouse() || blacklisted,
+                : alreadyVotedForHouse().candidate !== "abstain" || blacklisted,
             onClick: () => {
               if (state.winnerIds.length > 0) return;
 
