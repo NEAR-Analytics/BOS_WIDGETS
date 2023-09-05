@@ -114,20 +114,6 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
-const winnerIds = Near.view(electionContract, "winners_by_house", {
-  prop_id: state.selectedHouse,
-});
-
-const hasVotedOnAllProposals = Near.view(
-  electionContract,
-  "has_voted_on_all_proposals",
-  { user: currentUser }
-);
-
-const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-  user: currentUser,
-});
-
 if (state.reload) {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
@@ -147,6 +133,20 @@ if (state.reload) {
   const flagged = Near.view(registryContract, "account_flagged", {
     account: currentUser,
   });
+
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+    user: currentUser,
+  });
+
+  const winnerIds = Near.view(electionContract, "winners_by_house", {
+    prop_id: state.selectedHouse,
+  });
+
+  const hasVotedOnAllProposals = Near.view(
+    electionContract,
+    "has_voted_on_all_proposals",
+    { user: currentUser }
+  );
 
   const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
     issuer: electionContract,
