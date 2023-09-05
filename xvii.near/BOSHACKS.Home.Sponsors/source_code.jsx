@@ -307,43 +307,7 @@ return (
         ))}
       </Logos>
     </Section>
-    <Section>
-      <div>
-        <Widget
-          src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
-          props={{
-            text: "🤝 Sponsor/Partner",
-            href: "http://nearbuilders.com/sponsor",
-          }}
-        />
-        <h2>Community Partners</h2>
-      </div>
-      <Logos>
-        {partners.map((partner) => (
-          <a href={partner.url} target="blank">
-            <img src={partner.image} />
-          </a>
-        ))}
-      </Logos>
-    </Section>
-    <Section>
-      <div>
-        <h2>Judges & Mentors From</h2>
-        <Widget
-          src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
-          props={{
-            text: "🧑🏿‍🏫 See More",
-            href: "https://nearbuilders.com/people",
-          }}
-        />
-      </div>
-      <Logos>
-        {judges.map((judge) => (
-          <a href={judge.url} target="blank">
-            <img src={judge.image} />
-          </a>
-        ))}
-      </Logos>
-    </Section>
+    <Section></Section>
+    <Section></Section>
   </>
 );
