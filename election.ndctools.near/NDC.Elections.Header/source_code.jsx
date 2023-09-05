@@ -1,4 +1,4 @@
-const { startTime, endTime, type, isWhistleblower } = props;
+const { startTime, endTime, type, isWhistleblower, title } = props;
 
 State.init({
   days: "-",
@@ -41,7 +41,11 @@ const timer = setInterval(() => {
         <>Time remaining in current {type}</>
       );
   else {
-    title = <>{type} is ended</>;
+    title = (
+      <>
+        {type} {title ?? "is ended"}
+      </>
+    );
     days = 0;
     hours = 0;
     minutes = 0;
