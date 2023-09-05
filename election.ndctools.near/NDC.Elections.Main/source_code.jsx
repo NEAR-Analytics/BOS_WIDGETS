@@ -153,7 +153,7 @@ fetchGraphQL(NFT_SERIES[1]).then((result) =>
 );
 
 State.update({
-  isIAmHuman: isHuman[0][1].length > 0,
+  isIAmHuman: isHuman && isHuman[0][1].length > 0,
   winnerIds,
   blacklisted: flagged === "Blacklisted",
   greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
