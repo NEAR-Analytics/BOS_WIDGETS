@@ -95,7 +95,6 @@ const SelectToken = styled.div`
   border-radius: 20px;
   display: flex;
   flex-direction: column;
-  padding-block-end: 20px;
   width: 100%;
 `;
 
