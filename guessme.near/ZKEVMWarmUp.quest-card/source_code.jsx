@@ -511,6 +511,8 @@ const isSupply = arr[0].toLowerCase() === "supply";
 const isBorrow = arr[0].toLowerCase() === "borrow";
 const isRepay = arr[0].toLowerCase() === "repay";
 
+const isWithdraw = arr[0].toLowerCase() === "withdraw";
+
 if (isBridge) {
   link = "/guessme.near/widget/ZKEVMSwap.zkevm-bridge?source=quest-card";
 }
@@ -518,14 +520,12 @@ if (isSwap) {
   link = "/guessme.near/widget/ZKEVMSwap.zkevm-swap?source=quest-card";
 }
 
-if (isSupply) {
+if (isSupply || isWithdraw) {
   link = "/bluebiu.near/widget/0vix.Lending?tab=supply";
 }
 
 if (isBorrow || isRepay) {
-  link = `/bluebiu.near/widget/0vix.Lending?tab=${
-    isRepay ? "repay" : "borrow"
-  }`;
+  link = "/bluebiu.near/widget/0vix.Lending?tab=borrow";
 }
 
 const onSaveParams = () => {
