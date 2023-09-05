@@ -856,7 +856,7 @@ return (
             >
               Mint to {contractAddresses[state.selectedChain][1]}
             </button>
-            {(true || state.canPropose) && (
+            {((true || state.canPropose) && state. proposal_args) ? (
               <button
                 type="button"
                 className="btn btn-primary d-flex flex-column align-items-center mx-auto"
@@ -864,7 +864,12 @@ return (
               >
                 Propose to Mint to NEAR to {state.daoId ?? daoId}
               </button>
-            )}
+            ): (              <button
+                type="button"
+                className="btn btn-danger d-flex flex-column align-items-center mx-auto"
+              >
+                Not Allowed To Propose to Mint to NEAR to {state.daoId ?? daoId}
+              </button>)}
           </div>
         </>
       )}
