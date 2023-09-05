@@ -65,12 +65,12 @@ const steps = [
   },
 ];
 
-// asyncFetch(
-//   `https://api.pikespeak.ai/election/already_bonded?contract=${electionContract}`,
-//   { headers: { "x-api-key": apiKey } }
-// ).then((resp) => {
-//   if (resp.body) State.update({ isBonded: resp.body });
-// });
+asyncFetch(
+  `https://api.pikespeak.ai/election/is-bonded?registry=${registryContract}&account=${context.accountId}`,
+  { headers: { "x-api-key": apiKey } }
+).then((resp) => {
+  if (resp.body) State.update({ isBonded: resp.body });
+});
 
 function fetchGraphQL(series) {
   return asyncFetch(QUERY_API_ENDPOINT, {
