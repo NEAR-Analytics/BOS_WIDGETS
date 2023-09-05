@@ -104,6 +104,11 @@ const trendsTip = (
     </defs>
   </svg>
 );
+
+const switchIcon = 'https://ipfs.near.social/ipfs/bafkreigkkvqns7dxrbopcf22gvkpi4uvopladrr2p6arcvon7pzul7iiry'
+
+const closeIcon = 'https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq'
+
 State.init({
   forceReload: false,
   questLoadDone: false,
@@ -151,6 +156,61 @@ const CardListWrapper = styled.div`
   align-items: center;
   gap: 18px;
   flex-wrap: wrap;
+  .CardListWrapper-title{
+    display:none;
+  }
+  @media (max-width:900px){
+    display:block;
+    .CardListWrapper-title{
+      display: flex;
+      justify-content: space-between;
+      padding:0 16px;
+      margin-bottom:18px;
+      .CardListWrapper-title-text{
+        align-self: flex-start;
+        font-size:18px;
+        color:#ffffff;
+      }
+      .CardListWrapper-title-btn{
+        align-self: flex-start;
+        display:flex;
+        .execute-records {
+          color: #ecf488;
+          border: 1px solid #ecf488;
+          background:rgba(55, 58, 83, 0.5);
+          width: 133px;
+          border-radius: 8px;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          font-size: 14px;
+          height:32px;
+          line-height:32px;
+          :hover {
+            text-decoration: none;
+          }
+        }
+        .title-btn-icon{
+          margin-left:10px;
+          width:32px;
+          height:32px;
+          line-height:32px;
+          background:rgba(55, 58, 83, 0.5);
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius:8px;
+          img{
+            width:16px;
+            height:13px;
+          }
+        }
+      }
+    }
+  }
 `;
 
 const uuid = Storage.get(
@@ -158,9 +218,8 @@ const uuid = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
 );
 
-const quest_url = `https://bos-api.delink.one/get-action-by-account?account_id=${
-  sender || ""
-}&account_info=${uuid}&action_network_id=zkEVM`;
+const quest_url = `https://bos-api.delink.one/get-action-by-account?account_id=${sender || ""
+  }&account_info=${uuid}&action_network_id=zkEVM`;
 
 const noQuestTip = (
   <NoQuestWrapper>
@@ -222,8 +281,29 @@ if (realList.length === 0) {
   return noQuestTip;
 }
 
+const storedActiveIsSwitch = Storage.get(
+  "activeIsSwitch",
+  "guessme.near/widget/ZKEVMWarmUp.quest-list"
+);
+
 return (
   <CardListWrapper>
+    <div className="CardListWrapper-title">
+      <div className="CardListWrapper-title-text">
+        {myQuestList.length} Quests
+      </div>
+      <div className="CardListWrapper-title-btn">
+        <a
+          href="/guessme.near/widget/ZKEVM.ExecuteRecords"
+          className="execute-records"
+        >
+          Execute Records
+        </a>
+        <div className="title-btn-icon">
+          <img src={switchIcon} alt="Icon" />
+        </div>
+      </div>
+    </div>
     {realList.map((item, index) => {
       return (
         <Widget
