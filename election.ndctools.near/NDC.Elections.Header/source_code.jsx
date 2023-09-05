@@ -22,6 +22,10 @@ const timer = setInterval(() => {
   const cooldown = new Date(parseInt(endTime + cooldown)).getTime();
   let title = "";
 
+  console.log(props);
+  console.log(now);
+  console.log(cooldown);
+
   let diff;
   if (now < start) diff = start - now;
   else if (now > start && now < end) diff = end - now;
