@@ -23,7 +23,6 @@ const widgets = {
 };
 
 State.init({
-  electionStatus: "NOT_STARTED",
   selectedHouse: ids[0],
   myVotes: [],
   winnerIds: [],
@@ -40,8 +39,6 @@ State.init({
   hasIVotedNFT: null,
   hasIVotedSbt: false,
 });
-
-let electionStatus;
 
 const currentUser = context.accountId;
 
@@ -155,14 +152,7 @@ fetchGraphQL(NFT_SERIES[1]).then((result) =>
   processNFTAvailability(result, "hasIVotedNFT")
 );
 
-if (state.reload) {
-  electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: state.selectedHouse,
-  });
-}
-
 State.update({
-  electionStatus,
   isIAmHuman: isHuman[0][1].length > 0,
   winnerIds,
   blacklisted: flagged === "Blacklisted",
@@ -276,7 +266,6 @@ const rand = (array) => {
 
   return array;
 };
-console.log(state.electionStatus);
 
 return (
   <>
