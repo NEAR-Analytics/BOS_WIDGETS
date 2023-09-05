@@ -319,7 +319,7 @@ return (
             />
           </div>
 
-          {state.winnerIds.length > 0 && !state.hasIVotedSbt ? (
+          {currentUser && state.winnerIds.length > 0 && !state.hasIVotedSbt ? (
             <UnbondContainer className={`not-verified d-flex flex-column`}>
               <div>
                 <h4>Unbond NEAR & Mint SBT</h4>
