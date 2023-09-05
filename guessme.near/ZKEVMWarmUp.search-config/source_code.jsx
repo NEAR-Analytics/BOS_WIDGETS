@@ -198,13 +198,16 @@ const isActionRepay = "repay".includes(action.toLowerCase());
 
 const isActionWithdraw = "withdraw".includes(action.toLowerCase());
 
+const isDepositGamma = "deposit".includes(action.toLowerCase());
+
 if (
   !isActionSwap &&
   !isActonBridge &&
   !isActionBorrow &&
   !isActionSupply &&
   !isActionRepay &&
-  !isActionWithdraw
+  !isActionWithdraw &&
+  !isDepositGamma
 ) {
   onLoad([]);
 
@@ -410,6 +413,39 @@ if (isActionWithdraw) {
       highlight: "Withdraw on 0vix",
       dexName: "0vix",
     },
+
+    {
+      full: "Withdraw on Gamma",
+      highlight: "Withdraw on Gamma",
+      dexName: "Gamma",
+    },
+  ];
+
+  const list = hintList.map((item) => {
+    const matchOnDex =
+      symbolOrOn &&
+      item.dexName.toLowerCase().includes(symbolOrOn.toLowerCase());
+
+    return {
+      full: item.full,
+      highlight: matchOnDex ? item.highlight : "Withdraw",
+      left: matchOnDex ? "" : `on ${item.dexName}`,
+      dappName: item.dexName,
+      matched: matchOnDex || !symbolOrOn,
+    };
+  });
+  onLoad(list);
+
+  return <div />;
+}
+
+if (isDepositGamma) {
+  const hintList = [
+    {
+      full: "Deposit on Gamma",
+      highlight: "Deposit on Gamma",
+      dexName: "Gamma",
+    },
   ];
   const matchOnDex =
     symbolOrOn &&
@@ -418,8 +454,8 @@ if (isActionWithdraw) {
   const list = hintList.map((item) => {
     return {
       full: item.full,
-      highlight: matchOnDex ? item.highlight : "Withdraw",
-      left: matchOnDex ? "" : "on 0vix",
+      highlight: matchOnDex ? item.highlight : "Deposit",
+      left: matchOnDex ? "" : "on Gamma",
       dappName: item.dexName,
       matched: true,
     };
