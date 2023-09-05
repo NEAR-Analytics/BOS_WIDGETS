@@ -243,7 +243,7 @@ const ButtonConnectContainer = styled.div`
 return (
   <StakeContainer>
     <StakeForm>
-      {isSignedIn && (
+      {sender && (
         <StakeFormTopContainer>
           <StakeFormTopContainerLeft>
             <StakeFormTopContainerLeftContent1>
