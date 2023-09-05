@@ -154,7 +154,7 @@ const updateUserArgs = () => {
       console.log("GO ON SOUN", res);
       const cid = res.body.cid;
       const gas = nft_gas;
-      const deposit = "10000000000000000000000";
+      const deposit = nft_deposit;
       console.log("State Image CID: " + state.image.cid);
       console.log("Reference CID: " + cid);
 const post_args = JSON.stringify({
@@ -194,7 +194,7 @@ const proposeMint = () => {
                 {
                   method_name:  method_name,
                   args: state.proposal_args,
-                  deposit:  "" + nft_deposit,
+                  deposit:  "10000000000000000000000",
                   gas: "" + nft_gas,
                   receiver_id: `${state.recipient ?? context.accountId}` ,
                 },
