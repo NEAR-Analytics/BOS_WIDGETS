@@ -201,6 +201,20 @@ const onChangeTitle = (title) => {
   });
 };
 
+const data = Social.keys("*/profile", "final");
+
+if (!data) {
+  return "Loading";
+}
+
+const accounts = Object.entries(data);
+
+const allWidgets = [];
+
+for (let i = 0; i < accounts.length; ++i) {
+  const accountId = accounts[i][0];
+  allWidgets.push(accountId);
+}
 const onChangeRecipient = (recipient) => {
   State.update({
     recipient,
@@ -645,14 +659,29 @@ return (
             </Card>
             <Card>
               Mint To:
-              <Input
-                type="text"
-                placeholder={
-                  state.selectedChain == "0" ? accountId : state.sender
-                }
-                value={state.recipient}
-                onChange={(e) => onChangeRecipient(e.target.value)}
-              />
+              {state.selectedChain !== "0" ? (
+                <Input
+                  type="text"
+                  placeholder={
+                    state.selectedChain == "0" ? accountId : state.sender
+                  }
+                  value={state.recipient}
+                  onChange={(e) => onChangeRecipient(e.target.value)}
+                />
+              ) : (
+                <Typeahead
+                  id="async-example"
+                  className="type-ahead"
+                  isLoading={isLoading}
+                  labelKey="search"
+                  minLength={1}
+                  options={allWidgets}
+                  onChange={(value) => onChangeRecipient(value)}
+                  placeholder={
+                    state.selectedChain == "0" ? accountId : state.sender
+                  }
+                />
+              )}
             </Card>
           </Card>
           <button
