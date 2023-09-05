@@ -112,13 +112,6 @@ return (
     <Section>
       <div>
         <h2>Sponsors</h2>
-        <Widget
-          src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
-          props={{
-            text: "💰 See Bounties",
-            href: "http://nearbuilders.com/bounty",
-          }}
-        />
       </div>
       <Logos>
         {sponsors.map((sponsor) => (
