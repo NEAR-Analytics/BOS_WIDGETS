@@ -285,10 +285,6 @@ return (
                 endTime: house.end,
                 cooldown: house.cooldown,
                 type: "Election",
-                defaultTitle:
-                  state.electionStatus === "COOLDOWN"
-                    ? "is under review"
-                    : null,
                 isWhistleblower: true,
                 ids,
               }}
