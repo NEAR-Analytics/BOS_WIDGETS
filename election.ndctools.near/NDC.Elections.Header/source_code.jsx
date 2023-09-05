@@ -1,4 +1,5 @@
-const { startTime, endTime, type, isWhistleblower, defaultTitle } = props;
+const { startTime, endTime, type, isWhistleblower, cooldown, defaultTitle } =
+  props;
 
 State.init({
   days: "-",
@@ -25,6 +26,8 @@ const timer = setInterval(() => {
     diff = new Date(parseInt(start)).getTime() - new Date().getTime();
   else if (now > start && now < end)
     diff = new Date(parseInt(end)).getTime() - new Date().getTime();
+  else if (now > end + cooldown)
+    diff = new Date(parseInt(end + cooldown)).getTime() - new Date().getTime();
   else diff = 0;
 
   let days = Math.floor(diff / (1000 * 60 * 60 * 24));
