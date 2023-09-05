@@ -353,7 +353,7 @@ const handleAcceptToS = () => {
     { policy: POLICY_HASH },
     70000000000000,
     1000000000000000000000
-  ).thrn(() =>
+  ).then(() =>
     State.update({
       showToSModal: false,
       tosAgreement: true,
