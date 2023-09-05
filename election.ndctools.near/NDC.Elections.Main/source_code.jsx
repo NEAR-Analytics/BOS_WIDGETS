@@ -38,6 +38,7 @@ State.init({
   hasVotedOnAllProposals: false,
   hasPolicyNFT: null,
   hasIVotedNFT: null,
+  hasIVotedSbt: false,
 });
 
 console.log(state.isBonded);
@@ -63,7 +64,7 @@ const steps = [
   },
   {
     title: 'Unbonded & Minted "I Voted SBT"',
-    completed: state.isBonded,
+    completed: state.hasIVotedSbt,
   },
 ];
 
@@ -140,11 +141,15 @@ if (state.reload) {
   });
 
   const isHuman = Near.view(registryContract, "is_human", {
-    account: context.accountId,
+    account: currentUser,
   });
 
   const flagged = Near.view(registryContract, "account_flagged", {
-    account: context.accountId,
+    account: currentUser,
+  });
+
+  const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
+    issuer: electionContract,
   });
 
   fetchGraphQL(NFT_SERIES[0]).then((result) =>
@@ -164,7 +169,7 @@ if (state.reload) {
     houses,
     acceptedPolicy,
     hasVotedOnAllProposals,
-    hasIVotedSbt,
+    hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
   });
 
   if (context.accountId)
@@ -340,7 +345,7 @@ return (
                   props={{
                     Button: {
                       className: "primary w-100 justify-content-center",
-                      disabled: !state.isBonded,
+                      disabled: !state.isBonded || state.hasIVotedSbt,
                       text: "Unbond & Mint I Voted SBT",
                       onClick: handleUnbond,
                     },
