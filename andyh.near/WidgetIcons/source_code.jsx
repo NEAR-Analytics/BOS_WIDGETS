@@ -1,6 +1,5 @@
 const accountId = props.accountId;
 const tag = props.tag;
-console.log({ a: props.accountId, t: props.tag });
 let keys = `${accountId ?? "*"}/widget/*`;
 
 if (tag) {
