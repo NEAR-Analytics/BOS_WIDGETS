@@ -6,6 +6,7 @@ const nearContract = "nft.genadrop.near";
 const ownerId = "minorityprogrammers.near"; // attribution
 const nft_gas = 200000000000000;
 const nft_deposit = 10000000000000000000000;
+const proposal_gas = 219000000000000;
 const method_name = "nft_mint";
 const daoId = props.daoId ?? "drop.sputnik-dao.near";
 const nearOnly = true;
@@ -164,7 +165,7 @@ const post_args = JSON.stringify({
               media: `https://ipfs.io/ipfs/${state.image.cid}`,
               reference: `ipfs://${cid}`,
             },
-            receiver_id: state.recipient,
+            receiver_id:  state.recipient,
 });
 console.log("Post args: " + post_args);
 const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
@@ -193,9 +194,9 @@ const proposeMint = () => {
                 {
                   method_name:  method_name,
                   args: state.proposal_args,
-                  deposit:  nft_deposit,
-                  gas: nft_gas,
-                  receiver_id: state.recipient,
+                  deposit:  "" + nft_deposit,
+                  gas: "" + nft_gas,
+                  receiver_id: `${state.recipient ?? context.accountId}` ,
                 },
               ],
             },
@@ -203,7 +204,7 @@ const proposeMint = () => {
         },
       },
       deposit: state.daoBond,
-      gas: "219000000000000",
+      gas:  "" + proposal_gas,
     },
   ]);
 };
