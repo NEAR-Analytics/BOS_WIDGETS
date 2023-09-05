@@ -1012,13 +1012,13 @@ return (
               </CandidatesContainer>
             </>
           ) : (
-            <div className="d-flex p-5 justify-content-center flex-column gap-2">
+            <div className="d-flex p-5 justify-content-center align-items-center flex-column gap-2">
               <span>There are no candidates found.</span>
               <Widget
                 src={widgets.styledComponents}
                 props={{
                   Button: {
-                    className: "primary dark",
+                    className: "secondary dark",
                     text: "Clear Filters",
                     onClick: () =>
                       State.update({
