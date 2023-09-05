@@ -16,7 +16,6 @@ const {
   blacklisted,
   greylisted,
   isBonded,
-  acceptedPolicy,
   hasPolicyNFT,
   hasIVotedNFT,
 } = props;
@@ -245,11 +244,11 @@ const filteredCandidates = () => {
 };
 
 const handleSelectCandidate = (candidateId) => {
-  if (!acceptedPolicy) {
+  if (!state.acceptedPolicy) {
     State.update({ showToSModal: true });
     return;
   }
-  if (!!acceptedPolicy && hasPolicyNFT === false) {
+  if (!!state.acceptedPolicy && hasPolicyNFT === false) {
     State.update({ showMintPolicyModal: true });
     return;
   }
@@ -271,7 +270,7 @@ const handleSelectCandidate = (candidateId) => {
 };
 
 const handleCast = () =>
-  !!acceptedPolicy && hasPolicyNFT
+  !!state.acceptedPolicy && hasPolicyNFT
     ? State.update({ bountyProgramModal: true })
     : State.update({ showToSModal: true });
 
@@ -392,7 +391,7 @@ const handleStateTransition = () => {
 
   switch (state.electionStatus) {
     case "ONGOING":
-      if (!!acceptedPolicy)
+      if (!!state.acceptedPolicy)
         State.update({
           showMintPolicyModal: hasPolicyNFT === false,
           showMintIVotedModal:
