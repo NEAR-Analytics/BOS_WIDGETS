@@ -19,16 +19,17 @@ const timer = setInterval(() => {
   const now = new Date().getTime();
   const start = new Date(parseInt(startTime)).getTime();
   const end = new Date(parseInt(endTime)).getTime();
-  const cooldown = new Date(parseInt(endTime + cooldown)).getTime();
+  const cooldown = new Date(parseInt(endTime)).getTime() + cooldown;
   let title = "";
-
   console.log(props);
   console.log(now);
   console.log(cooldown);
 
   let diff;
-  if (now < start) diff = start - now;
-  else if (now > start && now < end) diff = end - now;
+  if (now < start)
+    diff = new Date(parseInt(start)).getTime() - new Date().getTime();
+  else if (now > start && now < end)
+    diff = new Date(parseInt(end)).getTime() - new Date().getTime();
   else if (now > end && now < cooldown) diff = cooldown - now;
   else diff = 0;
 
