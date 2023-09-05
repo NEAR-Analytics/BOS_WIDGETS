@@ -16,6 +16,7 @@ function MainComponent(props, context) {
   return (
     <>
       <h1>
+        Live!
         {props.customWelcomeMessage ??
           "Welcome to the home page of the first TypeScript BOS component"}
         , {context.accountId ?? "anonymous user"}
