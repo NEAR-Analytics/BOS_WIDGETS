@@ -23,6 +23,7 @@ const widgets = {
 };
 
 State.init({
+  electionStatus: "NOT_STARTED",
   selectedHouse: ids[0],
   myVotes: [],
   winnerIds: [],
@@ -128,6 +129,10 @@ if (state.reload) {
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
 
+  const electionStatus = Near.view(electionContract, "proposal_status", {
+    prop_id: selectedHouse,
+  });
+
   const isHuman = Near.view(registryContract, "is_human", {
     account: context.accountId,
   });
@@ -149,6 +154,7 @@ if (state.reload) {
   });
 
   State.update({
+    electionStatus,
     isIAmHuman: isHuman[0][1].length > 0,
     winnerIds,
     blacklisted: flagged === "Blacklisted",
@@ -277,6 +283,10 @@ return (
                 startTime: house.start,
                 endTime: house.end,
                 type: "Election",
+                title:
+                  state.electionStatus === "COOLDOWN"
+                    ? "is under review"
+                    : null,
                 isWhistleblower: true,
                 ids,
               }}
