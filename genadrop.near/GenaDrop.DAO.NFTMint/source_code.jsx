@@ -369,7 +369,7 @@ const onChangeDAO = (daoId) => {
     actions.AddProposal
   ); // logic not working for some reason
   console.log(
-    "Can Propose Function call " + context.accountId + " " + canPropose
+    "Can Propose Function call inside onchangedao " + context.accountId + " " + canPropose
   );
   State.update({
     daoId,
