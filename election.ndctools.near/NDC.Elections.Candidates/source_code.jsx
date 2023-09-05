@@ -422,6 +422,8 @@ const loadSocialDBData = () => {
     : [];
 };
 
+const bookmarked = loadSocialDBData();
+
 function fetchGraphQL(series) {
   return asyncFetch(QUERY_API_ENDPOINT, {
     method: "POST",
@@ -501,30 +503,26 @@ const winnerIds = Near.view(electionContract, "winners_by_house", {
   prop_id: id,
 });
 
-if (state.reload) {
-  const hasVotedOnAllProposals = Near.view(
-    electionContract,
-    "has_voted_on_all_proposals",
-    { user: currentUser }
-  );
+const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+  user: currentUser,
+});
 
-  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-    user: currentUser,
-  });
+const hasVotedOnAllProposals = Near.view(
+  electionContract,
+  "has_voted_on_all_proposals",
+  { user: currentUser }
+);
 
-  const bookmarked = loadSocialDBData();
+State.update({
+  electionStatus: electionStatus ?? state.electionStatus,
+  acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
+  winnerIds: winnerIds ?? state.winnerIds,
+  bookmarked: bookmarked ?? state.bookmarked,
+  candidates: filteredCandidates(),
+  hasVotedOnAllProposals,
+});
 
-  State.update({
-    electionStatus: electionStatus ?? state.electionStatus,
-    acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
-    winnerIds: winnerIds ?? state.winnerIds,
-    bookmarked: bookmarked ?? state.bookmarked,
-    candidates: filteredCandidates(),
-    hasVotedOnAllProposals,
-  });
-
-  handleStateTransition();
-}
+handleStateTransition();
 
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
