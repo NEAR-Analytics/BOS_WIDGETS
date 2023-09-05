@@ -48,7 +48,7 @@ const currentUser = context.accountId;
 const steps = [
   {
     title: "Accepted Policy",
-    completed: state.acceptedPolicy,
+    completed: state.acceptedPolicy ?? state.hasIVotedSbt,
   },
   {
     title: 'Minted "Fair Voting Policy" NFT',
@@ -56,7 +56,7 @@ const steps = [
   },
   {
     title: "Voting Completed",
-    completed: state.hasVotedOnAllProposals,
+    completed: state.hasVotedOnAllProposals ?? state.hasIVotedSbt,
   },
   {
     title: 'Minted "I Voted" NFT',
@@ -330,7 +330,7 @@ return (
             />
           </div>
 
-          {state.winnerIds.length > 0 ? (
+          {state.winnerIds.length > 0 && !state.hasIVotedSbt ? (
             <UnbondContainer className={`not-verified d-flex flex-column`}>
               <div>
                 <h4>Unbond NEAR & Mint SBT</h4>
@@ -345,7 +345,7 @@ return (
                   props={{
                     Button: {
                       className: "primary w-100 justify-content-center",
-                      disabled: !state.isBonded || state.hasIVotedSbt,
+                      disabled: !state.isBonded,
                       text: "Unbond & Mint I Voted SBT",
                       onClick: handleUnbond,
                     },
