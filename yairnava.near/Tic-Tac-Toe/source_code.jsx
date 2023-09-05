@@ -16,7 +16,7 @@ const borderRow = {
   clear: "both",
   content: "",
   display: "table",
-  opacity: "0.7"
+  opacity: "0.7",
 };
 
 function calculateWinner(squares) {
@@ -144,27 +144,28 @@ if (winner) {
 }
 
 if (emptySquares.length == 9 && !state.xIsNext) {
-  handleClick(Math.floor(Math.random() * 9))
+  handleClick(Math.floor(Math.random() * 9));
 }
 
 return (
   <div
     style={{
-      width: "100%",
+      width: "370px",
       display: "flex",
       justifyContent: "center",
       width: "100%",
       height: "308px",
-      backgroundImage: "url(https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/gameboyverde.png)",
+      backgroundImage:
+        "url(https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/gameboyverde.png)",
       backgroundRepeat: "no-repeat",
       backgroundSize: "370px",
-      backgroundPosition: "top"
+      backgroundPosition: "top",
     }}
   >
     <div
       style={{
         textAlign: "center",
-        marginTop: "83px"
+        marginTop: "83px",
       }}
     >
       <div style={borderRow}>
@@ -182,11 +183,13 @@ return (
         {renderSquare(7)}
         {renderSquare(8)}
       </div>
-      <div style={{
-        marginTop: "5px",
-        fontSize: "9px",
-        color: "white"
-      }}>
+      <div
+        style={{
+          marginTop: "5px",
+          fontSize: "9px",
+          color: "white",
+        }}
+      >
         {state.status}
       </div>
       <div
