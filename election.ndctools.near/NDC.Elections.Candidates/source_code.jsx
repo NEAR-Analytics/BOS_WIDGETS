@@ -18,6 +18,7 @@ const {
   isBonded,
   hasPolicyNFT,
   hasIVotedNFT,
+  electionStatus,
 } = props;
 
 const widgets = {
@@ -467,7 +468,6 @@ const isVisible = () =>
 State.init({
   reload: true,
   loading: false,
-  electionStatus: "NOT_STARTED",
   acceptedPolicy: false,
   hasVotedOnAllProposals: false,
   availableVotes: seats - myVotesForHouse().length,
@@ -502,10 +502,6 @@ const winnerIds = Near.view(electionContract, "winners_by_house", {
 });
 
 if (state.reload) {
-  const electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: props.id,
-  });
-
   const hasVotedOnAllProposals = Near.view(
     electionContract,
     "has_voted_on_all_proposals",
