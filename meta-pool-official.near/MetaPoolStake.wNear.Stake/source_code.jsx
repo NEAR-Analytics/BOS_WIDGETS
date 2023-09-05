@@ -1,40 +1,49 @@
 const authorId = "meta-pool-official.near";
 const tokenDecimals = 24;
 const swapAddress = "0x534BACf1126f60EA513F796a3377ff432BE62cf9";
-const { isSignedIn, sender, update, state, handleInputwNear, onClickMaxwNear, updateData} =
-  props;
+const {
+  isSignedIn,
+  sender,
+  update,
+  state,
+  handleInputwNear,
+  onClickMaxwNear,
+  updateData,
+} = props;
 
-const swapAbi = [{
-  "inputs": [
-    {
-      "internalType": "uint256",
-      "name": "_amount",
-      "type": "uint256"
-    }
-  ],
-  "name": "swapstNEARForwNEAR",
-  "outputs": [],
-  "stateMutability": "nonpayable",
-  "type": "function"
-},
-{
-  "inputs": [
-    {
-      "internalType": "uint256",
-      "name": "_amount",
-      "type": "uint256"
-    }
-  ],
-  "name": "swapwNEARForstNEAR",
-  "outputs": [],
-  "stateMutability": "nonpayable",
-  "type": "function"
-}];
+const swapAbi = [
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "swapstNEARForwNEAR",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "swapwNEARForstNEAR",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
 
 const iface = new ethers.utils.Interface(swapAbi);
 
 const onSubmit = (strAmount) => {
-    const swap = new ethers.Contract(
+  const swap = new ethers.Contract(
     swapAddress,
     swapAbi,
     Ethers.provider().getSigner()
@@ -57,11 +66,11 @@ const onSubmit = (strAmount) => {
           balance: "",
           stakedBalance: "",
         });
-    updateData();
+        updateData();
       });
     })
     .catch((e) => {
-      State.update({
+      update({
         loading: false,
         openModal: true,
         modalTitle: "Error!",
@@ -71,7 +80,6 @@ const onSubmit = (strAmount) => {
       console.error(e);
     });
   updateData();
-
 };
 
 const StakeContainer = styled.div`
