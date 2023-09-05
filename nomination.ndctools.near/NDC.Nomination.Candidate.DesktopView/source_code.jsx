@@ -484,7 +484,7 @@ const titles = [
 
 return (
   <Container class="row">
-    <div class="col-9" style={{ "margin-right": "5px", width: "950px" }}>
+    <div class="" style={{ "margin-right": "5px", width: "950px" }}>
       <div class="row" style={{ "margin-inline": "5px" }}>
         <div
           class="col-12 p-0 w-100"
@@ -721,7 +721,7 @@ return (
       </div>
     </div>
     <div
-      class="col-3"
+      class=""
       style={{
         width: "350px",
         background: "#F8F8F9",
