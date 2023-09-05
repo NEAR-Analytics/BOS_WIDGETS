@@ -140,7 +140,7 @@ return (
               )}
 
               {props?.description !== undefined && props?.description !== "" ? (
-                <p style={{ fontSize: 10, marginTop: -5, lineHeight:'8px' }}>
+                <p style={{ fontSize: 10, marginTop: 0, lineHeight: "10px" }}>
                   {props?.description}
                 </p>
               ) : (
