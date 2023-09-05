@@ -55,10 +55,10 @@ const getComputerChoiceImg = (option) => {
 return (
   <div
     style={{
-      width: "100%",
+      width: "370px",
+      marginInline: "auto", 
       display: "flex",
       justifyContent: "center",
-      width: "100%",
       height: "308px",
       backgroundImage:
         "url(https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/gameboyverde.png)",
@@ -82,7 +82,7 @@ return (
                     transform: "rotate(180deg)",
                     marginTop: "-15px",
                     marginBottom: "10px",
-                    opacity: "0.8"
+                    opacity: "0.8",
                   }}
                   src={getComputerChoiceImg(state.computerChoice)}
                 />
@@ -96,11 +96,14 @@ return (
               <div class="col-12">
                 <p>Player</p>
               </div>
-              <div class="col-12" style={{
-                marginTop: "-15px",
-                fontSize: "9px",
-                color: "white",
-              }}>
+              <div
+                class="col-12"
+                style={{
+                  marginTop: "-15px",
+                  fontSize: "9px",
+                  color: "white",
+                }}
+              >
                 <p>{state.result}</p>
               </div>
             </div>
@@ -126,7 +129,7 @@ return (
             <p>Choose an option</p>
             <Choice onClick={() => playGame("rock")}>
               <img
-                style={{ height: "50px" , opacity: "0.8"}}
+                style={{ height: "50px", opacity: "0.8" }}
                 src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/piedra.png"
               />
             </Choice>
