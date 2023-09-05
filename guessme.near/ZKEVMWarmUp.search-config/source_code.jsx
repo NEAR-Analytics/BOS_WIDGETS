@@ -196,12 +196,15 @@ const isActionBorrow = "borrow".includes(action.toLowerCase());
 
 const isActionRepay = "repay".includes(action.toLowerCase());
 
+const isActionWithdraw = "withdraw".includes(action.toLowerCase());
+
 if (
   !isActionSwap &&
   !isActonBridge &&
   !isActionBorrow &&
   !isActionSupply &&
-  !isActionRepay
+  !isActionRepay &&
+  !isActionWithdraw
 ) {
   onLoad([]);
 
@@ -390,6 +393,32 @@ if (isActionRepay) {
     return {
       full: item.full,
       highlight: matchOnDex ? item.highlight : "Repay",
+      left: matchOnDex ? "" : "on 0vix",
+      dappName: item.dexName,
+      matched: true,
+    };
+  });
+  onLoad(list);
+
+  return <div />;
+}
+
+if (isActionWithdraw) {
+  const hintList = [
+    {
+      full: "Withdraw on 0vix",
+      highlight: "Withdraw on 0vix",
+      dexName: "0vix",
+    },
+  ];
+  const matchOnDex =
+    symbolOrOn &&
+    hintList[0].dexName.toLowerCase().includes(symbolOrOn.toLowerCase());
+
+  const list = hintList.map((item) => {
+    return {
+      full: item.full,
+      highlight: matchOnDex ? item.highlight : "Withdraw",
       left: matchOnDex ? "" : "on 0vix",
       dappName: item.dexName,
       matched: true,
