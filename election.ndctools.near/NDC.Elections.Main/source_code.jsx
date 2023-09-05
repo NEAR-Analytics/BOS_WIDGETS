@@ -40,6 +40,8 @@ State.init({
   hasIVotedNFT: null,
 });
 
+console.log(state.isBonded);
+
 const currentUser = context.accountId;
 
 const steps = [
@@ -66,7 +68,7 @@ const steps = [
 ];
 
 asyncFetch(
-  `https://api.pikespeak.ai/election/is-bonded?registry=${registryContract}&account=${context.accountId}`,
+  `https://api.pikespeak.ai/election/is-bonded?registry=${registryContract}&account=${currentUser}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
   if (resp.body) State.update({ isBonded: resp.body });
