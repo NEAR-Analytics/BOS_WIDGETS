@@ -860,7 +860,7 @@ return (
               <button
                 type="button"
                 className="btn btn-primary d-flex flex-column align-items-center mx-auto"
-                onClick={proposeMint}
+                onClick={state.canPropose ? proposeMint: null}
               >
                 {state.canPropose ? "" : "Cannot "}Propose to Mint to NEAR to {state.daoId ?? daoId}
               </button>
