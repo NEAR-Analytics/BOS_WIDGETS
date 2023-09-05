@@ -4,7 +4,10 @@
  */
 const nearContract = "nft.genadrop.near";
 const ownerId = "minorityprogrammers.near"; // attribution
-const daoId = props.daoId ?? "";
+const nft_gas = 200000000000000;
+const nft_deposit = 10000000000000000000000;
+const method_name = "nft_mint";
+const daoId = props.daoId ?? "drop.sputnik-dao.near";
 const nearOnly = true;
 let accountId = context.accountId;
 const contractAddresses = {
@@ -17,6 +20,193 @@ const chains = [
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
 ];
+
+const proposalKinds = {
+  ChangeConfig: "config",
+  ChangePolicy: "policy",
+  AddMemberToRole: "add_member_to_role",
+  RemoveMemberFromRole: "remove_member_from_role",
+  FunctionCall: "call",
+  UpgradeSelf: "upgrade_self",
+  UpgradeRemote: "upgrade_remote",
+  Transfer: "transfer",
+  SetStakingContract: "set_vote_token",
+  AddBounty: "add_bounty",
+  BountyDone: "bounty_done",
+  Vote: "vote",
+  FactoryInfoUpdate: "factory_info_update",
+  ChangePolicyAddOrUpdateRole: "policy_add_or_update_role",
+  ChangePolicyRemoveRole: "policy_remove_role",
+  ChangePolicyUpdateDefaultVotePolicy: "policy_update_default_vote_policy",
+  ChangePolicyUpdateParameters: "policy_update_parameters",
+};
+
+const actions = {
+  AddProposal: "AddProposal",
+  VoteApprove: "VoteApprove",
+  VoteReject: "VoteReject",
+  VoteRemove: "VoteRemove",
+};
+
+// -- Get all the roles from the DAO policy
+let roles = Near.view(daoId, "get_policy");
+const daoBond = roles.proposal_bond;
+
+roles = roles === null ? [] : roles.roles;
+// state update roles
+const isUserAllowedTo = (roles, user, kind, action) => {
+  // -- Filter the user roles
+  const userRoles = [];
+  for (const role of roles) {
+    if (role.kind === "Everyone") {
+      userRoles.push(role);
+      continue;
+    }
+    if (!role.kind.Group) continue;
+    if (accountId && role.kind.Group && role.kind.Group.includes(accountId)) {
+      userRoles.push(role);
+    }
+  }
+
+  // -- Check if the user is allowed to perform the action
+  let allowed = false;
+
+  userRoles
+    .filter(({ permissions }) => {
+      const allowedRole =
+        permissions.includes(`${kind.toString()}:${action.toString()}`) ||
+        permissions.includes(`${kind.toString()}:*`) ||
+        permissions.includes(`*:${action.toString()}`) ||
+        permissions.includes("*:*");
+      allowed = allowed || allowedRole;
+      return allowedRole;
+    })
+    .map((role) => role.name);
+
+  return allowed;
+};
+
+const canPropose = isUserAllowedTo(
+  roles,
+  context.accountId,
+  proposalKinds.FunctionCall,
+  actions.AddProposal
+); // logic not working for some reason
+console.log(
+  "Can Propose Function call " + context.accountId + " " + canPropose
+);
+// move this to helper function
+
+const updateUserArgs = () => {
+  
+  if (!state.image.cid) {
+    return;
+  }
+  if (!accountId) {
+    console.log("Please login"); // add share dogvwallet
+    State.update({
+      showAlert: true,
+      toastMessage: "Please log in before continuing",
+    });
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+  } else if (!state.title) {
+    console.log("Please Enter title");
+    State.update({
+      showAlert: true,
+      toastMessage: "Please enter a title for the NFT",
+    });
+
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+  } else if (!state.description) {
+    State.update({
+      showAlert: true,
+      toastMessage: "Please enter a description for the NFT",
+    });
+    setTimeout(() => {
+      State.update({
+        showAlert: false,
+      });
+    }, 3000);
+  } else {
+    const metadata = {
+      name: state.title,
+      description: state.description,
+      properties: [],
+      image: `ipfs://${state.image.cid}`,
+    };
+    console.log("come", metadata);
+    asyncFetch("https://ipfs.near.social/add", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body: metadata,
+    }).then((res) => {
+      console.log("GO ON SOUN", res);
+      const cid = res.body.cid;
+      const gas = nft_gas;
+      const deposit = nft_deposit;
+      console.log("State Image CID: " + state.image.cid);
+      console.log("Reference CID: " + cid);
+const post_args = JSON.stringify({
+            token_id: `${Date.now()}`,
+            metadata: {
+              title: state.title,
+              description: state.description,
+              media: `https://ipfs.io/ipfs/${state.image.cid}`,
+              reference: `ipfs://${cid}`,
+            },
+            receiver_id: state.recipient,
+});
+console.log("Post args: " + post_args);
+const proposal_args = Buffer.from(post_args, "utf-8").toString("base64");
+  State.update({
+    proposal_args,
+  });
+    });
+  }
+  console.log("Should be end of update userArgs")
+};
+
+
+
+const proposeMint = () => {
+    Near.call([
+    {
+      contractName: state.daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: "create proposal to mint NFT",
+          kind: {
+            FunctionCall: {
+              receiver_id: nearContract,
+              actions: [
+                {
+                  method_name:  method_name,
+                  args: state.proposal_args,
+                  deposit:  nft_deposit,
+                  gas: nft_gas,
+                  receiver_id: state.recipient,
+                },
+              ],
+            },
+          },
+        },
+      },
+      deposit: state.daoBond,
+      gas: "219000000000000",
+    },
+  ]);
+};
 const handleMint = () => {
   if (!state.image.cid) {
     return;
@@ -78,7 +268,7 @@ const handleMint = () => {
       Near.call([
         {
           contractName: "nft.genadrop.near",
-          methodName: "nft_mint",
+          methodName:  method_name,
           args: {
             token_id: `${Date.now()}`,
             metadata: {
@@ -97,8 +287,6 @@ const handleMint = () => {
   }
 };
 
-
-
 State.init({
   title: "",
   description: "",
@@ -108,7 +296,11 @@ State.init({
   toastMessage: "",
   selectIsOpen: false,
   selectedChain: "0",
-  daoId:  daoId,
+  daoId: daoId,
+  roles: roles,
+  daoBond: daoBond,
+  canPropose: canPropose,
+  proposal_args: null,
 });
 
 //select tag
@@ -136,6 +328,7 @@ const onChangeTitle = (title) => {
   State.update({
     title,
   });
+  updateUserArgs();
 };
 
 const data = Social.keys("*/profile", "final");
@@ -161,11 +354,29 @@ const onChangeRecipient = (recipient) => {
     : State.update({
         recipient,
       });
+       updateUserArgs();
 };
 const onChangeDAO = (daoId) => {
- State.update({
-        daoId,
-      });
+  // add policy change and all this logic
+  let roles = Near.view(daoId, "get_policy");
+  const daoBond = roles.proposal_bond;
+
+  roles = roles === null ? [] : roles.roles;
+  const canPropose = isUserAllowedTo(
+    roles,
+    context.accountId,
+    proposalKinds.FunctionCall,
+    actions.AddProposal
+  ); // logic not working for some reason
+  console.log(
+    "Can Propose Function call " + context.accountId + " " + canPropose
+  );
+  State.update({
+    daoId,
+    canPropose,
+    roles,
+    daoBond,
+  });
 };
 
 const handleChainChange = (chain_id) => {
@@ -206,6 +417,7 @@ const onChangeDesc = (description) => {
   State.update({
     description,
   });
+   updateUserArgs();
 };
 
 const handleToggle = () => {
@@ -543,7 +755,9 @@ return (
     {state.showAlert && (
       <Widget src="jgodwill.near/widget/genalert" props={state} />
     )}
-    <Heading className="text-center fs-2 fw-bold">Mint NFT on NEAR</Heading>
+    <Heading className="text-center fs-2 fw-bold">
+      Mint NFT / DAO Propose on NEAR
+    </Heading>
 
     <Main className="container-fluid">
       {!state.image.cid ? (
@@ -570,6 +784,7 @@ return (
             <div>
               <IpfsImageUpload
                 image={state.image}
+                                  onChange={() => updateUserArgs()}
                 className="btn btn-outline-primary border-0 rounded-3"
               />
             </div>
@@ -603,36 +818,31 @@ return (
               </Card>
               <Card>
                 Propose to Mint To:
-
-                  <Typeahead
-                    id="async-example"
-                    className="type-ahead"
-                    isLoading={isLoading}
-                    labelKey="search"
-                    minLength={1}
-                    options={allWidgets}
-                    onChange={(value) => onChangeRecipient(value)}
-                    placeholder={
-                      state.selectedChain == "0" ? accountId : state.sender
-                    }
-                  />
-            
+                <Typeahead
+                  id="async-example"
+                  className="type-ahead"
+                  isLoading={isLoading}
+                  labelKey="search"
+                  minLength={1}
+                  options={allWidgets}
+                  onChange={(value) => onChangeRecipient(value)}
+                  placeholder={
+                    state.selectedChain == "0" ? accountId : state.sender
+                  }
+                />
               </Card>
-                            <Card>
+              <Card>
                 DAO to Propose to Mint
-
-                  <Typeahead
-                    id="async-example"
-                    className="type-ahead"
-                    isLoading={isLoading}
-                    labelKey="search"
-                    minLength={1}
-                    options={allWidgets}
-                    onChange={(value) => onChangeDAO(value)}
-                    placeholder={state.daoId
-                    }
-                  />
-            
+                <Typeahead
+                  id="async-example"
+                  className="type-ahead"
+                  isLoading={isLoading}
+                  labelKey="search"
+                  minLength={1}
+                  options={allWidgets}
+                  onChange={(value) => onChangeDAO(value)}
+                  placeholder={state.daoId}
+                />
               </Card>
             </Card>
             <button
@@ -640,8 +850,17 @@ return (
               className="btn btn-primary d-flex flex-column align-items-center mx-auto"
               onClick={handleMint}
             >
-              Propose to Mint to {contractAddresses[state.selectedChain][1]}
+              Mint to {contractAddresses[state.selectedChain][1]}
             </button>
+            {state.canPropose && (
+              <button
+                type="button"
+                className="btn btn-primary d-flex flex-column align-items-center mx-auto"
+                onClick={proposeMint}
+              >
+                Propose to Mint to NEAR to {state.daoId ?? daoId}
+              </button>
+            )}
           </div>
         </>
       )}
