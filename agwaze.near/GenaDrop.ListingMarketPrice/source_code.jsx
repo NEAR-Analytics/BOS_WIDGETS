@@ -290,6 +290,39 @@ const BlueSub = styled.div`
  font-size: .8rem;
 `;
 
+const loadingAnimation = styled.keyframes`
+  0% { content: "Loading"; }
+  25% { content: "Loading."; }
+  50% { content: "Loading.."; }
+  75% { content: "Loading..."; }
+`;
+
+const ListButton = styled.button`
+  padding: 10px 15px;
+  font-size: 14px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  width:  120px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+  &.loading {
+    background: #0056b5;
+    cursor: not-allowed;
+  }
+  &.loading::before {
+    content: "Loading";
+    animation: ${loadingAnimation} 1s infinite;
+    display: inline-block;
+  }
+`;
+
 State.init({
   amount: 0,
 });
@@ -558,15 +591,17 @@ return (
           </div>
           <div className="d-flex flex-column align-items-center text-center">
             {props.state.ownsNFT || state.owner === state.sender ? (
-              <button
+              <ListButton
                 type="button"
                 className="btn btn-primary mt-3"
+                disabled={props.loadingListing}
                 onClick={
                   props.chainState === "near" ? props.list : props.evmList
                 }
+                className={props.loadingListing ? "loading" : ""}
               >
-                List
-              </button>
+                {!props.loadingListing && "Listing"}
+              </ListButton>
             ) : (
               <button type="button" className="btn btn-secondary mt-3">
                 You Can Only List An NFT You Own
