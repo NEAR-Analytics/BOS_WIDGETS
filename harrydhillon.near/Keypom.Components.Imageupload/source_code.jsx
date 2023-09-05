@@ -29,6 +29,8 @@ const ImagePreview = styled.img`
     margin: 10px auto;
 `;
 
+State.init({ img: null });
+
 const imageUploader = () => {
   const onDrop = (e) => {
     e.preventDefault();
@@ -53,6 +55,10 @@ const imageUploader = () => {
     }
   };
 
+  if(state.img){
+    props.setImageState(state.img)
+  }
+
   return (
     <UploadContainer onDrop={onDrop} onDragOver={(e) => e.preventDefault()}>
       {state.selectedImage ? (
@@ -76,26 +82,30 @@ const imageUploader = () => {
               stroke-linejoin="round"
             />
           </svg>
-          <UploadCTA>Browse or drag and drop your image file here.</UploadCTA>
+          <UploadCTA>Browse and upload your image file here.</UploadCTA>
         </>
       )}
-      <input
-        type="file"
-        style={{ display: "none" }}
-        onChange={onFileChange}
-        id="fileupload"
-        ref={(input) =>
-          input &&
-          input.addEventListener("click", (e) => {
-            e.stopPropagation();
-          })
-        }
-      />
-      <UploadButton
-        onClick={(e) => document.getElementById("fileupload").click()}
-      >
-        Browse images
-      </UploadButton>
+      <div style={{ padding: 10 }}>
+        <div>
+          <IpfsImageUpload image={state.img} />
+        </div>
+        <div>
+          <>
+            {state.img.uploading && (
+              <Widget src="chess-game.near/widget/ChessGameLoading" />
+            )}
+          </>
+        </div>
+        <div className="mt-2">
+          {state.img.cid && (
+            <img
+              src={`https://ipfs.near.social/ipfs/${state.img.cid}`}
+              alt="uploaded"
+              style={{ width: 200, height: 200, objectFit: "contain" }}
+            />
+          )}
+        </div>
+      </div>
     </UploadContainer>
   );
 };
