@@ -100,7 +100,7 @@ const canPropose = isUserAllowedTo(
   actions.AddProposal
 ); // logic not working for some reason
 console.log(
-  "Can Propose Function call " + context.accountId + " " + canPropose
+  "Can Propose Function call  for " +daoId + " |  " + context.accountId + " " + canPropose
 );
 // move this to helper function
 
