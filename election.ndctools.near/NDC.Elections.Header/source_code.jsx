@@ -25,18 +25,10 @@ const timer = setInterval(() => {
   let title = "";
 
   let diff;
-  if (now < start)
-    diff = new Date(parseInt(start)).getTime() - new Date().getTime();
-  else if (now > start && now < end)
-    diff = new Date(parseInt(end)).getTime() - new Date().getTime();
+  if (now < start) diff = start - now;
+  else if (now > start && now < end) diff = end - now;
   else if (now > end && now < coold) diff = coold - now;
   else diff = 0;
-
-  console.log(now);
-  console.log(start);
-  console.log(end);
-  console.log(coold);
-  console.log("--", now > end && now < coold);
 
   let days = Math.floor(diff / (1000 * 60 * 60 * 24));
   let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -51,6 +43,7 @@ const timer = setInterval(() => {
       ) : (
         <>Time remaining in current {type}</>
       );
+  else if (now > end && now < coold) title = <>{type} is under review</>;
   else {
     title = (
       <>
