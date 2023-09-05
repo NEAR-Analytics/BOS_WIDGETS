@@ -81,7 +81,7 @@ if (!state.isReadDataFromLocal) {
 
 const showFormError = (key, label) =>
   state.error[key] ? (
-    <p style={{ fontSize: 14, color: "red", marginTop: -6 }}>
+    <p style={{ fontSize: 14, color: "red", marginTop: -3 }}>
       {label} is required
     </p>
   ) : (
@@ -101,14 +101,14 @@ const executeValidation = () => {
   }
   if (!state.isSingleDateEvent) {
     if (!state.from) {
-      allError.from = true;
+      allErrors.from = true;
     }
   } else {
     if (!state.from) {
-      allError.from = true;
+      allErrors.from = true;
     }
     if (!state.to) {
-      allError.to = true;
+      allErrors.to = true;
     }
   }
   if (!state.image) {
@@ -258,10 +258,11 @@ const formContent = () => {
               setImageState: (props) => {
                 setInput("image", props);
               },
-              imageState:state.image
+              imageState: state.image,
             }}
             src="harrydhillon.near/widget/Keypom.Components.Imageupload"
           />
+          {console.log(state)}
           {showFormError("image", "Event Artwork")}
         </div>
         <div style={{ padding: 10 }}>
