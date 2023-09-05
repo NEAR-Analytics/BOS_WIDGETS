@@ -29,11 +29,13 @@ const ImagePreview = styled.img`
     margin: 10px auto;
 `;
 
-if (props?.imageState && !state.img) {
-  State.update({ img: state.imageState });
+if (props?.imageState && !state?.img) {
+  State.init({ img: props?.imageState });
+} else {
+  State.init({ img: null });
 }
 
-if (!state.img) {
+if (state?.img) {
   props?.setImageState(state.img);
 }
 
@@ -63,13 +65,13 @@ return (
       </div>
       <div>
         <>
-          {state.img.uploading && (
+          {state?.img?.uploading && (
             <Widget src="chess-game.near/widget/ChessGameLoading" />
           )}
         </>
       </div>
       <div className="mt-2">
-        {state.img.cid && (
+        {state?.img?.cid && (
           <img
             src={`https://ipfs.near.social/ipfs/${state.img.cid}`}
             alt="uploaded"
