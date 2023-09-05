@@ -1,10 +1,7 @@
 /**
  * To Do
- * Add DAO Policy and whether can propose
  * Check if policies get updated for different dao
- * show grayed out button if can no longer propose
  * Check if gas is right amount
- * Check if ipfs did the correct
  * Error happening inside of funcition call
  * can propose is not updating correctly
  */
