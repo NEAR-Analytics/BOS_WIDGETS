@@ -45,11 +45,7 @@ const timer = setInterval(() => {
       );
   else if (now > end && now < coold) title = <>{type} is under review</>;
   else {
-    title = (
-      <>
-        {type} {defaultTitle ?? "is ended"}
-      </>
-    );
+    title = <>{type} is ended</>;
     days = 0;
     hours = 0;
     minutes = 0;
