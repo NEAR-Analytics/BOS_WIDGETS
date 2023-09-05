@@ -88,7 +88,7 @@ const utils = {
   },
   valueFormated: (amount) => {
     const prices = Storage.privateGet("tokensPrice");
-    const price = prices[props.currency?.address]?.price;
+    const price = prices[props.currency?.symbol];
     if (!price) return "-";
     const value = Big(price).mul(amount || 0);
     if (value.lt(0.01)) return value.toPrecision(1);
@@ -112,7 +112,7 @@ const handlers = {
 const DELAY = 1000 * 60 * 5;
 const timer = Storage.privateGet("priceTimer");
 function getPrice() {
-  asyncFetch("https://mainnet-indexer.ref-finance.com/list-base-token-price")
+  asyncFetch("https://mainnet-indexer.ref-finance.com/get-token-price")
     .then((res) => {
       const data = JSON.parse(res.body);
       data.native = data.aurora;
@@ -182,7 +182,14 @@ return (
             props.onAmountChange?.(formatedBalance);
         }}
       >
-        Balance: {utils.balanceFormated()}
+        Balance:{" "}
+        <span
+          style={{
+            textDecoration: props.disabled ? "none" : "underline",
+          }}
+        >
+          {utils.balanceFormated()}
+        </span>
       </Amount>
     </CurrencyField>
   </Wrapper>
