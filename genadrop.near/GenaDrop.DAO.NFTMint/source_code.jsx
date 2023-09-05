@@ -852,7 +852,7 @@ return (
             >
               Mint to {contractAddresses[state.selectedChain][1]}
             </button>
-            {state.canPropose && (
+            {(true || state.canPropose) && (
               <button
                 type="button"
                 className="btn btn-primary d-flex flex-column align-items-center mx-auto"
