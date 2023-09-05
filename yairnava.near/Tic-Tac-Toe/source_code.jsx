@@ -132,11 +132,26 @@ if (winner) {
     winner: winner,
     status: "Winner: " + (winner === "X" ? "Player" : "CPU"),
   });
+  setTimeout(() => {
+    State.update({
+      squares: Array(9).fill(null),
+      xIsNext: Math.random() < 0.5,
+      winner: null,
+      status: null,
+    });
+  }, "1500");
 } else if (emptySquares.length === 0) {
-  console.log("It's a draw!");
   State.update({
     status: "It's a draw!",
   });
+  setTimeout(() => {
+    State.update({
+      squares: Array(9).fill(null),
+      xIsNext: Math.random() < 0.5,
+      winner: null,
+      status: null,
+    });
+  }, "1500");
 } else {
   State.update({
     status: "Turn: " + (state.xIsNext ? "Player" : "CPU"),
@@ -185,8 +200,9 @@ return (
       </div>
       <div
         style={{
-          marginTop: "5px",
-          fontSize: "9px",
+          marginTop: "25px",
+          fontSize: "10px",
+          fontWeight: "bold",
           color: "white",
         }}
       >
@@ -196,21 +212,7 @@ return (
         style={{
           marginTop: "7px",
         }}
-      >
-        <button
-          className="btn bg-dark btn-sm text-white"
-          onClick={() =>
-            State.update({
-              squares: Array(9).fill(null),
-              xIsNext: Math.random() < 0.5,
-              winner: null,
-              status: null,
-            })
-          }
-        >
-          Reset Game
-        </button>
-      </div>
+      ></div>
     </div>
   </div>
 );
