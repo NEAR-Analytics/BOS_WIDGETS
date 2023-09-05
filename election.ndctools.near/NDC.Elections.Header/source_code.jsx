@@ -19,7 +19,9 @@ const timer = setInterval(() => {
   const now = new Date().getTime();
   const start = new Date(parseInt(startTime)).getTime();
   const end = new Date(parseInt(endTime)).getTime();
-  const cooldown = new Date(parseInt(endTime)).getTime() + cooldown;
+  const cooldown =
+    new Date(parseInt(endTime)).getTime() +
+    new Date(parseInt(cooldown)).getTime();
   let title = "";
   console.log(props);
   console.log(now);
