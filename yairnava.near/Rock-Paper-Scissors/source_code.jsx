@@ -101,7 +101,7 @@ return (
           <Container>
             <div class="row" style={{ marginTop: "-25px" }}>
               <div class="col-12">
-                <p>CPU</p>
+                <p style={{color:"black"}}>CPU</p>
               </div>
               <div class="col-12">
                 <img
@@ -122,26 +122,26 @@ return (
                 />
               </div>
               <div class="col-12">
-                <p>Player</p>
+                <p style={{color:"black"}}>Player</p>
               </div>
             </div>
           </Container>
           <div
-        style={{
-          marginTop: "5px",
-          fontSize: "10px",
-          fontWeight: "bold",
-          color: "white",
-        }}
-      >
-        <p>Round: {state.currentRound}</p>
-      </div>
+            style={{
+              marginTop: "3px",
+              fontSize: "10px",
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            <p>Round: {state.currentRound}</p>
+          </div>
         </>
       )}
       {!state.finish && !state.playerChoice && (
         <>
           <Container>
-            <p>Choose an option</p>
+            <p style={{color:"black"}}>Choose an option</p>
             <Choice onClick={() => playGame("rock")}>
               <img
                 style={{ height: "50px", opacity: "0.8" }}
@@ -175,15 +175,15 @@ return (
       )}
       {state.finish && (
         <>
-          <Container>
+          <Container style={{ color:"black" }}>
             <p>Player: {state.roundsWonByPlayer} wins</p>
             <p>CPU: {state.roundsWonByCPU} wins</p>
             <p style={{ fontWeight: "bold" }}>
               {state.roundsWonByPlayer > state.roundsWonByCPU
                 ? "You Won!"
                 : roundsWonByPlayer < roundsWonByComputer
-                  ? "You Lost!"
-                  : "It's a draw!"}
+                ? "You Lost!"
+                : "It's a draw!"}
             </p>
           </Container>
         </>
