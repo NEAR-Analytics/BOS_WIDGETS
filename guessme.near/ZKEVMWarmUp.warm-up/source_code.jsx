@@ -63,12 +63,14 @@ const ArrowRight = (
   </svg>
 );
 
-const myQuestImgUrl = 'https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy'
+const myQuestImgUrl =
+  "https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy";
 
-const trendImgUrl = 'https://ipfs.near.social/ipfs/bafkreib5pa5xkut7j3vjgpjd2mkzqz2fagiityatp72l5safcmy5q2qkm4'
+const trendImgUrl =
+  "https://ipfs.near.social/ipfs/bafkreib5pa5xkut7j3vjgpjd2mkzqz2fagiityatp72l5safcmy5q2qkm4";
 
-const hotImgUrl = 'https://ipfs.near.social/ipfs/bafkreifgqe6x2s5xaqrw7q5y5lgsftyffboicvdu52nnnhe6g7lllrobqi'
-
+const hotImgUrl =
+  "https://ipfs.near.social/ipfs/bafkreifgqe6x2s5xaqrw7q5y5lgsftyffboicvdu52nnnhe6g7lllrobqi";
 
 const Wrapper = styled.div`
   display: flex;
@@ -571,7 +573,7 @@ return (
           src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
           props={{
             background: "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
-            dappName: "0vix Lending",
+            dappName: "0vix",
             creator: "bluebiu.near",
             widgetSrc: "bluebiu.near/widget/0vix.Lending",
             src: "https://assets.ref.finance/images/zkevm-swap.png",
@@ -650,7 +652,7 @@ return (
           <div class="flex-grow contentOut">
             {activeMenu == "myQuest" ? (
               <>
-                <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" onDataToParent={handleDataFromChild} />
+                <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" />
               </>
             ) : null}
             {activeMenu == "questTrends" ? (
@@ -715,7 +717,7 @@ return (
                     props={{
                       background:
                         "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
-                      dappName: "0vix Lending",
+                      dappName: "0vix",
                       creator: "bluebiu.near",
                       widgetSrc: "bluebiu.near/widget/0vix.Lending",
                       src: "https://assets.ref.finance/images/zkevm-swap.png",
