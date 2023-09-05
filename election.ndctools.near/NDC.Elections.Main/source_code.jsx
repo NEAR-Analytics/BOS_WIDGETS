@@ -283,7 +283,7 @@ return (
                 startTime: house.start,
                 endTime: house.end,
                 type: "Election",
-                title:
+                defaultTitle:
                   state.electionStatus === "COOLDOWN"
                     ? "is under review"
                     : null,
