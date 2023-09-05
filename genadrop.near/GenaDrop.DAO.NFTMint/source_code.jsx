@@ -215,7 +215,7 @@ const handleMint = () => {
   if (!state.image.cid) {
     return;
   }
-  if (!accountId) {
+  if (!context.accountId) {
     console.log("Please login"); // add share dogvwallet
     State.update({
       showAlert: true,
