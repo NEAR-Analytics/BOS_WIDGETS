@@ -140,7 +140,7 @@ return (
               )}
 
               {props?.description !== undefined && props?.description !== "" ? (
-                <p style={{ fontSize: 10 }}>{props?.description}</p>
+                <p style={{ fontSize: 10,marginTop:-5 }}>{props?.description}</p>
               ) : (
                 <>
                   <ProfileNameSkeleton />
@@ -164,7 +164,9 @@ return (
         )}
         <p style={{ fontWeight: "600", fontSize: 12, marginTop: 5 }}>Date</p>
         {props?.date !== undefined && props?.date !== "" ? (
-          <p style={{ fontSize: 10, marginTop: -15 }}>{extractDateComponents(props?.date)}</p>
+          <p style={{ fontSize: 10, marginTop: -15 }}>
+            {extractDateComponents(props?.date)}
+          </p>
         ) : (
           <SkeletonWrapper style={{ marginTop: -15 }}>
             <ProfileNameSkeleton />
