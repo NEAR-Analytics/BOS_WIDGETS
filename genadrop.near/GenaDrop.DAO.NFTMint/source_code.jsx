@@ -203,7 +203,7 @@ const proposeMint = () => {
           },
         },
       },
-      deposit: state.daoBond,
+      deposit: state.daoBond ?? daoBond,
       gas:  "" + proposal_gas,
     },
   ]);
