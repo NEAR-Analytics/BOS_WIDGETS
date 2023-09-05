@@ -1014,7 +1014,7 @@ return (
           ) : (
             <div className="d-flex p-5 justify-content-center">
               <span>There are no candidates found.</span>
-              <a onClick={() => State.update({ candidate: result })}>
+              <a href="" onClick={() => State.update({ candidate: result })}>
                 Clear filters
               </a>
             </div>
