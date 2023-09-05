@@ -779,7 +779,7 @@ return (
         }}
       />
     )}
-    {blacklisted && blacklistedModal && (
+    {blacklisted && state.blacklistedModal && (
       <Widget
         src={widgets.modal}
         props={{
