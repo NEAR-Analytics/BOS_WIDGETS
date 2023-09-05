@@ -355,6 +355,9 @@ const QuestCardWrapper = styled.div`
         color: #02051e;
         line-height: 24px;
       }
+      .trend-card-execute-mobile {
+        display: none;
+      }
     }
   }
 
@@ -384,6 +387,17 @@ const QuestCardWrapper = styled.div`
     gap: 8px;
   }
 
+  .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    opacity: 0.5;
+    z-index: 1000;
+  }
+
   .delete-card {
     width: 250px;
     border-radius: 16px;
@@ -401,6 +415,10 @@ const QuestCardWrapper = styled.div`
     z-index: 9999;
     padding: 12px;
     padding-top: 18px;
+
+    .delete-card-mobile{
+      display:none;
+    }
 
     .delete-card-operation {
       display: flex;
@@ -433,6 +451,80 @@ const QuestCardWrapper = styled.div`
       }
     }
   }
+
+  @media (max-width:900px) {
+
+    .quest-card-out{
+      width:100%;
+
+      .quest-card-inner{
+        background: rgba(55, 58, 83, 0.5);
+        width: 100%;
+        height:80px;
+        padding:14px 12px;
+
+        .quest-card-info{
+          color: rgba(255, 255, 255, 1);
+          font-size:16px;
+          text-align: left;
+        }
+
+        .quest-card-name{
+          left: 20%;
+          color:rgba(151, 154, 190, 1);
+          font-size:14px;
+          img{
+            width:20px;
+            height:20px;
+          }
+          .quest-card-name-icon{
+            width:20px;
+            height:20px;
+          }
+        }
+
+        .trend-card-execute-mobile {
+          display: inline-block;
+          color: #979abe;
+          font-size: 12px;
+          position: absolute;
+          right: 14px;
+          bottom: 12px;
+          border-bottom:1px rgba(151, 154, 190, 1) solid;
+        }
+
+      }
+     }
+     
+     .quest-card-execute-date{
+        .quest-card-execute-date-number{
+          display:none;
+        }
+        .quest-card-show-delete-icon{
+          position: absolute;
+          top: 16px;
+          right: 16px;
+        }
+     }
+     .delete-card{
+      font-weight:500;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(65, 68, 90, 1);
+      padding: 28px 12px 18px 12px;
+      background: linear-gradient(0deg, #1E202F, #1E202F), linear-gradient(0deg, #41445A, #41445A);
+      .delete-card-mobile{
+        display:block;
+        color:#979ABE;
+        font-size:16px;
+        margin: 12px 0px;
+        font-weight: 500;
+        text-align:center;
+      }
+     } 
+    }
 `;
 
 const { item, onDelete } = props;
@@ -581,6 +673,9 @@ return (
         <div className="quest-card-name">
           {iconMap[item.template]} {item.template}
         </div>
+        <div className="trend-card-execute-mobile">
+          {item.count_number} times
+        </div>
       </a>
     </div>
 
@@ -603,8 +698,12 @@ return (
     </div>
 
     {state.showDelete && (
-      <div className="delete-card">
+      <>
+       <div className="overlay"></div>
+       <div className="delete-card">
         <span>Delete This Quest?</span>
+
+        <p className="delete-card-mobile">{item.action_title}</p>
 
         <div className="delete-card-operation">
           <div
@@ -627,6 +726,7 @@ return (
           </div>
         </div>
       </div>
+      </>
     )}
   </QuestCardWrapper>
 );
