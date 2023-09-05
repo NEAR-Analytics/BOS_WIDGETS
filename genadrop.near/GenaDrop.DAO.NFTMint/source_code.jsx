@@ -862,13 +862,13 @@ return (
                 className="btn btn-primary d-flex flex-column align-items-center mx-auto"
                 onClick={proposeMint}
               >
-                Propose to Mint to NEAR to {state.daoId ?? daoId}
+                {state.canPropose ? "" : "Cannot "}Propose to Mint to NEAR to {state.daoId ?? daoId}
               </button>
             ): (              <button
                 type="button"
                 className="btn btn-danger d-flex flex-column align-items-center mx-auto"
               >
-                Not Allowed To Propose to Mint to NEAR to {state.daoId ?? daoId}
+               Finish User Args To Propose to Mint to NEAR to {state.daoId ?? daoId}
               </button>)}
           </div>
         </>
