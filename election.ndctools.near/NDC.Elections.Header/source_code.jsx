@@ -26,7 +26,7 @@ const timer = setInterval(() => {
     diff = new Date(parseInt(start)).getTime() - new Date().getTime();
   else if (now > start && now < end)
     diff = new Date(parseInt(end)).getTime() - new Date().getTime();
-  else if (now < end + cooldown)
+  else if (now > end && now < end + cooldown)
     diff = new Date(parseInt(end + cooldown)).getTime() - new Date().getTime();
   else diff = 0;
 
