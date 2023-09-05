@@ -130,7 +130,7 @@ if (state.reload) {
   ];
 
   const electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: selectedHouse,
+    prop_id: state.selectedHouse,
   });
 
   const isHuman = Near.view(registryContract, "is_human", {
