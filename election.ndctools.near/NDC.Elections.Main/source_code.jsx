@@ -41,7 +41,7 @@ State.init({
   hasIVotedSbt: false,
 });
 
-console.log(state.isBonded);
+let electionStatus;
 
 const currentUser = context.accountId;
 
@@ -114,78 +114,78 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
+let houses = [
+  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+  Near.view(electionContract, "proposal", { prop_id: ids[3] }),
+];
+
+const isHuman = Near.view(registryContract, "is_human", {
+  account: currentUser,
+});
+
+const flagged = Near.view(registryContract, "account_flagged", {
+  account: currentUser,
+});
+
+const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+  user: currentUser,
+});
+
+const winnerIds = Near.view(electionContract, "winners_by_house", {
+  prop_id: state.selectedHouse,
+});
+
+const hasVotedOnAllProposals = Near.view(
+  electionContract,
+  "has_voted_on_all_proposals",
+  { user: currentUser }
+);
+
+const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
+  issuer: electionContract,
+});
+
+fetchGraphQL(NFT_SERIES[0]).then((result) =>
+  processNFTAvailability(result, "hasPolicyNFT")
+);
+
+fetchGraphQL(NFT_SERIES[1]).then((result) =>
+  processNFTAvailability(result, "hasIVotedNFT")
+);
+
 if (state.reload) {
-  let houses = [
-    Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-    Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-    Near.view(electionContract, "proposal", { prop_id: ids[2] }),
-    Near.view(electionContract, "proposal", { prop_id: ids[3] }),
-  ];
-
-  const electionStatus = Near.view(electionContract, "proposal_status", {
+  electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: state.selectedHouse,
   });
-
-  const isHuman = Near.view(registryContract, "is_human", {
-    account: currentUser,
-  });
-
-  const flagged = Near.view(registryContract, "account_flagged", {
-    account: currentUser,
-  });
-
-  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-    user: currentUser,
-  });
-
-  const winnerIds = Near.view(electionContract, "winners_by_house", {
-    prop_id: state.selectedHouse,
-  });
-
-  const hasVotedOnAllProposals = Near.view(
-    electionContract,
-    "has_voted_on_all_proposals",
-    { user: currentUser }
-  );
-
-  const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
-    issuer: electionContract,
-  });
-
-  fetchGraphQL(NFT_SERIES[0]).then((result) =>
-    processNFTAvailability(result, "hasPolicyNFT")
-  );
-
-  fetchGraphQL(NFT_SERIES[1]).then((result) =>
-    processNFTAvailability(result, "hasIVotedNFT")
-  );
-
-  State.update({
-    electionStatus,
-    isIAmHuman: isHuman[0][1].length > 0,
-    winnerIds,
-    blacklisted: flagged === "Blacklisted",
-    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
-    houses,
-    acceptedPolicy,
-    hasVotedOnAllProposals,
-    hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
-  });
-
-  if (context.accountId)
-    asyncFetch(
-      `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
-      { headers: { "x-api-key": apiKey } }
-    ).then((resp) => {
-      if (resp.body) {
-        const myVotes = resp.body.filter((vote) =>
-          ids.includes(parseInt(vote.proposal_id))
-        );
-
-        State.update({ myVotes, reload: false });
-      }
-    });
 }
+
+State.update({
+  electionStatus,
+  isIAmHuman: isHuman[0][1].length > 0,
+  winnerIds,
+  blacklisted: flagged === "Blacklisted",
+  greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
+  houses,
+  acceptedPolicy,
+  hasVotedOnAllProposals,
+  hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
+});
+
+if (context.accountId)
+  asyncFetch(
+    `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
+    { headers: { "x-api-key": apiKey } }
+  ).then((resp) => {
+    if (resp.body) {
+      const myVotes = resp.body.filter((vote) =>
+        ids.includes(parseInt(vote.proposal_id))
+      );
+
+      State.update({ myVotes, reload: false });
+    }
+  });
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
