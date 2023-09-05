@@ -583,140 +583,135 @@ return (
             </div>
           </div>
         </div>
-        <div
-          class="col-5"
-          style={{
-            "margin-top": "10px",
-            "padding-left": "0",
-            "padding-right": "0",
-            width: "330px",
-          }}
-        >
-          <div>
-            <CandidateCard
-              style={{
-                "border-radius": "8px",
-                background: "#F8F8F9",
-              }}
-            >
-              <CandidateContent>
-                <ContentHeader>
-                  <ContentHeaderText>Candidate Affiliations</ContentHeaderText>
-                </ContentHeader>
-                {afilations.map((data) => (
-                  <CandidateInfoDiv>
-                    <CandidateInfoHeader className="d-flex align-items-center">
-                      <CandidateImage
-                        src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-                        alt="pic"
-                      ></CandidateImage>
-                      <CandidateInfoData>
-                        <Widget
-                          src={widgets.styledComponents}
-                          props={{
-                            Tag: { title: data.company_name },
-                          }}
-                        />
-                        <CandidateTime>
-                          {data.start_date} - {data.end_date}
-                        </CandidateTime>
-                      </CandidateInfoData>
-                    </CandidateInfoHeader>
-                    <CandidateTextInfo>
-                      <SectionTitle>Role Description</SectionTitle>
-                      <SectionDescription>
-                        <Widget
-                          src="mob.near/widget/SocialMarkdown"
-                          props={{
-                            text: data.role,
-                          }}
-                        />
-                      </SectionDescription>
-                    </CandidateTextInfo>
-                  </CandidateInfoDiv>
-                ))}
-              </CandidateContent>
-            </CandidateCard>
-          </div>
-        </div>
-        <div
-          class="col-7"
-          style={{
-            "border-radius": "8px",
-            margin: "10px 0 0 10px",
-            width: "600px",
-            background: "#F8F8F9",
-            padding: "20px",
-          }}
-        >
-          <PlatformCard>
-            <PlatformContent>
-              <ContentHeader>
-                <ContentHeaderText>Platform</ContentHeaderText>
-              </ContentHeader>
-
-              <table
-                className="table table-sm"
+        <div className="d-flex mt-2">
+          <div className="w-25">
+            <div>
+              <CandidateCard
                 style={{
-                  background: "white",
-                  "border-collapse": "collapse",
                   "border-radius": "8px",
-                  "border-style": "hidden",
-                  overflow: "hidden",
-                  "box-shadow": "0px 0px 2px #bfbfbfb3",
+                  background: "#F8F8F9",
                 }}
               >
-                <thead>
-                  <tr class="p-3 mb-2 rounded-5 text-center">
-                    <TH width="35%">
-                      <H6>Key Issues</H6>
-                    </TH>
-                    <TH width="65%">
-                      <H6>Candidate's Positions</H6>
-                    </TH>
-                  </tr>
-                </thead>
-                <tbody>
-                  {issues.map((data, key) => {
-                    return (
-                      <>
-                        <tr
-                          class="text-center"
-                          style={{
-                            height: "80px",
-                            "vertical-align": "middle",
-                          }}
-                        >
-                          <td
+                <CandidateContent>
+                  <ContentHeader>
+                    <ContentHeaderText>
+                      Candidate Affiliations
+                    </ContentHeaderText>
+                  </ContentHeader>
+                  {afilations.map((data) => (
+                    <CandidateInfoDiv>
+                      <CandidateInfoHeader className="d-flex align-items-center">
+                        <CandidateImage
+                          src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+                          alt="pic"
+                        ></CandidateImage>
+                        <CandidateInfoData>
+                          <Widget
+                            src={widgets.styledComponents}
+                            props={{
+                              Tag: { title: data.company_name },
+                            }}
+                          />
+                          <CandidateTime>
+                            {data.start_date} - {data.end_date}
+                          </CandidateTime>
+                        </CandidateInfoData>
+                      </CandidateInfoHeader>
+                      <CandidateTextInfo>
+                        <SectionTitle>Role Description</SectionTitle>
+                        <SectionDescription>
+                          <Widget
+                            src="mob.near/widget/SocialMarkdown"
+                            props={{
+                              text: data.role,
+                            }}
+                          />
+                        </SectionDescription>
+                      </CandidateTextInfo>
+                    </CandidateInfoDiv>
+                  ))}
+                </CandidateContent>
+              </CandidateCard>
+            </div>
+          </div>
+          <div
+            class="w-75"
+            style={{
+              "border-radius": "8px",
+              margin: "10px 0 0 10px",
+              background: "#F8F8F9",
+              padding: "20px",
+            }}
+          >
+            <PlatformCard>
+              <PlatformContent>
+                <ContentHeader>
+                  <ContentHeaderText>Platform</ContentHeaderText>
+                </ContentHeader>
+
+                <table
+                  className="table table-sm"
+                  style={{
+                    background: "white",
+                    "border-collapse": "collapse",
+                    "border-radius": "8px",
+                    "border-style": "hidden",
+                    overflow: "hidden",
+                    "box-shadow": "0px 0px 2px #bfbfbfb3",
+                  }}
+                >
+                  <thead>
+                    <tr class="p-3 mb-2 rounded-5 text-center">
+                      <TH width="35%">
+                        <H6>Key Issues</H6>
+                      </TH>
+                      <TH width="65%">
+                        <H6>Candidate's Positions</H6>
+                      </TH>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {issues.map((data, key) => {
+                      return (
+                        <>
+                          <tr
+                            class="text-center"
                             style={{
-                              border: "1px solid rgba(208, 214, 217, 0.40)",
-                              verticalAlign: "text-top",
+                              height: "80px",
+                              "vertical-align": "middle",
                             }}
                           >
-                            <KeyIssueTitle>{titles[key]}</KeyIssueTitle>
-                          </td>
-                          <td
-                            style={{
-                              background: "#F8F8F9",
-                              verticalAlign: "text-top",
-                              color: "#212427",
-                            }}
-                          >
-                            <KeyIssueDescription className="text-seconodary">
-                              <Widget
-                                src="mob.near/widget/SocialMarkdown"
-                                props={{ text: data }}
-                              />
-                            </KeyIssueDescription>
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </PlatformContent>
-          </PlatformCard>
+                            <td
+                              style={{
+                                border: "1px solid rgba(208, 214, 217, 0.40)",
+                                verticalAlign: "text-top",
+                              }}
+                            >
+                              <KeyIssueTitle>{titles[key]}</KeyIssueTitle>
+                            </td>
+                            <td
+                              style={{
+                                background: "#F8F8F9",
+                                verticalAlign: "text-top",
+                                color: "#212427",
+                              }}
+                            >
+                              <KeyIssueDescription className="text-seconodary">
+                                <Widget
+                                  src="mob.near/widget/SocialMarkdown"
+                                  props={{ text: data }}
+                                />
+                              </KeyIssueDescription>
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </PlatformContent>
+            </PlatformCard>
+          </div>
         </div>
       </div>
     </div>
