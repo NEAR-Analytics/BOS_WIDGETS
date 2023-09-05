@@ -5,6 +5,8 @@
  * show grayed out button if can no longer propose
  * Check if gas is right amount
  * Check if ipfs did the correct
+ * Error happening inside of funcition call
+ * can propose is not updating correctly
  */
 const nearContract = "nft.genadrop.near";
 const nft_gas = 200000000000000;
@@ -67,7 +69,7 @@ const isUserAllowedTo = (roles, user, kind, action) => {
       continue;
     }
     if (!role.kind.Group) continue;
-    if (accountId && role.kind.Group && role.kind.Group.includes(user)) {
+    if (user && role.kind.Group && role.kind.Group.includes(user)) {
       userRoles.push(role);
     }
   }
@@ -86,12 +88,13 @@ const isUserAllowedTo = (roles, user, kind, action) => {
       return allowedRole;
     })
     .map((role) => role.name);
+    console.log("inside is user allowed to")
 
   return allowed;
 };
 
 const canPropose = isUserAllowedTo(
-  roles,
+  state.roles ?? roles,
   context.accountId,
   proposalKinds.FunctionCall,
   actions.AddProposal
@@ -299,6 +302,7 @@ State.init({
   selectedChain: "0",
   daoId: daoId,
   daoBond: daoBond,
+  roles: roles,
   canPropose: canPropose,
   proposal_args: null,
 });
@@ -324,7 +328,7 @@ const handleOutsideClick = (e) => {
 };
 
 const onChangeTitle = (title) => {
-  console.log("go daddy", state.recipient);
+  console.log("onChange title: " + title);
   State.update({
     title,
   });
@@ -377,6 +381,7 @@ const onChangeDAO = (daoId) => {
   );
   State.update({
     daoId,
+    roles,
     canPropose,
     daoBond,
   });
