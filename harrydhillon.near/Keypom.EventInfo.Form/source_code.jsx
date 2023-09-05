@@ -203,7 +203,12 @@ const formContent = () => {
           <p style={{ fontSize: 12, color: "gray" }}>
             Customize the artwork that appears in the header of the event page.
           </p>
-          <Widget src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
+         <Widget props={{
+            setImageState:(props)=>{
+              setInput("image", props)
+            }
+          }} src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
+        
         </div>
         <div style={{ padding: 10 }}>
           <Widget
