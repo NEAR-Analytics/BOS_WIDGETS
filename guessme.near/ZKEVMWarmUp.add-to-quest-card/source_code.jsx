@@ -153,7 +153,6 @@ const onCancel = () => {
 };
 
 const store_add = Storage.privateGet("store_add");
-console.log("store_add: ", store_add);
 
 if (store_add === "true") {
   onAdd();
