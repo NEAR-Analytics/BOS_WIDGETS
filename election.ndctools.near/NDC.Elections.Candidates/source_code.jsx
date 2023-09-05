@@ -18,7 +18,6 @@ const {
   isBonded,
   hasPolicyNFT,
   hasIVotedNFT,
-  electionStatus,
 } = props;
 
 const widgets = {
@@ -513,6 +512,10 @@ const hasVotedOnAllProposals = Near.view(
   { user: currentUser }
 );
 
+const electionStatus = Near.view(electionContract, "proposal_status", {
+  prop_id: state.selectedHouse,
+});
+
 State.update({
   electionStatus: electionStatus ?? state.electionStatus,
   acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
@@ -522,7 +525,9 @@ State.update({
   hasVotedOnAllProposals,
 });
 
-handleStateTransition();
+if (state.reload) {
+  handleStateTransition();
+}
 
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
