@@ -111,7 +111,7 @@ return (
   <>
     <Section>
       <div>
-        <h2>Bounty Sponsors</h2>
+        <h2>Sponsors</h2>
         <Widget
           src={`ndcplug.near/widget/BOSHACKS.Home.Button`}
           props={{
@@ -128,7 +128,5 @@ return (
         ))}
       </Logos>
     </Section>
-    <Section></Section>
-    <Section></Section>
   </>
 );
