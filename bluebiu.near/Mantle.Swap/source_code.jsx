@@ -385,6 +385,8 @@ State.init({
 });
 
 if (
+  state.tokenIn &&
+  state.tokenOut &&
   !state.tokenIn.onDexes.includes(state.selectedDex) &&
   !state.tokenOut.onDexes.includes(state.selectedDex)
 ) {
@@ -408,7 +410,11 @@ if (
   });
 }
 
-if (!state.tokenIn.onDexes.includes(state.selectedDex)) {
+if (
+  state.tokenIn &&
+  state.tokenOut &&
+  !state.tokenIn.onDexes.includes(state.selectedDex)
+) {
   const newTokenIn = config.tokens.find((token) => {
     return (
       token.onDexes.includes(state.selectedDex) &&
@@ -421,7 +427,11 @@ if (!state.tokenIn.onDexes.includes(state.selectedDex)) {
   });
 }
 
-if (!state.tokenOut.onDexes.includes(state.selectedDex)) {
+if (
+  state.tokenIn &&
+  state.tokenOut &&
+  !state.tokenOut.onDexes.includes(state.selectedDex)
+) {
   const newTokenOut = config.tokens.find((token) => {
     return (
       token.onDexes.includes(state.selectedDex) &&
