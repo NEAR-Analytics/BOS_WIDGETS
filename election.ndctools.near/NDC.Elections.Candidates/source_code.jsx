@@ -18,6 +18,7 @@ const {
   isBonded,
   hasPolicyNFT,
   hasIVotedNFT,
+  electionStatus,
 } = props;
 
 const widgets = {
@@ -352,7 +353,7 @@ const handleAcceptToS = () => {
     { policy: POLICY_HASH },
     70000000000000,
     1000000000000000000000
-  ).then(() =>
+  ).thrn(() =>
     State.update({
       showToSModal: false,
       tosAgreement: true,
@@ -420,8 +421,6 @@ const loadSocialDBData = () => {
     ? _bookmarked[_bookmarked.length - 1].value
     : [];
 };
-
-const bookmarked = loadSocialDBData();
 
 function fetchGraphQL(series) {
   return asyncFetch(QUERY_API_ENDPOINT, {
@@ -502,30 +501,32 @@ const winnerIds = Near.view(electionContract, "winners_by_house", {
   prop_id: id,
 });
 
-const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-  user: currentUser,
-});
-
-const hasVotedOnAllProposals = Near.view(
-  electionContract,
-  "has_voted_on_all_proposals",
-  { user: currentUser }
-);
-
-const electionStatus = Near.view(electionContract, "proposal_status", {
-  prop_id: state.selectedHouse,
-});
-
-State.update({
-  electionStatus: electionStatus ?? state.electionStatus,
-  acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
-  winnerIds: winnerIds ?? state.winnerIds,
-  bookmarked: bookmarked ?? state.bookmarked,
-  candidates: filteredCandidates(),
-  hasVotedOnAllProposals,
-});
-
 if (state.reload) {
+  const electionStatus = Near.view(electionContract, "proposal_status", {
+    prop_id: props.id,
+  });
+
+  const hasVotedOnAllProposals = Near.view(
+    electionContract,
+    "has_voted_on_all_proposals",
+    { user: currentUser }
+  );
+
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+    user: currentUser,
+  });
+
+  const bookmarked = loadSocialDBData();
+
+  State.update({
+    electionStatus: electionStatus ?? state.electionStatus,
+    acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
+    winnerIds: winnerIds ?? state.winnerIds,
+    bookmarked: bookmarked ?? state.bookmarked,
+    candidates: filteredCandidates(),
+    hasVotedOnAllProposals,
+  });
+
   handleStateTransition();
 }
 
