@@ -1012,7 +1012,7 @@ return (
               </CandidatesContainer>
             </>
           ) : (
-            <div className="d-flex p-5 justify-content-center">
+            <div className="d-flex p-5 justify-content-center flex-column gap-2">
               <span>There are no candidates found.</span>
               <Widget
                 src={widgets.styledComponents}
@@ -1020,7 +1020,16 @@ return (
                   Button: {
                     className: "primary dark",
                     text: "Clear Filters",
-                    onClick: () => State.update({ filterOption: "" }),
+                    onClick: () =>
+                      State.update({
+                        filterOption: "",
+                        filter: {
+                          bookmark: false,
+                          candidates: false,
+                          votes: false,
+                          my_votes: false,
+                        },
+                      }),
                   },
                 }}
               />
