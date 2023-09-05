@@ -1,9 +1,12 @@
 /**
  * To Do
  * Add DAO Policy and whether can propose
+ * Check if policies get updated for different dao
+ * show grayed out button if can no longer propose
+ * Check if gas is right amount
+ * Check if ipfs did the correct
  */
 const nearContract = "nft.genadrop.near";
-const ownerId = "minorityprogrammers.near"; // attribution
 const nft_gas = 200000000000000;
 const nft_deposit = 10000000000000000000000;
 const proposal_gas = 219000000000000;
