@@ -236,7 +236,12 @@ const iconMap = {
       src="https://ipfs.near.social/ipfs/bafkreigyodedyhiqmstq3g5edcqw25yyari4y3rcbsnqtxldb2zb2vpah4"
     />
   ),
-
+  Gamma: (
+    <img
+      className="quest-card-name-icon "
+      src="https://ipfs.near.social/ipfs/bafkreial4i3eb5uuxkhecn7nwos76km3qvb7jzxmups57rkxizr5i7dyaa"
+    />
+  ),
   "native bridge": (
     <svg
       width="26"
@@ -499,7 +504,6 @@ const onCancel = () =>
 let link = "";
 
 const arr = item.action_title.split(/\s+/);
-console.log("item: ", item);
 
 const [action_type, amount, symbol, on, dexName1, dexName2] = arr;
 
@@ -513,6 +517,10 @@ const isRepay = arr[0].toLowerCase() === "repay";
 
 const isWithdraw = arr[0].toLowerCase() === "withdraw";
 
+const isDeposit = arr[0].toLowerCase() === "deposit";
+
+const isWithdrawGamma = isWithdraw && arr?.[3]?.toLowerCase() === "gamma";
+
 if (isBridge) {
   link = "/guessme.near/widget/ZKEVMSwap.zkevm-bridge?source=quest-card";
 }
@@ -520,7 +528,14 @@ if (isSwap) {
   link = "/guessme.near/widget/ZKEVMSwap.zkevm-swap?source=quest-card";
 }
 
-if (isSupply || isWithdraw) {
+if (isDeposit) {
+  link = "/guessme.near/widget/ZKEVM.GAMMA?tab=deposit";
+}
+
+if (isWithdrawGamma) {
+  link = "/guessme.near/widget/ZKEVM.GAMMA?tab=withdraw";
+}
+if (isSupply || (isWithdraw && !isWithdrawGamma)) {
   link = "/bluebiu.near/widget/0vix.Lending?tab=supply";
 }
 
