@@ -332,7 +332,7 @@ return (
           props={{
             onClick: () => onSubmit(state.value),
             disabled: state.loading,
-            text: state.loading ? "Wait..." : "Stake now",
+            text: state.loading ? "Wait..." : "Unstake",
           }}
         />
       ) : (
