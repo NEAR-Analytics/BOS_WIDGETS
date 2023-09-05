@@ -15,13 +15,12 @@ State.init({
   computerChoice: null,
   roundsWonByPlayer: 0,
   roundsWonByCPU: 0,
-  currentRound: 1
+  currentRound: 1,
 });
 
 const playGame = (userChoice) => {
   const choices = ["rock", "paper", "scissors"];
   const computerChoice = choices[Math.floor(Math.random() * 3)];
-
 
   if (userChoice === computerChoice) {
   } else if (
@@ -30,11 +29,11 @@ const playGame = (userChoice) => {
     (userChoice === "scissors" && computerChoice === "paper")
   ) {
     State.update({
-      roundsWonByPlayer: state.roundsWonByPlayer + 1
+      roundsWonByPlayer: state.roundsWonByPlayer + 1,
     });
   } else {
     State.update({
-      roundsWonByPlayer: state.roundsWonByCPU + 1
+      roundsWonByPlayer: state.roundsWonByCPU + 1,
     });
   }
 
@@ -48,7 +47,7 @@ const playGame = (userChoice) => {
       State.update({
         playerChoice: null,
         computerChoice: null,
-        currentRound: state.currentRound + 1
+        currentRound: state.currentRound + 1,
       });
     }, "1500");
   } else {
@@ -64,7 +63,7 @@ const playGame = (userChoice) => {
         computerChoice: null,
         roundsWonByPlayer: 0,
         roundsWonByCPU: 0,
-        currentRound: 1
+        currentRound: 1,
       });
     }, "4000");
   }
@@ -125,18 +124,18 @@ return (
               <div class="col-12">
                 <p>Player</p>
               </div>
-              <div
-                class="col-12"
-                style={{
-                  marginTop: "-15px",
-                  fontSize: "9px",
-                  color: "white",
-                }}
-              >
-                <p>Round: {state.currentRound}</p>
-              </div>
             </div>
           </Container>
+          <div
+            class="col-12"
+            style={{
+              marginTop: "-15px",
+              fontSize: "9px",
+              color: "white",
+            }}
+          >
+            <p>Round: {state.currentRound}</p>
+          </div>
         </>
       )}
       {!state.finish && !state.playerChoice && (
@@ -161,17 +160,17 @@ return (
                 src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/tijera.png"
               />
             </Choice>
-            <div
-              class="col-12"
-              style={{
-                marginTop: "25px",
-                fontSize: "9px",
-                color: "white",
-              }}
-            >
-              <p>Round: {state.currentRound}</p>
-            </div>
           </Container>
+          <div
+            class="col-12"
+            style={{
+              marginTop: "25px",
+              fontSize: "9px",
+              color: "white",
+            }}
+          >
+            <p>Round: {state.currentRound}</p>
+          </div>
         </>
       )}
       {state.finish && (
