@@ -269,7 +269,7 @@ const rand = (array) => {
 
   return array;
 };
-console.log(state.houses);
+console.log(state.electionStatus);
 
 return (
   <>
@@ -284,6 +284,7 @@ return (
                 startTime: house.start,
                 endTime: house.end,
                 type: "Election",
+                cooldown: house.cooldown,
                 defaultTitle:
                   state.electionStatus === "COOLDOWN"
                     ? "is under review"
