@@ -19,20 +19,18 @@ const timer = setInterval(() => {
   const now = new Date().getTime();
   const start = new Date(parseInt(startTime)).getTime();
   const end = new Date(parseInt(endTime)).getTime();
-  const cooldown =
+  const coold =
     new Date(parseInt(endTime)).getTime() +
     new Date(parseInt(cooldown)).getTime();
   let title = "";
-  console.log(props);
-  console.log(now);
-  console.log(cooldown);
 
   let diff;
   if (now < start)
     diff = new Date(parseInt(start)).getTime() - new Date().getTime();
   else if (now > start && now < end)
     diff = new Date(parseInt(end)).getTime() - new Date().getTime();
-  else if (now > end && now < cooldown) diff = cooldown - now;
+  else if (now > end && now < coold)
+    diff = new Date(parseInt(coold)).getTime() - new Date().getTime();
   else diff = 0;
 
   let days = Math.floor(diff / (1000 * 60 * 60 * 24));
