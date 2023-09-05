@@ -1,1 +1,1 @@
-return <div>Hello World</div>;
+return <Widget src="andyh.near/widget/OwaChild" />;
