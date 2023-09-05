@@ -154,7 +154,7 @@ const updateUserArgs = () => {
       console.log("GO ON SOUN", res);
       const cid = res.body.cid;
       const gas = nft_gas;
-      const deposit = nft_deposit;
+      const deposit = "10000000000000000000000";
       console.log("State Image CID: " + state.image.cid);
       console.log("Reference CID: " + cid);
 const post_args = JSON.stringify({
