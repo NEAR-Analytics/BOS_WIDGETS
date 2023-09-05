@@ -16,7 +16,6 @@ State.init({
   stNearBalance: null,
   stNearBalanceIsFetched: false,
   dataIntervalStarted: false,
-  token: "wnear", // "near" | "wnear"
   action: "stake", // "
 });
 
@@ -198,14 +197,6 @@ const wNearBalance = (receiver) => {
 
 const update = (state) => State.update({ state });
 
-const onSubmitStake = () => {
-  // todo
-};
-
-const onSubmitFastUnstake = () => {
-  // todo
-};
-
 const handleInputNear = (value) => {
   if (
     (parseFloat(value) < 1 && parseFloat(value) > 0) ||
@@ -287,72 +278,167 @@ if (!state.dataIntervalStarted) {
   }, 10000);
 }
 
-// parametrize props
-const allProps = {
-  stake: {
-    tokenInputBalance: state.wNearBalance,
-    tokenInput: "wNEAR",
-    tokenOutputBalance: state.stNearBalance,
-    tokenOutput: "stNEAR",
-    tokenInputUsd: state.nearUsdPrice,
-    tokenOutputUsd: state.metrics?.st_near_price_usd,
-    apy: state.metrics?.st_near_30_day_apy,
-    inputPlaceholder: "Enter wNEAR amount",
-    buttonText: "Stake now",
-    handleInput: handleInputNear,
-    tokenInputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-    tokenOutputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
-    onClickMax: onClickMaxNear,
-    onSubmit: onSubmitStake,
-    stakeInfoLeftText: "Available to Unstake",
-    stakeInforRightText: "NEAR available amount",
-  },
-  fast: {
-    tokenInputBalance: state.stNearBalance,
-    tokenInput: "stNEAR",
-    tokenOutputBalance: state.wNearBalance,
-    tokenOutput: "NEAR",
-    tokenInputUsd: state.metrics?.st_near_price_usd,
-    tokenOutputUsd: state.nearUsdPrice,
-    apy: state.metrics?.st_near_30_day_apy,
-    inputPlaceholder: "Enter stNEAR amount",
-    buttonText: "Unstake",
-    handleInput: handleInputStNear,
-    tokenOutputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreid5xjykpqdvinmj432ldrkbjisrp3m4n25n4xefd32eml674ypqly",
-    tokenInputIconUrl:
-      "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
-    onClickMax: onClickMaxStNear,
-    onSubmit: onSubmitFastUnstake,
-    stakeInfoLeftText: "Available to Unstake",
-    stakeInforRightText: "NEAR available amount",
-  },
+const SelectionContainer = styled.div`
+    width: 100%;
+    max-width: 600px;
+    align-self: center;
+    background-color: white;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.6em;
+    border-radius: 20px;
+    padding: 12px 26px;
+    box-shadow: none;
+    color: #fff;    
+    margin-bottom: 1em;
+    padding: 12px 26px 32px 26px;
+  `;
+
+const ActionItem = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px 16px;
+  width: 14em;
+  height:5em;;
+  text-align: left;
+  align-items: center;
+  border: 0.8px solid rgb(215, 224, 228);
+  background: rgb(247, 249, 251);
+  opacity: 0.8;
+
+  border-radius: 24px;
+
+  ${({ active }) =>
+    active
+      ? `
+    background: rgb(206, 255, 26);
+  `
+      : `
+    :hover {
+      background: rgb(215, 224, 228);
+    }
+  `}
+
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const Text = styled.p`
+  color:#000000;
+  font-size: 14px;
+  line-height: 21px;
+`;
+
+const SelectAction = styled.div`
+border-bottom-left-radius: 0px;
+border-bottom-right-radius: 0px;
+border-radius: 20px;
+display: flex;
+flex-direction: column;
+width: 100%;
+`;
+
+const TokensList = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+const renderActions = (
+  <SelectAction>
+    <Text>Select action</Text>
+    <TokensList>
+      <ActionItem
+        onClick={() => {
+          State.update({ action: "stake" });
+        }}
+        active={state.action == "stake"}
+      >
+        <div>Stake</div>
+        <div>
+          <svg
+            focusable="false"
+            preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            width="24"
+            height="24"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+          >
+            <path d="M16,7,6,17l1.41,1.41L15,10.83V28H2v2H15a2,2,0,0,0,2-2V10.83l7.59,7.58L26,17Z"></path>
+            <path d="M6,8V4H26V8h2V4a2,2,0,0,0-2-2H6A2,2,0,0,0,4,4V8Z"></path>
+          </svg>
+        </div>
+      </ActionItem>
+      <ActionItem
+        onClick={() => {
+          State.update({ action: "fast" });
+        }}
+        active={state.action == "fast"}
+      >
+        <div>Fast Unstake</div>
+        <div>
+          <svg
+            focusable="false"
+            preserveAspectRatio="xMidYMid meet"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            width="24"
+            height="24"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+          >
+            <path d="M18,30H4a2,2,0,0,1-2-2V14a2,2,0,0,1,2-2H18a2,2,0,0,1,2,2V28A2,2,0,0,1,18,30ZM4,14V28H18V14Z"></path>
+            <path d="M25,23H23V9H9V7H23a2,2,0,0,1,2,2Z"></path>
+            <path d="M30,16H28V4H16V2H28a2,2,0,0,1,2,2Z"></path>
+          </svg>
+        </div>
+      </ActionItem>
+    </TokensList>
+  </SelectAction>
+);
+
+const render = {
+  stake: (
+    <Widget
+      src={`${authorId}/widget/MetaPoolStake.wNear.Stake`}
+      props={{
+        update,
+        state,
+        isSignedIn,
+        handleInputNear,
+        onClickMaxNear,
+        updateData,
+        sender: state.sender,
+      }}
+    />
+  ),
+  fast: (
+    <Widget
+      src={`${authorId}/widget/MetaPoolStake.wNear.FastUnstake`}
+      props={{
+        update,
+        state,
+        isSignedIn,
+        handleInputStNear,
+        onClickMaxstNear,
+        updateData,
+        sender: state.sender,
+      }}
+    />
+  ),
 }[state.action];
 
-// if (
-//   !state.metricsIsFetched ||
-//   !state.nearUsdPriceIsFetched ||
-//   !state.wNearBalanceIsFetched ||
-//   !state.stNearBalanceIsFetched
-// )
-//   return "Loading..";
-
 return (
-  <Widget
-    src={`${authorId}/widget/MetaPoolStake.Container`}
-    props={{
-      update,
-      token: state.token,
-      action: state.action,
-      getUserAddress,
-      children: (
-        <Widget
-          src={`${authorId}/widget/MetaPoolStake.wNear.Form`}
-          props={{ ...allProps, update, state, isSignedIn }}
-        />
-      ),
-    }}
-  />
+  <>
+    <SelectionContainer>{renderActions}</SelectionContainer>
+    {render}
+  </>
 );
