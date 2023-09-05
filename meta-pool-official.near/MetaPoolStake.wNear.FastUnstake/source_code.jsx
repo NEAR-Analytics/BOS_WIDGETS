@@ -243,7 +243,7 @@ const ButtonConnectContainer = styled.div`
 return (
   <StakeContainer>
     <StakeForm>
-      {isSignedIn && (
+      {sender && (
         <StakeFormTopContainer>
           <StakeFormTopContainerLeft>
             <StakeFormTopContainerLeftContent1>
@@ -326,23 +326,23 @@ return (
         }}
       />
 
-        {!!state.sender ? (
-          <Widget
-            src={`${authorId}/widget/MetaPoolStake.Common.Button`}
-            props={{
-              onClick: () => onSubmit(state.value,),
-              disabled: state.loading,
-              text: state.loading ? "Wait..." : "Stake now",
-            }}
+      {!!state.sender ? (
+        <Widget
+          src={`${authorId}/widget/MetaPoolStake.Common.Button`}
+          props={{
+            onClick: () => onSubmit(state.value),
+            disabled: state.loading,
+            text: state.loading ? "Wait..." : "Stake now",
+          }}
+        />
+      ) : (
+        <ButtonConnectContainer>
+          <Web3Connect
+            connectLabel="Connect with Ethereum wallet"
+            className="buttonClass"
           />
-        ) : (
-          <ButtonConnectContainer>
-            <Web3Connect
-              connectLabel="Connect with Ethereum wallet"
-              className="buttonClass"
-            />
-          </ButtonConnectContainer>
-        )}
+        </ButtonConnectContainer>
+      )}
     </StakeFormWrapper>
     <Widget
       src={`${authorId}/widget/MetaPoolStake.Common.Popup.Index`}
