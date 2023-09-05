@@ -325,14 +325,24 @@ return (
             "https://ipfs.near.social/ipfs/bafkreigblrju2jzbkezxstqomekvlswl6ksqz56rohwzyoymrfzise7fdq",
         }}
       />
-      <Widget
-        src={`${authorId}/widget/MetaPoolStake.Common.Button`}
-        props={{
-          disabled: !isSignedIn,
-          onClick: () => onSubmit(),
-          text: isSignedIn ? "Unstake" : "Connect wallet",
-        }}
-      />
+
+        {!!state.sender ? (
+          <Widget
+            src={`${authorId}/widget/MetaPoolStake.Common.Button`}
+            props={{
+              onClick: () => onSubmit(state.value,),
+              disabled: state.loading,
+              text: state.loading ? "Wait..." : "Stake now",
+            }}
+          />
+        ) : (
+          <ButtonConnectContainer>
+            <Web3Connect
+              connectLabel="Connect with Ethereum wallet"
+              className="buttonClass"
+            />
+          </ButtonConnectContainer>
+        )}
     </StakeFormWrapper>
     <Widget
       src={`${authorId}/widget/MetaPoolStake.Common.Popup.Index`}
