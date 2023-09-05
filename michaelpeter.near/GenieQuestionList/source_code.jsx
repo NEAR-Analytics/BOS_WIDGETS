@@ -1,4 +1,4 @@
-const questions = Social.index("genie", "asked") || [];
+let questions = Social.index("genie", "asked") || [];
 questions = questions.reverse();
 
 const { searchString, setSelectedQuestion } = props;
