@@ -1014,9 +1014,16 @@ return (
           ) : (
             <div className="d-flex p-5 justify-content-center">
               <span>There are no candidates found.</span>
-              <a href="" onClick={() => State.update({ candidate: result })}>
-                Clear filters
-              </a>
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Button: {
+                    className: "primary dark",
+                    title: "Clear Filters",
+                    onClick: () => State.update({ candidate: result }),
+                  },
+                }}
+              />
             </div>
           )}
         </>
