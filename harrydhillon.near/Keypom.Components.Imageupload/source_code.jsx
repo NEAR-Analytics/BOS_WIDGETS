@@ -29,12 +29,12 @@ const ImagePreview = styled.img`
     margin: 10px auto;
 `;
 
-if (props.imageState && !state.img) {
+if (props?.imageState && !state.img) {
   State.update({ img: state.imageState });
 }
 
 if (!state.img) {
-  props.setImageState(state.img);
+  props?.setImageState(state.img);
 }
 
 return (
