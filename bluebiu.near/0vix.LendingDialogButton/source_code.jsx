@@ -406,7 +406,7 @@ return (
                   action_amount: null,
                   account_id: account,
                   account_info: uuid,
-                  template: "0vix Lending",
+                  template: "0vix",
                   action_switch: questionSwitch === "on" ? "1" : "0",
                   action_status: status === 1 ? "Success" : "Failed",
                   tx_id: transactionHash,
