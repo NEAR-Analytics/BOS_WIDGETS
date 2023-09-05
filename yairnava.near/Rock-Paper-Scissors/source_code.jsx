@@ -126,16 +126,6 @@ return (
               </div>
             </div>
           </Container>
-          <div
-            class="col-12"
-            style={{
-              marginTop: "-15px",
-              fontSize: "9px",
-              color: "white",
-            }}
-          >
-            <p>Round: {state.currentRound}</p>
-          </div>
         </>
       )}
       {!state.finish && !state.playerChoice && (
@@ -161,16 +151,6 @@ return (
               />
             </Choice>
           </Container>
-          <div
-            class="col-12"
-            style={{
-              marginTop: "25px",
-              fontSize: "9px",
-              color: "white",
-            }}
-          >
-            <p>Round: {state.currentRound}</p>
-          </div>
         </>
       )}
       {state.finish && (
@@ -188,6 +168,16 @@ return (
           </Container>
         </>
       )}
+      <div
+        style={{
+          marginTop: "45px",
+          fontSize: "10px",
+          fontWeight:"bold",
+          color: "white",
+        }}
+      >
+        <p>Round: {state.currentRound}</p>
+      </div>
     </div>
   </div>
 );
