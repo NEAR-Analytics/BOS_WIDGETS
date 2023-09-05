@@ -275,3 +275,295 @@ const forumSelected = (
     />
   </svg>
 );
+const forum = (
+  <svg
+    width="41"
+    height="41"
+    viewBox="0 0 41 41"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M7.89428 22.5666C8.00964 22.6826 8.04846 22.8546 7.99422 23.009L7.72818 23.7667C7.43749 24.5944 7.11364 25.3421 6.78959 26.0001C7.79416 25.7308 8.77656 25.3294 9.51815 24.7502L10.103 24.2935C10.2236 24.1993 10.3853 24.1768 10.527 24.2346L11.2142 24.5145C12.9399 25.2176 14.9393 25.6252 17.0834 25.6252C20.5235 25.6252 23.5721 24.5773 25.7222 22.9647C27.8718 21.3524 29.0417 19.2557 29.0417 17.0835C29.0417 14.9113 27.8718 12.8145 25.7222 11.2023C23.5721 9.58972 20.5235 8.54183 17.0834 8.54183C13.6433 8.54183 10.5947 9.58972 8.44462 11.2023C6.29504 12.8145 5.12508 14.9113 5.12508 17.0835C5.12508 18.8503 5.89336 20.5519 7.3284 21.9968L7.89428 22.5666ZM5.66915 27.9806C5.16359 28.0615 4.70938 28.1108 4.34352 28.1408C3.97987 28.1707 3.76544 27.7451 3.97279 27.4449C4.16439 27.1674 4.39307 26.8159 4.6384 26.3963C5.11818 25.5759 5.66169 24.4954 6.11633 23.2007C4.42047 21.4932 3.41675 19.3762 3.41675 17.0835C3.41675 11.4226 9.53549 6.8335 17.0834 6.8335C24.6313 6.8335 30.7501 11.4226 30.7501 17.0835C30.7501 22.7444 24.6313 27.3335 17.0834 27.3335C14.725 27.3335 12.506 26.8854 10.5696 26.0966C9.13078 27.2203 7.17284 27.7402 5.66915 27.9806Z"
+      fill="#343330"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M19.0469 26.3695C18.4068 26.4418 17.7511 26.4792 17.0834 26.4792C17.032 26.4792 16.9809 26.479 16.9297 26.4785C18.7467 29.1171 22.4175 30.9209 26.65 30.9209C28.5368 30.9209 30.3119 30.5625 31.861 29.9314C32.8716 30.7206 34.2023 31.1375 35.3261 31.3577C35.8262 31.4557 36.2853 31.5147 36.6569 31.5502C37.0202 31.585 37.2369 31.1598 37.0342 30.8564C36.8474 30.5768 36.6273 30.2229 36.3973 29.8019C36.07 29.2023 35.7228 28.4664 35.4237 27.6146C36.7803 26.2487 37.5833 24.5551 37.5833 22.7209C37.5833 18.9362 34.1645 15.7503 29.5168 14.8057C29.7182 15.3987 29.8426 16.014 29.8822 16.6455C31.2245 17.0047 32.4069 17.5774 33.3561 18.2893C35.011 19.5305 35.875 21.1148 35.875 22.7209C35.875 24.029 35.3075 25.3074 34.2116 26.4107L33.6457 26.9805C33.5304 27.0966 33.4916 27.2685 33.5458 27.423L33.8119 28.1806C33.9503 28.5751 34.0981 28.9472 34.2497 29.2956C33.7475 29.1101 33.2851 28.8759 32.9125 28.585L32.3277 28.1283C32.2071 28.0341 32.0454 28.0116 31.9037 28.0693L31.2165 28.3493C29.8781 28.8945 28.3224 29.2126 26.65 29.2126C23.9648 29.2126 21.5994 28.3941 19.944 27.1525C19.6131 26.9043 19.3139 26.6425 19.0469 26.3695Z"
+      fill="#343330"
+    />
+  </svg>
+);
+const speakersSelected = (
+  <svg
+    width="33"
+    height="32"
+    viewBox="0 0 33 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M21.0587 24.4538C21.1571 24.6046 21.2129 24.7793 21.2202 24.9593C21.2276 25.1393 21.1862 25.3179 21.1004 25.4763C21.0146 25.6347 20.8876 25.7669 20.7328 25.8591C20.5781 25.9513 20.4013 26 20.2212 26H1.77869C1.59856 26 1.42178 25.9513 1.26702 25.8591C1.11227 25.7669 0.985293 25.6347 0.899504 25.4763C0.813715 25.3179 0.772302 25.1393 0.779639 24.9593C0.786975 24.7793 0.84279 24.6046 0.941187 24.4538C2.34882 22.287 4.4193 20.6336 6.84369 19.74C5.50343 18.8477 4.4859 17.5479 3.94156 16.0326C3.39722 14.5173 3.35496 12.867 3.82105 11.3259C4.28714 9.78472 5.23681 8.43447 6.52965 7.47479C7.82249 6.51511 9.38984 5.99696 10.9999 5.99696C12.61 5.99696 14.1774 6.51511 15.4702 7.47479C16.7631 8.43447 17.7127 9.78472 18.1788 11.3259C18.6449 12.867 18.6027 14.5173 18.0583 16.0326C17.514 17.5479 16.4964 18.8477 15.1562 19.74C17.5806 20.6336 19.6511 22.287 21.0587 24.4538ZM32.0474 24.435C30.6394 22.2774 28.5736 20.631 26.1562 19.74C27.7384 18.6742 28.855 17.0455 29.2788 15.1854C29.7025 13.3254 29.4015 11.3737 28.437 9.72779C27.4725 8.08184 25.917 6.8653 24.0871 6.32579C22.2573 5.78628 20.2906 5.96435 18.5874 6.82376C18.5223 6.85738 18.4654 6.90492 18.4207 6.96299C18.3759 7.02107 18.3445 7.08827 18.3287 7.15982C18.3128 7.23138 18.3129 7.30555 18.3289 7.37709C18.3449 7.44862 18.3764 7.51576 18.4212 7.57376C19.6876 9.15352 20.415 11.0973 20.4966 13.1204C20.5783 15.1435 20.01 17.1396 18.8749 18.8163C18.8016 18.9258 18.7745 19.0599 18.7995 19.1894C18.8246 19.3189 18.8997 19.4332 19.0087 19.5075C20.4886 20.5404 21.7554 21.8488 22.7399 23.3613C23.137 23.9693 23.2992 24.7011 23.1962 25.42C23.1846 25.4915 23.1887 25.5647 23.2082 25.6345C23.2276 25.7042 23.2621 25.769 23.309 25.8241C23.356 25.8793 23.4144 25.9236 23.4801 25.9539C23.5459 25.9843 23.6175 26 23.6899 26H31.2274C31.4476 26.0001 31.6617 25.9275 31.8364 25.7934C32.0111 25.6594 32.1367 25.4715 32.1937 25.2588C32.2285 25.1189 32.2334 24.9732 32.2082 24.8313C32.183 24.6894 32.1282 24.5544 32.0474 24.435Z"
+      fill="#00EC97"
+    />
+  </svg>
+);
+
+const NavItem = styled.a`
+  position: relative;
+  cursor: pointer;
+  padding: 0.5em;
+  margin: 0.25em 0;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.8em;
+  line-height: 1em;
+  color: #3a3f42;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75em;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  &:hover {
+    color: #667085;
+    text-decoration: none;
+    background-color: #f9fafb;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+`;
+const navItem = ({ text, icon, id, iconSelected }) => (
+  <NavItem
+    href={`#/${ownerId}/widget/BOSHACKS.Index?tab=${id}`}
+    onClick={() => props.update({ tab: id })}
+  >
+    {id === props.tab ? iconSelected : icon}
+    <span>{text}</span>
+  </NavItem>
+);
+
+const NavContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 2.5em;
+  gap: 0.8em;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const rotateLeft = styled.keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-90deg);
+  }
+`;
+
+const rotateRight = styled.keyframes`
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+`;
+
+const Trigger = styled("Collapsible.Trigger")`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  padding: 0.5em;
+  border: none;
+  background-color: #f9fafb;
+  transition: transform 0.25s ease-in-out;
+  width: 40px;
+  height: 40px;
+
+  &[data-state="open"] {
+    transform: rotate(-90deg);
+  }
+
+  &[data-state="closed"] {
+    transform: rotate(0deg);
+  }
+`;
+const slideRight = styled.keyframes`
+  from {
+    width: 0;
+    height: 0;
+  }
+  to {
+    width: var(--radix-collapsible-content-width);
+    height: var(--radix-collapsible-content-height);
+  }
+`;
+
+const slideLeft = styled.keyframes`
+  from {
+    width: var(--radix-collapsible-content-width);
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    width: 0;
+    height: 0;
+  }
+`;
+
+const Content = styled("Collapsible.Content")`
+  width: 100%;
+  overflow: hidden;
+
+  &[data-state="open"] {
+    animation: ${slideRight} 0.25s ease-out;
+  }
+
+  &[data-state="closed"] {
+    animation: ${slideLeft} 0.25s ease-out;
+  }
+`;
+
+const Root = styled("Collapsible.Root")`
+  dislay: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  transition: all 0.25s ease-in-out;
+  gap: 1.5em;
+  width: 100%;
+  margin-bottom: 1.5em;
+
+  &[data-state="open"] {
+    display: flex;
+  }
+
+  &[data-state="closed"] {
+    display: flex;
+  }
+`;
+
+const Divider = styled.hr`
+  background-color: #eceef0;
+  height: 1px;
+  border: none;
+  width: 100%;
+`;
+const content = (
+  <NavContainer>
+    {navItem({
+      text: "Home",
+      id: "home",
+      icon: home,
+      iconSelected: homeSelected,
+    })}
+    {navItem({
+      text: "People",
+      id: "people",
+      icon: speakers,
+      iconSelected: speakersSelected,
+    })}
+    {navItem({
+      text: "Forum",
+      id: "forum",
+      icon: forum,
+      iconSelected: forumSelected,
+    })}
+    {navItem({
+      text: "Resources",
+      id: "resources",
+      icon: resources,
+      iconSelected: resourcesSelected,
+    })}
+    {navItem({
+      text: "Events",
+      id: "events",
+      icon: events,
+      iconSelected: eventsSelected,
+    })}
+    {navItem({
+      text: "Submit",
+      id: "submit",
+      icon: submission,
+      iconSelected: submissionSelected,
+    })}
+    <NavItem href="https://nearbuilders.com/boshacks" target="-blank">
+      {hackathon}
+      <span>Manual</span>
+    </NavItem>
+
+    <Divider />
+    <NavItem href="https://nearbuilders.com/tg-builders" target="_blank">
+      <svg
+        width="25"
+        height="24"
+        viewBox="0 0 25 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M9.59 9C9.8251 8.33167 10.2892 7.76811 10.9 7.40913C11.5108 7.05016 12.2289 6.91894 12.9272 7.03871C13.6255 7.15849 14.2588 7.52152 14.7151 8.06353C15.1713 8.60553 15.4211 9.29152 15.42 10C15.42 12 12.42 13 12.42 13M12.5 17H12.51M22.5 12C22.5 17.5228 18.0228 22 12.5 22C6.97715 22 2.5 17.5228 2.5 12C2.5 6.47715 6.97715 2 12.5 2C18.0228 2 22.5 6.47715 22.5 12Z"
+          stroke="#3A3F42"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <span>Telegram</span>
+    </NavItem>
+  </NavContainer>
+);
+
+if (props.collapsible) {
+  return (
+    <Root>
+      <Trigger>
+        <svg
+          width="20"
+          height="14"
+          viewBox="0 0 20 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 7H19M1 1H19M1 13H19"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </Trigger>
+      <Content>{content}</Content>
+    </Root>
+  );
+}
+
+return content;
+
+//     {navItem({
+//   text: "Mentors",
+//   id: "speakers",
+//   icon: speakers,
+//   iconSelected: speakersSelected,
+// })}
