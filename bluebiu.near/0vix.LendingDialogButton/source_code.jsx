@@ -314,6 +314,20 @@ const CTokenContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
+const CNativeTokenContract = new ethers.Contract(
+  market.address,
+  [
+    {
+      inputs: [],
+      name: "mint",
+      outputs: [],
+      stateMutability: "payable",
+      type: "function",
+    },
+  ],
+  Ethers.provider().getSigner()
+);
+
 const getParametersAndOptions = () => {
   const parameters = [];
   const options = {};
@@ -417,7 +431,7 @@ return (
         };
         if (actionText === "Supply") {
           if (market.underlyingToken.address === "native") {
-            CTokenContract.mint({
+            CNativeTokenContract.mint({
               value: ethers.utils.parseUnits(amount, 18),
             })
               .then((tx) => {
@@ -446,7 +460,7 @@ return (
             ethers.utils.parseUnits(amount, market.underlyingToken.decimals)
           )
             .then((tx) => {
-              handleSuccess(tx);
+              handleSuccess(tx, "Withdraw");
             })
             .catch((err) => {
               console.log(err);
