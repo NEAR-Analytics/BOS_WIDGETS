@@ -63,14 +63,12 @@ const ArrowRight = (
   </svg>
 );
 
-const myQuestImgUrl =
-  "https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy";
+const myQuestImgUrl = 'https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy'
 
-const trendImgUrl =
-  "https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy";
+const trendImgUrl = 'https://ipfs.near.social/ipfs/bafkreib5pa5xkut7j3vjgpjd2mkzqz2fagiityatp72l5safcmy5q2qkm4'
 
-const hotImgUrl =
-  "https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy";
+const hotImgUrl = 'https://ipfs.near.social/ipfs/bafkreifgqe6x2s5xaqrw7q5y5lgsftyffboicvdu52nnnhe6g7lllrobqi'
+
 
 const Wrapper = styled.div`
   display: flex;
@@ -459,6 +457,11 @@ function handleCancelClick() {
   });
 }
 
+const handleDataFromChild = (data) => {
+  console.log("Data from child:", data);
+  // 处理从子组件传回的数据
+};
+
 return (
   <Wrapper>
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
@@ -647,7 +650,7 @@ return (
           <div class="flex-grow contentOut">
             {activeMenu == "myQuest" ? (
               <>
-                <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" />
+                <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" onDataToParent={handleDataFromChild} />
               </>
             ) : null}
             {activeMenu == "questTrends" ? (
