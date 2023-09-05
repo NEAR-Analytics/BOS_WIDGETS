@@ -48,7 +48,7 @@ const currentUser = context.accountId;
 const steps = [
   {
     title: "Accepted Policy",
-    completed: state.acceptedPolicy ?? state.hasIVotedSbt,
+    completed: state.acceptedPolicy || state.hasIVotedSbt,
   },
   {
     title: 'Minted "Fair Voting Policy" NFT',
@@ -56,7 +56,7 @@ const steps = [
   },
   {
     title: "Voting Completed",
-    completed: state.hasVotedOnAllProposals ?? state.hasIVotedSbt,
+    completed: state.hasVotedOnAllProposals || state.hasIVotedSbt,
   },
   {
     title: 'Minted "I Voted" NFT',
