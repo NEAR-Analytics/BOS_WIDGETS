@@ -151,9 +151,9 @@ return (
   <div
     style={{
       width: "370px",
+      marginInline: "auto",
       display: "flex",
       justifyContent: "center",
-      width: "100%",
       height: "308px",
       backgroundImage:
         "url(https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/gameboyverde.png)",
