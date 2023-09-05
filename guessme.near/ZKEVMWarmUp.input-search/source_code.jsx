@@ -103,27 +103,27 @@ const Wrapper = styled.div`
     }
   }
 
-  @media (max-width:900px){
+  @media (max-width: 900px) {
     height: 65vh;
     .input-wrapper {
-      .input-records{
-       border-bottom: 1px solid #e9f456;
-       border-top: none;
-       border-left: none;
-       border-right: none;
-       border-radius : 0;
+      .input-records {
+        border-bottom: 1px solid #e9f456;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
       }
-     .input-button{
-      width: 162px;
-      height: 50px;
-      position: fixed;
-      bottom: 30px;
-      right: 20px;
-      line-height: 14px;
-      font-size: 16px;
-      } 
+      .input-button {
+        width: 162px;
+        height: 50px;
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        line-height: 14px;
+        font-size: 16px;
+      }
     }
-    .search-hint-list{
+    .search-hint-list {
       width: 100%;
       overflow: auto;
       height: 55vh;
@@ -347,6 +347,8 @@ const isRepay = arr[0].toLowerCase() === "repay";
 
 const isSupply = arr[0].toLowerCase() === "supply";
 
+const isWithdraw = arr[0].toLowerCase() === "withdraw";
+
 if (isBridge && (!!state.selectClose || state?.hintList?.length === 1)) {
   link = "/guessme.near/widget/ZKEVMSwap.zkevm-bridge";
 }
@@ -358,11 +360,13 @@ if (
   (isRepay || isBorrow) &&
   (!!state.selectClose || state?.hintList?.length === 1)
 ) {
-  link = `/bluebiu.near/widget/0vix.Lending?tab=${isRepay ? "repay" : "borrow"
-    }`;
+  link = `/bluebiu.near/widget/0vix.Lending?tab=borrow`;
 }
 
-if (isSupply && (!!state.selectClose || state?.hintList?.length === 1)) {
+if (
+  (isSupply || isWithdraw) &&
+  (!!state.selectClose || state?.hintList?.length === 1)
+) {
   link = "/bluebiu.near/widget/0vix.Lending?tab=supply";
 }
 
@@ -372,7 +376,7 @@ return (
       <div className="input-search-wrapper">
         <input
           className="input-records"
-          placeholder="e.g. Swap 100 USDC; Bridge USDC; Supply on 0vix; Borrow on 0vix; Repay on 0vix"
+          placeholder="e.g. Swap 100 USDC; Bridge USDC; Supply on 0vix; Borrow on 0vix; Repay on 0vix; Withdraw on 0vix"
           value={state.text}
           onChange={(e) => {
             State.update({
