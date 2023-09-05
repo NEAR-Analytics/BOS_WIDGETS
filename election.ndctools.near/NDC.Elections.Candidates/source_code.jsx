@@ -1013,8 +1013,8 @@ return (
             </>
           ) : (
             <div className="d-flex p-5 justify-content-center">
-              There are no candidates found.
-              <a onClick={() => State.update({ reload: true })}>
+              <span>There are no candidates found.</span>
+              <a onClick={() => State.update({ candidate: result })}>
                 Clear filters
               </a>
             </div>
