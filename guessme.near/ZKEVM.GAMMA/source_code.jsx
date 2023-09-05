@@ -2,23 +2,23 @@ State.init({
   activePair: defaultPair,
   isPoolFetching: false,
   isUserPositionsFetching: false,
-  chainId: '',
+  chainId: "",
 });
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const ContainerLogin = styled.div`
-  .web3-connect{
-    width:480px;
-    height:60px;
-    border-radius:10px;
-    background-color:#fff;
-    color:#0F1126;
-    font-size:18px;
-    font-weight:500;
-    border:none;
-    margin-top:20px;
+  .web3-connect {
+    width: 480px;
+    height: 60px;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #0f1126;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    margin-top: 20px;
   }
-`
+`;
 if (!sender)
   return (
     <ContainerLogin
@@ -30,17 +30,19 @@ if (!sender)
       }}
     >
       <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
-      
+
       <Web3Connect className="web3-connect" connectLabel="Connect ETH wallet" />
     </ContainerLogin>
   );
 
 // const { chainId } = Ethers.getNetwork();
-Ethers.provider().getNetwork().then((data) => {
-  State.update({
-    chainId: data.chainId
-  })
-})
+Ethers.provider()
+  .getNetwork()
+  .then((data) => {
+    State.update({
+      chainId: data.chainId,
+    });
+  });
 const chainIdToSwitch = "0x44D";
 
 const switchChain = () => {
@@ -62,7 +64,7 @@ const switchChain = () => {
 const SwitchWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: 'Inter';
+  font-family: "Inter";
   max-width: 500px;
   color: #fff;
   margin: auto;
@@ -71,12 +73,12 @@ const SwitchWrapper = styled.div`
   padding: 16px 0;
   align-items: center;
   gap: 12px;
-  margin-top:80px;
+  margin-top: 80px;
   button {
-    background: #8247E5;
+    background: #8247e5;
     border: none;
     &:hover {
-      background: #8257F5;
+      background: #8257f5;
     }
   }
 `;
@@ -151,41 +153,41 @@ const defaultPair = {
 };
 
 const Wrapper = styled.div`
-    display:flex;
-    align-items: start;
-    gap: 24px;
+  display: flex;
+  align-items: start;
+  gap: 24px;
 `;
 const VStack = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  .tableTitle{
-    font-size:18px;
-    color:#7C7F96;
-    font-weight:500;
-    padding-left:16px;
-    margin-bottom:5px;
+  .tableTitle {
+    font-size: 18px;
+    color: #7c7f96;
+    font-weight: 500;
+    padding-left: 16px;
+    margin-bottom: 5px;
   }
 `;
 const Button = styled.button`
-    background: #1d1e1f;
-    border-radius: 4px;
-    border: none;
-    max-width: 640px;
-    width: 100%;
-    color: #fff;
-    padding: 8px 0;
-    font-weight: 600;
-    font-size: 14px;
-    position: relative;
-    min-height: 37px;
-    &:hover {
-      background: #2b2a2b;
-    }
-    &:disabled {
-      background: #333;
-      color: #ccc;
-    }
+  background: #1d1e1f;
+  border-radius: 4px;
+  border: none;
+  max-width: 640px;
+  width: 100%;
+  color: #fff;
+  padding: 8px 0;
+  font-weight: 600;
+  font-size: 14px;
+  position: relative;
+  min-height: 37px;
+  &:hover {
+    background: #2b2a2b;
+  }
+  &:disabled {
+    background: #333;
+    color: #ccc;
+  }
 `;
 
 const handlePairClick = (pair) => {
@@ -204,14 +206,6 @@ const {
 
 return (
   <VStack>
-    {/* <Button
-      disabled={isPoolFetching || isUserPositionsFetching}
-      onClick={refetch}
-    >
-      {isPoolFetching || isUserPositionsFetching
-        ? "Fetching Table Data..."
-        : "Refresh"}
-    </Button> */}
     <div className="tableTitle">Active Liquidity</div>
     <Wrapper>
       <Widget
@@ -219,10 +213,41 @@ return (
         props={{ handlePairClick, poolsData, userPositions }}
       />
 
-      <Widget
-        src="guessme.near/widget/ZKEVM.gamma-zkevm-vault"
-        props={{ pair: activePair, refetch: postRefetch }}
-      />
+      <div
+        className=""
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Widget
+          src="guessme.near/widget/ZKEVM.gamma-zkevm-vault"
+          props={{
+            pair: activePair,
+            refetch: postRefetch,
+            can_add_action: state.add_action,
+          }}
+        />
+
+        <div
+          style={{
+            width: "350px",
+            paddingTop: "20px",
+          }}
+        >
+          <Widget
+            src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+            props={{
+              add: state.add_action,
+              onChangeAdd: (value) => {
+                State.update({
+                  add_action: value,
+                });
+              },
+            }}
+          />
+        </div>
+      </div>
     </Wrapper>
   </VStack>
 );
