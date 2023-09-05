@@ -291,7 +291,7 @@ const handleMint = () => {
 State.init({
   title: "",
   description: "",
-  recipient: "",
+  recipient: context.accountId,
   isSoulBound: false,
   showAlert: false,
   toastMessage: "",
