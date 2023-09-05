@@ -582,7 +582,7 @@ return (
             </div>
           </div>
         </div>
-        <div className="d-flex mt-2 gap-2 w-100">
+        <div className="d-flex mt-3 gap-3 w-100">
           <div className="w-25">
             <CandidateCard
               style={{
@@ -590,7 +590,7 @@ return (
                 background: "#F8F8F9",
               }}
             >
-              <CandidateContent>
+              <CandidateContent className="w-100">
                 <ContentHeader>
                   <ContentHeaderText>Candidate Affiliations</ContentHeaderText>
                 </ContentHeader>
