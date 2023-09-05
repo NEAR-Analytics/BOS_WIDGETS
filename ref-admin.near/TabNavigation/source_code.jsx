@@ -1,79 +1,44 @@
 const AbsoluteContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  color: #ffffff;
-  padding: 30px 24px 20px 24px;
-  border-bottom: 1px #292c42 solid;
-  display: flex;
-  .icon {
-    line-height: 56px;
-  }
-  img {
-    width: 52px;
-    height: 52px;
-    margin: 0 14px 0 30px;
-  }
-  .container-text {
-    img {
-      width: 16px;
-      height: 16px;
-      margin: 0 6px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: #FFFFFF;
+    padding:30px 24px 20px 24px;
+    border-bottom: 1px #292C42 solid;
+    display:flex;
+    .icon{
+        line-height:56px;
     }
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .widget-name {
-    font-size: 20px;
-    font-weight: 700;
-  }
-  .account-name {
-    display: inline-block;
-    margin: 0;
-    font-size: 16px;
-  }
-
-  @media (max-width: 900px) {
-    position: relative;
-    padding: 0px;
-    align-items: center;
-    padding: 0px 12px;
-    border-bottom: none;
-    .icon {
-      width: 36px;
-      height: 26px;
-      background-color: #373a53;
-      line-height: 26px;
-      text-align: center;
-      border-radius: 10px;
-      svg {
-        width: 14px !important;
-        height: 12px !important;
-      }
+    img{
+        width:52px;
+        height:52px;
+        margin:0 14px 0 30px;
     }
-    .logo,
-    .avatar,
-    .account-name {
-      display: none;
+    .container-text{
+        h3{
+            font-size:20px;
+            font-weight:700;
+        }
+        img{
+            width:16px;
+            height:16px;
+            margin:0 6px 0 0;
+        }
+        p{
+            display:inline-block;
+            margin:0;
+            font-size:16px;
+        }
     }
-    .widget-name {
-      margin-bottom: 0px;
-    }
-    .container-text {
-      text-align: center;
-      flex-grow: 1;
-    }
-  }
 `;
 
 const Banner = styled.a`
-  img {
-    width: 100%;
+  img{
+    width:100%;
   }
   .replaceImg {
-    width: 100%;
+    width:100%;
   }
 `;
 
@@ -102,14 +67,45 @@ if (metadata.image.ipfs_cid) {
   imgSrc = metadata.image.url;
 }
 
+const hrefSrc = "";
+if (
+  widgetName === "ref-home" ||
+  widgetName === "xBox" ||
+  widgetName === "nearcolumn"
+) {
+  hrefSrc = "/near";
+} else if (
+  widgetName === "ZKEVMSwap.zkevm-swap" ||
+  widgetName === "ZKEVM-all-in-one" ||
+  widgetName === "ZKEVMSwap.zkevm-bridge" ||
+  widgetName === "ZKEVM.GAMMA" ||
+  widgetName === "ZKEVM.AAVE" ||
+  widgetName === "zkevmcolumn" ||
+  widgetName === "0vix.Lending"
+) {
+  hrefSrc = "/polygon-zkevm";
+} else if (
+  widgetName === "ZKEVM.ExecuteRecords" ||
+  widgetName === "ZKEVM.QuestionList" ||
+  widgetName === "warmup"
+) {
+  hrefSrc = "/warmup";
+} else if (widgetName === "Base.BaseDex") {
+  hrefSrc = "/base";
+} else if (widgetName === "Mantle.Swap") {
+  hrefSrc = "/mantle";
+}
+
 return (
   <AbsoluteContainer>
-    <Link className="icon" href={props.toUrl}>
+    <Link className="icon" href={hrefSrc}>
       {GoBackIcon}
     </Link>
-    <img src={imgSrc} alt="" className="logo" />
+    <img src={imgSrc} alt="" />
     <div className="container-text">
-      <h3 className="widget-name">{metadata.name || widgetName}</h3>
+      <h3>{metadata.name || widgetName}</h3>
+      <img src="https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm" />
+      <p>@{accountId}</p>
     </div>
   </AbsoluteContainer>
 );
