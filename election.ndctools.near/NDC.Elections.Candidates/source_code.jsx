@@ -338,28 +338,28 @@ const handleVote = () => {
 
   const arr = isBonded ? [voteFunc] : [bondFunc, voteFunc];
 
-  State.update({
-    bountyProgramModal: false,
-    reload: true,
-  });
-
-  Near.call(arr);
+  Near.call(arr).then(() =>
+    State.update({
+      bountyProgramModal: false,
+      reload: true,
+    })
+  );
 };
 
 const handleAcceptToS = () => {
-  State.update({
-    showToSModal: false,
-    tosAgreement: true,
-    showMintPolicyModal: true,
-    reload: true,
-  });
-
   Near.call(
     electionContract,
     "accept_fair_voting_policy",
     { policy: POLICY_HASH },
     70000000000000,
     1000000000000000000000
+  ).then(() =>
+    State.update({
+      showToSModal: false,
+      tosAgreement: true,
+      showMintPolicyModal: true,
+      reload: true,
+    })
   );
 };
 
