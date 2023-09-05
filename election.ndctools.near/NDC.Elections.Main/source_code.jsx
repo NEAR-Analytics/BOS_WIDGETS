@@ -269,6 +269,7 @@ const rand = (array) => {
 
   return array;
 };
+console.log(state.houses);
 
 return (
   <>
