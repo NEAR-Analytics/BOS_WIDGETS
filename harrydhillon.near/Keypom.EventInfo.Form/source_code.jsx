@@ -79,6 +79,10 @@ if (!state.isReadDataFromLocal) {
   }
 }
 
+const showFormError = (key,label)=>(
+  state.error[key]?<p style={{fontSize:14,color:"red",marginTop:-6}}>{label} is required</p>:<></>
+)
+
 const formContent = () => {
   return (
     <>
@@ -97,6 +101,7 @@ const formContent = () => {
               },
             }}
           />
+          {showFormError("eventName","Event Name")}
           <Widget
             src="harrydhillon.near/widget/Keypom.Components.Input"
             props={{
@@ -108,7 +113,7 @@ const formContent = () => {
               },
             }}
           />
-
+            {showFormError("description","Event Description")}
           <Widget
             src="harrydhillon.near/widget/Keypom.Components.Input"
             props={{
@@ -120,6 +125,7 @@ const formContent = () => {
               },
             }}
           />
+                {showFormError("location","Event location")}
           <Label style={{ marginLeft: -5, fontWeight: "bold" }}>
             Event dates *
           </Label>
@@ -141,6 +147,7 @@ const formContent = () => {
                   },
                 }}
               />
+                {showFormError("date","Event date")}
             </>
           ) : (
             <>
@@ -162,6 +169,7 @@ const formContent = () => {
                     },
                   }}
                 />
+                    {showFormError("from","Event Date From")}
               </div>
               <Widget
                 src="harrydhillon.near/widget/Keypom.Components.Input"
@@ -180,6 +188,7 @@ const formContent = () => {
                   },
                 }}
               />
+                                  {showFormError("to","Event Date To")}
             </>
           )}
           <div style={{ marginLeft: -5 }}>
@@ -203,12 +212,15 @@ const formContent = () => {
           <p style={{ fontSize: 12, color: "gray" }}>
             Customize the artwork that appears in the header of the event page.
           </p>
-         <Widget props={{
-            setImageState:(props)=>{
-              setInput("image", props)
-            }
-          }} src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
-        
+          <Widget
+            props={{
+              setImageState: (props) => {
+                setInput("image", props);
+              },
+            }}
+            src="harrydhillon.near/widget/Keypom.Components.Imageupload"
+          />
+            {showFormError("image","Event Artwork")}
         </div>
         <div style={{ padding: 10 }}>
           <Widget
