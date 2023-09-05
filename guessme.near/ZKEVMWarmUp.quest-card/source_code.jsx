@@ -236,6 +236,13 @@ const iconMap = {
       src="https://ipfs.near.social/ipfs/bafkreigyodedyhiqmstq3g5edcqw25yyari4y3rcbsnqtxldb2zb2vpah4"
     />
   ),
+
+  "0vix": (
+    <img
+      className="quest-card-name-icon "
+      src="https://ipfs.near.social/ipfs/bafkreigyodedyhiqmstq3g5edcqw25yyari4y3rcbsnqtxldb2zb2vpah4"
+    />
+  ),
   Gamma: (
     <img
       className="quest-card-name-icon "
@@ -416,8 +423,8 @@ const QuestCardWrapper = styled.div`
     padding: 12px;
     padding-top: 18px;
 
-    .delete-card-mobile{
-      display:none;
+    .delete-card-mobile {
+      display: none;
     }
 
     .delete-card-operation {
@@ -452,34 +459,33 @@ const QuestCardWrapper = styled.div`
     }
   }
 
-  @media (max-width:900px) {
+  @media (max-width: 900px) {
+    .quest-card-out {
+      width: 100%;
 
-    .quest-card-out{
-      width:100%;
-
-      .quest-card-inner{
+      .quest-card-inner {
         background: rgba(55, 58, 83, 0.5);
         width: 100%;
-        height:80px;
-        padding:14px 12px;
+        height: 80px;
+        padding: 14px 12px;
 
-        .quest-card-info{
+        .quest-card-info {
           color: rgba(255, 255, 255, 1);
-          font-size:16px;
+          font-size: 16px;
           text-align: left;
         }
 
-        .quest-card-name{
+        .quest-card-name {
           left: 20%;
-          color:rgba(151, 154, 190, 1);
-          font-size:14px;
-          img{
-            width:20px;
-            height:20px;
+          color: rgba(151, 154, 190, 1);
+          font-size: 14px;
+          img {
+            width: 20px;
+            height: 20px;
           }
-          .quest-card-name-icon{
-            width:20px;
-            height:20px;
+          .quest-card-name-icon {
+            width: 20px;
+            height: 20px;
           }
         }
 
@@ -490,41 +496,41 @@ const QuestCardWrapper = styled.div`
           position: absolute;
           right: 14px;
           bottom: 12px;
-          border-bottom:1px rgba(151, 154, 190, 1) solid;
+          border-bottom: 1px rgba(151, 154, 190, 1) solid;
         }
-
       }
-     }
-     
-     .quest-card-execute-date{
-        .quest-card-execute-date-number{
-          display:none;
-        }
-        .quest-card-show-delete-icon{
-          position: absolute;
-          top: 16px;
-          right: 16px;
-        }
-     }
-     .delete-card{
-      font-weight:500;
+    }
+
+    .quest-card-execute-date {
+      .quest-card-execute-date-number {
+        display: none;
+      }
+      .quest-card-show-delete-icon {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+      }
+    }
+    .delete-card {
+      font-weight: 500;
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       border: 1px solid rgba(65, 68, 90, 1);
       padding: 28px 12px 18px 12px;
-      background: linear-gradient(0deg, #1E202F, #1E202F), linear-gradient(0deg, #41445A, #41445A);
-      .delete-card-mobile{
-        display:block;
-        color:#979ABE;
-        font-size:16px;
+      background: linear-gradient(0deg, #1e202f, #1e202f),
+        linear-gradient(0deg, #41445a, #41445a);
+      .delete-card-mobile {
+        display: block;
+        color: #979abe;
+        font-size: 16px;
         margin: 12px 0px;
         font-weight: 500;
-        text-align:center;
+        text-align: center;
       }
-     } 
     }
+  }
 `;
 
 const { item, onDelete } = props;
@@ -685,47 +691,49 @@ return (
         <span>{item.count_number}</span>
       </span>
 
-      <div
-        className="quest-card-show-delete-icon"
-        onClick={() => {
-          State.update({
-            showDelete: !state.showDelete,
-          });
-        }}
-      >
-        {state.showDelete ? deleteIcon : unDeleteIcon}
-      </div>
+      {props.showPopup && (
+        <div
+          className="quest-card-show-delete-icon"
+          onClick={() => {
+            State.update({
+              showDelete: !state.showDelete,
+            });
+          }}
+        >
+          {state.showDelete ? deleteIcon : unDeleteIcon}
+        </div>
+      )}
     </div>
 
     {state.showDelete && (
       <>
-       <div className="overlay"></div>
-       <div className="delete-card">
-        <span>Delete This Quest?</span>
+        <div className="overlay"></div>
+        <div className="delete-card">
+          <span>Delete This Quest?</span>
 
-        <p className="delete-card-mobile">{item.action_title}</p>
+          <p className="delete-card-mobile">{item.action_title}</p>
 
-        <div className="delete-card-operation">
-          <div
-            className="delete-card-cancel-button"
-            onClick={() => {
-              onCancel();
-            }}
-          >
-            Cancel
-          </div>
+          <div className="delete-card-operation">
+            <div
+              className="delete-card-cancel-button"
+              onClick={() => {
+                onCancel();
+              }}
+            >
+              Cancel
+            </div>
 
-          <div
-            className="delete-card-delete-button"
-            onClick={() => {
-              onDelete(item.action_id);
-              onCancel();
-            }}
-          >
-            Delete
+            <div
+              className="delete-card-delete-button"
+              onClick={() => {
+                onDelete(item.action_id);
+                onCancel();
+              }}
+            >
+              Delete
+            </div>
           </div>
         </div>
-      </div>
       </>
     )}
   </QuestCardWrapper>
