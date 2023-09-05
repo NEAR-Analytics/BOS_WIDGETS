@@ -290,11 +290,13 @@ const template_icons = {
   "Pancake Swap":
     "	https://ipfs.near.social/ipfs/bafkreihxgii2nb7l3vcewru2zldbmjclgbu5ack3obalprqbsx5bj5ufom",
   QuickSwap:
-    "	https://ipfs.near.social/ipfs/bafkreien6yavqvx5ots2i26ooakiwux77osuzz4fc6qxexvvd7dsoc6274",
+    "https://ipfs.near.social/ipfs/bafkreien6yavqvx5ots2i26ooakiwux77osuzz4fc6qxexvvd7dsoc6274",
   Balancer:
     "https://ipfs.near.social/ipfs/bafkreihimomheiwsinao75pw5zxrt36i77fyq72jmpg4irubqjlk6txb6q",
   "0vix Lending":
     "https://ipfs.near.social/ipfs/bafkreigyodedyhiqmstq3g5edcqw25yyari4y3rcbsnqtxldb2zb2vpah4",
+  Gamma:
+    "https://ipfs.near.social/ipfs/bafkreial4i3eb5uuxkhecn7nwos76km3qvb7jzxmups57rkxizr5i7dyaa",
 };
 const select_action_list = [
   { id: "", name: "All Actions" },
@@ -321,6 +323,11 @@ const select_template_list = [
     id: "0vix Lending",
     name: "0vix Lending",
     icon: template_icons["0vix Lending"],
+  },
+  {
+    id: "Gamma",
+    name: "Gamma",
+    icon: template_icons["Gamma"],
   },
 ];
 const select_status_list = [
