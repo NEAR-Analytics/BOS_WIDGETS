@@ -10,38 +10,67 @@ const Choice = styled.div`
 `;
 
 State.init({
-  result: null,
+  finish: false,
   playerChoice: null,
   computerChoice: null,
+  roundsWonByPlayer: 0,
+  roundsWonByCPU: 0,
+  currentRound: 1
 });
 
 const playGame = (userChoice) => {
   const choices = ["rock", "paper", "scissors"];
   const computerChoice = choices[Math.floor(Math.random() * 3)];
 
-  let gameResult = "";
 
   if (userChoice === computerChoice) {
-    gameResult = "It's a draw!";
   } else if (
     (userChoice === "rock" && computerChoice === "scissors") ||
     (userChoice === "paper" && computerChoice === "rock") ||
     (userChoice === "scissors" && computerChoice === "paper")
   ) {
-    gameResult = "You Won!";
+    State.update({
+      roundsWonByPlayer: state.roundsWonByPlayer + 1
+    });
   } else {
-    gameResult = "You Lost!";
+    State.update({
+      roundsWonByPlayer: state.roundsWonByCPU + 1
+    });
   }
 
   State.update({
-    result: gameResult,
     computerChoice: computerChoice,
     playerChoice: userChoice,
   });
+
+  if (state.currentRound + 1 <= 3) {
+    setTimeout(() => {
+      State.update({
+        playerChoice: null,
+        computerChoice: null,
+        currentRound: state.currentRound + 1
+      });
+    }, "1500");
+  } else {
+    setTimeout(() => {
+      State.update({
+        finish: true,
+      });
+    }, "1500");
+    setTimeout(() => {
+      State.update({
+        finish: false,
+        playerChoice: null,
+        computerChoice: null,
+        roundsWonByPlayer: 0,
+        roundsWonByCPU: 0,
+        currentRound: 1
+      });
+    }, "4000");
+  }
 };
 
 const getComputerChoiceImg = (option) => {
-  console.log(option);
   switch (option) {
     case "rock":
       return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/piedra.png";
@@ -56,7 +85,7 @@ return (
   <div
     style={{
       width: "370px",
-      marginInline: "auto", 
+      marginInline: "auto",
       display: "flex",
       justifyContent: "center",
       height: "308px",
@@ -68,7 +97,7 @@ return (
     }}
   >
     <div style={{ textAlign: "center" }}>
-      {state.result && (
+      {!state.finish && state.playerChoice && (
         <>
           <Container>
             <div class="row" style={{ marginTop: "-25px" }}>
@@ -104,26 +133,13 @@ return (
                   color: "white",
                 }}
               >
-                <p>{state.result}</p>
+                <p>Round: {state.currentRound}</p>
               </div>
             </div>
           </Container>
-          <button
-            style={{ marginTop: "-14px" }}
-            className="btn bg-dark btn-sm text-white"
-            onClick={() =>
-              State.update({
-                result: null,
-                playerChoice: null,
-                computerChoice: null,
-              })
-            }
-          >
-            Reset Game
-          </button>
         </>
       )}
-      {!state.result && (
+      {!state.finish && !state.playerChoice && (
         <>
           <Container>
             <p>Choose an option</p>
@@ -145,20 +161,32 @@ return (
                 src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/tijera.png"
               />
             </Choice>
+            <div
+              class="col-12"
+              style={{
+                marginTop: "25px",
+                fontSize: "9px",
+                color: "white",
+              }}
+            >
+              <p>Round: {state.currentRound}</p>
+            </div>
           </Container>
-          <button
-            style={{ marginTop: "45px" }}
-            className="btn bg-dark btn-sm text-white"
-            onClick={() =>
-              State.update({
-                result: null,
-                playerChoice: null,
-                computerChoice: null,
-              })
-            }
-          >
-            Reset Game
-          </button>
+        </>
+      )}
+      {state.finish && (
+        <>
+          <Container>
+            <p>Player: {state.roundsWonByPlayer} wins</p>
+            <p>CPU: {state.roundsWonByCPU} wins</p>
+            <p style={{ fontWeight: "bold" }}>
+              {state.roundsWonByPlayer > state.roundsWonByCPU
+                ? "You Won!"
+                : roundsWonByPlayer < roundsWonByComputer
+                  ? "You Lost!"
+                  : "It's a draw!"}
+            </p>
+          </Container>
         </>
       )}
     </div>
