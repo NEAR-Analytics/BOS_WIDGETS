@@ -283,8 +283,8 @@ return (
               props={{
                 startTime: house.start,
                 endTime: house.end,
-                type: "Election",
                 cooldown: house.cooldown,
+                type: "Election",
                 defaultTitle:
                   state.electionStatus === "COOLDOWN"
                     ? "is under review"
