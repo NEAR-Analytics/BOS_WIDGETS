@@ -31,6 +31,10 @@ const ImagePreview = styled.img`
 
 State.init({ img: null });
 
+if (props.imageState && !state.img) {
+  State.update({ img: state.imageState });
+}
+
 const imageUploader = () => {
   const onDrop = (e) => {
     e.preventDefault();
@@ -55,8 +59,8 @@ const imageUploader = () => {
     }
   };
 
-  if(state.img){
-    props.setImageState(state.img)
+  if (state.img) {
+    props.setImageState(state.img);
   }
 
   return (
