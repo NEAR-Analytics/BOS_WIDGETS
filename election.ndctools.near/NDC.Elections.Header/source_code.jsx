@@ -1,5 +1,4 @@
-const { startTime, endTime, type, isWhistleblower, cooldown, defaultTitle } =
-  props;
+const { startTime, endTime, type, isWhistleblower, cooldown } = props;
 
 State.init({
   days: "-",
