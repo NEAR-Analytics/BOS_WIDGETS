@@ -281,10 +281,19 @@ if (realList.length === 0) {
   return noQuestTip;
 }
 
-const storedActiveIsSwitch = Storage.get(
-  "activeIsSwitch",
-  "guessme.near/widget/ZKEVMWarmUp.quest-list"
-);
+const {showSwitch} = state;
+
+State.init({
+  showSwitch: false,
+});
+
+function showSwitchUpdate() {
+  State.update({
+    showSwitch: !showSwitch,
+  });
+}
+
+
 
 return (
   <CardListWrapper>
@@ -299,8 +308,8 @@ return (
         >
           Execute Records
         </a>
-        <div className="title-btn-icon">
-          <img src={switchIcon} alt="Icon" />
+        <div className="title-btn-icon" onClick={showSwitchUpdate}>
+          <img src={showSwitch ? closeIcon : switchIcon} alt="Icon" />
         </div>
       </div>
     </div>
@@ -310,8 +319,9 @@ return (
           key={item.action_id + "-" + index}
           src="guessme.near/widget/ZKEVMWarmUp.quest-card"
           props={{
-            item,
+            item, 
             onDelete: onDelete,
+            showPopup:showSwitch || false,
           }}
         />
       );
