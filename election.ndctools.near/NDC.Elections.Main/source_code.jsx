@@ -345,11 +345,7 @@ return (
           ) : (
             <Widget
               src={widgets.progress}
-              props={{
-                houses: state.houses,
-                handleSelect,
-                votesLeft: (house) => votesLeft(house),
-              }}
+              props={{ houses: state.houses, handleSelect, votesLeft }}
             />
           )}
         </Left>
