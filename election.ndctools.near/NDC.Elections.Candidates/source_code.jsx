@@ -1019,8 +1019,8 @@ return (
                 props={{
                   Button: {
                     className: "primary dark",
-                    title: "Clear Filters",
-                    onClick: () => State.update({ candidate: result }),
+                    text: "Clear Filters",
+                    onClick: () => State.update({ filterOption: "" }),
                   },
                 }}
               />
