@@ -194,7 +194,7 @@ return (
             <StakeFormTopContainerLeftContent2>
               <span>
                 {state.stNearBalance}
-                NEAR
+                stNEAR
               </span>
             </StakeFormTopContainerLeftContent2>
           </StakeFormTopContainerLeft>
@@ -222,7 +222,7 @@ return (
             <StakeFormTopContainerRightContent2>
               <span>
                 {state.nearBalance}
-                stNEAR
+                NEAR
               </span>
             </StakeFormTopContainerRightContent2>
           </StakeFormTopContainerRight>
