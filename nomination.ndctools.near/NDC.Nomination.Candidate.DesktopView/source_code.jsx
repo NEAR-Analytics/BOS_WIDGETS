@@ -301,7 +301,6 @@ const CandidateCard = styled.div`
 
 const CandidateContent = styled.div`
   display: flex;
-  width: 302px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -585,54 +584,50 @@ return (
         </div>
         <div className="d-flex mt-2">
           <div className="w-25">
-            <div>
-              <CandidateCard
-                style={{
-                  "border-radius": "8px",
-                  background: "#F8F8F9",
-                }}
-              >
-                <CandidateContent>
-                  <ContentHeader>
-                    <ContentHeaderText>
-                      Candidate Affiliations
-                    </ContentHeaderText>
-                  </ContentHeader>
-                  {afilations.map((data) => (
-                    <CandidateInfoDiv>
-                      <CandidateInfoHeader className="d-flex align-items-center">
-                        <CandidateImage
-                          src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-                          alt="pic"
-                        ></CandidateImage>
-                        <CandidateInfoData>
-                          <Widget
-                            src={widgets.styledComponents}
-                            props={{
-                              Tag: { title: data.company_name },
-                            }}
-                          />
-                          <CandidateTime>
-                            {data.start_date} - {data.end_date}
-                          </CandidateTime>
-                        </CandidateInfoData>
-                      </CandidateInfoHeader>
-                      <CandidateTextInfo>
-                        <SectionTitle>Role Description</SectionTitle>
-                        <SectionDescription>
-                          <Widget
-                            src="mob.near/widget/SocialMarkdown"
-                            props={{
-                              text: data.role,
-                            }}
-                          />
-                        </SectionDescription>
-                      </CandidateTextInfo>
-                    </CandidateInfoDiv>
-                  ))}
-                </CandidateContent>
-              </CandidateCard>
-            </div>
+            <CandidateCard
+              style={{
+                "border-radius": "8px",
+                background: "#F8F8F9",
+              }}
+            >
+              <CandidateContent>
+                <ContentHeader>
+                  <ContentHeaderText>Candidate Affiliations</ContentHeaderText>
+                </ContentHeader>
+                {afilations.map((data) => (
+                  <CandidateInfoDiv>
+                    <CandidateInfoHeader className="d-flex align-items-center">
+                      <CandidateImage
+                        src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
+                        alt="pic"
+                      ></CandidateImage>
+                      <CandidateInfoData>
+                        <Widget
+                          src={widgets.styledComponents}
+                          props={{
+                            Tag: { title: data.company_name },
+                          }}
+                        />
+                        <CandidateTime>
+                          {data.start_date} - {data.end_date}
+                        </CandidateTime>
+                      </CandidateInfoData>
+                    </CandidateInfoHeader>
+                    <CandidateTextInfo>
+                      <SectionTitle>Role Description</SectionTitle>
+                      <SectionDescription>
+                        <Widget
+                          src="mob.near/widget/SocialMarkdown"
+                          props={{
+                            text: data.role,
+                          }}
+                        />
+                      </SectionDescription>
+                    </CandidateTextInfo>
+                  </CandidateInfoDiv>
+                ))}
+              </CandidateContent>
+            </CandidateCard>
           </div>
           <div
             class="w-75"
