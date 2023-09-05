@@ -135,7 +135,7 @@ const formContent = () => {
                 props={{
                   label: "Event date",
                   inputProps: {
-                    value: state.date,
+                    value: state.from,
                     type: "date",
                     onChange: (e) => setInput("from", e.target.value),
                   },
@@ -156,7 +156,7 @@ const formContent = () => {
                     },
                     inputProps: {
                       placeholder: "Select a date range",
-                      value: state.date,
+                      value: state.from,
                       type: "date",
                       onChange: (e) => setInput("from", e.target.value),
                     },
