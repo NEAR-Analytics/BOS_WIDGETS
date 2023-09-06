@@ -109,11 +109,10 @@ const isHuman = Near.view(registryContract, "is_human", {
   account: currentUser,
 });
 
+console.log(state.humanToken);
 let isBonded = Near.view(electionContract, "bond_by_sbt", {
   sbt: state.humanToken,
 });
-
-new Big(isBonded.toString());
 
 if (currentUser && state.reload) {
   let houses = [
