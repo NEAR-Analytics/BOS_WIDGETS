@@ -170,28 +170,7 @@ function loadWinners() {
   State.update({ winnerIds });
 }
 
-loadHouses();
-loadSBTs();
-loadBond();
-loadPolicy();
-loadFlagged();
-loadWinners();
-
-if (state.reload) {
-  const hasVotedOnAllProposals = Near.view(
-    electionContract,
-    "has_voted_on_all_proposals",
-    { user: currentUser }
-  );
-
-  fetchGraphQL(NFT_SERIES[0]).then((result) =>
-    processNFTAvailability(result, "hasPolicyNFT")
-  );
-
-  fetchGraphQL(NFT_SERIES[1]).then((result) =>
-    processNFTAvailability(result, "hasIVotedNFT")
-  );
-
+function loadMyVotes() {
   asyncFetch(
     `https://api.pikespeak.ai/election/votes-by-voter?voter=${currentUser}&contract=${electionContract}`,
     { headers: { "x-api-key": apiKey } }
@@ -201,9 +180,38 @@ if (state.reload) {
         ids.includes(parseInt(vote.proposal_id))
       );
 
-      State.update({ myVotes, reload: false });
+      const votes = ids
+        .map((id) =>
+          myVotes.find((vote) => parseInt(vote.proposal_id) === id[0])
+        )
+        .filter((el) => el);
+
+      State.update({
+        myVotes,
+        reload: false,
+        hasVotedOnAllProposals: votes.length === 4,
+      });
     }
   });
+}
+
+loadHouses();
+loadSBTs();
+loadBond();
+loadPolicy();
+loadFlagged();
+loadWinners();
+
+if (state.reload) {
+  fetchGraphQL(NFT_SERIES[0]).then((result) =>
+    processNFTAvailability(result, "hasPolicyNFT")
+  );
+
+  fetchGraphQL(NFT_SERIES[1]).then((result) =>
+    processNFTAvailability(result, "hasIVotedNFT")
+  );
+
+  loadMyVotes();
 }
 
 // asyncFetch(
