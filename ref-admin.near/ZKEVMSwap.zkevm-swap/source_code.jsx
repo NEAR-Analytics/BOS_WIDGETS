@@ -106,7 +106,6 @@ State.init({
   },
   selectedDex: props.dex ?? "Pancake Swap",
   loadRes: (value) => {
-    console.log("loadRes", value);
     if (value.estimate === "NaN") value.estimate = 0;
     State.update({
       estimate: value,
@@ -132,7 +131,6 @@ if (!state.sender) {
 }
 
 const onDexDataLoad = (data) => {
-  console.log("dexdata: ", data);
   State.update({
     ...data,
     forceReload: false,
@@ -148,8 +146,6 @@ const currentAccountId =
   getEVMAccountId() !== "" ? getEVMAccountId() : context.accountId;
 
 const rearrangeAssets = () => {
-  console.log("state: ", state);
-
   State.update({
     inputAssetTokenId: state.outputAssetTokenId,
     outputAssetTokenId: state.inputAssetTokenId,
@@ -320,7 +316,6 @@ const canSwap =
   state.inputAssetTokenId !== state.outputAssetTokenId;
 
 const onCallTxComple = (tx) => {
-  console.log("transactionHash", tx);
   State.update({
     outputAsset: undefined,
   });
