@@ -29,6 +29,7 @@ const data = fetch(mbGraphEndpoint, {
 `,
   }),
 });
+console.log("oo-----", data);
 
 const handleImageUpload = (files) => {
   if (files?.length > 0) {
@@ -96,7 +97,7 @@ if (data?.body?.data?.nft_activities) {
   posts = data?.body?.data?.nft_activities;
 }
 
-const size = "15em";
+const size = "8em";
 
 return (
   <div class="text-black p-2 container-fluid d-flex flex-column w-100 text-center justify-content-center align-items-center">
@@ -127,6 +128,27 @@ return (
     </div>
 
     <div class="container-fluid text-center d-flex flex-column justify-content-center align-items-center">
+      <Files
+        multiple={false}
+        accepts={["image/*"]}
+        minFileSize={1}
+        clickable
+        onChange={handleImageUpload}
+        style={{
+          cursor: "pointer",
+        }}
+        class="text-center d-flex justify-content-center align-items-center"
+      >
+        <div class="d-flex m-4 px-4 py-3 rounded bg-black text-white justify-content-center align-items-center">
+          {state.img?.uploading ? (
+            <>...</>
+          ) : state.img?.cid ? (
+            "Replace"
+          ) : (
+            "Take photo"
+          )}
+        </div>
+      </Files>
       <div class="d-flex flex-column gap-2">
         {posts.map((post) => {
           const memo = JSON.parse(post.memo);
@@ -135,21 +157,18 @@ return (
 
           return (
             <div>
-              <div class="m-4">
-                <Widget
-                  src="mob.near/widget/ProfileLine"
-                  props={{
-                    accountId: sender,
-                    hideName: true,
-                    hideAccountId: true,
-                    tooltip: true,
-                  }}
-                />
-                <span role="img" aria-label="poked" title="poked">
-                  📸
-                </span>
-              </div>
-
+              <Widget
+                src="mob.near/widget/ProfileLine"
+                props={{
+                  accountId: sender,
+                  hideName: true,
+                  hideAccountId: true,
+                  tooltip: true,
+                }}
+              />
+              <span role="img" aria-label="poked" title="poked">
+                📸
+              </span>
               <a
                 href={`https://mintbase.xyz/contract/${post.nft_contract_id}/token/${post.token_id}`}
               >
@@ -170,12 +189,25 @@ return (
                       maxHeight: size,
                       overflowWrap: "break-word",
                     },
+                    thumbnail: "thumbnail",
                     className: "",
                     fallbackUrl:
                       "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
                   }}
                 />
               </a>
+              <span role="img" aria-label="poked" title="poked">
+                ➡️
+              </span>
+              <Widget
+                src="mob.near/widget/ProfileLine"
+                props={{
+                  accountId: post.action_receiver,
+                  hideName: true,
+                  hideAccountId: true,
+                  tooltip: true,
+                }}
+              />
             </div>
           );
         })}
