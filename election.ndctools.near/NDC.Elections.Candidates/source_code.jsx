@@ -338,12 +338,11 @@ const handleVote = () => {
 
   const arr = isBonded ? [voteFunc] : [bondFunc, voteFunc];
 
-  Near.call(arr).then(() =>
-    State.update({
-      bountyProgramModal: false,
-      reload: true,
-    })
-  );
+  Near.call(arr);
+  State.update({
+    bountyProgramModal: false,
+    reload: true,
+  });
 };
 
 const handleAcceptToS = () => {
@@ -353,14 +352,11 @@ const handleAcceptToS = () => {
     { policy: POLICY_HASH },
     70000000000000,
     1000000000000000000000
-  ).then(() =>
-    State.update({
-      showToSModal: false,
-      tosAgreement: true,
-      showMintPolicyModal: true,
-      reload: true,
-    })
   );
+  State.update({
+    showToSModal: false,
+    reload: true,
+  });
 };
 
 const handleFilter = (option) => {
@@ -972,8 +968,8 @@ return (
             <div>
               <img width={300} src={I_VOTED_NFT} />
               <div className="mt-4 mb-4">
-                Celebrate for voting in the inaugural election of NEAR and mint
-                your “I Voted” NFT! 🎉
+                Celebrate voting in the inaugural NEAR election and mint your “I
+                Voted” NFT! 🎉
               </div>
             </div>
           ),
