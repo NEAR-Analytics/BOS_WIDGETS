@@ -120,7 +120,7 @@ function loadHouses() {
   ];
 
   console.log("houses", houses);
-  if (houses && state.houses.some((h) => h === null)) {
+  if (houses.some((h) => h === null)) {
     State.update({ houses });
   }
 }
