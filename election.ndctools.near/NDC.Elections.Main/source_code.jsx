@@ -137,13 +137,6 @@ const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
   issuer: electionContract,
 });
 
-let bondedAmount;
-if (state.isIAmHuman) {
-  bondedAmount = Near.view(electionContract, "bond_by_sbt", {
-    sbt: isHuman[0][1][0],
-  });
-}
-
 fetchGraphQL(NFT_SERIES[0]).then((result) =>
   processNFTAvailability(result, "hasPolicyNFT")
 );
@@ -160,11 +153,10 @@ State.update({
   houses,
   acceptedPolicy,
   hasVotedOnAllProposals,
-  isBonded: bondedAmount > 0,
   hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
 });
 
-if (context.accountId)
+if (context.accountId) {
   asyncFetch(
     `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
     { headers: { "x-api-key": apiKey } }
@@ -177,6 +169,17 @@ if (context.accountId)
       State.update({ myVotes, reload: false });
     }
   });
+  asyncFetch(
+    `https://api.pikespeak.ai/election/is-bonded?account=${context.accountId}&registry=${registryContract}`,
+    { headers: { "x-api-key": apiKey } }
+  ).then((resp) => {
+    if (resp.body) {
+      console.log(resp.body);
+
+      State.update({ isBonded: false });
+    }
+  });
+}
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
