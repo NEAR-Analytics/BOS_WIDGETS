@@ -224,6 +224,7 @@ return (
         <Widget
           src="guessme.near/widget/ZKEVM.gamma-zkevm-vault"
           props={{
+            ...props,
             pair: activePair,
             refetch: postRefetch,
             can_add_action: state.add_action,
