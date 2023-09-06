@@ -182,14 +182,14 @@ function MarkdownEditor(props) {
 
         window.addEventListener("message", (event) => {
           console.log(event.data.content);
-          if (isEditorInitialized ) {
+          // if (isEditorInitialized ) {
             simplemde.codemirror.getDoc().setValue(event.data.content)
             // const textarea = document.getElementById("markdown-input");
             // if (textarea) {
             //   textarea.value = event.data.content;
             // }
-            console.log(event.data.content);
-          }
+          //   console.log(event.data.content);
+          // }
         });
 
         /**
