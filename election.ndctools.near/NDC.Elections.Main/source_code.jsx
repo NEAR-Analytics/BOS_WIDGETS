@@ -105,6 +105,10 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
+const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
+  issuer: electionContract,
+});
+
 if (currentUser && state.reload) {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
@@ -138,10 +142,6 @@ if (currentUser && state.reload) {
     "has_voted_on_all_proposals",
     { user: currentUser }
   );
-
-  const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
-    issuer: electionContract,
-  });
 
   fetchGraphQL(NFT_SERIES[0]).then((result) =>
     processNFTAvailability(result, "hasPolicyNFT")
