@@ -18,6 +18,8 @@ State.init({
   contractId,
   tokenId,
   description: "",
+  text: "",
+  message: false,
   listings: [],
   title: "",
   owner: "",
@@ -102,6 +104,46 @@ if (contractId !== state.contractId || tokenId !== tokenId) {
 }
 
 let imageUrl = null;
+
+const handleBuyClick = (price, owner) => {
+  const contract = new ethers.Contract(
+    currentChain[props.state.singleNftProps.chain].contract,
+    listAbi,
+    Ethers.provider().getSigner()
+  );
+
+  const nftContract = props.state.singleNftProps.id.split(
+    props.state.singleNftProps.tokenId
+  )[0];
+
+  console.log("trying to buy oo");
+  console.log(
+    "variab;es",
+    currentChain[props.state.singleNftProps.chain].contract,
+    nftContract,
+    contract
+  );
+
+  contract
+    .nftSale(price, tokenId, owner, nftContract, { value: price })
+    .then((transactionHash) => transactionHash.wait())
+    .then((ricit) => {
+      console.log("does not get hiere", ricit);
+      State.update({
+        message: true,
+        text: `${currentChain[props.chainState].explorer}/tx/${
+          ricit.transactionHash
+        }`,
+      });
+    })
+    .catch((err) => {
+      console.log("couldnt finish",err)
+      State.update({
+        error: true,
+        text: err.reason,
+      });
+    });
+};
 
 function fetchTokens() {
   asyncFetch("https://graph.mintbase.xyz/mainnet", {
@@ -564,6 +606,20 @@ const RowBody = styled.div`
     }
 `;
 
+const Popup = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px); /* Apply background blur */
+  
+`;
+
 const MintDetails = styled.div`
     display: flex;
     flex-direction: row;
@@ -581,6 +637,8 @@ const MintDetails = styled.div`
 const HandleList = () => {
   console.log(props.singleNftProps);
 };
+
+const closeModal = () => State.update({ message: false });
 
 const getUsdValue = (price) => {
   const res = fetch(
@@ -780,5 +838,13 @@ return (
       </TopSection>
     </MainContainer>
     <Widget src="jgodwill.near/widget/GenaDrop.Footer" />
+    {state.message && (
+      <Popup>
+        <Widget
+          src="agwaze.near/widget/GenaDrop.SuccessModal"
+          props={{ closeModal, externalLink: state.text }}
+        />
+      </Popup>
+    )}
   </Root>
 );
