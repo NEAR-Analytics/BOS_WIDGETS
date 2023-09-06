@@ -98,11 +98,8 @@ return (
           <IconLink />
         </div>
       </div>
-      <Button
-        onClick={() =>
-          (window.location.href =
-            "https://near.social/duocelot.near/widget/onboardHUB")
-        }
+      <ButtonLink
+        href="https://near.social/duocelot.near/widget/onboardHUB"
       >
         Back
       </Button>
