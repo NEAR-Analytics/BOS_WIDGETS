@@ -6,11 +6,10 @@ const TextContainer = styled.div`
 `;
 
 const Budget = styled.div`
-  padding: 10px;
+ text-align: justify;
   p {
     line-height: 18px;
     font-size: 14px;
-    text-align: justify;
   }
   
    h5, h6, li  {
