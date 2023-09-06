@@ -453,6 +453,8 @@ const CardListWrapper = styled.div`
   flex-wrap: wrap;
   gap: ${(props) => (props.isMyQuest ? "18px" : "32px")};
   @media (max-width: 900px) {
+    gap: ${(props) => (props.isMyQuest ? "18px" : "32px 18px")};
+    justify-content: space-between;
   }
 `;
 
