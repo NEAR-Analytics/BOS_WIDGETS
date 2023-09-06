@@ -1,5 +1,5 @@
 // user의 값은 자신의 지갑 주소를 입력해주세요.
-const user = "idknwhoru.near";
+const user = "8bc4d1c27b6e5a4c53e666470542ed74c3c842a48264970088b30ac54c10db16";
 
 return (
   <>
