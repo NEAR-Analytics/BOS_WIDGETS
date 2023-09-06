@@ -24,7 +24,31 @@ const MenuImage = styled.img`
   justify-content: center;
   align-items: center;
   animation: ${dealCard} 0.5s forwards;
+  transition: transform 0.5s;
 `;
+
+State.init({
+  show: false,
+});
+
+const handleOnMouseEnter = () => {
+  State.update({ show: true });
+};
+
+const handleOnMouseLeave = () => {
+  State.update({ show: false });
+};
+
+const overlay = (
+  <div
+    className="border m-3 p-3 rounded-4 bg-white shadow"
+    style={{ maxWidth: "24em", zIndex: 1070 }}
+    onMouseEnter={handleOnMouseEnter}
+    onMouseLeave={handleOnMouseLeave}
+  >
+    This is the overlay Message
+  </div>
+);
 
 const urls = [
   "https://ipfs.near.social/ipfs/bafkreib56aciji2mgnwhqt3nkmutxqfednxqllgzvd5gm6d4mcjbumnxzm",
@@ -67,7 +91,10 @@ return (
           <MenuImage
             src={url}
             alt="btn"
+            className="menu-image"
             style={{ animationDelay: `${index * 0.2}s` }}
+            onMouseEnter={() => handleMouseOver(index)}
+            onMouseLeave={handleMouseOut}
           />
         ))}
       </div>
