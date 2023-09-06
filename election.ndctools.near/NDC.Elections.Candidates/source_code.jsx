@@ -50,7 +50,6 @@ const GREYLIST_VERIFY_LINK =
   "https://airtable.com/appgHJzUuw1Kb2GJV/shrCdvjmWMzwaMEj8";
 const MIN_BOND = 0.01; //3
 const MAX_BOND = 0.02; //300;
-const NFT_SERIES = [203, 204];
 
 const Container = styled.div`
   position: relative:
