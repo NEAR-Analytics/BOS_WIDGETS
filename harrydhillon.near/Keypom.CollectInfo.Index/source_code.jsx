@@ -48,8 +48,6 @@ const ActionButton = styled.button`
   cursor: pointer;
 `;
 
-Storage.set("collectInfo", JSON.stringify(state.data));
-
 if (!state.isReadDataFromLocal) {
   const getValue = Storage.get("collectInfo");
   if (getValue) {
@@ -57,6 +55,8 @@ if (!state.isReadDataFromLocal) {
   } else {
     State.update({ isReadDataFromLocal: true });
   }
+} else {
+  Storage.set("collectInfo", JSON.stringify(state.data));
 }
 
 return (
