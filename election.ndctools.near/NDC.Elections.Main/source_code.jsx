@@ -122,6 +122,7 @@ if (currentUser && state.reload) {
 
   let isBonded;
   if (isHuman) {
+    console.log(isHuman[0][1][0]);
     isBonded = Near.view(electionContract, "bond_by_sbt", {
       sbt: isHuman[0][1][0],
     });
