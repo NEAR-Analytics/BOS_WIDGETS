@@ -1,4 +1,3 @@
-
 const AddCustomFieldModalJsx = (
   <>
     <p style={{ fontWeight: "500", marginBottom: -5 }}>Field</p>
@@ -53,6 +52,9 @@ const AddCustomFieldModalJsx = (
     </button>
   </>
 );
+
+
+console.log(props,'props',state)
 
 if (
   props.editMode &&
