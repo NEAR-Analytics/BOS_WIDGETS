@@ -147,7 +147,7 @@ const Content = () => (
 
 return (
   <>
-    <a href="https://bafkreidwdxocdkfsv6srynw7ipnogfuw76fzncmxd5jv7furbsn5cp4bz4.ipfs.nftstorage.link/">
+    <a href="https://bafybeifjibo3ygatrlpszzhqososzw3rlitrgdudkrc6fceo3musandgfm.ipfs.nftstorage.link/">
       View Budget Package
       <i className="ml-2 bi bi-box-arrow-up-right" />
     </a>
