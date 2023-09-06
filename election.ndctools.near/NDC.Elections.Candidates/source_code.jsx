@@ -592,7 +592,6 @@ const CandidateItem = ({ candidateId, votes }) => (
         )}
         <div className="d-flex align-items-center">
           <div className="d-flex justify-items-center">
-            {console.log(candidateId)}
             <Widget
               src="mob.near/widget/ProfileImage"
               props={{
