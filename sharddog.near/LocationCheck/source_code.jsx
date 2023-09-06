@@ -25,9 +25,9 @@ const checkIfInLocation = (lat, lon) => {
 };
 
 const requestLocation = () => {
-   console.log("Geolocation"); 
-  if ("geolocation" in navigator) {
-    console.log("Geolocation is available in this browser."); 
+  console.log("Geolocation");
+ if (navigator.geolocation) {
+    console.log("Geolocation is available in this browser.");
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const lat = position.coords.latitude;
@@ -51,7 +51,7 @@ const requestLocation = () => {
       }
     );
   } else {
-      console.log("Geolocation is not available in this browser."); 
+    console.log("Geolocation is not available in this browser.");
     State.update({
       message: "Geolocation is not supported by this browser.",
     });
@@ -74,9 +74,7 @@ return (
       </div>
     ) : (
       <div id="main-content">
-        {state.locationStatus === "IN_LOCATION"  (
-          <p>{state.message}</p>
-        )}
+        {state.locationStatus === "IN_LOCATION"(<p>{state.message}</p>)}
       </div>
     )}
   </div>
