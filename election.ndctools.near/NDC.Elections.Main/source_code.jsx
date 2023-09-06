@@ -135,30 +135,49 @@ function loadSBTs() {
   });
 }
 
-loadHouses();
-loadSBTs();
-
-if (state.reload) {
-  const isHuman = Near.view(registryContract, "is_human", {
-    account: currentUser,
-  });
-
+function loadBond() {
   const isBondedAmount = Near.view(electionContract, "bond_by_sbt", {
-    sbt: state.humanToken,
+    sbt: state.iahToken,
   });
 
+  State.update({ isBonded: isBondedAmount > 0 });
+}
+
+function loadFlagged() {
   const flagged = Near.view(registryContract, "account_flagged", {
     account: currentUser,
   });
 
+  State.update({
+    blacklisted: flagged === "Blacklisted",
+    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
+  });
+}
+
+function loadPolicy() {
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
     user: currentUser,
   });
 
+  State.update({ acceptedPolicy });
+}
+
+function loadWinners() {
   const winnerIds = Near.view(electionContract, "winners_by_proposal", {
     prop_id: state.selectedHouse,
   });
 
+  State.update({ winnerIds });
+}
+
+loadHouses();
+loadSBTs();
+loadBond();
+loadPolicy();
+loadFlagged();
+loadWinners();
+
+if (state.reload) {
   const hasVotedOnAllProposals = Near.view(
     electionContract,
     "has_voted_on_all_proposals",
@@ -187,12 +206,6 @@ if (state.reload) {
   });
 
   State.update({
-    humanToken: isHuman && isHuman[0][1][0],
-    winnerIds,
-    blacklisted: flagged === "Blacklisted",
-    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
-    acceptedPolicy,
-    isBondedAmount,
     hasVotedOnAllProposals,
   });
 }
@@ -200,16 +213,16 @@ if (state.reload) {
 console.log("bonded amount: ", state.isBondedAmount);
 console.log("is_bonded: ", state.isBonded);
 
-asyncFetch(
-  `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
-  { headers: { "x-api-key": apiKey } }
-).then((resp) => {
-  const isBondedContract = state.isBondedAmount > 0;
-  const res = resp.body === isBondedContract ? resp.body : isBondedContract;
+// asyncFetch(
+//   `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
+//   { headers: { "x-api-key": apiKey } }
+// ).then((resp) => {
+//   const isBondedContract = state.isBondedAmount > 0;
+//   const res = resp.body === isBondedContract ? resp.body : isBondedContract;
 
-  console.log("is_bonded indexer: ", resp.body);
-  if (resp.body) State.update({ isBonded: res });
-});
+//   console.log("is_bonded indexer: ", resp.body);
+//   if (resp.body) State.update({ isBonded: res });
+// });
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
