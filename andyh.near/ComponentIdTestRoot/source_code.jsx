@@ -8,7 +8,7 @@ return (
   <>
     {[state.a, state.b, state.c].map(({ id, value }) => (
       <Widget
-        src="andyh.near/widget/ComponentITestChild"
+        src="andyh.near/widget/ComponentIdTestChild"
         id={id}
         props={{
           value,
