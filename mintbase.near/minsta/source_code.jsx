@@ -29,7 +29,6 @@ const data = fetch(mbGraphEndpoint, {
 `,
   }),
 });
-console.log("oo-----", data);
 
 const handleImageUpload = (files) => {
   if (files?.length > 0) {
@@ -97,7 +96,7 @@ if (data?.body?.data?.nft_activities) {
   posts = data?.body?.data?.nft_activities;
 }
 
-const size = "8em";
+const size = "12em";
 
 return (
   <div class="text-black p-2 container-fluid d-flex flex-column w-100 text-center justify-content-center align-items-center">
@@ -196,18 +195,6 @@ return (
                   }}
                 />
               </a>
-              <span role="img" aria-label="poked" title="poked">
-                ➡️
-              </span>
-              <Widget
-                src="mob.near/widget/ProfileLine"
-                props={{
-                  accountId: post.action_receiver,
-                  hideName: true,
-                  hideAccountId: true,
-                  tooltip: true,
-                }}
-              />
             </div>
           );
         })}
