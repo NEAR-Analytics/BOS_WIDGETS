@@ -320,6 +320,8 @@ const handleBookmarkCandidate = (candidateId) => {
   );
 };
 
+console.log(greylisted);
+
 const handleVote = () => {
   const voteFunc = {
     contractName: electionContract,
