@@ -393,7 +393,7 @@ const getBestTrade = () => {
                   : state.outputCurrencyAmount
               )
                 .mul(0.995)
-                .toString();
+                .toFixed(5);
               const type =
                 _token0 ===
                 (currentCurrency.address === "native"
