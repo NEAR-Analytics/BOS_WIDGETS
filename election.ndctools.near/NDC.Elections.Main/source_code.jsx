@@ -123,9 +123,8 @@ if (currentUser && state.reload) {
   let isBonded;
   if (isHuman) {
     isBonded = Near.view(electionContract, "bond_by_sbt", {
-      sbt: 115,
+      sbt: isHuman[0][1][0],
     });
-    console.log(isBonded);
   }
 
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
