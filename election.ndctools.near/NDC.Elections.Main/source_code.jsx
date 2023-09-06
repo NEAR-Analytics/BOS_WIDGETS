@@ -26,7 +26,7 @@ State.init({
   selectedHouse: ids[0],
   myVotes: [],
   winnerIds: [],
-  iahToken: false,
+  isIAmHuman: false,
   humanToken: 0,
   blacklisted: false,
   greylisted: false,
@@ -39,7 +39,7 @@ State.init({
   hasVotedOnAllProposals: false,
   hasPolicyNFT: null,
   hasIVotedNFT: null,
-  iVotedToken: false,
+  hasIVotedSbt: false,
 });
 
 const currentUser = context.accountId;
@@ -47,7 +47,7 @@ const currentUser = context.accountId;
 const steps = [
   {
     title: "Accepted Policy",
-    completed: state.acceptedPolicy || state.iVotedToken,
+    completed: state.acceptedPolicy || state.hasIVotedSbt,
   },
   {
     title: 'Minted "Fair Voting Policy" NFT',
@@ -55,7 +55,7 @@ const steps = [
   },
   {
     title: "Voting Completed",
-    completed: state.hasVotedOnAllProposals || state.iVotedToken,
+    completed: state.hasVotedOnAllProposals || state.hasIVotedSbt,
   },
   {
     title: 'Minted "I Voted" NFT',
@@ -63,7 +63,7 @@ const steps = [
   },
   {
     title: 'Unbonded & Minted "I Voted SBT"',
-    completed: state.iVotedToken,
+    completed: state.hasIVotedSbt,
   },
 ];
 
@@ -106,7 +106,11 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
-function loadHouses() {
+const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
+  issuer: electionContract,
+});
+
+if (currentUser && state.reload) {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
     Near.view(electionContract, "proposal", { prop_id: ids[1] }),
@@ -114,63 +118,40 @@ function loadHouses() {
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
 
-  State.update({ houses });
-}
-
-function loadSBTs() {
-  const issuer = {
-    fractal: "fractal.i-am-human.near",
-    election: "elections-v1.gwg-testing.near",
-  };
-  const sbts = Near.view(registryContract, "sbt_tokens_by_owner", {
+  const isHuman = Near.view(registryContract, "is_human", {
     account: currentUser,
   });
 
-  const findToken = (issuer) =>
-    sbts.find((token) => token[0] === issuer && token[1].length > 0);
-
-  State.update({
-    iahToken: findToken(issuer.fractal),
-    iVotedToken: findToken(issuer.election),
-  });
-}
-
-function loadBond() {
   const isBondedAmount = Near.view(electionContract, "bond_by_sbt", {
-    sbt: state.iahToken,
+    sbt: state.humanToken,
   });
 
-  State.update({ isBonded: isBondedAmount > 0 });
-}
-
-function loadFlagged() {
   const flagged = Near.view(registryContract, "account_flagged", {
     account: currentUser,
   });
 
-  State.update({
-    blacklisted: flagged === "Blacklisted",
-    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
-  });
-}
-
-function loadPolicy() {
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
     user: currentUser,
   });
 
-  State.update({ acceptedPolicy });
-}
-
-function loadWinners() {
   const winnerIds = Near.view(electionContract, "winners_by_proposal", {
     prop_id: state.selectedHouse,
   });
 
-  State.update({ winnerIds });
-}
+  const hasVotedOnAllProposals = Near.view(
+    electionContract,
+    "has_voted_on_all_proposals",
+    { user: currentUser }
+  );
 
-function loadMyVotes() {
+  fetchGraphQL(NFT_SERIES[0]).then((result) =>
+    processNFTAvailability(result, "hasPolicyNFT")
+  );
+
+  fetchGraphQL(NFT_SERIES[1]).then((result) =>
+    processNFTAvailability(result, "hasIVotedNFT")
+  );
+
   asyncFetch(
     `https://api.pikespeak.ai/election/votes-by-voter?voter=${currentUser}&contract=${electionContract}`,
     { headers: { "x-api-key": apiKey } }
@@ -180,50 +161,37 @@ function loadMyVotes() {
         ids.includes(parseInt(vote.proposal_id))
       );
 
-      const votes = ids
-        .map((id) =>
-          myVotes.find((vote) => parseInt(vote.proposal_id) === id[0])
-        )
-        .filter((el) => el);
-
-      State.update({
-        myVotes,
-        reload: false,
-        hasVotedOnAllProposals: votes.length === 4,
-      });
+      State.update({ myVotes, reload: false });
     }
+  });
+
+  State.update({
+    isIAmHuman: isHuman && isHuman[0][1].length > 0,
+    humanToken: isHuman && isHuman[0][1][0],
+    winnerIds,
+    blacklisted: flagged === "Blacklisted",
+    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
+    houses,
+    acceptedPolicy,
+    isBondedAmount,
+    hasVotedOnAllProposals,
+    hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
   });
 }
 
-function loadNFT(id, key) {
-  fetchGraphQL(NFT_SERIES[id]).then((result) =>
-    processNFTAvailability(result, key)
-  );
-}
+console.log("bonded amount: ", state.isBondedAmount);
+console.log("is_bonded: ", state.isBonded);
 
-loadHouses();
-loadSBTs();
-loadBond();
-loadFlagged();
-loadWinners();
-loadPolicy();
-loadNFT(0, "hasPolicyNFT");
-loadNFT(1, "hasIVotedNFT");
+asyncFetch(
+  `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
+  { headers: { "x-api-key": apiKey } }
+).then((resp) => {
+  const isBondedContract = state.isBondedAmount > 0;
+  const res = resp.body === isBondedContract ? resp.body : isBondedContract;
 
-if (state.reload) {
-  loadMyVotes();
-}
-
-// asyncFetch(
-//   `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
-//   { headers: { "x-api-key": apiKey } }
-// ).then((resp) => {
-//   const isBondedContract = state.isBondedAmount > 0;
-//   const res = resp.body === isBondedContract ? resp.body : isBondedContract;
-
-//   console.log("is_bonded indexer: ", resp.body);
-//   if (resp.body) State.update({ isBonded: res });
-// });
+  console.log("is_bonded indexer: ", resp.body);
+  if (resp.body) State.update({ isBonded: res });
+});
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
@@ -368,9 +336,9 @@ return (
           </div>
 
           {currentUser &&
-          state.iahToken &&
+          state.isIAmHuman &&
           state.winnerIds.length > 0 &&
-          !state.iVotedToken ? (
+          !state.hasIVotedSbt ? (
             <UnbondContainer className={`not-verified d-flex flex-column`}>
               <div>
                 <h4>Unbond NEAR & Mint SBT</h4>
@@ -395,7 +363,7 @@ return (
             </UnbondContainer>
           ) : (
             <>
-              {currentUser && state.iahToken && (
+              {currentUser && state.isIAmHuman && (
                 <Widget
                   src={widgets.progress}
                   props={{ houses: state.houses, handleSelect, votesLeft }}
