@@ -97,7 +97,10 @@ const filteredItems = state.items || [];
 if (filter) {
   if (filter.ignore) {
     filteredItems = filteredItems.filter(
-      (item) => !(item.accountId in filter.ignore)
+      (item) =>
+        !(Array.isArray(filter.ignore)
+          ? filter.ignore.includes(item.accountId)
+          : filter.ignore[item.accountId])
     );
   }
 }
