@@ -65,7 +65,7 @@ const steps = [
   },
 ];
 
-const fetchGraphQL = (series) => {
+function fetchGraphQL(series) {
   return asyncFetch(QUERY_API_ENDPOINT, {
     method: "POST",
     headers: { "mb-api-key": "anon", "x-hasura-role": electionContract },
@@ -89,7 +89,7 @@ const fetchGraphQL = (series) => {
       operationName: "MyQuery",
     }),
   });
-};
+}
 
 const processNFTAvailability = (result, key) => {
   if (result.status === 200) {
