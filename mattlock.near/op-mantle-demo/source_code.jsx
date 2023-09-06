@@ -3,6 +3,7 @@ const MNT_CONTRACT_GOERLI = `0xc1dC2d65A2243c22344E725677A3E3BEBD26E604`;
 const MNT_SPENDER_GOERLI = `0xc92470D7Ffa21473611ab6c6e2FcFB8637c8f330`;
 const MNT_CONTRACT_MANTLE_GOERLI = `0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000`;
 const MNT_MIN_GAS = `200000`;
+const ERC20_TRANSFER_GAS = `192460`;
 
 const OP_BRIDGE_DEPOSIT_CONTRACT = "0x636Af16bf2f682dD3109e60102b8E1A089FedAa8";
 const OP_BRIDGE_WITHDRAW_CONTRACT =
@@ -127,6 +128,11 @@ const mntContractGoerli = new ethers.Contract(
   mntIface,
   provider.getSigner()
 );
+const mntContractDepositGoerli = new ethers.Contract(
+  MNT_SPENDER_GOERLI,
+  mntIface,
+  provider.getSigner()
+);
 
 // functional
 
@@ -158,12 +164,21 @@ if (sender) {
 }
 
 function handleDepositMNT() {
-  mntContractGoerli.depositERC20(
+  const amount = ethers.utils.parseUnits(state.bridgeAmountMNT, `ether`);
+  if (Big(amount).gt(Big(state.allowance))) {
+    State.update({ console: `Not enough balance` });
+    return;
+  }
+
+  mntContractDepositGoerli.depositERC20(
     MNT_CONTRACT_GOERLI,
     MNT_CONTRACT_MANTLE_GOERLI,
-    state.allowance,
+    amount,
     MNT_MIN_GAS,
-    []
+    [],
+    {
+      gasLimit: ERC20_TRANSFER_GAS,
+    }
   );
 }
 
@@ -188,6 +203,12 @@ return (
       <>
         <h3>Deposits</h3>
         <p>Allowance to Bridge: {state.allowanceFormatted}</p>
+        <input
+          value={state.bridgeAmountMNT}
+          onChange={({ target: { value } }) =>
+            State.update({ bridgeAmountMNT: value })
+          }
+        />
         <button onClick={handleDepositMNT}>Bridge</button>
       </>
     )}
