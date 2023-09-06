@@ -201,11 +201,8 @@ loadMyVotes();
 loadPolicy();
 loadNFT(0, "hasPolicyNFT");
 loadNFT(1, "hasIVotedNFT");
-
-if (state.reload) {
-  loadFlagged();
-  loadWinners();
-}
+loadFlagged();
+loadWinners();
 
 // asyncFetch(
 //   `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
