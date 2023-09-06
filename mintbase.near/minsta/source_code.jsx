@@ -127,27 +127,6 @@ return (
     </div>
 
     <div class="container-fluid text-center d-flex flex-column justify-content-center align-items-center">
-      <Files
-        multiple={false}
-        accepts={["image/*"]}
-        minFileSize={1}
-        clickable
-        onChange={handleImageUpload}
-        style={{
-          cursor: "pointer",
-        }}
-        class="text-center d-flex justify-content-center align-items-center"
-      >
-        <div class="d-flex m-4 px-4 py-3 rounded bg-black text-white justify-content-center align-items-center">
-          {state.img?.uploading ? (
-            <>...</>
-          ) : state.img?.cid ? (
-            "Replace"
-          ) : (
-            "Take photo"
-          )}
-        </div>
-      </Files>
       <div class="d-flex flex-column gap-2">
         {posts.map((post) => {
           const memo = JSON.parse(post.memo);
