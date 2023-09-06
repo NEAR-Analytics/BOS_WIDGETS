@@ -89,6 +89,7 @@ const CandidateItemRow = styled.div`
       : props.selected
       ? "#4aa6ee"
       : "#F8F8F9"};
+  color: ${(props) => (props.selected ? "F8F8F9" : "inherit")};
 
   &:hover {
     background: ${(props) =>
