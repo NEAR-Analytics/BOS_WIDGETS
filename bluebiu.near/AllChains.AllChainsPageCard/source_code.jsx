@@ -109,8 +109,11 @@ const CardChilden = styled.div`
   display: ${(props) => (props.isDeposit ? "none" : "block")};
   .CardChilden-item {
     margin-bottom: 0;
-    padding: 20px 0 0 20px;
+    padding: 15px 0 15px 20px;
     display: flex;
+    :hover {
+      background: #3f4361;
+    }
     .item-icon {
       margin-right: 8px;
       img {
