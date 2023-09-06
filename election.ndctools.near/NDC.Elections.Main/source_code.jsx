@@ -135,10 +135,10 @@ function loadSBTs() {
   });
 }
 
-if (currentUser && state.reload) {
-  loadHouses();
-  loadSBTs();
+loadHouses();
+loadSBTs();
 
+if (state.reload) {
   const isHuman = Near.view(registryContract, "is_human", {
     account: currentUser,
   });
