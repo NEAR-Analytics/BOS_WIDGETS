@@ -244,8 +244,10 @@ const handleUnbond = () => {
 
 const handleFilter = (e) => State.update({ candidateFilterId: e.target.value });
 
-const votesLeft = (house) =>
+const votesLeft = (house) => {
+  if (!state.iahToken) return;
   house.seats - state.myVotes.filter((vote) => vote.house === house.typ).length;
+};
 
 const Container = styled.div`
   padding: 20px 0;
