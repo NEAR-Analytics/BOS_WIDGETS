@@ -1,156 +1,117 @@
-const ownerId = "ndcplug.near";
+State.init({});
 
-const Title = styled.div`
-padding: 3em;
+const Wrapper = styled.div`
+  --section-gap: 23px;
+  padding-top: 42px;
+
+  @media (max-width: 1160px) {
+    .line-rounded-corners {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 900px) {
+    padding-top: 0;
+  }
 `;
+
+const Flex = styled.div`
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: "nowrap";
+
+    @media (max-width: 900px) {
+    flex-direction: column;
+    gap: var(--section-gap);
+    }
+`;
+
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-wrap: nowrap;
-  padding-left: 3.5em;
-    padding-right: 3.5em;
-    margin-bottom: 3em;
-  gap: 3em;
-  background: #fff;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column-reverse;
-  }
-  .title {
-    flex-direction: row;
-  }
+  max-width: 1060px;
+  margin: 0 auto;
+  gap: var(--section-gap);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--section-gap) 24px;
 `;
 
-const Text = styled.div`
+const TimelineContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 45%;
-  gap: 0.5em;
-  padding: 0;
+  align-items: center;
+    margin-top: 23px;
 
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
-
-  h2 {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 1.625em;
-    line-height: 1.5em;
-    color: #000000;
-  }
-
-  p {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 0.9em;
-    line-height: 1.25em;
-    color: #000000;
-  }
-
-  ul {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.25em;
-    color: #000000;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    list-style-position: outside;
-    padding-left: 1em;
-    gap: 0.5em;
-  }
 `;
 
-const Visual = styled.div`
-  width: 50%;
-  border-radius: 20px;
-  margin-left: 3em;
-
-  img {
-    width: 75%;
-  }
-`;
-
-const ButtonContainer = styled.div`
+const TimelineItem = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 3em;
-  margin-top: 2em;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1em;
-    width: 60%;
-    margin: 0 auto;
-  }
-
-  @media screen and (max-width: 480px) {
-    width: 100%;
-  }
+  align-items: center;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
 `;
 
-const visual = "bafkreifvatnpked4a364btyyyjmn46jngd44msyjyml5ik2qyvbop55msu";
-const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
+const TimelineText = styled.p`
+  font-size: 16px;
+  margin: 0;
+`;
+
+const schedule = [
+  {
+    url: "https://nearbuilders.com/tg-builders",
+    day: "Friday, August 25th:",
+    subtitle: "Hackathon Kick-Off",
+  },
+  {
+    url: "https://nearbuilders.com/tg-builders",
+    day: "Sunday, September 10th:",
+    subtitle: "Hackathon Submission",
+  },
+  {
+    url: "https://build.boshacks.com/bos-hacks/hacker-manual/judges",
+    day: "Monday, September 11th:",
+    subtitle: "Judging Starts",
+  },
+  {
+    url: "https://nearbuilders.com/tg-builders",
+    day: "Friday, September 15th:",
+    subtitle: "Prize Ceremony",
+  },
+];
 
 return (
-  <>
-    <Title>
-      <h2 className="title">Learn, build, win</h2>
-    </Title>
+  <Wrapper>
     <Container>
-      <Text>
-        <ul>
-          <li>
-            Win over $15,000 in prizes for shipping decentralized frontends and
-            on-chain components.
-          </li>
-          <li>
-            Learn everything you need to build fully decentralized frontends and
-            multi-chain applications all in JavaScript.
-          </li>
-          <li>
-            Receive mentorship from top BOS builders via daily office hours and
-            24/7 chat Telegram support.
-          </li>
-        </ul>
-        <p>Builder Tracks Include: </p>
-        <ul>
-          <li>🏆 General</li>
-          <li>📱 Social & NFTs</li>
-          <li>🏛️ Impact & Governance</li>
-          <li>⛓️ Multichain & DeFi</li>
-          <li>🛠️ Dev Experience</li>
-        </ul>
-        <p>
-          {" "}
-          Learn more
-          <a href="https://nearbuilders.com/bounty" target="_blank">
-            here
-          </a>
-        </p>
-        <ButtonContainer>
-          <Widget src={`${ownerId}/widget/BOSHACKS.Register.Button`} />
-        </ButtonContainer>
-      </Text>
-      {true && (
-        <Visual>
-          <img
-            src="https://ipfs.near.social/ipfs/bafkreicea6j7t23wuakldwekrtjtdvcuikmnme3tsvbtixuhspeoe4mph4"
-            alt="Illia Talking"
-          />
-        </Visual>
-      )}
+      <Flex>
+        <TimelineContainer>
+          <h3>
+            <b>🗓️ Hackathon Schedule:</b> Virtual
+          </h3>
+          {schedule.map((schedule) => (
+            <TimelineItem>
+              <TimelineText>
+                <b>{schedule.day}</b>{" "}
+                <a href={schedule.url}>{schedule.subtitle}</a>
+              </TimelineText>
+            </TimelineItem>
+          ))}
+        </TimelineContainer>
+        <h5>
+          <b>
+            🔗{" "}
+            <a href="https://nearbuilders.com/build-calendar" target="_blank">
+              Add
+            </a>{" "}
+            to Calendar
+          </b>
+        </h5>
+      </Flex>
+      <br />
     </Container>
-  </>
+  </Wrapper>
 );
