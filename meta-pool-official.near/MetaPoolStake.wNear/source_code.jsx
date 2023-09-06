@@ -36,14 +36,6 @@ if (state.chainId !== undefined && state.chainId !== 1313161554) {
   return <p>Switch to Aurora</p>;
 }
 
-if (state.sender === undefined) {
-  const accounts = Ethers.send("eth_requestAccounts", []);
-  if (accounts.length) {
-    State.update({ sender: accounts[0] });
-    updateData();
-  }
-}
-
 function isValid(a) {
   if (!a) return false;
   if (isNaN(Number(a))) return false;
@@ -281,6 +273,14 @@ if (!state.dataIntervalStarted) {
   setInterval(() => {
     updateData();
   }, 10000);
+}
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+    updateData();
+  }
 }
 
 const SelectionContainer = styled.div`
