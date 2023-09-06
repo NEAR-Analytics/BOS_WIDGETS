@@ -352,7 +352,7 @@ return (
       </button>
     </ContractSearch>
     <Title>Today</Title>
-    {response ? (
+    {response && response.body.length > 0 ? (
       <>
         <TilesRow>
           <Tile>
@@ -603,6 +603,8 @@ return (
           </svg>
         </div>
       </>
+    ) : response.body.length == 0 ? (
+      <h1>Searched contract not found</h1>
     ) : (
       <h1>Loading...</h1>
     )}
