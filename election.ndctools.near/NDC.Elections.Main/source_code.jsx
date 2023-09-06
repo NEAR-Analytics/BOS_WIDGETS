@@ -104,7 +104,7 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
-if (state.reload) {
+if (currentUser && state.reload) {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
     Near.view(electionContract, "proposal", { prop_id: ids[1] }),
@@ -158,9 +158,9 @@ if (state.reload) {
   });
 }
 
-if (context.accountId) {
+if (currentUser) {
   asyncFetch(
-    `https://api.pikespeak.ai/election/votes-by-voter?voter=${context.accountId}&contract=${electionContract}`,
+    `https://api.pikespeak.ai/election/votes-by-voter?voter=${currentUser}&contract=${electionContract}`,
     { headers: { "x-api-key": apiKey } }
   ).then((resp) => {
     if (resp.body) {
@@ -172,7 +172,7 @@ if (context.accountId) {
     }
   });
   asyncFetch(
-    `https://api.pikespeak.ai/election/is-bonded?account=${context.accountId}&registry=${registryContract}`,
+    `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
     { headers: { "x-api-key": apiKey } }
   ).then((resp) => {
     if (resp.body) {
