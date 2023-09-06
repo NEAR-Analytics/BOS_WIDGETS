@@ -1,9 +1,9 @@
-let { ids } = props;
+let { ids, election_contract } = props;
 
 ids = ids ? JSON.parse(ids) : [1, 2, 3, 4];
 const budgetId = ids[3];
 
-const electionContract = "elections-v1.gwg-testing.near";
+const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
@@ -378,7 +378,7 @@ return (
           <Right className="col">
             <H5>General</H5>
             <div className="d-flex justify-content-center">
-              <Widget src={widgets.statistic} />
+              <Widget src={widgets.statistic} props={{ electionContract }} />
             </div>
           </Right>
           {state.myVotes.length > 0 && (
