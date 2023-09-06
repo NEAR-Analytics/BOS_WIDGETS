@@ -48,28 +48,30 @@ const onSubmit = (strAmount) => {
     swapAbi,
     Ethers.provider().getSigner()
   );
-
+ console.log("swap contract")
   let amount = ethers.utils.parseUnits(strAmount, tokenDecimals).toHexString();
-
+console.log("amount", amount)
   update({ loading: true });
 
   swap
     .swapwNEARForstNEAR(sender, { value: amount })
     .then((txResp) => {
       txResp.wait().then((waitResp) => {
+        console.log("success!")
         update({
           openModal: true,
           modalTitle: "Success!",
           modalDescription: "Tokens staked successfully.",
           loading: false,
-          strEther: 0,
-          balance: "",
-          stakedBalance: "",
+          value: 0,
+          wNearBalance: "",
+          stNearBalance: "",
         });
         updateData();
       });
     })
     .catch((e) => {
+      console.log("FAILED!")
       update({
         loading: false,
         openModal: true,
@@ -78,8 +80,8 @@ const onSubmit = (strAmount) => {
           "An Error Has Occurred. Please Try Again, And If The Problem Persists, Contact The System Administrator.",
       });
       console.error(e);
+      updateData();
     });
-  updateData();
 };
 
 const StakeContainer = styled.div`
