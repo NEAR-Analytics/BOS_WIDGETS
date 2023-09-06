@@ -40,6 +40,7 @@ if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
+    updateData();
   }
 }
 
@@ -145,7 +146,8 @@ const fetchNearPrice = () => {
   });
 };
 
-const getStNearBalance = (receiver) => {
+const getstNearBalance = () => {
+  const receiver = state.sender;
   const encodedData = iface.encodeFunctionData("balanceOf", [receiver]);
 
   return Ethers.provider()
@@ -163,6 +165,7 @@ const getStNearBalance = (receiver) => {
         .div(Big(10).pow(tokenDecimals))
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+        console.log("stNEABALANCE", balance)
       State.update({
         stNearBalance: balance,
         stNearBalanceIsFetched: true,
@@ -170,7 +173,8 @@ const getStNearBalance = (receiver) => {
     });
 };
 
-const wNearBalance = (receiver) => {
+const getwNearBalance = () => {
+  const receiver = state.sender;
   const encodedData = iface.encodeFunctionData("balanceOf", [receiver]);
 
   return Ethers.provider()
@@ -188,6 +192,7 @@ const wNearBalance = (receiver) => {
         .div(Big(10).pow(tokenDecimals))
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+                console.log("wNEABALANCE", balance)
       State.update({
         wNearBalance: balance,
         wNearBalanceIsFetched: true,
@@ -266,8 +271,8 @@ const onClickMaxStNear = () => {
 const updateData = () => {
   fetchNearPrice();
   fetchMetrics();
-  wNearBalance();
-  stNearBalance();
+  getwNearBalance();
+  getstNearBalance();
 };
 
 if (!state.dataIntervalStarted) {
