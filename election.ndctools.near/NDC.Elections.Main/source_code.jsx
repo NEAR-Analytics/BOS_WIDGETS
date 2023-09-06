@@ -120,6 +120,13 @@ if (currentUser && state.reload) {
     account: currentUser,
   });
 
+  let isBonded;
+  if (isHuman) {
+    isBonded = Near.view(electionContract, "bond_by_sbt", {
+      sbt: isHuman[0][1][0],
+    });
+  }
+
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
     user: currentUser,
   });
@@ -158,14 +165,6 @@ if (currentUser && state.reload) {
       State.update({ myVotes, reload: false });
     }
   });
-  asyncFetch(
-    `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
-    { headers: { "x-api-key": apiKey } }
-  ).then((resp) => {
-    if (resp.body) {
-      State.update({ isBonded: resp.body, reload: false });
-    }
-  });
 
   State.update({
     isIAmHuman: isHuman && isHuman[0][1].length > 0,
@@ -173,6 +172,7 @@ if (currentUser && state.reload) {
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
     houses,
+    isbonded: isBonded > 0,
     acceptedPolicy,
     hasVotedOnAllProposals,
     hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
