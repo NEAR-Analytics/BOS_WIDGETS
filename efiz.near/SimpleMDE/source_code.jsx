@@ -155,7 +155,6 @@ function MarkdownEditor(props) {
         // Initializes SimpleMDE element and attaches to text-area
         const simplemde = new SimpleMDE({
             element: document.getElementById("markdown-input"),
-            forceSync: true,
             autofocus: ${autoFocus},
             renderingConfig: ${renderingConfig},
             placeholder: "${placeholder}",
@@ -196,9 +195,17 @@ function MarkdownEditor(props) {
 const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
+let isEditorInitialized = false;
+
 window.addEventListener("message", (event) => {
+  if (!isEditorInitialized ) {
     root.render(React.createElement(MarkdownEditor, {
-        initialText: event.data.content }));
+      initialText: event.data.content
+    }));
+    isEditorInitialized = true;
+  } else if (isEditorInitialized) {
+    simplemde.value(event.data.content);
+  }
 });
 </script>
 `;
