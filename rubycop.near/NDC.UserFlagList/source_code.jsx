@@ -1,6 +1,7 @@
 State.init({
   flagged,
   account: "",
+  showResult: false,
 });
 
 function checkAvailability() {
@@ -8,7 +9,7 @@ function checkAvailability() {
     account: state.account,
   });
 
-  State.update({ flagged });
+  State.update({ flagged, showResult: state.account ?? true });
 }
 
 const H3 = styled.h3`
@@ -80,20 +81,22 @@ return (
             onClick: checkAvailability,
           }}
         />
-        <Status
-          className={`d-flex justify-content-center align-items-center p-2 mt-3 rounded-circle bg-${
-            state.flagged === "Blacklisted"
-              ? "black text-danger"
-              : state.flagged === "Verified"
-              ? "bg-white"
-              : "secondary text-white"
-          }`}
-        >
-          <div className="text-center">
-            You are <br />
-            {state.flagged ?? "Greylisted"}
-          </div>
-        </Status>
+        {state.showResult && (
+          <Status
+            className={`d-flex justify-content-center align-items-center p-2 mt-3 rounded-circle bg-${
+              state.flagged === "Blacklisted"
+                ? "black text-danger"
+                : state.flagged === "Verified"
+                ? "bg-white"
+                : "secondary text-white"
+            }`}
+          >
+            <div className="text-center">
+              You are <br />
+              {state.flagged ?? "Greylisted"}
+            </div>
+          </Status>
+        )}
       </Section>
     </Container>
   </div>
