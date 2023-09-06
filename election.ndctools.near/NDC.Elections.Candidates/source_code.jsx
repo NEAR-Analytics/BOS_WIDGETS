@@ -320,8 +320,6 @@ const handleBookmarkCandidate = (candidateId) => {
   );
 };
 
-console.log(greylisted);
-
 const handleVote = () => {
   const voteFunc = {
     contractName: electionContract,
@@ -498,6 +496,8 @@ State.init({
 const winnerIds = Near.view(electionContract, "winners_by_house", {
   prop_id: id,
 });
+
+console.log(state.reload);
 
 if (state.reload) {
   const electionStatus = Near.view(electionContract, "proposal_status", {
