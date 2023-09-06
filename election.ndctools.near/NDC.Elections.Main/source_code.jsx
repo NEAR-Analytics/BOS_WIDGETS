@@ -113,7 +113,7 @@ let isBonded = Near.view(electionContract, "bond_by_sbt", {
   sbt: state.humanToken,
 });
 
-isBonded = new Big(isBonded.toString());
+new Big(isBonded.toString());
 
 if (currentUser && state.reload) {
   let houses = [
