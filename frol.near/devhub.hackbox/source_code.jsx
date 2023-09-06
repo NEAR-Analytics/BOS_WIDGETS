@@ -4,7 +4,7 @@ return (
     style={{
       width: "1px",
       minWidth: "100%",
-      height: "calc(100vh - 78px)",
+      height: "calc(100vh - 78px - var(--bs-gutter-y))",
     }}
     src="https://the-hackbox.super.site/"
   />
