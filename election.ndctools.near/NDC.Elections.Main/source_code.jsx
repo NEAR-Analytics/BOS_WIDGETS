@@ -323,7 +323,7 @@ return (
           </div>
 
           {currentUser &&
-          isIAmHuman &&
+          state.isIAmHuman &&
           state.winnerIds.length > 0 &&
           !state.hasIVotedSbt ? (
             <UnbondContainer className={`not-verified d-flex flex-column`}>
@@ -350,7 +350,7 @@ return (
             </UnbondContainer>
           ) : (
             <>
-              {currentUser && isIAmHuman && (
+              {currentUser && state.isIAmHuman && (
                 <Widget
                   src={widgets.progress}
                   props={{ houses: state.houses, handleSelect, votesLeft }}
