@@ -124,7 +124,7 @@ if (currentUser && state.reload) {
     user: currentUser,
   });
 
-  const winnerIds = Near.view(electionContract, "winners_by_house", {
+  const winnerIds = Near.view(electionContract, "winners_by_proposal", {
     prop_id: state.selectedHouse,
   });
 
