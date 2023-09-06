@@ -20,11 +20,11 @@ const PopupContainer = styled.div`
 const PopupButtons = styled.div`
 margin-top: 30px;
     a {
-        border: 1.5jpx solid #0d6efd;
+        border: 1.5px solid #0d6efd;
         cursor: pointer;
         margin-right: 10px;
         transition: .3s ease-in-out;
-        padding: 7px;
+        padding: 7.5px;
         border-radius: 8px;
     }
     a:hover {
