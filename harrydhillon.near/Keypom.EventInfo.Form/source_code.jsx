@@ -57,7 +57,6 @@ const AllSteps = [
 
 const setInput = (key, value) => {
   const getValue = Storage.get("formValues");
-  console.log(getValue);
   if (getValue === undefined) {
     const values = { [key]: value };
     Storage.set(`formValues`, JSON.stringify(values));
@@ -73,7 +72,6 @@ if (!state.isReadDataFromLocal) {
   const getValue = Storage.get("formValues");
   if (getValue) {
     State.update({ ...JSON.parse(getValue), isReadDataFromLocal: true });
-    console.log(getValue, state.isReadDataFromLocal);
   } else {
     State.update({ isReadDataFromLocal: true });
   }
@@ -99,7 +97,7 @@ const executeValidation = () => {
   if (!state.location) {
     allErrors.location = true;
   }
-  if (!state.isSingleDateEvent) {
+  if (state.isSingleDateEvent) {
     if (!state.from) {
       allErrors.from = true;
     }
@@ -114,14 +112,12 @@ const executeValidation = () => {
   if (!state.image) {
     allErrors.image = true;
   }
-  console.log(allErrors, "obj");
   State.update({ error: allErrors });
+  return allErrors;
 };
 
-console.log(state.error);
-
-if (true) {
-  executeValidation();
+if (props.validationMode) {
+  props.nextStep(Object.keys(executeValidation()).length === 0);
 }
 
 const formContent = () => {
@@ -262,7 +258,6 @@ const formContent = () => {
             }}
             src="harrydhillon.near/widget/Keypom.Components.Imageupload"
           />
-          {console.log(state)}
           {showFormError("image", "Event Artwork")}
         </div>
         <div style={{ padding: 10 }}>
