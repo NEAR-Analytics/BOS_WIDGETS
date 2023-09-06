@@ -31,6 +31,8 @@ const topImg =
 const trendsImg =
   "https://ipfs.near.social/ipfs/bafkreiajqyqbq3egqtu6ddznvl6caghpjffulhfia4f6bsmmlo76t5qosq";
 
+const closeIcon = 'https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq'
+
 const titleIcon = (
   <svg
     width="193"
@@ -347,9 +349,39 @@ const Wrapper = styled.div`
         width: 100%;
         display: flex;
         justify-content: space-between;
+        position: relative;
         .tip-list-right {
           margin-top: 36px;
         }
+        .tip-list-close{
+          background: rgba(55, 58, 83, 0.5);
+          display: flex;
+          padding: 4px 8px;
+          width: 68px;
+          height: 26px;
+          line-height: 26px;
+          text-align: center;
+          align-items: center;
+          border-radius: 8px;
+          font-family: Gantari;
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0em;
+          text-align: left;
+          color:rgba(151, 154, 190, 1);
+          position: absolute;
+          top: 0;
+          right: 0;
+          img{
+            width: 10px;
+            height: 10px;
+            margin-left: 8px;
+          }
+        }
+      }
+
+      .mobile-tab{
+        margin-top: 24px;
       }
     }
   }
@@ -426,7 +458,7 @@ const CardListWrapper = styled.div`
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
-const { activeMenu, showPopup } = state;
+const { activeMenu, showPopup, showTip } = state;
 
 const storedActiveMenu = Storage.get(
   "activeMenu",
@@ -435,6 +467,7 @@ const storedActiveMenu = Storage.get(
 
 State.init({
   showPopup: false,
+  showTip: true,
   activeMenu: storedActiveMenu || "myQuest",
 });
 
@@ -459,10 +492,11 @@ function handleCancelClick() {
   });
 }
 
-const handleDataFromChild = (data) => {
-  console.log("Data from child:", data);
-  // 处理从子组件传回的数据
-};
+function handleTipClick() {
+  State.update({
+    showTip: false,
+  });
+}
 
 return (
   <Wrapper>
@@ -591,22 +625,28 @@ return (
           <div className="overlay"></div>
           <div className="quest-btn-popups">
             <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
+            <Widget src='guessme.near/widget/ZKEVM.QuestionList' />
             <div className="cancel" onClick={handleCancelClick}>
               Cancel
             </div>
           </div>
         </>
       ) : null}
-      <div className="tip-list">
-        <div className="tip-list-left">
-          {" "}
-          <img src={topImg} alt="" />
+      {showTip ? (
+        <div className="tip-list">
+          <div className="tip-list-left">
+            {" "}
+            <img src={topImg} alt="" />
+          </div>
+          <div className="tip-list-right">
+            {" "}
+            <img src={trendsImg} alt="" />
+          </div>
+          <div className="tip-list-close" onClick={handleTipClick}>
+            Close <img src={closeIcon} alt="" />
+          </div>
         </div>
-        <div className="tip-list-right">
-          {" "}
-          <img src={trendsImg} alt="" />
-        </div>
-      </div>
+      ) : null}
       <div className="mobile-tab">
         <Container>
           <MenuContainer>
@@ -643,9 +683,7 @@ return (
                 <img src={hotImgUrl} alt="" />
               </div>
               <div className="item-text">
-                Hot Polygon
-                <br />
-                zkEVM DApps{" "}
+                Hot DApps{" "}
               </div>
             </div>
           </MenuContainer>
