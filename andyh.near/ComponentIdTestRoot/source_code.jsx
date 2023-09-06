@@ -5,7 +5,7 @@ State.init({
 });
 
 const components = [state.a, state.b, state.c];
-// console.log(components, ComponentState);
+console.log(components, ComponentState);
 return (
   <>
     {components.map(({ id, value }) => (
