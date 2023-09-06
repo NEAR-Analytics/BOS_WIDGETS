@@ -179,6 +179,9 @@ if (currentUser && state.reload) {
   });
 }
 
+console.log("bonded amount: ", state.isBondedAmount);
+console.log("is_bonded: ", state.isBonded);
+
 asyncFetch(
   `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
   { headers: { "x-api-key": apiKey } }
