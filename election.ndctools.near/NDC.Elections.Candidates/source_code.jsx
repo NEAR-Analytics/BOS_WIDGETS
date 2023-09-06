@@ -12,7 +12,7 @@ const {
   voters_num,
   result,
   isIAmHuman,
-  candidateId,
+  candidateFilterId,
   blacklisted,
   greylisted,
   isBonded,
@@ -236,9 +236,9 @@ const filteredCandidates = () => {
         )
       : result;
 
-  if (candidateId)
+  if (candidateFilterId)
     candidates = result.filter(([candidate, _vote], _index) =>
-      candidate.toLowerCase().includes(candidateId.toLowerCase())
+      candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
     );
 
   return candidates;
