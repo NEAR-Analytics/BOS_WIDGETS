@@ -157,7 +157,7 @@ const data = [
         widgetSrc: "guessme.near/widget/ZKEVM.GAMMA",
       },
       {
-        name: "0vix Lending",
+        name: "0vix",
         icon: "https://ipfs.near.social/ipfs/bafkreihf73onkriuxrajsirkm2usq2kgzdb4ectoewn3f77oe5yurjdpn4",
         tags: ["Lending"],
         widgetSrc: "bluebiu.near/widget/0vix.Lending",
