@@ -79,15 +79,15 @@ return (
     <MenuImage src={imageUrl} alt="btn" />
     <ContentDiv>
       <div>
-        <Title>DEV - DEV CONSTELLATION </Title>
+        <Title>GAME - GAME CONSTELLATION </Title>
         <Text>
-          At NEAR Protocol, the developer community stands as the bedrock of
-          innovation. With a commitment to open-source ideals, robust tooling,
-          and cutting-edge infrastructure, NEAR empowers developers to craft
-          decentralized solutions seamlessly. From dApps to smart contracts, the
-          DEV team at NEAR is shaping the future of blockchain, prioritizing
-          scalability, security, and user experience. Together, they're not just
-          building on a platform; they're pioneering a decentralized revolution
+          At NEAR Protocol, gaming transcends traditional boundaries, entering
+          the realm of blockchain-powered possibilities. Leveraging NEAR's
+          scalable and user-friendly platform, game developers craft immersive
+          experiences, infusing play with tokenomics, NFTs, and decentralized
+          mechanics. The GAME team at NEAR is at the forefront, turning
+          imaginative concepts into interactive realities, all while championing
+          a new era of decentralized gaming
         </Text>
         <div
           style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
