@@ -48,16 +48,16 @@ const onSubmit = (strAmount) => {
     swapAbi,
     Ethers.provider().getSigner()
   );
- console.log("swap contract")
+  console.log("swap contract");
   let amount = ethers.utils.parseUnits(strAmount, tokenDecimals).toHexString();
-console.log("amount", amount)
+  console.log("amount", amount);
   update({ loading: true });
 
   swap
     .swapwNEARForstNEAR(sender, { value: amount })
     .then((txResp) => {
       txResp.wait().then((waitResp) => {
-        console.log("success!")
+        console.log("success!");
         update({
           openModal: true,
           modalTitle: "Success!",
@@ -71,7 +71,7 @@ console.log("amount", amount)
       });
     })
     .catch((e) => {
-      console.log("FAILED!")
+      console.log("FAILED!");
       update({
         loading: false,
         openModal: true,
@@ -340,7 +340,7 @@ return (
       ) : (
         <ButtonConnectContainer>
           <Web3Connect
-            connectLabel="Connect with Ethereum wallet"
+            connectLabel="Connect Web3 wallet"
             className="buttonClass"
           />
         </ButtonConnectContainer>
