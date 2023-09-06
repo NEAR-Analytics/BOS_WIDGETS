@@ -6,6 +6,7 @@ State.init({
   ],
   isAddCustomFieldModalOpen: false,
   editMode: false,
+  isReadDataFromLocal: false,
   editVal: "",
 });
 
@@ -47,7 +48,16 @@ const ActionButton = styled.button`
   cursor: pointer;
 `;
 
-console.log(state);
+Storage.set("collectInfo", JSON.stringify(state.data));
+
+if (!state.isReadDataFromLocal) {
+  const getValue = Storage.get("collectInfo");
+  if (getValue) {
+    State.update({ data: JSON.parse(getValue), isReadDataFromLocal: true });
+  } else {
+    State.update({ isReadDataFromLocal: true });
+  }
+}
 
 return (
   <>
