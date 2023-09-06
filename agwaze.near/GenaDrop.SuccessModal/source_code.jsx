@@ -38,7 +38,7 @@ margin-top: 30px;
 return (
   <PopupContainer>
     <img src="https://cdn-icons-png.flaticon.com/128/5709/5709755.png" alt="" />
-    <h1>Successfully Listed</h1>
+    <h1>{props.modalText ?? "Successfully Listed"}</h1>
     <PopupButtons>
       <a target="_blank" href={props.externalLink}>
         View on Explorer
