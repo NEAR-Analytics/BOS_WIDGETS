@@ -1,20 +1,17 @@
 State.init({
-  flagged,
+  flagged: undefined,
   account: "",
   showResult: false,
+  loading: false,
+});
+
+let flagged = Near.view("registry.i-am-human.near", "account_flagged", {
+  account: state.account,
 });
 
 function checkAvailability() {
-  const flagged = Near.view("registry.i-am-human.near", "account_flagged", {
-    account: state.account,
-  });
-
-  State.update({ flagged, showResult: state.account ?? true });
+  State.update({ flagged });
 }
-
-const H3 = styled.h3`
-  text-transform: capitalize;
-`;
 
 const Container = styled.div`
   flex-direction: row;
@@ -81,7 +78,7 @@ return (
             onClick: checkAvailability,
           }}
         />
-        {state.showResult && (
+        {state.flagged !== undefined && (
           <Status
             className={`d-flex justify-content-center align-items-center p-2 mt-3 rounded-circle bg-${
               state.flagged === "Blacklisted"
