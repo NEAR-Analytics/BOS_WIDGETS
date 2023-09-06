@@ -205,9 +205,11 @@ window.addEventListener("message", (event) => {
     }));
     isEditorInitialized = true;
   } else if (isEditorInitialized) {
-    console.log(event.data.content)
-    simplemde.codemirror.getDoc().setValue(event.data.content);
-    setValue(event.data.content)
+    const textarea = document.getElementById("markdown-input");
+    if (textarea) {
+      textarea.value = event.data.content;
+    }
+    console.log(textarea.value);
   }
 });
 </script>
