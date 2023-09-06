@@ -214,7 +214,7 @@ const handleInputwNear = (value) => {
   State.update({ value });
 };
 
-const handleInputStNear = (value) => {
+const handleInputstNear = (value) => {
   if (
     (parseFloat(value) < 1 && parseFloat(value) > 0) ||
     parseFloat(value) < 0
@@ -250,12 +250,12 @@ const onClickMaxwNear = () => {
   handleInputwNear(value);
 };
 
-const onClickMaxStNear = () => {
+const onClickMaxstNear = () => {
   const value =
     state.stNearBalance > 0.1
       ? (parseFloat(state.stNearBalance) - 0.1).toFixed(2)
       : "0";
-  handleInputStNear(value);
+  handleInputstNear(value);
 };
 
 // UPDATE DATA
@@ -432,7 +432,7 @@ const render = {
         update,
         state,
         isSignedIn,
-        handleInputStNear,
+        handleInputstNear,
         onClickMaxstNear,
         updateData,
         sender: state.sender,
