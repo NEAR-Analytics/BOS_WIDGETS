@@ -87,7 +87,7 @@ return (
               state.flagged === "Blacklisted"
                 ? "black text-danger"
                 : state.flagged === "Verified"
-                ? "bg-white"
+                ? "success text-white"
                 : "secondary text-white"
             }`}
           >
