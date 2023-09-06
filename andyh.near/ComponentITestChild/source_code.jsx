@@ -1,2 +1,2 @@
 console.log(props);
-return <div>Hello World</div>;
+return <div>Hello {props.id}</div>;
