@@ -27,6 +27,7 @@ State.init({
   myVotes: [],
   winnerIds: [],
   isIAmHuman: false,
+  humanToken: 0,
   blacklisted: false,
   greylisted: false,
   candidateFilterId: "",
@@ -121,7 +122,7 @@ if (currentUser && state.reload) {
   });
 
   const isBonded = Near.view(electionContract, "bond_by_sbt", {
-    sbt: isHuman[0][1][0],
+    sbt: state.humanToken,
   });
 
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
@@ -165,6 +166,7 @@ if (currentUser && state.reload) {
 
   State.update({
     isIAmHuman: isHuman && isHuman[0][1].length > 0,
+    humanToken: isHuman && isHuman[0][1][0],
     winnerIds,
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
