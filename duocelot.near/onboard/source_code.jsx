@@ -23,48 +23,17 @@ const MenuImage = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: ${dealCard} 0.5s forwards 1; /* 1 here ensures it only plays once */
+  animation: ${dealCard} 0.5s forwards;
 `;
 
-const handleOnMouseEnter = (url) => {
-  State.update({ hoveredImg: url });
-};
-
-const handleOnMouseLeave = () => {
-  State.update({ hoveredImg: null });
-};
-
-const getOverlayMessage = (url) => {
-  const messages = {
-    "https://ipfs.near.social/ipfs/bafkreib56aciji2mgnwhqt3nkmutxqfednxqllgzvd5gm6d4mcjbumnxzm":
-      {
-        title: "Title for Image 1",
-        content: "Content for Image 1",
-      },
-    // Add more messages for other images...
-  };
-  const message = messages[url] || {
-    title: "Default Title",
-    content: "Default message",
-  };
-
-  return (
-    <div
-      className="border m-3 p-3 rounded-4 bg-white shadow"
-      style={{
-        maxWidth: "200px",
-        width: "200px",
-        height: "200px",
-        zIndex: 1,
-      }}
-      onMouseEnter={() => handleOnMouseEnter(url)}
-      onMouseLeave={handleOnMouseLeave}
-    >
-      <h5>{message.title}</h5>
-      <p>{message.content}</p>
-    </div>
-  );
-};
+const urls = [
+  "https://ipfs.near.social/ipfs/bafkreib56aciji2mgnwhqt3nkmutxqfednxqllgzvd5gm6d4mcjbumnxzm",
+  "https://ipfs.near.social/ipfs/bafkreifikdi444catqds54ulo3kwujvetmng7pwmr2tmg7hadtxmfguyeu",
+  "https://ipfs.near.social/ipfs/bafkreigqamafvyfqcwsp4gl4nyh4wof7ldrz7oloj5fb22lqbu77fz7pda",
+  "https://ipfs.near.social/ipfs/bafkreiae77ymuywxv5iqofxygb26iy5b44qtao2gp4ipbxbrzadjf2rpwy",
+  "https://ipfs.near.social/ipfs/bafkreifzp5dafotrrzitwrp2op6shyavpad4nx6rxl2wk2xf343a6vtgqa",
+  "https://ipfs.near.social/ipfs/bafkreiesatthnz7gp25slanw3nlhztrvuqllmqyxng62x4kg7jxaerclba",
+];
 
 return (
   <div
@@ -94,30 +63,12 @@ return (
           justifyContent: "center",
         }}
       >
-        {[
-          "https://ipfs.near.social/ipfs/bafkreib56aciji2mgnwhqt3nkmutxqfednxqllgzvd5gm6d4mcjbumnxzm",
-          "https://ipfs.near.social/ipfs/bafkreifikdi444catqds54ulo3kwujvetmng7pwmr2tmg7hadtxmfguyeu",
-          "https://ipfs.near.social/ipfs/bafkreigqamafvyfqcwsp4gl4nyh4wof7ldrz7oloj5fb22lqbu77fz7pda",
-          "https://ipfs.near.social/ipfs/bafkreiae77ymuywxv5iqofxygb26iy5b44qtao2gp4ipbxbrzadjf2rpwy",
-          "https://ipfs.near.social/ipfs/bafkreifzp5dafotrrzitwrp2op6shyavpad4nx6rxl2wk2xf343a6vtgqa",
-          "https://ipfs.near.social/ipfs/bafkreiesatthnz7gp25slanw3nlhztrvuqllmqyxng62x4kg7jxaerclba",
-        ].map((url, index) => (
-          <OverlayTrigger
-            key={url}
-            show={state.hoveredImg === url}
-            trigger={["hover", "focus"]}
-            delay={{ show: 250, hide: 300 }}
-            placement="auto"
-            overlay={getOverlayMessage(url)}
-          >
-            <MenuImage
-              src={url}
-              alt="btn"
-              onMouseEnter={() => handleOnMouseEnter(url)}
-              onMouseLeave={handleOnMouseLeave}
-              style={{ animationDelay: `${index * 0.2}s` }}
-            />
-          </OverlayTrigger>
+        {urls.map((url, index) => (
+          <MenuImage
+            src={url}
+            alt="btn"
+            style={{ animationDelay: `${index * 0.2}s` }}
+          />
         ))}
       </div>
     </div>
