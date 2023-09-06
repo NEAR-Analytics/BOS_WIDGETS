@@ -346,10 +346,14 @@ return (
               </div>
             </UnbondContainer>
           ) : (
-            <Widget
-              src={widgets.progress}
-              props={{ houses: state.houses, handleSelect, votesLeft }}
-            />
+            <>
+              {currentUser && isIAmHuman && (
+                <Widget
+                  src={widgets.progress}
+                  props={{ houses: state.houses, handleSelect, votesLeft }}
+                />
+              )}
+            </>
           )}
         </Left>
         <div className="col-lg-6 p-2 p-md-3">
