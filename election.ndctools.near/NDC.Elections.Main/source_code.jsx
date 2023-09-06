@@ -137,6 +137,7 @@ const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
   issuer: electionContract,
 });
 
+let bondedAmount;
 if (state.isIAmHuman) {
   bondedAmount = Near.view(electionContract, "bond_by_sbt", {
     sbt: isHuman[0][1][0],
