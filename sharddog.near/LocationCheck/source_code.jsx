@@ -26,7 +26,8 @@ const checkIfInLocation = (lat, lon) => {
 
 const requestLocation = () => {
   console.log("Geolocation");
- if (navigator.geolocation) {
+  //navigator doesn't seem to be supported currently
+  if (navigator.geolocation) {
     console.log("Geolocation is available in this browser.");
     navigator.geolocation.getCurrentPosition(
       (position) => {
