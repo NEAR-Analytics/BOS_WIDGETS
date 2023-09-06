@@ -253,7 +253,7 @@ return (
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
               <span>
-                {state.wnearBalance}
+                {state.wNearBalance}
                 wNEAR
               </span>
             </StakeFormTopContainerLeftContent2>
