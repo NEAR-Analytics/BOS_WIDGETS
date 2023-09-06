@@ -242,10 +242,8 @@ const handleUnbond = () => {
 
 const handleFilter = (e) => State.update({ candidateFilterId: e.target.value });
 
-const votesLeft = (house) => {
-  if (!state.iahToken) return;
+const votesLeft = (house) =>
   house.seats - state.myVotes.filter((vote) => vote.house === house.typ).length;
-};
 
 const Container = styled.div`
   padding: 20px 0;
@@ -366,7 +364,7 @@ return (
                 houses: state.houses,
                 ids,
                 handleSelect,
-                votesLeft,
+                votesLeft: state.iahToken ? (house) => votesLeft(house) : null,
               }}
             />
           </div>
