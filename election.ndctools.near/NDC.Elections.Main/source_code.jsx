@@ -104,7 +104,7 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
-if (!state.reload) {
+if (state.reload) {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
     Near.view(electionContract, "proposal", { prop_id: ids[1] }),
