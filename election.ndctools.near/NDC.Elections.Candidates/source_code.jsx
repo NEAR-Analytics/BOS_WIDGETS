@@ -12,7 +12,7 @@ const {
   voters_num,
   result,
   isIAmHuman,
-  candidateId,
+  candidateFilterId,
   blacklisted,
   greylisted,
   isBonded,
@@ -236,9 +236,9 @@ const filteredCandidates = () => {
         )
       : result;
 
-  if (candidateId)
+  if (candidateFilterId)
     candidates = result.filter(([candidate, _vote], _index) =>
-      candidate.toLowerCase().includes(candidateId.toLowerCase())
+      candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
     );
 
   return candidates;
@@ -338,12 +338,11 @@ const handleVote = () => {
 
   const arr = isBonded ? [voteFunc] : [bondFunc, voteFunc];
 
-  Near.call(arr).then(() =>
-    State.update({
-      bountyProgramModal: false,
-      reload: true,
-    })
-  );
+  Near.call(arr);
+  State.update({
+    bountyProgramModal: false,
+    reload: true,
+  });
 };
 
 const handleAcceptToS = () => {
@@ -353,14 +352,11 @@ const handleAcceptToS = () => {
     { policy: POLICY_HASH },
     70000000000000,
     1000000000000000000000
-  ).then(() =>
-    State.update({
-      showToSModal: false,
-      tosAgreement: true,
-      showMintPolicyModal: true,
-      reload: true,
-    })
   );
+  State.update({
+    showToSModal: false,
+    reload: true,
+  });
 };
 
 const handleFilter = (option) => {
@@ -501,7 +497,7 @@ const winnerIds = Near.view(electionContract, "winners_by_house", {
   prop_id: id,
 });
 
-if (state.reload) {
+if (!state.reload) {
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
   });
@@ -595,28 +591,20 @@ const CandidateItem = ({ candidateId, votes }) => (
           </Bookmark>
         )}
         <div className="d-flex align-items-center">
-          <Widget
-            src="near/widget/AccountProfileOverlay"
-            props={{
-              accountId: candidateId,
-              children: (
-                <div className="d-flex justify-items-center">
-                  <Widget
-                    src="mob.near/widget/ProfileImage"
-                    props={{
-                      accountId: candidateId,
-                      imageClassName: "rounded-circle w-100 h-100",
-                      style: { width: "24px", height: "24px", marginRight: 5 },
-                    }}
-                  />
-                  <UserLink
-                    src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
-                    title={candidateId}
-                  />
-                </div>
-              ),
-            }}
-          />
+          <div className="d-flex justify-items-center">
+            <Widget
+              src="mob.near/widget/ProfileImage"
+              props={{
+                accountId: candidateId,
+                imageClassName: "rounded-circle w-100 h-100",
+                style: { width: "24px", height: "24px", marginRight: 5 },
+              }}
+            />
+            <UserLink
+              src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
+              title={candidateId}
+            />
+          </div>
 
           {state.winnerIds.includes(candidateId) && (
             <Winner className="bi bi-trophy-fill p-1 text-success" />
@@ -678,7 +666,6 @@ const CandidateItem = ({ candidateId, votes }) => (
       </div>
     </CandidateItemRow>
     {state.selected === candidateId && isVisible() && (
-      <Widget src={widgets.voters} props={{ candidateId, isIAmHuman, ids }} />
       <Widget
         src={widgets.voters}
         props={{ candidateId, electionContract, isIAmHuman, ids }}
@@ -973,8 +960,8 @@ return (
             <div>
               <img width={300} src={I_VOTED_NFT} />
               <div className="mt-4 mb-4">
-                Celebrate for voting in the inaugural election of NEAR and mint
-                your “I Voted” NFT! 🎉
+                Celebrate voting in the inaugural NEAR election and mint your “I
+                Voted” NFT! 🎉
               </div>
             </div>
           ),
@@ -1059,4 +1046,3 @@ return (
     </Container>
   </>
 );
-NDC.Elections.Candidates
