@@ -2,6 +2,18 @@ const accountId = context.accountId;
 
 <Widget src="duocelot.near/widget/error_001" />;
 
+// Define the keyframe animation using styled-components
+const dealCard = styled.keyframes`
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
 const MenuImage = styled.img`
   box-sizing: border-box;
   width: 150px;
@@ -11,6 +23,7 @@ const MenuImage = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: ${dealCard} 0.5s forwards 1; /* 1 here ensures it only plays once */
 `;
 
 const handleOnMouseEnter = (url) => {
@@ -88,7 +101,7 @@ return (
           "https://ipfs.near.social/ipfs/bafkreiae77ymuywxv5iqofxygb26iy5b44qtao2gp4ipbxbrzadjf2rpwy",
           "https://ipfs.near.social/ipfs/bafkreifzp5dafotrrzitwrp2op6shyavpad4nx6rxl2wk2xf343a6vtgqa",
           "https://ipfs.near.social/ipfs/bafkreiesatthnz7gp25slanw3nlhztrvuqllmqyxng62x4kg7jxaerclba",
-        ].map((url) => (
+        ].map((url, index) => (
           <OverlayTrigger
             key={url}
             show={state.hoveredImg === url}
@@ -102,6 +115,7 @@ return (
               alt="btn"
               onMouseEnter={() => handleOnMouseEnter(url)}
               onMouseLeave={handleOnMouseLeave}
+              style={{ animationDelay: `${index * 0.2}s` }}
             />
           </OverlayTrigger>
         ))}
