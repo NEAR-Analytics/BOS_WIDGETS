@@ -4,9 +4,11 @@ State.init({
   c: { id: "c", value: 0 },
 });
 
+const components = [state.a, state.b, state.c];
+console.log({ components });
 return (
   <>
-    {[state.a, state.b, state.c].map(({ id, value }) => (
+    {components.map(({ id, value }) => (
       <Widget
         src="andyh.near/widget/ComponentIdTestChild"
         id={id}
