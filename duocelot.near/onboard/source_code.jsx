@@ -5,11 +5,11 @@ const accountId = context.accountId;
 const dealCard = styled.keyframes`
   0% {
     transform: translateX(-100%);
-    opacity: 0;  // Start with zero opacity
+    opacity: 0;
   }
   100% {
     transform: translateX(0);
-    opacity: 1;  // Fully visible at the end
+    opacity: 1;
   }
 `;
 
@@ -24,7 +24,6 @@ const MenuImage = styled.img`
   align-items: center;
   animation: ${dealCard} 0.5s forwards;
   transition: transform 0.5s, filter 0.3s;
-  opacity: 0;  // Initial state
 
   &:hover {
     transform: scale(1.1);
@@ -43,6 +42,12 @@ const urls = [
   "https://ipfs.near.social/ipfs/bafkreiae77ymuywxv5iqofxygb26iy5b44qtao2gp4ipbxbrzadjf2rpwy",
   "https://ipfs.near.social/ipfs/bafkreifzp5dafotrrzitwrp2op6shyavpad4nx6rxl2wk2xf343a6vtgqa",
   "https://ipfs.near.social/ipfs/bafkreiesatthnz7gp25slanw3nlhztrvuqllmqyxng62x4kg7jxaerclba",
+];
+
+const linkUrls = [
+  "https://example.com/link1",
+  "https://example.com/link2",
+  //... [other link URLs corresponding to each image]
 ];
 
 return (
@@ -75,26 +80,16 @@ return (
       >
         {urls.map((url, index) => (
           <ImageWrapper key={url}>
-            <MenuImage
-              src={url}
-              alt="btn"
-              style={{
-                animationDelay: `${index * 0.2}s`,
-              }}
-            />
-            <div
-              className="overlay"
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                border: "1px solid black",
-                display: "none",
-              }}
-            >
-              This is the overlay Message
-            </div>
+            <a href={linkUrls[index]} rel="noopener noreferrer">
+              <MenuImage
+                src={url}
+                alt="btn"
+                style={{
+                  animationDelay: `${index * 0.2}s`,
+                  opacity: 0, // initial state with zero opacity
+                }}
+              />
+            </a>
           </ImageWrapper>
         ))}
       </div>
