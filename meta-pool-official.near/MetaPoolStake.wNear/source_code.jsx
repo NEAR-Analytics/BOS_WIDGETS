@@ -165,7 +165,7 @@ const getstNearBalance = () => {
         .div(Big(10).pow(tokenDecimals))
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-        console.log("stNEABALANCE", balance)
+      console.log("stNEABALANCE", balance);
       State.update({
         stNearBalance: balance,
         stNearBalanceIsFetched: true,
@@ -192,7 +192,7 @@ const getwNearBalance = () => {
         .div(Big(10).pow(tokenDecimals))
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-                console.log("wNEABALANCE", balance)
+      console.log("wNEABALANCE", balance);
       State.update({
         wNearBalance: balance,
         wNearBalanceIsFetched: true,
