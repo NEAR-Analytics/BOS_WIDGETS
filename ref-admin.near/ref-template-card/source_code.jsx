@@ -132,7 +132,6 @@ const Thumbnail = styled.a`
   width: 86px;
   height: 86px;
   flex-shrink: 0;
-  z-index: 50;
   background: #373A53;
   border-radius: 16px;
   overflow: hidden;
@@ -177,20 +176,20 @@ const Tag = styled.div`
     font-size:12px;
     padding:2px 10px;
     background: ${({ content }) => {
-    if (content === 'bridge') {
-      return 'rgba(227, 233, 157, 1)';
-    } else if (content === 'dexes') {
-      return 'rgba(172, 252, 237, 1)';
-    } else if (content === 'lending') {
-      return 'rgba(173, 255, 181, 1)';
-    } else if (content === 'liquid-staking') {
-      return 'rgba(193, 191, 255, 1)';
-    } else if (content === 'staking') {
-      return 'rgba(193, 191, 255, 1)';
-    } else {
-      return 'rgba(26, 46, 51, 0.25)';
-    }
-  }};;
+      if (content === "bridge") {
+        return "rgba(227, 233, 157, 1)";
+      } else if (content === "dexes") {
+        return "rgba(172, 252, 237, 1)";
+      } else if (content === "lending") {
+        return "rgba(173, 255, 181, 1)";
+      } else if (content === "liquid-staking") {
+        return "rgba(193, 191, 255, 1)";
+      } else if (content === "staking") {
+        return "rgba(193, 191, 255, 1)";
+      } else {
+        return "rgba(26, 46, 51, 0.25)";
+      }
+    }};;
     border:none;
   }
 `;
@@ -257,6 +256,18 @@ const Banner = styled.div`
     object-fit: cover;
     width: 100%;
     height: 100%;
+  }
+  .allInOne-btn{
+    display: ${({ metadata }) =>
+      metadata.name === "NEAR All-in-one" ? "block" : "none"};
+    padding:8px;
+    background: rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    font-size:14px;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    border-radius: 8px;
   }
   @media (max-width: 900px) {
     height:160px;
@@ -343,7 +354,9 @@ return (
       hover={state.hoverBanner}
       onMouseEnter={() => hoverEnter()}
       onMouseLeave={() => hoverLeave()}
+      metadata={metadata}
     >
+      <div className="allInOne-btn">All-in-one</div>
       <Widget
         src="ref-admin.near/widget/Image"
         props={{
@@ -391,7 +404,6 @@ return (
           style={{
             display: "flex",
             alignItems: "center",
-            marginTop: "4px",
           }}
         >
           <ProfileIcon>
