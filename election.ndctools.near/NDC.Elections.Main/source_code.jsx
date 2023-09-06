@@ -182,7 +182,7 @@ if (context.accountId) {
 }
 
 const handleSelect = (item) => {
-  State.update({ selectedHouse: item.id, reload: false });
+  State.update({ selectedHouse: item.id });
 };
 
 const handleUnbond = () => {
