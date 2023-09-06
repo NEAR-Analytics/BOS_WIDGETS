@@ -1,4 +1,3 @@
-State.init({ fieldVal: "" });
 
 const AddCustomFieldModalJsx = (
   <>
@@ -35,7 +34,7 @@ const AddCustomFieldModalJsx = (
         marginTop: 10,
       }}
     >
-    {props?.editMode?"Update Field":"Add Field"}
+      {props?.editMode ? "Update Field" : "Add Field"}
     </button>
     <button
       onClick={props.onClose}
