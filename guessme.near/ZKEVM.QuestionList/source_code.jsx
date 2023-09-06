@@ -50,6 +50,28 @@ const Container = styled.div`
     font-weight: 500;
     margin-top: 100px;
   }
+  @media (max-width: 900px) {
+    position: absolute;
+    top: 18%;
+    height: 44vh;
+    width: 89%;
+    overflow: auto;
+    .title{
+      img{
+        width: 23px;
+      }
+      span{
+        font-family: Gantari;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+    }
+    .search-area{
+      display: none;
+    }
+  }
 `;
 const List = styled.div`
   display: flex;
@@ -58,6 +80,13 @@ const List = styled.div`
   margin-top: 36px;
   .itemDiv {
     width: 250px;
+  }
+  @media (max-width: 900px) {
+    margin-top: 28px;
+    gap: 16px;
+    .itemDiv {
+    width: 100%;
+  }
   }
 `;
 
@@ -99,6 +128,9 @@ const ListItem = styled.div`
         color: #979abe;
       }
     }
+    .count_number{
+        display: none;
+    }
   }
   .foot {
     display: flex;
@@ -108,6 +140,44 @@ const ListItem = styled.div`
     color: #979abe;
     margin-top: 12px;
     padding: 0 12px;
+  }
+  @media (max-width: 900px) {
+    width: 100%;
+    .body{
+      background-color: transparent;
+      border-bottom: 1px solid rgba(55, 58, 83, 1);
+      height: 72px;
+      border-radius: 0;
+      align-items: flex-start;
+      justify-content: end;
+      padding: 12px 0;
+      position: relative;
+      .item-title{
+        text-align: left;
+      }
+      .platform img{
+        width: 20px;
+        height: 20px;
+      }
+      .count_number{
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        span{
+          font-family: Gantari;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 14px;
+          letter-spacing: 0em;
+          text-align: right;
+          color: rgba(151, 154, 190, 1);
+        }
+      }
+    }
+    .foot{
+      display: none;
+    }
   }
 `;
 
@@ -126,6 +196,9 @@ const Back = styled.a`
   }
   &:hover {
     text-decoration: none;
+  }
+  @media (max-width: 900px) {
+    display: none;
   }
 `;
 State.init({
@@ -282,9 +355,8 @@ function get_link(action) {
     link = "/guessme.near/widget/ZKEVMSwap.zkevm-swap?source=question_list";
   }
   if (isLending) {
-    link = `/guessme.near/widget/ZKEVM.AAVE${
-      arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
-    }`;
+    link = `/guessme.near/widget/ZKEVM.AAVE${arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
+      }`;
   }
   return link;
 }
@@ -342,6 +414,9 @@ return (
                 <div className="platform">
                   <img src={template_icons[action.template]}></img>
                   <span>{action.template}</span>
+                </div>
+                <div className="count_number">
+                  <span>{action.count_number}</span>
                 </div>
               </a>
             </div>
