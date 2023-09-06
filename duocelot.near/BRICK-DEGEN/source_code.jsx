@@ -57,7 +57,7 @@ const Button = styled.button`
 `;
 
 const imageUrl =
-  "https://ipfs.near.social/ipfs/bafkreib56aciji2mgnwhqt3nkmutxqfednxqllgzvd5gm6d4mcjbumnxzm";
+  "https://ipfs.near.social/ipfs/bafkreigqamafvyfqcwsp4gl4nyh4wof7ldrz7oloj5fb22lqbu77fz7pda";
 
 return (
   <div
@@ -79,12 +79,12 @@ return (
     <MenuImage src={imageUrl} alt="btn" />
     <ContentDiv>
       <div>
-        <Title>ART - CREATIVES CONSTELLATION </Title>
+        <Title>DEGEN - DEGEN CONSTELLATION </Title>
         <Text>
-          The NEAR Protocol boasts a vibrant ecosystem steered by the Creatives
-          Constellation, primarily overseen by the Creatives DAO. This dynamic
-          setup further nurtures smaller DAO projects, fostering innovation and
-          collaboration within the community.
+          In the crypto realm, "degen" is playful slang derived from
+          "degenerate." It describes individuals who pursue high-risk,
+          high-reward strategies, often diving into new projects with zeal. They
+          epitomize the adventurous spirit of the decentralized world.
         </Text>
         <div
           style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
