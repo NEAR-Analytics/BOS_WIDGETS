@@ -117,8 +117,7 @@ const executeValidation = () => {
 };
 
 if (props.validationMode) {
-    executeValidation()
-//   props.nextStep(Object.keys(executeValidation()).length === 0);
+    props.nextStep(Object.keys(executeValidation()).length === 0);
 }
 
 const formContent = () => {
