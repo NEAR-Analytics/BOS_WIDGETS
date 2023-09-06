@@ -202,7 +202,7 @@ const getwNearBalance = () => {
 
 const update = (state) => State.update({ state });
 
-const handleInputNear = (value) => {
+const handleInputwNear = (value) => {
   if (
     (parseFloat(value) < 1 && parseFloat(value) > 0) ||
     parseFloat(value) < 0
@@ -250,12 +250,12 @@ const getUserAddress = () => {
         state.sender.substring(state.sender.length - 6, state.sender.length);
 };
 
-const onClickMaxNear = () => {
+const onClickMaxwNear = () => {
   const value =
     state.wNearBalance > 0.1
       ? (parseFloat(state.wNearBalance) - 0.1).toFixed(2)
       : "0";
-  handleInputNear(value);
+  handleInputwNear(value);
 };
 
 const onClickMaxStNear = () => {
@@ -418,8 +418,8 @@ const render = {
         update,
         state,
         isSignedIn,
-        handleInputNear,
-        onClickMaxNear,
+        handleInputwNear,
+        onClickMaxwNear,
         updateData,
         sender: state.sender,
       }}
