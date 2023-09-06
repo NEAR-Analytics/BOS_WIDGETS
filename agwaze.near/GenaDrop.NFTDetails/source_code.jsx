@@ -748,7 +748,7 @@ return (
             <div>
               {
               state.price && state.owner !== state.sender ? (
-                <button>Buy</button>
+                <button onClick={handleBuyClick}>Buy</button>
               ) : state.owner === context.accountId ||
                 state.owner === state.sender ? (
                 <a
