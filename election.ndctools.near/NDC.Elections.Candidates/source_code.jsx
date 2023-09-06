@@ -591,28 +591,20 @@ const CandidateItem = ({ candidateId, votes }) => (
           </Bookmark>
         )}
         <div className="d-flex align-items-center">
-          <Widget
-            src="near/widget/AccountProfileOverlay"
-            props={{
-              accountId: candidateId,
-              children: (
-                <div className="d-flex justify-items-center">
-                  <Widget
-                    src="mob.near/widget/ProfileImage"
-                    props={{
-                      accountId: candidateId,
-                      imageClassName: "rounded-circle w-100 h-100",
-                      style: { width: "24px", height: "24px", marginRight: 5 },
-                    }}
-                  />
-                  <UserLink
-                    src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
-                    title={candidateId}
-                  />
-                </div>
-              ),
-            }}
-          />
+          <div className="d-flex justify-items-center">
+            <Widget
+              src="mob.near/widget/ProfileImage"
+              props={{
+                accountId: candidateId,
+                imageClassName: "rounded-circle w-100 h-100",
+                style: { width: "24px", height: "24px", marginRight: 5 },
+              }}
+            />
+            <UserLink
+              src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
+              title={candidateId}
+            />
+          </div>
 
           {state.winnerIds.includes(candidateId) && (
             <Winner className="bi bi-trophy-fill p-1 text-success" />
