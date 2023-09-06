@@ -1,3 +1,14 @@
+State.init({
+  data: [
+    { question: "Email", isRequired: true },
+    { question: "Full Name", isRequired: false },
+    { question: "How did you find out about this event", isRequired: false },
+  ],
+  isAddCustomFieldModalOpen: false,
+  editMode: false,
+  editVal: "",
+});
+
 const Table = styled.table`
   width: 100%;
   border-radius: 8px;
@@ -36,17 +47,8 @@ const ActionButton = styled.button`
   cursor: pointer;
 `;
 
-State.init({
-  data: [
-    { question: "Email", isRequired: true },
-    { question: "Full Name", isRequired: false },
-    { question: "How did you find out about this event", isRequired: false },
-  ],
-  isAddCustomFieldModalOpen: false,
-  editMode: false,
-  editVal: "",
-});
 console.log(state);
+
 return (
   <>
     <p style={{ fontSize: 20, fontWeight: "500", marginBottom: 0 }}>
