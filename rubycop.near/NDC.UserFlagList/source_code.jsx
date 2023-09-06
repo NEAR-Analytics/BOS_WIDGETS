@@ -11,8 +11,6 @@ function checkAvailability() {
   State.update({ flagged });
 }
 
-State.update({ account: state.account || context.accountId });
-
 const H3 = styled.h3`
   text-transform: capitalize;
 `;
