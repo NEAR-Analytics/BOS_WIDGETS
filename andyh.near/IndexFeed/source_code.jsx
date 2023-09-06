@@ -152,11 +152,11 @@ const items = filteredItems ? filteredItems.slice(0, state.displayCount) : [];
 if (reverse) {
   items.reverse();
 }
-console.log("INDEXFEED", {
-  items,
-  filteredItems,
-  state,
-});
+// console.log("INDEXFEED", {
+//   items,
+//   filteredItems,
+//   state,
+// });
 return (
   <Widget
     src="andyh.near/widget/IndexFeed.Items"
