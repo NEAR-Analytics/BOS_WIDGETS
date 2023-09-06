@@ -210,8 +210,10 @@ function add_action(param_body) {
   });
 }
 
+const defaultDeposit = props.tab === "deposit" || !props.tab;
+
 State.init({
-  isDeposit: true,
+  isDeposit: defaultDeposit,
   lpBalance: "",
   balances: [],
   amount0: "",
