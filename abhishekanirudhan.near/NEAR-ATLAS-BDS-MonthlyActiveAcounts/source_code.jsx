@@ -41,11 +41,18 @@ const dates = data.map((entry) => entry["DAY"]);
 // logic part-2
 
 const stacked_options = {
+  maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      display: true,
+      position: "bottom",
+    },
+  },
   scales: {
     y: {
       stacked: true,
       grid: {
-        color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
+        color: "rgb(41,51,64)", // This will change the gridline color
         borderColor: "rgb(240,255,240)",
       },
       ticks: {
@@ -55,7 +62,7 @@ const stacked_options = {
     x: {
       stacked: true,
       grid: {
-        color: "rgba(255, 0, 0, 0.2)", // This will change the gridline color
+        color: "rgb(41,51,64)", // This will change the gridline color
       },
       ticks: {
         color: "rgb(240,255,240)", // This will change the axis text label color
@@ -70,12 +77,12 @@ const stacked_bar_data = {
     {
       label: "New MAAs",
       data: NEW_MAAS,
-      backgroundColor: "rgb(75, 192, 192)",
+      backgroundColor: "rgb(250,164,58)",
     },
     {
       label: "Returning MAAs",
       data: RETURNING_MAAS,
-      backgroundColor: "rgb(255, 99, 132)",
+      backgroundColor: "rgb(13,131,171)",
     },
   ],
 };
