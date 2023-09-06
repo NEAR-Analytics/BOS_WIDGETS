@@ -79,7 +79,7 @@ console.log("amount", amount)
         modalDescription:
           "An Error Has Occurred. Please Try Again, And If The Problem Persists, Contact The System Administrator.",
       });
-      console.error(e);
+      console.log("FAILED", e);
       updateData();
     });
 };
