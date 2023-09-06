@@ -57,7 +57,7 @@ const Button = styled.button`
 `;
 
 const imageUrl =
-  "https://ipfs.near.social/ipfs/bafkreib56aciji2mgnwhqt3nkmutxqfednxqllgzvd5gm6d4mcjbumnxzm";
+  "https://ipfs.near.social/ipfs/bafkreifikdi444catqds54ulo3kwujvetmng7pwmr2tmg7hadtxmfguyeu";
 
 return (
   <div
@@ -79,12 +79,15 @@ return (
     <MenuImage src={imageUrl} alt="btn" />
     <ContentDiv>
       <div>
-        <Title>ART - CREATIVES CONSTELLATION </Title>
+        <Title>DEFI - DEFI CONSTELLATION </Title>
         <Text>
-          The NEAR Protocol boasts a vibrant ecosystem steered by the Creatives
-          Constellation, primarily overseen by the Creatives DAO. This dynamic
-          setup further nurtures smaller DAO projects, fostering innovation and
-          collaboration within the community.
+          The NEAR Protocol emerges as a stronghold for decentralized finance
+          (DeFi), propelled by cutting-edge infrastructure and robust smart
+          contracts. Anchored by the DeFi DAO, NEAR's ecosystem prioritizes
+          security while facilitating a myriad of financial solutions. From
+          lending platforms to decentralized exchanges, NEAR empowers the
+          community to reimagine traditional finance, driving forward both
+          innovation and decentralized collaboration
         </Text>
         <div
           style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
