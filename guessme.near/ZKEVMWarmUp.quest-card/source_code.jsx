@@ -576,7 +576,6 @@ const onSaveParams = () => {
   }
 
   if (isSwap) {
-    console.log("isSwap: ", isSwap);
     const [action_type, amount, symbol, on, dexName1, dexName2] = arr;
 
     const token = SwapTokens.find((item) => item.symbol === symbol);
@@ -615,6 +614,7 @@ return (
         My Execution
         <span>{item.count_number}</span>
       </span>
+
 
       <div
         className="quest-card-show-delete-icon"
