@@ -493,11 +493,9 @@ State.init({
   winnerIds: [],
 });
 
-const winnerIds = Near.view(electionContract, "winners_by_house", {
+const winnerIds = Near.view(electionContract, "winners_by_proposals", {
   prop_id: props.id,
 });
-
-console.log(winnerIds);
 
 if (state.reload) {
   const electionStatus = Near.view(electionContract, "proposal_status", {
