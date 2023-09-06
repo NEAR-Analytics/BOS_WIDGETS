@@ -26,7 +26,7 @@ State.init({
   selectedHouse: ids[0],
   myVotes: [],
   winnerIds: [],
-  isIAmHuman: false,
+  iahToken: false,
   humanToken: 0,
   blacklisted: false,
   greylisted: false,
@@ -39,7 +39,7 @@ State.init({
   hasVotedOnAllProposals: false,
   hasPolicyNFT: null,
   hasIVotedNFT: null,
-  hasIVotedSbt: false,
+  iVotedToken: false,
 });
 
 const currentUser = context.accountId;
@@ -47,7 +47,7 @@ const currentUser = context.accountId;
 const steps = [
   {
     title: "Accepted Policy",
-    completed: state.acceptedPolicy || state.hasIVotedSbt,
+    completed: state.acceptedPolicy || state.iVotedToken,
   },
   {
     title: 'Minted "Fair Voting Policy" NFT',
@@ -55,7 +55,7 @@ const steps = [
   },
   {
     title: "Voting Completed",
-    completed: state.hasVotedOnAllProposals || state.hasIVotedSbt,
+    completed: state.hasVotedOnAllProposals || state.iVotedToken,
   },
   {
     title: 'Minted "I Voted" NFT',
@@ -63,7 +63,7 @@ const steps = [
   },
   {
     title: 'Unbonded & Minted "I Voted SBT"',
-    completed: state.hasIVotedSbt,
+    completed: state.iVotedToken,
   },
 ];
 
@@ -106,17 +106,38 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
-const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
-  issuer: electionContract,
-});
-
-if (currentUser && state.reload) {
+function loadHouses() {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
     Near.view(electionContract, "proposal", { prop_id: ids[1] }),
     Near.view(electionContract, "proposal", { prop_id: ids[2] }),
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
+
+  State.update({ houses });
+}
+
+function loadSBTs() {
+  const issuer = {
+    fractal: "fractal.i-am-human.near",
+    election: "elections-v1.gwg-testing.near",
+  };
+  const sbts = Near.view(registryContract, "sbt_tokens_by_owner", {
+    account: currentUser,
+  });
+
+  const findToken = (issuer) =>
+    sbts.find((token) => token[0] === issuer && token[1].length > 0);
+
+  State.update({
+    iahToken: findToken(issuer.fractal),
+    iVotedToken: findToken(issuer.election),
+  });
+}
+
+if (currentUser && state.reload) {
+  loadHouses();
+  loadSBTs();
 
   const isHuman = Near.view(registryContract, "is_human", {
     account: currentUser,
@@ -166,16 +187,13 @@ if (currentUser && state.reload) {
   });
 
   State.update({
-    isIAmHuman: isHuman && isHuman[0][1].length > 0,
     humanToken: isHuman && isHuman[0][1][0],
     winnerIds,
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
-    houses,
     acceptedPolicy,
     isBondedAmount,
     hasVotedOnAllProposals,
-    hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
   });
 }
 
@@ -336,9 +354,9 @@ return (
           </div>
 
           {currentUser &&
-          state.isIAmHuman &&
+          state.iahToken &&
           state.winnerIds.length > 0 &&
-          !state.hasIVotedSbt ? (
+          !state.iVotedToken ? (
             <UnbondContainer className={`not-verified d-flex flex-column`}>
               <div>
                 <h4>Unbond NEAR & Mint SBT</h4>
@@ -363,7 +381,7 @@ return (
             </UnbondContainer>
           ) : (
             <>
-              {currentUser && state.isIAmHuman && (
+              {currentUser && state.iahToken && (
                 <Widget
                   src={widgets.progress}
                   props={{ houses: state.houses, handleSelect, votesLeft }}
