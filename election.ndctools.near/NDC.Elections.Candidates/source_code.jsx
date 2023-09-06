@@ -655,7 +655,7 @@ const CandidateItem = ({ candidateId, votes }) => (
               disabled={
                 alreadyVotedForHouse() ||
                 blacklisted ||
-                electionStatus !== "ONGOING"
+                state.electionStatus !== "ONGOING"
               }
               onClick={() => handleSelectCandidate(candidateId)}
               className="form-check-input"
