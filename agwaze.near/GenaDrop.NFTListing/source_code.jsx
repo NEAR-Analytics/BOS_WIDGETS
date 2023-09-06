@@ -11,8 +11,9 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 }; // just in case need to pass in a NFT
 const NEAR_NOMINATION_EXP = 24;
-const contractId = props.contractId ?? "genadrop-contract.nftgen.near"; // default nft contract
-const tokenId = props.tokenId ?? "1679119560198"; // maybe condtional check if props is eempty // default nft
+const contractId =
+  props.contractId ?? "0x436aeceaeec57b38a17ebe71154832fb0faff878249170"; // default nft contract - genadrop-contract.nftgen.near
+const tokenId = props.tokenId ?? "249170"; // maybe condtional check if props is eempty // default nft
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
 // fewfar link // display button if listed // asking them for format and they are working on a fix // https://fewfar.com/genadrop-single-nft-near/1675689302938/
@@ -50,7 +51,11 @@ initState({
   tradeportLink: tradeportLink,
   custom: false,
   customMarketLink: defaultCustomMarket,
+  isOpen: false,
   validMarketLink: true,
+  explorerText: "",
+  error: false,
+  loadingListing: false,
   nftMetadata: nftMetadata,
   tokenInfo: tokenInfo,
   receiverId: default_receiver,
@@ -105,8 +110,9 @@ function parseNearAmount(amt) {
 }
 /*ON CHANGE FUNCTIONS - NEED TO FINISH NOT CONCATENATING*/
 const onChangeAmount = (amount) => {
-  amount = parseNearAmount(amount);
-  console.log("parsed amount", amount);
+  if (chainState === "near") {
+    amount = parseNearAmount(amount);
+  }
   const msgConcat = JSON.stringify({
     price: amount,
     market_type: "sale",
@@ -118,7 +124,6 @@ const onChangeAmount = (amount) => {
     },
   });
   // console.log(bigIntNumber);
-  console.log(amount);
   State.update({
     amount,
     msg: msgConcat,
@@ -193,6 +198,100 @@ function isNearAddress(address) {
   }
   return true;
 }
+
+const currentChainProps = {
+  aurora: {
+    img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
+    id: "1313161554",
+    chain: "Aurora",
+    explorer: "https://aurorascan.dev/",
+    livePrice: "ethereum",
+    contract: "0xe93097f7C3bF7A0E0F1261c5bD88F86D878667B5",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
+  },
+  arbitrum: {
+    img: "https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1680097630",
+    id: "42161",
+    contract: "0x27E52A81975F5Fb836e79007E3c478C6c0E6E9FB",
+    chain: "Arbitrum",
+    explorer: "https://arbiscan.io/",
+
+    livePrice: "ethereum",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
+  },
+  celo: {
+    img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
+    id: "42220",
+    livePrice: "celo",
+    contract: "0x5616BCcc278F7CE8B003f5a48f3754DDcfA4db5a",
+    explorer: "https://explorer.celo.org/address/",
+    chain: "Celo",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
+  },
+  polygon: {
+    img: "https://altcoinsbox.com/wp-content/uploads/2023/03/matic-logo.webp",
+    id: "137",
+    chain: "Polygon",
+    livePrice: "matic-network",
+    contract: "0x57Eb0aaAf69E22D8adAe897535bF57c7958e3b1b",
+    explorer: "https://polygonscan.com/address/",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
+  },
+};
+
+const listAbi = [
+  "function createMarketplaceItem(address nftContract, uint256 tokenId, uint256 price, string calldata category, address seller) public payable {}",
+  "function nftSale(uint256 price, uint256 tokenId, address seller, address nftContract) public payable {}",
+];
+
+const evmList = () => {
+  if (state.amount > 10000000) return;
+
+  State.update({
+    loadingListing: true,
+  });
+
+  const contract = new ethers.Contract(
+    currentChainProps[props.chainState].contract,
+    listAbi,
+    Ethers.provider().getSigner()
+  );
+  console.log("Formed thee", contract);
+  const nftContract = contractId.split(tokenId)[0];
+
+  contract
+    .createMarketplaceItem(
+      nftContract,
+      tokenId,
+      (Number(state.amount) * 1e18).toString(),
+      "General",
+      "0xB4bE310666D2f909789Fb1a2FD09a9bEB0Edd99D"
+    )
+    .then((transactionHash) => transactionHash.wait())
+    .then((ricit) => {
+      console.log("does not get hiere", ricit);
+      State.update({
+        isOpen: true,
+        message: true,
+        error: false,
+        loadingListing: false,
+        explorerText: `${currentChainProps[props.chainState].explorer}/tx/${ricit.transactionHash}`,
+      });
+    })
+    .catch((err) => {
+      console.log("erro stuffs, baffles me", err);
+      State.update({
+        isOpen: false,
+        loadingListing: false,
+        error: true,
+        text: err.reason,
+      });
+    });
+};
+
+const closeModal = () => State.update({ isOpen: false });
 
 const list = () => {
   if (!accountId) {
@@ -367,6 +466,20 @@ const Heading = styled.h1`
   font-family: "SF Pro Display",sans-serif;
 `;
 
+const Popup = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px); /* Apply background blur */
+  
+`;
+
 return (
   <>
     {state.showAlert && (
@@ -418,16 +531,26 @@ return (
             onChangeToken,
             selectTradeport,
             selectFewFar,
+            loadingListing: state.loadingListing,
             selectCustom,
             selectMintbase,
             chainState,
             onChangeCustomMarket,
             onChangeAmount,
             list,
+            evmList,
             onChangeReceiver,
           }}
         />
       </>
+    )}
+    {state.isOpen && (
+      <Popup>
+        <Widget
+          src="agwaze.near/widget/GenaDrop.SuccessModal"
+          props={{ closeModal, externalLink: state.explorerText }}
+        />
+      </Popup>
     )}
     <Widget src="jgodwill.near/widget/GenaDrop.Footer" />
   </>
