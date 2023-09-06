@@ -119,7 +119,7 @@ return (
   <div>
     <Widget src="genadrop.near/widget/CafeCartel.Header" />
     <Widget
-      src="efiz.near/widget/every.feed.view"
+      src="genadrop.near/widget/CafeCartel.Feed.View"
       props={{
         data: {
           sources: [
@@ -129,7 +129,7 @@ return (
             },
           ],
           typeWhitelist: ["md"],
-                    hashtagWhitelist: hashtags,
+          hashtagWhitelist: hashtags,
 
           postTemplate: "proofofvibes.near/widget/Vibes.Feed.View.main",
           composeTemplate: "genadrop.near/widget/CafeCartel.Post",
