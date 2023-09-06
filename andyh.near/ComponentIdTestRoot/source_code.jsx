@@ -1,7 +1,17 @@
+State.init({
+  a: { id: "a", value: 0 },
+  b: { id: "b", value: 0 },
+  c: { id: "c", value: 0 },
+});
+
 return (
   <>
-    <Widget src="andyh.near/widget/ComponentITestChild" id={0} />
-    <Widget src="andyh.near/widget/ComponentITestChild" id={1} />
-    <Widget src="andyh.near/widget/ComponentITestChild" id={2} />
+    {[state.a, state.b, state.c].map(({ id, value }) => (
+      <Widget
+        src="andyh.near/widget/ComponentITestChild"
+        id={id}
+        props={{ value, id }}
+      />
+    ))}
   </>
 );
