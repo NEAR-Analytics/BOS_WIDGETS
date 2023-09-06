@@ -457,6 +457,8 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
+console.log(state.winnerIds);
+
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
   myVotesForHouse().length > 0 || state.winnerIds.length > 0;
@@ -493,7 +495,7 @@ State.init({
   winnerIds: [],
 });
 
-const winnerIds = Near.view(electionContract, "winners_by_proposals", {
+const winnerIds = Near.view(electionContract, "winners_by_proposal", {
   prop_id: props.id,
 });
 
@@ -517,7 +519,7 @@ if (state.reload) {
   State.update({
     electionStatus: electionStatus ?? state.electionStatus,
     acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
-    winnerIds: winnerIds ?? [],
+    winnerIds: winnerIds ?? state.winnerIds,
     bookmarked: bookmarked ?? state.bookmarked,
     candidates: filteredCandidates(),
     hasVotedOnAllProposals,
