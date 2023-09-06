@@ -301,7 +301,7 @@ return (
             src={widgets.filter}
             props={{
               handleFilter,
-              candidateId: state.candidateId,
+              candidateFilterId: state.candidateId,
               placeholder: "Search by candidate name",
             }}
           />
