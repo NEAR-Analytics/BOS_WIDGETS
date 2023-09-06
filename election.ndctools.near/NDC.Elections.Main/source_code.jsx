@@ -189,6 +189,7 @@ asyncFetch(
   const isBondedContract = state.isBondedAmount > 0;
   const res = resp.body === isBondedContract ? resp.body : isBondedContract;
 
+  console.log("is_bonded indexer: ", resp.body);
   if (resp.body) State.update({ isBonded: res });
 });
 
