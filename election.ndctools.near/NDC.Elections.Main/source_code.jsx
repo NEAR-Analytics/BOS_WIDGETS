@@ -119,10 +119,7 @@ function loadHouses() {
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
 
-  console.log("houses", houses);
-  if (houses.some((h) => h === null)) {
-    State.update({ houses });
-  }
+  State.update({ houses });
 }
 
 if (state.reload) {
