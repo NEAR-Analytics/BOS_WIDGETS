@@ -71,7 +71,7 @@ const Tokens = {
     decimals: 18,
     symbol: "cbETH",
     name: "Coinbase Wrapped Staked ETH",
-    icon: "https://ethereum-optimism.github.io/data/cbETH/logo.svg",
+    icon: "https://basescan.org/token/images/coinbasecbeth_32.png",
   },
   "0x4200000000000000000000000000000000000006": {
     chainId: 8453,
@@ -111,7 +111,7 @@ const Tokens = {
     decimals: 18,
     symbol: "DAI",
     name: "Dai Stablecoin",
-    icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+    icon: "https://basescan.org/token/images/daistablecoin_32.png",
   },
   "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA": {
     chainId: 8453,
@@ -119,7 +119,7 @@ const Tokens = {
     decimals: 6,
     symbol: "USDbC",
     name: "USD Base Coin",
-    icon: "https://ethereum-optimism.github.io/data/USDC/logo.png",
+    icon: "https://basescan.org/token/images/usdbc_ofc_32.png",
   },
   "0x6653dD4B92a0e5Bf8ae570A98906d9D6fD2eEc09": {
     chainId: 8453,
@@ -127,7 +127,7 @@ const Tokens = {
     decimals: 18,
     symbol: "RCKT",
     name: "RocketSwap",
-    icon: "https://app.rocketswap.cc/_next/image?url=https%3A%2F%2Ftoken.g34gsgv.top%2Flogo.png&w=256&q=75",
+    icon: "https://basescan.org/token/images/rocketswap_32.png",
   },
   "0x27D2DECb4bFC9C76F0309b8E88dec3a601Fe25a8": {
     chainId: 8453,
@@ -135,7 +135,7 @@ const Tokens = {
     decimals: 18,
     symbol: "BALD",
     name: "Bald",
-    icon: "https://app.rocketswap.cc/_next/image?url=https%3A%2F%2Fcdn-45.rocketswap.cc%2Fassets%2FBASE%2F0x27D2DECb4bFC9C76F0309b8E88dec3a601Fe25a8%2Flogo.png%3F&w=64&q=50",
+    icon: "https://basescan.org/token/images/bald_32.png",
   },
   "0xd07379a755A8f11B57610154861D694b2A0f615a": {
     chainId: 8453,
@@ -151,7 +151,7 @@ const Tokens = {
     decimals: 18,
     symbol: "SYNTH",
     name: "Synth Token",
-    icon: "https://www.synthswap.io/_next/image?url=%2Fimages%2Ftokens%2Fsynth.png&w=64&q=100",
+    icon: "https://basescan.org/token/images/synthswap_32.png",
   },
   "0x081AD949deFe648774C3B8deBe0E4F28a80716dc": {
     chianId: 8453,
