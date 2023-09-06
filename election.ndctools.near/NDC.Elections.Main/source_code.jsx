@@ -3,8 +3,8 @@ let { ids, election_contract } = props;
 ids = ids ? JSON.parse(ids) : [1, 2, 3, 4];
 const budgetId = ids[3];
 
-const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
-const registryContract = "registry-v1.gwg-testing.near";
+const electionContract = election_contract ?? "elections-v1.gwg-testing.near"; // elections.ndc-gwg.near
+const registryContract = "registry-v1.gwg-testing.near"; // registry.i-am-human.near
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const NFT_SERIES = [203, 204];
@@ -32,6 +32,7 @@ State.init({
   greylisted: false,
   candidateFilterId: "",
   isBonded: false,
+  isBondedAmount: 0,
   reload: true,
   houses: [],
   acceptedPolicy: false,
@@ -72,20 +73,20 @@ function fetchGraphQL(series) {
     headers: { "mb-api-key": "anon", "x-hasura-role": electionContract },
     body: JSON.stringify({
       query: `
-        query MyQuery {
-          nft_tokens(
-            where: {
-              nft_contract_id: {
-                _eq: "mint.sharddog.near"
-              },
-              token_id: {_regex: "^${series}:"},
-              owner: {_eq: "${currentUser}"}}
-            order_by: {minted_timestamp: asc}
-          ) {
-            last_transfer_timestamp
+          query MyQuery {
+            nft_tokens(
+              where: {
+                nft_contract_id: {
+                  _eq: "mint.sharddog.near"
+                },
+                token_id: {_regex: "^${series}:"},
+                owner: {_eq: "${currentUser}"}}
+              order_by: {minted_timestamp: asc}
+            ) {
+              last_transfer_timestamp
+            }
           }
-        }
-      `,
+        `,
       variables: {},
       operationName: "MyQuery",
     }),
@@ -121,9 +122,9 @@ if (currentUser && state.reload) {
     account: currentUser,
   });
 
-  // let isBonded = Near.view(electionContract, "bond_by_sbt", {
-  //   sbt: state.humanToken,
-  // });
+  const isBondedAmount = Near.view(electionContract, "bond_by_sbt", {
+    sbt: state.humanToken,
+  });
 
   const flagged = Near.view(registryContract, "account_flagged", {
     account: currentUser,
@@ -172,6 +173,7 @@ if (currentUser && state.reload) {
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
     houses,
     acceptedPolicy,
+    isBondedAmount,
     hasVotedOnAllProposals,
     hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
   });
@@ -181,8 +183,10 @@ asyncFetch(
   `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
-  console.log(resp.body);
-  if (resp.body) State.update({ isBonded: resp.body });
+  const isBondedContract = state.isBondedAmount > 0;
+  const res = resp.body === isBondedContract ? resp.body : isBondedContract;
+
+  if (resp.body) State.update({ isBonded: res });
 });
 
 const handleSelect = (item) => {
