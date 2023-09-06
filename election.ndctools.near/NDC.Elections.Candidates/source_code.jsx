@@ -678,7 +678,10 @@ const CandidateItem = ({ candidateId, votes }) => (
       </div>
     </CandidateItemRow>
     {state.selected === candidateId && isVisible() && (
-      <Widget src={widgets.voters} props={{ candidateId, isIAmHuman, ids }} />
+      <Widget
+        src={widgets.voters}
+        props={{ candidateId, electionContract, isIAmHuman, ids }}
+      />
     )}
   </div>
 );
