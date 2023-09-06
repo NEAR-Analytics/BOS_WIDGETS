@@ -71,6 +71,10 @@ const StyledLink = styled.a`
   }
 `;
 
+const UserIcons = styled.a`
+  width: 20px;
+`;
+
 const CandidateItemRow = styled.div`
   padding: 0 20px;
   height: 48px;
@@ -533,9 +537,12 @@ const UserLink = ({ title, src }) => (
     <StyledLink href={src} target="_blank">
       {title}
     </StyledLink>
-    <div>
+    <UserIcons>
       <Icon className="bi bi-arrow-up-right" />
-    </div>
+      {state.winnerIds.includes(title) && (
+        <Winner className="bi bi-trophy-fill p-1 text-success" />
+      )}
+    </UserIcons>
   </div>
 );
 
@@ -607,10 +614,6 @@ const CandidateItem = ({ candidateId, votes }) => (
               title={candidateId}
             />
           </div>
-
-          {state.winnerIds.includes(candidateId) && (
-            <Winner className="bi bi-trophy-fill p-1 text-success" />
-          )}
         </div>
       </div>
       <div className="d-flex w-100 align-items-center justify-content-around">
