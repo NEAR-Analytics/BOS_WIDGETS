@@ -608,6 +608,11 @@ return (
               </button>
             )}
           </div>
+          {props.state.error && (
+            <div className="bg-danger p-2 mt-4 rounded">
+              <p className="text-center text-white pt-2">Something went wrong when Listing this NFT</p>
+            </div>
+          )}
         </div>
       </Main>
     </div>
