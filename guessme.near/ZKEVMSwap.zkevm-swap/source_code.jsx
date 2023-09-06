@@ -797,13 +797,33 @@ let params = Storage.get(
   "zk-evm-swap-params",
   "guessme.near/widget/ZKEVMWarmUp.quest-card"
 );
+
 const params_from_question_list = Storage.get(
   "zk-evm-swap-params",
   "guessme.near/widget/ZKEVM.QuestionList"
 );
 
+const params_from_trend_card = Storage.get(
+  "zk-evm-swap-params",
+  "guessme.near/widget/ZKEVMWarmUp.trend-card"
+);
+
+if (props.source == "trend" && params_from_trend_card) {
+  params = params_from_trend_card;
+}
+
 if (props.source == "question_list" && params_from_question_list) {
   params = params_from_question_list;
+}
+
+if (!!params?.assetId) {
+  State.update({
+    inputAssetTokenId: params.assetId,
+    outputAssetTokenId:
+      params.assetId === state.outputAssetTokenId
+        ? state.inputAssetTokenId
+        : state.outputAssetTokenId,
+  });
 }
 
 if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
