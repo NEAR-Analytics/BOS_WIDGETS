@@ -96,7 +96,7 @@ if (data?.body?.data?.nft_activities) {
   posts = data?.body?.data?.nft_activities;
 }
 
-const size = "20em";
+const size = "15em";
 
 return (
   <div class="text-black p-2 container-fluid d-flex flex-column w-100 text-center justify-content-center align-items-center">
