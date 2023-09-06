@@ -111,7 +111,7 @@ const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
 
 console.log("before houses", state.houses);
 
-if (state.reload) {
+function loadHouses() {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
     Near.view(electionContract, "proposal", { prop_id: ids[1] }),
@@ -120,6 +120,13 @@ if (state.reload) {
   ];
 
   console.log("houses", houses);
+  if (houses && state.houses.some((h) => h === null)) {
+    State.update({ houses });
+  }
+}
+
+if (state.reload) {
+  loadHouses();
 
   const isHuman = Near.view(registryContract, "is_human", {
     account: currentUser,
@@ -174,13 +181,11 @@ if (state.reload) {
     winnerIds,
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
-    houses,
     acceptedPolicy,
     isBondedAmount,
     hasVotedOnAllProposals,
     hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
   });
-  console.log("houses state", state.houses);
 }
 
 console.log("after houses", state.houses);
