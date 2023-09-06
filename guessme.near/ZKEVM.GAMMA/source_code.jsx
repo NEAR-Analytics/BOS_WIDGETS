@@ -102,6 +102,7 @@ const fetchPoolsData = () => {
     "https://wire2.gamma.xyz/quickswap/polygon-zkevm/hypervisors/allData"
   ).then((res) => {
     if (!res.ok) return;
+    console.log("res: ", res.body);
 
     State.update({
       poolsData: res.body,
@@ -223,6 +224,7 @@ return (
         <Widget
           src="guessme.near/widget/ZKEVM.gamma-zkevm-vault"
           props={{
+            ...props,
             pair: activePair,
             refetch: postRefetch,
             can_add_action: state.add_action,
