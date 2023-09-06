@@ -360,6 +360,7 @@ return (
             </>
           )}
         </Left>
+        {console.log(state)}
         <div className="col-lg-6 p-2 p-md-3">
           {state.houses.map((house) => (
             <>
