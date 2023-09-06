@@ -1,4 +1,4 @@
-const user = "harmonic1.near";
+const user = "8bc4d1c27b6e5a4c53e666470542ed74c3c842a48264970088b30ac54c10db16";
 
 return (
   <>
@@ -6,7 +6,6 @@ return (
     <p> Components can be composed </p>
     <hr />
 
-    <Widget src={`${user}/widget/harmonicHomPage`} props={props} />
+    <Widget src="idknwhoru.near/widget/Composition_Another_Widget" />
   </>
 );
-
