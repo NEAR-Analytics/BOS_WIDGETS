@@ -476,16 +476,17 @@ const QuestCardWrapper = styled.div`
         }
 
         .quest-card-name {
-          left: 20%;
+          transform: translateX(-0);
+          left: 20px;
           color: rgba(151, 154, 190, 1);
           font-size: 14px;
           img {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
           }
           .quest-card-name-icon {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
           }
         }
 
@@ -505,7 +506,10 @@ const QuestCardWrapper = styled.div`
       .quest-card-execute-date-number {
         display: none;
       }
-      .quest-card-show-delete-icon {
+      .quest-card-show-delete-icon{
+        display:none;
+      }
+      .quest-card-show-delete-mobile {
         position: absolute;
         top: 16px;
         right: 16px;
@@ -692,9 +696,21 @@ return (
         <span>{item.count_number}</span>
       </span>
 
+
+      <div
+        className="quest-card-show-delete-icon"
+        onClick={() => {
+          State.update({
+            showDelete: !state.showDelete,
+          });
+        }}
+      >
+        {state.showDelete ? deleteIcon : unDeleteIcon}
+      </div>
+
       {props.showPopup && (
         <div
-          className="quest-card-show-delete-icon"
+          className="quest-card-show-delete-mobile"
           onClick={() => {
             State.update({
               showDelete: !state.showDelete,
