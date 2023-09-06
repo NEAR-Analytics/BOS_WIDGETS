@@ -497,8 +497,6 @@ const winnerIds = Near.view(electionContract, "winners_by_house", {
   prop_id: id,
 });
 
-console.log(state.reload);
-
 if (state.reload) {
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
@@ -514,7 +512,7 @@ if (state.reload) {
     user: currentUser,
   });
 
-  const bookmarked = loadSocialDBData();
+  // const bookmarked = loadSocialDBData();
 
   State.update({
     electionStatus: electionStatus ?? state.electionStatus,
