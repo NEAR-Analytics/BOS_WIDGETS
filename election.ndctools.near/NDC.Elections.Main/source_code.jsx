@@ -178,7 +178,7 @@ if (currentUser && state.reload) {
 }
 
 asyncFetch(
-  `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${electionContract}`,
+  `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
   console.log(resp.body);
