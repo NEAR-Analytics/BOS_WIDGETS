@@ -205,6 +205,7 @@ window.addEventListener("message", (event) => {
     }));
     isEditorInitialized = true;
   } else if (isEditorInitialized) {
+    console.log(event.data.content);
     setValue(event.data.content)
   }
 });
