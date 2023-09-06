@@ -2,7 +2,6 @@ const accountId = context.accountId;
 
 <Widget src="duocelot.near/widget/error_001" />;
 
-// Define the keyframe animation using styled-components
 const dealCard = styled.keyframes`
   0% {
     transform: translateX(-100%);
@@ -24,31 +23,17 @@ const MenuImage = styled.img`
   justify-content: center;
   align-items: center;
   animation: ${dealCard} 0.5s forwards;
-  transition: transform 0.5s;
+  transition: transform 0.5s, filter 0.3s;
+
+  &:hover {
+    transform: scale(1.1);
+    filter: sepia(1) hue-rotate(30deg); // this creates the orange effect on hover
+  }
 `;
 
-State.init({
-  show: false,
-});
-
-const handleOnMouseEnter = () => {
-  State.update({ show: true });
-};
-
-const handleOnMouseLeave = () => {
-  State.update({ show: false });
-};
-
-const overlay = (
-  <div
-    className="border m-3 p-3 rounded-4 bg-white shadow"
-    style={{ maxWidth: "24em", zIndex: 1070 }}
-    onMouseEnter={handleOnMouseEnter}
-    onMouseLeave={handleOnMouseLeave}
-  >
-    This is the overlay Message
-  </div>
-);
+const ImageWrapper = styled.div`
+  position: relative;
+`;
 
 const urls = [
   "https://ipfs.near.social/ipfs/bafkreib56aciji2mgnwhqt3nkmutxqfednxqllgzvd5gm6d4mcjbumnxzm",
@@ -88,14 +73,26 @@ return (
         }}
       >
         {urls.map((url, index) => (
-          <MenuImage
-            src={url}
-            alt="btn"
-            className="menu-image"
-            style={{ animationDelay: `${index * 0.2}s` }}
-            onMouseEnter={() => handleMouseOver(index)}
-            onMouseLeave={handleMouseOut}
-          />
+          <ImageWrapper key={url}>
+            <MenuImage
+              src={url}
+              alt="btn"
+              style={{ animationDelay: `${index * 0.2}s` }}
+            />
+            <div
+              className="overlay"
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                border: "1px solid black",
+                display: "none",
+              }}
+            >
+              This is the overlay Message
+            </div>
+          </ImageWrapper>
         ))}
       </div>
     </div>
