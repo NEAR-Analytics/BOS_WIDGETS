@@ -79,6 +79,11 @@ const currentChainProps = {
   },
 };
 
+const listAbi = [
+  "function createMarketplaceItem(address nftContract, uint256 tokenId, uint256 price, string calldata category, address seller) public payable {}",
+  "function nftSale(uint256 price, uint256 tokenId, address seller, address nftContract) public payable {}",
+];
+
 const NoNFTLoading = styled.div`
   width: 100%;
   min-height: 80vh;
@@ -107,22 +112,12 @@ let imageUrl = null;
 
 const handleBuyClick = (price, owner) => {
   const contract = new ethers.Contract(
-    currentChain[props.state.singleNftProps.chain].contract,
+    currentChain[props.chainState].contract,
     listAbi,
     Ethers.provider().getSigner()
   );
 
-  const nftContract = props.state.singleNftProps.id.split(
-    props.state.singleNftProps.tokenId
-  )[0];
-
-  console.log("trying to buy oo");
-  console.log(
-    "variab;es",
-    currentChain[props.state.singleNftProps.chain].contract,
-    nftContract,
-    contract
-  );
+  const nftContract = conrtactId.split(tokeId)[0];
 
   contract
     .nftSale(price, tokenId, owner, nftContract, { value: price })
@@ -137,7 +132,7 @@ const handleBuyClick = (price, owner) => {
       });
     })
     .catch((err) => {
-      console.log("couldnt finish",err)
+      console.log("couldnt finish", err);
       State.update({
         error: true,
         text: err.reason,
@@ -746,9 +741,8 @@ return (
               </PriceArea>
             </div>
             <div>
-              {
-              state.price && state.owner !== state.sender ? (
-                <button onClick={handleBuyClick}>Buy</button>
+              {state.price && state.owner !== state.sender ? (
+                <button onClick={() => handleBuyClick(state.price, state.owner)}>Buy</button>
               ) : state.owner === context.accountId ||
                 state.owner === state.sender ? (
                 <a
