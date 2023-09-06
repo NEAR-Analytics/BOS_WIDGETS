@@ -3,6 +3,7 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 30px 36px;
   color: #fff;
+  padding: 0 12px;
 `;
 
 const Search = styled.div`
