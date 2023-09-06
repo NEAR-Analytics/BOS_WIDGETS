@@ -105,6 +105,14 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
+const isHuman = Near.view(registryContract, "is_human", {
+  account: currentUser,
+});
+
+const isBonded = Near.view(electionContract, "bond_by_sbt", {
+  sbt: state.humanToken,
+});
+
 if (currentUser && state.reload) {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
@@ -113,16 +121,8 @@ if (currentUser && state.reload) {
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
 
-  const isHuman = Near.view(registryContract, "is_human", {
-    account: currentUser,
-  });
-
   const flagged = Near.view(registryContract, "account_flagged", {
     account: currentUser,
-  });
-
-  const isBonded = Near.view(electionContract, "bond_by_sbt", {
-    sbt: state.humanToken,
   });
 
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
