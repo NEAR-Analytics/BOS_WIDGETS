@@ -31,7 +31,7 @@ State.init({
   blacklisted: false,
   greylisted: false,
   candidateFilterId: "",
-  isBonded: true,
+  isBonded: false,
   reload: true,
   houses: [],
   acceptedPolicy: false,
@@ -117,9 +117,9 @@ if (currentUser && state.reload) {
     account: currentUser,
   });
 
-  let isBonded = Near.view(electionContract, "bond_by_sbt", {
-    sbt: state.humanToken,
-  });
+  // let isBonded = Near.view(electionContract, "bond_by_sbt", {
+  //   sbt: state.humanToken,
+  // });
 
   const flagged = Near.view(registryContract, "account_flagged", {
     account: currentUser,
@@ -171,12 +171,18 @@ if (currentUser && state.reload) {
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
     houses,
-    isBonded: !!isBonded,
     acceptedPolicy,
     hasVotedOnAllProposals,
     hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
   });
 }
+
+asyncFetch(
+  `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${electionContract}`,
+  { headers: { "x-api-key": apiKey } }
+).then((resp) => {
+  if (resp.body) State.update({ isBonded: resp.body });
+});
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
