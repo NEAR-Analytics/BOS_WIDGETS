@@ -1,6 +1,5 @@
 // user의 값은 자신의 지갑 주소를 입력해주세요.
-const user =
-  "36b5ad9e831c63814fcf68a8b34abe5510fb414e7b83645aac6bb185b930f7fb";
+const user = "36b5ad9e831c63814fcf68a8b34abe5510fb414e7b83645aac6bb185b930f7fb";
 
 return (
   <>
