@@ -212,8 +212,6 @@ loadPolicy();
 loadNFT(0, "hasPolicyNFT");
 loadNFT(1, "hasIVotedNFT");
 
-console.log(state);
-
 if (state.reload) {
   loadMyVotes();
 }
