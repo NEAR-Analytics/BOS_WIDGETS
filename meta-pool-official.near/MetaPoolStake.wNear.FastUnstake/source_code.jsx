@@ -338,7 +338,7 @@ return (
       ) : (
         <ButtonConnectContainer>
           <Web3Connect
-            connectLabel="Connect with Ethereum wallet"
+            connectLabel="Connect Web3 wallet"
             className="buttonClass"
           />
         </ButtonConnectContainer>
