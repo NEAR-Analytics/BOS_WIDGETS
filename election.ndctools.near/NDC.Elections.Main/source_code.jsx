@@ -171,7 +171,7 @@ if (currentUser && state.reload) {
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
     houses,
-    isBonded: isBonded > 0,
+    isBonded: true,
     acceptedPolicy,
     hasVotedOnAllProposals,
     hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
