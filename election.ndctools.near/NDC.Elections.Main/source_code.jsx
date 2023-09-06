@@ -113,8 +113,8 @@ const isBonded = Near.view(electionContract, "bond_by_sbt", {
   sbt: state.humanToken,
 });
 
-console.log(new Big(isbonded.toString()));
-console.log(new Big(isbonded));
+console.log(new Big(isBonded.toString()));
+console.log(new Big(isBonded));
 
 if (currentUser && state.reload) {
   let houses = [
@@ -174,7 +174,7 @@ if (currentUser && state.reload) {
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
     houses,
-    isbonded: parseInt(new Big(isbonded.toString())) > 0,
+    isBonded: isBonded > 0,
     acceptedPolicy,
     hasVotedOnAllProposals,
     hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
