@@ -38,7 +38,7 @@ const Budget = styled.div`
 
 const Content = () => (
   <Budget>
-    <h3>House of Merit Setup Package for the Inaugural Congressional Term</h3>
+    <h3>Budget Package for the Inaugural Congressional Term</h3>
     <br />
     <p>To the Trustees of the Community Treasury and the Voting Body,</p>
     <p>
@@ -251,7 +251,11 @@ const Content = () => (
 
 return (
   <>
-    <a href="https://bafybeifjibo3ygatrlpszzhqososzw3rlitrgdudkrc6fceo3musandgfm.ipfs.nftstorage.link/">
+    <a
+      href="https://bafybeifjibo3ygatrlpszzhqososzw3rlitrgdudkrc6fceo3musandgfm.ipfs.nftstorage.link/"
+      target="_blank"
+      rel="noreferrer"
+    >
       View Budget Package
       <i className="ml-2 bi bi-box-arrow-up-right" />
     </a>
