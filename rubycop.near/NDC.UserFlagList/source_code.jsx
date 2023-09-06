@@ -67,14 +67,10 @@ return (
     </Header>
     <Container className="d-flex justify-content-center mt-3 mb-3 w-100">
       <Section className="d-flex flex-column gap-2 align-items-center">
-        <Widget
-          src={"nearui.near/widget/Input.Text"}
-          props={{
-            label: "Check availability",
-            placeholder: "Input your wallet",
-            value: state.account,
-            onChange: (value) => State.update({ account: value }),
-          }}
+        <input
+          placeholder="Input your wallet"
+          value={state.account}
+          onChange={(e) => State.update({ account: e.target.value })}
         />
         <Widget
           src={"nearui.near/widget/Input.Button"}
