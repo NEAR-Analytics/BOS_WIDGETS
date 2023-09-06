@@ -625,6 +625,7 @@ const CandidateItem = ({ candidateId, votes }) => (
                 text: "Nomination",
                 icon: <i className="bi bi-box-arrow-up-right" />,
                 href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
+                inverse: state.selected === candidateId,
               },
             }}
           />
@@ -641,9 +642,7 @@ const CandidateItem = ({ candidateId, votes }) => (
                 text: "",
                 icon: <i className="bi bi-box-arrow-up-right" />,
                 href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
-                inverse:
-                  state.selected === candidateId ||
-                  state.winnerIds.includes(candidateId),
+                inverse: state.selected === candidateId,
               },
             }}
           />
