@@ -72,7 +72,7 @@ const StyledLink = styled.a`
 `;
 
 const UserIcons = styled.a`
-  width: 20px;
+  width: 45px;
 `;
 
 const CandidateItemRow = styled.div`
@@ -537,12 +537,12 @@ const UserLink = ({ title, src }) => (
     <StyledLink href={src} target="_blank">
       {title}
     </StyledLink>
-    <div className="d-flex align-items-center">
+    <UserIcons className="d-flex align-items-center">
       <Icon className="bi bi-arrow-up-right" />
       {state.winnerIds.includes(title) && (
         <Winner className="bi bi-trophy-fill p-1 text-success" />
       )}
-    </div>
+    </UserIcons>
   </div>
 );
 
