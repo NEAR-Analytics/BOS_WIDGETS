@@ -67,38 +67,9 @@ if (metadata.image.ipfs_cid) {
   imgSrc = metadata.image.url;
 }
 
-const hrefSrc = "";
-if (
-  widgetName === "ref-home" ||
-  widgetName === "xBox" ||
-  widgetName === "nearcolumn"
-) {
-  hrefSrc = "/near";
-} else if (
-  widgetName === "ZKEVMSwap.zkevm-swap" ||
-  widgetName === "ZKEVM-all-in-one" ||
-  widgetName === "ZKEVMSwap.zkevm-bridge" ||
-  widgetName === "ZKEVM.GAMMA" ||
-  widgetName === "ZKEVM.AAVE" ||
-  widgetName === "zkevmcolumn" ||
-  widgetName === "0vix.Lending"
-) {
-  hrefSrc = "/polygon-zkevm";
-} else if (
-  widgetName === "ZKEVM.ExecuteRecords" ||
-  widgetName === "ZKEVM.QuestionList" ||
-  widgetName === "warmup"
-) {
-  hrefSrc = "/warmup";
-} else if (widgetName === "Base.BaseDex") {
-  hrefSrc = "/base";
-} else if (widgetName === "Mantle.Swap") {
-  hrefSrc = "/mantle";
-}
-
 return (
   <AbsoluteContainer>
-    <Link className="icon" href={hrefSrc}>
+    <Link className="icon" href={props.toUrl}>
       {GoBackIcon}
     </Link>
     <img src={imgSrc} alt="" />
