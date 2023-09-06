@@ -174,13 +174,13 @@ if (context.accountId) {
     { headers: { "x-api-key": apiKey } }
   ).then((resp) => {
     if (resp.body) {
-      State.update({ isBonded: resp.body });
+      State.update({ isBonded: resp.body, reload: false });
     }
   });
 }
 
 const handleSelect = (item) => {
-  State.update({ selectedHouse: item.id });
+  State.update({ selectedHouse: item.id, reload: false });
 };
 
 const handleUnbond = () => {
