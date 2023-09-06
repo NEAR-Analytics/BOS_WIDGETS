@@ -54,7 +54,7 @@ if (state.jInitialItems !== jInitialItems) {
   const jIndex = JSON.stringify(index);
   const nextFetchFrom = computeFetchFrom(initialItems, index.options.limit);
   if (jIndex !== state.jIndex || nextFetchFrom !== state.initialNextFetchFrom) {
-    console.log({ updated: initialItems });
+    // console.log({ updated: initialItems });
     State.update({
       jIndex,
       jInitialItems,
