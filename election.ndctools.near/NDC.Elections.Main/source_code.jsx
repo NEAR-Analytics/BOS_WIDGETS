@@ -136,11 +136,13 @@ function loadSBTs() {
 }
 
 function loadBond() {
-  const isBondedAmount = Near.view(electionContract, "bond_by_sbt", {
-    sbt: state.iahToken,
-  });
+  if (state.iahToken) {
+    const isBondedAmount = Near.view(electionContract, "bond_by_sbt", {
+      sbt: state.iahToken,
+    });
 
-  State.update({ isBonded: isBondedAmount > 0 });
+    State.update({ isBonded: isBondedAmount > 0 });
+  }
 }
 
 function loadFlagged() {
