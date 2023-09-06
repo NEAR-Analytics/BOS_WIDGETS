@@ -154,6 +154,7 @@ function MarkdownEditor(props) {
         
         // Initializes SimpleMDE element and attaches to text-area
         const simplemde = new SimpleMDE({
+            forceSync: true,
             element: document.getElementById("markdown-input"),
             autofocus: ${autoFocus},
             renderingConfig: ${renderingConfig},
@@ -204,7 +205,7 @@ window.addEventListener("message", (event) => {
     }));
     isEditorInitialized = true;
   } else if (isEditorInitialized) {
-    simplemde.value(event.data.content);
+    setValue(event.data.content)
   }
 });
 </script>
