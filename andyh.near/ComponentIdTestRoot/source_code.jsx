@@ -10,7 +10,11 @@ return (
       <Widget
         src="andyh.near/widget/ComponentITestChild"
         id={id}
-        props={{ value, id }}
+        props={{
+          value,
+          id,
+          update: () => State.update({ [id]: { id, value: value + 1 } }),
+        }}
       />
     ))}
   </>
