@@ -51,7 +51,7 @@ const VoterItem = styled.div`
 
 const StyledLink = styled.a`
   color: inherit !important;
-  width: 90px;
+  width: 120px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
