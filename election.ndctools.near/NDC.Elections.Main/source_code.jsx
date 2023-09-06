@@ -7,7 +7,7 @@ const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
 const registryContract = "registry-v1.gwg-testing.near";
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
-const NFT_SERIES = [190, 191];
+const NFT_SERIES = [203, 204];
 const QUERY_API_ENDPOINT = "https://graph.mintbase.xyz/mainnet";
 
 const widgets = {
