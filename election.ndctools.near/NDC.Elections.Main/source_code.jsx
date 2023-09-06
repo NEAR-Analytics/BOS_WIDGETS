@@ -194,15 +194,17 @@ function loadNFT(id, key) {
   );
 }
 
-loadHouses();
-loadSBTs();
-loadBond();
-loadMyVotes();
-loadPolicy();
-loadNFT(0, "hasPolicyNFT");
-loadNFT(1, "hasIVotedNFT");
-loadFlagged();
-loadWinners();
+if (state.reload) {
+  loadHouses();
+  loadSBTs();
+  loadBond();
+  loadMyVotes();
+  loadPolicy();
+  loadNFT(0, "hasPolicyNFT");
+  loadNFT(1, "hasIVotedNFT");
+  loadFlagged();
+  loadWinners();
+}
 
 // asyncFetch(
 //   `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
