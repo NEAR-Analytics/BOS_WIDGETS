@@ -5,7 +5,7 @@ State.init({
 });
 
 const components = [state.a, state.b, state.c];
-console.log({ components });
+console.log({ components, rw: typeof renderWidget });
 return (
   <>
     {components.map(({ id, value }) => (
