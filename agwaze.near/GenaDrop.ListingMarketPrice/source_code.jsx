@@ -330,7 +330,7 @@ State.init({
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
-      currentChainProps[props.chainState].livePrice
+      currentChainProps[props.state.chainState].livePrice
     }&vs_currencies=usd`
   );
   if (res.ok) {
