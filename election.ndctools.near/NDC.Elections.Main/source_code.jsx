@@ -194,13 +194,15 @@ function loadNFT(id, key) {
   );
 }
 
-loadSBTs();
-loadBond();
-loadHouses();
-loadMyVotes();
-loadPolicy();
-loadNFT(0, "hasPolicyNFT");
-loadNFT(1, "hasIVotedNFT");
+setTimeout(() => {
+  loadSBTs();
+  loadBond();
+  loadHouses();
+  loadMyVotes();
+  loadPolicy();
+  loadNFT(0, "hasPolicyNFT");
+  loadNFT(1, "hasIVotedNFT");
+}, 100);
 
 if (state.reload) {
   loadFlagged();
