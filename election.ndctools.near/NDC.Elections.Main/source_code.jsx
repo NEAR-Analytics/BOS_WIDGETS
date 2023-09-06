@@ -29,7 +29,7 @@ State.init({
   isIAmHuman: false,
   blacklisted: false,
   greylisted: false,
-  candidateId: "",
+  candidateFilterId: "",
   isBonded: false,
   reload: true,
   houses: [],
@@ -194,7 +194,7 @@ const handleUnbond = () => {
   ).then((data) => State.update({ isBonded: false }));
 };
 
-const handleFilter = (e) => State.update({ candidateId: e.target.value });
+const handleFilter = (e) => State.update({ candidateFilterId: e.target.value });
 
 const votesLeft = (house) =>
   house.seats - state.myVotes.filter((vote) => vote.house === house.typ).length;
@@ -301,7 +301,7 @@ return (
             src={widgets.filter}
             props={{
               handleFilter,
-              candidateId: state.candidateId,
+              candidateId: state.candidateFilterId,
               placeholder: "Search by candidate name",
             }}
           />
