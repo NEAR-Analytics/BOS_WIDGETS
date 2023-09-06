@@ -164,7 +164,11 @@ const formContent = () => {
         <button
           disabled={state.index === 3}
           onClick={() => {
-            State.update({ validationMode: true });
+            if (state.index === 0) {
+              State.update({ validationMode: true });
+            } else {
+              State.update({ index: state.index + 1 });
+            }
           }}
           style={{ backgroundColor: "black", borderWidth: 0 }}
         >
