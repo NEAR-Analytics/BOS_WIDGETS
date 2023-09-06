@@ -746,8 +746,8 @@ return (
               </PriceArea>
             </div>
             <div>
-              {(state.listings.price && context.contractId !== state.owner) ||
-              state.owner !== state.sender ? (
+              {
+              state.price && state.owner !== state.sender ? (
                 <button>Buy</button>
               ) : state.owner === context.accountId ||
                 state.owner === state.sender ? (
