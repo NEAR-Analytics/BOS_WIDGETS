@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const authorId = "meta-pool-official.near";
-const tokenDecimals = 18;
+const tokenDecimals = 24;
 const wNearContractId = "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d";
 const stNearContractId = "0x07F9F7f963C5cD2BBFFd30CcfB964Be114332E30";
 
