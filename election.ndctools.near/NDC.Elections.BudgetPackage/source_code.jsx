@@ -8,140 +8,244 @@ const TextContainer = styled.div`
 const Budget = styled.div`
   padding: 10px;
   p {
-    line-height: 16px;
-    font-size: 12px;
+    line-height: 18px;
+    font-size: 14px;
     text-align: justify;
+  }
+  h1, h2, h3, h4, h5, h6, li  {
+    line-height: 20px;
+  }
+
+  li  {
+    line-height: 24px;
+    padding-block:3px;
+  }
+
+   h5 {
+    font-weight:650;
+    font-size:18px;
+  }
+
+  h6 {
+    font-weight:550;
+    font-size:17px;
+  }
+
+  b {
+    font-weight:600;
   }
 `;
 
 const Content = () => (
   <Budget>
-    <p className="text-secondary">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Velit laoreet id donec
-      ultrices. Fringilla ut morbi tincidunt augue interdum velit euismod in
-      pellentesque. Venenatis tellus in metus vulputate eu scelerisque felis.
-      Eleifend quam adipiscing vitae proin sagittis nisl. Pellentesque id nibh
-      tortor id aliquet. Sit amet luctus venenatis lectus magna fringilla urna
-      porttitor. Quis auctor elit sed vulputate mi sit amet mauris. Massa sapien
-      faucibus et molestie ac. Turpis cursus in hac habitasse platea dictumst
-      quisque sagittis purus. Nisl purus in mollis nunc. Massa sed elementum
-      tempus egestas sed sed risus pretium quam. Pretium nibh ipsum consequat
-      nisl vel. Nullam non nisi est sit amet facilisis. Blandit volutpat
-      maecenas volutpat blandit aliquam etiam. Vehicula ipsum a arcu cursus
-      vitae congue. Ut lectus arcu bibendum at varius vel. Turpis tincidunt id
-      aliquet risus feugiat in ante.
-      <br />
-      <br />
-      Dolor morbi non arcu risus quis varius. Tortor dignissim convallis aenean
-      et tortor at risus viverra. Purus ut faucibus pulvinar elementum integer
-      enim neque volutpat ac. Nullam eget felis eget nunc. Risus commodo viverra
-      maecenas accumsan lacus vel facilisis. Id neque aliquam vestibulum morbi
-      blandit. Lacus laoreet non curabitur gravida arcu ac tortor. Morbi non
-      arcu risus quis varius. Ut lectus arcu bibendum at varius vel pharetra.
-      Vel eros donec ac odio tempor orci dapibus. Placerat orci nulla
-      pellentesque dignissim enim sit amet venenatis urna. Vulputate ut pharetra
-      sit amet aliquam id. Molestie at elementum eu facilisis sed.
-      <br />
-      <br />
-      Aenean pharetra magna ac placerat vestibulum lectus mauris ultrices eros.
-      Donec ac odio tempor orci dapibus. Ultrices tincidunt arcu non sodales
-      neque sodales. Cursus vitae congue mauris rhoncus aenean vel. Et ligula
-      ullamcorper malesuada proin libero nunc consequat interdum varius. Quis
-      lectus nulla at volutpat diam ut venenatis tellus in. Pellentesque nec nam
-      aliquam sem et tortor consequat id porta. Nunc eget lorem dolor sed
-      viverra. Id velit ut tortor pretium. Porta lorem mollis aliquam ut
-      porttitor leo. Morbi tincidunt augue interdum velit euismod in
-      pellentesque. Dictum at tempor commodo ullamcorper a lacus vestibulum sed
-      arcu. Vel orci porta non pulvinar neque laoreet suspendisse. Consequat ac
-      felis donec et odio pellentesque diam volutpat commodo. Arcu cursus
-      euismod quis viverra. Pellentesque eu tincidunt tortor aliquam nulla
-      facilisi cras. Facilisis mauris sit amet massa vitae tortor condimentum
-      lacinia quis. Feugiat vivamus at augue eget arcu dictum varius duis at.
-      Mauris augue neque gravida in fermentum et sollicitudin ac. Iaculis nunc
-      sed augue lacus. Ipsum dolor sit amet consectetur adipiscing elit ut.
-      Magnis dis parturient montes nascetur. Hac habitasse platea dictumst
-      vestibulum rhoncus est. Ultrices vitae auctor eu augue. Vitae congue eu
-      consequat ac. Viverra maecenas accumsan lacus vel facilisis volutpat est
-      velit egestas. Hendrerit dolor magna eget est lorem. Nunc vel risus
-      commodo viverra maecenas accumsan lacus vel. Cras fermentum odio eu
-      feugiat pretium nibh ipsum. Quam quisque id diam vel quam elementum
-      pulvinar etiam.
-      <br />
-      <br />
-      Nulla malesuada pellentesque elit eget gravida cum sociis natoque. Cras
-      sed felis eget velit aliquet sagittis. Mollis nunc sed id semper risus in
-      hendrerit. Nullam eget felis eget nunc lobortis mattis aliquam faucibus
-      purus. Turpis tincidunt id aliquet risus feugiat in ante. Egestas dui id
-      ornare arcu odio ut sem nulla. Velit sed ullamcorper morbi tincidunt
-      ornare massa. Suspendisse in est ante in nibh mauris cursus mattis.
-      Suspendisse in est ante in nibh mauris. Elementum sagittis vitae et leo
-      duis ut diam quam. Gravida dictum fusce ut placerat orci nulla
-      pellentesque. Diam ut venenatis tellus in. Ipsum consequat nisl vel
-      pretium lectus. Enim tortor at auctor urna nunc id cursus metus. Sed
-      turpis tincidunt id aliquet risus feugiat in ante. A scelerisque purus
-      semper eget duis at.
-      <br />
-      <br />
-      Non sodales neque sodales ut etiam sit amet nisl. Arcu vitae elementum
-      curabitur vitae. Ac turpis egestas maecenas pharetra. Massa tempor nec
-      feugiat nisl pretium fusce id. Pharetra et ultrices neque ornare aenean
-      euismod elementum nisi. Augue neque gravida in fermentum et. Morbi
-      tristique senectus et netus et malesuada fames. Arcu cursus euismod quis
-      viverra. Sit amet dictum sit amet. Odio eu feugiat pretium nibh.
-      <br />
-      <br />
-      Ornare suspendisse sed nisi lacus sed viverra tellus. Feugiat in ante
-      metus dictum at tempor. Diam sollicitudin tempor id eu nisl nunc mi ipsum
-      faucibus. Aliquet nibh praesent tristique magna. Tempus imperdiet nulla
-      malesuada pellentesque elit. Luctus venenatis lectus magna fringilla.
-      Vitae tempus quam pellentesque nec nam aliquam. Laoreet suspendisse
-      interdum consectetur libero id faucibus nisl tincidunt. Quis commodo odio
-      aenean sed adipiscing diam donec adipiscing. Sed lectus vestibulum mattis
-      ullamcorper velit sed. Condimentum mattis pellentesque id nibh tortor id
-      aliquet lectus. Nisi lacus sed viverra tellus. Luctus accumsan tortor
-      posuere ac ut consequat semper viverra nam. In pellentesque massa placerat
-      duis ultricies lacus sed turpis tincidunt. Sed augue lacus viverra vitae
-      congue. Posuere morbi leo urna molestie at. Risus nullam eget felis eget
-      nunc.
-      <br />
-      <br />
-      Ultrices eros in cursus turpis massa. Et molestie ac feugiat sed lectus.
-      Nisi scelerisque eu ultrices vitae auctor. Lobortis mattis aliquam
-      faucibus purus in. Dictum non consectetur a erat nam. Interdum velit
-      euismod in pellentesque massa. Arcu cursus vitae congue mauris rhoncus.
-      Ridiculus mus mauris vitae ultricies. Donec ultrices tincidunt arcu non
-      sodales neque sodales ut etiam. Sit amet volutpat consequat mauris nunc.
-      Quam viverra orci sagittis eu volutpat odio. Amet luctus venenatis lectus
-      magna fringilla urna porttitor. Risus nec feugiat in fermentum posuere
-      urna nec tincidunt. Ornare quam viverra orci sagittis eu volutpat odio
-      facilisis. Pretium quam vulputate dignissim suspendisse. Leo duis ut diam
-      quam nulla. Velit sed ullamcorper morbi tincidunt.
-      <br />
-      <br />
-      Cras sed felis eget velit aliquet sagittis id. Nunc id cursus metus
-      aliquam eleifend. Lectus quam id leo in. Consequat mauris nunc congue nisi
-      vitae suscipit tellus mauris a. Donec enim diam vulputate ut pharetra sit
-      amet aliquam. Velit euismod in pellentesque massa placerat duis ultricies.
-      Dolor magna eget est lorem ipsum dolor sit amet. Odio morbi quis commodo
-      odio aenean sed adipiscing. Elementum nisi quis eleifend quam adipiscing.
-      Condimentum mattis pellentesque id nibh tortor. Egestas congue quisque
-      egestas diam in arcu cursus. A diam maecenas sed enim ut sem viverra
-      aliquet.
-      <br />
-      <br />
-      Tortor at risus viverra adipiscing at in. Nisl rhoncus mattis rhoncus
-      urna. Odio facilisis mauris sit amet massa vitae. Mattis pellentesque id
-      nibh tortor id aliquet lectus proin. Nunc sed blandit libero volutpat sed
-      cras ornare arcu dui. Consectetur adipiscing elit pellentesque habitant
-      morbi. Donec pretium vulputate sapien nec sagittis aliquam malesuada
-      bibendum arcu. Eget aliquet nibh praesent tristique magna sit amet purus.
-      Massa massa ultricies mi quis hendrerit dolor magna. Pulvinar sapien et
-      ligula ullamcorper malesuada proin libero. Dolor sit amet consectetur
-      adipiscing elit duis tristique sollicitudin nibh. Sit amet purus gravida
-      quis blandit turpis cursus. Ut sem viverra aliquet eget sit amet tellus
-      cras.
+    <h3>House of Merit Setup Package for the Inaugural Congressional Term</h3>
+    <br />
+    <p>To the Trustees of the Community Treasury and the Voting Body,</p>
+    <p>
+      The Governance Working Group, on behalf of the House of Merit, presents
+      the "Setup Package" as a formal request for funds for the upcoming
+      Congressional term.
     </p>
+    <br />
+    <h6>Background:</h6>
+    <p>
+      This package represents the collective effort of consultations and
+      planning sessions with key stakeholders. With the dawn of the inaugural
+      Congressional term, our primary objective is to ensure a strategic
+      allocation of resources, emphasizing areas that align with our community's
+      vision and growth. This process has been grounded in data, community
+      feedback, and trend analysis to ensure that our priorities are both
+      current and forward-looking.
+    </p>
+    <h6>Budget Overview:</h6>
+    <p>
+      The budgetary considerations are underpinned by three central pillars:
+    </p>
+    <ol>
+      <li>
+        <b> Investment in Talent: Prioritizing </b>the acquisition and
+        development of talent, recognizing that human capital is integral to our
+        ecosystem's evolution.
+      </li>
+      <li>
+        <b>Sustained Support: Allocating </b>resources to ongoing projects,
+        especially those that have consistently demonstrated value and
+        potential.
+      </li>
+      <li>
+        <b>Innovation & Responsiveness: Allocating</b> funds for new
+        initiatives, grounded in emerging trends identified from regular
+        community feedback sessions and trend reports.
+      </li>
+    </ol>
+    <h6>Transparency Commitment:</h6>
+    <p>
+      The House of Merit commits to providing quarterly reports on fund
+      utilization. These reports will be disseminated through the community's
+      online portal and will be accessible to all members, ensuring transparency
+      and providing an avenue for feedback.
+    </p>
+    <h6>Budget Review Process:</h6>
+    <p>
+      Every 3 months, a comprehensive budget review will be conducted by a panel
+      consisting of members from the Eco Strategy & Advisory Panel. This review
+      aims to assess the efficacy of the fund utilization and make necessary
+      adjustments based on the ecosystem's performance, needs, and feedback.
+    </p>
+
+    <h6>Closing Note:</h6>
+    <p>
+      The allocation of these funds is not merely a procedural task but a
+      collective responsibility that will shape our community's trajectory. We
+      strongly believe in collaborative decision-making and, hence, request your
+      thorough review and ratification. Your feedback and approval will ensure
+      we move forward in alignment with our community's aspirations.
+    </p>
+    <p>Thank you for your diligent attention.</p>
+    <p>Warm regards,</p>
+    <p>The Governance Working Group, On Behalf of the House of Merit</p>
+    <br />
+    <hr />
+    <br />
+    <h4>Budget Breakdown</h4>
+    <br />
+    <ol>
+      <li>
+        <h5>Budget and Cap Definitions</h5>
+        <h6>Congressional Term Duration : 6 Months</h6>
+        <ul>
+          <li>
+            The duration for each Congressional term is set at 6 months. This
+            standardized period ensures a predictable timeframe for both
+            planning and executing various initiatives and projects.
+          </li>
+        </ul>
+        <h6>Total Budget for the Congressional Term: $ 3M USD</h6>
+        <ul>
+          <li>
+            The proposed budget for the entire 6-month period is $3M USD. This
+            cap is designed to encourage a focused and strategic allocation of
+            resources, ensuring optimal impact.
+          </li>
+        </ul>
+        <h6>Individual Allocation Cap: $100k Maximum per Month</h6>
+        <ul>
+          <li>
+            Any single recipient can be allocated a maximum of $100k USD per
+            month. This cap ensures that significant projects can receive ample
+            funding while maintaining fiscal prudence.
+          </li>
+        </ul>
+        <h6>Unused Budget Provisions</h6>
+        <ul>
+          <li>
+            Any unused budget from a specific month will be rolled over to
+            subsequent months, ensuring resources are optimally and flexibly
+            utilized.
+          </li>
+        </ul>
+        <h6>Additional Treasury Funds</h6>
+        <ul>
+          <li>
+            It's crucial to note that any supplementary funds added to the
+            community treasury will not automatically adjust the budget cap
+            defined in this Setup Package. This policy ensures disciplined
+            financial management independent of treasury influxes.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h5>Regular Budget Reviews</h5>
+        <h6>Quarterly Assessments</h6>
+        <ul>
+          <li>
+            Every three months, a mandatory budget review will be undertaken.
+            This review's purpose is to make data-driven adjustments to budget
+            allocations, reflecting our community's changing needs and
+            priorities. All findings and subsequent actions will be
+            transparently communicated to the community.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h5>Definition of Big Budget Items</h5>
+        <ul>
+          <li>
+            A Big Budget Item is any single expenditure proposal that exceeds
+            $75k. Such expenditures will undergo rigorous review to ensure
+            alignment with the community's goals and the highest ROI.
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h5>Recurring Budget Items</h5>
+        <ul>
+          <li>
+            A Recurring Budget Item refers to any monthly expenditure that
+            doesn't exceed the 6-month term duration. For a project to be
+            eligible for this, it must have previously secured approval for at
+            least one budget request and must have met its Key Performance
+            Indicators (KPIs).
+          </li>
+        </ul>
+      </li>
+      <li>
+        <h5>Detailed Budget Allocation Template to be filled in by the HoM</h5>
+        <p>
+          The "Setup Package" requires the House of Merit (HoM) to provide a
+          clear and detailed budget allocation, ensuring transparency and
+          alignment with our strategic goals. The Council of Advisors (CoA) sets
+          the overarching direction, while the HoM refines it into actionable
+          financial plans.
+        </p>
+        <h6>Guidance for HoM's Budget Allocation:</h6>
+        <ol>
+          <li>
+            <b>Alignment with CoA: </b> Ensure all allocations align with the
+            direction given by the Council of Advisors.
+          </li>
+          <li>
+            <b>Main Categories vs. Subcategories:</b>
+            <ul>
+              <li>
+                Main Categories: Broad areas of focus or investment for the
+                term.
+              </li>
+              <li>Subcategories: Specific areas within each main category.</li>
+            </ul>
+          </li>
+          <li>
+            <b>Criteria for Allocation:</b>
+            <ul>
+              <li>
+                Impact: Prioritize allocations that drive growth and engagement.
+              </li>
+              <li>
+                Relevance: Address current needs and anticipate future trends.
+              </li>
+              <li>
+                Accountability: Every allocation should have clear
+                justification.
+              </li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+    </ol>
+    <br />
+    <h6>Budget Breakdown Template:</h6>
+    <p>
+      The HoM should use the template below to detail the budget, providing
+      clarity on the planned allocations for the term.
+    </p>
+    <p>
+      It's vital for the community to have a clear understanding of how funds
+      are intended to be used. This structured approach ensures the HoM's budget
+      decisions align with the community's values and the strategic direction
+      set by the CoA.
+    </p>
+    <br />
+    <br />
   </Budget>
 );
 
