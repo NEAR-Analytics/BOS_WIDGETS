@@ -20,7 +20,7 @@ const ContentDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative; // To position the back button absolutely within this div
+  position: relative;
 `;
 
 const Title = styled.h1`
@@ -37,22 +37,24 @@ const Text = styled.p`
 `;
 
 const IconLink = styled.div`
-  width: 60px;  // Enlarged size
-  height: 60px;  // Enlarged size
+  width: 60px;
+  height: 60px;
   background-color: #666;
   border-radius: 5px;
   margin-right: 10px;
 `;
 
-const Button = styled.button`
+const ButtonLink = styled.a`
   padding: 5px 10px;
   border: none;
   border-radius: 15px;
   background-color: #333;
   color: #fff;
+  text-decoration: none;
+  display: inline-block;
   cursor: pointer;
-  position: absolute;  // Absolute positioning
-  bottom: 10px;  // Position at the bottom right
+  position: absolute;
+  bottom: 10px;
   right: 10px;
 `;
 
@@ -87,7 +89,7 @@ return (
           security while facilitating a myriad of financial solutions. From
           lending platforms to decentralized exchanges, NEAR empowers the
           community to reimagine traditional finance, driving forward both
-          innovation and decentralized collaboration
+          innovation and decentralized collaboration.
         </Text>
         <div
           style={{ display: "flex", alignItems: "center", marginTop: "10px" }}
@@ -101,14 +103,9 @@ return (
           <IconLink />
         </div>
       </div>
-      <Button
-        onClick={() =>
-          (window.location.href =
-            "https://near.social/duocelot.near/widget/onboardHUB")
-        }
-      >
+      <ButtonLink href="https://near.social/duocelot.near/widget/onboardHUB">
         Back
-      </Button>
+      </ButtonLink>
     </ContentDiv>
   </div>
 );
