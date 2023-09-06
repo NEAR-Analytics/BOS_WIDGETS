@@ -207,7 +207,24 @@ if (state.reload) {
     processNFTAvailability(result, "hasIVotedNFT")
   );
 
-  loadMyVotes();
+  asyncFetch(
+    `https://api.pikespeak.ai/election/votes-by-voter?voter=${currentUser}&contract=${electionContract}`,
+    { headers: { "x-api-key": apiKey } }
+  ).then((resp) => {
+    if (resp.body) {
+      const myVotes = resp.body.filter((vote) =>
+        ids.includes(parseInt(vote.proposal_id))
+      );
+
+      const votes = ids
+        .map((id) =>
+          myVotes.find((vote) => parseInt(vote.proposal_id) === id[0])
+        )
+        .filter((el) => el);
+
+      State.update({ myVotes, hasVotedOnAllProposals: votes.length === 4 });
+    }
+  });
 }
 
 // asyncFetch(
