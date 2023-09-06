@@ -146,19 +146,6 @@ if (currentUser && state.reload) {
     processNFTAvailability(result, "hasIVotedNFT")
   );
 
-  State.update({
-    isIAmHuman: isHuman && isHuman[0][1].length > 0,
-    winnerIds,
-    blacklisted: flagged === "Blacklisted",
-    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
-    houses,
-    acceptedPolicy,
-    hasVotedOnAllProposals,
-    hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
-  });
-}
-
-if (currentUser) {
   asyncFetch(
     `https://api.pikespeak.ai/election/votes-by-voter?voter=${currentUser}&contract=${electionContract}`,
     { headers: { "x-api-key": apiKey } }
@@ -178,6 +165,17 @@ if (currentUser) {
     if (resp.body) {
       State.update({ isBonded: resp.body, reload: false });
     }
+  });
+
+  State.update({
+    isIAmHuman: isHuman && isHuman[0][1].length > 0,
+    winnerIds,
+    blacklisted: flagged === "Blacklisted",
+    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
+    houses,
+    acceptedPolicy,
+    hasVotedOnAllProposals,
+    hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
   });
 }
 
@@ -360,7 +358,7 @@ return (
             </>
           )}
         </Left>
-        {console.log(state)}
+
         <div className="col-lg-6 p-2 p-md-3">
           {state.houses.map((house) => (
             <>
