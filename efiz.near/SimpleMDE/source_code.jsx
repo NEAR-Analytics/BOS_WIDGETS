@@ -181,6 +181,7 @@ function MarkdownEditor(props) {
         let isEditorInitialized = false;
 
         window.addEventListener("message", (event) => {
+          console.log(event.data.content);
           if (isEditorInitialized ) {
             simplemde.codemirror.getDoc().setValue(event.data.content)
             // const textarea = document.getElementById("markdown-input");
