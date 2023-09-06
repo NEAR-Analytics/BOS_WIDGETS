@@ -5,11 +5,11 @@ const accountId = context.accountId;
 const dealCard = styled.keyframes`
   0% {
     transform: translateX(-100%);
-    opacity: 0;
+    opacity: 0;  // Start with zero opacity
   }
   100% {
     transform: translateX(0);
-    opacity: 1;
+    opacity: 1;  // Fully visible at the end
   }
 `;
 
@@ -24,10 +24,11 @@ const MenuImage = styled.img`
   align-items: center;
   animation: ${dealCard} 0.5s forwards;
   transition: transform 0.5s, filter 0.3s;
+  opacity: 0;  // Initial state
 
   &:hover {
     transform: scale(1.1);
-    filter: sepia(1) hue-rotate(30deg); // this creates the orange effect on hover
+    filter: sepia(1) hue-rotate(30deg);
   }
 `;
 
@@ -77,7 +78,9 @@ return (
             <MenuImage
               src={url}
               alt="btn"
-              style={{ animationDelay: `${index * 0.2}s` }}
+              style={{
+                animationDelay: `${index * 0.2}s`,
+              }}
             />
             <div
               className="overlay"
