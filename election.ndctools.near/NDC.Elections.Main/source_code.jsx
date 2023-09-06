@@ -109,7 +109,6 @@ const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
   issuer: electionContract,
 });
 
-console.log("before reload", state.reload);
 console.log("before houses", state.houses);
 
 if (state.reload) {
@@ -120,8 +119,7 @@ if (state.reload) {
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
 
-  console.log("reload", state.reload);
-  console.log("houses", state.houses);
+  console.log("houses", houses);
 
   const isHuman = Near.view(registryContract, "is_human", {
     account: currentUser,
@@ -182,9 +180,9 @@ if (state.reload) {
     hasVotedOnAllProposals,
     hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
   });
+  console.log("houses state", state.houses);
 }
 
-console.log("after reload", state.reload);
 console.log("after houses", state.houses);
 
 asyncFetch(
