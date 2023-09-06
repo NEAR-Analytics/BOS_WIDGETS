@@ -19,7 +19,7 @@ return (
       props={{
         sources: data.sources,
         typeWhitelist: data.typeWhitelist,
-        // hashtagWhitelist: data.hashtagWhitelist,
+        hashtagWhitelist: data.hashtagWhitelist,
         hashtagBlacklist: data.hashtagBlacklist,
         accountWhitelist: data.accountWhitelist,
         accountBlacklist: data.accountBlacklist,
