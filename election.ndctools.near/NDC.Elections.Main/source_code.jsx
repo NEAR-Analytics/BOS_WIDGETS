@@ -120,8 +120,8 @@ if (state.reload) {
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
 
-  console.log("before reload", state.reload);
-  console.log("before houses", state.reload);
+  console.log("reload", state.reload);
+  console.log("houses", state.houses);
 
   const isHuman = Near.view(registryContract, "is_human", {
     account: currentUser,
