@@ -79,6 +79,8 @@ body {
 <div id="react-root"></div>
 
 <script>
+let isEditorInitialized = false;
+
 function MarkdownEditor(props) {
     const [value, setValue] = React.useState(props.initialText || "");
 
@@ -175,6 +177,20 @@ function MarkdownEditor(props) {
             window.parent.postMessage({ handler: "update", content }, "*");
         };
 
+
+        let isEditorInitialized = false;
+
+        window.addEventListener("message", (event) => {
+          if (isEditorInitialized ) {
+            simplemde.codemirror.getDoc().setValue(event.data.content)
+            // const textarea = document.getElementById("markdown-input");
+            // if (textarea) {
+            //   textarea.value = event.data.content;
+            // }
+            console.log(event.data.content);
+          }
+        });
+
         /**
          * Sends message to Widget to update iframe height
          */
@@ -196,20 +212,12 @@ function MarkdownEditor(props) {
 const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
-let isEditorInitialized = false;
-
 window.addEventListener("message", (event) => {
   if (!isEditorInitialized ) {
     root.render(React.createElement(MarkdownEditor, {
       initialText: event.data.content
     }));
     isEditorInitialized = true;
-  } else if (isEditorInitialized) {
-    const textarea = document.getElementById("markdown-input");
-    if (textarea) {
-      textarea.value = event.data.content;
-    }
-    console.log(textarea.value);
   }
 });
 </script>
