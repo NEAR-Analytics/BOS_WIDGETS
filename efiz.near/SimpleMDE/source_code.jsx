@@ -205,7 +205,8 @@ window.addEventListener("message", (event) => {
     }));
     isEditorInitialized = true;
   } else if (isEditorInitialized) {
-    console.log(event.data.content);
+    console.log(event.data.content)
+    simplemde.codemirror.getDoc().setValue(event.data.content);
     setValue(event.data.content)
   }
 });
