@@ -197,7 +197,6 @@ loadBond();
 loadPolicy();
 loadFlagged();
 loadWinners();
-loadMyVotes();
 
 if (state.reload) {
   fetchGraphQL(NFT_SERIES[0]).then((result) =>
@@ -207,6 +206,8 @@ if (state.reload) {
   fetchGraphQL(NFT_SERIES[1]).then((result) =>
     processNFTAvailability(result, "hasIVotedNFT")
   );
+
+  loadMyVotes();
 }
 
 // asyncFetch(
