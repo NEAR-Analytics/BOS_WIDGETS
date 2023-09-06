@@ -1,4 +1,3 @@
-State.init({});
 const AddCustomFieldModalJsx = (
   <>
     <p style={{ fontWeight: "500", marginBottom: -5 }}>Field</p>
