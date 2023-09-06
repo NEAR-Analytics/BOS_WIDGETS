@@ -6,6 +6,6 @@ return (
     <p> Components can be composed </p>
     <hr />
 
-    <Widget src="idknwhoru.near/widget/Composition_Another_Widget" />
+    <Widget src={`${user}/widget/harmonicHomePage`} props={props} />
   </>
 );
