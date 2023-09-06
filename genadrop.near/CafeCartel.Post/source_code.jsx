@@ -97,6 +97,12 @@ function composeData() {
           type: "md",
         },
       }),
+      proof: JSON.stringify({
+        key: "cafe",
+        value: {
+          type: "md",
+        },
+      }),
     },
   };
 
