@@ -195,22 +195,22 @@ function loadMyVotes() {
   });
 }
 
+function loadNFT(id, key) {
+  fetchGraphQL(NFT_SERIES[id]).then((result) =>
+    processNFTAvailability(result, key)
+  );
+}
+
 loadHouses();
 loadSBTs();
 loadBond();
-loadPolicy();
 loadFlagged();
 loadWinners();
+loadPolicy();
+loadNFT(0, "hasPolicyNFT");
+loadNFT(1, "hasIVotedNFT");
 
 if (state.reload) {
-  fetchGraphQL(NFT_SERIES[0]).then((result) =>
-    processNFTAvailability(result, "hasPolicyNFT")
-  );
-
-  fetchGraphQL(NFT_SERIES[1]).then((result) =>
-    processNFTAvailability(result, "hasIVotedNFT")
-  );
-
   loadMyVotes();
 }
 
