@@ -104,57 +104,59 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
-let houses = [
-  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[3] }),
-];
+if (state.reload) {
+  let houses = [
+    Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[3] }),
+  ];
 
-const isHuman = Near.view(registryContract, "is_human", {
-  account: currentUser,
-});
+  const isHuman = Near.view(registryContract, "is_human", {
+    account: currentUser,
+  });
 
-const flagged = Near.view(registryContract, "account_flagged", {
-  account: currentUser,
-});
+  const flagged = Near.view(registryContract, "account_flagged", {
+    account: currentUser,
+  });
 
-const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-  user: currentUser,
-});
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+    user: currentUser,
+  });
 
-const winnerIds = Near.view(electionContract, "winners_by_house", {
-  prop_id: state.selectedHouse,
-});
+  const winnerIds = Near.view(electionContract, "winners_by_house", {
+    prop_id: state.selectedHouse,
+  });
 
-const hasVotedOnAllProposals = Near.view(
-  electionContract,
-  "has_voted_on_all_proposals",
-  { user: currentUser }
-);
+  const hasVotedOnAllProposals = Near.view(
+    electionContract,
+    "has_voted_on_all_proposals",
+    { user: currentUser }
+  );
 
-const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
-  issuer: electionContract,
-});
+  const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
+    issuer: electionContract,
+  });
 
-fetchGraphQL(NFT_SERIES[0]).then((result) =>
-  processNFTAvailability(result, "hasPolicyNFT")
-);
+  fetchGraphQL(NFT_SERIES[0]).then((result) =>
+    processNFTAvailability(result, "hasPolicyNFT")
+  );
 
-fetchGraphQL(NFT_SERIES[1]).then((result) =>
-  processNFTAvailability(result, "hasIVotedNFT")
-);
+  fetchGraphQL(NFT_SERIES[1]).then((result) =>
+    processNFTAvailability(result, "hasIVotedNFT")
+  );
 
-State.update({
-  isIAmHuman: isHuman && isHuman[0][1].length > 0,
-  winnerIds,
-  blacklisted: flagged === "Blacklisted",
-  greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
-  houses,
-  acceptedPolicy,
-  hasVotedOnAllProposals,
-  hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
-});
+  State.update({
+    isIAmHuman: isHuman && isHuman[0][1].length > 0,
+    winnerIds,
+    blacklisted: flagged === "Blacklisted",
+    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
+    houses,
+    acceptedPolicy,
+    hasVotedOnAllProposals,
+    hasIVotedSbt: ivotedSbts.some((sbt) => sbt.owner === currentUser),
+  });
+}
 
 if (context.accountId) {
   asyncFetch(
