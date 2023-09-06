@@ -218,10 +218,18 @@ return (
           <span>Mainnet</span>
         </TitleIcon>
       </Title>
-      <div className="cardSrc">
+      <a
+        className="cardSrc"
+        style={{
+          textDecoration: "none",
+          color: "white",
+        }}
+        href={"https://" + props.src}
+        target="_blank"
+      >
         {props.src}
         <span>{leftIcon}</span>
-      </div>
+      </a>
       <div className="list">
         <Item>
           <p>Chain ID</p>
