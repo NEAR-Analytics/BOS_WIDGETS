@@ -462,8 +462,6 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
-console.log(state.winnerIds);
-
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
   myVotesForHouse().length > 0 || state.winnerIds.length > 0;
