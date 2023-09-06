@@ -1,3 +1,4 @@
+State.init({})
 const AddCustomFieldModalJsx = (
   <>
     <p style={{ fontWeight: "500", marginBottom: -5 }}>Field</p>
@@ -53,13 +54,10 @@ const AddCustomFieldModalJsx = (
   </>
 );
 
-
-console.log(props,'props',state)
-
 if (
   props.editMode &&
   props.isOpen &&
-  state.fieldVal === "" &&
+  !state.fieldVal &&
   !state.hasBeenEditUpdated
 ) {
   State.update({ fieldVal: props.editVal, hasBeenEditUpdated: true });
@@ -70,7 +68,7 @@ return (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: AddCustomFieldModalJsx,
-      isOpen: props.isOpen,
+      isOpen: false,
       contentStyles: {
         style: {
           width: 400,
