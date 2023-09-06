@@ -43,7 +43,6 @@ State.init({
 });
 
 const currentUser = context.accountId;
-
 const steps = [
   {
     title: "Accepted Policy",
@@ -110,13 +109,19 @@ const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
   issuer: electionContract,
 });
 
-if (currentUser && state.reload) {
+console.log("before reload", state.reload);
+console.log("before houses", state.houses);
+
+if (state.reload) {
   let houses = [
     Near.view(electionContract, "proposal", { prop_id: ids[0] }),
     Near.view(electionContract, "proposal", { prop_id: ids[1] }),
     Near.view(electionContract, "proposal", { prop_id: ids[2] }),
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
+
+  console.log("before reload", state.reload);
+  console.log("before houses", state.reload);
 
   const isHuman = Near.view(registryContract, "is_human", {
     account: currentUser,
@@ -179,8 +184,8 @@ if (currentUser && state.reload) {
   });
 }
 
-console.log("bonded amount: ", state.isBondedAmount);
-console.log("is_bonded: ", state.isBonded);
+console.log("after reload", state.reload);
+console.log("after houses", state.houses);
 
 asyncFetch(
   `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
@@ -189,7 +194,6 @@ asyncFetch(
   const isBondedContract = state.isBondedAmount > 0;
   const res = resp.body === isBondedContract ? resp.body : isBondedContract;
 
-  console.log("is_bonded indexer: ", resp.body);
   if (resp.body) State.update({ isBonded: res });
 });
 
