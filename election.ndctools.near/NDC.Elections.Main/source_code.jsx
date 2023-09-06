@@ -174,9 +174,7 @@ if (context.accountId) {
     { headers: { "x-api-key": apiKey } }
   ).then((resp) => {
     if (resp.body) {
-      console.log(resp.body);
-
-      State.update({ isBonded: false });
+      State.update({ isBonded: resp.body });
     }
   });
 }
