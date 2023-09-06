@@ -181,6 +181,7 @@ asyncFetch(
   `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${electionContract}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
+  console.log(resp.body);
   if (resp.body) State.update({ isBonded: resp.body });
 });
 
