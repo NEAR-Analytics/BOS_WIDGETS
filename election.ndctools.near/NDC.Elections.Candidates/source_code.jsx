@@ -71,8 +71,9 @@ const StyledLink = styled.a`
   }
 `;
 
-const UserIcons = styled.a`
+const UserIcons = styled.div`
   width: 45px;
+  color: ${(props) => (props.selected && !props.winnerId ? "#fff" : "black")};
 `;
 
 const CandidateItemRow = styled.div`
@@ -532,12 +533,16 @@ if (state.reload) {
   handleStateTransition();
 }
 
-const UserLink = ({ title, src }) => (
+const UserLink = ({ title, src, selected, winnerId }) => (
   <div className="d-flex mr-3">
     <StyledLink href={src} target="_blank">
       {title}
     </StyledLink>
-    <UserIcons className="d-flex align-items-center">
+    <UserIcons
+      selected={selected}
+      winnerId={winnerId}
+      className="d-flex align-items-center"
+    >
       <Icon className="bi bi-arrow-up-right" />
       {state.winnerIds.includes(title) && (
         <Winner className="bi bi-trophy-fill p-1 text-success" />
@@ -610,6 +615,8 @@ const CandidateItem = ({ candidateId, votes }) => (
               }}
             />
             <UserLink
+              selected={state.selected === candidateId}
+              winnerId={state.winnerIds.includes(candidateId)}
               src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
               title={candidateId}
             />
