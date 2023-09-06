@@ -1,6 +1,4 @@
-const { candidateId, isIAmHuman, ids } = props;
-
-const electionContract = election_contract ?? "elections-v1.gwg-testing.near";
+const { candidateId, isIAmHuman, electionContract, ids } = props;
 const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 State.init({
