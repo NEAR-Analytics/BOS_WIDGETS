@@ -118,17 +118,19 @@ const Wrapper = styled.div`
 return (
   <div>
     <Widget src="genadrop.near/widget/CafeCartel.Header" />
-<Widget
+    <Widget
       src="efiz.near/widget/every.feed.view"
       props={{
         data: {
           sources: [
             {
               domain: "proof",
-              key: "cafe", 
-            }
+              key: "cafe",
+            },
           ],
           typeWhitelist: ["md"],
+                    hashtagWhitelist: hashtags,
+
           postTemplate: "proofofvibes.near/widget/Vibes.Feed.View.main",
           composeTemplate: "genadrop.near/widget/CafeCartel.Post",
         },
