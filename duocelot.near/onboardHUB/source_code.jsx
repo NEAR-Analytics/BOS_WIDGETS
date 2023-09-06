@@ -46,8 +46,11 @@ const urls = [
 
 const linkUrls = [
   "https://near.social/duocelot.near/widget/BRICK-ART",
-  "https://example.com/link2",
-  //... [other link URLs corresponding to each image]
+  "https://near.social/duocelot.near/widget/BRICK-DEFI",
+  "https://near.social/duocelot.near/widget/BRICK-DEGEN",
+  "https://near.social/duocelot.near/widget/BRICK-DEV",
+  "https://near.social/duocelot.near/widget/BRICK-GAME",
+  "https://near.social/duocelot.near/widget/BRICK-MKT",
 ];
 
 return (
