@@ -1,4 +1,4 @@
-State.init({})
+State.init({});
 const AddCustomFieldModalJsx = (
   <>
     <p style={{ fontWeight: "500", marginBottom: -5 }}>Field</p>
@@ -68,7 +68,7 @@ return (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: AddCustomFieldModalJsx,
-      isOpen: false,
+      isOpen: props.isOpen,
       contentStyles: {
         style: {
           width: 400,
