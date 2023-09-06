@@ -110,15 +110,17 @@ const ivotedSbts = Near.view(registryContract, "sbt_tokens", {
 });
 
 console.log("before houses", state.houses);
-let houses = [
-  Near.view(electionContract, "proposal", { prop_id: ids[0] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[1] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[2] }),
-  Near.view(electionContract, "proposal", { prop_id: ids[3] }),
-];
-console.log("houses", houses);
 
 if (state.reload) {
+  let houses = [
+    Near.view(electionContract, "proposal", { prop_id: ids[0] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[1] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[2] }),
+    Near.view(electionContract, "proposal", { prop_id: ids[3] }),
+  ];
+
+  console.log("houses", houses);
+
   const isHuman = Near.view(registryContract, "is_human", {
     account: currentUser,
   });
