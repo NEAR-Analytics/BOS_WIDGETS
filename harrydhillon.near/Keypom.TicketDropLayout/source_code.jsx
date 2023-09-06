@@ -45,7 +45,6 @@ const BottomStyledContainer = styled.div`
   justify-content: space-between;
   bottom: 0;
   left: 0;
-  position: absolute;
 `;
 
 const BackButton = styled.button`
@@ -81,7 +80,19 @@ const AllSteps = [
 ];
 
 const componentsToRender = [
-  <Widget src="harrydhillon.near/widget/Keypom.EventInfo.Form" />,
+  <Widget
+    props={{
+      validationMode: state.validationMode,
+      nextStep: (isValid) => {
+        if (isValid) {
+          State.update({ validationMode: false, index: state.index + 1 });
+        } else {
+          State.update({ validationMode: false });
+        }
+      },
+    }}
+    src="harrydhillon.near/widget/Keypom.EventInfo.Form"
+  />,
   <Widget src="harrydhillon.near/widget/Keypom.CollectInfo.Index" />,
   <Widget src="harrydhillon.near/widget/Keypom.Tickets.index" />,
   <Widget src="harrydhillon.near/widget/Keypom.Review.Index" />,
@@ -153,7 +164,7 @@ const formContent = () => {
         <button
           disabled={state.index === 3}
           onClick={() => {
-            State.update({ index: state.index + 1 });
+            State.update({ validationMode: true });
           }}
           style={{ backgroundColor: "black", borderWidth: 0 }}
         >
