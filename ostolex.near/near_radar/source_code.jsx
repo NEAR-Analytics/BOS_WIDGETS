@@ -1,5 +1,6 @@
 State.init({
   contractName: "marketplace.paras.near",
+  tempContractName: "marketplace.paras.near",
   daysRange: 7, // 7, 14, 30, ... or 0 (all time),
   diagramKey: "unique_users", // unique_users, new_users or tx_count
 });
@@ -160,18 +161,15 @@ const Button = styled.div`
     }
 `;
 
-let response;
-if (state.contractName) {
-  response = fetch(
-    `https://api.pikespeak.ai/contract-analysis/metrics/${state.contractName}`,
+const response = fetch(
+  `https://api.pikespeak.ai/contract-analysis/metrics/${state.contractName}`,
 
-    {
-      headers: {
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-      },
-    }
-  );
-}
+  {
+    headers: {
+      "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+    },
+  }
+);
 
 const lastData = response && response.body[response.body.length - 1];
 
@@ -342,9 +340,16 @@ return (
       <input
         type="text"
         placeholder="Enter contract name..."
-        value={state.contractName}
-        onChange={(e) => State.update({ contractName: e.target.value })}
+        value={state.tempContractName}
+        onChange={(e) => State.update({ tempContractName: e.target.value })}
       />
+      <button
+        type="button"
+        class="btn btn-outline-primary py-0"
+        onClick={(e) => State.update({ contractName: state.tempContractName })}
+      >
+        search
+      </button>
     </ContractSearch>
     <Title>Today</Title>
     {response ? (
