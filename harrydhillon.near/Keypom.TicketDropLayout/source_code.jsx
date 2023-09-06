@@ -45,7 +45,7 @@ const BottomStyledContainer = styled.div`
   justify-content: space-between;
   bottom: 0;
   left: 0;
-  position: absolute;
+  position: fixed;
 `;
 
 const BackButton = styled.button`
