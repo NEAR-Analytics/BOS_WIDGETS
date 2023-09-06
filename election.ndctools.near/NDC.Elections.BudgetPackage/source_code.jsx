@@ -38,7 +38,6 @@ const Budget = styled.div`
 
 const Content = () => (
   <Budget>
-    <h3>Budget Package for the Inaugural Congressional Term</h3>
     <br />
     <p>To the Trustees of the Community Treasury and the Voting Body,</p>
     <p>
