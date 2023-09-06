@@ -216,13 +216,13 @@ if (state.reload) {
         ids.includes(parseInt(vote.proposal_id))
       );
 
-      const votes = ids
-        .map((id) =>
-          myVotes.find((vote) => parseInt(vote.proposal_id) === id[0])
-        )
-        .filter((el) => el);
+      // const votes = ids
+      //   .map((id) =>
+      //     myVotes.find((vote) => parseInt(vote.proposal_id) === id[0])
+      //   )
+      //   .filter((el) => el);
 
-      State.update({ myVotes, hasVotedOnAllProposals: votes.length === 4 });
+      State.update({ myVotes });
     }
   });
 }
