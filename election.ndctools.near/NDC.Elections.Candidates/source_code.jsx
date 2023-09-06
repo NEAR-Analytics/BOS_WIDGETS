@@ -497,7 +497,7 @@ const winnerIds = Near.view(electionContract, "winners_by_house", {
   prop_id: id,
 });
 
-if (!state.reload) {
+if (state.reload) {
   const electionStatus = Near.view(electionContract, "proposal_status", {
     prop_id: props.id,
   });
