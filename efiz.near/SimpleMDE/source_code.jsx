@@ -205,6 +205,7 @@ window.addEventListener("message", (event) => {
   if (!isEditorInitialized) {
     root.render(React.createElement(MarkdownEditor, {
         initialText: event.data.content }));
+        isEditorInitialized = true;
   } else {
   const textarea = document.querySelector('textarea[name="markdown-input"]');
   const codeMirrorElement = textarea.nextElementSibling.querySelector('.CodeMirror');
