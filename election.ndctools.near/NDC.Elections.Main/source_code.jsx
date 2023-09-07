@@ -133,6 +133,7 @@ function loadSBTs() {
     account: currentUser,
   });
 
+  console.log(findToken(sbts, issuer.fractal));
   State.update({
     iahToken: findToken(sbts, issuer.fractal),
     iVotedToken: findToken(sbts, issuer.election),
