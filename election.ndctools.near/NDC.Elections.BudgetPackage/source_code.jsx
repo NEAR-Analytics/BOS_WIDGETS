@@ -1,28 +1,31 @@
 const TextContainer = styled.div`
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 490px;
-    width: 100%;
-    padding: 15px;
-  `;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 490px;
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+`;
 
 const Budget = styled.div`
-    text-align: justify;
-    font-size: 14px;
-    line-height: 20px;
+  text-align: justify;
+  font-size: 14px;
+  line-height: 20px;
 
-    p {
-      margin: 13px 0;
-    }
-    h3,
-    h4 {
-      margin: 17px 0;
-    }
-    h5,
-    h6 {
-      margin: 13px 0;
-    }
-  `;
+  p {
+    margin: 13px 0;
+  }
+
+  h3,
+  h4 {
+    margin: 17px 0;
+  }
+
+  h5,
+  h6 {
+    margin: 13px 0;
+  }
+`;
 
 const Content = () => (
   <Budget>
@@ -55,19 +58,25 @@ const Content = () => (
     </p>
     <ol>
       <li>
-        <b> Investment in Talent: Prioritizing </b>the acquisition and
-        development of talent, recognizing that human capital is integral to our
-        ecosystem's evolution.
+        <p>
+          <b> Investment in Talent: Prioritizing </b>the acquisition and
+          development of talent, recognizing that human capital is integral to
+          our ecosystem's evolution.
+        </p>
       </li>
       <li>
-        <b>Sustained Support: Allocating </b>resources to ongoing projects,
-        especially those that have consistently demonstrated value and
-        potential.
+        <p>
+          <b>Sustained Support: Allocating </b>resources to ongoing projects,
+          especially those that have consistently demonstrated value and
+          potential.
+        </p>
       </li>
       <li>
-        <b>Innovation & Responsiveness: Allocating</b> funds for new
-        initiatives, grounded in emerging trends identified from regular
-        community feedback sessions and trend reports.
+        <p>
+          <b>Innovation & Responsiveness: Allocating</b> funds for new
+          initiatives, grounded in emerging trends identified from regular
+          community feedback sessions and trend reports.
+        </p>
       </li>
     </ol>
     <p>
@@ -220,38 +229,46 @@ const Content = () => (
         </h6>
         <ol>
           <li>
-            <b>Alignment with CoA: </b> Ensure all allocations align with the
-            direction given by the Council of Advisors.
+            <p>
+              <b>Alignment with CoA: </b> Ensure all allocations align with the
+              direction given by the Council of Advisors.
+            </p>
           </li>
           <li>
-            <b>Main Categories vs. Subcategories:</b>
-            <ul>
-              <li>
-                Main Categories: Broad areas of focus or investment for the
-                term.
-              </li>
-              <li>Subcategories: Specific areas within each main category.</li>
-            </ul>
+            <p>
+              <b>Main Categories vs. Subcategories:</b>
+              <ul>
+                <li>
+                  Main Categories: Broad areas of focus or investment for the
+                  term.
+                </li>
+                <li>
+                  Subcategories: Specific areas within each main category.
+                </li>
+              </ul>
+            </p>
           </li>
           <li>
-            <b>Criteria for Allocation:</b>
-            <ul>
-              <li>
-                Impact: Prioritize allocations that drive growth and engagement.
-              </li>
-              <li>
-                Relevance: Address current needs and anticipate future trends.
-              </li>
-              <li>
-                Accountability: Every allocation should have clear
-                justification.
-              </li>
-            </ul>
+            <p>
+              <b>Criteria for Allocation:</b>
+              <ul>
+                <li>
+                  Impact: Prioritize allocations that drive growth and
+                  engagement.
+                </li>
+                <li>
+                  Relevance: Address current needs and anticipate future trends.
+                </li>
+                <li>
+                  Accountability: Every allocation should have clear
+                  justification.
+                </li>
+              </ul>
+            </p>
           </li>
         </ol>
       </li>
     </ol>
-    <br />
     <h6>
       <b>Budget Breakdown Template:</b>
     </h6>
@@ -270,10 +287,7 @@ const Content = () => (
 
 return (
   <>
-    <a
-      className="mb-2"
-      href="https://bafybeifjibo3ygatrlpszzhqososzw3rlitrgdudkrc6fceo3musandgfm.ipfs.nftstorage.link/"
-    >
+    <a href="https://bafybeifjibo3ygatrlpszzhqososzw3rlitrgdudkrc6fceo3musandgfm.ipfs.nftstorage.link/">
       View Budget Package
       <i className="ml-2 bi bi-box-arrow-up-right" />
     </a>
