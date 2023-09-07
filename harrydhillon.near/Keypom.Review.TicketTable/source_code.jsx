@@ -68,7 +68,6 @@ return (
           <TableHeader />
           <TableHeader># of tickets</TableHeader>
           <TableHeader>Price (NEAR)</TableHeader>
-          <TableHeader />
         </TableRow>
       </TableHead>
       <tbody style={{ borderRadius: 10 }}>
@@ -119,17 +118,6 @@ return (
             </TableCell>
             <TableCell>{item.numberOfTickets}</TableCell>
             <TableCell>{item.ticketPricing}</TableCell>
-            <TableCell>
-              <ActionButton
-                onClick={() => {
-                  State.update({
-                    tickets: state.tickets.filter((item, idx) => idx !== index),
-                  });
-                }}
-              >
-                <Widget src="harrydhillon.near/widget/Keypom.Tickets.DeleteSVG" />
-              </ActionButton>
-            </TableCell>
           </TableRow>
         ))}
       </tbody>
