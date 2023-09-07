@@ -145,7 +145,7 @@ return (
             border: "1px solid #82E299",
           }}
         >
-          3
+          2
         </span>
         Membership
       </h2>
