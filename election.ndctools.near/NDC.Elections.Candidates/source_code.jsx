@@ -11,7 +11,7 @@ const {
   seats,
   voters_num,
   result,
-  isIAmHuman,
+  iahToken,
   candidateFilterId,
   blacklisted,
   greylisted,
@@ -462,6 +462,8 @@ const processNFTAvailability = (result, key) => {
   }
 };
 
+console.log(state.winnerIds);
+
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
   myVotesForHouse().length > 0 || state.winnerIds.length > 0;
@@ -582,7 +584,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           </Expand>
         )}
 
-        {isIAmHuman && (
+        {iahToken && (
           <Bookmark
             selected={state.selected === candidateId}
             winnerId={state.winnerIds.includes(candidateId)}
@@ -657,7 +659,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           />
         </NominationLinkMobile>
         {isVisible() && <Votes>{votes}</Votes>}
-        {isIAmHuman && (
+        {iahToken && (
           <Votes>
             <input
               id="input"
@@ -681,7 +683,7 @@ const CandidateItem = ({ candidateId, votes }) => (
     {state.selected === candidateId && isVisible() && (
       <Widget
         src={widgets.voters}
-        props={{ candidateId, electionContract, isIAmHuman, ids }}
+        props={{ candidateId, electionContract, iahToken, ids }}
       />
     )}
   </div>
@@ -691,7 +693,7 @@ const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
     <div className="d-flex align-items-center w-100">
       {isVisible() && <Expand />}
-      {isIAmHuman && (
+      {iahToken && (
         <Bookmark
           role="button"
           className="text-secondary"
@@ -735,7 +737,7 @@ const Filters = () => (
           />
         </Votes>
       )}
-      {isIAmHuman && (
+      {iahToken && (
         <Action
           role="button"
           className="text-secondary"
@@ -1042,7 +1044,7 @@ return (
         </>
       )}
       <div>
-        {isIAmHuman && (
+        {iahToken && (
           <Widget
             src={widgets.castVotes}
             props={{
