@@ -153,10 +153,10 @@ const NominationLink = styled.div`
 `;
 
 const InfoRow = styled.div`
-  gap: 10px;
+  gap: 40px;
 
   @media (max-width: 768px) {
-    gap: 5px;
+    gap: 25px;
   }
 `;
 
