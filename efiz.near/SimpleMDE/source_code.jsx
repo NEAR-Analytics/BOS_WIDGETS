@@ -212,7 +212,9 @@ window.addEventListener("message", (event) => {
         initialText: event.data.content }));
         isEditorInitialized = true;
   } else {
+    console.log(event);
     if (event.data.handler === 'autocompleteSelected') {
+      console.log("we're in");
         codeMirrorInstance.getDoc().setValue(event.data.content);
       }
   }
