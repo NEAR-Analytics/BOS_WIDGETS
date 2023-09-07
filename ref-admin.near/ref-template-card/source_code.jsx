@@ -17,57 +17,59 @@ const urls = [role === "Builder" ? appUrl : appUrlUser, detailsUrl, forkUrl];
 
 const isHome = props.isHome;
 
+const redirectTo = props.redirectTo;
+
 const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 const Card =
   role === "Builder"
     ? styled.div`
-        width:500px;
-        height:320px;
+        width: 500px;
+        height: 320px;
         position: relative;
         display: block;
         overflow: hidden;
         width: 415px;
         border-radius: 16px;
         padding: 0px 0px 16px 0px;
-        background: #373A53;
+        background: #373a53;
         border-radius: 16px;
         :hover {
           text-decoration: none;
         }
         @media (max-width: 900px) {
-          width:100%;
-          height:264px;
-          .hot{
-            display:none;
+          width: 100%;
+          height: 264px;
+          .hot {
+            display: none;
           }
         }
       `
     : styled.a`
-        width:500px;
-        height:320px;
+        width: 500px;
+        height: 320px;
         position: relative;
         display: block;
         overflow: hidden;
         border-radius: 16px;
         padding: 0px 0px 16px 0px;
-        background:#373A53;
+        background: #373a53;
         border-radius: 16px;
         :hover {
           text-decoration: none;
         }
-        .foot{
-          position:relative;
-          top:-4px;
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
+        .foot {
+          position: relative;
+          top: -4px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
           padding: 0px 20px;
         }
         @media (max-width: 900px) {
-          width:100%;
-          height:264px;
-          .hot{
-            display:none;
+          width: 100%;
+          height: 264px;
+          .hot {
+            display: none;
           }
         }
       `;
@@ -132,7 +134,7 @@ const Thumbnail = styled.a`
   width: 86px;
   height: 86px;
   flex-shrink: 0;
-  background: #373A53;
+  background: #373a53;
   border-radius: 16px;
   overflow: hidden;
   outline: none;
@@ -172,9 +174,9 @@ const Tag = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 30px;
   @media (max-width: 900px) {
-    color:#000000;
-    font-size:12px;
-    padding:2px 10px;
+    color: #000000;
+    font-size: 12px;
+    padding: 2px 10px;
     background: ${({ content }) => {
       if (content === "bridge") {
         return "rgba(227, 233, 157, 1)";
@@ -189,8 +191,8 @@ const Tag = styled.div`
       } else {
         return "rgba(26, 46, 51, 0.25)";
       }
-    }};;
-    border:none;
+    }};
+    border: none;
   }
 `;
 
@@ -257,20 +259,20 @@ const Banner = styled.div`
     width: 100%;
     height: 100%;
   }
-  .allInOne-btn{
+  .allInOne-btn {
     display: ${({ metadata }) =>
       metadata.name === "NEAR All-in-one" ? "block" : "none"};
-    padding:8px;
+    padding: 8px;
     background: rgba(0, 0, 0, 0.35);
     color: #ffffff;
-    font-size:14px;
+    font-size: 14px;
     position: absolute;
     top: 12px;
     left: 12px;
     border-radius: 8px;
   }
   @media (max-width: 900px) {
-    height:160px;
+    height: 160px;
   }
 `;
 
@@ -347,7 +349,7 @@ const hoverLeave = () => {
 };
 return (
   <Card
-    href={role === "Builder" ? appUrl : appUrlUser}
+    href={redirectTo ? redirectTo : role === "Builder" ? appUrl : appUrlUser}
     title={metadata.description}
   >
     <Banner
@@ -385,7 +387,11 @@ return (
     </Banner>
 
     <CardBody>
-      <Thumbnail href={role === "Builder" ? appUrl : appUrlUser}>
+      <Thumbnail
+        href={
+          redirectTo ? redirectTo : role === "Builder" ? appUrl : appUrlUser
+        }
+      >
         <Widget
           src="mob.near/widget/Image"
           props={{
@@ -399,11 +405,14 @@ return (
       </Thumbnail>
 
       <CardContent>
-        <WidgetName href={detailsUrl}>{metadata.name || widgetName}</WidgetName>
+        <WidgetName href={redirectTo ? redirectTo : detailsUrl}>
+          {metadata.name || widgetName}
+        </WidgetName>
         <div
           style={{
             display: "flex",
             alignItems: "center",
+            marginTop: "4px",
           }}
         >
           <ProfileIcon>
