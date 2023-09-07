@@ -98,6 +98,11 @@ const formatHealthFactor = () => {
   if (Big(healthFactor).gt(2)) return "2.00";
   return Big(healthFactor).toFixed(2);
 };
+const formatRisk = () => {
+  if (Big(userBorrow || 0).eq(0) || !healthFactor) return "N/A";
+  if (Big(healthFactor).lt(1)) return "VERY HIGH RISK";
+  return "LOW RISK";
+};
 
 return (
   <DashPanel>
@@ -129,7 +134,7 @@ return (
       </div>
       <div className="panel-item">
         <Label>Liquidation Risk</Label>
-        <Value>{userBorrow ? "VERY HIGH RISK" : "N/A"}</Value>
+        <Value>{formatRisk()}</Value>
       </div>
     </Factors>
   </DashPanel>
