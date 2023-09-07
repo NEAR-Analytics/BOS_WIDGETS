@@ -257,16 +257,7 @@ if (props.editMode && props.isOpen && !state.hasBeenEditUpdated) {
 }
 
 return (
-  <Widget
-    src="harrydhillon.near/widget/Keypom.Components.Modal"
-    props={{
-      children: AddTicketModal,
-      isOpen: props.isOpen,
-      contentStyles: {
-        style: {
-          width: 550,
-        },
-      },
-    }}
-  />
+  <div style={{width:550}}>
+  {props.isOpen && AddTicketModal}
+  </div>
 );
