@@ -77,7 +77,7 @@ return (
                   src="mob.near/widget/ProfileImage"
                   props={{
                     accountId: vote.candidate,
-                    imageClassName: "rounded-circle w-100 mh-100",
+                    imageClassName: "rounded-circle w-100 h-100",
                     style: { width: "32px", height: "32px", marginRight: 8 },
                   }}
                 />
