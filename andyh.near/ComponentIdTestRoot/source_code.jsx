@@ -4,7 +4,7 @@ State.init({
   c: { id: "c", value: 0 },
 });
 
-const components = [state.a, state.b, state.c];
+const components = [state.a]; //, state.b, state.c];
 return (
   <>
     {components.map(({ id, value }) => (
