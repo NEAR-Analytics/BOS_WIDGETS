@@ -10,22 +10,34 @@ const Budget = styled.div`
   text-align: justify;
   font-size: 12px;
   line-height: 18px;
+
+  p {
+    margin: 5px 0;
+  }
+  h3,
+  h4 {
+    margin: 10px 0;
+  }
+  h5,
+  h6 {
+    margin: 5px 0;
+  }
 `;
 
 const Content = () => (
   <Budget>
-    <h3 className="text-center">
-      House of Merit Setup Package for the Inaugural Congressional Term
-    </h3>
-    <br />
+    <h4 className="text-center">
+      <b>House of Merit Setup Package for the Inaugural Congressional Term</b>
+    </h4>
     <p>To the Trustees of the Community Treasury and the Voting Body,</p>
     <p>
       The Governance Working Group, on behalf of the House of Merit, presents
       the "Setup Package" as a formal request for funds for the upcoming
       Congressional term.
     </p>
-    <br />
-    <h6>Background:</h6>
+    <p>
+      <b>Background:</b>
+    </p>
     <p>
       This package represents the collective effort of consultations and
       planning sessions with key stakeholders. With the dawn of the inaugural
@@ -35,7 +47,9 @@ const Content = () => (
       feedback, and trend analysis to ensure that our priorities are both
       current and forward-looking.
     </p>
-    <h6>Budget Overview:</h6>
+    <p>
+      <b>Budget Overview:</b>
+    </p>
     <p>
       The budgetary considerations are underpinned by three central pillars:
     </p>
@@ -56,22 +70,27 @@ const Content = () => (
         community feedback sessions and trend reports.
       </li>
     </ol>
-    <h6>Transparency Commitment:</h6>
+    <p>
+      <b>Transparency Commitment:</b>
+    </p>
     <p>
       The House of Merit commits to providing quarterly reports on fund
       utilization. These reports will be disseminated through the community's
       online portal and will be accessible to all members, ensuring transparency
       and providing an avenue for feedback.
     </p>
-    <h6>Budget Review Process:</h6>
+    <p>
+      <b>Budget Review Process:</b>
+    </p>
     <p>
       Every 3 months, a comprehensive budget review will be conducted by a panel
       consisting of members from the Eco Strategy & Advisory Panel. This review
       aims to assess the efficacy of the fund utilization and make necessary
       adjustments based on the ecosystem's performance, needs, and feedback.
     </p>
-
-    <h6>Closing Note:</h6>
+    <p>
+      <b>Closing Note:</b>
+    </p>
     <p>
       The allocation of these funds is not merely a procedural task but a
       collective responsibility that will shape our community's trajectory. We
@@ -82,11 +101,11 @@ const Content = () => (
     <p>Thank you for your diligent attention.</p>
     <p>Warm regards,</p>
     <p>The Governance Working Group, On Behalf of the House of Merit</p>
-    <br />
-    <hr />
-    <br />
+    <p>
+      <hr />
+    </p>
     <h4>Budget Breakdown</h4>
-    <br />
+
     <ol>
       <li>
         <h5>Budget and Cap Definitions</h5>
