@@ -3,7 +3,7 @@ let { ids, election_contract } = props;
 ids = ids ? JSON.parse(ids) : [1, 2, 3, 4];
 const budgetId = ids[3];
 
-const electionContract = election_contract ?? "elections-v1.gwg-testing.near"; // elections.ndc-gwg.near
+const electionContract = election_contract ?? "elections-v2.gwg-testing.near"; // elections.ndc-gwg.near
 const registryContract = "registry-v1.gwg-testing.near"; // registry.i-am-human.near
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
