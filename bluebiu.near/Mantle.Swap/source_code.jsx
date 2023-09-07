@@ -218,6 +218,9 @@ const SwapContainer = styled.div`
     line-height: 22px;
     letter-spacing: 0em;
     text-align: left;
+    @media (max-width: 900px) {
+      font-size: 15px;
+    }
   }
 `;
 
