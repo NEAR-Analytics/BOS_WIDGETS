@@ -10,45 +10,6 @@ State.init({
   answers: initialAnswers,
 });
 
-const onValueChange = (key, value) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      [key]: value,
-    },
-  });
-};
-
-const onAddLink = () => update("links", [...state.answers.links, ""]);
-
-const onLinkChange = (index, value) => {
-  const newLinks = [...state.answers.links];
-  newLinks[index] = value;
-  update("links", newLinks);
-};
-
-const onRemoveLink = (index) => {
-  const newLinks = [...state.answers.links];
-  newLinks[index] = null;
-  update("links", newLinks);
-};
-
-const Error = styled.span`
-  display: inline-block;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 0.875em;
-  line-height: 1.25em;
-  color: #ff4d4f;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease-in-out;
-
-  &.show {
-    height: 1.25em;
-  }
-`;
-
 return (
   <div className="mt-4 ndc-card p-4">
     <div className="d-flex flex-column gap-4">
@@ -65,37 +26,52 @@ return (
         </span>
         Basics
       </h2>
-      <Widget
-        src="nearui.near/widget/Input.ExperimentalText"
-        props={{
-          label: "Name",
-          placeholder: `What should it be called?`,
-          size: "md",
-          inputProps: {
-            name: "name",
-            defaultValue: state.answers.name,
-          },
-          error: errors["name"],
-        }}
-      />
-      <Widget
-        src="nearui.near/widget/Input.ExperimentalText"
-        props={{
-          label: "Description",
-          placeholder: "What is the group about?",
-          size: "md",
-          rows: 5,
-          textarea: true,
-          inputProps: {
-            name: "description",
-            defaultValue: state.answers.description,
-          },
-          onChange: (v) => onValueChange("description", v),
-          error: errors["description"],
-        }}
-      />
+      <div>
+        <div className="mb-2 mt-3">
+          <Widget
+            src="near/widget/MetadataEditor"
+            props={{
+              initialMetadata: group,
+              onChange: (group) => State.update({ group }),
+              options: {
+                name: { label: "Name" },
+                image: { label: "Logo" },
+                description: { label: "About" },
+                tags: {
+                  label: "Tags",
+                  tagsPattern: `*/${groupId}/tags/*`,
+                  placeholder: "art, gov, edu, dev, com, nft, ai, social",
+                },
+                linktree: {
+                  links: [
+                    {
+                      label: "Twitter",
+                      prefix: "https://twitter.com/",
+                      name: "twitter",
+                    },
+                    {
+                      label: "Github",
+                      prefix: "https://github.com/",
+                      name: "github",
+                    },
+                    {
+                      label: "Telegram",
+                      prefix: "https://t.me/",
+                      name: "telegram",
+                    },
+                    {
+                      label: "Website",
+                      prefix: "https://",
+                      name: "website",
+                    },
+                  ],
+                },
+              },
+            }}
+          />
+        </div>
+      </div>
     </div>
-
     {renderFooter(state.answers)}
   </div>
 );
