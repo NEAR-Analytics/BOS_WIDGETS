@@ -84,7 +84,6 @@ return (
           label: "Description",
           placeholder: "What is the group about?",
           size: "md",
-          textarea: true,
           inputProps: {
             name: "description",
             defaultValue: state.answers.description,
