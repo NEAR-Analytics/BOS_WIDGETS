@@ -52,7 +52,7 @@ const PreviewTicketModal = (
             marginLeft: "5%",
             borderRadius: 5,
           }}
-          src="https://i.ibb.co/kx9Y61n/Screenshot-2023-08-15-at-23-44-38.png"
+          src={`https://ipfs.near.social/ipfs/${props.image.cid}`}
         />
         <p style={{ fontSize: 22, fontWeight: "500", marginBottom: 0 }}>
           {props.ticketName}
