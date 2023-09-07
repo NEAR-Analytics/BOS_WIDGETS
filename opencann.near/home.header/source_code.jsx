@@ -28,7 +28,7 @@ return (
   <Container>
     <image src="https://pbs.twimg.com/profile_banners/1688015970911367169/1691627385/1500x500"></image>
 
-    <h1>Find, fund, and do cannabis research</h1>
-    <p>OpenCann Community Marketplace</p>
+    <h1>OpenCann Marketplace</h1>
+    <p>Find, fund, and do cannabis research.</p>
   </Container>
 );
