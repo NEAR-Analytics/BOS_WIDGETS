@@ -153,7 +153,7 @@ const NominationLink = styled.div`
 `;
 
 const InfoRow = styled.div`
-  gap: 40px;
+  gap: 54px;
 
   @media (max-width: 768px) {
     gap: 25px;
@@ -720,7 +720,7 @@ const Filters = () => (
         />
       </Candidates>
     </div>
-    <div className="d-flex w-100 align-items-center justify-content-end gap-4">
+    <div className="d-flex w-100 align-items-center justify-content-end gap-2">
       <Nomination className="text-secondary text-end text-md-end">
         <small>Nomination</small>
       </Nomination>
