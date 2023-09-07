@@ -12,12 +12,14 @@ const UUID = {
 };
 
 
-State.init({
-  event: props.event || null,
-});
+const accountId = context.accountId;
+
+if (!accountId) {
+  return "Please connect your NEAR account";
+}
 
 const addEvent = (target) => {
-  const thingId = UUID.generate();
+  const thingId = target.data.id;
 
   // index new event
   Social.set({
@@ -38,12 +40,16 @@ const addEvent = (target) => {
   State.update({ event: target });
 };
 
+const proposeEvent = (target) => {
+  console.log(target);
+};
+
 return (
   <>
     <div>
       <Widget
         src="itexpert120-contra.near/widget/EventForm"
-        props={{ addEvent: addEvent }}
+        props={{ addEvent: addEvent, proposeEvent: proposeEvent }}
       />
     </div>
   </>
