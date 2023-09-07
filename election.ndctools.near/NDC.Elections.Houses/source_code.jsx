@@ -92,7 +92,7 @@ const buildURL = (houseId) => {
   const arr = [];
   if (!urlProps) return "";
 
-  if (urlProps.ids) arr.push(`ids=[${urlProps.ids}]`);
+  if (urlProps.ids) arr.push(`ids=${urlProps.ids}`);
   if (urlProps.election_contract)
     arr.push(`election_contract=${urlProps.election_contract}`);
   if (urlProps.registry_contract)
