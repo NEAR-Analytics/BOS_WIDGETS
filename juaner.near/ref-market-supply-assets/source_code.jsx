@@ -8,6 +8,7 @@ const Container = styled.div`
     margin-left: 6px;
   }
   .assets_table {
+    display: block;
     width: 100%;
     tr {
       color: #7c7f96;
@@ -85,6 +86,15 @@ const Container = styled.div`
   }
   .title {
     padding-left: 20px;
+  }
+  @media (max-width: 900px) {
+    background-color: transparent;
+    .assets_table {
+      display: none;
+    }
+    .text_green_color {
+      color: #fff;
+    }
   }
 `;
 
@@ -287,6 +297,71 @@ const renderAssets = (data) =>
     );
   });
 
+const renderMbAssets = (data, hasDollar) =>
+  data.map((item) => {
+    const {
+      icon,
+      symbol,
+      depositApy,
+      rewardTokens,
+      volatility_ratio,
+      token_id,
+      totalLiquidity_usd,
+    } = item;
+    const rewardTokensImg =
+      rewardTokens &&
+      rewardTokens.map((token_id, index) => {
+        const metadata = assetsMap[token_id].metadata;
+        return (
+          <img
+            class={`rewardIcon ${index > 0 ? "ml_4_ne" : ""}`}
+            src={metadata.icon}
+          ></img>
+        );
+      });
+
+    const cf = volatility_ratio / 100;
+    const totalLiquidity_usd_display = nFormat(totalLiquidity_usd, 2);
+    return (
+      <div className="mb_row" key={token_id}>
+        <div className="mb_row_header">
+          <div className="mb_row_token">
+            <img src={icon || wnearbase64} class="tokenIcon"></img>
+            {symbol !== "wNEAR" ? symbol : "NEAR"}
+          </div>
+          <div className="double_lines">${totalLiquidity_usd_display}</div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Supply Apy</div>
+          <div className="mb_row_value">{toAPY(depositApy)}%</div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Rewards</div>
+          <div className="mb_row_value">{rewardTokensImg}</div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">C.F.</div>
+          <div className="mb_row_value">{cf}%</div>
+        </div>
+        <div className="mb_row_actions">
+          <div className="action_btn">
+            <Widget
+              src="juaner.near/widget/ref-operation-button"
+              props={{
+                clickEvent: () => {
+                  handleSelect(token_id);
+                },
+                buttonType: "solid",
+                actionName: "Supply",
+                hoverOn: true,
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  });
+
 const handleSelect = (token_id) => {
   State.update({
     selectedTokenId: token_id,
@@ -420,7 +495,7 @@ return (
       </thead>
       <tbody>{renderAssets(state.tableData) || ""}</tbody>
     </table>
-
+    <div className="mb_table">{renderMbAssets(state.tableData)}</div>
     <Widget
       src="juaner.near/widget/ref-market-supply-supply"
       props={{ selectedTokenId, showModal, closeModal, selectedTokenMeta }}
