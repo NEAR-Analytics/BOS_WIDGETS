@@ -59,8 +59,6 @@ function ellipsisIfExceeds(str) {
   return str.substring(0, 35 - 3) + "...";
 }
 
-const bottomTickets = ["Gold ticket (VIP)", "Bronze ticket", "Silver ticket"];
-
 return (
   <>
     <Table>
@@ -152,23 +150,3 @@ return (
     )}
   </>
 );
-
-//  <div style={{ width: 350, marginLeft: "auto" }}>
-//     {bottomTickets.map((item) => (
-//       <div style={{ display: "flex", alignItems: "center" }} key={item}>
-//         <div style={{ width: "60%", fontWeight: "600" }}>{item}</div>
-//         <div>1.7161 NEAR</div>
-//       </div>
-//     ))}
-//     <div
-//       style={{
-//         display: "flex",
-//         alignItems: "center",
-//         marginTop: 10,
-//         fontWeight: "500",
-//       }}
-//     >
-//       <div style={{ width: "60%" }}>Total</div>
-//       <div>1.7161 NEAR</div>
-//     </div>
-//   </div>
