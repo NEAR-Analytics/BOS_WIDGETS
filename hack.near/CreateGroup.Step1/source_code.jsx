@@ -95,7 +95,7 @@ return (
     </div>
     <br />
     <div>
-      <div className="d-flex gap-2 justify-content-between mb-3">
+      <div className="d-flex gap-2 justify-content-between mb-2">
         <h2 className="h5 fw-bold">
           Links <span className="text-black-50 fw-light small">~ optional</span>
         </h2>
