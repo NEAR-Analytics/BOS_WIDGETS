@@ -1,23 +1,31 @@
 const accountId = context.accountId;
+const creatorId = "james.near";
 
 if (!accountId) {
   return "Please connect your NEAR wallet :)";
 }
 
-const defaultGroup = "6fd36ddf4884flm20pbe91e7b208b88d16";
+const mainGroup = "6fd36ddf4884flm20pbe91e7b208b88d16";
 
-const groupSettings = Social.get(`${accountId}/settings/every/group`);
+const group = Social.get(`${accountId}/settings/community/group`);
 
 if (group === null) {
-  return "Loading";
+  return "Loading...";
 }
 
-initState({
-  group: group ?? defaultGroup,
+State.init({
+  groupId: group || mainGroup,
+  exists: true,
 });
 
+const groupData = Social.get(`${creatorId}/graph/${state.groupId}/**`) || "";
+
+if (groupData === "") {
+  State.update({ exists: false });
+}
+
 const resetGroup = () => {
-  state.group = defaultGroup;
+  state.groupId = mainGroup;
   State.update();
 };
 
@@ -29,35 +37,34 @@ return (
       </h1>
     </div>
     <div className="mb-2 d-flex align-items-center">
-      <h5 className="m-3">
-        <b>groupId:</b>
-      </h5>
-      <input type="text" value={state.group} placeholder={defaultGroup} />
+      <h5 className="m-3">ID:</h5>
+      <div className="me-1 flex-grow-1">
+        <input type="text" value={state.groupId} placeholder={defaultGroup} />
+      </div>
       <CommitButton
-        className="btn btn-success m-3"
-        data={{ settings: { "near.social": { group: state.group } } }}
+        className="btn btn-success m-2"
+        data={{ settings: { community: { group: state.groupId } } }}
       >
         Save
       </CommitButton>
-      {state.group !== defaultGroup && (
+      {state.groupId !== mainGroup && (
         <button className="btn btn-outline-primary" onClick={resetGroup}>
           Reset
         </button>
       )}
-      {group === state.group && (
-        <a className="btn btn-outline-primary ms-2" href={`#/`}>
-          Open
-        </a>
-      )}
     </div>
-    <hr />
 
-    <h2>
-      <b>Review</b>
-    </h2>
-
-    <div className="mb-2">
-      <Widget src="hack.near/widget/group" props={{ groupId: state.group }} />
-    </div>
+    {state.exists && (
+      <div className="m-2">
+        <hr />
+        <h2>
+          <b>Review</b>
+        </h2>
+        <Widget
+          src="hack.near/widget/group"
+          props={{ groupId: state.groupId }}
+        />
+      </div>
+    )}
   </div>
 );
