@@ -24,6 +24,15 @@ const BannerData = styled.div`
       margin-left: 8px;
     }
   }
+
+  @media (max-width: 770px) {
+    .apr {
+      font-size: 12px;
+      .value {
+        font-size: 16px;
+      }
+    }
+  }
 `;
 const ExchangeRoute = styled.div`
   position: relative;
@@ -42,6 +51,7 @@ const ExchangeRoute = styled.div`
       border-radius: 100px;
     }
   }
+
   .flex-center {
     display: flex;
     align-items: center;
@@ -64,6 +74,31 @@ const ExchangeRoute = styled.div`
     height: 26px;
     margin-right: 10px;
     border-radius: 100px;
+  }
+
+  @media (max-width: 770px) {
+    padding-left: 75px;
+
+    .bigIcon {
+      position: absolute;
+      left: 20px;
+      top: -20px;
+      background: #1a2e33;
+      border-radius: 100%;
+      padding: 7px;
+      margin-right: 13px;
+      img {
+        width: 32px;
+        height: 32px;
+        border-radius: 100px;
+      }
+    }
+
+    .boldText {
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+    }
   }
 `;
 const arrowIcon = (
