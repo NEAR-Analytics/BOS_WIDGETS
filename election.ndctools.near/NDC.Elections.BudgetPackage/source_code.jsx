@@ -8,7 +8,7 @@ const TextContainer = styled.div`
 
 const Budget = styled.div`
   text-align: justify;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
 
   p {
