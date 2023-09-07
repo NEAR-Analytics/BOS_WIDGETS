@@ -566,7 +566,7 @@ return (
               <div className="d-flex gap-3">
                 <div className="d-flex flex-column">
                   <Widget
-                    src={widgets.upVote}
+                    src={widgets.upVoteButton}
                     props={{
                       isTest,
                       authorForWidget,
