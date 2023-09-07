@@ -125,7 +125,6 @@ return image.nft.contractId && image.nft.tokenId ? (
                   title={title}
                 />
               )}
-              <p>Minted by {title}</p>
             </div>
           </div>
         </div>
