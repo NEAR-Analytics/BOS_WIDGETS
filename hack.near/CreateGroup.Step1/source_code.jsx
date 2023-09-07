@@ -147,8 +147,6 @@ return (
       </Error>
     )}
 
-    {renderFooter({
-      links: state.answers.links.filter((l) => l !== null && l !== ""),
-    })}
+    {renderFooter(state.answers)}
   </div>
 );
