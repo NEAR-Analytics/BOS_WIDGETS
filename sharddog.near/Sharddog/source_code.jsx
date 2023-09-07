@@ -92,7 +92,7 @@ return (
         {state.tokens?.map((it) => {
           return (
             <Widget
-              src="sharddog.near/widget/Image"
+              src="sharddog.near/widget/Image.Minted"
               title={it.owner}
               props={{
                 title: it.owner,
