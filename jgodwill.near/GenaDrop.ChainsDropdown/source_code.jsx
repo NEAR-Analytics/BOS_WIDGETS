@@ -85,6 +85,7 @@ const SelectReplicaContainer = styled.div`
     pointer-events:none;
     transform:translateY(-100px);
     transition: all 1s;
+    max-width: 350px;
   }
 
   & .select-replica__options.open {
