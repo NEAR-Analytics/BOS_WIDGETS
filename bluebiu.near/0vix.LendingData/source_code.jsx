@@ -268,7 +268,7 @@ const formatedData = (key) => {
     userTotalBorrowUsd: userTotalBorrowUsd.toString(),
     accountLiquidity: _accountLiquidity,
     healthFactor: totalCollateralUsd
-      .div(userTotalSupplyUsd.eq(0) ? 1 : userTotalBorrowUsd)
+      .div(userTotalBorrowUsd.eq(0) ? 1 : userTotalBorrowUsd)
       .toString(),
   });
 };
