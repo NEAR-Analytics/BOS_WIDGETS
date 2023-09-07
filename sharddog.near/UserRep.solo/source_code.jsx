@@ -48,6 +48,7 @@ const cardStyle = {
   justifyContent: "center",
   marginTop: "20px",
   margin: "20px Auto",
+  color:"black"
 };
 
 const centered = {
