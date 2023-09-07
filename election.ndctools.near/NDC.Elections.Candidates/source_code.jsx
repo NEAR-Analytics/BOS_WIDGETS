@@ -104,9 +104,11 @@ const CandidateItemRow = styled.div`
         ? "#4aa6ee"
         : "#d4e4f461"};
   
-  input.form-check-input:checked {
-    background-color: ${(props) => (props.winnerId ? "#239f28" : "#0d6efd")};
-    border-color: ${(props) => (props.winnerId ? "#239f28" : "#0d6efd")};
+  .form-check-input:checked {
+    background-color: ${(props) =>
+      props.winnerId ? "#239f28" : "#0d6efd"} !important;
+    border-color: ${(props) =>
+      props.winnerId ? "#239f28" : "#0d6efd"} !important;
   }
   
   @media (max-width: 400px) {
