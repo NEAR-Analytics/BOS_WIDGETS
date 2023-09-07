@@ -95,11 +95,6 @@ const H3 = styled.h3`
   margin-bottom: 0;
 `;
 
-const isBudgetWinner = (item) =>
-  result
-    .filter((item) => ["no", "yes", "abstain"].includes(item[0]))
-    .sort((a, b) => b[1] - a[1])[0][0] === item;
-
 function alreadyVotedForHouse() {
   return myVotes.some((voter) => voter.house === typ);
 }
@@ -194,9 +189,7 @@ const CastBudgetVote = () => (
               <i className="bi bi-hand-thumbs-up" />
             ),
             disabled:
-              blacklisted ||
-              (alreadyVotedForHouse() && !alreadyVoted("yes")) ||
-              (winnerIds.length > 0 && !isBudgetWinner("yes")),
+              blacklisted || (alreadyVotedForHouse() && !alreadyVoted("yes")),
             onClick: () => {
               if (winnerIds.length > 0 || alreadyVoted("yes")) return;
 
@@ -219,9 +212,7 @@ const CastBudgetVote = () => (
               <i className="bi bi-hand-thumbs-down" />
             ),
             disabled:
-              blacklisted ||
-              (alreadyVotedForHouse() && !alreadyVoted("no")) ||
-              (winnerIds.length > 0 && !isBudgetWinner("no")),
+              blacklisted || (alreadyVotedForHouse() && !alreadyVoted("no")),
             onClick: () => {
               if (winnerIds.length > 0 || alreadyVoted("no")) return;
 
@@ -243,8 +234,7 @@ const CastBudgetVote = () => (
             icon: winnerIds.length === 0 && <i className="bi bi-x-lg" />,
             disabled:
               blacklisted ||
-              (alreadyVotedForHouse() && !alreadyVoted("abstain")) ||
-              (winnerIds.length > 0 && !isBudgetWinner("abstain")),
+              (alreadyVotedForHouse() && !alreadyVoted("abstain")),
             onClick: () => {
               if (winnerIds.length > 0 || alreadyVoted("abstain")) return;
 
