@@ -26,10 +26,19 @@ const Wrapper = styled.div`
     border-radius: 10px;
     color: #ffffff;
     border: none;
+  }
 
-    @media (max-width: 900px) {
-      width: 100%;
-    }
+  @media (max-width: 900px) {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -25%);
+      img{
+        width:320px !important;
+      }
+      .connect-button {
+        width:100%
+      }
   }
 `;
 
