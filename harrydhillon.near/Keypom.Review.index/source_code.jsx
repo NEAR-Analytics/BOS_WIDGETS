@@ -21,6 +21,9 @@ const EventDisplayFlex = styled.div`
     align-items: center;
 `;
 
+const eventData = JSON.parse(Storage.get("formValues"));
+const ticketValue = JSON.parse(Storage.get("tickets"));
+console.log(ticketValue)
 return (
   <div style={{ padding: 10 }}>
     <HeadingDisplayFlex>
@@ -33,32 +36,33 @@ return (
           style={{
             width: 200,
             height: 150,
-            objectFit: "cover",
+            objectFit: "contain",
             borderRadius: 5,
             margin: 10,
             marginBottom: 5,
             marginLeft: 0,
           }}
-          src="https://i.ibb.co/kx9Y61n/Screenshot-2023-08-15-at-23-44-38.png"
+          src={`https://ipfs.near.social/ipfs/${eventData?.image?.cid}`}
         />
         <div>
           <Label>Event name</Label>
-          <p style={{ fontSize: 12 }}>[Event name]</p>
+          <p style={{ fontSize: 12 }}>{eventData?.eventName}</p>
           <Label>Event description</Label>
-          <p style={{ fontSize: 12 }}>
-            A communi observantia non est recedendum. Prima luce, cum quibus
-            mons aliud consensu ab eo.
-          </p>
+          <p style={{ fontSize: 12 }}>{eventData?.description}</p>
         </div>
       </div>
       <div style={{ width: "10%" }} />
       <div style={{ width: "40%" }}>
         <Label>Event date</Label>
-        <p style={{ fontSize: 12 }}>June 16, 2023</p>
+        <p style={{ fontSize: 12 }}>
+          {eventData?.isSingleDateEvent ? eventData.date : eventData?.from}
+        </p>
         <Label>Event location</Label>
-        <p style={{ fontSize: 12 }}>1234 University Ave, Toronto ON Canada</p>
+        <p style={{ fontSize: 12 }}>{eventData.location}</p>
       </div>
     </EventDisplayFlex>
-    <Widget src="harrydhillon.near/widget/Keypom.Review.TicketTable" />
+    <Widget props={{
+      ticketValue
+    }} src="harrydhillon.near/widget/Keypom.Review.TicketTable" />
   </div>
 );
