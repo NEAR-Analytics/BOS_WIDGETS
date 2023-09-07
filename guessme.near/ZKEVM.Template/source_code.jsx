@@ -95,7 +95,7 @@ const templates = [
   {
     src: "bluebiu.near/widget/0vix.Lending",
     bannerImg:
-      "https://ipfs.near.social/ipfs/bafkreie6mpwolgngjicyeh332egvshqd76m7zo5waxdgqwcwid4tdwgbtq",
+      "https://ipfs.near.social/ipfs/bafkreifnrbp6mlafevojcdygdwcucondxucvzydizza63adkokll5pbkdq",
   },
 ];
 
