@@ -173,10 +173,6 @@ console.log(state.selectedChain);
 
 return (
   <>
-    <div
-      style={{ display: "none" }}
-      onLoad={() => State.update({ chains: CHAINS })}
-    ></div>
     <SelectGroup className="form-group">
       <SelectReplicaContainer>
         <div
