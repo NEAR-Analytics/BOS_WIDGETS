@@ -11,7 +11,7 @@ const {
   seats,
   voters_num,
   result,
-  iahToken,
+  isIAmHuman,
   candidateFilterId,
   blacklisted,
   greylisted,
@@ -584,7 +584,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           </Expand>
         )}
 
-        {iahToken && (
+        {isIAmHuman && (
           <Bookmark
             selected={state.selected === candidateId}
             winnerId={state.winnerIds.includes(candidateId)}
@@ -659,7 +659,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           />
         </NominationLinkMobile>
         {isVisible() && <Votes>{votes}</Votes>}
-        {iahToken && (
+        {isIAmHuman && (
           <Votes>
             <input
               id="input"
@@ -683,7 +683,7 @@ const CandidateItem = ({ candidateId, votes }) => (
     {state.selected === candidateId && isVisible() && (
       <Widget
         src={widgets.voters}
-        props={{ candidateId, electionContract, iahToken, ids }}
+        props={{ candidateId, electionContract, isIAmHuman, ids }}
       />
     )}
   </div>
@@ -693,7 +693,7 @@ const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
     <div className="d-flex align-items-center w-100">
       {isVisible() && <Expand />}
-      {iahToken && (
+      {isIAmHuman && (
         <Bookmark
           role="button"
           className="text-secondary"
@@ -737,7 +737,7 @@ const Filters = () => (
           />
         </Votes>
       )}
-      {iahToken && (
+      {isIAmHuman && (
         <Action
           role="button"
           className="text-secondary"
@@ -1044,7 +1044,7 @@ return (
         </>
       )}
       <div>
-        {iahToken && (
+        {isIAmHuman && (
           <Widget
             src={widgets.castVotes}
             props={{
