@@ -263,6 +263,12 @@ return (
         <div
           onClick={() => {
             Storage.set("on-rainbow-bridge", "1");
+
+            const storeKey = Storage.get(
+              "on-rainbow-bridge",
+              "juaner.near/widget/ref-home"
+            );
+            console.log("storeKey: ", storeKey);
           }}
         >
           <a
