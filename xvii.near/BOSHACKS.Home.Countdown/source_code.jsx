@@ -1,5 +1,5 @@
-const startTime = props.startTime ?? 1692936687000; //1692964800; // change august 25
-const endTime = props.endTime ?? 1694347200000; // 1694347200000; // sep 10
+const startTime = props.startTime ?? 1695820000000; // NCR Course Start Time
+const endTime = props.endTime ?? 1670880000000; // Final Project Submission Deadline
 const tupe = props.type ?? "";
 // const time = Near.view("nominations.ndc-gwg.near", "active_time", {});
 // console.log("Time:" + time);
@@ -21,37 +21,41 @@ const formatTime = (time) => (time < 10 ? `0${time}` : time);
 
 const timer = setInterval(() => {
   const now = new Date().getTime();
+  const start = new Date(parseInt(startTime)).getTime();
   const end = new Date(parseInt(endTime)).getTime();
   let title = "";
 
-  let diff = end - now;
+  let diff;
+  if (now < start)
+    diff = new Date(parseInt(start)).getTime() - new Date().getTime();
+  else if (now > start && now < end)
+    diff = new Date(parseInt(end)).getTime() - new Date().getTime();
+  else diff = 0;
 
-  if (diff > 0) {
-    title = <>Course Starts</>;
+  let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    State.update({
-      days: days,
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
-      title: title,
-    });
-  } else {
+  if (now < start) title = <>NCR Course Starts</>;
+  else if (now > start && now < end) title = <>Final Project Submission</>;
+  else {
     title = <>{type} is ended</>;
-    State.update({
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      title: title,
-    });
-    clearInterval(timer); // Stop the timer
+    days = 0;
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
   }
+
+  State.update({
+    days: days,
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds,
+    title: title,
+  });
+
+  clearInterval(timer);
 }, 1000);
 
 const H1 = styled.h1`
