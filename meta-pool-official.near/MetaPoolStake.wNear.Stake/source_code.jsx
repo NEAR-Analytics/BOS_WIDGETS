@@ -49,12 +49,13 @@ const onSubmit = (strAmount) => {
     Ethers.provider().getSigner()
   );
   console.log("swap contract");
-  let amount = ethers.utils.parseUnits(strAmount, tokenDecimals).toHexString();
+  let amount = ethers.utils.parseUnits(strAmount, tokenDecimals);
+  const value = ethers.utils.parseUnits("0", tokenDecimals);
   console.log("amount", amount);
   update({ loading: true });
 
   swap
-    .swapwNEARForstNEAR(sender, { value: amount })
+    .swapwNEARForstNEAR([amount],{ value})
     .then((txResp) => {
       txResp.wait().then((waitResp) => {
         console.log("success!");
