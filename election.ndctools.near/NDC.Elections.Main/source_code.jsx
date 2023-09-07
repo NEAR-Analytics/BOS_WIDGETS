@@ -56,7 +56,7 @@ const steps = [
   },
   {
     title: "Voting Completed",
-    completed: state.hasVotedOnAllProposals || state.myVotes.length > 0,
+    completed: state.hasVotedOnAllProposals,
   },
   {
     title: 'Minted "I Voted" NFT',
