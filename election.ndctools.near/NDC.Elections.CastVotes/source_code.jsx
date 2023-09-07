@@ -123,7 +123,7 @@ const CastVotes = () => (
       <Info className="text-secondary">
         <i class="bi bi-info-circle"></i>
         {alreadyVotedForHouse() ? (
-          <span>You're already voted for {housesMapping[typ]}</span>
+          <span>You've already voted for {housesMapping[typ]}</span>
         ) : blacklisted ? (
           <span>Your account is blacklisted</span>
         ) : (
