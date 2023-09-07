@@ -507,10 +507,6 @@ const content = (
       icon: submission,
       iconSelected: submissionSelected,
     })}
-    <NavItem href="https://nearbuilders.com/boshacks" target="-blank">
-      {hackathon}
-      <span>Manual</span>
-    </NavItem>
 
     <Divider />
     <NavItem href="https://t.me/ResearchWG" target="_blank">
