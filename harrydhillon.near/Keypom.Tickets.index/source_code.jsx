@@ -70,6 +70,18 @@ function ellipsisIfExceeds(str) {
   }
   return str.substring(0, 35 - 3) + "...";
 }
+
+if (!state.isReadDataFromLocal) {
+  const getValue = Storage.get("tickets");
+  if (getValue) {
+    State.update({ tickets: JSON.parse(getValue), isReadDataFromLocal: true });
+  } else {
+    State.update({ isReadDataFromLocal: true });
+  }
+} else {
+  Storage.set("tickets", JSON.stringify(state.tickets));
+}
+
 const createTickets = () => {
   return (
     <>
