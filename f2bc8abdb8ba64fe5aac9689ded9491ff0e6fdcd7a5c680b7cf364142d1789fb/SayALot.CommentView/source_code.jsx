@@ -163,11 +163,6 @@ const ReplyCommentText = styled.p`
   margin: 0px;
 `;
 
-const ReplyCommentIcon = styled.div`
-  width: 14px;
-  height: 14px;
-`;
-
 const CommentReplySeparator = styled.hr`
   height: 0px;
   margin: 16px 0 16px 0;
@@ -295,9 +290,7 @@ return (
             }}
           >
             <ReplyCommentText>Reply</ReplyCommentText>
-            <ReplyCommentIcon>
-              <i className="bi bi-reply"></i>
-            </ReplyCommentIcon>
+            <i className="bi bi-reply"></i>
           </ReplyCommentButton>
         </div>
         <Widget
