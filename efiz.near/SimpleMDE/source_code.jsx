@@ -208,7 +208,7 @@ window.addEventListener("message", (event) => {
         isEditorInitialized = true;
   } else {
     try {
-  const textarea = document.querySelector('textarea[name="markdown-input"]');
+  const textarea = document.querySelector('textarea[id="markdown-input"]');
   if (textarea) {
     const codeMirrorElement = textarea.nextElementSibling.querySelector('.CodeMirror');
     if (codeMirrorElement) {
