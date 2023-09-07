@@ -94,7 +94,6 @@ return (
           error: errors["description"],
         }}
       />
-      {renderFooter(state.answers)}
     </div>
     <br />
     <div>
