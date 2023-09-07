@@ -18,12 +18,27 @@ const ContainerLogin = styled.div`
     border: none;
     margin-top: 20px;
   }
+  @media (max-width: 900px) {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -25%);
+    img{
+      width:320px;
+    }
+    .web3-connect {
+      width:100%
+  }
+  }
 `;
 const TitleText = styled.div`
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 32px;
   color: #ffffff;
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 
 if (!sender)
