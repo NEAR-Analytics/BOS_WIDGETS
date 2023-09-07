@@ -72,7 +72,7 @@ return (
         >
           <div className="d-flex align-items-center">
             <div>
-              {vote.house !== "SetupPackage" ? (
+              {vote.house !== "SetupPackage" && (
                 <Widget
                   src="mob.near/widget/ProfileImage"
                   props={{
@@ -80,11 +80,6 @@ return (
                     imageClassName: "rounded-circle w-100 mh-100",
                     style: { width: "32px", height: "32px", marginRight: 8 },
                   }}
-                />
-              ) : (
-                <BPImg
-                  className="rounded-circle"
-                  src="https://bafkreidsg3gntb4grebr6rpvffhzkwdt2siel7ucl3hpsj5i7qqu426dgq.ipfs.nftstorage.link"
                 />
               )}
             </div>
