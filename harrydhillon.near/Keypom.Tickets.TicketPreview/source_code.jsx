@@ -49,6 +49,8 @@ const PreviewTicketModal = (
         <img
           style={{
             width: "90%",
+            maxHeight: 250,
+            objectFit: "contain",
             marginLeft: "5%",
             borderRadius: 5,
           }}
