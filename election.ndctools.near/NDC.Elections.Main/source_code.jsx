@@ -24,7 +24,7 @@ const widgets = {
 
 State.init({
   electionStatus: "NOT_STARTED",
-  selectedHouse: parseInt(props.house) ?? ids[0],
+  selectedHouse: props.house ? parseInt(props.house) : ids[0],
   myVotes: [],
   winnerIds: [],
   iahToken: null,
