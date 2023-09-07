@@ -513,7 +513,7 @@ const content = (
     </NavItem>
 
     <Divider />
-    <NavItem href="https://nearbuilders.com/tg-builders" target="_blank">
+    <NavItem href="https://t.me/ResearchWG" target="_blank">
       <svg
         width="25"
         height="24"
