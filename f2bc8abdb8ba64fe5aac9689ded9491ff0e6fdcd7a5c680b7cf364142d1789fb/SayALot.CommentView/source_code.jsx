@@ -163,7 +163,7 @@ const ReplyCommentText = styled.p`
   margin: 0px;
 `;
 
-const ReplyCommentIcon = styled.img`
+const ReplyCommentIcon = styled.div`
   width: 14px;
   height: 14px;
 `;
@@ -295,10 +295,9 @@ return (
             }}
           >
             <ReplyCommentText>Reply</ReplyCommentText>
-            <ReplyCommentIcon
-              src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/Qma6cnsU1NdHPcMbJqmXrUepxbvPuVLEBWzX4jEsaVhaN8?_gl=1*c3nexg*_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*_ga_5RMPXG14TE*MTY4NzkwMTAwNy4zLjEuMTY4NzkwMTUzMS42MC4wLjA."
-              alt="pic"
-            ></ReplyCommentIcon>
+            <ReplyCommentIcon>
+              <i className="bi bi-reply"></i>
+            </ReplyCommentIcon>
           </ReplyCommentButton>
         </div>
         <Widget
