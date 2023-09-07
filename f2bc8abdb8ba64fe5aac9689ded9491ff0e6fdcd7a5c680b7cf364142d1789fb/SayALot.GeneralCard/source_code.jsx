@@ -634,7 +634,7 @@ return (
                   Button: {
                     text: `Add comment`,
                     disabled:
-                      !state.verified && context.accountId !== accountId,
+                      !context.accountId || context.accountId === accountId,
                     size: "sm",
                     className: "secondary dark w-100 justify-content-center",
                     onClick: () => {
