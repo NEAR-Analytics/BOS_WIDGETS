@@ -36,11 +36,12 @@ const ChainIcon = styled.option`
 const SelectReplicaContainer = styled.div`
   position: relative;
   display: inline-block;
-  z-index: 1;
   user-select:none;
+    z-index: 1;
 
   & .select-replica__select {
     position: relative;
+    z-index: 1;
   }
 
   & .select-replica__selected {
@@ -50,12 +51,14 @@ const SelectReplicaContainer = styled.div`
     align-items: center;
     border: 4px solid rgba(0,0,0,.05);
     gap: 10px;
+    z-index: 1;
     border-radius: 10px;
     background-color: #fff;
     width:100%;
     max-width: 350px;
     padding:0 15px 0 10px;
     min-height:70px;
+    
 
 
     & > img {
@@ -84,12 +87,12 @@ const SelectReplicaContainer = styled.div`
     box-shadow: 0 10px 20px 10px rgba(0,0,0,.05);
     pointer-events:none;
     transform:translateY(-100px);
-    transition: all 1s;
+    transition: all .2s;
     max-width: 350px;
   }
 
   & .select-replica__options.open {
-    transition: all .1s;
+    transition: all .2s;
     transform:translateY(0);
     opacity:1;
     pointer-events:all;
