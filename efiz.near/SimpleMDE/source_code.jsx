@@ -164,7 +164,11 @@ function MarkdownEditor(props) {
             tabSize: ${tabSize},
             toolbar: generateToolbarItems(),
             initialValue: value,
-            previewRender: renderPreview
+            previewRender: renderPreview,
+            insertTexts: {
+              image: ["![](https://", ")"],
+              link: ["[", "](https://)"],
+            },
         });
 
         /**
