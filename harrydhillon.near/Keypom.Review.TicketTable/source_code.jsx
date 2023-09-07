@@ -55,8 +55,8 @@ const ticketObj = {
   ticketPricing: "7.3",
 };
 
-State.init({ tickets: [ticketObj, ticketObj, ticketObj] });
-
+const ticketValue = JSON.parse(Storage.get("tickets"));
+console.log(ticketValue);
 function extractDateComponents(dateStr) {
   const dateObj = new Date(dateStr);
 
@@ -89,26 +89,40 @@ return (
         </TableRow>
       </TableHead>
       <tbody style={{ borderRadius: 10 }}>
-        {state.tickets.map((item, index) => (
+        {ticketValue.map((item, index) => (
           <TableRow key={index}>
             <TableCell style={{ width: "30%" }}>
-              <div style={{ fontSize: 16, fontWeight: "500" }}>
-                {item.ticketName}
-              </div>
-              <p
-                style={{
-                  textOverflow: "ellipsis",
-                  width: 200,
-                  fontSize: 12,
-                  whiteSpace: "nowrap",
-                  marginBottom: 0,
-                }}
-              >
-                {ellipsisIfExceeds(item.description)}
-              </p>
-              <div style={{ fontSize: 10, color: "#94A3B8" }}>
-                Purchase Thoough : {extractDateComponents(item.from)} -{" "}
-                {extractDateComponents(item.to)}
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ padding: 4 }}>
+                  <img
+                    src={`https://ipfs.near.social/ipfs/${item.image.cid}`}
+                    style={{
+                      width: 35,
+                      height: 35,
+                      borderRadius: 3,
+                    }}
+                  />
+                </div>
+                <div>
+                  <div style={{ fontSize: 16, fontWeight: "500" }}>
+                    {item.ticketName}
+                  </div>
+                  <p
+                    style={{
+                      textOverflow: "ellipsis",
+                      width: 200,
+                      fontSize: 12,
+                      whiteSpace: "nowrap",
+                      marginBottom: 0,
+                    }}
+                  >
+                    {ellipsisIfExceeds(item.description)}
+                  </p>
+                  <div style={{ fontSize: 12, color: "#94A3B8" }}>
+                    {extractDateComponents(item.from)} -{" "}
+                    {extractDateComponents(item.to)}
+                  </div>
+                </div>
               </div>
             </TableCell>
             <TableCell>
@@ -137,24 +151,40 @@ return (
         ))}
       </tbody>
     </Table>
-    <div style={{ width: 350, marginLeft: "auto" }}>
-      {bottomTickets.map((item) => (
-        <div style={{ display: "flex", alignItems: "center" }} key={item}>
-          <div style={{ width: "60%", fontWeight: "600" }}>{item}</div>
-          <div>1.7161 NEAR</div>
-        </div>
-      ))}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginTop: 10,
-          fontWeight: "500",
+    {!!state.ticketPreview && (
+      <Widget
+        src="harrydhillon.near/widget/Keypom.Tickets.TicketPreview"
+        props={{
+          isOpen: !!state.ticketPreview,
+          ...state.ticketPreview,
+          onClose: () => {
+            State.update({
+              ticketPreview: null,
+            });
+          },
         }}
-      >
-        <div style={{ width: "60%" }}>Total</div>
-        <div>1.7161 NEAR</div>
-      </div>
-    </div>
+      />
+    )}
   </>
 );
+
+
+  //  <div style={{ width: 350, marginLeft: "auto" }}>
+  //     {bottomTickets.map((item) => (
+  //       <div style={{ display: "flex", alignItems: "center" }} key={item}>
+  //         <div style={{ width: "60%", fontWeight: "600" }}>{item}</div>
+  //         <div>1.7161 NEAR</div>
+  //       </div>
+  //     ))}
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         alignItems: "center",
+  //         marginTop: 10,
+  //         fontWeight: "500",
+  //       }}
+  //     >
+  //       <div style={{ width: "60%" }}>Total</div>
+  //       <div>1.7161 NEAR</div>
+  //     </div>
+  //   </div>
