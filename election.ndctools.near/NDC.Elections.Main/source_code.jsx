@@ -147,7 +147,7 @@ function loadBond() {
   ).then((resp) => {
     if (resp.body) {
       const amount = resp.body.bond ? parseFloat(resp.body.bond) : 0;
-
+      console.log("bond---", resp.body);
       State.update({ isBonded: amount > 0 });
     }
   });
