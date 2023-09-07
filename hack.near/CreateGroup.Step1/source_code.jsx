@@ -109,7 +109,6 @@ return (
           }}
         />
       </div>
-      <p className="text-black-50 fw-light small">add up to 10 urls</p>
     </div>
 
     {state.answers.links.map((l, i) => (
