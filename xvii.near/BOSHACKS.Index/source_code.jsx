@@ -109,7 +109,7 @@ const Container = styled.div``;
 
 return (
   <Container>
-    <Widget src={`ndcplug.near/widget/BOSHACKS.Navbar`} props={{ update }} />
+    <Widget src={`xvii.near/widget/BOSHACKS.Navbar`} props={{ update }} />
     <Content>
       <Sidebar show={showSidebar}>
         <Widget
