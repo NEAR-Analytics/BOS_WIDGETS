@@ -68,7 +68,7 @@ return image.nft.contractId && image.nft.tokenId ? (
         className={className}
         controls
         style={style}
-         title={title}
+        title={title}
         src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
       />
     ) : (
@@ -122,9 +122,10 @@ return image.nft.contractId && image.nft.tokenId ? (
                   src={state.modalMediaUrl}
                   className="img-fluid"
                   alt="Modal"
-                   title={title}
+                  title={title}
                 />
               )}
+              <p>Minted by {title}</p>
             </div>
           </div>
         </div>
