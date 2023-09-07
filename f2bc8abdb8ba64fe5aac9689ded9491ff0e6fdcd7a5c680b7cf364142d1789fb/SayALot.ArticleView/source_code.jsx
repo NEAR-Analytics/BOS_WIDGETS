@@ -713,7 +713,7 @@ return (
                       authorForWidget,
                       isReply: false,
                     }}
-                    src={widgets.comment}
+                    src={widgets.commentView}
                   />
                 ))}
               </CommentSection>
