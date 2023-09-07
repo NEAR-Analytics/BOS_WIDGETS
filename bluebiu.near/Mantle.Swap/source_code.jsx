@@ -23,6 +23,14 @@ const Wrapper = styled.div`
     padding-bottom: 8px;
   }
 
+  @media (max-width: 900px) {
+    .select-dex-title {
+      display: none;
+    }
+    padding-top: 0px;
+    flex-direction: column;
+  }
+
   .frcs {
     display: flex;
     align-items: start;
@@ -67,6 +75,15 @@ const DappList = styled.div`
     linear-gradient(0deg, #2c4a4b, #2c4a4b);
   border: 1px solid #2c4a4b;
   overflow: hidden;
+
+  @media (max-width: 900px) {
+    border: none;
+    background: none;
+    height: auto;
+    flex-direction: row;
+    overflow: auto;
+    width: 100%;
+  }
 `;
 
 const exchangeIcon = (
@@ -110,6 +127,11 @@ const DappItem = styled.li`
   border-radius: 12px;
   opacity: 0.5;
   cursor: pointer;
+
+  @media (max-width: 900px) {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
   img {
     border: 1px solid #007777;
     padding: 4px;
@@ -129,6 +151,11 @@ const DappItem = styled.li`
     line-height: 19px;
     letter-spacing: 0em;
     text-align: left;
+
+    @media (max-width: 900px) {
+      white-space: nowrap;
+      font-size: 15px;
+    }
   }
   .network-dex {
     font-family: Gantari;
@@ -137,6 +164,10 @@ const DappItem = styled.li`
     line-height: 22px;
     letter-spacing: 0em;
     text-align: left;
+    @media (max-width: 900px) {
+      white-space: nowrap;
+      font-size: 13px;
+    }
   }
 
   &:hover {
@@ -160,6 +191,10 @@ const SwapContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 
   .swap-direction {
     color: #ccdfdd;
@@ -591,7 +626,9 @@ return (
     </div>
 
     <div>
-      <div className="dapp-list-title">{state.selectedDex}</div>
+      <div className="dapp-list-title select-dex-title">
+        {state.selectedDex}
+      </div>
 
       <SwapContainer>
         <div className="swap-direction">Swap From</div>
