@@ -360,6 +360,7 @@ return (
             <Widget
               src={widgets.houses}
               props={{
+                ...props,
                 selectedHouse: state.selectedHouse,
                 houses: state.houses,
                 ids,
