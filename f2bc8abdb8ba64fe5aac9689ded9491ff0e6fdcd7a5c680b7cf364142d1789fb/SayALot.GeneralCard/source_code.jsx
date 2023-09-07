@@ -568,7 +568,7 @@ return (
           </HeaderContent>
         </div>
         <Widget
-          src={widgets.upVote}
+          src={widgets.upVoteButton}
           props={{ isTest, authorForWidget, reactedElementData: data, widgets }}
         />
       </HeaderCard>
