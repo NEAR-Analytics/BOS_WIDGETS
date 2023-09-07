@@ -1,43 +1,47 @@
 const TextContainer = styled.div`
   overflow-y: scroll;
+  overflow-x: hidden;
   max-height: 490px;
   width: 100%;
-  margin: 10px;
+  padding: 15px;
 `;
 
 const Budget = styled.div`
- text-align: justify;
+  text-align: justify;
   p {
     line-height: 18px;
-    font-size: 14px;
+    font-size: 12px;
   }
-  
-   h5, h6, li  {
+
+  h5,
+  h6,
+  li {
     line-height: 20px;
   }
 
-  li  {
+  li {
     line-height: 24px;
-    padding-block:3px;
+    padding-block: 3px;
   }
 
-   h5 {
-    font-weight:650;
-    font-size:18px;
+  h5 {
+    font-weight: 650;
+    font-size: 16px;
   }
 
   h6 {
-    font-weight:550;
-    font-size:17px;
+    font-weight: 550;
+    font-size: 16px;
   }
 
   b {
-    font-weight:600;
+    font-weight: 600;
   }
 `;
 
 const Content = () => (
   <Budget>
+    <h3>House of Merit Setup Package for the Inaugural Congressional Term</h3>
     <br />
     <p>To the Trustees of the Community Treasury and the Voting Body,</p>
     <p>
@@ -237,10 +241,6 @@ const Content = () => (
       The HoM should use the template below to detail the budget, providing
       clarity on the planned allocations for the term.
     </p>
-    <img
-      src="https://bafkreibqnu2m5izw3sf47462fqmp2ve4tfei67tzldbsuzcmpifrbossc4.ipfs.nftstorage.link/"
-      height={200}
-    />
     <p>
       It's vital for the community to have a clear understanding of how funds
       are intended to be used. This structured approach ensures the HoM's budget
@@ -249,24 +249,12 @@ const Content = () => (
     </p>
     <br />
     <br />
-    <br />
-    <br />
-    <br />
-    <h4>Template : Budget Breakdown</h4>
-    <img
-      src="https://bafybeiesmrpom3hf5s4h5w6syaxvet7cthg5egab2ocpimfzr2gpfubgwa.ipfs.nftstorage.link/"
-      height={1000}
-    />
   </Budget>
 );
 
 return (
   <>
-    <a
-      href="https://bafybeifjibo3ygatrlpszzhqososzw3rlitrgdudkrc6fceo3musandgfm.ipfs.nftstorage.link/"
-      target="_blank"
-      rel="noreferrer"
-    >
+    <a href="https://bafybeifjibo3ygatrlpszzhqososzw3rlitrgdudkrc6fceo3musandgfm.ipfs.nftstorage.link/">
       View Budget Package
       <i className="ml-2 bi bi-box-arrow-up-right" />
     </a>
