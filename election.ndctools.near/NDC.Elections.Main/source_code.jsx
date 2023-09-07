@@ -369,13 +369,15 @@ return (
                 houses: state.houses,
                 ids,
                 handleSelect,
-                votesLeft: state.iahToken ? (house) => votesLeft(house) : null,
+                votesLeft: !!state.iahToken
+                  ? (house) => votesLeft(house)
+                  : null,
               }}
             />
           </div>
 
           {currentUser &&
-          state.iahToken &&
+          !!state.iahToken &&
           state.winnerIds.length > 0 &&
           !state.iVotedToken ? (
             <UnbondContainer className={`not-verified d-flex flex-column`}>
@@ -402,7 +404,7 @@ return (
             </UnbondContainer>
           ) : (
             <>
-              {currentUser && state.iahToken && (
+              {!!state.iahToken && (
                 <Widget
                   src={widgets.progress}
                   props={{ houses: state.houses, handleSelect, votesLeft }}
