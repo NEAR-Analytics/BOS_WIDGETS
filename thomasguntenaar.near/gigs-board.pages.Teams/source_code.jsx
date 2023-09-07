@@ -57,45 +57,22 @@ const devHubAccountId =
   (context.widgetSrc ?? "devgovgigs.near").split("/", 1)[0];
 
 const DevHub = {
-  get_root_members: () =>
-    Near.view(devHubAccountId, "get_root_members") ?? null,
-
-  has_moderator: ({ account_id }) =>
-    Near.view(devHubAccountId, "has_moderator", { account_id }) ?? null,
-
-  create_community: ({ inputs }) =>
-    Near.call(devHubAccountId, "create_community", { inputs }),
-
-  get_community: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
-
-  get_account_community_permissions: ({ account_id, community_handle }) =>
-    Near.view(devHubAccountId, "get_account_community_permissions", {
-      account_id,
-      community_handle,
-    }) ?? null,
-
-  update_community: ({ handle, community }) =>
-    Near.call(devHubAccountId, "update_community", { handle, community }),
-
-  delete_community: ({ handle }) =>
-    Near.call(devHubAccountId, "delete_community", { handle }),
-
-  update_community_board: ({ handle, board }) =>
-    Near.call(devHubAccountId, "update_community_board", { handle, board }),
-
-  update_community_github: ({ handle, github }) =>
-    Near.call(devHubAccountId, "update_community_github", { handle, github }),
+  edit_community_github: ({ handle, github }) =>
+    Near.call(devHubAccountId, "edit_community_github", { handle, github }) ??
+    null,
 
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
   get_all_authors: () => Near.view(devHubAccountId, "get_all_authors") ?? null,
 
-  get_all_communities_metadata: () =>
-    Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
+  get_all_communities: () =>
+    Near.view(devHubAccountId, "get_all_communities") ?? null,
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
+
+  get_community: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community", { handle }) ?? null,
 
   get_post: ({ post_id }) =>
     Near.view(devHubAccountId, "get_post", { post_id }) ?? null,
@@ -108,7 +85,10 @@ const DevHub = {
       label,
     }) ?? null,
 
-  useQuery: (name, params) => {
+  get_root_members: () =>
+    Near.view(devHubAccountId, "get_root_members") ?? null,
+
+  useQuery: ({ name, params }) => {
     const initialState = { data: null, error: null, isLoading: true };
 
     const cacheState = useCache(
@@ -133,6 +113,40 @@ const DevHub = {
   },
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
+/* INCLUDE: "entity/viewer" */
+const access_control_info = DevHub.useQuery({
+  name: "access_control_info",
+});
+
+const Viewer = {
+  can: {
+    editCommunity: (communityData) =>
+      Struct.typeMatch(communityData) &&
+      (communityData.admins.includes(context.accountId) ||
+        Viewer.role.isDevHubModerator),
+  },
+
+  role: {
+    isDevHubModerator:
+      access_control_info.data === null || access_control_info.isLoading
+        ? false
+        : access_control_info.data.members_list[
+            "team:moderators"
+          ]?.children?.includes?.(context.accountId) ?? false,
+  },
+};
+/* END_INCLUDE: "entity/viewer" */
+
+const isContractOwner = nearDevGovGigsContractAccountId == context.accountId;
+
+State.init({
+  labelData: null,
+  teamData: null,
+  createTeam: false,
+  createLabel: false,
+  isEditorActive: false,
+  editTeams: true, // TODO false
+});
 
 const access_info = DevHub.get_access_control_info() ?? null,
   root_members = DevHub.get_root_members() ?? null;
@@ -141,21 +155,198 @@ if (!access_info || !root_members) {
   return <div>Loading...</div>;
 }
 
+function addLabel(labelData) {
+  Near.call([
+    {
+      contractName: nearDevGovGigsContractAccountId,
+      methodName: "set_restricted_rules",
+      args: {
+        rules: {
+          [labelData.name]: {
+            description: labelData.description,
+            rule_metadata_version: "V0",
+          },
+        },
+      },
+      deposit: Big(0).pow(21),
+      gas: Big(10).pow(12).mul(100),
+    },
+  ]);
+}
+
+function addTeam(teamData) {
+  let permissions = {};
+  let labels = teamData.label.split(",");
+  labels.forEach((element) => {
+    permissions[element] = ["edit-post", "use-labels"];
+  });
+  Near.call([
+    {
+      contractName: nearDevGovGigsContractAccountId,
+      methodName: "add_member",
+      args: {
+        member: `team:${teamData.name}`,
+        metadata: {
+          member_metadata_version: "V0",
+          description: teamData.description,
+          permissions,
+          children: [],
+          parents: [],
+        },
+      },
+      deposit: Big(0).pow(21),
+      gas: Big(10).pow(12).mul(100),
+    },
+  ]);
+}
+
+// Check for the edit state and sufficient user permissions, it is passed down
+// to the TeamInfo widget
+const editMode =
+  (Viewer.role.isDevHubModerator || isContractOwner) && state.editTeams;
+
 const pageContent = (
-  <div>
-    {widget("entity.team.LabelsPermissions", {
-      rules: access_info.rules_list,
-    })}
-    {Object.keys(root_members).map((member) =>
-      widget(
-        "entity.team.TeamInfo",
-        { member, members_list: access_info.members_list },
-        member
-      )
+  <div className="pt-3">
+    {(Viewer.role.isDevHubModerator || isContractOwner) &&
+      widget("components.layout.Controls", {
+        title: state.editTeams ? "Stop editing" : "Edit Teams",
+        onClick: () => {
+          State.update({
+            editTeams: !state.editTeams,
+            icon: !state.editLabels
+              ? "bi-pencil-square"
+              : "bi-stop-circle-fill",
+          });
+        },
+      })}
+    {editMode &&
+      widget("components.layout.Controls", {
+        title: "Create Restricted labels",
+        onClick: () => {
+          State.update({
+            createLabel: !state.createLabel,
+          });
+        },
+      })}
+    <div className="pt-3">
+      {widget("entity.team.LabelsPermissions", {
+        rules: access_info.rules_list,
+        editMode: editMode,
+      })}
+    </div>
+    {state.createLabel &&
+      widget("components.organism.editor", {
+        classNames: {
+          submit: "btn-primary",
+          submitAdornment: "bi-check-circle-fill",
+        },
+        heading: "Restricted labels",
+        isEditorActive: state.isEditorActive,
+        isEditingAllowed: editMode,
+        onChangesSubmit: addLabel,
+        submitLabel: "Accept",
+        data: state.labelData,
+        schema: {
+          name: {
+            inputProps: {
+              min: 2,
+              max: 30,
+              placeholder: "Label name (starts-with:<label>  or <label>)",
+              required: true,
+            },
+            label: "Name",
+            order: 1,
+          },
+          description: {
+            inputProps: {
+              min: 2,
+              max: 60,
+              placeholder: "Label description",
+              required: true,
+            },
+            label: "Description",
+            order: 2,
+          },
+        },
+      })}
+    {editMode && (
+      <div class="pt-3">
+        {widget("components.layout.Controls", {
+          title: "Create team",
+          onClick: () => {
+            State.update({
+              createTeam: !state.createTeam,
+            });
+          },
+        })}
+      </div>
     )}
+    {state.createTeam &&
+      widget("components.organism.editor", {
+        classNames: {
+          submit: "btn-primary",
+          submitAdornment: "bi-check-circle-fill",
+        },
+        heading: "Team info",
+        isEditorActive: state.isEditorActive,
+        isEditingAllowed: editMode,
+        onChangesSubmit: addTeam,
+        submitLabel: "Accept",
+        data: state.teamData,
+        schema: {
+          name: {
+            inputProps: {
+              min: 2,
+              max: 30,
+              placeholder: "Team name",
+              required: true,
+            },
+            label: "Name",
+            order: 1,
+          },
+          description: {
+            inputProps: {
+              min: 2,
+              max: 60,
+              placeholder: "Team description",
+              required: true,
+            },
+            label: "Description",
+            order: 2,
+          },
+          label: {
+            label: "Labels",
+            order: 3,
+            format: "comma-separated",
+            inputProps: {
+              min: 2,
+              max: 60,
+              placeholder: Object.keys(access_info.rules_list).join(","),
+              required: true,
+            },
+          },
+        },
+      })}
+    {root_members
+      ? Object.keys(root_members).map((member) =>
+          widget(
+            "entity.team.TeamInfo",
+            {
+              member,
+              members_list: access_info.members_list,
+              rules_list: access_info.rules_list,
+              teamLevel: true,
+              root_members,
+              teamId: member,
+              editMode: editMode,
+            },
+            member
+          )
+        )
+      : null}
   </div>
 );
 
-return widget("components.template.app-layout", {
+return widget("components.layout.Page", {
   children: pageContent,
 });
