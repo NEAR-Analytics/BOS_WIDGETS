@@ -79,8 +79,6 @@ body {
 <div id="react-root"></div>
 
 <script>
-let isEditorInitialized = false;
-
 function MarkdownEditor(props) {
     const [value, setValue] = React.useState(props.initialText || "");
 
@@ -156,8 +154,8 @@ function MarkdownEditor(props) {
         
         // Initializes SimpleMDE element and attaches to text-area
         const simplemde = new SimpleMDE({
-            forceSync: true,
             element: document.getElementById("markdown-input"),
+            forceSync: true,
             autofocus: ${autoFocus},
             renderingConfig: ${renderingConfig},
             placeholder: "${placeholder}",
@@ -176,21 +174,6 @@ function MarkdownEditor(props) {
             const content = simplemde.value();
             window.parent.postMessage({ handler: "update", content }, "*");
         };
-
-
-        let isEditorInitialized = false;
-
-        window.addEventListener("message", (event) => {
-          console.log(event.data.content);
-          // if (isEditorInitialized ) {
-            simplemde.value(event.data.content)
-            // const textarea = document.getElementById("markdown-input");
-            // if (textarea) {
-            //   textarea.value = event.data.content;
-            // }
-          //   console.log(event.data.content);
-          // }
-        });
 
         /**
          * Sends message to Widget to update iframe height
@@ -214,12 +197,8 @@ const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
 window.addEventListener("message", (event) => {
-  if (!isEditorInitialized ) {
     root.render(React.createElement(MarkdownEditor, {
-      initialText: event.data.content
-    }));
-    isEditorInitialized = true;
-  }
+        initialText: event.data.content }));
 });
 </script>
 `;
