@@ -43,10 +43,10 @@ const widgets = {
 };
 
 const housesMapping = {
-  CouncilOfAdvisors: "Council Of Advisors",
-  HouseOfMerit: "House of Merit",
-  TransparencyCommission: "Transparency Commission",
-  SetupPackage: "Budget Package",
+  CouncilOfAdvisors: "CoA",
+  HouseOfMerit: "HoM",
+  TransparencyCommission: "TC",
+  SetupPackage: "BP",
 };
 
 return (
@@ -58,7 +58,7 @@ return (
           href={`https://explorer.mainnet.near.org/transactions/${vote.transaction_id}`}
           className="d-flex justify-content-between align-items-center"
         >
-          <div className="d-flex align-items-center w-50">
+          <div className="d-flex align-items-center w-75">
             <div>
               {vote.house !== "SetupPackage" ? (
                 <Widget
@@ -95,7 +95,7 @@ return (
               </small>
             </AccountBlock>
           </div>
-          <Tag className="w-50">
+          <Tag className="w-25">
             <Widget
               src={widgets.styledComponents}
               props={{
