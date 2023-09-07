@@ -1,4 +1,5 @@
-let { houses, ids, electionContract, selectedHouse, votesLeft } = props;
+let { houses, ids, electionContract, selectedHouse, votesLeft, urlProps } =
+  props;
 ids = ids ?? [1, 2, 3, 4];
 
 State.init({ houses: houses ?? [] });
@@ -88,12 +89,12 @@ const ItemContainer = styled.a`
 
 const buildURL = (houseId) => {
   const arr = [];
-  if (props.ids) arr.push(`ids=[${props.ids}]`);
-  if (props.election_contract)
-    arr.push(`election_contract=${props.election_contract}`);
-  if (props.registry_contract)
-    arr.push(`registry_contract=${props.registry_contract}`);
-  if (props.house) arr.push(`house=${houseId}`);
+  if (urlProps.ids) arr.push(`ids=[${urlProps.ids}]`);
+  if (urlProps.election_contract)
+    arr.push(`election_contract=${urlProps.election_contract}`);
+  if (urlProps.registry_contract)
+    arr.push(`registry_contract=${urlProps.registry_contract}`);
+  if (urlProps.house) arr.push(`house=${houseId}`);
 
   return "?" + arr.join("&");
 };
