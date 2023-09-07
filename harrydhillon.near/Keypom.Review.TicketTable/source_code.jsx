@@ -42,21 +42,8 @@ const ActionButton = styled.button`
   cursor: pointer;
 `;
 
-const ticketObj = {
-  selected: "Custom Amount",
-  ticketName: "Gold ticket (VIP)",
-  description:
-    "This ticket provides you access to the best in class events across the board",
-  from: "2023-08-09",
-  to: "2023-08-22",
-  passValid: "2023-08-30",
-  numberOfTickets: "200",
-  nearAmountForTicket: "7.3",
-  ticketPricing: "7.3",
-};
-
 const ticketValue = JSON.parse(Storage.get("tickets"));
-console.log(ticketValue);
+
 function extractDateComponents(dateStr) {
   const dateObj = new Date(dateStr);
 
@@ -168,23 +155,22 @@ return (
   </>
 );
 
-
-  //  <div style={{ width: 350, marginLeft: "auto" }}>
-  //     {bottomTickets.map((item) => (
-  //       <div style={{ display: "flex", alignItems: "center" }} key={item}>
-  //         <div style={{ width: "60%", fontWeight: "600" }}>{item}</div>
-  //         <div>1.7161 NEAR</div>
-  //       </div>
-  //     ))}
-  //     <div
-  //       style={{
-  //         display: "flex",
-  //         alignItems: "center",
-  //         marginTop: 10,
-  //         fontWeight: "500",
-  //       }}
-  //     >
-  //       <div style={{ width: "60%" }}>Total</div>
-  //       <div>1.7161 NEAR</div>
-  //     </div>
-  //   </div>
+//  <div style={{ width: 350, marginLeft: "auto" }}>
+//     {bottomTickets.map((item) => (
+//       <div style={{ display: "flex", alignItems: "center" }} key={item}>
+//         <div style={{ width: "60%", fontWeight: "600" }}>{item}</div>
+//         <div>1.7161 NEAR</div>
+//       </div>
+//     ))}
+//     <div
+//       style={{
+//         display: "flex",
+//         alignItems: "center",
+//         marginTop: 10,
+//         fontWeight: "500",
+//       }}
+//     >
+//       <div style={{ width: "60%" }}>Total</div>
+//       <div>1.7161 NEAR</div>
+//     </div>
+//   </div>
