@@ -124,13 +124,13 @@ return (
             blockchain initiatives.
           </li>
         </ul>
-        <p>Builder Tracks Include: </p>
+        <p>Topics Include: </p>
         <ul>
-          <li>🏆 General</li>
-          <li>📱 Social & NFTs</li>
-          <li>🏛️ Impact & Governance</li>
-          <li>⛓️ Multichain & DeFi</li>
-          <li>🛠️ Dev Experience</li>
+          <li>🏆 Intro to Blockchain & NEAR Protocal</li>
+          <li>📱 Data Retrival & Analysis</li>
+          <li>🏛️ Data Transformation and Visualization</li>
+          <li>⛓️ Governance, DeFi, NFT's, Gaming</li>
+          <li>🛠️ Zero-Knowledge Proofs and More!</li>
         </ul>
         <p>
           {" "}
