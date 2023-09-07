@@ -42,7 +42,7 @@ State.init({
   hasIVotedNFT: null,
   iVotedToken: false,
 });
-
+console.log(state.selectedHouse);
 const currentUser = context.accountId;
 
 const steps = [
