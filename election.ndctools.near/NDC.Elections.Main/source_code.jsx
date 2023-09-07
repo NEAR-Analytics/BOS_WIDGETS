@@ -1,4 +1,4 @@
-let { ids, election_contract, registry_contract } = props;
+let { ids, election_contract, registry_contract, house } = props;
 
 ids = ids ? JSON.parse(ids) : [1, 2, 3, 4];
 const budgetId = ids[3];
@@ -24,7 +24,7 @@ const widgets = {
 
 State.init({
   electionStatus: "NOT_STARTED",
-  selectedHouse: ids[0],
+  selectedHouse: house ?? ids[0],
   myVotes: [],
   winnerIds: [],
   iahToken: null,
@@ -231,10 +231,6 @@ if (state.reload) {
   loadBond();
 }
 
-const handleSelect = (item) => {
-  State.update({ selectedHouse: item.id });
-};
-
 const handleUnbond = () => {
   Near.call(
     registryContract,
@@ -367,7 +363,6 @@ return (
                 selectedHouse: state.selectedHouse,
                 houses: state.houses,
                 ids,
-                handleSelect,
                 votesLeft: !!state.iahToken
                   ? (house) => votesLeft(house)
                   : null,
@@ -406,7 +401,7 @@ return (
               {!!state.iahToken && (
                 <Widget
                   src={widgets.progress}
-                  props={{ houses: state.houses, handleSelect, votesLeft }}
+                  props={{ houses: state.houses, votesLeft }}
                 />
               )}
             </>
