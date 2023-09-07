@@ -35,6 +35,44 @@ const nearLabel = (amount, selected) => (
   </NearAmountBackground>
 );
 
+const showFormError = (key, label) =>
+  state.error[key] ? (
+    <p style={{ fontSize: 14, color: "red", marginTop: -3 }}>
+      {label} is required
+    </p>
+  ) : (
+    <></>
+  );
+
+const executeValidation = () => {
+  const allErrors = {};
+  if (!state.ticketName) {
+    allErrors.ticketName = true;
+  }
+  if (!state.description) {
+    allErrors.description = true;
+  }
+  if (!state.passValid) {
+    allErrors.passValid = true;
+  }
+  if (!state.image) {
+    allErrors.image = true;
+  }
+  if (!state.from) {
+    allErrors.from = true;
+  }
+  if (!state.to) {
+    allErrors.to = true;
+  }
+  if (state.selected === "Custom Amount") {
+    if (!state.nearAmountForTicket) {
+      allErrors.nearAmountForTicket = true;
+    }
+  }
+  State.update({ error: allErrors });
+  return allErrors;
+};
+
 const AddTicketModal = (
   <div
     style={{
@@ -64,6 +102,7 @@ const AddTicketModal = (
       }}
       src="harrydhillon.near/widget/Keypom.Components.Input"
     />
+    {showFormError("ticketName", "Ticket Name")}
     <p style={{ fontWeight: "500", marginBottom: -10 }}>Description*</p>
     <Widget
       props={{
@@ -89,6 +128,7 @@ const AddTicketModal = (
       }}
       src="harrydhillon.near/widget/Keypom.Components.Input"
     />
+    {showFormError("description", "Description")}
     <Label style={{ marginLeft: -5, fontWeight: "500" }}>
       Ticket sales valid through*
     </Label>
@@ -110,6 +150,7 @@ const AddTicketModal = (
           },
         }}
       />
+      {showFormError("from", "From")}
     </div>
     <Widget
       src="harrydhillon.near/widget/Keypom.Components.Input"
@@ -128,6 +169,7 @@ const AddTicketModal = (
         },
       }}
     />
+    {showFormError("to", "To")}
     <Widget
       src="harrydhillon.near/widget/Keypom.Components.Input"
       props={{
@@ -145,6 +187,7 @@ const AddTicketModal = (
         },
       }}
     />
+    {showFormError("passValid", "Pass valid through")}
     <p style={{ fontWeight: "500", marginBottom: -10 }}>Number of Tickets*</p>
     <Widget
       props={{
@@ -197,6 +240,7 @@ const AddTicketModal = (
           }}
           src="harrydhillon.near/widget/Keypom.Components.Input"
         />
+        {showFormError("nearAmountForTicket", "Custom Near Amount")}
       </>
     )}
     <p style={{ color: "gray" }}>
@@ -211,17 +255,28 @@ const AddTicketModal = (
       .187 NEAR.
     </p>
     <p style={{ fontWeight: "500", marginBottom: 0 }}>Ticket Artwork</p>
-    <Widget src="harrydhillon.near/widget/Keypom.Components.Imageupload" />
+    <Widget
+      props={{
+        setImageState: (props) => {
+          State.update({ image: props });
+        },
+        imageState: state.image,
+      }}
+      src="harrydhillon.near/widget/Keypom.Components.Imageupload"
+    />
+    {showFormError("image", "Ticket artwork")}
     <button
       onClick={() => {
-        props.onSave({
-          ...state,
-          ticketPricing:
-            state.selected === "Custom Amount"
-              ? state.nearAmountForTicket
-              : state.selected,
-        });
-        // State.update({ fieldVal: "", hasBeenEditUpdated: false });
+        const isValid = Object.keys(executeValidation()).length === 0;
+        if (isValid) {
+          props.onSave({
+            ...state,
+            ticketPricing:
+              state.selected === "Custom Amount"
+                ? state.nearAmountForTicket
+                : state.selected,
+          });
+        }
       }}
       style={{
         width: "100%",
@@ -256,4 +311,4 @@ if (props.editMode && props.isOpen && !state.hasBeenEditUpdated) {
   State.update({ ...props.editVal, hasBeenEditUpdated: true });
 }
 
-return <div style={{ width: 550 }}>{props.isOpen && AddTicketModal}</div>;
+return <div style={{ width: 550 }}>{true && AddTicketModal}</div>;
