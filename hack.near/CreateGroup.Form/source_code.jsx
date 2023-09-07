@@ -114,7 +114,7 @@ const steps = [
 
 return (
   <>
-    <h1 className="h3 fw-bold mb-4">create a group</h1>
+    <h1 className="h3 fw-bold mb-4">Create Group</h1>
     <Widget
       src={`nearui.near/widget/Navigation.Steps`}
       props={{
