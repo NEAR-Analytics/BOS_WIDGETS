@@ -1,4 +1,4 @@
-const { formState, errors } = props; // {renderFooter(state.answers)}
+const { formState, errors } = props;
 
 const initialAnswers = {
   name: formState.name,
@@ -94,6 +94,7 @@ return (
           error: errors["purpose"],
         }}
       />
+      {renderFooter(state.answers)}
     </div>
     <br />
     <div>
@@ -159,5 +160,9 @@ return (
         {errors.links}
       </Error>
     )}
+
+    {renderFooter({
+      links: state.answers.links.filter((l) => l !== null && l !== ""),
+    })}
   </div>
 );
