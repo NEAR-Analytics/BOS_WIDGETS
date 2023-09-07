@@ -5,6 +5,24 @@ const NETWORKS = [
     dex: "Agni",
     icon: "https://assets.coingecko.com/markets/images/1199/small/agni.png",
   },
+  {
+    name: NETWORK_MANTLE,
+    chainId: 5000,
+    dex: "FusionX V3",
+    icon: "https://ipfs.near.social/ipfs/bafkreifiphkr4bvatimqrz2lty4fgygb2awpvbcsri2bny23w47dactnly",
+  },
+  {
+    name: NETWORK_MANTLE,
+    chainId: 5000,
+    dex: "iZiSwap",
+    icon: "https://ipfs.near.social/ipfs/bafkreifsgwu2zd6y2n5alekr5qgdhzoivlkl5wujtq3z7gnm5pw4jy7sgi",
+  },
+  {
+    name: NETWORK_MANTLE,
+    chainId: 5000,
+    dex: "Ammos Finance",
+    icon: "https://ipfs.near.social/ipfs/bafkreicwvufboezdhcjnvmwmy5ctbd7d4zimdivuaawn5g3bs2hxb567ra",
+  },
 ];
 
 const NETWORK_NEAR = "NEAR";
@@ -157,6 +175,7 @@ const rearrangeAssets = () => {
 };
 
 if (state.sender && state.network === NETWORK_MANTLE) {
+  console.log("Check RPC");
   // load weth balance to check rpc availability
   const wethAbiUrl =
     "https://gist.githubusercontent.com/zavodil/40945d102e2b76d2cf364c4930ab562a/raw/6d156ead258b88a1df0f14f8b44ba7f074825345/weth.json";
@@ -590,7 +609,10 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
   return (
     <li
       onClick={() => {
-        if (network.chainId !== state.selectedChainId) {
+        if (
+          network.chainId !== state.selectedChainId ||
+          state.selectedDex !== network.dex
+        ) {
           switchNetwork(Number(network.chainId), network.dex ?? "");
         } else {
           State.update({ isNetworkSelectOpen: false });
@@ -831,6 +853,7 @@ return (
         </>
       )}
     {state.network === NETWORK_MANTLE &&
+      state.selectedDex == "Agni" &&
       state.inputAssetTokenId &&
       state.outputAssetTokenId &&
       state.inputAssetTokenId !== state.outputAssetTokenId &&
@@ -848,10 +871,75 @@ return (
               tokenIn: state.inputAssetTokenId,
               tokenOut: state.outputAssetTokenId,
               tokenOutDecimals: state.outputAsset.metadata.decimals,
+              quoterContractId: state.quoterContract,
               amountIn: expandToken(
                 state.inputAssetAmount,
                 state.inputAsset.metadata.decimals
               ).toFixed(0),
+              reloadPools: state.reloadPools,
+              setReloadPools: (value) =>
+                State.update({
+                  reloadPools: value,
+                }),
+            }}
+          />
+        </>
+      )}
+    {state.network === NETWORK_MANTLE &&
+      ["FusionX V3", "Ammos Finance"].includes(state.selectedDex) &&
+      state.inputAssetTokenId &&
+      state.outputAssetTokenId &&
+      state.inputAssetTokenId !== state.outputAssetTokenId &&
+      state.inputAssetAmount &&
+      state.inputAsset &&
+      state.inputAsset.metadata?.decimals &&
+      state.outputAsset &&
+      state.outputAsset.metadata?.decimals && (
+        <>
+          <Widget
+            src="zavodil.near/widget/ammos-getEstimate"
+            loading={loadingBlock}
+            props={{
+              loadRes: state.loadRes,
+              tokenIn: state.inputAssetTokenId,
+              tokenOut: state.outputAssetTokenId,
+              tokenOutDecimals: state.outputAsset.metadata.decimals,
+              quoterContractId: state.quoterContract,
+              amountIn: expandToken(
+                state.inputAssetAmount,
+                state.inputAsset.metadata.decimals
+              ).toFixed(0),
+              reloadPools: state.reloadPools,
+              setReloadPools: (value) =>
+                State.update({
+                  reloadPools: value,
+                }),
+            }}
+          />
+        </>
+      )}
+    {state.network === NETWORK_MANTLE &&
+      state.selectedDex == "iZiSwap" &&
+      state.inputAssetTokenId &&
+      state.outputAssetTokenId &&
+      state.inputAssetTokenId !== state.outputAssetTokenId &&
+      state.inputAssetAmount &&
+      state.inputAsset &&
+      state.inputAsset.metadata?.decimals &&
+      state.outputAsset &&
+      state.outputAsset.metadata?.decimals && (
+        <>
+          <Widget
+            src="zavodil.near/widget/iziSwap-getEstimate"
+            loading={loadingBlock}
+            props={{
+              loadRes: state.loadRes,
+              tokenIn: state.inputAssetTokenId,
+              tokenOut: state.outputAssetTokenId,
+              tokenInDecimals: state.inputAsset.metadata.decimals,
+              tokenOutDecimals: state.outputAsset.metadata.decimals,
+              quoterContractId: state.quoterContract,
+              amountIn: state.inputAssetAmount,
               reloadPools: state.reloadPools,
               setReloadPools: (value) =>
                 State.update({
