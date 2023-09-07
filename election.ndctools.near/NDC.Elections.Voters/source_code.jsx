@@ -1,4 +1,4 @@
-const { candidateId, iahToken, electionContract, ids } = props;
+const { candidateId, isIAmHuman, electionContract, ids } = props;
 const apiKey = api_key ?? "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 State.init({
@@ -91,7 +91,7 @@ return (
       <VoterItem className="d-flex align-items-center justify-content-between">
         <div className="d-flex align-items-center w-100">
           <Expand />
-          {iahToken && <Bookmark />}
+          {isIAmHuman && <Bookmark />}
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
