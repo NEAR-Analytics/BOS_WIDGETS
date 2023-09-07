@@ -64,48 +64,6 @@ State.init({
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
 
-//TODO check how to do human verification
-
-// function getVerifiedHuman() {
-//   asyncFetch(
-//     `https://api.pikespeak.ai/sbt/has-sbt?holder=${context.accountId}&class_id=1&issuer=fractal.i-am-human.near&with_expired=false&registry=${registry_contract}`,
-//     {
-//       headers: {
-//         "x-api-key": api_key,
-//       },
-//     }
-//   ).then((res) => {
-//     State.update({ verified: res.body });
-//   });
-//   asyncFetch(
-//     `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${accountId}&upvoter=${context.accountId}&contract=${nomination_contract}`,
-//     {
-//       headers: {
-//         "x-api-key": api_key,
-//       },
-//     }
-//   ).then((res) => {
-//     State.update({ voted: res.body });
-//   });
-// }
-// if (state.start) {
-//   getVerifiedHuman();
-//   State.update({
-//     start: false,
-//   });
-// }
-// function handleUpVote() {
-//   Near.call(
-//     nomination_contract,
-//     state.voted ? "remove_upvote" : "upvote",
-//     {
-//       candidate: accountId,
-//     },
-//     300000000000000,
-//     state.voted ? 0 : 1000000000000000000000
-//   );
-// }
-
 const CursorPointer = styled.div`
   cursor: pointer;
 `;
@@ -506,11 +464,6 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
-// const CandidateProps = props.data.nominations ?? {
-//   name: accountId,
-//   tags: ["test", "test2", "martintest3"],
-// };
-
 //Get basic original comments info
 let originalComments = state.comments.filter(
   (comment) => comment.value.comment.originalCommentId === realArticleId
@@ -534,49 +487,6 @@ originalComments = originalComments.map((originalComment) => {
 function stateUpdate(obj) {
   State.update(obj);
 }
-
-// const afilations = JSON.parse(CandidateProps.afiliation) ?? [];
-
-// const afiilationsSort = afilations
-//   .sort((a, b) => new Date(a.end_date) - new Date(b.end_date))
-//   .reverse();
-
-// const issues = [
-//   {
-//     description: CandidateProps.HAYInvolve,
-//     title:
-//       "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
-//   },
-//   {
-//     description: CandidateProps.WIYStrategy,
-//     title: "What is your strategy to develop the NEAR ecosystem?",
-//   },
-//   {
-//     description: CandidateProps.Key_Issue_1,
-//     title:
-//       "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
-//   },
-//   {
-//     description: CandidateProps.Key_Issue_2,
-//     title:
-//       "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
-//   },
-//   {
-//     description: CandidateProps.Key_Issue_3,
-//     title:
-//       "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
-//   },
-//   { description: CandidateProps.addition_platform, title: "Other Platform" },
-// ];
-
-// const titles = [
-//   "How are you involved with the NEAR ecosystem? Why are you a qualified candidate? Why should people vote for you?",
-//   "What is your strategy to develop the NEAR ecosystem?",
-//   "What’s your view and pledge on the issue of User Experience and Accessibility? This issue focuses on improving the user experience, developing the social layer, enhancing the developer experience, and making the Near platform accessible to all users, including those with little technical expertise. It also explores how Near can evoke positive emotions in its users.",
-//   "What’s your view and pledge on the issue of Economic Growth and Innovation? This issue emphasizes the need for economic growth within the NDC, the development of DeFi capabilities, the establishment of fiat ramps, and the support for founders, developers, creators, and builders. It also stresses the importance of launching useful products on the Near mainnet.",
-//   "What’s your view and pledge on the issue of Marketing and Outreach? This issue underscores the importance of marketing to make NEAR a household name, conducting research, participating in conferences and hackathons, integrating with Web 2.0 platforms, and promoting Near as a hub of innovation.",
-//   "Other Platform",
-// ];
 
 function getUserName() {
   const profile = data.authorProfile;
@@ -620,24 +530,6 @@ return (
                   }}
                 />
                 <div className="d-flex flex-column">
-                  {
-                    //   <TagContainer>
-                    //   <Widget
-                    //     src={widgets.styledComponents}
-                    //     props={{
-                    //       Tag: {
-                    //         title:
-                    //           house == "HouseOfMerit"
-                    //             ? "House of Merit"
-                    //             : house == "CouncilOfAdvisors"
-                    //             ? "Council of Advisors"
-                    //             : "Transparency Commission",
-                    //         className: "dark",
-                    //       },
-                    //     }}
-                    //   />
-                    // </TagContainer>
-                  }
                   <NominationTitleContainer>
                     <UserLink
                       target="_blank"
@@ -672,21 +564,6 @@ return (
                 </div>
               </div>
               <div className="d-flex gap-3">
-                {
-                  //   data.nominations.video.length > 0 && (
-                  //   <Widget
-                  //     src={widgets.styledComponents}
-                  //     props={{
-                  //       Link: {
-                  //         text: `Watch Video`,
-                  //         className: "primary dark",
-                  //         icon: <i className="bi bi-play-circle ml-2"></i>,
-                  //         href: data.nominations.video,
-                  //       },
-                  //     }}
-                  //   />
-                  // )
-                }
                 <div className="d-flex flex-column">
                   <Widget
                     src={widgets.upVote}
@@ -723,68 +600,6 @@ return (
               </div>
             </div>
           </div>
-          {
-            //   <div
-            //   className="col-5"
-            //   style={{
-            //     "margin-top": "10px",
-            //     "padding-left": "0",
-            //     "padding-right": "0",
-            //     width: "330px",
-            //   }}
-            // >
-            //   <div>
-            //     <CandidateCard
-            //       style={{
-            //         "border-radius": "8px",
-            //         background: "#F8F8F9",
-            //       }}
-            //     >
-            //       <CandidateContent>
-            //         <ContentHeader>
-            //           <ContentHeaderText>
-            //             {articleToRenderData.articleId}
-            //           </ContentHeaderText>
-            //         </ContentHeader>
-            //         {
-            //             afilations.map((data) => (
-            //             <CandidateInfoDiv>
-            //               <CandidateInfoHeader className="d-flex align-items-center">
-            //                 <CandidateImage
-            //                   src="https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-            //                   alt="pic"
-            //                 ></CandidateImage>
-            //                 <CandidateInfoData>
-            //                   <Widget
-            //                     src={widgets.styledComponents}
-            //                     props={{
-            //                       Tag: { title: data.company_name },
-            //                     }}
-            //                   />
-            //                   <CandidateTime>
-            //                     {data.start_date} - {data.end_date}
-            //                   </CandidateTime>
-            //                 </CandidateInfoData>
-            //               </CandidateInfoHeader>
-            //               <CandidateTextInfo>
-            //                 <SectionTitle>Role Description</SectionTitle>
-            //                 <SectionDescription>
-            //                   <Widget
-            //                     src="mob.near/widget/SocialMarkdown"
-            //                     props={{
-            //                       text: data.role,
-            //                     }}
-            //                   />
-            //                 </SectionDescription>
-            //               </CandidateTextInfo>
-            //             </CandidateInfoDiv>
-            //           ))
-            //         }
-            //       </CandidateContent>
-            //     </CandidateCard>
-            //   </div>
-            // </div>
-          }
           <BodyContainer className="col-12">
             <PlatformCard>
               <PlatformContent>
