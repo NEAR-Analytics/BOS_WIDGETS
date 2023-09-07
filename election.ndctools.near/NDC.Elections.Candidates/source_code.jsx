@@ -119,7 +119,7 @@ const Bookmark = styled.div`
 
   #bookmark.bi-bookmark-fill {
     color: ${(props) =>
-      props.winnerId || props.selected ? "#fff" : "#4498E0"};
+      props.winnerId ? "#198754" : props.selected ? "#fff" : "#4498E0"};
   }
 
   @media (max-width: 400px) {
