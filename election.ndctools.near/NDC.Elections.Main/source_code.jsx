@@ -23,6 +23,7 @@ const widgets = {
 };
 
 State.init({
+  electionStatus: "NOT_STARTED",
   selectedHouse: ids[0],
   myVotes: [],
   winnerIds: [],
@@ -146,7 +147,7 @@ function loadBond() {
   ).then((resp) => {
     if (resp.body) {
       const amount = resp.body.bond ? parseFloat(resp.body.bond) : 0;
-      console.log("bond---", resp.body);
+      console.log("bond ->", resp.body);
       State.update({ isBonded: amount > 0 });
     }
   });
@@ -177,6 +178,14 @@ function loadWinners() {
   });
 
   State.update({ winnerIds });
+}
+
+function loadElectionStatus() {
+  const electionStatus = Near.view(electionContract, "proposal_status", {
+    prop_id: state.selectedHouse,
+  });
+
+  State.update({ electionStatus });
 }
 
 function loadMyVotes() {
@@ -210,6 +219,7 @@ function loadNFT(id, key) {
 
 loadHouses();
 loadSBTs();
+loadElectionStatus();
 loadFlagged();
 loadWinners();
 loadPolicy();
