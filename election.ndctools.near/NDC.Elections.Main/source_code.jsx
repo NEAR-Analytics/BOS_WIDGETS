@@ -126,8 +126,9 @@ function loadSBTs() {
     account: currentUser,
   });
 
-  const findToken = (issuer) =>
-    sbts.find((token) => token[0] === issuer && token[1].length > 0);
+  const findToken = (issuer) => {
+    if (sbts) sbts.find((token) => token[0] === issuer && token[1].length > 0);
+  };
 
   State.update({
     iahToken: findToken(issuer.fractal),
@@ -155,7 +156,6 @@ function loadBond() {
     }
   });
 }
-console.log(state.isBonded);
 
 function loadFlagged() {
   const flagged = Near.view(registryContract, "account_flagged", {
