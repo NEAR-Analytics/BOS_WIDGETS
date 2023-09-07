@@ -1,44 +1,76 @@
 const AbsoluteContainer = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    color: #FFFFFF;
-    padding:30px 24px 20px 24px;
-    border-bottom: 1px #292C42 solid;
-    display:flex;
-    .icon{
-        line-height:56px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: #ffffff;
+  padding: 30px 24px 20px 24px;
+  border-bottom: 1px #292c42 solid;
+  display: flex;
+  .icon {
+    line-height: 56px;
+  }
+  img {
+    width: 52px;
+    height: 52px;
+    margin: 0 14px 0 30px;
+  }
+  .container-text {
+    img {
+      width: 16px;
+      height: 16px;
+      margin: 0 6px 0 0;
     }
-    img{
-        width:52px;
-        height:52px;
-        margin:0 14px 0 30px;
+  }
+  .widget-name {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .account-name {
+    display: inline-block;
+    margin: 0;
+    font-size: 16px;
+  }
+
+  @media (max-width: 900px) {
+    position: relative;
+    padding: 0px;
+    align-items: center;
+    padding: 0px 12px;
+    border-bottom: none;
+    .icon {
+      width: 36px;
+      height: 26px;
+      background-color: #373a53;
+      line-height: 26px;
+      text-align: center;
+      border-radius: 10px;
+      svg {
+        width: 14px !important;
+        height: 12px !important;
+      }
     }
-    .container-text{
-        h3{
-            font-size:20px;
-            font-weight:700;
-        }
-        img{
-            width:16px;
-            height:16px;
-            margin:0 6px 0 0;
-        }
-        p{
-            display:inline-block;
-            margin:0;
-            font-size:16px;
-        }
+    .logo,
+    .avatar,
+    .account-name {
+      display: none;
     }
+    .widget-name {
+      margin-bottom: 0px;
+    }
+    .container-text {
+      text-align: center;
+      flex-grow: 1;
+    }
+  }
 `;
 
 const Banner = styled.a`
-  img{
-    width:100%;
+  img {
+    width: 100%;
   }
   .replaceImg {
-    width:100%;
+    width: 100%;
   }
 `;
 
@@ -72,11 +104,14 @@ return (
     <Link className="icon" href={props.toUrl}>
       {GoBackIcon}
     </Link>
-    <img src={imgSrc} alt="" />
+    <img src={imgSrc} alt="" className="logo" />
     <div className="container-text">
-      <h3>{metadata.name || widgetName}</h3>
-      <img src="https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm" />
-      <p>@{accountId}</p>
+      <h3 className="widget-name">{metadata.name || widgetName}</h3>
+      <img
+        className="avatar"
+        src="https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm"
+      />
+      <p className="account-name">@{accountId}</p>
     </div>
   </AbsoluteContainer>
 );
