@@ -391,7 +391,7 @@ const handleFilter = (option) => {
 const handleStateTransition = () => {
   if (state.filterOption !== "") return;
 
-  switch (state.electionStatus) {
+  switch (electionStatus) {
     case "ONGOING":
       if (!!state.acceptedPolicy)
         State.update({
@@ -503,10 +503,6 @@ const winnerIds = Near.view(electionContract, "winners_by_proposal", {
 });
 
 if (state.reload) {
-  const electionStatus = Near.view(electionContract, "proposal_status", {
-    prop_id: props.id,
-  });
-
   const hasVotedOnAllProposals = Near.view(
     electionContract,
     "has_voted_on_all_proposals",
@@ -520,7 +516,6 @@ if (state.reload) {
   const bookmarked = loadSocialDBData();
 
   State.update({
-    electionStatus: electionStatus ?? state.electionStatus,
     acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
     winnerIds: winnerIds ?? state.winnerIds,
     bookmarked: bookmarked ?? state.bookmarked,
@@ -664,7 +659,7 @@ const CandidateItem = ({ candidateId, votes }) => (
               disabled={
                 alreadyVotedForHouse() ||
                 blacklisted ||
-                state.electionStatus !== "ONGOING"
+                electionStatus !== "ONGOING"
               }
               onClick={() => handleSelectCandidate(candidateId)}
               className="form-check-input"
