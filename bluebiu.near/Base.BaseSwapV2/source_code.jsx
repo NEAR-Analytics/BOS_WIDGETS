@@ -154,9 +154,12 @@ const Title = styled.div`
   line-height: 22px;
   padding-left: 30px;
   padding-bottom: 10px;
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 const Panel = styled.div`
-  width: 560px;
+  width: 100%;
   border-radius: 16px;
   border: 1px solid #2c334b;
   padding: 30px;
@@ -181,6 +184,9 @@ const Price = styled.div`
   text-align: right;
   margin-bottom: 30px;
   margin-top: 20px;
+  @media (max-width: 768px) {
+    margin-top: 10px;
+  }
 `;
 const SwapButton = styled.button`
   width: 100%;
