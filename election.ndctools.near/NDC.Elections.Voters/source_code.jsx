@@ -70,7 +70,7 @@ const TxnSection = styled.div`
 
 const TxnLink = styled.a`
   color: inherit !important;
-  width: 310px;
+  width: 235px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -105,7 +105,7 @@ return (
             title={voter.voter}
           />
         </div>
-        <TxnSection className="d-flex align-items-center w-100">
+        <TxnSection className="d-flex justify-content-end align-items-center w-100">
           <TxnLink
             role="button"
             target="_blank"
