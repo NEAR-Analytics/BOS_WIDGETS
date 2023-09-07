@@ -264,7 +264,6 @@ const handleBridge = (props) => {
       to: BRIDGE_CONTRACT_ADDRESS,
       data: encodedData,
       value: token.symbol === "ETH" ? amountBig : "0",
-      gasLimit,
     })
     .then((tx) => {
       consle.log("tx111111:", tx);
