@@ -115,13 +115,6 @@ const SelectReplicaContainer = styled.div`
     object-fit: contain;
   }
 `;
-
-const SelectGroup = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 2rem auto;
-  align-items:center;
-`;
 State.update({ chains: props.chains });
 const handleChainChange = (chain_id) => {
   try {
@@ -141,63 +134,50 @@ console.log(props?.chains);
 
 return (
   <>
-    <SelectGroup className="form-group">
-      <SelectReplicaContainer>
+    <SelectReplicaContainer>
+      <div
+        className={`select-replica__select ${state.selectIsOpen ? "open" : ""}`}
+        onClick={handleSelectClick}
+      >
+        <div className="select-replica__selected">
+          {state.chains.filter(
+            (chain) => chain.id === state.selectedChain.toString()
+          ) ? (
+            <img
+              src={state.chains
+                .filter((chain) => chain.id === state.selectedChain.toString())
+                .map((c) => c.url)}
+              alt={state.chains
+                .filter((chain) => chain.id === state.selectedChain.toString())
+                .map((c) => c.name)}
+            />
+          ) : (
+            "Select an option"
+          )}
+          <span>▼</span>
+        </div>
         <div
-          className={`select-replica__select ${
+          className={`select-replica__options ${
             state.selectIsOpen ? "open" : ""
           }`}
-          onClick={handleSelectClick}
         >
-          <div className="select-replica__selected">
-            {state.chains.filter(
-              (chain) => chain.id === state.selectedChain.toString()
-            ) ? (
-              <img
-                src={state.chains
-                  .filter(
-                    (chain) => chain.id === state.selectedChain.toString()
-                  )
-                  .map((c) => c.url)}
-                alt={state.chains
-                  .filter(
-                    (chain) => chain.id === state.selectedChain.toString()
-                  )
-                  .map((c) => c.name)}
-              />
+          {state.chains.map((chain) =>
+            chain.id !== state.selectedChain.toString() ? (
+              <div
+                key={chain.id}
+                className={`select-replica__option ${
+                  selectedOption === chain.name ? "selected" : ""
+                }`}
+                onClick={() => handleChainChange(chain.id)}
+              >
+                <img src={chain.url} alt={chain.name} />
+              </div>
             ) : (
-              "Select an option"
-            )}
-            <span>▼</span>
-          </div>
-          <div
-            className={`select-replica__options ${
-              state.selectIsOpen ? "open" : ""
-            }`}
-          >
-            {state.chains.map((chain) =>
-              chain.id !== state.selectedChain.toString() ? (
-                <div
-                  key={chain.id}
-                  className={`select-replica__option ${
-                    selectedOption === chain.name ? "selected" : ""
-                  }`}
-                  onClick={() => handleChainChange(chain.id)}
-                >
-                  <img src={chain.url} alt={chain.name} />
-                </div>
-              ) : (
-                ""
-              )
-            )}
-          </div>
+              ""
+            )
+          )}
         </div>
-      </SelectReplicaContainer>
-      {state.lastMintlink && (
-        <a href={`${state.lastMintLink}`} target="_blank">
-          View Transaction
-        </a>
-      )}
-    </SelectGroup>
+      </div>
+    </SelectReplicaContainer>
   </>
 );
