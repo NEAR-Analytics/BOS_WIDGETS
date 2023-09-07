@@ -21,8 +21,8 @@ const EventDisplayFlex = styled.div`
     align-items: center;
 `;
 
-const eventData = props.eventData??{};
-const ticketValue = props.tickets??[];
+const eventData = props.eventData ?? {};
+const ticketValue = props.tickets ?? [];
 
 return (
   <div style={{ padding: 10 }}>
