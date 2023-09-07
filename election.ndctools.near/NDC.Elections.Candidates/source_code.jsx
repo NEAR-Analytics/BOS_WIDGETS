@@ -616,7 +616,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           </div>
         </div>
       </div>
-      <div className="d-flex w-100 align-items-center justify-content-end gap-6">
+      <div className="d-flex w-100 align-items-center justify-content-end gap-4">
         <NominationLink>
           <Widget
             src={widgets.styledComponents}
