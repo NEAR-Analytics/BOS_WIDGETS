@@ -49,8 +49,8 @@ const onSubmit = (strAmount) => {
     Ethers.provider().getSigner()
   );
   console.log("swap contract");
-  let amount = ethers.utils.parseUnits(strAmount, tokenDecimals);
-  const value = ethers.utils.parseUnits("0", tokenDecimals);
+  let amount = ethers.utils.parseUnits(strAmount, tokenDecimals).toString();
+  const value = ethers.utils.parseUnits("0", tokenDecimals).toString();
   console.log("amount", amount);
   update({ loading: true });
 
