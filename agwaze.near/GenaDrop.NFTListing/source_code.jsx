@@ -72,6 +72,22 @@ function ownsNFT() {
   });
 }
 ownsNFT();
+
+const getSender = () => {
+  return !state.sender
+    ? ""
+    : state.sender.substring(0, 6) +
+        "..." +
+        state.sender.substring(state.sender.length - 4, state.sender.length);
+};
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
+
 function updateTradeportLink() {
   // Function body goes here
   const updatedLink =
@@ -246,6 +262,7 @@ const listAbi = [
   "function nftSale(uint256 price, uint256 tokenId, address seller, address nftContract) public payable {}",
 ];
 
+
 const evmList = () => {
   if (state.amount > 10000000) return;
 
@@ -267,7 +284,7 @@ const evmList = () => {
       tokenId,
       (Number(state.amount) * 1e18).toString(),
       "General",
-      "0xB4bE310666D2f909789Fb1a2FD09a9bEB0Edd99D"
+      state.sender
     )
     .then((transactionHash) => transactionHash.wait())
     .then((ricit) => {
@@ -277,7 +294,9 @@ const evmList = () => {
         message: true,
         error: false,
         loadingListing: false,
-        explorerText: `${currentChainProps[props.chainState].explorer}/tx/${ricit.transactionHash}`,
+        explorerText: `${currentChainProps[props.chainState].explorer}/tx/${
+          ricit.transactionHash
+        }`,
       });
     })
     .catch((err) => {
