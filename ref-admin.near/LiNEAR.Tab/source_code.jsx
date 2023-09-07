@@ -1,16 +1,20 @@
 const TabContainer = styled.div`
-  width:40%;
+  width: 40%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #373A53;
+  background: #373a53;
   border-radius: 8px;
   padding: 1px 2px;
-  border: 1px #373A53 solid;
+  border: 1px #373a53 solid;
+
+  @media (max-width: 770px) {
+    width: 100%;
+  }
 `;
 
 const TabItem = styled.div`
-  flex-grow:1;
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
