@@ -1,6 +1,8 @@
 const { typeToEmptyData, validateType, types } = props;
 
-const initialFormState = typeToEmptyData(types["hack.near/type/community"]);
+const initialFormState = typeToEmptyData(
+  types["astraplusplus.ndctools.near/type/dao"]
+);
 
 // Set default values here
 initialFormState.profileImage =
