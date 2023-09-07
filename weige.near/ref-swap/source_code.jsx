@@ -86,11 +86,10 @@ const ExchangeIcon = (
 );
 
 const ExchangeWrapper = styled.div`
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 16px;
-  
 `;
 
 const Exchange = <ExchangeWrapper>{ExchangeIcon}</ExchangeWrapper>;
@@ -141,38 +140,58 @@ if (!state.timerIntervalSet) {
 }
 
 const Container = styled.div`
-    width: 430px;
-    color: white;
+  width: 430px;
+
+  color: white;
+
+  .swap-title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  @media (max-width: 736px) {
+    width: 100%;
+
+    .swap-title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 19px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: white;
+    }
+  }
 `;
 
 const Refresh = styled.span`
-  margin-left:8px;
-  font-size:12px
+  margin-left: 8px;
+  font-size: 12px;
 `;
 
 const RefreshText = styled.span`
-  margin-left:4px;
+  margin-left: 4px;
   font-size: 12px;
-  color: #7E8A93;
+  color: #7c7f96;
 `;
 
 const RateLine = styled.div`
   display: flex;
-  align-items:center;
+  align-items: center;
+  margin-top: 16px;
   justify-content: space-between;
 `;
 
 const RefreshWrapper = styled.div`
   display: flex;
-  align-items:center;
-  cursor: pointer
+  align-items: center;
+  cursor: pointer;
 `;
 
 const RateWrapper = styled.div`
   display: flex;
-  align-items:center;
+  align-items: center;
   font-size: 12px;
-  color: #7E8A93
+  color: #7c7f96;
 `;
 
 const notEnough = new Big(state.amountIn || 0).gt(
@@ -304,14 +323,7 @@ const inputOnChange = (e) => {
 
 return (
   <Container>
-    <div
-      style={{
-        fontSize: "20px",
-        fontWeight: "700",
-      }}
-    >
-      Swap
-    </div>
+    <div className="swap-title">Swap</div>
     {
       <Widget
         src="weige.near/widget/ref-swap-getEstimate"
