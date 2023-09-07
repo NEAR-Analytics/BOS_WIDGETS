@@ -1,6 +1,6 @@
 const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
-const group = props.group ?? Social.get(`*/thing/${groupId}/**`, "final");
+const group = props.group ?? Social.get(`*/${groupId}/**`, "final");
 
 if (!group) {
   return "Loading...";
