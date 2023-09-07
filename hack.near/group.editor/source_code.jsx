@@ -1,25 +1,12 @@
 const creatorId = props.creatorId ?? "james.near";
 const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
+const initMembers = Social.get(`${creatorId}/graph/${groupId}/**`);
+
 State.init({
+  members: initMembers,
   newMember: "",
 });
-
-function init() {
-  if (groupId === props.groupId) {
-    const initMembers = Social.get(`${creatorId}/graph/${props.groupId}/**`);
-    if (initMembers) {
-      State.update({ members: initMembers });
-    }
-  } else {
-    const groupMembers = Social.get(`${creatorId}/graph/${groupId}/**`);
-    if (groupMembers) {
-      State.update({ members: groupMembers });
-    }
-  }
-}
-
-init();
 
 function addMember(newMember) {
   State.update({
