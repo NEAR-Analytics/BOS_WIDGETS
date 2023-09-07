@@ -269,12 +269,16 @@ return (
           {
             text: "Contracts",
             link: "../../leslug.near/widget/NearContractVisualizerV2",
+            title: "Top NEAR projects profiler",
+
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
           },
           {
             text: "Im human",
             link: "../../lord1.near/widget/im-human",
+            title: "I Am Human SBT tracker",
+
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
           },
@@ -309,7 +313,7 @@ return (
             backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
             height: "60px",
             width: "100%",
-            textColor: "white",
+            textColor: `${state.light ? "#391b86" : "#fff"}`,
           }}
         />
 
