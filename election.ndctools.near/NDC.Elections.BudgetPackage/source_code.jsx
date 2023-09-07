@@ -12,15 +12,15 @@ const Budget = styled.div`
   line-height: 18px;
 
   p {
-    margin: 5px 0;
+    margin: 10px 0;
   }
   h3,
   h4 {
-    margin: 10px 0;
+    margin: 15px 0;
   }
   h5,
   h6 {
-    margin: 5px 0;
+    margin: 10px 0;
   }
 `;
 
