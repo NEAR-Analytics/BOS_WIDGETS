@@ -207,7 +207,7 @@ function toggleType(type) {
 }
 
 return (
-  <>
+  <div className="dash_panel">
     {!hasData && (
       <Widget src="juaner.near/widget/ref_burrow-data" props={{ onLoad }} />
     )}
@@ -232,50 +232,66 @@ return (
 
     {/* Yours */}
     {state.type === "yours" && (
-      <div class="flex">
-        {!accountId ? null : (
+      <div class="flex dash_panel_content">
+        <div className="dash_panel_data">
+          {!accountId ? null : (
+            <div class="block">
+              <label class="t">Net APY</label>
+              <span class="v">{apyNetValue || "0"}%</span>
+            </div>
+          )}
           <div class="block">
-            <label class="t">Net APY</label>
-            <span class="v">{apyNetValue || "0"}%</span>
+            <label class="t">Supplied</label>
+            <span class="v">
+              {getSuppliedUSD(props.total_supplied_usd) || "$0"}
+            </span>
           </div>
-        )}
-        <div class="block">
-          <label class="t">Supplied</label>
-          <span class="v">
-            {getSuppliedUSD(props.total_supplied_usd) || "$0"}
-          </span>
+          <div class="block">
+            <label class="t">Borrowed</label>
+            <span class="v">
+              {getBurrowedUSD(props.total_burrowed_usd) || "$0"}
+            </span>
+          </div>
+          <div class="block">
+            <label class="t">Health Factor</label>
+            <span class="v" style={{ color: "#00FFA3" }}>
+              <Widget src="juaner.near/widget/ref-burrow-healthFactor"></Widget>
+            </span>
+          </div>
         </div>
-        <div class="block">
-          <label class="t">Borrowed</label>
-          <span class="v">
-            {getBurrowedUSD(props.total_burrowed_usd) || "$0"}
-          </span>
-        </div>
-        <div class="block">
-          <label class="t">Health Factor</label>
-          <span class="v" style={{ color: "#00FFA3" }}>
-            <Widget src="juaner.near/widget/ref-burrow-healthFactor"></Widget>
-          </span>
-        </div>
-        <div class="block noBorder">
+        <div class="block noBorder dash_panel_pc_action">
           <label class="t">Unclaimed Rewards</label>
-          <div>
-            <div class="flex_center">
-              {unclaimedRewardsIcons.length ? (
-                <>
-                  <div class="flex_center">
-                    <span class="v mr_10">${unclaimedRewards$.toFixed(2)}</span>
-                    {unclaimedRewardsIcons.map((reward) => (
-                      <img src={reward.icon} class="rewardIcon"></img>
-                    ))}
-                  </div>
-                  <div class="claim_button" onClick={handleClaimAll}>
-                    Claim
-                  </div>
-                </>
-              ) : (
-                <span class="v mr_10">$0</span>
-              )}
+          <div class="flex_center">
+            {unclaimedRewardsIcons.length ? (
+              <>
+                <div class="flex_center">
+                  <span class="v mr_10">${unclaimedRewards$.toFixed(2)}</span>
+                  {unclaimedRewardsIcons.map((reward) => (
+                    <img src={reward.icon} class="rewardIcon"></img>
+                  ))}
+                </div>
+                <div class="claim_button" onClick={handleClaimAll}>
+                  Claim
+                </div>
+              </>
+            ) : (
+              <span class="v mr_10">$0</span>
+            )}
+          </div>
+        </div>
+        <div class="block dash_panel_mb_action">
+          <div className="unclaimed_rewards">
+            <label class="t">Unclaimed Rewards</label>
+            <div>
+              <span class="v mr_10">${unclaimedRewards$.toFixed(2)}</span>
+              {unclaimedRewardsIcons.map((reward) => (
+                <img src={reward.icon} class="rewardIcon"></img>
+              ))}
+            </div>
+          </div>
+          <div class="claim_button_wrapper">
+            <div class="claim_button" onClick={handleClaimAll}>
+              Claim
             </div>
           </div>
         </div>
@@ -283,35 +299,39 @@ return (
     )}
     {/* Market */}
     {state.type === "market" && (
-      <div class="flex">
-        <div class="block">
-          <label class="t">Total Supplied</label>
-          <span class="v">
-            ${state.supplied ? parseInt(state.supplied).toLocaleString() : "0"}
-          </span>
-        </div>
-        <div class="block">
-          <label class="t">Total Borrowed</label>
-          <span class="v">
-            ${state.borrowed ? parseInt(state.borrowed).toLocaleString() : "0"}
-          </span>
-        </div>
-        <div class="block">
-          <label class="t">Available Liquidity</label>
-          <span class="v">
-            $
-            {parseInt(
-              Big(state.supplied || 0)
-                .minus(state.borrowed || 0)
-                .toNumber()
-            ).toLocaleString() || "0"}
-          </span>
-        </div>
-        <div class="block noBorder">
-          <label class="t">Daily Rewards</label>
-          <span class="v">${state.dailyRewards || "0"}</span>
+      <div class="flex dash_panel_content">
+        <div className="dash_panel_data dash_panel_market_data">
+          <div class="block">
+            <label class="t">Total Supplied</label>
+            <span class="v">
+              $
+              {state.supplied ? parseInt(state.supplied).toLocaleString() : "0"}
+            </span>
+          </div>
+          <div class="block">
+            <label class="t">Total Borrowed</label>
+            <span class="v">
+              $
+              {state.borrowed ? parseInt(state.borrowed).toLocaleString() : "0"}
+            </span>
+          </div>
+          <div class="block">
+            <label class="t">Available Liquidity</label>
+            <span class="v">
+              $
+              {parseInt(
+                Big(state.supplied || 0)
+                  .minus(state.borrowed || 0)
+                  .toNumber()
+              ).toLocaleString() || "0"}
+            </span>
+          </div>
+          <div class="block noBorder">
+            <label class="t">Daily Rewards</label>
+            <span class="v">${state.dailyRewards || "0"}</span>
+          </div>
         </div>
       </div>
     )}
-  </>
+  </div>
 );
