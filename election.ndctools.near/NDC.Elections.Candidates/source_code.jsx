@@ -104,6 +104,13 @@ const CandidateItemRow = styled.div`
         ? "#4aa6ee"
         : "#d4e4f461"};
   
+  input {
+    &:checked {
+      background-color: ${(props) => (props.winnerId ? "#239f28" : "#0d6efd")};
+      border-color: ${(props) => (props.winnerId ? "#239f28" : "#0d6efd")};
+    }
+  }
+  
   @media (max-width: 400px) {
     padding: 0 10px;
   }
