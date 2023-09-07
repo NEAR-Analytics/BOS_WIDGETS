@@ -90,8 +90,8 @@ return (
             name: "description",
             defaultValue: state.answers.description,
           },
-          onChange: (v) => onValueChange("purpose", v),
-          error: errors["purpose"],
+          onChange: (v) => onValueChange("description", v),
+          error: errors["description"],
         }}
       />
       {renderFooter(state.answers)}
@@ -100,16 +100,6 @@ return (
     <div>
       <div className="d-flex gap-2 justify-content-between">
         <h2 className="h5 fw-bold">
-          <span
-            className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bolder h5 me-2"
-            style={{
-              width: "48px",
-              height: "48px",
-              border: "1px solid #82E299",
-            }}
-          >
-            2
-          </span>
           Links <span className="text-black-50 fw-light small">~ optional</span>
         </h2>
         <Widget
