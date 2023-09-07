@@ -105,6 +105,7 @@ const MenuContainer = styled.div`
       display: grid;
       text-align: center;
       align-items: center;
+      margin-bottom: 0;
       span{
         margin-left: 26px;
         margin-bottom: -28px;
@@ -240,6 +241,9 @@ const historyIcon = (
 const SwapContainer = styled.div`
   position: relative;
   left: calc(50% - 215px);
+  @media (max-width:900px) {
+    left: 0;
+  }
 `;
 const SummaryWrapper = styled.div`
   margin-bottom: 50px;
