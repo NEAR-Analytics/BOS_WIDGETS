@@ -97,9 +97,27 @@ const componentsToRender = [
   <Widget src="harrydhillon.near/widget/Keypom.Tickets.index" />,
   <Widget
     props={{
-      tickets: Storage.get("tickets") ? JSON.parse(Storage.get("tickets")) : [],
-      eventData: Storage.get("formValues")
-        ? JSON.parse(Storage.get("formValues"))
+      tickets: Storage.get(
+        "tickets",
+        "harrydhillon.near/widget/Keypom.Tickets.index"
+      )
+        ? JSON.parse(
+            Storage.get(
+              "tickets",
+              "harrydhillon.near/widget/Keypom.Tickets.index"
+            )
+          )
+        : [],
+      eventData: Storage.get(
+        "formValues",
+        "harrydhillon.near/widget/Keypom.EventInfo.Form"
+      )
+        ? JSON.parse(
+            Storage.get(
+              "formValues",
+              "harrydhillon.near/widget/Keypom.EventInfo.Form"
+            )
+          )
         : {},
     }}
     src="harrydhillon.near/widget/Keypom.Review.index"
