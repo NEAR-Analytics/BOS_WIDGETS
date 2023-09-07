@@ -17,6 +17,7 @@ const Container = styled.div`
     height: 50px;
   }
   .assets_table {
+    display: block;
     width: 100%;
     tr {
       color: #7c7f96;
@@ -71,6 +72,11 @@ const Container = styled.div`
   .double_lines {
     line-height: 16px;
     margin-top: 4px;
+  }
+  @media (max-width: 900px) {
+    .assets_table {
+      display: none;
+    }
   }
 `;
 /** base tool start  */
@@ -276,17 +282,16 @@ const onLoad = (data) => {
 };
 
 const hasData = assets.length > 0 && rewards.length > 0 && account;
-
-const renderAssets = (assets) => {
-  const formatValue = (v) => {
-    if (Big(v).eq(0)) return "0";
-    if (Big(v).lt(0.01)) return hasDollar ? "<$0.01" : "<0.01";
-    return Big(v).toNumber().toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
-  return assets.map((item) => {
+const formatValue = (v) => {
+  if (Big(v).eq(0)) return "0";
+  if (Big(v).lt(0.01)) return hasDollar ? "<$0.01" : "<0.01";
+  return Big(v).toNumber().toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
+const renderAssets = (assets) =>
+  assets.map((item) => {
     const { token_id, icon, symbol, apy, rewardsList, borrowed, usd, asset } =
       item;
     return (
@@ -340,7 +345,69 @@ const renderAssets = (assets) => {
       </tr>
     );
   });
-};
+const renderMbAssets = (data, hasDollar) =>
+  data.map((item) => {
+    const { token_id, icon, symbol, apy, rewardsList, borrowed, usd, asset } =
+      item;
+    return (
+      <div className="mb_row" key={token_id}>
+        <div className="mb_row_header">
+          <div className="mb_row_token">
+            <img src={icon || wnearbase64} class="tokenIcon"></img>
+            {symbol !== "wNEAR" ? symbol : "NEAR"}
+          </div>
+          <div className="double_lines">
+            <div>{formatValue(borrowed)}</div>
+            <div class="text_grey_color">(${formatValue(usd, true)})</div>
+          </div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Borrow Apy</div>
+          <div className="mb_row_value">{toAPY(totalApy)}%</div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Rewards</div>
+          <div className="mb_row_value">
+            {rewardsList.length == 0
+              ? "-"
+              : rewardsList.map((reward) => {
+                  const { rewardPerDay, metadata, rewardAsset } = reward;
+                  return (
+                    <div class="flex_center">
+                      $
+                      {formatValue(
+                        Big(rewardPerDay || 0)
+                          .mul(rewardAsset?.price?.usd || 0)
+                          .toString(),
+                        true
+                      )}
+                      <img
+                        class="rewardIcon ml_5"
+                        src={metadata.icon || wnearbase64}
+                      />
+                    </div>
+                  );
+                })}
+          </div>
+        </div>
+        <div className="mb_row_actions">
+          <div className="action_btn">
+            <Widget
+              src="juaner.near/widget/ref-operation-button"
+              props={{
+                clickEvent: () => {
+                  changeSelectedToken(asset, "burrow");
+                },
+                buttonType: "solid",
+                actionName: "Repay",
+                hoverOn: true,
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  });
 
 function getWnearIcon(icon) {
   State.update({
@@ -382,7 +449,7 @@ return (
 
       {accountId && <tbody>{renderAssets(state.tableData)}</tbody>}
     </table>
-
+    <div className="mb_table">{renderMbAssets(state.tableData)}</div>
     {/** modal */}
     <Widget
       src="juaner.near/widget/ref-market-burrow-repay"
