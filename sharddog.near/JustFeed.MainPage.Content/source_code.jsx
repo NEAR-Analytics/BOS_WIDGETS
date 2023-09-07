@@ -38,7 +38,7 @@ if (state.feedIndex === 0) {
 if (!context.accountId) {
   return (
     <>
-      <div className="tab-content col-sm-10 " style={{textAlign: "center" }}>
+      <div className="tab-content col-sm-10 " style={{ textAlign: "center" }}>
         <h1>Welcome to ShardDog Social</h1>
         <p>
           <i>The future home of the Dog Park</i>
@@ -46,12 +46,13 @@ if (!context.accountId) {
         A platform built on NEAR
         <br />
         That's designed for{" "}
-        <span style={{textDecoration: "line-through"}}>
+        <span style={{ textDecoration: "line-through" }}>
           projects, brands,{" "}
         </span>
         ANYONE
         <br />
         To easily connect & build their AUDIENCE
+        <br />
         <br />
         <div>
           <img
@@ -60,9 +61,11 @@ if (!context.accountId) {
           />
         </div>
         <br />
-        <h3>
-          Woof! Sorry, you need to hold a Social ShardDog to view the feed
-        </h3>
+        <h4>
+          Woof! Sorry, you need to hold a Social ShardDog to view the feed.{" "}
+          <br />
+          Claim one from the link below!
+        </h4>
         <p>
           <a href="https://shard.dog/social" target="_blank">
             Claim a social ShardDog today
