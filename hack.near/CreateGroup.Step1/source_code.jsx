@@ -86,7 +86,6 @@ return (
           size: "md",
           textarea: true,
           inputProps: {
-            rows: 5,
             name: "description",
             defaultValue: state.answers.description,
           },
