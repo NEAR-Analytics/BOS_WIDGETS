@@ -550,8 +550,43 @@ const fundraisingDiv = (
   </div>
 );
 
+const tokenMapping = {
+  NEAR: "NEAR",
+  USDT: {
+    NEP141: {
+      address: "usdt.tether-token.near",
+    },
+  },
+  // Add more tokens here as needed
+};
+
+const reverseTokenMapping = Object.keys(tokenMapping).reduce(
+  (reverseMap, key) => {
+    const value = tokenMapping[key];
+    if (typeof value === "object") {
+      reverseMap[JSON.stringify(value)] = key;
+    }
+    return reverseMap;
+  },
+  {}
+);
+
+function tokenResolver(token) {
+  console.log({token});
+  if (typeof token === "string") {
+    return token;
+  } else if (typeof token === "object") {
+    const tokenString = reverseTokenMapping[JSON.stringify(token)];
+    return tokenString || null;
+  } else {
+    return null; // Invalid input
+  }
+}
+
 function generateDescription(text, amount, token, supervisor) {
-  const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
+  const funding = `###### Requested amount: ${amount} ${tokenResolver(
+    token
+  )}\n###### Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
   return text;
 }
