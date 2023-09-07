@@ -630,11 +630,10 @@ return (
             <div className="d-flex w-100 gap-2 justify-content-between">
               <Widget
                 src={widgets.styledComponents}
-                //TODO review the button text
                 props={{
                   Button: {
                     text: `Add comment`,
-                    disabled: !state.verified,
+                    disabled: !state.verified && context.accountId != accountId,
                     size: "sm",
                     className: "secondary dark w-100 justify-content-center",
                     onClick: () => {
