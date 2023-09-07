@@ -686,67 +686,12 @@ return (
                 {state.sender && Ethers.provider() ? (
                   <SelectGroup className="form-group">
                     <label htmlFor="chainSelect">Select Chain</label>
-                    {/*<select
-                    className="form-select"
-                    value={state.selectedChain}
-                    onChange={handleChainChange}
-                  >
-                    {chains.map((chain) => (
-                      <ChainIcon key={chain.id} value={chain.id}>
-                        {chain.name}
-                      </ChainIcon>
-                    ))}
-                  </select>*/}
-                    <SelectReplicaContainer onClick={handleOutsideClick}>
-                      <div
-                        className={`select-replica__select ${
-                          state.selectIsOpen ? "open" : ""
-                        }`}
-                        onClick={handleSelectClick}
-                      >
-                        <div className="select-replica__selected">
-                          {chains.filter(
-                            (chain) =>
-                              chain.id === state.selectedChain.toString()
-                          ) ? (
-                            <img
-                              src={chains
-                                .filter(
-                                  (chain) =>
-                                    chain.id === state.selectedChain.toString()
-                                )
-                                .map((c) => c.url)}
-                              alt={chains
-                                .filter(
-                                  (chain) =>
-                                    chain.id === state.selectedChain.toString()
-                                )
-                                .map((c) => c.name)}
-                            />
-                          ) : (
-                            "Select an option"
-                          )}
-                          <span>🔻</span>
-                        </div>
-                        <div
-                          className={`select-replica__options ${
-                            state.selectIsOpen ? "open" : ""
-                          }`}
-                        >
-                          {chains.map((chain) => (
-                            <div
-                              key={chain.id}
-                              className={`select-replica__option ${
-                                selectedOption === chain.name ? "selected" : ""
-                              }`}
-                              onClick={() => handleChainChange(chain.id)}
-                            >
-                              <img src={chain.url} alt={chain.name} />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </SelectReplicaContainer>
+                    <Widget
+                      src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                      props={{
+                        chains: chains,
+                      }}
+                    />
                     {state.link && (
                       <a href={`${state.link}`} target="_blank">
                         View Transaction
@@ -756,56 +701,12 @@ return (
                 ) : accountId ? (
                   <SelectGroup>
                     <label htmlFor="chainSelect">Select Chain</label>
-                    <SelectReplicaContainer onClick={handleOutsideClick}>
-                      <div
-                        className={`select-replica__select ${
-                          state.selectIsOpen ? "open" : ""
-                        }`}
-                        onClick={handleSelectClick}
-                      >
-                        <div className="select-replica__selected">
-                          {chains.filter(
-                            (chain) =>
-                              chain.id === state.selectedChain.toString()
-                          ) ? (
-                            <img
-                              src={chains
-                                .filter(
-                                  (chain) =>
-                                    chain.id === state.selectedChain.toString()
-                                )
-                                .map((c) => c.url)}
-                              alt={chains
-                                .filter(
-                                  (chain) =>
-                                    chain.id === state.selectedChain.toString()
-                                )
-                                .map((c) => c.name)}
-                            />
-                          ) : (
-                            "Select an option"
-                          )}
-                          <span>🔻</span>
-                        </div>
-                        <div
-                          className={`select-replica__options ${
-                            state.selectIsOpen ? "open" : ""
-                          }`}
-                        >
-                          {chains.map((chain) => (
-                            <div
-                              key={chain.id}
-                              className={`select-replica__option ${
-                                selectedOption === chain.name ? "selected" : ""
-                              }`}
-                              onClick={() => handleChainChange(chain.id)}
-                            >
-                              <img src={chain.url} alt={chain.name} />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </SelectReplicaContainer>
+                    <Widget
+                      src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                      props={{
+                        chains: chains,
+                      }}
+                    />
                     <div>
                       <Web3Connect
                         className="btn mt-3"
@@ -847,55 +748,12 @@ return (
               {state.sender && Ethers.provider() ? (
                 <SelectGroup className="form-group">
                   <label htmlFor="chainSelect">Select Chain</label>
-                  <SelectReplicaContainer onClick={handleOutsideClick}>
-                    <div
-                      className={`select-replica__select ${
-                        state.selectIsOpen ? "open" : ""
-                      }`}
-                      onClick={handleSelectClick}
-                    >
-                      <div className="select-replica__selected">
-                        {chains.filter(
-                          (chain) => chain.id === state.selectedChain.toString()
-                        ) ? (
-                          <img
-                            src={chains
-                              .filter(
-                                (chain) =>
-                                  chain.id === state.selectedChain.toString()
-                              )
-                              .map((c) => c.url)}
-                            alt={chains
-                              .filter(
-                                (chain) =>
-                                  chain.id === state.selectedChain.toString()
-                              )
-                              .map((c) => c.name)}
-                          />
-                        ) : (
-                          "Select an option"
-                        )}
-                        <span>🔻</span>
-                      </div>
-                      <div
-                        className={`select-replica__options ${
-                          state.selectIsOpen ? "open" : ""
-                        }`}
-                      >
-                        {chains.map((chain) => (
-                          <div
-                            key={chain.id}
-                            className={`select-replica__option ${
-                              selectedOption === chain.name ? "selected" : ""
-                            }`}
-                            onClick={() => handleChainChange(chain.id)}
-                          >
-                            <img src={chain.url} alt={chain.name} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </SelectReplicaContainer>
+                     <Widget
+                    src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                    props={{
+                      chains: chains,
+                    }}
+                  />
                   {state.link && (
                     <a href={`${state.link}`} target="_blank">
                       View Transaction
@@ -905,55 +763,12 @@ return (
               ) : accountId ? (
                 <SelectGroup>
                   <label htmlFor="chainSelect">Select Chain</label>
-                  <SelectReplicaContainer onClick={handleOutsideClick}>
-                    <div
-                      className={`select-replica__select ${
-                        state.selectIsOpen ? "open" : ""
-                      }`}
-                      onClick={handleSelectClick}
-                    >
-                      <div className="select-replica__selected">
-                        {chains.filter(
-                          (chain) => chain.id === state.selectedChain.toString()
-                        ) ? (
-                          <img
-                            src={chains
-                              .filter(
-                                (chain) =>
-                                  chain.id === state.selectedChain.toString()
-                              )
-                              .map((c) => c.url)}
-                            alt={chains
-                              .filter(
-                                (chain) =>
-                                  chain.id === state.selectedChain.toString()
-                              )
-                              .map((c) => c.name)}
-                          />
-                        ) : (
-                          "Select an option"
-                        )}
-                        <span>🔻</span>
-                      </div>
-                      <div
-                        className={`select-replica__options ${
-                          state.selectIsOpen ? "open" : ""
-                        }`}
-                      >
-                        {chains.map((chain) => (
-                          <div
-                            key={chain.id}
-                            className={`select-replica__option ${
-                              selectedOption === chain.name ? "selected" : ""
-                            }`}
-                            onClick={() => handleChainChange(chain.id)}
-                          >
-                            <img src={chain.url} alt={chain.name} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </SelectReplicaContainer>
+                     <Widget
+                    src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                    props={{
+                      chains: chains,
+                    }}
+                  />
                   <div>
                     <Web3Connect
                       className="btn mt-3"
