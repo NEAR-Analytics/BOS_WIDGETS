@@ -26,7 +26,7 @@ State.init({
   selectedHouse: ids[0],
   myVotes: [],
   winnerIds: [],
-  iahToken: false,
+  iahToken: null,
   humanToken: 0,
   blacklisted: false,
   greylisted: false,
@@ -118,13 +118,14 @@ function loadHouses() {
 }
 
 const findToken = (sbts, issuer) => {
+  console.log(sbts);
   if (sbts) sbts.find((token) => token[0] === issuer && token[1].length > 0);
 };
 
 function loadSBTs() {
   const issuer = {
     fractal: "fractal.i-am-human.near",
-    election: "elections-v1.gwg-testing.near",
+    election: electionContract,
   };
   const sbts = Near.view(registryContract, "sbt_tokens_by_owner", {
     account: currentUser,
