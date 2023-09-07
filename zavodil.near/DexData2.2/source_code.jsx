@@ -78,11 +78,11 @@ if (debug) {
             data,
             f,
             //Big(gasData.gasPrice).div(Big(10).pow(9)).toFixed(10) /*"120"*/,
-            "0.05",
+            "0.03",
             undefined,
             undefined,
             [data.inputAssetTokenId, data.outputAssetTokenId],
-            "605169011484526500"
+            undefined // "605169011484526500"
           );
         });
 
@@ -526,6 +526,172 @@ const callTxTrisolaris = (input, onComplete, gasPrice, gasLimit) => {
   }
 };
 
+const callTxIziSwap = (
+  input,
+  onComplete,
+  gasPrice,
+  gasLimit,
+  sqrtPriceLimitX96,
+  path,
+  amountOutMinimum
+) => {
+  console.log("callTxIziSwap", input, path, amountOutMinimum);
+  if (
+    input.sender &&
+    input.routerContract !== undefined &&
+    input.routerAbi &&
+    input.inputAssetAmount &&
+    input.inputAsset.metadata.decimals
+  ) {
+    const value = expandToken(
+      input.inputAssetAmount,
+      input.inputAsset.metadata.decimals
+    ).toFixed();
+
+    const swapContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
+
+    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    const WMNT = "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8";
+    const MNT = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
+
+    if (path[path.length - 1] === MNT || path[0] === MNT) {
+      // Native MNT multicall
+      let attachedValue = "0";
+      if (path[0] === MNT) {
+        path[0] = WMNT;
+        attachedValue = value;
+      }
+
+      if (path[path.length - 1] === MNT) {
+        path[path.length - 1] = WMNT;
+      }
+
+      if (path[0] == path[path.length - 1]) {
+        console.log("Illegal swap");
+        return "";
+      }
+    }
+
+    console.log("path", path);
+
+    const tokenInAddress = path[0];
+    const tokenOutAddress = path[path.length - 1];
+
+    const isX2Y = tokenInAddress.toLowerCase() < tokenOutAddress.toLowerCase();
+    const boundaryPt = isX2Y ? -799999 : 799999;
+
+    /* const inputs = [
+        tokenInAddress,
+        tokenOutAddress,
+        "500",
+        input.outputAssetTokenId === MNT
+          ? "0x0000000000000000000000000000000000000000"
+          : input.sender,
+        deadline.toFixed(),
+        value,
+        amountOutMinimum ?? "0",
+        "0",
+      ];*/
+
+    const multicallParams = [];
+
+    const options = {
+      from: input.sender,
+      value: attachedValue,
+      gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
+      gasLimit: gasLimit ?? 300000,
+    };
+
+    const iface = new ethers.utils.Interface(input.routerAbi);
+
+    if (isX2Y) {
+      const inputs = [
+        {
+          tokenX: tokenInAddress,
+          tokenY: tokenOutAddress,
+          fee: "500",
+          boundaryPt: boundaryPt,
+          recipient:
+            input.outputAssetTokenId === MNT
+              ? "0x0000000000000000000000000000000000000000"
+              : input.sender,
+          amount: value,
+          maxPayed: "0",
+          minAcquired: "0",
+          deadline: deadline.toFixed(),
+        },
+      ];
+      console.log("iface", iface, inputs);
+      const encodedDataCallSwap = iface.encodeFunctionData("swapX2Y", inputs);
+
+      multicallParams.push(encodedDataCallSwap);
+    } else {
+      const inputs = [
+        {
+          tokenX: tokenOutAddress,
+          tokenY: tokenInAddress,
+          fee: "500",
+          boundaryPt: boundaryPt,
+          recipient:
+            input.outputAssetTokenId === MNT
+              ? "0x0000000000000000000000000000000000000000"
+              : input.sender,
+          amount: value,
+          maxPayed: "0",
+          minAcquired: "0",
+          deadline: deadline.toFixed(),
+        },
+      ];
+      console.log("iface", iface, inputs);
+      const encodedDataCallSwap = iface.encodeFunctionData("swapY2X", inputs);
+
+      multicallParams.push(encodedDataCallSwap);
+    }
+
+    if (input.inputAssetTokenId === MNT) {
+      multicallParams.push(iface.encodeFunctionData("refundETH", []));
+    }
+
+    if (input.outputAssetTokenId === MNT) {
+      multicallParams.push(
+        iface.encodeFunctionData("unwrapWETH9", ["0", input.sender])
+      );
+    }
+
+    const multicallData = iface.encodeFunctionData("multicall", [
+      multicallParams,
+    ]);
+
+    console.log("multicallData: ", multicallParams, multicallData);
+
+    const txdata = {
+      ...options,
+      to: selectedDexItem.swapRouter,
+      from: sender,
+      data: multicallData,
+    };
+
+    // return Ethers.provider().getSigner().sendTransaction(txdata);
+
+    swapContract
+      .multicall(multicallParams, options)
+      .then((tx) => {
+        tx.wait().then((receipt) => {
+          console.log(receipt);
+          const { status, transactionHash } = receipt;
+          onSwapCallBack();
+          onComplete(transactionHash);
+        });
+      })
+      .catch(() => {});
+  }
+};
+
 const callTxAgniSwap = (
   input,
   onComplete,
@@ -535,7 +701,7 @@ const callTxAgniSwap = (
   path,
   amountOutMinimum
 ) => {
-  console.log("callTxAgniSwap", input, path, amountOutMinimum);
+  console.log("callTxAgniSwap", DEX, input, path, amountOutMinimum);
   if (
     input.sender &&
     input.routerContract !== undefined &&
@@ -609,13 +775,21 @@ const callTxAgniSwap = (
 
       multicallParams.push(encodedDataCallSwap);
 
+      if (input.inputAssetTokenId === MNT && DEX !== "Agni") {
+        console.log("refundETH push");
+        multicallParams.push(iface.encodeFunctionData("refundETH", []));
+      }
+
       if (input.outputAssetTokenId === MNT) {
         console.log("unwrapWMNT push");
         multicallParams.push(
-          iface.encodeFunctionData("unwrapWMNT", [
-            "0", //amountOutMinimum ?? "0",
-            input.sender,
-          ])
+          iface.encodeFunctionData(
+            DEX === "Agni" ? "unwrapWMNT" : "unwrapWETH9",
+            [
+              "0", //amountOutMinimum ?? "0",
+              input.sender,
+            ]
+          )
         );
       }
 
@@ -1313,6 +1487,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
       } else if (chainIdData.chainId === 5000) {
         // Mantle
         console.log("Mantle", DEX, state);
+        // *** AGNI
         if (DEX === "Agni") {
           if (state.erc20Abi == undefined) {
             const erc20Abi = fetch(
@@ -1350,10 +1525,156 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
             outputAssetTokenId: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
             routerContract: "0x319B69888b0d11cEC22caA5034e25FfFBDc88421", // Agni SwapRouter
+            quoterContract: "0x9488C05a7b75a6FefdcAE4f11a33467bcBA60177",
             dexName: "Agni",
             erc20Abi: state.erc20Abi,
             routerAbi: state.routerAbi,
             callTx: callTxAgniSwap,
+            callTokenApproval: callTokenApprovalEVM,
+          });
+          State.update({ loadComplete: true });
+        }
+        // ** Ammos Finance
+        else if (DEX === "Ammos Finance") {
+          if (state.erc20Abi == undefined) {
+            const erc20Abi = fetch(
+              "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+            );
+            if (!erc20Abi.ok) {
+              return "";
+            }
+            State.update({ erc20Abi: erc20Abi.body });
+          }
+
+          if (state.routerAbi == undefined) {
+            const routerAbi = fetch(
+              "https://gist.githubusercontent.com/zavodil/bd51b45862db40f19d73ac9256d22b39/raw/3f526f2f27a5bd08c4b05b2f69eba2bd3a0df32c/FusionX.abi"
+            );
+            if (!routerAbi.ok) {
+              return "";
+            }
+
+            State.update({ routerAbi: routerAbi.body });
+          }
+
+          if (!state.routerAbi || !state.erc20Abi) return "";
+
+          onLoad({
+            network: NETWORK_MANTLE,
+            assets: [
+              "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9", // USDC
+              "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111", // WETH
+              "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8", // WMNT
+              "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE", // USDT
+              "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000", // MNT
+              "0xCAbAE6f6Ea1ecaB08Ad02fE02ce9A44F09aebfA2", // WBTC
+              "0xAfAF32C57659BC9992b43bc6840A9d997632a0F5", // DAI
+            ],
+            coingeckoNetworkHandle: "mantle",
+            inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
+            outputAssetTokenId: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
+            routerContract: "0xBa68D459210Fc667a97245F71719a479CAFeB571",
+            quoterContract: "0x42cE770b8B765938De04984e006c1B54F1A567f8",
+            dexName: "Ammos Finance",
+            erc20Abi: state.erc20Abi,
+            routerAbi: state.routerAbi,
+            callTx: callTxAgniSwap,
+            callTokenApproval: callTokenApprovalEVM,
+          });
+          State.update({ loadComplete: true });
+        }
+        // ** FusionX V3
+        else if (DEX === "FusionX V3") {
+          if (state.erc20Abi == undefined) {
+            const erc20Abi = fetch(
+              "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+            );
+            if (!erc20Abi.ok) {
+              return "";
+            }
+            State.update({ erc20Abi: erc20Abi.body });
+          }
+
+          if (state.routerAbi == undefined) {
+            const routerAbi = fetch(
+              "https://gist.githubusercontent.com/zavodil/bd51b45862db40f19d73ac9256d22b39/raw/3f526f2f27a5bd08c4b05b2f69eba2bd3a0df32c/FusionX.abi"
+            );
+            if (!routerAbi.ok) {
+              return "";
+            }
+
+            State.update({ routerAbi: routerAbi.body });
+          }
+
+          if (!state.routerAbi || !state.erc20Abi) return "";
+
+          onLoad({
+            network: NETWORK_MANTLE,
+            assets: [
+              "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9", // USDC
+              "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111", // WETH
+              "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8", // WMNT
+              "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE", // USDT
+              "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000", // MNT
+              "0xCAbAE6f6Ea1ecaB08Ad02fE02ce9A44F09aebfA2", // WBTC
+            ],
+            coingeckoNetworkHandle: "mantle",
+            inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
+            outputAssetTokenId: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
+            routerContract: "0x5989FB161568b9F133eDf5Cf6787f5597762797F",
+            quoterContract: "0x90f72244294E7c5028aFd6a96E18CC2c1E913995",
+            dexName: DEX,
+            erc20Abi: state.erc20Abi,
+            routerAbi: state.routerAbi,
+            callTx: callTxAgniSwap,
+            callTokenApproval: callTokenApprovalEVM,
+          });
+          State.update({ loadComplete: true });
+        }
+        // **** iZiSwap
+        else if (DEX === "iZiSwap") {
+          if (state.erc20Abi == undefined) {
+            const erc20Abi = fetch(
+              "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+            );
+            if (!erc20Abi.ok) {
+              return "";
+            }
+            State.update({ erc20Abi: erc20Abi.body });
+          }
+
+          if (state.routerAbi == undefined) {
+            const routerAbi = fetch(
+              "https://gist.githubusercontent.com/zavodil/65208ead999c3cd17cbd7edc6b843413/raw/709b2f44b7de2b8557ad74a82c1bf4efc4efbe3c/iZiSwap.txt"
+            );
+            if (!routerAbi.ok) {
+              return "";
+            }
+
+            State.update({ routerAbi: routerAbi.body });
+          }
+
+          if (!state.routerAbi || !state.erc20Abi) return "";
+
+          onLoad({
+            network: NETWORK_MANTLE,
+            assets: [
+              "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9", // USDC
+              "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111", // WETH
+              "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8", // WMNT
+              "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE", // USDT
+              "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000", // MNT
+              "0xCAbAE6f6Ea1ecaB08Ad02fE02ce9A44F09aebfA2", // WBTC
+            ],
+            coingeckoNetworkHandle: "mantle",
+            inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
+            outputAssetTokenId: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
+            routerContract: "0x25C030116Feb2E7BbA054b9de0915E5F51b03e31",
+            quoterContract: "0x032b241De86a8660f1Ae0691a4760B426EA246d7",
+            dexName: DEX,
+            erc20Abi: state.erc20Abi,
+            routerAbi: state.routerAbi,
+            callTx: callTxIziSwap,
             callTokenApproval: callTokenApprovalEVM,
           });
           State.update({ loadComplete: true });
