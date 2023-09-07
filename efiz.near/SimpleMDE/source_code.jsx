@@ -207,10 +207,26 @@ window.addEventListener("message", (event) => {
         initialText: event.data.content }));
         isEditorInitialized = true;
   } else {
-    const textarea = document.querySelector('textarea[id="markdown-input"]');
+    try {
+  const textarea = document.querySelector('textarea[name="markdown-input"]');
+  if (textarea) {
     const codeMirrorElement = textarea.nextElementSibling.querySelector('.CodeMirror');
-    const codeMirrorInstance = codeMirrorElement.CodeMirror;
-    codeMirrorInstance.getDoc().setValue(event.data.content);
+    if (codeMirrorElement) {
+      const codeMirrorInstance = codeMirrorElement.CodeMirror;
+      if (codeMirrorInstance) {
+        codeMirrorInstance.getDoc().setValue(event.data.content);
+      } else {
+        console.error("CodeMirror instance not found");
+      }
+    } else {
+      console.error("CodeMirror element not found");
+    }
+  } else {
+    console.error("Textarea not found");
+  }
+} catch (error) {
+  console.error("An error occurred:", error);
+}
   }
 });
 </script>
