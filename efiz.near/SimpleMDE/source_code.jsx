@@ -218,6 +218,7 @@ window.addEventListener("message", (event) => {
   } else {
     if (isAtSymbolTyped && event.data.content !== codeMirrorInstance.getDoc().getValue()) {
         codeMirrorInstance.getDoc().setValue(event.data.content);
+        isAtSymbolTyped = false;
     }
   }
 });
