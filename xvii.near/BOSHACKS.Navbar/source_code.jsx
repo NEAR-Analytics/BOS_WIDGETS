@@ -1,4 +1,4 @@
-const ownerId = "ndcplug.near";
+const ownerId = "xvii.near";
 
 const Navbar = styled.div`
   z-index: 2;
@@ -207,7 +207,7 @@ const Info = styled.div`
   }
 `;
 
-const info = <Info>Aug 25- Sep 10 </Info>;
+const info = <Info>Sept 27- Dec 6 </Info>;
 
 const actions = (
   <ActionArea>
