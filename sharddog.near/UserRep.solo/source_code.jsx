@@ -39,7 +39,7 @@ const cellStyle = {
 
 const cardStyle = {
   padding: "10px",
-  width: "680px",
+  width: "640px",
   maxWidth: "100%",
   background: "rgba(251, 249, 245, 0.85)",
   filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15))",
@@ -48,7 +48,7 @@ const cardStyle = {
   justifyContent: "center",
   marginTop: "20px",
   margin: "20px Auto",
-  color:"black"
+  color: "black",
 };
 
 const centered = {
@@ -82,7 +82,6 @@ const bottomRightTop = {
   zIndex: "1000",
   fontWeight: "500",
   fontSize: "14px",
-  backgroundColor: "#ffffff",
   backgroundClip: "text",
   color: "white",
 };
@@ -94,7 +93,7 @@ const bottomRight = {
   zIndex: "1000",
   fontWeight: "900",
   fontSize: "30px",
-  backgroundColor: "#ffffff",
+  backgroundColor: "#fff",
   backgroundClip: "text",
   color: "transparent",
   textShadow: "rgba(245,245,245,0.5) 1px 2px 1px",
@@ -237,7 +236,7 @@ return (
               image,
               alt: title,
               className: "img-fluid rounded-3",
-              style: { maxWidth: "680px" },
+              style: { maxWidth: "640px" },
               thumbnail,
               fallbackUrl:
                 "https://ipfs.near.social/ipfs/bafkreigx4syocpq3spthgozerqnqjf4k7ri5jrsslgali7tslvfmjrefte",
@@ -330,18 +329,6 @@ return (
                   nominationInteractions,
                   (v) => v > 20,
                   (v) => v >= 3 && v <= 20
-                ),
-              }}
-            >
-              <td>Nomination Interactions (max 50)</td>
-              <td>{nominationInteractions}</td>
-            </tr>
-            <tr
-              style={{
-                backgroundColor: getBackgroundColor(
-                  storageUsed,
-                  (v) => v > 20000,
-                  (v) => v >= 5000 && v <= 20000
                 ),
               }}
             >
