@@ -82,7 +82,6 @@ body {
 <script>
 let codeMirrorInstance;
 let isEditorInitialized = false;
-let isAtSymbolTyped = false;
 
 function MarkdownEditor(props) {
     const [value, setValue] = React.useState(props.initialText || "");
@@ -195,10 +194,7 @@ function MarkdownEditor(props) {
         };
 
         // On Change
-        simplemde.codemirror.on('change', (instance, changeObj) => {
-            if (changeObj.text[0] === '@') {
-              isAtSymbolTyped = true;
-            }
+        simplemde.codemirror.on('change', () => {
             updateContent();
             updateIframeHeight();
         });
@@ -216,10 +212,9 @@ window.addEventListener("message", (event) => {
         initialText: event.data.content }));
         isEditorInitialized = true;
   } else {
-    if (isAtSymbolTyped && event.data.content !== codeMirrorInstance.getDoc().getValue()) {
+    if (event.data.handler === 'autocompleteSelected') {
         codeMirrorInstance.getDoc().setValue(event.data.content);
-        isAtSymbolTyped = false;
-    }
+      }
   }
 });
 </script>
