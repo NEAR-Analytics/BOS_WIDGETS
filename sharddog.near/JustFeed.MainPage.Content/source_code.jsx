@@ -38,7 +38,16 @@ if (state.feedIndex === 0) {
 if (!context.accountId) {
   return (
     <>
-      <div className="tab-content col-sm-10">
+      <div className="tab-content col-sm-10 " style={{textAlign:"center,"}}>
+        <h1>Welcome to ShardDog</h1>
+        <br />
+        <div>
+          <img
+            src="https://my.shard.dog/images/sharddogNFT.jpeg"
+            width="300px"
+          />
+        </div>
+        <br />
         <h3>
           Woof! Sorry, you need to hold a Social ShardDog to view the feed
         </h3>
@@ -106,7 +115,7 @@ if (holder) {
         <Greeting />, you currently hold <b>{nftDataCount} </b> ShardDogs <br />
         {canShare}
         <br />
-        This is a super early beta, feedback is welcome 🐶
+        This is a beta, feedback is welcome 🐶
       </p>
       {state.feedIndex === 2 ? (
         <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
@@ -121,7 +130,16 @@ if (holder) {
 } else {
   return (
     <>
-      <div className="tab-content col-sm-10">
+ <div className="tab-content col-sm-10 " style={{textAlign:"center,"}}>
+        <h1>Welcome to ShardDog</h1>
+        <br />
+        <div>
+          <img
+            src="https://my.shard.dog/images/sharddogNFT.jpeg"
+            width="300px"
+          />
+        </div>
+        <br />
         <h3>
           Woof! Sorry, you need to hold a Social ShardDog to view the feed
         </h3>
