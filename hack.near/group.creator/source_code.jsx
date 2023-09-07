@@ -1,11 +1,8 @@
 const { typeToEmptyData, validateType, types } = props;
 
-const initialFormState = typeToEmptyData(
-  types["astraplusplus.ndctools.near/type/dao"]
-);
+const initialFormState = typeToEmptyData(types["hack.near/type/community"]);
 
 // Set default values here
-initialFormState.gracePeriod = 1;
 initialFormState.profileImage =
   "https://ipfs.near.social/ipfs/bafkreiad5c4r3ngmnm7q6v52joaz4yti7kgsgo6ls5pfbsjzclljpvorsu";
 initialFormState.coverImage =
@@ -67,124 +64,74 @@ const handleStepComplete = (value) => {
 };
 
 function handleFormComplete(value) {
-  const sputnikFactoryArgs = {
-    name: value.address.replaceAll(".sputnik-dao.near", ""),
+  Social.set({
+    name: value.account.replaceAll(".sputnik-dao.near", ""),
     // encode args to base64
     args: {
-      purpose: typeof value.purpose === "string" ? value.purpose : "",
-      bond: "100000000000000000000000",
-      vote_period: "604800000000000",
-      grace_period: Big(
-        typeof value.gracePeriod === "number" ? parseInt(value.gracePeriod) : 1
-      ).times(86400000000000),
+      description:
+        typeof value.description === "string" ? value.description : "",
       policy: {
         roles: value.policy.roles,
         default_vote_policy: {
-          weight_kind: "RoleWeight",
           quorum: "0",
           threshold: [1, 2],
         },
         proposal_bond: "100000000000000000000000",
         proposal_period: "604800000000000",
-        bounty_bond: "100000000000000000000000",
-        bounty_forgiveness_period: "604800000000000",
       },
       config: {
-        purpose: typeof value.purpose === "string" ? value.purpose : "",
-        name: value.address.replaceAll(".sputnik-dao.near", ""),
-        // encode metadata to base64
+        description:
+          typeof value.description === "string" ? value.description : "",
+        account: value.account,
         metadata: {
-          soulBoundTokenIssuer:
-            typeof value.soulBoundTokenIssuer === "string"
-              ? value.soulBoundTokenIssuer
-              : undefined,
           links: Array.isArray(value.links) ? value.links : [],
-          flagCover:
+          backgroundImage:
             typeof value.coverImage === "string" ? value.coverImage : "",
-          flagLogo:
+          image:
             typeof value.profileImage === "string" ? value.profileImage : "",
-          displayName: typeof value.name === "string" ? value.name : "",
-          legal: {
-            legalStatus:
-              typeof value.legalStatus === "string" ? value.legalStatus : "",
-            legalLink:
-              typeof value.legalDocument === "string"
-                ? value.legalDocument
-                : "",
-          },
+          name: typeof value.name === "string" ? value.name : "",
         },
       },
     },
-  };
-
-  // encode metadata and args to base64
-  const finalSputnikFactoryArgs = {
-    ...sputnikFactoryArgs,
-    args: Buffer.from(
-      JSON.stringify({
-        ...sputnikFactoryArgs.args,
-        config: {
-          ...sputnikFactoryArgs.args.config,
-          metadata: Buffer.from(
-            JSON.stringify(sputnikFactoryArgs.args.config.metadata)
-          ).toString("base64"),
-        },
-      })
-    ).toString("base64"),
-  };
-
-  Near.call([
-    {
-      contractName: "sputnik-dao.near",
-      methodName: "create",
-      args: finalSputnikFactoryArgs,
-      deposit: "6000000000000000000000000", // 6N
-    },
-  ]);
+  });
 }
 
 const steps = [
   {
-    title: "DAO Info & KYC",
+    title: "About",
     active: state.step === 0,
     icon: state.step > 0 ? <i className="bi bi-check2"></i> : undefined,
     className: state.step > 0 ? "active-outline" : undefined,
   },
   {
-    title: "Links & Socials",
+    title: "Links",
     active: state.step === 1,
     icon: state.step > 1 ? <i className="bi bi-check2"></i> : undefined,
     className: state.step > 1 ? "active-outline" : undefined,
   },
   {
-    title: "Cool Down Period",
+    title: "Policy",
     active: state.step === 2,
     icon: state.step > 2 ? <i className="bi bi-check2"></i> : undefined,
     className: state.step > 2 ? "active-outline" : undefined,
   },
   {
-    title: "Add Groups & Members",
+    title: "Members",
     active: state.step === 3,
     icon: state.step > 3 ? <i className="bi bi-check2"></i> : undefined,
     className: state.step > 3 ? "active-outline" : undefined,
   },
   {
-    title: "Proposal & Voting Permission",
+    title: "Roles",
     active: state.step === 4,
     icon: state.step > 4 ? <i className="bi bi-check2"></i> : undefined,
     className: state.step > 4 ? "active-outline" : undefined,
-  },
-  {
-    title: "DAO Assets",
-    active: state.step === 5,
-    icon: state.step > 5 ? <i className="bi bi-check2"></i> : undefined,
-    className: state.step > 5 ? "active-outline" : undefined,
   },
 ];
 
 return (
   <>
-    <h1 className="h3 fw-bold mb-4">Create a new DAO</h1>
+    <h1 className="h3 fw-bold mb-4">create a group</h1>
     <Widget
       src={`nearui.near/widget/Navigation.Steps`}
       props={{
@@ -198,14 +145,14 @@ return (
       }}
     />
     <Widget
-      src={`astraplusplus.ndctools.near/widget/CreateDAO.Step${state.step + 1}`}
+      src={`hack.near/widget/CreateGroup.Step${state.step + 1}`}
       props={{
         formState: state.form,
         onComplete: handleStepComplete,
         errors: state.errors,
         renderFooter: (stepState, otherProps) => (
           <Widget
-            src={`astraplusplus.ndctools.near/widget/CreateDAO.Footer`}
+            src={`hack.near/widget/CreateGroup.Footer`}
             props={{
               isLast: state.step >= steps.length - 1,
               hasPrevious: state.step > 0,
