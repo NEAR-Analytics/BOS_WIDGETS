@@ -84,6 +84,8 @@ return (
           label: "Description",
           placeholder: "What is the group about?",
           size: "md",
+          rows: 5,
+          textarea: true,
           inputProps: {
             name: "description",
             defaultValue: state.answers.description,
@@ -93,59 +95,6 @@ return (
         }}
       />
     </div>
-    <br />
-    <div>
-      <div className="d-flex gap-2 justify-content-between mb-2">
-        <h2 className="h5 fw-bold">
-          Links <span className="text-black-50 fw-light small">~ optional</span>
-        </h2>
-        <Widget
-          src="nearui.near/widget/Input.Button"
-          props={{
-            children: <i className="bi bi-plus-lg" />,
-            variant: "icon info outline",
-            size: "lg",
-            onClick: onAddLink,
-          }}
-        />
-      </div>
-    </div>
-
-    {state.answers.links.map((l, i) => (
-      <div
-        className={[
-          "d-flex align-items-center gap-2",
-          l === null && "d-none",
-        ].join(" ")}
-      >
-        <Widget
-          src="nearui.near/widget/Input.ExperimentalText"
-          props={{
-            placeholder: "https://",
-            size: "lg",
-            onChange: (v) => onLinkChange(i, v),
-            inputProps: {
-              name: `link-${i}`,
-              defaultValue: l,
-            },
-          }}
-        />
-        <Widget
-          src="nearui.near/widget/Input.Button"
-          props={{
-            children: <i className="bi bi-trash" />,
-            variant: "icon danger outline",
-            size: "lg",
-            onClick: () => onRemoveLink(i),
-          }}
-        />
-      </div>
-    ))}
-    {errors.links && (
-      <Error className={errors.links ? "show" : ""} size={size}>
-        {errors.links}
-      </Error>
-    )}
 
     {renderFooter(state.answers)}
   </div>
