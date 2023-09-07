@@ -94,7 +94,7 @@ const H4 = styled.h4`
 const H3 = styled.h3`
   margin-bottom: 0;
 `;
-console.log(result);
+console.log(winnerIds);
 const isBudgetWinner = (item) =>
   result.sort((a, b) => b[1] - a[1])[0][0] === item;
 
