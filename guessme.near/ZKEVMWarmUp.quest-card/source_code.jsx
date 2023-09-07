@@ -150,7 +150,7 @@ const iconMap = {
   ),
   "native bridge": (
     <img
-      className="trend-card-dapp-name-icon"
+      className="quest-card-name-icon"
       src="https://ipfs.near.social/ipfs/bafkreigawbz26l7mhfewlxwnjomos6njdkchnfnw2dnb6xtzf7j2t6jdxm"
     />
   ),
@@ -426,8 +426,8 @@ const QuestCardWrapper = styled.div`
       .quest-card-execute-date-number {
         display: none;
       }
-      .quest-card-show-delete-icon{
-        display:none;
+      .quest-card-show-delete-icon {
+        display: none;
       }
       .quest-card-show-delete-mobile {
         position: absolute;
@@ -614,7 +614,6 @@ return (
         My Execution
         <span>{item.count_number}</span>
       </span>
-
 
       <div
         className="quest-card-show-delete-icon"
