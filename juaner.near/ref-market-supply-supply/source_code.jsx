@@ -71,6 +71,8 @@ const Backdrop = styled.div`
   left: 0;
   top: 0;
   z-index: 1001;
+  justify-content: center;
+  align-items: center;
 `;
 const Modal = styled.div`
   background-color: #25283a;
@@ -82,18 +84,7 @@ const Modal = styled.div`
   max-height: 80vh;
   padding: 10px 0 20px 0;
   animation: anishow 0.3s forwards ease-out;
-  left: 50%;
-  top: 50%;
-  @keyframes anishow {
-    from {
-      opacity: 0;
-      transform: translate(-50%, -70%);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, -50%);
-    }
-  }
+
   .modal-header {
     display: flex;
     align-items: center;
@@ -127,6 +118,11 @@ const Modal = styled.div`
   }
   .pb-2 {
     padding-bottom: 20px;
+  }
+  @media (max-width: 900px) {
+    bottom: 0px;
+    left: 0px;
+    border-radius: 12px 12px 0px 0px;
   }
 `;
 let accountId = context.accountId;
@@ -449,63 +445,63 @@ return (
       src="juaner.near/widget/ref-icons"
       props={{ getWnearIcon, getCloseButtonIcon }}
     />
-    <Modal style={{ display: showModal ? "block" : "none" }}>
-      <div class="modal-header">
-        <div class="modal_title">Supply {selectedTokenMeta.symbol}</div>
-        <img
-          class="btn-close-custom"
-          src={closeButtonBase64}
-          onClick={closeModal}
-        />
-      </div>
-      <div class="px-3">
-        <Widget
-          src="juaner.near/widget/ref-input-box"
-          props={{
-            amount,
-            handleAmount,
-            balance: vailableBalance,
-            balance$: vailableBalance$,
-            metadata: asset.metadata,
-          }}
-        />
-      </div>
-      <div class="separator" />
-      <div class="px-3 pb-2">
-        <div class="template mt_25">
-          <span class="template_title">Health Factor</span>
-          <span class="value">
-            {newHealthFactor && cfButtonStatus ? newHealthFactor : healthFactor}
-            %
-          </span>
+    <Backdrop style={{ display: showModal ? "flex" : "none" }}>
+      <Modal style={{ display: showModal ? "block" : "none" }}>
+        <div class="modal-header">
+          <div class="modal_title">Supply {selectedTokenMeta.symbol}</div>
+          <img
+            class="btn-close-custom"
+            src={closeButtonBase64}
+            onClick={closeModal}
+          />
         </div>
-        <div class="template mt_25">
-          <span class="template_title">Collateral Factor</span>
-          <div class="flex-center">
-            <span class="value">{cf}%</span>
-            <div
-              class={`switchButton ${canUseAsCollateral ? "" : "disabled"} ${
-                cfButtonStatus ? "justify-end" : "justify-start"
-              }`}
-              onClick={switchButtonStatus}
-            >
-              <label
-                class={`whiteBall ${canUseAsCollateral ? "" : "disabled"}`}
-              ></label>
+        <div class="px-3">
+          <Widget
+            src="juaner.near/widget/ref-input-box"
+            props={{
+              amount,
+              handleAmount,
+              balance: vailableBalance,
+              balance$: vailableBalance$,
+              metadata: asset.metadata,
+            }}
+          />
+        </div>
+        <div class="separator" />
+        <div class="px-3 pb-2">
+          <div class="template mt_25">
+            <span class="template_title">Health Factor</span>
+            <span class="value">
+              {newHealthFactor && cfButtonStatus
+                ? newHealthFactor
+                : healthFactor}
+              %
+            </span>
+          </div>
+          <div class="template mt_25">
+            <span class="template_title">Collateral Factor</span>
+            <div class="flex-center">
+              <span class="value">{cf}%</span>
+              <div
+                class={`switchButton ${canUseAsCollateral ? "" : "disabled"} ${
+                  cfButtonStatus ? "justify-end" : "justify-start"
+                }`}
+                onClick={switchButtonStatus}
+              >
+                <label
+                  class={`whiteBall ${canUseAsCollateral ? "" : "disabled"}`}
+                ></label>
+              </div>
             </div>
           </div>
+          <div
+            class={`greenButton mt_25  ${Number(amount) ? "" : "disabled"}`}
+            onClick={handleDeposit}
+          >
+            Supply
+          </div>
         </div>
-        <div
-          class={`greenButton mt_25  ${Number(amount) ? "" : "disabled"}`}
-          onClick={handleDeposit}
-        >
-          Supply
-        </div>
-      </div>
-    </Modal>
-    <Backdrop
-      style={{ display: showModal ? "block" : "none" }}
-      onClick={closeModal}
-    ></Backdrop>
+      </Modal>
+    </Backdrop>
   </Container>
 );
