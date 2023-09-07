@@ -694,9 +694,7 @@ return (
                     Button: {
                       text: "Add a Comment",
                       disabled:
-                        !context.accountId ||
-                        // !state.verified ||
-                        context.accountId === accountId,
+                        !context.accountId || context.accountId === accountId,
                       className:
                         "primary w-100 mt-4 mb-2 justify-content-center",
                       onClick: () => State.update({ showModal: true }),
