@@ -200,9 +200,17 @@ function MarkdownEditor(props) {
 const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
+let isEditorInitialized = false;
 window.addEventListener("message", (event) => {
+  if (!isEditorInitialized) {
     root.render(React.createElement(MarkdownEditor, {
         initialText: event.data.content }));
+  } else {
+  const textarea = document.querySelector('textarea[name="markdown-input"]');
+  const codeMirrorElement = textarea.nextElementSibling.querySelector('.CodeMirror');
+  const codeMirrorInstance = codeMirrorElement.CodeMirror;
+  codeMirrorInstance.getDoc().setValue(event.data.content);
+  }
 });
 </script>
 `;
