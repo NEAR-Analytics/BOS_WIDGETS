@@ -173,7 +173,7 @@ const CastBudgetVote = () => (
         {alreadyVotedForHouse() && (
           <>
             <i class="bi bi-info-circle"></i>
-            <span>You're already voted for budget package</span>
+            <span>You've already voted for budget package</span>
           </>
         )}
       </Info>
