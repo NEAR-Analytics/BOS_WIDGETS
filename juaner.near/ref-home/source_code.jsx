@@ -37,6 +37,13 @@ const Container = styled.div`
   .contentOut {
     padding-top: 25px;
   }
+  @media (max-width: 900px) {
+    .contentOut {
+      padding-top: 0px;
+      flex-grow: 0;
+      width: 100%;
+    }
+  }
 `;
 const MenuContainer = styled.div`
   padding: 25px 12px 0 12px;
@@ -78,6 +85,9 @@ const MenuContainer = styled.div`
   }
   .icon {
     width: 26px;
+  }
+  @media (max-width: 900px) {
+    display: none;
   }
 `;
 const { activeMenu } = state;
