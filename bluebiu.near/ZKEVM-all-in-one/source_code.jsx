@@ -11,13 +11,23 @@ const Container = styled.div`
   }
   .contentOut {
     padding-top: 25px;
-    margin-left: 35px; /* 添加这行 */
+    margin-left: 35px;
   }
   .contentOut p {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 20px;
     color: #ffffff;
+  }
+  @media (max-width:900px) {
+    display: grid;
+    .contentOut{
+      padding:0;
+      margin: 0 0 36px 0;
+   }
+    .contentOut p {
+    display: none;
+   }
   }
 `;
 
@@ -60,6 +70,36 @@ const MenuContainer = styled.div`
   }
   .icon {
     width: 26px;
+  }
+  @media (max-width:900px) {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 16px;
+    background: #222436;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    padding: 0 16px;
+    .item{
+      width: auto;
+      padding: 0;
+      height: 76px;
+      display: grid;
+      text-align: center;
+      align-items: center;
+      span{
+        margin-left: 26px;
+        margin-bottom: -28px;
+      }
+    }
+    .item.active {
+    background-image: none;
+    color:  #E9F456;
+    border-color: transparent;
+  }
   }
 `;
 
