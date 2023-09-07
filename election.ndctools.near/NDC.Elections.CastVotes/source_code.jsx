@@ -94,9 +94,11 @@ const H4 = styled.h4`
 const H3 = styled.h3`
   margin-bottom: 0;
 `;
-console.log(winnerIds);
+
 const isBudgetWinner = (item) =>
-  result.sort((a, b) => b[1] - a[1])[0][0] === item;
+  result
+    .filter((item) => ["no", "yes", "abstain"].includes(item[0]))
+    .sort((a, b) => b[1] - a[1])[0][0] === item;
 
 function alreadyVotedForHouse() {
   return myVotes.some((voter) => voter.house === typ);
