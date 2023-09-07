@@ -161,10 +161,10 @@ const InfoBlock = ({ mobile }) => (
         src={widgets.styledComponents}
         props={{
           Link: {
-            text: "Manual",
+            text: "Syllabus",
             size: "sm",
             className: "secondary dark",
-            href: "https://nearbuilders.com/boshacks",
+            href: "https://hackmd.io/Jz4_FasRQGWdGGuifBU6Kw",
           },
         }}
       />
