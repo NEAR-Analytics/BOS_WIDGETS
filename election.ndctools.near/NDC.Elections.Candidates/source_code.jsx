@@ -898,7 +898,7 @@ return (
         }}
       />
     )}
-    {true && (
+    {state.bountyProgramModal && (
       <Widget
         src={widgets.modal}
         props={{
