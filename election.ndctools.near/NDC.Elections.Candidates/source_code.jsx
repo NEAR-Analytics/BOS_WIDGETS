@@ -207,6 +207,11 @@ const GraylistedAlert = styled.div`
   background: rgb(236 236 236);
 `;
 
+const Rules = styled.div`
+  overflow-y: scroll;
+  max-height: 300px;
+`;
+
 const Rule = styled.div`
   color: #f29bc0;
 `;
@@ -910,7 +915,7 @@ return (
             </div>
           ),
           description: (
-            <>
+            <Rules>
               <Rule className="d-flex gap-2">
                 <h3>1</h3>
                 <p className="text-secondary text-start">
@@ -947,7 +952,7 @@ return (
                   you once the election results are reviewed and ratified.
                 </GraylistedAlert>
               )}
-            </>
+            </Rules>
           ),
           Button: {
             title: `Cast ${state.selectedCandidates.length || ""} Vote${
