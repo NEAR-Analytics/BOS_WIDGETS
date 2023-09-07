@@ -1,301 +1,111 @@
-const { formState, errors, renderFooter } = props;
+const { formState, errors } = props;
 const { accountId } = context;
 
-const initialAnswers = {
-  policy: formState.policy,
-};
-
-const initialMembers = [];
-
-for (const role of initialAnswers.policy.roles) {
-  if (!role.kind.Group) continue;
-  for (const member of role.kind.Group) {
-    initialMembers.push({
-      role: role.name,
-      name: member,
-    });
-  }
-}
-
-const initialState = {
-  roles: initialAnswers.policy.roles.length
-    ? initialAnswers.policy.roles.map((r) => r.name)
-    : ["all", "council"],
-  members: initialMembers.length
-    ? initialMembers
-    : [{ role: "council", name: accountId }],
-};
-
 State.init({
-  answers: initialState,
+  members: { [context.accountId]: "" },
+  newMember: "",
 });
 
-// -- roles
-const onAddEmptyRole = () => {
+function addMember(newMember) {
   State.update({
-    answers: {
-      ...state.answers,
-      roles: [...state.answers.roles, ""],
-    },
+    members: { ...state.members, [newMember]: "" },
   });
-};
+}
 
-const onRemoveRole = (index) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      roles: state.answers.roles.map((role, i) => (i === index ? null : role)),
-    },
-  });
-};
+function removeMember(memberKey) {
+  const updatedMembers = { ...state.members };
+  delete updatedMembers[memberKey];
 
-const onSetRoleName = (index, name) => {
   State.update({
-    answers: {
-      ...state.answers,
-      roles: state.answers.roles.map((role, i) => (i === index ? name : role)),
-    },
+    members: updatedMembers,
   });
-};
-
-const onAddEmptyMember = () => {
-  State.update({
-    answers: {
-      ...state.answers,
-      members: [
-        ...state.answers.members,
-        { name: "", role: state.answers.roles[0] },
-      ],
-    },
-  });
-};
-
-const onRemoveMember = (index) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      members: state.answers.members.map((member, i) =>
-        i === index ? null : member
-      ),
-    },
-  });
-};
-
-const onSetMemberName = (index, name) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      members: state.answers.members.map((member, i) =>
-        i === index ? { ...member, name } : member
-      ),
-    },
-  });
-};
-
-const onSetMemberRole = (index, role) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      members: state.answers.members.map((member, i) =>
-        i === index ? { ...member, role } : member
-      ),
-    },
-  });
-};
+}
 
 const finalState = {
-  policy: {
-    ...formState.policy,
-    roles: state.answers.roles
-      .filter((role, i) => role !== null && role !== "")
-      .map((role, i) => {
-        if (role === "all")
-          return {
-            name: role,
-            permissions: formState.policy.roles[i]?.permissions || [],
-            kind: "Everyone",
-            vote_policy: formState.policy.roles[i]?.vote_policy || {},
-          };
-        return {
-          name: role,
-          kind: {
-            Group: state.answers.members
-              .filter((m) => m.role === role && m !== null && m.name !== "")
-              .map((m) => m.name),
-          },
-          permissions:
-            formState.policy.roles[i]?.permissions || role === "council"
-              ? ["*:*"]
-              : [],
-          vote_policy: formState.policy.roles[i]?.vote_policy || {},
-        };
-      }),
+  members: {
+    ...state.members,
   },
 };
 
+function isNearAddress(address) {
+  if (typeof address !== "string") {
+    return false;
+  }
+  if (!address.endsWith(".near")) {
+    return false;
+  }
+  const parts = address.split(".");
+  if (parts.length !== 2) {
+    return false;
+  }
+  if (parts[0].length < 2 || parts[0].length > 32) {
+    return false;
+  }
+  if (!/^[a-z0-9_-]+$/i.test(parts[0])) {
+    return false;
+  }
+  return true;
+}
+
+const memberId = props.memberId ?? state.newMember;
+
+const isValid = isNearAddress(memberId);
+
 return (
-  <div className="mt-4 ndc-card p-4">
-    <div className="d-flex flex-column gap-4">
-      <h2 className="h5 fw-bold">
-        <span
-          className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bolder h5 me-2"
-          style={{
-            width: "48px",
-            height: "48px",
-            border: "1px solid #82E299",
-          }}
-        >
-          2
-        </span>
-        Membership
-      </h2>
-
-      <div className="mb-3">
-        <div className="d-flex gap-2 justify-content-between">
-          <div>
-            <h3 className="h6 fw-bold">Add Roles</h3>
-          </div>
-          <Widget
-            src="nearui.near/widget/Input.Button"
-            props={{
-              children: <i className="bi bi-plus-lg" />,
-              variant: "icon info outline",
-              size: "lg",
-              onClick: onAddEmptyRole,
-            }}
-          />
-        </div>
-        {state.answers.roles.map((r, i) => (
-          <div
-            className={[
-              "d-flex align-items-center gap-2 mt-2",
-              r === null ? "d-none" : "",
-            ].join(" ")}
-            key={i}
-          >
-            <Widget
-              src="nearui.near/widget/Input.ExperimentalText"
-              props={{
-                placeholder: "Contributor",
-                size: "lg",
-                disabled: i < 2,
-                value: i < 2 ? r : undefined,
-                onChange: (v) => onSetRoleName(i, v),
-                useTimeout: true,
-                error:
-                  errors.policy.roles[
-                    finalState.policy.roles.findIndex((role) => role.name === r)
-                  ].name,
-
-                inputProps: { defaultValue: r },
-              }}
-            />
-            {i > 1 && (
-              <Widget
-                src="nearui.near/widget/Input.Button"
-                props={{
-                  children: <i className="bi bi-trash" />,
-                  variant: "icon danger outline",
-                  size: "lg",
-                  onClick: () => onRemoveRole(i),
-                }}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-
+  <>
+    <h2 className="h5 fw-bold">
+      <span
+        className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bolder h5 me-2"
+        style={{
+          width: "48px",
+          height: "48px",
+          border: "1px solid #82E299",
+        }}
+      >
+        2
+      </span>
+      Membership
+    </h2>
+    <div>
       <div>
-        <div className="d-flex gap-2 justify-content-between">
-          <div>
-            <h3 className="h6 fw-bold">Add Members</h3>
-            <p className="text-black-50 fw-light small">
-              Add members to the group and set roles.
-            </p>
-          </div>
-          <Widget
-            src="nearui.near/widget/Input.Button"
-            props={{
-              children: <i className="bi bi-plus-lg" />,
-              variant: "icon info outline",
-              size: "lg",
-              onClick: onAddEmptyMember,
-            }}
-          />
+        <h5>Account ID</h5>
+        <input
+          placeholder="<example>.near"
+          onChange={(e) => State.update({ newMember: e.target.value })}
+        />
+        <div className="d-flex align-items-center mt-2">
+          <button
+            className="btn btn-primary m-2"
+            disabled={!isValid}
+            onClick={() => addMember(state.newMember)}
+          >
+            add
+          </button>
         </div>
-
-        {state.answers.members.map((member, i) => {
-          const trueRoleIndex =
-            member !== null &&
-            finalState.policy.roles.findIndex(
-              (role) => role.name === member.role
-            );
-          const trueMemberIndex =
-            member !== null &&
-            trueRoleIndex !== -1 &&
-            typeof finalState.policy.roles[trueRoleIndex].kind === "object"
-              ? finalState.policy.roles[trueRoleIndex].kind.Group.findIndex(
-                  (m) => m === member.name
-                )
-              : null;
-
+      </div>
+      <br />
+      <div>
+        <h5>Profiles</h5>
+        {Object.keys(state.members).map((a) => {
           return (
-            <div
-              className={[
-                "d-flex align-items-center gap-2 mt-2",
-                member === null ? "d-none" : "",
-              ].join(" ")}
-              key={i}
-            >
-              <Widget
-                src="nearui.near/widget/Input.ExperimentalText"
-                props={{
-                  placeholder: "<example>.near",
-                  size: "lg",
-                  useTimeout: true,
-                  inputProps: { defaultValue: member.name },
-                  onChange: (v) => onSetMemberName(i, v),
-                  disabled: i === 0,
-                  error:
-                    trueMemberIndex !== null &&
-                    errors.policy.roles[trueRoleIndex].kind.Group[
-                      trueMemberIndex
-                    ],
-                }}
-              />
-              <Widget
-                src="nearui.near/widget/Input.Select"
-                props={{
-                  placeholder: "Contributor",
-                  size: "lg",
-                  options: state.answers.roles
-                    .filter((r) => r !== null && r !== "" && r !== "all")
-                    .map((r) => ({
-                      title: r,
-                      value: r,
-                    })),
-                  value: member.role,
-                  onChange: (v) => onSetMemberRole(i, v),
-                  disabled: i === 0,
-                }}
-              />
-              {i > 0 && (
+            <div className="d-flex m-2 p-2 justify-content-between align-items-center">
+              <div className="d-flex align-items-center">
                 <Widget
-                  src="nearui.near/widget/Input.Button"
-                  props={{
-                    children: <i className="bi bi-trash" />,
-                    variant: "icon danger outline",
-                    size: "lg",
-                    onClick: () => onRemoveMember(i),
-                  }}
+                  src="mob.near/widget/Profile"
+                  props={{ accountId: a }}
                 />
-              )}
+              </div>
+              <button
+                className="btn btn-danger m-1"
+                disabled={!isNearAddress(a)}
+                onClick={() => removeMember(a)}
+              >
+                remove
+              </button>
             </div>
           );
         })}
       </div>
     </div>
-
-    {renderFooter(finalState)}
-  </div>
+  </>
 );
