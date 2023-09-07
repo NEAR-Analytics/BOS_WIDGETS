@@ -53,11 +53,6 @@ const BoxWrapper = styled.div`
   border-radius: 16px;
   padding: 8px 0px;
   width: 488px;
-
-  @media (max-width: 1023px) {
-    width: 300px;
-  }
-
   right: 0px;
   max-height: 250px;
   z-index: 100;
@@ -88,6 +83,43 @@ const BoxWrapper = styled.div`
       top: 12px;
     }
   }
+
+  .overlay{
+    display: none;
+  }
+
+  .BoxWrapper-closeIcon{
+    display: none;
+  }
+
+  @media (max-width: 1023px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    .overlay {
+    position: fixed;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    opacity: 0.5;
+  }
+    .BoxWrapper-closeIcon{
+      display: block;
+      width: 100%;
+      text-align: right;
+      border-bottom: 1px solid #2E3046;
+      height: 40px;
+      padding: 0 30px;
+      img{
+        width: 12px;
+        height: 12px;
+      }
+   }
+  }
 `;
 
 const arrowDown = (
@@ -106,6 +138,8 @@ const arrowDown = (
     />
   </svg>
 );
+
+const closeIcon = 'https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq'
 
 const Img = styled.img`
   width: 32px;
@@ -145,6 +179,10 @@ return (
 
     {state.isListOpen && (
       <BoxWrapper>
+        <div className="overlay"></div>
+        <div className="BoxWrapper-closeIcon" onClick={onClose}>
+          <img src={closeIcon} alt="" />
+        </div>
         {tokens.map((t) => {
           return (
             <div
