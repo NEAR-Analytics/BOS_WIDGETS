@@ -149,10 +149,9 @@ function loadBond() {
     { headers: { "x-api-key": apiKey } }
   ).then((resp) => {
     if (resp.body) {
-      const amount = resp.body[context.accountId];
-      console.log("resp.body", resp.body);
+      const amount = resp.body.bond ? parseInt(resp.body.bond) : 0;
 
-      State.update({ isBonded: amount ? amount > 0 : amount });
+      State.update({ isBonded: amount > 0 });
     }
   });
 }
