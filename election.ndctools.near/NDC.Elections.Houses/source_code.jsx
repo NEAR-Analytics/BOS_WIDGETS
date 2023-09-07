@@ -88,12 +88,12 @@ const ItemContainer = styled.a`
 
 const buildURL = () => {
   const arr = [];
-  if (props.ids) str.push(`ids=${ids}`);
+  if (props.ids) arr.push(`ids=${ids}`);
   if (props.election_contract)
-    str.push(`election_contract=${election_contract}`);
+    arr.push(`election_contract=${election_contract}`);
   if (props.registry_contract)
-    str.push(`registry_contract=${registry_contract}`);
-  if (props.house) str.push(`house=${house}`);
+    arr.push(`registry_contract=${registry_contract}`);
+  if (props.house) arr.push(`house=${house}`);
 
   return "?" + arr.join("&");
 };
