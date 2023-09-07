@@ -1,5 +1,10 @@
+const accountId = props.accountId ?? "james.near";
 const communityId = props.communityId ?? context.accountId;
 const profile = Social.get(`${communityId}/profile/**`);
+
+if (!profile) {
+  return "Loading...";
+}
 
 const tags = Object.keys(profile.tags);
 
@@ -30,6 +35,37 @@ const Logo = styled.img`
   }
 `;
 
+const data = {
+  graph: { [communityId]: { [accountId]: "" } },
+  index: {
+    graph: JSON.stringify({
+      key: communityId,
+      value: {
+        type,
+        accountId,
+      },
+    }),
+    notify: JSON.stringify([
+      {
+        key: communityId,
+        value: {
+          type,
+          accountId,
+          message: "requested to join",
+        },
+      },
+      {
+        key: accountId,
+        value: {
+          type,
+          communityId,
+          message: "request submitted",
+        },
+      },
+    ]),
+  },
+};
+
 const CommunityCard = ({
   format,
   isBannerEnabled,
@@ -54,7 +90,7 @@ const CommunityCard = ({
             : "#ffffff",
 
         width: 400,
-        height: 120,
+        height: 110,
       }}
     >
       <div
@@ -64,21 +100,25 @@ const CommunityCard = ({
           backdropFilter: "blur(4px)",
         }}
       >
-        <Widget
-          src="mob.near/widget/ProfileImage"
-          props={{ image: profile.image }}
-        />
+        <div style={{ minWidth: "42px" }}>
+          <Widget
+            src="mob.near/widget/ProfileImage"
+            props={{ image: profile.image }}
+          />
+        </div>
 
-        <div className="d-flex flex-column justify-content-center w-100">
-          <h5
-            className="h5 m-0 text-nowrap overflow-hidden"
-            style={{ textOverflow: "ellipsis" }}
-          >
-            {profile.name}
-          </h5>
-          {tags.length > 0 && (
-            <div>
-              {tags.map((tag, i) => (
+        <div className="d-flex flex-column justify-content-start w-100">
+          <div>
+            <h5
+              className="h5 m-0 text-nowrap overflow-hidden"
+              style={{ textOverflow: "ellipsis" }}
+            >
+              {profile.name}
+            </h5>
+          </div>
+          <div className="d-flex flex-wrap">
+            {tags.length > 0 &&
+              tags.slice(0, 3).map((tag, i) => (
                 <span
                   key={i}
                   className="me-1 mt-1 mb-1 fw-light badge border border-secondary text-bg-light"
@@ -86,8 +126,16 @@ const CommunityCard = ({
                   #{tag}
                 </span>
               ))}
-            </div>
-          )}
+          </div>
+        </div>
+        <div className="ml-auto">
+          <CommitButton
+            disabled={loading}
+            className="btn btn-primary"
+            data={data}
+          >
+            Join
+          </CommitButton>
         </div>
       </div>
     </Link>
@@ -96,19 +144,33 @@ const CommunityCard = ({
   const formatMedium = (
     <Link
       className="card d-flex flex-column flex-shrink-0 text-decoration-none text-reset"
-      style={{ width: "23%", maxWidth: 304 }}
+      style={{ width: "42%", maxWidth: 304 }}
     >
       <div
         className="card-img-top w-100"
         style={{
-          background: `center / cover no-repeat url(${metadata.banner_url})`,
+          background: `center / cover no-repeat url(https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid})`,
           height: 164,
         }}
       />
 
       <div className="d-flex flex-column gap-2 p-3 card-text">
-        <h5 class="h5 m-0">{metadata.name}</h5>
-        <span class="text-secondary text-wrap">{metadata.description}</span>
+        <h5 class="h5 m-0">{profile.name}</h5>
+        <div className="d-flex flex-wrap">
+          {tags.length > 0 &&
+            tags.slice(0, 3).map((tag, i) => (
+              <span
+                key={i}
+                className="me-1 mt-1 mb-1 fw-light badge border border-secondary text-bg-light"
+              >
+                #{tag}
+              </span>
+            ))}
+        </div>
+        <span class="text-secondary text-wrap">{profile.description}</span>
+        <button className="btn btn-primary mt-2" onClick={handleJoin}>
+          Join
+        </button>
       </div>
     </Link>
   );
