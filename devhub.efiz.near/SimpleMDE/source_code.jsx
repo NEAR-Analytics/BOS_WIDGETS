@@ -14,6 +14,7 @@ const className = props.className ?? "w-100";
 
 State.init({
   iframeHeight: height,
+  message: { handler: "init", content: props.data },
 });
 
 // SIMPLEMDE CONFIG //
@@ -79,6 +80,9 @@ body {
 <div id="react-root"></div>
 
 <script>
+let codeMirrorInstance;
+let isEditorInitialized = false;
+
 function MarkdownEditor(props) {
     const [value, setValue] = React.useState(props.initialText || "");
 
@@ -171,6 +175,8 @@ function MarkdownEditor(props) {
             },
         });
 
+        codeMirrorInstance = simplemde.codemirror;
+
         /**
          * Sends message to Widget to update content
          */
@@ -201,8 +207,16 @@ const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
 window.addEventListener("message", (event) => {
+  if (!isEditorInitialized) {
     root.render(React.createElement(MarkdownEditor, {
         initialText: event.data.content }));
+        isEditorInitialized = true;
+  } else {
+    // This is a workaround so the editor updates when autocomplete selected
+    if (event.data.handler === 'autocompleteSelected') {
+        codeMirrorInstance.getDoc().setValue(event.data.content);
+      }
+  }
 });
 </script>
 `;
