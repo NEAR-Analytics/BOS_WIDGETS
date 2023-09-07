@@ -24,20 +24,7 @@ const swapAbi = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-    ],
-    name: "swapwNEARForstNEAR",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
+  }
 ];
 
 const iface = new ethers.utils.Interface(swapAbi);
@@ -49,12 +36,12 @@ const onSubmit = (strAmount) => {
     Ethers.provider().getSigner()
   );
 
-  let amount = ethers.utils.parseUnits(strAmount, tokenDecimals).toHexString();
+  let amount = ethers.utils.parseUnits(strAmount, tokenDecimals).toString();
 
   update({ loading: true });
 
   swap
-    .swapstNEARForwNEAR(sender, { value: amount })
+    .swapstNEARForwNEAR(amount)
     .then((txResp) => {
       txResp.wait().then((waitResp) => {
         update({
