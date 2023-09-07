@@ -1,122 +1,301 @@
 const { formState, errors, renderFooter } = props;
+const { accountId } = context;
 
 const initialAnswers = {
-  links: formState.links.length > 0 ? formState.links : [""],
+  policy: formState.policy,
+};
+
+const initialMembers = [];
+
+for (const role of initialAnswers.policy.roles) {
+  if (!role.kind.Group) continue;
+  for (const member of role.kind.Group) {
+    initialMembers.push({
+      role: role.name,
+      name: member,
+    });
+  }
+}
+
+const initialState = {
+  roles: initialAnswers.policy.roles.length
+    ? initialAnswers.policy.roles.map((r) => r.name)
+    : ["all", "council"],
+  members: initialMembers.length
+    ? initialMembers
+    : [{ role: "council", name: accountId }],
 };
 
 State.init({
-  answers: initialAnswers,
+  answers: initialState,
 });
 
-const update = (key, value) =>
+// -- roles
+const onAddEmptyRole = () => {
   State.update({
     answers: {
       ...state.answers,
-      [key]: value,
+      roles: [...state.answers.roles, ""],
     },
   });
-
-const onAddLink = () => update("links", [...state.answers.links, ""]);
-
-const onLinkChange = (index, value) => {
-  const newLinks = [...state.answers.links];
-  newLinks[index] = value;
-  update("links", newLinks);
 };
 
-const onRemoveLink = (index) => {
-  const newLinks = [...state.answers.links];
-  newLinks[index] = null;
-  update("links", newLinks);
+const onRemoveRole = (index) => {
+  State.update({
+    answers: {
+      ...state.answers,
+      roles: state.answers.roles.map((role, i) => (i === index ? null : role)),
+    },
+  });
 };
 
-const Error = styled.span`
-  display: inline-block;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 0.875em;
-  line-height: 1.25em;
-  color: #ff4d4f;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease-in-out;
+const onSetRoleName = (index, name) => {
+  State.update({
+    answers: {
+      ...state.answers,
+      roles: state.answers.roles.map((role, i) => (i === index ? name : role)),
+    },
+  });
+};
 
-  &.show {
-    height: 1.25em;
-  }
-`;
+const onAddEmptyMember = () => {
+  State.update({
+    answers: {
+      ...state.answers,
+      members: [
+        ...state.answers.members,
+        { name: "", role: state.answers.roles[0] },
+      ],
+    },
+  });
+};
+
+const onRemoveMember = (index) => {
+  State.update({
+    answers: {
+      ...state.answers,
+      members: state.answers.members.map((member, i) =>
+        i === index ? null : member
+      ),
+    },
+  });
+};
+
+const onSetMemberName = (index, name) => {
+  State.update({
+    answers: {
+      ...state.answers,
+      members: state.answers.members.map((member, i) =>
+        i === index ? { ...member, name } : member
+      ),
+    },
+  });
+};
+
+const onSetMemberRole = (index, role) => {
+  State.update({
+    answers: {
+      ...state.answers,
+      members: state.answers.members.map((member, i) =>
+        i === index ? { ...member, role } : member
+      ),
+    },
+  });
+};
+
+const finalState = {
+  policy: {
+    ...formState.policy,
+    roles: state.answers.roles
+      .filter((role, i) => role !== null && role !== "")
+      .map((role, i) => {
+        if (role === "all")
+          return {
+            name: role,
+            permissions: formState.policy.roles[i]?.permissions || [],
+            kind: "Everyone",
+            vote_policy: formState.policy.roles[i]?.vote_policy || {},
+          };
+        return {
+          name: role,
+          kind: {
+            Group: state.answers.members
+              .filter((m) => m.role === role && m !== null && m.name !== "")
+              .map((m) => m.name),
+          },
+          permissions:
+            formState.policy.roles[i]?.permissions || role === "council"
+              ? ["*:*"]
+              : [],
+          vote_policy: formState.policy.roles[i]?.vote_policy || {},
+        };
+      }),
+  },
+};
 
 return (
   <div className="mt-4 ndc-card p-4">
     <div className="d-flex flex-column gap-4">
-      <div>
+      <h2 className="h5 fw-bold">
+        <span
+          className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bolder h5 me-2"
+          style={{
+            width: "48px",
+            height: "48px",
+            border: "1px solid #82E299",
+          }}
+        >
+          2
+        </span>
+        Membership
+      </h2>
+
+      <div className="mb-3">
         <div className="d-flex gap-2 justify-content-between">
-          <h2 className="h5 fw-bold">
-            <span
-              className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bolder h5 me-2"
-              style={{
-                width: "48px",
-                height: "48px",
-                border: "1px solid #82E299",
-              }}
-            >
-              2
-            </span>
-            Links{" "}
-            <span className="text-black-50 fw-light small">~ optional</span>
-          </h2>
+          <div>
+            <h3 className="h6 fw-bold">Add Roles</h3>
+          </div>
           <Widget
             src="nearui.near/widget/Input.Button"
             props={{
               children: <i className="bi bi-plus-lg" />,
               variant: "icon info outline",
               size: "lg",
-              onClick: onAddLink,
+              onClick: onAddEmptyRole,
             }}
           />
         </div>
-        <p className="text-black-50 fw-light small">add up to 10 urls</p>
+        {state.answers.roles.map((r, i) => (
+          <div
+            className={[
+              "d-flex align-items-center gap-2 mt-2",
+              r === null ? "d-none" : "",
+            ].join(" ")}
+            key={i}
+          >
+            <Widget
+              src="nearui.near/widget/Input.ExperimentalText"
+              props={{
+                placeholder: "Contributor",
+                size: "lg",
+                disabled: i < 2,
+                value: i < 2 ? r : undefined,
+                onChange: (v) => onSetRoleName(i, v),
+                useTimeout: true,
+                error:
+                  errors.policy.roles[
+                    finalState.policy.roles.findIndex((role) => role.name === r)
+                  ].name,
+
+                inputProps: { defaultValue: r },
+              }}
+            />
+            {i > 1 && (
+              <Widget
+                src="nearui.near/widget/Input.Button"
+                props={{
+                  children: <i className="bi bi-trash" />,
+                  variant: "icon danger outline",
+                  size: "lg",
+                  onClick: () => onRemoveRole(i),
+                }}
+              />
+            )}
+          </div>
+        ))}
       </div>
 
-      {state.answers.links.map((l, i) => (
-        <div
-          className={[
-            "d-flex align-items-center gap-2",
-            l === null && "d-none",
-          ].join(" ")}
-        >
-          <Widget
-            src="nearui.near/widget/Input.ExperimentalText"
-            props={{
-              placeholder: "https://",
-              size: "lg",
-              onChange: (v) => onLinkChange(i, v),
-              inputProps: {
-                name: `link-${i}`,
-                defaultValue: l,
-              },
-            }}
-          />
+      <div>
+        <div className="d-flex gap-2 justify-content-between">
+          <div>
+            <h3 className="h6 fw-bold">Add Members</h3>
+            <p className="text-black-50 fw-light small">
+              Add members to the group and set roles.
+            </p>
+          </div>
           <Widget
             src="nearui.near/widget/Input.Button"
             props={{
-              children: <i className="bi bi-trash" />,
-              variant: "icon danger outline",
+              children: <i className="bi bi-plus-lg" />,
+              variant: "icon info outline",
               size: "lg",
-              onClick: () => onRemoveLink(i),
+              onClick: onAddEmptyMember,
             }}
           />
         </div>
-      ))}
-      {errors.links && (
-        <Error className={errors.links ? "show" : ""} size={size}>
-          {errors.links}
-        </Error>
-      )}
+
+        {state.answers.members.map((member, i) => {
+          const trueRoleIndex =
+            member !== null &&
+            finalState.policy.roles.findIndex(
+              (role) => role.name === member.role
+            );
+          const trueMemberIndex =
+            member !== null &&
+            trueRoleIndex !== -1 &&
+            typeof finalState.policy.roles[trueRoleIndex].kind === "object"
+              ? finalState.policy.roles[trueRoleIndex].kind.Group.findIndex(
+                  (m) => m === member.name
+                )
+              : null;
+
+          return (
+            <div
+              className={[
+                "d-flex align-items-center gap-2 mt-2",
+                member === null ? "d-none" : "",
+              ].join(" ")}
+              key={i}
+            >
+              <Widget
+                src="nearui.near/widget/Input.ExperimentalText"
+                props={{
+                  placeholder: "<example>.near",
+                  size: "lg",
+                  useTimeout: true,
+                  inputProps: { defaultValue: member.name },
+                  onChange: (v) => onSetMemberName(i, v),
+                  disabled: i === 0,
+                  error:
+                    trueMemberIndex !== null &&
+                    errors.policy.roles[trueRoleIndex].kind.Group[
+                      trueMemberIndex
+                    ],
+                }}
+              />
+              <Widget
+                src="nearui.near/widget/Input.Select"
+                props={{
+                  placeholder: "Contributor",
+                  size: "lg",
+                  options: state.answers.roles
+                    .filter((r) => r !== null && r !== "" && r !== "all")
+                    .map((r) => ({
+                      title: r,
+                      value: r,
+                    })),
+                  value: member.role,
+                  onChange: (v) => onSetMemberRole(i, v),
+                  disabled: i === 0,
+                }}
+              />
+              {i > 0 && (
+                <Widget
+                  src="nearui.near/widget/Input.Button"
+                  props={{
+                    children: <i className="bi bi-trash" />,
+                    variant: "icon danger outline",
+                    size: "lg",
+                    onClick: () => onRemoveMember(i),
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
 
-    {renderFooter({
-      links: state.answers.links.filter((l) => l !== null && l !== ""),
-    })}
+    {renderFooter(finalState)}
   </div>
 );
