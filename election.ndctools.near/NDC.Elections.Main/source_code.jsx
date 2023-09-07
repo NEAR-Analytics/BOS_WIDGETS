@@ -155,7 +155,7 @@ function loadBond() {
     }
   });
 }
-console.log(isBonded);
+console.log(state.isBonded);
 
 function loadFlagged() {
   const flagged = Near.view(registryContract, "account_flagged", {
@@ -217,7 +217,6 @@ function loadNFT(id, key) {
 
 loadHouses();
 loadSBTs();
-loadBond();
 loadFlagged();
 loadWinners();
 loadPolicy();
@@ -226,6 +225,7 @@ loadNFT(1, "hasIVotedNFT");
 
 if (state.reload) {
   loadMyVotes();
+  loadBond();
 }
 
 const handleSelect = (item) => {
