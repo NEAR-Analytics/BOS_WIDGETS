@@ -113,8 +113,12 @@ function updateAccountInfo(callback) {
   }, 500);
 }
 const Main = styled.div`
-  width:500px;
+  width: 500px;
   position: relative;
+
+  @media (max-width: 770px) {
+    width: 100%;
+  }
 `;
 
 const updateTabName = (tabName) =>
