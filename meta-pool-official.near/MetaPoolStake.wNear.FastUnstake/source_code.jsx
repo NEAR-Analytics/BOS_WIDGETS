@@ -24,7 +24,7 @@ const swapAbi = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
-  }
+  },
 ];
 
 const iface = new ethers.utils.Interface(swapAbi);
@@ -303,7 +303,7 @@ return (
         props={{
           value:
             state.metrics && state.value && parseFloat(state.value) > 0
-              ? (state.value / state.metrics?.st_near_price_usd).toFixed(5)
+              ? (state.value * state.metrics?.st_near_price_usd).toFixed(5)
               : 0,
           iconName: "wNEAR",
           token: "stNEAR",
