@@ -7,6 +7,12 @@ State.init({
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 const ContainerLogin = styled.div`
+  display: flex;
+  max-width: 500px;
+
+  flex-direction: column;
+  margin: 80px auto auto auto;
+
   .web3-connect {
     width: 480px;
     height: 60px;
@@ -18,17 +24,20 @@ const ContainerLogin = styled.div`
     border: none;
     margin-top: 20px;
   }
+
+  @media (max-width: 736px) {
+    max-width: 100%;
+    .web3-connect {
+      width: 100%;
+
+      font-size: 16px;
+      height: 40px;
+    }
+  }
 `;
 if (!sender)
   return (
-    <ContainerLogin
-      style={{
-        display: "flex",
-        maxWidth: "500px",
-        flexDirection: "column",
-        margin: "80px auto auto auto",
-      }}
-    >
+    <ContainerLogin>
       <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
 
       <Web3Connect className="web3-connect" connectLabel="Connect ETH wallet" />
@@ -79,6 +88,13 @@ const SwitchWrapper = styled.div`
     border: none;
     &:hover {
       background: #8257f5;
+    }
+  }
+
+  @media (max-width: 736px) {
+    max-width: 100%;
+    img {
+      width: 100%;
     }
   }
 `;
@@ -157,6 +173,10 @@ const Wrapper = styled.div`
   display: flex;
   align-items: start;
   gap: 24px;
+
+  @media (max-width: 736px) {
+    flex-direction: column-reverse;
+  }
 `;
 const VStack = styled.div`
   display: flex;
@@ -168,6 +188,10 @@ const VStack = styled.div`
     font-weight: 500;
     padding-left: 16px;
     margin-bottom: 5px;
+
+    @media (max-width: 736px) {
+      display: none;
+    }
   }
 `;
 const Button = styled.button`
@@ -228,6 +252,9 @@ return (
             pair: activePair,
             refetch: postRefetch,
             can_add_action: state.add_action,
+            poolsData,
+
+            handlePairClick,
           }}
         />
 
