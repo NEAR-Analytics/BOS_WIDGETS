@@ -52,7 +52,8 @@ const SelectReplicaContainer = styled.div`
     gap: 10px;
     border-radius: 10px;
     background-color: #fff;
-    width: 350px;
+    width:100%;
+    max-width: 350px;
     padding:0 15px 0 10px;
     min-height:70px;
 
@@ -75,8 +76,6 @@ const SelectReplicaContainer = styled.div`
     top: 110%;
     left: 0;
     width: 100%;
-    left:0;
-    right:0;
     margin:auto;
     overflow-y: auto;
     border-radius: 10px;
@@ -93,6 +92,8 @@ const SelectReplicaContainer = styled.div`
     transform:translateY(0);
     opacity:1;
     pointer-events:all;
+    width: 100%;
+    max-width: 350px;
   }
 
   & .select-replica__option {
