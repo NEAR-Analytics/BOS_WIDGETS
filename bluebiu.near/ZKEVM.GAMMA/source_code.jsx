@@ -20,9 +20,9 @@ const ContainerLogin = styled.div`
   }
   @media (max-width: 900px) {
     position: absolute;
-    top: 25%;
+    top: 16%;
     left: 50%;
-    transform: translate(-50%, -25%);
+    transform: translate(-50%, -16%);
     img{
       width:320px;
     }
