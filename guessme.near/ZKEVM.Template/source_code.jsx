@@ -73,14 +73,14 @@ const templates = [
       "https://ipfs.near.social/ipfs/bafkreicwk2fqkrtkwhyioz7l6tkgmduxsw4ey7t6pd7isahu3bex7etbgu",
   },
   {
-    src: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
-    bannerImg:
-      "https://ipfs.near.social/ipfs/bafkreihwkwijwsazh5dp3rxc2lwgi4algusd3b447o3xcfcnndbgaura3q",
-  },
-  {
     src: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreievrd4imhglvabvg2vgcqxmpk4vog6p3dw5cy3rsay4ocsyu3y7w4",
+  },
+  {
+    src: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreihwkwijwsazh5dp3rxc2lwgi4algusd3b447o3xcfcnndbgaura3q",
   },
   {
     src: "guessme.near/widget/ZKEVM.GAMMA",
