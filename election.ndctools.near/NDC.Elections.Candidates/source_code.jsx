@@ -142,7 +142,9 @@ const Votes = styled.div``;
 
 const Action = styled.div``;
 
-const Nomination = styled.div``;
+const Nomination = styled.div`
+  width: 100px;
+`;
 
 const NominationLink = styled.div`
   display: block;
@@ -721,7 +723,7 @@ const Filters = () => (
       </Candidates>
     </div>
     <div className="d-flex w-100 align-items-center justify-content-end gap-2">
-      <Nomination className="text-secondary text-end text-md-end">
+      <Nomination className="text-secondary text-start text-md-start">
         <small>Nomination</small>
       </Nomination>
       {isVisible() && (
