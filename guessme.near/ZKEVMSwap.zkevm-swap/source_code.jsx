@@ -396,10 +396,10 @@ const NetworkList = styled.div`
     border: none;
     flex-direction: row;
     background: none;
-    width: 100%;
     height: auto;
     overflow: auto;
     padding: 8px;
+    width: 378px;
 
     scrollbar-width: none;
     -ms-overflow-style: none;
