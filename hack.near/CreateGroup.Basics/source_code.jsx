@@ -1,4 +1,4 @@
-const { formState, errors } = props;
+const { formState, errors, renderFooter } = props;
 
 const initialAnswers = {
   name: formState.name,
