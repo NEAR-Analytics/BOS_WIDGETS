@@ -1,5 +1,6 @@
 const darkColors = {
   page_bg: "rgb(25,33,50)",
+  horizen_bg: "#fff",
   header_bg: "rgb(49,62,89)",
   sideBar: {
     sideBar_bg: "rgb(49,62,89)",
@@ -31,6 +32,7 @@ const darkColors = {
 };
 const lightColors = {
   page_bg: "rgb(241,242,245)",
+  horizen_bg: "#391b86",
   header_bg: "rgb(210, 202, 250)",
   sideBar: {
     sideBar_bg: "rgb(210, 202, 250)",
@@ -489,10 +491,13 @@ return (
               link: "../../leslug.near/widget/NearContractVisualizerV2",
               image:
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
+              title: "Top NEAR projects profiler",
             },
             {
               text: "Im human",
               link: "../../lord1.near/widget/im-human",
+              title: "I Am Human SBT tracker",
+
               image:
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
             },
@@ -528,7 +533,7 @@ return (
             backgroundColor: themeColor?.header_bg,
             height: "60px",
             width: "100%",
-            textColor: "white",
+            textColor: themeColor?.horizen_bg,
           }}
         />
 
