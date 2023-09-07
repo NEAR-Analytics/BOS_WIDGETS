@@ -86,10 +86,22 @@ const ItemContainer = styled.a`
   }
 `;
 
+const buildURL = () => {
+  const arr = [];
+  if (props.ids) str.push(`ids=${ids}`);
+  if (props.election_contract)
+    str.push(`election_contract=${election_contract}`);
+  if (props.registry_contract)
+    str.push(`registry_contract=${registry_contract}`);
+  if (props.house) str.push(`house=${house}`);
+
+  return "?" + arr.join("&");
+};
+
 const HouseItem = ({ house }) => (
   <ItemContainer
     className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
-    href={`?house=${house.id}`}
+    href={buildURL()}
     selected={selectedHouse === house.id}
   >
     <div className="d-flex align-items-center">
