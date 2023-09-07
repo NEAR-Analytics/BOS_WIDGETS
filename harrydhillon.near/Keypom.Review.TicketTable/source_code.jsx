@@ -42,8 +42,6 @@ const ActionButton = styled.button`
   cursor: pointer;
 `;
 
-const ticketValue = JSON.parse(Storage.get("tickets"));
-
 function extractDateComponents(dateStr) {
   const dateObj = new Date(dateStr);
 
@@ -76,7 +74,7 @@ return (
         </TableRow>
       </TableHead>
       <tbody style={{ borderRadius: 10 }}>
-        {(ticketValue || [])?.map((item, index) => (
+        {props?.ticketValue?.map((item, index) => (
           <TableRow key={index}>
             <TableCell style={{ width: "30%" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
