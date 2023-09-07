@@ -155,6 +155,7 @@ function MarkdownEditor(props) {
         // Initializes SimpleMDE element and attaches to text-area
         const simplemde = new SimpleMDE({
             element: document.getElementById("markdown-input"),
+            forceSync: true,
             autofocus: ${autoFocus},
             renderingConfig: ${renderingConfig},
             placeholder: "${placeholder}",
@@ -163,7 +164,11 @@ function MarkdownEditor(props) {
             tabSize: ${tabSize},
             toolbar: generateToolbarItems(),
             initialValue: value,
-            previewRender: renderPreview
+            previewRender: renderPreview,
+            insertTexts: {
+              image: ["![](https://", ")"],
+              link: ["[", "](https://)"],
+            },
         });
 
         /**
