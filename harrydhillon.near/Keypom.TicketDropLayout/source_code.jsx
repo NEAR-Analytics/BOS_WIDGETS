@@ -95,7 +95,15 @@ const componentsToRender = [
   />,
   <Widget src="harrydhillon.near/widget/Keypom.CollectInfo.Index" />,
   <Widget src="harrydhillon.near/widget/Keypom.Tickets.index" />,
-  <Widget src="harrydhillon.near/widget/Keypom.Review.Index" />,
+  <Widget
+    props={{
+      tickets: Storage.get("tickets") ? JSON.parse(Storage.get("tickets")) : [],
+      eventData: Storage.get("formValues")
+        ? JSON.parse(Storage.get("formValues"))
+        : {},
+    }}
+    src="harrydhillon.near/widget/Keypom.Review.index"
+  />,
 ];
 
 const formContent = () => {
