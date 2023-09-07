@@ -70,7 +70,7 @@ const loader = (
 
 return (
     <>
-    Recent ShardDog Claims<br/>
+    <span style={{textAlign:"left"}}>Recent ShardDog Claims</span><br/>
   <InfiniteScroll
     pageStart={0}
     loadMore={fetchTokens}
