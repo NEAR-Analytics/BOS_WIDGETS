@@ -341,7 +341,10 @@ const handleVote = () => {
     deposit: (greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000,
   };
 
-  const arr = isBonded ? [voteFunc] : [bondFunc, voteFunc];
+  const arr =
+    isBonded || (!blacklisted && !greylisted)
+      ? [voteFunc]
+      : [bondFunc, voteFunc];
 
   Near.call(arr);
   State.update({
