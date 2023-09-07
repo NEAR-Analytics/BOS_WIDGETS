@@ -23,7 +23,6 @@ const EventDisplayFlex = styled.div`
 
 const eventData = JSON.parse(Storage.get("formValues"));
 const ticketValue = JSON.parse(Storage.get("tickets"));
-console.log(ticketValue)
 return (
   <div style={{ padding: 10 }}>
     <HeadingDisplayFlex>
@@ -61,8 +60,11 @@ return (
         <p style={{ fontSize: 12 }}>{eventData.location}</p>
       </div>
     </EventDisplayFlex>
-    <Widget props={{
-      ticketValue
-    }} src="harrydhillon.near/widget/Keypom.Review.TicketTable" />
+    <Widget
+      props={{
+        ticketValue,
+      }}
+      src="harrydhillon.near/widget/Keypom.Review.TicketTable"
+    />
   </div>
 );
