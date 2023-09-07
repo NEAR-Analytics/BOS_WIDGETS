@@ -127,7 +127,7 @@ const Theme = styled.div`
   padding-bottom: 64px;
   margin: 0 auto;
   background: rgb(0,0,0);
-  background: linear-gradient(135deg, rgba(0,0,0,1) 50%, rgba(130,71,229,1) 100%);
+  background: linear-gradient(135deg, rgba(0,0,0,1) 50%, #06dd76 100%);
 
   .background {
     position:fixed;
