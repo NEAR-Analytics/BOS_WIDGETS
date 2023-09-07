@@ -82,6 +82,7 @@ const ItemContainer = styled.a`
 
   &:hover {
     text-decoration: none;
+    color: black;
     background: ${(props) => (props.selected ? "#4BA6EE" : "#fff")};
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   }
