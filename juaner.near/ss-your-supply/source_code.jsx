@@ -11,6 +11,7 @@ const Container = styled.div`
     border-radius: 100px;
   }
   .assets_table {
+    display: block;
     width: 100%;
     tr {
       color: #7c7f96;
@@ -85,6 +86,11 @@ const Container = styled.div`
   .double_lines {
     line-height: 16px;
     margin-top: 4px;
+  }
+  @media (max-width: 900px) {
+    .assets_table {
+      display: none;
+    }
   }
 `;
 /** base tool start  */
@@ -335,6 +341,114 @@ const renderAssets = (data, hasDollar) => {
   });
 };
 
+const renderMbAssets = (data, hasDollar) => {
+  const formatValue = (v) => {
+    if (Big(v).eq(0)) return "0";
+    if (Big(v).lt(0.01)) return hasDollar ? "<$0.01" : "<0.01";
+    return Big(v).toNumber().toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+  return data.map((item) => {
+    const {
+      icon,
+      symbol,
+      totalApy,
+      rewardsList,
+      collateralBalance,
+      collateralUsd,
+      totalBalance,
+      usd,
+      can_use_as_collateral,
+      token_id,
+      asset,
+    } = item;
+    return (
+      <div className="mb_row" key={token_id}>
+        <div className="mb_row_header">
+          <div className="mb_row_token">
+            <img src={icon || wnearbase64} class="tokenIcon"></img>
+            {symbol !== "wNEAR" ? symbol : "NEAR"}
+          </div>
+          <div className="double_lines">
+            <div>{formatValue(totalBalance)}</div>
+            <div class="text_grey_color">(${formatValue(usd, true)})</div>
+          </div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Supply Apy</div>
+          <div className="mb_row_value">{toAPY(totalApy)}%</div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Rewards</div>
+          <div className="mb_row_value">
+            {rewardsList.length == 0
+              ? "-"
+              : rewardsList.map((reward) => {
+                  const { rewardPerDay, metadata, rewardAsset } = reward;
+                  return (
+                    <div class="flex_center">
+                      $
+                      {formatValue(
+                        Big(rewardPerDay || 0)
+                          .mul(rewardAsset?.price?.usd || 0)
+                          .toString(),
+                        true
+                      )}
+                      <img
+                        class="rewardIcon ml_5"
+                        src={metadata.icon || wnearbase64}
+                      />
+                    </div>
+                  );
+                })}
+          </div>
+        </div>
+        <div className="mb_row_item">
+          <div className="mb_row_label">Collateral</div>
+          <div className="mb_row_value double_lines">
+            <div>{formatValue(collateralBalance)}</div>
+            <div class="text_grey_color">
+              (${formatValue(collateralUsd, true)})
+            </div>
+          </div>
+        </div>
+        <div className="mb_row_actions">
+          {!can_use_as_collateral ? null : (
+            <div class="action_btn">
+              <Widget
+                src="juaner.near/widget/ref-operation-button"
+                props={{
+                  clickEvent: () => {
+                    changeSelectedToken(asset, "adjust");
+                  },
+                  buttonType: "solid",
+                  actionName: "Adjust",
+                  hoverOn: true,
+                }}
+              />
+            </div>
+          )}
+          <div class="action_btn">
+            <Widget
+              src="juaner.near/widget/ref-operation-button"
+              props={{
+                clickEvent: () => {
+                  changeSelectedToken(asset, "withdraw");
+                },
+                buttonType: "line",
+                actionName: "Withdraw",
+                hoverOn: true,
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  });
+};
+
 function getWnearIcon(icon) {
   State.update({
     wnearbase64: icon,
@@ -382,7 +496,7 @@ return (
 
       {accountId && <tbody>{renderAssets(state.tableData)}</tbody>}
     </table>
-
+    <div className="mb_table">{renderMbAssets(state.tableData)}</div>
     {/** modal */}
     <Widget
       src="juaner.near/widget/ref-market-supply-adjust"
