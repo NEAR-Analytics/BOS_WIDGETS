@@ -38,7 +38,10 @@ if (state.feedIndex === 0) {
 if (!context.accountId) {
   return (
     <>
-      <div className="tab-content col-sm-10 " style={{ textAlign: "center" }}>
+      <div
+        className="tab-content col-sm-10 "
+        style={{ textAlign: "center", paddingTop: "20px" }}
+      >
         <h1>Welcome to ShardDog Social</h1>
         <p>
           <i>The future home of the Dog Park</i>
@@ -128,8 +131,6 @@ if (holder) {
       )}
       <p>
         <Greeting />, you currently hold <b>{nftDataCount} </b> ShardDogs <br />
-        {canShare}
-        <br />
         This is a beta, feedback is welcome 🐶
       </p>
       {state.feedIndex === 2 ? (
