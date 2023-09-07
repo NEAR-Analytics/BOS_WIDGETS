@@ -86,7 +86,7 @@ const MenuContainer = styled.div`
   .icon {
     width: 26px;
   }
-  @media (max-width:900px) {
+  @media (max-width: 900px) {
     margin: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -98,7 +98,7 @@ const MenuContainer = styled.div`
     right: 0;
     z-index: 1;
     padding: 0 16px;
-    .item{
+    .item {
       width: auto;
       padding: 0;
       height: 76px;
@@ -106,29 +106,33 @@ const MenuContainer = styled.div`
       text-align: center;
       align-items: center;
       margin-bottom: 0;
-      span{
+      span {
         margin-left: 26px;
         margin-bottom: -28px;
       }
     }
     .item.active {
-    background-image: none;
-    color:  #E9F456;
-    border-color: transparent;
-  }
+      background-image: none;
+      color: #e9f456;
+      border-color: transparent;
+    }
   }
 `;
 const { activeMenu } = state;
 
 const { initTab } = props;
 
+const storeTab = Storage.privateGet("curTab");
+
 State.init({
-  activeMenu: initTab || "lending",
+  activeMenu: initTab || storeTab || "lending",
 });
 function changeTab(menu) {
   State.update({
     activeMenu: menu,
   });
+
+  Storage.privateSet("curTab", menu);
 }
 // svg icon start
 const lendingIcon = (
@@ -241,7 +245,7 @@ const historyIcon = (
 const SwapContainer = styled.div`
   position: relative;
   left: calc(50% - 215px);
-  @media (max-width:900px) {
+  @media (max-width: 900px) {
     left: 0;
   }
 `;
