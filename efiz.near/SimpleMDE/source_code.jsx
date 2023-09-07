@@ -81,6 +81,8 @@ body {
 
 <script>
 let codeMirrorInstance;
+let isEditorInitialized = false;
+let isAtSymbolTyped = false;
 
 function MarkdownEditor(props) {
     const [value, setValue] = React.useState(props.initialText || "");
@@ -193,7 +195,10 @@ function MarkdownEditor(props) {
         };
 
         // On Change
-        simplemde.codemirror.on('change', () => {
+        simplemde.codemirror.on('change', (instance, changeObj) => {
+            if (changeObj.text[0] === '@') {
+              isAtSymbolTyped = true;
+            }
             updateContent();
             updateIframeHeight();
         });
@@ -205,14 +210,13 @@ function MarkdownEditor(props) {
 const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
-let isEditorInitialized = false;
 window.addEventListener("message", (event) => {
   if (!isEditorInitialized) {
     root.render(React.createElement(MarkdownEditor, {
         initialText: event.data.content }));
         isEditorInitialized = true;
   } else {
-    if (event.data.content !== codeMirrorInstance.getDoc().getValue()) {
+    if (isAtSymbolTyped && event.data.content !== codeMirrorInstance.getDoc().getValue()) {
         codeMirrorInstance.getDoc().setValue(event.data.content);
     }
   }
