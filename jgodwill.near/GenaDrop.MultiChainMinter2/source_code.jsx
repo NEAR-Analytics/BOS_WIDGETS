@@ -726,7 +726,7 @@ return (
   >
     <div style={{ display: "none" }}>
       <Widget
-        src="mattb.near/widget/GenaDrop.GenaDropSDK"
+        src="jgodwill.near/widget/GenaDrop.GenaDropSDK"
         props={{
           onLoad: (sdk) => State.update({ sdk: sdk }),
           onRefresh: (sdk) => State.update({ sdk: sdk }),
