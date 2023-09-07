@@ -136,14 +136,27 @@ function loadSBTs() {
 }
 
 function loadBond() {
-  if (state.iahToken) {
-    const isBondedAmount = Near.view(electionContract, "bond_by_sbt", {
-      sbt: state.iahToken,
-    });
+  // if (state.iahToken) {
+  //   const isBondedAmount = Near.view(electionContract, "bond_by_sbt", {
+  //     sbt: state.iahToken,
+  //   });
 
-    State.update({ isBonded: isBondedAmount > 0 });
-  }
+  //   State.update({ isBonded: isBondedAmount > 0 });
+  // }
+
+  asyncFetch(
+    `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
+    { headers: { "x-api-key": apiKey } }
+  ).then((resp) => {
+    if (resp.body) {
+      const amount = resp.body[context.accountId];
+      console.log("resp.body", resp.body);
+
+      State.update({ isBonded: amount ? amount > 0 : amount });
+    }
+  });
 }
+console.log(isBonded);
 
 function loadFlagged() {
   const flagged = Near.view(registryContract, "account_flagged", {
@@ -215,17 +228,6 @@ loadNFT(1, "hasIVotedNFT");
 if (state.reload) {
   loadMyVotes();
 }
-
-// asyncFetch(
-//   `https://api.pikespeak.ai/election/is-bonded?account=${currentUser}&registry=${registryContract}`,
-//   { headers: { "x-api-key": apiKey } }
-// ).then((resp) => {
-//   const isBondedContract = state.isBondedAmount > 0;
-//   const res = resp.body === isBondedContract ? resp.body : isBondedContract;
-
-//   console.log("is_bonded indexer: ", resp.body);
-//   if (resp.body) State.update({ isBonded: res });
-// });
 
 const handleSelect = (item) => {
   State.update({ selectedHouse: item.id });
