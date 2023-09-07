@@ -9,18 +9,18 @@ const TextContainer = styled.div`
 const Budget = styled.div`
   text-align: justify;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 20px;
 
   p {
-    margin: 10px 0;
+    margin: 13px 0;
   }
   h3,
   h4 {
-    margin: 15px 0;
+    margin: 17px 0;
   }
   h5,
   h6 {
-    margin: 10px 0;
+    margin: 13px 0;
   }
 `;
 
@@ -109,7 +109,9 @@ const Content = () => (
     <ol>
       <li>
         <h5>Budget and Cap Definitions</h5>
-        <h6>Congressional Term Duration : 6 Months</h6>
+        <h6>
+          <b>Congressional Term Duration : 6 Months</b>
+        </h6>
         <ul>
           <li>
             The duration for each Congressional term is set at 6 months. This
@@ -117,7 +119,9 @@ const Content = () => (
             planning and executing various initiatives and projects.
           </li>
         </ul>
-        <h6>Total Budget for the Congressional Term: $ 3M USD</h6>
+        <h6>
+          <b>Total Budget for the Congressional Term: $ 3M USD</b>
+        </h6>
         <ul>
           <li>
             The proposed budget for the entire 6-month period is $3M USD. This
@@ -125,7 +129,9 @@ const Content = () => (
             resources, ensuring optimal impact.
           </li>
         </ul>
-        <h6>Individual Allocation Cap: $100k Maximum per Month</h6>
+        <h6>
+          <b>Individual Allocation Cap: $100k Maximum per Month</b>
+        </h6>
         <ul>
           <li>
             Any single recipient can be allocated a maximum of $100k USD per
@@ -133,7 +139,9 @@ const Content = () => (
             funding while maintaining fiscal prudence.
           </li>
         </ul>
-        <h6>Unused Budget Provisions</h6>
+        <h6>
+          <b>Unused Budget Provisions</b>
+        </h6>
         <ul>
           <li>
             Any unused budget from a specific month will be rolled over to
@@ -141,7 +149,9 @@ const Content = () => (
             utilized.
           </li>
         </ul>
-        <h6>Additional Treasury Funds</h6>
+        <h6>
+          <b>Additional Treasury Funds</b>
+        </h6>
         <ul>
           <li>
             It's crucial to note that any supplementary funds added to the
@@ -152,8 +162,12 @@ const Content = () => (
         </ul>
       </li>
       <li>
-        <h5>Regular Budget Reviews</h5>
-        <h6>Quarterly Assessments</h6>
+        <h5>
+          <b>Regular Budget Reviews</b>
+        </h5>
+        <h6>
+          <b>Quarterly Assessments</b>
+        </h6>
         <ul>
           <li>
             Every three months, a mandatory budget review will be undertaken.
@@ -165,7 +179,9 @@ const Content = () => (
         </ul>
       </li>
       <li>
-        <h5>Definition of Big Budget Items</h5>
+        <h5>
+          <b>Definition of Big Budget Items</b>
+        </h5>
         <ul>
           <li>
             A Big Budget Item is any single expenditure proposal that exceeds
@@ -175,7 +191,9 @@ const Content = () => (
         </ul>
       </li>
       <li>
-        <h5>Recurring Budget Items</h5>
+        <h5>
+          <b>Recurring Budget Items</b>
+        </h5>
         <ul>
           <li>
             A Recurring Budget Item refers to any monthly expenditure that
@@ -187,7 +205,9 @@ const Content = () => (
         </ul>
       </li>
       <li>
-        <h5>Detailed Budget Allocation Template to be filled in by the HoM</h5>
+        <h5>
+          <b>Detailed Budget Allocation Template to be filled in by the HoM</b>
+        </h5>
         <p>
           The "Setup Package" requires the House of Merit (HoM) to provide a
           clear and detailed budget allocation, ensuring transparency and
@@ -195,7 +215,9 @@ const Content = () => (
           the overarching direction, while the HoM refines it into actionable
           financial plans.
         </p>
-        <h6>Guidance for HoM's Budget Allocation:</h6>
+        <h6>
+          <b>Guidance for HoM's Budget Allocation:</b>
+        </h6>
         <ol>
           <li>
             <b>Alignment with CoA: </b> Ensure all allocations align with the
@@ -230,7 +252,9 @@ const Content = () => (
       </li>
     </ol>
     <br />
-    <h6>Budget Breakdown Template:</h6>
+    <h6>
+      <b>Budget Breakdown Template:</b>
+    </h6>
     <p>
       The HoM should use the template below to detail the budget, providing
       clarity on the planned allocations for the term.
@@ -241,8 +265,6 @@ const Content = () => (
       decisions align with the community's values and the strategic direction
       set by the CoA.
     </p>
-    <br />
-    <br />
   </Budget>
 );
 
