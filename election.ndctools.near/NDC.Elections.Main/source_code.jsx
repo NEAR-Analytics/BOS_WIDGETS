@@ -117,6 +117,10 @@ function loadHouses() {
   State.update({ houses });
 }
 
+const findToken = (sbts, issuer) => {
+  if (sbts) sbts.find((token) => token[0] === issuer && token[1].length > 0);
+};
+
 function loadSBTs() {
   const issuer = {
     fractal: "fractal.i-am-human.near",
@@ -126,16 +130,9 @@ function loadSBTs() {
     account: currentUser,
   });
 
-  console.log(sbts);
-  console.log(findToken(issuer.fractal));
-
-  const findToken = (issuer) => {
-    if (sbts) sbts.find((token) => token[0] === issuer && token[1].length > 0);
-  };
-
   State.update({
-    iahToken: findToken(issuer.fractal),
-    iVotedToken: findToken(issuer.election),
+    iahToken: findToken(sbts, issuer.fractal),
+    iVotedToken: findToken(sbts, issuer.election),
   });
 }
 
