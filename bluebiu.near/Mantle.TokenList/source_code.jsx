@@ -36,6 +36,10 @@ const ModalContainer = styled.div`
   border: 1px solid #2c4a4b;
 
   padding: 20px 30px;
+
+  @media (max-width: 900px) {
+    width: 90%;
+  }
 `;
 
 const ModalBackdrop = styled.div`
