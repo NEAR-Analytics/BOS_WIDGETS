@@ -4,17 +4,24 @@ State.init({
   groupId,
 });
 
+const onChangeGroup = (groupId) => {
+  State.update({
+    groupId,
+  });
+};
+
 return (
   <>
-    <h5>Group ID</h5>
+    <h3>Edit Group</h3>
     <input
-      placeholder={groupId}
-      onChange={(e) => State.update({ groupId: e.target.value })}
+      placeholder="groupId"
+      value={state.groupId}
+      onChange={(e) => onChangeGroup(e.target.value)}
     />
-    <hr />
+    <br />
     <Widget
       src="hack.near/widget/group.editor"
-      props={{ groupId: state.groupId }}
+      props={{ groupId: state.groupId, creatorId: "james.near" }}
     />
   </>
 );
