@@ -43,6 +43,7 @@ State.init({
   iVotedToken: false,
 });
 
+console.log(state.selectedHouse);
 const currentUser = context.accountId;
 
 const steps = [
