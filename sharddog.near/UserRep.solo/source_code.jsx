@@ -39,7 +39,7 @@ const cellStyle = {
 
 const cardStyle = {
   padding: "10px",
-  width: "640px",
+  width: "620px",
   maxWidth: "100%",
   background: "rgba(251, 249, 245, 0.85)",
   filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15))",
@@ -236,7 +236,7 @@ return (
               image,
               alt: title,
               className: "img-fluid rounded-3",
-              style: { maxWidth: "640px" },
+              style: { maxWidth: "620px" },
               thumbnail,
               fallbackUrl:
                 "https://ipfs.near.social/ipfs/bafkreigx4syocpq3spthgozerqnqjf4k7ri5jrsslgali7tslvfmjrefte",
