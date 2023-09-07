@@ -102,12 +102,23 @@ const getEstimate = (path, name) => {
           .div(Big(10).pow(tokenOutDecimals))
           .toFixed(18);
 
-        console.log("estimate", estimate);
-        State.update({
-          res: Object.assign(state.res ?? {}, {
-            [name]: { estimate, path, fee },
-          }),
-        });
+        console.log(
+          "estimate",
+          estimate,
+          fee,
+          state.res[name].estimate,
+          state.res,
+          name
+        );
+        if (
+          parseFloat(estimate) > parseFloat(state.res[name]?.estimate ?? "0")
+        ) {
+          State.update({
+            res: Object.assign(state.res ?? {}, {
+              [name]: { estimate, path, fee },
+            }),
+          });
+        }
       })
       .catch((e) => {
         console.log(e);
