@@ -126,11 +126,11 @@ const Wrapper = styled.div`
   }
 
   .unlock-content-overlay > .main-button:hover {
-    background-color: rgb(26, 140, 216);
+    background-color: #eb9dab;
   }
 
   .unlock-content-overlay > .main-button:disabled {
-    background: #99cdf8;
+    background: #eb9dab;
     cursor: default;
   }
 
