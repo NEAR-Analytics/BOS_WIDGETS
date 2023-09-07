@@ -29,6 +29,17 @@ const Wrapper = styled.div`
     }
     padding-top: 0px;
     flex-direction: column;
+
+    .dapp-list-title {
+      font-family: Gantari;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 22px;
+      text-align: left;
+      color: #00ffe0;
+      padding-left: 4px;
+      padding-bottom: 4px;
+    }
   }
 
   .frcs {
@@ -83,6 +94,7 @@ const DappList = styled.div`
     flex-direction: row;
     overflow: auto;
     width: 100%;
+    padding: 8px;
   }
 `;
 
@@ -184,7 +196,7 @@ const DappItem = styled.li`
 
 const SwapContainer = styled.div`
   width: 560px;
-  min-height: 466px;
+  /* min-height: 466px; */
   border-radius: 16px;
   border: 1px solid #2c4a4b;
   padding: 24px;
@@ -194,6 +206,8 @@ const SwapContainer = styled.div`
 
   @media (max-width: 900px) {
     width: 100%;
+
+    padding: 18px 14px;
   }
 
   .swap-direction {
@@ -291,6 +305,10 @@ const Button = styled.div`
   color: #0f1126;
   cursor: pointer;
   font-weight: 500;
+
+  @media (max-width: 900px) {
+    height: 40px;
+  }
 `;
 
 const config = {
