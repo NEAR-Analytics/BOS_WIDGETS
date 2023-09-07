@@ -38,8 +38,12 @@ if (state.feedIndex === 0) {
 if (!context.accountId) {
   return (
     <>
-      <div className="tab-content col-sm-10 " style={{textAlign:"center,"}}>
-        <h1>Welcome to ShardDog</h1>
+      <div className="tab-content col-sm-10 " style={{ textAlign: "center," }}>
+        <h1>Welcome to ShardDog Social</h1>
+        <p><i>The future home of the Dog Park</i></p>
+        A platform built on NEAR<br/>
+        That's designed for <s>projects, brands, </s>ANYONE<br/>
+        To easily connect & build their AUDIENCE
         <br />
         <div>
           <img
@@ -130,7 +134,7 @@ if (holder) {
 } else {
   return (
     <>
- <div className="tab-content col-sm-10 " style={{textAlign:"center,"}}>
+      <div className="tab-content col-sm-10 " style={{ textAlign: "center," }}>
         <h1>Welcome to ShardDog</h1>
         <br />
         <div>
