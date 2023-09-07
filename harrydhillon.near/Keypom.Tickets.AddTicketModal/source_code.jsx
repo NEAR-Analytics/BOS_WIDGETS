@@ -256,8 +256,4 @@ if (props.editMode && props.isOpen && !state.hasBeenEditUpdated) {
   State.update({ ...props.editVal, hasBeenEditUpdated: true });
 }
 
-return (
-  <div style={{width:550}}>
-  {props.isOpen && AddTicketModal}
-  </div>
-);
+return <div style={{ width: 550 }}>{props.isOpen && AddTicketModal}</div>;
