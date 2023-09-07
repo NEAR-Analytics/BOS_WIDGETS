@@ -11,7 +11,7 @@ return (
       <Widget
         src="andyh.near/widget/ComponentIdTestChild"
         id={id}
-        isTrusted={false}
+        isTrusted={true}
         props={{
           value,
           id,
