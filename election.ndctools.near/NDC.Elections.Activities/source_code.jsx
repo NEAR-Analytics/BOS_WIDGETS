@@ -108,10 +108,7 @@ return (
             </AccountBlock>
           </div>
           <ImgContainer>
-            <img
-              src={housesMapping[house.typ].src}
-              alt={housesMapping[house.typ].title}
-            />
+            <img src={housesMapping[vote.house]} />
           </ImgContainer>
         </VoteRow>
       ))}
