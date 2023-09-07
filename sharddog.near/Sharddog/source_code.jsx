@@ -69,6 +69,8 @@ const loader = (
 );
 
 return (
+    <>
+    Recent ShardDog Claims<br/>
   <InfiniteScroll
     pageStart={0}
     loadMore={fetchTokens}
@@ -100,4 +102,5 @@ return (
       })}
     </Grid>
   </InfiniteScroll>
+  </>
 );
