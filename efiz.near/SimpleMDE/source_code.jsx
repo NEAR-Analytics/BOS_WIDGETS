@@ -207,10 +207,10 @@ window.addEventListener("message", (event) => {
         initialText: event.data.content }));
         isEditorInitialized = true;
   } else {
-  const textarea = document.querySelector('textarea[name="markdown-input"]');
-  const codeMirrorElement = textarea.nextElementSibling.querySelector('.CodeMirror');
-  const codeMirrorInstance = codeMirrorElement.CodeMirror;
-  codeMirrorInstance.getDoc().setValue(event.data.content);
+    const textarea = document.querySelector('textarea[id="markdown-input"]');
+    const codeMirrorElement = textarea.nextElementSibling.querySelector('.CodeMirror');
+    const codeMirrorInstance = codeMirrorElement.CodeMirror;
+    codeMirrorInstance.getDoc().setValue(event.data.content);
   }
 });
 </script>
