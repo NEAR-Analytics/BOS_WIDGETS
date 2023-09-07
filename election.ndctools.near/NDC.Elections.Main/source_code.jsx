@@ -155,7 +155,7 @@ function loadBond() {
   ).then((resp) => {
     if (resp.body) {
       const amount = resp.body.bond ? parseInt(resp.body.bond) : 0;
-
+      console.log(resp.body);
       State.update({ isBonded: amount > 0 });
     }
   });
@@ -165,7 +165,7 @@ function loadFlagged() {
   const flagged = Near.view(registryContract, "account_flagged", {
     account: currentUser,
   });
-  console.log(flagged);
+
   State.update({
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
