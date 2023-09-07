@@ -1,4 +1,4 @@
-const { formState, errors } = props;
+const { formState, errors, renderFooter } = props;
 const { accountId } = context;
 
 State.init({
@@ -107,5 +107,6 @@ return (
         })}
       </div>
     </div>
+    {renderFooter(finalState)}
   </>
 );
