@@ -604,7 +604,9 @@ return (
         </div>
       </>
     ) : response.body.length == 0 ? (
-      <h1>Searched contract not found</h1>
+      <h1 style={{ color: "#FF3A29", fontFamily: "Inter" }}>
+        The searched contract was not found
+      </h1>
     ) : (
       <h1>Loading...</h1>
     )}
