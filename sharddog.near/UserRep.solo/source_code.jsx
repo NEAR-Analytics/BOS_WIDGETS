@@ -118,10 +118,8 @@ const animateCharacter = {
   fontSize: "30px",
 };
 
-
-
 function fetchData() {
- // State.update({ loading: true });
+  // State.update({ loading: true });
   asyncFetch("https://auth.shard.dog/wallet/" + accountId, {
     method: "GET",
   }).then((res) => {
@@ -220,17 +218,16 @@ return (
       alignItems: "center",
     }}
   >
-
     <div style={cardStyle}>
-      <div className="center-box"> 
-          <h3>Check out Your NEAR "Just to get a rep"</h3>
-    <small>
-      <i>
-        This is a beta of how you could look at scoring users rep based on
-        activity
-      </i>
-    </small>
-    <br />
+      <div className="center-box">
+        <h3>Check out Your NEAR "Just to get a rep"</h3>
+        <small>
+          <i>
+            This is a beta of how you could look at scoring users rep based on
+            activity
+          </i>
+        </small>
+        <br />
         <div style={container}>
           <div style={centered}>{accountId}</div>
           <Widget
