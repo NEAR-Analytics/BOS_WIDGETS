@@ -1,5 +1,5 @@
 const accountId = props.accountId ?? context.accountId;
-const daoId = "marmaj-gaming.sputnik-dao.near";
+const daoId = "research-collective.sputnik-dao.near";
 
 let profile = Social.getr(`${daoId}/profile`);
 
@@ -373,3 +373,4 @@ return (
     </Actions>
   </Wrapper>
 );
+lol;
