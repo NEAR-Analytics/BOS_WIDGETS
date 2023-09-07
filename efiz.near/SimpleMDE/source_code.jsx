@@ -14,6 +14,7 @@ const className = props.className ?? "w-100";
 
 State.init({
   iframeHeight: height,
+  message: { handler: "init", content: props.data }
 });
 
 // SIMPLEMDE CONFIG //
@@ -79,6 +80,8 @@ body {
 <div id="react-root"></div>
 
 <script>
+let codeMirrorInstance;
+
 function MarkdownEditor(props) {
     const [value, setValue] = React.useState(props.initialText || "");
 
@@ -171,6 +174,8 @@ function MarkdownEditor(props) {
             },
         });
 
+        codeMirrorInstance = simplemde.codemirror;
+
         /**
          * Sends message to Widget to update content
          */
@@ -207,21 +212,8 @@ window.addEventListener("message", (event) => {
         initialText: event.data.content }));
         isEditorInitialized = true;
   } else {
-    // 
-   try {
-      const codeMirrorElement = document.querySelector('.CodeMirror');
-      if (codeMirrorElement) {
-        const codeMirrorInstance = codeMirrorElement.CodeMirror;
-        if (codeMirrorInstance) {
-          codeMirrorInstance.getDoc().setValue(event.data.content);
-        } else {
-          console.error("CodeMirror instance not found");
-        }
-      } else {
-        console.error("CodeMirror element not found");
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
+    if (event.data.content !== codeMirrorInstance.getDoc().getValue()) {
+        codeMirrorInstance.getDoc().setValue(event.data.content);
     }
   }
 });
