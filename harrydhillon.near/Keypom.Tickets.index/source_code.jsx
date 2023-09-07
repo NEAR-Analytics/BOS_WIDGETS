@@ -166,7 +166,7 @@ const createTickets = () => {
                       Preview Ticket
                     </UnstyledButton>
                   </TableCell>
-                  <TableCell>{item.numberOfTickets}</TableCell>
+                  <TableCell>{item.numberOfTickets??'∞'}</TableCell>
                   <TableCell>{item.ticketPricing}</TableCell>
                   <TableCell>
                     <ActionButton
