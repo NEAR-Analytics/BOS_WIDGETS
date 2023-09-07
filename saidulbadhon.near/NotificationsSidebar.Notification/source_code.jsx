@@ -7,14 +7,14 @@ const isComment = path.indexOf("/post/comment") > 0 || type === "comment";
 const isPost = !isComment && path.indexOf("/post/main") > 0;
 const likedPost = type === "like" && isPost;
 const likedComment = type === "like" && isComment;
-let postUrl = `/#/adminalpha.near/widget/PostPage?accountId=${
+let postUrl = `/adminalpha.near/widget/PostPage?accountId=${
   props.accountId
 }&${isComment ? "commentBlockHeight" : "blockHeight"}=${props.blockHeight}`;
 
 if (type === "like") {
   const parentAccountId = path.split("/")[0];
   const parentBlockHeight = item.blockHeight;
-  postUrl = `/#/adminalpha.near/widget/PostPage?accountId=${parentAccountId}&${
+  postUrl = `/adminalpha.near/widget/PostPage?accountId=${parentAccountId}&${
     isComment ? "commentBlockHeight" : "blockHeight"
   }=${parentBlockHeight}`;
 }
