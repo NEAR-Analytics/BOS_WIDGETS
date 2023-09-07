@@ -266,10 +266,33 @@ const handleBridge = (props) => {
       to: BRIDGE_CONTRACT_ADDRESS,
       data: encodedData,
       value: token.symbol === "ETH" ? amountBig : "0",
-      gasLimit,
+      gasLimit: 300000,
     })
-    .then((tx) => {})
+    .then((tx) => {
+      console.log("tx: ", tx);
+      tx.wait().then(() => {
+        const uuid = Storage.get(
+          "zkevm-warm-up-uuid",
+          "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
+        );
+
+        add_action({
+          action_title: `Bridge ${token.symbol} from ${
+            chainId === 1 ? "Ethereum" : "Polygon zkEVM"
+          }`,
+          action_type: "Bridge",
+          action_tokens: JSON.stringify([`${token.symbol}`]),
+          action_amount: amount,
+          account_id: sender,
+          account_info: uuid,
+          template: "native bridge",
+          action_network_id: "zkEVM",
+          action_switch: state.add ? 1 : 0,
+        });
+      });
+    })
     .catch((e) => {
+      console.log("e1111: ", e);
       if (!e.code) {
         State.update({
           isToastOpen: true,
