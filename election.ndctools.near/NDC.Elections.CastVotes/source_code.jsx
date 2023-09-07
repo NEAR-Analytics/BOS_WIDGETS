@@ -195,8 +195,8 @@ const CastBudgetVote = () => (
             ),
             disabled:
               blacklisted ||
-              (winnerIds.length > 0 && !isBudgetWinner("yes")) ||
-              (alreadyVotedForHouse() && !alreadyVoted("yes")),
+              (alreadyVotedForHouse() && !alreadyVoted("yes")) ||
+              (winnerIds.length > 0 && !isBudgetWinner("yes")),
             onClick: () => {
               if (winnerIds.length > 0 || alreadyVoted("yes")) return;
 
@@ -220,8 +220,8 @@ const CastBudgetVote = () => (
             ),
             disabled:
               blacklisted ||
-              (winnerIds.length > 0 && !isBudgetWinner("no")) ||
-              (alreadyVotedForHouse() && !alreadyVoted("no")),
+              (alreadyVotedForHouse() && !alreadyVoted("no")) ||
+              (winnerIds.length > 0 && !isBudgetWinner("no")),
             onClick: () => {
               if (winnerIds.length > 0 || alreadyVoted("no")) return;
 
@@ -239,12 +239,12 @@ const CastBudgetVote = () => (
               winnerIds.length > 0
                 ? `Abstain - ${result.find((item) => item[0] === "abstain")[1]}`
                 : "Abstain",
-            className: "primary justify-content-center",
+            className: "primary justify-content-center text-nowrap",
             icon: winnerIds.length === 0 && <i className="bi bi-x-lg" />,
             disabled:
               blacklisted ||
-              (winnerIds.length > 0 && !isBudgetWinner("abstain")) ||
-              (alreadyVotedForHouse() && !alreadyVoted("abstain")),
+              (alreadyVotedForHouse() && !alreadyVoted("abstain")) ||
+              (winnerIds.length > 0 && !isBudgetWinner("abstain")),
             onClick: () => {
               if (winnerIds.length > 0 || alreadyVoted("abstain")) return;
 
