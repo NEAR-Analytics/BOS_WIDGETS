@@ -772,7 +772,7 @@ return (
             </div>
           ),
           description:
-            "Election results are under review by Election integrity Councils. Please wait it may takes a few days",
+            "Election results are under review by Election integrity Councils. Please wait it may take a few days",
           Button: {
             title: "I understand",
             onCancel: () =>
