@@ -124,23 +124,37 @@ const createTickets = () => {
               {state.tickets.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell style={{ width: "30%" }}>
-                    <div style={{ fontSize: 16, fontWeight: "500" }}>
-                      {item.ticketName}
-                    </div>
-                    <p
-                      style={{
-                        textOverflow: "ellipsis",
-                        width: 200,
-                        fontSize: 12,
-                        whiteSpace: "nowrap",
-                        marginBottom: 0,
-                      }}
-                    >
-                      {ellipsisIfExceeds(item.description)}
-                    </p>
-                    <div style={{ fontSize: 12, color: "#94A3B8" }}>
-                      {extractDateComponents(item.from)} -{" "}
-                      {extractDateComponents(item.to)}
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <div style={{ padding: 4 }}>
+                        <img
+                          src={`https://ipfs.near.social/ipfs/${item.image.cid}`}
+                          style={{
+                            width: 35,
+                            height: 35,
+                            borderRadius: 3,
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 16, fontWeight: "500" }}>
+                          {item.ticketName}
+                        </div>
+                        <p
+                          style={{
+                            textOverflow: "ellipsis",
+                            width: 200,
+                            fontSize: 12,
+                            whiteSpace: "nowrap",
+                            marginBottom: 0,
+                          }}
+                        >
+                          {ellipsisIfExceeds(item.description)}
+                        </p>
+                        <div style={{ fontSize: 12, color: "#94A3B8" }}>
+                          {extractDateComponents(item.from)} -{" "}
+                          {extractDateComponents(item.to)}
+                        </div>
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>
