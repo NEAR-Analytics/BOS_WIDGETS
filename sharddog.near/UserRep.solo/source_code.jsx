@@ -221,7 +221,7 @@ return (
   >
     <div style={cardStyle}>
       <div className="center-box">
-        <h3>Check out Your NEAR "Just to get a rep"</h3>
+        <h3>NEAR "Just to get a rep"</h3>
         <small>
           <i>
             This is a beta of how you could look at scoring users rep based on
