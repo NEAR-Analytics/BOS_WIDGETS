@@ -154,8 +154,8 @@ function loadBond() {
     { headers: { "x-api-key": apiKey } }
   ).then((resp) => {
     if (resp.body) {
-      const amount = resp.body.bond ? parseInt(resp.body.bond) : 0;
-      console.log(resp.body);
+      const amount = resp.body.bond ? parseFloat(resp.body.bond) : 0;
+
       State.update({ isBonded: amount > 0 });
     }
   });
