@@ -113,8 +113,9 @@ const Content = () => (
     <p>
       <hr />
     </p>
-    <h4>Budget Breakdown</h4>
-
+    <h4>
+      <b>Budget Breakdown</b>
+    </h4>
     <ol>
       <li>
         <h5>Budget and Cap Definitions</h5>
@@ -276,12 +277,18 @@ const Content = () => (
       The HoM should use the template below to detail the budget, providing
       clarity on the planned allocations for the term.
     </p>
+    <img src="https://bafkreibqnu2m5izw3sf47462fqmp2ve4tfei67tzldbsuzcmpifrbossc4.ipfs.nftstorage.link/" />
     <p>
       It's vital for the community to have a clear understanding of how funds
       are intended to be used. This structured approach ensures the HoM's budget
       decisions align with the community's values and the strategic direction
       set by the CoA.
     </p>
+
+    <h5>
+      <b>Template: Budget Breakdown</b>
+    </h5>
+    <img src="https://bafybeiesmrpom3hf5s4h5w6syaxvet7cthg5egab2ocpimfzr2gpfubgwa.ipfs.nftstorage.link/" />
   </Budget>
 );
 
