@@ -20,12 +20,19 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 900px) {
+    align-items: flex-end;
+  }
 `;
 const Content = styled.div`
   width: 460px;
   border-radius: 16px;
   border: 1px solid #2c334b;
   background-color: #181a27;
+  @media (max-width: 900px) {
+    width: 100%;
+    border-radius: 16px 16px 0px 0px;
+  }
 `;
 const Header = styled.div`
   display: flex;
@@ -56,6 +63,9 @@ const CurrencyList = styled.div`
   padding: 0px 30px 20px;
   max-height: calc(80vh - 120px);
   overflow-x: auto;
+  @media (max-width: 900px) {
+    max-height: 50vh;
+  }
 `;
 const Empty = styled.div`
   min-height: 100px;
