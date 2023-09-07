@@ -133,7 +133,6 @@ function loadSBTs() {
     account: currentUser,
   });
 
-  console.log(findToken(sbts, issuer.fractal));
   State.update({
     iahToken: findToken(sbts, issuer.fractal),
     iVotedToken: findToken(sbts, issuer.election),
@@ -191,9 +190,7 @@ function loadMyVotes() {
       );
 
       const votes = ids
-        .map((id) =>
-          myVotes.find((vote) => parseInt(vote.proposal_id) === id[0])
-        )
+        .map((id) => myVotes.find((vote) => parseInt(vote.proposal_id) === id))
         .filter((el) => el);
 
       State.update({
