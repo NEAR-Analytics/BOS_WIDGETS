@@ -76,7 +76,7 @@ return (
         </TableRow>
       </TableHead>
       <tbody style={{ borderRadius: 10 }}>
-        {ticketValue?.map((item, index) => (
+        {(ticketValue || [])?.map((item, index) => (
           <TableRow key={index}>
             <TableCell style={{ width: "30%" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
