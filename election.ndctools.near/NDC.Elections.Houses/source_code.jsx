@@ -96,7 +96,7 @@ const buildURL = (houseId) => {
     arr.push(`election_contract=${urlProps.election_contract}`);
   if (urlProps.registry_contract)
     arr.push(`registry_contract=${urlProps.registry_contract}`);
-  if (urlProps.house) arr.push(`house=${houseId}`);
+  arr.push(`house=${houseId}`);
 
   return "?" + arr.join("&");
 };
