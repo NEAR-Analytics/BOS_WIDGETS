@@ -1,4 +1,4 @@
-let { ids, election_contract, registry_contract, house } = props;
+let { ids, election_contract, registry_contract, house_id } = props;
 
 ids = ids ? JSON.parse(ids) : [1, 2, 3, 4];
 const budgetId = ids[3];
@@ -24,7 +24,7 @@ const widgets = {
 
 State.init({
   electionStatus: "NOT_STARTED",
-  selectedHouse: house ?? ids[0],
+  selectedHouse: house_id ?? ids[0],
   myVotes: [],
   winnerIds: [],
   iahToken: null,
@@ -43,7 +43,6 @@ State.init({
   iVotedToken: false,
 });
 
-console.log(state.selectedHouse);
 const currentUser = context.accountId;
 
 const steps = [
