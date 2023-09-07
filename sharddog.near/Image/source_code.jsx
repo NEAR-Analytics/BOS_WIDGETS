@@ -1,4 +1,5 @@
 const image = props.image;
+const title = props.title || "";
 const className = props.className;
 const style = props.style;
 const alt = props.alt;
@@ -67,11 +68,13 @@ return image.nft.contractId && image.nft.tokenId ? (
         className={className}
         controls
         style={style}
+         title={title}
         src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
       />
     ) : (
       <img
         className={className}
+        title={title}
         onClick={() => {
           const mediaUrl = state.imageUrl
             ? thumb(state.imageUrl)
@@ -119,6 +122,7 @@ return image.nft.contractId && image.nft.tokenId ? (
                   src={state.modalMediaUrl}
                   className="img-fluid"
                   alt="Modal"
+                   title={title}
                 />
               )}
             </div>
