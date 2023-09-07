@@ -76,9 +76,7 @@ const BoxWrapper = styled.div`
     :hover {
       background: rgba(24, 26, 39, 0.3);
     }
-    &.disabled {
-      opacity: 0.3;
-    }
+
     span {
       position: absolute;
       right: 20px;
@@ -86,11 +84,11 @@ const BoxWrapper = styled.div`
     }
   }
 
-  .overlay {
+  .overlay{
     display: none;
   }
 
-  .BoxWrapper-closeIcon {
+  .BoxWrapper-closeIcon{
     display: none;
   }
 
@@ -100,27 +98,27 @@ const BoxWrapper = styled.div`
     left: 0;
     width: 100%;
     .overlay {
-      position: fixed;
-      display: block;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: black;
-      opacity: 0.5;
-    }
-    .BoxWrapper-closeIcon {
+    position: fixed;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    opacity: 0.5;
+  }
+    .BoxWrapper-closeIcon{
       display: block;
       width: 100%;
       text-align: right;
-      border-bottom: 1px solid #2e3046;
+      border-bottom: 1px solid #2E3046;
       height: 40px;
       padding: 0 30px;
-      img {
+      img{
         width: 12px;
         height: 12px;
       }
-    }
+   }
   }
 `;
 
@@ -141,8 +139,7 @@ const arrowDown = (
   </svg>
 );
 
-const closeIcon =
-  "https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq";
+const closeIcon = 'https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq'
 
 const Img = styled.img`
   width: 32px;
@@ -190,15 +187,8 @@ return (
           return (
             <div
               key={"zkrvm-bridge-list-item-" + t.symbol}
-              className={`list-item ${
-                balances?.[t.symbol] && Big(balances[t.symbol]).eq(0)
-                  ? "disabled"
-                  : ""
-              }`}
+              className="list-item"
               onClick={() => {
-                if (balances?.[t.symbol] && Big(balances[t.symbol]).eq(0)) {
-                  return;
-                }
                 onSelect(t.symbol);
                 onClose();
               }}
