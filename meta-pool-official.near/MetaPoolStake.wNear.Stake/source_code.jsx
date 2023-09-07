@@ -43,6 +43,7 @@ const swapAbi = [
 const iface = new ethers.utils.Interface(swapAbi);
 
 const onSubmit = (strAmount) => {
+  console.log();
   const swap = new ethers.Contract(
     swapAddress,
     swapAbi,
@@ -55,7 +56,7 @@ const onSubmit = (strAmount) => {
   update({ loading: true });
 
   swap
-    .swapwNEARForstNEAR(sender, amount, { value })
+    .swapwNEARForstNEAR(amount)
     .then((txResp) => {
       txResp.wait().then((waitResp) => {
         console.log("success!");
