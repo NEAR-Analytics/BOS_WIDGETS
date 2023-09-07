@@ -232,6 +232,13 @@ const isHomeIndex = [
     `ref-admin.near/widget/xBox`,
 ];
 
+const on_rainbow = Storage.get(
+  "on-rainbow-bridge",
+  "juaner.near/widget/ref-home"
+);
+
+console.log("on_rainbow: ", on_rainbow);
+
 const itemList = [
   {
     item: (
@@ -240,6 +247,13 @@ const itemList = [
           key={"juaner.near" + "ref-home"}
           src="ref-admin.near/widget/ref-template-card"
           props={{
+            redirectTo:
+              Storage.get(
+                "on-rainbow-bridge",
+                "juaner.near/widget/ref-home"
+              ) === "1"
+                ? "/rainbow-bridge"
+                : "",
             src: `juaner.near/widget/ref-home`,
             isHome:
               Social.get(`${context.accountId}/myHomePagePath`) ===
