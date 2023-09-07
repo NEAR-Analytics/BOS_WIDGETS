@@ -221,6 +221,7 @@ const currentChainProps = {
     id: "1313161554",
     chain: "Aurora",
     explorer: "https://aurorascan.dev/",
+    explorerTx: "https://aurorascan.dev/",
     livePrice: "ethereum",
     contract: "0xe93097f7C3bF7A0E0F1261c5bD88F86D878667B5",
     subgraph:
@@ -232,7 +233,7 @@ const currentChainProps = {
     contract: "0x27E52A81975F5Fb836e79007E3c478C6c0E6E9FB",
     chain: "Arbitrum",
     explorer: "https://arbiscan.io/",
-
+    explorerTx: "https://arbiscan.io/",
     livePrice: "ethereum",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
   },
@@ -242,6 +243,7 @@ const currentChainProps = {
     livePrice: "celo",
     contract: "0x5616BCcc278F7CE8B003f5a48f3754DDcfA4db5a",
     explorer: "https://explorer.celo.org/address/",
+    explorerTx: "https://explorer.celo.org/",
     chain: "Celo",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
   },
@@ -252,6 +254,7 @@ const currentChainProps = {
     livePrice: "matic-network",
     contract: "0x57Eb0aaAf69E22D8adAe897535bF57c7958e3b1b",
     explorer: "https://polygonscan.com/address/",
+    explorerTx: "https://polygonscan.com/",
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
@@ -288,19 +291,17 @@ const evmList = () => {
     )
     .then((transactionHash) => transactionHash.wait())
     .then((ricit) => {
-      console.log("does not get hiere", ricit);
       State.update({
         isOpen: true,
         message: true,
         error: false,
         loadingListing: false,
-        explorerText: `${currentChainProps[props.chainState].explorer}/tx/${
+        explorerText: `${currentChainProps[props.chainState].explorerTx}/tx/${
           ricit.transactionHash
         }`,
       });
     })
     .catch((err) => {
-      console.log("erro stuffs, baffles me", err);
       State.update({
         isOpen: false,
         loadingListing: false,
@@ -506,7 +507,7 @@ return (
     )}
     <Heading className="text-center fs-2 fw-bold my-4">
       {" "}
-      🛍️ List NFT to Multiple Marketplaces{" "}
+      🛍️ List NFT {props.chainState === 'near' && "to Multiple Marketplaces"}
     </Heading>
     {!props.tokenId && !props.contractId && (
       <div>
