@@ -1,28 +1,28 @@
 const TextContainer = styled.div`
-  overflow-y: scroll;
-  overflow-x: hidden;
-  max-height: 490px;
-  width: 100%;
-  padding: 15px;
-`;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 490px;
+    width: 100%;
+    padding: 15px;
+  `;
 
 const Budget = styled.div`
-  text-align: justify;
-  font-size: 14px;
-  line-height: 20px;
+    text-align: justify;
+    font-size: 14px;
+    line-height: 20px;
 
-  p {
-    margin: 13px 0;
-  }
-  h3,
-  h4 {
-    margin: 17px 0;
-  }
-  h5,
-  h6 {
-    margin: 13px 0;
-  }
-`;
+    p {
+      margin: 13px 0;
+    }
+    h3,
+    h4 {
+      margin: 17px 0;
+    }
+    h5,
+    h6 {
+      margin: 13px 0;
+    }
+  `;
 
 const Content = () => (
   <Budget>
@@ -270,7 +270,10 @@ const Content = () => (
 
 return (
   <>
-    <a href="https://bafybeifjibo3ygatrlpszzhqososzw3rlitrgdudkrc6fceo3musandgfm.ipfs.nftstorage.link/">
+    <a
+      className="mb-2"
+      href="https://bafybeifjibo3ygatrlpszzhqososzw3rlitrgdudkrc6fceo3musandgfm.ipfs.nftstorage.link/"
+    >
       View Budget Package
       <i className="ml-2 bi bi-box-arrow-up-right" />
     </a>
