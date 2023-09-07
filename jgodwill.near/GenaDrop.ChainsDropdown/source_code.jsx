@@ -8,39 +8,6 @@ const handleSelectClick = () => {
   });
 };
 
-const CHAINS = [
-  {
-    id: "137",
-    name: "Polygon",
-    url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
-  },
-  {
-    id: "1313161554",
-    name: "Aurora",
-    url: "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
-  },
-  {
-    id: "42220",
-    name: "Celo",
-    url: "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
-  },
-  {
-    id: "43114",
-    name: "Avax",
-    url: "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
-  },
-  {
-    id: "42161",
-    name: "Arbitrum",
-    url: "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
-  },
-  {
-    id: "0",
-    name: "Near",
-    url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
-  },
-];
-
 const handleOutsideClick = (e) => {
   e.preventDefault();
   if (!!state.selectIsOpen) {
