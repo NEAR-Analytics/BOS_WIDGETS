@@ -2,7 +2,7 @@ const { isTest, authorForWidget, reactedElementData, widgets } = props;
 
 const data = reactedElementData;
 
-const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.upVotes`];
+const libSrcArray = [widgets.libUpVotes];
 
 const libCalls = [
   {
