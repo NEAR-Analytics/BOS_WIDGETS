@@ -20,10 +20,20 @@ function fetchTokens() {
             mb_views_nft_tokens(
                 limit: ${limit},
                 offset: ${state.offset}
-              where: { nft_contract_id: { _eq: "mint.sharddog.near" }}
+            where: {
+          _or: [
+            {nft_contract_id: {_eq: "mint.sharddog.near"}},
+            {nft_contract_id: {_eq: "comic.sharddog.near"}},
+            {nft_contract_id: {_eq: "humansofbrazil.sharddog.near"}},
+            {nft_contract_id: {_eq: "mmc-mint.sharddog.near"}},
+            {nft_contract_id: {_eq: "nft.bluntdao.near"}},
+            {nft_contract_id: {_eq: "meteor.sharddog.near"}},
+          ]
+        }
               order_by: {minted_timestamp: desc}
             ) {
               media
+              owner
             }
           }
         `,
@@ -69,38 +79,41 @@ const loader = (
 );
 
 return (
-    <>
-    <span style={{textAlign:"left"}}>Recent ShardDog Claims</span><br/>
-  <InfiniteScroll
-    pageStart={0}
-    loadMore={fetchTokens}
-    hasMore={state.hasMore}
-    loader={loader}
-  >
-    <Grid>
-      {state.tokens?.map((it) => {
-        return (
-          <Widget
-            src="sharddog.near/widget/Image"
-            props={{
-              image: {
-                url: it.media,
-              },
-              style: {
-                width: size,
-                height: size,
-                objectFit: "cover",
-                minWidth: size,
-                minHeight: size,
-                maxWidth: size,
-                maxHeight: size,
-                overflowWrap: "break-word",
-              },
-            }}
-          />
-        );
-      })}
-    </Grid>
-  </InfiniteScroll>
+  <>
+    <span style={{ textAlign: "left" }}>Recent ShardDog Claims</span>
+    <br />
+    <InfiniteScroll
+      pageStart={0}
+      loadMore={fetchTokens}
+      hasMore={state.hasMore}
+      loader={loader}
+    >
+      <Grid>
+        {state.tokens?.map((it) => {
+          return (
+            <Widget
+              src="sharddog.near/widget/Image"
+              title={it.owner}
+              props={{
+                title: it.owner,
+                image: {
+                  url: it.media,
+                },
+                style: {
+                  width: size,
+                  height: size,
+                  objectFit: "cover",
+                  minWidth: size,
+                  minHeight: size,
+                  maxWidth: size,
+                  maxHeight: size,
+                  overflowWrap: "break-word",
+                },
+              }}
+            />
+          );
+        })}
+      </Grid>
+    </InfiniteScroll>
   </>
 );
