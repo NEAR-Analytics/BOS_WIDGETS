@@ -152,6 +152,14 @@ const NominationLink = styled.div`
   }
 `;
 
+const InfoRow = styled.div`
+  gap: 10px;
+
+  @media (max-width: 768px) {
+    gap: 5px;
+  }
+`;
+
 const NominationLinkMobile = styled.div`
   display: none;
 
@@ -616,7 +624,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           </div>
         </div>
       </div>
-      <div className="d-flex w-100 align-items-center justify-content-end gap-4">
+      <InfoRow className="d-flex w-100 align-items-center justify-content-end">
         <NominationLink>
           <Widget
             src={widgets.styledComponents}
@@ -671,7 +679,7 @@ const CandidateItem = ({ candidateId, votes }) => (
             />
           </Votes>
         )}
-      </div>
+      </InfoRow>
     </CandidateItemRow>
     {state.selected === candidateId && isVisible() && (
       <Widget
