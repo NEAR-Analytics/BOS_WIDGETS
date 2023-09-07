@@ -89,7 +89,7 @@ const ItemContainer = styled.a`
 const HouseItem = ({ house }) => (
   <ItemContainer
     className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
-    href={`?house=${house.id}`}
+    href={`?house_id=${house.id}`}
     selected={selectedHouse === house.id}
   >
     <div className="d-flex align-items-center">
