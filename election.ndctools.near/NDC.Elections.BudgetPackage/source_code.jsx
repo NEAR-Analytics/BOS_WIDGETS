@@ -8,40 +8,15 @@ const TextContainer = styled.div`
 
 const Budget = styled.div`
   text-align: justify;
-  p {
-    line-height: 18px;
-    font-size: 12px;
-  }
-
-  h5,
-  h6,
-  li {
-    line-height: 20px;
-  }
-
-  li {
-    line-height: 24px;
-    padding-block: 3px;
-  }
-
-  h5 {
-    font-weight: 650;
-    font-size: 16px;
-  }
-
-  h6 {
-    font-weight: 550;
-    font-size: 16px;
-  }
-
-  b {
-    font-weight: 600;
-  }
+  font-size: 12px;
+  line-height: 18px;
 `;
 
 const Content = () => (
   <Budget>
-    <h3>House of Merit Setup Package for the Inaugural Congressional Term</h3>
+    <h3 className="text-center">
+      House of Merit Setup Package for the Inaugural Congressional Term
+    </h3>
     <br />
     <p>To the Trustees of the Community Treasury and the Voting Body,</p>
     <p>
