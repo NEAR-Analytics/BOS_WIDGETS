@@ -169,15 +169,19 @@ return (
               </X>
             ) : (
               <SidebarItem onClick={() => pageHandler(0)}>
-                {" "}
-                <a href={data.link} title={data.title}>
-                  {" "}
-                  <div>
+                <OverlayTrigger
+                  placement="right"
+                  overlay={<Tooltip>{data.title}</Tooltip>}
+                >
+                  <a href={data.link}>
                     {" "}
-                    <img width="31" height="30" src={data.image} />{" "}
-                    <span> {data.text}</span>{" "}
-                  </div>{" "}
-                </a>{" "}
+                    <div>
+                      {" "}
+                      <img width="31" height="30" src={data.image} />{" "}
+                      <span> {data.text}</span>{" "}
+                    </div>{" "}
+                  </a>{" "}
+                </OverlayTrigger>
               </SidebarItem>
             )}
           </>
