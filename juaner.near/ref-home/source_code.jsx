@@ -133,6 +133,8 @@ function changeTab(menu) {
   });
 
   Storage.privateSet("curTab", menu);
+
+  Storage.set("on-rainbow-bridge", "0");
 }
 // svg icon start
 const lendingIcon = (
@@ -252,21 +254,29 @@ const SwapContainer = styled.div`
 const SummaryWrapper = styled.div`
   margin-bottom: 50px;
 `;
+
 // svg icon end
 return (
   <>
     <Container>
       <MenuContainer>
-        <a
-          href="/rainbow-bridge?source=all-in-one"
-          class={`item`}
-          style={{
-            textDecoration: "none",
+        <div
+          onClick={() => {
+            Storage.set("on-rainbow-bridge", "1");
           }}
         >
-          <span class="icon">{bridgeIcon}</span>
-          Bridge
-        </a>
+          <a
+            href="/rainbow-bridge?source=all-in-one"
+            class={`item`}
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <span class="icon">{bridgeIcon}</span>
+            Bridge
+          </a>
+        </div>
+
         <div
           onClick={() => {
             changeTab("swap");
