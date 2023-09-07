@@ -78,10 +78,10 @@ const ItemContainer = styled.a`
   border-radius: 8px;
   background: ${(props) => (props.selected ? "#4BA6EE" : "#fff")};
   color: ${(props) => (props.selected ? "white" : "inherit")};
-  text-underline: none;
+  text-decoration: none;
 
   &:hover {
-    text-underline: none;
+    text-decoration: none;
     background: ${(props) => (props.selected ? "#4BA6EE" : "#fff")};
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   }
