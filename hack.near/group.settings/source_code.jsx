@@ -18,16 +18,16 @@ State.init({
   exists: true,
 });
 
+const resetGroup = () => {
+  state.groupId = mainGroup;
+  State.update();
+};
+
 const groupData = Social.get(`${creatorId}/graph/${state.groupId}/**`) || "";
 
 if (groupData === "") {
   State.update({ exists: false });
 }
-
-const resetGroup = () => {
-  state.groupId = mainGroup;
-  State.update();
-};
 
 return (
   <div>
