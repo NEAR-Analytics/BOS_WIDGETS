@@ -118,8 +118,10 @@ function loadHouses() {
 }
 
 const findToken = (sbts, issuer) => {
-  console.log(sbts);
-  if (sbts) sbts.find((token) => token[0] === issuer && token[1].length > 0);
+  let token;
+  if (sbts)
+    token = sbts.find((token) => token[0] === issuer && token[1].length > 0);
+  return token[1].find((t) => t.metadata.class === 1).token;
 };
 
 function loadSBTs() {
