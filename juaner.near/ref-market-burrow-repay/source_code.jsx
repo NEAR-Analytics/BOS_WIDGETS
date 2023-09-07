@@ -48,29 +48,18 @@ const Backdrop = styled.div`
   left: 0;
   top: 0;
   z-index: 1001;
+  justify-content: center;
+  align-items: center;
 `;
 const Modal = styled.div`
   background-color: #25283a;
   border-radius: 12px;
   position: fixed;
   z-index: 1002;
-  width: 30rem;
-  max-width: 95vw;
+  max-width: 30rem;
+  width: 100vw;
   max-height: 80vh;
   padding: 10px 0 20px 0;
-  animation: anishow 0.3s forwards ease-out;
-  left: 50%;
-  top: 50%;
-  @keyframes anishow {
-    from {
-      opacity: 0;
-      transform: translate(-50%, -70%);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, -50%);
-    }
-  }
   .modal-header {
     display: flex;
     align-items: center;
@@ -129,6 +118,11 @@ const Modal = styled.div`
   .pb-2 {
     padding-bottom: 20px;
   }
+  @media (max-width: 900px) {
+    bottom: 0px;
+    left: 0px;
+    border-radius: 12px 12px 0px 0px;
+  }
 `;
 /** base tool start  */
 let accountId = context.accountId;
@@ -143,11 +137,11 @@ let BURROW_CONTRACT = "contract.main.burrow.near";
 const toAPY = (v) => Math.round(v * 100) / 100;
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const shrinkToken = (value, decimals) => {
-  return new Big(value).div(new Big(10).pow(decimals));
+  return new Big(value || 0).div(new Big(10).pow(decimals));
 };
 
 const expandToken = (value, decimals) => {
-  return new Big(value).mul(new Big(10).pow(decimals));
+  return new Big(value || 0).mul(new Big(10).pow(decimals));
 };
 const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 const { selectedTokenId, selectedTokenMeta, showModal, closeModal } = props;
@@ -204,7 +198,7 @@ if (selectedTokenId && assets && account) {
   availableBalance = borrowedBalance.gt(walletBalance)
     ? walletBalance
     : borrowedBalance.toFixed();
-  availableBalance$ = Big(availableBalance)
+  availableBalance$ = Big(availableBalance || 0)
     .mul(asset.price.usd || 0)
     .toFixed(2);
   apy = getApy(asset);
@@ -244,7 +238,7 @@ const adjustedCollateralSum = getAdjustedSum("collateral", account);
 const adjustedBorrowedSum = getAdjustedSum("borrowed", account);
 
 function getHealthFactor() {
-  if (Big(adjustedBorrowedSum).eq(0)) return 10000;
+  if (Big(adjustedBorrowedSum || 0).eq(0)) return 10000;
   const healthFactor = B(adjustedCollateralSum)
     .div(B(adjustedBorrowedSum))
     .mul(100)
@@ -339,7 +333,7 @@ const handleRepay = () => {
   const repayTransaction = {
     contractName: selectedTokenId,
     methodName: "ft_transfer_call",
-    deposit: new Big("1").toFixed(),
+    deposit: new Big(1).toFixed(),
     gas: expandToken(300, 12),
     args: {
       receiver_id: BURROW_CONTRACT,
@@ -411,59 +405,57 @@ return (
     />
     {/* load icons */}
     <Widget src="juaner.near/widget/ref-common-api" props={{ onLoad }} />
-    {/** modal */}
-    <Modal style={{ display: showModal ? "block" : "none" }}>
-      <div class="modal-header">
-        <div class="modal_title">Repay {selectedTokenMeta.symbol}</div>
-        <img
-          class="btn-close-custom"
-          src={closeButtonBase64}
-          onClick={closeModal}
-        />
-      </div>
-      <div class="px-3">
-        <Widget
-          src="juaner.near/widget/ref-input-box"
-          props={{
-            amount,
-            handleAmount,
-            balance: availableBalance,
-            balance$: availableBalance$,
-            metadata: asset.metadata,
-            label: "Available to repay",
-          }}
-        />
-        {hasError && (
-          <p class="alert alert-danger mt-10" role="alert">
-            Amount greater than available
-          </p>
-        )}
-      </div>
+    <Backdrop style={{ display: showModal ? "flex" : "none" }}>
+      {/** modal */}
+      <Modal style={{ display: showModal ? "block" : "none" }}>
+        <div class="modal-header">
+          <div class="modal_title">Repay {selectedTokenMeta.symbol}</div>
+          <img
+            class="btn-close-custom"
+            src={closeButtonBase64}
+            onClick={closeModal}
+          />
+        </div>
+        <div class="px-3">
+          <Widget
+            src="juaner.near/widget/ref-input-box"
+            props={{
+              amount,
+              handleAmount,
+              balance: availableBalance,
+              balance$: availableBalance$,
+              metadata: asset.metadata,
+              label: "Available to repay",
+            }}
+          />
+          {hasError && (
+            <p class="alert alert-danger mt-10" role="alert">
+              Amount greater than available
+            </p>
+          )}
+        </div>
 
-      <div class="separator" />
-      <div class="px-3 pb-2">
-        <div class="template mt_25">
-          <span class="template_title">Health Factor</span>
-          <span class="value">{newHealthFactor || healthFactor}%</span>
+        <div class="separator" />
+        <div class="px-3 pb-2">
+          <div class="template mt_25">
+            <span class="template_title">Health Factor</span>
+            <span class="value">{newHealthFactor || healthFactor}%</span>
+          </div>
+          <div class="template mt_25">
+            <span class="template_title">Remaining Borrow</span>
+            <span class="value">
+              {remainBurrow}
+              <span class="usd">(${remainBurrow$ || "0"})</span>
+            </span>
+          </div>
+          <div
+            class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
+            onClick={handleRepay}
+          >
+            Repay
+          </div>
         </div>
-        <div class="template mt_25">
-          <span class="template_title">Remaining Borrow</span>
-          <span class="value">
-            {remainBurrow}
-            <span class="usd">(${remainBurrow$ || "0"})</span>
-          </span>
-        </div>
-        <div
-          class={`greenButton mt_25 ${Number(amount) ? "" : "disabled"}`}
-          onClick={handleRepay}
-        >
-          Repay
-        </div>
-      </div>
-    </Modal>
-    <Backdrop
-      style={{ display: showModal ? "block" : "none" }}
-      onClick={closeModal}
-    ></Backdrop>
+      </Modal>
+    </Backdrop>
   </Container>
 );
