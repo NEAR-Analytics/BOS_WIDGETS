@@ -1,316 +1,221 @@
-const { formState, errors, renderFooter } = props;
-const { accountId } = context;
+const { formState, errors } = props;
 
 const initialAnswers = {
-  policy: formState.policy,
-};
-
-const initialMembers = [];
-
-for (const role of initialAnswers.policy.roles) {
-  if (!role.kind.Group) continue;
-  for (const member of role.kind.Group) {
-    initialMembers.push({
-      role: role.name,
-      name: member,
-    });
-  }
-}
-
-const initialState = {
-  roles: initialAnswers.policy.roles.length
-    ? initialAnswers.policy.roles.map((r) => r.name)
-    : ["all", "council"],
-  members: initialMembers.length
-    ? initialMembers
-    : [{ role: "council", name: accountId }],
+  profileImage: formState.profileImage,
+  coverImage: formState.coverImage,
 };
 
 State.init({
-  answers: initialState,
+  answers: initialAnswers,
 });
 
-// -- roles
-const onAddEmptyRole = () => {
+const onValueChange = (key, value) => {
   State.update({
     answers: {
       ...state.answers,
-      roles: [...state.answers.roles, ""],
+      [key]: value,
     },
   });
 };
 
-const onRemoveRole = (index) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      roles: state.answers.roles.map((role, i) => (i === index ? null : role)),
-    },
-  });
+const Profile = styled.div`
+  .avatar {
+    width: 15%;
+    max-width: 180px;
+    min-width: 100px;
+    margin-left: 50px;
+    transform: translateY(-50%);
+    background-color: #eee;
+    background-size: cover;
+    background-position: center;
+  }
+`;
+
+const BG = styled.div`
+  --bs-aspect-ratio: 16%;
+  background-color: #eee;
+  background-size: cover;
+  background-position: center;
+  min-height: 120px;
+`;
+
+const renderUploadButton = ({ onChange, value }) => {
+  return (
+    <Widget
+      src="nearui.near/widget/Social.ImageUpload"
+      props={{
+        onChange: onChange,
+        value: value,
+        uploadButton: (otherProps) => (
+          <Widget
+            src="nearui.near/widget/Input.Button"
+            props={{
+              children: <i className="bi bi-pen" />,
+              variant: "icon  info",
+              size: "md",
+              className: "position-absolute bottom-0 end-0 m-3",
+              ...otherProps,
+            }}
+          />
+        ),
+        deleteButton: (otherProps) => (
+          <Widget
+            src="nearui.near/widget/Input.Button"
+            props={{
+              children: <i className="bi bi-trash" />,
+              variant: "icon  danger",
+              size: "md",
+              className: "position-absolute bottom-0 end-0 m-3",
+              ...otherProps,
+            }}
+          />
+        ),
+        loadingButton: (otherProps) => (
+          <Widget
+            src="nearui.near/widget/Input.Button"
+            props={{
+              children: (
+                <div
+                  class="spinner-border text-light"
+                  style={{
+                    width: "1.1rem",
+                    height: "1.1rem",
+                    borderWidth: "0.15em",
+                  }}
+                  role="status"
+                ></div>
+              ),
+              variant: "icon info",
+              size: "md",
+              className: "position-absolute bottom-0 end-0 m-3",
+              ...otherProps,
+            }}
+          />
+        ),
+      }}
+    />
+  );
 };
 
-const onSetRoleName = (index, name) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      roles: state.answers.roles.map((role, i) => (i === index ? name : role)),
-    },
-  });
+const renderAssetsEditor = (hideEditButtons) => {
+  return (
+    <Profile
+      className="overflow-hidden w-100"
+      style={{
+        marginBottom: "-40px",
+      }}
+    >
+      <BG
+        className="ratio rounded-4"
+        style={{
+          backgroundImage: `url(${state.answers.coverImage})`,
+        }}
+      >
+        <div>
+          {!hideEditButtons &&
+            renderUploadButton({
+              onChange: (v) => onValueChange("coverImage", v),
+              value: state.answers.coverImage,
+            })}
+        </div>
+      </BG>
+      <div
+        className="avatar rounded-4 border border-2 border-white ratio ratio-1x1 position-relative z-1"
+        style={{
+          backgroundImage: `url(${state.answers.profileImage})`,
+        }}
+      >
+        <div>
+          {!hideEditButtons &&
+            renderUploadButton({
+              onChange: (v) => onValueChange("profileImage", v),
+              value: state.answers.profileImage,
+            })}
+        </div>
+      </div>
+    </Profile>
+  );
 };
 
-const onAddEmptyMember = () => {
-  State.update({
-    answers: {
-      ...state.answers,
-      members: [
-        ...state.answers.members,
-        { name: "", role: state.answers.roles[0] },
-      ],
-    },
-  });
-};
-
-const onRemoveMember = (index) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      members: state.answers.members.map((member, i) =>
-        i === index ? null : member
-      ),
-    },
-  });
-};
-
-const onSetMemberName = (index, name) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      members: state.answers.members.map((member, i) =>
-        i === index ? { ...member, name } : member
-      ),
-    },
-  });
-};
-
-const onSetMemberRole = (index, role) => {
-  State.update({
-    answers: {
-      ...state.answers,
-      members: state.answers.members.map((member, i) =>
-        i === index ? { ...member, role } : member
-      ),
-    },
-  });
-};
-
-const finalState = {
-  policy: {
-    ...formState.policy,
-    roles: state.answers.roles
-      .filter((role, i) => role !== null && role !== "")
-      .map((role, i) => {
-        if (role === "all")
-          return {
-            name: role,
-            permissions: formState.policy.roles[i]?.permissions || [],
-            kind: "Everyone",
-            vote_policy: formState.policy.roles[i]?.vote_policy || {},
-          };
-        return {
-          name: role,
-          kind: {
-            Group: state.answers.members
-              .filter((m) => m.role === role && m !== null && m.name !== "")
-              .map((m) => m.name),
-          },
-          permissions:
-            formState.policy.roles[i]?.permissions || role === "council"
-              ? ["*:*"]
-              : [],
-          vote_policy: formState.policy.roles[i]?.vote_policy || {},
-        };
-      }),
-  },
-};
+const daoPreviewState = `
+\`\`\`json
+${JSON.stringify({ ...formState, ...state.answers }, null, 2)}
+\`\`\`
+`;
 
 return (
   <div className="mt-4 ndc-card p-4">
     <div className="d-flex flex-column gap-4">
-      <h2 className="h5 fw-bold">
-        <span
-          className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bolder h5 me-2"
-          style={{
-            width: "48px",
-            height: "48px",
-            border: "1px solid #82E299",
-          }}
-        >
-          3
-        </span>
-        Add Groups & Members
-      </h2>
-
-      <div className="mb-3">
-        <div className="d-flex gap-2 justify-content-between">
-          <div>
-            <h3 className="h6 fw-bold">Add Groups</h3>
-            <p className="text-black-50 fw-light small">
-              Adding groups to DAO during creation is not supported using web
-              based wallets. Anyway, you can add more groups later in DAO
-              settings
-            </p>
-          </div>
-          <Widget
-            src="nearui.near/widget/Input.Button"
-            props={{
-              children: <i className="bi bi-plus-lg" />,
-              variant: "icon info outline",
-              size: "lg",
-              onClick: onAddEmptyRole,
+      <div className="d-flex gap-2 justify-content-between align-items-center">
+        <h2 className="h5 fw-bold">
+          <span
+            className="rounded-circle d-inline-flex align-items-center justify-content-center fw-bolder h5 me-2 mb-0"
+            style={{
+              width: "48px",
+              height: "48px",
+              border: "1px solid #82E299",
             }}
-          />
-        </div>
-        {state.answers.roles.map((r, i) => (
-          <div
-            className={[
-              "d-flex align-items-center gap-2 mt-2",
-              r === null ? "d-none" : "",
-            ].join(" ")}
-            key={i}
           >
-            <Widget
-              src="nearui.near/widget/Input.ExperimentalText"
-              props={{
-                placeholder: "Group 1",
-                size: "lg",
-                disabled: i < 2,
-                value: i < 2 ? r : undefined,
-                onChange: (v) => onSetRoleName(i, v),
-                useTimeout: true,
-                error:
-                  errors.policy.roles[
-                    finalState.policy.roles.findIndex((role) => role.name === r)
-                  ].name,
-
-                inputProps: { defaultValue: r },
-              }}
-            />
-            {i > 1 && (
+            3
+          </span>
+          Create Group
+        </h2>
+        <Widget
+          src="nearui.near/widget/Layout.Modal"
+          props={{
+            content: (
+              <div className="ndc-card p-4">
+                <h3 className="h6 fw-bold">DAO Preview</h3>
+                <Markdown text={daoPreviewState} />
+              </div>
+            ),
+            toggle: (
               <Widget
                 src="nearui.near/widget/Input.Button"
                 props={{
-                  children: <i className="bi bi-trash" />,
-                  variant: "icon danger outline",
+                  children: "Preview DAO",
+                  variant: "outline info",
                   size: "lg",
-                  onClick: () => onRemoveRole(i),
                 }}
               />
-            )}
-          </div>
-        ))}
+            ),
+          }}
+        />
       </div>
-
-      <div>
-        <div className="d-flex gap-2 justify-content-between">
-          <div>
-            <h3 className="h6 fw-bold">Add Members</h3>
-            <p className="text-black-50 fw-light small">
-              Add members to the DAO and set their{" "}
-              <a
-                href=""
-                target="_blank"
-                style={{
-                  color: "#4498E0",
-                }}
-              >
-                roles
-              </a>
-              .
-            </p>
-          </div>
-          <Widget
-            src="nearui.near/widget/Input.Button"
-            props={{
-              children: <i className="bi bi-plus-lg" />,
-              variant: "icon info outline",
-              size: "lg",
-              onClick: onAddEmptyMember,
-            }}
-          />
+      <div className="d-flex gap-2 justify-content-between align-items-center">
+        <div>
+          <h3 className="h6 fw-bold">Set profile image and background image</h3>
         </div>
-
-        {state.answers.members.map((member, i) => {
-          const trueRoleIndex =
-            member !== null &&
-            finalState.policy.roles.findIndex(
-              (role) => role.name === member.role
-            );
-          const trueMemberIndex =
-            member !== null &&
-            trueRoleIndex !== -1 &&
-            typeof finalState.policy.roles[trueRoleIndex].kind === "object"
-              ? finalState.policy.roles[trueRoleIndex].kind.Group.findIndex(
-                  (m) => m === member.name
-                )
-              : null;
-
-          return (
-            <div
-              className={[
-                "d-flex align-items-center gap-2 mt-2",
-                member === null ? "d-none" : "",
-              ].join(" ")}
-              key={i}
-            >
+        <Widget
+          src="nearui.near/widget/Layout.Modal"
+          props={{
+            content: (
+              <div className="ndc-card p-4">
+                <h3 className="h5 fw-bold mb-4">Preview Images</h3>
+                <h4 className="h6 fw-bold mb-2">Profile & Background Image</h4>
+                {renderAssetsEditor(true)}
+                <h4 className="h6 fw-bold mb-2">Group Name</h4>
+                <h5 className="h5 fw-bold">{formState.name}</h5>
+              </div>
+            ),
+            toggle: (
               <Widget
-                src="nearui.near/widget/Input.ExperimentalText"
+                src="nearui.near/widget/Input.Button"
                 props={{
-                  placeholder: "user.near",
+                  children: (
+                    <>
+                      Preview Images <i className="bi bi-eye" />
+                    </>
+                  ),
+                  variant: "outline info",
                   size: "lg",
-                  useTimeout: true,
-                  inputProps: { defaultValue: member.name },
-                  onChange: (v) => onSetMemberName(i, v),
-                  disabled: i === 0,
-                  error:
-                    trueMemberIndex !== null &&
-                    errors.policy.roles[trueRoleIndex].kind.Group[
-                      trueMemberIndex
-                    ],
                 }}
               />
-              <Widget
-                src="nearui.near/widget/Input.Select"
-                props={{
-                  placeholder: "Role",
-                  size: "lg",
-                  options: state.answers.roles
-                    .filter((r) => r !== null && r !== "" && r !== "all")
-                    .map((r) => ({
-                      title: r,
-                      value: r,
-                    })),
-                  value: member.role,
-                  onChange: (v) => onSetMemberRole(i, v),
-                  disabled: i === 0,
-                }}
-              />
-              {i > 0 && (
-                <Widget
-                  src="nearui.near/widget/Input.Button"
-                  props={{
-                    children: <i className="bi bi-trash" />,
-                    variant: "icon danger outline",
-                    size: "lg",
-                    onClick: () => onRemoveMember(i),
-                  }}
-                />
-              )}
-            </div>
-          );
-        })}
+            ),
+          }}
+        />
       </div>
+      {renderAssetsEditor()}
     </div>
-
-    {renderFooter(finalState)}
   </div>
 );
