@@ -277,7 +277,10 @@ const Content = () => (
       The HoM should use the template below to detail the budget, providing
       clarity on the planned allocations for the term.
     </p>
-    <img src="https://bafkreibqnu2m5izw3sf47462fqmp2ve4tfei67tzldbsuzcmpifrbossc4.ipfs.nftstorage.link/" />
+    <img
+      className="w-100"
+      src="https://bafkreibqnu2m5izw3sf47462fqmp2ve4tfei67tzldbsuzcmpifrbossc4.ipfs.nftstorage.link/"
+    />
     <p>
       It's vital for the community to have a clear understanding of how funds
       are intended to be used. This structured approach ensures the HoM's budget
@@ -288,7 +291,10 @@ const Content = () => (
     <h5>
       <b>Template: Budget Breakdown</b>
     </h5>
-    <img src="https://bafybeiesmrpom3hf5s4h5w6syaxvet7cthg5egab2ocpimfzr2gpfubgwa.ipfs.nftstorage.link/" />
+    <img
+      className="w-100"
+      src="https://bafybeiesmrpom3hf5s4h5w6syaxvet7cthg5egab2ocpimfzr2gpfubgwa.ipfs.nftstorage.link/"
+    />
   </Budget>
 );
 
