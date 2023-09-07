@@ -84,7 +84,7 @@ return (
               ) : (
                 <BPImg
                   className="rounded-circle"
-                  src="https://bafkreidsg3gntb4grebr6rpvffhzkwdt2siel7ucl3hpsj5i7qqu426dgq.ipfs.nftstorage.link"
+                  src={housesMapping.SetupPackage}
                 />
               )}
             </div>
