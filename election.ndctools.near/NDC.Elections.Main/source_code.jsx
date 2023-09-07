@@ -126,6 +126,9 @@ function loadSBTs() {
     account: currentUser,
   });
 
+  console.log(sbts);
+  console.log(findToken(issuer.fractal));
+
   const findToken = (issuer) => {
     if (sbts) sbts.find((token) => token[0] === issuer && token[1].length > 0);
   };
