@@ -55,7 +55,7 @@ const onSubmit = (strAmount) => {
   update({ loading: true });
 
   swap
-    .swapwNEARForstNEAR(sender, [amount], { value })
+    .swapwNEARForstNEAR(sender, amount, { value })
     .then((txResp) => {
       txResp.wait().then((waitResp) => {
         console.log("success!");
