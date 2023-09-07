@@ -158,7 +158,7 @@ return (
                 {" "}
                 <SidebarItem onClick={() => pageHandler(0)}>
                   {" "}
-                  <a href={data.link} title={data.title}>
+                  <a href={data.link}>
                     <div>
                       {" "}
                       <img width="31" height="30" src={data.image} />{" "}
@@ -170,7 +170,7 @@ return (
             ) : (
               <SidebarItem onClick={() => pageHandler(0)}>
                 {" "}
-                <a href={data.link}>
+                <a href={data.link} title={data.title}>
                   {" "}
                   <div>
                     {" "}
