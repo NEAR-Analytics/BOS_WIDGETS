@@ -11,6 +11,7 @@ const HelpComponent = styled.div`
   border: 0;
   color: white;
   background-color: #1e1e1e;
+  position: relative;
 `;
 
 const Question = styled.div`
