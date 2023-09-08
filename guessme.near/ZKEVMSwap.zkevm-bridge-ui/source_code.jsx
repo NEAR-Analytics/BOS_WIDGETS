@@ -860,7 +860,8 @@ const onOpenChange = (v) => {
 };
 
 const handleConfirm = () => {
-  const isValidAmount = amount > 0 && amount < balances[selectedToken];
+  const isValidAmount =
+    Big(amount || 0).gt(0) && Big(amount).lt(balances[selectedToken]);
 
   if (!isValidAmount) {
     State.update({
@@ -912,13 +913,23 @@ let params = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.quest-card"
 );
 const params_from_question_list = Storage.get(
-  "zk-evm-swap-params",
+  "zk-evm-bridge-params",
   "guessme.near/widget/ZKEVM.QuestionList"
+);
+
+const params_from_trend_card = Storage.get(
+  "zk-evm-bridge-params",
+  "guessme.near/widget/ZKEVMWarmUp.trend-card"
 );
 
 if (props.source == "question_list" && params_from_question_list) {
   params = params_from_question_list;
 }
+
+if (props.source == "trend" && params_from_trend_card) {
+  params = params_from_trend_card;
+}
+
 const storedSymbol = params?.symbol;
 
 const hideCondition =
@@ -927,7 +938,7 @@ const hideCondition =
   params.symbol === selectedToken &&
   ((params?.chain === "Ethereum" && chainId === 1) ||
     (params?.chain &&
-      params?.chain?.toLowerCase() === "zkevm" &&
+      params?.chain?.toLowerCase().includes("zkevm") &&
       chainId === 1101));
 
 if (!hideCondition) {
@@ -936,22 +947,26 @@ if (!hideCondition) {
   props.updateHide && props.updateHide(true);
 }
 
+console.log("state.storeUsed: ", state.storeUsed);
+
+if (params.symbol && !state.storeUsed) {
+  State.update({
+    selectedToken: params.symbol,
+    amount: params.amount,
+    storeUsed: true,
+  });
+}
+
 if (
-  (params?.chain === "Ethereum" && chainId !== 1) ||
+  (params?.chain === "Ethereum" && chainId === 1) ||
   (params?.chain &&
-    params?.chain?.toLowerCase() === "zkevm" &&
-    chainId !== 1101)
+    params?.chain?.toLowerCase().includes("zkevm") &&
+    chainId === 1101)
 ) {
-  const chainId = params?.chain === "Ethereum" ? 1 : 1101;
+  const chainId = params?.chain === "Ethereum" ? 1001 : 1;
 
   switchNetwork(chainId);
 }
-
-// console.log("params: ", params);
-
-// if (!isCorrectNetwork) {
-//   switchNetwork(1);
-// }
 
 const canSwap =
   !!state.amount &&
