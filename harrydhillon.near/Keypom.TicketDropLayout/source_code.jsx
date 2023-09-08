@@ -39,12 +39,13 @@ const BottomStyledContainer = styled.div`
   background-color: white;
   width: 100%;
   padding: 10px;
-  padding-left:25px;
-  padding-right:25px;
+  padding-left: 25px;
+  padding-right: 25px;
   display: flex;
   justify-content: space-between;
   bottom: 0;
   left: 0;
+  position: absolute;
 `;
 
 const BackButton = styled.button`
@@ -99,7 +100,7 @@ const componentsToRender = [
     props={{
       tickets: Storage.get(
         "tickets",
-        "harrydhillon.near/widget/Keypom.Tickets.index"
+        "harrydhillon.near/widget/Keypom.EventInfo.Form"
       )
         ? JSON.parse(
             Storage.get(
