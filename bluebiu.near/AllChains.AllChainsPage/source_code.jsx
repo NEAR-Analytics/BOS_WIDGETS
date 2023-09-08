@@ -93,6 +93,7 @@ const data = [
     bannerIcon:
       "https://ipfs.near.social/ipfs/bafkreigbanjhoyscw22thkpqr7filqw7ijv3gl7ol7zxjsteqh73b4tjzm",
     src: "near.org",
+    pathUrl:'/near',
     chainId: "1313161554",
     technology: "NEAR Protocol",
     token: "NEAR",
@@ -125,6 +126,7 @@ const data = [
     bannerIcon:
       "https://ipfs.near.social/ipfs/bafkreibn7uyk2occlbrhdhb7nwcd7s3b4gxdrqadc6rghxzu6d7oh75wja",
     src: "polygon.technology/polygon-zkevm",
+    pathUrl:'/polygon-zkevm',
     chainId: "1101 (0x44d)",
     technology: "ZK Rollup",
     token: "MATIC",
@@ -169,6 +171,7 @@ const data = [
     bannerIcon:
       "https://ipfs.near.social/ipfs/bafkreiaxfmzfdzciksyjjju4lvtyklb5txwmsj5nsnwoqqdfpp6vgyghoq",
     src: "mantle.xyz",
+    pathUrl:'/mantle',
     chainId: "5000 (0x1388)",
     technology: "Optimium",
     token: "MNT",
@@ -194,6 +197,7 @@ const data = [
     bannerIcon:
       "https://ipfs.near.social/ipfs/bafkreick2vfuo3zjqrclgmdqeviwpddq7zwflxe75c45iq5sbih6hscaf4",
     src: "base.org",
+    pathUrl:'/base',
     chainId: "8453 (0x2105)",
     technology: "Optimistic Rollup",
     token: "TBD🔥",
