@@ -29,7 +29,7 @@ const thumb = (imageUrl) =>
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
     : imageUrl;
 
-return <span>{imageUrl}</span>;
+return <span>{image}</span>;
 
 // return image?.nft?.contractId && image.nft.tokenId ? (
 //   <Widget
