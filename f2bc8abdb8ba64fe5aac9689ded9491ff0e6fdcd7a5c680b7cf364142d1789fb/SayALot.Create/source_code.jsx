@@ -122,7 +122,7 @@ return (
   <>
     {state.createdArticle && state.showCreatedArticle ? (
       <Widget
-        src={widgets.oneArticle}
+        src={widgets.articleView}
         props={{
           widgets,
           isTest,
