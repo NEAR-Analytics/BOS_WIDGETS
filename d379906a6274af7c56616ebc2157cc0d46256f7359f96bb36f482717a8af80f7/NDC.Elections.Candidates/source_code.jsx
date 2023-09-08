@@ -672,7 +672,7 @@ const CandidateItem = ({ candidateId, votes }) => (
             }}
           />
         </NominationLinkMobile>
-        {isVisible() && <Votes>{votes}</Votes>}
+        {<Votes>{votes}</Votes>}
         {iahToken && (
           <Votes>
             <input
