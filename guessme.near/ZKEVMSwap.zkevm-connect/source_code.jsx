@@ -29,10 +29,7 @@ const Wrapper = styled.div`
   }
 
   @media (max-width: 900px) {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -25%);
+    padding: 24px;
       img{
         width:320px !important;
       }
