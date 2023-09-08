@@ -1,4 +1,5 @@
 const accountId = context.accountId;
+const Owner = "socializer.near";
 
 State.init({
   list: [
@@ -140,19 +141,6 @@ const ListItem = styled.button`
   }
 `;
 
-const HelpComponent = styled.button`
-  display: flex;
-  padding : 18px;
-  width: 188px;
-  width: 248px;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  border-radius: 10px;
-  border: 0;
-  background-color: rgba(20, 21, 34, 0.04);
-`;
-
 return (
   <Sidebar>
     <List>
@@ -163,9 +151,6 @@ return (
         </ListItem>
       ))}
     </List>
-    <HelpComponent>
-      <h5>Suggestions</h5>
-      <p>Having Trouble in Learning. Please contact us for more questions.</p>
-    </HelpComponent>
+    <Widget src={`${Owner}/widget/HelpCenter`} />
   </Sidebar>
 );
