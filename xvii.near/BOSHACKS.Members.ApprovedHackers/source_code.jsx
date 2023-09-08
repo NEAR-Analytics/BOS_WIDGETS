@@ -41,50 +41,6 @@ const policy = useCache(
 
 if (policy === null) return "";
 
-const isUserAllowedTo = (user, kind, action) => {
-  const userRoles = policy.users[user] || ["Everyone"];
-
-  let allowed = false;
-
-  userRoles.forEach((role) => {
-    let permissions = policy.roles[role].permissions;
-    if (role === "Everyone") {
-      permissions = policy.everyone.permissions;
-    }
-    const allowedRole =
-      permissions.includes(`${kind.toString()}:${action.toString()}`) ||
-      permissions.includes(`${kind.toString()}:*`) ||
-      permissions.includes(`*:${action.toString()}`) ||
-      permissions.includes("*:*");
-    allowed = allowed || allowedRole;
-    return allowedRole;
-  });
-
-  return allowed;
-};
-
-const onRemoveUserProposal = (memberId, roleId) => {
-  Near.call([
-    {
-      contractName: daoId,
-      methodName: "add_proposal",
-      args: {
-        proposal: {
-          description: "Remove DAO member",
-          kind: {
-            RemoveMemberFromRole: {
-              member_id: memberId,
-              role: roleId ?? "council",
-            },
-          },
-        },
-      },
-      gas: 219000000000000,
-      deposit: policy.policy.proposal_bond,
-    },
-  ]);
-};
-
 const Wrapper = styled.div`
   .userRow {
     width: 100%;
@@ -240,86 +196,6 @@ const renderGroups = () => {
       })}
     </div>
   );
-};
-
-const actions = {
-  AddProposal: "create proposal",
-  VoteApprove: "vote approve",
-  VoteReject: "vote reject",
-  VoteRemove: "vote remove",
-};
-
-const kinds = {
-  config: "Change config",
-  policy: "Change policy",
-  add_member_to_role: "Add member to role",
-  remove_member_from_role: "Remove member from role",
-  call: "Call",
-  upgrade_self: "Upgrade self",
-  upgrade_remote: "Upgrade remote",
-  transfer: "Transfer",
-  set_vote_token: "Set staking contract",
-  add_bounty: "Add bounty",
-  bounty_done: "Bounty done",
-  vote: "Vote",
-  factory_info_update: "Factory info update",
-  policy_add_or_update_role: "Change policy add or update role",
-  policy_remove_role: "Change policy remove role",
-  policy_update_default_vote_policy: "Change policy update default vote policy",
-  policy_update_parameters: "Change policy update parameters",
-  "*": "All types",
-};
-
-const renderPermissions = (role) => {
-  const permissions = new Map();
-
-  const rolePermissions =
-    role === "all"
-      ? policy.everyone?.permissions
-      : policy.roles[role].permissions;
-
-  rolePermissions?.forEach((p) => {
-    const [kindKey, actionKey] = p.split(":");
-
-    const kind = kinds[kindKey] || kindKey;
-    const action = actions[actionKey] || actionKey;
-
-    if (!permissions.has(action)) {
-      permissions.set(action, new Set());
-    }
-
-    permissions.get(action).add(kind);
-  });
-
-  const filteredPermissions = new Map(
-    [...permissions].filter(([action, kindsSet]) => kindsSet.size > 0)
-  );
-
-  const sortedPermissions = Array.from(filteredPermissions.entries()).sort(
-    (a, b) => {
-      if (a[0] === actions.AddProposal) {
-        return -1;
-      }
-      if (b[0] === actions.AddProposal) {
-        return 1;
-      }
-      return 0;
-    }
-  );
-
-  return sortedPermissions.map(([action, kindsSet], i) => (
-    <li key={i}>
-      <span className="text-capitalize">{action}</span>{" "}
-      {action === actions.AddProposal
-        ? "of the following types:"
-        : "on proposals of the following types:"}
-      <ul>
-        {Array.from(kindsSet).map((kind, j) => (
-          <li key={j}>{kind}</li>
-        ))}
-      </ul>
-    </li>
-  ));
 };
 
 const users = !state.filterByRole
