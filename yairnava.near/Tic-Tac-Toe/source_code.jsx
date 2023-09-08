@@ -1,3 +1,6 @@
+const onFinish = props.onFinish;
+const isModal = props.isModal;
+
 const SquareButton = styled.button`
   background: #fff;
   border: 1px solid black;
@@ -145,12 +148,16 @@ if (winner) {
     status: "It's a draw!",
   });
   setTimeout(() => {
-    State.update({
-      squares: Array(9).fill(null),
-      xIsNext: Math.random() < 0.5,
-      winner: null,
-      status: null,
-    });
+    if (!isModal) {
+      State.update({
+        squares: Array(9).fill(null),
+        xIsNext: Math.random() < 0.5,
+        winner: null,
+        status: null,
+      });
+    } else {
+      onFinish();
+    }
   }, "1500");
 } else {
   State.update({
