@@ -66,13 +66,13 @@ const ArrowRight = (
 );
 
 const myQuestImgUrl =
-  "https://ipfs.near.social/ipfs/bafybeihtwxkuyxks4jsdlsuc3srsdajix6m6g2ygcppvn26wygtkmyeicy";
+  "https://ipfs.near.social/ipfs/bafkreied733todmtzbzvnx3cwzhggf3vnlxriiv7ukoqk4nonay5cgx3fm";
 
 const trendImgUrl =
-  "https://ipfs.near.social/ipfs/bafkreib5pa5xkut7j3vjgpjd2mkzqz2fagiityatp72l5safcmy5q2qkm4";
+  "https://ipfs.near.social/ipfs/bafkreiclfd6ivmfsw75gyxnhncz7q5d6r3utji2ew5we47eru6bsjt6s64";
 
 const hotImgUrl =
-  "https://ipfs.near.social/ipfs/bafkreifgqe6x2s5xaqrw7q5y5lgsftyffboicvdu52nnnhe6g7lllrobqi";
+  "https://ipfs.near.social/ipfs/bafkreida3fifpbsbadyny242ol6tmha2lpl32kwnxthzeokwqh3c5n733y";
 
 const Wrapper = styled.div`
   display: flex;
