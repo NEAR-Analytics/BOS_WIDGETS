@@ -20,7 +20,7 @@ const tooltip =
 
 const inner = (
   <div className={className} style={style}>
-    {/*<Widget
+    <Widget
       src="andyh.near/widget/Image"
       props={{
         image,
@@ -31,7 +31,7 @@ const inner = (
         fallbackUrl:
           "https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e",
       }}
-    />*/}
+    />
   </div>
 );
 
