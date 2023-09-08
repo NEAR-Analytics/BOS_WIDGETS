@@ -73,15 +73,20 @@ const executeValidation = () => {
   return allErrors;
 };
 
+const TopLevelContainerDiv = styled.div`
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+    ::-webkit-scrollbar { 
+        display: none;  /* Safari and Chrome */
+    }
+    overflow-x:hidden;
+    overflow-y:auto;
+    max-height: 80vh;
+    position: relative;
+`;
+
 const AddTicketModal = (
-  <div
-    style={{
-      maxHeight: "80vh",
-      overflowY: "auto",
-      overflowX: "hidden",
-      position: "relative",
-    }}
-  >
+  <TopLevelContainerDiv>
     <IconButton title="Cancel" onClick={props.onClose}>
       X
     </IconButton>
@@ -304,7 +309,7 @@ const AddTicketModal = (
     >
       Cancel
     </button>
-  </div>
+  </TopLevelContainerDiv>
 );
 
 if (props.editMode && props.isOpen && !state.hasBeenEditUpdated) {
