@@ -25,7 +25,7 @@ const Modal = ({ isOpen, children, overlayStyles, contentStyles }) => {
 
   return (
     <MUIDialog {...overlayStyles}>
-      <DialogContent {...contentStyles}>{children}</DialogContent>
+      <ModalContent {...contentStyles}>{children}</ModalContent>
     </MUIDialog>
   );
 };
