@@ -919,7 +919,7 @@ const params_from_question_list = Storage.get(
 
 const params_from_trend_card = Storage.get(
   "zk-evm-bridge-params",
-  "guessme.near/widget/ZKEVM.trend-card"
+  "guessme.near/widget/ZKEVMWarmUp.trend-card"
 );
 
 if (props.source == "question_list" && params_from_question_list) {
