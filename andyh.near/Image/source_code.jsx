@@ -9,12 +9,12 @@ State.init({
   image,
 });
 
-// if (JSON.stringify(image) !== JSON.stringify(state.image)) {
-//   State.update({
-//     image,
-//     imageUrl: null,
-//   });
-// }
+if (JSON.stringify(image) !== JSON.stringify(state.image)) {
+  State.update({
+    image,
+    imageUrl: null,
+  });
+}
 
 function toUrl(image) {
   return (
