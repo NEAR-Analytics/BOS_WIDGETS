@@ -8,19 +8,19 @@ const DexConfig = {
     defaultCurrencies: {
       input: {
         chainId: props.chainId,
+        address: "native",
+        decimals: 18,
+        symbol: "ETH",
+        name: "Ether",
+        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+      },
+      output: {
+        chainId: props.chainId,
         address: "0x3d9907F9a368ad0a51Be60f7Da3b97cf940982D8",
         decimals: 18,
         symbol: "GRAIL",
         name: "Camelot token",
         icon: "https://arbiscan.io/token/images/camelotexchange_32.png",
-      },
-      output: {
-        chainId: props.chainId,
-        address: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
-        decimals: 6,
-        symbol: "USDC.e",
-        name: "Bridged USDC",
-        icon: "https://arbiscan.io/token/images/centre-usdc_28.png",
       },
     },
   },
@@ -54,11 +54,11 @@ const DexConfig = {
     defaultCurrencies: {
       input: {
         chainId: props.chainId,
-        address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+        address: "native",
         decimals: 18,
-        symbol: "WETH",
-        name: "Wrapped Ether",
-        icon: "https://arbiscan.io/token/images/weth_28.png",
+        symbol: "ETH",
+        name: "Ether",
+        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
       },
       output: {
         chainId: props.chainId,
@@ -78,12 +78,11 @@ const DexConfig = {
     defaultCurrencies: {
       input: {
         chainId: props.chainId,
-
-        address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+        address: "native",
         decimals: 18,
-        symbol: "WETH",
-        name: "Wrapped Ether",
-        icon: "https://arbiscan.io/token/images/weth_28.png",
+        symbol: "ETH",
+        name: "Ether",
+        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
       },
       output: {
         chainId: props.chainId,
@@ -129,9 +128,12 @@ const Title = styled.div`
   line-height: 22px;
   padding-left: 30px;
   padding-bottom: 10px;
+  @media (max-width: 900px) {
+    display: none;
+  }
 `;
 const Panel = styled.div`
-  width: 560px;
+  width: 100%;
   border-radius: 16px;
   border: 1px solid #2c334b;
   padding: 30px;
@@ -156,6 +158,9 @@ const Price = styled.div`
   text-align: right;
   margin-bottom: 30px;
   margin-top: 20px;
+  @media (max-width: 768px) {
+    margin-top: 10px;
+  }
 `;
 const SwapButton = styled.button`
   width: 100%;
