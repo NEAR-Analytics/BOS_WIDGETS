@@ -1,11 +1,17 @@
 const image = props.image;
 const title = props.title || "";
-const timestamp = props.timestamp || "";
+
 const className = props.className;
 const style = props.style;
 const alt = props.alt;
 const fallbackUrl = props.fallbackUrl;
 const thumbnail = props.thumbnail;
+
+if(props.timestamp){
+const date = new Date(props.timestamp);
+const humanReadableDate = date.toLocaleString();
+}
+const timestamp = humanReadableDate || "";
 
 State.init({
   image,
@@ -126,7 +132,9 @@ return image.nft.contractId && image.nft.tokenId ? (
                   title={title}
                 />
               )}
-              <p>Minted by {title} {timestamp}</p>
+              <p>
+                Minted by {title} {timestamp}
+              </p>
             </div>
           </div>
         </div>
