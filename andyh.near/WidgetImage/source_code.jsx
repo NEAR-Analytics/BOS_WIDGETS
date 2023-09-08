@@ -20,7 +20,6 @@ const tooltip =
 
 const inner = (
   <div className={className} style={style}>
-    {props.widgetName}
     {/*<Widget
       src="andyh.near/widget/Image"
       props={{
