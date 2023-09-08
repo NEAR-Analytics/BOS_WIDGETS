@@ -12,7 +12,12 @@ function onDataInput(event) {
 }
 
 function onDescriptionInput(event) {
-  const data = JSON.parse(state.data);
+  let data = {};
+
+  try {
+    data = JSON.parse(state.data) ?? {};
+  } catch (error) {}
+
   data.description = event.target.value;
 
   State.update({
