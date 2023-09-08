@@ -238,6 +238,15 @@ function getKudos(wallet) {
   return { countK, countD };
 }
 
+function getShardDogs(wallet) {
+  const nftDataCount = Near.view("mint.sharddog.near", "nft_supply_for_owner", {
+    account_id: wallet,
+    limit: 1000,
+  });
+
+  return nftDataCount;
+}
+
 function getSBT(wallet) {
   const getFirstSBTToken = () => {
     const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
@@ -303,6 +312,8 @@ return (
         <p style={{ justifyContent: "center", alignItems: "center" }}>
           Account Created: {getCreateDate(creationTimestamp)} <br />
           Current Balance: {parsedBalance(currentBalance)}N<br />
+          ShardDogs Minted: {getShardDogs(state.wallet)}
+          <br />
           Fractal Verified: {getSBT(state.wallet)}
         </p>
         <table style={tableStyle}>
