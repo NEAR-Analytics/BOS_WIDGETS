@@ -45,10 +45,12 @@ return (
         <div className="py-8">
           <div className="text-7xl">Welcome to NEAR Atlas!</div>
           <div className="text-xl font-light">
-            Here you will find your guide to NEAR to explore what is happening
-            within the ecosystem. This is an evolving project so please feel
-            free to leave your feedback at david.weinstein@near.foundation or
-            @dweinstein on Telegram. - NEAR Foundation Analytics
+            NEAR Atlas is an analytics platform built on the BOS.
+            <br /> Here you will find your guide to NEAR to explore what is
+            happening within the ecosystem. This is an evolving project so
+            please feel free to leave your feedback at
+            david.weinstein@near.foundation or @dweinstein on Telegram. - NEAR
+            Foundation Analytics
           </div>
         </div>
       </div>
