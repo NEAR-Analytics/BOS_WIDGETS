@@ -29,7 +29,9 @@ const Table = styled.table`
   --bs-table-striped-color: ${themeColor?.table_pagination?.table_striped_color};
   --bs-table-striped-bg: ${themeColor?.table_pagination?.table_striped_bg};
   --bs-table-hover-color: ${themeColor?.table_pagination?.table_hover_color};
-  --bs-table-hover-bg:${themeColor?.table_pagination?.table_hover_bg}
+  --bs-table-hover-bg:${themeColor?.table_pagination?.table_hover_bg};
+  --bs-table-hover-bg:${themeColor?.table_pagination?.columntextcolor};
+
 `;
 return (
   <div className="table-responsive">
@@ -70,19 +72,42 @@ return (
                 <tr key={row.project}>
                   {props.columns.map((td) => {
                     const key = td.key ? row[td.key] : i + 1;
-                    return <td>{key}</td>;
+                    return (
+                      <td
+                        style={{
+                          "text-decoration": "none",
+                          color:
+                            td.colors ||
+                            themeColor?.table_pagination?.columntextcolor,
+                        }}
+                      >
+                        {td.link === "yes" ? (
+                          <a
+                            href={`${td.beforehref}${row.project}${td.afterhref}`}
+                          >
+                            {key}
+                          </a>
+                        ) : (
+                          key
+                        )}
+                      </td>
+                    );
                   })}
                 </tr>
               );
             })}
       </tbody>
     </Table>
-
     <input
       type="text"
       placeholder="Search..."
       onChange={handleSearch}
-      style={{ width: "20%", height: "30px", borderRadius: "50px" }}
+      style={{
+        width: "20%",
+        height: "30px",
+        borderRadius: "50px",
+        "margin-left": "2px",
+      }}
     />
 
     {!props.rowsCount ? (
@@ -126,7 +151,12 @@ return (
 //   data: [],
 //   columns: [
 //     { title: "id" }, //if key does not provided , rows will be ascending numbers
-//     { title: "title", key: "key in data" ,description:"here is a",position:"top/right/buttom/left"},
+//     { title: "title", key: "key in data" ,description:"here is a",position:"top/right/buttom/left",
+//    link: "yes",
+//      beforehref: "https://near.social/mob.near/widget/ProfilePage?accountId=",
+//      afterhref: "",
+//      colors: "green"},
+
 //   ],
 //   rowsCount: 2, // if zero or null , the whole table will be render
 //   className: "table-bordered",
@@ -144,6 +174,7 @@ return (
 //       btn_bg: "rgba(49, 62, 89,0.5)",
 //       btn_bg_active: "rgb(25,33,50)",
 //       btn_color: "#fff",
+//       columntextcolor: ""
 //     },
 //   },
 // };
