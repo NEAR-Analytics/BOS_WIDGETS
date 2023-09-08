@@ -120,11 +120,12 @@ const List = styled.div`
   width: 188px;
   height: 100%;
   flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
   gap: 24px;
 `;
 
-const ListItem = styled.div`
+const ListItem = styled.button`
   display: flex;
   padding : 10px 20px;
   cursor: pointer;
@@ -133,6 +134,8 @@ const ListItem = styled.div`
   align-items: center;
   gap: 12px;
   border-radius: 10px;
+  border: 0;
+  background-color: white;
   &:hover {
     background-color: #f3f3f3;
   }
