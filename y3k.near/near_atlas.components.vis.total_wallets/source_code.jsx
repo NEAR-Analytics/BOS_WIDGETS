@@ -71,15 +71,16 @@ const dates = data.map((entry) => entry["DAY"]);
 // };
 
 const stacked_options = {
-  responsive: true,
+  maintainAspectRatio: true,
   interaction: {
     mode: "index",
     intersect: false,
   },
   stacked: false,
   plugins: {
-    title: {
+    legend: {
       display: true,
+      position: "bottom",
     },
   },
   scales: {
@@ -107,6 +108,14 @@ const stacked_options = {
         color: "rgb(41,51,64)", // This will change the gridline color
       },
     },
+    x: {
+      grid: {
+        color: "rgb(41,51,64)", // This will change the gridline color
+      },
+      ticks: {
+        color: "rgb(240,255,240)", // This will change the axis text label color
+      },
+    },
   },
 };
 
@@ -115,12 +124,14 @@ const stacked_bar_data = {
   datasets: [
     {
       label: "Wallets Created",
+      type: "line",
       data: WALLETS_CREATED,
       backgroundColor: "rgb(250,164,58)",
       yAxisID: "y1",
     },
     {
       label: "Total Wallets",
+      type: "bar",
       data: TOTAL_WALLETS,
       backgroundColor: "rgb(13,131,171)",
       yAxisID: "y",
