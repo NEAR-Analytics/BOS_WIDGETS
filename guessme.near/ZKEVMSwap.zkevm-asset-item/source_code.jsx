@@ -190,7 +190,7 @@ return (
   <>
     {!assetData && tokenId && (
       <Widget
-        src="zavodil.near/widget/TokenData"
+        src="guessme.near/widget/ZKEVMSwap.zkevm-token-data"
         props={{
           tokenId,
           coinGeckoTokenId,
