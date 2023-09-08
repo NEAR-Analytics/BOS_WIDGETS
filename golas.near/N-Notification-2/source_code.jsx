@@ -121,7 +121,7 @@ return (
         <div>
           <Username>{profile.name || accountId.split(".near")[0]}</Username>
           <Action>{notificationMessage[type]}</Action>
-        //   <ComponentName>{componentName}</ComponentName>
+          {/*<ComponentName>{componentName}</ComponentName>*/}
           <Timestamp>
             <Widget
             src="mob.near/widget/TimeAgo@97556750"
