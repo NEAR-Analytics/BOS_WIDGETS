@@ -3,8 +3,8 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 };
 
-const contractId = nft.contractId;
-const tokenId = nft.tokenId;
+const contractId = props.contractId;
+const tokenId = props.tokenId;
 const className = props.className ?? "img-fluid";
 const style = props.style;
 const alt = props.alt;
@@ -42,15 +42,19 @@ const currentChainProps = {
     id: "1313161554",
     chain: "Aurora",
     explorer: "https://aurorascan.dev/",
+    explorerTx: "https://aurorascan.dev/",
     livePrice: "ethereum",
+    contract: "0xe93097f7C3bF7A0E0F1261c5bD88F86D878667B5",
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
   },
   arbitrum: {
     img: "https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1680097630",
     id: "42161",
+    contract: "0x27E52A81975F5Fb836e79007E3c478C6c0E6E9FB",
     chain: "Arbitrum",
     explorer: "https://arbiscan.io/",
+    explorerTx: "https://arbiscan.io/",
     livePrice: "ethereum",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
   },
@@ -58,7 +62,9 @@ const currentChainProps = {
     img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
     id: "42220",
     livePrice: "celo",
+    contract: "0x5616BCcc278F7CE8B003f5a48f3754DDcfA4db5a",
     explorer: "https://explorer.celo.org/address/",
+    explorerTx: "https://explorer.celo.org/",
     chain: "Celo",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
   },
@@ -67,7 +73,9 @@ const currentChainProps = {
     id: "137",
     chain: "Polygon",
     livePrice: "matic-network",
+    contract: "0x57Eb0aaAf69E22D8adAe897535bF57c7958e3b1b",
     explorer: "https://polygonscan.com/address/",
+    explorerTx: "https://polygonscan.com/",
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
@@ -112,13 +120,12 @@ let imageUrl = null;
 
 const handleBuyClick = (price, owner) => {
   const contract = new ethers.Contract(
-    currentChain[props.chainState].contract,
+    currentChainProps[props.chainState].contract,
     listAbi,
     Ethers.provider().getSigner()
   );
 
-  const nftContract = conrtactId.split(tokeId)[0];
-
+  const nftContract = contractId.split(tokenId)[0];
   contract
     .nftSale(price, tokenId, owner, nftContract, { value: price })
     .then((transactionHash) => transactionHash.wait())
@@ -742,7 +749,11 @@ return (
             </div>
             <div>
               {state.price && state.owner !== state.sender ? (
-                <button onClick={() => handleBuyClick(state.price, state.owner)}>Buy</button>
+                <button
+                  onClick={() => handleBuyClick(state.price, state.owner)}
+                >
+                  Buy
+                </button>
               ) : state.owner === context.accountId ||
                 state.owner === state.sender ? (
                 <a
