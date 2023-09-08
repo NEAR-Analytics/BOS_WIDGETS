@@ -847,7 +847,11 @@ return (
       <Popup>
         <Widget
           src="agwaze.near/widget/GenaDrop.SuccessModal"
-          props={{ closeModal, externalLink: state.text }}
+          props={{
+            closeModal,
+            externalLink: state.text,
+            modalText: "Successfully Purchased",
+          }}
         />
       </Popup>
     )}
