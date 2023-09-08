@@ -129,6 +129,9 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 background-color: rgba(0,0,0,0.7);
+@media screen and (max-width: 600px){
+  flex-direction: column;
+}
 
 `;
 
@@ -143,6 +146,9 @@ const Button = styled.button`
     cursor: pointer;
     background-color: lightgray;
   }
+  @media screen and (max-width: 600px){
+  margin-top: 15px;
+}
 `;
 
 const SectionTemperature = styled.div`
