@@ -107,7 +107,6 @@ const assetList = assets
           },
           assetData: state.cache[tokenId],
           onClick: () => {
-            console.log(`${tokenId} selected`);
             if (props.onClick) {
               props.onClick(tokenId);
             }
