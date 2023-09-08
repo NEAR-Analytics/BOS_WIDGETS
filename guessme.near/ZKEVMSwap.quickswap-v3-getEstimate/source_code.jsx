@@ -1,4 +1,23 @@
-const { tokenIn, tokenOut, amountIn, tokenOutDecimals, loadRes, dex } = props;
+const {
+  tokenIn: tokenInProp,
+  tokenOut: tokenOutProp,
+  amountIn,
+  tokenOutDecimals,
+  loadRes,
+  dex,
+} = props;
+
+const ethAddress = "0x0000000000000000000000000000000000000000";
+
+const tokenIn =
+  tokenInProp === ethAddress
+    ? "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9"
+    : tokenInProp;
+
+const tokenOut =
+  tokenOutProp === ethAddress
+    ? "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9"
+    : tokenOutProp;
 
 State.init({ res: { tokenIn, tokenOut, amountIn, dex } });
 
