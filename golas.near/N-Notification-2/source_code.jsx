@@ -68,6 +68,10 @@ const accountId = type === "like" ? path.split("/")[0] : props.accountId;
 const blockHeight = type === "like" ? item.blockHeight : props.blockHeight;
 const urlBlockHeight = isComment ? "commentBlockHeight" : "blockHeight";
 
+const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
+const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+
+
 let postUrl = "";
 
 if (type !== "custom") {
