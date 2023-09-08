@@ -1,5 +1,9 @@
 const { tokenId, coinGeckoTokenId } = props;
 
+const wethAddress = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
+
+const ethAddress = "0x0000000000000000000000000000000000000000";
+
 const accountId = context.accountId;
 const debug = props.debug ?? false;
 
@@ -13,7 +17,6 @@ const network = NETWORK_ZKEVM;
 
 if (!tokenId) return;
 
-// ETH *******************************
 const getErc20Balance = (tokenId, receiver) => {
   const iface = new ethers.utils.Interface(state.erc20Abi);
 
@@ -31,7 +34,6 @@ const getErc20Balance = (tokenId, receiver) => {
         tokenDecimalsHex
       );
 
-      // find out token balance
       const encodedBalanceData = iface.encodeFunctionData("balanceOf", [
         receiver,
       ]);
@@ -57,17 +59,13 @@ const getErc20Balance = (tokenId, receiver) => {
 
 const getErc20Tokendata = (tokenId) => {
   let dataUrl = `https://api.coingecko.com/api/v3/coins/ethereum/contract/${tokenId}`;
-  if (network === NETWORK_AURORA) {
-    dataUrl = `https://api.coingecko.com/api/v3/coins/aurora/contract/${tokenId}`;
-  }
+
   const data = fetch(dataUrl);
-  console.log("datatokenData111111: ", data);
   if (!data.ok) {
     return "Loading";
   }
 
   const tokenData = data.body;
-  console.log("tokenData111111: ", tokenId, tokenData);
   const metadata = {
     name: tokenData.name,
     symbol: tokenData.symbol,
@@ -77,6 +75,20 @@ const getErc20Tokendata = (tokenId) => {
   const price = Number(tokenData.market_data.current_price.usd);
 
   return { metadata, price };
+};
+
+const getNativeBalance = () => {
+  const provider = Ethers.provider();
+  return provider.getBalance(state.ethAccountId).then((rawBalance) => {
+    return rawBalance.toString();
+  });
+};
+
+const ethMetadata = {
+  icon: "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880",
+  name: "ETH",
+  symbol: "ETH",
+  decimals: 18,
 };
 
 if (state.ethAccountId === undefined) {
@@ -98,38 +110,53 @@ if (state.erc20Abi === undefined) {
 }
 
 if (state.ethAccountId && state.erc20Abi) {
-  getErc20Balance(tokenId, state.ethAccountId).then(({ decimals, balance }) => {
-    if (balance !== undefined && balance !== null) {
-      State.update({ balance });
+  console.log("state.ethAccountId: ", state.ethAccountId);
+
+  console.log("tokenId: ", tokenId);
+
+  if (tokenId !== ethAddress) {
+    getErc20Balance(tokenId, state.ethAccountId).then(
+      ({ decimals, balance }) => {
+        if (balance !== undefined && balance !== null) {
+          State.update({ balance });
+        }
+        if (state.metadata !== undefined) {
+          const metadata = state.metadata;
+          metadata.decimals = decimals;
+          State.update({ metadata });
+        }
+        State.update({ tokenDecimals: decimals });
+      }
+    );
+
+    let tokenIdForCoingeckoAPI;
+    if ([NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(network)) {
+      tokenIdForCoingeckoAPI = coinGeckoTokenId;
     }
 
-    // save decimals to metadata if it is already exists
-    if (state.metadata !== undefined) {
-      const metadata = state.metadata;
-      console.log("metadata: ", metadata);
-      metadata.decimals = decimals;
-      State.update({ metadata });
+    const { metadata, price } = getErc20Tokendata(tokenIdForCoingeckoAPI);
+    console.log("metadata: ", metadata);
+
+    if (state.tokenDecimals && metadata && !metadata.decimals) {
+      metadata.decimals = state.tokenDecimals;
     }
 
-    // temp value to update metadata after the coingecko responce
-    State.update({ tokenDecimals: decimals });
-  });
+    console.log("metadata: ", metadata);
 
-  let tokenIdForCoingeckoAPI;
-  if ([NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(network)) {
-    tokenIdForCoingeckoAPI = coinGeckoTokenId;
-    console.log("coinGeckoTokenId: ", tokenId, coinGeckoTokenId);
+    State.update({ metadata, price });
+  } else {
+    getNativeBalance().then((balance) => {
+      State.update({ balance, tokenDecimals: 18, metadata: ethMetadata });
+    });
+
+    const { price } = getErc20Tokendata(coinGeckoTokenId);
+
+    if (state.tokenDecimals && metadata && !metadata.decimals) {
+      metadata.decimals = state.tokenDecimals;
+    }
+    State.update({ metadata: ethMetadata, price });
   }
-
-  const { metadata, price } = getErc20Tokendata(tokenIdForCoingeckoAPI);
-
-  if (state.tokenDecimals && metadata && !metadata.decimals) {
-    metadata.decimals = state.tokenDecimals;
-  }
-  State.update({ metadata, price });
 }
-
-console.log("state token data", { state }, tokenId);
 
 if (
   state.balance !== undefined &&
