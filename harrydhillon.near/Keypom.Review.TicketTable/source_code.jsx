@@ -116,9 +116,9 @@ return (
                 Preview Ticket
               </UnstyledButton>
             </TableCell>
-          <TableCell>
-                    {item.numberOfTickets ? item.numberOfTickets : "∞"}
-                  </TableCell>
+            <TableCell>
+              {item.numberOfTickets ? item.numberOfTickets : "∞"}
+            </TableCell>
             <TableCell>{item.ticketPricing}</TableCell>
           </TableRow>
         ))}
