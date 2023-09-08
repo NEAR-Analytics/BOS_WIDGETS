@@ -21,6 +21,14 @@ const tokenOut =
 
 State.init({ res: { tokenIn, tokenOut, amountIn, dex } });
 
+if (tokenIn === tokenOut) {
+  loadRes({
+    estimate: Big(amountIn).div(Big(10).pow(18)).toFixed(),
+  });
+
+  return "";
+}
+
 const middlePool =
   props.middlePool ?? "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
 
