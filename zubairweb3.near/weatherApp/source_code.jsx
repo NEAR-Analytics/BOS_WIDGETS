@@ -116,7 +116,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  padding: 1rem;
+  padding: 1.5rem;
 `;
 
 const SectionInputs = styled.div`
