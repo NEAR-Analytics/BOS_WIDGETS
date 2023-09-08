@@ -210,8 +210,8 @@ const Section = styled.div`
   margin-bottom: 10px;
 `;
 
-const VotingAlert = styled.div`
-  background: #d4e4f461;
+const VotingAlert = styled.small`
+  color: #f29bc0;
 `;
 
 const GraylistedAlert = styled.div`
@@ -986,11 +986,11 @@ return (
           },
           footer: state.selectedCandidates.length < seats && (
             <div class="w-100 pt-2 text-center">
-              <small class="text-danger">
+              <VotingAlert>
                 <i class="bi bi-exclamation-circle mr-2" />
                 You've selected only {state.selectedCandidates.length || ""} /
                 {seats} candidates
-              </small>
+              </VotingAlert>
             </div>
           ),
         }}
