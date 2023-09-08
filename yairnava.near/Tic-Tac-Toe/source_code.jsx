@@ -136,12 +136,16 @@ if (winner) {
     status: "Winner: " + (winner === "X" ? "Player" : "CPU"),
   });
   setTimeout(() => {
-    State.update({
-      squares: Array(9).fill(null),
-      xIsNext: Math.random() < 0.5,
-      winner: null,
-      status: null,
-    });
+    if (!isModal) {
+      State.update({
+        squares: Array(9).fill(null),
+        xIsNext: Math.random() < 0.5,
+        winner: null,
+        status: null,
+      });
+    } else {
+      onFinish();
+    }
   }, "1500");
 } else if (emptySquares.length === 0) {
   State.update({
