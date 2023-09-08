@@ -115,8 +115,7 @@ return (
                 marginTop: 5,
                 border: "1px solid lightgray",
                 paddingLeft: 5,
-                width: "40%",
-                minWidth: 120,
+                width: 160,
                 paddingRight: 5,
                 borderRadius: 5,
               }}
@@ -125,9 +124,13 @@ return (
                 style={{
                   width: "100%",
                   borderRadius: 5,
+                  objectFit: "cover",
+                  width: 150,
+                  height: 150,
                   margin: 10,
                   marginBottom: 5,
                   marginLeft: 0,
+                  marginTop: 5,
                 }}
                 src={
                   props?.image?.cid
