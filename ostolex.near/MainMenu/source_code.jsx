@@ -24,7 +24,7 @@ return (
           width: "100%",
           height: "100%",
           background:
-            "center / contain no-repeat url(https://bafybeihpzhhagjsbskksskzzh3us6byzrzcp7cqpvkxozyvd6penilvxgu.ipfs.w3s.link/menu%20animation2.gif)",
+            "center / contain no-repeat url(https://github.com/near-social-laser-chess/vault/raw/main/menu-animation.webm)",
         }}
       >
         <div
