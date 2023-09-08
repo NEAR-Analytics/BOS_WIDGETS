@@ -18,7 +18,7 @@ const renderItem = (item, i) => {
   if (i === 0) {
     Storage.set("lastBlockHeight", item.blockHeight);
   }
-  return <Widget src="golas.near/widget/N-Notification" key={i} props={item} />;
+  return <Widget src="golas.near/widget/N-Notification-2" key={i} props={item} />;
 };
 
 const moderatorAccount = "bosmod.near"
