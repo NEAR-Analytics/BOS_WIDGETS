@@ -100,7 +100,7 @@ const componentsToRender = [
     props={{
       tickets: Storage.get(
         "tickets",
-        "harrydhillon.near/widget/Keypom.EventInfo.index"
+        "harrydhillon.near/widget/Keypom.Tickets.index"
       )
         ? JSON.parse(
             Storage.get(
