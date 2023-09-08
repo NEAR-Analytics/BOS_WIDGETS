@@ -9,13 +9,16 @@ const image = metadata?.image;
 const onHide = props.onHide;
 const link = props.link;
 
-const renderExtraButtons = useComponentCallback(props.extraButtons, {
-  accountId,
-  widgetName,
-  widgetPath,
-  metadata,
-  onHide,
-});
+const renderExtraButtons = useComponentCallback(
+  (...args) => Promise.resolve(props.extraButtons(...args)),
+  {
+    accountId,
+    widgetName,
+    widgetPath,
+    metadata,
+    onHide,
+  }
+);
 
 return (
   <div>
