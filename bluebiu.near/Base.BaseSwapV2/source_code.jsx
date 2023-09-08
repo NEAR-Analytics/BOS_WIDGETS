@@ -243,91 +243,13 @@ const getPairContract = (_pairAddress) =>
     Ethers.provider().getSigner()
   );
 
-const RouterContract = new ethers.Contract(
-  state.config.routerAddress,
-  [
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "amountOut",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveIn",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveOut",
-          type: "uint256",
-        },
-      ],
-      name: "getAmountIn",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "amountIn",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "amountIn",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveIn",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveOut",
-          type: "uint256",
-        },
-      ],
-      name: "getAmountOut",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "amountOut",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "pure",
-      type: "function",
-    },
-  ],
-  Ethers.provider().getSigner()
-);
-
-const FactoryContract = new ethers.Contract(
-  state.config.factoryAddress,
-  [
-    {
-      constant: true,
-      inputs: [
-        { internalType: "address", name: "", type: "address" },
-        { internalType: "address", name: "", type: "address" },
-      ],
-      name: "getPair",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-  ],
-  Ethers.provider().getSigner()
-);
 const getBestTrade = () => {
-  if (!state.inputCurrency.address || !state.outputCurrency.address) {
+  const curDexUniType = DexConfig[title].uniType;
+  if (
+    !state.inputCurrency.address ||
+    !state.outputCurrency.address ||
+    curDexUniType === "v3"
+  ) {
     State.update({
       loading: false,
     });
@@ -357,112 +279,58 @@ const getBestTrade = () => {
     );
     return;
   }
-
-  const curDexUniType = DexConfig[title].uniType;
-  console.log("curDexUniType: ", curDexUniType);
-
-  if (curDexUniType === "v3") return;
-
-  FactoryContract.getPair(
-    state.inputCurrency.address === "native"
-      ? WETH_ADDRESS
-      : state.inputCurrency.address,
-    state.outputCurrency.address === "native"
-      ? WETH_ADDRESS
-      : state.outputCurrency.address
+  const currentCurrency =
+    state.tradeType === "in" ? state.inputCurrency : state.outputCurrency;
+  const currentAmount = Big(
+    state.tradeType === "in"
+      ? state.inputCurrencyAmount
+      : state.outputCurrencyAmount
   )
-    .then((_pairAddress) => {
-      if (
-        !_pairAddress ||
-        !ethers.utils.isAddress(_pairAddress) ||
-        _pairAddress === "0x0000000000000000000000000000000000000000"
-      ) {
-        State.update({
-          noPair: true,
-        });
-        throw Error("Get pair address error");
-      }
-      const PairContract = getPairContract(_pairAddress);
-      PairContract["token0"]()
-        .then((_token0) => {
-          PairContract.getReserves()
-            .then((res) => {
-              const [reserve0, reserve1] = res;
-
-              const currentCurrency =
-                state.tradeType === "in"
-                  ? state.inputCurrency
-                  : state.outputCurrency;
-              const currentAmount = Big(
-                state.tradeType === "in"
-                  ? state.inputCurrencyAmount
-                  : state.outputCurrencyAmount
-              )
-                .mul(0.995)
-                .toFixed(5);
-              const type =
-                _token0 ===
-                (currentCurrency.address === "native"
-                  ? WETH_ADDRESS
-                  : currentCurrency.address)
-                  ? "in"
-                  : "out";
-
-              RouterContract[type === "in" ? "getAmountOut" : "getAmountIn"](
-                ethers.utils.parseUnits(
-                  currentAmount,
-                  currentCurrency.decimals
-                ),
-                reserve0,
-                reserve1
-              )
-                .then((_outAmount) => {
-                  const outCurrency =
-                    state.tradeType === "in"
-                      ? state.outputCurrency
-                      : state.inputCurrency;
-                  const outAmount = Big(
-                    ethers.utils.formatUnits(_outAmount, outCurrency.decimals)
-                  ).toFixed(4);
-                  State.update(
-                    state.tradeType === "in"
-                      ? {
-                          outputCurrencyAmount: outAmount,
-                          loading: false,
-                          noPair: false,
-                        }
-                      : {
-                          inputCurrencyAmount: outAmount,
-                          loading: false,
-                          noPair: false,
-                        }
-                  );
-                })
-                .catch(() => {
-                  State.update({
-                    loading: false,
-                    noPair: true,
-                  });
-                });
-            })
-            .catch(() => {
-              State.update({
-                loading: false,
-                noPair: true,
-              });
-            });
-        })
-        .catch(() => {
-          State.update({
-            loading: false,
-            noPair: true,
-          });
-        });
+    .mul(0.995)
+    .toFixed(5);
+  const outCurrency =
+    state.tradeType === "in" ? state.outputCurrency : state.inputCurrency;
+  const RouterContract = new ethers.Contract(
+    state.config.routerAddress,
+    [
+      {
+        inputs: [
+          { internalType: "uint256", name: "amountIn", type: "uint256" },
+          { internalType: "address[]", name: "path", type: "address[]" },
+        ],
+        name: "getAmountsOut",
+        outputs: [
+          { internalType: "uint256[]", name: "amounts", type: "uint256[]" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  const path = [
+    currentCurrency.address === "native"
+      ? WETH_ADDRESS
+      : currentCurrency.address,
+    outCurrency.address === "native" ? WETH_ADDRESS : outCurrency.address,
+  ];
+  RouterContract.getAmountsOut(
+    ethers.utils.parseUnits(currentAmount, currentCurrency.decimals),
+    path
+  )
+    .then((res) => {
+      State.update({
+        outputCurrencyAmount: Big(
+          ethers.utils.formatUnits(res[1], outCurrency.decimals)
+        ).toFixed(4),
+        loading: false,
+        noPair: false,
+      });
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
       State.update({
         loading: false,
+        noPair: true,
       });
     });
 };
