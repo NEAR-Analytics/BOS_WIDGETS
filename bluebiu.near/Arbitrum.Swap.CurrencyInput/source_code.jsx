@@ -211,7 +211,7 @@ return (
       <Amount
         onClick={() => {
           const formatedBalance = utils.balanceFormated();
-          if (!["-", "Loading", "0", "<0.0001"].includes(formatedBalance))
+          if (!["-", "Loading", "0"].includes(formatedBalance))
             props.onAmountChange?.(state.balance);
         }}
       >
