@@ -808,6 +808,8 @@ const params_from_trend_card = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.trend-card"
 );
 
+console.log("params_from_trend_card: ", params_from_trend_card);
+
 if (props.source == "trend" && params_from_trend_card) {
   params = params_from_trend_card;
 }
