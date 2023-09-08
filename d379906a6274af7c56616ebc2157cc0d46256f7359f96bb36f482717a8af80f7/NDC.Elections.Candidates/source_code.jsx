@@ -484,8 +484,7 @@ const processNFTAvailability = (result, key) => {
 };
 
 const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
-const isVisible = () =>
-  myVotesForHouse().length > 0 || state.winnerIds.length > 0;
+const isVisible = () => true;
 
 State.init({
   reload: true,
