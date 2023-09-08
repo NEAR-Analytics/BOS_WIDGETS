@@ -1,14 +1,4 @@
-const { typeToEmptyData, validateType, types } = props;
-
-const initialFormState = typeToEmptyData(
-  types["astraplusplus.ndctools.near/type/dao"]
-);
-
-// Set default values here
-initialFormState.profileImage =
-  "https://ipfs.near.social/ipfs/bafkreiad5c4r3ngmnm7q6v52joaz4yti7kgsgo6ls5pfbsjzclljpvorsu";
-initialFormState.coverImage =
-  "https://ipfs.near.social/ipfs/bafkreicd7wmjfizslx72ycmnsmo7m7mnvfsyrw6wghsaseq45ybslbejvy";
+const accountId = props.accountId ?? context.accountId;
 
 State.init({
   step: 0,
@@ -16,34 +6,18 @@ State.init({
   errors: null,
 });
 
+function generateUID() {
+  return (
+    Math.random().toString(16).slice(2) +
+    Date.now().toString(36) +
+    Math.random().toString(16).slice(2)
+  );
+}
+
+const groupId = props.groupId ?? generateUID();
+
 const handleStepComplete = (value) => {
-  const stepValid = true;
-  Object.keys(value).forEach((key) => {
-    const properties = types["hack.near/type/community"].properties.find(
-      (p) => p.name === key
-    );
-    const validation = validateType(properties.type, value[key], properties);
-    if (validation) {
-      State.update({
-        errors: {
-          ...state.errors,
-          [key]: validation,
-        },
-      });
-      stepValid = false;
-    } else {
-      State.update({
-        errors: {
-          ...state.errors,
-          [key]: null,
-        },
-      });
-    }
-  });
-
-  if (!stepValid) return;
-
-  if (state.step === 5) {
+  if (state.step === 3) {
     const finalAnswers = {
       ...state.form,
       ...value,
@@ -64,16 +38,6 @@ const handleStepComplete = (value) => {
     },
   });
 };
-
-function generateUID() {
-  return (
-    Math.random().toString(16).slice(2) +
-    Date.now().toString(36) +
-    Math.random().toString(16).slice(2)
-  );
-}
-
-const groupId = props.groupId ?? generateUID();
 
 function handleFormComplete(value) {
   Social.set({
