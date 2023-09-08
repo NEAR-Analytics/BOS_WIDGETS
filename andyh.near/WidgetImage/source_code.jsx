@@ -35,12 +35,10 @@ const inner = (
   </div>
 );
 
-return <span>{props.widgetName}</span>;
-
-// return tooltip ? (
-//   <OverlayTrigger placement="auto" overlay={<Tooltip>{title}</Tooltip>}>
-//     {inner}
-//   </OverlayTrigger>
-// ) : (
-//   inner
-// );
+return tooltip ? (
+  <OverlayTrigger placement="auto" overlay={<Tooltip>{title}</Tooltip>}>
+    {inner}
+  </OverlayTrigger>
+) : (
+  inner
+);
