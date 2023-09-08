@@ -29,7 +29,7 @@ const tableStyle = {
   borderCollapse: "collapse",
   boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.1)",
   width: "100%",
-  maxWidth:"640px",
+  maxWidth: "640px",
   textAlign: "left",
 };
 
@@ -196,6 +196,14 @@ function getKudos(wallet) {
   //console.log(countK);
   return { countK, countD };
 }
+function getShardDogs(wallet){
+const nftDataCount = Near.view("mint.sharddog.near", "nft_supply_for_owner", {
+  account_id: wallet,
+  limit: 1000,
+});
+
+return nftDataCount;
+}
 
 function getSBT(wallet) {
   const getFirstSBTToken = () => {
@@ -237,7 +245,7 @@ return (
               image,
               alt: title,
               className: "img-fluid rounded-3",
-              style: {width:"100%", maxWidth: "620px" },
+              style: { width: "100%", maxWidth: "620px" },
               thumbnail,
               fallbackUrl:
                 "https://ipfs.near.social/ipfs/bafkreigx4syocpq3spthgozerqnqjf4k7ri5jrsslgali7tslvfmjrefte",
@@ -252,6 +260,7 @@ return (
         <p style={{ justifyContent: "center", alignItems: "center" }}>
           Account Created: {getCreateDate(creationTimestamp)} <br />
           Current Balance: {parsedBalance(currentBalance)}N<br />
+          ShardDogs Minted: {getShardDogs(accountId)}<br/>
           Fractal Verified: {getSBT(accountId)}
         </p>
         <table style={tableStyle}>
