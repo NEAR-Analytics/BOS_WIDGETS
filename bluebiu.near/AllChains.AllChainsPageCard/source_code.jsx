@@ -27,10 +27,6 @@ const Card = styled.div`
     border-radius: 6px;
     z-index: 2;
   }
-  a{
-    color: inherit;
-    text-decoration: none;
-  }
 `;
 
 const CardItem = styled.div`
@@ -67,6 +63,12 @@ const Title = styled.div`
   font-weight: 700;
   display: flex;
   margin-bottom: 6px;
+  a{
+    color: inherit;
+    text-decoration: none;
+    display: inherit;
+    width: 100%;
+  }
   @media (max-width: 900px) {
     font-size: 26px;
   }
@@ -167,6 +169,13 @@ const CardChilden = styled.div`
           margin-bottom: 2px;
         }
       }
+      &:last-child {
+      margin-bottom: 0;
+     }
+    }
+    a:last-child {
+      display:block;
+      margin-bottom: 20px;
     }
   }
 `;
@@ -203,186 +212,133 @@ const leftIcon = (
 
 return (
   <Card>
-    {props.pathUrl ? (
-      <a href={props.pathUrl}>
-        <div className="coming">Coming</div>
-        <div className="cardNew">
-          <div className="cardNew-top">
-            <img
-              src="https://ipfs.near.social/ipfs/bafkreidjip52w6q66phs4h4grhrjzusx2w7ai3bhgrpbhfsenls2nvx5dq"
-              alt=""
-            />
-          </div>
-          <div className="cardNew-bottom">
-            <img
-              src="https://ipfs.near.social/ipfs/bafkreidysuq44l5rmkqyqgnoyqhebtr3vr6qktup3kzc77adzxpurpishu"
-              alt=""
-            />
-          </div>
-        </div>
-        <CardItem isDeposit={props.isDeposit}>
-          <Title>
-            <span> {props.title}</span>
+    <div className="coming">Coming</div>
+    <div className="cardNew">
+      <div className="cardNew-top">
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreidjip52w6q66phs4h4grhrjzusx2w7ai3bhgrpbhfsenls2nvx5dq"
+          alt=""
+        />
+      </div>
+      <div className="cardNew-bottom">
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreidysuq44l5rmkqyqgnoyqhebtr3vr6qktup3kzc77adzxpurpishu"
+          alt=""
+        />
+      </div>
+    </div>
+    <CardItem isDeposit={props.isDeposit}>
+
+      {props.pathUrl ? (
+        <Title>
+          <a href={props.pathUrl}>
+            {props.title}
             <TitleIcon>
               <span>Mainnet</span>
             </TitleIcon>
-          </Title>
-          <a
-            className="cardSrc"
-            style={{
-              textDecoration: "none",
-              color: "white",
-            }}
-            href={"https://" + props.src}
-            target="_blank"
-          >
-            {props.src}
-            <span>{leftIcon}</span>
           </a>
-          <div className="list">
-            <Item>
-              <p>Chain ID</p>
-              <span>{props.chainId}</span>
-            </Item>
-            <Item>
-              <p>Technology</p>
-              <span>{props.technology}</span>
-            </Item>
-            <Item>
-              <p>Native Token</p>
-              <span>{props.token}</span>
-            </Item>
-          </div>
-        </CardItem>
-        <CardChilden isDeposit={props.isDeposit}>
-          {props.childen &&
-            props.childen.map((item, index) => (
-              <div key={index} className="CardChilden-item">
-                <div className="item-icon">
-                  <img src={item.icon} alt="" />
-                </div>
-                <div className="item-text">
-                  <h3>
-                    {item.widgetSrc ? (
-                      <a
-                        style={{
-                          color: "white",
-                          textDecoration: "none",
-                        }}
-                        href={item.widgetSrc}
-                      >
-                        {item.name}
-                      </a>
-                    ) : (
-                      <span> {item.name}</span>
-                    )}
-                  </h3>
-                  <div className="itemTag">
-                    {item.tags &&
-                      item.tags.map((key) => (
-                        <span
-                          key={key}
-                          style={{ background: getBackgroundColor(key) }}
-                        >
-                          {key}
-                        </span>
-                      ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-        </CardChilden>
+        </Title>
+      ) : (
+        <Title>
+          <span> {props.title}</span>
+          <TitleIcon>
+            <span>Mainnet</span>
+          </TitleIcon>
+        </Title>
+      )
+      }
+
+
+      <a
+        className="cardSrc"
+        style={{
+          textDecoration: "none",
+          color: "white",
+        }}
+        href={"https://" + props.src}
+        target="_blank"
+      >
+        {props.src}
+        <span>{leftIcon}</span>
       </a>
-    ) : (
-      <>
-        <div className="coming">Coming</div>
-        <div className="cardNew">
-          <div className="cardNew-top">
-            <img
-              src="https://ipfs.near.social/ipfs/bafkreidjip52w6q66phs4h4grhrjzusx2w7ai3bhgrpbhfsenls2nvx5dq"
-              alt=""
-            />
-          </div>
-          <div className="cardNew-bottom">
-            <img
-              src="https://ipfs.near.social/ipfs/bafkreidysuq44l5rmkqyqgnoyqhebtr3vr6qktup3kzc77adzxpurpishu"
-              alt=""
-            />
-          </div>
-        </div>
-        <CardItem isDeposit={props.isDeposit}>
-          <Title>
-            <span> {props.title}</span>
-            <TitleIcon>
-              <span>Mainnet</span>
-            </TitleIcon>
-          </Title>
-          <a
-            className="cardSrc"
-            style={{
-              textDecoration: "none",
-              color: "white",
-            }}
-            href={"https://" + props.src}
-            target="_blank"
-          >
-            {props.src}
-            <span>{leftIcon}</span>
-          </a>
-          <div className="list">
-            <Item>
-              <p>Chain ID</p>
-              <span>{props.chainId}</span>
-            </Item>
-            <Item>
-              <p>Technology</p>
-              <span>{props.technology}</span>
-            </Item>
-            <Item>
-              <p>Native Token</p>
-              <span>{props.token}</span>
-            </Item>
-          </div>
-        </CardItem>
-        <CardChilden isDeposit={props.isDeposit}>
-          {props.childen &&
-            props.childen.map((item, index) => (
-              <div key={index} className="CardChilden-item">
-                <div className="item-icon">
-                  <img src={item.icon} alt="" />
-                </div>
-                <div className="item-text">
-                  <h3>
-                    {item.widgetSrc ? (
-                      <a
-                        style={{
-                          color: "white",
-                          textDecoration: "none",
-                        }}
-                        href={item.widgetSrc}
-                      >
-                        {item.name}
-                      </a>
-                    ) : (
-                      <span> {item.name}</span>
-                    )}
-                  </h3>
-                  <div className="itemTag">
-                    {item.tags &&
-                      item.tags.map((key) => (
-                        <span
-                          key={key}
-                          style={{ background: getBackgroundColor(key) }}
-                        >
-                          {key}
-                        </span>
-                      ))}
+      <div className="list">
+        <Item>
+          <p>Chain ID</p>
+          <span>{props.chainId}</span>
+        </Item>
+        <Item>
+          <p>Technology</p>
+          <span>{props.technology}</span>
+        </Item>
+        <Item>
+          <p>Native Token</p>
+          <span>{props.token}</span>
+        </Item>
+      </div>
+    </CardItem>
+    <CardChilden isDeposit={props.isDeposit}>
+      {props.childen &&
+        props.childen.map((item, index) => (
+
+
+          <>
+            {item.widgetSrc ? (
+              <a
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                }}
+                href={item.widgetSrc}
+              >
+                <div key={index} className="CardChilden-item">
+                  <div className="item-icon">
+                    <img src={item.icon} alt="" />
+                  </div>
+                  <div className="item-text">
+                    <h3>{item.name}</h3>
+                    <div className="itemTag">
+                      {item.tags &&
+                        item.tags.map((key) => (
+                          <span
+                            key={key}
+                            style={{ background: getBackgroundColor(key) }}
+                          >
+                            {key}
+                          </span>
+                        ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-        </CardChilden>
-      </>
-    )}
+              </a>
+            ) : (
+              <>
+                <div key={index} className="CardChilden-item">
+                  <div className="item-icon">
+                    <img src={item.icon} alt="" />
+                  </div>
+                  <div className="item-text">
+                    <h3>{item.name}</h3>
+                    <div className="itemTag">
+                      {item.tags &&
+                        item.tags.map((key) => (
+                          <span
+                            key={key}
+                            style={{ background: getBackgroundColor(key) }}
+                          >
+                            {key}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+          </>
+
+
+
+        ))}
+    </CardChilden>
   </Card>
 );
