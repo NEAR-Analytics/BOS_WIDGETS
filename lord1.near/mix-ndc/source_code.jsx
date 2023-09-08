@@ -59,7 +59,7 @@ const thirdtheme = {
 const queryHashes = [
   { id: 1, hash: "3ca36592-256e-4dda-97e3-de5f71baeba5" },
   { id: 2, hash: "2c93f2aa-7da5-4c42-acb5-0a09592a4e8d" },
-  { id: 3, hash: "d271534a-bf7e-4ed5-9cd0-c0c62b029408" },
+  { id: 3, hash: "d4c425df-b98c-41c9-8fc5-d89ff7b6316e" },
 ];
 
 State.init({
@@ -320,35 +320,24 @@ let third = (
         data: state.data?.hash3?.data,
         charts: [
           {
-            title: "UpVoters",
-            subtitle: "Number of UpVoters and DownVoters",
+            title: "nominations",
+            subtitle: "Number of nominations and Revoke nominations",
             dateKey: "week",
-            oppKey: "voter_vote",
-            negKey: "voter_remove",
-            oppTitle: "Upvote",
-            negTitle: "Remove vote",
-            type: "spline",
+            oppKey: "add_tx_hash",
+            negKey: "removed_tx_hash",
+            oppTitle: "nominations",
+            negTitle: "Revoke nominations",
+            type: "column",
           },
           {
-            title: "Candidate",
-            subtitle:
-              "Number of candidate who got upvoted or got removed from votes",
+            title: "nominees",
+            subtitle: "Number of nominations and Revoke nominees",
             dateKey: "week",
-            oppKey: "candidate_vote",
-            negKey: "candidate_remove",
-            oppTitle: "Upvote",
-            negTitle: "Remove vote",
-            type: "spline",
-          },
-          {
-            title: "Vote Actions",
-            subtitle: "Number of Upvote and remove actions",
-            dateKey: "week",
-            oppKey: "hash_vote",
-            negKey: "hash_remove",
-            oppTitle: "Upvote",
-            negTitle: "Remove vote",
-            type: "spline",
+            oppKey: "nominee",
+            negKey: "SIGNER_ID",
+            oppTitle: "nominees",
+            negTitle: "Revokers",
+            type: "column",
           },
         ],
         themeColor: { chart: themeColor.chart },
