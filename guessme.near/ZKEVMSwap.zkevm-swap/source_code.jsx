@@ -640,7 +640,8 @@ const Input = styled.input`
 const selectedChainId = state.selectedChainId ?? 0;
 const selectedDex = state.selectedDex;
 
-const switchNetwork = (chainId, dex) => {
+const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
+  console.log("tokenIn: ", tokenIn, tokenOut);
   Ethers.send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
@@ -648,8 +649,9 @@ const switchNetwork = (chainId, dex) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-    outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+    inputAssetTokenId: tokenIn || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+    outputAssetTokenId:
+      tokenOut || "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
   });
 };
 
@@ -808,8 +810,6 @@ const params_from_trend_card = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.trend-card"
 );
 
-console.log("params_from_trend_card: ", params_from_trend_card);
-
 if (props.source == "trend" && params_from_trend_card) {
   params = params_from_trend_card;
 }
@@ -818,32 +818,29 @@ if (props.source == "question_list" && params_from_question_list) {
   params = params_from_question_list;
 }
 
-if (!!params?.assetId) {
-  State.update({
-    inputAssetTokenId: params.assetId,
-    outputAssetTokenId:
-      params.assetId === state.outputAssetTokenId
-        ? state.inputAssetTokenId
-        : state.outputAssetTokenId,
-  });
-}
-
 if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   if (!!params?.amount && !!params?.assetId) {
+    const toAssetId =
+      params.toAssetId ||
+      (params.assetId === state.outputAssetTokenId
+        ? state.inputAssetTokenId
+        : state.outputAssetTokenId);
+
+    console.log("params: ", params, toAssetId);
+
     State.update({
       storeParams: params,
       inputAssetAmount: params.amount,
       approvalNeeded: undefined,
       inputAssetTokenId: params.assetId,
-      outputAssetTokenId:
-        params.assetId === state.outputAssetTokenId
-          ? state.inputAssetTokenId
-          : state.outputAssetTokenId,
+      outputAssetTokenId: toAssetId,
     });
-  }
 
-  if (!!params?.dexName) {
-    switchNetwork(1101, params.dexName);
+    if (!!params?.dexName) {
+      console.log("toAssetId: ", toAssetId);
+
+      switchNetwork(1101, params.dexName, params.assetId, toAssetId);
+    }
   }
 
   State.update({
