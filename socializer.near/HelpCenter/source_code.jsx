@@ -1,14 +1,12 @@
 const HelpComponent = styled.div`
   display: flex;
   justify-content: center;
-  padding : 18px;
   width: 188px;
   height: 248px;
   border-radius: 10px;
   border: 0;
   color: white;
   background-color: #1e1e1e;
-  position: relative;
 `;
 
 const HelpContent = styled.div`
@@ -20,6 +18,8 @@ const HelpContent = styled.div`
   justify-content: center;
   align-items: center;
   gap: 12px;
+  padding : 18px;
+  position: relative;
 `;
 
 const Question = styled.div`
