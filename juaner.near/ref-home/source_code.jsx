@@ -125,9 +125,9 @@ const { initTab } = props;
 const storeTab = Storage.privateGet("curTab");
 console.log("storeTab: ", storeTab);
 
-// State.init({
-//   activeMenu: initTab || storeTab || "lending",
-// });
+State.init({
+  activeMenu: initTab || storeTab || "lending",
+});
 
 if (storeTab && state.activeMenu !== storeTab && !initTab) {
   State.update({
