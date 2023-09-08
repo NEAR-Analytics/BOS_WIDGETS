@@ -37,11 +37,19 @@ return (
         <tr>
           {props.columns.map((th) => (
             <th key={th.title} className="col-1" scope="col">
-              {th.title}
+              <div>
+                <OverlayTrigger
+                  placement={th.position}
+                  overlay={<Tooltip>{th.description}</Tooltip>}
+                >
+                  <span>{th.title}</span>
+                </OverlayTrigger>
+              </div>
             </th>
           ))}
         </tr>
       </thead>
+
       <tbody>
         {props.data.length > 0 &&
           handlePagination().table.map((row, i) => {
@@ -97,7 +105,7 @@ return (
 //   data: [],
 //   columns: [
 //     { title: "id" }, //if key does not provided , rows will be ascending numbers
-//     { title: "title", key: "key in data" },
+//     { title: "title", key: "key in data" ,description:"here is a",position:"top/right/buttom/left"},
 //   ],
 //   rowsCount: 2, // if zero or null , the whole table will be render
 //   className: "table-bordered",
