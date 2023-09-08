@@ -1,17 +1,25 @@
 const HelpComponent = styled.div`
   display: flex;
+  justify-content: center;
   padding : 18px;
   width: 188px;
   height: 248px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
   border-radius: 10px;
   border: 0;
   color: white;
   background-color: #1e1e1e;
   position: relative;
+`;
+
+const HelpContent = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
 `;
 
 const Question = styled.div`
@@ -113,27 +121,29 @@ return (
       <QuestionIcon />
     </Question>
 
-    <Circle
-      style={{
-        top: -100,
-        left: -100,
-      }}
-    />
+    <HelpContent>
+      <Circle
+        style={{
+          top: -100,
+          left: -100,
+        }}
+      />
 
-    <Circle
-      style={{
-        bottom: -100,
-        right: -100,
-      }}
-    />
+      <Circle
+        style={{
+          bottom: -100,
+          right: -100,
+        }}
+      />
 
-    <Text>Suggestions</Text>
-    <Text
-      style={{ fontSize: 12, textAlign: "center", letterSpacing: "-0.24px" }}
-    >
-      Having Trouble in Learning. Please contact us for more questions.
-    </Text>
+      <Text>Suggestions</Text>
+      <Text
+        style={{ fontSize: 12, textAlign: "center", letterSpacing: "-0.24px" }}
+      >
+        Having Trouble in Learning. Please contact us for more questions.
+      </Text>
 
-    <HelpButton>Go To Help Center</HelpButton>
+      <HelpButton>Go To Help Center</HelpButton>
+    </HelpContent>
   </HelpComponent>
 );
