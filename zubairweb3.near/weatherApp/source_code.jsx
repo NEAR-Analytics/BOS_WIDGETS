@@ -111,7 +111,7 @@ const Overlay = styled.div`
 const Container = styled.div`
   max-width: 800px;
   margin: auto;
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
