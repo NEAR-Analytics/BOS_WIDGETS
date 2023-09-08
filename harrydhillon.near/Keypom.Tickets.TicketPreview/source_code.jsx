@@ -161,6 +161,7 @@ return (
       isOpen: props.isOpen,
       contentStyles: {
         style: {
+          overflowY:"visible",
           width: 400,
         },
       },
