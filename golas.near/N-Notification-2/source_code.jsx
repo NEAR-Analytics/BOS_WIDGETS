@@ -120,7 +120,7 @@ return (
         />
         <div>
           <Username>{profile.name || accountId.split(".near")[0]}</Username>
-          <Action>{action}</Action>
+          <Action>{notificationMessage[type]}</Action>
         //   <ComponentName>{componentName}</ComponentName>
           <Timestamp>
             <Widget
