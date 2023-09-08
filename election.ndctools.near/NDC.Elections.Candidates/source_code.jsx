@@ -958,7 +958,7 @@ return (
               {state.selectedCandidates.length < seats && (
                 <VotingAlert className="p-3 mb-2 rounded">
                   <i class="bi bi-exclamation-circle" />
-                  You've selected just {state.selectedCandidates.length || ""} /
+                  You've selected only {state.selectedCandidates.length || ""} /
                   ${seats} candidates
                 </VotingAlert>
               )}
