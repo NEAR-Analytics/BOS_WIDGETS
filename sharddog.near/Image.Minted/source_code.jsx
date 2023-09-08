@@ -1,6 +1,6 @@
 const image = props.image;
 const title = props.title || "";
-
+const timestamp = props.timestamp || "";
 const className = props.className;
 const style = props.style;
 const alt = props.alt;
@@ -8,10 +8,10 @@ const fallbackUrl = props.fallbackUrl;
 const thumbnail = props.thumbnail;
 
 if(props.timestamp){
-const date = new Date(props.timestamp);
+const date = new Date(timestamp);
 const humanReadableDate = date.toLocaleString();
+timestamp = humanReadableDate;
 }
-const timestamp = humanReadableDate || "";
 
 State.init({
   image,
