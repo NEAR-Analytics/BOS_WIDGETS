@@ -2,6 +2,8 @@ const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 
+console.log("123312");
+
 const username = props.username;
 const action = props.action;
 const componentName = props.componentName;
