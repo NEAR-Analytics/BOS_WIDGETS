@@ -1,4 +1,5 @@
-State.init({ city: "Lagos", unit: "metric", weather: null });
+State.init({ defaultCity: "Lagos", city: "", unit: "metric" });
+State.init({ weather: {} });
 
 const bgCold =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1694077947/Weather/cold2_p13fuw.jpg";
@@ -18,13 +19,7 @@ function getWeatherData(city, units) {
   });
 }
 
-function init() {
-  if (!state.weather) {
-    getWeatherData(state.city, state.unit);
-  }
-}
-
-init();
+getWeatherData(state.defaultCity, state.unit);
 
 function handleClick() {
   getWeatherData(state.city, state.unit);
@@ -54,42 +49,42 @@ const windUnit = state.unit === "metric" ? "m/s" : "m/h";
 const card = [
   {
     id: 1,
-    icon: <i class="bi bi-arrow-down"></i>,
+    icon: ArrowDown,
     title: "min",
     data: temp_min.toFixed(),
     unit: tempUnit,
   },
   {
     id: 2,
-    icon: <i class="bi bi-arrow-up"></i>,
+    icon: ArrowDown,
     title: "max",
     data: temp_max.toFixed(),
     unit: tempUnit,
   },
   {
     id: 3,
-    icon: <i class="bi bi-emoji-smile"></i>,
+    icon: ArrowDown,
     title: "feels like",
     data: feels_like.toFixed(),
     unit: tempUnit,
   },
   {
     id: 4,
-    icon: <i class="bi bi-building-down"></i>,
+    icon: ArrowDown,
     title: "pressure",
     data: pressure,
     unit: "hPa",
   },
   {
     id: 5,
-    icon: <i class="bi bi-droplet"></i>,
+    icon: ArrowDown,
     title: "humidity",
     data: humidity,
     unit: "%",
   },
   {
     id: 6,
-    icon: <i class="bi bi-wind"></i>,
+    icon: ArrowDown,
     title: "wind speed",
     data: speed.toFixed(),
     unit: windUnit,
@@ -116,7 +111,7 @@ const Overlay = styled.div`
 const Container = styled.div`
   max-width: 800px;
   margin: auto;
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -134,10 +129,6 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 background-color: rgba(0,0,0,0.7);
-@media screen and (max-width: 768px){
-  flex-direction: column;
-  margin-bottom: 20px;
-}
 
 `;
 
@@ -152,9 +143,6 @@ const Button = styled.button`
     cursor: pointer;
     background-color: lightgray;
   }
-  @media screen and (max-width: 768px){
-  margin-top: 15px;
-}
 `;
 
 const SectionTemperature = styled.div`
@@ -166,9 +154,6 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 background-color: rgba(0,0,0,0.7);
- @media screen and (max-width: 6768x){
-  margin-bottom: 20px;
-}
 
 `;
 
@@ -204,8 +189,8 @@ color: white;
 &:focus{
   outline: none;
 }
-@media screen and (max-width: 768px){
-  margin: 0 20px;
+@media screen and (max-width: 600px){
+  margin-right: 20px;
 }
 `;
 
@@ -214,13 +199,8 @@ width: 100%;
 display: flex;
 justify-content: space-between;
 flex-wrap: wrap;
-gap: 1.5rem;
+gap: 2.5rem;
 color: white;
-@media screen and (max-width: 768px){
-  margin-top: 15px;
-  1rem;
-
-}
 `;
 const Card = styled.div`
 width: 25%;
@@ -231,7 +211,7 @@ justify-content: space-between;
 background-color: rgba(0,0,0,0.7);
 padding: 1rem;
 border-radius: 0.4rem;
-@media screen and (max-width: 768px){
+@media screen and (max-width: 600px){
   width: 40%;
 }
 `;
@@ -247,7 +227,7 @@ const CardIcon = styled.div`
 `;
 
 const CardTitle = styled.h2`
-font-size: 1.2rem;
+
 `;
 return (
   <>
@@ -259,7 +239,7 @@ return (
               <Input
                 type="text"
                 name="city"
-                placeholder="Enter City..."
+                placeholder="Enter City and press Enter..."
                 onChange={(e) => State.update({ city: e.target.value })}
               />
               <Button onClick={handleClick}>GET DATA</Button>
@@ -289,7 +269,7 @@ return (
                 return (
                   <Card key={id}>
                     <CardIcon>
-                      {icon}
+                      <img src={icon} alt="temp-icon" />
                       <small>{title}</small>
                     </CardIcon>
                     <CardTitle>
