@@ -1,6 +1,6 @@
 let { items, variant, size, ...forwardedProps } = props;
 
-// this prop is just for preview
+// this prop is just for preview asdasda
 const previewItems = [
   {
     name: "Label with icon",
