@@ -39,32 +39,72 @@ const dates = data.map((entry) => entry["DAY"]);
 
 // logic part-2
 
+// const stacked_options = {
+//   maintainAspectRatio: true,
+//   plugins: {
+//     legend: {
+//       display: true,
+//       position: "bottom",
+//     },
+//   },
+//   scales: {
+//     y: {
+//       stacked: true,
+//       grid: {
+//         color: "rgb(41,51,64)", // This will change the gridline color
+//         borderColor: "rgb(240,255,240)",
+//       },
+//       ticks: {
+//         color: "rgb(240,255,240)", // This will change the axis text label color
+//       },
+//     },
+//     x: {
+//       stacked: true,
+//       grid: {
+//         color: "rgb(41,51,64)", // This will change the gridline color
+//       },
+//       ticks: {
+//         color: "rgb(240,255,240)", // This will change the axis text label color
+//       },
+//     },
+//   },
+// };
+
 const stacked_options = {
-  maintainAspectRatio: true,
+  responsive: true,
+  interaction: {
+    mode: "index",
+    intersect: false,
+  },
+  stacked: false,
   plugins: {
-    legend: {
+    title: {
       display: true,
-      position: "bottom",
     },
   },
   scales: {
     y: {
-      stacked: true,
+      type: "linear",
+      display: true,
+      position: "left",
       grid: {
         color: "rgb(41,51,64)", // This will change the gridline color
-        borderColor: "rgb(240,255,240)",
       },
       ticks: {
         color: "rgb(240,255,240)", // This will change the axis text label color
       },
     },
-    x: {
-      stacked: true,
-      grid: {
-        color: "rgb(41,51,64)", // This will change the gridline color
-      },
+    y1: {
+      type: "linear",
+      display: true,
+      position: "right",
+
       ticks: {
         color: "rgb(240,255,240)", // This will change the axis text label color
+      },
+      grid: {
+        drawOnChartArea: false,
+        color: "rgb(41,51,64)", // This will change the gridline color
       },
     },
   },
@@ -77,11 +117,13 @@ const stacked_bar_data = {
       label: "Wallets Created",
       data: WALLETS_CREATED,
       backgroundColor: "rgb(250,164,58)",
+      yAxisID: "y1",
     },
     {
       label: "Total Wallets",
       data: TOTAL_WALLETS,
       backgroundColor: "rgb(13,131,171)",
+      yAxisID: "y",
     },
   ],
 };
