@@ -210,6 +210,10 @@ const Section = styled.div`
   margin-bottom: 10px;
 `;
 
+const VotingAlert = styled.div`
+  background: #f8f8f9;
+`;
+
 const GraylistedAlert = styled.div`
   background: rgb(236 236 236);
 `;
@@ -951,6 +955,14 @@ return (
                 </p>
               </Rule>
 
+              {state.selectedCandidates.length < seats && (
+                <VotingAlert className="p-3 mb-2 rounded">
+                  <i class="bi bi-exclamation-circle" />
+                  You've selected just {state.selectedCandidates.length || ""} /
+                  ${seats} candidates
+                </VotingAlert>
+              )}
+
               {greylisted && (
                 <GraylistedAlert className="p-3 mb-4 rounded">
                   <b>Voters without reputation need to be verified</b> by the
@@ -962,13 +974,18 @@ return (
             </Rules>
           ),
           Button: {
-            title: `Cast ${state.selectedCandidates.length || ""} Vote${
+            title: `Cast ${
+              state.selectedCandidates.length || ""
+            } / ${seats} Vote${
               state.selectedCandidates.length === 1 ? "" : "s"
             }`,
             disabled:
               state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
             onCancel: () =>
               State.update({ bountyProgramModal: false, reload: false }),
+            icon: state.selectedCandidates.length < seats && (
+              <i class="bi bi-exclamation-triangle" />
+            ),
             onSubmit: handleVote,
           },
           SecondaryButton: {
