@@ -62,8 +62,6 @@ const total = Near.view("registry.i-am-human.near", "sbt_supply", {
   issuer: "fractal.i-am-human.near",
 });
 
-State.update({ total: total - BLACKLISTED_COUNT });
-
 asyncFetch(
   `https://api.pikespeak.ai/election/total-voters?contract=${electionContract}`,
   { headers: { "x-api-key": apiKey } }
