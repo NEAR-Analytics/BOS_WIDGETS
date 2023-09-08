@@ -63,6 +63,11 @@ const Title = styled.div`
   font-weight: 700;
   display: flex;
   margin-bottom: 6px;
+  a{
+    color: #ffff;
+    display: inherit;
+    width: 100%;
+  }
   @media (max-width: 900px) {
     font-size: 26px;
   }
@@ -215,12 +220,27 @@ return (
       </div>
     </div>
     <CardItem isDeposit={props.isDeposit}>
-      <Title>
-        {props.title}
-        <TitleIcon>
-          <span>Mainnet</span>
-        </TitleIcon>
-      </Title>
+
+      {props.pathUrl ? (
+        <Title>
+          <a href={props.pathUrl}>
+            {props.title}
+            <TitleIcon>
+              <span>Mainnet</span>
+            </TitleIcon>
+          </a>
+        </Title>
+      ) : (
+        <Title>
+          <span> {props.title}</span>
+          <TitleIcon>
+            <span>Mainnet</span>
+          </TitleIcon>
+        </Title>
+      )
+      }
+
+
       <a
         className="cardSrc"
         style={{
