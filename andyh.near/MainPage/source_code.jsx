@@ -2,7 +2,7 @@ return (
   <>
     {/*<Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={true} />*/}
     {context.accountId && <h4>ProfileOnboarding</h4>}
-    <Widget src="andyh.near/widget/MainPage.FeaturedApps" isTrusted={true} />
+    {/*<Widget src="andyh.near/widget/MainPage.FeaturedApps" isTrusted={true} />*/}
     <div className="row mb-3">
       {/*<Widget src="andyh.near/widget/Applications" isTrusted={true} />*/}
     </div>
