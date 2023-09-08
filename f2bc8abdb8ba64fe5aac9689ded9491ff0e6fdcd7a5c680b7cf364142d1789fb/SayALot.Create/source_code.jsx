@@ -13,9 +13,7 @@ const {
   handlerStateUpdate,
 } = props;
 
-const libSrcArray = [
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.article",
-];
+const libSrcArray = [widgets.libArticle];
 
 const errTextNoBody = "ERROR: no article Body",
   errTextNoId = "ERROR: no article Id",
@@ -136,45 +134,6 @@ return (
       />
     ) : (
       <CreationContainer className="container-fluid">
-        {
-          //   state.saveComplete && (
-          //   <a
-          //     style={{
-          //       position: "absolute",
-          //       top: "0",
-          //       height: "100%",
-          //       width: "100%",
-          //       backdropFilter: "blur(5px)",
-          //     }}
-          //     href={
-          //       isTest
-          //         ? `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&isTest=${isTest}&blockHeight=now`
-          //         : `https://near.social/#/${authorForWidget}/widget/SayALot_OneArticle?articleId=${state.articleId}&lastEditor=${accountId}&blockHeight=now`
-          //     }
-          //   >
-          //     <div
-          //       style={{
-          //         width: "50%",
-          //         margin: "0 auto",
-          //         position: "relative",
-          //         top: "40vh",
-          //       }}
-          //     >
-          //       <h3
-          //         style={{
-          //           textAlign: "center",
-          //           color: "black",
-          //           backgroundColor: "rgb(230, 230, 230)",
-          //           zIndex: "2",
-          //         }}
-          //         className="rounded-pill p-3"
-          //       >
-          //         Click to continue
-          //       </h3>
-          //     </div>
-          //   </a>
-          // )
-        }
         <SecondContainer>
           <h1 className="mb-3">
             {editArticleData ? "Edit Article" : "Create Article"}
@@ -193,25 +152,6 @@ return (
                   },
                 }}
               />
-
-              {
-                //   <Button
-                //   type="submit"
-                //   disable={state.articleId > 0 || state.articleBody > 0}
-                //   onClick={saveHandler}
-                // >
-                //   {state.saving && (
-                //     <div
-                //       className="spinner-border text-secondary"
-                //       style={{ height: "1rem", width: "1rem" }}
-                //       role="status"
-                //     >
-                //       <span className="sr-only" title="Loading..."></span>
-                //     </div>
-                //   )}
-                //   Save Article
-                // </Button>
-              }
             </div>
             <div className="d-flex flex-column pt-3">
               <label for="inputArticleId">
