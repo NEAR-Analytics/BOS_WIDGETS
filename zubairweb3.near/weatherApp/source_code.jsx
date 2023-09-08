@@ -131,6 +131,7 @@ justify-content: space-between;
 background-color: rgba(0,0,0,0.7);
 @media screen and (max-width: 600px){
   flex-direction: column;
+  margin-bottom: 20px;
 }
 
 `;
@@ -160,6 +161,9 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 background-color: rgba(0,0,0,0.7);
+ @media screen and (max-width: 600px){
+  margin-bottom: 20px;
+}
 
 `;
 
@@ -196,7 +200,7 @@ color: white;
   outline: none;
 }
 @media screen and (max-width: 600px){
-  margin-right: 20px;
+  margin: 0 20px;
 }
 `;
 
