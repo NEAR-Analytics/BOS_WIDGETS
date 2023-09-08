@@ -64,6 +64,7 @@ const MARKETS = {
     symbol: "oMATIC",
     address: "0x8903Dc1f4736D2FcB90C1497AebBABA133DaAC76",
     logo: "https://app.0vix.com/static/media/MATIC-logo.a9a2a3e9.svg",
+    geckoId: "matic-network",
   },
   "0x68d9baA40394dA2e2c1ca05d30BF33F52823ee7B": {
     underlyingToken: {
@@ -74,6 +75,7 @@ const MARKETS = {
     symbol: "oUSDC",
     address: "0x68d9baA40394dA2e2c1ca05d30BF33F52823ee7B",
     logo: "https://app.0vix.com/static/media/USDC-logo.817a96c8.svg",
+    geckoId: "usd-coin",
   },
   "0xad41C77d99E282267C1492cdEFe528D7d5044253": {
     underlyingToken: {
@@ -84,6 +86,7 @@ const MARKETS = {
     symbol: "oUSDT",
     address: "0xad41C77d99E282267C1492cdEFe528D7d5044253",
     logo: "https://app.0vix.com/static/media/USDT-logo.fcda5855.svg",
+    geckoId: "tether",
   },
   "0xee1727f5074E747716637e1776B7F7C7133f16b1": {
     underlyingToken: {
@@ -94,6 +97,7 @@ const MARKETS = {
     symbol: "oETH",
     address: "0xee1727f5074E747716637e1776B7F7C7133f16b1",
     logo: "https://app.0vix.com/static/media/ETH-logo.0aebd865.svg",
+    geckoId: "ethereum",
   },
   "0xbC59506A5Ce024B892776d4F7dd450B0FB3584A2": {
     underlyingToken: {
@@ -104,6 +108,7 @@ const MARKETS = {
     symbol: "oWETH",
     address: "0xbC59506A5Ce024B892776d4F7dd450B0FB3584A2",
     logo: "https://app.0vix.com/static/media/weth-logo.68e99309.png",
+    geckoId: "ethereum",
   },
   "0x503deabad9641c5B4015041eEb0F1263E415715D": {
     underlyingToken: {
@@ -114,6 +119,7 @@ const MARKETS = {
     symbol: "oWBTC",
     address: "0x503deabad9641c5B4015041eEb0F1263E415715D",
     logo: "https://app.0vix.com/static/media/WBTC-logo.01924833.svg",
+    geckoId: "bitcoin",
   },
 };
 
