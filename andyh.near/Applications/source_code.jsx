@@ -45,7 +45,7 @@ return (
 
     <Widget
       src="andyh.near/widget/WidgetIcons"
-      isTrusted={false}
+      isTrusted={true}
       props={{ tag: "app", limit: 2 }}
     />
   </div>
