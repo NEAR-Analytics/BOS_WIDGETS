@@ -28,17 +28,17 @@ const EyeDiv = styled.div`
   border-radius:100px;
   border: 1px solid #00A7E4;
 `;
-
+      // <EyeDiv>
+      //   <div
+      //     style={{ display: "block", margin: "auto", transform: "scale(0.6)" }}
+      //   >
+      //     <Widget src="harrydhillon.near/widget/Keypom.Tickets.EyeSVG" />
+      //   </div>
+      // </EyeDiv>
 const PreviewTicketModal = (
   <>
     <Container>
-      <EyeDiv>
-        <div
-          style={{ display: "block", margin: "auto", transform: "scale(0.6)" }}
-        >
-          <Widget src="harrydhillon.near/widget/Keypom.Tickets.EyeSVG" />
-        </div>
-      </EyeDiv>
+
       {!!props.numberOfTickets && (
         <p style={{ position: "absolute", right: 65, top: 27, fontSize: 12 }}>
           1 of {props.numberOfTickets}
@@ -159,8 +159,8 @@ return (
     props={{
       children: PreviewTicketModal,
       isOpen: props.isOpen,
-      overlayStyles:{
-         style: {
+      overlayStyles: {
+        style: {
           overflowY: "hidden",
         },
       },
