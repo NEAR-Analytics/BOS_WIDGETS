@@ -1,4 +1,4 @@
-const { title, description, content, Button, SecondaryButton } = props;
+const { title, description, content, Button, SecondaryButton, footer } = props;
 
 const widgets = {
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
@@ -116,6 +116,7 @@ return (
             }}
           />
         </div>
+        {footer}
       </ModalContent>
     </ComponentWrapper>
   </Modal>
