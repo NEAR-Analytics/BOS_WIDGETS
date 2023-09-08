@@ -35,9 +35,13 @@ const Textarea = styled.textarea`
 
 return (
   <Container>
-    <Textarea placeholder="JSON..." value={state.data} onInput={onDataInput} />
     <Textarea
-      placeholder="Markdown..."
+      placeholder="First, paste metadata.json here..."
+      value={state.data}
+      onInput={onDataInput}
+    />
+    <Textarea
+      placeholder="Then view and edit markdown description here..."
       value={state.description}
       onInput={onDescriptionInput}
     />
