@@ -26,6 +26,10 @@ if (data.ok) {
         𝕵𝖔𝖗𝖉𝖆𝖓 𝖋𝖔𝖗 𝕮𝖔𝖚𝖓𝖈𝖎𝖑
         <br />
       </h2>
+      <h2>
+        kwhyc.near
+        <br />
+      </h2>
       <small>
         <a
           target="_top"
@@ -81,7 +85,7 @@ if (data.ok) {
         target="_top"
         href="https://near.org/election.ndctools.near/widget/NDC.Elections.Main?house=2"
       >
-        submit your selections
+        select kwhyc.near
       </a>{" "}
       before September 22nd, 2023.
       <br />
@@ -94,6 +98,10 @@ if (data.ok) {
       >
         Infographic with details.
       </a>
+      <br />
+      <br />
+      <h3>kwhyc.near?</h3>
+      Yeah it's the address I used while testing SBTs for NDC and it stuck 🤷
       <hr />
       <div>
         <h3>
