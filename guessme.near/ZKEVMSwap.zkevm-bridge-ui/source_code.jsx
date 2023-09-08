@@ -227,7 +227,7 @@ const Seperator = styled.div`
   width: 367px;
 
   @media (max-width: 1023px) {
-    width: 100%;
+    width: 50%;
   }
   position: absolute;
   bottom: 0px;
