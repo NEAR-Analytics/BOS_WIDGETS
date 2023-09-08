@@ -29,30 +29,32 @@ const thumb = (imageUrl) =>
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
     : imageUrl;
 
-return image?.nft?.contractId && image.nft.tokenId ? (
-  <Widget
-    src="andyh.near/widget/NftImage"
-    props={{
-      className,
-      style,
-      alt,
-      nft: image.nft,
-      thumbnail,
-      fallbackUrl,
-    }}
-  />
-) : (
-  <img
-    className={className}
-    style={style}
-    src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
-    alt={alt}
-    onError={() => {
-      if (state.imageUrl !== fallbackUrl) {
-        State.update({
-          imageUrl: fallbackUrl,
-        });
-      }
-    }}
-  />
-);
+return <span>{imageUrl}</span>;
+
+// return image?.nft?.contractId && image.nft.tokenId ? (
+//   <Widget
+//     src="andyh.near/widget/NftImage"
+//     props={{
+//       className,
+//       style,
+//       alt,
+//       nft: image.nft,
+//       thumbnail,
+//       fallbackUrl,
+//     }}
+//   />
+// ) : (
+//   <img
+//     className={className}
+//     style={style}
+//     src={state.imageUrl ? thumb(state.imageUrl) : thumb(toUrl(image))}
+//     alt={alt}
+//     onError={() => {
+//       if (state.imageUrl !== fallbackUrl) {
+//         State.update({
+//           imageUrl: fallbackUrl,
+//         });
+//       }
+//     }}
+//   />
+// );
