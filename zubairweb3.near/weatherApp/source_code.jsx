@@ -1,3 +1,6 @@
+State.init({ defaultCity: "Lagos", city: "", unit: "metric" });
+State.init({ weather: {} });
+
 const bgCold =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1694077947/Weather/cold2_p13fuw.jpg";
 const bgHot =
@@ -7,21 +10,89 @@ const tempIcon =
 const ArrowDown =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1694085420/Weather/arrow-down_lswsg8.svg";
 
-State.init({ weather: {} });
-
 const API_KEY = "ace7985557386b32c9d545d37d09dd8d";
 
 function getWeatherData(city, units) {
   const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=${units}`;
-
-  asyncFetch(weatherUrl).then((res) => {
-    let jsonObject = JSON.parse(res.body);
-    console.log(jsonObject);
-    State.update({ weather: jsonObject });
+  asyncFetch(weatherUrl, units).then((res) => {
+    State.update({ weather: res.body });
   });
 }
 
-getWeatherData("Kaduna", "metric");
+getWeatherData(state.defaultCity, state.unit);
+
+function handleClick() {
+  getWeatherData(state.city, state.unit);
+}
+
+console.log(state.city);
+console.log(state.location);
+
+console.log(state.weather);
+const {
+  weather,
+  main: { temp, feels_like, temp_min, temp_max, pressure, humidity },
+  wind: { speed },
+  sys: { country },
+  name,
+} = state.weather;
+
+const { description, icon } = weather[0];
+function makeIconUrl(iconId) {
+  return `https://openweathermap.org/img/wn/${iconId}@2x.png`;
+}
+const iconUrl = makeIconUrl(icon);
+
+const tempUnit = state.unit === "metric" ? "ºC" : "ºF";
+const windUnit = state.unit === "metric" ? "m/s" : "m/h";
+
+const card = [
+  {
+    id: 1,
+    icon: ArrowDown,
+    title: "min",
+    data: temp_min.toFixed(),
+    unit: tempUnit,
+  },
+  {
+    id: 2,
+    icon: ArrowDown,
+    title: "max",
+    data: temp_max.toFixed(),
+    unit: tempUnit,
+  },
+  {
+    id: 3,
+    icon: ArrowDown,
+    title: "feels like",
+    data: feels_like.toFixed(),
+    unit: tempUnit,
+  },
+  {
+    id: 4,
+    icon: ArrowDown,
+    title: "pressure",
+    data: pressure,
+    unit: "hPa",
+  },
+  {
+    id: 5,
+    icon: ArrowDown,
+    title: "humidity",
+    data: humidity,
+    unit: "%",
+  },
+  {
+    id: 6,
+    icon: ArrowDown,
+    title: "wind speed",
+    data: speed.toFixed(),
+    unit: windUnit,
+  },
+];
+
+console.log(state.location);
+console.log(state.city);
 
 const App = styled.div`
 font-family: Verdana, Genrva, Tahoma, sans-serif;
@@ -35,7 +106,6 @@ const Overlay = styled.div`
   width: 100%;
   height: 100vh;
   background-color: rgba(0,0,0,0.2);
-
 `;
 
 const Container = styled.div`
@@ -67,7 +137,7 @@ const Button = styled.button`
   border: none;
   border-radius: 0.4rem;
   font-size: 20px;
-  font-weignt: 500;
+  font-weight: 500;
   background-color: white;
   &:hover{
     cursor: pointer;
@@ -119,6 +189,9 @@ color: white;
 &:focus{
   outline: none;
 }
+@media screen and (max-width: 600px){
+  margin-right: 20px;
+}
 `;
 
 const Description = styled.div`
@@ -156,74 +229,59 @@ const CardIcon = styled.div`
 const CardTitle = styled.h2`
 
 `;
-
 return (
   <>
     <App style={{ backgroundImage: `url(${bgHot})` }}>
       <Overlay>
-        <Container>
-          <SectionInputs>
-            <Input type="text" name="city" placeholder="Enter City..." />
-            <Button>
-              <sup>o</sup>F
-            </Button>
-          </SectionInputs>
-          <SectionTemperature>
-            <Icon>
-              <IconTitle>London RGB</IconTitle>
-              <img
-                src={tempIcon}
-                width="50px"
-                height="50px"
-                alt="Weather-icon"
+        {state.weather && (
+          <Container>
+            <SectionInputs>
+              <Input
+                type="text"
+                name="city"
+                placeholder="Enter City and press Enter..."
+                onChange={(e) => State.update({ city: e.target.value })}
               />
-              <IconTitle>Cloudy</IconTitle>
-            </Icon>
-            <Temperature>
-              <TempTitle>
-                34 <sup>o</sup>C
-              </TempTitle>
-            </Temperature>
-          </SectionTemperature>
-          <Description>
-            <Card>
-              <CardIcon>
-                <img src={ArrowDown} />
-                <small>Min</small>
-              </CardIcon>
-              <CardTitle>
-                32 <sup>o</sup>C
-              </CardTitle>
-            </Card>
-            <Card>
-              <CardIcon>
-                <img src={ArrowDown} />
-                <small>Min</small>
-              </CardIcon>
-              <CardTitle>
-                32 <sup>o</sup>C
-              </CardTitle>
-            </Card>
-            <Card>
-              <CardIcon>
-                <img src={ArrowDown} />
-                <small>Min</small>
-              </CardIcon>
-              <CardTitle>
-                32 <sup>o</sup>C
-              </CardTitle>
-            </Card>
-            <Card>
-              <CardIcon>
-                <img src={ArrowDown} />
-                <small>Min</small>
-              </CardIcon>
-              <CardTitle>
-                32 <sup>o</sup>C
-              </CardTitle>
-            </Card>
-          </Description>
-        </Container>
+              <Button onClick={handleClick}>GET DATA</Button>
+            </SectionInputs>
+            <SectionTemperature>
+              <Icon>
+                <IconTitle>
+                  {name}, {country}
+                </IconTitle>
+                <img
+                  src={iconUrl}
+                  width="50px"
+                  height="50px"
+                  alt="Weather-icon"
+                />
+                <IconTitle>{description}</IconTitle>
+              </Icon>
+              <Temperature>
+                <TempTitle>
+                  {temp.toFixed()}
+                  {state.unit === "metric" ? "ºC" : "ºF"}
+                </TempTitle>
+              </Temperature>
+            </SectionTemperature>
+            <Description>
+              {card.map(({ id, icon, title, data, unit }) => {
+                return (
+                  <Card key={id}>
+                    <CardIcon>
+                      <img src={icon} alt="temp-icon" />
+                      <small>{title}</small>
+                    </CardIcon>
+                    <CardTitle>
+                      {data}
+                      {unit}
+                    </CardTitle>
+                  </Card>
+                );
+              })}
+            </Description>
+          </Container>
+        )}
       </Overlay>
     </App>
   </>
