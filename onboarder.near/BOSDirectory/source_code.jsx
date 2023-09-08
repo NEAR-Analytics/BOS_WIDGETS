@@ -123,15 +123,28 @@ const social = {
     {
       key: 5,
       name: "Jutsu.ai",
-      url: "https://nearpad.dev/",
+      url: "https://jutsu.ai/",
       image:
-        "https://ipfs.near.social/ipfs/bafkreieqikc5u2kxsoeucpticpfeguuge45upykvzayl6rjwgee5e3yr3i",
+        "https://ipfs.near.social/ipfs/bafkreibihmmux4uch7tmbf3k5zgbkapacronaamhmsyqb6g6nmem2tgnwy",
       description:
         "A gateway dedicated to developers. Switch between testnet, built in tutorials, easily estimate storage costs, and collaborate live",
       category: ["Dev", "EVM"],
       deploy: null,
       github: null,
     },
+        {
+      key: 5,
+      name: "Flipside Crypto",
+      url: "https://bos.flipsidecrypto.xyz/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreiefoqklm6c6wl4gvzwdyrlu5sulatidglz5le2gjwdrfr3hjtiyay",
+      description:
+        "Data analytics gateways",
+      category: ["Data", "NEAR"],
+      deploy: null,
+      github: "https://github.com/FlipsideCrypto/near-bos-gateway",
+    },
+    
     {
       key: 5,
       name: "NDC",
@@ -151,7 +164,7 @@ const social = {
       name: "NEAR Atlas",
       url: "https://nearatlas.com/",
       image:
-        "https://ipfs.near.social/ipfs/bafkreia6etmuxr3xhhpoeqimcl2oyg5ovcsa25e4j4242hy44lk2q73udi",
+        "https://ipfs.near.social/ipfs/bafkreid4rcvq5gqjwydwsxkpgp3mpwddwsyoqrezzjd7kizfb3naonkx44",
       description:
         "A viewer for NEAR Analytics powered by the Flipside Crypto API built by the NEAR Foundation",
       category: ["NEAR", "Data"],
