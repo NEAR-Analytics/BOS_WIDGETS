@@ -860,7 +860,8 @@ const onOpenChange = (v) => {
 };
 
 const handleConfirm = () => {
-  const isValidAmount = amount > 0 && amount < balances[selectedToken];
+  const isValidAmount =
+    Big(amount || 0).gt(0) && Big(amount).lt(balances[selectedToken]);
 
   if (!isValidAmount) {
     State.update({
