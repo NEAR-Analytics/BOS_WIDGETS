@@ -1,4 +1,4 @@
-const daoId = props.daoId ?? "hacks.sputnik-dao.near";
+const daoId = props.daoId ?? "research-collective.sputnik-dao.near";
 
 State.init({
   filterByRole: "boshacks",
