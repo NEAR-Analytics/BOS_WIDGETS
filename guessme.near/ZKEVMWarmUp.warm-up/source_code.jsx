@@ -467,15 +467,24 @@ const storedActiveMenu = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.warm-up"
 );
 
+const storedShowTip = Storage.get("showTip-status");
+
 State.init({
   showPopup: false,
   showTip: true,
   activeMenu: storedActiveMenu || "myQuest",
 });
 
-State.init({
-  activeMenu: "myQuest",
-});
+if (storedShowTip == "on") {
+  State.update({
+    showTip: false,
+  });
+} else {
+  State.update({
+    showTip: true,
+  });
+}
+
 function changeTab(menu) {
   State.update({
     activeMenu: menu,
@@ -498,7 +507,9 @@ function handleTipClick() {
   State.update({
     showTip: false,
   });
+  Storage.set("showTip-status", "on");
 }
+
 
 return (
   <Wrapper>
