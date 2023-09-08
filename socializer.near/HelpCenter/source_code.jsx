@@ -19,6 +19,10 @@ const Question = styled.div`
   top: -45px;
 `;
 
+const Text = styled.p`
+  margin: 0
+`;
+
 const QuestionIcon = () => (
   <svg
     width="96"
@@ -84,9 +88,11 @@ return (
       <QuestionIcon />
     </Question>
 
-    <p>Suggestions</p>
-    <p style={{ fontSize: 12, textAlign: "center", letterSpacing: "-0.24px" }}>
+    <Text>Suggestions</Text>
+    <Text
+      style={{ fontSize: 12, textAlign: "center", letterSpacing: "-0.24px" }}
+    >
       Having Trouble in Learning. Please contact us for more questions.
-    </p>
+    </Text>
   </HelpComponent>
 );
