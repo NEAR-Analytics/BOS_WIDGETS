@@ -81,7 +81,6 @@ if (JSON.stringify(data) !== JSON.stringify(state.data || {})) {
 return (
   <div className="d-flex flex-wrap gap-1 my-3">
     {state.allItems
-      .slice(0, 1)
       .slice(0, props.limit ? parseInt(props.limit) : 5)
       .map(renderItem)}
   </div>
