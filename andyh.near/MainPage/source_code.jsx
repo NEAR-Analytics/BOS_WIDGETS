@@ -4,7 +4,7 @@ return (
     {context.accountId && <h4>ProfileOnboarding</h4>}
     <Widget src="andyh.near/widget/MainPage.FeaturedApps" isTrusted={true} />
     <div className="row mb-3">
-      <Widget src="andyh.near/widget/Applications" isTrusted={true} />
+      <Widget src="andyh.near/widget/Applications" isTrusted={false} />
     </div>
     <div className="row mb-3">
       <Widget src="andyh.near/widget/People" isTrusted={true} />
