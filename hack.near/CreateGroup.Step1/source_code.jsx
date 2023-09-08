@@ -1,4 +1,4 @@
-const { formState, errors, renderFooter } = props;
+const { formState, errors } = props;
 
 const initialAnswers = {
   name: formState.name,
@@ -40,7 +40,7 @@ return (
                 tags: {
                   label: "Tags",
                   tagsPattern: `*/${groupId}/tags/*`,
-                  placeholder: "art, gov, edu, dev, com, nft, ai, social",
+                  placeholder: "nyc, brooklyn, edu, dev, com, nft, ai, social",
                 },
                 linktree: {
                   links: [
@@ -72,6 +72,5 @@ return (
         </div>
       </div>
     </div>
-    {renderFooter(state.answers)}
   </div>
 );
