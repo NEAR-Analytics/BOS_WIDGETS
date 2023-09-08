@@ -549,6 +549,7 @@ const updateBalance = (token) => {
       .getBalance(sender)
       .then((balanceBig) => {
         const adjustedBalance = ethers.utils.formatEther(balanceBig);
+        console.log("adjustedBalance: ", adjustedBalance);
         State.update({
           balances: {
             ...state.balances,
@@ -566,7 +567,11 @@ const updateBalance = (token) => {
     tokenContract
       .balanceOf(sender)
       .then((balanceBig) => {
-        const adjustedBalance = ethers.utils.formatUnits(balanceBig, decimals);
+        console.log("balanceBig: ", balanceBig);
+        const adjustedBalance = Big(balanceBig._hex)
+          .times(Big(10).pow(decimals))
+          .toFixed();
+        console.log("adjustedBalance111: ", adjustedBalance);
         State.update({
           balances: {
             ...state.balances,
@@ -861,7 +866,7 @@ const onOpenChange = (v) => {
 
 const handleConfirm = () => {
   const isValidAmount =
-    Big(amount || 0).gt(0) && Big(amount).lt(balances[selectedToken]);
+    Big(amount || 0).gt(0) && Big(amount || 0).lt(balances[selectedToken]);
 
   if (!isValidAmount) {
     State.update({
@@ -947,13 +952,19 @@ if (!hideCondition) {
   props.updateHide && props.updateHide(true);
 }
 
-console.log("state.storeUsed: ", state.storeUsed);
+console.log("params: ", params);
 
-if (params.symbol && !state.storeUsed) {
+if (params && !!params?.symbol && !state.storeUsed) {
   State.update({
     selectedToken: params.symbol,
-    amount: params.amount,
     storeUsed: true,
+  });
+}
+
+if (params && !!params?.amount && !state.amountUsed) {
+  State.update({
+    amount: params.amount,
+    amountUsed: true,
   });
 }
 
@@ -968,6 +979,8 @@ if (
   switchNetwork(chainId);
 }
 
+console.log("state.amount", state.amount);
+
 const canSwap =
   !!state.amount &&
   Number(state.amount) !== "NaN" &&
@@ -978,6 +991,7 @@ const canSwap =
   new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).gt(
     new Big(0)
   );
+
 return (
   <DeskLayout>
     <Layout>
@@ -1116,7 +1130,7 @@ return (
             {!prices?.[selectedToken] || !state.amount
               ? "-"
               : new Big(prices?.[selectedToken] || 0)
-                  .times(new Big(state.amount))
+                  .times(Big(state.amount || 0))
                   .toFixed()}
           </div>
         </div>
