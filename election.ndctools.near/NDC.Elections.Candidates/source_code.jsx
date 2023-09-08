@@ -48,8 +48,8 @@ const BLACKLIST_VERIFY_LINK =
   "https://docs.google.com/forms/d/e/1FAIpQLSdQYxiUcxpiCDVKnN55Q7T2fnUPt0VjRdzo46qEkV7ub5mWFw/viewform";
 const GREYLIST_VERIFY_LINK =
   "https://airtable.com/appgHJzUuw1Kb2GJV/shrCdvjmWMzwaMEj8";
-const MIN_BOND = 0.01; //3
-const MAX_BOND = 0.02; //300;
+const MIN_BOND = 3; //3
+const MAX_BOND = 300; //300;
 
 const Container = styled.div`
   position: relative:
