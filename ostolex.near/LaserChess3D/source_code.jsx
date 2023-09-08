@@ -99,25 +99,20 @@ const iframeHtml = `
       </div>
       <div class="winner-message" aria-label="winner message">
         <div class="winner-message__content">
-            <div id="winner-message__header"></div>
-            <div id="winner-message__info"></div>
-                <div class="container">
-                  <div class="row winner-message-buttons" style="width: 100%;">
-                    <div class="col-md-6">
-                      <button type="button" class="btn btn-primary"><a href="https://wallet.near.org/send-money/hockeyclubmanager.near" style="color: #fff;">Support developers</a></button>
-                    </div>
-                    <div class="col-md-6">
-                      <button type="button" class="btn btn-warning"><a href="https://unchain.fund/#donate">Support Ukraine</a></button>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12" style="padding-top: 50px;">
-                      <button type="button" id="go-home-button"><a href="${host}/${widgetAccountId}/widget/LaserChess3D" style="color: #fff; text-decoration: none;">Go to main menu</a></button>
-                    </div>
-                  </div>
-                </div>
+          <div id="winner-message__header"></div>
+          <div id="winner-message__info"></div>
+          <div class="container">
+            <div class="row winner-message-buttons" style="width: 100%;">
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary"><a href="https://wallet.near.org/send-money/ostolex.near" style="color: #fff;">Support developers</a></button>
+              </div>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-warning"><a href="https://unchain.fund/#donate">Support Ukraine</a></button>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
       <script>window.addEventListener('load', (e) => EntryPoint.initGame({
          type: ${`"${state.gameType ? state.gameType : gameTypes.ai}"`},
          userColor: "blue",
