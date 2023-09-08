@@ -119,7 +119,7 @@ const TabsButton = styled.a`
 
 return (
   <Wrapper>
-    <Widget src={`ndcplug.near/widget/BOSHACKS.Members.Header`} />
+    <Widget src={`xvii.near/widget/BOSHACKS.Members.Header`} />
 
     <Content>
       <Tabs>
