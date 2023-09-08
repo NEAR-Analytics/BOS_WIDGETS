@@ -171,39 +171,45 @@ const createTickets = () => {
                   </TableCell>
                   <TableCell>{item.ticketPricing}</TableCell>
                   <TableCell>
-                    <ActionButton
-                      onClick={() => {
-                        State.update({
-                          tickets: state.tickets.filter(
-                            (item, idx) => idx !== index
-                          ),
-                        });
-                      }}
-                    >
-                      <Widget src="harrydhillon.near/widget/Keypom.Tickets.DeleteSVG" />
-                    </ActionButton>
-                    <ActionButton
-                      onClick={() => {
-                        const currentTicket = state.tickets[index];
-                        State.update({
-                          tickets: [...state.tickets, currentTicket],
-                        });
-                      }}
-                    >
-                      <Widget src="harrydhillon.near/widget/Keypom.Tickets.CloneSVG" />
-                    </ActionButton>
-                    <ActionButton
-                      onClick={() => {
-                        State.update({
-                          isCreateTicketModalOpen: true,
-                          editMode: true,
-                          ticketToEdit: index,
-                          editVal: item,
-                        });
-                      }}
-                    >
-                      <Widget src="harrydhillon.near/widget/Keypom.Tickets.EditSVG" />
-                    </ActionButton>
+                    <OverlayTrigger overlay={<Tooltip>Delete</Tooltip>}>
+                      <ActionButton
+                        onClick={() => {
+                          State.update({
+                            tickets: state.tickets.filter(
+                              (item, idx) => idx !== index
+                            ),
+                          });
+                        }}
+                      >
+                        <Widget src="harrydhillon.near/widget/Keypom.Tickets.DeleteSVG" />
+                      </ActionButton>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Clone</Tooltip>}>
+                      <ActionButton
+                        onClick={() => {
+                          const currentTicket = state.tickets[index];
+                          State.update({
+                            tickets: [...state.tickets, currentTicket],
+                          });
+                        }}
+                      >
+                        <Widget src="harrydhillon.near/widget/Keypom.Tickets.CloneSVG" />
+                      </ActionButton>
+                    </OverlayTrigger>
+                    <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                      <ActionButton
+                        onClick={() => {
+                          State.update({
+                            isCreateTicketModalOpen: true,
+                            editMode: true,
+                            ticketToEdit: index,
+                            editVal: item,
+                          });
+                        }}
+                      >
+                        <Widget src="harrydhillon.near/widget/Keypom.Tickets.EditSVG" />
+                      </ActionButton>
+                    </OverlayTrigger>
                   </TableCell>
                 </TableRow>
               ))}
