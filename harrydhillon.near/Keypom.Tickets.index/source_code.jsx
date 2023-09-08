@@ -130,6 +130,7 @@ const createTickets = () => {
                           src={`https://ipfs.near.social/ipfs/${item.image.cid}`}
                           style={{
                             width: 35,
+                            objectFit: "cover",
                             height: 35,
                             borderRadius: 3,
                           }}
@@ -196,7 +197,7 @@ const createTickets = () => {
                         <Widget src="harrydhillon.near/widget/Keypom.Tickets.CloneSVG" />
                       </ActionButton>
                     </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Clone</Tooltip>}>
+                    <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
                       <ActionButton
                         onClick={() => {
                           State.update({
