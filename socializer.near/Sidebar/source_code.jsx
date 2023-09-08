@@ -47,6 +47,7 @@ State.init({
         </svg>
       ),
       label: "Dashboard",
+      active: true,
     },
     {
       icon: (
@@ -81,6 +82,7 @@ State.init({
         </svg>
       ),
       label: "Profile",
+      active: false,
     },
     {
       icon: (
@@ -102,6 +104,7 @@ State.init({
         </svg>
       ),
       label: "Log Out",
+      active: false,
     },
   ],
 });
@@ -137,6 +140,9 @@ const ListItem = styled.button`
   background-color: white;
   &:hover {
     background-color: #f3f3f3;
+  };
+  &[data-state="active"] {
+    background-color: #f3f3f3;
   }
 `;
 
@@ -144,7 +150,7 @@ return (
   <Sidebar>
     <List>
       {state.list.map((item) => (
-        <ListItem key={item.label}>
+        <ListItem key={item.label} data-state={item.active ? "active" : ""}>
           {item.icon}
           {item.label}
         </ListItem>
