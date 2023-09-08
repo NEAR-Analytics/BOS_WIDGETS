@@ -23,6 +23,31 @@ const Text = styled.p`
   margin: 0
 `;
 
+const Circle = styled.p`
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.08);
+  position: absolute;
+  border-radius: 50%;
+`;
+
+const HelpButton = styled.button`
+  width: 156px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #F3F3F3;
+  position: absolute;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.24px;
+  bottom: 16px;
+`;
+
 const QuestionIcon = () => (
   <svg
     width="96"
@@ -88,11 +113,27 @@ return (
       <QuestionIcon />
     </Question>
 
+    <Circle
+      style={{
+        top: -100,
+        left: -100,
+      }}
+    />
+
+    <Circle
+      style={{
+        bottom: -100,
+        right: -100,
+      }}
+    />
+
     <Text>Suggestions</Text>
     <Text
       style={{ fontSize: 12, textAlign: "center", letterSpacing: "-0.24px" }}
     >
       Having Trouble in Learning. Please contact us for more questions.
     </Text>
+
+    <HelpButton>Go To Help Center</HelpButton>
   </HelpComponent>
 );
