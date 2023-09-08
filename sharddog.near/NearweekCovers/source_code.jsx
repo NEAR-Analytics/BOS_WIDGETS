@@ -12,6 +12,7 @@ const styles = {
     border: "1px solid #ccc",
     overflow: "hidden",
     margin: "10px",
+    backgroundColor: "#fff"
   },
   shelf: {
     content: '""',
@@ -63,11 +64,11 @@ function fetchTokens() {
       // Modify each token to include the parsed link
       tokens = tokens.map((token) => {
         const link = JSON.parse(token.extra).link;
-         const releaseDate = JSON.parse(token.extra).date;
+        const releaseDate = JSON.parse(token.extra).date;
         return {
           ...token,
           link: link,
-          releaseDate: releaseDate
+          releaseDate: releaseDate,
         };
       });
 
