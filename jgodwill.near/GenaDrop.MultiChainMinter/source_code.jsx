@@ -690,7 +690,7 @@ return (
     </Heading>
 
     <Main className="container-fluid" onLoad={State.update({ chains: chains })}>
-      {state.image.cid ? (
+      {!state.image.cid ? (
         <div className="flex-grow-1">
           <SubHeading>
             Upload an image to create an NFT any of our supported blockchains
