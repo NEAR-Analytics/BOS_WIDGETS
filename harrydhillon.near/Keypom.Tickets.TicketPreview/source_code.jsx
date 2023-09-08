@@ -159,9 +159,13 @@ return (
     props={{
       children: PreviewTicketModal,
       isOpen: props.isOpen,
+      overlayStyles:{
+         style: {
+          overflowY: "hidden",
+        },
+      },
       contentStyles: {
         style: {
-          overflowY:"visible",
           width: 400,
         },
       },
