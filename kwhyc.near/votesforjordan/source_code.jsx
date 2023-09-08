@@ -27,6 +27,14 @@ if (data.ok) {
         <br />
       </h2>
       <small>
+        <a
+          target="_top"
+          href="/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=CouncilOfAdvisors&accountId=kwhyc.near"
+        >
+          Read my nomination platform
+        </a>
+        <br />
+        <br />
         <i>
           Who made NFT on Near? 𝕵𝖔𝖗𝖉𝖆𝖓 <br />
           Who made DAO on Near? 𝕵𝖔𝖗𝖉𝖆𝖓 <br />
@@ -35,7 +43,8 @@ if (data.ok) {
       </small>
       <br />
       <a
-        href="/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=CouncilOfAdvisors&accountId=kwhyc.near"
+        target="_top"
+        href="/election.ndctools.near/widget/NDC.Elections.Main?house=2"
         class="btn btn-primary mt-2"
       >
         VOTE FOR JORDAN 👍
@@ -50,7 +59,8 @@ if (data.ok) {
       </small>
       <br />
       <a
-        href="/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=CouncilOfAdvisors&accountId=kwhyc.near"
+        target="_top"
+        href="/election.ndctools.near/widget/NDC.Elections.Main?house=2"
         class="btn btn-primary mt-2"
       >
         为TA助力 👍
@@ -59,11 +69,21 @@ if (data.ok) {
       <br />
       <hr />
       <h3>How?</h3>
-      Get a KYC SBT by verifying your face at
-      <a target="_top" href="https://i-am-human.app/">
-        i-am-human.app
+      Meet the
+      <a
+        target="_top"
+        href="https://pbs.twimg.com/media/F5N_VxsWsAAdDNn?format=jpg&name=large"
+      >
+        voting criteria
       </a>{" "}
-      before September 1st.
+      &{" "}
+      <a
+        target="_top"
+        href="https://near.org/election.ndctools.near/widget/NDC.Elections.Main?house=2"
+      >
+        submit your selections
+      </a>{" "}
+      before September 22nd, 2023.
       <br />
       <br />
       <h3>Why?</h3>
@@ -77,7 +97,7 @@ if (data.ok) {
       <hr />
       <div>
         <h3>
-          Who Voted for
+          Who Stands With
           <br />
           staRpauSe ᵏʷʰʸᶜ.ⁿᵉᵃʳ ⁉️
         </h3>
