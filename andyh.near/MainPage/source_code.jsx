@@ -1,9 +1,7 @@
 return (
   <>
-    {context.accountId && (
-      /*<Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={true} />*/
-      <h4>ProfileOnboarding</h4>
-    )}
+    {/*<Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={true} />*/}
+    {context.accountId && <h4>ProfileOnboarding</h4>}
     <Widget src="andyh.near/widget/MainPage.FeaturedApps" isTrusted={true} />
     <div className="row mb-3">
       <Widget src="andyh.near/widget/Applications" isTrusted={true} />
@@ -66,11 +64,11 @@ return (
     <div className="row mb-3">
       <div className="col-md-8">
         <h4>Follow activity</h4>
-        <Widget src="andyh.near/widget/FollowFeed" isTrusted={true} />
+        {/*<Widget src="andyh.near/widget/FollowFeed" isTrusted={true} />*/}
       </div>
       <div className="col-md-4">
         <h4>Poke activity</h4>
-        {/*<Widget src="andyh.near/widget/PokeFeed" isTrusted={true} />
+        {/*<Widget src="andyh.near/widget/PokeFeed" isTrusted={true} />*/}
       </div>
     </div>
   </>
