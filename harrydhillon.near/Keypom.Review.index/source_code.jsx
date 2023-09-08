@@ -67,5 +67,43 @@ return (
       }}
       src="harrydhillon.near/widget/Keypom.Review.TicketTable"
     />
+    {state?.previewEvent && (
+      <Widget
+        src="harrydhillon.near/widget/Keypom.Components.Modal"
+        props={{
+          children: (
+            <div>
+              <Widget
+                props={{ ...eventData, date: eventData.from }}
+                src="harrydhillon.near/widget/Keypom.EventInfo.Eventview"
+              />
+              <button
+                onClick={() => {
+                  State.update({ previewEvent: false });
+                }}
+                style={{
+                  width: "100%",
+                  backgroundColor: "white",
+                  fontSize: 14,
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "lightgray",
+                  marginTop: 5,
+                  color: "black",
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          ),
+          isOpen: state.previewEvent,
+          contentStyles: {
+            style: {
+              width: "90vw",
+            },
+          },
+        }}
+      />
+    )}
   </div>
 );
