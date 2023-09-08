@@ -123,18 +123,24 @@ const { activeMenu } = state;
 const { initTab } = props;
 
 const storeTab = Storage.privateGet("curTab");
+console.log("storeTab: ", storeTab);
 
-State.init({
-  activeMenu: initTab || storeTab || "lending",
-});
+// State.init({
+//   activeMenu: initTab || storeTab || "lending",
+// });
+
+if (storeTab && state.activeMenu !== storeTab && !initTab) {
+  State.update({
+    activeMenu: storeTab,
+  });
+}
+
 function changeTab(menu) {
   State.update({
     activeMenu: menu,
   });
 
   Storage.privateSet("curTab", menu);
-
-  Storage.set("on-rainbow-bridge", "0");
 }
 // svg icon start
 const lendingIcon = (
@@ -254,6 +260,8 @@ const SwapContainer = styled.div`
 const SummaryWrapper = styled.div`
   margin-bottom: 50px;
 `;
+
+Storage.set("on-rainbow-bridge", "0");
 
 // svg icon end
 return (
