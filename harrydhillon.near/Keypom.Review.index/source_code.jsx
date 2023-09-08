@@ -28,7 +28,13 @@ return (
   <div style={{ padding: 10 }}>
     <HeadingDisplayFlex>
       <Label>Let’s make sure all your details are correct</Label>
-      <UnstyledButton>Preview Event Page</UnstyledButton>
+      <UnstyledButton
+        onClick={() => {
+          State.update({ previewEvent: true });
+        }}
+      >
+        Preview Event Page
+      </UnstyledButton>
     </HeadingDisplayFlex>
     <EventDisplayFlex>
       <div style={{ width: "50%", display: "flex", alignItems: "center" }}>
