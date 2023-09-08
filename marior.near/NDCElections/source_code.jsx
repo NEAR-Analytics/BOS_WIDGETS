@@ -1,7 +1,10 @@
 const nominationsContractId = "nominations.ndc-gwg.near";
+const electionsContractId = "elections.ndc-gwg.near";
 const loadingWidget = "chess-game.near/widget/ChessGameLoading";
 const waitTime = 25;
 const waitTimeOnErr = 500;
+
+const snapshot = true;
 
 const fetchOptions = {
   headers: {
@@ -24,10 +27,13 @@ if (!state.nominees) {
     console.log("res", res.body);
 
     if (res.body.length === 0) break;
-    nominees = nominees.concat(res.body.slice(0, 5));
-    break;
-    // nominees = nominees.concat(res.body);
-    if (res.body.length < 50) break;
+    if (snapshot) {
+      nominees = nominees.concat(res.body.slice(0, 10));
+      break;
+    } else {
+      nominees = nominees.concat(res.body);
+      if (res.body.length < 50) break;
+    }
   }
 }
 
@@ -43,7 +49,7 @@ if (nominees.length > 0) {
   const nominee = nominees.pop();
 
   asyncFetch(
-    `https://api.pikespeak.ai/election/votes-by-candidate?contract=${nominationsContractId}&candidate=${nominee.nominee}`,
+    `https://api.pikespeak.ai/election/votes-by-candidate?contract=${electionsContractId}&candidate=${nominee.nominee}`,
     fetchOptions
   ).then(({ ok, body }) => {
     if (!ok) {
@@ -139,6 +145,11 @@ const Content = styled.div`
   align-items: stretch;
 `;
 
+const House = styled.h2`
+  font-weight: 600;
+  margin: 3rem 1rem 0;
+`;
+
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -147,7 +158,7 @@ const Card = styled.div`
   border-radius: 1rem;
   background-color: ${({ selected }) =>
     selected ? "lightblue !important;" : "lightgrey;"}}
-  cursor: pointer;
+  cursor: ${({ selected }) => (selected ? "unset;" : "pointer;")};
 
   &:hover {
     background-color: #d3ecf4;
@@ -163,6 +174,21 @@ const CardHeader = styled.div`
     width: 4rem;
     height: 4rem;
     margin: 0.6rem;
+  }
+
+  h3 {
+    flex: 1 1 auto;
+  }
+
+  svg {
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    margin-right: 1rem;
+
+    &:hover {
+      color: blue;
+    }
   }
 
   &:last-child {
@@ -213,6 +239,11 @@ const Row = styled.div`
     height: 2rem;
   }
 
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
   .balance {
     text-align: right;
   }
@@ -220,31 +251,50 @@ const Row = styled.div`
   .symbol {
     min-width: 5rem;
     max-width: 5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 `;
 
-// {
-//   "timestamp": "2023-08-18T13:39:37.514Z",
-//   "nominee": "manutegus.near",
-//   "house": "TransparencyCommission",
-//   "comment": "manutegus.near",
-//   "link": "",
-//   "is_revoked": false,
-//   "nomination_period": "2026-08-27T00:00:00.000Z",
-//   "contract": "nominations.ndc-gwg.near",
-//   "upvotes": "7"
-// }
-
 const selectCandidate = (candidateId) => {
+  if (candidateId === state.selectedCandidate) return;
   State.update({
     selectedCandidate: candidateId,
   });
 };
 
+const renderVoters = (voters) => (
+  <List>
+    {voters.map((voter) => (
+      <Row key={voter}>
+        <img
+          src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${voter}`}
+          alt={voter}
+        />
+        <div>
+          <a
+            href={`mob.near/widget/ProfilePage?accountId=${voter}`}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {voter}{" "}
+            <svg viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"
+              ></path>
+            </svg>
+          </a>
+        </div>
+      </Row>
+    ))}
+  </List>
+);
+
 const renderFts = (fts) => (
   <List>
     {fts.map((ft) => (
-      <Row>
+      <Row key={ft.contract}>
         <img src={ft.ft_metas.icon} alt={`${ft.ft_metas.symbol} icon`} />
         <div>{ft.ft_metas.name}</div>
         <div className="balance">
@@ -256,36 +306,79 @@ const renderFts = (fts) => (
   </List>
 );
 
-const renderCandidates = (candidates) =>
-  candidates.map((candidate) => {
-    const selected = candidate.nominee === state.selectedCandidate;
-    return (
-      <Card
-        onClick={() => selectCandidate(candidate.nominee)}
-        selected={selected}
-      >
-        <CardHeader>
-          <img
-            src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${candidate.nominee}`}
-            alt={candidate.nominee}
-          />
-          <h3>{candidate.nominee}</h3>
-        </CardHeader>
-        <CardContent>
-          <div>Votes: {candidate.voters.length}</div>
-          <div>Total Fungible Tokens: {candidate.inventory.fts.length}</div>
-          {selected && renderFts(candidate.inventory.fts)}
-          <div>
-            Total Non Fungible Tokens: {candidate.inventory.nfts.length}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  });
+const renderNfts = (nfts) => (
+  <List>
+    {nfts.map((nft) => (
+      <Row key={nft.contract}>
+        <img src={nft.nft_meta.icon} alt={`${nft.nft_meta.symbol} icon`} />
+        <div>{nft.nft_meta.name}</div>
+        <div className="balance">{nft.quantity}</div>
+        <div className="symbol">{nft.nft_meta.symbol}</div>
+      </Row>
+    ))}
+  </List>
+);
+
+const renderCandidates = (title, candidates) => (
+  <>
+    <House>{title}</House>
+    {candidates.map((candidate) => {
+      const selected = candidate.nominee === state.selectedCandidate;
+      return (
+        <Card
+          onClick={
+            selected ? undefined : () => selectCandidate(candidate.nominee)
+          }
+          selected={selected}
+          key={candidate.nominee}
+        >
+          <CardHeader>
+            <img
+              src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${candidate.nominee}`}
+              alt={candidate.nominee}
+            />
+            <h3>{candidate.nominee}</h3>
+            {selected && (
+              <svg viewBox="0 0 24 24" onClick={() => selectCandidate(null)}>
+                <path
+                  fill="currentColor"
+                  d="M4,12H20V14H4V12M4,9H20V11H4V9M16,4L12,8L8,4H11V1H13V4H16M8,19L12,15L16,19H13V22H11V19H8Z"
+                ></path>
+              </svg>
+            )}
+          </CardHeader>
+          <CardContent>
+            <div>Votes: {candidate.voters.length}</div>
+            {selected && renderVoters(candidate.voters)}
+            <div>Total Fungible Tokens: {candidate.inventory.fts.length}</div>
+            {selected && renderFts(candidate.inventory.fts)}
+            <div>
+              Total Non Fungible Tokens: {candidate.inventory.nfts.length}
+            </div>
+            {selected && renderNfts(candidate.inventory.nfts)}
+          </CardContent>
+        </Card>
+      );
+    })}
+  </>
+);
+
+const hom = state.candidates.filter(({ house }) => house === "HouseOfMerit");
+hom.sort((a, b) => b.voters.length - a.voters.length);
+const coa = state.candidates.filter(
+  ({ house }) => house === "CouncilOfAdvisors"
+);
+coa.sort((a, b) => b.voters.length - a.voters.length);
+const tc = state.candidates.filter(
+  ({ house }) => house === "TransparencyCommission"
+);
+tc.sort((a, b) => b.voters.length - a.voters.length);
 
 return (
   <Wrapper>
     <Header>NDC Elections Stats</Header>
-    <Content>{renderCandidates(state.candidates)}</Content>
+    <Content>{renderCandidates("House Of Merit", hom)}</Content>
+    <Content>{renderCandidates("Council Of Advisors", coa)}</Content>
+    <Content>{renderCandidates("Transparency Commission", tc)}</Content>
   </Wrapper>
 );
