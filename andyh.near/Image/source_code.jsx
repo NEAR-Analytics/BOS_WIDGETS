@@ -11,10 +11,10 @@ State.init({
 
 if (JSON.stringify(image) !== JSON.stringify(state.image)) {
   console.log("COMPARED");
-  // State.update({
-  //   image,
-  //   imageUrl: null,
-  // });
+  State.update({
+    image,
+    imageUrl: null,
+  });
 }
 
 function toUrl(image) {
