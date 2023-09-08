@@ -98,14 +98,14 @@ return (
                   color: "black",
                 }}
               >
-                Cancel
+                Close
               </button>
             </div>
           ),
           isOpen: state.previewEvent,
           contentStyles: {
             style: {
-              width: "90vw",
+              width: "600px",
             },
           },
         }}
