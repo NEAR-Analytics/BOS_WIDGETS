@@ -12,7 +12,7 @@ const styles = {
     border: "1px solid #ccc",
     overflow: "hidden",
     margin: "10px",
-    backgroundColor: "#fff"
+      background: "url(https://my.shard.dog/_next/static/media/dog_pattern.a5034d5c.png), rgba(251, 249, 245, 0.85)"
   },
   shelf: {
     content: '""',
