@@ -43,6 +43,6 @@ return (
         </svg>
       </Settings>
     </Header>
-    <Widget src="golas.near/widget/N-NotificationsList" />
+    <Widget src="golas.near/widget/N-NotificationsList-2" />
   </>
 );
