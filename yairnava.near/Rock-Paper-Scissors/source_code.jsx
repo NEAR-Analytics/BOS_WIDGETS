@@ -189,8 +189,8 @@ return (
               {state.roundsWonByPlayer > state.roundsWonByCPU
                 ? "You Won!"
                 : roundsWonByPlayer < roundsWonByComputer
-                  ? "You Lost!"
-                  : "It's a draw!"}
+                ? "You Lost!"
+                : "It's a draw!"}
             </p>
           </Container>
         </>
