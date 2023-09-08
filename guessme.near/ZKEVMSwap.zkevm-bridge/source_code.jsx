@@ -9,7 +9,6 @@ const Container = styled.div`
 
   z-index: 0;
   width: 100%;
-  /* transform: translate(-50%); */
 `;
 
 const tokens = [
