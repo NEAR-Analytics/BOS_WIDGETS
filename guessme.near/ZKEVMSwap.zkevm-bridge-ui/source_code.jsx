@@ -41,7 +41,7 @@ const Layout = styled.div`
 
   .container-button {
     position: relative;
-    font-family: "Gantari";
+    font-family: "Inter";
     font-style: normal;
     font-weight: 600;
     font-size: 10px;
@@ -68,7 +68,7 @@ const Layout = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
-    font-family: "Gantari";
+    font-family: "Inter";
     font-style: normal;
     font-weight: 400;
     font-size: 10px;
@@ -124,17 +124,6 @@ const ArrowDownWrapper = styled.div`
     right: 12px;
 
     transform: scale(0.9);
-  }
-`;
-
-const AccountWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #40435c;
-  font-size: 14px;
-  .balance {
-    text-decoration: underline;
   }
 `;
 
@@ -248,7 +237,7 @@ const ActionButton = styled.button`
   background: #794fdd;
   border-radius: 4px;
   border: 0;
-  font-family: "Gantari";
+  font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -338,7 +327,7 @@ const Dialog = styled.div`
   box-shadow: inset 0px 0px 0px 1px #999;
   border-radius: 12px;
   padding: 16px 8px;
-  font-family: "Gantari";
+  font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -497,6 +486,7 @@ const {
   balances,
   prices,
 } = state;
+console.log("balances: ", balances, prices, state.amount, selectedToken);
 
 const { chainId, updateChainId } = props;
 
@@ -549,6 +539,8 @@ if (!prices[selectedToken]) {
   });
 }
 
+console.log("prices[selectedToken]: ", prices[selectedToken]);
+
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
 
@@ -574,9 +566,7 @@ const updateBalance = (token) => {
     tokenContract
       .balanceOf(sender)
       .then((balanceBig) => {
-        const adjustedBalance = Big(balanceBig.toString())
-          .div(Big(10).pow(decimals))
-          .toFixed();
+        const adjustedBalance = ethers.utils.formatUnits(balanceBig, decimals);
         State.update({
           balances: {
             ...state.balances,
@@ -588,10 +578,9 @@ const updateBalance = (token) => {
   }
 };
 
-useEffect(() => {
-  if (!chainId || !tokens.length) return;
-  tokens.filter((t) => t.chainId === chainId).map(updateBalance);
-}, [chainId]);
+// if (Object.keys(balances).length === 0) {
+tokens.filter((t) => t.chainId === chainId).map(updateBalance);
+// }
 
 const changeNetwork = (network) => {
   if (isTestnet) {
@@ -617,7 +606,10 @@ const openNetworkList = (tag) => {
   State.update({ isNetworkSelectOpen: tag, isTokenDialogOpen: false });
 };
 
-const isCorrectNetwork = chainId !== 1 || chainId !== 1101;
+const isCorrectNetwork =
+  Object.keys(networks)
+    .map((n) => Number(n))
+    .includes(chainId) || chainId === undefined;
 
 const getFromNetworkLabel = () => {
   switch (selectedNetwork) {
@@ -646,7 +638,7 @@ const getNetworkSrc = (network) => {
     case "ethereum":
       return "https://assets.ref.finance/images/eth-bridge.png";
     case "polygon":
-      return "/images/chains/1101.png";
+      return "https://assets.ref.finance/images/matic-bridge.png";
     default:
       return "";
   }
@@ -868,8 +860,7 @@ const onOpenChange = (v) => {
 };
 
 const handleConfirm = () => {
-  const isValidAmount =
-    Big(amount || 0).gt(0) && Big(amount || 0).lt(balances[selectedToken] || 0);
+  const isValidAmount = amount > 0 && amount < balances[selectedToken];
 
   if (!isValidAmount) {
     State.update({
@@ -921,23 +912,13 @@ let params = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.quest-card"
 );
 const params_from_question_list = Storage.get(
-  "zk-evm-bridge-params",
+  "zk-evm-swap-params",
   "guessme.near/widget/ZKEVM.QuestionList"
-);
-
-const params_from_trend_card = Storage.get(
-  "zk-evm-bridge-params",
-  "guessme.near/widget/ZKEVMWarmUp.trend-card"
 );
 
 if (props.source == "question_list" && params_from_question_list) {
   params = params_from_question_list;
 }
-
-if (props.source == "trend" && params_from_trend_card) {
-  params = params_from_trend_card;
-}
-
 const storedSymbol = params?.symbol;
 
 const hideCondition =
@@ -946,7 +927,7 @@ const hideCondition =
   params.symbol === selectedToken &&
   ((params?.chain === "Ethereum" && chainId === 1) ||
     (params?.chain &&
-      params?.chain?.toLowerCase().includes("zkevm") &&
+      params?.chain?.toLowerCase() === "zkevm" &&
       chainId === 1101));
 
 if (!hideCondition) {
@@ -955,46 +936,33 @@ if (!hideCondition) {
   props.updateHide && props.updateHide(true);
 }
 
-if (params && !!params?.symbol && !state.storeUsed) {
-  State.update({
-    selectedToken: params.symbol,
-    storeUsed: true,
-  });
-}
-
-if (params && !!params?.amount && !state.amountUsed) {
-  State.update({
-    amount: params.amount,
-    amountUsed: true,
-  });
-}
-
 if (
-  (params?.chain === "Ethereum" && chainId === 1) ||
+  (params?.chain === "Ethereum" && chainId !== 1) ||
   (params?.chain &&
-    params?.chain?.toLowerCase().includes("zkevm") &&
-    chainId === 1101)
+    params?.chain?.toLowerCase() === "zkevm" &&
+    chainId !== 1101)
 ) {
-  const chainId = params?.chain === "Ethereum" ? 1001 : 1;
+  const chainId = params?.chain === "Ethereum" ? 1 : 1101;
 
   switchNetwork(chainId);
 }
+
+// console.log("params: ", params);
+
+// if (!isCorrectNetwork) {
+//   switchNetwork(1);
+// }
 
 const canSwap =
   !!state.amount &&
   Number(state.amount) !== "NaN" &&
   Object.keys(balances).length > 0 &&
   new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).lt(
-    balances[selectedToken] || 0
+    balances[selectedToken]
   ) &&
   new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).gt(
     new Big(0)
   );
-const calcPrice = () => {
-  if (!prices[selectedToken]) return "";
-  if (!amount) return "0";
-  return Big(amount).mul(Big(prices[selectedToken])).toFixed(2);
-};
 return (
   <DeskLayout>
     <Layout>
@@ -1009,12 +977,24 @@ return (
           <div
             className="alert-button"
             onClick={() => {
-              switchNetwork(1101);
+              switchNetwork(1);
             }}
           >
             <span>Switch Network</span>
           </div>
         </Alert>
+      )}
+      {!isCorrectNetwork && (
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            zIndex: 110,
+          }}
+        ></div>
       )}
 
       <div class="container">
@@ -1023,7 +1003,7 @@ return (
         </ContainerNetwork>
         <BridgeContainer
           onClick={() => {
-            props.from !== "landing" && openNetworkList(1);
+            openNetworkList(1);
           }}
         >
           <img style={{ width: "32px" }} src={getNetworkSrc(selectedNetwork)} />
@@ -1033,9 +1013,7 @@ return (
             </BridgeName>
           </div>
 
-          {props.from !== "landing" && (
-            <ArrowDownWrapper>{arrowDown}</ArrowDownWrapper>
-          )}
+          <ArrowDownWrapper>{arrowDown}</ArrowDownWrapper>
         </BridgeContainer>
 
         {state.isNetworkSelectOpen === 1 && selectNetWorkDropDown}
@@ -1046,7 +1024,7 @@ return (
         </ContainerNetwork>
         <BridgeContainer
           onClick={() => {
-            props.from !== "landing" && openNetworkList(2);
+            openNetworkList(2);
           }}
         >
           <img
@@ -1061,9 +1039,7 @@ return (
             </BridgeName>
           </div>
 
-          {props.from !== "landing" && (
-            <ArrowDownWrapper>{arrowDown}</ArrowDownWrapper>
-          )}
+          <ArrowDownWrapper>{arrowDown}</ArrowDownWrapper>
         </BridgeContainer>
 
         {state.isNetworkSelectOpen === 2 && selectNetWorkDropDownReverse}
@@ -1097,23 +1073,12 @@ return (
             }}
           />
         </div>
-        <AccountWrapper>
-          <span>~ ${calcPrice()}</span>
-          <span>
-            Balance:
-            <span className="balance">
-              {balances[selectedToken]
-                ? Big(balances[selectedToken]).toFixed(4)
-                : 0}
-            </span>
-          </span>
-        </AccountWrapper>
       </SendWrapper>
       {!!state.amount &&
         Number(state.amount) !== "NaN" &&
         Object.keys(balances).length > 0 &&
         new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).gt(
-          balances[selectedToken] || 0
+          balances[selectedToken]
         ) &&
         new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).gt(
           new Big(0)
@@ -1136,27 +1101,18 @@ return (
             {!prices?.[selectedToken] || !state.amount
               ? "-"
               : new Big(prices?.[selectedToken] || 0)
-                  .times(Big(state.amount || 0))
+                  .times(new Big(state.amount))
                   .toFixed()}
           </div>
         </div>
       </ReceiveWrapper>
-      {props.from === "landing" && props.chainId !== 1 ? (
-        <ActionButton
-          onClick={() => {
-            switchNetwork(1);
-          }}
-        >
-          Switch to Ethereum
-        </ActionButton>
-      ) : (
-        <ActionButton
-          onClick={handleConfirm}
-          disabled={!isCorrectNetwork || !canSwap}
-        >
-          Confirm
-        </ActionButton>
-      )}
+
+      <ActionButton
+        onClick={handleConfirm}
+        disabled={!isCorrectNetwork || !canSwap}
+      >
+        Confirm
+      </ActionButton>
 
       <Widget
         src="ciocan.near/widget/toast"
