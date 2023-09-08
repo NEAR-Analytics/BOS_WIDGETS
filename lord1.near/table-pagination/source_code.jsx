@@ -1,11 +1,14 @@
 if (!props.data || !props.columns) {
   return "column and data props are required.";
 }
-State.init({ currentPage: 1 });
+State.init({ currentPage: 1, searchValue: "" });
 const data = props.data || [];
 const rowsCount = props.rowsCount || null;
 const themeColor = props.themeColor;
-
+const handleSearch = (event) => {
+  const value = event.target.value;
+  State.update({ searchValue: value });
+};
 const handlePagination = () => {
   if (!rowsCount) return { table: data };
   const currentPage = state.currentPage;
@@ -56,18 +59,32 @@ return (
 
       <tbody>
         {props.data.length > 0 &&
-          handlePagination().table.map((row, i) => {
-            return (
-              <tr key={row.project}>
-                {props.columns.map((td) => {
-                  const key = td.key ? row[td.key] : i + 1;
-                  return <td>{key}</td>;
-                })}
-              </tr>
-            );
-          })}
+          handlePagination()
+            .table.filter((row) =>
+              Object.values(row).some((value) =>
+                value.toString().includes(state.searchValue)
+              )
+            )
+            .map((row, i) => {
+              return (
+                <tr key={row.project}>
+                  {props.columns.map((td) => {
+                    const key = td.key ? row[td.key] : i + 1;
+                    return <td>{key}</td>;
+                  })}
+                </tr>
+              );
+            })}
       </tbody>
     </Table>
+
+    <input
+      type="text"
+      placeholder="Search..."
+      onChange={handleSearch}
+      style={{ width: "20%", height: "30px", borderRadius: "50px" }}
+    />
+
     {!props.rowsCount ? (
       ""
     ) : (
