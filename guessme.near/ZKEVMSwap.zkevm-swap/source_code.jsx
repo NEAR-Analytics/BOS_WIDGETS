@@ -785,7 +785,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
           src: "https://assets.ref.finance/images/zkevm-swap.png",
           imgStyle: {
             width: "528px",
-            height: "216px",
+            // height: "216px",
           },
         }}
       />
@@ -807,6 +807,8 @@ const params_from_trend_card = Storage.get(
   "zk-evm-swap-params",
   "guessme.near/widget/ZKEVMWarmUp.trend-card"
 );
+
+console.log("params_from_trend_card: ", params_from_trend_card);
 
 if (props.source == "trend" && params_from_trend_card) {
   params = params_from_trend_card;
