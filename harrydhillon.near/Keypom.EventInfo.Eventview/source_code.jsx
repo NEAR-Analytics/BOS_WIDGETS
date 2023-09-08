@@ -130,8 +130,8 @@ return (
                   marginLeft: 0,
                 }}
                 src={
-                  state?.image
-                    ? `https://ipfs.near.social/ipfs/${state.img.cid}`
+                  props?.image?.cid
+                    ? `https://ipfs.near.social/ipfs/${props.image.cid}`
                     : "https://i.ibb.co/kx9Y61n/Screenshot-2023-08-15-at-23-44-38.png"
                 }
               />
