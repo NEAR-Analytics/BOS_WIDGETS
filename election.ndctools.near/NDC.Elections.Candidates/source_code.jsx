@@ -41,7 +41,7 @@ const FAIR_POLICY_NFT =
 const I_VOTED_NFT =
   "https://ipfs.near.social/ipfs/bafkreiewiq4puwmcu7ciztsfqvmpl3gsumfgsm5r22g24abiynoeghsyey";
 const SHARE_LINK =
-  "https://twitter.com/intent/tweet?text=I%20minted%20%E2%80%9CI%20Voted%E2%80%9D%20NFT%20during%20NDC%20Elections!%20%F0%9F%8E%89%0A%0ACheck%20election%20here%3A%20https%3A//near.org/election.ndctools.near/widget/NDC.Elections.Main%0A%0A%23NDC%20%23NEAR";
+  "https://twitter.com/intent/tweet?text=I%20minted%20%E2%80%9CI%20Voted%E2%80%9D%20NFT%20during%20NDC%20Elections!%20%F0%9F%8E%89%0A%0ACheck%20election%20here%3A%20https%3A//near.org/election.ndctools.near/widget/NDC.Elections.Main%0A%0A%23NDC%20%23NEAR%20https://pbs.twimg.com/media/F5gdVfyXYAECcjh?format=jpg&name=large";
 const MINT_VOTING_POLICY_NFT = `https://shard.dog/fairvoting?ids=[${ids}]&accountId=${context.accountId}`;
 const MINT_I_VOTED_NFT = `https://shard.dog/ivoted?ids=[${ids}]&accountId=${context.accountId}`;
 const BLACKLIST_VERIFY_LINK =
@@ -650,7 +650,7 @@ const CandidateItem = ({ candidateId, votes }) => (
                   : "secondary dark",
                 text: "Nomination",
                 icon: <i className="bi bi-box-arrow-up-right" />,
-                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
+                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=${typ}&accountId=${candidateId}`,
                 inverse: state.selected === candidateId,
               },
             }}
