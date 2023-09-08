@@ -185,6 +185,51 @@ const callTxQuickSwap = (
       input.inputAsset.metadata.decimals
     ).toFixed(0);
 
+    // console.log("input.routerAbi: ", input.routerAbi);
+    const WethContract = new ethers.Contract(
+      wethAddress,
+      [
+        {
+          constant: false,
+          inputs: [],
+          name: "deposit",
+          outputs: [],
+          payable: true,
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ internalType: "uint256", name: "wad", type: "uint256" }],
+          name: "withdraw",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+
+    if (
+      input.inputAssetTokenId === ethAddress &&
+      input.outputAssetTokenId === wethAddress
+    ) {
+      return WethContract.deposit({
+        value: ethers.utils.parseEther(input.inputAssetAmount),
+        gasLimit: gasLimit ?? 300000,
+      });
+    }
+
+    if (
+      input.inputAssetTokenId === wethAddress &&
+      input.outputAssetTokenId === ethAddress
+    ) {
+      return WethContract.withdraw(
+        ethers.utils.parseEther(input.inputAssetAmount)
+      );
+    }
+
     const swapContract = new ethers.Contract(
       input.routerContract,
       input.routerAbi,
