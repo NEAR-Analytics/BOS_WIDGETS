@@ -785,7 +785,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
           src: "https://assets.ref.finance/images/zkevm-swap.png",
           imgStyle: {
             width: "528px",
-            height: "216px",
+            // height: "216px",
           },
         }}
       />
