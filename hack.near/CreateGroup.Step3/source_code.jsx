@@ -1,4 +1,4 @@
-const { formState, errors } = props;
+const { formState, errors, renderFooter } = props;
 
 const initialAnswers = {
   profileImage: formState.profileImage,
@@ -217,5 +217,6 @@ return (
       </div>
       {renderAssetsEditor()}
     </div>
+    {renderFooter(state.answers)}
   </div>
 );
