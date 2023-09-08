@@ -555,7 +555,7 @@ if (!sender) {
         src: "https://assets.ref.finance/images/zkevm-bridge.png",
         imgStyle: {
           width: "403px",
-          height: "93px",
+          // height: "93px",
         },
       }}
     />
