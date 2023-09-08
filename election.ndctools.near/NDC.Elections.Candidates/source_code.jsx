@@ -985,7 +985,7 @@ return (
           },
           footer: state.selectedCandidates.length < seats && (
             <div class="w-100 pt-2 text-center">
-              <small class="text-info">
+              <small class="text-danger">
                 <i class="bi bi-exclamation-circle mr-2" />
                 You've selected only {state.selectedCandidates.length || ""} /
                 {seats} candidates
