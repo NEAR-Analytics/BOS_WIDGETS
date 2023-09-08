@@ -1,3 +1,5 @@
+console.log("props-props-props", props);
+
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
