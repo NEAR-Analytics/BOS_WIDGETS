@@ -951,7 +951,8 @@ return (
               <Rule className="d-flex gap-2">
                 <h3>3</h3>
                 <p className="text-secondary text-start">
-                  You votes <b>cannot</b> be changed.
+                  You votes <b>cannot</b> be changed. You can only cast{" "}
+                  <b>once</b> per house.
                 </p>
               </Rule>
               {greylisted && (
