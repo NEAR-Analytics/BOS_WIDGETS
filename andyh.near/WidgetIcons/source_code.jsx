@@ -51,7 +51,7 @@ const renderTag = (tag, tagBadge) => (
   <a href={makeLink(accountId, tag)}>{tagBadge}</a>
 );
 
-const renderItem = (a) => {
+const renderItem = (a, i) => {
   return (
     <a
       href={`#/${a?.accountId}/widget/${a?.widgetName}`}
@@ -59,7 +59,7 @@ const renderItem = (a) => {
       key={JSON.stringify(a)}
     >
       <Widget
-        id={a?.widgetName}
+        id={i}
         src="andyh.near/widget/WidgetImage"
         props={{
           tooltip: true,
