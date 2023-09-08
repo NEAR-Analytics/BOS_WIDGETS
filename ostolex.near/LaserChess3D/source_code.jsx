@@ -104,10 +104,10 @@ const iframeHtml = `
           <div class="container">
             <div class="row winner-message-buttons" style="width: 100%;">
               <div class="col-md-6">
-                <button type="button" class="btn btn-primary"><a href="https://wallet.near.org/send-money/ostolex.near" style="color: #fff;">Support developers</a></button>
+                <a class="btn btn-primary" href="https://wallet.near.org/send-money/ostolex.near" style="color: #fff;" target="_blank">Support developers</a>
               </div>
               <div class="col-md-6">
-                <button type="button" class="btn btn-warning"><a href="https://unchain.fund/#donate">Support Ukraine</a></button>
+                <a href="https://unchain.fund/#donate" class="btn btn-warning target="_blank">Support Ukraine</a>
               </div>
             </div>
           </div>
