@@ -1,5 +1,6 @@
 const image = props.image;
 const title = props.title || "";
+const timestamp = props.timestamp || "";
 const className = props.className;
 const style = props.style;
 const alt = props.alt;
@@ -125,7 +126,7 @@ return image.nft.contractId && image.nft.tokenId ? (
                   title={title}
                 />
               )}
-              <p>Minted by {title}</p>
+              <p>Minted by {title} {timestamp}</p>
             </div>
           </div>
         </div>
