@@ -1,3 +1,5 @@
+const ethAddress = "0x0000000000000000000000000000000000000000";
+
 const NETWORKS = [
   {
     name: "ZKEVM",
@@ -93,9 +95,11 @@ State.init({
   reloadPools: false,
   hoverOnChain: "",
   estimate: {},
-  inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-  outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+  inputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+  outputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   coinGeckoTokenIds: {
+    "0x0000000000000000000000000000000000000000":
+      "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
     "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
       "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
@@ -157,8 +161,6 @@ const currentAccountId =
   getEVMAccountId() !== "" ? getEVMAccountId() : context.accountId;
 
 const rearrangeAssets = () => {
-  console.log("state: ", state);
-
   State.update({
     inputAssetTokenId: state.outputAssetTokenId,
     outputAssetTokenId: state.inputAssetTokenId,
@@ -271,6 +273,14 @@ const expandToken = (value, decimals) => {
 };
 
 const tokenInApprovaleNeededCheck = () => {
+  if (state.inputAssetTokenId === ethAddress) {
+    State.update({
+      approvalNeeded: false,
+    });
+
+    return;
+  }
+
   if (state.approvalNeeded === undefined) {
     if (
       getEVMAccountId() &&
@@ -641,7 +651,6 @@ const selectedChainId = state.selectedChainId ?? 0;
 const selectedDex = state.selectedDex;
 
 const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
-  console.log("tokenIn: ", tokenIn, tokenOut);
   Ethers.send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
@@ -649,9 +658,9 @@ const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId: tokenIn || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+    inputAssetTokenId: tokenIn || "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
     outputAssetTokenId:
-      tokenOut || "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+      tokenOut || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   });
 };
 
@@ -986,7 +995,6 @@ return (
         network: state.network,
         NETWORK_ZKEVM,
         onLoad: (inputAsset) => {
-          console.log("TokenData onLoad inputAsset", inputAsset);
           inputAsset.metadata.symbol = inputAsset.metadata.symbol.toUpperCase();
           State.update({ inputAsset });
         },
