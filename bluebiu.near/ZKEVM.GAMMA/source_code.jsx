@@ -19,10 +19,7 @@ const ContainerLogin = styled.div`
     margin-top: 20px;
   }
   @media (max-width: 900px) {
-    position: absolute;
-    top: 16%;
-    left: 50%;
-    transform: translate(-50%, -16%);
+    padding:24px;
     img{
       width:320px;
     }
