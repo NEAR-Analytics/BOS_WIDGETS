@@ -252,7 +252,7 @@ const itemList = [
                 "on-rainbow-bridge",
                 "juaner.near/widget/ref-home"
               ) === "1"
-                ? "/rainbow-bridge"
+                ? "/rainbow-bridge?source=all-in-one"
                 : "",
             src: `juaner.near/widget/ref-home`,
             isHome:
