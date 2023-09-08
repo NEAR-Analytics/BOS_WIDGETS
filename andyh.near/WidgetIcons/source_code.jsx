@@ -59,6 +59,7 @@ const renderItem = (a) => {
       key={JSON.stringify(a)}
     >
       <Widget
+        id={a?.widgetName}
         src="andyh.near/widget/WidgetImage"
         props={{
           tooltip: true,
