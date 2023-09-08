@@ -38,12 +38,16 @@ return (
           {props.columns.map((th) => (
             <th key={th.title} className="col-1" scope="col">
               <div>
-                <OverlayTrigger
-                  placement={th.position}
-                  overlay={<Tooltip>{th.description}</Tooltip>}
-                >
+                {th.description ? (
+                  <OverlayTrigger
+                    placement={th.position || "top"}
+                    overlay={<Tooltip>{th.description}</Tooltip>}
+                  >
+                    <span>{th.title}</span>
+                  </OverlayTrigger>
+                ) : (
                   <span>{th.title}</span>
-                </OverlayTrigger>
+                )}
               </div>
             </th>
           ))}
