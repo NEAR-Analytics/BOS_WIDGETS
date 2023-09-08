@@ -1,3 +1,60 @@
+const Notification = styled.div`
+  display: flex;
+  padding: 16px 24px 16px 16px;
+  align-items: flex-start;
+  gap: 16px; 
+  border-top: 1px solid var(--sand-light-6, #E3E3E0);
+
+  &:hover {
+    background: var(--sand-light-2, #F9F9F8);
+  }
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1 0 0; 
+`;
+
+const Icon = styled.div`
+
+`;
+
+const Username = styled.span`
+  font: var(--text-s);
+  font-weight: 600;
+`;
+
+const Action = styled.span`
+  font: var(--text-s);
+  color: #706F6C;
+`;
+
+const ComponentName = styled.span`
+  font: var(--text-s);
+  font-weight: 600;
+  color: #604CC8;
+`;
+
+const Timestamp = styled.span`
+  font: var(--text-s);
+  color: #706F6C;
+  
+`;
+
+const Desc = styled.span`
+  font: var(--text-s);
+  color: #706F6C;
+  font-style: italic;
+  border-left: 2px solid #E3E3E0;
+  padding: 0 0 0 1rem;
+`;
+
+
+
+
 const { value } = props;
 const { type } = value;
 const item = value?.item || {};
