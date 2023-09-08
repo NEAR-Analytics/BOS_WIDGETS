@@ -156,8 +156,14 @@ const Card = styled.div`
   align-items: stretch;
   font-size: 1.1rem;
   border-radius: 1rem;
-  background-color: ${({ selected }) =>
-    selected ? "lightblue !important;" : "lightgrey;"}}
+  background-color: ${({ selected, isWinning }) =>
+    selected
+      ? isWinning
+        ? "lightblue !important"
+        : "#faa !important"
+      : isWinning
+      ? "lightgrey"
+      : "#fcc"}};
   cursor: ${({ selected }) => (selected ? "unset;" : "pointer;")};
 
   &:hover {
@@ -319,11 +325,12 @@ const renderNfts = (nfts) => (
   </List>
 );
 
-const renderCandidates = (title, candidates) => (
+const renderCandidates = (title, candidates, threshold) => (
   <>
     <House>{title}</House>
-    {candidates.map((candidate) => {
+    {candidates.map((candidate, index) => {
       const selected = candidate.nominee === state.selectedCandidate;
+      const isWinning = index < threshold;
       return (
         <Card
           onClick={
@@ -331,6 +338,7 @@ const renderCandidates = (title, candidates) => (
           }
           selected={selected}
           key={candidate.nominee}
+          isWinning={isWinning}
         >
           <CardHeader>
             <img
@@ -377,8 +385,8 @@ tc.sort((a, b) => b.voters.length - a.voters.length);
 return (
   <Wrapper>
     <Header>NDC Elections Stats</Header>
-    <Content>{renderCandidates("House Of Merit", hom)}</Content>
-    <Content>{renderCandidates("Council Of Advisors", coa)}</Content>
-    <Content>{renderCandidates("Transparency Commission", tc)}</Content>
+    <Content>{renderCandidates("House Of Merit", hom, 15)}</Content>
+    <Content>{renderCandidates("Council Of Advisors", coa, 7)}</Content>
+    <Content>{renderCandidates("Transparency Commission", tc, 7)}</Content>
   </Wrapper>
 );
