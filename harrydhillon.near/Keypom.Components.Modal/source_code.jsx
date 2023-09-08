@@ -21,10 +21,9 @@ const ModalContent = styled.div`
 `;
 
 const Modal = ({ isOpen, children, overlayStyles, contentStyles }) => {
-  if (!isOpen) return undefined;
 
   return (
-    <MUIDialog {...overlayStyles}>
+    <MUIDialog open={isOpen} {...overlayStyles}>
       <ModalContent {...contentStyles}>{children}</ModalContent>
     </MUIDialog>
   );
