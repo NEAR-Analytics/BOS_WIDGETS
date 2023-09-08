@@ -211,7 +211,7 @@ const Section = styled.div`
 `;
 
 const VotingAlert = styled.div`
-  background: #f8f8f9;
+  background: #d4e4f461;
 `;
 
 const GraylistedAlert = styled.div`
