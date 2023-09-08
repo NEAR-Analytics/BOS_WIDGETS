@@ -185,7 +185,6 @@ const callTxQuickSwap = (
       input.inputAsset.metadata.decimals
     ).toFixed(0);
 
-    // console.log("input.routerAbi: ", input.routerAbi);
     const WethContract = new ethers.Contract(
       wethAddress,
       [
@@ -211,6 +210,8 @@ const callTxQuickSwap = (
       Ethers.provider().getSigner()
     );
 
+    console.log("WethContract: ", WethContract);
+
     if (
       input.inputAssetTokenId === ethAddress &&
       input.outputAssetTokenId === wethAddress
@@ -218,6 +219,8 @@ const callTxQuickSwap = (
       return WethContract.deposit({
         value: ethers.utils.parseEther(input.inputAssetAmount),
         gasLimit: gasLimit ?? 300000,
+      }).then((res) => {
+        onComplete(res);
       });
     }
 
@@ -227,8 +230,80 @@ const callTxQuickSwap = (
     ) {
       return WethContract.withdraw(
         ethers.utils.parseEther(input.inputAssetAmount)
+      ).then((res) => {
+        onComplete(res);
+      });
+    }
+
+    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    const iface = new ethers.utils.Interface(input.routerAbi);
+    console.log("input.routerAbi: ", input.routerAbi);
+    console.log("iface: ", iface);
+
+    const tokenIn =
+      input.inputAssetTokenId === ethAddress
+        ? wethAddress
+        : input.inputAssetTokenId;
+
+    const tokenOut =
+      input.outputAssetTokenId === ethAddress
+        ? wethAddress
+        : input.outputAssetTokenId;
+
+    // console.log("tokenIn: ", tokenIn, "path", path);
+
+    const recipient =
+      input.outputAssetTokenId === ethAddress
+        ? input.outputAssetTokenId
+        : input.sender;
+
+    const multicallParams = [];
+
+    if (path.length === 2) {
+      console.log("value33333 ", value);
+
+      const inputs = [
+        {
+          tokenIn,
+          tokenOut,
+          recipient,
+          deadline: deadline.toFixed(),
+          amountIn: value,
+          amountOutMinimum: "0",
+          limitSqrtPrice: sqrtPriceLimitX96 ?? 0,
+        },
+      ];
+
+      const encodedDataCallSwap = iface.encodeFunctionData(
+        "exactInputSingle",
+        inputs
+      );
+
+      console.log("encodedDataCallSwap: ", encodedDataCallSwap);
+
+      multicallParams.push(encodedDataCallSwap);
+    } else if (path.length > 2) {
+      // path recepient deadline amountIn amountOutMinimum
+      const pathBytes =
+        "0x" + path.map((address) => address.substr(2)).join("");
+
+      const inputs = [pathBytes, input.sender, deadline, value, "0"];
+
+      const encodedDataCallSwap = iface.encodeFunctionData(
+        "exactInput",
+        inputs
+      );
+      multicallParams.push(encodedDataCallSwap);
+    }
+
+    if (input.outputAssetTokenId === ethAddress) {
+      multicallParams.push(
+        iface.encodeFunctionData("unwrapWNativeToken", ["0", input.sender])
       );
     }
+
+    console.log("multicallParams: ", multicallParams);
 
     const swapContract = new ethers.Contract(
       input.routerContract,
@@ -236,50 +311,22 @@ const callTxQuickSwap = (
       Ethers.provider().getSigner()
     );
 
-    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+    const options = {
+      gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
+      gasLimit: gasLimit ?? 300000,
+      value: input.inputAssetTokenId === ethAddress ? value : "0",
+    };
 
-    if (path.length === 2) {
-      const tokenIn =
-        input.inputAssetTokenId === ethAddress
-          ? wethAddress
-          : input.inputAssetTokenId;
+    console.log("options: ", options);
 
-      swapContract
-        .exactInputSingle(
-          [
-            tokenIn,
-            input.outputAssetTokenId,
-            input.sender,
-            deadline.toFixed(),
-            value,
-            "0",
-            sqrtPriceLimitX96 ?? 0,
-          ],
-          {
-            gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
-            gasLimit: gasLimit ?? 300000,
-            value: input.inputAssetTokenId === ethAddress ? value : "0",
-          }
-        )
-        .then((transactionHash) => {
-          onComplete(transactionHash);
-        })
-        .catch(() => {});
-    } else if (path.length > 2) {
-      // path recepient deadline amountIn amountOutMinimum
-      const pathBytes =
-        "0x" + path.map((address) => address.substr(2)).join("");
-
-      swapContract
-        .exactInput([pathBytes, input.sender, deadline, value, "0"], {
-          gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
-          gasLimit: gasLimit ?? 300000,
-        })
-        .then((transactionHash) => {
-          onComplete(transactionHash);
-        })
-        .catch(() => {});
-    }
+    return swapContract
+      .multicall(multicallParams, options)
+      .then((transactionHash) => {
+        onComplete(transactionHash);
+      })
+      .catch((e) => {
+        console.log("e111", e);
+      });
   }
 };
 
