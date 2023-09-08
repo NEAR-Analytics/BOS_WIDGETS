@@ -428,10 +428,7 @@ const handlePermit = (props) => {
     .getSigner()
     ._signTypedData(domain, types, values)
     .then((signature) => {
-      console.log("signature", signature);
       const { r, s, v } = ethers.utils.splitSignature(signature);
-
-      console.log({ r, s, v });
 
       const erc20Abi = [
         {
@@ -507,7 +504,7 @@ const approve = (props) => {
 
   return erc20contract.approve(
     BRIDGE_CONTRACT_ADDRESS,
-    ethers.BigNumber.from(MAX_AMOUNT)
+    Big(amount).times(Big(10).pow(token.decimals)).toFixed(0)
   );
 };
 
@@ -515,16 +512,12 @@ const onConfirm = (props) => {
   const { token, network, amount } = props;
   if (token.symbol !== "ETH" && network === "ethereum") {
     const res = approve(props);
-    console.log("approve response:", res);
     if (res) {
       res
         .then((tx) => {
-          console.log("approve", tx);
           handlePermit(props);
         })
-        .catch((e) => {
-          console.log("approve err", e);
-        });
+        .catch((e) => {});
     } else {
       handlePermit(props);
     }
