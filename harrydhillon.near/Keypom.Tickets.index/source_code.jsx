@@ -196,7 +196,7 @@ const createTickets = () => {
                         <Widget src="harrydhillon.near/widget/Keypom.Tickets.CloneSVG" />
                       </ActionButton>
                     </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Edit</Tooltip>}>
+                    <OverlayTrigger overlay={<Tooltip>Clone</Tooltip>}>
                       <ActionButton
                         onClick={() => {
                           State.update({
