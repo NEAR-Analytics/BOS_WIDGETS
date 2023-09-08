@@ -129,7 +129,11 @@ return (
                   marginBottom: 5,
                   marginLeft: 0,
                 }}
-                src="https://i.ibb.co/kx9Y61n/Screenshot-2023-08-15-at-23-44-38.png"
+                src={
+                  state?.image
+                    ? `https://ipfs.near.social/ipfs/${state.img.cid}`
+                    : "https://i.ibb.co/kx9Y61n/Screenshot-2023-08-15-at-23-44-38.png"
+                }
               />
               {props?.eventName !== undefined && props?.eventName !== "" ? (
                 <p style={{ fontSize: 10, marginBottom: 4 }}>
