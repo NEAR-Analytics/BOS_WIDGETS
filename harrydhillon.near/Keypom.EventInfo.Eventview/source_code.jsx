@@ -7,6 +7,7 @@ background: linear-gradient(0deg, rgba(220,244,251,1) 0%, rgba(251,254,255,1) 95
 const ContentDiv = styled.div`
     padding:10px;
     max-width: 1200px;
+    width:100%;
     margin:auto;
 `;
 
@@ -20,6 +21,7 @@ letter-spacing: -0.72px;
 `;
 
 const EventView = styled.div`
+    width:100%;
 `;
 
 const SkeletonWrapper = styled.div`
