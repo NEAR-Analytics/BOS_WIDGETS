@@ -197,11 +197,10 @@ const multicallv2 = (abi, calls, options, onSuccess, onError) => {
 };
 let _cTokensData = {};
 let _loanToValue = null;
-let _underlyPrice = null;
+let _underlyPrice = {};
 let _liquidity = null;
 let _underlyingBalance = null;
 let _userMerberShip = null;
-let _accountLiquidity = 0;
 let count = 0;
 let oTokensLength = Object.values(markets).length;
 
@@ -266,13 +265,27 @@ const formatedData = (key) => {
     totalBorrowUsd: totalBorrowUsd.toString(),
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
     userTotalBorrowUsd: userTotalBorrowUsd.toString(),
-    accountLiquidity: _accountLiquidity,
+    accountLiquidity: totalCollateralUsd.minus(userTotalBorrowUsd).toString(),
     healthFactor: totalCollateralUsd
       .div(userTotalBorrowUsd.eq(0) ? 1 : userTotalBorrowUsd)
       .toString(),
   });
 };
 
+const getDataFromGecko = () => {
+  asyncFetch(
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=matic-network,usd-coin,tether,ethereum,bitcoin,ethereum&order=market_cap_desc&sparkline=false&locale=en&precision=full"
+  ).then((res) => {
+    const data = res.body || [];
+    Object.values(markets).forEach((market) => {
+      _underlyPrice[market.address] = data.find(
+        (item) => item.id === market.geckoId
+      )?.current_price;
+    });
+    count++;
+    formatedData("getDataFromGecko");
+  });
+};
 const getUnitrollerData = () => {
   const calls = [];
   const oTokens = Object.values(markets);
@@ -290,11 +303,6 @@ const getUnitrollerData = () => {
       });
     }
   });
-  calls.push({
-    address: unitrollerAddress,
-    name: "getAccountLiquidity",
-    params: [account],
-  });
   multicallv2(
     UNITROLLER_ABI,
     calls,
@@ -303,10 +311,6 @@ const getUnitrollerData = () => {
       _loanToValue = {};
       _userMerberShip = {};
       for (let i = 0, len = res.length; i < len; i++) {
-        if (i === len - 1) {
-          _accountLiquidity = ethers.utils.formatUnits(res[i][1]._hex, 18);
-          break;
-        }
         const index = Math.floor(i / (account ? 2 : 1));
         const mod = i % (account ? 2 : 1);
         switch (mod) {
@@ -323,7 +327,7 @@ const getUnitrollerData = () => {
         }
       }
       count++;
-      formatedData(1);
+      formatedData("getUnitrollerData");
     },
     (err) => {
       setTimeout(() => {
@@ -353,12 +357,10 @@ const getUnderlyPrice = () => {
         );
       }
       count++;
-      formatedData(2);
+      formatedData("getUnderlyPrice");
     },
     () => {
-      setTimeout(() => {
-        getUnderlyPrice();
-      }, 500);
+      getDataFromGecko();
     }
   );
 };
@@ -400,7 +402,7 @@ const getOTokenLiquidity = () => {
           18
         );
         count++;
-        formatedData(3);
+        formatedData("getOTokenLiquidity");
       });
     },
     () => {
@@ -454,7 +456,7 @@ const getWalletBalance = () => {
           18
         );
         count++;
-        formatedData(4);
+        formatedData("underlyingTokens");
       });
     },
     () => {
