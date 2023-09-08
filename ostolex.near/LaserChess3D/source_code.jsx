@@ -158,7 +158,7 @@ const menuCallback = (isPve, sn) => {
 if (state.currentPage == pages.menu) {
   return (
     <Widget
-      src="nft-tamagotchi.testnet/widget/MainMenu"
+      src={`${widgetAccountId}/widget/MainMenu`}
       props={{
         callback: menuCallback,
         connectToGameCallback: () =>
