@@ -107,20 +107,56 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 1rem;
   align-items: stretch;
+  max-width: 50rem;
+  margin: 0 auto 2rem;
+
+  &::before {    
+    content: "";
+    background-image: url("https://arweave.net/qOfmpZZNqQ0bHBJ4UTgPC_pjvs1oYOjTAVwfxD8fd2o");
+    background-attachment: fixed;
+    background-size: contain;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.6;
+    z-index: -1;
+  }
+`;
+
+const Header = styled.h1`
+  margin-bottom: 1rem;
+  text-align: center;
+  padding: 3rem;
+  font-weight: 600;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: stretch;
 `;
 
 const Card = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   font-size: 1.1rem;
   border-radius: 1rem;
   background-color: ${({ selected }) =>
-    selected ? "rgba(0,0,140,0.5) !important;" : "rgba(0,0,0,0.3);"}}
+    selected ? "lightblue !important;" : "lightgrey;"}}
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(0,0,100,0.3);
+    background-color: #d3ecf4;
   }
+`;
+
+const CardHeader = styled.div`
+  display: flex;
+  align-items: center;
 
   img {
     border-radius: 0.3rem;
@@ -128,10 +164,15 @@ const Card = styled.div`
     height: 4rem;
     margin: 0.6rem;
   }
+
+  &:last-child {
+    flex: 1 1 auto;
+  }
 `;
 
 const CardContent = styled.div`
   display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
   padding: 0.6rem;
   align-items: stretch;
@@ -143,6 +184,42 @@ const CardContent = styled.div`
     font-size: 1.4rem;
     font-weight: 600;
     text-align: center;
+  }
+`;
+
+const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.4rem 2rem;
+  gap: 0.4rem;
+`;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+
+  &:not(:last-child) {
+    border-bottom: 1px dashed darkgrey;
+  }
+
+  > *:not(img) {
+    flex: 1 1 12rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .balance {
+    text-align: right;
+  }
+
+  .symbol {
+    min-width: 5rem;
+    max-width: 5rem;
   }
 `;
 
@@ -164,23 +241,51 @@ const selectCandidate = (candidateId) => {
   });
 };
 
+const renderFts = (fts) => (
+  <List>
+    {fts.map((ft) => (
+      <Row>
+        <img src={ft.ft_metas.icon} alt={`${ft.ft_metas.symbol} icon`} />
+        <div>{ft.ft_metas.name}</div>
+        <div className="balance">
+          {Big(ft.amount).div(Big(10).pow(ft.ft_metas.decimals)).toFixed(2)}
+        </div>
+        <div className="symbol">{ft.ft_metas.symbol}</div>
+      </Row>
+    ))}
+  </List>
+);
+
 const renderCandidates = (candidates) =>
   candidates.map((candidate) => {
+    const selected = candidate.nominee === state.selectedCandidate;
     return (
       <Card
         onClick={() => selectCandidate(candidate.nominee)}
-        selected={candidate.nominee === state.selectedCandidate}
+        selected={selected}
       >
-        <img
-          src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${candidate.nominee}`}
-          alt={candidate.nominee}
-        />
-        <CardContent>
+        <CardHeader>
+          <img
+            src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${candidate.nominee}`}
+            alt={candidate.nominee}
+          />
           <h3>{candidate.nominee}</h3>
-          <div>Fungible Tokens:</div>
+        </CardHeader>
+        <CardContent>
+          <div>Votes: {candidate.voters.length}</div>
+          <div>Total Fungible Tokens: {candidate.inventory.fts.length}</div>
+          {selected && renderFts(candidate.inventory.fts)}
+          <div>
+            Total Non Fungible Tokens: {candidate.inventory.nfts.length}
+          </div>
         </CardContent>
       </Card>
     );
   });
 
-return <Wrapper>{renderCandidates(state.candidates)}</Wrapper>;
+return (
+  <Wrapper>
+    <Header>NDC Elections Stats</Header>
+    <Content>{renderCandidates(state.candidates)}</Content>
+  </Wrapper>
+);
