@@ -247,13 +247,6 @@ const itemList = [
           key={"juaner.near" + "ref-home"}
           src="ref-admin.near/widget/ref-template-card"
           props={{
-            redirectTo:
-              Storage.get(
-                "on-rainbow-bridge",
-                "juaner.near/widget/ref-home"
-              ) === "1"
-                ? "/rainbow-bridge?source=all-in-one"
-                : "",
             src: `juaner.near/widget/ref-home`,
             isHome:
               Social.get(`${context.accountId}/myHomePagePath`) ===
