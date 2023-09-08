@@ -120,7 +120,6 @@ const List = styled.div`
   width: 188px;
   height: 100%;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: center;
   gap: 24px;
 `;
