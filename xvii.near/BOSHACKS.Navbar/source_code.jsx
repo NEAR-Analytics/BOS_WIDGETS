@@ -74,8 +74,8 @@ const logo = (
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <text x="10" y="40" font-family="Verdana" font-size="35" fill="#6393F8">
-        NRC Course Page
+      <text x="10" y="40" font-family="'Arial'" font-size="35" fill="#008081">
+        NRC Course
       </text>
     </svg>
   </LogoArea>
@@ -96,3 +96,5 @@ return (
     {actions}
   </Navbar>
 );
+
+//
