@@ -16,7 +16,7 @@ const HelpComponent = styled.div`
 
 const Question = styled.div`
   position: absolute;
-  top: -48px;
+  top: -45px;
 `;
 
 const QuestionIcon = () => (
