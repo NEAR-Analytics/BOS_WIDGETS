@@ -123,7 +123,7 @@ return (
               <div className="text">Unlock this Tweet</div>
               <div className="price">{price} $NEAR</div>
               <Widget
-                src="paywall.near/widget/PaywallDapplet-ContentButton"
+                src="paywall.near/widget/PaywallDapplet-Button"
                 props={{
                   label: "Buy",
                   onClick: () => onBuy?.({ contentId, price }),
@@ -136,7 +136,7 @@ return (
               <div className="text">Unlock this Tweet</div>
               <div className="price">{price} $NEAR</div>
               <Widget
-                src="paywall.near/widget/PaywallDapplet-ContentButton"
+                src="paywall.near/widget/PaywallDapplet-Button"
                 props={{
                   label: "Connect Wallet",
                   onClick: () => onConnect?.(),
