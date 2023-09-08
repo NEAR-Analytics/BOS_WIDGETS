@@ -954,15 +954,6 @@ return (
                   You votes <b>cannot</b> be changed.
                 </p>
               </Rule>
-
-              {state.selectedCandidates.length < seats && (
-                <VotingAlert className="p-3 mb-2 rounded">
-                  <i class="bi bi-exclamation-circle mr-2" />
-                  You've selected only {state.selectedCandidates.length || ""} /
-                  {seats} candidates
-                </VotingAlert>
-              )}
-
               {greylisted && (
                 <GraylistedAlert className="p-3 mb-4 rounded">
                   <b>Voters without reputation need to be verified</b> by the
@@ -983,10 +974,16 @@ return (
               state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
             onCancel: () =>
               State.update({ bountyProgramModal: false, reload: false }),
-            icon: state.selectedCandidates.length < seats && (
-              <i class="bi bi-exclamation-triangle" />
-            ),
             onSubmit: handleVote,
+            footer: state.selectedCandidates.length < seats && (
+              <div class="w-100 pt-2 text-center">
+                <small class="text-info">
+                  <i class="bi bi-exclamation-circle mr-2" />
+                  You've selected only {state.selectedCandidates.length || ""} /
+                  {seats} candidates
+                </small>
+              </div>
+            ),
           },
           SecondaryButton: {
             type: greylisted ? "Link" : "Button",
