@@ -18,30 +18,36 @@ const handleOutsideClick = (e) => {
 };
 
 const chains = {
-  137: [
-    "Polygon",
-    "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
-  ],
-  1313161554: [
-    "Aurora",
-    "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
-  ],
-  42220: [
-    "Celo",
-    "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
-  ],
-  43114: [
-    "Avax",
-    "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
-  ],
-  42161: [
-    "Arbitrum",
-    "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
-  ],
-  0: [
-    "Near",
-    "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
-  ],
+  137: {
+    id: "137",
+    name: "Polygon",
+    url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
+  },
+  1313161554: {
+    id: "1313161554",
+    name: "Aurora",
+    url: "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
+  },
+  42220: {
+    id: "42220",
+    name: "Celo",
+    url: "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
+  },
+  43114: {
+    id: "43114",
+    name: "Avax",
+    url: "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
+  },
+  42161: {
+    id: "42161",
+    name: "Arbitrum",
+    url: "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
+  },
+  0: {
+    id: "0",
+    name: "Near",
+    url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
+  },
 };
 
 const SelectTag = styled.select`
