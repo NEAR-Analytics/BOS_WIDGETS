@@ -54,23 +54,7 @@ return (
           overflow: "hidden",
         }}
       >
-        <div style={{ width: "auto" }}>
-          <input
-            type="text"
-            value={state.prompt}
-            style={{
-              width: "auto",
-              backgroundColor: "black",
-              color: "white",
-              fontFamily: '"Press Start 2P", sans-serif',
-              border: "1px solid white",
-            }}
-            onChange={(e) => {
-              state.prompt = e.target.value;
-              State.update(state);
-            }}
-          />
-        </div>
+        <div style={{ width: "auto" }}>Bem Vindo {accountId} </div>
       </div>
       <div
         style={{
@@ -87,8 +71,36 @@ return (
           position: "relative",
           overflow: "hidden",
         }}
-      ></div>
-
+      >
+        <p
+          style={{
+            color: "black",
+            width: "auto",
+            backgroundColor: "black",
+            color: "white",
+            fontFamily: '"Press Start 2P", sans-serif',
+            border: "1px solid white",
+          }}
+        >
+          Escreva a TAG
+        </p>
+        <input
+          type="text"
+          value={state.prompt}
+          style={{
+            width: "auto",
+            backgroundColor: "black",
+            color: "white",
+            fontFamily: '"Press Start 2P", sans-serif',
+            border: "1px solid white",
+          }}
+          onChange={(e) => {
+            state.prompt = e.target.value;
+            State.update(state);
+          }}
+        />
+        <br />
+      </div>
       <div
         style={{
           background: "orange",
