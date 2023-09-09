@@ -549,7 +549,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
         onLoad({
           network: NETWORK_ZKEVM,
           assets: [
-            "0x0000000000000000000000000000000000000000", // ETH
+            // "0x0000000000000000000000000000000000000000", // ETH
             "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035", // USDC
             "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
             "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1", // WBTC
@@ -612,7 +612,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
         onLoad({
           network: NETWORK_ZKEVM,
           assets: [
-            "0x0000000000000000000000000000000000000000", // ETH
+            // "0x0000000000000000000000000000000000000000", // ETH
 
             "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035", // USDC
             "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
@@ -678,7 +678,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
         onLoad({
           network: NETWORK_ZKEVM,
           assets: [
-            "0x0000000000000000000000000000000000000000",
+            // "0x0000000000000000000000000000000000000000",
             "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
             "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
