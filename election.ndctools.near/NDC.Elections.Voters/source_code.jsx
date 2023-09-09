@@ -51,7 +51,7 @@ const VoterItem = styled.div`
 
 const StyledLink = styled.a`
   color: inherit !important;
-  width: 120px;
+  width: 215px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -78,7 +78,12 @@ const TxnLink = styled.a`
 
 const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
-    <StyledLink href={src}>{title}</StyledLink>
+    <StyledLink href={src}>
+      <Widget
+        src="mob.near/widget/Profile.ShortInlineBlock"
+        props={{ accountId: title, tooltip: false }}
+      />
+    </StyledLink>
     <span>
       <i class="bi bi-arrow-up-right" />
     </span>
