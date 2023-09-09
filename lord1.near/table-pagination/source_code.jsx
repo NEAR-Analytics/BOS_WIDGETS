@@ -69,7 +69,7 @@ return (
             )
             .map((row, i) => {
               return (
-                <tr key={row.project}>
+                <tr key={row.key}>
                   {props.columns.map((td) => {
                     const key = td.key ? row[td.key] : i + 1;
                     return (
@@ -84,13 +84,13 @@ return (
                           <a
                             className="d-inline-block"
                             target="_blank"
-                            href={`${td.beforehref}${row.project}${td.afterhref}`}
+                            href={`${td.beforehref}${key}${td.afterhref}`}
                             style={{
                               "text-decoration": "none",
                             }}
                           >
                             {td.heyperlink === "yes" ? (
-                              key
+                              td.key
                             ) : (
                               <svg
                                 width="20"
