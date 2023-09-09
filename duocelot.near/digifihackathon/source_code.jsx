@@ -1,7 +1,7 @@
 const accountId = props.accountId ?? context.accountId;
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
-<Widget src="duocelot.near/widget/digifihackathon" />;
+<Widget src="duocelot.near/widget/DIGIFI_LOGIN" />;
 
 // Initialize state
 State.init({
