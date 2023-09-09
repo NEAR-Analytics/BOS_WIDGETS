@@ -628,14 +628,6 @@ const CandidateItem = ({ candidateId, votes }) => (
         )}
         <div className="d-flex align-items-center">
           <div className="d-flex justify-items-center">
-            <Widget
-              src="mob.near/widget/ProfileImage"
-              props={{
-                accountId: candidateId,
-                imageClassName: "rounded-circle w-100 h-100",
-                style: { width: "24px", height: "24px", marginRight: 5 },
-              }}
-            />
             <UserLink
               selected={state.selected === candidateId}
               winnerId={state.winnerIds.includes(candidateId)}
