@@ -35,7 +35,16 @@ return (
           left: 0,
         }}
       >
-        <div class="container">
+        <div
+          class="container"
+          style={{
+            "min-height": "calc(-98px + 100vh)",
+            "align-items": "center",
+            display: "flex",
+            "flex-direction": "column",
+            "justify-content": "center",
+          }}
+        >
           <div class="row justify-content-center">
             <button
               onClick={() => {
