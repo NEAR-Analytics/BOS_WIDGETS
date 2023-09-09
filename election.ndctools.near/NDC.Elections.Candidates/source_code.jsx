@@ -641,6 +641,7 @@ const CandidateItem = ({ candidateId, votes }) => (
               onClick={(e) =>
                 State.update({
                   selected: state.selected === candidateId ? null : candidateId,
+                  reload: false,
                 })
               }
             />
