@@ -156,11 +156,7 @@ const Expand = styled.div`
 `;
 
 const Votes = styled.div`
-  width: 50px;
-
-  @media (max-width: 400px) {
-    width: 15px;
-  }
+  width: 15px;
 `;
 
 const Action = styled.div``;
