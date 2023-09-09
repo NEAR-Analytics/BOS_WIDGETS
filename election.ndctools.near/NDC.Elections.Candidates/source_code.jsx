@@ -405,7 +405,9 @@ const handleVote = () => {
     methodName: "is_human_call",
     args: { ctr: electionContract, function: "bond", payload: "{}" },
     gas: "110000000000000",
-    deposit: (greylisted ? MAX_BOND : MIN_BOND) * 1000000000000000000000000,
+    deposit:
+      (greylisted ? MAX_BOND - isBonded : MIN_BOND - isBonded) *
+      1000000000000000000000000,
   };
 
   const arr = isBonded ? [voteFunc] : [bondFunc, voteFunc];
