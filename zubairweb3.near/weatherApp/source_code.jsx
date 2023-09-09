@@ -1,5 +1,4 @@
-State.init({ defaultCity: "Lagos", city: "", unit: "metric" });
-State.init({ weather: {} });
+State.init({ city: "Lagos", unit: "metric", weather: null });
 
 const bgCold =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1694077947/Weather/cold2_p13fuw.jpg";
@@ -19,7 +18,13 @@ function getWeatherData(city, units) {
   });
 }
 
-getWeatherData(state.defaultCity, state.unit);
+function init() {
+  if (!state.weather) {
+    getWeatherData(state.city, state.unit);
+  }
+}
+
+init();
 
 function handleClick() {
   getWeatherData(state.city, state.unit);
@@ -49,42 +54,42 @@ const windUnit = state.unit === "metric" ? "m/s" : "m/h";
 const card = [
   {
     id: 1,
-    icon: ArrowDown,
+    icon: <i class="bi bi-arrow-down"></i>,
     title: "min",
     data: temp_min.toFixed(),
     unit: tempUnit,
   },
   {
     id: 2,
-    icon: ArrowDown,
+    icon: <i class="bi bi-arrow-up"></i>,
     title: "max",
     data: temp_max.toFixed(),
     unit: tempUnit,
   },
   {
     id: 3,
-    icon: ArrowDown,
+    icon: <i class="bi bi-emoji-smile"></i>,
     title: "feels like",
     data: feels_like.toFixed(),
     unit: tempUnit,
   },
   {
     id: 4,
-    icon: ArrowDown,
+    icon: <i class="bi bi-building-down"></i>,
     title: "pressure",
     data: pressure,
     unit: "hPa",
   },
   {
     id: 5,
-    icon: ArrowDown,
+    icon: <i class="bi bi-droplet"></i>,
     title: "humidity",
     data: humidity,
     unit: "%",
   },
   {
     id: 6,
-    icon: ArrowDown,
+    icon: <i class="bi bi-wind"></i>,
     title: "wind speed",
     data: speed.toFixed(),
     unit: windUnit,
@@ -279,7 +284,7 @@ return (
                 return (
                   <Card key={id}>
                     <CardIcon>
-                      <img src={icon} alt="temp-icon" />
+                      {icon}
                       <small>{title}</small>
                     </CardIcon>
                     <CardTitle>
