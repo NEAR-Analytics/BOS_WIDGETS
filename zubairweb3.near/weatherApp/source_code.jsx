@@ -214,7 +214,7 @@ width: 100%;
 display: flex;
 justify-content: space-between;
 flex-wrap: wrap;
-gap: 2.5rem;
+gap: 1.5rem;
 color: white;
 `;
 const Card = styled.div`
