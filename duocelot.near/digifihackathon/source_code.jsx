@@ -45,6 +45,75 @@ function downloadCSV(tags) {
   }
 }
 
+const Tabs = styled.div`
+  display: flex;
+  height: 48px;
+  border-bottom: 1px solid #eceef0;
+  margin-bottom: 72px;
+  overflow: auto;
+  scroll-behavior: smooth;
+
+  @media (max-width: 1024px) {
+    background: #f8f9fa;
+    border-top: 1px solid #eceef0;
+    margin: 0 -12px 48px;
+
+    > * {
+      flex: 1;
+    }
+  }
+`;
+
+const TabsButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0 12px;
+  position: relative;
+  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  background: none;
+  border: none;
+  outline: none;
+  text-align: center;
+  text-decoration: none !important;
+
+  &:hover {
+    color: #11181c;
+  }
+
+  &::after {
+    content: "";
+    display: ${(p) => (p.selected ? "block" : "none")};
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #59e692;
+  }
+`;
+
+const allNumbers = Array.from(Array(100).keys());
+
+State.init({
+  displayNums: [],
+  lastNumber: 0,
+});
+
+const loadNumbers = (page) => {
+  allNumbers
+    .slice(state.lastNumber, state.lastNumber + 10)
+    .map((n) => numberToElem(n))
+    .forEach((i) => state.displayNums.push(i));
+  state.lastNumber += 10;
+  State.update();
+};
+
+const numberToElem = (number) => <div> {number} </div>;
+
 return (
   <div
     style={{
@@ -219,7 +288,25 @@ return (
           alignItems: "center",
           justifyContent: "center",
         }}
-      ></div>
+      >
+        <div>
+          <InfiniteScroll
+            loadMore={loadNumbers}
+            hasMore={state.displayNums.length < allNumbers.length}
+          >
+            <p>{state.displayNums}</p>
+            <Widget
+              src="near/widget/Explorer.Account"
+              props={{
+                accountId,
+                network: context.networkId,
+                language: "en",
+                baseUrl: props.baseUrl,
+              }}
+            />
+          </InfiniteScroll>
+        </div>
+      </div>
     </div>
   </div>
 );
