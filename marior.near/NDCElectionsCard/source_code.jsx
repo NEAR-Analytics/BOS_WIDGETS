@@ -69,6 +69,49 @@ const CardContent = styled.div`
   }
 `;
 
+const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.4rem 2rem;
+  gap: 0.4rem;
+`;
+
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+
+  &:not(:last-child) {
+    border-bottom: 1px dashed darkgrey;
+  }
+
+  > *:not(img) {
+    flex: 1 1 12rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .balance {
+    text-align: right;
+  }
+
+  .symbol {
+    min-width: 5rem;
+    max-width: 5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+`;
+
 const renderVoters = (voters) => (
   <List>
     {voters.map((voter) => (
