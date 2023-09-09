@@ -14,6 +14,37 @@ const handleApply = () => {
   }
 };
 
+function convertToCSV(objArray) {
+  const array = typeof objArray !== "object" ? JSON.parse(objArray) : objArray;
+  let str = "";
+
+  for (let i = 0; i < array.length; i++) {
+    let line = "";
+    for (let index in array[i]) {
+      if (line !== "") line += ",";
+      line += array[i][index];
+    }
+    str += line + "\r\n";
+  }
+  return str;
+}
+
+function downloadCSV(tags) {
+  let csv = convertToCSV(tags);
+  let blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+  let link = document.createElement("a");
+
+  if (link.download !== undefined) {
+    let url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "tags.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
 return (
   <div
     style={{
@@ -141,14 +172,7 @@ return (
             APLICAR
           </button>
         </div>
-        <button
-          style={{
-            marginLeft: "10px",
-            marginRight: "10px",
-          }}
-        >
-          Export CSV
-        </button>
+        <button onClick={() => downloadCSV(state.tags)}>Export CSV</button>
       </div>
       <div
         style={{
