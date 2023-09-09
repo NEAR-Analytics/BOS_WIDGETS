@@ -27,8 +27,9 @@ if (!accountId) {
         VOCE NAO ESTA LOGADO.
       </h2>
       <h3 style={{ fontSize: "12px", color: "white", textAlign: "center" }}>
-        ENTRE COM SUA CARTEIRA NEAR. SE VC NAO TEM CLIQUE
-      </h3>
+        CONECTE COM SUA CARTEIRA NEAR.
+      </h3>{" "}
+      SE VC NAO TEM CLIQUE
       <a
         href="https://shard.dog/humansofbrazil"
         style={{
