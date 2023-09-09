@@ -472,6 +472,9 @@ const FAQWrapper = styled.div`
   justify-content: center;
   padding: 0 2em;
   margin-bottom: 6em;
+  @media screen and (max-width: 540px) {
+    padding: 0 1em;
+}
   .FAQ_FQAs__10snz {
   width: 100%;
   display: flex;
