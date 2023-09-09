@@ -384,7 +384,6 @@ const handleBookmarkCandidate = (candidateId) => {
         State.update({
           bookmarked: selectedItems,
           loading: false,
-          reload: true,
         });
       },
       onCancel: () => State.update({ loading: false }),
