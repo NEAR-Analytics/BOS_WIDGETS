@@ -65,7 +65,7 @@ return (
         marginBottom: "20px",
       }}
     />
-    <h2 style={{ fontSize: "14px", color: "white" }}>Bem Vindo!</h2>
+    <h2 style={{ fontSize: "14px", color: "white" }}>Bem Vindo {accountId}!</h2>
     <p style={{ color: "white" }}> VOCE ESTA LOGADO </p>
   </div>
 );
