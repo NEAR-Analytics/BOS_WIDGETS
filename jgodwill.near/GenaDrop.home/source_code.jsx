@@ -831,7 +831,7 @@ return (
             select the blockchain of your choice, add price and Mint.
           </div>
         </div>
-        
+
         <div className="FAQCard_container__1Ei5V">
           <div className="FAQCard_question__3a_rG false">
             <p className="FAQCard_title__3XC11">
