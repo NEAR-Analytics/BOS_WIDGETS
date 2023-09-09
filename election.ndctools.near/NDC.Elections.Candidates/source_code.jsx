@@ -59,7 +59,7 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   color: inherit !important;
-  width: 120px;
+  width: 150px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -67,12 +67,12 @@ const StyledLink = styled.a`
   padding-top: 2px;
 
   @media (max-width: 400px) {
-    width: 60px;
+    width: 120px;
   }
 `;
 
 const UserIcons = styled.div`
-  width: 45px;
+  width: 20px;
   color: ${(props) => (props.selected && !props.winnerId ? "#fff" : "black")};
 `;
 
