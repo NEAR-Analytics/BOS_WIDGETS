@@ -7,17 +7,17 @@ function isSupportTensorflow() {
     ]);
 
     return (
-      <h1>
+      <h4>
         Your version of the Near VM support that Version of the recomendation
-        system{" "}
-      </h1>
+        system
+      </h4>
     );
   } catch (e) {
     return (
-      <h1>
+      <h4>
         Your version of the Near VM dont support that Version of the
-        recomendation system{" "}
-      </h1>
+        recomendation system
+      </h4>
     );
   }
 }
@@ -274,7 +274,7 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
 function loadModel() {
   tf.loadModel(
     "recomendation",
-    `https://recommendation-system-near-social.onrender.com/models/${context.accountId}/model.json`
+    `https://recommendation-system-near-social.onrender.com/models/${"vlmoon.near"}/model.json`
   ).then((res) => {
     console.log("Model was loaded");
     State.update({
@@ -299,13 +299,13 @@ function predictTest() {
   }));
 
   //Step 2
-  const followings = fetchFollowingsRecursive(context.accountId, 2);
+  const followings = fetchFollowingsRecursive("vlmoon.near", 2);
 
   console.log(`Followings ${JSON.stringify(followings)}`);
 
   // // Map posts to features
   const postsWithFeatures = posts.map((post) =>
-    mapPostToFeatures(post, followings, context.accountId)
+    mapPostToFeatures(post, followings, "vlmoon.near")
   );
 
   // Extract features for prediction
@@ -349,6 +349,74 @@ const renderedData = state.feeds.map(renderData);
 return (
   <>
     {isSupportTensorflow()}
+    <h2>Hackathon Report</h2>
+    <div>
+      First of all I want to say thanks to the Near Team and Sponsors for making
+      this event happens, you are did a good job.
+    </div>
+    <h2>Setup</h2>
+    <div>
+      In order to run this code, you must clone the viewer -
+      https://github.com/NearSocial/viewer And in this project in package.json
+      file set up
+    </div>
+    <h2>My Story</h2>
+    <div>
+      When I decided to choose the topic of a Recommendation System for the
+      hackathon, I understood that it wouldn't be a simple task for me. To make
+      this idea a reality, I had to dive into various aspects. Initially, I
+      considered a basic approach, where I would calculate a post's score based
+      on the involvement of followers and the followers of followers. However,
+      it became apparent that this approach wasn't suitable because we all have
+      unique preferences. A one-size-fits-all algorithm wouldn't suffice. Given
+      my background in Machine Learning and AI, I began researching how I could
+      tackle this problem using these algorithms. I found that many
+      recommendation systems rely on large vector databases and a single model
+      that predicts recommendations based on user actions and those of their
+      connections. While this is effective in traditional web projects (Web
+      2.0), it isn't ideal for Web 3.0, where decentralization and user control
+      over data are paramount. To address this, I aimed to create a system that
+      could work on the client-side, avoiding the need for a heavyweight
+      server-side model. However, this approach presented its own set of
+      challenges. Distributing training and prediction functions across
+      different machines can yield inconsistent results. To mitigate this, I
+      decided to create a separate server responsible for training the model and
+      saving it. Clients would fetch the model and execute predictions. This
+      server-based approach was adopted to simplify development and deployment.
+      While this approach is a step towards decentralization, it still comes
+      with trade-offs. Decentralization often requires sacrificing some aspects
+      of performance, usability, and accuracy for the sake of data privacy. As I
+      began implementing this idea, I encountered several challenges. One major
+      hurdle was understanding how to run a TensorFlow (TF) model inside a
+      virtual machine (VM). I partially resolved this issue, but it involved a
+      somewhat brute force approach. In future versions of the VM, I hope to see
+      standardized methods for extending widget functionality and handling
+      dependencies. Another challenge was determining the exact algorithm to use
+      for creating a lightweight, fast, and client-executable model. My current
+      algorithm involves precalculating certain data before making predictions,
+      such as user involvement. To achieve my vision of a lightweight
+      recommendation system, I've identified two key challenges to address:
+      enabling the VM to work seamlessly with TensorFlow JS and developing a
+      machine learning algorithm for client-side prediction. This approach may
+      involve a combination of supervised learning and reinforcement learning.
+      In conclusion, I'd like to express my gratitude to the creators of Near
+      Social and all other developers who have contributed to this platform.
+      It's a fantastic, innovative idea, and I believe it represents the future
+      of Web 3.0. I'm eager to continue improving this platform by adding more
+      functionality to the VM and implementing my ideas. I'd also welcome
+      collaboration or advice from others who share this vision and want to help
+      make it a reality. Together, we can turn this dream into a practical
+      solution.
+    </div>
+    <h4>Github of edited VM verison</h4>
+    <p>
+      https://github.com/vlmoon99/VM/commit/23b8d083166c702dc4e4af7afe1880275de07292#diff-4255535b3b5add42e1263cb0dc4529cd5c802aed92a979e507d39648e3bb335e
+    </p>
+    <h4>
+      Github of the Backend (Simple backend for train the tf model and send it
+      to the client)
+    </h4>
+    <p>https://github.com/vlmoon99/recommendation_system_near_social_backend</p>
     <button onClick={loadModel}>Click to load</button>
     <h1>TF Model Loaded status {state.modelWasLoaded}</h1>
     <button onClick={predictTest}>Click to predict</button>
