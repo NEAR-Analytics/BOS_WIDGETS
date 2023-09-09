@@ -33,6 +33,8 @@ function downloadCSV() {
   }
 }
 
+const options = ["ENTRADA", "SAÍDA"];
+
 return (
   <div
     style={{
@@ -136,6 +138,17 @@ return (
             paddingRight: "10px",
           }}
         >
+          <hr />
+          <div>
+            <Typeahead
+              options={options}
+              multiple
+              onChange={(value) => {
+                State.update({ choose: value });
+              }}
+              placeholder="Tipo de Transação"
+            />
+          </div>
           <input
             type="text"
             value={state.prompt}
@@ -166,7 +179,8 @@ return (
             APLICAR
           </button>
         </div>
-        <button onClick={downloadCSV}>Export CSV</button>
+        <p> Selected: {JSON.stringify(state.choose)} </p>
+        <button onClick={downloadCSV}>Exportar CSV</button>
       </div>
 
       {/* Tags Display Section */}
