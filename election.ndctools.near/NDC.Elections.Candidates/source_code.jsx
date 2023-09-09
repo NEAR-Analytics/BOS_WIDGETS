@@ -118,7 +118,7 @@ const CandidateItemRow = styled.div`
       props.winnerId ? "#239f28" : "#0d6efd"} !important;
   
   @media (max-width: 400px) {
-    padding: 0 10px;
+    padding: 0 10px !important;
   }
 `;
 
