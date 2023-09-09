@@ -97,14 +97,7 @@ return (
         <div className="d-flex align-items-center w-100">
           <Expand />
           {iahToken && <Bookmark />}
-          <Widget
-            src="mob.near/widget/ProfileImage"
-            props={{
-              accountId: voter.voter,
-              imageClassName: "rounded-circle w-100 h-100",
-              style: { width: "24px", height: "24px", marginRight: 5 },
-            }}
-          />
+
           <UserLink
             src={`https://near.org/near/widget/ProfilePage?accountId=${voter.voter}`}
             title={voter.voter}
