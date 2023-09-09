@@ -247,7 +247,7 @@ const CardIcon = styled.div`
 `;
 
 const CardTitle = styled.h2`
-
+font-size: 0.8rem;
 `;
 return (
   <>
@@ -259,7 +259,7 @@ return (
               <Input
                 type="text"
                 name="city"
-                placeholder="Enter City and press Enter..."
+                placeholder="Enter City..."
                 onChange={(e) => State.update({ city: e.target.value })}
               />
               <Button onClick={handleClick}>GET DATA</Button>
