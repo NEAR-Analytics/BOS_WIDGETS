@@ -217,7 +217,8 @@ flex-wrap: wrap;
 gap: 1.5rem;
 color: white;
 @media screen and (max-width: 768px){
-  width: 40%;
+  margin-top: 15px;
+  1rem;
 
 }
 `;
