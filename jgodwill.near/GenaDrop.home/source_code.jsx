@@ -464,7 +464,67 @@ const FeatureDescription = styled.p`
   }
 `;
 
-const FAQWrapper = styled.div``;
+const FAQWrapper = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  .FAQ_FQAs__10snz {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  grid-gap: 1em;
+  gap: 1em;
+}
+.FAQCard_container__1Ei5V {
+  width: 100%;
+  padding: 1em 2em;
+  border-radius: .5em;
+  border: 1px solid #a4a9b6;
+  cursor: pointer;
+}
+.FAQCard_question__3a_rG {
+  padding: 1em 0;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+.FAQCard_answer__3-7tF, .FAQCard_question__3a_rG {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-gap: 3em;
+  gap: 3em;
+  white-space: pre-line;
+}
+.FAQCard_answer__3-7tF.false {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 1.25s;
+  color: #0f1d40;
+  font-size: 1.2rem;
+  width: 100%;
+}
+.FAQCard_container__1Ei5V * {
+  transition: color .3s;
+}
+.FAQCard_question__3a_rG .FAQCard_title__3XC11 {
+  color: #525c76;
+}
+.FAQCard_container__1Ei5V p {
+  flex: 1 1;
+}
+.FAQCard_title__3XC11 {
+  text-transform: capitalize;
+  text-align: center;
+}
+.FAQCard_question__3a_rG span {
+  display: flex;
+}
+.FAQCard_question__3a_rG img {
+  width: 1.2em;
+  height: 1.2em;
+}
+`;
 
 const loadActualData = () => {
   asyncFetch(
@@ -473,7 +533,7 @@ const loadActualData = () => {
     .then((response) => response.body)
     .then((data) => {
       data = JSON.parse(data);
-      console.log(data);
+      // console.log(data);
       State.update({ faqs: data });
     })
     .catch((error) => {
@@ -482,6 +542,18 @@ const loadActualData = () => {
     });
 };
 loadActualData();
+State.init({
+  isOpen: false,
+});
+
+console.log(state.isOpen);
+function faqToggleHandler(faq) {
+  // State.update({
+  //   isOpen: !state.isOpen,
+  // });
+  console.log(faq);
+  faq.classList.toggle("false");
+}
 return (
   <>
     <Hero>
@@ -765,15 +837,32 @@ return (
     <FAQWrapper>
       <H1 className="text-center">Frequently Asked Questions</H1>
       <div className="FAQ_FQAs__10snz">
-        {state?.faqs.map((faq) => (
+        {state?.faqs.map((faq, index) => (
           <div className="FAQCard_container__1Ei5V">
-            <div className="FAQCard_question__3a_rG false">
+            <div
+              className="FAQCard_question__3a_rG"
+              key={index}
+              onClick={(e) => faqToggleHandler(e)}
+            >
               <p className="FAQCard_title__3XC11">{faq.question}</p>
               <span>
-                <img src="/static/media/open-icon.7ae4273f.svg" alt="" />
+                <img
+                  src={
+                    !state.isOpen
+                      ? "https://genadrop.io/static/media/open-icon.7ae4273f.svg"
+                      : "https://www.genadrop.io/static/media/close-icon.0a1e748e.svg"
+                  }
+                  alt=""
+                />
               </span>
             </div>
-            <div className="FAQCard_answer__3-7tF false">{faq.answer}</div>
+            <div
+              className={`FAQCard_answer__3-7tF ${
+                !state.isOpen ? "false" : ""
+              }`}
+            >
+              {faq.answer}
+            </div>
           </div>
         ))}
       </div>
