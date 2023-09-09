@@ -158,14 +158,13 @@ const Expand = styled.div`
 const Votes = styled.div`
   width: 15px;
 `;
+
 const VotesFilter = styled.div`
   width: 80px;
   @media (max-width: 400px) {
     width: 53px;
   }
 `;
-
-const Action = styled.div``;
 
 const Nomination = styled.div`
   width: 100px;
@@ -760,7 +759,7 @@ const Filters = () => (
         <small>Nomination</small>
       </Nomination>
       {isVisible() && (
-        <Votes
+        <VotesFilter
           role="button"
           className="text-secondary"
           onClick={() => handleFilter({ votes: true })}
@@ -771,10 +770,10 @@ const Filters = () => (
               state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
             }`}
           />
-        </Votes>
+        </VotesFilter>
       )}
       {iahToken && (
-        <Action
+        <VotesFilter
           role="button"
           className="text-secondary"
           onClick={() => handleFilter({ my_votes: true })}
@@ -785,7 +784,7 @@ const Filters = () => (
               state.filter.my_votes ? "bi-funnel-fill" : "bi-funnel"
             }`}
           />
-        </Action>
+        </VotesFilter>
       )}
     </div>
   </FilterRow>
