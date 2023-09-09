@@ -381,7 +381,7 @@ const handleBookmarkCandidate = (candidateId) => {
         if (selectedItems.length === 0)
           State.update({ selectedCandidates: result });
 
-        State.update({ loading: false });
+        State.update({ loading: false, reload: false });
       },
       onCancel: () => State.update({ loading: false }),
     }
