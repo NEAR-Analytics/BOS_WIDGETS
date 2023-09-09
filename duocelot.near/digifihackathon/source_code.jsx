@@ -1,13 +1,12 @@
 const accountId = props.accountId ?? context.accountId;
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const image = profile.image;
 
 return (
   <div
     style={{
       width: "100%",
       height: "100%",
-      background: "linear-gradient(to right, black, #3a0201, black)",
+      background: "linear-gradient(to right, white, black, white)",
       backgroundSize: "100% 100%",
       backgroundPosition: "center",
       position: "relative",
