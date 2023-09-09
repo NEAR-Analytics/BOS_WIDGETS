@@ -1,6 +1,8 @@
 const accountId = props.accountId ?? context.accountId;
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
+<Widget src="duocelot.near/widget/digifihackathon" />;
+
 // Initialize state
 State.init({
   entries: [],
