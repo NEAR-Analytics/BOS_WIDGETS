@@ -23,16 +23,17 @@ return (
         style={{
           width: "100%",
           height: "100%",
-          background:
-            "center / contain no-repeat url(https://github.com/near-social-laser-chess/vault/raw/main/menu-animation.webm)",
+          "background-image":
+            "url(https://github.com/near-social-laser-chess/vault/raw/main/menu-animation.gif)",
+          "background-size": "cover",
+          "background-repeat": "no-repeat",
+          "background-position": "center",
+          position: "fixed",
+          width: "100vw",
+          height: "calc(-98px + 100vh)",
+          top: "98px",
         }}
       >
-        <video id="background-video" autoplay loop muted poster="">
-          <source
-            src="https://github.com/near-social-laser-chess/vault/raw/main/menu-animation.webm"
-            type="video/webm"
-          />
-        </video>
         <div
           class="container"
           style={{ position: absolute, top: 0, left: 0, padding: "10rem" }}
