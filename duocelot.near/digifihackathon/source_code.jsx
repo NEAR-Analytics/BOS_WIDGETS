@@ -72,7 +72,7 @@ return (
       </div>
       <div
         style={{
-          backgroundColor: "black",
+          backgroundColor: "white",
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -119,8 +119,7 @@ return (
       ></div>
       <div
         style={{
-          backgroundImage:
-            "url(https://ipfs.fleek.co/ipfs/bafybeihdd765olkr6w2d5p7tiv3cyjqae4eh3b3aokyezyksi65alswybu)",
+          background: "blue",
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
