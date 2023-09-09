@@ -118,7 +118,7 @@ const Wrapper = styled.div`
 return (
   <div>
     <Widget src="genadrop.near/widget/CafeCartel.Header" />
-    <Widget
+ {   <Widget
       src="genadrop.near/widget/CafeCartel.Feed.View"
       props={{
         data: {
@@ -135,7 +135,7 @@ return (
           composeTemplate: "genadrop.near/widget/CafeCartel.Post",
         },
       }}
-    />
+    /> }
 
     <Widget src="genadrop.near/widget/CafeCartel.Footer" />
   </div>
