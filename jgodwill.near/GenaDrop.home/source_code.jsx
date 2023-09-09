@@ -528,7 +528,7 @@ const FAQWrapper = styled.div`
 
 const loadActualData = () => {
   asyncFetch(
-    "https://gist.githubusercontent.com/Jikugodwill/e341155e929f1a8c3bccae2e6c91387d/raw/ced6a4336eb7b8b944a7d170e5cf03869341f52f/GenaDropFAQ.json"
+    "https://gist.githubusercontent.com/Jikugodwill/e341155e929f1a8c3bccae2e6c91387d/raw/f090d95273139198cf10947449b751488f67f9b9/GenaDropFAQ.json"
   )
     .then((response) => response.body)
     .then((data) => {
@@ -543,14 +543,18 @@ const loadActualData = () => {
 };
 loadActualData();
 State.init({
-  isOpen: false,
+  isOpen: new Array(state.faqs.length).fill(false),
 });
 
 console.log(state.isOpen);
-function faqToggleHandler(faq) {
-  // State.update({
-  //   isOpen: !state.isOpen,
-  // });
+function faqToggleHandler(id) {
+  const faq = state.faqs.filter((faq) => faq.id === id);
+  State.update({
+    isOpen: {
+      ...state.isOpen,
+      [id]: !state.isOpen[id],
+    },
+  });
   console.log(faq);
   faq.classList.toggle("false");
 }
@@ -842,13 +846,13 @@ return (
             <div
               className="FAQCard_question__3a_rG"
               key={index}
-              onClick={(e) => faqToggleHandler(e)}
+              onClick={() => faqToggleHandler(index)}
             >
               <p className="FAQCard_title__3XC11">{faq.question}</p>
               <span>
                 <img
                   src={
-                    !state.isOpen
+                    !state.isOpen[index]
                       ? "https://genadrop.io/static/media/open-icon.7ae4273f.svg"
                       : "https://www.genadrop.io/static/media/close-icon.0a1e748e.svg"
                   }
@@ -856,13 +860,14 @@ return (
                 />
               </span>
             </div>
-            <div
-              className={`FAQCard_answer__3-7tF ${
-                !state.isOpen ? "false" : ""
+            {state.isOpen[index] && (
+              <div
+                className={`FAQCard_answer__3-7tF
               }`}
-            >
-              {faq.answer}
-            </div>
+              >
+                {faq.answer}
+              </div>
+            )}
           </div>
         ))}
       </div>
