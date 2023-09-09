@@ -31,8 +31,9 @@ State.init({
   humanToken: 0,
   blacklisted: false,
   greylisted: false,
-  candidateFilterId: props.candidates ? JSON.parse(props.candidates) : "",
-  isBonded: 0,
+  candidateFilterId: "",
+  isBonded: false,
+  isBondedAmount: 0,
   reload: true,
   houses: [],
   acceptedPolicy: false,
@@ -40,7 +41,6 @@ State.init({
   hasPolicyNFT: null,
   hasIVotedNFT: null,
   iVotedToken: false,
-  finishTime: false,
 });
 
 const currentUser = context.accountId;
@@ -51,7 +51,7 @@ const steps = [
     completed: state.acceptedPolicy || state.myVotes.length > 0,
   },
   {
-    title: "Mint “Fair Voter” NFT",
+    title: 'Minted "Fair Voting Policy" NFT',
     completed: state.hasPolicyNFT,
   },
   {
@@ -59,11 +59,11 @@ const steps = [
     completed: state.hasVotedOnAllProposals,
   },
   {
-    title: 'Mint "I Voted" NFT',
+    title: 'Minted "I Voted" NFT',
     completed: state.hasIVotedNFT,
   },
   {
-    title: 'Unbond & Mint "I Voted" SBT',
+    title: 'Unbonded & Minted "I Voted SBT"',
     completed: state.iVotedToken,
   },
 ];
@@ -147,8 +147,8 @@ function loadBond() {
   ).then((resp) => {
     if (resp.body) {
       const amount = resp.body.bond ? parseFloat(resp.body.bond) : 0;
-
-      State.update({ isBonded: amount });
+      console.log("bond ->", resp.body);
+      State.update({ isBonded: amount > 0 });
     }
   });
 }
@@ -173,14 +173,11 @@ function loadPolicy() {
 }
 
 function loadWinners() {
-  const finishTime = Near.view(electionContract, "finish_time", {});
-
   const winnerIds = Near.view(electionContract, "winners_by_proposal", {
     prop_id: state.selectedHouse,
-    ongoing: true,
   });
 
-  State.update({ winnerIds, finishTime });
+  State.update({ winnerIds });
 }
 
 function loadElectionStatus() {
@@ -192,26 +189,33 @@ function loadElectionStatus() {
 }
 
 function loadMyVotes() {
-  asyncFetch(
-    `https://api.pikespeak.ai/election/votes-by-voter?voter=${currentUser}&contract=${electionContract}`,
-    { headers: { "x-api-key": apiKey } }
-  ).then((resp) => {
-    if (resp.body) {
-      const myVotes = resp.body.filter((vote) =>
-        ids.includes(parseInt(vote.proposal_id))
-      );
+  useCache(
+    () =>
+      asyncFetch(
+        `https://api.pikespeak.ai/election/votes-by-voter?voter=${currentUser}&contract=${electionContract}`,
+        { headers: { "x-api-key": apiKey } }
+      ).then((resp) => {
+        if (resp.body) {
+          const myVotes = resp.body.filter((vote) =>
+            ids.includes(parseInt(vote.proposal_id))
+          );
 
-      const votes = ids
-        .map((id) => myVotes.find((vote) => parseInt(vote.proposal_id) === id))
-        .filter((el) => el);
+          const votes = ids
+            .map((id) =>
+              myVotes.find((vote) => parseInt(vote.proposal_id) === id)
+            )
+            .filter((el) => el);
 
-      State.update({
-        myVotes,
-        reload: false,
-        hasVotedOnAllProposals: votes.length === 4,
-      });
-    }
-  });
+          State.update({
+            myVotes,
+            reload: false,
+            hasVotedOnAllProposals: votes.length === 4,
+          });
+        }
+      }),
+    "mainnetRpcStatus",
+    { subscribe: true }
+  );
 }
 
 function loadNFT(id, key) {
@@ -240,7 +244,7 @@ const handleUnbond = () => {
     "is_human_call",
     { ctr: electionContract, function: "unbond", payload: "{}" },
     "110000000000000"
-  ).then((data) => State.update({ isBonded: 0 }));
+  ).then((data) => State.update({ isBonded: false }));
 };
 
 const handleFilter = (e) => State.update({ candidateFilterId: e.target.value });
@@ -332,7 +336,7 @@ return (
               props={{
                 startTime: house.start,
                 endTime: house.end,
-                cooldown: state.finishTime,
+                cooldown: house.cooldown,
                 type: "Election",
                 isWhistleblower: true,
                 ids,
@@ -392,6 +396,7 @@ return (
                   props={{
                     Button: {
                       className: "primary w-100 justify-content-center",
+                      disabled: !state.isBonded,
                       text: "Unbond & Mint I Voted SBT",
                       onClick: handleUnbond,
                     },
@@ -440,13 +445,7 @@ return (
           <Right className="col">
             <H5>General</H5>
             <div className="d-flex justify-content-center">
-              <Widget
-                src={widgets.statistic}
-                props={{
-                  electionContract,
-                  quorum: state.houses[state.selectedHouse - 1].quorum,
-                }}
-              />
+              <Widget src={widgets.statistic} props={{ electionContract }} />
             </div>
           </Right>
           {state.myVotes.length > 0 && (
