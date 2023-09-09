@@ -17,6 +17,33 @@ const handleOutsideClick = (e) => {
   }
 };
 
+const chains = {
+  137: [
+    "Polygon",
+    "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
+  ],
+  1313161554: [
+    "Aurora",
+    "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
+  ],
+  42220: [
+    "Celo",
+    "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
+  ],
+  43114: [
+    "Avax",
+    "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
+  ],
+  42161: [
+    "Arbitrum",
+    "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
+  ],
+  0: [
+    "Near",
+    "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
+  ],
+};
+
 const SelectTag = styled.select`
   height: fit-content;
   width: 300px;
@@ -120,7 +147,7 @@ const SelectReplicaContainer = styled.div`
     object-fit: contain;
   }
 `;
-State.update({ chains: props.chains });
+State.update({ chains: props.chains || chains });
 const handleChainChange = (chain_id) => {
   try {
     Ethers.send("wallet_switchEthereumChain", [
