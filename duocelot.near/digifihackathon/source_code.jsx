@@ -133,8 +133,7 @@ return (
       ></div>
       <div
         style={{
-          backgroundImage:
-            "url(https://ipfs.fleek.co/ipfs/bafybeihm5fiwy6dos2f4hiz67yaan3jafkndw5zkh23mb5rnue7qu6rh2y)",
+          background: "green",
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -147,8 +146,7 @@ return (
       ></div>
       <div
         style={{
-          backgroundImage:
-            "url(https://ipfs.fleek.co/ipfs/bafybeiamgwdx5uhhbgt7usn2wjxybn2b265mubicdj7bkyawgzjrmb22l4)",
+          background: "red",
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
