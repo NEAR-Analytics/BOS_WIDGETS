@@ -21,7 +21,7 @@ const VotersContainer = styled.div`
 `;
 
 const Bookmark = styled.div`
-  width: 90px;
+  width: 60px;
 
   @media (max-width: 400px) {
     width: auto;
@@ -51,7 +51,7 @@ const VoterItem = styled.div`
 
 const StyledLink = styled.a`
   color: inherit !important;
-  width: 215px;
+  width: 195px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -71,7 +71,7 @@ const TxnSection = styled.div`
 const TxnLink = styled.a`
   font-family: monospace;
   color: inherit !important;
-  width: 200px;
+  width: 242px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
