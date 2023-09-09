@@ -15,15 +15,16 @@ return (
       position: "relative",
       overflow: "hidden",
       zIndex: 0,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
     }}
   >
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "80%" }}>
       <div
         style={{
           background: "#415697",
-          backgroundSize: "auto",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           height: "262px",
           width: "100%",
           color: "#fff",
@@ -50,71 +51,92 @@ return (
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative",
-          overflow: "hidden",
         }}
       >
-        <div style={{ width: "auto" }}>Bem Vindo {accountId} </div>
+        <img
+          src={image}
+          alt="Profile"
+          style={{
+            height: "50px", // adjust as needed
+            width: "50px", // adjust as needed
+            borderRadius: "25px", // makes the image circular, remove if not desired
+            marginRight: "10px",
+          }}
+        />
+        <span>Bem Vindo {accountId}</span>
       </div>
       <div
         style={{
           backgroundColor: "white",
-          backgroundSize: "auto",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "75px",
+          height: "200px",
+          padding: "20px 0",
           width: "100%",
-          color: "#fff",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-between",
           position: "relative",
-          overflow: "hidden",
         }}
       >
         <p
           style={{
             color: "black",
-            width: "auto",
-            backgroundColor: "black",
-            color: "white",
             fontFamily: '"Press Start 2P", sans-serif',
-            border: "1px solid white",
+            marginBottom: "10px",
           }}
         >
           Escreva a TAG
         </p>
-        <input
-          type="text"
-          value={state.prompt}
+        <div
           style={{
-            width: "auto",
-            backgroundColor: "black",
-            color: "white",
-            fontFamily: '"Press Start 2P", sans-serif',
-            border: "1px solid white",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "10px",
+            width: "100%",
+            gap: "10px",
           }}
-          onChange={(e) => {
-            state.prompt = e.target.value;
-            State.update(state);
-          }}
-        />
-        <br />
+        >
+          <input
+            type="text"
+            value={state.prompt}
+            style={{
+              flex: 2,
+              backgroundColor: "black",
+              color: "white",
+              fontFamily: '"Press Start 2P", sans-serif',
+              border: "1px solid white",
+              marginRight: "10px",
+            }}
+            onChange={(e) => {
+              state.prompt = e.target.value;
+              State.update(state);
+            }}
+          />
+          <button style={{ flex: 1 }}>Apply</button>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+              flex: 1,
+            }}
+          >
+            <input type="checkbox" />
+            <span>Option</span>
+          </div>
+        </div>
+        <button>Export CSV</button>
       </div>
       <div
         style={{
           background: "orange",
-          backgroundSize: "auto",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           height: "330px",
           width: "100%",
           color: "#fff",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative",
-          overflow: "hidden",
         }}
       >
         <Widget
@@ -130,10 +152,8 @@ return (
       <div
         style={{
           background: "#415697",
-          backgroundSize: "auto",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           height: "126px",
+          width: "100%",
           color: "#333",
           display: "flex",
           alignItems: "center",
