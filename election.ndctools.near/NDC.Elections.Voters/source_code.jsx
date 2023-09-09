@@ -55,7 +55,7 @@ const StyledLink = styled.a`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 13px;
+  font-size: 14px;
   padding-top: 2px;
 
   @media (max-width: 400px) {
@@ -75,6 +75,10 @@ const TxnLink = styled.a`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: 400px) {
+    width: 100px;
+  }
 `;
 
 const UserLink = ({ title, src }) => (
