@@ -45,7 +45,7 @@ if (!accountId) {
         alt="QR Code"
         style={{
           width: "150px",
-          height: "150px",
+          height: "AUTO",
           border: "2px solid white",
           marginTop: "20px",
         }}
