@@ -409,8 +409,8 @@ const handleVote = () => {
       (greylisted ? MAX_BOND - isBonded : MIN_BOND - isBonded) *
       1000000000000000000000000,
   };
-
-  const arr = isBonded ? [voteFunc] : [bondFunc, voteFunc];
+  const bondDiff = greylisted ? MAX_BOND - isBonded : MIN_BOND - isBonded;
+  const arr = bondDiff == 0 ? [voteFunc] : [bondFunc, voteFunc];
 
   Near.call(arr);
   State.update({
