@@ -199,7 +199,7 @@ const NominationLinkMobile = styled.div`
 `;
 
 const FilterRow = styled.div`
-  padding: 15px 20px;
+  padding: 15px 0px;
   font-size: 13px;
 `;
 
@@ -754,7 +754,7 @@ const Filters = () => (
         />
       </Candidates>
     </div>
-    <div className="d-flex w-100 align-items-center justify-content-end gap-2">
+    <div className="d-flex w-100 align-items-center justify-content-end gap-1">
       <Nomination className="text-secondary text-start text-md-start">
         <small>Nomination</small>
       </Nomination>
