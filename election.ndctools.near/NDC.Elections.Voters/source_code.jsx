@@ -117,7 +117,7 @@ return (
             {voter.transaction_id}
           </TxnLink>
           <span>
-            <i class="bi bi-arrow-up-right" />
+            <i class="bi bi-file-earmark-text" />
           </span>
         </TxnSection>
       </VoterItem>
