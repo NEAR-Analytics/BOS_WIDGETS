@@ -59,7 +59,7 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   color: inherit !important;
-  width: 150px;
+  width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -121,13 +121,23 @@ const Candidates = styled.div`
 `;
 
 const Bookmark = styled.div`
-  width: 90px;
+  width: 40px;
   cursor: pointer;
 
   #bookmark.bi-bookmark-fill {
     color: ${(props) =>
       props.winnerId ? "#198754" : props.selected ? "#fff" : "#4498E0"};
   }
+
+  @media (max-width: 400px) {
+    width: auto;
+    margin-right: 15px;
+  }
+`;
+
+const BookmarkFilter = styled.div`
+  width: 90px;
+  cursor: pointer;
 
   @media (max-width: 400px) {
     width: auto;
@@ -708,7 +718,7 @@ const Filters = () => (
     <div className="d-flex align-items-center w-100">
       {isVisible() && <Expand />}
       {iahToken && (
-        <Bookmark
+        <BookmarkFilter
           role="button"
           className="text-secondary"
           onClick={() => handleFilter({ bookmark: true })}
@@ -719,7 +729,7 @@ const Filters = () => (
               state.filter.bookmark ? "bi-funnel-fill" : "bi-funnel"
             }`}
           />
-        </Bookmark>
+        </BookmarkFilter>
       )}
       <Candidates
         className="text-secondary"
