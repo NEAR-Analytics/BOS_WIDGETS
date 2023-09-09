@@ -381,10 +381,8 @@ const handleBookmarkCandidate = (candidateId) => {
         if (selectedItems.length === 0)
           State.update({ selectedCandidates: result });
 
-        State.update({
-          bookmarked: loadSocialDBData(),
-          loading: false,
-        });
+        loadSocialDBData();
+        State.update({ loading: false });
       },
       onCancel: () => State.update({ loading: false }),
     }
@@ -483,10 +481,11 @@ const handleStateTransition = () => {
 
 function loadSocialDBData() {
   let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
-
-  return _bookmarked && _bookmarked[_bookmarked.length - 1]
-    ? _bookmarked[_bookmarked.length - 1].value
-    : [];
+  const bookmarked =
+    _bookmarked && _bookmarked[_bookmarked.length - 1]
+      ? _bookmarked[_bookmarked.length - 1].value
+      : [];
+  State.update({ bookmarked });
 }
 
 function fetchGraphQL(series) {
@@ -579,12 +578,11 @@ if (state.reload) {
     user: currentUser,
   });
 
-  const bookmarked = loadSocialDBData();
+  loadSocialDBData();
 
   State.update({
     acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
     winnerIds: winnerIds ?? state.winnerIds,
-    bookmarked: bookmarked ?? state.bookmarked,
     candidates: filteredCandidates(),
     hasVotedOnAllProposals,
   });
