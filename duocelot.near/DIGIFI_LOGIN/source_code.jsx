@@ -55,7 +55,9 @@ if (!accountId) {
           marginTop: "20px",
         }}
       />
-      OU SCANEIE O QRCODE
+      <h3 style={{ fontSize: "16px", color: "white", textAlign: "center" }}>
+        OU SCANEIE O QRCODE
+      </h3>
     </div>
   );
 }
