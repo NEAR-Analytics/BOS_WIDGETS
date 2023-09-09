@@ -33,7 +33,7 @@ if (!accountId) {
         CARTEIRA NEAR
       </h3>
       <h3 style={{ fontSize: "16px", color: "white", textAlign: "center" }}>
-        SE VC NAO TEM CLIQUE
+        CRIE UMA CLICANDO
       </h3>
       <a
         href="https://shard.dog/humansofbrazil"
@@ -55,6 +55,7 @@ if (!accountId) {
           marginTop: "20px",
         }}
       />
+      OU SCANEIE O QRCODE
     </div>
   );
 }
