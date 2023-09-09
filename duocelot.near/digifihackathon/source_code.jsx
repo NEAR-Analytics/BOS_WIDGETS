@@ -84,28 +84,14 @@ return (
           overflow: "hidden",
         }}
       ></div>
-      <div
-        style={{
-          backgroundSize: "auto",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "81px",
-          width: "100%",
-          color: "#fff",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      ></div>
+
       <div
         style={{
           background: "orange",
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height: "80px",
+          height: "330px",
           width: "100%",
           color: "#fff",
           display: "flex",
@@ -114,10 +100,12 @@ return (
           position: "relative",
           overflow: "hidden",
         }}
-      ></div>
+      >
+        <p> AQUI VAI O EXPLORER </p>
+      </div>
       <div
         style={{
-          background: "blue",
+          background: "#415697",
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
