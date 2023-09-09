@@ -1,3 +1,5 @@
+const ethAddress = "0x0000000000000000000000000000000000000000";
+
 const NETWORKS = [
   {
     name: "ZKEVM",
@@ -93,9 +95,11 @@ State.init({
   reloadPools: false,
   hoverOnChain: "",
   estimate: {},
-  inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-  outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+  inputAssetTokenId: "0x0000000000000000000000000000000000000000",
+  outputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   coinGeckoTokenIds: {
+    "0x0000000000000000000000000000000000000000":
+      "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
     "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
       "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
@@ -111,7 +115,7 @@ State.init({
     "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4":
       "0x6b175474e89094c44da98b954eedeac495271d0f",
   },
-  selectedDex: props.dex ?? "Pancake Swap",
+  selectedDex: props.dex ?? "QuickSwap",
   loadRes: (value) => {
     if (value.estimate === "NaN") value.estimate = 0;
     State.update({
@@ -157,8 +161,6 @@ const currentAccountId =
   getEVMAccountId() !== "" ? getEVMAccountId() : context.accountId;
 
 const rearrangeAssets = () => {
-  console.log("state: ", state);
-
   State.update({
     inputAssetTokenId: state.outputAssetTokenId,
     outputAssetTokenId: state.inputAssetTokenId,
@@ -271,43 +273,64 @@ const expandToken = (value, decimals) => {
 };
 
 const tokenInApprovaleNeededCheck = () => {
-  if (state.approvalNeeded === undefined) {
-    if (
-      getEVMAccountId() &&
-      state.erc20Abi !== undefined &&
-      state.routerContract !== undefined &&
-      [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)
-    ) {
-      const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
+  if (
+    state.inputAssetTokenId === ethAddress ||
+    (state.outputAssetTokenId === ethAddress &&
+      state.inputAssetTokenId === wethAddress)
+  ) {
+    State.update({
+      approvalNeeded: false,
+    });
 
-      const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
-        "allowance",
-        [getEVMAccountId(), state.routerContract]
-      );
+    return;
+  }
 
-      return Ethers.provider()
-        .call({
-          to: state.inputAssetTokenId,
-          data: encodedTokenAllowancesData,
-        })
-        .then((encodedTokenAllowanceHex) => {
-          const tokenAllowance = ifaceErc20.decodeFunctionResult(
-            "allowance",
-            encodedTokenAllowanceHex
-          );
+  if (
+    getEVMAccountId() &&
+    state.erc20Abi !== undefined &&
+    state.routerContract !== undefined &&
+    [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)
+  ) {
+    const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
 
-          if (tokenAllowance) {
-            State.update({
-              approvalNeeded: new Big(tokenAllowance).toFixed() == "0",
-            });
-          }
-        })
-        .catch(() => {});
-    } else {
-      State.update({ approvalNeeded: false });
-    }
+    const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
+      "allowance",
+      [getEVMAccountId(), state.routerContract]
+    );
+
+    return Ethers.provider()
+      .call({
+        to: state.inputAssetTokenId,
+        data: encodedTokenAllowancesData,
+      })
+      .then((encodedTokenAllowanceHex) => {
+        const tokenAllowance = ifaceErc20.decodeFunctionResult(
+          "allowance",
+          encodedTokenAllowanceHex
+        );
+
+        console.log(
+          "tokenAllowance: ",
+          new Big(tokenAllowance)
+            .div(Big(10).pow(state.inputAsset.metadata.decimals))
+            .toFixed(),
+          state.inputAsset.metadata.decimals
+        );
+
+        if (tokenAllowance) {
+          State.update({
+            approvalNeeded: new Big(tokenAllowance)
+              .div(Big(10).pow(state.inputAsset.metadata.decimals))
+              .lt(state.inputAssetAmount),
+          });
+        }
+      })
+      .catch(() => {});
+  } else {
+    State.update({ approvalNeeded: false });
   }
 };
+console.log("state.approvalNeeded: ", state.approvalNeeded);
 
 if ([NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)) {
   tokenInApprovaleNeededCheck();
@@ -641,7 +664,6 @@ const selectedChainId = state.selectedChainId ?? 0;
 const selectedDex = state.selectedDex;
 
 const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
-  console.log("tokenIn: ", tokenIn, tokenOut);
   Ethers.send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
@@ -649,9 +671,9 @@ const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId: tokenIn || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+    inputAssetTokenId: ethAddress,
     outputAssetTokenId:
-      tokenOut || "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+      tokenOut || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   });
 };
 
@@ -902,7 +924,7 @@ if (!state.sender || selectedChainId !== 1101) {
     : ` To proceed, kindly switch to zkEVM.`;
 
   if (!!state.sender && selectedChainId !== 1101) {
-    switchNetwork(1101, "Pancake Swap");
+    switchNetwork(1101, "QuickSwap");
   }
 
   return (
@@ -986,7 +1008,6 @@ return (
         network: state.network,
         NETWORK_ZKEVM,
         onLoad: (inputAsset) => {
-          console.log("TokenData onLoad inputAsset", inputAsset);
           inputAsset.metadata.symbol = inputAsset.metadata.symbol.toUpperCase();
           State.update({ inputAsset });
         },
@@ -1129,15 +1150,16 @@ return (
                 opacity: insufficientBalance && !state.approvalNeeded ? 0.5 : 1,
               }}
             >
-              {state.approvalNeeded && (
+              {state.approvalNeeded && !insufficientBalance && (
                 <button
                   class={"swap-button"}
-                  onClick={() => {
+                  onClick={(tx) => {
                     state.callTokenApproval(
                       state,
-                      () => {
+                      (tx) => {
                         State.update({
                           outputAsset: undefined,
+                          forceReloadApprove: !state.forceReloadApprove,
                         });
                         tokenInApprovaleNeededCheck();
                       },
@@ -1151,7 +1173,7 @@ return (
                   </div>
                 </button>
               )}
-              {!state.approvalNeeded && (
+              {(insufficientBalance || !state.approvalNeeded) && (
                 <button
                   class={"swap-button-enabled"}
                   disabled={!canSwap}
