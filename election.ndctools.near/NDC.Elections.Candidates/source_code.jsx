@@ -161,6 +161,16 @@ const Expand = styled.div`
   }
 `;
 
+const ExpandFilter = styled.div`
+  width: 35px;
+  cursor: pointer;
+
+  @media (max-width: 400px) {
+    width: 0px;
+    margin-right: 10px;
+  }
+`;
+
 const Votes = styled.div`
   width: 15px;
 `;
@@ -737,7 +747,7 @@ const CandidateItem = ({ candidateId, votes }) => (
 const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
     <div className="d-flex align-items-center w-100">
-      {isVisible() && <Expand />}
+      {isVisible() && <ExpandFilter />}
       {iahToken && (
         <BookmarkFilter
           role="button"
