@@ -85,6 +85,19 @@ return (
           justifyContent: "center",
         }}
       >
+        {" "}
+        <Widget
+          src="mob.near/widget/ProfileImage"
+          props={{
+            profile,
+            fast,
+            accountId,
+            style: { width: "4rem", height: "4rem", marginRight: "10px" },
+            className: "mb-2",
+            imageClassName: "rounded-circle w-100 h-100 img-thumbnail d-block",
+            thumbnail: false,
+          }}
+        />
         <span>Bem Vindo {accountId}</span>
       </div>
 
@@ -160,7 +173,7 @@ return (
       <div
         style={{
           background: "orange",
-          height: "330px",
+          height: "auto",
           width: "100%",
           color: "#000",
           display: "flex",
