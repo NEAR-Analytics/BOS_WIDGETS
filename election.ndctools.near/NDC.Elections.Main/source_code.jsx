@@ -189,33 +189,26 @@ function loadElectionStatus() {
 }
 
 function loadMyVotes() {
-  useCache(
-    () =>
-      asyncFetch(
-        `https://api.pikespeak.ai/election/votes-by-voter?voter=${currentUser}&contract=${electionContract}`,
-        { headers: { "x-api-key": apiKey } }
-      ).then((resp) => {
-        if (resp.body) {
-          const myVotes = resp.body.filter((vote) =>
-            ids.includes(parseInt(vote.proposal_id))
-          );
+  asyncFetch(
+    `https://api.pikespeak.ai/election/votes-by-voter?voter=${currentUser}&contract=${electionContract}`,
+    { headers: { "x-api-key": apiKey } }
+  ).then((resp) => {
+    if (resp.body) {
+      const myVotes = resp.body.filter((vote) =>
+        ids.includes(parseInt(vote.proposal_id))
+      );
 
-          const votes = ids
-            .map((id) =>
-              myVotes.find((vote) => parseInt(vote.proposal_id) === id)
-            )
-            .filter((el) => el);
+      const votes = ids
+        .map((id) => myVotes.find((vote) => parseInt(vote.proposal_id) === id))
+        .filter((el) => el);
 
-          State.update({
-            myVotes,
-            reload: false,
-            hasVotedOnAllProposals: votes.length === 4,
-          });
-        }
-      }),
-    "mainnetRpcStatus",
-    { subscribe: true }
-  );
+      State.update({
+        myVotes,
+        reload: false,
+        hasVotedOnAllProposals: votes.length === 4,
+      });
+    }
+  });
 }
 
 function loadNFT(id, key) {
