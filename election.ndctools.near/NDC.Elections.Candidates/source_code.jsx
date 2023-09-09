@@ -162,12 +162,16 @@ const Votes = styled.div`
 const VotesFilter = styled.div`
   width: 80px;
   @media (max-width: 400px) {
-    width: 53px;
+    width: 45px;
   }
 `;
 
 const Nomination = styled.div`
-  width: 100px;
+  width: 110px;
+
+  @media (max-width: 400px) {
+    width: 70px;
+  }
 `;
 
 const NominationLink = styled.div`
@@ -761,7 +765,7 @@ const Filters = () => (
       {isVisible() && (
         <VotesFilter
           role="button"
-          className="text-secondary"
+          className="text-secondary d-flex align-items-center"
           onClick={() => handleFilter({ votes: true })}
         >
           <small>Total votes</small>
@@ -775,7 +779,7 @@ const Filters = () => (
       {iahToken && (
         <VotesFilter
           role="button"
-          className="text-secondary"
+          className="text-secondary d-flex align-items-center"
           onClick={() => handleFilter({ my_votes: true })}
         >
           <small>My votes</small>
