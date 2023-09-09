@@ -5,15 +5,24 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 State.init({
   entries: [],
   prompt: "",
+  transaction: "",
+  dateInfo: "",
 });
 
 const handleApply = () => {
   if (state.prompt.trim()) {
     const entryText = state.prompt;
+    const transactionText = state.transaction;
+    const dateInfoText = state.dateInfo;
     const selectedOption =
-      state.choose && state.choose.length ? state.choose[0] : ""; // Getting the first selected option
-    const combinedText = `${selectedOption}: ${entryText}`;
-    State.update({ entries: [...state.entries, combinedText], prompt: "" });
+      state.choose && state.choose.length ? state.choose[0] : "";
+    const combinedText = `${selectedOption}: ${entryText} | Transaction: ${transactionText} | Date: ${dateInfoText}`;
+    State.update({
+      entries: [...state.entries, combinedText],
+      prompt: "",
+      transaction: "",
+      dateInfo: "",
+    });
   }
 };
 
@@ -111,7 +120,7 @@ return (
       <div
         style={{
           backgroundColor: "white",
-          height: "250px",
+          height: "auto",
           padding: "20px 0",
           width: "100%",
           display: "flex",
@@ -155,6 +164,7 @@ return (
           <input
             type="text"
             value={state.prompt}
+            placeholder="Descrição"
             style={{
               flex: 2,
               backgroundColor: "black",
@@ -182,6 +192,41 @@ return (
             APLICAR
           </button>
         </div>
+        <input
+          type="text"
+          value={state.transaction}
+          placeholder="Transação"
+          style={{
+            flex: 2,
+            backgroundColor: "black",
+            color: "white",
+            fontFamily: '"Press Start 2P", sans-serif',
+            border: "1px solid white",
+            marginTop: "10px",
+          }}
+          onChange={(e) => {
+            state.transaction = e.target.value;
+            State.update(state);
+          }}
+        />
+        <input
+          type="text"
+          value={state.dateInfo}
+          placeholder="Data"
+          pattern="\d{2}/\d{2}/\d{4} \d{2}:\d{2}"
+          style={{
+            flex: 2,
+            backgroundColor: "black",
+            color: "white",
+            fontFamily: '"Press Start 2P", sans-serif',
+            border: "1px solid white",
+            marginTop: "10px",
+          }}
+          onChange={(e) => {
+            state.dateInfo = e.target.value;
+            State.update(state);
+          }}
+        />
         <p> Selected: {JSON.stringify(state.choose)} </p>
         <button onClick={downloadCSV}>Exportar CSV</button>
       </div>
