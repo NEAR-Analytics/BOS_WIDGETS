@@ -6,9 +6,19 @@ function isSupportTensorflow() {
       [0, 0, 0, 0, 0, 0, 0],
     ]);
 
-    return <h1>Your version of the Near VM support that fearture </h1>;
+    return (
+      <h1>
+        Your version of the Near VM support that Version of the recomendation
+        system{" "}
+      </h1>
+    );
   } catch (e) {
-    return <h1>Your version of the Near VM dont support that fearture </h1>;
+    return (
+      <h1>
+        Your version of the Near VM dont support that Version of the
+        recomendation system{" "}
+      </h1>
+    );
   }
 }
 
