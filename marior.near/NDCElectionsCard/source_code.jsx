@@ -1,4 +1,4 @@
-const { candidate, selected, isWinning } = props;
+const { candidate, selected, isWinning, selectCandidate } = props;
 
 const Card = styled.div`
   display: flex;
