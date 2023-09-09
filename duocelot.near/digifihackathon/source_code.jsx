@@ -197,7 +197,7 @@ return (
       <div
         style={{
           background: "#415697",
-          height: "126px",
+          height: "auto",
           width: "100%",
           color: "#333",
           display: "flex",
