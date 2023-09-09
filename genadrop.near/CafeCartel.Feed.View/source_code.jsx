@@ -14,6 +14,7 @@ return (
     ) : (
       <></>
     )}
+    {false && 
     <Widget
       src="efiz.near/widget/every.post"
       props={{
@@ -27,5 +28,6 @@ return (
         postTemplate: data.postTemplate,
       }}
     />
+    }
   </>
 );
