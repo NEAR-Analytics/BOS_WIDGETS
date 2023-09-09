@@ -4,12 +4,14 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 // Initialize state
 State.init({
   isLoaded: false,
-  displayText: "",
+  entries: [],
   prompt: "",
 });
 
 const handleApply = () => {
-  State.update({ displayText: state.prompt });
+  if (state.prompt.trim()) {
+    State.update({ entries: [...state.entries, state.prompt], prompt: "" });
+  }
 };
 
 return (
@@ -78,7 +80,7 @@ return (
       <div
         style={{
           backgroundColor: "white",
-          height: "200px",
+          height: "250px",
           padding: "20px 0",
           width: "100%",
           display: "flex",
@@ -124,20 +126,18 @@ return (
               State.update(state);
             }}
           />
-          <button style={{ flex: 1 }} onClick={handleApply}>
+          <button
+            style={{
+              flex: 1,
+              backgroundColor: state.prompt.trim() ? "#000" : "#aaa",
+              color: state.prompt.trim() ? "#fff" : "#888",
+              cursor: state.prompt.trim() ? "pointer" : "not-allowed",
+            }}
+            onClick={handleApply}
+            disabled={!state.prompt.trim()}
+          >
             APLICAR
           </button>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "5px",
-              flex: 1,
-            }}
-          >
-            <input type="checkbox" className="squareCheckbox" />
-            <span>CHECK</span>
-          </div>
         </div>
         <button>Export CSV</button>
       </div>
@@ -154,8 +154,9 @@ return (
           padding: "10px 0",
         }}
       >
-        {state.displayText && (
+        {state.entries.map((entry, index) => (
           <div
+            key={index}
             style={{
               display: "flex",
               alignItems: "center",
@@ -167,19 +168,10 @@ return (
               margin: "10px 0",
             }}
           >
-            <span>{state.displayText}</span>
+            <span>{entry}</span>
             <input type="checkbox" className="squareCheckbox" />
           </div>
-        )}
-        <Widget
-          src="near/widget/Explorer.Iframe"
-          props={{
-            url: `${isBeta ? "beta/" : ""}accounts/${accountId}`,
-            query: { language: props.language, embedded: true },
-            network: props.network,
-            baseUrl: props.baseUrl,
-          }}
-        />
+        ))}
       </div>
       <div
         style={{
