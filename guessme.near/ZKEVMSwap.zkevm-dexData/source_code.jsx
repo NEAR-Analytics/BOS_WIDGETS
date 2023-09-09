@@ -51,6 +51,56 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       input.inputAsset.metadata.decimals
     ).toFixed();
 
+    const WethContract = new ethers.Contract(
+      wethAddress,
+      [
+        {
+          constant: false,
+          inputs: [],
+          name: "deposit",
+          outputs: [],
+          payable: true,
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ internalType: "uint256", name: "wad", type: "uint256" }],
+          name: "withdraw",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+
+    console.log("WethContract: ", WethContract);
+
+    if (
+      input.inputAssetTokenId === ethAddress &&
+      input.outputAssetTokenId === wethAddress
+    ) {
+      return WethContract.deposit({
+        value: ethers.utils.parseEther(input.inputAssetAmount),
+        gasLimit: gasLimit ?? 300000,
+      }).then((res) => {
+        onComplete(res);
+      });
+    }
+
+    if (
+      input.inputAssetTokenId === wethAddress &&
+      input.outputAssetTokenId === ethAddress
+    ) {
+      return WethContract.withdraw(
+        ethers.utils.parseEther(input.inputAssetAmount)
+      ).then((res) => {
+        onComplete(res);
+      });
+    }
+
     const swapContract = new ethers.Contract(
       input.routerContract,
       input.routerAbi,
@@ -359,6 +409,56 @@ const callTxPancakeZKEVM2 = (
       input.inputAsset.metadata.decimals
     ).toFixed();
 
+    const WethContract = new ethers.Contract(
+      wethAddress,
+      [
+        {
+          constant: false,
+          inputs: [],
+          name: "deposit",
+          outputs: [],
+          payable: true,
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ internalType: "uint256", name: "wad", type: "uint256" }],
+          name: "withdraw",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+
+    console.log("WethContract: ", WethContract);
+
+    if (
+      input.inputAssetTokenId === ethAddress &&
+      input.outputAssetTokenId === wethAddress
+    ) {
+      return WethContract.deposit({
+        value: ethers.utils.parseEther(input.inputAssetAmount),
+        gasLimit: gasLimit ?? 300000,
+      }).then((res) => {
+        onComplete(res);
+      });
+    }
+
+    if (
+      input.inputAssetTokenId === wethAddress &&
+      input.outputAssetTokenId === ethAddress
+    ) {
+      return WethContract.withdraw(
+        ethers.utils.parseEther(input.inputAssetAmount)
+      ).then((res) => {
+        onComplete(res);
+      });
+    }
+
     const ifaceErc20 = new ethers.utils.Interface(input.routerAbi);
 
     const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
@@ -612,8 +712,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
         onLoad({
           network: NETWORK_ZKEVM,
           assets: [
-            // "0x0000000000000000000000000000000000000000", // ETH
-
+            "0x0000000000000000000000000000000000000000", // ETH
             "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035", // USDC
             "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
             "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1", // WBTC
@@ -678,7 +777,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
         onLoad({
           network: NETWORK_ZKEVM,
           assets: [
-            // "0x0000000000000000000000000000000000000000",
+            "0x0000000000000000000000000000000000000000",
             "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
             "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
