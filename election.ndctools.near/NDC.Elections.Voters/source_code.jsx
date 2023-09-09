@@ -5,21 +5,16 @@ State.init({
   voters: [],
 });
 
-useCache(
-  () =>
-    asyncFetch(
-      `https://api.pikespeak.ai/election/votes-by-candidate?contract=${electionContract}&candidate=${candidateId}`,
-      { headers: { "x-api-key": apiKey } }
-    ).then((resp) => {
-      const voters = resp.body.filter((vote) =>
-        ids.includes(parseInt(vote.proposal_id))
-      );
+asyncFetch(
+  `https://api.pikespeak.ai/election/votes-by-candidate?contract=${electionContract}&candidate=${candidateId}`,
+  { headers: { "x-api-key": apiKey } }
+).then((resp) => {
+  const voters = resp.body.filter((vote) =>
+    ids.includes(parseInt(vote.proposal_id))
+  );
 
-      State.update({ voters });
-    }),
-  "mainnetRpcStatus",
-  { subscribe: true }
-);
+  State.update({ voters });
+});
 
 const VotersContainer = styled.div`
   padding: 5px 0;
