@@ -18,7 +18,7 @@ return (
     <div style={{ width: "100%" }}>
       <div
         style={{
-          background: "orange",
+          background: "#415697",
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -31,14 +31,17 @@ return (
         }}
       >
         <img
-          src="https://ipfs.fleek.co/ipfs/bafybeihjvub4e3yqyazxr62dxpbohji45wnx7hp7gadxjbiet2nrgkhapy"
+          src="https://ipfs.near.social/ipfs/bafkreid25lsb6p73u3zpb7et23qc66fe63knsi22xneuzo3of4m4dnjqgu"
           alt="VG Logo"
+          style={{
+            height: "200px",
+            width: "200px",
+          }}
         />
       </div>
       <div
         style={{
-          backgroundSize: "auto",
-          backgroundPosition: "center",
+          background: "#1b2441",
           height: "181px",
           width: "100%",
           color: "#fff",
