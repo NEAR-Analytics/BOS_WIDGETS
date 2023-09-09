@@ -555,7 +555,10 @@ if (state.reload) {
 const UserLink = ({ title, src, selected, winnerId }) => (
   <div className="d-flex mr-3">
     <StyledLink href={src} target="_blank">
-      {title}
+      <Widget
+        src="mob.near/widget/Profile.ShortInlineBlock"
+        props={{ accountId: title, tooltip: false }}
+      />
     </StyledLink>
     <UserIcons
       selected={selected}
