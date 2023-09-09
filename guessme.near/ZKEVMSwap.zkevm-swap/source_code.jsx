@@ -115,7 +115,7 @@ State.init({
     "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4":
       "0x6b175474e89094c44da98b954eedeac495271d0f",
   },
-  selectedDex: props.dex ?? "Pancake Swap",
+  selectedDex: props.dex ?? "QuickSwap",
   loadRes: (value) => {
     if (value.estimate === "NaN") value.estimate = 0;
     State.update({
@@ -660,7 +660,10 @@ const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId: tokenIn || "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+    inputAssetTokenId:
+      tokenIn || dex === "QuickSwap"
+        ? ethAddress
+        : "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
     outputAssetTokenId:
       tokenOut || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   });
@@ -913,7 +916,7 @@ if (!state.sender || selectedChainId !== 1101) {
     : ` To proceed, kindly switch to zkEVM.`;
 
   if (!!state.sender && selectedChainId !== 1101) {
-    switchNetwork(1101, "Pancake Swap");
+    switchNetwork(1101, "QuickSwap");
   }
 
   return (
