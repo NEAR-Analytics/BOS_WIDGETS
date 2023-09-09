@@ -107,6 +107,8 @@ return (
             marginBottom: "10px",
             width: "100%",
             gap: "10px",
+            paddingLeft: "10px",
+            paddingRight: "10px",
           }}
         >
           <input
@@ -118,8 +120,6 @@ return (
               color: "white",
               fontFamily: '"Press Start 2P", sans-serif',
               border: "1px solid white",
-              marginRight: "10px",
-              marginLeft: "10px",
             }}
             onChange={(e) => {
               state.prompt = e.target.value;
@@ -132,6 +132,8 @@ return (
               backgroundColor: state.prompt.trim() ? "#000" : "#aaa",
               color: state.prompt.trim() ? "#fff" : "#888",
               cursor: state.prompt.trim() ? "pointer" : "not-allowed",
+              marginLeft: "10px",
+              marginRight: "10px",
             }}
             onClick={handleApply}
             disabled={!state.prompt.trim()}
@@ -139,19 +141,27 @@ return (
             APLICAR
           </button>
         </div>
-        <button>Export CSV</button>
+        <button
+          style={{
+            marginLeft: "10px",
+            marginRight: "10px",
+          }}
+        >
+          Export CSV
+        </button>
       </div>
       <div
         style={{
           background: "orange",
           height: "330px",
           width: "100%",
-          color: "#fff",
+          color: "#000",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "flex-start", // Changed to flex-start
           padding: "10px 0",
+          overflowY: "auto",
         }}
       >
         {state.entries.map((entry, index) => (
@@ -166,6 +176,8 @@ return (
               background: "white",
               borderRadius: "5px",
               margin: "10px 0",
+              marginLeft: "10px",
+              marginRight: "10px",
             }}
           >
             <span>{entry}</span>
