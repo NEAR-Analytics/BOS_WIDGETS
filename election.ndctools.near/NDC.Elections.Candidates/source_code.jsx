@@ -189,7 +189,7 @@ const NominationLink = styled.div`
 `;
 
 const InfoRow = styled.div`
-  gap: 54px;
+  gap: 45px;
 
   @media (max-width: 768px) {
     gap: 35px;
@@ -668,7 +668,7 @@ const CandidateItem = ({ candidateId, votes }) => (
           </div>
         </div>
       </div>
-      <InfoRow className="d-flex w-100 align-items-center justify-content-end">
+      <InfoRow className="d-flex w-100 align-items-center justify-content-center">
         <NominationLink>
           <Widget
             src={widgets.styledComponents}
