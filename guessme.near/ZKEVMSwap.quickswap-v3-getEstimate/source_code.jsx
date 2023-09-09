@@ -32,7 +32,8 @@ if (tokenIn === tokenOut) {
 const middlePool =
   props.middlePool ?? "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
 
-const useMiddlePool = tokenIn !== middlePool && tokenOut !== middlePool;
+// const useMiddlePool = tokenIn !== middlePool && tokenOut !== middlePool;
+const useMiddlePool = false;
 
 const optionDirectSwap = {
   name: `directSwap`,
@@ -95,9 +96,7 @@ const getEstimate = (path, name) => {
       data: encodedData,
     })
     .then((data) => {
-      console.log("dataquote: ", data);
       const decodedData = iface.decodeFunctionResult("quoteExactInput", data);
-
       // decodedData = [amountOut, fee]
       const amountOut = decodedData[0];
       const fee = decodedData[1];
