@@ -32,7 +32,7 @@ return (
       >
         <img
           src="https://ipfs.near.social/ipfs/bafkreid25lsb6p73u3zpb7et23qc66fe63knsi22xneuzo3of4m4dnjqgu"
-          alt="VG Logo"
+          alt="coinTAG"
           style={{
             height: "200px",
             width: "200px",
@@ -61,7 +61,7 @@ return (
               backgroundColor: "black",
               color: "white",
               fontFamily: '"Press Start 2P", sans-serif',
-              border: "1px solid #3a0201",
+              border: "1px solid white",
             }}
             onChange={(e) => {
               state.prompt = e.target.value;
