@@ -44,7 +44,7 @@ if (!accountId) {
         src="https://ipfs.near.social/ipfs/bafkreiex77ly3hboiiyile6j2v3cjwhuaang2r4lqagdbld6fyvnzm4u6i"
         alt="QR Code"
         style={{
-          width: "150px",
+          width: "200px",
           height: "AUTO",
           border: "2px solid white",
           marginTop: "20px",
@@ -66,6 +66,18 @@ return (
       }}
     />
     <h2 style={{ fontSize: "14px", color: "white" }}>Bem Vindo {accountId}!</h2>
+    <Widget
+      src="mob.near/widget/ProfileImage"
+      props={{
+        profile,
+        fast,
+        accountId,
+        style: { width: "8rem", height: "8rem", marginRight: "10px" },
+        className: "mb-2",
+        imageClassName: "rounded-square w-100 h-100 img-thumbnail d-block",
+        thumbnail: false,
+      }}
+    />{" "}
     <p style={{ color: "white" }}> VOCE ESTA LOGADO </p>
   </div>
 );
