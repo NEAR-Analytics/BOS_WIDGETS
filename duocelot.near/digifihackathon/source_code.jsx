@@ -152,7 +152,7 @@ return (
         }}
       >
         <Widget
-          src="near/widget/Explorer.Iframe"
+          src="near/widget/Explorer.Account"
           props={{
             url: `${isBeta ? "beta/" : ""}accounts/${accountId}`,
             query: { language: props.language, embedded: true },
