@@ -403,7 +403,7 @@ return (
                   action_title: `${type} ${symbol} on 0vix`,
                   action_type: type,
                   action_tokens: JSON.stringify([`${symbol}`]),
-                  action_amount: null,
+                  action_amount: amount,
                   account_id: account,
                   account_info: uuid,
                   template: "0vix",
