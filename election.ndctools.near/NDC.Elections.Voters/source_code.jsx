@@ -55,11 +55,11 @@ const StyledLink = styled.a`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 14px;
+  font-size: 13px;
   padding-top: 2px;
 
   @media (max-width: 400px) {
-    width: 60px;
+    width: 120px;
   }
 `;
 
@@ -69,8 +69,9 @@ const TxnSection = styled.div`
 `;
 
 const TxnLink = styled.a`
+  font-family: monospace;
   color: inherit !important;
-  width: 235px;
+  width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
