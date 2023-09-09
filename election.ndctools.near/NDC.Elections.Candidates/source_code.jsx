@@ -381,9 +381,13 @@ const handleBookmarkCandidate = (candidateId) => {
         if (selectedItems.length === 0)
           State.update({ selectedCandidates: result });
 
-        State.update({ loading: false, reload: false });
+        State.update({
+          loading: false,
+          reload: false,
+          bookmarked: selectedBookmarks(candidateId),
+        });
       },
-      onCancel: () => State.update({ loading: false }),
+      onCancel: () => State.update({ loading: false, reload: false }),
     }
   );
 };
@@ -566,8 +570,6 @@ const winnerIds = Near.view(electionContract, "winners_by_proposal", {
   prop_id: props.id,
 });
 
-loadSocialDBData();
-
 if (state.reload) {
   const hasVotedOnAllProposals = Near.view(
     electionContract,
@@ -587,6 +589,7 @@ if (state.reload) {
   });
 
   handleStateTransition();
+  loadSocialDBData();
 }
 
 const UserLink = ({ title, src, selected, winnerId }) => (
