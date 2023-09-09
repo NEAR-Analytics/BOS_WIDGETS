@@ -276,8 +276,6 @@ const CommunityAboutSchema = {
 
       placeholder:
         "Tell people about your community. This will appear on your community’s homepage.",
-
-      resize: "none",
     },
 
     label: "Bio",
@@ -286,26 +284,25 @@ const CommunityAboutSchema = {
   },
 
   twitter_handle: {
-    inputProps: { prefix: "https://twitter.com/", min: 2, max: 60 },
-    label: "Twitter",
+    inputProps: { min: 2, max: 60 },
+    label: "Twitter handle",
     order: 2,
   },
 
   github_handle: {
-    inputProps: { prefix: "https://github.com/", min: 2, max: 60 },
-    label: "Github",
+    inputProps: { min: 2, max: 60 },
+    label: "Github organization handle",
     order: 3,
   },
 
   telegram_handle: {
-    inputProps: { prefix: "https://t.me/", min: 2, max: 60 },
     format: "comma-separated",
-    label: "Telegram",
+    label: "Telegram handles",
     order: 4,
   },
 
   website_url: {
-    inputProps: { prefix: "https://", min: 2, max: 60 },
+    inputProps: { min: 2, max: 60 },
     label: "Website",
     order: 5,
   },
