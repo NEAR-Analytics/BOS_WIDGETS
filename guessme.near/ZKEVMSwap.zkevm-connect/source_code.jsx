@@ -31,7 +31,8 @@ const Wrapper = styled.div`
   @media (max-width: 900px) {
     padding: 24px;
       img{
-        width:320px !important;
+        width:100% !important;
+        height:20% !important;
       }
       .connect-button {
         width:100%
