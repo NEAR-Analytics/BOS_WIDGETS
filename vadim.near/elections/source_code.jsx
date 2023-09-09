@@ -211,14 +211,17 @@ return (
                   hideAccountId: true,
                   hideImage: false,
                 }}
+              />{" "}
+              <Widget
+                src="mob.near/widget/FollowButton"
+                props={{ accountId: state.accountId }}
               />
-              :
             </h4>
             <hr />
 
             <div class="row text-start">{votes}</div>
 
-            <h6 class="pt-5">Users with similar vote sequence:</h6>
+            <h6 class="pt-5">Users with similar vote sequences:</h6>
             <div class="row text-start">{userWithSimilarVotes}</div>
             <div class="row text-center text-secondary mt-3">
               <small>(number of similar votes / number of user votes)</small>
