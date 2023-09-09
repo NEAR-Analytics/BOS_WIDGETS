@@ -391,7 +391,7 @@ const handleBookmarkCandidate = (candidateId) => {
     }
   );
 };
-console.log(greylisted ? MAX_BOND - isBonded : MIN_BOND - isBonded);
+
 const handleVote = () => {
   const bondDiff = greylisted ? MAX_BOND - isBonded : MIN_BOND - isBonded;
 
