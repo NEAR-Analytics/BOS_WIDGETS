@@ -382,7 +382,7 @@ const handleBookmarkCandidate = (candidateId) => {
           State.update({ selectedCandidates: result });
 
         State.update({
-          bookmarked: selectedItems,
+          bookmarked: loadSocialDBData(),
           loading: false,
         });
       },
@@ -481,13 +481,13 @@ const handleStateTransition = () => {
   }
 };
 
-const loadSocialDBData = () => {
+function loadSocialDBData() {
   let _bookmarked = Social.index(currentUser, `${ndcOrganization}/${typ}`);
 
   return _bookmarked && _bookmarked[_bookmarked.length - 1]
     ? _bookmarked[_bookmarked.length - 1].value
     : [];
-};
+}
 
 function fetchGraphQL(series) {
   return asyncFetch(QUERY_API_ENDPOINT, {
