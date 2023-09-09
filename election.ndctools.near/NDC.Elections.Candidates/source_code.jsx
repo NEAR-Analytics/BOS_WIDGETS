@@ -680,7 +680,7 @@ const CandidateItem = ({ candidateId, votes }) => (
       </div>
       <InfoRow
         className={`d-flex w-100 align-items-center ${
-          context.accountId ? "justify-content-center" : "justify-content-end"
+          iahToken ? "justify-content-center" : "justify-content-end"
         }`}
       >
         <NominationLink>
