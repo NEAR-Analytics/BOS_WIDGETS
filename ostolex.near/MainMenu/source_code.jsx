@@ -27,6 +27,12 @@ return (
             "center / contain no-repeat url(https://github.com/near-social-laser-chess/vault/raw/main/menu-animation.webm)",
         }}
       >
+        <video id="background-video" autoplay loop muted poster="">
+          <source
+            src="https://github.com/near-social-laser-chess/vault/raw/main/menu-animation.webm"
+            type="video/webm"
+          />
+        </video>
         <div
           class="container"
           style={{ position: absolute, top: 0, left: 0, padding: "10rem" }}
