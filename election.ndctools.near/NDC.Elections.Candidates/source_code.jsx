@@ -166,7 +166,7 @@ const Nomination = styled.div`
 const NominationLink = styled.div`
   display: block;
 
-  @media (max-width: 768px) {
+  @media (max-width: 400px) {
     display: none;
   }
 `;
