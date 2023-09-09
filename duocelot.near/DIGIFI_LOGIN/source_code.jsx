@@ -1,69 +1,93 @@
 const accountId = context.accountId;
 
+if (!accountId) {
+  return (
+    <div
+      style={{
+        width: "512px",
+        height: "512px",
+        backgroundSize: "100%",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "white",
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: '"Press Start 2P", sans-serif',
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <img
+        src="https://bafybeiep6yscx365ici64ce2o7ktr3vewuyk7rwj4kxpwrf4ugeloxgfri.ipfs.w3s.link/error-001.jpg"
+        alt="ERROR 001"
+        style={{
+          width: "340px",
+          margin: "50px 40px 10px 80px",
+        }}
+      />
+      <h2
+        style={{
+          fontFamily: "Press Start 2P",
+          fontSize: "14px",
+          color: "black",
+        }}
+      >
+        VOCE NAO ESTA LOGADO.
+      </h2>
+      <h3
+        style={{
+          fontFamily: "Press Start 2P",
+          fontSize: "12px",
+          color: "black",
+        }}
+      >
+        ENTRE COM SUA CARTEIRA NEAR. SE VC NAO TEM CLIQUE
+      </h3>
+      <a
+        href="https://shard.dog/humansofbrazil"
+        style={{
+          fontFamily: "Press Start 2P",
+          fontSize: "14px",
+          color: "black",
+          margin: "40px 10px 10px 10px",
+        }}
+      >
+        AQUI
+      </a>
+    </div>
+  );
+}
+
 return (
   <div
     style={{
-      width: "100vw",
-      height: "100vh",
+      width: "512px",
+      height: "512px",
       backgroundSize: "100%",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
       backgroundColor: "white",
       display: "flex",
       flexDirection: "column",
+      fontFamily: '"Press Start 2P", sans-serif',
       alignItems: "center",
       justifyContent: "center",
-      fontFamily: '"Press Start 2P", sans-serif',
     }}
   >
-    <div
+    <img
+      src="https://ipfs.near.social/ipfs/bafkreid25lsb6p73u3zpb7et23qc66fe63knsi22xneuzo3of4m4dnjqgu"
+      alt="coinTAG"
       style={{
-        background: "#415697",
-        height: "262px",
-        width: "100%",
-        color: "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        height: "200px",
+        width: "200px",
+        marginBottom: "20px",
       }}
+    />
+    <h2
+      style={{ fontFamily: "Press Start 2P", fontSize: "14px", color: "black" }}
     >
-      <img
-        src="https://ipfs.near.social/ipfs/bafkreid25lsb6p73u3zpb7et23qc66fe63knsi22xneuzo3of4m4dnjqgu"
-        alt="coinTAG"
-        style={{
-          maxHeight: "200px",
-          maxWidth: "200px",
-        }}
-      />
-    </div>
-
-    {!accountId ? (
-      <>
-        <h2 style={{ fontSize: "14px", color: "black" }}>
-          VOCE NAO ESTA LOGADO.
-        </h2>
-        <h3 style={{ fontSize: "12px", color: "black" }}>
-          ENTRE COM SUA CARTEIRA NEAR. SE VC NAO TEM CLIQUE
-        </h3>
-        <a
-          href="https://shard.dog/humansofbrazil"
-          style={{ fontSize: "14px", color: "black" }}
-        >
-          AQUI
-        </a>
-        {/* Placeholder for QR Code */}
-        <div style={{ marginTop: "20px" }}>
-          <img
-            src="YOUR_QR_CODE_IMAGE_URL"
-            alt="QR Code"
-            style={{ width: "100px", height: "100px" }}
-          />
-        </div>
-      </>
-    ) : (
-      <div>
-        <p> VOCE ESTA LOGADO</p>
-      </div>
-    )}
+      Bem Vindo!
+    </h2>
+    <p> VOCE ESTA LOGADO </p>
   </div>
 );
