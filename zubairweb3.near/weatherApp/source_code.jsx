@@ -214,8 +214,12 @@ width: 100%;
 display: flex;
 justify-content: space-between;
 flex-wrap: wrap;
-gap: 1.5rem;
+gap: 1.2rem;
 color: white;
+@media screen and (max-width: 768px){
+  width: 40%;
+  margin-top: 15px;
+}
 `;
 const Card = styled.div`
 width: 25%;
