@@ -95,7 +95,7 @@ State.init({
   reloadPools: false,
   hoverOnChain: "",
   estimate: {},
-  inputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+  inputAssetTokenId: "0x0000000000000000000000000000000000000000",
   outputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   coinGeckoTokenIds: {
     "0x0000000000000000000000000000000000000000":
@@ -273,7 +273,11 @@ const expandToken = (value, decimals) => {
 };
 
 const tokenInApprovaleNeededCheck = () => {
-  if (state.inputAssetTokenId === ethAddress) {
+  if (
+    state.inputAssetTokenId === ethAddress ||
+    (state.outputAssetTokenId === ethAddress &&
+      state.inputAssetTokenId === wethAddress)
+  ) {
     State.update({
       approvalNeeded: false,
     });
@@ -660,10 +664,7 @@ const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId:
-      tokenIn || dex === "QuickSwap"
-        ? ethAddress
-        : "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+    inputAssetTokenId: ethAddress,
     outputAssetTokenId:
       tokenOut || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   });
