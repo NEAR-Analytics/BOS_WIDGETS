@@ -155,7 +155,9 @@ const Expand = styled.div`
   }
 `;
 
-const Votes = styled.div``;
+const Votes = styled.div`
+  width: 50px;
+`;
 
 const Action = styled.div``;
 
