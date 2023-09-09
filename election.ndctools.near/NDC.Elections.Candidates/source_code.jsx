@@ -77,6 +77,10 @@ const UserIcons = styled.div`
 `;
 
 const CandidateItemRow = styled.div`
+  @media (max-width: 400px) {
+    padding: 0 10px !important;
+  }
+
   padding: 0 20px;
   height: 48px;
   border-radius: 12px;
@@ -116,10 +120,6 @@ const CandidateItemRow = styled.div`
       props.winnerId ? "#239f28" : "#0d6efd"} !important;
     border-color: ${(props) =>
       props.winnerId ? "#239f28" : "#0d6efd"} !important;
-  
-  @media (max-width: 400px) {
-    padding: 0 10px !important;
-  }
 `;
 
 const Candidates = styled.div`
