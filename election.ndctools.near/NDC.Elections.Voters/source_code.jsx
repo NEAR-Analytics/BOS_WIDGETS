@@ -25,7 +25,7 @@ const Bookmark = styled.div`
 
   @media (max-width: 400px) {
     width: auto;
-    margin-right: 15px;
+    margin-right: 20px;
   }
 `;
 
@@ -41,7 +41,7 @@ const Expand = styled.div`
 const VoterItem = styled.div`
   font-size: 14px;
   padding: 0 20px;
-  height: 44px;
+  height: 36px;
   border-bottom: 1px solid #d0d6d9;
 
   &:last-child {
