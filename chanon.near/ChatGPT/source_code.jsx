@@ -1,8 +1,14 @@
 // handle only ask once
 // handle waiting process to display
 
+State.init({
+  apiKey: "",
+  displayNums: [],
+  lastNumber: 0,
+});
+
 const queryURI = "https://api.openai.com/v1/chat/completions";
-const token = "Bearer <<API_KEY>>";
+const token = "Bearer ";
 const data = {
   model: "gpt-3.5-turbo",
   messages: [
@@ -20,10 +26,11 @@ const data = {
   frequency_penalty: 0,
 };
 const fetchAskChatGPT = (queryURI) => {
+  console.log(token + apiKey);
   return asyncFetch(queryURI, {
     method: "POST",
     headers: {
-      Authorization: token,
+      Authorization: token + state.apiKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
@@ -39,11 +46,6 @@ const handleAskChatGPT = () => {
 
 const allNumbers = Array.from(Array(1000).keys());
 
-State.init({
-  displayNums: [],
-  lastNumber: 0,
-});
-
 const loadNumbers = (page) => {
   allNumbers
     .slice(state.lastNumber, state.lastNumber + 10)
@@ -58,9 +60,16 @@ const numberToElem = (number) => <div> {number} </div>;
 
 return (
   <div>
+    <input
+      value={state.apiKey}
+      onChange={(e) => State.update({ apiKey: e.target.value })}
+      placeholder="Please paste your chatgpt api key"
+    />
+
     <button class="btn btn-success" onClick={handleAskChatGPT} disabled={false}>
       Ask ChatGPT
     </button>
+
     <InfiniteScroll
       loadMore={loadNumbers}
       hasMore={state.displayNums.length < allNumbers.length}
