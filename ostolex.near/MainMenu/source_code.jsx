@@ -35,10 +35,7 @@ return (
           left: 0,
         }}
       >
-        <div
-          class="container"
-          style={{ position: absolute, top: 0, left: 0, padding: "10rem" }}
-        >
+        <div class="container">
           <div class="row justify-content-center">
             <button
               onClick={() => {
