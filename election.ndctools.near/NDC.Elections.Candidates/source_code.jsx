@@ -157,6 +157,10 @@ const Expand = styled.div`
 
 const Votes = styled.div`
   width: 50px;
+
+  @media (max-width: 400px) {
+    width: 15px;
+  }
 `;
 
 const Action = styled.div``;
@@ -177,7 +181,11 @@ const InfoRow = styled.div`
   gap: 54px;
 
   @media (max-width: 768px) {
-    gap: 25px;
+    gap: 35px;
+  }
+
+  @media (max-width: 400px) {
+    gap: 20px;
   }
 `;
 
