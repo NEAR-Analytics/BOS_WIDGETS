@@ -468,6 +468,7 @@ const FAQWrapper = styled.div`
  width: 100%;
   display: flex;
   align-items: center;
+  flex-flow: column nowrap;
   justify-content: center;
   padding: 0 2em;
   margin-bottom: 6em;
