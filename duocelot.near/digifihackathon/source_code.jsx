@@ -53,14 +53,16 @@ return (
           justifyContent: "center",
         }}
       >
-        <img
-          src={image}
-          alt="Profile"
-          style={{
-            height: "50px", // adjust as needed
-            width: "50px", // adjust as needed
-            borderRadius: "25px", // makes the image circular, remove if not desired
-            marginRight: "10px",
+        <Widget
+          src="mob.near/widget/ProfileImage"
+          props={{
+            profile,
+            fast,
+            accountId,
+            style: { width: "4rem", height: "4rem", marginRight: "10px" },
+            className: "mb-2",
+            imageClassName: "rounded-circle w-100 h-100 img-thumbnail d-block",
+            thumbnail: false,
           }}
         />
         <span>Bem Vindo {accountId}</span>
@@ -107,13 +109,14 @@ return (
               fontFamily: '"Press Start 2P", sans-serif',
               border: "1px solid white",
               marginRight: "10px",
+              marginLeft: "10px",
             }}
             onChange={(e) => {
               state.prompt = e.target.value;
               State.update(state);
             }}
           />
-          <button style={{ flex: 1 }}>Apply</button>
+          <button style={{ flex: 1 }}>APLICAR</button>
           <div
             style={{
               display: "flex",
@@ -122,8 +125,17 @@ return (
               flex: 1,
             }}
           >
-            <input type="checkbox" />
-            <span>Option</span>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                flex: 1,
+              }}
+            >
+              <input type="checkbox" className="squareCheckbox" />
+              <span>CHECK</span>
+            </div>
           </div>
         </div>
         <button>Export CSV</button>
