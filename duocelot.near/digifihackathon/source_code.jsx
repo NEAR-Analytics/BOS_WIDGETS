@@ -123,7 +123,7 @@ return (
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height: "526px",
+          height: "126px",
           color: "#333",
           display: "flex",
           alignItems: "center",
