@@ -285,45 +285,53 @@ const tokenInApprovaleNeededCheck = () => {
     return;
   }
 
-  if (state.approvalNeeded === undefined) {
-    if (
-      getEVMAccountId() &&
-      state.erc20Abi !== undefined &&
-      state.routerContract !== undefined &&
-      [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)
-    ) {
-      const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
+  if (
+    getEVMAccountId() &&
+    state.erc20Abi !== undefined &&
+    state.routerContract !== undefined &&
+    [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)
+  ) {
+    const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
 
-      const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
-        "allowance",
-        [getEVMAccountId(), state.routerContract]
-      );
+    const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
+      "allowance",
+      [getEVMAccountId(), state.routerContract]
+    );
 
-      return Ethers.provider()
-        .call({
-          to: state.inputAssetTokenId,
-          data: encodedTokenAllowancesData,
-        })
-        .then((encodedTokenAllowanceHex) => {
-          const tokenAllowance = ifaceErc20.decodeFunctionResult(
-            "allowance",
-            encodedTokenAllowanceHex
-          );
+    return Ethers.provider()
+      .call({
+        to: state.inputAssetTokenId,
+        data: encodedTokenAllowancesData,
+      })
+      .then((encodedTokenAllowanceHex) => {
+        const tokenAllowance = ifaceErc20.decodeFunctionResult(
+          "allowance",
+          encodedTokenAllowanceHex
+        );
 
-          if (tokenAllowance) {
-            State.update({
-              approvalNeeded: new Big(tokenAllowance)
-                .div(Big(10).pow(state.inputAsset.metadata.decimals))
-                .lt(state.inputAssetAmount),
-            });
-          }
-        })
-        .catch(() => {});
-    } else {
-      State.update({ approvalNeeded: false });
-    }
+        console.log(
+          "tokenAllowance: ",
+          new Big(tokenAllowance)
+            .div(Big(10).pow(state.inputAsset.metadata.decimals))
+            .toFixed(),
+          state.inputAsset.metadata.decimals
+        );
+
+        if (tokenAllowance) {
+          State.update({
+            approvalNeeded: new Big(tokenAllowance)
+              .div(Big(10).pow(state.inputAsset.metadata.decimals))
+              .lt(state.inputAssetAmount),
+          });
+        }
+      })
+      .catch(() => {});
+  } else {
+    State.update({ approvalNeeded: false });
   }
 };
+
+console.log("state.approvalNeeded: ", state.approvalNeeded);
 
 if ([NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)) {
   tokenInApprovaleNeededCheck();
@@ -1146,12 +1154,13 @@ return (
               {state.approvalNeeded && (
                 <button
                   class={"swap-button"}
-                  onClick={() => {
+                  onClick={(tx) => {
                     state.callTokenApproval(
                       state,
-                      () => {
+                      (tx) => {
                         State.update({
                           outputAsset: undefined,
+                          forceReloadApprove: !state.forceReloadApprove,
                         });
                         tokenInApprovaleNeededCheck();
                       },
