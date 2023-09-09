@@ -59,7 +59,7 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   color: inherit !important;
-  width: 200px;
+  width: 210px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -94,7 +94,13 @@ const CandidateItemRow = styled.div`
       : props.selected
       ? "#4aa6ee"
       : "#F8F8F9"};
-  color: ${(props) => (props.selected && !props.winnerId ? "#fff" : "inherit")};
+      color: ${(props) =>
+        props.selected && !props.winnerId ? "#fff" : "inherit"};
+
+  small span {
+    color: ${(props) =>
+      props.selected && !props.winnerId ? "#fff" : "inherit"};
+  }
 
   &:hover {
     background: ${(props) =>
