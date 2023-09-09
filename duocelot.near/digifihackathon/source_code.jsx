@@ -1,7 +1,5 @@
 const accountId = context.accountId;
 
-<Widget src="near/widget/Explorer.Account" />;
-
 return (
   <div
     style={{
@@ -125,32 +123,6 @@ return (
           backgroundRepeat: "no-repeat",
           height: "126px",
           color: "#333",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      ></div>
-      <div
-        style={{
-          background: "green",
-          backgroundSize: "auto",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "123px",
-          color: "#fff",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      ></div>
-      <div
-        style={{
-          background: "red",
-          backgroundSize: "auto",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "223px",
-          color: "#fff",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
