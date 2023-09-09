@@ -26,10 +26,10 @@ if (!accountId) {
       <h2 style={{ fontSize: "14px", color: "white" }}>
         VOCE NAO ESTA LOGADO.
       </h2>
-      <h3 style={{ fontSize: "12px", color: "white", textAlign: "center" }}>
+      <h3 style={{ fontSize: "16px", color: "white", textAlign: "center" }}>
         CONECTE COM SUA CARTEIRA NEAR
       </h3>{" "}
-      <h3 style={{ fontSize: "12px", color: "white", textAlign: "center" }}>
+      <h3 style={{ fontSize: "16px", color: "white", textAlign: "center" }}>
         SE VC NAO TEM CLIQUE
       </h3>
       <a
