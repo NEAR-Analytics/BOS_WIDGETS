@@ -9,7 +9,11 @@ State.init({
 
 const handleApply = () => {
   if (state.prompt.trim()) {
-    State.update({ entries: [...state.entries, state.prompt], prompt: "" });
+    const entryText = state.prompt;
+    const selectedOption =
+      state.choose && state.choose.length ? state.choose[0] : ""; // Getting the first selected option
+    const combinedText = `${selectedOption}: ${entryText}`;
+    State.update({ entries: [...state.entries, combinedText], prompt: "" });
   }
 };
 
@@ -142,9 +146,8 @@ return (
           <div>
             <Typeahead
               options={options}
-              multiple
               onChange={(value) => {
-                State.update({ choose: value });
+                State.update({ choose: value.slice(0, 1) }); // Keep only the first selection
               }}
               placeholder="Tipo de Transação"
             />
