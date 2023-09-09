@@ -466,6 +466,22 @@ const FeatureDescription = styled.p`
 
 const FAQWrapper = styled.div``;
 
+const loadActualData = () => {
+  asyncFetch(
+    "https://gist.githubusercontent.com/Jikugodwill/e341155e929f1a8c3bccae2e6c91387d/raw/ced6a4336eb7b8b944a7d170e5cf03869341f52f/GenaDropFAQ.json"
+  )
+    .then((response) => response.body)
+    .then((data) => {
+      data = JSON.parse(data);
+      console.log(data);
+      State.update({ faqs: data });
+    })
+    .catch((error) => {
+      State.update({ error: error });
+      console.log(error);
+    });
+};
+loadActualData();
 return (
   <>
     <Hero>
@@ -749,15 +765,17 @@ return (
     <FAQWrapper>
       <H1 className="text-center">Frequently Asked Questions</H1>
       <div className="FAQ_FQAs__10snz">
-        <div className="FAQCard_container__1Ei5V">
-          <div className="FAQCard_question__3a_rG false">
-            <p className="FAQCard_title__3XC11"></p>
-            <span>
-              <img src="/static/media/open-icon.7ae4273f.svg" alt="" />
-            </span>
+        {state?.faqs.map((faq) => (
+          <div className="FAQCard_container__1Ei5V">
+            <div className="FAQCard_question__3a_rG false">
+              <p className="FAQCard_title__3XC11">{faq.question}</p>
+              <span>
+                <img src="/static/media/open-icon.7ae4273f.svg" alt="" />
+              </span>
+            </div>
+            <div className="FAQCard_answer__3-7tF false">{faq.answer}</div>
           </div>
-          <div className="FAQCard_answer__3-7tF false"></div>
-        </div>
+        ))}
       </div>
     </FAQWrapper>
     <Widget src="jgodwill.near/widget/GenaDrop.Footer" />
