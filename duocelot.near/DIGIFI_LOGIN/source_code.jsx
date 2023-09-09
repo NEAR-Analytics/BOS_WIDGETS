@@ -46,7 +46,6 @@ if (!accountId) {
         style={{
           width: "200px",
           height: "AUTO",
-          border: "2px solid white",
           marginTop: "20px",
         }}
       />
