@@ -330,7 +330,6 @@ const tokenInApprovaleNeededCheck = () => {
     State.update({ approvalNeeded: false });
   }
 };
-
 console.log("state.approvalNeeded: ", state.approvalNeeded);
 
 if ([NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)) {
@@ -1151,7 +1150,7 @@ return (
                 opacity: insufficientBalance && !state.approvalNeeded ? 0.5 : 1,
               }}
             >
-              {state.approvalNeeded && (
+              {state.approvalNeeded && !insufficientBalance && (
                 <button
                   class={"swap-button"}
                   onClick={(tx) => {
@@ -1174,7 +1173,7 @@ return (
                   </div>
                 </button>
               )}
-              {!state.approvalNeeded && (
+              {(insufficientBalance || !state.approvalNeeded) && (
                 <button
                   class={"swap-button-enabled"}
                   disabled={!canSwap}
