@@ -134,7 +134,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 background-color: rgba(0,0,0,0.7);
-@media screen and (max-width: 600px){
+@media screen and (max-width: 768px){
   flex-direction: column;
   margin-bottom: 20px;
 }
@@ -152,7 +152,7 @@ const Button = styled.button`
     cursor: pointer;
     background-color: lightgray;
   }
-  @media screen and (max-width: 600px){
+  @media screen and (max-width: 768px){
   margin-top: 15px;
 }
 `;
@@ -166,7 +166,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 background-color: rgba(0,0,0,0.7);
- @media screen and (max-width: 600px){
+ @media screen and (max-width: 6768x){
   margin-bottom: 20px;
 }
 
@@ -204,7 +204,7 @@ color: white;
 &:focus{
   outline: none;
 }
-@media screen and (max-width: 600px){
+@media screen and (max-width: 768px){
   margin: 0 20px;
 }
 `;
@@ -226,7 +226,7 @@ justify-content: space-between;
 background-color: rgba(0,0,0,0.7);
 padding: 1rem;
 border-radius: 0.4rem;
-@media screen and (max-width: 600px){
+@media screen and (max-width: 768px){
   width: 40%;
 }
 `;
