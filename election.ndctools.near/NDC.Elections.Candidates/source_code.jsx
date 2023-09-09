@@ -678,7 +678,11 @@ const CandidateItem = ({ candidateId, votes }) => (
           </div>
         </div>
       </div>
-      <InfoRow className="d-flex w-100 align-items-center justify-content-center">
+      <InfoRow
+        className={`d-flex w-100 align-items-center ${
+          context.accountId ? "justify-content-center" : "justify-content-end"
+        }`}
+      >
         <NominationLink>
           <Widget
             src={widgets.styledComponents}
