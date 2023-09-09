@@ -173,7 +173,7 @@ return (
       <div
         style={{
           background: "orange",
-          height: "auto",
+          height: "330px",
           width: "100%",
           color: "#000",
           display: "flex",
