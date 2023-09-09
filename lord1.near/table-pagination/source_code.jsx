@@ -75,7 +75,6 @@ return (
                     return (
                       <td
                         style={{
-                          "text-decoration": "none",
                           color:
                             td.colors ||
                             themeColor?.table_pagination?.columntextcolor,
@@ -84,11 +83,14 @@ return (
                         {td.link === "yes" ? (
                           <a
                             href={`${td.beforehref}${row.project}${td.afterhref}`}
+                            style={{
+                              "text-decoration": "none",
+                            }}
                           >
-                            {key}
+                            {row.project}
                           </a>
                         ) : (
-                          key
+                          row.project
                         )}
                       </td>
                     );
