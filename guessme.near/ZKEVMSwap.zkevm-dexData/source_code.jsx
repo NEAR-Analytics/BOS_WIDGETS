@@ -611,9 +611,13 @@ const callTokenApprovalEVM = (input, onComplete, gweiPrice, gasLimit) => {
     approveContract
       .approve(input.routerContract, value, gasArgs)
       .then((transactionHash) => {
-        onComplete(transactionHash);
+        transactionHash.wait().then(() => {
+          onComplete(transactionHash);
+        });
       })
-      .catch(() => {});
+      .catch((e) => {
+        console.log("e1111", e);
+      });
   }
 };
 
