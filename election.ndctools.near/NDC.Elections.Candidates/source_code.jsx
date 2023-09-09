@@ -381,7 +381,6 @@ const handleBookmarkCandidate = (candidateId) => {
         if (selectedItems.length === 0)
           State.update({ selectedCandidates: result });
 
-        loadSocialDBData();
         State.update({ loading: false });
       },
       onCancel: () => State.update({ loading: false }),
@@ -567,6 +566,8 @@ const winnerIds = Near.view(electionContract, "winners_by_proposal", {
   prop_id: props.id,
 });
 
+loadSocialDBData();
+
 if (state.reload) {
   const hasVotedOnAllProposals = Near.view(
     electionContract,
@@ -577,8 +578,6 @@ if (state.reload) {
   const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
     user: currentUser,
   });
-
-  loadSocialDBData();
 
   State.update({
     acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
