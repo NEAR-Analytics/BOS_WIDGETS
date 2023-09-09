@@ -9,14 +9,14 @@ function isSupportTensorflow() {
     return (
       <h4>
         Your version of the Near VM support that Version of the recomendation
-        system
+        system{" "}
       </h4>
     );
   } catch (e) {
     return (
       <h4>
         Your version of the Near VM dont support that Version of the
-        recomendation system
+        recomendation system{" "}
       </h4>
     );
   }
@@ -274,7 +274,7 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
 function loadModel() {
   tf.loadModel(
     "recomendation",
-    `https://recommendation-system-near-social.onrender.com/models/${"vlmoon.near"}/model.json`
+    `https://recommendation-system-near-social.onrender.com/models/${context.accountId}/model.json`
   ).then((res) => {
     console.log("Model was loaded");
     State.update({
@@ -299,13 +299,13 @@ function predictTest() {
   }));
 
   //Step 2
-  const followings = fetchFollowingsRecursive("vlmoon.near", 2);
+  const followings = fetchFollowingsRecursive(context.accountId, 2);
 
   console.log(`Followings ${JSON.stringify(followings)}`);
 
   // // Map posts to features
   const postsWithFeatures = posts.map((post) =>
-    mapPostToFeatures(post, followings, "vlmoon.near")
+    mapPostToFeatures(post, followings, context.accountId)
   );
 
   // Extract features for prediction
@@ -358,7 +358,16 @@ return (
     <div>
       In order to run this code, you must clone the viewer -
       https://github.com/NearSocial/viewer And in this project in package.json
-      file set up
+      file set up the Social VM dependency
+      <p>
+        "near-social-vm":
+        "git+https://github.com/vlmoon99/VM.git#add-tensorflow-api"
+      </p>
+      I kindly request that we limit the use of the 'vlmoon.near' account for
+      feed predictions. Given that I'm currently running a free Node.js server,
+      the process of training and saving new models can be resource-intensive
+      for this server. I recommend running your own local server and utilizing
+      tools like ngrok for testing purposes with your specific account IDs
     </div>
     <h2>My Story</h2>
     <div>
