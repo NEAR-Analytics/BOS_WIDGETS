@@ -167,7 +167,7 @@ const VotesFilter = styled.div`
 `;
 
 const Nomination = styled.div`
-  width: 110px;
+  width: 105px;
 
   @media (max-width: 400px) {
     width: 70px;
