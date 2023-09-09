@@ -4,66 +4,59 @@ if (!accountId) {
   return (
     <div
       style={{
-        width: "512px",
-        height: "512px",
+        width: "100vw",
+        height: "100vh",
         backgroundSize: "100%",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundColor: "white",
-        position: "flex",
-        fontFamily: '"Press Start 2P", sans-serif',
+        display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        fontFamily: '"Press Start 2P", sans-serif',
       }}
     >
-      <img
-        src="https://bafybeiep6yscx365ici64ce2o7ktr3vewuyk7rwj4kxpwrf4ugeloxgfri.ipfs.w3s.link/error-001.jpg"
-        alt="ERROR 001"
+      <div
         style={{
-          width: "340px",
-          margin: "50px 40px 10px 80px",
-          position: "flex",
-        }}
-      />
-      <h2
-        style={{
-          fontFamily: "Press Start 2P",
-          fontSize: "14px",
-          color: "black",
+          background: "#415697",
+          height: "262px",
+          width: "100%",
+          color: "#fff",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        VOCE NAO ESTA LOGADO.{" "}
-      </h2>{" "}
-      <h3
-        style={{
-          fontFamily: "Press Start 2P",
-          fontSize: "12px",
-          color: "black",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {" "}
-        ENTRE COM SUA CARTEIRA NEAR. SE VC NAOP TEM CLIQUE
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreid25lsb6p73u3zpb7et23qc66fe63knsi22xneuzo3of4m4dnjqgu"
+          alt="ERROR 001"
+          style={{
+            maxHeight: "200px",
+            maxWidth: "200px",
+          }}
+        />
+      </div>
+      <h2 style={{ fontSize: "14px", color: "black" }}>
+        VOCE NAO ESTA LOGADO.
+      </h2>
+      <h3 style={{ fontSize: "12px", color: "black" }}>
+        ENTRE COM SUA CARTEIRA NEAR. SE VC NAO TEM CLIQUE
       </h3>
       <a
         href="https://shard.dog/humansofbrazil"
-        style={{
-          fontFamily: "Press Start 2P",
-          fontSize: "14px",
-          color: "black",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          margin: "40px 1opx 10px 10px",
-        }}
+        style={{ fontSize: "14px", color: "black" }}
       >
         AQUI
       </a>
+      {/* Placeholder for QR Code */}
+      <div style={{ marginTop: "20px" }}>
+        <img
+          src="YOUR_QR_CODE_IMAGE_URL"
+          alt="QR Code"
+          style={{ width: "100px", height: "100px" }}
+        />
+      </div>
     </div>
   );
 }
