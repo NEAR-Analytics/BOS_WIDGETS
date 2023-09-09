@@ -112,7 +112,7 @@ return (
           <TxnLink
             role="button"
             target="_blank"
-            href={`https://explorer.mainnet.near.org/transactions/${voter.transaction_id}`}
+            href={`https://nearblocks.io/txns/${voter.transaction_id}`}
           >
             {voter.transaction_id}
           </TxnLink>
