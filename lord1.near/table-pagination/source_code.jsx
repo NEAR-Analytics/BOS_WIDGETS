@@ -33,6 +33,18 @@ const Table = styled.table`
   --bs-table-hover-bg:${themeColor?.table_pagination?.columntextcolor};
 
 `;
+const onHandelId = (id) => {
+  let customId = "";
+  if (id.length > 15) {
+    customId += id.substring(0, 3);
+    customId += "...";
+    customId += id.substring(id.length - 3);
+    return customId;
+  } else {
+    return id;
+  }
+};
+
 return (
   <div className="table-responsive">
     <Table
@@ -90,7 +102,7 @@ return (
                             }}
                           >
                             {td.heyperlink === "yes" ? (
-                              key
+                              `${onHandelId(key)}`
                             ) : (
                               <svg
                                 width="20"
