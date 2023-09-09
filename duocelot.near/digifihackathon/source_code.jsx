@@ -103,12 +103,11 @@ return (
       ></div>
       <div
         style={{
-          backgroundImage:
-            "url(https://ipfs.fleek.co/ipfs/bafybeiaye7rrdceoz44waxyn5ozulhopx6pbq7d4336cn6nenjwxuftsbe)",
+          background: "orange",
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height: "8px",
+          height: "80px",
           width: "100%",
           color: "#fff",
           display: "flex",
@@ -131,12 +130,7 @@ return (
           alignItems: "center",
           justifyContent: "center",
         }}
-      >
-        <img
-          src="https://ipfs.fleek.co/ipfs/bafybeiburel4azxripu5f6awh6azhitxbptqovppliyav6ilwndswk6yeq"
-          style={{ position: "absolute", zIndex: 0 }}
-        />
-      </div>
+      ></div>
       <div
         style={{
           backgroundImage:
