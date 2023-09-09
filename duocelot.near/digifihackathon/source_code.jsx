@@ -2,8 +2,6 @@ const accountId = props.accountId ?? context.accountId;
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const image = profile.image;
 
-const isBeta = props.beta === undefined ? true : props.beta;
-
 return (
   <div
     style={{
@@ -152,7 +150,7 @@ return (
         }}
       >
         <Widget
-          src="near/widget/Explorer.Account"
+          src="near/widget/Explorer.Iframe"
           props={{
             url: `${isBeta ? "beta/" : ""}accounts/${accountId}`,
             query: { language: props.language, embedded: true },
