@@ -85,8 +85,13 @@ const UserLink = ({ title, src }) => (
   <div className="d-flex mr-3">
     <StyledLink href={src}>
       <Widget
-        src="mob.near/widget/Profile.ShortInlineBlock"
-        props={{ accountId: title, tooltip: false }}
+        src="mob.near/widget/N.ProfileLine"
+        props={{
+          accountId: title,
+          link: false,
+          hideAccountId: true,
+          hideImage: false,
+        }}
       />
     </StyledLink>
     <span>
