@@ -90,7 +90,7 @@ return (
                             }}
                           >
                             {td.heyperlink === "yes" ? (
-                              td.key
+                              key
                             ) : (
                               <svg
                                 width="20"
