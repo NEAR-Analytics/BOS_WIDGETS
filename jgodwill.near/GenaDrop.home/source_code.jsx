@@ -465,8 +465,12 @@ const FeatureDescription = styled.p`
 `;
 
 const FAQWrapper = styled.div`
-  width: 100%;
-  max-width: 1200px;
+ width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2em;
+  margin-bottom: 6em;
   .FAQ_FQAs__10snz {
   width: 100%;
   display: flex;
