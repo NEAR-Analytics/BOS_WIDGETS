@@ -9,14 +9,14 @@ function isSupportTensorflow() {
     return (
       <h4>
         Your version of the Near VM support that Version of the recomendation
-        system{" "}
+        system
       </h4>
     );
   } catch (e) {
     return (
       <h4>
         Your version of the Near VM dont support that Version of the
-        recomendation system{" "}
+        recomendation system
       </h4>
     );
   }
@@ -126,7 +126,7 @@ function fetchFollowingsRecursive(
   console.log(`accountId ${accountId}`);
   let followings;
   try {
-    followings = getFollowingsById(accountId).slice(0, 20);
+    followings = getFollowingsById(accountId).slice(0, 30);
   } catch (e) {
     console.log(`Error ${JSON.stringify(e)}`);
     followings = [];
