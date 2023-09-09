@@ -38,7 +38,7 @@ if (!accountId) {
       <a
         href="https://shard.dog/humansofbrazil"
         style={{
-          fontSize: "14px",
+          fontSize: "24px",
           color: "white",
           margin: "20px 10px",
           textDecoration: "underline",
