@@ -149,7 +149,7 @@ return (
           backgroundSize: "auto",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height: "523px",
+          height: "223px",
           color: "#fff",
           display: "flex",
           alignItems: "center",
