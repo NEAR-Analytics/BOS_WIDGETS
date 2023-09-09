@@ -1,6 +1,17 @@
 const accountId = props.accountId ?? context.accountId;
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
+// Initialize state
+State.init({
+  isLoaded: false,
+  displayText: "",
+  prompt: "",
+});
+
+const handleApply = () => {
+  State.update({ displayText: state.prompt });
+};
+
 return (
   <div
     style={{
@@ -113,7 +124,9 @@ return (
               State.update(state);
             }}
           />
-          <button style={{ flex: 1 }}>APLICAR</button>
+          <button style={{ flex: 1 }} onClick={handleApply}>
+            APLICAR
+          </button>
           <div
             style={{
               display: "flex",
@@ -122,17 +135,8 @@ return (
               flex: 1,
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-                flex: 1,
-              }}
-            >
-              <input type="checkbox" className="squareCheckbox" />
-              <span>CHECK</span>
-            </div>
+            <input type="checkbox" className="squareCheckbox" />
+            <span>CHECK</span>
           </div>
         </div>
         <button>Export CSV</button>
@@ -144,10 +148,29 @@ return (
           width: "100%",
           color: "#fff",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-between",
+          padding: "10px 0",
         }}
       >
+        {state.displayText && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "80%",
+              padding: "5px",
+              background: "white",
+              borderRadius: "5px",
+              margin: "10px 0",
+            }}
+          >
+            <span>{state.displayText}</span>
+            <input type="checkbox" className="squareCheckbox" />
+          </div>
+        )}
         <Widget
           src="near/widget/Explorer.Iframe"
           props={{
