@@ -184,7 +184,7 @@ const InfoRow = styled.div`
 const NominationLinkMobile = styled.div`
   display: none;
 
-  @media (max-width: 768px) {
+  @media (max-width: 400px) {
     display: block;
   }
 `;
