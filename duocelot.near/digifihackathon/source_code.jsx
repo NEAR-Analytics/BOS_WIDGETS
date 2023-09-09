@@ -1,4 +1,8 @@
-const accountId = context.accountId;
+const accountId = props.accountId ?? context.accountId;
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const image = profile.image;
+
+const isBeta = props.beta === undefined ? true : props.beta;
 
 return (
   <div
@@ -101,7 +105,15 @@ return (
           overflow: "hidden",
         }}
       >
-        <p> AQUI VAI O EXPLORER </p>
+        <Widget
+          src="near/widget/Explorer.Iframe"
+          props={{
+            url: `${isBeta ? "beta/" : ""}accounts/${accountId}`,
+            query: { language: props.language, embedded: true },
+            network: props.network,
+            baseUrl: props.baseUrl,
+          }}
+        />
       </div>
       <div
         style={{
