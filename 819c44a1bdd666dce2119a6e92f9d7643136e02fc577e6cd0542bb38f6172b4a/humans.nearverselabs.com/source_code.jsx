@@ -139,7 +139,7 @@ return (
           State.update({ showModal: true });
         }}
       >
-        {`Profile`}
+        {`Form`}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
