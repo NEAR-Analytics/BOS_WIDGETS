@@ -554,26 +554,25 @@ const buttonMessage = () => {
   if (Ethers.provider() && state.chainId !== 11155111) {
     return "Change network to Sepolia";
   }
-  if (state.loading) {
-    return "Loading...";
-  }
+  // 트로브가 없을 때만 활성화
   if (state.isOpenTrove) {
     return "이 지갑은 이미 활성화된 트로브가 있습니다.";
   }
 
-  return Ethers.provider() && state.chainId !== 11155111
-    ? "Change network to Sepolia" // 지갑이 sepolia network 에 연결되지 않았을 때
-    : state.loading
-    ? "Loading..." // Trove open/close 중일 때
-    : state.complete
-    ? "Done ✅" // Trove open/close 생성 완료됐을 때
-    : state.coll === 0 || state.borrow === 0
-    ? "Enter input value" // 초기 상태
-    : state.isBlocked
-    ? "Check  stats" // eth <=> LUSD 의 비율이 맞지 않을 때
-    : state.isOpenTrove
-    ? "이 지갑은 이미 활성화된 트로브가 있습니다." // Trove 가 이미 open 됐을 때
-    : "Open Trove"; // Trove 를 open 할 수 있을 때
+  // Trove 생성 메시지
+  if (state.loading) {
+    return "Loading...";
+  } else if (state.complete) {
+    return "Done ✅";
+  }
+
+  // text input 상태 관련 메시지
+  if (state.coll === 0 || state.borrow === 0) {
+    return "Enter input value";
+  } else if (state.isBlocked) {
+    return "Check  stats";
+  }
+  return "Open Trove";
 };
 
 /**
@@ -674,5 +673,12 @@ return (
       )}
     </div>
     <button onClick={closeTrove}>Close Trove</button>
+    <p>isOpenTrove : {state.isOpenTrove.toString()}</p>
+    <p>loading : {state.loading.toString()}</p>
+    <p>complete : {state.complete.toString()}</p>
+    <p>
+      coll : {state.coll}, borrow : {state.borrow}
+    </p>
+    <p>isBlocked : {state.isBlocked.toString()}</p>
   </BorrowWrapper>
 );
