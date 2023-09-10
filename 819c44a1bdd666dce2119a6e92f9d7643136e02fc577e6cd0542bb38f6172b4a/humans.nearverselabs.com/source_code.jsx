@@ -67,16 +67,6 @@ const BtnStyle2 = {
   zIndex: 1,
 };
 
-const getFirstSBTToken = () => {
-  const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-    account: `${context.accountId}`,
-    issuer: "fractal.i-am-human.near",
-  });
-  return view?.[0]?.[1]?.[0];
-};
-
-const hasSBTToken = getFirstSBTToken() !== undefined;
-
 const getMyData = () => {
   return asyncFetch(API_URL + `/auth/account?accountId=${accountId}`).then(
     (res) => {
