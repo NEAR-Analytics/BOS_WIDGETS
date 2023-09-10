@@ -92,18 +92,18 @@ const handleSave = () => {
       },
     },
     index: {
-      thing: JSON.stringify({
+      thing: {
         key: groupId,
         value: {
           type: "group",
         },
-      }),
-      every: JSON.stringify({
+      },
+      every: {
         key: "group",
         value: {
           id: groupId,
         },
-      }),
+      },
       graph: JSON.stringify(
         Object.keys(state.members).map((account) => ({
           key: groupId,
