@@ -572,29 +572,13 @@ const Loader = () => (
   />
 );
 
-console.log("typ", typ);
-
-const getWinnerPlaces = () => {
-  switch (typ) {
-    case "HouseOfMerit":
-      return 15;
-    case "TransparencyCommission":
-      return 7;
-    case "CouncilOfAdvisors":
-      return 7;
-    default:
-      return 7;
-  }
-};
-
-const CandidateItem = ({ candidateId, votes, index }) => (
+const CandidateItem = ({ candidateId, votes }) => (
   <div>
     <CandidateItemRow
       className="d-flex align-items-center justify-content-between"
       selected={state.selected === candidateId}
-      winnerId={index < getWinnerPlaces()}
+      winnerId={state.winnerIds.includes(candidateId)}
     >
-      <div className="d-flex w-40 align-items-center">{index + 1}</div>
       <div className="d-flex w-100 align-items-center">
         {isVisible() && (
           <Expand>
@@ -1041,7 +1025,6 @@ return (
                   <CandidateItem
                     candidateId={candidateId}
                     votes={votes}
-                    index={index}
                     key={index}
                   />
                 ))}
