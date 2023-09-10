@@ -58,12 +58,6 @@ const memberId = props.memberId ?? state.newMember;
 
 const isValid = isNearAddress(memberId);
 
-const checkAddress = (daos) => {
-  if (daos.indexOf(creatorId) !== -1) {
-    return State.update({ isDao: true });
-  }
-};
-
 const CardStyled = styled.div`
   width: 100%;
   height: 100%;
@@ -143,13 +137,7 @@ const handleCreate = () => {
   Social.set({
     thing: {
       [groupId]: {
-        "": JSON.stringify(...state.group),
-        metadata: {
-          name: "TODO",
-          descirption: "TODO",
-          image: "TODO",
-          backgroundImage: "TOOD",
-        },
+        ...state.group,
       },
     },
     graph: {
@@ -179,6 +167,7 @@ const handleCreate = () => {
           },
         }))
       ),
+
       notify: JSON.stringify(
         Object.keys(state.members).map((account) => ({
           key: account,
