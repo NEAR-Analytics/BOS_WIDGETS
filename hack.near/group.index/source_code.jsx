@@ -7,7 +7,7 @@ const widgets = {
   create: "hack.near/widget/group.create",
 };
 
-Social.index("every", "group", { limit: 10 });
+const groups = Social.index("every", "group", { limit: 10 });
 
 if (!groups) {
   return "none found";
