@@ -574,7 +574,10 @@ return (
                     className: "primary dark",
                     href: "#/election.ndctools.near/widget/NDC.Elections.Main",
                     icon: (
-                      <img src="https://ipfs.near.social/ipfs/bafkreia4iqjdjqhwplrunkjvmri2c6egm2pmlt56f3n6qesmy5ofw27g3y" />
+                      <img
+                        style={{ "margin-bottom": "5px" }}
+                        src="https://ipfs.near.social/ipfs/bafkreia4iqjdjqhwplrunkjvmri2c6egm2pmlt56f3n6qesmy5ofw27g3y"
+                      />
                     ),
                   },
                 }}
