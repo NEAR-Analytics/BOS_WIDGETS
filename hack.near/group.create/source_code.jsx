@@ -137,6 +137,7 @@ const handleCreate = () => {
   Social.set({
     thing: {
       [groupId]: {
+        "": JSON.stringify(state.group),
         metadata: {
           ...state.group,
           type: {
