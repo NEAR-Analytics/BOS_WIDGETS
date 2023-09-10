@@ -572,6 +572,8 @@ const Loader = () => (
   />
 );
 
+console.log("typ", typ);
+
 const getWinnerPlaces = () => {
   switch (typ) {
     case "HouseOfMerit":
