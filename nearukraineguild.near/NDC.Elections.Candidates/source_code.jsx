@@ -578,6 +578,10 @@ const getWinnerPlaces = () => {
   switch (typ) {
     case "HouseOfMerit":
       return 15;
+    case "TransparencyCommission":
+      return 7;
+    case "CouncilOfAdvisors":
+      return 7;
     default:
       return 7;
   }
