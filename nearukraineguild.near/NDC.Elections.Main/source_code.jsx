@@ -15,7 +15,7 @@ const widgets = {
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   houses: "election.ndctools.near/widget/NDC.Elections.Houses",
   progress: "election.ndctools.near/widget/NDC.Elections.Progress",
-  candidates: "nearukraineguild.near/widget/NDC.Elections.Candidates",
+  candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
   statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
   activities: "election.ndctools.near/widget/NDC.Elections.Activities",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
@@ -36,12 +36,13 @@ State.init({
   isBondedAmount: 0,
   reload: true,
   houses: [],
-  acceptedPolicy: true,
+  acceptedPolicy: false,
   hasVotedOnAllProposals: false,
   hasPolicyNFT: null,
   hasIVotedNFT: null,
   iVotedToken: false,
 });
+console.log(state.selectedHouse);
 const currentUser = context.accountId;
 
 const steps = [
@@ -51,7 +52,7 @@ const steps = [
   },
   {
     title: 'Minted "Fair Voting Policy" NFT',
-    completed: true,
+    completed: state.hasPolicyNFT,
   },
   {
     title: "Voting Completed",
@@ -114,153 +115,6 @@ function loadHouses() {
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
 
-  houses[0].result = [
-    ["achoski.near", 29],
-    ["alan777.near", 0],
-    ["auroracfo.near", 129],
-    ["bearmans.near", 75],
-    ["berynteoh.near", 27],
-    ["cameron.near", 197],
-    ["chloe.near", 180],
-    ["cronus.near", 56],
-    ["cryptocredit.near", 37],
-    ["davidweinstein.near", 71],
-    ["davletuner.near", 151],
-    ["dedeukwu.near", 55],
-    ["denbite.near", 96],
-    ["derymars.near", 81],
-    ["dk_51.near", 157],
-    ["dleer.near", 128],
-    ["earnestetim.near", 39],
-    ["eschnoeckel.near", 22],
-    ["frado.near", 58],
-    ["fritzwagner.near", 0],
-    ["gcohen.near", 80],
-    ["guaschingmachines.near", 52],
-    ["haenko.near", 205],
-    ["iamgalt.near", 84],
-    ["igboze_builder.near", 63],
-    ["kazanderdad.near", 69],
-    ["kekiboh.near", 19],
-    ["kelsontoh.near", 45],
-    ["kemo.near", 62],
-    ["kennyj.near", 75],
-    ["kiskesis.near", 154],
-    ["klint.near", 46],
-    ["lolson.near", 99],
-    ["louisliu.near", 131],
-    ["luciotato.near", 125],
-    ["masterofcode.near", 0],
-    ["maxkott.near", 111],
-    ["mob.near", 241],
-    ["monish016.near", 44],
-    ["nguyencuong.near", 33],
-    ["ntrucchinh.near", 0],
-    ["odins_eyehole.near", 142],
-    ["ogruss.near", 95],
-    ["p3ter.near", 126],
-    ["planetaworld.near", 27],
-    ["psalm.near", 90],
-    ["rexux.near", 136],
-    ["rileytran.near", 121],
-    ["sahilmassey.near", 74],
-    ["salikc9.near", 33],
-    ["thisthatjosh.near", 36],
-    ["tiffany.near", 113],
-    ["tutmt.near", 66],
-    ["ugxnear.near", 32],
-    ["vadim.near", 258],
-    ["vandal.near", 107],
-    ["vlad.near", 268],
-    ["web3hedge.near", 0],
-    ["whendacha.near", 234],
-    ["wizzow.near", 64],
-    ["woben.near", 147],
-  ];
-
-  houses[1].result = [
-    ["983dcdc8e0d80d1f8938118161e1ec08be6557809afccd5ec396354f28a2ce78", 29],
-    ["achildhoodhero.near", 100],
-    ["ahsas.near", 137],
-    ["alphaflexhub.near", 28],
-    ["alyonushka.near", 28],
-    ["antmarshall360.near", 27],
-    ["as.near", 252],
-    ["bennyblanco.near", 94],
-    ["bishi.near", 30],
-    ["blaze.near", 176],
-    ["chefsale.near", 79],
-    ["duocelot.near", 43],
-    ["evangel.near", 134],
-    ["flame1.near", 57],
-    ["frol.near", 143],
-    ["gagdiez.near", 21],
-    ["harveys.near", 79],
-    ["iamanansari.near", 127],
-    ["ilerik.near", 23],
-    ["izcc.near", 50],
-    ["jgold.near", 63],
-    ["jloc.near", 71],
-    ["jlw.near", 96],
-    ["joespano.near", 132],
-    ["kangaroojack.near", 68],
-    ["kennethjay.near", 0],
-    ["keyokey.near", 53],
-    ["kumarkrsronit.near", 0],
-    ["kwhyc.near", 109],
-    ["marieke.near", 165],
-    ["mattlock.near", 160],
-    ["ndcplug.near", 127],
-    ["nearkat.near", 100],
-    ["reespect.near", 48],
-    ["robert.near", 50],
-    ["rubycop.near", 110],
-    ["sammiee1.near", 36],
-    ["techdir.near", 116],
-    ["vianftbrasil.near", 21],
-    ["yesn.near", 87],
-  ];
-  houses[2].result = [
-    ["abdulkareem.near", 21],
-    ["alejandro.near", 231],
-    ["andersonr.near", 30],
-    ["arezhas.near", 36],
-    ["aurorafinance1.near", 45],
-    ["blessedchidi.near", 63],
-    ["christinas.near", 50],
-    ["cjpd.near", 50],
-    ["crans.near", 100],
-    ["cryptois.near", 139],
-    ["dabbie3229.near", 55],
-    ["danieldao.near", 0],
-    ["escobarindo.near", 161],
-    ["izubair.near", 156],
-    ["jarednotjerry.near", 147],
-    ["johanga108.near", 169],
-    ["kriptoraptor.near", 72],
-    ["larkim.near", 25],
-    ["maks1mk_a.near", 0],
-    ["manchutsca.near", 41],
-    ["manutegus.near", 13],
-    ["mohaa.near", 20],
-    ["moska.near", 0],
-    ["nftmuse.near", 44],
-    ["ntare.near", 33],
-    ["pironi.near", 106],
-    ["rahulgoel.near", 176],
-    ["ramgor.near", 0],
-    ["rektdegen.near", 0],
-    ["sallymg.near", 76],
-    ["tolmindev.near", 79],
-    ["vikash.near", 145],
-    ["vincentcfpun.near", 0],
-    ["waverlymaven.near", 92],
-    ["williamxx.near", 84],
-    ["yashank.near", 47],
-    ["yonota.near", 115],
-    ["yourdad.near", 220],
-  ];
-
   State.update({ houses });
 }
 
@@ -293,6 +147,7 @@ function loadBond() {
   ).then((resp) => {
     if (resp.body) {
       const amount = resp.body.bond ? parseFloat(resp.body.bond) : 0;
+      console.log("bond ->", resp.body);
       State.update({ isBonded: amount > 0 });
     }
   });
@@ -310,10 +165,11 @@ function loadFlagged() {
 }
 
 function loadPolicy() {
-  // const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-  //   user: currentUser,
-  // });
-  // State.update({ acceptedPolicy });
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+    user: currentUser,
+  });
+
+  State.update({ acceptedPolicy });
 }
 
 function loadWinners() {
@@ -567,7 +423,10 @@ return (
                     ids,
                     ...state,
                     ...house,
-                    result: house.result.sort((a, b) => b[1] - a[1]),
+                    result:
+                      state.winnerIds.length > 0
+                        ? house.result.sort((a, b) => b[1] - a[1])
+                        : rand(house.result),
                   }}
                 />
               )}
