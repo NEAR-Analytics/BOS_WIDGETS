@@ -572,13 +572,23 @@ const Loader = () => (
   />
 );
 
-const CandidateItem = ({ candidateId, votes }) => (
+const getWinnerPlaces = () => {
+  switch (typ) {
+    case "HouseOfMerit":
+      return 15;
+    default:
+      return 7;
+  }
+};
+
+const CandidateItem = ({ candidateId, votes, index }) => (
   <div>
     <CandidateItemRow
       className="d-flex align-items-center justify-content-between"
       selected={state.selected === candidateId}
-      winnerId={state.winnerIds.includes(candidateId)}
+      winnerId={index < getWinnerPlaces()}
     >
+      <div className="d-flex w-100 align-items-center">{index + 1}</div>
       <div className="d-flex w-100 align-items-center">
         {isVisible() && (
           <Expand>
@@ -1025,6 +1035,7 @@ return (
                   <CandidateItem
                     candidateId={candidateId}
                     votes={votes}
+                    index={index}
                     key={index}
                   />
                 ))}
