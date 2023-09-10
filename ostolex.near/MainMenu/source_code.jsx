@@ -24,7 +24,7 @@ return (
           width: "100%",
           height: "100%",
           "background-image":
-            "url(https://github.com/near-social-laser-chess/vault/raw/main/menu-animation.gif)",
+            "url(https://bafybeieczh2ttcqjfs2ocltpzi55lrrvlh6nxt5hjlpy7pxzjtyw66bu74.ipfs.w3s.link/main_menu_animation.gif)",
           "background-size": "cover",
           "background-repeat": "no-repeat",
           "background-position": "center",
