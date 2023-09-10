@@ -895,14 +895,6 @@ return (
             GenaDrop is getting featured globally
           </FeatureDescription>
           <Widget src="jgodwill.near/widget/GenaDrop.Home.PartnersCarousel" />
-          <a
-            style={{ textDecoration: "none" }}
-            href="/#/jgodwill.near/widget/GenaDrop.Partner"
-          >
-            <PrimaryButton className="extra mt-4">
-              Apply for Partnership
-            </PrimaryButton>
-          </a>
         </div>
       </div>
     </FeatureContainer>
