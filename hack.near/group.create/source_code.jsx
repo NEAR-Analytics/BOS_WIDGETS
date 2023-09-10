@@ -1,24 +1,6 @@
 const creatorId = props.creatorId ?? context.accountId;
 
-const daos = Near.view("sputnik-dao.near", "get_dao_list");
-
-if (daos === null) {
-  return "Loading...";
-}
-
 const { handleClose } = props;
-
-const policy = Near.view(creatorId, "get_policy");
-
-if (policy === null) {
-  return "Loading...";
-}
-
-const deposit = policy.proposal_bond;
-
-const groups = Social.get(`${creatorId}/thing/directory`);
-
-const groupsArray = JSON.parse(groups);
 
 function generateUID() {
   return (
@@ -29,8 +11,6 @@ function generateUID() {
 }
 
 const groupId = props.groupId ?? generateUID();
-
-const groupMembers = Social.get(`${creatorId}/graph/${groupId}`);
 
 State.init({
   group,
@@ -82,10 +62,6 @@ const checkAddress = (daos) => {
   if (daos.indexOf(creatorId) !== -1) {
     return State.update({ isDao: true });
   }
-};
-
-const widgets = {
-  style: "hack.near/widget/NDC.StyledComponents",
 };
 
 const CardStyled = styled.div`
@@ -164,8 +140,6 @@ const Section = styled.div`
 `;
 
 const handleCreate = () => {
-  const groupId = uuid();
-
   Social.set({
     thing: {
       [groupId]: {
