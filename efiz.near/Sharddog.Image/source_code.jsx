@@ -10,7 +10,6 @@ State.init({
   image,
   modalMediaUrl: null, // Rename to modalMediaUrl
   showModal: false,
-  isVideo: false, // Add isVideo to your State object
 });
 
 if (JSON.stringify(image) !== JSON.stringify(state.image)) {
@@ -55,7 +54,7 @@ return image.nft.contractId && image.nft.tokenId ? (
   />
 ) : (
   <>
-    {state.isVideo ? (
+    {isVideo ? (
       <video
         className={className}
         controls
@@ -103,7 +102,7 @@ return image.nft.contractId && image.nft.tokenId ? (
         >
           <div className="modal-content">
             <div className="modal-body">
-              {state.isVideo ? (
+              {isVideo ? (
                 <video
                   src={state.modalMediaUrl}
                   className="img-fluid"
