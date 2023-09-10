@@ -511,19 +511,12 @@ if (state.borrowWrapperStyle === undefined) {
   const css = fetch(
     "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css"
   );
-  // console.log(css.body);
   State.update({
-    borrowWrapperStyle: css.body,
+    borrowWrapperStyle: styled.div`
+        width: 100%;
+        ${css.body}
+    `,
   });
-  //.then((response) => response.text());
-  // .then((data) => {
-  //   State.update({
-  //     borrowWrapperStyle: data,
-  //   });
-  // })
-  // .catch((error) => {
-  //   console.error("Error fetching the CSS:", error);
-  // });
 }
 
 const closeTrove = () => {
@@ -554,10 +547,7 @@ const closeTrove = () => {
  * This UI style uses the the "Styled Component" library.
  * Update this code block to change the style.
  */
-const BorrowWrapper = styled.div`
-    width: 100%;
-    ${state.borrowWrapperStyle}
-`;
+const BorrowWrapper = state.borrowWrapperStyle;
 
 /**
  * @description
