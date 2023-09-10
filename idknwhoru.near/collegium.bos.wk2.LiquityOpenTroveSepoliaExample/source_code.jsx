@@ -28,6 +28,8 @@ State.init({
   borrowWrapperStyle: undefined,
 });
 
+console.log({ borrowWrapperStyle1: state.borrowWrapperStyle });
+
 /**
  *
  * @param depositChangeEvent
@@ -496,9 +498,15 @@ Ethers.provider() &&
  * Mission 2. `borrowWrapper` 컴포넌트의 스타일을 외부 css파일을 불러와서 적용해보세요.
  * 외부 css 파일 링크: "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css"
  */
-if (state.borrowWrapperStyle === undefined) {
-  const cssData = fetch("PUT CSS FILE LINK").body;
+const cssLink = "PUT CSS FILE LINK";
+const cssData = fetch(cssLink).body;
 
+if (cssLink !== "PUT CSS FILE LINK") {
+  if (!cssData) return "";
+}
+
+if (state.borrowWrapperStyle === undefined) {
+  console.log({ cssData });
   State.update({
     borrowWrapperStyle: styled.div`
     width: 100%;
