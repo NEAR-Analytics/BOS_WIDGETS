@@ -114,9 +114,6 @@ return (
               .name
           }
         </TextLink>
-        <TextLink href={groupUrl} ellipsis>
-          @{Object.keys(groupInfo)}
-        </TextLink>
 
         {tags.length > 0 && (
           <TagsWrapper>
@@ -125,5 +122,6 @@ return (
         )}
       </div>
     </CardLeft>
+    <Widget src="hack.near/widget/group.join" props={{ groupId }} />
   </Card>
 );
