@@ -538,6 +538,7 @@ const closeTrove = () => {
       totalcoll: state.liquidationReserve,
       collateralRatio: 0,
       liquidationReserve: state.liquidationReserve,
+      isOpenTrove: false,
     });
   });
 };
@@ -548,6 +549,32 @@ const closeTrove = () => {
  * Update this code block to change the style.
  */
 const BorrowWrapper = state.borrowWrapperStyle;
+
+const buttonMessage = () => {
+  if (Ethers.provider() && state.chainId !== 11155111) {
+    return "Change network to Sepolia";
+  }
+  if (state.loading) {
+    return "Loading...";
+  }
+  if (state.isOpenTrove) {
+    return "이 지갑은 이미 활성화된 트로브가 있습니다.";
+  }
+
+  return Ethers.provider() && state.chainId !== 11155111
+    ? "Change network to Sepolia" // 지갑이 sepolia network 에 연결되지 않았을 때
+    : state.loading
+    ? "Loading..." // Trove open/close 중일 때
+    : state.complete
+    ? "Done ✅" // Trove open/close 생성 완료됐을 때
+    : state.coll === 0 || state.borrow === 0
+    ? "Enter input value" // 초기 상태
+    : state.isBlocked
+    ? "Check  stats" // eth <=> LUSD 의 비율이 맞지 않을 때
+    : state.isOpenTrove
+    ? "이 지갑은 이미 활성화된 트로브가 있습니다." // Trove 가 이미 open 됐을 때
+    : "Open Trove"; // Trove 를 open 할 수 있을 때
+};
 
 /**
  * @description
@@ -640,22 +667,7 @@ return (
           disabled={state.isBlocked}
           onClick={openTrove}
         >
-          {Ethers.provider() && state.chainId !== 11155111
-            ? "Change network to Sepolia"
-            : state.isOpenTrove
-            ? "이 지갑은 이미 활성화된 트로브가 있습니다."
-            : /**
-             * Mission 1. "이 지갑은 이미 활성화된 트로브가 있습니다." 메시지를 추가해주세요.
-             */
-            state.loading
-            ? "Loading..."
-            : state.complete
-            ? "Done ✅"
-            : state.coll === 0 || state.borrow === 0
-            ? "Enter input value"
-            : state.isBlocked
-            ? "Check  stats"
-            : "Open Trove"}
+          {buttonMessage()}
         </button>
       ) : (
         <Web3Connect className="connect-wallet" />
