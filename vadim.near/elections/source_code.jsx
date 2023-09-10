@@ -240,6 +240,7 @@ return (
               <small>(number of similar votes / number of user votes)</small>
               <small>
                 Users followed by {state.accountId} are marked with{" "}
+                {followerSVG}
               </small>
             </div>
           </>
@@ -251,7 +252,10 @@ return (
     <p>
       <small>
         Data is retrieved automatically from the NEAR Indexer using Github
-        worker with a slight delay.
+        worker with a slight delay ||{" "}
+        <a href="/d379906a6274af7c56616ebc2157cc0d46256f7359f96bb36f482717a8af80f7/widget/NDC.Elections.Main?house=1">
+          Election stats
+        </a>
       </small>
     </p>
   </div>
