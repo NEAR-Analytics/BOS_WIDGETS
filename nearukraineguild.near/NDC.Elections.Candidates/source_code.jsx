@@ -594,7 +594,7 @@ const CandidateItem = ({ candidateId, votes, index }) => (
       selected={state.selected === candidateId}
       winnerId={index < getWinnerPlaces()}
     >
-      <div className="d-flex w-100 align-items-center">{index + 1}</div>
+      <div className="d-flex w-40 align-items-center">{index + 1}</div>
       <div className="d-flex w-100 align-items-center">
         {isVisible() && (
           <Expand>
