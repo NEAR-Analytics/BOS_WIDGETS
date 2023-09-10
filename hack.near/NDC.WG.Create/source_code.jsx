@@ -257,10 +257,6 @@ return (
             <div className="row">
               <div className="col-lg-6 mt-2">
                 <h5>Details</h5>
-                <Widget
-                  src="hack.near/widget/group.card"
-                  props={{ creatorId, groupId, group: state.group }}
-                />
                 <div className="mb-2 mt-3">
                   <Widget
                     src="near/widget/MetadataEditor"
