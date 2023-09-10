@@ -7,9 +7,13 @@ const widget = {
   styledComponents: "hack.near/widget/NDC.StyledComponents",
 };
 
-const o = Social.keys(`*/graph/${communityId}/${accountId}`, undefined, {
-  values_only: true,
-});
+const isMember = Social.keys(
+  `${accountId}/graph/${communityId}/${accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
 
 const Header = styled.div`
   background: black;
@@ -55,7 +59,7 @@ return (
       />
     ) : (
       <Toolbar>
-        {o && Object.keys(o).length ? (
+        {isMember && Object.keys(isMember).length ? (
           <Widget
             src={widget.styledComponents}
             props={{
