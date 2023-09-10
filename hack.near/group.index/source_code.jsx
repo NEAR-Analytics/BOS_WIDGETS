@@ -117,7 +117,7 @@ return (
               <button
                 onClick={() =>
                   Social.set({
-                    graph: { [communityId]: { [accountId]: "" } },
+                    graph: { [communityId]: { [context.accountId]: "" } },
                   })
                 }
                 className="btn btn-success"
