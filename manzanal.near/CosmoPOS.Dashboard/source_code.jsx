@@ -6,6 +6,7 @@ State.init({
   target,
   loading: false,
   data: null,
+  dataIntervalStarted: false,
 });
 
 const updateToken = (token) => State.update({ token });
@@ -40,20 +41,17 @@ const formatTime = (timestamp) => {
 const fetchTransactionsData = () => {
   State.update({ data: null, loading: true });
   const res = fetch(
-    `https://api.pikespeak.ai/account/ft-transfer/${
-      state.target || "fazendacosmica.near"
-    }?limit=50&offset=1`,
+    `https://api.pikespeak.ai/account/ft-transfer/${state.target || target}`,
     fetchOptions
   );
   if (!res.ok) {
     return `Pikespeak API returned error: ${JSON.stringify(res)}`;
   }
-  console.log("res", res.body);
   const filterByToken = res.body.filter((item) => item.contract == state.token);
   const data = filterByToken.map((item) => ({
     ...item,
-    transaction_id: `${item.transaction_id.substring(
-      item.transaction_id.length - 6,
+    transaction_id_trunc: `${item.transaction_id.substring(
+      item.transaction_id.length - 12,
       item.transaction_id.length
     )}...`,
     amount: item.amount ? parseInt(item.amount).toFixed(2) : "-",
@@ -65,9 +63,16 @@ const fetchTransactionsData = () => {
   State.update({ data, loading: false });
 };
 
-fetchTransactionsData();
+if (!state.dataIntervalStarted) {
+  State.update({ dataIntervalStarted: true });
+  fetchTransactionsData();
 
-if (state.loading) return <>Loading...</>;
+  setInterval(() => {
+    fetchTransactionsData();
+  }, 10000);
+}
+
+if (state.loading || !state.dataIntervalStarted) return <>Loading...</>;
 
 const InputWrapper = styled.label`
   display: flex;
@@ -103,7 +108,7 @@ const Button = styled.button`
 `;
 
 const InputContainer = styled.div`
-    display: flex;
+  display: flex;
   flex-direction: column;
   gap: 4px;
   margin-bottom: 10px
@@ -111,10 +116,7 @@ const InputContainer = styled.div`
 
 return (
   <>
-    <Widget
-      src="manzanal.near/widget/HeaderWithLogo"
-      props={{ title: "SMART POS VIEW" }}
-    />
+    <Widget src="manzanal.near/widget/CosmoPOS.HeaderWithLogo" props={{}} />
     <div className="container-fluid py-2 gap-5">
       <InputContainer>
         <Label>Token: {state.token}</Label>
@@ -155,6 +157,10 @@ return (
               title: "Tx Id",
               key: "transaction_id",
               description: "Transaction Id",
+              heyperlink: "yes",
+              link: "yes",
+              beforehref: `https://nearblocks.io/txns/`,
+              afterhref: "",
             },
             {
               title: "Status",
@@ -167,14 +173,14 @@ return (
               description: "Sender",
             },
             {
-              title: "Receiver",
-              key: "receiver",
-              description: "Receiver",
-            },
-            {
               title: "Amount",
               key: "amount",
               description: "Amount",
+            },
+            {
+              title: "Receiver",
+              key: "receiver",
+              description: "Receiver",
             },
             {
               title: "Date",
