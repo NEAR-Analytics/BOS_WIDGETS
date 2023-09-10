@@ -10,12 +10,15 @@ const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const NFT_SERIES = [205, 206];
 const QUERY_API_ENDPOINT = "https://graph.mintbase.xyz/mainnet";
 
+console.log("heh");
+
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   houses: "election.ndctools.near/widget/NDC.Elections.Houses",
   progress: "election.ndctools.near/widget/NDC.Elections.Progress",
-  candidates: "election.ndctools.near/widget/NDC.Elections.Candidates",
+  candidates:
+    "d379906a6274af7c56616ebc2157cc0d46256f7359f96bb36f482717a8af80f7/widget/NDC.Elections.Candidates",
   statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
   activities: "election.ndctools.near/widget/NDC.Elections.Activities",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
@@ -36,13 +39,13 @@ State.init({
   isBondedAmount: 0,
   reload: true,
   houses: [],
-  acceptedPolicy: false,
+  acceptedPolicy: true,
   hasVotedOnAllProposals: false,
   hasPolicyNFT: null,
   hasIVotedNFT: null,
   iVotedToken: false,
 });
-console.log(state.selectedHouse);
+// console.log(state.selectedHouse);
 const currentUser = context.accountId;
 
 const steps = [
@@ -52,7 +55,7 @@ const steps = [
   },
   {
     title: 'Minted "Fair Voting Policy" NFT',
-    completed: state.hasPolicyNFT,
+    completed: true,
   },
   {
     title: "Voting Completed",
@@ -115,6 +118,8 @@ function loadHouses() {
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
 
+  console.log("houses", houses[0]);
+
   State.update({ houses });
 }
 
@@ -165,11 +170,10 @@ function loadFlagged() {
 }
 
 function loadPolicy() {
-  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-    user: currentUser,
-  });
-
-  State.update({ acceptedPolicy });
+  // const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+  //   user: currentUser,
+  // });
+  // State.update({ acceptedPolicy });
 }
 
 function loadWinners() {
@@ -423,10 +427,7 @@ return (
                     ids,
                     ...state,
                     ...house,
-                    result:
-                      state.winnerIds.length > 0
-                        ? house.result.sort((a, b) => b[1] - a[1])
-                        : rand(house.result),
+                    result: house.result.sort((a, b) => b[1] - a[1]),
                   }}
                 />
               )}
