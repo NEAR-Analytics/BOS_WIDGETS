@@ -1,11 +1,12 @@
-const Owner = "humans-of-near.near";
+const Owner =
+  "819c44a1bdd666dce2119a6e92f9d7643136e02fc577e6cd0542bb38f6172b4a";
 const API_URL = "https://humans.nearverselabs.com/api";
-const MAP_STYLE = "mapbox://styles/mapbox/dark-v10";
+const MAP_STYLE = "mapbox://styles/mapbox/streets-v12";
 const MAP_TOKEN =
   "pk.eyJ1IjoidGVqMDEiLCJhIjoiY2xqcHZ2dGpkMDB5azNsbzQ0bmMwNjRjaCJ9.FVv2zRPaLwzZMgagbI2YZw";
 
-const center = [0, 30];
-const zoom = 1.7;
+const center = [-74.00597, 40.71427];
+const zoom = 8.9;
 const accountId = context.accountId;
 
 //Styles
@@ -129,40 +130,39 @@ return (
     <Header>
       <Widget src={`${Owner}/widget/Header`} />
     </Header>
-    {accountId && hasSBTToken && (
-      <div>
-        <Profile
-          class="btn"
-          style={BtnStyle}
-          onClick={() => {
-            State.update({ showModal: true });
-          }}
+
+    <div>
+      <Profile
+        class="btn"
+        style={BtnStyle}
+        onClick={() => {
+          State.update({ showModal: true });
+        }}
+      >
+        {`Profile`}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 48 48"
         >
-          {`Profile`}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 48 48"
-          >
-            <mask id="ipSDownOne0">
-              <path
-                fill="#fff"
-                stroke="#fff"
-                stroke-linejoin="round"
-                stroke-width="4"
-                d="M36 19L24 31L12 19h24Z"
-              />
-            </mask>
+          <mask id="ipSDownOne0">
             <path
-              fill="currentColor"
-              d="M0 0h48v48H0z"
-              mask="url(#ipSDownOne0)"
+              fill="#fff"
+              stroke="#fff"
+              stroke-linejoin="round"
+              stroke-width="4"
+              d="M36 19L24 31L12 19h24Z"
             />
-          </svg>
-        </Profile>
-      </div>
-    )}
+          </mask>
+          <path
+            fill="currentColor"
+            d="M0 0h48v48H0z"
+            mask="url(#ipSDownOne0)"
+          />
+        </svg>
+      </Profile>
+    </div>
 
     {accountId && hasSBTToken && (
       <div
