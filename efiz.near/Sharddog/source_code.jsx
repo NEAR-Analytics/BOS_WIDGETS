@@ -62,7 +62,7 @@ function Sharddog({ owner, media }) {
   return (
     <Link to={`/mob.near/widget/ProfilePage?accountId=${owner}`}>
       <Widget
-        src="mob.near/widget/Image"
+        src="sharddog.near/widget/Image"
         props={{
           image: {
             url: media,
