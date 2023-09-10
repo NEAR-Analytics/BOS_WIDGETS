@@ -20,7 +20,16 @@ function fetchTokens() {
             mb_views_nft_tokens(
                 limit: ${limit},
                 offset: ${state.offset}
-              where: { nft_contract_id: { _eq: "mint.sharddog.near" }}
+              where: {
+                _or: [
+                  {nft_contract_id: {_eq: "mint.sharddog.near"}},
+                  {nft_contract_id: {_eq: "comic.sharddog.near"}},
+                  {nft_contract_id: {_eq: "humansofbrazil.sharddog.near"}},
+                  {nft_contract_id: {_eq: "mmc-mint.sharddog.near"}},
+                  {nft_contract_id: {_eq: "nft.bluntdao.near"}},
+                  {nft_contract_id: {_eq: "meteor.sharddog.near"}},
+                ]
+              }
               order_by: {minted_timestamp: desc}
             ) {
               media
