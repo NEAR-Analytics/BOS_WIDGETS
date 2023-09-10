@@ -1,18 +1,21 @@
-const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
+const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
 
-const groupInfo = props.group ?? Social.get(`*/thing/${groupId}/**`, "final");
+const groupInfo =
+  props.group ?? Social.get(`*/thing/${groupId}/metadata/**`, "final");
 
 if (!groupInfo) {
   return "group details not found";
 }
 
 const groupKey = Object.keys(groupInfo)[0];
-
-const tags = Object.keys(
-  groupInfo[groupKey].thing[Object.keys(groupInfo[groupKey].thing)[0]].tags ||
-    {}
+const groupThing = Object.keys(
+  groupInfo[groupKey].thing[Object.keys(groupInfo[groupKey].thing)[0]]
 );
+
+const tags = Object.keys(groupInfo[groupKey].thing[groupId].metadata.tags);
 const groupUrl = `/hack.near/widget/group?groupId=${groupId}`;
+
+const canJoin = props.canJoin ?? true;
 
 const Card = styled.div`
   display: flex;
@@ -95,12 +98,8 @@ return (
         <Widget
           src="mob.near/widget/Image"
           props={{
-            image:
-              groupInfo[groupKey].thing[Object.keys(groupInfo[groupKey].thing)]
-                .image,
-            alt: groupInfo[groupKey].thing[
-              Object.keys(groupInfo[groupKey].thing)
-            ].name,
+            image: groupInfo[groupKey].thing[groupId].metadata.image,
+            alt: groupInfo[groupKey].thing[groupId].metadata.name,
             fallbackUrl:
               "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
           }}
@@ -109,10 +108,7 @@ return (
 
       <div>
         <TextLink href={groupUrl} ellipsis bold>
-          {
-            groupInfo[groupKey].thing[Object.keys(groupInfo[groupKey].thing)[0]]
-              .name
-          }
+          {groupInfo[groupKey].thing[groupId].metadata.name}
         </TextLink>
 
         {tags.length > 0 && (
@@ -122,6 +118,8 @@ return (
         )}
       </div>
     </CardLeft>
-    <Widget src="hack.near/widget/group.join" props={{ groupId }} />
+    {canJoin && (
+      <Widget src="hack.near/widget/group.join" props={{ groupId }} />
+    )}
   </Card>
 );
