@@ -475,6 +475,9 @@ const FAQWrapper = styled.div`
   @media screen and (max-width: 540px) {
     padding: 0 1em;
 }
+  .FAQ_FAQ_Heading{
+    margin-bottom: 2.5rem;
+  }
   .FAQ_FQAs__10snz {
   width: 100%;
   display: flex;
@@ -847,7 +850,7 @@ return (
       </div>
     </FeatureContainer>
     <FAQWrapper>
-      <H1 className="text-center">Frequently Asked Questions</H1>
+      <H1 className="text-center FAQ_FAQ_Heading">Frequently Asked Questions</H1>
       <div className="FAQ_FQAs__10snz">
         {state?.faqs.map((faq, index) => (
           <div className="FAQCard_container__1Ei5V">
