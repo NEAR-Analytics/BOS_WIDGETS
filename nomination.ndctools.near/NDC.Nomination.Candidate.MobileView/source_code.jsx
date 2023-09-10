@@ -560,11 +560,14 @@ return (
                 !context.accountId ||
                 !state.verified ||
                 context.accountId === accountId,
-              className: `${
-                context.accountId && state.voted ? "primary" : "secondary"
-              } dark`,
+              className: "primary dark",
               href: "#/election.ndctools.near/widget/NDC.Elections.Main",
-              icon: <i className="bi bi-hand-thumbs-up"></i>,
+              icon: (
+                <img
+                  style={{ "margin-bottom": "5px" }}
+                  src="https://ipfs.near.social/ipfs/bafkreia4iqjdjqhwplrunkjvmri2c6egm2pmlt56f3n6qesmy5ofw27g3y"
+                />
+              ),
             },
           }}
         />
