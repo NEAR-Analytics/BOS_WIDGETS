@@ -8,9 +8,7 @@ if (daos === null) {
 
 const { handleClose } = props;
 
-const daoId = props.daoId ?? "hack.near";
-
-const policy = Near.view(daoId, "get_policy");
+const policy = Near.view(creatorId, "get_policy");
 
 if (policy === null) {
   return "Loading...";
@@ -18,7 +16,7 @@ if (policy === null) {
 
 const deposit = policy.proposal_bond;
 
-const groups = Social.get(`${daoId}/thing/directory`);
+const groups = Social.get(`${creatorId}/thing/directory`);
 
 const groupsArray = JSON.parse(groups);
 
@@ -166,11 +164,18 @@ const Section = styled.div`
 `;
 
 const handleCreate = () => {
+  const groupId = uuid();
+
   Social.set({
     thing: {
       [groupId]: {
-        ...state.group,
-        members: { ...state.members },
+        "": JSON.stringify(...state.group),
+        metadata: {
+          name: "TODO",
+          descirption: "TODO",
+          image: "TODO",
+          backgroundImage: "TOOD",
+        },
       },
     },
     graph: {
@@ -179,34 +184,36 @@ const handleCreate = () => {
       },
     },
     index: {
-      graph: JSON.stringify({
-        key: "request",
+      thing: JSON.stringify({
+        key: groupId,
         value: {
-          type: "add",
-          thing: {
-            [groupId]: {
-              ...state.group,
-              members: { ...state.members },
-            },
-          },
+          type: "group",
         },
       }),
-      notify: JSON.stringify({
-        key: daoId,
+      every: JSON.stringify({
+        key: "group",
         value: {
-          type: "request",
-          template: "hack.near/widget/notification",
-          data: {
+          id: groupId,
+        },
+      }),
+      graph: JSON.stringify(
+        Object.keys(state.members).map((account) => ({
+          key: groupId,
+          value: {
             type: "add",
-            thing: {
-              [groupId]: {
-                ...state.group,
-                members: { ...state.members },
-              },
-            },
+            accountId: account,
           },
-        },
-      }),
+        }))
+      ),
+      notify: JSON.stringify(
+        Object.keys(state.members).map((account) => ({
+          key: account,
+          value: {
+            type: "add",
+            message: "added to group",
+          },
+        }))
+      ),
     },
   });
 };
