@@ -214,7 +214,7 @@ if (state.currentPage == pages.checkStorage) {
       src={`${widgetAccountId}/widget/StorageChecker`}
       props={{
         callback: checkStorageCallback,
-        storageNecessaryKb: 100,
+        storageNecessaryKb: 50,
       }}
     />
   );
