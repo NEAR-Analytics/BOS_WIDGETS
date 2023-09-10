@@ -466,6 +466,7 @@ const FeatureDescription = styled.p`
 
 const FAQWrapper = styled.div`
  width: 100%;
+ max-width: 700px;
   display: flex;
   align-items: center;
   flex-flow: column nowrap;
