@@ -137,7 +137,15 @@ const handleCreate = () => {
   Social.set({
     thing: {
       [groupId]: {
-        ...state.group,
+        metadata: {
+          ...state.group,
+          type: {
+            group: {
+              src: "every.near/type/group",
+              blockHeight: "final",
+            },
+          },
+        },
       },
     },
     graph: {
@@ -146,34 +154,33 @@ const handleCreate = () => {
       },
     },
     index: {
-      thing: JSON.stringify({
+      thing: {
         key: groupId,
         value: {
           type: "group",
         },
-      }),
-      every: JSON.stringify({
+      },
+      every: {
         key: "group",
         value: {
           id: groupId,
         },
-      }),
+      },
       graph: JSON.stringify(
         Object.keys(state.members).map((account) => ({
           key: groupId,
           value: {
-            type: "add",
+            type: "create",
             accountId: account,
           },
         }))
       ),
-
       notify: JSON.stringify(
         Object.keys(state.members).map((account) => ({
           key: account,
           value: {
             type: "add",
-            message: "added to group",
+            message: "added you to group",
           },
         }))
       ),
