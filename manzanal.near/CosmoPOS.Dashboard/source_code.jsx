@@ -63,9 +63,9 @@ const fetchTransactionsData = () => {
   State.update({ data, loading: false });
 };
 
+fetchTransactionsData();
 if (!state.dataIntervalStarted) {
   State.update({ dataIntervalStarted: true });
-  fetchTransactionsData();
 
   setInterval(() => {
     fetchTransactionsData();
