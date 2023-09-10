@@ -486,6 +486,12 @@ const toggleComplete = () => {
   State.update({ complete: !state.complete });
 };
 
+const resetComplete = () => {
+  // State.update({
+  //   complete: false,
+  // });
+  window.location.reload();
+};
 /**
  * @description
  * Present the current status of the UI where the transaction is in progress.
@@ -498,9 +504,20 @@ Ethers.provider() &&
         loading: false,
       });
       complete();
+      console.log("res");
+      console.log(res);
+      setTimeout(() => {
+        toggleComplete();
+      }, 500);
     })
     .catch((err) => {
       State.update({ loading: false });
+      console.log("err");
+      console.log(err);
+      // alert("Trove 생성에 실패했습니다!");
+      // setTimeout(() => {
+      //   toggleComplete();
+      // }, 500);
     });
 
 /**
@@ -540,6 +557,9 @@ const closeTrove = () => {
       liquidationReserve: state.liquidationReserve,
       isOpenTrove: false,
     });
+    setTimeout(() => {
+      toggleComplete();
+    }, 500);
   });
 };
 
@@ -673,6 +693,7 @@ return (
       )}
     </div>
     <button onClick={closeTrove}>Close Trove</button>
+    <button onClick={resetComplete}>reset comoplete</button>
     <p>isOpenTrove : {state.isOpenTrove.toString()}</p>
     <p>loading : {state.loading.toString()}</p>
     <p>complete : {state.complete.toString()}</p>
