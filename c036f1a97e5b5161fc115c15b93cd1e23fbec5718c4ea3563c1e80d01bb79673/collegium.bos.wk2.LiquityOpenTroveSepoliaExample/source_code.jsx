@@ -312,7 +312,7 @@ const openTrove = async () => {
   );
 
   /** Mission 3. NICR = Ether / LUSD * 100 */
-  const NICR = null;
+  const NICR = (Ether / LUSD) * 100;
   sortedTroveContract.getSize().then((numTroves) => {
     const _numTrials = numTroves.mul(ethers.BigNumber.from("15"));
 
@@ -497,6 +497,14 @@ Ethers.provider() &&
  * 외부 css 파일 링크: "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css"
  */
 if (state.borrowWrapperStyle === undefined) {
+  const cssUrl =
+    "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css";
+
+  const res = fetch(cssUrl);
+
+  State.update({
+    borrowWrapperStyle: res.body,
+  });
 }
 
 /**
@@ -605,7 +613,9 @@ return (
             : /**
              * Mission 1. "이 지갑은 이미 활성화된 트로브가 있습니다." 메시지를 추가해주세요.
              */
-            state.loading
+            state.isOpenTrove === true
+            ? "이 지갑은 이미 활성화된 트로브가 있습니다."
+            : state.loading
             ? "Loading..."
             : state.complete
             ? "Done ✅"
