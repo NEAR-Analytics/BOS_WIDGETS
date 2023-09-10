@@ -1,10 +1,5 @@
 const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
 
-const groupMembers = Social.get(`*/graph/${groupId}/**`, "final");
-
-if (!groupMembers) {
-  return "group members not found";
-}
 const groupInfo = props.group ?? Social.get(`*/thing/${groupId}/**`, "final");
 
 if (!groupInfo) {
