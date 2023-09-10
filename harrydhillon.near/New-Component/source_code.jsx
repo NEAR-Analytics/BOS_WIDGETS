@@ -1,1 +1,1 @@
-return "hello mate ";
+return "hell ";
