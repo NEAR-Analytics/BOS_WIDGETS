@@ -850,7 +850,9 @@ return (
       </div>
     </FeatureContainer>
     <FAQWrapper>
-      <H1 className="text-center FAQ_FAQ_Heading">Frequently Asked Questions</H1>
+      <H1 className="text-center FAQ_FAQ_Heading">
+        Frequently Asked Questions
+      </H1>
       <div className="FAQ_FQAs__10snz">
         {state?.faqs.map((faq, index) => (
           <div className="FAQCard_container__1Ei5V">
@@ -883,6 +885,27 @@ return (
         ))}
       </div>
     </FAQWrapper>
+    <FeatureContainer>
+      <div className="Features_featureContainer features-card">
+        <div className="Features_content centered">
+          <H1 className="text-center">
+            As seen on the <Accent>Media</Accent>
+          </H1>
+          <FeatureDescription>
+            GenaDrop is getting featured globally
+          </FeatureDescription>
+          <Widget src="jgodwill.near/widget/GenaDrop.Home.PartnersCarousel" />
+          <a
+            style={{ textDecoration: "none" }}
+            href="/#/jgodwill.near/widget/GenaDrop.Partner"
+          >
+            <PrimaryButton className="extra mt-4">
+              Apply for Partnership
+            </PrimaryButton>
+          </a>
+        </div>
+      </div>
+    </FeatureContainer>
     <Widget src="jgodwill.near/widget/GenaDrop.Footer" />
   </>
 );
