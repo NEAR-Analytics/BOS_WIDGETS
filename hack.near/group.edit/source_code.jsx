@@ -74,6 +74,7 @@ const handleSave = () => {
   Social.set({
     thing: {
       [groupId]: {
+        "": JSON.stringify(state.group),
         metadata: {
           ...state.group,
           type: {
@@ -118,7 +119,7 @@ const handleSave = () => {
           key: account,
           value: {
             type: "add",
-            message: "added to group",
+            message: "added you to group",
           },
         }))
       ),
