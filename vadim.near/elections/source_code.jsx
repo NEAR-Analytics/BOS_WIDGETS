@@ -39,30 +39,35 @@ const accounts = Object.keys(state.voters ?? []).map((account_id) => {
   return (
     <div class="row align-items-start">
       <div
-        class="col ps-0 overflow-hidden"
+        class="col ps-0 overflow-hidden d-flex"
         style={{
+          gap: "3px",
           backgroundColor:
             account_id !== state.accountId ? "white" : "lightblue",
         }}
       >
-        <a
-          onClick={() => {
-            State.update({ accountId: account_id });
-            return false;
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          <Widget
-            src="mob.near/widget/N.ProfileLine"
-            props={{
-              accountId: account_id,
-              link: false,
-              hideAccountId: true,
-              hideImage: false,
+        <div class="overflow-hidden" style={{ maxWidth: "100vw" }}>
+          <a
+            onClick={() => {
+              State.update({ accountId: account_id });
+              return false;
             }}
-          />{" "}
+            style={{ cursor: "pointer" }}
+          >
+            <Widget
+              src="mob.near/widget/N.ProfileLine"
+              props={{
+                accountId: account_id,
+                link: false,
+                hideAccountId: true,
+                hideImage: false,
+              }}
+            />
+          </a>
+        </div>
+        <div class="text-secondary">
           ({countKeys(state.voters[account_id])})
-        </a>
+        </div>
       </div>
     </div>
   );
@@ -100,17 +105,21 @@ const getVotes = (house) => {
       currentAccountVotes.push(account_id);
       return (
         <div class="row align-items-start">
-          <div class="col ps-2 overflow-hidden">
-            <Widget
-              src="mob.near/widget/N.ProfileLine"
-              props={{
-                accountId: account_id,
-                link: true,
-                hideAccountId: true,
-                hideImage: false,
-              }}
-            />
-            {candidateFriends.includes(account_id) ? followerSVG : ""}
+          <div class="col ps-2 overflow-hidden d-flex" style={{ gap: "3px" }}>
+            <div class="overflow-hidden" style={{ maxWidth: "100vw" }}>
+              <Widget
+                src="mob.near/widget/N.ProfileLine"
+                props={{
+                  accountId: account_id,
+                  link: true,
+                  hideAccountId: true,
+                  hideImage: false,
+                }}
+              />
+            </div>
+            <div>
+              {candidateFriends.includes(account_id) ? followerSVG : ""}
+            </div>
           </div>
         </div>
       );
@@ -165,20 +174,24 @@ userSimilarity = Object.values(
 
 const userWithSimilarVotes = userSimilarity.slice(0, 30).map((item) => {
   return (
-    <div class="col col-md-4 ps-2 overflow-hidden">
-      <Widget
-        src="mob.near/widget/N.ProfileLine"
-        props={{
-          accountId: item.accountId,
-          link: true,
-          hideAccountId: true,
-          hideImage: false,
-        }}
-      />
-      {candidateFriends.includes(item.accountId) ? followerSVG : ""}
-      <span class="text-secondary">
-        ({item.commonVotes} / {item.accountVotesNumber})
-      </span>
+    <div class="col col-4 ps-2 overflow-hidden d-flex" style={{ gap: "3px" }}>
+      <div class="overflow-hidden" style={{ maxWidth: "100vw" }}>
+        <Widget
+          src="mob.near/widget/N.ProfileLine"
+          props={{
+            accountId: item.accountId,
+            link: true,
+            hideAccountId: true,
+            hideImage: false,
+          }}
+        />
+      </div>
+      <div class="text-nowrap">
+        {candidateFriends.includes(item.accountId) ? followerSVG : ""}
+        <span class="text-secondary">
+          ({item.commonVotes} / {item.accountVotesNumber})
+        </span>
+      </div>
     </div>
   );
 });
@@ -226,7 +239,7 @@ return (
             <div class="row text-center text-secondary mt-3">
               <small>(number of similar votes / number of user votes)</small>
               <small>
-                {state.accountId}'s followers marked {followerSVG}
+                Users followed by {state.accountId} are marked with{" "}
               </small>
             </div>
           </>
@@ -237,8 +250,8 @@ return (
     <hr />
     <p>
       <small>
-        Data is retrieved automatically from the NEAR Indexer with a slight
-        delay.
+        Data is retrieved automatically from the NEAR Indexer using Github
+        worker with a slight delay.
       </small>
     </p>
   </div>
