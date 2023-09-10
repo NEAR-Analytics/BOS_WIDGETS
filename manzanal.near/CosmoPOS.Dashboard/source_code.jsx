@@ -108,79 +108,88 @@ const InputContainer = styled.div`
   gap: 4px;
   margin-bottom: 10px
 `;
+
 return (
-  <div className="container-fluid py-2 gap-5">
-    <InputContainer>
-      <Label>Token: {state.token}</Label>
-      <InputWrapper>
-        <input
-          type="text"
-          placeholder="Change token..."
-          onChange={(e) => State.update({ tokenTemp: e.target.value })}
-          style={{
-            borderRadius: "50px",
-          }}
-        />
-        <Button onClick={() => updateToken(state.tokenTemp)}>Update</Button>
-      </InputWrapper>
-    </InputContainer>
-    <InputContainer>
-      <Label>Target: {state.target}</Label>
-      <InputWrapper>
-        <input
-          type="text"
-          placeholder="Change target..."
-          onChange={(e) => State.update({ targetTemp: e.target.value })}
-          style={{
-            borderRadius: "50px",
-          }}
-        />
-        <Button onClick={(e) => updateTarget(state.targetTemp)}>Update</Button>
-      </InputWrapper>
-    </InputContainer>
+  <>
     <Widget
-      src="lord1.near/widget/table-pagination"
-      props={{
-        data: state.data,
-        columns: [
-          {
-            title: "Tx Id",
-            key: "transaction_id",
-            description: "Transaction Id",
-          },
-          {
-            title: "Status",
-            key: "status",
-            description: "Status",
-          },
-          {
-            title: "Sender",
-            key: "sender",
-            description: "Sender",
-          },
-          {
-            title: "Receiver",
-            key: "receiver",
-            description: "Receiver",
-          },
-          {
-            title: "Amount",
-            key: "amount",
-            description: "Amount",
-          },
-          {
-            title: "Date",
-            key: "date",
-            description: "date",
-          },
-          {
-            title: "Time",
-            key: "time",
-            description: "time",
-          },
-        ],
-        rowsCount: 10,
-      }}
+      src="manzanal.near/widget/HeaderWithLogo"
+      props={{ title: "SMART POS VIEW" }}
     />
-  </div>
+    <div className="container-fluid py-2 gap-5">
+      <InputContainer>
+        <Label>Token: {state.token}</Label>
+        <InputWrapper>
+          <input
+            type="text"
+            placeholder="Change token..."
+            onChange={(e) => State.update({ tokenTemp: e.target.value })}
+            style={{
+              borderRadius: "50px",
+            }}
+          />
+          <Button onClick={() => updateToken(state.tokenTemp)}>Update</Button>
+        </InputWrapper>
+      </InputContainer>
+      <InputContainer>
+        <Label>Target: {state.target}</Label>
+        <InputWrapper>
+          <input
+            type="text"
+            placeholder="Change target..."
+            onChange={(e) => State.update({ targetTemp: e.target.value })}
+            style={{
+              borderRadius: "50px",
+            }}
+          />
+          <Button onClick={(e) => updateTarget(state.targetTemp)}>
+            Update
+          </Button>
+        </InputWrapper>
+      </InputContainer>
+      <Widget
+        src="lord1.near/widget/table-pagination"
+        props={{
+          data: state.data,
+          columns: [
+            {
+              title: "Tx Id",
+              key: "transaction_id",
+              description: "Transaction Id",
+            },
+            {
+              title: "Status",
+              key: "status",
+              description: "Status",
+            },
+            {
+              title: "Sender",
+              key: "sender",
+              description: "Sender",
+            },
+            {
+              title: "Receiver",
+              key: "receiver",
+              description: "Receiver",
+            },
+            {
+              title: "Amount",
+              key: "amount",
+              description: "Amount",
+            },
+            {
+              title: "Date",
+              key: "date",
+              description: "date",
+            },
+            {
+              title: "Time",
+              key: "time",
+              description: "time",
+            },
+          ],
+          rowsCount: 10,
+        }}
+      />
+    </div>
+  </>
 );
