@@ -1,5 +1,5 @@
-const accountId = props.accountId ?? "james.near";
-const communityId = props.communityId ?? "everyone";
+const accountId = props.accountId ?? context.accountId;
+const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
 
 const widgets = {
   header: "hack.near/widget/page.navbar",
@@ -7,7 +7,7 @@ const widgets = {
   create: "hack.near/widget/group.create",
 };
 
-const groups = Social.keys(`${accountId}/graph/*`);
+Social.index("every", "group", { limit: 10 });
 
 if (!groups) {
   return "none found";
@@ -16,7 +16,7 @@ if (!groups) {
 const { isVerified } = props;
 
 const isMember = Social.keys(
-  `${context.accountId}/graph/${communityId}/${context.accountId}`,
+  `${context.accountId}/graph/${groupId}/${context.accountId}`,
   undefined,
   {
     values_only: true,
@@ -117,7 +117,7 @@ return (
               <button
                 onClick={() =>
                   Social.set({
-                    graph: { [communityId]: { [context.accountId]: "" } },
+                    graph: { [groupId]: { [context.accountId]: "" } },
                   })
                 }
                 className="btn btn-success"
