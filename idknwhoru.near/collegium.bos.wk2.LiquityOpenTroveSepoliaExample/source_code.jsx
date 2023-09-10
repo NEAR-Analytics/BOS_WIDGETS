@@ -497,6 +497,14 @@ Ethers.provider() &&
  * 외부 css 파일 링크: "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css"
  */
 if (state.borrowWrapperStyle === undefined) {
+  const cssData = fetch("PUT CSS FILE LINK").body;
+
+  State.update({
+    borrowWrapperStyle: styled.div`
+    width: 100%;
+    ${cssData}
+`,
+  });
 }
 
 /**
@@ -504,10 +512,7 @@ if (state.borrowWrapperStyle === undefined) {
  * This UI style uses the the "Styled Component" library.
  * Update this code block to change the style.
  */
-const BorrowWrapper = styled.div`
-    width: 100%;
-    ${state.borrowWrapperStyle}
-`;
+const BorrowWrapper = state.borrowWrapperStyle;
 
 /**
  * @description
