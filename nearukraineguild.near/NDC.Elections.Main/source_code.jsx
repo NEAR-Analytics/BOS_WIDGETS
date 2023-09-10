@@ -10,15 +10,12 @@ const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const NFT_SERIES = [205, 206];
 const QUERY_API_ENDPOINT = "https://graph.mintbase.xyz/mainnet";
 
-console.log("heh");
-
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   houses: "election.ndctools.near/widget/NDC.Elections.Houses",
   progress: "election.ndctools.near/widget/NDC.Elections.Progress",
-  candidates:
-    "d379906a6274af7c56616ebc2157cc0d46256f7359f96bb36f482717a8af80f7/widget/NDC.Elections.Candidates",
+  candidates: "nearukraineguild.near/widget/NDC.Elections.Candidates",
   statistic: "election.ndctools.near/widget/NDC.Elections.Statistic",
   activities: "election.ndctools.near/widget/NDC.Elections.Activities",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
@@ -45,7 +42,6 @@ State.init({
   hasIVotedNFT: null,
   iVotedToken: false,
 });
-// console.log(state.selectedHouse);
 const currentUser = context.accountId;
 
 const steps = [
@@ -118,8 +114,6 @@ function loadHouses() {
     Near.view(electionContract, "proposal", { prop_id: ids[3] }),
   ];
 
-  console.log("houses", houses[0]);
-
   State.update({ houses });
 }
 
@@ -152,7 +146,6 @@ function loadBond() {
   ).then((resp) => {
     if (resp.body) {
       const amount = resp.body.bond ? parseFloat(resp.body.bond) : 0;
-      console.log("bond ->", resp.body);
       State.update({ isBonded: amount > 0 });
     }
   });
