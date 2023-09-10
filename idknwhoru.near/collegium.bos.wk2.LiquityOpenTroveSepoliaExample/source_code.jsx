@@ -501,6 +501,9 @@ Ethers.provider() &&
 const cssLink = "PUT CSS FILE LINK";
 const cssData = fetch(cssLink).body;
 
+/**
+ * 여기는 고치지 마세요!
+ */
 if (cssLink !== "PUT CSS FILE LINK") {
   if (!cssData) return "";
 }
