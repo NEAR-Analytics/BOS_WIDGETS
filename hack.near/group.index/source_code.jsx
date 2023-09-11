@@ -96,7 +96,7 @@ const renderItem = (item) => {
               <Widget
                 src={`hack.near/widget/group`}
                 props={{
-                  groupId: item,
+                  group,
                   creatorId: item.accountId,
                 }}
               />
