@@ -58,7 +58,7 @@ const Layout = styled.div`
     }
 
     .value {
-      color: ${textColor};
+      color: #35A39F;
       font-weight: 600;
     }
   }
