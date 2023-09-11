@@ -72,7 +72,14 @@ const PreviewTicketModal = (
         <p style={{ fontSize: 12, fontWeight: "500", color: "gray" }}>
           {props.description}
         </p>
-        <p style={{ fontSize: 12, fontWeight: "500", color: "gray" }}>
+        <p
+          style={{
+            fontSize: 12,
+            fontWeight: "500",
+            color: "gray",
+            marginTop: 10,
+          }}
+        >
           {props?.formValues?.location}
         </p>
         <div style={{ display: "flex", marginBottom: 10 }}>
