@@ -4,7 +4,6 @@ messages = messages ? messages.reverse() : [];
 const Main = styled.div`
     width:100%;
     background-color:#fff;
-    padding-right:20px;
 `;
 
 const Message = styled.div`
