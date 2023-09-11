@@ -69,7 +69,7 @@ return marketData !== null ? (
     </div>
     <hr></hr>
     <div>
-      <h5>Explore</h5>
+      <h5>Explore By User</h5>
       <p>
         Replace "opencann.near" with any contract address to view public data.
       </p>
@@ -77,7 +77,7 @@ return marketData !== null ? (
     </div>
     <hr></hr>
     <div>
-      <h5>For Sale</h5>
+      <h5>Data Sets</h5>
       <p>
         Showing NFTs listed by contracts learnernft.learnclub.near and
         opencann.mintbase1.near.
@@ -157,6 +157,22 @@ return marketData !== null ? (
           );
         }
       )}
+    </div>
+    <div>
+      <h5>Algorithms</h5>
+      <p>
+        Purchase jobs you would like to run on your data. Each job describes the
+        input and output file formats, as well as the Docker container used.
+      </p>
+    </div>
+    <div>
+      <h5>Impact Certificates</h5>
+      <p>
+        Impact certificates allow scientists and funders an opportunity to earn
+        retroactive public goods funding for thier contributions to knowledge as
+        a public good. Impact Certificates are linked to corresponding input
+        data, algorithms, and output data that generated impact in the world.
+      </p>
     </div>
     <div class="py-4">
       <hr></hr>
