@@ -17,7 +17,7 @@ if (!groups) {
 const { isVerified } = props;
 
 const isMember = Social.keys(
-  `${creatorId}/graph/${groupId}/${accountId}`,
+  `${accountId}/graph/${groupId}/${accountId}`,
   undefined,
   {
     values_only: true,
