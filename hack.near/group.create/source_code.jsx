@@ -155,18 +155,18 @@ const handleCreate = () => {
       },
     },
     index: {
-      thing: {
+      thing: JSON.stringify({
         key: groupId,
         value: {
           type: "group",
         },
-      },
-      every: {
+      }),
+      every: JSON.stringify({
         key: "group",
         value: {
           id: groupId,
         },
-      },
+      }),
       graph: JSON.stringify(
         Object.keys(state.members).map((account) => ({
           key: groupId,
