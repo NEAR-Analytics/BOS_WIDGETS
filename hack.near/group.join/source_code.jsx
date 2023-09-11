@@ -30,7 +30,7 @@ const type = join ? "leave" : "join";
 
 const handleJoin = () => {
   Social.set({
-    graph: { [groupId]: { [accountId]: "" } },
+    graph: { [groupId]: { [accountId]: join ? null : "" } },
     index: {
       graph: JSON.stringify({
         key: groupId,
