@@ -439,9 +439,7 @@ const switchNetwork = (chainId) => {
 const coinsMap = {
   ethereum: "ETH",
   "usd-coin": "USDC",
-  "matic-network": "MATIC",
-  dai: "DAI",
-  uniswap: "UNI",
+  mantle: "MNT",
 };
 const coins = Object.keys(coinsMap);
 const pricesUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(
