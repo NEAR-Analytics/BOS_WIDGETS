@@ -230,7 +230,7 @@ return (
   <div className="d-flex flex-column justify-content-center w-100">
     <Container className="d-flex mt-3 mb-3 w-100 gap-3 justify-content-center">
       <Section className="d-flex flex-column gap-2 align-items-center">
-        <h5>Whitelisted Accounts ({accounts.length})</h5>
+        <h5>Total Whitelisted ({accounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {accounts.map((accountId) => (
             <Name isVoted={isVoted(accountId)}>
@@ -243,7 +243,7 @@ return (
         </div>
       </Section>
       <Section className="d-flex flex-column gap-2 align-items-center">
-        <h5>NDC Community ({ndcAccounts.length})</h5>
+        <h5>NDC Whitelisted ({ndcAccounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {ndcAccounts.map((accountId) => (
             <Name isVoted={isVoted(accountId)}>
@@ -256,11 +256,11 @@ return (
         </div>
       </Section>
       <Section className="d-flex flex-column gap-2 align-items-center">
-        <h5>Total White users</h5>
+        <h5>Total users</h5>
         <Chart voted={totalPercentage}>
           <span>{totalPercentage.toFixed(1)}%</span>
         </Chart>
-        <h5>NDC White users</h5>
+        <h5>NDC users</h5>
         <Chart voted={ndcPercentage}>
           <span>{ndcPercentage.toFixed(1)}%</span>
         </Chart>
