@@ -37,7 +37,7 @@ const renderItem = (item) => {
                     props={{ accountId: item.accountId, tooltip: true }}
                   />{" "}
                 </div>
-                <div className="col-auto m-1">
+                <div className="col-auto m-1 mt-3">
                   {item.value.type === "add" && `added`}
                   <Widget
                     src="mob.near/widget/TimeAgo"
@@ -52,7 +52,7 @@ const renderItem = (item) => {
                 </div>
               </div>
             </div>
-            <div className="text-truncate col-auto float-right">
+            <div className="text-truncate col-auto float-right mt-2">
               {context.accountId === item.value.accountId && (
                 <Widget
                   src="hack.near/widget/accept"
@@ -85,7 +85,7 @@ const renderItem = (item) => {
                     props={{ accountId: item.accountId, tooltip: true }}
                   />{" "}
                 </div>
-                <div className="col-auto m-1">
+                <div className="col-auto m-1 mt-3">
                   {item.value.type === "join" && "joined"}
                   <Widget
                     src="mob.near/widget/TimeAgo"
@@ -94,7 +94,7 @@ const renderItem = (item) => {
                 </div>
               </div>
             </div>
-            <div className="text-truncate col-auto float-right">
+            <div className="text-truncate col-auto float-right mt-2">
               {item.accountId !== context.accountId && (
                 <Widget
                   src="hack.near/widget/approve"
@@ -127,7 +127,7 @@ const renderItem = (item) => {
                     props={{ accountId: item.accountId, tooltip: true }}
                   />{" "}
                 </div>
-                <div className="col-auto m-1">
+                <div className="col-auto m-1 mt-3">
                   {item.value.type === "create" && "created"}
                   <Widget
                     src="mob.near/widget/TimeAgo"
