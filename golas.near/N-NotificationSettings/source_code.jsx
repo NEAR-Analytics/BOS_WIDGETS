@@ -3,6 +3,9 @@ const Card = styled.div`
   margin: 0 auto;
 `;
 
+// we need to save this info in session storage
+const isNotificationSupported = true;
+
 return (
   <Card>
     <Widget
@@ -12,6 +15,7 @@ return (
         text: "Configure your notifications for activity on near.org",
       }}
     />
+
     <Widget
       src="golas.near/widget/N-NotificationsSettingsTurnOn"
       props={{
