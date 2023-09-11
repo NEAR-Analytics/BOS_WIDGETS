@@ -17,7 +17,7 @@ return (
     />
 
     <Widget
-      src="golas.near/widget/N-NotificationsSettingsListItem"
+      src="golas.near/widget/N-SettingsListItem"
       props={{
         title: "Push notifications",
         text: "Push notifications are delivered in real-time to your enabled browser or device.",
