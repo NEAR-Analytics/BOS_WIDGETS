@@ -56,20 +56,20 @@ const AllSteps = [
 ];
 
 const setInput = (key, value) => {
-  const getValue = Storage.get("formValues");
+  const getValue = props?.getStorage?.("formValues");
   if (getValue === undefined) {
     const values = { [key]: value };
-    Storage.set(`formValues`, JSON.stringify(values));
+    props?.setStorage?.(`formValues`, JSON.stringify(values));
   } else {
     const parsedJson = JSON.parse(getValue);
     const newValuesToSet = { ...parsedJson, [key]: value };
-    Storage.set(`formValues`, JSON.stringify(newValuesToSet));
+    props?.setStorage?.(`formValues`, JSON.stringify(newValuesToSet));
   }
   State.update({ [key]: value });
 };
 
 if (!state.isReadDataFromLocal) {
-  const getValue = Storage.get("formValues");
+  const getValue =  props?.getStorage?.("formValues");
   if (getValue) {
     State.update({ ...JSON.parse(getValue), isReadDataFromLocal: true });
   } else {
