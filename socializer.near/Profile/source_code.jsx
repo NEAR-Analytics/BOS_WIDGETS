@@ -3,7 +3,6 @@ const Owner = "socializer.near";
 const profile = Social.getr(`${accountId}/profile`);
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
-console.log(widgets, "==>widgets");
 const columns = [
   {
     title: "Token Name",
