@@ -74,6 +74,10 @@ const Center = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 20px;
+
+  .group-card {
+    width: 100%;
+  }
 `;
 
 return (
@@ -118,14 +122,16 @@ return (
         <Center className="px-2 px-md-3 d-flex flex-column">
           <h4 className="mb-1">Discover Groups</h4>
           {groups.map((group, i) => (
-            <Widget
-              key={i}
-              src={widgets.group}
-              props={{
-                groupId: group.value.id,
-                creatorId: group.accountId,
-              }}
-            />
+            <div className="group-card">
+              <Widget
+                key={i}
+                src={widgets.group}
+                props={{
+                  groupId: group.value.id,
+                  creatorId: group.accountId,
+                }}
+              />
+            </div>
           ))}{" "}
         </Center>
       </Container>
