@@ -1,3 +1,11 @@
+if (
+  !props.accountId ||
+  !context.accountId ||
+  context.accountId === props.accountId
+) {
+  return "";
+}
+
 const followEdge = Social.keys(
   `${context.accountId}/graph/follow/${props.accountId}`,
   undefined,
