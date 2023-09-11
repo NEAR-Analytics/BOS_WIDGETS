@@ -28,8 +28,6 @@ State.init({
   borrowWrapperStyle: undefined,
 });
 
-console.log({ borrowWrapperStyle1: state.borrowWrapperStyle });
-
 /**
  *
  * @param depositChangeEvent
@@ -317,8 +315,10 @@ const openTrove = async () => {
    * 계산 식: NICR = ETHColl * 1e20 / expectedDebt
    * 아래의 계산 방법을 이용하되 ethersjs의 BigNumber API를 이용하세요
    * 참고 문서: https://docs.ethers.org/v5/api/utils/bignumber/#BigNumber--BigNumber--methods--math-operations
+   * 입력창에 2ETH, 1800LUSD를 입력했을 때 NICR.toString()의 결과 값: "99552015928322548"
    */
   const NICR = null;
+  console.log({NICR: NICR.toString()})
   sortedTroveContract.getSize().then((numTroves) => {
     const _numTrials = numTroves.mul(ethers.BigNumber.from("15"));
 
@@ -514,7 +514,6 @@ if (cssLink !== "PUT CSS FILE LINK") {
 }
 
 if (state.borrowWrapperStyle === undefined) {
-  console.log({ cssData });
   State.update({
     borrowWrapperStyle: styled.div`
     width: 100%;
