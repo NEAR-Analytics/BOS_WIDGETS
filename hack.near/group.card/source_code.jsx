@@ -117,10 +117,21 @@ return (
       </div>
     </CardLeft>
     {canJoin && context.accountId && (
-      <Widget
-        src="hack.near/widget/group.join"
-        props={{ groupId, accountId, creatorId: props.creatorId }}
-      />
+      <>
+        {groupKey === context.accountId ? (
+          <a
+            className="btn btn-outline-primary"
+            href={`/hack.near/widget/group.edit?groupId=${groupId}`}
+          >
+            edit
+          </a>
+        ) : (
+          <Widget
+            src="hack.near/widget/group.join"
+            props={{ groupId, accountId, creatorId: props.creatorId }}
+          />
+        )}
+      </>
     )}
   </Card>
 );
