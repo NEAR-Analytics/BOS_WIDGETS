@@ -1,6 +1,6 @@
 const Header = styled.div`
   display: flex;
-  padding: 72px 16px 24px 16px;
+  padding: 48px 16px 24px 16px;
   align-items: center;
   align-self: stretch; 
 `;
