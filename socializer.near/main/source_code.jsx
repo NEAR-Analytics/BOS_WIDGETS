@@ -25,6 +25,7 @@ const Content = styled.div`
   background: white;
   overflow: auto;
   position: relative;
+  padding-bottom: 15px;
 `;
 
 return (
