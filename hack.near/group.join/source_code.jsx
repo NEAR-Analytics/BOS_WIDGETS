@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? "james.near";
+const accountId = props.accountId ?? context.accountId;
 const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
 const creatorId = props.creatorId ?? "hack.near";
 
