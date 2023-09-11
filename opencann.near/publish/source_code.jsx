@@ -151,6 +151,9 @@ const onChangePurpose = (purpose) => {
 return (
   <div className="mb-3">
     <h3>Publish a New Data Set</h3>
+    <a href="#/flowscience.near/widget/create.hypercert.form">
+      <i>Click here to publish an impact certficate</i>
+    </a>
     <hr></hr>
     <h5>
       <a href="https://cannabisgeno.me/survey">
