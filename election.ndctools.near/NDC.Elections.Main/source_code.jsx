@@ -41,7 +41,7 @@ State.init({
   hasIVotedNFT: null,
   iVotedToken: false,
 });
-console.log(props.candidates);
+
 const currentUser = context.accountId;
 
 const steps = [
