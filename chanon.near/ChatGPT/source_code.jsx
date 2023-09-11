@@ -49,7 +49,7 @@ return (
   <div>
     <input
       value={state.apiKey}
-      onChange={(e) => State.update({ apiKey: e.target.value })}
+      onChange={(e) => State.update({ apiKey: e.target.value })} // react
       placeholder="Please paste your chatgpt api key"
     />
     <input
@@ -59,7 +59,7 @@ return (
     />
 
     <button class="btn btn-success" onClick={handleAskChatGPT} disabled={false}>
-      Ask ChatGPT
+      Ask ChatGPT for Thaiprogrammer
     </button>
     <div>{state.respAnswer}</div>
   </div>
