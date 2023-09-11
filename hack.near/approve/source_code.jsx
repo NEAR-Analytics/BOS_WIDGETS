@@ -7,7 +7,7 @@ if (!props.accountId && !context.accountId) {
 }
 
 const joinEdge = Social.keys(
-  `${context.accountId}/graph/${groupId}/${context.accountId}`,
+  `${accountId}/graph/${groupId}/${context.accountId}`,
   undefined,
   {
     values_only: true,
@@ -24,9 +24,9 @@ const memberEdge = Social.keys(
 
 const loading = joinEdge === null || memberEdge === null;
 const join = joinEdge && Object.keys(joinEdge).length;
-const inverse = memberEdge && Object.keys(memberEdge).length;
+const member = memberEdge && Object.keys(memberEdge).length;
 
-const type = approve ? "reject" : "approve";
+const type = join ? "reject" : "approve";
 
 const handleApprove = () => {
   Social.set({
@@ -54,21 +54,21 @@ return (
   <>
     {creatorId === context.accountId && (
       <span>
-        {!memberEdge ? (
-          <button
-            disabled={!context.accountId}
-            className="btn btn-success"
-            onClick={handleMerge}
-          >
-            Approve
-          </button>
-        ) : (
+        {member ? (
           <button
             disabled={memberEdge}
             className="btn btn-success"
-            onClick={handleMerge}
+            onClick={handleApprove}
           >
             Approved
+          </button>
+        ) : (
+          <button
+            disabled={!context.accountId}
+            className="btn btn-success"
+            onClick={handleApprove}
+          >
+            Approve
           </button>
         )}
       </span>
