@@ -51,11 +51,14 @@ const Component = styled.div`
 `;
 
 const Icon = styled.div`
-
+  width: 24px;
+  height: 24px;
 `;
 
 const Close = styled.div`
-    flex-shrink: 0;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
 `;
 
 const Text = styled.div`
@@ -65,6 +68,9 @@ const Text = styled.div`
 `;
 
 const Buttons = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 8px; 
 `;
 
 return (
