@@ -301,7 +301,7 @@ return (
                   borderRadius: 4,
                 }}
               >
-                nearpad.dev
+                Jutsu.ai
               </p>
             </a>
           </div>
@@ -359,7 +359,7 @@ return (
 
         <div style={{ position: "absolute", bottom: 16, left: 0 }}>
           <p style={{ color: theme.textColor, fontWeight: 500 }}>
-            Made with ❤️ with nearpad.dev
+            Made with ❤️ with jutsu.ai
           </p>
         </div>
       </div>
