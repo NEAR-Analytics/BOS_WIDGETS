@@ -12,8 +12,7 @@ const Container = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 0.45em;
-  width: 100%;
-
+  width: 171px;
 `;
 
 const Label = styled.label`
