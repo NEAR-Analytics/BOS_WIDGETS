@@ -11,7 +11,7 @@ const widgets = {
 const groups = Social.index("every", "group", { limit: 10 });
 
 if (!groups) {
-  return "none found";
+  return "";
 }
 
 const { isVerified } = props;
@@ -81,13 +81,11 @@ return (
         src={widgets.header}
         props={{
           accountId,
-          groupId,
-          creatorId,
         }}
       />
       <Container className="d-flex justify-content-between w-100">
         <Center className="px-2 px-md-3 d-flex flex-column">
-          <h4 className="mb-1">Discover BOS Communities</h4>
+          <h4 className="mb-1">Discover Groups</h4>
           {groups.map((group, i) => (
             <Widget
               key={i}
