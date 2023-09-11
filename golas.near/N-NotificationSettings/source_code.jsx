@@ -21,14 +21,14 @@ return (
         icon: "X",
       }}
     />
-    // <Widget
-    //   src="golas.near/widget/N-NotificationsSettingsListItem"
-    //   props={{
-    //     title: "Push notifications",
-    //     text: "Push notifications are delivered in real-time to your enabled browser or device.",
-    //     // temporary
-    //     icon: "X",
-    //   }}
-    // />
   </Card>
 );
+// <Widget
+//   src="golas.near/widget/N-NotificationsSettingsListItem"
+//   props={{
+//     title: "Push notifications",
+//     text: "Push notifications are delivered in real-time to your enabled browser or device.",
+//     // temporary
+//     icon: "X",
+//   }}
+// />
