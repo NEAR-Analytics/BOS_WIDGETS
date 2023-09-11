@@ -24,6 +24,7 @@ State.init({
 });
 
 const renderItem = (item) => {
+  const group = Social.get(`${item.accountId}/*/${groupId}`);
   return (
     <ItemWrapper>
       {item.value.type === "add" && (
@@ -57,7 +58,7 @@ const renderItem = (item) => {
               <Widget
                 src={`hack.near/widget/group`}
                 props={{
-                  groupId,
+                  group,
                   creatorId: item.accountId,
                 }}
               />
@@ -95,7 +96,7 @@ const renderItem = (item) => {
               <Widget
                 src={`hack.near/widget/group`}
                 props={{
-                  groupId,
+                  groupId: item,
                   creatorId: item.accountId,
                 }}
               />
