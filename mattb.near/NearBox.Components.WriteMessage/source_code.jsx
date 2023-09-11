@@ -8,15 +8,19 @@ State.init({
     subject: "",
     body: "",
   },
-  userReachable: null
+  addressChecked: "",
+  userReachable: null,
+  isIntervalSet: false
 });
 
-if (state.message.to && !state.check) {
+if (state.message.to && !state.isIntervalSet) {
   setInterval(() => {
-    if (state.message.to) {
-      MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable }) );
+    if (state.message.to && state.addressChecked != state.message.to) {
+      let address = state.message.to;
+      MailChain.addressIsReachable(address).then((reachable) => State.update({ userReachable: reachable, addressChecked: address }) );
     }
-  }, 500);
+  }, 1000);
+  State.update({isIntervalSet: true});
 }
 
 const WriteMessage = styled.div`
