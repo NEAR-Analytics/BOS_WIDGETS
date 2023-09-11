@@ -25,7 +25,7 @@ const Settings = styled.div`
 `;
 
 const Card = styled.div`
-    max-width: 592px;
+    max-width: 592px;margin: 0 auto;
 `;
 
 return (
