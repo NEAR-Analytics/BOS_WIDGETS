@@ -3,7 +3,7 @@ let text = "Ten un lindo día";
 return (
   <>
     <div class="container border border-info p-3 text-right">
-      <h1>Artículo 1r</h1>
+      <h1>Mundo Aurora</h1>
       <h2>La Constitución en Constante Evolución de NEAR</h2>
 
       <p>
