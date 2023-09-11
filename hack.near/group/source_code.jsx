@@ -1,9 +1,11 @@
 const groupId = props.groupId;
+const creatorId = props.creatorId;
 
-const group = props.group ?? Social.get(`*/${groupId}/**`, "final");
+const group =
+  props.group ?? Social.get(`${creatorId}/*/${groupId}/**`, "final");
 
 if (!group) {
-  return "Loading...";
+  return "";
 }
 
 const Container = styled.div`
