@@ -13,7 +13,7 @@ const Container = styled.div`
   justify-content: flex-start;
   gap: 0.45em;
   width: 100%;
-  min-width: 171px;
+
 `;
 
 const Label = styled.label`
@@ -46,15 +46,19 @@ const Input = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em 0.75em;
+  padding: 12px 18px 12px 24px;
   gap: 0.5em;
   background: #ffffff;
-  border: 1px solid #d0d5dd;
+  border: 1px solid var(--Dark, #121212);
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 4px;
-  color: #101828;
+  border-radius: 6px;
+  color: #121212;
   width: 100%;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: capitalize;
+  min-width: 171px;
 `;
 
 const Placeholder = styled.span`
@@ -134,7 +138,6 @@ return (
   <Container>
     {noLabel ? <></> : <Label>{label}</Label>}
     <Select.Root
-      style={{ padding: 10 }}
       value={value?.value}
       onValueChange={(value) =>
         onChange(options.find((option) => option.value === value))
