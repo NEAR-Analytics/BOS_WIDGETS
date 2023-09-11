@@ -134,8 +134,8 @@ return (
           <Timestamp>
             <Dot>·</Dot>
             <Widget
-            src="mob.near/widget/TimeAgo@97556750"
-            props={{ blockHeight: props.blockHeight }}
+              src="mob.near/widget/TimeAgo@97556750"
+              props={{ blockHeight: props.blockHeight }}
             />
         </Timestamp>
         </div>
