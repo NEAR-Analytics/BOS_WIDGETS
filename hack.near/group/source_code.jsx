@@ -20,12 +20,16 @@ return (
         src="hack.near/widget/group.card"
         props={{
           groupId,
+          group,
         }}
       />
       <br />
       <div className="m-2">
         <h3 className="mb-3">Members</h3>
-        <Widget src="hack.near/widget/group.members" props={{ groupId }} />
+        <Widget
+          src="hack.near/widget/group.members"
+          props={{ groupId, group }}
+        />
       </div>
     </div>
   </Container>
