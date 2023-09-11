@@ -55,9 +55,6 @@ const executeValidation = () => {
   if (!state.passValid) {
     allErrors.passValid = true;
   }
-  if (!state.image) {
-    allErrors.image = true;
-  }
   if (!state.from) {
     allErrors.from = true;
   }
