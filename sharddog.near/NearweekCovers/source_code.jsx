@@ -12,8 +12,9 @@ const styles = {
     border: "1px solid #ccc",
     overflow: "hidden",
     margin: "10px",
-      background: "url(https://my.shard.dog/_next/static/media/dog_pattern.a5034d5c.png), rgba(251, 249, 245, 0.85)",
-      color:"#000"
+    background:
+      "url(https://my.shard.dog/_next/static/media/dog_pattern.a5034d5c.png), rgba(251, 249, 245, 0.85)",
+    color: "#000",
   },
   shelf: {
     content: '""',
