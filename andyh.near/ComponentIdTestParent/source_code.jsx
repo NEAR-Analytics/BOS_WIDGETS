@@ -2,6 +2,7 @@ State.init({
   a: { id: "a", value: 0 },
   b: { id: "b", value: 0 },
   c: { id: "c", value: 0 },
+  x: 1,
 });
 
 const components = [state.a, state.b, state.c];
@@ -16,6 +17,7 @@ return (
           id,
           update: () => {
             console.log(`updating ${id}`);
+            State.update({ x: 2 });
             // State.update({ [id]: { id, value: value + 1 } });
           },
         }}
