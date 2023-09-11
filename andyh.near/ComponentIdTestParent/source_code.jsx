@@ -14,7 +14,10 @@ return (
         props={{
           value,
           id,
-          update: () => State.update({ [id]: { id, value: value + 1 } }),
+          update: () => {
+            console.log(`updating ${id}`);
+            State.update({ [id]: { id, value: value + 1 } });
+          },
         }}
       />
     ))}
