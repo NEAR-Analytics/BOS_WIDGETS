@@ -79,8 +79,8 @@ const Modal = styled.div`
   border-radius: 12px;
   position: fixed;
   z-index: 1002;
-  width: 30rem;
-  max-width: 95vw;
+  max-width: 30rem;
+  width: 100vw;
   max-height: 80vh;
   padding: 10px 0 20px 0;
   animation: anishow 0.3s forwards ease-out;
@@ -186,7 +186,7 @@ const account = fetch("https://rpc.mainnet.near.org", {
   }),
 });
 if (!account) {
-  return null;
+  return "";
 }
 let nearBalance = "0";
 let vailableBalance = 0;
