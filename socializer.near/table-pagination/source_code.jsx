@@ -255,7 +255,7 @@ return (
               <button
                 onClick={() => {
                   const page = state.currentPage + 1;
-                  if (handlePagination().buttons.length > page)
+                  if (handlePagination().buttons.length >= page)
                     State.update({ currentPage: page });
                 }}
                 className="page-link btn"
