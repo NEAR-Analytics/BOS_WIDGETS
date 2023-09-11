@@ -363,7 +363,7 @@ const renderMbAssets = (data, hasDollar) =>
         </div>
         <div className="mb_row_item">
           <div className="mb_row_label">Borrow Apy</div>
-          <div className="mb_row_value">{toAPY(totalApy)}%</div>
+          <div className="mb_row_value">{toAPY(apy)}%</div>
         </div>
         <div className="mb_row_item">
           <div className="mb_row_label">Rewards</div>
