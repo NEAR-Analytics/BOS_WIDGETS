@@ -21,6 +21,7 @@ const MainComponent = styled.div`
   height: 100%;
   position: relative;
   background: #FAFAFA;
+  flex-direction: column;
 `;
 
 const HeadComponent = styled.div`
@@ -150,5 +151,62 @@ return (
         </TitleContent>
       </TitleComponent>
     </HeadComponent>
+    <Widget
+      src={`${Owner}/widget/table-pagination`}
+      props={{
+        themeColor: { table_pagination: themeColor.table_pagination },
+        data: [
+          {
+            user: "Near Degens",
+            avatar: "https://useravatar",
+            social: "Have you seen our monthly stats? With over 45 clien...",
+            endsin: "Ends in 1hr 10m 50s",
+            reward: "1 Near",
+            total_rewards: "10 Near",
+            status: "live",
+            engage: "link",
+          },
+        ],
+        columns: [
+          {
+            title: "Project/User",
+            key: "user",
+            description:
+              "The Near address of top Nominee (based on number of Nomination)",
+          },
+          {
+            title: "Near Social  Post",
+            key: "social",
+            description: "House Of Merit Nomination",
+          },
+          {
+            title: "Ends In",
+            key: "endsin",
+            description: "Transparency Commission Nomination",
+          },
+          {
+            title: "Reward",
+            key: "reward",
+            description: "Council Of Advisors Nomination",
+          },
+          {
+            title: "Total Rewards",
+            key: "total_rewards",
+            description: "Total Nomination",
+          },
+          {
+            title: "Status",
+            key: "status",
+            description: "Nomination Not Revoked",
+          },
+          {
+            title: "Engage Link",
+            key: "engage",
+            description: "Nomination Revoked",
+          },
+        ],
+        rowsCount: 5,
+      }}
+    />
   </MainComponent>
 );
