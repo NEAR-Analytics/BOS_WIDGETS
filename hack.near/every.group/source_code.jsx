@@ -123,18 +123,20 @@ return (
       <Container>
         <Center className="px-2 px-md-3 d-flex flex-column justify-content-between w-100">
           <h4 className="mb-1">Discover Groups</h4>
-          {groups.map((group, i) => (
-            <div className="group-card">
-              <Widget
-                key={i}
-                src={widgets.group}
-                props={{
-                  groupId: group.value.id,
-                  creatorId: group.accountId,
-                }}
-              />
-            </div>
-          ))}{" "}
+          <div className="row">
+            {groups.map((group, i) => (
+              <div className="col-auto m-2">
+                <Widget
+                  key={i}
+                  src={widgets.group}
+                  props={{
+                    groupId: group.value.id,
+                    creatorId: group.accountId,
+                  }}
+                />
+              </div>
+            ))}{" "}
+          </div>
         </Center>
       </Container>
     </div>
