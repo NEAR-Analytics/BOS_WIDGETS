@@ -91,7 +91,8 @@ const createTickets = () => {
             Create Tickets*
           </p>
           <p style={{ marginBottom: 0 }}>
-            Create custom tickets for {JSON.parse(props?.getStorage?.("formValues")).eventName}.
+            Create custom tickets for{" "}
+            {JSON.parse(props?.getStorage?.("formValues")).eventName}.
           </p>
         </div>
         <button
