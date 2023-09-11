@@ -1,5 +1,5 @@
-const accountId = props.accountId ?? "devs.near";
-const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
+const accountId = props.accountId ?? context.accountId;
+const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
 const creatorId = props.creatorId ?? "hack.near";
 
 if (!props.accountId && !context.accountId) {
@@ -54,26 +54,24 @@ const handleAccept = () => {
 
 return (
   <>
-    {creatorId === context.accountId && (
-      <span>
-        {!join ? (
-          <button
-            disabled={!context.accountId}
-            className="btn btn-success"
-            onClick={handleAccept}
-          >
-            Accept
-          </button>
-        ) : (
-          <button
-            disabled={joinEdge}
-            className="btn btn-success"
-            onClick={handleAccept}
-          >
-            Accepted
-          </button>
-        )}
-      </span>
-    )}
+    <span>
+      {join ? (
+        <button
+          disabled={!context.accountId}
+          className="btn btn-success"
+          onClick={handleAccept}
+        >
+          Accept
+        </button>
+      ) : (
+        <button
+          disabled={joinEdge}
+          className="btn btn-success"
+          onClick={handleAccept}
+        >
+          Accepted
+        </button>
+      )}
+    </span>
   </>
 );
