@@ -19,7 +19,7 @@ return (
           accountId,
           profile,
           link: true,
-          fast,
+          slow,
           showEditButton: !props.profile,
         }}
       />
