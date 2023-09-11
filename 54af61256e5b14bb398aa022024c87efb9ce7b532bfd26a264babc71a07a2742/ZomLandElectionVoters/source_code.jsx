@@ -112,6 +112,8 @@ const accounts = [
 
 State.init({
   voters: [],
+  data: [],
+  community: props.community || "zomland",
 });
 
 asyncFetch(
@@ -119,6 +121,16 @@ asyncFetch(
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
   State.update({ voters: resp.body.map((el) => el.voter) });
+});
+
+asyncFetch(`https://scoreboard-ophc7vkxsq-uc.a.run.app/scoreboard`, {
+  method: "GET",
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+}).then((res) => {
+  if (res.body) State.update({ data: res.body.data });
 });
 
 const Container = styled.div`
@@ -192,21 +204,31 @@ const Chart = styled.div`
   }
 `;
 
-function getVoted() {
-  return state.voters.filter((u) => accounts.includes(u));
+function getVoted(list) {
+  return state.voters.filter((u) => list.includes(u));
 }
 
 function isVoted(acc) {
   return state.voters.some((u) => acc === u);
 }
 
-const percent = (getVoted().length / accounts.length) * 100;
+const formData = {};
+
+state.data.map((item) => {
+  if (formData[item["community-name"]])
+    formData[item["community-name"]].push(item);
+  else formData[item["community-name"]] = [item];
+});
+
+const ndcAccounts = formData[state.community].map((user) => user.account);
+const totalPercentage = (getVoted(accounts).length / accounts.length) * 100;
+const ndcPercentage = (getVoted(ndcAccounts).length / ndcAccounts.length) * 100;
 
 return (
   <div className="d-flex flex-column justify-content-center w-100">
     <Container className="d-flex mt-3 mb-3 w-100 gap-3 justify-content-center">
       <Section className="d-flex flex-column gap-2 align-items-center">
-        <h3>Accounts ({accounts.length})</h3>
+        <h5>Whitelisted Accounts ({accounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {accounts.map((accountId) => (
             <Name isVoted={isVoted(accountId)}>
@@ -219,9 +241,9 @@ return (
         </div>
       </Section>
       <Section className="d-flex flex-column gap-2 align-items-center">
-        <h3>Voted ({getVoted().length})</h3>
+        <h5>NDC Community ({ndcAccounts.length})</h5>
         <div className="d-flex flex-column gap-2">
-          {getVoted().map((accountId) => (
+          {ndcAccounts.map((accountId) => (
             <Name isVoted={false}>
               <Widget
                 src="mob.near/widget/ProfileLine"
@@ -232,9 +254,26 @@ return (
         </div>
       </Section>
       <Section className="d-flex flex-column gap-2 align-items-center">
-        <h3>Voting Percentage</h3>
-        <Chart voted={percent}>
-          <span>{percent.toFixed(1)}%</span>
+        <h5>Voted ({getVoted(accounts).length})</h5>
+        <div className="d-flex flex-column gap-2">
+          {getVoted(accounts).map((accountId) => (
+            <Name isVoted={false}>
+              <Widget
+                src="mob.near/widget/ProfileLine"
+                props={{ accountId, tooltip: false }}
+              />
+            </Name>
+          ))}
+        </div>
+      </Section>
+      <Section className="d-flex flex-column gap-2 align-items-center">
+        <h5>Total users</h5>
+        <Chart voted={totalPercentage}>
+          <span>{totalPercentage.toFixed(1)}%</span>
+        </Chart>
+        <h5>NDC users</h5>
+        <Chart voted={ndcPercentage}>
+          <span>{ndcPercentage.toFixed(1)}%</span>
         </Chart>
       </Section>
     </Container>
