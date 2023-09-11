@@ -35,6 +35,10 @@ const Button = styled.div`
 
 `;
 
+const showTurnOnModal = () => {
+  //   show Notifications Turn On modal
+};
+
 return (
   <Card>
     <Header>
@@ -51,7 +55,7 @@ return (
           label: "Learn More",
           variant: "secondary",
           // fill: "",
-          // onClick: onCancel,
+          onClick: showTurnOnModal,
           style: { width: "100%" },
         }}
       />
