@@ -143,6 +143,7 @@ return (
                               style={{
                                 "text-decoration": "none",
                               }}
+                              disabled={true}
                             >
                               <svg
                                 width="20"
