@@ -160,7 +160,9 @@ return (
               to: e.target.value,
             }
           });
-          MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable }) );
+          setTimeout(() => {
+            MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable }) );
+          }, 200);
         }}
       />
       </div>
