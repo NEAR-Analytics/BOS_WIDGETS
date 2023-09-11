@@ -134,6 +134,7 @@ return (
           {/*<ComponentName>{componentName}</ComponentName>*/}
 
           <Timestamp>
+          ·
             <Widget
             src="mob.near/widget/TimeAgo@97556750"
             props={{ blockHeight: props.blockHeight }}
