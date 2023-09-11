@@ -193,7 +193,8 @@ return (
           showTags: false,
           src,
           theme,
-          onOpenLinkClick: theme.onOpenLinkClick
+          onOpenLinkClick: props.onOpenLinkClick,
+          onForkClick: props.onForkClick,
         }}
       />
     </SummaryWrapper>
