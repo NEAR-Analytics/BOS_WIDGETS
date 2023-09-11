@@ -13,6 +13,14 @@ State.init({
   isIntervalSet: false
 });
 
+const checkAddress = () => {
+  clearTimeout(0);
+
+  setTimeout(() => {
+    MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable }) );
+  }, 500, 0);
+};
+
 if (state.message.to && !state.isIntervalSet) {
   setInterval(() => {
     if (state.message.to && state.addressChecked != state.message.to) {
@@ -185,6 +193,7 @@ return (
               subject: e.target.value,
             },
           });
+          checkAddress();
         }}
       />
       <textarea
