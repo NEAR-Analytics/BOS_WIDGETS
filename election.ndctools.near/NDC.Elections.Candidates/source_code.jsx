@@ -824,7 +824,7 @@ const ALink = ({ title, href }) => (
     {title}
   </a>
 );
-
+console.log(props);
 return (
   <>
     {state.showReviewModal && (
