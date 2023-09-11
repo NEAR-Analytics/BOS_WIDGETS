@@ -240,10 +240,10 @@ return (
                         padding: 6,
                         borderRadius: 8,
                         background:
-                          state.currentPage === i ? "#121212" : "#000",
+                          state.currentPage === i + 1 ? "#121212" : "#fff",
                         borderColor:
                           themeColor?.table_pagination?.btn_border ?? "#000",
-                        color: state.currentPage === i ? "#000" : "#fff",
+                        color: state.currentPage === i + 1 ? "#fff" : "#000",
                       }}
                     >
                       {i + 1}
