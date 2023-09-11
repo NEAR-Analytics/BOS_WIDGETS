@@ -24,6 +24,8 @@ const IconButton = styled.button`
 
 const nearAmount = ["Free", 20, 50, 100, 200];
 
+const firstTicket = !!props.firstTicket;
+
 const nearLabel = (amount, selected) => (
   <NearAmountBackground
     onClick={() => {
@@ -80,6 +82,13 @@ const TopLevelContainerDiv = styled.div`
     overflow-y:auto;
     max-height: 80vh;
     position: relative;
+`;
+
+const CheckBoxLabelStyling = styled.div`
+.label{
+color:gray !important;
+font-size:13px;
+}
 `;
 
 const AddTicketModal = (
@@ -190,6 +199,29 @@ const AddTicketModal = (
       }}
     />
     {showFormError("passValid", "Pass valid through")}
+    {firstTicket && (
+      <CheckBoxLabelStyling>
+        <Widget
+          src="nui.sking.near/widget/Input.Checkbox"
+          props={{
+            label: `Same information as ${props.firstTicket.ticketName}`,
+            checked: !!state.isDateInfoChecked,
+            onChange: () => {
+              if (state.isDateInfoChecked) {
+                State.update({ isDateInfoChecked: false });
+              } else {
+                State.update({
+                  isDateInfoChecked: true,
+                  passValid: props.firstTicket.passValid,
+                  to: props.firstTicket.to,
+                  from: props.firstTicket.from,
+                });
+              }
+            },
+          }}
+        />
+      </CheckBoxLabelStyling>
+    )}
     <p style={{ fontWeight: "500", marginBottom: -10 }}>Number of Tickets*</p>
     <Widget
       props={{
@@ -321,6 +353,8 @@ const AddTicketModal = (
     </button>
   </TopLevelContainerDiv>
 );
+
+return AddTicketModal;
 
 if (props.editMode && props.isOpen && !state.hasBeenEditUpdated) {
   State.update({ ...props.editVal, hasBeenEditUpdated: true });
