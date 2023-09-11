@@ -18,7 +18,7 @@ const checkAddress = () => {
 
   setTimeout(() => {
     MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable }) );
-  }, 500, 0);
+  }, 1500, 0);
 };
 
 const WriteMessage = styled.div`
