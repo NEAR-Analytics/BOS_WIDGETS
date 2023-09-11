@@ -26,15 +26,15 @@ return (
         props={{
           groupId,
           widgetName,
-          style: { height: "3em", width: "3em", minWidth: "3em" },
-          className: "me-2",
+          style: { height: "3.4em", width: "3.4em", minWidth: "3.4em" },
+          className: "me-3",
         }}
       />
     </a>
     <div className="text-truncate">
       <div className="text-truncate">
         <a
-          href={`/hack.near/widget/group?groupId=${groupId}`}
+          href={`/hack.near/widget/Group?groupId=${groupId}`}
           style={{ textDecoration: "none" }}
         >
           <span className="fw-bold" style={{ color: "black" }}>
