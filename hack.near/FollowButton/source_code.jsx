@@ -56,11 +56,11 @@ return (
     data={data}
   >
     {loading
-      ? "Loading"
+      ? "loading"
       : follow
-      ? "Following"
+      ? "following"
       : inverse
-      ? "Follow back"
-      : "Follow"}
+      ? "follow back"
+      : "follow"}
   </CommitButton>
 );
