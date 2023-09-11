@@ -202,10 +202,10 @@ return (
                   onClick={handleClose}
                   className="btn btn-secondary me-1"
                 >
-                  Exit
+                  exit
                 </button>
                 <button onClick={handleCreate} className="btn btn-success me-1">
-                  Create
+                  save
                 </button>
               </Submitcontainer>
             </div>
