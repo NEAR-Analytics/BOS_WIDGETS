@@ -5,7 +5,7 @@ const toggle = props.toggle ?? (
 );
 const toggleContainerProps = props.toggleContainerProps ?? {};
 const content = props.content ?? (
-  <Widget src="hack.near/widget/group" props={{ group }} />
+  <Widget src="hack.near/widget/group" props={{ group, groupId }} />
 );
 const open = props.open;
 const onOpenChange = props.onOpenChange;
