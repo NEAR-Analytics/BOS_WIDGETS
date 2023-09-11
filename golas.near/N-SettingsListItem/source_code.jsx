@@ -57,6 +57,10 @@ const Switch = styled.div`
   // gap: 8px; 
 `;
 
+const showTurnOnModal = () => {
+  // show `Turn On` modal, by setting local storage
+};
+
 return (
   <Card>
     <Content>
