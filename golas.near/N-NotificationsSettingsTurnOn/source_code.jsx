@@ -43,7 +43,18 @@ return (
         To receive push notifications, you'll first need to enable them in your
         browser settings.
       </Text>
-      <Button>Learn More</Button>
+      <Button>
+        <Widget
+          src="near/widget/DIG.Button"
+          props={{
+            label: "Learn More",
+            variant: "secondary",
+            // fill: "",
+            // onClick: onCancel,
+            style: { width: "100%" },
+          }}
+        />
+      </Button>
     </Header>
   </Card>
 );
