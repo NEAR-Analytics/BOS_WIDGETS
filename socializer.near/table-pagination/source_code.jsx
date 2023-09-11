@@ -239,11 +239,11 @@ return (
                         height: 32,
                         padding: 6,
                         borderRadius: 8,
-                        background: "#121212",
+                        background:
+                          state.currentPage === i ? "#121212" : "#000",
                         borderColor:
                           themeColor?.table_pagination?.btn_border ?? "#000",
-                        color:
-                          themeColor?.table_pagination?.btn_color ?? "#fff",
+                        color: state.currentPage === i ? "#000" : "#fff",
                       }}
                     >
                       {i + 1}
