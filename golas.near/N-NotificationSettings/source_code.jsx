@@ -1,5 +1,10 @@
+const Card = styled.div`
+  max-width: 592px;
+  margin: 0 auto;
+`;
+
 return (
-  <>
+  <Card>
     <Widget
       src="golas.near/widget/N-NotificationsSettingsHeader"
       props={{
@@ -16,5 +21,5 @@ return (
         icon: "X",
       }}
     />
-  </>
+  </Card>
 );
