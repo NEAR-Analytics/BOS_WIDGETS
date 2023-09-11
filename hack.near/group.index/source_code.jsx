@@ -38,7 +38,48 @@ const renderItem = (item) => {
                   />{" "}
                 </div>
                 <div className="col-auto m-1">
-                  {item.value.type === "add" && "requested membership"}
+                  {item.value.type === "add" && "added you to a group"}
+                  <Widget
+                    src="mob.near/widget/TimeAgo"
+                    props={{ blockHeight: item.blockHeight }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="text-truncate col-auto float-right">
+              <Widget
+                src="hack.near/widget/group.view"
+                props={{ groupId, creatorId: item.accountId }}
+              />
+              <Widget src="hack.near/widget/accept" props={{ groupId }} />{" "}
+            </div>
+          </div>
+          <div>
+            {state.showDetails && (
+              <Widget
+                src={`hack.near/widget/group`}
+                props={{
+                  groupId,
+                  creatorId: item.accountId,
+                }}
+              />
+            )}
+          </div>
+        </>
+      )}
+      {item.value.type === "join" && (
+        <>
+          <div className="d-flex justify-content-between row text-truncate text-muted">
+            <div className="text-truncate col-auto">
+              <div className="row">
+                <div className="col-auto m-1">
+                  <Widget
+                    src="mob.near/widget/Profile"
+                    props={{ accountId: item.accountId, tooltip: true }}
+                  />{" "}
+                </div>
+                <div className="col-auto m-1">
+                  {item.value.type === "join" && "joined"}
                   <Widget
                     src="mob.near/widget/TimeAgo"
                     props={{ blockHeight: item.blockHeight }}
