@@ -21,15 +21,6 @@ const checkAddress = () => {
   }, 500, 0);
 };
 
-if (state.message.to && !state.isIntervalSet) {
-  setInterval(() => {
-    if (state.message.to && state.addressChecked != state.message.to) {
-      MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable, addressChecked: state.message.to }) );
-    }
-  }, 1000);
-  State.update({isIntervalSet: true});
-}
-
 const WriteMessage = styled.div`
   width:100%;
   min-width:300px;
