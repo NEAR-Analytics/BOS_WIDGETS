@@ -31,9 +31,7 @@ ont-weight: 450;
 line-height: 150%;
 `;
 
-const Button = styled.div`
-
-`;
+const Button = styled.div``;
 
 const showTurnOnModal = () => {
   //   show Notifications Turn On modal
