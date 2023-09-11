@@ -117,7 +117,7 @@ State.init({
 });
 
 asyncFetch(
-  `https://api.pikespeak.ai/election/votes-by-candidate?contract=elections.ndc-gwg.near&candidate=${props.candidateId}`,
+  `https://api.pikespeak.ai/election/votes-by-candidate?contract=elections.ndc-gwg.near&candidate=${props.candidate}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
   State.update({ voters: resp.body.map((el) => el.voter) });
