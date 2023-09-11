@@ -90,7 +90,7 @@ const pages = {
 
 State.init({ currentPage: pages.gameSetup, isPvE: null, selectedSetup: null });
 if (state.currentPage === pages.menu) {
-  return <Widget src="ostolex.near/widget/MainMenu" />;
+  return <Widget src="ostolex.near/widget/LaserChess3D" />;
 }
 
 if (state.currentPage === pages.game) {
