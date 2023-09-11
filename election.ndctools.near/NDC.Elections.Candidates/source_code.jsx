@@ -1091,10 +1091,33 @@ return (
                   />
                 ))}
               </CandidatesContainer>
+              {props.candidates && (
+                <div className="d-flex p-2 justify-content-center align-items-center">
+                  <Widget
+                    src={widgets.styledComponents}
+                    props={{
+                      Button: {
+                        className: "secondary dark",
+                        text: "Show All Candidated",
+                        onClick: () =>
+                          State.update({
+                            filterOption: "",
+                            filter: {
+                              bookmark: false,
+                              candidates: false,
+                              votes: false,
+                              my_votes: false,
+                            },
+                          }),
+                      },
+                    }}
+                  />
+                </div>
+              )}
             </>
           ) : (
             <div className="d-flex p-5 justify-content-center align-items-center flex-column gap-2">
-              <span>There are no candidates found.</span>
+              <span>No candidates found.</span>
               {state.filterOption && (
                 <Widget
                   src={widgets.styledComponents}
