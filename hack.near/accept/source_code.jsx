@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId ?? "devs.near";
 const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
 const creatorId = props.creatorId ?? "hack.near";
 
@@ -24,9 +24,9 @@ const memberEdge = Social.keys(
 
 const loading = joinEdge === null || memberEdge === null;
 const join = joinEdge && Object.keys(joinEdge).length;
-const inverse = memberEdge && Object.keys(memberEdge).length;
+const member = memberEdge && Object.keys(memberEdge).length;
 
-const type = accept ? "reject" : "accept";
+const type = join ? "reject" : "accept";
 
 const handleAccept = () => {
   Social.set({
@@ -51,6 +51,7 @@ const handleAccept = () => {
     },
   });
 };
+
 return (
   <>
     {creatorId === context.accountId && (
