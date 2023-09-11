@@ -49,14 +49,14 @@ const ActionButton = styled.button`
 `;
 
 if (!state.isReadDataFromLocal) {
-  const getValue = Storage.get("collectInfo");
+  const getValue = props?.getStorage?.("collectInfo");
   if (getValue) {
     State.update({ data: JSON.parse(getValue), isReadDataFromLocal: true });
   } else {
     State.update({ isReadDataFromLocal: true });
   }
 } else {
-  Storage.set("collectInfo", JSON.stringify(state.data));
+  props?.setStorage?.("collectInfo", JSON.stringify(state.data));
 }
 
 return (
