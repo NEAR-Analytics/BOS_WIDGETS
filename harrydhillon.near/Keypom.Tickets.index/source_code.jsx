@@ -256,6 +256,7 @@ const createTickets = () => {
                 });
               }
             },
+            firstTicket:state?.tickets?.[0],
             editMode: state.editMode,
             editVal: state.editVal,
             onClose: () => {
