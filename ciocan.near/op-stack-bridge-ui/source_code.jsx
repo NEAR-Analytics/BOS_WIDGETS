@@ -334,29 +334,6 @@ const Dialog = styled.div`
 
 `;
 
-// vm imports
-const walletChains = {
-  5001: {
-    chainId: `0x1389`,
-    chainName: "Mantle Testnet",
-    nativeCurrency: {
-      name: "Ethereum",
-      symbol: "ETH",
-      decimals: 18,
-    },
-    rpcUrls: ["https://rpc.testnet.mantle.xyz/"],
-  },
-  5000: {
-    chainId: `0x1388`,
-    chainName: "Mantle Mainnet",
-    nativeCurrency: {
-      name: "Ethereum",
-      symbol: "ETH",
-      decimals: 18,
-    },
-    rpcUrls: ["https://rpc.mantle.xyz"],
-  },
-};
 const tokens = props.tokens ?? [
   {
     chainId: 5,
@@ -388,17 +365,15 @@ const tokens = props.tokens ?? [
     logoURI: "https://token-list.mantle.xyz/data/Mantle/logo.svg",
   },
 ];
-// end vm imports
-// props
-const l2Network = "mantle";
-const l2TestnetId = 5001;
-const l2MainnetId = 5000;
-const l2Networks = {
+const l2Network = props.l2Network ?? "mantle";
+const l2TestnetId = props.l2TestnetId ?? 5001;
+const l2MainnetId = props.l2MainnetId ?? 5000;
+const l2Networks = props.l2Networks ?? {
   [l2MainnetId]: "Mantle",
   [l2TestnetId]: "Mantle Testnet",
 };
-const l2IconUrl = "https://token-list.mantle.xyz/data/Mantle/logo.svg";
-// end props
+const l2IconUrl =
+  props.l2IconUrl ?? "https://token-list.mantle.xyz/data/Mantle/logo.svg";
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
