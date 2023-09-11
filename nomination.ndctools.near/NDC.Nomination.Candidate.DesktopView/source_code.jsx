@@ -481,6 +481,12 @@ const titles = [
   "Other Platform",
 ];
 
+const houseMapping = {
+  HouseOfMerit: 1,
+  CouncilOfAdvisors: 2,
+  TransparencyCommission: 3,
+};
+
 return (
   <Container class="row">
     <div class="" style={{ "margin-right": "5px", width: "950px" }}>
@@ -572,7 +578,7 @@ return (
                       !state.verified ||
                       context.accountId === accountId,
                     className: "primary dark",
-                    href: "#/election.ndctools.near/widget/NDC.Elections.Main",
+                    href: `#/election.ndctools.near/widget/NDC.Elections.Main?house=${houseMapping[house]}&candidates=["${accountId}"]`,
                     icon: (
                       <img
                         style={{ "margin-bottom": "5px" }}
