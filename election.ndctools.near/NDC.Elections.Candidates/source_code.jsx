@@ -1096,19 +1096,10 @@ return (
                   <Widget
                     src={widgets.styledComponents}
                     props={{
-                      Button: {
+                      Link: {
                         className: "secondary dark",
                         text: "Show All Candidated",
-                        onClick: () =>
-                          State.update({
-                            filterOption: "",
-                            filter: {
-                              bookmark: false,
-                              candidates: false,
-                              votes: false,
-                              my_votes: false,
-                            },
-                          }),
+                        href: `#/election.ndctools.near/widget/NDC.Elections.Main?house=${id}`,
                       },
                     }}
                   />
