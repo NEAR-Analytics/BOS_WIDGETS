@@ -50,7 +50,7 @@ const steps = [
     completed: state.acceptedPolicy || state.myVotes.length > 0,
   },
   {
-    title: 'Minted "Fair Voting Policy" NFT',
+    title: "Mint “Fair Voter” NFT",
     completed: state.hasPolicyNFT,
   },
   {
@@ -58,11 +58,11 @@ const steps = [
     completed: state.hasVotedOnAllProposals,
   },
   {
-    title: 'Minted "I Voted" NFT',
+    title: 'Mint "I Voted" NFT',
     completed: state.hasIVotedNFT,
   },
   {
-    title: 'Unbonded & Minted "I Voted SBT"',
+    title: 'Unbond & Mint "I Voted" SBT',
     completed: state.iVotedToken,
   },
 ];
