@@ -8,6 +8,7 @@ State.init({
     subject: "",
     body: "",
   },
+  userReachable: null
 });
 
 const WriteMessage = styled.div`
@@ -57,6 +58,23 @@ const Body = styled.div`
 
     input {
         margin-bottom:1.5rem;
+    }
+
+    span {
+      padding:0 1rem;
+      border-radius:20px;
+      position:absolute;
+      right:0;
+      font-size:.8rem;
+      color:#fff;
+    }
+
+    .reachable {
+      background-color:#4ab54a;
+    }
+
+    .unreachable {
+      background-color:#d12323;
     }
 
     textarea {
@@ -114,6 +132,10 @@ const SendButton = styled.button`
     color:#fff;
     border-radius:30px;
     font-size:.9rem;
+
+    :disabled {
+      opacity:.5;
+    }
 `;
 
 return (
@@ -123,19 +145,25 @@ return (
       <p onClick={() => onRefresh({ writeMessage: false })}>Cancel</p>
     </Header>
     <Body>
+      <div style={{
+        position: "relative"
+      }}>
+      {state.userReachable !== null && state.message.to && <span className={`${state.userReachable ? "reachable" : "unreachable"}`}>{state.userReachable ? "Available" : "Unavailable"}</span>}
       <Input
         type="text"
-        placeholder="To"
+        placeholder="To (user.near)"
         value={state.message.to}
         onChange={(e) => {
           State.update({
             message: {
               ...state.message,
               to: e.target.value,
-            },
+            }
           });
+          MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable }) );
         }}
       />
+      </div>
       <Input
         type="text"
         placeholder="Subject"
@@ -163,6 +191,7 @@ return (
       />
       <ToolBox>
         <SendButton
+          disabled={!state.message.body || !state.userReachable}
           onClick={() => {
             MailChain.send(
               state.message.to,
