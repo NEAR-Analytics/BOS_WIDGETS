@@ -38,16 +38,13 @@ const ComponentName = styled.span`
   color: #604CC8;
 `;
 
+const Dot = styled.span`
+  padding: 0 12px;
+`
+
 const Timestamp = styled.span`
   font: var(--text-s);
   color: #706F6C;
-  
-  &::before {
-    content: '',
-    width: 2px;
-    height: 2px;
-    backtround: #333;
-  }
 `;
 
 const Desc = styled.span`
@@ -57,6 +54,7 @@ const Desc = styled.span`
   border-left: 2px solid #E3E3E0;
   padding: 0 0 0 1rem;
 `;
+
 
 
 
@@ -134,7 +132,7 @@ return (
           {/*<ComponentName>{componentName}</ComponentName>*/}
 
           <Timestamp>
-          ·
+            <Dot>·</Dot>
             <Widget
             src="mob.near/widget/TimeAgo@97556750"
             props={{ blockHeight: props.blockHeight }}
