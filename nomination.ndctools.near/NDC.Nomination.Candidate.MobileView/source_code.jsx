@@ -505,6 +505,12 @@ const issues = [
   { description: candidateProps.addition_platform, title: "Other Platform" },
 ];
 
+const houseMapping = {
+  HouseOfMerit: 1,
+  CouncilOfAdvisors: 2,
+  TransparencyCommission: 3,
+};
+
 return (
   <DetailContent>
     <DetailCard className="w-100 justify-content-center">
@@ -561,7 +567,7 @@ return (
                 !state.verified ||
                 context.accountId === accountId,
               className: "primary dark",
-              href: "#/election.ndctools.near/widget/NDC.Elections.Main",
+              href: `#/election.ndctools.near/widget/NDC.Elections.Main?house=${houseMapping[house]}&candidates=["${accountId}"]`,
               icon: (
                 <img
                   style={{ "margin-bottom": "5px" }}
