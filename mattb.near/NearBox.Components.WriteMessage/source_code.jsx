@@ -24,7 +24,7 @@ const checkAddress = () => {
 
 const WriteMessage = styled.div`
   width:100%;
-  min-width:300px;
+  min-width:500px;
   background-color:#fff;
   overflow:hidden;
 `;
