@@ -11,7 +11,11 @@ background: var(--sand-light-1, #FDFDFC);
 `;
 
 const Header = styled.div`
-
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 16px;
+align-self: stretch; 
 `;
 
 const Title = styled.div`
