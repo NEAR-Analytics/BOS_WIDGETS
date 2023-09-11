@@ -138,7 +138,7 @@ return (
                           ) : td.link ? (
                             <a
                               className="d-inline-block"
-                              target="_blank"
+                              target={key ? "_blank" : ""}
                               href={key ? key : "#"}
                               style={{
                                 "text-decoration": "none",
