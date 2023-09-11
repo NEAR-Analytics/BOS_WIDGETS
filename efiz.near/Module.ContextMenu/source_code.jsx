@@ -36,25 +36,30 @@ const Wrapper = styled.div`
   }
 `;
 
-const { Item, passProps, handlers } = props;
+function ContextMenu( { Item, passProps, handlers } ) {
 
 return (
   <ContextMenu.Root>
     <ContextMenu.Trigger asChild>
       <div style={{ width: "100%" }}>
-        <Item />
-      </div>
-    </ContextMenu.Trigger>
-    <ContextMenu.Content sideOffset={5} align="end" asChild>
-      <Wrapper>
-        <ContextMenu.Item
-          className="menu__item"
-          onSelect={() => handlers["delete"](passProps["delete"])}
-        >
-          <i className="menu__item__icon bi bi-x-lg" />
-          Delete
-        </ContextMenu.Item>
-      </Wrapper>
-    </ContextMenu.Content>
-  </ContextMenu.Root>
-);
+            <Item />
+        </div>
+        </ContextMenu.Trigger>
+        <ContextMenu.Content sideOffset={5} align="end" asChild>
+        <Wrapper>
+            <ContextMenu.Item
+            className="menu__item"
+            onSelect={() => handlers["delete"](passProps["delete"])}
+            >
+            <i className="menu__item__icon bi bi-x-lg" />
+            Delete
+            </ContextMenu.Item>
+        </Wrapper>
+        </ContextMenu.Content>
+    </ContextMenu.Root>
+    );
+}
+
+return { ContextMenu }
+
+
