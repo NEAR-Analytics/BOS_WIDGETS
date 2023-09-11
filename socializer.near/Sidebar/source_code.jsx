@@ -1,6 +1,8 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 
+const Menu = props?.menu;
+
 State.init({
   list: [
     {
@@ -47,6 +49,7 @@ State.init({
         </svg>
       ),
       label: "Dashboard",
+      value: "dashboard",
       active: true,
     },
     {
@@ -82,6 +85,7 @@ State.init({
         </svg>
       ),
       label: "Profile",
+      value: "profile",
       active: false,
     },
   ],
@@ -128,7 +132,13 @@ return (
   <Sidebar>
     <List>
       {state.list.map((item) => (
-        <ListItem key={item.label} data-state={item.active ? "active" : ""}>
+        <ListItem
+          key={item.label}
+          data-state={item.active ? "active" : ""}
+          onClick={() => {
+            Menu.update({ page: item.value });
+          }}
+        >
           {item.icon}
           {item.label}
         </ListItem>
