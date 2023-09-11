@@ -1,5 +1,5 @@
-const textColor = "#35A39F";
-const bgColor = "#1B706D";
+const textColor = props.textColor ?? "#35A39F";
+const bgColor = props.bgColor ?? "#1B706D";
 
 const Layout = styled.div`
   position: relative;
@@ -375,6 +375,7 @@ const tokens = props.tokens ?? [
   {
     chainId: 5001,
     address: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
+    // address: "0x0000000000000000000000000000000000000000",
     symbol: "ETH",
     decimals: 18,
     logoURI: "https://token-list.mantle.xyz/data/ETH/logo.svg",
@@ -481,7 +482,7 @@ if (!prices[selectedToken]) {
 
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
-
+  console.log("updateBalance", address, symbol);
   // if (state.balances[symbol]) {
   //   return;
   // }
@@ -535,6 +536,7 @@ const changeNetwork = (network) => {
     }
   }
   State.update({ isNetworkSelectOpen: false, selectedNetwork: network });
+  tokens.filter((t) => t.chainId === chainId).map(updateBalance);
 };
 
 const openNetworkList = () => {
