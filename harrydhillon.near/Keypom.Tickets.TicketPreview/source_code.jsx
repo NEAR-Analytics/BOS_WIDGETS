@@ -28,17 +28,16 @@ const EyeDiv = styled.div`
   border-radius:100px;
   border: 1px solid #00A7E4;
 `;
-      // <EyeDiv>
-      //   <div
-      //     style={{ display: "block", margin: "auto", transform: "scale(0.6)" }}
-      //   >
-      //     <Widget src="harrydhillon.near/widget/Keypom.Tickets.EyeSVG" />
-      //   </div>
-      // </EyeDiv>
+// <EyeDiv>
+//   <div
+//     style={{ display: "block", margin: "auto", transform: "scale(0.6)" }}
+//   >
+//     <Widget src="harrydhillon.near/widget/Keypom.Tickets.EyeSVG" />
+//   </div>
+// </EyeDiv>
 const PreviewTicketModal = (
   <>
     <Container>
-
       {!!props.numberOfTickets && (
         <p style={{ position: "absolute", right: 65, top: 27, fontSize: 12 }}>
           1 of {props.numberOfTickets}
@@ -74,7 +73,7 @@ const PreviewTicketModal = (
           {props.description}
         </p>
         <p style={{ fontSize: 12, fontWeight: "500", color: "gray" }}>
-          [Event Location]
+          {props?.formValues?.location}
         </p>
         <div style={{ display: "flex", marginBottom: 10 }}>
           <button
