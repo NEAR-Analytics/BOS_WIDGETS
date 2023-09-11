@@ -152,13 +152,12 @@ const Button = styled.button`
   &:hover {
     background: ${theme.buttonPrimaryHover};
   }
-
   &:focus {
     background: ${theme.buttonPrimaryActive};
   }
 `;
 
-const ButtonLink = styled.a`
+const Button2 = styled.button`
   ${sharedButtonStyles}
   color: ${(p) => (p.primary ? "#FFF" : "#11181C")} !important;
   background: ${(p) => (p.primary ? "#0d6efd" : "#FBFCFD")};
@@ -219,17 +218,18 @@ return (
     )}
 
     <Actions>
-      <ButtonLink
+      <Button
         primary
-        href={primaryActions[primaryAction].url}
+        // href={primaryActions[primaryAction].url}
+        onClick={() => props.onOpenLinkClick(primaryActions[primaryAction].url)}
         target="_blank"
       >
         {primaryActions[primaryAction].display}
-      </ButtonLink>
+      </Button>
 
-      <Button
+      <Button2
         // href={`/editor/${src}`}
-        onClick={() => props.onOpenLinkClick(src)}
+        onClick={() => props.onForkClick(src)}
       >
         {context.accountId === accountId ? (
           <>
@@ -240,7 +240,7 @@ return (
             <i className="bi bi-git"></i> Fork
           </>
         )}
-      </Button>
+      </Button2>
 
       {/*<ButtonLink href={`${appUrl}&tab=source`}>
         <i className="bi bi-code-square"></i>
@@ -251,7 +251,7 @@ return (
         placement="top"
         overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
       >
-        <Button
+        <Button2
           type="button"
           onMouseLeave={() => {
             State.update({ copiedShareUrl: false });
@@ -268,7 +268,7 @@ return (
             <i className="bi bi-16 bi-link-45deg"></i>
           )}
           Share
-        </Button>
+        </Button2>
       </OverlayTrigger>
     </Actions>
   </Wrapper>
