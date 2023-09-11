@@ -171,7 +171,7 @@ const handleCreate = () => {
         Object.keys(state.members).map((account) => ({
           key: groupId,
           value: {
-            type: "create",
+            type: "add",
             accountId: account,
           },
         }))
