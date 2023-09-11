@@ -38,23 +38,27 @@ const renderItem = (item) => {
                   />{" "}
                 </div>
                 <div className="col-auto m-1">
-                  {item.value.type === "add" && "added you to a group"}
+                  {item.value.type === "add" && `added`}
                   <Widget
                     src="mob.near/widget/TimeAgo"
                     props={{ blockHeight: item.blockHeight }}
                   />
                 </div>
+                <div className="col-auto m-1">
+                  <Widget
+                    src="mob.near/widget/Profile"
+                    props={{ accountId: item.value.accountId, tooltip: true }}
+                  />{" "}
+                </div>
               </div>
             </div>
             <div className="text-truncate col-auto float-right">
-              <Widget
-                src="hack.near/widget/group.view"
-                props={{ groupId, creatorId: item.accountId }}
-              />
-              <Widget
-                src="hack.near/widget/accept"
-                props={{ groupId, accountId: item.accountId }}
-              />{" "}
+              {context.accountId === item.value.accountId && (
+                <Widget
+                  src="hack.near/widget/accept"
+                  props={{ groupId, accountId: item.value.accountId }}
+                />
+              )}
             </div>
           </div>
           <div>
@@ -91,14 +95,12 @@ const renderItem = (item) => {
               </div>
             </div>
             <div className="text-truncate col-auto float-right">
-              <Widget
-                src="hack.near/widget/group.view"
-                props={{ groupId, creatorId: item.accountId }}
-              />
-              <Widget
-                src="hack.near/widget/approve"
-                props={{ groupId, accountId: item.accountId }}
-              />{" "}
+              {item.accountId !== context.accountId && (
+                <Widget
+                  src="hack.near/widget/approve"
+                  props={{ groupId, accountId: item.accountId }}
+                />
+              )}
             </div>
           </div>
           <div>
@@ -126,19 +128,23 @@ const renderItem = (item) => {
                   />{" "}
                 </div>
                 <div className="col-auto m-1">
-                  {item.value.type === "create" && "created group"}
+                  {item.value.type === "create" && "created"}
                   <Widget
                     src="mob.near/widget/TimeAgo"
                     props={{ blockHeight: item.blockHeight }}
                   />
                 </div>
+                <div className="col-auto m-1">
+                  <Widget
+                    src="hack.near/widget/group.info"
+                    props={{
+                      groupId,
+                      accountId: item.accountId,
+                      tooltip: true,
+                    }}
+                  />{" "}
+                </div>
               </div>
-            </div>
-            <div className="text-truncate col-auto float-right">
-              <Widget
-                src="hack.near/widget/group.view"
-                props={{ groupId, creatorId: item.accountId }}
-              />
             </div>
           </div>
           <div>
@@ -160,7 +166,6 @@ const renderItem = (item) => {
 
 return (
   <div className="m-2">
-    <p></p>
     <Widget
       src="mob.near/widget/FilteredIndexFeed"
       props={{ index, renderItem }}
