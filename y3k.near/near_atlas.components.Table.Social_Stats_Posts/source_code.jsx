@@ -125,22 +125,27 @@ function sort_update(sortKey, direction) {
     setSortConfig: { key: sortKey, direction },
   });
 }
-function getSortedNodes() {
-  // Get the current sort configuration from the state
+function getSortedNodes(fieldName) {
+  // If fieldName is provided, set it as the sort key
+  if (fieldName) {
+    state.setSortConfig = {
+      key: fieldName,
+      direction: state.setSortConfig.direction || "asc", // default to ascending if direction is not set
+    };
+  }
+
+  // Rest of the function remains the same as before
   const sortConfig = state.setSortConfig;
 
-  // Check if there's a sort key and direction
   if (sortConfig && sortConfig.key && sortConfig.direction) {
     const sortedNodes = [...(nodes || [])];
 
     sortedNodes.sort((a, b) => {
-      // Check if the data type is string
       if (typeof a[sortConfig.key] === "string") {
         return sortConfig.direction === "asc"
           ? a[sortConfig.key].localeCompare(b[sortConfig.key])
           : b[sortConfig.key].localeCompare(a[sortConfig.key]);
       } else {
-        // For other data types (numbers, dates, etc.)
         if (a[sortConfig.key] < b[sortConfig.key]) {
           return sortConfig.direction === "asc" ? -1 : 1;
         }
@@ -148,32 +153,16 @@ function getSortedNodes() {
           return sortConfig.direction === "asc" ? 1 : -1;
         }
       }
-      return 0; // If values are equal
+      return 0;
     });
 
     return sortedNodes;
   }
 
-  // If no sort configuration, return original nodes
   return nodes;
 }
 
-// Function to get the top 100 sorted nodes based on TOTAL_LIKES_RECEIVED
-function getTop100SortedNodes() {
-  // First, ensure nodes is defined and is an array
-  if (!nodes || !Array.isArray(nodes)) {
-    return [];
-  }
-
-  // Sort based on TOTAL_LIKES_RECEIVED in descending order
-  const sortedNodes = [...nodes].sort((a, b) => {
-    return b["TOTAL_LIKES_RECEIVED"] - a["TOTAL_LIKES_RECEIVED"];
-  });
-
-  // Return top 100 items after sorting
-  return sortedNodes.slice(0, 100);
-}
-const sortedNodes = getSortedNodes();
+const sortedNodes = getSortedNodes("TOTAL_POSTS");
 const nodesForRendering = getNodesForCurrentPage(sortedNodes);
 return (
   <div className="bg-dark rounded-lg mb-12 overflow-hidden w-full">
@@ -207,7 +196,7 @@ return (
                 {COLUMNS.map((column) => (
                   <td
                     className={`text-white text-center p-2 ${
-                      column.sort.sortKey === "RECEIVER_ID" ? "max-w-xs" : ""
+                      column.sort.sortKey === "SIGNER ID" ? "max-w-xs" : ""
                     }`}
                   >
                     {column.renderCell(row)}
