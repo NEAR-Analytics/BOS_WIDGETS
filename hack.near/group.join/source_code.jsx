@@ -65,10 +65,12 @@ return (
   <>
     <button
       disabled={loading}
-      className={`btn ${loading || join ? "btn-outline-dark" : "btn-primary"}`}
+      className={`btn ${
+        loading || join ? "btn-outline-secondary" : "btn-outline-dark"
+      }`}
       onClick={handleJoin}
     >
-      {loading ? "loading" : join ? "joined" : inverse ? "accept" : "join"}
+      {loading ? "loading" : join ? "joined" : member ? "accept" : "join"}
     </button>
   </>
 );
