@@ -6,26 +6,26 @@ if (!creatorId) {
   return "Please connect your NEAR account :)";
 }
 
-const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
+const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
 
-const group =
-  props.group ?? Social.get(`*/thing/${groupId}/metadata/**`, "final");
+const groupData =
+  props.group ?? Social.get(`${creatorId}/thing/${groupId}/**`, "final");
 
-if (!group) {
+if (!groupData) {
   return "group not found";
 }
 
-const groupKey = Object.keys(group)[0];
+const groupKey = Object.keys(groupData)[0];
 
 const initMembers =
-  props.members ?? Social.get(`${groupKey}/graph/${groupId}/**`, "final");
+  props.members ?? Social.get(`${creatorId}/graph/${groupId}/**`, "final");
 
 if (!initMembers) {
   return "group members not found";
 }
 
 State.init({
-  group,
+  group: groupData,
   members: initMembers,
   newMember: "",
   isDao: false,
@@ -129,8 +129,8 @@ const handleSave = () => {
 
 return (
   <>
-    {" "}
-    {group && (
+    <p>{JSON.stringify(group)}</p>
+    {groupData && (
       <div className="row">
         <div className="col-lg-6">
           <h5 className="mb-3">Details</h5>
