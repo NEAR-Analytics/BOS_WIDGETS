@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? "devs.near";
+const accountId = props.accountId ?? context.accountId;
 const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
 
 const className = props.className ?? "group-image d-inline-block";
@@ -15,14 +15,6 @@ const image = group.image;
 const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
-if (accountId !== state.accountId) {
-  State.update({
-    fastImageUrl: `https://i.near.social/magic/${
-      thumbnail || "large"
-    }/https://near.social/magic/img/account/${accountId}`,
-    accountId,
-  });
-}
 const fallbackUrl =
   "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
