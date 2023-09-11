@@ -505,7 +505,7 @@ return (
                 size: "sm",
                 href: `#/election.ndctools.near/widget/NDC.Elections.Main?house=${
                   houseMapping[data.indexerData.house]
-                }&candidates=[${data.indexerData.nominee}]`,
+                }&candidates=["${data.indexerData.nominee}"]`,
                 icon: <i className="bi bi-hand-thumbs-up"></i>,
               },
             }}
