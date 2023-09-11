@@ -1099,7 +1099,8 @@ return (
                       Button: {
                         className: "secondary dark",
                         text: "Show All Candidated",
-                        onClick: () => State.update({ candidates: result }),
+                        doNotOpenNew: true,
+                        href: `#/election.ndctools.near/widget/NDC.Elections.Main?house=${id}`,
                       },
                     }}
                   />
