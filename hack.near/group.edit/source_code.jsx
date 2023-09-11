@@ -12,7 +12,7 @@ const groupData =
   props.group ?? Social.get(`${creatorId}/thing/${groupId}/**`, "final");
 
 if (!groupData) {
-  return "group not found";
+  return "";
 }
 
 const groupKey = Object.keys(groupData)[0];
@@ -21,7 +21,7 @@ const initMembers =
   props.members ?? Social.get(`${creatorId}/graph/${groupId}/**`, "final");
 
 if (!initMembers) {
-  return "group members not found";
+  return "";
 }
 
 State.init({
@@ -119,7 +119,7 @@ const handleSave = () => {
           key: account,
           value: {
             type: "add",
-            message: "added to group",
+            message: "added you to group",
           },
         }))
       ),
