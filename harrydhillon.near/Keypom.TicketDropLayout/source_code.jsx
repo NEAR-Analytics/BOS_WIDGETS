@@ -84,7 +84,7 @@ const componentsToRender = [
   <Widget
     props={{
       validationMode: state.validationMode,
-      setStorage: (key, val) => Storage.get(key, val),
+      setStorage: (key, val) => Storage.set(key, val),
       getStorage: (key, val) => Storage.get(key, val),
       nextStep: (isValid) => {
         if (isValid) {
@@ -98,39 +98,25 @@ const componentsToRender = [
   />,
   <Widget
     props={{
-      setStorage: (key, val) => Storage.get(key, val),
+      setStorage: (key, val) => Storage.set(key, val),
       getStorage: (key, val) => Storage.get(key, val),
     }}
     src="harrydhillon.near/widget/Keypom.CollectInfo.Index"
   />,
   <Widget
     props={{
-      setStorage: (key, val) => Storage.get(key, val),
+      setStorage: (key, val) => Storage.set(key, val),
       getStorage: (key, val) => Storage.get(key, val),
     }}
     src="harrydhillon.near/widget/Keypom.Tickets.index"
   />,
   <Widget
     props={{
-      setStorage: (key, val) => Storage.get(key, val),
+      setStorage: (key, val) => Storage.set(key, val),
       getStorage: (key, val) => Storage.get(key, val),
-      tickets: Storage.get(
-        "tickets"
-      )
-        ? JSON.parse(
-            Storage.get(
-              "tickets"
-            )
-          )
-        : [],
-      eventData: Storage.get(
-        "formValues"
-      )
-        ? JSON.parse(
-            Storage.get(
-              "formValues"
-            )
-          )
+      tickets: Storage.get("tickets") ? JSON.parse(Storage.get("tickets")) : [],
+      eventData: Storage.get("formValues")
+        ? JSON.parse(Storage.get("formValues"))
         : {},
     }}
     src="harrydhillon.near/widget/Keypom.Review.index"
