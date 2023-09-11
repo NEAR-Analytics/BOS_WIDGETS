@@ -98,6 +98,7 @@ return (
                 onDetailsUrlClick: props?.onDetailsUrlClick,
                 onCopyButtonClick: props?.onCopyButtonClick,
                 selectedItem: props.selectedItem,
+                onOpenLinkClick: props?.onOpenLinkClick,
               }}
             />
           </div>
