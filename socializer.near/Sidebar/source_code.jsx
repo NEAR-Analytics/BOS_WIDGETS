@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 
-const Menu = props?.menu;
+const changeTab = props?.changeTab || (() => {});
 
 State.init({
   list: [
@@ -136,7 +136,7 @@ return (
           key={item.label}
           data-state={item.active ? "active" : ""}
           onClick={() => {
-            Menu.update({ page: item.value });
+            changeTab(item.value);
           }}
         >
           {item.icon}
