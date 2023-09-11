@@ -22,7 +22,7 @@ const IconButton = styled.button`
   right:0px;
 `;
 
-const nearAmount = [20, 50, 100, 200];
+const nearAmount = ["Free", 20, 50, 100, 200];
 
 const nearLabel = (amount, selected) => (
   <NearAmountBackground
@@ -216,10 +216,16 @@ const AddTicketModal = (
     </p>
     <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
       {nearAmount.map((item) => (
-        <div>{nearLabel(item, parseInt(item) === state.selected)}</div>
+        <div>
+          {nearLabel(
+            item,
+            state.selected === item || parseInt(item) === state.selected
+          )}
+        </div>
       ))}
       {nearLabel("Custom Amount", state.selected === "Custom Amount")}
     </div>
+    {state.selected === "Free" && <p></p>}
     {state.selected === "Custom Amount" && (
       <>
         <Widget
@@ -245,17 +251,22 @@ const AddTicketModal = (
         {showFormError("nearAmountForTicket", "Custom Near Amount")}
       </>
     )}
-    <p style={{ color: "gray" }}>
-      You receive{" "}
-      {state.selected === "Custom Amount"
-        ? state.nearAmountForTicket
-        : state.selected}{" "}
-      NEAR. Buyer pays{" "}
-      {state.selected === "Custom Amount"
-        ? state.nearAmountForTicket
-        : state.selected}
-      .187 NEAR.
-    </p>
+    {state.selected === "Free" ? (
+      <p style={{ color: "gray" }}>Ticket is free, buyer pays the 0.187 NEAR minting fee</p>
+    ) : (
+      <p style={{ color: "gray" }}>
+        You receive{" "}
+        {state.selected === "Custom Amount"
+          ? state.nearAmountForTicket
+          : state.selected}{" "}
+        NEAR. Buyer pays{" "}
+        {state.selected === "Custom Amount"
+          ? state.nearAmountForTicket
+          : state.selected}
+        .187 NEAR.
+      </p>
+    )}
+
     <p style={{ fontWeight: "500", marginBottom: 0 }}>Ticket Artwork</p>
     <Widget
       props={{
