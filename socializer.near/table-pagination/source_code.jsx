@@ -73,7 +73,11 @@ return (
               <th
                 key={th.title}
                 className="col-1"
-                style={{ fontSize: 12, width: `${th.width}%` }}
+                style={{
+                  fontSize: 12,
+                  width: `${th.width}%`,
+                  verticalAlign: "middle",
+                }}
                 scope="col"
               >
                 <div>
