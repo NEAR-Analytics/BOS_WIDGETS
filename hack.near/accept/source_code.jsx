@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
-const creatorId = props.creatorId ?? "hack.near";
+const creatorId = props.creatorId ?? "devs.near";
 
 if (!props.accountId && !context.accountId) {
   return "";
@@ -55,7 +55,7 @@ const handleAccept = () => {
 return (
   <>
     <span>
-      {join ? (
+      {!join ? (
         <button
           disabled={!context.accountId}
           className="btn btn-success"
