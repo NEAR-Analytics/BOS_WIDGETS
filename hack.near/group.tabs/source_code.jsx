@@ -10,8 +10,11 @@ return (
       <li className="nav-item" role="presentation">
         <a
           href={`#/hack.near/widget/Group?groupId=${groupId}&tab=community`}
-          className={`btn nav-link ${tab === "community" ? "active" : ""}`}
+          className={`m-2 btn btn-outline-dark ${
+            tab === "community" ? "active" : ""
+          }`}
           role="tab"
+          style={{ width: "95%" }}
         >
           Community
         </a>
@@ -19,8 +22,11 @@ return (
       <li className="nav-item" role="presentation">
         <a
           href={`#/hack.near/widget/Group?groupId=${groupId}&tab=contributors`}
-          className={`btn nav-link ${tab === "contributors" ? "active" : ""}`}
+          className={`m-2 btn btn-outline-dark  ${
+            tab === "contributors" ? "active" : ""
+          }`}
           role="tab"
+          style={{ width: "95%" }}
         >
           Contributors
         </a>
