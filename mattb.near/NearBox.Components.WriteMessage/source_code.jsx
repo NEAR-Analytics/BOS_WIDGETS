@@ -16,8 +16,7 @@ State.init({
 if (state.message.to && !state.isIntervalSet) {
   setInterval(() => {
     if (state.message.to && state.addressChecked != state.message.to) {
-      let address = state.message.to;
-      MailChain.addressIsReachable(address).then((reachable) => State.update({ userReachable: reachable, addressChecked: address }) );
+      MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable, addressChecked: state.message.to }) );
     }
   }, 1000);
   State.update({isIntervalSet: true});
