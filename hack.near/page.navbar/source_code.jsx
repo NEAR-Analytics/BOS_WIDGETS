@@ -12,6 +12,31 @@ const isMember = Social.keys(
   }
 );
 
+const type = join ? "leave" : "join";
+
+const handleJoin = () => {
+  Social.set({
+    graph: { [groupId]: { [accountId]: "" } },
+    index: {
+      graph: JSON.stringify({
+        key: groupId,
+        value: {
+          type,
+          accountId,
+        },
+      }),
+      notify: JSON.stringify({
+        key: creatorId,
+        value: {
+          type,
+          accountId,
+          message: "joined everyone",
+        },
+      }),
+    },
+  });
+};
+
 const Header = styled.div`
   background: black;
 
@@ -57,14 +82,7 @@ return (
             create
           </button>
         ) : (
-          <button
-            onClick={() =>
-              Social.set({
-                graph: { [groupId]: { [context.accountId]: "" } },
-              })
-            }
-            className="btn btn-success"
-          >
+          <button onClick={handleJoin} className="btn btn-success">
             start
           </button>
         )}
