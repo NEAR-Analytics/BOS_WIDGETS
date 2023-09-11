@@ -1096,7 +1096,7 @@ return (
                   <Widget
                     src={widgets.styledComponents}
                     props={{
-                      Button: {
+                      Link: {
                         className: "secondary dark",
                         text: "Show All Candidated",
                         doNotOpenNew: true,
