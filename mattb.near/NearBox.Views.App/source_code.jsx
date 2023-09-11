@@ -61,7 +61,7 @@ const Logout = styled.div`
   }
 `;
 
-const WriteMessage = styled.div`
+const MessageCorner = styled.div`
   position:fixed;
   bottom:0;
   right:20px;
@@ -84,16 +84,16 @@ return (
   <Main>
     <Header>
       <HeaderWrapper>
-      <Widget src={`${WIDGET_OWNER}/widget/NearBox.Components.Logo`} />
+        <Widget src={`${WIDGET_OWNER}/widget/NearBox.Components.Logo`} />
 
-      <Logout>
-        {Mailchain.user.address}
-        <p>mattb@mailchain.com</p>
-        <img
-          src="https://ipfs.near.social/ipfs/bafkreiem7zs4oxkkgsr2hgret2z2h3fj76kngsbmkdstfijcsyakioklzu"
-          onClick={() => onLogout({ logged: false })}
-        />
-      </Logout>
+        <Logout>
+          {Mailchain.user.address}
+          <p>mattb@mailchain.com</p>
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreiem7zs4oxkkgsr2hgret2z2h3fj76kngsbmkdstfijcsyakioklzu"
+            onClick={() => onLogout({ logged: false })}
+          />
+        </Logout>
       </HeaderWrapper>
     </Header>
     <Body>
@@ -112,17 +112,19 @@ return (
         }}
       />
 
-      {state.displayMessage && (
-        <Widget
-          src={`${WIDGET_OWNER}/widget/NearBox.Components.ReadMessage`}
-          props={{
-            message: state.displayMessage,
-          }}
-        />
+      {state.displayMessage && !state.writeMessage && (
+        <MessageCorner>
+          <Widget
+            src={`${WIDGET_OWNER}/widget/NearBox.Components.ReadMessage`}
+            props={{
+              message: state.displayMessage,
+            }}
+          />
+        </MessageCorner>
       )}
 
       {state.writeMessage && (
-        <WriteMessage>
+        <MessageCorner>
           <Widget
             src={`${WIDGET_OWNER}/widget/NearBox.Components.WriteMessage`}
             props={{
@@ -138,7 +140,7 @@ return (
               },
             }}
           />
-        </WriteMessage>
+        </MessageCorner>
       )}
     </Body>
   </Main>
