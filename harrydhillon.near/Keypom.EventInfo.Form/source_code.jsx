@@ -69,7 +69,7 @@ const setInput = (key, value) => {
 };
 
 if (!state.isReadDataFromLocal) {
-  const getValue =  props?.getStorage?.("formValues");
+  const getValue = props?.getStorage?.("formValues");
   if (getValue) {
     State.update({ ...JSON.parse(getValue), isReadDataFromLocal: true });
   } else {
