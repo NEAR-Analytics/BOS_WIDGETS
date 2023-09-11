@@ -13,20 +13,23 @@ const Title = styled.div`
 `;
 
 const Settings = styled.div`
-display: flex;
-width: 40px;
-height: 40px;
-justify-content: center;
-align-items: center;
-gap: 8px; 
-border-radius: 50px;
-border: 1px solid var(--sand-light-6, #E3E3E0);
-background: var(--sand-light-1, #FDFDFC);
+    display: flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; 
+    border-radius: 50px;
+    border: 1px solid var(--sand-light-6, #E3E3E0);
+    background: var(--sand-light-1, #FDFDFC);
+`;
+
+const Card = styled.div`
+    max-width: 592px;
 `;
 
 return (
-  <>
-    <Widget src="golas.near/widget/N_NotificationsBanner" />
+  <Card>
     <Header>
       <Title>Notifications</Title>
       <Settings>
@@ -44,6 +47,7 @@ return (
         </svg>
       </Settings>
     </Header>
+    <Widget src="golas.near/widget/N_NotificationsBanner" />
     <Widget src="golas.near/widget/N-NotificationsList-2" />
-  </>
+  </Card>
 );
