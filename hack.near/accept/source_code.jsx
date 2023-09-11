@@ -7,7 +7,7 @@ if (!props.accountId && !context.accountId) {
 }
 
 const joinEdge = Social.keys(
-  `${accountId}/graph/${groupId}/${context.accountId}`,
+  `${accountId}/graph/${groupId}/${accountId}`,
   undefined,
   {
     values_only: true,
@@ -15,7 +15,7 @@ const joinEdge = Social.keys(
 );
 
 const memberEdge = Social.keys(
-  `${creatorId}/graph/${groupId}/${context.accountId}`,
+  `${creatorId}/graph/${groupId}/${accountId}`,
   undefined,
   {
     values_only: true,
@@ -26,7 +26,7 @@ const loading = joinEdge === null || memberEdge === null;
 const join = joinEdge && Object.keys(joinEdge).length;
 const member = memberEdge && Object.keys(memberEdge).length;
 
-const type = join ? "reject" : "accept";
+const type = member ? "accept" : "reject";
 
 const handleAccept = () => {
   Social.set({
