@@ -354,8 +354,6 @@ const AddTicketModal = (
   </TopLevelContainerDiv>
 );
 
-return AddTicketModal;
-
 if (props.editMode && props.isOpen && !state.hasBeenEditUpdated) {
   State.update({ ...props.editVal, hasBeenEditUpdated: true });
 }
