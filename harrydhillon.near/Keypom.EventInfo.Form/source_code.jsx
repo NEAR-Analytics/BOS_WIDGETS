@@ -109,9 +109,6 @@ const executeValidation = () => {
       allErrors.to = true;
     }
   }
-  if (!state.image) {
-    allErrors.image = true;
-  }
   State.update({ error: allErrors });
   return allErrors;
 };
@@ -142,7 +139,7 @@ const formContent = () => {
           <Widget
             src="harrydhillon.near/widget/Keypom.Components.Input"
             props={{
-              label: "Event description",
+              label: "Event description*",
               inputProps: {
                 placeholder: "Add a description to your event",
                 value: state.description,
@@ -154,7 +151,7 @@ const formContent = () => {
           <Widget
             src="harrydhillon.near/widget/Keypom.Components.Input"
             props={{
-              label: "Event location",
+              label: "Event location*",
               inputProps: {
                 placeholder: "Add a location or address to your event",
                 value: state.location,
@@ -164,7 +161,7 @@ const formContent = () => {
           />
           {showFormError("location", "Event location")}
           <Label style={{ marginLeft: -5, fontWeight: "bold" }}>
-            Event dates *
+            Event dates*
           </Label>
           <p style={{ fontSize: 12, color: "gray", marginTop: -5 }}>
             {state?.isSingleDateEvent
