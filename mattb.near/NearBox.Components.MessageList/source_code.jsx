@@ -53,7 +53,7 @@ const Text = styled.p`
 const Wrapper = styled.div`
   background-color:#fafafa;
   border-radius:10px;
-  min-height:500px;
+  height:calc(100vh - 70px);
   padding:1rem;
 
   h3 {
