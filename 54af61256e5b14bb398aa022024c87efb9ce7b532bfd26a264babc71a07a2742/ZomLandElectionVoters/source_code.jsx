@@ -220,7 +220,9 @@ state.data.map((item) => {
   else formData[item["community-name"]] = [item];
 });
 
-const ndcAccounts = formData[state.community].map((user) => user.account);
+const ndcAccounts = formData[state.community]
+  .map((user) => user.account)
+  .filter((user) => accounts.includes(user));
 const totalPercentage = (getVoted(accounts).length / accounts.length) * 100;
 const ndcPercentage = (getVoted(ndcAccounts).length / ndcAccounts.length) * 100;
 
@@ -244,7 +246,7 @@ return (
         <h5>NDC Community ({ndcAccounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {ndcAccounts.map((accountId) => (
-            <Name isVoted={false}>
+            <Name isVoted={isVoted(accountId)}>
               <Widget
                 src="mob.near/widget/ProfileLine"
                 props={{ accountId, tooltip: false }}
@@ -254,24 +256,11 @@ return (
         </div>
       </Section>
       <Section className="d-flex flex-column gap-2 align-items-center">
-        <h5>Voted ({getVoted(accounts).length})</h5>
-        <div className="d-flex flex-column gap-2">
-          {getVoted(accounts).map((accountId) => (
-            <Name isVoted={false}>
-              <Widget
-                src="mob.near/widget/ProfileLine"
-                props={{ accountId, tooltip: false }}
-              />
-            </Name>
-          ))}
-        </div>
-      </Section>
-      <Section className="d-flex flex-column gap-2 align-items-center">
-        <h5>Total users</h5>
+        <h5>Total White users</h5>
         <Chart voted={totalPercentage}>
           <span>{totalPercentage.toFixed(1)}%</span>
         </Chart>
-        <h5>NDC users</h5>
+        <h5>NDC White users</h5>
         <Chart voted={ndcPercentage}>
           <span>{ndcPercentage.toFixed(1)}%</span>
         </Chart>
