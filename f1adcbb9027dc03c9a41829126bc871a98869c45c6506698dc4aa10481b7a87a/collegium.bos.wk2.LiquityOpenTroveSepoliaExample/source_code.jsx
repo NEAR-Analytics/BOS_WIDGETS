@@ -318,8 +318,7 @@ const openTrove = async () => {
    * 입력창에 2ETH, 1800LUSD를 입력했을 때 NICR.toString()의 결과 값: "99552015928322548"
    */
   // const NICR = null;
-  const NICR = (ETHColl / LUSDAmount) * 100;
-  alert(NICR.toString());
+  const NICR = ETHColl * _1e20 / expectedDebt;
   console.log({ NICR: NICR.toString() });
   sortedTroveContract.getSize().then((numTroves) => {
     const _numTrials = numTroves.mul(ethers.BigNumber.from("15"));
@@ -628,6 +627,10 @@ return (
             : /**
              * Mission 1. "이 지갑은 이미 활성화된 트로브가 있습니다." 메시지를 추가해주세요.
              */
+            state.isOpenTrove === true
+            ? 
+            "이 지갑은 이미 활성화된 트로브가 있습니다."
+            :
             state.loading
             ? "Loading..."
             : state.complete
