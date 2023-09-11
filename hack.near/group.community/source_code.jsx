@@ -6,7 +6,7 @@ if (!accountId) {
   return "";
 }
 
-let community = Social.keys(`${creatorId}/graph/${groupId}/*`, "final", {
+let community = Social.keys(`${accountId}/graph/${groupId}/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
@@ -15,7 +15,7 @@ if (community === null) {
   return "Loading...";
 }
 
-community = Object.entries(community[creatorId].graph[groupId] || {});
+community = Object.entries(community[accountId].graph[groupId] || {});
 community.sort((a, b) => b[1] - a[1]);
 
 return (
