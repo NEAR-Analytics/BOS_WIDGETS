@@ -1,3 +1,20 @@
+const Owner = "socializer.near";
+
+const options = [
+  {
+    text: "Ended",
+    value: 1,
+  },
+  {
+    text: "Claimed",
+    value: 2,
+  },
+  {
+    text: "Unclaimed",
+    value: 3,
+  },
+];
+
 const MainComponent = styled.div`
   display: flex;
   width: 100%;
@@ -42,6 +59,21 @@ const SearchInput = styled.input`
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.12px;
+`;
+
+const Button = styled.button`
+  display: inline-flex;
+  padding: 12px 24px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 6px;
+  background: var(--Dark, #121212); 
+  color: var(--light_95, #F3F3F3);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  line-height: normal;
 `;
 
 const SearchIcon = () => (
@@ -91,6 +123,23 @@ return (
           >
             <SearchInput placeholder="Search" />
             <SearchIcon />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 21,
+            }}
+          >
+            <Widget
+              props={{
+                noLabel: true,
+                placeholder: "Live-Campaigns",
+                options,
+              }}
+              src={`${Owner}/widget/Select`}
+            />
+            <Button>+ Create New Campaigns</Button>
           </div>
         </FilterContent>
         <TitleContent>
