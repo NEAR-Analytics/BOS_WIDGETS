@@ -6,6 +6,7 @@ return (
     <button
       onClick={() => {
         State.update({ value: state.value + 1 });
+        props.update();
       }}
     >
       increment {state.value}
