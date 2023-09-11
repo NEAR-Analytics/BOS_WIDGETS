@@ -305,18 +305,18 @@ return (
       //   <i class="bi bi-clipboard-check"></i>
       // </Button>*/}
 
-      <a href={`/editor/${accountId}/widget/${widgetName}`}>
-        <Button
-          data-toggle="tooltip"
-          data-placement="top"
-          title="Fork Widget"
-          onClick={() =>
-            props?.onCopyButtonClick(`${accountId}/widget/${widgetName}`)
-          }
-        >
-          <i class="bi bi-git"></i>
-        </Button>
-      </a>
+      <Button
+        // <a href={`/editor/${accountId}/widget/${widgetName}`}>
+        data-toggle="tooltip"
+        data-placement="top"
+        title="Fork Widget"
+        onClick={() =>
+          props?.onOpenLinkClick(`${accountId}/widget/${widgetName}`)
+        }
+        // </a>
+      >
+        <i class="bi bi-git"></i>
+      </Button>
 
       <Button2
         data-toggle="tooltip"
@@ -445,7 +445,7 @@ return (
 //     outline:none;
 //     border:none;
 //   }
-  
+
 //   &:active{
 //     background-color: ${props.theme.buttonColor}aa;
 //   }
@@ -470,7 +470,7 @@ return (
 //     outline:none;
 //     border:none;
 //   }
-  
+
 //   &:active{
 //     background-color: ${props.theme.buttonColor};
 //    color: ${props.theme.buttonTextColor};
