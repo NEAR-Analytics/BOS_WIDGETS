@@ -30,6 +30,7 @@ const SideBar = styled.div`
     background-color:#fff;
     box-sizing:border-box;
     padding:1rem;
+    padding-left:0;
 
     ul {
         padding:0;
