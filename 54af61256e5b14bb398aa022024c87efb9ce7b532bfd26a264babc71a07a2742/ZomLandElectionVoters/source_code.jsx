@@ -118,11 +118,7 @@ asyncFetch(
   `https://api.pikespeak.ai/election/votes-by-candidate?contract=elections.ndc-gwg.near&candidate=${props.candidateId}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
-  const voters = resp.body.filter((vote) =>
-    ids.includes(parseInt(vote.proposal_id))
-  );
-
-  State.update({ voters });
+  State.update({ voters: resp.body.map((el) => el.voter) });
 });
 
 const Container = styled.div`
@@ -144,35 +140,102 @@ const Section = styled.div`
     width: 100%;
   }
 `;
-console.log(state.voters);
+
+const Name = styled.div`
+  background-color: ${(props) =>
+    props.isVoted ? "#46ff7d" : "inherit !important"};
+  width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+
+  @media (max-width: 400px) {
+    width: 120px;
+  }
+`;
+
+const Chart = styled.div`
+  width: 150px;
+  aspect-ratio: 1;
+  position: relative;
+  display: inline-grid;
+  place-content: center;
+  margin: 5px;
+  font-size: 25px;
+  font-weight: bold;
+
+  &:before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    inset: 0;
+    background: ${(props) =>
+      `conic-gradient(#4ba6ee, calc(${props.voted}*1%), #d4e5f4 0)`};
+    -webkit-mask: radial-gradient(
+      farthest-side,
+      #0000 calc(99% - 15px),
+      #000 calc(100% - 15px)
+    );
+    mask: radial-gradient(
+      farthest-side,
+      #0000 calc(99% - 15px),
+      #000 calc(100% - 15px)
+    );
+  }
+
+  span {
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 120%;
+    color: #4ba6ee;
+  }
+`;
+
 function getVoted() {
   return state.voters.filter((u) => accounts.includes(u));
 }
 
+function isVoted(acc) {
+  return state.voters.some((u) => acc === u);
+}
+
+const percent = (getVoted().length / accounts.length) * 100;
+
 return (
   <div className="d-flex flex-column justify-content-center w-100">
-    <Container className="d-flex justify-content-center mt-3 mb-3 w-100 gap-3">
-      <Section className="d-flex flex-column gap-2">
+    <Container className="d-flex mt-3 mb-3 w-100 gap-3 justify-content-center">
+      <Section className="d-flex flex-column gap-2 align-items-center">
         <h3>Accounts ({accounts.length})</h3>
-        <div className="d-flex flex-column gap-3">
+        <div className="d-flex flex-column gap-2">
           {accounts.map((accountId) => (
-            <Widget
-              src="mob.near/widget/Profile.ShortInlineBlock"
-              props={{ accountId, tooltip: false }}
-            />
+            <Name isVoted={isVoted(accountId)}>
+              <Widget
+                src="mob.near/widget/ProfileLine"
+                props={{ accountId, tooltip: false }}
+              />
+            </Name>
           ))}
         </div>
       </Section>
       <Section className="d-flex flex-column gap-2 align-items-center">
         <h3>Voted ({getVoted().length})</h3>
-        <div>
+        <div className="d-flex flex-column gap-2">
           {getVoted().map((accountId) => (
-            <Widget
-              src="mob.near/widget/Profile.ShortInlineBlock"
-              props={{ accountId, tooltip: false }}
-            />
+            <Name isVoted={false}>
+              <Widget
+                src="mob.near/widget/ProfileLine"
+                props={{ accountId, tooltip: false }}
+              />
+            </Name>
           ))}
         </div>
+      </Section>
+      <Section className="d-flex flex-column gap-2 align-items-center">
+        <h3>Voting Percentage</h3>
+        <Chart voted={percent}>
+          <span>{percent.toFixed(1)}%</span>
+        </Chart>
       </Section>
     </Container>
   </div>
