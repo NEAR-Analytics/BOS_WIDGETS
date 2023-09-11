@@ -30,10 +30,7 @@ const Anchor = styled.a`
 `;
 
 return (
-  <Anchor
-    href={props.href ?? "https://nearbuilders.com/boshacks-register"}
-    target="_balnk"
-  >
+  <Anchor href={props.href ?? "https://shard.dog/ncr"} target="_balnk">
     Register
   </Anchor>
 );
