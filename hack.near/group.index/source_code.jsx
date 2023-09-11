@@ -88,7 +88,10 @@ const renderItem = (item) => {
               </div>
             </div>
             <div className="text-truncate col-auto float-right">
-              <Widget src="hack.near/widget/group.view" props={{ groupId }} />
+              <Widget
+                src="hack.near/widget/group.view"
+                props={{ groupId, group }}
+              />
             </div>
           </div>
           <div>
