@@ -25,8 +25,8 @@ return (
         <div className="me-4">
           <Widget src="mob.near/widget/Profile" props={{ accountId }} />
         </div>
-        <div>
-          <Widget src="mob.near/widget/FollowButton" props={{ accountId }} />
+        <div className="mt-2">
+          <Widget src="near/widget/FollowButton" props={{ accountId }} />
         </div>
       </div>
     ))}
