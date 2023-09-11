@@ -16,7 +16,7 @@ return (
           role="tab"
           style={{ width: "95%" }}
         >
-          Community
+          community
         </a>
       </li>
       <li className="nav-item" role="presentation">
@@ -28,7 +28,7 @@ return (
           role="tab"
           style={{ width: "95%" }}
         >
-          Contributors
+          contributors
         </a>
       </li>
     </ul>
