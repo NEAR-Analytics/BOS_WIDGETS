@@ -1,3 +1,5 @@
+// This component will be shown to users who have disabled notifications in browser settings
+
 const Card = styled.div`
 display: flex;
 padding: 24px;
@@ -34,7 +36,7 @@ line-height: 150%;
 const Button = styled.div``;
 
 const showTurnOnModal = () => {
-  //   show Notifications Turn On modal
+  //   where does this lead
 };
 
 return (
