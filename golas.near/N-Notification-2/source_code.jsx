@@ -42,6 +42,12 @@ const Timestamp = styled.span`
   font: var(--text-s);
   color: #706F6C;
   
+  &::before {
+    content: '',
+    width: 2px;
+    height: 2px;
+    backtround: #333;
+  }
 `;
 
 const Desc = styled.span`
@@ -126,6 +132,7 @@ return (
           <Username>{profile.name || accountId.split(".near")[0]}</Username>
           <Action>{notificationMessage[type]}</Action>
           {/*<ComponentName>{componentName}</ComponentName>*/}
+
           <Timestamp>
             <Widget
             src="mob.near/widget/TimeAgo@97556750"
