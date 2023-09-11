@@ -14,7 +14,6 @@ const Container = styled.div`
   gap: 0.45em;
   width: 100%;
   min-width: 171px;
-  padding: 10px;
 `;
 
 const Label = styled.label`
@@ -135,6 +134,7 @@ return (
   <Container>
     {noLabel ? <></> : <Label>{label}</Label>}
     <Select.Root
+      style={{ padding: 10 }}
       value={value?.value}
       onValueChange={(value) =>
         onChange(options.find((option) => option.value === value))
