@@ -133,7 +133,7 @@ function fetchData() {
       body: JSON.stringify({
         query: `
             query MyQuery {
-             nfts( orderBy: createdAtTimestamp) {
+             nfts( orderBy: createdAtTimestamp, ${state.chain !== 'near' ? 'orderDirection: desc': ''}) {
                 category
                 chain
                 createdAtTimestamp
@@ -161,11 +161,30 @@ function fetchData() {
     const collectionData = response.body.data.nfts;
 
     if (collectionData) {
-      const nftBody = collectionData.map((data) => {
+      const filteredNftData = [];
+
+      for (const filteredData of collectionData) {
+        try {
+          const response = fetch(
+            filteredData.tokenIPFSPath.replace(
+              "ipfs://",
+              "https://ipfs.io/ipfs/"
+            )
+          );
+          if (response.body.name != undefined) {
+            filteredNftData.push(filteredData);
+          }
+        } catch (error) {
+          // Handle any errors that occur during the fetch if needed
+          console.error(`Error fetching data: ${error}`);
+        }
+      }
+
+
+      const nftBody = filteredNftData.map((data) => {
         const fetchIPFSData = fetch(
           data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
         );
-
         if (fetchIPFSData.status === 403) {
           return State.update({ error: true });
         }
@@ -174,20 +193,19 @@ function fetchData() {
         }
         if (fetchIPFSData.ok) {
           const nft = fetchIPFSData.body;
-
           let nftObject = {};
-          nftObject.contract_id = data.id;
-          nftObject.sold = data.isSold;
-          nftObject.isListed = data.isListed;
-          nftObject.owner = data.owner.id;
-          nftObject.price = data.price;
-          nftObject.token_id = data.tokenID;
+          nftObject.contract_id = data?.id;
+          nftObject.sold = data?.isSold;
+          nftObject.isListed = data?.isListed;
+          nftObject.owner = data?.owner?.id;
+          nftObject.price = data?.price;
+          nftObject.token_id = data?.tokenID;
           nftObject.name = nft?.name;
           nftObject.description = nft?.description;
-          nftObject.media_url = nft?.image.replace(
+          nftObject.media_url = nft?.image ?nft?.image?.replace(
             "ipfs://",
             "https://ipfs.io/ipfs/"
-          );
+          ) : "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
           return nftObject;
         }
       });
