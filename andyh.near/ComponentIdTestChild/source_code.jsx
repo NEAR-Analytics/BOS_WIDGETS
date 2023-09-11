@@ -4,7 +4,7 @@ return (
   <div>
     Hello {props.id}
     <button onClick={() => State.update({ value: state.value + 1 })}>
-      increment {props.value}
+      increment {state.value}
     </button>
   </div>
 );
