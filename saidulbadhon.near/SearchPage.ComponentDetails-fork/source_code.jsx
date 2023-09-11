@@ -193,6 +193,7 @@ return (
           showTags: false,
           src,
           theme,
+          onOpenLinkClick: theme.onOpenLinkClick
         }}
       />
     </SummaryWrapper>
