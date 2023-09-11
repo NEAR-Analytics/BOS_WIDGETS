@@ -18,7 +18,7 @@ function handleSelfRevoke() {
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   card: "nomination.ndctools.near/widget/NDC.Nomination.Card",
-  houses: "nomination.ndctools.near/widget/NDC.Elections.Houses",
+  houses: "election.ndctools.near/widget/NDC.Elections.Houses",
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
@@ -270,6 +270,7 @@ return (
                   src={widgets.styledComponents}
                   props={{
                     Button: {
+                      disabled: true,
                       className: "danger primary",
                       text: "Delete Self Nomination",
                       onClick: () => State.update({ showModalDelete: true }),
@@ -282,6 +283,7 @@ return (
                   src={widgets.styledComponents}
                   props={{
                     Button: {
+                      disabled: true,
                       text: "Self Nominate",
                       onClick: () => State.update({ showModal: true }),
                       icon: <i class="bi bi-plus-lg"></i>,
