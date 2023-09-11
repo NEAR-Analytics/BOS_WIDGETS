@@ -221,7 +221,8 @@ return (
       <Button
         primary
         // href={primaryActions[primaryAction].url}
-        onClick={() => props.onOpenLinkClick(primaryActions[primaryAction].url)}
+        // onClick={() => props.onOpenLinkClick(primaryActions[primaryAction].url)}
+        onClick={() => props.onOpenLinkClick(src)}
         target="_blank"
       >
         {primaryActions[primaryAction].display}
