@@ -134,7 +134,7 @@ if (grantNotify === null) {
 }
 
 const tokenMapping = {
-  NEAR: "Near",
+  NEAR: "NEAR",
   USDT: {
     NEP141: {
       address: "usdt.tether-token.near",
@@ -590,7 +590,7 @@ return (
           {fields.includes("supervisor") && supervisorDiv}
           {fields.includes("description") && callDescriptionDiv()}
           {fields.includes("fund_raising") && isFundraisingDiv}
-          {state.seekingFunding && fundraisingDiv}
+          {state.seekingFunding && fields.includes("fund_raising") && fundraisingDiv}
         </div>
       )}
 
