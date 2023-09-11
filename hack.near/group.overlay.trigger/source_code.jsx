@@ -5,7 +5,7 @@ return (
     props={{
       popup: (
         <Widget
-          src="mob.near/widget/group.popover"
+          src="mob.near/widget/group.overlay"
           props={{ groupId: props.groupId, accountId: props.accountId }}
         />
       ),
