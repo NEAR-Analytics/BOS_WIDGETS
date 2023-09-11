@@ -84,7 +84,6 @@ const renderItem = (item) => {
                     src="mob.near/widget/TimeAgo"
                     props={{ blockHeight: item.blockHeight }}
                   />
-                  ago
                 </div>
               </div>
             </div>
@@ -114,6 +113,7 @@ const renderItem = (item) => {
 
 return (
   <div className="m-2">
+    <p></p>
     <Widget
       src="mob.near/widget/FilteredIndexFeed"
       props={{ index, renderItem }}
