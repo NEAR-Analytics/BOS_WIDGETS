@@ -51,59 +51,10 @@ const Logos = styled.div`
 
 const sponsors = [
   {
-    url: "https://neardevhub.org",
-    name: "NEAR DevHub",
+    url: "https://marmaj.org/",
+    name: "MarmaJ",
     image:
-      "https://ipfs.near.social/ipfs/bafkreid4hwxj7krtddzda53hwpekqmamlkqev46ghf337b27wmghdzpocy",
-  },
-  {
-    url: "https://creativesdao.org",
-    name: "CreativesDAO",
-    image:
-      "https://ipfs.near.social/ipfs/bafkreibb4m4rszlhf46wgob25lhpuxgfbjpc23swd4qne5e6y7eccinkge",
-  },
-  {
-    url: "https://osec.io",
-    name: "Ottersec",
-    image:
-      "https://pbs.twimg.com/profile_images/1628618156611870720/3dq8OUcH_400x400.jpg",
-  },
-  {
-    url: "https://genadrop.io",
-    name: "GenaDrop",
-    image:
-      "https://ipfs.near.social/ipfs/bafkreib2sswfwxwwsaaegzhuc454rgkdyycg6dx4gprxgwk5vy6ysrkfpm",
-  },
-  {
-    url: "https://mailchain.xyz",
-    name: "Mailchain",
-    image:
-      "https://ipfs.near.social/ipfs/bafkreicq46boifskg476ln4zz5psijyojixizkhxd6uzeoabdtoutxvoni",
-  },
-  {
-    url: "https://neardc.org",
-    name: "NDC GWG",
-    image:
-      "https://ipfs.near.social/ipfs/bafkreicdzm3aop7qrbzuwinafbf26p7oq3fmjqnwbyz2clvelxglbazjdm",
-  },
-
-  {
-    url: "https://proofofvibes.com",
-    name: "Proof Of Vibes",
-    image:
-      "https://ipfs.near.social/ipfs/bafkreibmc23xhip63mxv2mulb7xko5htpiqszrch4fo3optszuctjtlrau",
-  },
-  {
-    url: "https://nearefi.org",
-    name: "NEAR ReFi",
-    image:
-      "https://ipfs.io/ipfs/bafkreibg5iyag6xaqi7xrmizqqx4uuvro7fnaw3ulnqkhltwivmwqmqxhu",
-  },
-  {
-    url: "https://indexer.xyz",
-    name: "Indexer.xyz",
-    image:
-      "https://ipfs.near.social/ipfs/bafkreifkghgzfygpha2ylolki5mhsbfir4hrhnv27kjyw4tqa3lyshrqnm",
+      "https://pbs.twimg.com/profile_images/1621907418467663877/JcB4OAXp_400x400.jpg",
   },
 ];
 
