@@ -82,6 +82,26 @@ const CreateButton = styled.button`
     }
 `;
 
+const DropNFTButton = styled.button`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    height:30px;
+    background-color: #7102d3;
+    border:0;
+    color:#fff;
+    border-radius:30px;
+    font-size:.8rem;
+    margin-top:.5rem;
+
+    span {
+      position:relative;
+      margin-right:7px;
+      top:-1px;
+    }
+`;
+
 const Powered = styled.div`
     position:absolute;
     bottom:0;
@@ -105,6 +125,18 @@ return (
       </span>{" "}
       Send message
     </CreateButton>
+    <DropNFTButton onClick={() => onRefresh({ dropNft: true })}>
+      <span>
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreieey7jgpxjc67yhgmn4bo5ohc37hv3omqa7ovkvs7pakcgepuvqxy"
+          style={{
+            width: "15px",
+            height: "15px",
+          }}
+        />
+      </span>{" "}
+      Drop NFT
+    </DropNFTButton>
     <ul>
       {TABS.map((tab) => (
         <li
