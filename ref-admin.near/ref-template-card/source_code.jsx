@@ -5,7 +5,9 @@ const metadata = Social.get(
 );
 
 const role = props.role;
-const tags = Object.keys(metadata.tags || {});
+const tags = metadata?.tags
+  ? Object.keys(metadata.tags || {})
+  : props.tags || [];
 const detailsUrl = `#/ref-admin.near/widget/ComponentDetailsPage?istemplate=true&&src=${accountId}/widget/${widgetName}`;
 const appUrl = `#/ref-admin.near/widget/ComponentDetailsPage?istemplate=true&&tab=preview&&src=${accountId}/widget/${widgetName}`;
 
@@ -162,7 +164,7 @@ const TagsWrapper = styled.div`
 `;
 
 const Tag = styled.div`
-  color: #ffffff;
+  color: #000;
   font-weight: 500;
   font-size: 14px;
   display: flex;
@@ -170,28 +172,27 @@ const Tag = styled.div`
   margin-right: 5px;
   padding: 4px 11px 4px 11px;
   white-space: nowrap;
-  background: rgba(26, 46, 51, 0.25);
+  background: ${({ content }) => {
+    if (content === "bridge") {
+      return "rgba(227, 233, 157, 1)";
+    } else if (content === "dexes") {
+      return "rgba(172, 252, 237, 1)";
+    } else if (content === "lending") {
+      return "rgba(173, 255, 181, 1)";
+    } else if (content === "liquid-staking") {
+      return "rgba(193, 191, 255, 1)";
+    } else if (content.toLowerCase() === "staking") {
+      return "rgba(193, 191, 255, 1)";
+    } else {
+      return "rgba(26, 46, 51, 0.25)";
+    }
+  }};
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 30px;
   @media (max-width: 900px) {
     color: #000000;
     font-size: 12px;
     padding: 2px 10px;
-    background: ${({ content }) => {
-      if (content === "bridge") {
-        return "rgba(227, 233, 157, 1)";
-      } else if (content === "dexes") {
-        return "rgba(172, 252, 237, 1)";
-      } else if (content === "lending") {
-        return "rgba(173, 255, 181, 1)";
-      } else if (content === "liquid-staking") {
-        return "rgba(193, 191, 255, 1)";
-      } else if (content === "staking") {
-        return "rgba(193, 191, 255, 1)";
-      } else {
-        return "rgba(26, 46, 51, 0.25)";
-      }
-    }};
     border: none;
   }
 `;
