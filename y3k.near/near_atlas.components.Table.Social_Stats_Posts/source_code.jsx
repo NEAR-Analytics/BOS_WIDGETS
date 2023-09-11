@@ -13,7 +13,7 @@ let rawData = fetch(
 // data.body = data.body.sort((a, b) => new Date(a.MONTH) - new Date(b.MONTH));
 
 State.init({
-  setSortConfig: { key: "", direction: "asc" },
+  setSortConfig: { key: "", direction: "desc" },
   currentPage: 1,
 });
 
