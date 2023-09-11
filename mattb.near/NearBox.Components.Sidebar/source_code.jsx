@@ -26,7 +26,7 @@ const SideBar = styled.div`
     width:100%;
     max-width:200px;
     min-width:200px;
-    height:100vh;
+    height:calc(100vh - 70px);
     background-color:#fff;
     box-sizing:border-box;
     padding:1rem;
