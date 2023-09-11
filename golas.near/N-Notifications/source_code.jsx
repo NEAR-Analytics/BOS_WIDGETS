@@ -12,7 +12,7 @@ const Title = styled.div`
   font-weight: 500; 
 `;
 
-const Settings = styled.div`
+const Settings = styled.a`
     display: flex;
     width: 40px;
     height: 40px;
@@ -32,7 +32,7 @@ return (
   <Card>
     <Header>
       <Title>Notifications</Title>
-      <Settings>
+      <Settings href="#/golas.near/widget/N-NotificationSettings">
         <svg
           width="18"
           height="18"
