@@ -224,6 +224,7 @@ const createTickets = () => {
           props={{
             isOpen: !!state.ticketPreview,
             ...state.ticketPreview,
+            formValues: JSON.parse(props?.getStorage?.("formValues")),
             onClose: () => {
               State.update({
                 ticketPreview: null,
