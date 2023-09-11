@@ -1,5 +1,117 @@
 const Owner = "socializer.near";
 
+const columns = [
+  {
+    title: "Project/User",
+    key: "user",
+    description: "Project/User",
+    width: 20,
+    project: true,
+  },
+  {
+    title: "Near Social  Post",
+    key: "social",
+    description: "Near Social  Post",
+    width: 40,
+    align: "left",
+  },
+  {
+    title: "Ends In",
+    key: "endsin",
+    description: "Ends In",
+    width: 15,
+    align: "left",
+  },
+  {
+    title: "Reward",
+    key: "reward",
+    description: "Reward",
+    width: 8,
+    align: "left",
+  },
+  {
+    title: "Total Rewards",
+    key: "total_rewards",
+    description: "Total Rewards",
+    width: 10,
+    align: "left",
+  },
+  {
+    title: "Status",
+    key: "status",
+    description: "Status",
+    width: 10,
+    align: "center",
+    button: true,
+  },
+  {
+    title: "Engage Link",
+    key: "engage",
+    description: "Engage Link",
+    width: 10,
+    align: "center",
+    link: true,
+  },
+];
+
+const tableData = [
+  {
+    user: "Near Degens1",
+    avatar:
+      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+    social: "Have you seen our monthly stats? With over 45 clien...",
+    endsin: "Ends in 1hr 10m 50s",
+    reward: "1 Near",
+    total_rewards: "10 Near",
+    status: "live",
+    engage: "link",
+  },
+  {
+    user: "Near Degens2",
+    avatar:
+      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+    social: "Have you seen our monthly stats? With over 45 clien...",
+    endsin: "Ends in 1hr 10m 50s",
+    reward: "1 Near",
+    total_rewards: "10 Near",
+    status: "live",
+    engage: "",
+  },
+  {
+    user: "Near Degens3",
+    avatar:
+      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+    social: "Have you seen our monthly stats? With over 45 clien...",
+    endsin: "Ends in 1hr 10m 50s",
+    reward: "1 Near",
+    total_rewards: "10 Near",
+    status: "live",
+    engage: "",
+  },
+  {
+    user: "Near Degens4",
+    avatar:
+      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+    social: "Have you seen our monthly stats? With over 45 clien...",
+    endsin: "Ends in 1hr 10m 50s",
+    reward: "1 Near",
+    total_rewards: "10 Near",
+    status: "live",
+    engage: "link",
+  },
+  {
+    user: "Near Degens5",
+    avatar:
+      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+    social: "Have you seen our monthly stats? With over 45 clien...",
+    endsin: "Ends in 1hr 10m 50s",
+    reward: "1 Near",
+    total_rewards: "10 Near",
+    status: "live",
+    engage: "link",
+  },
+];
+
 const options = [
   {
     text: "Ended",
@@ -163,57 +275,9 @@ return (
         src={`${Owner}/widget/table-pagination`}
         props={{
           themeColor: { table_pagination: themeColor.table_pagination },
-          data: [
-            {
-              user: "Near Degens",
-              avatar: "https://useravatar",
-              social: "Have you seen our monthly stats? With over 45 clien...",
-              endsin: "Ends in 1hr 10m 50s",
-              reward: "1 Near",
-              total_rewards: "10 Near",
-              status: "live",
-              engage: "link",
-            },
-          ],
-          columns: [
-            {
-              title: "Project/User",
-              key: "user",
-              description:
-                "The Near address of top Nominee (based on number of Nomination)",
-            },
-            {
-              title: "Near Social  Post",
-              key: "social",
-              description: "House Of Merit Nomination",
-            },
-            {
-              title: "Ends In",
-              key: "endsin",
-              description: "Transparency Commission Nomination",
-            },
-            {
-              title: "Reward",
-              key: "reward",
-              description: "Council Of Advisors Nomination",
-            },
-            {
-              title: "Total Rewards",
-              key: "total_rewards",
-              description: "Total Nomination",
-            },
-            {
-              title: "Status",
-              key: "status",
-              description: "Nomination Not Revoked",
-            },
-            {
-              title: "Engage Link",
-              key: "engage",
-              description: "Nomination Revoked",
-            },
-          ],
-          rowsCount: 5,
+          data: tableData,
+          columns,
+          rowsCount: 4,
         }}
       />
     </TableComponent>
