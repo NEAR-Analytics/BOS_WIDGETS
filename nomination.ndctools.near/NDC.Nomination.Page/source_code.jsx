@@ -1,7 +1,9 @@
 let { ids, dev } = props;
 ids = props.ids ? ids : [1, 2, 3];
 
-const electionContract = "elections-v1.gwg-testing.near";
+const electionContract = dev
+  ? "elections-v1.gwg-testing.near"
+  : "elections.ndc-gwg.near";
 const registryContract = dev
   ? "registry-v1.gwg-testing.near"
   : "registry.i-am-human.near";
