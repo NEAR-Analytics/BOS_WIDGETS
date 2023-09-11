@@ -1,3 +1,4 @@
+const accountId = props.accountId ?? context.accountId;
 const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
 
 const groupInfo =
@@ -8,9 +9,6 @@ if (!groupInfo) {
 }
 
 const groupKey = Object.keys(groupInfo)[0];
-const groupThing = Object.keys(
-  groupInfo[groupKey].thing[Object.keys(groupInfo[groupKey].thing)[0]]
-);
 
 const tags = Object.keys(groupInfo[groupKey].thing[groupId].metadata.tags);
 const groupUrl = `/hack.near/widget/group?groupId=${groupId}`;
@@ -118,8 +116,11 @@ return (
         )}
       </div>
     </CardLeft>
-    {canJoin && (
-      <Widget src="hack.near/widget/group.join" props={{ groupId }} />
+    {canJoin && context.accountId && (
+      <Widget
+        src="hack.near/widget/group.join"
+        props={{ groupId, accountId, creatorId: props.creatorId }}
+      />
     )}
   </Card>
 );
