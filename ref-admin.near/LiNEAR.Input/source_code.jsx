@@ -16,17 +16,31 @@ const BalanceContainer = styled.div`
   font-size: 16px;
   display: flex;
   justify-content: space-between;
-  .error {
-    color: #ec6868;
+  p {
+    margin-bottom: 30px;
   }
-  p{
-    margin-bottom:30px;
+
+  @media (max-width: 770px) {
+    font-size: 13px;
   }
 `;
 
 const NEARInputContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  .error {
+    color: #ff4895;
+    font-size: 14px;
+    width:70%;
+    @media (max-width:900px) {
+      width: auto;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 770px) {
+    height: 25px;
+  }
 `;
 
 const NEARTexture = styled.div`
@@ -42,8 +56,11 @@ const LogoWithText = styled.div`
 
 const MaxTexture = styled.div`
   font-size: 16px;
-  color: #7E8A93;
+  color: #7e8a93;
   cursor: pointer;
+  @media (max-width: 770px) {
+    font-size: 13px;
+  }
 `;
 
 return (
@@ -69,12 +86,13 @@ return (
         value={props.value}
         onChange={props.onChange}
       />
+      <span className="error">{props.inputError}</span>
       <MaxTexture onClick={props.onClickMax}>Max</MaxTexture>
     </NEARInputContainer>
     <HorizentalLine />
     <BalanceContainer>
-      <p>Balance: {props.balance}</p>
-      <p className="error">{props.inputError}</p>
+      <p>{props.firstIconName} Balance</p>
+      <p>{props.balance}</p>
     </BalanceContainer>
   </InputWrapper>
 );
