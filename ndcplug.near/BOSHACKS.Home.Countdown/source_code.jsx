@@ -155,7 +155,7 @@ const InfoBlock = ({ mobile }) => (
       mobile ? "" : "rounded-bottom"
     }`}
   >
-    <b className={`mb-0 ${mobile ? "w-50" : ""}`}>Over $17,000 in prizes</b>
+    <b className={`mb-0 ${mobile ? "w-50" : ""}`}>Over $17,000 in prizes  [🔔 2 DAY EXTENSION]</b>
     <div>
       <Widget
         src={widgets.styledComponents}
