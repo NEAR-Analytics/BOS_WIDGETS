@@ -131,4 +131,27 @@ const tokens = [
   },
 ];
 
-return { tokens };
+const walletChains = {
+  5001: {
+    chainId: `0x1389`,
+    chainName: "Mantle Testnet",
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://rpc.testnet.mantle.xyz/"],
+  },
+  5000: {
+    chainId: `0x1388`,
+    chainName: "Mantle Mainnet",
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://rpc.mantle.xyz"],
+  },
+};
+
+return { tokens, walletChains };
