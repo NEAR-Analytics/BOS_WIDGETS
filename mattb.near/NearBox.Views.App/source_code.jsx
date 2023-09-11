@@ -3,7 +3,7 @@ const WIDGET_OWNER = "mattb.near";
 
 State.init({
   displayMessage: null,
-  writeMessage: true,
+  writeMessage: false,
   messages: Storage.privateGet("messages") || [],
 });
 
@@ -22,15 +22,12 @@ const Header = styled.div`
     box-sizing:border-box;
     border-top:5px solid #0178D4;
     background-color:#fff;
-
-    div:first-of-type {
-        transform:scale(.8);
-        transform-origin: center left;
-    }
 `;
 
 const Body = styled.div`
     display:flex;
+    max-width:1080px;
+    margin:0 auto;
 `;
 
 const Logout = styled.div`
@@ -70,9 +67,23 @@ const WriteMessage = styled.div`
   right:20px;
 `;
 
+const HeaderWrapper = styled.div`
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  max-width:1080px;
+  margin: 0 auto;
+  div:first-of-type {
+      transform:scale(.8);
+      transform-origin: center left;
+  }
+`;
+
 return (
   <Main>
     <Header>
+      <HeaderWrapper>
       <Widget src={`${WIDGET_OWNER}/widget/NearBox.Components.Logo`} />
 
       <Logout>
@@ -83,6 +94,7 @@ return (
           onClick={() => onLogout({ logged: false })}
         />
       </Logout>
+      </HeaderWrapper>
     </Header>
     <Body>
       <Widget
