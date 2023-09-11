@@ -26,6 +26,7 @@ background: var(--sand-light-1, #FDFDFC);
 
 return (
   <>
+    <Widget src="golas.near/widget/N_NotificationsBanner" />
     <Header>
       <Title>Notifications</Title>
       <Settings>
