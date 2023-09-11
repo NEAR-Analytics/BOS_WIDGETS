@@ -11,6 +11,14 @@ State.init({
   userReachable: null
 });
 
+if (state.message.to && !state.check) {
+  setInterval(() => {
+    if (state.message.to) {
+      MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable }) );
+    }
+  }, 500);
+}
+
 const WriteMessage = styled.div`
   width:100%;
   min-width:300px;
@@ -160,9 +168,6 @@ return (
               to: e.target.value,
             }
           });
-          setTimeout(() => {
-            MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable }) );
-          }, 200);
         }}
       />
       </div>
