@@ -16,7 +16,7 @@ return (
           id,
           update: () => {
             console.log(`updating ${id}`);
-            State.update({ [id]: { id, value: value + 1 } });
+            // State.update({ [id]: { id, value: value + 1 } });
           },
         }}
       />
