@@ -39,7 +39,7 @@ const ComponentName = styled.span`
 `;
 
 const Dot = styled.span`
-  padding: 0 12px;
+  padding: 0 8px;
 `
 
 const Timestamp = styled.span`
