@@ -178,16 +178,8 @@ const rangeAmount =
 const bgLineWidth = rangeAmount + "%";
 const processMarginLeft = -10 - Big(18).mul(rangeAmount).div(100).toNumber();
 function displayAmount() {
-  let result;
-  let v = (amount || 0).toString();
-  if (v.indexOf(".") > -1) {
-    // 小数
-    result = v.replace(/^0+\./g, "0.");
-  } else {
-    // 整数
-    result = v.replace(/^[0]+/, "");
-  }
-  return result || 0;
+  if (isNaN(Number(amount))) return "";
+  return amount;
 }
 function getWnearIcon(icon) {
   State.update({
