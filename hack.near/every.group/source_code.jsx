@@ -75,12 +75,11 @@ const Center = styled.div`
   justify-content: space-between;
   gap: 20px;
   align-items: flex-start;
+`;
 
-  .group-card {
-    width: 100%;
-    flex-grow: 1;
-    margin: 0;
-  }
+const GroupCard = styled.div`
+  flex-basis: calc(33.33% - 20px);
+  margin: 0;
 `;
 
 return (
