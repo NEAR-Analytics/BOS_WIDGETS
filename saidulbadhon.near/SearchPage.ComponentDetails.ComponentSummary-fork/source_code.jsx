@@ -131,15 +131,31 @@ const sharedButtonStyles = `
   }
 `;
 
+// const Button = styled.button`
+//   ${sharedButtonStyles}
+//   color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
+//   background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
+//   border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
+
+//   &:hover,
+//   &:focus {
+//     background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
+//   }
+// `;
+
 const Button = styled.button`
   ${sharedButtonStyles}
-  color: ${(p) => (p.primary ? "#09342E" : "#11181C")} !important;
-  background: ${(p) => (p.primary ? "#59E692" : "#FBFCFD")};
+  color: ${theme?.buttonPrimaryTextColor || theme.buttonTextColor} !important;
+  background: ${(p) =>
+    p.primary ? theme.buttonPrimary : theme.buttonPrimaryActive} !important;
   border: ${(p) => (p.primary ? "none" : "1px solid #D7DBDF")};
 
-  &:hover,
+  &:hover {
+    background: ${theme.buttonPrimaryHover};
+  }
+
   &:focus {
-    background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
+    background: ${theme.buttonPrimaryActive};
   }
 `;
 
