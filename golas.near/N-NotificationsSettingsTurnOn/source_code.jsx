@@ -14,7 +14,7 @@ const Header = styled.div`
 display: flex;
 flex-direction: column;
 align-items: flex-start;
-gap: 16px;
+gap: 10px;
 align-self: stretch; 
 `;
 
@@ -43,18 +43,18 @@ return (
         To receive push notifications, you'll first need to enable them in your
         browser settings.
       </Text>
-      <Button>
-        <Widget
-          src="near/widget/DIG.Button"
-          props={{
-            label: "Learn More",
-            variant: "secondary",
-            // fill: "",
-            // onClick: onCancel,
-            style: { width: "100%" },
-          }}
-        />
-      </Button>
     </Header>
+    <Button>
+      <Widget
+        src="near/widget/DIG.Button"
+        props={{
+          label: "Learn More",
+          variant: "secondary",
+          // fill: "",
+          // onClick: onCancel,
+          style: { width: "100%" },
+        }}
+      />
+    </Button>
   </Card>
 );
