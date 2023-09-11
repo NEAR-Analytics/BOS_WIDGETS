@@ -1,4 +1,4 @@
-const { message } = props;
+const { message, onRefresh } = props;
 const DEFAULT_TITLE = "Message";
 
 const Message = styled.div`
@@ -66,9 +66,15 @@ const Body = styled.div`
         border-radius:10px;
         resize:none;
         box-sizing:border-box;
-        font-size:1.2rem;
+        font-size:1rem;
         outline-style:none;
         margin-top:.5rem;
+
+        :disabled {
+          background-color:transparent;
+          color:#000;
+          user-select:all;
+        }
     }
 `;
 
@@ -84,27 +90,33 @@ const Input = styled.input`
     :placeholder {
         font-size:.8rem;
     }
+
+    :disabled {
+      background-color:transparent;
+      color:#000;
+      user-select:all;
+    }
 `;
 
 return (
   <Message>
     <Header>
       <p>{state.message.subject || DEFAULT_TITLE}</p>
-      <p onClick={() => onRefresh({ writeMessage: false })}>Close</p>
+      <p onClick={() => onRefresh({ displayMessage: null })}>Close</p>
     </Header>
     <Body>
-    <Input
-          type="text"
-          placeholder="From"
-          value={`From: ${message.from}`}
-          disabled={true}
-        />
-        <Input
-          type="text"
-          placeholder="To"
-          value={`To: ${message.to}`}
-          disabled={true}
-        />
+      <Input
+        type="text"
+        placeholder="From"
+        value={`From: ${message.from}`}
+        disabled={true}
+      />
+      <Input
+        type="text"
+        placeholder="To"
+        value={`To: ${message.to}`}
+        disabled={true}
+      />
       <Input
         type="text"
         placeholder="Subject"
