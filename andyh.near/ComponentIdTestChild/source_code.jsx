@@ -1,7 +1,10 @@
 console.log(`RENDERING ${props.id}`);
+State.init({ value: props.value });
 return (
   <div>
     Hello {props.id}
-    <button onClick={() => props.update()}>increment {props.value}</button>
+    <button onClick={() => State.update({ value: state.value + 1 })}>
+      increment {props.value}
+    </button>
   </div>
 );
