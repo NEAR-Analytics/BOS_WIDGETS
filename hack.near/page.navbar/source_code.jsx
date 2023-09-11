@@ -30,7 +30,7 @@ const handleJoin = () => {
         value: {
           type,
           accountId,
-          message: "joined everyone",
+          message: "everyone is growing!",
         },
       }),
     },
