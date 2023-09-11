@@ -142,7 +142,6 @@ const sharedButtonStyles = `
 //     background: ${(p) => (p.primary ? "rgb(112 242 164)" : "#ECEDEE")};
 //   }
 // `;
-
 const Button = styled.button`
   ${sharedButtonStyles}
   color: ${theme?.buttonPrimaryTextColor || theme.buttonTextColor} !important;
@@ -228,7 +227,10 @@ return (
         {primaryActions[primaryAction].display}
       </ButtonLink>
 
-      <ButtonLink href={`/editor/${src}`}>
+      <Button
+        // href={`/editor/${src}`}
+        onClick={() => props.onOpenLinkClick(src)}
+      >
         {context.accountId === accountId ? (
           <>
             <i className="bi bi-pencil-fill"></i> Edit
@@ -238,7 +240,7 @@ return (
             <i className="bi bi-git"></i> Fork
           </>
         )}
-      </ButtonLink>
+      </Button>
 
       {/*<ButtonLink href={`${appUrl}&tab=source`}>
         <i className="bi bi-code-square"></i>
