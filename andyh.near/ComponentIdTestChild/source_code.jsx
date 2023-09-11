@@ -1,5 +1,5 @@
 console.log(`RENDERING ${props.id}`);
-State.init({ value: props.value });
+State.init({ value: props.value || 0 });
 return (
   <div>
     Hello {props.id}
