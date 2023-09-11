@@ -1,3 +1,4 @@
+State.init({ fieldVal: "", hasBeenEditUpdated: false });
 const AddCustomFieldModalJsx = (
   <>
     <p style={{ fontWeight: "500", marginBottom: -5 }}>Field</p>
@@ -17,6 +18,7 @@ const AddCustomFieldModalJsx = (
           },
         },
       }}
+      id="fieldModalId"
       src="harrydhillon.near/widget/Keypom.Components.Input"
     />
     <button
@@ -67,7 +69,7 @@ return (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: AddCustomFieldModalJsx,
-      isOpen: props.isOpen,
+      isOpen: props?.isOpen,
       contentStyles: {
         style: {
           width: 400,
