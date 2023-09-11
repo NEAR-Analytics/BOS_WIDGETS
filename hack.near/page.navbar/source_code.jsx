@@ -1,14 +1,11 @@
 const accountId = props.accountId ?? context.accountId;
-const communityId = props.communityId ?? "everyone";
+const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
+const creatorId = props.creatorId ?? "hack.near";
 
 const { isVerified } = props;
 
-const widget = {
-  styledComponents: "hack.near/widget/NDC.StyledComponents",
-};
-
 const isMember = Social.keys(
-  `${accountId}/graph/${communityId}/${accountId}`,
+  `${creatorId}/graph/${groupId}/${accountId}`,
   undefined,
   {
     values_only: true,
@@ -47,41 +44,29 @@ return (
       }}
     />
     {!context.accountId ? (
-      <Widget
-        src={widget.styledComponents}
-        props={{
-          Link: {
-            text: "START",
-            href: "https://shard.dog/nearweek",
-            className: "primary dark bold-text large-text",
-          },
-        }}
-      />
+      <a href="https://shard.dog/nearweek" className="btn btn-success">
+        news
+      </a>
     ) : (
       <Toolbar>
         {isMember && Object.keys(isMember).length ? (
-          <Widget
-            src={widget.styledComponents}
-            props={{
-              Button: {
-                text: "CREATE",
-                onClick: () => State.update({ showModal: true }),
-                className: "primary dark bold-text large-text",
-              },
-            }}
-          />
+          <button
+            onClick={() => State.update({ showModal: true })}
+            className="btn btn-success"
+          >
+            create
+          </button>
         ) : (
-          <Widget
-            src={widget.styledComponents}
-            props={{
-              Button: {
-                text: "JOIN",
-                onClick: () =>
-                  Social.set({ graph: { [communityId]: { [accountId]: "" } } }),
-                className: "primary dark bold-text large-text",
-              },
-            }}
-          />
+          <button
+            onClick={() =>
+              Social.set({
+                graph: { [groupId]: { [context.accountId]: "" } },
+              })
+            }
+            className="btn btn-success"
+          >
+            start
+          </button>
         )}
       </Toolbar>
     )}
