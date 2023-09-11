@@ -72,7 +72,7 @@ State.init({
   logo: null,
   background: null,
   customWidget: "",
-  daoId: "",
+  daoId: "cannabis-genome.sputnik-dao.near",
   tempHash: "",
   hashTags: [],
 });
@@ -258,7 +258,13 @@ const ResponseForm = () => {
     <div className="container">
       <div>
         <h5>
-          <a href="">Update Your Profile Before You Begin</a>
+          <a
+            href="https://www.opencann.net/#/near/widget/ProfileEditor"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Complete Your Profile Before You Begin
+          </a>
         </h5>
         <hr></hr>
 
@@ -490,13 +496,14 @@ const ResponseForm = () => {
             <button onClick={onHashTagAdd}>Add</button>
           </div>
           <div className="mb-3">
-            <label for="daoId">DAO ID</label>
-            <input
-              id="daoId"
-              name="daoId"
-              value={state.daoId}
-              onChange={onDaoIDChange}
-            />
+            <label for="daoId">DAO ID: </label>
+            <a
+              href="https://explorer.near.org/accounts/cannabis-genome.sputnik-dao.near"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              cannabis-genome.sputnik-dao.near
+            </a>
           </div>
         </div>
         <div className="mb-3">
