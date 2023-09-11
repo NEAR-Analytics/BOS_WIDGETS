@@ -824,7 +824,7 @@ const ALink = ({ title, href }) => (
     {title}
   </a>
 );
-console.log(props);
+
 return (
   <>
     {state.showReviewModal && (
@@ -1091,7 +1091,7 @@ return (
                   />
                 ))}
               </CandidatesContainer>
-              {props.candidates && (
+              {candidateFilterId && (
                 <div className="d-flex p-2 justify-content-center align-items-center">
                   <Widget
                     src={widgets.styledComponents}
