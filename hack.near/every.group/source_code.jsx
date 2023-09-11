@@ -71,12 +71,15 @@ const Navbar = styled.div`
 `;
 
 const Center = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
 
   .group-card {
     width: 100%;
+    flex-grow: 1;
+    margin: 0;
   }
 `;
 
@@ -118,8 +121,8 @@ return (
           </Navbar>
         )}
       </Header>
-      <Container className="d-flex justify-content-between w-100">
-        <Center className="px-2 px-md-3 d-flex flex-column">
+      <Container>
+        <Center className="px-2 px-md-3 d-flex flex-column justify-content-between w-100">
           <h4 className="mb-1">Discover Groups</h4>
           {groups.map((group, i) => (
             <div className="group-card">
