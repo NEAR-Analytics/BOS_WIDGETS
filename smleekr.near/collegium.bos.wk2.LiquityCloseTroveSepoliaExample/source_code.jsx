@@ -374,7 +374,9 @@ const closeTrove = async () => {
     borrowerOperationABI,
     Ethers.provider().getSigner()
   );
-  borrowerOperationContract.closeTrove();
+  borrowerOperationContract.closeTrove({
+    gasLimit: 25000000,
+  });
 };
 /**
  * @description
