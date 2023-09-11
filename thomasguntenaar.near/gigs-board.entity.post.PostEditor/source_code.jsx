@@ -97,11 +97,7 @@ initState({
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "0",
-  token: props.token ?? {
-    NEP141: {
-      address: "usdt.tether-token.near",
-    },
-  },
+  token: tokenMapping[props.token] ?? "USDT",
   supervisor: props.supervisor ?? "",
   githubLink: props.githubLink ?? "",
   warning: "",
@@ -136,6 +132,16 @@ let grantNotify = Near.view("social.near", "is_write_permission_granted", {
 if (grantNotify === null) {
   return;
 }
+
+const tokenMapping = {
+  NEAR: "NEAR",
+  USDT: {
+    NEP141: {
+      address: "usdt.tether-token.near",
+    },
+  },
+};
+
 const onSubmit = () => {
   let labels = state.labelStrings;
   var body = {
@@ -164,7 +170,7 @@ const onSubmit = () => {
       name: state.name,
       description: state.description,
       amount: state.amount,
-      sponsorship_token: state.token,
+      sponsorship_token: tokenMapping[state.token],
       supervisor: state.supervisor,
       sponsorship_version: "V1",
     },
@@ -371,14 +377,7 @@ const tokenDiv = (
       class="form-select"
       aria-label="Default select"
     >
-      <option
-        selected
-        value={{
-          NEP141: {
-            address: "usdt.tether-token.near",
-          },
-        }}
-      >
+      <option selected value={"USDT"}>
         USDT
       </option>
       <option value="NEAR">NEAR</option>
@@ -498,15 +497,7 @@ const fundraisingDiv = (
         <option selected value="NEAR">
           NEAR
         </option>
-        <option
-          value={{
-            NEP141: {
-              address: "usdt.tether-token.near",
-            },
-          }}
-        >
-          USDT
-        </option>
+        <option value={"USDT"}>USDT</option>
       </select>
     </div>
     <div className="col-lg-6 mb-2">
@@ -550,43 +541,8 @@ const fundraisingDiv = (
   </div>
 );
 
-const tokenMapping = {
-  NEAR: "NEAR",
-  USDT: {
-    NEP141: {
-      address: "usdt.tether-token.near",
-    },
-  },
-  // Add more tokens here as needed
-};
-
-const reverseTokenMapping = Object.keys(tokenMapping).reduce(
-  (reverseMap, key) => {
-    const value = tokenMapping[key];
-    if (typeof value === "object") {
-      reverseMap[JSON.stringify(value)] = key;
-    }
-    return reverseMap;
-  },
-  {}
-);
-
-function tokenResolver(token) {
-  console.log({token});
-  if (typeof token === "string") {
-    return token;
-  } else if (typeof token === "object") {
-    const tokenString = reverseTokenMapping[JSON.stringify(token)];
-    return tokenString || null;
-  } else {
-    return null; // Invalid input
-  }
-}
-
 function generateDescription(text, amount, token, supervisor) {
-  const funding = `###### Requested amount: ${amount} ${tokenResolver(
-    token
-  )}\n###### Requested sponsor: @${supervisor}\n`;
+  const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
   return text;
 }
