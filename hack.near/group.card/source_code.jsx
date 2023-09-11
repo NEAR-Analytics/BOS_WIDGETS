@@ -11,7 +11,7 @@ if (!groupInfo) {
 const groupKey = Object.keys(groupInfo)[0];
 
 const tags = Object.keys(groupInfo[groupKey].thing[groupId].metadata.tags);
-const groupUrl = `/hack.near/widget/group?groupId=${groupId}`;
+const groupUrl = `/hack.near/widget/Group?groupId=${groupId}`;
 
 const canJoin = props.canJoin ?? true;
 
