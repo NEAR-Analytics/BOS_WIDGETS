@@ -51,7 +51,10 @@ const renderItem = (item) => {
                 src="hack.near/widget/group.view"
                 props={{ groupId, creatorId: item.accountId }}
               />
-              <Widget src="hack.near/widget/accept" props={{ groupId }} />{" "}
+              <Widget
+                src="hack.near/widget/accept"
+                props={{ groupId, accountId: item.accountId }}
+              />{" "}
             </div>
           </div>
           <div>
@@ -92,7 +95,10 @@ const renderItem = (item) => {
                 src="hack.near/widget/group.view"
                 props={{ groupId, creatorId: item.accountId }}
               />
-              <Widget src="hack.near/widget/approve" props={{ groupId }} />{" "}
+              <Widget
+                src="hack.near/widget/approve"
+                props={{ groupId, accountId: item.accountId }}
+              />{" "}
             </div>
           </div>
           <div>
