@@ -3,6 +3,10 @@ const Owner = "socializer.near";
 const profile = Social.getr(`${accountId}/profile`);
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
+State.init({
+  myAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${accountId}`,
+});
+
 const columns = [
   {
     title: "Token Name",
@@ -115,7 +119,15 @@ const Table = styled.table`
 return (
   <Wrapper>
     <div className="d-flex align-items-center" style={{ gap: 24 }}>
-      <Avatar src="https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm" />
+      <Avatar
+        src={state.myAvatar}
+        onError={() => {
+          State.update({
+            myAvatar:
+              "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+          });
+        }}
+      />
       <h4>Hi, {profile.name ? profile.name : accountId}</h4>
     </div>
     <WalletComponent>
