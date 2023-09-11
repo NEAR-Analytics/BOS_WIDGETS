@@ -118,6 +118,9 @@ return (
             src={`${WIDGET_OWNER}/widget/NearBox.Components.ReadMessage`}
             props={{
               message: state.displayMessage,
+              onRefresh: (refresh) => {
+                State.update(refresh);
+              },
             }}
           />
         </MessageCorner>
