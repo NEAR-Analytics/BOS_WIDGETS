@@ -1,11 +1,12 @@
 const accountId = props.accountId ?? context.accountId;
 const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
+const creatorId = props.creatorId ?? "devs.near";
 
 if (!accountId) {
   return "";
 }
 
-let contributors = Social.keys(`${accountId}/graph/${groupId}/*`, "final", {
+let contributors = Social.keys(`${creatorId}/graph/${groupId}/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
@@ -14,7 +15,7 @@ if (contributors === null) {
   return "Loading...";
 }
 
-contributors = Object.entries(contributors[accountId].graph[groupId] || {});
+contributors = Object.entries(contributors[creatorId].graph[groupId] || {});
 contributors.sort((a, b) => b[1] - a[1]);
 
 return (
