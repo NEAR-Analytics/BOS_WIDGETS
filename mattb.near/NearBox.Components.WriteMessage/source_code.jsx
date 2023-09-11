@@ -170,6 +170,7 @@ return (
               to: e.target.value,
             }
           });
+          checkAddress();
         }}
       />
       </div>
@@ -184,7 +185,6 @@ return (
               subject: e.target.value,
             },
           });
-          checkAddress();
         }}
       />
       <textarea
