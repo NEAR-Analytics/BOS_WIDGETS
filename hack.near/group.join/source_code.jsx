@@ -1,9 +1,32 @@
-const accountId = props.accountId ?? context.accountId;
-const groupId = props.groupId ?? "everyone";
+const accountId = props.accountId ?? "james.near";
+const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
+const creatorId = props.creatorId ?? "hack.near";
 
-if (!accountId) {
-  return "Please connect your NEAR account :)";
+if (!props.accountId && !context.accountId) {
+  return "";
 }
+
+const joinEdge = Social.keys(
+  `${context.accountId}/graph/${groupId}/${context.accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+
+const memberEdge = Social.keys(
+  `${creatorId}/graph/${groupId}/${context.accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+
+const loading = joinEdge === null || memberEdge === null;
+const join = joinEdge && Object.keys(joinEdge).length;
+const inverse = memberEdge && Object.keys(memberEdge).length;
+
+const type = join ? "leave" : "join";
 
 const handleJoin = () => {
   Social.set({
@@ -18,7 +41,7 @@ const handleJoin = () => {
       }),
       notify: JSON.stringify([
         {
-          key: groupId,
+          key: creatorId,
           value: {
             type,
             accountId,
@@ -40,8 +63,12 @@ const handleJoin = () => {
 
 return (
   <>
-    <button disabled={loading} className="btn btn-primary" onClick={handleJoin}>
-      Join
+    <button
+      disabled={loading}
+      className={`btn ${loading || join ? "btn-outline-dark" : "btn-primary"}`}
+      onClick={handleJoin}
+    >
+      {loading ? "loading" : join ? "joined" : inverse ? "accept" : "join"}
     </button>
   </>
 );
