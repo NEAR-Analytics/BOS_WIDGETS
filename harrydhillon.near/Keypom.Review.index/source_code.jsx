@@ -73,6 +73,15 @@ return (
       }}
       src="harrydhillon.near/widget/Keypom.Review.TicketTable"
     />
+    <button
+      onClick={() => {
+        props?.setStorage("tickets", "");
+        props?.setStorage("collectInfo", "");
+        props?.setStorage("formValues", "");
+      }}
+    >
+      Reset Fields
+    </button>
     {state?.previewEvent && (
       <Widget
         src="harrydhillon.near/widget/Keypom.Components.Modal"
