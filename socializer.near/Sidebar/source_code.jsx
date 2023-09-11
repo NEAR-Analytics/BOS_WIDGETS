@@ -136,6 +136,7 @@ return (
           key={item.label}
           data-state={item.active ? "active" : ""}
           onClick={() => {
+            console.log(item, "==>item");
             changeTab(item.value);
           }}
         >
