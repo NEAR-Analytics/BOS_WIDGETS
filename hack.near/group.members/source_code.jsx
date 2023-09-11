@@ -1,6 +1,7 @@
 const groupId = props.groupId ?? "6fd36ddf4884flm20pbe91e7b208b88d16";
+const creatorId = props.creatorId ?? "*";
 
-let members = Social.keys(`*/graph/${groupId}/*`, "final", {
+let members = Social.keys(`${creatorId}/graph/${groupId}/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
