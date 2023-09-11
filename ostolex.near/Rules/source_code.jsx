@@ -3,7 +3,7 @@ const markdown = fetch(
 );
 
 State.init({ goBack: false });
-const mainMenuSrc = "ostolex.near/widget/MainMenu";
+const mainMenuSrc = "ostolex.near/widget/LaserChess3D";
 
 return (
   <>
