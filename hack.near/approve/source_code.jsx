@@ -26,7 +26,7 @@ const loading = joinEdge === null || memberEdge === null;
 const join = joinEdge && Object.keys(joinEdge).length;
 const member = memberEdge && Object.keys(memberEdge).length;
 
-const type = join ? "reject" : "approve";
+const type = join ? "approve" : "reject";
 
 const handleApprove = () => {
   Social.set({
