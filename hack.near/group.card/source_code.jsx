@@ -81,27 +81,6 @@ const CardLeft = styled.div`
   }
 `;
 
-const Avatar = styled.a`
-  width: 60px;
-  height: 60px;
-  flex-shrink: 0;
-  border: 1px solid #eceef0;
-  overflow: hidden;
-  border-radius: 56px;
-  transition: border-color 200ms;
-
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-
-  &:hover,
-  &:focus {
-    border-color: #d0d5dd;
-  }
-`;
-
 const TextLink = styled.a`
   display: block;
   margin: 0;
@@ -128,29 +107,10 @@ const TagsWrapper = styled.div`
 return (
   <Card>
     <CardLeft>
-      <Avatar href={groupUrl}>
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: groupInfo[groupKey].thing[groupId].metadata.image,
-            alt: groupInfo[groupKey].thing[groupId].metadata.name,
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-          }}
-        />
-      </Avatar>
-
-      <div>
-        <TextLink href={groupUrl} ellipsis bold>
-          {groupInfo[groupKey].thing[groupId].metadata.name}
-        </TextLink>
-
-        {tags.length > 0 && (
-          <TagsWrapper>
-            <Widget src="near/widget/Tags" props={{ tags, scroll: true }} />
-          </TagsWrapper>
-        )}
-      </div>
+      <Widget
+        src="hack.near/widget/group.inline"
+        props={{ groupId, accountId }}
+      />
     </CardLeft>
     <Bell>
       <div className="ms-autome-md-2 d-flex align-items-center">
