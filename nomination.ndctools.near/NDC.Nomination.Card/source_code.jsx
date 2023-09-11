@@ -435,6 +435,12 @@ const keyIssues = [
   },
 ];
 
+const houseMapping = {
+  HouseOfMerit: 1,
+  CouncilOfAdvisors: 2,
+  TransparencyCommission: 3,
+};
+
 return (
   <Wrapper className="p-2 col-lg-4 col-md-6 col-sm-12">
     <Card>
@@ -493,15 +499,14 @@ return (
               Link: {
                 disabled: !canUpvote(),
                 text: "Vote",
-                className: "primary dark",
+                className: `${
+                  context.accountId && state.voted ? "primary" : "secondary"
+                } dark`,
                 size: "sm",
-                href: "#/election.ndctools.near/widget/NDC.Elections.Main",
-                icon: (
-                  <img
-                    style={{ "margin-bottom": "5px" }}
-                    src="https://ipfs.near.social/ipfs/bafkreia4iqjdjqhwplrunkjvmri2c6egm2pmlt56f3n6qesmy5ofw27g3y"
-                  />
-                ),
+                href: `#/election.ndctools.near/widget/NDC.Elections.Main?house=${
+                  houseMapping[data.indexerData.house]
+                }&candidates=[${data.indexerData.nominee}]`,
+                icon: <i className="bi bi-hand-thumbs-up"></i>,
               },
             }}
           />
@@ -599,7 +604,7 @@ return (
                   props={{
                     Button: {
                       text: `+${data.upVoteData.comments.length ?? 0} Comments`,
-                      disabled: true,
+                      disabled: !state.verified,
                       size: "sm",
                       className:
                         "secondary dark w-100 justify-content-center text-nowrap",
