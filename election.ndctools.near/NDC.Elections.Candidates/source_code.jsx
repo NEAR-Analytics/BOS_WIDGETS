@@ -1099,6 +1099,7 @@ return (
                       Link: {
                         className: "secondary dark",
                         text: "Show All Candidated",
+                        doNotOpenNew: true,
                         href: `#/election.ndctools.near/widget/NDC.Elections.Main?house=${id}`,
                       },
                     }}
