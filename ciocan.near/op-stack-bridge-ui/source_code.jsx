@@ -459,7 +459,7 @@ if (!prices[selectedToken]) {
 
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
-  console.log("updateBalance", address, symbol);
+  //   console.log("updateBalance", address, symbol);
   // if (state.balances[symbol]) {
   //   return;
   // }
@@ -513,7 +513,7 @@ const changeNetwork = (network) => {
     }
   }
   State.update({ isNetworkSelectOpen: false, selectedNetwork: network });
-  tokens.filter((t) => t.chainId === chainId).map(updateBalance);
+  //   tokens.filter((t) => t.chainId === chainId).map(updateBalance);
 };
 
 const openNetworkList = () => {
@@ -612,7 +612,7 @@ const handleConfirm = () => {
       isToastOpen: true,
       variant: "error",
       title: "Invalid network",
-      description: `Please switch to ${l2Network} zkevm network`,
+      description: `Please switch to ${l2Network} network`,
     });
     return;
   }
@@ -645,7 +645,7 @@ return (
   <Layout>
     <div class="container">
       {!isCorrectNetwork && (
-        <Alert>Please switch to Ethereum or {l2Network} zkEVM</Alert>
+        <Alert>Please switch to Ethereum or {l2Network} network</Alert>
       )}
       <ContainerNetwork>
         <span class="label">FROM</span>
