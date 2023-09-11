@@ -14,6 +14,7 @@ const Container = styled.div`
   gap: 0.45em;
   width: 100%;
   min-width: 171px;
+  padding: 10px;
 `;
 
 const Label = styled.label`
