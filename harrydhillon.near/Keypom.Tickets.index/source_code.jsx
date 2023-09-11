@@ -72,14 +72,14 @@ function ellipsisIfExceeds(str) {
 }
 
 if (!state.isReadDataFromLocal) {
-  const getValue = Storage.get("tickets");
+  const getValue = props?.getStorage?.("tickets");
   if (getValue) {
     State.update({ tickets: JSON.parse(getValue), isReadDataFromLocal: true });
   } else {
     State.update({ isReadDataFromLocal: true });
   }
 } else {
-  Storage.set("tickets", JSON.stringify(state.tickets));
+  props?.setStorage?.("tickets", JSON.stringify(state.tickets));
 }
 
 const createTickets = () => {
