@@ -1,3 +1,5 @@
+// Add tooltips to show long explanations on hover
+
 const UUID = {
   generate: (template) => {
     if (typeof template !== "string") {
@@ -255,9 +257,22 @@ const ResponseForm = () => {
   return (
     <div className="container">
       <div>
+        <h5>
+          <a href="">Update Your Profile Before You Begin</a>
+        </h5>
+        <hr></hr>
+
+        <p>
+          Instructions: describe one (1) experience you had with cannabis.{" "}
+          <b>This form is meant to be anonymous</b>, so only include as much
+          detail as you feel comfortable sharing.
+        </p>
+
+        <hr></hr>
+
         <div className="mb-3">
           <label class="form-label" for="title">
-            Response Title
+            Give Your Report a Name
           </label>
           <input
             class="form-control"
@@ -267,9 +282,28 @@ const ResponseForm = () => {
             placeholder="New Response Title"
           />
         </div>
+        <div>Consumption Method</div>
+        <div>Estimated Dose</div>
+        <div>Age</div>
+        <div>Sex</div>
+        <div>Height</div>
+        <div>Weight</div>
+        <div>Have you ever used canabis before?</div>
+        <div>What is your cannabis tolerance level?</div>
+        <div>Have you ever tried other substances?</div>
+        <div>
+          Currently prescribed medication and/or health conditions (including
+          mental health conditions)
+        </div>
+        <div>Email Address</div>
+        <div>Discord</div>
+        <div>
+          What famous person (or character) would you like to hang out with
+          while consuming cannabis together?
+        </div>
         <div className="mb-3">
           <label class="form-label" for="description">
-            Response Description
+            Describe Your Experience
           </label>
           <Widget
             src="efiz.near/widget/every.markdown.create"
@@ -280,6 +314,18 @@ const ResponseForm = () => {
             }}
           />
         </div>
+        <div>Other Substances Taken</div>
+        <div>Set and Setting</div>
+        <div>Physical Effects</div>
+        <div>Visual Effects</div>
+        <div>Auditory Effects</div>
+        <div>Cognitive Effects</div>
+        <div>Multi-sensory Effects</div>
+        <div>Product Name/Description</div>
+        <div>Brand Name (if available)</div>
+        <div>Batch Number</div>
+        <div>Link to Product/Strain</div>
+        <div>Photo of Product(s) Consumed</div>
         <div className="row mb-3">
           <div className="col">
             <label for="start">Response Start Date</label>
