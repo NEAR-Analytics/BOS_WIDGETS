@@ -1,5 +1,9 @@
+const accountId = context.accountId;
 const Owner = "socializer.near";
+const profile = Social.getr(`${accountId}/profile`);
+const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
+console.log(widgets, "==>widgets");
 const columns = [
   {
     title: "Token Name",
@@ -113,7 +117,7 @@ return (
   <Wrapper>
     <div className="d-flex align-items-center" style={{ gap: 24 }}>
       <Avatar src="https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm" />
-      <h4>Hi, Skylar Dias</h4>
+      <h4>Hi, {profile.name ? profile.name : accountId}</h4>
     </div>
     <WalletComponent>
       <div className="d-flex " style={{ borderBottom: "1px solid #808080" }}>
@@ -122,7 +126,7 @@ return (
         </h5>
       </div>
       <div className="d-flex ">
-        <h5 style={{ fontWeight: 600, fontSize: 18 }}>skylar.near</h5>
+        <h5 style={{ fontWeight: 600, fontSize: 18 }}>{accountId}</h5>
       </div>
     </WalletComponent>
     <TokenComponent>
