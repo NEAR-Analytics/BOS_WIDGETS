@@ -8,17 +8,18 @@ State.init({
     subject: "",
     body: "",
   },
-  addressChecked: "",
   userReachable: null,
-  isIntervalSet: false
+  timeout: null
 });
 
 const checkAddress = () => {
-  clearTimeout(0);
+  clearTimeout(state.timeout);
 
-  setTimeout(() => {
+  State.update({
+    timeout: setTimeout(() => {
     MailChain.addressIsReachable(state.message.to).then((reachable) => State.update({ userReachable: reachable }) );
-  }, 1500, 0);
+  }, 1500)
+  });
 };
 
 const WriteMessage = styled.div`
