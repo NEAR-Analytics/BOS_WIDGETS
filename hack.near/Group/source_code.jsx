@@ -1,29 +1,26 @@
 const accountId = props.accountId ?? context.accountId;
-const daoId = props.accountId ?? "multi.sputnik-dao.near";
-const groupId = props.groupId ?? "council";
+const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
+
+const creatorId = props.creatorId ?? "devs.near";
+
+if (!accountId) {
+  return "No account ID";
+}
 
 return (
-  <div className="group d-inline-block">
-    <a
-      href={`#/hack.near/widget/Group?groupId=${groupId}`}
-      className="text-decoration-none link-dark"
-    >
+  <div className="py-1 px-1">
+    <div className="mx-auto">
       <Widget
-        src="hack.near/widget/GroupImage"
-        props={{
-          daoId,
-          accountId,
-          className: "float-start d-inline-block me-2",
-        }}
+        src="hack.near/widget/group.card"
+        props={{ accountId, profile, link: true }}
       />
-      <div className="group-info d-inline-block" style={{ maxWidth: "16em" }}>
-        <div className="group-name text-truncate">DAO Group: {groupId}</div>
-        <div className="group-links d-flex">
-          <div className="d-inline-block text-secondary text-truncate">
-            {daoId}
-          </div>
-        </div>
+
+      <div className="mt-3">
+        <Widget
+          src="hack.near/widget/group.tabs"
+          props={{ groupId, creatorId, accountId, tab: props.tab }}
+        />
       </div>
-    </a>
+    </div>
   </div>
 );
