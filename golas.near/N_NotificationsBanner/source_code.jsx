@@ -34,10 +34,12 @@ const closeIcon = (
 );
 
 const Card = styled.div`
-    display: flex;
-    padding: 16px;
-    align-items: flex-start;
-    background: var(--violet-light-9, #8279E2);
+  display: flex;
+  padding: 24px 16px;
+  align-items: flex-start;
+  align-self: stretch; 
+  border-radius: 6px;
+  background: var(--violet-light-9, #8279E2);
 `;
 
 const Component = styled.div`
