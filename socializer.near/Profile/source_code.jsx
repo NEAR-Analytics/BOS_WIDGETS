@@ -77,6 +77,7 @@ const TokenComponent = styled.div`
   border-radius: 8px;
   border: 1px solid var(--light_90, #E6E6E6);
   gap: 20px;
+  margin-top: 50px;
 `;
 
 const Avatar = styled.img`
