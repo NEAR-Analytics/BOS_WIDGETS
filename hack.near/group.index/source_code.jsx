@@ -58,6 +58,7 @@ const renderItem = (item) => {
                 src={`hack.near/widget/group`}
                 props={{
                   groupId,
+                  creatorId: item.accountId,
                 }}
               />
             )}
@@ -95,6 +96,7 @@ const renderItem = (item) => {
                 src={`hack.near/widget/group`}
                 props={{
                   groupId,
+                  creatorId: item.accountId,
                 }}
               />
             )}
