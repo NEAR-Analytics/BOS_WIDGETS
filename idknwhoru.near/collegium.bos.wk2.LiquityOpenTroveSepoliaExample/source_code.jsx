@@ -313,7 +313,11 @@ const openTrove = async () => {
     ethers.utils.parseEther(state.coll.toString())
   );
 
-  /** Mission 3. NICR = Ether / LUSD * 100 */
+  /** Mission 3. NICR의 값을 구해주세요
+   * 계산 식: NICR = ETHColl * 1e20 / expectedDebt
+   * 아래의 계산 방법을 이용하되 ethersjs의 BigNumber API를 이용하세요
+   * 참고 문서: https://docs.ethers.org/v5/api/utils/bignumber/#BigNumber--BigNumber--methods--math-operations
+   */
   const NICR = null;
   sortedTroveContract.getSize().then((numTroves) => {
     const _numTrials = numTroves.mul(ethers.BigNumber.from("15"));
