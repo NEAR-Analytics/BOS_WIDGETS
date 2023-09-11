@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId ?? "build.sputnik-dao.near";
 const groupId = props.groupId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
 const creatorId = props.creatorId ?? "hack.near";
 
@@ -7,7 +7,7 @@ if (!props.accountId && !context.accountId) {
 }
 
 const joinEdge = Social.keys(
-  `${accountId}/graph/${groupId}/${context.accountId}`,
+  `${accountId}/graph/${groupId}/${accountId}`,
   undefined,
   {
     values_only: true,
@@ -15,7 +15,7 @@ const joinEdge = Social.keys(
 );
 
 const memberEdge = Social.keys(
-  `${creatorId}/graph/${groupId}/${context.accountId}`,
+  `${creatorId}/graph/${groupId}/${accountId}`,
   undefined,
   {
     values_only: true,
