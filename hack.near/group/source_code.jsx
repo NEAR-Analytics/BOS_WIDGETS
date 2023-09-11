@@ -1,5 +1,5 @@
-const groupId = props.groupId;
-const creatorId = props.creatorId;
+const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
+const creatorId = props.creatorId ?? "*";
 
 const group =
   props.group ?? Social.get(`${creatorId}/*/${groupId}/**`, "final");
