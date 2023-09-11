@@ -334,6 +334,8 @@ const Dialog = styled.div`
 
 `;
 
+const { walletChains } = VM.require("ciocan.near/widget/op-stack-module");
+
 const tokens = props.tokens ?? [
   {
     chainId: 5,
