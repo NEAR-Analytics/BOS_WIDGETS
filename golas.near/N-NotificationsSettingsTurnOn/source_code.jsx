@@ -35,7 +35,7 @@ line-height: 150%;
 
 const Button = styled.div``;
 
-const showTurnOnModal = () => {
+const handleOnClick = () => {
   //   where does this lead
 };
 
@@ -55,7 +55,7 @@ return (
           label: "Learn More",
           variant: "secondary",
           // fill: "",
-          onClick: showTurnOnModal,
+          onClick: handleOnClick,
           style: { width: "100%" },
         }}
       />
