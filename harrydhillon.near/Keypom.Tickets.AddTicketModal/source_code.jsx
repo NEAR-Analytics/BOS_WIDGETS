@@ -252,7 +252,9 @@ const AddTicketModal = (
       </>
     )}
     {state.selected === "Free" ? (
-      <p style={{ color: "gray" }}>Ticket is free, buyer pays the 0.187 NEAR minting fee</p>
+      <p style={{ color: "gray" }}>
+        Ticket is free, buyer pays the 0.187 NEAR minting fee
+      </p>
     ) : (
       <p style={{ color: "gray" }}>
         You receive{" "}
