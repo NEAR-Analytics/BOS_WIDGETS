@@ -520,7 +520,7 @@ function getConfig(network) {
     case "mainnet":
       return {
         ownerId:
-          "8345e6972edb36c6b5c3e34b81eb515501258f52b95b8ad01720209cd619c652",
+          "lendle.near",
         nodeUrl: "https://rpc.mainnet.near.org",
         ipfsPrefix: "https://ipfs.near.social/ipfs",
         ipfsPrefixLendle: "https://ipfs.io/ipfs",
