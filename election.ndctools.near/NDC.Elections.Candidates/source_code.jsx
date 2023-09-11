@@ -1097,10 +1097,10 @@ return (
                     src={widgets.styledComponents}
                     props={{
                       Link: {
-                        className: "secondary dark",
+                        className: "primary dark",
                         text: "Show All Candidated",
                         doNotOpenNew: true,
-                        href: `#/election.ndctools.near/widget/NDC.Elections.Main?house=${id}`,
+                        href: `#/election.ndctools.near/widget/NDC.Elections.Main?candidates=[]&house=${id}`,
                       },
                     }}
                   />
