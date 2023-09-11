@@ -350,11 +350,11 @@ const config = {
   ],
   tokens: [
     {
-      address: "0x0000000000000000000000000000000000000000",
+      address: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
       chainId: MANTLE_MAINNET_CHAIN_ID,
-      symbol: "MNT",
+      symbol: "WETH",
       decimals: 18,
-      icon: "https://assets.coingecko.com/coins/images/30980/small/token-logo.png?1689320029",
+      icon: "https://assets.coingecko.com/coins/images/2518/small/weth.png?1628852295",
       onDexes: ["Agni Finance", "FusionX V3", "iZiSwap", "Ammos Finance"],
     },
     {
@@ -366,6 +366,15 @@ const config = {
       onDexes: ["Agni Finance", "FusionX V3", "iZiSwap", "Ammos Finance"],
     },
     {
+      address: "0x0000000000000000000000000000000000000000",
+      chainId: MANTLE_MAINNET_CHAIN_ID,
+      symbol: "MNT",
+      decimals: 18,
+      icon: "https://assets.coingecko.com/coins/images/30980/small/token-logo.png?1689320029",
+      onDexes: ["Agni Finance", "FusionX V3", "iZiSwap", "Ammos Finance"],
+    },
+
+    {
       address: "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE",
       chainId: MANTLE_MAINNET_CHAIN_ID,
       symbol: "USDT",
@@ -373,14 +382,7 @@ const config = {
       icon: "https://assets.coingecko.com/coins/images/325/small/Tether.png",
       onDexes: ["Agni Finance", "FusionX V3", "iZiSwap", "Ammos Finance"],
     },
-    {
-      address: "0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111",
-      chainId: MANTLE_MAINNET_CHAIN_ID,
-      symbol: "WETH",
-      decimals: 18,
-      icon: "https://assets.coingecko.com/coins/images/2518/small/weth.png?1628852295",
-      onDexes: ["Agni Finance", "FusionX V3", "iZiSwap", "Ammos Finance"],
-    },
+
     {
       address: "0xCAbAE6f6Ea1ecaB08Ad02fE02ce9A44F09aebfA2",
       chainId: MANTLE_MAINNET_CHAIN_ID,
