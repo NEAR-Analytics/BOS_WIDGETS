@@ -6,6 +6,7 @@ State.init({
 });
 
 const components = [state.a, state.b, state.c];
+console.log("re-rendering parent");
 return (
   <>
     {components.map(({ id, value }) => (
@@ -17,7 +18,7 @@ return (
           id,
           update: () => {
             console.log(`updating ${id}`);
-            // State.update({ [id]: { id, value: value + 1 } });
+            State.update({ [id]: { id, value: value + 1 } });
             // console.log({ ...state });
           },
         }}
