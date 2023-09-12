@@ -24,7 +24,9 @@ const Layout = styled.div`
   }
 `;
 
-const { tokens, bridgeAbi } = VM.require("ciocan.near/widget/op-stack-module");
+const { tokens, ethAbi, erc20Abi } = VM.require(
+  "ciocan.near/widget/op-stack-module"
+);
 
 const l2Network = "mantle";
 const l2TestnetId = 5001;
@@ -51,7 +53,6 @@ const onOpenChange = (v) => {
 
 const provider = Ethers.provider();
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
 if (sender) {
   Ethers.provider()
@@ -66,7 +67,8 @@ function handleDepositETH(props) {
   const { amount, token } = props;
   const amountBig = ethers.utils.parseUnits(`${amount}`, 18);
 
-  const encodedData = bridgeIface.encodeFunctionData(
+  const bridgeEthIface = new ethers.utils.Interface(ethAbi);
+  const encodedData = bridgeEthIface.encodeFunctionData(
     "depositETH(uint32, bytes)",
     [200000, 0]
   );
@@ -89,6 +91,52 @@ function handleDepositETH(props) {
 
 function handleDepositERC20(props) {
   console.log("handleDepositERC20", props);
+  const MNT_MIN_GAS = `200000`;
+  const ERC20_APPROVE_GAS = `81942`;
+  const ERC20_TRANSFER_GAS = `192460`;
+  const { amount, token } = props;
+
+  const l2ChainId = isMainnet ? l2MainnetId : l2TestnetId;
+  const tokenL2 = tokens
+    .filter((t) => t.symbol === token.symbol)
+    .find((t) => t.chainId === l2ChainId);
+
+  const bridgeErc20Iface = new ethers.utils.Interface(erc20Abi);
+  const erc20Contract = new ethers.Contract(
+    token.address,
+    bridgeErc20Iface,
+    provider.getSigner()
+  );
+  const bridgeContract = new ethers.Contract(
+    token.extensions.optimismBridgeAddress,
+    bridgeErc20Iface,
+    provider.getSigner()
+  );
+
+  const amountBig = ethers.utils.parseUnits(`${amount}`, token.decimals);
+
+  erc20Contract
+    .approve(token.extensions.optimismBridgeAddress, amountBig, {
+      gasLimit: ERC20_APPROVE_GAS,
+    })
+    .then((approveData) => {
+      console.log("approve", approveData);
+
+      bridgeContract
+        .depositERC20(
+          token.address,
+          tokenL2.address,
+          amountBig,
+          MNT_MIN_GAS,
+          [],
+          {
+            gasLimit: ERC20_TRANSFER_GAS,
+          }
+        )
+        .then((depositData) => {
+          console.log("depositERC20", depositData);
+        });
+    });
 }
 
 const onConfirm = (props) => {
