@@ -97,7 +97,7 @@ if (!state.accountsWithPermissionsIsFetched) {
     "debug_get_permissions",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       accountsWithPermissions: data
@@ -105,7 +105,7 @@ if (!state.accountsWithPermissionsIsFetched) {
         .filter((info) => "AccountId" in info)
         .map(({ AccountId }) => AccountId),
       accountsWithPermissionsIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -339,7 +339,7 @@ return (
                           tags: state.tags.reduce(
                             (acc, { name }) =>
                               Object.assign(acc, { [name]: "" }),
-                            {}
+                            {},
                           ),
                         }
                       : {}),
@@ -361,7 +361,7 @@ return (
                 },
               };
               const deposit = Big(JSON.stringify(data).length * 16).mul(
-                Big(10).pow(20)
+                Big(10).pow(20),
               );
               const transactions = [
                 {
