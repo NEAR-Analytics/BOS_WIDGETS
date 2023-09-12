@@ -1,101 +1,58 @@
-const ImgWrapper = styled.div`
-  height: 14em;
-  aspect-ratio: 1 / 1;
-`;
+const accountId = props.debugAccountId ?? context.accountId;
 
-const featuredApps = [
-  "zavodil.near/widget/social-avatar-editor",
-  "mob.near/widget/MooClicker",
-  "zavodil.near/widget/hot-or-bot",
-  "duocelot.near/widget/AddImage_gpux",
-];
+if (!accountId) {
+  return (
+    <div className="alert alert-warning rounded-4 mb-3">
+      <div className="text-end">
+        <div className="fw-bold">
+          Sign in by clicking
+          <Widget
+            src="andyh.near/widget/ProfileImage"
+            props={{ accountId: "" }}
+          />
+          <i class="fs-1 align-middle bi bi-arrow-up-right" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-const keys = featuredApps.map((k) => `${k}/metadata`);
-const authors = keys.map((key) => key.split("/")[0]);
-
-const data = Social.getr(keys, "final");
-
-if (data === null) {
+const profile = Social.getr(`${accountId}/profile`);
+if (profile === null) {
   return "";
 }
 
-const apps = keys.map((key) => {
-  let d = data;
-  key.split("/").forEach((k) => {
-    d = d[k];
-  });
-  return d;
-});
+const name = profile?.name;
+const image = profile?.image;
 
-return (
-  <div id="featuredApps" className="carousel slide" data-bs-ride="carousel">
-    <div className="carousel-indicators">
-      {apps.map((app, i) => (
-        <button
-          key={i}
-          type="button"
-          data-bs-target="#featuredApps"
-          data-bs-slide-to={i}
-          className={i === 0 ? "active" : ""}
-          aria-current={i === 0}
-          aria-label={app.name}
-        ></button>
-      ))}
-    </div>
-    <div
-      className="carousel-inner rounded-4"
-      style={{
-        background: "rgb(53,120,255)",
-        backgroundImage:
-          "linear-gradient(132deg, rgba(53,120,255,1) 0%, rgba(175,117,189,1) 100%)",
-      }}
-    >
-      {apps.map((app, i) => (
-        <div key={i} className={`carousel-item ${i === 0 ? "active" : ""}`}>
-          <div
-            className="d-flex justify-content-around flex-wrap flex-md-nowrap w-100"
-            style={{ padding: "4em", gap: "4em" }}
-          >
-            <div className="text-white flex-grow-1">
-              <p>
-                <span className="badge bg-white bg-opacity-10 rounded-pill">
-                  Featured App
-                </span>
-              </p>
-              <h2>{app.name}</h2>
-              <p>{app.description}</p>
-              <div>
-                <Widget
-                  src="andyh.near/widget/ProfileLine"
-                  props={{
-                    link: false,
-                    accountId: authors[i],
-                    hideAccountId: true,
-                  }}
-                />
-              </div>
-              <a
-                className="btn btn-dark rounded-3"
-                href={`#/${featuredApps[i]}`}
-              >
-                Launch
-              </a>
-            </div>
-            <ImgWrapper>
-              <Widget
-                src="andyh.near/widget/Image"
-                props={{
-                  image: app.image,
-                  alt: app.name,
-                  className: "w-100 h-100 rounded-4",
-                  fallbackUrl:
-                    "https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e",
-                }}
-              />
-            </ImgWrapper>
-          </div>
-        </div>
-      ))}
-    </div>
+const editProfileButton = (
+  <div>
+    <a className="btn btn-success" href="#/andyh.near/widget/ProfileEditor">
+      Edit Profile
+    </a>
   </div>
 );
+
+if (!name) {
+  return (
+    <div className="alert alert-warning rounded-4 mb-3">
+      <p>Your profile is missing a name.</p>
+      {editProfileButton}
+    </div>
+  );
+}
+
+if (
+  !image.ipfs_cid &&
+  (!image?.nft?.contractId || !image.nft.tokenId) &&
+  !image.url
+) {
+  return (
+    <div className="alert alert-warning rounded-4 mb-3">
+      <p>Your profile is missing a picture.</p>
+      {editProfileButton}
+    </div>
+  );
+}
+
+return <></>;
