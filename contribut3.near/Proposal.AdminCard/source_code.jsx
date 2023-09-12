@@ -18,7 +18,7 @@ if (!state.proposalIsFetched) {
     "get_proposal",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((proposal) => State.update({ proposal, proposalIsFetched: true }));
 }
 
@@ -28,12 +28,12 @@ if (!state.projectNameIsFetched) {
     "get",
     { keys: [`${projectId}/profile/name`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       projectName: data[projectId].profile.name,
       projectNameIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -43,12 +43,12 @@ if (!state.vendorNameIsFetched) {
     "get",
     { keys: [`${vendorId}/profile/name`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       vendorName: data[vendorId].profile.name,
       vendorNameIsFetched: true,
-    })
+    }),
   );
 }
 
