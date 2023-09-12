@@ -58,9 +58,4 @@ const AlarmIcon = () => (
   </svg>
 );
 
-return (
-  <Header>
-    <AlarmIcon />
-    <Logo src={state.avatar} onError={setAvatar} />
-  </Header>
-);
+return <Header>{`Header`}</Header>;
