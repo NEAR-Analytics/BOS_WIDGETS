@@ -231,7 +231,7 @@ if (candidate.fts) {
 if (candidate.amount) {
   if (holdings == null) holdings = 0;
   holdings +=
-    (ftMetas.find((meta) => meta.contractId === contractId)?.price ?? 0) *
+    (ftMetas.find((meta) => meta.contractId === "wrap.near")?.price ?? 0) *
     Big(candidate.amount).div(Big(10).pow(24)).toNumber();
 }
 
