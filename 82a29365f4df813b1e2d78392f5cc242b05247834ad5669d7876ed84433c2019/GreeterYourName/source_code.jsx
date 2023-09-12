@@ -1,4 +1,4 @@
-let greeting = "Today is 12-09-2023";
+let greeting = "Have a great day";
 
 return (
   <>
