@@ -1,5 +1,8 @@
 const Owner = "socializer.near";
 
+const changePage = props?.changePage || (() => {});
+const page = props?.page || "";
+
 const columns = [
   {
     title: "Project/User",
@@ -259,7 +262,13 @@ return (
               }}
               src={`${Owner}/widget/Select`}
             />
-            <Button>+ Create New Campaigns</Button>
+            <Button
+              onClick={() => {
+                changePage("new_campaigns");
+              }}
+            >
+              {"+ Create New Campaigns"}
+            </Button>
           </div>
         </FilterContent>
         <TitleContent>
