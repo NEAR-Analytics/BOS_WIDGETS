@@ -198,4 +198,4 @@ const bridgeAbi = [
   },
 ];
 
-return { tokens, walletChains };
+return { tokens, walletChains, bridgeAbi };
