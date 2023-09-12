@@ -28,6 +28,17 @@ const tokenOptions = [
   },
 ];
 
+const hrOption = [];
+const minOption = [];
+
+for (let i = 0; i <= 50; i++) {
+  let hr = i + 12;
+  let min = i * 10;
+  if (min == 0) min = "00";
+  if (i <= 5) minOption.push({ text: min, value: min });
+  hrOption.push({ text: hr, value: hr });
+}
+
 State.init({
   requirements: [],
   username: profile.name ? profile.name : accountId,
@@ -36,8 +47,8 @@ State.init({
   token: "Near",
   winners: 0,
   total_reward: "",
-  duration_hr: "",
-  duration_min: "",
+  duration_hr: 12,
+  duration_min: "00",
 });
 
 const Wrapper = styled.div`
@@ -327,19 +338,33 @@ return (
           </p>
         </div>
         <div className="d-flex align-items-center col-lg-6 gap-4">
-          <Input
-            type="number"
-            defaultValue="24"
-            className="col-lg-4"
-            min={0}
-            max={24}
+          <Widget
+            props={{
+              noLabel: true,
+              width: 100,
+              value: { value: state.duration_hr },
+              options: hrOption,
+              onChange: (e) => {
+                State.update({
+                  duration_hr: e.value,
+                });
+              },
+            }}
+            src={`${Owner}/widget/Select`}
           />
-          <Input
-            type="number"
-            defaultValue="00"
-            className="col-lg-4"
-            min={0}
-            max={60}
+          <Widget
+            props={{
+              noLabel: true,
+              width: 100,
+              value: { value: state.duration_min },
+              options: minOption,
+              onChange: (e) => {
+                State.update({
+                  duration_min: e.value,
+                });
+              },
+            }}
+            src={`${Owner}/widget/Select`}
           />
         </div>
       </div>
