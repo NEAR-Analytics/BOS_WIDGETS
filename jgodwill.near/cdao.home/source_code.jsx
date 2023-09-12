@@ -11,6 +11,9 @@ const Main = styled.div`
     align-items: center;
     padding: 1.5rem;
 }
+a{
+  color: unset;
+}
 
 .hero{
     background-size: cover;
