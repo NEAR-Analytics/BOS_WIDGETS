@@ -595,10 +595,10 @@ return (
                 type="button"
                 className="btn btn-primary mt-3"
                 disabled={props.loadingListing}
+                className={props.loadingListing ? "loading" : ""}
                 onClick={
                   props.chainState === "near" ? props.list : props.evmList
                 }
-                className={props.loadingListing ? "loading" : ""}
               >
                 {!props.loadingListing && "Listing"}
               </ListButton>
