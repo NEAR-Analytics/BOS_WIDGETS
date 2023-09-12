@@ -31,6 +31,7 @@ return (
         <a href="#/opencann.near/widget/profile.demographics">
           Click here to edit your demographic data.
         </a>
+        <hr></hr>
         <div className="mb-2">
           <Widget
             src="near/widget/MetadataEditor"
