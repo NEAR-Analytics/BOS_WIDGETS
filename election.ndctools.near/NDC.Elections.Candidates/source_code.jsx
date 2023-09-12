@@ -381,6 +381,7 @@ const selectedBookmarks = (candidateId) => {
 const handleBookmarkCandidate = (candidateId) => {
   let selectedItems = selectedBookmarks(candidateId);
   Storage.set(LocalStorageKeys.Bookmarks, JSON.stringify(selectedItems));
+  State.update({ bookmarked: selectedItems });
 };
 
 const handleVote = () => {
