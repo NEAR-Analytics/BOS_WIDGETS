@@ -28,7 +28,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${daoId}/profile`);
-const accountUrl = `#/efiz.near/widget/DAO.Page?`;
+const accountUrl = `#/libertydao.near/widget/community?`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
