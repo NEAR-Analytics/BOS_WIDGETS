@@ -135,21 +135,14 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
-function trimHttps(url) {
-  if (url.startsWith("https://")) {
-    return url.substring(8);
-  }
-  return url;
-}
-
 const CommunitySummary = (community) => {
   const socialLinks = [
     ...((community.website_url?.length ?? 0) > 0
       ? [
           {
-            href: `https://${trimHttps(community.website_url)}`,
+            href: community.website_url,
             iconClass: "bi bi-globe",
-            name: trimHttps(community.website_url),
+            name: community.website_url,
           },
         ]
       : []),
@@ -184,10 +177,9 @@ const CommunitySummary = (community) => {
   ];
 
   return (
-    <>
-      {widget("components.molecule.markdown-viewer", {
-        text: community.bio_markdown,
-      })}
+    <div style={{ top: "0", left: "0" }}>
+      <Markdown text={community.bio_markdown} />
+
       <small class="text-muted mb-3">
         {widget("components.atom.tag", { linkTo: "Feed", ...community })}
       </small>
@@ -199,23 +191,13 @@ const CommunitySummary = (community) => {
             href={link.href}
             style={{ marginLeft: index !== 0 ? "0px" : "0px" }}
             key={link.href}
-            target="_blank"
           >
             <i className={link.iconClass}></i>
-            <span
-              className="ms-1"
-              style={{
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {link.name}
-            </span>
+            <span className="ms-1">{link.name}</span>
           </a>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
@@ -235,7 +217,6 @@ const Sidebar = ({ handle }) => {
   ) : (
     <div class="d-flex flex-column align-items-end">
       {widget("components.molecule.tile", {
-        fullWidth: true,
         minHeight: 0,
         children: CommunitySummary(community),
         noBorder: true,
