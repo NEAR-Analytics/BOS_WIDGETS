@@ -45,13 +45,20 @@ return (
   <Main>
     <div class="section hero">
       <div class="heroLeft">
-        <h1 class="heroTitle"></h1>
-        <p class="heroBody"></p>
+        <h1 class="heroTitle">
+          Discover, collect, and sell <span class="colored">Timeless</span> NFTs
+        </h1>
+        <p class="heroBody">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
+          quidem asperiores. Quia, amet? Dignissimos officia recusandae, magni
+          omnis dolor error autem, voluptatum ut tempore accusantium doloribus
+          temporibus molestiae illo id.
+        </p>
         <div class="heroCTA">
           <a href="#" class="button">
             Join
           </a>
-          <a href="#" class="button">
+          <a href="#" class="button sec">
             Create
           </a>
         </div>
