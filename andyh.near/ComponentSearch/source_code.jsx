@@ -56,11 +56,15 @@ const _search = (term) => {
       const componentIdScore = computeScore(componentId);
       const metadata = allMetadata[accountId]?.widget[componentId]?.metadata;
       const name = metadata?.name || componentId;
-      if (requiredTag && !(metadata?.tags && requiredTag in metadata.tags)) {
+      const hasTag = (t) =>
+        !!metadata?.tags &&
+        (Array.isArray(metadata.tags)
+          ? metadata.tags.includes(t)
+          : metadata[t]);
+      if (requiredTag && !(metadata?.tags && hasTag(requiredTag))) {
         return;
       }
-      const boosted =
-        boostedTag && metadata?.tags && boostedTag in metadata.tags;
+      const boosted = boostedTag && metadata?.tags && hasTag(boostedTag);
       const tags = Object.keys(metadata?.tags || {}).slice(0, 10);
       const nameScore = computeScore(name);
       const tagsScore = Math.min(
