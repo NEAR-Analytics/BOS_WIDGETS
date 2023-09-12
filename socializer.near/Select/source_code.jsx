@@ -3,6 +3,7 @@ const noLabel = props.noLabel ?? false;
 const placeholder = props.placeholder ?? "Select an option";
 const value = props.value ?? "";
 const options = props.options ?? [];
+const width = props.width ?? 171;
 const onChange = props.onChange ?? (() => {});
 const error = props.error ?? "";
 
@@ -12,7 +13,7 @@ const Container = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 0.45em;
-  width: 171px;
+  width: ${width}px;
 `;
 
 const Label = styled.label`
