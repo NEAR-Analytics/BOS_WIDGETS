@@ -1,4 +1,5 @@
 const ownerId = "contribut3.near";
+const apiUrl = "https://api-staging-fur7.onrender.com";
 const accountId = props.accountId;
 
 const Container = styled.div`
@@ -69,16 +70,16 @@ if (!state.showCreditsIsFetched) {
     "get_vendor",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then(({ credits: showCredits }) =>
-    State.update({ showCredits, showCreditsIsFetched: true })
+    State.update({ showCredits, showCreditsIsFetched: true }),
   );
 }
 
 if (state.showCredits && !state.earnedIsFetched) {
-  asyncFetch(
-    `https://api-staging-fur7.onrender.com/data/credits/vendors/${accountId}/balance`
-  ).then(({ body: earned }) => State.update({ earned, earnedIsFetched: true }));
+  asyncFetch(`${apiUrl}/data/credits/vendors/${accountId}/balance`).then(
+    ({ body: earned }) => State.update({ earned, earnedIsFetched: true }),
+  );
 }
 
 if (!state.activeIsFetched) {
@@ -87,22 +88,21 @@ if (!state.activeIsFetched) {
     "get",
     { keys: [`${accountId}/profile/active`] },
     "final",
-    false
+    false,
   ).then((active) =>
     State.update({
       active: active[accountId].profile.active,
       activeIsFetched: true,
-    })
+    }),
   );
 }
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/vendors/completion").then(
-  ({ body: { list } }) =>
-    State.update({
-      completion: list
-        .find(({ id }) => id === props.accountId)
-        .completion.toLocaleString("en-US", { style: "percent" }),
-    })
+asyncFetch(`${apiUrl}/data/vendors/completion`).then(({ body: { list } }) =>
+  State.update({
+    completion: list
+      .find(({ id }) => id === props.accountId)
+      .completion.toLocaleString("en-US", { style: "percent" }),
+  }),
 );
 
 if (!state.activeIsFetched) {
@@ -139,7 +139,7 @@ return (
             onSave: (active) =>
               Social.set(
                 { profile: { active: `${active}` } },
-                { onCommit: () => State.update({ active }) }
+                { onCommit: () => State.update({ active }) },
               ),
             canEdit: props.isAdmin,
           }}
