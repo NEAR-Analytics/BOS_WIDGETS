@@ -108,7 +108,7 @@ function downloadCSV() {
   }
 }
 
-const options = ["ENTRADA", "SAÍDA"];
+const options = ["DESPESA", "RECEITA", "ATIVO, PASSIVO,"];
 
 return (
   <div
