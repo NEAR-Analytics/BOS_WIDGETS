@@ -161,11 +161,11 @@ return (
     <hr></hr>
     <h5>
       <a
-        href="https://cannabisgeno.me/survey"
+        href="#/opencann.near/widget/ExperienceSurvey"
         target="_blank"
         rel="noopener noreferrer"
       >
-        *Note: please visit our old website to submit survey responses
+        *Click here to submit a cannabis experience report
       </a>
     </h5>
     <hr></hr>
