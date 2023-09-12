@@ -36,7 +36,6 @@ const metadata = {
     options.demographics && Object.keys(state.demographics).length > 0
       ? state.demographics
       : undefined,
-  skills: options.skills ? state.metadata.skills : undefined,
 };
 
 if (
@@ -159,24 +158,6 @@ return (
               "rust, engineer, artist, humanguild, nft, learner, founder",
             setTagsObject: (tags) => {
               state.metadata.tags = tags;
-              State.update();
-            },
-          }}
-        />
-      </div>
-    )}
-    {options.skills && (
-      <div className="mb-2">
-        {options.skills.label ?? "Skills"}
-        <Widget
-          src="opencann.near/widget/SkillsEditor"
-          props={{
-            initialSkillsObject: metadata.skills,
-            skillsPattern: options.skills.pattern,
-            placeholder:
-              options.skills.placeholder ?? "ProgrammingBasics, TestingBasics",
-            setSkillsObject: (skills) => {
-              state.metadata.skills = skills;
               State.update();
             },
           }}
