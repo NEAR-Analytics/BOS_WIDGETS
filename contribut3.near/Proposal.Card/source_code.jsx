@@ -20,7 +20,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: projectId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
@@ -30,7 +30,7 @@ if (!state.proposalIsFetched) {
     "get_proposal",
     { project_id: projectId, vendor_id: vendorId, cid },
     "final",
-    false
+    false,
   ).then((proposal) => State.update({ proposal, proposalIsFetched: true }));
 }
 
@@ -40,9 +40,9 @@ if (!state.contributionsIsFetched) {
     "get_vendor_completed_contributions",
     { account_id: vendorId },
     "final",
-    false
+    false,
   ).then((contributions) =>
-    State.update({ contributions, contributionsIsFetched: true })
+    State.update({ contributions, contributionsIsFetched: true }),
   );
 }
 
@@ -52,9 +52,9 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${vendorId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((data) =>
-    State.update({ profile: data[vendorId].profile, profileIsFetched: true })
+    State.update({ profile: data[vendorId].profile, profileIsFetched: true }),
   );
 }
 
@@ -254,7 +254,7 @@ const footer = (
                 project_id: projectId,
                 cid,
                 vendor_id: vendorId,
-              }
+              },
             },
             {
               contractName: "social.near",
@@ -271,23 +271,20 @@ const footer = (
                         key: projectId,
                         value: {
                           type: "project/proposal",
-                          proposalId: [
-                            projectId,
-                            cid,
-                          ],
+                          proposalId: [projectId, cid],
                           message: state.message,
                           vendorId: vendorId,
                         },
                       }),
                     },
                   },
-                }
-              }
-            }
+                },
+              },
+            },
           ];
 
           Near.call(transactions);
-        }
+        },
       }}
     />
   </Row>
