@@ -15,9 +15,9 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((data) =>
-    State.update({ profile: data[accountId]?.profile, profileIsFetched: true })
+    State.update({ profile: data[accountId]?.profile, profileIsFetched: true }),
   );
 }
 
@@ -27,7 +27,7 @@ if (!state.investorIsFetched) {
     "get_investor",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((investor) => State.update({ investor, investorIsFetched: true }));
 }
 
