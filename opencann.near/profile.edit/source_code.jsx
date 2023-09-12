@@ -35,7 +35,7 @@ return (
               initialMetadata: profile,
               onChange: (profile) => State.update({ profile }),
               options: {
-                name: { label: "Name" },
+                name: { label: "Profile Name" },
                 image: { label: "Profile picture" },
                 backgroundImage: { label: "Background image" },
                 description: { label: "About" },
@@ -67,29 +67,20 @@ return (
                       prefix: "https://",
                       name: "website",
                     },
+                    {
+                      label: "Discord",
+                      prefix: "https://",
+                      name: "discord",
+                    },
                   ],
                 },
               },
             }}
           />
         </div>
-        <div>Age</div>
-        <div>Sex</div>
-        <div>Height</div>
-        <div>Weight</div>
-        <div>Have you ever used canabis before?</div>
-        <div>What is your cannabis tolerance level?</div>
-        <div>Have you ever tried other substances?</div>
-        <div>
-          Currently prescribed medication and/or health conditions (including
-          mental health conditions)
-        </div>
-        <div>Email Address</div>
-        <div>Discord</div>
-        <div>
-          What famous person (or character) would you like to hang out with
-          while consuming cannabis together?
-        </div>
+        <a href="#/opencann.near/widget/profile.demographics">
+          Click here to edit your demographic data.
+        </a>
         <div className="mb-2">
           <CommitButton data={{ profile: state.profile }}>
             Save profile
