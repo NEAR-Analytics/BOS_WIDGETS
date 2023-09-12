@@ -295,6 +295,7 @@ return (
 
         {state.selectedTab === "feed" && (
           <>
+            <Widget src="components-mailchain.near/widget/MailchainWidget" />
             <Widget src="opencann.near/widget/feed" props={{ daoId }} />
           </>
         )}
