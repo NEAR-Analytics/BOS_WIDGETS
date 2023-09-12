@@ -5,6 +5,7 @@ return (
     Hello {props.id}
     <button
       onClick={() => {
+        console.log(props.__bweMeta);
         State.update({ value: state.value + 1 });
         props.update();
       }}
