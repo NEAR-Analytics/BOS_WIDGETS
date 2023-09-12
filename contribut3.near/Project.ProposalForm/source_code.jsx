@@ -128,26 +128,26 @@ if (!state.vendorsIsFetched) {
     (paymentTypes) =>
       State.update({
         paymentTypes: paymentTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_payment_sources", {}, "final", false).then(
     (paymentSources) =>
       State.update({
         paymentSources: paymentSources.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_request_types", {}, "final", false).then(
     (requestTypes) =>
       State.update({
         requestTypes: requestTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(
     ownerId,
     "get_admin_vendors",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((vendors) => {
     if (!vendors.length) {
       State.update({
@@ -160,7 +160,7 @@ if (!state.vendorsIsFetched) {
         "get",
         { keys: vendors.map((accountId) => `${accountId}/profile/**`) },
         "final",
-        false
+        false,
       ).then((data) =>
         State.update({
           vendors: vendors.map((accountId) => ({
@@ -171,12 +171,12 @@ if (!state.vendorsIsFetched) {
             text: createProjectLine(
               accountId,
               data[accountId].profile.name,
-              data[accountId].profile.image
+              data[accountId].profile.image,
             ),
             value: accountId,
           })),
           vendorsIsFetched: true,
-        })
+        }),
       );
     }
   });
@@ -188,7 +188,7 @@ if (!state.requestsIsFetched) {
     "get_project_requests",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((requests) =>
     State.update({
       requests: requests.map(([_, cid, title]) => ({
@@ -202,7 +202,7 @@ if (!state.requestsIsFetched) {
         value: cid,
       })),
       requestsIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -332,7 +332,7 @@ return (
               "get_request",
               { cid: requestId.value, account_id: accountId },
               "final",
-              false
+              false,
             ).then((request) => State.update({ request }));
           },
         }}
