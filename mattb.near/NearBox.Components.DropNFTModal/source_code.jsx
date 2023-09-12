@@ -284,7 +284,7 @@ return (
       {steps[state.step] ?? ""}
       <Controls>
         {steps[state.step + 1] && (
-          <StepButton onClick={() => State.update({ step: state.step + 1 })}>
+          <StepButton onClick={() => State.update({ step: state.step + 1 })} disabled={!state.nft.image}>
             Next
           </StepButton>
         )}
