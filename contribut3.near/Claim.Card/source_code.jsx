@@ -11,7 +11,7 @@ if (!state.claimIsFetched) {
     "get_claim",
     { project_id: props.projectId, account_id: props.accountId },
     "final",
-    false
+    false,
   ).then((claim) => State.update({ claim, claimIsFetched: true }));
   return <>Loading...</>;
 }
