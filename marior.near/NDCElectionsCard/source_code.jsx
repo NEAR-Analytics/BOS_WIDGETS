@@ -145,12 +145,10 @@ const renderFts = (fts) => (
   <List>
     {fts
       .map(({ contractId, amount }) => {
-        console.log("contractId, amount", contractId, amount);
         const metadata = ftMetas.find((meta) => meta.contractId === contractId);
         if (!metadata) {
           return null;
         }
-        console.log("metadata", metadata);
         return (
           <Row key={contractId}>
             <img
