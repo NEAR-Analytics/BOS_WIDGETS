@@ -21,7 +21,7 @@ if (!state.foundersIsFetched) {
     "get",
     { keys: [`${accountId}/profile/tags`] },
     "final",
-    false
+    false,
   ).then((tags) => State.update({ tags, tagsIsFetched: true }));
 }
 
@@ -31,9 +31,9 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((data) =>
-    State.update({ profile: data[accountId].profile, profileIsFetched: true })
+    State.update({ profile: data[accountId].profile, profileIsFetched: true }),
   );
 }
 
@@ -43,9 +43,9 @@ if (!state.contributionsIsFetched) {
     "get_vendor_completed_contributions",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((contributions) =>
-    State.update({ contributions, contributionsIsFetched: true })
+    State.update({ contributions, contributionsIsFetched: true }),
   );
 }
 
@@ -55,7 +55,7 @@ if (!state.vendorIsFetched) {
     "get_vendor",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((vendor) => State.update({ vendor, vendorIsFetched: true }));
 }
 
@@ -65,9 +65,9 @@ if (!state.isSuperAdminFetched && context.accountId) {
     "check_is_owner",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((isSuperAdmin) =>
-    State.update({ isSuperAdmin, isSuperAdminFetched: true })
+    State.update({ isSuperAdmin, isSuperAdminFetched: true }),
   );
 }
 
