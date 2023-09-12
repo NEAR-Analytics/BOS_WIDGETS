@@ -13,7 +13,7 @@ const canEdit = (accountId) => {
     "is_write_permission_granted",
     { predecessor_id: context.accountId, key: accountId },
     "final",
-    false
+    false,
   );
 };
 
@@ -23,7 +23,7 @@ const checkIsProject = (accountId) => {
     "check_is_project",
     { account_id: accountId },
     "final",
-    false
+    false,
   );
 };
 
@@ -33,7 +33,7 @@ const checkIsVendor = (accountId) => {
     "check_is_vendor",
     { account_id: accountId },
     "final",
-    false
+    false,
   );
 };
 
@@ -43,7 +43,7 @@ const checkIsInvestor = (accountId) => {
     "check_is_investor",
     { account_id: accountId },
     "final",
-    false
+    false,
   );
 };
 
