@@ -4,7 +4,8 @@ const description = props.description ?? "Description";
 const img = props.img ?? "";
 const height = props.height ?? "375px";
 const video =
-  props.video ?? "https://shortlink.near.foundation/horizon-first-looks?origin=https://near.org";
+  props.video ??
+  "https://shortlink.near.foundation/horizon-first-looks?origin=https://near.org";
 
 const Card = styled.div`
   box-sizing: border-box;
@@ -14,7 +15,8 @@ const Card = styled.div`
   padding: 0px;
   background: #ffffff;
   border: 1px solid #eceef0;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+  box-shadow:
+    0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   border-radius: 8px;
   width: 100%;
