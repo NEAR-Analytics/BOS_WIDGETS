@@ -659,7 +659,7 @@ return (
              * Mission 1. "이 지갑은 이미 활성화된 트로브가 있습니다." 메시지를 추가해주세요.
              */
             state.isOpenTrove === true
-            ? "이 지갑은 이미 활성화된 트로브가 있습니다." 메시지를 추가해주세요.
+            ? "이 지갑은 이미 활성화된 트로브가 있습니다."
             : state.loading
             ? "Loading..."
             : state.complete
