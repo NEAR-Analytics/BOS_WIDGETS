@@ -140,6 +140,8 @@ return (
         <Widget src="adminalpha.near/widget/Posts" />
       </Section>
       <Section active={state.selectedTab === "explore"}>
+        <Widget src="denysk.near/widget/NearStats" />
+        <Widget src="denysk.near/widget/PriceStats" />
         <Widget src="nearweekapp.near/widget/nearweek-newsletter" />
         <Widget src="nearweekapp.near/widget/NEARWEEKNews" />
       </Section>
