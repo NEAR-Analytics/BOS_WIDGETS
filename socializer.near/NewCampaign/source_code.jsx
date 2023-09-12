@@ -16,21 +16,28 @@ const requirementsOptions = [
 const tokenOptions = [
   {
     text: "NEAR",
-    value: 1,
+    value: "Near",
   },
   {
     text: "NVRS",
-    value: 2,
+    value: "Nvrs",
   },
   {
     text: "NEKO",
-    value: 3,
+    value: "Neko",
   },
 ];
 
 State.init({
   requirements: [],
   username: profile.name ? profile.name : accountId,
+  post_link: "",
+  amount: 0,
+  token: "Near",
+  winners: 0,
+  total_reward: "",
+  duration_hr: "",
+  duration_min: "",
 });
 
 const Wrapper = styled.div`
@@ -100,7 +107,14 @@ const changeRequirement = (label) => {
 return (
   <Wrapper>
     <div className="d-flex">
-      <p style={{ color: "#B3B3B3", cursor: "pointer" }}>{"< GoBack"}</p>
+      <p
+        style={{ color: "#B3B3B3", cursor: "pointer" }}
+        onClick={() => {
+          changePage("dashboard");
+        }}
+      >
+        {"< GoBack"}
+      </p>
     </div>
     <HeadComponent>
       <div
@@ -159,7 +173,16 @@ return (
           </p>
         </div>
         <div className="d-flex align-items-center col-lg-6">
-          <Input className="col-lg-12" />
+          <Input
+            className="col-lg-12"
+            value={state.post_link}
+            placeholder="https://near.social/"
+            onChange={(e) => {
+              State.update({
+                post_link: e.target.value,
+              });
+            }}
+          />
         </div>
       </div>
 
@@ -214,14 +237,36 @@ return (
         <div className="d-flex align-items-center col-lg-6 gap-4">
           <div>
             <p>{`Amount`}</p>
-            <Input type="number" />
+            <Input
+              type="number"
+              value={state.amount}
+              onChange={(e) => {
+                const amount = Number(e.target.value);
+                const total_reward = `${amount * state.winners} ${state.token}`;
+                State.update({
+                  amount,
+                  total_reward,
+                });
+              }}
+            />
           </div>
           <div>
             <Widget
               props={{
                 label: "Token",
+                value: { value: state.token },
                 placeholder: "Select Token",
                 options: tokenOptions,
+                onChange: (e) => {
+                  const token = e.value;
+                  const total_reward = `${
+                    state.amount * state.winners
+                  } ${token}`;
+                  State.update({
+                    token: e.value,
+                    total_reward,
+                  });
+                },
               }}
               src={`${Owner}/widget/Select`}
             />
@@ -240,7 +285,19 @@ return (
           </p>
         </div>
         <div className="d-flex align-items-center col-lg-6">
-          <Input type="number" defaultValue="2" className="col-lg-12" />
+          <Input
+            type="number"
+            value={state.winners}
+            onChange={(e) => {
+              const winners = Number(e.target.value);
+              const total_reward = `${winners * state.amount} ${state.token}`;
+              State.update({
+                winners,
+                total_reward,
+              });
+            }}
+            className="col-lg-12"
+          />
         </div>
       </div>
 
@@ -255,7 +312,7 @@ return (
           </p>
         </div>
         <div className="d-flex align-items-center col-lg-6">
-          <Input className="col-lg-12" defaultValue="30 Near" />
+          <Input className="col-lg-12" value={state.total_reward} readOnly />
         </div>
       </div>
 
