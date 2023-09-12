@@ -191,17 +191,6 @@ const renderNfts = (nfts) => (
   </List>
 );
 
-const evmBalances = {};
-if (candidate.ethAddresses) {
-  for (const address of candidate.ethAddresses) {
-    const balance =
-      fetch(`https://api.debank.com/user/total_balance?addr=${address}`).body
-        .data?.total_usd_value ?? "?";
-    evmBalances[address] =
-      typeof balance === "number" ? balance.toFixed(2) : balance;
-  }
-}
-
 const renderEvmAddresses = (addresses) => (
   <List>
     {addresses
@@ -223,8 +212,6 @@ const renderEvmAddresses = (addresses) => (
                 </svg>
               </a>
             </div>
-            <div className="balance">{evmBalances[address]}</div>
-            <div className="symbol">USD</div>
           </Row>
         );
       })
@@ -279,9 +266,7 @@ return (
           ? candidate.ethAddresses
             ? renderEvmAddresses(candidate.ethAddresses)
             : "?"
-          : `${Object.values(evmBalances)
-              .reduce((acc, cur) => acc + cur, 0)
-              .toFixed(2)} USD`}
+          : candidate.ethAddresses?.length ?? "-"}
       </div>
     </CardContent>
   </Card>
