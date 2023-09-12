@@ -3,12 +3,7 @@ const defaultProps = [
     id: "0",
     name: "Near",
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
-  },
-  {
-    id: "137",
-    name: "Polygon",
-    url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
-  },
+  }
 ];
 
 const propsChains = props.chains ?? defaultProps;
