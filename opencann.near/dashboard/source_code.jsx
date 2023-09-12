@@ -292,12 +292,8 @@ return (
             My Data
           </TabsButton>
         </Tabs>
-
         {state.selectedTab === "feed" && (
-          <>
-            <Widget src="components-mailchain.near/widget/MailchainWidget" />
-            <Widget src="opencann.near/widget/feed" props={{ daoId }} />
-          </>
+          <Widget src="opencann.near/widget/feed" props={{ daoId }} />
         )}
 
         {state.selectedTab === "proposals" && (
@@ -311,9 +307,9 @@ return (
           />
         )}
 
-        {state.selectedTab === "members" && (
-          <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
-        )}
+        {state.selectedTab === "members" &&
+          ((<Widget src="components-mailchain.near/widget/MailchainWidget" />),
+          (<Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />))}
 
         {state.selectedTab === "projects" && (
           <Widget
