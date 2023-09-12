@@ -1,12 +1,14 @@
 State.init({
-  selectedTab: props.tab || "marketplace",
+  selectedTab: props.tab || "feed",
 });
 
 const accountId = props.accountId ?? context.accountId;
-const daoId = props.daoId ?? "cannabis-genome.sputnik-dao.near";
-const ownerId = props.ownerId ?? "opencann.near";
+const daoId = "cannabis-genome.sputnik-dao.near";
+const popId = "opencann.near";
 
-const page = ownerId ? Social.get(`${ownerId}/settings/dao/page`) : undefined;
+const page = accountId
+  ? Social.get(`${accountId}/settings/dao/page`)
+  : undefined;
 
 if (page === null) {
   return "Loading...";
@@ -26,7 +28,7 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const profile = props.profile ?? Social.getr(`${ownerId}/profile`);
+const profile = props.profile ?? Social.getr(`${"opencann.near"}/profile`);
 const accountUrl = `#/opencann.near/widget/dashboard?`;
 
 const Wrapper = styled.div`
@@ -216,7 +218,7 @@ return (
         <Widget
           src={sidebarTemplate}
           props={{
-            ownerId,
+            popId,
             profile,
           }}
         />
@@ -224,6 +226,53 @@ return (
 
       <Content>
         <Tabs>
+          <TabsButton
+            href={`${accountUrl}tab=feed`}
+            selected={state.selectedTab === "feed"}
+          >
+            Feed
+          </TabsButton>
+
+          <TabsButton
+            href={`${accountUrl}tab=proposals`}
+            selected={state.selectedTab === "proposals"}
+          >
+            Proposals
+          </TabsButton>
+
+          <TabsButton
+            href={`${accountUrl}tab=members`}
+            selected={state.selectedTab === "members"}
+          >
+            Members
+          </TabsButton>
+
+          <TabsButton
+            href={`${accountUrl}tab=projects`}
+            selected={state.selectedTab === "projects"}
+          >
+            Projects
+          </TabsButton>
+
+          <TabsButton
+            href={`${accountUrl}tab=followers`}
+            selected={state.selectedTab === "followers"}
+          >
+            Followers
+          </TabsButton>
+
+          <TabsButton
+            href={`${accountUrl}tab=bounties`}
+            selected={state.selectedTab === "bounties"}
+          >
+            Bounties
+          </TabsButton>
+          <TabsButton
+            href={`${accountUrl}tab=events`}
+            selected={state.selectedTab === "events"}
+          >
+            Events
+          </TabsButton>
           <TabsButton
             href={`${accountUrl}&tab=marketplace`}
             selected={state.selectedTab === "marketplace"}
@@ -242,73 +291,18 @@ return (
           >
             My Data
           </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=feed`}
-            selected={state.selectedTab === "feed"}
-          >
-            Feed
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=followers`}
-            selected={state.selectedTab === "followers"}
-          >
-            Followers
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=members`}
-            selected={state.selectedTab === "members"}
-          >
-            Members
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=events`}
-            selected={state.selectedTab === "events"}
-          >
-            Events
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=projects`}
-            selected={state.selectedTab === "projects"}
-          >
-            Projects
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=proposals`}
-            selected={state.selectedTab === "proposals"}
-          >
-            Proposals
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=bounties`}
-            selected={state.selectedTab === "bounties"}
-          >
-            Bounties
-          </TabsButton>
         </Tabs>
 
         {state.selectedTab === "feed" && (
           <>
-            <Widget
-              src="buildhub.near/widget/page.feed"
-              props={{ accountId }}
-            />
+            <Widget src="components-mailchain.near/widget/MailchainWidget" />
+            <Widget src="opencann.near/widget/feed" props={{ daoId }} />
           </>
         )}
 
         {state.selectedTab === "proposals" && (
-            <div className="mb-3">
-              <label for="daoId">DAO ID: </label>
-              <a
-                href="https://explorer.near.org/accounts/cannabis-genome.sputnik-dao.near"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                cannabis-genome.sputnik-dao.near
-              </a>
-            </div>
-          ) && (
-            <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
-          )}
+          <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
+        )}
 
         {state.selectedTab === "proposal" && (
           <Widget
