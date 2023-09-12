@@ -25,10 +25,7 @@ const List = styled.div`
 return (
   <List>
     {cardData.map((cardProps) => (
-      <Widget
-        src={`${ownerId}/widget/Partner.Card`}
-        props={cardProps}
-      />
+      <Widget src={`${ownerId}/widget/Partner.Card`} props={cardProps} />
     ))}
   </List>
 );
