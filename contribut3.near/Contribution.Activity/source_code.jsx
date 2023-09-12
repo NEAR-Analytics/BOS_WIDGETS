@@ -18,12 +18,12 @@ if (!state.nameIsFetched) {
     "get",
     { keys: [`${projectId}/profile/name`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       name: data[projectId].profile.name,
       nameIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -33,12 +33,12 @@ if (!state.vendorNameIsFetched) {
     "get",
     { keys: [`${vendorId}/profile/name`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       vendorName: data[vendorId].profile.name,
       vendorNameIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -107,16 +107,16 @@ actions.forEach(({ description, start_date, end_date }) =>
     id: start_date,
     text: <>{description}</>,
     timestamp: `${new Date(
-      Number(start_date.substring(0, start_date.length - 6))
+      Number(start_date.substring(0, start_date.length - 6)),
     ).toLocaleDateString()}${
       end_date
         ? " - " +
           new Date(
-            Number(end_date.substring(0, end_date.length - 6))
+            Number(end_date.substring(0, end_date.length - 6)),
           ).toLocaleDateString()
         : ""
     }`,
-  })
+  }),
 );
 
 if (
