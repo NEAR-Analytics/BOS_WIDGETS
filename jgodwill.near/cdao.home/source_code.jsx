@@ -15,6 +15,12 @@ a{
   color: unset;
 }
 
+.section{
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 5rem;
+}
+
 .hero{
     background-size: cover;
     background-position: center;
@@ -27,6 +33,7 @@ a{
     color: #fff;
     align-content: center;
     margin: 0 auto;
+    /* height: 60vh; */
 }
 .heroRight{
     width: 100%;
@@ -41,6 +48,46 @@ a{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 2rem 0px;
+}
+
+.heroTitle{
+    font-size: 6vw;
+    font-weight: 700;
+    line-height: 1.0;
+    margin-bottom: 1rem;
+}
+
+.heroBody{
+    opacity: .6;
+}
+
+.heroCTA{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.heroCTA a{
+    padding: .5rem 1rem;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #122a58;
+    font-size: 1.2rem;
+    transition: all .3s ease-in-out;
+    border: 1px solid #00d8c9;
+}
+
+.heroCTA a:hover{
+    background-color: #00d8c9;
+    color: #fff;
+}
+.button.sec{
+    background: transparent;
+    color: #00d8c9;
+    border: none;
 }
 
 `;
@@ -48,23 +95,15 @@ return (
   <Main>
     <div class="section hero">
       <div class="heroLeft">
-        <h1 class="heroTitle">
-          Discover, collect, and sell <span class="colored">Timeless</span> NFTs
-        </h1>
-        <p class="heroBody">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
-          quidem asperiores. Quia, amet? Dignissimos officia recusandae, magni
-          omnis dolor error autem, voluptatum ut tempore accusantium doloribus
-          temporibus molestiae illo id.
-        </p>
-        <div class="heroCTA">
-          <a href="#" class="button">
-            Join
-          </a>
-          <a href="#" class="button sec">
-            Create
-          </a>
-        </div>
+                   <h1 class="heroTitle">Discover, collect, and sell <span class="colored">Timeless</span> NFTs</h1>
+            <p class="heroBody">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, quidem asperiores.
+                Quia, amet? Dignissimos officia recusandae, magni omnis dolor error autem, voluptatum ut tempore
+                accusantium doloribus temporibus molestiae illo id.
+            </p>
+            <div class="heroCTA">
+                <a href="#" class="button">Join Us</a>
+                <a href="#" class="button sec">Apply for funding</a>
+            </div>
         {/*stats if necessary */}
         <div class="stats">
           <div class="stat">
