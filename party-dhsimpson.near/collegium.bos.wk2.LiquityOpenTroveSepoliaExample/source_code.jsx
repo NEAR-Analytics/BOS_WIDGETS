@@ -487,10 +487,9 @@ const toggleComplete = () => {
 };
 
 const resetComplete = () => {
-  // State.update({
-  //   complete: false,
-  // });
-  window.location.reload();
+  State.update({
+    complete: false,
+  });
 };
 /**
  * @description
@@ -514,10 +513,6 @@ Ethers.provider() &&
       State.update({ loading: false });
       console.log("err");
       console.log(err);
-      // alert("Trove 생성에 실패했습니다!");
-      // setTimeout(() => {
-      //   toggleComplete();
-      // }, 500);
     });
 
 /**
