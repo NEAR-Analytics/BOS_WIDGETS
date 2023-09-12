@@ -214,11 +214,11 @@ return (
       )}
     </CardHeader>
     <CardContent>
-      <div>Votes: {candidate.voters?.length ?? 0}</div>
+      <div>Votes: {candidate.voters?.length ?? "?"}</div>
       {selected && candidate.voters && renderVoters(candidate.voters)}
-      <div>Total Fungible Tokens: {candidate.fts?.length ?? 0}</div>
+      <div>Total Fungible Tokens: {candidate.fts?.length ?? "?"}</div>
       {selected && candidate.fts && renderFts(candidate.fts)}
-      <div>Total Non Fungible Tokens: {candidate.nfts?.length ?? 0}</div>
+      <div>Total Non Fungible Tokens: {candidate.nfts?.length ?? "?"}</div>
       {selected && candidate.nfts && renderNfts(candidate.nfts)}
     </CardContent>
   </Card>
