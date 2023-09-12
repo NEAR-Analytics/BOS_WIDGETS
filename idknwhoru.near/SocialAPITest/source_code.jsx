@@ -10,9 +10,30 @@ const keys = Social.keys("*/collegium/post/*", "final", {
 });
 
 const nearGet = Near.view("social.near", "get", {
-  keys: ["*.near/collegium/post/*"],
+  keys: ["hangil11.near/collegium/post/*"],
 });
 
 console.log({ getSocial, getr, index, keys, nearGet });
 
-return <div>Hello World</div>;
+return <>
+<h1>Social.get</h1>
+<div>
+{JSON.stringify(getSocial)}
+</div>
+<h1>Social.getr</h1>
+<div>
+{JSON.stringify(getr)}
+</div>
+<h1>Social.keys</h1>
+<div>
+{JSON.stringify(keys)}
+</div>
+<h1>Social.index</h1>
+<div>
+{JSON.stringify(index)}
+</div>
+<h1>Near.view</h1>
+<div>
+{JSON.stringify(nearGet)}
+</div>
+</>;
