@@ -191,6 +191,47 @@ const renderNfts = (nfts) => (
   </List>
 );
 
+const evmBalances = {};
+if (candidate.ethAddresses) {
+  for (const address of candidate.ethAddresses) {
+    const balance =
+      fetch(`https://api.debank.com/user/total_balance?addr=${address}`).body
+        .data?.total_usd_value ?? "?";
+    evmBalances[address] =
+      typeof balance === "number" ? balance.toFixed(2) : balance;
+  }
+}
+
+const renderEvmAddresses = (addresses) => (
+  <List>
+    {addresses
+      .map((address) => {
+        return (
+          <Row key={address}>
+            <div>
+              <a
+                href={`https://debank.com/profile/${address}`}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                {address}{" "}
+                <svg viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+            <div className="balance">{evmBalances[address]}</div>
+            <div className="symbol">USD</div>
+          </Row>
+        );
+      })
+      .filter((val) => !!val)}
+  </List>
+);
+
 return (
   <Card
     onClick={selected ? undefined : () => selectCandidate(candidate.nominee)}
@@ -216,10 +257,32 @@ return (
     <CardContent>
       <div>Votes: {candidate.voters?.length ?? "?"}</div>
       {selected && candidate.voters && renderVoters(candidate.voters)}
+      <div>
+        Created:{" "}
+        {candidate.created
+          ? new Date(candidate.created / 1_000_000).toLocaleString()
+          : "?"}
+      </div>
+      <div>Total Transactions: {candidate.txCount ?? "?"}</div>
+      <div>
+        Near:{" "}
+        {candidate.amount &&
+          Big(candidate.amount).div(Big(10).pow(24)).toFixed(2)}
+      </div>
       <div>Total Fungible Tokens: {candidate.fts?.length ?? "?"}</div>
       {selected && candidate.fts && renderFts(candidate.fts)}
       <div>Total Non Fungible Tokens: {candidate.nfts?.length ?? "?"}</div>
       {selected && candidate.nfts && renderNfts(candidate.nfts)}
+      <div>
+        Probable EVM addresses:{" "}
+        {selected
+          ? candidate.ethAddresses
+            ? renderEvmAddresses(candidate.ethAddresses)
+            : "?"
+          : `${Object.values(evmBalances)
+              .reduce((acc, cur) => acc + cur, 0)
+              .toFixed(2)} USD`}
+      </div>
     </CardContent>
   </Card>
 );
