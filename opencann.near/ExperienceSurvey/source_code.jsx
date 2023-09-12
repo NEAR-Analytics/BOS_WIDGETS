@@ -95,12 +95,60 @@ const onTitleChange = ({ target }) => {
   State.update({ title: target.value });
 };
 
-const oncannabisMethodChange = (target) => {
+const onSubstanceChange = (target) => {
+  State.update({ substance: target });
+};
+
+const onCannabisMethodChange = (target) => {
   State.update({ cannabisMethod: target });
+};
+
+const onDoseChange = (target) => {
+  State.update({ dose: target });
 };
 
 const onDescriptionChange = (target) => {
   State.update({ description: target });
+};
+
+const onOtherSubstancesChange = (target) => {
+  State.update({ otherSubstances: target });
+};
+
+const onSetSettingChange = (target) => {
+  State.update({ setSetting: target });
+};
+
+const onPhysicalEffectsChange = (target) => {
+  State.update({ physicalEffects: target });
+};
+
+const onVisuallEffectsChange = (target) => {
+  State.update({ visualEffects: target });
+};
+
+const onAuditoryEffectsChange = (target) => {
+  State.update({ auditoryEffects: target });
+};
+
+const onCognitiveEffectsChange = (target) => {
+  State.update({ cognitiveEffects: target });
+};
+
+const onMultiSensoryEffectsChange = (target) => {
+  State.update({ multisensoryEffects: target });
+};
+
+const onProductNameChange = (target) => {
+  State.update({ productName: target });
+};
+
+const onBrandNameChange = (target) => {
+  State.update({ brandName: target });
+};
+
+const onBatchNumberChange = (target) => {
+  State.update({ batchNumber: target });
 };
 
 const onStartChange = ({ target }) => {
