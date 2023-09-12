@@ -82,7 +82,7 @@ return (
     <ImageContainer>
       <img
         src={mapImage(
-          "bafkreiawuljv6qq66awmh5tyoehc34wsl74cktt4tr6jummuukzma7mnza"
+          "bafkreiawuljv6qq66awmh5tyoehc34wsl74cktt4tr6jummuukzma7mnza",
         )}
         alt="Ali S."
       />
