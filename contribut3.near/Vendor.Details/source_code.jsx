@@ -35,12 +35,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) =>
     State.update({
       profile: profile[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
   return <>Loading...</>;
 }
@@ -51,7 +51,7 @@ const onSave = (profile) => {
     {
       onCommit: () =>
         State.update({ profile: { ...state.profile, ...profile } }),
-    }
+    },
   );
 };
 
@@ -135,7 +135,7 @@ return (
           onSave({
             payments: payments.reduce(
               (acc, { id }) => Object.assign(acc, { [id]: "" }),
-              {}
+              {},
             ),
           }),
         canEdit: isAdmin,
@@ -174,7 +174,7 @@ return (
           onSave({
             work: work.reduce(
               (acc, { id }) => Object.assign(acc, { [id]: "" }),
-              {}
+              {},
             ),
           }),
         canEdit: isAdmin,
