@@ -17,7 +17,7 @@ if (context.accountId && !state.tncIsFetched) {
       ],
     },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       tnc: data[context.accountId]?.profile?.horizon_tnc === "true",
@@ -25,7 +25,7 @@ if (context.accountId && !state.tncIsFetched) {
         data[context.accountId]?.index?.tosAccept &&
         data[context.accountId]?.index?.tosAccept.length > 0,
       tncIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -61,6 +61,8 @@ const tabContentWidget = {
   "my-contracts": "Manage.Contracts",
   "my-applications": "Manage.Applications",
   events: "Events.Page",
+  perks: "Perks.Page",
+  profile: "Profile.Page",
 };
 
 const getTabWidget = (tab) => {
@@ -136,7 +138,7 @@ return (
               onCommit: () => {
                 State.update({ tnc: true });
               },
-            }
+            },
           ),
       }}
     />
