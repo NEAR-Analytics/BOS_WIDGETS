@@ -112,15 +112,10 @@ const defaultFieldUpdate = ({
     case "boolean":
       return input;
 
-    case "object": {
-      if (Array.isArray(input) && typeof lastKnownValue === "string") {
-        return input.join(arrayDelimiter ?? ",");
-      } else {
-        return Array.isArray(lastKnownValue)
-          ? [...lastKnownValue, ...input]
-          : { ...lastKnownValue, ...input };
-      }
-    }
+    case "object":
+      return Array.isArray(input) && typeof lastKnownValue === "string"
+        ? input.join(arrayDelimiter ?? ",")
+        : input;
 
     case "string":
       return Array.isArray(lastKnownValue)
@@ -239,20 +234,7 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
   <>
     {Object.entries(schema).map(
       (
-        [
-          key,
-          {
-            format,
-            hints,
-            inputProps,
-            noop,
-            label,
-            order,
-            style,
-            title,
-            ...fieldProps
-          },
-        ],
+        [key, { format, inputProps, label, order, style, ...fieldProps }],
         idx
       ) => {
         const fieldKey = `${idx}-${key}`,
@@ -262,9 +244,6 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
           ? "array"
           : typeof (fieldValue ?? "");
 
-        const isDisabled =
-          (noop ?? inputProps.disabled ?? false) || !isUnlocked;
-
         const viewClassName = [
           (fieldValue?.length ?? 0) > 0 ? "" : "text-muted",
           "m-0",
@@ -273,10 +252,7 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
         return (
           <>
             <div
-              className={[
-                "d-flex gap-3",
-                isEditable || noop ? "d-none" : "",
-              ].join(" ")}
+              className={["d-flex gap-3", isEditable ? "d-none" : ""].join(" ")}
               key={fieldKey}
               style={{ order }}
             >
@@ -293,9 +269,7 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
                     )?.toString?.() || "none"}
                   </span>
                 ) : (fieldValue?.length ?? 0) > 0 ? (
-                  widget("components.molecule.markdown-viewer", {
-                    text: fieldValue,
-                  })
+                  <Markdown text={fieldValue} />
                 ) : (
                   <span>none</span>
                 )}
@@ -308,10 +282,9 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
               className: [
                 "w-100",
                 fieldProps.className ?? "",
-                isEditable && !noop ? "" : "d-none",
+                isEditable ? "" : "d-none",
               ].join(" "),
 
-              disabled: isDisabled,
               format,
               key: `${fieldKey}--editable`,
               label,
@@ -324,13 +297,8 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
                   : fieldValue,
 
               inputProps: {
+                disabled: !isUnlocked,
                 ...(inputProps ?? {}),
-                disabled: isDisabled,
-
-                title: isDisabled
-                  ? hints.disabled
-                  : hints.default ?? inputProps.title,
-
                 ...(fieldParamsByType[fieldType].inputProps ?? {}),
                 tabIndex: order,
               },
@@ -347,6 +315,7 @@ const Configurator = ({
   cancelLabel,
   classNames,
   externalState,
+  fieldGap,
   fieldsRender: customFieldsRender,
   formatter: toFormatted,
   fullWidth,
@@ -430,10 +399,12 @@ const Configurator = ({
 
     children: (
       <div className="flex-grow-1 d-flex flex-column gap-4">
-        <div className={`d-flex flex-column gap-${isActive ? 1 : 4}`}>
+        <div
+          className={`d-flex flex-column gap-${isActive ? fieldGap ?? 1 : 4}`}
+        >
           {fieldsRender({
             form,
-            isEditable: isActive,
+            isEditable: isUnlocked && isActive,
             isUnlocked,
             schema,
           })}
