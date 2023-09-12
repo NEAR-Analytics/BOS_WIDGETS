@@ -122,7 +122,6 @@ const Item = styled.button`
   background: transparent;
   border: none;
   transition: background 0.2s ease-in-out;
-  min-width: 171px;
 
   &:nth-child(n + 1) {
     border-top: 1px solid #d0d5dd;
