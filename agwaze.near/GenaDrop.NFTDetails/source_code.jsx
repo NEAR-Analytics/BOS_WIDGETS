@@ -21,6 +21,7 @@ State.init({
   text: "",
   message: false,
   listings: [],
+  loadingBuying: false,
   title: "",
   owner: "",
   imageUrl: null,
@@ -126,6 +127,9 @@ const handleBuyClick = (price, owner) => {
   );
 
   const nftContract = contractId.split(tokenId)[0];
+  State.update({
+    loadingBuying: true,
+  });
   contract
     .nftSale(price, tokenId, owner, nftContract, { value: price })
     .then((transactionHash) => transactionHash.wait())
@@ -133,7 +137,9 @@ const handleBuyClick = (price, owner) => {
       console.log("does not get hiere", ricit);
       State.update({
         message: true,
-        text: `${currentChain[props.chainState].explorer}/tx/${
+        error: false,
+        loadingBuying: false,
+        text: `${currentChainProps[props.chainState].explorerTx}/tx/${
           ricit.transactionHash
         }`,
       });
@@ -142,6 +148,7 @@ const handleBuyClick = (price, owner) => {
       console.log("couldnt finish", err);
       State.update({
         error: true,
+        loadingBuying: false,
         text: err.reason,
       });
     });
@@ -450,6 +457,39 @@ const TopImageContainer = styled.div`
   }
 `;
 
+const loadingAnimation = styled.keyframes`
+  0% { content: "Loading"; }
+  25% { content: "Loading."; }
+  50% { content: "Loading.."; }
+  75% { content: "Loading..."; }
+`;
+
+const BuyButton = styled.button`
+  padding: 10px 15px;
+  font-size: 14px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  width:  120px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+  &.loading {
+    background: #0056b5;
+    cursor: not-allowed;
+  }
+  &.loading::before {
+    content: "Loading";
+    animation: ${loadingAnimation} 1s infinite;
+    display: inline-block;
+  }
+`;
+
 const HeaderText = styled.h1`
   font-size: 1.5rem;
 `;
@@ -688,7 +728,7 @@ return (
                 color: "#0d99ff",
               }}
             >
-              Created by
+              Onwer
             </p>
             <a
               target="_blank"
@@ -749,11 +789,13 @@ return (
             </div>
             <div>
               {state.price && state.owner !== state.sender ? (
-                <button
+                <BuyButton
+                  disabled={state.loadingBuying}
+                  className={state.loadingBuying ? "loading" : ""}
                   onClick={() => handleBuyClick(state.price, state.owner)}
                 >
-                  Buy
-                </button>
+                  {state.loadingBuying ? "" : "BUY"}
+                </BuyButton>
               ) : state.owner === context.accountId ||
                 state.owner === state.sender ? (
                 <a
@@ -839,6 +881,14 @@ return (
               </a>
             </MintDetails>
           </Description>
+          {state.error && (
+            <div className="bg-danger p-2 mt-4 rounded">
+              <p className="text-center text-white pt-2">
+                Something went wrong when trying to Buy, Please make sure you
+                are connected to the correct chain and have enough gas
+              </p>
+            </div>
+          )}
         </RightSection>
       </TopSection>
     </MainContainer>
