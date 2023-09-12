@@ -25,7 +25,7 @@ if (data !== null && data.ok === false) {
               <span class="text-success h3">
                 <b>{JSON.parse(data.body.tps).toFixed(2)}</b>
               </span>
-              <span>in around the block: </span>
+              <small>block: </small>
               <b>{JSON.parse(data.body.tps_block)}</b>
             </div>
             <div class="p-2">
