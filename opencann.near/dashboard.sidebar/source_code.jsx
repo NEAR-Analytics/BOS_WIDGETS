@@ -243,7 +243,6 @@ return (
         <Text>@{accountId}</Text>
         {accountFollowsYou && <TextBadge>Follows You</TextBadge>}
       </div>
-      <p></p>
       <Widget
         src="components-mailchain.near/widget/MailchainWidget"
         props={{ accountId }}
