@@ -51,12 +51,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) =>
     State.update({
       profile: profile[accountId].profile ?? {},
       profileIsFetched: true,
-    })
+    }),
   );
 }
 
@@ -66,7 +66,7 @@ if (!state.projectIsFetched) {
     "get_project",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((project) => State.update({ project, projectIsFetched: true }));
 }
 
@@ -82,14 +82,14 @@ if (!state.namesIsFetched) {
       keys: state.project.founders.map((key) => `${key}/profile/name`),
     },
     "final",
-    false
+    false,
   ).then((names) => {
     State.update({
       names: new Map(
         Object.keys(names).map((account) => [
           account,
           names[account].profile.name,
-        ])
+        ]),
       ),
       namesIsFetched: true,
     });
@@ -278,7 +278,7 @@ return (
             profile: {
               verticals: verticals.reduce(
                 (acc, vertical) => Object.assign(acc, { [vertical]: "" }),
-                {}
+                {},
               ),
             },
           }),
@@ -295,7 +295,7 @@ return (
             profile: {
               product_type: productType.reduce(
                 (acc, productType) => Object.assign(acc, { [productType]: "" }),
-                {}
+                {},
               ),
             },
           }),
