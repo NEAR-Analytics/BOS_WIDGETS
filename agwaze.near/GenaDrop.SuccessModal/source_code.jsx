@@ -19,7 +19,7 @@ const PopupContainer = styled.div`
 
 const PopupButtons = styled.div`
 margin-top: 30px;
-    a {
+    a:first-child {
         border: 1.5px solid #0d6efd;
         cursor: pointer;
         margin-right: 10px;
@@ -43,7 +43,9 @@ return (
       <a target="_blank" href={props.externalLink}>
         View on Explorer
       </a>
-      <button onClick={props.closeModal}>Close</button>
+      <a href="#/agwaze.near/widget/GenaDrop.Explore">
+        <button onClick={props.closeModal}>Close</button>
+      </a>
     </PopupButtons>
   </PopupContainer>
 );
