@@ -1,4 +1,6 @@
+const accountId = context.accountId;
 const Owner = "socializer.near";
+const profile = Social.getr(`${accountId}/profile`);
 
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
@@ -28,6 +30,7 @@ const tokenOptions = [
 
 State.init({
   requirements: [],
+  username: profile.name ? profile.name : accountId,
 });
 
 const Wrapper = styled.div`
@@ -139,6 +142,8 @@ return (
           <Input
             className="col-lg-12"
             placeholder="Near Degens || neardegens.near"
+            value={state.username}
+            readOnly
           />
         </div>
       </div>
