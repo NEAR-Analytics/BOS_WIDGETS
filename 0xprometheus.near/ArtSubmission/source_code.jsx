@@ -15,6 +15,9 @@ body {
             align-items: center;
             min-height: 100vh;
         }
+        h2 {
+            color: black;
+        }
 
         .card {
             background-color: white;
@@ -109,6 +112,10 @@ const allNfts = (allContracts) => {
   return nnf.flat();
 };
 
+const handleNFTClick = (nft) => {
+  return;
+};
+
 const Theme = state.theme;
 
 const nfts = allNfts(allContracts);
@@ -155,6 +162,7 @@ return (
                   maxWidth: "10em",
                   maxHeight: "10em",
                   overflowWrap: "break-word",
+                  color: "red",
                 },
                 className: "img-thumbnail",
                 fallbackUrl:
