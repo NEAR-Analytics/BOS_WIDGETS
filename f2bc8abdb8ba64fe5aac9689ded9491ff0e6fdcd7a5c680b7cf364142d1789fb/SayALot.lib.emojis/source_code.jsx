@@ -52,6 +52,8 @@ function getReactionsData(props) {
     subscribe: true,
   });
 
+  console.log("allReactions: ", allReactions);
+
   // const uniqueAccounts = [];
   let arrayLastReactionForEachUser =
     allReactions &&
