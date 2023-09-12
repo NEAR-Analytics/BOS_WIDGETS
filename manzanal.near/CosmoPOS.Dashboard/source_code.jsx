@@ -7,6 +7,8 @@ State.init({
   loading: false,
   data: null,
   dataIntervalStarted: false,
+  tokenMetadata: null,
+  tokenMetadataIsFetched: false,
 });
 
 const updateToken = (token) => State.update({ token });
@@ -47,8 +49,10 @@ const fetchTransactionsData = () => {
   if (!res.ok) {
     return `Pikespeak API returned error: ${JSON.stringify(res)}`;
   }
-  const filterByToken = res.body.filter((item) => item.contract == state.token);
-  const data = filterByToken.map((item) => ({
+  console.log(res.body.length);
+  const filteredData = res.body.filter((item) => item.contract == state.token);
+
+  const data = filteredData.map((item) => ({
     ...item,
     transaction_id_trunc: `${item.transaction_id.substring(
       item.transaction_id.length - 12,
@@ -72,7 +76,19 @@ if (!state.dataIntervalStarted) {
   }, 10000);
 }
 
-if (state.loading || !state.dataIntervalStarted) return <>Loading...</>;
+if (!state.tokenMetadataIsFetched) {
+  Near.asyncView(state.token, "ft_metadata", {}, "final", false).then(
+    (tokenMetadata) =>
+      State.update({ tokenMetadata, tokenMetadataIsFetched: true })
+  );
+}
+
+if (
+  state.loading ||
+  !state.dataIntervalStarted ||
+  !state.tokenMetadataIsFetched
+)
+  return <>Loading...</>;
 
 const InputWrapper = styled.label`
   display: flex;
@@ -114,12 +130,23 @@ const InputContainer = styled.div`
   margin-bottom: 10px
 `;
 
+const Icon = styled.img`
+  max-width: 25px;
+  max-height: 25px
+`;
+
 return (
   <>
     <Widget src="manzanal.near/widget/CosmoPOS.HeaderWithLogo" props={{}} />
     <div className="container-fluid py-2 gap-5">
       <InputContainer>
-        <Label>Token: {state.token}</Label>
+        <InputWrapper>
+          <Label>Token: </Label>
+          <Icon src={state.tokenMetadata.icon} />
+          <Label>
+            {`${state.tokenMetadata.name} (${state.tokenMetadata.symbol})`}
+          </Label>
+        </InputWrapper>
         <InputWrapper>
           <input
             type="text"
