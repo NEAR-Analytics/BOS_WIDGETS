@@ -5,7 +5,7 @@ State.init({
   x: 1,
 });
 
-const components = [state.a]; //, state.b, state.c];
+const components = [state.a, state.b, state.c];
 console.log("re-rendering parent", state.a);
 return (
   <>
