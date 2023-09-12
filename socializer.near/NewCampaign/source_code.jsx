@@ -12,49 +12,13 @@ const MainComponent = styled.div`
   flex-direction: column;
 `;
 
-const TableComponent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  padding: 13px;
-`;
-
 const HeadComponent = styled.div`
   display: flex;
   width: 100%;
-  flex-direction: column;
-  padding: 32px;
-`;
-
-const TitleComponent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 32px;
-`;
-
-const FilterContent = styled.div`
-  display: flex;
-  width: 100%;
   flex-direction: row;
+  padding: 32px;
   justify-content: space-between;
-`;
-
-const TitleContent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap:14px;
-`;
-
-const SearchInput = styled.input`
-  border-radius: 10px;
-  padding: 14px 48px 14px 28px;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.12px;
+  
 `;
 
 const Button = styled.button`
@@ -74,41 +38,32 @@ const Button = styled.button`
 
 return (
   <MainComponent>
+    <div className="d-flex">
+      <p>{"< GoBack"}</p>
+    </div>
     <HeadComponent>
-      <TitleComponent>
-        <FilterContent>
-          <div
-            style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <SearchInput placeholder="Search" />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 21,
-            }}
-          >
-            <Button
-              onClick={() => {
-                changePage("new_campaigns");
-              }}
-            >
-              {"+ Create New Campaigns"}
-            </Button>
-          </div>
-        </FilterContent>
-        <TitleContent>
-          <h4 style={{ margin: 0 }}>Live Campaigns</h4>
-          <p style={{ fontSize: 14, margin: 0 }}>
-            The list of Near Social Posts are offering rewards
-          </p>
-        </TitleContent>
-      </TitleComponent>
+      <div
+        style={{
+          position: "relative",
+          flexDirection: "column",
+          display: "flex",
+          gap: 14,
+        }}
+      >
+        <h4 style={{ margin: 0 }}>{"Create New Campaign"}</h4>
+        <p style={{ fontSize: 14, margin: 0 }}>
+          The list of Near Social Posts are offering rewards
+        </p>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 21,
+        }}
+      >
+        <Button onClick={() => {}}>{"Create New Campaigns"}</Button>
+      </div>
     </HeadComponent>
   </MainComponent>
 );
