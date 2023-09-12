@@ -141,7 +141,10 @@ return (
       )}
       {state.page === "profile" && <Widget src={`${Owner}/widget/Profile`} />}
       {state.page === "new_campaigns" && (
-        <Widget src={`${Owner}/widget/NewCampaign`} />
+        <Widget
+          src={`${Owner}/widget/NewCampaign`}
+          props={{ changePage: changeTab, page: state.page }}
+        />
       )}
     </Content>
   </Wrapper>
