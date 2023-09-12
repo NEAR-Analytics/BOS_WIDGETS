@@ -12,7 +12,7 @@ if (!state.itemsIsFetched) {
     "get_project_completed_contributions",
     { account_id: props.accountId },
     "final",
-    false
+    false,
   ).then((items) => State.update({ items, itemsIsFetched: true }));
 
   return <>Loading...</>;
