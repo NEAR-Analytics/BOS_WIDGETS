@@ -36,28 +36,60 @@ const Wrapper = styled.div`
   }
 `;
 
-function ContextMenu( { Item, passProps, handlers } ) {
+function ContextMenu({ Item, passProps, handlers, items }) {
+  if (!handlers || typeof handlers !== 'object') {
+    console.warn('ContextMenu: handlers prop is missing or not an object.');
+    return null;
+  }
 
-return (
-  <ContextMenu.Root>
-    <ContextMenu.Trigger asChild>
-      <div style={{ width: "100%" }}>
-            <Item />
+  if (!passProps || typeof passProps !== 'object') {
+    console.warn('ContextMenu: passProps prop is missing or not an object.');
+    return null;
+  }
+
+  if (!items || typeof items !== 'object') {
+    console.warn('ContextMenu: items prop is missing or not an object.');
+    return null;
+  }
+
+  return (
+    <ContextMenu.Root>
+      <ContextMenu.Trigger asChild>
+        <div style={{ width: "100%" }}>
+          <Item />
         </div>
-        </ContextMenu.Trigger>
-        <ContextMenu.Content sideOffset={5} align="end" asChild>
+      </ContextMenu.Trigger>
+      <ContextMenu.Content sideOffset={5} align="end" asChild>
         <Wrapper>
-            <ContextMenu.Item
-            className="menu__item"
-            onSelect={() => handlers["delete"](passProps["delete"])}
-            >
-            <i className="menu__item__icon bi bi-x-lg" />
-            Delete
-            </ContextMenu.Item>
+          {handlers && Object.keys(handlers).map((key) => {
+            if (!handlers[key]) {
+              console.warn(`ContextMenu: handler for key "${key}" is missing.`);
+              return null;
+            }
+
+            if (!passProps[key]) {
+              console.warn(`ContextMenu: passProps for key "${key}" is missing.`);
+              return null;
+            }
+
+            if (!items[key]) {
+              console.warn(`ContextMenu: item for key "${key}" is missing.`);
+              return null;
+            }
+
+            return (
+              <ContextMenu.Item
+                className="menu__item"
+                onSelect={() => handlers[key](passProps[key])}
+              >
+                {items[key]()}
+              </ContextMenu.Item>
+            );
+          })}
         </Wrapper>
-        </ContextMenu.Content>
+      </ContextMenu.Content>
     </ContextMenu.Root>
-    );
+  );
 }
 
 return { ContextMenu }
