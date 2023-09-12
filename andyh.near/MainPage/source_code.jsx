@@ -1,13 +1,17 @@
+const isTrusted = false;
 return (
   <>
-    <Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={true} />
+    <Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={isTrusted} />
     {context.accountId && <h4>ProfileOnboarding</h4>}
-    <Widget src="andyh.near/widget/MainPage.FeaturedApps" isTrusted={true} />
+    <Widget
+      src="andyh.near/widget/MainPage.FeaturedApps"
+      isTrusted={isTrusted}
+    />
     <div className="row mb-3">
-      <Widget src="andyh.near/widget/Applications" isTrusted={true} />
+      <Widget src="andyh.near/widget/Applications" isTrusted={isTrusted} />
     </div>
     <div className="row mb-3">
-      <Widget src="andyh.near/widget/People" isTrusted={true} />
+      <Widget src="andyh.near/widget/People" isTrusted={isTrusted} />
     </div>
     <div className="row mb-3">
       <div>
@@ -65,11 +69,11 @@ return (
       <div className="col-md-8">
         <h4>Follow activity</h4>
         <span>temporarily disabled</span>
-        {/*<Widget src="andyh.near/widget/FollowFeed" isTrusted={true} />*/}
+        {/*<Widget src="andyh.near/widget/FollowFeed" isTrusted={isTrusted} />*/}
       </div>
       <div className="col-md-4">
         <h4>Poke activity</h4>
-        <Widget src="andyh.near/widget/PokeFeed" isTrusted={true} />
+        <Widget src="andyh.near/widget/PokeFeed" isTrusted={isTrusted} />
       </div>
     </div>
   </>
