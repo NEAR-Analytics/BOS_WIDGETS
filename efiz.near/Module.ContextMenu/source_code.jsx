@@ -36,22 +36,7 @@ const Wrapper = styled.div`
   }
 `;
 
-function ContextMenu({ Item, passProps, handlers, items, debug }) {
-
-  if (debug && !handlers || typeof handlers !== 'object') {
-    console.log('ContextMenu: handlers prop is missing or not an object.');
-    return null;
-  }
-
-  if (debug && !passProps || typeof passProps !== 'object') {
-    console.log('ContextMenu: passProps prop is missing or not an object.');
-  }
-
-  if (debug && !items || typeof items !== 'object') {
-    console.log('ContextMenu: items prop is missing or not an object.');
-    return null;
-  }
-  
+function ContextMenu({ Item, passProps, handlers, items }) {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger asChild>
@@ -62,18 +47,6 @@ function ContextMenu({ Item, passProps, handlers, items, debug }) {
       <ContextMenu.Content sideOffset={5} align="end" asChild>
         <Wrapper>
           {handlers && Object.keys(handlers).map((key) => {
-            if (debug && !handlers[key]) {
-              console.log(`ContextMenu: handler for key "${key}" is missing.`);
-            }
-
-            if (debug && !passProps[key]) {
-              console.log(`ContextMenu: passProps for key "${key}" is missing.`);
-            }
-
-            if (debug && !items[key]) {
-              console.log(`ContextMenu: item for key "${key}" is missing.`);
-            }
-
             return (
               <ContextMenu.Item
                 className="menu__item"
