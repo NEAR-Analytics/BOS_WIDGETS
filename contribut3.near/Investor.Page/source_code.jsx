@@ -50,7 +50,7 @@ const MainContent = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   gap: 1em;
-  width: 80%;
+  width: 100%;
   padding-top: 0.25em;
 `;
 
@@ -87,6 +87,7 @@ const CTARow = styled.div`
   align-items: center;
   justify-content: flex-start;
   gap: 0.75em;
+  margin-top: 1em;
 `;
 
 const Admin = styled.div`
@@ -109,7 +110,7 @@ if (!state.isAdminIsFetched) {
       "check_is_investor_admin",
       { investor_id: accountId, account_id: context.accountId },
       "final",
-      false
+      false,
     ).then((isAdmin) => State.update({ isAdmin, isAdminIsFetched: true }));
   }
 }
@@ -120,7 +121,7 @@ if (!state.investorIsFetched) {
     "get_investor",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((investor) => State.update({ investor, investorIsFetched: true }));
 }
 
@@ -168,12 +169,6 @@ return (
           <></>
         )}
       </MainContent>
-      <Sidebar>
-        <Widget
-          src={`${ownerId}/widget/Investor.Sidebar`}
-          props={{ accountId, isAdmin: state.isAdmin }}
-        />
-      </Sidebar>
     </ContentContainer>
   </Container>
 );
