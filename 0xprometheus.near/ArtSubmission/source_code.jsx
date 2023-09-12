@@ -5,16 +5,6 @@ if (!accountId) {
 }
 
 const css = `
-body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
         h2 {
             color: black;
         }
@@ -24,7 +14,6 @@ body {
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 400px;
             text-align: center;
         }
 
