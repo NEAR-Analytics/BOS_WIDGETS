@@ -307,9 +307,9 @@ return (
           />
         )}
 
-        {state.selectedTab === "members" &&
-          ((<Widget src="components-mailchain.near/widget/MailchainWidget" />),
-          (<Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />))}
+        {state.selectedTab === "members" && (
+          <Widget src="hack.near/widget/DAO.Members" props={{ daoId }} />
+        )}
 
         {state.selectedTab === "projects" && (
           <Widget
