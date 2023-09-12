@@ -219,6 +219,23 @@ const renderEvmAddresses = (addresses) => (
   </List>
 );
 
+let holdings;
+if (candidate.fts) {
+  holdings = 0;
+  for (const { contractId, amount } of candidate.fts) {
+    holdings +=
+      (ftMetas.find((meta) => meta.contractId === contractId)?.price ?? 0) *
+      Number(amount);
+  }
+}
+if (candidate.amount) {
+  if (holdings == null) holdings = 0;
+  holdings +=
+    (ftMetas.find((meta) => meta.contractId === contractId)?.price ?? 0) *
+    Big(candidate.amount).div(Big(10).pow(24)).toNumber();
+}
+console.log("holdings", holdings);
+
 return (
   <Card
     onClick={selected ? undefined : () => selectCandidate(candidate.nominee)}
@@ -251,6 +268,7 @@ return (
           : "?"}
       </div>
       <div>Total Transactions: {candidate.txCount ?? "?"}</div>
+      <div>Wallet Holdings: {holdings.toFixed(2) ?? "?"} USD</div>
       <div>
         Near:{" "}
         {candidate.amount &&
