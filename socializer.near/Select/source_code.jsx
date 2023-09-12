@@ -103,9 +103,10 @@ const Viewport = styled.div`
   justify-content: flex-start;
   padding: 0;
   width: 100%;
-  min-width: 171px;
   background: var(--light_95, #F3F3F3);
   box-shadow: 0px 4px 12px 0px rgba(140, 140, 140, 0.27);
+  height: 500px;
+  overflow-y:auto;
 `;
 
 const Item = styled.button`
