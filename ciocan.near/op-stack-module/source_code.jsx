@@ -198,4 +198,83 @@ const bridgeAbi = [
   },
 ];
 
-return { tokens, walletChains, bridgeAbi };
+const erc20Abi = [
+  {
+    constant: false,
+    inputs: [
+      {
+        type: "address",
+      },
+      {
+        type: "uint256",
+      },
+    ],
+    name: "approve",
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        type: "address",
+      },
+      {
+        type: "address",
+      },
+      {
+        type: "uint256",
+      },
+      {
+        type: "uint32",
+      },
+      {
+        type: "bytes",
+      },
+    ],
+    name: "depositERC20",
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        type: "address",
+      },
+      {
+        type: "address",
+      },
+    ],
+    outputs: [
+      {
+        type: "uint256",
+      },
+    ],
+    name: "allowance",
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        type: "address",
+      },
+    ],
+    outputs: [
+      {
+        type: "uint256",
+      },
+    ],
+    name: "balanceOf",
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
+return { tokens, walletChains, ethAbi, erc20Abi };
