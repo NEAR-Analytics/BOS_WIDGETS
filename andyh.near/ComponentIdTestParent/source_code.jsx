@@ -5,8 +5,8 @@ State.init({
   x: 1,
 });
 
-const components = [state.a, state.b, state.c];
-console.log("re-rendering parent");
+const components = [state.a]; //, state.b, state.c];
+console.log("re-rendering parent", { ...state });
 return (
   <>
     {components.map(({ id, value }) => (
