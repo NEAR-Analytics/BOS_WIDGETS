@@ -380,7 +380,7 @@ const selectedBookmarks = (candidateId) => {
 
 const handleBookmarkCandidate = (candidateId) => {
   let selectedItems = selectedBookmarks(candidateId);
-  Storage.set(LocalStorageKeys.Bookmarks, JSON.stringify(selectedItems));
+  Storage.set(LocalStorageKeys.Bookmarks + id, JSON.stringify(selectedItems));
   State.update({ bookmarked: selectedItems });
 };
 
@@ -480,8 +480,8 @@ function loadSocialDBData() {
   const bookmarked =
     _bookmarked && _bookmarked[_bookmarked.length - 1]
       ? _bookmarked[_bookmarked.length - 1].value
-      : Storage.get(LocalStorageKeys.Bookmarks)
-      ? JSON.parse(Storage.get(LocalStorageKeys.Bookmarks))
+      : Storage.get(LocalStorageKeys.Bookmarks + id)
+      ? JSON.parse(Storage.get(LocalStorageKeys.Bookmarks + id))
       : [];
   State.update({ bookmarked });
 }
