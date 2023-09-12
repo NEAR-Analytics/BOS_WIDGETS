@@ -4,6 +4,7 @@ const WIDGET_OWNER = "mattb.near";
 State.init({
   displayMessage: null,
   writeMessage: false,
+  dropNft: false,
   messages: Storage.privateGet("messages") || [],
 });
 
@@ -67,6 +68,12 @@ const MessageCorner = styled.div`
   right:20px;
 `;
 
+const NftOverlay = styled.div`
+  position:fixed;
+  top:0;
+  left:0;
+`;
+
 const HeaderWrapper = styled.div`
   display:flex;
   justify-content:space-between;
@@ -111,6 +118,17 @@ return (
           onRefresh: (data) => State.update(data),
         }}
       />
+
+      {state.dropNft && (
+        <NftOverlay>
+          <Widget
+            src={`${WIDGET_OWNER}/widget/NearBox.Components.DropNFTModal`}
+            props={{
+              MailChain,
+            }}
+          />
+        </NftOverlay>
+      )}
 
       {state.displayMessage && !state.writeMessage && (
         <MessageCorner>
