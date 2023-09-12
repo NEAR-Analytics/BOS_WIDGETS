@@ -257,7 +257,7 @@ return (
         {viewingOwnAccount ? (
           <a
             className="button button--primary"
-            href="#/near/widget/ProfileEditor"
+            href="#/opencann.near/widget/profile.edit"
           >
             <i className="bi bi-pencil"></i>
             Edit Profile
