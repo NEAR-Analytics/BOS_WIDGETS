@@ -154,7 +154,7 @@ const walletChains = {
   },
 };
 
-const bridgeAbi = [
+const ethAbi = [
   {
     inputs: [
       { internalType: "uint32", name: "_l2Gas", type: "uint32" },
