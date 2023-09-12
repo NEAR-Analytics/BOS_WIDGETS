@@ -663,7 +663,7 @@ return (
             : state.loading
             ? "Loading..."
             : state.complete
-            ? "Done ✅"
+            ? "Do!ne ✅"
             : state.coll === 0 || state.borrow === 0
             ? "Enter input value"
             : state.isBlocked
