@@ -28,6 +28,9 @@ return (
         <div>
           <h4>Edit profile of @{accountId}</h4>
         </div>
+        <a href="#/opencann.near/widget/profile.demographics">
+          Click here to edit your demographic data.
+        </a>
         <div className="mb-2">
           <Widget
             src="near/widget/MetadataEditor"
@@ -78,9 +81,6 @@ return (
             }}
           />
         </div>
-        <a href="#/opencann.near/widget/profile.demographics">
-          Click here to edit your demographic data.
-        </a>
         <div className="mb-2">
           <CommitButton data={{ profile: state.profile }}>
             Save profile
