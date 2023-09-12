@@ -149,7 +149,9 @@ const handlers = {
 const DELAY = 1000 * 60 * 5;
 const timer = Storage.privateGet("priceTimer");
 function getPrice() {
-  asyncFetch("https://mainnet-indexer.ref-finance.com/get-token-price")
+  asyncFetch(
+    "https://mainnet-indexer.ref-finance.com/get-token-price-by-dapdap"
+  )
     .then((res) => {
       const data = JSON.parse(res.body);
       data.native = data.aurora;
@@ -206,7 +208,7 @@ return (
             )}
           </CurrencySymbol>
         </CurrencyWrapper>
-        <Widget src="bluebiu.near/widget/Base.BaseArrowIcon" />
+        <Widget src="bluebiu.near/widget/Arbitrum.Swap.ArrowIcon" />
       </CurrencySelect>
       <Amount
         onClick={() => {
