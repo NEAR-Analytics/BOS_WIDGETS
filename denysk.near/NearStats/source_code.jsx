@@ -21,7 +21,7 @@ if (data !== null && data.ok === false) {
         <p>
           <div class="d-flex clearfix flex-wrap flex-column flex-sm-row">
             <div class="p-2">
-              <div>Average Block Time (ABT) Now</div>
+              <div>Average Block Time</div>
               <small>last 30 seconds</small>
               <span class="text-success h3">
                 <b>{JSON.parse(data.body.avg_block_time).toFixed(2)}</b> sec
