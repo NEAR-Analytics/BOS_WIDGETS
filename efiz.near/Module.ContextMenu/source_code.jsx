@@ -37,21 +37,6 @@ const Wrapper = styled.div`
 `;
 
 function ContextMenu({ Item, passProps, handlers, items }) {
-  if (!handlers || typeof handlers !== 'object') {
-    console.warn('ContextMenu: handlers prop is missing or not an object.');
-    return null;
-  }
-
-  if (!passProps || typeof passProps !== 'object') {
-    console.warn('ContextMenu: passProps prop is missing or not an object.');
-    return null;
-  }
-
-  if (!items || typeof items !== 'object') {
-    console.warn('ContextMenu: items prop is missing or not an object.');
-    return null;
-  }
-
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger asChild>
