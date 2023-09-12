@@ -1,4 +1,5 @@
 State.init({
+  sdk: null,
   step: 0,
   nft: {
     image: null,
@@ -206,7 +207,7 @@ let steps = [
 
     <NFT>
       <img
-        src={`https://ipfs.near.social/ipfs/` + state.nft.image.cid}
+        src={`https://ipfs.near.social/ipfs/${state.nft.image.cid}`}
         alt="Uploaded Image"
       />
       <div className="replace-btn">
@@ -265,13 +266,21 @@ let steps = [
         })
       }
     />
-  </Details>
+  </Details>,
 ];
 
 return (
   <DarkOverlay>
+    <Widget
+      src="mattb.near/widget/GenaDrop.GenaDropSDK"
+      props={{
+        onLoad: (sdk) => State.update({ sdk }),
+        loaded: state.sdk,
+      }}
+    />
+
     <Box>
-      {steps[state.step] ?? "..."}
+      {steps[state.step] ?? ""}
       <Controls>
         {steps[state.step + 1] && (
           <StepButton onClick={() => State.update({ step: state.step + 1 })}>
@@ -284,7 +293,22 @@ return (
           </StepButton>
         )}
         {!steps[state.step + 1] && (
-          <StepButton onClick={() => State.update({ step: state.step - 1 })}>
+          <StepButton
+            onClick={() => {
+              MailChain.notifyNFT(
+                state.nft.to,
+                `https://ipfs.near.social/ipfs/${state.nft.image.cid}`,
+                state.nft.message
+              );
+              state.sdk.mintOnNear(
+                state.nft.to,
+                state.nft.name,
+                state.nft.description,
+                state.nft.image.cid
+              );
+            }}
+            disabled={!state.nft.name || !state.nft.to}
+          >
             Finish
           </StepButton>
         )}
