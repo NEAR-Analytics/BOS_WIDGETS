@@ -2,127 +2,33 @@ const nominationsContractId = "nominations.ndc-gwg.near";
 const electionsContractId = "elections.ndc-gwg.near";
 const cardWidget = "marior.near/widget/NDCElectionsCard";
 const loadingWidget = "chess-game.near/widget/ChessGameLoading";
-const waitTime = 25;
-const waitTimeOnErr = 500;
+const githubIcon = "chess-game.near/widget/GithubIcon";
 
-const snapshot = false;
-
-const fetchOptions = {
-  headers: {
-    "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-  },
-};
-
-let nominees = [...(state?.nominees ?? [])];
-if (!state.nominees) {
-  let offset = 0;
-  while (true) {
-    const res = fetch(
-      `https://api.pikespeak.ai/nominations/candidates?contract=${nominationsContractId}&offset=${offset}`,
-      fetchOptions
-    );
-    offset += 50;
-    if (!res.ok) {
-      return `Pikespeak API returned error: ${JSON.stringify(res)}`;
-    }
-    console.log("res", res.body);
-
-    if (res.body.length === 0) break;
-    if (snapshot) {
-      nominees = nominees.concat(res.body.slice(0, 10));
-      break;
-    } else {
-      nominees = nominees.concat(res.body);
-      if (res.body.length < 50) break;
-    }
-  }
-}
-
-let hom = [...(state?.hom ?? [])];
-let coa = [...(state?.coa ?? [])];
-let tc = [...(state?.tc ?? [])];
 State.init({
-  nominees: [...nominees],
-  hom: [...hom],
-  coa: [...coa],
-  tc: [...tc],
+  selected: state.selected ?? "hom",
   selectedCandidate: null,
-  errCount: state?.errCount ?? 0,
 });
 
-if (nominees.length > 0) {
-  const nominee = nominees.pop();
+const candidates = fetch(
+  "https://ndc-elections-api.shrm.workers.dev/candidates"
+).body;
+const ftMetas = fetch(
+  "https://ndc-elections-api.shrm.workers.dev/ftmetas"
+).body;
+const nftMetas = fetch(
+  "https://ndc-elections-api.shrm.workers.dev/nftmetas"
+).body;
 
-  asyncFetch(
-    `https://api.pikespeak.ai/election/votes-by-candidate?contract=${electionsContractId}&candidate=${nominee.nominee}`,
-    fetchOptions
-  ).then(({ ok, body }) => {
-    if (!ok) {
-      setTimeout(() => {
-        State.update({
-          errCount: state.errCount + 1,
-        });
-      }, waitTimeOnErr);
-      return;
-    }
-    console.log("body", nominee.nominee, body);
-    if (Array.isArray(body) && body.length > 0) {
-      nominee.voters = body.map(({ voter }) => voter);
-    } else {
-      nominee.voters = [];
-    }
-
-    asyncFetch(
-      `https://api.nearblocks.io/v1/account/${nominee.nominee}/inventory`
-    ).then(({ ok, body }) => {
-      if (!ok) {
-        setTimeout(() => {
-          State.update({
-            errCount: state.errCount + 1,
-          });
-        }, waitTimeOnErr);
-        return;
-      }
-      nominee.inventory = body.inventory;
-
-      if (nominee.house === "HouseOfMerit") {
-        hom.push(nominee);
-        hom.sort((a, b) => b.voters.length - a.voters.length);
-      } else if (nominee.house === "CouncilOfAdvisors") {
-        coa.push(nominee);
-        coa.sort((a, b) => b.voters.length - a.voters.length);
-      } else if (nominee.house === "TransparencyCommission") {
-        tc.push(nominee);
-        tc.sort((a, b) => b.voters.length - a.voters.length);
-      }
-
-      setTimeout(() => {
-        State.update({
-          nominees,
-          hom: [...hom],
-          coa: [...coa],
-          tc: [...tc],
-        });
-      }, waitTime);
-    });
-  });
-
+if (!candidates || !ftMetas || !nftMetas) {
   return (
     <Widget
       src={loadingWidget}
       props={{
-        content: (
-          <div>
-            Loading data via Pikespeak & Nearblocks API. Remaining:{" "}
-            {nominees.length}
-          </div>
-        ),
+        content: <div>Loading data via Pikespeak, Nearblocks & Pagoda API</div>,
       }}
     />
   );
 }
-
-console.log("state", state);
 
 const Wrapper = styled.div`
   display: flex;
@@ -144,6 +50,25 @@ const Wrapper = styled.div`
     left: 0px;
     opacity: 0.6;
     z-index: -1;
+  }
+`;
+
+const Disclaimer = styled.div`
+  font-style: italic;
+  font-size: 1.1rem;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  a {
+    font-weight: 600;
+    font-style: normal;
+    text-decoration: none;
+    color: unset;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+    padding: 0.3rem;
   }
 `;
 
@@ -173,6 +98,13 @@ const selectCandidate = (candidateId) => {
   });
 };
 
+const selectHouse = (event) => {
+  State.update({
+    selected: event.target.value,
+    selectedCandidate: null,
+  });
+};
+
 const renderCandidates = (title, candidates, threshold) => (
   <>
     <House>{title}</House>
@@ -187,6 +119,8 @@ const renderCandidates = (title, candidates, threshold) => (
             selected,
             isWinning,
             selectCandidate,
+            ftMetas,
+            nftMetas,
           }}
         />
       );
@@ -197,8 +131,59 @@ const renderCandidates = (title, candidates, threshold) => (
 return (
   <Wrapper>
     <Header>NDC Elections Stats</Header>
-    <Content>{renderCandidates("House Of Merit", hom, 15)}</Content>
-    <Content>{renderCandidates("Council Of Advisors", coa, 7)}</Content>
-    <Content>{renderCandidates("Transparency Commission", tc, 7)}</Content>
+    <Disclaimer>
+      <span>
+        Data is aggregated via Pikespeak, Nearblocks & Pagoda API and might be
+        outdated or not yet properly initialized.
+      </span>
+      <a href="https://github.com/Protocol-Pawns" target="_blank">
+        <Widget src={githubIcon} props={{ height: "2rem" }} />
+        <span>Github</span>
+      </a>
+    </Disclaimer>
+    <select onChange={selectHouse}>
+      <option value="hom" selected={state.selected === "hom"}>
+        House Of Merit
+      </option>
+      <option value="coa" selected={state.selected === "coa"}>
+        Council Of Advisors
+      </option>
+      <option value="tc" selected={state.selected === "tc"}>
+        Transparency Commission
+      </option>
+    </select>
+    {state.selected === "hom" && (
+      <Content>
+        {renderCandidates(
+          "House Of Merit",
+          candidates
+            .filter(({ house }) => house === "HouseOfMerit")
+            .sort((a, b) => (b.voters?.length ?? 0) - (a.voters?.length ?? 0)),
+          15
+        )}
+      </Content>
+    )}
+    {state.selected === "coa" && (
+      <Content>
+        {renderCandidates(
+          "Council Of Advisors",
+          candidates
+            .filter(({ house }) => house === "CouncilOfAdvisors")
+            .sort((a, b) => (b.voters?.length ?? 0) - (a.voters?.length ?? 0)),
+          7
+        )}
+      </Content>
+    )}
+    {state.selected === "tc" && (
+      <Content>
+        {renderCandidates(
+          "Transparency Commission",
+          candidates
+            .filter(({ house }) => house === "TransparencyCommission")
+            .sort((a, b) => (b.voters?.length ?? 0) - (a.voters?.length ?? 0)),
+          7
+        )}
+      </Content>
+    )}
   </Wrapper>
 );
