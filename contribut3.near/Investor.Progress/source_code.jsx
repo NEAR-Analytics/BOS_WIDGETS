@@ -65,13 +65,13 @@ if (!state.fetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((active) =>
     State.update({
       invested: active[accountId].profile.invested,
       projects: active[accountId].profile.projects,
       fetched: true,
-    })
+    }),
   );
 }
 
