@@ -108,7 +108,7 @@ function downloadCSV() {
   }
 }
 
-const options = ["DESPESA", "RECEITA", "ATIVO, PASSIVO,"];
+const options = ["DESPESA", "RECEITA", "ATIVO", "PASSIVO"];
 
 return (
   <div
