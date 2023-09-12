@@ -134,9 +134,15 @@ return (
         props={{ changeTab, page: state.page, list: state.sidebar }}
       />
       {state.page === "dashboard" && (
-        <Widget src={`${Owner}/widget/Dashboard`} />
+        <Widget
+          src={`${Owner}/widget/Dashboard`}
+          props={{ changePage: changeTab, page: state.page }}
+        />
       )}
       {state.page === "profile" && <Widget src={`${Owner}/widget/Profile`} />}
+      {state.page === "new_campaigns" && (
+        <Widget src={`${Owner}/widget/NewCampaign`} />
+      )}
     </Content>
   </Wrapper>
 );
