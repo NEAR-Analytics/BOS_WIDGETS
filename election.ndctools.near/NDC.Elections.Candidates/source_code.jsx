@@ -278,9 +278,10 @@ const housesMapping = {
 };
 
 const users = [];
-result.map(([candidate, _vote]) =>
-  users.push(Social.getr(`${candidate}/profile`))
-);
+result.map(([candidate, _vote]) => {
+  const profile = Social.getr(`${candidate}/profile`);
+  users.push({ ...profile, wallet: candidate });
+});
 
 const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
@@ -320,37 +321,20 @@ const filteredCandidates = () => {
           candidateFilterId.includes(candidate)
         )
       : result.filter(([candidate, _vote], _index) =>
-          candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
+          users
+            .filter(
+              (u) =>
+                u.name
+                  .toLowerCase()
+                  .includes(candidateFilterId.toLowerCase()) ||
+                u.wallet.toLowerCase().includes(candidateFilterId.toLowerCase())
+            )
+            .map((user) => user.wallet)
+            .includes(candidate)
         );
   }
 
   return candidates;
-};
-
-const handleSelectCandidate = (candidateId) => {
-  if (!state.acceptedPolicy) {
-    State.update({ showToSModal: true });
-    return;
-  }
-  if (!!state.acceptedPolicy && hasPolicyNFT === false) {
-    State.update({ showMintPolicyModal: true });
-    return;
-  }
-
-  const selectedItems = state.selectedCandidates.includes(candidateId)
-    ? state.selectedCandidates.filter((el) => el !== candidateId)
-    : [...state.selectedCandidates, candidateId];
-
-  const currentVotes = seats - myVotesForHouse().length - selectedItems.length;
-  if (currentVotes < 0) return;
-
-  State.update({
-    selectedCandidates: selectedItems,
-    availableVotes: currentVotes,
-    reload: false,
-  });
-
-  return true;
 };
 
 const handleCast = () =>
