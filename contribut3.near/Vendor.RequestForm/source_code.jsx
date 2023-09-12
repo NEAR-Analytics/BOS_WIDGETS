@@ -87,14 +87,14 @@ if (!state.projectsIsFetched) {
     "get_admin_projects",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((projects) => {
     Near.asyncView(
       "social.near",
       "get",
       { keys: projects.map((accountId) => `${accountId}/profile/**`) },
       "final",
-      false
+      false,
     ).then((data) =>
       State.update({
         projects: projects.map((accountId) => ({
@@ -105,12 +105,12 @@ if (!state.projectsIsFetched) {
           text: createProjectLine(
             accountId,
             data[accountId].profile.name,
-            data[accountId].profile.image
+            data[accountId].profile.image,
           ),
           value: accountId,
         })),
         projectsIsFetched: true,
-      })
+      }),
     );
   });
   return <>Loading...</>;
@@ -183,7 +183,7 @@ return (
               "get_project_requests",
               { account_id: projectId.value },
               "final",
-              false
+              false,
             ).then((requests) =>
               State.update({
                 requests: requests.map(([accountId, cid, title]) => ({
@@ -191,7 +191,7 @@ return (
                   value: cid,
                 })),
                 requestsIsFetched: true,
-              })
+              }),
             );
           },
         }}
