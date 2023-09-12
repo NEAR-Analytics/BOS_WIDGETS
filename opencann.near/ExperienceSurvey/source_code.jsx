@@ -82,7 +82,7 @@ State.init({
   endTime: getCurrentTime(),
   location: "",
   link: "",
-  organizer: user_account,
+  organizer: "opencann.near",
   isAllDay: false,
   category: "",
   logo: null,
@@ -246,7 +246,7 @@ const clearFields = () => {
     endTime: getCurrentTime(),
     location: "",
     link: "",
-    organizer: user_account,
+    organizer: "opencann.near",
     isAllDay: false,
     category: "",
     logo: null,
@@ -473,16 +473,15 @@ const ResponseForm = () => {
             }}
           />
         </div>
-        <div>Visual Effects</div>
         <div className="mb-3">
-          <label class="form-label" for="physicalEffects">
-            Physical Effects
+          <label class="form-label" for="visualEffects">
+            Visual Effects
           </label>
           <Widget
             src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
             props={{
-              data: state.physicalEffects,
-              onChange: onPhysicalEffectsChange,
+              data: state.visualEffects,
+              onChange: onVisuallEffectsChange,
               height: "250px",
             }}
           />
@@ -633,18 +632,6 @@ const ResponseForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="organizer">
-            Response Organizer
-          </label>
-          <input
-            class="form-control"
-            id="organizer"
-            value={state.organizer}
-            onChange={onOrganizerChange}
-            placeholder="New Response Organizer"
-          />
-        </div>
-        <div className="mb-3">
           <div class="form-check">
             <label class="form-check-label" for="isAllDay">
               All Day Response
@@ -725,6 +712,16 @@ const ResponseForm = () => {
               placeholder="New Response Tags"
             />
             <button onClick={onHashTagAdd}>Add</button>
+          </div>
+          <div className="mb-3">
+            <label for="organizer">Form Creator: </label>
+            <a
+              href="https://opencann.near.social"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              opencann.near
+            </a>
           </div>
           <div className="mb-3">
             <label for="daoId">DAO ID: </label>
