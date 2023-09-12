@@ -374,7 +374,6 @@ const selectedBookmarks = (candidateId) => {
   let selectedItems = state.bookmarked.includes(candidateId)
     ? state.bookmarked.filter((el) => el !== candidateId)
     : [...state.bookmarked, candidateId];
-
   return [...new Set(selectedItems)];
 };
 
@@ -480,10 +479,12 @@ function loadSocialDBData() {
   const bookmarked =
     _bookmarked && _bookmarked[_bookmarked.length - 1]
       ? _bookmarked[_bookmarked.length - 1].value
-      : Storage.get(LocalStorageKeys.Bookmarks + id)
-      ? JSON.parse(Storage.get(LocalStorageKeys.Bookmarks + id))
       : [];
-  State.update({ bookmarked });
+  const LSItems = Storage.get(LocalStorageKeys.Bookmarks + id)
+    ? JSON.parse(Storage.get(LocalStorageKeys.Bookmarks + id))
+    : [];
+
+  State.update({ bookmarked: bookmarked.concat(LSItems) });
 }
 
 function fetchGraphQL(series) {
