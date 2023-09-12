@@ -204,6 +204,25 @@ const Powered = styled.div`
     margin-top:3rem;
     font-size:.8rem;
     text-align:center;
+    vertical-align:top;
+
+    span {
+      display:inline-block;
+      position:relative;
+      top: -2px;
+      width:5px;
+      height:5px;
+      border-radius:100%;
+      margin-left:3px;
+    }
+
+    .enabled {
+      background-color:green;
+    }
+
+    .disabled {
+      background-color:red;
+    }
 `;
 
 const Division = styled.div`
@@ -299,8 +318,7 @@ const views = {
           </CreateButton>
         </NewAccount>
         <Powered>
-          Powered by <strong>MailChain</strong> <br />
-          {`(${typeof MailChain !== "undefined" ? "Enabled" : "Disabled"})`}
+          Powered by <strong>MailChain</strong><span className={typeof MailChain !== "undefined" ? "enabled" : "disabled"}></span>
         </Powered>
       </Content>
     </Main>
