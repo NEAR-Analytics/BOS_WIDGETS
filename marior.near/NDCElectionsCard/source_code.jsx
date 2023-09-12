@@ -234,7 +234,6 @@ if (candidate.amount) {
     (ftMetas.find((meta) => meta.contractId === contractId)?.price ?? 0) *
     Big(candidate.amount).div(Big(10).pow(24)).toNumber();
 }
-console.log("holdings", holdings);
 
 return (
   <Card
