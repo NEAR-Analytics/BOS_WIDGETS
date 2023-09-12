@@ -277,6 +277,11 @@ const housesMapping = {
   SetupPackage: "Budget Package",
 };
 
+users = [];
+result.map(([candidate, _vote]) =>
+  users.push(Social.getr(`${candidate}/profile`))
+);
+
 const alreadyVoted = (candidateId) =>
   myVotes.some((voter) => voter.candidate === candidateId);
 
@@ -308,7 +313,8 @@ const filteredCandidates = () => {
         )
       : result;
 
-  if (candidateFilterId)
+  if (candidateFilterId) {
+    console.log("users", users);
     candidates = Array.isArray(candidateFilterId)
       ? result.filter(([candidate, _vote], _index) =>
           candidateFilterId.includes(candidate)
@@ -316,6 +322,7 @@ const filteredCandidates = () => {
       : result.filter(([candidate, _vote], _index) =>
           candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
         );
+  }
 
   return candidates;
 };
