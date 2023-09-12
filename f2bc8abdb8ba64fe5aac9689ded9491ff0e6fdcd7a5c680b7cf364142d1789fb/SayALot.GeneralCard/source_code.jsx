@@ -625,7 +625,6 @@ return (
               }}
             />
           </ButtonsLowerSection>
-          {/*TODO review buttons functionality in sayALot*/}
           <div className="d-flex w-100 align-items-center">
             <div className="d-flex w-100 gap-2 justify-content-between">
               <Widget
