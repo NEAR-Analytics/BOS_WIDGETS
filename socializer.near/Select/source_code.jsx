@@ -87,6 +87,8 @@ const Content = styled.div`
   background: #ffffff;
   z-index: 3 !important;
   font-size: 14px;
+  overflow-y: auto;
+  max-height: 400px;
 
   /* &[data-state="open"] { */
   /*   animation: ${scaleOut} 0.2s ease-in-out; */
@@ -106,8 +108,6 @@ const Viewport = styled.div`
   width: 100%;
   background: var(--light_95, #F3F3F3);
   box-shadow: 0px 4px 12px 0px rgba(140, 140, 140, 0.27);
-  height: 500px;
-  overflow-y:auto;
 `;
 
 const Item = styled.button`
