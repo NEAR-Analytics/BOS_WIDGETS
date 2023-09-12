@@ -1,4 +1,5 @@
 const ownerId = "contribut3.near";
+const apiUrl = "https://api-staging-fur7.onrender.com";
 const accountId = props.accountId;
 const cid = props.cid;
 
@@ -20,7 +21,7 @@ State.init({
 const getDate = (timestamp) => {
   const timestampString = `${timestamp}`;
   return new Date(
-    Number(timestampString.substring(0, 13))
+    Number(timestampString.substring(0, 13)),
   ).toLocaleDateString();
 };
 
@@ -30,24 +31,22 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: accountId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
-  asyncFetch("https://api-staging-fur7.onrender.com/transactions/all").then(
-    ({ body: txs }) => {
-      const tx = txs.find((tx) => {
-        const start = "EVENT_JSON:";
-        const logData = JSON.parse(tx.log.substring(start.length)).data;
-        return (
-          logData.cid === cid &&
-          tx.method_name === "add_request" &&
-          tx.args.request.project_id === accountId
-        );
-      });
-      State.update({
-        created_at: tx.timestamp,
-      });
-    }
-  );
+  asyncFetch(`${apiUrl}/transactions/all`).then(({ body: txs }) => {
+    const tx = txs.find((tx) => {
+      const start = "EVENT_JSON:";
+      const logData = JSON.parse(tx.log.substring(start.length)).data;
+      return (
+        logData.cid === cid &&
+        tx.method_name === "add_request" &&
+        tx.args.request.project_id === accountId
+      );
+    });
+    State.update({
+      created_at: tx.timestamp,
+    });
+  });
 }
 
 if (!state.requestIsFetched) {
