@@ -69,7 +69,7 @@ return (
       <div className="col-md-8">
         <h4>Follow activity</h4>
         <span>temporarily disabled</span>
-        {/*<Widget src="andyh.near/widget/FollowFeed" isTrusted={isTrusted} />*/}
+        <Widget src="andyh.near/widget/FollowFeed" isTrusted={isTrusted} />
       </div>
       <div className="col-md-4">
         <h4>Poke activity</h4>
