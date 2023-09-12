@@ -82,6 +82,7 @@ return (
             }}
           />
         </div>
+        <p></p>
         <div className="mb-2">
           <CommitButton data={{ profile: state.profile }}>
             Save profile
