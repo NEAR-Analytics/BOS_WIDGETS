@@ -1,4 +1,5 @@
-const { candidate, selected, isWinning, selectCandidate } = props;
+const { candidate, selected, isWinning, selectCandidate, ftMetas, nftMetas } =
+  props;
 
 const Card = styled.div`
   display: flex;
@@ -142,29 +143,53 @@ const renderVoters = (voters) => (
 
 const renderFts = (fts) => (
   <List>
-    {fts.map((ft) => (
-      <Row key={ft.contract}>
-        <img src={ft.ft_metas.icon} alt={`${ft.ft_metas.symbol} icon`} />
-        <div>{ft.ft_metas.name}</div>
-        <div className="balance">
-          {Big(ft.amount).div(Big(10).pow(ft.ft_metas.decimals)).toFixed(2)}
-        </div>
-        <div className="symbol">{ft.ft_metas.symbol}</div>
-      </Row>
-    ))}
+    {fts
+      .map(({ contractId, amount }) => {
+        console.log("contractId, amount", contractId, amount);
+        const metadata = ftMetas.find((meta) => meta.contractId === contractId);
+        if (!metadata) {
+          return null;
+        }
+        console.log("metadata", metadata);
+        return (
+          <Row key={contractId}>
+            <img
+              src={`https://ipfs-cache.meteorwallet.app/network/mainnet/fts/${contractId}/image`}
+              alt={`${metadata.symbol} icon`}
+            />
+            <div>{metadata.name}</div>
+            <div className="balance">{Number(amount).toFixed(2)}</div>
+            <div className="symbol">{metadata.symbol}</div>
+          </Row>
+        );
+      })
+      .filter((val) => !!val)}
   </List>
 );
 
 const renderNfts = (nfts) => (
   <List>
-    {nfts.map((nft) => (
-      <Row key={nft.contract}>
-        <img src={nft.nft_meta.icon} alt={`${nft.nft_meta.symbol} icon`} />
-        <div>{nft.nft_meta.name}</div>
-        <div className="balance">{nft.quantity}</div>
-        <div className="symbol">{nft.nft_meta.symbol}</div>
-      </Row>
-    ))}
+    {nfts
+      .map(({ contractId, quantity }) => {
+        const metadata = nftMetas.find(
+          (meta) => meta.contractId === contractId
+        );
+        if (!metadata) {
+          return null;
+        }
+        return (
+          <Row key={contractId}>
+            <img
+              src={`https://ipfs-cache.meteorwallet.app/network/mainnet/nfts/${contractId}/image`}
+              alt={`${metadata.symbol} icon`}
+            />
+            <div>{metadata.name}</div>
+            <div className="balance">{quantity}</div>
+            <div className="symbol">{metadata.symbol}</div>
+          </Row>
+        );
+      })
+      .filter((val) => !!val)}
   </List>
 );
 
@@ -193,10 +218,10 @@ return (
     <CardContent>
       <div>Votes: {candidate.voters.length}</div>
       {selected && renderVoters(candidate.voters)}
-      <div>Total Fungible Tokens: {candidate.inventory.fts.length}</div>
-      {selected && renderFts(candidate.inventory.fts)}
-      <div>Total Non Fungible Tokens: {candidate.inventory.nfts.length}</div>
-      {selected && renderNfts(candidate.inventory.nfts)}
+      <div>Total Fungible Tokens: {candidate.fts.length}</div>
+      {selected && renderFts(candidate.fts)}
+      <div>Total Non Fungible Tokens: {candidate.nfts.length}</div>
+      {selected && renderNfts(candidate.nfts)}
     </CardContent>
   </Card>
 );
