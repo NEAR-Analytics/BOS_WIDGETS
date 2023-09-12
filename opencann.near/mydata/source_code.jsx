@@ -167,7 +167,10 @@ return (
           }}
         />
       </div>
-      <Widget src="opencann.near/widget/user.data.input" props={{ ownerId }} />
+      <Widget
+        src="opencann.near/widget/profile.demographics"
+        props={{ ownerId }}
+      />
     </div>
     <Items>
       {allNfts.map((nft, i) => (
