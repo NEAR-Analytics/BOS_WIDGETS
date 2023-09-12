@@ -13,7 +13,7 @@ if (!state.proposalIsFetched) {
     "get_proposal",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((proposal) => State.update({ proposal, proposalIsFetched: true }));
 }
 if (!state.proposalIsFetched) {
