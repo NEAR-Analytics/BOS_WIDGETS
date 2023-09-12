@@ -15,13 +15,15 @@ State.init({
 const DarkOverlay = styled.div`
     z-index:9999;
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:center;
     width:100%;
     height:100vh;
     background-color:rgba(0,0,0,.6);
-    backdrop-filter:blur(10px);
+    backdrop-filter:blur(5px);
     overflow-y:scroll;
+    box-sizing:border-box;
+    padding-top:5rem;
 `;
 
 const Box = styled.div`
