@@ -57,7 +57,6 @@ const Input = styled.div`
   font-weight: 600;
   line-height: normal;
   text-transform: capitalize;
-  min-width: 171px;
 `;
 
 const Placeholder = styled.span`
