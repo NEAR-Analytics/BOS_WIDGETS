@@ -7,6 +7,7 @@ const width = props.width ?? 171;
 const onChange = props.onChange ?? (() => {});
 const error = props.error ?? "";
 
+console.log(options);
 const Container = styled.div`
   display: flex;
   flex-direction: column;
