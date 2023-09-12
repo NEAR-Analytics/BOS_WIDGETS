@@ -154,4 +154,48 @@ const walletChains = {
   },
 };
 
+const bridgeAbi = [
+  {
+    inputs: [
+      { internalType: "uint32", name: "_l2Gas", type: "uint32" },
+      { internalType: "bytes", name: "_data", type: "bytes" },
+    ],
+    name: "depositETH",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "extraData",
+        type: "bytes",
+      },
+    ],
+    name: "ETHDepositInitiated",
+    type: "event",
+  },
+];
+
 return { tokens, walletChains };
