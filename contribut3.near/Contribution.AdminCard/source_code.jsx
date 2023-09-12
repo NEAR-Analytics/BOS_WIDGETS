@@ -1,4 +1,5 @@
 const ownerId = "contribut3.near";
+const apiUrl = "https://api-staging-fur7.onrender.com";
 const projectId = props.projectId;
 const cid = props.cid;
 const vendorId = props.vendorId;
@@ -6,7 +7,7 @@ const vendorId = props.vendorId;
 const getDate = (timestamp) => {
   const timestampString = `${timestamp}`;
   return new Date(
-    Number(timestampString.substring(0, 13))
+    Number(timestampString.substring(0, 13)),
   ).toLocaleDateString();
 };
 
@@ -25,23 +26,21 @@ if (!state.contributionIsFetched) {
     "get_contribution",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((contribution) =>
-    State.update({ contribution, contributionIsFetched: true })
+    State.update({ contribution, contributionIsFetched: true }),
   );
-  asyncFetch("https://api-staging-fur7.onrender.com/transactions/all").then(
-    ({ body: txs }) => {
-      const tx = txs.find((tx) => {
-        return (
-          tx.method_name === "add_contribution" &&
-          tx.args.project_id === projectId &&
-          tx.args.cid === cid &&
-          tx.args.vendor_id === vendorId
-        );
-      });
-      State.update({ created_at: tx.timestamp });
-    }
-  );
+  asyncFetch(`${apiUrl}/transactions/all`).then(({ body: txs }) => {
+    const tx = txs.find((tx) => {
+      return (
+        tx.method_name === "add_contribution" &&
+        tx.args.project_id === projectId &&
+        tx.args.cid === cid &&
+        tx.args.vendor_id === vendorId
+      );
+    });
+    State.update({ created_at: tx.timestamp });
+  });
 }
 
 if (!state.requestIsFetched) {
@@ -50,7 +49,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: projectId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
@@ -60,7 +59,7 @@ if (!state.proposalIsFetched) {
     "get_proposal",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((proposal) => State.update({ proposal, proposalIsFetched: true }));
 }
 
