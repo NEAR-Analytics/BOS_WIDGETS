@@ -21,22 +21,20 @@ if (data !== null && data.ok === false) {
         <p>
           <div class="d-flex clearfix flex-wrap flex-column flex-sm-row">
             <div class="p-2">
-              <div>Average Block Time</div>
+              <div>TPS Now</div>
+              <span class="text-success h3">
+                <b>{JSON.parse(data.body.tps).toFixed(2)}</b>
+              </span>
+              <span>in around the block: </span>
+              <b>{JSON.parse(data.body.tps_block)}</b>
+            </div>
+            <div class="p-2">
+              <div>Average Block Time (ABT) Now</div>
               <small>last 30 seconds</small>
               <span class="text-success h3">
                 <b>{JSON.parse(data.body.avg_block_time).toFixed(2)}</b> sec
               </span>
             </div>
-            <div class="p-2">
-              <div>TPS Now</div>
-              <span class="text-success h3">
-                <b>{JSON.parse(data.body.tps).toFixed(2)}</b>
-              </span>
-              <div>in around the block: </div>
-              <b>{JSON.parse(data.body.tps_block)}</b>
-            </div>
-          </div>
-          <div class="d-flex clearfix flex-wrap flex-column flex-sm-row">
             <div class="p-2">
               <div>ABT 30D High</div>
               <span class="h5">
