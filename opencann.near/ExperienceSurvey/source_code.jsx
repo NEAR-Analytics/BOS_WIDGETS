@@ -1,4 +1,5 @@
 // Add tooltips to show long explanations on hover
+const options = props.options ?? ["smoke", "vapor"];
 
 const UUID = {
   generate: (template) => {
@@ -57,9 +58,22 @@ let user_account = context.accountId;
 State.init({
   id: UUID.generate(),
   title: "",
+  substance: "cannabis",
+  cannabisMethod: ["smoke", "vapor"],
+  dose: "",
   description: {
     content: "# New Response Description",
   },
+  otherSubstances: ["", ""],
+  setSetting: "",
+  physicalEffects: ["", ""],
+  visualEffects: ["", ""],
+  auditoryEffects: ["", ""],
+  cognitiveEffects: ["", ""],
+  multisensoryEffects: ["", ""],
+  productName: "",
+  brandName: "",
+  batchNumber: "",
   start: getCurrentDate(),
   startTime: getCurrentTime(),
   end: getCurrentDate(),
@@ -79,6 +93,10 @@ State.init({
 
 const onTitleChange = ({ target }) => {
   State.update({ title: target.value });
+};
+
+const oncannabisMethodChange = (target) => {
+  State.update({ cannabisMethod: target });
 };
 
 const onDescriptionChange = (target) => {
@@ -154,9 +172,22 @@ const onDaoIDChange = ({ target }) => {
 const clearFields = () => {
   State.update({
     title: "",
+    substance: "cannabis",
+    cannabisMethod: ["smoke", "vapor"],
+    dose: "",
     description: {
       content: "# New Response Description",
     },
+    otherSubstances: ["", ""],
+    setSetting: "",
+    physicalEffects: ["", ""],
+    visualEffects: ["", ""],
+    auditoryEffects: ["", ""],
+    cognitiveEffects: ["", ""],
+    multisensoryEffects: ["", ""],
+    productName: "",
+    brandName: "",
+    batchNumber: "",
     start: getCurrentDate(),
     startTime: getCurrentTime(),
     end: getCurrentDate(),
@@ -168,9 +199,9 @@ const clearFields = () => {
     category: "",
     logo: null,
     background: null,
-    tempHash: "",
     customWidget: "",
-    daoId: "",
+    daoId: "cannabis-genome.sputnik-dao.near",
+    tempHash: "",
     hashTags: [],
   });
 };
@@ -180,7 +211,20 @@ const createNewResponse = () => {
     data: {
       id: state.id,
       title: state.title,
+      substance: state.substance,
+      cannabisMethod: state.method,
+      dose: state.dose,
       description: state.description,
+      otherSubstances: state.otherSubstances,
+      setSetting: state.setSetting,
+      physicalEffects: state.physicalEffects,
+      visualEffects: state.visualEffects,
+      auditoryEffects: state.auditoryEffects,
+      cognitiveEffects: state.cognitiveEffects,
+      multisensoryEffects: state.multisensoryEffects,
+      productName: state.productName,
+      brandName: state.brandName,
+      batchNumber: state.batchNumber,
       start: isoDate(state.start, state.startTime),
       startTime: isoTime(state.start, state.startTime),
       end: isoDate(state.end, state.endTime),
@@ -229,7 +273,20 @@ const handleNewResponse = () => {
     data: {
       id: state.id,
       title: state.title,
+      substance: state.substance,
+      cannabisMethod: state.method,
+      dose: state.dose,
       description: state.description,
+      otherSubstances: state.otherSubstances,
+      setSetting: state.setSetting,
+      physicalEffects: state.physicalEffects,
+      visualEffects: state.visualEffects,
+      auditoryEffects: state.auditoryEffects,
+      cognitiveEffects: state.cognitiveEffects,
+      multisensoryEffects: state.multisensoryEffects,
+      productName: state.productName,
+      brandName: state.brandName,
+      batchNumber: state.batchNumber,
       start: isoDate(state.start, state.startTime),
       startTime: isoTime(state.start, state.startTime),
       end: isoDate(state.end, state.endTime),
@@ -289,24 +346,20 @@ const ResponseForm = () => {
           />
         </div>
         <div>Consumption Method</div>
+        <div className="mb-3">
+          <label class="form-label" for="cannabisMethod">
+            How did you consume cannabis? (select all that apply)
+          </label>
+          <Widget
+            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            props={{
+              data: state.cannabisMethod,
+              onChange: oncannabisMethodChange,
+              height: "250px",
+            }}
+          />
+        </div>
         <div>Estimated Dose</div>
-        <div>Age</div>
-        <div>Sex</div>
-        <div>Height</div>
-        <div>Weight</div>
-        <div>Have you ever used canabis before?</div>
-        <div>What is your cannabis tolerance level?</div>
-        <div>Have you ever tried other substances?</div>
-        <div>
-          Currently prescribed medication and/or health conditions (including
-          mental health conditions)
-        </div>
-        <div>Email Address</div>
-        <div>Discord</div>
-        <div>
-          What famous person (or character) would you like to hang out with
-          while consuming cannabis together?
-        </div>
         <div className="mb-3">
           <label class="form-label" for="description">
             Describe Your Experience
