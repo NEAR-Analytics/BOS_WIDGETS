@@ -125,7 +125,7 @@ return (
       />
       <textarea
         placeholder="Message is empty"
-        value={state.message.body}
+        value={message.body}
         disabled={true}
       />
     </Body>
