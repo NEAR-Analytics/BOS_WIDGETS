@@ -50,7 +50,9 @@ const fetchTransactionsData = () => {
     return `Pikespeak API returned error: ${JSON.stringify(res)}`;
   }
   console.log(res.body.length);
-  const filteredData = res.body.filter((item) => item.contract == state.token);
+  const filteredData = res.body.filter(
+    (item) => item.contract == state.token && item.amount !== "0"
+  );
 
   const data = filteredData.map((item) => ({
     ...item,
@@ -67,20 +69,25 @@ const fetchTransactionsData = () => {
   State.update({ data, loading: false });
 };
 
-fetchTransactionsData();
+const fetchTokenMetadata = () => {
+  Near.asyncView(state.token, "ft_metadata", {}, "final", false).then(
+    (tokenMetadata) =>
+      State.update({ tokenMetadata, tokenMetadataIsFetched: true })
+  );
+};
+
+const updateData = () => {
+  fetchTransactionsData();
+  fetchTokenMetadata();
+};
+
+updateData();
 if (!state.dataIntervalStarted) {
   State.update({ dataIntervalStarted: true });
 
   setInterval(() => {
     fetchTransactionsData();
   }, 10000);
-}
-
-if (!state.tokenMetadataIsFetched) {
-  Near.asyncView(state.token, "ft_metadata", {}, "final", false).then(
-    (tokenMetadata) =>
-      State.update({ tokenMetadata, tokenMetadataIsFetched: true })
-  );
 }
 
 if (
