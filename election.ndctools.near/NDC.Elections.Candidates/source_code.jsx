@@ -277,7 +277,7 @@ const housesMapping = {
   SetupPackage: "Budget Package",
 };
 
-users = [];
+const users = [];
 result.map(([candidate, _vote]) =>
   users.push(Social.getr(`${candidate}/profile`))
 );
