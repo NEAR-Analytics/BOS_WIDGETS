@@ -735,7 +735,7 @@ const ResponseForm = () => {
           </div>
         </div>
         <div className="mb-3">
-          <button onClick={handleNewResponse}>Add Response</button>
+          <button onClick={handleNewResponse}>Submit Response</button>
 
           <button onClick={clearFields}>Clear Fields</button>
         </div>
