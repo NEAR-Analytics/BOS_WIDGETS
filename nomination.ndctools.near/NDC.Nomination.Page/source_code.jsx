@@ -1,9 +1,7 @@
 let { ids, dev } = props;
 ids = props.ids ? ids : [1, 2, 3];
 
-const electionContract = dev
-  ? "elections-v1.gwg-testing.near"
-  : "elections.ndc-gwg.near";
+const electionContract = "elections-v1.gwg-testing.near";
 const registryContract = dev
   ? "registry-v1.gwg-testing.near"
   : "registry.i-am-human.near";
@@ -20,7 +18,7 @@ function handleSelfRevoke() {
 const widgets = {
   header: "election.ndctools.near/widget/NDC.Elections.Header",
   card: "nomination.ndctools.near/widget/NDC.Nomination.Card",
-  houses: "election.ndctools.near/widget/NDC.Elections.Houses",
+  houses: "nomination.ndctools.near/widget/NDC.Elections.Houses",
   filter: "election.ndctools.near/widget/NDC.Elections.Filter",
   styledComponents: "nomination.ndctools.near/widget/NDC.StyledComponents",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
@@ -272,7 +270,6 @@ return (
                   src={widgets.styledComponents}
                   props={{
                     Button: {
-                      disabled: true,
                       className: "danger primary",
                       text: "Delete Self Nomination",
                       onClick: () => State.update({ showModalDelete: true }),
@@ -285,7 +282,6 @@ return (
                   src={widgets.styledComponents}
                   props={{
                     Button: {
-                      disabled: true,
                       text: "Self Nominate",
                       onClick: () => State.update({ showModal: true }),
                       icon: <i class="bi bi-plus-lg"></i>,
