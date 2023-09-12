@@ -127,7 +127,8 @@ let page = (
         <li>
           You can opt-in to enable decryption of this data for additional
           rewards by adjusting your{" "}
-          <a href="#/opencann.near/widget/permissions">Permissions Settings</a>.
+          <a href="#/sking.near/widget/DAO.Permissions">Permissions Settings</a>
+          .
         </li>
       </ul>
     </div>
