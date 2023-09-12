@@ -16,7 +16,7 @@ if (!state.projectIsFetched) {
     "get_project",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((project) => State.update({ project, projectIsFetched: true }));
 }
 
@@ -26,12 +26,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/*`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       profile: data[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
 }
 
