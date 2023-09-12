@@ -1,4 +1,4 @@
-const isTrusted = false;
+const isTrusted = true;
 return (
   <>
     <Widget src="andyh.near/widget/ProfileOnboarding" isTrusted={isTrusted} />
