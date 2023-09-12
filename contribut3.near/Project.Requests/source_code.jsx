@@ -13,7 +13,7 @@ if (!state.itemsIsFetched) {
     "get_project_requests",
     { account_id },
     "final",
-    false
+    false,
   ).then((items) => State.update({ items, itemsIsFetched: true }));
 
   return <>Loading...</>;
