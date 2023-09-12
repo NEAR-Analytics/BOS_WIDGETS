@@ -64,8 +64,10 @@ State.init({
   description: {
     content: "# New Response Description",
   },
-  otherSubstances: ["", ""],
-  setSetting: "",
+  otherSubstances: "Other substances taken during this experience.",
+  setSetting: {
+    content: "# New Set and Setting Description",
+  },
   physicalEffects: ["", ""],
   visualEffects: ["", ""],
   auditoryEffects: ["", ""],
@@ -226,8 +228,10 @@ const clearFields = () => {
     description: {
       content: "# New Response Description",
     },
-    otherSubstances: ["", ""],
-    setSetting: "",
+    otherSubstances: "Other substances taken during this experience.",
+    setSetting: {
+      content: "# New Set and Setting Description",
+    },
     physicalEffects: ["", ""],
     visualEffects: ["", ""],
     auditoryEffects: ["", ""],
@@ -406,7 +410,18 @@ const ResponseForm = () => {
             }}
           />
         </div>
-        <div>Estimated Dose</div>
+        <div className="mb-3">
+          <label class="form-label" for="dose">
+            Estimated Dose
+          </label>
+          <input
+            class="form-control"
+            id="dose"
+            value={state.dose}
+            onChange={onDoseChange}
+            placeholder="Estimated Dose"
+          />
+        </div>
         <div className="mb-3">
           <label class="form-label" for="description">
             Describe Your Experience
@@ -420,18 +435,134 @@ const ResponseForm = () => {
             }}
           />
         </div>
-        <div>Other Substances Taken</div>
-        <div>Set and Setting</div>
-        <div>Physical Effects</div>
+        <div className="mb-3">
+          <label class="form-label" for="otherSubstances">
+            Other Substances Taken
+          </label>
+          <input
+            class="form-control"
+            id="otherSubstances"
+            value={state.otherSubstances}
+            onChange={onOtherSubstancesChange}
+            placeholder="Other Substances Taken"
+          />
+        </div>
+        <div className="mb-3">
+          <label class="form-label" for="setSetting">
+            Set and Setting
+          </label>
+          <Widget
+            src="efiz.near/widget/every.markdown.create"
+            props={{
+              data: state.setSetting,
+              onChange: onSetSettingChange,
+              height: "250px",
+            }}
+          />
+        </div>
+        <div className="mb-3">
+          <label class="form-label" for="physicalEffects">
+            Physical Effects
+          </label>
+          <Widget
+            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            props={{
+              data: state.physicalEffects,
+              onChange: onPhysicalEffectsChange,
+              height: "250px",
+            }}
+          />
+        </div>
         <div>Visual Effects</div>
-        <div>Auditory Effects</div>
-        <div>Cognitive Effects</div>
-        <div>Multi-sensory Effects</div>
-        <div>Product Name/Description</div>
-        <div>Brand Name (if available)</div>
-        <div>Batch Number</div>
-        <div>Link to Product/Strain</div>
-        <div>Photo of Product(s) Consumed</div>
+        <div className="mb-3">
+          <label class="form-label" for="physicalEffects">
+            Physical Effects
+          </label>
+          <Widget
+            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            props={{
+              data: state.physicalEffects,
+              onChange: onPhysicalEffectsChange,
+              height: "250px",
+            }}
+          />
+        </div>
+        <div className="mb-3">
+          <label class="form-label" for="auditoryEffects">
+            Auditory Effects
+          </label>
+          <Widget
+            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            props={{
+              data: state.auditoryEffects,
+              onChange: onAuditoryEffectsChange,
+              height: "250px",
+            }}
+          />
+        </div>
+        <div className="mb-3">
+          <label class="form-label" for="cognitiveEffects">
+            Cognitive Effects
+          </label>
+          <Widget
+            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            props={{
+              data: state.cognitiveEffects,
+              onChange: onCognitiveEffectsChange,
+              height: "250px",
+            }}
+          />
+        </div>
+        <div className="mb-3">
+          <label class="form-label" for="multisensoryEffects">
+            Multi-sensory Effects
+          </label>
+          <Widget
+            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            props={{
+              data: state.multisensoryEffects,
+              onChange: onMultiSensoryEffectsChange,
+              height: "250px",
+            }}
+          />
+        </div>
+        <div className="mb-3">
+          <label class="form-label" for="productName">
+            Product Name/Description
+          </label>
+          <input
+            class="form-control"
+            id="productName"
+            value={state.productName}
+            onChange={onProductNameChange}
+            placeholder="Product Name/Description"
+          />
+        </div>
+        <div className="mb-3">
+          <label class="form-label" for="brandName">
+            Brand Name (if available)
+          </label>
+          <input
+            class="form-control"
+            id="brandName"
+            value={state.brandName}
+            onChange={onBrandNameChange}
+            placeholder="Brand Name (if available)"
+          />
+        </div>
+        <div></div>
+        <div className="mb-3">
+          <label class="form-label" for="batchNumber">
+            Batch Number
+          </label>
+          <input
+            class="form-control"
+            id="batchNumber"
+            value={state.batchNumber}
+            onChange={onBatchNumberChange}
+            placeholder="Batch Number"
+          />
+        </div>
         <div className="row mb-3">
           <div className="col">
             <label for="start">Response Start Date</label>
@@ -490,7 +621,7 @@ const ResponseForm = () => {
         </div>
         <div className="mb-3">
           <label class="form-label" for="link">
-            Response Link
+            Link to Product/Strain
           </label>
           <input
             class="form-control"
@@ -498,7 +629,7 @@ const ResponseForm = () => {
             type="url"
             value={state.link}
             onChange={onLinkChange}
-            placeholder="New Response Link"
+            placeholder="Link to Product/Strain"
           />
         </div>
         <div className="mb-3">
@@ -554,14 +685,14 @@ const ResponseForm = () => {
         </div>
         <div className="mb-3 row ">
           <div className="col">
-            <label>Logo Image</label>
+            <label>Photo of Product(s) Consumed</label>
             <Widget
               src="near/widget/ImageEditorTabs"
               props={{ image: state.logo, onChange: onLogoChange }}
             />
           </div>
           <div className="col">
-            <label>Background Image</label>
+            <label>Product Manufacturer Logo</label>
             <Widget
               src="near/widget/ImageEditorTabs"
               props={{ image: state.background, onChange: onBackgroundChange }}
