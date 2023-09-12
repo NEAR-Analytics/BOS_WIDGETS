@@ -1,5 +1,5 @@
 // Add tooltips to show long explanations on hover
-const options = props.options ?? ["smoke", "vapor"];
+const options = cannabisMethod.options ?? ["smoke", "vapor"];
 
 const UUID = {
   generate: (template) => {
@@ -345,7 +345,6 @@ const ResponseForm = () => {
             placeholder="New Response Title"
           />
         </div>
-        <div>Consumption Method</div>
         <div className="mb-3">
           <label class="form-label" for="cannabisMethod">
             How did you consume cannabis? (select all that apply)
