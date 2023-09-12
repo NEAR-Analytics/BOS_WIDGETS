@@ -1,4 +1,5 @@
 const ownerId = "contribut3.near";
+const apiUrl = "https://api-staging-fur7.onrender.com";
 
 const Header = styled.div`
   display: flex;
@@ -145,7 +146,7 @@ State.init({
   requestsTodayCount: 0,
 });
 
-asyncFetch("https://api-staging-fur7.onrender.com/transactions/stats").then(
+asyncFetch(`${apiUrl}/transactions/stats`).then(
   (response) =>
     response.ok &&
     State.update({
@@ -153,23 +154,23 @@ asyncFetch("https://api-staging-fur7.onrender.com/transactions/stats").then(
       vendorsCount: response.body.vendors,
       investorsCount: response.body.backers,
       requestsCount: response.body.requests,
-    })
+    }),
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/projects?sort=timedesc").then(
-  (response) => response.ok && State.update({ projects: response.body })
+asyncFetch(`${apiUrl}/data/projects?sort=timedesc`).then(
+  (response) => response.ok && State.update({ projects: response.body }),
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/requests?sort=timedesc").then(
-  (response) => response.ok && State.update({ requests: response.body })
+asyncFetch(`${apiUrl}/data/requests?sort=timedesc`).then(
+  (response) => response.ok && State.update({ requests: response.body }),
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/vendors?sort=timedesc").then(
-  (response) => response.ok && State.update({ vendors: response.body })
+asyncFetch(`${apiUrl}/data/vendors?sort=timedesc`).then(
+  (response) => response.ok && State.update({ vendors: response.body }),
 );
 
-asyncFetch("https://api-staging-fur7.onrender.com/data/investors?sort=timedesc").then(
-  (response) => response.ok && State.update({ investors: response.body })
+asyncFetch(`${apiUrl}/data/investors?sort=timedesc`).then(
+  (response) => response.ok && State.update({ investors: response.body }),
 );
 
 return (
