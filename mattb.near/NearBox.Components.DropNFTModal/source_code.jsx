@@ -11,6 +11,7 @@ State.init({
 });
 
 const DarkOverlay = styled.div`
+    z-index:9999;
     display:flex;
     align-items:center;
     justify-content:center;
