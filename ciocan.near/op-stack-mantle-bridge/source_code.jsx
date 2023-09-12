@@ -24,7 +24,7 @@ const Layout = styled.div`
   }
 `;
 
-const { tokens } = VM.require("ciocan.near/widget/op-stack-module");
+const { tokens, bridgeAbi } = VM.require("ciocan.near/widget/op-stack-module");
 
 const l2Network = "mantle";
 const l2TestnetId = 5001;
@@ -40,7 +40,7 @@ State.init({
   isToastOpen: false,
 });
 
-const { chainId, variant, title, description, isToastOpen } = state;
+const { chainId, variant, title, description, isToastOpen, gasLimit } = state;
 const isMainnet = chainId === 1 || chainId === l2MainnetId;
 
 const onOpenChange = (v) => {
@@ -51,6 +51,7 @@ const onOpenChange = (v) => {
 
 const provider = Ethers.provider();
 const sender = Ethers.send("eth_requestAccounts", [])[0];
+const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
 if (sender) {
   Ethers.provider()
@@ -60,12 +61,45 @@ if (sender) {
     });
 }
 
-const handleBridge = (props) => {
-  console.log("handleBridge", props);
-};
+function handleDepositETH(props) {
+  console.log("deposit", props);
+  const { amount, token } = props;
+  const amountBig = ethers.utils.parseUnits(`${amount}`, 18);
+
+  const encodedData = bridgeIface.encodeFunctionData(
+    "depositETH(uint32, bytes)",
+    [200000, 0]
+  );
+
+  Ethers.provider()
+    .getSigner()
+    .sendTransaction({
+      to: token.extensions.optimismBridgeAddress,
+      data: encodedData,
+      value: amountBig,
+      gasLimit,
+    })
+    .then((tx) => {
+      consle.log("tx:", tx);
+    })
+    .catch((e) => {
+      console.log("bridge error:", e);
+    });
+}
+
+function handleDepositERC20(props) {
+  console.log("handleDepositERC20", props);
+}
 
 const onConfirm = (props) => {
   console.log("onConfirm", props);
+  const { network, token } = props;
+  if (network !== "ethereum") return;
+  if (token.symbol === "ETH") {
+    handleDepositETH(props);
+  } else {
+    handleDepositERC20(props);
+  }
 };
 
 const onChangeAmount = (props) => {
