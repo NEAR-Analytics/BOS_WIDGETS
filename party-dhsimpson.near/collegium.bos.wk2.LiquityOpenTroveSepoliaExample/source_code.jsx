@@ -318,8 +318,14 @@ const openTrove = async () => {
     ethers.utils.parseEther(state.coll.toString())
   );
 
-  /** Mission 3. NICR = Ether / LUSD * 100 */
+  /** Mission 3. NICR의 값을 구해주세요
+   * 계산 식: NICR = ETHColl * 1e20 / expectedDebt
+   * 아래의 계산 방법을 이용하되 ethersjs의 BigNumber API를 이용하세요
+   * 참고 문서: https://docs.ethers.org/v5/api/utils/bignumber/#BigNumber--BigNumber--methods--math-operations
+   * 입력창에 2ETH, 1800LUSD를 입력했을 때 NICR.toString()의 결과 값: "99552015928322548"
+   */
   const NICR = ETHColl.mul(_1e20).div(expectedDebt);
+  console.log({ NICR: NICR.toString() });
   sortedTroveContract.getSize().then((numTroves) => {
     const _numTrials = numTroves.mul(ethers.BigNumber.from("15"));
 
@@ -360,6 +366,30 @@ const openTrove = async () => {
               });
           });
       });
+  });
+};
+
+const closeTrove = () => {
+  const borrowerOperationContract = new ethers.Contract(
+    borrowerOperationAddress,
+    borrowerOperationABI,
+    Ethers.provider().getSigner()
+  );
+
+  borrowerOperationContract.closeTrove().then((transactionHash) => {
+    State.update({
+      loading: true,
+      hash: transactionHash.hash,
+      borrow: 0,
+      displayBorrow: "",
+      coll: 0,
+      displayColl: "",
+      borrowingFee: 0,
+      totalcoll: state.liquidationReserve,
+      collateralRatio: 0,
+      liquidationReserve: state.liquidationReserve,
+      isOpenTrove: false,
+    });
   });
 };
 
@@ -482,15 +512,6 @@ const complete = () => {
   State.update({ complete: true });
 };
 
-const toggleComplete = () => {
-  State.update({ complete: !state.complete });
-};
-
-const resetComplete = () => {
-  State.update({
-    complete: false,
-  });
-};
 /**
  * @description
  * Present the current status of the UI where the transaction is in progress.
@@ -503,60 +524,36 @@ Ethers.provider() &&
         loading: false,
       });
       complete();
-      console.log("res");
-      console.log(res);
-      setTimeout(() => {
-        toggleComplete();
-      }, 500);
     })
     .catch((err) => {
       State.update({ loading: false });
-      console.log("err");
-      console.log(err);
     });
 
 /**
  * Mission 2. `borrowWrapper` 컴포넌트의 스타일을 외부 css파일을 불러와서 적용해보세요.
  * 외부 css 파일 링크: "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css"
+ * 여기를 고쳐주세요.
  */
-if (state.borrowWrapperStyle === undefined) {
-  const css = fetch(
-    "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css"
-  );
-  State.update({
-    borrowWrapperStyle: styled.div`
-        width: 100%;
-        ${css.body}
-    `,
-  });
+const cssLink =
+  "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css";
+const cssData = fetch(cssLink).body;
+
+/**
+ * 여기는 고치지 마세요!
+ */
+if (cssLink !== "PUT CSS FILE LINK") {
+  if (!cssData) return "";
 }
 
-const closeTrove = () => {
-  const borrowerOperationContract = new ethers.Contract(
-    borrowerOperationAddress,
-    borrowerOperationABI,
-    Ethers.provider().getSigner()
-  );
-
-  borrowerOperationContract.closeTrove().then((transactionHash) => {
-    State.update({
-      loading: true,
-      hash: transactionHash.hash,
-      borrow: 0,
-      displayBorrow: "",
-      coll: 0,
-      displayColl: "",
-      borrowingFee: 0,
-      totalcoll: state.liquidationReserve,
-      collateralRatio: 0,
-      liquidationReserve: state.liquidationReserve,
-      isOpenTrove: false,
-    });
-    setTimeout(() => {
-      toggleComplete();
-    }, 500);
+if (state.borrowWrapperStyle === undefined) {
+  //"https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css"
+  State.update({
+    borrowWrapperStyle: styled.div`
+    width: 100%;
+    ${cssData}
+`,
   });
-};
+}
 
 /**
  * @description
@@ -564,31 +561,6 @@ const closeTrove = () => {
  * Update this code block to change the style.
  */
 const BorrowWrapper = state.borrowWrapperStyle;
-
-const buttonMessage = () => {
-  if (Ethers.provider() && state.chainId !== 11155111) {
-    return "Change network to Sepolia";
-  }
-  // 트로브가 없을 때만 활성화
-  if (state.isOpenTrove) {
-    return "이 지갑은 이미 활성화된 트로브가 있습니다.";
-  }
-
-  // Trove 생성 메시지
-  if (state.loading) {
-    return "Loading...";
-  } else if (state.complete) {
-    return "Done ✅";
-  }
-
-  // text input 상태 관련 메시지
-  if (state.coll === 0 || state.borrow === 0) {
-    return "Enter input value";
-  } else if (state.isBlocked) {
-    return "Check  stats";
-  }
-  return "Open Trove";
-};
 
 /**
  * @description
@@ -681,20 +653,27 @@ return (
           disabled={state.isBlocked}
           onClick={openTrove}
         >
-          {buttonMessage()}
+          {Ethers.provider() && state.chainId !== 11155111
+            ? "Change network to Sepolia"
+            : /**
+             * Mission 1. "이 지갑은 이미 활성화된 트로브가 있습니다." 메시지를 추가해주세요.
+             */
+            state.isOpenTrove === true
+            ? "You already have active Trove"
+            : state.loading
+            ? "Loading..."
+            : state.complete
+            ? "Done ✅"
+            : state.coll === 0 || state.borrow === 0
+            ? "Enter input value"
+            : state.isBlocked
+            ? "Check stats"
+            : "Open Trove"}
         </button>
       ) : (
         <Web3Connect className="connect-wallet" />
       )}
+      <button onClick={closeTrove}>Close Trove</button>
     </div>
-    <button onClick={closeTrove}>Close Trove</button>
-    <button onClick={resetComplete}>reset comoplete</button>
-    <p>isOpenTrove : {state.isOpenTrove.toString()}</p>
-    <p>loading : {state.loading.toString()}</p>
-    <p>complete : {state.complete.toString()}</p>
-    <p>
-      coll : {state.coll}, borrow : {state.borrow}
-    </p>
-    <p>isBlocked : {state.isBlocked.toString()}</p>
   </BorrowWrapper>
 );
