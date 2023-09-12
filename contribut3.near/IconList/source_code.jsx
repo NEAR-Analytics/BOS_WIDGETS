@@ -37,15 +37,15 @@ if (!state.namesIsFetched) {
     "get",
     { keys: ids.map((id) => `${id}/profile/name`) },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       names: ids.reduce(
         (acc, id) => ({ ...acc, [id]: data[id].profile.name }),
-        {}
+        {},
       ),
       namesIsFetched: true,
-    })
+    }),
   );
 }
 
