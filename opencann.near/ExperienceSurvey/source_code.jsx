@@ -562,6 +562,19 @@ const ResponseForm = () => {
             placeholder="Batch Number"
           />
         </div>
+        <div className="mb-3">
+          <label class="form-label" for="link">
+            Link to Product/Strain
+          </label>
+          <input
+            class="form-control"
+            id="link"
+            type="url"
+            value={state.link}
+            onChange={onLinkChange}
+            placeholder="Link to Product/Strain"
+          />
+        </div>
         <div className="row mb-3">
           <div className="col">
             <label for="start">Response Start Date</label>
@@ -616,19 +629,6 @@ const ResponseForm = () => {
             value={state.location}
             onChange={onLocationChange}
             placeholder="New Response Location"
-          />
-        </div>
-        <div className="mb-3">
-          <label class="form-label" for="link">
-            Link to Product/Strain
-          </label>
-          <input
-            class="form-control"
-            id="link"
-            type="url"
-            value={state.link}
-            onChange={onLinkChange}
-            placeholder="Link to Product/Strain"
           />
         </div>
         <div className="mb-3">
