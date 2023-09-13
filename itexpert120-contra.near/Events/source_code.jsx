@@ -156,6 +156,7 @@ const handleViewChange = (view) => {
 
 const fetchedEvents = fetchAllEvents();
 const formattedEvents = fetchedEvents.map((event) => {
+  const path = `${event.organizer}/thing/${event.id}`;
   return {
     title: event.title,
     start: new Date(`${event.start} ${event.startTime}`),
@@ -167,6 +168,7 @@ const formattedEvents = fetchedEvents.map((event) => {
       category: event.category,
       location: event.location,
       organizer: event.organizer,
+      href: `https://near.social/itexpert120-contra.near/widget/EventView?path=${path}`,
     },
     description: event.description,
   };
@@ -246,13 +248,8 @@ const addEventButton = styled.button`
 `;
 
 const handleEventClick = (data) => {
-  console.log(data);
-  if (data.url) {
-    window.open(
-      data.url,
-      "_blank" // <- This is what makes it open in a new window.
-    );
-  }
+  const href = data.extendedProps.href;
+  self.location = href;
 };
 
 const handleAddEvent = () => {
