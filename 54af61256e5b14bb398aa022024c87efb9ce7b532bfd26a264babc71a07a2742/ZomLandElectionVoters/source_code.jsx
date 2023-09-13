@@ -155,7 +155,11 @@ const Section = styled.div`
 
 const Name = styled.div`
   background-color: ${(props) =>
-    props.isVoted ? "#46ff7d" : "inherit !important"};
+    props.isVoted
+      ? "#46ff7d"
+      : props.isVotedForOthers
+      ? "#ccc"
+      : "inherit !important"};
   width: 300px;
   white-space: nowrap;
   overflow: hidden;
@@ -212,6 +216,19 @@ function isVoted(acc) {
   return state.voters.some((u) => acc === u);
 }
 
+function isVotedForOthers(acc) {
+  return asyncFetch(
+    `https://api.pikespeak.ai/election/votes-by-voter?contract=elections.ndc-gwg.near&voter=${acc}`,
+    { headers: { "x-api-key": apiKey } }
+  ).then((resp) =>
+    resp.body.some(
+      (vote) =>
+        vote.candidate !== context.accountId &&
+        vote.house === "CouncilOfAdvisors"
+    )
+  );
+}
+
 const formData = {};
 
 state.data.map((item) => {
@@ -246,7 +263,10 @@ return (
         <h5>NDC Whitelisted ({ndcAccounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {ndcAccounts.map((accountId) => (
-            <Name isVoted={isVoted(accountId)}>
+            <Name
+              isVoted={isVoted(accountId)}
+              isVotedForOthers={isVotedForOthers(accountId)}
+            >
               <Widget
                 src="mob.near/widget/ProfileLine"
                 props={{ accountId, tooltip: false }}
