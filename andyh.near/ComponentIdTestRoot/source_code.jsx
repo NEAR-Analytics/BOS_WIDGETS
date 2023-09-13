@@ -10,6 +10,7 @@ return (
       id="sandboxed"
       src="andyh.near/widget/ComponentIdTestParent"
       isTrusted={false}
+      props={{ title: "sandboxed" }}
     />
   </>
 );
