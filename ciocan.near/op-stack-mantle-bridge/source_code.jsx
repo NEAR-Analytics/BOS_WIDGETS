@@ -236,7 +236,7 @@ return (
       />
     </Container>
     <div class="link">
-      To check the deposit list{" "}
+      To check the deposit status{" "}
       <a href={depositsUrl} target="_blank">
         click here
       </a>
