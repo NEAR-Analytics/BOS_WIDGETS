@@ -112,7 +112,7 @@ const accounts = [
 
 State.init({
   voters: [],
-  otherVotersObj: {},
+  otherVoters: {},
   data: [],
   community: props.community || "zomland",
 });
@@ -217,24 +217,30 @@ function isVoted(acc) {
   return state.voters.some((u) => acc === u);
 }
 
-// accounts.map((accountId) =>
-//   asyncFetch(
-//     `https://api.pikespeak.ai/election/votes-by-voter?contract=elections.ndc-gwg.near&voter=${accountId}`,
-//     { headers: { "x-api-key": apiKey } }
-//   ).then((resp) => {
-//     if (
-//       resp.body &&
-//       resp.body.length > 0 &&
-//       resp.body
-//         .filter((vote) => vote.house === "CouncilOfAdvisors")
-//         .every((vote) => vote.candidate !== context.accountId)
-//     )
-//       State.update({
-//         otherVotersObj: { ...state.otherVotersObj, [accountId]: true },
-//       });
-//   })
-// );
+const data = fetch(
+  "https://raw.githubusercontent.com/zavodil/near-nft-owners-list/main/output_election_votes.txt"
+);
 
+if (data.ok) {
+  let otherVoters = {};
+
+  Object.values(
+    data.body
+      .split("\n")
+      .map((line) => line.split("|"))
+      .filter((data) => data.length === 5)
+  ).map((item) => {
+    const account_id = item[0];
+    if (otherVoters[account_id] == undefined) {
+      otherVoters[account_id] = {};
+    }
+    otherVoters[account_id][item[3]] = item[4].toLowerCase();
+  });
+
+  State.update({ otherVoters });
+} else return "Loading";
+
+console.log(state.otherVoters);
 const formData = {};
 
 state.data.map((item) => {
@@ -248,6 +254,7 @@ const ndcAccounts = formData[state.community]
   .filter((user) => accounts.includes(user));
 const totalPercentage = (getVoted(accounts).length / accounts.length) * 100;
 const ndcPercentage = (getVoted(ndcAccounts).length / ndcAccounts.length) * 100;
+const getOtherVoter = (acc) => state.otherVoters[acc][2];
 
 return (
   <div className="d-flex flex-column justify-content-center w-100">
@@ -256,7 +263,13 @@ return (
         <h5>Total Whitelisted ({accounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {accounts.map((accountId) => (
-            <Name isVoted={isVoted(accountId)}>
+            <Name
+              isVoted={isVoted(accountId)}
+              isVotedForOthers={
+                getOtherVoter(accountId).length > 0 &&
+                !getOtherVoter(accountId).includes(context.accountId)
+              }
+            >
               <Widget
                 src="mob.near/widget/ProfileLine"
                 props={{ accountId, tooltip: false }}
@@ -269,7 +282,13 @@ return (
         <h5>NDC Whitelisted ({ndcAccounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {ndcAccounts.map((accountId) => (
-            <Name isVoted={isVoted(accountId)}>
+            <Name
+              isVoted={isVoted(accountId)}
+              isVotedForOthers={
+                getOtherVoter(accountId).length > 0 &&
+                !getOtherVoter(accountId).includes(context.accountId)
+              }
+            >
               <Widget
                 src="mob.near/widget/ProfileLine"
                 props={{ accountId, tooltip: false }}
