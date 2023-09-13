@@ -22,7 +22,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `#/cplanet.near/widget/Passport.Main?accountId=${accountId}`;
+const accountUrl = `#/cpassport.near/widget/Passport.Main?accountId=${accountId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
