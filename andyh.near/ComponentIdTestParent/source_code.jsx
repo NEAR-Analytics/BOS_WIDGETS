@@ -5,6 +5,7 @@ State.init({
   x: 1,
 });
 
+console.log({ ComponentState });
 const components = [state.a, state.b, state.c];
 return (
   <>
