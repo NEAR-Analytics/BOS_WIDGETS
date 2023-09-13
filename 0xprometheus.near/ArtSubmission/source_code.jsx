@@ -53,6 +53,17 @@ const css = `
         .submit-button:hover {
             background-color: #0056b3;
         }
+
+        .submitted-count {
+            font-size: 1rem;
+            margin: 5px;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
 `;
 
 const cssFont = fetch(
@@ -79,13 +90,6 @@ if (!f.ok) {
 
 const allContracts = f.body.list;
 console.log("oun ni", allContracts);
-// [
-//   "near-hackerhouse-austin.snft.near",
-//   "comic.paras.near",
-//   "nft.genadrop.near",
-//   "genadrop-contract.nftgen.near",
-//   "mint.sharddog.near",
-// ];
 
 const allNfts = (allContracts) => {
   let nnf = allContracts.map((contractId, i) => {
@@ -137,6 +141,10 @@ return (
   <Theme>
     <div className="card">
       <h2>Select an NFT</h2>
+      <div className="submitted-count">
+        {/* Display the submitted count */}
+        Submitted Arts: {5}
+      </div>
       <div className="nft-list">
         {nfts.map((nft, i) => (
           <a
