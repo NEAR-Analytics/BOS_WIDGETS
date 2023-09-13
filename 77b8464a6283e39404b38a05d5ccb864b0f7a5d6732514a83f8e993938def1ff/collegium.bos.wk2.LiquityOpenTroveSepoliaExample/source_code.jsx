@@ -318,7 +318,7 @@ const openTrove = async () => {
    * 입력창에 2ETH, 1800LUSD를 입력했을 때 NICR.toString()의 결과 값: "99552015928322548"
    */
   // const NICR = (ETHColl * 1e20) / expectedDebt;
-  const NICR = ETHColl.mul(1e20).div(expectedDebt);
+  const NICR = ETHColl.mul(_1e20).div(expectedDebt);
   console.log({ NICR: NICR.toString() });
   sortedTroveContract.getSize().then((numTroves) => {
     const _numTrials = numTroves.mul(ethers.BigNumber.from("15"));
