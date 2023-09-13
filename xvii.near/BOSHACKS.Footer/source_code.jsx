@@ -98,7 +98,7 @@ const social = (
         title="Official GitHub Repo"
         target="_blank"
         rel="noopener"
-        href="https://github.com/nearbuilders"
+        href="https://github.com/"
       >
         <svg
           class="svg-inline--fa fa-github fa-w-16"
@@ -127,7 +127,7 @@ const social = (
         title="Official YouTube channel"
         target="_blank"
         rel="noopener"
-        href="https://www.youtube.com/@banyanus"
+        href="https://www.youtube.com/"
       >
         <svg
           class="svg-inline--fa fa-youtube fa-w-18"
