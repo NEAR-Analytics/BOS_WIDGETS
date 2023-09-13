@@ -12,8 +12,8 @@ return (
       src="andyh.near/widget/ComponentIdTestChild"
       id={"a"}
       props={{
-        value: state.value,
-        id: state.id,
+        value: state.a.value,
+        id: state.a.id,
         update: (componentId) => {
           console.log(`updating ${componentId}`);
           State.update({
