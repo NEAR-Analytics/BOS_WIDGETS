@@ -13,5 +13,6 @@ return (
     >
       increment {state.value}
     </button>
+    <Widget src="andyh.near/widget/ComponentIdTestLeaf" />
   </div>
 );
