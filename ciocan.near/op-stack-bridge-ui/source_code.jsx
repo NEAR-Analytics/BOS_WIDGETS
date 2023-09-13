@@ -515,7 +515,7 @@ const changeNetwork = (network) => {
 };
 
 const openNetworkList = () => {
-  if (disableNetworkChange) return;
+  if (props.disableNetworkChange) return;
   State.update({ isNetworkSelectOpen: true, isTokenDialogOpen: false });
 };
 
@@ -563,7 +563,7 @@ const getToken = (tokenSymbol) =>
 const updateToken = (tokenSymbol) => {
   State.update({ selectedToken: tokenSymbol, isTokenDialogOpen: false });
 
-  const { onUpdateToken, disableNetworkChange } = props;
+  const { onUpdateToken } = props;
   if (onUpdateToken) {
     const token = getToken(tokenSymbol);
     onUpdateToken({ amount, token, network: selectedNetwork });
