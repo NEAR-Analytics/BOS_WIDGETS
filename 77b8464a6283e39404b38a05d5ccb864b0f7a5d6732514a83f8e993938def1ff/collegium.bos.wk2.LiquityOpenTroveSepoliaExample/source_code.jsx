@@ -543,7 +543,6 @@ const BorrowWrapper = state.borrowWrapperStyle;
  * 5. Enter a value greater than 0 in the "coll" and "borrow" Number fields.
  */
 
-
 // function setTrove() {
 //   if (isOpenTrove !== true) {
 //     console.log("이 지갑은 이미 활성화된 트로브가 있습니다.");
@@ -637,12 +636,12 @@ return (
         >
           {Ethers.provider() && state.chainId !== 11155111
             ? "Change network to Sepolia"
-            : state.isOpenTrove !==true
-            ?"이 지갑은 이미 활성화된 트로브가 있습니다."
-            /**
+            : state.isOpenTrove !== false
+            ? "이 지갑은 이미 활성화된 트로브가 있습니다."
+            : /**
              * Mission 1. "이 지갑은 이미 활성화된 트로브가 있습니다." 메시지를 추가해주세요.
              */
-            :state.loading
+            state.loading
             ? "Loading..."
             : state.complete
             ? "Done ✅"
