@@ -156,10 +156,10 @@ const Section = styled.div`
 
 const Name = styled.div`
   background-color: ${(props) =>
-    props.isVoted
-      ? "#46ff7d"
-      : props.isVotedForOthers
+    props.isVotedForOthers
       ? "#ccc"
+      : props.isVoted
+      ? "#46ff7d"
       : "inherit !important"};
   width: 300px;
   white-space: nowrap;
