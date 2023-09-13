@@ -52,6 +52,7 @@ const data = {
       key: "main",
       value: {
         type: "md",
+        title: state.title
       },
     }),
   },
@@ -59,8 +60,9 @@ const data = {
 
 return (
   <PostEditorWrapper>
+    {state.title.includes(" ")? "제목은 띄어쓰기를 사용할 수 없습니다.": ""}
     <div className="commit-wrapper">
-      <CommitButton disabled={state.title === ""} force data={data}>
+      <CommitButton disabled={state.title === "" || state.title.includes(" ")} force data={data}>
         게시하기
       </CommitButton>
     </div>
