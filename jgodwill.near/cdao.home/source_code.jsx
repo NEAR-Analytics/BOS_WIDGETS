@@ -1,204 +1,3 @@
-const Main = styled.div`
-*{
-    box-sizing: inherit;
-    text-decoration: none;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    color: unset;
-    font-family: 'Playfair Display';
-}
-.section{
-    display: flex;
-    align-items: center;
-    padding: 1.5rem 5rem;
-}
-
-.hero{
-    width: 100%;
-    position: relative;
-    /* background: #00d8c9; */
-    background: #000000;
-    background: linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
-    background: -webkit-linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
-    background: -moz-linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
-    color: #fff;
-    align-content: center;
-    margin: 0 auto;
-    padding: 2rem inherit;
-    height: 100vh;
-}
-.heroRight{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-.heroLeft{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem 0px;
-}
-
-.heroTitle{
-    font-size: max(1.5rem, 5vw);
-    font-weight: 700;
-    line-height: 1.0;
-    margin-bottom: 1rem;
-}
-
-.heroBody{
-    opacity: .6;
-}
-
-.heroCTA, .artCTA{
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-}
-
-.button{
-    padding: .5rem 1rem;
-    border-radius: 5px;
-    background-color: #fff;
-    color: #122a58;
-    font-size: 1.2rem;
-    transition: all .3s ease-in-out;
-    border: 1px solid #ffc501;
-}
-
-.heroCTA a:hover{
-    background-color: #000;
-    color: #fff;
-}
-.button.sec{
-    background: transparent;
-    color: #ffc501;
-    border: none;
-}
-.stats{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-top: 1rem;
-    padding: 1rem 0px;
-}
-.stat{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: .5rem;
-    padding: 0px 1rem;
-    text-align: center;
-    border-right: 1px solid #ffc501;
-}
-
-.stat:last-child{
-    border-right: none;
-}
-
-.statTitle{
-    font-size: 2.6rem;
-    font-weight: 700;
-    line-height: 1.0;
-}
-
-.statBody{
-    font-size: .8rem;
-    line-height: 1.0;
-  text-align: center;
-  line-height: 24px;
-  opacity: .5;
-}
-.featuredArt{
-    width: 40vw;
-    max-width: 500px;
-    height: 100%;
-    /* border-top-left-radius: 50px; */
-    /* box shadow */
-    box-shadow: 0px 0px 20px rgba(0,0,0,.5);
-    clip-path: polygon(30% 16%, 84% 16%, 84% 100%, 16% 100%, 16% 28%);
-    border-radius: .5rem;
-}
-
-.artCard{
-    /* tranluscent card */
-    border-radius: .5rem;
-    padding: 2rem;
-    margin: 1rem;
-    /* box shadow */
-    box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
-    /* make it glass like */
-    /* background-color: rgba(255,255,255,.2); */
-    /* backdrop-filter: blur(15px); */
-    /* -webkit-backdrop-filter: blur(15px); */
-    position: absolute;
-    bottom: -60px;
-    right: -3vw;
-    width: 80%;
-    max-width: 400px;
-    height: 170px;
-    /* z-index: 1; */
-    /* glasslike more visible border */
-    border: 1px solid rgba(255,255,255,.5);
-    clip-path: polygon(26% 16%, 84% 16%, 84% 100%, 16% 100%, 16% 36%);
-    color: #ffc501;
-    padding-left:16%;
-}
-
-.featured{
-    position: relative;
-    width: fit-content;
-}
-
-.blurredBG, .artCard{
-    background: rgba(255,255,255,.2);
-}
-
-.blurredBG>.blurbg{
-    background-color: #000000dc;
-    width: 100%;
-    height: 100%;
-}
-
-.blurredBG{
-    -webkit-filter: blur(14px);
-    filter: blur(14px);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    background-size: cover;
-}
-.cardContent{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    text-align: center;
-    position: absolute;
-    z-index: 1;
-    color: #ffc501 !important;
-}
-.artName{
-    font-size: .9rem;
-    font-weight: 700;
-    line-height: 1.0;
-}
-`;
-
 const nft = props.nft ?? {
   contractId: props.contractId || "nft.genadrop.near",
   tokenId: props.tokenId || 1694623717976,
@@ -609,6 +408,205 @@ const getUsdValue = (price) => {
 
 const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
+
+const Main = styled.div`
+*{
+    box-sizing: inherit;
+    text-decoration: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: unset;
+    font-family: 'Playfair Display';
+}
+.section{
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 5rem;
+}
+
+.hero{
+    width: 100%;
+    position: relative;
+    /* background: #00d8c9; */
+    background: #000000;
+    background: linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
+    background: -webkit-linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
+    background: -moz-linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
+    color: #fff;
+    align-content: center;
+    margin: 0 auto;
+    padding: 2rem inherit;
+    height: 100vh;
+}
+.heroRight{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.heroLeft{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0px;
+}
+
+.heroTitle{
+    font-size: max(1.5rem, 5vw);
+    font-weight: 700;
+    line-height: 1.0;
+    margin-bottom: 1rem;
+}
+
+.heroBody{
+    opacity: .6;
+}
+
+.heroCTA, .artCTA{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.button{
+    padding: .5rem 1rem;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #122a58;
+    font-size: 1.2rem;
+    transition: all .3s ease-in-out;
+    border: 1px solid #ffc501;
+}
+
+.heroCTA a:hover{
+    background-color: #000;
+    color: #fff;
+}
+.button.sec{
+    background: transparent;
+    color: #ffc501;
+    border: none;
+}
+.stats{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem 0px;
+}
+.stat{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    padding: 0px 1rem;
+    text-align: center;
+    border-right: 1px solid #ffc501;
+}
+
+.stat:last-child{
+    border-right: none;
+}
+
+.statTitle{
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1.0;
+}
+
+.statBody{
+    font-size: .8rem;
+    line-height: 1.0;
+  text-align: center;
+  line-height: 24px;
+  opacity: .5;
+}
+.featuredArt{
+    width: 40vw;
+    max-width: 500px;
+    height: 100%;
+    /* border-top-left-radius: 50px; */
+    /* box shadow */
+    box-shadow: 0px 0px 20px rgba(0,0,0,.5);
+    clip-path: polygon(30% 16%, 84% 16%, 84% 100%, 16% 100%, 16% 28%);
+    border-radius: .5rem;
+}
+
+.artCard{
+    /* tranluscent card */
+    border-radius: .5rem;
+    padding: 2rem;
+    margin: 1rem;
+    /* box shadow */
+    box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+    position: absolute;
+    bottom: -60px;
+    right: -3vw;
+    width: 80%;
+    max-width: 400px;
+    height: 170px;
+    /* z-index: 1; */
+    /* glasslike more visible border */
+    border: 1px solid rgba(255,255,255,.5);
+    clip-path: polygon(26% 16%, 84% 16%, 84% 100%, 16% 100%, 16% 36%);
+    color: #ffc501;
+    padding-left:16%;
+}
+
+.featured{
+    position: relative;
+    width: fit-content;
+}
+
+.blurredBG, .artCard{
+    background: rgba(255,255,255,.2);
+}
+
+.blurredBG>.blurbg{
+    background-color: #ffc501;
+    width: 100%;
+    height: 100%;
+}
+
+.blurredBG{
+    -webkit-filter: blur(14px);
+    filter: blur(14px);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-size: cover;
+}
+.cardContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+    color: #000 !important;
+}
+.artName{
+    font-size: .9rem;
+    font-weight: 700;
+    line-height: 1.0;
+}
+`;
+
+const ownerId = state.owner;
 return (
   <Main>
     <div class="section hero">
@@ -668,7 +666,17 @@ return (
             <div class="artLHS">
               <div class="artTitle">
                 <div class="artName">{state.title}</div>
-                <div class="artCreator">{state.owner}</div>
+                <div class="artCreator">
+                  <a
+                    className="text-dark text-decoration-none text-truncate"
+                    href={`#/mob.near/widget/ProfilePage?accountId=${state.owner}`}
+                  >
+                    <Widget
+                      src="jgodwill.near/widget/Profile.ShortInlineBlock"
+                      props={{ ownerId, tooltip: true }}
+                    />
+                  </a>
+                </div>
               </div>
               <div class="artBody">{state.description}</div>
             </div>
