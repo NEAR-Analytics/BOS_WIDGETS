@@ -21,7 +21,7 @@ return (
           key="environment"
           constraints={{
     audio: false,
-    video: { facingMode: "environment" }}}
+          }}
           onScan={(data) 
           => {
             if (!state?.text) State.update({ text: data?.text });
