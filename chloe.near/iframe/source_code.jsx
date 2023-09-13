@@ -13,6 +13,7 @@ const Title = styled.h1`
   margin-bottom: 20px;
 `;
 
+// Style for Iframe container updated to include margin-bottom for spacing
 const Description = styled.p`
   color: #fff;
   font-weight: 300;
@@ -20,11 +21,17 @@ const Description = styled.p`
   margin-bottom: 20px;
 `;
 
-// Style for Iframe container
 const IframeContainer = styled.div`
   position: relative;
   overflow: hidden;
   padding-top: 56.25%;
+  margin-bottom: 20px;  // Added this line for spacing
+`;
+
+const WidgetContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
 
 return (
@@ -50,9 +57,12 @@ return (
         description: `Explore the crypto-based gaming world of Marma J Gaming where you can collaborate artistically with friends, gather your pets for a battle, outfit your hero to explore dungeons and take part in raids, and gather an army to position yourself as the master tactician.`,
       }}
     />
-    <Widget src={"jay100.near/widget/PixelParty-Widget"} />
-    <Widget src={"jay100.near/widget/PixelPets-Widget"} />
-    <Widget src={"jay100.near/widget/CH-Widget"} />
-    <Widget src={"jay100.near/widget/CTT-Widget"} />
+    {/* Widget layout */}
+    <WidgetContainer>
+      <Widget src={"jay100.near/widget/PixelParty-Widget"} />
+      <Widget src={"jay100.near/widget/PixelPets-Widget"} />
+      <Widget src={"jay100.near/widget/CH-Widget"} />
+      <Widget src={"jay100.near/widget/CTT-Widget"} />
+    </WidgetContainer>
   </Container>
 );
