@@ -349,11 +349,7 @@ const handleModals = () => {
 };
 
 const handleCountCandidates = (availableVotes, selectedCandidates) => {
-  State.update({
-    availableVotes,
-    selectedCandidates,
-    reload: false,
-  });
+  Storage.set("Candidates", selectedCandidates);
 };
 
 const handleCast = () =>
