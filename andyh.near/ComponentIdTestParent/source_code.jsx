@@ -9,7 +9,7 @@ const components = [state.a, state.b, state.c];
 return (
   <>
     <button onClick={() => State.update({ x: state.x + 1 })}>
-      increment parent
+      increment parent {state.x}
     </button>
     {/*
     <Widget
