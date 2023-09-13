@@ -10,7 +10,7 @@ const css = `
         }
 
         .card {
-            background-color: white;
+            background-color: #0056b3;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -18,25 +18,25 @@ const css = `
         }
 
         .nft-list {
-  display: flex;
-  flex-wrap: wrap; /* Allow cards to wrap to the next row */
-  justify-content: flex-start; /* Start stacking from the left */
-}
+          display: flex;
+          flex-wrap: wrap; /* Allow cards to wrap to the next row */
+          justify-content: flex-start; /* Start stacking from the left */
+        }
 
-.nft-card {
-  /* Styling for individual NFT cards */
-  margin: 5px; /* Add some margin between cards */
-  padding: 10px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
+        .nft-card {
+          /* Styling for individual NFT cards */
+          margin: 25px; /* Add some margin between cards */
+          padding: 20px;
+          border: 10px solid #ccc;
+          cursor: pointer;
+        }
 
-.selected {
-  background-color: #e0e0e0; /* Style for the selected card */
-}
+        .selected {
+          background-color: #e0e0e0; /* Style for the selected card */
+        }
 
         .nft-card:hover {
-            background-color: #f0f0f0;
+            background-color: black;
         }
 
 
@@ -70,25 +70,27 @@ if (!state.theme) {
 }
 
 const f = fetch(
-  `https://api.kitwallet.app/account/genadrop.near/likelyNFTsFromBlock`
+  `https://api.kitwallet.app/account/${accountId}/likelyNFTsFromBlock`
 );
 
 if (!f.ok) {
   return "Loading";
 }
 
-const allContracts = [
-  "near-hackerhouse-austin.snft.near",
-  "comic.paras.near",
-  "nft.genadrop.near",
-  "genadrop-contract.nftgen.near",
-  "mint.sharddog.near",
-];
+const allContracts = f.body.list;
+console.log("oun ni", allContracts);
+// [
+//   "near-hackerhouse-austin.snft.near",
+//   "comic.paras.near",
+//   "nft.genadrop.near",
+//   "genadrop-contract.nftgen.near",
+//   "mint.sharddog.near",
+// ];
 
 const allNfts = (allContracts) => {
   let nnf = allContracts.map((contractId, i) => {
     let nftts = Near.view(contractId, "nft_tokens_for_owner", {
-      account_id: "genadrop.near",
+      account_id: accountId,
       from_index: "0",
       limit: 200,
     });
@@ -101,13 +103,13 @@ const allNfts = (allContracts) => {
   return nnf.flat();
 };
 
-const handleNFTClick = (nft) => {
-  return;
-};
-
 const Theme = state.theme;
 
 const nfts = allNfts(allContracts);
+
+const handleNFTClick = (nft) => {
+  return;
+};
 //[
 //   {
 //     image: "https://placekitten.com/200/200",
@@ -151,7 +153,7 @@ return (
                   maxWidth: "10em",
                   maxHeight: "10em",
                   overflowWrap: "break-word",
-                  color: "red",
+                  "border-color": "white",
                 },
                 className: "img-thumbnail",
                 fallbackUrl:
