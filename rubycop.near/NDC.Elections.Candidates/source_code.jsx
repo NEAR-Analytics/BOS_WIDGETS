@@ -344,6 +344,8 @@ const handleModals = () => {
     State.update({ showMintPolicyModal: true });
     return;
   }
+
+  return true;
 };
 
 const handleCountCandidates = (availableVotes, selectedCandidates) => {
