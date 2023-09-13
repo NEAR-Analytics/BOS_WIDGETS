@@ -200,12 +200,12 @@ const Main = styled.div`
 `;
 
 const nft = props.nft ?? {
-  contractId: props.contractId,
-  tokenId: props.tokenId,
+  contractId: props.contractId || "nft.genadrop.near",
+  tokenId: props.tokenId || 1694623717976,
 };
 
-const contractId = props.contractId;
-const tokenId = props.tokenId;
+const contractId = props.contractId || "nft.genadrop.near";
+const tokenId = props.tokenId || 1694623717976;
 const className = props.className ?? "img-fluid";
 const style = props.style;
 const alt = props.alt;
