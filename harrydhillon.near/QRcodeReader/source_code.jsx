@@ -18,9 +18,11 @@ return (
     >
       <div>
         <QRCodeReader
-
-          onScan={(data) 
-          => {
+         constraints={{
+  audio: false,
+  video: { facingMode: "environment" }
+}}
+          onScan={(data) => {
             if (!state?.text) State.update({ text: data?.text });
           }}
           style={{ width: 300, height: 250 }}
