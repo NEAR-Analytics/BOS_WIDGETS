@@ -22,6 +22,12 @@ const Layout = styled.div`
     margin-left: 20px;
     color: #666;
   }
+  .link {
+    margin-top: 1rem;
+    a {
+        color: #1B706D;
+    }
+  }
 `;
 
 const { tokens, ethAbi, erc20Abi } = VM.require(
@@ -199,6 +205,10 @@ if (!sender) {
   );
 }
 
+const depositsUrl = `https://bridge${
+  isMainnet ? "" : ".testnet"
+}.mantle.xyz/account/deposit`;
+
 return (
   <Layout>
     <div class="title">
@@ -225,5 +235,11 @@ return (
         props={{ open: isToastOpen, variant, title, description, onOpenChange }}
       />
     </Container>
+    <div class="link">
+      To check the deposit list{" "}
+      <a href={depositsUrl} target="_blank">
+        click here
+      </a>
+    </div>
   </Layout>
 );
