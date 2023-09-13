@@ -265,7 +265,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
     <Theme>
       <div class="swap-main-container pt-5">
-        To proceed, kindly switch to {forceNetwork}.
+        <p> To proceed, kindly switch to {forceNetwork}.</p>
         {!state.sender && (
           <div class="swap-button-container">
             <Web3Connect
@@ -274,17 +274,17 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
             />
           </div>
         )}
-        <Widget
-          src="ejj.near/widget/dex-data"
-          props={{
-            onLoad: onDexDataLoad,
-            NETWORK_NEAR,
-            NETWORK_ETH,
-            NETWORK_ZKSYNC,
-            NETWORK_AURORA,
-          }}
-        />
       </div>
+      <Widget
+        src="tribos.near/widget/dex-data"
+        props={{
+          onLoad: onDexDataLoad,
+          NETWORK_NEAR,
+          NETWORK_ETH,
+          NETWORK_ZKSYNC,
+          NETWORK_AURORA,
+        }}
+      />
     </Theme>
   );
 }
@@ -292,7 +292,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
 return (
   <Theme>
     <Widget
-      src="ejj.near/widget/dex-data"
+      src="tribos.near/widget/dex-data"
       props={{
         onLoad: onDexDataLoad,
         NETWORK_NEAR,
@@ -304,7 +304,7 @@ return (
 
     {state.network && state.inputAsset && state.inputAssetTokenId && (
       <Widget
-        src="ejj.near/widget/AssetListModal"
+        src="tribos.near/widget/AssetListModal"
         props={{
           hidden: state.inputAssetModalHidden ?? true,
           network: state.network,
@@ -325,7 +325,7 @@ return (
     )}
     {state.network && state.outputAsset && state.outputAssetTokenId && (
       <Widget
-        src="ejj.near/widget/AssetListModal"
+        src="tribos.near/widget/AssetListModal"
         props={{
           hidden: state.outputAssetModalHidden ?? true,
           assets: state.assets,
@@ -345,7 +345,7 @@ return (
     )}
     {!state.inputAsset && state.network && state.inputAssetTokenId && (
       <Widget
-        src="ejj.near/widget/TokenData"
+        src="tribos.near/widget/TokenData"
         props={{
           tokenId: state.inputAssetTokenId,
           coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
@@ -361,7 +361,7 @@ return (
     )}
     {!state.outputAsset && state.network && state.outputAssetTokenId && (
       <Widget
-        src="ejj.near/widget/TokenData"
+        src="tribos.near/widget/TokenData"
         props={{
           tokenId: state.outputAssetTokenId,
           coinGeckoTokenId:
