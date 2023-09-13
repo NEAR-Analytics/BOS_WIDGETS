@@ -267,7 +267,7 @@ return (
               isVoted={isVoted(accountId)}
               isVotedForOthers={
                 getOtherVoter(accountId).length > 0 &&
-                !getOtherVoter(accountId).includes(context.accountId)
+                !getOtherVoter(accountId).includes(props.candidate)
               }
             >
               <Widget
@@ -286,7 +286,7 @@ return (
               isVoted={isVoted(accountId)}
               isVotedForOthers={
                 getOtherVoter(accountId).length > 0 &&
-                !getOtherVoter(accountId).includes(context.accountId)
+                !getOtherVoter(accountId).includes(props.candidate)
               }
             >
               <Widget
