@@ -1,6 +1,6 @@
 console.log(`RENDERING ${props.id}`, { ...props });
-State.init({ value: props.value || 0 });
-State.update({ value: state.value + 1 || 0 });
+State.init({ value: props.value || 0, n: 0 });
+State.update({ n: state.value + 1 || 0 });
 
 return (
   <div>
