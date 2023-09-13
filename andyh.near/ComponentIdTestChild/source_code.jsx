@@ -1,4 +1,4 @@
-console.log(`RENDERING ${props.id}`, { ...props });
+console.log(`RENDERING ${props.id} - ${componentInstanceId}`, { ...props });
 State.init({ value: props.value || 0, n: 0 });
 State.update({ n: state.value + 1 || 0 });
 
