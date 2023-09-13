@@ -27,7 +27,7 @@ const widgets = {
   modal: "nomination.ndctools.near/widget/NDC.Modal",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
   budget: "election.ndctools.near/widget/NDC.Elections.BudgetPackage",
-  castVotes: "election.ndctools.near/widget/NDC.Elections.candidateItem",
+  castVotes: "election.ndctools.near/widget/NDC.Elections.CastVotes",
   candidateItem: "rubycop.near/widget/NDC.Elections.CandidateItem",
 };
 
