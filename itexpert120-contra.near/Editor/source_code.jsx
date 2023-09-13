@@ -2,40 +2,44 @@ const files = props.files;
 
 let initialFile = files[0];
 
+if (!initialFile) {
+  initialFile = {
+    code: "",
+    language: "javascript",
+    path: "untitled",
+  };
+
+  files = [initialFile];
+}
+
 State.init({
   file: initialFile,
+  activePath: initialFile.path,
+  hideOpenModal: true,
+  tabs: [...files],
 });
+
+const onToggleOpenModal = () => {
+  State.update({ hideOpenModal: !state.hideOpenModal });
+};
 
 const Button = styled.button``;
 
 let codeBuffer = state.file.code;
 
 function onChange(code) {
-  //   Storage.privateSet({ path: state.path }, e.target.value);
   codeBuffer = code;
 }
 
 function save() {
-  // const parts = state.file.path.split("/");
-  // let content = {};
-  // if (parts[1] === "widget") {
-  //   content = {
-  //     "": state.code,
-  //   };
-  // } else {
-  //   content = JSON.parse(state.code);
-  // }
-  // const data = {
-  //   [parts[1]]: {
-  //     [parts[2]]: content,
-  //   },
-  // };
-  // Social.set(data);
-  console.log(codeBuffer);
+  Storage.privateSet({ path: state.activePath }, codeBuffer);
+  console.log("storage set");
+  console.log(Storage.privateGet({ path: state.activePath }));
 }
 
+const activeTabClass = "active-tab-class";
+
 const tabButton = styled.button`
-  border-radius: 6px 6px 0px 0px;
   outline: none;
   border: none;
   border: solid 1px;
@@ -45,10 +49,16 @@ const tabButton = styled.button`
 
   font-weight: 500;
 
+  background-color: #d5d5d5;
+
   &:active {
     border: none;
     border: solid 1px;
     border-bottom: none;
+  }
+
+  &.${activeTabClass} {
+    background-color: #fff;
   }
 `;
 
@@ -64,24 +74,106 @@ const saveButton = styled.button`
   }
 `;
 
+const plusButton = styled.button`
+  outline: none;
+  border: none;
+
+  height: 2rem;
+  width: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.25rem;
+
+  background: #ddd;
+
+  padding: 0.5rem;
+
+  &:active {
+    border: none;
+    outline: none;
+  }
+
+  &:hover {
+    background: #eee;
+  }
+`;
+
+const onOpenFile = (path, blockHeight) => {
+  const jThing = Social.getr(path, blockHeight);
+  console.log(jThing);
+  state.tabs.push(newTab);
+  onToggleOpenModal();
+};
+
+const newEventModalProps = {
+  title: "Open a file",
+  body: (
+    <Widget
+      src="itexpert120-contra.near/widget/OpenFileModal"
+      props={{ onOpenFile }}
+    />
+  ),
+  confirmText: "Create a new event",
+  onConfirm: () => {
+    console.log("confirm");
+  },
+  hidden: state.hideOpenModal,
+  onClose: onToggleOpenModal,
+  showFooter: false,
+};
+
 return (
   <div>
+    <Widget
+      src="itexpert120-contra.near/widget/Modal"
+      props={{ ...newEventModalProps }}
+    />
     <div className="d-flex w-100 align-items-center">
       <div>
-        {files.map((file) => {
-          return (
-            <tabButton
-              onClick={() =>
-                State.update({
-                  file,
-                })
-              }
-            >
-              {file.path}
-            </tabButton>
-          );
-        })}
+        {state.tabs &&
+          state.tabs.map((file) => {
+            return (
+              <tabButton
+                className={`${
+                  state.activePath === file.path && activeTabClass
+                }`}
+                onClick={() => {
+                  Storage.set({ path: state.activePath }, codeBuffer);
+                  State.update({
+                    file,
+                    activePath: file.path,
+                  });
+                  const newTabCode = Storage.get({ path: state.activePath });
+                  if (newTabCode) {
+                    State.update({
+                      file: {
+                        ...state.file,
+                        code: newTabCode,
+                      },
+                    });
+                  }
+                }}
+              >
+                {file.path}
+                <i
+                  className="bi bi-x"
+                  onClick={() => {
+                    State.update({
+                      tabs: state.tabs.filter((tab) => tab.path !== file.path),
+                      file: state.tabs[0],
+                      activePath: state.tabs[0].path,
+                    });
+                  }}
+                ></i>
+              </tabButton>
+            );
+          })}
       </div>
+      <plusButton className="rounded-circle" onClick={onToggleOpenModal}>
+        <i className="bi bi-plus"></i>
+      </plusButton>
       <div className="ms-auto">
         <saveButton onClick={save}>Save</saveButton>
       </div>
@@ -95,5 +187,6 @@ return (
         onChange: onChange,
       }}
     />
+    )
   </div>
 );
