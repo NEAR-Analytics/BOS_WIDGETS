@@ -1,6 +1,6 @@
 // Your original styled components
 const Container = styled.div`
-  background-color: #000;
+  background-color: #fff;
   color: #fff;
 `;
 
@@ -10,7 +10,7 @@ const Title = styled.h1`
   font-size: 2em;
   text-align: center;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin: 20px auto;
 `;
 
 const Description = styled.p`
@@ -25,8 +25,12 @@ const IframeContainer = styled.div`
   overflow: hidden;
   padding-top: 40%;  // Adjust this to change the height relative to the width
   width: 80%;  // Control the width
-  margin: 20px auto;  // Center the container and add top and bottom margin
+  margin-top: 20px;  // Top margin
+  margin-bottom: 20px;  // Bottom margin
+  margin-left: auto;  // Left margin set to auto for centering
+  margin-right: auto;  // Right margin set to auto for centering
 `;
+
 
 return (
   <Container>
