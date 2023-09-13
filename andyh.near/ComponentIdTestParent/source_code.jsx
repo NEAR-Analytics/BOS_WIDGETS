@@ -8,6 +8,9 @@ State.init({
 const components = [state.a, state.b, state.c];
 return (
   <>
+    <button onClick={() => State.update({ x: state.x + 1 })}>
+      increment parent
+    </button>
     {/*
     <Widget
       src="andyh.near/widget/ComponentIdTestChild"
