@@ -128,8 +128,8 @@ return (
         <ul>
           <li>🏆 Intro to Blockchain & NEAR Protocal</li>
           <li>📱 Data Retrival & Analysis</li>
-          <li>🏛️ Data Transformation and Visualization</li>
-          <li>⛓️ Governance, DeFi, NFT's, Gaming</li>
+          <li>⛓️ Data Transformation and Visualization</li>
+          <li>🏛️ Governance, DeFi, NFT's, Gaming</li>
           <li>🛠️ Zero-Knowledge Proofs and More!</li>
         </ul>
         <p>
