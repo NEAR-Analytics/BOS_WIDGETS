@@ -317,7 +317,8 @@ const openTrove = async () => {
    * 참고 문서: https://docs.ethers.org/v5/api/utils/bignumber/#BigNumber--BigNumber--methods--math-operations
    * 입력창에 2ETH, 1800LUSD를 입력했을 때 NICR.toString()의 결과 값: "99552015928322548"
    */
-  const NICR = ETHColl * 1e20 / expectedDebt;
+  // const NICR = (ETHColl * 1e20) / expectedDebt;
+  const NICR = ETHColl.mul(1e20).div(expectedDebt);
   console.log({ NICR: NICR.toString() });
   sortedTroveContract.getSize().then((numTroves) => {
     const _numTrials = numTroves.mul(ethers.BigNumber.from("15"));
@@ -503,7 +504,8 @@ Ethers.provider() &&
  * 외부 css 파일 링크: "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css"
  * 여기를 고쳐주세요.
  */
-const cssLink = "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css";
+const cssLink =
+  "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css";
 const cssData = fetch(cssLink).body;
 
 /**
@@ -540,25 +542,21 @@ const BorrowWrapper = state.borrowWrapperStyle;
  * 4. There should be no active trove.
  * 5. Enter a value greater than 0 in the "coll" and "borrow" Number fields.
  */
-function setTrove() {
-  if (isOpenTrove !== true ) {
-    console.log("이 지갑은 이미 활성화된 트로브가 있습니다.")
-    return (
-      <div>이 지갑은 이미 활성화된 트로브가 있습니다.</div>
-    )
-  } else {
-    console.log("트로브가 없는데용?")
-    return (
-      <div>없다니까요??</div>
-    )
-  }
-}
-const setsetset = (() => {
-})
+
+
+// function setTrove() {
+//   if (isOpenTrove !== true) {
+//     console.log("이 지갑은 이미 활성화된 트로브가 있습니다.");
+//     return <div>이 지갑은 이미 활성화된 트로브가 있습니다.</div>;
+//   } else {
+//     console.log("트로브가 없는데용?");
+//     return <div>없다니까요??</div>;
+//   }
+// }
+// const setsetset = () => {};
 
 return (
   <BorrowWrapper>
-  <div>{setTrove()}</div>
     <div className="input-section deposit">
       <div className="input-label">Deposit (ETH)</div>
       <div className="input-wrapper">
@@ -639,10 +637,12 @@ return (
         >
           {Ethers.provider() && state.chainId !== 11155111
             ? "Change network to Sepolia"
-            : /**
+            : state.isOpenTrove !==true
+            ?"이 지갑은 이미 활성화된 트로브가 있습니다."
+            /**
              * Mission 1. "이 지갑은 이미 활성화된 트로브가 있습니다." 메시지를 추가해주세요.
              */
-            state.loading
+            :state.loading
             ? "Loading..."
             : state.complete
             ? "Done ✅"
