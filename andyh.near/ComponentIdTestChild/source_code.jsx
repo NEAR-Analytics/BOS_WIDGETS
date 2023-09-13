@@ -1,4 +1,4 @@
-// console.log(`RENDERING ${props.id}`, { ...props });
+console.log(`RENDERING ${props.id}`, { ...props });
 State.init({ value: props.value || 0 });
 // State.update({ value: state.value + 1 || 0 });
 
