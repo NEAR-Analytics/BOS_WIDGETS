@@ -1,29 +1,39 @@
 State.init({ text: null });
 
+console.log(state)
+
 return (
-  <div
-    style={{
-      width: 350,
-      height: 350,
-      backgroundColor: "lightgray",
-      padding: 10,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: 10,
-    }}
-  >
-    <div>
-      <QRCodeReader
-        constraints={{
-          facingMode: "environment",
-        }}
-        onScan={(data) => {
-          if (!state?.text) State.update({ text: data?.text });
-        }}
-        style={{ width: 300, height: 250 }}
-      />
-      <p>QR Code Result : {state.text ?? "Result Placeholder Text"}</p>
+  <>
+    <div
+      style={{
+        width: 350,
+        height: 350,
+        backgroundColor: "lightgray",
+        padding: 10,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 10,
+      }}
+    >
+      <div>
+        <QRCodeReader
+          facingMode={state.facingBack ? "rear" : "front"}
+          onScan={(data) => {
+            if (!state?.text) State.update({ text: data?.text });
+          }}
+          style={{ width: 300, height: 250 }}
+        />
+        <p>QR Code Result : {state.text ?? "Result Placeholder Text"}</p>
+      </div>
     </div>
-  </div>
+    <Widget
+      src="nui.sking.near/widget/Input.Checkbox"
+      props={{
+        label: "Facing Back Camera",
+        checked: state.facingBack,
+        onChange: () => State.update({ facingBack: !state.facingBack }),
+      }}
+    />
+  </>
 );
