@@ -250,7 +250,10 @@ return (
         <h5>Total Whitelisted ({accounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {accounts.map((accountId) => (
-            <Name isVoted={isVoted(accountId)}>
+            <Name
+              isVoted={isVoted(accountId)}
+              isVotedForOthers={isVotedForOthers(accountId)}
+            >
               <Widget
                 src="mob.near/widget/ProfileLine"
                 props={{ accountId, tooltip: false }}
