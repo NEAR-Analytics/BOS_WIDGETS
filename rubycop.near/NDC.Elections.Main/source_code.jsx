@@ -184,7 +184,7 @@ function loadElectionStatus() {
     prop_id: state.selectedHouse,
   });
 
-  State.update({ electionStatus: "ONGOING" });
+  State.update({ electionStatus });
 }
 
 function loadMyVotes() {
@@ -347,7 +347,7 @@ return (
             props={{
               handleFilter,
               candidateId: state.candidateFilterId,
-              placeholder: "Search by candidate name",
+              placeholder: "Search by candidate name or wallet",
             }}
           />
         </Filter>
@@ -437,13 +437,7 @@ return (
           <Right className="col">
             <H5>General</H5>
             <div className="d-flex justify-content-center">
-              <Widget
-                src={widgets.statistic}
-                props={{
-                  electionContract,
-                  quorum: state.houses[state.selectedHouse - 1].quorum,
-                }}
-              />
+              <Widget src={widgets.statistic} props={{ electionContract }} />
             </div>
           </Right>
           {state.myVotes.length > 0 && (
