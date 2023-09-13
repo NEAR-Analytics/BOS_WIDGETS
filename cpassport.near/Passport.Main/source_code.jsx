@@ -24,6 +24,8 @@ const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
+    color: #FDF3DD;
+
 `;
 
 const Main = styled.div`
@@ -118,7 +120,7 @@ const TabsButton = styled.a`
   font-size: 12px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? "#11181C" : "#687076")};
+  color: ${(p) => (p.selected ? "#DE4E48" : "#687076")};
   background: none;
   border: none;
   outline: none;
@@ -168,10 +170,10 @@ return (
           src="mob.near/widget/Image"
           props={{
             image:
-              "https://ipfs.near.social/ipfs/bafkreidb2hu36zuauy2p3uamp7atluwptgcddr74p7alg6lzxngmqs66bm",
+              "https://ipfs.near.social/ipfs/bafkreih6zqcg2z7odrflt2ydcjk6ramymsdbccz53zgcc5htsnkx6yn544",
             alt: "profile background image",
             fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreidb2hu36zuauy2p3uamp7atluwptgcddr74p7alg6lzxngmqs66bm",
+              "https://ipfs.near.social/ipfs/bafkreih6zqcg2z7odrflt2ydcjk6ramymsdbccz53zgcc5htsnkx6yn544",
           }}
         />
       )}
@@ -214,35 +216,15 @@ return (
         </Tabs>
 
         {state.selectedTab === "main" && (
-          <>
-            {profile.description && (
-              <>
-                <Title as="h2" size="19px" margin>
-                  About
-                </Title>
-
-                <Bio>
-                  <Widget
-                    src="near/widget/SocialMarkdown"
-                    props={{ text: profile.description }}
-                  />
-                </Bio>
-              </>
-            )}
-
-            <Widget
-              src="near/widget/v1.Posts.Feed"
-              props={{ accounts: [accountId] }}
-            />
-          </>
+          <Widget src="cpassport.near/widget/Passport.Home.Main" />
         )}
 
         {state.selectedTab === "history" && (
-          <Widget src="near/widget/NFTCollection" props={{ accountId }} />
+          <Widget src="cpassport.near/widget/Passport.History.Main" />
         )}
 
         {state.selectedTab === "leaderboard" && (
-          <Widget src="near/widget/ComponentCollection" props={{ accountId }} />
+          <Widget src="cpassport.near/widget/Passport.Leaderboard.Main" />
         )}
       </Content>
     </Main>
