@@ -42,7 +42,7 @@ const Main = styled.div`
 `;
 
 const BackgroundImage = styled.div`
-  height: 240px;
+  height: 600px;
   border-radius: 20px 20px 0 0;
   overflow: hidden;
   margin: 0 -12px;
