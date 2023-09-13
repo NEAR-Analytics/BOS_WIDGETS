@@ -8,6 +8,7 @@ State.init({
 const components = [state.a, state.b, state.c];
 return (
   <>
+    {/*
     <Widget
       src="andyh.near/widget/ComponentIdTestChild"
       id={"a"}
@@ -23,24 +24,23 @@ return (
         },
       }}
     />
-    {/*
-    // {components.map(({ id, value }) => (
-    //   <Widget
-    //     src="andyh.near/widget/ComponentIdTestChild"
-    //     id={id}
-    //     props={{
-    //       value,
-    //       id,
-    //       update: (componentId) => {
-    //         console.log(`updating ${componentId}`);
-    //         State.update({
-    //           [componentId]: { id: componentId, value: value + 1 },
-    //         });
-    //         // console.log({ ...state });
-    //       },
-    //     }}
-    //   />
-    // ))}
     */}
+    {components.map(({ id, value }) => (
+      <Widget
+        src="andyh.near/widget/ComponentIdTestChild"
+        id={id}
+        props={{
+          value,
+          id,
+          update: (componentId) => {
+            console.log(`updating ${componentId}`);
+            State.update({
+              [componentId]: { id: componentId, value: value + 1 },
+            });
+            // console.log({ ...state });
+          },
+        }}
+      />
+    ))}
   </>
 );
