@@ -207,7 +207,7 @@ const storageWithdrawAll = () => {
       )
       .map(([contractId]) => ({
         contractName: contractId,
-        method: "storage_withdraw",
+        methodName: "storage_withdraw",
         deposit: "1",
       }))
   );
