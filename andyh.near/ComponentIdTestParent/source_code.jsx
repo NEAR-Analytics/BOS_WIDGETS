@@ -6,7 +6,6 @@ State.init({
 });
 
 const components = [state.a, state.b, state.c];
-console.log("re-rendering parent", state.a);
 return (
   <>
     {components.map(({ id, value }) => (
