@@ -1,37 +1,28 @@
-// Your original styled components
+// Existing styled components
 const Container = styled.div`
   background-color: #000;
   color: #fff;
-`;
-
-const Title = styled.h1`
-  color: #fff;
-  font-weight: 700;
-  font-size: 2em;
-  text-align: center;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-`;
-
-// Style for Iframe container updated to include margin-bottom for spacing
-const Description = styled.p`
-  color: #fff;
-  font-weight: 300;
-  text-align: center;
-  margin-bottom: 20px;
 `;
 
 const IframeContainer = styled.div`
   position: relative;
   overflow: hidden;
   padding-top: 56.25%;
-  margin-bottom: 20px;  // Added this line for spacing
+  margin-bottom: 20px;
 `;
 
+// Updated styled component for Widget layout
 const WidgetContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+`;
+
+// New styled component for individual Widgets
+const StyledWidget = styled.div`
+  flex: 1;
+  min-width: calc(25% - 10px);
+  box-sizing: border-box;
+  margin: 5px;
 `;
 
 return (
@@ -50,19 +41,21 @@ return (
         title="Marma-J-Gaming-iframe"
       ></iframe>
     </IframeContainer>
-    <Widget
-      src="jay100.near/widget/CTTDescription"
-      props={{
-        title: "Marma J Gaming",
-        description: `Explore the crypto-based gaming world of Marma J Gaming where you can collaborate artistically with friends, gather your pets for a battle, outfit your hero to explore dungeons and take part in raids, and gather an army to position yourself as the master tactician.`,
-      }}
-    />
+
     {/* Widget layout */}
     <WidgetContainer>
-      <Widget src={"jay100.near/widget/PixelParty-Widget"} />
-      <Widget src={"jay100.near/widget/PixelPets-Widget"} />
-      <Widget src={"jay100.near/widget/CH-Widget"} />
-      <Widget src={"jay100.near/widget/CTT-Widget"} />
+      <StyledWidget>
+        <Widget src={"jay100.near/widget/PixelParty-Widget"} />
+      </StyledWidget>
+      <StyledWidget>
+        <Widget src={"jay100.near/widget/PixelPets-Widget"} />
+      </StyledWidget>
+      <StyledWidget>
+        <Widget src={"jay100.near/widget/CH-Widget"} />
+      </StyledWidget>
+      <StyledWidget>
+        <Widget src={"jay100.near/widget/CTT-Widget"} />
+      </StyledWidget>
     </WidgetContainer>
   </Container>
 );
