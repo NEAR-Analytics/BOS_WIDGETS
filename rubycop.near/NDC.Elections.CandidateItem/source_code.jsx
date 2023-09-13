@@ -170,13 +170,13 @@ const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 const handleSelect = (candidateId) => {
   if (!handleModals()) return;
 
-  const selectedItems = selectedCandidates.includes(candidateId)
-    ? selectedCandidates.filter((el) => el !== candidateId)
-    : [...selectedCandidates, candidateId];
+  const selectedItems = state.selectedCandidates.includes(candidateId)
+    ? state.selectedCandidates.filter((el) => el !== candidateId)
+    : [...state.selectedCandidates, candidateId];
   const currentVotes = seats - myVotesForHouse().length - selectedItems.length;
   if (currentVotes < 0) return;
 
-  Storage.set("Candidates", selectedCandidates);
+  handleCountCandidates(currentVotes, selectedItems);
   State.update({ selectedCandidates: selectedItems });
 
   return true;
