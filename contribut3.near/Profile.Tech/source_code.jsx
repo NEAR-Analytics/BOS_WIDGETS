@@ -59,12 +59,11 @@ if (!state.projectIsFetched) {
 }
 
 let completed = 0;
-const total = 7;
+const total = 6;
 if (state.userbase) completed++;
 if (state.tam) completed++;
 if (state.dev) completed++;
 if (state.distribution) completed++;
-if (state.stage) completed++;
 if (state.integration) completed++;
 if (state.contracts) completed++;
 
@@ -165,13 +164,6 @@ const data = (
     <Widget
       src={`${ownerId}/widget/Inputs.LabeledData`}
       props={{
-        label: "Growth phase",
-        content: state.stage,
-      }}
-    />
-    <Widget
-      src={`${ownerId}/widget/Inputs.LabeledData`}
-      props={{
         label: "Development phase",
         content: state.dev,
       }}
@@ -212,7 +204,7 @@ const edit = (
       onSave: (data) => {
         State.update({ save: false });
 
-        const profileKeys = ["userbase", "tam", "dev", "distribution", "stage"];
+        const profileKeys = ["userbase", "tam", "dev", "distribution"];
         const projectKeys = ["integration", "contracts"];
 
         const profileData = {};
