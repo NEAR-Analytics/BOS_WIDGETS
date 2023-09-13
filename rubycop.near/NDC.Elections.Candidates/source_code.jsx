@@ -945,7 +945,7 @@ return (
             <>
               <Filters />
               <CandidatesContainer>
-                {/* {state.candidates.map(([candidateId, votes], index) => (
+                {state.candidates.map(([candidateId, votes], index) => (
                   <Widget
                     key={index}
                     src={widgets.candidateItem}
@@ -958,7 +958,7 @@ return (
                       handleCountCandidates,
                     }}
                   />
-                ))} */}
+                ))}
               </CandidatesContainer>
               {candidateFilterId && (
                 <div className="d-flex p-2 justify-content-center align-items-center">
