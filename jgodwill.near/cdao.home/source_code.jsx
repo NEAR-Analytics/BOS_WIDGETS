@@ -11,8 +11,14 @@ const Main = styled.div`
     align-items: center;
     padding: 1.5rem;
 }
-a{
-  color: unset;
+*{
+    box-sizing: inherit;
+    text-decoration: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: unset;
+    font-family: Playfair Display;
 }
 
 .section{
@@ -95,15 +101,23 @@ return (
   <Main>
     <div class="section hero">
       <div class="heroLeft">
-                   <h1 class="heroTitle">Discover, collect, and sell <span class="colored">Timeless</span> NFTs</h1>
-            <p class="heroBody">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, quidem asperiores.
-                Quia, amet? Dignissimos officia recusandae, magni omnis dolor error autem, voluptatum ut tempore
-                accusantium doloribus temporibus molestiae illo id.
-            </p>
-            <div class="heroCTA">
-                <a href="#" class="button">Join Us</a>
-                <a href="#" class="button sec">Apply for funding</a>
-            </div>
+        <h1 class="heroTitle">
+          Discover, collect, and sell <span class="colored">Timeless</span> NFTs
+        </h1>
+        <p class="heroBody">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
+          quidem asperiores. Quia, amet? Dignissimos officia recusandae, magni
+          omnis dolor error autem, voluptatum ut tempore accusantium doloribus
+          temporibus molestiae illo id.
+        </p>
+        <div class="heroCTA">
+          <a href="#" class="button">
+            Join Us
+          </a>
+          <a href="#" class="button sec">
+            Apply for funding
+          </a>
+        </div>
         {/*stats if necessary */}
         <div class="stats">
           <div class="stat">
