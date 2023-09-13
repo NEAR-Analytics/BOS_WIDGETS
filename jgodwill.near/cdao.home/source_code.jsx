@@ -572,7 +572,7 @@ const Main = styled.div`
 }
 
 .blurredBG>.blurbg{
-    background-color: #ffc501;
+    background-color: #ffc401d8;
     width: 100%;
     height: 100%;
 }
@@ -597,12 +597,31 @@ const Main = styled.div`
     text-align: center;
     position: absolute;
     z-index: 1;
-    color: #000 !important;
+    color: #1c1c1c !important;
+    left: 0;
+    top: 10px;
+    width: fit-content;
+    height: fit-content;
 }
 .artName{
     font-size: .9rem;
     font-weight: 700;
     line-height: 1.0;
+}
+
+.artLHS{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 4rem;
+    text-align: center;
+    /* position: absolute; */
+    z-index: 1;
+    color: #1c1c1c !important;
+    height: fit-content;
+    width: fit-content;
 }
 `;
 
