@@ -1,5 +1,7 @@
 // Add tooltips to show long explanations on hover
-const options = cannabisMethod.options ?? ["smoke", "vapor"];
+//const substance = props.substance || "cannabis";
+//const options = props.options;
+//const props = { options: "smoke" };
 
 const UUID = {
   generate: (template) => {
@@ -58,7 +60,7 @@ let user_account = context.accountId;
 State.init({
   id: UUID.generate(),
   title: "",
-  substance: "cannabis",
+  substance: props.substance,
   cannabisMethod: ["smoke", "vapor"],
   dose: "",
   description: {
@@ -398,15 +400,15 @@ const ResponseForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="cannabisMethod">
-            How did you consume cannabis? (select all that apply)
-          </label>
           <Widget
-            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
               data: state.cannabisMethod,
-              onChange: oncannabisMethodChange,
+              onChange: onCannabisMethodChange,
               height: "250px",
+              options: props.cannabis.method,
+              label: "How did you consume cannabis?",
+              placeholder: "Select all methods that apply.",
             }}
           />
         </div>
@@ -461,67 +463,67 @@ const ResponseForm = () => {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="physicalEffects">
-            Physical Effects
-          </label>
           <Widget
-            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
               data: state.physicalEffects,
               onChange: onPhysicalEffectsChange,
               height: "250px",
+              options: props.cannabis.physicalEffects,
+              label: "Physical Effects",
+              placeholder: "Select all that apply.",
             }}
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="visualEffects">
-            Visual Effects
-          </label>
           <Widget
             src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
             props={{
               data: state.visualEffects,
               onChange: onVisuallEffectsChange,
               height: "250px",
+              options: props.cannabis.visualEffects,
+              label: "Visual Effects",
+              placeholder: "Select all methods that apply.",
             }}
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="auditoryEffects">
-            Auditory Effects
-          </label>
           <Widget
             src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
             props={{
               data: state.auditoryEffects,
               onChange: onAuditoryEffectsChange,
               height: "250px",
+              options: props.substance.auditoryEffects,
+              label: "Auditory Effects",
+              placeholder: "Select all methods that apply.",
             }}
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="cognitiveEffects">
-            Cognitive Effects
-          </label>
           <Widget
             src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
             props={{
               data: state.cognitiveEffects,
               onChange: onCognitiveEffectsChange,
               height: "250px",
+              options: props.substance.cognitiveEffects,
+              label: "Cognitive Effects",
+              placeholder: "Select all methods that apply.",
             }}
           />
         </div>
         <div className="mb-3">
-          <label class="form-label" for="multisensoryEffects">
-            Multi-sensory Effects
-          </label>
           <Widget
             src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
             props={{
               data: state.multisensoryEffects,
               onChange: onMultiSensoryEffectsChange,
               height: "250px",
+              options: props.substance.multisensoryEffects,
+              label: "Multi-sensory Effects",
+              placeholder: "Select all methods that apply.",
             }}
           />
         </div>
@@ -577,7 +579,7 @@ const ResponseForm = () => {
         </div>
         <div className="row mb-3">
           <div className="col">
-            <label for="start">Response Start Date</label>
+            <label for="start">Experience Start Date</label>
             <input
               class="form-control"
               id="start"
@@ -587,7 +589,7 @@ const ResponseForm = () => {
             />
           </div>
           <div className="col">
-            <label for="startTime">Response Start Time</label>
+            <label for="startTime">Experience Start Time</label>
             <input
               class="form-control"
               id="startTime"
@@ -599,7 +601,7 @@ const ResponseForm = () => {
         </div>
         <div className="row  mb-3">
           <div className="col">
-            <label for="end">Response End Date</label>
+            <label for="end">Experience End Date</label>
             <input
               class="form-control"
               id="end"
@@ -609,7 +611,7 @@ const ResponseForm = () => {
             />
           </div>
           <div className="col">
-            <label for="endTime">Response End Time</label>
+            <label for="endTime">Experience End Time</label>
             <input
               class="form-control"
               id="endTime"
