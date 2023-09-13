@@ -146,7 +146,7 @@ return (
       {true && (
         <Visual>
           <img
-            src="https://ipfs.near.social/ipfs/bafkreicea6j7t23wuakldwekrtjtdvcuikmnme3tsvbtixuhspeoe4mph4"
+            src="https://ipfs.near.social/ipfs/bafkreif5txdi5nhouziueetve2vzovxf2rmtfohobjvuimsbuetpnr3iki"
             alt="Illia Talking"
           />
         </Visual>
