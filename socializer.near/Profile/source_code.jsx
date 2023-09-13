@@ -37,8 +37,8 @@ const columns = [
 
 const tokenData = [
   {
-    name: "$NVRS",
-    contract: "nearverse-token.near",
+    name: "$NEAR",
+    contract: "transfer-near.near",
     deposited: "12,000",
   },
   {
@@ -47,7 +47,7 @@ const tokenData = [
     deposited: "20,000",
   },
   {
-    name: "$NAUT",
+    name: "$NVRS",
     contract: "nautstaking.near",
     deposited: "400",
   },
@@ -114,6 +114,10 @@ const Table = styled.table`
   border-radius: 8px;
   background: #F5F1F1;
   margin: 0;
+`;
+
+const Input = styled.input`
+  width: 80px;
 `;
 
 return (
@@ -263,6 +267,7 @@ return (
                                 alignItems: "center",
                               }}
                             >
+                              <Input type="number" min="0"  />
                               <a href="#" className="text-decoration-underline">
                                 Deposit
                               </a>
