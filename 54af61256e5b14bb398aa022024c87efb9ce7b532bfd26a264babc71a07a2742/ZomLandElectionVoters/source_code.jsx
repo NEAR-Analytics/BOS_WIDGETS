@@ -216,18 +216,23 @@ function isVoted(acc) {
   return state.voters.some((u) => acc === u);
 }
 
-function isVotedForOthers(acc) {
-  return asyncFetch(
+const otherVotersObj = {};
+
+accounts.map((accountId) =>
+  asyncFetch(
     `https://api.pikespeak.ai/election/votes-by-voter?contract=elections.ndc-gwg.near&voter=${acc}`,
     { headers: { "x-api-key": apiKey } }
-  ).then((resp) =>
-    resp.body.some(
-      (vote) =>
-        vote.candidate !== context.accountId &&
-        vote.house === "CouncilOfAdvisors"
+  ).then((resp) => {
+    if (
+      resp.body.some(
+        (vote) =>
+          vote.candidate !== context.accountId &&
+          vote.house === "CouncilOfAdvisors"
+      )
     )
-  );
-}
+      otherVotersObj[acc] = true;
+  })
+);
 
 const formData = {};
 
@@ -252,7 +257,7 @@ return (
           {accounts.map((accountId) => (
             <Name
               isVoted={isVoted(accountId)}
-              isVotedForOthers={isVotedForOthers(accountId)}
+              isVotedForOthers={otherVotersObj[accountId]}
             >
               <Widget
                 src="mob.near/widget/ProfileLine"
@@ -268,7 +273,7 @@ return (
           {ndcAccounts.map((accountId) => (
             <Name
               isVoted={isVoted(accountId)}
-              isVotedForOthers={isVotedForOthers(accountId)}
+              isVotedForOthers={otherVotersObj[accountId]}
             >
               <Widget
                 src="mob.near/widget/ProfileLine"
