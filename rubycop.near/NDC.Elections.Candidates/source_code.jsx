@@ -613,134 +613,6 @@ const Loader = () => (
   />
 );
 
-const CandidateItem = ({ candidateId, votes }) => (
-  <div>
-    <CandidateItemRow
-      className="d-flex align-items-center justify-content-between"
-      selected={state.selected === candidateId}
-      winnerId={state.winnerIds.includes(candidateId)}
-    >
-      <div className="d-flex w-100 align-items-center">
-        {isVisible() && (
-          <Expand>
-            <i
-              className={`${
-                state.selected === candidateId
-                  ? "bi bi-chevron-down"
-                  : "bi bi-chevron-right"
-              }`}
-              onClick={(e) =>
-                State.update({
-                  selected: state.selected === candidateId ? null : candidateId,
-                  reload: false,
-                })
-              }
-            />
-          </Expand>
-        )}
-
-        {iahToken && (
-          <Bookmark
-            selected={state.selected === candidateId}
-            winnerId={state.winnerIds.includes(candidateId)}
-          >
-            {state.loading === candidateId ? (
-              <Loader />
-            ) : (
-              <i
-                id="bookmark"
-                onClick={() => handleBookmarkCandidate(candidateId)}
-                className={`bi ${
-                  state.bookmarked.includes(candidateId)
-                    ? "bi-bookmark-fill"
-                    : "bi-bookmark"
-                }`}
-              />
-            )}
-          </Bookmark>
-        )}
-        <div className="d-flex align-items-center">
-          <div className="d-flex justify-items-center">
-            <UserLink
-              selected={state.selected === candidateId}
-              winnerId={state.winnerIds.includes(candidateId)}
-              src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
-              title={candidateId}
-            />
-          </div>
-        </div>
-      </div>
-      <InfoRow
-        className={`d-flex w-100 align-items-center ${
-          iahToken ? "justify-content-center" : "justify-content-end"
-        }`}
-      >
-        <NominationLink>
-          <Widget
-            src={widgets.styledComponents}
-            props={{
-              Link: {
-                size: "sm",
-                className: state.winnerIds.includes(candidateId)
-                  ? "secondary success"
-                  : "secondary dark",
-                text: "Nomination",
-                icon: <i className="bi bi-box-arrow-up-right" />,
-                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=${typ}&accountId=${candidateId}`,
-                inverse: state.selected === candidateId,
-              },
-            }}
-          />
-        </NominationLink>
-        <NominationLinkMobile>
-          <Widget
-            src={widgets.styledComponents}
-            props={{
-              Link: {
-                size: "sm",
-                className: state.winnerIds.includes(candidateId)
-                  ? "secondary success"
-                  : "secondary dark",
-                text: "",
-                icon: <i className="bi bi-box-arrow-up-right" />,
-                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
-                inverse: state.selected === candidateId,
-              },
-            }}
-          />
-        </NominationLinkMobile>
-        {isVisible() && <Votes>{votes}</Votes>}
-        {iahToken && (
-          <Votes>
-            <input
-              id="input"
-              disabled={
-                alreadyVotedForHouse() ||
-                blacklisted ||
-                electionStatus !== "ONGOING"
-              }
-              onClick={() => handleCountCandidate(candidateId)}
-              s
-              className="form-check-input"
-              type="checkbox"
-              checked={
-                state.selectedCandidates.includes(candidateId) ||
-                alreadyVoted(candidateId)
-              }
-            />
-          </Votes>
-        )}
-      </InfoRow>
-    </CandidateItemRow>
-    {state.selected === candidateId && isVisible() && (
-      <Widget
-        src={widgets.voters}
-        props={{ candidateId, electionContract, iahToken, ids }}
-      />
-    )}
-  </div>
-);
-
 const Filters = () => (
   <FilterRow className="d-flex align-items-center justify-content-between">
     <div className="d-flex align-items-center w-100">
@@ -1073,7 +945,7 @@ return (
             <>
               <Filters />
               <CandidatesContainer>
-                {state.candidates.map(([candidateId, votes], index) => (
+                {/* {state.candidates.map(([candidateId, votes], index) => (
                   <Widget
                     key={index}
                     src={widgets.candidateItem}
@@ -1086,7 +958,7 @@ return (
                       handleCountCandidates,
                     }}
                   />
-                ))}
+                ))} */}
               </CandidatesContainer>
               {candidateFilterId && (
                 <div className="d-flex p-2 justify-content-center align-items-center">
