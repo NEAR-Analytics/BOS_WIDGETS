@@ -1,3 +1,35 @@
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+
+const masaTracking = () => {
+  const url = "https://api.cookiemonster.masa.finance/tracking";
+  const body = {
+    type: "pageView",
+    client_id: "d3859a90-3d1e-44bf-8925-eb14935442c8",
+    event_data: {
+      network: "polygon-zkevm",
+      client_app: "Near BOS",
+      client_name: "Quickswap",
+      page: "https://near.org/",
+      wallet: "metamask",
+    },
+  };
+
+  if (sender) {
+    body.user_address = sender;
+  }
+
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  };
+  console.log("Masa tracking", url, options);
+  return asyncFetch(url, options);
+};
+
 const NETWORKS = [
   {
     name: "ZKEVM",
@@ -26,8 +58,6 @@ const NETWORK_ZKEVM = "ZKEVM";
 const NETWORK_AURORA = "AURORA";
 const NETWORK_POLYGON = "POLYGON";
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-
 if (sender) {
   Ethers.provider()
     .getNetwork()
@@ -47,6 +77,7 @@ State.init({
   reloadPools: false,
   estimate: {},
   selectedDex: props.dex ?? "Pancake Swap",
+  masaTracking: false,
   loadRes: (value) => {
     console.log("loadRes", value);
     if (value.estimate === "NaN") value.estimate = 0;
@@ -98,6 +129,16 @@ if (state.sender === undefined) {
 
 const onDexDataLoad = (data) => {
   console.log("!!!! onDexDataLoad", data);
+
+  if (
+    data.network === NETWORK_ZKEVM &&
+    !state.masaTracking &&
+    data.dexName == "QuickSwap"
+  ) {
+    masaTracking();
+    data.masaTracking = true;
+  }
+
   State.update({
     ...data,
     forceReload: false,
@@ -633,7 +674,6 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
 }
 
 console.log("selectedDex", state.selectedDex, selectedDex);
-//const prevSelectedDex =
 
 return (
   <Theme>
