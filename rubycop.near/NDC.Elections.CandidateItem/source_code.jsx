@@ -168,7 +168,7 @@ const alreadyVoted = (candidateId) =>
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 
 const handleSelect = (candidateId) => {
-  handleModals();
+  if (!handleModals()) return;
 
   const selectedItems = state.selectedCandidates.includes(candidateId)
     ? state.selectedCandidates.filter((el) => el !== candidateId)
