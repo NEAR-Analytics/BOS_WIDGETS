@@ -112,6 +112,7 @@ const accounts = [
 
 State.init({
   voters: [],
+  otherVotersObj: {},
   data: [],
   community: props.community || "zomland",
 });
@@ -216,21 +217,21 @@ function isVoted(acc) {
   return state.voters.some((u) => acc === u);
 }
 
-const otherVotersObj = {};
-
 accounts.map((accountId) =>
   asyncFetch(
-    `https://api.pikespeak.ai/election/votes-by-voter?contract=elections.ndc-gwg.near&voter=${acc}`,
+    `https://api.pikespeak.ai/election/votes-by-voter?contract=elections.ndc-gwg.near&voter=${accountId}`,
     { headers: { "x-api-key": apiKey } }
   ).then((resp) => {
     if (
-      resp.body.some(
-        (vote) =>
-          vote.candidate !== context.accountId &&
-          vote.house === "CouncilOfAdvisors"
-      )
+      resp.body &&
+      resp.body.length > 0 &&
+      resp.body
+        .filter((vote) => vote.house === "CouncilOfAdvisors")
+        .every((vote) => vote.candidate !== context.accountId)
     )
-      otherVotersObj[acc] = true;
+      State.update({
+        otherVotersObj: { ...state.otherVotersObj, [accountId]: true },
+      });
   })
 );
 
@@ -257,7 +258,7 @@ return (
           {accounts.map((accountId) => (
             <Name
               isVoted={isVoted(accountId)}
-              isVotedForOthers={otherVotersObj[accountId]}
+              isVotedForOthers={state.otherVotersObj[accountId]}
             >
               <Widget
                 src="mob.near/widget/ProfileLine"
@@ -273,7 +274,7 @@ return (
           {ndcAccounts.map((accountId) => (
             <Name
               isVoted={isVoted(accountId)}
-              isVotedForOthers={otherVotersObj[accountId]}
+              isVotedForOthers={state.otherVotersObj[accountId]}
             >
               <Widget
                 src="mob.near/widget/ProfileLine"
