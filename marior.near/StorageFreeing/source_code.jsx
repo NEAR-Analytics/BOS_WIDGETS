@@ -39,7 +39,7 @@ if (!state.doneTxs) {
     State.update({
       txs: txs.concat(res.body.txns),
       page: state.page + 1,
-      doneTxs: state.page > 3,
+      // doneTxs: state.page > 3,
     });
   });
   return (
@@ -108,28 +108,34 @@ if (!state.doneRpc) {
   );
 }
 
-const storageInfo = {};
+const storageBalances = {};
 for (const contractId of state.storageDeposits) {
   try {
     const storageBalanceOf = Near.view(contractId, "storage_balance_of", {
       account_id: accountId,
     });
-    const storageBalanceBounds = Near.view(
-      contractId,
-      "storage_balance_bounds",
-      {}
-    );
-    if (storageBalanceOf != null && storageBalanceBounds != null) {
-      storageInfo[contractId] = {
-        storageBalanceOf,
-        storageBalanceBounds,
-      };
+    if (storageBalanceOf != null) {
+      storageBalances[contractId] = storageBalanceOf;
     }
   } catch (err) {}
 }
 
+let totalAvailable = Big("0");
+for (const storageBalanceOf of Object.values(storageBalances)) {
+  if (
+    !storageBalanceOf ||
+    !storageBalanceOf.total ||
+    !storageBalanceOf.available
+  ) {
+    continue;
+  }
+  totalAvailable = totalAvailable.plus(storageBalanceOf.available);
+}
+totalAvailable = totalAvailable.div(Big(10).pow(24)).round(3).toString();
+
 console.log("state", state);
-console.log("storageInfo", storageInfo);
+console.log("storageBalances", storageBalances);
+console.log("totalAvailable", totalAvailable);
 
 const Wrapper = styled.div`
   display: flex;
@@ -145,6 +151,12 @@ const Header = styled.h1`
   text-align: center;
   padding: 3rem;
   font-weight: 600;
+`;
+
+const Description = styled.div`
+  font-style: italic;
+  font-size: 1.1rem;
+  margin: 0 1rem;
 `;
 
 const Content = styled.div`
@@ -187,24 +199,45 @@ const storageWithdraw = (contractId) => {
   Near.call(contractId, "storage_withdraw", {}, "30000000000000", "1");
 };
 
+const storageWithdrawAll = () => {
+  Near.call(
+    Object.entries(storageBalances)
+      .filter(
+        ([_, storageBalanceOf]) =>
+          storageBalanceOf != null &&
+          !!storageBalanceOf.total &&
+          !!storageBalanceOf.available &&
+          Number(storageBalanceOf.available) > 0
+      )
+      .map(([contractId]) => ({
+        contractName: contractId,
+        method: "storage_withdraw",
+        deposit: "1",
+      }))
+  );
+};
+
 const storageUnregister = (contractId) => {
   Near.call(contractId, "storage_unregister", {}, "30000000000000", "1");
 };
 
-const renderStorageInfos = (storageInfos) =>
-  Object.entries(storageInfos)
+const renderStorageInfos = () =>
+  Object.entries(storageBalances)
     .filter(
-      ([_, { storageBalanceBounds, storageBalanceOf }]) =>
-        storageBalanceBounds != null &&
+      ([_, storageBalanceOf]) =>
         storageBalanceOf != null &&
         !!storageBalanceOf.total &&
         !!storageBalanceOf.available
     )
-    .map(([contractId, { storageBalanceBounds, storageBalanceOf }]) => {
-      const total = Big(storageBalanceOf.total).div(Big(10).pow(24)).toFixed(3);
+    .map(([contractId, storageBalanceOf]) => {
+      const total = Big(storageBalanceOf.total)
+        .div(Big(10).pow(24))
+        .round(3)
+        .toString();
       const available = Big(storageBalanceOf.available)
         .div(Big(10).pow(24))
-        .toFixed(3);
+        .round(3)
+        .toString();
       return (
         <Card>
           <CardHeader>{contractId}</CardHeader>
@@ -226,7 +259,58 @@ const renderStorageInfos = (storageInfos) =>
 
 return (
   <Wrapper>
-    <Header>Free unused NEAR used for storage staking</Header>
-    <Content>{renderStorageInfos(storageInfo)}</Content>
+    <Header>Free unused storage staked NEAR</Header>
+    <Description>
+      This BOS app allows you to free unused Near, that you have been depositing
+      for storage staking.{" "}
+      <a
+        href="https://docs.near.org/concepts/storage/storage-staking"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        Storage staking
+      </a>{" "}
+      is a concept unique to Near where the contract owner needs to lock NEAR,
+      if data is stored in a wallet/contract.
+      <br />
+      <br />
+      Storage management has been standardized via{" "}
+      <a
+        href="https://nomicon.io/Standards/StorageManagement"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        NEP-145
+      </a>{" "}
+      so that there's an interface for users of a smart contract to pay for the
+      storage that they are using. Fortunately we can use this standard to also
+      refund NEAR, that isn't used for storage staking, but has been paid by
+      your account (or someone else paid for you).
+      <br />
+      <br />
+      If you use this app, but a transaction fails, then it is likely that
+      either:
+      <ul>
+        <li>the smart contract didn't properly implement NEP-145</li>
+        <li>
+          there's an unknown precondition to be able to free funds/unregister
+          account
+        </li>
+      </ul>
+    </Description>
+    <button onClick={() => storageWithdrawAll(contractId)}>
+      Free {totalAvailable} NEAR from{" "}
+      {
+        Object.values(storageBalances).filter(
+          (storageBalanceOf) =>
+            storageBalanceOf != null &&
+            !!storageBalanceOf.total &&
+            !!storageBalanceOf.available &&
+            Number(storageBalanceOf.available) > 0
+        ).length
+      }{" "}
+      contracts
+    </button>
+    <Content>{renderStorageInfos()}</Content>
   </Wrapper>
 );
