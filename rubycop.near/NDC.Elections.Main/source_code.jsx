@@ -347,7 +347,7 @@ return (
             props={{
               handleFilter,
               candidateId: state.candidateFilterId,
-              placeholder: "Search by candidate name or wallet",
+              placeholder: "Search by candidate name",
             }}
           />
         </Filter>
