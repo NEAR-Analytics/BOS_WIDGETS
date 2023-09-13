@@ -246,7 +246,7 @@ const renderStorageInfos = () =>
                   Free {available} NEAR
                 </button>
               )}
-            <button onClick={() => storageWithdraw(contractId)}>
+            <button onClick={() => storageUnregister(contractId)}>
               Unregister account for {total} NEAR
             </button>
           </CardContent>
