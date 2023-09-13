@@ -7,7 +7,7 @@ return (
       onClick={() => {
         console.log(componentInstanceId, __bweMeta);
         State.update({ value: state.value + 1 });
-        props.update();
+        props.update(props.id);
       }}
     >
       increment {state.value}
