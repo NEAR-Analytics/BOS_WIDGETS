@@ -244,11 +244,12 @@ const renderStorageInfos = () =>
           <CardContent>
             <div>Staked: {total}</div>
             <div>Available: {available}</div>
-            {storageBalanceOf.available && (
-              <button onClick={() => storageWithdraw(contractId)}>
-                Free {available} NEAR
-              </button>
-            )}
+            {storageBalanceOf.available &&
+              Number(storageBalanceOf.available) > 0 && (
+                <button onClick={() => storageWithdraw(contractId)}>
+                  Free {available} NEAR
+                </button>
+              )}
             <button onClick={() => storageWithdraw(contractId)}>
               Unregister account for {total} NEAR
             </button>
