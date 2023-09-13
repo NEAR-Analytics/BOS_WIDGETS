@@ -217,23 +217,23 @@ function isVoted(acc) {
   return state.voters.some((u) => acc === u);
 }
 
-accounts.map((accountId) =>
-  asyncFetch(
-    `https://api.pikespeak.ai/election/votes-by-voter?contract=elections.ndc-gwg.near&voter=${accountId}`,
-    { headers: { "x-api-key": apiKey } }
-  ).then((resp) => {
-    if (
-      resp.body &&
-      resp.body.length > 0 &&
-      resp.body
-        .filter((vote) => vote.house === "CouncilOfAdvisors")
-        .every((vote) => vote.candidate !== context.accountId)
-    )
-      State.update({
-        otherVotersObj: { ...state.otherVotersObj, [accountId]: true },
-      });
-  })
-);
+// accounts.map((accountId) =>
+//   asyncFetch(
+//     `https://api.pikespeak.ai/election/votes-by-voter?contract=elections.ndc-gwg.near&voter=${accountId}`,
+//     { headers: { "x-api-key": apiKey } }
+//   ).then((resp) => {
+//     if (
+//       resp.body &&
+//       resp.body.length > 0 &&
+//       resp.body
+//         .filter((vote) => vote.house === "CouncilOfAdvisors")
+//         .every((vote) => vote.candidate !== context.accountId)
+//     )
+//       State.update({
+//         otherVotersObj: { ...state.otherVotersObj, [accountId]: true },
+//       });
+//   })
+// );
 
 const formData = {};
 
@@ -256,10 +256,7 @@ return (
         <h5>Total Whitelisted ({accounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {accounts.map((accountId) => (
-            <Name
-              isVoted={isVoted(accountId)}
-              isVotedForOthers={state.otherVotersObj[accountId]}
-            >
+            <Name isVoted={isVoted(accountId)}>
               <Widget
                 src="mob.near/widget/ProfileLine"
                 props={{ accountId, tooltip: false }}
@@ -272,10 +269,7 @@ return (
         <h5>NDC Whitelisted ({ndcAccounts.length})</h5>
         <div className="d-flex flex-column gap-2">
           {ndcAccounts.map((accountId) => (
-            <Name
-              isVoted={isVoted(accountId)}
-              isVotedForOthers={state.otherVotersObj[accountId]}
-            >
+            <Name isVoted={isVoted(accountId)}>
               <Widget
                 src="mob.near/widget/ProfileLine"
                 props={{ accountId, tooltip: false }}
