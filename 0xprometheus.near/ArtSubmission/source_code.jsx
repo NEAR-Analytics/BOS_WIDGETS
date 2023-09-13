@@ -107,7 +107,12 @@ const Theme = state.theme;
 
 const nfts = allNfts(allContracts);
 
+console.log(nfts);
+
 const handleNFTClick = (nft) => {
+  State.update({
+    selectedToken: nft.token_id,
+  });
   return;
 };
 //[
@@ -138,7 +143,6 @@ return (
             key={i}
             className="text-decoration-none"
             onClick={() => handleNFTClick(nft)}
-            href={`#mob.near/widget/NftImage?tokenId=${nft.token_id}&contractId=${nft.contractId}`}
           >
             <Widget
               src="mob.near/widget/NftImage"
@@ -153,7 +157,10 @@ return (
                   maxWidth: "10em",
                   maxHeight: "10em",
                   overflowWrap: "break-word",
-                  "border-color": "white",
+                  border:
+                    nft.token_id == state.selectedToken
+                      ? "3px solid lightblue"
+                      : "None",
                 },
                 className: "img-thumbnail",
                 fallbackUrl:
