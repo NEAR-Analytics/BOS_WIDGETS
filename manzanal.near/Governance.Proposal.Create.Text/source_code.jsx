@@ -129,7 +129,7 @@ const handleProposal = () => {
         extra: "",
       },
       gas: gas,
-      deposit: state.storageRequired
+      deposit: state.storageRequired,
     },
   ]);
 };
@@ -241,6 +241,7 @@ return (
       props={{
         onChange: (description) => onChangeDescription(description),
         height: "600px",
+        initialText: state.description,
       }}
     />
     {state.descriptionError && (
