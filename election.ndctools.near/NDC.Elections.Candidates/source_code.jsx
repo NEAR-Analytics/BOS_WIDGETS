@@ -260,7 +260,7 @@ const Section = styled.div`
 `;
 
 const VotingAlert = styled.small`
-  color: #f29bc0;
+  color: rgb(206 43 112);
   font-weight: 600;
   text-aligh: center;
 `;
