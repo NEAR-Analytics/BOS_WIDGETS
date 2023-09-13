@@ -3,6 +3,8 @@
  * put a query for gallery
  * get series
  * navbar
+ * add fira code font
+ * marcellus navbar
  */
 const accountId = props.accountId ?? "sharddog.near";
 State.init({
