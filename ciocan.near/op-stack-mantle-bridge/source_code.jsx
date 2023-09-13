@@ -62,8 +62,17 @@ if (sender) {
     });
 }
 
+function showToast({ variant, title, description }) {
+  State.update({
+    isToastOpen: true,
+    variant: variant ?? "error",
+    title: title ?? "Transaction rejected",
+    description: description ?? "The transaction was rejected",
+  });
+}
+
 function handleDepositETH(props) {
-  console.log("deposit", props);
+  console.log("handleDepositETH", props);
   const { amount, token } = props;
   const amountBig = ethers.utils.parseUnits(`${amount}`, 18);
 
@@ -82,10 +91,19 @@ function handleDepositETH(props) {
       gasLimit,
     })
     .then((tx) => {
-      consle.log("tx:", tx);
+      consle.log("depositETH ok:", tx);
     })
     .catch((e) => {
-      console.log("bridge error:", e);
+      console.log("depositETH error:", e);
+      if (e.reason) {
+        showToast({ description: e.reason });
+      } else {
+        showToast({
+          variant: "success",
+          title: "SUCCESS",
+          description: "ETH deposit ok",
+        });
+      }
     });
 }
 
@@ -133,9 +151,22 @@ function handleDepositERC20(props) {
             gasLimit: ERC20_TRANSFER_GAS,
           }
         )
-        .then((depositData) => {
-          console.log("depositERC20", depositData);
+        .then((tx) => {
+          console.log("depositERC20 ok", tx);
+          showToast({
+            variant: "success",
+            title: "SUCCESS",
+            description: "ERC20 deposit ok",
+          });
+        })
+        .catch((e) => {
+          console.log("depositERC20 error:", e);
+          showToast({ description: e.reason });
         });
+    })
+    .catch((e) => {
+      console.log("approve error:", e);
+      showToast({ description: e.reason });
     });
 }
 
@@ -186,6 +217,7 @@ return (
           l2MainnetId,
           l2Networks,
           l2IconUrl,
+          disableNetworkChange: true,
         }}
       />
       <Widget
