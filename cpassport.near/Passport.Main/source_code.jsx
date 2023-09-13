@@ -24,7 +24,7 @@ const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
-    color: #FDF3DD;
+    background-color: #FDF3DD;
 
 `;
 
@@ -113,8 +113,7 @@ const Tabs = styled.div`
 
 const TabsButton = styled.a`
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
+
   height: 100%;
   font-weight: 600;
   font-size: 12px;
@@ -125,6 +124,8 @@ const TabsButton = styled.a`
   border: none;
   outline: none;
   text-align: center;
+    align-items: center;
+  justify-content: center;
   text-decoration: none !important;
 
   &:hover {
@@ -139,7 +140,7 @@ const TabsButton = styled.a`
     left: 0;
     right: 0;
     height: 3px;
-    background: #59e692;
+    background: #de4e48;
   }
 `;
 
