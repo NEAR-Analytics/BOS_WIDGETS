@@ -27,7 +27,8 @@ const widgets = {
   modal: "nomination.ndctools.near/widget/NDC.Modal",
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
   budget: "election.ndctools.near/widget/NDC.Elections.BudgetPackage",
-  castVotes: "election.ndctools.near/widget/NDC.Elections.CastVotes",
+  castVotes: "election.ndctools.near/widget/NDC.Elections.candidateItem",
+  candidateItem: "rubycop.near/widget/NDC.Elections.CandidateItem",
 };
 
 const LocalStorageKeys = {
@@ -260,7 +261,7 @@ const Section = styled.div`
 `;
 
 const VotingAlert = styled.small`
-  color: rgb(206 43 112);
+  color: #f29bc0;
   font-weight: 600;
   text-aligh: center;
 `;
@@ -334,7 +335,7 @@ const filteredCandidates = () => {
   return candidates;
 };
 
-const handleSelectCandidate = (candidateId) => {
+const handleModals = () => {
   if (!state.acceptedPolicy) {
     State.update({ showToSModal: true });
     return;
@@ -343,21 +344,14 @@ const handleSelectCandidate = (candidateId) => {
     State.update({ showMintPolicyModal: true });
     return;
   }
+};
 
-  const selectedItems = state.selectedCandidates.includes(candidateId)
-    ? state.selectedCandidates.filter((el) => el !== candidateId)
-    : [...state.selectedCandidates, candidateId];
-
-  const currentVotes = seats - myVotesForHouse().length - selectedItems.length;
-  if (currentVotes < 0) return;
-
+const handleCountCandidates = (availableVotes, selectedCandidates) => {
   State.update({
-    selectedCandidates: selectedItems,
-    availableVotes: currentVotes,
+    availableVotes,
+    selectedCandidates,
     reload: false,
   });
-
-  return true;
 };
 
 const handleCast = () =>
@@ -725,7 +719,8 @@ const CandidateItem = ({ candidateId, votes }) => (
                 blacklisted ||
                 electionStatus !== "ONGOING"
               }
-              onClick={() => handleSelectCandidate(candidateId)}
+              onClick={() => handleCountCandidate(candidateId)}
+              s
               className="form-check-input"
               type="checkbox"
               checked={
@@ -947,7 +942,7 @@ return (
         }}
       />
     )}
-    {true && (
+    {state.bountyProgramModal && (
       <Widget
         src={widgets.modal}
         props={{
@@ -1026,9 +1021,7 @@ return (
             <div class="w-100 pt-2 text-center">
               <VotingAlert>
                 <i class="bi bi-exclamation-circle mr-2" />
-                Warning!
-                <br />
-                You've loose{" "}
+                Warning! You've loose{" "}
                 {state.availableVotes -
                   (state.selectedCandidates.length || 0)}{" "}
                 votes and don't have ability to vote again in current house!
@@ -1081,10 +1074,17 @@ return (
               <Filters />
               <CandidatesContainer>
                 {state.candidates.map(([candidateId, votes], index) => (
-                  <CandidateItem
-                    candidateId={candidateId}
-                    votes={votes}
+                  <Widget
                     key={index}
+                    src={widgets.candidateItem}
+                    props={{
+                      ...props,
+                      ...state,
+                      candidateId,
+                      votes,
+                      handleModals,
+                      handleCountCandidates,
+                    }}
                   />
                 ))}
               </CandidatesContainer>
@@ -1142,7 +1142,8 @@ return (
               handleCast,
               handleVote,
               handleResetSelection,
-              handleSelectCandidate,
+              handleCountCandidate,
+              s,
             }}
           />
         )}
