@@ -44,14 +44,15 @@ if (edit && !state.proposalIsFetched) {
     { mpip_id: parseInt(mpip_id) },
     "final",
     false
-  ).then((proposal) =>
+  ).then((proposal) => {
+    console.log("description", proposal.body);
     State.update({
       title: proposal.title,
       shortDescription: proposal.short_description,
       description: proposal.body,
       proposalIsFetched: true,
-    })
-  );
+    });
+  });
 }
 
 if (!state.allVotingPowerIsFetched) {
