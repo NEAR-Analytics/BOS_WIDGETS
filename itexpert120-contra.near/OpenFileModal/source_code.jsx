@@ -2,7 +2,6 @@ const onOpenFile = props.onOpenFile;
 
 State.init({
   path: "",
-  blockHeight: "final",
 });
 
 return (
@@ -25,6 +24,8 @@ return (
         onChange={(e) => State.update({ blockHeight: e.target.value })}
       />
     </div>
-    <button>Open File</button>
+    <button onClick={() => onOpenFile(state.path, parseInt(state.blockHeight))}>
+      Open File
+    </button>
   </div>
 );
