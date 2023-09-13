@@ -18,7 +18,7 @@ return (
     >
       <div>
         <QRCodeReader
-          key="environment"
+
           onScan={(data) 
           => {
             if (!state?.text) State.update({ text: data?.text });
