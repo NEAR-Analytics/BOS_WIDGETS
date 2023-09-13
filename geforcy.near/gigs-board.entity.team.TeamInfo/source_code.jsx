@@ -192,10 +192,6 @@ const header = isTeam ? (
     src={`neardevgov.near/widget/ProfileLine`}
     props={{ accountId: props.member }}
   />
-  // <div class="d-flex">
-  //   <i class="bi bi-people-fill me-1"></i>
-  //   {props.member}
-  // </div>
 );
 
 const SlimButton = styled.button`
