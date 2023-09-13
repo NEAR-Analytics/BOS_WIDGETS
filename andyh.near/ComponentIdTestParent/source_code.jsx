@@ -12,7 +12,6 @@ return (
     <button onClick={() => State.update({ x: state.x + 1 })}>
       increment parent {state.x}
     </button>
-    {/*
     <Widget
       src="andyh.near/widget/ComponentIdTestChild"
       id={"a"}
@@ -28,8 +27,22 @@ return (
         },
       }}
     />
-    */}
-    {components.map(({ id, value }) => (
+    <Widget
+      src="andyh.near/widget/ComponentIdTestChild"
+      id={"b"}
+      props={{
+        value: state.b.value,
+        id: state.b.id,
+        update: (componentId) => {
+          console.log(`updating ${componentId}`);
+          State.update({
+            [componentId]: { id: componentId, value: value + 1 },
+          });
+          // console.log({ ...state });
+        },
+      }}
+    />
+    {/*components.map(({ id, value }) => (
       <Widget
         src="andyh.near/widget/ComponentIdTestChild"
         id={id}
@@ -45,6 +58,6 @@ return (
           },
         }}
       />
-    ))}
+    ))*/}
   </>
 );
