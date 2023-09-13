@@ -26,7 +26,7 @@ return (
 
       <div className="mt-3">
         <Widget
-          src="opencann.near/widget/profile.tabs"
+          src="mob.near/widget/ProfileTabs"
           props={{ accountId, profile }}
         />
       </div>
