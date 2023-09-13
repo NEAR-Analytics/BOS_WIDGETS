@@ -16,7 +16,7 @@ if (data.ok) {
     if (voters[account_id] == undefined) {
       voters[account_id] = {};
     }
-    voters[account_id][item[3]] = item[4];
+    voters[account_id][item[3]] = item[4].toLowerCase();
   });
 
   State.update({ voters });
@@ -35,43 +35,51 @@ const candidateFriendsObject = state.accountId
   : {};
 const candidateFriends = Object.keys(candidateFriendsObject);
 
-const accounts = Object.keys(state.voters ?? []).map((account_id) => {
-  return (
-    <div class="row align-items-start">
-      <div
-        class="col ps-0 overflow-hidden d-flex"
-        style={{
-          gap: "3px",
-          backgroundColor:
-            account_id !== state.accountId ? "white" : "lightblue",
-        }}
-      >
-        <div class="overflow-hidden" style={{ maxWidth: "100vw" }}>
-          <a
-            onClick={() => {
-              State.update({ accountId: account_id });
-              return false;
+const containsSearchBy = (account_id) => {
+  return !account_id || !state.searchBy || account_id.includes(state.searchBy);
+};
+
+const accounts = Object.keys(state.voters ?? [])
+  .filter((account_id) => containsSearchBy(account_id))
+  .map((account_id) => {
+    return (
+      <div class="row align-items-start">
+        <a
+          onClick={() => {
+            State.update({ accountId: account_id });
+            return false;
+          }}
+          style={{ cursor: "pointer" }}
+          title={account_id}
+        >
+          <div
+            class="col ps-0 overflow-hidden d-flex"
+            style={{
+              gap: "3px",
+              backgroundColor:
+                account_id !== state.accountId ? "white" : "lightblue",
             }}
-            style={{ cursor: "pointer" }}
           >
-            <Widget
-              src="mob.near/widget/N.ProfileLine"
-              props={{
-                accountId: account_id,
-                link: false,
-                hideAccountId: true,
-                hideImage: false,
-              }}
-            />
-          </a>
-        </div>
-        <div class="text-secondary">
-          ({countKeys(state.voters[account_id])})
-        </div>
+            <div class="overflow-hidden" style={{ maxWidth: "100vw" }}>
+              <Widget
+                src="mob.near/widget/N.ProfileLine"
+                props={{
+                  accountId: account_id,
+                  link: false,
+                  hideAccountId: true,
+                  hideImage: false,
+                }}
+              />
+            </div>
+
+            <div class="text-secondary">
+              ({countKeys(state.voters[account_id])})
+            </div>
+          </div>
+        </a>
       </div>
-    </div>
-  );
-});
+    );
+  });
 
 const followerSVG = (
   <svg
@@ -204,6 +212,29 @@ return (
         style={{ height: "calc(100vh - 7rem)" }}
       >
         <h4>Users ({Object.keys(state.voters).length})</h4>
+        <div class="input-group mb-1">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by NEAR Account ID"
+            onChange={(e) =>
+              State.update({
+                searchBy: e.target.value,
+              })
+            }
+            value={state.searchBy}
+          />
+
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            onClick={() => State.update({ searchBy: "" })}
+            title="Reset Search"
+          >
+            X
+          </button>
+        </div>
+
         {accounts}
       </div>
       <div class="col col-9 align-self-start text-center">
