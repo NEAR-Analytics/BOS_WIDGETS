@@ -20,7 +20,7 @@ return (
         }}
         style={{ width: 300, height: 250 }}
       />
-      <p>QR Code Result :{state.text ?? "Result Placeholder Text"}</p>
+      <p>QR Code Result : {state.text ?? "Result Placeholder Text"}</p>
     </div>
   </div>
 );
