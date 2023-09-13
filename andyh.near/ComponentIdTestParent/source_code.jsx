@@ -23,6 +23,7 @@ return (
         },
       }}
     />
+    {/*
     // {components.map(({ id, value }) => (
     //   <Widget
     //     src="andyh.near/widget/ComponentIdTestChild"
@@ -40,5 +41,6 @@ return (
     //     }}
     //   />
     // ))}
+    */}
   </>
 );
