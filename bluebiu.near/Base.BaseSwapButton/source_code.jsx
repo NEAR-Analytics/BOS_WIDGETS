@@ -199,6 +199,10 @@ const SwapButton = styled.button`
     opacity: 0.5;
     pointer-events: none;
   }
+  @media (max-width: 900px) {
+    height: 40px;
+    font-size: 16px;
+  }
 `;
 const account = Ethers.send("eth_requestAccounts", [])[0];
 if (props.noPair) {
@@ -651,7 +655,6 @@ const handleSwapV3 = () => {
     outputCurrency.address === "native" ? wethAddress : outputCurrency.address;
 
   const options = {
-    gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
     gasLimit: gasLimit ?? 300000,
     value: inputCurrency.address === "native" ? value : "0",
   };
