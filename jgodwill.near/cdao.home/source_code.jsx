@@ -445,7 +445,7 @@ const Main = styled.div`
     height: 100vh;
      @media screen and (max-width: 767px){
     flex-direction: column;
-    flex-wrap: no-wrap;
+    flex-wrap: nowrap;
     justify-content: center;
     text-align: center;
     height: max-content;   
@@ -485,6 +485,12 @@ const Main = styled.div`
     align-items: center;
     gap: 1rem;
     width: 100%;
+}
+
+.heroCTA{
+  @media screen and (max-width: 767px){
+    justify-content: center;
+    }
 }
 
 .button{
