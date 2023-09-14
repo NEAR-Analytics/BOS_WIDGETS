@@ -33,7 +33,6 @@ const ImageContainer = styled.div`
   display: flex;
   width: 7rem;
   height: 7rem;
-  flex-shrink: 0;
   justify-content: center;
   align-items: center;
   border-radius: 0.5rem;
