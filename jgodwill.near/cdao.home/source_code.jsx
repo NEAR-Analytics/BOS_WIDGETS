@@ -443,6 +443,10 @@ const Main = styled.div`
     margin: 0 auto;
     padding: 2rem inherit;
     height: 100vh;
+     @media screen and (max-width: 767px){
+    flex-direction: column;
+    flex-wrap: no-wrap;   
+    }
 }
 .heroRight{
     width: 100%;
