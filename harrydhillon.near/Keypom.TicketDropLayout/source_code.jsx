@@ -29,10 +29,10 @@ const Grid = styled.div`
     }
 `;
 const Label = styled.p`
-font-size: 16px;
- translate: 3px 8px;
-font-style: normal;
-font-weight: 500;
+  font-size: 16px;
+  translate: 3px 8px;
+  font-style: normal;
+  font-weight: 500;
 `;
 
 const BottomStyledContainer = styled.div`
@@ -49,16 +49,16 @@ const BottomStyledContainer = styled.div`
 `;
 
 const BackButton = styled.button`
-background-color:transparent;
-border-width:0px;
-color:black;
-padding-left:10px;
-border-radius:5px;
-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
--webkit-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
--moz-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
-padding-right:10px;
-opacity:${(props) => (props.disabled ? 0.5 : 1)};
+  background-color:transparent;
+  border-width:0px;
+  color:black;
+  padding-left:10px;
+  border-radius:5px;
+  box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
+  -webkit-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
+  -moz-box-shadow: 10px 10px 38px -3px rgba(0,0,0,0.09);
+  padding-right:10px;
+  opacity:${(props) => (props.disabled ? 0.5 : 1)};
 `;
 
 const AllSteps = [
@@ -153,7 +153,7 @@ const formContent = () => {
           }}
         >
           {AllSteps.map((item, idx) => (
-            <button
+            <div
               style={{
                 marginRight: 20,
                 backgroundColor: "transparent",
@@ -161,7 +161,7 @@ const formContent = () => {
                 borderWidth: 0,
               }}
               onClick={() => {
-                State.update({ index: idx });
+                // State.update({ index: idx });
               }}
             >
               <Widget
@@ -172,7 +172,7 @@ const formContent = () => {
                   active: item?.active,
                 }}
               />
-            </button>
+            </div>
           ))}
         </div>
         {componentsToRender[state.index]}
