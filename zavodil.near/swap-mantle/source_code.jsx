@@ -939,7 +939,7 @@ return (
               tokenInDecimals: state.inputAsset.metadata.decimals,
               tokenOutDecimals: state.outputAsset.metadata.decimals,
               quoterContractId: state.quoterContract,
-              amountIn: state.inputAssetAmount,
+              amountIn: state.inputAssetAmount.toString(),
               reloadPools: state.reloadPools,
               setReloadPools: (value) =>
                 State.update({
