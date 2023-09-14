@@ -2,6 +2,31 @@ const accountId = props.accountId ?? context.accountId;
 const onChange = props.onChange;
 const options = props.options;
 
+//const medications = VM.require("opencann.near/widget/pharm.array"};
+//const conditions = VM.require("opencann.near/widget/conditions.array"};
+
+const astrological_sign = [
+  { text: "Aries", value: "Aries" },
+  { text: "Taurus", value: "Taurus" },
+  { text: "Gemini", value: "Gemini" },
+  { text: "Cancer", value: "Cancer" },
+  { text: "Leo", value: "Leo" },
+  { text: "Virgo", value: "Virgo" },
+  { text: "Libra", value: "Libra" },
+  { text: "Scorpio", value: "Scorpio" },
+  { text: "Sagittarius", value: "Sagittarius" },
+  { text: "Capricorn", value: "Capricorn" },
+  { text: "Aquarius", value: "Aquarius" },
+  { text: "Pisces", value: "Pisces" },
+];
+
+const sexOptions = [
+  { text: "Male", value: "Male" },
+  { text: "Female", value: "Female" },
+  { text: "Intersex", value: "Intersex" },
+  { text: "Other", value: "Other" },
+];
+
 if (context.loading) {
   return (
     <>
@@ -26,6 +51,7 @@ const initialState = {
   birthday: "",
   astrological_sign: "",
   age: "",
+  sex: "",
   gender: "",
   profession: "",
   income: "",
@@ -33,7 +59,6 @@ const initialState = {
   preferred_nft_marketplace: "",
   preferred_crypto: "",
   saveState: "Started",
-  sex: "",
   height: "",
   weight: "",
   cannabisUse: "",
@@ -155,12 +180,13 @@ let page = (
         onChange={(event) => handleChangeOnInput(event)}
       />
       <Widget
-        src={`crowdtestify.near/widget/Inputs.Text`}
+        src={`crowdtestify.near/widget/Inputs.Select`}
         props={{
           label: "Astrological Sign",
-          placeholder: "Example: Libra",
+          placeholder: "Aries",
+          sexOptions,
           value: state.astrological_sign,
-          onChange: (event) => State.update({ astrological_sign }),
+          onChange: (astrological_sign) => State.update({ astrological_sign }),
           validate: () => {
             return;
           },
