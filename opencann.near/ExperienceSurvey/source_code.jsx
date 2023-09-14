@@ -1,7 +1,12 @@
 // Add tooltips to show long explanations on hover
-//const substance = props.substance || "cannabis";
-//const options = props.options;
-//const props = { options: "smoke" };
+const options = props.options;
+const substance = props.substance ?? "cannabis";
+const consumptionMethod = substance.consumptionMethod;
+const physicalEffects = substance.physicalEffects;
+const visualEffects = substance.visualEffects;
+const auditoryEffects = substance.auditoryEffects;
+const cognitiveEffects = substance.cognitiveEffects;
+const multisensoryEffects = substance.multisensoryEffects;
 
 const UUID = {
   generate: (template) => {
@@ -61,7 +66,7 @@ State.init({
   id: UUID.generate(),
   title: "",
   substance: props.substance,
-  cannabisMethod: ["smoke", "vapor"],
+  consumptionMethod: substance.consumptionMethod,
   dose: "",
   description: {
     content: "# New Response Description",
@@ -70,11 +75,11 @@ State.init({
   setSetting: {
     content: "# New Set and Setting Description",
   },
-  physicalEffects: ["", ""],
-  visualEffects: ["", ""],
-  auditoryEffects: ["", ""],
-  cognitiveEffects: ["", ""],
-  multisensoryEffects: ["", ""],
+  physicalEffects: [],
+  visualEffects: [],
+  auditoryEffects: [],
+  cognitiveEffects: [],
+  multisensoryEffects: [],
   productName: "",
   brandName: "",
   batchNumber: "",
@@ -103,8 +108,8 @@ const onSubstanceChange = (target) => {
   State.update({ substance: target });
 };
 
-const onCannabisMethodChange = (target) => {
-  State.update({ cannabisMethod: target });
+const onConsumptionMethodChange = (target) => {
+  State.update({ consumptionMethod: target });
 };
 
 const onDoseChange = (target) => {
@@ -225,7 +230,7 @@ const clearFields = () => {
   State.update({
     title: "",
     substance: "cannabis",
-    cannabisMethod: ["smoke", "vapor"],
+    consumptionMethod: ["smoke", "vapor"],
     dose: "",
     description: {
       content: "# New Response Description",
@@ -266,7 +271,7 @@ const createNewResponse = () => {
       id: state.id,
       title: state.title,
       substance: state.substance,
-      cannabisMethod: state.method,
+      consumptionMethod: state.method,
       dose: state.dose,
       description: state.description,
       otherSubstances: state.otherSubstances,
@@ -328,7 +333,7 @@ const handleNewResponse = () => {
       id: state.id,
       title: state.title,
       substance: state.substance,
-      cannabisMethod: state.method,
+      consumptionMethod: state.method,
       dose: state.dose,
       description: state.description,
       otherSubstances: state.otherSubstances,
@@ -386,7 +391,8 @@ const ResponseForm = () => {
         </p>
 
         <hr></hr>
-
+        <h4>Cannabis Experience Report</h4>
+        <p></p>
         <div className="mb-3">
           <label class="form-label" for="title">
             Give Your Report a Name
@@ -403,10 +409,10 @@ const ResponseForm = () => {
           <Widget
             src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
-              data: state.cannabisMethod,
-              onChange: onCannabisMethodChange,
+              data: state.consumptionMethod,
+              onChange: onConsumptionMethodChange,
               height: "250px",
-              options: props.cannabis.method,
+              options: props.consumptionMethod,
               label: "How did you consume cannabis?",
               placeholder: "Select all methods that apply.",
             }}
@@ -425,6 +431,18 @@ const ResponseForm = () => {
           />
         </div>
         <div className="mb-3">
+          <label class="form-label" for="otherSubstances">
+            Other Substances Taken
+          </label>
+          <input
+            class="form-control"
+            id="otherSubstances"
+            value={state.otherSubstances}
+            onChange={onOtherSubstancesChange}
+            placeholder="Other Substances Taken"
+          />
+        </div>
+        <div className="mb-3">
           <label class="form-label" for="description">
             Describe Your Experience
           </label>
@@ -435,18 +453,6 @@ const ResponseForm = () => {
               onChange: onDescriptionChange,
               height: "250px",
             }}
-          />
-        </div>
-        <div className="mb-3">
-          <label class="form-label" for="otherSubstances">
-            Other Substances Taken
-          </label>
-          <input
-            class="form-control"
-            id="otherSubstances"
-            value={state.otherSubstances}
-            onChange={onOtherSubstancesChange}
-            placeholder="Other Substances Taken"
           />
         </div>
         <div className="mb-3">
@@ -462,6 +468,65 @@ const ResponseForm = () => {
             }}
           />
         </div>
+        <div className="row mb-3">
+          <div className="col">
+            <label for="start">Experience Start Date</label>
+            <input
+              class="form-control"
+              id="start"
+              type="date"
+              value={state.start}
+              onChange={onStartChange}
+            />
+          </div>
+          <div className="col">
+            <label for="startTime">Experience Start Time</label>
+            <input
+              class="form-control"
+              id="startTime"
+              type="time"
+              value={state.startTime}
+              onChange={onStartTimeChange}
+            />
+          </div>
+        </div>
+        <div className="row  mb-3">
+          <div className="col">
+            <label for="end">Experience End Date</label>
+            <input
+              class="form-control"
+              id="end"
+              type="date"
+              value={state.end}
+              onChange={onEndChange}
+            />
+          </div>
+          <div className="col">
+            <label for="endTime">Experience End Time</label>
+            <input
+              class="form-control"
+              id="endTime"
+              type="time"
+              value={state.endTime}
+              onChange={onEndTimeChange}
+            />
+          </div>
+        </div>
+        <div className="mb-3">
+          <label class="form-label" for="location">
+            Geographic Region
+          </label>
+          <input
+            class="form-control"
+            id="location"
+            value={state.location}
+            onChange={onLocationChange}
+            placeholder="Where did your experience take place?"
+          />
+        </div>
+        <hr></hr>
+        <h5>Perceived Effects</h5>
+        <p></p>
         <div className="mb-3">
           <Widget
             src="nearhorizon.near/widget/Inputs.MultiSelect"
@@ -527,6 +592,9 @@ const ResponseForm = () => {
             }}
           />
         </div>
+        <hr></hr>
+        <h5>Product Information</h5>
+        <p></p>
         <div className="mb-3">
           <label class="form-label" for="productName">
             Product Name/Description
@@ -577,74 +645,7 @@ const ResponseForm = () => {
             placeholder="Link to Product/Strain"
           />
         </div>
-        <div className="row mb-3">
-          <div className="col">
-            <label for="start">Experience Start Date</label>
-            <input
-              class="form-control"
-              id="start"
-              type="date"
-              value={state.start}
-              onChange={onStartChange}
-            />
-          </div>
-          <div className="col">
-            <label for="startTime">Experience Start Time</label>
-            <input
-              class="form-control"
-              id="startTime"
-              type="time"
-              value={state.startTime}
-              onChange={onStartTimeChange}
-            />
-          </div>
-        </div>
-        <div className="row  mb-3">
-          <div className="col">
-            <label for="end">Experience End Date</label>
-            <input
-              class="form-control"
-              id="end"
-              type="date"
-              value={state.end}
-              onChange={onEndChange}
-            />
-          </div>
-          <div className="col">
-            <label for="endTime">Experience End Time</label>
-            <input
-              class="form-control"
-              id="endTime"
-              type="time"
-              value={state.endTime}
-              onChange={onEndTimeChange}
-            />
-          </div>
-        </div>
-        <div className="mb-3">
-          <label class="form-label" for="location">
-            Experience Location
-          </label>
-          <input
-            class="form-control"
-            id="location"
-            value={state.location}
-            onChange={onLocationChange}
-            placeholder="New Experience Location"
-          />
-        </div>
-        <div className="mb-3">
-          <label class="form-label" for="category">
-            Experience Category
-          </label>
-          <input
-            class="form-control"
-            id="category"
-            value={state.category}
-            onChange={onCategoryChange}
-            placeholder="New Experience Category"
-          />
-        </div>
+
         <div className="mb-3 row ">
           <div className="col">
             <label>Photo of Product(s) Consumed</label>
@@ -661,6 +662,7 @@ const ResponseForm = () => {
             />
           </div>
         </div>
+        <hr></hr>
         <div className="mb-3">
           <label for="hashtags">
             <p>
