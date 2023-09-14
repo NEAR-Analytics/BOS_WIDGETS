@@ -76,8 +76,6 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       Ethers.provider().getSigner()
     );
 
-    console.log("WethContract: ", WethContract);
-
     if (
       input.inputAssetTokenId === ethAddress &&
       input.outputAssetTokenId === wethAddress
@@ -221,7 +219,6 @@ const callTxQuickSwap = (
   sqrtPriceLimitX96,
   path
 ) => {
-  console.log("callTxQuickSwap", input, path);
   if (
     input.sender &&
     input.routerContract !== undefined &&
@@ -387,14 +384,7 @@ const callTxPancakeZKEVM2 = (
   path
 ) => {
   const poolFee = "2500";
-  console.log(
-    "callTxPancakeZKEVM2",
-    input,
-    gasPrice,
-    gasLimit,
-    sqrtPriceLimitX96,
-    path
-  );
+
   if (
     input.sender &&
     input.routerContract !== undefined &&
