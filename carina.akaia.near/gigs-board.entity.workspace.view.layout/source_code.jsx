@@ -69,7 +69,7 @@ const WorkspaceViewLayout = ({
     style={{ paddingBottom: 72 }}
   >
     <div
-      className="position-fixed bottom-0 mb-2 d-flex gap-3 p-3 rounded-4"
+      className="position-fixed bottom-0 mb-2 d-flex gap-3 p-3 rounded-4 rounded-bottom-0"
       style={{
         backdropFilter: "blur(10px)",
         backgroundColor: "rgba(24, 24, 24, 0.1)",
