@@ -180,7 +180,7 @@ return (
           disabled={props.disableInput}
           onChange={handlers.handleInputChange}
           placeholder="0"
-          autoFocus={!props.disableInput}
+          autoFocus={!props.disableAutoFocus && !props.disableInput}
         />
       </InputWarpper>
       <Value>≈ ${utils.valueFormated(props.amount)}</Value>
