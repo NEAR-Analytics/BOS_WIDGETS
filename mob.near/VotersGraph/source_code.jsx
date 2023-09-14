@@ -132,9 +132,7 @@ const run = (data) => {
       .attr("fill", d => color(d.group));
 
   node.append("title")
-      .text(d => {
-        house(d.group) + d.id
-      });
+      .text(d => house(d.group) + d.id);
 
   // Add a drag behavior.
   node.call(d3.drag()
