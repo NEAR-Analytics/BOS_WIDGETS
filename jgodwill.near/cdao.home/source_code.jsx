@@ -523,6 +523,7 @@ const Main = styled.div`
     width: 100%;
     margin-top: 3rem;
     padding: 1rem 0px;
+    gap: 1rem;
 }
 .stat{
     display: flex;
@@ -545,7 +546,7 @@ const Main = styled.div`
 }
 
 .statTitle{
-    font-size: max(1.5rem, 3vw);
+    font-size: max(1.5rem, 2.4vw);
     font-weight: 700;
     line-height: 1.0;
 }
