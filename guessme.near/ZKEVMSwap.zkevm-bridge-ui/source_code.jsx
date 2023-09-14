@@ -568,10 +568,9 @@ const updateBalance = (token) => {
       .balanceOf(sender)
       .then((balanceBig) => {
         console.log("balanceBig: ", balanceBig);
-        const adjustedBalance = Big(balanceBig._hex)
-          .times(Big(10).pow(decimals))
+        const adjustedBalance = Big(balanceBig.toString())
+          .div(Big(10).pow(decimals))
           .toFixed();
-        console.log("adjustedBalance111: ", adjustedBalance);
         State.update({
           balances: {
             ...state.balances,
