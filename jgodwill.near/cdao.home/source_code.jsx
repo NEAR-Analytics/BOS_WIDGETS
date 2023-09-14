@@ -475,7 +475,7 @@ const Main = styled.div`
 }
 
 .heroTitle{
-    font-size: max(1.5rem, 5vw);
+    font-size: max(1.5rem, 3.8vw);
     font-weight: 700;
     line-height: 1.0;
     margin-bottom: 1rem;
