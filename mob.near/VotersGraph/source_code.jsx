@@ -64,7 +64,39 @@ const [message, setMessage] = useState({
   ],
 });
 
-useEffect(() => {}, [voters]);
+useEffect(() => {
+  if (!voters) {
+    return;
+  }
+  const nodes = {};
+  const links = [];
+  Object.entries(voters).forEach(([accountId, votes]) => {
+    if (!(accountId in nodes)) {
+      nodes[accountId] = {
+        id: accountId,
+        group: 4,
+      };
+    }
+    Object.entries(votes).forEach(([house, votes]) => {
+      house = parseInt(house);
+      JSON.parse(votes).forEach((candidateId) => {
+        nodes[candidateId] = {
+          id: candidateId,
+          group: house,
+        };
+        links.push({
+          source: accountId,
+          target: candidateId,
+          value: 1,
+        });
+      });
+    });
+  });
+  setMessage({
+    nodes: Object.values(nodes),
+    links,
+  });
+}, [voters]);
 
 const code = `
 <!DOCTYPE html>
