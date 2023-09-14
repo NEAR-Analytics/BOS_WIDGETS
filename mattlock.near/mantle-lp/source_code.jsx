@@ -1,3 +1,5 @@
+const MANTLE_CHAIN_ID = 5001;
+
 const logo = (
   <svg width="138" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -297,7 +299,7 @@ State.init({
   component: null,
 });
 
-const disableApps = state.sender === "";
+const disableApps = state.sender === "" || state.chainId !== MANTLE_CHAIN_ID;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0] || "";
 
@@ -325,7 +327,10 @@ const setComponent = (component) => {
   State.update(update);
 };
 
-if (bridge !== true && (state.sender === "" || state.chainId !== 1101)) {
+if (
+  bridge !== true &&
+  (state.sender === "" || state.chainId !== MANTLE_CHAIN_ID)
+) {
   return (
     <Theme>
       <div className="logo-grid">
@@ -339,12 +344,6 @@ if (bridge !== true && (state.sender === "" || state.chainId !== 1101)) {
             connectLabel="Connect with Web3"
             className="connect-web3"
           />
-        )}
-        {state.sender !== "" && state.chainId !== 1011 && (
-          <p>
-            To proceed, please switch to the Polygon ZKEVM Network using your
-            wallet.
-          </p>
         )}
       </div>
     </Theme>
@@ -377,6 +376,12 @@ return (
       <div className="center">
         {bridge && (
           <div className="apps">
+            {state.sender !== "" && state.chainId !== MANTLE_CHAIN_ID && (
+              <p>
+                To use apps, please switch to the Mantle Network using your
+                wallet.
+              </p>
+            )}
             <div>
               <div>
                 <img
