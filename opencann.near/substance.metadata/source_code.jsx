@@ -1,4 +1,5 @@
-const substance = props.substance ?? "#/opencann.near/widget/substance";
+const substance =
+  props.substance ?? "#/opencann.near/widget/substanceDB.cannabis";
 const substanceMetadata = props.substanceMetadata ?? {};
 const options = props.options;
 const onChange = props.onChange;
@@ -165,14 +166,6 @@ const onMultisensoryEffectsChange = debounce((e) => {
   State.update({
     multisensoryEffects: {
       ...state.multisensoryEffects,
-      [e.target.id]: e.target.value,
-    },
-  });
-});
-const onCategoryChange = debounce((e) => {
-  State.update({
-    category: {
-      ...state.category,
       [e.target.id]: e.target.value,
     },
   });
