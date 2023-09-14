@@ -1,4 +1,13 @@
-const substancesArray = [
+const label = props.label ?? "Label";
+const placeholder = props.placeholder ?? "Placeholder";
+const value = props.value ?? "";
+const options = props.options ?? substanceArray;
+const onChange = props.onChange ?? (() => {});
+const validate = props.validate ?? (() => {});
+const error = props.error ?? "";
+const labelKey = props.labelKey ?? "name";
+
+const substanceArray = [
   { name: "Cannabis" },
   { name: "Alcohol" },
   { name: "Tobacco" },
@@ -9,15 +18,6 @@ const substancesArray = [
   { name: "DMT" },
   { name: "Ayahuasca" },
 ];
-
-const label = props.label ?? "Label";
-const placeholder = props.placeholder ?? "Placeholder";
-const value = props.value ?? "";
-const options = props.options ?? substancesArray;
-const onChange = props.onChange ?? (() => {});
-const validate = props.validate ?? (() => {});
-const error = props.error ?? "";
-const labelKey = props.labelKey ?? "name";
 
 const Container = styled.div`
   display: flex;
