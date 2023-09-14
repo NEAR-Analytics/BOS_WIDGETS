@@ -446,14 +446,7 @@ const Main = styled.div`
     align-content: center;
     margin: 0 auto;
     padding: 2rem inherit;
-    height: 100vh;
-     @media screen and (max-width: 767px){
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: center;
-    text-align: center;
-    height: max-content;   
-    }
+    height: max-content;
 }
 .heroRight{
     width: 100%;
