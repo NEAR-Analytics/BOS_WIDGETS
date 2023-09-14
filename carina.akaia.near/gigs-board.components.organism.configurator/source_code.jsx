@@ -283,7 +283,9 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
                     )?.toString?.() || "none"}
                   </span>
                 ) : (fieldValue?.length ?? 0) > 0 ? (
-                  <Markdown text={fieldValue} />
+                  widget("components.molecule.markdown-viewer", {
+                    text: fieldValue,
+                  })
                 ) : (
                   <span>none</span>
                 )}
