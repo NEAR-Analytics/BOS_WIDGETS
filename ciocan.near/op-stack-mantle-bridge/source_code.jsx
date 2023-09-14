@@ -25,7 +25,7 @@ const Layout = styled.div`
   .link {
     margin-top: 1rem;
     a {
-        color: #000;
+        color: gray;
     }
   }
 `;
