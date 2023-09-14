@@ -1,5 +1,4 @@
 const description = props.description || "";
-const width = props.width || "20ch";
 
 State.init({
   showAll: false,
@@ -44,13 +43,9 @@ const TextArea = styled.div`
   flex-grow: 1;
   transition: height 0.3s ease-in-out;
   height: ${({ wrap }) => (wrap ? "unset" : "1.5em")};
-  /* overflow: hidden; */
-  /* display: -webkit-box; */
-  /* -webkit-box-orient: vertical; */
-  /* -webkit-line-clamp: 3; */
 
   p {
-    max-width: ${width};
+    max-width: 20ch;
     font-weight: 500;
   }
 `;
