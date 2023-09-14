@@ -76,19 +76,19 @@ const initialState = {
   age: "",
   sex: "",
   gender: "",
-  profession: "",
+  profession: [],
   income: "",
-  preferred_wallet: "",
-  preferred_nft_marketplace: "",
-  preferred_crypto: "",
+  preferred_wallet: [],
+  preferred_nft_marketplace: [],
+  preferred_crypto: [],
   saveState: "Started",
   height: "",
   weight: "",
   cannabisUse: "",
   cannabisTolerance: "",
   psychonautLevel: "",
-  medications: "",
-  conditions: "",
+  medications: [],
+  conditions: [],
   celebrity: "",
   email: "",
 };
@@ -252,7 +252,7 @@ let page = (
           label: "Sex",
           placeholder: "Example: Female",
           value: state.sex,
-          onChange: (event) => State.update({ sex }),
+          onChange: (sex) => State.update({ sex }),
           validate: () => {
             return;
           },
@@ -270,15 +270,17 @@ let page = (
         }}
       />
       <Widget
-        src={`crowdtestify.near/widget/Inputs.Text`}
+        src={`opencann.near/widget/profile.profession`}
         props={{
           label: "Profession",
-          placeholder: "Example: Pro Wrestler",
+          placeholder: "Pro Wrestler",
           value: state.profession,
-          onChange: (event) => State.update({ profession }),
-          validate: () => {
-            return;
-          },
+          onChange: (profession) =>
+            State.update({
+              profession: profession.map(({ name }) => ({
+                name: name.trim().replaceAll(/\s+/g, "-"),
+              })),
+            }),
         }}
       />
       <Widget
@@ -325,7 +327,7 @@ let page = (
         }}
       />
       <Widget
-        src={`opencann.near/widget/profile.demographic.cannabisLevel`}
+        src={`opencann.near/widget/profile.demographics.cannabisLevel`}
         props={{
           label: "Cannabis Tolerance",
           placeholder: "What is your cannabis tolerance level?",
@@ -335,21 +337,14 @@ let page = (
         }}
       />
       <Widget
-        src={`opencann.near/widget/profile.demographics.astrology`}
+        src={`opencann.near/widget/profile.demographics.psychonautLevel`}
         props={{
-          label: "Astrological Sign",
-          placeholder: "Aries",
-          astrology,
-          value: state.astrological_sign,
-          onChange: (astrological_sign) => State.update({ astrological_sign }),
+          label: "Psychonaut Level",
+          placeholder: "Have you ever tried other substances?",
+          psychonautStatus,
+          value: state.psychonautLevel,
+          onChange: (psychonautLevel) => State.update({ psychonautLevel }),
         }}
-      />
-      {options.substances.label ?? "Have you ever tried other substances?"}
-      <input
-        id="substances"
-        type="text"
-        value={state.substances}
-        onChange={(event) => handleChangeOnInput(event)}
       />
       {options.medications.label ?? "Currently prescribed medication(s)"}
       <input
