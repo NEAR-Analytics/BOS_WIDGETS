@@ -343,7 +343,6 @@ const Configurator = ({
   cancelLabel,
   classNames,
   externalState,
-  fieldGap,
   fieldsRender: customFieldsRender,
   formatter: toFormatted,
   fullWidth,
@@ -427,9 +426,7 @@ const Configurator = ({
 
     children: (
       <div className="flex-grow-1 d-flex flex-column gap-4">
-        <div
-          className={`d-flex flex-column gap-${isActive ? fieldGap ?? 1 : 4}`}
-        >
+        <div className={`d-flex flex-column gap-${isActive ? 1 : 4}`}>
           {fieldsRender({
             form,
             isEditable: isUnlocked && isActive,
