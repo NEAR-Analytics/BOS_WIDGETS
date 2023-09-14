@@ -5,7 +5,7 @@ const options = props.options;
 //const medications = VM.require("opencann.near/widget/pharm.array"};
 //const conditions = VM.require("opencann.near/widget/conditions.array"};
 
-const astrological_sign = [
+const astrology = [
   { text: "Aries", value: "Aries" },
   { text: "Taurus", value: "Taurus" },
   { text: "Gemini", value: "Gemini" },
@@ -184,7 +184,7 @@ let page = (
         props={{
           label: "Astrological Sign",
           placeholder: "Aries",
-          sexOptions,
+          astrology,
           value: state.astrological_sign,
           onChange: (astrological_sign) => State.update({ astrological_sign }),
           validate: () => {
