@@ -1716,20 +1716,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0x1E4a5963aBFD975d8c9021ce480b42188849D41d", // USDT
               "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4", // DAI
             ],
-            coinGeckoTokenIds: {
-              "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
-                "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-              "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
-                "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-              "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1":
-                "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-              "0xa2036f0538221a77a3937f1379699f44945018d0":
-                "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
-              "0x1E4a5963aBFD975d8c9021ce480b42188849D41d":
-                "0xdac17f958d2ee523a2206206994597c13d831ec7",
-              "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4":
-                "0x6b175474e89094c44da98b954eedeac495271d0f",
-            },
+            coingeckoNetworkHandle: "polygon-zkevm",
             inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
             routerContract: "0xF6Ad3CcF71Abb3E12beCf6b3D2a74C963859ADCd",
@@ -1774,20 +1761,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0x1E4a5963aBFD975d8c9021ce480b42188849D41d", // USDT
               "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4", // DAI
             ],
-            coinGeckoTokenIds: {
-              "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
-                "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-              "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
-                "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-              "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1":
-                "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-              "0xa2036f0538221a77a3937f1379699f44945018d0":
-                "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
-              "0x1E4a5963aBFD975d8c9021ce480b42188849D41d":
-                "0xdac17f958d2ee523a2206206994597c13d831ec7",
-              "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4":
-                "0x6b175474e89094c44da98b954eedeac495271d0f",
-            },
+            coingeckoNetworkHandle: "polygon-zkevm",
             inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
             routerContract: "0xBA12222222228d8Ba445958a75a0704d566BF2C8", // Balancer Vault
@@ -1831,14 +1805,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
               "0x1E4a5963aBFD975d8c9021ce480b42188849D41d", // USDT
             ],
-            coinGeckoTokenIds: {
-              "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
-                "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-              "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
-                "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-              "0x1E4a5963aBFD975d8c9021ce480b42188849D41d":
-                "0xdac17f958d2ee523a2206206994597c13d831ec7",
-            },
+            coingeckoNetworkHandle: "polygon-zkevm",
             inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
             routerContract: "0x678Aa4bF4E210cf2166753e054d5b7c31cc7fa86", // PancakeMixedRouteQuoterV1ABI
