@@ -349,7 +349,7 @@ const handleSelectCandidate = (candidateId) => {
   selectedCandidates = selectedCandidates.includes(candidateId)
     ? selectedCandidates.filter((el) => el !== candidateId)
     : [...selectedCandidates, candidateId];
-
+  console.log("click", selectedCandidates);
   const currentVotes = seats - myVotesForHouse().length - selectedItems.length;
   if (currentVotes < 0) return;
 
