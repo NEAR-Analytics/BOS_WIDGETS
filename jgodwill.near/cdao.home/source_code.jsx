@@ -410,9 +410,9 @@ const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
 
 const Main = styled.div`
-    background-color: #f5f5f5;
+    background-color: #000;
     font-size: 16px;
-    color: #333;
+    color: #fff;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -431,17 +431,22 @@ const Main = styled.div`
 .section{
     display: flex;
     align-items: center;
-    padding: 1.5rem 5rem;
+    padding: 5rem;
+    border-bottom: 8px groove #ffc4001c;
 }
 
 .hero{
+    display: flex;
+    align-items: center;
+    padding: 3rem 6rem;
     width: 100%;
     position: relative;
+    background: #000000;
     background: rgb(179,139,8);
     background: -moz-linear-gradient(0deg, rgba(179,139,8,1) 0%, rgba(255,197,0,1) 100%);
     background: -webkit-linear-gradient(0deg, rgba(179,139,8,1) 0%, rgba(255,197,0,1) 100%);
     background: linear-gradient(0deg, rgba(179,139,8,1) 0%, rgba(255,197,0,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b38b08",endColorstr="#ffc500",GradientType=1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b38b08",endColorstr="#ffc500",GradientType=1);  
     color: #000;
     align-content: center;
     margin: 0 auto;
@@ -488,25 +493,25 @@ const Main = styled.div`
     padding: .5rem 1rem;
     border-radius: 5px;
     background-color: #000;
-    color: #ffc500;
+    color: #fff;
     font-size: 1.2rem;
     transition: all .3s ease-in-out;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.415);
 }
 
 .button:hover{
-    background-color: #ffc500;;
+    background-color: #fff;;
     color: #000;
 }
 .button.sec{
     background: transparent;
     color: #000;
-    background-color: #ffc500;
+    background-color: #fff;
     border: none;
 }
 
 .button.sec:hover{
-    color: #ffc500;
+    color: #fff;
     background-color: #000;
 }
 .stats{
@@ -529,8 +534,8 @@ const Main = styled.div`
 }
 
 .statSeparator{
-    background-color: #ffc500;
-    width: 3px;
+    background-color: #fff;
+    width: 2px;
     height: 60px;
 }
 
@@ -545,8 +550,8 @@ const Main = styled.div`
 }
 
 .statBody{
-    font-size: .8rem;
-    line-height: 1.0;
+  font-size: .8rem;
+  line-height: 1.0;
   text-align: center;
   line-height: 17px;
   opacity: .7;
@@ -583,7 +588,6 @@ const Main = styled.div`
     /* glasslike more visible border */
     border: 1px solid rgba(255,255,255,.5);
     clip-path: polygon(26% 16%, 84% 16%, 84% 100%, 16% 100%, 16% 36%);
-    color: #ffc501;
     padding-left:16%;
 }
 
@@ -597,7 +601,7 @@ const Main = styled.div`
 }
 
 .blurredBG>.blurbg{
-    background-color: #ffc401d8;
+    background-color: #ffffffcd;
     width: 100%;
     height: 100%;
 }
@@ -649,7 +653,133 @@ const Main = styled.div`
     width: fit-content;
 }
 
-@media screen and (max-width: 767px){
+.sectionTitle{
+    font-size: max(1.4rem, 3vw);
+    text-align: center;
+    /* font-style: normal; */
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.create, .cdao{
+    justify-content: center;
+    flex-direction: column;
+    -ms-flex-direction: column;
+}
+
+.createCards{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.createCards .card{
+    background-color: #ffc500;
+    padding: 1rem;
+    border-radius: .4rem;
+    color: #000;
+    border: 2px solid #fff;
+    width: 200px;
+    height: 120px;
+    transition: all .3s ease-in-out;
+    display: flex;
+    display: -ms-flexbox;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.createCards .card:hover{
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #ffc500;
+    cursor: pointer;
+}
+
+.createCards .cardTitle{
+    font-weight: 600;
+    /* font-style: normal; */
+    font-size: 1.5rem;
+}
+.cdaoMain{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    text-align: center;
+    color: #fff !important;
+    position: relative;
+    width: 100%;
+}
+.cdaoMain_LHS{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    text-align: center;
+    color: #fff !important;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+.cdaoMain_LHS>img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+.cdaoMain_RHS{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    text-align: center;
+    color: #fff !important;
+    width: 50%;
+    background: #101010ed;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 10px;
+    border: 1px solid #ffc40078;
+    text-align: left;
+    position: absolute;
+    top: 50;
+    right: 50;
+    left: 50;
+    bottom: 50;
+    padding: 2rem;
+    width: 500px;
+}
+
+.cdaoMain_RHS>h3{
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.0;
+}
+
+.cdaoMain_RHS>ul{
+    list-style-type: disc;
+    padding: 0px;
+    margin: 0px;
+}
+
+.cdaoMain_RHS>ul>li{
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.0;
+    margin-top: 1rem;
+}
+
+@media screen and (max-width: 800px){
     .hero{
         flex-direction: column;
         flex-wrap: nowrap;
@@ -660,11 +790,14 @@ const Main = styled.div`
     .heroCTA{
         justify-content: center;
     }
+    .cdaoMain_RHS{
+        width: 100%;
+        position: relative;
+    }
 }
 @media screen and (max-width: 540px){
     .stats{
         flex-direction: column;
-        gap: 1rem;
     }
     .statSeparator{
         width: 60px;
@@ -685,7 +818,9 @@ return (
   <Main>
     <div class="section hero">
       <div class="heroLeft">
-        <h1 class="heroTitle">We are the global community for creatives</h1>
+        <h1 class="heroTitle">
+          Vibrant and innovative community of creatives on NEAR
+        </h1>
         <p class="heroBody">
           With CreativesDAO, artists have the freedom to express themselves and
           create impactful projects that promote decentralization and
@@ -780,29 +915,58 @@ return (
         </a>
       </div>
     </div>
-    <div class="section create">
-      <h2 class="sectionTitle">CDAO</h2>
-      {/*funds flow */}
+    <div class="section cdao">
+      <h2 class="sectionTitle">About CDAO</h2>
+      <h4 class="sectionSubTitle">We are the global community for creatives</h4>
+      <div class="cdaoMain">
+        <div class="cdaoMain_LHS">
+          <img
+            src="https://ipfs.io/ipfs/bafybeichekvsoi3rp6jvvgnolhkbifjyjzepy2e2qedbuo3wvjufmfrt5y"
+            alt="Art Card"
+          />
+        </div>
+        <div class="cdaoMain_RHS">
+          {/* convert the text into a ul */}
+          <ul>
+            <li>
+              With CreativesDAO, artists have the freedom to express themselves
+              and create impactful projects that promote decentralization and
+              sustainability, spreading the blockchain gospel.
+            </li>
+            <li>
+              The CreativesDAO is an overarching body for all creative
+              contributors in the NEAR ecosystem.
+              <li>
+                Join us and be a part of the vibrant and innovative community of
+                creatives on NEAR
+              </li>
+            </li>
+          </ul>
+          <a href="#" class="button">
+            Join Us
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="section create">
+    <div class="section caseStudies">
       <h2 class="sectionTitle">Case Studies</h2>
-      {/*Show 3 posts, with a see all CTA that goes to explore posts */}
+      {/* Show 3 posts, with a see all CTA that goes to explore posts */}
     </div>
-    <div class="section create">
+    <div class="section featuredNFTs">
       <h2 class="sectionTitle">Featured NFTs</h2>
-      {/*show featured NFTs. Show More CTA */}
+      {/* show featured NFTs. Show More CTA */}
     </div>
-    <div class="section create">
+    <div class="section communities">
       <h2 class="sectionTitle">Checkout our Communities</h2>
-      {/*Pages from DAO. Pin top 3 Featured communities. show more CTA */}
+      {/* Pages from DAO. Pin top 3 Featured communities. show more CTA */}
     </div>
-    <div class="section create">
+    <div class="section partners">
       <h2 class="sectionTitle">Partners</h2>
-      {/*working with NDC, Near Foundation, Minority Programmers */}
+      {/* working with NDC, Near Foundation, Minority Programmers */}
     </div>
-    <div class="section create">
+    <div class="section calendar">
       <h2 class="sectionTitle">CDAO Community Calendar</h2>
-      {/*CDAO Community Calendar */}
+      {/* CDAO Community Calendar */}
     </div>
   </Main>
 );
