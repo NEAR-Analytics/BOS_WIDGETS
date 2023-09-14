@@ -503,7 +503,8 @@ Ethers.provider() &&
  * 외부 css 파일 링크: "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css"
  * 여기를 고쳐주세요.
  */
-const cssLink = "PUT CSS FILE LINK";
+const cssLink =
+  "https://raw.githubusercontent.com/LudiumAgwn/collegium-bos-wk2/main/assets/code/liquity-widget.css";
 const cssData = fetch(cssLink).body;
 
 /**
@@ -625,7 +626,9 @@ return (
             : /**
              * Mission 1. "이 지갑은 이미 활성화된 트로브가 있습니다." 메시지를 추가해주세요.
              */
-            state.loading
+            state.isOpenTrove
+            ? "이 지갑은 이미 활성화된 트로브가 있습니다."
+            : state.loading
             ? "Loading..."
             : state.complete
             ? "Done ✅"
