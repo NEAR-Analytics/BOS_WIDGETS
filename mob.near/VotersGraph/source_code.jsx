@@ -103,8 +103,14 @@ const run = (data) => {
   const simulation = d3.forceSimulation(nodes)
       .force("link", d3.forceLink(links).id(d => d.id))
       .force("charge", d3.forceManyBody())
+      .force("collide", d3.forceCollide())
       .force("center", d3.forceCenter(width / 2, height / 2))
       .on("tick", ticked);
+
+  simulation.force("collide")
+        .strength(.7)
+        .radius(d => Math.sqrt(d.size) + 5)
+        .iterations(1);
 
   // Create the SVG container.
   const svg = d3.select("#graph")
@@ -127,9 +133,21 @@ const run = (data) => {
       .attr("stroke-width", 1.5)
     .selectAll()
     .data(nodes)
-    .join("circle")
-      .attr("r", d => Math.sqrt(d.size) + 5)
-      .attr("fill", d => color(d.group));
+    .join("g");
+    
+  node
+    .append("image")
+    .attr("xlink:href", (d) => d.group < 4 ? \`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/\${d.id}\` : null) // Set the image URL based on your data
+    .attr("x", (d) => -Math.sqrt(d.size) - 5)
+    .attr("y", (d) => -Math.sqrt(d.size) - 5)
+    .attr("clip-path", d => \`circle(\${Math.sqrt(d.size) + 5}px at \${Math.sqrt(d.size) + 5} \${Math.sqrt(d.size) + 5})\`)
+    .attr("width", (d) => 2 * Math.sqrt(d.size) + 10)
+    .attr("height", (d) => 2 * Math.sqrt(d.size) + 10);
+
+  node
+    .append("circle")
+    .attr("r", d => Math.sqrt(d.size) + 5)
+    .attr("fill", d => d.group < 4 ? "none" : color(d.group));
 
   node.append("title")
       .text(d => house(d.group) + d.id);
@@ -148,9 +166,11 @@ const run = (data) => {
         .attr("x2", d => d.target.x)
         .attr("y2", d => d.target.y);
 
-    node
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y);
+    // node
+    //     .attr("x", d => d.x)
+    //     .attr("y", d => d.y);
+
+    node.attr("transform", d => \`translate(\${d.x}, \${d.y})\`)
   }
 
   // Reheat the simulation when drag starts, and fix the subject position.
