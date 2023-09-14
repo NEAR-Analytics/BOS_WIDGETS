@@ -1,5 +1,6 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
+const Admin = "humans-of-near.near";
 const API_URL = "http://localhost:3000/api";
 const profile = Social.getr(`${accountId}/profile`);
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
@@ -115,6 +116,22 @@ const getTokenData = () => {
 };
 
 const result = getTokenData();
+
+const deposit = async (item) => {
+  const amount = Number(state[item.id]);
+  const oneTeraGas = 1000000000000;
+  const oneNEARInYoctoNEAR = 1000000000000000000000000;
+  if (!amount) return;
+  Near.call(
+    contract.contract,
+    "transfer_near",
+    Admin,
+    oneTeraGas,
+    amount * oneNEARInYoctoNEAR
+  ).then((res) => {
+    console.log(res, "==>res");
+  });
+};
 
 return (
   <Wrapper>
@@ -264,8 +281,21 @@ return (
                                 alignItems: "center",
                               }}
                             >
-                              <Input type="number" min="0" />
-                              <a href="#" className="text-decoration-underline">
+                              <Input
+                                type="number"
+                                min="0"
+                                value={state[row.id] ?? 0}
+                                onChange={(e) => {
+                                  State.update({
+                                    [row.id]: e.target.value,
+                                  });
+                                }}
+                              />
+                              <a
+                                href="#"
+                                onClick={() => deposit(row)}
+                                className="text-decoration-underline"
+                              >
                                 Deposit
                               </a>
                               <a href="#" className="text-decoration-underline">
