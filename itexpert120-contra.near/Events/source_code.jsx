@@ -12,6 +12,10 @@ const fetchAllEvents = () => {
     fetchedEvents.push({ ...eventThing.data, path, blockHeight });
   });
 
+  fetchedEvents = fetchedEvents.filter(
+    (ev) => ev.path !== "itexpert120-contra.near/thing/"
+  );
+
   return fetchedEvents;
 };
 
@@ -80,6 +84,22 @@ const formattedDate = () => {
   );
 };
 
+const formattedMobileDate = () => {
+  const dateString = state.date.toLocaleString("en-us", {
+    month: "short",
+    year: "numeric",
+  });
+
+  const dateMonth = dateString.split(" ")[0];
+  const dateYear = dateString.split(" ")[1];
+
+  return (
+    <h2>
+      {dateMonth} {dateYear}
+    </h2>
+  );
+};
+
 const iconButton = styled.button`
   width: 32px;
   height: 32px;
@@ -135,17 +155,6 @@ const viewButton = styled.button`
     background: #03b172;
     color: white;
   }
-
-  @media (max-width: 786px) {
-    width: 60px;
-    font-size: 14px;
-  }
-
-  @media (max-width: 550px) {
-    width: 50px;
-    height: 30px;
-    font-size: 12px;
-  }
 `;
 
 const handleViewChange = (view) => {
@@ -155,12 +164,13 @@ const handleViewChange = (view) => {
 };
 
 const fetchedEvents = fetchAllEvents();
+
 const formattedEvents = fetchedEvents.map((event) => {
   const path = `${event.organizer}/thing/${event.id}`;
   return {
     title: event.title,
-    start: new Date(`${event.start} ${event.startTime}`),
-    end: new Date(`${event.end} ${event.endTime}`),
+    start: new Date(`${event.start}T${event.startTime}`),
+    end: new Date(`${event.end}T${event.endTime}`),
     url: event.link,
     allDay: event.isAllDay === "true",
     editable: false,
@@ -195,14 +205,6 @@ const filterButton = styled.button`
     background: #ccc;
     border: none;
   }
-
-  @media (max-width: 786px) {
-    font-size: 14px;
-  }
-
-  @media (max-width: 550px) {
-    font-size: 12px;
-  }
 `;
 
 const addEventButton = styled.button`
@@ -233,17 +235,6 @@ const addEventButton = styled.button`
     background: #01734a;
     color: white;
     border: none;
-  }
-
-  @media (max-width: 786px) {
-    font-size: 14px;
-  }
-
-  @media (max-width: 550px) {
-    font-size: 12px;
-    i {
-      display: none;
-    }
   }
 `;
 
@@ -382,8 +373,63 @@ const EventsView = () => {
   }
 };
 
+const desktopHeader = styled.div`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const mobileHeader = styled.div`
+  @media (width > 768px) {
+    display: none;
+  }
+
+  h2 {
+    color: #333;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.154px;
+  }
+
+  p {
+    color: #5c5f62;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+
+const mobileViewContainer = styled.div`
+  border-radius: 3px;
+  border: 1px solid #03b172;
+`;
+
+const mobileViewButton = styled.button`
+  width: 67px;
+  height: auto;
+  padding: 4px 8px;
+  font-size: 14px;
+
+  border: none;
+
+  &.${activeButtonClass} {
+    background: #03b172;
+    color: white;
+  }
+`;
+
+const marginContainer = styled.div`
+  margin-top: 25px;
+`;
+
 return (
-  <div className="container">
+  <marginContainer className="container">
     <Widget
       src="itexpert120-contra.near/widget/Modal"
       props={{ ...newEventModalProps }}
@@ -392,7 +438,7 @@ return (
       src="itexpert120-contra.near/widget/Modal"
       props={{ ...filterModalProps }}
     />
-    <div className="border border-light-subtle p-3 mb-3">
+    <desktopHeader className="border border-light-subtle p-3 mb-3">
       <div className="row">
         <div className="col">
           <div className="d-flex align-items-center">
@@ -425,7 +471,7 @@ return (
                 </viewButton>
               </div>
             </div>
-            <div className="ms-auto d-flex gap-2">
+            <div className="ms-auto d-flex gap-2 align-items-center">
               <filterButton onClick={toggleFilterModal}>Filter by</filterButton>
               <addEventButton onClick={toggleNewEventModal}>
                 Add Event <i className="bi bi-plus-circle-fill"></i>
@@ -434,7 +480,46 @@ return (
           </div>
         </div>
       </div>
-    </div>
+    </desktopHeader>
+    <mobileHeader>
+      <div className="d-flex mb-2">
+        <h2>Events</h2>
+        <div className="ms-auto d-flex gap-2">
+          <filterButton onClick={toggleFilterModal}>Filter</filterButton>
+          <addEventButton onClick={toggleNewEventModal}>
+            Add <i className="bi bi-plus-circle-fill"></i>
+          </addEventButton>
+        </div>
+      </div>
+      <div className="d-flex align-items-center mb-2">
+        <p className="m-0">View by:</p>
+        <mobileViewContainer className="ms-2 d-flex">
+          <mobileViewButton
+            className={`${state.activeView === "month" && activeButtonClass}`}
+            onClick={() => handleViewChange("month")}
+          >
+            Month
+          </mobileViewButton>
+          <mobileViewButton
+            className={`${state.activeView === "list" && activeButtonClass}`}
+            onClick={() => handleViewChange("list")}
+          >
+            List
+          </mobileViewButton>
+        </mobileViewContainer>
+      </div>
+      <div className="border border-light-subtle d-flex p-2">
+        <formattedMobileDate />
+        <div className="ms-auto d-flex">
+          <iconButton onClick={() => handleMonthChange(-1)}>
+            <i className="bi bi bi-chevron-left"></i>
+          </iconButton>
+          <iconButton onClick={() => handleMonthChange(1)}>
+            <i className="bi bi bi-chevron-right"></i>
+          </iconButton>
+        </div>
+      </div>
+    </mobileHeader>
     <EventsView />
-  </div>
+  </marginContainer>
 );
