@@ -30,39 +30,7 @@ if (!voters) {
   return "Loading";
 }
 
-const [message, setMessage] = useState({
-  nodes: [
-    {
-      id: "A",
-      group: 1,
-    },
-    {
-      id: "B",
-      group: 1,
-    },
-    {
-      id: "C",
-      group: 1,
-    },
-  ],
-  links: [
-    {
-      source: "A",
-      target: "B",
-      value: 1,
-    },
-    {
-      source: "B",
-      target: "C",
-      value: 1,
-    },
-    {
-      source: "C",
-      target: "A",
-      value: 1,
-    },
-  ],
-});
+const [message, setMessage] = useState(null);
 
 useEffect(() => {
   if (!voters) {
@@ -75,6 +43,7 @@ useEffect(() => {
       nodes[accountId] = {
         id: accountId,
         group: 4,
+        size: 0,
       };
     }
     Object.entries(votes).forEach(([house, votes]) => {
@@ -83,6 +52,7 @@ useEffect(() => {
         nodes[candidateId] = {
           id: candidateId,
           group: house,
+          size: (nodes[candidateId]?.size || 0) + 1,
         };
         links.push({
           source: accountId,
@@ -115,6 +85,14 @@ const run = (data) => {
 
   // Specify the color scale.
   const color = d3.scaleOrdinal(d3.schemeCategory10);
+  const house = (group) => {
+    switch (group) {
+      case 1: return "HoM: ";
+      case 2: return "CoA: ";
+      case 3: return "TC: ";
+      default: return "";
+    };
+  };
 
   // The force simulation mutates links and nodes, so create a copy
   // so that re-evaluating this cell produces the same result.
@@ -150,11 +128,13 @@ const run = (data) => {
     .selectAll()
     .data(nodes)
     .join("circle")
-      .attr("r", 5)
+      .attr("r", d => Math.sqrt(d.size) + 5)
       .attr("fill", d => color(d.group));
 
   node.append("title")
-      .text(d => d.id);
+      .text(d => {
+        house(d.group) + d.id
+      });
 
   // Add a drag behavior.
   node.call(d3.drag()
@@ -208,7 +188,9 @@ let simulation = null;
 
 window.addEventListener("message", (event) => {
   simulation && simulation.stop();
-  simulation = run(event.data);
+  if (event.data) {
+    simulation = run(event.data);
+  }
 });
 
 </script>
