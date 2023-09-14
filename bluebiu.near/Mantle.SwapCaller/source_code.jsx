@@ -737,7 +737,6 @@ const callSwap = (fee) => {
       : tokenIn.address;
 
   const options = {
-    gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
     gasLimit: gasLimit ?? 300000,
     value: tokenIn.symbol === config.NATIVE_TOKEN_SYMBOL ? value : "0",
   };
