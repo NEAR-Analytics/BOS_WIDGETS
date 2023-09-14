@@ -1,4 +1,5 @@
 const accountId = context.accountId;
+const ownerId = "opencann.near";
 
 if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
@@ -12,6 +13,8 @@ if (profile === null) {
 
 State.init({
   profile,
+  skills: [],
+  skillsError: "",
 });
 
 const Wrapper = styled.div`
@@ -82,6 +85,20 @@ return (
             }}
           />
         </div>
+        <Widget
+          src={`${ownerId}/widget/profile.skills`}
+          props={{
+            label: "Skills",
+            placeholder: "Add skills",
+            value: state.skills,
+            onChange: (skills) =>
+              State.update({
+                skills: skills.map(({ name }) => ({
+                  name: name.trim().replaceAll(/\s+/g, "-"),
+                })),
+              }),
+          }}
+        />
         <p></p>
         <div className="mb-2">
           <CommitButton data={{ profile: state.profile }}>
