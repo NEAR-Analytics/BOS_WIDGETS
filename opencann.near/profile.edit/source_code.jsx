@@ -89,7 +89,7 @@ return (
           </CommitButton>
           <a
             className="btn btn-outline-primary ms-2"
-            href={`#/near/widget/ProfilePage?accountId=${accountId}`}
+            href={`#/opencann.near/widget/profile.page?accountId=${accountId}`}
           >
             View profile
           </a>
@@ -98,7 +98,7 @@ return (
       <div className="col-lg-6">
         <div>
           <Widget
-            src="near/widget/ProfilePage"
+            src="opencann.near/widget/profile.page"
             props={{ accountId, profile: state.profile }}
           />
         </div>
