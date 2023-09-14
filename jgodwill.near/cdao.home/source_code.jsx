@@ -537,7 +537,7 @@ const Main = styled.div`
 
 .statSeparator{
     background-color: #ffc500;
-    width: 2px;
+    width: 3px;
     height: 60px;
 }
 
