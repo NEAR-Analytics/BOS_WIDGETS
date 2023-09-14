@@ -711,12 +711,14 @@ return (
             <h3 class="statTitle">50k</h3>
             <span class="statBody">NFTs minted</span>
           </div>
+          <div class="statSeparator"></div>
           <div class="stat">
             <h3 class="statTitle">24+</h3>
             <span class="statBody">
               Countries With active creative communities
             </span>
           </div>
+          <div class="statSeparator"></div>
           <div class="stat">
             <h3 class="statTitle">70+</h3>
             <span class="statBody">
