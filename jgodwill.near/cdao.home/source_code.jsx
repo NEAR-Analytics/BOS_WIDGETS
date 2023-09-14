@@ -447,7 +447,8 @@ const Main = styled.div`
     flex-direction: column;
     flex-wrap: no-wrap;
     justify-content: center;
-    text-align: center;   
+    text-align: center;
+    height: max-content;   
     }
 }
 .heroRight{
