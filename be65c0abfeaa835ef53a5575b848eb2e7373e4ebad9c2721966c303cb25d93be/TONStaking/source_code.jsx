@@ -1,9 +1,9 @@
 if (Ethers.provider() !== null) {
-
   // SET CONSTANTS
   const WTON_ADDRESS = "0xc4a11aaf6ea915ed7ac194161d2fc9384f15bff2";
   const WTON_DECIMALS = 27;
-  const LOCK_TOS_DIVIDEND_PROXY_ADDRESS = "0x17332F84Cc0bbaD551Cd16675F406A0a2c55E28C";
+  const LOCK_TOS_DIVIDEND_PROXY_ADDRESS =
+    "0x17332F84Cc0bbaD551Cd16675F406A0a2c55E28C";
 
   if (state.chainId === undefined) {
     Ethers.provider()
@@ -29,22 +29,17 @@ if (Ethers.provider() !== null) {
   }
 
   const handleClaim = () => {
-    if (Number(state.claimable) === 0) return;
-
+    if (Number(state.claimable) === 0n) return;
     const ABI = ["function claim(address) external"];
-
     const lockTOSDividendProxyContract = new ethers.Contract(
       LOCK_TOS_DIVIDEND_PROXY_ADDRESS,
       ABI,
       Ethers.provider().getSigner()
     );
-
-    lockTOSDividendProxyContract
-      .claim(WTON_ADDRESS)
-      .then((transactionHash) => {
-        State.update({ tx: transactionHash });
-        console.log("transactionHash is " + transactionHash);
-      });
+    lockTOSDividendProxyContract.claim(WTON_ADDRESS).then((transactionHash) => {
+      State.update({ tx: transactionHash });
+      console.log("transactionHash is " + transactionHash);
+    });
   };
 
   // FETCH CLAIMABLE WTON AMOUNT
@@ -63,16 +58,12 @@ if (Ethers.provider() !== null) {
       })
       .then((rawdata) => {
         const claimableHex = iface.decodeFunctionResult("claimable", rawdata);
-
         const claimable = Big(claimableHex.toString())
           .div(Big(10).pow(WTON_DECIMALS))
           .toFixed(2)
           .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
         State.update({
-          claimable: Big(claimable)
-            .div(Big(10).pow(WTON_DECIMALS))
-            .toFixed(2),
+          claimable: claimable,
         });
       });
   }
