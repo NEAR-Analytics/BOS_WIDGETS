@@ -370,7 +370,7 @@ const ResponseForm = () => {
       <div>
         <h5>
           <a
-            href="https://www.opencann.net/#/near/widget/ProfileEditor"
+            href="https://www.opencann.net/#/opencann.near/widget/profile.edit"
             target="_blank"
             rel="noopener noreferrer"
           >
