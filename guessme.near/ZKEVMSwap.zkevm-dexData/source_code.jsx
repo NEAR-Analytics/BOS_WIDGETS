@@ -203,7 +203,6 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
         token_limits,
         deadline.toFixed(),
         {
-          gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.50", "gwei"),
           gasLimit: gasLimit ?? 20000000,
         }
       )
@@ -362,7 +361,6 @@ const callTxQuickSwap = (
     );
 
     const options = {
-      gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
       gasLimit: gasLimit ?? 300000,
       value: input.inputAssetTokenId === ethAddress ? value : "0",
     };
@@ -533,7 +531,6 @@ const callTxPancakeZKEVM2 = (
       to: input.routerContract,
       from: input.sender,
       data: multicallData,
-      gasPrice: ethers.utils.parseUnits(gasPrice ?? "1.81", "gwei"),
       gasLimit: gasLimit ?? 300000,
     };
 
@@ -549,36 +546,6 @@ const callTxPancakeZKEVM2 = (
       .catch(() => {});
 
     return;
-
-    const swapContract = new ethers.Contract(
-      input.routerContract,
-      input.routerAbi,
-      Ethers.provider().getSigner()
-    );
-
-    if (path.length === 2) {
-      // tokenIn tokenOut recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
-      console.log("swapContract", swapContract);
-      swapContract
-        .aggregate(
-          [
-            {
-              target: input.routerContract,
-              callData: encodedExactOutputSingleData,
-            },
-          ] /*,
-          {
-            gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.801", "gwei"),
-            gasLimit: gasLimit ?? 300000,
-          }*/
-        )
-        .then((transactionHash) => {
-          console.log("transactionHash", transactionHash);
-          // onComplete(transactionHash);
-        });
-    } else {
-      console.log("path.length", path.length);
-    }
   }
 };
 
@@ -604,7 +571,6 @@ const callTokenApprovalEVM = (input, onComplete, gweiPrice, gasLimit) => {
     let gasArgs = {};
 
     if (gweiPrice !== undefined && gasLimit !== undefined) {
-      gasArgs.gasPrice = ethers.utils.parseUnits(gweiPrice ?? "0.26", "gwei");
       gasArgs.gasLimit = gasLimit ?? 20000000;
     }
 
