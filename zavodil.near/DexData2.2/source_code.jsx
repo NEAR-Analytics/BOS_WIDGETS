@@ -1789,7 +1789,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035", // USDC
               "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
               "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1", // WBTC
-              "0xa2036f0538221a77a3937f1379699f44945018d0", // MATIC
+              // "0xa2036f0538221a77a3937f1379699f44945018d0", // MATIC
               "0x1E4a5963aBFD975d8c9021ce480b42188849D41d", // USDT
               "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4", // DAI
             ],
@@ -1834,7 +1834,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035", // USDC
               "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
               "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1", // WBTC
-              "0xa2036f0538221a77a3937f1379699f44945018d0", // MATIC
+              // "0xa2036f0538221a77a3937f1379699f44945018d0", // MATIC
               "0x1E4a5963aBFD975d8c9021ce480b42188849D41d", // USDT
               "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4", // DAI
             ],
