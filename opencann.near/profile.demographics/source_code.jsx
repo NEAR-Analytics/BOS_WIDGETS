@@ -247,10 +247,10 @@ let page = (
         }}
       />
       <Widget
-        src={`crowdtestify.near/widget/Inputs.Text`}
+        src={`opencann.near/widget/profile.demographics.sex`}
         props={{
           label: "Sex",
-          placeholder: "Example: Female",
+          placeholder: "Choose your sex",
           value: state.sex,
           onChange: (sex) => State.update({ sex }),
           validate: () => {
