@@ -1,10 +1,12 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
+const API_URL = "http://localhost:3000/api";
 const profile = Social.getr(`${accountId}/profile`);
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
 State.init({
   myAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${accountId}`,
+  tokens: [],
 });
 
 const columns = [
@@ -22,7 +24,7 @@ const columns = [
   },
   {
     title: "Token Deposited",
-    key: "deposited",
+    key: "balance",
     width: 25,
     align: "center",
   },
@@ -32,24 +34,6 @@ const columns = [
     width: 25,
     align: "center",
     action: true,
-  },
-];
-
-const tokenData = [
-  {
-    name: "$NEAR",
-    contract: "transfer-near.near",
-    deposited: "12,000",
-  },
-  {
-    name: "$NEKO",
-    contract: "v2-nekotoken.near",
-    deposited: "20,000",
-  },
-  {
-    name: "$NVRS",
-    contract: "nautstaking.near",
-    deposited: "400",
   },
 ];
 
@@ -120,9 +104,22 @@ const Input = styled.input`
   width: 80px;
 `;
 
+const getTokenData = () => {
+  return asyncFetch(API_URL + `/token?accountId=${accountId}`).then((res) => {
+    if (res.ok) {
+      State.update({
+        tokens: res.body,
+      });
+    }
+  });
+};
+
+const result = getTokenData();
+
 return (
   <Wrapper>
     <div className="d-flex align-items-center" style={{ gap: 24 }}>
+      ){" "}
       <Avatar
         src={state.myAvatar}
         onError={() => {
@@ -242,8 +239,8 @@ return (
           </thead>
 
           <tbody>
-            {tokenData.length > 0 &&
-              tokenData.map((row, i) => {
+            {state.tokens.length > 0 &&
+              state.tokens.map((row, i) => {
                 return (
                   <tr key={row.key}>
                     {columns.map((td) => {
@@ -267,7 +264,7 @@ return (
                                 alignItems: "center",
                               }}
                             >
-                              <Input type="number" min="0"  />
+                              <Input type="number" min="0" />
                               <a href="#" className="text-decoration-underline">
                                 Deposit
                               </a>
