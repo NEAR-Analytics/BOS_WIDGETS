@@ -1,6 +1,6 @@
 const substance = props.substance ?? "#/opencann.near/widget/substance";
 const substanceMetadata = props.substanceMetadata ?? {};
-const cannabis = props.cannabis;
+const options = props.options;
 const onChange = props.onChange;
 
 State.init({
@@ -9,25 +9,59 @@ State.init({
   reportedMetadata: substanceMetadata,
   substance: metadata.substance ?? {},
   description: substanceMetadata.description,
-  consumptionMethod: substanceMetadata.consumptionMethod,
-  physicalEffects: substanceMetadata.physicalEffects,
-  visualEffects: substanceMetadata.visualEffects,
-  auditoryEffects: substanceMetadata.auditoryEffects,
-  cognitiveEffects: substanceMetadata.cognitiveEffects,
-  multisensoryEffects: substanceMetadata.multisensoryEffects,
-  category: substanceMetadata.category,
+  consumptionMethod: substanceMetadata.consumptionMethod ?? {},
+  physicalEffects: substanceMetadata.physicalEffects ?? {},
+  visualEffects: substanceMetadata.visualEffects ?? {},
+  auditoryEffects: substanceMetadata.auditoryEffects ?? {},
+  cognitiveEffects: substanceMetadata.cognitiveEffects ?? {},
+  multisensoryEffects: substanceMetadata.multisensoryEffects ?? {},
+  category: substanceMetadata.category ?? {},
   image: substanceMetadata.image,
   backgroundImage: substanceMetadata.backgroundImage,
-  hashtags: substanceMetadata.hashtags,
+  tags: substanceMetadata.tags ?? {},
   experiences: substanceMetadata.experiences ?? {},
 });
 
 const metadata = {
-  name: options.name ? state.metadata.name : undefined,
-  description: options.name ? state.metadata.description : undefined,
-  linktree:
-    options.linktree && Object.keys(state.linktree).length > 0
-      ? state.linktree
+  substance: options.substance ? state.metadata.substance : undefined,
+  description: options.description ? state.metadata.description : undefined,
+  consumptionMethod:
+    options.consumptionMethod && Object.keys(state.consumptionMethod).length > 0
+      ? state.consumptionMethod
+      : undefined,
+  physicalEffects:
+    options.physicalEffects &&
+    state.physicalEffects &&
+    Object.keys(state.physicalEffects).length > 0
+      ? state.physicalEffects
+      : undefined,
+  visuallEffects:
+    options.visuallEffects &&
+    state.visuallEffects &&
+    Object.keys(state.visuallEffects).length > 0
+      ? state.visuallEffects
+      : undefined,
+  auditoryEffects:
+    options.auditoryEffects &&
+    state.auditoryEffects &&
+    Object.keys(state.auditoryEffects).length > 0
+      ? state.auditoryEffects
+      : undefined,
+  cognitiveEffects:
+    options.cognitiveEffects &&
+    state.cognitiveEffects &&
+    Object.keys(state.cognitiveEffects).length > 0
+      ? state.cognitiveEffects
+      : undefined,
+  multisensoryEffects:
+    options.multisensoryEffects &&
+    state.multisensoryEffects &&
+    Object.keys(state.multisensoryEffects).length > 0
+      ? state.multisensoryEffects
+      : undefined,
+  category:
+    options.category && state.category && Object.keys(state.category).length > 0
+      ? state.category
       : undefined,
   image:
     options.image && state.image && Object.keys(state.image).length > 0
@@ -40,111 +74,11 @@ const metadata = {
       ? state.backgroundImage
       : undefined,
   tags: options.tags ? state.metadata.tags : undefined,
-  screenshots: options.screenshots ? state.metadata.screenshots : undefined,
-  demographics:
-    options.demographics && Object.keys(state.demographics).length > 0
-      ? state.demographics
+  experiences:
+    options.experiences && Object.keys(state.experiences).length > 0
+      ? state.experiences
       : undefined,
 };
-
-const method = {
-  method: [
-    "Smoke",
-    "Vapor (dry herb)",
-    "Vapor (concentrate)",
-    "Edible",
-    "Drink",
-    "Tincture",
-    "Topical",
-    "Sublingual/buccal",
-  ],
-};
-
-const physicalEffects = {
-  physicalEffects: [
-    "None",
-    "Appetite enhancement",
-    "Appetite suppression",
-    "Bodily pressures (e.g. eye)",
-    "Changes felt in gravity",
-    "Decreased blood pressure",
-    "Dizziness",
-    "Dehydration",
-    "Dry mount",
-    "Gustatory (taste) enhancement",
-    "Increased heart rate",
-    "Increased perspiration",
-    "Insomnia",
-    "Loss of motor control",
-    "Muscle relaxation",
-    "Muscle spasms",
-    "Nausea",
-    "Nausea suppression",
-    "Pain relief",
-    "Physical euphoria",
-    "Red eye",
-    "Sedation",
-    "Seizure suppression",
-    "Spontaneous bodily sensations",
-    "Tactile enhancement",
-  ],
-};
-const visualEffects = {
-  visualEffects: [
-    "None",
-    "Color enhancement",
-    "Blurry vision",
-    "Brightness alteration",
-    "Pattern recognition enhancement",
-    "Tracers",
-    "Geometry (visuals)",
-    "Internal hallucination",
-  ],
-};
-
-const auditoryEffects = {
-  auditoryEffects: ["None", "Enhancements", "Distortions", "Hallucinations"],
-};
-
-const cognitiveEffects = {
-  cognitiveEffects: [
-    "None",
-    "Anxiety",
-    "Anxiety suppression",
-    "Analysis enhancement",
-    "Analysis suppression",
-    "Conceptual thinking",
-    "Cognitive euphoria",
-    "Creativity enhancement",
-    "Delusion",
-    "Depersonalization",
-    "Dream suppression",
-    "Decreased libido",
-    "Increased libido",
-    "Emotion enhancement",
-    "Feelings of impending doom",
-    "Focus suppression",
-    "Focus enhancement",
-    "Immersion enhancement",
-    "Increased music appreciation",
-    "Increased sense of humor",
-    "Laughter fits",
-    "Memory suppression",
-    "Mindfulness",
-    "Motivation suppression",
-    "Novelty enhancement",
-    "Paranoia",
-    "Personal meaning enhancement",
-    "Psychosis",
-    "Sleepiness",
-    "Suggestibility enhancement",
-    "Thought connectivity",
-    "Thought deceleration",
-    "Time distortion",
-  ],
-};
-
-const multisensoryEffects = { multisensoryEffects: ["None", "Synaesthesia"] };
 
 if (
   onChange &&
@@ -187,18 +121,74 @@ const onDescriptionChange = debounce((e) => {
     },
   });
 });
-const onLinkTreeChange = debounce((e) => {
+const onConsumptionMethodChange = debounce((e) => {
   State.update({
-    linktree: {
-      ...state.linktree,
+    consumptionMethod: {
+      ...state.consumptionMethod,
       [e.target.id]: e.target.value,
     },
   });
 });
-const onDemographicsChange = debounce((e) => {
+const onPhysicalEffectsChange = debounce((e) => {
   State.update({
-    demographics: {
-      ...state.demographics,
+    physicalEffects: {
+      ...state.physicalEffects,
+      [e.target.id]: e.target.value,
+    },
+  });
+});
+const onVisualEffectsChange = debounce((e) => {
+  State.update({
+    visualEffects: {
+      ...state.visualEffects,
+      [e.target.id]: e.target.value,
+    },
+  });
+});
+const onAuditoryEffectsChange = debounce((e) => {
+  State.update({
+    auditoryEffects: {
+      ...state.auditoryEffects,
+      [e.target.id]: e.target.value,
+    },
+  });
+});
+const onCognitiveEffectsChange = debounce((e) => {
+  State.update({
+    cognitiveEffects: {
+      ...state.cognitiveEffects,
+      [e.target.id]: e.target.value,
+    },
+  });
+});
+const onMultisensoryEffectsChange = debounce((e) => {
+  State.update({
+    multisensoryEffects: {
+      ...state.multisensoryEffects,
+      [e.target.id]: e.target.value,
+    },
+  });
+});
+const onCategoryChange = debounce((e) => {
+  State.update({
+    category: {
+      ...state.category,
+      [e.target.id]: e.target.value,
+    },
+  });
+});
+const onCategoryChange = debounce((e) => {
+  State.update({
+    category: {
+      ...state.category,
+      [e.target.id]: e.target.value,
+    },
+  });
+});
+const onExperiencesChange = debounce((e) => {
+  State.update({
+    experiences: {
+      ...state.experiences,
       [e.target.id]: e.target.value,
     },
   });
@@ -208,10 +198,10 @@ return (
   <>
     {substance.name && (
       <div className="mb-2">
-        {options.name.label ?? "Name"}
+        {options.name.label ?? "Substance Name"}
         <input
           type="text"
-          defaultValue={state.metadata.name}
+          defaultValue={state.metadata.substance}
           onChange={onNameChange}
         />
       </div>
@@ -272,8 +262,8 @@ return (
         />
       </div>
     )}
-    {options.linktree &&
-      (options.linktree.links ?? []).map((link) => (
+    {options.category &&
+      (options.category.links ?? []).map((link) => (
         <div className="mb-2">
           {link.label}
           <div className="input-group">
@@ -281,14 +271,14 @@ return (
             <input
               type="text"
               id={link.name}
-              defaultValue={state.linktree[link.name]}
-              onChange={onLinkTreeChange}
+              defaultValue={state.category[link.name]}
+              onChange={onCategoryChange}
             />
           </div>
         </div>
       ))}
-    {options.demographics &&
-      (options.demographics.data ?? []).map((data) => (
+    {options.experiences &&
+      (options.experiences.data ?? []).map((data) => (
         <div className="mb-2">
           {data.label}
           <div className="input-group">
@@ -296,8 +286,83 @@ return (
             <input
               type="text"
               id={data.name}
-              defaultValue={state.demographics[data.name]}
-              onChange={onDemographicsChange}
+              defaultValue={state.experiences[data.name]}
+              onChange={onExperiencesChange}
+            />
+          </div>
+        </div>
+      ))}
+    {options.physicalEffects &&
+      (options.physicalEffects.data ?? []).map((data) => (
+        <div className="mb-2">
+          {data.label}
+          <div className="input-group">
+            <span className="input-group-text">{data.prefix}</span>
+            <input
+              type="text"
+              id={data.name}
+              defaultValue={state.physicalEffects[data.name]}
+              onChange={onPhysicalEffectsChange}
+            />
+          </div>
+        </div>
+      ))}
+    {options.visualEffects &&
+      (options.visualEffects.data ?? []).map((data) => (
+        <div className="mb-2">
+          {data.label}
+          <div className="input-group">
+            <span className="input-group-text">{data.prefix}</span>
+            <input
+              type="text"
+              id={data.name}
+              defaultValue={state.visualEffects[data.name]}
+              onChange={onVisualEffectsChange}
+            />
+          </div>
+        </div>
+      ))}
+    {options.auditoryEffects &&
+      (options.auditoryEffects.data ?? []).map((data) => (
+        <div className="mb-2">
+          {data.label}
+          <div className="input-group">
+            <span className="input-group-text">{data.prefix}</span>
+            <input
+              type="text"
+              id={data.name}
+              defaultValue={state.auditoryEffects[data.name]}
+              onChange={onAuditoryEffectsChange}
+            />
+          </div>
+        </div>
+      ))}
+    {options.cognitiveEffects &&
+      (options.cognitiveEffects.data ?? []).map((data) => (
+        <div className="mb-2">
+          {data.label}
+          <div className="input-group">
+            <span className="input-group-text">{data.prefix}</span>
+            <input
+              type="text"
+              id={data.name}
+              defaultValue={state.cognitiveEffects[data.name]}
+              onChange={onCognitiveEffectsChange}
+            />
+          </div>
+        </div>
+      ))}
+    {options.multisensoryEffects &&
+      (options.multisensoryEffects.data ?? []).map((data) => (
+        <div className="mb-2">
+          {data.label}
+          <div className="input-group">
+            <span className="input-group-text">{data.prefix}</span>
+            <input
+              type="text"
+              id={data.name}
+              defaultValue={state.multisensoryEffects[data.name]}
+              onChange={onMultisensoryEffectsChange}
             />
           </div>
         </div>
