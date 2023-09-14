@@ -464,7 +464,7 @@ const Main = styled.div`
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-top: -180px;
+    margin-top: -150px;
 }
 .heroLeft{
     width: 100%;
