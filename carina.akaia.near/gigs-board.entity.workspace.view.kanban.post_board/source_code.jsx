@@ -205,6 +205,7 @@ const KanbanPostBoard = ({
   metadata,
   payload,
   isConfiguratorActive,
+  isSynced,
   link,
   onCancel,
   onConfigure,
@@ -251,6 +252,7 @@ const KanbanPostBoard = ({
 
   return widget("entity.workspace.view.layout", {
     isConfiguratorActive,
+    isSynced,
     link,
     metadata,
     onCancel,
