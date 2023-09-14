@@ -6,9 +6,18 @@ State.init({
   authOption: "noAuth",
 });
 
+const Background = styled.div`
+    background-image: radial-gradient(#dad9e8 5%,transparent 0);
+    background-color: #fcfcfc;
+    background-size: 30px 30px;
+    height: 100vh;
+    width: 100%;
+`;
+
 const StyledWrapper = styled.div`
     max-width: 1200px;
     margin: 0 auto;
+    padding: 50px;
 
   .token-type-desc {
     margin: 20px 0 30px 0;
@@ -31,10 +40,27 @@ const StyledWrapper = styled.div`
       color: white;
       border-radius: 4px
     }
+
+    @media(max-width: 800px) {
+        flex-direction: column;
+        
+        .left-side, .right-side {
+            width: 100%;
+        }
+        .right-side {
+            margin-top: 30px;
+        }
+    }
   }
 
   h6 {
     margin: 15px 0;
+  }
+
+  .token-name-wrapper {
+    label {
+        margin-top: 10px;
+    }
   }
 `;
 
@@ -256,12 +282,16 @@ const BinaryOptions = (props) => (
 );
 
 return (
-  <StyledWrapper>
-    <h1>Token Wizard</h1>
-    <h5>
-      Easily generate complete code snippets for your fungible and non-fungible
-      token contracts.
-    </h5>
-    <TokenOptionTabs />
-  </StyledWrapper>
+  <Background>
+    <StyledWrapper>
+      <h1>
+        Token Wizard <i class="ph-bold ph-magic-wand"></i>
+      </h1>
+      <h5>
+        Easily generate complete code snippets for your fungible and
+        non-fungible token contracts.
+      </h5>
+      <TokenOptionTabs />
+    </StyledWrapper>
+  </Background>
 );
