@@ -866,7 +866,7 @@ const onOpenChange = (v) => {
 
 const handleConfirm = () => {
   const isValidAmount =
-    Big(amount || 0).gt(0) && Big(amount || 0).lt(balances[selectedToken]);
+    Big(amount || 0).gt(0) && Big(amount || 0).lt(balances[selectedToken] || 0);
 
   if (!isValidAmount) {
     State.update({
@@ -986,7 +986,7 @@ const canSwap =
   Number(state.amount) !== "NaN" &&
   Object.keys(balances).length > 0 &&
   new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).lt(
-    balances[selectedToken]
+    balances[selectedToken] || 0
   ) &&
   new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).gt(
     new Big(0)
@@ -1107,7 +1107,7 @@ return (
         Number(state.amount) !== "NaN" &&
         Object.keys(balances).length > 0 &&
         new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).gt(
-          balances[selectedToken]
+          balances[selectedToken] || 0
         ) &&
         new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).gt(
           new Big(0)
