@@ -468,24 +468,26 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
 
   const formElement = isViewInitialized ? (
     <>
-      <div className="d-flex gap-1 flex-column flex-xl-row">
-        {widget("components.molecule.text-input", {
-          className: "w-100",
-          key: `${form.values.metadata.id}-repoURL`,
-          label: "Repository URL",
-          onChange: form.update({ path: ["repoURL"] }),
-          placeholder: "https://github.com/example-org/example-repo",
-          value: form.values.repoURL,
-        })}
+      <div className="d-flex flex-column">
+        <div className="d-flex gap-1 flex-column flex-xl-row">
+          {widget("components.molecule.text-input", {
+            className: "w-100",
+            key: `${form.values.metadata.id}-repoURL`,
+            label: "Repository URL",
+            onChange: form.update({ path: ["repoURL"] }),
+            placeholder: "https://github.com/example-org/example-repo",
+            value: form.values.repoURL,
+          })}
 
-        {widget("components.molecule.text-input", {
-          className: "w-100",
-          key: `${form.values.metadata.id}-title`,
-          label: "Title",
-          onChange: form.update({ path: ["title"] }),
-          placeholder: "NEAR Protocol NEPs",
-          value: form.values.title,
-        })}
+          {widget("components.molecule.text-input", {
+            className: "w-100",
+            key: `${form.values.metadata.id}-title`,
+            label: "Title",
+            onChange: form.update({ path: ["title"] }),
+            placeholder: "NEAR Protocol NEPs",
+            value: form.values.title,
+          })}
+        </div>
 
         {widget("components.molecule.text-input", {
           className: "w-100",
