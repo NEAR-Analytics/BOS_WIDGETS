@@ -205,7 +205,11 @@ const assetContainer = (
             <Input
               type="text"
               placeholder="0"
-              value={state[amountName]}
+              value={
+                state.noPool && amountName === "outputAssetAmount"
+                  ? ""
+                  : state[amountName]
+              }
               readOnly={amountName === "outputAssetAmount"}
               onChange={changeAmount}
             />
@@ -848,8 +852,6 @@ if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
         ? state.inputAssetTokenId
         : state.outputAssetTokenId);
 
-    console.log("params: ", params, toAssetId);
-
     State.update({
       storeParams: params,
       inputAssetAmount: params.amount,
@@ -1176,7 +1178,7 @@ return (
               {(insufficientBalance || !state.approvalNeeded) && (
                 <button
                   class={"swap-button-enabled"}
-                  disabled={!canSwap}
+                  disabled={!canSwap || state.noPool}
                   onClick={() => {
                     if (canSwap) {
                       try {
@@ -1184,7 +1186,7 @@ return (
                           state,
                           onCallTxComple,
                           "2.09",
-                          3000000,
+                          500000,
                           "0",
                           state.estimate.path
                         );
