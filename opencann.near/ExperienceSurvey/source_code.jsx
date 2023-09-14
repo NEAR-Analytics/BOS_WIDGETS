@@ -1,5 +1,6 @@
 // Add tooltips to show long explanations on hover
-const options = props.options;
+const options = props.options || "#/opencann.near/widget/substance.metadata";
+const substances = props.options ?? "#opencann.near.widget/substance.array";
 const substance = props.substance ?? "cannabis";
 const consumptionMethod = substance.consumptionMethod;
 const physicalEffects = substance.physicalEffects;
@@ -412,7 +413,7 @@ const ResponseForm = () => {
               data: state.consumptionMethod,
               onChange: onConsumptionMethodChange,
               height: "250px",
-              options: props.consumptionMethod,
+              options: substance.consumptionMethod,
               label: "How did you consume cannabis?",
               placeholder: "Select all methods that apply.",
             }}
