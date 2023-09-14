@@ -1,10 +1,10 @@
-if (Ethers.provider() !== null) {
-  // SET CONSTANTS
-  const WTON_ADDRESS = "0xc4a11aaf6ea915ed7ac194161d2fc9384f15bff2";
-  const WTON_DECIMALS = 27;
-  const LOCK_TOS_DIVIDEND_PROXY_ADDRESS =
-    "0x17332F84Cc0bbaD551Cd16675F406A0a2c55E28C";
+// SET CONSTANTS
+const WTON_ADDRESS = "0xc4a11aaf6ea915ed7ac194161d2fc9384f15bff2";
+const WTON_DECIMALS = 27;
+const LOCK_TOS_DIVIDEND_PROXY_ADDRESS =
+  "0x17332F84Cc0bbaD551Cd16675F406A0a2c55E28C";
 
+if (Ethers.provider() !== null) {
   if (state.chainId === undefined) {
     Ethers.provider()
       .getNetwork()
@@ -27,20 +27,6 @@ if (Ethers.provider() !== null) {
       console.log("set sender", accounts[0]);
     }
   }
-
-  const handleClaim = () => {
-    if (Number(state.claimable) === 0n) return;
-    const ABI = ["function claim(address) external"];
-    const lockTOSDividendProxyContract = new ethers.Contract(
-      LOCK_TOS_DIVIDEND_PROXY_ADDRESS,
-      ABI,
-      Ethers.provider().getSigner()
-    );
-    lockTOSDividendProxyContract.claim(WTON_ADDRESS).then((transactionHash) => {
-      State.update({ tx: transactionHash });
-      console.log("transactionHash is " + transactionHash);
-    });
-  };
 
   // FETCH CLAIMABLE WTON AMOUNT
   if (state.claimable === undefined && state.sender) {
@@ -68,6 +54,20 @@ if (Ethers.provider() !== null) {
       });
   }
 }
+
+const claim = () => {
+  if (Number(state.claimable) === 0n) return;
+  const ABI = ["function claim(address) external"];
+  const lockTOSDividendProxyContract = new ethers.Contract(
+    LOCK_TOS_DIVIDEND_PROXY_ADDRESS,
+    ABI,
+    Ethers.provider().getSigner()
+  );
+  lockTOSDividendProxyContract.claim(WTON_ADDRESS).then((transactionHash) => {
+    State.update({ tx: transactionHash });
+    console.log("transactionHash is " + transactionHash);
+  });
+};
 
 // FETCH CSS
 const cssFont = fetch(
@@ -120,10 +120,7 @@ return (
       </div>
       <div class="LidoStakeForm">
         {!!state.sender ? (
-          <button
-            class="LidoStakeFormSubmitContainer"
-            onClick={() => handleClaim()}
-          >
+          <button class="LidoStakeFormSubmitContainer" onClick={() => claim()}>
             <span>Claim</span>
           </button>
         ) : (
