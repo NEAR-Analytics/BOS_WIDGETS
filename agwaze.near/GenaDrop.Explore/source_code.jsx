@@ -2,6 +2,7 @@ initState({
   collectionData: {},
   inputCollectionSlug: "genadrop-contract.nftgen.near" || "nft.genadrop.near",
   collectionSlug: "genadrop-contract.nftgen.near" || "nft.genadrop.near",
+  currentPage: 1,
   searchTerm: "",
   nftData: [],
   filteredNFTData: [],
@@ -133,7 +134,9 @@ function fetchData() {
       body: JSON.stringify({
         query: `
             query MyQuery {
-             nfts( orderBy: createdAtTimestamp, ${state.chain !== 'near' ? 'orderDirection: desc': ''}) {
+             nfts( orderBy: createdAtTimestamp, ${
+               state.chain !== "near" ? "orderDirection: desc" : ""
+             }) {
                 category
                 chain
                 createdAtTimestamp
@@ -180,7 +183,6 @@ function fetchData() {
         }
       }
 
-
       const nftBody = filteredNftData.map((data) => {
         const fetchIPFSData = fetch(
           data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
@@ -202,10 +204,9 @@ function fetchData() {
           nftObject.token_id = data?.tokenID;
           nftObject.name = nft?.name;
           nftObject.description = nft?.description;
-          nftObject.media_url = nft?.image ?nft?.image?.replace(
-            "ipfs://",
-            "https://ipfs.io/ipfs/"
-          ) : "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
+          nftObject.media_url = nft?.image
+            ? nft?.image?.replace("ipfs://", "https://ipfs.io/ipfs/")
+            : "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
           return nftObject;
         }
       });
@@ -473,6 +474,53 @@ const SelectChain = styled.div`
 const PRICE_CONVERSION_CONSTANT =
   state.chain == "near" ? 1000000000000000000000000 : 1000000000000000000;
 
+function paginateNFTData(pageNumber, itemsPerPage) {
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = state.nftData.slice(startIndex, endIndex);
+  return paginatedData;
+}
+
+function paginateNFTData(pageNumber, itemsPerPage) {
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = state.nftData.slice(startIndex, endIndex);
+  return paginatedData;
+}
+
+
+// Define the nextPage and prevPage functions
+function nextPage() {
+  // Define the current page and items per page
+  const currentPage = state.currentPage || 1; // Assuming you have a 'currentPage' state property
+  const itemsPerPage = 10; // Change this to the number of items per page you want
+
+  // Calculate the next page number
+  const nextPage = currentPage + 1;
+
+  // Update the current page state
+  State.update({ currentPage: nextPage });
+}
+
+function prevPage() {
+  // Define the current page and items per page
+  const currentPage = state.currentPage || 1; // Assuming you have a 'currentPage' state property
+
+  // Ensure we don't go below page 1
+  if (currentPage > 1) {
+    // Calculate the previous page number
+    const prevPage = currentPage - 1;
+
+    // Update the current page state
+    State.update({ currentPage: prevPage });
+  }
+}
+
+// Now, when you want to display the data in your UI, use the currentPage and itemsPerPage to paginate the data
+const currentPage = state.currentPage || 1; // Get the current page from the state
+const itemsPerPage = 10; // Change this to the number of items per page you want
+const pageData = paginateNFTData(currentPage, itemsPerPage);
+
 return (
   <>
     <Hero className="w-100">
@@ -510,7 +558,7 @@ return (
     {state.nftData.length > 0 ? (
       <NFTCards>
         {state.searchTerm === "" ? (
-          state.nftData.map((nft) => (
+          pageData.map((nft) => (
             <a
               href={`#/agwaze.near/widget/GenaDrop.NFTDetails?contractId=${nft.contract_id}&tokenId=${nft.token_id}&chainState=${state.chain}`}
               style={{ textDecoration: "none", color: "inherit" }}
@@ -786,6 +834,9 @@ return (
         ) : (
           <div>No results found for "{state.searchTerm}".</div>
         )}
+        <div>
+          <button onClick={nextPage}>Next</button>
+        </div>
       </NFTCards>
     ) : (
       <NoNFTLoading>
