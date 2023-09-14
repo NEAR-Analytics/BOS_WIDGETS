@@ -245,7 +245,7 @@ const seachInputHandler = (e) => {
 const isPriceValid = typeof nft.listings[0]?.price === "number";
 
 const handleDropdownChange = (event) => {
-  State.update({ chain: event.target.value });
+  State.update({ chain: event.target.value, currentPage: 1 });
 };
 
 const getUsdValue = (price) => {
@@ -353,6 +353,31 @@ const NFTCards = styled.div`
   background: -moz-linear-gradient(270deg,#e4f1fb 0%, rgba(0,255,0,0) 3%);
   padding: 20px 3rem 1rem 3rem;
   width:100%;
+`;
+
+const PaginationButtons = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  button {
+    margin-right: 10px;
+  }
+  button:disabled, button:last-child:disabled {
+    background-color: #ccc; /* Change the background color */
+    color: #666; /* Change the text color */
+    cursor: not-allowed;
+    border-color: #ccc
+  }
+  button:last-child {
+    background: transparent;
+    width: 100px;
+    color: #0d6efd;
+  }
+  button:last-child:hover {
+    opacity: .7;
+  }
 `;
 
 const ImageCard = styled.div`
@@ -488,7 +513,6 @@ function paginateNFTData(pageNumber, itemsPerPage) {
   return paginatedData;
 }
 
-
 // Define the nextPage and prevPage functions
 function nextPage() {
   // Define the current page and items per page
@@ -500,6 +524,7 @@ function nextPage() {
 
   // Update the current page state
   State.update({ currentPage: nextPage });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function prevPage() {
@@ -520,6 +545,8 @@ function prevPage() {
 const currentPage = state.currentPage || 1; // Get the current page from the state
 const itemsPerPage = 10; // Change this to the number of items per page you want
 const pageData = paginateNFTData(currentPage, itemsPerPage);
+
+const totalPages = state?.nftData?.length / itemsPerPage;
 
 return (
   <>
@@ -555,6 +582,16 @@ return (
         )}
       </InputContainer>
     </Hero>
+    {state.searchTerm === "" && (
+      <PaginationButtons className="flex justify-center center">
+        <button disabled={currentPage === 1} onClick={prevPage}>
+          Previous
+        </button>
+        <button disabled={state.currentPage >= totalPages} onClick={nextPage}>
+          Next
+        </button>
+      </PaginationButtons>
+    )}
     {state.nftData.length > 0 ? (
       <NFTCards>
         {state.searchTerm === "" ? (
@@ -834,9 +871,6 @@ return (
         ) : (
           <div>No results found for "{state.searchTerm}".</div>
         )}
-        <div>
-          <button onClick={nextPage}>Next</button>
-        </div>
       </NFTCards>
     ) : (
       <NoNFTLoading>
