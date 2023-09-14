@@ -1,16 +1,25 @@
-const initialMetadata = props.initialMetadata ?? {};
+const substance = props.substance ?? "#/opencann.near/widget/substance";
+const substanceMetadata = props.substanceMetadata ?? {};
 const cannabis = props.cannabis;
 const onChange = props.onChange;
 
 State.init({
-  initialMetadata,
-  metadata: initialMetadata,
-  reportedMetadata: initialMetadata,
-  linktree: metadata.substance ?? {},
-  image: initialMetadata.image,
-  backgroundImage: initialMetadata.backgroundImage,
-  screenshots: initialMetadata.screenshots ?? {},
-  demographics: initialMetadata.demographics ?? {},
+  substanceMetadata,
+  metadata: substanceMetadata,
+  reportedMetadata: substanceMetadata,
+  substance: metadata.substance ?? {},
+  description: substanceMetadata.description,
+  consumptionMethod: substanceMetadata.consumptionMethod,
+  physicalEffects: substanceMetadata.physicalEffects,
+  visualEffects: substanceMetadata.visualEffects,
+  auditoryEffects: substanceMetadata.auditoryEffects,
+  cognitiveEffects: substanceMetadata.cognitiveEffects,
+  multisensoryEffects: substanceMetadata.multisensoryEffects,
+  category: substanceMetadata.category,
+  image: substanceMetadata.image,
+  backgroundImage: substanceMetadata.backgroundImage,
+  hashtags: substanceMetadata.hashtags,
+  experiences: substanceMetadata.experiences ?? {},
 });
 
 const metadata = {
@@ -36,28 +45,6 @@ const metadata = {
     options.demographics && Object.keys(state.demographics).length > 0
       ? state.demographics
       : undefined,
-};
-
-const substance = {
-  properties: [
-    { name: "substance", type: "string" },
-    { name: "description", type: "string", isMulti: true },
-    {
-      name: "consumptionMethod",
-      type: "every.near/type/markdown",
-      isMulti: false,
-    },
-    { name: "physicalEffects", type: "string", isMulti: true },
-    { name: "visualEffects", type: "string", isMulti: true },
-    { name: "auditoryEffects", type: "string", isMulti: true },
-    { name: "cognitiveEffects", type: "string", isMulti: true },
-    { name: "multisensoryEffects", type: "string", isMulti: true },
-    { name: "category", type: "string", isMulti: "false" },
-    { name: "logo", type: "every.near/type/image" },
-    { name: "background", type: "every.near/type/image", isMulti: false },
-    { name: "hashtags", type: "string", isMulti: "true" },
-  ],
-  widgets: {},
 };
 
 const method = {
@@ -272,7 +259,7 @@ return (
         <Widget
           src="mob.near/widget/TagsEditor"
           props={{
-            initialTagsObject: metadata.tags,
+            substanceTagsObject: metadata.tags,
             tagsPattern: options.tags.pattern,
             placeholder:
               options.tags.placeholder ??
