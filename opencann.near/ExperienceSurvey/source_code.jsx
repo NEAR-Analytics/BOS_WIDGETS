@@ -477,7 +477,7 @@ const ResponseForm = () => {
         </div>
         <div className="mb-3">
           <Widget
-            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
               data: state.visualEffects,
               onChange: onVisuallEffectsChange,
@@ -490,7 +490,7 @@ const ResponseForm = () => {
         </div>
         <div className="mb-3">
           <Widget
-            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
               data: state.auditoryEffects,
               onChange: onAuditoryEffectsChange,
@@ -503,7 +503,7 @@ const ResponseForm = () => {
         </div>
         <div className="mb-3">
           <Widget
-            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
               data: state.cognitiveEffects,
               onChange: onCognitiveEffectsChange,
@@ -516,7 +516,7 @@ const ResponseForm = () => {
         </div>
         <div className="mb-3">
           <Widget
-            src="nearhorizon.near/widget/Inputs.Viewable.MultiSelect"
+            src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
               data: state.multisensoryEffects,
               onChange: onMultiSensoryEffectsChange,
