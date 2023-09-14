@@ -880,7 +880,7 @@ const callTxAgniSwap = (
 };
 
 const masaTracking = ({
-  txHash,
+  transactionHash,
   sender,
   contractAddress,
   assetAmount,
@@ -901,7 +901,7 @@ const masaTracking = ({
       event_data: {
         network: "polygon-zkevm",
         contract_address: contractAddress,
-        transactionHash: txHash,
+        transactionHash,
         asset_amount: assetAmount,
         asset_ticker: assetTicker,
         asset_usd_amount: assetUsdAmount,
