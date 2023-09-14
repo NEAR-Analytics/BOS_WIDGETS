@@ -27,6 +27,29 @@ const sexOptions = [
   { text: "Other", value: "Other" },
 ];
 
+const cannabisHistory = [
+  { text: "First time", value: "First time" },
+  { text: "A few times", value: "A few times" },
+  { text: "Tried a range of doses", value: "Tried a range of doses" },
+  { text: "Very experienced", value: "Very experienced" },
+  { text: "Expert/Professional", value: "Expert/Professional" },
+];
+
+const cannabisLevel = [
+  { text: "None", value: "None" },
+  { text: "Low", value: "Low" },
+  { text: "Medium", value: "Medium" },
+  { text: "High", value: "High" },
+];
+
+const psychonautLevel = [
+  { text: "Only food & water.", value: "Newbie" },
+  { text: "Very light substance use.", value: "Conservative" },
+  { text: "Familiar with altered states.", value: "Moderate" },
+  { text: "Pursuer of altered states.", value: "Liberal" },
+  { text: "I've studied substances extensively.", value: "Psychonaut" },
+];
+
 if (context.loading) {
   return (
     <>
@@ -180,16 +203,13 @@ let page = (
         onChange={(event) => handleChangeOnInput(event)}
       />
       <Widget
-        src={`crowdtestify.near/widget/Inputs.Select`}
+        src={`opencann.near/widget/profile.demographics.astrology`}
         props={{
           label: "Astrological Sign",
           placeholder: "Aries",
           astrology,
           value: state.astrological_sign,
           onChange: (astrological_sign) => State.update({ astrological_sign }),
-          validate: () => {
-            return;
-          },
         }}
       />
       <Widget
@@ -294,20 +314,35 @@ let page = (
         value={state.preferred_crypto}
         onChange={(event) => handleChangeOnInput(event)}
       />
-      {options.cannabisUse.label ?? "Have you ever used cannabis before?"}
-      <input
-        id="cannabisUse"
-        type="text"
-        value={state.cannabisUse}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`opencann.near/widget/profile.demographics.cannabisHistory`}
+        props={{
+          label: "Cannabis Use",
+          placeholder: "Have you ever used cannabis before?",
+          cannabisHistory,
+          value: state.cannabisUse,
+          onChange: (cannabisUse) => State.update({ cannabisUse }),
+        }}
       />
-      {options.cannabisTolerance.label ??
-        "What is your cannabis tolerance level?"}
-      <input
-        id="cannabisTolerance"
-        type="text"
-        value={state.cannabisTolerance}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`opencann.near/widget/profile.demographic.cannabisLevel`}
+        props={{
+          label: "Cannabis Tolerance",
+          placeholder: "What is your cannabis tolerance level?",
+          cannabisLevel,
+          value: state.cannabisTolerance,
+          onChange: (cannabisTolerance) => State.update({ cannabisTolerance }),
+        }}
+      />
+      <Widget
+        src={`opencann.near/widget/profile.demographics.astrology`}
+        props={{
+          label: "Astrological Sign",
+          placeholder: "Aries",
+          astrology,
+          value: state.astrological_sign,
+          onChange: (astrological_sign) => State.update({ astrological_sign }),
+        }}
       />
       {options.substances.label ?? "Have you ever tried other substances?"}
       <input
