@@ -623,53 +623,26 @@ const ResponseForm = () => {
         </div>
         <div className="mb-3">
           <label class="form-label" for="location">
-            Response Location
+            Experience Location
           </label>
           <input
             class="form-control"
             id="location"
             value={state.location}
             onChange={onLocationChange}
-            placeholder="New Response Location"
+            placeholder="New Experience Location"
           />
         </div>
         <div className="mb-3">
-          <div class="form-check">
-            <label class="form-check-label" for="isAllDay">
-              All Day Response
-            </label>
-            <input
-              value={state.isAllDay}
-              checked={state.isAllDay}
-              class="form-check-input"
-              type="checkbox"
-              id="isAllDay"
-              onChange={onIsAllDayChange}
-            />
-          </div>
-        </div>
-        <div className="mb-3">
           <label class="form-label" for="category">
-            Response Category
+            Experience Category
           </label>
           <input
             class="form-control"
             id="category"
             value={state.category}
             onChange={onCategoryChange}
-            placeholder="New Response Category"
-          />
-        </div>
-        <div className="mb-3">
-          <label class="form-label" for="customWidget">
-            Custom Response Card Source
-          </label>
-          <input
-            class="form-control"
-            id="customWidget"
-            value={state.customWidget}
-            onChange={onCustomWidgetChange}
-            placeholder="Custom Response Card Source"
+            placeholder="New Experience Category"
           />
         </div>
         <div className="mb-3 row ">
