@@ -28,7 +28,6 @@ const widgets = {
   verifyHuman: "nomination.ndctools.near/widget/NDC.VerifyHuman",
   budget: "election.ndctools.near/widget/NDC.Elections.BudgetPackage",
   castVotes: "election.ndctools.near/widget/NDC.Elections.CastVotes",
-  candidateItem: "rubycop.near/widget/NDC.Elections.CandidateItem",
 };
 
 const LocalStorageKeys = {
@@ -335,7 +334,9 @@ const filteredCandidates = () => {
   return candidates;
 };
 
-const handleModals = () => {
+const selectedCandidates = [];
+
+const handleSelectCandidate = (candidateId) => {
   if (!state.acceptedPolicy) {
     State.update({ showToSModal: true });
     return;
@@ -345,15 +346,17 @@ const handleModals = () => {
     return;
   }
 
-  return true;
-};
+  const selectedItems = selectedCandidates.includes(candidateId)
+    ? selectedCandidates.filter((el) => el !== candidateId)
+    : [...selectedCandidates, candidateId];
 
-const handleCountCandidates = (availableVotes, selectedCandidates) => {
-  State.update({
-    availableVotes,
-    selectedCandidates,
-    reload: false,
-  });
+  const currentVotes = seats - myVotesForHouse().length - selectedItems.length;
+  if (currentVotes < 0) return;
+
+  return {
+    selectedItems,
+    currentVotes,
+  };
 };
 
 const handleCast = () =>
@@ -366,6 +369,7 @@ const handleResetSelection = () => {
     selectedCandidates: [],
     availableVotes: seats - myVotesForHouse().length,
   });
+  selectedCandidates = [];
 };
 
 const selectedBookmarks = (candidateId) => {
@@ -387,7 +391,7 @@ const handleVote = () => {
   const voteFunc = {
     contractName: electionContract,
     methodName: "vote",
-    args: { prop_id: props.id, vote: state.selectedCandidates },
+    args: { prop_id: props.id, vote: selectedCandidates },
     gas: "110000000000000",
   };
 
@@ -613,6 +617,133 @@ const Loader = () => (
     role="status"
     aria-hidden="true"
   />
+);
+
+const CandidateItem = ({ candidateId, votes }) => (
+  <div>
+    <CandidateItemRow
+      className="d-flex align-items-center justify-content-between"
+      selected={state.selected === candidateId}
+      winnerId={state.winnerIds.includes(candidateId)}
+    >
+      <div className="d-flex w-100 align-items-center">
+        {isVisible() && (
+          <Expand>
+            <i
+              className={`${
+                state.selected === candidateId
+                  ? "bi bi-chevron-down"
+                  : "bi bi-chevron-right"
+              }`}
+              onClick={(e) =>
+                State.update({
+                  selected: state.selected === candidateId ? null : candidateId,
+                  reload: false,
+                })
+              }
+            />
+          </Expand>
+        )}
+
+        {iahToken && (
+          <Bookmark
+            selected={state.selected === candidateId}
+            winnerId={state.winnerIds.includes(candidateId)}
+          >
+            {state.loading === candidateId ? (
+              <Loader />
+            ) : (
+              <i
+                id="bookmark"
+                onClick={() => handleBookmarkCandidate(candidateId)}
+                className={`bi ${
+                  state.bookmarked.includes(candidateId)
+                    ? "bi-bookmark-fill"
+                    : "bi-bookmark"
+                }`}
+              />
+            )}
+          </Bookmark>
+        )}
+        <div className="d-flex align-items-center">
+          <div className="d-flex justify-items-center">
+            <UserLink
+              selected={state.selected === candidateId}
+              winnerId={state.winnerIds.includes(candidateId)}
+              src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
+              title={candidateId}
+            />
+          </div>
+        </div>
+      </div>
+      <InfoRow
+        className={`d-flex w-100 align-items-center ${
+          iahToken ? "justify-content-center" : "justify-content-end"
+        }`}
+      >
+        <NominationLink>
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Link: {
+                size: "sm",
+                className: state.winnerIds.includes(candidateId)
+                  ? "secondary success"
+                  : "secondary dark",
+                text: "Nomination",
+                icon: <i className="bi bi-box-arrow-up-right" />,
+                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=${typ}&accountId=${candidateId}`,
+                inverse: state.selected === candidateId,
+              },
+            }}
+          />
+        </NominationLink>
+        <NominationLinkMobile>
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Link: {
+                size: "sm",
+                className: state.winnerIds.includes(candidateId)
+                  ? "secondary success"
+                  : "secondary dark",
+                text: "",
+                icon: <i className="bi bi-box-arrow-up-right" />,
+                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
+                inverse: state.selected === candidateId,
+              },
+            }}
+          />
+        </NominationLinkMobile>
+        {isVisible() && <Votes>{votes}</Votes>}
+        {iahToken && (
+          <Votes>
+            <input
+              id="input"
+              disabled={
+                alreadyVotedForHouse() ||
+                blacklisted ||
+                electionStatus !== "ONGOING"
+              }
+              onClick={() => handleSelectCandidate(candidateId)}
+              className="form-check-input"
+              type="checkbox"
+              checked={
+                selectedCandidates.includes(candidateId) ||
+                alreadyVoted(candidateId)
+              }
+            />
+          </Votes>
+        )}
+      </InfoRow>
+    </CandidateItemRow>
+    {state.selected === candidateId && isVisible() && (
+      <Widget
+        src={widgets.voters}
+        props={{ candidateId, electionContract, iahToken, ids }}
+      />
+    )}
+  </div>
 );
 
 const Filters = () => (
@@ -873,13 +1004,10 @@ return (
             </Rules>
           ),
           Button: {
-            title: `Cast ${
-              state.selectedCandidates.length || ""
-            } / ${seats} Vote${
-              state.selectedCandidates.length === 1 ? "" : "s"
+            title: `Cast ${selectedCandidates.length || ""} / ${seats} Vote${
+              selectedCandidates.length === 1 ? "" : "s"
             }`,
-            disabled:
-              state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
+            disabled: selectedCandidates.length === 0 || alreadyVotedForHouse(),
             onCancel: () =>
               State.update({ bountyProgramModal: false, reload: false }),
             onSubmit: handleVote,
@@ -891,14 +1019,13 @@ return (
             onSubmit: () =>
               State.update({ bountyProgramModal: false, reload: false }),
           },
-          footer: state.selectedCandidates.length < seats && (
+          footer: selectedCandidates.length < seats && (
             <div class="w-100 pt-2 text-center">
               <VotingAlert>
                 <i class="bi bi-exclamation-circle mr-2" />
                 Warning! You've loose{" "}
-                {state.availableVotes -
-                  (state.selectedCandidates.length || 0)}{" "}
-                votes and don't have ability to vote again in current house!
+                {state.availableVotes - (selectedCandidates.length || 0)} votes
+                and don't have ability to vote again in current house!
               </VotingAlert>
             </div>
           ),
@@ -948,17 +1075,10 @@ return (
               <Filters />
               <CandidatesContainer>
                 {state.candidates.map(([candidateId, votes], index) => (
-                  <Widget
+                  <CandidateItem
+                    candidateId={candidateId}
+                    votes={votes}
                     key={index}
-                    src={widgets.candidateItem}
-                    props={{
-                      ...props,
-                      ...state,
-                      candidateId,
-                      votes,
-                      handleModals,
-                      handleCountCandidates,
-                    }}
                   />
                 ))}
               </CandidatesContainer>
@@ -1016,8 +1136,7 @@ return (
               handleCast,
               handleVote,
               handleResetSelection,
-              handleCountCandidate,
-              s,
+              handleSelectCandidate,
             }}
           />
         )}
