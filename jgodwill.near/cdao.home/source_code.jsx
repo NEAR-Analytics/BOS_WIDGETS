@@ -428,16 +428,11 @@ const Main = styled.div`
 .hero{
     width: 100%;
     position: relative;
-    /* background: #00d8c9; */
-    background: #000000;
-    /* background: linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
-    background: -webkit-linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
-    background: -moz-linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%); */
     background: rgb(179,139,8);
-    background: -moz-linear-gradient(0deg, rgba(179,139,8,1) 34%, rgba(255,197,0,1) 100%);
-    background: -webkit-linear-gradient(0deg, rgba(179,139,8,1) 34%, rgba(255,197,0,1) 100%);
-    background: linear-gradient(0deg, rgba(179,139,8,1) 34%, rgba(255,197,0,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b38b08",endColorstr="#ffc500",GradientType=1); 
+    background: -moz-linear-gradient(0deg, rgba(179,139,8,1) 0%, rgba(255,197,0,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(179,139,8,1) 0%, rgba(255,197,0,1) 100%);
+    background: linear-gradient(0deg, rgba(179,139,8,1) 0%, rgba(255,197,0,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b38b08",endColorstr="#ffc500",GradientType=1);
     color: #000;
     align-content: center;
     margin: 0 auto;
@@ -650,6 +645,32 @@ const Main = styled.div`
     color: #1c1c1c !important;
     height: fit-content;
     width: fit-content;
+}
+
+@media screen and (max-width: 767px){
+    .hero{
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        text-align: center;
+        height: max-content;   
+    }
+    .heroCTA{
+        justify-content: center;
+    }
+}
+@media screen and (max-width: 540px){
+    .stats{
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .statSeparator{
+        width: 60px;
+    height: 2px;
+    }
+    .heroRight{
+        display: none;
+    }
 }
 `;
 
