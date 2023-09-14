@@ -98,6 +98,18 @@ const ToolTips = styled.div`
     left: 50%;
   }
 `;
+const InfoIcon = styled.div`
+  padding-left: 4px;
+  cursor: pointer;
+  position: relative;
+  text-align: left;
+  .tooltips {
+    display: none;
+  }
+  &:hover .tooltips {
+    display: block;
+  }
+`;
 
 const { inputCurrency, outputCurrency, amount, loading } = props;
 const tradeInfo = props.tradeInfo || {};
@@ -117,7 +129,6 @@ const formatAmount = (amount) => {
   if (!amount || isNaN(amount)) return "-";
   return Number(Big(amount || 0).toFixed(3));
 };
-
 const formatTips = (route) => {
   if (["PT", "YT"].includes(route.to.baseType)) {
     return (
@@ -173,11 +184,41 @@ return (
       <Text className="right">
         {getOut}
         {outputCurrency.symbol}
+        <InfoIcon>
+          <Widget
+            src="bluebiu.near/widget/0vix.LendingInfoIcon"
+            props={{ size: 14 }}
+          />
+          <ToolTips className="tooltips">
+            <div className="one-line">Slippage tolerance = 5%</div>
+          </ToolTips>
+        </InfoIcon>
       </Text>
     </Row>
     <Row>
       <Text>Effective Fixed APY</Text>
-      <Text className="right">{tradeInfo?.apy || "-"}%</Text>
+      <Text className="right">
+        {tradeInfo?.apy || "-"}%
+        <InfoIcon>
+          <Widget
+            src="bluebiu.near/widget/0vix.LendingInfoIcon"
+            props={{ size: 14 }}
+          />
+          <ToolTips className="tooltips">
+            <div className="two-lines">
+              The fixed APY you are effectively getting from this trade, taking
+              into account price impact (
+              {tradeInfo?.priceImpact &&
+              Big(tradeInfo.priceImpact || 0).gt(0.0001)
+                ? Big(tradeInfo.priceImpact || 0)
+                    .gt(0.0001)
+                    .toFixed(4)
+                : "< 0.0001"}
+              %) and swap fees.
+            </div>
+          </ToolTips>
+        </InfoIcon>
+      </Text>
     </Row>
     {tradeInfo.routes && (
       <Routers>
