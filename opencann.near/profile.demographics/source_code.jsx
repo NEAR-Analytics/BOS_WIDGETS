@@ -112,6 +112,14 @@ function handleChangeOnInput(event) {
     saveState: "in progress...",
   });
 }
+const Form = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 60%;
+  gap: 1em;
+`;
 
 let page = (
   <div>
@@ -146,61 +154,98 @@ let page = (
         value={state.birthday}
         onChange={(event) => handleChangeOnInput(event)}
       />
-      {options.astrological_sign.label ?? "Astrological Sign"}
-      <input
-        id="astrological_sign"
-        type="text"
-        value={state.astrological_sign}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`crowdtestify.near/widget/Inputs.Text`}
+        props={{
+          label: "Astrological Sign",
+          placeholder: "Example: Libra",
+          value: state.astrological_sign,
+          onChange: (event) => State.update({ astrological_sign }),
+          validate: () => {
+            return;
+          },
+        }}
       />
-      {options.age.label ?? "Age"}
-      <input
-        id="age"
-        type="text"
-        value={state.age}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`crowdtestify.near/widget/Inputs.Number`}
+        props={{
+          label: "Age",
+          placeholder: "Example: 21",
+          onChange: (event) => State.update({ age }),
+          validate: () => {
+            // add age verification???
+            return;
+          },
+        }}
       />
-      {options.height.label ?? "Height"}
-      <input
-        id="height"
-        type="text"
-        value={state.height}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`crowdtestify.near/widget/Inputs.Number`}
+        props={{
+          label: "Height",
+          placeholder: "Example: 175cm",
+          onChange: (event) => State.update({ height }),
+          validate: () => {
+            return;
+          },
+        }}
       />
-      {options.weight.label ?? "Weight"}
-      <input
-        id="weight"
-        type="text"
-        value={state.weight}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`crowdtestify.near/widget/Inputs.Number`}
+        props={{
+          label: "Weight",
+          placeholder: "Example: 150lbs",
+          onChange: (event) => State.update({ weight }),
+          validate: () => {
+            return;
+          },
+        }}
       />
-      {options.sex.label ?? "Sex"}
-      <input
-        id="sex"
-        type="text"
-        value={state.sex}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`crowdtestify.near/widget/Inputs.Text`}
+        props={{
+          label: "Sex",
+          placeholder: "Example: Female",
+          value: state.sex,
+          onChange: (event) => State.update({ sex }),
+          validate: () => {
+            return;
+          },
+        }}
       />
-      {options.gender.label ?? "Gender"}
-      <input
-        id="gender"
-        type="text"
-        value={state.gender}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`crowdtestify.near/widget/Inputs.Text`}
+        props={{
+          label: "Gender",
+          value: state.gender,
+          onChange: (event) => State.update({ gender }),
+          validate: () => {
+            return;
+          },
+        }}
       />
-      {options.profession.label ?? "Profession"}
-      <input
-        id="profession"
-        type="text"
-        value={state.profession}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`crowdtestify.near/widget/Inputs.Text`}
+        props={{
+          label: "Profession",
+          placeholder: "Example: Pro Wrestler",
+          value: state.profession,
+          onChange: (event) => State.update({ profession }),
+          validate: () => {
+            return;
+          },
+        }}
       />
-      {options.income.label ?? "Income"}
-      <input
-        id="income"
-        type="text"
-        value={state.income}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`crowdtestify.near/widget/Inputs.Number`}
+        props={{
+          label: "Income",
+          placeholder: "12,345",
+          onChange: (event) => State.update({ income }),
+          hasDollar: true,
+          validate: () => {
+            return;
+          },
+        }}
       />
       {options.preferred_wallet.label ?? "Preferred Wallet"}
       <input
