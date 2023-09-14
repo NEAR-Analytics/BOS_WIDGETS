@@ -13,6 +13,7 @@ const UUID = {
 
 
 const accountId = context.accountId;
+const toggleNewEventModal = props.toggleNewEventModal;
 
 if (!accountId) {
   return "Please connect your NEAR account";
@@ -38,6 +39,7 @@ const addEvent = (target) => {
   });
 
   State.update({ event: target });
+  toggleNewEventModal();
 };
 
 const proposeEvent = (target) => {
