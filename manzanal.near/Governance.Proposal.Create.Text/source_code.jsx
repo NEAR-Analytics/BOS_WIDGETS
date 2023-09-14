@@ -130,7 +130,7 @@ const handleProposal = () => {
         extra: "",
       },
       gas: gas,
-      deposit: state.storageRequired,
+      deposit: edit ? null : state.storageRequired,
     },
   ]);
 };
@@ -292,7 +292,7 @@ return (
         Not enough voting power to create a proposal.
       </div>
     )}
-    {state.isValid && (
+    {state.isValid && !edit && (
       <div className="text-info d-flex justify-content-end text-right">
         A deposit of {yoctoToNear(state.storageRequired)} NEAR will be required
         for storage
