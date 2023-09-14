@@ -175,6 +175,12 @@ const Theme = styled.div`
       max-width: 350px;
     }
   }
+
+  @media only screen and (min-device-width: 820px) {
+    .apps {
+      max-width: 500px;
+    }
+  }
   
   .swap-main-column {
     padding-top: 0 !important;
