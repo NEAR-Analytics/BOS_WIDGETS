@@ -223,7 +223,7 @@ return (
                     <br /> <br />
                     <div>
                       <a
-                        href="#/yairnava.near/widget/Burrito-Virtual-Pet-Interact"
+                        href="#/burrito-pets.near/widget/Burrito-Pets-Interact"
                         style={{ color: "black" }}
                       >
                         Go to Play
