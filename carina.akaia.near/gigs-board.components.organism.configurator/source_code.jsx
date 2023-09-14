@@ -115,7 +115,7 @@ const defaultFieldUpdate = ({
     case "object":
       return Array.isArray(input) && typeof lastKnownValue === "string"
         ? input.join(arrayDelimiter ?? ",")
-        : input;
+        : { ...lastKnownValue, ...input };
 
     case "string":
       return Array.isArray(lastKnownValue)
