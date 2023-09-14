@@ -430,10 +430,15 @@ const Main = styled.div`
     position: relative;
     /* background: #00d8c9; */
     background: #000000;
-    background: linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
+    /* background: linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
     background: -webkit-linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
-    background: -moz-linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%);
-    color: #fff;
+    background: -moz-linear-gradient(63deg,#000000 0%, #b38b08 50%, #ffc501 100%); */
+    background: rgb(179,139,8);
+    background: -moz-linear-gradient(0deg, rgba(179,139,8,1) 34%, rgba(255,197,0,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(179,139,8,1) 34%, rgba(255,197,0,1) 100%);
+    background: linear-gradient(0deg, rgba(179,139,8,1) 34%, rgba(255,197,0,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b38b08",endColorstr="#ffc500",GradientType=1); 
+    color: #000;
     align-content: center;
     margin: 0 auto;
     padding: 2rem inherit;
@@ -464,7 +469,7 @@ const Main = styled.div`
 }
 
 .heroBody{
-    opacity: .6;
+    opacity: .7;
 }
 
 .heroCTA, .artCTA{
@@ -478,28 +483,34 @@ const Main = styled.div`
 .button{
     padding: .5rem 1rem;
     border-radius: 5px;
-    background-color: #fff;
-    color: #122a58;
+    background-color: #000;
+    color: #ffc500;
     font-size: 1.2rem;
     transition: all .3s ease-in-out;
-    border: 1px solid #ffc501;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.415);
 }
 
-.heroCTA a:hover{
-    background-color: #000;
-    color: #fff;
+.button:hover{
+    background-color: #ffc500;;
+    color: #000;
 }
 .button.sec{
     background: transparent;
-    color: #ffc501;
+    color: #000;
+    background-color: #ffc500;
     border: none;
+}
+
+.button.sec:hover{
+    color: #ffc500;
+    background-color: #000;
 }
 .stats{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 3rem;
     padding: 1rem 0px;
 }
 .stat{
@@ -528,7 +539,7 @@ const Main = styled.div`
     line-height: 1.0;
   text-align: center;
   line-height: 24px;
-  opacity: .5;
+  opacity: .7;
 }
 .featuredArt{
     width: 40vw;
@@ -548,6 +559,10 @@ const Main = styled.div`
     margin: 1rem;
     /* box shadow */
     box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+    /* make it glass like */
+    /* background-color: rgba(255,255,255,.2); */
+    /* backdrop-filter: blur(15px); */
+    /* -webkit-backdrop-filter: blur(15px); */
     position: absolute;
     bottom: -60px;
     right: -3vw;
