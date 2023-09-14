@@ -1,5 +1,4 @@
 const ownerId = "contribut3.near";
-const apiUrl = "https://api-staging-fur7.onrender.com";
 
 const Container = styled.div`
   display: flex;
@@ -92,17 +91,18 @@ if (!state.projectIsFetched || !state.profileIsFetched) {
 }
 
 if (state.project.credits) {
-  asyncFetch(`${apiUrl}/data/credits/projects/${props.accountId}/balance`).then(
-    ({ body: credits }) => State.update({ credits }),
-  );
+  asyncFetch(
+    `https://api-staging-fur7.onrender.com/data/credits/projects/${props.accountId}/balance`,
+  ).then(({ body: credits }) => State.update({ credits }));
 }
 
-asyncFetch(`${apiUrl}/data/projects/completion`).then(({ body: { list } }) =>
-  State.update({
-    completion: list
-      .find(({ id }) => id === props.accountId)
-      .completion.toLocaleString("en-US", { style: "percent" }),
-  }),
+asyncFetch("https://api-staging-fur7.onrender.com/data/projects/completion").then(
+  ({ body: { list } }) =>
+    State.update({
+      completion: list
+        .find(({ id }) => id === props.accountId)
+        .completion.toLocaleString("en-US", { style: "percent" }),
+    }),
 );
 
 return (
