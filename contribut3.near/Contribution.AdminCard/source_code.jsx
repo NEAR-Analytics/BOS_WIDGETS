@@ -1,5 +1,4 @@
 const ownerId = "contribut3.near";
-const apiUrl = "https://api-staging-fur7.onrender.com";
 const projectId = props.projectId;
 const cid = props.cid;
 const vendorId = props.vendorId;
@@ -30,17 +29,19 @@ if (!state.contributionIsFetched) {
   ).then((contribution) =>
     State.update({ contribution, contributionIsFetched: true }),
   );
-  asyncFetch(`${apiUrl}/transactions/all`).then(({ body: txs }) => {
-    const tx = txs.find((tx) => {
-      return (
-        tx.method_name === "add_contribution" &&
-        tx.args.project_id === projectId &&
-        tx.args.cid === cid &&
-        tx.args.vendor_id === vendorId
-      );
-    });
-    State.update({ created_at: tx.timestamp });
-  });
+  asyncFetch("https://api-staging-fur7.onrender.com/transactions/all").then(
+    ({ body: txs }) => {
+      const tx = txs.find((tx) => {
+        return (
+          tx.method_name === "add_contribution" &&
+          tx.args.project_id === projectId &&
+          tx.args.cid === cid &&
+          tx.args.vendor_id === vendorId
+        );
+      });
+      State.update({ created_at: tx.timestamp });
+    },
+  );
 }
 
 if (!state.requestIsFetched) {
