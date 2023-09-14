@@ -34,6 +34,8 @@ const LocalStorageKeys = {
   Bookmarks: "Bookmarks",
 };
 
+const selectedCandidates = [];
+
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const QUERY_API_ENDPOINT = "https://graph.mintbase.xyz/mainnet";
 const POLICY_HASH =
@@ -334,8 +336,6 @@ const filteredCandidates = () => {
   return candidates;
 };
 
-const selectedCandidates = [];
-
 const handleSelectCandidate = (candidateId) => {
   if (!state.acceptedPolicy) {
     State.update({ showToSModal: true });
@@ -371,7 +371,6 @@ const handleResetSelection = () => {
   });
   selectedCandidates = [];
 };
-
 const selectedBookmarks = (candidateId) => {
   let selectedItems = state.bookmarked.includes(candidateId)
     ? state.bookmarked.filter((el) => el !== candidateId)
@@ -589,6 +588,8 @@ if (state.reload) {
   handleStateTransition();
   loadSocialDBData();
 }
+
+console.log("selectedCandidates", selectedCandidates);
 
 const UserLink = ({ title, src, selected, winnerId }) => (
   <div className="d-flex mr-3">
