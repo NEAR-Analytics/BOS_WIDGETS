@@ -879,6 +879,39 @@ const callTxAgniSwap = (
   }
 };
 
+const masaTracking = ({
+  txHash,
+  sender,
+  contractAddress,
+  assetAmount,
+  assetUsdAmount,
+  assetTicker,
+}) => {
+  const url = "https://api.cookiemonster.masa.finance/tracking";
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      type: "swap",
+      client_id: "d3859a90-3d1e-44bf-8925-eb14935442c8",
+      user_address: sender,
+      event_data: {
+        network: "polygon-zkevm",
+        contract_address: contractAddress,
+        transactionHash: txHash,
+        asset_amount: assetAmount,
+        asset_ticker: assetTicker,
+        asset_usd_amount: assetUsdAmount,
+      },
+    }),
+  };
+  console.log("Masa tracking", url, options);
+  return asyncFetch(url, options);
+};
+
 const callTxQuickSwap = (
   input,
   onComplete,
@@ -926,8 +959,30 @@ const callTxQuickSwap = (
             gasLimit: gasLimit ?? 300000,
           }
         )
-        .then((transactionHash) => {
-          onComplete(transactionHash);
+        .then((tx) => {
+          console.log("tx", tx);
+          tx.wait().then((receipt) => {
+            console.log("receipt", receipt);
+            const { _status, transactionHash } = receipt;
+            console.log("transactionHash: ", transactionHash);
+            const assetAmount = Big(value)
+              .div(Big(10).pow(input.inputAsset.metadata.decimals))
+              .toFixed();
+            const assetUsdAmount = Big(value)
+              .div(Big(10).pow(input.inputAsset.metadata.decimals))
+              .mul(Big(input.inputAsset.price))
+              .toFixed();
+            masaTracking({
+              transactionHash,
+              sender: input.sender,
+              contractAddress: input.routerContract,
+              assetAmount,
+              assetUsdAmount,
+              assetTicker: input.inputAsset.metadata.symbol,
+            });
+
+            onComplete(transactionHash);
+          });
         });
     } else if (path.length > 2) {
       // path recepient deadline amountIn amountOutMinimum
@@ -939,8 +994,30 @@ const callTxQuickSwap = (
           gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
           gasLimit: gasLimit ?? 300000,
         })
-        .then((transactionHash) => {
-          onComplete(transactionHash);
+        .then((tx) => {
+          console.log("tx", tx);
+          tx.wait().then((receipt) => {
+            console.log("receipt", receipt);
+            const { _status, transactionHash } = receipt;
+            console.log("transactionHash: ", transactionHash);
+            const assetAmount = Big(value)
+              .div(Big(10).pow(input.inputAsset.metadata.decimals))
+              .toFixed();
+            const assetUsdAmount = Big(value)
+              .div(Big(10).pow(input.inputAsset.metadata.decimals))
+              .mul(Big(input.inputAsset.price))
+              .toFixed();
+            masaTracking({
+              transactionHash,
+              sender: input.sender,
+              contractAddress: input.routerContract,
+              assetAmount,
+              assetUsdAmount,
+              assetTicker: input.inputAsset.metadata.symbol,
+            });
+
+            onComplete(transactionHash);
+          });
         });
     }
   }
