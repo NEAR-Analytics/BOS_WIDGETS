@@ -435,6 +435,10 @@ const Main = styled.div`
     border-bottom: 8px groove #ffc4001c;
 }
 
+.section:first-child{
+    border-bottom: none;
+}
+
 .hero{
     display: flex;
     align-items: center;
