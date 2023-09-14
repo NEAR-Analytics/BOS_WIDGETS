@@ -445,7 +445,9 @@ const Main = styled.div`
     height: 100vh;
      @media screen and (max-width: 767px){
     flex-direction: column;
-    flex-wrap: no-wrap;   
+    flex-wrap: no-wrap;
+    justify-content: center;
+    text-align: center;   
     }
 }
 .heroRight{
