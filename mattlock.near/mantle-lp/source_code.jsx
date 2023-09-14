@@ -320,8 +320,6 @@ const disableApps =
   (state.chainId !== MANTLE_TESTNET_CHAIN_ID &&
     state.chainId !== MANTLE_CHAIN_ID);
 
-console.log(state.chainId);
-
 const sender = Ethers.send("eth_requestAccounts", [])[0] || "";
 
 if (sender) {
@@ -503,53 +501,51 @@ return (
       </div>
 
       <div className="component">
-        <div className="center">
-          {bridge === true && component === null ? (
-            <Widget src="ciocan.near/widget/op-stack-mantle-bridge" />
-          ) : (
-            <>
-              {component === "lendle" && (
-                <Widget src="lendle.near/widget/Lendle" />
-              )}
+        {bridge === true && component === null ? (
+          <Widget src="ciocan.near/widget/op-stack-mantle-bridge" />
+        ) : (
+          <>
+            {component === "lendle" && (
+              <Widget src="lendle.near/widget/Lendle" />
+            )}
 
-              {component === "fusionx" && (
-                <Widget
-                  src="zavodil.near/widget/swap-mantle"
-                  props={{
-                    dex: "FusionX V3",
-                  }}
-                />
-              )}
+            {component === "fusionx" && (
+              <Widget
+                src="zavodil.near/widget/swap-mantle"
+                props={{
+                  dex: "FusionX V3",
+                }}
+              />
+            )}
 
-              {component === "agni" && (
-                <Widget
-                  src="zavodil.near/widget/swap-mantle"
-                  props={{
-                    dex: "Agni",
-                  }}
-                />
-              )}
+            {component === "agni" && (
+              <Widget
+                src="zavodil.near/widget/swap-mantle"
+                props={{
+                  dex: "Agni",
+                }}
+              />
+            )}
 
-              {component === "iziswap" && (
-                <Widget
-                  src="zavodil.near/widget/swap-mantle"
-                  props={{
-                    dex: "iZiSwap",
-                  }}
-                />
-              )}
+            {component === "iziswap" && (
+              <Widget
+                src="zavodil.near/widget/swap-mantle"
+                props={{
+                  dex: "iZiSwap",
+                }}
+              />
+            )}
 
-              {component === "ammos" && (
-                <Widget
-                  src="zavodil.near/widget/swap-mantle"
-                  props={{
-                    dex: "Ammos Finance",
-                  }}
-                />
-              )}
-            </>
-          )}
-        </div>
+            {component === "ammos" && (
+              <Widget
+                src="zavodil.near/widget/swap-mantle"
+                props={{
+                  dex: "Ammos Finance",
+                }}
+              />
+            )}
+          </>
+        )}
       </div>
     </div>
   </Theme>
