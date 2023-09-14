@@ -430,7 +430,7 @@ return (
             <div class="col-4" style={{ "text-align": "right" }}>
               {state.sender ? (
                 state.tokenId == 0 ? (
-                  <a href="#/yairnava.near/widget/Burrito-Virtual-Pet-Mint">
+                  <a href="#/burrito-pets.near/widget/Burrito-Pets-Mint">
                     <ItemMintButton
                       onClick={async () => {
                         mint();
