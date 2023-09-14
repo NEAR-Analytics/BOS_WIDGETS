@@ -8,7 +8,6 @@ State.init({
 
 const Background = styled.div`
     background-image: radial-gradient(#dad9e8 5%,transparent 0);
-    background-color: #fcfcfc;
     background-size: 30px 30px;
     height: 100vh;
     width: 100%;
