@@ -1,38 +1,48 @@
-const getSocial = Social.get(["hangil11.near/collegium/post/*"]);
-
-// const getSocial = Social.get(["hangil11.near/collegium/post/*", "junho9341.near/collegium/post/*"])
-
-const getr = Social.getr("*/collegium/post", "final");
-const index = Social.index("collegium.post", "main", {
-  order: "desc",
-  limit: 10
+State.init({
+  article: undefined,
 });
 
-const posts = index.filter(({value}) => value.title !== undefined);
+if (state.article === undefined) {
+  const index = Social.index("collegium.post", "main", {
+    order: "desc",
+    limit: 10,
+  });
 
-console.log(posts)
+  const posts = index.filter(({ value }) => value.title !== undefined);
 
-const keys = Social.keys("*/collegium/post/*", "final", {
-  return_type: "BlockHeight",
-});
+  const getPost = ({ accountId, title }) => {
+    const content = Social.get(`${accountId}/collegium/post/${title}`);
 
-const nearGet = Near.view("social.near", "get", {
-  keys: ["hangil11.near/collegium/post/*"],
-});
+    if(content !== undefined) {
+      State.update({
+      article: {
+        accountId,
+        title,
+        content,
+      },
+    });
+    }
+  };
 
-console.log({ getSocial, getr, index, keys, nearGet });
+  const Post = posts.map(({ accountId, value: { title: title } }) => {
+    return (
+      <div>
+        <h1 onClick={(_) => getPost({ accountId, title })}>{title}</h1>
+        <p>{accountId}</p>
+      </div>
+    );
+  });
+
+  return <>{Post}</>;
+}
 
 return (
   <>
-    <h1>Social.get</h1>
-    <div>{JSON.stringify(getSocial)}</div>
-    <h1>Social.getr</h1>
-    <div>{JSON.stringify(getr)}</div>
-    <h1>Social.keys</h1>
-    <div>{JSON.stringify(keys)}</div>
-    <h1>Social.index</h1>
-    <div>{JSON.stringify(index)}</div>
-    <h1>Near.view</h1>
-    <div>{JSON.stringify(nearGet)}</div>
+    <button onClick={(_) => State.update({ article: undefined })}>
+      뒤로가기
+    </button>
+    <h1>{state.article.title}</h1>
+    <p>{state.article.accountId}</p>
+    <Markdown text={state.article.content} />
   </>
 );
