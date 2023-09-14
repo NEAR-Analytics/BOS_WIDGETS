@@ -172,13 +172,9 @@ const Card = styled.div`
 `;
 
 const CardHeader = styled.h3`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   margin: 1rem;
+  word-wrap: break-word;
+  text-align: center;
 `;
 
 const CardContent = styled.div`
@@ -246,7 +242,7 @@ const renderStorageInfos = () =>
                   Free {available} NEAR
                 </button>
               )}
-            <button onClick={() => storageUnregister(contractId)}>
+            <button onClick={() => storageWithdraw(contractId)}>
               Unregister account for {total} NEAR
             </button>
           </CardContent>
