@@ -964,9 +964,7 @@ if (
   ].includes(method)
 ) {
   console.log("simpleParams", getParams());
-  const itf = new ethers.utils.Interface(ROUTER_ABI);
-  const encodeData = itf.encodeFunctionData(method, getParams());
-  RouterContract.callStatic[method](...getParams(), { gasLimit: 5000000 })
+  RouterContract[method](...getParams(), { gasLimit: 5000000 })
     .then((tx) => {
       onSuccess(tx);
     })
@@ -976,7 +974,6 @@ if (
     });
   return;
 }
-console.log("950");
 let inputData = [];
 if (["swapExactTokenForPt", "swapExactTokenForYt"].includes(method)) {
   inputData = [
@@ -1004,7 +1001,7 @@ console.log("token params", getParams(inputData));
 const itf = new ethers.utils.Interface(ROUTER_ABI);
 const encodeData = itf.encodeFunctionData(method, getParams(inputData));
 
-RouterContract.callStatic[method](...getParams(inputData), {
+RouterContract[method](...getParams(inputData), {
   gasLimit: 5000000,
   value:
     inputCurrency.address === "0x0000000000000000000000000000000000000000"
