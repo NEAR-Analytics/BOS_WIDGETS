@@ -408,3 +408,325 @@ if (!state.theme) {
   });
 }
 const Theme = state.theme;
+
+return (
+  <Theme>
+    <ItemBackground>
+      <ItemContainer>
+        <ItemHeader>
+          <ItemTitle class="row">
+            <div class="col-4" style={{ "text-align": "left" }}>
+              <ItemImage src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/icon.png"></ItemImage>
+            </div>
+            <div
+              class="col-4"
+              style={{
+                "text-shadow":
+                  "black 1px 0px 0px, black 0px 1px 0px, black -1px 0px 0px, black 0px -1px 0px",
+              }}
+            >
+              {state.pet.name}
+            </div>
+            <div class="col-4" style={{ "text-align": "right" }}>
+              {state.sender ? (
+                state.tokenId == 0 ? (
+                  <a href="#/yairnava.near/widget/Burrito-Virtual-Pet-Mint">
+                    <ItemMintButton
+                      onClick={async () => {
+                        mint();
+                      }}
+                    >
+                      Mint Burrito
+                    </ItemMintButton>
+                  </a>
+                ) : (
+                  <ItemMintButton
+                    onClick={async () => {
+                      back();
+                    }}
+                  >
+                    Back
+                  </ItemMintButton>
+                )
+              ) : null}
+            </div>
+          </ItemTitle>
+        </ItemHeader>
+        {state.sender ? (
+          state.tokenId == 0 ? (
+            <ItemBodySelect>
+              <div class="m-5">
+                <div style={{ "text-align": "center" }}>
+                  <img
+                    src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/find.png"
+                    style={{
+                      height: "230px",
+                      background: "#ffe5bc",
+                      "border-radius": "10px",
+                    }}
+                  ></img>
+                </div>
+                <br />
+                <div class="container">
+                  <div class="row justify-content-center">
+                    <div class="col-4">
+                      <input
+                        placeholder="Token Id"
+                        onChange={(e) =>
+                          State.update({ inputTokenId: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div style={{ "text-align": "center" }}>
+                    <ItemMintButton
+                      onClick={async () => {
+                        getNft();
+                      }}
+                    >
+                      Get NFT
+                    </ItemMintButton>
+                  </div>
+                </div>
+              </div>
+            </ItemBodySelect>
+          ) : (
+            <div
+              style={{
+                background: "rgb(242, 167, 115)",
+                "border-radius": "20px",
+              }}
+            >
+              <ItemBodyPlay>
+                <div
+                  class="row"
+                  style={{
+                    "text-align": "center",
+                    background: "rgb(242, 167, 115)",
+                    "margin-inline": "-10px",
+                    "border-radius": "1px 1px 0px 0px",
+                  }}
+                >
+                  <div
+                    class="col-4"
+                    style={{
+                      color: "black",
+                      display: "flex",
+                      "justify-content": "center",
+                      "align-items": "center",
+                    }}
+                  >
+                    <img
+                      style={{ height: "50px", "margin-right": "10px" }}
+                      src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/happy.png"
+                    ></img>
+                    <label style={{ "font-weight": "900" }}>
+                      {state.pet.happiness}
+                    </label>
+                  </div>
+                  <div
+                    class="col-4"
+                    style={{
+                      color: "black",
+                      display: "flex",
+                      "justify-content": "center",
+                      "align-items": "center",
+                    }}
+                  >
+                    <img
+                      style={{ height: "50px", "margin-right": "10px" }}
+                      src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/eat.png"
+                    ></img>
+                    <label style={{ "font-weight": "900" }}>
+                      {state.pet.hunger}
+                    </label>
+                  </div>
+                  <div
+                    class="col-4"
+                    style={{
+                      color: "black",
+                      display: "flex",
+                      "justify-content": "center",
+                      "align-items": "center",
+                    }}
+                  >
+                    <img
+                      style={{ height: "50px", "margin-right": "10px" }}
+                      src="https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/sleep.png"
+                    ></img>
+                    <label style={{ "font-weight": "900" }}>
+                      {state.pet.sleep}
+                    </label>
+                  </div>
+                </div>
+                <ItemPetsSection>
+                  <ItemPet>
+                    <div>
+                      {!state.isPlay ? (
+                        <ItemPetImg src={state.currentImg} />
+                      ) : getGame() == 0 ? (
+                        <Widget
+                          src="yairnava.near/widget/Tic-Tac-Toe"
+                          props={{ onFinish, isModal: true }}
+                        />
+                      ) : (
+                        <Widget
+                          src="yairnava.near/widget/Rock-Paper-Scissors"
+                          props={{ onFinish, isModal: true }}
+                        />
+                      )}
+                    </div>
+                  </ItemPet>
+                </ItemPetsSection>
+              </ItemBodyPlay>
+              <div
+                style={{
+                  "text-align": "center",
+                  "margin-inline": "5px",
+                  "margin-top": "7px",
+                  "padding-bottom": "7px",
+                  height: "68.33px",
+                }}
+              >
+                {!state.isBusy ? (
+                  state.pet.isHungry ? (
+                    <div class="row">
+                      <div class="col-4"></div>
+                      <div class="col-4">
+                        <ItemPetAction
+                          onClick={async () => {
+                            eat();
+                          }}
+                        >
+                          <label
+                            style={{
+                              color: "white",
+                              "font-weight": "900",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Eat
+                          </label>
+                        </ItemPetAction>
+                      </div>
+                      <div class="col-4"></div>
+                    </div>
+                  ) : state.pet.isSleepy ? (
+                    <div class="row">
+                      <div class="col-4"></div>
+                      <div class="col-4"></div>
+                      <div class="col-4">
+                        <ItemPetAction
+                          onClick={async () => {
+                            sleep();
+                          }}
+                        >
+                          <label
+                            style={{
+                              color: "white",
+                              "font-weight": "900",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Sleep
+                          </label>
+                        </ItemPetAction>
+                      </div>
+                    </div>
+                  ) : state.pet.isBored ? (
+                    <div class="row">
+                      <div class="col-4">
+                        <ItemPetAction
+                          onClick={async () => {
+                            play();
+                          }}
+                        >
+                          <label
+                            style={{
+                              color: "white",
+                              "font-weight": "900",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Play
+                          </label>
+                        </ItemPetAction>
+                      </div>
+                      <div class="col-4"></div>
+                      <div class="col-4"></div>
+                    </div>
+                  ) : (
+                    <div class="row">
+                      <div class="col-4">
+                        <ItemPetAction
+                          onClick={async () => {
+                            play();
+                          }}
+                        >
+                          <label
+                            style={{
+                              color: "white",
+                              "font-weight": "900",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Play
+                          </label>
+                        </ItemPetAction>
+                      </div>
+                      <div class="col-4">
+                        <ItemPetAction
+                          onClick={async () => {
+                            eat();
+                          }}
+                        >
+                          <label
+                            style={{
+                              color: "white",
+                              "font-weight": "900",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Eat
+                          </label>
+                        </ItemPetAction>
+                      </div>
+                      <div class="col-4">
+                        <ItemPetAction
+                          onClick={async () => {
+                            sleep();
+                          }}
+                        >
+                          <label
+                            style={{
+                              color: "white",
+                              "font-weight": "900",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Sleep
+                          </label>
+                        </ItemPetAction>
+                      </div>
+                    </div>
+                  )
+                ) : null}
+              </div>
+            </div>
+          )
+        ) : (
+          <ItemBodySelect>
+            <br />
+            <div style={{ "text-align": "center" }}>
+              <Web3Connect
+                className="ConnectButton"
+                connectLabel="Connect with Web3"
+              />
+            </div>
+          </ItemBodySelect>
+        )}
+      </ItemContainer>
+    </ItemBackground>
+  </Theme>
+);
