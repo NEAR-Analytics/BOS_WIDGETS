@@ -78,5 +78,10 @@ return (
     {WidgetCard("FullScreenWrapper", "ostolex.near")}
     <p class="mt-2">Demo of Fullscreen widget:</p>
     {WidgetCard("FullScreenWrapperDemo", "ostolex.near")}
+
+    <br />
+    <h3>Storage Checker</h3>
+    <p>Make users to fill the storage till needed amount:.</p>
+    {WidgetCard("StorageChecker", "ostolex.near")}
   </>
 );
