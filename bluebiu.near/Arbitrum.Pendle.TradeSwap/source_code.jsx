@@ -41,6 +41,7 @@ State.init({
   updateInputTokenBalance: true,
   updateOutputTokenBalance: false,
   swapping: false,
+  onInputTag: 0,
 });
 Ethers.provider()
   .getNetwork()
@@ -381,6 +382,10 @@ function debounce(fn, wait) {
 }
 const debouncedGetBestTrade = debounce(getBestTrade, 500);
 
+console.log({
+  output: state.outputCurrencyAmount,
+});
+
 return (
   <>
     <BackIconWrapper
@@ -492,11 +497,14 @@ return (
                   updateInputTokenBalance: false,
                 });
               },
+              disableAutoFocus: state.onInputTag !== 0,
               onAmountChange: (val) => {
                 State.update({
                   inputCurrencyAmount: val,
                   outputCurrencyAmount: "",
+                  onInputTag: 0,
                 });
+
                 if (val && Number(val)) debouncedGetBestTrade();
               },
             }}
@@ -517,7 +525,6 @@ return (
                       }
                     : {},
                   swapping: state.swapping,
-
                   amount: state.inputCurrencyAmount,
                   updateTokenBalance: state.updateInputTokenBalance,
                   disableSelect: true,
@@ -530,10 +537,12 @@ return (
                       updateInputTokenBalance: false,
                     });
                   },
+                  disableAutoFocus: state.onInputTag !== 1,
                   onAmountChange: (val) => {
                     State.update({
                       inputCurrencyAmount: val,
                       outputCurrencyAmount: "",
+                      onInputTag: 1,
                     });
                     // if (val && Number(val)) debouncedGetBestTrade();
                   },
@@ -624,28 +633,26 @@ return (
             />
           )}
 
-          {state.activeTab === "Mint" &&
-            state.gettingTrade &&
-            state.mintType === "Redeem" && (
-              <Widget
-                src="bluebiu.near/widget/Arbitrum.Pendle.TradeRedeemOutput"
-                props={{
-                  inputCurrency: state.inputCurrency,
-                  inputCurrencyAmount: state.inputCurrencyAmount,
-                  mintType: state.mintType,
-                  market: state.market,
-                  account,
-                  outputCurrency: state.outputCurrency,
-                  onLoadOut: ({ amount, redeemParams }) => {
-                    State.update({
-                      outputCurrencyAmount: amount,
-                      redeemParams,
-                      gettingTrade: false,
-                    });
-                  },
-                }}
-              />
-            )}
+          {state.activeTab === "Mint" && state.mintType === "Redeem" && (
+            <Widget
+              src="bluebiu.near/widget/Arbitrum.Pendle.TradeRedeemOutput"
+              props={{
+                inputCurrency: state.inputCurrency,
+                inputCurrencyAmount: state.inputCurrencyAmount,
+                mintType: state.mintType,
+                market: state.market,
+                account,
+                outputCurrency: state.outputCurrency,
+                onLoadOut: ({ amount, redeemParams }) => {
+                  State.update({
+                    outputCurrencyAmount: amount,
+                    redeemParams,
+                    gettingTrade: false,
+                  });
+                },
+              }}
+            />
+          )}
 
           {state.activeTab === "Swap" &&
             (state.tradeInfo || state.gettingTrade) && (
