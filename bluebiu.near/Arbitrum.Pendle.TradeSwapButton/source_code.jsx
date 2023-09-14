@@ -85,10 +85,6 @@ if (Big(inputCurrencyAmount || 0).gt(maxInputBalance)) {
   );
 }
 
-if (Big(outputCurrencyAmount || 0).lte(0)) {
-  return <SwapButton disabled>{actionType}</SwapButton>;
-}
-
 State.init({
   isApproved: false,
   isExtraApproved: false,
@@ -130,8 +126,16 @@ const getAllowance = () => {
     if (actionType === "Redeem") {
       TokenContract.allowance(account, routerAddress).then(
         (extraInputAllowance) => {
+          console.log(
+            "extraInputAllowance: ",
+            extraInputAllowance,
+            ethers.utils
+              .formatUnits(extraInputAllowance._hex, inputCurrency.decimals)
+              .toString(),
+            inputCurrencyAmount
+          );
           State.update({
-            isExtraApproved: Big(
+            isExtraApproved: !Big(
               ethers.utils.formatUnits(
                 extraInputAllowance._hex,
                 inputCurrency.decimals
@@ -219,6 +223,8 @@ const handleApprove = (isExtra) => {
     });
 };
 
+console.log({ state });
+
 if (!state.isApproved || !state.isExtraApproved) {
   return (
     <Buttons>
@@ -260,6 +266,10 @@ if (!state.isApproved || !state.isExtraApproved) {
       )}
     </Buttons>
   );
+}
+
+if (Big(outputCurrencyAmount || 0).lte(0)) {
+  return <SwapButton disabled>{actionType}</SwapButton>;
 }
 
 function add_action(param_body) {
