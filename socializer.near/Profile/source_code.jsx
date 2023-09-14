@@ -123,7 +123,7 @@ const deposit = async (item) => {
   const oneNEARInYoctoNEAR = 1000000000000000000000000;
   if (!amount) return;
   Near.call(
-    contract.contract,
+    item.contract,
     "transfer_near",
     Admin,
     oneTeraGas,
