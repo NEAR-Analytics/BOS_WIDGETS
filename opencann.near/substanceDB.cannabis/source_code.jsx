@@ -1,3 +1,5 @@
+const substance = props.substance || cannabis;
+
 const cannabis = {
   consumptionMethod,
   physicalEffects,
