@@ -106,3 +106,15 @@ const cognitiveEffects = {
 const multisensoryEffects = { multisensoryEffects: ["Synaesthesia"] };
 
 const category = [];
+
+return {
+  substance,
+  cannabis,
+  consumptionMethod,
+  physicalEffects,
+  visualEffects,
+  auditoryEffects,
+  cognitiveEffects,
+  multisensoryEffects,
+  category,
+};
