@@ -1,5 +1,4 @@
 const ownerId = "contribut3.near";
-const apiUrl = "https://api-staging-fur7.onrender.com";
 const search = props.search ?? "";
 
 State.init({
@@ -18,26 +17,28 @@ if (!state.itemsIsFetched) {
       "final",
       false,
     ).then((items) => {
-      asyncFetch(`${apiUrl}/transactions/all`).then(({ body: txs }) => {
-        const timestamps = new Map();
-        txs.forEach((tx) => {
-          if (tx.method_name !== "add_request") {
-            return;
-          }
+      asyncFetch("https://api-staging-fur7.onrender.com/transactions/all").then(
+        ({ body: txs }) => {
+          const timestamps = new Map();
+          txs.forEach((tx) => {
+            if (tx.method_name !== "add_request") {
+              return;
+            }
 
-          const start = "EVENT_JSON:";
-          const { cid } = JSON.parse(tx.log.substring(start.length)).data;
-          const id = [tx.args.request.project_id, cid];
+            const start = "EVENT_JSON:";
+            const { cid } = JSON.parse(tx.log.substring(start.length)).data;
+            const id = [tx.args.request.project_id, cid];
 
-          if (items.find(([pId, c]) => pId === id[0] && c === id[1])) {
-            timestamps.set(`${id}`, tx.timestamp);
-          }
-        });
+            if (items.find(([pId, c]) => pId === id[0] && c === id[1])) {
+              timestamps.set(`${id}`, tx.timestamp);
+            }
+          });
 
-        items.sort((a, b) => timestamps.get(`${b}`) - timestamps.get(`${a}`));
+          items.sort((a, b) => timestamps.get(`${b}`) - timestamps.get(`${a}`));
 
-        State.update({ items, itemsIsFetched: true });
-      });
+          State.update({ items, itemsIsFetched: true });
+        },
+      );
     });
 
     return <>Loading...</>;
@@ -95,42 +96,50 @@ const Header = styled.div`
 `;
 
 return (
-  <Container>
-    <Header>
-      <h1>Your requests</h1>
-      <Link href={`/${ownerId}/widget/Index?tab=createrequest`}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-        >
-          <path
-            d="M9 3.75V14.25M3.75 9H14.25"
-            stroke="currentColor"
-            stroke-width="1.66667"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-        Create a request
-      </Link>
-    </Header>
-    <Widget
-      src={`${ownerId}/widget/List`}
-      props={{
-        full: true,
-        separator: true,
-        filter: ([accountId]) => accountId.includes(search),
-        items: state.items,
-        createItem: ([accountId, cid]) => (
+  <Widget
+    src={`${ownerId}/widget/Project.Layout`}
+    props={{
+      accountId: context.accountId,
+      children: (
+        <Container>
+          <Header>
+            <h1>Your requests</h1>
+            <Link href={`/${ownerId}/widget/Index?tab=createrequest`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+              >
+                <path
+                  d="M9 3.75V14.25M3.75 9H14.25"
+                  stroke="currentColor"
+                  stroke-width="1.66667"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Create a request
+            </Link>
+          </Header>
           <Widget
-            src={`${ownerId}/widget/Request.AdminCard`}
-            props={{ accountId, cid }}
+            src={`${ownerId}/widget/List`}
+            props={{
+              full: true,
+              separator: true,
+              filter: ([accountId]) => accountId.includes(search),
+              items: state.items,
+              createItem: ([accountId, cid]) => (
+                <Widget
+                  src={`${ownerId}/widget/Request.AdminCard`}
+                  props={{ accountId, cid }}
+                />
+              ),
+            }}
           />
-        ),
-      }}
-    />
-  </Container>
+        </Container>
+      ),
+    }}
+  />
 );
