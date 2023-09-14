@@ -410,6 +410,15 @@ const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
 
 const Main = styled.div`
+    background-color: #f5f5f5;
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-style: italic;
+    font-family: Playfair Display;
+    font-weight: 500;
 *{
     box-sizing: inherit;
     text-decoration: none;
@@ -482,12 +491,6 @@ const Main = styled.div`
     width: 100%;
 }
 
-.heroCTA{
-  @media screen and (max-width: 767px){
-    justify-content: center;
-    }
-}
-
 .button{
     padding: .5rem 1rem;
     border-radius: 5px;
@@ -529,7 +532,12 @@ const Main = styled.div`
     gap: .5rem;
     padding: 0px 1rem;
     text-align: center;
-    border-right: 1px solid #ffc501;
+}
+
+.statSeparator{
+    background-color: #ffc500;
+    width: 2px;
+    height: 60px;
 }
 
 .stat:last-child{
@@ -537,7 +545,7 @@ const Main = styled.div`
 }
 
 .statTitle{
-    font-size: 2.6rem;
+    font-size: max(1.5rem, 3vw);
     font-weight: 700;
     line-height: 1.0;
 }
