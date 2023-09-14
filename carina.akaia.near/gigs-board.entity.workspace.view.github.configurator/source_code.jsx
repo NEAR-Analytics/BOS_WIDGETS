@@ -360,8 +360,8 @@ const GithubKanbanBoardDefaults = {
   title: "",
 
   metadata: {
-    type: "github.kanban_board",
     id: uuid(),
+    type: "github.kanban_board",
 
     ticket: {
       type: "github.kanban_ticket",
@@ -394,7 +394,7 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
 
   const form = useForm({
     initialValues: board,
-    stateKey: "board",
+    stateKey: "view",
     uninitialized: Object.keys(boards).length === 0,
   });
 
@@ -717,6 +717,7 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
           {
             ...form.values,
             isConfiguratorActive: state.isActive,
+            isSynced: form.isSynced,
             link,
             onCancel,
             onConfigure: () => formToggle(true),
