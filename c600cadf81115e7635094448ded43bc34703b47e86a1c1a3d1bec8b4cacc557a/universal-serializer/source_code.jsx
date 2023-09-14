@@ -3,13 +3,13 @@ const onChange = ({ target }) => {
 };
 
 const onClick = () => {
-  asyncFetch("https://api.welldonestudio.io/universal-tx-serializer/near", {
+  asyncFetch("https://api.welldonestudio.io/universal-tx-serializer", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(JSON.parse(state.json)),
   })
     .then((res) => {
-      State.update({ result: res.body.serializedTx });
+      State.update({ result: res.body.result.serializedTx });
     })
     .catch(() => {
       State.update({ result: "errors" });
@@ -22,9 +22,9 @@ return (
       <p>
         <b> Input Tx Info (JSON): </b>
       </p>
-      <textarea rows="4" cols="50" onChange={onChange} />
+      <textarea rows="5" cols="50" onChange={onChange} />
       <button id="clickButton" onClick={onClick}>
-        Send
+        Next
       </button>
       <p>
         <b> Serialized Tx: </b> {state.result}{" "}
