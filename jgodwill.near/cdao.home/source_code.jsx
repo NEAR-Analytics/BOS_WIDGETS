@@ -555,7 +555,7 @@ const Main = styled.div`
     font-size: .8rem;
     line-height: 1.0;
   text-align: center;
-  line-height: 24px;
+  line-height: 17px;
   opacity: .7;
 }
 .featuredArt{
