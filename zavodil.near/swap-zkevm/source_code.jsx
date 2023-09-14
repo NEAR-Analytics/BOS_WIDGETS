@@ -57,6 +57,20 @@ const NETWORK_ZKSYNC = "ZKSYNC";
 const NETWORK_ZKEVM = "ZKEVM";
 const NETWORK_AURORA = "AURORA";
 const NETWORK_POLYGON = "POLYGON";
+const NETWORK_MANTLE = "MANTLE";
+
+const FORCED_NETWORK = NETWORK_ZKEVM;
+const FORCED_CHAIN_ID = 5000;
+const DEFAULT_DEX = "QuickSwap";
+
+const isEVM = [
+  NETWORK_ETH,
+  NETWORK_ZKSYNC,
+  NETWORK_ZKEVM,
+  NETWORK_AURORA,
+  NETWORK_POLYGON,
+  NETWORK_MANTLE,
+].includes(state.network);
 
 if (sender) {
   Ethers.provider()
@@ -65,6 +79,15 @@ if (sender) {
       State.update({ selectedChainId: chainId });
     });
 }
+
+const loadEstimationResult = (value) => {
+  console.log("loadRes", value);
+  if (value.estimate === "NaN") value.estimate = 0;
+  State.update({
+    estimate: value,
+    outputAssetAmount: value === null ? "" : value.estimate,
+  });
+};
 
 State.init({
   rpcError: false,
@@ -76,16 +99,8 @@ State.init({
   slippagetolerance: "0.5",
   reloadPools: false,
   estimate: {},
-  selectedDex: props.dex ?? "Pancake Swap",
-  masaTracking: false,
-  loadRes: (value) => {
-    console.log("loadRes", value);
-    if (value.estimate === "NaN") value.estimate = 0;
-    State.update({
-      estimate: value,
-      outputAssetAmount: value === null ? "" : value.estimate,
-    });
-  },
+  selectedDex: props.dex ?? DEFAULT_DEX,
+  loadRes: loadEstimationResult,
 });
 
 const reload = () => {
@@ -99,20 +114,13 @@ const reload = () => {
     slippagetolerance: "0.5",
     reloadPools: false,
     estimate: {},
-    selectedDex: props.dex ?? "Pancake Swap",
-    loadRes: (value) => {
-      console.log("loadRes", value);
-      if (value.estimate === "NaN") value.estimate = 0;
-      State.update({
-        estimate: value,
-        outputAssetAmount: value === null ? "" : value.estimate,
-      });
-    },
+    selectedDex: props.dex ?? DEFAULT_DEX,
+    loadRes: loadEstimationResult,
   });
 };
 
 const refReferralId = props.refReferralId ?? "ukraine";
-const forceNetwork = props.forceNetwork ?? NETWORK_ZKEVM;
+const forceNetwork = props.forceNetwork ?? FORCED_NETWORK;
 
 const getEVMAccountId = () => {
   if (ethers !== undefined) {
@@ -164,6 +172,9 @@ if (!state.theme) {
   State.update({
     theme: styled.div`
     ${css}
+    pre {
+        display: none
+    }
     .container-button {
       position: relative;
       font-family: 'Inter';
@@ -185,6 +196,7 @@ const currentAccountId =
   getEVMAccountId() !== "" ? getEVMAccountId() : context.accountId;
 
 const rearrangeAssets = () => {
+  console.log("rearrangeAssets");
   State.update({
     inputAssetTokenId: state.outputAssetTokenId,
     outputAssetTokenId: state.inputAssetTokenId,
@@ -197,20 +209,21 @@ const rearrangeAssets = () => {
 };
 
 if (state.sender && state.network === NETWORK_ZKEVM) {
+  console.log("Check RPC");
   // load weth balance to check rpc availability
   const wethAbiUrl =
     "https://gist.githubusercontent.com/zavodil/40945d102e2b76d2cf364c4930ab562a/raw/6d156ead258b88a1df0f14f8b44ba7f074825345/weth.json";
 
   const wethAbi = fetch(wethAbiUrl);
   if (!wethAbi.ok) {
-    return "Loading";
+    return "";
   }
 
   const iface = new ethers.utils.Interface(wethAbi.body);
 
   const encodedRequest = iface.encodeFunctionData("balanceOf", [state.sender]);
 
-  const weth = "0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9";
+  const weth = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
 
   Ethers.provider()
     .call({
@@ -245,8 +258,28 @@ const assetContainer = (
   amountName,
   assetNameOnClick
 ) => {
-  if (!assetData) return;
   const useSpacer = !!isInputAsset;
+
+  if (!assetData) {
+    return useSpacer ? (
+      <div
+        style={{
+          height: "100%",
+          background: "#2d2f30",
+          color: "white",
+          flex: "1",
+          display: "flex",
+
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ margin: "0 auto" }}>
+          <Widget src="zavodil.near/widget/spinner" loading={loadingBlock} />
+        </div>
+      </div>
+    ) : null;
+  }
 
   const assetContainerClass = useSpacer
     ? "asset-container-top"
@@ -255,14 +288,14 @@ const assetContainer = (
     <>
       <div
         class={`${assetContainerClass} asset-container`}
-        style={{ border: 0 }}
+        style={{ border: 0, minHeight: "77px" }}
       >
         <div class="swap-currency-input">
           <div class="swap-currency-input-block">
             <div class="swap-currency-input-top">
               <input
                 class="input-asset-amount"
-                nputmode="decimal"
+                inputmode="decimal"
                 autocomplete="off"
                 autocorrect="off"
                 type="text"
@@ -287,9 +320,9 @@ const assetContainer = (
                         <>Undefined</>
                       )}
                     </div>
-                    <span class="input-asset-token-ticker">
+                    <small class="input-asset-token-ticker">
                       {assetData.metadata.symbol}
-                    </span>
+                    </small>
                   </div>
                   <svg width="6" height="4" viewBox="0 0 6 4" fill="none">
                     <path
@@ -381,13 +414,7 @@ const tokenInApprovaleNeededCheck = () => {
       getEVMAccountId() &&
       state.erc20Abi !== undefined &&
       state.routerContract !== undefined &&
-      [
-        NETWORK_ETH,
-        NETWORK_ZKSYNC,
-        NETWORK_ZKEVM,
-        NETWORK_AURORA,
-        NETWORK_POLYGON,
-      ].includes(state.network)
+      isEVM
     ) {
       const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
 
@@ -395,6 +422,14 @@ const tokenInApprovaleNeededCheck = () => {
         "allowance",
         [getEVMAccountId(), state.routerContract]
       );
+
+      if (
+        state.network === NETWORK_MANTLE &&
+        state.inputAssetTokenId === "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000"
+      ) {
+        // MNT always approved
+        return false;
+      }
 
       return Ethers.provider()
         .call({
@@ -409,7 +444,7 @@ const tokenInApprovaleNeededCheck = () => {
 
           if (tokenAllowance) {
             State.update({
-              approvalNeeded: new Big(tokenAllowance).toFixed() == "0",
+              approvalNeeded: new Big(tokenAllowance).toFixed(0) == "0",
             });
           }
         });
@@ -419,15 +454,7 @@ const tokenInApprovaleNeededCheck = () => {
   }
 };
 
-if (
-  [
-    NETWORK_ZKSYNC,
-    NETWORK_ZKEVM,
-    NETWORK_ETH,
-    NETWORK_AURORA,
-    NETWORK_POLYGON,
-  ].includes(state.network)
-) {
+if (isEVM) {
   tokenInApprovaleNeededCheck();
 }
 
@@ -448,6 +475,7 @@ const ContainerNetwork = styled.div`
   align-items: center;
   gap: 12px;
   margin-left: 8px;
+  min-height: 24px;
 
   .label {
     font-family: 'Inter';
@@ -530,7 +558,6 @@ const caretSvg = (
   </svg>
 );
 
-const { isNetworkSelectOpen } = state;
 const selectedChainId = state.selectedChainId ?? 0;
 const selectedDex = state.selectedDex;
 
@@ -566,16 +593,20 @@ NETWORKS.map(
     })
 );
 
+const loadingBlock = "";
+
 const assetsList = state.assets
   ? state.assets.map((tokenId) => (
       <Widget
-        src="zavodil.near/widget/TokenBalance"
+        src="zavodil.near/widget/TokenBalance2"
+        loading={loadingBlock}
         props={{
           tokenId: tokenId,
           coinGeckoTokenId: state.coinGeckoTokenIds[tokenId],
           network: state.network,
           hideZeroBalance: true,
           fractionDigits: 4,
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
         }}
       ></Widget>
     ))
@@ -611,7 +642,16 @@ const networksDropDown = Object.keys(networks).map((chainKey) => {
   let network = networks[chainKey];
   return (
     <li
-      onClick={() => switchNetwork(Number(network.chainId), network.dex ?? "")}
+      onClick={() => {
+        if (
+          network.chainId !== state.selectedChainId ||
+          state.selectedDex !== network.dex
+        ) {
+          switchNetwork(Number(network.chainId), network.dex ?? "");
+        } else {
+          State.update({ isNetworkSelectOpen: false });
+        }
+      }}
     >
       <img style={{ width: "16px" }} src={network.icon} />
       <span>
@@ -645,6 +685,7 @@ if (state.rpcError) {
   );
 }
 
+console.log("forceNetwork !== state.network", forceNetwork, state.network);
 if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
     <Theme>
@@ -652,7 +693,7 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
         {state.sender && (
           <div class="swap-button-container">
             <button
-              onClick={() => switchNetwork(1101)}
+              onClick={() => switchNetwork(FORCED_CHAIN_ID, DEFAULT_DEX)}
               class="swap-button-enabled swap-button-text p-2"
             >
               To proceed, kindly switch to {forceNetwork}
@@ -674,11 +715,14 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
 }
 
 console.log("selectedDex", state.selectedDex, selectedDex);
+//const prevSelectedDex =
 
 return (
   <Theme>
+    <div id="rr"></div>
     <Widget
-      src="zavodil.near/widget/DexData2.1"
+      src="zavodil.near/widget/DexData2.2"
+      loading={loadingBlock}
       props={{
         onLoad: onDexDataLoad,
         NETWORK_NEAR,
@@ -687,20 +731,22 @@ return (
         NETWORK_ZKEVM,
         NETWORK_AURORA,
         NETWORK_POLYGON,
+        NETWORK_MANTLE,
         forceReload: state.forceReload ?? false,
         DEX: state.selectedDex,
       }}
     />
-
     {state.network && state.inputAsset && state.inputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/AssetListModal"
+        src="zavodil.near/widget/AssetListModal2"
+        loading={loadingBlock}
         props={{
           hidden: state.inputAssetModalHidden ?? true,
           network: state.network,
           assets: state.assets,
           coinGeckoTokenIds: state.coinGeckoTokenIds,
           selectedAssets: [state.inputAssetTokenId],
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
           onClick: (tokenId) => {
             State.update({
               inputAssetModalHidden: true,
@@ -715,13 +761,15 @@ return (
     )}
     {state.network && state.outputAsset && state.outputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/AssetListModal"
+        src="zavodil.near/widget/AssetListModal2"
+        loading={loadingBlock}
         props={{
           hidden: state.outputAssetModalHidden ?? true,
           assets: state.assets,
           coinGeckoTokenIds: state.coinGeckoTokenIds,
           network: state.network,
           selectedAssets: [state.outputAssetTokenId],
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
           onClick: (tokenId) => {
             State.update({
               outputAssetModalHidden: true,
@@ -735,7 +783,8 @@ return (
     )}
     {!state.inputAsset && state.network && state.inputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/TokenData"
+        src="zavodil.near/widget/TokenData2"
+        loading={loadingBlock}
         props={{
           tokenId: state.inputAssetTokenId,
           coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
@@ -746,6 +795,7 @@ return (
           NETWORK_ZKEVM,
           NETWORK_AURORA,
           NETWORK_POLYGON,
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
           onLoad: (inputAsset) => {
             console.log("TokenData onLoad inputAsset", inputAsset);
             inputAsset.metadata.symbol =
@@ -757,7 +807,8 @@ return (
     )}
     {!state.outputAsset && state.network && state.outputAssetTokenId && (
       <Widget
-        src="zavodil.near/widget/TokenData"
+        src="zavodil.near/widget/TokenData2"
+        loading={loadingBlock}
         props={{
           tokenId: state.outputAssetTokenId,
           coinGeckoTokenId:
@@ -769,6 +820,7 @@ return (
           NETWORK_ZKEVM,
           NETWORK_AURORA,
           NETWORK_POLYGON,
+          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
           onLoad: (outputAsset) => {
             console.log("TokenData onLoad outputAsset", outputAsset);
             outputAsset.metadata.symbol =
@@ -778,12 +830,12 @@ return (
         }}
       />
     )}
-
     {state.network === NETWORK_NEAR &&
       state.inputAsset &&
       state.outputAsset && (
         <Widget
           src="weige.near/widget/ref-swap-getEstimate"
+          loading={loadingBlock}
           props={{
             loadRes: state.loadRes,
             tokenIn: getRefTokenObject(
@@ -803,7 +855,6 @@ return (
           }}
         />
       )}
-
     {state.network === NETWORK_ZKEVM &&
       state.inputAssetTokenId &&
       state.outputAssetTokenId &&
@@ -816,6 +867,7 @@ return (
         <>
           <Widget
             src="zavodil.near/widget/quickswap-v3-getEstimate"
+            loading={loadingBlock}
             props={{
               loadRes: state.loadRes,
               tokenIn: state.inputAssetTokenId,
@@ -834,7 +886,103 @@ return (
           />
         </>
       )}
-
+    {state.network === NETWORK_MANTLE &&
+      state.selectedDex == "Agni" &&
+      state.inputAssetTokenId &&
+      state.outputAssetTokenId &&
+      state.inputAssetTokenId !== state.outputAssetTokenId &&
+      state.inputAssetAmount &&
+      state.inputAsset &&
+      state.inputAsset.metadata?.decimals &&
+      state.outputAsset &&
+      state.outputAsset.metadata?.decimals && (
+        <>
+          <Widget
+            src="zavodil.near/widget/mantle-getEstimate"
+            loading={loadingBlock}
+            props={{
+              loadRes: state.loadRes,
+              tokenIn: state.inputAssetTokenId,
+              tokenOut: state.outputAssetTokenId,
+              tokenOutDecimals: state.outputAsset.metadata.decimals,
+              quoterContractId: state.quoterContract,
+              amountIn: expandToken(
+                state.inputAssetAmount,
+                state.inputAsset.metadata.decimals
+              ).toFixed(0),
+              reloadPools: state.reloadPools,
+              setReloadPools: (value) =>
+                State.update({
+                  reloadPools: value,
+                }),
+            }}
+          />
+        </>
+      )}
+    {state.network === NETWORK_MANTLE &&
+      ["FusionX V3", "Ammos Finance"].includes(state.selectedDex) &&
+      state.inputAssetTokenId &&
+      state.outputAssetTokenId &&
+      state.inputAssetTokenId !== state.outputAssetTokenId &&
+      state.inputAssetAmount &&
+      state.inputAsset &&
+      state.inputAsset.metadata?.decimals &&
+      state.outputAsset &&
+      state.outputAsset.metadata?.decimals && (
+        <>
+          <Widget
+            src="zavodil.near/widget/ammos-getEstimate"
+            loading={loadingBlock}
+            props={{
+              loadRes: state.loadRes,
+              tokenIn: state.inputAssetTokenId,
+              tokenOut: state.outputAssetTokenId,
+              tokenOutDecimals: state.outputAsset.metadata.decimals,
+              quoterContractId: state.quoterContract,
+              amountIn: expandToken(
+                state.inputAssetAmount,
+                state.inputAsset.metadata.decimals
+              ).toFixed(0),
+              reloadPools: state.reloadPools,
+              setReloadPools: (value) =>
+                State.update({
+                  reloadPools: value,
+                }),
+            }}
+          />
+        </>
+      )}
+    {state.network === NETWORK_MANTLE &&
+      state.selectedDex == "iZiSwap" &&
+      state.inputAssetTokenId &&
+      state.outputAssetTokenId &&
+      state.inputAssetTokenId !== state.outputAssetTokenId &&
+      state.inputAssetAmount &&
+      state.inputAsset &&
+      state.inputAsset.metadata?.decimals &&
+      state.outputAsset &&
+      state.outputAsset.metadata?.decimals && (
+        <>
+          <Widget
+            src="zavodil.near/widget/iziSwap-getEstimate"
+            loading={loadingBlock}
+            props={{
+              loadRes: state.loadRes,
+              tokenIn: state.inputAssetTokenId,
+              tokenOut: state.outputAssetTokenId,
+              tokenInDecimals: state.inputAsset.metadata.decimals,
+              tokenOutDecimals: state.outputAsset.metadata.decimals,
+              quoterContractId: state.quoterContract,
+              amountIn: state.inputAssetAmount,
+              reloadPools: state.reloadPools,
+              setReloadPools: (value) =>
+                State.update({
+                  reloadPools: value,
+                }),
+            }}
+          />
+        </>
+      )}
     {state.network === NETWORK_ETH &&
       state.inputAssetTokenId &&
       state.outputAssetTokenId &&
@@ -847,6 +995,7 @@ return (
         <>
           <Widget
             src="zavodil.near/widget/uni-v3-getEstimate"
+            loading={loadingBlock}
             props={{
               loadRes: state.loadRes,
               tokenIn: state.inputAssetTokenId,
@@ -865,7 +1014,6 @@ return (
           />
         </>
       )}
-
     {state.network === NETWORK_POLYGON &&
       state.sender &&
       state.inputAssetTokenId &&
@@ -879,6 +1027,7 @@ return (
         <>
           <Widget
             src="zavodil.near/widget/balancer-queryBatchSwap"
+            loading={loadingBlock}
             props={{
               loadRes: state.loadRes,
               tokenIn: state.inputAssetTokenId,
@@ -900,7 +1049,6 @@ return (
           />
         </>
       )}
-
     {[NETWORK_ZKSYNC, NETWORK_AURORA].includes(state.network) &&
       state.inputAsset &&
       state.outputAsset &&
@@ -914,11 +1062,19 @@ return (
           parseFloat(state.outputAsset.price)
         ).toFixed(18),
       })}
-
     <div class="swap-root">
       <div class="swap-main-container">
         <div class="swap-main-column">
-          <div class="swap-page" style={{ border: "none", outline: "none" }}>
+          <div
+            class="swap-page"
+            style={{
+              border: "none",
+              outline: "none",
+              minHeight: "312px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {false && state.network && state.dexName && (
               <span class="swap-header">
                 {state.dexName} ({state.network})
@@ -932,19 +1088,44 @@ return (
                     {getFromNetworkLabel()}
                     {caretSvg}
                   </NetworkSelectorButton>
-                  {isNetworkSelectOpen && (
+                  {state.isNetworkSelectOpen && (
                     <NetworkList>
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "5px",
+                          right: "10px",
+                          color: "lightgrey",
+                        }}
+                        onClick={() =>
+                          State.update({ isNetworkSelectOpen: false })
+                        }
+                      >
+                        X
+                      </div>
                       <ul>{networksDropDown}</ul>
                     </NetworkList>
                   )}
                 </div>
               </ContainerNetwork>
             )}
-            <div style={{ display: "flex", paddingLeft: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                paddingLeft: "10px",
+                minHeight: "20px",
+              }}
+            >
               {assetsList}
             </div>
-
-            <div class="top-container">
+            <div
+              class="top-container"
+              style={{
+                minHeight: "77px",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               {assetContainer(
                 true,
                 state.inputAsset,
@@ -954,8 +1135,17 @@ return (
                 }
               )}
             </div>
-            <div class="bottom-container">
-              <div>
+            <div
+              class="bottom-container"
+              style={{
+                minHeight: "168px",
+                height: "100%",
+                flex: "1 1 0%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div style={{ height: "100%", flex: 1 }}>
                 {assetContainer(
                   fasle,
                   state.outputAsset,
@@ -965,6 +1155,7 @@ return (
                   }
                 )}
                 {!!state.outputAssetAmount &&
+                  state.outputAsset &&
                   state.inputAssetTokenId !== state.outputAssetTokenId && (
                     <div class="swap-price-container">
                       <div class="swap-price-block">
@@ -995,7 +1186,10 @@ return (
                               </span>
                               <div class="swap-price-details-text">
                                 <button class="swap-price-details-text-button">
-                                  <div class="swap-price-details-rate">
+                                  <div
+                                    class="swap-price-details-rate"
+                                    style={{ fontSize: "10px" }}
+                                  >
                                     {Number(state.inputAssetAmount) === 0 ||
                                     Number(state.outputAssetAmount) === 0
                                       ? " "
@@ -1010,7 +1204,7 @@ return (
                                   </div>
                                   <div
                                     class="swap-price-details-price"
-                                    style={{ fontSize: "8px" }}
+                                    style={{ fontSize: "10px" }}
                                   >
                                     {Number(state.inputAssetAmount) === 0 ||
                                     Number(state?.outputAsset?.price) === 0
@@ -1044,15 +1238,19 @@ return (
                           tokenInApprovaleNeededCheck();
                         });
                       } else {
-                        state.callTokenApproval(
-                          state,
-                          () => {
-                            onCallTxComple();
-                            tokenInApprovaleNeededCheck();
-                          },
-                          undefined /* "120"*/,
-                          undefined /* 100000 */
-                        );
+                        Ethers.provider()
+                          .getFeeData()
+                          .then((data) => {
+                            state.callTokenApproval(
+                              state,
+                              () => {
+                                onCallTxComple();
+                                tokenInApprovaleNeededCheck();
+                              },
+                              Big(data.gasPrice).toFixed(0) /*"120"*/,
+                              100000
+                            );
+                          });
                       }
                     }}
                   >
@@ -1078,20 +1276,82 @@ return (
                             " state.estimate.path",
                             state.estimate.path
                           );
-                          state.callTx(
-                            state,
-                            onCallTxComple,
-                            "2.09",
-                            300000,
-                            "0",
-                            state.estimate.path
-                          );
+
+                          Ethers.provider()
+                            .getFeeData()
+                            .then((data) => {
+                              state.callTx(
+                                state,
+                                onCallTxComple,
+                                Big(data.gasPrice)
+                                  .div(Big(10).pow(9))
+                                  .toFixed(10),
+                                300000,
+                                "0",
+                                state.estimate.path
+                              );
+                            });
                         } else if (state.network === NETWORK_ETH) {
                           state.callTx(state, onCallTxComple);
                         } else if (state.network === NETWORK_AURORA) {
                           state.callTx(state, onCallTxComple, "0.1", 700000);
                         } else if (state.network === NETWORK_POLYGON) {
                           state.callTx(state, onCallTxComple);
+                        } else if (state.network === NETWORK_MANTLE) {
+                          const WMNT =
+                            "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8";
+                          const MNT =
+                            "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
+
+                          if (
+                            state.inputAssetTokenId === MNT &&
+                            state.estimate.path[0] === WMNT
+                          ) {
+                            state.estimate.path[0] = MNT;
+                          }
+
+                          if (
+                            state.inputAssetTokenId === MNT &&
+                            state.estimate.path[
+                              state.estimate.path.length - 1
+                            ] === WMNT
+                          ) {
+                            state.estimate.path[
+                              state.estimate.path.length - 1
+                            ] = MNT;
+                          }
+
+                          const amountOutMinimum =
+                            state.estimate.estimate * 0.995;
+
+                          Ethers.provider()
+                            .getFeeData()
+                            .then((data) => {
+                              state.callTx(
+                                state,
+                                onCallTxComple,
+                                Big(data.gasPrice)
+                                  .div(Big(10).pow(9))
+                                  .toFixed(10) /*"120"*/,
+                                undefined,
+                                undefined,
+                                state.estimate.path,
+                                expandToken(
+                                  amountOutMinimum,
+                                  state.outputAsset.metadata.decimals
+                                ).toFixed(0)
+                              );
+                            });
+
+                          /*
+                          state.callTx(
+                            state,
+                            onCallTxComple,
+                            undefined,
+                            undefined,
+                            undefined,
+                            state.estimate.path
+                          );*/
                         }
                       }
                     }}
