@@ -190,6 +190,11 @@ return (
     <Widget src="mob.near/widget/IpfsImageUploadDemo" />{" "}
     <Widget src="nearhorizon.near/widget/IpfsFilesUpload" />
     <Widget src="sking.near/widget/DAO.Permissions" />
+    <div>
+      <h5> List on Optimism </h5>
+      <Widget src="ciocan.near/widget/op-bridge-demo" props={{ ownerId }} />
+      <Widget src="ciocan.near/widget/op-bridge-list" props={{ ownerId }} />
+    </div>
     <button className="btn btn-outline-success mt-3" onClick={handleCreate}>
       Publish Data Set
     </button>
