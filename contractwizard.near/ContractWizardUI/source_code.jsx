@@ -289,7 +289,7 @@ return (
       </h1>
       <h5>
         Easily generate complete code snippets for your fungible and
-        non-fungible token contracts.
+        non-fungible NEAR token contracts.
       </h5>
       <TokenOptionTabs />
     </StyledWrapper>
