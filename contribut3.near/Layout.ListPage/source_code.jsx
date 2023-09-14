@@ -1,5 +1,4 @@
 const ownerId = "contribut3.near";
-const apiUrl = "https://api-staging-fur7.onrender.com";
 const urlProps = props.urlProps ?? {};
 const entity = props.entity ?? "projects";
 const filters = props.filters ?? [];
@@ -71,8 +70,8 @@ State.init({
 });
 
 if (!state.itemsIsFetched) {
-  asyncFetch(`${apiUrl}/data/${entity}?${url()}`).then(({ body: items }) =>
-    State.update({ items, itemsIsFetched: true }),
+  asyncFetch(`https://api-staging-fur7.onrender.com/data/${entity}?${url()}`).then(
+    ({ body: items }) => State.update({ items, itemsIsFetched: true }),
   );
 
   return <>Loading...</>;
