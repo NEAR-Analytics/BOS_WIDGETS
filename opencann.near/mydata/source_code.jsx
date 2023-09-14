@@ -151,26 +151,7 @@ if (hasFinishedLoading && allNfts.length === 0) {
 return (
   <Wrapper>
     <div>
-      <p>
-        This component is in open-beta and still under active construction. DO
-        NOT publish any sensitive or proprietary information.
-      </p>
-      <hr></hr>
-      <div>
-        <Widget
-          src="near/widget/Explorer.Account"
-          props={{
-            accountId,
-            network: context.networkId,
-            language: "en",
-            baseUrl: props.baseUrl,
-          }}
-        />
-      </div>
-      <Widget
-        src="opencann.near/widget/profile.demographics"
-        props={{ ownerId }}
-      />
+      <Widget src="mintbase.near/widget/ListToMarket" props={{ ownerId }} />
     </div>
     <Items>
       {allNfts.map((nft, i) => (
@@ -199,14 +180,17 @@ return (
         Load More
       </Button>
     )}
-    <div>
-      <Widget src="mintbase.near/widget/ListToMarket" props={{ ownerId }} />
-    </div>
     <hr></hr>
     <div>
-      <h5> List on Optimism </h5>
-      <Widget src="ciocan.near/widget/op-bridge-demo" props={{ ownerId }} />
-      <Widget src="ciocan.near/widget/op-bridge-list" props={{ ownerId }} />
+      <Widget
+        src="near/widget/Explorer.Account"
+        props={{
+          accountId,
+          network: context.networkId,
+          language: "en",
+          baseUrl: props.baseUrl,
+        }}
+      />
     </div>
   </Wrapper>
 );
