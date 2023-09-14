@@ -61,10 +61,15 @@ const defaultFieldUpdate = ({
     case "boolean":
       return input;
 
-    case "object":
-      return Array.isArray(input) && typeof lastKnownValue === "string"
-        ? input.join(arrayDelimiter ?? ",")
-        : input;
+    case "object": {
+      if (Array.isArray(input) && typeof lastKnownValue === "string") {
+        return input.join(arrayDelimiter ?? ",");
+      } else {
+        return Array.isArray(lastKnownValue)
+          ? [...lastKnownValue, ...input]
+          : { ...lastKnownValue, ...input };
+      }
+    }
 
     case "string":
       return Array.isArray(lastKnownValue)
@@ -484,11 +489,11 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
 
         {widget("components.molecule.text-input", {
           className: "w-100",
-          key: `${form.values.metadata.id}-column-${id}-description`,
+          key: `${form.values.metadata.id}-description`,
           label: "Description",
-          onChange: form.update({ path: ["columns", id, "description"] }),
-          placeholder: "NEPs that need a review by Subject Matter Experts.",
-          value: description,
+          onChange: form.update({ path: ["description"] }),
+          placeholder: "Latest NEAR Enhancement Proposals by status.",
+          value: form.values.description,
         })}
       </div>
 
@@ -497,7 +502,6 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
           heading: "Ticket types",
           classNames: { root: "col-12 col-md-4 h-auto" },
           externalState: form.values.dataTypesIncluded,
-          fieldGap: 3,
           isActive: true,
           isEmbedded: true,
           isUnlocked: permissions.can_configure,
@@ -536,7 +540,6 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
           heading: "Ticket features",
           classNames: { root: "col-12 col-md-4 h-auto" },
           externalState: form.values.metadata.ticket.features,
-          fieldGap: 3,
           isActive: true,
           isEmbedded: true,
           isUnlocked: permissions.can_configure,
@@ -555,8 +558,8 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
       <div className="d-flex flex-column align-items-center gap-3 w-100">
         {Object.values(form.values.columns ?? {}).map(
           ({ id, description, labelSearchTerms, title }) => (
-            <div
-              className="d-flex gap-3 border border-secondary rounded-4 p-3 w-100"
+            <AttractableDiv
+              className="d-flex gap-3 rounded-4 border p-3 w-100"
               key={`column-${id}-configurator`}
             >
               <div className="d-flex flex-column gap-1 w-100">
@@ -605,7 +608,7 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
                 style={{ marginTop: -16, marginBottom: -16 }}
               >
                 <button
-                  className="btn btn-outline-danger shadow"
+                  className="btn btn-outline-danger"
                   onClick={form.update({
                     path: ["columns"],
                     via: columnsDeleteById(id),
@@ -615,7 +618,7 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
                   <i className="bi bi-trash-fill" />
                 </button>
               </div>
-            </div>
+            </AttractableDiv>
           )
         )}
       </div>
@@ -674,29 +677,30 @@ const GithubViewConfigurator = ({ communityHandle, link, permissions }) => {
               />
             </div>
           )}
-
-          <div className="d-flex align-items-center gap-3">
-            <button
-              className="btn shadow btn-outline-secondary d-inline-flex gap-2"
-              disabled={
-                Object.keys(form.values.columns).length >=
-                settings.maxColumnsNumber
-              }
-              onClick={form.update({
-                path: ["columns"],
-                via: columnsCreateNew,
-              })}
-            >
-              <i className="bi bi-plus-lg" />
-              <span>New column</span>
-            </button>
-          </div>
         </div>
       ) : null}
 
       {Object.keys(form.values).length > 0 ? (
         widget(`entity.workspace.view.${form.values.metadata.type}`, {
           ...form.values,
+
+          configurationControls: [
+            {
+              label: "New column",
+
+              disabled:
+                Object.keys(form.values.columns).length >=
+                settings.maxColumnsNumber,
+
+              icon: { type: "bootstrap_icon", variant: "bi-plus-lg" },
+
+              onClick: form.update({
+                path: ["columns"],
+                via: columnsCreateNew,
+              }),
+            },
+          ],
+
           isConfiguratorActive: state.isActive,
           isSynced: form.isSynced,
           link,
