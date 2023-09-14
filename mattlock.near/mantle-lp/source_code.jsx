@@ -396,15 +396,17 @@ return (
               <div>
                 <img
                   src={
-                    "https://bafybeic6v34nkxhmro22tv2yoltsykniye2xlkgya6nxdqpxklu2bjn5me.ipfs.nftstorage.link/"
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRcJGhRizkHQnODjAVYk5JoUVXFOSW8pWgGAZnDHzaSQ&s"
                   }
+                  height="100"
+                  style={{ objectFit: "contain" }}
                 />
-                <h1>Gamma</h1>
+                <h1>Pendle</h1>
                 <button
-                  disabled={disableApps || component === "gamma"}
-                  onClick={() => setComponent("gamma")}
+                  disabled={true || disableApps || component === "pendle"}
+                  onClick={() => setComponent("pendle")}
                 >
-                  Liquidity
+                  Yield
                 </button>
               </div>
             </div>
@@ -415,12 +417,16 @@ return (
       <div className="component">
         <div className="center">
           {bridge === true && component === null ? (
-            <Widget src="ciocan.near/widget/zkevm-bridge" />
+            <Widget src="ciocan.near/widget/op-stack-mantle-bridge" />
           ) : (
             <>
-              {component === "gamma" && (
-                <Widget src="mattlock.near/widget/gamma-zkevm-app" />
+              {component === "lendle" && (
+                <Widget src="https://near.org/lendle.near/widget/Lendle" />
               )}
+
+              {
+                //other components
+              }
             </>
           )}
         </div>
