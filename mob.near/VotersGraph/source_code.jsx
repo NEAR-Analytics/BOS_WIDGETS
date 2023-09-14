@@ -110,8 +110,8 @@ const code = `
 <script>
 
 const run = (data) => {
-  const width = 640;
-  const height = 480;
+  const width = 1080;
+  const height = 768;
 
   // Specify the color scale.
   const color = d3.scaleOrdinal(d3.schemeCategory10);
