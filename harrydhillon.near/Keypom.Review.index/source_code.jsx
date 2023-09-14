@@ -76,7 +76,7 @@ return (
     <button
       onClick={() => {
         props?.setStorage("tickets", "");
-        props?.setStorage("collectInfo", "");
+        props?.setStorage("formValues", "");
         props?.setStorage("formValues", "");
       }}
     >
