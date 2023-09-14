@@ -34,7 +34,7 @@ return (
         <hr></hr>
         <div className="mb-2">
           <Widget
-            src="near/widget/MetadataEditor"
+            src="opencann.near/widget/MetadataEditor"
             props={{
               initialMetadata: profile,
               onChange: (profile) => State.update({ profile }),
