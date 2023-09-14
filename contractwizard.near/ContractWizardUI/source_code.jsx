@@ -68,8 +68,8 @@ const TokenOptionTabs = () => (
   <Widget
     src="near/widget/DIG.Tabs"
     props={{
-      variant: "line",
-      size: "default",
+      variant: "pill",
+      size: "large",
       items: [
         {
           name: "Fungible token (FT)",
