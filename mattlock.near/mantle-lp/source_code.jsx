@@ -306,6 +306,7 @@ const Theme = styled.div`
 
   .component {
     margin-top: 1.5rem;
+    max-width: 750px;
   }
 `;
 
