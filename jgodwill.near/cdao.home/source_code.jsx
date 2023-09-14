@@ -737,7 +737,7 @@ return (
           class="featuredArt"
           src={
             src ||
-            "https://genadrop.mypinata.cloud/ipfs/QmZbtU8RnMymJAJRpTriZgDXVeeCpm5RyXMJNquGoVc4Rb"
+            "https://ipfs.io/ipfs/bafybeichekvsoi3rp6jvvgnolhkbifjyjzepy2e2qedbuo3wvjufmfrt5y"
           }
         />
         {/*Custom artwork placed on Bid */}
