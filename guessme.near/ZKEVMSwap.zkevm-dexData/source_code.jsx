@@ -39,6 +39,7 @@ const expandToken = (value, decimals) => {
 };
 
 const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
+  console.log("input: ", input);
   if (
     input.sender &&
     input.routerContract !== undefined &&
@@ -76,15 +77,13 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       Ethers.provider().getSigner()
     );
 
-    console.log("WethContract: ", WethContract);
-
     if (
       input.inputAssetTokenId === ethAddress &&
       input.outputAssetTokenId === wethAddress
     ) {
       return WethContract.deposit({
         value: ethers.utils.parseEther(input.inputAssetAmount),
-        gasLimit: gasLimit ?? 300000,
+        gasLimit: gasLimit ?? 10000,
       }).then((res) => {
         onComplete(res);
       });
@@ -118,7 +117,7 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
     const pools = [
       [
         [MATIC, WETH, USDC],
-        "0xc951aebfa361e9d0063355b9e68f5fa4599aa3d1000100000000000000000017",
+        "0xc951aebfa361e9d0063355b9e68f5fa4599aa3d100010000000000000000017",
       ],
       [
         [WETH, DAI],
@@ -126,7 +125,7 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       ],
       [
         [WETH, DAI, USDT],
-        "0xe8ca7400eb61d5bdfc3f8f2ea99e687e0a4dbf78000100000000000000000019",
+        "0xe8ca7400eb61d5bdfc3f8f2ea99e687e0a4dbf7800010000000000000000019",
       ],
       [
         [WETH, USDC],
@@ -134,21 +133,31 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       ],
     ];
 
+    const inputId =
+      input.inputAssetTokenId === ethAddress
+        ? wethAddress
+        : input.inputAssetTokenId;
+
+    const outputId =
+      input.outputAssetTokenId === ethAddress
+        ? wethAddress
+        : input.outputAssetTokenId;
+
     const finalPool = pools
       .filter(
         (poolData) =>
-          poolData[0].includes(input.inputAssetTokenId) &&
-          poolData[0].includes(input.outputAssetTokenId)
+          poolData[0].includes(inputId) && poolData[0].includes(outputId)
       )
       .map((poolData) => poolData[1]);
 
-    if (!finalPool.length) {
+    if (!finalPool.length && inputId !== outputId) {
       onShowNoPool();
     }
 
     const assets = [input.inputAssetTokenId, input.outputAssetTokenId];
 
     const funds = [input.sender, false, input.sender, false];
+    console.log("funds: ", funds);
 
     const swap_steps = [
       {
@@ -209,7 +218,9 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       .then((transactionHash) => {
         onComplete(transactionHash);
       })
-      .catch(() => {});
+      .catch((e) => {
+        console.log("e111", e);
+      });
   }
 };
 
@@ -221,7 +232,6 @@ const callTxQuickSwap = (
   sqrtPriceLimitX96,
   path
 ) => {
-  console.log("callTxQuickSwap", input, path);
   if (
     input.sender &&
     input.routerContract !== undefined &&
@@ -267,7 +277,7 @@ const callTxQuickSwap = (
     ) {
       return WethContract.deposit({
         value: ethers.utils.parseEther(input.inputAssetAmount),
-        gasLimit: gasLimit ?? 300000,
+        gasLimit: gasLimit ?? 10000,
       }).then((res) => {
         onComplete(res);
       });
@@ -287,8 +297,6 @@ const callTxQuickSwap = (
     const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
 
     const iface = new ethers.utils.Interface(input.routerAbi);
-    console.log("input.routerAbi: ", input.routerAbi);
-    console.log("iface: ", iface);
 
     const tokenIn =
       input.inputAssetTokenId === ethAddress
@@ -352,8 +360,6 @@ const callTxQuickSwap = (
       );
     }
 
-    console.log("multicallParams: ", multicallParams);
-
     const swapContract = new ethers.Contract(
       input.routerContract,
       input.routerAbi,
@@ -361,11 +367,9 @@ const callTxQuickSwap = (
     );
 
     const options = {
-      gasLimit: gasLimit ?? 300000,
+      gasLimit: gasLimit ?? 10000,
       value: input.inputAssetTokenId === ethAddress ? value : "0",
     };
-
-    console.log("options: ", options);
 
     return swapContract
       .multicall(multicallParams, options)
@@ -387,14 +391,7 @@ const callTxPancakeZKEVM2 = (
   path
 ) => {
   const poolFee = "2500";
-  console.log(
-    "callTxPancakeZKEVM2",
-    input,
-    gasPrice,
-    gasLimit,
-    sqrtPriceLimitX96,
-    path
-  );
+
   if (
     input.sender &&
     input.routerContract !== undefined &&
@@ -432,15 +429,13 @@ const callTxPancakeZKEVM2 = (
       Ethers.provider().getSigner()
     );
 
-    console.log("WethContract: ", WethContract);
-
     if (
       input.inputAssetTokenId === ethAddress &&
       input.outputAssetTokenId === wethAddress
     ) {
       return WethContract.deposit({
         value: ethers.utils.parseEther(input.inputAssetAmount),
-        gasLimit: gasLimit ?? 300000,
+        gasLimit: gasLimit ?? 10000,
       }).then((res) => {
         onComplete(res);
       });
@@ -489,7 +484,6 @@ const callTxPancakeZKEVM2 = (
         ]
       );
     } else {
-      console.log(swapType);
       encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
         "exactInputSingle",
         [
@@ -508,12 +502,6 @@ const callTxPancakeZKEVM2 = (
 
     const multicallParams = [encodedExactOutputSingleData];
 
-    const multicallContract = new ethers.Contract(
-      input.routerContract,
-      input.routerAbi,
-      Ethers.provider().getSigner()
-    );
-
     const multicallData = ifaceErc20.encodeFunctionData(
       "multicall(uint256,bytes[])",
       [
@@ -523,18 +511,12 @@ const callTxPancakeZKEVM2 = (
       ]
     );
 
-    console.log("multicallData", multicallData, deadline.toFixed());
-
-    console.log("multicallData", multicallData);
-
     const txArgs = {
       to: input.routerContract,
       from: input.sender,
       data: multicallData,
-      gasLimit: gasLimit ?? 300000,
+      gasLimit: gasLimit ?? 10000,
     };
-
-    console.log("txArgs", txArgs);
 
     Ethers.provider()
       //.send("eth_sendTransaction", txArgs)
@@ -559,7 +541,7 @@ const callTokenApprovalEVM = (input, onComplete, gweiPrice, gasLimit) => {
   ) {
     const value = expandToken(
       input.inputAssetAmount,
-      input.inputAsset.metadata.decimals
+      input.inputAsset.metadata.decimals || 18
     ).toFixed();
 
     const approveContract = new ethers.Contract(
@@ -591,7 +573,6 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
-      // ZKEVM
       if (DEX === "QuickSwap") {
         if (state.erc20Abi == undefined) {
           const erc20Abi = fetch(
