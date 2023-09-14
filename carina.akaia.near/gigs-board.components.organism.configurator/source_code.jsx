@@ -112,15 +112,10 @@ const defaultFieldUpdate = ({
     case "boolean":
       return input;
 
-    case "object": {
-      if (Array.isArray(input) && typeof lastKnownValue === "string") {
-        return input.join(arrayDelimiter ?? ",");
-      } else {
-        return Array.isArray(lastKnownValue)
-          ? [...lastKnownValue, ...input]
-          : { ...lastKnownValue, ...input };
-      }
-    }
+    case "object":
+      return Array.isArray(input) && typeof lastKnownValue === "string"
+        ? input.join(arrayDelimiter ?? ",")
+        : { ...lastKnownValue, ...input };
 
     case "string":
       return Array.isArray(lastKnownValue)
@@ -243,13 +238,11 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
           key,
           {
             format,
-            hints,
             inputProps,
-            noop,
+            isUnderMaintenance,
             label,
             order,
             style,
-            title,
             ...fieldProps
           },
         ],
@@ -263,7 +256,7 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
           : typeof (fieldValue ?? "");
 
         const isDisabled =
-          (noop ?? inputProps.disabled ?? false) || !isUnlocked;
+          (isUnderMaintenance ?? inputProps.disabled ?? false) || !isUnlocked;
 
         const viewClassName = [
           (fieldValue?.length ?? 0) > 0 ? "" : "text-muted",
@@ -273,10 +266,7 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
         return (
           <>
             <div
-              className={[
-                "d-flex gap-3",
-                isEditable || noop ? "d-none" : "",
-              ].join(" ")}
+              className={["d-flex gap-3", isEditable ? "d-none" : ""].join(" ")}
               key={fieldKey}
               style={{ order }}
             >
@@ -308,7 +298,7 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
               className: [
                 "w-100",
                 fieldProps.className ?? "",
-                isEditable && !noop ? "" : "d-none",
+                isEditable ? "" : "d-none",
               ].join(" "),
 
               disabled: isDisabled,
@@ -327,9 +317,10 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
                 ...(inputProps ?? {}),
                 disabled: isDisabled,
 
-                title: isDisabled
-                  ? hints.disabled
-                  : hints.default ?? inputProps.title,
+                title:
+                  isUnderMaintenance ?? false
+                    ? "Temporarily disabled due to technical reasons."
+                    : inputProps.title,
 
                 ...(fieldParamsByType[fieldType].inputProps ?? {}),
                 tabIndex: order,
@@ -347,6 +338,7 @@ const Configurator = ({
   cancelLabel,
   classNames,
   externalState,
+  fieldGap,
   fieldsRender: customFieldsRender,
   formatter: toFormatted,
   fullWidth,
@@ -430,10 +422,12 @@ const Configurator = ({
 
     children: (
       <div className="flex-grow-1 d-flex flex-column gap-4">
-        <div className={`d-flex flex-column gap-${isActive ? 1 : 4}`}>
+        <div
+          className={`d-flex flex-column gap-${isActive ? fieldGap ?? 1 : 4}`}
+        >
           {fieldsRender({
             form,
-            isEditable: isActive,
+            isEditable: isUnlocked && isActive,
             isUnlocked,
             schema,
           })}
