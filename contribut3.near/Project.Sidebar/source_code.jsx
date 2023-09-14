@@ -1,4 +1,5 @@
 const ownerId = "contribut3.near";
+const apiUrl = "https://api-staging-fur7.onrender.com";
 const accountId = props.accountId;
 
 State.init({
@@ -7,10 +8,9 @@ State.init({
 });
 
 if (!state.projectsIsFetched) {
-  asyncFetch(
-    `https://api-staging-fur7.onrender.com/data/projects/${accountId}/similar`,
-  ).then(({ body: projects }) =>
-    State.update({ projects: projects.slice(0, 5), projectsIsFetched: true }),
+  asyncFetch(`${apiUrl}/data/projects/${accountId}/similar`).then(
+    ({ body: projects }) =>
+      State.update({ projects: projects.slice(0, 5), projectsIsFetched: true }),
   );
 
   return <>Loading...</>;
