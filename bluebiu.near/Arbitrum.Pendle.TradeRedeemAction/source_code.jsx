@@ -169,7 +169,7 @@ const hanleRedeem = () => {
 
   if (outputCurrency.baseType === "SY") {
     contract
-      .mintPyFromSy(receiver, YT, netPyIn, minSyOut, options)
+      .redeemPyToSy(receiver, YT, netPyIn, minSyOut, options)
       .then((res) => {
         onSuccess?.();
       })
@@ -211,6 +211,13 @@ const hanleRedeem = () => {
   }
 };
 
-hanleRedeem();
+if (swapping === state.swapping) {
+  return;
+} else {
+  State.update({
+    swapping,
+  });
+  hanleRedeem();
+}
 
 return "";
