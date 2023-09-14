@@ -114,7 +114,6 @@ const WorkspaceViewLayout = ({
               root: "btn-sm btn-outline-warning shadow-none border-0 text-dark",
             },
 
-            icon: { type: "bootstrap_icon", variant: "bi-arrow-90deg-left" },
             isHidden: typeof onSave !== "function" || !isConfiguratorActive,
             label: "Cancel",
             onClick: onCancel,
