@@ -480,13 +480,21 @@ return (
                   </div>
                   <br />
                   <div style={{ "text-align": "center" }}>
-                    <ItemMintButton
-                      onClick={async () => {
-                        getNft();
+                    <a
+                      href="https://forms.gle/DBAzBKAWtnRozaBQ9"
+                      target="_blank"
+                      style={{
+                        color: "black",
+                        background: "#f54866",
+                        color: "white",
+                        "font-weight": "700",
+                        padding: "15px 20px",
+                        "border-radius": "1rem",
+                        border: "none",
                       }}
                     >
-                      Get NFT
-                    </ItemMintButton>
+                      Request Early Access
+                    </a>
                   </div>
                 </div>
               </div>
