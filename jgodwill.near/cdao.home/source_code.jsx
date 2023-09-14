@@ -680,7 +680,11 @@ const Main = styled.div`
     .heroRight{
         display: none;
     }
+    .button{
+        font-size: .9rem;
+    }
 }
+
 `;
 
 const ownerId = state.owner;
