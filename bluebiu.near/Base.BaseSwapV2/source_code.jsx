@@ -13,7 +13,7 @@ const DexConfig = {
         decimals: 18,
         symbol: "ETH",
         name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
       },
       output: {
         chainId: 8453,
@@ -37,7 +37,7 @@ const DexConfig = {
         decimals: 18,
         symbol: "ETH",
         name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
       },
       output: {
         chainId: 8453,
@@ -60,7 +60,7 @@ const DexConfig = {
         decimals: 18,
         symbol: "ETH",
         name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
       },
       output: {
         chainId: 8453,
@@ -84,7 +84,7 @@ const DexConfig = {
         decimals: 18,
         symbol: "ETH",
         name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
       },
       output: {
         chainId: 8453,
@@ -108,7 +108,7 @@ const DexConfig = {
         decimals: 18,
         symbol: "ETH",
         name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+        icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
       },
       output: {
         chainId: 8453,
