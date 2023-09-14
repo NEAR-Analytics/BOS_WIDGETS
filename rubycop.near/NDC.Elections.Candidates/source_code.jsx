@@ -34,7 +34,7 @@ const LocalStorageKeys = {
   Bookmarks: "Bookmarks",
 };
 
-const selectedCandidates = [];
+let selectedCandidates = [];
 
 const apiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const QUERY_API_ENDPOINT = "https://graph.mintbase.xyz/mainnet";
@@ -346,7 +346,7 @@ const handleSelectCandidate = (candidateId) => {
     return;
   }
 
-  const selectedItems = selectedCandidates.includes(candidateId)
+  selectedCandidates = selectedCandidates.includes(candidateId)
     ? selectedCandidates.filter((el) => el !== candidateId)
     : [...selectedCandidates, candidateId];
 
@@ -354,7 +354,7 @@ const handleSelectCandidate = (candidateId) => {
   if (currentVotes < 0) return;
 
   return {
-    selectedItems,
+    selectedCandidates,
     currentVotes,
   };
 };
