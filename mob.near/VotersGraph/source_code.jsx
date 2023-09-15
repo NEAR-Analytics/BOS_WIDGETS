@@ -85,6 +85,7 @@ const code = `
 const run = (data) => {
   const width = 1080;
   const height = 768;
+  let dragIsOn = false;
 
   // Specify the color scale.
   const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -190,6 +191,9 @@ const run = (data) => {
 }
 
 function handleMouseOut() {
+  if (dragIsOn) {
+    return;
+  }
     // Reset edge and node styles
     link
       .attr("stroke-opacity", 0.6);
@@ -220,9 +224,11 @@ function isConnected(a, b) {
 
   // Reheat the simulation when drag starts, and fix the subject position.
   function dragstarted(event) {
+    dragIsOn = true;
     if (!event.active) simulation.alphaTarget(0.3).restart();
     event.subject.fx = event.subject.x;
     event.subject.fy = event.subject.y;
+  
   }
 
   // Update the subject (dragged node) position during drag.
@@ -237,6 +243,8 @@ function isConnected(a, b) {
     if (!event.active) simulation.alphaTarget(0);
     event.subject.fx = null;
     event.subject.fy = null;
+    dragIsOn = false;
+    handleMouseOut();
   }
 
   // When this cell is re-run, stop the previous simulation. (This doesn’t
@@ -250,7 +258,10 @@ function isConnected(a, b) {
 let simulation = null;
 
 window.addEventListener("message", (event) => {
-  simulation && simulation.stop();
+  if (simulation) {
+    simulation.stop();
+    d3.select("#graph").selectAll("*").remove();
+  }
   if (event.data) {
     simulation = run(event.data);
   }
