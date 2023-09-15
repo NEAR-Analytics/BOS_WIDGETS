@@ -1,6 +1,6 @@
 const account_id = context.accountId ?? props.accountId;
 
-const profileData = props.profile ?? Social.getr(`idknwhoru.near/profile`);
+const profileData = props.profile ?? Social.getr(account_id);//`idknwhoru.near/profile`
 const fast = !props.profile;
 
 if (profileData === null) {
@@ -20,7 +20,6 @@ if (profileData === null) {
 */
 
 const componentData = Social.getr(`${account_id}/widget`);
-// const postData = Social.keys(`${account_id}/post`);
 const postIdxData = Social.index("post", "main", {limit: 30, order: "desc", accountId: [account_id]});
 const postBlockHashList = postIdxData.map(idxData => {
     return idxData.blockHeight
@@ -68,6 +67,7 @@ const MySocialData = styled.div`
     min-height: 500px;
 `;
 
+const widgetBaseUrl = `https://near.social/${account_id}/widget/`;//${key}
 return (
     <>
     <MyPageWrapper>
@@ -107,7 +107,7 @@ return (
                     {Object.entries(componentData).map(([key, value])=>{
                         return (
                             <div>
-                                <p>{key}</p>
+                                <a href={`${widgetBaseUrl}${key}`}>{key}</a>
                             </div>
                         )
                     })}
