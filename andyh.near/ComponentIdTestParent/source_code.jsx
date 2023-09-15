@@ -11,7 +11,7 @@ return (
   <>
     <h4>{props.title}</h4>
     <button
-      className="btn btn-default"
+      className="btn btn-primary"
       type="button"
       onClick={() => State.update({ x: state.x + 1 })}
     >
