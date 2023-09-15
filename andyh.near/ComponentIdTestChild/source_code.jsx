@@ -5,7 +5,7 @@ return (
   <div>
     Hello {state.id}
     <button
-      className="btn btn-primary"
+      className="btn btn-info"
       type="button"
       onClick={() => {
         const newValue = state.value + 1;
