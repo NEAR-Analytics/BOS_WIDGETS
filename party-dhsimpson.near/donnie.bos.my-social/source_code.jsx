@@ -6,18 +6,6 @@ const fast = !props.profile;
 if (profileData === null) {
   return "Loading";
 }
-/* 
-[
-    {
-        "accountId":"party-dhsimpson.near",
-        "blockHeight":101193567,
-        "value":{"type":"md"}},
-    {
-        "accountId":"party-dhsimpson.near",
-        "blockHeight":101190682,
-        "value":{"type":"md"}}
-]
-*/
 
 const componentData = Social.getr(`${account_id}/widget`);
 const postIdxData = Social.index("post", "main", {limit: 30, order: "desc", accountId: [account_id]});
@@ -68,6 +56,43 @@ const MySocialData = styled.div`
 `;
 
 const widgetBaseUrl = `https://near.social/${account_id}/widget/`;//${key}
+
+function RenderPostListItem(key, value) {
+    const {text, image} = JSON.parse(value);
+    return (
+        <>
+            <p>{text}</p>
+            <img src={`${nearIpfsBaseUrl}${image.ipfs_cid}`} alt="profile-image"/>
+        </>
+    )
+}
+
+function RenderWidgetListItem(key, value) {
+    return (
+        <a href={`${widgetBaseUrl}${key}`} target='_blank'>
+            {key}
+        </a>
+    )
+}
+
+function SocialData({data, renderer}) {
+    return (
+        <MySocialData>
+            <h4>
+                Number of widgets: {Object.keys(data).length}
+            </h4>
+            <ul>
+                {Object.entries(data).map(([key, value])=>{
+                    return (
+                        <li>
+                            {renderer(key, value)}
+                        </li>
+                    )
+                })}
+            </ul>
+        </MySocialData>
+    )
+}
 return (
     <>
     <MyPageWrapper>
@@ -83,47 +108,19 @@ return (
             </div>
         </ProfileWrapper>
         <MySocialDataWrapper>
-            <MySocialData>
-                <h4>
-                    Number of posts: {Object.keys(postList).length}
-                </h4>
-                <ul>
-                    {Object.entries(postList).map(([key, value])=>{
-                        const {text, image} = JSON.parse(value);
-                        return (
-                            <div>
-                                <p>{text}</p>
-                                <img src={`${nearIpfsBaseUrl}${image.ipfs_cid}`} alt="profile-image"/>
-                            </div>
-                        )
-                    })}
-                </ul>
-            </MySocialData>
-            <MySocialData>
-                <h4>
-                    Number of widgets: {Object.keys(componentData).length}
-                </h4>
-                <ul>
-                    {Object.entries(componentData).map(([key, value])=>{
-                        return (
-                            <div>
-                                <a href={`${widgetBaseUrl}${key}`} target='_blank'>{key}</a>
-                            </div>
-                        )
-                    })}
-                </ul>
-            </MySocialData>
+            <SocialData data={postList} renderer={RenderPostListItem} />
+            <SocialData data={componentData} renderer={RenderWidgetListItem} />
         </MySocialDataWrapper>
     </MyPageWrapper>
   <div>
-    {JSON.stringify(profileData)}
+    {/*{JSON.stringify(profileData)} */}
     <br />
     {/*{JSON.stringify(componentData)}*/}
     <br />
     <br />
-    {JSON.stringify(postData)}
+    {/*{JSON.stringify(postData)} */}
     {/*{JSON.stringify(idxData)} */}
-    {JSON.stringify(postList)}
+    {/*{JSON.stringify(postList)} */}
   </div>
   </>
 );
