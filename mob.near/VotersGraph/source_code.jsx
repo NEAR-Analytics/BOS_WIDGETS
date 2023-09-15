@@ -1,10 +1,9 @@
-State.init({ accountId: props.accountId });
-
 const data = fetch(
   "https://raw.githubusercontent.com/zavodil/near-nft-owners-list/main/output_election_votes.txt"
 );
 
 const [voters, setVoters] = useState(null);
+const [selectedAccountId, setSelectedAccountId] = useState(context.accountId);
 const debug = false;
 
 useEffect(() => {
@@ -18,7 +17,7 @@ useEffect(() => {
       .map((line) => line.split("|"))
       .filter((data) => data.length === 5)
   ).forEach((item, i) => {
-    if (debug && i > 100) {
+    if (debug && i > 50) {
       return;
     }
     const account_id = item[0];
@@ -162,11 +161,16 @@ const run = (data) => {
         .on("end", dragended));
 
   node.on("mouseover", handleMouseOver)
-     .on("mouseout", handleMouseOut);
+     .on("mouseout", handleMouseOut)
+     .on("click", handleMouseClick);
+
+  function handleMouseClick(e) {
+    const d = e.target.__data__;
+    window.top.postMessage(d.id, "*");
+  }
 
   function handleMouseOver(d) {
     d = d.target.__data__;
-    console.log("Mouse over", d);
     // Highlight connected edges
     link.attr("stroke-opacity", e => (e.source === d || e.target === d) ? 1 : 0.1);
     // link.each(function (e) {
@@ -257,16 +261,29 @@ window.addEventListener("message", (event) => {
 
 const [onMessage] = useState(() => {
   return (data) => {
-    console.log(data);
+    if (data) {
+      setSelectedAccountId(data);
+    }
   };
 });
 
 return (
-  <iframe
-    className="w-100 h-100"
-    style={{ minHeight: "800px" }}
-    srcDoc={code}
-    message={message}
-    onMessage={onMessage}
-  />
+  <div>
+    <div>
+      <iframe
+        className="w-100 h-100"
+        style={{ minHeight: "800px" }}
+        srcDoc={code}
+        message={message}
+        onMessage={onMessage}
+      />
+    </div>
+    <div>
+      <Widget
+        key={selectedAccountId}
+        src="vadim.near/widget/elections"
+        props={{ accountId: selectedAccountId }}
+      />
+    </div>
+  </div>
 );
