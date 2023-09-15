@@ -53,6 +53,7 @@ const {
   gettingTrade,
   swapping,
   updateSwapping,
+  onMessage,
 } = props;
 
 console.log("swapping: ", swapping);
@@ -210,6 +211,12 @@ const handleApprove = (isExtra) => {
         const params = isExtra
           ? { isExtraApproved: status === 1 }
           : { isApproved: status === 1 };
+        onMessage?.({
+          status: status === 1 ? 1 : 2,
+          open: true,
+          title: status === 1 ? "Approved successed!" : "Approved failed!",
+          hash: transactionHash,
+        });
         State.update({
           ...params,
           approving: false,
@@ -220,10 +227,13 @@ const handleApprove = (isExtra) => {
       State.update({
         approving: false,
       });
+      onMessage?.({
+        status: 2,
+        open: true,
+        title: "Approved failed!",
+      });
     });
 };
-
-console.log({ state });
 
 if (!state.isApproved || !state.isExtraApproved) {
   return (
@@ -308,6 +318,14 @@ function successCallback(tx, callback) {
     if (status === 1) {
       onSuccess?.();
     }
+    onMessage?.({
+      status: status === 1 ? 1 : 2,
+      open: true,
+      title: `${actionType} ${
+        status === 1 ? "Mint Successfully!" : "Mint Failed!"
+      }`,
+      hash: transactionHash,
+    });
   });
 }
 
@@ -327,12 +345,25 @@ return (
           inputCurrencyAmount,
           aggregatorTokenOut,
           onSuccess: (res) => {
+            onMessage?.({
+              status: 3,
+              open: true,
+              title: "Transaction Submitted!",
+              text: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}!`,
+              hash: res.hash,
+            });
             successCallback(res, () => {
               updateSwapping(false);
             });
           },
           onError: (err) => {
             updateSwapping(false);
+            onMessage?.({
+              status: 2,
+              open: true,
+              title: "Swap Failed!",
+              text: err.reason,
+            });
           },
         }}
       />
@@ -351,12 +382,25 @@ return (
           swapping: swapping,
           market,
           onSuccess: (res) => {
+            onMessage?.({
+              status: 3,
+              open: true,
+              title: "Transaction Submitted!",
+              text: `Mint PT and YT from ${inputCurrencyAmount} ${inputCurrency.symbol}!`,
+              hash: res.hash,
+            });
             successCallback(res, () => {
               updateSwapping(false);
             });
           },
           onError: (err) => {
             updateSwapping(false);
+            onMessage?.({
+              status: 2,
+              open: true,
+              title: "Mint Failed!",
+              text: err.reason,
+            });
           },
         }}
       />
@@ -375,12 +419,25 @@ return (
           routerAddress,
           swapping: swapping,
           onSuccess: (res) => {
+            onMessage?.({
+              status: 3,
+              open: true,
+              title: "Transaction Submitted!",
+              text: `Redeem ${inputCurrencyAmount} PT and ${inputCurrencyAmount} YT to ${outputCurrency.symbol}!`,
+              hash: res.hash,
+            });
             successCallback(res, () => {
               updateSwapping(false);
             });
           },
           onError: (err) => {
             updateSwapping(false);
+            onMessage?.({
+              status: 2,
+              open: true,
+              title: "Redeem Failed!",
+              text: err.reason,
+            });
           },
         }}
       />
