@@ -229,7 +229,7 @@ let page = (
         props={{
           label: "Height",
           placeholder: "Example: 175cm",
-          onChange: (event) => State.update({ height }),
+          onChange: (height) => State.update({ height }),
           validate: () => {
             return;
           },
@@ -240,7 +240,7 @@ let page = (
         props={{
           label: "Weight",
           placeholder: "Example: 150lbs",
-          onChange: (event) => State.update({ weight }),
+          onChange: (weight) => State.update({ weight }),
           validate: () => {
             return;
           },
@@ -266,7 +266,7 @@ let page = (
         props={{
           label: "Gender",
           value: state.gender,
-          onChange: (event) => State.update({ gender }),
+          onChange: (gender) => State.update({ gender }),
           validate: () => {
             return;
           },
@@ -291,38 +291,61 @@ let page = (
         props={{
           label: "Income",
           placeholder: "12,345",
-          onChange: (event) => State.update({ income }),
+          onChange: (income) => State.update({ income }),
           hasDollar: true,
           validate: () => {
             return;
           },
         }}
       />
-      {options.preferred_wallet.label ?? "Preferred Wallet"}
-      <input
-        id="preferred_wallet"
-        type="text"
-        value={state.preferred_wallet}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`opencann.near/widget/profile.walletArray`}
+        props={{
+          label: "Preferred Wallet",
+          placeholder: "What is your wallet of choice?",
+          value: state.preferred_wallet,
+          onChange: (preferred_wallet) =>
+            State.update({
+              preferred_wallet: preferred_wallet.map(({ name }) => ({
+                name: name.trim().replaceAll(/\s+/g, "-"),
+              })),
+            }),
+        }}
       />
-      {options.preferred_nft_marketplace.label ?? "Preferred NFT Marketplace"}
-      <input
-        id="preferred_nft_marketplace"
-        type="text"
-        value={state.preferred_nft_marketplace}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`opencann.near/widget/profile.marketArray`}
+        props={{
+          label: "Preferred NFT Marketplace",
+          placeholder: "Where do you like to buy and list NFTs?",
+          value: state.preferred_nft_marketplace,
+          onChange: (preferred_nft_marketplace) =>
+            State.update({
+              preferred_nft_marketplace: preferred_nft_marketplace.map(
+                ({ name }) => ({
+                  name: name.trim().replaceAll(/\s+/g, "-"),
+                })
+              ),
+            }),
+        }}
       />
-      {options.preferred_crypto.label ?? "Preferred Crypto"}
-      <input
-        id="preferred_crypto"
-        type="text"
-        value={state.preferred_crypto}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`opencann.near/widget/profile.tokenArray`}
+        props={{
+          label: "Preferred Payment Token",
+          placeholder: "How do you want people to pay you?",
+          value: state.preferred_crypto,
+          onChange: (preferred_crypto) =>
+            State.update({
+              preferred_crypto: preferred_crypto.map(({ name }) => ({
+                name: name.trim().replaceAll(/\s+/g, "-"),
+              })),
+            }),
+        }}
       />
       <Widget
         src={`opencann.near/widget/profile.demographics.cannabisHistory`}
         props={{
-          label: "Cannabis Use",
+          label: "Have you ever used cannabis before?",
           placeholder: "Have you ever used cannabis before?",
           cannabisHistory,
           value: state.cannabisUse,
@@ -332,7 +355,7 @@ let page = (
       <Widget
         src={`opencann.near/widget/profile.demographics.cannabisLevel`}
         props={{
-          label: "Cannabis Tolerance",
+          label: "What is your cannabis tolerance level?",
           placeholder: "What is your cannabis tolerance level?",
           cannabisLevel,
           value: state.cannabisTolerance,
@@ -342,7 +365,7 @@ let page = (
       <Widget
         src={`opencann.near/widget/profile.demographics.psychonautLevel`}
         props={{
-          label: "Psychonaut Status",
+          label: "What's your experience level with other substances?",
           placeholder: "Have you ever tried other substances?",
           psychonautLevel,
           value: state.psychonautStatus,
