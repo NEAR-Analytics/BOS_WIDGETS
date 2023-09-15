@@ -51,54 +51,6 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       input.inputAsset.metadata.decimals
     ).toFixed();
 
-    const WethContract = new ethers.Contract(
-      wethAddress,
-      [
-        {
-          constant: false,
-          inputs: [],
-          name: "deposit",
-          outputs: [],
-          payable: true,
-          stateMutability: "payable",
-          type: "function",
-        },
-        {
-          constant: false,
-          inputs: [{ internalType: "uint256", name: "wad", type: "uint256" }],
-          name: "withdraw",
-          outputs: [],
-          payable: false,
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-      ],
-      Ethers.provider().getSigner()
-    );
-
-    if (
-      input.inputAssetTokenId === ethAddress &&
-      input.outputAssetTokenId === wethAddress
-    ) {
-      return WethContract.deposit({
-        value: ethers.utils.parseEther(input.inputAssetAmount),
-        gasLimit: gasLimit ?? 10000,
-      }).then((res) => {
-        onComplete(res);
-      });
-    }
-
-    if (
-      input.inputAssetTokenId === wethAddress &&
-      input.outputAssetTokenId === ethAddress
-    ) {
-      return WethContract.withdraw(
-        ethers.utils.parseEther(input.inputAssetAmount)
-      ).then((res) => {
-        onComplete(res);
-      });
-    }
-
     const swapContract = new ethers.Contract(
       input.routerContract,
       input.routerAbi,
@@ -116,7 +68,7 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
     const pools = [
       [
         [MATIC, WETH, USDC],
-        "0xc951aebfa361e9d0063355b9e68f5fa4599aa3d100010000000000000000017",
+        "0xc951aebfa361e9d0063355b9e68f5fa4599aa3d1000100000000000000000017",
       ],
       [
         [WETH, DAI],
@@ -124,7 +76,7 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       ],
       [
         [WETH, DAI, USDT],
-        "0xe8ca7400eb61d5bdfc3f8f2ea99e687e0a4dbf7800010000000000000000019",
+        "0xe8ca7400eb61d5bdfc3f8f2ea99e687e0a4dbf78000100000000000000000019",
       ],
       [
         [WETH, USDC],
@@ -133,14 +85,12 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
     ];
 
     const inputId =
-      input.inputAssetTokenId === ethAddress
-        ? wethAddress
-        : input.inputAssetTokenId;
+      input.inputAssetTokenId === ethAddress ? WETH : input.inputAssetTokenId;
 
     const outputId =
-      input.outputAssetTokenId === ethAddress
-        ? wethAddress
-        : input.outputAssetTokenId;
+      input.outputAssetTokenId === ethAddress ? WETH : input.outputAssetTokenId;
+
+    console.log("ids: ", inputId, outputId);
 
     const finalPool = pools
       .filter(
@@ -149,8 +99,10 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       )
       .map((poolData) => poolData[1]);
 
+    console.log("finalPool: ", finalPool);
+
     if (!finalPool.length && inputId !== outputId) {
-      onShowNoPool();
+      return onShowNoPool();
     }
 
     const assets = [input.inputAssetTokenId, input.outputAssetTokenId];
@@ -211,12 +163,15 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
         deadline.toFixed(),
         {
           gasLimit: gasLimit ?? 20000000,
+          value: input.inputAssetTokenId === ethAddress ? value : "0",
         }
       )
       .then((transactionHash) => {
         onComplete(transactionHash);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        console.log(e, "e111111");
+      });
   }
 };
 
@@ -465,7 +420,7 @@ const callTxPancakeZKEVM2 = (
     const WETH = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
     if (tokenIn != wethAddress && tokenOut != wethAddress) {
       swapType = "complex";
-      path = [input.inputAssetTokenId, WETH, input.outputAssetTokenId];
+      path = [tokenIn, WETH, tokenOut];
     } else {
       swapType = "single";
     }
@@ -535,8 +490,6 @@ const callTxPancakeZKEVM2 = (
       .catch((e) => {
         console.log("e111", e);
       });
-
-    // return;
   }
 };
 
