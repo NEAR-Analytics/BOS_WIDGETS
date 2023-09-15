@@ -99,7 +99,7 @@ return (
         <p style={{ color: props.theme.textColor3 }} className="weekday">
           Fir
         </p>
-         <p style={{ color: props.theme.textColor3 }} className="weekday">
+        <p style={{ color: props.theme.textColor3 }} className="weekday">
           Sat
         </p>
       </div>
@@ -127,7 +127,7 @@ return (
 
           return (
             <Widget
-              src="saidulbadhon.near/widget/ProfilePage.Contributions.Item"
+              src="harrydhillon.near/widget/ProfilePage.Contributions.Item"
               props={{
                 color: color,
                 date: formattedDate,
@@ -141,7 +141,9 @@ return (
     </div>
 
     <div className="footer">
-      <p className="footerText">Less</p>
+      <p style={{ color: props.theme.textColor3 }} className="footerText">
+        Less
+      </p>
       <div
         style={{
           backgroundColor: props.theme.name === "light" ? "#ebedf0" : "#161b22",
@@ -167,7 +169,9 @@ return (
           backgroundColor: props.theme.name === "light" ? "#216e39" : "#39d353",
         }}
       />
-      <p className="footerText">More</p>
+      <p style={{ color: props.theme.textColor3 }} className="footerText">
+        More
+      </p>
     </div>
   </div>
 );
