@@ -139,7 +139,7 @@ const deposit = async (item) => {
   let oneNEARInYoctoNEAR = 1000000000000000000000000;
   if (!amount || amount <= 0) return;
 
-  if (item.id === "NEAE") {
+  if (item.id === "NEAR") {
     Near.call(
       item.contract,
       item.method,
