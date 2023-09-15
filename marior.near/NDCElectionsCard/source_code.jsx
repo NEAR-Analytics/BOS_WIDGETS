@@ -123,7 +123,7 @@ const renderVoters = (voters) => (
         />
         <div>
           <a
-            href={`mob.near/widget/ProfilePage?accountId=${voter}`}
+            href={`/mob.near/widget/ProfilePage?accountId=${voter}`}
             target="_blank"
             rel="noreferrer noopener"
           >
