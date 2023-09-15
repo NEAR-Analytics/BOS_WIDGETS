@@ -1,4 +1,19 @@
-State.init({ accountId: props.accountId });
+State.init({
+  accountId: props.accountId,
+  propsAccountId: props.accountId,
+  whitelisted: [],
+});
+
+if (state.propsAccountId !== props.accountId) {
+  State.update({ accountId: props.accountId, propsAccountId: props.accountId });
+}
+
+const whitelisted = fetch(
+  "https://gist.githubusercontent.com/zavodil/20e4ae896e1f6053e1d66a398e1026c9/raw/0363976f86bb067c142b1d8912ad37e639b876cf/whitelisted.txt"
+);
+if (whitelisted.ok) {
+  State.update({ whitelisted: JSON.parse(whitelisted.body) });
+}
 
 const data = fetch(
   "https://raw.githubusercontent.com/zavodil/near-nft-owners-list/main/output_election_votes.txt"
@@ -39,6 +54,24 @@ const containsSearchBy = (account_id) => {
   return !account_id || !state.searchBy || account_id.includes(state.searchBy);
 };
 
+const svgFlag = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14px"
+    height="14px"
+    viewBox="0 0 116.8 122.88"
+  >
+    <path
+      fill="#e21b1b"
+      d="M18,81.08l-5.78-56.9A4.3,4.3,0,0,1,14.39,20C41.59,2.6,54.66,9.66,66.7,16.16,76.22,21.3,84.92,26,103.75,10a4.45,4.45,0,0,1,6.2.44,4.22,4.22,0,0,1,1,2.42l5.78,56.89a4.23,4.23,0,0,1-1.38,3.57c-21.79,19.84-35,13.16-48.6,6.27C55.74,74,44.35,68.25,25.21,84.12a4.47,4.47,0,0,1-6.21-.5,4.26,4.26,0,0,1-1-2.54Z"
+    />
+    <path
+      fill="#1a1a1a"
+      d="M17.89,16.71l9.88,98.6a6.89,6.89,0,1,1-13.71,1.35L4.21,18.38a10.15,10.15,0,1,1,13.68-1.67Z"
+    />
+  </svg>
+);
+
 const accounts = Object.keys(state.voters ?? [])
   .filter((account_id) => containsSearchBy(account_id))
   .map((account_id) => {
@@ -50,7 +83,6 @@ const accounts = Object.keys(state.voters ?? [])
             return false;
           }}
           style={{ cursor: "pointer" }}
-          title={account_id}
         >
           <div
             class="col ps-0 overflow-hidden d-flex"
@@ -60,7 +92,11 @@ const accounts = Object.keys(state.voters ?? [])
                 account_id !== state.accountId ? "white" : "lightblue",
             }}
           >
-            <div class="overflow-hidden" style={{ maxWidth: "100vw" }}>
+            <div
+              class="overflow-hidden"
+              style={{ maxWidth: "100vw" }}
+              title={account_id}
+            >
               <Widget
                 src="mob.near/widget/N.ProfileLine"
                 props={{
@@ -72,7 +108,12 @@ const accounts = Object.keys(state.voters ?? [])
               />
             </div>
 
-            <div class="text-secondary">
+            <div class="text-secondary text-nowrap">
+              {!state.whitelisted.includes(account_id) && (
+                <span title="Account became whitelisted during the voting period">
+                  {svgFlag}
+                </span>
+              )}
               ({countKeys(state.voters[account_id])})
             </div>
           </div>
