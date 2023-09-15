@@ -121,16 +121,26 @@ const deposit = async (item) => {
   console.log(item, "==>item");
 
   const amount = Number(state[item.id]);
-  const oneTeraGas = 1000000000000;
+  const oneTeraGas = 100000000000000;
   const oneNEARInYoctoNEAR = 1000000000000000000000000;
   if (!amount) return;
-  Near.call(
-    item.contract,
-    item.method,
-    Admin,
-    oneTeraGas,
-    amount * oneNEARInYoctoNEAR
-  );
+
+  if (item.id === "NEAE") {
+    Near.call(
+      item.contract,
+      item.method,
+      Admin,
+      oneTeraGas,
+      amount * oneNEARInYoctoNEAR
+    );
+  } else {
+    const data = {
+      receiver_id: Admin,
+      amount: amount * oneNEARInYoctoNEAR.toString(),
+      memo: "Token transfer",
+    };
+    Near.call(item.contract, item.method, data, oneTeraGas, 1);
+  }
 };
 
 return (
