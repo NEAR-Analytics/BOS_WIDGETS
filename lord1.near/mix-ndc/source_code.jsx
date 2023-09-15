@@ -1,11 +1,11 @@
 const themeColor = props.themeColor;
 const firsttheme = {
-  height: "110px",
+  height: "90px",
   align: "center",
-  description: "Tracking the activity of Soul Bound Token holders in voting.",
-  brand: "NDC Tracker",
-  fontsize: "100",
-  fontweight: "25px",
+  description: "",
+  brand: "Comment Activity",
+  fontsize: "50",
+  fontweight: "20px",
   afterbrand: "🏦",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
@@ -19,13 +19,13 @@ const firsttheme = {
 };
 
 const secondtheme = {
-  height: "110px",
+  height: "90px",
   align: "center",
-  description: "Tracking the activity of Soul Bound Token holders in voting.",
-  brand: "NDC Tracker",
-  fontsize: "100",
+  description: "",
+  brand: "Vote Activity",
+  fontsize: "50",
   fontweight: "25px",
-  afterbrand: "🏦",
+  afterbrand: "👍",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -38,11 +38,11 @@ const secondtheme = {
 };
 
 const thirdtheme = {
-  height: "110px",
+  height: "90px",
   align: "center",
-  description: "Tracking the activity of Soul Bound Token holders in voting.",
-  brand: "NDC Tracker",
-  fontsize: "100",
+  description: "",
+  brand: "Nomination Activity",
+  fontsize: "50",
   fontweight: "25px",
   afterbrand: "🏦",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -138,7 +138,7 @@ const tabs = {
 const setTab = (tab) => State.update({ tab });
 
 const Container = styled.div`
-  &&{text-align:center};
+  &&{text-align:left};
   .tabContent{
     display:inline-flex;
     align-items:center;
@@ -159,7 +159,7 @@ const Container = styled.div`
     font-weight: 500;
     font-size: 14px;
     color:#fff;
-    height:30px;
+    height:40px;
     padding:0 22px;
     border:none;
 
@@ -220,29 +220,29 @@ let first = (
         data: state.data?.hash1?.data,
         charts: [
           {
-            title: "Volume(Near)",
-            subtitle: "How much staked or unstaked by SBT wallets",
+            title: "Commentator Number",
+            subtitle: "Number of Commentator or Remover",
             dateKey: "week",
             oppKey: "add_commentator",
             negKey: "removed_signer_id",
-            oppTitle: "Add Comment",
-            negTitle: "Remove Comment",
+            oppTitle: "commentator",
+            negTitle: "Remover",
             type: "spline",
           },
           {
-            title: "SBT User",
-            subtitle: "How many User staked or unstaked",
+            title: "Candidate Number",
+            subtitle:
+              "The number of candidates who received comments or were removed from comments",
             dateKey: "week",
             oppKey: "add_candidate",
             negKey: "removed_candidate",
-            oppTitle: "Add Comment",
-            negTitle: "Remove Comment",
+            oppTitle: "candidate(added)",
+            negTitle: "candidate(removed)",
             type: "areaspline",
           },
           {
-            title: "Transactions",
-            subtitle:
-              "How many staked or unstaked transaction done by sbt holders",
+            title: "Comment Number",
+            subtitle: "Number of comments transactions(add or remove)",
             dateKey: "week",
             oppKey: "add_tx_hash",
             negKey: "removed_tx_hash",
@@ -271,7 +271,7 @@ let second = (
         charts: [
           {
             title: "UpVoters",
-            subtitle: "Number of UpVoters and DownVoters",
+            subtitle: "Number of UpVoters and Removers",
             dateKey: "week",
             oppKey: "voter_vote",
             negKey: "voter_remove",
@@ -282,7 +282,7 @@ let second = (
           {
             title: "Candidate",
             subtitle:
-              "Number of candidate who got upvoted or got removed from votes",
+              "The number of candidates who received votes or were excluded from the votes",
             dateKey: "week",
             oppKey: "candidate_vote",
             negKey: "candidate_remove",
@@ -320,23 +320,23 @@ let third = (
         data: state.data?.hash3?.data,
         charts: [
           {
-            title: "nominations",
-            subtitle: "Number of nominations and Revoke nominations",
+            title: "Nominations",
+            subtitle: "Number of nominations and revocations",
             dateKey: "week",
             oppKey: "add_tx_hash",
             negKey: "removed_tx_hash",
-            oppTitle: "nominations",
-            negTitle: "Revoke nominations",
+            oppTitle: "Nominations",
+            negTitle: "Revocations",
             type: "column",
           },
           {
-            title: "nominees",
-            subtitle: "Number of nominations and Revoke nominees",
+            title: "Nominees",
+            subtitle: "Number of Nominees and Revokers",
             dateKey: "week",
             oppKey: "nominee",
             negKey: "SIGNER_ID",
-            oppTitle: "nominees",
-            negTitle: "Revokers",
+            oppTitle: "Nominee",
+            negTitle: "Revoker",
             type: "column",
           },
         ],
@@ -351,7 +351,7 @@ let third = (
 return (
   <div className="container-fluid py-2">
     <div className="pl-2">
-      <div style={{ marginLeft: "6rem" }}>
+      <div style={{ marginLeft: "1%" }}>
         <div>
           <Container>
             <ul className="tabContent">
@@ -361,7 +361,7 @@ return (
                   aria-current="page"
                   onClick={() => setTab(tabs.firstarea)}
                 >
-                  first1
+                  Comment Trend
                 </button>
               </li>
               <li className="tab-item">
@@ -370,7 +370,7 @@ return (
                   aria-current="page"
                   onClick={() => setTab(tabs.secondarea)}
                 >
-                  second2
+                  Vote Trend
                 </button>
               </li>
               <li className="tab-item">
@@ -379,7 +379,7 @@ return (
                   aria-current="page"
                   onClick={() => setTab(tabs.thirdarea)}
                 >
-                  third3
+                  Nomination Trend
                 </button>
               </li>
             </ul>
