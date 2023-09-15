@@ -48,7 +48,9 @@ return (
           src="saidulbadhon.near/widget/ProfilePage.Contributions"
           props={{ theme: props.theme, accountId }}
         />
-        <p style={{color:props.theme.textColor3}}>{totalCommits.length} contributions in the last year</p>
+        <p style={{ color: props.theme.textColor3 }}>
+          {totalCommits.length} contributions in the last year
+        </p>
       </div>
       <div
         style={{
