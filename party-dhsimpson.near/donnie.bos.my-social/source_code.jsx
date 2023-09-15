@@ -1,4 +1,4 @@
-const account_id = "idknwhoru.near"; //context.accountId ?? props.accountId;
+const account_id = context.accountId ?? props.accountId;
 
 const profileData = props.profile ?? Social.getr(account_id); //`idknwhoru.near/profile`
 
