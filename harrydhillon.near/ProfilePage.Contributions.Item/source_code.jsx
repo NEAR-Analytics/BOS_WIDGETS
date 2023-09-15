@@ -14,6 +14,7 @@ const overlay = (
     style={{
       maxWidth: "24em",
       zIndex: 1070,
+
       width: 150,
       backgroundColor: "rgba(0, 0, 0, 0.8)",
       color: "#c3cbd4",
@@ -50,8 +51,8 @@ return (
           ? "rgba(256,256,256,.05)"
           : props.color,
         aspectRatio: 1 / 1,
-        width: 8,
-        height: 8,
+        maxWidth: 15,
+        maxHeight: 15,
       }}
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
