@@ -4,10 +4,25 @@
  * 
  */
 let accountId = props.accountId ?? context.accountId;
-
+const registryContract = "registry.i-am-human.near";
 State.init({
-  accountId,
+  accountId: accountId,
 });
+function loadFlagged() {
+    console.log("Loading flag for this account: " + state.accountId);
+  const flagged = Near.view(registryContract, "account_flagged", {
+    account: state.accountId,
+  });
+
+  State.update({
+    blacklisted: flagged === "Blacklisted",
+    greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
+    flagged: flagged,
+  });
+  console.log("Is " + state.accountId + " flagged? " + state.flagged)
+  return flagged;
+}
+
 
 function getAccountsWithProfile() {
   const data = Social.keys("*/profile", "final");
@@ -30,13 +45,14 @@ function getAccountsWithProfile() {
 const onChangeRecipient = (recipient) => {
             console.log("Recipient : " + recipient ); 
 
-    isFlagged(recipient);
   State.update({
     accountId: recipient,
   });
+  loadFlagged();
     
 
 };
+
 
 function isFlagged(account) {
             console.log("Starting is flagged check : " + account ); 
@@ -132,7 +148,7 @@ return (
                 />
               </Card>
 
-    
+    <div>Are you flagged? {state.flagged}</div>
 
       <Widget src="nearefi.near/widget/ReFi.DAO.memberCard" props={{accountId: state.accountId}}/>
 
