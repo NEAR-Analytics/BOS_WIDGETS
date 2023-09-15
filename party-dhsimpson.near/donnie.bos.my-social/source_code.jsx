@@ -6,8 +6,28 @@ const fast = !props.profile;
 if (profileData === null) {
   return "Loading";
 }
+/* 
+[
+    {
+        "accountId":"party-dhsimpson.near",
+        "blockHeight":101193567,
+        "value":{"type":"md"}},
+    {
+        "accountId":"party-dhsimpson.near",
+        "blockHeight":101190682,
+        "value":{"type":"md"}}
+]
+*/
+
 const componentData = Social.getr(`${account_id}/widget`);
-const postData = Social.getr(`${account_id}/post`);
+// const postData = Social.keys(`${account_id}/post`);
+const postIdxData = Social.index("post", "main", {limit: 30, order: "desc", accountId: [account_id]});
+const postBlockHashList = postIdxData.map(idxData => {
+    return idxData.blockHeight
+});
+const postList = postBlockHashList.map(blockHash => {
+    return Social.get(`${account_id}/post/main`, blockHash);
+});
 
 const MyPageWrapper = styled.div`
     width: 100%;
@@ -65,10 +85,10 @@ return (
         <MySocialDataWrapper>
             <MySocialData>
                 <h4>
-                    Number of posts: {Object.keys(postData).length}
+                    Number of posts: {Object.keys(postList).length}
                 </h4>
                 <ul>
-                    {Object.entries(postData).map(([key, value])=>{
+                    {Object.entries(postList).map(([key, value])=>{
                         const {text, image} = JSON.parse(value);
                         return (
                             <div>
@@ -98,11 +118,12 @@ return (
   <div>
     {JSON.stringify(profileData)}
     <br />
-    <br />
     {/*{JSON.stringify(componentData)}*/}
     <br />
     <br />
     {JSON.stringify(postData)}
+    {/*{JSON.stringify(idxData)} */}
+    {JSON.stringify(postList)}
   </div>
   </>
 );
