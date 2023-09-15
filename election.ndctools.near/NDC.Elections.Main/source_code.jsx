@@ -439,7 +439,10 @@ return (
             <div className="d-flex justify-content-center">
               <Widget
                 src={widgets.statistic}
-                props={{ electionContract, quorum: state.houses[0].quorum }}
+                props={{
+                  electionContract,
+                  quorum: state.houses[state.selectedHouse - 1].quorum,
+                }}
               />
             </div>
           </Right>
