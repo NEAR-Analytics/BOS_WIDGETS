@@ -34,19 +34,7 @@ const Table = styled.table`
   --bs-table-hover-color: ${themeColor?.table_pagination?.table_hover_color};
   --bs-table-hover-bg:${themeColor?.table_pagination?.table_hover_bg};
   --bs-table-hover-bg:${themeColor?.table_pagination?.columntextcolor};
-  border-radius: 8px;
-  background: #F5F1F1;
-  margin: 0;
-`;
 
-const Button = styled.button`
-  padding: 4px 16px;
-  border-radius: 6px;
-  background: var(--Dark, #121212);
-  text-transform: capitalize;
-  font-weight: 600;
-  font-size: 12px;
-  color: #FFF;
 `;
 
 const onHandelId = (id) => {
@@ -63,7 +51,7 @@ const onHandelId = (id) => {
 
 return (
   <div className="table-responsive" style={{ backgroundColor: "#FAFAFA" }}>
-    <div style={{ borderRadius: 8, border: "1px solid #AAA" }}>
+    <div style={{ borderRadius: 8 }}>
       <Table
         className={`table table-hover table-striped table-borderless ${props.className}`}
       >
@@ -207,8 +195,7 @@ return (
         </tbody>
       </Table>
     </div>
-
-    {/* <input
+    <input
       type="text"
       placeholder="Search..."
       onChange={handleSearch}
@@ -217,8 +204,10 @@ return (
         height: "30px",
         borderRadius: "50px",
         "margin-left": "2px",
+        "margin-top": "2px",
+        "margin-buttom": "2px",
       }}
-    />*/}
+    />
 
     {!rowsCount ? (
       ""
