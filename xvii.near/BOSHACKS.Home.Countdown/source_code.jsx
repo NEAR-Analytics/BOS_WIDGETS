@@ -163,7 +163,7 @@ const InfoBlock = ({ mobile }) => (
           Link: {
             text: "Syllabus",
             size: "sm",
-            className: "secondary dark",
+            style: { backgroundColor: "black", color: "white" }, // Inline styles
             href: "https://hackmd.io/Jz4_FasRQGWdGGuifBU6Kw",
           },
         }}
