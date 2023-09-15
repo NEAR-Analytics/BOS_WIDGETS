@@ -17,23 +17,26 @@ function MyProfile() {
     const ProfileWrapper = styled.div`
         width: 100%;
         height: 300px;
-        background-color: black;
+        background-color: rgba(0,0,0,0.2);
         display: flex;
         align-items: center;
+        border-radius: 25px;
+        margin-bottom: 30px;
     `;
 
     const ProfileImage = styled.img`
         width: 150px;
         height: 150px;
-        margin-right: 20px;
+        margin: 0 20px;
+        border-radius: 100%;
     `;
-
 
     const MyName = styled.h2`
     `;
 
     const MyWallet = styled.p`
     `;
+
     return (
         <ProfileWrapper>
             <ProfileImage src={`${nearIpfsBaseUrl}${profileData.image.ipfs_cid}`} alt="profile-image"/>
