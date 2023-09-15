@@ -76,9 +76,8 @@ function PostData() {
     const { text, image } = JSON.parse(value);
     const PostText = styled.span`
       font-size: 20px;
-      max-width: 70%;
       overflow: hidden;
-      height: 100px;
+      max-height: 100px;
     `;
 
     const PostImg = styled.img`
@@ -162,6 +161,18 @@ function SocialData({ data, name, renderer }) {
   const SocialDataList = styled.ul`
         padding: 0;
         margin-top: 20px;
+        max-height: 800px;
+        overflow-y: scroll;
+        /* Firefox */
+        scrollbar-width: none;
+
+        /* IE and Edge */
+        -ms-overflow-style: none;
+
+        /* Chrome, Safari, newer versions of Opera */
+        &::-webkit-scrollbar {
+          display: none;
+        }
     `;
 
   const SocialDataListItem = styled.li`
@@ -171,10 +182,11 @@ function SocialData({ data, name, renderer }) {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 10px 0;
+        margin: 20px 0;
         padding: 10px;
         border-radius: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: rgba(0,0,0,0.025);
     `;
   const MySocialData = styled.div`
         width: 45%;
