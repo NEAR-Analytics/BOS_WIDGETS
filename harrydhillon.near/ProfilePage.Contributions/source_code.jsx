@@ -64,18 +64,18 @@ return (
   >
     <div className="header">
       <div className="headerContent">
-        <p style={{ color: props.theme.textColor3 }}>Jan</p>
-        <p style={{ color: props.theme.textColor3 }}>Feb</p>
-        <p style={{ color: props.theme.textColor3 }}>Mar</p>
-        <p style={{ color: props.theme.textColor3 }}>Apr</p>
-        <p style={{ color: props.theme.textColor3 }}>May</p>
-        <p style={{ color: props.theme.textColor3 }}>Jun</p>
-        <p style={{ color: props.theme.textColor3 }}>Jul</p>
-        <p style={{ color: props.theme.textColor3 }}>Aug</p>
-        <p style={{ color: props.theme.textColor3 }}>Sep</p>
-        <p style={{ color: props.theme.textColor3 }}>Oct</p>
-        <p style={{ color: props.theme.textColor3 }}>Nov</p>
-        <p style={{ color: props.theme.textColor3 }}>Dec</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Jan</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Feb</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Mar</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Apr</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>May</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Jun</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Jul</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Aug</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Sep</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Oct</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Nov</p>
+        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Dec</p>
       </div>
     </div>
 
