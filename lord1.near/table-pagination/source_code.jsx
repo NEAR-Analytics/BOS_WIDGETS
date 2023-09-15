@@ -1,9 +1,12 @@
 if (!props.data || !props.columns) {
   return "column and data props are required.";
 }
-State.init({ currentPage: 1, searchValue: "" });
+
 const data = props.data || [];
-const rowsCount = props.rowsCount || null;
+const columns = props.columns;
+
+State.init({ currentPage: 1, searchValue: "" });
+const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
 const handleSearch = (event) => {
   const value = event.target.value;
@@ -31,11 +34,24 @@ const Table = styled.table`
   --bs-table-hover-color: ${themeColor?.table_pagination?.table_hover_color};
   --bs-table-hover-bg:${themeColor?.table_pagination?.table_hover_bg};
   --bs-table-hover-bg:${themeColor?.table_pagination?.columntextcolor};
-
+  border-radius: 8px;
+  background: #F5F1F1;
+  margin: 0;
 `;
+
+const Button = styled.button`
+  padding: 4px 16px;
+  border-radius: 6px;
+  background: var(--Dark, #121212);
+  text-transform: capitalize;
+  font-weight: 600;
+  font-size: 12px;
+  color: #FFF;
+`;
+
 const onHandelId = (id) => {
   let customId = "";
-  if (id.length > 15) {
+  if (id.length > 20) {
     customId += id.substring(0, 3);
     customId += "...";
     customId += id.substring(id.length - 3);
@@ -46,93 +62,153 @@ const onHandelId = (id) => {
 };
 
 return (
-  <div className="table-responsive">
-    <Table
-      className={`table table-hover table-striped table-borderless ${props.className}`}
-    >
-      <thead>
-        <tr>
-          {props.columns.map((th) => (
-            <th key={th.title} className="col-1" scope="col">
-              <div>
-                {th.description ? (
-                  <OverlayTrigger
-                    placement={th.position || "top"}
-                    overlay={<Tooltip>{th.description}</Tooltip>}
-                  >
+  <div className="table-responsive" style={{ backgroundColor: "#FAFAFA" }}>
+    <div style={{ borderRadius: 8, border: "1px solid #AAA" }}>
+      <Table
+        className={`table table-hover table-striped table-borderless ${props.className}`}
+      >
+        <thead>
+          <tr>
+            {columns.map((th) => (
+              <th
+                key={th.title}
+                className="col-1"
+                style={{
+                  fontSize: 12,
+                  width: `${th.width}%`,
+                  verticalAlign: "middle",
+                }}
+                scope="col"
+              >
+                <div>
+                  {th.description ? (
+                    <OverlayTrigger
+                      placement={th.position || "top"}
+                      overlay={<Tooltip>{th.description}</Tooltip>}
+                    >
+                      <span>{th.title}</span>
+                    </OverlayTrigger>
+                  ) : (
                     <span>{th.title}</span>
-                  </OverlayTrigger>
-                ) : (
-                  <span>{th.title}</span>
-                )}
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
+                  )}
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
 
-      <tbody>
-        {props.data.length > 0 &&
-          handlePagination()
-            .table.filter((row) =>
-              Object.values(row).some((value) =>
-                value.toString().includes(state.searchValue)
+        <tbody>
+          {data.length > 0 &&
+            handlePagination()
+              .table.filter((row) =>
+                Object.values(row).some((value) =>
+                  value.toString().includes(state.searchValue)
+                )
               )
-            )
-            .map((row, i) => {
-              return (
-                <tr key={row.key}>
-                  {props.columns.map((td) => {
-                    const key = td.key ? row[td.key] : i + 1;
-                    return (
-                      <td
-                        style={{
-                          color:
-                            td.colors ||
-                            themeColor?.table_pagination?.columntextcolor,
-                        }}
-                      >
-                        {td.link === "yes" ? (
-                          <a
-                            className="d-inline-block"
-                            target="_blank"
-                            href={`${td.beforehref}${key}${td.afterhref}`}
-                            style={{
-                              "text-decoration": "none",
-                            }}
-                          >
-                            {td.heyperlink === "yes" ? (
-                              `${onHandelId(key)}`
-                            ) : (
+              .map((row, i) => {
+                return (
+                  <tr key={row.key}>
+                    {columns.map((td) => {
+                      const key = td.key ? row[td.key] : i + 1;
+                      return (
+                        <td
+                          style={{
+                            color:
+                              td.colors ||
+                              themeColor?.table_pagination?.columntextcolor,
+                            fontSize: 12,
+                            textAlign: td.align,
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          {td.profile ? (
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: 10,
+                                alignItems: "center",
+                              }}
+                            >
+                              <Link
+                                href={`/mob.near/widget/ProfilePage?accountId=${key}`}
+                              >
+                                <Widget
+                                  src="mob.near/widget/ProfileImage"
+                                  props={{ accountId: key }}
+                                  style={{
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: 50,
+                                  }}
+                                />
+                              </Link>
+                            </div>
+                          ) : td.link ? (
+                            <a
+                              className="d-inline-block"
+                              target="_blank"
+                              href={`${td.beforehref}${key}${td.afterhref}`}
+                              style={{
+                                "text-decoration": "none",
+                              }}
+                            >
+                              {td.hyperlink === "yes" ? (
+                                `${onHandelId(key)}`
+                              ) : (
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 20 20"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M12.9167 5.25001L12.9167 1.75001M12.9167 1.75001H9.41674M12.9167 1.75001L7.66675 7M6.50008 1.75H5.21675C4.23666 1.75 3.74661 1.75 3.37226 1.94074C3.04298 2.10852 2.77527 2.37623 2.60749 2.70552C2.41675 3.07986 2.41675 3.56991 2.41675 4.55V9.45C2.41675 10.4301 2.41675 10.9201 2.60749 11.2945C2.77527 11.6238 3.04298 11.8915 3.37226 12.0593C3.74661 12.25 4.23666 12.25 5.21675 12.25H10.1167C11.0968 12.25 11.5869 12.25 11.9612 12.0593C12.2905 11.8915 12.5582 11.6238 12.726 11.2945C12.9167 10.9201 12.9167 10.4301 12.9167 9.45V8.16667"
+                                    stroke="#806ce1"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  />
+                                </svg>
+                              )}
+                            </a>
+                          ) : td.explain ? (
+                            <OverlayTrigger
+                              placement={"top"}
+                              overlay={<Tooltip>{key}</Tooltip>}
+                            >
                               <svg
                                 width="20"
                                 height="20"
-                                viewBox="0 0 20 20"
+                                viewBox="0 0 31 32"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M12.9167 5.25001L12.9167 1.75001M12.9167 1.75001H9.41674M12.9167 1.75001L7.66675 7M6.50008 1.75H5.21675C4.23666 1.75 3.74661 1.75 3.37226 1.94074C3.04298 2.10852 2.77527 2.37623 2.60749 2.70552C2.41675 3.07986 2.41675 3.56991 2.41675 4.55V9.45C2.41675 10.4301 2.41675 10.9201 2.60749 11.2945C2.77527 11.6238 3.04298 11.8915 3.37226 12.0593C3.74661 12.25 4.23666 12.25 5.21675 12.25H10.1167C11.0968 12.25 11.5869 12.25 11.9612 12.0593C12.2905 11.8915 12.5582 11.6238 12.726 11.2945C12.9167 10.9201 12.9167 10.4301 12.9167 9.45V8.16667"
+                                  d="M18.0833 13.4167L27.125 4.375M27.125 4.375H19.375M27.125 4.375V12.125M12.9167 18.5833L3.875 27.625M3.875 27.625H11.625M3.875 27.625L3.875 19.875"
                                   stroke="#806ce1"
                                   stroke-width="2.5"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
                                 />
                               </svg>
-                            )}
-                          </a>
-                        ) : (
-                          key
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-      </tbody>
-    </Table>
-    <input
+                            </OverlayTrigger>
+                          ) : td.short ? (
+                            onHandelId(key)
+                          ) : (
+                            key
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+        </tbody>
+      </Table>
+    </div>
+
+    {/* <input
       type="text"
       placeholder="Search..."
       onChange={handleSearch}
@@ -142,38 +218,187 @@ return (
         borderRadius: "50px",
         "margin-left": "2px",
       }}
-    />
+    />*/}
 
-    {!props.rowsCount ? (
+    {!rowsCount ? (
       ""
     ) : (
-      <div className="py-4">
+      <div className="d-flex justify-content-center">
         <div>
-          <ul className="pagination pagination-sm gap-2 justify-content-center">
-            {props.data.length > 0 &&
-              handlePagination().buttons.map((btn, i) => {
-                return (
-                  <li key={i} className="page-item">
-                    <button
-                      onClick={() => State.update({ currentPage: i + 1 })}
-                      className="page-link btn"
-                      style={{
-                        borderColor:
-                          themeColor?.table_pagination?.btn_border ?? "#000",
-                        color:
-                          themeColor?.table_pagination?.btn_color ?? "#000",
-                        backgroundColor: btn
-                          ? themeColor?.table_pagination?.btn_bg_active ??
-                            "gray"
-                          : themeColor?.table_pagination?.btn_bg ??
-                            "transparent",
-                      }}
-                    >
-                      {i + 1}
-                    </button>
-                  </li>
-                );
-              })}
+          <ul
+            className="pagination pagination-sm gap-2 mb-0 "
+            style={{ height: 56, padding: 12 }}
+          >
+            <li className="page-item">
+              <button
+                onClick={() => {
+                  State.update({ currentPage: 1 });
+                }}
+                className="page-link btn"
+                style={{
+                  width: 32,
+                  height: 32,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 8,
+                  color: themeColor?.table_pagination?.btn_color ?? "#000",
+                }}
+              >
+                <svg
+                  width="17"
+                  height="16"
+                  viewBox="0 0 17 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
+                    fill="#806ce1"
+                  />
+                </svg>
+                <svg
+                  width="17"
+                  height="16"
+                  viewBox="0 0 17 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
+                    fill="black"
+                  />
+                </svg>
+              </button>
+            </li>
+            <li className="page-item">
+              <button
+                onClick={() => {
+                  const page = state.currentPage - 1;
+                  if (page > 0) State.update({ currentPage: page });
+                }}
+                className="page-link btn"
+                style={{
+                  width: 32,
+                  height: 32,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 8,
+                  color: themeColor?.table_pagination?.btn_color ?? "#000",
+                }}
+              >
+                <svg
+                  width="17"
+                  height="16"
+                  viewBox="0 0 17 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
+                    fill="#806ce1"
+                  />
+                </svg>
+              </button>
+            </li>
+            <li className="page-item">
+              <button
+                onClick={() => {
+                  const page = state.currentPage;
+                  if (handlePagination().buttons.length >= page)
+                    State.update({ currentPage: page });
+                }}
+                className="page-link btn"
+                style={{
+                  width: 32,
+                  height: 32,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 8,
+                  color: "#806ce1",
+                }}
+              >
+                {state.currentPage}
+              </button>
+            </li>
+            <li className="page-item">
+              <button
+                onClick={() => {
+                  const page = state.currentPage + 1;
+                  if (handlePagination().buttons.length >= page)
+                    State.update({ currentPage: page });
+                }}
+                className="page-link btn"
+                style={{
+                  width: 32,
+                  height: 32,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 8,
+                  color: themeColor?.table_pagination?.btn_color ?? "#000",
+                }}
+              >
+                <svg
+                  width="17"
+                  height="16"
+                  viewBox="0 0 17 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
+                    fill="#806ce1"
+                  />
+                </svg>
+              </button>
+            </li>
+
+            <li className="page-item">
+              <button
+                onClick={() => {
+                  const totalPages = Math.ceil(data.length / rowsCount);
+                  State.update({ currentPage: totalPages });
+                }}
+                className="page-link btn"
+                style={{
+                  width: 32,
+                  height: 32,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 8,
+                  color: themeColor?.table_pagination?.btn_color ?? "#000",
+                }}
+              >
+                <svg
+                  width="17"
+                  height="16"
+                  viewBox="0 0 17 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
+                    fill="#806ce1"
+                  />
+                </svg>
+                <svg
+                  width="17"
+                  height="16"
+                  viewBox="0 0 17 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
+                    fill="#806ce1"
+                  />
+                </svg>
+              </button>
+            </li>
           </ul>
         </div>
       </div>
@@ -186,10 +411,14 @@ return (
 //   columns: [
 //     { title: "id" }, //if key does not provided , rows will be ascending numbers
 //     { title: "title", key: "key in data" ,description:"here is a",position:"top/right/buttom/left",
-//    link: "yes",
+//      link: "yes",
+//     hyperlink :"yes"
 //      beforehref: "https://near.social/mob.near/widget/ProfilePage?accountId=",
 //      afterhref: "",
-//      colors: "green"},
+//      colors: "green" ,
+//      "explain":"yes",
+//      "profile":"yes" ,
+//      "short":yes},
 
 //   ],
 //   rowsCount: 2, // if zero or null , the whole table will be render
