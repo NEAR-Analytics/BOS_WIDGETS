@@ -136,7 +136,7 @@ return (
         }}
       >
         Balance:{" "}
-        <Balance>{balanceLoading ? "Loading" : balance || "-"}</Balance>
+        <Balance>{balanceLoading ? "Loading" : balance || "0"}</Balance>
         {errorTips && <ErrorTips>{errorTips}</ErrorTips>}
       </BalanceWrapper>
     </ValueWrapper>
