@@ -93,10 +93,22 @@ const formattedMobileDate = () => {
   const dateMonth = dateString.split(" ")[0];
   const dateYear = dateString.split(" ")[1];
 
+  const dateH2 = styled.h2`
+    color: #333;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.154px;
+  `;
+
   return (
-    <h2>
+    <dateH2>
       {dateMonth} {dateYear}
-    </h2>
+    </dateH2>
   );
 };
 
@@ -360,6 +372,11 @@ const calendarProps = {
   handleFilter,
 };
 
+const mobileCalendarProps = {
+  events: state.filterEvents ? state.filteredFeedEvents : fetchedEvents,
+  date: state.date,
+};
+
 const feedProps = {
   events: state.filterEvents ? state.filteredFeedEvents : fetchedEvents,
   date: state.date,
@@ -368,10 +385,20 @@ const feedProps = {
 const EventsView = () => {
   if (state.activeView === "month") {
     return (
-      <Widget
-        src="itexpert120-contra.near/widget/Calendar"
-        props={{ ...calendarProps }}
-      />
+      <>
+        <desktopCalendar>
+          <Widget
+            src="itexpert120-contra.near/widget/Calendar"
+            props={{ ...calendarProps }}
+          />
+        </desktopCalendar>
+        <mobileCalendar>
+          <Widget
+            src="itexpert120-contra.near/widget/MobileCalendar"
+            props={{ ...mobileCalendarProps }}
+          />
+        </mobileCalendar>
+      </>
     );
   } else {
     return (
@@ -385,6 +412,18 @@ const EventsView = () => {
 
 const desktopHeader = styled.div`
   @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const desktopCalendar = styled.div`
+  @media (width < 768px) {
+    display: none;
+  }
+`;
+
+const mobileCalendar = styled.div`
+  @media (width > 768px) {
     display: none;
   }
 `;
@@ -404,6 +443,7 @@ const mobileHeader = styled.div`
     font-weight: 600;
     line-height: normal;
     letter-spacing: -0.154px;
+    margin: 0;
   }
 
   p {
@@ -425,6 +465,10 @@ const mobileViewButton = styled.button`
   height: auto;
   padding: 4px 8px;
   font-size: 14px;
+
+  &:active {
+    border: none;
+  }
 
   border: none;
 
@@ -518,9 +562,9 @@ return (
           </mobileViewButton>
         </mobileViewContainer>
       </div>
-      <div className="border border-light-subtle d-flex p-2">
+      <div className="border rounded-top border-light-subtle d-flex p-2">
         <formattedMobileDate />
-        <div className="ms-auto d-flex">
+        <div className="ms-auto d-flex align-items-center">
           <iconButton onClick={() => handleMonthChange(-1)}>
             <i className="bi bi bi-chevron-left"></i>
           </iconButton>
