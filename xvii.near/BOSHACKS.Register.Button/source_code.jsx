@@ -1,4 +1,4 @@
-const ownerId = "ndcplug.near";
+const ownerId = "xvii.near";
 
 const Anchor = styled.a`
   display: flex;
