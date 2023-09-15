@@ -30,7 +30,7 @@ return (
         props={props}
       />
     </div>
-    <div style={{ width: "60%" }}>
+    <div style={{ width: "70%" }}>
       <div>
         <div style={{ marginTop: 40 }} />
         <h4
