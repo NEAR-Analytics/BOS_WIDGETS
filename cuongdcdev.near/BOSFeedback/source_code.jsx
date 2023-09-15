@@ -12,9 +12,9 @@ const errorMsg = props.errorMsg
 const formTitle = props.txtTitle ? props.txtTitle : "Feedback or support form";
 const userWalletAddr = context.accountId;
 const txtContact = props.txtContact
-  ? props.txContact
+  ? props.txtContact
   : "Contact address (optional)";
-const txtFeedback = props.txtText ? props.txtFeedback : "Feedback message";
+const txtFeedback = props.txtFeedback ? props.txtFeedback : "Feedback message";
 
 const creatorId = "cuongdcdev.testnet";
 
@@ -24,6 +24,8 @@ const Css = styled.b`
     position: fixed;
     inset: 0;
     animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    z-index:1111;
+
   }
   
   .DialogContent {
@@ -41,6 +43,8 @@ const Css = styled.b`
     max-height: 85vh;
     padding: 25px;
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    z-index:2222;
+
   }
   .DialogContent:focus {
     outline: none;
@@ -214,7 +218,7 @@ return (
         borderRadius: "100%",
         width: props.size ? props.size : "3em",
         height: props.size ? props.size : "3em",
-        position: "absolute",
+        position: "fixed",
         right: 0,
         bottom: 0,
         display: state.opened ? "none" : "block",
