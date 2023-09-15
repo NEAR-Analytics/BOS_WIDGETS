@@ -420,14 +420,14 @@ const callTxPancakeZKEVM2 = (
     const WETH = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
     if (tokenIn != wethAddress && tokenOut != wethAddress) {
       swapType = "complex";
-      path = [tokenIn, WETH, tokenOut];
+      path = [tokenIn, tokenOut];
     } else {
       swapType = "single";
     }
 
     const swapContract = new ethers.Contract(
       input.routerContract,
-      input.routerAbi,
+      pancakeAbi,
       Ethers.provider().getSigner()
     );
 
@@ -439,19 +439,9 @@ const callTxPancakeZKEVM2 = (
     };
 
     if (swapType == "complex") {
-      const pathBytes =
-        "0x" + path.map((address) => address.substr(2)).join("");
-
       const encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
-        "exactInput",
-        [
-          {
-            path: pathBytes,
-            recipient: input.sender,
-            amountIn: value,
-            amountOutMinimum: "0",
-          },
-        ]
+        "swapExactTokensForTokens",
+        [value, "0", [tokenIn, WETH, tokenOut], input.sender]
       );
       multicallParams.push(encodedExactOutputSingleData);
     } else {
