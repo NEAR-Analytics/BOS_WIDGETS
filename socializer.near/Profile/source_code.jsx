@@ -137,7 +137,7 @@ const deposit = async (item) => {
   const amount = Number(state[item.id]);
   let oneTeraGas = 100000000000000;
   let oneNEARInYoctoNEAR = 1000000000000000000000000;
-  if (!amount) return;
+  if (!amount || amount <= 0) return;
 
   if (item.id === "NEAE") {
     Near.call(
