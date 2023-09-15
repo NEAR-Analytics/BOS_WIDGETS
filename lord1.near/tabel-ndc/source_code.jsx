@@ -1,10 +1,10 @@
 const themeColor = props.themeColor;
 const firsttheme = {
-  height: "110px",
+  height: "90px",
   align: "center",
-  description: "Tracking the activity of Soul Bound Token holders in voting.",
-  brand: "NDC Tracker",
-  fontsize: "100",
+  description: "",
+  brand: "Nominations Status",
+  fontsize: "50",
   fontweight: "25px",
   afterbrand: "🏦",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -19,11 +19,11 @@ const firsttheme = {
 };
 
 const secondtheme = {
-  height: "110px",
+  height: "90px",
   align: "center",
-  description: "Tracking the activity of Soul Bound Token holders in voting.",
-  brand: "NDC Tracker",
-  fontsize: "100",
+  description: "",
+  brand: "Voter Status",
+  fontsize: "50",
   fontweight: "25px",
   afterbrand: "🏦",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -38,11 +38,11 @@ const secondtheme = {
 };
 
 const thirdtheme = {
-  height: "110px",
+  height: "90px",
   align: "center",
-  description: "Tracking the activity of Soul Bound Token holders in voting.",
-  brand: "NDC Tracker",
-  fontsize: "100",
+  description: "",
+  brand: "Commentator Status",
+  fontsize: "50",
   fontweight: "25px",
   afterbrand: "🏦",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -56,11 +56,11 @@ const thirdtheme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 const fourththeme = {
-  height: "110px",
+  height: "90px",
   align: "center",
-  description: "Tracking the activity of Soul Bound Token holders in voting.",
-  brand: "NDC Tracker",
-  fontsize: "100",
+  description: "Based on number of votes received",
+  brand: "Candidate Status",
+  fontsize: "50",
   fontweight: "25px",
   afterbrand: "🏦",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -75,11 +75,11 @@ const fourththeme = {
 };
 
 const fifththeme = {
-  height: "110px",
+  height: "90px",
   align: "center",
-  description: "Tracking the activity of Soul Bound Token holders in voting.",
-  brand: "NDC Tracker",
-  fontsize: "100",
+  description: "Based on number of comments received",
+  brand: "Candidate Status",
+  fontsize: "50",
   fontweight: "25px",
   afterbrand: "🏦",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -190,7 +190,7 @@ const tabs = {
 const setTab = (tab) => State.update({ tab });
 
 const Container = styled.div`
-  &&{text-align:center};
+  &&{text-align:left};
   .tabContent{
     display:inline-flex;
     align-items:center;
@@ -211,7 +211,7 @@ const Container = styled.div`
     font-weight: 500;
     font-size: 14px;
     color:#fff;
-    height:30px;
+    height:40px;
     padding:0 22px;
     border:none;
 
@@ -234,7 +234,7 @@ let first = (
             title: "Nominee",
             key: "nominee",
             description:
-              "The Near address of top Nominee (based on number of Nomination)",
+              "The Near address of top Nominees (based on number of Nomination)",
           },
           {
             title: "HOM",
@@ -304,7 +304,8 @@ let second = (
           {
             title: "Removed Candidate",
             key: "candidate_remove",
-            description: "Total Nomination",
+            description:
+              "The voter removed their vote from how many candidates",
           },
           {
             title: "Removed Votes",
@@ -338,7 +339,7 @@ let third = (
           {
             title: "Candidates",
             key: "candidate_add",
-            description: "The Commentator Commented for how many candidates",
+            description: "The commentator commented for how many candidates?",
           },
           {
             title: "Comments",
@@ -348,7 +349,7 @@ let third = (
           {
             title: "Removed Candidate",
             key: "candidate_remove",
-            description: "Top Commentators of NDC",
+            description: "How many candidates did the commentator remove?",
           },
           {
             title: "Removed Comment",
@@ -377,12 +378,13 @@ let fourth = (
           {
             title: "Candidates",
             key: "candidate_vote",
-            description: "Top Candidates based on #votes in NDC",
+            description:
+              "Top Candidates based on number of votes received in NDC",
           },
           {
             title: "Voters",
             key: "voter_vote",
-            description: "Total Number of Voters voted to this candidate",
+            description: "Total number of voters voted for this candidate",
           },
           {
             title: "Votes",
@@ -390,10 +392,10 @@ let fourth = (
             description: "Total Number of votes",
           },
           {
-            title: "Removed voter",
+            title: "Voter Removed",
             key: "voter_remove",
             description:
-              "Total Number of Voters removed their votes from this candidate",
+              "Total number of voters removed their votes from this candidate",
           },
           {
             title: "Removed votes",
@@ -423,7 +425,8 @@ let fifth = (
           {
             title: "Candidate",
             key: "candidate_add",
-            description: "Total Number of comments for each candidate",
+            description:
+              "Top Candidates based on number of comments received in NDC",
           },
           {
             title: "commentators",
@@ -448,7 +451,7 @@ let fifth = (
             description: "How many comments removed from this candidate",
           },
         ],
-        rowsCount: 10,
+        rowsCount: 5,
       }}
     />
   </div>
@@ -466,7 +469,7 @@ return (
                   aria-current="page"
                   onClick={() => setTab(tabs.firstarea)}
                 >
-                  first1
+                  Nominations
                 </button>
               </li>
               <li className="tab-item">
@@ -475,7 +478,7 @@ return (
                   aria-current="page"
                   onClick={() => setTab(tabs.secondarea)}
                 >
-                  second2
+                  Votes cast
                 </button>
               </li>
               <li className="tab-item">
@@ -484,7 +487,7 @@ return (
                   aria-current="page"
                   onClick={() => setTab(tabs.thirdarea)}
                 >
-                  third3
+                  Comments Sent
                 </button>
               </li>
               <li className="tab-item">
@@ -493,7 +496,7 @@ return (
                   aria-current="page"
                   onClick={() => setTab(tabs.fourtharea)}
                 >
-                  fourth4
+                  Votes Rx
                 </button>
               </li>
               <li className="tab-item">
@@ -502,7 +505,7 @@ return (
                   aria-current="page"
                   onClick={() => setTab(tabs.fiftharea)}
                 >
-                  fifth5
+                  Comments Rx
                 </button>
               </li>
             </ul>
