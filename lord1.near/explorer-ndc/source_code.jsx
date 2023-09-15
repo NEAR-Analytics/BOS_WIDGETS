@@ -36,6 +36,24 @@ const firsttheme = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
+const commenttheme = {
+  height: "90px",
+  align: "center",
+  description: "",
+  brand: "Comment",
+  fontsize: "75",
+  fontweight: "25px",
+  afterbrand: "Status",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
 const thirdtheme = {
   height: "90px",
   align: "center",
@@ -128,7 +146,7 @@ const eighttheme = {
 };
 //----------------------------------------------------------------------------------
 const queryHashes = [
-  { id: 1, hash: "cbcc0950-c11a-46c5-9e86-72eb9cc9566f" },
+  { id: 1, hash: "a75b60b8-49b0-48f5-a3a1-d3f3cc96b132" },
   { id: 2, hash: "a331ed99-2a7e-4d59-91c9-67c871359b28" },
   { id: 3, hash: "98c8ae5f-30be-4fd7-accb-afc2a8d4733f" },
   { id: 4, hash: "a86c2445-382b-446c-a726-9913224a51b9" },
@@ -875,123 +893,60 @@ let second = (
 );
 
 let first = (
-  <Table
-    style={{}}
-    className="table table-hover table-striped table-borderless "
+  <div
+    style={{ background: themeColor?.sbt_area?.card_bg }}
+    className="shadow-sm rounded-2 overflow-auto"
   >
-    <thead>
-      <tr>
-        <th className="col-1 align-middle" scope="col">
-          User
-        </th>
-        <th className="col-1 align-middle" scope="col">
-          SBT
-        </th>
-        <th className="col-1 align-middle" scope="col">
-          Class
-        </th>
-        <th className="col-1 align-middle" scope="col">
-          Token Id
-        </th>
-        <th className="col-1 align-middle" scope="col">
-          Issuer
-        </th>
-        <th className="col-1 align-middle" scope="col">
-          Issue date
-        </th>
-        <th className="col-1 align-middle" scope="col">
-          Expire date
-        </th>
-        <th className="col-1 align-middle" scope="col">
-          Date to deadline
-        </th>
-        <th className="col-1 align-middle" scope="col">
-          Tx Link
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {state.filteredData.length === 0 && (
-        <tr>
-          <td className="text-center p-4" colspan="10">
-            No same signer
-          </td>
-        </tr>
-      )}
-      {state.filteredData.length >= 1 &&
-        state.filteredData.map((row) => {
-          return (
-            <tr key={row.TX_HASH}>
-              <td className="align-middle ">
-                <Link
-                  href={`/mob.near/widget/ProfilePage?accountId=${row.SINGER}`}
-                >
-                  <Widget
-                    src="mob.near/widget/ProfileImage"
-                    props={{ accountId: row.SINGER }}
-                  />
-                </Link>
-              </td>
-              <td className="align-middle" style={{ color: "#806ce1" }}>
-                {row.SBT_CLASS}
-              </td>
-              <td className="align-middle">{row.CLASS}</td>
-              <td className="align-middle" style={{ color: "#EA1179" }}>
-                {row.TOKEN_ID}
-              </td>
-              <td className="align-middle" style={{ color: "#806ce1" }}>
-                {row.SIGNER_ID}
-              </td>
-              <td className="align-middle" style={{ color: "#806ce1" }}>
-                {onHandelDate(row.ISSUED_AT)}
-              </td>
-              <td className="align-middle " style={{ color: "#806ce1" }}>
-                {onHandelDate(row.EXPIRES_AT)}
-              </td>
-              <td className="align-middle ">
-                <Widget
-                  src="lord1.near/widget/progress-bar"
-                  props={{
-                    inside: `${row.DURATION}` - `${row.TO_DEADLINE}`,
-                    total: `${row.DURATION}`,
-                    currTheme: "#806ce1",
-                    widgetBarWidth: "100",
-                    backgroundcolor: "#d2cafa",
-                    gradiantcolorleft: "#806ce1",
-                    gradiantcolorright: "#EA1179",
-                    visibilitydivision: "visible",
-                    visibilitypercent: "hidden",
-                  }}
-                />
-              </td>
-              <td className="align-middle text-center">
-                <a
-                  className="d-inline-block"
-                  href={`https://nearblocks.io/txns/${row.TX_HASH}`}
-                  target="_blank"
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12.9167 5.25001L12.9167 1.75001M12.9167 1.75001H9.41674M12.9167 1.75001L7.66675 7M6.50008 1.75H5.21675C4.23666 1.75 3.74661 1.75 3.37226 1.94074C3.04298 2.10852 2.77527 2.37623 2.60749 2.70552C2.41675 3.07986 2.41675 3.56991 2.41675 4.55V9.45C2.41675 10.4301 2.41675 10.9201 2.60749 11.2945C2.77527 11.6238 3.04298 11.8915 3.37226 12.0593C3.74661 12.25 4.23666 12.25 5.21675 12.25H10.1167C11.0968 12.25 11.5869 12.25 11.9612 12.0593C12.2905 11.8915 12.5582 11.6238 12.726 11.2945C12.9167 10.9201 12.9167 10.4301 12.9167 9.45V8.16667"
-                      stroke="#806ce1"
-                      stroke-width="2.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </a>
-              </td>
-            </tr>
-          );
-        })}
-    </tbody>
-  </Table>
+    <Widget src="lord1.near/widget/header-dynamic" props={commenttheme} />
+    <Widget
+      src="lord1.near/widget/table-pagination"
+      props={{
+        themeColor: { table_pagination: themeColor.table_pagination },
+        data: state.filteredData,
+        rowsCount: 10,
+        columns: [
+          {
+            title: "ID",
+            key: "id",
+            description: "Comment Id",
+            colors: "#806ce1",
+          },
+
+          { title: "Timestamp", key: "date" },
+          {
+            title: "Signer",
+            key: "SINGER",
+            link: "yes",
+            beforehref:
+              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+            hyperlink: "yes",
+          },
+          { title: "Deleted ", key: "status" },
+          {
+            title: "Target",
+            key: "candidate",
+            link: "yes",
+            beforehref:
+              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+            hyperlink: "yes",
+          },
+          {
+            title: "Comment text",
+            key: "comment",
+            explain: "yes",
+          },
+
+          {
+            title: "Hash",
+            key: "tx_hash",
+            link: "yes",
+            beforehref: "https://nearblocks.io/txns/",
+            afterhref: "",
+          },
+        ],
+      }}
+    />
+  </div>
 );
 
 return (
@@ -1063,6 +1018,7 @@ return (
           {third}
           {fourth}
           {second}
+          {first}
         </div>
       )}
     </div>
