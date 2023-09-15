@@ -274,7 +274,7 @@ return (
         <Widget src="lord1.near/widget/header-dynamic" props={generaltheme} />
         <div style={{ marginLeft: "1rem" }}>
           <Widget
-            src="lord1.near/widget/tab-sbt"
+            src="lord1.near/widget/tab-ndc-area"
             props={{
               backgroundColor: themeColor?.tab_sbt?.backgroundColor,
               textColor: themeColor?.tab_sbt?.textColor,
