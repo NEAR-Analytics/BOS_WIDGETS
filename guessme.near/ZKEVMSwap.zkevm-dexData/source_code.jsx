@@ -39,7 +39,6 @@ const expandToken = (value, decimals) => {
 };
 
 const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
-  console.log("input: ", input);
   if (
     input.sender &&
     input.routerContract !== undefined &&
@@ -157,7 +156,6 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
     const assets = [input.inputAssetTokenId, input.outputAssetTokenId];
 
     const funds = [input.sender, false, input.sender, false];
-    console.log("funds: ", funds);
 
     const swap_steps = [
       {
@@ -218,9 +216,7 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       .then((transactionHash) => {
         onComplete(transactionHash);
       })
-      .catch((e) => {
-        console.log("e111", e);
-      });
+      .catch((e) => {});
   }
 };
 
@@ -269,8 +265,6 @@ const callTxQuickSwap = (
       Ethers.provider().getSigner()
     );
 
-    console.log("WethContract: ", WethContract);
-
     if (
       input.inputAssetTokenId === ethAddress &&
       input.outputAssetTokenId === wethAddress
@@ -308,8 +302,6 @@ const callTxQuickSwap = (
         ? wethAddress
         : input.outputAssetTokenId;
 
-    // console.log("tokenIn: ", tokenIn, "path", path);
-
     const recipient =
       input.outputAssetTokenId === ethAddress
         ? input.outputAssetTokenId
@@ -318,8 +310,6 @@ const callTxQuickSwap = (
     const multicallParams = [];
 
     if (path.length === 2) {
-      console.log("value33333 ", value);
-
       const inputs = [
         {
           tokenIn,
@@ -336,8 +326,6 @@ const callTxQuickSwap = (
         "exactInputSingle",
         inputs
       );
-
-      console.log("encodedDataCallSwap: ", encodedDataCallSwap);
 
       multicallParams.push(encodedDataCallSwap);
     } else if (path.length > 2) {
@@ -367,7 +355,7 @@ const callTxQuickSwap = (
     );
 
     const options = {
-      gasLimit: gasLimit ?? 10000,
+      gasLimit: gasLimit ?? swapType === 10000,
       value: input.inputAssetTokenId === ethAddress ? value : "0",
     };
 
@@ -452,27 +440,54 @@ const callTxPancakeZKEVM2 = (
       });
     }
 
+    const deadline = new Big(Math.floor(Date.now() / 1000))
+      .add(new Big(1800))
+      .toFixed();
+
     const ifaceErc20 = new ethers.utils.Interface(input.routerAbi);
 
-    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+    const tokenIn =
+      input.inputAssetTokenId === ethAddress
+        ? wethAddress
+        : input.inputAssetTokenId;
+
+    const tokenOut =
+      input.outputAssetTokenId === ethAddress
+        ? wethAddress
+        : input.outputAssetTokenId;
+
+    const recipient =
+      input.outputAssetTokenId === ethAddress
+        ? input.routerContract
+        : input.sender;
 
     let swapType;
-
     const WETH = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
-    if (input.inputAssetTokenId != WETH && input.outputAssetTokenId != WETH) {
+    if (tokenIn != wethAddress && tokenOut != wethAddress) {
       swapType = "complex";
       path = [input.inputAssetTokenId, WETH, input.outputAssetTokenId];
     } else {
       swapType = "single";
     }
 
-    let encodedExactOutputSingleData;
+    const swapContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
+
+    const multicallParams = [];
+
+    const options = {
+      gasLimit: gasLimit ?? 10000,
+      value: input.inputAssetTokenId === ethAddress ? value : "0",
+    };
+
     if (swapType == "complex") {
-      console.log(swapType, "path", path);
       const pathBytes =
         "0x" + path.map((address) => address.substr(2)).join("");
 
-      encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
+      const encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
         "exactInput",
         [
           {
@@ -483,51 +498,45 @@ const callTxPancakeZKEVM2 = (
           },
         ]
       );
+      multicallParams.push(encodedExactOutputSingleData);
     } else {
-      encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
+      const encodedExactOutputSingleData = ifaceErc20.encodeFunctionData(
         "exactInputSingle",
         [
           {
-            tokenIn: input.inputAssetTokenId,
-            tokenOut: input.outputAssetTokenId,
+            tokenIn: tokenIn,
+            tokenOut: tokenOut,
             fee: poolFee,
-            recipient: input.sender,
+            recipient: recipient,
             amountIn: value,
             amountOutMinimum: "0",
             sqrtPriceLimitX96: sqrtPriceLimitX96 ?? "0",
           },
         ]
       );
+
+      multicallParams.push(encodedExactOutputSingleData);
     }
 
-    const multicallParams = [encodedExactOutputSingleData];
+    if (input.outputAssetTokenId === ethAddress) {
+      multicallParams.push(
+        ifaceErc20.encodeFunctionData("unwrapWETH9", ["0", input.sender])
+      );
+    }
 
-    const multicallData = ifaceErc20.encodeFunctionData(
-      "multicall(uint256,bytes[])",
-      [
-        //const multicallData = ifaceErc20.encodeFunctionData("multicall", [
-        deadline.toFixed(),
-        multicallParams,
-      ]
-    );
-
-    const txArgs = {
-      to: input.routerContract,
-      from: input.sender,
-      data: multicallData,
-      gasLimit: gasLimit ?? 10000,
-    };
-
-    Ethers.provider()
-      //.send("eth_sendTransaction", txArgs)
-      .getSigner()
-      .sendTransaction(txArgs)
+    return swapContract["multicall(uint256,bytes[])"](
+      deadline,
+      multicallParams,
+      options
+    )
       .then((transactionHash) => {
         onComplete(transactionHash);
       })
-      .catch(() => {});
+      .catch((e) => {
+        console.log("e111", e);
+      });
 
-    return;
+    // return;
   }
 };
 
@@ -572,7 +581,7 @@ const callTokenApprovalEVM = (input, onComplete, gweiPrice, gasLimit) => {
 if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
   Ethers.provider()
     .getNetwork()
-    .then((chainIdData) => {
+    .then(() => {
       if (DEX === "QuickSwap") {
         if (state.erc20Abi == undefined) {
           const erc20Abi = fetch(
