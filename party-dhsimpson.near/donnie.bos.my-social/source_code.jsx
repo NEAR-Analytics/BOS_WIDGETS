@@ -1,6 +1,6 @@
 const account_id = context.accountId ?? props.accountId;
 
-const profileData = props.profile ?? Social.getr(`idknwhoru.near/profile`); //`idknwhoru.near/profile`
+const profileData = props.profile ?? Social.getr(account_id); //`idknwhoru.near/profile`
 
 if (profileData === null) {
   return "Loading";
@@ -74,14 +74,23 @@ function PostData() {
 
   function RenderPostListItem(key, value, idx) {
     const { text, image } = JSON.parse(value);
+    const PostText = styled.p`
+      font-size: 20px;
+    `;
+
+    const PostImg = styled.img`
+      width: 50px;
+      height: 50px;
+    `;
+
     return (
       <>
-        <p>
+        <PostText>
           <b>#{idx}</b>
           {text}
-        </p>
+        </PostText>
         {image && (
-          <img
+          <PostImg
             src={`${nearIpfsBaseUrl}${image.ipfs_cid}`}
             alt="profile-image"
           />
@@ -90,7 +99,7 @@ function PostData() {
     );
   }
 
-  return <SocialData data={postList} renderer={RenderPostListItem} />;
+  return <SocialData data={postList} name="Posts" renderer={RenderPostListItem} />;
 }
 
 function WidgetData() {
@@ -99,12 +108,10 @@ function WidgetData() {
   function RenderWidgetListItem(key, value) {
     const widgetBaseUrl = `https://near.social/${account_id}/widget/`;
 
-    const Link = styled.a`
+    const OpenWidgetLink = styled.a`
         width: 100%;
         display: flex;
         justify-content: space-between;
-        align-items: center;
-
         text-decoration: none;
         color: black;
 
@@ -113,22 +120,28 @@ function WidgetData() {
             color: black;
         }
     `;
+    const WidgetName = styled.span`
+        max-width: 70%;
+        font-size: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    `;
 
     return (
-      <Link href={`${widgetBaseUrl}${key}`} target="_blank">
-        <p>{key}</p>
+      <OpenWidgetLink href={`${widgetBaseUrl}${key}`} target="_blank">
+        <WidgetName>{key}</WidgetName>
         <Widget
           src="party-dhsimpson.near/widget/gotoSvg"
           props={{ width: 15, heigh: 15 }}
         />
-      </Link>
+      </OpenWidgetLink>
     );
   }
 
-  return <SocialData data={componentData} renderer={RenderWidgetListItem} />;
+  return <SocialData data={componentData} name="Widgets" renderer={RenderWidgetListItem} />;
 }
 
-function SocialData({ data, renderer }) {
+function SocialData({ data, name, renderer }) {
   const DataHead = styled.h3`
         border-bottom: 1px solid #DDD;
         line-height: 2;
@@ -154,7 +167,7 @@ function SocialData({ data, renderer }) {
     `;
   return (
     <MySocialData>
-      <DataHead>Number of widgets: {Object.keys(data).length}</DataHead>
+      <DataHead>Number of {name}: {Object.keys(data).length}</DataHead>
       <SocialDataList>
         {Object.entries(data).map(([key, value], idx) => {
           return (
