@@ -15,10 +15,5 @@ return (
     >
       increment {state.value}
     </button>
-    <Widget
-      src="andyh.near/widget/ComponentIdTestChild"
-      id={`${state.id}_child`}
-      props={{ id: `${state.id}_child`, value: 0, update: (newValue) => {} }}
-    />
   </div>
 );
