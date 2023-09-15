@@ -253,7 +253,7 @@ return (
                 >
                   <path
                     d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
-                    fill="#806ce1"
+                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
                   />
                 </svg>
                 <svg
@@ -265,7 +265,7 @@ return (
                 >
                   <path
                     d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
-                    fill="black"
+                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
                   />
                 </svg>
               </button>
@@ -302,7 +302,7 @@ return (
                 >
                   <path
                     d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
-                    fill="#806ce1"
+                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
                   />
                 </svg>
               </button>
@@ -366,7 +366,7 @@ return (
                 >
                   <path
                     d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
-                    fill="#806ce1"
+                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
                   />
                 </svg>
               </button>
@@ -404,7 +404,7 @@ return (
                 >
                   <path
                     d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
-                    fill="#806ce1"
+                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
                   />
                 </svg>
                 <svg
@@ -416,7 +416,7 @@ return (
                 >
                   <path
                     d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
-                    fill="#806ce1"
+                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
                   />
                 </svg>
               </button>
