@@ -65,8 +65,6 @@ if (state.res.amountIn !== amountIn || state.res.dex !== dex) {
   });
 }
 
-console.log("swapOptions: ", swapOptions);
-
 const quoterContractId =
   props.quoterContractId ?? "0x55BeE1bD3Eb9986f6d2d963278de09eE92a3eF1D";
 const sqrtPriceLimitX96 = props.sqrtPriceLimitX96 ?? 0;
