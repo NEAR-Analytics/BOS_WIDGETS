@@ -64,18 +64,18 @@ return (
   >
     <div className="header">
       <div className="headerContent">
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Jan</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Feb</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Mar</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Apr</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>May</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Jun</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Jul</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Aug</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Sep</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Oct</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Nov</p>
-        <p style={{ color: props.theme.textColor3, fontSize: 12 }}>Dec</p>
+        <p style={{ color: props.theme.textColor3 }}>Jan</p>
+        <p style={{ color: props.theme.textColor3 }}>Feb</p>
+        <p style={{ color: props.theme.textColor3 }}>Mar</p>
+        <p style={{ color: props.theme.textColor3 }}>Apr</p>
+        <p style={{ color: props.theme.textColor3 }}>May</p>
+        <p style={{ color: props.theme.textColor3 }}>Jun</p>
+        <p style={{ color: props.theme.textColor3 }}>Jul</p>
+        <p style={{ color: props.theme.textColor3 }}>Aug</p>
+        <p style={{ color: props.theme.textColor3 }}>Sep</p>
+        <p style={{ color: props.theme.textColor3 }}>Oct</p>
+        <p style={{ color: props.theme.textColor3 }}>Nov</p>
+        <p style={{ color: props.theme.textColor3 }}>Dec</p>
       </div>
     </div>
 
@@ -99,7 +99,7 @@ return (
         <p style={{ color: props.theme.textColor3 }} className="weekday">
           Fir
         </p>
-        <p style={{ color: props.theme.textColor3 }} className="weekday">
+         <p style={{ color: props.theme.textColor3 }} className="weekday">
           Sat
         </p>
       </div>
@@ -127,7 +127,7 @@ return (
 
           return (
             <Widget
-              src="harrydhillon.near/widget/ProfilePage.Contributions.Item"
+              src="saidulbadhon.near/widget/ProfilePage.Contributions.Item"
               props={{
                 color: color,
                 date: formattedDate,
@@ -141,9 +141,7 @@ return (
     </div>
 
     <div className="footer">
-      <p style={{ color: props.theme.textColor3 }} className="footerText">
-        Less
-      </p>
+      <p className="footerText">Less</p>
       <div
         style={{
           backgroundColor: props.theme.name === "light" ? "#ebedf0" : "#161b22",
@@ -169,9 +167,7 @@ return (
           backgroundColor: props.theme.name === "light" ? "#216e39" : "#39d353",
         }}
       />
-      <p style={{ color: props.theme.textColor3 }} className="footerText">
-        More
-      </p>
+      <p className="footerText">More</p>
     </div>
   </div>
 );
