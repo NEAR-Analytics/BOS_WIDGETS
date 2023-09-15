@@ -6,13 +6,14 @@ State.init({
 });
 
 // console.log({ ComponentState });
-// const components = [state.a, state.b, state.c];
+const components = [state.a, state.b, state.c];
 return (
   <>
     <h4>{props.title}</h4>
     <button onClick={() => State.update({ x: state.x + 1 })}>
       increment parent {state.x}
     </button>
+    {/*
     <Widget
       src="andyh.near/widget/ComponentIdTestChild"
       id={"a"}
@@ -42,8 +43,8 @@ return (
           // console.log({ ...state });
         },
       }}
-    />
-    {/*components.map(({ id, value }) => (
+    />*/}
+    {components.map(({ id, value }) => (
       <Widget
         src="andyh.near/widget/ComponentIdTestChild"
         id={id}
@@ -59,6 +60,6 @@ return (
           },
         }}
       />
-    ))*/}
+    ))}
   </>
 );
