@@ -2,7 +2,8 @@ const themeColor = props.themeColor;
 const generaltheme = {
   height: "110px",
   align: "center",
-  description: "Tracking the activity of Soul Bound Token holders in voting.",
+  description:
+    "Tracking the activity of Soul Bound Token holders in Nomination process.",
   brand: "NDC Tracker",
   fontsize: "100",
   fontweight: "25px",
@@ -18,38 +19,10 @@ const generaltheme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
-const projecttheme = {
-  height: "150px",
-  align: "left",
-  description:
-    "Find Top performers in NDC like top voters, nominees, commentator ",
-  brand: "Top",
-  fontsize: "300",
-  fontweight: "25px",
-  afterbrand: "performers",
-  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
-  fontbrand: " Arial, sans-serif",
-  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
-  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
-  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
-  fontsubtitle: " Arial, sans-serif",
-  background:
-    themeColor?.dynamic_header?.background ||
-    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
-};
-
 const queryHashes = [
   { id: 1, hash: "30e55bab-a7ff-4777-a72e-1c0bddd12ff6" },
-  { id: 2, hash: "e53d5bd2-dd38-4966-adcf-7fc39b081f39" },
-  { id: 3, hash: "bccb6cff-7cac-430b-b644-f6fe327bea34" },
-  { id: 4, hash: "9ca26f92-b149-43d7-8a2c-8a82047a7118" },
-  { id: 5, hash: "148bbf87-cccb-4eb0-8f48-9fe5ae090631" },
-  { id: 6, hash: "2aa6e842-bcb8-4315-a8d4-797a1e88bb6c" },
-  { id: 7, hash: "d18e6a5c-0dae-43d0-a718-0cfc84f60961" },
-  { id: 8, hash: "52275624-3e5b-4a92-bcf4-5d9cffeb95e8" },
-  { id: 9, hash: "3ca36592-256e-4dda-97e3-de5f71baeba5" },
-  { id: 10, hash: "2c93f2aa-7da5-4c42-acb5-0a09592a4e8d" },
-  { id: 11, hash: "d271534a-bf7e-4ed5-9cd0-c0c62b029408" },
+  { id: 2, hash: "6f3bf58b-a569-4a0d-bba5-ab73885f3c44" },
+  { id: 3, hash: "b88d5f66-5278-470e-b93c-335e94876bd6" },
 ];
 
 State.init({
@@ -248,7 +221,8 @@ return (
               themeColor.chartColor,
               {
                 title: "Nomination for Each House",
-                subtitle: "Number of Nominations for Each House",
+                subtitle:
+                  "Number of weekly Nominations for Each House (regardless of revoked ones)",
                 stacking: "normal",
               }
             )}
@@ -265,13 +239,13 @@ return (
               style={{ color: themeColor?.sbt_area?.card_title_color }}
               className="pt-4 ps-4"
             >
-              <i> Age of SBT wallets distribution</i>
+              <i>Number of transactions based on Functions </i>
             </h6>
             <Widget
               src="lord1.near/widget/Pie-chart"
               props={getPieProps(
                 state.data?.hash2?.data,
-                ["date_diff", "signer"],
+                ["function", "trxs"],
                 themeColor.chartColor,
                 {
                   title: "",
@@ -292,13 +266,13 @@ return (
               style={{ color: themeColor?.sbt_area?.card_title_color }}
               className="pt-4 ps-4"
             >
-              <i> SBT wallet transaction count distribution</i>
+              <i>Number of users based on Functions</i>
             </h6>
             <Widget
               src="lord1.near/widget/Pie-chart"
               props={getPieProps(
                 state.data?.hash3?.data,
-                ["number_of_transaction", "signer"],
+                ["function", "nominee"],
                 themeColor.chartColor,
                 {
                   title: "",
@@ -320,10 +294,7 @@ return (
         src="lord1.near/widget/tabel-ndc"
         props={getPieProps(themeColor.chartColor)}
       />
-      <div
-        className="my-4 shadow-sm  rounded-4"
-        style={{ background: themeColor?.sbt_area?.section_bg }}
-      ></div>
+
       <div
         className="my-4 shadow-sm  rounded-4"
         style={{ background: themeColor?.sbt_area?.section_bg }}
@@ -334,10 +305,6 @@ return (
         />
       </div>
 
-      <div
-        className="my-4 shadow-sm  rounded-4"
-        style={{ background: themeColor?.sbt_area?.section_bg }}
-      ></div>
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
         {state.error.length > 0 &&
           state.error.map((er) => (
