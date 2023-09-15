@@ -30,7 +30,13 @@ const Anchor = styled.a`
 `;
 
 return (
-  <Anchor href={props.href ?? "https://shard.dog/ncr"} target="_balnk">
+  <Anchor
+    href={
+      props.href ??
+      "https://marmaj.org/inside-the-near-research-collective-blockchain-elevated/"
+    }
+    target="_balnk"
+  >
     What is the NRC?
   </Anchor>
 );
