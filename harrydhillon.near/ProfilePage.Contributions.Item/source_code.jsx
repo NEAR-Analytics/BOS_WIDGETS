@@ -51,8 +51,8 @@ return (
           ? "rgba(256,256,256,.05)"
           : props.color,
         aspectRatio: 1 / 1,
-        maxWidth: 15,
-        maxHeight: 15,
+        width: 10,
+        height: 10,
       }}
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
