@@ -8,8 +8,9 @@ return (
     <button
       onClick={() => {
         console.log("sent from " + componentInstanceId);
-        State.update({ value: state.value + 1 });
-        // props.update(props.id);
+        const newValue = state.value + 1;
+        State.update({ value: newValue });
+        props.update(newValue);
       }}
     >
       increment {state.value}
