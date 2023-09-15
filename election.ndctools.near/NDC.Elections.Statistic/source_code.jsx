@@ -82,6 +82,8 @@ return (
     </Chart>
     <H5>
       <b>{state.voted}</b>/<small>{state.total} Humans Voted</small>
+    </H5>
+    <H5>
       <small>
         Quorum: <b>{quorum}</b>
       </small>
