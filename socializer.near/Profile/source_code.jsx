@@ -115,22 +115,22 @@ const getTokenData = () => {
   });
 };
 
-const result = getTokenData();
+if (!state.tokens.length) getTokenData();
 
 const deposit = async (item) => {
+  console.log(item, "==>item");
+
   const amount = Number(state[item.id]);
   const oneTeraGas = 1000000000000;
   const oneNEARInYoctoNEAR = 1000000000000000000000000;
   if (!amount) return;
   Near.call(
     item.contract,
-    "transfer_near",
+    item.method,
     Admin,
     oneTeraGas,
     amount * oneNEARInYoctoNEAR
-  ).then((res) => {
-    console.log(res, "==>res");
-  });
+  );
 };
 
 return (
@@ -297,9 +297,6 @@ return (
                                 className="text-decoration-underline"
                               >
                                 Deposit
-                              </a>
-                              <a href="#" className="text-decoration-underline">
-                                Withdraw
                               </a>
                             </div>
                           ) : (
