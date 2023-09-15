@@ -47,9 +47,8 @@ return (
       >
         <img
           style={{
-            width: 180,
-            height:180,
-            minWidth: 180,
+            width: 150,
+            height: 150,
             objectFit: "cover",
             borderRadius: "50%",
             outline: "2px solid #dbdcdd",
@@ -58,7 +57,7 @@ return (
           alt="profile"
         />
         <div style={{ padding: 10, paddingLeft: 20, width: "100%" }}>
-          <h2 style={{ color: props.theme.textColor }}>{name}</h2>
+          <h3 style={{ color: props.theme.textColor }}>{name}</h3>
           <p style={{ color: props.theme.textColor3 }}>@{accountId}</p>
           <SocialCardStyle>
             <div
@@ -68,8 +67,8 @@ return (
                 borderRightWidth: 1,
               }}
             >
-              <h4 style={{ color: props.theme.textColor }}>12</h4>
-              <h6 style={{ color: props.theme.textColor }}>Followers</h6>
+              <h5 style={{ color: props.theme.textColor }}>12</h5>
+              <p style={{ color: props.theme.textColor }}>Followers</p>
             </div>
             <div
               style={{
@@ -78,8 +77,8 @@ return (
                 borderRightWidth: 1,
               }}
             >
-              <h4 style={{ color: props.theme.textColor }}>45</h4>
-              <h6 style={{ color: props.theme.textColor }}>Following</h6>
+              <h5 style={{ color: props.theme.textColor }}>45</h5>
+              <p style={{ color: props.theme.textColor }}>Following</p>
             </div>
             <div
               style={{
@@ -88,8 +87,8 @@ return (
                 borderColor: "#ffffff",
               }}
             >
-              <h4 style={{ color: props.theme.textColor }}>Verified</h4>
-              <h6 style={{ color: props.theme.textColor }}>Status</h6>
+              <h5 style={{ color: props.theme.textColor }}>Verified</h5>
+              <p style={{ color: props.theme.textColor }}>Status</p>
             </div>
           </SocialCardStyle>
         </div>
