@@ -465,6 +465,7 @@ const Main = styled.div`
     align-items: center;
     position: relative;
     margin-top: -150px;
+    padding: 3rem;
 }
 .heroLeft{
     width: 100%;
@@ -570,6 +571,7 @@ const Main = styled.div`
     box-shadow: 0px 0px 20px rgba(0,0,0,.5);
     clip-path: polygon(30% 16%, 84% 16%, 84% 100%, 16% 100%, 16% 28%);
     border-radius: .5rem;
+
 }
 
 .artCard{
