@@ -37,6 +37,17 @@ const MyName = styled.h2`
 const MyWallet = styled.p`
 `;
 
+const MySocialDataWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+`;
+
+const MySocialData = styled.div`
+    width: 45%;
+    min-height: 500px;
+`;
+
 return (
     <>
     <MyPageWrapper>
@@ -51,12 +62,44 @@ return (
                 </MyWallet>
             </div>
         </ProfileWrapper>
+        <MySocialDataWrapper>
+            <MySocialData>
+                <h4>
+                    Number of posts: {Object.keys(postData).length}
+                </h4>
+                <ul>
+                    {Object.entries(postData).map(([key, value])=>{
+                        const {text, image} = JSON.parse(value);
+                        return (
+                            <div>
+                                <p>{text}</p>
+                                <img src={`${nearIpfsBaseUrl}${image.ipfs_cid}`} alt="profile-image"/>
+                            </div>
+                        )
+                    })}
+                </ul>
+            </MySocialData>
+            <MySocialData>
+                <h4>
+                    Number of widgets: {Object.keys(componentData).length}
+                </h4>
+                <ul>
+                    {Object.entries(componentData).map(([key, value])=>{
+                        return (
+                            <div>
+                                <p>{key}</p>
+                            </div>
+                        )
+                    })}
+                </ul>
+            </MySocialData>
+        </MySocialDataWrapper>
     </MyPageWrapper>
   <div>
     {JSON.stringify(profileData)}
     <br />
     <br />
-    {JSON.stringify(Object.keys(componentData))}
+    {/*{JSON.stringify(componentData)}*/}
     <br />
     <br />
     {JSON.stringify(postData)}
