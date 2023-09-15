@@ -22,7 +22,6 @@ const SocialCardStyle = styled.div`
     width:100%;
     display: flex;
     justify-content:space-around;
-    padding:10px;
     padding-top:20px;
     text-align: center;
     padding-bottom:18px;
@@ -67,8 +66,10 @@ return (
                 borderRightWidth: 1,
               }}
             >
-              <h5 style={{ color: props.theme.textColor }}>12</h5>
-              <p style={{ color: props.theme.textColor }}>Followers</p>
+              <div style={{transform:"translateY(6px)"}}>
+                <h5 style={{ color: props.theme.textColor }}>12</h5>
+                <p style={{ color: props.theme.textColor }}>Followers</p>
+              </div>
             </div>
             <div
               style={{
@@ -77,8 +78,10 @@ return (
                 borderRightWidth: 1,
               }}
             >
-              <h5 style={{ color: props.theme.textColor }}>45</h5>
-              <p style={{ color: props.theme.textColor }}>Following</p>
+              <div style={{transform:"translateY(6px)"}}>
+                <h5 style={{ color: props.theme.textColor }}>45</h5>
+                <p style={{ color: props.theme.textColor }}>Following</p>
+              </div>
             </div>
             <div
               style={{
@@ -87,8 +90,10 @@ return (
                 borderColor: "#ffffff",
               }}
             >
-              <h5 style={{ color: props.theme.textColor }}>Verified</h5>
-              <p style={{ color: props.theme.textColor }}>Status</p>
+              <div style={{transform:"translateY(6px)"}}>
+                <h5 style={{ color: props.theme.textColor }}>Verified</h5>
+                <p style={{ color: props.theme.textColor }}>Status</p>
+              </div>
             </div>
           </SocialCardStyle>
         </div>
