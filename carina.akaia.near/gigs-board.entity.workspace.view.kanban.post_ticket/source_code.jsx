@@ -88,9 +88,9 @@ const iconsByPostType = {
   Sponsorship: "bi-cash-coin",
 };
 
-const KanbanPostTicket = ({ metadata: { id, features } }) => {
+const KanbanPostTicket = ({ metadata }) => {
   const data = Near.view(nearDevGovGigsContractAccountId, "get_post", {
-    post_id: id ? parseInt(id) : 0,
+    post_id: metadata.id ? parseInt(metadata.id) : 0,
   });
 
   if (!data) {
@@ -101,6 +101,31 @@ const KanbanPostTicket = ({ metadata: { id, features } }) => {
     data.snapshot.post_type === "Submission"
       ? "Solution"
       : data.snapshot.post_type;
+
+  const features = {
+    ...metadata.features,
+
+    sponsorship_request_indicator:
+      postType === "Solution" &&
+      data.snapshot.is_funding_requested &&
+      metadata.features.sponsorship_request_indicator,
+
+    requested_grant_value:
+      postType === "Solution" &&
+      data.snapshot.is_funding_requested &&
+      metadata.features.requested_grant_value,
+
+    requested_sponsor:
+      postType === "Solution" &&
+      data.snapshot.is_funding_requested &&
+      metadata.features.requested_sponsor,
+
+    approved_grant_value:
+      postType === "Sponsorship" && metadata.features.approved_grant_value,
+
+    sponsorship_supervisor:
+      postType === "Sponsorship" && metadata.features.sponsorship_supervisor,
+  };
 
   console.log(data);
 
@@ -138,9 +163,9 @@ const KanbanPostTicket = ({ metadata: { id, features } }) => {
   );
 
   const footer =
-    features.likes_amount || features.replies_amount ? (
+    features.like_count || features.reply_count ? (
       <div className="card-footer d-flex justify-content-between gap-3">
-        {features.likes_amount ? (
+        {features.like_count ? (
           <span>
             {widget("components.atom.icon", {
               type: "bootstrap_icon",
@@ -151,7 +176,7 @@ const KanbanPostTicket = ({ metadata: { id, features } }) => {
           </span>
         ) : null}
 
-        {features.replies_amount ? (
+        {features.reply_count ? (
           <span>
             {widget("components.atom.icon", {
               type: "bootstrap_icon",
@@ -207,30 +232,50 @@ const KanbanPostTicket = ({ metadata: { id, features } }) => {
         {titleArea}
         {descriptionArea}
 
-        {postType === "Sponsorship" || postType === "Solution" ? (
-          <>
-            {features.granted_funds_amount ? (
-              <span className="d-flex flex-wrap gap-2">
-                <span>Maximum amount:</span>
+        {features.sponsorship_request_indicator ? (
+          <span className="d-flex gap-2">
+            {widget("components.atom.icon", {
+              type: "bootstrap_icon",
+              variant: "bi-cash",
+            })}
 
-                <span>
-                  <span>{data.snapshot.amount}</span>
-                  <span>{data.snapshot.sponsorship_token}</span>
-                </span>
-              </span>
-            ) : null}
+            <span>Funding requested</span>
+          </span>
+        ) : null}
 
-            {features.funding_supervisor ? (
-              <div className="d-flex flex-wrap gap-2">
-                <span>Supervisor:</span>
+        {features.requested_grant_value || features.approved_grant_value ? (
+          <span className="d-flex flex-wrap gap-2">
+            <span>Amount:</span>
 
-                <Widget
-                  src={`neardevgov.near/widget/ProfileLine`}
-                  props={{ accountId: data.snapshot.supervisor }}
-                />
-              </div>
-            ) : null}
-          </>
+            <span className="d-flex flex-nowrap gap-1">
+              <span>{data.snapshot.amount}</span>
+              <span>{data.snapshot.sponsorship_token}</span>
+            </span>
+          </span>
+        ) : null}
+
+        {features.requested_sponsor || features.sponsorship_supervisor ? (
+          <div className="d-flex flex-wrap gap-2">
+            <span>{`${
+              features.requested_sponsor ? "Requested sponsor" : "Supervisor"
+            }:`}</span>
+
+            <Widget
+              className="flex-wrap"
+              src={`neardevgov.near/widget/ProfileLine`}
+              props={{
+                accountId:
+                  data.snapshot[
+                    features.requested_sponsor
+                      ? "requested_sponsor"
+                      : "supervisor"
+                  ],
+
+                hideAccountId: true,
+                tooltip: true,
+              }}
+            />
+          </div>
         ) : null}
 
         {tagList}
