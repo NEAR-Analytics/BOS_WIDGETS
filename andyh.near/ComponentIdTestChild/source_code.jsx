@@ -1,10 +1,10 @@
 // console.log(`RENDERING ${props.id} - ${componentInstanceId}`, { ...props });
-State.init({ value: props.value || 0, n: 0 });
-State.update({ n: state.value + 1 || 0 });
+State.init({ value: props.value || 0, n: 0, id: props.id });
+State.update({ id: props.id + "_state" });
 
 return (
   <div>
-    Hello {props.id}
+    Hello {state.id}
     <button
       onClick={() => {
         console.log("sent from " + componentInstanceId);
