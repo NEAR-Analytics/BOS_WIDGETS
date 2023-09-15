@@ -111,11 +111,17 @@ const getEstimate = (path, name) => {
     });
 };
 
-swapOptions.map((option) => {
-  if (state.res[option.name] === undefined) {
+const qs = `${amountIn}-${tokenIn}-${tokenOut}-${dex}`;
+if (qs === state.qs && !!state.res[option.name]) {
+  return "";
+} else {
+  State.update({
+    qs,
+  });
+  swapOptions.map((option) => {
     getEstimate(option.path, option.name);
-  }
-});
+  });
+}
 
 const allDataReceived = swapOptions.reduce(
   (accumulator, option) => accumulator && state.res[option.name] !== undefined,
@@ -142,6 +148,4 @@ if (state.res !== undefined && allDataReceived) {
   }
 }
 
-console.log("on final return");
-
-return <div />;
+return "";
