@@ -209,6 +209,7 @@ return (
         "margin-left": "2px",
         "margin-top": "2px",
         "margin-buttom": "2px",
+        color: themeColor?.table_pagination?.columntextcolor,
       }}
     />
 
@@ -235,6 +236,12 @@ return (
                   alignItems: "center",
                   borderRadius: 8,
                   color: themeColor?.table_pagination?.btn_color ?? "#000",
+                  borderColor:
+                    themeColor?.table_pagination?.btn_border ?? "#000",
+                  color: themeColor?.table_pagination?.btn_color ?? "#000",
+                  backgroundColor: btn
+                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
                 }}
               >
                 <svg
@@ -278,6 +285,12 @@ return (
                   alignItems: "center",
                   borderRadius: 8,
                   color: themeColor?.table_pagination?.btn_color ?? "#000",
+                  borderColor:
+                    themeColor?.table_pagination?.btn_border ?? "#000",
+                  color: themeColor?.table_pagination?.btn_color ?? "#000",
+                  backgroundColor: btn
+                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
                 }}
               >
                 <svg
@@ -309,7 +322,12 @@ return (
                   justifyContent: "center",
                   alignItems: "center",
                   borderRadius: 8,
-                  color: "#806ce1",
+                  borderColor:
+                    themeColor?.table_pagination?.btn_border ?? "#000",
+                  color: themeColor?.table_pagination?.btn_color ?? "#000",
+                  backgroundColor: btn
+                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
                 }}
               >
                 {state.currentPage}
@@ -331,6 +349,12 @@ return (
                   alignItems: "center",
                   borderRadius: 8,
                   color: themeColor?.table_pagination?.btn_color ?? "#000",
+                  borderColor:
+                    themeColor?.table_pagination?.btn_border ?? "#000",
+                  color: themeColor?.table_pagination?.btn_color ?? "#000",
+                  backgroundColor: btn
+                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
                 }}
               >
                 <svg
@@ -363,6 +387,12 @@ return (
                   alignItems: "center",
                   borderRadius: 8,
                   color: themeColor?.table_pagination?.btn_color ?? "#000",
+                  borderColor:
+                    themeColor?.table_pagination?.btn_border ?? "#000",
+                  color: themeColor?.table_pagination?.btn_color ?? "#000",
+                  backgroundColor: btn
+                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
                 }}
               >
                 <svg
