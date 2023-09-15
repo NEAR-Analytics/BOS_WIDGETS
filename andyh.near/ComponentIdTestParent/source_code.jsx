@@ -51,10 +51,10 @@ return (
         props={{
           value,
           id,
-          update: (componentId) => {
-            console.log(`updating ${componentId}`);
+          update: (newValue) => {
+            console.log(`updating ${id} to ${newValue}`);
             State.update({
-              [componentId]: { id: componentId, value: value + 1 },
+              [id]: { id, value: newValue },
             });
             // console.log({ ...state });
           },
