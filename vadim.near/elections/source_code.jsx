@@ -72,6 +72,8 @@ const svgFlag = (
   </svg>
 );
 
+const flagTitle = "This account wasn't initially on the whitelist";
+
 const accounts = Object.keys(state.voters ?? [])
   .filter((account_id) => containsSearchBy(account_id))
   .map((account_id) => {
@@ -110,9 +112,7 @@ const accounts = Object.keys(state.voters ?? [])
 
             <div class="text-secondary text-nowrap">
               {!state.whitelisted.includes(account_id) && (
-                <span title="Account became whitelisted during the voting period">
-                  {svgFlag}
-                </span>
+                <span title={flagTitle}>{svgFlag}</span>
               )}
               ({countKeys(state.voters[account_id])})
             </div>
@@ -237,8 +237,11 @@ const userWithSimilarVotes = userSimilarity.slice(0, 30).map((item) => {
       </div>
       <div class="text-nowrap">
         {candidateFriends.includes(item.accountId) ? followerSVG : ""}
+        {!state.whitelisted.includes(item.accountId) && (
+          <span title={flagTitle}>{svgFlag}</span>
+        )}
         <span class="text-secondary">
-          ({item.commonVotes} / {item.accountVotesNumber})
+          ({item.commonVotes}/{item.accountVotesNumber})
         </span>
       </div>
     </div>
@@ -304,17 +307,34 @@ return (
             </h4>
             <hr />
 
-            <div class="row text-start">{votes}</div>
-
-            <h6 class="pt-5">Users with similar vote sequences:</h6>
-            <div class="row text-start">{userWithSimilarVotes}</div>
-            <div class="row text-center text-secondary mt-3">
-              <small>(number of similar votes / number of user votes)</small>
-              <small>
-                Users followed by {state.accountId} are marked with{" "}
-                {followerSVG}
-              </small>
+            <div class="row text-start">
+              {votes.length ? (
+                votes
+              ) : (
+                <h3 class="text-center">Votes not found</h3>
+              )}
             </div>
+
+            {!!votes.length && (
+              <>
+                <h6 class="pt-5">Users with similar vote sequences:</h6>
+                <div class="row text-start">{userWithSimilarVotes}</div>
+                <div class="row text-center text-secondary mt-3">
+                  <small>
+                    (number of similar votes / number of user votes)
+                  </small>
+                  <small>
+                    Users followed by{" "}
+                    <a
+                      href={`/vadim.near/widget/elections?accountId=${state.accountId}`}
+                    >
+                      {state.accountId}
+                    </a>{" "}
+                    are marked with {followerSVG}
+                  </small>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>
