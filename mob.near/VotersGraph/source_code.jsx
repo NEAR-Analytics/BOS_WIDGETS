@@ -291,7 +291,6 @@ return (
     </div>
     <div>
       <Widget
-        key={selectedAccountId}
         src="vadim.near/widget/elections"
         props={{ accountId: selectedAccountId }}
       />
