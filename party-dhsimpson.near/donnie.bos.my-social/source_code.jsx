@@ -107,7 +107,7 @@ return (
                     {Object.entries(componentData).map(([key, value])=>{
                         return (
                             <div>
-                                <a href={`${widgetBaseUrl}${key}`}>{key}</a>
+                                <a href={`${widgetBaseUrl}${key}`} target='_blank'>{key}</a>
                             </div>
                         )
                     })}
