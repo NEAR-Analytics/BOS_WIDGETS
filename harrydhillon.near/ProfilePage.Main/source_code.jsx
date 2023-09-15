@@ -24,13 +24,13 @@ const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
 return (
   <div style={{ display: "flex", width: "100%" }}>
-    <div style={{ width: "40%" }}>
+    <div style={{ width: "50%" }}>
       <Widget
         src="harrydhillon.near/widget/ProfilePage.UserInfo"
         props={props}
       />
     </div>
-    <div style={{ width: "70%" }}>
+    <div style={{ width: "50%" }}>
       <div>
         <div style={{ marginTop: 40 }} />
         <h4
