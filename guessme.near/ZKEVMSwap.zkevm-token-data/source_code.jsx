@@ -91,6 +91,18 @@ const ethMetadata = {
   decimals: 18,
 };
 
+const USDCMetadata = {
+  icon: "https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389",
+  name: "USDC Coin",
+  symbol: "USDC",
+  decimals: 6,
+};
+
+const tokenMetas = {
+  "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035": USDCMetadata,
+  ethAddress: ethMetadata,
+};
+
 if (state.ethAccountId === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
@@ -110,10 +122,6 @@ if (state.erc20Abi === undefined) {
 }
 
 if (state.ethAccountId && state.erc20Abi) {
-  console.log("state.ethAccountId: ", state.ethAccountId);
-
-  console.log("tokenId: ", tokenId);
-
   if (tokenId !== ethAddress) {
     getErc20Balance(tokenId, state.ethAccountId).then(
       ({ decimals, balance }) => {
@@ -141,9 +149,10 @@ if (state.ethAccountId && state.erc20Abi) {
       metadata.decimals = state.tokenDecimals;
     }
 
-    console.log("metadata: ", metadata);
-
-    State.update({ metadata, price });
+    State.update({
+      metadata: tokenMetas[tokenId.toLowerCase()] || metadata,
+      price,
+    });
   } else {
     getNativeBalance().then((balance) => {
       State.update({ balance, tokenDecimals: 18, metadata: ethMetadata });
@@ -160,9 +169,11 @@ if (state.ethAccountId && state.erc20Abi) {
 
 if (
   state.balance !== undefined &&
-  state.balance !== null &&
-  state.metadata !== undefined &&
-  state.price !== undefined
+  state.balance !== null
+
+  // &&
+  // state.metadata !== undefined &&
+  // state.price !== undefined
 ) {
   const res = {
     balance: state.balance,
@@ -178,6 +189,7 @@ if (
 
   if (typeof props.onLoad === "function") {
     props.onLoad(res);
+    console.log("res: ", res);
   }
 }
 
