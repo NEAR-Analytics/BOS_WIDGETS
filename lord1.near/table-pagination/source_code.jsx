@@ -16,10 +16,13 @@ const handlePagination = () => {
   if (!rowsCount) return { table: data };
   const currentPage = state.currentPage;
   const totalPages = Math.ceil(data.length / rowsCount);
-  const currentTableData = data.slice(
-    (currentPage - 1) * rowsCount,
-    rowsCount * currentPage
-  );
+  const currentTableData = data
+    .filter((row) =>
+      Object.values(row).some((value) =>
+        value.toString().includes(state.searchValue)
+      )
+    )
+    .slice((currentPage - 1) * rowsCount, rowsCount * currentPage);
   const buttons = Array(totalPages).fill(0);
   buttons[currentPage - 1] = 1;
   return { buttons, table: currentTableData };
