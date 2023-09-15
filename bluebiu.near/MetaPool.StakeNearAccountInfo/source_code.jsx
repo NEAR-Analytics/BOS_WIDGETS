@@ -6,14 +6,15 @@ const { contractId, isUpdate, onLoad } = props;
 
 if (!contractId || !isUpdate) return "";
 
-const accountInfo = Near.view(contractId, "get_account", {
+const stakeBalance = Near.view(contractId, "ft_balance_of", {
   account_id: nearAccount,
 });
-if (accountInfo) {
-  const balance = ethers.utils.formatUnits(accountInfo.staked_balance, 24);
+
+if (stakeBalance) {
+  const balance = ethers.utils.formatUnits(stakeBalance, 24);
   onLoad({
     stakedBalance: Big(balance).toFixed(4, 0),
-    canWithdraw: accountInfo.can_withdraw,
+    canWithdraw: true,
   });
 }
 return "";
