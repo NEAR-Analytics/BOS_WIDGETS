@@ -47,8 +47,8 @@ return (
       >
         <img
           style={{
-            width: 150,
-            height: 150,
+            width: 120,
+            height: 120,
             objectFit: "cover",
             borderRadius: "50%",
             outline: "2px solid #dbdcdd",
