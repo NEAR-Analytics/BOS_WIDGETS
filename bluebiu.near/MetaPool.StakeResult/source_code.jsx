@@ -40,7 +40,7 @@ const { chain, lpToken, token, stakeType, value, stnearPrice } = props;
 
 return (
   <Result>
-    <Label>You will get:</Label>
+    <Label>You'll get:</Label>
     {chain === "ETH" && (
       <div>
         <Flex>
