@@ -47,10 +47,9 @@ return (
       >
         <img
           style={{
-            maxWidth: 250,
-            width: "100%",
-            minWidth: 150,
-            aspectRatio: "1 / 1",
+            width: 180,
+            height:180,
+            minWidth: 180,
             objectFit: "cover",
             borderRadius: "50%",
             outline: "2px solid #dbdcdd",
