@@ -5,8 +5,7 @@ const Spinner = styled.div`
   top: 0px;
   right: 0px;
   bottom: 0px;
-  background-color: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 const SpinnerContainer = styled.div`
   display: flex;
@@ -15,7 +14,9 @@ const SpinnerContainer = styled.div`
   width: 100%;
   height: 100vh;
 `;
-const SpinnerImg = styled.img``;
+const SpinnerImg = styled.img`
+  width: 50px;
+`;
 
 return (
   <Spinner>
