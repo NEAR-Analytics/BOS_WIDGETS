@@ -275,12 +275,13 @@ return (
               token,
               lpToken,
               isNear: true,
-              onAmountChange: (amount) => {
+              onAmountChange: (amount, errorTips) => {
                 const balance = state.stakeType
                   ? state.stakedBalance
                   : state.balance;
                 State.update({
-                  amount: amount,
+                  amount,
+                  errorTips,
                   stakable:
                     Number(amount) &&
                     !isNaN(Number(balance)) &&
