@@ -86,7 +86,7 @@ const initialState = {
   weight: "",
   cannabisUse: "",
   cannabisTolerance: "",
-  psychonautLevel: "",
+  psychonautStatus: "",
   medications: [],
   conditions: [],
   celebrity: "",
@@ -195,7 +195,7 @@ let page = (
     </p>
     <p></p>
     <div id="optInDataForm">
-      {options.birthday.label ?? "Birthday"}
+      <b>{options.birthday.label ?? "Birthday"}</b>
       <input
         id="birthday"
         type="date"
@@ -251,11 +251,14 @@ let page = (
         props={{
           label: "Sex",
           placeholder: "Choose your sex",
+          sexOptions,
           value: state.sex,
-          onChange: (sex) => State.update({ sex }),
-          validate: () => {
-            return;
-          },
+          onChange: (sex) =>
+            State.update({
+              sex: sex.map(({ name }) => ({
+                name: name.trim().replaceAll(/\s+/g, "-"),
+              })),
+            }),
         }}
       />
       <Widget
@@ -339,11 +342,11 @@ let page = (
       <Widget
         src={`opencann.near/widget/profile.demographics.psychonautLevel`}
         props={{
-          label: "Psychonaut Level",
+          label: "Psychonaut Status",
           placeholder: "Have you ever tried other substances?",
-          psychonautStatus,
-          value: state.psychonautLevel,
-          onChange: (psychonautLevel) => State.update({ psychonautLevel }),
+          psychonautLevel,
+          value: state.psychonautStatus,
+          onChange: (psychonautStatus) => State.update({ psychonautStatus }),
         }}
       />
       {options.medications.label ?? "Currently prescribed medication(s)"}
