@@ -66,7 +66,7 @@ return (
               <p>{app.description}</p>
               <p>
                 <Widget
-                  src="mob.near/widget/ProfileLine"
+                  src="andyh.near/widget/ProfileLine"
                   props={{
                     link: false,
                     accountId: authors[i],
