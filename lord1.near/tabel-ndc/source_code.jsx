@@ -190,7 +190,7 @@ const tabs = {
 const setTab = (tab) => State.update({ tab });
 
 const Container = styled.div`
-  &&{text-align:left};
+  &&{text-align:center};
   .tabContent{
     display:inline-flex;
     align-items:center;
@@ -211,7 +211,7 @@ const Container = styled.div`
     font-weight: 500;
     font-size: 14px;
     color:#fff;
-    height:40px;
+    height:30px;
     padding:0 22px;
     border:none;
 
@@ -235,6 +235,10 @@ let first = (
             key: "nominee",
             description:
               "The Near address of top Nominees (based on number of Nomination)",
+            link: "yes",
+            beforehref:
+              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+            hyperlink: "yes",
           },
           {
             title: "HOM",
@@ -290,6 +294,10 @@ let second = (
             title: "Voter",
             key: "voter_vote",
             description: "Top Voters of NDC",
+            link: "yes",
+            beforehref:
+              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+            hyperlink: "yes",
           },
           {
             title: "Candidate",
@@ -335,6 +343,10 @@ let third = (
             title: "Commentator",
             key: "commentator",
             description: "Top Commentators of NDC",
+            link: "yes",
+            beforehref:
+              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+            hyperlink: "yes",
           },
           {
             title: "Candidates",
@@ -380,6 +392,10 @@ let fourth = (
             key: "candidate_vote",
             description:
               "Top Candidates based on number of votes received in NDC",
+            link: "yes",
+            beforehref:
+              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+            hyperlink: "yes",
           },
           {
             title: "Voters",
@@ -427,9 +443,13 @@ let fifth = (
             key: "candidate_add",
             description:
               "Top Candidates based on number of comments received in NDC",
+            link: "yes",
+            beforehref:
+              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+            hyperlink: "yes",
           },
           {
-            title: "commentators",
+            title: "Commentators",
             key: "commentator",
             description:
               "How many commentators left a comment for this candidate",
@@ -440,13 +460,13 @@ let fifth = (
             description: "How many comments left for this candidate",
           },
           {
-            title: "remover",
+            title: "Remover",
             key: "remover",
             description:
               "How many commentators removed the comment from this candidate",
           },
           {
-            title: "removed comments",
+            title: "Removed comments",
             key: "hash_remove",
             description: "How many comments removed from this candidate",
           },
