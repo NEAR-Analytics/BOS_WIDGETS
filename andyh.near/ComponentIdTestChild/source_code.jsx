@@ -1,5 +1,5 @@
-State.init({ value: props.value || 0, n: 0, id: props.id });
-State.update({ id: props.id + "_state" });
+State.init({ value: props.value || 0, n: 0, id: null });
+State.update({ id: props.id });
 
 return (
   <div>
