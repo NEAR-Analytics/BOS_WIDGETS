@@ -91,6 +91,15 @@ const fetchContractData = () => {
 
 if (state.contractData === undefined) {
   fetchContractData();
+} else {
+  const totalAssets =
+    parseFloat(state.contractData.stakingData.totalAssets) / 1e18;
+  const estimatedTotalAssetsAfterAYear = totalAssets + (0.75 / 7) * 365;
+  const apy = (
+    (estimatedTotalAssetsAfterAYear / totalAssets) * 100 -
+    100
+  ).toFixed(2);
+  State.update({ apy });
 }
 
 // FETCH ETH PRICE
@@ -554,10 +563,7 @@ return (
                 </StakeFormTopContainerCenterContent1Container>
               </StakeFormTopContainerCenterContent1>
               <StakeFormTopContainerCenterContent2>
-                {state.metrics?.mp_eth_30_day_apy
-                  ? state.metrics.mp_eth_30_day_apy.toFixed(2)
-                  : "..."}
-                %
+                {state.apy ? state.apy : "..."}%
               </StakeFormTopContainerCenterContent2>
             </StakeFormTopContainerCenter>
 
