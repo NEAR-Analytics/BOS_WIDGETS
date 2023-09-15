@@ -10,7 +10,11 @@ const components = [state.a, state.b, state.c];
 return (
   <>
     <h4>{props.title}</h4>
-    <button className="btn" onClick={() => State.update({ x: state.x + 1 })}>
+    <button
+      className="btn btn-default"
+      type="button"
+      onClick={() => State.update({ x: state.x + 1 })}
+    >
       increment parent {state.x}
     </button>
     {/*
