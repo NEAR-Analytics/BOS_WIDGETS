@@ -1,4 +1,4 @@
-const account_id = context.accountId ?? props.accountId;
+const account_id = "idknwhoru.near"; //context.accountId ?? props.accountId;
 
 const profileData = props.profile ?? Social.getr(account_id); //`idknwhoru.near/profile`
 
@@ -74,8 +74,11 @@ function PostData() {
 
   function RenderPostListItem(key, value, idx) {
     const { text, image } = JSON.parse(value);
-    const PostText = styled.p`
+    const PostText = styled.span`
       font-size: 20px;
+      max-width: 70%;
+      overflow: hidden;
+      height: 100px;
     `;
 
     const PostImg = styled.img`
@@ -99,7 +102,9 @@ function PostData() {
     );
   }
 
-  return <SocialData data={postList} name="Posts" renderer={RenderPostListItem} />;
+  return (
+    <SocialData data={postList} name="Posts" renderer={RenderPostListItem} />
+  );
 }
 
 function WidgetData() {
@@ -138,7 +143,13 @@ function WidgetData() {
     );
   }
 
-  return <SocialData data={componentData} name="Widgets" renderer={RenderWidgetListItem} />;
+  return (
+    <SocialData
+      data={componentData}
+      name="Widgets"
+      renderer={RenderWidgetListItem}
+    />
+  );
 }
 
 function SocialData({ data, name, renderer }) {
@@ -160,6 +171,10 @@ function SocialData({ data, name, renderer }) {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     `;
   const MySocialData = styled.div`
         width: 45%;
@@ -167,7 +182,9 @@ function SocialData({ data, name, renderer }) {
     `;
   return (
     <MySocialData>
-      <DataHead>Number of {name}: {Object.keys(data).length}</DataHead>
+      <DataHead>
+        Number of {name}: {Object.keys(data).length}
+      </DataHead>
       <SocialDataList>
         {Object.entries(data).map(([key, value], idx) => {
           return (
