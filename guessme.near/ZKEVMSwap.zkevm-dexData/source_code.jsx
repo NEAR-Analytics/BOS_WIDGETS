@@ -420,7 +420,7 @@ const callTxPancakeZKEVM2 = (
     const WETH = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
     if (tokenIn != wethAddress && tokenOut != wethAddress) {
       swapType = "complex";
-      path = [input.inputAssetTokenId, WETH, input.outputAssetTokenId];
+      path = [tokenIn, WETH, tokenOut];
     } else {
       swapType = "single";
     }
@@ -490,8 +490,6 @@ const callTxPancakeZKEVM2 = (
       .catch((e) => {
         console.log("e111", e);
       });
-
-    // return;
   }
 };
 
