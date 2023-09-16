@@ -176,9 +176,13 @@ let page = (
     <div>
       <h5>Demographic Data</h5>
     </div>
+    Disclaimer: all parts of this component below this message are in open-beta
+    and still under active development. DO NOT publish any sensitive or
+    proprietary information. We will not be liable for data shared through this
+    platform.
     <div>
       <ul>
-        <li>All items below are optional and encrypted by default.</li>
+        <li>All items below are optional</li>
         <li>Your account retains exclusive control over this data</li>
         <li>
           You can opt-in to enable decryption of this data for additional
