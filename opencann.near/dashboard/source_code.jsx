@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "publish",
+  selectedTab: props.tab || "marketplace",
 });
 
 const accountId = props.accountId ?? context.accountId;
