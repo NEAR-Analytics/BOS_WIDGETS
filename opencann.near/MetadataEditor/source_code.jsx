@@ -166,6 +166,24 @@ return (
         />
       </div>
     )}
+    {options.skills && (
+      <div className="mb-2">
+        {options.skills.label ?? "Skills"}
+        <Widget
+          src="opencann.near/widget/SkillsEditor"
+          props={{
+            initialSkillsObject: metadata.skills,
+            skillsPattern: options.skills.pattern,
+            placeholder:
+              options.skills.placeholder ?? "ProgrammingBasics, TestingBasics",
+            setSkillsObject: (skills) => {
+              state.metadata.skills = skills;
+              State.update();
+            },
+          }}
+        />
+      </div>
+    )}
     {options.linktree &&
       (options.linktree.links ?? []).map((link) => (
         <div className="mb-2">
@@ -196,23 +214,5 @@ return (
           </div>
         </div>
       ))}
-    {options.skills && (
-      <div className="mb-2">
-        {options.skills.label ?? "Skills"}
-        <Widget
-          src="opencann.near/widget/SkillsEditor"
-          props={{
-            initialSkillsObject: metadata.skills,
-            skillsPattern: options.skills.pattern,
-            placeholder:
-              options.skills.placeholder ?? "ProgrammingBasics, TestingBasics",
-            setSkillsObject: (skills) => {
-              state.metadata.skills = skills;
-              State.update();
-            },
-          }}
-        />
-      </div>
-    )}
   </>
 );
