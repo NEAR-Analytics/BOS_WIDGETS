@@ -61,8 +61,23 @@ const PRWrapper = styled.div`
     display: none;
 `;
 const IssueWrapper = styled.div`
-    display: none;
+    // display: none;
 `;
+
+const MyContributionList = styled.ul`
+    width: 100%;
+    max-width: 300px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: rgb(12,17,23);
+    color: white;
+`;
+
+const MyContribution = styled.li`
+
+`;
+
 return (
   <div>
     {prData.map((pullRequest) => {
@@ -71,18 +86,24 @@ return (
           <span>{pullRequest.title}</span>
           <span>{pullRequest.state}</span>
           <a href={pullRequest.html_url}>바로가기</a>
+          {pullRequest.state === "closed" && (
+            <span>{pullRequest.closed_at}</span>
+          )}
         </PRWrapper>
       );
     })}
 
-    {issueData.map((issue) => {
-      return (
-        <IssueWrapper>
-          <span>{issue.title}</span>
-          <span>{issue.state}</span>
-          <a href={issue.html_url}>바로가기</a>
-        </IssueWrapper>
-      );
-    })}
+    <MyContributionList>
+      {issueData.map((issue) => {
+        return (
+          <MyContribution>
+            <span>{issue.title}</span>
+            <span>{issue.state}</span>
+            <a href={issue.html_url}>바로가기</a>
+            {issue.state === "closed" && <span>{issue.closed_at}</span>}
+          </MyContribution>
+        );
+      })}
+    </MyContributionList>
   </div>
 );
