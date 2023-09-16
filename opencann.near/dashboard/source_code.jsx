@@ -227,6 +227,12 @@ return (
       <Content>
         <Tabs>
           <TabsButton
+            href={`${accountUrl}&tab=marketplace`}
+            selected={state.selectedTab === "marketplace"}
+          >
+            Marketplace
+          </TabsButton>
+          <TabsButton
             href={`${accountUrl}&tab=publish`}
             selected={state.selectedTab === "publish"}
           >
@@ -279,12 +285,6 @@ return (
             selected={state.selectedTab === "projects"}
           >
             Projects
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}&tab=marketplace`}
-            selected={state.selectedTab === "marketplace"}
-          >
-            Marketplace
           </TabsButton>
         </Tabs>
 
