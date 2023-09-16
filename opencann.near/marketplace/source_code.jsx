@@ -67,17 +67,10 @@ return marketData !== null ? (
         NOT publish any sensitive or proprietary information.
       </p>
     </div>
+    <Widget src="denysk.near/widget/PriceStats" />
     <hr></hr>
     <div>
-      <h5>Explore By User</h5>
-      <p>
-        Replace "opencann.near" with any contract address to view public data.
-      </p>
-      <Widget src="opencann.near/widget/explorer" />
-    </div>
-    <hr></hr>
-    <div>
-      <h5>Data Sets</h5>
+      <h5>For Sale</h5>
       <p>
         Showing NFTs listed by contracts learnernft.learnclub.near and
         opencann.mintbase1.near.
@@ -158,6 +151,7 @@ return marketData !== null ? (
         }
       )}
     </div>
+    <hr></hr>
     <div>
       <h5>Algorithms</h5>
       <p>
@@ -165,6 +159,7 @@ return marketData !== null ? (
         input and output file formats, as well as the Docker container used.
       </p>
     </div>
+    <hr></hr>
     <div>
       <h5>Impact Certificates</h5>
       <p>
@@ -174,12 +169,15 @@ return marketData !== null ? (
         data, algorithms, and output data that generated impact in the world.
       </p>
     </div>
+    <hr></hr>
     <div class="py-4">
-      <hr></hr>
-      <Widget src="denysk.near/widget/PriceStats" />
+      <h5>Balances</h5>
       <Widget src="nearui.near/widget/Data.Balances.demo" />
-    </div>
-    <div class="py-4">
+      <h5>Explore</h5>
+      <p>
+        Replace "opencann.near" with any contract address to view public data.
+      </p>
+      <Widget src="opencann.near/widget/explorer" />
       <hr></hr>
       <Widget src="mintbase.near/widget/BuiltWithMintbase" />
     </div>
