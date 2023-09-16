@@ -326,7 +326,8 @@ const filteredCandidates = () => {
           candidateFilterId.includes(candidate)
       );
       const restCandidates = nearIdsWithName.filter(
-        ([candidate, _v, _n], _i) => !onlyFiltered.includes(candidate)
+        ([candidate, _v, _n], _i) =>
+          !onlyFiltered.map((u) => u[0]).includes(candidate)
       );
       candidates = [...onlyFiltered, ...restCandidates];
     } else
