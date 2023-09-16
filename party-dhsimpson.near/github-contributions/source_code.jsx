@@ -84,7 +84,24 @@ const MyContribution = styled.li`
 
 const ContributionInfo = styled.div`
     display: flex;
+    align-items: center;
+    width: 100%;
 `;
+const ContributionTitle = styled.span`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+`;
+const ContributionTimeStamp = styled.p`
+    margin: 0;
+`;
+
+const ContributionBasicInfo = styled.div`
+    max-width: 70%;
+    display: flex;
+    flex-direction: column;
+`;
+
 const Label = styled.div`
     background-color: ${(props) => props.color};
     width: 100px;
@@ -96,8 +113,8 @@ const Label = styled.div`
 `;
 
 const StatusColors = {
-  open: "#00FF00", // 초록색
-  closed: "#FF0000", // 빨간색
+  open: "rgba(10, 155, 10, 0.8)", // 초록색
+  closed: "rgba(255, 0, 0, 0.7)", // 빨간색
 };
 
 return (
@@ -120,9 +137,9 @@ return (
         return (
           <MyContribution>
             <ContributionInfo>
-              <div>
-                <h4>{issue.title}</h4>
-                <p>
+              <ContributionBasicInfo>
+                <ContributionTitle>{issue.title}</ContributionTitle>
+                <ContributionTimeStamp>
                   opened :
                   <Widget
                     src="party-dhsimpson.near/widget/past-time-from"
@@ -137,8 +154,8 @@ return (
                       />
                     </>
                   )}
-                </p>
-              </div>
+                </ContributionTimeStamp>
+              </ContributionBasicInfo>
               <Label color={StatusColors[issue.state]}>{issue.state}</Label>
             </ContributionInfo>
             <a href={issue.html_url}>
