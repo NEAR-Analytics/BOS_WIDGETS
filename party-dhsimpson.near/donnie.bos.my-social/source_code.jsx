@@ -12,6 +12,7 @@ const MyPageWrapper = styled.div`
     padding: 20px;
 `;
 const nearIpfsBaseUrl = "https://ipfs.near.social/ipfs/";
+const defaultImgCid = "bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e";
 
 function MyProfile() {
   const ProfileWrapper = styled.div`
@@ -40,7 +41,7 @@ function MyProfile() {
   return (
     <ProfileWrapper>
       <ProfileImage
-        src={`${nearIpfsBaseUrl}${profileData.image.ipfs_cid}`}
+        src={`${nearIpfsBaseUrl}${profileData?.image?.ipfs_cid ?? defaultImgCid}`}
         alt="profile-image"
       />
       <div>
@@ -124,16 +125,33 @@ function WidgetData() {
             color: black;
         }
     `;
-    const WidgetName = styled.span`
+    const WidgetImg = styled.img`
+      width: 35px;
+      height: 35px;
+      border-radius: 100%;
+    `;
+
+    const WidgetNameWrapper = styled.div`
         max-width: 70%;
         font-size: 20px;
+        display: flex;
+    `;
+
+    const WidgetName = styled.span`
+        margin-left: 10px;
         overflow: hidden;
         text-overflow: ellipsis;
     `;
 
     return (
       <OpenWidgetLink href={`${widgetBaseUrl}${key}`} target="_blank">
-        <WidgetName>{key}</WidgetName>
+        <WidgetNameWrapper>
+          <WidgetImg
+            src={`${nearIpfsBaseUrl}${defaultImgCid}`}
+            alt="profile-image"
+          />
+          <WidgetName>{key}</WidgetName>
+        </WidgetNameWrapper>
         <Widget
           src="party-dhsimpson.near/widget/gotoSvg"
           props={{ width: 15, heigh: 15 }}
@@ -192,6 +210,8 @@ function SocialData({ data, name, renderer }) {
         width: 45%;
         min-height: 500px;
     `;
+
+  
   return (
     <MySocialData>
       <DataHead>
@@ -208,10 +228,26 @@ function SocialData({ data, name, renderer }) {
   );
 }
 
+  const BannerWrapper = styled.div`
+        width: 100%;
+        height: 200px;
+        background-color: rgba(111,0,0,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 25px;
+        margin-bottom: 20px;
+        font-size: 48px;
+        font-weight: 700;
+  `;
+
 return (
   <>
     <MyPageWrapper>
-      <MyProfile />
+    <BannerWrapper>
+      베너광고
+    </BannerWrapper>      
+    <MyProfile />
       <MySocialDataWrapper>
         <PostData />
         <WidgetData />
