@@ -14,21 +14,6 @@ const requirementsOptions = [
   { name: "Minimum Follower Count", value: "5" },
 ];
 
-const tokenOptions = [
-  {
-    text: "NEAR",
-    value: "Near",
-  },
-  {
-    text: "NVRS",
-    value: "Nvrs",
-  },
-  {
-    text: "NEKO",
-    value: "Neko",
-  },
-];
-
 const hrOption = [];
 const minOption = [];
 
@@ -36,8 +21,8 @@ for (let i = 0; i <= 50; i++) {
   let hr = i + 12;
   let min = i * 10;
   if (min == 0) min = "00";
-  if (i <= 5) minOption.push({ text: min, value: min });
-  hrOption.push({ text: hr, value: hr });
+  if (i <= 5) minOption.push({ text: min.toString(), value: min.toString() });
+  hrOption.push({ text: hr.toString(), value: hr.toString() });
 }
 
 State.init({
@@ -45,11 +30,13 @@ State.init({
   username: profile.name ? profile.name : accountId,
   post_link: "",
   amount: 0,
-  token: "Near",
+  token: "NEAR",
   winners: 0,
   total_reward: "",
-  duration_hr: 12,
+  duration_hr: "12",
   duration_min: "00",
+  tokens: [],
+  error: "",
 });
 
 const Wrapper = styled.div`
@@ -112,17 +99,65 @@ const Button = styled.button`
 const getTokenData = () => {
   return asyncFetch(API_URL + `/token?accountId=${accountId}`).then((res) => {
     if (res.ok) {
+      const tokens = res.body.map((item) => ({
+        ...item,
+        value: item.id,
+        text: item.id,
+      }));
+
       State.update({
-        tokens: res.body,
+        tokens,
       });
     }
   });
 };
 
+if (!state.tokens.length) getTokenData();
+
 const changeRequirement = (label) => {
-  console.log(label);
   State.update({
     requirements: label,
+  });
+};
+
+const createCampaign = () => {
+  const {
+    requirements,
+    username,
+    post_link,
+    amount,
+    token,
+    winners,
+    total_reward,
+    duration_hr,
+    duration_min,
+    error,
+  } = state;
+  if (
+    !requirements.length ||
+    !username ||
+    !post_link ||
+    !amount ||
+    !token ||
+    !winners ||
+    !total_reward ||
+    !duration_hr ||
+    !duration_min
+  )
+    State.update({ error: "Please fill out all form fields" });
+
+  asyncFetch(API_URL + `/campaign/new`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ...state, accountId: "test" }),
+  }).then((res) => {
+    console.log(res, "==>res.body");
+
+    if (res.ok) {
+      console.log(res.body, "==>res.body");
+    }
   });
 };
 
@@ -151,6 +186,9 @@ return (
         <p style={{ fontSize: 14, margin: 0 }}>
           {"Fill the form to start a new campaign"}
         </p>
+        {state.error && (
+          <p style={{ fontSize: 14, margin: 0, color: "red" }}>{state.error}</p>
+        )}
       </div>
       <div
         style={{
@@ -159,7 +197,7 @@ return (
           gap: 21,
         }}
       >
-        <Button onClick={() => {}}>{"Create New Campaigns"}</Button>
+        <Button onClick={createCampaign}>{"Create New Campaigns"}</Button>
       </div>
     </HeadComponent>
 
@@ -278,7 +316,7 @@ return (
                 label: "Token",
                 value: { value: state.token },
                 placeholder: "Select Token",
-                options: tokenOptions,
+                options: state.tokens,
                 onChange: (e) => {
                   const token = e.value;
                   const total_reward = `${
