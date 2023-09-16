@@ -1,20 +1,23 @@
-if (typeof props.widgetPath !== "string")
+const widgetPath = props.widgetPath;
+
+if (typeof widgetPath !== "string")
   return "send {widgetPath} as string in props";
 
 const theme = props.theme;
+
 
 State.init({
   selectedTab: "code",
   selectedBlockHeight: null,
 });
 
-const historyBlocksRequest = Social.keys(`${props.widgetPath}`, "final", {
+const historyBlocksRequest = Social.keys(`${widgetPath}`, "final", {
   return_type: "History",
 });
 
 if (historyBlocksRequest === null) return "loading...";
 
-const [widgetAccountId, _, widgetName] = props.widgetPath.split("/");
+const [widgetAccountId, _, widgetName] = widgetPath.split("/");
 
 let blocksChanges =
   historyBlocksRequest[widgetAccountId]?.["widget"]?.[widgetName];
@@ -34,7 +37,7 @@ function getDatastringFromBlockHeight(blockHeight) {
 const BlockChangesLink = styled.button`
   transition: all .2s ease-in-out;
   &:hover {
-    color: ${theme.buttonColor} !important;
+    color: ${theme.buttonPrimary} !important;
   }
 `;
 
@@ -50,7 +53,7 @@ const renderBlockChangesLink = (blockHeight) => {
         color:
           state.selectedBlockHeight != blockHeight
             ? theme.textColor3
-            : theme.buttonColor,
+            : theme.buttonPrimary,
 
         borderBottom: `1px ${theme.borderColor} solid`,
       }}
@@ -71,7 +74,7 @@ function blockHeightToWidgetCode(blockHeight) {
         key={blockHeight}
         src={`saidulbadhon.near/widget/SearchPage.ComponentDetails-fork.WidgetHistory.History.CodeHistoryCard`}
         props={{
-          pathToWidget: props.widgetPath,
+          pathToWidget: widgetPath,
           currentBlockHeight: blockHeight,
           prevBlockHeight: blocksChanges[index + 1],
           copyToClipboard: props.copyToClipboard,
@@ -89,7 +92,7 @@ function blockHeightToWidgetRender(blockHeight) {
       key={blockHeight}
       src={`bozon.near/widget/WidgetHistory.RenderCode`}
       props={{
-        pathToWidget: props.widgetPath,
+        pathToWidget: widgetPath,
         currentBlockHeight: blockHeight,
         prevBlockHeight: blocksChanges[index + 1],
       }}
@@ -111,7 +114,7 @@ const TabsButton = styled.button`
   line-height: 17px;
   padding: 0 12px;
   position: relative;
-  color: ${(p) => (p.selected ? theme.buttonColor : theme.textColor)};
+  color: ${(p) => (p.selected ? theme.buttonPrimary : theme.textColor)};
 
   background: none;
   border: none;
@@ -120,7 +123,7 @@ const TabsButton = styled.button`
   transition: all .2s ease-in-out;
 
   &:hover {
-    color: ${theme.buttonColor};
+    color: ${theme.buttonPrimary};
   }
 
   &::after {
@@ -175,7 +178,7 @@ return (
             {blocksChanges.length > 5 && (
               <button
                 class="list-group-item active"
-                style={{ backgroundColor: theme.buttonCOlor }}
+                style={{ backgroundColor: theme.buttonPrimary }}
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseExample"
@@ -219,7 +222,7 @@ return (
         )}
 
         {state.selectedTab == "render" && (
-          <div style={{ backgroundColor: "#FFFFFF" ,  minHeight: 400}}>
+          <div style={{ backgroundColor: "#FFFFFF", minHeight: 400 }}>
             {blockHeightToWidgetRender(state.selectedBlockHeight)}
           </div>
         )}
