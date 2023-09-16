@@ -151,12 +151,11 @@ const createCampaign = () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ ...state, accountId: "test" }),
+    body: JSON.stringify({ ...state, accountId }),
   }).then((res) => {
-    console.log(res, "==>res.body");
-
     if (res.ok) {
-      console.log(res.body, "==>res.body");
+      const { error } = res.body;
+      if (error) State.update({ error });
     }
   });
 };
