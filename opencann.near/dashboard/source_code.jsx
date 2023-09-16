@@ -245,34 +245,22 @@ return (
             My Data
           </TabsButton>
           <TabsButton
-            href={`${accountUrl}tab=followers`}
-            selected={state.selectedTab === "followers"}
-          >
-            Followers
-          </TabsButton>
-          <TabsButton
             href={`${accountUrl}tab=feed`}
             selected={state.selectedTab === "feed"}
           >
             Feed
           </TabsButton>
           <TabsButton
+            href={`${accountUrl}tab=followers`}
+            selected={state.selectedTab === "followers"}
+          >
+            Followers
+          </TabsButton>
+          <TabsButton
             href={`${accountUrl}tab=members`}
             selected={state.selectedTab === "members"}
           >
             Members
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=proposals`}
-            selected={state.selectedTab === "proposals"}
-          >
-            Proposals
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=bounties`}
-            selected={state.selectedTab === "bounties"}
-          >
-            Bounties
           </TabsButton>
           <TabsButton
             href={`${accountUrl}tab=events`}
@@ -285,6 +273,18 @@ return (
             selected={state.selectedTab === "projects"}
           >
             Projects
+          </TabsButton>
+          <TabsButton
+            href={`${accountUrl}tab=proposals`}
+            selected={state.selectedTab === "proposals"}
+          >
+            Proposals
+          </TabsButton>
+          <TabsButton
+            href={`${accountUrl}tab=bounties`}
+            selected={state.selectedTab === "bounties"}
+          >
+            Bounties
           </TabsButton>
         </Tabs>
 
