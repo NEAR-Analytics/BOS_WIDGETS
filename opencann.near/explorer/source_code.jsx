@@ -1,6 +1,5 @@
 State.init({
-  //path: "opencann.near/profile/**",
-  placeholder: "opencann.near/profile/**",
+  path: "opencann.near/profile/**",
 });
 
 const value = Social.get(state.path, "final");
@@ -17,7 +16,7 @@ return (
       <input
         type="text"
         value={state.path}
-        placeholder="self.social.near/profile/**"
+        placeholder="opencann.near/profile/**"
       />
     </div>
     <Markdown text={text} />
