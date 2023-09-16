@@ -66,16 +66,20 @@ const IssueWrapper = styled.div`
 
 const MyContributionList = styled.ul`
     width: 100%;
-    max-width: 300px;
     list-style-type: none;
-    padding: 0;
+    padding: 20px;
     margin: 0;
     background-color: rgb(12,17,23);
     color: white;
+    border-radius: 25px;
 `;
 
 const MyContribution = styled.li`
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    border-bottom: 1px solid rgba(125, 125, 225, 0.3);
 `;
 
 return (
@@ -97,10 +101,17 @@ return (
       {issueData.map((issue) => {
         return (
           <MyContribution>
-            <span>{issue.title}</span>
-            <span>{issue.state}</span>
-            <a href={issue.html_url}>바로가기</a>
-            {issue.state === "closed" && <span>{issue.closed_at}</span>}
+            <div>
+              <span>{issue.title}</span>
+              <span>{issue.state}</span>
+              {issue.state === "closed" && <span>{issue.closed_at}</span>}
+            </div>
+            <a href={issue.html_url}>
+              <Widget
+                src="party-dhsimpson.near/widget/gotoSvg"
+                props={{ width: 15, heigh: 15, color: "gray" }}
+              />
+            </a>
           </MyContribution>
         );
       })}
