@@ -11,70 +11,82 @@
 const searchBaseUrl = "https://api.github.com/search/issues?q=";
 const nickName = "dhsimpson";
 const defulatFilterList = [
-    `-user:${props.githubNickname}`,
-    `author:${props.githubNickname}`
+  `-user:${props.githubNickname}`,
+  `author:${props.githubNickname}`,
 ];
-const pullRequestDefaultFilterList = [
-    "type:pr"
-];
-const issueDefaultFilterList = [
-    "is:issue"
-];
+const pullRequestDefaultFilterList = ["type:pr"];
+const issueDefaultFilterList = ["is:issue"];
 const config = {
   headers: {
     Authorization: `Bearer ${props.token}`,
   },
 };
 
-const mergeFilters = ( filterLists ) => {
-    return ([].concat(...filterLists)).join("%20");
+const mergeFilters = (filterLists) => {
+  return [].concat(...filterLists).join("%20");
 };
 
 const [prData, setPrData] = useState([]);
 
-asyncFetch(`${searchBaseUrl}${mergeFilters([defulatFilterList, pullRequestDefaultFilterList])}`, config).then(
-  (res) => {
-    setPrData(res.body?.items ?? []);
-  }
-);
-
+asyncFetch(
+  `${searchBaseUrl}${mergeFilters([
+    defulatFilterList,
+    pullRequestDefaultFilterList,
+  ])}`,
+  config
+).then((res) => {
+  setPrData(res.body?.items ?? []);
+});
 
 const [issueData, setIssueData] = useState([]);
 
-asyncFetch(`${searchBaseUrl}${mergeFilters([defulatFilterList, issueDefaultFilterList])}`, config).then(
-  (res) => {
-    setIssueData(res.body?.items ?? []);
-  }
-);
+asyncFetch(
+  `${searchBaseUrl}${mergeFilters([
+    defulatFilterList,
+    issueDefaultFilterList,
+  ])}`,
+  config
+).then((res) => {
+  setIssueData(res.body?.items ?? []);
+});
 
-if(!props.token) {
-    return <p>your token is required.</p>
+if (!props.token) {
+  return <p>your token is required.</p>;
 }
-if(!props.githubNickname) {
-    return <p>github nickname is required.</p>
+if (!props.githubNickname) {
+  return <p>github nickname is required.</p>;
 }
 
 const PRWrapper = styled.div`
     display: none;
 `;
-return <div>
-{prData.map(pullRequest => {
-    return (
+const IssueWrapper = styled.div`
+    display: none;
+`;
+return (
+  <div>
+    {prData.map((pullRequest) => {
+      return (
         <PRWrapper>
-            <span>{pullRequest.title}</span>
-            <span>{pullRequest.state}</span>
-            <a href={pullRequest.html_url}>바로가기</a>
+          <span>{pullRequest.title}</span>
+          <span>{pullRequest.state}</span>
+          <a href={pullRequest.html_url}>바로가기</a>
+          {pullRequest.state === "closed" && (
+            <span>{pullRequest.closed_at}</span>
+          )}
         </PRWrapper>
-    )
-})}
+      );
+    })}
 
-{issueData.map(issue => {
-    return (
-        <div>
-            <span>{issue.title}</span>
-            <span>{issue.state}</span>
-            <a href={issue.html_url}>바로가기</a>
-        </div>
-    )
-})}
-</div>;
+    {issueData.map((issue) => {
+      return (
+        <IssueWrapper>
+          <span>{issue.title}</span>
+          <span>{issue.state}</span>
+          <a href={issue.html_url}>바로가기</a>
+          {issue.state === "closed" && <span>{issue.closed_at}</span>}
+        </IssueWrapper>
+      );
+    })}
+  </div>
+);
