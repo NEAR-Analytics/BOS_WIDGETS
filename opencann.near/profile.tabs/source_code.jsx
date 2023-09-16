@@ -70,7 +70,7 @@ return (
         aria-labelledby="pills-data-tab"
       >
         {state.loaddata && (
-          <Widget src="openann.near/widget/mydata" props={{ accountId }} />
+          <Widget src="opencann.near/widget/mydata" props={{ accountId }} />
         )}
       </div>
       <div
