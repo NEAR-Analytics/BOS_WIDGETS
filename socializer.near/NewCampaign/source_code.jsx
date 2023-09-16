@@ -1,6 +1,7 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 const profile = Social.getr(`${accountId}/profile`);
+const API_URL = "http://localhost:3000/api";
 
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
@@ -107,6 +108,16 @@ const Button = styled.button`
   text-transform: capitalize;
   line-height: normal;
 `;
+
+const getTokenData = () => {
+  return asyncFetch(API_URL + `/token?accountId=${accountId}`).then((res) => {
+    if (res.ok) {
+      State.update({
+        tokens: res.body,
+      });
+    }
+  });
+};
 
 const changeRequirement = (label) => {
   console.log(label);
