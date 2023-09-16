@@ -6,9 +6,7 @@ const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "cannabis-genome.sputnik-dao.near";
 const ownerId = props.ownerId ?? "opencann.near";
 
-const page = accountId
-  ? Social.get(`${accountId}/settings/dao/page`)
-  : undefined;
+const page = ownerId ? Social.get(`${ownerId}/settings/dao/page`) : undefined;
 
 if (page === null) {
   return "Loading...";
