@@ -1,7 +1,6 @@
-
 /**
  * Check is human
- * 
+ * add a comment
  */
 let accountId = props.accountId ?? context.accountId;
 const registryContract = "registry.i-am-human.near";
@@ -9,20 +8,20 @@ State.init({
   accountId: accountId,
 });
 function loadFlagged() {
-    console.log("Loading flag for this account: " + state.accountId);
+  console.log("Loading flag for this account: " + state.accountId);
   const flagged = Near.view(registryContract, "account_flagged", {
     account: state.accountId,
   });
+  console.log("Is flagged: " + flagged);
 
   State.update({
     blacklisted: flagged === "Blacklisted",
     greylisted: flagged !== "Blacklisted" && flagged !== "Verified",
     flagged: flagged,
   });
-  console.log("Is " + state.accountId + " flagged? " + state.flagged)
+  console.log("Is " + state.accountId + " flagged? " + state.flagged);
   return flagged;
 }
-
 
 function getAccountsWithProfile() {
   const data = Social.keys("*/profile", "final");
@@ -43,29 +42,22 @@ function getAccountsWithProfile() {
 }
 
 const onChangeRecipient = (recipient) => {
-            console.log("Recipient : " + recipient ); 
+  console.log("Recipient : " + recipient);
 
   State.update({
     accountId: recipient,
   });
   loadFlagged();
-    
-
 };
 
-
 function isFlagged(account) {
-            console.log("Starting is flagged check : " + account ); 
+  console.log("Starting is flagged check : " + account);
 
-    const view = Near.view("registry.i-am-human.near", "account_flagged", {
-      account: `${account}`,
-    });
-        console.log("View: "  + view?.[0]?.[1]?.[0]); 
-
-
+  const view = Near.view("registry.i-am-human.near", "account_flagged", {
+    account: `${account}`,
+  });
+  console.log("View: " + view?.[0]?.[1]?.[0]);
 }
-
-
 
 const Main = styled.div`
   display: grid;
@@ -94,8 +86,6 @@ const Main = styled.div`
   }
 `;
 
-
-
 const Card = styled.div`
   padding: 1em;
   border: 1px solid #e5e8eb;
@@ -121,36 +111,27 @@ const Card = styled.div`
   }
 `;
 
-
-
-
-
-
 return (
   <>
-
-
- 
-    
-
-              <Card>
-                Search NEAR Account
-                <Typeahead
-                  id="async-example"
-                  className="type-ahead"
-                  isLoading={isLoading}
-                  labelKey="search"
-                  minLength={1}
-                  options={getAccountsWithProfile()}
-                  onChange={(value) => onChangeRecipient(value)}
-                  placeholder={state.accountId
-                  }
-                />
-              </Card>
+    <Card>
+      Search NEAR Account
+      <Typeahead
+        id="async-example"
+        className="type-ahead"
+        isLoading={isLoading}
+        labelKey="search"
+        minLength={1}
+        options={getAccountsWithProfile()}
+        onChange={(value) => onChangeRecipient(value)}
+        placeholder={state.accountId}
+      />
+    </Card>
 
     <div>Are you flagged? {state.flagged}</div>
 
-      <Widget src="nearefi.near/widget/ReFi.DAO.memberCard" props={{accountId: state.accountId}}/>
-
+    <Widget
+      src="nearefi.near/widget/ReFi.DAO.memberCard"
+      props={{ accountId: state.accountId }}
+    />
   </>
 );
