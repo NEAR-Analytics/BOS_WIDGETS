@@ -5,6 +5,9 @@
 //ISSUE
 //https://api.github.com/search/issues?q=is:issue author:dhsimpson -user:dhsimpson ///state:open///
 
+//Sort "sort=" 필수
+// &sort=created&order=desc&per_page=30&page=1
+
 const searchBaseUrl = "https://api.github.com/search/issues?q=";
 const nickName = "dhsimpson";
 const defulatFilterList = [
@@ -27,16 +30,29 @@ const mergeFilters = ( filterLists ) => {
     return ([].concat(...filterLists)).join("%20");
 };
 
-
-const [data, setData] = useState("");
-//issues?q=author:YOUR_GITHUB_USERNAME+type:pr
+const [data, setData] = useState([]);
 
 asyncFetch(`${searchBaseUrl}${mergeFilters([defulatFilterList, pullRequestDefaultFilterList])}`, config).then(
   (res) => {
-    setData(JSON.stringify(res));
+    setData(res.body?.items ?? []);
   }
 );
+
+// if(!props.token) {
+//     return <p>your token is required.</p>
+// }
+// if(!props.githubNickname) {
+//     return <p>github nickname is required.</p>
+// }
+
 return <div>
-{data}
-{`${searchBaseUrl}${mergeFilters([defulatFilterList, pullRequestDefaultFilterList])}`}
+{data.map(pullRequest => {
+    return (
+        <div>
+            <span>{pullRequest.title}</span>
+            <span>{pullRequest.state}</span>
+            <a href="pullRequest.pull_request.html_url">바로가기</a>
+        </div>
+    )
+})}
 </div>;
