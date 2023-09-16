@@ -97,9 +97,7 @@ return (
               {item.account_id}
             </p>
             <p style={{ fontSize: 12 }}>
-              <span
-                style={{ fontWeight: "bold", marginBottom: 0 }}
-              >
+              <span style={{ fontWeight: "bold", marginBottom: 0 }}>
                 Widget Name
               </span>{" "}
               : {item.widget_name}
