@@ -1,14 +1,7 @@
 const accountId = props.accountId || context.accountId;
 
 if (!accountId) {
-  return "No account ID";
-}
-
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const fast = !props.profile;
-
-if (profile === null) {
-  return "Loading";
+  return "";
 }
 
 const limitPerPage = 20;
@@ -151,8 +144,16 @@ if (hasFinishedLoading && allNfts.length === 0) {
 return (
   <Wrapper>
     <div>
-      <Widget src="mintbase.near/widget/ListToMarket" props={{ ownerId }} />
+      This component is in open-beta and still under active construction. DO NOT
+      publish any sensitive or proprietary information.{" "}
+      <a href="#/opencann.near/widget/profile.demographics">
+        Click here to edit your demographic data.
+      </a>
+      <hr></hr>
     </div>
+    <h5> List on Optimism </h5>
+    <Widget src="ciocan.near/widget/op-bridge-demo" props={{ ownerId }} />
+    <Widget src="ciocan.near/widget/op-bridge-list" props={{ ownerId }} />
     <Items>
       {allNfts.map((nft, i) => (
         <Card
@@ -180,17 +181,8 @@ return (
         Load More
       </Button>
     )}
-    <hr></hr>
     <div>
-      <Widget
-        src="near/widget/Explorer.Account"
-        props={{
-          accountId,
-          network: context.networkId,
-          language: "en",
-          baseUrl: props.baseUrl,
-        }}
-      />
+      <Widget src="mintbase.near/widget/ListToMarket" props={{ ownerId }} />
     </div>
   </Wrapper>
 );
