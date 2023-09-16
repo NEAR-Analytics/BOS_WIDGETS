@@ -99,11 +99,13 @@ const CandidateItemRow = styled.div`
       ? "rgb(206 233 207)"
       : props.selected
       ? "#4aa6ee"
+      : props.filtered
+      ? "#d4e4f461"
       : "#F8F8F9"};
   border-color: ${(props) =>
     props.winnerId
       ? "rgb(137 201 139)"
-      : props.selected
+      : props.selected || props.filtered
       ? "#4aa6ee"
       : "#F8F8F9"};
       color: ${(props) =>
@@ -630,6 +632,7 @@ const CandidateItem = ({ candidateId, votes }) => (
     <CandidateItemRow
       className="d-flex align-items-center justify-content-between"
       selected={state.selected === candidateId}
+      filtered={candidateFilterId.includes(candidateId)}
       winnerId={state.winnerIds.includes(candidateId)}
     >
       <div className="d-flex w-100 align-items-center">
