@@ -281,7 +281,7 @@ return (
             My Data
           </TabsButton>
           <TabsButton
-            href={`${popUrl}tab=followers`}
+            href={`${accountUrl}tab=followers`}
             selected={state.selectedTab === "followers"}
           >
             Followers
