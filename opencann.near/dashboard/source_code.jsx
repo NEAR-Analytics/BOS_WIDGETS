@@ -290,7 +290,7 @@ return (
 
         {state.selectedTab === "feed" && (
           <>
-            <Widget src="opencann.near/widget/feed" props={{ daoId }} />
+            <Widget src="opencann.near/widget/feed" props={{ accountId }} />
           </>
         )}
 
