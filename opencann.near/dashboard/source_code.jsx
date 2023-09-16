@@ -29,7 +29,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${"accountId"}/profile`);
-const accountUrl = `#/accountId/widget/dashboard?`;
+const accountUrl = `#/${accountId}/widget/dashboard?`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
