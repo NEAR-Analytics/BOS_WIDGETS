@@ -150,7 +150,7 @@ const deposit = async (item) => {
       amount * oneNEARInYoctoNEAR
     );
   } else {
-    let amt = toFixed((amount + 0.0001) * oneNEARInYoctoNEAR);
+    let amt = toFixed((amount + 0.00001) * oneNEARInYoctoNEAR);
     console.log("==>amt", amt);
     const data = {
       receiver_id: Admin,
