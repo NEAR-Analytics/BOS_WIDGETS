@@ -65,11 +65,11 @@ return (
       </div>
       <div
         className="tab-pane fade"
-        id="pills-nfts"
+        id="pills-data"
         role="tabpanel"
-        aria-labelledby="pills-nfts-tab"
+        aria-labelledby="pills-data-tab"
       >
-        {state.loadnfts && (
+        {state.loaddata && (
           <Widget src="openann.near/widget/mydata" props={{ accountId }} />
         )}
       </div>
