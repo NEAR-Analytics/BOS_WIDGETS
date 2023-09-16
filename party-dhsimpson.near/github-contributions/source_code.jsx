@@ -71,9 +71,6 @@ return (
           <span>{pullRequest.title}</span>
           <span>{pullRequest.state}</span>
           <a href={pullRequest.html_url}>바로가기</a>
-          {pullRequest.state === "closed" && (
-            <span>{pullRequest.closed_at}</span>
-          )}
         </PRWrapper>
       );
     })}
@@ -84,7 +81,6 @@ return (
           <span>{issue.title}</span>
           <span>{issue.state}</span>
           <a href={issue.html_url}>바로가기</a>
-          {issue.state === "closed" && <span>{issue.closed_at}</span>}
         </IssueWrapper>
       );
     })}
