@@ -11,7 +11,7 @@ if (!props.externalAppUrl) {
         style={{ fontWeight: 600, color: "#AB2E28", fontFamily: "Courier new" }}
       >
         This Component is part of the{" "}
-        <a href="https://github.com/wpdas/near-social-bridge">
+        <a href="https://github.com/wpdas/near-social-bridge" target="_blank">
           "near-social-bridge"
         </a>{" "}
         library that makes it possible to develop common ReactJS applications
@@ -22,7 +22,7 @@ if (!props.externalAppUrl) {
         style={{ fontWeight: 600, color: "#AB2E28", fontFamily: "Courier new" }}
       >
         Learn more here:{" "}
-        <a href="https://github.com/wpdas/near-social-bridge">
+        <a href="https://github.com/wpdas/near-social-bridge" target="_blank">
           https://github.com/wpdas/near-social-bridge
         </a>
       </p>
