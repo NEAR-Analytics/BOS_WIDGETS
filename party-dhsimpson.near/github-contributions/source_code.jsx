@@ -23,6 +23,8 @@ const defulatFilterList = [
 ];
 const pullRequestDefaultFilterList = ["type:pr"];
 const issueDefaultFilterList = ["is:issue"];
+const filterOptionList = ["state:open", "state:closed"];
+
 const config = {
   headers: {
     Authorization: `Bearer ${props.token}`,
@@ -33,11 +35,10 @@ const mergeFilters = (filterLists) => {
   return [].concat(...filterLists).join("%20");
 };
 
-const PRWrapper = styled.div`
-    // display: none;
-`;
-const IssueWrapper = styled.div`
-    // display: none;
+const MyContributionWrapper = styled.div`
+    background-color: black;
+    border-radius: 25px;
+    color: white;
 `;
 
 const MyContributionList = styled.ul`
@@ -126,10 +127,14 @@ useEffect(() => {
   togglePR();
 }, []);
 return (
-  <div>
+  <MyContributionWrapper>
+    <div>
+      <p>프로필 영역 (아바타) | 프로필 영역 (깃헙닉네임)</p>
+      <div></div>
+    </div>
+
     <button onClick={togglePR}>PR</button>
     <button onClick={toggleIssue}>ISSUE</button>
-
     <MyContributionList>
       {contributionData.map((issue) => {
         return (
@@ -166,5 +171,5 @@ return (
         );
       })}
     </MyContributionList>
-  </div>
+  </MyContributionWrapper>
 );
