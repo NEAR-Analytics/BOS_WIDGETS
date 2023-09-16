@@ -91,9 +91,12 @@ const ContributionTitle = styled.span`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 20px;
 `;
 const ContributionTimeStamp = styled.p`
     margin: 0;
+    font-size: 12px;
+    color: #BBB;
 `;
 
 const ContributionBasicInfo = styled.div`
@@ -110,6 +113,7 @@ const Label = styled.div`
     text-align: center;
     font-size: 20px;
     font-weight: 600;
+    margin-left: 15px;
 `;
 
 const StatusColors = {
