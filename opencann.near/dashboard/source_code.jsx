@@ -26,7 +26,7 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const profile = props.profile ?? Social.getr(`${ownerId}/profile`);
 const accountUrl = `#/opencann.near/widget/dashboard?`;
 
 const Wrapper = styled.div`
