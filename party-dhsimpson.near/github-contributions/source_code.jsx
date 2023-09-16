@@ -30,11 +30,20 @@ const mergeFilters = ( filterLists ) => {
     return ([].concat(...filterLists)).join("%20");
 };
 
-const [data, setData] = useState([]);
+const [prData, setPrData] = useState([]);
 
 asyncFetch(`${searchBaseUrl}${mergeFilters([defulatFilterList, pullRequestDefaultFilterList])}`, config).then(
   (res) => {
-    setData(res.body?.items ?? []);
+    setPrData(res.body?.items ?? []);
+  }
+);
+
+
+const [issueData, setIssueData] = useState([]);
+
+asyncFetch(`${searchBaseUrl}${mergeFilters([defulatFilterList, issueDefaultFilterList])}`, config).then(
+  (res) => {
+    setIssueData(res.body?.items ?? []);
   }
 );
 
@@ -44,14 +53,26 @@ asyncFetch(`${searchBaseUrl}${mergeFilters([defulatFilterList, pullRequestDefaul
 // if(!props.githubNickname) {
 //     return <p>github nickname is required.</p>
 // }
-
+const PRWrapper = styled.div`
+    display: none;
+`;
 return <div>
-{data.map(pullRequest => {
+{prData.map(pullRequest => {
     return (
-        <div>
+        <PRWrapper>
             <span>{pullRequest.title}</span>
             <span>{pullRequest.state}</span>
-            <a href="pullRequest.pull_request.html_url">바로가기</a>
+            <a href={pullRequest.html_url}>바로가기</a>
+        </PRWrapper>
+    )
+})}
+
+{issueData.map(issue => {
+    return (
+        <div>
+            <span>{issue.title}</span>
+            <span>{issue.state}</span>
+            <a href={issue.html_url}>바로가기</a>
         </div>
     )
 })}
