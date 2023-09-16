@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "feed",
+  selectedTab: props.tab || "publish",
 });
 
 const accountId = props.accountId ?? context.accountId;
@@ -227,6 +227,24 @@ return (
       <Content>
         <Tabs>
           <TabsButton
+            href={`${accountUrl}&tab=publish`}
+            selected={state.selectedTab === "publish"}
+          >
+            Publish
+          </TabsButton>
+          <TabsButton
+            href={`${accountUrl}&tab=mydata`}
+            selected={state.selectedTab === "mydata"}
+          >
+            My Data
+          </TabsButton>
+          <TabsButton
+            href={`${accountUrl}tab=followers`}
+            selected={state.selectedTab === "followers"}
+          >
+            Followers
+          </TabsButton>
+          <TabsButton
             href={`${accountUrl}tab=feed`}
             selected={state.selectedTab === "feed"}
           >
@@ -267,24 +285,6 @@ return (
             selected={state.selectedTab === "marketplace"}
           >
             Marketplace
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}&tab=publish`}
-            selected={state.selectedTab === "publish"}
-          >
-            Publish
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}&tab=mydata`}
-            selected={state.selectedTab === "mydata"}
-          >
-            My Data
-          </TabsButton>
-          <TabsButton
-            href={`${accountUrl}tab=followers`}
-            selected={state.selectedTab === "followers"}
-          >
-            Followers
           </TabsButton>
         </Tabs>
 
