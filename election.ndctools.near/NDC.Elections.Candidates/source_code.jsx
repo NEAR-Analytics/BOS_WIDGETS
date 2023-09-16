@@ -319,17 +319,22 @@ const filteredCandidates = () => {
       : result;
 
   if (candidateFilterId) {
-    candidates = Array.isArray(candidateFilterId)
-      ? nearIdsWithName.filter(
-          ([candidate, _vote, name], _index) =>
-            candidateFilterId.includes(name) ||
-            candidateFilterId.includes(candidate)
-        )
-      : nearIdsWithName.filter(
-          ([candidate, _vote, name], _index) =>
-            name.toLowerCase().includes(candidateFilterId.toLowerCase()) ||
-            candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
-        );
+    if (Array.isArray(candidateFilterId)) {
+      const onlyFiltered = nearIdsWithName.filter(
+        ([candidate, _v, name], _i) =>
+          candidateFilterId.includes(name) ||
+          candidateFilterId.includes(candidate)
+      );
+      const restCandidates = nearIdsWithName.filter(
+        ([candidate, _v, _n], _i) => !onlyFiltered.includes(candidate)
+      );
+      candidates = [...onlyFiltered, ...restCandidates];
+    } else
+      candidates = nearIdsWithName.filter(
+        ([candidate, _v, _n], _i) =>
+          name.toLowerCase().includes(candidateFilterId.toLowerCase()) ||
+          candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
+      );
   }
   return candidates;
 };
