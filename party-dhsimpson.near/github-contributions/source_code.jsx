@@ -78,8 +78,12 @@ const MyContribution = styled.li`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 50px;
+    height: 70px;
     border-bottom: 1px solid rgba(125, 125, 225, 0.3);
+`;
+
+const ContributionInfo = styled.div`
+    display: flex;
 `;
 
 return (
@@ -101,11 +105,13 @@ return (
       {issueData.map((issue) => {
         return (
           <MyContribution>
-            <div>
-              <span>{issue.title}</span>
+            <ContributionInfo>
+              <div>
+                <h4>{issue.title}</h4>
+                {issue.state === "closed" && <span>{issue.closed_at}</span>}
+              </div>
               <span>{issue.state}</span>
-              {issue.state === "closed" && <span>{issue.closed_at}</span>}
-            </div>
+            </ContributionInfo>
             <a href={issue.html_url}>
               <Widget
                 src="party-dhsimpson.near/widget/gotoSvg"
