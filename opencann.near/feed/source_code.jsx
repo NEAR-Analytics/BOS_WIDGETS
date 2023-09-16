@@ -24,7 +24,14 @@ const feeds = [
         },
       ],
       typeWhitelist: ["md"],
-      hashtagWhitelist: ["cannabis"],
+      hashtagWhitelist: [
+        "cannabis",
+        "420",
+        "marijuana",
+        "weed",
+        "ganja",
+        "bluntDAO",
+      ],
     },
   },
   {
@@ -37,20 +44,7 @@ const feeds = [
         },
       ],
       typeWhitelist: ["md"],
-      hashtagWhitelist: ["data"],
-    },
-  },
-  {
-    name: "#daos",
-    data: {
-      sources: [
-        {
-          domain: "post",
-          key: "main",
-        },
-      ],
-      typeWhitelist: ["md"],
-      hashtagWhitelist: ["dao", "daos", "dac", "dorg"],
+      hashtagWhitelist: ["data", "data-science", "database"],
     },
   },
   {
@@ -63,13 +57,13 @@ const feeds = [
         },
       ],
       typeWhitelist: ["md"],
-      hashtagWhitelist: ["vibes", "proofofvibes"],
+      hashtagWhitelist: ["vibes", "proofofvibes", "chill"],
       composeTemplate: "proofofvibes.near/widget/Vibes.Feed.Post.create",
       postTemplate: "proofofvibes.near/widget/Vibes.Feed.View.main",
     },
   },
   {
-    name: "gm",
+    name: "#gm",
     data: {
       sources: [
         {
@@ -78,7 +72,9 @@ const feeds = [
         },
       ],
       typeWhitelist: ["md"],
-      postTemplate: "simonemelanie.near/widget/GM",
+      hashtagWhitelist: ["nyc", "proofofvibes"],
+      composeTemplate: "proofofvibes.near/widget/Vibes.Feed.Post.create",
+      postTemplate: "proofofvibes.near/widget/Vibes.Feed.View.main",
     },
   },
 ];
