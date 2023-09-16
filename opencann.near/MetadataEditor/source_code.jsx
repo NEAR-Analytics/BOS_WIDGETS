@@ -11,7 +11,6 @@ State.init({
   backgroundImage: initialMetadata.backgroundImage,
   screenshots: initialMetadata.screenshots ?? {},
   demographics: initialMetadata.demographics ?? {},
-  skills: initialMetadata.skills ?? {},
 });
 
 const metadata = {
