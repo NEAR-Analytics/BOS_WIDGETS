@@ -1,5 +1,6 @@
 State.init({
-  path: "opencann.near/profile/**",
+  //path: "opencann.near/profile/**",
+  placeholder: "opencann.near/profile/**",
 });
 
 const value = Social.get(state.path, "final");
