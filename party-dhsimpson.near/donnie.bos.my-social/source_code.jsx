@@ -1,6 +1,6 @@
 const account_id = context.accountId ?? props.accountId;
 
-const profileData = props.profile ?? Social.getr(account_id); //`idknwhoru.near/profile`
+const profileData = props.profile ?? Social.getr(`${account_id}/profile`);
 
 if (profileData === null) {
   return "Loading";
@@ -242,26 +242,14 @@ function SocialData({ data, name, renderer }) {
   `;
 
 return (
-  <>
-    <MyPageWrapper>
+  <MyPageWrapper>
     <BannerWrapper>
       베너광고
     </BannerWrapper>      
     <MyProfile />
-      <MySocialDataWrapper>
-        <PostData />
-        <WidgetData />
-      </MySocialDataWrapper>
-    </MyPageWrapper>
-    <div>
-      {/*{JSON.stringify(profileData)} */}
-      <br />
-      {/*{JSON.stringify(componentData)}*/}
-      <br />
-      <br />
-      {/*{JSON.stringify(postData)} */}
-      {/*{JSON.stringify(idxData)} */}
-      {/*{JSON.stringify(postList)} */}
-    </div>
-  </>
+    <MySocialDataWrapper>
+      <PostData />
+      <WidgetData />
+    </MySocialDataWrapper>
+  </MyPageWrapper>
 );
