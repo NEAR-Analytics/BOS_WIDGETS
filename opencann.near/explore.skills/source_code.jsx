@@ -1,6 +1,6 @@
 // AllLabels
 const ownerId = "opencann.near";
-const appName = "skillskill";
+const appName = "skilltag";
 
 let skill = props.skill ?? "*";
 const data = Social.keys(`*/${appName}/*/skills/${skill}`, "final");
@@ -28,7 +28,7 @@ const allWidgets = Object.keys(contracts).map((accountId) => {
           />
         </div>
         <Widget
-          src={`${ownerId}/widget/profile.publicSkills`}
+          src={`opencann.near/widget/profile.publicSkills`}
           props={{ accountId }}
         />
       </div>
@@ -39,7 +39,7 @@ const allWidgets = Object.keys(contracts).map((accountId) => {
 return (
   <>
     <Widget
-      src={`${ownerId}/widget/PublicSkillEditor`}
+      src={`zavodil.near/widget/PublicSkillEditor`}
       key={`public-skill-editor-${props.accountId}`}
       props={{ contractId: props.accountId }}
     />
@@ -56,7 +56,7 @@ return (
     {skill !== "*" && (
       <>
         <Widget
-          src={`${ownerId}/widget/profile.skillDetails`}
+          src={`opencann.near/widget/profile.skillDetails`}
           props={{ skill: skill }}
         />
 
