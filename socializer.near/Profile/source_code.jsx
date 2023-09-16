@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 const Admin = "humans-of-near.near";
-const API_URL = "http://localhost:3000/api";
+const API_URL = "https://e2e.nearverselabs.com/api";
 const profile = Social.getr(`${accountId}/profile`);
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
@@ -126,19 +126,21 @@ const toFixed = (x) => {
     }
   } else {
     var e = parseInt(x.toString().split("+")[1]);
-    e -= 20;
-    x /= Math.pow(10, e);
-    x += new Array(e + 1).join("0");
+    if (e) {
+      e -= 20;
+      x /= Math.pow(10, e);
+      x += new Array(e + 1).join("0");
+    }
   }
-  return x;
+  return x.toString();
 };
 
 const deposit = async (item) => {
   const amount = Number(state[item.id]);
   let oneTeraGas = 100000000000000;
-  let oneNEARInYoctoNEAR = 1000000000000000000000000;
-  if (!amount || amount <= 0) return;
+  let oneNEARInYoctoNEAR = Number(item.yocto_near);
 
+  if (!amount || amount <= 0) return;
   if (item.id === "NEAR") {
     Near.call(
       item.contract,
@@ -148,7 +150,8 @@ const deposit = async (item) => {
       amount * oneNEARInYoctoNEAR
     );
   } else {
-    let amt = toFixed(amount * oneNEARInYoctoNEAR);
+    let amt = toFixed((amount + 0.0001) * oneNEARInYoctoNEAR);
+    console.log("==>amt", amt);
     const data = {
       receiver_id: Admin,
       amount: amt,
