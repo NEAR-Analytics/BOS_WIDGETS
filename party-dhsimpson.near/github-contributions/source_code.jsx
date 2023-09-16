@@ -8,6 +8,13 @@
 //Sort "sort=" 필수
 // &sort=created&order=desc&per_page=30&page=1
 
+if (!props.token) {
+  return <p>your token is required.</p>;
+}
+if (!props.githubNickname) {
+  return <p>github nickname is required.</p>;
+}
+
 const searchBaseUrl = "https://api.github.com/search/issues?q=";
 const nickName = "dhsimpson";
 const defulatFilterList = [
@@ -26,39 +33,8 @@ const mergeFilters = (filterLists) => {
   return [].concat(...filterLists).join("%20");
 };
 
-const [prData, setPrData] = useState([]);
-
-asyncFetch(
-  `${searchBaseUrl}${mergeFilters([
-    defulatFilterList,
-    pullRequestDefaultFilterList,
-  ])}`,
-  config
-).then((res) => {
-  setPrData(res.body?.items ?? []);
-});
-
-const [issueData, setIssueData] = useState([]);
-
-asyncFetch(
-  `${searchBaseUrl}${mergeFilters([
-    defulatFilterList,
-    issueDefaultFilterList,
-  ])}`,
-  config
-).then((res) => {
-  setIssueData(res.body?.items ?? []);
-});
-
-if (!props.token) {
-  return <p>your token is required.</p>;
-}
-if (!props.githubNickname) {
-  return <p>github nickname is required.</p>;
-}
-
 const PRWrapper = styled.div`
-    display: none;
+    // display: none;
 `;
 const IssueWrapper = styled.div`
     // display: none;
@@ -121,23 +97,41 @@ const StatusColors = {
   closed: "rgba(255, 0, 0, 0.7)", // 빨간색
 };
 
+const [contributionData, setContributionData] = useState([]);
+
+const togglePR = () => {
+  asyncFetch(
+    `${searchBaseUrl}${mergeFilters([
+      defulatFilterList,
+      pullRequestDefaultFilterList,
+    ])}`,
+    config
+  ).then((res) => {
+    setContributionData(res.body?.items ?? []);
+  });
+};
+
+const toggleIssue = () => {
+  asyncFetch(
+    `${searchBaseUrl}${mergeFilters([
+      defulatFilterList,
+      issueDefaultFilterList,
+    ])}`,
+    config
+  ).then((res) => {
+    setContributionData(res.body?.items ?? []);
+  });
+};
+useEffect(() => {
+  togglePR();
+}, []);
 return (
   <div>
-    {prData.map((pullRequest) => {
-      return (
-        <PRWrapper>
-          <span>{pullRequest.title}</span>
-          <span>{pullRequest.state}</span>
-          <a href={pullRequest.html_url}>바로가기</a>
-          {pullRequest.state === "closed" && (
-            <span>{pullRequest.closed_at}</span>
-          )}
-        </PRWrapper>
-      );
-    })}
+    <button onClick={togglePR}>PR</button>
+    <button onClick={toggleIssue}>ISSUE</button>
 
     <MyContributionList>
-      {issueData.map((issue) => {
+      {contributionData.map((issue) => {
         return (
           <MyContribution>
             <ContributionInfo>
