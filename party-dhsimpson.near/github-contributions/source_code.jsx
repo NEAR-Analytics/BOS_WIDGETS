@@ -11,8 +11,8 @@
 const searchBaseUrl = "https://api.github.com/search/issues?q=";
 const nickName = "dhsimpson";
 const defulatFilterList = [
-    `-user:${props.githubNickname ?? nickName}`,
-    `author:${props.githubNickname ?? nickName}`
+    `-user:${props.githubNickname}`,
+    `author:${props.githubNickname}`
 ];
 const pullRequestDefaultFilterList = [
     "type:pr"
@@ -22,7 +22,7 @@ const issueDefaultFilterList = [
 ];
 const config = {
   headers: {
-    Authorization: `Bearer ${props.token ?? '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'}`,
+    Authorization: `Bearer ${props.token}`,
   },
 };
 
@@ -47,12 +47,13 @@ asyncFetch(`${searchBaseUrl}${mergeFilters([defulatFilterList, issueDefaultFilte
   }
 );
 
-// if(!props.token) {
-//     return <p>your token is required.</p>
-// }
-// if(!props.githubNickname) {
-//     return <p>github nickname is required.</p>
-// }
+if(!props.token) {
+    return <p>your token is required.</p>
+}
+if(!props.githubNickname) {
+    return <p>github nickname is required.</p>
+}
+
 const PRWrapper = styled.div`
     display: none;
 `;
