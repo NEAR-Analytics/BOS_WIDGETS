@@ -122,7 +122,22 @@ return (
             <ContributionInfo>
               <div>
                 <h4>{issue.title}</h4>
-                {issue.state === "closed" && <span>{issue.closed_at}</span>}
+                <p>
+                  opened :
+                  <Widget
+                    src="party-dhsimpson.near/widget/past-time-from"
+                    props={{ date: issue.created_at }}
+                  />
+                  {issue.state === "closed" && (
+                    <>
+                      closed :
+                      <Widget
+                        src="party-dhsimpson.near/widget/past-time-from"
+                        props={{ date: issue.closed_at }}
+                      />
+                    </>
+                  )}
+                </p>
               </div>
               <Label color={StatusColors[issue.state]}>{issue.state}</Label>
             </ContributionInfo>
