@@ -154,8 +154,11 @@ const createCampaign = () => {
     body: JSON.stringify({ ...state, accountId }),
   }).then((res) => {
     if (res.ok) {
-      const { error } = res.body;
+      const { error, data } = res.body;
       if (error) State.update({ error });
+      else if (data && data === "success") {
+        changePage("dashboard");
+      }
     }
   });
 };
