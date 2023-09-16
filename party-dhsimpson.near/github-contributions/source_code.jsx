@@ -85,6 +85,20 @@ const MyContribution = styled.li`
 const ContributionInfo = styled.div`
     display: flex;
 `;
+const Label = styled.div`
+    background-color: ${(props) => props.color};
+    width: 100px;
+    height: 30px;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+`;
+
+const StatusColors = {
+  open: "#00FF00", // 초록색
+  closed: "#FF0000", // 빨간색
+};
 
 return (
   <div>
@@ -110,12 +124,12 @@ return (
                 <h4>{issue.title}</h4>
                 {issue.state === "closed" && <span>{issue.closed_at}</span>}
               </div>
-              <span>{issue.state}</span>
+              <Label color={StatusColors[issue.state]}>{issue.state}</Label>
             </ContributionInfo>
             <a href={issue.html_url}>
               <Widget
                 src="party-dhsimpson.near/widget/gotoSvg"
-                props={{ width: 15, heigh: 15, color: "gray" }}
+                props={{ width: 20, heigh: 20, color: "gray" }}
               />
             </a>
           </MyContribution>
