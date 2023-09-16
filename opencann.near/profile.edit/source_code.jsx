@@ -13,8 +13,6 @@ if (profile === null) {
 
 State.init({
   profile,
-  skills: [],
-  skillsError: "",
 });
 
 const Wrapper = styled.div`
@@ -31,9 +29,6 @@ return (
         <div>
           <h4>Edit profile of @{accountId}</h4>
         </div>
-        <a href="#/opencann.near/widget/profile.demographics">
-          Click here to edit your demographic data.
-        </a>
         <hr></hr>
         <div className="mb-2">
           <Widget
@@ -46,12 +41,18 @@ return (
                 image: { label: "Profile picture" },
                 backgroundImage: { label: "Background image" },
                 description: { label: "About" },
+                skills: {
+                  label: "Skills",
+                  skillsPattern: "*/profile/skills/*",
+                  placeholder: "Select your skills",
+                },
                 tags: {
                   label: "Tags",
                   tagsPattern: "*/profile/tags/*",
                   placeholder:
                     "rust, engineer, artist, humanguild, nft, learner, founder",
                 },
+
                 linktree: {
                   links: [
                     {
@@ -85,20 +86,13 @@ return (
             }}
           />
         </div>
-        <Widget
-          src={`${ownerId}/widget/profile.skills`}
-          props={{
-            label: "Skills",
-            placeholder: "Add skills",
-            value: state.skills,
-            onChange: (skills) =>
-              State.update({
-                skills: skills.map(({ name }) => ({
-                  name: name.trim().replaceAll(/\s+/g, "-"),
-                })),
-              }),
-          }}
-        />
+        <hr></hr>
+        <div>
+          <a href="#/opencann.near/widget/profile.demographics">
+            Click here to edit your demographic data.
+          </a>
+        </div>
+        <hr></hr>
         <p></p>
         <div className="mb-2">
           <CommitButton data={{ profile: state.profile }}>
