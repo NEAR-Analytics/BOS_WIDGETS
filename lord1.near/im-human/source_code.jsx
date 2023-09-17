@@ -171,6 +171,7 @@ const lightColors = {
     table_hover_color: "rgb(0,0,0)",
     table_hover_bg: "",
     btn_border: "#000",
+    btn_border: "#806ce1",
     btn_bg: "#fff",
     btn_bg_active: "rgb(235, 231, 253)",
     btn_color: "#000",
