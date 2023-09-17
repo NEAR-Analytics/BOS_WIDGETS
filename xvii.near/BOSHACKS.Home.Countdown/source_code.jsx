@@ -155,13 +155,13 @@ const InfoBlock = ({ mobile }) => (
       mobile ? "" : "rounded-bottom"
     }`}
   >
-    <b className={`mb-0 ${mobile ? "w-50" : ""}`}>NCR</b>
+    <b className={`mb-0 ${mobile ? "w-50" : ""}`}>Learn about the NRC DAO:</b>
     <div>
       <Widget
         src={widgets.styledComponents}
         props={{
           Link: {
-            text: "Syllabus",
+            text: "What is the NRC?",
             size: "sm",
             style: { backgroundColor: "black", color: "white" }, // Inline styles
             href: "https://hackmd.io/Jz4_FasRQGWdGGuifBU6Kw",
