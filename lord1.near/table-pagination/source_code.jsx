@@ -217,6 +217,9 @@ return (
           "margin-buttom": "2px",
           backgroundColor: themeColor?.table_pagination?.input_bg,
           color: themeColor?.table_pagination?.btn_color,
+          border: `0.5px solid ${
+            themeColor?.table_pagination?.btn_border ?? "#000"
+          }`,
         }}
       />
     </div>
