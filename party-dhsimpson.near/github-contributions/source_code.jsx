@@ -126,15 +126,60 @@ const toggleIssue = () => {
 useEffect(() => {
   togglePR();
 }, []);
+
+const [isChecked, setIsChecked] = useState(true);
+
+const Toggle = ({
+  callbackOn,
+  callbackOff,
+  textOn,
+  textOff,
+  isChecked,
+  setIsChecked,
+}) => {
+  const ToggleBoxWrapper = styled.label`
+`;
+
+  const ToggleBox = styled.input`
+  opacity: 0;
+  width: 0;
+  height: 0;
+`;
+
+  const handleToggle = () => {
+    // 여기에 토글 상태에 따른 로직을 실행하실 수 있습니다.
+    if (isChecked) {
+      callbackOn();
+    } else {
+      callbackOff();
+    }
+    setIsChecked(!isChecked);
+  };
+  return (
+    <ToggleBoxWrapper>
+      <ToggleBox
+        type="checkbox"
+        checked={isChecked}
+        onChange={handleToggle}
+        value="체크 박스"
+      />
+      {isChecked ? textOn : textOff}
+    </ToggleBoxWrapper>
+  );
+};
 return (
   <MyContributionWrapper>
     <div>
       <p>프로필 영역 (아바타) | 프로필 영역 (깃헙닉네임)</p>
-      <div></div>
+      <Toggle
+        callbackOn={togglePR}
+        callbackOff={toggleIssue}
+        textOn="Pull Request"
+        textOff="Issue"
+        isChecked={isChecked}
+        setIsChecked={setIsChecked}
+      />
     </div>
-
-    <button onClick={togglePR}>PR</button>
-    <button onClick={toggleIssue}>ISSUE</button>
     <MyContributionList>
       {contributionData.map((issue) => {
         return (
