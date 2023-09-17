@@ -65,13 +65,13 @@ return (
   >
     {state.imageData[0]?.[0]?.widget_image?.ipfs_cid ? (
       <img
-        style={{ width: 200, height: 200 }}
+        style={{ width: 200 }}
         src={
           `https://ipfs.near.social/ipfs/${state.imageData[0]?.[0]?.widget_image?.ipfs_cid}` ??
           ``
         }
       />
-    ) : props.theme.mode === "dark" ? (
+    ) : props.theme.mode !== "dark" ? (
       <svg
         width="200"
         height="200"
