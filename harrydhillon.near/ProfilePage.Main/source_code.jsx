@@ -22,6 +22,45 @@ const totalCommits = Object.keys(widget)
 
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
+const allGraphqlQueries = Object.keys(widgets).map((item)=>(
+  `query MyQuery {
+    harrydhillon_near_jutsu_widget_activity_search_widget_activity(
+      where: {widget_search_term: {_iregex: "${accountId}.${item}"}, _and: {widget_image: {_neq: ""}}}
+    ) {
+      widget_image
+    }
+  }`
+))
+
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+  asyncFetch("https://near-queryapi.api.pagoda.co/v1/graphql", {
+    method: "POST",
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: variables,
+      operationName: operationName,
+    }),
+    headers: {
+      "x-hasura-role": "harrydhillon_near",
+      "content-type": "application/json",
+    },
+  }).then(({ body: { data } }) => {
+    console.log(data)
+  });
+}
+
+const operationsDoc = allGraphqlQueries.join('\n')
+
+console.log(operationsDoc)
+
+function fetchMyQuery() {
+  return fetchGraphQL(operationsDoc, "MyQuery", {});
+}
+
+fetchMyQuery();
+
+
+
 return (
   <div style={{ display: "flex", width: "100%", gap: "20px" }}>
     <div style={{ width: "50%" }}>
