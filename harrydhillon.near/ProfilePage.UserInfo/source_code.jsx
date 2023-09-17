@@ -15,8 +15,8 @@ State.init({
   showEditProfile: false,
 });
 
-console.log(props.theme);
-a;
+console.log(profile)
+
 const SocialCardStyle = styled.div`
     background-color:${props.theme.ui2};
     width:100%;
@@ -99,18 +99,6 @@ return (
             </div>
           </SocialCardStyle>
         </div>
-      </div>
-
-      <div style={{ color: props.theme.textColor, wordBreak: "break-all" }}>
-        <Markdown
-          style={{
-            textAlign: "center",
-            color: "red",
-            fontWeight: 400,
-            fontSize: "1rem",
-          }}
-          text={profile?.description}
-        />
       </div>
     </div>
 
@@ -251,7 +239,7 @@ return (
                 padding: 0,
               }}
             >
-              {profile?.bio ??
+              {profile?.description ??
                 "Full-Stack Developer for Jutsu.AI with a keen eye for fixing bugs and developing great products in a timely manner."}
             </h6>
           </div>
