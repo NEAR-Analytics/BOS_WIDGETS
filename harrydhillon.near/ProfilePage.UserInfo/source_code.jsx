@@ -44,18 +44,18 @@ return (
           display: "flex",
         }}
       >
-      <div style={{width:200}}>
-        <img
-          style={{
-            width: 200,
-            height: 200,
-            objectFit: "cover",
-            borderRadius: 100,
-            outline: "2px solid #dbdcdd",
-          }}
-          src={url}
-          alt="profile"
-        />
+        <div style={{ width: 160 }}>
+          <img
+            style={{
+              width: 160,
+              height: 160,
+              objectFit: "cover",
+              borderRadius: 100,
+              outline: "2px solid #dbdcdd",
+            }}
+            src={url}
+            alt="profile"
+          />
         </div>
         <div style={{ padding: 10, paddingLeft: 20, width: "100%" }}>
           <h3 style={{ color: props.theme.textColor }}>{name}</h3>
