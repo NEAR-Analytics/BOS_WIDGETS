@@ -23,7 +23,7 @@ const totalCommits = Object.keys(widget)
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
 return (
-  <div style={{ display: "flex", width: "100%" }}>
+  <div style={{ display: "flex", width: "100%", gap: "20px" }}>
     <div style={{ width: "50%" }}>
       <Widget
         src="harrydhillon.near/widget/ProfilePage.UserInfo"
