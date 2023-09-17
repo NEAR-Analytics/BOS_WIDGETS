@@ -70,6 +70,7 @@ const darkColors = {
     btn_bg: "rgb(49,62,89)",
     btn_bg_active: "rgb(25,33,50)",
     btn_color: "#fff",
+    input_bg: "#2f3b54",
   },
   chart: {
     title: "rgb(255,255,255)",
@@ -297,10 +298,20 @@ return (
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
             },
             {
-              text: "Tracker",
-              link: "http://flipsidecrypto.xyz/",
+              text: "NDC",
+              link: "../../lord1.near/widget/NDC",
+              title: "NDC tracker",
+
               image:
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
+            },
+            {
+              text: "Election",
+              link: "../../lord1.near/widget/election",
+              title: "Election tracker",
+
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
             },
           ],
           backgroundColor: themeColor?.sideBar?.sideBar_bg,
