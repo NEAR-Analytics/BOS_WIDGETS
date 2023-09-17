@@ -21,7 +21,6 @@ const WidgetItem = styled.a`
   }
 `;
 
-
 return (
   <WidgetItem
     href={`${gateway + props.accountId}/widget/${props.name}`}
@@ -30,11 +29,8 @@ return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       {props.image ? (
         <img
-          style={{ width: 200, height: 200 }}
-          src={
-            `https://ipfs.near.social/ipfs/${props.image}` ??
-            ``
-          }
+          style={{ width: 200, height: 200, objectFit: "contain" }}
+          src={`https://ipfs.near.social/ipfs/${props.image}` ?? ``}
         />
       ) : props.theme.mode !== "dark" ? (
         <svg
