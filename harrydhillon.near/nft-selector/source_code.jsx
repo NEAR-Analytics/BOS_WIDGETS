@@ -36,10 +36,6 @@ if (!finalData) {
   return <></>;
 }
 
-const selectedTokenID = (props?.selectedNFTS ? props?.selectedNFTS : [])?.map(
-  (item) => item.tokenId
-);
-
 return (
   <>
     <div
@@ -49,58 +45,40 @@ return (
         overflow: "auto",
       }}
     >
-      {finalData.tokens.length === 0 && (
-        <p style={{ padding: 10 }}>User has no NFT's</p>
-      )}
-      {finalData.tokens.map((nft, index) => {
-        const isInsideList = selectedTokenID.includes(nft.tokenId);
-        const stylesForSelected = isInsideList
-          ? {
-              border: "1px solid lightgray",
-              borderRadius: 5,
-              padding: 2.5,
-            }
-          : {};
-        return (
-          <div
-            key={`${nft.contractId}-${nft.tokenId}-${index}`}
-            role="button"
-            style={{
-              width: "30%",
-              aspectRatio: "1/1",
-              ...stylesForSelected,
+      {finalData.tokens.map((nft, index) => (
+        <div
+          key={`${nft.contractId}-${nft.tokenId}-${index}`}
+          role="button"
+          style={{ width: "30%", aspectRatio: "1/1" }}
+          onClick={() => {
+            onChange({
+              contractId: nft.contractId,
+              tokenId: nft.tokenId,
+            });
+          }}
+        >
+          <Widget
+            src="mob.near/widget/NftImage"
+            props={{
+              nft: { tokenId: nft.tokenId, contractId: nft.contractId },
+              style: {
+                width: size,
+                height: size,
+                objectFit: "cover",
+                minWidth: size,
+                minHeight: size,
+                maxWidth: size,
+                maxHeight: size,
+                overflowWrap: "break-word",
+              },
+              className: "",
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
+              alt: `NFT ${nft.contractId} ${nft.tokenId}`,
             }}
-            onClick={() => {
-              onChange(nft);
-            }}
-          >
-            <Widget
-              src="mob.near/widget/NftImage"
-              props={{
-                nft: { tokenId: nft.tokenId, contractId: nft.contractId },
-                style: {
-                  width: size,
-                  height: size,
-                  objectFit: "cover",
-                  borderRadius: 5,
-                  minWidth: size,
-                  minHeight: size,
-                  maxWidth: size,
-                  maxHeight: size,
-                  overflowWrap: "break-word",
-                },
-                className: "",
-                fallbackUrl:
-                  "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
-                alt: `NFT ${nft.contractId} ${nft.tokenId}`,
-              }}
-            />
-            <p style={{ textAlign: "center", marginTop: 1, marginBottom: 0 }}>
-              {index}
-            </p>
-          </div>
-        );
-      })}
+          />
+        </div>
+      ))}
     </div>
   </>
 );
