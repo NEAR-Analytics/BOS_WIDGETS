@@ -70,6 +70,7 @@ const darkColors = {
     btn_bg: "rgb(49,62,89)",
     btn_bg_active: "rgb(25,33,50)",
     btn_color: "#fff",
+    input_bg: "#2f3b54",
   },
   chart: {
     title: "rgb(255,255,255)",
@@ -169,7 +170,7 @@ const lightColors = {
     table_striped_bg: "",
     table_hover_color: "rgb(0,0,0)",
     table_hover_bg: "",
-    btn_border: "#000",
+    btn_border: "#806ce1",
     btn_bg: "#fff",
     btn_bg_active: "rgb(235, 231, 253)",
     btn_color: "#000",
