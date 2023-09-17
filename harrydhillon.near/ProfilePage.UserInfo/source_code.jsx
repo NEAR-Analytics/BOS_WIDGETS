@@ -15,7 +15,20 @@ State.init({
   showEditProfile: false,
 });
 
-console.log(profile)
+const following = Social.keys(`${accountId}/graph/follow/*`, "final", {
+  return_type: "BlockHeight",
+  values_only: true,
+});
+
+const followers = Social.keys(`*/graph/follow/${accountId}`, "final", {
+  return_type: "BlockHeight",
+  values_only: true,
+});
+
+const numFollowing = following
+  ? Object.keys(following[accountId].graph.follow || {}).length
+  : null;
+const numFollowers = followers ? Object.keys(followers || {}).length : null;
 
 const SocialCardStyle = styled.div`
     background-color:${props.theme.ui2};
@@ -69,7 +82,7 @@ return (
               }}
             >
               <div style={{ transform: "translateY(6px)" }}>
-                <h5 style={{ color: props.theme.textColor }}>12</h5>
+                <h5 style={{ color: props.theme.textColor }}>{numFollowers??0}</h5>
                 <p style={{ color: props.theme.textColor }}>Followers</p>
               </div>
             </div>
@@ -81,7 +94,7 @@ return (
               }}
             >
               <div style={{ transform: "translateY(6px)" }}>
-                <h5 style={{ color: props.theme.textColor }}>45</h5>
+                <h5 style={{ color: props.theme.textColor }}>{numFollowing??0}</h5>
                 <p style={{ color: props.theme.textColor }}>Following</p>
               </div>
             </div>
