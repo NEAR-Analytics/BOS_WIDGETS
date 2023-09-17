@@ -7,8 +7,6 @@ const profile = Social.getr(`${accountId}/profile`);
 const name = profile?.name;
 const image = profile?.image;
 
-
-
 const url = image.ipfs_cid
   ? `https://ipfs.near.social/ipfs/${image?.ipfs_cid}`
   : "https://thewiki.io/static/media/sasha_anon.6ba19561.png";
@@ -64,9 +62,9 @@ const Banner = () => {
 
 return (
   <Theme>
-  <ProfileWrapper>
-   <Banner />
-   </ProfileWrapper>
+    <ProfileWrapper>
+      <Banner />
+    </ProfileWrapper>
     <div className="leftSection">
       <div>
         <div>
@@ -129,17 +127,17 @@ return (
       )}
     </div>
 
-     <ActivityWrapper>
+    <ActivityWrapper>
       <div className="post-wrapper">
         <Widget
-          src={`idknwhoru.near/widget/collegium.bos.wk3.MyPosts`}
+          src={`7649ed19fe15dead3bb479bbbf3acd3a2b337eead0999673d20b9935e4d60d8e/widget/TSocialPosts`}
           props={props}
         />
       </div>
       <div className="vertical-line" />
       <div className="widget-wrapper">
         <Widget
-          src={`idknwhoru.near/widget/collegium.bos.wk3.SocialWidget`}
+          src={`7649ed19fe15dead3bb479bbbf3acd3a2b337eead0999673d20b9935e4d60d8e/widget/YouJun.collegium.bos.wk3.SocialWidget`}
           props={props}
         />
       </div>
