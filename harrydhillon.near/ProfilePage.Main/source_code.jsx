@@ -16,7 +16,7 @@ if (allWidgetsHistoryChangesBlocks === null) return "Loading...";
 
 const widget = allWidgetsHistoryChangesBlocks[accountId].widget;
 
-const totalCommits = Object.keys(widget)
+const totalCommits = Object.keys(widget ?? {})
   .map((key) => widget[key])
   .flat();
 
