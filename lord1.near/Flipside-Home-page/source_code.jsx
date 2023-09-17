@@ -497,15 +497,24 @@ return (
               text: "Im human",
               link: "../../lord1.near/widget/im-human",
               title: "I Am Human SBT tracker",
-
               image:
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
             },
             {
-              text: "Tracker",
-              link: "http://flipsidecrypto.xyz/",
+              text: "NDC",
+              link: "../../lord1.near/widget/NDC",
+              title: "NDC tracker",
+
               image:
                 "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
+            },
+            {
+              text: "Election",
+              link: "../../lord1.near/widget/election",
+              title: "Election tracker",
+
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
             },
           ],
           backgroundColor: themeColor?.sideBar?.sideBar_bg,
