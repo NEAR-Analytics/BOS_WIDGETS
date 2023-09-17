@@ -22,16 +22,6 @@ const totalCommits = Object.keys(widget)
 
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
-const allGraphqlQueries = Object.keys(widgets).map((item)=>(
-  `query MyQuery {
-    harrydhillon_near_jutsu_widget_activity_search_widget_activity(
-      where: {widget_search_term: {_iregex: "${accountId}.${item}"}, _and: {widget_image: {_neq: ""}}}
-    ) {
-      widget_image
-    }
-  }`
-))
-
 async function fetchGraphQL(operationsDoc, operationName, variables) {
   asyncFetch("https://near-queryapi.api.pagoda.co/v1/graphql", {
     method: "POST",
@@ -45,21 +35,27 @@ async function fetchGraphQL(operationsDoc, operationName, variables) {
       "content-type": "application/json",
     },
   }).then(({ body: { data } }) => {
-    console.log(data)
+    State.update({ allImages: Object.values(data)[0] });
   });
 }
 
-const operationsDoc = allGraphqlQueries.join('\n')
+const operationsDoc = `  query MyQuery {
+    harrydhillon_near_jutsu_widget_activity_search_widget_activity(
+      where: {account_id: {_iregex: "${accountId}"}, _and: {widget_image: {_neq: ""}}}
+      distinct_on: widget_name
+    ) {
+      widget_image
+      widget_name
+    }
+  }`;
 
-console.log(operationsDoc)
+console.log(operationsDoc);
 
 function fetchMyQuery() {
   return fetchGraphQL(operationsDoc, "MyQuery", {});
 }
 
 fetchMyQuery();
-
-
 
 return (
   <div style={{ display: "flex", width: "100%", gap: "20px" }}>
@@ -126,6 +122,15 @@ return (
                   src="harrydhillon.near/widget/ProfilePage.WidgetItem"
                   props={{
                     name: item,
+                    image: state?.allImages.filter(
+                      (_) => _.widget_name === item
+                    )?.[0]?.widget_image
+                      ? JSON.parse(
+                          state?.allImages.filter(
+                            (_) => _.widget_name === item
+                          )?.[0]?.widget_image
+                        ).ipfs_cid
+                      : null,
                     accountId,
                     commits:
                       allWidgetsHistoryChangesBlocks[accountId].widget[item],
