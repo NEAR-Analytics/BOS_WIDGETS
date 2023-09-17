@@ -36,7 +36,7 @@ if (!finalData) {
   return <></>;
 }
 
-const selectedTokenID = (props?.selectedNFTS ?? [])?.map(
+const selectedTokenID = (props?.selectedNFTS ? props?.selectedNFTS : [])?.map(
   (item) => item.tokenId
 );
 
@@ -65,6 +65,7 @@ return (
             style={{
               width: "30%",
               aspectRatio: "1/1",
+              ...stylesForSelected
             }}
             onClick={() => {
               onChange(nft);
