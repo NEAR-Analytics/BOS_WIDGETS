@@ -275,18 +275,20 @@ return (
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
           },
           {
-            text: "Im human",
-            link: "../../lord1.near/widget/im-human",
-            title: "I Am Human SBT tracker",
+            text: "NDC",
+            link: "../../lord1.near/widget/NDC",
+            title: "NDC tracker",
 
             image:
-              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
           },
           {
-            text: "Tracker",
-            link: "http://flipsidecrypto.xyz/",
+            text: "Election",
+            link: "../../lord1.near/widget/election",
+            title: "Election tracker",
+
             image:
-              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
           },
         ],
         backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
