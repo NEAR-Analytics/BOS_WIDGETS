@@ -29,7 +29,7 @@ return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       {props.image ? (
         <img
-          style={{ width: 200, height: 200, objectFit: "contain" }}
+          style={{ width: 150, height: 150, objectFit: "contain" }}
           src={`https://ipfs.near.social/ipfs/${props.image}` ?? ``}
         />
       ) : props.theme.mode !== "dark" ? (
