@@ -19,14 +19,47 @@ const WidgetItem = styled.a`
     cursor: pointer;
     text-decoration: none;
   }
-
 `;
+
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+  asyncFetch("https://near-queryapi.api.pagoda.co/v1/graphql", {
+    method: "POST",
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: variables,
+      operationName: operationName,
+    }),
+    headers: {
+      "x-hasura-role": "harrydhillon_near",
+      "content-type": "application/json",
+    },
+  }).then(({ body: { data } }) => {
+    State.update({ imageData: Object.values(data) });
+  });
+}
+
+const operationsDoc = `
+query MyQuery {
+    harrydhillon_near_jutsu_widget_activity_search_widget_activity(
+      where: {widget_search_term: {_iregex: "${props.accountId}.${props.name}"}, _and: {widget_image: {_neq: ""}}}
+    ) {
+      widget_image
+    }
+  }
+`;
+
+function fetchMyQuery() {
+  return fetchGraphQL(operationsDoc, "MyQuery", {});
+}
+
+fetchMyQuery();
 
 return (
   <WidgetItem
     href={`${gateway + props.accountId}/widget/${props.name}`}
     target="_blank"
   >
+    <p>{JSON.stringify(state.imageData)}</p>
     <h3
       className="max1Lines"
       style={{
