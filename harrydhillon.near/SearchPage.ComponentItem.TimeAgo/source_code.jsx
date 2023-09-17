@@ -91,7 +91,7 @@ const TimeAgoContainer = styled.div`
 // <i className="bi bi-clock" style={{ fontSize: 14 }}></i>{" "}
 return (
   <p style={props.style} title={title}>
-    {timeAgo(timeMs)} ago
+    {timeAgo(timeMs)}
   </p>
 );
 // </TimeAgoContainer>
