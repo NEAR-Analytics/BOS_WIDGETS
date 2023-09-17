@@ -67,7 +67,7 @@ return (
         }}
       >
         <Widget
-          src={`saidulbadhon.near/widget/SearchPage.ComponentItem.TimeAgo`}
+          src={`harrydhillon.near/widget/SearchPage.ComponentItem.TimeAgo`}
           props={{
             blockHeight: props.commits[props.commits.length - 1],
           }}
