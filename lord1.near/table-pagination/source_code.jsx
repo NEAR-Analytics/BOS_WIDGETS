@@ -37,6 +37,8 @@ const Table = styled.table`
   --bs-table-hover-color: ${themeColor?.table_pagination?.table_hover_color};
   --bs-table-hover-bg:${themeColor?.table_pagination?.table_hover_bg};
   --bs-table-hover-bg:${themeColor?.table_pagination?.columntextcolor};
+  --bs-table-hover-bg:${themeColor?.table_pagination?.input_bg};
+
 
 `;
 
@@ -53,8 +55,12 @@ const onHandelId = (id) => {
 };
 
 return (
-  <div className="table-responsive" style={{ backgroundColor: "#FAFAFA" }}>
-    <div style={{ borderRadius: 8 }}>
+  <div className="table-responsive">
+    <div
+      style={{
+        backgroundColor: themeColor?.table_pagination?.table_bg,
+      }}
+    >
       <Table
         className={`table table-hover table-striped table-borderless ${props.className}`}
       >
@@ -196,27 +202,34 @@ return (
                 );
               })}
         </tbody>
-      </Table>
+      </Table>{" "}
+      <input
+        type="text"
+        placeholder="Search..."
+        color={themeColor?.table_pagination?.btn_color}
+        onChange={handleSearch}
+        style={{
+          width: "20%",
+          height: "30px",
+          borderRadius: "50px",
+          "margin-left": "2px",
+          "margin-top": "2px",
+          "margin-buttom": "2px",
+          backgroundColor: themeColor?.table_pagination?.input_bg,
+          color: themeColor?.table_pagination?.btn_color,
+        }}
+      />
     </div>
-    <input
-      type="text"
-      placeholder="Search..."
-      onChange={handleSearch}
-      style={{
-        width: "20%",
-        height: "30px",
-        borderRadius: "50px",
-        "margin-left": "2px",
-        "margin-top": "2px",
-        "margin-buttom": "2px",
-        color: themeColor?.table_pagination?.table_bg,
-      }}
-    />
 
     {!rowsCount ? (
       ""
     ) : (
-      <div className="d-flex justify-content-center">
+      <div
+        className="d-flex justify-content-center"
+        style={{
+          backgroundColor: themeColor?.table_pagination?.table_bg,
+        }}
+      >
         <div>
           <ul
             className="pagination pagination-sm gap-2 mb-0 "
