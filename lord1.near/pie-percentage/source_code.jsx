@@ -11,7 +11,7 @@ const Chart = styled.div`
   &:before {
     content: "";
     position: absolute;
-    border-radius: 50%;
+    border-radius: ${props.percent}%;
     inset: 0;
     background: ${(props) =>
       `conic-gradient(#4ba6ee, calc(${props.voted}*1%), #d4e5f4 0)`};
