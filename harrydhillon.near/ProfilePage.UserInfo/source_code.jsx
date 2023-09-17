@@ -47,9 +47,9 @@ return (
         <img
           style={{
             width: 220,
-            height: 195,
+            height: 200,
             objectFit: "cover",
-            borderRadius: "50%",
+            borderRadius: 100,
             outline: "2px solid #dbdcdd",
           }}
           src={url}
@@ -66,7 +66,7 @@ return (
                 borderRightWidth: 1,
               }}
             >
-              <div style={{transform:"translateY(6px)"}}>
+              <div style={{ transform: "translateY(6px)" }}>
                 <h5 style={{ color: props.theme.textColor }}>12</h5>
                 <p style={{ color: props.theme.textColor }}>Followers</p>
               </div>
@@ -78,7 +78,7 @@ return (
                 borderRightWidth: 1,
               }}
             >
-              <div style={{transform:"translateY(6px)"}}>
+              <div style={{ transform: "translateY(6px)" }}>
                 <h5 style={{ color: props.theme.textColor }}>45</h5>
                 <p style={{ color: props.theme.textColor }}>Following</p>
               </div>
@@ -90,7 +90,7 @@ return (
                 borderColor: "#ffffff",
               }}
             >
-              <div style={{transform:"translateY(6px)"}}>
+              <div style={{ transform: "translateY(6px)" }}>
                 <h5 style={{ color: props.theme.textColor }}>Verified</h5>
                 <p style={{ color: props.theme.textColor }}>Status</p>
               </div>
