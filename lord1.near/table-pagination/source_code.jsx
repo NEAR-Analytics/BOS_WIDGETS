@@ -209,7 +209,7 @@ return (
         "margin-left": "2px",
         "margin-top": "2px",
         "margin-buttom": "2px",
-        color: themeColor?.table_pagination?.columntextcolor,
+        color: themeColor?.table_pagination?.table_bg,
       }}
     />
 
