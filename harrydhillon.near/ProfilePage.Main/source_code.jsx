@@ -82,16 +82,18 @@ return (
             }}
           >
             {Object.keys(widgets)?.map((item, index) => (
-              <Widget
-                src="saidulbadhon.near/widget/ProfilePage.WidgetItem"
-                props={{
-                  name: item,
-                  accountId,
-                  commits:
-                    allWidgetsHistoryChangesBlocks[accountId].widget[item],
-                  theme: props.theme,
-                }}
-              />
+              <>
+                <Widget
+                  src="harrydhillon.near/widget/ProfilePage.WidgetItem"
+                  props={{
+                    name: item,
+                    accountId,
+                    commits:
+                      allWidgetsHistoryChangesBlocks[accountId].widget[item],
+                    theme: props.theme,
+                  }}
+                />
+              </>
             ))}
           </div>
         ) : (
