@@ -70,7 +70,7 @@ const RegisterdNumber = styled.div`
   }
 `;
 
-const width = props.widgetBarWidth ? props.widgetBarWidth : "20%";
+const width = props.widgetBarWidth ? props.widgetBarWidth : "100";
 
 const percentage = (`${props.inside}` / `${props.total}`) * 100;
 const roundPercentage = Math.round(percentage);
