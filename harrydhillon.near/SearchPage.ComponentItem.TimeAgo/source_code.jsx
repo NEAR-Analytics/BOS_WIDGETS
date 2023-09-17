@@ -43,32 +43,32 @@ const title = `${date.toLocaleTimeString([], {
 })}`;
 
 function timeAgo(timestamp) {
-  const now = new Date();
-  const past = new Date(timestamp);
-  const msPerMinute = 60 * 1000;
-  const msPerHour = msPerMinute * 60;
-  const msPerDay = msPerHour * 24;
-  const msPerMonth = msPerDay * 30.44; // average month
-  const msPerYear = msPerDay * 365.25; // account for leap year
+    const now = new Date();
+    const past = new Date(timestamp);
+    const msPerMinute = 60 * 1000;
+    const msPerHour = msPerMinute * 60;
+    const msPerDay = msPerHour * 24;
+    const msPerMonth = msPerDay * 30.44; // average month
+    const msPerYear = msPerDay * 365.25; // account for leap year
 
-  const elapsed = now - past;
+    const elapsed = now - past;
 
-  if (elapsed < msPerMinute) {
-    return "just now";
-  } else if (elapsed < msPerHour) {
-    return Math.round(elapsed / msPerMinute) + " minutes ago";
-  } else if (elapsed < msPerDay) {
-    return Math.round(elapsed / msPerHour) + " hours ago";
-  } else if (elapsed < msPerMonth) {
-    const days = Math.round(elapsed / msPerDay);
-    return days === 1 ? "1 day ago" : days + " days ago";
-  } else if (elapsed < msPerYear) {
-    const months = Math.round(elapsed / msPerMonth);
-    return months === 1 ? "1 month ago" : months + " months ago";
-  } else {
-    const years = Math.round(elapsed / msPerYear);
-    return years === 1 ? "1 year ago" : years + " years ago";
-  }
+    if (elapsed < msPerMinute) {
+        return 'just now';
+    } else if (elapsed < msPerHour) {
+        return Math.round(elapsed / msPerMinute) + ' minutes ago';
+    } else if (elapsed < msPerDay) {
+        return Math.round(elapsed / msPerHour) + ' hours ago';
+    } else if (elapsed < msPerMonth) {
+        const days = Math.round(elapsed / msPerDay);
+        return days === 1 ? '1 day ago' : days + ' days ago';
+    } else if (elapsed < msPerYear) {
+        const months = Math.round(elapsed / msPerMonth);
+        return months === 1 ? '1 month ago' : months + ' months ago';
+    } else {
+        const years = Math.round(elapsed / msPerYear);
+        return years === 1 ? '1 year ago' : years + ' years ago';
+    }
 }
 
 const TimeAgoContainer = styled.div`
@@ -91,7 +91,7 @@ const TimeAgoContainer = styled.div`
 // <i className="bi bi-clock" style={{ fontSize: 14 }}></i>{" "}
 return (
   <p style={props.style} title={title}>
-    {timeAgo(timeMs)}
+    {timeAgo(Date.now() - timeMs)} ago
   </p>
 );
 // </TimeAgoContainer>
