@@ -1,5 +1,9 @@
 const gateway = "https://near.social/#/";
 
+initState({
+  imageData: [],
+});
+
 const WidgetItem = styled.a`
   border: 1px solid ${props.theme.borderColor};
 
