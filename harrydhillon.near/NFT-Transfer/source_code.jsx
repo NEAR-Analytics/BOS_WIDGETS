@@ -18,7 +18,7 @@ const tradeportLink =
   "https://www.tradeport.xyz/near/collection/" + contractId + "/" + tokenId;
 // maybe utilize the helper funciton here
 // const fewfarlink =
-const default_receiver = "minorityprogrammers.near"; // default reciver nft for transfers
+const default_receiver = ""; // default reciver nft for transfers
 const msg =
   '{"price":' +
   '"' +
@@ -33,12 +33,6 @@ const tokenInfo = Near.view(contractId, "nft_token", {
 });
 
 initState({
-  contractId: contractId,
-  tokenId: tokenId,
-  tradeportLink: tradeportLink,
-  validMarketLink: true,
-  nftMetadata: nftMetadata,
-  tokenInfo: tokenInfo,
   receiverId: default_receiver,
   validReceiver: true,
   ownsNFT: false, // change this and check intially
@@ -47,6 +41,15 @@ initState({
   allNFTS: [],
   nft: image.nft ?? {}, // from santiago
 });
+
+const ShadowBOX = styled.div`
+-webkit-box-shadow: -1px 0px 9px 8px rgba(0,0,0,0.03);
+-moz-box-shadow: -1px 0px 9px 8px rgba(0,0,0,0.03);
+box-shadow: -1px 0px 9px 8px rgba(0,0,0,0.03);
+  border-radius:10px;
+  padding-top:10px;
+  padding-bottom:10px;
+`;
 
 /* HELPER FUNCTION */
 function isNearAddress(address) {
@@ -92,7 +95,61 @@ const offer = () => {
 };
 
 const ConfirmOffer = () => {
-  return <></>;
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <h4>Confirm NFT Offer</h4>
+        <button
+          onClick={() => {
+            State.update({ isOfferModalOpen: false });
+          }}
+        >
+          X
+        </button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+          justifyContent: "space-around",
+          gap: "5px",
+          overflowX: "hidden",
+          overFlowY: "scroll",
+        }}
+      >
+        {state.allNFTS.map((item) => (
+          <ShadowBOX
+            style={{
+              width: 200,
+              marginBottom: 10,
+              display: "flex",
+              textAlign: "center",
+              alignItems: "center",
+              justifyContent:"center",
+            }}
+          >
+            <div>
+              <img
+                style={{ width: 150, height: 150, borderRadius: 10 }}
+                src={item.media}
+              />
+              <p style={{ marginBottom: 0 }}>Token ID : {item.tokenId}</p>
+              <p style={{ marginBottom: 0, fontSize: 10 }}>
+                NFT Contract : {item.contractId}
+              </p>
+            </div>
+          </ShadowBOX>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 return (
@@ -127,7 +184,7 @@ return (
                     ),
                     state.allNFTS
                   );
-                  if (inList) {
+                  if (isInList) {
                     State.update({
                       allNFTS: state.allNFTS.filter(
                         ({ tokenId }) => tokenId !== nftDetails.tokenId
@@ -167,12 +224,35 @@ return (
           style={{ marginTop: 10 }}
           type="number"
           placeholder="amount in near Ⓝ"
+          value={state.offerAmount}
+          onChange={(e) => {
+            State.update({ offerAmount: e.target.value });
+          }}
         />
         <input
-          style={{ marginTop: 10, marginBottom: 20 }}
+          style={{ marginTop: 10 }}
           placeholder="Recipient Address"
+          value={state.receiverId}
+          onChange={(e) => {
+            State.update({ receiverId: e.target.value });
+          }}
         />
-        <button onClick={() => {}} style={{ width: "100%" }}>
+        {!isNearAddress(state.receiverId) && (
+          <p style={{ color: "red", fontSize: 10, marginBottom: 0 }}>
+            Please enter a valid near wallet address
+          </p>
+        )}
+        <button
+          disabled={
+            state.allNFTS.length === 0 ||
+            !isNearAddress(state.receiverId) ||
+            state.offerAmount === ""
+          }
+          onClick={() => {
+            State.update({ isOfferModalOpen: true });
+          }}
+          style={{ width: "100%", marginTop: 15 }}
+        >
           Offer
         </button>
       </div>
@@ -192,5 +272,19 @@ return (
         </div>
       </div>
     </div>
+
+    <Widget
+      src="harrydhillon.near/widget/Keypom.Components.Modal"
+      props={{
+        children: ConfirmOffer(),
+        isOpen: state.isOfferModalOpen,
+        contentStyles: {
+          style: {
+            overflowX: "hidden",
+            width: 600,
+          },
+        },
+      }}
+    />
   </div>
 );
