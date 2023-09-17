@@ -4,11 +4,14 @@ const TranslationsLib = {
   currentLanguage: null,
   translationsLoaded: false,
   load: (url, language) => {
+    TranslationsLib.url = url;
+    TranslationsLib.currentLanguage = language;
     TranslationsLib.tryLoadByUrl(url, language);
     TranslationsLib.tryLoadByRequire(url, language);
   },
   setTranslations: (translations, language) => {
     if (!!translations[language]) {
+      TranslationsLib.availableLanguages = Object.keys(translations);
       TranslationsLib.translations = translations[language];
       TranslationsLib.translationsLoaded = true;
       TranslationsLib.refresh();
@@ -33,7 +36,6 @@ const TranslationsLib = {
   },
   throw: (message) => {
     console.log(message);
-
   },
   refresh: () => {
     if (!!onRefresh && typeof onRefresh === "function") {
@@ -72,12 +74,14 @@ const TranslationsLib = {
 
     return result;
   },
-  getTranslation: (id) => {
-    return id in TranslationsLib.translations &&
-      typeof TranslationsLib.translations[id] === "string"
+  getTranslation: (id) =>
+    id in TranslationsLib.translations &&
+    typeof TranslationsLib.translations[id] === "string"
       ? TranslationsLib.translations[id]
-      : "";
-  },
+      : "",
+  switchLanguage: (language) =>
+    TranslationsLib.load(TranslationsLib.url, language),
+  getAvailableLanguages: () => TranslationsLib.availableLanguages,
 };
 
 return TranslationsLib;
