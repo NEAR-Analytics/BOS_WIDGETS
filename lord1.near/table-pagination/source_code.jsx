@@ -192,6 +192,23 @@ return (
                             </OverlayTrigger>
                           ) : td.short ? (
                             onHandelId(key)
+                          ) : td.progress ? (
+                            <td className="align-middle ">
+                              <Widget
+                                src="lord1.near/widget/progress-bar"
+                                props={{
+                                  inside: key.split("-")[0],
+                                  total: key.split("-")[1],
+                                  currTheme: "#806ce1",
+                                  widgetBarWidth: td.width,
+                                  backgroundcolor: "#d2cafa",
+                                  gradiantcolorleft: "#806ce1",
+                                  gradiantcolorright: "#EA1179",
+                                  visibilitydivision: "visible",
+                                  visibilitypercent: td.percent,
+                                }}
+                              />
+                            </td>
                           ) : (
                             key
                           )}
@@ -456,7 +473,10 @@ return (
 //      colors: "green" ,
 //      "explain":"yes",
 //      "profile":"yes" ,
-//      "short":yes},
+//      "short":yes,
+//      "progress": "yes",
+//      "width": "100%",
+//      "percent": "hidden" or visible},
 
 //   ],
 //   rowsCount: 2, // if zero or null , the whole table will be render
