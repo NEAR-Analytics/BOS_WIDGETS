@@ -44,9 +44,10 @@ return (
           display: "flex",
         }}
       >
+      <div style={{width:200}}>
         <img
           style={{
-            width: 220,
+            width: 200,
             height: 200,
             objectFit: "cover",
             borderRadius: 100,
@@ -55,6 +56,7 @@ return (
           src={url}
           alt="profile"
         />
+        </div>
         <div style={{ padding: 10, paddingLeft: 20, width: "100%" }}>
           <h3 style={{ color: props.theme.textColor }}>{name}</h3>
           <p style={{ color: props.theme.textColor3 }}>@{accountId}</p>
