@@ -80,7 +80,10 @@ return (
     ) : (
       <div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h1>Posts: {Post.length}</h1>
+          <h1>
+            Your({account_id}) Posts: {Post.length}
+          </h1>
+          <button onClick={getMyPosts}>Load Posts</button>
         </div>
         <hr />
         {Post.length === 0 ? <h2>Can not found your post</h2> : Post}
