@@ -66,7 +66,12 @@ const handleToggle = () => {
 
 return (
   <Switch>
-    <Input type="checkbox" checked={isChecked} onChange={handleToggle} />
+    <Input
+      id="slide-test"
+      type="checkbox"
+      checked={isChecked}
+      onChange={handleToggle}
+    />
     <Slider className="slider round" />
   </Switch>
 );
