@@ -74,7 +74,7 @@ return (
   <>
     <div>
       <h1>
-        Your("{account_id}") Widgets: {widgetEntries.length}
+         Widgets: {widgetEntries.length}
       </h1>
       <hr />
       <div
