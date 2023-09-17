@@ -219,8 +219,8 @@ return (
         width: props.size ? props.size : "3em",
         height: props.size ? props.size : "3em",
         position: "fixed",
-        right: 0,
-        bottom: 0,
+        right: 5,
+        bottom: 10,
         zIndex: 999,
         display: state.opened ? "none" : "block",
       }}
