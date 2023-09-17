@@ -275,6 +275,13 @@ return (
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
           },
           {
+            text: "Im human",
+            link: "../../lord1.near/widget/im-human",
+            title: "I Am Human SBT tracker",
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
+          },
+          {
             text: "NDC",
             link: "../../lord1.near/widget/NDC",
             title: "NDC tracker",
