@@ -78,6 +78,7 @@ State.init({
   campaigns: [],
   error: "",
   show_detail: false,
+  selected: {},
 });
 
 const MainComponent = styled.div`
@@ -199,7 +200,7 @@ const getCampaignData = () => {
 if (!state.campaigns.length) getCampaignData();
 
 const showDetail = (data) => {
-  State.update({ show_detail: true });
+  State.update({ show_detail: true, selected: data });
 };
 
 const onClose = () => {
@@ -270,10 +271,11 @@ return (
         }}
       />
     </TableComponent>
-    {state.show_detail && (
+    {state.show_detail && state.selected && (
       <Widget
         props={{
           onClose,
+          data: state.selected,
         }}
         src={`${Owner}/widget/CampaignModal`}
       />
