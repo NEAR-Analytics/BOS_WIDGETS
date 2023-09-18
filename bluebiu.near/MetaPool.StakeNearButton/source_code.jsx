@@ -21,6 +21,7 @@ const StakeButton = styled.button`
 const {
   disabled,
   amount,
+  amountOut,
   lpToken,
   stakeType,
   stakedBalance,
@@ -68,17 +69,14 @@ const unstakeNearFastly = () => {
   State.update({
     loading: true,
   });
-  const ONE_NEAR = new BN("1" + "0".repeat(24));
-  const l = Big(amount).mul(Big(10).pow(24)).toFixed(0);
-  const e = Big(l).mul(stnearPriceUsd);
   Near.call([
     {
       contractName: contractId,
       methodName: "liquid_unstake",
       deposit: 0,
       args: {
-        st_near_to_burn: Big(l).toFixed(0),
-        min_expected_near: e.sub(ONE_NEAR.divn(10)).toFixed(0),
+        st_near_to_burn: Big(amount).mul(Big(10).pow(24)).toFixed(0),
+        min_expected_near: Big(amountOut).mul(Big(10).pow(24)).toFixed(0),
       },
     },
   ]);
