@@ -226,33 +226,33 @@ if (!state.projectsIsFetched) {
     (paymentTypes) =>
       State.update({
         paymentTypes: paymentTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_payment_sources", {}, "final", false).then(
     (paymentSources) =>
       State.update({
         paymentSources: paymentSources.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_request_types", {}, "final", false).then(
     (requestTypes) =>
       State.update({
         requestTypes: requestTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(
     ownerId,
     "get_admin_projects",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((projects) => {
     Near.asyncView(
       "social.near",
       "get",
       { keys: projects.map((accountId) => `${accountId}/profile/**`) },
       "final",
-      false
+      false,
     ).then((data) =>
       State.update({
         projects: projects.map((accountId) => ({
@@ -263,7 +263,7 @@ if (!state.projectsIsFetched) {
           text: createProjectLine(
             accountId,
             data[accountId].profile.name,
-            data[accountId].profile.image
+            data[accountId].profile.image,
           ),
           value: accountId,
         })),
@@ -274,13 +274,13 @@ if (!state.projectsIsFetched) {
                 text: createProjectLine(
                   accountId,
                   data[accountId].profile.name,
-                  data[accountId].profile.image
+                  data[accountId].profile.image,
                 ),
                 value: accountId,
               },
             }
           : {}),
-      })
+      }),
     );
   });
   return <>Loading...</>;
@@ -335,7 +335,7 @@ return (
               "get_project",
               { account_id: projectId.value },
               "final",
-              false
+              false,
             ).then((project) => State.update({ project }));
             State.update({ projectId });
           },
@@ -439,7 +439,7 @@ return (
           props={{
             label: "Payment source *",
             options: state.paymentSources.filter(
-              ({ value }) => state.project.credits || value === "Other"
+              ({ value }) => state.project.credits || value === "Other",
             ),
             value: state.paymentSource,
             onChange: (paymentSource) => State.update({ paymentSource }),
