@@ -13,7 +13,7 @@ let rawData = fetch(
 );
 
 const initialState = {
-  selectedDateRange: "1M",
+  selectedDateRange: "3Y",
   rawData: [],
 };
 
