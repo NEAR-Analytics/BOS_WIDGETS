@@ -3,10 +3,6 @@ if (!accountId) return;
 
 const API_URL = "http://localhost:3000";
 
-const test = Social.index("test", "test-key-2", {
-  accountId: accountId,
-});
-console.log(test, "==>tt");
 // https://near.org/s/p?a=nearityorg.near&b=101392234
 const { onClose, data } = props;
 
