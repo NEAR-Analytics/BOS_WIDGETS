@@ -1,4 +1,5 @@
 const Chart = styled.div`
+  width: 150px;
   aspect-ratio: 1;
   position: relative;
   display: inline-grid;
@@ -52,5 +53,8 @@ return (
     <Chart voted={percent}>
       <span>{percent.toFixed(1)}%</span>
     </Chart>
+    <H5>
+      <b>{state.voted}</b>/<small>{state.total} </small>
+    </H5>
   </div>
 );
