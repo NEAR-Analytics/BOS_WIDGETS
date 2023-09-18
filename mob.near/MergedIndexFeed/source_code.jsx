@@ -153,6 +153,11 @@ while (filteredItems.length < state.displayCount) {
         continue;
       }
     }
+    if (filter.require) {
+      if (!(bestItem.accountId in filter.require)) {
+        continue;
+      }
+    }
   }
   filteredItems.push(bestItem);
 }
