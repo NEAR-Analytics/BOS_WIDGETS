@@ -17,7 +17,7 @@ if (!state.proposalIsFetched) {
     "get_proposal",
     { project_id: accountId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((proposal) => State.update({ proposal, proposalIsFetched: true }));
 }
 
@@ -27,7 +27,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: accountId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
