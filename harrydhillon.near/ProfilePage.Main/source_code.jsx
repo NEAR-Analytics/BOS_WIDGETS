@@ -64,8 +64,8 @@ const FollowButton = styled.button`
     color: ${props.theme.textColor};
     padding-top: 4px;
     padding-bottom: 4px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
     margin-left:auto;
 `;
 
@@ -87,7 +87,7 @@ return (
             paddingTop: 15,
           }}
         >
-          <FollowButton>Follow</FollowButton>
+          <FollowButton>+ Follow</FollowButton>
         </div>
         <div style={{ marginTop: 20 }} />
         <h4
