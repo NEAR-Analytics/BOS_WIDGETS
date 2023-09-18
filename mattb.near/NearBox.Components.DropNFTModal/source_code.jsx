@@ -1,4 +1,4 @@
-const { MailChain } = props;
+const { MailChain, onClose } = props;
 
 State.init({
   sdk: null,
@@ -275,7 +275,13 @@ let steps = [
 ];
 
 return (
-  <DarkOverlay>
+  <DarkOverlay onClick={() => {
+    if (state.boxClicked) {
+       State.update({ boxClicked: false });
+    } else {
+       onClose();
+    }
+  }}>
     <Widget
       src="mattb.near/widget/GenaDrop.GenaDropSDK"
       props={{
@@ -284,7 +290,10 @@ return (
       }}
     />
 
-    <Box>
+
+    <Box onClick={(e) => {
+      State.update({boxClicked: true});
+    }}>
       {steps[state.step] ?? ""}
       <Controls>
         {steps[state.step + 1] && (
