@@ -1,12 +1,3 @@
-const label = props.label ?? "Label";
-const placeholder = props.placeholder ?? "Placeholder";
-const value = props.value ?? "";
-const options = props.options ?? celebrityArray;
-const onChange = props.onChange ?? (() => {});
-const validate = props.validate ?? (() => {});
-const error = props.error ?? "";
-const labelKey = props.labelKey ?? "name";
-
 const celebrityArray = [
   { name: "Snoop Dogg" },
   { name: "Joe Rogan" },
@@ -15,6 +6,15 @@ const celebrityArray = [
   { name: "Huey Freeman" },
   { name: "Sasquatch" },
 ];
+
+const label = props.label ?? "Label";
+const placeholder = props.placeholder ?? "Placeholder";
+const value = props.value ?? "";
+const options = props.options ?? celebrityArray;
+const onChange = props.onChange ?? (() => {});
+const validate = props.validate ?? (() => {});
+const error = props.error ?? "";
+const labelKey = props.labelKey ?? "name";
 
 const Container = styled.div`
   display: flex;
