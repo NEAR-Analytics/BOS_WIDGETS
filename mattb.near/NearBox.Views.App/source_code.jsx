@@ -81,6 +81,7 @@ const NftOverlay = styled.div`
   height:100%;
   top:0;
   left:0;
+  z-index:9999;
 `;
 
 const HeaderWrapper = styled.div`
