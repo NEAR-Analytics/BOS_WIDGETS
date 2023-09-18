@@ -183,7 +183,7 @@ return (
     </div>
     <div className="d-flex flex-column gap-2">
       <Widget
-        src={`${authorId}/widget/Governance.Proposal.Create.Text`}
+        src={`meta-pool-official.near/widget/ImprovementProposals.Proposal.Create.Text`}
         props={{ edit, mpip_id, update }}
       />
     </div>
