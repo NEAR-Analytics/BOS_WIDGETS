@@ -68,6 +68,7 @@ useEffect(() => {
   if (premiumData) {
     const now = Date.now();
     setPremium(false);
+    setPremiumExpiringSoon(false);
     setPremiumAccounts(
       Object.entries(premiumData)
         .filter(([accountId, expiration]) => {
