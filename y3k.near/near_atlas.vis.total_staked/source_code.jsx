@@ -83,7 +83,7 @@ const area_chart_data = {
   dates,
   datasets: [
     {
-      type: "line",
+      type: "bar",
       fill: true,
       label: "Total Staked",
       borderWidth: 2,
