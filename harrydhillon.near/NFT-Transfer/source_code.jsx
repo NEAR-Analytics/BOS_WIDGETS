@@ -95,31 +95,66 @@ const offer = () => {
         receiver_id: state.receiverId,
         token_id: state.tokenId,
       },
-      gas: gas ?? 200000000000000,
+      gas: 100000000000000,
       deposit: deposit ?? 10000000000000000000000,
     },
   ]);
 };
 
+console.log(state);
+
 const ConfirmOffer = () => {
   const generateOfferAndCallContract = () => {
     const allTransactions = [];
-    if (state.offerNFTS) {
-      Near.call(
-        "v1.havenswap.near",
-        "mass_transfer",
-        {
+    if (state.offerAmount && state.offerNFTS.length === 0) {
+      allTransactions.push({
+        contractName: "v1.havenswap.near",
+        methodName: "mass_transfer",
+        args: {
           receiver_id: state.receiverId,
         },
-        300,
-        1250000000000000000000
-      );
-      Near.call("v1.havenswap.near", "mass_transfer", {
-        receiver_id: state.receiverId,
+        gas: 100000000000000,
+        deposit: 1 ?? 1000000000000000000000000 * state.offerAmount,
+      });
+    }
+    if (state.offerNFTS) {
+      state.offerNFTS.map((item) => {
+        allTransactions.push({
+          contractName: "v1.havenswap.near",
+          methodName: "send_offer",
+          args: {
+            sender_id: accountId,
+            sender_near: 1000000000000000000000000 * state.offerAmount,
+            sender_nfts: state.sendNFTS.map((item) => ({
+              tokenId: item.tokenId,
+              contractId: item.contractId,
+            })),
+            receiver_id: state.receiverId,
+            receiver_nfts: state.offerNFTS.map((item) => ({
+              tokenId: item.tokenId,
+              contractId: item.contractId,
+            })),
+            is_holder: false,
+          },
+          gas: 100000000000000,
+        });
       });
     }
     if (state.sendNFTS) {
+      state.sendNFTS.map((item) => {
+        allTransactions.push({
+          contractName: item.contractId,
+          methodName: "nft_transfer",
+          args: {
+            receiver_id: state.receiverId,
+            token_id: item.tokenId,
+          },
+          gas: 100000000000000,
+        });
+      });
     }
+    Near.call(allTransactions);
+    State.update({ isOfferModalOpen: false });
   };
 
   return (
