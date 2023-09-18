@@ -12,7 +12,17 @@ let rawData = fetch(
 
 // data.body = data.body.sort((a, b) => new Date(a.MONTH) - new Date(b.MONTH));
 
-State.init({ setSortConfig: { key: null, direction: "asc" } });
+State.init({
+  setSortConfig: { key: null, direction: "asc" },
+  currentPage: 1,
+  rowsPerPage: 10, // You can change this as needed.
+});
+
+function getPaginatedData(data) {
+  const startIndex = (state.currentPage - 1) * state.rowsPerPage;
+  const endIndex = startIndex + state.rowsPerPage;
+  return data.slice(startIndex, endIndex);
+}
 
 let Style = styled.div`
   .table-header {
@@ -229,7 +239,7 @@ return (
             </tr>
           </thead>
           <tbody>
-            {getSortedNodes().map((row, rowIndex) => (
+            {getPaginatedData(getSortedNodes()).map((row, rowIndex) => (
               <tr
                 key={rowIndex}
                 className={` ${
@@ -245,6 +255,34 @@ return (
             ))}
           </tbody>
         </table>
+        <div className="text-center mt-4 bg-gray-800 p-4 rounded">
+          <button
+            onClick={() => {
+              if (state.currentPage > 1) {
+                State.update({ currentPage: state.currentPage - 1 });
+              }
+            }}
+            className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 active:bg-gray-500"
+          >
+            Previous
+          </button>
+          <span className="mx-2 text-white">
+            Page {state.currentPage} of{" "}
+            {Math.ceil(nodes.length / state.rowsPerPage)}
+          </span>
+          <button
+            onClick={() => {
+              if (
+                state.currentPage < Math.ceil(nodes.length / state.rowsPerPage)
+              ) {
+                State.update({ currentPage: state.currentPage + 1 });
+              }
+            }}
+            className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 active:bg-gray-500"
+          >
+            Next
+          </button>
+        </div>
       </div>
     ) : (
       <div className="text-white text-center p-4">Loading ...</div>
