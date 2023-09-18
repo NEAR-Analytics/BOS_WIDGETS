@@ -24,12 +24,12 @@ if (context.accountId && !state.isOwnerFetched) {
     "check_is_owner",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((isOwner) =>
     State.update({
       isOwner: isOwner || allowedUsers.includes(context.accountId),
       isOwnerFetched: true,
-    })
+    }),
   );
 }
 
