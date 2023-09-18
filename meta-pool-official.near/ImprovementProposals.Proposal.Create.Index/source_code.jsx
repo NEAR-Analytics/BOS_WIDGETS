@@ -174,7 +174,7 @@ return (
     <Widget
       src={`${authorId}/widget/Common.Modal.RedirectModal`}
       props={{
-        href: `meta-pool-official.near/widget/ImprovementProposals?tab=home`,
+        href: `/meta-pool-official.near/widget/ImprovementProposals?tab=home`,
         description: edit
           ? "Proposal edited successfully. Going back Home"
           : "Proposal created successfully. Going back Home",
