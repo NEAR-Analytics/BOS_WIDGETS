@@ -55,7 +55,7 @@ return (
           ? {
               border: "1px solid lightgray",
               borderRadius: 5,
-              padding: 2,
+              padding: 2.5,
             }
           : {};
         return (
