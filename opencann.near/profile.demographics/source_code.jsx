@@ -398,12 +398,19 @@ let page = (
           onChange: (psychonautStatus) => State.update({ psychonautStatus }),
         }}
       />
-      {options.medications.label ?? "Currently prescribed medication(s)"}
-      <input
-        id="medications"
-        type="text"
-        value={state.medications}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`opencann.near/widget/profile.pharmArray`}
+        props={{
+          label: "Currently prescribed medication(s)",
+          placeholder: "Type to search pharmaceuticals.",
+          value: state.medications,
+          onChange: (medications) =>
+            State.update({
+              medications: medications.map(({ name }) => ({
+                name: name.trim().replaceAll(/\s+/g, "-"),
+              })),
+            }),
+        }}
       />
       <Widget
         src={`opencann.near/widget/profile.conditionArray`}
