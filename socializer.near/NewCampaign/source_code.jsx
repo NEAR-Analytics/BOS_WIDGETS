@@ -144,9 +144,10 @@ const createCampaign = () => {
     !duration_hr ||
     !duration_min
   )
-    State.update({ error: "Please fill out all form fields" });
+    return State.update({ error: "Please fill out all form fields" });
 
-  asyncFetch(API_URL + `/campaign/new`, {
+  State.update({ error: "" });
+  asyncFetch(API_URL + `/campaign`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
