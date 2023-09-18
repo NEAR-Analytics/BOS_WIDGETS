@@ -20,7 +20,8 @@ const computeResults = (term) => {
   const limit = props.limit ?? 30;
 
   const MaxSingleScore = 1;
-  const MaxScore = MaxSingleScore * 4;
+  const YourWidgetScore = 0.5;
+  const MaxScore = YourWidgetScore + MaxSingleScore * 4;
 
   const computeScore = (s) => {
     s = s.toLowerCase();
@@ -28,13 +29,18 @@ const computeResults = (term) => {
       terms
         .map((term) => {
           const pos = s.indexOf(term);
-          return pos >= 0 ? Math.exp(-pos) : 0;
+          return (
+            (pos >= 0 ? Math.exp(-pos) : 0) *
+            (term.length / Math.max(1, s.length))
+          );
         })
         .reduce((s, v) => s + v, 0) / terms.length
     );
   };
 
   Object.entries(keys).forEach(([accountId, data]) => {
+    const yourWidgetScore =
+      accountId === context.accountId ? YourWidgetScore : 0;
     Object.keys(data.widget).forEach((componentId) => {
       const widgetSrc = `${accountId}/widget/${componentId}`;
       const widgetSrcScore = computeScore(widgetSrc);
@@ -53,7 +59,12 @@ const computeResults = (term) => {
         tags.map(computeScore).reduce((s, v) => s + v, 0)
       );
       const score =
-        (widgetSrcScore + componentIdScore + nameScore + tagsScore) / MaxScore;
+        (yourWidgetScore +
+          widgetSrcScore +
+          componentIdScore +
+          nameScore +
+          tagsScore) /
+        MaxScore;
       if (score > 0) {
         matchedWidgets.push({
           score,
