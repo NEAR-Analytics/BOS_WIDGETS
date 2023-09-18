@@ -1,177 +1,267 @@
-const account = Ethers.send("eth_requestAccounts", [])[0];
-
-const CHAIN_ID = 42161;
-const CHAIN_NAME = "Arbitrum One";
-
-const CONNECT_PROPS = {
-  imgProps: {
-    src: "https://ipfs.near.social/ipfs/bafkreifeitks2bp3vyy7v7iznq6lf67dutvjjplzzbiwv4j2dheqiqqbpi",
-    style: {
-      width: "179px",
-      height: "143px",
-      marginTop: "80px",
-    },
+const Tokens = {
+  native: {
+    chainId: props.chainId,
+    address: "native",
+    decimals: 18,
+    symbol: "ETH",
+    name: "Ether",
+    icon: "https://storage.googleapis.com/prod-pendle-bucket-a/images/assets/simple/55ac44e4-bb2e-4637-92d8-3031b672670a.svg",
   },
-  noAccountTips: "Arbitrum Dex Collection",
-  wrongNetworkTips: "To proceed, kindly switch to Arbitrum One Chain.",
-  chainId: CHAIN_ID,
-  chainName: CHAIN_NAME,
+  "0x912CE59144191C1204E64559FE8253a0e49E6548": {
+    chainId: props.chainId,
+    address: "0x912CE59144191C1204E64559FE8253a0e49E6548",
+    decimals: 18,
+    symbol: "ARB",
+    name: "Arbitrum",
+    icon: "https://arbiscan.io/token/images/arbitrumone2_32_new.png",
+  },
+  "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8": {
+    chainId: props.chainId,
+    address: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
+    decimals: 6,
+    symbol: "USDC.e",
+    name: "Bridged USDC",
+    icon: "https://arbiscan.io/token/images/centre-usdc_28.png",
+  },
+  "0xaf88d065e77c8cC2239327C5EDb3A432268e5831": {
+    chainId: props.chainId,
+    address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+    decimals: 6,
+    symbol: "USDC",
+    name: "USD Coin",
+    icon: "https://arbiscan.io/token/images/centre-usdc_28.png",
+  },
+  "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9": {
+    chainId: props.chainId,
+    address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+    decimals: 6,
+    symbol: "USDT",
+    name: "Tether USD",
+    icon: "https://arbiscan.io/token/images/tether_32.png",
+  },
+  "0x6dD963C510c2D2f09d5eDdB48Ede45FeD063Eb36": {
+    chainId: props.chainId,
+    address: "0x6dD963C510c2D2f09d5eDdB48Ede45FeD063Eb36",
+    decimals: 18,
+    symbol: "FCTR",
+    name: "Factor",
+    icon: "https://arbiscan.io/token/images/factorfi2_32.png",
+  },
+  "0xD77B108d4f6cefaa0Cae9506A934e825BEccA46E": {
+    chainId: props.chainId,
+    address: "0xD77B108d4f6cefaa0Cae9506A934e825BEccA46E",
+    decimals: 18,
+    symbol: "WINR",
+    name: "WINR",
+    icon: "https://arbiscan.io/token/images/winr_32.png",
+  },
+  "0x0c880f6761F1af8d9Aa9C466984b80DAb9a8c9e8": {
+    chainId: props.chainId,
+    address: "0x0c880f6761F1af8d9Aa9C466984b80DAb9a8c9e8",
+    decimals: 18,
+    symbol: "PENDLE",
+    name: "Pendle",
+    icon: "https://arbiscan.io/token/images/pendlefin_32.png",
+  },
+  "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a": {
+    chainId: props.chainId,
+    address: "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
+    decimals: 18,
+    symbol: "GMX",
+    name: "GMX",
+    icon: "https://arbiscan.io/token/images/gmxarbi_32.png",
+  },
+  "0x982239D38Af50B0168dA33346d85Fb12929c4c07": {
+    chainId: props.chainId,
+    address: "0x982239D38Af50B0168dA33346d85Fb12929c4c07",
+    decimals: 18,
+    symbol: "TROVE",
+    name: "Arbitrove Governance Token",
+    icon: "https://arbiscan.io/token/images/nitrocartel_32.png",
+  },
+  "0x10393c20975cF177a3513071bC110f7962CD67da": {
+    chainId: props.chainId,
+    address: "0x10393c20975cF177a3513071bC110f7962CD67da",
+    decimals: 18,
+    symbol: "JONES",
+    name: "Jones DAO",
+    icon: "https://arbiscan.io/token/images/jonesdaoarb_32.png",
+  },
+  "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1": {
+    chainId: props.chainId,
+    address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+    decimals: 18,
+    symbol: "WETH",
+    name: "Wrapped Ether",
+    icon: "https://arbiscan.io/token/images/weth_28.png",
+  },
+  "0x11F98c7E42A367DaB4f200d2fdc460fb445CE9a8": {
+    chainId: props.chainId,
+    address: "0x11F98c7E42A367DaB4f200d2fdc460fb445CE9a8",
+    decimals: 18,
+    symbol: "SPARTA",
+    name: "SPARTA",
+    icon: "https://arbiscan.io/token/images/spartadex_32.png",
+  },
+  "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f": {
+    chainId: props.chainId,
+    address: "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f",
+    decimals: 8,
+    symbol: "WBTC",
+    name: "Wrapped BTC",
+    icon: "https://arbiscan.io/token/images/wbtc_28.png",
+  },
+  "0x580E933D90091b9cE380740E3a4A39c67eB85B4c": {
+    chainId: props.chainId,
+    address: "0x580E933D90091b9cE380740E3a4A39c67eB85B4c",
+    decimals: 18,
+    symbol: "GSWIFT",
+    name: "GameSwift",
+    icon: "https://arbiscan.io/token/images/gswiftdao_32.png",
+  },
+  "0x3d9907F9a368ad0a51Be60f7Da3b97cf940982D8": {
+    chainId: props.chainId,
+    address: "0x3d9907F9a368ad0a51Be60f7Da3b97cf940982D8",
+    decimals: 18,
+    symbol: "GRAIL",
+    name: "Camelot token",
+    icon: "https://arbiscan.io/token/images/camelotexchange_32.png",
+  },
+
+  "0xAAA6C1E32C55A7Bfa8066A6FAE9b42650F262418": {
+    chainId: props.chainId,
+    address: "0xAAA6C1E32C55A7Bfa8066A6FAE9b42650F262418",
+    decimals: 18,
+    symbol: "RAM",
+    name: "Ramses",
+    icon: "https://arbiscan.io/token/images/ramsesexchange_32.png?v=3",
+  },
+
+  "0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F": {
+    chainId: props.chainId,
+    address: "0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F",
+    decimals: 18,
+    symbol: "FRAX",
+    name: "Frax",
+    icon: "https://arbiscan.io/token/images/frxcanonarb_32.png",
+  },
 };
-if (!account) {
-  return (
-    <Widget
-      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
-      props={{
-        ...CONNECT_PROPS,
-        isWrongNetwork: false,
-      }}
-    />
-  );
-}
-const DEXS = [
-  {
-    name: "Camelot",
-    logo: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAxOTkuNyAyMDAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE5OS43IDIwMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I0ZBRkFGQTt9DQoJLnN0MXtmaWxsOiNGRkFGMUQ7fQ0KCS5zdDJ7ZmlsbDojMTYxNjE2O30NCjwvc3R5bGU+DQo8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTE3LjEsMjAwdi04Mi4yYzE5LjYsMi4xLDMyLjksMTEuMSwzMi45LDExLjFsMTIuNS0xNC4xYy0yMC41LTE0LjYtNTAuOS0xNS4yLTUwLjktMTUuMmwtNS01NS4yDQoJYzMuMy0yLjIsNS41LTUuOSw1LjUtMTAuMmMwLTYuNy01LjUtMTIuMi0xMi4yLTEyLjJzLTEyLjIsNS41LTEyLjIsMTIuMmMwLDQuMywyLjIsOC4xLDUuNSwxMC4ybC01LDU1LjJjMCwwLTMwLjQsMC41LTUwLjksMTUuMg0KCWwxMi41LDE0LjFjMCwwLDEzLjMtOSwzMi45LTExLjFWMjAwQzYuMSwxNDMuMi0wLjIsNjAuNywwLDMzLjNjMC01LjcsMy40LTEwLjksOC42LTEzLjJDMjMuOSwxMy4zLDU4LjgsMCw5OS44LDANCgljNDEsMCw3NS45LDEzLjMsOTEuMiwyMC4xYzUuMiwyLjMsOC42LDcuNSw4LjYsMTMuMkMxOTkuOCw2MC43LDE5My41LDE0My4yLDExNy4xLDIwMHoiLz4NCjwvc3ZnPg0K",
-  },
-  {
-    name: "Apeswap",
-    logo: "https://www.gitbook.com/cdn-cgi/image/width=40,dpr=2,height=40,fit=contain,format=auto/https%3A%2F%2F4031390532-files.gitbook.io%2F~%2Ffiles%2Fv0%2Fb%2Fgitbook-legacy-files%2Fo%2Fspaces%252F-MTJ1qyFf3rQZjewhth_%252Favatar-1615657020974.png%3Fgeneration%3D1615657021220196%26alt%3Dmedia",
-  },
-  {
-    name: "Spartadex",
-    logo: "https://spartadex.io/images/logo.svg",
-  },
-
-  {
-    name: "Ramses V2",
-    logo: "https://ipfs.near.social/ipfs/bafkreidgayoqzg4kqxz6eag4eridejkx3rszflfwbnitfqfohlmpk54w3i",
-  },
-];
-
-State.init({
-  chainId: -1,
-  selectedDex: "Camelot",
-});
-
-Ethers.provider()
-  .getNetwork()
-  .then(({ chainId }) => {
-    State.update({ chainId });
-  })
-  .catch(() => {});
-
-if (state.chainId !== CHAIN_ID) {
-  return (
-    <Widget
-      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
-      props={{
-        ...CONNECT_PROPS,
-        isWrongNetwork: true,
-      }}
-    />
-  );
-}
-const theme = {
-  textColor: "#7794D3",
-  buttonColor: "#33549C",
-};
-const Dex = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-top: 50px;
-`;
-const Flex = styled.div`
-  display: flex;
-`;
-const Sider = styled.div`
-  margin-right: 10px;
-`;
-const Title = styled.div`
-  color: ${theme.textColor};
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 22px;
-  padding-left: 30px;
-  padding-bottom: 10px;
-`;
-const List = styled.div`
-  width: 250px;
-  border-radius: 16px;
-  border: 1px solid #2c334b;
-  padding: 10px;
-  background-color: #181a27;
-`;
-const Row = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 16px;
-  background-color: transparent;
-  transition: 0.5s;
-  color: rgba(255, 255, 255, 0.5);
-  &:hover {
-    background-color: rgba(0, 75, 252, 0.1);
-  }
-  &.active {
-    color: #fff;
-    background-color: ${theme.buttonColor};
-  }
-`;
-const Icon = styled.img`
-  width: 30px;
-  height: 30px;
-  border: 1px solid #5285df;
-  border-radius: 10px;
-  margin-right: 20px;
-  padding: 4px;
-`;
-const ChainName = styled.div`
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 20px;
-`;
-const DexName = styled.div`
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 22px;
-`;
-const WidgetWrapper = styled.div`
-  width: 560px;
-`;
 
 return (
-  <Dex>
-    <Flex>
-      <Sider>
-        <Title>Chain & Dapp</Title>
-        <List>
-          {DEXS.map((dex) => (
-            <Row
-              key={dex.name}
-              className={state.selectedDex === dex.name ? "active" : ""}
-              onClick={() => {
-                State.update({
-                  selectedDex: dex.name,
-                  dexProps: DexsConfig[dex.name],
-                });
-              }}
-            >
-              <Icon src={dex.logo} />
-              <div>
-                <ChainName>Arbitrum</ChainName>
-                <DexName>{dex.name}</DexName>
-              </div>
-            </Row>
-          ))}
-        </List>
-      </Sider>
-      <WidgetWrapper>
-        <Widget
-          src="bluebiu.near/widget/Arbitrum.Swap.SwapV2"
-          props={{ title: state.selectedDex, chainId: CHAIN_ID, theme }}
-        />
-      </WidgetWrapper>
-    </Flex>
-  </Dex>
+  <Widget
+    src="bluebiu.near/widget/Arbitrum.Swap.SwapConnector"
+    props={{
+      theme: {
+        textColor: "#7794D3",
+        buttonColor: "#33549C",
+      },
+      chainId: 42161,
+      chainName: "Arbitrum One",
+      displayChainName: "Arbitrum",
+      wethAddress: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+      connectProps: {
+        imgProps: {
+          src: "https://ipfs.near.social/ipfs/bafkreifeitks2bp3vyy7v7iznq6lf67dutvjjplzzbiwv4j2dheqiqqbpi",
+          style: {
+            width: "179px",
+            height: "143px",
+            marginTop: "80px",
+          },
+        },
+        noAccountTips: "Arbitrum Dex Collection",
+        wrongNetworkTips: "To proceed, kindly switch to Arbitrum One Chain.",
+      },
+      defalutDex: "Camelot",
+      dexs: {
+        Camelot: {
+          name: "Camelot",
+          logo: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAxOTkuNyAyMDAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE5OS43IDIwMDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I0ZBRkFGQTt9DQoJLnN0MXtmaWxsOiNGRkFGMUQ7fQ0KCS5zdDJ7ZmlsbDojMTYxNjE2O30NCjwvc3R5bGU+DQo8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMTE3LjEsMjAwdi04Mi4yYzE5LjYsMi4xLDMyLjksMTEuMSwzMi45LDExLjFsMTIuNS0xNC4xYy0yMC41LTE0LjYtNTAuOS0xNS4yLTUwLjktMTUuMmwtNS01NS4yDQoJYzMuMy0yLjIsNS41LTUuOSw1LjUtMTAuMmMwLTYuNy01LjUtMTIuMi0xMi4yLTEyLjJzLTEyLjIsNS41LTEyLjIsMTIuMmMwLDQuMywyLjIsOC4xLDUuNSwxMC4ybC01LDU1LjJjMCwwLTMwLjQsMC41LTUwLjksMTUuMg0KCWwxMi41LDE0LjFjMCwwLDEzLjMtOSwzMi45LTExLjFWMjAwQzYuMSwxNDMuMi0wLjIsNjAuNywwLDMzLjNjMC01LjcsMy40LTEwLjksOC42LTEzLjJDMjMuOSwxMy4zLDU4LjgsMCw5OS44LDANCgljNDEsMCw3NS45LDEzLjMsOTEuMiwyMC4xYzUuMiwyLjMsOC42LDcuNSw4LjYsMTMuMkMxOTkuOCw2MC43LDE5My41LDE0My4yLDExNy4xLDIwMHoiLz4NCjwvc3ZnPg0K",
+          factoryAddress: "0x6EcCab422D763aC031210895C81787E87B43A652",
+          routerAddress: "0xc873fEcbd354f5A56E00E710B90EF4201db2448d",
+          uniType: "v2",
+          defaultCurrencies: {
+            input: Tokens["native"],
+            output: Tokens["0x3d9907F9a368ad0a51Be60f7Da3b97cf940982D8"],
+          },
+          tokens: [
+            Tokens["native"],
+            Tokens["0x3d9907F9a368ad0a51Be60f7Da3b97cf940982D8"],
+            Tokens["0x912CE59144191C1204E64559FE8253a0e49E6548"],
+            Tokens["0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8"],
+            Tokens["0xaf88d065e77c8cC2239327C5EDb3A432268e5831"],
+            Tokens["0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"],
+            Tokens["0x6dD963C510c2D2f09d5eDdB48Ede45FeD063Eb36"],
+            Tokens["0xD77B108d4f6cefaa0Cae9506A934e825BEccA46E"],
+            Tokens["0x0c880f6761F1af8d9Aa9C466984b80DAb9a8c9e8"],
+            Tokens["0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a"],
+            Tokens["0x982239D38Af50B0168dA33346d85Fb12929c4c07"],
+            Tokens["0x10393c20975cF177a3513071bC110f7962CD67da"],
+          ],
+        },
+        Apeswap: {
+          name: "Apeswap",
+          logo: "https://www.gitbook.com/cdn-cgi/image/width=40,dpr=2,height=40,fit=contain,format=auto/https%3A%2F%2F4031390532-files.gitbook.io%2F~%2Ffiles%2Fv0%2Fb%2Fgitbook-legacy-files%2Fo%2Fspaces%252F-MTJ1qyFf3rQZjewhth_%252Favatar-1615657020974.png%3Fgeneration%3D1615657021220196%26alt%3Dmedia",
+          factoryAddress: "0xCf083Be4164828f00cAE704EC15a36D711491284",
+          routerAddress: "0x7d13268144adcdbEBDf94F654085CC15502849Ff",
+          uniType: "v2",
+          defaultCurrencies: {
+            input: Tokens["native"],
+            output: Tokens["0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"],
+          },
+          tokens: [
+            Tokens["native"],
+            Tokens["0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"],
+            Tokens["0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8"],
+            Tokens["0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"],
+          ],
+        },
+        Spartadex: {
+          name: "Spartadex",
+          logo: "https://spartadex.io/images/logo.svg",
+          factoryAddress: "0xFe8EC10Fe07A6a6f4A2584f8cD9FE232930eAF55",
+          routerAddress: "0x89AE36E3B567b914a5E97E6488C6EB5b9C5d0231",
+          uniType: "v2",
+          defaultCurrencies: {
+            input: Tokens["native"],
+            output: Tokens["0x912CE59144191C1204E64559FE8253a0e49E6548"],
+          },
+          tokens: [
+            Tokens["native"],
+            Tokens["0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"],
+            Tokens["0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8"],
+            Tokens["0x11F98c7E42A367DaB4f200d2fdc460fb445CE9a8"],
+            Tokens["0x912CE59144191C1204E64559FE8253a0e49E6548"],
+            Tokens["0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f"],
+            Tokens["0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"],
+            Tokens["0x580E933D90091b9cE380740E3a4A39c67eB85B4c"],
+          ],
+        },
+        "Ramses V2": {
+          name: "Ramses V2",
+          logo: "https://ipfs.near.social/ipfs/bafkreidgayoqzg4kqxz6eag4eridejkx3rszflfwbnitfqfohlmpk54w3i",
+          factoryAddress: "0xAA2cd7477c451E703f3B9Ba5663334914763edF8",
+          routerAddress: "0xAA23611badAFB62D37E7295A682D21960ac85A90",
+          quoterAddress: "0xAA20EFF7ad2F523590dE6c04918DaAE0904E3b20",
+          uniType: "v3",
+          defaultCurrencies: {
+            input: Tokens["native"],
+            output: Tokens["0xaf88d065e77c8cC2239327C5EDb3A432268e5831"],
+          },
+          tokens: [
+            Tokens["native"],
+            Tokens["0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"],
+            Tokens["0xaf88d065e77c8cC2239327C5EDb3A432268e5831"],
+            Tokens["0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"],
+            Tokens["0x912CE59144191C1204E64559FE8253a0e49E6548"],
+            Tokens["0xAAA6C1E32C55A7Bfa8066A6FAE9b42650F262418"],
+            Tokens["0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F"],
+          ],
+        },
+      },
+      amountOutFn: "bluebiu.near/widget/Arbitrum.Swap.AmountOutV2",
+      quoterV3: "bluebiu.near/widget/Arbitrum.Swap.QuoterV3",
+      handlerV2: "bluebiu.near/widget/Arbitrum.Swap.HandlerV2",
+      handlerV3: "bluebiu.near/widget/Arbitrum.Swap.HandlerV3",
+    }}
+  />
 );
