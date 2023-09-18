@@ -46,6 +46,12 @@ const Wrapper = styled.div`
       color: #979abe;
       width: 100%;
       gap: 6px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 17px;
+      letter-spacing: 0em;
+      text-align: left;
+
       .trend-card-dapp-name-icon {
         width: 26px;
         height: 26px;
@@ -297,6 +303,21 @@ const iconMap = {
       src="https://ipfs.near.social/ipfs/bafkreigawbz26l7mhfewlxwnjomos6njdkchnfnw2dnb6xtzf7j2t6jdxm"
     />
   ),
+
+  "ETH-Polygon zkEVM Bridge": (
+    <img
+      className="trend-card-dapp-name-icon"
+      src="https://ipfs.near.social/ipfs/bafkreigawbz26l7mhfewlxwnjomos6njdkchnfnw2dnb6xtzf7j2t6jdxm"
+    />
+  ),
+
+  "Polygon zkEVM Dex": (
+    <img
+      className="trend-card-dapp-name-icon"
+      src="https://ipfs.near.social/ipfs/bafkreicahuzb3ikvxml6qrns3zijfddhwgbttqkb3t6ltq5t64k2mduiem"
+    />
+  ),
+
   "Pancake Swap": (
     <img
       className="trend-card-dapp-name-icon"
@@ -323,6 +344,70 @@ const type = item.action_type;
 
 let link = "";
 
+const SwapTokens = [
+  // {
+  //   address: "0x0000000000000000000000000000000000000000",
+  //   chainId: 1101,
+  //   symbol: "ETH",
+  //   decimals: 18,
+  //   logoURI:
+  //     "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880",
+  // },
+
+  {
+    address: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+    chainId: 1101,
+    symbol: "WETH",
+    decimals: 18,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/2518/small/weth.png?1628852295",
+  },
+  {
+    address: "0xa2036f0538221a77a3937f1379699f44945018d0",
+    chainId: 1101,
+    symbol: "MATIC",
+    extra: true,
+    decimals: 18,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png",
+  },
+  {
+    address: "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4",
+    chainId: 1101,
+    symbol: "DAI",
+    extra: true,
+    decimals: 18,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png?1687143508",
+  },
+  {
+    address: "0xA8CE8aee21bC2A48a5EF670afCc9274C7bbbC035",
+    chainId: 1101,
+    symbol: "USDC",
+    decimals: 6,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png",
+  },
+
+  {
+    address: "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
+    chainId: 1101,
+    symbol: "USDT",
+    decimals: 6,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/325/small/Tether.png?1668148663",
+  },
+  {
+    address: "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1",
+    chainId: 1101,
+    symbol: "WBTC",
+    decimals: 8,
+    extra: true,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png?1548822744",
+  },
+];
+
 const arr = item.action_title.split(/\s+/);
 
 const [action_type, amount, symbol, on, dexName1, dexName2] = arr;
@@ -341,7 +426,7 @@ const isDeposit = arr[0].toLowerCase() === "deposit";
 const isWithdrawGamma = isWithdraw && arr?.[3]?.toLowerCase() === "gamma";
 
 if (isBridge) {
-  link = "/guessme.near/widget/ZKEVMSwap.zkevm-bridge";
+  link = "/guessme.near/widget/ZKEVMSwap.zkevm-bridge?source=trend";
 }
 if (isSwap) {
   link = "/guessme.near/widget/ZKEVMSwap.zkevm-swap?source=trend";
@@ -365,25 +450,42 @@ if (isBorrow || isRepay) {
 
 const onSaveParams = () => {
   if (isBridge) {
-    const [action_type, symbol, from, chain] = arr;
+    const [action_type, amount, symbol, to, chain1, chain2] = arr;
 
     Storage.set("zk-evm-bridge-params", {
       symbol,
-      chain,
+      amount,
+      chain: chain1 + " " + chain2,
     });
   }
 
   if (isSwap) {
-    const [action_type, amount, symbol, on, dexName1, dexName2] = arr;
+    console.log("isSwap: ", isSwap);
+    const [action_type, amount, fromSymbol, on, text4, text5, text6, text7] =
+      arr;
 
-    const token = SwapTokens.find((item) => item.symbol === symbol);
+    const dexName = text6
+      ? text6 + (text7 ? " " + text7 : "")
+      : text4 + (text5 ? " " + text5 : "");
 
-    Storage.set("zk-evm-swap-params", {
+    const toSymbol = text6 ? text4 : "";
+
+    const token = SwapTokens.find((item) => item.symbol === fromSymbol);
+
+    const tokenTo = toSymbol
+      ? SwapTokens.find((item) => item.symbol === toSymbol)
+      : {};
+
+    const params = {
       amount,
-      symbol,
-      dexName: dexName1 + (dexName2 ? " " + dexName2 : ""),
+      symbol: fromSymbol,
+      toSymbol: toSymbol,
+      dexName: dexName,
       assetId: token.address,
-    });
+      toAssetId: tokenTo?.address || "",
+    };
+
+    Storage.set("zk-evm-swap-params", params);
   }
 };
 
@@ -394,13 +496,14 @@ return (
         <div className="trend-card-text">
           {type}
 
-          {type === "Swap" && (
-            <span className="trend-card-text-number">{item.action_amount}</span>
-          )}
+          {/* {type === "Swap" && ( */}
+          <span className="trend-card-text-number">{item.action_amount}</span>
+          {/* )} */}
 
           {item.action_title
             .split(" ")
-            .slice(type === "Swap" ? 2 : 1)
+            .slice(type !== "Deposit" ? 2 : 1)
+            // .slice(2)
             .join(" ")}
         </div>
 
