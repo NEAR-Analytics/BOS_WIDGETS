@@ -1,74 +1,8 @@
-// if (!props.data || !props.columns) {
-//   return "column and data props are required.";
-// }
+if (!props.data || !props.columns) {
+  return "column and data props are required.";
+}
 
-const data = props.data || [
-  {
-    _id: "6507eb1053f730baaf07be4e",
-    accountId: "socializer.near",
-    reward: "10 NEKO",
-    total_reward: "100 NEKO",
-    social:
-      "🌟 **HZN is a Founder Fellowship designed for early-stage web3 Founders - real, grounded support fro...",
-    post_link:
-      "https://near.social/mob.near/widget/MainPage.Post.Page?accountId=nfcommunity.near&blockHeight=101374423",
-    status: "live",
-    endsin: "Ends in 10hr 6m 55s",
-  },
-];
-const columns = props.columns || [
-  {
-    title: "Project/User",
-    key: "accountId",
-    description: "Project/User",
-    width: 20,
-    project: true,
-  },
-  {
-    title: "Near Social  Post",
-    key: "social",
-    description: "Near Social  Post",
-    width: 40,
-    align: "left",
-  },
-  {
-    title: "Ends In",
-    key: "endsin",
-    description: "Ends In",
-    width: 15,
-    align: "left",
-  },
-  {
-    title: "Reward",
-    key: "reward",
-    description: "Reward",
-    width: 8,
-    align: "left",
-  },
-  {
-    title: "Total Rewards",
-    key: "total_reward",
-    description: "Total Rewards",
-    width: 10,
-    align: "left",
-  },
-  {
-    title: "Status",
-    key: "status",
-    description: "Status",
-    width: 10,
-    align: "center",
-    button: true,
-  },
-  {
-    title: "Engage Link",
-    key: "post_link",
-    description: "Engage Link",
-    width: 10,
-    align: "center",
-    link: true,
-  },
-];
+const { data, columns, showDetail } = props;
 
 State.init({ currentPage: 1, searchValue: "" });
 const rowsCount = props.rowsCount || 5;
