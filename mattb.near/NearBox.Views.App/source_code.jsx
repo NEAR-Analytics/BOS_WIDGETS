@@ -96,8 +96,7 @@ return (
         <Widget src={`${WIDGET_OWNER}/widget/NearBox.Components.Logo`} />
 
         <Logout>
-          {Mailchain.user.address}
-          <p>mattb@mailchain.com</p>
+          <p>{MailChain.user.address}</p>
           <img
             src="https://ipfs.near.social/ipfs/bafkreiem7zs4oxkkgsr2hgret2z2h3fj76kngsbmkdstfijcsyakioklzu"
             onClick={() => onLogout({ logged: false })}
@@ -127,6 +126,7 @@ return (
             src={`${WIDGET_OWNER}/widget/NearBox.Components.DropNFTModal`}
             props={{
               MailChain,
+              onClose: () => State.update({ dropNft: false }),
             }}
           />
         </NftOverlay>
