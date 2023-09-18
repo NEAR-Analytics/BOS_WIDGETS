@@ -6,12 +6,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const text = `
-### This is premium feed
-
-Only users with premium subscription can post to this feed.
-`;
-
 return (
   <div style={{ margin: "0 -12px" }}>
     <Wrapper className="d-flex align-items-center flex-row p-2">
@@ -33,7 +27,7 @@ return (
         <p>Only users with premium subscription can post here</p>
         <div>
           <a
-            className="btn btn-success rounded-5"
+            className="btn btn-primary rounded-5"
             href="/zavodil.near/widget/subscribe"
           >
             Buy premium
