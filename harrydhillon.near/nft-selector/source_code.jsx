@@ -92,7 +92,7 @@ return (
                 alt: `NFT ${nft.contractId} ${nft.tokenId}`,
               }}
             />
-            <p style={{ textAlign: "center", marginTop: 5, marginBottom: 5 }}>
+            <p style={{ textAlign: "center", marginTop: 1, marginBottom: 0 }}>
               {index}
             </p>
           </div>
