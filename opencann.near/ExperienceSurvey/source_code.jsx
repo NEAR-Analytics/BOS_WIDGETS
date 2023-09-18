@@ -1,13 +1,15 @@
 // Add tooltips to show long explanations on hover
 const options = props.options || "#/opencann.near/widget/substance.metadata";
 const substances = props.options ?? "#opencann.near.widget/substance.array";
-const substance = props.substance ?? "cannabis";
+//const substance = props.substance ?? "cannabis";
 const consumptionMethod = substance.consumptionMethod;
 const physicalEffects = substance.physicalEffects;
 const visualEffects = substance.visualEffects;
 const auditoryEffects = substance.auditoryEffects;
 const cognitiveEffects = substance.cognitiveEffects;
 const multisensoryEffects = substance.multisensoryEffects;
+
+//const { substance, cannabis } = VM.require("opencann.near/widget/substanceDB.cannabis"};
 
 const UUID = {
   generate: (template) => {
@@ -374,36 +376,45 @@ const ResponseForm = () => {
   return (
     <div className="container">
       <div>
-        <h5>
-          <a
-            href="https://www.opencann.net/#/opencann.near/widget/profile.edit"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Complete Your Profile Before You Begin
-          </a>
-        </h5>
         <hr></hr>
-
-        <p>
-          Instructions: describe one (1) experience you had with cannabis.{" "}
-          <b>This form is meant to be anonymous</b>, so only include as much
-          detail as you feel comfortable sharing.
-        </p>
-
+        <h6>
+          <i>
+            *Please complete your
+            <a
+              href="https://www.opencann.net/#/opencann.near/widget/profile.edit"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              profile
+            </a>{" "}
+            and
+            <a
+              href="https://www.opencann.net/#/opencann.near/widget/profile.demographics"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              demographics
+            </a>
+            before starting.
+          </i>
+        </h6>
         <hr></hr>
         <h4>Cannabis Experience Report</h4>
-        <p></p>
+        <p>
+          Instructions: describe one (1) experience you had with cannabis.{" "}
+          <b>OpenCann is designed to support anonymity</b>. Only include as much
+          detail as you feel comfortable having associated with your profile.
+        </p>
         <div className="mb-3">
           <label class="form-label" for="title">
-            Give Your Report a Name
+            Title Your Report
           </label>
           <input
             class="form-control"
             id="title"
             value={state.title}
             onChange={onTitleChange}
-            placeholder="New Response Title"
+            placeholder="e.g. My First Cannnabis Experience"
           />
         </div>
         <div className="mb-3">
@@ -428,7 +439,7 @@ const ResponseForm = () => {
             id="dose"
             value={state.dose}
             onChange={onDoseChange}
-            placeholder="Estimated Dose"
+            placeholder="Describe as best as possible"
           />
         </div>
         <div className="mb-3">
