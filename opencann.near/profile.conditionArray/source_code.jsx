@@ -1,11 +1,8 @@
-const label = props.label ?? "Label";
-const placeholder = props.placeholder ?? "Placeholder";
-const value = props.value ?? "";
-const options = props.options ?? conditionArray;
-const onChange = props.onChange ?? (() => {});
-const validate = props.validate ?? (() => {});
-const error = props.error ?? "";
-const labelKey = props.labelKey ?? "name";
+const conditionPattern = props.conditionPattern ?? "*/profile/condition/*";
+const placeholder = props.placeholder ?? "Condition";
+const initialConditionObject = props.initialConditionObject || {};
+
+const conditionObject = Social.keys(conditionPattern, "final");
 
 const conditionArray = [
   { name: "Depression" },
@@ -15,85 +12,91 @@ const conditionArray = [
   { name: "Boredom" },
 ];
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 0px;
-  gap: 0.45em;
-  width: 100%;
+if (conditionObject === null) {
+  return "Loading";
+}
 
-  .typeahead {
-    width: 100%;
+const normalizeProf = (prof) =>
+  prof
+    .replaceAll(/[- \.]/g, "_")
+    .replaceAll(/[^\w]+/g, "")
+    .replaceAll(/_+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "")
+    .toLowerCase()
+    .trim("-");
 
-    & > div {
-      padding: 0.5em 0.75em;
-      background: #ffffff;
-      border: 1px solid #d0d5dd;
-      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-      border-radius: 4px;
-      color: #101828;
+const conditionCount = {};
+
+const processConditionObject = (obj) => {
+  Object.entries(obj).forEach((kv) => {
+    if (typeof kv[1] === "object") {
+      processConditionObject(kv[1]);
+    } else {
+      const prof = normalizeProf(kv[0]);
+      conditionCount[prof] = (conditionCount[prof] || 0) + 1;
     }
+  });
+};
 
-    .rbt-token {
-      background: #f2f4f7;
-      border: 1px solid #d0d5dd;
-      border-radius: 3px;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 0.95em;
-      line-height: 1.25em;
-      text-align: center;
-      color: #344054;
+const getCondition = () => {
+  processConditionObject(conditionObject);
+  const condition = Object.entries(conditionCount);
+  condition.sort((a, b) => b[1] - a[1]);
+  return condition.map((t) => ({
+    name: t[0],
+    count: t[1],
+  }));
+};
 
-      & > button {
-        font-size: 1.25em;
-        color: #98a2b3;
-      }
-    }
+if (!state.allCondition) {
+  initState({
+    allCondition: getCondition(),
+    condition: Object.keys(initialConditionObject).map((prof) => ({
+      name: normalizeProf(prof),
+    })),
+    originalCondition: Object.fromEntries(
+      Object.keys(initialConditionObject).map((prof) => [prof, null])
+    ),
+    id: `condition-selector-${Date.now()}`,
+  });
+}
+
+const setCondition = (condition) => {
+  condition = condition.map((o) => {
+    o.name = normalizeProf(o.name);
+    return o;
+  });
+  State.update({ condition });
+  if (props.setConditionObject) {
+    props.setConditionObject(
+      Object.assign(
+        {},
+        state.originalCondition,
+        Object.fromEntries(condition.map((prof) => [prof.name, ""]))
+      )
+    );
   }
-`;
-
-const Label = styled.label`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 0.95em;
-  line-height: 1.25em;
-  color: #344054;
-`;
-
-const Error = styled.span`
-  display: inline-block;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 0.75em;
-  line-height: 1.25em;
-  color: #ff4d4f;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease-in-out;
-
-  &.show {
-    height: 1.25em;
-  }
-`;
+};
 
 return (
-  <Container>
-    {props.noLabel ? <></> : <Label>{label}</Label>}
+  <>
     <Typeahead
-      id
-      placeholder={placeholder}
-      labelKey={labelKey}
-      onChange={onChange}
-      options={options}
-      selected={value}
-      className="typeahead"
-      positionFixed
+      id={state.id}
       multiple
+      labelKey="name"
+      onChange={setCondition}
+      options={state.allCondition}
+      placeholder={placeholder}
+      selected={state.condition}
+      positionFixed
       allowNew
     />
-    <Error className={error ? "show" : ""}>{error}</Error>
-  </Container>
+    {props.debug && (
+      <div>
+        Debugging condition:
+        <pre>{JSON.stringify(state.condition)}</pre>
+      </div>
+    )}
+  </>
 );
