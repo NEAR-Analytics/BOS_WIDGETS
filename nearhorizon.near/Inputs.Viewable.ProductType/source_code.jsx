@@ -97,7 +97,7 @@ return (
           props={{
             tags: mappedProductTypes.reduce(
               (acc, key) => Object.assign(acc, { [mapValueToText(key)]: "" }),
-              {}
+              {},
             ),
           }}
         />
