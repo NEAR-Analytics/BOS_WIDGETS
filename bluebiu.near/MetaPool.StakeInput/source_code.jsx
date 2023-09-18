@@ -62,6 +62,7 @@ const ValueWrapper = styled.div`
 `;
 const BalanceWrapper = styled.div`
   text-align: right;
+  cursor: pointer;
 `;
 const Balance = styled.span`
   text-decoration: underline;
@@ -91,18 +92,23 @@ const formatValue = () => {
   return value.toFixed(2);
 };
 
-const handleInputChange = (ev) => {
-  if (isNaN(Number(ev.target.value))) return;
+const handleInputChange = (value) => {
+  if (isNaN(Number(value))) return;
   let error = "";
-  if (isNear && Big(ev.target.value || 0).lt(1)) {
-    error = "at least 1 NEAR.";
+  if (value && Big(value).gt(0)) {
+    if (Big(value).lt(token.symbol === "ETH" ? "0.01" : "1")) {
+      error = `The minimum amount is ${token.symbol === "ETH" ? "0.01" : "1"} ${
+        stakeType === 0 ? token.symbol : lpToken.symbol
+      }.`;
+    }
+    if (Number(balance) && Big(value).gt(balance)) {
+      error = `You don’t have enough ${
+        stakeType === 0 ? token.symbol : lpToken.symbol
+      }.`;
+    }
   }
-  if (ev.target.value && Number(balance) && Big(ev.target.value).gt(balance)) {
-    error = `You don’t have enough ${
-      stakeType === 0 ? token.symbol : lpToken.symbol
-    }.`;
-  }
-  props.onAmountChange?.(ev.target.value, error);
+
+  props.onAmountChange?.(value, error);
 };
 
 return (
@@ -113,7 +119,9 @@ return (
         className={errorTips && "error"}
         value={amount}
         placeholder="0"
-        onChange={handleInputChange}
+        onChange={(ev) => {
+          handleInputChange(ev.target.value);
+        }}
       />
       {stakeType === 0 ? (
         <Token>
@@ -132,7 +140,16 @@ return (
       <BalanceWrapper
         className={errorTips && "error"}
         onClick={() => {
-          if (balance) props.onAmountChange?.(balance);
+          if (!balance) return;
+          handleInputChange(
+            stakeType === 0 &&
+              token.symbol === "NEAR" &&
+              Big(balance || 0).gt(0.1)
+              ? Big(balance || 0)
+                  .minus(0.1)
+                  .toString()
+              : balance
+          );
         }}
       >
         Balance:{" "}
