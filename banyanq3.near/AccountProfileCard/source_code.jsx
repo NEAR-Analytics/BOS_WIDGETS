@@ -1,7 +1,7 @@
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `/near/widget/ProfilePage?accountId=${accountId}&tab=apps;
+const profileUrl = `/near/widget/ProfilePage?accountId=${accountId}&tab=apps`;
 const onPointerUp =
   props.onClick ??
   ((event) => {
