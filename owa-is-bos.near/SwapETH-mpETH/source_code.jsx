@@ -220,7 +220,7 @@ return (
             style={{ background: "rgb(12, 34, 70)" }}
             onClick={() => swap()}
           >
-            <span>Swap</span>
+            <span>Stake</span>
           </button>
         ) : (
           <Web3Connect
