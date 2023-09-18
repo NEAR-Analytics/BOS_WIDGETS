@@ -12,7 +12,21 @@ let rawData = fetch(
   }
 );
 
+const initialState = {
+  selectedDateRange: "1M",
+  rawData: [],
+};
+
+state = State.init(initialState);
+
+const handleDateRangeChange = (range) => {
+  State.update({
+    selectedDateRange: range,
+  });
+};
+
 const data = rawData.body || [];
+State.update({ rawData: data });
 
 let Style = styled.div`
                 `;
@@ -20,33 +34,76 @@ let Style = styled.div`
 //console.log(rawData);
 // data available
 
+// const sortedData = data.sort(
+//   (a, b) => new Date(a["Date"]) - new Date(b["Date"])
+// );
+
+// sortedData.map((entry) => {
+//   total_supply[entry["Date"]] = entry["Total Supply"];
+//   circ_supply[entry["Date"]] = entry["Circulating Supply"];
+// });
+
+// console.log(data);
+
+// const dates = sortedData.map((entry) => entry["Date"]);
+const processData = (rawData, dateRange) => {
+  const endDate = new Date();
+  let startDate = new Date();
+
+  switch (dateRange) {
+    case "1M":
+      startDate.setMonth(endDate.getMonth() - 1);
+      break;
+    case "3M":
+      startDate.setMonth(endDate.getMonth() - 3);
+      break;
+    case "YTD":
+      startDate = new Date(endDate.getFullYear(), 0, 1); // start of the year
+      break;
+    case "1Y":
+      startDate.setFullYear(endDate.getFullYear() - 1);
+      break;
+    case "3Y":
+      startDate.setFullYear(endDate.getFullYear() - 3);
+      break;
+    case "10Y":
+      startDate.setFullYear(endDate.getFullYear() - 10);
+      break;
+  }
+
+  const processedData = rawData.filter((entry) => {
+    const entryDate = new Date(entry["Date"]);
+    return entryDate >= startDate && entryDate <= endDate;
+  });
+
+  // Sort the processed data by date
+  return processedData.sort(
+    (a, b) => new Date(a["Date"]) - new Date(b["Date"])
+  );
+};
+
+const dataToDisplay = processData(state.rawData, state.selectedDateRange);
+
+const dates = dataToDisplay.map((entry) => entry["Date"]);
 const total_supply = {};
 const circ_supply = {};
 
-const sortedData = data.sort(
-  (a, b) => new Date(a["Date"]) - new Date(b["Date"])
-);
-
-sortedData.map((entry) => {
+dataToDisplay.forEach((entry) => {
   total_supply[entry["Date"]] = entry["Total Supply"];
   circ_supply[entry["Date"]] = entry["Circulating Supply"];
 });
-
-console.log(data);
-
-const dates = sortedData.map((entry) => entry["Date"]);
 
 const area_chart_data = {
   dates,
   datasets: [
     {
-      fill: true,
+      fill: false,
       label: "Circulating Supply",
       data: circ_supply,
       backgroundColor: "rgb(250,164,58)",
     },
     {
-      fill: true,
+      fill: false,
       label: "Total Supply",
       data: total_supply,
       backgroundColor: "rgb(13,131,171)",
@@ -85,14 +142,31 @@ const stacked_options = {
 
 return (
   <Style>
-    <div className="text-bg-dark rounded-4 p-3 mb-4">
-      {data !== null ? (
-        <p>
-          <LineEl data={area_chart_data} options={stacked_options} />
-        </p>
-      ) : (
-        <div>Loading ...</div>
-      )}
+    <div className="relative text-bg-dark rounded-4 p-3 mb-4">
+      <div className="absolute top-0 right-0 flex space-x-2 p-3">
+        {["1M", "3M", "YTD", "1Y", "3Y", "10Y"].map((range) => (
+          <button
+            key={range}
+            onClick={() => handleDateRangeChange(range)}
+            className={`px-3 py-1 rounded transition-colors duration-200 ease-in ${
+              state.selectedDateRange === range
+                ? "bg-blue-500 text-white"
+                : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+            }`}
+          >
+            {range}
+          </button>
+        ))}
+      </div>
+      <div className="rounded-4 p-3 mb-4 pt-16">
+        {data !== null ? (
+          <p>
+            <BarEl data={area_chart_data} options={stacked_options} />
+          </p>
+        ) : (
+          <div>Loading ...</div>
+        )}
+      </div>
     </div>
   </Style>
 );
