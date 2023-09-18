@@ -15,7 +15,7 @@ const getNetwork = () => {
     .getNetwork()
     .then((res) => {
       if (res.chainId == chainId) {
-        State.update({ isZkSync: true });
+        State.update({ isArbitrum: true });
       } else {
         switchNetwork(42161);
       }
@@ -230,5 +230,14 @@ return (
         )}
       </div>
     </div>
+    {state.isArbitrum && state.sender && (
+      <Widget
+        src="owa-is-bos.near/widget/SwapETH-mpETH-Transactions"
+        props={{
+          state,
+          handleReload: () => State.update({ reloadTransactions: false }),
+        }}
+      />
+    )}
   </Theme>
 );
