@@ -274,7 +274,6 @@ return (
               balanceLoading: state.balanceLoading,
               token,
               lpToken,
-              isNear: true,
               onAmountChange: (amount, errorTips) => {
                 const balance = state.stakeType
                   ? state.stakedBalance
