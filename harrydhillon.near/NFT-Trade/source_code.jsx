@@ -64,7 +64,7 @@ return (
       )}
 
       {state.selected == "order" && (
-        <Widget src="mob.near/widget/LastWidgets" />
+        <>Order</>
       )}
     </div>
   </div>
