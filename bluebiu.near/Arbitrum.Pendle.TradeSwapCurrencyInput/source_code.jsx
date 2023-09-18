@@ -45,6 +45,7 @@ const CurrencyField = styled.div`
   flex-shrink: 0;
   @media (max-width: 768px) {
     width: 115px;
+    min-width: 115px;
   }
 `;
 const CurrencySelect = styled.div`
