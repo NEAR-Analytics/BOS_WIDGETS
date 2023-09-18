@@ -3,7 +3,9 @@ if (!accountId) return;
 
 const API_URL = "http://localhost:3000/";
 
-const { onClose } = props;
+const { onClose, data } = props;
+
+console.log(data, "==>data");
 
 const ModalOverlay = styled.div`
   background: white;
