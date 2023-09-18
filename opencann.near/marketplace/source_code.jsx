@@ -64,7 +64,8 @@ return marketData !== null ? (
       <h2>OpenCann Marketplace</h2>
       <p>
         This component is in open-beta and still under active construction. DO
-        NOT publish any sensitive or proprietary information.
+        NOT publish any sensitive or proprietary information. Best viewed on
+        desktop.
       </p>
     </div>
     <Widget src="denysk.near/widget/PriceStats" />
