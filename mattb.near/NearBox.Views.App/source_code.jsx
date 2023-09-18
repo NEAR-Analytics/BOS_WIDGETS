@@ -5,8 +5,12 @@ State.init({
   displayMessage: null,
   writeMessage: false,
   dropNft: false,
-  messages: Storage.privateGet("messages") || [],
+  messages: [],
 });
+
+setTimeout(() => {
+  State.update({ messages: Storage.privateGet("messages") || [] });
+}, 200);
 
 const Main = styled.div`
     width:100%;
