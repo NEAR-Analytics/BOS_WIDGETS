@@ -79,28 +79,6 @@ function isNearAddress(address) {
   return true;
 }
 
-const offer = () => {
-  if (!accountId) {
-    return;
-  }
-  // need to buffer serialize arguments, add helper functions with state arguments
-  const gas = 100000000000000; // 100 tGas
-  //   const deposit = 1; // exactly 1 yocto
-  const deposit = 1; // 0.01 near // maybe less
-  Near.call([
-    {
-      contractName: state.contractId,
-      methodName: "nft_transfer",
-      args: {
-        receiver_id: state.receiverId,
-        token_id: state.tokenId,
-      },
-      gas: 100000000000000,
-      deposit: deposit ?? 10000000000000000000000,
-    },
-  ]);
-};
-
 console.log(state);
 
 const ConfirmOffer = () => {
