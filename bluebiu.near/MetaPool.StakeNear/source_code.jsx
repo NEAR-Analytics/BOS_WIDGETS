@@ -66,7 +66,17 @@ State.init({
 const utils = {
   formatGetValue: (amount) => {
     if (!amount || parseFloat(amount) <= 0 || !stnearPriceUsd) return 0;
-    return (amount / stnearPriceUsd).toFixed(5);
+    if (state.stakeType === 0) {
+      return (amount / stnearPrice).toFixed(5);
+    }
+    if (state.stakeType === 1) {
+      return Big(amount * stnearPrice)
+        .mul(0.997)
+        .toFixed(5);
+    }
+    if (state.stakeType === 2) {
+      return (amount * stnearPrice).toFixed(5);
+    }
   },
   formatWithdrawalsTime: () => {
     return "";
