@@ -116,9 +116,9 @@ const getSender = () => {
 return (
   <Theme>
     <div class="LidoContainer">
-      <div class="Header">Staking ETH ⇢ mETH</div>
+      <div class="Header">Stake ETH-mpETH</div>
       <div class="SubHeader" style={{ color: "black" }}>
-        Stake mpETH - Available on Arbitrum One
+        Powered by Meta Pool & Sushi Swap
       </div>
       <div
         class="LidoForm"
