@@ -290,19 +290,10 @@ return (
         className="my-4 shadow-sm  rounded-4"
         style={{ background: themeColor?.sbt_area?.section_bg }}
       ></div>
-      <Widget
-        src="lord1.near/widget/tabel-ndc"
-        props={getPieProps(themeColor.chartColor)}
-      />
+      <Widget src="lord1.near/widget/tabel-ndc" props={{ themeColor }} />
 
-      <div
-        className="my-4 shadow-sm  rounded-4"
-        style={{ background: themeColor?.sbt_area?.section_bg }}
-      >
-        <Widget
-          src="lord1.near/widget/mix-ndc"
-          props={getPieProps(themeColor.chartColor)}
-        />
+      <div className="my-4 shadow-sm  rounded-4">
+        <Widget src="lord1.near/widget/mix-ndc" props={{ themeColor }} />
       </div>
 
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
