@@ -57,6 +57,18 @@ function fetchMyQuery() {
 
 fetchMyQuery();
 
+const FollowButton = styled.button`
+    background-color: transparent;
+    border: 2px solid ${props.theme.textColor};
+    border-radius: 40px;
+    color: ${props.theme.textColor};
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left:auto;
+`;
+
 return (
   <div style={{ display: "flex", width: "100%", gap: "20px" }}>
     <div style={{ width: "50%" }}>
@@ -67,7 +79,17 @@ return (
     </div>
     <div style={{ width: "50%" }}>
       <div>
-        <div style={{ marginTop: 40 }} />
+        <div
+          style={{
+            width: "fit-content",
+            marginLeft: "auto",
+            paddingRight: 15,
+            paddingTop: 15,
+          }}
+        >
+          <FollowButton>Follow</FollowButton>
+        </div>
+        <div style={{ marginTop: 20 }} />
         <h4
           style={{
             lineHeight: "16px",
