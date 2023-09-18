@@ -48,8 +48,14 @@ return (
     <Chart voted={percent}>
       <span>{percent.toFixed(1)}%</span>
       <chart1>
-        {props.voted}/{props.total}
+        <b>
+          {props.voted}/{props.total}
+        </b>
+        <div>{props.description}</div>
       </chart1>
     </Chart>
   </div>
 );
+// voted
+// total
+// description
