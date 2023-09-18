@@ -161,7 +161,7 @@ return (
         <p>
           {`Please ensure you do the tasks below before clicking on Verify & Enter:`}
         </p>
-        {data.map((row, index) => (
+        {data?.requirements.map((row, index) => (
           <div className="d-flex justify-content-between align-items-center">
             <p>
               <b>{`${index})`}</b>
