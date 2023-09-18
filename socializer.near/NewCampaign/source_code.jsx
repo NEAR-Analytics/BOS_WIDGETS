@@ -11,7 +11,6 @@ const requirementsOptions = [
   { name: "Like", value: "like" },
   { name: "Repost", value: "repost" },
   { name: "Comment", value: "comment" },
-  { name: "Minimum Follower Count", value: "5" },
 ];
 
 const hrOption = [];
