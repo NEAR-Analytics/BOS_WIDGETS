@@ -111,7 +111,7 @@ const mapValueToText = (value) => {
 
 const mappedVerticals = Object.keys(value).reduce(
   (acc, key) => [...acc, ...mapOldToNew(key)],
-  []
+  [],
 );
 
 return (
@@ -128,7 +128,7 @@ return (
           props={{
             tags: mappedVerticals.reduce(
               (acc, key) => Object.assign(acc, { [mapValueToText(key)]: "" }),
-              {}
+              {},
             ),
           }}
         />
