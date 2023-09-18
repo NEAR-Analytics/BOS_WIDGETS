@@ -69,7 +69,6 @@ const handleDetails = () => {
     .div(Big(10).pow(tokenDecimals))
     .toFixed(6)
     .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
   const stakeBalance = Storage.privateGet("stakeBalance");
   if (!stakeBalance) {
     State.update({ mpEthPrice });
@@ -79,10 +78,9 @@ const handleDetails = () => {
       .div(Big(10).pow(tokenDecimals))
       .toFixed(6)
       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-
-    const userMpEthUsd = bigMpEthPrice
+    const userMpEthUsd = Big(mpEthPrice)
       .mul(stakeBalance)
-      .div(Big(10).pow(tokenDecimals))
+      .mul(ethUsdPrice)
       .toFixed(2)
       .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
