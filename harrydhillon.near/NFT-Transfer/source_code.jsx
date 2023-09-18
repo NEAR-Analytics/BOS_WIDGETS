@@ -114,7 +114,7 @@ const ConfirmOffer = () => {
           receiver_id: state.receiverId,
         },
         gas: 100000000000000,
-        deposit: 1 ?? 1000000000000000000000000 * state.offerAmount,
+        deposit: state.offerAmount? 0 : 1000000000000000000000000 * state.offerAmount,
       });
     }
     if (state.offerNFTS) {
