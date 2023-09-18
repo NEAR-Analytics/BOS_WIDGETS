@@ -1,4 +1,5 @@
 const Owner = "socializer.near";
+const API_URL = "http://localhost:3000";
 
 State.init({
   sate: false,
@@ -131,19 +132,21 @@ return (
     <Content>
       <Widget
         src={`${Owner}/widget/Sidebar`}
-        props={{ changeTab, page: state.page, list: state.sidebar }}
+        props={{ API_URL, changeTab, page: state.page, list: state.sidebar }}
       />
       {state.page === "dashboard" && (
         <Widget
           src={`${Owner}/widget/Dashboard`}
-          props={{ changePage: changeTab, page: state.page }}
+          props={{ API_URL, changePage: changeTab, page: state.page }}
         />
       )}
-      {state.page === "profile" && <Widget src={`${Owner}/widget/Profile`} />}
+      {state.page === "profile" && (
+        <Widget props={{ API_URL }} src={`${Owner}/widget/Profile`} />
+      )}
       {state.page === "new_campaigns" && (
         <Widget
           src={`${Owner}/widget/NewCampaign`}
-          props={{ changePage: changeTab, page: state.page }}
+          props={{ API_URL, changePage: changeTab, page: state.page }}
         />
       )}
     </Content>
