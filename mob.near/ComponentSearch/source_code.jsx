@@ -85,11 +85,12 @@ const computeResults = (term) => {
   const result = matchedWidgets.slice(0, limit);
 
   State.update({
+    term,
     result,
   });
 
   if (props.onChange) {
-    props.onChange({ result });
+    props.onChange({ term, result });
   }
 };
 
@@ -98,12 +99,7 @@ if (props.term && props.term !== state.oldTerm) {
     oldTerm: props.term,
   });
   if (props.term !== state.term) {
-    clearTimeout(state.debounce);
-    const term = props.term;
-    State.update({
-      term,
-      debounce: setTimeout(() => computeResults(term), 350),
-    });
+    computeResults(props.term);
   }
 }
 
@@ -114,14 +110,7 @@ return (
         type="text"
         className={`form-control ${state.term ? "border-end-0" : ""}`}
         value={state.term ?? ""}
-        onChange={(e) => {
-          const term = e.target.value;
-          clearTimeout(state.debounce);
-          State.update({
-            term,
-            debounce: setTimeout(() => computeResults(term), 350),
-          });
-        }}
+        onChange={(e) => computeResults(e.target.value)}
         placeholder={props.placeholder ?? `🔍 Search Components`}
       />
 
@@ -129,13 +118,7 @@ return (
         <button
           className="btn btn-outline-secondary border border-start-0"
           type="button"
-          onClick={() => {
-            clearTimeout(state.debounce);
-            State.update({
-              term: "",
-            });
-            computeResults("");
-          }}
+          onClick={() => computeResults("")}
         >
           <i className="bi bi-x"></i>
         </button>
