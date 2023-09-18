@@ -63,7 +63,7 @@ return (
             props={{
               tags: value.reduce(
                 (acc, { name }) => ({ ...acc, [name]: "" }),
-                {}
+                {},
               ),
             }}
           />
