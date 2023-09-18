@@ -61,7 +61,7 @@ const iframeCode = `
 `;
 
 console.log(
-  Storage.get("near-api-js:keystore:" + context.accountId + ":mainnet")
+  Storage.get("near-api-js:keystore:" + context.accountId + ":mainnet"),
 );
 
 return (
