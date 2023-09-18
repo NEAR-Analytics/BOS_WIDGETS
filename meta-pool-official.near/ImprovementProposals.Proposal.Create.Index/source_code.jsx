@@ -150,7 +150,7 @@ if (transactionHashes) {
   //check status and open modal
 
   if (
-    statusResult.body.result.status &&
+    statusResult && statusResult.body && statusResult.body.result.status &&
     Object.keys(statusResult.body.result.status)[0] == "SuccessValue"
   ) {
     State.update({ openModal: true });
@@ -172,6 +172,7 @@ return (
       src={`${authorId}/widget/Common.Modal.RedirectModal`}
       props={{
         href: `meta-pool-official.near/widget/ImprovementProposals?tab=home`,
+        description: edit ? "Proposal edited successfully. Going back Home" : "Proposal created successfully. Going back Home",
         open: state.openModal,
         accept: () =>
           update({
