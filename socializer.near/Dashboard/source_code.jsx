@@ -200,7 +200,8 @@ const getCampaignData = () => {
 if (!state.campaigns.length) getCampaignData();
 
 const showDetail = (data) => {
-  State.update({ show_detail: true, selected: data });
+  if (data.accountId !== accountId)
+    State.update({ show_detail: true, selected: data });
 };
 
 const onClose = () => {
