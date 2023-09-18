@@ -15,9 +15,9 @@ if (!state.contributionIsFetched) {
     "get_contribution",
     { project_id: accountId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((contribution) =>
-    State.update({ contribution, contributionIsFetched: true })
+    State.update({ contribution, contributionIsFetched: true }),
   );
 }
 
@@ -27,7 +27,7 @@ if (!state.proposalIsFetched) {
     "get_proposal",
     { project_id: accountId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((proposal) => State.update({ proposal, proposalIsFetched: true }));
 }
 
