@@ -391,7 +391,7 @@ const SwapMainContainer = styled.div`
   }
 
   justify-content: center;
-  padding-top: 50px;
+  padding-top: 10px;
 
   .invalid-pool-tip {
     font-size: 18px;
