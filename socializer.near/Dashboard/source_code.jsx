@@ -59,64 +59,6 @@ const columns = [
   },
 ];
 
-const tableData = [
-  {
-    user: "Near Degens1",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "link",
-  },
-  {
-    user: "Near Degens2",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "",
-  },
-  {
-    user: "Near Degens3",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "",
-  },
-  {
-    user: "Near Degens4",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "link",
-  },
-  {
-    user: "Near Degens5",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "link",
-  },
-];
-
 const options = [
   {
     text: "Ended",
@@ -135,6 +77,7 @@ const options = [
 State.init({
   campaigns: [],
   error: "",
+  show_detail: false,
 });
 
 const MainComponent = styled.div`
@@ -254,7 +197,14 @@ const getCampaignData = () => {
 };
 
 if (!state.campaigns.length) getCampaignData();
-console.log(state, "==>state");
+
+const showDetail = (data) => {
+  State.update({ show_detail: true });
+};
+
+const onClose = () => {
+  State.update({ show_detail: false });
+};
 
 return (
   <MainComponent>
@@ -316,9 +266,17 @@ return (
           data: state.campaigns,
           columns,
           rowsCount: 4,
+          showDetail,
         }}
       />
     </TableComponent>
-    <Widget src={`${Owner}/widget/CampaignModal`} />
+    {state.show_detail && (
+      <Widget
+        props={{
+          onClose,
+        }}
+        src={`${Owner}/widget/CampaignModal`}
+      />
+    )}
   </MainComponent>
 );
