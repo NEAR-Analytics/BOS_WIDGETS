@@ -1,9 +1,74 @@
-if (!props.data || !props.columns) {
-  return "column and data props are required.";
-}
+// if (!props.data || !props.columns) {
+//   return "column and data props are required.";
+// }
 
-const data = props.data || [];
-const columns = props.columns;
+const data = props.data || [
+  {
+    _id: "6507eb1053f730baaf07be4e",
+    accountId: "socializer.near",
+    reward: "10 NEKO",
+    total_reward: "100 NEKO",
+    social:
+      "🌟 **HZN is a Founder Fellowship designed for early-stage web3 Founders - real, grounded support fro...",
+    post_link:
+      "https://near.social/mob.near/widget/MainPage.Post.Page?accountId=nfcommunity.near&blockHeight=101374423",
+    status: "live",
+    endsin: "Ends in 10hr 6m 55s",
+  },
+];
+const columns = props.columns || [
+  {
+    title: "Project/User",
+    key: "accountId",
+    description: "Project/User",
+    width: 20,
+    project: true,
+  },
+  {
+    title: "Near Social  Post",
+    key: "social",
+    description: "Near Social  Post",
+    width: 40,
+    align: "left",
+  },
+  {
+    title: "Ends In",
+    key: "endsin",
+    description: "Ends In",
+    width: 15,
+    align: "left",
+  },
+  {
+    title: "Reward",
+    key: "reward",
+    description: "Reward",
+    width: 8,
+    align: "left",
+  },
+  {
+    title: "Total Rewards",
+    key: "total_reward",
+    description: "Total Rewards",
+    width: 10,
+    align: "left",
+  },
+  {
+    title: "Status",
+    key: "status",
+    description: "Status",
+    width: 10,
+    align: "center",
+    button: true,
+  },
+  {
+    title: "Engage Link",
+    key: "post_link",
+    description: "Engage Link",
+    width: 10,
+    align: "center",
+    link: true,
+  },
+];
 
 State.init({ currentPage: 1, searchValue: "" });
 const rowsCount = props.rowsCount || 5;
@@ -110,6 +175,14 @@ return (
                   <tr key={row.key}>
                     {columns.map((td) => {
                       const key = td.key ? row[td.key] : i + 1;
+                      let name = "";
+                      if (td.project) {
+                        const profile = Social.getr(`${key}/profile`);
+                        name = profile.name ?? key;
+                        State.update({
+                          [key]: `https://i.near.social/magic/large/https://near.social/magic/img/account/${key}`,
+                        });
+                      }
                       return (
                         <td
                           style={{
@@ -135,35 +208,38 @@ return (
                                   height: 40,
                                   borderRadius: 50,
                                 }}
-                                src={row.avatar}
+                                src={state[key]}
+                                onError={() => {
+                                  State.update({
+                                    [key]:
+                                      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+                                  });
+                                }}
                               />
-                              {key}
+                              {name}
                             </div>
                           ) : td.link ? (
-                            <a
-                              className="d-inline-block"
+                            <div
+                              className="d-flex justify-content-center align-items-center"
                               target={key ? "_blank" : ""}
-                              href={key ? key : "#"}
                               style={{
                                 "text-decoration": "none",
+                                color: "#4886fe",
+                                cursor: "pointer",
                               }}
                             >
                               <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 20 20"
-                                fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
                               >
                                 <path
-                                  d="M12.9167 5.25001L12.9167 1.75001M12.9167 1.75001H9.41674M12.9167 1.75001L7.66675 7M6.50008 1.75H5.21675C4.23666 1.75 3.74661 1.75 3.37226 1.94074C3.04298 2.10852 2.77527 2.37623 2.60749 2.70552C2.41675 3.07986 2.41675 3.56991 2.41675 4.55V9.45C2.41675 10.4301 2.41675 10.9201 2.60749 11.2945C2.77527 11.6238 3.04298 11.8915 3.37226 12.0593C3.74661 12.25 4.23666 12.25 5.21675 12.25H10.1167C11.0968 12.25 11.5869 12.25 11.9612 12.0593C12.2905 11.8915 12.5582 11.6238 12.726 11.2945C12.9167 10.9201 12.9167 10.4301 12.9167 9.45V8.16667"
-                                  stroke={key ? "#806ce1" : "gray"}
-                                  stroke-width="2.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
+                                  fill="currentColor"
+                                  d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
                                 />
                               </svg>
-                            </a>
+                            </div>
                           ) : td.button ? (
                             <Button>{key}</Button>
                           ) : (
@@ -293,35 +369,3 @@ return (
     )}
   </div>
 );
-
-// const props = {
-//   data: [],
-//   columns: [
-//     { title: "id" }, //if key does not provided , rows will be ascending numbers
-//     { title: "title", key: "key in data" ,description:"here is a",position:"top/right/buttom/left",
-//    link: "yes",
-//      beforehref: "https://near.social/mob.near/widget/ProfilePage?accountId=",
-//      afterhref: "",
-//      colors: "green"},
-
-//   ],
-//   rowsCount: 2, // if zero or null , the whole table will be render
-//   className: "table-bordered",
-//   themeColor: {
-//     table_pagination: {
-//       table_bg: "rgb(25,33,50)",
-//       table_color: "rgb(255,255,255)",
-//       table_border_color: "",
-//       table_accent_bg: "",
-//       table_striped_color: "rgb(255,255,255)",
-//       table_striped_bg: "",
-//       table_hover_color: "rgb(255,255,255)",
-//       table_hover_bg: "",
-//       btn_border: "#fff",
-//       btn_bg: "rgba(49, 62, 89,0.5)",
-//       btn_bg_active: "rgb(25,33,50)",
-//       btn_color: "#fff",
-//       columntextcolor: ""
-//     },
-//   },
-// };
