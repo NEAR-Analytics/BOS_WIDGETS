@@ -901,7 +901,9 @@ return (
                 }}
               />
               {comments
-                .filter((data) => !badWords.includes(data.comment))
+                .filter(
+                  (data) => !badWords.some((w) => data.comment.includes(w))
+                )
                 .map((data) => (
                   <Widget
                     props={{ data, nomination_contract }}
