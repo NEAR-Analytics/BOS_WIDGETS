@@ -96,6 +96,8 @@ const onCompose = () => {
   });
 };
 
+const [markdownEditor, setMarkdownEditor] = useState(false);
+
 const TextareaWrapper = styled.div`
   display: grid;
   vertical-align: top;
@@ -120,7 +122,7 @@ const TextareaWrapper = styled.div`
   }
 
   &::after,
-  textarea {
+  textarea, iframe {
     width: 100%;
     padding: 8px 0;
     min-width: 1em;
@@ -137,6 +139,10 @@ const TextareaWrapper = styled.div`
     outline: none;
   }
 
+  iframe {
+    padding: 0;
+  }
+
   textarea:focus, textarea:not(:empty) {
     border-bottom: 1px solid #eee;
     min-height: 5em;
@@ -146,6 +152,11 @@ const TextareaWrapper = styled.div`
     content: attr(data-value) ' ';
     visibility: hidden;
     white-space: pre-wrap;
+  }
+  &.markdown-editor::after {
+    padding-top: 66px;
+    font-family: monospace;
+    font-size: 14px;
   }
 `;
 
@@ -171,6 +182,20 @@ const Wrapper = styled.div`
   }
 `;
 
+const embedCss = `
+.rc-md-editor {
+  border: 0;
+}
+.rc-md-editor .editor-container>.section {
+  border: 0;
+}
+.rc-md-editor .editor-container .sec-md .input {
+  overflow-y: auto;
+  padding: 8px 0 !important;
+  line-height: normal;
+}
+`;
+
 return (
   <Wrapper>
     <div className="left">
@@ -181,17 +206,33 @@ return (
       />
     </div>
     <div className="right">
-      <TextareaWrapper data-value={state.text || ""}>
-        <textarea
-          value={state.text || ""}
-          onInput={(event) => onChange(event.target.value)}
-          onKeyUp={(event) => {
-            if (event.key === "Escape") {
-              State.update({ showAccountAutocomplete: false });
-            }
-          }}
-          placeholder={props.placeholder ?? "What's happening?"}
-        />
+      <TextareaWrapper
+        className={markdownEditor ? "markdown-editor" : ""}
+        data-value={state.text || ""}
+      >
+        {markdownEditor ? (
+          <Widget
+            key={`markdown-editor-${markdownEditor}`}
+            src="mob.near/widget/MarkdownEditorIframe"
+            props={{
+              initialText: state.text,
+              onChange,
+              embedCss,
+            }}
+          />
+        ) : (
+          <textarea
+            key="textarea"
+            value={state.text || ""}
+            onInput={(event) => onChange(event.target.value)}
+            onKeyUp={(event) => {
+              if (event.key === "Escape") {
+                State.update({ showAccountAutocomplete: false });
+              }
+            }}
+            placeholder={props.placeholder ?? "What's happening?"}
+          />
+        )}
         {autocompleteEnabled && state.showAccountAutocomplete && (
           <div className="pt-1 w-100 overflow-hidden">
             <Widget
@@ -211,6 +252,14 @@ return (
             image={state.image}
             className="btn btn-outline-secondary border-0 rounded-5"
           />
+          <button
+            className="btn btn-outline-secondary border-0 rounded-5"
+            onClick={() =>
+              setMarkdownEditor(markdownEditor ? false : Date.now())
+            }
+          >
+            <i class="bi bi-code-square"></i>
+          </button>
         </div>
         <div>{props.composeButton && props.composeButton(onCompose)}</div>
       </div>
