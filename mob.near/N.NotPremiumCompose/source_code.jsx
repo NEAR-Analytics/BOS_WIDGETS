@@ -1,3 +1,9 @@
+const text =
+  props.text ??
+  "This feed includes content from users with premium subscription";
+
+const buttonText = props.buttonText ?? "Subscribe to Premium";
+
 const Wrapper = styled.div`
   border-bottom: 1px solid #eee;
   margin: 0 -12px;
@@ -35,13 +41,13 @@ return (
       </svg>
     </div>
     <div className="flex-grow-1">
-      <p>This feed includes content from users with premium subscription</p>
+      <p>{text}</p>
       <div>
         <a
           className="btn btn-outline-primary rounded-5"
           href="/zavodil.near/widget/subscribe"
         >
-          {Checkmark} Subscribe to Premium
+          {Checkmark} {buttonText}
         </a>
       </div>
     </div>
