@@ -138,7 +138,7 @@ const tabs = {
 const setTab = (tab) => State.update({ tab });
 
 const Container = styled.div`
-  &&{text-align:left};
+  &&{text-align:center};
   .tabContent{
     display:inline-flex;
     align-items:center;
@@ -351,7 +351,7 @@ let third = (
 return (
   <div className="container-fluid py-2">
     <div className="pl-2">
-      <div style={{ marginLeft: "1%" }}>
+      <div>
         <div>
           <Container>
             <ul className="tabContent">
