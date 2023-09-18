@@ -9,16 +9,18 @@ const getTransactions = () => {
   const status = ["verified", "failed"];
   if (!sender) return;
   asyncFetch(
-    `https://api.arbiscan.io/api?module=account&action=txlist&address=${sender}&startblock=0&endblock=latest&page=1&offset=10&sort=asc&apikey=37IRPETG28QVXDX98M7IC97BAG2P1FPM2R`
+    `https://api.arbiscan.io/api?module=account&action=txlist&address=${sender}&startblock=0&endblock=latest&page=1&offset=20&sort=asc&apikey=37IRPETG28QVXDX98M7IC97BAG2P1FPM2R`
   ).then((res) => {
     if (!res.ok) {
       return;
     }
 
-    const transactions = res.body.result.filter((item) => {
-      return item.to == "0x09bd2a33c47746ff03b86bce4e885d03c74a8e8c";
-    });
-    //console.log(transactions);
+    const transactions = res.body.result
+      .filter((item) => {
+        return item.to == "0x09bd2a33c47746ff03b86bce4e885d03c74a8e8c";
+      })
+      .reverse();
+    console.log(transactions);
     State.update({
       transactions: transactions,
     });
