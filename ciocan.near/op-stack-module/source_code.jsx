@@ -196,6 +196,49 @@ const ethAbi = [
     name: "ETHDepositInitiated",
     type: "event",
   },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "l1Token",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "l2Token",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "extraData",
+        type: "bytes",
+      },
+    ],
+    name: "ERC20DepositInitiated",
+    type: "event",
+  },
 ];
 
 const erc20Abi = [
