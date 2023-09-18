@@ -4,7 +4,8 @@ const onClose = props.onClose;
 const edit = props.edit;
 const mpip_id = props.mpip_id ?? null;
 const update = props.update;
-const transactionHashes = props.transactionHashes;
+const transactionHashes =
+  props.transactionHashes;
 const title = props.edit ? "Edit proposal" : "Create Proposal";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
 const contractId = props.contractId || "mpip.meta-pool-dao.near";
@@ -17,6 +18,32 @@ State.init({
 });
 const yoctoToNear = (amountYocto) =>
   new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
+
+if (transactionHashes) {
+  const statusResult = fetch("https://rpc.mainnet.near.org", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: "dontcare",
+      method: "tx",
+      params: [transactionHashes, accountId],
+    }),
+  });
+  //check status and open modal
+  console.log("status", statusResult);
+  if (
+    statusResult &&
+    statusResult.ok &&
+    statusResult.body.result.status &&
+    Object.keys(statusResult.body.result.status)[0] == "SuccessValue"
+  ) {
+    State.update({ openModal: true });
+    // update({ transactionHashesIsHandled: true });
+  }
+}
 
 if (!state.allVotingPowerIsFetched) {
   Near.asyncView(
@@ -134,30 +161,6 @@ color: #000000;
 width: 100%;
 `;
 
-if (transactionHashes) {
-  const statusResult = fetch("https://rpc.mainnet.near.org", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: "dontcare",
-      method: "tx",
-      params: [transactionHashes, accountId],
-    }),
-  });
-  //check status and open modal
-
-  if (
-    statusResult && statusResult.body && statusResult.body.result.status &&
-    Object.keys(statusResult.body.result.status)[0] == "SuccessValue"
-  ) {
-    State.update({ openModal: true });
-    update({ transactionHashesIsHandled: true });
-  }
-}
-
 if (!state.allVotingPowerIsFetched || !state.proposalThresholdReachedIsFetched)
   return <>Loading</>;
 
@@ -172,7 +175,9 @@ return (
       src={`${authorId}/widget/Common.Modal.RedirectModal`}
       props={{
         href: `meta-pool-official.near/widget/ImprovementProposals?tab=home`,
-        description: edit ? "Proposal edited successfully. Going back Home" : "Proposal created successfully. Going back Home",
+        description: edit
+          ? "Proposal edited successfully. Going back Home"
+          : "Proposal created successfully. Going back Home",
         open: state.openModal,
         accept: () =>
           update({
