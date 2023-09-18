@@ -32,9 +32,12 @@ const Wrapper = styled.div`
     h1, h2, h3, h4, h5, h6, strong, b {
       font-weight: 500 !important;
     }
-    p, ol, ul, dl {
+    ol, ul, dl {
       margin-bottom: 0.5rem;
       white-space: inherit;
+    }
+    p {
+      margin-bottom: 0.5rem;
     }
     hr {
       display: none;
