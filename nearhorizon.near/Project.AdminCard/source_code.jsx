@@ -18,7 +18,7 @@ if (!state.projectIsFetched) {
     "get_project",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((project) => State.update({ project, projectIsFetched: true }));
 }
 
@@ -28,7 +28,7 @@ if (!state.foundersIsFetched) {
     "get_founders",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((founders) => State.update({ founders, foundersIsFetched: true }));
 }
 
@@ -38,7 +38,7 @@ if (!state.requestsIsFetched) {
     "get_project_requests",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((requests) => State.update({ requests, requestsIsFetched: true }));
 }
 
@@ -48,12 +48,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/*`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       profile: data[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
 }
 
