@@ -171,6 +171,7 @@ return (
     <Widget
       src={`${authorId}/widget/Common.Modal.RedirectModal`}
       props={{
+        href: `meta-pool-official.near/widget/ImprovementProposals?tab=home`,
         open: state.openModal,
         accept: () =>
           update({
