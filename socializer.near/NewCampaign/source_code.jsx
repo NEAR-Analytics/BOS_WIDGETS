@@ -7,10 +7,10 @@ const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
 
 const requirementsOptions = [
-  { name: "Follow", value: "1" },
-  { name: "Like", value: "3" },
-  { name: "Repost", value: "3" },
-  { name: "Comment", value: "4" },
+  { name: "Follow", value: "follow" },
+  { name: "Like", value: "like" },
+  { name: "Repost", value: "repost" },
+  { name: "Comment", value: "comment" },
   { name: "Minimum Follower Count", value: "5" },
 ];
 
