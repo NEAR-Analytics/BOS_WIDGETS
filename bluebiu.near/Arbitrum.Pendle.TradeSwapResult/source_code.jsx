@@ -225,13 +225,13 @@ return (
         {tradeInfo.routes?.map((route, i) => {
           return (
             <>
-              <TokenImg src={route.from.simpleIcon} />
+              <TokenImg src={route.from.proIcon} />
               <LineWrapper>
                 <Line />
                 <ToolTips className="tooltips">{formatTips(route)}</ToolTips>
               </LineWrapper>
               {i === tradeInfo.routes.length - 1 && (
-                <TokenImg src={route.to.simpleIcon} />
+                <TokenImg src={route.to.proIcon} />
               )}
             </>
           );
