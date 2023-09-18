@@ -161,6 +161,7 @@ const renderButton = () => {
       props={{
         disabled: !state.stakable,
         amount: state.amount,
+        amountOut: state.amountOut,
         lpToken,
         stakedBalance: state.stakedBalance,
         stakeType: state.stakeType,
