@@ -1,14 +1,20 @@
+const AUTH_OPTION = {
+  NO_AUTH: "noAuth",
+  OWNERSHIP: "ownership",
+  ROLE_BASED: "roleBased",
+};
+
 State.init({
   tokenName: "",
   tokenSymbol: "",
   ftDecimals: 24,
   nftBaseURI: "",
-  authOption: "noAuth",
+  authOption: AUTH_OPTION.NO_AUTH,
 });
 
 const Background = styled.div`
     background-image: radial-gradient(#dad9e8 5%,transparent 0);
-    background-size: 30px 30px;
+    background-size: 50px 50px;
     height: 100vh;
     width: 100%;
 `;
@@ -52,14 +58,16 @@ const StyledWrapper = styled.div`
     }
   }
 
+  h5 {
+    margin: 15px 0;
+  }
+
   h6 {
     margin: 15px 0;
   }
 
-  .token-name-wrapper {
-    label {
-        margin-top: 10px;
-    }
+  label {
+    margin-top: 10px;
   }
 `;
 
@@ -204,15 +212,15 @@ const AuthLayer = () => (
             items: [
               {
                 label: "No Access Control",
-                value: "noAuth",
+                value: AUTH_OPTION.NO_AUTH,
               },
               {
                 label: "Ownership",
-                value: "ownership",
+                value: AUTH_OPTION.OWNERSHIP,
               },
               {
                 label: "Role-based access control",
-                value: "roleBased",
+                value: AUTH_OPTION.ROLE_BASED,
               },
             ],
           },
@@ -226,6 +234,17 @@ const AuthLayer = () => (
         },
       }}
     />
+    {state.authOption !== AUTH_OPTION.NO_AUTH && (
+      <Widget
+        src="near/widget/DIG.Input"
+        props={{
+          label: "Owner",
+          placeholder: "satoshi.near",
+          onInput: (e) => State.update({ tokenSymbol: e.target.value }),
+          value: state.tokenSymbol,
+        }}
+      />
+    )}
   </>
 );
 
@@ -252,7 +271,7 @@ const BinaryOptions = (props) => (
         label: "Storage Mgmt Options",
       }}
     />
-    {state.authOption !== "noAuth" && (
+    {state.authOption !== AUTH_OPTION.NO_AUTH && (
       <>
         <Widget
           src="near/widget/DIG.Checkbox"
