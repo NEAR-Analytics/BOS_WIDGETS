@@ -1,7 +1,7 @@
 const Owner = "socializer.near";
 const accountId = context.accountId;
-const API_URL = "http://localhost:3000/api";
 
+const API_URL = props?.API_URL || "http://localhost:3000";
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
 
@@ -184,7 +184,7 @@ const SearchIcon = () => (
 );
 
 const getCampaignData = () => {
-  return asyncFetch(API_URL + `/campaign?accountId=${accountId}`).then(
+  return asyncFetch(API_URL + `/api/campaign?accountId=${accountId}`).then(
     (res) => {
       if (res.ok) {
         const { error, data } = res.body;
