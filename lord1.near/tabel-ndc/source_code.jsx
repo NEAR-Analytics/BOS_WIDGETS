@@ -479,7 +479,7 @@ let fifth = (
 return (
   <div className="container-fluid py-2">
     <div className="pl-2">
-      <div style={{ marginLeft: "6rem" }}>
+      <div>
         <div>
           <Container>
             <ul className="tabContent">
