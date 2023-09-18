@@ -46,7 +46,7 @@ if (!state.projectsIsFetched) {
     "get_admin_projects",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((projects) => State.update({ projects, projectsIsFetched: true }));
 }
 
@@ -56,7 +56,7 @@ if (!state.vendorsIsFetched) {
     "get_admin_vendors",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((vendors) => State.update({ vendors, vendorsIsFetched: true }));
 }
 
