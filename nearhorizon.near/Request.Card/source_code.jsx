@@ -17,7 +17,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: accountId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
@@ -27,9 +27,9 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((data) =>
-    State.update({ profile: data[accountId].profile, profileIsFetched: true })
+    State.update({ profile: data[accountId].profile, profileIsFetched: true }),
   );
 }
 
@@ -182,7 +182,7 @@ const body = (
         props={{
           tags: state.request.tags.reduce(
             (ob, tag) => ({ ...ob, [tag]: "" }),
-            {}
+            {},
           ),
         }}
       />
