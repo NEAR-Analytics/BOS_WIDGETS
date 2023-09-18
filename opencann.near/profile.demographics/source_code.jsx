@@ -449,37 +449,6 @@ let page = (
         value={state.email}
         onChange={(event) => handleChangeOnInput(event)}
       />
-      <FormFooter>
-        <Widget
-          src={`crowdtestify.near/widget/Buttons.Blue`}
-          props={{
-            disabled: !validateForm(),
-            onClick: () => {
-              if (!validateForm()) return;
-
-              const transactions = [
-                {
-                  contractName: "v1.crowdtestify.near",
-                  methodName: "create_task",
-                  args: {
-                    info: {
-                      owner: context.accountId,
-                      title: state.name,
-                      description: state.description,
-                      skills_required: state.skills.map((skill) => skill.name),
-                      num_testers_required: state.testersRequired,
-                      reward: state.testerReward,
-                      min_badge_level: state.badge.value,
-                    },
-                  },
-                },
-              ];
-              Near.call(transactions);
-            },
-            text: <>Create project</>,
-          }}
-        />
-      </FormFooter>
       <p></p>
       <CommitButton
         data={{ optInInfoFormStatus: state.saveState }}
