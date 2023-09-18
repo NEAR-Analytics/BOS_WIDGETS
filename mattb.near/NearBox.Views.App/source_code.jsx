@@ -163,6 +163,7 @@ return (
                 State.update({
                   messages: [...state.messages, message],
                 });
+                Storage.privateSet("messages", state.messages);
                 onMessageSent();
               },
               onRefresh: (refresh) => {
