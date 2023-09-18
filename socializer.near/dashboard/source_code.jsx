@@ -232,6 +232,7 @@ return (
           >
             <Widget
               props={{
+                API_URL,
                 noLabel: true,
                 placeholder: "Live-Campaigns",
                 options,
@@ -264,6 +265,7 @@ return (
       <Widget
         src={`${Owner}/widget/table-pagination`}
         props={{
+          API_URL,
           themeColor: { table_pagination: themeColor.table_pagination },
           data: state.campaigns,
           columns,
@@ -275,6 +277,7 @@ return (
     {state.show_detail && state.selected && (
       <Widget
         props={{
+          API_URL,
           onClose,
           data: state.selected,
         }}
