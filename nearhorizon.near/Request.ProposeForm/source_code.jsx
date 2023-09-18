@@ -123,19 +123,19 @@ if (!state.vendorsIsFetched) {
     (paymentTypes) =>
       State.update({
         paymentTypes: paymentTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_payment_sources", {}, "final", false).then(
     (paymentSources) =>
       State.update({
         paymentSources: paymentSources.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   Near.asyncView(ownerId, "get_request_types", {}, "final", false).then(
     (requestTypes) =>
       State.update({
         requestTypes: requestTypes.map((value) => ({ value, text: value })),
-      })
+      }),
   );
   if (!context.accountId) {
     State.update({ vendorsIsFetched: true, vendors: [] });
@@ -146,7 +146,7 @@ if (!state.vendorsIsFetched) {
     "get_admin_vendors",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((vendors) => {
     if (!vendors.length) {
       State.update({
@@ -159,7 +159,7 @@ if (!state.vendorsIsFetched) {
         "get",
         { keys: vendors.map((accountId) => `${accountId}/profile/**`) },
         "final",
-        false
+        false,
       ).then((data) =>
         State.update({
           vendors: vendors.map((accountId) => ({
@@ -170,12 +170,12 @@ if (!state.vendorsIsFetched) {
             text: createVendorLine(
               accountId,
               data[accountId].profile.name,
-              data[accountId].profile.image
+              data[accountId].profile.image,
             ),
             value: accountId,
           })),
           vendorsIsFetched: true,
-        })
+        }),
       );
     }
   });
@@ -188,7 +188,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: accountId, cid },
     "final",
-    false
+    false,
   ).then((request) =>
     State.update({
       request,
@@ -198,7 +198,7 @@ if (!state.requestIsFetched) {
       paymentSource: { value: request.source, text: request.source },
       price: request.budget,
       endDate: createDate(Number(request.deadline)),
-    })
+    }),
   );
   return <>Loading...</>;
 }
