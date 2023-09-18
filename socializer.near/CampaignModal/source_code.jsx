@@ -25,7 +25,13 @@ const { onClose, data } = props;
 //   endsin: "Ends in 8hr 35m 51s",
 // };
 
-State.init({ error: "" });
+State.init({
+  error: "",
+  like: false,
+  follow: false,
+  repost: false,
+  comment: false,
+});
 
 const ModalOverlay = styled.div`
   background: white;
@@ -127,8 +133,14 @@ const verifyEnter = () => {
     if (res.ok) {
       const { error, data } = res.body;
       if (error) State.update({ error });
-      else if (data && data === "success") {
-        changePage("dashboard");
+      else if (data) {
+        const { like, follow, repost, comment } = data;
+        State.update({
+          like,
+          follow,
+          repost,
+          comment,
+        });
       }
     }
   });
