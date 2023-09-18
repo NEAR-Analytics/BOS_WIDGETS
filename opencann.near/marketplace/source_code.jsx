@@ -70,7 +70,7 @@ return marketData !== null ? (
     <Widget src="denysk.near/widget/PriceStats" />
     <hr></hr>
     <div>
-      <h5>For Sale</h5>
+      <h5>Data Sets</h5>
       <p>
         Showing NFTs listed by contracts learnernft.learnclub.near and
         opencann.mintbase1.near.
@@ -170,17 +170,16 @@ return marketData !== null ? (
       </p>
     </div>
     <hr></hr>
-    <div class="py-4">
-      <h5>Balances</h5>
-      <Widget src="ostolex.near/widget/near_radar" />
-      <h5>Explore</h5>
-      <p>
-        Replace "opencann.near" with any contract address to view public data.
-      </p>
-      <Widget src="opencann.near/widget/explorer" />
-      <hr></hr>
-      <Widget src="mintbase.near/widget/BuiltWithMintbase" />
-    </div>
+    <h5>Balances</h5>
+    Coming soon!
+    <hr></hr>
+    <h5>Explore</h5>
+    <p>
+      Replace "opencann.near" with any contract address to view public data.
+    </p>
+    <Widget src="opencann.near/widget/explorer" />
+    <hr></hr>
+    <Widget src="mintbase.near/widget/BuiltWithMintbase" />
   </>
 ) : (
   <p>loading...</p>
