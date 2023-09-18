@@ -54,7 +54,7 @@ return (
       <span>{percent.toFixed(1)}%</span>
     </Chart>
     <H5>
-      <b>{state.voted}</b>/<small>{state.total} </small>
+      <b>{props.voted}</b>/<small>{props.total} </small>
     </H5>
   </div>
 );
