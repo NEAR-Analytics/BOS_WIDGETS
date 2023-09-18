@@ -110,7 +110,6 @@ const pairs = [
     decimals1: 6,
   },
 ];
-
 const Tag = styled.div`
   border-radius: 16px;
   background: #393b47;
@@ -130,14 +129,12 @@ const Container = styled.div`
     border: none;
     background: none;
     width: 100%;
-    padding: 0 24px;
   }
 `;
 const Table = styled.table`
   font-family: "Inter";
   color: #fff;
   min-width: 640px;
-  width: 100%;
 
   th {
     padding: 10px;
@@ -158,8 +155,8 @@ const Table = styled.table`
   }
 
   @media (max-width: 736px) {
-    width: auto;
-    min-width: auto;
+    min-width: none;
+
     max-width: 100%;
 
     display: block;
