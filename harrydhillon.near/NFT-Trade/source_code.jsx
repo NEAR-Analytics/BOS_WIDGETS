@@ -57,7 +57,7 @@ return (
       ))}
     </ul>
     <div className="tab-content" id="pills-tabContent">
-      {state.selected === "trade" && (
+      {state.selected == "trade" && (
         <Widget src="harrydhillon.near/widget/NFT-Transfer" />
       )}
       <div
@@ -66,7 +66,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-widget-tab"
       >
-        {state.selected === "order" && (
+        {state.selected == "order" && (
           <Widget src="mob.near/widget/LastWidgets" />
         )}
       </div>
