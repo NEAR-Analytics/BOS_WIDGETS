@@ -6,10 +6,10 @@ const API_URL = "http://localhost:3000/";
 const { onClose } = props;
 
 const ModalOverlay = styled.div`
-background: white;
+  background: white;
   position: absolute;
-  right: 50px;
-  top: 80px;
+  bottom: 0px;
+  right: 0px;
   border-radius: 3px;
   border: 1px solid;
   display: flex;
