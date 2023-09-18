@@ -167,7 +167,6 @@ const deposit = async (item) => {
 return (
   <Wrapper>
     <div className="d-flex align-items-center" style={{ gap: 24 }}>
-      ){" "}
       <Avatar
         src={state.myAvatar}
         onError={() => {
