@@ -156,8 +156,8 @@ const Wrapper = styled.div`
   padding: 12px 12px 6px;
 
   .left {
-    min-width: 52px;
-    padding-right: 0px;
+    min-width: 40px;
+    margin-right: 12px;
   }
   .right {
     margin-top: -4px;
