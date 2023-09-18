@@ -25,6 +25,8 @@ const index = [
   },
 ];
 
+const isPremiumFeed = props.isPremiumFeed;
+const commentAccounts = props.commentAccounts;
 const renderedPosts = {};
 
 const makePostItem = (a) => ({
@@ -48,7 +50,12 @@ const renderPost = (a) => {
       <Widget
         loading={<div className="w-100" style={{ height: "200px" }} />}
         src="mob.near/widget/MainPage.N.Post"
-        props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+        props={{
+          accountId: a.accountId,
+          blockHeight: a.blockHeight,
+          isPremiumFeed,
+          commentAccounts,
+        }}
       />
     </div>
   );
@@ -137,6 +144,8 @@ const renderRepost = (a) => {
           accountId: post.accountId,
           blockHeight: post.blockHeight,
           reposted: true,
+          isPremiumFeed,
+          commentAccounts,
         }}
       />
     </div>
@@ -147,5 +156,8 @@ const renderItem = (item) =>
   item.action === "post" ? renderPost(item) : renderRepost(item);
 
 return (
-  <Widget src="mob.near/widget/MergedIndexFeed" props={{ index, renderItem }} />
+  <Widget
+    src="mob.near/widget/MergedIndexFeed"
+    props={{ index, renderItem, filter: props.filter }}
+  />
 );
