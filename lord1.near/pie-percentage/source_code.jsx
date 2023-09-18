@@ -1,5 +1,4 @@
 const Chart = styled.div`
-  width: 150px;
   aspect-ratio: 1;
   position: relative;
   display: inline-grid;
