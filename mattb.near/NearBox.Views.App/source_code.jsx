@@ -6,11 +6,14 @@ State.init({
   writeMessage: false,
   dropNft: false,
   messages: [],
+  messagesLoaded: false
 });
 
-setTimeout(() => {
-  State.update({ messages: Storage.privateGet("messages") || [] });
-}, 200);
+if (!state.messagesLoaded) {
+  setTimeout(() => {
+    State.update({ messages: Storage.privateGet("messages") || [], messagesLoaded: true });
+  }, 200);
+}
 
 const Main = styled.div`
     width:100%;
