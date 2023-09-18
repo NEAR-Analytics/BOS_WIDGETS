@@ -151,6 +151,9 @@ const onChangePurpose = (purpose) => {
 return (
   <div className="mb-3">
     <h3>Publish New Data</h3>
+    <button onClick={"#/flowscience.near/widget/create.hypercert"}>
+      Publish Hypercert
+    </button>
     <a
       href="#/flowscience.near/widget/create.hypercert"
       target="_blank"
