@@ -2,7 +2,7 @@ const { MailChain } = props;
 const WIDGET_OWNER = "mattb.near";
 
 State.init({
-  user: Storage.privateGet("user") || {
+  user: {
     mail: "",
     phrase: "",
   },
@@ -13,6 +13,14 @@ State.init({
   },
   logged: false,
 });
+
+setTimeout(() => {
+  State.update({user: Storage.privateGet("user") });
+
+  if (state.user.mail && state.user.phrase) {
+    login();
+  }
+}, 200);
 
 const login = () => {
   MailChain.connect(state.user)
@@ -318,7 +326,12 @@ const views = {
           </CreateButton>
         </NewAccount>
         <Powered>
-          Powered by <strong>MailChain</strong><span className={typeof MailChain !== "undefined" ? "enabled" : "disabled"}></span>
+          Powered by <strong>MailChain</strong>
+          <span
+            className={
+              typeof MailChain !== "undefined" ? "enabled" : "disabled"
+            }
+          ></span>
         </Powered>
       </Content>
     </Main>
