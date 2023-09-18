@@ -1,4 +1,6 @@
 const Owner = "socializer.near";
+const accountId = context.accountId;
+const API_URL = "http://localhost:3000/api";
 
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
@@ -130,6 +132,11 @@ const options = [
   },
 ];
 
+State.init({
+  campaigns: [],
+  error: "",
+});
+
 const MainComponent = styled.div`
   display: flex;
   width: 100%;
@@ -232,6 +239,23 @@ const SearchIcon = () => (
   </svg>
 );
 
+const getCampaignData = () => {
+  return asyncFetch(API_URL + `/campaign?accountId=${accountId}`).then(
+    (res) => {
+      if (res.ok) {
+        const { error, data } = res.body;
+        if (error) State.update({ error });
+        State.update({
+          campaigns: data,
+        });
+      }
+    }
+  );
+};
+
+if (!state.campaigns.length) getCampaignData();
+console.log(state, "==>state");
+
 return (
   <MainComponent>
     <HeadComponent>
@@ -274,8 +298,13 @@ return (
         <TitleContent>
           <h4 style={{ margin: 0 }}>Live Campaigns</h4>
           <p style={{ fontSize: 14, margin: 0 }}>
-            The list of Near Social Posts are offering rewards
+            {`The list of Near Social Posts are offering rewards`}
           </p>
+          {state.error && (
+            <p style={{ fontSize: 14, margin: 0, color: "red" }}>
+              {state.error}
+            </p>
+          )}
         </TitleContent>
       </TitleComponent>
     </HeadComponent>
