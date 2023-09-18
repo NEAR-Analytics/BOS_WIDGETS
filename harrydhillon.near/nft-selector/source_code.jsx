@@ -65,7 +65,7 @@ return (
             style={{
               width: "30%",
               aspectRatio: "1/1",
-              ...stylesForSelected
+              ...stylesForSelected,
             }}
             onClick={() => {
               onChange(nft);
@@ -92,6 +92,9 @@ return (
                 alt: `NFT ${nft.contractId} ${nft.tokenId}`,
               }}
             />
+            <p style={{ textAlign: "center", marginTop: 5, marginBottom: 5 }}>
+              {index}
+            </p>
           </div>
         );
       })}
