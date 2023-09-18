@@ -21,6 +21,9 @@ const AbsoluteContainer = styled.div`
       height: 16px;
       margin: 0 6px 0 0;
     }
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .widget-name {
     font-size: 20px;
@@ -107,11 +110,6 @@ return (
     <img src={imgSrc} alt="" className="logo" />
     <div className="container-text">
       <h3 className="widget-name">{metadata.name || widgetName}</h3>
-      <img
-        className="avatar"
-        src="https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm"
-      />
-      <p className="account-name">@{accountId}</p>
     </div>
   </AbsoluteContainer>
 );
