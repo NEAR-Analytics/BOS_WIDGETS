@@ -4,22 +4,22 @@ if (!state || state.hashtag !== hashtag) {
   State.update({
     feedIndex: hashtag
       ? "hashtag"
-      : context.accountId
-      ? "following"
-      : "premium",
+      : // : context.accountId
+        // ? "following"
+        "premium",
     hashtag,
   });
 }
 
 const options = [
   {
+    id: "premium",
+    title: "Premium",
+  },
+  {
     id: "following",
     title: "Following",
     disabled: !context.accountId,
-  },
-  {
-    id: "premium",
-    title: "Premium",
   },
   {
     id: "all",
@@ -39,17 +39,18 @@ if (hashtag) {
   });
 }
 
-let accounts = undefined;
+const [followingAccounts, setFollowingAccounts] = useState([]);
 
-if (state.feedIndex === "following") {
-  const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
+const graph = context.accountId
+  ? Social.keys(`${context.accountId}/graph/follow/*`, "final")
+  : {};
+useEffect(() => {
   if (graph !== null) {
-    accounts = Object.keys(graph[context.accountId].graph.follow || {});
+    const accounts = Object.keys(graph[context.accountId].graph.follow || {});
     accounts.push(context.accountId);
-  } else {
-    accounts = [];
+    setFollowingAccounts(accounts);
   }
-}
+}, [graph, context.accountId]);
 
 const premiumData = Social.get(
   "premium.social.near/badge/premium/accounts/*",
@@ -57,6 +58,7 @@ const premiumData = Social.get(
 );
 
 const [premiumAccounts, setPremiumAccounts] = useState([]);
+const [mergedAccounts, setMergedAccounts] = useState([]);
 const [premium, setPremium] = useState(false);
 
 useEffect(() => {
@@ -76,6 +78,10 @@ useEffect(() => {
     );
   }
 }, [premiumData]);
+
+useEffect(() => {
+  setMergedAccounts([...new Set([...followingAccounts, ...premiumAccounts])]);
+}, [premiumAccounts, followingAccounts]);
 
 const Nav = styled.div`
   .nav-pills {
@@ -140,22 +146,22 @@ return (
           src="mob.near/widget/N.ProfileOnboarding"
           props={{}}
         />
-        {context.accountId &&
-          (!isPremiumFeed || premium ? (
-            <Widget
-              key="compose"
-              loading=""
-              src="mob.near/widget/MainPage.N.Compose"
-              props={{}}
-            />
-          ) : (
-            <Widget
-              key="not-premium"
-              loading=""
-              src="mob.near/widget/N.NotPremiumCompose"
-              props={{}}
-            />
-          ))}
+        {context.accountId && isPremiumFeed && !premium && (
+          <Widget
+            key="not-premium"
+            loading=""
+            src="mob.near/widget/N.NotPremiumCompose"
+            props={{}}
+          />
+        )}
+        {context.accountId && (
+          <Widget
+            key="compose"
+            loading=""
+            src="mob.near/widget/MainPage.N.Compose"
+            props={{}}
+          />
+        )}
         {state.feedIndex === "hashtag" ? (
           <Widget
             key="hash-feed"
@@ -166,13 +172,16 @@ return (
           <Widget
             key="premium-feed"
             src="mob.near/widget/MainPage.N.Feed"
-            props={{ accounts: premiumAccounts, isPremiumFeed }}
+            props={{ accounts: mergedAccounts, isPremiumFeed }}
           />
         ) : (
           <Widget
             key="reg-feed"
             src="mob.near/widget/MainPage.N.Feed"
-            props={{ accounts }}
+            props={{
+              accounts:
+                state.feedIndex === "following" ? followingAccounts : undefined,
+            }}
           />
         )}
       </div>
