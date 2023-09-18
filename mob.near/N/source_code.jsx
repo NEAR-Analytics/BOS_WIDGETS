@@ -60,6 +60,9 @@ const premiumData = Social.get(
 const [premiumAccounts, setPremiumAccounts] = useState([]);
 const [mergedAccounts, setMergedAccounts] = useState([]);
 const [premium, setPremium] = useState(false);
+const [premiumExpiringSoon, setPremiumExpiringSoon] = useState(false);
+
+const ExpiringSoonDuration = 604800000; // 7 * 24 * 60 * 60 * 1000;
 
 useEffect(() => {
   if (premiumData) {
@@ -68,9 +71,11 @@ useEffect(() => {
     setPremiumAccounts(
       Object.entries(premiumData)
         .filter(([accountId, expiration]) => {
-          const active = parseFloat(expiration) > now;
+          expiration = parseFloat(expiration);
+          const active = expiration > now;
           if (accountId === context.accountId && active) {
             setPremium(true);
+            setPremiumExpiringSoon(expiration - now < ExpiringSoonDuration);
           }
           return active;
         })
@@ -152,6 +157,17 @@ return (
             loading=""
             src="mob.near/widget/N.NotPremiumCompose"
             props={{}}
+          />
+        )}
+        {context.accountId && isPremiumFeed && premiumExpiringSoon && (
+          <Widget
+            key="expiring-premium"
+            loading=""
+            src="mob.near/widget/N.NotPremiumCompose"
+            props={{
+              text: "Your Premium subscription expiring soon!",
+              buttonText: "Renew subscription",
+            }}
           />
         )}
         {context.accountId && (
