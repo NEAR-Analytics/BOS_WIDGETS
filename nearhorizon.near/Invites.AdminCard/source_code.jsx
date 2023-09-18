@@ -14,7 +14,7 @@ if (!state.vendorIsFetched) {
     "get_vendor",
     { account_id: accountId },
     "final",
-    false
+    false,
   ).then((vendor) => State.update({ vendor, vendorIsFetched: true }));
 }
 
@@ -24,12 +24,12 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${accountId}/profile/*`] },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       profile: data[accountId].profile,
       profileIsFetched: true,
-    })
+    }),
   );
 }
 
