@@ -33,6 +33,7 @@ const ImageContainer = styled.div`
   display: flex;
   width: 7rem;
   height: 7rem;
+  flex-shrink: 0;
   justify-content: center;
   align-items: center;
   border-radius: 0.5rem;
@@ -143,7 +144,7 @@ if (!state.profileIsFetched) {
     "get",
     { keys: [`${props.accountId}/profile/**`] },
     "final",
-    false
+    false,
   ).then((profile) => {
     State.update({
       profile: profile[props.accountId].profile,
