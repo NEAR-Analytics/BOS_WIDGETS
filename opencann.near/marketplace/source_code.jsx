@@ -4,7 +4,7 @@ const contracts = data.contracts ||
   context.contracts || ["learnernft.learnclub.near", "opencann.mintbase1.near"];
 const marketId = "simple.market.mintbase1.near";
 
-const AFFILIATE_ACCOUNT = data.affiliateAccount || "mintbase.near";
+//const AFFILIATE_ACCOUNT = data.affiliateAccount || "opencann.near";
 
 const marketData = fetch("https://graph.mintbase.xyz", {
   method: "POST",
@@ -45,7 +45,7 @@ let buy = (price, token_id, nft_contract_id) => {
     {
       nft_contract_id: nft_contract_id,
       token_id: token_id,
-      referrer_id: AFFILIATE_ACCOUNT,
+      referrer_id: "opencann.near",
     },
     gas,
     deposit
