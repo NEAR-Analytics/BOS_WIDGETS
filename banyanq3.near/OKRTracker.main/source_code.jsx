@@ -1,3 +1,7 @@
+/**
+ * map testnet account
+ * follow jutsu q3 accounts
+ */
 const Text = styled.p`
   font-family: "FK Grotesk", sans-serif;
   font-size: ${(p) => p.size ?? "18px"};
@@ -255,7 +259,7 @@ return (
         <div className="d-flex m-2" key={accountId}>
           <div className="me-4" style={{ width: "45%" }}>
             <Widget
-              src="chaotictempest.near/widget/AccountProfileCard"
+              src="banyanq3.near/widget/AccountProfileCard"
               props={{ accountId }}
             />
           </div>
