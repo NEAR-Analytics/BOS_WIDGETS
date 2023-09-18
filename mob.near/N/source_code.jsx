@@ -14,6 +14,10 @@ const options = [
     disabled: !context.accountId,
   },
   {
+    id: "premium",
+    title: "Premium",
+  },
+  {
     id: "all",
     title: "All Posts",
   },
@@ -42,6 +46,24 @@ if (state.feedIndex === "following") {
     accounts = [];
   }
 }
+
+const premiumData = Social.get(
+  "premium.social.near/badge/premium/accounts/*",
+  "final"
+);
+
+const [premiumAccounts, setPremiumAccounts] = useState([]);
+
+useEffect(() => {
+  if (premiumData) {
+    const now = Date.now();
+    setPremiumAccounts(
+      Object.entries(premiumData)
+        .filter(([_, expiration]) => parseFloat(expiration) > now)
+        .map((a) => a[0])
+    );
+  }
+}, [premiumData]);
 
 const Nav = styled.div`
   .nav-pills {
@@ -117,6 +139,12 @@ return (
             key="hash-feed"
             src="mob.near/widget/Hashtag.N.Feed"
             props={{ hashtag }}
+          />
+        ) : state.feedIndex === "premium" ? (
+          <Widget
+            key="premium-feed"
+            src="mob.near/widget/MainPage.N.Feed"
+            props={{ accounts: premiumAccounts, isPremium: true }}
           />
         ) : (
           <Widget
