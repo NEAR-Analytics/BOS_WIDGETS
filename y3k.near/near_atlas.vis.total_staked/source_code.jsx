@@ -2,8 +2,7 @@ let static_file_param = "near_supply_staking.csv";
 // Monthly Active Accounts Example
 // Monthly Active Accounts Example
 let rawData = fetch(
-  "https://github-near-data-api.vercel.app/api/static_file_param?filename=" +
-    static_file_param,
+  "https://api.flipsidecrypto.com/api/v2/queries/d9b8ce55-84eb-4497-a824-ae7c738052da/data/latest",
   {
     subscribe: true,
     method: "GET",
@@ -23,14 +22,18 @@ let Style = styled.div`
 
 const total_staked = {};
 
-data.map((entry) => {
-  total_staked[entry["activity_date"]] = entry["total_staked"];
+const sortedData = data.sort(
+  (a, b) => new Date(a["Date"]) - new Date(b["Date"])
+);
+
+sortedData.map((entry) => {
+  total_staked[entry["Date"]] = entry["Staked Supply"];
 });
 
-const dates = data.map((entry) => entry["activity_date"]);
+const dates = data.map((entry) => entry["Date"]);
 
 const area_chart_data = {
-  labels,
+  dates,
   datasets: [
     {
       type: "line",
