@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 const profile = Social.getr(`${accountId}/profile`);
-const API_URL = "http://localhost:3000/api";
+const API_URL = props?.API_URL || "http://localhost:3000";
 
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
@@ -96,19 +96,21 @@ const Button = styled.button`
 `;
 
 const getTokenData = () => {
-  return asyncFetch(API_URL + `/token?accountId=${accountId}`).then((res) => {
-    if (res.ok) {
-      const tokens = res.body.map((item) => ({
-        ...item,
-        value: item.id,
-        text: item.id,
-      }));
+  return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
+    (res) => {
+      if (res.ok) {
+        const tokens = res.body.map((item) => ({
+          ...item,
+          value: item.id,
+          text: item.id,
+        }));
 
-      State.update({
-        tokens,
-      });
+        State.update({
+          tokens,
+        });
+      }
     }
-  });
+  );
 };
 
 if (!state.tokens.length) getTokenData();
@@ -146,7 +148,7 @@ const createCampaign = () => {
     return State.update({ error: "Please fill out all form fields" });
 
   State.update({ error: "" });
-  asyncFetch(API_URL + `/campaign`, {
+  asyncFetch(API_URL + `/api/campaign`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
