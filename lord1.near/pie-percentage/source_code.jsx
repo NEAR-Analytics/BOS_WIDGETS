@@ -5,7 +5,7 @@ const Chart = styled.div`
   display: inline-grid;
   place-content: center;
   margin: 5px;
-  font-size: 25px;
+  font-size: 10px;
   font-weight: bold;
 
   &:before {
@@ -34,16 +34,11 @@ const Chart = styled.div`
     color: #4ba6ee;
   }
 `;
+const chart1 = styled.div`
+  display: inline-grid;
+  place-content: center;
+  font-size: 10px;
 
-const H5 = styled.h5`
-  margin-top: 10px;
-  b {
-    font-weight: 800;
-  }
-  small {
-    font-weight: 400;
-    font-size: 14px;
-  }
 `;
 
 const percent = (props.voted / props.total) * 100;
@@ -52,9 +47,9 @@ return (
   <div>
     <Chart voted={percent}>
       <span>{percent.toFixed(1)}%</span>
+      <chart1>
+        {props.voted}/{props.total}
+      </chart1>
     </Chart>
-    <H5>
-      <b>{props.voted}</b>/<small>{props.total} </small>
-    </H5>
   </div>
 );
