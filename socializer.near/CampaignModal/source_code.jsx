@@ -3,9 +3,31 @@ if (!accountId) return;
 
 const API_URL = "http://localhost:3000";
 
+const test = Social.index("test", "test-key-2", {
+  accountId: accountId,
+});
+console.log(test, "==>tt");
+// https://near.org/s/p?a=nearityorg.near&b=101392234
 const { onClose, data } = props;
 
-console.log(data, "==>data");
+// const data = {
+//   _id: "6507eb1053f730baaf07be4e",
+//   accountId: "socializer.near",
+//   reward: "10 NEKO",
+//   total_reward: "100 NEKO",
+//   social:
+//     "🌟 **HZN is a Founder Fellowship designed for early-stage web3 Founders - real, grounded support fro...",
+//   post_link:
+//     "https://near.social/mob.near/widget/MainPage.Post.Page?accountId=nfcommunity.near&blockHeight=101374423",
+//   requirements: [
+//     {
+//       name: "Follow",
+//       value: "1",
+//     },
+//   ],
+//   status: "live",
+//   endsin: "Ends in 8hr 35m 51s",
+// };
 
 State.init({ error: "" });
 
@@ -198,7 +220,7 @@ return (
           />
         </svg>
       </PostLink>
-      <Button className="btn">{`Verify & Enter`}</Button>
+      <Button className="btn" onClick={verifyEnter}>{`Verify & Enter`}</Button>
     </ModalAction>
   </ModalOverlay>
 );
