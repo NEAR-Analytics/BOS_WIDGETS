@@ -195,6 +195,7 @@ return (
         limit: props.commentsLimit,
         subscribe,
         raw,
+        accounts: props.commentAccounts,
       }}
     />
   </Wrapper>
