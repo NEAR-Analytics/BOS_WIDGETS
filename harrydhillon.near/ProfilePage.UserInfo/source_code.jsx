@@ -31,7 +31,7 @@ const numFollowing = following
 const numFollowers = followers ? Object.keys(followers || {}).length : null;
 
 const SocialCardStyle = styled.div`
-    background-color:${props.theme.ui2};
+    background-color:${props.theme.ui2}73;
     width:100%;
     display: flex;
     justify-content:space-around;
@@ -82,7 +82,9 @@ return (
               }}
             >
               <div style={{ transform: "translateY(6px)" }}>
-                <h5 style={{ color: props.theme.textColor }}>{numFollowers??0}</h5>
+                <h5 style={{ color: props.theme.textColor }}>
+                  {numFollowers ?? 0}
+                </h5>
                 <p style={{ color: props.theme.textColor }}>Followers</p>
               </div>
             </div>
@@ -94,7 +96,9 @@ return (
               }}
             >
               <div style={{ transform: "translateY(6px)" }}>
-                <h5 style={{ color: props.theme.textColor }}>{numFollowing??0}</h5>
+                <h5 style={{ color: props.theme.textColor }}>
+                  {numFollowing ?? 0}
+                </h5>
                 <p style={{ color: props.theme.textColor }}>Following</p>
               </div>
             </div>
