@@ -203,11 +203,10 @@ const chartConfig = {
   dates,
   datasets: datasets,
 };
-
 return (
   <Style>
     <div className="relative text-bg-dark container">
-      <div className="absolute top-0 right-0 flex space-x-2 p-3 mb-5">
+      <div className="absolute top-0 right-0 flex space-x-2 p-3">
         {["1M", "3M", "YTD", "1Y", "3Y", "10Y"].map((range) => (
           <button
             key={range}
@@ -223,7 +222,9 @@ return (
         ))}
       </div>
       {data !== null ? (
-        <div className="rounded-4 p-3 mb-4">
+        <div className="rounded-4 p-3 mb-4 pt-16">
+          {" "}
+          {/* Added pt-16 here for padding-top */}
           <div className="">
             <BarEl options={stacked_options} data={chartConfig} />
           </div>
