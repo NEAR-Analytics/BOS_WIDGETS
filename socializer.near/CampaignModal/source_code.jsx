@@ -3,15 +3,10 @@ if (!accountId) return;
 
 const API_URL = "http://localhost:3000/";
 
-const { onClose, user, getMyInfor } = props;
-
-State.init({
-  social: user.social,
-  twitter: user.twitter,
-  name: user.name,
-});
+const { onClose } = props;
 
 const ModalOverlay = styled.div`
+background: white;
   position: absolute;
   right: 50px;
   top: 80px;
@@ -79,52 +74,6 @@ border-radius: 6px;
 border: 2px solid rgb(255, 255, 255);
 background-color: #191a1a;
 `;
-
-const saveMyProfile = () => {
-  const data = {
-    accountId,
-    name: state.name,
-    social: state.social,
-    twitter: state.twitter,
-  };
-
-  return asyncFetch(API_URL + `/auth/account`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  }).then((res) => {
-    if (res.ok) {
-      getMyInfor();
-      onClose();
-    }
-  });
-};
-
-const changeName = async (e) => {
-  if (e.target.value.length <= 25)
-    State.update({
-      ...state,
-      name: e.target.value,
-    });
-};
-
-const changeSocial = async (e) => {
-  if (e.target.value.indexOf(SOCIAL) === 0)
-    State.update({
-      ...state,
-      social: e.target.value,
-    });
-};
-
-const changeTwitter = async (e) => {
-  if (e.target.value.indexOf(TWITTER) === 0)
-    State.update({
-      ...state,
-      twitter: e.target.value,
-    });
-};
 
 return (
   <ModalOverlay>
