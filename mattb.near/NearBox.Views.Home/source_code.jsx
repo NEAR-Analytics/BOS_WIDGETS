@@ -12,9 +12,10 @@ State.init({
     message: "",
   },
   logged: false,
+  disconnected: false
 });
 
-if (!state.logged) {
+if (!state.logged && !state.disconnected) {
   setTimeout(() => {
     State.update({ user: Storage.privateGet("user") });
 
@@ -359,6 +360,7 @@ const views = {
               phrase: "",
             },
             logged: false,
+            disconnected: true
           });
           MailChain.disconnect();
 
