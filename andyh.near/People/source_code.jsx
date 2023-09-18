@@ -44,6 +44,6 @@ return (
       </div>
     )}
 
-    {/*<Widget src="andyh.near/widget/LastProfilesImages" props={{ limit: 24 }} />*/}
+    <Widget src="andyh.near/widget/LastProfilesImages" props={{ limit: 24 }} />
   </div>
 );
