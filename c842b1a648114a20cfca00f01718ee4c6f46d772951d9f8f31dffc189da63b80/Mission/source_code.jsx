@@ -10,7 +10,6 @@ const ProfileWrapper = styled.div`
     .avatar-wrapper { width: 250px; height: 250px; border-radius: 70%; overflow: hidden; }
     .avatar { width: 100%; height: 100%; object-fit: cover; }
     .name-wrapper { display: flex; flex-direction: column; justify-content: center; padding: 0 0 0 30px;}
-    .profile-name { }
     .account-id { color: #656d76; font-size: 1.4rem; }
 `;
 
