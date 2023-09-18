@@ -116,7 +116,7 @@ const getSender = () => {
 return (
   <Theme>
     <div class="LidoContainer">
-      <div class="Header">Swap $ETH &lt;&gt; $mpETH</div>
+      <div class="Header">Staking ETH ⇢ mETH</div>
       <div class="SubHeader" style={{ color: "black" }}>
         Stake mpETH - Available on Arbitrum One
       </div>
