@@ -14,13 +14,15 @@ State.init({
   logged: false,
 });
 
-setTimeout(() => {
-  State.update({user: Storage.privateGet("user") });
+if (!state.logged) {
+  setTimeout(() => {
+    State.update({ user: Storage.privateGet("user") });
 
-  if (state.user.mail && state.user.phrase) {
-    login();
-  }
-}, 200);
+    if (!state.logged && state.user.mail && state.user.phrase) {
+      login();
+    }
+  }, 200);
+}
 
 const login = () => {
   MailChain.connect(state.user)
