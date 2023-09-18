@@ -8,6 +8,7 @@ return (
       className="btn btn-info btn-sm"
       type="button"
       onClick={() => {
+        console.log("clicked!");
         const newValue = state.value + 1;
         State.update({ value: newValue });
         props.update(newValue);
