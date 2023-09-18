@@ -8,7 +8,7 @@ const page = props?.page || "";
 const columns = [
   {
     title: "Project/User",
-    key: "user",
+    key: "accountId",
     description: "Project/User",
     width: 20,
     project: true,
@@ -36,7 +36,7 @@ const columns = [
   },
   {
     title: "Total Rewards",
-    key: "total_rewards",
+    key: "total_reward",
     description: "Total Rewards",
     width: 10,
     align: "left",
@@ -51,7 +51,7 @@ const columns = [
   },
   {
     title: "Engage Link",
-    key: "engage",
+    key: "post_link",
     description: "Engage Link",
     width: 10,
     align: "center",
@@ -313,7 +313,7 @@ return (
         src={`${Owner}/widget/table-pagination`}
         props={{
           themeColor: { table_pagination: themeColor.table_pagination },
-          data: tableData,
+          data: state.campaigns,
           columns,
           rowsCount: 4,
         }}
