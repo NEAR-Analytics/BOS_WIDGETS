@@ -12,7 +12,7 @@ if (!state.itemsIsFetched) {
     "get_vendor_contributions",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((items) => State.update({ items, itemsIsFetched: true }));
 
   return <>Loading...</>;
