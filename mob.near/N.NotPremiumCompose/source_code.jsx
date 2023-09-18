@@ -23,7 +23,7 @@ return (
       </svg>
     </div>
     <div>
-      <p>Only users with premium subscription can post here</p>
+      <p>This feed includes users with premium subscription</p>
       <div>
         <a
           className="btn btn-primary rounded-5"
