@@ -31,6 +31,7 @@ State.init({
   follow: false,
   repost: false,
   comment: false,
+  loaded: false,
 });
 
 const ModalOverlay = styled.div`
@@ -120,6 +121,30 @@ border-radius: 6px;
 border: 2px solid rgb(255, 255, 255);
 background-color: #191a1a;
 `;
+
+const getVerifyState = () => {
+  State.update({ error: "" });
+  asyncFetch(
+    API_URL + `/api/campaign/verify?accountId=${accountId}&id=${data._id}`
+  ).then((res) => {
+    if (res.ok) {
+      const { error, data } = res.body;
+      if (error) State.update({ error });
+      else if (data) {
+        const { like, follow, repost, comment } = data;
+        State.update({
+          like,
+          follow,
+          repost,
+          comment,
+          loaded: true,
+        });
+      }
+    }
+  });
+};
+
+if (!state.loaded) getVerifyState();
 
 const verifyEnter = () => {
   State.update({ error: "" });
