@@ -1,11 +1,13 @@
 const accountId = context.accountId;
 if (!accountId) return;
 
-const API_URL = "http://localhost:3000/";
+const API_URL = "http://localhost:3000";
 
 const { onClose, data } = props;
 
 console.log(data, "==>data");
+
+State.init({ error: "" });
 
 const ModalOverlay = styled.div`
   background: white;
@@ -95,6 +97,25 @@ border: 2px solid rgb(255, 255, 255);
 background-color: #191a1a;
 `;
 
+const verifyEnter = () => {
+  State.update({ error: "" });
+  asyncFetch(API_URL + `/api/campaign/verify`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ accountId, id: data._id }),
+  }).then((res) => {
+    if (res.ok) {
+      const { error, data } = res.body;
+      if (error) State.update({ error });
+      else if (data && data === "success") {
+        changePage("dashboard");
+      }
+    }
+  });
+};
+
 return (
   <ModalOverlay>
     <ModalContent>
@@ -113,7 +134,7 @@ return (
       </button>
       <ModalTitle>{`NEAR DEGENS`}</ModalTitle>
       <h4>{`Camaign Details`}</h4>
-      <img src={`${API_URL}campagin.png`} />
+      <img src={`${API_URL}/campagin.png`} />
 
       <div
         className="d-flex"
