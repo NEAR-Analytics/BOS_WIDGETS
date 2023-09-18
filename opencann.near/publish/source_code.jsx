@@ -150,34 +150,35 @@ const onChangePurpose = (purpose) => {
 
 return (
   <div className="mb-3">
-    <h3>Publish New Data</h3>
-    <button onClick="#/flowscience.near/widget/create.hypercert">
-      Publish Hypercert
-    </button>
-    <a
-      href="#/flowscience.near/widget/create.hypercert"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <i>Click here to publish an impact certficate</i>
-    </a>
+    <h2>Publish Data</h2>
+    <p>
+      Disclaimer: this app is in open-beta and under active development. DO NOT
+      publish any sensitive or proprietary information.
+    </p>
     <hr></hr>
-    <h5>
+    <h5>Featured</h5>
+    <p>
+      1){" "}
       <a
         href="#/opencann.near/widget/ExperienceSurvey"
         target="_blank"
         rel="noopener noreferrer"
       >
-        *Click here to submit a cannabis experience report
+        <i>Click here to publish a cannabis experience report.</i>
       </a>
-    </h5>
-    <hr></hr>
-    <p>
-      Disclaimer: all parts of this component below this message are in
-      open-beta and still under active development. DO NOT publish any sensitive
-      or proprietary information. We will not be liable for data shared through
-      this platform.
     </p>
+    <p>
+      2){" "}
+      <a
+        href="#/flowscience.near/widget/create.hypercert"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i>Click here to publish an impact certificate.</i>
+      </a>
+    </p>
+    <hr></hr>
+    <h5>Upload Anything</h5>
     <div className="mb-2">
       Name of Data Set
       <input type="text" onChange={(e) => onChangeName(e.target.value)} />
