@@ -1,11 +1,8 @@
 // cloned from abhishekanirudhan.near/widget/NEAR.ATLAS.TOTAL_SUPPLY
 
-let static_file_param = "near_supply_staking.csv";
-// Monthly Active Accounts Example
 // Monthly Active Accounts Example
 let rawData = fetch(
-  "https://github-near-data-api.vercel.app/api/static_file_param?filename=" +
-    static_file_param,
+  "https://api.flipsidecrypto.com/api/v2/queries/d9b8ce55-84eb-4497-a824-ae7c738052da/data/latest",
   {
     subscribe: true,
     method: "GET",
@@ -26,18 +23,21 @@ let Style = styled.div`
 const total_supply = {};
 const circ_supply = {};
 
-data.map((entry) => {
-  total_supply[entry["activity_date"]] = entry["total_supply"];
-  circ_supply[entry["activity_date"]] =
-    entry["total_supply"] - entry["total_locked"];
+const sortedData = data.sort(
+  (a, b) => new Date(a["Date"]) - new Date(b["Date"])
+);
+
+sortedData.map((entry) => {
+  total_supply[entry["Date"]] = entry["Total Supply"];
+  circ_supply[entry["Date"]] = entry["Circulating Supply"];
 });
 
 console.log(data);
 
-const dates = data.map((entry) => entry["activity_date"]);
+const dates = sortedData.map((entry) => entry["Date"]);
 
 const area_chart_data = {
-  labels,
+  dates,
   datasets: [
     {
       fill: true,
