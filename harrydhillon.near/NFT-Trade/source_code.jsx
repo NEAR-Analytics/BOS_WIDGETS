@@ -3,6 +3,8 @@ if (!accountId) {
   return "No account ID";
 }
 
+State.init({ selected: "trade" });
+
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
 if (profile === null) {
@@ -30,7 +32,7 @@ const Theme = styled.div`
   ${css}
 `;
 
-console.log(state.selected === "trade");
+console.log(state.selected);
 
 return (
   <div style={{ padding: 10 }}>
@@ -60,16 +62,10 @@ return (
       {state.selected == "trade" && (
         <Widget src="harrydhillon.near/widget/NFT-Transfer" />
       )}
-      <div
-        className="tab-pane fade widget"
-        id="pills-widget"
-        role="tabpanel"
-        aria-labelledby="pills-widget-tab"
-      >
-        {state.selected == "order" && (
-          <Widget src="mob.near/widget/LastWidgets" />
-        )}
-      </div>
+
+      {state.selected == "order" && (
+        <Widget src="mob.near/widget/LastWidgets" />
+      )}
     </div>
   </div>
 );
