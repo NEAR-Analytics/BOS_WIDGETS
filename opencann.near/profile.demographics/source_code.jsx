@@ -88,11 +88,14 @@ const initialState = {
   cannabisTolerance: "",
   psychonautStatus: "",
   medications: [],
-  conditions: [],
+  condition: [],
   celebrity: "",
   email: "",
 };
 
+const validateForm = () => {
+  return state.ageRequired && state.ageRequiredError === "";
+};
 State.init(initialState);
 
 function fetchDataFromAPI() {
@@ -169,6 +172,14 @@ const Form = styled.div`
   gap: 1em;
 `;
 
+const FormFooter = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 let page = (
   <div>
     <h2>{`Hello, ${accountId}!`}</h2>
@@ -176,13 +187,9 @@ let page = (
     <div>
       <h5>Demographic Data</h5>
     </div>
-    Disclaimer: all parts of this component below this message are in open-beta
-    and still under active development. DO NOT publish any sensitive or
-    proprietary information. We will not be liable for data shared through this
-    platform.
     <div>
       <ul>
-        <li>All items below are optional</li>
+        <li>All items below are optional and encrypted by default.</li>
         <li>Your account retains exclusive control over this data</li>
         <li>
           You can opt-in to enable decryption of this data for additional
@@ -220,30 +227,44 @@ let page = (
         src={`crowdtestify.near/widget/Inputs.Number`}
         props={{
           label: "Age",
-          placeholder: "Example: 21",
-          onChange: (event) => State.update({ age }),
+          placeholder: 21,
+          value: state.age,
+          onChange: (age) => State.update({ age }),
           validate: () => {
-            // add age verification???
-            return;
+            if (state.ageRequired < 18) {
+              State.update({
+                ageRequiredError: "Age must be at least 18",
+              });
+              return;
+            }
+            State.update({ ageRequiredError: "" });
           },
         }}
       />
       <Widget
         src={`crowdtestify.near/widget/Inputs.Number`}
         props={{
-          label: "Height",
-          placeholder: "Example: 175cm",
+          label: "Height (in)",
+          placeholder: 70,
+          value: state.height,
           onChange: (height) => State.update({ height }),
           validate: () => {
-            return;
+            if (state.heightRequired < 60) {
+              State.update({
+                heightRequiredError: "Age must be at least 60",
+              });
+              return;
+            }
+            State.update({ heightRequiredError: "" });
           },
         }}
       />
       <Widget
         src={`crowdtestify.near/widget/Inputs.Number`}
         props={{
-          label: "Weight",
-          placeholder: "Example: 150lbs",
+          label: "Weight (lbs)",
+          value: state.weight,
+          placeholder: 150,
           onChange: (weight) => State.update({ weight }),
           validate: () => {
             return;
@@ -294,6 +315,7 @@ let page = (
         src={`crowdtestify.near/widget/Inputs.Number`}
         props={{
           label: "Income",
+          value: state.income,
           placeholder: "12,345",
           onChange: (income) => State.update({ income }),
           hasDollar: true,
@@ -383,21 +405,35 @@ let page = (
         value={state.medications}
         onChange={(event) => handleChangeOnInput(event)}
       />
-      {options.conditions.label ??
-        "Current health conditions (including mental health conditions)"}
-      <input
-        id="conditions"
-        type="text"
-        value={state.conditions}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`opencann.near/widget/profile.conditionArray`}
+        props={{
+          label:
+            "Current health conditions (including mental health conditions)",
+          placeholder: "This question is optional.",
+          value: state.condition,
+          onChange: (condition) =>
+            State.update({
+              condition: condition.map(({ name }) => ({
+                name: name.trim().replaceAll(/\s+/g, "-"),
+              })),
+            }),
+        }}
       />
-      {options.celebrity.label ??
-        "What famous person (or character) would you like to hang out with while consuming cannabis together?"}
-      <input
-        id="celebrity"
-        type="text"
-        value={state.celebrity}
-        onChange={(event) => handleChangeOnInput(event)}
+      <Widget
+        src={`opencann.near/widget/profile.celebrityArray`}
+        props={{
+          label: "Favorite Celebrity or Character",
+          placeholder:
+            "What famous person or character would you like to get stoned with?",
+          value: state.celebrity,
+          onChange: (celebrity) =>
+            State.update({
+              celebrity: celebrity.map(({ name }) => ({
+                name: name.trim().replaceAll(/\s+/g, "-"),
+              })),
+            }),
+        }}
       />
       {options.email.label ?? "Email Address"}
       <input
@@ -406,6 +442,37 @@ let page = (
         value={state.email}
         onChange={(event) => handleChangeOnInput(event)}
       />
+      <FormFooter>
+        <Widget
+          src={`crowdtestify.near/widget/Buttons.Blue`}
+          props={{
+            disabled: !validateForm(),
+            onClick: () => {
+              if (!validateForm()) return;
+
+              const transactions = [
+                {
+                  contractName: "v1.crowdtestify.near",
+                  methodName: "create_task",
+                  args: {
+                    info: {
+                      owner: context.accountId,
+                      title: state.name,
+                      description: state.description,
+                      skills_required: state.skills.map((skill) => skill.name),
+                      num_testers_required: state.testersRequired,
+                      reward: state.testerReward,
+                      min_badge_level: state.badge.value,
+                    },
+                  },
+                },
+              ];
+              Near.call(transactions);
+            },
+            text: <>Create project</>,
+          }}
+        />
+      </FormFooter>
       <p></p>
       <CommitButton
         data={{ optInInfoFormStatus: state.saveState }}
