@@ -246,16 +246,17 @@ const theme = {
   textColor: "#7794D3",
   buttonColor: "#33549C",
 };
-if (sender) {
-  State.update({
-    sender,
-  });
-}
 
 State.init({
   markets: [],
   activeTab: "markets",
 });
+
+if (sender) {
+  State.update({
+    sender,
+  });
+}
 
 if (!sender) {
   return (
