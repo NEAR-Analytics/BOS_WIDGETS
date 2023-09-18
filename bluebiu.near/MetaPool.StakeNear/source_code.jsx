@@ -295,7 +295,7 @@ return (
                   stakable:
                     Number(amount) &&
                     !isNaN(Number(balance)) &&
-                    Big(balance).gt(amount) &&
+                    !Big(balance).lt(amount) &&
                     !Big(amount).lt(1),
                   amountOut: utils.formatGetValue(amount),
                 });
