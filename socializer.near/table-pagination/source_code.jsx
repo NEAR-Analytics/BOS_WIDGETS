@@ -155,12 +155,12 @@ return (
                           ) : td.link ? (
                             <div
                               className="d-flex justify-content-center align-items-center"
-                              target={key ? "_blank" : ""}
                               style={{
                                 "text-decoration": "none",
                                 color: "#4886fe",
                                 cursor: "pointer",
                               }}
+                              onClick={() => showDetail(row)}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
