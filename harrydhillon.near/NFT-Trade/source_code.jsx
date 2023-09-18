@@ -33,7 +33,7 @@ const Theme = styled.div`
 console.log(state.selected === "trade");
 
 return (
-  <div style={{padding:10}}>
+  <div style={{ padding: 10 }}>
     <ul className="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
       {pills.map(({ id, title }, i) => (
         <li className="nav-item" role="presentation" key={i}>
