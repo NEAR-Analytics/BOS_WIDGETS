@@ -25,7 +25,7 @@ return (
       <svg
         viewBox="0 0 22 22"
         xmlns="http://www.w3.org/2000/svg"
-        className="ratio ratio-1x1"
+        className="ratio-1x1"
         style={{ height: "80px" }}
       >
         <path
