@@ -1,5 +1,5 @@
 const ownerId = "contribut3.near";
-const apiUrl = "https://api-pr-52-sm9d.onrender.com";
+const apiUrl = "https://api-staging-fur7.onrender.com";
 
 const Container = styled.div`
   display: flex;
