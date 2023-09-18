@@ -34,11 +34,13 @@ const tokenInfo = Near.view(contractId, "nft_token", {
 
 initState({
   receiverId: default_receiver,
+  offerAmount: 0,
   validReceiver: true,
   ownsNFT: false, // change this and check intially
   transfer: false, // add checkbox for transfer that shows
   url: image.url,
-  allNFTS: [],
+  sendNFTS: [],
+  offerNFTS: [],
   nft: image.nft ?? {}, // from santiago
 });
 
@@ -47,28 +49,38 @@ const ShadowBOX = styled.div`
 -moz-box-shadow: -1px 0px 9px 8px rgba(0,0,0,0.03);
 box-shadow: -1px 0px 9px 8px rgba(0,0,0,0.03);
   border-radius:10px;
+  padding-left: 10px;
+  padding-right: 10px;
   padding-top:10px;
   padding-bottom:10px;
 `;
 
+const ScrollContainer = styled.div`
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar { 
+      display: none;
+  }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 200px;
+  border-radius:5px;
+  padding: 5px;
+  border: 1px solid lightgray;
+`;
+
 /* HELPER FUNCTION */
 function isNearAddress(address) {
-  if (typeof address !== "string") {
+  if (typeof address !== "string" || address === "") {
     return false;
   }
-  if (!address.endsWith(".near")) {
+  if (context.accountId === address) {
     return false;
   }
-  const parts = address.split(".");
-  if (parts.length !== 2) {
-    return false;
-  }
-  if (parts[0].length < 2 || parts[0].length > 32) {
-    return false;
-  }
-  if (!/^[a-z0-9_-]+$/i.test(parts[0])) {
-    return false;
-  }
+
   return true;
 }
 
@@ -95,6 +107,32 @@ const offer = () => {
 };
 
 const ConfirmOffer = () => {
+  const generateOfferAndCallContract = () => {
+    const allTransactions = [];
+    if (state.offerNFTS) {
+      Near.call(
+        "v1.havenswap.near",
+        "mass_transfer",
+        {
+          receiver_id: state.receiverId,
+        },
+        300,
+        1250000000000000000000
+      );
+      Near.call(
+        "v1.havenswap.near",
+        "mass_transfer",
+        {
+          receiver_id: state.receiverId,
+        },
+        300,
+        1250000000000000000000
+      );
+    }
+    if (state.sendNFTS) {
+    }
+  };
+
   return (
     <div>
       <div
@@ -113,31 +151,26 @@ const ConfirmOffer = () => {
           X
         </button>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexWrap: "wrap",
-          justifyContent: "space-around",
-          gap: "5px",
-          overflowX: "hidden",
-          overFlowY: "scroll",
-        }}
-      >
-        {state.allNFTS.map((item) => (
+      <p style={{ marginBottom: 5 }}>
+        Offering: {accountId}
+        <br />
+        near: Ⓝ {state.offerAmount}
+      </p>
+      <ScrollContainer>
+        {state.sendNFTS?.map((item) => (
           <ShadowBOX
             style={{
-              width: 200,
+              width: "100%",
               marginBottom: 10,
               display: "flex",
               textAlign: "center",
               alignItems: "center",
-              justifyContent:"center",
+              justifyContent: "center",
             }}
           >
             <div>
               <img
-                style={{ width: 150, height: 150, borderRadius: 10 }}
+                style={{ width: 60, height: 60, borderRadius: 10 }}
                 src={item.media}
               />
               <p style={{ marginBottom: 0 }}>Token ID : {item.tokenId}</p>
@@ -147,10 +180,47 @@ const ConfirmOffer = () => {
             </div>
           </ShadowBOX>
         ))}
-      </div>
+      </ScrollContainer>
+      <p style={{ marginBottom: 5, marginTop: 10 }}>
+        Receving: {state.receiverId}
+      </p>
+      <ScrollContainer>
+        {state.offerNFTS?.map((item) => (
+          <ShadowBOX
+            style={{
+              width: "100%",
+              marginBottom: 10,
+              display: "flex",
+              textAlign: "center",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div>
+              <img
+                style={{ width: 60, height: 60, borderRadius: 10 }}
+                src={item.media}
+              />
+              <p style={{ marginBottom: 0, fontSize: 12 }}>
+                Token ID : {item.tokenId}
+              </p>
+              <p style={{ marginBottom: 0, fontSize: 10 }}>
+                NFT Contract : {item.contractId}
+              </p>
+            </div>
+          </ShadowBOX>
+        ))}
+      </ScrollContainer>
+      <button onClick={generateOfferAndCallContract} style={{ marginTop: 10 }}>
+        Offer
+      </button>
     </div>
   );
 };
+
+const offerButtonDisabled =
+  (state.sendNFTS.length === 0 || state.offerNFTS.length === 0) &&
+  !isNearAddress(state.receiverId);
 
 return (
   <div>
@@ -172,27 +242,27 @@ return (
             <Widget
               src={`harrydhillon.near/widget/nft-selector`}
               props={{
-                selectedNFTS: state.allNFTS,
+                selectedNFTS: state.sendNFTS,
                 onChange: (nftDetails) => {
-                  const isInList = !!state.allNFTS.filter(
+                  const isInList = !!state.sendNFTS.filter(
                     ({ tokenId }) => tokenId === nftDetails.tokenId
                   )?.[0];
                   console.log(
                     isInList,
-                    state.allNFTS.filter(
+                    state.sendNFTS.filter(
                       ({ tokenId }) => tokenId !== nftDetails.tokenId
                     ),
-                    state.allNFTS
+                    state.sendNFTS
                   );
                   if (isInList) {
                     State.update({
-                      allNFTS: state.allNFTS.filter(
+                      sendNFTS: state.sendNFTS.filter(
                         ({ tokenId }) => tokenId !== nftDetails.tokenId
                       ),
                     });
                   } else {
                     State.update({
-                      allNFTS: [...state.allNFTS, nftDetails],
+                      sendNFTS: [...state.sendNFTS, nftDetails],
                     });
                   }
                 },
@@ -243,11 +313,7 @@ return (
           </p>
         )}
         <button
-          disabled={
-            state.allNFTS.length === 0 ||
-            !isNearAddress(state.receiverId) ||
-            state.offerAmount === ""
-          }
+          disabled={offerButtonDisabled}
           onClick={() => {
             State.update({ isOfferModalOpen: true });
           }}
@@ -268,7 +334,40 @@ return (
       >
         <div>
           <p>Recipient{`'`}s Wallet</p>
-          <div className="mt-2"></div>
+          <div className="mt-2">
+            {isNearAddress(state.receiverId) && (
+              <Widget
+                src={`harrydhillon.near/widget/nft-selector`}
+                props={{
+                  selectedNFTS: state.offerNFTS,
+                  accountId: state.receiverId,
+                  onChange: (nftDetails) => {
+                    const isInList = !!state.offerNFTS.filter(
+                      ({ tokenId }) => tokenId === nftDetails.tokenId
+                    )?.[0];
+                    console.log(
+                      isInList,
+                      state.offerNFTS.filter(
+                        ({ tokenId }) => tokenId !== nftDetails.tokenId
+                      ),
+                      state.offerNFTS
+                    );
+                    if (isInList) {
+                      State.update({
+                        offerNFTS: state.offerNFTS.filter(
+                          ({ tokenId }) => tokenId !== nftDetails.tokenId
+                        ),
+                      });
+                    } else {
+                      State.update({
+                        offerNFTS: [...state.offerNFTS, nftDetails],
+                      });
+                    }
+                  },
+                }}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
