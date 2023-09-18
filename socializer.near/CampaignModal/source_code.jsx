@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 if (!accountId) return;
 
-const API_URL = "http://localhost:3000";
+const API_URL = props.API_URL || "http://localhost:3000";
 
 // https://near.org/s/p?a=nearityorg.near&b=101392234
 const { onClose, data } = props;
