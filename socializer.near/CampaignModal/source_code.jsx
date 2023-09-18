@@ -161,6 +161,44 @@ return (
         <p>
           {`Please ensure you do the tasks below before clicking on Verify & Enter:`}
         </p>
+        {data.map((row, index) => (
+          <div className="d-flex justify-content-between align-items-center">
+            <p>
+              <b>{index})</b>
+              <span className="text-decoration-underline ">{row.name}</span>
+            </p>
+
+            {state[row.value] ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 15 15"
+              >
+                <path
+                  fill="#038d2e"
+                  fill-rule="evenodd"
+                  d="M0 7.5a7.5 7.5 0 1 1 15 0a7.5 7.5 0 0 1-15 0Zm7.072 3.21l4.318-5.398l-.78-.624l-3.682 4.601L4.32 7.116l-.64.768l3.392 2.827Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 15 15"
+              >
+                <path
+                  fill="#038d2e"
+                  fill-rule="evenodd"
+                  d="M0 7.5a7.5 7.5 0 1 1 15 0a7.5 7.5 0 0 1-15 0Zm7.072 3.21l4.318-5.398l-.78-.624l-3.682 4.601L4.32 7.116l-.64.768l3.392 2.827Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            )}
+          </div>
+        ))}
         <div className="d-flex justify-content-between align-items-center">
           <p>
             <b>1)</b>
