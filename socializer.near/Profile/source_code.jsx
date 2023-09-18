@@ -1,9 +1,10 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 const Admin = "humans-of-near.near";
-const API_URL = "https://e2e.nearverselabs.com/api";
 const profile = Social.getr(`${accountId}/profile`);
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
+
+const API_URL = props?.API_URL || "http://localhost:3000";
 
 State.init({
   myAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${accountId}`,
@@ -106,13 +107,15 @@ const Input = styled.input`
 `;
 
 const getTokenData = () => {
-  return asyncFetch(API_URL + `/token?accountId=${accountId}`).then((res) => {
-    if (res.ok) {
-      State.update({
-        tokens: res.body,
-      });
+  return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
+    (res) => {
+      if (res.ok) {
+        State.update({
+          tokens: res.body,
+        });
+      }
     }
-  });
+  );
 };
 
 if (!state.tokens.length) getTokenData();
