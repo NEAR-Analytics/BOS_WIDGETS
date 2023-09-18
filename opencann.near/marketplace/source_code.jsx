@@ -151,6 +151,13 @@ return marketData !== null ? (
           );
         }
       )}
+      <a
+        href="#/opencann.near/widget/ExperienceSurvey"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        *Click here to publish a cannabis experience report.
+      </a>
     </div>
     <hr></hr>
     <div>
@@ -159,6 +166,7 @@ return marketData !== null ? (
         Purchase jobs you would like to run on your data. Each job describes the
         input and output file formats, as well as the Docker container used.
       </p>
+      <i>Coming soon!</i>
     </div>
     <hr></hr>
     <div>
@@ -169,10 +177,17 @@ return marketData !== null ? (
         a public good. Impact Certificates are linked to corresponding input
         data, algorithms, and output data that generated impact in the world.
       </p>
+      <a
+        href="#/flowscience.near/widget/create.hypercert"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i>Click here to publish an impact certficate</i>
+      </a>
     </div>
     <hr></hr>
     <h5>Balances</h5>
-    Coming soon!
+    <i>Coming soon!</i>
     <hr></hr>
     <h5>Explore</h5>
     <p>
