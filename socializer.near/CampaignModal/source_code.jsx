@@ -69,6 +69,24 @@ const Button = styled.button`
   }
 `;
 
+const PostLink = styled.a`
+  padding: 8px 20px;
+  background-color:#121212;
+  color: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  width: 150px;
+  &:hover {
+    background-color: grey;
+    color: #191a1a;
+  }
+  &:active {
+    background-color: grey;
+    color: #191a1a;
+  }
+`;
+
 const TextField = styled.input`
 padding: 10px 15px;
 font-size: 16px;
@@ -145,7 +163,7 @@ return (
       </div>
     </ModalContent>
     <ModalAction>
-      <Button className="btn">
+      <PostLink className="btn" target="_blank" href={data.post_link}>
         {`Goto Post`}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +176,7 @@ return (
             d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
           />
         </svg>
-      </Button>
+      </PostLink>
       <Button className="btn">{`Verify & Enter`}</Button>
     </ModalAction>
   </ModalOverlay>
