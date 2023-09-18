@@ -61,7 +61,6 @@ const Wrapper = styled.div`
     padding: 8px 12px 8px 32px;
     cursor: pointer;
     justify-content: space-between;
-
     background: linear-gradient(90deg, #0ba9a0 0%, rgba(11, 169, 160, 0) 100%);
   }
 
@@ -73,6 +72,41 @@ const Wrapper = styled.div`
     text-align: left;
     color: #ffffff;
     opacity: 0.1;
+  }
+  .gray-value {
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    opacity: 0.5;
+    color: white !important;
+    text-decoration: none;
+  }
+
+  .light-value {
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    text-decoration: none;
+    color: white !important;
+  }
+  .name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    .icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 100%;
+    }
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    gap: 20px;
+    .title {
+      display: none;
+    }
   }
 `;
 
@@ -115,24 +149,6 @@ const formateValue = (value, decimals) => {
 
 const Table = styled.table`
   width: 100%;
-  .gray-value {
-    font-size: 12px;
-    line-height: 14px;
-    letter-spacing: 0em;
-    text-align: left;
-    opacity: 0.5;
-    color: white !important;
-    text-decoration: none;
-  }
-
-  .light-value {
-    font-size: 16px;
-    line-height: 19px;
-    letter-spacing: 0em;
-    text-align: left;
-    text-decoration: none;
-    color: white !important;
-  }
 
   thead {
     font-size: 14px;
@@ -147,17 +163,8 @@ const Table = styled.table`
     }
   }
 
-  tbody {
-    .name {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      .icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 100%;
-      }
-    }
+  @media (max-width: 768px) {
+    display: none;
   }
 `;
 
@@ -171,6 +178,50 @@ const TabWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 36px;
+`;
+const MbTable = styled.div`
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+const MbTableRow = styled.div`
+  padding: 10px 10px 20px;
+  border-radius: 10px;
+  border: 1px solid #2c334b;
+  margin-bottom: 20px;
+`;
+const MbTableRowHeader = styled.div`
+  display: flex;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #2c334b;
+  margin-bottom: 15px;
+`;
+const MbTableRowItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  .label {
+    font-size: 13px;
+    line-height: 15.6px;
+    color: #979abe;
+  }
+`;
+const MbTableRowActions = styled.div`
+  display: flex;
+  gap: 10px;
+  color: #fff;
+  margin-top: 10px;
+  .pt-area,
+  .yt-area {
+    width: 50%;
+    text-direction: none;
+    border: 1px solid #2c334b;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -373,8 +424,97 @@ return (
           })}
         </tbody>
       </Table>
-    </Wrapper>
+      <MbTable>
+        {state.markets.map((m) => {
+          return (
+            <MbTableRow>
+              <MbTableRowHeader className="name">
+                <img className="icon" src={m.proIcon} alt="" />
+                <div>
+                  <div className="light-value">{m.proSymbol}</div>
+                  <div className="gray-value">{m.protocol}</div>
+                </div>
+              </MbTableRowHeader>
+              <MbTableRowItem>
+                <div className="label">Maturity</div>
+                <div>
+                  <div className="light-value">
+                    {formateTime(m.expiry).formattedDate}
+                  </div>
+                  <div className="gray-value">
+                    {formateTime(m.expiry).daysDiff}
+                  </div>
+                </div>
+              </MbTableRowItem>
+              <MbTableRowItem>
+                <div className="label">Underlying APY/Price</div>
+                <div>
+                  <div className="light-value">
+                    {formateValue(m.underlyingApy * 100, 3)}%
+                  </div>
+                  <div className="gray-value">
+                    ${formateValue(m.accountingAsset.price.usd, 4)}
+                  </div>
+                </div>
+              </MbTableRowItem>
+              <MbTableRowItem>
+                <div className="label">Implied APY</div>
+                <div className="light-value">
+                  {formateValue(m.impliedApy * 100, 3)}%
+                </div>
+              </MbTableRowItem>
+              <MbTableRowActions>
+                <a
+                  className="yt-area"
+                  href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=yt`}
+                >
+                  <div
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <div
+                      className="light-value"
+                      style={{
+                        textDecoration: "none",
+                      }}
+                    >
+                      {formateValue(m.ytFloatingApy * 100, 3)}%
+                    </div>
 
+                    <div
+                      className="gray-value"
+                      style={{
+                        textDecoration: "none",
+                      }}
+                    >
+                      ${formateValue(m.yt.price.usd, 4)}
+                    </div>
+                  </div>
+                  <div className="art-text">YT</div>
+                </a>
+                <a
+                  className="pt-area"
+                  href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=pt`}
+                >
+                  <div>
+                    <div className="light-value">
+                      {formateValue(m.impliedApy * 100, 3)}%
+                    </div>
+
+                    <div className="gray-value">
+                      ${formateValue(m.pt.price.usd, 4)}
+                    </div>
+                  </div>
+
+                  <div className="art-text">PT</div>
+                </a>
+              </MbTableRowActions>
+            </MbTableRow>
+          );
+        })}
+      </MbTable>
+    </Wrapper>
     <Widget
       props={{
         onLoad: (markets) => State.update({ markets }),
