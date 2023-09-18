@@ -82,7 +82,7 @@ return (
         style={{
           width: 40,
           position: "absolute",
-          right: 25,
+          right: 19,
           background: "unset",
           borderColor: "white",
           color: "black",
