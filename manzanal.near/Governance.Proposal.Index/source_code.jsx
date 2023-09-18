@@ -223,7 +223,7 @@ const ContentContainer = styled.div`
 `;
 const WrapperLeft = styled.div`
   margin: 16px auto;
-  width:100%;
+  width:50%;
   background-color: #fff;
   padding: 24px;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
@@ -264,7 +264,7 @@ const WrapperLeft = styled.div`
 
 const WrapperRight = styled.div`
   margin: 16px auto;
-  width:100%;
+  width:50%;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -470,52 +470,46 @@ return (
         />
       </WrapperLeft>
       <WrapperRight>
-        <div className="w-100">
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VoteCard`}
-            props={{
-              proposal: { ...state.proposal, status: state.status },
-              authorId,
-              contractId,
-            }}
-          />
-        </div>
+        <Widget
+          src={`${authorId}/widget/Governance.Proposal.VoteCard`}
+          props={{
+            proposal: { ...state.proposal, status: state.status },
+            authorId,
+            contractId,
+          }}
+        />
 
-        <div className="w-100">
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VotingPeriodCard`}
-            props={{
-              startDate: state.proposal.vote_start_timestamp,
-              endDate: state.proposal.vote_end_timestamp,
-              authorId,
-              contractId,
-            }}
-          />
-        </div>
-        <div className="w-100">
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VotingResultsCard`}
-            props={{
-              yesVotes: state.proposalVotes.for_votes,
-              noVotes: state.proposalVotes.against_votes,
-              abstainVotes: state.proposalVotes.abstain_votes,
-              quorum: state.proposal.v_power_quorum_to_reach,
-              isQuorumReached: state.isQuorumReached,
-              isProposalSucceeded: state.isProposalSucceeded,
-              onVotingPeriod,
-              authorId,
-              contractId,
-            }}
-          />
-        </div>
-        <div className="w-100">
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VotesCard`}
-            props={{
-              accountVotes: state.proposalVotes.has_voted,
-            }}
-          />
-        </div>
+        <Widget
+          src={`${authorId}/widget/Governance.Proposal.VotingPeriodCard`}
+          props={{
+            startDate: state.proposal.vote_start_timestamp,
+            endDate: state.proposal.vote_end_timestamp,
+            authorId,
+            contractId,
+          }}
+        />
+
+        <Widget
+          src={`${authorId}/widget/Governance.Proposal.VotingResultsCard`}
+          props={{
+            yesVotes: state.proposalVotes.for_votes,
+            noVotes: state.proposalVotes.against_votes,
+            abstainVotes: state.proposalVotes.abstain_votes,
+            quorum: state.proposal.v_power_quorum_to_reach,
+            isQuorumReached: state.isQuorumReached,
+            isProposalSucceeded: state.isProposalSucceeded,
+            onVotingPeriod,
+            authorId,
+            contractId,
+          }}
+        />
+
+        <Widget
+          src={`${authorId}/widget/Governance.Proposal.VotesCard`}
+          props={{
+            accountVotes: state.proposalVotes.has_voted,
+          }}
+        />
       </WrapperRight>
     </ContentContainer>
   </Container>
