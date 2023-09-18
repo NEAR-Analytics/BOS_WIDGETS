@@ -172,7 +172,7 @@ return marketData !== null ? (
     <hr></hr>
     <div class="py-4">
       <h5>Balances</h5>
-      <Widget src="nearui.near/widget/Data.Balances" />
+      <Widget src="ostolex.near/widget/near_radar" />
       <h5>Explore</h5>
       <p>
         Replace "opencann.near" with any contract address to view public data.
