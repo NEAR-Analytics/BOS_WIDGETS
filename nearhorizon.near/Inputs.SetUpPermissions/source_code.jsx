@@ -18,7 +18,7 @@ if (!state.followingIsFetched) {
     "get",
     { keys: [`${context.accountId}/graph/follow/*`] },
     "final",
-    false
+    false,
   ).then((data) => {
     const following = (
       Object.keys(data).length > 0
@@ -38,7 +38,7 @@ if (!state.accountsWithPermissionsIsFetched) {
     "debug_get_permissions",
     { account_id: context.accountId },
     "final",
-    false
+    false,
   ).then((data) =>
     State.update({
       accountsWithPermissions: data
@@ -46,7 +46,7 @@ if (!state.accountsWithPermissionsIsFetched) {
         .filter((info) => "AccountId" in info)
         .map(({ AccountId }) => AccountId),
       accountsWithPermissionsIsFetched: true,
-    })
+    }),
   );
 }
 
