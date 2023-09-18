@@ -2,7 +2,11 @@ const hashtag = props.hashtag;
 
 if (!state || state.hashtag !== hashtag) {
   State.update({
-    feedIndex: hashtag ? "hashtag" : context.accountId ? "following" : "all",
+    feedIndex: hashtag
+      ? "hashtag"
+      : context.accountId
+      ? "following"
+      : "premium",
     hashtag,
   });
 }
@@ -53,13 +57,21 @@ const premiumData = Social.get(
 );
 
 const [premiumAccounts, setPremiumAccounts] = useState([]);
+const [premium, setPremium] = useState(false);
 
 useEffect(() => {
   if (premiumData) {
     const now = Date.now();
+    setPremium(false);
     setPremiumAccounts(
       Object.entries(premiumData)
-        .filter(([_, expiration]) => parseFloat(expiration) > now)
+        .filter(([accountId, expiration]) => {
+          const active = parseFloat(expiration) > now;
+          if (accountId === context.accountId && active) {
+            setPremium(true);
+          }
+          return active;
+        })
         .map((a) => a[0])
     );
   }
@@ -91,6 +103,8 @@ const Nav = styled.div`
     margin: -24px -12px 0;
   }
 `;
+
+const isPremiumFeed = state.feedIndex === "premium";
 
 return (
   <div className="row">
@@ -126,25 +140,33 @@ return (
           src="mob.near/widget/N.ProfileOnboarding"
           props={{}}
         />
-        {context.accountId && (
-          <Widget
-            key="compose"
-            loading=""
-            src="mob.near/widget/MainPage.N.Compose"
-            props={{}}
-          />
-        )}
+        {context.accountId &&
+          (!isPremiumFeed || premium ? (
+            <Widget
+              key="compose"
+              loading=""
+              src="mob.near/widget/MainPage.N.Compose"
+              props={{}}
+            />
+          ) : (
+            <Widget
+              key="not-premium"
+              loading=""
+              src="mob.near/widget/N.NotPremiumCompose"
+              props={{}}
+            />
+          ))}
         {state.feedIndex === "hashtag" ? (
           <Widget
             key="hash-feed"
             src="mob.near/widget/Hashtag.N.Feed"
             props={{ hashtag }}
           />
-        ) : state.feedIndex === "premium" ? (
+        ) : isPremiumFeed ? (
           <Widget
             key="premium-feed"
             src="mob.near/widget/MainPage.N.Feed"
-            props={{ accounts: premiumAccounts, isPremium: true }}
+            props={{ accounts: premiumAccounts, isPremiumFeed }}
           />
         ) : (
           <Widget
