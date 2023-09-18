@@ -1,4 +1,7 @@
-const Layout = styled.div``;
+const Layout = styled.div`
+  position: relative;
+  bottom: 20px;
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -19,15 +22,15 @@ const Container = styled.div`
     margin-bottom: 20px;
     color: #ffffff;
   }
-  @media (max-width:900px) {
+  @media (max-width: 900px) {
     display: grid;
-    .contentOut{
-      padding:0;
+    .contentOut {
+      padding: 0;
       margin: 0 0 36px 0;
-   }
+    }
     .contentOut p {
-    display: none;
-   }
+      display: none;
+    }
   }
 `;
 
@@ -71,7 +74,7 @@ const MenuContainer = styled.div`
   .icon {
     width: 26px;
   }
-  @media (max-width:900px) {
+  @media (max-width: 900px) {
     margin: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -83,23 +86,23 @@ const MenuContainer = styled.div`
     right: 0;
     z-index: 1;
     padding: 0 16px;
-    .item{
+    .item {
       width: auto;
       padding: 0;
       height: 76px;
       display: grid;
       text-align: center;
       align-items: center;
-      span{
+      span {
         margin-left: 26px;
         margin-bottom: -28px;
       }
     }
     .item.active {
-    background-image: none;
-    color:  #E9F456;
-    border-color: transparent;
-  }
+      background-image: none;
+      color: #e9f456;
+      border-color: transparent;
+    }
   }
 `;
 
