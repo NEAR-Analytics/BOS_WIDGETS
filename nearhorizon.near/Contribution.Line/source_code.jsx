@@ -17,7 +17,7 @@ if (!state.requestIsFetched) {
     "get_request",
     { account_id: projectId, cid },
     "final",
-    false
+    false,
   ).then((request) => State.update({ request, requestIsFetched: true }));
 }
 
@@ -27,9 +27,9 @@ if (!state.contributionIsFetched) {
     "get_contribution",
     { project_id: projectId, cid, vendor_id: vendorId },
     "final",
-    false
+    false,
   ).then((contribution) =>
-    State.update({ contribution, contributionIsFetched: true })
+    State.update({ contribution, contributionIsFetched: true }),
   );
 }
 
