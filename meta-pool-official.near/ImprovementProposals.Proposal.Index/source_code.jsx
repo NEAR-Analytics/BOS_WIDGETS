@@ -260,6 +260,10 @@ const WrapperLeft = styled.div`
     line-height: 1.2;
     color: ${statusColor};
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const WrapperRight = styled.div`
@@ -296,6 +300,9 @@ const WrapperRight = styled.div`
     font-weight: 600;
     line-height: 1.2;
     color: ${statusColor};
+  }
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 
