@@ -2,6 +2,14 @@ if (!context.accountId) {
   return "";
 }
 
+const draft = Storage.privateGet("draft");
+
+if (draft === null) {
+  return "";
+}
+
+const [initialText] = useState(draft);
+
 const composeData = () => {
   const data = {
     post: {
@@ -50,6 +58,7 @@ const composeData = () => {
 State.init({
   onChange: ({ content }) => {
     State.update({ content });
+    Storage.privateSet("draft", content.text || "");
   },
 });
 
@@ -61,6 +70,7 @@ return (
         props={{
           placeholder: "What's happening?",
           onChange: state.onChange,
+          initialText,
           onHelper: ({ extractMentionNotifications, extractHashtags }) => {
             State.update({ extractMentionNotifications, extractHashtags });
           },
