@@ -223,7 +223,7 @@ const ContentContainer = styled.div`
 `;
 const WrapperLeft = styled.div`
   margin: 16px auto;
-  width:100%;
+  width:50%;
   background-color: #fff;
   padding: 24px;
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
@@ -264,7 +264,7 @@ const WrapperLeft = styled.div`
 
 const WrapperRight = styled.div`
   margin: 16px auto;
-  width:100%;
+  width:50%;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -470,7 +470,7 @@ return (
         />
       </WrapperLeft>
       <WrapperRight>
-        <div className="w-100">
+       
           <Widget
             src={`${authorId}/widget/Governance.Proposal.VoteCard`}
             props={{
@@ -479,9 +479,6 @@ return (
               contractId,
             }}
           />
-        </div>
-
-        <div className="w-100">
           <Widget
             src={`${authorId}/widget/Governance.Proposal.VotingPeriodCard`}
             props={{
@@ -491,8 +488,6 @@ return (
               contractId,
             }}
           />
-        </div>
-        <div className="w-100">
           <Widget
             src={`${authorId}/widget/Governance.Proposal.VotingResultsCard`}
             props={{
@@ -507,15 +502,12 @@ return (
               contractId,
             }}
           />
-        </div>
-        <div className="w-100">
           <Widget
             src={`${authorId}/widget/Governance.Proposal.VotesCard`}
             props={{
               accountVotes: state.proposalVotes.has_voted,
             }}
           />
-        </div>
       </WrapperRight>
     </ContentContainer>
   </Container>
