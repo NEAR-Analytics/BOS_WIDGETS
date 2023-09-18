@@ -41,7 +41,16 @@ const VStack = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  border-radius: 16px;
+  border: 1px solid #332c4b;
+  background-color: #181a27;
   overflow: hidden;
+
+  @media (max-width: 736px) {
+    border: none;
+
+    background-color: transparent;
+  }
 `;
 const VStackNoColor = styled.div`
   display: flex;
@@ -56,17 +65,21 @@ const Comment = styled.span`
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  margin-bottom: -24px;
+  margin-bottom: 12px;
   color: ${(props) => (props.isError ? "#E25D58" : "#7C7F96")};
 `;
+
+const { can_add_action, poolsData, handlePairClick } = props;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 350px;
 
   font-family: "Inter";
   color: #fff;
   border-radius: 8px;
+  overflow: hidden;
 
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button,
@@ -74,23 +87,6 @@ const Wrapper = styled.div`
     -webkit-appearance: none;
     margin: 0;
     -moz-appearance: textfield !important;
-  }
-  .top-title {
-    display: flex;
-    justify-content: space-between;
-    .title-text {
-      font-size: 20px;
-      font-weight: 700;
-    }
-  }
-  @media (max-width: 900px) {
-    .top-title {
-      display: block;
-      padding: 0 24px;
-      .title-text {
-        display: none;
-      }
-    }
   }
 `;
 
@@ -107,135 +103,156 @@ const Info = styled.div`
 `;
 const SubWrapper = styled.div`
   display: flex;
+  padding: 20px;
   flex-direction: column;
   justify-content: center;
-  .input-flex {
-    display: flex;
-  }
-  @media (max-width: 900px) {
-    display: block;
-    margin: 0 24px 24px 24px;
-    padding: 24px;
-    background: #292c3c;
-    border-radius: 10px;
-    .input-flex {
-      display: block;
-    }
+  gap: 32px;
+
+  /* background-color: #181a27; */
+
+  @media (max-width: 736px) {
+    background-color: #181a27;
+    border: 1px solid #332c4b;
+    border-radius: 16px;
   }
 `;
 const InputWrapper = styled.div`
-  flex: 1;
   display: flex;
   position: relative;
-  margin-right: 32px;
-  margin-bottom: 20px;
   flex-direction: column;
   gap: 4px;
   .title {
     font-size: 14px;
     color: #7c7f96;
   }
-  .merge {
-    display: flex;
-    .title {
-      color: #7c7f96;
-      font-size: 14px;
-      margin-bottom: 0;
-      font-weight: 500;
-      white-space: nowrap;
-      margin-right: 12px;
-      span {
-        color: #ffffff;
-      }
-    }
-  }
   .balance {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: flex-end;
     color: #7c7f96;
     font-size: 12px;
-    margin-left: auto;
-    white-space: nowrap;
     .v {
       text-decoration: underline;
       cursor: pointer;
     }
   }
-  @media (max-width: 900px) {
-    margin: 0;
-    .merge {
-      p {
-        display: inline-block;
-      }
-    }
-  }
 `;
-const Input = styled.input`
+
+const ArrowDownIcon = (
+  <svg
+    width="14"
+    height="8"
+    viewBox="0 0 14 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1 1L7 6L13 1"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+  </svg>
+);
+
+const InputFiledWrapper = styled.div`
   border: none;
   background: rgba(53, 55, 73, 0.5);
+  outline: none;
+  color: #fff;
+  padding-right: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  .token-filed {
+    @media (min-width: 736px) {
+      display: none;
+    }
+
+    padding-right: 12px;
+
+    flex-shrink: 0;
+
+    white-space: nowrap;
+
+    gap: 8px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: right;
+  }
+`;
+
+const Input = styled.input`
+  border: none;
   outline: none;
   color: #fff;
   padding: 14px 12px;
   border-radius: 10px;
   font-size: 14px;
   font-weight: bold;
-  height: 55px;
+  background: transparent;
+
+  @media (max-width: 736px) {
+    width: 100%;
+  }
 `;
+
 const Button = styled.button`
-  margin-top: 22px;
   background: #fff;
   border-radius: 10px;
-  width: 200px;
+  width: 100%;
   border: none;
   color: #0f1126;
   padding: 8px 0;
   font-weight: 700;
   font-size: 16px;
   position: relative;
-  height: 55px;
+  height: 50px;
   cursor: pointer;
   &:disabled {
     background: rgba(255, 255, 255, 0.3);
     color: #ccc;
     cursor: not-allowed;
   }
-  @media (max-width: 900px) {
-    width: 100%;
-    box-shadow: 0px 1px 8px 0px #af8dffb0;
-    border: 0.3px solid #794fdd;
-    background: linear-gradient(0deg, #794fdd, #794fdd),
-      linear-gradient(0deg, #ffffff, #ffffff);
-    border-radius: 30px;
-  }
 `;
 const Tab = styled.div`
   display: flex;
-  margin-left: auto;
   gap: 1px;
-  border: 1px solid #332c4b;
-  background: #222436;
-  border-radius: 10px;
-  padding: 2px;
-  height: 40px;
-  line-height: 20px;
-  margin-bottom: 26px;
+
   @media (max-width: 736px) {
     border: 1px solid #332c4b;
+
     border-radius: 10px;
     overflow: hidden;
+
     background: linear-gradient(0deg, #181a27, #181a27);
+
     margin-bottom: 12px;
   }
 `;
 const TabItem = styled.div`
-  border-radius: 10px;
   flex: 1;
-  padding: 8px 32px;
+  padding: 16px 24px;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   color: ${(props) => (props.isActive ? "#fff" : "#7C7F96")};
-  background: ${(props) => (props.isActive ? "#794FDD" : "#222436")};
+  background: ${(props) => (props.isActive ? "#181A27" : "#272838")};
+  &:hover {
+    background: #181a27;
+  }
+
   @media (max-width: 736px) {
     padding: 10px 24px;
     display: flex;
@@ -276,8 +293,92 @@ const Spinner = styled.i`
   }
 `;
 
+const SelectPairs = styled.div`
+  background: #25273a;
+  position: fixed;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  flex-direction: column;
+
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+
+  z-index: 1000;
+
+  .close-modal-icon {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    width: 100%;
+
+    padding-top: 20px;
+    padding-right: 20px;
+  }
+
+  max-height: 40vh;
+
+  overflow: auto;
+
+  .pair-line {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: center;
+
+    padding: 12px 0;
+    color: white;
+    cursor: pointer;
+
+    :hover {
+      background: #181a27;
+    }
+    position: relative;
+
+    width: 100%;
+    .type-box {
+      border-radius: 13px;
+      min-width: 61px;
+      height: 26px;
+      font-size: 13px;
+      padding: 0px 6px;
+      position: absolute;
+
+      right: 24px;
+
+      top: 10px;
+
+      font-weight: 400;
+      line-height: 16px;
+      letter-spacing: 0em;
+      text-align: left;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #d9d9d91a;
+    }
+  }
+`;
+
+function add_action(param_body) {
+  asyncFetch("https://bos-api.delink.one/add-action-data", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(param_body),
+  });
+}
+
+const defaultDeposit = props.tab === "deposit" || !props.tab;
+
 State.init({
-  isDeposit: true,
+  isDeposit: defaultDeposit,
   lpBalance: "",
   balances: [],
   amount0: "",
@@ -291,6 +392,7 @@ State.init({
   isToken1Approving: false,
   loadingMsg: "",
   isPostTx: false,
+  showPairs: false,
 });
 
 const getFromDepositAmount = (depositAmount, tokenDecimal) => {
@@ -403,18 +505,6 @@ const {
   lpAmount,
   isPostTx,
 } = state;
-
-const { can_add_action } = props;
-
-function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(param_body),
-  });
-}
 
 const checkApproval = (token0Amount, token1Amount) => {
   const token0Wei = new Big(ethers.utils.parseUnits(token0Amount, decimals0));
@@ -633,28 +723,27 @@ const handleDeposit = () => {
       return tx.wait();
     })
     .then((receipt) => {
-      if (can_add_action) {
-        const { status, transactionHash } = receipt;
+      const { status, transactionHash } = receipt;
 
-        const uuid = Storage.get(
-          "zkevm-warm-up-uuid",
-          "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-        );
+      const uuid = Storage.get(
+        "zkevm-warm-up-uuid",
+        "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
+      );
 
-        add_action({
-          action_title: `Deposit ${token0}-${token1} on Gamma`,
-          action_type: "Deposit",
-          action_tokens: JSON.stringify([token0, token1]),
-          action_amount: "",
-          account_id: sender,
-          action_network_id: "zkEVM",
-          account_info: uuid,
-          template: "Gamma",
-          action_status: status === 1 ? "Success" : "Failed",
-          action_switch: can_add_action ? 1 : 0,
-          tx_id: transactionHash,
-        });
-      }
+      add_action({
+        action_title: `Deposit ${token0}-${token1} on Gamma`,
+        action_type: "Deposit",
+        action_tokens: JSON.stringify([token0, token1]),
+        action_amount: "",
+        account_id: sender,
+        action_network_id: "zkEVM",
+        account_info: uuid,
+        template: "Gamma",
+        action_status: status === 1 ? "Success" : "Failed",
+        action_switch: can_add_action ? 1 : 0,
+        tx_id: transactionHash,
+      });
+
       State.update({
         isLoading: false,
         isPostTx: true,
@@ -698,32 +787,30 @@ const handleWithdraw = () => {
       return tx.wait();
     })
     .then((receipt) => {
-      if (can_add_action) {
-        const { status, transactionHash } = receipt;
-
-        const uuid = Storage.get(
-          "zkevm-warm-up-uuid",
-          "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-        );
-
-        add_action({
-          action_title: `Withdraw ${token0}-${token1} on Gamma`,
-          action_type: "Withdraw",
-          action_tokens: JSON.stringify([token0, token1]),
-          action_amount: lpAmount,
-          account_id: sender,
-          action_network_id: "zkEVM",
-          account_info: uuid,
-          template: "Gamma",
-          action_status: status === 1 ? "Success" : "Failed",
-          action_switch: can_add_action ? 1 : 0,
-          tx_id: transactionHash,
-        });
-      }
-
       State.update({
         isLoading: false,
         isPostTx: true,
+      });
+
+      const { status, transactionHash } = receipt;
+
+      const uuid = Storage.get(
+        "zkevm-warm-up-uuid",
+        "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
+      );
+
+      add_action({
+        action_title: `Withdraw ${token0}-${token1} on Gamma`,
+        action_type: "Withdraw",
+        action_tokens: JSON.stringify([token0, token1]),
+        action_amount: lpAmount,
+        account_id: sender,
+        action_network_id: "zkEVM",
+        account_info: uuid,
+        template: "Gamma",
+        action_status: status === 1 ? "Success" : "Failed",
+        action_switch: can_add_action ? 1 : 0,
+        tx_id: transactionHash,
       });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
@@ -740,6 +827,141 @@ const handleWithdraw = () => {
     });
 };
 
+const pairs = [
+  {
+    id: "W WETH-USDC",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "WETH",
+    token1: "USDC",
+    decimals0: 18,
+    decimals1: 6,
+  },
+  {
+    id: "N WETH-USDC",
+    strategy: "Dynamic",
+    strategy2: "Narrow",
+    token0: "WETH",
+    token1: "USDC",
+    decimals0: 18,
+    decimals1: 6,
+  },
+  {
+    id: "W WETH-MATIC",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "WETH",
+    token1: "MATIC",
+    decimals0: 18,
+    decimals1: 18,
+  },
+  {
+    id: "N WETH-MATIC",
+    strategy: "Dynamic",
+    strategy2: "Narrow",
+    token0: "WETH",
+    token1: "MATIC",
+    decimals0: 18,
+    decimals1: 18,
+  },
+  {
+    id: "W WETH-WBTC",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "WETH",
+    token1: "WBTC",
+    decimals0: 18,
+    decimals1: 18,
+  },
+  {
+    id: "N WETH-WBTC",
+    strategy: "Dynamic",
+    strategy2: "Narrow",
+    token0: "WETH",
+    token1: "WBTC",
+    decimals0: 18,
+    decimals1: 18,
+  },
+  {
+    id: "W USDC-WBTC",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "USDC",
+    token1: "WBTC",
+    decimals0: 6,
+    decimals1: 18,
+  },
+  {
+    id: "N USDC-WBTC",
+    strategy: "Dynamic",
+    strategy2: "Narrow",
+    token0: "USDC",
+    token1: "WBTC",
+    decimals0: 6,
+    decimals1: 18,
+  },
+  {
+    id: "USDT-USDC",
+    strategy: "Stable",
+    token0: "USDT",
+    token1: "USDC",
+    decimals0: 6,
+    decimals1: 6,
+  },
+  {
+    id: "USDC-DAI",
+    strategy: "Stable",
+    token0: "USDC",
+    token1: "DAI",
+    decimals0: 6,
+    decimals1: 18,
+  },
+  {
+    id: "USDT-DAI",
+    strategy: "Stable",
+    token0: "USDT",
+    token1: "DAI",
+    decimals0: 6,
+    decimals1: 18,
+  },
+  {
+    id: "stMATIC-MATIC",
+    strategy: "Pegged Price",
+    token0: "stMATIC",
+    token1: "MATIC",
+    decimals0: 18,
+    decimals1: 18,
+  },
+  {
+    id: "N MATIC-USDC",
+    strategy: "Dynamic",
+    strategy2: "Narrow",
+    token0: "MATIC",
+    token1: "USDC",
+    decimals0: 18,
+    decimals1: 6,
+  },
+  {
+    id: "W MATIC-USDC",
+    strategy: "Dynamic",
+    strategy2: "Wide",
+    token0: "MATIC",
+    token1: "USDC",
+    decimals0: 18,
+    decimals1: 6,
+  },
+];
+
+const Layer = styled.div`
+  position: fixed;
+  z-index: 999;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: rgba(20, 22, 43, 0.8);
+`;
+
 const isInSufficient =
   Number(amount0) > Number(balances[token0]) ||
   Number(amount1) > Number(balances[token1]);
@@ -749,155 +971,241 @@ const isWithdrawInsufficient = Number(lpAmount) > Number(lpBalance);
 return (
   <VStack>
     <Wrapper>
-      <div className="top-title">
-        <div className="title-text">Liquidity Manage</div>
-        <Tab>
-          <TabItem isActive={isDeposit} onClick={() => changeMode(true)}>
-            Deposit
-          </TabItem>
-          <TabItem isActive={!isDeposit} onClick={() => changeMode(false)}>
-            Withdraw
-          </TabItem>
-        </Tab>
-      </div>
+      <Tab>
+        <TabItem isActive={isDeposit} onClick={() => changeMode(true)}>
+          Deposit
+        </TabItem>
+        <TabItem isActive={!isDeposit} onClick={() => changeMode(false)}>
+          Withdraw
+        </TabItem>
+      </Tab>
       {isDeposit ? (
         <SubWrapper>
-          <div className="input-flex">
-            <InputWrapper>
-              <div className="merge">
-                <p className="title">
-                  Amount of <span>{token0}</span>
-                </p>
-                <div className="balance">
-                  Balance:{" "}
-                  <span onClick={() => handleMax(true)} className="v">
-                    {balances[token0]}
-                  </span>
-                </div>
-              </div>
+          <InputWrapper>
+            <span className="title">Amount of {token0}</span>
+
+            <InputFiledWrapper>
               <Input
                 value={amount0}
                 type="number"
                 onChange={(e) => handleToken0Change(e.target.value)}
               />
-            </InputWrapper>
-            <InputWrapper>
-              <div className="merge">
-                <p className="title">
-                  Amount of <span>{token1}</span>
-                </p>
-                <div className="balance">
-                  Balance:{" "}
-                  <span onClick={() => handleMax(false)} className="v">
-                    {balances[token1]}
-                  </span>
-                </div>
+
+              <div
+                className="token-filed"
+                onClick={() =>
+                  State.update({
+                    showPairs: true,
+                  })
+                }
+              >
+                {token0}
+
+                {ArrowDownIcon}
               </div>
+            </InputFiledWrapper>
+
+            <div className="balance">
+              Balance:{" "}
+              <span onClick={() => handleMax(true)} className="v">
+                {balances[token0]}
+              </span>
+            </div>
+          </InputWrapper>
+          <InputWrapper>
+            <span className="title">Amount of {token1}</span>
+
+            <InputFiledWrapper>
               <Input
                 value={amount1}
                 type="number"
                 onChange={(e) => handleToken1Change(e.target.value)}
               />
-            </InputWrapper>
-            <VStackNoColor>
-              {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
-              {isInSufficient && <Button disabled>InSufficient Balance</Button>}
-              {!isInSufficient &&
-                (isToken0Approved &&
-                isToken1Approved &&
-                !isToken0Approving &&
-                !isToken1Approving ? (
+
+              <div className="token-filed">{token1}</div>
+            </InputFiledWrapper>
+
+            <div className="balance">
+              Balance:{" "}
+              <span onClick={() => handleMax(false)} className="v">
+                {balances[token1]}
+              </span>
+            </div>
+          </InputWrapper>
+          <VStackNoColor>
+            {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
+            {isInSufficient && <Button disabled>InSufficient Balance</Button>}
+            {!isInSufficient &&
+              (isToken0Approved &&
+              isToken1Approved &&
+              !isToken0Approving &&
+              !isToken1Approving ? (
+                <Button
+                  disabled={isLoading || !amount0 || !amount1}
+                  onClick={handleDeposit}
+                >
+                  {isLoading ? (
+                    <Spinner className="ph-bold ph-circle-notch" />
+                  ) : (
+                    "Deposit"
+                  )}
+                </Button>
+              ) : (
+                <HStack>
                   <Button
-                    disabled={isLoading || !amount0 || !amount1}
-                    onClick={handleDeposit}
+                    disabled={isToken0Approved || isToken0Approving}
+                    onClick={() => handleApprove(true)}
                   >
-                    {isLoading ? (
+                    {isToken0Approving ? (
                       <Spinner className="ph-bold ph-circle-notch" />
                     ) : (
-                      "Deposit"
+                      <>
+                        {isToken0Approved ? "Approved" : "Approve"} {token0}
+                      </>
                     )}
                   </Button>
-                ) : (
-                  <HStack>
-                    <Button
-                      disabled={isToken0Approved || isToken0Approving}
-                      onClick={() => handleApprove(true)}
-                    >
-                      {isToken0Approving ? (
-                        <Spinner className="ph-bold ph-circle-notch" />
-                      ) : (
-                        <>
-                          {isToken0Approved ? "Approved" : "Approve"} {token0}
-                        </>
-                      )}
-                    </Button>
-                    <Button
-                      disabled={isToken1Approved || isToken1Approving}
-                      onClick={() => handleApprove(false)}
-                    >
-                      {isToken1Approving ? (
-                        <Spinner className="ph-bold ph-circle-notch" />
-                      ) : (
-                        <>
-                          {isToken1Approved ? "Approved" : "Approve"} {token1}
-                        </>
-                      )}
-                    </Button>
-                  </HStack>
-                ))}
-            </VStackNoColor>
-          </div>
+                  <Button
+                    disabled={isToken1Approved || isToken1Approving}
+                    onClick={() => handleApprove(false)}
+                  >
+                    {isToken1Approving ? (
+                      <Spinner className="ph-bold ph-circle-notch" />
+                    ) : (
+                      <>
+                        {isToken1Approved ? "Approved" : "Approve"} {token1}
+                      </>
+                    )}
+                  </Button>
+                </HStack>
+              ))}
+          </VStackNoColor>
         </SubWrapper>
       ) : (
         <SubWrapper>
-          <div className="input-flex">
-            <InputWrapper>
-              <div className="merge">
-                <p className="title">
-                  Amount of{" "}
-                  <span>
-                    {token0}-{token1}
-                  </span>
-                </p>
-                <div className="balance">
-                  Balance:{" "}
-                  <span onClick={() => handleLPChange(lpBalance)} className="v">
-                    {lpBalance}
-                  </span>
-                </div>
-              </div>
+          <InputWrapper>
+            <span className="title">
+              Amount of {token0}-{token1}
+            </span>
+
+            <InputFiledWrapper>
               <Input
                 value={lpAmount}
                 type="number"
                 onChange={(e) => handleLPChange(e.target.value)}
               />
-            </InputWrapper>
-            <VStack>
-              {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
-              <Button
-                disabled={isWithdrawInsufficient || isLoading || !lpAmount}
-                onClick={handleWithdraw}
+
+              <div
+                className="token-filed"
+                onClick={() =>
+                  State.update({
+                    showPairs: true,
+                  })
+                }
               >
-                {isLoading ? (
-                  <Spinner className="ph-bold ph-circle-notch" />
-                ) : (
-                  <>
-                    {isWithdrawInsufficient
-                      ? "InSufficient Balance"
-                      : "Withdraw"}
-                  </>
-                )}
-              </Button>
-            </VStack>
-          </div>
+                {`${token0}-${token1}`}
+
+                {ArrowDownIcon}
+              </div>
+            </InputFiledWrapper>
+
+            <div className="balance">
+              Balance:{" "}
+              <span onClick={() => handleLPChange(lpBalance)} className="v">
+                {lpBalance}
+              </span>
+            </div>
+          </InputWrapper>
+
+          <VStack
+            style={{
+              border: "none",
+            }}
+          >
+            {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
+
+            <Button
+              disabled={isWithdrawInsufficient || isLoading || !lpAmount}
+              onClick={handleWithdraw}
+            >
+              {isLoading ? (
+                <Spinner className="ph-bold ph-circle-notch" />
+              ) : (
+                <>
+                  {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
+                </>
+              )}
+            </Button>
+          </VStack>
         </SubWrapper>
       )}
     </Wrapper>
+
     {isPostTx && (
       <Info>
         If you dont see the updated balance in the table after 1 minute, please
         click the refresh button above.
       </Info>
+    )}
+
+    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
+    {state.showPairs && poolsData && (
+      <SelectPairs>
+        <div className="close-modal-icon">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            onClick={() => {
+              State.update({
+                showPairs: false,
+              });
+            }}
+          >
+            <path
+              d="M7.73284 6.00004L11.7359 1.99701C12.0368 1.696 12.0882 1.2593 11.8507 1.0219L10.9779 0.14909C10.7404 -0.0884125 10.3043 -0.0363122 10.0028 0.264491L6.00013 4.26743L1.99719 0.264591C1.69619 -0.036712 1.25948 -0.0884125 1.02198 0.14939L0.149174 1.0223C-0.0882276 1.2594 -0.0368271 1.6961 0.264576 1.99711L4.26761 6.00004L0.264576 10.0033C-0.0363271 10.3041 -0.0884276 10.7405 0.149174 10.978L1.02198 11.8509C1.25948 12.0884 1.69619 12.0369 1.99719 11.736L6.00033 7.73276L10.0029 11.7354C10.3044 12.037 10.7405 12.0884 10.978 11.8509L11.8508 10.978C12.0882 10.7405 12.0368 10.3041 11.736 10.0029L7.73284 6.00004Z"
+              fill="#C0C4E9"
+            />
+          </svg>
+        </div>
+
+        {pairs.map((pair) => {
+          const pairDisplay = `${pair.token0}-${pair.token1}`;
+
+          return (
+            <div
+              className="pair-line"
+              style={{
+                background:
+                  activePair.id === pair.id ? "rgba(24,26,39,0.3)" : "",
+              }}
+              onClick={() => {
+                handlePairClick(pair);
+
+                State.update({
+                  showPairs: false,
+                });
+              }}
+            >
+              {pairDisplay}
+              <div className="type-box">
+                {pair.strategy2 ? pair.strategy2 : pair.strategy}
+              </div>
+            </div>
+          );
+        })}
+      </SelectPairs>
+    )}
+
+    {state.showPairs && poolsData && (
+      <Layer
+        onClick={() => {
+          State.update({
+            showPairs: false,
+          });
+        }}
+      />
     )}
   </VStack>
 );
