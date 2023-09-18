@@ -1,14 +1,9 @@
 // add nft transfers here
 // NEED TO FIX SCIENTIFIC NOTION ON PRICE //  ADD ERROR CHECKING for nft contract but preview is enough
-const image = props.image;
-const onChange = props.onChange;
 const amount = "10000000000000000000000"; // 0.01 NEAR // amount to list at, by default its for other marketplaces
 const accountId = context.accountId; // add check for context it
 const ownerId = "minorityprogrammers.near"; // attribution
-const nft = props.nft ?? {
-  contractId: props.contractId,
-  tokenId: props.tokenId,
-}; // just in case need to pass in a NFT
+
 const contractId = "genadrop-contract.nftgen.near"; // default nft contract
 const tokenId = "1679119560198"; // maybe condtional check if props is eempty // default nft
 const fewfarmarket = "market.fewandfar.near";
@@ -119,15 +114,9 @@ const ConfirmOffer = () => {
         300,
         1250000000000000000000
       );
-      Near.call(
-        "v1.havenswap.near",
-        "mass_transfer",
-        {
-          receiver_id: state.receiverId,
-        },
-        300,
-        1250000000000000000000
-      );
+      Near.call("v1.havenswap.near", "mass_transfer", {
+        receiver_id: state.receiverId,
+      });
     }
     if (state.sendNFTS) {
     }
