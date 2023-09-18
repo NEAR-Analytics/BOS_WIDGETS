@@ -96,7 +96,8 @@ const Item = styled("Accordion.Item")`
     align-self: stretch;
     border-radius: 12px;
     background: var(--ui-elements-white, #fff);
-    box-shadow: -8px 40px 59px -28px rgba(16, 24, 40, 0.14),
+    box-shadow:
+      -8px 40px 59px -28px rgba(16, 24, 40, 0.14),
       -2px 2px 14px -1px rgba(0, 0, 0, 0.13);
   }
 
