@@ -50,32 +50,14 @@ const TranslationsLib = {
     return translation || defaultText;
   },
   getTranslationByBreadcrumb: (breadcrumb) => {
-    let currentPath = {};
-    let result = "";
-    breadcrumb.split(".").every((part) => {
-      if (part in currentPath) {
-        if (typeof currentPath[part] === "string") {
-          result = currentPath[part];
-          return false;
-        } else {
-          currentPath = currentPath[part];
-          return true;
-        }
-      } else if (part in TranslationsLib.translations) {
-        if (typeof TranslationsLib.translations[part] === "string") {
-          result = TranslationsLib.translations[part];
-          return false;
-        } else {
-          currentPath = TranslationsLib.translations[part];
-          return true;
-        }
-      }
-    });
-
-    return result;
+    return breadcrumb
+            .split('.')
+            .reduce(
+                (path, nextPath) => (path || {})[nextPath],
+                TranslationsLib.translations
+            );
   },
-  getTranslation: (id) =>
-    id in TranslationsLib.translations &&
+  getTranslation: (id) => id in TranslationsLib.translations &&
     typeof TranslationsLib.translations[id] === "string"
       ? TranslationsLib.translations[id]
       : "",
