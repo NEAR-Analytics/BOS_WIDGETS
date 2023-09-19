@@ -48,7 +48,7 @@ const StyledHr = styled.hr`
   border: none;
   color: #000;
   background-color: #000;
-  width: 90%;
+  width: 100%;
   text-align: left;
   margin: 0 auto 0 0;
 `;
@@ -67,6 +67,7 @@ if (data !== null && data.ok === false) {
           <div class="d-flex clearfix flex-wrap flex-column flex-sm-row">
             <div class="p-2">
               <div>TPS Now</div>
+              <StyledHr />
               <span class="text-success h3">
                 <b>{JSON.parse(data.body.tps).toFixed(0)}</b>
               </span>
@@ -97,6 +98,7 @@ if (data !== null && data.ok === false) {
               <div>
                 Avg Block Time <b>Now</b>
               </div>
+              <StyledHr />
               <small>last 30 seconds</small>
               <span class="text-success h3">
                 <b>{JSON.parse(data.body.avg_block_time).toFixed(2)}</b> sec
@@ -117,6 +119,7 @@ if (data !== null && data.ok === false) {
                   </span>
                 </div>
               </GridContainer>
+              <StyledHr />
             </div>
           </div>
           <div class="p-2">
