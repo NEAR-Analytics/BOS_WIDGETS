@@ -26,7 +26,7 @@ if (!state.logged && !state.disconnected && !state.loadedCredentials) {
     if (!state.logged && state.user.mail && state.user.phrase) {
       login();
     }
-  }, 200);
+  }, 500);
 }
 
 const login = () => {
