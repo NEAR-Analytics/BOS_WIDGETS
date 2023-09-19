@@ -5,7 +5,7 @@ const profileData = Social.getr(`${account_id}/profile`);
 const ProfileWrapper = styled.div`
     padding: 0 0 30px 0;
     .banner-wrapper { padding: 15px; }
-    .banner { width: 100%;  height: 250px; background-color: #eceef0; border-radius: 20px; }
+    .banner { width: 100%;  height: 250px; background-color: gray; border-radius: 20px; }
     .profile-wrapper { padding: 0 30px; margin-top: -55px; display: flex; }
     .avatar-wrapper { width: 250px; height: 250px; border-radius: 70%; overflow: hidden; }
     .avatar { width: 100%; height: 100%; object-fit: cover; }
