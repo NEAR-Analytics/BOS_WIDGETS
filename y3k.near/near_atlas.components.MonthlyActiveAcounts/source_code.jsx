@@ -1,5 +1,3 @@
-// Monthly Active Accounts Example
-// Monthly Active Accounts Example
 let raw_data = fetch(
   "https://api.flipsidecrypto.com/api/v2/queries/c493c7b1-cfcc-4aee-ad79-869b4ed8ca90/data/latest",
   {
@@ -11,33 +9,67 @@ let raw_data = fetch(
   }
 );
 
+const initialState = {
+  selectedDateRange: "1Y",
+  rawData: [],
+};
+
+state = State.init(initialState);
+
+const handleDateRangeChange = (range) => {
+  State.update({
+    selectedDateRange: range,
+  });
+};
+
 const data = raw_data.body || [];
+State.update({ rawData: data });
 
 let Style = styled.div`
                 `;
 
-// logic start
+const processData = (rawData, dateRange) => {
+  const endDate = new Date();
+  let startDate = new Date();
 
-const sortedData = data.sort((a, b) => {
-  return new Date(a["DAY"]) - new Date(b["DAY"]);
-});
+  switch (dateRange) {
+    case "1M":
+      startDate.setMonth(endDate.getMonth() - 1);
+      break;
+    case "3M":
+      startDate.setMonth(endDate.getMonth() - 3);
+      break;
+    case "YTD":
+      startDate = new Date(endDate.getFullYear(), 0, 1); // start of the year
+      break;
+    case "1Y":
+      startDate.setFullYear(endDate.getFullYear() - 1);
+      break;
+    case "3Y":
+      startDate.setFullYear(endDate.getFullYear() - 3);
+      break;
+  }
+
+  const processedData = rawData.filter((entry) => {
+    const entryDate = new Date(entry["DAY"]);
+    return entryDate >= startDate && entryDate <= endDate;
+  });
+
+  // Sort the processed data by date
+  return processedData.sort((a, b) => new Date(a["DAY"]) - new Date(b["DAY"]));
+};
+
+const dataToDisplay = processData(state.rawData, state.selectedDateRange);
+
+const dates = dataToDisplay.map((entry) => entry["DAY"]);
 
 const NEW_MAAS = {};
 const RETURNING_MAAS = {};
 
-data.map((entry) => {
+dataToDisplay.forEach((entry) => {
   NEW_MAAS[entry["DAY"]] = entry["NEW_MAAS"];
   RETURNING_MAAS[entry["DAY"]] = entry["RETURNING_MAAS"];
 });
-
-// console.log(data);
-// console.log(RETURNING_MAAS);
-
-const dates = data.map((entry) => entry["DAY"]);
-
-// console.log(processedData);
-
-// logic part-2
 
 const stacked_options = {
   maintainAspectRatio: true,
@@ -88,14 +120,32 @@ const stacked_bar_data = {
 
 return (
   <Style>
-    <div className="text-bg-dark rounded-4 p-3 mb-4">
-      {data !== null ? (
-        <div>
-          <BarEl options={stacked_options} data={stacked_bar_data} />
-        </div>
-      ) : (
-        <div>Loading ...</div>
-      )}
+    <div className="relative text-bg-dark rounded-4 p-3 mb-4">
+      <div className="absolute top-0 right-0 flex space-x-2 p-3">
+        {["1M", "3M", "YTD", "1Y", "3Y"].map((range) => (
+          <button
+            key={range}
+            onClick={() => handleDateRangeChange(range)}
+            className={`px-3 py-1 rounded transition-colors duration-200 ease-in ${
+              state.selectedDateRange === range
+                ? "bg-blue-500 text-white"
+                : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+            }`}
+          >
+            {range}
+          </button>
+        ))}
+      </div>
+      <div className="rounded-4 p-3 mb-4 pt-16">
+        {" "}
+        {data !== null ? (
+          <div>
+            <BarEl options={stacked_options} data={stacked_bar_data} />
+          </div>
+        ) : (
+          <div>Loading ...</div>
+        )}
+      </div>
     </div>
   </Style>
 );
