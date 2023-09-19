@@ -373,7 +373,7 @@ return (
                               <a
                                 href="#"
                                 onClick={() => withdraw(row)}
-                                style={{ color: state.loading ?? "red" }}
+                                style={{ color: state.loading && "red" }}
                                 className="text-decoration-underline"
                               >
                                 {`Withdraw`}
