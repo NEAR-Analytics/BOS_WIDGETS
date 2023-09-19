@@ -603,6 +603,7 @@ if (state.reload) {
 
 const UserLink = ({ title, src, selected, winnerId, profile }) => (
   <div className="d-flex mr-3">
+    {console.log(profile)}
     <StyledLink href={src} target="_blank">
       <Widget
         src="rubycop.near/widget/Profile.ShortInlineBlock"
