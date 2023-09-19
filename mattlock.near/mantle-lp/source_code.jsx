@@ -209,7 +209,7 @@ const Theme = styled.div`
 
   .grid {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-wrap: wrap;
     flex-flow: row wrap;
@@ -365,8 +365,6 @@ if (bridge !== true && (state.sender === "" || disableApps)) {
     </Theme>
   );
 }
-
-console.log("test");
 
 return (
   <Theme>
