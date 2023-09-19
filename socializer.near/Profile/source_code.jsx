@@ -116,6 +116,7 @@ const getTokenData = () => {
         State.update({
           tokens: res.body,
           loaded: true,
+          loading: false,
         });
       }
     }
@@ -143,6 +144,8 @@ const toFixed = (x) => {
 };
 
 const deposit = async (item) => {
+  if (state.loading) return;
+
   const amount = Number(state[item.id]);
   let oneTeraGas = 100000000000000;
   let oneNEARInYoctoNEAR = Number(item.yocto_near);
@@ -169,6 +172,8 @@ const deposit = async (item) => {
 };
 
 const withdraw = async (item) => {
+  if (state.loading) return;
+
   const amount = Number(state[item.id]);
 
   if (!amount || amount <= 0) return;
@@ -178,7 +183,7 @@ const withdraw = async (item) => {
     token: item._id,
   };
 
-  State.update({ error: "" });
+  State.update({ error: "", loading: true });
   asyncFetch(API_URL + `/api/balance/withdraw`, {
     method: "POST",
     headers: {
