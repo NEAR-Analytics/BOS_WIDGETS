@@ -1,5 +1,4 @@
-const themeColor = lightColors;
-// const themeColor = props.themeColor;
+const themeColor = props.themeColor;
 const generaltheme = {
   height: "110px",
   align: "center",
