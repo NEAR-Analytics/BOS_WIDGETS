@@ -18,7 +18,7 @@ const GridContainer = styled.div`
 const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 2px;
 `;
 
 const StyledThead = styled.thead`
@@ -107,9 +107,7 @@ if (data !== null && data.ok === false) {
             </div>
           </div>
           <div class="p-2">
-            <div>
-              <b>Top 5 Accounts</b>
-            </div>
+            Top 5 Accounts
             <StyledTable>
               <StyledThead>
                 <StyledTr>
