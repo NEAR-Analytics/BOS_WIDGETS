@@ -17,7 +17,6 @@ const item = {
 const link = `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const Wrapper = styled.div`
-  border-bottom: 1px solid #eee;
   margin: 0 -12px;
   line-height: normal;
   
@@ -106,7 +105,15 @@ const Wrapper = styled.div`
 `;
 
 return (
-  <Wrapper>
+  <Wrapper
+    style={
+      props.hideComments
+        ? undefined
+        : {
+            borderBottom: "1px solid #eee",
+          }
+    }
+  >
     <div className={`post ${props.reposted ? "reposted" : ""}`}>
       <div className="left">
         <Widget
