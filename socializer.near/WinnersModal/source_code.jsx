@@ -12,6 +12,7 @@ State.init({
   repost: false,
   comment: false,
   loaded: false,
+  loading: true,
 });
 
 const ModalOverlay = styled.div`
@@ -101,6 +102,29 @@ border-radius: 6px;
 border: 2px solid rgb(255, 255, 255);
 background-color: #191a1a;
 `;
+
+const getWinners = () => {
+  State.update({ error: "", loading: true });
+  asyncFetch(API_URL + `/api/campaign/winners?id=${data._id}`).then((res) => {
+    if (res.ok) {
+      const { error, data } = res.body;
+      if (error) State.update({ error, loading: false });
+      else if (data) {
+        const { like, follow, repost, comment } = data;
+        State.update({
+          like,
+          follow,
+          repost,
+          comment,
+          loaded: true,
+          loading: false,
+        });
+      }
+    }
+  });
+};
+
+if (!state.loaded) getWinners();
 
 return (
   <ModalOverlay>
