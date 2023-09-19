@@ -296,7 +296,7 @@ const filteredCandidates = () => {
 
   if (state.filterOption === "bookmark")
     candidates = state.filter.bookmark
-      ? state.candidates.filter(([candidateId, _v, _n], _i) =>
+      ? state.candidates.filter(([candidateId, _v, _p], _i) =>
           state.bookmarked.includes(candidateId)
         )
       : result;
@@ -312,7 +312,7 @@ const filteredCandidates = () => {
     );
   if (state.filterOption === "my_votes")
     candidates = state.filter.my_votes
-      ? state.candidates.filter(([candidateId, _v, _n], _i) =>
+      ? state.candidates.filter(([candidateId, _v, _p], _i) =>
           alreadyVoted(candidateId)
         )
       : result;
@@ -320,19 +320,19 @@ const filteredCandidates = () => {
   if (candidateFilterId) {
     if (Array.isArray(candidateFilterId)) {
       const onlyFiltered = nearAccounts.filter(
-        ([candidate, _v, name], _i) =>
-          candidateFilterId.includes(name) ||
+        ([candidate, _v, p], _i) =>
+          candidateFilterId.includes(p.name) ||
           candidateFilterId.includes(candidate)
       );
       const restCandidates = nearAccounts.filter(
-        ([candidate, _v, _n], _i) =>
+        ([candidate, _v, _p], _i) =>
           !onlyFiltered.map((u) => u[0]).includes(candidate)
       );
       candidates = [...onlyFiltered, ...restCandidates];
     } else {
       candidates = nearAccounts.filter(
-        ([candidate, _v, name], _i) =>
-          name.toLowerCase().includes(candidateFilterId.toLowerCase()) ||
+        ([candidate, _v, p], _i) =>
+          p.name.toLowerCase().includes(candidateFilterId.toLowerCase()) ||
           candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
       );
     }
@@ -540,7 +540,7 @@ const isVisible = () =>
 
 const nearIdsWithName = () =>
   props.result.map(([candidate, _vote]) => {
-    return [candidate, _vote, Social.getr(`${candidate}/profile`)?.name];
+    return [candidate, _vote, Social.getr(`${candidate}/profile`)];
   });
 
 State.init({
@@ -601,14 +601,14 @@ if (state.reload) {
   loadSocialDBData();
 }
 
-const UserLink = ({ title, src, selected, winnerId, name }) => (
+const UserLink = ({ title, src, selected, winnerId, profile }) => (
   <div className="d-flex mr-3">
     <StyledLink href={src} target="_blank">
       <Widget
-        src="mob.near/widget/Profile.ShortInlineBlock"
+        src="rubycop.near/widget/Profile.ShortInlineBlock"
         props={{
           accountId: title,
-          profile: { name },
+          profile,
           fast: true,
           tooltip: false,
         }}
@@ -635,7 +635,7 @@ const Loader = () => (
   />
 );
 
-const CandidateItem = ({ candidateId, votes, name }) => (
+const CandidateItem = ({ candidateId, votes, profile }) => (
   <div>
     <CandidateItemRow
       className="d-flex align-items-center justify-content-between"
@@ -685,7 +685,7 @@ const CandidateItem = ({ candidateId, votes, name }) => (
         <div className="d-flex align-items-center">
           <div className="d-flex justify-items-center">
             <UserLink
-              name={name}
+              profile={profile}
               selected={state.selected === candidateId}
               winnerId={state.winnerIds.includes(candidateId)}
               src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
@@ -1096,14 +1096,16 @@ return (
             <>
               <Filters />
               <CandidatesContainer>
-                {state.candidates.map(([candidateId, votes, name], index) => (
-                  <CandidateItem
-                    candidateId={candidateId}
-                    votes={votes}
-                    name={name}
-                    key={index}
-                  />
-                ))}
+                {state.candidates.map(
+                  ([candidateId, votes, profile], index) => (
+                    <CandidateItem
+                      candidateId={candidateId}
+                      votes={votes}
+                      profile={profile}
+                      key={index}
+                    />
+                  )
+                )}
               </CandidatesContainer>
               {candidateFilterId && (
                 <div className="d-flex p-2 justify-content-center align-items-center">
