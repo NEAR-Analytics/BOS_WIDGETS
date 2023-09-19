@@ -1,5 +1,4 @@
 const Wrapper = styled.div`
-  border-bottom: 1px solid #eee;
   margin: 0 -12px;
   line-height: normal;
   
