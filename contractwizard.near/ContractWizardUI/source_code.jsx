@@ -8,8 +8,8 @@ State.init({
   fungibleToken: true,
   tokenName: "MyToken",
   tokenSymbol: "MTK",
-  ftDecimals: null,
-  ftPremintAmount: null,
+  ftDecimals: 24,
+  ftPremint: null,
   nftBaseURI: "",
   authOption: AUTH_OPTION.NO_AUTH,
   contractOutput: "",
@@ -18,7 +18,7 @@ State.init({
 const Background = styled.div`
     background-image: radial-gradient(#dad9e8 5%,transparent 0);
     background-size: 50px 50px;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
 `;
 
@@ -50,7 +50,7 @@ const StyledWrapper = styled.div`
     .right-side {
       width: 70%;
       min-height: 694px;
-      background-color: #1b1b18;
+      background-color: var(--blackA12);
       color: white;
       border-radius: 6px
     }
@@ -185,7 +185,7 @@ return (
               name: state.tokenName,
               symbol: state.tokenSymbol,
               decimals: state.ftDecimals,
-              preMint: "1000000000000000000000000",
+              preMint: state.ftPremint,
             },
           },
           plugins: {
@@ -266,8 +266,8 @@ return (
                         label: "Premint",
                         placeholder: 0,
                         onInput: (e) =>
-                          State.update({ ftPremintAmount: e.target.value }),
-                        value: state.ftPremintAmount,
+                          State.update({ ftPremint: e.target.value }),
+                        value: state.ftPremint,
                       }}
                     />
                     <Widget
