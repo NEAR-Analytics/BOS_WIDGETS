@@ -504,56 +504,58 @@ return (
           </div>
         </div>
       )}
-    </div>
 
-    <div className="component">
-      {bridge === true && component === null ? (
-        <Widget src="ciocan.near/widget/op-stack-mantle-bridge" />
-      ) : (
-        <>
-          {component === "lendle" && <Widget src="lendle.near/widget/Lendle" />}
+      <div className="component">
+        {bridge === true && component === null ? (
+          <Widget src="ciocan.near/widget/op-stack-mantle-bridge" />
+        ) : (
+          <>
+            {component === "lendle" && (
+              <Widget src="lendle.near/widget/Lendle" />
+            )}
 
-          {component === "gamma" && (
-            <Widget src="bluebiu.near/widget/Mantle.GAMMA" />
-          )}
+            {component === "gamma" && (
+              <Widget src="bluebiu.near/widget/Mantle.GAMMA" />
+            )}
 
-          {component === "fusionx" && (
-            <Widget
-              src="zavodil.near/widget/swap-mantle"
-              props={{
-                dex: "FusionX V3",
-              }}
-            />
-          )}
+            {component === "fusionx" && (
+              <Widget
+                src="zavodil.near/widget/swap-mantle"
+                props={{
+                  dex: "FusionX V3",
+                }}
+              />
+            )}
 
-          {component === "agni" && (
-            <Widget
-              src="zavodil.near/widget/swap-mantle"
-              props={{
-                dex: "Agni",
-              }}
-            />
-          )}
+            {component === "agni" && (
+              <Widget
+                src="zavodil.near/widget/swap-mantle"
+                props={{
+                  dex: "Agni",
+                }}
+              />
+            )}
 
-          {component === "iziswap" && (
-            <Widget
-              src="zavodil.near/widget/swap-mantle"
-              props={{
-                dex: "iZiSwap",
-              }}
-            />
-          )}
+            {component === "iziswap" && (
+              <Widget
+                src="zavodil.near/widget/swap-mantle"
+                props={{
+                  dex: "iZiSwap",
+                }}
+              />
+            )}
 
-          {component === "ammos" && (
-            <Widget
-              src="zavodil.near/widget/swap-mantle"
-              props={{
-                dex: "Ammos Finance",
-              }}
-            />
-          )}
-        </>
-      )}
+            {component === "ammos" && (
+              <Widget
+                src="zavodil.near/widget/swap-mantle"
+                props={{
+                  dex: "Ammos Finance",
+                }}
+              />
+            )}
+          </>
+        )}
+      </div>
     </div>
   </Theme>
 );
