@@ -55,10 +55,6 @@ const GREYLIST_VERIFY_LINK =
 const MIN_BOND = 3; //3
 const MAX_BOND = 300; //300;
 
-const nearIdsWithName = props.result.map(([candidate, _vote]) => {
-  return [candidate, _vote, Social.getr(`${candidate}/profile`)?.name];
-});
-
 const Container = styled.div`
   position: relative:
   font-family: Avenir;
@@ -295,7 +291,8 @@ const alreadyVoted = (candidateId) =>
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 
 const filteredCandidates = () => {
-  let candidates = nearIdsWithName;
+  const nearAccounts = nearIdsWithName();
+  let candidates = nearIdsWithName();
 
   if (state.filterOption === "bookmark")
     candidates = state.filter.bookmark
@@ -322,18 +319,18 @@ const filteredCandidates = () => {
 
   if (candidateFilterId) {
     if (Array.isArray(candidateFilterId)) {
-      const onlyFiltered = nearIdsWithName.filter(
+      const onlyFiltered = nearAccounts.filter(
         ([candidate, _v, name], _i) =>
           candidateFilterId.includes(name) ||
           candidateFilterId.includes(candidate)
       );
-      const restCandidates = nearIdsWithName.filter(
+      const restCandidates = nearAccounts.filter(
         ([candidate, _v, _n], _i) =>
           !onlyFiltered.map((u) => u[0]).includes(candidate)
       );
       candidates = [...onlyFiltered, ...restCandidates];
     } else {
-      candidates = nearIdsWithName.filter(
+      candidates = nearAccounts.filter(
         ([candidate, _v, name], _i) =>
           name.toLowerCase().includes(candidateFilterId.toLowerCase()) ||
           candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
@@ -541,6 +538,11 @@ const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
   myVotesForHouse().length > 0 || state.winnerIds.length > 0;
 
+const nearIdsWithName = () =>
+  props.result.map(([candidate, _vote]) => {
+    return [candidate, _vote, Social.getr(`${candidate}/profile`)?.name];
+  });
+
 State.init({
   reload: true,
   loading: false,
@@ -553,7 +555,7 @@ State.init({
   tosAgreement: false,
   selectedCandidates: [],
   voters: [],
-  candidates: nearIdsWithName,
+  candidates: nearIdsWithName(),
   filter: {
     bookmark: false,
     candidates: false,
@@ -1088,7 +1090,6 @@ return (
           {state.candidates.length > 0 ? (
             <>
               <Filters />
-              {console.log(state.candidates)}
               <CandidatesContainer>
                 {state.candidates.map(([candidateId, votes, name], index) => (
                   <CandidateItem
