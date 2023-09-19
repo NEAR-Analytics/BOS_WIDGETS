@@ -1,13 +1,13 @@
 const themeColor = props.themeColor;
 
 const daotheme = {
-  height: "90px",
+  height: "100px",
   align: "left",
-  description: "Election Participants activity per DAO",
-  brand: "DAO",
-  fontsize: "20px",
+  description: "Explore the on-chain information of your favored candidate.",
+  brand: "Candidate",
+  fontsize: "30px",
   fontweight: "30px",
-  afterbrand: "activity",
+  afterbrand: "Inforamations",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -30,7 +30,7 @@ State.init({
   data: [],
   isLoading: true,
   error: [],
-  tab: "first",
+  tab: "second",
 });
 
 const tabs = {
@@ -42,7 +42,7 @@ const tabs = {
 const setTab = (tab) => State.update({ tab });
 
 const Container = styled.div`
-  &&{text-align:center};
+  &&{text-align:left};
   .tabContent{
     display:inline-flex;
     align-items:center;
@@ -51,7 +51,7 @@ const Container = styled.div`
     border-radius: 10px;
     padding:3px 4px;
     list-style-type:none;
-    margin: 0 auto;
+    margin-left: 1%;
   }
   .tab-item .active{
     background: #304352;
@@ -166,49 +166,51 @@ if (state.error.length > 0) {
   setTimeout(hide, 2500);
 }
 return (
-  <div className="container-fluid py-2">
-    <div>
-      <div className="py-4">
-        <Container>
-          <ul className="tabContent">
-            <li className="tab-item">
-              <button
-                className={`${state.tab === tabs.firstTab ? "active" : ""}`}
-                aria-current="page"
-                onClick={() => setTab(tabs.firstTab)}
-              >
-                first tab
-              </button>
-            </li>
-            <li className="tab-item">
-              <button
-                className={`${state.tab === tabs.secondTab ? "active" : ""}`}
-                aria-current="page"
-                onClick={() => setTab(tabs.secondTab)}
-              >
-                second tab
-              </button>
-            </li>
-            <li className="tab-item">
-              <button
-                className={`${state.tab === tabs.thirdTab ? "active" : ""}`}
-                aria-current="page"
-                onClick={() => setTab(tabs.thirdTab)}
-              >
-                third tab
-              </button>
-            </li>
-          </ul>
-        </Container>
-      </div>
-    </div>
-
+  <div className="container-fluid">
     <div className="pl-2">
       <div
         className="my-4 shadow-sm  rounded-4"
         style={{ background: themeColor?.sbt_area?.section_bg }}
       >
         <Widget src="lord1.near/widget/header-dynamic" props={daotheme} />
+        <div>
+          <div>
+            <Container>
+              <ul className="tabContent">
+                <li className="tab-item">
+                  <button
+                    className={`${
+                      state.tab === tabs.secondTab ? "active" : ""
+                    }`}
+                    aria-current="page"
+                    onClick={() => setTab(tabs.secondTab)}
+                  >
+                    HOM
+                  </button>
+                </li>
+                <li className="tab-item">
+                  <button
+                    className={`${state.tab === tabs.firstTab ? "active" : ""}`}
+                    aria-current="page"
+                    onClick={() => setTab(tabs.firstTab)}
+                  >
+                    COA
+                  </button>
+                </li>
+
+                <li className="tab-item">
+                  <button
+                    className={`${state.tab === tabs.thirdTab ? "active" : ""}`}
+                    aria-current="page"
+                    onClick={() => setTab(tabs.thirdTab)}
+                  >
+                    TA
+                  </button>
+                </li>
+              </ul>
+            </Container>
+          </div>
+        </div>
         <div className="row w-100 pb-2 px-2 mx-0">
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
