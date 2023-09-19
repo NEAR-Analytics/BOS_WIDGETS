@@ -1,1 +1,1 @@
-return <div>Encode Hackathon</div>;
+return <div>Encode Hackathon Widget Update</div>;
