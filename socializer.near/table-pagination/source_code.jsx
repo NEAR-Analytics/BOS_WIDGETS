@@ -159,7 +159,7 @@ return (
                                 color: "#4886fe",
                                 cursor: "pointer",
                               }}
-                              onClick={() => td.click(row)}
+                              onClick={() => td.click ?? td.click(row)}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
