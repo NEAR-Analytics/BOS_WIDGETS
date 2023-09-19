@@ -5,72 +5,22 @@ const API_URL = props?.API_URL || "http://localhost:3000";
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
 
-const columns = [
-  {
-    title: "Project/User",
-    key: "accountId",
-    description: "Project/User",
-    width: 20,
-    project: true,
-  },
-  {
-    title: "Near Social  Post",
-    key: "social",
-    description: "Near Social  Post",
-    width: 40,
-    align: "left",
-  },
-  {
-    title: "Ends In",
-    key: "endsin",
-    description: "Ends In",
-    width: 15,
-    align: "left",
-  },
-  {
-    title: "Reward",
-    key: "reward",
-    description: "Reward",
-    width: 8,
-    align: "left",
-  },
-  {
-    title: "Total Rewards",
-    key: "total_reward",
-    description: "Total Rewards",
-    width: 10,
-    align: "left",
-  },
-  {
-    title: "Status",
-    key: "status",
-    description: "Status",
-    width: 10,
-    align: "center",
-    button: true,
-  },
-  {
-    title: "Engage Link",
-    key: "post_link",
-    description: "Engage Link",
-    width: 10,
-    align: "center",
-    link: true,
-  },
-];
-
 const options = [
   {
-    text: "Ended",
-    value: 1,
+    text: "Live Campaigns",
+    value: "live",
+  },
+  {
+    text: "Expired",
+    value: "expired",
   },
   {
     text: "Claimed",
-    value: 2,
+    value: "claimed",
   },
   {
     text: "Unclaimed",
-    value: 3,
+    value: "unclaimed",
   },
 ];
 
@@ -79,6 +29,9 @@ State.init({
   error: "",
   show_detail: false,
   selected: {},
+  searchValue: "",
+  menu: { value: "live" },
+  columns: [],
 });
 
 const MainComponent = styled.div`
@@ -183,21 +136,20 @@ const SearchIcon = () => (
   </svg>
 );
 
-const getCampaignData = () => {
-  return asyncFetch(API_URL + `/api/campaign?accountId=${accountId}`).then(
-    (res) => {
-      if (res.ok) {
-        const { error, data } = res.body;
-        if (error) State.update({ error });
-        State.update({
-          campaigns: data,
-        });
-      }
+const getCampaignData = (type) => {
+  return asyncFetch(API_URL + `/api/campaign?type=${type}`).then((res) => {
+    if (res.ok) {
+      const { error, data, columns } = res.body;
+      if (error) State.update({ error });
+      State.update({
+        campaigns: data,
+        columns,
+      });
     }
-  );
+  });
 };
 
-if (!state.campaigns.length) getCampaignData();
+if (!state.campaigns.length) getCampaignData(state.menu.value);
 
 const showDetail = (data) => {
   if (data.accountId !== accountId)
@@ -206,6 +158,15 @@ const showDetail = (data) => {
 
 const onClose = () => {
   State.update({ show_detail: false });
+};
+
+const handleSearch = (event) => {
+  const value = event.target.value;
+  State.update({ searchValue: value });
+};
+
+const selectMenu = (data) => {
+  State.update({ menu: data, campaigns: [] });
 };
 
 return (
@@ -220,7 +181,11 @@ return (
               alignItems: "center",
             }}
           >
-            <SearchInput placeholder="Search" />
+            <SearchInput
+              placeholder="Search"
+              value={state.searchValue}
+              onChange={handleSearch}
+            />
             <SearchIcon />
           </div>
           <div
@@ -234,8 +199,9 @@ return (
               props={{
                 API_URL,
                 noLabel: true,
-                placeholder: "Live-Campaigns",
                 options,
+                value: state.menu,
+                onChange: selectMenu,
               }}
               src={`${Owner}/widget/Select`}
             />
@@ -268,9 +234,10 @@ return (
           API_URL,
           themeColor: { table_pagination: themeColor.table_pagination },
           data: state.campaigns,
-          columns,
+          columns: state.columns,
           rowsCount: 4,
           showDetail,
+          searchValue: state.searchValue,
         }}
       />
     </TableComponent>
