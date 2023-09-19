@@ -35,6 +35,13 @@ const StyledWrapper = styled.div`
     margin: 20px 10px 20px 0;
   }
 
+  a {
+    color: inherit;
+    :hover {
+        color: var(--violet8);
+    }
+  }
+
   .token-type-desc {
     margin: 20px 0 30px 0;
   }
