@@ -48,7 +48,6 @@ const VStack = styled.div`
 
   @media (max-width: 736px) {
     border: none;
-
     background-color: transparent;
   }
 `;
@@ -74,7 +73,6 @@ const { can_add_action, poolsData, handlePairClick } = props;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 350px;
 
   font-family: "Inter";
   color: #fff;
@@ -92,8 +90,7 @@ const Wrapper = styled.div`
 
 const Info = styled.div`
   background: #1d1e1f;
-  width: 320px;
-
+  width: 100%;
   font-family: "Inter";
   color: #fff;
   border-radius: 8px;
@@ -967,7 +964,6 @@ const isInSufficient =
   Number(amount1) > Number(balances[token1]);
 
 const isWithdrawInsufficient = Number(lpAmount) > Number(lpBalance);
-
 return (
   <VStack>
     <Wrapper>
@@ -1142,7 +1138,7 @@ return (
 
     {isPostTx && (
       <Info>
-        If you dont see the updated balance in the table after 1 minute, please
+        If you don't see the updated balance in the table after 1 minute, please
         click the refresh button above.
       </Info>
     )}
