@@ -541,7 +541,7 @@ return (
         <div className="ms-auto d-flex gap-2">
           <filterButton onClick={toggleFilterModal}>Filter</filterButton>
           <addEventButton onClick={toggleNewEventModal}>
-            Add <i className="bi bi-plus-circle-fill"></i>
+          Add Your Event <i className="bi bi-plus-circle-fill"></i>
           </addEventButton>
         </div>
       </div>
