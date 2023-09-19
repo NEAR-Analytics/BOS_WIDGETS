@@ -114,7 +114,11 @@ const InfoIcon = styled.div`
 const { inputCurrency, outputCurrency, amount, loading } = props;
 const tradeInfo = props.tradeInfo || {};
 
-const getOut = tradeInfo?.netOut ? Big(tradeInfo.netOut || 0).toFixed(3) : "-";
+const getOut = tradeInfo?.netOut
+  ? Big(tradeInfo.netOut || 0)
+      .mul(0.995)
+      .toFixed(3)
+  : "-";
 const getTokenSymbol = (token) => (
   <>
     {token.proSymbol}
@@ -128,6 +132,10 @@ const getTokenSymbol = (token) => (
 const formatAmount = (amount) => {
   if (!amount || isNaN(amount)) return "-";
   return Number(Big(amount || 0).toFixed(3));
+};
+const formatRate = () => {
+  if (!inputCurrency?.price.usd || !outputCurrency?.price.usd) return "-";
+  return Big(outputCurrency.price.usd).div(inputCurrency.price.usd).toFixed(3);
 };
 const formatTips = (route) => {
   if (["PT", "YT"].includes(route.to.baseType)) {
@@ -156,7 +164,6 @@ const formatTips = (route) => {
     </div>
   );
 };
-
 return (
   <Result>
     {loading && (
@@ -172,11 +179,7 @@ return (
     <Row>
       <Text>Rate</Text>
       <Text className="right">
-        1 {outputCurrency.symbol} ={" "}
-        {tradeInfo?.exchangeRateAfter
-          ? (1 / tradeInfo.exchangeRateAfter).toFixed(3)
-          : "-"}{" "}
-        {inputCurrency.symbol}
+        1 {outputCurrency.symbol} = {formatRate()} {inputCurrency.symbol}
       </Text>
     </Row>
     <Row>
@@ -190,7 +193,7 @@ return (
             props={{ size: 14 }}
           />
           <ToolTips className="tooltips">
-            <div className="one-line">Slippage tolerance = 5%</div>
+            <div className="one-line">Slippage tolerance = 0.5%</div>
           </ToolTips>
         </InfoIcon>
       </Text>
@@ -210,9 +213,7 @@ return (
               into account price impact (
               {tradeInfo?.priceImpact &&
               Big(tradeInfo.priceImpact || 0).gt(0.0001)
-                ? Big(tradeInfo.priceImpact || 0)
-                    .gt(0.0001)
-                    .toFixed(4)
+                ? Big(tradeInfo.priceImpact || 0).toFixed(4)
                 : "< 0.0001"}
               %) and swap fees.
             </div>
