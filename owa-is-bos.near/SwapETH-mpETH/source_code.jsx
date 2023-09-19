@@ -117,8 +117,15 @@ return (
   <Theme>
     <div class="LidoContainer">
       <div class="Header">Stake ETH-mpETH</div>
-      <div class="SubHeader" style={{ color: "black" }}>
-        Powered by Meta Pool & Sushi Swap
+      <div class="SubHeader" style={{ color: "black", fontWeight: "bold" }}>
+        Powered by&nbsp;
+        <a target="_blank" href="https://www.metapool.app/">
+          Meta Pool
+        </a>
+        &nbsp;&&nbsp;
+        <a target="_blank" href="https://www.sushi.com/">
+          Sushi Swap
+        </a>
       </div>
       <div
         class="LidoForm"
@@ -201,8 +208,9 @@ return (
           <span
             class="LidoStakeFormInputContainerSpan3"
             onClick={() => {
+              const balance = parseFloat(state.balance) - 0.0004;
               State.update({
-                strEther: parseFloat(state.balance).toFixed(6).toString(),
+                strEther: balance.toFixed(5).toString(),
               });
             }}
           >
@@ -215,13 +223,44 @@ return (
           </span>
         </div>
         {!!state.sender ? (
-          <button
-            class="LidoStakeFormSubmitContainer"
-            style={{ background: "rgb(12, 34, 70)" }}
-            onClick={() => swap()}
-          >
-            <span>Stake</span>
-          </button>
+          <>
+            <button
+              class="LidoStakeFormSubmitContainer"
+              style={{ background: "rgb(12, 34, 70)" }}
+              onClick={() => swap()}
+            >
+              <span>Stake</span>
+            </button>
+            <div class="row">
+              <div
+                class="col-12"
+                style={{
+                  textAlign: "center",
+                  color: "black",
+                  marginTop: "5px",
+                  fontWeight: "bold",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Running on &nbsp;
+                  <a target="_blank" href="https://arbitrum.io/">
+                    Arbitrum
+                  </a>
+                  &nbsp; for lower fees &nbsp;
+                  <img
+                    src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Arbitrum.png"
+                    style={{ width: "20px" }}
+                  ></img>
+                </div>
+              </div>
+            </div>
+          </>
         ) : (
           <Web3Connect
             className="LidoStakeFormSubmitContainer"
