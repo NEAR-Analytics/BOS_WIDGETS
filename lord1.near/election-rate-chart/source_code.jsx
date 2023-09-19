@@ -109,7 +109,7 @@ return (
   <div className="container-fluid py-2">
     <div>
       <div className="row md-12">
-        <div calseeName="row md-12">
+        <div calseeName="row col-md-12">
           <div className="col-12">
             <div
               style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
@@ -150,10 +150,9 @@ return (
                 )}
               />
             </div>
-          </div>{" "}
+          </div>
         </div>
-
-        <div className="col-6">
+        <div className="col-lg-6">
           <div
             style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
             className="shadow-sm rounded-4"
@@ -193,7 +192,7 @@ return (
             />
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-lg-6">
           <div
             style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
             className="shadow-sm rounded-4"
@@ -231,12 +230,12 @@ return (
                 }
               )}
             />
-          </div>{" "}
+          </div>
         </div>
       </div>
 
       <div className="row md-12">
-        <div className="col-6">
+        <div className="col-lg-6">
           <div
             style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
             className="shadow-sm rounded-4"
@@ -276,7 +275,7 @@ return (
             />
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-lg-6">
           <div
             style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
             className="shadow-sm rounded-4"
@@ -314,7 +313,7 @@ return (
                 }
               )}
             />
-          </div>{" "}
+          </div>
         </div>
       </div>
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
