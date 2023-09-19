@@ -37,6 +37,25 @@ const commenttheme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
+const no_data = {
+  height: "90px",
+  align: "center",
+  description: "",
+  brand: "No data",
+  fontsize: "75",
+  fontweight: "25px",
+  afterbrand: "available",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+
 const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
   data = data || [];
   serieses = serieses || [{ key: "", seriesName: "", type: "", id: 1 }];
@@ -352,9 +371,15 @@ return (
     style={{ backgroundColor: themeColor?.search_sbt?.table_bg }}
     className="table-responsive"
   >
-    {third}
-    <div className="w-100 py-2"></div>
-    {second}
+    {props.thirdData.length > 0 && props.secondData.length > 0 ? (
+      <div className="">
+        {third}
+        <div className="w-100 py-2"></div>
+        {second}
+      </div>
+    ) : (
+      <Widget src="lord1.near/widget/header-dynamic" props={no_data} />
+    )}
     <div className="w-100 py-2"></div>
     {first}
   </div>
