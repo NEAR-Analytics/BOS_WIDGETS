@@ -418,7 +418,7 @@ return (
             <div>
               <img
                 src={
-                  "https://bafybeic6v34nkxhmro22tv2yoltsykniye2xlkgya6nxdqpxklu2bjn5me.ipfs.nftstorage.link/"
+                  "https://cryptologos.cc/logos/gamma-strategies-gamma-logo.png"
                 }
               />
               <h1>Gamma</h1>
@@ -465,7 +465,7 @@ return (
             <div>
               <img
                 src={
-                  "https://bafkreic422wp2my5ap4yelqyjex5zw2p5gfsz27defvtloi4s55o3i47d4.ipfs.nftstorage.link/"
+                  "https://cloudflare-ipfs.com/ipfs/bafkreic422wp2my5ap4yelqyjex5zw2p5gfsz27defvtloi4s55o3i47d4"
                 }
               />
               <h1>Ammos</h1>
