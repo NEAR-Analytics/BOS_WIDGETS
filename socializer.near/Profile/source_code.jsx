@@ -173,7 +173,7 @@ const withdraw = async (item) => {
   let data = {
     accountId,
     amount,
-    token: item.id,
+    token: item._id,
   };
 
   State.update({ error: "" });
