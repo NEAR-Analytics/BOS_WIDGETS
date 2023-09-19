@@ -293,7 +293,7 @@ return (
     />
 
     <Box
-      onClick={(e) => {
+      onClick={() => {
         State.update({ boxClicked: true });
       }}
     >
