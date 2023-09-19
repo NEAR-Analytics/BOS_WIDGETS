@@ -186,7 +186,7 @@ const bpLabels = ["bp_og", "bp_vibes", "bp_regens", "bp_fractal"];
 return (
   <div style={{ backgroundColor: themeColor.page_bg }}>
     <div
-      style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
+      style={{ backgroundColor: themeColor?.sbt_info?.section_bg }}
       className="shadow-sm rounded-4"
     >
       <Widget src="lord1.near/widget/header-dynamic" props={generaltheme} />
