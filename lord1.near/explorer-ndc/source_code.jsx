@@ -118,6 +118,9 @@ const queryHashes = [
   { id: 6, hash: "9953720b-a659-4209-880d-e2748f821a30" },
   { id: 7, hash: "1939ea72-42be-4124-ab0a-a553434cbdbf" },
   { id: 8, hash: "9855982e-4730-4fc5-b5a2-55a422f7fe6f" },
+  { id: 9, hash: "79b826f3-70b8-41b3-b251-2791bebbc2be" },
+  { id: 10, hash: "d21cf4a5-34b4-462f-b42f-5c40e8440651" },
+  { id: 11, hash: "0821376d-254a-434f-9bf7-8c0d7be75a14" },
 ];
 
 State.init({
@@ -131,6 +134,9 @@ State.init({
   sixthfilteredData: [],
   seventhfilteredData: [],
   eightfilteredData: [],
+  ninthfilteredData: [],
+  eleventhfilteredData: [],
+  tenthfilteredData: [],
   tab: "first",
   isLoading: false,
   error: [],
@@ -296,6 +302,52 @@ const handleData = () => {
     const eightfilteredData = eightfilterData(eightresult.data);
 
     State.update({ data: state.singer, eightfilteredData, isLoading: false });
+  } //-----------------------------------------------
+  const ninthresult = fetchData(queryHashes[8].hash);
+  if (ninthresult.isLoading) {
+    State.update({ isLoading: true, ninthfilterData: [] });
+  }
+  if (ninthresult.error) {
+    const errors = state.error;
+    errors.push(`error message is : "${ninthresult.error}"`);
+    State.update({ error: errors, isLoading: false });
+  }
+  if (ninthresult.data) {
+    const ninthfilteredData = ninthfilterData(ninthresult.data);
+
+    State.update({ data: state.singer, ninthfilteredData, isLoading: false });
+  } //-----------------------------------------------
+  const tenthresult = fetchData(queryHashes[9].hash);
+  if (tenthresult.isLoading) {
+    State.update({ isLoading: true, tenthfilterData: [] });
+  }
+  if (tenthresult.error) {
+    const errors = state.error;
+    errors.push(`error message is : "${tenthresult.error}"`);
+    State.update({ error: errors, isLoading: false });
+  }
+  if (tenthresult.data) {
+    const tenthfilteredData = tenthfilterData(tenthresult.data);
+
+    State.update({ data: state.singer, tenthfilteredData, isLoading: false });
+  } //-----------------------------------------------
+  const eleventhresult = fetchData(queryHashes[10].hash);
+  if (eleventhresult.isLoading) {
+    State.update({ isLoading: true, eleventhfilterData: [] });
+  }
+  if (eleventhresult.error) {
+    const errors = state.error;
+    errors.push(`error message is : "${eleventhresult.error}"`);
+    State.update({ error: errors, isLoading: false });
+  }
+  if (eleventhresult.data) {
+    const eleventhfilteredData = eleventhfilterData(eleventhresult.data);
+
+    State.update({
+      data: state.singer,
+      eleventhfilteredData,
+      isLoading: false,
+    });
   }
 };
 //------------------------------------------------------------------------------------------------
@@ -341,6 +393,22 @@ const seventhfilterData = (data) => {
 const eightfilterData = (data) => {
   return data.filter((row) => row.SINGER === state.singer);
 };
+//---------------------------------------------------------------------------
+//8
+const ninthfilterData = (data) => {
+  return data.filter((row) => row.SINGER === state.singer);
+};
+//------------------------------------------------------------------------------------------------
+//9
+const tenthfilterData = (data) => {
+  return data.filter((row) => row.SINGER === state.singer);
+};
+//---------------------------------------------------------------------------
+//10
+const eleventhfilterData = (data) => {
+  return data.filter((row) => row.SINGER === state.singer);
+};
+//------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 const fetchData = (hash) => {
   const data = fetch(
@@ -526,7 +594,7 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
   };
   return props;
 };
-const noData = <div className="w-100 py-4 text-center"> No data available</div>;
+const noData = <div className="w-100 py-4 text-center"> no data to show</div>;
 let fifth = (
   <div className="row w-100 py-4 g-4">
     <div
@@ -584,14 +652,14 @@ let third = (
         noData
       )}
     </div>
-    <div className="container text-center">
+    <div className="container">
       <div className="row py-4">
         <div className="col-md-6">
+          <Widget src="lord1.near/widget/header-dynamic" props={fifththeme} />
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
             className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            <Widget src="lord1.near/widget/header-dynamic" props={fifththeme} />
             {state.fifthfilteredData.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
@@ -627,11 +695,11 @@ let third = (
           </div>
         </div>
         <div className="col-md-6">
+          <Widget src="lord1.near/widget/header-dynamic" props={sixththeme} />
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
             className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            <Widget src="lord1.near/widget/header-dynamic" props={sixththeme} />
             {state.sixthfilteredData.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
@@ -668,14 +736,11 @@ let third = (
       </div>
       <div className="row py-4 ">
         <div className=" col-12 col-md-6">
+          <Widget src="lord1.near/widget/header-dynamic" props={sevenththeme} />
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
             className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            <Widget
-              src="lord1.near/widget/header-dynamic"
-              props={sevenththeme}
-            />
             {state.seventhfilteredData.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
@@ -711,11 +776,11 @@ let third = (
           </div>
         </div>
         <div className=" col-12 col-md-6">
+          <Widget src="lord1.near/widget/header-dynamic" props={eighttheme} />
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
             className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            <Widget src="lord1.near/widget/header-dynamic" props={eighttheme} />
             {state.eightfilteredData.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
@@ -754,7 +819,9 @@ let third = (
     </div>
   </div>
 );
-
+console.log(state.filteredData);
+console.log(state.secondfilteredData);
+console.log(state.fourthfilteredData);
 return (
   <div
     style={{ backgroundColor: themeColor.page_bg }}
