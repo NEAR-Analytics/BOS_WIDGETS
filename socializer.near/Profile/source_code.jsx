@@ -168,17 +168,13 @@ const deposit = async (item) => {
 
 const withdraw = async (item) => {
   const amount = Number(state[item.id]);
-  let oneNEARInYoctoNEAR = Number(item.yocto_near);
 
   if (!amount || amount <= 0) return;
   let data = {
     accountId,
-    amount: 0,
+    amount,
     token: item.id,
   };
-
-  if (item.id === "NEAR") data.amount = amount * oneNEARInYoctoNEAR;
-  else data.amount = toFixed((amount + 0.00001) * oneNEARInYoctoNEAR);
 
   State.update({ error: "" });
   asyncFetch(API_URL + `/api/balance/withdraw`, {
