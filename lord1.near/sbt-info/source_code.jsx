@@ -17,24 +17,7 @@ const generaltheme = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
-const nominatetheme = {
-  height: "110px",
-  align: "center",
-  description: "Let's discover NDC 👇",
-  brand: "NDC Info (coming soon...)",
-  fontsize: "100",
-  fontweight: "25px",
-  afterbrand: "",
-  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
-  fontbrand: " Arial, sans-serif",
-  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
-  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
-  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
-  fontsubtitle: " Arial, sans-serif",
-  background:
-    themeColor?.dynamic_header?.background ||
-    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
-};
+
 const queryHashes = [
   { id: 1, hash: "fb4895fb-0ef6-4d6a-82ae-f14d97f38340" },
   { id: 2, hash: "b252603a-720f-4da0-86d3-92a3eebe1846" },
@@ -375,9 +358,7 @@ return (
     <div
       className="shadow-sm  rounded-4"
       style={{ background: themeColor?.sbt_info?.section_bg }}
-    >
-      <Widget src="lord1.near/widget/header-dynamic" props={nominatetheme} />
-    </div>
+    ></div>
   </div>
 );
 // const props = {
