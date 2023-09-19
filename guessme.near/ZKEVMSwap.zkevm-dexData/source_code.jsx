@@ -400,6 +400,7 @@ const callTxPancakeZKEVM2 = (
       .toFixed();
 
     const ifaceErc20 = new ethers.utils.Interface(input.routerAbi);
+    console.log("ifaceErc20: ", ifaceErc20);
 
     const tokenIn =
       input.inputAssetTokenId === ethAddress
@@ -427,7 +428,7 @@ const callTxPancakeZKEVM2 = (
 
     const swapContract = new ethers.Contract(
       input.routerContract,
-      pancakeAbi,
+      input.routerAbi,
       Ethers.provider().getSigner()
     );
 
@@ -468,6 +469,8 @@ const callTxPancakeZKEVM2 = (
         ifaceErc20.encodeFunctionData("unwrapWETH9", ["0", input.sender])
       );
     }
+
+    console.log("multicallParams: ", multicallParams);
 
     return swapContract["multicall(uint256,bytes[])"](
       deadline,
