@@ -7,11 +7,7 @@ const { onClose, data } = props;
 
 State.init({
   error: "",
-  like: false,
-  follow: false,
-  repost: false,
-  comment: false,
-  loaded: false,
+  winners: [],
   loading: true,
 });
 
@@ -109,13 +105,9 @@ const getWinners = () => {
     if (res.ok) {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
-      else if (data) {
-        const { like, follow, repost, comment } = data;
+      else if (data && data.length) {
         State.update({
-          like,
-          follow,
-          repost,
-          comment,
+          winners: data,
           loaded: true,
           loading: false,
         });
@@ -149,11 +141,14 @@ return (
         className="d-flex"
         style={{ flexDirection: "column", gap: 25, padding: 10 }}
       >
-        <p>{`Social Username Winner 01`}</p>
-        <p>{`Social Username Winner 02`}</p>
-        <p>{`Social Username Winner 01`}</p>
-        <p>{`Social Username Winner 01`}</p>
-        <p>{`Social Username Winner 01`}</p>
+        {state.winners.map((item, i) => {
+          const profile = Social.getr(`${item.accountId}/profile`);
+          return (
+            <p>{`Social Username ${profile.name || item.accountId} ${
+              i + 1 < 10 ? `0${i}` : i
+            }`}</p>
+          );
+        })}
       </div>
     </ModalContent>
   </ModalOverlay>
