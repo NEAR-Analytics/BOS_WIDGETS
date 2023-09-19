@@ -790,8 +790,8 @@ let third = (
                   rowsCount: "5",
                   columns: [
                     {
-                      title: "Commentator",
-                      key: "voter",
+                      title: "Target",
+                      key: "candidate",
                       link: "yes",
                       beforehref:
                         "https://near.social/mob.near/widget/ProfilePage?accountId=",
