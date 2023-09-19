@@ -107,6 +107,7 @@ return (
                   <tr key={row.key}>
                     {columns.map((td) => {
                       const key = td.key ? row[td.key] : i + 1;
+                      const value = key || td.value;
                       let name = "";
                       if (td.project) {
                         const profile = Social.getr(`${key}/profile`);
@@ -173,9 +174,9 @@ return (
                               </svg>
                             </div>
                           ) : td.button ? (
-                            <Button>{key}</Button>
+                            <Button>{value}</Button>
                           ) : (
-                            key
+                            value
                           )}
                         </td>
                       );
