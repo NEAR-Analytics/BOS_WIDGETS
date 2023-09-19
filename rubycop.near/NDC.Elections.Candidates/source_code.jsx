@@ -299,7 +299,7 @@ const filteredCandidates = () => {
 
   if (state.filterOption === "bookmark")
     candidates = state.filter.bookmark
-      ? state.candidates.filter(([candidateId, _votes], _index) =>
+      ? state.candidates.filter(([candidateId, _v, _n], _i) =>
           state.bookmarked.includes(candidateId)
         )
       : result;
@@ -315,7 +315,7 @@ const filteredCandidates = () => {
     );
   if (state.filterOption === "my_votes")
     candidates = state.filter.my_votes
-      ? state.candidates.filter(([candidateId, _votes], _index) =>
+      ? state.candidates.filter(([candidateId, _v, _n], _i) =>
           alreadyVoted(candidateId)
         )
       : result;
@@ -363,6 +363,7 @@ const handleSelectCandidate = (candidateId) => {
   State.update({
     selectedCandidates: selectedItems,
     availableVotes: currentVotes,
+    reload: false,
   });
 
   return true;
@@ -413,8 +414,10 @@ const handleVote = () => {
   const arr = bondDiff <= 0 ? [voteFunc] : [bondFunc, voteFunc];
 
   Near.call(arr);
-  State.update({ bountyProgramModal: false });
-  setReload(true);
+  State.update({
+    bountyProgramModal: false,
+    reload: true,
+  });
 };
 
 const handleAcceptToS = () => {
@@ -425,8 +428,10 @@ const handleAcceptToS = () => {
     70000000000000,
     1000000000000000000000
   );
-  State.update({ showToSModal: false });
-  setReload(true);
+  State.update({
+    showToSModal: false,
+    reload: true,
+  });
 };
 
 const handleFilter = (option) => {
@@ -450,8 +455,7 @@ const handleFilter = (option) => {
     filter = { my_votes: !state.filter.my_votes };
   }
 
-  State.update({ filterOption, filter });
-  setReload(true);
+  State.update({ filterOption, filter, reload: true });
 };
 
 const handleStateTransition = () => {
@@ -538,6 +542,7 @@ const isVisible = () =>
   myVotesForHouse().length > 0 || state.winnerIds.length > 0;
 
 State.init({
+  reload: true,
   loading: false,
   acceptedPolicy: false,
   hasVotedOnAllProposals: false,
@@ -548,7 +553,7 @@ State.init({
   tosAgreement: false,
   selectedCandidates: [],
   voters: [],
-  candidates: result,
+  candidates: nearIdsWithName,
   filter: {
     bookmark: false,
     candidates: false,
@@ -572,10 +577,7 @@ const winnerIds = Near.view(electionContract, "winners_by_proposal", {
   prop_id: props.id,
 });
 
-const [reload, setReload] = useState(false);
-
-useEffect(() => {
-  console.log("useEffect triggered ->");
+if (state.reload) {
   const hasVotedOnAllProposals = Near.view(
     electionContract,
     "has_voted_on_all_proposals",
@@ -595,14 +597,14 @@ useEffect(() => {
 
   handleStateTransition();
   loadSocialDBData();
-}, [reload]);
+}
 
 const UserLink = ({ title, src, selected, winnerId }) => (
   <div className="d-flex mr-3">
     <StyledLink href={src} target="_blank">
       <Widget
         src="mob.near/widget/Profile.ShortInlineBlock"
-        props={{ accountId: title, tooltip: false }}
+        props={{ accountId: title, profile:{name:}, tooltip: false }}
       />
     </StyledLink>
     <UserIcons
@@ -646,6 +648,7 @@ const CandidateItem = ({ candidateId, votes }) => (
               onClick={(e) =>
                 State.update({
                   selected: state.selected === candidateId ? null : candidateId,
+                  reload: false,
                 })
               }
             />
@@ -841,8 +844,10 @@ return (
             "Election results are under review by Election integrity Councils. Please wait it may take a few days",
           Button: {
             title: "I understand",
-            onCancel: () => State.update({ showReviewModal: false }),
-            onSubmit: () => State.update({ showReviewModal: false }),
+            onCancel: () =>
+              State.update({ showReviewModal: false, reload: false }),
+            onSubmit: () =>
+              State.update({ showReviewModal: false, reload: false }),
           },
         }}
       />
@@ -944,7 +949,8 @@ return (
           Button: {
             type: "Link",
             title: "Mint Fair Voting NFT",
-            onCancel: () => State.update({ showMintPolicyModal: false }),
+            onCancel: () =>
+              State.update({ showMintPolicyModal: false, reload: false }),
             href: MINT_VOTING_POLICY_NFT,
             doNotOpenNew: true,
           },
@@ -1015,14 +1021,16 @@ return (
             }`,
             disabled:
               state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
-            onCancel: () => State.update({ bountyProgramModal: false }),
+            onCancel: () =>
+              State.update({ bountyProgramModal: false, reload: false }),
             onSubmit: handleVote,
           },
           SecondaryButton: {
             type: greylisted ? "Link" : "Button",
             title: greylisted ? "Apply to Verify" : "Cancel",
             href: GREYLIST_VERIFY_LINK,
-            onSubmit: () => State.update({ bountyProgramModal: false }),
+            onSubmit: () =>
+              State.update({ bountyProgramModal: false, reload: false }),
           },
           footer: state.selectedCandidates.length < seats && (
             <div class="w-100 pt-2 text-center">
@@ -1055,7 +1063,8 @@ return (
           Button: {
             type: "Link",
             title: "Mint I voted NFT",
-            onCancel: () => State.update({ showMintIVotedModal: false }),
+            onCancel: () =>
+              State.update({ showMintIVotedModal: false, reload: false }),
             href: MINT_I_VOTED_NFT,
             doNotOpenNew: true,
           },
@@ -1079,10 +1088,11 @@ return (
             <>
               <Filters />
               <CandidatesContainer>
-                {state.candidates.map(([candidateId, votes], index) => (
+                {state.candidates.map(([candidateId, votes, name], index) => (
                   <CandidateItem
                     candidateId={candidateId}
                     votes={votes}
+                    name={name}
                     key={index}
                   />
                 ))}
