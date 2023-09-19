@@ -116,6 +116,7 @@ return (
                           [key]: `https://i.near.social/magic/large/https://near.social/magic/img/account/${key}`,
                         });
                       }
+                      console.log(td.click, "==>");
                       return (
                         <td
                           style={{
