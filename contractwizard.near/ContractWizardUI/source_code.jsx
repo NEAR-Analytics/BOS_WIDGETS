@@ -180,7 +180,54 @@ const BinaryOptions = () => (
   </>
 );
 
-const appIslive = false;
+const tokenStandardsDescriptions = (props) => {
+  const baseUrl = (nep) =>
+    `https://github.com/near/NEPs/blob/master/neps/nep-${nep}.md`;
+
+  if (props.fungibleToken) {
+    return (
+      <>
+        Implements{" "}
+        <a target="blank_" href={baseUrl("0141")}>
+          NEP 141
+        </a>{" "}
+        and
+        <a target="blank_" href={baseUrl("0148")}>
+          NEP 148
+        </a>{" "}
+        token standards
+      </>
+    );
+  } else {
+    return (
+      <>
+        Implements{" "}
+        <a target="blank_" href={baseUrl("0171")}>
+          NEP 171
+        </a>
+        ,{" "}
+        <a target="blank_" href={baseUrl("0177")}>
+          NEP 177
+        </a>
+        ,{" "}
+        <a target="blank_" href={baseUrl("0178")}>
+          NEP 178
+        </a>{" "}
+        and{" "}
+        <a target="blank_" href={baseUrl("0181")}>
+          NEP 181
+        </a>{" "}
+        token standards
+      </>
+    );
+  }
+};
+
+const sourceCode = `
+\`\`\`rust
+${state.contractOutput}
+\`\`\`
+`;
 
 return (
   <>
@@ -241,9 +288,7 @@ return (
         />
         <div>
           <div className="token-type-desc">
-            {state.fungibleToken
-              ? "Implements NEP 141 and NEP 148 token standards"
-              : "Implements NEP 171, NEP 177, NEP 178 and NEP 181 token standards"}
+            <tokenStandardsDescriptions fungibleToken={state.fungibleToken} />
           </div>
           <div className="main-content-wrapper">
             <div className="left-side">
@@ -311,11 +356,7 @@ return (
               </div>
             </div>
             <div className="right-side">
-              <pre>
-                {appIslive
-                  ? state.contractOutput
-                  : "This token wizard is still work in progress do not use AS-IS."}
-              </pre>
+              <Markdown text={sourceCode} />
             </div>
           </div>
         </div>
