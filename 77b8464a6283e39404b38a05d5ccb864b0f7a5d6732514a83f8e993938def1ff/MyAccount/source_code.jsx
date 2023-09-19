@@ -27,7 +27,9 @@ const Banner = () => {
   return (
     <>
       <div className="banner-wrapper">
-        <div className="banner"><img src="https://pbs.twimg.com/profile_banners/1478236354794639360/1677961573/1500x500" /></div>
+        <div className="banner">
+
+        </div>
       </div>
     </>
   );
@@ -39,7 +41,10 @@ const Profile = () => {
       <Banner />
       <div className="profile-wrapper">
         <div className="avatar-wrapper">
-          <img className="avatar" src="https://pbs.twimg.com/profile_images/1632115273137549312/PxWn6CSS_400x400.jpg"></img>
+          <img
+            className="avatar"
+            src="https://pbs.twimg.com/profile_images/1632115273137549312/PxWn6CSS_400x400.jpg"
+          ></img>
         </div>
         <div className="name-wrapper">
           <h1 className="profile-name">Zero</h1>
