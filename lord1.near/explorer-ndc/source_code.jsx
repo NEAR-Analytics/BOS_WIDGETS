@@ -934,7 +934,7 @@ return (
             )}
             {state.tab === "second" && (
               <Widget
-                src="lord1.near/widget/first-tab-explore"
+                src="lord1.near/widget/second-tab-explore"
                 props={{
                   firstData: state.ninthfilteredData,
                   secondData: state.tenthfilteredData,
