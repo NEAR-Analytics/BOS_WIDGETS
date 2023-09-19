@@ -25,7 +25,7 @@ const Wrapper = styled.div`
     }
     img {
       border-radius: var(--bs-border-radius-lg);
-      max-heigth: 50vh;
+      max-height: 40em;
     }
 
     :hover {
