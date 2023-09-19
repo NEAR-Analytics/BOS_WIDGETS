@@ -599,12 +599,12 @@ if (state.reload) {
   loadSocialDBData();
 }
 
-const UserLink = ({ title, src, selected, winnerId }) => (
+const UserLink = ({ title, src, selected, winnerId, name }) => (
   <div className="d-flex mr-3">
     <StyledLink href={src} target="_blank">
       <Widget
         src="mob.near/widget/Profile.ShortInlineBlock"
-        props={{ accountId: title, profile:{name:}, tooltip: false }}
+        props={{ accountId: title, profile: { name }, tooltip: false }}
       />
     </StyledLink>
     <UserIcons
@@ -628,7 +628,7 @@ const Loader = () => (
   />
 );
 
-const CandidateItem = ({ candidateId, votes }) => (
+const CandidateItem = ({ candidateId, votes, name }) => (
   <div>
     <CandidateItemRow
       className="d-flex align-items-center justify-content-between"
@@ -678,6 +678,7 @@ const CandidateItem = ({ candidateId, votes }) => (
         <div className="d-flex align-items-center">
           <div className="d-flex justify-items-center">
             <UserLink
+              name={name}
               selected={state.selected === candidateId}
               winnerId={state.winnerIds.includes(candidateId)}
               src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
