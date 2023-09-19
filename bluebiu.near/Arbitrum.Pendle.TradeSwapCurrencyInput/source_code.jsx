@@ -7,6 +7,9 @@ const Wrapper = styled.div`
 `;
 const InputField = styled.div`
   width: calc(100% - 160px);
+
+  min-width: calc(100% - 237px);
+
   margin-right: 8px;
   @media (max-width: 768px) {
     width: calc(100% - 115px);
@@ -28,6 +31,7 @@ const Input = styled.input`
   outline: none;
   border: none;
   height: 40px;
+  width: 100%;
   vertical-align: bottom;
   @media (max-width: 900px) {
     font-size: 20px;
@@ -130,7 +134,7 @@ const utils = {
   },
   valueFormated: (amount) => {
     const prices = Storage.privateGet("tokensPrice");
-    const price = prices[props.currency?.symbol];
+    const price = prices[props.currency?.symbol] || props.currency?.price?.usd;
     if (!price) return "-";
     const value = Big(price).mul(amount || 0);
     if (value.lt(0.01)) return value.toPrecision(1);
