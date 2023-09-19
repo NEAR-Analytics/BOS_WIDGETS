@@ -382,14 +382,6 @@ return (
     </div>
 
     <div className="grid">
-      {disableApps && (
-        <div>
-          <p>
-            To use apps, please switch to the Mantle Network using your wallet.
-          </p>
-        </div>
-      )}
-
       {bridge && (
         <div className="apps">
           <div>
@@ -506,6 +498,15 @@ return (
       )}
 
       <div className="component">
+        {disableApps && (
+          <div>
+            <p>
+              To use apps, please switch to the Mantle Network using your
+              wallet.
+            </p>
+          </div>
+        )}
+
         {bridge === true && component === null ? (
           <Widget src="ciocan.near/widget/op-stack-mantle-bridge" />
         ) : (
