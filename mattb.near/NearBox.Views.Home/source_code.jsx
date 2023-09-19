@@ -18,17 +18,14 @@ State.init({
 
 if (!state.logged && !state.disconnected && !state.loadedCredentials) {
   Storage.privateGet("user");
-  
-  setTimeout(() => {
-    State.update({ user: Storage.privateGet("user") || {
-    mail: "",
-    phrase: "",
-  }, loadedCredentials: true });
+  State.update({ user: Storage.privateGet("user") || {
+  mail: "",
+  phrase: "",
+}, loadedCredentials: true });
 
-    if (!state.logged && state.user.mail && state.user.phrase) {
-      login();
-    }
-  }, 200);
+  if (!state.logged && state.user.mail && state.user.phrase) {
+    login();
+  }
 }
 
 const login = () => {
