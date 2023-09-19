@@ -3,14 +3,14 @@ const CHAIN_ID = 42161;
 const ROUTER_ADDRESS = "0x0000000001E4ef00d069e71d6bA041b0A16F7eA0";
 const CONNECT_PROPS = {
   imgProps: {
-    src: "https://ipfs.near.social/ipfs/bafkreifeitks2bp3vyy7v7iznq6lf67dutvjjplzzbiwv4j2dheqiqqbpi",
+    src: "https://ipfs.near.social/ipfs/bafkreiawjxeh46j7c63vvqpg2t3juh4pdlhk6iic4dkqlpsjq3loqarooa",
     style: {
-      width: "179px",
-      height: "143px",
+      width: "434px",
+      height: "176px",
       marginTop: "80px",
     },
   },
-  noAccountTips: "Arbitrum Dex Collection",
+  noAccountTips: "Pendle",
   wrongNetworkTips: "To proceed, kindly switch to Arbitrum One Chain.",
   chainId: CHAIN_ID,
   chainName: "Arbitrum One",
@@ -39,7 +39,6 @@ State.init({
   activeTab: "Swap",
   mintType: "Mint",
   updateInputTokenBalance: true,
-  updateOutputTokenBalance: false,
   swapping: false,
   onInputTag: 0,
 });
@@ -232,7 +231,7 @@ const handleSelectTokens = () => {
         BasicTokens[token.address] = {
           ...token,
           address: toAddress(token.address),
-          icon: token.simpleIcon,
+          icon: token.proIcon,
           name: token.proName,
           symbol: token.proSymbol,
         };
@@ -241,7 +240,7 @@ const handleSelectTokens = () => {
     if (market.sy)
       BasicTokens[market.sy.address] = {
         ...market.sy,
-        icon: market.sy.simpleIcon,
+        icon: market.sy.proIcon,
         name: market.sy.proName,
         symbol: (
           <div
@@ -260,7 +259,7 @@ const handleSelectTokens = () => {
     if (!isPT && market.pt) {
       BasicTokens[market.pt.address] = {
         ...market.pt,
-        icon: market.pt.simpleIcon,
+        icon: market.pt.proIcon,
         name: market.pt.proName,
         symbol: market.pt.proSymbol,
       };
@@ -268,7 +267,7 @@ const handleSelectTokens = () => {
     if (isPT && market.yt) {
       BasicTokens[market.yt.address] = {
         ...market.yt,
-        icon: market.yt.simpleIcon,
+        icon: market.yt.proIcon,
         name: market.yt.proName,
         symbol: market.yt.proSymbol,
       };
@@ -276,13 +275,11 @@ const handleSelectTokens = () => {
     return Object.values(BasicTokens);
   }
   if (state.activeTab === "Mint") {
-    let hasUnderlyingAssets = false;
     const tokens = market.outputTokens.map((token) => {
-      hasUnderlyingAssets = token.address === market.accountingAsset.address;
       return {
         ...token,
         address: toAddress(token.address),
-        icon: token.simpleIcon,
+        icon: token.proIcon,
         name: token.proName,
         symbol: token.proSymbol,
       };
@@ -290,7 +287,7 @@ const handleSelectTokens = () => {
     if (market.sy) {
       tokens.push({
         ...market.sy,
-        icon: market.sy.simpleIcon,
+        icon: market.sy.proIcon,
         name: market.sy.proName,
         symbol: (
           <>
@@ -300,18 +297,6 @@ const handleSelectTokens = () => {
         ),
       });
     }
-
-    if (state.mintType === "Redeem" || hasUnderlyingAssets) {
-      console.log(tokens);
-      return tokens;
-    }
-    tokens.push({
-      ...market.accountingAsset,
-      icon: market.accountingAsset.simpleIcon,
-      name: market.accountingAsset.proName,
-      symbol: market.accountingAsset.proSymbol,
-      address: toAddress(market.accountingAsset.address),
-    });
     return tokens;
   }
 };
@@ -323,26 +308,26 @@ const handleInputCurrency = (params) => {
     if (market.underlyingAsset?.symbol === "gDAI") {
       return {
         ...market.accountingAsset,
-        icon: market.accountingAsset.simpleIcon,
+        icon: market.accountingAsset.proIcon,
         address: toAddress(market.accountingAsset.address),
       };
     }
     return {
       ...market.underlyingAsset,
-      icon: market.underlyingAsset.simpleIcon,
+      icon: market.underlyingAsset.proIcon,
       address: toAddress(market.underlyingAsset.address),
     };
   }
   if (mintType === "Mint") {
     return {
       ...market.underlyingAsset,
-      icon: market.underlyingAsset.simpleIcon,
+      icon: market.underlyingAsset.proIcon,
     };
   }
   if (mintType === "Redeem") {
     return {
       ...market.pt,
-      icon: market.pt.simpleIcon,
+      icon: market.pt.proIcon,
       name: market.pt.proName,
       symbol: market.pt.proSymbol,
     };
@@ -355,7 +340,7 @@ const handleOutputCurrency = (params) => {
   if (activeTab === "Swap") {
     let outputCurrency = isPT ? market.pt : market.yt;
     if (outputCurrency) {
-      outputCurrency.icon = outputCurrency.simpleIcon;
+      outputCurrency.icon = outputCurrency.proIcon;
       outputCurrency.symbol = outputCurrency.proSymbol;
     }
     return outputCurrency;
@@ -363,7 +348,7 @@ const handleOutputCurrency = (params) => {
   if (mintType === "Redeem") {
     return {
       ...market.underlyingAsset,
-      icon: market.underlyingAsset.simpleIcon,
+      icon: market.underlyingAsset.proIcon,
       address: toAddress(market.underlyingAsset.address),
     };
   }
@@ -382,10 +367,6 @@ function debounce(fn, wait) {
 }
 const debouncedGetBestTrade = debounce(getBestTrade, 500);
 
-console.log({
-  output: state.outputCurrencyAmount,
-});
-
 return (
   <>
     <BackIconWrapper
@@ -402,9 +383,14 @@ return (
       )}
       <Header>
         <HeaderToken>
-          <img className="token-icon" src={state.market?.simpleIcon} />
+          <img
+            className="token-icon"
+            src={isPT ? state.market?.pt.proIcon : state.market?.yt.proIcon}
+          />
           <div>
-            <div className="token-symbol">{state.market?.simpleName}</div>
+            <div className="token-symbol">
+              {isPT ? state.market?.pt.proSymbol : state.market?.yt.proSymbol}
+            </div>
             <div className="token-name">{state.market?.protocol}</div>
           </div>
         </HeaderToken>
@@ -475,10 +461,11 @@ return (
               swapping: state.swapping,
               updateTokenBalance: state.updateInputTokenBalance,
               disableSelect:
-                (state.activeTab === "Swap" && isPT
-                  ? state.inputCurrency.baseType === "PT"
-                  : state.inputCurrency.baseType === "YT") ||
-                state.mintType === "Redeem",
+                state.activeTab === "Swap"
+                  ? isPT
+                    ? state.inputCurrency.baseType === "PT"
+                    : state.inputCurrency.baseType === "YT"
+                  : state.mintType === "Redeem",
               onCurrencySelectOpen: () => {
                 State.update({
                   displayCurrencySelect: true,
@@ -486,7 +473,6 @@ return (
                   selectedTokenAddress: state.inputCurrency.address,
                   tokens: handleSelectTokens(),
                 });
-                selectType = "input";
               },
               onUpdateCurrencyBalance: (balance) => {
                 State.update({
@@ -519,7 +505,7 @@ return (
                   currency: state.market?.yt
                     ? {
                         ...state.market?.yt,
-                        icon: state.market.yt.simpleIcon,
+                        icon: state.market.yt.proIcon,
                         name: state.market.yt.proName,
                         symbol: state.market.yt.proSymbol,
                       }
@@ -530,7 +516,7 @@ return (
                   disableSelect: true,
                   onUpdateCurrencyBalance: (balance) => {
                     State.update({
-                      maxInputBalance: ethers.utils.formatUnits(
+                      maxInputBalanceExtra: ethers.utils.formatUnits(
                         balance,
                         state.inputCurrency.decimals
                       ),
@@ -591,6 +577,7 @@ return (
                   state.activeTab === "Swap" && isPT
                     ? state.outputCurrency.baseType === "PT"
                     : state.outputCurrency.baseType === "YT",
+
                 onCurrencySelectOpen: () => {
                   State.update({
                     displayCurrencySelect: true,
@@ -598,7 +585,6 @@ return (
                     selectedTokenAddress: state.outputCurrency.address,
                     tokens: handleSelectTokens(),
                   });
-                  selectType = "output";
                 },
                 onUpdateCurrencyBalance: () => {
                   State.update({
@@ -644,6 +630,7 @@ return (
                 account,
                 outputCurrency: state.outputCurrency,
                 onLoadOut: ({ amount, redeemParams }) => {
+                  console.log("amountre: ", amount);
                   State.update({
                     outputCurrencyAmount: amount,
                     redeemParams,
@@ -670,10 +657,11 @@ return (
             src="bluebiu.near/widget/Arbitrum.Pendle.TradeSwapButton"
             props={{
               inputCurrency: state.inputCurrency,
+              updateInputTokenBalance: state.updateInputTokenBalance,
               extraInputCurrency: state.market?.yt
                 ? {
                     ...state.market?.yt,
-                    icon: state.market.yt.simpleIcon,
+                    icon: state.market.yt.proIcon,
                     name: state.market.yt.proName,
                     symbol: state.market.yt.proSymbol,
                   }
@@ -683,6 +671,7 @@ return (
               inputCurrencyAmount: state.inputCurrencyAmount,
               outputCurrencyAmount: state.outputCurrencyAmount,
               maxInputBalance: state.maxInputBalance,
+              maxInputBalanceExtra: state.maxInputBalanceExtra,
               onSuccess: () => {},
               routerAddress: ROUTER_ADDRESS,
               swapping: state.swapping,
@@ -698,6 +687,11 @@ return (
               mintParams: state.mintParams,
               redeemParams: state.redeemParams,
               gettingTrade: state.gettingTrade,
+              onMessage: (params) => {
+                State.update({
+                  message: params,
+                });
+              },
             }}
           />
         </Panel>
@@ -716,8 +710,7 @@ return (
             },
             onSelect: (currency) => {
               const params =
-                selectType === "output" ||
-                (state.activeTab === "Mint" && state.mintType === "Redeem")
+                state.currencySelectType === 1
                   ? {
                       outputCurrency: currency,
                       updateOutputTokenBalance: true,
@@ -728,6 +721,7 @@ return (
                       updateInputTokenBalance: true,
                       outputCurrencyAmount: "",
                     };
+
               State.update({
                 ...params,
                 displayCurrencySelect: false,
@@ -743,10 +737,13 @@ return (
       )}
       {state.message?.open && (
         <Widget
-          src="bluebiu.near/widget/0vix.LendingMessage"
+          src="bluebiu.near/widget/Arbitrum.Pendle.Message"
           props={{
             status: state.message.status,
+            title: state.message.title,
             text: state.message.text,
+            hash: state.message.hash,
+            chainId: CHAIN_ID,
             onClose: () => {
               State.update({
                 message: { open: false },
