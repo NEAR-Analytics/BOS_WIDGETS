@@ -91,9 +91,6 @@ const CurrencySymbol = styled.div`
   font-size: 18px;
   color: #fff;
   margin-left: 7px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
   .fz-14 {
     font-size: 14px;
   }
@@ -117,6 +114,11 @@ const Amount = styled.div`
   text-align: right;
   cursor: pointer;
   text-decoration: underline;
+`;
+const TokenDesc = styled.div`
+  color: #787da1;
+  font-size: 14px;
+  line-height: 16.8px;
 `;
 // styled area end
 
@@ -196,9 +198,12 @@ return (
         <CurrencyWrapper>
           {props.currency?.icon && <CurrencyIcon src={props.currency.icon} />}
           <CurrencySymbol>
-            {props.currency.symbol || (
-              <span className="fz-14">Select a token</span>
-            )}
+            <div>
+              {props.currency.symbol || (
+                <span className="fz-14">Select a token</span>
+              )}
+            </div>
+            {props.tokenDesc && <TokenDesc>{props.tokenDesc}</TokenDesc>}
           </CurrencySymbol>
         </CurrencyWrapper>
         {!props.disableSelect && (
