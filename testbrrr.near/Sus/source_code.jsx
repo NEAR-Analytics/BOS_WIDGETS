@@ -44,6 +44,27 @@ const Button = styled.div`
     }
 `;
 
+const Balance = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+`;
+
+const BalanceContainer = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    width: 650px!important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+`;
+
 State.init({
   coll: null,
   borrow: 0,
@@ -543,53 +564,6 @@ if (state.balance === undefined && state.sender) {
     });
 }
 
-// if (
-//   state.sender &&
-//   Ethers.send("eth_requestAccounts", [])[0] &&
-//   state.chainId === 11155111 &&
-//   state.price === 0
-// ) {
-//   const priceFeedContract = new ethers.Contract(
-//     priceFeedAddress,
-//     priceFeedAbi.body,
-//     Ethers.provider().getSigner()
-//   );
-
-//   const vesselManagerContract = new ethers.Contract(
-//     vesselManagerAddress,
-//     vesselManagerAbi.body,
-//     Ethers.provider().getSigner()
-//   );
-
-//   priceFeedContract.getPrice().then((priceRes) => {
-//     const price = Number(ethers.utils.formatEther(priceRes));
-
-//     State.update({ price });
-//     vesselManagerContract.getTCR(priceRes).then((tcrRes) => {
-//       const tcr = Number(ethers.utils.formatEther(tcrRes)) * 100;
-
-//       State.update({ tcr });
-//     });
-//   });
-// }
-
-// if (
-//   state.sender &&
-//   state.chainId === 11155111 &&
-//   state.isOpenVessel === undefined
-// ) {
-//   const vesselManagerContract = new ethers.Contract(
-//     vesselManagerAddress,
-//     vesselManagerAbi.body,
-//     Ethers.provider().getSigner()
-//   );
-
-//   vesselManagerContract.getVesselStatus(state.sender).then((res) => {
-//     const isOpenVessel = ethers.utils.formatEther(res).includes("1");
-//     State.update({ isOpenVessel });
-//   });
-// }
-
 const confirmAction = () => {
   if (
     props.action === "borrow" &&
@@ -649,18 +623,20 @@ return (
       <div></div>
     )}
 
-    {state.balances.map((balance) => {
-      return (
-        <div>
-          <p>Debt: {balance.debt} SUS</p>
-          <p>
-            Collateral: {balance.coll} {balance.asset}
-          </p>
-          <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
-          <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
-        </div>
-      );
-    })}
+    <BalanceContainer>
+      {state.balances.map((balance) => {
+        return (
+          <Balance>
+            <p>Debt: {balance.debt} SUS</p>
+            <p>
+              Collateral: {balance.coll} {balance.asset}
+            </p>
+            <p>Pending Asset Reward: {balance.pendingAssetReward} ETH</p>
+            <p>Pending SUS Debt Reward: {balance.pendingDebtTokenReward} SUS</p>
+          </Balance>
+        );
+      })}
+    </BalanceContainer>
 
     {state.stabilityBalances !== 0 ? (
       <div>
