@@ -286,12 +286,22 @@ return (
         width: "600px",
       }}
     >
-      <img
-        loading="lazy"
-        src="https://the-hackbox.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fbe13ddc9-81c2-427d-9425-7ed7f0cae488%2FHB_logo_full_inv.png?table=block&id=0e50367e-33d9-4a27-9955-c2413412cc43&spaceId=35ee01d9-6396-4a87-897a-acb52739b445&width=1730&userId=&cache=v2"
-        referrerpolicy="same-origin"
-        className="w-100"
-      />
+      <a
+        href="https://forms.gle/cBa24dmZj4WvNzHq7"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          border: 0,
+        }}
+      >
+        <img
+          loading="lazy"
+          src="https://the-hackbox.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fbe13ddc9-81c2-427d-9425-7ed7f0cae488%2FHB_logo_full_inv.png?table=block&id=0e50367e-33d9-4a27-9955-c2413412cc43&spaceId=35ee01d9-6396-4a87-897a-acb52739b445&width=1730&userId=&cache=v2"
+          referrerpolicy="same-origin"
+          className="w-100"
+        />
+      </a>
+      {/*
       <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLSeHhbYRLplL--fni03TqlvxUJRNUv7FZf4nUlBpJl2CvgC4pA/viewform?usp=send_form&amp;embedded=true&amp;usp=embed_googleplus"
         title="docs.google.com"
@@ -303,7 +313,7 @@ return (
           width: "600px",
           height: "2000px",
         }}
-      />
+      />*/}
     </div>
   </Layout>
 );
