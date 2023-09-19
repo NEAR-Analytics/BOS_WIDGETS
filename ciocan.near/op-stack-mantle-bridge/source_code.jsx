@@ -179,7 +179,13 @@ function handleDepositERC20(props) {
 const onConfirm = (props) => {
   console.log("onConfirm", props);
   const { network, token } = props;
-  if (network !== "ethereum") return;
+  if (network !== "ethereum") {
+    showToast({
+      title: "Please switch to Ethereum",
+      description: "withdrawals are not yet supported",
+    });
+    return;
+  }
   if (token.symbol === "ETH") {
     handleDepositETH(props);
   } else {
