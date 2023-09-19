@@ -4,9 +4,9 @@ if (!props.data || !props.columns) {
 
 const { data, columns, showDetail, searchValue } = props;
 
-State.init({ currentPage: 1, searchValue: searchValue || "" });
+State.init({ currentPage: 1 });
 
-console.log(state.searchValue, "==>searchValue");
+console.log(searchValue, "==>searchValue");
 const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
 
@@ -100,7 +100,7 @@ return (
             handlePagination()
               .table.filter((row) =>
                 Object.values(row).some((value) =>
-                  value.toString().includes(state.searchValue)
+                  value.toString().includes(searchValue)
                 )
               )
               .map((row, i) => {
