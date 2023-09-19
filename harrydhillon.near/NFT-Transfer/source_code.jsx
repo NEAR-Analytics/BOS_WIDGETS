@@ -228,7 +228,8 @@ const ConfirmOffer = () => {
 };
 
 const offerButtonDisabled =
-  (state.sendNFTS.length === 0 && state.offerNFTS.length === 0) || !isNearAddress(state.receiverId);
+  (state.sendNFTS.length === 0 && state.offerNFTS.length === 0) ||
+  !isNearAddress(state.receiverId);
 
 console.log(state);
 
