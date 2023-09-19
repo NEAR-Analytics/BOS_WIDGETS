@@ -116,6 +116,7 @@ const Amount = styled.div`
   line-height: 16px;
   text-align: right;
   cursor: pointer;
+  text-decoration: underline;
 `;
 // styled area end
 
