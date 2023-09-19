@@ -66,9 +66,6 @@ const processData = (rawData, dateRange) => {
     case "3Y":
       startDate.setFullYear(endDate.getFullYear() - 3);
       break;
-    case "10Y":
-      startDate.setFullYear(endDate.getFullYear() - 10);
-      break;
   }
 
   const processedData = rawData.filter((entry) => {
@@ -144,7 +141,7 @@ return (
   <Style>
     <div className="relative text-bg-dark rounded-4 p-3 mb-4">
       <div className="absolute top-0 right-0 flex space-x-2 p-3">
-        {["1M", "3M", "YTD", "1Y", "3Y", "10Y"].map((range) => (
+        {["1M", "3M", "YTD", "1Y", "3Y"].map((range) => (
           <button
             key={range}
             onClick={() => handleDateRangeChange(range)}
