@@ -105,9 +105,13 @@ const data = {
 const createColumn = (label, key) => {
   const alignCenter = [
     "TOTAL_POSTS",
+    "TOTAL_POSTS_7D",
     "TOTAL_REPLIES",
+    "TOTAL_REPLIES_7D",
     "TOTAL_LIKES_RECEIVED",
+    "TOTAL_LIKES_RECEIVED_7D",
     "TOTAL_LIKES_GIVEN",
+    "TOTAL_LIKES_GIVEN_7D",
   ];
   return {
     label: (
@@ -127,9 +131,13 @@ const createColumn = (label, key) => {
 const createColumnProfile = (label, key) => {
   const alignCenter = [
     "TOTAL_POSTS",
+    "TOTAL_POSTS_7D",
     "TOTAL_REPLIES",
+    "TOTAL_REPLIES_7D",
     "TOTAL_LIKES_RECEIVED",
+    "TOTAL_LIKES_RECEIVED_7D",
     "TOTAL_LIKES_GIVEN",
+    "TOTAL_LIKES_GIVEN_7D",
   ];
   return {
     label: (
@@ -149,9 +157,13 @@ const createColumnProfile = (label, key) => {
 const COLUMNS = [
   createColumnProfile("SIGNER_ID", "SIGNER_ID"),
   createColumn("TOTAL_POSTS", "TOTAL_POSTS"),
+  createColumn("TOTAL_POSTS_7D", "TOTAL_POSTS_7D"),
   createColumn("TOTAL_REPLIES", "TOTAL_REPLIES"),
+  createColumn("TOTAL_REPLIES_7D", "TOTAL_REPLIES_7D"),
   createColumn("TOTAL_LIKES_RECEIVED", "TOTAL_LIKES_RECEIVED"),
+  createColumn("TOTAL_LIKES_RECEIVED_7D", "TOTAL_LIKES_RECEIVED_7D"),
   createColumn("TOTAL_LIKES_GIVEN", "TOTAL_LIKES_GIVEN"),
+  createColumn("TOTAL_LIKES_GIVEN_7D", "TOTAL_LIKES_GIVEN_7D"),
 ];
 
 function sort_update(sortKey, direction) {
