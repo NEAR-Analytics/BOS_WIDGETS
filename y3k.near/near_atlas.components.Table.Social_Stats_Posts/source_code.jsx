@@ -13,7 +13,7 @@ let rawData = fetch(
 // data.body = data.body.sort((a, b) => new Date(a.MONTH) - new Date(b.MONTH));
 
 State.init({
-  setSortConfig: { key: "", direction: "desc" },
+  setSortConfig: { key: "TOTAL_POSTS", direction: "desc" },
   currentPage: 1,
 });
 
@@ -75,6 +75,19 @@ function formatCell(text) {
   );
 }
 
+function formatCellHref(text) {
+  return (
+    <a
+      href={`https://near.org/near/widget/ProfilePage?accountId=${text}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-red-50 whitespace-normal break-words block max-w-xs"
+    >
+      {text}
+    </a>
+  );
+}
+
 function formatText(text) {
   let number = parseFloat(text);
   if (number < 0) {
@@ -111,8 +124,30 @@ const createColumn = (label, key) => {
   };
 };
 
+const createColumnProfile = (label, key) => {
+  const alignCenter = [
+    "TOTAL_POSTS",
+    "TOTAL_REPLIES",
+    "TOTAL_LIKES_RECEIVED",
+    "TOTAL_LIKES_GIVEN",
+  ];
+  return {
+    label: (
+      <p
+        className={`text-white text-sm font-semibold p-2 text-wrap ${
+          alignCenter.includes(key) ? "text-center" : ""
+        }`}
+      >
+        {label.replace("_", " ")}
+      </p>
+    ),
+    renderCell: (item) => formatCellHref(item[key]),
+    sort: { sortKey: key },
+  };
+};
+
 const COLUMNS = [
-  createColumn("SIGNER_ID", "SIGNER_ID"),
+  createColumnProfile("SIGNER_ID", "SIGNER_ID"),
   createColumn("TOTAL_POSTS", "TOTAL_POSTS"),
   createColumn("TOTAL_REPLIES", "TOTAL_REPLIES"),
   createColumn("TOTAL_LIKES_RECEIVED", "TOTAL_LIKES_RECEIVED"),
@@ -130,7 +165,7 @@ function getSortedNodes(fieldName) {
   if (fieldName) {
     state.setSortConfig = {
       key: fieldName,
-      direction: state.setSortConfig.direction || "asc", // default to ascending if direction is not set
+      direction: state.setSortConfig.direction || "desc", // default to ascending if direction is not set
     };
   }
 
@@ -162,7 +197,7 @@ function getSortedNodes(fieldName) {
   return nodes;
 }
 
-const sortedNodes = getSortedNodes("TOTAL_POSTS");
+const sortedNodes = getSortedNodes();
 const nodesForRendering = getNodesForCurrentPage(sortedNodes);
 return (
   <div className="bg-dark rounded-lg mb-12 overflow-hidden w-full">
