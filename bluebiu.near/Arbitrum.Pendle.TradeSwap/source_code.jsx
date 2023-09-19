@@ -466,6 +466,15 @@ return (
                     ? state.inputCurrency.baseType === "PT"
                     : state.inputCurrency.baseType === "YT"
                   : state.mintType === "Redeem",
+              tokenDesc:
+                state.mintType === "Redeem" ? (
+                  <Widget
+                    src="bluebiu.near/widget/Arbitrum.Pendle.FormatExpiryDate"
+                    props={{
+                      date: state.market?.expiry,
+                    }}
+                  />
+                ) : null,
               onCurrencySelectOpen: () => {
                 State.update({
                   displayCurrencySelect: true,
@@ -514,6 +523,15 @@ return (
                   amount: state.inputCurrencyAmount,
                   updateTokenBalance: state.updateInputTokenBalance,
                   disableSelect: true,
+                  tokenDesc:
+                    state.mintType === "Redeem" ? (
+                      <Widget
+                        src="bluebiu.near/widget/Arbitrum.Pendle.FormatExpiryDate"
+                        props={{
+                          date: state.market?.expiry,
+                        }}
+                      />
+                    ) : null,
                   onUpdateCurrencyBalance: (balance) => {
                     State.update({
                       maxInputBalanceExtra: ethers.utils.formatUnits(
