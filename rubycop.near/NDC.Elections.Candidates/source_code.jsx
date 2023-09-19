@@ -295,7 +295,7 @@ const alreadyVoted = (candidateId) =>
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 
 const filteredCandidates = () => {
-  let candidates = result;
+  let candidates = nearIdsWithName;
 
   if (state.filterOption === "bookmark")
     candidates = state.filter.bookmark
