@@ -58,19 +58,20 @@ State.init({
   voted: 0,
 });
 
-const total = Near.view("registry.i-am-human.near", "sbt_supply", {
-  issuer: "fractal.i-am-human.near",
+asyncFetch(`https://api.pikespeak.ai/election/iah-by-flag`, {
+  headers: { "x-api-key": apiKey },
+}).then((resp) => {
+  if (resp.body)
+    State.update({
+      total: parseInt(resp.body.total_iah) - parseInt(resp.body.black_list),
+    });
 });
 
 asyncFetch(
   `https://api.pikespeak.ai/election/total-voters?contract=${electionContract}`,
   { headers: { "x-api-key": apiKey } }
 ).then((resp) => {
-  if (resp.body)
-    State.update({
-      voted: resp.body,
-      total: total > 0 ? total - BLACKLISTED_COUNT : 0,
-    });
+  if (resp.body) State.update({ voted: resp.body });
 });
 
 const percent = state.total > 0 ? (state.voted / state.total) * 100 : 0;
