@@ -164,6 +164,38 @@ const deposit = async (item) => {
   }
 };
 
+const withdraw = async (item) => {
+  const amount = Number(state[item.id]);
+  let oneNEARInYoctoNEAR = Number(item.yocto_near);
+
+  if (!amount || amount <= 0) return;
+  let data = {
+    accountId,
+    amount: 0,
+    token: item.id,
+  };
+
+  if (item.id === "NEAR") data.amount = amount * oneNEARInYoctoNEAR;
+  else data.amount = toFixed((amount + 0.00001) * oneNEARInYoctoNEAR);
+
+  State.update({ error: "" });
+  asyncFetch(API_URL + `/api/balance/withdraw`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((res) => {
+    if (res.ok) {
+      const { error, data } = res.body;
+      if (error) State.update({ error });
+      else if (data && data === "success") {
+        console.log("success");
+      }
+    }
+  });
+};
+
 return (
   <Wrapper>
     <div className="d-flex align-items-center" style={{ gap: 24 }}>
@@ -327,6 +359,13 @@ return (
                                 className="text-decoration-underline"
                               >
                                 Deposit
+                              </a>
+                              <a
+                                href="#"
+                                onClick={() => withdraw(row)}
+                                className="text-decoration-underline"
+                              >
+                                Withdraw
                               </a>
                             </div>
                           ) : (
