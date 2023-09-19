@@ -129,8 +129,6 @@ const Theme = styled.div`
   padding-top: 64px;
   padding-bottom: 64px;
   margin: 0 auto;
-  background: rgb(0,0,0);
-  background: linear-gradient(135deg, rgba(0,0,0,1) 50%, #06dd76 100%);
 
   .background {
     position:fixed;
@@ -139,6 +137,8 @@ const Theme = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
+  background: rgb(0,0,0);
+  background: linear-gradient(135deg, rgba(0,0,0,1) 50%, #06dd76 100%);
   }
 
   > .logo-wrap {
