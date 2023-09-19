@@ -9,6 +9,7 @@ const API_URL = props?.API_URL || "http://localhost:3000";
 State.init({
   myAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${accountId}`,
   tokens: [],
+  loaded: false,
   error: "",
   loading: false,
 });
@@ -114,13 +115,14 @@ const getTokenData = () => {
       if (res.ok) {
         State.update({
           tokens: res.body,
+          loaded: true,
         });
       }
     }
   );
 };
 
-if (!state.tokens.length) getTokenData();
+if (!state.loaded) getTokenData();
 
 const toFixed = (x) => {
   if (Math.abs(x) < 1.0) {
@@ -188,7 +190,9 @@ const withdraw = async (item) => {
       const { error, data } = res.body;
       if (error) State.update({ error });
       else if (data && data === "success") {
-        console.log("success");
+        State.update({
+          loaded: false,
+        });
       }
     }
   });
