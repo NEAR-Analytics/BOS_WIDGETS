@@ -58,7 +58,7 @@ const MAX_BOND = 300; //300;
 const nearIdsWithName = props.result.map(([candidate, _vote]) => {
   return [candidate, _vote, Social.getr(`${candidate}/profile`)?.name];
 });
-console.log(nearIdsWithName);
+
 const Container = styled.div`
   position: relative:
   font-family: Avenir;
@@ -602,10 +602,9 @@ if (state.reload) {
 const UserLink = ({ title, src, selected, winnerId, name }) => (
   <div className="d-flex mr-3">
     <StyledLink href={src} target="_blank">
-      {console.log(name)}
       <Widget
         src="mob.near/widget/Profile.ShortInlineBlock"
-        props={{ accountId: title, profile: { name: name }, tooltip: false }}
+        props={{ accountId: title, profile: { name }, tooltip: false }}
       />
     </StyledLink>
     <UserIcons
@@ -1089,6 +1088,7 @@ return (
           {state.candidates.length > 0 ? (
             <>
               <Filters />
+              {console.log(state.candidates)}
               <CandidatesContainer>
                 {state.candidates.map(([candidateId, votes, name], index) => (
                   <CandidateItem
