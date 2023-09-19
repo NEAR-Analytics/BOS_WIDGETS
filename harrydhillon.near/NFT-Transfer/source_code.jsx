@@ -121,7 +121,6 @@ const ConfirmOffer = () => {
             is_holder: false,
           },
           gas: 100000000000000,
-          deposit: 1,
         });
       });
     }
@@ -161,7 +160,7 @@ const ConfirmOffer = () => {
           X
         </button>
       </div>
-      <p style={{ marginBottom: 5 }}>
+      <p style={{ marginBottom: 5, wordBreak: "break-all" }}>
         Offering: {accountId}
         <br />
         near: Ⓝ {state.offerAmount}
@@ -191,7 +190,7 @@ const ConfirmOffer = () => {
           </ShadowBOX>
         ))}
       </ScrollContainer>
-      <p style={{ marginBottom: 5, marginTop: 10 }}>
+      <p style={{ marginBottom: 5, marginTop: 10, wordBreak: "break-all" }}>
         Receving: {state.receiverId}
       </p>
       <ScrollContainer>
@@ -247,7 +246,7 @@ return (
         }}
       >
         <div>
-          <p>Your Wallet : {accountId} </p>
+          <p style={{ wordBreak: "break-all" }}>Your Wallet : {accountId} </p>
           <div className="mt-2">
             <Widget
               src={`harrydhillon.near/widget/nft-selector`}
