@@ -152,6 +152,8 @@ return (
             </div>
           </div>
         </div>
+        <div className="py-2"></div>
+
         <div className="col-lg-6">
           <div
             style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
@@ -233,7 +235,7 @@ return (
           </div>
         </div>
       </div>
-
+      <div className="py-2"></div>
       <div className="row md-12">
         <div className="col-lg-6">
           <div
