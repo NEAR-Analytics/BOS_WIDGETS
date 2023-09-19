@@ -151,6 +151,38 @@ const ButtonContainer = styled.div`
   }
 `;
 
+// check if correct chain
+const { chainId } = Ethers.getNetwork();
+const chainIdToSwitch = "0x5";
+const switchChain = () => {
+  const goerliChain = {
+    chainId: "0x5", // The chain ID for Aurora (1313161554 in hexadecimal)
+    chainName: "Goerli", // The name of the Aurora chain
+    nativeCurrency: {
+      name: "GoerliETH",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://ethereum-goerli.publicnode.com"], // The RPC endpoint for the Aurora chain
+    blockExplorerUrls: ["https://goerli.etherscan.io/"], // The block explorer URL for Aurora
+  };
+
+  Ethers.send("wallet_addEthereumChain", [goerliChain]);
+};
+
+if (chainId !== 5) {
+  return (
+    <div style={{ margin: "auto", textAlign: "center" }}>
+      <h2>Please switch to Goerli</h2>
+      <br />
+      <Button onClick={switchChain}>Switch to Goerli</Button>
+      <br />
+      <br />
+      <p>**Please refresh once after switch chain**</p>
+    </div>
+  );
+}
+
 State.init({
   prompt: null,
   response: "",
