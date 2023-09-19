@@ -142,7 +142,7 @@ const BinaryOptions = () => (
         id: "checkbox-item-burnable",
         label: "Burnable",
         checked: state.burnable,
-        onCheckedChange: (e) => State.update({ burnable: true }),
+        onCheckedChange: (e) => State.update({ burnable: e }),
       }}
     />
     <Widget
@@ -179,6 +179,8 @@ const BinaryOptions = () => (
     )}
   </>
 );
+
+const appIslive = false;
 
 return (
   <>
@@ -309,7 +311,11 @@ return (
               </div>
             </div>
             <div className="right-side">
-              {/*<pre>{state.contractOutput}</pre>*/}
+              <pre>
+                {appIslive
+                  ? state.contractOutput
+                  : "This token wizard is still work in progress do not use AS-IS."}
+              </pre>
             </div>
           </div>
         </div>
