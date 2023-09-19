@@ -11,7 +11,7 @@ const {
   Input,
   Details,
   NFT,
-} = VM.require("mattb.near/widgets/NearBox.Styles.DropNFTModal");
+} = VM.require("mattb.near/widget/NearBox.Styles.DropNFTModal");
 
 State.init({
   sdk: null,
