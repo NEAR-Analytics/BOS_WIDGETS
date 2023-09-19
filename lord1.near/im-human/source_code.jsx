@@ -72,6 +72,14 @@ const darkColors = {
     btn_color: "#fff",
     input_bg: "#2f3b54",
   },
+  election: {
+    textColor: "rgb(255,255,255)",
+  },
+  piePercentage: {
+    text: "blue",
+    filled: "red",
+    empty: "yellow",
+  },
   chart: {
     title: "rgb(255,255,255)",
     subtitle: "rgba(255,255,255,0.7)",
@@ -175,6 +183,14 @@ const lightColors = {
     btn_bg: "#fff",
     btn_bg_active: "rgb(235, 231, 253)",
     btn_color: "#000",
+  },
+  election: {
+    textColor: "rgb(0,0,0)",
+  },
+  piePercentage: {
+    text: "red",
+    filled: "green",
+    empty: "red",
   },
   chart: {
     title: "rgba(0,0,0,1)",
