@@ -437,7 +437,13 @@ return (
           <Right className="col">
             <H5>General</H5>
             <div className="d-flex justify-content-center">
-              <Widget src={widgets.statistic} props={{ electionContract }} />
+              <Widget
+                src={widgets.statistic}
+                props={{
+                  electionContract,
+                  quorum: state.houses[state.selectedHouse - 1].quorum,
+                }}
+              />
             </div>
           </Right>
           {state.myVotes.length > 0 && (
