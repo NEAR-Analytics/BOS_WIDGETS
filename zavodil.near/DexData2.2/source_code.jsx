@@ -1694,6 +1694,14 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE", // USDT
               "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000", // MNT
               "0xCAbAE6f6Ea1ecaB08Ad02fE02ce9A44F09aebfA2", // WBTC
+              "0xEB466342C4d449BC9f53A865D5Cb90586f405215", // axlUSDC
+              "0x6A3b0eb5b57C9a4F5772fc900dAE427E65f8C1a5", // CTT
+              "0x6968f3F16C3e64003F02E121cf0D5CCBf5625a42", // IONX
+              "0x25356aeca4210eF7553140edb9b8026089E49396", // LEND
+              "0xf93a85d53e4aF0D62bdf3A83CCFc1EcF3EAf9F32", // LUSD
+              "0x51cfe5b1E764dC253F4c8C1f19a081fF4C3517eD", // MINU
+              "0xd27B18915e7acc8FD6Ac75DB6766a80f8D2f5729", // PENDLE
+              "0x636D4073738C071326Aa70c9e5DB7C334bEb87bE", // wstETH
             ],
             coingeckoNetworkHandle: "mantle",
             inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
@@ -1742,6 +1750,10 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE", // USDT
               "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000", // MNT
               "0xCAbAE6f6Ea1ecaB08Ad02fE02ce9A44F09aebfA2", // WBTC
+              "0x60d01ec2d5e98ac51c8b4cf84dfcce98d527c747", // iZi
+              "0x51cfe5b1e764dc253f4c8c1f19a081ff4c3517ed", // MINU
+              "0x63e4cc2b37db17ae566eea6801c25ba354856ad6", // CRUST
+              "0x201eba5cc46d216ce6dc03f6a759e8e766e956ae", // SATOSHI
             ],
             coingeckoNetworkHandle: "mantle",
             inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
@@ -1753,6 +1765,11 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             routerAbi: state.routerAbi,
             callTx: callTxIziSwap,
             callTokenApproval: callTokenApprovalEVM,
+          });
+          State.update({ loadComplete: true });
+        } else {
+          onLoad({
+            network: NETWORK_MANTLE,
           });
           State.update({ loadComplete: true });
         }
@@ -1893,6 +1910,11 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             callTokenApproval: callTokenApprovalEVM,
           });
 
+          State.update({ loadComplete: true });
+        } else {
+          onLoad({
+            network: NETWORK_ZKEVM,
+          });
           State.update({ loadComplete: true });
         }
       } else {
