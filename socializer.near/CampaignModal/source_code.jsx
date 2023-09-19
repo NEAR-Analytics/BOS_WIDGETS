@@ -12,6 +12,7 @@ State.init({
   repost: false,
   comment: false,
   loaded: false,
+  loading: false,
 });
 
 const ModalOverlay = styled.div`
@@ -103,13 +104,13 @@ background-color: #191a1a;
 `;
 
 const getVerifyState = () => {
-  State.update({ error: "" });
+  State.update({ error: "", loading: true });
   asyncFetch(
     API_URL + `/api/campaign/verify?accountId=${accountId}&id=${data._id}`
   ).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) State.update({ error });
+      if (error) State.update({ error, loading: false });
       else if (data) {
         const { like, follow, repost, comment } = data;
         State.update({
@@ -118,6 +119,7 @@ const getVerifyState = () => {
           repost,
           comment,
           loaded: true,
+          loading: false,
         });
       }
     }
@@ -127,7 +129,7 @@ const getVerifyState = () => {
 if (!state.loaded) getVerifyState();
 
 const verifyEnter = () => {
-  State.update({ error: "" });
+  State.update({ error: "", loading: true });
   asyncFetch(API_URL + `/api/campaign/verify`, {
     method: "POST",
     headers: {
@@ -137,7 +139,7 @@ const verifyEnter = () => {
   }).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) State.update({ error });
+      if (error) State.update({ error, loading: false });
       else if (data) {
         const { like, follow, repost, comment } = data;
         State.update({
@@ -145,6 +147,7 @@ const verifyEnter = () => {
           follow,
           repost,
           comment,
+          loading: false,
         });
       }
     }
@@ -231,7 +234,11 @@ return (
           />
         </svg>
       </PostLink>
-      <Button className="btn" onClick={verifyEnter}>{`Verify & Enter`}</Button>
+      <Button
+        className="btn"
+        onClick={verifyEnter}
+        disabled={state.loading}
+      >{`Verify & Enter`}</Button>
     </ModalAction>
   </ModalOverlay>
 );
