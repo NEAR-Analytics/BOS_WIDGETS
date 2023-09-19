@@ -24,14 +24,163 @@ const options = [
   },
 ];
 
+const showDetail = (data) => {
+  if (data.accountId !== accountId)
+    State.update({ show_detail: true, selected: data });
+};
+
+const viewWins = (data) => {
+  // if (data.accountId !== accountId)
+  State.update({ view_win: true, selected: data });
+};
+
+const onClose = () => {
+  State.update({ show_detail: false, view_win: false });
+};
+
+const handleSearch = (event) => {
+  const value = event.target.value;
+  State.update({ searchValue: value });
+};
+
+const selectMenu = (data) => {
+  State.update({ menu: data, campaigns: [] });
+};
+
 State.init({
   campaigns: [],
   error: "",
   show_detail: false,
+  view_win: false,
   selected: {},
   searchValue: "",
   menu: { value: "live" },
-  columns: [],
+  columns: {
+    live: [
+      {
+        title: "Project/User",
+        key: "accountId",
+        description: "Project/User",
+        width: 20,
+        project: true,
+      },
+      {
+        title: "Near Social  Post",
+        key: "social",
+        description: "Near Social  Post",
+        width: 40,
+        align: "left",
+      },
+      {
+        title: "Ends In",
+        key: "endsin",
+        description: "Ends In",
+        width: 15,
+        align: "left",
+      },
+      {
+        title: "Reward",
+        key: "reward",
+        description: "Reward",
+        width: 8,
+        align: "left",
+      },
+      {
+        title: "Total Rewards",
+        key: "total_reward",
+        description: "Total Rewards",
+        width: 10,
+        align: "left",
+      },
+      {
+        title: "Status",
+        key: "status",
+        description: "Status",
+        width: 10,
+        align: "center",
+        button: true,
+        click: () => {},
+      },
+      {
+        title: "Engage Link",
+        key: "post_link",
+        description: "Engage Link",
+        width: 10,
+        align: "center",
+        link: true,
+        click: showDetail,
+      },
+    ],
+    expired: [
+      {
+        title: "Project/User",
+        key: "accountId",
+        description: "Project/User",
+        width: 20,
+        project: true,
+      },
+      {
+        title: "Reward",
+        key: "reward",
+        description: "Reward",
+        width: 8,
+        align: "left",
+      },
+      {
+        title: "Total Rewards",
+        key: "total_reward",
+        description: "Total Rewards",
+        width: 10,
+        align: "left",
+      },
+      {
+        title: "Claim Type",
+        key: "claim",
+        description: "Claim Type",
+        width: 10,
+        align: "left",
+        value: "Raffle",
+      },
+      {
+        title: "Winners",
+        key: "winners",
+        description: "Winners",
+        width: 10,
+        align: "left",
+        button: true,
+        value: "View Winners",
+        click: viewWins,
+      },
+      {
+        title: "Your Result ",
+        key: "your_result",
+        description: "Your Result",
+        width: 10,
+        align: "center",
+        link: true,
+        click: () => {},
+      },
+    ],
+  },
+  title: {
+    live: {
+      tl: "Live Campaigns",
+      subtl: "The list of Near Social Posts are offering rewards",
+    },
+    expired: {
+      tl: "Expired",
+      subtl: "These Engage-To-Earn campaigns have ended",
+    },
+    claimed: {
+      tl: "Claimed",
+      subtl: "You have claimed these rewards!",
+    },
+    unclaimed: {
+      tl: "Unclaimed",
+      subtl:
+        "These are rewards yet to be claimed by you. These rewards expire  7 days after the campaign, end date.",
+    },
+  },
 });
 
 const MainComponent = styled.div`
@@ -139,35 +288,16 @@ const SearchIcon = () => (
 const getCampaignData = (type) => {
   return asyncFetch(API_URL + `/api/campaign?type=${type}`).then((res) => {
     if (res.ok) {
-      const { error, data, columns } = res.body;
+      const { error, data } = res.body;
       if (error) State.update({ error });
       State.update({
         campaigns: data,
-        columns,
       });
     }
   });
 };
 
 if (!state.campaigns.length) getCampaignData(state.menu.value);
-
-const showDetail = (data) => {
-  if (data.accountId !== accountId)
-    State.update({ show_detail: true, selected: data });
-};
-
-const onClose = () => {
-  State.update({ show_detail: false });
-};
-
-const handleSearch = (event) => {
-  const value = event.target.value;
-  State.update({ searchValue: value });
-};
-
-const selectMenu = (data) => {
-  State.update({ menu: data, campaigns: [] });
-};
 
 return (
   <MainComponent>
@@ -215,9 +345,9 @@ return (
           </div>
         </FilterContent>
         <TitleContent>
-          <h4 style={{ margin: 0 }}>Live Campaigns</h4>
+          <h4 style={{ margin: 0 }}>{state.title[state.menu.value].tl}</h4>
           <p style={{ fontSize: 14, margin: 0 }}>
-            {`The list of Near Social Posts are offering rewards`}
+            {state.title[state.menu.value].subtl}
           </p>
           {state.error && (
             <p style={{ fontSize: 14, margin: 0, color: "red" }}>
@@ -234,9 +364,8 @@ return (
           API_URL,
           themeColor: { table_pagination: themeColor.table_pagination },
           data: state.campaigns,
-          columns: state.columns,
+          columns: state.columns[state.menu.value],
           rowsCount: 4,
-          showDetail,
           searchValue: state.searchValue,
         }}
       />
@@ -249,6 +378,16 @@ return (
           data: state.selected,
         }}
         src={`${Owner}/widget/CampaignModal`}
+      />
+    )}
+    {state.view_win && state.selected && (
+      <Widget
+        props={{
+          API_URL,
+          onClose,
+          data: state.selected,
+        }}
+        src={`${Owner}/widget/WinnersModal`}
       />
     )}
   </MainComponent>
