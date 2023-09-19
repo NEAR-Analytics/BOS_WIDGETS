@@ -1,5 +1,12 @@
 const { accountId, value, blockHeight } = props;
 
+const overlayStyle = {
+  maxWidth: "30em",
+  zIndex: 1070,
+  maxHeight: "24em",
+  overflow: "hidden",
+};
+
 const { content, popup } =
   value.item.path === `${accountId}/post/main`
     ? {
