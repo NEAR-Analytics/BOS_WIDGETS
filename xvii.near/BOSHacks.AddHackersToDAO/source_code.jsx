@@ -1,17 +1,24 @@
+// Initialize variables with default values or from props
 const limit = 20;
-const series = props.series ?? "214"; // add series filter
-const title = props.title ?? "Total Hackers";
+const series = props.series ?? "214";
+const title = props.title ?? "Total";
 const showHeader = props.showHeader ?? true;
 const showImage = props.showImage ?? false;
-// add what nft they have and then add filter of unique people, add link to collection
-// add condition if no props fetch all collection
+
+// Initialize state
 State.init({
   offset: 0,
   tokens: [],
   hasMore: true,
 });
 
+let isFetching = false; // Lock variable to prevent simultaneous fetches
+
+// Function to fetch tokens
 function fetchTokens() {
+  if (isFetching) return; // Exit if a fetch is already in progress
+  isFetching = true; // Set lock to true
+
   asyncFetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
     headers: {
@@ -24,8 +31,9 @@ function fetchTokens() {
           query MyQuery {
             mb_views_nft_tokens(
                 limit: ${limit},
-                offset: ${state.offset}
-              where: { nft_contract_id: { _eq: "mint.sharddog.near" } token_id: {_regex: "^${series}:"}}
+                offset: ${state.offset},
+                where: { nft_contract_id: { _eq: "mint.sharddog.near" }, token_id: {_regex: "^${series}:"
+              }}
               order_by: {minted_timestamp: desc}
             ) {
               media
@@ -35,11 +43,23 @@ function fetchTokens() {
         `,
     }),
   }).then((res) => {
+    isFetching = false; // Release lock
     if (res.ok) {
-      const tokens = res.body.data.mb_views_nft_tokens;
-      if (tokens.length > 0) {
+      const newTokens = res.body.data.mb_views_nft_tokens;
+
+      // Remove duplicates before appending
+      const uniqueNewTokens = newTokens.filter(
+        (newToken) =>
+          !state.tokens.some(
+            (existingToken) =>
+              existingToken.owner === newToken.owner &&
+              existingToken.media === newToken.media
+          )
+      );
+
+      if (uniqueNewTokens.length > 0) {
         State.update({
-          tokens: [...state.tokens, ...tokens],
+          tokens: [...state.tokens, ...uniqueNewTokens],
           offset: state.offset + limit,
           hasMore: true,
         });
@@ -52,9 +72,9 @@ function fetchTokens() {
   });
 }
 
+// Function to display each NFT
 function Sharddog({ owner, media }) {
   const size = "100px";
-
   return (
     <div className="row">
       <div className="col-sm-3">
@@ -62,9 +82,7 @@ function Sharddog({ owner, media }) {
           <Widget
             src="mob.near/widget/Image"
             props={{
-              image: {
-                url: media,
-              },
+              image: { url: media },
               style: {
                 width: size,
                 height: size,
@@ -82,9 +100,7 @@ function Sharddog({ owner, media }) {
       <div className="col-sm-12">
         <Widget
           src="ndcplug.near/widget/ProfileCard.AddToDAO"
-          props={{
-            accountId: owner,
-          }}
+          props={{ accountId: owner }}
         />
       </div>
     </div>
@@ -97,6 +113,7 @@ const Grid = styled.div`
   display: row;
 `;
 
+// Loader to display while fetching data
 const loader = (
   <div className="loader" key={"loader"}>
     <span
@@ -108,6 +125,7 @@ const loader = (
   </div>
 );
 
+// Final rendering
 return (
   <>
     {showHeader && (
@@ -123,9 +141,9 @@ return (
       loader={loader}
     >
       <Grid>
-        {state.tokens?.map((it) => {
-          return <Sharddog owner={it.owner} media={it.media} />;
-        })}
+        {state.tokens?.map((it, index) => (
+          <Sharddog key={index} owner={it.owner} media={it.media} />
+        ))}
       </Grid>
     </InfiniteScroll>
   </>
