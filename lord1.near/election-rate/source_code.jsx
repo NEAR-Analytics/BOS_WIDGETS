@@ -75,7 +75,7 @@ const theme3 = {
 const theme4 = {
   height: "150px",
   align: "center",
-  description: "Budget Package",
+  description: "Budget Package .",
   brand: "BD",
   fontsize: "10",
   fontweight: "25px",
@@ -98,6 +98,7 @@ const Right = styled.div`
 `;
 
 const H5 = styled.h5`
+  color:${themeColor.election?.textColor};
   text-align: center;
 `;
 const ChartContainer = styled.div`
@@ -127,7 +128,8 @@ const WidgetComponent = ({ label, voted, total }) => (
           <Widget
             src="lord1.near/widget/pie-percentage"
             props={{
-              voted: ` ${voted}`,
+              themeColor,
+              voted: `${voted}`,
               total: `${total}`,
               percent: 50,
             }}
@@ -140,7 +142,7 @@ const WidgetComponent = ({ label, voted, total }) => (
 
 const renderWidgets = (datas, labels) => {
   return labels.map((label) => (
-    <div className="col-md-3">
+    <div className="col-md-6 col-lg-3">
       <WidgetComponent
         label={label}
         voted={datas[0][`${label.toLowerCase()}`]}
@@ -149,21 +151,19 @@ const renderWidgets = (datas, labels) => {
     </div>
   ));
 };
-
+55;
 const renderHomWidgets = (datas, labels) => {
   return labels.map((label) => (
-    <div className="col-md-2">
-      {" "}
+    <div className="col-md-3 col-xl-2">
       <div className="col-md-12">
         <Right className="col">
           <div className="d-flex justify-content-center">
-            {" "}
             <ChartContainer>
-              {" "}
               <Widget
                 src="lord1.near/widget/pie-percentage"
                 props={{
-                  voted: ` ${datas[0][`${label.toLowerCase()}`]}`,
+                  themeColor,
+                  voted: `${datas[0][`${label.toLowerCase()}`]}`,
                   total: `${datas[0].singers}`,
                   description: `${label.toLowerCase().split("_")[1]}`,
                   percent: 10,
@@ -184,13 +184,13 @@ const tcLabels = ["tc_og", "tc_vibes", "tc_regens", "tc_fractal"];
 const bpLabels = ["bp_og", "bp_vibes", "bp_regens", "bp_fractal"];
 
 return (
-  <div>
+  <div style={{ backgroundColor: themeColor.page_bg }}>
     <div
       style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
       className="shadow-sm rounded-4"
     >
       <Widget src="lord1.near/widget/header-dynamic" props={generaltheme} />
-      <div className="row">{renderWidgets(datas, topLabels)}</div>{" "}
+      <div className="row">{renderWidgets(datas, topLabels)}</div>
     </div>
 
     <div style={{ width: "100%", height: "85px" }}></div>
@@ -203,13 +203,12 @@ return (
         <div className="col-md-12">
           <div className="row">
             {renderHomWidgets(datas, homLabels)}
-            <div className="col-md-4 ">
-              {" "}
+            <div className="order-first order-xl-last col-xl-4 ">
               <Widget src="lord1.near/widget/header-dynamic" props={theme1} />
-            </div>{" "}
+            </div>
           </div>
         </div>
-      </div>{" "}
+      </div>
     </div>
     <div
       style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
@@ -220,13 +219,12 @@ return (
         <div className="col-md-12">
           <div className="row">
             {renderHomWidgets(datas, coaLabels)}
-            <div className="col-md-4 ">
-              {" "}
+            <div className="order-first order-xl-last col-xl-4 ">
               <Widget src="lord1.near/widget/header-dynamic" props={theme2} />
-            </div>{" "}
+            </div>
           </div>
         </div>
-      </div>{" "}
+      </div>
     </div>
 
     <div
@@ -238,10 +236,9 @@ return (
         <div className="col-md-12">
           <div className="row">
             {renderHomWidgets(datas, tcLabels)}
-            <div className="col-md-4 ">
-              {" "}
+            <div className="order-first order-xl-last col-xl-4 ">
               <Widget src="lord1.near/widget/header-dynamic" props={theme3} />
-            </div>{" "}
+            </div>
           </div>
         </div>
       </div>
@@ -255,22 +252,16 @@ return (
         <div className="col-md-12">
           <div className="row">
             {renderHomWidgets(datas, bpLabels)}
-            <div className="col-md-4 ">
-              {" "}
+            <div className="order-first order-xl-last col-xl-4 ">
               <Widget src="lord1.near/widget/header-dynamic" props={theme4} />
             </div>
           </div>
         </div>
-      </div>{" "}
+      </div>
     </div>
     <Widget
       src="lord1.near/widget/election-rate-chart"
-      props={{
-        backgroundColor: themeColor?.tab_sbt?.backgroundColor,
-        textColor: themeColor?.tab_sbt?.textColor,
-        headerColor: themeColor?.tab_sbt?.headerColor,
-        numberColor: themeColor?.tab_sbt?.numberColor,
-      }}
+      props={{ themeColor }}
     />
   </div>
 );
