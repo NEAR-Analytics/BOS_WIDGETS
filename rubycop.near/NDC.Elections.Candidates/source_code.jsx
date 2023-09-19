@@ -606,7 +606,12 @@ const UserLink = ({ title, src, selected, winnerId, name }) => (
     <StyledLink href={src} target="_blank">
       <Widget
         src="mob.near/widget/Profile.ShortInlineBlock"
-        props={{ accountId: title, profile: { name }, tooltip: false }}
+        props={{
+          accountId: title,
+          profile: { name },
+          fast: true,
+          tooltip: false,
+        }}
       />
     </StyledLink>
     <UserIcons
