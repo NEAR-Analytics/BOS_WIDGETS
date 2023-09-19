@@ -17,6 +17,8 @@ State.init({
 });
 
 if (!state.logged && !state.disconnected && !state.loadedCredentials) {
+  Storage.privateGet("user");
+  
   setTimeout(() => {
     State.update({ user: Storage.privateGet("user") || {
     mail: "",
@@ -26,7 +28,7 @@ if (!state.logged && !state.disconnected && !state.loadedCredentials) {
     if (!state.logged && state.user.mail && state.user.phrase) {
       login();
     }
-  }, 1000);
+  }, 200);
 }
 
 const login = () => {
