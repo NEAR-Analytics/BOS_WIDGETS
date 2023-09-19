@@ -132,7 +132,6 @@ const createCampaign = () => {
     total_reward,
     duration_hr,
     duration_min,
-    error,
   } = state;
   if (
     !requirements.length ||
