@@ -106,9 +106,8 @@ const ConfirmOffer = () => {
           methodName: "send_offer",
           args: {
             sender_id: accountId,
-            sender_near: state.offerAmount
-              ? 0
-              : 1000000000000000000000000 * parseFloat(state.offerAmount),
+            sender_near:
+              1000000000000000000000000 * parseFloat(state.offerAmount),
             sender_nfts: state.sendNFTS.map((item) => ({
               tokenId: item.tokenId,
               contractId: item.contractId,
@@ -121,6 +120,7 @@ const ConfirmOffer = () => {
             is_holder: false,
           },
           gas: 100000000000000,
+          deposit: 1000000000000000000000000 * parseFloat(state.offerAmount),
         });
       });
     }
@@ -228,8 +228,9 @@ const ConfirmOffer = () => {
 };
 
 const offerButtonDisabled =
-  (state.sendNFTS.length === 0 || state.offerNFTS.length === 0) &&
-  !isNearAddress(state.receiverId);
+  (state.sendNFTS.length === 0 && state.offerNFTS.length === 0) || !isNearAddress(state.receiverId);
+
+console.log(state);
 
 return (
   <div>
