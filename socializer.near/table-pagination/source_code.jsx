@@ -174,7 +174,9 @@ return (
                               </svg>
                             </div>
                           ) : td.button ? (
-                            <Button>{value}</Button>
+                            <Button onClick={() => td.click(row)}>
+                              {value}
+                            </Button>
                           ) : (
                             value
                           )}
