@@ -50,12 +50,13 @@ const StyledWrapper = styled.div`
       padding: 0 20px 0 0;
     }
 
-    .right-side {
+    > pre {
       width: 70%;
       min-height: 694px;
-      background-color: var(--blackA12);
-      color: white;
-      border-radius: 6px
+
+      div {
+        border-radius: 6px
+      }
     }
 
     @media(max-width: 800px) {
@@ -355,9 +356,7 @@ return (
                 <BinaryOptions />
               </div>
             </div>
-            <div className="right-side">
-              <Markdown text={sourceCode} />
-            </div>
+            <Markdown text={sourceCode} />
           </div>
         </div>
       </StyledWrapper>
