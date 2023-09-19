@@ -58,7 +58,7 @@ const MAX_BOND = 300; //300;
 const nearIdsWithName = props.result.map(([candidate, _vote]) => {
   return [candidate, _vote, Social.getr(`${candidate}/profile`)?.name];
 });
-
+console.log(nearIdsWithName);
 const Container = styled.div`
   position: relative:
   font-family: Avenir;
