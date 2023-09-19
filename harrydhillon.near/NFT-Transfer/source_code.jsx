@@ -81,9 +81,12 @@ function isNearAddress(address) {
 
 console.log(state);
 
-const returnBuffer = (data) => {
-  return Buffer.from(JSON.stringify(data), "utf-8").toString("base64");
-};
+const returnBuffer = (data)=>{
+  Buffer.from(
+      JSON.stringify(data),
+      "utf-8"
+    ).toString("base64");
+}
 
 const ConfirmOffer = () => {
   const generateOfferAndCallContract = () => {
@@ -92,9 +95,9 @@ const ConfirmOffer = () => {
       allTransactions.push({
         contractName: "v1.havenswap.near",
         methodName: "mass_transfer",
-        args: returnBuffer({
+        args: {
           receiver_id: state.receiverId,
-        }),
+        },
         gas: 100000000000000,
         deposit: 1000000000000000000000000 * parseFloat(state.offerAmount),
       });
@@ -104,7 +107,7 @@ const ConfirmOffer = () => {
         allTransactions.push({
           contractName: "v1.havenswap.near",
           methodName: "send_offer",
-          args: returnBuffer({
+          args: {
             sender_id: accountId,
             sender_near: state.offerAmount
               ? 0
@@ -119,7 +122,7 @@ const ConfirmOffer = () => {
               contractId: item.contractId,
             })),
             is_holder: false,
-          }),
+          },
           gas: 100000000000000,
         });
       });
@@ -129,10 +132,10 @@ const ConfirmOffer = () => {
         allTransactions.push({
           contractName: item.contractId,
           methodName: "nft_transfer",
-          args: returnBuffer({
+          args: {
             receiver_id: state.receiverId,
             token_id: item.tokenId,
-          }),
+          },
           gas: 100000000000000,
         });
       });
