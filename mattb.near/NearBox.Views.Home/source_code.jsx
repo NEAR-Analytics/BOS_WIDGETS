@@ -12,7 +12,7 @@ State.init({
     message: "",
   },
   logged: false,
-  disconnected: false
+  disconnected: false,
 });
 
 if (!state.logged && !state.disconnected) {
@@ -47,6 +47,7 @@ const login = () => {
       }
     })
     .catch((data) => {
+      console.log(data);
       State.update({
         toast: {
           type: "error",
@@ -360,7 +361,7 @@ const views = {
               phrase: "",
             },
             logged: false,
-            disconnected: true
+            disconnected: true,
           });
           MailChain.disconnect();
 
