@@ -43,6 +43,16 @@ const StyledTd = styled.td`
   text-align: left;
 `;
 
+const StyledHr = styled.hr`
+  height: 1px;
+  border: none;
+  color: #000;
+  background-color: #000;
+  width: 90%;
+  text-align: left;
+  margin: 0 auto 0 0;
+`;
+
 if (data !== null && data.ok === false) {
   return (
     <div className="text-bg-light rounded-4 p-3 mb-3">
@@ -63,10 +73,12 @@ if (data !== null && data.ok === false) {
               <small>in block: </small>
               <b>{JSON.parse(data.body.tps_block)}</b>
             </div>
+
             <div class="p-2">
               <div>
                 TPS <b>3 Days</b> Peak
               </div>
+              <StyledHr />
               <span class="text-success h3">
                 <b>{JSON.parse(data.body.highest_tps).toFixed(0)}</b>
               </span>
@@ -89,6 +101,7 @@ if (data !== null && data.ok === false) {
               <span class="text-success h3">
                 <b>{JSON.parse(data.body.avg_block_time).toFixed(2)}</b> sec
               </span>
+              <StyledHr />
               <GridContainer>
                 <div>
                   <div>1 Day High</div>
