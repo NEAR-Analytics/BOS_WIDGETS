@@ -44,6 +44,7 @@ const {
   outputCurrencyAmount,
   aggregatorTokenOut,
   maxInputBalance,
+  maxInputBalanceExtra,
   tradeInfo,
   onSuccess,
   routerAddress,
@@ -54,41 +55,13 @@ const {
   swapping,
   updateSwapping,
   onMessage,
+  updateInputTokenBalance,
 } = props;
-
-console.log("swapping: ", swapping);
-
-if (gettingTrade && actionType == "Swap") {
-  return (
-    <SwapButton disabled>
-      <Widget
-        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
-        props={{
-          size: 16,
-        }}
-      />
-      Get Best Trade
-    </SwapButton>
-  );
-}
-
-if (Big(inputCurrencyAmount || 0).eq(0)) {
-  return <SwapButton disabled>Enter An Amount</SwapButton>;
-}
-if (!inputCurrency || (actionType === "Swap" && !outputCurrency)) {
-  return <SwapButton disabled>Select a token</SwapButton>;
-}
-if (Big(inputCurrencyAmount || 0).gt(maxInputBalance)) {
-  return (
-    <SwapButton disabled>
-      Insufficient {inputCurrency?.symbol} Balance
-    </SwapButton>
-  );
-}
 
 State.init({
   isApproved: false,
   isExtraApproved: false,
+  loadAllowanceDone: false,
   approving: false,
   wrapping: false,
 });
@@ -127,14 +100,6 @@ const getAllowance = () => {
     if (actionType === "Redeem") {
       TokenContract.allowance(account, routerAddress).then(
         (extraInputAllowance) => {
-          console.log(
-            "extraInputAllowance: ",
-            extraInputAllowance,
-            ethers.utils
-              .formatUnits(extraInputAllowance._hex, inputCurrency.decimals)
-              .toString(),
-            inputCurrencyAmount
-          );
           State.update({
             isExtraApproved: !Big(
               ethers.utils.formatUnits(
@@ -148,6 +113,7 @@ const getAllowance = () => {
                 inputCurrency.decimals
               )
             ).lt(inputCurrencyAmount),
+            loadAllowanceDone: true,
           });
         }
       );
@@ -157,15 +123,65 @@ const getAllowance = () => {
           ethers.utils.formatUnits(inputAllowance._hex, inputCurrency.decimals)
         ).lt(inputCurrencyAmount),
         isExtraApproved: true,
+        loadAllowanceDone: true,
       });
     }
   });
 };
 
-if (inputCurrency.address !== "active") {
-  getAllowance();
-} else {
-  State.update({ isApproved: true });
+if (gettingTrade && actionType == "Swap") {
+  return (
+    <SwapButton disabled>
+      <Widget
+        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+        props={{
+          size: 16,
+        }}
+      />
+      Get Best Trade
+    </SwapButton>
+  );
+}
+
+console.log({ state, props });
+
+if (updateInputTokenBalance) {
+  return (
+    <SwapButton disabled>
+      <Widget
+        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+        props={{
+          size: 16,
+        }}
+      />
+    </SwapButton>
+  );
+}
+
+if (Big(inputCurrencyAmount || 0).eq(0)) {
+  return <SwapButton disabled>Enter An Amount</SwapButton>;
+}
+if (!inputCurrency || (actionType === "Swap" && !outputCurrency)) {
+  return <SwapButton disabled>Select a token</SwapButton>;
+}
+
+if (Big(inputCurrencyAmount || 0).gt(maxInputBalance || 0)) {
+  return (
+    <SwapButton disabled>
+      Insufficient {inputCurrency?.symbol} Balance
+    </SwapButton>
+  );
+}
+
+if (
+  actionType === "Redeem" &&
+  Big(inputCurrencyAmount || 0).gt(maxInputBalanceExtra || 0)
+) {
+  return (
+    <SwapButton disabled>
+      Insufficient {extraInputCurrency?.symbol} Balance
+    </SwapButton>
+  );
 }
 
 const handleApprove = (isExtra) => {
@@ -234,6 +250,33 @@ const handleApprove = (isExtra) => {
       });
     });
 };
+
+const allowanceQs = `${inputCurrencyAmount}-${inputCurrency.address}-${actionType}`;
+
+if (allowanceQs !== state.allowanceQs) {
+  State.update({
+    allowanceQs,
+    loadAllowanceDone: false,
+  });
+  if (inputCurrency.address !== "active") {
+    getAllowance();
+  } else {
+    State.update({ isApproved: true, loadAllowanceDone: true });
+  }
+}
+
+if (!state.loadAllowanceDone) {
+  return (
+    <SwapButton disabled>
+      <Widget
+        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+        props={{
+          size: 16,
+        }}
+      />
+    </SwapButton>
+  );
+}
 
 if (!state.isApproved || !state.isExtraApproved) {
   return (
