@@ -333,7 +333,7 @@ let first = (
               { title: "Timestamp", key: "date" },
               {
                 title: "Signer",
-                key: "SINGER",
+                key: "singer",
                 link: "yes",
                 beforehref:
                   "https://near.social/mob.near/widget/ProfilePage?accountId=",
@@ -342,7 +342,7 @@ let first = (
               { title: "Deleted ", key: "status" },
               {
                 title: "Target",
-                key: "candidate",
+                key: "SINGER",
                 link: "yes",
                 beforehref:
                   "https://near.social/mob.near/widget/ProfilePage?accountId=",
