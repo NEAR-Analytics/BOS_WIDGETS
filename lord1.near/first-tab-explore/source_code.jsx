@@ -1,16 +1,9 @@
-const props = {
-  firstData,
-  secondData,
-  thirdData,
-  themeColor,
-};
-
 const themeColor = props.themeColor;
 
 const firsttheme = {
   height: "110px",
   align: "center",
-  description: `Track the activity of (${state.singer}) in NDC process`,
+  description: `Track the activity of Users in NDC process`,
   brand: "NDC Scan",
   fontsize: "100",
   fontweight: "25px",
@@ -32,7 +25,7 @@ const commenttheme = {
   brand: "Comment",
   fontsize: "75",
   fontweight: "25px",
-  afterbrand: "Status",
+  afterbrand: "Sent",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -122,7 +115,7 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
   return props;
 };
 
-const noData = <div className="w-100 py-4 text-center"> no data to show</div>;
+const noData = <div className="w-100 py-4 text-center"> No data available</div>;
 
 let third = (
   <div className=" col-12 col-md-12">
@@ -135,7 +128,7 @@ let third = (
           style={{ color: themeColor?.sbt_area?.card_title_color }}
           className="pt-4 ps-4"
         >
-          <i>Activity of ({state.singer})</i>
+          <i>Activity of User</i>
         </h6>
         <Widget
           src="lord1.near/widget/Pie-chart"
