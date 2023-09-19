@@ -333,11 +333,8 @@ const filteredCandidates = () => {
       );
       candidates = [...onlyFiltered, ...restCandidates];
     } else {
-      console.log(candidateFilterId);
-      console.log(nearIdsWithName);
-
       candidates = nearIdsWithName.filter(
-        ([candidate, _v, _n], _i) =>
+        ([candidate, _v, name], _i) =>
           name.toLowerCase().includes(candidateFilterId.toLowerCase()) ||
           candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
       );
