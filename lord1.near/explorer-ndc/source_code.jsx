@@ -526,10 +526,13 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
   };
   return props;
 };
-const noData = <div className="w-100 py-4 text-center"> no data to show</div>;
+const noData = <div className="w-100 py-4 text-center"> No data available</div>;
 let fifth = (
   <div className="row w-100 py-4 g-4">
-    <div className=" col-12 col-md-12">
+    <div
+      style={{ backgroundColor: themeColor.sbt_area?.section_bg }}
+      className=" col-12 col-md-12"
+    >
       <Widget
         src="mob.near/widget/ProfileLarge"
         props={{ accountId: state.singer }}
@@ -540,205 +543,212 @@ let fifth = (
 
 let third = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={thirdtheme} />
-    {state.thirdfilteredData.length > 0 ? (
-      <Widget
-        src="lord1.near/widget/table-pagination"
-        props={{
-          themeColor: { table_pagination: themeColor.table_pagination },
-          data: state.thirdfilteredData,
-          rowsCount: "",
-          columns: [
-            {
-              title: "Timestamp",
-              key: "timestamp",
-              description: "Nomination Timestamp",
-            },
-            {
-              title: "Nominee",
-              key: "SINGER",
-              link: "yes",
-              beforehref:
-                "https://near.social/mob.near/widget/ProfilePage?accountId=",
-              afterhref: "",
-              hyperlink: "yes",
-            },
+    <div className="w-100 mx-auto shadow-sm rounded-4 overflow-auto px-2 mb-2">
+      {state.thirdfilteredData.length > 0 ? (
+        <Widget
+          src="lord1.near/widget/table-pagination"
+          props={{
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: state.thirdfilteredData,
+            rowsCount: "",
+            columns: [
+              {
+                title: "Timestamp",
+                key: "timestamp",
+                description: "Nomination Timestamp",
+              },
+              {
+                title: "Nominee",
+                key: "SINGER",
+                link: "yes",
+                beforehref:
+                  "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                afterhref: "",
+                hyperlink: "yes",
+              },
 
-            { title: "House", key: "house" },
-            {
-              title: "Revoked",
-              key: "is_revoked",
-              colors: "#806ce1",
-            },
-          ],
-        }}
-      />
-    ) : (
-      noData
-    )}
-    <div className="row w-100 py-4 g-4">
-      <div className=" col-12 col-md-6">
-        <div
-          style={{ background: themeColor?.sbt_area?.card_bg }}
-          className="w-100 mx-auto shadow-sm rounded-4"
-        >
-          <Widget src="lord1.near/widget/header-dynamic" props={fifththeme} />
-          {state.fifthfilteredData.length > 0 ? (
-            <Widget
-              src="lord1.near/widget/table-pagination"
-              props={{
-                themeColor: { table_pagination: themeColor.table_pagination },
-                data: state.fifthfilteredData,
-                rowsCount: "5",
-                columns: [
-                  {
-                    title: "Voter",
-                    key: "voter",
-                    link: "yes",
-                    beforehref:
-                      "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                    afterhref: "",
-                    hyperlink: "yes",
-                  },
-                  {
-                    title: "Number",
-                    key: "number",
-                    description: "Number of Votes",
-                  },
-                  {
-                    title: "Action",
-                    key: "title",
-                  },
-                ],
-              }}
-            />
-          ) : (
-            noData
-          )}
-        </div>
-      </div>
-      <div className=" col-12 col-md-6">
-        <div
-          style={{ background: themeColor?.sbt_area?.card_bg }}
-          className="w-100 mx-auto shadow-sm rounded-4"
-        >
-          <Widget src="lord1.near/widget/header-dynamic" props={sixththeme} />
-          {state.sixthfilteredData.length > 0 ? (
-            <Widget
-              src="lord1.near/widget/table-pagination"
-              props={{
-                themeColor: { table_pagination: themeColor.table_pagination },
-                data: state.sixthfilteredData,
-                rowsCount: "5",
-                columns: [
-                  {
-                    title: "Candidate",
-                    key: "candidate",
-                    link: "yes",
-                    beforehref:
-                      "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                    hyperlink: "yes",
-                  },
-                  {
-                    title: "Number",
-                    key: "number",
-                    description: "Number of votes ",
-                  },
-                  {
-                    title: "Action",
-                    key: "title",
-                  },
-                ],
-              }}
-            />
-          ) : (
-            noData
-          )}
-        </div>
-      </div>
+              { title: "House", key: "house" },
+              {
+                title: "Revoked",
+                key: "is_revoked",
+                colors: "#806ce1",
+              },
+            ],
+          }}
+        />
+      ) : (
+        noData
+      )}
     </div>
-    <div className="row w-100 py-4 g-4">
-      <div className=" col-12 col-md-6">
-        <div
-          style={{ background: themeColor?.sbt_area?.card_bg }}
-          className="w-100 mx-auto shadow-sm rounded-4"
-        >
-          <Widget src="lord1.near/widget/header-dynamic" props={sevenththeme} />
-          {state.seventhfilteredData.length > 0 ? (
-            <Widget
-              src="lord1.near/widget/table-pagination"
-              props={{
-                themeColor: { table_pagination: themeColor.table_pagination },
-                data: state.seventhfilteredData,
-                rowsCount: "5",
-                columns: [
-                  {
-                    title: "Commentator",
-                    key: "voter",
-                    description: "voter ",
-                    link: "yes",
-                    beforehref:
-                      "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                    hyperlink: "yes",
-                  },
-                  {
-                    title: "Number",
-                    key: "number",
-                    description: "Number of comments ",
-                  },
-                  {
-                    title: "Action",
-                    key: "title",
-                  },
-                ],
-              }}
-            />
-          ) : (
-            noData
-          )}
+    <div className="container text-center">
+      <div className="row py-4">
+        <div className="col-md-6">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+          >
+            <Widget src="lord1.near/widget/header-dynamic" props={fifththeme} />
+            {state.fifthfilteredData.length > 0 ? (
+              <Widget
+                src="lord1.near/widget/table-pagination"
+                props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
+                  data: state.fifthfilteredData,
+                  rowsCount: "5",
+                  columns: [
+                    {
+                      title: "Voter",
+                      key: "voter",
+                      link: "yes",
+                      beforehref:
+                        "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                      afterhref: "",
+                      hyperlink: "yes",
+                    },
+                    {
+                      title: "Number",
+                      key: "number",
+                      description: "Number of Votes",
+                    },
+                    {
+                      title: "Action",
+                      key: "title",
+                    },
+                  ],
+                }}
+              />
+            ) : (
+              noData
+            )}
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+          >
+            <Widget src="lord1.near/widget/header-dynamic" props={sixththeme} />
+            {state.sixthfilteredData.length > 0 ? (
+              <Widget
+                src="lord1.near/widget/table-pagination"
+                props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
+                  data: state.sixthfilteredData,
+                  rowsCount: "5",
+                  columns: [
+                    {
+                      title: "Candidate",
+                      key: "candidate",
+                      link: "yes",
+                      beforehref:
+                        "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                      hyperlink: "yes",
+                    },
+                    {
+                      title: "Number",
+                      key: "number",
+                      description: "Number of votes ",
+                    },
+                    {
+                      title: "Action",
+                      key: "title",
+                    },
+                  ],
+                }}
+              />
+            ) : (
+              noData
+            )}
+          </div>
         </div>
       </div>
-      <div className=" col-12 col-md-6">
-        <div
-          style={{ background: themeColor?.sbt_area?.card_bg }}
-          className="w-100 mx-auto shadow-sm rounded-4"
-        >
-          <Widget src="lord1.near/widget/header-dynamic" props={eighttheme} />
-          {state.eightfilteredData.length > 0 ? (
+      <div className="row py-4 ">
+        <div className=" col-12 col-md-6">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+          >
             <Widget
-              src="lord1.near/widget/table-pagination"
-              props={{
-                themeColor: { table_pagination: themeColor.table_pagination },
-                data: state.eightfilteredData,
-                rowsCount: "5",
-                columns: [
-                  {
-                    title: "Commentator",
-                    key: "voter",
-                    link: "yes",
-                    beforehref:
-                      "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                    afterhref: "",
-                    hyperlink: "yes",
-                  },
-                  {
-                    title: "Number",
-                    key: "number",
-                    description: "Number of comments ",
-                  },
-                  {
-                    title: "Action",
-                    key: "title",
-                  },
-                ],
-              }}
+              src="lord1.near/widget/header-dynamic"
+              props={sevenththeme}
             />
-          ) : (
-            noData
-          )}
+            {state.seventhfilteredData.length > 0 ? (
+              <Widget
+                src="lord1.near/widget/table-pagination"
+                props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
+                  data: state.seventhfilteredData,
+                  rowsCount: "5",
+                  columns: [
+                    {
+                      title: "Commentator",
+                      key: "voter",
+                      description: "voter ",
+                      link: "yes",
+                      beforehref:
+                        "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                      hyperlink: "yes",
+                    },
+                    {
+                      title: "Number",
+                      key: "number",
+                      description: "Number of comments ",
+                    },
+                    {
+                      title: "Action",
+                      key: "title",
+                    },
+                  ],
+                }}
+              />
+            ) : (
+              noData
+            )}
+          </div>
+        </div>
+        <div className=" col-12 col-md-6">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+          >
+            <Widget src="lord1.near/widget/header-dynamic" props={eighttheme} />
+            {state.eightfilteredData.length > 0 ? (
+              <Widget
+                src="lord1.near/widget/table-pagination"
+                props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
+                  data: state.eightfilteredData,
+                  rowsCount: "5",
+                  columns: [
+                    {
+                      title: "Commentator",
+                      key: "voter",
+                      link: "yes",
+                      beforehref:
+                        "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                      afterhref: "",
+                      hyperlink: "yes",
+                    },
+                    {
+                      title: "Number",
+                      key: "number",
+                      description: "Number of comments ",
+                    },
+                    {
+                      title: "Action",
+                      key: "title",
+                    },
+                  ],
+                }}
+              />
+            ) : (
+              noData
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -746,7 +756,10 @@ let third = (
 );
 
 return (
-  <div className="container-fluid py-2 rounded-4">
+  <div
+    style={{ backgroundColor: themeColor.page_bg }}
+    className="container-fluid py-2 rounded-4"
+  >
     <div className="toast-container position-fixed bottom-0 end-0 p-3">
       {state.error.length > 0 &&
         state.error.map((er) => (
@@ -852,7 +865,17 @@ return (
                 }}
               />
             )}
-            {state.tab === "second" && "second"}
+            {state.tab === "second" && (
+              <Widget
+                src="lord1.near/widget/first-tab-explore"
+                props={{
+                  firstData: state.ninthfilteredData,
+                  secondData: state.tenthfilteredData,
+                  thirdData: state.eleventhfilteredData,
+                  themeColor,
+                }}
+              />
+            )}
           </div>
         </div>
       )}
