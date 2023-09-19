@@ -1241,13 +1241,18 @@ return (
                         Ethers.provider()
                           .getFeeData()
                           .then((data) => {
+                            const gasPrice = ethers.utils.formatUnits(
+                              Big(data.gasPrice).toFixed(0),
+                              "gwei"
+                            );
+
                             state.callTokenApproval(
                               state,
                               () => {
                                 onCallTxComple();
                                 tokenInApprovaleNeededCheck();
                               },
-                              Big(data.gasPrice).toFixed(0) /*"120"*/,
+                              gasPrice,
                               100000
                             );
                           });
