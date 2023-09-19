@@ -81,12 +81,9 @@ function isNearAddress(address) {
 
 console.log(state);
 
-const returnBuffer = (data)=>{
-  Buffer.from(
-      JSON.stringify(data),
-      "utf-8"
-    ).toString("base64");
-}
+const returnBuffer = (data) => {
+  Buffer.from(JSON.stringify(data), "utf-8").toString("base64");
+};
 
 const ConfirmOffer = () => {
   const generateOfferAndCallContract = () => {
@@ -124,6 +121,7 @@ const ConfirmOffer = () => {
             is_holder: false,
           },
           gas: 100000000000000,
+          deposit: 1,
         });
       });
     }
@@ -137,6 +135,7 @@ const ConfirmOffer = () => {
             token_id: item.tokenId,
           },
           gas: 100000000000000,
+          deposit: 1,
         });
       });
     }
