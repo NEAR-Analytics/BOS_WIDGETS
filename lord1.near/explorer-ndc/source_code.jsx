@@ -18,42 +18,6 @@ const generaltheme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
-const firsttheme = {
-  height: "110px",
-  align: "center",
-  description: `Track the activity of (${state.singer}) in NDC process`,
-  brand: "NDC Scan",
-  fontsize: "100",
-  fontweight: "25px",
-  afterbrand: "",
-  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
-  fontbrand: " Arial, sans-serif",
-  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
-  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
-  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
-  fontsubtitle: " Arial, sans-serif",
-  background:
-    themeColor?.dynamic_header?.background ||
-    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
-};
-const commenttheme = {
-  height: "90px",
-  align: "center",
-  description: "",
-  brand: "Comment",
-  fontsize: "75",
-  fontweight: "25px",
-  afterbrand: "Status",
-  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
-  fontbrand: " Arial, sans-serif",
-  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
-  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
-  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
-  fontsubtitle: " Arial, sans-serif",
-  background:
-    themeColor?.dynamic_header?.background ||
-    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
-};
 const thirdtheme = {
   height: "90px",
   align: "center",
@@ -75,11 +39,11 @@ const thirdtheme = {
 const fifththeme = {
   height: "80px",
   align: "left",
-  description: `How many votes did (${state.singer}) receive from other`,
-  brand: "",
-  fontsize: "30",
+  description: "",
+  brand: "Vote",
+  fontsize: "30px",
   fontweight: "25px",
-  afterbrand: "",
+  afterbrand: "Received",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -93,11 +57,11 @@ const fifththeme = {
 const sixththeme = {
   height: "80px",
   align: "left",
-  description: `How many votes have (${state.singer}) cast for other candidates as a voter`,
-  brand: "",
-  fontsize: "75",
+  description: "",
+  brand: "Vote",
+  fontsize: "30px",
   fontweight: "25px",
-  afterbrand: "",
+  afterbrand: "Cast",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -110,12 +74,12 @@ const sixththeme = {
 };
 const sevenththeme = {
   height: "80px",
-  align: "center",
-  description: `Compilation of individuals who have left comments for (${state.singer})`,
-  brand: "",
-  fontsize: "75",
+  align: "left",
+  description: "",
+  brand: "Comment",
+  fontsize: "30px",
   fontweight: "25px",
-  afterbrand: "",
+  afterbrand: "Received",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -128,12 +92,12 @@ const sevenththeme = {
 };
 const eighttheme = {
   height: "80px",
-  align: "center",
-  description: `How many comments have (${state.singer}) left for other candidates as a commentator`,
-  brand: "",
-  fontsize: "75",
+  align: "left",
+  description: "",
+  brand: "Comment",
+  fontsize: "30px",
   fontweight: "25px",
-  afterbrand: "",
+  afterbrand: "Sent",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -167,7 +131,7 @@ State.init({
   sixthfilteredData: [],
   seventhfilteredData: [],
   eightfilteredData: [],
-
+  tab: "first",
   isLoading: false,
   error: [],
 });
@@ -411,6 +375,42 @@ if (state.error.length > 0) {
 }
 //-------------------------------------------------------------------------------------------------
 
+const tabs = {
+  firstTab: "first",
+  secondTab: "second",
+};
+
+const setTab = (tab) => State.update({ tab });
+
+const Container = styled.div`
+  &&{text-align:center};
+  .tabContent{
+    display:inline-flex;
+    align-items:center;
+    background: rgba(26, 46, 51, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding:3px 4px;
+    list-style-type:none;
+    margin: 0 auto;
+  }
+  .tab-item .active{
+    background: #304352;
+
+  }
+  .tab-item button{
+    background-color:transparent;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    color:#fff;
+    height:30px;
+    padding:0 22px;
+    border:none;
+
+  }
+`;
+
 const Input = styled.input`
 color:${themeColor?.search_sbt?.input_text_color};
 background-color:${themeColor?.search_sbt?.input_bg};
@@ -526,6 +526,7 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
   };
   return props;
 };
+const noData = <div className="w-100 py-4 text-center"> no data to show</div>;
 let fifth = (
   <div className="row w-100 py-4 g-4">
     <div className=" col-12 col-md-12">
@@ -536,193 +537,87 @@ let fifth = (
     </div>
   </div>
 );
-let fourth = (
-  <div className=" col-12 col-md-12">
-    <span className=" col-12 col-md-4">
-      <div
-        style={{ background: themeColor?.sbt_area?.card_bg }}
-        className="w-100 mx-auto shadow-sm rounded-4"
-      >
-        <h6
-          style={{ color: themeColor?.sbt_area?.card_title_color }}
-          className="pt-4 ps-4"
-        >
-          <i>Activity of ({state.singer})</i>
-        </h6>
-        <Widget
-          src="lord1.near/widget/Pie-chart"
-          props={getPieProps(
-            state.secondfilteredData,
-            ["function", "total"],
-            themeColor.chartColor,
-            {
-              title: "",
-              type: "pie",
-              connector: true,
-              legend: true,
-            }
-          )}
-        />
-      </div>
-    </span>
-    <span className=" col-12 col-md-8">
-      <div
-        style={{ background: themeColor?.sbt_area?.card_bg }}
-        className="shadow-sm rounded-2"
-      >
-        <Widget
-          src="lord1.near/widget/mix-chart"
-          props={getMixProps(
-            state.fourthfilteredData,
-            "timestamp",
-            [
-              {
-                key: "upvote",
-                seriesName: "upvote",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "nominatation",
-                seriesName: "nominatation",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "comment",
-                seriesName: "comment",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "new",
-                seriesName: "new",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "remove comment",
-                seriesName: "remove comment",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "update end time",
-                seriesName: "update end time",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "remove upvote",
-                seriesName: "remove upvote",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "self revoke",
-                seriesName: "self revoke",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "total",
-                seriesName: "total",
-                type: "spline",
-                id: 2,
-              },
-              {
-                key: "trxs",
-                seriesName: "trxs",
-                type: "spline",
-                id: 1,
-              },
-            ],
-            themeColor.chartColor,
-            {
-              title: "Daily NDC Activity",
-              subtitle: `Number of daily transactions for (${state.singer})`,
-              stacking: "normal",
-            }
-          )}
-        />
-      </div>
-    </span>{" "}
-  </div>
-);
+
 let third = (
   <div
     style={{ background: themeColor?.sbt_area?.card_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={thirdtheme} />
+    {state.thirdfilteredData.length > 0 ? (
+      <Widget
+        src="lord1.near/widget/table-pagination"
+        props={{
+          themeColor: { table_pagination: themeColor.table_pagination },
+          data: state.thirdfilteredData,
+          rowsCount: "",
+          columns: [
+            {
+              title: "Timestamp",
+              key: "timestamp",
+              description: "Nomination Timestamp",
+            },
+            {
+              title: "Nominee",
+              key: "SINGER",
+              link: "yes",
+              beforehref:
+                "https://near.social/mob.near/widget/ProfilePage?accountId=",
+              afterhref: "",
+              hyperlink: "yes",
+            },
 
-    <Widget
-      src="lord1.near/widget/table-pagination"
-      props={{
-        themeColor: { table_pagination: themeColor.table_pagination },
-        data: state.thirdfilteredData,
-        rowsCount: "",
-        columns: [
-          {
-            title: "Timestamp",
-            key: "timestamp",
-            description: "Nomination Timestamp",
-          },
-          {
-            title: "Nominee",
-            key: "SINGER",
-            link: "yes",
-            beforehref:
-              "https://near.social/mob.near/widget/ProfilePage?accountId=",
-            afterhref: "",
-            hyperlink: "yes",
-          },
-
-          { title: "House", key: "house" },
-          {
-            title: "Revoked",
-            key: "is_revoked",
-            colors: "#806ce1",
-          },
-        ],
-      }}
-    />
+            { title: "House", key: "house" },
+            {
+              title: "Revoked",
+              key: "is_revoked",
+              colors: "#806ce1",
+            },
+          ],
+        }}
+      />
+    ) : (
+      noData
+    )}
     <div className="row w-100 py-4 g-4">
       <div className=" col-12 col-md-6">
         <div
           style={{ background: themeColor?.sbt_area?.card_bg }}
           className="w-100 mx-auto shadow-sm rounded-4"
         >
-          {" "}
           <Widget src="lord1.near/widget/header-dynamic" props={fifththeme} />
-          <Widget
-            src="lord1.near/widget/table-pagination"
-            props={{
-              themeColor: { table_pagination: themeColor.table_pagination },
-              data: state.fifthfilteredData,
-              rowsCount: "5",
-              columns: [
-                {
-                  title: "Voter",
-                  key: "voter",
-                  link: "yes",
-                  beforehref:
-                    "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                  afterhref: "",
-                  hyperlink: "yes",
-                },
-                {
-                  title: "Number",
-                  key: "number",
-                  description: "Number of Votes",
-                },
-                {
-                  title: "Action",
-                  key: "title",
-                },
-              ],
-            }}
-          />{" "}
+          {state.fifthfilteredData.length > 0 ? (
+            <Widget
+              src="lord1.near/widget/table-pagination"
+              props={{
+                themeColor: { table_pagination: themeColor.table_pagination },
+                data: state.fifthfilteredData,
+                rowsCount: "5",
+                columns: [
+                  {
+                    title: "Voter",
+                    key: "voter",
+                    link: "yes",
+                    beforehref:
+                      "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                    afterhref: "",
+                    hyperlink: "yes",
+                  },
+                  {
+                    title: "Number",
+                    key: "number",
+                    description: "Number of Votes",
+                  },
+                  {
+                    title: "Action",
+                    key: "title",
+                  },
+                ],
+              }}
+            />
+          ) : (
+            noData
+          )}
         </div>
       </div>
       <div className=" col-12 col-md-6">
@@ -730,35 +625,38 @@ let third = (
           style={{ background: themeColor?.sbt_area?.card_bg }}
           className="w-100 mx-auto shadow-sm rounded-4"
         >
-          {" "}
           <Widget src="lord1.near/widget/header-dynamic" props={sixththeme} />
-          <Widget
-            src="lord1.near/widget/table-pagination"
-            props={{
-              themeColor: { table_pagination: themeColor.table_pagination },
-              data: state.sixthfilteredData,
-              rowsCount: "5",
-              columns: [
-                {
-                  title: "Candidate",
-                  key: "candidate",
-                  link: "yes",
-                  beforehref:
-                    "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                  hyperlink: "yes",
-                },
-                {
-                  title: "Number",
-                  key: "number",
-                  description: "Number of votes ",
-                },
-                {
-                  title: "Action",
-                  key: "title",
-                },
-              ],
-            }}
-          />{" "}
+          {state.sixthfilteredData.length > 0 ? (
+            <Widget
+              src="lord1.near/widget/table-pagination"
+              props={{
+                themeColor: { table_pagination: themeColor.table_pagination },
+                data: state.sixthfilteredData,
+                rowsCount: "5",
+                columns: [
+                  {
+                    title: "Candidate",
+                    key: "candidate",
+                    link: "yes",
+                    beforehref:
+                      "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                    hyperlink: "yes",
+                  },
+                  {
+                    title: "Number",
+                    key: "number",
+                    description: "Number of votes ",
+                  },
+                  {
+                    title: "Action",
+                    key: "title",
+                  },
+                ],
+              }}
+            />
+          ) : (
+            noData
+          )}
         </div>
       </div>
     </div>
@@ -768,36 +666,39 @@ let third = (
           style={{ background: themeColor?.sbt_area?.card_bg }}
           className="w-100 mx-auto shadow-sm rounded-4"
         >
-          {" "}
           <Widget src="lord1.near/widget/header-dynamic" props={sevenththeme} />
-          <Widget
-            src="lord1.near/widget/table-pagination"
-            props={{
-              themeColor: { table_pagination: themeColor.table_pagination },
-              data: state.seventhfilteredData,
-              rowsCount: "5",
-              columns: [
-                {
-                  title: "Commentator",
-                  key: "voter",
-                  description: "voter ",
-                  link: "yes",
-                  beforehref:
-                    "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                  hyperlink: "yes",
-                },
-                {
-                  title: "Number",
-                  key: "number",
-                  description: "Number of comments ",
-                },
-                {
-                  title: "Action",
-                  key: "title",
-                },
-              ],
-            }}
-          />{" "}
+          {state.seventhfilteredData.length > 0 ? (
+            <Widget
+              src="lord1.near/widget/table-pagination"
+              props={{
+                themeColor: { table_pagination: themeColor.table_pagination },
+                data: state.seventhfilteredData,
+                rowsCount: "5",
+                columns: [
+                  {
+                    title: "Commentator",
+                    key: "voter",
+                    description: "voter ",
+                    link: "yes",
+                    beforehref:
+                      "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                    hyperlink: "yes",
+                  },
+                  {
+                    title: "Number",
+                    key: "number",
+                    description: "Number of comments ",
+                  },
+                  {
+                    title: "Action",
+                    key: "title",
+                  },
+                ],
+              }}
+            />
+          ) : (
+            noData
+          )}
         </div>
       </div>
       <div className=" col-12 col-md-6">
@@ -805,147 +706,42 @@ let third = (
           style={{ background: themeColor?.sbt_area?.card_bg }}
           className="w-100 mx-auto shadow-sm rounded-4"
         >
-          {" "}
           <Widget src="lord1.near/widget/header-dynamic" props={eighttheme} />
-          <Widget
-            src="lord1.near/widget/table-pagination"
-            props={{
-              themeColor: { table_pagination: themeColor.table_pagination },
-              data: state.eightfilteredData,
-              rowsCount: "5",
-              columns: [
-                {
-                  title: "Commentator",
-                  key: "voter",
-                  link: "yes",
-                  beforehref:
-                    "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                  afterhref: "",
-                  hyperlink: "yes",
-                },
-                {
-                  title: "Number",
-                  key: "number",
-                  description: "Number of comments ",
-                },
-                {
-                  title: "Action",
-                  key: "title",
-                },
-              ],
-            }}
-          />{" "}
+          {state.eightfilteredData.length > 0 ? (
+            <Widget
+              src="lord1.near/widget/table-pagination"
+              props={{
+                themeColor: { table_pagination: themeColor.table_pagination },
+                data: state.eightfilteredData,
+                rowsCount: "5",
+                columns: [
+                  {
+                    title: "Commentator",
+                    key: "voter",
+                    link: "yes",
+                    beforehref:
+                      "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                    afterhref: "",
+                    hyperlink: "yes",
+                  },
+                  {
+                    title: "Number",
+                    key: "number",
+                    description: "Number of comments ",
+                  },
+                  {
+                    title: "Action",
+                    key: "title",
+                  },
+                ],
+              }}
+            />
+          ) : (
+            noData
+          )}
         </div>
       </div>
     </div>
-  </div>
-);
-
-let second = (
-  <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
-    className="shadow-sm rounded-2 overflow-auto"
-  >
-    <Widget src="lord1.near/widget/header-dynamic" props={firsttheme} />
-    <Widget
-      src="lord1.near/widget/table-pagination"
-      props={{
-        themeColor: { table_pagination: themeColor.table_pagination },
-        data: state.secondfilteredData,
-        rowsCount: 10,
-        columns: [
-          { title: "Number", key: "rank", colors: "#806ce1" },
-          {
-            title: "Status",
-            key: "status",
-          },
-          { title: "Timestamp", key: "time" },
-          {
-            title: "Signer",
-            key: "SINGER",
-            link: "yes",
-            beforehref:
-              "https://near.social/mob.near/widget/ProfilePage?accountId=",
-            hyperlink: "yes",
-          },
-          { title: "Function ", key: "function" },
-          {
-            title: "Target",
-            key: "target",
-            link: "yes",
-            beforehref:
-              "https://near.social/mob.near/widget/ProfilePage?accountId=",
-            hyperlink: "yes",
-          },
-          { title: "Fee(Near)", key: "fee" },
-
-          {
-            title: "Hash",
-            key: "trxs",
-            link: "yes",
-            beforehref: "https://nearblocks.io/txns/",
-            afterhref: "",
-          },
-        ],
-      }}
-    />
-  </div>
-);
-
-let first = (
-  <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
-    className="shadow-sm rounded-2 overflow-auto"
-  >
-    <Widget src="lord1.near/widget/header-dynamic" props={commenttheme} />
-    <Widget
-      src="lord1.near/widget/table-pagination"
-      props={{
-        themeColor: { table_pagination: themeColor.table_pagination },
-        data: state.filteredData,
-        rowsCount: 10,
-        columns: [
-          {
-            title: "ID",
-            key: "id",
-            description: "Comment Id",
-            colors: "#806ce1",
-          },
-
-          { title: "Timestamp", key: "date" },
-          {
-            title: "Signer",
-            key: "SINGER",
-            link: "yes",
-            beforehref:
-              "https://near.social/mob.near/widget/ProfilePage?accountId=",
-            hyperlink: "yes",
-          },
-          { title: "Deleted ", key: "status" },
-          {
-            title: "Target",
-            key: "candidate",
-            link: "yes",
-            beforehref:
-              "https://near.social/mob.near/widget/ProfilePage?accountId=",
-            hyperlink: "yes",
-          },
-          {
-            title: "Comment text",
-            key: "comment",
-            explain: "yes",
-          },
-
-          {
-            title: "Hash",
-            key: "tx_hash",
-            link: "yes",
-            beforehref: "https://nearblocks.io/txns/",
-            afterhref: "",
-          },
-        ],
-      }}
-    />
   </div>
 );
 
@@ -1016,9 +812,48 @@ return (
         >
           {fifth}
           {third}
-          {fourth}
-          {second}
-          {first}
+          <div>
+            <div className="py-4">
+              <Container>
+                <ul className="tabContent">
+                  <li className="tab-item">
+                    <button
+                      className={`${
+                        state.tab === tabs.firstTab ? "active" : ""
+                      }`}
+                      aria-current="page"
+                      onClick={() => setTab(tabs.firstTab)}
+                    >
+                      User's activity
+                    </button>
+                  </li>
+                  <li className="tab-item">
+                    <button
+                      className={`${
+                        state.tab === tabs.secondTab ? "active" : ""
+                      }`}
+                      aria-current="page"
+                      onClick={() => setTab(tabs.secondTab)}
+                    >
+                      Activity received from others
+                    </button>
+                  </li>
+                </ul>
+              </Container>
+            </div>
+            {state.tab === "first" && (
+              <Widget
+                src="lord1.near/widget/first-tab-explore"
+                props={{
+                  firstData: state.filteredData,
+                  secondData: state.secondfilteredData,
+                  thirdData: state.fourthfilteredData,
+                  themeColor,
+                }}
+              />
+            )}
+            {state.tab === "second" && "second"}
+          </div>
         </div>
       )}
     </div>
