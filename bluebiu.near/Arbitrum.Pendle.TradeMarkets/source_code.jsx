@@ -52,6 +52,10 @@ const Wrapper = styled.div`
     background: linear-gradient(270deg, #4978b0 0%, rgba(73, 120, 176, 0) 100%);
     justify-content: space-between;
     cursor: pointer;
+
+    :hover {
+      background: #4978b0;
+    }
   }
 
   .pt-area {
@@ -62,6 +66,9 @@ const Wrapper = styled.div`
     cursor: pointer;
     justify-content: space-between;
     background: linear-gradient(90deg, #0ba9a0 0%, rgba(11, 169, 160, 0) 100%);
+    :hover {
+      background: #0ba9a0;
+    }
   }
 
   .art-text {
