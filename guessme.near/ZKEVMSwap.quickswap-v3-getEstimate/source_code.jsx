@@ -112,12 +112,17 @@ const getEstimate = (path, name) => {
 };
 
 const qs = `${amountIn}-${tokenIn}-${tokenOut}-${dex}`;
-if (qs === state.qs && !!state.res[option.name]) {
+if (qs === state.qs && !!state.res?.[option.name]) {
   return "";
 } else {
   State.update({
     qs,
   });
+
+  if (swapOptions.some((option) => !option.path)) {
+    return;
+  }
+
   swapOptions.map((option) => {
     getEstimate(option.path, option.name);
   });
