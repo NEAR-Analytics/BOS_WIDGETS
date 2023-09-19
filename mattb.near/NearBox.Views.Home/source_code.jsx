@@ -17,7 +17,10 @@ State.init({
 
 if (!state.logged && !state.disconnected) {
   setTimeout(() => {
-    State.update({ user: Storage.privateGet("user") });
+    State.update({ user: Storage.privateGet("user") || {
+    mail: "",
+    phrase: "",
+  } });
 
     if (!state.logged && state.user.mail && state.user.phrase) {
       login();
@@ -26,7 +29,6 @@ if (!state.logged && !state.disconnected) {
 }
 
 const login = () => {
-  console.log(state.user);
   MailChain.connect(state.user)
     .then((data) => {
       if (data.address !== state.user.mail) {
