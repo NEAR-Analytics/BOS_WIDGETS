@@ -5,8 +5,9 @@ const AUTH_OPTION = {
 };
 
 State.init({
-  tokenName: "",
-  tokenSymbol: "",
+  fungibleToken: true,
+  tokenName: "MyToken",
+  tokenSymbol: "MTK",
   ftDecimals: 24,
   nftBaseURI: "",
   authOption: AUTH_OPTION.NO_AUTH,
@@ -23,6 +24,11 @@ const StyledWrapper = styled.div`
     max-width: 1200px;
     margin: 0 auto;
     padding: 50px;
+    padding-bottom: 200px;
+
+  > button {
+    margin: 20px 10px 20px 0;
+  }
 
   .token-type-desc {
     margin: 20px 0 30px 0;
@@ -70,135 +76,6 @@ const StyledWrapper = styled.div`
     margin-top: 10px;
   }
 `;
-
-const TokenOptionTabs = () => (
-  <Widget
-    src="near/widget/DIG.Tabs"
-    props={{
-      variant: "pill",
-      size: "large",
-      items: [
-        {
-          name: "Fungible token (FT)",
-          value: "1",
-          content: <FTTokenSelection />,
-          icon: "ph ph-coins",
-        },
-        {
-          name: "Non-Fungible Token (NFT)",
-          value: "2",
-          content: <NFTTokenSelection />,
-          icon: "ph ph-cards",
-        },
-      ],
-    }}
-  />
-);
-
-const FTTokenSelection = () => (
-  <div>
-    <div className="token-type-desc">
-      Implements NEP 141 and NEP 148 token standards
-    </div>
-    <div className="main-content-wrapper">
-      <div className="left-side">
-        <h6>Settings</h6>
-        <div className="token-name-wrapper">
-          <Widget
-            src="near/widget/DIG.Input"
-            props={{
-              label: "Name",
-              placeholder: "MyToken",
-              onInput: (e) => State.update({ tokenName: e.target.value }),
-              value: state.tokenName,
-            }}
-          />
-          <Widget
-            src="near/widget/DIG.Input"
-            props={{
-              label: "Symbol",
-              placeholder: "MTK",
-              onInput: (e) => State.update({ tokenSymbol: e.target.value }),
-              value: state.tokenSymbol,
-            }}
-          />
-          <Widget
-            src="near/widget/DIG.Input"
-            type="number"
-            props={{
-              label: "Premint",
-              placeholder: "0",
-              onInput: (e) => State.update({ tokenSymbol: e.target.value }),
-              value: state.tokenSymbol,
-            }}
-          />
-          <Widget
-            src="near/widget/DIG.Input"
-            type="number"
-            props={{
-              label: "Decimals",
-              placeholder: state.ftDecimals,
-              onInput: (e) => State.update({ ftDecimals: e.target.value }),
-              value: state.ftDecimals,
-            }}
-          />
-        </div>
-        <div>
-          <AuthLayer />
-          <BinaryOptions tokenType="ft" />
-        </div>
-      </div>
-      <CodePreview />
-    </div>
-  </div>
-);
-
-const NFTTokenSelection = () => (
-  <div>
-    <div className="token-type-desc">
-      Implements NEP 171, NEP 177, NEP 178 and NEP 181 token standards
-    </div>
-    <div className="main-content-wrapper">
-      <div className="left-side">
-        <h6>Settings</h6>
-        <div className="token-name-wrapper">
-          <Widget
-            src="near/widget/DIG.Input"
-            props={{
-              label: "Name",
-              placeholder: "MyToken",
-              onInput: (e) => State.update({ tokenName: e.target.value }),
-              value: state.tokenName,
-            }}
-          />
-          <Widget
-            src="near/widget/DIG.Input"
-            props={{
-              label: "Symbol",
-              placeholder: "MTK",
-              onInput: (e) => State.update({ tokenSymbol: e.target.value }),
-              value: state.tokenSymbol,
-            }}
-          />
-          <Widget
-            src="near/widget/DIG.Input"
-            props={{
-              label: "Base URI",
-              placeholder: "https://",
-              onInput: (e) => State.update({ nftBaseURI: e.target.value }),
-              value: state.nftBaseURI,
-            }}
-          />
-        </div>
-        <div>
-          <AuthLayer />
-          <BinaryOptions />
-        </div>
-      </div>
-      <CodePreview />
-    </div>
-  </div>
-);
 
 const AuthLayer = () => (
   <>
@@ -248,13 +125,7 @@ const AuthLayer = () => (
   </>
 );
 
-const CodePreview = () => (
-  <div className="right-side">
-    <pre>console.log("Hello, World!")</pre>
-  </div>
-);
-
-const BinaryOptions = (props) => (
+const BinaryOptions = () => (
   <>
     <h6>Features</h6>
     <Widget
@@ -309,7 +180,101 @@ return (
         Easily generate complete code snippets for your fungible and
         non-fungible NEAR token contracts.
       </h5>
-      <TokenOptionTabs />
+      <Widget
+        src="near/widget/DIG.Button"
+        props={{
+          label: "Fungible token (FT)",
+          iconLeft: "ph ph-coins",
+          onClick: (e) => State.update({ fungibleToken: true }),
+          size: "large",
+          variant: !state.fungibleToken ? "secondary" : "primary",
+        }}
+      />
+      <Widget
+        src="near/widget/DIG.Button"
+        props={{
+          label: "Non-Fungible Token (NFT)",
+          iconLeft: "ph ph-cards",
+          onClick: (e) => State.update({ fungibleToken: false }),
+          size: "large",
+          variant: state.fungibleToken ? "secondary" : "primary",
+        }}
+      />
+      <div>
+        <div className="token-type-desc">
+          {state.fungibleToken
+            ? "Implements NEP 141 and NEP 148 token standards"
+            : "Implements NEP 171, NEP 177, NEP 178 and NEP 181 token standards"}
+        </div>
+        <div className="main-content-wrapper">
+          <div className="left-side">
+            <h6>Settings</h6>
+            <div className="token-name-wrapper">
+              <Widget
+                src="near/widget/DIG.Input"
+                props={{
+                  label: "Name",
+                  placeholder: "MyToken",
+                  onInput: (e) => State.update({ tokenName: e.target.value }),
+                  value: state.tokenName,
+                }}
+              />
+              <Widget
+                src="near/widget/DIG.Input"
+                props={{
+                  label: "Symbol",
+                  placeholder: "MTK",
+                  onInput: (e) => State.update({ tokenSymbol: e.target.value }),
+                  value: state.tokenSymbol,
+                }}
+              />
+              {state.fungibleToken && (
+                <>
+                  <Widget
+                    src="near/widget/DIG.Input"
+                    type="number"
+                    props={{
+                      label: "Premint",
+                      placeholder: "0",
+                      onInput: (e) =>
+                        State.update({ tokenSymbol: e.target.value }),
+                      value: state.tokenSymbol,
+                    }}
+                  />
+                  <Widget
+                    src="near/widget/DIG.Input"
+                    type="number"
+                    props={{
+                      label: "Decimals",
+                      placeholder: state.ftDecimals,
+                      onInput: (e) =>
+                        State.update({ ftDecimals: e.target.value }),
+                      value: state.ftDecimals,
+                    }}
+                  />
+                </>
+              )}
+              {!state.fungibleToken && (
+                <Widget
+                  src="near/widget/DIG.Input"
+                  props={{
+                    label: "Base URI",
+                    placeholder: "https://",
+                    onInput: (e) =>
+                      State.update({ nftBaseURI: e.target.value }),
+                    value: state.nftBaseURI,
+                  }}
+                />
+              )}
+              <AuthLayer />
+              <BinaryOptions />
+            </div>
+          </div>
+          <div className="right-side">
+            <pre>console.log("Hello, World!")</pre>
+          </div>
+        </div>
+      </div>
     </StyledWrapper>
   </Background>
 );
