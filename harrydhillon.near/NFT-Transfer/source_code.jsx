@@ -107,7 +107,7 @@ const ConfirmOffer = () => {
           args: {
             sender_id: accountId,
             sender_near:
-              1000000000000000000000000 * parseFloat(state.offerAmount),
+              `${parseFloat(1000000000000000000000000 * parseFloat(state.offerAmount))}`,
             sender_nfts: state.sendNFTS.map((item) => ({
               tokenId: item.tokenId,
               contractId: item.contractId,
