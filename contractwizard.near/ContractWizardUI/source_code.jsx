@@ -89,6 +89,10 @@ const StyledWrapper = styled.div`
   label {
     margin-top: 10px;
   }
+
+  .badge {
+    margin: 0 0 30px 0;
+  }
 `;
 
 const AuthLayer = () => (
@@ -267,6 +271,16 @@ return (
     />
     <Background>
       <StyledWrapper>
+        <Widget
+          src="near/widget/DIG.Badge"
+          props={{
+            label:
+              "This component is still in early development and should not be used for mainnet purposes.",
+            iconLeft: "ph-bold ph-warning",
+            variant: "alert",
+            className: "badge",
+          }}
+        />
         <h1>
           Token Wizard <i class="ph-bold ph-magic-wand"></i>
         </h1>
