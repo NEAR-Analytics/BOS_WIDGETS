@@ -12,6 +12,9 @@ State.init({
   ftPremint: null,
   nftBaseURI: "",
   authOption: AUTH_OPTION.NO_AUTH,
+  owner: "",
+  mintable: false,
+  burnable: false,
   contractOutput: "",
 });
 
@@ -120,8 +123,10 @@ const AuthLayer = () => (
         props={{
           label: "Owner",
           placeholder: "satoshi.near",
-          onInput: (e) => State.update({ tokenSymbol: e.target.value }),
-          value: state.tokenSymbol,
+          onInput: (e) => State.update({ owner: e.target.value }),
+          value: state.owner,
+          assistiveText:
+            "If left blank, the deploying account becomes the default owner.",
         }}
       />
     )}
@@ -136,6 +141,8 @@ const BinaryOptions = () => (
       props={{
         id: "checkbox-item-burnable",
         label: "Burnable",
+        checked: state.burnable,
+        onCheckedChange: (e) => State.update({ burnable: true }),
       }}
     />
     <Widget
@@ -186,12 +193,14 @@ return (
               symbol: state.tokenSymbol,
               decimals: state.ftDecimals,
               preMint: state.ftPremint,
+              mintable: state.mintable,
+              burnable: state.burnable,
             },
           },
           plugins: {
-            owner: {},
+            owner: { accountId: state.owner },
             pause: {},
-            rbac: { accountId: "bob.near" },
+            rbac: { accountId: state.owner },
           },
         },
         onMessage: (e) => {
@@ -300,7 +309,7 @@ return (
               </div>
             </div>
             <div className="right-side">
-              <pre>{state.contractOutput}</pre>
+              {/*<pre>{state.contractOutput}</pre>*/}
             </div>
           </div>
         </div>
