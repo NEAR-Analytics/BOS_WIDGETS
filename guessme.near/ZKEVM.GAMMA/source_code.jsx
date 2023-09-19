@@ -214,6 +214,17 @@ const Button = styled.button`
     color: #ccc;
   }
 `;
+const TableWrapper = styled.div`
+  flex-grow: 1;
+`;
+const VaultWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  @media (max-width: 736px) {
+    width: 100%;
+  }
+`;
 
 const handlePairClick = (pair) => {
   State.update({
@@ -233,18 +244,14 @@ return (
   <VStack>
     <div className="tableTitle">Active Liquidity</div>
     <Wrapper>
-      <Widget
-        src="guessme.near/widget/ZKEVM.gamma-zkevm-table"
-        props={{ handlePairClick, poolsData, userPositions }}
-      />
+      <TableWrapper>
+        <Widget
+          src="guessme.near/widget/ZKEVM.gamma-zkevm-table"
+          props={{ handlePairClick, poolsData, userPositions }}
+        />
+      </TableWrapper>
 
-      <div
-        className=""
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <VaultWrapper>
         <Widget
           src="guessme.near/widget/ZKEVM.gamma-zkevm-vault"
           props={{
@@ -276,7 +283,7 @@ return (
             }}
           />
         </div>
-      </div>
+      </VaultWrapper>
     </Wrapper>
   </VStack>
 );
