@@ -138,7 +138,11 @@ const formatRate = () => {
   return Big(outputCurrency.price.usd).div(inputCurrency.price.usd).toFixed(3);
 };
 const formatTips = (route) => {
-  if (["PT", "YT"].includes(route.to.baseType)) {
+  if (
+    (["PT", "YT"].includes(route.to.baseType) &&
+      route.from.baseType === "SY") ||
+    (["PT", "YT"].includes(route.from.baseType) && route.to.baseType === "SY")
+  ) {
     return (
       <div className="two-lines">
         Swap from {formatAmount(route.from.amount)} {getTokenSymbol(route.from)}{" "}
@@ -148,10 +152,11 @@ const formatTips = (route) => {
       </div>
     );
   }
-  if (route.to.baseType === "SY") {
+  if (route.to.baseType === "SY" || route.from.baseType === "SY") {
     return (
       <div className="one-line">
-        Wrap {formatAmount(route.from.amount)} {getTokenSymbol(route.from)} to
+        {route.to.baseType === "SY" ? "Wrap" : "Unwrap"}{" "}
+        {formatAmount(route.from.amount)} {getTokenSymbol(route.from)} to
         {formatAmount(route.to.amount)} {getTokenSymbol(route.to)}.
       </div>
     );
@@ -160,7 +165,7 @@ const formatTips = (route) => {
     <div className="one-line">
       Swap from {formatAmount(route.from.amount)}
       {getTokenSymbol(route.from)} to {formatAmount(route.to.amount)}
-      {getTokenSymbol(route.to)} on 1Inch.
+      {getTokenSymbol(route.to)}.
     </div>
   );
 };
