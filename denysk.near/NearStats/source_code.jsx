@@ -1,5 +1,5 @@
 const data = fetch(
-  "https://front.near-staking.com/api/near/avg_block_time,tps,block_time_low,block_time_high,top_accounts?block_time_days=1",
+  "https://front.near-staking.com/api/near/avg_block_time,tps,block_time_low,block_time_high,top_accounts,highest_tps?block_time_days=1&tps_days=3",
   {
     subscribe: true,
     method: "GET",
@@ -9,7 +9,11 @@ const data = fetch(
   }
 );
 
-console.log(data.body.tps_block);
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+`;
 
 if (data !== null && data.ok === false) {
   return (
@@ -31,9 +35,10 @@ if (data !== null && data.ok === false) {
               <small>block: </small>
               <b>{JSON.parse(data.body.tps_block)}</b>
             </div>
-            {/*
             <div class="p-2">
-              <div>TPS 30D Peak</div>
+              <div>
+                TPS <b>3 Days</b> Peak
+              </div>
               <span class="text-success h3">
                 <b>{JSON.parse(data.body.highest_tps).toFixed(0)}</b>
               </span>
@@ -48,25 +53,29 @@ if (data !== null && data.ok === false) {
                 {JSON.parse(data.body.highest_tps_block)}
               </a>
             </div>
-            */}
             <div class="p-2">
-              <div>Average Block Time (ABT) Now</div>
+              <div>
+                Avg Block Time <b>Now</b>
+              </div>
               <small>last 30 seconds</small>
               <span class="text-success h3">
                 <b>{JSON.parse(data.body.avg_block_time).toFixed(2)}</b> sec
               </span>
-            </div>
-            <div class="p-2">
-              <div>ABT 1 Day High</div>
-              <span class="h5">
-                <b>{JSON.parse(data.body.block_time_high).toFixed(2)}</b> sec
-              </span>
-            </div>
-            <div class="p-2">
-              <div>ABT 1 Day Low</div>
-              <span class="h5">
-                <b>{JSON.parse(data.body.block_time_low).toFixed(2)}</b> sec
-              </span>
+              <GridContainer>
+                <div>
+                  <div>1 Day High</div>
+                  <span class="h5">
+                    <b>{JSON.parse(data.body.block_time_high).toFixed(2)}</b>{" "}
+                    sec
+                  </span>
+                </div>
+                <div>
+                  <div>1 Day Low</div>
+                  <span class="h5">
+                    <b>{JSON.parse(data.body.block_time_low).toFixed(2)}</b> sec
+                  </span>
+                </div>
+              </GridContainer>
             </div>
           </div>
           <div class="p-2">
