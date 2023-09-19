@@ -647,10 +647,7 @@ RouterContract[method](...params)
             res[1],
             outputCurrency.decimals
           ),
-          netSyFee: ethers.utils.formatUnits(
-            res[2],
-            outputCurrency.decimals - 2
-          ),
+          netSyFee: ethers.utils.formatUnits(res[2], 16),
           priceImpact: ethers.utils.formatUnits(res[3], 16),
           exchangeRateAfter: ethers.utils.formatUnits(res[4], 18),
         };
@@ -677,7 +674,10 @@ RouterContract[method](...params)
     }
     data.netOut = ethers.utils.formatUnits(res[0], outputCurrency.decimals);
     data.routes = getRoutes(data.netOut);
-    console.log(market.impliedApy, data.priceImpact, data.netSyFee);
+    const syAmount = ["PT", "YT"].includes(inputCurrency.baseType)
+      ? data.netOut
+      : inputCurrencyAmount;
+    data.netSyFee = Big(data.netSyFee).div(syAmount).toString();
     data.apy = Big(market.impliedApy)
       .minus(data.priceImpact / 100)
       .minus(data.netSyFee / 100)
