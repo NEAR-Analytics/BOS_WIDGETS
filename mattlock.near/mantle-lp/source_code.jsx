@@ -246,16 +246,6 @@ const Theme = styled.div`
     }
   }
 
-  .center {
-    > div {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-  }
-
-
   .apps {
     text-align: left;
 
@@ -392,182 +382,178 @@ return (
     </div>
 
     <div className="grid">
-      <div className="center">
-        {bridge && (
-          <div className="apps">
-            {disableApps && (
-              <div>
-                <p>
-                  To use apps, please switch to the Mantle Network using your
-                  wallet.
-                </p>
-              </div>
-            )}
+      {disableApps && (
+        <div>
+          <p>
+            To use apps, please switch to the Mantle Network using your wallet.
+          </p>
+        </div>
+      )}
+
+      {bridge && (
+        <div className="apps">
+          <div>
             <div>
-              <div>
-                <img
-                  src={
-                    "https://assets.coingecko.com/coins/images/31588/large/lendle_logo_200_200_cg.png"
-                  }
-                />
-                <h1>Lendle</h1>
-                <button
-                  disabled={disableApps || component === "lendle"}
-                  onClick={() => setComponent("lendle")}
-                >
-                  Liquidity
-                </button>
-              </div>
+              <img
+                src={
+                  "https://assets.coingecko.com/coins/images/31588/large/lendle_logo_200_200_cg.png"
+                }
+              />
+              <h1>Lendle</h1>
+              <button
+                disabled={disableApps || component === "lendle"}
+                onClick={() => setComponent("lendle")}
+              >
+                Liquidity
+              </button>
+            </div>
 
-              <div>
-                <img
-                  src={
-                    "https://bafybeic6v34nkxhmro22tv2yoltsykniye2xlkgya6nxdqpxklu2bjn5me.ipfs.nftstorage.link/"
-                  }
-                />
-                <h1>Gamma</h1>
-                <button
-                  disabled={disableApps || component === "gamma"}
-                  onClick={() => setComponent("gamma")}
-                >
-                  Liquidity
-                </button>
-              </div>
+            <div>
+              <img
+                src={
+                  "https://bafybeic6v34nkxhmro22tv2yoltsykniye2xlkgya6nxdqpxklu2bjn5me.ipfs.nftstorage.link/"
+                }
+              />
+              <h1>Gamma</h1>
+              <button
+                disabled={disableApps || component === "gamma"}
+                onClick={() => setComponent("gamma")}
+              >
+                Liquidity
+              </button>
+            </div>
 
-              <div>
-                <img
-                  src={
-                    "data:image/jpeg;base64,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"
-                  }
-                />
-                <h1>FusionX</h1>
-                <button
-                  disabled={disableApps || component === "fusionx"}
-                  onClick={() => setComponent("fusionx")}
-                >
-                  DEX
-                </button>
-              </div>
+            <div>
+              <img
+                src={
+                  "data:image/jpeg;base64,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"
+                }
+              />
+              <h1>FusionX</h1>
+              <button
+                disabled={disableApps || component === "fusionx"}
+                onClick={() => setComponent("fusionx")}
+              >
+                DEX
+              </button>
+            </div>
 
-              <div>
-                <img
-                  src={
-                    "https://logowik.com/content/uploads/images/agni4872.logowik.com.webp"
-                  }
-                  height="100"
-                  style={{ objectFit: "contain", background: "white" }}
-                />
-                <h1>Agni</h1>
-                <button
-                  disabled={disableApps || component === "agni"}
-                  onClick={() => setComponent("agni")}
-                >
-                  DEX
-                </button>
-              </div>
+            <div>
+              <img
+                src={
+                  "https://logowik.com/content/uploads/images/agni4872.logowik.com.webp"
+                }
+                height="100"
+                style={{ objectFit: "contain", background: "white" }}
+              />
+              <h1>Agni</h1>
+              <button
+                disabled={disableApps || component === "agni"}
+                onClick={() => setComponent("agni")}
+              >
+                DEX
+              </button>
+            </div>
 
-              <div>
-                <img
-                  src={
-                    "https://assets.coingecko.com/markets/images/1247/large/iziswap.png?1692679139"
-                  }
-                />
-                <h1>iziSwap</h1>
-                <button
-                  disabled={disableApps || component === "iziswap"}
-                  onClick={() => setComponent("iziswap")}
-                >
-                  DEX
-                </button>
-              </div>
+            <div>
+              <img
+                src={
+                  "https://assets.coingecko.com/markets/images/1247/large/iziswap.png?1692679139"
+                }
+              />
+              <h1>iziSwap</h1>
+              <button
+                disabled={disableApps || component === "iziswap"}
+                onClick={() => setComponent("iziswap")}
+              >
+                DEX
+              </button>
+            </div>
 
-              <div>
-                <img
-                  src={
-                    "https://bafkreic422wp2my5ap4yelqyjex5zw2p5gfsz27defvtloi4s55o3i47d4.ipfs.nftstorage.link/"
-                  }
-                />
-                <h1>Ammos</h1>
-                <button
-                  disabled={disableApps || component === "ammos"}
-                  onClick={() => setComponent("ammos")}
-                >
-                  DEX
-                </button>
-              </div>
+            <div>
+              <img
+                src={
+                  "https://bafkreic422wp2my5ap4yelqyjex5zw2p5gfsz27defvtloi4s55o3i47d4.ipfs.nftstorage.link/"
+                }
+              />
+              <h1>Ammos</h1>
+              <button
+                disabled={disableApps || component === "ammos"}
+                onClick={() => setComponent("ammos")}
+              >
+                DEX
+              </button>
+            </div>
 
-              <div>
-                <img
-                  src={
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRcJGhRizkHQnODjAVYk5JoUVXFOSW8pWgGAZnDHzaSQ&s"
-                  }
-                  height="100"
-                  style={{ objectFit: "contain" }}
-                />
-                <h1>Pendle</h1>
-                <button
-                  disabled={true || disableApps || component === "pendle"}
-                  onClick={() => setComponent("pendle")}
-                >
-                  Yield
-                </button>
-              </div>
+            <div>
+              <img
+                src={
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRcJGhRizkHQnODjAVYk5JoUVXFOSW8pWgGAZnDHzaSQ&s"
+                }
+                height="100"
+                style={{ objectFit: "contain" }}
+              />
+              <h1>Pendle</h1>
+              <button
+                disabled={true || disableApps || component === "pendle"}
+                onClick={() => setComponent("pendle")}
+              >
+                Yield
+              </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+    </div>
 
-      <div className="component">
-        {bridge === true && component === null ? (
-          <Widget src="ciocan.near/widget/op-stack-mantle-bridge" />
-        ) : (
-          <>
-            {component === "lendle" && (
-              <Widget src="lendle.near/widget/Lendle" />
-            )}
+    <div className="component">
+      {bridge === true && component === null ? (
+        <Widget src="ciocan.near/widget/op-stack-mantle-bridge" />
+      ) : (
+        <>
+          {component === "lendle" && <Widget src="lendle.near/widget/Lendle" />}
 
-            {component === "gamma" && (
-              <Widget src="bluebiu.near/widget/Mantle.GAMMA" />
-            )}
+          {component === "gamma" && (
+            <Widget src="bluebiu.near/widget/Mantle.GAMMA" />
+          )}
 
-            {component === "fusionx" && (
-              <Widget
-                src="zavodil.near/widget/swap-mantle"
-                props={{
-                  dex: "FusionX V3",
-                }}
-              />
-            )}
+          {component === "fusionx" && (
+            <Widget
+              src="zavodil.near/widget/swap-mantle"
+              props={{
+                dex: "FusionX V3",
+              }}
+            />
+          )}
 
-            {component === "agni" && (
-              <Widget
-                src="zavodil.near/widget/swap-mantle"
-                props={{
-                  dex: "Agni",
-                }}
-              />
-            )}
+          {component === "agni" && (
+            <Widget
+              src="zavodil.near/widget/swap-mantle"
+              props={{
+                dex: "Agni",
+              }}
+            />
+          )}
 
-            {component === "iziswap" && (
-              <Widget
-                src="zavodil.near/widget/swap-mantle"
-                props={{
-                  dex: "iZiSwap",
-                }}
-              />
-            )}
+          {component === "iziswap" && (
+            <Widget
+              src="zavodil.near/widget/swap-mantle"
+              props={{
+                dex: "iZiSwap",
+              }}
+            />
+          )}
 
-            {component === "ammos" && (
-              <Widget
-                src="zavodil.near/widget/swap-mantle"
-                props={{
-                  dex: "Ammos Finance",
-                }}
-              />
-            )}
-          </>
-        )}
-      </div>
+          {component === "ammos" && (
+            <Widget
+              src="zavodil.near/widget/swap-mantle"
+              props={{
+                dex: "Ammos Finance",
+              }}
+            />
+          )}
+        </>
+      )}
     </div>
   </Theme>
 );
