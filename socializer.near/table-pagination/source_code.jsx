@@ -6,7 +6,6 @@ const { data, columns, showDetail, searchValue } = props;
 
 State.init({ currentPage: 1 });
 
-console.log(searchValue, "==>searchValue");
 const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
 
