@@ -1753,7 +1753,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "0x60d01ec2d5e98ac51c8b4cf84dfcce98d527c747", // iZi
               "0x51cfe5b1e764dc253f4c8c1f19a081ff4c3517ed", // MINU
               "0x63e4cc2b37db17ae566eea6801c25ba354856ad6", // CRUST
-              "0x201eba5cc46d216ce6dc03f6a759e8e766e956ae", // SATOSHI
+              "0x908249da24a8f01ec49e29adb4a16ef2750ba73a", // SATOSHI
             ],
             coingeckoNetworkHandle: "mantle",
             inputAssetTokenId: "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9",
