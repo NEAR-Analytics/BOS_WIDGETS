@@ -32,9 +32,11 @@ function fetchTokens() {
             mb_views_nft_tokens(
                 limit: ${limit},
                 offset: ${state.offset},
-                where: { nft_contract_id: { _eq: "mint.sharddog.near" }, token_id: {_regex: "^${series}:"
-              }}
-              order_by: {minted_timestamp: desc}
+                where: { 
+                  nft_contract_id: { _eq: "mint.sharddog.near" }, 
+                  token_id: {_regex: "^${series}:", _neq: "214:1"} 
+                },
+                order_by: {minted_timestamp: desc}
             ) {
               media
               owner
