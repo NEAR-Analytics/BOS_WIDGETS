@@ -26,6 +26,7 @@ if (!state.logged && !state.disconnected) {
 }
 
 const login = () => {
+  console.log(state.user);
   MailChain.connect(state.user)
     .then((data) => {
       if (data.address !== state.user.mail) {
@@ -47,7 +48,6 @@ const login = () => {
       }
     })
     .catch((data) => {
-      console.log(data);
       State.update({
         toast: {
           type: "error",
