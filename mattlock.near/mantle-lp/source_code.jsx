@@ -396,10 +396,12 @@ return (
         {bridge && (
           <div className="apps">
             {disableApps && (
-              <p>
-                To use apps, please switch to the Mantle Network using your
-                wallet.
-              </p>
+              <div>
+                <p>
+                  To use apps, please switch to the Mantle Network using your
+                  wallet.
+                </p>
+              </div>
             )}
             <div>
               <div>
