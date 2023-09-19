@@ -594,7 +594,7 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
   };
   return props;
 };
-const noData = <div className="w-100 py-4 text-center"> no data to show</div>;
+const noData = <div className="w-100 py-4 text-center">No data available</div>;
 let fifth = (
   <div className="row w-100 py-4 g-4">
     <div
