@@ -47,7 +47,7 @@ const Button = styled.div`
 const Balance = styled.div`
     display:flex;
     flex-direction: column;
-    align-items:center;
+    align-items:start;
     justify-content:start;
 `;
 
