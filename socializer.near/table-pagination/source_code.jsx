@@ -116,7 +116,6 @@ return (
                           [key]: `https://i.near.social/magic/large/https://near.social/magic/img/account/${key}`,
                         });
                       }
-                      console.log(td.click, "==>");
                       return (
                         <td
                           style={{
@@ -160,7 +159,7 @@ return (
                                 color: "#4886fe",
                                 cursor: "pointer",
                               }}
-                              onClick={() => td.click ?? td.click(row)}
+                              onClick={() => td.click(row)}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
