@@ -2,7 +2,7 @@ if (!props.data || !props.columns) {
   return "column and data props are required.";
 }
 
-const { data, columns, showDetail, searchValue } = props;
+const { data, columns, searchValue } = props;
 
 State.init({ currentPage: 1 });
 
@@ -159,7 +159,7 @@ return (
                                 color: "#4886fe",
                                 cursor: "pointer",
                               }}
-                              onClick={() => showDetail(row)}
+                              onClick={() => td.click(row)}
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
