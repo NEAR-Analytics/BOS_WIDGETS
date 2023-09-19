@@ -2,15 +2,12 @@ if (!props.data || !props.columns) {
   return "column and data props are required.";
 }
 
-const { data, columns, showDetail } = props;
+const { data, columns, showDetail, searchValue } = props;
 
-State.init({ currentPage: 1, searchValue: "" });
+State.init({ currentPage: 1, searchValue: searchValue || "" });
 const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
-const handleSearch = (event) => {
-  const value = event.target.value;
-  State.update({ searchValue: value });
-};
+
 const handlePagination = () => {
   if (!rowsCount) return { table: data };
   const currentPage = state.currentPage;
