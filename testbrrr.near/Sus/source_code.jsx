@@ -46,6 +46,7 @@ const Button = styled.div`
 
 const Balance = styled.div`
     display:flex;
+    flex-direction: column;
     align-items:center;
     justify-content:center;
 `;
@@ -54,8 +55,7 @@ const BalanceContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
 
   @media (min-width: 768px) {
     width: 650px!important;
