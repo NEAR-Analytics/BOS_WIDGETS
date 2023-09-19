@@ -1,5 +1,7 @@
+const themeColor = props.themeColor;
+
 const Chart = styled.div`
-  width: 150px;
+  min-width: 150px;
   aspect-ratio: 1;
   position: relative;
   display: inline-grid;
@@ -14,7 +16,11 @@ const Chart = styled.div`
     border-radius: ${props.percent}%;
     inset: 0;
     background: ${(props) =>
-      `conic-gradient(#4ba6ee, calc(${props.voted}*1%), #d4e5f4 0)`};
+      `conic-gradient(${
+        themeColor.piePercentage?.filled || `rgb(75, 166, 238)`
+      }, calc(${props.voted}*1%), ${
+        themeColor.piePercentage?.empty || "rgb(212, 229, 244)"
+      } 0)`};
     -webkit-mask: radial-gradient(
       farthest-side,
       #0000 calc(99% - 15px),
@@ -31,7 +37,7 @@ const Chart = styled.div`
     font-weight: 800;
     font-size: 32px;
     line-height: 120%;
-    color: #4ba6ee;
+    color: ${themeColor.piePercentage?.filled || `rgb(75, 166, 238)`};
   }
 `;
 const chart1 = styled.div`
@@ -48,14 +54,27 @@ return (
     <Chart voted={percent}>
       <span>{percent.toFixed(1)}%</span>
       <chart1>
-        <b>
+        <b style={{ color: themeColor.piePercentage?.text }}>
           {props.voted}/{props.total}
         </b>
-        <div>{props.description}</div>
+        <div style={{ color: themeColor.piePercentage?.text }}>
+          {props.description}
+        </div>
       </chart1>
     </Chart>
   </div>
 );
-// voted
-// total
-// description
+
+// const props = {
+//   voted: "2580",
+//   total: "21543",
+//   description: "no",
+//   percent: 10,
+//   themeColor: {
+//     piePercentage: {
+//       text: "red",
+//       filled: "green",
+//       empty: "red",
+//     },
+//   },
+// };
