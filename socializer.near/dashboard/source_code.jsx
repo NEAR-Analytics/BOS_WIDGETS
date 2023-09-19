@@ -18,10 +18,10 @@ const options = [
     text: "Claimed",
     value: "claimed",
   },
-  {
-    text: "Unclaimed",
-    value: "unclaimed",
-  },
+  // {
+  //   text: "Unclaimed",
+  //   value: "unclaimed",
+  // },
 ];
 
 const showDetail = (data) => {
@@ -175,11 +175,11 @@ State.init({
       tl: "Claimed",
       subtl: "You have claimed these rewards!",
     },
-    unclaimed: {
-      tl: "Unclaimed",
-      subtl:
-        "These are rewards yet to be claimed by you. These rewards expire  7 days after the campaign, end date.",
-    },
+    // unclaimed: {
+    //   tl: "Unclaimed",
+    //   subtl:
+    //     "These are rewards yet to be claimed by you. These rewards expire  7 days after the campaign, end date.",
+    // },
   },
 });
 
