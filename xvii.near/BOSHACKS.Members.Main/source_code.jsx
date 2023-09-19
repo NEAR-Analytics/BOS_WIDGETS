@@ -140,7 +140,7 @@ return (
 
       {state.selectedTab === "hackers" && (
         <>
-          <Widget src={`xvii.near/widget/BOSHACKS.Members.ApprovedHackers`} />
+          <Widget src={`xvii.near/widget/BOSHacks.AddHackersToDAO`} />
         </>
       )}
 
