@@ -184,7 +184,7 @@ function loadElectionStatus() {
     prop_id: state.selectedHouse,
   });
 
-  State.update({ electionStatus });
+  State.update({ electionStatus: "ONGOING" });
 }
 
 function loadMyVotes() {
