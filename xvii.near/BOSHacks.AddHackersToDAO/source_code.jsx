@@ -131,7 +131,7 @@ const loader = (
 return (
   <>
     {showHeader && (
-      <h1>
+      <h1 style={{ marginLeft: "20px" }}>
         {title}: {state.tokens.length}
       </h1>
     )}
