@@ -41,10 +41,10 @@ const no_data = {
   height: "90px",
   align: "center",
   description: "",
-  brand: "No data",
+  brand: "no data",
   fontsize: "75",
   fontweight: "25px",
-  afterbrand: "available",
+  afterbrand: "Sent",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -165,6 +165,7 @@ let third = (
         />
       </div>
     </span>
+    <div className="py-2"></div>
     <span className=" col-12 col-md-8">
       <div
         style={{ background: themeColor?.sbt_area?.card_bg }}
@@ -252,120 +253,124 @@ let third = (
 
 let second = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={firsttheme} />
-    {props.secondData.length > 0 ? (
-      <Widget
-        src="lord1.near/widget/table-pagination"
-        props={{
-          themeColor: { table_pagination: themeColor.table_pagination },
-          data: props.secondData,
-          rowsCount: 10,
-          columns: [
-            { title: "Number", key: "rank", colors: "#806ce1" },
-            {
-              title: "Status",
-              key: "status",
-            },
-            { title: "Timestamp", key: "time" },
-            {
-              title: "Signer",
-              key: "SINGER",
-              link: "yes",
-              beforehref:
-                "https://near.social/mob.near/widget/ProfilePage?accountId=",
-              hyperlink: "yes",
-            },
-            { title: "Function ", key: "function" },
-            {
-              title: "Target",
-              key: "target",
-              link: "yes",
-              beforehref:
-                "https://near.social/mob.near/widget/ProfilePage?accountId=",
-              hyperlink: "yes",
-            },
-            { title: "Fee(Near)", key: "fee" },
+    <div className="p-2 rounded-4 overflow-auto">
+      {props.secondData.length > 0 ? (
+        <Widget
+          src="lord1.near/widget/table-pagination"
+          props={{
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: props.secondData,
+            rowsCount: 10,
+            columns: [
+              { title: "Number", key: "rank", colors: "#806ce1" },
+              {
+                title: "Status",
+                key: "status",
+              },
+              { title: "Timestamp", key: "time" },
+              {
+                title: "Signer",
+                key: "SINGER",
+                link: "yes",
+                beforehref:
+                  "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                hyperlink: "yes",
+              },
+              { title: "Function ", key: "function" },
+              {
+                title: "Target",
+                key: "target",
+                link: "yes",
+                beforehref:
+                  "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                hyperlink: "yes",
+              },
+              { title: "Fee(Near)", key: "fee" },
 
-            {
-              title: "Hash",
-              key: "trxs",
-              link: "yes",
-              beforehref: "https://nearblocks.io/txns/",
-              afterhref: "",
-            },
-          ],
-        }}
-      />
-    ) : (
-      noData
-    )}
+              {
+                title: "Hash",
+                key: "trxs",
+                link: "yes",
+                beforehref: "https://nearblocks.io/txns/",
+                afterhref: "",
+              },
+            ],
+          }}
+        />
+      ) : (
+        noData
+      )}
+    </div>
   </div>
 );
 
 let first = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={commenttheme} />
-    {props.firstData.length > 0 ? (
-      <Widget
-        src="lord1.near/widget/table-pagination"
-        props={{
-          themeColor: { table_pagination: themeColor.table_pagination },
-          data: props.firstData,
-          rowsCount: 10,
-          columns: [
-            {
-              title: "ID",
-              key: "id",
-              description: "Comment Id",
-              colors: "#806ce1",
-            },
+    <div className="p-2 rounded-4  overflow-auto">
+      {props.firstData.length > 0 ? (
+        <Widget
+          src="lord1.near/widget/table-pagination"
+          props={{
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: props.firstData,
+            rowsCount: 10,
+            columns: [
+              {
+                title: "ID",
+                key: "id",
+                description: "Comment Id",
+                colors: "#806ce1",
+              },
 
-            { title: "Timestamp", key: "date" },
-            {
-              title: "Signer",
-              key: "SINGER",
-              link: "yes",
-              beforehref:
-                "https://near.social/mob.near/widget/ProfilePage?accountId=",
-              hyperlink: "yes",
-            },
-            { title: "Deleted ", key: "status" },
-            {
-              title: "Target",
-              key: "candidate",
-              link: "yes",
-              beforehref:
-                "https://near.social/mob.near/widget/ProfilePage?accountId=",
-              hyperlink: "yes",
-            },
-            {
-              title: "Comment text",
-              key: "comment",
-              explain: "yes",
-            },
+              { title: "Timestamp", key: "date" },
+              {
+                title: "Signer",
+                key: "SINGER",
+                link: "yes",
+                beforehref:
+                  "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                hyperlink: "yes",
+              },
+              { title: "Deleted ", key: "status" },
+              {
+                title: "Target",
+                key: "candidate",
+                link: "yes",
+                beforehref:
+                  "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                hyperlink: "yes",
+              },
+              {
+                title: "Comment text",
+                key: "comment",
+                explain: "yes",
+              },
 
-            {
-              title: "Hash",
-              key: "tx_hash",
-              link: "yes",
-              beforehref: "https://nearblocks.io/txns/",
-              afterhref: "",
-            },
-          ],
-        }}
-      />
-    ) : (
-      noData
-    )}
+              {
+                title: "Hash",
+                key: "tx_hash",
+                link: "yes",
+                beforehref: "https://nearblocks.io/txns/",
+                afterhref: "",
+              },
+            ],
+          }}
+        />
+      ) : (
+        noData
+      )}
+    </div>
   </div>
 );
-
+5;
 return (
   <div
     style={{ backgroundColor: themeColor?.search_sbt?.table_bg }}
