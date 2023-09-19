@@ -368,14 +368,15 @@ return (
                                 onClick={() => deposit(row)}
                                 className="text-decoration-underline"
                               >
-                                Deposit
+                                {`Deposit`}
                               </a>
                               <a
                                 href="#"
                                 onClick={() => withdraw(row)}
+                                style={{ color: state.loading ?? "red" }}
                                 className="text-decoration-underline"
                               >
-                                Withdraw
+                                {`Withdraw`}
                               </a>
                             </div>
                           ) : (
