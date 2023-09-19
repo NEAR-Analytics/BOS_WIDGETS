@@ -575,6 +575,7 @@ const winnerIds = Near.view(electionContract, "winners_by_proposal", {
 const [reload, setReload] = useState(false);
 
 useEffect(() => {
+  console.log("useEffect triggered ->");
   const hasVotedOnAllProposals = Near.view(
     electionContract,
     "has_voted_on_all_proposals",
