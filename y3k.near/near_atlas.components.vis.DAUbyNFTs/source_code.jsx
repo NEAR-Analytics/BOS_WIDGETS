@@ -9,21 +9,62 @@ let raw_data = fetch(
   }
 );
 
+const initialState = {
+  selectedDateRange: "1Y",
+  rawData: [],
+};
+
+state = State.init(initialState);
+
+const handleDateRangeChange = (range) => {
+  State.update({
+    selectedDateRange: range,
+  });
+};
+
 const data = raw_data.body || [];
+State.update({ rawData: data });
 
 let Style = styled.div`
                 `;
 
-// logic start
+const processData = (rawData, dateRange) => {
+  const endDate = new Date();
+  let startDate = new Date();
 
-const sortedData = data.sort((a, b) => {
-  return new Date(a["DAY"]) - new Date(b["DAY"]);
-});
+  switch (dateRange) {
+    case "1M":
+      startDate.setMonth(endDate.getMonth() - 1);
+      break;
+    case "3M":
+      startDate.setMonth(endDate.getMonth() - 3);
+      break;
+    case "YTD":
+      startDate = new Date(endDate.getFullYear(), 0, 1); // start of the year
+      break;
+    case "1Y":
+      startDate.setFullYear(endDate.getFullYear() - 1);
+      break;
+    case "3Y":
+      startDate.setFullYear(endDate.getFullYear() - 3);
+      break;
+  }
+
+  const processedData = rawData.filter((entry) => {
+    const entryDate = new Date(entry["DAY"]);
+    return entryDate >= startDate && entryDate <= endDate;
+  });
+
+  // Sort the processed data by date
+  return processedData.sort((a, b) => new Date(a["DAY"]) - new Date(b["DAY"]));
+};
+
+const dataToDisplay = processData(state.rawData, state.selectedDateRange);
 
 const TXNS = {};
 const dates = [];
 
-sortedData.map((entry) => {
+dataToDisplay.forEach((entry) => {
   const date = entry["DAY"];
   TXNS[date] = entry["TXNS"];
   dates.push(date);
@@ -35,7 +76,6 @@ const stacked_options = {
   responsive: true,
   scales: {
     y: {
-      stacked: true,
       grid: {
         color: "rgb(41,51,64)", // This will change the gridline color
         borderColor: "rgb(240,255,240)",
@@ -45,7 +85,6 @@ const stacked_options = {
       },
     },
     x: {
-      stacked: true,
       grid: {
         color: "rgb(41,51,64)", // This will change the gridline color
       },
@@ -59,7 +98,7 @@ const stacked_bar_data = {
   dates,
   datasets: [
     {
-      label: "TXNS",
+      label: "Transactions",
       data: TXNS,
       backgroundColor: "rgb(13,131,171)",
     },
@@ -68,16 +107,32 @@ const stacked_bar_data = {
 
 return (
   <Style>
-    <div className="text-bg-dark container">
-      {data !== null ? (
-        <div className="rounded-4 p-3 mb-4">
-          <div className="">
+    <div className="relative text-bg-dark rounded-4 p-3 mb-4">
+      <div className="absolute top-0 right-0 flex space-x-2 p-3">
+        {["1M", "3M", "YTD", "1Y", "3Y"].map((range) => (
+          <button
+            key={range}
+            onClick={() => handleDateRangeChange(range)}
+            className={`px-3 py-1 rounded transition-colors duration-200 ease-in ${
+              state.selectedDateRange === range
+                ? "bg-blue-500 text-white"
+                : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+            }`}
+          >
+            {range}
+          </button>
+        ))}
+      </div>
+      <div className="rounded-4 p-3 mb-4 pt-16">
+        {" "}
+        {data !== null ? (
+          <div>
             <BarEl options={stacked_options} data={stacked_bar_data} />
           </div>
-        </div>
-      ) : (
-        <div>Loading ...</div>
-      )}
+        ) : (
+          <div>Loading ...</div>
+        )}
+      </div>
     </div>
   </Style>
 );
