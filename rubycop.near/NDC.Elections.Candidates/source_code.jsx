@@ -541,39 +541,6 @@ const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
   myVotesForHouse().length > 0 || state.winnerIds.length > 0;
 
-State.init({
-  reload: true,
-  loading: false,
-  acceptedPolicy: false,
-  hasVotedOnAllProposals: false,
-  availableVotes: seats - myVotesForHouse().length,
-  selected: null,
-  bookmarked: [],
-  tosAgreementInput: false,
-  tosAgreement: false,
-  selectedCandidates: [],
-  voters: [],
-  candidates: result,
-  filter: {
-    bookmark: false,
-    candidates: false,
-    votes: false,
-    my_votes: false,
-  },
-  filterOption: "",
-  showToSModal: false,
-  bountyProgramModal: false,
-  showReviewModal: false,
-  blacklistedModal: true,
-
-  showMintPolicyModal: false,
-  showMintIVotedModal: false,
-  hasPolicyNFT: null,
-  hasIVotedNFT: null,
-  winnerIds: [],
-  renderEl: null,
-});
-
 const UserLink = ({ title, src, selected, winnerId }) => (
   <div className="d-flex mr-3">
     <StyledLink href={src} target="_blank">
@@ -1136,6 +1103,39 @@ const renderEl = () => (
   </>
 );
 
+State.init({
+  reload: true,
+  loading: false,
+  acceptedPolicy: false,
+  hasVotedOnAllProposals: false,
+  availableVotes: seats - myVotesForHouse().length,
+  selected: null,
+  bookmarked: [],
+  tosAgreementInput: false,
+  tosAgreement: false,
+  selectedCandidates: [],
+  voters: [],
+  candidates: result,
+  filter: {
+    bookmark: false,
+    candidates: false,
+    votes: false,
+    my_votes: false,
+  },
+  filterOption: "",
+  showToSModal: false,
+  bountyProgramModal: false,
+  showReviewModal: false,
+  blacklistedModal: true,
+
+  showMintPolicyModal: false,
+  showMintIVotedModal: false,
+  hasPolicyNFT: null,
+  hasIVotedNFT: null,
+  winnerIds: [],
+  renderEl: renderEl(),
+});
+
 if (state.reload) {
   const winnerIds = Near.view(electionContract, "winners_by_proposal", {
     prop_id: props.id,
@@ -1156,7 +1156,6 @@ if (state.reload) {
     winnerIds: winnerIds ?? state.winnerIds,
     candidates: filteredCandidates(),
     hasVotedOnAllProposals,
-    renderEl: renderEl(),
   });
 
   handleStateTransition();
