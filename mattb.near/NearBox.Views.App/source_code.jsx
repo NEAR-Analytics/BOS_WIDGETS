@@ -109,7 +109,6 @@ return (
         <Widget src={`${WIDGET_OWNER}/widget/NearBox.Components.Logo`} />
 
         <Logout>
-          <p>{!!MailChain && MailChain.getUserAddress()}</p>
           <img
             src="https://ipfs.near.social/ipfs/bafkreiem7zs4oxkkgsr2hgret2z2h3fj76kngsbmkdstfijcsyakioklzu"
             onClick={() => onLogout({ logged: false })}
