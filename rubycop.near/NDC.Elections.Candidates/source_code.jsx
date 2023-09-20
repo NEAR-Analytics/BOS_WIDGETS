@@ -831,334 +831,338 @@ const ALink = ({ title, href }) => (
 );
 
 function renderEl() {
-  <>
-    {state.showReviewModal && (
-      <Widget
-        src={widgets.modal}
-        props={{
-          title: (
-            <div>
-              <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
-              <div className="mt-4">Election results are under review</div>
-            </div>
-          ),
-          description:
-            "Election results are under review by Election integrity Councils. Please wait it may take a few days",
-          Button: {
-            title: "I understand",
-            onCancel: () =>
-              State.update({ showReviewModal: false, reload: false }),
-            onSubmit: () =>
-              State.update({ showReviewModal: false, reload: false }),
-          },
-        }}
-      />
-    )}
-    {blacklisted && state.blacklistedModal && (
-      <Widget
-        src={widgets.modal}
-        props={{
-          title: (
-            <div>
-              <img src="https://bafkreignre4f27jsdgxt25pgnenjyqfw55pkhtnu5gkv7vhex3ttv45pbe.ipfs.nftstorage.link" />
-              <div className="mt-4">You are on the election blacklist. </div>
-            </div>
-          ),
-          description: (
-            <>
-              The community has voted to block blacklisted accounts from voting
-              in the NDC general election. You have been blacklisted due
-              previously violating the
-              <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />.
-            </>
-          ),
-          Button: {
-            title: "I understand",
-            onCancel: () => State.update({ blacklistedModal: false }),
-            onSubmit: () => State.update({ blacklistedModal: false }),
-          },
-          SecondaryButton: {
-            type: "Link",
-            title: "Appeal the Decision",
-            href: BLACKLIST_VERIFY_LINK,
-          },
-        }}
-      />
-    )}
-    {state.showToSModal && (
-      <Widget
-        src={widgets.modal}
-        props={{
-          title: (
-            <div>
-              <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
-              <div className="mt-4">
-                Before you vote, please review the Fair Voting Policy.
+  return (
+    <>
+      {state.showReviewModal && (
+        <Widget
+          src={widgets.modal}
+          props={{
+            title: (
+              <div>
+                <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
+                <div className="mt-4">Election results are under review</div>
               </div>
-            </div>
-          ),
-          description: (
-            <>
-              <div className="mt-4">
-                Please make sure to read and understand the{" "}
-                <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
-                which outlines the responsibilities of each voter.
-              </div>
-            </>
-          ),
-          content: (
-            <Section className="d-flex justify-content-center w-100 my-4">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                checked={state.tosAgreementInput}
-                onClick={() =>
-                  State.update({ tosAgreementInput: !state.tosAgreementInput })
-                }
-              />
-              I agree with{" "}
-              <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
-            </Section>
-          ),
-          Button: {
-            title: state.loading ? (
-              <Loader />
-            ) : (
-              <>Agree to Fair Voting Policy</>
             ),
-            disabled: !state.tosAgreementInput,
-            onCancel: () => State.update({ showToSModal: false }),
-            onSubmit: handleAcceptToS,
-          },
-        }}
-      />
-    )}
-    {state.showMintPolicyModal && (
-      <Widget
-        src={widgets.modal}
-        props={{
-          title: "Before you vote, mint Fair Voting Policy NFT.",
-          description: (
-            <>
-              <img width={300} src={FAIR_POLICY_NFT} />
-              <div className="mt-4 mb-4">
-                Please make sure to read and understand the{" "}
+            description:
+              "Election results are under review by Election integrity Councils. Please wait it may take a few days",
+            Button: {
+              title: "I understand",
+              onCancel: () =>
+                State.update({ showReviewModal: false, reload: false }),
+              onSubmit: () =>
+                State.update({ showReviewModal: false, reload: false }),
+            },
+          }}
+        />
+      )}
+      {blacklisted && state.blacklistedModal && (
+        <Widget
+          src={widgets.modal}
+          props={{
+            title: (
+              <div>
+                <img src="https://bafkreignre4f27jsdgxt25pgnenjyqfw55pkhtnu5gkv7vhex3ttv45pbe.ipfs.nftstorage.link" />
+                <div className="mt-4">You are on the election blacklist. </div>
+              </div>
+            ),
+            description: (
+              <>
+                The community has voted to block blacklisted accounts from
+                voting in the NDC general election. You have been blacklisted
+                due previously violating the
+                <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />.
+              </>
+            ),
+            Button: {
+              title: "I understand",
+              onCancel: () => State.update({ blacklistedModal: false }),
+              onSubmit: () => State.update({ blacklistedModal: false }),
+            },
+            SecondaryButton: {
+              type: "Link",
+              title: "Appeal the Decision",
+              href: BLACKLIST_VERIFY_LINK,
+            },
+          }}
+        />
+      )}
+      {state.showToSModal && (
+        <Widget
+          src={widgets.modal}
+          props={{
+            title: (
+              <div>
+                <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
+                <div className="mt-4">
+                  Before you vote, please review the Fair Voting Policy.
+                </div>
+              </div>
+            ),
+            description: (
+              <>
+                <div className="mt-4">
+                  Please make sure to read and understand the{" "}
+                  <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
+                  which outlines the responsibilities of each voter.
+                </div>
+              </>
+            ),
+            content: (
+              <Section className="d-flex justify-content-center w-100 my-4">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  checked={state.tosAgreementInput}
+                  onClick={() =>
+                    State.update({
+                      tosAgreementInput: !state.tosAgreementInput,
+                    })
+                  }
+                />
+                I agree with{" "}
                 <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
-                which outlines the responsibilities of each voter.
+              </Section>
+            ),
+            Button: {
+              title: state.loading ? (
+                <Loader />
+              ) : (
+                <>Agree to Fair Voting Policy</>
+              ),
+              disabled: !state.tosAgreementInput,
+              onCancel: () => State.update({ showToSModal: false }),
+              onSubmit: handleAcceptToS,
+            },
+          }}
+        />
+      )}
+      {state.showMintPolicyModal && (
+        <Widget
+          src={widgets.modal}
+          props={{
+            title: "Before you vote, mint Fair Voting Policy NFT.",
+            description: (
+              <>
+                <img width={300} src={FAIR_POLICY_NFT} />
+                <div className="mt-4 mb-4">
+                  Please make sure to read and understand the{" "}
+                  <ALink title="Fair Voting Policy." href={FAIR_POLICY_DOC} />
+                  which outlines the responsibilities of each voter.
+                </div>
+              </>
+            ),
+            Button: {
+              type: "Link",
+              title: "Mint Fair Voting NFT",
+              onCancel: () =>
+                State.update({ showMintPolicyModal: false, reload: false }),
+              href: MINT_VOTING_POLICY_NFT,
+              doNotOpenNew: true,
+            },
+          }}
+        />
+      )}
+      {state.bountyProgramModal && (
+        <Widget
+          src={widgets.modal}
+          props={{
+            title: (
+              <div>
+                <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
+                <div className="mt-4">
+                  {greylisted ? (
+                    <>Additional Verification Required.</>
+                  ) : (
+                    <>You are about to cast your votes.</>
+                  )}
+                </div>
               </div>
-            </>
-          ),
-          Button: {
-            type: "Link",
-            title: "Mint Fair Voting NFT",
-            onCancel: () =>
-              State.update({ showMintPolicyModal: false, reload: false }),
-            href: MINT_VOTING_POLICY_NFT,
-            doNotOpenNew: true,
-          },
-        }}
-      />
-    )}
-    {state.bountyProgramModal && (
-      <Widget
-        src={widgets.modal}
-        props={{
-          title: (
-            <div>
-              <img src="https://bafkreidmuyeawyqduaotd27jozw5czdrm7t7w5hlcx5nfjzjjxxzvyhkyi.ipfs.nftstorage.link/" />
-              <div className="mt-4">
-                {greylisted ? (
-                  <>Additional Verification Required.</>
-                ) : (
-                  <>You are about to cast your votes.</>
+            ),
+            description: (
+              <Rules>
+                <Rule className="d-flex gap-2">
+                  <h3>1</h3>
+                  <p className="text-secondary text-start">
+                    Don't sell your vote and risk being banned from governance.
+                    Instead report bad actors and claim a bounty up to 2,500
+                    NEAR. Learn more about{" "}
+                    <ALink
+                      title="Whistleblower Bounty Program"
+                      href="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
+                    />
+                  </p>
+                </Rule>
+                <Rule className="d-flex gap-2">
+                  <h3>2</h3>
+                  <p className="text-secondary text-start">
+                    A bond of <b>{greylisted ? MAX_BOND : MIN_BOND} NEAR</b> is
+                    required to vote. If you are a fair voter, this bond will
+                    returned to you after the election results are reviewed and
+                    rectified.
+                  </p>
+                </Rule>
+                <Rule className="d-flex gap-2">
+                  <h3>3</h3>
+                  <p className="text-secondary text-start">
+                    You votes <b>cannot</b> be changed. You can only cast{" "}
+                    <b>once</b> per house.
+                  </p>
+                </Rule>
+                {greylisted && (
+                  <GraylistedAlert className="p-3 mb-4 rounded">
+                    <b>Voters without reputation need to be verified</b> by the
+                    Election Integrity Council or place a substantial bond to
+                    vote. If you are a fair voter, this bond will be returned to
+                    you once the election results are reviewed and ratified.
+                  </GraylistedAlert>
                 )}
+              </Rules>
+            ),
+            Button: {
+              title: `Cast ${
+                state.selectedCandidates.length || ""
+              } / ${seats} Vote${
+                state.selectedCandidates.length === 1 ? "" : "s"
+              }`,
+              disabled:
+                state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
+              onCancel: () =>
+                State.update({ bountyProgramModal: false, reload: false }),
+              onSubmit: handleVote,
+            },
+            SecondaryButton: {
+              type: greylisted ? "Link" : "Button",
+              title: greylisted ? "Apply to Verify" : "Cancel",
+              href: GREYLIST_VERIFY_LINK,
+              onSubmit: () =>
+                State.update({ bountyProgramModal: false, reload: false }),
+            },
+            footer: state.selectedCandidates.length < seats && (
+              <div class="w-100 pt-2 text-center">
+                <VotingAlert>
+                  <i class="bi bi-exclamation-circle mr-2" />
+                  Warning! You'll loose{" "}
+                  {state.availableVotes -
+                    (state.selectedCandidates.length || 0)}{" "}
+                  votes and don't have ability to vote again in current house!
+                </VotingAlert>
               </div>
-            </div>
-          ),
-          description: (
-            <Rules>
-              <Rule className="d-flex gap-2">
-                <h3>1</h3>
-                <p className="text-secondary text-start">
-                  Don't sell your vote and risk being banned from governance.
-                  Instead report bad actors and claim a bounty up to 2,500 NEAR.
-                  Learn more about{" "}
-                  <ALink
-                    title="Whistleblower Bounty Program"
-                    href="https://medium.com/@neardigitalcollective/introducing-ndc-whistleblower-bounty-program-d4fe1b9fc5a0"
-                  />
-                </p>
-              </Rule>
-              <Rule className="d-flex gap-2">
-                <h3>2</h3>
-                <p className="text-secondary text-start">
-                  A bond of <b>{greylisted ? MAX_BOND : MIN_BOND} NEAR</b> is
-                  required to vote. If you are a fair voter, this bond will
-                  returned to you after the election results are reviewed and
-                  rectified.
-                </p>
-              </Rule>
-              <Rule className="d-flex gap-2">
-                <h3>3</h3>
-                <p className="text-secondary text-start">
-                  You votes <b>cannot</b> be changed. You can only cast{" "}
-                  <b>once</b> per house.
-                </p>
-              </Rule>
-              {greylisted && (
-                <GraylistedAlert className="p-3 mb-4 rounded">
-                  <b>Voters without reputation need to be verified</b> by the
-                  Election Integrity Council or place a substantial bond to
-                  vote. If you are a fair voter, this bond will be returned to
-                  you once the election results are reviewed and ratified.
-                </GraylistedAlert>
-              )}
-            </Rules>
-          ),
-          Button: {
-            title: `Cast ${
-              state.selectedCandidates.length || ""
-            } / ${seats} Vote${
-              state.selectedCandidates.length === 1 ? "" : "s"
-            }`,
-            disabled:
-              state.selectedCandidates.length === 0 || alreadyVotedForHouse(),
-            onCancel: () =>
-              State.update({ bountyProgramModal: false, reload: false }),
-            onSubmit: handleVote,
-          },
-          SecondaryButton: {
-            type: greylisted ? "Link" : "Button",
-            title: greylisted ? "Apply to Verify" : "Cancel",
-            href: GREYLIST_VERIFY_LINK,
-            onSubmit: () =>
-              State.update({ bountyProgramModal: false, reload: false }),
-          },
-          footer: state.selectedCandidates.length < seats && (
-            <div class="w-100 pt-2 text-center">
-              <VotingAlert>
-                <i class="bi bi-exclamation-circle mr-2" />
-                Warning! You'll loose{" "}
-                {state.availableVotes -
-                  (state.selectedCandidates.length || 0)}{" "}
-                votes and don't have ability to vote again in current house!
-              </VotingAlert>
-            </div>
-          ),
-        }}
-      />
-    )}
-    {state.showMintIVotedModal && (
-      <Widget
-        src={widgets.modal}
-        props={{
-          title: "Congratulations! Mint “I Voted” NFT",
-          description: (
-            <div>
-              <img width={300} src={I_VOTED_NFT} />
-              <div className="mt-4 mb-4">
-                Celebrate voting in the inaugural NEAR election and mint your “I
-                Voted” NFT! 🎉
+            ),
+          }}
+        />
+      )}
+      {state.showMintIVotedModal && (
+        <Widget
+          src={widgets.modal}
+          props={{
+            title: "Congratulations! Mint “I Voted” NFT",
+            description: (
+              <div>
+                <img width={300} src={I_VOTED_NFT} />
+                <div className="mt-4 mb-4">
+                  Celebrate voting in the inaugural NEAR election and mint your
+                  “I Voted” NFT! 🎉
+                </div>
               </div>
-            </div>
-          ),
-          Button: {
-            type: "Link",
-            title: "Mint I voted NFT",
-            onCancel: () =>
-              State.update({ showMintIVotedModal: false, reload: false }),
-            href: MINT_I_VOTED_NFT,
-            doNotOpenNew: true,
-          },
-          SecondaryButton: {
-            type: "Link",
-            title: "Tweet I Voted",
-            href: SHARE_LINK,
-          },
-        }}
-      />
-    )}
+            ),
+            Button: {
+              type: "Link",
+              title: "Mint I voted NFT",
+              onCancel: () =>
+                State.update({ showMintIVotedModal: false, reload: false }),
+              href: MINT_I_VOTED_NFT,
+              doNotOpenNew: true,
+            },
+            SecondaryButton: {
+              type: "Link",
+              title: "Tweet I Voted",
+              href: SHARE_LINK,
+            },
+          }}
+        />
+      )}
 
-    <Container>
-      <h2>{housesMapping[typ]}</h2>
-      {typ === "SetupPackage" ? (
-        <Widget src={widgets.budget} />
-      ) : (
-        <>
-          <small className="text-secondary">{result.length} Candidates</small>
-          {state.candidates.length > 0 ? (
-            <>
-              <Filters />
-              <CandidatesContainer>
-                {state.candidates.map(([candidateId, votes], index) => (
-                  <CandidateItem
-                    candidateId={candidateId}
-                    votes={votes}
-                    key={index}
-                  />
-                ))}
-              </CandidatesContainer>
-              {candidateFilterId && (
-                <div className="d-flex p-2 justify-content-center align-items-center">
+      <Container>
+        <h2>{housesMapping[typ]}</h2>
+        {typ === "SetupPackage" ? (
+          <Widget src={widgets.budget} />
+        ) : (
+          <>
+            <small className="text-secondary">{result.length} Candidates</small>
+            {state.candidates.length > 0 ? (
+              <>
+                <Filters />
+                <CandidatesContainer>
+                  {state.candidates.map(([candidateId, votes], index) => (
+                    <CandidateItem
+                      candidateId={candidateId}
+                      votes={votes}
+                      key={index}
+                    />
+                  ))}
+                </CandidatesContainer>
+                {candidateFilterId && (
+                  <div className="d-flex p-2 justify-content-center align-items-center">
+                    <Widget
+                      src={widgets.styledComponents}
+                      props={{
+                        Link: {
+                          className: "primary dark",
+                          text: "Show All Candidates",
+                          doNotOpenNew: true,
+                          href: `https://near.org/election.ndctools.near/widget/NDC.Elections.Main?house=${id}`,
+                        },
+                      }}
+                    />
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="d-flex p-5 justify-content-center align-items-center flex-column gap-2">
+                <span>No candidates found.</span>
+                {state.filterOption && (
                   <Widget
                     src={widgets.styledComponents}
                     props={{
-                      Link: {
-                        className: "primary dark",
-                        text: "Show All Candidates",
-                        doNotOpenNew: true,
-                        href: `https://near.org/election.ndctools.near/widget/NDC.Elections.Main?house=${id}`,
+                      Button: {
+                        className: "secondary dark",
+                        text: "Clear Filters",
+                        onClick: () =>
+                          State.update({
+                            filterOption: "",
+                            filter: {
+                              bookmark: false,
+                              candidates: false,
+                              votes: false,
+                              my_votes: false,
+                            },
+                          }),
                       },
                     }}
                   />
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="d-flex p-5 justify-content-center align-items-center flex-column gap-2">
-              <span>No candidates found.</span>
-              {state.filterOption && (
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Button: {
-                      className: "secondary dark",
-                      text: "Clear Filters",
-                      onClick: () =>
-                        State.update({
-                          filterOption: "",
-                          filter: {
-                            bookmark: false,
-                            candidates: false,
-                            votes: false,
-                            my_votes: false,
-                          },
-                        }),
-                    },
-                  }}
-                />
-              )}
-            </div>
-          )}
-        </>
-      )}
-      <div>
-        {iahToken && (
-          <Widget
-            src={widgets.castVotes}
-            props={{
-              ...props,
-              ...state,
-              handleCast,
-              handleVote,
-              handleResetSelection,
-              handleSelectCandidate,
-            }}
-          />
+                )}
+              </div>
+            )}
+          </>
         )}
-      </div>
-    </Container>
-  </>;
+        <div>
+          {iahToken && (
+            <Widget
+              src={widgets.castVotes}
+              props={{
+                ...props,
+                ...state,
+                handleCast,
+                handleVote,
+                handleResetSelection,
+                handleSelectCandidate,
+              }}
+            />
+          )}
+        </div>
+      </Container>
+    </>
+  );
 }
 
 return state.renderEl ?? <Loader />;
