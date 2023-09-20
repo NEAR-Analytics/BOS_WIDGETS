@@ -1,5 +1,5 @@
 const Owner = "socializer.near";
-const API_URL = "http://e2e.nearverselabs.com";
+const API_URL = "https://e2e.nearverselabs.com";
 
 State.init({
   sate: false,
