@@ -42,7 +42,7 @@ useEffect(() => {
         media.startsWith("https") || media.startsWith("http")
           ? media
           : `${baseUri}/${media}`;
-
+      console.log(baseUri, media);
       let collection = "";
 
       if (nftContract === "x.paras.near") {
