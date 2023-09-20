@@ -66,7 +66,7 @@ const Metadata = styled.div`
     .hot {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 10px;
     }
   }
   @media (max-width: 900px) {
