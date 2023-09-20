@@ -26,12 +26,6 @@ const ScrollContainer = styled.div`
   border: 1px solid lightgray;
 `;
 
-State.init({ isModalOpen: true, isUpdated: false });
-
-if (props.isOfferModalOpen && !state.isUpdated) {
-  State.update({ isModalOpen: true, isUpdated: true });
-}
-
 function multiplyBy10ToThe24(num) {
   // Convert the number to a string
   let strNum = num.toString();
@@ -121,10 +115,7 @@ const ConfirmOffer = () => {
       });
     }
     Near.call(allTransactions);
-    State.update({ isModalOpen: false });
-    setInterval(() => {
-      State.update({ isUpdated: false });
-    }, 1000);
+    props.update({ isOfferModalOpen: false });
   };
 
   return (
@@ -215,12 +206,12 @@ const ConfirmOffer = () => {
   );
 };
 
-return props.isOpen ? (
+return props.isOfferModalOpen ? (
   <Widget
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: ConfirmOffer(),
-      isOpen: state?.isModalOpen,
+      isOpen: state?.isOfferModalOpen,
       contentStyles: {
         style: {
           width: 600,
