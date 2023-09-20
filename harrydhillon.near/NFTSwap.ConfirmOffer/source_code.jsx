@@ -26,6 +26,63 @@ const ScrollContainer = styled.div`
   border: 1px solid lightgray;
 `;
 
+/**
+ * Exponent for calculating how many indivisible units are there in one NEAR. See {@link NEAR_NOMINATION}.
+ */
+export const NEAR_NOMINATION_EXP = 24;
+
+/**
+ * Number of indivisible units in one NEAR. Derived from {@link NEAR_NOMINATION_EXP}.
+ */
+export const NEAR_NOMINATION = BigInt(`10${"0".repeat(NEAR_NOMINATION_EXP)}`);
+
+// Pre-calculate offsets used for rounding to different number of digits
+const ROUNDING_OFFSETS = [];
+for (
+  let i = 0, offset = BigInt(5);
+  i < NEAR_NOMINATION_EXP;
+  i++, offset *= BigInt(10)
+) {
+  ROUNDING_OFFSETS.push(offset);
+}
+
+/**
+ * Convert account balance value from internal indivisible units to NEAR. 1 NEAR is defined by {@link NEAR_NOMINATION}.
+ * Effectively this divides given amount by {@link NEAR_NOMINATION}.
+ *
+ * @param balance decimal string representing balance in smallest non-divisible NEAR units (as specified by {@link NEAR_NOMINATION})
+ * @param fracDigits number of fractional digits to preserve in formatted string. Balance is rounded to match given number of digits.
+ * @returns Value in Ⓝ
+ */
+function formatNearAmount(balance, fracDigits = NEAR_NOMINATION_EXP) {
+  let balanceBN = BigInt(balance);
+  if (fracDigits !== NEAR_NOMINATION_EXP) {
+    // Adjust balance for rounding at given number of digits
+    const roundingExp = NEAR_NOMINATION_EXP - fracDigits - 1;
+    if (roundingExp > 0) {
+      balanceBN += ROUNDING_OFFSETS[roundingExp];
+    }
+  }
+
+  const wholeStr = balanceBN / NEAR_NOMINATION;
+  const fractionStr = balanceBN % NEAR_NOMINATION;
+
+  return trimTrailingZeroes(
+    `${formatWithCommas(wholeStr.toString())}.${fractionStr
+      .toString()
+      .padStart(NEAR_NOMINATION_EXP, "0")
+      .substring(0, fracDigits)}`
+  );
+}
+
+function trimTrailingZeroes(str) {
+  return str.replace(/\.?0+$/, "");
+}
+
+function formatWithCommas(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function generateRandomHexBytes(size) {
   const byteToHex = (byte) => {
     const hexTable = "0123456789abcdef";
@@ -95,9 +152,8 @@ const ConfirmOffer = () => {
     if (props.offerNFTS) {
       const hash = generateRandomHexBytes(12);
       const contractArgs = {
-        hash,
         sender_id: context.accountId,
-        sender_near: multiplyBy10ToThe24(parseFloat(props.offerAmount)),
+        sender_near: formatNearAmount(parseFloat(props.offerAmount)),
         sender_nfts: props.sendNFTS.map((item) => ({
           tokenId: item.tokenId,
           contractId: item.contractId,
