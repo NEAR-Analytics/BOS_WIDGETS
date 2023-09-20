@@ -107,7 +107,7 @@ const Wrapper = styled.div`
 return (
   <Wrapper
     style={
-      props.hideComments
+      props.hideComments || props.noBorder
         ? undefined
         : {
             borderBottom: "1px solid #eee",
