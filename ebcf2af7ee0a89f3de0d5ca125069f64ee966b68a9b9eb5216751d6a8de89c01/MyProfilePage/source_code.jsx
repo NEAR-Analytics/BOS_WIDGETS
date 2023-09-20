@@ -7,9 +7,8 @@ console.log(profileData);
 const ProfileWrapper = styled.div`
     padding: 0 0 30px 0;
     .banner-wrapper { padding: 15px; }
+    .banner { width: 100%; aspect-ratio:1; border-radius: 20px; }
     .banner-image {
-      width: 100%;
-      object-fit: cover;
       border-radius: 20px;
     }
     .profile-wrapper { padding: 0 30px; margin-top: -55px; }
@@ -33,6 +32,7 @@ const Banner = () => {
   return (
     <>
       <div className="banner-wrapper">
+        <div className="banner">
           <img
             className="banner-image"
             src={
@@ -40,6 +40,7 @@ const Banner = () => {
               `https://ipfs.near.social/ipfs/${profileData.image.ipfs_cid}`
             }
           ></img>
+        </div>
       </div>
     </>
   );
