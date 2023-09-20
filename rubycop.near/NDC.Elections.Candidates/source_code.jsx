@@ -571,8 +571,33 @@ State.init({
   hasPolicyNFT: null,
   hasIVotedNFT: null,
   winnerIds: [],
-  renderEl: null,
 });
+
+const winnerIds = Near.view(electionContract, "winners_by_proposal", {
+  prop_id: props.id,
+});
+
+if (state.reload) {
+  const hasVotedOnAllProposals = Near.view(
+    electionContract,
+    "has_voted_on_all_proposals",
+    { user: currentUser }
+  );
+
+  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
+    user: currentUser,
+  });
+
+  State.update({
+    acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
+    winnerIds: winnerIds ?? state.winnerIds,
+    candidates: filteredCandidates(),
+    hasVotedOnAllProposals,
+  });
+
+  handleStateTransition();
+  loadSocialDBData();
+}
 
 const UserLink = ({ title, src, selected, winnerId }) => (
   <div className="d-flex mr-3">
@@ -803,7 +828,7 @@ const ALink = ({ title, href }) => (
   </a>
 );
 
-const renderEl = () => (
+return (
   <>
     {state.showReviewModal && (
       <Widget
@@ -886,9 +911,7 @@ const renderEl = () => (
                 className="form-check-input"
                 checked={state.tosAgreementInput}
                 onClick={() =>
-                  State.update({
-                    tosAgreementInput: !state.tosAgreementInput,
-                  })
+                  State.update({ tosAgreementInput: !state.tosAgreementInput })
                 }
               />
               I agree with{" "}
@@ -1135,33 +1158,3 @@ const renderEl = () => (
     </Container>
   </>
 );
-
-if (state.reload) {
-  const winnerIds = Near.view(electionContract, "winners_by_proposal", {
-    prop_id: props.id,
-  });
-
-  const hasVotedOnAllProposals = Near.view(
-    electionContract,
-    "has_voted_on_all_proposals",
-    { user: currentUser }
-  );
-
-  const acceptedPolicy = Near.view(electionContract, "accepted_policy", {
-    user: currentUser,
-  });
-
-  State.update({
-    acceptedPolicy: acceptedPolicy === POLICY_HASH ?? acceptedPolicy,
-    winnerIds: winnerIds ?? state.winnerIds,
-    candidates: filteredCandidates(),
-    hasVotedOnAllProposals,
-  });
-
-  handleStateTransition();
-  loadSocialDBData();
-}
-State.update({
-  renderEl: renderEl(),
-});
-return state.renderEl ?? <Loader />;
