@@ -23,25 +23,38 @@ const ConnectWrapper = styled.div`
   }
 
   .connect-button {
-    background-color: #33549c;
-    width: 488px;
+    background-color: var(--button-color);
+    width: 100%;
+    max-width: 488px;
     height: 60px;
     border-radius: 10px;
-    color: #ffffff;
+    color: var(--button-text-color);
     border: none;
     font-size: 18px;
+    font-weight: 700;
     &:active {
-      background-color: #33549c;
+      background-color: var(--button-color);
     }
     &:focus-visible {
       box-shadow: none;
+    }
+  }
+  @media (max-width: 768px) {
+    .bridge-text {
+      font-size: 24px;
+      line-height: 28px;
+      text-align: center;
+    }
+    .connect-img {
+      width: 100% !important;
+      height: auto !important;
     }
   }
 `;
 
 return (
   <ConnectWrapper>
-    {imgProps && <img {...imgProps} />}
+    {imgProps && <img {...imgProps} className="connect-img" />}
     <div className="bridge-text">
       {!account && noAccountTips}
       {isWrongNetwork && wrongNetworkTips}
