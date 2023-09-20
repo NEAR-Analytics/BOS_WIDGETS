@@ -210,7 +210,7 @@ const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
 
 let first = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={firsttheme} />
@@ -260,7 +260,7 @@ let first = (
 );
 let second = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={secondtheme} />
@@ -310,7 +310,7 @@ let second = (
 );
 let third = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={thirdtheme} />
