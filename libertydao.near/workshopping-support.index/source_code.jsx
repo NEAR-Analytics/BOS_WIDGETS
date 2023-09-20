@@ -235,31 +235,25 @@ const dummyData = {
 };
 
 const dummyData2 = {
-  "Pass the Torch": [
+  "Active Projects": [
     {
       name: "Pass the Torch",
       description: "This is a description for Funnel A.",
       location: "New York",
       members: 120,
     },
-  ],
-  "Liberty Turnpike": [
     {
       name: "Liberty Turnpike",
       description: "Description for DAO Alpha.",
       location: "San Francisco",
       members: 300,
     },
-  ],
-  "Citizens Data": [
     {
       name: "Citizens Data",
       description: "Description for Org X.",
       location: "Miami",
       members: 220,
     },
-  ],
-  "Ignite the Future": [
     {
       name: "Ignite the Future",
       description: "Description for Institution One.",
@@ -321,8 +315,17 @@ return (
         ))}
       </Grid>
     </ResourceNetworkContainer>
+
+    <Footer>
+      <h2>What would you reach for?</h2>
+      <p>Reach for the stars in our torchbearer program!</p>
+      <a href="#">
+        See something missing? Awesome! Offer network suggestions Here.
+      </a>
+    </Footer>
+
     <ActiveProjectsContainer>
-      <ResourceHeader>Active Projects</ResourceHeader>
+      <ResourceHeader>What others are doing</ResourceHeader>
       <Navbar>
         {Object.keys(dummyData2).map((key) => (
           <TabsButton
@@ -360,12 +363,5 @@ return (
         ))}
       </Grid>
     </ActiveProjectsContainer>
-    <Footer>
-      <h2>What would you reach for?</h2>
-      <p>Reach for the stars in our torchbearer program!</p>
-      <a href="#">
-        See something missing? Awesome! Offer network suggestions Here.
-      </a>
-    </Footer>
   </MainContainer>
 );
