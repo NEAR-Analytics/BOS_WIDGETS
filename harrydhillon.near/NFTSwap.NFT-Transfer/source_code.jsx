@@ -248,34 +248,34 @@ return (
         ),
         generateOfferAndCallContract: () => {
           const allTransactions = [];
-          if (props.offerAmount && props.offerNFTS.length === 0) {
+          if (state.offerAmount && state.offerNFTS.length === 0) {
             allTransactions.push({
               contractName: "v1.havenswap.near",
               methodName: "mass_transfer",
               args: {
-                receiver_id: props.receiverId,
+                receiver_id: state.receiverId,
               },
               gas: 100000000000000,
               deposit:
-                1000000000000000000000000 * parseFloat(props.offerAmount),
+                1000000000000000000000000 * parseFloat(state.offerAmount),
             });
           }
-          if (props.offerNFTS) {
-            props?.offerNFTS?.map((item) => {
+          if (state.offerNFTS) {
+            state?.offerNFTS?.map((item) => {
               allTransactions.push({
                 contractName: "v1.havenswap.near",
                 methodName: "send_offer",
                 args: {
                   sender_id: accountId,
                   sender_near: multiplyBy10ToThe24(
-                    parseFloat(props.offerAmount)
+                    parseFloat(state.offerAmount)
                   ),
-                  sender_nfts: props.sendNFTS.map((item) => ({
+                  sender_nfts: state.sendNFTS.map((item) => ({
                     tokenId: item.tokenId,
                     contractId: item.contractId,
                   })),
-                  receiver_id: props.receiverId,
-                  receiver_nfts: props.offerNFTS.map((item) => ({
+                  receiver_id: state.receiverId,
+                  receiver_nfts: state.offerNFTS.map((item) => ({
                     tokenId: item.tokenId,
                     contractId: item.contractId,
                   })),
@@ -283,17 +283,17 @@ return (
                 },
                 gas: 100000000000000,
                 deposit:
-                  1000000000000000000000000 * parseFloat(props.offerAmount),
+                  1000000000000000000000000 * parseFloat(state.offerAmount),
               });
             });
           }
-          if (props.sendNFTS) {
-            props?.sendNFTS?.map((item) => {
+          if (state.sendNFTS) {
+            state?.sendNFTS?.map((item) => {
               allTransactions.push({
                 contractName: item.contractId,
                 methodName: "nft_transfer",
                 args: {
-                  receiver_id: props.receiverId,
+                  receiver_id: state.receiverId,
                   token_id: item.tokenId,
                 },
                 gas: 100000000000000,
@@ -302,7 +302,7 @@ return (
             });
           }
           Near.call(allTransactions);
-          props.update({ isOfferModalOpen: false });
+          State.update({ isOfferModalOpen: false });
         },
         isOpen: state.isOfferModalOpen,
         contentStyles: {
