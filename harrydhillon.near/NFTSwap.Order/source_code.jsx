@@ -4,79 +4,77 @@ initState({ allTransactions: [] });
 
 const contract_id = "swap.genadrop.near";
 
-useEffect(() => {
-  const allUserTransactionHashes = Near.view(
-    "swap.genadrop.near",
-    "get_hashes_for_owner",
-    {
-      owner_id: accountId,
-    }
-  );
-
-  const allTransactionData = [];
-
-  allUserTransactionHashes.map((item) => {
-    allTransactionData.push({
-      ...Near.view("swap.genadrop.near", "get_transaction_data", {
-        hash: item,
-      }),
-      hash: item,
-    });
-  });
-
-  function processNFTs(nfts, hash) {
-    let arrayToReturn = [];
-    nfts.map(async (nft) => {
-      const nftContract = nft.contract_id;
-      const tokenId = nft.token_id;
-      const metadata = Near.view(nftContract, "nft_metadata", {
-        token_id: tokenId,
-      });
-      const baseUri = metadata.base_uri || "";
-
-      const nftMetadata = Near.view(nftContract, "nft_token", {
-        token_id: tokenId,
-      });
-      const media = nftMetadata.metadata.media;
-      const image =
-        media.startsWith("https") || media.startsWith("http")
-          ? media
-          : `${baseUri}${media[0] === "/" ? "" : "/"}${media}`;
-      let collection = "";
-
-      if (nftContract === "x.paras.near") {
-        const response = fetch(
-          `https://api-v2-mainnet.paras.id/token?token_id=${tokenId}`
-        );
-        collection = response.data.results[0].metadata.collection_id;
-      }
-
-      arrayToReturn.push({
-        title: nftMetadata.metadata.title,
-        image: image,
-        token_id: tokenId,
-        contract_id: nftContract,
-        collection: collection ? collection : metadata.name,
-      });
-    });
-    return arrayToReturn;
+const allUserTransactionHashes = Near.view(
+  "swap.genadrop.near",
+  "get_hashes_for_owner",
+  {
+    owner_id: accountId,
   }
+);
 
-  State.update({ allTransactions: allTransactionData });
+const allTransactionData = [];
 
-  const nftData = [];
-  allTransactionData.map((item) => {
-    const senderNFTs = processNFTs(item.sender_nfts, item.hash);
-    const receiverNFTs = processNFTs(item.receiver_nfts, item.hash);
-    senderNFTs.map((item) => {
-      nftData.push(item);
+allUserTransactionHashes.map((item) => {
+  allTransactionData.push({
+    ...Near.view("swap.genadrop.near", "get_transaction_data", {
+      hash: item,
+    }),
+    hash: item,
+  });
+});
+
+function processNFTs(nfts, hash) {
+  let arrayToReturn = [];
+  nfts.map(async (nft) => {
+    const nftContract = nft.contract_id;
+    const tokenId = nft.token_id;
+    const metadata = Near.view(nftContract, "nft_metadata", {
+      token_id: tokenId,
     });
-    receiverNFTs.map((item) => {
-      nftData.push(item);
+    const baseUri = metadata.base_uri || "";
+
+    const nftMetadata = Near.view(nftContract, "nft_token", {
+      token_id: tokenId,
+    });
+    const media = nftMetadata.metadata.media;
+    const image =
+      media.startsWith("https") || media.startsWith("http")
+        ? media
+        : `${baseUri}${media[0] === "/" ? "" : "/"}${media}`;
+    let collection = "";
+
+    if (nftContract === "x.paras.near") {
+      const response = fetch(
+        `https://api-v2-mainnet.paras.id/token?token_id=${tokenId}`
+      );
+      collection = response.data.results[0].metadata.collection_id;
+    }
+
+    arrayToReturn.push({
+      title: nftMetadata.metadata.title,
+      image: image,
+      token_id: tokenId,
+      contract_id: nftContract,
+      collection: collection ? collection : metadata.name,
     });
   });
-  State.update({ nftData });
-}, []);
+  return arrayToReturn;
+}
+
+State.update({ allTransactions: allTransactionData });
+
+const nftData = [];
+allTransactionData.map((item) => {
+  const senderNFTs = processNFTs(item.sender_nfts, item.hash);
+  const receiverNFTs = processNFTs(item.receiver_nfts, item.hash);
+  senderNFTs.map((item) => {
+    nftData.push(item);
+  });
+  receiverNFTs.map((item) => {
+    nftData.push(item);
+  });
+});
+State.update({ nftData });
 
 function divideByPowerOfTen(numStr) {
   if (numStr.length <= 24) {
