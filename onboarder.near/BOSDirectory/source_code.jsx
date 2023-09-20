@@ -107,6 +107,19 @@ const social = {
       deploy: null,
       github: "https://github.com/near/near-discovery",
     },
+        {
+      key: 2,
+      name: "Mantle Gateway",
+      url: "https://bos.fusionx.finance/",
+      image:
+        "https://ipfs.near.social/ipfs/bafybeiczyp75wbo73m45jwgntr6bkma2rhe6vjem3vac74vurlzu4533u4",
+      description:
+        "A Mantle gateway featuring top DeFi Apps on Mantle network",
+      category: ["DeFi", "EVM", "Mantle"],
+      deploy:
+        "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%2Fpolygon-bos-gateway&build-command=pnpm%20run%20build&env=NEXT_PUBLIC_NETWORK_ID,NEXT_PUBLIC_HOSTNAME&envDescription=mainnet-near.org&envLink=https%3A%2F%2Fgithub.com%2FNearDeFi%2Fmantle-bos-gateway%2Fblob%2Fmain%2F.env.example",
+      github: "https://github.com/NearDeFi/mantle-bos-gateway",
+    },
     {
       key: 2,
       name: "zkEVM Gateway",
@@ -132,19 +145,18 @@ const social = {
       deploy: null,
       github: null,
     },
-        {
+    {
       key: 5,
       name: "Flipside Crypto",
       url: "https://bos.flipsidecrypto.xyz/",
       image:
         "https://ipfs.near.social/ipfs/bafkreiefoqklm6c6wl4gvzwdyrlu5sulatidglz5le2gjwdrfr3hjtiyay",
-      description:
-        "Data analytics gateways",
+      description: "Data analytics gateways",
       category: ["Data", "NEAR"],
       deploy: null,
       github: "https://github.com/FlipsideCrypto/near-bos-gateway",
     },
-    
+
     {
       key: 5,
       name: "NDC",
