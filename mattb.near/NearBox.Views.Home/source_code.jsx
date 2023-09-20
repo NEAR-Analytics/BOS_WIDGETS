@@ -28,10 +28,6 @@ if (!state.logged && !state.disconnected && !state.loadedCredentials) {
       loadedCredentials: true,
     });
     console.log("---");
-
-    if (!state.logged && state.user.mail && state.user.phrase) {
-      login();
-    }
   }, 200);
 }
 
