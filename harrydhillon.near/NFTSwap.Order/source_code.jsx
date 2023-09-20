@@ -14,14 +14,15 @@ useEffect(() => {
   const allTransactionData = [];
 
   allUserTransactionHashes.map((item) => {
-    allTransactionData.push(
-      Near.view("swap.genadrop.near", "get_transaction_data", {
+    allTransactionData.push({
+      ...Near.view("swap.genadrop.near", "get_transaction_data", {
         hash: item,
-      })
-    );
+      }),
+      hash: item,
+    });
   });
 
-  function processNFTs(nfts) {
+  function processNFTs(nfts, hash) {
     let arrayToReturn = [];
     nfts.map(async (nft) => {
       const nftContract = nft.contract_id;
@@ -35,11 +36,10 @@ useEffect(() => {
         token_id: tokenId,
       });
       const media = nftMetadata.metadata.media;
-      console.log(media, nftMetadata);
       const image =
         media.startsWith("https") || media.startsWith("http")
           ? media
-          : `${baseUri}/${media}`;
+          : `${baseUri}${media}`;
 
       let collection = "";
 
@@ -65,8 +65,8 @@ useEffect(() => {
 
   const nftData = [];
   allTransactionData.map((item) => {
-    const senderNFTs = processNFTs(item.sender_nfts);
-    const receiverNFTs = processNFTs(item.receiver_nfts);
+    const senderNFTs = processNFTs(item.sender_nfts, item.hash);
+    const receiverNFTs = processNFTs(item.receiver_nfts, item.hash);
     senderNFTs.map((item) => {
       nftData.push(item);
     });
@@ -77,24 +77,57 @@ useEffect(() => {
   State.update({ nftData });
 }, []);
 
+function divideByPowerOfTen(numStr) {
+  if (numStr.length <= 24) {
+    return (Number(numStr) / 1e24).toFixed(3);
+  }
+
+  let wholePart = numStr.slice(0, -24);
+  let fractionalPart = numStr.slice(-24);
+
+  // Remove trailing zeros from the fractional part
+  while (fractionalPart.endsWith("0")) {
+    fractionalPart = fractionalPart.slice(0, -1);
+  }
+
+  // Create the result number
+  let result = parseFloat(
+    wholePart + (fractionalPart ? "." + fractionalPart : "")
+  );
+
+  // Generalized rounding
+  let rounded = Math.round(result * 1e3) / 1e3;
+
+  // Format the result to 3 decimal places
+  return rounded.toFixed(3);
+}
+
 return (
-  <div
-    style={{
-      border: "1px solid lightgray",
-      width: "100%",
-      borderRadius: 5,
-      padding: 10,
-    }}
-  >
+  <>
     {state.allTransactions.map((transaction) => (
-      <>
+      <div
+        style={{
+          border: "0px solid lightgray",
+          borderBottomWidth: 1,
+          paddingBottom: 5,
+          border: "1px solid lightgray",
+          width: "100%",
+          borderRadius: 5,
+          padding: 10,
+        }}
+      >
         <p style={{ marginBottom: 0 }}>Reciever NFT</p>
+        <p>
+          Attached Near : {divideByPowerOfTen(`${transaction.sender_near}`)} Ⓝ
+        </p>
         <div
           style={{
             border: "1px solid lightgray",
             width: "100%",
             borderRadius: 5,
             padding: 10,
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
           }}
         >
           {transaction.receiver_nfts.map((item) => {
@@ -102,9 +135,43 @@ return (
               (item) => item.token_id === item.token_id
             )[0];
             return (
-              <>
-                <img src={transaction_data.image} />
-              </>
+              <div>
+                <img
+                  style={{
+                    width: "100%",
+                    height: "220px",
+                    borderRadius: "5px",
+                    objectFit: "cover",
+                    marginBottom: 5,
+                  }}
+                  src={transaction_data.image}
+                />
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  Collection : {transaction_data.collection}
+                </p>
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  Contract Id : {transaction_data.contract_id}
+                </p>
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  Token Id : {transaction_data.token_id}
+                </p>
+                <button
+                  onClick={() => {
+                    Near.call(
+                      contract_id,
+                      "cancel_offer",
+                      {
+                        hash: transaction.hash,
+                      },
+                      300000000000000,
+                      1
+                    );
+                  }}
+                  style={{ backgroundColor: "red", borderWidth: 0 }}
+                >
+                  Cancel
+                </button>
+              </div>
             );
           })}
         </div>
@@ -116,15 +183,51 @@ return (
             width: "100%",
             borderRadius: 5,
             padding: 10,
+            minHeight: "200px",
           }}
         >
-          {transaction.sent_nfts.map((item) => (
-            <>
-              <img src={""} />
-            </>
-          ))}
+          {transaction.sent_nfts.map((item) => {
+            const transaction_data = state.nftData.filter(
+              (item) => item.token_id === item.token_id
+            )[0];
+            return (
+              <div>
+                <img
+                  style={{
+                    width: "100%",
+                    height: "220px",
+                    borderRadius: "5px",
+                    objectFit: "cover",
+                    marginBottom: 5,
+                  }}
+                  src={transaction_data.image}
+                />
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  Collection : {transaction_data.collection}
+                </p>
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  Contract Id : {transaction_data.contract_id}
+                </p>
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  Token Id : {transaction_data.token_id}
+                </p>
+                <button style={{ backgroundColor: "red", borderWidth: 0 }}>
+                  Cancel
+                </button>
+                <button
+                  style={{
+                    backgroundColor: "red",
+                    borderWidth: 0,
+                    marginLeft: 10,
+                  }}
+                >
+                  Accept
+                </button>
+              </div>
+            );
+          })}
         </div>
-      </>
+      </div>
     ))}
-  </div>
+  </>
 );
