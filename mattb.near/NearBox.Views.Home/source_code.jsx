@@ -13,23 +13,8 @@ State.init({
   },
   logged: false,
   disconnected: false,
-  loadedCredentials: false
+  loadedCredentials: false,
 });
-
-if (!state.logged && !state.disconnected && !state.loadedCredentials) {
-  Storage.privateGet("user");
-  
-  setTimeout(() => {
-    State.update({ user: Storage.privateGet("user") || {
-    mail: "",
-    phrase: "",
-  }, loadedCredentials: true });
-
-    if (!state.logged && state.user.mail && state.user.phrase) {
-      login();
-    }
-  }, 200);
-}
 
 const login = () => {
   MailChain.connect(state.user)
