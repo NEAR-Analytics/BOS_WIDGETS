@@ -195,7 +195,7 @@ const withdraw = async (item) => {
   }).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) State.update({ error });
+      if (error) State.update({ error, loading: false });
       else if (data && data === "success") {
         State.update({
           loaded: false,
@@ -206,8 +206,8 @@ const withdraw = async (item) => {
 };
 
 const registry = async (item) => {
-  if (row.id == "NEAR" || row.token != "0") return;
-  let oneTeraGas = 100000000000000;
+  if (item.id == "NEAR" || item.token != "0") return;
+  const oneTeraGas = 100000000000000;
   return Near.call(
     item.contract,
     "storage_deposit",
@@ -220,4 +220,206 @@ const registry = async (item) => {
   );
 };
 
-return <Wrapper> </Wrapper>;
+return (
+  <Wrapper>
+    <div className="d-flex align-items-center" style={{ gap: 24 }}>
+      <Avatar
+        src={state.myAvatar}
+        onError={() => {
+          State.update({
+            myAvatar:
+              "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+          });
+        }}
+      />
+      <h4>Hi, {profile.name ? profile.name : accountId}</h4>
+    </div>
+    <WalletComponent>
+      <div className="d-flex " style={{ borderBottom: "1px solid #808080" }}>
+        <h5 style={{ fontWeight: 700, fontSize: 18, lineHeight: "150%" }}>
+          {"Near Wallet"}
+        </h5>
+      </div>
+      <div className="d-flex ">
+        <h5 style={{ fontWeight: 600, fontSize: 18 }}>{accountId}</h5>
+      </div>
+    </WalletComponent>
+    <TokenComponent>
+      <div
+        className="d-flex justify-content-between"
+        style={{
+          borderBottom: "1px solid #808080",
+          gap: 12,
+        }}
+      >
+        <div
+          className="d-flex"
+          style={{
+            gap: 12,
+            flexDirection: "column",
+          }}
+        >
+          <h5 style={{ fontWeight: 700, fontSize: 18, lineHeight: "150%" }}>
+            {"Token Balances"}
+          </h5>
+          <p style={{ fontSize: 12 }}>
+            {
+              "These NEP Tokens Can be allocated as bounty for users that engage with your tweets. These can be withdrawn to you wallet at any time"
+            }
+          </p>
+          {state.error && (
+            <p style={{ fontSize: 12, color: "red" }}>{state.error}</p>
+          )}
+        </div>
+        <div className="d-flex" style={{ minWidth: 150 }}>
+          <Button>
+            {"Select Token"}
+            <span style={{ height: 18 }}>
+              <svg
+                width="30"
+                height="26"
+                viewBox="0 0 30 26"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g filter="url(#filter0_d_58_4394)">
+                  <rect
+                    x="4"
+                    y="18"
+                    width="18"
+                    height="22"
+                    rx="8"
+                    transform="rotate(-90 4 18)"
+                    fill="#141522"
+                    shape-rendering="crispEdges"
+                  />
+                  <path
+                    d="M19 5.27337L18.06 4.33337L15 7.38671L11.94 4.33337L11 5.27337L15 9.27337L19 5.27337Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M19 9.66668L18.06 8.72668L15 11.78L11.94 8.72669L11 9.66669L15 13.6667L19 9.66668Z"
+                    fill="white"
+                  />
+                  <rect
+                    x="4.5"
+                    y="17.5"
+                    width="17"
+                    height="21"
+                    rx="7.5"
+                    transform="rotate(-90 4.5 17.5)"
+                    stroke="#141522"
+                    shape-rendering="crispEdges"
+                  />
+                </g>
+              </svg>
+            </span>
+          </Button>
+        </div>
+      </div>
+
+      <div className="d-flex ">
+        <Table
+          className={`table table-hover table-striped table-borderless ${props.className}`}
+        >
+          <thead>
+            <tr>
+              {columns.map((th) => (
+                <th
+                  key={th.title}
+                  className="col-1"
+                  style={{
+                    fontSize: 16,
+                    width: `${th.width}%`,
+                    verticalAlign: "middle",
+                    textAlign: th.align,
+                  }}
+                  scope="col"
+                >
+                  <div>
+                    <span>{th.title}</span>
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {state.tokens.length > 0 &&
+              state.tokens.map((row, i) => {
+                return (
+                  <tr key={row.key}>
+                    {columns.map((td) => {
+                      const key = td.key ? row[td.key] : i + 1;
+                      return (
+                        <td
+                          style={{
+                            color:
+                              td.colors ||
+                              themeColor?.table_pagination?.columntextcolor,
+                            fontSize: 16,
+                            textAlign: td.align,
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          {td.action ? (
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: 10,
+                                alignItems: "center",
+                              }}
+                            >
+                              <Input
+                                type="number"
+                                min="0"
+                                value={state[row.id] ?? 0}
+                                onChange={(e) => {
+                                  State.update({
+                                    [row.id]: e.target.value,
+                                  });
+                                }}
+                              />
+                              <a
+                                href="#"
+                                onClick={() => deposit(row)}
+                                className="text-decoration-underline"
+                              >
+                                {`Deposit`}
+                              </a>
+                              <a
+                                href="#"
+                                onClick={() => withdraw(row)}
+                                style={{ color: state.loading && "red" }}
+                                className="text-decoration-underline"
+                              >
+                                {`Withdraw`}
+                              </a>
+                              <a
+                                href="#"
+                                onClick={() => registry(row)}
+                                style={{
+                                  color:
+                                    (row.id == "NEAR" || row.token != "0") &&
+                                    "gray",
+                                }}
+                                className="text-decoration-underline"
+                              >
+                                {`Register`}
+                              </a>
+                            </div>
+                          ) : (
+                            key
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+      </div>
+    </TokenComponent>
+  </Wrapper>
+);
