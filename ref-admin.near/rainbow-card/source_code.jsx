@@ -4,7 +4,6 @@ const Card = styled.a`
   height: 320px;
   width: 500px;
 
-
   @media (max-width: 900px) {
     width: 100%;
     margin-top: -12px;
@@ -67,7 +66,7 @@ const Metadata = styled.div`
     .hot {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 4px;
     }
   }
   @media (max-width: 900px) {
