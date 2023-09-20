@@ -244,7 +244,7 @@ let second = (
               { title: "Timestamp", key: "time" },
               {
                 title: "Signer",
-                key: "signer",
+                key: "singer",
                 link: "yes",
                 beforehref:
                   "https://near.social/mob.near/widget/ProfilePage?accountId=",
