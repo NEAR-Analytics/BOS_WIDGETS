@@ -184,7 +184,7 @@ const withdraw = async (item) => {
   if (amount > item.balance)
     return State.update({ error: "Balance is not enough." });
 
-  if (item.id !== "NEAR" && item.token == 0) {
+  if (item.id !== "NEAR" && item.token == "0") {
     console.log("call///");
     alert(
       `You must register for the <${item.contract}> Contract before withdrawing.`
