@@ -334,7 +334,7 @@ return (
       <p> </p>
       <h2>And this is just the beginning..</h2>
       <ResourceHeader>
-        We’re developing support support systems Through an ever-growing network
+        We’re developing support support systems through an ever-growing network
         for your success.
       </ResourceHeader>
       <h2>What will you do with it?</h2>
@@ -342,7 +342,7 @@ return (
         Reach for the stars in our torchbearer program! Tell us about your
         vision for a better future
       </p>
-      <p>Proposal: What: For who: Why: Status: Timeline: Needs:</p>
+      <p> "Proposal: What: For who: Why: Status: Timeline: Needs:"</p>
       <a href="#">
         See something missing? Awesome! Offer network suggestions Here.
       </a>
