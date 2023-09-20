@@ -158,6 +158,7 @@ const queryHashes = [
   { id: 9, hash: "e3de7c35-9ae6-4ea6-917a-14b654f6259c" },
   { id: 10, hash: "fcbf4ffa-ffa6-425d-b3d8-bd256e41660d" },
   { id: 11, hash: "fbd78c9a-d988-4ff0-b14c-501276bba85f" },
+  { id: 12, hash: "4a3e0435-a756-47e4-996a-5f5fc790b504" },
 ];
 
 State.init({
@@ -174,6 +175,8 @@ State.init({
   ninthfilteredData: [],
   eleventhfilteredData: [],
   tenthfilteredData: [],
+  twelvefilteredData: [],
+
   tab: "first",
   isLoading: false,
   error: [],
@@ -385,6 +388,24 @@ const handleData = () => {
       eleventhfilteredData,
       isLoading: false,
     });
+  } //-----------------------------------------------
+  const twelveresult = fetchData(queryHashes[11].hash);
+  if (twelveresult.isLoading) {
+    State.update({ isLoading: true, twelvefilterData: [] });
+  }
+  if (twelveresult.error) {
+    const errors = state.error;
+    errors.push(`error message is : "${twelveresult.error}"`);
+    State.update({ error: errors, isLoading: false });
+  }
+  if (twelveresult.data) {
+    const twelvefilteredData = twelvefilterData(twelveresult.data);
+
+    State.update({
+      data: state.singer,
+      twelvefilteredData,
+      isLoading: false,
+    });
   }
 };
 //------------------------------------------------------------------------------------------------
@@ -443,6 +464,11 @@ const tenthfilterData = (data) => {
 //---------------------------------------------------------------------------
 //10
 const eleventhfilterData = (data) => {
+  return data.filter((row) => row.SINGER === state.singer);
+};
+//---------------------------------------------------------------------------
+//11
+const twelvefilterData = (data) => {
   return data.filter((row) => row.SINGER === state.singer);
 };
 //------------------------------------------------------------------------------------------------
@@ -888,16 +914,16 @@ let ten = (
           <Widget src="lord1.near/widget/header-dynamic" props={firsttheme} />
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+            className="w-100 mx-auto shadow-sm rounded-4 "
           >
-            {state.firstfilteredData.length > 0 ? (
+            {state.twelvefilteredData.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
                   themeColor: {
                     table_pagination: themeColor.table_pagination,
                   },
-                  data: state.firstfilteredData,
+                  data: state.twelvefilteredData,
                   rowsCount: "5",
                   columns: [
                     {
@@ -926,7 +952,7 @@ let ten = (
               noData
             )}
           </div>
-        </div>
+        </div>{" "}
         <div className="col-md-4">
           <Widget src="lord1.near/widget/header-dynamic" props={ninththeme} />
           <div
