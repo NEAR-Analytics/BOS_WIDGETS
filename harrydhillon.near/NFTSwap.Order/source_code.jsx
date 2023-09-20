@@ -66,7 +66,7 @@ useEffect(() => {
   allTransactionData.map((item) => {
     const senderNFTs = processNFTs(item.sender_nfts);
     const receiverNFTs = processNFTs(item.receiver_nfts);
-    nftData.push({ senderNFTs, receiverNFTs });
+    nftData.push([...senderNFTs, ...receiverNFTs]);
   });
   State.update({ nftData });
 }, []);
@@ -80,23 +80,40 @@ return (
       padding: 10,
     }}
   >
-    <p style={{ marginBottom: 0 }}>Reciever NFT</p>
-    <div
-      style={{
-        border: "1px solid lightgray",
-        width: "100%",
-        borderRadius: 5,
-        padding: 10,
-      }}
-    ></div>
-    <p style={{ marginBottom: 0, marginTop: 10 }}>Sender NFT</p>
-    <div
-      style={{
-        border: "1px solid lightgray",
-        width: "100%",
-        borderRadius: 5,
-        padding: 10,
-      }}
-    ></div>
+    {state.allTransactions.map((transaction) => (
+      <>
+        <p style={{ marginBottom: 0 }}>Reciever NFT</p>
+        <div
+          style={{
+            border: "1px solid lightgray",
+            width: "100%",
+            borderRadius: 5,
+            padding: 10,
+          }}
+        >
+          {transaction.receiver_nfts.map((item) => (
+            <>
+              <img src={""} />
+            </>
+          ))}
+        </div>
+
+        <p style={{ marginBottom: 0, marginTop: 10 }}>Sender NFT</p>
+        <div
+          style={{
+            border: "1px solid lightgray",
+            width: "100%",
+            borderRadius: 5,
+            padding: 10,
+          }}
+        >
+          {transaction.sent_nfts.map((item) => (
+            <>
+              <img src={""} />
+            </>
+          ))}
+        </div>
+      </>
+    ))}
   </div>
 );
