@@ -5,6 +5,7 @@
  * navbar
  * add fira code font
  * marcellus navbar
+ * They will have 224-231. They'll be on the contract later today
  */
 const accountId = props.accountId ?? "sharddog.near";
 State.init({
