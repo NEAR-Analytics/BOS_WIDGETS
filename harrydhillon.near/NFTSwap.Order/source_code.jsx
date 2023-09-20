@@ -2,6 +2,8 @@ const accountId = context.accountId;
 
 initState({ allTransactions: [] });
 
+const contract_id = "swap.genadrop.near";
+
 useEffect(() => {
   const allUserTransactionHashes = Near.view(
     "swap.genadrop.near",
