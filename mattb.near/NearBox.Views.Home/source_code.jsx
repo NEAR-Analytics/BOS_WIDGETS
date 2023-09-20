@@ -31,7 +31,7 @@ if (!state.logged && !state.disconnected && !state.loadedCredentials) {
     if (!state.logged && state.user.mail && state.user.phrase) {
       setTimeout(() => {
         login();
-      }, 200);
+      }, 2000);
     }
   }, 200);
 }
