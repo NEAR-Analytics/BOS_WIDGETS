@@ -196,40 +196,25 @@ const tokenStandardsDescriptions = (props) => {
   const baseUrl = (nep) =>
     `https://github.com/near/NEPs/blob/master/neps/nep-${nep}.md`;
 
+  const anchor = (nep) => (
+    <a target="blank_" href={baseUrl(`0${nep}`)}>
+      NEP {nep}
+    </a>
+  );
+
   if (props.fungibleToken) {
     return (
       <>
-        Implements{" "}
-        <a target="blank_" href={baseUrl("0141")}>
-          NEP 141
-        </a>{" "}
+        Implements {anchor("141")}
         and
-        <a target="blank_" href={baseUrl("0148")}>
-          NEP 148
-        </a>{" "}
-        token standards
+        {anchor("148")} token standards
       </>
     );
   } else {
     return (
       <>
-        Implements{" "}
-        <a target="blank_" href={baseUrl("0171")}>
-          NEP 171
-        </a>
-        ,{" "}
-        <a target="blank_" href={baseUrl("0177")}>
-          NEP 177
-        </a>
-        ,{" "}
-        <a target="blank_" href={baseUrl("0178")}>
-          NEP 178
-        </a>{" "}
-        and{" "}
-        <a target="blank_" href={baseUrl("0181")}>
-          NEP 181
-        </a>{" "}
-        token standards
+        Implements {anchor("171")}, {anchor("177")}, {anchor("178")} and{" "}
+        {anchor("181")} token standards
       </>
     );
   }
