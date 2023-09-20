@@ -55,6 +55,10 @@ const GREYLIST_VERIFY_LINK =
 const MIN_BOND = 3; //3
 const MAX_BOND = 300; //300;
 
+const nearIdsWithName = props.result.map(([candidate, _vote]) => {
+  return [candidate, _vote, Social.getr(`${candidate}/profile`)?.name];
+});
+
 const Container = styled.div`
   position: relative:
   font-family: Avenir;
@@ -291,12 +295,11 @@ const alreadyVoted = (candidateId) =>
 const alreadyVotedForHouse = () => myVotes.some((voter) => voter.house === typ);
 
 const filteredCandidates = () => {
-  const nearAccounts = nearIdsWithName();
-  let candidates = nearIdsWithName();
+  let candidates = result;
 
   if (state.filterOption === "bookmark")
     candidates = state.filter.bookmark
-      ? state.candidates.filter(([candidateId, _v, _p], _i) =>
+      ? state.candidates.filter(([candidateId, _votes], _index) =>
           state.bookmarked.includes(candidateId)
         )
       : result;
@@ -312,27 +315,27 @@ const filteredCandidates = () => {
     );
   if (state.filterOption === "my_votes")
     candidates = state.filter.my_votes
-      ? state.candidates.filter(([candidateId, _v, _p], _i) =>
+      ? state.candidates.filter(([candidateId, _votes], _index) =>
           alreadyVoted(candidateId)
         )
       : result;
 
   if (candidateFilterId) {
     if (Array.isArray(candidateFilterId)) {
-      const onlyFiltered = nearAccounts.filter(
-        ([candidate, _v, p], _i) =>
-          candidateFilterId.includes(p.name) ||
+      const onlyFiltered = nearIdsWithName.filter(
+        ([candidate, _v, name], _i) =>
+          candidateFilterId.includes(name) ||
           candidateFilterId.includes(candidate)
       );
-      const restCandidates = nearAccounts.filter(
-        ([candidate, _v, _p], _i) =>
+      const restCandidates = nearIdsWithName.filter(
+        ([candidate, _v, _n], _i) =>
           !onlyFiltered.map((u) => u[0]).includes(candidate)
       );
       candidates = [...onlyFiltered, ...restCandidates];
     } else {
-      candidates = nearAccounts.filter(
-        ([candidate, _v, p], _i) =>
-          p.name.toLowerCase().includes(candidateFilterId.toLowerCase()) ||
+      candidates = nearIdsWithName.filter(
+        ([candidate, _v, name], _i) =>
+          name.toLowerCase().includes(candidateFilterId.toLowerCase()) ||
           candidate.toLowerCase().includes(candidateFilterId.toLowerCase())
       );
     }
@@ -538,11 +541,6 @@ const myVotesForHouse = () => myVotes.filter((vote) => vote.house === typ);
 const isVisible = () =>
   myVotesForHouse().length > 0 || state.winnerIds.length > 0;
 
-const nearIdsWithName = () =>
-  props.result.map(([candidate, _vote]) => {
-    return [candidate, _vote, Social.getr(`${candidate}/profile`)];
-  });
-
 State.init({
   reload: true,
   loading: false,
@@ -555,7 +553,7 @@ State.init({
   tosAgreement: false,
   selectedCandidates: [],
   voters: [],
-  candidates: nearIdsWithName(),
+  candidates: result,
   filter: {
     bookmark: false,
     candidates: false,
@@ -595,24 +593,19 @@ if (state.reload) {
     winnerIds: winnerIds ?? state.winnerIds,
     candidates: filteredCandidates(),
     hasVotedOnAllProposals,
+    renderEl: renderEl(),
   });
 
   handleStateTransition();
   loadSocialDBData();
 }
 
-const UserLink = ({ title, src, selected, winnerId, profile }) => (
+const UserLink = ({ title, src, selected, winnerId }) => (
   <div className="d-flex mr-3">
-    {console.log(profile)}
     <StyledLink href={src} target="_blank">
       <Widget
-        src="rubycop.near/widget/Profile.ShortInlineBlock"
-        props={{
-          accountId: title,
-          profile,
-          fast: true,
-          tooltip: false,
-        }}
+        src="mob.near/widget/Profile.ShortInlineBlock"
+        props={{ accountId: title, tooltip: false }}
       />
     </StyledLink>
     <UserIcons
@@ -636,7 +629,7 @@ const Loader = () => (
   />
 );
 
-const CandidateItem = ({ candidateId, votes, profile }) => (
+const CandidateItem = ({ candidateId, votes }) => (
   <div>
     <CandidateItemRow
       className="d-flex align-items-center justify-content-between"
@@ -686,7 +679,6 @@ const CandidateItem = ({ candidateId, votes, profile }) => (
         <div className="d-flex align-items-center">
           <div className="d-flex justify-items-center">
             <UserLink
-              profile={profile}
               selected={state.selected === candidateId}
               winnerId={state.winnerIds.includes(candidateId)}
               src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
@@ -837,7 +829,7 @@ const ALink = ({ title, href }) => (
   </a>
 );
 
-return (
+function renderEl() {
   <>
     {state.showReviewModal && (
       <Widget
@@ -1097,16 +1089,13 @@ return (
             <>
               <Filters />
               <CandidatesContainer>
-                {state.candidates.map(
-                  ([candidateId, votes, profile], index) => (
-                    <CandidateItem
-                      candidateId={candidateId}
-                      votes={votes}
-                      profile={profile}
-                      key={index}
-                    />
-                  )
-                )}
+                {state.candidates.map(([candidateId, votes], index) => (
+                  <CandidateItem
+                    candidateId={candidateId}
+                    votes={votes}
+                    key={index}
+                  />
+                ))}
               </CandidatesContainer>
               {candidateFilterId && (
                 <div className="d-flex p-2 justify-content-center align-items-center">
@@ -1168,5 +1157,7 @@ return (
         )}
       </div>
     </Container>
-  </>
-);
+  </>;
+}
+
+return state.renderEl ?? <Loader />;
