@@ -52,6 +52,12 @@ function multiplyBy10ToThe24(num) {
     for (let i = 0; i < zerosToAdd; i++) {
       newNum += "0";
     }
+
+    // Remove leading zeros
+    while (newNum[0] === "0" && newNum.length > 1) {
+      newNum = newNum.substring(1);
+    }
+
     return newNum;
   }
 }
@@ -90,9 +96,6 @@ const ConfirmOffer = () => {
           contractName: "v1.havenswap.near",
           methodName: "send_offer",
           args: {
-            hash: Buffer.from(JSON.stringify(contractArgs), "utf-8").toString(
-              "base64"
-            ),
             ...contractArgs,
           },
           gas: 100000000000000,
