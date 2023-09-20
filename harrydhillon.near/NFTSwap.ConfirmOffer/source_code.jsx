@@ -105,7 +105,10 @@ const ConfirmOffer = () => {
           </ShadowBOX>
         ))}
       </ScrollContainer>
-      <button onClick={props.generateOfferAndCallContract} style={{ marginTop: 10 }}>
+      <button
+        onClick={() => props.generateOfferAndCallContract()}
+        style={{ marginTop: 10 }}
+      >
         Offer
       </button>
     </div>
