@@ -26,7 +26,11 @@ const ScrollContainer = styled.div`
   border: 1px solid lightgray;
 `;
 
-State.init({ isModalOpen: true });
+State.init({ isModalOpen: true, isUpdated: false });
+
+if (props.isOfferModalOpen && !state.isUpdated) {
+  State.update({ isModalOpen: true, isUpdated: true });
+}
 
 function multiplyBy10ToThe24(num) {
   // Convert the number to a string
@@ -92,7 +96,7 @@ const ConfirmOffer = () => {
           contractName: "v1.havenswap.near",
           methodName: "send_offer",
           args: {
-            hash: Buffer.from(JSON.stringify(contractArgs), "utf-8").toString(
+            hash: Buffer.from(JSON.stringify(metadata), "utf-8").toString(
               "base64"
             ),
             ...contractArgs,
@@ -117,7 +121,7 @@ const ConfirmOffer = () => {
       });
     }
     Near.call(allTransactions);
-    State.update({ isModalOpen: false });
+    State.update({ isModalOpen: false, isUpdated: false });
   };
 
   return (
