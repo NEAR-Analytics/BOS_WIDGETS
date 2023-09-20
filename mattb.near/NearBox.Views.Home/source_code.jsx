@@ -14,7 +14,14 @@ State.init({
   logged: false,
   disconnected: false,
   loadedCredentials: false,
+  sdk: null
 });
+
+if (!!MailChain && !state.sdk) {
+  State.update({
+    sdk: MailChain
+  });
+}
 
 if (!state.logged && !state.disconnected && !state.loadedCredentials) {
   Storage.privateGet("user");
@@ -31,7 +38,7 @@ if (!state.logged && !state.disconnected && !state.loadedCredentials) {
 }
 
 const login = () => {
-  MailChain.connect(state.user)
+  state.sdk.connect(state.user)
     .then((data) => {
       if (data.address !== state.user.mail) {
         State.update({
@@ -348,7 +355,7 @@ const views = {
     <Widget
       src={`${WIDGET_OWNER}/widget/NearBox.Views.App`}
       props={{
-        MailChain: MailChain,
+        MailChain: state.sdk,
         onMessageSent: () => {
           State.update({
             toast: {
