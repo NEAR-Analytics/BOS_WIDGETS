@@ -30,13 +30,14 @@ if (!state.logged && !state.disconnected && !state.loadedCredentials) {
     console.log("---");
 
     if (!state.logged && state.user.mail && state.user.phrase) {
-      login(Storage.privateGet("user"));
+      console.log(state.user);
+      login();
     }
   }, 200);
 }
 
-const login = (user) => {
-  MailChain.connect(user || state.user)
+const login = () => {
+  MailChain.connect(state.user)
     .then((data) => {
       if (data.address !== state.user.mail) {
         State.update({
