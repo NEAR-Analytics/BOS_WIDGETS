@@ -161,7 +161,6 @@ const deposit = async (item) => {
     );
   } else {
     let amt = toFixed((amount + 0.00001) * oneNEARInYoctoNEAR);
-    console.log("==>amt", amt);
     const data = {
       receiver_id: Admin,
       amount: amt,
@@ -172,35 +171,14 @@ const deposit = async (item) => {
 };
 
 const withdraw = async (item) => {
-  console.log(item, "==>item");
   if (state.loading) return;
-
   const amount = Number(state[item.id]);
-  let oneTeraGas = 100000000000000;
-  let oneNEARInYoctoNEAR = Number(item.yocto_near);
 
   if (!amount || amount <= 0) return;
 
   if (amount > item.balance)
     return State.update({ error: "Balance is not enough." });
 
-  if (item.id !== "NEAR" && item.token == "0") {
-    console.log("==<call");
-    return Near.call(
-      item.contract,
-      "storage_deposit",
-      {
-        account_id: accountId,
-        registration_only: true,
-        message: `You must register for the <${item.contract}> Contract before withdrawing.`,
-      },
-      oneTeraGas,
-      oneNEARInYoctoNEAR
-    );
-  }
-
-  console.log(item.balance, "==>balance");
-  return;
   let data = {
     accountId,
     amount,
@@ -225,6 +203,23 @@ const withdraw = async (item) => {
       }
     }
   });
+};
+
+const registry = async (item) => {
+  if (row.id == "NEAR" || row.token != "0") return;
+  let oneTeraGas = 100000000000000;
+  let oneNEARInYoctoNEAR = Number(item.yocto_near);
+  return Near.call(
+    item.contract,
+    "storage_deposit",
+    {
+      account_id: accountId,
+      registration_only: true,
+      // message: `You must register for the <${item.contract}> Contract before withdrawing.`,
+    },
+    oneTeraGas,
+    1
+  );
 };
 
 return (
@@ -401,6 +396,18 @@ return (
                                 className="text-decoration-underline"
                               >
                                 {`Withdraw`}
+                              </a>
+                              <a
+                                href="#"
+                                onClick={() => registry(row)}
+                                style={{
+                                  color:
+                                    (row.id == "NEAR" || row.token != "0") &&
+                                    "gray",
+                                }}
+                                className="text-decoration-underline"
+                              >
+                                {`Register`}
                               </a>
                             </div>
                           ) : (
