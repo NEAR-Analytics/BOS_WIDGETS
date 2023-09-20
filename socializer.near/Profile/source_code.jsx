@@ -172,11 +172,34 @@ const deposit = async (item) => {
 };
 
 const withdraw = async (item) => {
+  console.log(item, "==>item");
   if (state.loading) return;
 
   const amount = Number(state[item.id]);
+  let oneTeraGas = 100000000000000;
+  let oneNEARInYoctoNEAR = Number(item.yocto_near);
 
   if (!amount || amount <= 0) return;
+
+  if (amount > item.balance)
+    return State.update({ error: "Balance is not enough." });
+
+  if (item.id !== "NEAR" && item.token == 0) {
+    alert(
+      `You must register for the <${item.contract}> Contract before withdrawing.`
+    );
+
+    return Near.call(
+      item.contract,
+      "storage_deposit",
+      { account_id: accountId, registration_only: true },
+      oneTeraGas,
+      oneNEARInYoctoNEAR
+    );
+  }
+
+  console.log(balance, "==>balance");
+  return;
   let data = {
     accountId,
     amount,
