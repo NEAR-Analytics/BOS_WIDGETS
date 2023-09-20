@@ -289,12 +289,8 @@ const qouteSingleIzi = (amountIn, tokenIn, tokenOut, fee, finalList) => {
   const tokenOutAddress = tokenOut.address;
 
   const isX2Y = tokenInAddress.toLowerCase() < tokenOutAddress.toLowerCase();
-  console.log("isX2Y: ", isX2Y);
-
-  console.log("selectedDexItem.quoter: ", selectedDexItem.quoter);
 
   const boundaryPt = isX2Y ? -799999 : 799999;
-  console.log("boundaryPt: ", boundaryPt);
   const iface = new ethers.utils.Interface(abi);
 
   const inputs = isX2Y
@@ -315,13 +311,9 @@ const qouteSingleIzi = (amountIn, tokenIn, tokenOut, fee, finalList) => {
 
   const method = isX2Y ? "swapX2Y" : "swapY2X";
 
-  console.log("inputs: ", inputs);
-
   const encodedData = iface.encodeFunctionData(method, inputs);
-  console.log("encodedData: ", encodedData);
 
   const quoterContractId = selectedDexItem.quoter;
-  console.log("quoterContractId: ", quoterContractId);
 
   return Ethers.provider()
     .call({
@@ -330,7 +322,6 @@ const qouteSingleIzi = (amountIn, tokenIn, tokenOut, fee, finalList) => {
     })
     .then((data) => {
       const res = iface.decodeFunctionResult(method, data);
-      console.log("resdata: ", res);
 
       const amountName = isX2Y ? "amountY" : "amountX";
 
