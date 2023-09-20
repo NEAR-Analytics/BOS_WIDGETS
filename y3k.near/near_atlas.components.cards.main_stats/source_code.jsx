@@ -62,7 +62,7 @@ return (
       <div class="bg-gray shadow-xl rounded-lg p-6 w-1/2 bg-gray-800">
         <div class="flex flex-col items-center">
           <h2 class="text-2xl font-semibold mb-4 text-white">
-            Monthly Aactive Accounts
+            Monthly Active Accounts
           </h2>
           <span class="text-4xl font-bold text-gray-200">
             {formatNumber(MAA)}
