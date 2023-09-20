@@ -208,6 +208,7 @@ const withdraw = async (item) => {
 const registry = async (item) => {
   if (item.id == "NEAR" || item.token != "0") return;
   const oneTeraGas = 100000000000000;
+  const oneNEARInYoctoNEAR = Number(item.yocto_near);
   return Near.call(
     item.contract,
     "storage_deposit",
@@ -216,7 +217,7 @@ const registry = async (item) => {
       registration_only: true,
     },
     oneTeraGas,
-    1
+    oneNEARInYoctoNEAR
   );
 };
 
