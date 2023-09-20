@@ -102,8 +102,6 @@ const Flex = styled.div`
     }
 `;
 
-
-
 const Container = styled.div`
   display: flex;
   max-width: 1060px;
@@ -173,13 +171,11 @@ const Wrapper = styled.div`
 
 return (
   <div>
-
     <div className="row p-2">
-
       <Widget
         src="hackerhouse.near/widget/ProgressBar"
         props={{
-          infoTitle: "Q3 Builders Who Shipped 1+ Component",
+          infoTitle: "Q3 Builders Who Shipped Quality",
           numerator: numberOfBuildersWhoDeployed,
           total: builderTarget,
         }}
