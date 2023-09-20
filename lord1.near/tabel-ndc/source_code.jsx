@@ -209,7 +209,7 @@ const Container = styled.div`
     background-color:transparent;
     border-radius: 8px;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 11px;
     color:#fff;
     height:30px;
     padding:0 22px;
@@ -220,7 +220,7 @@ const Container = styled.div`
 
 let first = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={firsttheme} />
@@ -278,7 +278,7 @@ let first = (
 );
 let second = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={secondtheme} />
@@ -328,7 +328,7 @@ let second = (
 );
 let third = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={thirdtheme} />
@@ -376,7 +376,7 @@ let third = (
 );
 let fourth = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={fourththeme} />
@@ -427,7 +427,7 @@ let fourth = (
 
 let fifth = (
   <div
-    style={{ background: themeColor?.sbt_area?.card_bg }}
+    style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto"
   >
     <Widget src="lord1.near/widget/header-dynamic" props={fifththeme} />
