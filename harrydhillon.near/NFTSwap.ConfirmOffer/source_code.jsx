@@ -121,7 +121,10 @@ const ConfirmOffer = () => {
       });
     }
     Near.call(allTransactions);
-    State.update({ isModalOpen: false, isUpdated: false });
+    State.update({ isModalOpen: false });
+    setInterval(() => {
+      State.update({ isUpdated: false });
+    }, 1000);
   };
 
   return (
