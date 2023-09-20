@@ -11,19 +11,6 @@ const nearInYocto = 1000000000000000000000000;
 return (
   <table className="table table-striped">
     <tbody>
-      //{" "}
-      <tr>
-        // <td>Pool</td>
-        // <td>Active</td>
-        // <td>Stake</td>
-        // <td>Expected blocks</td>
-        // <td>Produced blocks</td>
-        // <td>Uptime %</td>
-        // <td>Expected chunks</td>
-        // <td>Produced chunks</td>
-        // <td>Uptime %</td>
-        //{" "}
-      </tr>{" "}
       <tr>
         <td>{accountId}</td>
         <td>{(!isSlashed).toString()}</td>
