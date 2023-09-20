@@ -15,7 +15,7 @@ const Header = styled.div`
   background-color: var(--secondary-color);
   height: 48px;
   padding: 8px;
-  text-decoration: underline;
+  font-weight: bold;
 `;
 
 const Navbar = styled.div`
