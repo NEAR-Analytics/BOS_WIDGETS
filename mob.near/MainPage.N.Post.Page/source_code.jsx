@@ -1,6 +1,6 @@
 return (
   <Widget
     src="mob.near/widget/MainPage.N.Post"
-    props={{ ...props, commentsLimit: 30, subscribe: true }}
+    props={{ ...props, noBorder: true, commentsLimit: 30, subscribe: true }}
   />
 );
