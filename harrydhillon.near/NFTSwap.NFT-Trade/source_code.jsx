@@ -63,7 +63,11 @@ return (
         <Widget src="harrydhillon.near/widget/NFT-Transfer" />
       )}
 
-      {state.selected == "order" && <>Order</>}
+      {state.selected == "order" && (
+        <>
+          <Widget src="harrydhillon.near/widget/NFTSwap.Order" />
+        </>
+      )}
     </div>
   </div>
 );
