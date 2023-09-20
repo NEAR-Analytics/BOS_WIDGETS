@@ -27,6 +27,7 @@ const Items = styled.div`
 let quarter = props.quarter ?? "Q3";
 let dates = props.dates ?? "July 1 - Sep 30"; // pass in quarter range
 let accountId = props.accountId ?? "banyanq3.near";
+let qualityTracker = "qualityq3.near";
 let followerTarget = (props.followerTarget = 100); // fix this
 let startOfQuarterFollowers = props.startOfQuarterFollower ?? 47; // 47; // to keep track of followers
 let builderTarget = props.builderTarget ?? 50;
@@ -97,6 +98,9 @@ const following = Social.keys(`${accountId}/graph/follow/*`, "final", {
 
 const currentBuilderCount = following
   ? Object.keys(following[accountId].graph.follow || {}).length
+  : null;
+const qualityBuilderCount = following
+  ? Object.keys(following[qualityTracker].graph.follow || {}).length
   : null;
 
 const Flex = styled.div`
@@ -214,6 +218,14 @@ return (
       </Container>
     </Wrapper>
     <div className="row p-2">
+          <Widget
+        src="hackerhouse.near/widget/ProgressBar"
+        props={{
+          infoTitle: "Q3 Builders Who Quality Component",
+          numerator: qualityBuilderCount,
+          total: builderTarget,
+        }}
+      />
       <Widget
         src="hackerhouse.near/widget/ProgressBar"
         props={{
