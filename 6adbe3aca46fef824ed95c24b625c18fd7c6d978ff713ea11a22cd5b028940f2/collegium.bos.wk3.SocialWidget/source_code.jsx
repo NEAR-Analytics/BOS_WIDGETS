@@ -19,7 +19,7 @@ const style = {
   profileMiniWrapper: {
     // border: "3px solid black",
     flexDirection: "row",
-    marginBottom: "50px",
+    marginBottom: "20px",
     display: "flex",
     height: "150px",
     width: "100%",
