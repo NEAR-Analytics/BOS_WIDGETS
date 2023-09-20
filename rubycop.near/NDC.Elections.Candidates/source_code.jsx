@@ -571,6 +571,7 @@ State.init({
   hasPolicyNFT: null,
   hasIVotedNFT: null,
   winnerIds: [],
+  renderEl: null,
 });
 
 const winnerIds = Near.view(electionContract, "winners_by_proposal", {
