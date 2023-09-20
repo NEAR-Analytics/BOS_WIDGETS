@@ -96,6 +96,7 @@ const ConfirmOffer = () => {
         contractName: "v1.havenswap.near",
         methodName: "send_offer",
         args: {
+          hash,
           ...contractArgs,
         },
         gas: 100000000000000,
