@@ -66,7 +66,7 @@ const dapps = [
   {
     src: "bluebiu.near/widget/Bsc.Swap.Dex",
     bannerImg:
-      "https://ipfs.near.social/ipfs/bafkreifee4dotnyqwfdj6gf4vjlh2vfrbpxka4uiis2hfbiiis2humjobu",
+      "https://ipfs.near.social/ipfs/bafkreidabb2fvqvrfpzbdsadtxssyek4ask4savx2xup7i7vnrwmebvz7a",
     icon: "https://ipfs.near.social/ipfs/bafkreieiq7go6lsagwhdejfiniwi3gvr3ttzb7jl67uepp3n2hh6htzk3m",
     tags: ["Dexes"],
   },
