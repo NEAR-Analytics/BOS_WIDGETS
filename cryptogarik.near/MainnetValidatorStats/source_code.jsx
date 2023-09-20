@@ -1,4 +1,4 @@
-const nodeName = props.nodeName || "cryptogarik.poolv1.near";
+const validatorName = props.nodeName || "cryptogarik.poolv1.near";
 const res = fetch("https://rpc.mainnet.near.org", {
   headers: {
     Accept: "application/json",
@@ -17,7 +17,7 @@ const body = res.body;
 
 const nearInYocto = 1000000000000000000000000;
 const nodeData = res.body.result.current_validators.filter(
-  (item) => item.account_id === nodeName
+  (item) => item.account_id === validatorName
 )?.[0];
 
 const accountId = nodeData.account_id;
