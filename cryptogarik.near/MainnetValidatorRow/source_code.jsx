@@ -17,14 +17,14 @@ return (
     <td>{numProducedBlocks}</td>
     <td>
       {numExpectedBlocks &&
-        ((numExpectedBlocks / numProducedBlocks) * 100).toFixed(0)}{" "}
+        ((numProducedBlocks / numExpectedBlocks) * 100).toFixed(0)}{" "}
       %
     </td>
     <td>{numExpectedChunks}</td>
     <td>{numProducedChunks}</td>
     <td>
       {numExpectedChunks &&
-        ((numExpectedChunks / numProducedChunks) * 100).toFixed(0)}{" "}
+        ((numProducedChunks / numExpectedChunks) * 100).toFixed(0)}{" "}
       %
     </td>
   </tr>
