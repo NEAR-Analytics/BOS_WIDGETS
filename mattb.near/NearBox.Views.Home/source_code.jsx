@@ -27,12 +27,6 @@ if (!state.logged && !state.disconnected && !state.loadedCredentials) {
       },
       loadedCredentials: true,
     });
-
-    if (!state.logged && state.user.mail && state.user.phrase) {
-      setTimeout(() => {
-        login();
-      }, 2000);
-    }
   }, 200);
 }
 
