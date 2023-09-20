@@ -211,7 +211,20 @@ return (
                 <p style={{ marginBottom: 0, fontSize: 12 }}>
                   Token Id : {transaction_data.token_id}
                 </p>
-                <button style={{ backgroundColor: "red", borderWidth: 0 }}>
+                <button
+                  onClick={() => {
+                    Near.call(
+                      contract_id,
+                      "cancel_offer",
+                      {
+                        hash: transaction.hash,
+                      },
+                      300000000000000,
+                      1
+                    );
+                  }}
+                  style={{ backgroundColor: "red", borderWidth: 0 }}
+                >
                   Cancel
                 </button>
                 <button
@@ -219,6 +232,20 @@ return (
                     backgroundColor: "red",
                     borderWidth: 0,
                     marginLeft: 10,
+                  }}
+                  onClick={() => {
+                    Near.call(
+                      item.contract_id,
+                      "nft_transfer_call",
+                      {
+                        hash: transaction.hash,
+                        receiver_id: contractId,
+                        token_id: transaction_data.token_id,
+                        approval_id: 0,
+                      },
+                      300000000000000,
+                      1
+                    );
                   }}
                 >
                   Accept
@@ -231,3 +258,11 @@ return (
     ))}
   </>
 );
+
+// receiverId: nft.contract_id,
+// 					actions: [functionCall('nft_transfer_call', {
+// 						receiver_id: SWAP_CONTRACT,
+// 						token_id: nft.token_id,
+// 						approval_id: 0,
+// 						msg: hash,
+// 					}, 300000000000000, 1)]
