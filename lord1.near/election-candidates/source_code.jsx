@@ -325,6 +325,10 @@ return (
         src="lord1.near/widget/candidate-vote-info-election"
         props={{ themeColor: themeColor }}
       />
+      <Widget
+        src="lord1.near/widget/trend-election"
+        props={{ themeColor: themeColor }}
+      />
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
         {state.error.length > 0 &&
           state.error.map((er) => (
