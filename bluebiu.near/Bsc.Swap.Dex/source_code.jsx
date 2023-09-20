@@ -6,7 +6,7 @@ const Tokens = {
     decimals: 18,
     symbol: "BNB",
     name: "BNB",
-    icon: "https://bscscan.com/assets/bsc/images/svg/logos/bnb-token.svg?v=23.9.1.1",
+    icon: "https://ipfs.near.social/ipfs/bafkreiaeq6ca67je5ocago6vk2efwxiqurxgemputx7p2nt6n2p3zo65xq",
   },
   "0x2170Ed0880ac9A755fd29B2688956BD959F933F8": {
     chainId: CHAIN_ID,
@@ -14,7 +14,7 @@ const Tokens = {
     decimals: 18,
     symbol: "ETH",
     name: "Binance-Peg Ethereum Token",
-    icon: "https://static.biswap.org/bs/coins/eth.svg",
+    icon: "https://ipfs.near.social/ipfs/bafkreibspnls7q67q25r2ifv2rrfmvzl744pzuh3s5ekigeqkmyycl2auq",
   },
   "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c": {
     chainId: CHAIN_ID,
@@ -22,7 +22,7 @@ const Tokens = {
     decimals: 18,
     symbol: "WBNB",
     name: "Wrapped BNB",
-    icon: "https://bscscan.com/token/images/bnbchain2_32.png",
+    icon: "https://ipfs.near.social/ipfs/bafkreiaeq6ca67je5ocago6vk2efwxiqurxgemputx7p2nt6n2p3zo65xq",
   },
   "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c": {
     chainId: CHAIN_ID,
@@ -30,7 +30,7 @@ const Tokens = {
     decimals: 18,
     symbol: "BTCB",
     name: "Binance-Peg BTCB Token",
-    icon: "https://bscscan.com/token/images/btcb_32.png",
+    icon: "https://ipfs.near.social/ipfs/bafkreig2h2vpf7u7ukbgomgurcvvfyujl66qdrbsp6u2bcga3wdyxladii",
   },
   "0x55d398326f99059fF775485246999027B3197955": {
     chainId: CHAIN_ID,
@@ -38,7 +38,7 @@ const Tokens = {
     decimals: 18,
     symbol: "BSC-USD",
     name: "Binance-Peg BSC-USD",
-    icon: "https://bscscan.com/token/images/busdt_32.png",
+    icon: "https://ipfs.near.social/ipfs/bafkreigefu6rjc52vz5nfa4zd7p43ry5x4gam4dhkjxihnoszhdg46csvq",
   },
   "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d": {
     chainId: CHAIN_ID,
@@ -46,7 +46,7 @@ const Tokens = {
     decimals: 18,
     symbol: "USDC",
     name: "Binance-Peg USD Coin",
-    icon: "https://bscscan.com/token/images/centre-usdc_28.png",
+    icon: "https://ipfs.near.social/ipfs/bafkreie4jihoa76mgyzxhw2yrapihzu2qhkjz6m7u4opoxjebzg6zc2lla",
   },
   "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56": {
     chainId: CHAIN_ID,
@@ -54,7 +54,7 @@ const Tokens = {
     decimals: 18,
     symbol: "BUSD",
     name: "Binance-Peg BUSD Token",
-    icon: "https://bscscan.com/token/images/busd_32_2.png",
+    icon: "https://ipfs.near.social/ipfs/bafkreibp36dfkfjzgnnbb7u4jxh57gpjmfjerc6pefmyzhueulz5ovd5xy",
   },
   "0x965F527D9159dCe6288a2219DB51fc6Eef120dD1": {
     chainId: CHAIN_ID,
@@ -62,7 +62,7 @@ const Tokens = {
     decimals: 18,
     symbol: "BSW",
     name: "Biswap",
-    icon: "https://bscscan.com/token/images/biswap_32.png",
+    icon: "https://ipfs.near.social/ipfs/bafkreihwjl6o3j42bbetjurgfpiemxipw7evqm6aumk4bgy2zmspejpiwm",
   },
   "0x603c7f932ED1fc6575303D8Fb018fDCBb0f39a95": {
     chainId: CHAIN_ID,
@@ -70,7 +70,7 @@ const Tokens = {
     decimals: 18,
     symbol: "BANANA",
     name: "ApeSwapFinance Banana",
-    icon: "https://bscscan.com/token/images/apeswap_32.png?v=2",
+    icon: "https://ipfs.near.social/ipfs/bafkreifglo7ltnhvlhns7vdroqdboaenya4zkldleandcwwwjffpmr3hjm",
   },
   "0xeD00Fc7D48B57B81FE65D1cE71c0985e4CF442CB": {
     chainId: CHAIN_ID,
@@ -78,7 +78,7 @@ const Tokens = {
     decimals: 18,
     symbol: "CHRP",
     name: "Chirpley Token",
-    icon: "https://bscscan.com/token/images/chirpley_32.png",
+    icon: "https://ipfs.near.social/ipfs/bafkreiey7bmhii4r7eywnehfsdlfsc2xbth64yavdwbn6aktadpijklrje",
   },
   "0xe0F94Ac5462997D2BC57287Ac3a3aE4C31345D66": {
     chainId: CHAIN_ID,
@@ -86,7 +86,7 @@ const Tokens = {
     decimals: 18,
     symbol: "CEEK",
     name: "CEEK",
-    icon: "https://bscscan.com/token/images/ceek_32.png?=v1",
+    icon: "https://ipfs.near.social/ipfs/bafkreiav2q7czoy3725mgxjrprbfvkepe3xn4yl4vszp7dxpjltqzo7coy",
   },
   "0x10393c20975cF177a3513071bC110f7962CD67da": {
     chainId: CHAIN_ID,
@@ -102,7 +102,7 @@ const Tokens = {
     decimals: 8,
     symbol: "ORN",
     name: "Orion Protocol",
-    icon: "https://bscscan.com/token/images/orionprotocol_32.png",
+    icon: "https://ipfs.near.social/ipfs/bafkreibx6e6tsab3xxd6s7alev2tgvbjs4welhfndrrunsedvgopv2hmj4",
   },
   "0xa2B726B1145A4773F68593CF171187d8EBe4d495": {
     chainId: CHAIN_ID,
@@ -110,7 +110,7 @@ const Tokens = {
     decimals: 18,
     symbol: "INJ",
     name: "Injective Protocol",
-    icon: "https://bscscan.com/token/images/injective_32.png",
+    icon: "https://ipfs.near.social/ipfs/bafkreihd5xzcl7q3ad7nxutohajxob6cw5z254wczuy2fflxjnmz4v4vse",
   },
 };
 
@@ -121,6 +121,12 @@ return (
       theme: {
         textColor: "#F3BA2F",
         buttonColor: "#F3BA2F",
+        borderColor: "#352E24",
+        inputBorderColor: "#4B3F2C",
+        inputSelectBgColor: "#363022",
+        secondaryTextColor: "#8A7133",
+        thirdaryTextColor: "#6A624B",
+        isDark: true,
       },
       chainId: CHAIN_ID,
       chainName: "BSC",
