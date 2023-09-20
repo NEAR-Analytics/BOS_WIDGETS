@@ -173,7 +173,10 @@ const tabsData = [
     name: "home",
     label: "Home",
     content: "...",
-    widgets: ["y3k.near/widget/near_atlas.components.vis.total_wallets"],
+    widgets: [
+      "y3k.near/widget/near_atlas.components.cards.main_stats",
+      "y3k.near/widget/near_atlas.components.vis.total_wallets",
+    ],
   },
   {
     name: "active_accounts",
