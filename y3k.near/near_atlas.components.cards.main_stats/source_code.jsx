@@ -40,7 +40,7 @@ State.update({
 });
 
 const MAA = state.MAA.body[0].MAA;
-const WALLETS_CREATED = state.WALLETS_CREATED[0].WALLETS_CREATED;
+const WALLETS_CREATED = state.WALLETS_CREATED[0].TOTAL_WALLETS;
 
 function formatNumber(num) {
   return (
