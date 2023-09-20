@@ -100,32 +100,30 @@ const StatusColors = {
 
 const [contributionData, setContributionData] = useState([]);
 
+const [searchOptions, setSearchOptions] = useState([
+  ...defulatFilterList,
+  ...pullRequestDefaultFilterList,
+]);
+
 const togglePR = () => {
-  asyncFetch(
-    `${searchBaseUrl}${mergeFilters([
-      defulatFilterList,
-      pullRequestDefaultFilterList,
-    ])}`,
-    config
-  ).then((res) => {
-    setContributionData(res.body?.items ?? []);
-  });
+  setSearchOptions([...defulatFilterList, ...pullRequestDefaultFilterList]);
 };
 
 const toggleIssue = () => {
-  asyncFetch(
-    `${searchBaseUrl}${mergeFilters([
-      defulatFilterList,
-      issueDefaultFilterList,
-    ])}`,
-    config
-  ).then((res) => {
-    setContributionData(res.body?.items ?? []);
-  });
+  setSearchOptions([...defulatFilterList, ...issueDefaultFilterList]);
 };
+
 useEffect(() => {
-  togglePR();
-}, []);
+  asyncFetch(`${searchBaseUrl}${mergeFilters([searchOptions])}`, config).then(
+    (res) => {
+      setContributionData(res.body?.items ?? []);
+    }
+  );
+  console.log("searchOptions");
+  // console.log(searchOptions.push);
+  // console.log(searchOptions.add);
+  // setSearchOptions(searchOptions?.push("state:open") ?? []);
+}, [searchOptions]);
 
 const [isChecked, setIsChecked] = useState(true);
 
