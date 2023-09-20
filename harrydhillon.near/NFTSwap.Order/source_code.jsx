@@ -41,7 +41,7 @@ useEffect(() => {
       const image =
         media.startsWith("https") || media.startsWith("http")
           ? media
-          : `${baseUri}${media}`;
+          : `${baseUri}/${media}`;
 
       let collection = "";
 
@@ -118,10 +118,11 @@ return (
           padding: 10,
         }}
       >
-        <p style={{ marginBottom: 0 }}>Reciever NFT</p>
-        <p>
-          Attached Near : {divideByPowerOfTen(`${transaction.sender_near}`)} Ⓝ
+        <p style={{ marginBottom: 0 }}>Sender : {transaction.sender_id}</p>
+        <p style={{ marginBottom: 0 }}>
+          Near : {divideByPowerOfTen(`${transaction.sender_near}`)} Ⓝ
         </p>
+        <p style={{ marginBottom: 0 }}>Receiver : {transaction.receiver_id}</p>
         <div
           style={{
             border: "1px solid lightgray",
@@ -130,6 +131,9 @@ return (
             padding: 10,
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "10px",
+            textAlign: "center",
+            marginBottom: 10,
           }}
         >
           {transaction.receiver_nfts.map((item) => {
@@ -152,110 +156,57 @@ return (
                   Collection : {transaction_data.collection}
                 </p>
                 <p style={{ marginBottom: 0, fontSize: 12 }}>
-                  Contract Id : {transaction_data.contract_id}
+                  {transaction_data.contract_id}
                 </p>
                 <p style={{ marginBottom: 0, fontSize: 12 }}>
-                  Token Id : {transaction_data.token_id}
+                  {transaction_data.token_id}
                 </p>
-                <button
-                  onClick={() => {
-                    Near.call(
-                      contract_id,
-                      "cancel_offer",
-                      {
-                        hash: transaction.hash,
-                      },
-                      300000000000000,
-                      1
-                    );
-                  }}
-                  style={{ backgroundColor: "red", borderWidth: 0 }}
-                >
-                  Cancel
-                </button>
               </div>
             );
           })}
         </div>
 
-        <p style={{ marginBottom: 0, marginTop: 10 }}>Sender NFT</p>
-        <div
-          style={{
-            border: "1px solid lightgray",
-            width: "100%",
-            borderRadius: 5,
-            padding: 10,
-            minHeight: "200px",
-          }}
-        >
-          {transaction.sent_nfts.map((item) => {
-            const transaction_data = state.nftData.filter(
-              (item) => item.token_id === item.token_id
-            )[0];
-            return (
-              <div>
-                <img
-                  style={{
-                    width: "100%",
-                    height: "220px",
-                    borderRadius: "5px",
-                    objectFit: "cover",
-                    marginBottom: 5,
-                  }}
-                  src={transaction_data.image}
-                />
-                <p style={{ marginBottom: 0, fontSize: 12 }}>
-                  Collection : {transaction_data.collection}
-                </p>
-                <p style={{ marginBottom: 0, fontSize: 12 }}>
-                  Contract Id : {transaction_data.contract_id}
-                </p>
-                <p style={{ marginBottom: 0, fontSize: 12 }}>
-                  Token Id : {transaction_data.token_id}
-                </p>
-                <button
-                  onClick={() => {
-                    Near.call(
-                      contract_id,
-                      "cancel_offer",
-                      {
-                        hash: transaction.hash,
-                      },
-                      300000000000000,
-                      1
-                    );
-                  }}
-                  style={{ backgroundColor: "red", borderWidth: 0 }}
-                >
-                  Cancel
-                </button>
-                <button
-                  style={{
-                    backgroundColor: "red",
-                    borderWidth: 0,
-                    marginLeft: 10,
-                  }}
-                  onClick={() => {
-                    Near.call(
-                      item.contract_id,
-                      "nft_transfer_call",
-                      {
-                        hash: transaction.hash,
-                        receiver_id: contractId,
-                        token_id: transaction_data.token_id,
-                        approval_id: 0,
-                      },
-                      300000000000000,
-                      1
-                    );
-                  }}
-                >
-                  Accept
-                </button>
-              </div>
+        <button
+          onClick={() => {
+            Near.call(
+              contract_id,
+              "cancel_offer",
+              {
+                hash: transaction.hash,
+              },
+              300000000000000,
+              1
             );
-          })}
-        </div>
+          }}
+          style={{ backgroundColor: "red", borderWidth: 0 }}
+        >
+          Cancel
+        </button>
+        {accountId !== transaction.sender_id && (
+          <button
+            style={{
+              backgroundColor: "blue",
+              borderWidth: 0,
+            }}
+            onClick={() => {
+              const txns = transaction.receiver_nfts.map((item) => ({
+                contractName: item.contractId,
+                methodName: "nft_transfer",
+                args: {
+                  receiver_id: contract_id,
+                  token_id: item.tokenId,
+                  msg: transaction.hash,
+                  approval_id: 0,
+                },
+                gas: 300000000000000,
+                deposit: 1,
+              }));
+              Near.call(txns);
+            }}
+          >
+            Accept
+          </button>
+        )}
       </div>
     ))}
   </>
