@@ -88,7 +88,7 @@ const ConfirmOffer = () => {
         deposit: 1000000000000000000000000 * parseFloat(props.offerAmount),
       });
     }
-    if (props.offerNFTS) {
+    if (props.offerNFTS.length !== 0) {
       const hash = generateRandomHexBytes(12);
       const contractArgs = {
         hash,
@@ -113,7 +113,7 @@ const ConfirmOffer = () => {
         deposit: 1000000000000000000000000 * parseFloat(props.offerAmount),
       });
     }
-    if (props.sendNFTS) {
+    if (props.sendNFTS.length !== 0) {
       props?.sendNFTS?.map((item) => {
         allTransactions.push({
           contractName: item.contractId,
