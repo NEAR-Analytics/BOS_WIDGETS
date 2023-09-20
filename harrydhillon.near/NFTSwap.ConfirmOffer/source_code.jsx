@@ -78,7 +78,7 @@ const ConfirmOffer = () => {
           contractName: "v1.havenswap.near",
           methodName: "send_offer",
           args: {
-            sender_id: accountId,
+            sender_id: context.accountId,
             sender_near: multiplyBy10ToThe24(parseFloat(props.offerAmount)),
             sender_nfts: props.sendNFTS.map((item) => ({
               tokenId: item.tokenId,
