@@ -185,6 +185,7 @@ const withdraw = async (item) => {
     return State.update({ error: "Balance is not enough." });
 
   if (item.id !== "NEAR" && item.token == "0") {
+    console.log("==<call");
     return Near.call(
       item.contract,
       "storage_deposit",
