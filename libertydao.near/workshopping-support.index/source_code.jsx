@@ -235,7 +235,7 @@ const dummyData = {
 };
 
 const dummyData2 = {
-  "Active Projects": [
+  "opportunity funnels": [
     {
       name: "Pass the Torch",
       description: "This is a description for Funnel A.",
@@ -338,7 +338,7 @@ return (
         ))}
       </Navbar>
       <Grid>
-        {dummyData[state.activeTab].map((item) => (
+        {dummyData2[state.activeTab].map((item) => (
           <Widget
             src="nearui.near/widget/Layout.Modal"
             props={{
