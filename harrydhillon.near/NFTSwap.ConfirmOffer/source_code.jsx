@@ -79,7 +79,7 @@ const ConfirmOffer = () => {
     const allTransactions = [];
     if (props.offerAmount && props.offerNFTS.length === 0) {
       allTransactions.push({
-        contractName: "v1.havenswap.near",
+        contractName: "swap.genadrop.near",
         methodName: "mass_transfer",
         args: {
           receiver_id: props.receiverId,
@@ -106,7 +106,7 @@ const ConfirmOffer = () => {
         is_holder: false,
       };
       allTransactions.push({
-        contractName: "v1.havenswap.near",
+        contractName: "swap.genadrop.near",
         methodName: "send_offer",
         args: contractArgs,
         gas: 100000000000000,
