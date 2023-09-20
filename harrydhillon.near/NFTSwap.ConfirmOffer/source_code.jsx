@@ -95,13 +95,13 @@ const ConfirmOffer = () => {
         sender_id: context.accountId,
         sender_near: multiplyBy10ToThe24(parseFloat(props.offerAmount)),
         sender_nfts: props.sendNFTS.map((item) => ({
-          tokenId: item.tokenId,
-          contractId: item.contractId,
+          token_id: item.tokenId,
+          contract_id: item.contractId,
         })),
         receiver_id: props.receiverId,
         receiver_nfts: props.offerNFTS.map((item) => ({
-          tokenId: item.tokenId,
-          contractId: item.contractId,
+          token_id: item.tokenId,
+          contract_id: item.contractId,
         })),
         is_holder: false,
       };
@@ -115,7 +115,7 @@ const ConfirmOffer = () => {
         methodName: "send_offer",
         args: contractArgs,
         gas: 100000000000000,
-        deposit: 1000000000000000000000000 * parseFloat(nearFees),
+        deposit: 1000000000000000000000000 * nearFees,
       });
     }
     if (props.sendNFTS.length !== 0) {
