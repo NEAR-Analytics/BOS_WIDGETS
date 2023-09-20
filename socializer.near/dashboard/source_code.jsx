@@ -286,7 +286,9 @@ const SearchIcon = () => (
 );
 
 const getCampaignData = (type) => {
-  return asyncFetch(API_URL + `/api/campaign?type=${type}`).then((res) => {
+  return asyncFetch(
+    API_URL + `/api/campaign?accountId=${accountId}&type=${type}`
+  ).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
       if (error) State.update({ error });
