@@ -10,8 +10,8 @@ if (profile === null) {
 }
 
 const pills = [
+  { id: "swap", title: "Swap" },
   { id: "trade", title: "Trade" },
-  { id: "order", title: "Order" },
 ];
 
 const cssFont = fetch(
@@ -55,7 +55,7 @@ return (
       ))}
     </ul>
     <div className="tab-content" id="pills-tabContent">
-      {state?.selected !== "order" ? (
+      {state?.selected !== "trade" ? (
         <Widget src="harrydhillon.near/widget/NFTSwap.NFT-Transfer" />
       ) : (
         <Widget src="harrydhillon.near/widget/NFTSwap.Order" />
