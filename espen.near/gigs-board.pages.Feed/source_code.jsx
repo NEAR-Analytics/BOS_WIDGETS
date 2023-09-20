@@ -243,10 +243,7 @@ const FeedPage = ({ author, recency, tag }) => {
     children: widget("feature.post-search.panel", {
       author: state.author,
       authorQuery: { author: state.author },
-      children: widget("components.layout.Controls", {
-        title: "Post",
-        href: href("Create"),
-      }),
+      children: widget("components.layout.Controls"),
       onAuthorSearch,
       onTagSearch,
       recency,
