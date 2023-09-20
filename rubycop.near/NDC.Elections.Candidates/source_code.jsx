@@ -931,7 +931,7 @@ return (
         }}
       />
     )}
-    {state.showMintPolicyModal && (
+    {true && (
       <Widget
         src={widgets.modal}
         props={{
@@ -1046,7 +1046,7 @@ return (
         }}
       />
     )}
-    {true && (
+    {state.showMintIVotedModal && (
       <Widget
         src={widgets.modal}
         props={{
