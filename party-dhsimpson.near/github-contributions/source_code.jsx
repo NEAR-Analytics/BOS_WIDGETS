@@ -150,8 +150,10 @@ const Toggle = ({
     // 여기에 토글 상태에 따른 로직을 실행하실 수 있습니다.
     if (isChecked) {
       callbackOn();
+      console.log("isChecked");
     } else {
       callbackOff();
+      console.log("notChecked");
     }
     setIsChecked(!isChecked);
   };
@@ -172,10 +174,10 @@ return (
     <div>
       <p>프로필 영역 (아바타) | 프로필 영역 (깃헙닉네임)</p>
       <Toggle
-        callbackOn={togglePR}
-        callbackOff={toggleIssue}
-        textOn="Pull Request"
-        textOff="Issue"
+        callbackOn={toggleIssue}
+        callbackOff={togglePR}
+        textOn="Pull Request -> Issue"
+        textOff="Issue -> Pull Request"
         isChecked={isChecked}
         setIsChecked={setIsChecked}
       />
