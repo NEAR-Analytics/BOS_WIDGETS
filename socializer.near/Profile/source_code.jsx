@@ -218,7 +218,7 @@ const registry = async (item) => {
       registration_only: true,
     },
     oneTeraGas,
-    1
+    oneNEARInYoctoNEAR
   );
 };
 
