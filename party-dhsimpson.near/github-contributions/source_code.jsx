@@ -23,7 +23,10 @@ const defulatFilterList = [
 ];
 const pullRequestDefaultFilterList = ["type:pr"];
 const issueDefaultFilterList = ["is:issue"];
-const filterOptionList = ["state:open", "state:closed"];
+// const filterOptionList = ["state:open", "state:closed"];
+const allState = "";
+const isOpen = "state:open";
+const isClosed = "state:closed";
 
 const config = {
   headers: {
@@ -106,11 +109,59 @@ const [searchOptions, setSearchOptions] = useState([
 ]);
 
 const togglePR = () => {
-  setSearchOptions([...defulatFilterList, ...pullRequestDefaultFilterList]);
+  //  searchOptions 의 내용에 issueDefaultFilterList 의 내용이 있으면 제거 후
+  //  pullRequestDefaultFilterList의 내용만을 추가
+  const filteredOptions = searchOptions.filter((option) => {
+    return !issueDefaultFilterList.includes(option);
+  });
+  setSearchOptions([...filteredOptions, ...pullRequestDefaultFilterList]);
 };
 
 const toggleIssue = () => {
-  setSearchOptions([...defulatFilterList, ...issueDefaultFilterList]);
+  //  searchOptions 의 내용에 pullRequestDefaultFilterList 의 내용이 있으면 제거 후
+  //  issueDefaultFilterList 내용만을 추가
+  const filteredOptions = searchOptions.filter((option) => {
+    return !pullRequestDefaultFilterList.includes(option);
+  });
+  setSearchOptions([...filteredOptions, ...issueDefaultFilterList]);
+};
+const [all, setAll] = useState(true);
+const [open, setOpen] = useState(false);
+const [closed, setClosed] = useState(false);
+
+const toggleAll = () => {
+  //allState isOpen isClosed
+  // const filteredOptions = searchOptions.filter((option) => {
+  //   return !pullRequestDefaultFilterList.includes(option);
+  // });
+  const filteredOptions = searchOptions.filter((option) => {
+    return ![isOpen, isClosed].includes(option);
+  });
+  setAll(true);
+  setOpen(false);
+  setClosed(false);
+  setSearchOptions([...filteredOptions]);
+};
+
+const toggleOpen = () => {
+  const filteredOptions = searchOptions.filter((option) => {
+    return isClosed !== option;
+  });
+  setAll(false);
+  setOpen(true);
+  setClosed(false);
+  setSearchOptions([...filteredOptions, isOpen]);
+};
+
+const toggleClosed = () => {
+  //allState isOpen isClosed
+  const filteredOptions = searchOptions.filter((option) => {
+    return isOpen !== option;
+  });
+  setAll(false);
+  setClosed(true);
+  setOpen(false);
+  setSearchOptions([...filteredOptions, isClosed]);
 };
 
 useEffect(() => {
@@ -119,10 +170,6 @@ useEffect(() => {
       setContributionData(res.body?.items ?? []);
     }
   );
-  console.log("searchOptions");
-  // console.log(searchOptions.push);
-  // console.log(searchOptions.add);
-  // setSearchOptions(searchOptions?.push("state:open") ?? []);
 }, [searchOptions]);
 
 const [isChecked, setIsChecked] = useState(true);
@@ -167,6 +214,12 @@ const Toggle = ({
     </ToggleBoxWrapper>
   );
 };
+//onClick > toggleAll toggleOpen toggleClosed
+//state ui > all open closed
+const FilterButton = styled.button`
+  background-color: ${(props) => (props.clicked ? "green" : "red")}
+`;
+
 return (
   <MyContributionWrapper>
     <div>
@@ -175,10 +228,19 @@ return (
         callbackOn={toggleIssue}
         callbackOff={togglePR}
         textOn="Pull Request -> Issue"
-        textOff="Issue -> Pull Request"
+        textOff="Issue ->  Pull Request"
         isChecked={isChecked}
         setIsChecked={setIsChecked}
       />
+      <FilterButton clicked={all} onClick={toggleAll}>
+        ALL State
+      </FilterButton>
+      <FilterButton clicked={open} onClick={toggleOpen}>
+        Open
+      </FilterButton>
+      <FilterButton clicked={closed} onClick={toggleClosed}>
+        Closed
+      </FilterButton>
     </div>
     <MyContributionList>
       {contributionData.map((issue) => {
