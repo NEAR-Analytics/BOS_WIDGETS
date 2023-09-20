@@ -41,7 +41,7 @@ useEffect(() => {
       const image =
         media.startsWith("https") || media.startsWith("http")
           ? media
-          : `${baseUri}/${media}`;
+          : `${baseUri}${media[0] === "/" ? "" : "/"}${media}`;
       let collection = "";
 
       if (nftContract === "x.paras.near") {
@@ -189,7 +189,7 @@ return (
             }}
             onClick={() => {
               const txns = transaction.receiver_nfts.map((item) => ({
-                contractName: item.contractId,
+                contractName: item.contract_id,
                 methodName: "nft_transfer",
                 args: {
                   receiver_id: contract_id,
