@@ -153,7 +153,7 @@ State.init({
       },
       {
         title: "Your Result ",
-        key: "your_result",
+        key: "result",
         description: "Your Result",
         width: 10,
         align: "center",
