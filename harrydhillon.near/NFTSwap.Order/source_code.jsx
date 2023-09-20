@@ -35,6 +35,7 @@ useEffect(() => {
         token_id: tokenId,
       });
       const media = nftMetadata.metadata.media;
+      console.log(media, nftMetadata)
       const image =
         media.startsWith("https") || media.startsWith("http")
           ? media
@@ -66,7 +67,13 @@ useEffect(() => {
   allTransactionData.map((item) => {
     const senderNFTs = processNFTs(item.sender_nfts);
     const receiverNFTs = processNFTs(item.receiver_nfts);
-    nftData.push([...senderNFTs, ...receiverNFTs]);
+    console.log(senderNFTs, receiverNFTs);
+    senderNFTs.map((item) => {
+      nftData.push(item);
+    });
+    receiverNFTs.map((item) => {
+      nftData.push(item);
+    });
   });
   State.update({ nftData });
 }, []);
@@ -91,11 +98,17 @@ return (
             padding: 10,
           }}
         >
-          {transaction.receiver_nfts.map((item) => (
-            <>
-              <img src={""} />
-            </>
-          ))}
+          {transaction.receiver_nfts.map((item) => {
+            const transaction_data = state.nftData.filter(
+              (item) => item.token_id === item.token_id
+            )[0];
+            console.log(transaction_data.image);
+            return (
+              <>
+                <img src={transaction_data.image} />
+              </>
+            );
+          })}
         </div>
 
         <p style={{ marginBottom: 0, marginTop: 10 }}>Sender NFT</p>
