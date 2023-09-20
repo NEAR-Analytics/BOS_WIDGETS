@@ -95,7 +95,7 @@ const area_chart_data = {
   datasets: [
     {
       fill: false,
-      label: "Total Supply",
+      label: "Locked Supply",
       data: total_supply,
       backgroundColor: "rgb(13,131,171)",
     },
