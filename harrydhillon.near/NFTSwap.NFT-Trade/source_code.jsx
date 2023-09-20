@@ -3,8 +3,6 @@ if (!accountId) {
   return "No account ID";
 }
 
-State.init({ selected: "trade" });
-
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
 if (profile === null) {
@@ -32,8 +30,6 @@ const Theme = styled.div`
   ${css}
 `;
 
-console.log(state.selected);
-
 return (
   <div style={{ padding: 10 }}>
     <ul className="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
@@ -59,14 +55,10 @@ return (
       ))}
     </ul>
     <div className="tab-content" id="pills-tabContent">
-      {state.selected == "trade" && (
-        <Widget src="harrydhillon.near/widget/NFT-Transfer" />
-      )}
-
-      {state.selected == "order" && (
-        <>
-          <Widget src="harrydhillon.near/widget/NFT-Transfer" />
-        </>
+      {state?.selected !== "order" ? (
+        <Widget src="harrydhillon.near/widget/NFTSwap.NFT-Transfer" />
+      ) : (
+        <Widget src="harrydhillon.near/widget/NFTSwap.Order" />
       )}
     </div>
   </div>
