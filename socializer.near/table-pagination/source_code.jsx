@@ -156,7 +156,13 @@ return (
                               className="d-flex justify-content-center align-items-center"
                               style={{
                                 "text-decoration": "none",
-                                color: "#4886fe",
+                                color: value
+                                  ? value === "won"
+                                    ? "#4886fe"
+                                    : value === "lost"
+                                    ? "#be7c05"
+                                    : "gray"
+                                  : "#4886fe",
                                 cursor: "pointer",
                               }}
                               onClick={() => td.click(row)}
