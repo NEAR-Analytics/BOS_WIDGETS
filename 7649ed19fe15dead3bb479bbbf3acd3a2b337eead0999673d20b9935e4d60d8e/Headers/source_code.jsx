@@ -4,7 +4,7 @@ const cursorColor = props.cursorColor ?? "#000000";
 const highlightColor = props.highlightColor ?? "#000000";
 const Wrapper = styled.div`
   --section-gap: 42px;
-  padding-top: 42px;
+  padding-top: 2px;
 
   @media (max-width: 1160px) {
     .line-rounded-corners {
