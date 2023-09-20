@@ -35,6 +35,11 @@ const Card =
         padding: 0px 0px 16px 0px;
         background: #373a53;
         border-radius: 16px;
+        .hot {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
         :hover {
           text-decoration: none;
         }
@@ -56,6 +61,11 @@ const Card =
         padding: 0px 0px 16px 0px;
         background: #373a53;
         border-radius: 16px;
+        .hot {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
         :hover {
           text-decoration: none;
         }
@@ -262,7 +272,7 @@ const Banner = styled.div`
   }
   .allInOne-btn {
     display: ${({ metadata }) =>
-      metadata.name === "NEAR All-in-one" ? "block" : "none"};
+    metadata.name === "NEAR All-in-one" ? "block" : "none"};
     padding: 8px;
     background: rgba(0, 0, 0, 0.35);
     color: #ffffff;
