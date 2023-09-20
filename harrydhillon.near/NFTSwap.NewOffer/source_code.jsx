@@ -226,10 +226,10 @@ const ConfirmOffer = () => {
 
 return props.isOfferModalOpen ? (
   <Widget
-    src="harrydhillon.near/widget/Keypom.Components.Modal"
+    src="harrydhillon.near/widget/NFTSwap.Modal"
     props={{
-      children: ConfirmOffer(),
-      isOpen: props?.isOfferModalOpen,
+      body: ConfirmOffer(),
+      hidden: !props?.isOfferModalOpen,
       contentStyles: {
         style: {
           width: 600,
