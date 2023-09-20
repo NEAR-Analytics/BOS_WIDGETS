@@ -211,7 +211,7 @@ return props.isOfferModalOpen ? (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: ConfirmOffer(),
-      isOpen: state?.isOfferModalOpen,
+      isOpen: props?.isOfferModalOpen,
       contentStyles: {
         style: {
           width: 600,
