@@ -185,15 +185,14 @@ const withdraw = async (item) => {
     return State.update({ error: "Balance is not enough." });
 
   if (item.id !== "NEAR" && item.token == "0") {
-    console.log("call///");
-    alert(
-      `You must register for the <${item.contract}> Contract before withdrawing.`
-    );
-
     return Near.call(
       item.contract,
       "storage_deposit",
-      { account_id: accountId, registration_only: true },
+      {
+        account_id: accountId,
+        registration_only: true,
+        message: `You must register for the <${item.contract}> Contract before withdrawing.`,
+      },
       oneTeraGas,
       oneNEARInYoctoNEAR
     );
