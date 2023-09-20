@@ -7,7 +7,6 @@ const style = {
   },
   profileBackgroundImage: {
     backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
     // border: "3px solid black",
     backgroundSize: "cover",
     marginBottom: "20px",
@@ -19,7 +18,7 @@ const style = {
   profileMiniWrapper: {
     // border: "3px solid black",
     flexDirection: "row",
-    marginBottom: "20px",
+    marginBottom: "50px",
     display: "flex",
     height: "150px",
     width: "100%",
@@ -58,7 +57,7 @@ const style = {
     overflow: "auto hidden",
     minWidth: "100px",
     display: "flex",
-  },
+  }
 };
 
 // ㅜ 로그인한 니어 계정 가져오기
@@ -225,7 +224,9 @@ return (
         Your("{accountId}") Widgets: {widgetEntries.length}
       </h1>
       <hr />
-      <div style={style.widgets}>
+      <div
+        style={style.widgets}
+      >
         {widgetElements}
         {/** */}
       </div>
