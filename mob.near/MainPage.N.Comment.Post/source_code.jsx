@@ -25,6 +25,7 @@ return parentPost ? (
     src="mob.near/widget/MainPage.N.Post"
     props={{
       ...parentPost,
+      noBorder: true,
       highlightComment: { accountId, blockHeight },
       commentsLimit: props.commentsLimit || 3,
       subscribe: props.subscribe,
