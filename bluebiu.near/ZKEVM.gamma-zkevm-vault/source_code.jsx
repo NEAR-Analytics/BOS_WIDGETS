@@ -90,14 +90,13 @@ const Wrapper = styled.div`
       .title-text {
         display: none;
       }
-  }
+    }
   }
 `;
 
 const Info = styled.div`
   background: #1d1e1f;
-  width: 320px;
-
+  width: 100%;
   font-family: "Inter";
   color: #fff;
   border-radius: 8px;
@@ -119,7 +118,7 @@ const SubWrapper = styled.div`
     background: #292c3c;
     border-radius: 10px;
     .input-flex {
-    display: block;
+      display: block;
     }
   }
 `;
@@ -161,10 +160,10 @@ const InputWrapper = styled.div`
       cursor: pointer;
     }
   }
-  @media (max-width:900px) {
+  @media (max-width: 900px) {
     margin: 0;
-    .merge{
-      p{
+    .merge {
+      p {
         display: inline-block;
       }
     }
@@ -199,11 +198,12 @@ const Button = styled.button`
     color: #ccc;
     cursor: not-allowed;
   }
-  @media (max-width:900px) {
-    width:100%;
-    box-shadow: 0px 1px 8px 0px #AF8DFFB0;
-    border: 0.3px solid #794FDD;
-    background: linear-gradient(0deg, #794FDD, #794FDD),linear-gradient(0deg, #FFFFFF, #FFFFFF);
+  @media (max-width: 900px) {
+    width: 100%;
+    box-shadow: 0px 1px 8px 0px #af8dffb0;
+    border: 0.3px solid #794fdd;
+    background: linear-gradient(0deg, #794fdd, #794fdd),
+      linear-gradient(0deg, #ffffff, #ffffff);
     border-radius: 30px;
   }
 `;
@@ -894,7 +894,7 @@ return (
     </Wrapper>
     {isPostTx && (
       <Info>
-        If you dont see the updated balance in the table after 1 minute, please
+        If you don't see the updated balance in the table after 1 minute, please
         click the refresh button above.
       </Info>
     )}
