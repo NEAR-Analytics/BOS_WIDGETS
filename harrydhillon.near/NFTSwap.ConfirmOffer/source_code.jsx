@@ -27,17 +27,17 @@ const ScrollContainer = styled.div`
 `;
 
 function generateRandomHexBytes(size) {
-    const byteToHex = (byte) => {
-        const hexTable = '0123456789abcdef';
-        return hexTable.charAt(byte >> 4) + hexTable.charAt(byte & 0x0F);
-    };
+  const byteToHex = (byte) => {
+    const hexTable = "0123456789abcdef";
+    return hexTable[Math.floor(byte / 16)] + hexTable[byte % 16];
+  };
 
-    let hexString = '';
-    for (let i = 0; i < size; i++) {
-        hexString += byteToHex(Math.floor(Math.random() * 256));
-    }
+  let hexString = "";
+  for (let i = 0; i < size; i++) {
+    hexString += byteToHex(Math.floor(Math.random() * 256));
+  }
 
-    return hexString;
+  return hexString;
 }
 
 function multiplyBy10ToThe24(num) {
