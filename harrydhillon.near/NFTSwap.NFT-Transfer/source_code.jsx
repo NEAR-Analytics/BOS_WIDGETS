@@ -57,36 +57,6 @@ const offerButtonDisabled =
 
 console.log(state);
 
-function multiplyBy10ToThe24(num) {
-  // Convert the number to a string
-  let strNum = num.toString();
-
-  // Number of zeros to append
-  let zeros = "000000000000000000000000";
-
-  // Check if the number has a decimal point
-  let indexOfDecimal = strNum.indexOf(".");
-
-  if (indexOfDecimal === -1) {
-    // If there's no decimal, simply append 24 zeros
-    return strNum + zeros;
-  } else {
-    // If there's a decimal, shift the numbers after the decimal
-    let beforeDecimal = strNum.substring(0, indexOfDecimal);
-    let afterDecimal = strNum.substring(indexOfDecimal + 1);
-
-    // Append necessary zeros and adjust the decimal point
-    let newNum = beforeDecimal + afterDecimal;
-
-    // Account for the cases where there's less than 24 digits after the decimal
-    let zerosToAdd = 24 - afterDecimal.length;
-    for (let i = 0; i < zerosToAdd; i++) {
-      newNum += "0";
-    }
-    return newNum;
-  }
-}
-
 return (
   <div>
     <h1> 🛍️ Transfer NFT </h1>
@@ -238,83 +208,17 @@ return (
     </div>
 
     <Widget
-      src="harrydhillon.near/widget/Keypom.Components.Modal"
+      src="harrydhillon.near/widget/NFTSwap.ConfirmOffer"
       props={{
-        children: (
-          <Widget
-            src="harrydhillon.near/widget/NFTSwap.ConfirmOffer"
-            props={{
-              ...state,
-              update: (d) => State.update(d),
-              generateOfferAndCallContract: () => {
-                const allTransactions = [];
-                if (state.offerAmount && state.offerNFTS.length === 0) {
-                  allTransactions.push({
-                    contractName: "v1.havenswap.near",
-                    methodName: "mass_transfer",
-                    args: {
-                      receiver_id: state.receiverId,
-                    },
-                    gas: 100000000000000,
-                    deposit:
-                      1000000000000000000000000 * parseFloat(state.offerAmount),
-                  });
-                }
-                if (state.offerNFTS) {
-                  state?.offerNFTS?.map((item) => {
-                    allTransactions.push({
-                      contractName: "v1.havenswap.near",
-                      methodName: "send_offer",
-                      args: {
-                        sender_id: accountId,
-                        sender_near: multiplyBy10ToThe24(
-                          parseFloat(state.offerAmount)
-                        ),
-                        sender_nfts: state.sendNFTS.map((item) => ({
-                          tokenId: item.tokenId,
-                          contractId: item.contractId,
-                        })),
-                        receiver_id: state.receiverId,
-                        receiver_nfts: state.offerNFTS.map((item) => ({
-                          tokenId: item.tokenId,
-                          contractId: item.contractId,
-                        })),
-                        is_holder: false,
-                      },
-                      gas: 100000000000000,
-                      deposit:
-                        1000000000000000000000000 *
-                        parseFloat(state.offerAmount),
-                    });
-                  });
-                }
-                if (state.sendNFTS) {
-                  state?.sendNFTS?.map((item) => {
-                    allTransactions.push({
-                      contractName: item.contractId,
-                      methodName: "nft_transfer",
-                      args: {
-                        receiver_id: state.receiverId,
-                        token_id: item.tokenId,
-                      },
-                      gas: 100000000000000,
-                      deposit: 1,
-                    });
-                  });
-                }
-                Near.call(allTransactions);
-                State.update({ isOfferModalOpen: false });
-              },
-              isOpen: state.isOfferModalOpen,
-              contentStyles: {
-                style: {
-                  overflowX: "hidden",
-                  width: 600,
-                },
-              },
-            }}
-          />
-        ),
+        ...state,
+        update: (d) => State.update(d),
+        isOpen: state.isOfferModalOpen,
+        contentStyles: {
+          style: {
+            overflowX: "hidden",
+            width: 600,
+          },
+        },
       }}
     />
   </div>
