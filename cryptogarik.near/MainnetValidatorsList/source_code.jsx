@@ -23,7 +23,7 @@ for (let i = 0; i < res.body.result.current_validators.length; i++) {
   const validatorObj = res.body.result.current_validators[i];
 
   const accountId = validatorObj.account_id;
-  const isSlashed = validatorObj.is_slashed;
+  const active = !validatorObj.is_slashed;
   const numExpectedBlocks = validatorObj.num_expected_blocks;
   const numExpectedChunks = validatorObj.num_expected_chunks;
   const numProducedBlocks = validatorObj.num_produced_blocks;
@@ -32,7 +32,7 @@ for (let i = 0; i < res.body.result.current_validators.length; i++) {
 
   const props = {
     accountId,
-    isSlashed,
+    active,
     numExpectedBlocks,
     numProducedBlocks,
     numExpectedChunks,
