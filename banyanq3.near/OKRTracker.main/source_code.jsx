@@ -36,6 +36,7 @@ let nycSubscribers = Social.keys(`*/graph/follow/nycdao.near`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
+/**WIDGET CALCULATION */
 const accountWidgetCount = [];
 let numberOfBuildersWhoDeployed = 0;
 
@@ -91,18 +92,26 @@ let sfFollowers = 0;
 if (sfSubscribers) {
   sfFollowers = Object.keys(sfSubscribers).length;
 }
+
 const following = Social.keys(`${accountId}/graph/follow/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
+const qualityFollowing = Social.keys(
+  `${qualityTracker}/graph/follow/*`,
+  "final",
+  {
+    return_type: "BlockHeight",
+    values_only: true,
+  }
+);
+const qualityBuilderCount = qualityFollowing
+  ? Object.keys(following[qualityTracker].graph.follow || {}).length
+  : null;
 
 const currentBuilderCount = following
   ? Object.keys(following[accountId].graph.follow || {}).length
   : null;
-const qualityBuilderCount = following
-  ? Object.keys(following[qualityTracker].graph.follow || {}).length
-  : null;
-
 const Flex = styled.div`
   display: flex;
   gap: 15px;
@@ -218,14 +227,14 @@ return (
       </Container>
     </Wrapper>
     <div className="row p-2">
-          <Widget
+      {false && <Widget
         src="hackerhouse.near/widget/ProgressBar"
         props={{
-          infoTitle: "Q3 Builders Who Quality Component",
+          infoTitle: "Q3 Builders Who Have A Quality Component",
           numerator: qualityBuilderCount,
           total: builderTarget,
         }}
-      />
+      />}
       <Widget
         src="hackerhouse.near/widget/ProgressBar"
         props={{
@@ -263,6 +272,7 @@ return (
     </div>
     <p> Current NYC Followers: {nycFollowers}</p>
     <p> Current SF Followers: {sfFollowers}</p>
+    <Widget src="banyanq3.near/widget/Tracker.QualityRank"/>
     <h3 className="m-2">Q3 BOS Builders</h3>
     <div className="m-2">Total Widgets: {totalWidgetCount}</div>{" "}
     {accountWidgetCount.map((rank, index) => {
