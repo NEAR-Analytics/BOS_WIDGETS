@@ -12,7 +12,7 @@ const {
 
 if (!update) return;
 
-if (!inputCurrency.address || !outputCurrency.address) {
+if (!inputCurrency.address || !outputCurrency.address || !inputCurrencyAmount) {
   onLoad({});
   return;
 }
@@ -39,6 +39,7 @@ if (wrapType) {
   return;
 }
 const currentCurrency = tradeType === "in" ? inputCurrency : outputCurrency;
+
 const currentAmount = Big(
   tradeType === "in" ? inputCurrencyAmount : outputCurrencyAmount
 )
