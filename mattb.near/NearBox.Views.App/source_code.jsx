@@ -9,17 +9,6 @@ State.init({
   messagesLoaded: false,
 });
 
-if (!state.messagesLoaded) {
-  Storage.privateGet("messages");
-
-  setTimeout(() => {
-    State.update({
-      messages: Storage.privateGet("messages") || [],
-      messagesLoaded: true,
-    });
-  }, 200);
-}
-
 const Main = styled.div`
     width:100%;
     height:calc(100vh - 70px);
