@@ -244,13 +244,11 @@ return (
       {noVotes > 0 && <span className="bar no"></span>}
     </ProgressContainer>
     <h4>
-      Quorum:{" "}
-      {quorum
-        ? numberWithCommas(yoctoToNear(quorum).toFixed(0)) +
-          "VP / " +
-          numberWithCommas(totalVotes) +
-          "VP"
-        : "-"}
+      {`Total Votes: ${numberWithCommas(
+        totalVotes
+      )}VP | Required for Quorum: ${numberWithCommas(
+        yoctoToNear(quorum).toFixed(0)
+      )}VP`}
     </h4>
     <h4>{getProposalCompletionStatus()}</h4>
   </Container>
