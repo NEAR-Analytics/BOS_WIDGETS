@@ -90,7 +90,7 @@ const ConfirmOffer = () => {
           contractName: "v1.havenswap.near",
           methodName: "send_offer",
           args: {
-            hash: Buffer.from(JSON.stringify(metadata), "utf-8").toString(
+            hash: Buffer.from(JSON.stringify(contractArgs), "utf-8").toString(
               "base64"
             ),
             ...contractArgs,
