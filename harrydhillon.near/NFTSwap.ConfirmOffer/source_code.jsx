@@ -40,6 +40,8 @@ function generateRandomHexBytes(size) {
   return hexString;
 }
 
+console.log(generateRandomHexBytes(12));
+
 function multiplyBy10ToThe24(num) {
   // Convert the number to a string
   let strNum = num.toString();
@@ -91,7 +93,9 @@ const ConfirmOffer = () => {
       });
     }
     if (props.offerNFTS) {
+      const hash = generateRandomHexBytes(12);
       const contractArgs = {
+        hash,
         sender_id: context.accountId,
         sender_near: multiplyBy10ToThe24(parseFloat(props.offerAmount)),
         sender_nfts: props.sendNFTS.map((item) => ({
@@ -105,14 +109,10 @@ const ConfirmOffer = () => {
         })),
         is_holder: false,
       };
-      const hash = generateRandomHexBytes(12);
       allTransactions.push({
         contractName: "v1.havenswap.near",
         methodName: "send_offer",
-        args: {
-          hash,
-          ...contractArgs,
-        },
+        args: contractArgs,
         gas: 100000000000000,
         deposit: 1000000000000000000000000 * parseFloat(props.offerAmount),
       });
