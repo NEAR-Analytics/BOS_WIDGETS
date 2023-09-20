@@ -129,7 +129,7 @@ const COLUMNS = [
         Retained MAAs
       </p>
     ),
-    renderCell: (item) => formatPercentNew(item["Retained MAAs"]),
+    renderCell: (item) => formatNumber(item["Retained MAAs"]),
     sort: { sortKey: "Retained MAAs" },
   },
   {
@@ -138,7 +138,7 @@ const COLUMNS = [
         M2 New MAAs
       </p>
     ),
-    renderCell: (item) => formatPercentNew(item["M2 New MAAs"]),
+    renderCell: (item) => formatNumber(item["M2 New MAAs"]),
     sort: { sortKey: "M2 New MAAs" },
   },
   {
