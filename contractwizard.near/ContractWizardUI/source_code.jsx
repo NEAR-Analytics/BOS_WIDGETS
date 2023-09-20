@@ -44,6 +44,10 @@ const StyledWrapper = styled.div`
 
   .token-type-desc {
     margin: 20px 0 30px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   .main-content-wrapper {
     display: flex;
@@ -204,18 +208,18 @@ const tokenStandardsDescriptions = (props) => {
 
   if (props.fungibleToken) {
     return (
-      <>
+      <div>
         Implements {anchor("141")}
         and
         {anchor("148")} token standards
-      </>
+      </div>
     );
   } else {
     return (
-      <>
+      <div>
         Implements {anchor("171")}, {anchor("177")}, {anchor("178")} and{" "}
         {anchor("181")} token standards
-      </>
+      </div>
     );
   }
 };
@@ -280,7 +284,7 @@ return (
             iconLeft: "ph ph-coins",
             onClick: (e) => State.update({ fungibleToken: true }),
             size: "large",
-            variant: !state.fungibleToken ? "secondary" : "primary",
+            variant: !state.fungibleToken ? "secondary" : "affirmative",
           }}
         />
         <Widget
@@ -290,12 +294,21 @@ return (
             iconLeft: "ph ph-cards",
             onClick: (e) => State.update({ fungibleToken: false }),
             size: "large",
-            variant: state.fungibleToken ? "secondary" : "primary",
+            variant: state.fungibleToken ? "secondary" : "affirmative",
           }}
         />
         <div>
           <div className="token-type-desc">
             <tokenStandardsDescriptions fungibleToken={state.fungibleToken} />
+            <Widget
+              src="near/widget/DIG.Button"
+              props={{
+                label: "Copy Code",
+                iconLeft: "ph ph-clipboard",
+                onClick: () => clipboard.writeText(sourceCode),
+                variant: "primary",
+              }}
+            />
           </div>
           <div className="main-content-wrapper">
             <div className="left-side">
