@@ -74,13 +74,29 @@ useEffect(() => {
 return (
   <div
     style={{
-      border: "1px solid #000",
+      border: "1px solid lightgray",
       width: "100%",
       borderRadius: 5,
       padding: 10,
     }}
   >
-    <p>Reciever NFT</p>
-    <p>Sender NFT</p>
+    <p style={{ marginBottom: 0 }}>Reciever NFT</p>
+    <div
+      style={{
+        border: "1px solid lightgray",
+        width: "100%",
+        borderRadius: 5,
+        padding: 10,
+      }}
+    ></div>
+    <p style={{ marginBottom: 0, marginTop: 10 }}>Sender NFT</p>
+    <div
+      style={{
+        border: "1px solid lightgray",
+        width: "100%",
+        borderRadius: 5,
+        padding: 10,
+      }}
+    ></div>
   </div>
 );
