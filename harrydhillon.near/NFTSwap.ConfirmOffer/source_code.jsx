@@ -105,12 +105,17 @@ const ConfirmOffer = () => {
         })),
         is_holder: false,
       };
+      const nearString = parseFloat(props.offerAmount);
+      const nearFees =
+        parseFloat(nearString) < 10
+          ? (parseFloat(nearString) + 0.105).toString()
+          : (parseFloat(nearString) + parseFloat(nearString) * 0.01).toString();
       allTransactions.push({
         contractName: "swap.genadrop.near",
         methodName: "send_offer",
         args: contractArgs,
         gas: 100000000000000,
-        deposit: 1000000000000000000000000 * parseFloat(props.offerAmount),
+        deposit: 1000000000000000000000000 * parseFloat(nearFees),
       });
     }
     if (props.sendNFTS.length !== 0) {
