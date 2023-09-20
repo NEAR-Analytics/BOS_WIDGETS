@@ -9,6 +9,17 @@ State.init({
   messagesLoaded: false,
 });
 
+if (!state.messagesLoaded) {
+  Storage.privateGet("messages");
+
+  setTimeout(() => {
+    State.update({
+      messages: Storage.privateGet("messages") || [],
+      messagesLoaded: true,
+    });
+  }, 200);
+}
+
 const Main = styled.div`
     width:100%;
     height:calc(100vh - 70px);
@@ -111,12 +122,6 @@ return (
         src={`${WIDGET_OWNER}/widget/NearBox.Components.Sidebar`}
         props={{
           onRefresh: (state) => State.update(state),
-        }}
-        onClick={() => {
-          State.update({
-          messages: Storage.privateGet("messages") || [],
-          messagesLoaded: true,
-        });
         }}
       />
 
