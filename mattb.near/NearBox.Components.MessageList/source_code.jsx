@@ -1,5 +1,5 @@
 const { messages, onRefresh } = props;
-messages = messages ? messages.reverse() : [];
+messages = messages ? messages : [];
 
 const Main = styled.div`
     width:100%;
