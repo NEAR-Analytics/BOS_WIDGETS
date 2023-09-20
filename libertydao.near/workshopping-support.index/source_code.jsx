@@ -275,9 +275,16 @@ function setActiveTab(key) {
 
 return (
   <MainContainer>
-    <TopBanner>Connecting Resources to those that need them</TopBanner>
+    <ResourceHeader>Resource Network</ResourceHeader>
+    <TopBanner>
+      Liberty doesn’t come without a cost. We’re here to help with that.
+    </TopBanner>
+    <p>
+      People, Skills, Time, Partners, Investors, Opportunities, Futures, Teams.
+      Everything comes through the right connections. And we’re working on
+      those.
+    </p>
     <ResourceNetworkContainer>
-      <ResourceHeader>Resource Network</ResourceHeader>
       <Navbar>
         {Object.keys(dummyData).map((key) => (
           <TabsButton
@@ -314,11 +321,28 @@ return (
           />
         ))}
       </Grid>
+      <p> </p>
+      <p>
+        Support doesn’t just flow from us; it flows through us; below you will
+        find an interactive catalog of organizations that believe supporting
+        people like you.
+      </p>
     </ResourceNetworkContainer>
 
     <Footer>
-      <h2>What would you reach for?</h2>
-      <p>Reach for the stars in our torchbearer program!</p>
+      <p> </p>
+      <p> </p>
+      <h2>And this is just the beginning..</h2>
+      <ResourceHeader>
+        We’re developing support support systems Through an ever-growing network
+        for your success.
+      </ResourceHeader>
+      <h2>What will you do with it?</h2>
+      <p>
+        Reach for the stars in our torchbearer program! Tell us about your
+        vision for a better future
+      </p>
+      <p>Proposal: What: For who: Why: Status: Timeline: Needs:</p>
       <a href="#">
         See something missing? Awesome! Offer network suggestions Here.
       </a>
