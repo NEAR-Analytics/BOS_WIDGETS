@@ -74,22 +74,28 @@ const ConfirmOffer = () => {
     }
     if (props.offerNFTS) {
       props?.offerNFTS?.map((item) => {
+        const contractArgs = {
+          sender_id: context.accountId,
+          sender_near: multiplyBy10ToThe24(parseFloat(props.offerAmount)),
+          sender_nfts: props.sendNFTS.map((item) => ({
+            tokenId: item.tokenId,
+            contractId: item.contractId,
+          })),
+          receiver_id: props.receiverId,
+          receiver_nfts: props.offerNFTS.map((item) => ({
+            tokenId: item.tokenId,
+            contractId: item.contractId,
+          })),
+          is_holder: false,
+        };
         allTransactions.push({
           contractName: "v1.havenswap.near",
           methodName: "send_offer",
           args: {
-            sender_id: context.accountId,
-            sender_near: multiplyBy10ToThe24(parseFloat(props.offerAmount)),
-            sender_nfts: props.sendNFTS.map((item) => ({
-              tokenId: item.tokenId,
-              contractId: item.contractId,
-            })),
-            receiver_id: props.receiverId,
-            receiver_nfts: props.offerNFTS.map((item) => ({
-              tokenId: item.tokenId,
-              contractId: item.contractId,
-            })),
-            is_holder: false,
+            hash: Buffer.from(JSON.stringify(contractArgs), "utf-8").toString(
+              "base64"
+            ),
+            ...contractArgs,
           },
           gas: 100000000000000,
           deposit: 1000000000000000000000000 * parseFloat(props.offerAmount),
