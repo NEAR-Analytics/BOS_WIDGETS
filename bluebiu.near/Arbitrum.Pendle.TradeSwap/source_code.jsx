@@ -15,23 +15,26 @@ const CONNECT_PROPS = {
   chainId: CHAIN_ID,
   chainName: "Arbitrum One",
 };
-const theme = {
-  textColor: "#7794D3",
-  buttonColor: "#33549C",
-};
+const ThemeContainer = styled.div`
+  --text-color: #7794d3;
+  --button-color: #33549c;
+  --button-text-color: #fff;
+`;
 
 const BasicTokens = {};
 
 if (!account) {
   return (
-    <Widget
-      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
-      props={{
-        ...CONNECT_PROPS,
-        theme,
-        isWrongNetwork: false,
-      }}
-    />
+    <ThemeContainer>
+      <Widget
+        src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+        props={{
+          ...CONNECT_PROPS,
+          theme,
+          isWrongNetwork: false,
+        }}
+      />
+    </ThemeContainer>
   );
 }
 State.init({
@@ -51,14 +54,16 @@ Ethers.provider()
 
 if (state.chainId !== CHAIN_ID) {
   return (
-    <Widget
-      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
-      props={{
-        ...CONNECT_PROPS,
-        theme,
-        isWrongNetwork: true,
-      }}
-    />
+    <ThemeContainer>
+      <Widget
+        src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+        props={{
+          ...CONNECT_PROPS,
+          theme,
+          isWrongNetwork: true,
+        }}
+      />
+    </ThemeContainer>
   );
 }
 
