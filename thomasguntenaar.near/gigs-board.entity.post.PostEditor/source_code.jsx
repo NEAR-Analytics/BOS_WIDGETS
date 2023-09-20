@@ -64,13 +64,17 @@ const AutoComplete = styled.div`
 
 function textareaInputHandler(value) {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
-  State.update({ text: value, showAccountAutocomplete });
+  State.update({ text: value, showAccountAutocomplete, description: value });
 }
 
 function autoCompleteAccountId(id) {
   let description = state.description.replace(/[\s]{0,1}@[^\s]*$/, "");
   description = `${description} @${id}`.trim() + " ";
-  State.update({ description, showAccountAutocomplete: false });
+  State.update({
+    description,
+    handler: "autocompleteSelected",
+    showAccountAutocomplete: false,
+  });
 }
 /* END_INCLUDE: "core/lib/autocomplete" */
 
@@ -157,7 +161,8 @@ const onSubmit = () => {
         state.description,
         state.amount,
         state.token,
-        state.supervisor
+        state.supervisor,
+        state.seekingFunding
       ),
       submission_version: "V1",
     },
@@ -401,19 +406,13 @@ const callDescriptionDiv = () => {
     <div className="col-lg-12  mb-2">
       Description:
       <br />
-      <textarea
-        value={state.description}
-        type="text"
-        rows={6}
-        className="form-control"
-        onInput={(event) => textareaInputHandler(event.target.value)}
-        onKeyUp={(event) => {
-          if (event.key === "Escape") {
-            State.update({ showAccountAutocomplete: false });
-          }
-        }}
-        onChange={(event) => State.update({ description: event.target.value })}
-      />
+      {widget("components.molecule.markdown-editor", {
+        data: { handler: state.handler, content: state.description },
+        onChange: (content) => {
+          State.update({ description: content, handler: "update" });
+          textareaInputHandler(content);
+        },
+      })}
       {autocompleteEnabled && state.showAccountAutocomplete && (
         <AutoComplete>
           <Widget
@@ -541,10 +540,13 @@ const fundraisingDiv = (
   </div>
 );
 
-function generateDescription(text, amount, token, supervisor) {
-  const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
-  if (amount > 0 && token && supervisor) return funding + text;
-  return text;
+function generateDescription(text, amount, token, supervisor, seekingFunding) {
+  const fundingText =
+    amount > 0 && token ? `###### Requested amount: ${amount} ${token}\n` : "";
+  const supervisorText = supervisor
+    ? `###### Requested sponsor: @${supervisor}\n`
+    : "";
+  return seekingFunding ? `${fundingText}${supervisorText}${text}` : text;
 }
 
 const renamedPostType = postType == "Submission" ? "Solution" : postType;
@@ -595,10 +597,18 @@ return (
             fundraisingDiv}
         </div>
       )}
-
-      <a className="btn btn-outline-primary mb-2" onClick={onSubmit}>
+      <button
+        style={{
+          width: "7rem",
+          backgroundColor: "#0C7283",
+          color: "#f3f3f3",
+        }}
+        disabled={state.seekingFunding && (!state.amount || state.amount < 1)}
+        className="btn btn-light mb-2 p-3"
+        onClick={onSubmit}
+      >
         Submit
-      </a>
+      </button>
       {disclaimer}
     </div>
     <div class="card-footer">
@@ -620,7 +630,8 @@ return (
                     state.description,
                     state.amount,
                     state.token,
-                    state.supervisor
+                    state.supervisor,
+                    state.seekingFunding
                   )
                 : state.description,
             amount: state.amount,
