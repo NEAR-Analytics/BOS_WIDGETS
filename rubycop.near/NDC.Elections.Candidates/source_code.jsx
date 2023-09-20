@@ -574,6 +574,235 @@ State.init({
   renderEl: null,
 });
 
+const UserLink = ({ title, src, selected, winnerId }) => (
+  <div className="d-flex mr-3">
+    <StyledLink href={src} target="_blank">
+      <Widget
+        src="mob.near/widget/Profile.ShortInlineBlock"
+        props={{ accountId: title, tooltip: false }}
+      />
+    </StyledLink>
+    <UserIcons
+      selected={selected}
+      winnerId={winnerId}
+      className="d-flex align-items-center"
+    >
+      <Icon className="bi bi-arrow-up-right" />
+      {state.winnerIds.includes(title) && (
+        <Winner className="bi bi-trophy-fill p-1 text-success" />
+      )}
+    </UserIcons>
+  </div>
+);
+
+const Loader = () => (
+  <span
+    className="spinner-grow spinner-grow-sm me-1"
+    role="status"
+    aria-hidden="true"
+  />
+);
+
+const CandidateItem = ({ candidateId, votes }) => (
+  <div>
+    <CandidateItemRow
+      className="d-flex align-items-center justify-content-between"
+      selected={state.selected === candidateId}
+      filtered={candidateFilterId.includes(candidateId)}
+      winnerId={state.winnerIds.includes(candidateId)}
+    >
+      <div className="d-flex w-100 align-items-center">
+        {isVisible() && (
+          <Expand>
+            <i
+              className={`${
+                state.selected === candidateId
+                  ? "bi bi-chevron-down"
+                  : "bi bi-chevron-right"
+              }`}
+              onClick={(e) =>
+                State.update({
+                  selected: state.selected === candidateId ? null : candidateId,
+                  reload: false,
+                })
+              }
+            />
+          </Expand>
+        )}
+
+        {iahToken && (
+          <Bookmark
+            selected={state.selected === candidateId}
+            winnerId={state.winnerIds.includes(candidateId)}
+          >
+            {state.loading === candidateId ? (
+              <Loader />
+            ) : (
+              <i
+                id="bookmark"
+                onClick={() => handleBookmarkCandidate(candidateId)}
+                className={`bi ${
+                  state.bookmarked.includes(candidateId)
+                    ? "bi-bookmark-fill"
+                    : "bi-bookmark"
+                }`}
+              />
+            )}
+          </Bookmark>
+        )}
+        <div className="d-flex align-items-center">
+          <div className="d-flex justify-items-center">
+            <UserLink
+              selected={state.selected === candidateId}
+              winnerId={state.winnerIds.includes(candidateId)}
+              src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
+              title={candidateId}
+            />
+          </div>
+        </div>
+      </div>
+      <InfoRow
+        className={`d-flex w-100 align-items-center ${
+          iahToken ? "justify-content-center" : "justify-content-end"
+        }`}
+      >
+        <NominationLink>
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Link: {
+                size: "sm",
+                className: state.winnerIds.includes(candidateId)
+                  ? "secondary success"
+                  : "secondary dark",
+                text: "Nomination",
+                icon: <i className="bi bi-box-arrow-up-right" />,
+                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=${typ}&accountId=${candidateId}`,
+                inverse: state.selected === candidateId,
+              },
+            }}
+          />
+        </NominationLink>
+        <NominationLinkMobile>
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Link: {
+                size: "sm",
+                className: state.winnerIds.includes(candidateId)
+                  ? "secondary success"
+                  : "secondary dark",
+                text: "",
+                icon: <i className="bi bi-box-arrow-up-right" />,
+                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
+                inverse: state.selected === candidateId,
+              },
+            }}
+          />
+        </NominationLinkMobile>
+        {isVisible() && <Votes>{votes}</Votes>}
+        {iahToken && (
+          <Votes>
+            <input
+              id="input"
+              disabled={
+                alreadyVotedForHouse() ||
+                blacklisted ||
+                electionStatus !== "ONGOING"
+              }
+              onClick={() => handleSelectCandidate(candidateId)}
+              className="form-check-input"
+              type="checkbox"
+              checked={
+                state.selectedCandidates.includes(candidateId) ||
+                alreadyVoted(candidateId)
+              }
+            />
+          </Votes>
+        )}
+      </InfoRow>
+    </CandidateItemRow>
+    {state.selected === candidateId && isVisible() && (
+      <Widget
+        src={widgets.voters}
+        props={{ candidateId, electionContract, iahToken, ids }}
+      />
+    )}
+  </div>
+);
+
+const Filters = () => (
+  <FilterRow className="d-flex align-items-center justify-content-between">
+    <div className="d-flex align-items-center w-100">
+      {isVisible() && <ExpandFilter />}
+      {iahToken && (
+        <BookmarkFilter
+          role="button"
+          className="text-secondary"
+          onClick={() => handleFilter({ bookmark: true })}
+        >
+          <small>Bookmark</small>
+          <i
+            className={`bi ${
+              state.filter.bookmark ? "bi-funnel-fill" : "bi-funnel"
+            }`}
+          />
+        </BookmarkFilter>
+      )}
+      <Candidates
+        className="text-secondary"
+        onClick={() => handleFilter({ candidates: true })}
+      >
+        <small>Candidate</small>
+        <i
+          className={`bi ${
+            state.filter.candidates ? "bi-arrow-down" : "bi-arrow-up"
+          }`}
+        />
+      </Candidates>
+    </div>
+    <div className="d-flex w-100 align-items-center justify-content-end gap-1">
+      <Nomination className="text-secondary text-start text-md-start">
+        <small>Nomination</small>
+      </Nomination>
+      {isVisible() && (
+        <VotesFilter
+          role="button"
+          className="text-secondary d-flex align-items-center"
+          onClick={() => handleFilter({ votes: true })}
+        >
+          <small>Total votes</small>
+          <i
+            className={`bi ${
+              state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
+            }`}
+          />
+        </VotesFilter>
+      )}
+      {iahToken && (
+        <VotesFilter
+          role="button"
+          className="text-secondary d-flex align-items-center"
+          onClick={() => handleFilter({ my_votes: true })}
+        >
+          <small>My votes</small>
+          <i
+            className={`bi ${
+              state.filter.my_votes ? "bi-funnel-fill" : "bi-funnel"
+            }`}
+          />
+        </VotesFilter>
+      )}
+    </div>
+  </FilterRow>
+);
+
+const ALink = ({ title, href }) => (
+  <a href={href} target={"_blank"} rel={"noopener"}>
+    {title}
+  </a>
+);
+
 const renderEl = () => (
   <>
     {state.showReviewModal && (
@@ -907,11 +1136,11 @@ const renderEl = () => (
   </>
 );
 
-const winnerIds = Near.view(electionContract, "winners_by_proposal", {
-  prop_id: props.id,
-});
-
 if (state.reload) {
+  const winnerIds = Near.view(electionContract, "winners_by_proposal", {
+    prop_id: props.id,
+  });
+
   const hasVotedOnAllProposals = Near.view(
     electionContract,
     "has_voted_on_all_proposals",
@@ -933,234 +1162,5 @@ if (state.reload) {
   handleStateTransition();
   loadSocialDBData();
 }
-
-const UserLink = ({ title, src, selected, winnerId }) => (
-  <div className="d-flex mr-3">
-    <StyledLink href={src} target="_blank">
-      <Widget
-        src="mob.near/widget/Profile.ShortInlineBlock"
-        props={{ accountId: title, tooltip: false }}
-      />
-    </StyledLink>
-    <UserIcons
-      selected={selected}
-      winnerId={winnerId}
-      className="d-flex align-items-center"
-    >
-      <Icon className="bi bi-arrow-up-right" />
-      {state.winnerIds.includes(title) && (
-        <Winner className="bi bi-trophy-fill p-1 text-success" />
-      )}
-    </UserIcons>
-  </div>
-);
-
-const Loader = () => (
-  <span
-    className="spinner-grow spinner-grow-sm me-1"
-    role="status"
-    aria-hidden="true"
-  />
-);
-
-const CandidateItem = ({ candidateId, votes }) => (
-  <div>
-    <CandidateItemRow
-      className="d-flex align-items-center justify-content-between"
-      selected={state.selected === candidateId}
-      filtered={candidateFilterId.includes(candidateId)}
-      winnerId={state.winnerIds.includes(candidateId)}
-    >
-      <div className="d-flex w-100 align-items-center">
-        {isVisible() && (
-          <Expand>
-            <i
-              className={`${
-                state.selected === candidateId
-                  ? "bi bi-chevron-down"
-                  : "bi bi-chevron-right"
-              }`}
-              onClick={(e) =>
-                State.update({
-                  selected: state.selected === candidateId ? null : candidateId,
-                  reload: false,
-                })
-              }
-            />
-          </Expand>
-        )}
-
-        {iahToken && (
-          <Bookmark
-            selected={state.selected === candidateId}
-            winnerId={state.winnerIds.includes(candidateId)}
-          >
-            {state.loading === candidateId ? (
-              <Loader />
-            ) : (
-              <i
-                id="bookmark"
-                onClick={() => handleBookmarkCandidate(candidateId)}
-                className={`bi ${
-                  state.bookmarked.includes(candidateId)
-                    ? "bi-bookmark-fill"
-                    : "bi-bookmark"
-                }`}
-              />
-            )}
-          </Bookmark>
-        )}
-        <div className="d-flex align-items-center">
-          <div className="d-flex justify-items-center">
-            <UserLink
-              selected={state.selected === candidateId}
-              winnerId={state.winnerIds.includes(candidateId)}
-              src={`https://near.org/near/widget/ProfilePage?accountId=${candidateId}`}
-              title={candidateId}
-            />
-          </div>
-        </div>
-      </div>
-      <InfoRow
-        className={`d-flex w-100 align-items-center ${
-          iahToken ? "justify-content-center" : "justify-content-end"
-        }`}
-      >
-        <NominationLink>
-          <Widget
-            src={widgets.styledComponents}
-            props={{
-              Link: {
-                size: "sm",
-                className: state.winnerIds.includes(candidateId)
-                  ? "secondary success"
-                  : "secondary dark",
-                text: "Nomination",
-                icon: <i className="bi bi-box-arrow-up-right" />,
-                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=${typ}&accountId=${candidateId}`,
-                inverse: state.selected === candidateId,
-              },
-            }}
-          />
-        </NominationLink>
-        <NominationLinkMobile>
-          <Widget
-            src={widgets.styledComponents}
-            props={{
-              Link: {
-                size: "sm",
-                className: state.winnerIds.includes(candidateId)
-                  ? "secondary success"
-                  : "secondary dark",
-                text: "",
-                icon: <i className="bi bi-box-arrow-up-right" />,
-                href: `https://near.org/nomination.ndctools.near/widget/NDC.Nomination.Candidate.Page?house=HouseOfMerit&accountId=${candidateId}`,
-                inverse: state.selected === candidateId,
-              },
-            }}
-          />
-        </NominationLinkMobile>
-        {isVisible() && <Votes>{votes}</Votes>}
-        {iahToken && (
-          <Votes>
-            <input
-              id="input"
-              disabled={
-                alreadyVotedForHouse() ||
-                blacklisted ||
-                electionStatus !== "ONGOING"
-              }
-              onClick={() => handleSelectCandidate(candidateId)}
-              className="form-check-input"
-              type="checkbox"
-              checked={
-                state.selectedCandidates.includes(candidateId) ||
-                alreadyVoted(candidateId)
-              }
-            />
-          </Votes>
-        )}
-      </InfoRow>
-    </CandidateItemRow>
-    {state.selected === candidateId && isVisible() && (
-      <Widget
-        src={widgets.voters}
-        props={{ candidateId, electionContract, iahToken, ids }}
-      />
-    )}
-  </div>
-);
-
-const Filters = () => (
-  <FilterRow className="d-flex align-items-center justify-content-between">
-    <div className="d-flex align-items-center w-100">
-      {isVisible() && <ExpandFilter />}
-      {iahToken && (
-        <BookmarkFilter
-          role="button"
-          className="text-secondary"
-          onClick={() => handleFilter({ bookmark: true })}
-        >
-          <small>Bookmark</small>
-          <i
-            className={`bi ${
-              state.filter.bookmark ? "bi-funnel-fill" : "bi-funnel"
-            }`}
-          />
-        </BookmarkFilter>
-      )}
-      <Candidates
-        className="text-secondary"
-        onClick={() => handleFilter({ candidates: true })}
-      >
-        <small>Candidate</small>
-        <i
-          className={`bi ${
-            state.filter.candidates ? "bi-arrow-down" : "bi-arrow-up"
-          }`}
-        />
-      </Candidates>
-    </div>
-    <div className="d-flex w-100 align-items-center justify-content-end gap-1">
-      <Nomination className="text-secondary text-start text-md-start">
-        <small>Nomination</small>
-      </Nomination>
-      {isVisible() && (
-        <VotesFilter
-          role="button"
-          className="text-secondary d-flex align-items-center"
-          onClick={() => handleFilter({ votes: true })}
-        >
-          <small>Total votes</small>
-          <i
-            className={`bi ${
-              state.filter.votes ? "bi-arrow-down" : "bi-arrow-up"
-            }`}
-          />
-        </VotesFilter>
-      )}
-      {iahToken && (
-        <VotesFilter
-          role="button"
-          className="text-secondary d-flex align-items-center"
-          onClick={() => handleFilter({ my_votes: true })}
-        >
-          <small>My votes</small>
-          <i
-            className={`bi ${
-              state.filter.my_votes ? "bi-funnel-fill" : "bi-funnel"
-            }`}
-          />
-        </VotesFilter>
-      )}
-    </div>
-  </FilterRow>
-);
-
-const ALink = ({ title, href }) => (
-  <a href={href} target={"_blank"} rel={"noopener"}>
-    {title}
-  </a>
-);
 
 return state.renderEl ?? <Loader />;
