@@ -1,31 +1,7 @@
-// add nft transfers here
-// NEED TO FIX SCIENTIFIC NOTION ON PRICE //  ADD ERROR CHECKING for nft contract but preview is enough
-const amount = "10000000000000000000000"; // 0.01 NEAR // amount to list at, by default its for other marketplaces
 const accountId = context.accountId; // add check for context it
-const ownerId = "minorityprogrammers.near"; // attribution
-
-const contractId = "genadrop-contract.nftgen.near"; // default nft contract
-const tokenId = "1679119560198"; // maybe condtional check if props is eempty // default nft
-const fewfarmarket = "market.fewandfar.near";
-const tradeportmarket = "market.tradeport.near";
-// fewfar link // display button if listed // asking them for format and they are working on a fix // https://fewfar.com/genadrop-single-nft-near/1675689302938/
-const tradeportLink =
-  "https://www.tradeport.xyz/near/collection/" + contractId + "/" + tokenId;
-// maybe utilize the helper funciton here
-// const fewfarlink =
+const contractId = "swap.genadrop.near"; // default nft contract
 const default_receiver = ""; // default reciver nft for transfers
-const msg =
-  '{"price":' +
-  '"' +
-  amount +
-  '"' +
-  ',"market_type":"sale","ft_token_id":"near"}';
-// need to find custom market link to work with
 
-const nftMetadata = Near.view(contractId, "nft_metadata"); // get the contract name
-const tokenInfo = Near.view(contractId, "nft_token", {
-  token_id: tokenId,
-});
 
 initState({
   receiverId: default_receiver,
