@@ -26,7 +26,94 @@ const ScrollContainer = styled.div`
   border: 1px solid lightgray;
 `;
 
+State.init({ isModalOpen: true });
+
+function multiplyBy10ToThe24(num) {
+  // Convert the number to a string
+  let strNum = num.toString();
+
+  // Number of zeros to append
+  let zeros = "000000000000000000000000";
+
+  // Check if the number has a decimal point
+  let indexOfDecimal = strNum.indexOf(".");
+
+  if (indexOfDecimal === -1) {
+    // If there's no decimal, simply append 24 zeros
+    return strNum + zeros;
+  } else {
+    // If there's a decimal, shift the numbers after the decimal
+    let beforeDecimal = strNum.substring(0, indexOfDecimal);
+    let afterDecimal = strNum.substring(indexOfDecimal + 1);
+
+    // Append necessary zeros and adjust the decimal point
+    let newNum = beforeDecimal + afterDecimal;
+
+    // Account for the cases where there's less than 24 digits after the decimal
+    let zerosToAdd = 24 - afterDecimal.length;
+    for (let i = 0; i < zerosToAdd; i++) {
+      newNum += "0";
+    }
+    return newNum;
+  }
+}
+
 const ConfirmOffer = () => {
+  const generateOfferAndCallContract = () => {
+    const allTransactions = [];
+    if (props.offerAmount && props.offerNFTS.length === 0) {
+      allTransactions.push({
+        contractName: "v1.havenswap.near",
+        methodName: "mass_transfer",
+        args: {
+          receiver_id: props.receiverId,
+        },
+        gas: 100000000000000,
+        deposit: 1000000000000000000000000 * parseFloat(props.offerAmount),
+      });
+    }
+    if (props.offerNFTS) {
+      props?.offerNFTS?.map((item) => {
+        allTransactions.push({
+          contractName: "v1.havenswap.near",
+          methodName: "send_offer",
+          args: {
+            sender_id: accountId,
+            sender_near: multiplyBy10ToThe24(parseFloat(props.offerAmount)),
+            sender_nfts: props.sendNFTS.map((item) => ({
+              tokenId: item.tokenId,
+              contractId: item.contractId,
+            })),
+            receiver_id: props.receiverId,
+            receiver_nfts: props.offerNFTS.map((item) => ({
+              tokenId: item.tokenId,
+              contractId: item.contractId,
+            })),
+            is_holder: false,
+          },
+          gas: 100000000000000,
+          deposit: 1000000000000000000000000 * parseFloat(props.offerAmount),
+        });
+      });
+    }
+    if (props.sendNFTS) {
+      props?.sendNFTS?.map((item) => {
+        allTransactions.push({
+          contractName: item.contractId,
+          methodName: "nft_transfer",
+          args: {
+            receiver_id: props.receiverId,
+            token_id: item.tokenId,
+          },
+          gas: 100000000000000,
+          deposit: 1,
+        });
+      });
+    }
+    Near.call(allTransactions);
+    State.update({ isModalOpen: false });
+  };
+
   return (
     <div>
       <div
@@ -106,7 +193,7 @@ const ConfirmOffer = () => {
         ))}
       </ScrollContainer>
       <button
-        onClick={() => props.generateOfferAndCallContract()}
+        onClick={() => generateOfferAndCallContract()}
         style={{ marginTop: 10 }}
       >
         Offer
@@ -115,4 +202,19 @@ const ConfirmOffer = () => {
   );
 };
 
-return ConfirmOffer();
+return props.isOpen ? (
+  <Widget
+    src="harrydhillon.near/widget/Keypom.Components.Modal"
+    props={{
+      children: ConfirmOffer(),
+      isOpen: state?.isModalOpen,
+      contentStyles: {
+        style: {
+          width: 600,
+        },
+      },
+    }}
+  />
+) : (
+  <></>
+);
