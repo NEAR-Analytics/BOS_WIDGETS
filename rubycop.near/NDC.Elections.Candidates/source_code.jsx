@@ -1046,7 +1046,7 @@ return (
         }}
       />
     )}
-    {state.showMintIVotedModal && (
+    {true && (
       <Widget
         src={widgets.modal}
         props={{
