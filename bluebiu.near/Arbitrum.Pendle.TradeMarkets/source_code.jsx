@@ -230,6 +230,11 @@ const MbTableRowActions = styled.div`
     align-items: center;
   }
 `;
+const ThemeContainer = styled.div`
+  --text-color: #7794d3;
+  --button-color: #33549c;
+  --button-text-color: #fff;
+`;
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -249,10 +254,6 @@ const CONNECT_PROPS = {
   chainId: CHAIN_ID,
   chainName: "Arbitrum One",
 };
-const theme = {
-  textColor: "#7794D3",
-  buttonColor: "#33549C",
-};
 
 State.init({
   markets: [],
@@ -267,14 +268,15 @@ if (sender) {
 
 if (!sender) {
   return (
-    <Widget
-      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
-      props={{
-        ...CONNECT_PROPS,
-        theme,
-        isWrongNetwork: false,
-      }}
-    />
+    <ThemeContainer>
+      <Widget
+        src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+        props={{
+          ...CONNECT_PROPS,
+          isWrongNetwork: false,
+        }}
+      />
+    </ThemeContainer>
   );
 }
 
