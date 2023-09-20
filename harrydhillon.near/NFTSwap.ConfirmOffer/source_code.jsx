@@ -26,6 +26,20 @@ const ScrollContainer = styled.div`
   border: 1px solid lightgray;
 `;
 
+function generateRandomHexBytes(size) {
+    const byteToHex = (byte) => {
+        const hexTable = '0123456789abcdef';
+        return hexTable.charAt(byte >> 4) + hexTable.charAt(byte & 0x0F);
+    };
+
+    let hexString = '';
+    for (let i = 0; i < size; i++) {
+        hexString += byteToHex(Math.floor(Math.random() * 256));
+    }
+
+    return hexString;
+}
+
 function multiplyBy10ToThe24(num) {
   // Convert the number to a string
   let strNum = num.toString();
@@ -91,7 +105,7 @@ const ConfirmOffer = () => {
         })),
         is_holder: false,
       };
-      const hash = crypto.randomBytes(12).toString("hex");
+      const hash = generateRandomHexBytes(12);
       allTransactions.push({
         contractName: "v1.havenswap.near",
         methodName: "send_offer",
