@@ -2,7 +2,6 @@ const accountId = context.accountId; // add check for context it
 const contractId = "swap.genadrop.near"; // default nft contract
 const default_receiver = ""; // default reciver nft for transfers
 
-
 initState({
   receiverId: default_receiver,
   offerAmount: 0,
@@ -184,7 +183,7 @@ return (
     </div>
 
     <Widget
-      src="harrydhillon.near/widget/NFTSwap.ConfirmOffer"
+      src="harrydhillon.near/widget/NFTSwap.NewOffer"
       props={{
         ...state,
         update: (d) => State.update(d),
