@@ -210,7 +210,7 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
         token_limits,
         deadline.toFixed(),
         {
-          gasLimit: gasLimit ?? 20000000,
+          gasLimit: 200000,
           value: input.inputAssetTokenId === ethAddress ? value : "0",
         }
       )
@@ -523,7 +523,10 @@ const callTxPancakeZKEVM2 = (
     return swapContract["multicall(uint256,bytes[])"](
       deadline,
       multicallParams,
-      options
+      {
+        ...options,
+        gasLimit: 200000,
+      }
     )
       .then((transactionHash) => {
         onComplete(transactionHash);
