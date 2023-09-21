@@ -124,6 +124,48 @@ return (
         <hr />
         <div
           style={{
+            border: "1px solid lightgray",
+            width: "100%",
+            borderRadius: 5,
+            padding: 10,
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "10px",
+            textAlign: "center",
+            marginBottom: 10,
+          }}
+        >
+          {transaction.receiver_nfts.map((item) => {
+            const transaction_data = state.nftData.filter(
+              (item) => item.token_id === item.token_id
+            )[0];
+            return (
+              <div>
+                <img
+                  style={{
+                    width: "100%",
+                    height: "220px",
+                    borderRadius: "5px",
+                    objectFit: "cover",
+                    marginBottom: 5,
+                  }}
+                  src={transaction_data.image}
+                />
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  Collection : {transaction_data.collection}
+                </p>
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  {transaction_data.contract_id}
+                </p>
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  {transaction_data.token_id}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+        <div
+          style={{
             display: "grid",
             width: "100%",
             gridTemplateColumns: " repeat(3, 1fr)",
@@ -202,46 +244,3 @@ return (
 // 						approval_id: 0,
 // 						msg: hash,
 // 					}, 300000000000000, 1)]
-
-// <div
-//           style={{
-//             border: "1px solid lightgray",
-//             width: "100%",
-//             borderRadius: 5,
-//             padding: 10,
-//             display: "grid",
-//             gridTemplateColumns: "repeat(4, 1fr)",
-//             gap: "10px",
-//             textAlign: "center",
-//             marginBottom: 10,
-//           }}
-//         >
-//           {transaction.receiver_nfts.map((item) => {
-//             const transaction_data = state.nftData.filter(
-//               (item) => item.token_id === item.token_id
-//             )[0];
-//             return (
-//               <div>
-//                 <img
-//                   style={{
-//                     width: "100%",
-//                     height: "220px",
-//                     borderRadius: "5px",
-//                     objectFit: "cover",
-//                     marginBottom: 5,
-//                   }}
-//                   src={transaction_data.image}
-//                 />
-//                 <p style={{ marginBottom: 0, fontSize: 12 }}>
-//                   Collection : {transaction_data.collection}
-//                 </p>
-//                 <p style={{ marginBottom: 0, fontSize: 12 }}>
-//                   {transaction_data.contract_id}
-//                 </p>
-//                 <p style={{ marginBottom: 0, fontSize: 12 }}>
-//                   {transaction_data.token_id}
-//                 </p>
-//               </div>
-//             );
-//           })}
-//         </div>
