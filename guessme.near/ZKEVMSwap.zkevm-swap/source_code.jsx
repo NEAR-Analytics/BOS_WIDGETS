@@ -313,14 +313,6 @@ const tokenInApprovaleNeededCheck = () => {
           encodedTokenAllowanceHex
         );
 
-        console.log(
-          "tokenAllowance: ",
-          new Big(tokenAllowance)
-            .div(Big(10).pow(state.inputAsset.metadata.decimals))
-            .toFixed(),
-          state.inputAsset.metadata.decimals
-        );
-
         if (tokenAllowance) {
           State.update({
             approvalNeeded: new Big(tokenAllowance)
