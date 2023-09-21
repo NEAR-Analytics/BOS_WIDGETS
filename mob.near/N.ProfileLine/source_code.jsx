@@ -42,6 +42,7 @@ const imgWrapperStyle = {
 const Wrap = (props) => {
   const inner = link ? (
     <a
+      key="link"
       href={
         link !== true
           ? link
@@ -59,6 +60,8 @@ const Wrap = (props) => {
   return tooltip ? (
     fullTooltip === true ? (
       <Widget
+        loading={inner}
+        key="overlay"
         src="mob.near/widget/Profile.OverlayTrigger"
         props={{ accountId, children: inner }}
       />
@@ -79,7 +82,11 @@ return (
         <Widget
           key="image"
           src="mob.near/widget/ProfileImage"
-          loading={<div style={imgWrapperStyle} />}
+          loading={
+            <div className="d-inline-block" style={imgWrapperStyle}>
+              <div className="d-inline-block rounded-circle w-100 h-100" />
+            </div>
+          }
           props={{
             fast,
             style: imgWrapperStyle,
@@ -94,6 +101,7 @@ return (
     </Wrap>
     {!hideCheckmark && (
       <Widget
+        loading=""
         key="checkmark"
         src="mob.near/widget/Checkmark"
         props={{ accountId }}
