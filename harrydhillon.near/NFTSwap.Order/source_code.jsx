@@ -101,129 +101,169 @@ function divideByPowerOfTen(numStr) {
   return rounded.toFixed(3);
 }
 
-const render = (transaction) => (
-  <div
-    style={{
-      border: "0px solid lightgray",
-      borderBottomWidth: 1,
-      paddingBottom: 5,
-      border: "1px solid lightgray",
-      width: "100%",
-      borderRadius: 5,
-      marginBottom: 5,
-      padding: 10,
-    }}
-  >
+function formatDate(timestamp) {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  console.log(timestamp);
+  const date = new Date(timestamp / 1000000);
+  const day = date.getDate().toString().padStart(2, "0"); // To ensure it's always two digits
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, "0"); // To ensure it's always two digits
+  const minutes = date.getMinutes().toString().padStart(2, "0"); // To ensure it's always two digits
+
+  return {
+    day: day,
+    month: month,
+    year: year,
+    time: `${hours}:${minutes}`,
+  };
+}
+
+const render = (transaction) => {
+  const date_data = formatDate(transaction.timestamp);
+  return (
     <div
       style={{
+        border: "0px solid lightgray",
+        borderBottomWidth: 1,
+        paddingBottom: 5,
         border: "1px solid lightgray",
         width: "100%",
         borderRadius: 5,
+        marginBottom: 5,
         padding: 10,
-        display: "grid",
-        gridTemplateColumns: "repeat(2, 1fr)",
-        gap: "10px",
-        textAlign: "center",
-        marginBottom: 10,
       }}
     >
-      {console.log(transaction.receiver_nfts)}
-      {transaction.receiver_nfts.map((item) => {
-        const transaction_data = state.nftData.filter(
-          (_) =>
-            _.token_id === item.token_id && item.contract_id === _.contract_id
-        )[0];
-        return (
-          <div>
-            <img
-              style={{
-                width: "100%",
-                height: "220px",
-                borderRadius: "5px",
-                objectFit: "cover",
-                marginBottom: 5,
-              }}
-              src={transaction_data.image}
-            />
-            <p style={{ marginBottom: 0, fontSize: 12 }}>
-              Collection : {transaction_data.collection}
-            </p>
-            <p style={{ marginBottom: 0, fontSize: 12 }}>{item.contract_id}</p>
-            <p style={{ marginBottom: 0, fontSize: 12 }}>{item.token_id}</p>
-          </div>
-        );
-      })}
-    </div>
-    <div
-      style={{
-        display: "grid",
-        width: "100%",
-        gridTemplateColumns: " repeat(2, 1fr)",
-        alignItems: "center",
-      }}
-    >
-      <div style={{ marginBottom: 5 }}>
-        Sender
-        <Widget
-          src="harrydhillon.near/widget/AccountProfile"
-          props={{ accountId: transaction.sender_id }}
-        />
-      </div>
-      <div style={{ marginBottom: 0 }}>
-        Near : {divideByPowerOfTen(`${transaction.sender_near}`)} Ⓝ
-      </div>
-      <div style={{ marginBottom: 6 }}>
-        Receiver
-        <Widget
-          src="harrydhillon.near/widget/AccountProfile"
-          props={{ accountId: transaction.receiver_id }}
-        />
-      </div>
-    </div>
-    {accountId !== transaction.sender_id && (
-      <button
+      <p style={{ textAlign: "left" }}>
+        {date_data.time} UTC - {date_data.day} {date_data.month},{" "}
+        {date_data.year}
+      </p>
+      <div
         style={{
-          backgroundColor: "blue",
-          borderWidth: 0,
-          marginRight: 10,
-        }}
-        onClick={() => {
-          const txns = transaction.receiver_nfts.map((item) => ({
-            contractName: item.contract_id,
-            methodName: "nft_transfer",
-            args: {
-              receiver_id: contract_id,
-              token_id: item.token_id,
-              msg: transaction.hash,
-              approval_id: 0,
-            },
-            gas: 300000000000000,
-            deposit: 1,
-          }));
-          Near.call(txns);
+          border: "1px solid lightgray",
+          width: "100%",
+          borderRadius: 5,
+          padding: 10,
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "10px",
+          textAlign: "center",
+          marginBottom: 10,
         }}
       >
-        Accept
+        {transaction.receiver_nfts.map((item) => {
+          const transaction_data = state.nftData.filter(
+            (_) =>
+              _.token_id === item.token_id && item.contract_id === _.contract_id
+          )[0];
+
+          return (
+            <div>
+              <img
+                style={{
+                  width: "100%",
+                  height: "220px",
+                  borderRadius: "5px",
+                  objectFit: "cover",
+                  marginBottom: 5,
+                }}
+                src={transaction_data.image}
+              />
+              <p style={{ marginBottom: 0, fontSize: 12 }}>
+                Collection : {transaction_data.collection}
+              </p>
+              <p style={{ marginBottom: 0, fontSize: 12 }}>
+                {item.contract_id}
+              </p>
+              <p style={{ marginBottom: 0, fontSize: 12 }}>{item.token_id}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div
+        style={{
+          display: "grid",
+          width: "100%",
+          gridTemplateColumns: " repeat(2, 1fr)",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ marginBottom: 5 }}>
+          Sender
+          <Widget
+            src="harrydhillon.near/widget/AccountProfile"
+            props={{ accountId: transaction.sender_id }}
+          />
+        </div>
+        <div style={{ marginBottom: 0 }}>
+          Near : {divideByPowerOfTen(`${transaction.sender_near}`)} Ⓝ
+        </div>
+        <div style={{ marginBottom: 6 }}>
+          Receiver
+          <Widget
+            src="harrydhillon.near/widget/AccountProfile"
+            props={{ accountId: transaction.receiver_id }}
+          />
+        </div>
+      </div>
+      {accountId !== transaction.sender_id && (
+        <button
+          style={{
+            backgroundColor: "blue",
+            borderWidth: 0,
+            marginRight: 10,
+          }}
+          onClick={() => {
+            const txns = transaction.receiver_nfts.map((item) => ({
+              contractName: item.contract_id,
+              methodName: "nft_transfer",
+              args: {
+                receiver_id: contract_id,
+                token_id: item.token_id,
+                msg: transaction.hash,
+                approval_id: 0,
+              },
+              gas: 300000000000000,
+              deposit: 1,
+            }));
+            Near.call(txns);
+          }}
+        >
+          Accept
+        </button>
+      )}
+      <button
+        onClick={() => {
+          Near.call(
+            contract_id,
+            "cancel_offer",
+            {
+              hash: transaction.hash,
+            },
+            300000000000000,
+            1
+          );
+        }}
+        style={{ backgroundColor: "red", borderWidth: 0 }}
+      >
+        {accountId !== transaction.sender_id ? "Reject" : "Cancel"}
       </button>
-    )}
-    <button
-      onClick={() => {
-        Near.call(
-          contract_id,
-          "cancel_offer",
-          {
-            hash: transaction.hash,
-          },
-          300000000000000,
-          1
-        );
-      }}
-      style={{ backgroundColor: "red", borderWidth: 0 }}
-    >
-      {accountId !== transaction.sender_id ? "Reject" : "Cancel"}
-    </button>
-  </div>
-);
+    </div>
+  );
+};
 
 return (
   <div
