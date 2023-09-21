@@ -99,7 +99,7 @@ return (
             handlePagination()
               .table.filter((row) =>
                 Object.values(row).some((value) =>
-                  value.toString().includes(searchValue)
+                  value.toString().includes(searchValue ?? "")
                 )
               )
               .map((row, i) => {
