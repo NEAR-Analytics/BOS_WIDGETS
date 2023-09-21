@@ -6,19 +6,19 @@ const [truncated, setTruncated] = useState(props.truncateContent ?? true);
 const Wrapper = styled.div`
   overflow: hidden;
   .truncated-content {
-    max-height: 20em;
+    max-height: 40em;
     position: relative;
 
     .expand-post {
       position : absolute;
       z-index  : 1;
-      top   : 18rem;
+      top   : 37rem;
       left     : 0;
       background-image : linear-gradient(to bottom, 
                         rgba(255,255,255, 0), 
                         rgba(255,255,255, 1) 70%);
       width    : 100%;
-      height   : 2rem;
+      height   : 3rem;
       a {
         z-index: 2;
         position: absolute;
