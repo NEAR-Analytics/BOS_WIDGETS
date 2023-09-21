@@ -9,6 +9,7 @@ const API_URL = props?.API_URL || "http://localhost:3000";
 State.init({
   myAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${accountId}`,
   tokens: [],
+  history: [],
   loaded: false,
   error: "",
   loading: false,
@@ -39,6 +40,62 @@ const columns = [
     width: 25,
     align: "center",
     action: true,
+  },
+];
+
+const tx_columns = [
+  {
+    title: "S.No",
+    key: "no",
+    width: 20,
+    align: "left",
+  },
+  {
+    title: "Amount",
+    key: "amount",
+    width: 20,
+    align: "left",
+  },
+  {
+    title: "Transaction",
+    key: "hash",
+    width: 20,
+    align: "left",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="30"
+        height="30"
+        viewBox="0 0 48 48"
+      >
+        <g
+          fill="none"
+          stroke="currentColor"
+          stroke-linejoin="round"
+          stroke-width="4"
+        >
+          <rect width="30" height="36" x="9" y="8" rx="2" />
+          <path
+            stroke-linecap="round"
+            d="M18 4v6m12-6v6m-14 9h16m-16 8h12m-12 8h8"
+          />
+        </g>
+      </svg>
+    ),
+    link: true,
+    click: () => {},
+  },
+  {
+    title: "Transaction Type",
+    key: "type",
+    width: 20,
+    align: "left",
+  },
+  {
+    title: "Date",
+    key: "date",
+    width: 20,
+    align: "left",
   },
 ];
 
@@ -73,7 +130,17 @@ const TokenComponent = styled.div`
   border-radius: 8px;
   border: 1px solid var(--light_90, #E6E6E6);
   gap: 20px;
-  margin-top: 50px;
+`;
+
+const TxComponent = styled.div`
+  display: flex;
+  width: 100%;
+  background: #F3F3F3;
+  flex-direction: column;
+  padding: 6px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--light_90, #E6E6E6);
+  gap: 20px;
 `;
 
 const Avatar = styled.img`
@@ -113,8 +180,10 @@ const getTokenData = () => {
   return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
     (res) => {
       if (res.ok) {
+        const { token, history } = res.body;
         State.update({
-          tokens: res.body,
+          tokens: token,
+          history,
           loaded: true,
           loading: false,
         });
@@ -233,194 +302,29 @@ return (
           });
         }}
       />
-      <h4>Hi, {profile.name ? profile.name : accountId}</h4>
-    </div>
-    <WalletComponent>
-      <div className="d-flex " style={{ borderBottom: "1px solid #808080" }}>
-        <h5 style={{ fontWeight: 700, fontSize: 18, lineHeight: "150%" }}>
-          {"Near Wallet"}
+      <div>
+        <h4>Hi, {profile.name ? profile.name : accountId}</h4>
+        <h5>
+          <b>Wallet ID:</b>
+          {accountId}
         </h5>
       </div>
-      <div className="d-flex ">
-        <h5 style={{ fontWeight: 600, fontSize: 18 }}>{accountId}</h5>
-      </div>
-    </WalletComponent>
-    <TokenComponent>
-      <div
-        className="d-flex justify-content-between"
-        style={{
-          borderBottom: "1px solid #808080",
-          gap: 12,
-        }}
-      >
-        <div
-          className="d-flex"
-          style={{
-            gap: 12,
-            flexDirection: "column",
+    </div>
+
+    {state.history.length !== 0 && (
+      <TxComponent>
+        <h4>{`Transaction Ledger`}</h4>
+        <Widget
+          src={`${Owner}/widget/table-pagination`}
+          props={{
+            API_URL,
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: state.history,
+            columns: tx_columns,
+            rowsCount: 4,
           }}
-        >
-          <h5 style={{ fontWeight: 700, fontSize: 18, lineHeight: "150%" }}>
-            {"Token Balances"}
-          </h5>
-          <p style={{ fontSize: 12 }}>
-            {
-              "These NEP Tokens Can be allocated as bounty for users that engage with your tweets. These can be withdrawn to you wallet at any time"
-            }
-          </p>
-          {state.error && (
-            <p style={{ fontSize: 12, color: "red" }}>{state.error}</p>
-          )}
-        </div>
-        <div className="d-flex" style={{ minWidth: 150 }}>
-          <Button>
-            {"Select Token"}
-            <span style={{ height: 18 }}>
-              <svg
-                width="30"
-                height="26"
-                viewBox="0 0 30 26"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g filter="url(#filter0_d_58_4394)">
-                  <rect
-                    x="4"
-                    y="18"
-                    width="18"
-                    height="22"
-                    rx="8"
-                    transform="rotate(-90 4 18)"
-                    fill="#141522"
-                    shape-rendering="crispEdges"
-                  />
-                  <path
-                    d="M19 5.27337L18.06 4.33337L15 7.38671L11.94 4.33337L11 5.27337L15 9.27337L19 5.27337Z"
-                    fill="white"
-                  />
-                  <path
-                    d="M19 9.66668L18.06 8.72668L15 11.78L11.94 8.72669L11 9.66669L15 13.6667L19 9.66668Z"
-                    fill="white"
-                  />
-                  <rect
-                    x="4.5"
-                    y="17.5"
-                    width="17"
-                    height="21"
-                    rx="7.5"
-                    transform="rotate(-90 4.5 17.5)"
-                    stroke="#141522"
-                    shape-rendering="crispEdges"
-                  />
-                </g>
-              </svg>
-            </span>
-          </Button>
-        </div>
-      </div>
-
-      <div className="d-flex ">
-        <Table
-          className={`table table-hover table-striped table-borderless ${props.className}`}
-        >
-          <thead>
-            <tr>
-              {columns.map((th) => (
-                <th
-                  key={th.title}
-                  className="col-1"
-                  style={{
-                    fontSize: 16,
-                    width: `${th.width}%`,
-                    verticalAlign: "middle",
-                    textAlign: th.align,
-                  }}
-                  scope="col"
-                >
-                  <div>
-                    <span>{th.title}</span>
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody>
-            {state.tokens.length > 0 &&
-              state.tokens.map((row, i) => {
-                return (
-                  <tr key={row.key}>
-                    {columns.map((td) => {
-                      const key = td.key ? row[td.key] : i + 1;
-                      return (
-                        <td
-                          style={{
-                            color:
-                              td.colors ||
-                              themeColor?.table_pagination?.columntextcolor,
-                            fontSize: 16,
-                            textAlign: td.align,
-                            verticalAlign: "middle",
-                          }}
-                        >
-                          {td.action ? (
-                            <div
-                              style={{
-                                display: "flex",
-                                gap: 10,
-                                alignItems: "center",
-                              }}
-                            >
-                              <Input
-                                type="number"
-                                min="0"
-                                value={state[row.id] ?? 0}
-                                onChange={(e) => {
-                                  State.update({
-                                    [row.id]: e.target.value,
-                                  });
-                                }}
-                              />
-                              <a
-                                href="#"
-                                onClick={() => deposit(row)}
-                                className="text-decoration-underline"
-                              >
-                                {`Deposit`}
-                              </a>
-                              <a
-                                href="#"
-                                onClick={() => withdraw(row)}
-                                style={{ color: state.loading && "red" }}
-                                className="text-decoration-underline"
-                              >
-                                {`Withdraw`}
-                              </a>
-                              <a
-                                href="#"
-                                onClick={() => registry(row)}
-                                style={{
-                                  color:
-                                    (row.id == "NEAR" || row.token != "0") &&
-                                    "gray",
-                                }}
-                                className="text-decoration-underline"
-                              >
-                                {`Register`}
-                              </a>
-                            </div>
-                          ) : (
-                            key
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
-      </div>
-    </TokenComponent>
+        />
+      </TxComponent>
+    )}
   </Wrapper>
 );
