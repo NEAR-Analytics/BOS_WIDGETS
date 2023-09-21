@@ -77,7 +77,7 @@ const Wrap = (props) => {
   );
 };
 
-return (
+const res = (
   <GrayWrapper>
     <Wrap>
       {!hideImage && (
@@ -122,3 +122,9 @@ return (
     </Wrap>
   </GrayWrapper>
 );
+
+if (props.onRender) {
+  props.onRender(res);
+}
+
+return res;
