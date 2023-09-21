@@ -68,11 +68,9 @@ const StyledWrapper = styled.div`
 
     > pre {
       width: 70%;
-      min-height: 694px;
-
       div {
         border-radius: 6px;
-        min-height: 840px;
+        min-height: 700px;
       }
     }
 
