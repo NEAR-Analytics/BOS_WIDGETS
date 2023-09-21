@@ -4,7 +4,7 @@ if (!accountId) {
 }
 
 State.init({
-  selected: props.tab,
+  selected: props.tab ?? "swap",
 });
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
