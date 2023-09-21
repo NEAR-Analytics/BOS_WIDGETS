@@ -1,5 +1,6 @@
 const creatorId = props.creatorId;
 const groupId = props.groupId;
+const onClick = props.onClick || (() => {});
 
 const groupInfo = Social.get(
   `${creatorId}/thing/${groupId}/metadata/**`,
@@ -102,19 +103,54 @@ const TagsWrapper = styled.div`
   padding-top: 4px;
 `;
 
+let members = Social.keys(`*/graph/${groupId}/*`, "final", {
+  return_type: "BlockHeight",
+  values_only: true,
+});
+
+const keys = Object.values(members) || {}
+    .map(item => Object.keys(item.graph["f8ad9d1a76259lmdpjnd74e69162a0a014"]))
+    .flat();
+
+console.log(keys);
+
+
+// function Counter() {
+
+//   let members = Social.keys(`*/graph/${groupId}/*`, "final", {
+//     return_type: "BlockHeight",
+//     values_only: true,
+//   });
+
+// if (!members) {
+//   return "Loading...";
+// }
+
+// const groupKey = Object.keys(members)[0];
+
+// members = Object.entries(members[groupKey]?.graph[groupId] || {});
+// members.sort((a, b) => b[1] - a[1]);
+// return (
+//   <>
+//     {members.map(([accountId], i) => (
+//       <div key={i} className="d-flex justify-content-between mb-3">
+//         <div className="me-4">
+//           <Widget src="mob.near/widget/Profile" props={{ accountId }} />
+//         </div>
+//       </div>
+//     ))}
+//   </>
+// );
+// }
+
 return (
   <Card>
-    <a
-      href={`/hack.near/widget/group.page?groupId=${groupId}&creatorId=${creatorId}`}
-      style={{ textDecoration: "none" }}
-    >
-      <CardLeft>
-        <Widget
-          src="hack.near/widget/group.inline"
-          props={{ group: groupInfo, groupId, accountId: creatorId }}
-        />
-      </CardLeft>
-    </a>
+    <CardLeft onClick={onClick}>
+      <Widget
+        src="hack.near/widget/group.inline"
+        props={{ group: groupInfo, groupId, accountId: creatorId }}
+      />
+    </CardLeft>
     <Bell>
       <div className="ms-autome-md-2 d-flex align-items-center">
         <div className="bell">
@@ -122,27 +158,17 @@ return (
             href={`/hack.near/widget/group.index?groupId=${groupId}`}
             className="bell-icon"
           >
-            <i className="bi bi-bell"></i>
-            <i className="bi bi-bell-fill"></i>
+            <i className="bi bi-bell" />
+            <i className="bi bi-bell-fill" />
           </a>
         </div>
       </div>
     </Bell>
     {canJoin && context.accountId && (
-      <>
-        {groupKey === context.accountId && (
-          <a
-            className="btn btn-outline-dark"
-            href={`/hack.near/widget/group.edit?groupId=${groupId}`}
-          >
-            edit
-          </a>
-        )}
-        <Widget
-          src="hack.near/widget/group.join"
-          props={{ groupId, accountId, creatorId: props.creatorId }}
-        />
-      </>
+      <Widget
+        src="hack.near/widget/group.join"
+        props={{ groupId, accountId, creatorId: props.creatorId }}
+      />
     )}
   </Card>
 );
