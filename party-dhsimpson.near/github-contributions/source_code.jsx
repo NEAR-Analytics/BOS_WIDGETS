@@ -42,6 +42,7 @@ const MyContributionWrapper = styled.div`
     background-color: black;
     border-radius: 25px;
     color: white;
+    padding: 20px;
 `;
 
 const MyContributionList = styled.ul`
@@ -183,6 +184,11 @@ const Toggle = ({
   setIsChecked,
 }) => {
   const ToggleBoxWrapper = styled.label`
+    background-color: rgba(20,50,125,1);
+    border-radius: 25px;
+    padding: 5px 10px;
+    font-weight: 600;
+    margin-bottom: 20px;
 `;
 
   const ToggleBox = styled.input`
@@ -217,21 +223,49 @@ const Toggle = ({
 //onClick > toggleAll toggleOpen toggleClosed
 //state ui > all open closed
 const FilterButton = styled.button`
-  background-color: ${(props) => (props.clicked ? "green" : "red")}
+  background-color: ${(props) => (props.clicked ? "green" : "red")};
+  color: white;
+  font-weight: 650;
+  border-radius: 20px;
+  padding: 5px 10px;
+  border: none;
+`;
+
+const OptionWrapper = styled.div`
+  margin: 20px 10px;
+`;
+
+const FilterState = styled.span`
+  font-size: 24px;
+  font-weight: 650;
 `;
 
 return (
   <MyContributionWrapper>
-    <div>
+    <OptionWrapper>
       <p>프로필 영역 (아바타) | 프로필 영역 (깃헙닉네임)</p>
       <Toggle
         callbackOn={toggleIssue}
         callbackOff={togglePR}
-        textOn="Pull Request -> Issue"
-        textOff="Issue ->  Pull Request"
+        textOn={
+          <span>
+            <span>Pull Request</span>
+            {"->"}
+            <span>Issue</span>
+          </span>
+        }
+        textOff={
+          <span>
+            <span>Issue</span>
+            {"->"}
+            <span>Pull Request</span>
+          </span>
+        }
         isChecked={isChecked}
         setIsChecked={setIsChecked}
       />
+      <br />
+      <FilterState>STATE : </FilterState>
       <FilterButton clicked={all} onClick={toggleAll}>
         ALL State
       </FilterButton>
@@ -241,7 +275,7 @@ return (
       <FilterButton clicked={closed} onClick={toggleClosed}>
         Closed
       </FilterButton>
-    </div>
+    </OptionWrapper>
     <MyContributionList>
       {contributionData.map((issue) => {
         return (
