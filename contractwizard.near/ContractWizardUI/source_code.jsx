@@ -16,22 +16,21 @@ State.init({
   mintable: false,
   burnable: false,
   pausable: false,
-  contractOutput: "",
   showToast: false,
+  contractOutput: "",
 });
 
 const Background = styled.div`
-    background-image: radial-gradient(#dad9e8 5%,transparent 0);
-    background-size: 50px 50px;
-    min-height: 100vh;
     width: 100%;
 `;
 
 const StyledWrapper = styled.div`
     max-width: 1400px;
     margin: 0 auto;
-    padding: 50px;
-    padding-bottom: 200px;
+    padding: 70px;
+    background-image: radial-gradient(rgb(218, 217, 232) 5%, #f9f9f9 0px);
+    background-size: 30px 30px;
+    border-radius: 6px;
 
   > button {
     margin: 20px 10px 20px 0;
