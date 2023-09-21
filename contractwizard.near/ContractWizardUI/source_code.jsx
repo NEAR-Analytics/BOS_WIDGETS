@@ -10,6 +10,7 @@ State.init({
   tokenSymbol: "MTK",
   ftDecimals: 24,
   ftPremint: null,
+  ftPremintReceiver: "",
   nftBaseURI: "",
   authOption: AUTH_OPTION.NO_AUTH,
   owner: "",
@@ -372,6 +373,20 @@ return (
                         value: state.ftPremint,
                       }}
                     />
+                    {state.ftPremint && (
+                      <Widget
+                        src="near/widget/DIG.Input"
+                        props={{
+                          label: "Premint receiver",
+                          placeholder: "satoshi.near",
+                          assistiveText:
+                            "If left blank, the deploying account becomes the default receiver of the premint amount.",
+                          onInput: (e) =>
+                            State.update({ ftPremintReceiver: e.target.value }),
+                          value: state.ftPremintReceiver,
+                        }}
+                      />
+                    )}
                     <Widget
                       src="near/widget/DIG.Input"
                       type="number"
