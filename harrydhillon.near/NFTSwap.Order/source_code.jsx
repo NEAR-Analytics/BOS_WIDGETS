@@ -135,9 +135,10 @@ return (
             marginBottom: 10,
           }}
         >
+          {console.log(transaction.receiver_nfts)}
           {transaction.receiver_nfts.map((item) => {
             const transaction_data = state.nftData.filter(
-              (item) => item.token_id === item.token_id
+              (_) => _.token_id === item.token_id && item.contract_id===_.contract_id
             )[0];
             return (
               <div>
@@ -155,11 +156,9 @@ return (
                   Collection : {transaction_data.collection}
                 </p>
                 <p style={{ marginBottom: 0, fontSize: 12 }}>
-                  {transaction_data.contract_id}
+                  {item.contract_id}
                 </p>
-                <p style={{ marginBottom: 0, fontSize: 12 }}>
-                  {transaction_data.token_id}
-                </p>
+                <p style={{ marginBottom: 0, fontSize: 12 }}>{item.token_id}</p>
               </div>
             );
           })}
