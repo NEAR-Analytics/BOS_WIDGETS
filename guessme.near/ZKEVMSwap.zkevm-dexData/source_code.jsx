@@ -90,16 +90,12 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
     const outputId =
       input.outputAssetTokenId === ethAddress ? WETH : input.outputAssetTokenId;
 
-    console.log("ids: ", inputId, outputId);
-
     const finalPool = pools
       .filter(
         (poolData) =>
           poolData[0].includes(inputId) && poolData[0].includes(outputId)
       )
       .map((poolData) => poolData[1]);
-
-    console.log("finalPool: ", finalPool);
 
     if (!finalPool.length && inputId !== outputId) {
       return onShowNoPool();
@@ -131,9 +127,9 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       limit: "0",
     };
 
-    var token_addresses = Object.keys(token_data);
+    const token_addresses = Object.keys(token_data);
     const token_indices = {};
-    for (var i = 0; i < token_addresses.length; i++) {
+    for (let i = 0; i < token_addresses.length; i++) {
       token_indices[token_addresses[i]] = i;
     }
 
@@ -152,6 +148,8 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
     const swap_kind = 0;
     const token_limits = [value, 0];
     const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    console.log("swap_steps_struct: ", swap_steps_struct, assets);
 
     swapContract
       .batchSwap(
@@ -498,6 +496,8 @@ const callTokenApprovalEVM = (input, onComplete, gweiPrice, gasLimit) => {
       input.inputAssetAmount,
       input.inputAsset.metadata.decimals || 18
     ).toFixed();
+
+    console.log("input.inputAsset: ", input.inputAsset);
 
     const approveContract = new ethers.Contract(
       input.inputAssetTokenId,
