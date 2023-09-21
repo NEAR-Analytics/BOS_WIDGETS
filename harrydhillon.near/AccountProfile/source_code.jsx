@@ -5,7 +5,7 @@ if (!accountId) {
 }
 
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `/#/calebjacob.near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `/mob.near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.a`
   display: inline-grid;
