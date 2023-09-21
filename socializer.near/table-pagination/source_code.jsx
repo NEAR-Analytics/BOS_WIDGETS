@@ -171,7 +171,7 @@ return (
                             >
                               {td.icon ? (
                                 <a href={value} target="_blank">
-                                  td.icon
+                                  {td.icon}
                                 </a>
                               ) : (
                                 <svg
