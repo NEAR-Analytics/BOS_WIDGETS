@@ -166,17 +166,21 @@ return (
                               }}
                               onClick={() => td.click(row)}
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  fill="currentColor"
-                                  d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
-                                />
-                              </svg>
+                              {td.icon ? (
+                                td.icon
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    fill="currentColor"
+                                    d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
+                                  />
+                                </svg>
+                              )}
                             </div>
                           ) : td.button ? (
                             <Button onClick={() => td.click(row)}>
@@ -195,9 +199,7 @@ return (
       </Table>
     </div>
 
-    {!rowsCount ? (
-      ""
-    ) : (
+    {rowsCount && (
       <div className="d-flex justify-content-end">
         <div>
           <ul
