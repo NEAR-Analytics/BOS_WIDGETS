@@ -1178,7 +1178,7 @@ return (
                           state,
                           onCallTxComple,
                           "2.09",
-                          500000,
+                          400000,
                           "0",
                           state.estimate.path
                         );
