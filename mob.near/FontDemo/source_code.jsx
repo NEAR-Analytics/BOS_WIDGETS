@@ -15,6 +15,6 @@ const Theme = styled.div`
 
 return (
   <Theme>
-    <Widget src="mob.near/widget/Welcome" />
+    <Widget src="mob.near/widget/N" />
   </Theme>
 );
