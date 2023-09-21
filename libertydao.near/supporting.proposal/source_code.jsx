@@ -9,6 +9,7 @@ const Container = styled.div`
   margin: 0 auto;
   background-color: var(--light-color);
   padding-bottom: 80px;
+  padding: 40px;
 `;
 
 const Header = styled.div`
