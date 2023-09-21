@@ -85,10 +85,9 @@ return (
           </IconWrapper>
         )}
         {status === 3 && (
-          <Widget
-            src="bluebiu.near/widget/0vix.LendingLoadingIcon"
-            props={{ style: { padding: "0px 16px" } }}
-          />
+          <IconWrapper>
+            <Widget src="bluebiu.near/widget/0vix.LendingLoadingIcon" />
+          </IconWrapper>
         )}
         <Text>{text}</Text>
       </Flex>
