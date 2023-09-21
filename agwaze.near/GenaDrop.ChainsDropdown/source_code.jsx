@@ -122,10 +122,9 @@ const SelectReplicaContainer = styled.div`
     left: 0;
     width: 100%;
     margin:auto;
-    overflow-y: auto;
     border-radius: 10px;
     background-color: #fff;
-    max-height: 300px;
+    height: auto;
     box-shadow: 0 10px 20px 10px rgba(0,0,0,.05);
     pointer-events:none;
     transform:translateY(-100px);
@@ -168,7 +167,7 @@ const handleChainChange = (chain_id, chainName) => {
     Ethers.send("wallet_switchEthereumChain", [
       { chainId: `0x${Number(chain_id).toString(16)}` },
     ]);
-    props.updateChain(chainName)
+    props.updateChain(chainName);
     State.update({
       selectedChain: chain_id,
     });
