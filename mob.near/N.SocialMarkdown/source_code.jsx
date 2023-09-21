@@ -12,6 +12,7 @@ const renderMention =
         src="mob.near/widget/N.ProfileLine"
         props={{
           accountId: accountId.toLowerCase(),
+          fast: true,
           hideAccountId: true,
           tooltip: true,
           gray: true,
