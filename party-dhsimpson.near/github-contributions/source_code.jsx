@@ -132,9 +132,6 @@ const [closed, setClosed] = useState(false);
 
 const toggleAll = () => {
   //allState isOpen isClosed
-  // const filteredOptions = searchOptions.filter((option) => {
-  //   return !pullRequestDefaultFilterList.includes(option);
-  // });
   const filteredOptions = searchOptions.filter((option) => {
     return ![isOpen, isClosed].includes(option);
   });
@@ -185,7 +182,7 @@ const Toggle = ({
 }) => {
   const ToggleBoxWrapper = styled.label`
     background-color: rgba(20,50,125,1);
-    border-radius: 25px;
+    border-radius: 20px;
     padding: 5px 10px;
     font-weight: 600;
     margin-bottom: 20px;
@@ -220,8 +217,7 @@ const Toggle = ({
     </ToggleBoxWrapper>
   );
 };
-//onClick > toggleAll toggleOpen toggleClosed
-//state ui > all open closed
+
 const FilterButton = styled.button`
   background-color: ${(props) => (props.clicked ? "green" : "red")};
   color: white;
@@ -243,12 +239,12 @@ const FilterState = styled.span`
 function SwitchText({ asis, tobe }) {
   const BigText = styled.span`
       font-size: 24px;
-      margin-right: 10px;
+      margin-left: 15px;
   `;
 
   const SmallText = styled.span`
       font-size: 14px;
-      margin-left: 10px;
+      margin-right: 15px;
   `;
 
   return (
@@ -274,7 +270,7 @@ function Profile() {
   background-color: rgba(55,55,125,0.5);
   border-radius: 25px;
   padding: 0 10px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 `;
 
   const ProfileImg = styled.img`
