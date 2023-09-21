@@ -78,6 +78,7 @@ const ChainIcon = styled.option`
 const SelectReplicaContainer = styled.div`
   position: relative;
   display: inline-block;
+  margin: 0 20px;
   user-select:none;
     z-index: 1;
 
