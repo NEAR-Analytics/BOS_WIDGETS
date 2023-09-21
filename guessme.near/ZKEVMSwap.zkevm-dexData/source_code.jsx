@@ -84,6 +84,54 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
       ],
     ];
 
+    const WethContract = new ethers.Contract(
+      wethAddress,
+      [
+        {
+          constant: false,
+          inputs: [],
+          name: "deposit",
+          outputs: [],
+          payable: true,
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ internalType: "uint256", name: "wad", type: "uint256" }],
+          name: "withdraw",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+
+    if (
+      input.inputAssetTokenId === ethAddress &&
+      input.outputAssetTokenId === wethAddress
+    ) {
+      return WethContract.deposit({
+        value: ethers.utils.parseEther(input.inputAssetAmount),
+        gasLimit: gasLimit ?? 10000,
+      }).then((res) => {
+        onComplete(res);
+      });
+    }
+
+    if (
+      input.inputAssetTokenId === wethAddress &&
+      input.outputAssetTokenId === ethAddress
+    ) {
+      return WethContract.withdraw(
+        ethers.utils.parseEther(input.inputAssetAmount)
+      ).then((res) => {
+        onComplete(res);
+      });
+    }
+
     const inputId =
       input.inputAssetTokenId === ethAddress ? WETH : input.inputAssetTokenId;
 
@@ -100,6 +148,8 @@ const callTxBalancerZKEVM = (input, onComplete, gasPrice, gasLimit) => {
     if (!finalPool.length && inputId !== outputId) {
       return onShowNoPool();
     }
+
+    console.log("finalPool: ", finalPool);
 
     const assets = [input.inputAssetTokenId, input.outputAssetTokenId];
 
