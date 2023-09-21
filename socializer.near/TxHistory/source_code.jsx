@@ -59,7 +59,7 @@ return (
         themeColor: { table_pagination: themeColor.table_pagination },
         data,
         columns,
-        rowsCount: 4,
+        rowsCount: 5,
       }}
     />
   </TxComponent>
