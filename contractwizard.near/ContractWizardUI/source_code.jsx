@@ -15,7 +15,9 @@ State.init({
   owner: "",
   mintable: false,
   burnable: false,
+  pausable: false,
   contractOutput: "",
+  showToast: false,
 });
 
 const Background = styled.div`
@@ -36,9 +38,9 @@ const StyledWrapper = styled.div`
   }
 
   a {
-    color: inherit;
+    color: var(--violet7);
     :hover {
-        color: var(--violet8);
+        color: var(--violet10);
     }
   }
 
@@ -48,6 +50,10 @@ const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    button {
+      margin-left: auto;
+    }
   }
   .main-content-wrapper {
     display: flex;
@@ -97,6 +103,14 @@ const StyledWrapper = styled.div`
   .badge {
     margin: 0 0 30px 0;
   }
+
+  .access-control-input {
+    z-index: 1000;
+  }
+
+  button[role="checkbox"][data-state="unchecked"] {
+    background-color: white;
+  }
 `;
 
 const AuthLayer = () => (
@@ -124,6 +138,7 @@ const AuthLayer = () => (
             ],
           },
         ],
+        className: "access-control-input",
         placeholder: "Select an option",
         rootProps: {
           value: state.authOption,
@@ -175,6 +190,8 @@ const BinaryOptions = () => (
           props={{
             id: "checkbox-item-pausable",
             label: "Pausable",
+            checked: state.pausable,
+            onCheckedChange: (e) => State.update({ pausable: e }),
           }}
         />
         <Widget
@@ -248,9 +265,13 @@ return (
             },
           },
           plugins: {
-            owner: { accountId: state.owner },
-            pause: {},
-            rbac: { accountId: state.owner },
+            ...(state.authOption === AUTH_OPTION.OWNERSHIP
+              ? { owner: { accountId: state.owner } }
+              : {}),
+            ...(state.pausable ? { pause: {} } : {}),
+            ...(state.authOption === AUTH_OPTION.ROLE_BASED
+              ? { rbac: { accountId: state.owner } }
+              : {}),
           },
         },
         onMessage: (e) => {
@@ -301,12 +322,27 @@ return (
           <div className="token-type-desc">
             <tokenStandardsDescriptions fungibleToken={state.fungibleToken} />
             <Widget
-              src="near/widget/DIG.Button"
+              src="near/widget/DIG.Toast"
               props={{
-                label: "Copy Code",
-                iconLeft: "ph ph-clipboard",
-                onClick: () => clipboard.writeText(sourceCode),
-                variant: "primary",
+                description: "Code copied to clipboard!",
+                type: "success",
+                open: state.showToast,
+                onOpenChange: (value) => State.update({ showToast: value }),
+                trigger: (
+                  <Widget
+                    src="near/widget/DIG.Button"
+                    props={{
+                      label: "Copy",
+                      iconLeft: "ph ph-clipboard",
+                      variant: "primary",
+                      onClick: () => {
+                        clipboard.writeText(state.contractOutput);
+                        State.update({ showToast: true });
+                      },
+                    }}
+                  />
+                ),
+                providerProps: { duration: 1500 },
               }}
             />
           </div>
