@@ -42,65 +42,78 @@ const Wrapper = styled.div`
   }
 `;
 
+const render = () =>
+  content ? (
+    <div className="overflow-hidden" key="wrapper">
+      {content.text &&
+        (raw ? (
+          <pre key="raw" style={{ whiteSpace: "pre-wrap" }}>
+            {content.text}
+          </pre>
+        ) : (
+          <div key="text" className="text-break">
+            <Widget
+              key="content"
+              loading={
+                <div
+                  className="w-100 placeholder-glow"
+                  style={{ minHeight: "100px" }}
+                />
+              }
+              src="mob.near/widget/N.SocialMarkdown"
+              props={{
+                text: content.text,
+                onHashtag: (hashtag) => (
+                  <span
+                    key={hashtag}
+                    className="d-inline-flex"
+                    style={{ color: "var(--bs-link-color)" }}
+                  >
+                    <a href={`/?hashtag=${hashtag}`}>#{hashtag}</a>
+                  </span>
+                ),
+              }}
+            />
+          </div>
+        ))}
+      {content.image &&
+        (raw ? (
+          <div key="img-raw">
+            <pre>{JSON.stringify(content.image, undefined, 2)}</pre>
+          </div>
+        ) : (
+          <div key="c-img" className="w-100 rounded-3 text-center mt-2">
+            <Widget
+              key="img-widget"
+              loading={<div className="img-fluid rounded-3 placeholder-glow" />}
+              src="mob.near/widget/Image"
+              props={{
+                image: content.image,
+                className: "img-fluid rounded-3",
+                style: { maxHeight: "40em" },
+              }}
+            />
+          </div>
+        ))}
+    </div>
+  ) : (
+    <div
+      key="img"
+      className="w-100 overflow-hidden"
+      style={{ minHeight: "100px" }}
+    />
+  );
+
+const [inner, setInner] = useState(() => render());
+
+useEffect(() => {
+  setInner(render());
+}, [content, raw, props.truncateContent]);
+
 return (
   <Wrapper>
     <div className={truncated ? "truncated-content" : "full-content"}>
-      {content ? (
-        <div className="overflow-hidden">
-          {content.text &&
-            (raw ? (
-              <pre style={{ whiteSpace: "pre-wrap" }}>{content.text}</pre>
-            ) : (
-              <div className="text-break">
-                <Widget
-                  key="content"
-                  loading={
-                    <div
-                      className="w-100 placeholder-glow"
-                      style={{ minHeight: "100px" }}
-                    />
-                  }
-                  src="mob.near/widget/N.SocialMarkdown"
-                  props={{
-                    text: content.text,
-                    onHashtag: (hashtag) => (
-                      <span
-                        key={hashtag}
-                        className="d-inline-flex"
-                        style={{ color: "var(--bs-link-color)" }}
-                      >
-                        <a href={`/?hashtag=${hashtag}`}>#{hashtag}</a>
-                      </span>
-                    ),
-                  }}
-                />
-              </div>
-            ))}
-          {content.image &&
-            (raw ? (
-              <div>
-                <pre>{JSON.stringify(content.image, undefined, 2)}</pre>
-              </div>
-            ) : (
-              <div className="w-100 rounded-3 text-center mt-2">
-                <Widget
-                  key="img"
-                  loading={
-                    <div className="img-fluid rounded-3 placeholder-glow" />
-                  }
-                  src="mob.near/widget/Image"
-                  props={{
-                    image: content.image,
-                    className: "img-fluid rounded-3",
-                    style: { maxHeight: "40em" },
-                  }}
-                />
-              </div>
-            ))}
-        </div>
-      ) : (
-        <div className="w-100 overflow-hidden" style={{ minHeight: "100px" }} />
-      )}
+      {inner}
       <div className="expand-post">
         <div>
           <a className="stretched-link" onClick={() => setTruncated(false)}>
