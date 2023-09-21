@@ -121,7 +121,7 @@ const render = (transaction) => (
         borderRadius: 5,
         padding: 10,
         display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
+        gridTemplateColumns: "repeat(2, 1fr)",
         gap: "10px",
         textAlign: "center",
         marginBottom: 10,
