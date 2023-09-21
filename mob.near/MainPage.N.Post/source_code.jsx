@@ -142,7 +142,7 @@ return (
             />
           }
           src="mob.near/widget/MainPage.N.Post.Content"
-          props={{ content, raw }}
+          props={{ content, raw, truncateContent: props.truncateContent }}
         />
         {blockHeight !== "now" ? (
           <div className="buttons d-flex justify-content-between">
