@@ -17,6 +17,33 @@ const Tokens = {
     icon: "https://assets.coingecko.com/coins/images/2518/small/weth.png?1628852295",
   },
 
+  "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6": {
+    chainId: CHAIN_ID,
+    address: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+    decimals: 8,
+    symbol: "WBTC",
+    name: "Wrapped BTC",
+    icon: "https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png?1548822744",
+  },
+
+  "0x1FA2F83BA2DF61c3d370071d61B17Be01e224f3a": {
+    chainId: CHAIN_ID,
+    address: "0x1FA2F83BA2DF61c3d370071d61B17Be01e224f3a",
+    decimals: 18,
+    symbol: "HNY",
+    name: "HONEY",
+    icon: "https://assets.coingecko.com/coins/images/12895/small/hnys.png?1614100588",
+  },
+
+  "0x37D1EbC3Af809b8fADB45DCE7077eFc629b2B5BB": {
+    chainId: CHAIN_ID,
+    address: "0x37D1EbC3Af809b8fADB45DCE7077eFc629b2B5BB",
+    decimals: 18,
+    symbol: "pCOMB",
+    name: "Polygon Native Comb",
+    icon: "https://polygonscan.com/token/images/1hiveofc_32.png",
+  },
+
   "0xa3Fa99A148fA48D14Ed51d610c367C61876997F1": {
     chainId: CHAIN_ID,
     address: "0xa3Fa99A148fA48D14Ed51d610c367C61876997F1",
@@ -102,7 +129,7 @@ return (
         chainId: CHAIN_ID,
         chainName: "Polygon",
         displayChainName: "Polygon",
-        wethAddress: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+        wethAddress: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
         connectProps: {
           imgProps: {
             src: "https://ipfs.near.social/ipfs/bafkreifeitks2bp3vyy7v7iznq6lf67dutvjjplzzbiwv4j2dheqiqqbpi",
@@ -126,7 +153,7 @@ return (
             uniType: "v3",
             defaultCurrencies: {
               input: Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
-              output: Tokens["0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"],
+              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
             },
             tokens: [
               Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
@@ -147,7 +174,7 @@ return (
             uniType: "v2",
             defaultCurrencies: {
               input: Tokens["native"],
-              output: Tokens["0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"],
+              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
             },
             tokens: [
               Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
@@ -156,6 +183,49 @@ return (
               Tokens["0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"],
               Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
               Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+            ],
+          },
+
+          Honeyswap: {
+            name: "Honeyswap",
+            logo: "https://ipfs.near.social/ipfs/bafkreigpb3scxgcvddqzongudv3m77bh363rzyxidzuudk6wx32qa6vgia",
+            factoryAddress: "0x03DAa61d8007443a6584e3d8f85105096543C19c",
+            routerAddress: "0xaD340d0CD0B117B0140671E7cB39770e7675C848",
+            uniType: "v2",
+            defaultCurrencies: {
+              input: Tokens["native"],
+              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+            },
+            tokens: [
+              Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
+              Tokens["0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"],
+              Tokens["0x1FA2F83BA2DF61c3d370071d61B17Be01e224f3a"],
+              Tokens["0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"],
+              Tokens["0x37D1EbC3Af809b8fADB45DCE7077eFc629b2B5BB"],
+              Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              Tokens["0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"],
+              Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
+            ],
+          },
+          QuickSwap: {
+            name: "QuickSwap",
+            logo: "https://ipfs.near.social/ipfs/bafkreida55shh44tqd4ingcunnu6u34g5bm3jugoaasy7a365kutoomjru",
+            factoryAddress: "0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32",
+            routerAddress: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
+            uniType: "v2",
+            defaultCurrencies: {
+              input: Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
+              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+            },
+            tokens: [
+              Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
+              Tokens["0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"],
+              Tokens["0x1FA2F83BA2DF61c3d370071d61B17Be01e224f3a"],
+              Tokens["0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"],
+              Tokens["0x37D1EbC3Af809b8fADB45DCE7077eFc629b2B5BB"],
+              Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              Tokens["0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"],
+              Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
             ],
           },
         },
