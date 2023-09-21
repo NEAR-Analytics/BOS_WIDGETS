@@ -1,11 +1,11 @@
 const accountId = props.accountId;
 
-if (!accountId) {
-  return <></>;
+if(!accountId){
+  return <></>
 }
 
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `https://near.social/mob.near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `/#/calebjacob.near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.a`
   display: inline-grid;
@@ -72,7 +72,6 @@ const Name = styled.div`
 const AccountProfile = (
   <Wrapper
     as={props.onClick ? "button" : "a"}
-    target="_blank"
     href={!props.onClick && profileUrl}
     onClick={props.onClick && (() => props.onClick(accountId))}
   >
