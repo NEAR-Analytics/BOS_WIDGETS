@@ -15,7 +15,6 @@ if (!props.githubNickname) {
   return <p>github nickname is required.</p>;
 }
 
-const userProfileUrl = "https://api.github.com/users/";
 const searchBaseUrl = "https://api.github.com/search/issues?q=";
 const nickName = "dhsimpson";
 const defulatFilterList = [
@@ -34,10 +33,6 @@ const config = {
     Authorization: `Bearer ${props.token}`,
   },
 };
-
-const userProfile = fetch(`${userProfileUrl}${nickName}`, config)?.body;
-console.log("userProfile");
-console.log(userProfile);
 
 const mergeFilters = (filterLists) => {
   return [].concat(...filterLists).join("%20");
@@ -263,7 +258,7 @@ function SwitchText({ asis, tobe }) {
         src="party-dhsimpson.near/widget/SwitchButtonSvg"
         props={{
           width: "55",
-          height: "44",
+          height: "30",
         }}
       />
       <SmallText>{tobe}</SmallText>
@@ -271,7 +266,8 @@ function SwitchText({ asis, tobe }) {
   );
 }
 
-const Profile = styled.div`
+function Profile() {
+  const ProfileWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 110px;
@@ -281,19 +277,26 @@ const Profile = styled.div`
   margin-bottom: 15px;
 `;
 
-const ProfileImg = styled.img`
+  const ProfileImg = styled.img`
   width: 50px;
   border-radius: 100%;
   margin-right: 10px;
 `;
+  const userProfileUrl = "https://api.github.com/users/";
+  const userProfile = fetch(`${userProfileUrl}${nickName}`, config)?.body;
+
+  return (
+    <ProfileWrapper>
+      <ProfileImg src={userProfile.avatar_url} />
+      <span>{userProfile.name}</span>
+    </ProfileWrapper>
+  );
+}
 
 return (
   <MyContributionWrapper>
     <OptionWrapper>
-      <Profile>
-        <ProfileImg src={userProfile.avatar_url} />
-        <span>{userProfile.name}</span>
-      </Profile>
+      <Profile />
       <Toggle
         callbackOn={toggleIssue}
         callbackOff={togglePR}
