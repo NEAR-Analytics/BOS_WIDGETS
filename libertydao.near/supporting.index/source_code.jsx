@@ -1,7 +1,7 @@
 const Container = styled.div`
   height: 100vh;
   margin-top: var(--header-height);
-  background-color: var(--light-color);
+  background-color: var(--secondary-color);
 `;
 
 const Footer = styled.div`
