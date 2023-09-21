@@ -151,12 +151,17 @@ const AuthLayer = () => (
       <Widget
         src="near/widget/DIG.Input"
         props={{
-          label: "Owner",
+          label:
+            state.authOption === AUTH_OPTION.OWNERSHIP
+              ? "Owner"
+              : "Highest role",
           placeholder: "satoshi.near",
           onInput: (e) => State.update({ owner: e.target.value }),
           value: state.owner,
           assistiveText:
-            "If left blank, the deploying account becomes the default owner.",
+            state.authOption === AUTH_OPTION.OWNERSHIP
+              ? "If left blank, the deploying account becomes the default owner."
+              : "If left blank, the deploying account receives the highest role.",
         }}
       />
     )}
@@ -175,13 +180,13 @@ const BinaryOptions = () => (
         onCheckedChange: (e) => State.update({ burnable: e }),
       }}
     />
-    <Widget
+    {/*<Widget
       src="near/widget/DIG.Checkbox"
       props={{
         id: "checkbox-item-storageOptions",
         label: "Storage Mgmt Options",
       }}
-    />
+    />*/}
     {state.authOption !== AUTH_OPTION.NO_AUTH && (
       <>
         <Widget
@@ -193,13 +198,13 @@ const BinaryOptions = () => (
             onCheckedChange: (e) => State.update({ pausable: e }),
           }}
         />
-        <Widget
+        {/*<Widget
           src="near/widget/DIG.Checkbox"
           props={{
             id: "checkbox-item-upgradeable",
             label: "Upgradeable",
           }}
-        />
+        />*/}
         <Widget
           src="near/widget/DIG.Checkbox"
           props={{
