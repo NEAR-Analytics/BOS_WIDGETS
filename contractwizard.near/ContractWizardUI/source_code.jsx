@@ -38,7 +38,7 @@ const StyledWrapper = styled.div`
   }
 
   a {
-    color: var(--violet7);
+    color: var(--violet8);
     :hover {
         color: var(--violet10);
     }
