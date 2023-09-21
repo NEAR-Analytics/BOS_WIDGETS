@@ -43,62 +43,6 @@ const columns = [
   },
 ];
 
-const tx_columns = [
-  {
-    title: "S.No",
-    key: "no",
-    width: 20,
-    align: "left",
-  },
-  {
-    title: "Amount",
-    key: "amount",
-    width: 20,
-    align: "left",
-  },
-  {
-    title: "Transaction",
-    key: "hash",
-    width: 20,
-    align: "left",
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="30"
-        height="30"
-        viewBox="0 0 48 48"
-      >
-        <g
-          fill="none"
-          stroke="currentColor"
-          stroke-linejoin="round"
-          stroke-width="4"
-        >
-          <rect width="30" height="36" x="9" y="8" rx="2" />
-          <path
-            stroke-linecap="round"
-            d="M18 4v6m12-6v6m-14 9h16m-16 8h12m-12 8h8"
-          />
-        </g>
-      </svg>
-    ),
-    link: true,
-    click: () => {},
-  },
-  {
-    title: "Transaction Type",
-    key: "type",
-    width: 20,
-    align: "left",
-  },
-  {
-    title: "Date",
-    key: "date",
-    width: 20,
-    align: "left",
-  },
-];
-
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
@@ -132,38 +76,11 @@ const TokenComponent = styled.div`
   gap: 20px;
 `;
 
-const TxComponent = styled.div`
-  display: flex;
-  width: 100%;
-  background: #F3F3F3;
-  flex-direction: column;
-  padding: 6px 24px;
-  border-radius: 8px;
-  border: 1px solid var(--light_90, #E6E6E6);
-  gap: 20px;
-`;
-
 const Avatar = styled.img`
   display: flex;
   width: 100px;
   height: 100px;
   border-radius: 100px;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 8px 9px 8px 28px;
-  display: flex;
-  gap: 7px;
-  border-radius: 6px;
-  border: 1px solid var(--light_90, #E6E6E6);
-  background: var(--Dark, #121212);
-  text-align: center;
-  color: var(--light_95, #F3F3F3);
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: capitalize;
-  margin: auto;
 `;
 
 const Table = styled.table`
@@ -310,21 +227,120 @@ return (
         </h5>
       </div>
     </div>
+    <TokenComponent>
+      <Widget src={`${Owner}/widget/TokenBalance`} />
+      <div className="d-flex ">
+        <Table
+          className={`table table-hover table-striped table-borderless ${props.className}`}
+        >
+          <thead>
+            <tr>
+              {columns.map((th) => (
+                <th
+                  key={th.title}
+                  className="col-1"
+                  style={{
+                    fontSize: 16,
+                    width: `${th.width}%`,
+                    verticalAlign: "middle",
+                    textAlign: th.align,
+                  }}
+                  scope="col"
+                >
+                  <div>
+                    <span>{th.title}</span>
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
 
-    {state.history.length !== 0 && (
-      <TxComponent>
-        <h4>{`Transaction Ledger`}</h4>
-        <Widget
-          src={`${Owner}/widget/table-pagination`}
-          props={{
-            API_URL,
-            themeColor: { table_pagination: themeColor.table_pagination },
-            data: state.history,
-            columns: tx_columns,
-            rowsCount: 4,
-          }}
-        />
-      </TxComponent>
+          <tbody>
+            {state.tokens.length > 0 &&
+              state.tokens.map((row, i) => {
+                return (
+                  <tr key={row.key}>
+                    {columns.map((td) => {
+                      const key = td.key ? row[td.key] : i + 1;
+                      return (
+                        <td
+                          style={{
+                            color:
+                              td.colors ||
+                              themeColor?.table_pagination?.columntextcolor,
+                            fontSize: 16,
+                            textAlign: td.align,
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          {td.action ? (
+                            <div
+                              style={{
+                                display: "flex",
+                                gap: 10,
+                                alignItems: "center",
+                              }}
+                            >
+                              <Input
+                                type="number"
+                                min="0"
+                                value={state[row.id] ?? 0}
+                                onChange={(e) => {
+                                  State.update({
+                                    [row.id]: e.target.value,
+                                  });
+                                }}
+                              />
+                              <a
+                                href="#"
+                                onClick={() => deposit(row)}
+                                className="text-decoration-underline"
+                              >
+                                {`Deposit`}
+                              </a>
+                              <a
+                                href="#"
+                                onClick={() => withdraw(row)}
+                                style={{ color: state.loading && "red" }}
+                                className="text-decoration-underline"
+                              >
+                                {`Withdraw`}
+                              </a>
+                              <a
+                                href="#"
+                                onClick={() => registry(row)}
+                                style={{
+                                  color:
+                                    (row.id == "NEAR" || row.token != "0") &&
+                                    "gray",
+                                }}
+                                className="text-decoration-underline"
+                              >
+                                {`Register`}
+                              </a>
+                            </div>
+                          ) : (
+                            key
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+      </div>
+    </TokenComponent>
+
+    {state.history.length != 0 && (
+      <Widget
+        src={`${Owner}/widget/TxHistory`}
+        props={{
+          API_URL,
+          data: state.history,
+        }}
+      />
     )}
   </Wrapper>
 );
