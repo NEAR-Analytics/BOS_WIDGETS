@@ -118,28 +118,29 @@ return (
       >
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: "grid",
+            width:'100%',
+            gridTemplateColumns: " repeat(3, 1fr)",
+            alignItems:"center"
           }}
         >
-          <p style={{ marginBottom: 5 }}>
+          <div style={{ marginBottom: 5 }}>
             Sender
             <Widget
               src="harrydhillon.near/widget/AccountProfile"
               props={{ accountId: transaction.sender_id }}
             />
-          </p>
-          <p style={{ marginBottom: 0 }}>
+          </div>
+          <div style={{ marginBottom: 0 }}>
             Near : {divideByPowerOfTen(`${transaction.sender_near}`)} Ⓝ
-          </p>
-          <p style={{ marginBottom: 6, width: "20%" }}>
+          </div>
+          <div style={{ marginBottom: 6 }}>
             Receiver
             <Widget
               src="harrydhillon.near/widget/AccountProfile"
               props={{ accountId: transaction.receiver_id }}
             />
-          </p>
+          </div>
         </div>
         <button
           onClick={() => {
