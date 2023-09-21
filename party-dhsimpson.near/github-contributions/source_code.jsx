@@ -240,6 +240,32 @@ const FilterState = styled.span`
   font-weight: 650;
 `;
 
+function SwitchText({ asis, tobe }) {
+  const BigText = styled.span`
+      font-size: 24px;
+      margin-right: 10px;
+  `;
+
+  const SmallText = styled.span`
+      font-size: 14px;
+      margin-left: 10px;
+  `;
+
+  return (
+    <span>
+      <BigText>{asis}</BigText>
+      <Widget
+        src="party-dhsimpson.near/widget/SwitchButtonSvg"
+        props={{
+          width: "55",
+          height: "44",
+        }}
+      />
+      <SmallText>{tobe}</SmallText>
+    </span>
+  );
+}
+
 return (
   <MyContributionWrapper>
     <OptionWrapper>
@@ -247,20 +273,8 @@ return (
       <Toggle
         callbackOn={toggleIssue}
         callbackOff={togglePR}
-        textOn={
-          <span>
-            <span>Pull Request</span>
-            {"->"}
-            <span>Issue</span>
-          </span>
-        }
-        textOff={
-          <span>
-            <span>Issue</span>
-            {"->"}
-            <span>Pull Request</span>
-          </span>
-        }
+        textOn={<SwitchText asis={"Pull Request"} tobe={"Issue"} />}
+        textOff={<SwitchText asis={"Issue"} tobe={"Pull Request"} />}
         isChecked={isChecked}
         setIsChecked={setIsChecked}
       />
