@@ -269,7 +269,7 @@ const NavItem = styled.a`
 `;
 const navItem = ({ text, icon, id, iconSelected }) => (
   <NavItem
-    href={`#/${ownerId}/widget/BOSHACKS.Index?tab=${id}`}
+    href={`#/${ownerId}/widget/NCR.Index?tab=${id}`}
     onClick={() => props.update({ tab: id })}
   >
     {id === props.tab ? iconSelected : icon}
