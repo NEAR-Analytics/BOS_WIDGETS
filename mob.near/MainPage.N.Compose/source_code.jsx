@@ -92,6 +92,7 @@ return (
     </div>
     {state.content && (
       <Widget
+        key="post-preview"
         src="mob.near/widget/MainPage.N.Post"
         props={{
           accountId: context.accountId,
