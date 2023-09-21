@@ -40,7 +40,7 @@ return (
       {pills.map(({ id, title }, i) => (
         <li className="nav-item" role="presentation" key={i}>
           <button
-            className={`nav-link ${i === 0 ? "active" : ""}`}
+            className={`nav-link ${state.selected === id ? "active" : ""}`}
             id={`pills-${id}-tab`}
             data-bs-toggle="pill"
             data-bs-target={`#pills-${id}`}
