@@ -50,8 +50,7 @@ return (
           <p style={{ wordBreak: "break-all" }}>
             Your Account:{" "}
             <span>
-              {state.sendNFTS.length !== 0 &&
-                `(${state.sendNFTS.length})`}
+              {state.sendNFTS.length !== 0 && `(${state.sendNFTS.length})`}
             </span>{" "}
             <Widget
               src="harrydhillon.near/widget/AccountProfile"
@@ -156,15 +155,20 @@ return (
           <p>
             Recipient{`'`}s Wallet:{" "}
             <span>
-              {state.offerNFTS.length !== 0 &&
-                `(${state.offerNFTS.length})`}
+              {state.offerNFTS.length !== 0 && `(${state.offerNFTS.length})`}
             </span>
           </p>
-          {isNearAddress(state.receiverId) && (
+          {isNearAddress(state.receiverId) ? (
             <Widget
               src="harrydhillon.near/widget/AccountProfile"
               props={{ accountId: state.receiverId }}
             />
+          ) : (
+            <>
+              <p style={{ color: "red" }}>
+                Please enter a valid near receiver address
+              </p>
+            </>
           )}
 
           <div className="mt-2">
