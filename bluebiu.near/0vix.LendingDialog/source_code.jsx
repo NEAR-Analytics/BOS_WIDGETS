@@ -221,10 +221,10 @@ State.init({
   processValue: 0,
 });
 
-const formatBorrowLimit = (digits) => {
+const formatBorrowLimit = (digits, round) => {
   return Big(userTotalBorrowUsd)
     .plus(accountLiquidity)
-    .toFixed(digits || 2);
+    .toFixed(digits || 2, round || 1);
 };
 const formatBorrowLimitUsed = () => {
   const borrowLimit = formatBorrowLimit(10);
@@ -442,7 +442,7 @@ return (
                       return;
                     }
                     if (actionText === "Borrow") {
-                      const borrowLimit = formatBorrowLimit(5);
+                      const borrowLimit = formatBorrowLimit(5, 0);
                       handleAmountChange(
                         Big(borrowLimit)
                           .mul(0.7)
@@ -468,7 +468,7 @@ return (
                       actionText === "Repay"
                     )
                       return;
-                    const amount = Big(state.balance).toFixed(4);
+                    const amount = Big(state.balance).toFixed(4, 0);
                     handleAmountChange(amount);
                     State.update({
                       amount,
@@ -498,7 +498,7 @@ return (
                   onChange: (value) => {
                     const amount = Big(state.balance)
                       .mul(value / 100)
-                      .toFixed(4);
+                      .toFixed(4, 0);
                     State.update({
                       processValue: value,
                       amount,
