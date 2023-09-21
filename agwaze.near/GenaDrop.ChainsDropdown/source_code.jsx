@@ -1,12 +1,12 @@
 const defaultProps = [
   {
     id: "0",
-    name: "Near",
+    name: "near",
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
   {
     id: "137",
-    name: "Polygon",
+    name: "polygon",
     url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
   },
 ];
@@ -14,27 +14,27 @@ const defaultProps = [
 const propsChains = props.chains ?? defaultProps;
 
 const chains = {
-  137: {
+  polygon: {
     name: "Polygon",
     url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
   },
-  1313161554: {
+  aurora: {
     name: "Aurora",
     url: "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
   },
-  42220: {
+  celo: {
     name: "Celo",
     url: "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
   },
-  43114: {
+  avalanche: {
     name: "Avax",
     url: "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
   },
-  42161: {
+  arbitrum: {
     name: "Arbitrum",
     url: "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
   },
-  0: {
+  near: {
     name: "Near",
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
@@ -163,21 +163,19 @@ const SelectReplicaContainer = styled.div`
   }
 `;
 State.update({ chains: propsChains || chains });
-const handleChainChange = (chain_id) => {
+const handleChainChange = (chain_id, chainName) => {
   try {
     Ethers.send("wallet_switchEthereumChain", [
       { chainId: `0x${Number(chain_id).toString(16)}` },
     ]);
-
+    props.updateChain(chainName)
     State.update({
       selectedChain: chain_id,
     });
-    console.log(state.selectedChain);
   } catch (err) {
     console.log(err);
   }
 };
-console.log(props?.chains);
 
 return (
   <>
@@ -217,7 +215,7 @@ return (
                   className={`select-replica__option ${
                     selectedOption === chain.name ? "selected" : ""
                   }`}
-                  onClick={() => handleChainChange(chain.id)}
+                  onClick={() => handleChainChange(chain.id, chain.name)}
                 >
                   <img src={chain.url} alt={chain.name} />
                 </div>
