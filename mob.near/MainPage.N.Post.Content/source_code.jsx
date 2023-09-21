@@ -53,6 +53,7 @@ return (
             ) : (
               <div className="text-break">
                 <Widget
+                  key="content"
                   loading={
                     <div
                       className="w-100 placeholder-glow"
@@ -83,6 +84,7 @@ return (
             ) : (
               <div className="w-100 rounded-3 text-center mt-2">
                 <Widget
+                  key="img"
                   loading={
                     <div className="img-fluid rounded-3 placeholder-glow" />
                   }
