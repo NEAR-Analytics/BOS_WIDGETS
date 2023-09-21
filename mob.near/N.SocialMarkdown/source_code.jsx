@@ -1,9 +1,6 @@
 const [mentions, setMentions] = useState({});
 
 const makeRenderMention = (mentions) => (accountId) => {
-  if (accountId in mentions) {
-    return mentions[accountId];
-  }
   const mention = (
     <span
       key={accountId}
@@ -21,26 +18,11 @@ const makeRenderMention = (mentions) => (accountId) => {
           tooltip: true,
           gray: true,
           hideCheckmark: true,
-          onRender: (res) => {
-            setMentions((mentions) => {
-              mentions[accountId] = (
-                <span
-                  key={accountId}
-                  className="d-inline-flex"
-                  style={{ color: "var(--bs-link-color)" }}
-                >
-                  {res}
-                </span>
-              );
-              return mentions;
-            });
-          },
         }}
       />
     </span>
   );
-  mentions[accountId] = mention;
-  setMentions(mentions);
+
   return mention;
 };
 
