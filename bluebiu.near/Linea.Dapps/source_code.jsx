@@ -70,6 +70,14 @@ const dapps = [
     icon: "https://ipfs.near.social/ipfs/bafkreicjziybpod3isxnkw3q6w4ld57bacs4hddmipzx57k6ebv4wtzx4e",
     tags: ["Dexes"],
   },
+
+  {
+    src: "bluebiu.near/widget/Linea.Liquidity.GAMMA.GAMMA",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreih77ecmgng2fpy6mblk2aipt3agwm3anjldcyktx2j6kssggpelue",
+    icon: "https://ipfs.near.social/ipfs/bafkreial4i3eb5uuxkhecn7nwos76km3qvb7jzxmups57rkxizr5i7dyaa",
+    tags: ["Liquidity Manage"],
+  },
 ];
 
 State.init({
