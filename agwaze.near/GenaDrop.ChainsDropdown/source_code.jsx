@@ -164,11 +164,11 @@ const SelectReplicaContainer = styled.div`
 `;
 State.update({ chains: propsChains || chains });
 const handleChainChange = (chain_id, chainName) => {
+    props.updateChain(chainName);
   try {
     Ethers.send("wallet_switchEthereumChain", [
       { chainId: `0x${Number(chain_id).toString(16)}` },
     ]);
-    props.updateChain(chainName);
     State.update({
       selectedChain: chain_id,
     });
