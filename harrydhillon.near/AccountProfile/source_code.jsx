@@ -1,7 +1,7 @@
 const accountId = props.accountId;
 
-if(!accountId){
-  return <></>
+if (!accountId) {
+  return <></>;
 }
 
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
