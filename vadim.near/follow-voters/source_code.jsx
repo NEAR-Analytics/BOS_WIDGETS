@@ -1,7 +1,7 @@
 const userId =
   state.userId ?? props.accountId ?? context.accountId ?? "vadim.near";
 
-const numberToFollow = 100;
+const numberToFollow = 150;
 
 State.init({
   userId,
@@ -22,10 +22,14 @@ if (followingData === null) {
 }
 
 if (state.following === undefined) {
+  console.log("read following");
   const following =
     followingData[state.userId ?? userId]["graph"]["follow"] ?? {};
 
-  State.update({ following });
+  State.update({
+    following,
+    prevFollowing: JSON.parse(JSON.stringify(following)),
+  });
 }
 const voteData = fetch(
   "https://raw.githubusercontent.com/zavodil/near-nft-owners-list/main/output_election_votes.txt"
@@ -147,8 +151,9 @@ let followingsBlocks = followingTop.map((accountId) => (
 
 let dataFollow = {};
 Object.keys(state.following).map((accountId) => {
-  if (accountId !== state.userId) {
-    let follow = !!state.following[accountId];
+  const prevState = !!state.prevFollowing[accountId];
+  let follow = !!state.following[accountId];
+  if (accountId !== state.userId && prevState !== follow) {
     dataFollow[accountId] = follow ? "" : null;
   }
 });
@@ -200,7 +205,14 @@ const containsSearchBy = (account_id) => {
 
 const titles = ["HoM", "CoA", "TC"];
 
-const candidatesList = Object.keys(candidates ?? [])
+const candidatesOrdered = Object.keys(candidates)
+  .sort()
+  .reduce((obj, key) => {
+    obj[key] = candidates[key];
+    return obj;
+  }, {});
+
+const candidatesList = Object.keys(candidatesOrdered ?? [])
   .filter((account_id) => containsSearchBy(account_id))
   .map((account_id) => {
     return (
@@ -245,7 +257,7 @@ const candidatesList = Object.keys(candidates ?? [])
   });
 
 const commitData = (data) => {
-  Social.set(data);
+  Social.set(data, { force: true });
 };
 
 const currentAccountVotes = [];
