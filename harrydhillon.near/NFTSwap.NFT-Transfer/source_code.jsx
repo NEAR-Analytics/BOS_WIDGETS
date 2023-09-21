@@ -49,8 +49,10 @@ return (
         <div>
           <p style={{ wordBreak: "break-all" }}>
             Your Account:{" "}
-            {state.sendNFTS.length !== 0 &&
-              `Selected NFTS ${state.sendNFTS.length}`}{" "}
+            <span style={{ fontSize: 10 }}>
+              {state.sendNFTS.length !== 0 &&
+                `Selected NFTS ${state.sendNFTS.length}`}
+            </span>{" "}
             <Widget
               src="harrydhillon.near/widget/AccountProfile"
               props={{ accountId }}
@@ -153,8 +155,10 @@ return (
         <div>
           <p>
             Recipient{`'`}s Wallet:{" "}
-            {state.offerNFTS.length !== 0 &&
-              `Selected NFTS ${state.offerNFTS.length}`}
+            <span style={{ fontSize: 10 }}>
+              {state.offerNFTS.length !== 0 &&
+                `Selected NFTS ${state.offerNFTS.length}`}
+            </span>
           </p>
           {isNearAddress(state.receiverId) && (
             <Widget
