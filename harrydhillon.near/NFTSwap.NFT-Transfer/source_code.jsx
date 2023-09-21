@@ -155,7 +155,7 @@ return (
         <div>
           <p>
             Recipient{`'`}s Wallet:{" "}
-            <span style={{ fontSize: 10 }}>
+            <span>
               {state.offerNFTS.length !== 0 &&
                 `Selected NFTS ${state.offerNFTS.length}`}
             </span>
