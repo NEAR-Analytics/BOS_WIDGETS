@@ -12,13 +12,13 @@ const Wrapper = styled.div`
     .expand-post {
       position : absolute;
       z-index  : 1;
-      top   : 20rem;
+      top   : 20em;
       left     : 0;
       background-image : linear-gradient(to bottom, 
                         rgba(255,255,255, 0), 
                         rgba(255,255,255, 1) 50%);
       width    : 100%;
-      height   : 3rem;
+      height   : 3em;
       > div {
         position: relative;
         width: 100%;
@@ -29,7 +29,7 @@ const Wrapper = styled.div`
         justify-content: flex-end;
         cursor: pointer;
         > a {
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.2em;
         }
       }
     }
