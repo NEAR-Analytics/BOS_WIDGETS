@@ -99,7 +99,7 @@ const getTokenData = () => {
   return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
     (res) => {
       if (res.ok) {
-        const tokens = res.body.map((item) => ({
+        const tokens = res.body.token.map((item) => ({
           ...item,
           value: item.id,
           text: item.id,
