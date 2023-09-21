@@ -17,21 +17,22 @@ if (!inputCurrency.address || !outputCurrency.address || !inputCurrencyAmount) {
   return;
 }
 const wrapType =
-  inputCurrency.address === "native" && outputCurrency.symbol === "WETH"
+  inputCurrency.address === "native" && outputCurrency.address === wethAddress
     ? 1
-    : inputCurrency.symbol === "WETH" && outputCurrency.address === "native"
+    : inputCurrency.address === wethAddress &&
+      outputCurrency.address === "native"
     ? 2
     : 0;
 if (wrapType) {
   onLoad(
     tradeType === "in"
       ? {
-          outputCurrencyAmount,
+          outputCurrencyAmount: inputCurrencyAmount,
           loading: false,
           noPair: false,
         }
       : {
-          inputCurrencyAmount,
+          inputCurrencyAmount: outputCurrencyAmount,
           loading: false,
           noPair: false,
         }
@@ -73,10 +74,13 @@ RouterContract.getAmountsOut(
   path
 )
   .then((res) => {
+    const amount = Big(
+      ethers.utils.formatUnits(res[1], outCurrency.decimals)
+    ).toPrecision(10);
     onLoad({
-      outputCurrencyAmount: Big(
-        ethers.utils.formatUnits(res[1], outCurrency.decimals)
-      ).toFixed(4),
+      outputCurrencyAmount: Big(amount).gt(0.01)
+        ? amount
+        : Big(amount).toFixed(10),
       noPair: false,
     });
   })
