@@ -72,6 +72,7 @@ const Name = styled.div`
 const AccountProfile = (
   <Wrapper
     as={props.onClick ? "button" : "a"}
+    target="_blank"
     href={!props.onClick && profileUrl}
     onClick={props.onClick && (() => props.onClick(accountId))}
   >
