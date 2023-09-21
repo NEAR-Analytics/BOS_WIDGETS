@@ -451,6 +451,15 @@ const RankCard = styled.span`
   padding: 8px;
 `;
 
+const ViewButton = styled.div`
+  button {
+    background: white;
+    color: #0d99ff;
+    border: 1px solid; 
+    padding: 9px 15px;
+  }
+`
+
 const PriceArea = styled.div`
   display: flex;
   align-items: center;
@@ -725,6 +734,9 @@ return (
                         </ChainPrice>
                       )}
                     </div>
+                    <ViewButton>
+                      <button>View</button>
+                    </ViewButton>
                   </div>
                 </NFTCardText>
               </NFTCard>
@@ -862,6 +874,9 @@ return (
                           </PriceArea>
                         </ChainPrice>
                       )}
+                    </div>
+                    <div>
+                      <button>View</button>
                     </div>
                   </div>
                 </NFTCardText>
