@@ -28,7 +28,7 @@ const Container = styled.div`
   flex-direction: column;
   overflow: auto;
   position: relative;
-  z-index: 100;
+  z-index: 75;
 `;
 
 const Button = styled.button`
@@ -70,7 +70,7 @@ const Location = styled.div`
   }
 `;
 
-const markers = Social.get(`*/thing/libertyMarkerTest`, "final", {
+const markers = Social.get(`*/thing/libertyMarker`, "final", {
   subscribe: "true",
 });
 
@@ -81,8 +81,8 @@ if (!markers) {
 const dataMap = {};
 
 Object.keys(markers).forEach((accountId) => {
-  if (markers[accountId].thing && markers[accountId].thing.libertyMarkerTest) {
-    const markerObj = JSON.parse(markers[accountId].thing.libertyMarkerTest);
+  if (markers[accountId].thing && markers[accountId].thing.libertyMarker) {
+    const markerObj = JSON.parse(markers[accountId].thing.libertyMarker);
     dataMap[accountId] = { accountId, ...markerObj };
   }
 });
