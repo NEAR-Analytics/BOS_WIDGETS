@@ -15,6 +15,7 @@ if (!props.githubNickname) {
   return <p>github nickname is required.</p>;
 }
 
+const userProfileUrl = "https://api.github.com/users/";
 const searchBaseUrl = "https://api.github.com/search/issues?q=";
 const nickName = "dhsimpson";
 const defulatFilterList = [
@@ -33,6 +34,10 @@ const config = {
     Authorization: `Bearer ${props.token}`,
   },
 };
+
+const userProfile = fetch(`${userProfileUrl}${nickName}`, config)?.body;
+console.log("userProfile");
+console.log(userProfile);
 
 const mergeFilters = (filterLists) => {
   return [].concat(...filterLists).join("%20");
@@ -266,10 +271,29 @@ function SwitchText({ asis, tobe }) {
   );
 }
 
+const Profile = styled.div`
+  display: flex;
+  align-items: center;
+  height: 110px;
+  background-color: rgba(55,55,125,0.5);
+  border-radius: 25px;
+  padding: 0 10px;
+  margin-bottom: 15px;
+`;
+
+const ProfileImg = styled.img`
+  width: 50px;
+  border-radius: 100%;
+  margin-right: 10px;
+`;
+
 return (
   <MyContributionWrapper>
     <OptionWrapper>
-      <p>프로필 영역 (아바타) | 프로필 영역 (깃헙닉네임)</p>
+      <Profile>
+        <ProfileImg src={userProfile.avatar_url} />
+        <span>{userProfile.name}</span>
+      </Profile>
       <Toggle
         callbackOn={toggleIssue}
         callbackOff={togglePR}
