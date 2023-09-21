@@ -100,7 +100,37 @@ const USDCMetadata = {
 
 const tokenMetas = {
   "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035": USDCMetadata,
-  ethAddress: ethMetadata,
+  "0x0000000000000000000000000000000000000000": ethMetadata,
+  "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9": {
+    icon: "https://assets.coingecko.com/coins/images/2518/small/weth.png?1628852295",
+    name: "Wrapped Ether",
+    symbol: "WETH",
+    decimals: 18,
+  },
+  "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1": {
+    name: "Wrapped BTC",
+    symbol: "WBTC",
+    decimals: 8,
+    icon: "https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png?1548822744",
+  },
+  "0xa2036f0538221a77a3937f1379699f44945018d0": {
+    symbol: "Matic",
+    name: "Matic Token",
+    decimals: 18,
+    icon: "https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png?1624446912",
+  },
+  "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4": {
+    symbol: "Dai",
+    name: "Dai Stablecoin",
+    decimals: 18,
+    icon: "https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png?1687143508",
+  },
+  "0x1E4a5963aBFD975d8c9021ce480b42188849D41d": {
+    symbol: "USDT",
+    name: "Tether USD",
+    decimals: 6,
+    icon: "https://assets.coingecko.com/coins/images/325/small/Tether-logo.png?1598003707",
+  },
 };
 
 if (state.ethAccountId === undefined) {
@@ -150,7 +180,7 @@ if (state.ethAccountId && state.erc20Abi) {
     }
 
     State.update({
-      metadata: tokenMetas[tokenId.toLowerCase()] || metadata,
+      metadata: tokenMetas[tokenId] || metadata,
       price,
     });
   } else {
