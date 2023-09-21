@@ -204,6 +204,8 @@ const BinaryOptions = () => (
           props={{
             id: "checkbox-item-mintable",
             label: "Mintable",
+            checked: state.mintable,
+            onCheckedChange: (e) => State.update({ mintable: e }),
           }}
         />
       </>
