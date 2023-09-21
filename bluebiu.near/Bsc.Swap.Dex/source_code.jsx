@@ -192,7 +192,7 @@ return (
           },
           Orion: {
             name: "Orion",
-            logo: "https://trade.orion.xyz/icons/currency/orn.svg",
+            logo: "https://ipfs.near.social/ipfs/bafkreidzcztdcx6mez6hhhmhglfv7m7vh45ijgshmikhnforoksmbczlrq",
             factoryAddress: "0xE52cCf7B6cE4817449F2E6fA7efD7B567803E4b4",
             routerAddress: "0x45A664993f6c3e978A1257c6EF7bBB512af9F098",
             uniType: "v2",
