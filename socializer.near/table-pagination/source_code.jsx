@@ -152,7 +152,10 @@ return (
                             </div>
                           ) : td.link ? (
                             <div
-                              className="d-flex justify-content-center align-items-center"
+                              className={`d-flex ${
+                                td.align === "center" &&
+                                "justify-content-center align-items-center"
+                              }`}
                               style={{
                                 "text-decoration": "none",
                                 color: value
