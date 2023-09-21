@@ -16,14 +16,21 @@ const Wrapper = styled.div`
       left     : 0;
       background-image : linear-gradient(to bottom, 
                         rgba(255,255,255, 0), 
-                        rgba(255,255,255, 1) 70%);
+                        rgba(255,255,255, 1) 50%);
       width    : 100%;
       height   : 3rem;
-      a {
-        z-index: 2;
-        position: absolute;
+      > div {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        veritcal-align: bottom;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
         cursor: pointer;
-        bottom: 0;
+        > a {
+          margin-bottom: 0.5rem;
+        }
       }
     }
   }
@@ -93,9 +100,11 @@ return (
         <div className="w-100 overflow-hidden" style={{ minHeight: "100px" }} />
       )}
       <div className="expand-post">
-        <a className="" onClick={() => setTruncated(false)}>
-          Read more...
-        </a>
+        <div>
+          <a className="stretched-link" onClick={() => setTruncated(false)}>
+            Read more...
+          </a>
+        </div>
       </div>
     </div>
   </Wrapper>
