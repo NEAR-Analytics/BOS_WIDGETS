@@ -148,27 +148,12 @@ return (
             />
           </div>
         </div>
-        <button
-          onClick={() => {
-            Near.call(
-              contract_id,
-              "cancel_offer",
-              {
-                hash: transaction.hash,
-              },
-              300000000000000,
-              1
-            );
-          }}
-          style={{ backgroundColor: "red", borderWidth: 0, marginRight: 10 }}
-        >
-          Reject
-        </button>
         {accountId !== transaction.sender_id && (
           <button
             style={{
               backgroundColor: "blue",
               borderWidth: 0,
+              marginRight: 10,
             }}
             onClick={() => {
               const txns = transaction.receiver_nfts.map((item) => ({
@@ -189,6 +174,22 @@ return (
             Accept
           </button>
         )}
+        <button
+          onClick={() => {
+            Near.call(
+              contract_id,
+              "cancel_offer",
+              {
+                hash: transaction.hash,
+              },
+              300000000000000,
+              1
+            );
+          }}
+          style={{ backgroundColor: "red", borderWidth: 0 }}
+        >
+          Reject
+        </button>
       </div>
     ))}
   </>
