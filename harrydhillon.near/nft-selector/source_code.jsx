@@ -49,6 +49,9 @@ return (
         overflow: "auto",
       }}
     >
+      {finalData.tokens.length === 0 && (
+        <p style={{ padding: 10 }}>User has no NFT's</p>
+      )}
       {finalData.tokens.map((nft, index) => {
         const isInsideList = selectedTokenID.includes(nft.tokenId);
         const stylesForSelected = isInsideList
