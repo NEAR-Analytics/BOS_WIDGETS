@@ -123,8 +123,4 @@ const res = (
   </GrayWrapper>
 );
 
-if (props.onRender) {
-  props.onRender(res);
-}
-
 return res;
