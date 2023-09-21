@@ -43,6 +43,12 @@ const inner = fast ? (
 ) : (
   <div className={className} style={style} key={JSON.stringify(image)}>
     <Widget
+      loading={
+        <div
+          className={`d-inline-block ${imageClassName}`}
+          style={imgWrapperStyle}
+        />
+      }
       src="mob.near/widget/Image"
       props={{
         image,
