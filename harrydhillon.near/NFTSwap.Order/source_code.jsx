@@ -116,12 +116,18 @@ return (
           padding: 10,
         }}
       >
+        {accountId !== transaction.sender_id ? (
+          <h5>Offered To you</h5>
+        ) : (
+          <h5>Your Offer</h5>
+        )}
+        <hr />
         <div
           style={{
             display: "grid",
-            width:'100%',
+            width: "100%",
             gridTemplateColumns: " repeat(3, 1fr)",
-            alignItems:"center"
+            alignItems: "center",
           }}
         >
           <div style={{ marginBottom: 5 }}>
