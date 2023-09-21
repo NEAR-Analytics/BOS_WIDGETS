@@ -107,6 +107,8 @@ const Label = styled.div`
       return "rgba(193, 191, 255, 1)";
     } else if (content === "liquidity-manager") {
       return "rgba(170, 214, 255, 1)";
+    } else if (content === "Liquidity Manage") {
+      return "rgba(170, 214, 255, 1)";
     } else if (content === "Yield") {
       return " rgba(249, 181, 230, 1)";
     } else {
