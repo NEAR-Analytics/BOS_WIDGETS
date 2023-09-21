@@ -84,7 +84,7 @@ return (
           src="mob.near/widget/ProfileImage"
           loading={
             <div className="d-inline-block" style={imgWrapperStyle}>
-              <div className="d-inline-block rounded-circle w-100 h-100" />
+              <img className="d-inline rounded-circle w-100 h-100" alt="" />
             </div>
           }
           props={{
