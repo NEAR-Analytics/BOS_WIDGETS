@@ -37,7 +37,9 @@ const imgWrapperStyle = {
   width: "1em",
   height: "1em",
   marginRight: "0.1em",
+  minWidth: "1em",
 };
+const imageClassName = "rounded-circle w-100 h-100";
 
 const Wrap = (props) => {
   const inner = link ? (
@@ -84,7 +86,11 @@ return (
           src="mob.near/widget/ProfileImage"
           loading={
             <div className="d-inline-block" style={imgWrapperStyle}>
-              <img className="d-inline rounded-circle w-100 h-100" alt="" />
+              <img
+                className={imageClassName}
+                alt=""
+                style={{ objectFit: "cover" }}
+              />
             </div>
           }
           props={{
@@ -93,7 +99,7 @@ return (
             profile,
             accountId,
             className: "d-inline-block",
-            imageClassName: "rounded-circle w-100 h-100",
+            imageClassName,
           }}
         />
       )}
