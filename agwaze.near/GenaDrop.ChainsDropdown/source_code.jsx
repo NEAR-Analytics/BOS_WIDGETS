@@ -91,15 +91,15 @@ const SelectReplicaContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 4px solid rgba(0,0,0,.05);
+    border: 1px solid rgba(0,0,0,.05);
     gap: 10px;
     z-index: 1;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: transparent;
     width:100%;
     max-width: 350px;
     padding:0 15px 0 10px;
-    min-height:70px;
+    min-height:30px;
     
 
 
