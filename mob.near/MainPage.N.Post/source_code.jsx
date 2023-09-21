@@ -43,7 +43,7 @@ const Wrapper = styled.div`
     }
     img {
       border-radius: var(--bs-border-radius-lg);
-      max-height: 35em;
+      max-height: 25em;
     }
 
     :hover {
