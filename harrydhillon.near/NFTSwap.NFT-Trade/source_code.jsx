@@ -11,7 +11,7 @@ if (profile === null) {
 
 const pills = [
   { id: "swap", title: "Swap" },
-  { id: "trade", title: "Trade" },
+  { id: "offer", title: "Offers" },
 ];
 
 const cssFont = fetch(
