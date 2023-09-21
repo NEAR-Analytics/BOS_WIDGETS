@@ -71,7 +71,8 @@ const StyledWrapper = styled.div`
       min-height: 694px;
 
       div {
-        border-radius: 6px
+        border-radius: 6px;
+        min-height: 840px;
       }
     }
 
@@ -280,16 +281,6 @@ return (
     />
     <Background>
       <StyledWrapper>
-        <Widget
-          src="near/widget/DIG.Badge"
-          props={{
-            label:
-              "This component is still in early development and should not be used for mainnet purposes.",
-            iconLeft: "ph-bold ph-warning",
-            variant: "alert",
-            className: "badge",
-          }}
-        />
         <h1>
           Token Wizard <i class="ph-bold ph-magic-wand"></i>
         </h1>
