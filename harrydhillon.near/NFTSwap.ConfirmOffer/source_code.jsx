@@ -158,7 +158,7 @@ const ConfirmOffer = () => {
         Offering
         <Widget
           src="harrydhillon.near/widget/AccountProfile"
-          props={{ accountId }}
+          props={{ accountId:context.accountId }}
         />
         <br />
         near: Ⓝ {props.offerAmount}
