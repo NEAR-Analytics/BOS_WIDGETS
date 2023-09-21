@@ -190,9 +190,9 @@ const ConfirmOffer = () => {
       </ScrollContainer>
       <p style={{ marginBottom: 5, marginTop: 10, wordBreak: "break-all" }}>
         Receving
-         <Widget
+        <Widget
           src="harrydhillon.near/widget/AccountProfile"
-          props={{ accountId:props.receiverId }}
+          props={{ accountId: props.receiverId }}
         />
       </p>
       <ScrollContainer>
