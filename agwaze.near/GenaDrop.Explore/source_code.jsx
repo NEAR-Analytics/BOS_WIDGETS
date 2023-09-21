@@ -458,7 +458,7 @@ const ViewButton = styled.div`
     border: 1px solid; 
     padding: 9px 15px;
   }
-`
+`;
 
 const PriceArea = styled.div`
   display: flex;
@@ -557,6 +557,48 @@ const pageData = paginateNFTData(currentPage, itemsPerPage);
 
 const totalPages = state?.nftData?.length / itemsPerPage;
 
+const defaultProps = [
+  {
+    id: "0",
+    name: "near",
+    url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
+  },
+  {
+    id: "137",
+    name: "polygon",
+    url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
+  },
+  {
+    id: "1313161554",
+    name: "aurora",
+    url: "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
+  },
+  {
+    id: "42220",
+    name: "celo",
+    url: "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
+  },
+  {
+    id: "42161",
+    name: "arbitrum",
+    url: "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
+  },
+  // {
+  //   id: "2222",
+  //   name: "aptos",
+  //   url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqBinSwbRdx76qY4A3qvVkM9g_mKoGCBDT0sqTT02TgRvKquV2Vlc8fSRmLyuhBS3-CaA&usqp=CAU",
+  // },
+  // {
+  //   id: "1111",
+  //   name: "sui",
+  //   url: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
+  // },
+];
+
+const updateChain = (chain) => {
+  State.update({ chain, currentPage: 1 });
+};
+
 return (
   <>
     <Hero className="w-100">
@@ -571,17 +613,10 @@ return (
           placeholder="Search NFTs"
           onChange={seachInputHandler}
         />{" "}
-        <SelectChain>
-          <select value={chain} onChange={handleDropdownChange}>
-            <option value="near">Near</option>
-            <option value="aurora">Aurora</option>
-            <option value="celo">Celo</option>
-            <option value="polygon">Polygon</option>
-            <option value="arbitrum">Arbitrum</option>
-            <option value="aptos">Aptos</option>
-            <option value="sui">Sui</option>
-          </select>
-        </SelectChain>
+        <Widget
+          src="agwaze.near/widget/GenaDrop.ChainsDropdown"
+          props={{ chains: defaultProps, updateChain }}
+        />
         {state.sender ? (
           <div>
             <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
