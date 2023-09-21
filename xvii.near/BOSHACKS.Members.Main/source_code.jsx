@@ -8,7 +8,7 @@ if (props.memberTab && props.memberTab !== state.selectedTab) {
   });
 }
 
-const accountUrl = `#/xvii.near/widget/BOSHACKS.Index?tab=people&memberTab=${state.selectedTab}`;
+const accountUrl = `#/xvii.near/widget/NCR.Index?tab=people&memberTab=${state.selectedTab}`;
 // const accountUrl = `#/xvii.near/widget/BOSHACKS.Members.Main?`;
 
 const Wrapper = styled.div`
