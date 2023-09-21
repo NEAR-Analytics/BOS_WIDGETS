@@ -6,13 +6,13 @@ const [truncated, setTruncated] = useState(props.truncateContent ?? true);
 const Wrapper = styled.div`
   overflow: hidden;
   .truncated-content {
-    max-height: 40em;
+    max-height: 30em;
     position: relative;
 
     .expand-post {
       position : absolute;
       z-index  : 1;
-      top   : 37rem;
+      top   : 27rem;
       left     : 0;
       background-image : linear-gradient(to bottom, 
                         rgba(255,255,255, 0), 
@@ -83,7 +83,7 @@ return (
                   props={{
                     image: content.image,
                     className: "img-fluid rounded-3",
-                    style: { maxHeight: "35em" },
+                    style: { maxHeight: "25em" },
                   }}
                 />
               </div>
