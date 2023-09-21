@@ -83,7 +83,7 @@ return (
                   props={{
                     image: content.image,
                     className: "img-fluid rounded-3",
-                    style: { maxHeight: "40em" },
+                    style: { maxHeight: "35em" },
                   }}
                 />
               </div>
