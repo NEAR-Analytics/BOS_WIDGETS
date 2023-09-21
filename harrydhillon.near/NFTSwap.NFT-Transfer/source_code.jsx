@@ -47,7 +47,13 @@ return (
         }}
       >
         <div>
-          <p style={{ wordBreak: "break-all" }}>Your Wallet : {accountId} </p>
+          <p style={{ wordBreak: "break-all" }}>
+            Your Account{" "}
+            <Widget
+              src="harrydhillon.near/widget/AccountProfile"
+              props={{ accountId }}
+            />{" "}
+          </p>
           <div className="mt-2">
             <Widget
               src={`harrydhillon.near/widget/nft-selector`}
@@ -144,6 +150,13 @@ return (
       >
         <div>
           <p>Recipient{`'`}s Wallet</p>
+          {isNearAddress(state.receiverId) && (
+            <Widget
+              src="harrydhillon.near/widget/AccountProfile"
+              props={{ accountId: state.receiverId }}
+            />
+          )}
+
           <div className="mt-2">
             {isNearAddress(state.receiverId) && (
               <Widget
