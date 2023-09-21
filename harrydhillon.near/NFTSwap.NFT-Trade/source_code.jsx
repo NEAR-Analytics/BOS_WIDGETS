@@ -4,7 +4,7 @@ if (!accountId) {
 }
 
 State.init({
-  selected: "offer",
+  selected: props.tab,
 });
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
