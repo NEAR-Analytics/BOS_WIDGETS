@@ -191,7 +191,7 @@ return (
                 methodName: "nft_transfer",
                 args: {
                   receiver_id: contract_id,
-                  token_id: item.tokenId,
+                  token_id: item.token_id,
                   msg: transaction.hash,
                   approval_id: 0,
                 },
