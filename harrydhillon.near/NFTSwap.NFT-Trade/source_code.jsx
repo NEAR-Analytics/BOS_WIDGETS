@@ -3,6 +3,10 @@ if (!accountId) {
   return "You need to login with your near wallet in order to use this app";
 }
 
+State.init({
+  selected: "offer",
+});
+
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
 if (profile === null) {
@@ -55,9 +59,10 @@ return (
       ))}
     </ul>
     <div className="tab-content" id="pills-tabContent">
-      {state?.selected !== "trade" ? (
+      {state?.selected === "swap" && (
         <Widget src="harrydhillon.near/widget/NFTSwap.NFT-Transfer" />
-      ) : (
+      )}
+      {state?.selected === "offer" && (
         <Widget src="harrydhillon.near/widget/NFTSwap.Order" />
       )}
     </div>
