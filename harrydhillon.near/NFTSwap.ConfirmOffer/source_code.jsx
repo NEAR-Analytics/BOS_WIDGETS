@@ -155,7 +155,11 @@ const ConfirmOffer = () => {
         </button>
       </div>
       <p style={{ marginBottom: 5, wordBreak: "break-all" }}>
-        Offering: {accountId}
+        Offering
+        <Widget
+          src="harrydhillon.near/widget/AccountProfile"
+          props={{ accountId }}
+        />
         <br />
         near: Ⓝ {props.offerAmount}
       </p>
@@ -185,7 +189,11 @@ const ConfirmOffer = () => {
         ))}
       </ScrollContainer>
       <p style={{ marginBottom: 5, marginTop: 10, wordBreak: "break-all" }}>
-        Receving: {props.receiverId}
+        Receving
+        <Widget
+          src="harrydhillon.near/widget/AccountProfile"
+          props={{ accountId: props.receiverId }}
+        />
       </p>
       <ScrollContainer>
         {(props?.offerNFTS ?? [])?.map((item) => (
