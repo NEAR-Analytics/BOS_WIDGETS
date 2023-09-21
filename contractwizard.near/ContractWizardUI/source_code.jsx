@@ -103,12 +103,12 @@ const StyledWrapper = styled.div`
     margin: 0 0 30px 0;
   }
 
-  .access-control-input {
-    z-index: 1000;
-  }
-
   button[role="checkbox"][data-state="unchecked"] {
     background-color: white;
+  }
+
+  div[data-radix-content-popper-wrapper] {
+    z-index: 100000;
   }
 `;
 
@@ -137,7 +137,6 @@ const AuthLayer = () => (
             ],
           },
         ],
-        className: "access-control-input",
         placeholder: "Select an option",
         rootProps: {
           value: state.authOption,
