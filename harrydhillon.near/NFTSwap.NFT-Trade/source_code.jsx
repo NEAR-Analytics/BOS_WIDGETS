@@ -1,6 +1,6 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = context.accountId;
 if (!accountId) {
-  return "No account ID";
+  return "You need to login with your near wallet in order to use this app";
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
