@@ -1,7 +1,7 @@
 State.init({ isDebug: true, showMonitor: true });
 
 const buildUrl = (componentPath) => {
-  return `${componentPath}?isDebug=${isDebug}&showMonitor=${showMonitor}`;
+  return `${componentPath}?isDebug=${state.isDebug}&showMonitor=${state.showMonitor}`;
 };
 
 return (
