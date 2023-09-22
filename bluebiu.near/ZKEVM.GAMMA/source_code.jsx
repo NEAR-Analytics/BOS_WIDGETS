@@ -19,13 +19,13 @@ const ContainerLogin = styled.div`
     margin-top: 20px;
   }
   @media (max-width: 900px) {
-    padding:24px;
-    img{
-      width:320px;
+    padding: 24px;
+    img {
+      width: 320px;
     }
     .web3-connect {
-      width:100%
-  }
+      width: 100%;
+    }
   }
 `;
 const TitleText = styled.div`
