@@ -305,7 +305,9 @@ return (
               value={state.amount}
               onChange={(e) => {
                 const amount = Number(e.target.value);
-                const total_reward = `${amount * state.winners} ${state.token}`;
+                const total_reward = `${Number(
+                  (amount * state.winners).toFixed(4)
+                )} ${state.token}`;
                 State.update({
                   amount,
                   total_reward,
@@ -322,9 +324,9 @@ return (
                 options: state.tokens,
                 onChange: (e) => {
                   const token = e.value;
-                  const total_reward = `${
-                    state.amount * state.winners
-                  } ${token}`;
+                  const total_reward = `${Number(
+                    (state.amount * state.winners).toFixed(4)
+                  )} ${token}`;
                   State.update({
                     token: e.value,
                     total_reward,
@@ -353,7 +355,9 @@ return (
             value={state.winners}
             onChange={(e) => {
               const winners = Number(e.target.value);
-              const total_reward = `${winners * state.amount} ${state.token}`;
+              const total_reward = `${Number(
+                (state.amount * winners).toFixed(4)
+              )} ${state.token}`;
               State.update({
                 winners,
                 total_reward,
