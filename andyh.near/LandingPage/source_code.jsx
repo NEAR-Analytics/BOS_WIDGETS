@@ -1,5 +1,9 @@
 State.init({ isDebug: true, showMonitor: true });
 
+const buildUrl = (componentPath) => {
+  return `${componentPath}?isDebug=${isDebug}&showMonitor=${showMonitor}`;
+};
+
 return (
   <div className="col-lg-8 mx-auto p-3 py-md-5">
     <header className="d-flex align-items-center pb-3 mb-5 border-bottom">
@@ -78,7 +82,7 @@ return (
           </div>
           <ul className="icon-list">
             <li>
-              <a href="/andyh.near/widget/ComponentIdTestRoot">
+              <a href={buildUrl("/andyh.near/widget/ComponentIdTestRoot")}>
                 Component ID test
               </a>
             </li>
