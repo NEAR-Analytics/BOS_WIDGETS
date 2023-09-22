@@ -1,7 +1,3 @@
-styled.div`
-.input:focus
-`;
-
 return (
   <div
     class="chatbot-container"
@@ -29,9 +25,7 @@ return (
             left: "90px",
             fontSize: "20px",
           }}
-        >
-          챗봇
-        </h1>
+        ></h1>
       </div>
     </div>
     <div class="messages-container" id="messages-container"></div>
@@ -62,8 +56,26 @@ return (
               resize: "none",
             }}
           ></textarea>
-          <div class="button">
-            <button id="myButton" class="send-button">
+          <div
+            class="button"
+            style={{
+              position: "absolute",
+              bottom: "5px",
+              right: "5px",
+              zIndex: "99",
+            }}
+          >
+            <button
+              id="myButton"
+              class="send-button"
+              style={{
+                padding: "5px 10px",
+                backgroundColor: "#f2f2f2",
+                color: "#b4b4b4",
+                borderRadius: "5px",
+                border: "0",
+              }}
+            >
               전송
             </button>
           </div>
