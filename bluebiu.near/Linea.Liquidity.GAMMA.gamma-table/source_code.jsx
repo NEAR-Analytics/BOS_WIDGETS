@@ -1,4 +1,4 @@
-const { addresses, pairs } = props;
+const { addresses, pairs, activePair } = props;
 
 const Tag = styled.div`
   border-radius: 16px;
@@ -26,12 +26,27 @@ const Table = styled.table`
   color: #fff;
   min-width: 640px;
 
+  .active-bar {
+    background: #ff0000;
+    width: 6px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
   th {
     padding: 10px;
+    color: #7c7f96;
   }
   td {
     padding: 10px 10px;
     font-size: 16px;
+  }
+  .active {
+    background: rgba(53, 55, 73, 0.5);
+    position: relative;
+    overflow-y: hidden;
   }
   tr {
     cursor: pointer;
@@ -61,7 +76,7 @@ const Table = styled.table`
   }
 
   tbody tr:hover {
-    background: rgba(53, 55, 73, 0.5);
+    background: rgba(53, 55, 73, 0.2);
   }
 `;
 
@@ -172,8 +187,10 @@ return (
           <th>Gamma Position</th>
           <th>Strategy</th>
           <th>TVL</th>
-          <th>Balance</th>
+
           <th>APR</th>
+
+          <th>Yours</th>
         </tr>
       </thead>
       <tbody>
@@ -185,8 +202,14 @@ return (
                 ? userPositions[addresses[pair.id]].balanceUSD
                 : undefined;
 
+            const active = activePair.id === pair.id;
+
             return (
-              <tr onClick={() => onPairClick(pair)} key={pair.id}>
+              <tr
+                className={active ? "active" : ""}
+                onClick={() => onPairClick(pair)}
+                key={pair.id}
+              >
                 <td>
                   {pair.token0}-{pair.token1}
                 </td>
@@ -194,8 +217,12 @@ return (
                   <Tag>{pair.strategy2 ? pair.strategy2 : pair.strategy}</Tag>
                 </td>
                 <td>{formatFiat(poolData.tvlUSD)}</td>
-                <td>{userBalance ? `${formatFiat(userBalance)}` : "-"}</td>
+
                 <td>{formatPercent(poolData.returns.weekly.feeApr)}</td>
+
+                <td>{userBalance ? `${formatFiat(userBalance)}` : "-"}</td>
+
+                {active && <div className="active-bar"></div>}
               </tr>
             );
           })}
