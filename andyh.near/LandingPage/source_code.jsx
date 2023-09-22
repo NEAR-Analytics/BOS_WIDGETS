@@ -9,7 +9,7 @@ return (
         </header>
         */}
 
-    <main>
+    <div>
       <h1>Get started with Bootstrap</h1>
       <p class="fs-5 col-md-8">
         Quickly and easily get started with Bootstrap's compiled,
@@ -76,9 +76,11 @@ return (
           </ul>
         </div>
       </div>
-    </main>
+    </div>
+    {/*
     <footer class="pt-5 my-5 text-muted border-top">
       Created by the Bootstrap team &middot; &copy; 2021
     </footer>
+    */}
   </div>
 );
