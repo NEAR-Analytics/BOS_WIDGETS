@@ -180,6 +180,20 @@ const Input = styled.input`
   font-weight: bold;
   height: 55px;
 `;
+
+const InputLpAmount = styled.input`
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  color: #fff;
+  padding: 14px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  height: 55px;
+`;
+
 const Button = styled.button`
   margin-top: 22px;
   background: #fff;
@@ -272,6 +286,48 @@ const Spinner = styled.i`
     to {
       transform: rotate(360deg);
     }
+  }
+`;
+
+const InputFiledWrapper = styled.div`
+  border: none;
+  background: rgba(53, 55, 73, 0.5);
+  outline: none;
+  color: #fff;
+  padding-right: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+
+  display: flex;
+
+  .token-filed-pc {
+    white-space: nowrap;
+  }
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  .token-filed {
+    @media (min-width: 736px) {
+      display: none;
+    }
+
+    padding-right: 12px;
+
+    flex-shrink: 0;
+
+    white-space: nowrap;
+
+    gap: 8px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: right;
   }
 `;
 
@@ -865,11 +921,16 @@ return (
                   </span>
                 </div>
               </div>
-              <Input
-                value={lpAmount}
-                type="number"
-                onChange={(e) => handleLPChange(e.target.value)}
-              />
+
+              <InputFiledWrapper>
+                <InputLpAmount
+                  value={lpAmount}
+                  type="number"
+                  onChange={(e) => handleLPChange(e.target.value)}
+                />
+
+                <div className="token-filed-pc">{`${token0}-${token1}`}</div>
+              </InputFiledWrapper>
             </InputWrapper>
             <VStack>
               {isLoading && <Comment isError={isError}>{loadingMsg}</Comment>}
