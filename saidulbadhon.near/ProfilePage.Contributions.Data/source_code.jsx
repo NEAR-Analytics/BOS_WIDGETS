@@ -65,8 +65,6 @@ console.log(
 return (
   <div
     id="Getting-Contributions"
-    onClick={() => {
-      props.responce(allWidgetsHistoryChangesBlocks);
-    }}
+    onClick={() => props.responce(allWidgetsHistoryChangesBlocks)}
   />
 );
