@@ -62,4 +62,11 @@ console.log(
 
 // const array = generate();
 
-return <div />;
+return (
+  <div
+    id="Getting-Contributions"
+    onClick={() => {
+      props.responce(allWidgetsHistoryChangesBlocks);
+    }}
+  />
+);
