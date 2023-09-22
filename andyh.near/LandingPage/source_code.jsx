@@ -62,7 +62,7 @@ return (
               id="btncheck1"
               autocomplete="off"
               checked={state.isDebug}
-              onClick={() => State.update({ isDebug: !state.isDebug })}
+              onChange={() => State.update({ isDebug: !state.isDebug })}
             />
             <label className="btn btn-outline-primary" for="btncheck1">
               Debug
@@ -74,7 +74,7 @@ return (
               id="btncheck2"
               autocomplete="off"
               checked={state.showMonitor}
-              onClick={() => State.update({ showMonitor: !state.showMonitor })}
+              onChange={() => State.update({ showMonitor: !state.showMonitor })}
             />
             <label className="btn btn-outline-primary" for="btncheck2">
               Show Monitor
