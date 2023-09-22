@@ -16,7 +16,7 @@ return (
           width="100px"
           height="100px"
           className="me-2"
-          viewBox="0 0 118 94"
+          viewBox="0 0 100 100"
           role="img"
         >
           <title>Bootstrap</title>
