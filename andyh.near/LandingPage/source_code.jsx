@@ -43,8 +43,10 @@ return (
       <hr className="col-3 col-md-2 mb-5" />
 
       <div className="row g-5">
+        <div className="col-md-12"></div>
+
         <div className="col-md-12">
-          <p className="fs-5">Debug Options</p>
+          <h2>Components</h2>
           <div
             className="btn-group"
             role="group"
@@ -74,34 +76,9 @@ return (
               Show Monitor
             </label>
           </div>
-        </div>
-
-        <div className="col-md-12">
-          <h2>Guides</h2>
-          <p>
-            Read more detailed instructions and documentation on using or
-            contributing to Bootstrap.
-          </p>
           <ul className="icon-list">
             <li>
-              <a href="/docs/5.0/getting-started/introduction/">
-                Bootstrap quick start guide
-              </a>
-            </li>
-            <li>
-              <a href="/docs/5.0/getting-started/webpack/">
-                Bootstrap Webpack guide
-              </a>
-            </li>
-            <li>
-              <a href="/docs/5.0/getting-started/parcel/">
-                Bootstrap Parcel guide
-              </a>
-            </li>
-            <li>
-              <a href="/docs/5.0/getting-started/build-tools/">
-                Contributing to Bootstrap
-              </a>
+              <a href="/ComponentIdTestRoot">Component ID test</a>
             </li>
           </ul>
         </div>
