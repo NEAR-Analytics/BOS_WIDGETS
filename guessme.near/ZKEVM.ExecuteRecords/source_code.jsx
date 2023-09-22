@@ -641,6 +641,8 @@ const select_status_list = [
   { id: "", name: "All Status" },
   { id: "Success", name: "Success" },
   { id: "Failed", name: "Failed" },
+
+  { id: "Pending", name: "Pending" },
 ];
 State.init({
   record_list: [],
@@ -761,6 +763,7 @@ function switch_action_select() {
     status_select_box_status: false,
   });
 }
+
 function switch_template_select() {
   State.update({
     template_select_box_status: !state.template_select_box_status,
@@ -821,22 +824,33 @@ function handleCancelClick() {
   });
 }
 
-const Tx = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  a {
-    text-decoration: underline;
-    color: #fff;
-    font-size: 14px;
+const statusColorMap = {
+  Success: "#93FFCB",
+  Failed: "#FF5BA0",
+  Pending: "#A884FF",
+};
+
+const polygon_base = "https://zkevm.polygonscan.com/tx/";
+
+const formatTx = (tx) => {
+  console.log("tx: ", tx);
+  if (!tx) return "-";
+  else {
+    return (
+      <a
+        style={{
+          color: "white",
+          textDecoration: "underline",
+        }}
+        href={polygon_base + tx}
+        target="_blank"
+      >
+        {tx.substring(0, 4) + "..." + tx.substring(tx.length - 4, tx.length)}
+      </a>
+    );
   }
-  a:hover {
-    color: #fff;
-  }
-  .copy {
-    cursor: pointer;
-  }
-`;
+};
+
 return (
   <Container>
     <div className="contanier-title">
@@ -921,6 +935,7 @@ return (
         </>
       ) : null}
     </div>
+
     <div className="recordList">
       <table>
         <thead>
@@ -1003,7 +1018,55 @@ return (
               </div>
             </th>
 
+            <th>
+              <div className="head_th" onClick={switch_status_select}>
+                Status
+                <span className="arrow" style={{ marginLeft: "5px" }}>
+                  {arrow_down_icon}
+                </span>
+                <div
+                  className={`select ${
+                    state.status_select_box_status ? "show" : "hide"
+                  }`}
+                >
+                  {select_status_list.map((item) => {
+                    return (
+                      <div
+                        key={item.name}
+                        onClick={() => {
+                          State.update({
+                            search_status: item.id,
+                            current_page: 1,
+                          });
+                        }}
+                        className={`item ${
+                          state.search_status == item.id ? "active" : ""
+                        }`}
+                      >
+                        <div
+                          className="template_item"
+                          style={{
+                            color: statusColorMap[item.name],
+                          }}
+                        >
+                          {item.icon ? (
+                            <img src={item.icon} width={16} height={16}></img>
+                          ) : null}
+                          {item.name}
+                        </div>
+                        <span className="selected_icon">{selected_icon}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </th>
+
+            <th>Gas</th>
+
             <th>Time</th>
+
+            <th>Tx</th>
           </tr>
         </thead>
         <tbody>
@@ -1023,7 +1086,19 @@ return (
                     {record.template}
                   </td>
 
+                  <td
+                    style={{
+                      color: statusColorMap[record.action_status],
+                    }}
+                  >
+                    {record.action_status}
+                  </td>
+
+                  <td>{!record.gas ? "-" : record.gas + " ETH"}</td>
+
                   <td>{getTime(record.timestamp)}</td>
+
+                  <td>{formatTx(record.tx_id)}</td>
                 </tr>
               );
             })}
