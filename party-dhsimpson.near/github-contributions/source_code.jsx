@@ -53,6 +53,8 @@ const MyContributionList = styled.ul`
     background-color: rgb(12,17,23);
     color: white;
     border-radius: 25px;
+    max-height: 400px;
+    overflow: scroll;
 `;
 
 const MyContribution = styled.li`
