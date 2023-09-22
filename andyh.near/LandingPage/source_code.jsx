@@ -51,29 +51,29 @@ return (
 
         <div className="col-md-12">
           <h2>Components</h2>
-          <div class="form-check">
+          <div className="form-check">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               value=""
               id="flexCheckDefault"
               checked={state.isDebug}
               onChange={() => State.update({ isDebug: !state.isDebug })}
             />
-            <label class="form-check-label" for="flexCheckDefault">
+            <label className="form-check-label" for="flexCheckDefault">
               Enable debug mode
             </label>
           </div>
-          <div class="form-check">
+          <div className="form-check">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               value=""
               id="flexCheckChecked"
               checked={state.showMonitor}
               onChange={() => State.update({ showMonitor: !state.showMonitor })}
             />
-            <label class="form-check-label" for="flexCheckChecked">
+            <label className="form-check-label" for="flexCheckChecked">
               Display Component monitor
             </label>
           </div>
