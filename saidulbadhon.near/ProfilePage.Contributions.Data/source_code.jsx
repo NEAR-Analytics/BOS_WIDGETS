@@ -84,15 +84,20 @@ const generate = () => {
 //   return dataArray;
 // };
 
-const array = generate();
+// const array = generate();
 
 // console.log(array);
+
+// console.log("widget : ", widget);
+console.log("widget : ", widget);
 
 return (
   <div
     id="Getting-Contributions"
     onClick={() => {
-      if (widget) props.responce(generate());
+      if (widget) {
+        props.responce(generate());
+      }
     }}
   />
 );
