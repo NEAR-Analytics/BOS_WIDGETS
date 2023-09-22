@@ -1,5 +1,6 @@
 return (
   <div className="col-lg-8 mx-auto p-3 py-md-5">
+    hi
     {/*
         <header className="d-flex align-items-center pb-3 mb-5 border-bottom">
             <a href="/" className="d-flex align-items-center text-dark text-decoration-none">
@@ -8,7 +9,7 @@ return (
             </a>
         </header>
         */}
-
+    {/*
     <div>
       <h1>Get started with Bootstrap</h1>
       <p className="fs-5 col-md-8">
@@ -79,6 +80,7 @@ return (
         </div>
       </div>
     </div>
+    */}
     {/*
     <footer className="pt-5 my-5 text-muted border-top">
       Created by the Bootstrap team &middot; &copy; 2021
