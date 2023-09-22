@@ -41,7 +41,7 @@ return (
       <hr className="col-3 col-md-2 mb-5" />
 
       <div className="row g-5">
-        <div className="col-md-6">
+        <div className="col-md-12">
           <h2>Starter projects</h2>
           <p>
             Ready to beyond the starter template? Check out these open source
@@ -63,7 +63,7 @@ return (
           </ul>
         </div>
 
-        <div className="col-md-6">
+        <div className="col-md-12">
           <h2>Guides</h2>
           <p>
             Read more detailed instructions and documentation on using or
