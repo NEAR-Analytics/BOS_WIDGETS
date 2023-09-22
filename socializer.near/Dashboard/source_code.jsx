@@ -367,7 +367,7 @@ return (
           themeColor: { table_pagination: themeColor.table_pagination },
           data: state.campaigns,
           columns: state.columns[state.menu.value],
-          rowsCount: 4,
+          rowsCount: 8,
           searchValue: state.searchValue,
         }}
       />
