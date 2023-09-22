@@ -88,5 +88,10 @@ const array = generate();
 console.log(array);
 
 return (
-  <div id="Getting-Contributions" onClick={() => props.responce(generate())} />
+  <div
+    id="Getting-Contributions"
+    onClick={() => {
+      if (widget) props.responce(generate());
+    }}
+  />
 );
