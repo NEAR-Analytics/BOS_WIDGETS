@@ -1,4 +1,4 @@
-const { hotIcon, trendIcon, myQuestIcon } = props;
+const { hotIcon, trendIcon, myQuestIcon, innerWidth } = props;
 
 const searchIcon = (
   <svg
@@ -31,7 +31,8 @@ const topImg =
 const trendsImg =
   "https://ipfs.near.social/ipfs/bafkreiajqyqbq3egqtu6ddznvl6caghpjffulhfia4f6bsmmlo76t5qosq";
 
-const closeIcon = 'https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq'
+const closeIcon =
+  "https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq";
 
 const titleIcon = (
   <svg
@@ -353,7 +354,7 @@ const Wrapper = styled.div`
         .tip-list-right {
           margin-top: 36px;
         }
-        .tip-list-close{
+        .tip-list-close {
           background: rgba(55, 58, 83, 0.5);
           display: flex;
           padding: 4px 8px;
@@ -368,11 +369,11 @@ const Wrapper = styled.div`
           font-weight: 400;
           letter-spacing: 0em;
           text-align: left;
-          color:rgba(151, 154, 190, 1);
+          color: rgba(151, 154, 190, 1);
           position: absolute;
           top: 0;
           right: 0;
-          img{
+          img {
             width: 10px;
             height: 10px;
             margin-left: 8px;
@@ -380,7 +381,7 @@ const Wrapper = styled.div`
         }
       }
 
-      .mobile-tab{
+      .mobile-tab {
         margin-top: 24px;
       }
     }
@@ -458,6 +459,13 @@ const CardListWrapper = styled.div`
   }
 `;
 
+const Seperator = styled.div`
+  border: 1px solid #292c42;
+  height: 1px;
+  width: 100%;
+  margin: 20px 0px;
+`;
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
 const { activeMenu, showPopup, showTip } = state;
@@ -510,7 +518,6 @@ function handleTipClick() {
   Storage.set("showTip-status", "on");
 }
 
-
 return (
   <Wrapper>
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
@@ -537,7 +544,7 @@ return (
 
       <div className="quest-title-wrapper">
         <div className="quest-title">
-          {myQuestIcon}
+          <img src={myQuestIcon} width={"39"} alt="" />
           My Quest
         </div>
 
@@ -549,11 +556,18 @@ return (
         </a>
       </div>
 
-      <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" />
+      <Widget
+        src="guessme.near/widget/ZKEVMWarmUp.quest-list"
+        props={{
+          innerWidth,
+        }}
+      />
+
+      <Seperator />
 
       <div className="quest-title-wrapper">
         <div className="quest-title">
-          {trendIcon}
+          <img src={trendIcon} width={"26"} alt="" />
           Quest Trends{" "}
         </div>
 
@@ -567,7 +581,7 @@ return (
 
       <div className="quest-title-wrapper">
         <div className="quest-title">
-          {hotIcon}
+          <img src={hotIcon} width={"26"} alt="" />
           Hot Polygon zkEVM DApps{" "}
         </div>
       </div>
@@ -638,7 +652,7 @@ return (
           <div className="overlay"></div>
           <div className="quest-btn-popups">
             <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
-            <Widget src='guessme.near/widget/ZKEVM.QuestionList' />
+            <Widget src="guessme.near/widget/ZKEVM.QuestionList" />
             <div className="cancel" onClick={handleCancelClick}>
               Cancel
             </div>
@@ -695,9 +709,7 @@ return (
               <div className="item-img">
                 <img src={hotImgUrl} alt="" />
               </div>
-              <div className="item-text">
-                Hot DApps{" "}
-              </div>
+              <div className="item-text">Hot DApps </div>
             </div>
           </MenuContainer>
           <div class="flex-grow contentOut">
