@@ -58,6 +58,7 @@ return (
               value=""
               id="flexCheckDefault"
               checked={state.isDebug}
+              onChange={() => State.update({ isDebug: !state.isDebug })}
             />
             <label class="form-check-label" for="flexCheckDefault">
               Enable debug mode
@@ -70,6 +71,7 @@ return (
               value=""
               id="flexCheckChecked"
               checked={state.showMonitor}
+              onChange={() => State.update({ showMonitor: !state.showMonitor })}
             />
             <label class="form-check-label" for="flexCheckChecked">
               Display Component monitor
