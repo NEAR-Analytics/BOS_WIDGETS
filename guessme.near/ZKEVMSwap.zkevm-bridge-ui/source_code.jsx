@@ -41,7 +41,7 @@ const Layout = styled.div`
 
   .container-button {
     position: relative;
-    font-family: "Inter";
+    font-family: "Gantari";
     font-style: normal;
     font-weight: 600;
     font-size: 10px;
@@ -68,7 +68,7 @@ const Layout = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
-    font-family: "Inter";
+    font-family: "Gantari";
     font-style: normal;
     font-weight: 400;
     font-size: 10px;
@@ -237,7 +237,7 @@ const ActionButton = styled.button`
   background: #794fdd;
   border-radius: 4px;
   border: 0;
-  font-family: "Inter";
+  font-family: "Gantari";
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -327,7 +327,7 @@ const Dialog = styled.div`
   box-shadow: inset 0px 0px 0px 1px #999;
   border-radius: 12px;
   padding: 16px 8px;
-  font-family: "Inter";
+  font-family: "Gantari";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
