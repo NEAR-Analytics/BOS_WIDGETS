@@ -86,7 +86,7 @@ const generate = () => {
 
 const array = generate();
 
-console.log(array);
+// console.log(array);
 
 return (
   <div
