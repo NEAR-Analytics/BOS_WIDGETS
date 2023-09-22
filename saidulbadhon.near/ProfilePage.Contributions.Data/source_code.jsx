@@ -12,10 +12,10 @@ const allWidgetsHistoryChangesBlocks = Social.keys(
   }
 );
 
-console.log(
-  "allWidgetsHistoryChangesBlocks : ",
-  allWidgetsHistoryChangesBlocks
-);
+// console.log(
+//   "allWidgetsHistoryChangesBlocks : ",
+//   allWidgetsHistoryChangesBlocks
+// );
 
 if (allWidgetsHistoryChangesBlocks === null) return "Loading...";
 
@@ -43,6 +43,8 @@ const checkOccurrence = (array, element) => {
 };
 
 const generate = () => {
+  if (!widget) return;
+
   const dataArray = [];
 
   // Get the current date
@@ -81,7 +83,9 @@ const generate = () => {
 //   return dataArray;
 // };
 
-// const array = generate();
+const array = generate();
+
+console.log(array);
 
 return (
   <div id="Getting-Contributions" onClick={() => props.responce(generate())} />
