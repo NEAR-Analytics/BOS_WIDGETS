@@ -303,7 +303,7 @@ return (
           <>
             <h1 class="text-center">Follow Voters by Candidate</h1>
             <p class="text-center">
-              Follow all the people who voted for you with one click.
+              Follow all individuals who voted for you with a single click
             </p>
 
             <div className="mb-3">
@@ -321,7 +321,7 @@ return (
               </button>
             </div>
             <h4>
-              Voters of {state.userId}: {accounts.length}
+              People who voted for {state.userId}: {accounts.length}
               {/* <span>
                 ({Object.keys(state.following).length} followed)
               </span>{" "}
