@@ -260,6 +260,16 @@ const commitData = (data) => {
   Social.set(data, { force: true });
 };
 
+const storageDeposit = () => {
+  Near.call(
+    "social.near",
+    "storage_deposit",
+    {},
+    30000000000000,
+    1000000000000000000000000
+  );
+};
+
 const currentAccountVotes = [];
 const userSimilarity = [];
 
@@ -319,6 +329,9 @@ return (
               >
                 {context.loading ? "Loading" : "Mass Follow"}
               </button>
+              <button class="btn btn-primary" onClick={storageDeposit}>
+                Storage desposit 1 NEAR
+              </button>
             </div>
             <h4>
               People who voted for {state.userId}: {accounts.length}
@@ -346,6 +359,15 @@ return (
     </div>
 
     <hr />
+    <p>
+      <small>
+        Use{" "}
+        <a href="#" onClick={storageDeposit}>
+          Storage Deposit
+        </a>{" "}
+        button if you have an error while follow users in Near Wallet
+      </small>
+    </p>
     <p>
       <small>
         Data is retrieved automatically from the NEAR Indexer using Github
