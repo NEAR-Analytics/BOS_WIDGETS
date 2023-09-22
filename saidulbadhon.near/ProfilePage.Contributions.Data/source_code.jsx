@@ -12,10 +12,10 @@ const allWidgetsHistoryChangesBlocks = Social.keys(
   }
 );
 
-// console.log(
-//   "allWidgetsHistoryChangesBlocks : ",
-//   allWidgetsHistoryChangesBlocks
-// );
+console.log(
+  "allWidgetsHistoryChangesBlocks : ",
+  allWidgetsHistoryChangesBlocks
+);
 
 if (allWidgetsHistoryChangesBlocks === null) return "Loading...";
 
