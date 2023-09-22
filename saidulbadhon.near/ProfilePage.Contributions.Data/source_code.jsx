@@ -54,7 +54,7 @@ const generate = () => {
     const value = checkOccurrence(totalCommits, date.toLocaleDateString());
 
     // Create a new object with the date and value and add it to the array
-    dataArray.push({ date: date.toLocaleDateString(), value });
+    dataArray.push({ date: date.toLocaleDateString(), count: value });
   }
 
   return dataArray;
