@@ -1,19 +1,17 @@
+let greeting = "Let's Rock the Encode Hackathon!";
 
-const DropdownMenu = () => {
-    const [selectedOption, setSelectedOption] = useState(null);
+return (
+  <>
+    <div class="container border border-info p-3 text-center">
+      <h1>Hello {props.name}</h1>
 
-    const handleChange = (event) => {
-        setSelectedOption(event.target.value);
-    }
+      <p> {greeting} </p>
 
-    return (
-        <div>
-            <select value={selectedOption} onChange={handleChange}>
-                <option value="">Select...</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-            </select>
-        </div>
-    );
-}
+      <select>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </select>
+    </div>
+  </>
+);
