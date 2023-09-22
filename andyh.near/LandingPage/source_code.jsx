@@ -42,25 +42,16 @@ return (
 
       <div className="row g-5">
         <div className="col-md-12">
-          <h2>Starter projects</h2>
-          <p>
-            Ready to beyond the starter template? Check out these open source
-            projects that you can quickly duplicate to a new GitHub repository.
-          </p>
-          <ul className="icon-list">
-            <li>
-              <a
-                href="https://github.com/twbs/bootstrap-npm-starter"
-                rel="noopener"
-                target="_blank"
-              >
-                Bootstrap npm starter
-              </a>
-            </li>
-            <li className="text-muted">
-              Bootstrap Parcel starter (coming soon!)
-            </li>
-          </ul>
+          <div className="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+            <input type="checkbox" className="btn-check" id="btncheck1" autocomplete="off">
+            <label className="btn btn-outline-primary" for="btncheck1">Checkbox 1</label>
+
+            <input type="checkbox" className="btn-check" id="btncheck2" autocomplete="off">
+            <label className="btn btn-outline-primary" for="btncheck2">Checkbox 2</label>
+
+            <input type="checkbox" className="btn-check" id="btncheck3" autocomplete="off">
+            <label className="btn btn-outline-primary" for="btncheck3">Checkbox 3</label>
+          </div>
         </div>
 
         <div className="col-md-12">
