@@ -132,10 +132,10 @@ return (
         wethAddress: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
         connectProps: {
           imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreifeitks2bp3vyy7v7iznq6lf67dutvjjplzzbiwv4j2dheqiqqbpi",
+            src: "https://ipfs.near.social/ipfs/bafkreihcujrphf3k3zgfl4wdnxbz5btydas43uwdmvjgrs5mavbubvrpyq",
             style: {
-              width: "179px",
-              height: "143px",
+              width: "282px",
+              height: "222px",
               marginTop: "80px",
             },
           },
