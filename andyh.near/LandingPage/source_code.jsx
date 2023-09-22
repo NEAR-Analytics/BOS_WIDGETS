@@ -13,8 +13,8 @@ return (
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="400"
-          height="320"
+          width="100%"
+          height="auto"
           className="me-2"
           viewBox="0 0 118 94"
           role="img"
