@@ -43,22 +43,43 @@ const checkOccurrence = (array, element) => {
 };
 
 const generate = () => {
-  // Create an empty array to hold the objects
-  const dataArray = [] || [{ empty: true }];
+  const dataArray = [];
 
-  // Loop through each day of 2023
+  // Get the current date
+  const currentDate = new Date();
+
+  // Loop through the last 365 days
   for (let i = 0; i < 365; i++) {
-    // Create a new date object for the current day
-    const date = new Date(2023, 0, i + 1);
+    // Calculate the date for the current iteration (going back in time)
+    const date = new Date();
+    date.setDate(currentDate.getDate() - i);
 
     const value = checkOccurrence(totalCommits, date.toLocaleDateString());
 
     // Create a new object with the date and value and add it to the array
-    dataArray.push({ date: date.toLocaleDateString(), count: value });
+    dataArray.unshift({ date: date.toLocaleDateString(), count: value });
   }
 
   return dataArray;
 };
+
+// const generate = () => {
+//   // Create an empty array to hold the objects
+//   const dataArray = [] || [{ empty: true }];
+
+//   // Loop through each day of 2023
+//   for (let i = 0; i < 365; i++) {
+//     // Create a new date object for the current day
+//     const date = new Date(2023, 0, i + 1);
+
+//     const value = checkOccurrence(totalCommits, date.toLocaleDateString());
+
+//     // Create a new object with the date and value and add it to the array
+//     dataArray.push({ date: date.toLocaleDateString(), count: value });
+//   }
+
+//   return dataArray;
+// };
 
 // const array = generate();
 
