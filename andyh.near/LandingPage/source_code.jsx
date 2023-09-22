@@ -31,12 +31,8 @@ return (
       </a>
     </header>
     <div>
-      <h1>Get started with Bootstrap</h1>
-      <p className="fs-5 col-md-8">
-        Quickly and easily get started with Bootstrap's compiled,
-        production-ready files with this barebones example featuring some basic
-        HTML and helpful links. Download all our examples to get started.
-      </p>
+      <h1>Get started with BOS Web Engine</h1>
+      <p className="fs-5 col-md-8">TBD</p>
 
       <div className="mb-5">
         <a href="/docs/5.0/examples/" className="btn btn-primary btn-lg px-4">
