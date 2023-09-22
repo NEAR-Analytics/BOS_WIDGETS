@@ -34,12 +34,6 @@ return (
       <h1>Get started with BOS Web Engine</h1>
       <p className="fs-5 col-md-8">TBD</p>
 
-      <div className="mb-5">
-        <a href="/docs/5.0/examples/" className="btn btn-primary btn-lg px-4">
-          Download examples
-        </a>
-      </div>
-
       <hr className="col-3 col-md-2 mb-5" />
 
       <div className="row g-5">
