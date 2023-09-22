@@ -330,7 +330,7 @@ return (
                 Select {numberToFollow} users
               </button>
               <button class="btn btn-outline-primary" onClick={storageDeposit}>
-                Storage desposit 1 NEAR
+                Storage deposit 1 NEAR
               </button>
             </div>
             <h4>
