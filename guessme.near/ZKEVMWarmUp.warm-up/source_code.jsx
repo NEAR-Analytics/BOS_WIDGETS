@@ -1,5 +1,20 @@
 const { hotIcon, trendIcon, myQuestIcon, innerWidth } = props;
 
+const css = fetch(
+  "https://fonts.googleapis.com/css2?family=Gantari:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+).body;
+
+if (!css) {
+  return;
+}
+
+const Theme = styled.div`
+  * {
+    font-family: "Gantari";
+  }
+  ${css}
+`;
+
 const searchIcon = (
   <svg
     width="26"
@@ -82,6 +97,8 @@ const Wrapper = styled.div`
   width: 100%;
   gap: 28px;
   color: white;
+
+  font-family: "Gantari";
 
   .header {
     display: flex;
@@ -229,8 +246,8 @@ const Wrapper = styled.div`
       justify-content: center;
       .trend-card-text {
         color: white;
-        font-size: 20px;
-        font-weight: 700;
+        font-size: 18px;
+        font-weight: 500;
         line-height: 24px;
         letter-spacing: 0em;
         text-align: center;
@@ -519,279 +536,284 @@ function handleTipClick() {
 }
 
 return (
-  <Wrapper>
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
+  <Theme>
+    <Wrapper>
+      <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
 
-    <div className="header">
-      <div className="header-title header-title-pc">
-        Participate In Polygon zkEVM easily
-      </div>
-      <div className="header-title header-title-mobile">
-        Participate in
-        <br />
-        Polygon zkEVM easily
-      </div>
-      <div className="title-icon-mobile">{titleIcon}</div>
-
-      <div className="header-description">
-        Keep track of your activity and loyalty, make sure we are ready for any
-        airdrop
-      </div>
-    </div>
-
-    <div className="pc-page">
-      <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
-
-      <div className="quest-title-wrapper">
-        <div className="quest-title">
-          <img src={myQuestIcon} width={"39"} alt="" />
-          My Quest
+      <div className="header">
+        <div className="header-title header-title-pc">
+          Participate In Polygon zkEVM easily
         </div>
-
-        <a
-          href="/guessme.near/widget/ZKEVM.ExecuteRecords"
-          className="execute-records"
-        >
-          Execute Records
-        </a>
-      </div>
-
-      <Widget
-        src="guessme.near/widget/ZKEVMWarmUp.quest-list"
-        props={{
-          innerWidth,
-        }}
-      />
-
-      <Seperator />
-
-      <div className="quest-title-wrapper">
-        <div className="quest-title">
-          <img src={trendIcon} width={"26"} alt="" />
-          Quest Trends{" "}
+        <div className="header-title header-title-mobile">
+          Participate in
+          <br />
+          Polygon zkEVM easily
         </div>
+        <div className="title-icon-mobile">{titleIcon}</div>
 
-        <a className="view-all" href="/guessme.near/widget/ZKEVM.QuestionList">
-          <span>View All</span>
-          {ArrowRight}
-        </a>
-      </div>
-
-      <Widget src="guessme.near/widget/ZKEVMWarmUp.trend-list" />
-
-      <div className="quest-title-wrapper">
-        <div className="quest-title">
-          <img src={hotIcon} width={"26"} alt="" />
-          Hot Polygon zkEVM DApps{" "}
+        <div className="header-description">
+          Keep track of your activity and loyalty, make sure we are ready for
+          any airdrop
         </div>
       </div>
 
-      <CardListWrapper>
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-          props={{
-            background: "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
-            dappName: "Polygon zkEVM All-in-one",
-            creator: "bluebiu.near",
-            widgetSrc: "bluebiu.near/widget/ZKEVM-all-in-one",
-            src: "https://assets.ref.finance/images/zkevm-swap.png",
-          }}
-        />
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-          props={{
-            background: "linear-gradient(180deg, #8C36D8 0%, #24264C 100%)",
-            dappName: "Polygon zkEVM Dex",
-            creator: "guessme.near",
-            widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
-            src: "https://assets.ref.finance/images/zkevm-swap.png",
-          }}
-        />
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-          props={{
-            background: "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
-            dappName: "zkEVM-bridge",
-            creator: "guessme.near",
-            widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
-            src: "https://assets.ref.finance/images/zkevm-swap.png",
-          }}
-        />
+      <div className="pc-page">
+        <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
 
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-          props={{
-            background: "linear-gradient(180deg, #895C5C 0%, #343149 100%)",
-            dappName: "Gamma",
-            creator: "guessme.near",
-            widgetSrc: "guessme.near/widget/ZKEVM.GAMMA",
-
-            src: "https://assets.ref.finance/images/zkevm-swap.png",
-          }}
-        />
-
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-          props={{
-            background: "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
-            dappName: "0vix",
-            creator: "bluebiu.near",
-            widgetSrc: "bluebiu.near/widget/0vix.Lending",
-            src: "https://assets.ref.finance/images/zkevm-swap.png",
-          }}
-        />
-      </CardListWrapper>
-    </div>
-
-    <div className="mobile-page">
-      <div className="make-quest-btn" onClick={handleMakeQuestBtnClick}>
-        Make A Quest
-      </div>
-      {showPopup ? (
-        <>
-          <div className="overlay"></div>
-          <div className="quest-btn-popups">
-            <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
-            <Widget src="guessme.near/widget/ZKEVM.QuestionList" />
-            <div className="cancel" onClick={handleCancelClick}>
-              Cancel
-            </div>
+        <div className="quest-title-wrapper">
+          <div className="quest-title">
+            <img src={myQuestIcon} width={"39"} alt="" />
+            My Quest
           </div>
-        </>
-      ) : null}
-      {showTip ? (
-        <div className="tip-list">
-          <div className="tip-list-left">
-            {" "}
-            <img src={topImg} alt="" />
+
+          <a
+            href="/guessme.near/widget/ZKEVM.ExecuteRecords"
+            className="execute-records"
+          >
+            Execute Records
+          </a>
+        </div>
+
+        <Widget
+          src="guessme.near/widget/ZKEVMWarmUp.quest-list"
+          props={{
+            innerWidth,
+          }}
+        />
+
+        <Seperator />
+
+        <div className="quest-title-wrapper">
+          <div className="quest-title">
+            <img src={trendIcon} width={"26"} alt="" />
+            Quest Trends{" "}
           </div>
-          <div className="tip-list-right">
-            {" "}
-            <img src={trendsImg} alt="" />
-          </div>
-          <div className="tip-list-close" onClick={handleTipClick}>
-            Close <img src={closeIcon} alt="" />
+
+          <a
+            className="view-all"
+            href="/guessme.near/widget/ZKEVM.QuestionList"
+          >
+            <span>View All</span>
+            {ArrowRight}
+          </a>
+        </div>
+
+        <Widget src="guessme.near/widget/ZKEVMWarmUp.trend-list" />
+
+        <div className="quest-title-wrapper">
+          <div className="quest-title">
+            <img src={hotIcon} width={"26"} alt="" />
+            Hot Polygon zkEVM DApps{" "}
           </div>
         </div>
-      ) : null}
-      <div className="mobile-tab">
-        <Container>
-          <MenuContainer>
-            <div
-              onClick={() => {
-                changeTab("myQuest");
-              }}
-              class={`item ${activeMenu == "myQuest" ? "active" : ""}`}
-            >
-              <div className="item-img">
-                <img src={myQuestImgUrl} alt="" />
+
+        <CardListWrapper>
+          <Widget
+            src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+            props={{
+              background: "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
+              dappName: "Polygon zkEVM All-in-one",
+              creator: "bluebiu.near",
+              widgetSrc: "bluebiu.near/widget/ZKEVM-all-in-one",
+              src: "https://assets.ref.finance/images/zkevm-swap.png",
+            }}
+          />
+          <Widget
+            src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+            props={{
+              background: "linear-gradient(180deg, #8C36D8 0%, #24264C 100%)",
+              dappName: "Polygon zkEVM Dex",
+              creator: "guessme.near",
+              widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
+              src: "https://assets.ref.finance/images/zkevm-swap.png",
+            }}
+          />
+          <Widget
+            src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+            props={{
+              background: "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
+              dappName: "zkEVM-bridge",
+              creator: "guessme.near",
+              widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
+              src: "https://assets.ref.finance/images/zkevm-swap.png",
+            }}
+          />
+
+          <Widget
+            src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+            props={{
+              background: "linear-gradient(180deg, #895C5C 0%, #343149 100%)",
+              dappName: "Gamma",
+              creator: "guessme.near",
+              widgetSrc: "guessme.near/widget/ZKEVM.GAMMA",
+
+              src: "https://assets.ref.finance/images/zkevm-swap.png",
+            }}
+          />
+
+          <Widget
+            src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+            props={{
+              background: "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
+              dappName: "0vix",
+              creator: "bluebiu.near",
+              widgetSrc: "bluebiu.near/widget/0vix.Lending",
+              src: "https://assets.ref.finance/images/zkevm-swap.png",
+            }}
+          />
+        </CardListWrapper>
+      </div>
+
+      <div className="mobile-page">
+        <div className="make-quest-btn" onClick={handleMakeQuestBtnClick}>
+          Make A Quest
+        </div>
+        {showPopup ? (
+          <>
+            <div className="overlay"></div>
+            <div className="quest-btn-popups">
+              <Widget src="guessme.near/widget/ZKEVMWarmUp.input-search" />
+              <Widget src="guessme.near/widget/ZKEVM.QuestionList" />
+              <div className="cancel" onClick={handleCancelClick}>
+                Cancel
               </div>
-              <div className="item-text">My Quest</div>
             </div>
-            <div
-              onClick={() => {
-                changeTab("questTrends");
-              }}
-              class={`item ${activeMenu == "questTrends" ? "active" : ""}`}
-            >
-              <div className="item-img">
-                <img src={trendImgUrl} alt="" />
-              </div>
-              <div className="item-text">Quest Trends </div>
+          </>
+        ) : null}
+        {showTip ? (
+          <div className="tip-list">
+            <div className="tip-list-left">
+              {" "}
+              <img src={topImg} alt="" />
             </div>
-
-            <div
-              class={`item ${activeMenu == "zkEVMDApps" ? "active" : ""}`}
-              onClick={() => {
-                changeTab("zkEVMDApps");
-              }}
-            >
-              <div className="item-img">
-                <img src={hotImgUrl} alt="" />
-              </div>
-              <div className="item-text">Hot DApps </div>
+            <div className="tip-list-right">
+              {" "}
+              <img src={trendsImg} alt="" />
             </div>
-          </MenuContainer>
-          <div class="flex-grow contentOut">
-            {activeMenu == "myQuest" ? (
-              <>
-                <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" />
-              </>
-            ) : null}
-            {activeMenu == "questTrends" ? (
-              <>
-                <Widget src="guessme.near/widget/ZKEVMWarmUp.trend-list" />
-              </>
-            ) : null}
-            {activeMenu == "zkEVMDApps" ? (
-              <>
-                <CardListWrapper>
-                  <Widget
-                    src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-                    props={{
-                      background:
-                        "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
-
-                      dappName: "Polygon zkEVM All-in-one",
-                      creator: "bluebiu.near",
-                      widgetSrc: "bluebiu.near/widget/ZKEVM-all-in-one",
-                      src: "https://assets.ref.finance/images/zkevm-swap.png",
-                    }}
-                  />
-
-                  <Widget
-                    src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-                    props={{
-                      background:
-                        "linear-gradient(180deg, #8C36D8 0%, #24264C 100%)",
-                      dappName: "Polygon zkEVM Dex",
-                      creator: "guessme.near",
-                      widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
-                      src: "https://assets.ref.finance/images/zkevm-swap.png",
-                    }}
-                  />
-                  <Widget
-                    src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-                    props={{
-                      background:
-                        "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
-                      dappName: "zkEVM-bridge",
-                      creator: "guessme.near",
-                      widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
-                      src: "https://assets.ref.finance/images/zkevm-swap.png",
-                    }}
-                  />
-
-                  <Widget
-                    src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-                    props={{
-                      background:
-                        "linear-gradient(180deg, #895C5C 0%, #343149 100%)",
-                      dappName: "Gamma",
-                      creator: "guessme.near",
-                      widgetSrc: "guessme.near/widget/ZKEVM.GAMMA",
-
-                      src: "https://assets.ref.finance/images/zkevm-swap.png",
-                    }}
-                  />
-
-                  <Widget
-                    src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
-                    props={{
-                      background:
-                        "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
-                      dappName: "0vix",
-                      creator: "bluebiu.near",
-                      widgetSrc: "bluebiu.near/widget/0vix.Lending",
-                      src: "https://assets.ref.finance/images/zkevm-swap.png",
-                    }}
-                  />
-                </CardListWrapper>
-              </>
-            ) : null}
+            <div className="tip-list-close" onClick={handleTipClick}>
+              Close <img src={closeIcon} alt="" />
+            </div>
           </div>
-        </Container>
+        ) : null}
+        <div className="mobile-tab">
+          <Container>
+            <MenuContainer>
+              <div
+                onClick={() => {
+                  changeTab("myQuest");
+                }}
+                class={`item ${activeMenu == "myQuest" ? "active" : ""}`}
+              >
+                <div className="item-img">
+                  <img src={myQuestImgUrl} alt="" />
+                </div>
+                <div className="item-text">My Quest</div>
+              </div>
+              <div
+                onClick={() => {
+                  changeTab("questTrends");
+                }}
+                class={`item ${activeMenu == "questTrends" ? "active" : ""}`}
+              >
+                <div className="item-img">
+                  <img src={trendImgUrl} alt="" />
+                </div>
+                <div className="item-text">Quest Trends </div>
+              </div>
+
+              <div
+                class={`item ${activeMenu == "zkEVMDApps" ? "active" : ""}`}
+                onClick={() => {
+                  changeTab("zkEVMDApps");
+                }}
+              >
+                <div className="item-img">
+                  <img src={hotImgUrl} alt="" />
+                </div>
+                <div className="item-text">Hot DApps </div>
+              </div>
+            </MenuContainer>
+            <div class="flex-grow contentOut">
+              {activeMenu == "myQuest" ? (
+                <>
+                  <Widget src="guessme.near/widget/ZKEVMWarmUp.quest-list" />
+                </>
+              ) : null}
+              {activeMenu == "questTrends" ? (
+                <>
+                  <Widget src="guessme.near/widget/ZKEVMWarmUp.trend-list" />
+                </>
+              ) : null}
+              {activeMenu == "zkEVMDApps" ? (
+                <>
+                  <CardListWrapper>
+                    <Widget
+                      src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+                      props={{
+                        background:
+                          "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
+
+                        dappName: "Polygon zkEVM All-in-one",
+                        creator: "bluebiu.near",
+                        widgetSrc: "bluebiu.near/widget/ZKEVM-all-in-one",
+                        src: "https://assets.ref.finance/images/zkevm-swap.png",
+                      }}
+                    />
+
+                    <Widget
+                      src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+                      props={{
+                        background:
+                          "linear-gradient(180deg, #8C36D8 0%, #24264C 100%)",
+                        dappName: "Polygon zkEVM Dex",
+                        creator: "guessme.near",
+                        widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
+                        src: "https://assets.ref.finance/images/zkevm-swap.png",
+                      }}
+                    />
+                    <Widget
+                      src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+                      props={{
+                        background:
+                          "linear-gradient(180deg, #7347DA 0%, #202445 100%)",
+                        dappName: "zkEVM-bridge",
+                        creator: "guessme.near",
+                        widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
+                        src: "https://assets.ref.finance/images/zkevm-swap.png",
+                      }}
+                    />
+
+                    <Widget
+                      src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+                      props={{
+                        background:
+                          "linear-gradient(180deg, #895C5C 0%, #343149 100%)",
+                        dappName: "Gamma",
+                        creator: "guessme.near",
+                        widgetSrc: "guessme.near/widget/ZKEVM.GAMMA",
+
+                        src: "https://assets.ref.finance/images/zkevm-swap.png",
+                      }}
+                    />
+
+                    <Widget
+                      src="guessme.near/widget/ZKEVMWarmUp.hot-dapp-card"
+                      props={{
+                        background:
+                          "linear-gradient(180deg, #4A80A7 0%, #343149 100%)",
+                        dappName: "0vix",
+                        creator: "bluebiu.near",
+                        widgetSrc: "bluebiu.near/widget/0vix.Lending",
+                        src: "https://assets.ref.finance/images/zkevm-swap.png",
+                      }}
+                    />
+                  </CardListWrapper>
+                </>
+              ) : null}
+            </div>
+          </Container>
+        </div>
       </div>
-    </div>
-  </Wrapper>
+    </Wrapper>
+  </Theme>
 );
