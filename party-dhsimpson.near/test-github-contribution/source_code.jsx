@@ -17,10 +17,12 @@ const PortFolioHalf = styled.div`
     width: 50%;  
     border-radius: 25px;
     background-color: green; 
+`;
+const PortFolioHalfMiddleText = styled.h4`
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: auto;
+    justify-content: center;  /* 가로 방향으로 중앙 정렬 */
+    align-items: center;    
+  height: 100%;
 `;
 
 return (
@@ -28,7 +30,7 @@ return (
     <PortFolioTitle>포트폴리오 제목</PortFolioTitle>
     <PortFolio>
       <PortFolioHalf>
-        <p>포트폴리오 항목</p>
+        <PortFolioHalfMiddleText>포트폴리오 항목</PortFolioHalfMiddleText>
       </PortFolioHalf>
       <PortFolioHalf>
         <Widget
