@@ -78,7 +78,9 @@ return (
           </div>
           <ul className="icon-list">
             <li>
-              <a href="/ComponentIdTestRoot">Component ID test</a>
+              <a href="/andyh.near/widget/ComponentIdTestRoot">
+                Component ID test
+              </a>
             </li>
           </ul>
         </div>
