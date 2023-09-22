@@ -52,15 +52,27 @@ return (
         <div className="col-md-12">
           <h2>Components</h2>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+              checked={state.isDebug}
+            />
             <label class="form-check-label" for="flexCheckDefault">
-              Default checkbox
+              Enable debug mode
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckChecked"
+              checked={state.showMonitor}
+            />
             <label class="form-check-label" for="flexCheckChecked">
-              Checked checkbox
+              Display Component monitor
             </label>
           </div>
           <ul className="icon-list">
