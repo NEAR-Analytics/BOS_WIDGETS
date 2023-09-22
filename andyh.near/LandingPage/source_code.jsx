@@ -49,7 +49,7 @@ return (
             role="group"
             aria-label="Basic checkbox toggle button group"
           >
-            <span>Debug Options</span>
+            <p className="fs-5">Debug Options</p>
             <input
               type="checkbox"
               className="btn-check"
