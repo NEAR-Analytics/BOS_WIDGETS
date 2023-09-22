@@ -180,6 +180,8 @@ const Table = styled.table`
 
   th {
     padding: 10px;
+    color: #7c7f96;
+    font-weight: 400;
   }
   td {
     padding: 10px 10px;
@@ -324,8 +326,8 @@ return (
           <th>Gamma Position</th>
           <th>Strategy</th>
           <th>TVL</th>
-          <th>Balance</th>
           <th>APR</th>
+          <th>Yours</th>
         </tr>
       </thead>
       <tbody>
@@ -346,8 +348,9 @@ return (
                   <Tag>{pair.strategy2 ? pair.strategy2 : pair.strategy}</Tag>
                 </td>
                 <td>{formatFiat(poolData.tvlUSD)}</td>
-                <td>{userBalance ? `${formatFiat(userBalance)}` : "-"}</td>
                 <td>{formatPercent(poolData.returns.weekly.feeApr)}</td>
+
+                <td>{userBalance ? `${formatFiat(userBalance)}` : "-"}</td>
               </tr>
             );
           })}
