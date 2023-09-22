@@ -1,3 +1,5 @@
+State.init({ isDebug: true, showMonitor: true });
+
 return (
   <div className="col-lg-8 mx-auto p-3 py-md-5">
     <header className="d-flex align-items-center pb-3 mb-5 border-bottom">
@@ -47,14 +49,17 @@ return (
             role="group"
             aria-label="Basic checkbox toggle button group"
           >
+            <span>Debug Options</span>
             <input
               type="checkbox"
               className="btn-check"
               id="btncheck1"
               autocomplete="off"
+              checked={state.isDebug}
+              onClick={() => State.update({ isDebug: !state.isDebug })}
             />
             <label className="btn btn-outline-primary" for="btncheck1">
-              Checkbox 1
+              Debug
             </label>
 
             <input
@@ -62,19 +67,11 @@ return (
               className="btn-check"
               id="btncheck2"
               autocomplete="off"
+              checked={state.showMonitor}
+              onClick={() => State.update({ showMonitor: !state.showMonitor })}
             />
             <label className="btn btn-outline-primary" for="btncheck2">
-              Checkbox 2
-            </label>
-
-            <input
-              type="checkbox"
-              className="btn-check"
-              id="btncheck3"
-              autocomplete="off"
-            />
-            <label className="btn btn-outline-primary" for="btncheck3">
-              Checkbox 3
+              Show Monitor
             </label>
           </div>
         </div>
