@@ -1,4 +1,4 @@
-let greeting = "Let's Rock the Encode Hackathon!";
+let greeting = "Have a great day";
 
 return (
   <>
