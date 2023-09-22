@@ -174,7 +174,7 @@ return (
         <DownIcon />
       </Button>
     </Profile>
-    {accountId && state.showForm && (
+    {state.showForm && (
       <Widget
         src={"libertydao.near/widget/boroughs.form"}
         props={{
@@ -209,7 +209,7 @@ return (
             onClick={
               state.edit
                 ? () => handleSave()
-                : () => State.update({ edit: !state.edit, showForm: true })
+                : () => State.update({ edit: !state.edit, showForm: false })
             }
           >
             {`${!state.edit ? "Mark your Borough!" : "Save"}`}
