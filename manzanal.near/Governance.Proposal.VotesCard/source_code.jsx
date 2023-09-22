@@ -98,6 +98,13 @@ const VoteMemo = styled.div`
   align-items: stretch;
   flex-wrap: wrap;
   row-gap: 0.5em;
+    @media (max-width: 600px) {
+    flex-direction: row;
+   }
+`;
+
+const Memo = styled.h5`
+  word-break: break-all;
 `;
 
 const yoctoToNear = (amountYocto) =>
@@ -136,7 +143,7 @@ return (
               />
               <h5> voted {item.vote_type}</h5>
             </AccountVote>
-            {item.memo != "" && <h5>memo: {item.memo}</h5>}
+            {item.memo != "" && <Memo>memo: {item.memo}</Memo>}
           </VoteMemo>
           <div>
             {" "}
