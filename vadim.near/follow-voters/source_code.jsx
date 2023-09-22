@@ -317,9 +317,6 @@ return (
             </p>
 
             <div className="mb-3">
-              <button class="btn btn-primary" onClick={handleSelectAll}>
-                Select {numberToFollow}
-              </button>
               <button
                 disabled={context.loading}
                 className={`btn ${
@@ -327,9 +324,12 @@ return (
                 }`}
                 onClick={() => commitData(data)}
               >
-                {context.loading ? "Loading" : "Mass Follow"}
+                {context.loading ? "Loading" : "Mass Follow Selected Users"}
               </button>
-              <button class="btn btn-primary" onClick={storageDeposit}>
+              <button class="btn btn-outline-primary" onClick={handleSelectAll}>
+                Select {numberToFollow} users
+              </button>
+              <button class="btn btn-outline-primary" onClick={storageDeposit}>
                 Storage desposit 1 NEAR
               </button>
             </div>
