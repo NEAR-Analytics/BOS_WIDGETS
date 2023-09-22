@@ -31,7 +31,7 @@ return (
       </a>
     </header>
     <div>
-      <h1>Get started with BOS Web Engine</h1>
+      <h1>Get Started</h1>
       <p className="fs-5 col-md-8">TBD</p>
 
       <hr className="col-3 col-md-2 mb-5" />
