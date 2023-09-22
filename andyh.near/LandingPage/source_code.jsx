@@ -44,12 +44,12 @@ return (
 
       <div className="row g-5">
         <div className="col-md-12">
+          <p className="fs-5">Debug Options</p>
           <div
             className="btn-group"
             role="group"
             aria-label="Basic checkbox toggle button group"
           >
-            <p className="fs-5">Debug Options</p>
             <input
               type="checkbox"
               className="btn-check"
