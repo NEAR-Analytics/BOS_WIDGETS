@@ -5,13 +5,14 @@ const [truncated, setTruncated] = useState(props.truncateContent ?? true);
 const Wrapper = styled.div`
   overflow: hidden;
   .truncated-content {
-    max-height: 23em;
+    max-height: 13em;
     position: relative;
+    overflow: hidden;
 
     .expand-post {
       position : absolute;
       z-index  : 1;
-      top   : 20em;
+      top   : 10em;
       left     : 0;
       background-image : linear-gradient(to bottom, 
                         rgba(255,255,255, 0), 
@@ -70,20 +71,6 @@ return (
           }}
         />
       </div>
-      {content.image && (
-        <div key="c-img" className="w-100 rounded-3 text-center mt-2">
-          <Widget
-            key="img-widget"
-            loading={<div className="img-fluid rounded-3 placeholder-glow" />}
-            src="mob.near/widget/Image"
-            props={{
-              image: content.image,
-              className: "img-fluid rounded-3",
-              style: { maxHeight: "40em" },
-            }}
-          />
-        </div>
-      )}
       <div className="expand-post">
         <div>
           <a className="stretched-link" onClick={() => setTruncated(false)}>
@@ -92,5 +79,22 @@ return (
         </div>
       </div>
     </div>
+    {content.image && (
+      <div
+        key="c-img"
+        className="w-100 rounded-3 text-center mt-2 overflow-hidden"
+      >
+        <Widget
+          key="img-widget"
+          loading={<div className="img-fluid rounded-3 placeholder-glow" />}
+          src="mob.near/widget/Image"
+          props={{
+            image: content.image,
+            className: "img-fluid rounded-3",
+            style: { maxHeight: "20em" },
+          }}
+        />
+      </div>
+    )}
   </Wrapper>
 );
