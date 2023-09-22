@@ -51,33 +51,16 @@ return (
 
         <div className="col-md-12">
           <h2>Components</h2>
-          <div
-            className="btn-group"
-            role="group"
-            aria-label="Basic checkbox toggle button group"
-          >
-            <input
-              type="checkbox"
-              className="btn-check"
-              id="btncheck1"
-              autocomplete="off"
-              checked={state.isDebug}
-              onChange={() => State.update({ isDebug: !state.isDebug })}
-            />
-            <label className="btn btn-outline-primary" for="btncheck1">
-              Debug
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              Default checkbox
             </label>
-
-            <input
-              type="checkbox"
-              className="btn-check"
-              id="btncheck2"
-              autocomplete="off"
-              checked={state.showMonitor}
-              onChange={() => State.update({ showMonitor: !state.showMonitor })}
-            />
-            <label className="btn btn-outline-primary" for="btncheck2">
-              Show Monitor
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+            <label class="form-check-label" for="flexCheckChecked">
+              Checked checkbox
             </label>
           </div>
           <ul className="icon-list">
