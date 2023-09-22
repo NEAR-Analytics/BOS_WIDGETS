@@ -345,14 +345,14 @@ const type = item.action_type;
 let link = "";
 
 const SwapTokens = [
-  // {
-  //   address: "0x0000000000000000000000000000000000000000",
-  //   chainId: 1101,
-  //   symbol: "ETH",
-  //   decimals: 18,
-  //   logoURI:
-  //     "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880",
-  // },
+  {
+    address: "0x0000000000000000000000000000000000000000",
+    chainId: 1101,
+    symbol: "ETH",
+    decimals: 18,
+    logoURI:
+      "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880",
+  },
 
   {
     address: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
