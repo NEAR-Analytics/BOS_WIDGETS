@@ -95,9 +95,16 @@ return (
   <div
     id="Getting-Contributions"
     onClick={() => {
+      // console.log("X", widget);
       if (widget) {
-        props.responce(generate());
+        const data = generate();
+
+        console.log("data : ", data);
+        props.responce(data);
       }
     }}
+    // >
+    //   asdasd
+    // </div
   />
 );
