@@ -16,10 +16,20 @@ const NearAmountBackground = styled.button`
 `;
 
 const IconButton = styled.button`
-  background-color:transparent;
+  background-color: transparent;
   border-width:0px;
   position:absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   right:0px;
+  height:25px;
+  width:25px;
+  transition: background-color 0.1s ease-in;
+  border-radius: 100px;
+  :hover {
+    background-color: #D3D3D3;
+  }
 `;
 
 const nearAmount = ["Free", 20, 50, 100, 200];
@@ -94,7 +104,19 @@ font-size:13px;
 const AddTicketModal = (
   <TopLevelContainerDiv>
     <IconButton title="Cancel" onClick={props.onClose}>
-      X
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="15px"
+        height="15px"
+        viewBox="0 0 20 20"
+        fill="none"
+      >
+        <path
+          fill="#000000"
+          fill-rule="evenodd"
+          d="M16.293 17.707a1 1 0 001.414-1.414L11.414 10l6.293-6.293a1 1 0 00-1.414-1.414L10 8.586 3.707 2.293a1 1 0 00-1.414 1.414L8.586 10l-6.293 6.293a1 1 0 101.414 1.414L10 11.414l6.293 6.293z"
+        />
+      </svg>
     </IconButton>
     <Widget
       props={{
@@ -363,7 +385,7 @@ return (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: AddTicketModal,
-      isOpen: props.isOpen,
+      isOpen: props?.isOpen,
       contentStyles: {
         style: {
           width: 550,
