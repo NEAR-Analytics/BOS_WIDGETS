@@ -156,13 +156,6 @@ if (Ethers.provider()) {
     messageABI,
     Ethers.provider().getSigner()
   );
-  messageContract
-    .getInboxCount(0x138d466c8edcae595736999429262f05129340b1)
-    .then((res) => {
-      State.update({
-        count: ethers.BigNumber.from(ethers.utils.parseEther(res)),
-      });
-    });
 }
 
 const sendMessage = async () => {
@@ -171,7 +164,6 @@ const sendMessage = async () => {
     messageABI,
     Ethers.provider().getSigner()
   );
-  State.update({ chainId: chainIdData.chainId });
   messageContract.sendMessage(state.address, state.message);
 };
 
@@ -185,7 +177,6 @@ return (
     />
     <input type="text" placeholder="Message" value={state.message} />
     <button onClick={sendMessage}>SEND</button>
-    <p>Total Message: {state.count} EA </p>
     <Web3Connect />
   </>
 );
