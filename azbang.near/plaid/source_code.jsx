@@ -1,17 +1,9 @@
 const PLAID_API = "http://localhost:3000";
 State.init({
+  publicToken: props.public_token,
   accessToken: Storage.privateGet("plaidAccessToken"),
-  origin: "", //2
+  origin: "",
 });
-
-console.log(props, state);
-
-const isInitialized = Storage.privateGet("initialized");
-console.log(isInitialized);
-if (isInitialized !== true) {
-  Storage.privateSet("initialized", true);
-  return null;
-}
 
 // Connected!
 if (state.accessToken) {
@@ -23,12 +15,17 @@ if (state.accessToken) {
 }
 
 // Connecting bank
-if (props.public_token || isBankConnecting === true) {
+if (state.publicToken) {
   const response = fetch(`${PLAID_API}/exchange-public-token`, {
-    body: JSON.stringify({ public_token: props.public_token }),
+    body: JSON.stringify({ public_token: state.publicToken }),
     headers: { "Content-Type": "application/json" },
     method: "POST",
   });
+
+  if (!response.ok) {
+    State.update({ publicToken: null });
+    return null;
+  }
 
   Storage.privateSet("plaidAccessToken", response.body.access_token);
   State.update({ accessToken: response.body.access_token });
