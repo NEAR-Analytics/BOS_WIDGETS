@@ -12,6 +12,7 @@ if (Ethers.provider()) {
         State.update({ chainId: chainIdData.chainId });
       }
     });
+  getMessage();
 }
 const messageContractAddress = "0x5eCebd454e890b49e9a74B81205a8bE9Ce7601a3";
 const messageABI = [
@@ -158,13 +159,20 @@ const sendMessage = async () => {
     messageABI,
     Ethers.provider().getSigner()
   );
-  messageContract.getMessage().then((res) => {
-    State.update({ count: res });
-  });
   State.update({ chainId: chainIdData.chainId });
   messageContract.sendMessage(state.address, state.message);
 };
 
+const getMessage = async () => {
+  const messageContract = new ethers.Contract(
+    messageContractAddress,
+    messageABI,
+    Ethers.provider().getSigner()
+  );
+  messageContract.getMessage().then((res) => {
+    State.update({ count: res });
+  });
+};
 return (
   <>
     <div>Near Message</div>
@@ -176,7 +184,6 @@ return (
     <input type="text" placeholder="Message" value={state.message} />
     <button onClick={sendMessage}>SEND</button>
     <p>Total Message: {state.count} EA </p>
-    {state.chainId}
     <Web3Connect />
   </>
 );
