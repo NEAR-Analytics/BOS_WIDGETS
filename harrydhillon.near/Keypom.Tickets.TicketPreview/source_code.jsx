@@ -56,7 +56,14 @@ const PreviewTicketModal = (
           }}
           src={`https://ipfs.near.social/ipfs/${props.image.cid}`}
         />
-        <p style={{ fontSize: 22, fontWeight: "500", marginBottom: 0 }}>
+        <p
+          style={{
+            fontSize: 22,
+            fontWeight: "500",
+            marginBottom: 0,
+            cursor: "default",
+          }}
+        >
           {props.ticketName}
         </p>
         <p
@@ -65,12 +72,20 @@ const PreviewTicketModal = (
             fontWeight: "500",
             color: "#94A3B8",
             marginBottom: 0,
+            cursor: "default",
           }}
         >
           {extractDateComponents(props.from)} -{" "}
           {extractDateComponents(props.to)} at 7:00 PM PT
         </p>
-        <p style={{ fontSize: 12, fontWeight: "500", color: "gray" }}>
+        <p
+          style={{
+            fontSize: 12,
+            fontWeight: "500",
+            color: "gray",
+            cursor: "default",
+          }}
+        >
           {props.description}
         </p>
         <p
@@ -79,6 +94,7 @@ const PreviewTicketModal = (
             fontWeight: "500",
             color: "gray",
             marginTop: 10,
+            cursor: "default",
           }}
         >
           {props?.formValues?.location}
@@ -91,7 +107,7 @@ const PreviewTicketModal = (
               borderRadius: 5,
               borderWidth: 1,
               borderColor: "#E2E8F0",
-              color:"black",
+              color: "black",
               marginTop: 5,
               cursor: "default",
             }}
@@ -169,7 +185,7 @@ return (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: PreviewTicketModal,
-      isOpen:props?.isOpen,
+      isOpen: props?.isOpen,
       overlayStyles: {
         style: {
           overflowY: "hidden",
