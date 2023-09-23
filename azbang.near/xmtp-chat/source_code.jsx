@@ -1,6 +1,5 @@
 State.init({
   receiver: null,
-  msgValue: "gm.xmtp.eth",
   messages: [],
   iframe: {},
 });
