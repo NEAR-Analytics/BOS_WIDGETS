@@ -106,7 +106,9 @@ if (accessToken) {
 
   return (
     <div>
-      <AppContainer style={{ marginTop: 48, paddingBottom: 24 }}>
+      <AppContainer
+        style={{ marginTop: 48, paddingBottom: 24, position: "relative" }}
+      >
         <h4>Plaid x Blockhain</h4>
         <p>Select payment to verify it on-chain:</p>
         <AppContainer style={{ height: 500 }}>
