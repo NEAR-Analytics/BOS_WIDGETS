@@ -22,13 +22,10 @@ const style = {
   },
 };
 
-const database = ["ㄱㅣㅁㅅㅔㅈㅓㅇ", "ㅅㅓㅎㅕㄴㅈㅣㄴ"];
-const randomIndex = Math.floor(Math.random() * database.length);
-// const answer = database[randomIndex];
-const answer = "ㄱㅣㅁㅅㅔㅈㅓㅇ";
+console.log(props.answer);
 
 const inputStates = {};
-answer.split("").forEach((v, i) => {
+props.answer.split("").forEach((v, i) => {
   inputStates[`inputCharacter${i}`] = "";
 });
 
@@ -39,7 +36,7 @@ answer.split("").forEach((v, i) => {
  * opportunityCount: 남은 기회 수
  */
 State.init({
-  answer,
+  answer: answer,
   ...inputStates,
   successCount: 0,
   opportunityCount: 10,
@@ -63,10 +60,9 @@ const inputHandle = (e) => {
   });
 };
 
-console.log(state);
-
 return (
   <>
+    <div style={style.titleFont}>Korean Hackman Game</div>
     <div style={style.titleFont}>배우의 이름을 맞춰주세요!</div>
     <div style={style.infoFont}>남은 횟수: {state.opportunityCount}</div>
     <div style={style.inputWrapper}>
