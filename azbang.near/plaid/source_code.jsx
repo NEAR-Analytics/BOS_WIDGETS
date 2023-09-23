@@ -65,7 +65,7 @@ const VerifyButton = styled.button`
   align-items: center;
   background-color: #255ff4;
   position: absolute;
-  bottom: 20px;
+  bottom: 0;
   padding: 16px;
   width: 250px;
   border-radius: 32px;
