@@ -8,7 +8,7 @@ if (accessToken === null) {
 
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
-  console.log(response);
+  console.log("TRXS", response.body);
   return (
     <div>
       <p>Bank connected {accessToken}</p>
