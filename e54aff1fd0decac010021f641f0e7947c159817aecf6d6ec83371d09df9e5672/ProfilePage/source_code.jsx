@@ -190,7 +190,7 @@ const TabsButton = styled.a`
     100% {
       background-position: -200% 0, -200% 0;
     }
-  }  }
+  } 
 `;
 
 const Bio = styled.div`
