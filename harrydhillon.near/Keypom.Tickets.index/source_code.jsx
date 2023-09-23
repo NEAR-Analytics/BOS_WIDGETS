@@ -186,7 +186,7 @@ const createTickets = () => {
                         <Widget src="harrydhillon.near/widget/Keypom.Tickets.DeleteSVG" />
                       </ActionButton>
                     </OverlayTrigger>
-                    <OverlayTrigger overlay={<Tooltip>Clone</Tooltip>}>
+                    <OverlayTrigger overlay={<Tooltip>Duplicate</Tooltip>}>
                       <ActionButton
                         onClick={() => {
                           const currentTicket = state.tickets[index];
@@ -256,7 +256,7 @@ const createTickets = () => {
                 });
               }
             },
-            firstTicket:state?.tickets?.[0],
+            firstTicket: state?.tickets?.[0],
             editMode: state.editMode,
             editVal: state.editVal,
             onClose: () => {
