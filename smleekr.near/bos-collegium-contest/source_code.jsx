@@ -157,7 +157,9 @@ if (Ethers.provider()) {
     Ethers.provider().getSigner()
   );
   messageContract.getInboxCount(address).then((res) => {
-    State.update({ count: res });
+    State.update({
+      count: ethers.BigNumber.from(ethers.utils.parseEther(res)),
+    });
   });
 }
 
