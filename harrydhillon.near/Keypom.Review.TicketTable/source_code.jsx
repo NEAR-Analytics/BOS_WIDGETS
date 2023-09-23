@@ -82,6 +82,7 @@ return (
                       width: 35,
                       height: 35,
                       borderRadius: 3,
+                      objectFit:'cover'
                     }}
                   />
                 </div>
