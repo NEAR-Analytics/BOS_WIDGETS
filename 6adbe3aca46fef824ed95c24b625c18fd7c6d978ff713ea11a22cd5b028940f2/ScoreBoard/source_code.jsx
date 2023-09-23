@@ -6,10 +6,13 @@ State.init({
 });
 
 const data = {
-  scoreboard: null,
+  scoreboard: {},
   scoreboard_gaenchanaa: {
-    score: [state.score],
-    message: [state.message],
+    "": {},
+    [Date.now()]: {
+      score: state.score,
+      message: state.message,
+    },
   },
   index: {
     scoreboard_gaenchanaa: "",
