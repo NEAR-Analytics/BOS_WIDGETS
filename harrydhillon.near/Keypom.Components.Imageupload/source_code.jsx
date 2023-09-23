@@ -70,6 +70,7 @@ return (
               border: "1px solid red",
             }}
             onClick={() => {
+              State.init({ img: null });
               props?.setImageState(null);
             }}
           >
