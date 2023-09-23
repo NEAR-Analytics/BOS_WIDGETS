@@ -3,7 +3,6 @@ const UploadContainer = styled.div`
     padding: 20px;
     text-align: center;
     position: relative;
-    cursor: pointer;
     border-radius:10px;
 `;
 
@@ -36,7 +35,7 @@ if (props?.imageState && !state?.img) {
 }
 
 if (state?.img) {
-  props?.setImageState(state.img);
+  props?.setImageState?.(state.img);
 }
 
 return (
@@ -62,18 +61,18 @@ return (
     <div style={{ padding: 10 }}>
       <div>
         <IpfsImageUpload image={state.img} />
-        <br/>
-        {!!state.img && props?.removeImage && (
+        <br />
+        {!!state.img && (
           <button
             style={{
               color: "red",
               backgroundColor: "transparent",
               border: "1px solid red",
-              marginTop:10
+              marginTop: 10,
             }}
             onClick={() => {
-              State.init({ img: null });
-              props?.setImageState(null);
+              State.update({ img: null });
+              props?.setImageState?.(null);
             }}
           >
             Remove
