@@ -6,13 +6,53 @@ State.init({
 });
 
 const data = {
-  scoreboard: {
-    score: state.score,
-    message: state.message,
+  scoreboard: undefined,
+  scoreboard_gaenchanaa: [
+    {
+      score: state.score,
+      message: state.message,
+    },
+  ],
+  index: {
+    scoreboard_gaenchanaa: "",
   },
 };
 
-console.log(state.message, "dsdf");
+const myAccountId = context.accountId;
+console.log(myAccountId);
+
+// ㅜ { widget, index, profile, post, scoreboard }
+// ㅜ myAccountData와 myAccountData2는 동일
+const myAccountData = Social.get(`${context.accountId}/**`);
+console.log(myAccountData);
+
+const myAccountData2 = Social.getr(`${context.accountId}`);
+console.log(myAccountData2);
+
+// ㅜ myScoreboardData와 myScoreboardData2는 동일
+const myScoreboardData = Social.get(`${context.accountId}/scoreboard/*`);
+console.log(myScoreboardData);
+
+const myScoreboardData2 = Social.getr(`${context.accountId}/scoreboard`);
+console.log(myScoreboardData2);
+
+// // ㅜ 22개의 데이터
+// const collegiumPostIndex = Social.index("collegium.post", "main", {
+//   order: "desc",
+// });
+// console.log(collegiumPostIndex);
+
+// // ㅜ 23711개의 데이터
+// const tosAcceptIndex = Social.index("tosAccept", "adminalpha.near/widget/TosContent", {
+//   order: "desc",
+// });
+// console.log(tosAcceptIndex);
+
+// // ㅜ 24698개의 데이터
+// const postIndex = Social.index("post", "main", {
+//   order: "desc",
+// });
+// console.log(postIndex);
 
 return (
   <>
