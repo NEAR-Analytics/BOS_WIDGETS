@@ -16,7 +16,7 @@ return (
           {color === "red" && (
             <Widget
               src="andyh.near/widget/Circle"
-              props={{ radius: 50, color: "red", content: "x" }}
+              props={{ radius: 50, color: "red", content }}
             />
           )}
         </div>
