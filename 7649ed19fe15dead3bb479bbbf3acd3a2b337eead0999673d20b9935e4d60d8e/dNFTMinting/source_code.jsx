@@ -141,7 +141,7 @@ const handleMint = () => {
     }).then((res) => {
       const cid = res.body.cid;
       const gas = 200000000000000;
-      const deposit = 11450000000000000000000;
+      const deposit = 12000000000000000000000;
 
       Near.call([
         {
