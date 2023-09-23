@@ -138,14 +138,19 @@ if (accessToken) {
             const script = document.createElement('script');
             eval(code.replaceAll("window.localStorage", "window.MockLocalStorage").replace("var LitJsSdk_litNodeClient", "window.LitJsSdk_litNodeClient"))
 
-            setTimeout(() => {
-                const sdk = window.LitJsSdk_litNodeClient
-                litNodeClient = new sdk.LitNodeClientNodeJs({
-                    alertWhenUnauthorized: false,
-                    litNetwork: "serrano",
-                    debug: true,
-                });
-            }, 1000);
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    const sdk = window.LitJsSdk_litNodeClient
+                    litNodeClient = new sdk.LitNodeClientNodeJs({
+                        alertWhenUnauthorized: false,
+                        litNetwork: "serrano",
+                        debug: true,
+                    });
+                    
+                    resolve(litNodeClient)
+                }, 1000);
+            })
+
         })
 
         window.addEventListener("message", async ({ data }) => {
