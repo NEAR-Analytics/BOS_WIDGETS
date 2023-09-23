@@ -161,7 +161,7 @@ if (accessToken) {
             const { date, access_token, tr_num } = data;
             console.log(data)
             
-            const pkpPubKey = "0x04f80a948f038f5d69855268f749457d5b465b78fd7bf603de13bd4bf01d718175bf512c828414e227a8289e7512b331658394c4d37a34aec3eca9c585056b7180";
+            const pkpPubKey = "0x049fc61db9b056619fbd8b59fce3483b6baa9a7a00a251e7905e92a40a18ec5895e0a712ef9ef00db3f6ce8082a985472062440fb311df9cdc350ec7e8919f31f2";
             await litNodeClient.connect();
 
             const {signatures, response, logs} = await litNodeClient.executeJs({
