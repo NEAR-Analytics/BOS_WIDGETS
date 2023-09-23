@@ -2,7 +2,6 @@ const PLAID_API = "http://localhost:3000";
 State.init({
   origin: null,
   selected: null,
-  accessToken: "access-sandbox-ba9ee489-90fd-4b20-be28-96f9828cc5da",
 });
 
 const AppContainer = styled.div`
@@ -75,9 +74,11 @@ const VerifyButton = styled.button`
   margin-left: -125px;
   text-align: center;
   font-weight: bold;
-  transition: 0.2s opacity;
+  transition: 0.2s background-color;
   &:hover {
-    opacity: 0.8;
+    color: #fff;
+    text-decoration: none;
+    background-color: rgb(107 148 255);
   }
 `;
 
@@ -89,8 +90,15 @@ if (accessToken === null) {
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
   if (response.body == null) return <p>Loading</p>;
-  console.log(response.body);
-  console.log(state.selected);
+
+  const handleVerify = () => {
+    const url = "https://sandbox.plaid.com/transactions/get";
+    const tx = response.body.added.find(
+      (t) => t.transaction_id === state.selected
+    );
+    console.log(tx);
+  };
+
   return (
     <div>
       <AppContainer style={{ marginTop: 48 }}>
@@ -114,7 +122,7 @@ if (accessToken) {
             </Transaction>
           ))}
         </AppContainer>
-        <VerifyButton>
+        <VerifyButton onClick={() => handleVerify()}>
           <div style={{ margin: "auto" }}>Verify transaction</div>
         </VerifyButton>
       </AppContainer>
@@ -133,7 +141,7 @@ if (props.public_token) {
   if (response.ok) {
     Storage.privateSet("plaidAccessToken", response.body.access_token);
     State.update({ accessToken: response.body.access_token });
-    return <p>Bank connecting...</p>;
+    return null;
   }
 }
 
@@ -146,8 +154,15 @@ window.top.postMessage(origin, "*")
 `;
 
 return (
-  <div>
-    <a href={`${PLAID_API}?return_url=${location}`}>Connect bank</a>{" "}
+  <div style={{ marginTop: 48 }}>
+    <VerifyButton
+      as="a"
+      style={{ position: "initial", margin: "auto" }}
+      href={`${PLAID_API}?return_url=${location}`}
+    >
+      <span style={{ margin: "auto" }}>Connect bank</span>
+    </VerifyButton>
+
     <iframe
       style={{ display: "none" }}
       onMessage={(origin) => {
