@@ -12,6 +12,8 @@ const RadiantBackground = styled.div`
     background: rgb(220,244,251);
     min-height:100vh;
     padding:10px;
+    padding-left:50px;
+    padding-right:50px; 
     background: linear-gradient(0deg, rgba(220,244,251,1) 0%, rgba(251,254,255,1) 95%, rgba(255,255,255,1) 100%);
 `;
 
