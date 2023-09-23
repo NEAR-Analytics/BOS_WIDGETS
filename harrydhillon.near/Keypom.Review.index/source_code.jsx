@@ -83,7 +83,7 @@ return (
         props?.setStorage("collectInfo", "");
         props?.setStorage(
           "allData",
-          JSON.parse({
+          JSON.stringify({
             tickets,
             formValues,
             collectInfo,
@@ -92,6 +92,18 @@ return (
       }}
     >
       Reset Fields
+    </button>
+    <button
+      onClick={() => {
+        const { tickets, formValues, collectInfo } = JSON.parse(
+          props?.getStorage("allData")
+        );
+        props?.setStorage("tickets", JSON.stringify(tickets));
+        props?.setStorage("formValues", JSON.stringify(formValues));
+        props?.setStorage("collectInfo", JSON.stringify(collectInfo));
+      }}
+    >
+      Revert Feidls
     </button>
     {state?.previewEvent && (
       <Widget
