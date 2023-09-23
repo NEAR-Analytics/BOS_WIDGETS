@@ -2,8 +2,6 @@ State.init({
   origin: "",
 });
 
-console.log(props);
-
 const location = `${state.origin}/${context.widgetSrc}`;
 const src = `
 <script>
@@ -11,6 +9,10 @@ const origin = document.location.ancestorOrigins[0];
 window.top.postMessage(origin, "*")
 </script>
 `;
+
+if (props.public_token) {
+  return <p>Bank connected</p>;
+}
 
 return (
   <div>
