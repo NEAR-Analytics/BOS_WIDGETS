@@ -5,6 +5,8 @@ State.init({
 });
 
 const renderApp = () => {
+  console.log(state.accessToken);
+
   // Connected!
   if (state.accessToken) {
     const response = fetch(
