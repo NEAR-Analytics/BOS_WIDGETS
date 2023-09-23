@@ -97,7 +97,7 @@ getCurrentChainId();
 return (
   <Wrapper>
     <div>
-      <h2>Welcome to The Peoples Place</h2>
+      <h2>Welcome to The People's Place</h2>
       <p style={{ whiteSpace: "pre-line" }}>{accountId}</p>
       <h1>Current Chain ID: {chainId}</h1>
       {chainId === 1101 ? (
