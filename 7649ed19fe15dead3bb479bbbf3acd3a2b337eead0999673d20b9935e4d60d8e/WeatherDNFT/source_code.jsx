@@ -47,6 +47,14 @@ const FlexContainer = styled.div`
   grid-gap: 30px;
 `;
 
+const FlexColumnContainer = styled.div`
+  display: flex;
+  border-bottom: 1px solid #c5c5c5;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`;
+
 return (
   <Card>
     <h4>🌈 Weather dNFT</h4>
