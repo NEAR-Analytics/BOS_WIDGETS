@@ -50,14 +50,15 @@ const getCurrentChainId = () => {
     });
 };
 
-// Function to switch to zkEVM mainnet
+// Function to switch to zkEVM testnet
 const switchToTestnet = () => {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x5a2" }])
     .then(() => {
-      setChainId(1442);
+      // Update the chain ID using State.update
+      State.update({ chainId: 1442, isChainSupported: true });
     })
     .catch((error) => {
-      console.error("Failed to switch to mainnet:", error);
+      console.error("Failed to switch to testnet:", error);
     });
 };
 
@@ -65,13 +66,15 @@ const switchToTestnet = () => {
 const switchToMainnet = () => {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x44D" }])
     .then(() => {
-      setChainId(1101);
+      // Update the chain ID using State.update
+      State.update({ chainId: 1101, isChainSupported: true });
     })
     .catch((error) => {
       console.error("Failed to switch to mainnet:", error);
     });
 };
 
+// Assuming Ethers and State are correctly initialized
 if (
   state.chainId === undefined &&
   ethers !== undefined &&
@@ -81,14 +84,10 @@ if (
     .getNetwork()
     .then((data) => {
       const chainId = data?.chainId;
-      const config = getNetworkConfig(chainId);
-      if (!config) {
-        console.log(`Unsupport chain, chainId: ${chainId}`);
-        State.update({ isChainSupported: false });
-        switchEthereumChain(DEFAULT_CHAIN_ID);
-      } else {
-        State.update({ chainId, isChainSupported: true });
-      }
+      State.update({ chainId, isChainSupported: true });
+    })
+    .catch((error) => {
+      console.error("Failed to get network:", error);
     });
 }
 
