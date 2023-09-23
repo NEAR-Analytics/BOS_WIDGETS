@@ -49,11 +49,7 @@ return (
             marginBottom: 5,
             marginLeft: 0,
           }}
-          src={
-            eventData.image.cid
-              ? `https://ipfs.near.social/ipfs/${eventData.image.cid}`
-              : `https://i.ibb.co/kx9Y61n/Screenshot-2023-08-15-at-23-44-38.png`
-          }
+          src={`https://ipfs.near.social/ipfs/${eventData.image.cid}`}
         />
         <div>
           <Label>Event name</Label>
