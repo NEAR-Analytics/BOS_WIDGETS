@@ -93,23 +93,27 @@ if (accessToken) {
       (t) => t.transaction_id === state.selected
     );
 
-    const signedMessage = "Verify transactin";
-    signer.signMessage(signedMessage).then((signed) => {
-      signer.getAddress().then((address) => {
-        State.update({
-          iframe: {
-            type: "verify",
-            date: tx.date,
-            access_token: state.accessToken,
-            transaction_id: tx.transaction_id,
-            signedMessage,
-            signed,
-            address,
-          },
-        });
-      });
+    State.update({
+      iframe: {
+        type: "verify",
+        date: tx.date,
+        access_token: state.accessToken,
+        transaction_id: tx.transaction_id,
+      },
     });
   };
+
+  const signedMessage =
+    "localhost wants you to sign in with your Ethereum account:\n" +
+    "0xf915Aa479b06d4c81cbba39EB939E4c2EF27ADae\n" +
+    "\n" +
+    "This is a test statement.  You can put anything you want here.\n" +
+    "\n" +
+    "URI: https://localhost/login\n" +
+    "Version: 1\n" +
+    "Chain ID: 1\n" +
+    "Nonce: qkyHZMeNi5oGjroWK\n" +
+    "Issued At: 2023-09-23T20:16:52.328Z";
 
   const iframeSrc = `
     <script>
@@ -138,10 +142,10 @@ if (accessToken) {
             const {signatures, response, logs} = await litNodeClient.executeJs({
                 ipfsId: "QmQ9UdaF3XCesLJSDuE8THi769VXUHPm5erYcjmedsQ4br",
                 authSig: {
-                    sig: data.signed,
+                    sig: '0x90fd44268518c4e7eb28a879f71af07bb4b8722e0c52c7537f616665c368c3761f7275e311f14a5a5a4eacc61f223b4e2a233adadc110a8d58d827029a1a146c1b',
                     derivedVia: 'web3.eth.personal.sign',
-                    signedMessage: data.signedMessage,
-                    address: data.address,
+                    signedMessage: \`${signedMessage}\`,
+                    address: '0xf915Aa479b06d4c81cbba39EB939E4c2EF27ADae'
                 },
                 jsParams: {
                     chain: "ethereum",
@@ -160,12 +164,6 @@ if (accessToken) {
             console.log(signatures);
             console.log(logs);
         }, false);
-
-        const init = () => {
-       
-
-
-        }
     </script>  
   `;
 
