@@ -1,10 +1,9 @@
 const PLAID_API = "http://localhost:3000";
-State.init({
-  accessToken: Storage.privateGet("plaidAccessToken"),
-  origin: null,
-});
+State.init({ origin: null });
 
 const renderApp = () => {
+  const accessToken =
+    state.accessToken || Storage.privateGet("plaidAccessToken");
   if (accessToken === null) {
     return <p>Loading</p>;
   }
