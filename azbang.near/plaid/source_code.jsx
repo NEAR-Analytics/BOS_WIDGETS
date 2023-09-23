@@ -137,7 +137,7 @@ if (props.public_token) {
     method: "POST",
   });
 
-  if (response.ok) {
+  if (response?.ok) {
     Storage.privateSet("plaidAccessToken", response.body.access_token);
     State.update({ accessToken: response.body.access_token });
     return null;
