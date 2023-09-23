@@ -72,29 +72,6 @@ const switchToMainnet = () => {
     });
 };
 
-function switchEthereumChain(chainId) {
-  const chainIdHex = `0x${chainId.toString(16)}`;
-  const res = Ethers.send("wallet_switchEthereumChain", [
-    { chainId: chainIdHex },
-  ]);
-  // If `res` === `undefined`, it means switch chain failed, which is very weird but it works.
-  // If `res` is `null` the function is either not called or executed successfully.
-  if (res === undefined) {
-    console.log(
-      `Failed to switch chain to ${chainId}. Add the chain to wallet`
-    );
-    const config = getNetworkConfig(chainId);
-    Ethers.send("wallet_addEthereumChain", [
-      {
-        chainId: chainIdHex,
-        chainName: config.chainName,
-        nativeCurrency: config.nativeCurrency,
-        rpcUrls: [config.rpcUrl],
-      },
-    ]);
-  }
-}
-
 if (
   state.chainId === undefined &&
   ethers !== undefined &&
