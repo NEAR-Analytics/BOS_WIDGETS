@@ -109,7 +109,7 @@ if (accessToken) {
       "function addTransaction(bytes memory serializedData, bytes32 r, bytes32 s, uint8 v)",
     ];
 
-    const contract = new ethers.Contract(address, abi, Ethers.provider());
+    const contract = new ethers.Contract(address, abi, signer);
     console.log(contract);
 
     const r = ethers.utils.arrayify(data.r);
