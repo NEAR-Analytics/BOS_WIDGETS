@@ -14,9 +14,9 @@ function setup() {
 
 function draw() {
   // 랜덤한 색상 생성
-  let r = map(sin(frameCount * 0.05), -1, 1, 0, 255); // 빨간색 성분
-  let g = map(cos(frameCount * 0.05), -1, 1, 0, 255); // 초록색 성분
-  let b = map(sin(frameCount * 0.03), -1, 1, 0, 255); // 파란색 성분
+  let r = random(255); // 빨간색 성분
+  let g = random(255); // 초록색 성분
+  let b = random(255); // 파란색 성분
   fill(r, g, b); // 랜덤한 색상 설정
 
   // 랜덤한 위치 생성
