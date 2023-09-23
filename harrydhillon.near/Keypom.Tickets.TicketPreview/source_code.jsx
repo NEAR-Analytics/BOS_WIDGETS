@@ -28,6 +28,11 @@ const EyeDiv = styled.div`
   border-radius:100px;
   border: 1px solid #00A7E4;
 `;
+
+const Button= styled.div`
+cursor:initial;
+`;
+
 // <EyeDiv>
 //   <div
 //     style={{ display: "block", margin: "auto", transform: "scale(0.6)" }}
@@ -83,7 +88,7 @@ const PreviewTicketModal = (
           {props?.formValues?.location}
         </p>
         <div style={{ display: "flex", marginBottom: 10 }}>
-          <button
+          <Button
             style={{
               backgroundColor: "white",
               fontSize: 14,
@@ -95,8 +100,8 @@ const PreviewTicketModal = (
             }}
           >
             -
-          </button>
-          <button
+          </Button>
+          <Button
             style={{
               backgroundColor: "white",
               fontSize: 14,
@@ -112,8 +117,8 @@ const PreviewTicketModal = (
             }}
           >
             1
-          </button>
-          <button
+          </Button>
+          <Button
             style={{
               backgroundColor: "white",
               fontSize: 14,
@@ -125,9 +130,9 @@ const PreviewTicketModal = (
             }}
           >
             +
-          </button>
+          </Button>
         </div>
-        <button
+        <Button
           style={{
             backgroundColor: "black",
             borderWidth: 0,
@@ -138,7 +143,7 @@ const PreviewTicketModal = (
           }}
         >
           Buy for {props.ticketPricing} NEAR
-        </button>
+        </Button>
       </div>
     </Container>
     <button
