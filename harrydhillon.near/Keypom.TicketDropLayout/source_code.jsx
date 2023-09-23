@@ -39,7 +39,6 @@ const BottomStyledContainer = styled.div`
   background-color: white;
   width: 100%;
   padding: 10px;
-  position: absolute;
   padding-left: 25px;
   padding-right: 25px;
   display: flex;
