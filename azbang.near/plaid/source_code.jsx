@@ -11,6 +11,7 @@ if (state.accessToken) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       client_id: "650ec5e216ecbb001b12ca1d",
+      secret: "3618a4c3bb886629ad11e32c2e139b",
       access_token: state.accessToken,
       start_date: "2018-01-01",
       end_date: "2018-02-01",
