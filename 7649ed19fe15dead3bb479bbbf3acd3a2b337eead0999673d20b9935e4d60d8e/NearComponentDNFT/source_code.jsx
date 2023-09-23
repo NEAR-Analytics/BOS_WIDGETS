@@ -19,7 +19,6 @@ const Card = styled.div`
 const SmallContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
 `;
 
 const CenteredDiv = styled.div`
@@ -47,12 +46,6 @@ const StyledImage = styled.img`
   max-height: 270px;
   overflow-wrap: break-word;
   border-radius: 10px; /* Rounded corners, you can adjust the value */
-`;
-
-const FlexContainer = styled.div`
-  display: grid;
-  grid-template-columns: 300px 4fr;
-  grid-gap: 30px;
 `;
 
 const FlexColumnContainer = styled.div`
