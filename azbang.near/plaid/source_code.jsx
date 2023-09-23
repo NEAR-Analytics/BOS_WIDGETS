@@ -96,7 +96,12 @@ if (accessToken) {
     const tx = response.body.added.find(
       (t) => t.transaction_id === state.selected
     );
-    console.log(tx);
+
+    console.log({
+      access_token: accessToken,
+      start_date: tx.date,
+      end_date: tx.date,
+    });
   };
 
   return (
