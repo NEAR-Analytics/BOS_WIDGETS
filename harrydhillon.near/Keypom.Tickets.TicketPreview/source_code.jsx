@@ -29,10 +29,6 @@ const EyeDiv = styled.div`
   border: 1px solid #00A7E4;
 `;
 
-const Button = styled.button`
-cursor:initial;
-`;
-
 // <EyeDiv>
 //   <div
 //     style={{ display: "block", margin: "auto", transform: "scale(0.6)" }}
@@ -88,7 +84,7 @@ const PreviewTicketModal = (
           {props?.formValues?.location}
         </p>
         <div style={{ display: "flex", marginBottom: 10 }}>
-          <Button
+          <button
             style={{
               backgroundColor: "white",
               fontSize: 14,
@@ -97,11 +93,12 @@ const PreviewTicketModal = (
               borderColor: "#E2E8F0",
               marginTop: 5,
               color: "black",
+              curson: "default",
             }}
           >
             -
-          </Button>
-          <Button
+          </button>
+          <button
             style={{
               backgroundColor: "white",
               fontSize: 14,
@@ -114,11 +111,12 @@ const PreviewTicketModal = (
               borderColor: "#E2E8F0",
               marginTop: 5,
               color: "black",
+              curson: "default",
             }}
           >
             1
-          </Button>
-          <Button
+          </button>
+          <button
             style={{
               backgroundColor: "white",
               fontSize: 14,
@@ -127,12 +125,13 @@ const PreviewTicketModal = (
               borderColor: "#E2E8F0",
               marginTop: 5,
               color: "black",
+              curson: "default",
             }}
           >
             +
-          </Button>
+          </button>
         </div>
-        <Button
+        <button
           style={{
             backgroundColor: "black",
             borderWidth: 0,
@@ -140,10 +139,11 @@ const PreviewTicketModal = (
             width: "100%",
             paddingLeft: 15,
             paddingRight: 15,
+            curson: "default",
           }}
         >
           Buy for {props.ticketPricing} NEAR
-        </Button>
+        </button>
       </div>
     </Container>
     <button
