@@ -9,14 +9,14 @@ const roots = { red: state.red, green: state.green, blue: state.blue };
 return (
   <div className="row">
     {Object.entries(roots).map(([color, colorState], i) => {
-      const content = <span style={{ color: "white" }}>x</span>;
+      const children = <span style={{ color: "white" }}>x</span>;
 
       return (
         <div className="col" key={i}>
           {color === "red" && (
             <Widget
               src="andyh.near/widget/Circle"
-              props={{ radius: 50, color: "red", content }}
+              props={{ radius: 50, color: "red", children }}
             />
           )}
         </div>
