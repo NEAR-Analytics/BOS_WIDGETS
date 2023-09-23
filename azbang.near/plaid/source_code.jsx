@@ -12,19 +12,27 @@ window.top.postMessage(origin, "*")
 `;
 
 if (props.public_token) {
-  const { access_token } = fetch(`${PLAID_API}/exchange-public-token`, {
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ public_token: props.public_token }),
-    method: "POST",
-  });
+  let accessToken = Storage.privateGet("plaidAccessToken");
+  if (accessToken == null) {
+    const { access_token } = fetch(`${PLAID_API}/exchange-public-token`, {
+      body: JSON.stringify({ public_token: props.public_token }),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    });
 
-  console.log(access_token);
-  return <p>Bank connected {props.public_token}</p>;
+    if (access_token == null) {
+      return <p>Bank connecting</p>;
+    }
+
+    Storage.privateSet("plaidAccessToken", access_token);
+    accessToken = access_token;
+  }
+
+  return <p>Bank connected {accessToken}</p>;
 }
 
 return (
   <div>
-    <p>{location}</p>
     <a href={`${PLAID_API}?return_url=${location}`}>Connect bank</a>
     <iframe
       style={{ display: "none" }}
