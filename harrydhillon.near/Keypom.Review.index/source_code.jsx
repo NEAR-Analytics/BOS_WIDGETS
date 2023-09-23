@@ -21,8 +21,8 @@ const EventDisplayFlex = styled.div`
     align-items: center;
 `;
 
-const eventData = JSON.parse(props?.getStorage("formValues")) ?? {};
-const ticketValue = JSON.parse(props?.getStorage("tickets")) ?? [];
+const eventData = {};
+const ticketValue = [];
 
 return (
   <div style={{ padding: 10 }}>
@@ -114,6 +114,35 @@ return (
     >
       Revert Fields
     </button>
+    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <div style={{ width: "30%" }}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <p style={{ fontWeight: "600", marginBottom: 0 }}>
+            Gold Ticket (VIP)
+          </p>
+          <p style={{ marginBottom: 0 }}>1.7161 NEAR</p>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <p style={{ fontWeight: "600", marginBottom: 0 }}>Silver Ticket</p>
+          <p style={{ marginBottom: 0 }}>1.7161 NEAR</p>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <p style={{ fontWeight: "600" }}>Bronze Ticket</p>
+          <p>1.7161 NEAR</p>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <p style={{ fontWeight: "600" }}>Total</p>
+          <p>1.7161 NEAR</p>
+        </div>
+      </div>
+    </div>
+    <hr
+      style={{
+        backgroundColor: "#F1F5F9",
+        width: "100%",
+        transform: `translateY(-65px)`,
+      }}
+    />
 
     {state?.previewEvent && (
       <Widget
