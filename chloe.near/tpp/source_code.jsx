@@ -22,22 +22,15 @@ const Wrapper = styled.div`
   border-radius: 8px;
 `;
 
-function initialChainState() {
-  return {
-    chainId: 0,
-    newId: 0,
-  };
-}
-
-State.init(initialChainState());
+const chainId = undefined;
 
 // Function to fetch and set the current chainId from the network
 function getCurrentChainId() {
   Ethers.provider()
     .getNetwork()
     .then((chainData) => {
-      const newId = chainData.chainId;
-      State.update({ chainId, newId });
+      const chainId = chainData.chainId;
+      State.update({ chainId });
     });
 }
 
@@ -79,7 +72,7 @@ return (
     <div>
       <h2>Welcome to The People's Place</h2>
       <p style={{ whiteSpace: "pre-line" }}>{accountId}</p>
-      <h1>Current Chain ID: {State.get().newId}</h1>
+      <h1>Current Chain ID: {State.get().chainId}</h1>
       {State.get().newId === 1101 ? (
         <div>
           <p>On Polygon zkEVM Mainnet</p>
