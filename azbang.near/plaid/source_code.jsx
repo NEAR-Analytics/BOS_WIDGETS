@@ -96,6 +96,7 @@ if (accessToken) {
     ]);
 
     promises.then(([address, signed]) => {
+      console.log([address, signed]);
       State.update({
         iframe: {
           type: "verify",
