@@ -29,7 +29,7 @@ const EyeDiv = styled.div`
   border: 1px solid #00A7E4;
 `;
 
-const Button= styled.div`
+const Button = styled.button`
 cursor:initial;
 `;
 
