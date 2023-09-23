@@ -86,6 +86,7 @@ if (accessToken) {
   if (!response.ok) return null;
 
   const handleVerify = () => {
+    if (state.verifing) return;
     State.update({ verifing: true });
     const tr_num = response.body.added.findIndex(
       (t) => t.transaction_id === state.selected
