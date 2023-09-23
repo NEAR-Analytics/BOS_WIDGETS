@@ -13,7 +13,7 @@ if (Ethers.provider()) {
       }
     });
 }
-const messageContractAddress = "0x319125a559454a728034f380ff05e4e6b34cd7ad";
+const messageContractAddress = "0x5eCebd454e890b49e9a74B81205a8bE9Ce7601a3";
 const messageABI = [
   {
     anonymous: false,
