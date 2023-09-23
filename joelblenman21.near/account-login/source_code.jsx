@@ -1,5 +1,3 @@
-const accountId = props.accountId || context.accountId;
-
 const GameButton = styled.button`
   background: palevioletred;
   color: white;
@@ -49,8 +47,8 @@ function getCurrentChainId() {
   Ethers.provider()
     .getNetwork()
     .then((chainData) => {
-      const newId = chainData.chainId;
-      State.update({ chainId, newId });
+      const chainId = chainData.chainId;
+      State.update({ chainId });
     });
 }
 
@@ -74,7 +72,7 @@ function switchToMainnet() {
 if (
   State.get().chainId === undefined &&
   ethers !== undefined &&
-  Ethers.send("eth_requestAccounts", [])[0]
+  Ethers.getSigner()
 ) {
   Ethers.provider()
     .getNetwork()
@@ -92,15 +90,15 @@ return (
     <div>
       <h2>Welcome to The People's Place</h2>
       <p style={{ whiteSpace: "pre-line" }}>{accountId}</p>
-      <h1>Current Chain ID: {State.get().newId}</h1>
-      {State.get().newId === 1101 ? (
+      <h1>Current Chain ID: {State.get().chainId}</h1>
+      {State.get().chainId === "0x44D" ? (
         <div>
           <p>On Polygon zkEVM Mainnet</p>
           <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
         </div>
       ) : (
         <div>
-          {State.get().newId === 1442 ? (
+          {State.get().chainId === "0x5A2" ? (
             <div>
               <p>On Polygon zkEVM Testnet</p>
               <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
