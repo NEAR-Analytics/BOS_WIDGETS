@@ -15,7 +15,7 @@ const data = {
     // },
   },
   index: {
-    "scoreboard_gaenchanaa": new Array(),
+    scoreboard_gaenchanaa: null,
   },
 };
 
