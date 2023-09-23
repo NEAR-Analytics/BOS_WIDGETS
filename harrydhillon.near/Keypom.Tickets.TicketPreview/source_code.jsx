@@ -29,6 +29,16 @@ const EyeDiv = styled.div`
   border: 1px solid #00A7E4;
 `;
 
+const Paragraph = styled.p`
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  cursor: default;
+`;
+
 // <EyeDiv>
 //   <div
 //     style={{ display: "block", margin: "auto", transform: "scale(0.6)" }}
@@ -56,49 +66,45 @@ const PreviewTicketModal = (
           }}
           src={`https://ipfs.near.social/ipfs/${props.image.cid}`}
         />
-        <p
+        <Paragraph
           style={{
             fontSize: 22,
             fontWeight: "500",
             marginBottom: 0,
-            cursor: "default",
           }}
         >
           {props.ticketName}
-        </p>
-        <p
+        </Paragraph>
+        <Paragraph
           style={{
             fontSize: 12,
             fontWeight: "500",
             color: "#94A3B8",
             marginBottom: 0,
-            cursor: "default",
           }}
         >
           {extractDateComponents(props.from)} -{" "}
-          {extractDateComponents(props.to)} at 7:00 PM PT
-        </p>
-        <p
+          {extractDateComponents(props.to)}
+        </Paragraph>
+        <Paragraph
           style={{
             fontSize: 12,
             fontWeight: "500",
             color: "gray",
-            cursor: "default",
           }}
         >
           {props.description}
-        </p>
-        <p
+        </Paragraph>
+        <Paragraph
           style={{
             fontSize: 12,
             fontWeight: "500",
             color: "gray",
             marginTop: 10,
-            cursor: "default",
           }}
         >
           {props?.formValues?.location}
-        </p>
+        </Paragraph>
         <div style={{ display: "flex", marginBottom: 10 }}>
           <button
             style={{
