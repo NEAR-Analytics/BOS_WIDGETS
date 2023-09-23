@@ -1,83 +1,59 @@
 const Picture = styled.div`
-  position: relative;
   border-radius: var(--br-xs);
-  background-color: #dedede;
-  width: 256px;
+  background-color: blue;
+ 
   height: 173px;
-  overflow: hidden;
-  flex-shrink: 0;
 `;
 
 const ItemDescription = styled.div`
-  align-self: stretch;
-  position: relative;
   font-size: 16px;
   font-weight: 500;
 `;
 
 const PleaseAddYour = styled.div`
-  position: relative;
   font-family: var(--font-roboto-slab);
   color: #666;
-  display: flex;
-  align-items: center;
   width: 256px;
 `;
 
 const TagOrButton = styled.div`
   flex: 1;
-  position: relative;
 `;
 
 const ItemComponent1 = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: flex-end;
   align-self: stretch;
-  border-radius: var(--br-xs);
   background-color: var(--color-white);
-  overflow: hidden;
   align-items: flex-start;
   text-align: center;
   color: var(--color-white);
 `;
 
 const Tag = styled.div`
-  color:"#fff"
+  color: #fff;
   display: flex;
-  flex-direction: row;
   justify-content: flex-end;
-  border-radius: 5px;
   background-color: #3838f4;
   width: 72px;
-  align-items: flex-end;
   padding: var(--padding-5xs) 0;
-  box-sizing: border-box;
 `;
 
 const ItemDescriptionParent = styled.div`
+  display: flex;
   flex-direction: column;
   gap: 4px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
 `;
 
 const Content = styled.div`
+  display: flex;
   flex-direction: column;
   gap: 24px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
 `;
 
 const ItemComponent = styled.div`
-  position: relative;
   border-radius: var(--br-xs);
-  background-color: ;
   width: 100%;
-  overflow: hidden;
-  flex-direction: row;
   padding: 24px;
   box-sizing: border-box;
   text-align: left;
@@ -90,13 +66,16 @@ const ItemComponent = styled.div`
 `;
 
 const Container = styled.div`
-  background-color:red;
-  height:100%;
-  display:flex
-  flex-direction: column
+  background-color: red;
+  height: 100%
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width:fit-content
 `;
 
-// Now you can use these styled components in your React components
+// Use the styled components in the React components
 return (
   <Container>
     <ItemComponent>
