@@ -43,12 +43,6 @@ const StyledImage = styled.img`
   border-radius: 10px; /* Rounded corners, you can adjust the value */
 `;
 
-const FlexContainer = styled.div`
-  display: grid;
-  grid-template-columns: 300px 4fr;
-  grid-gap: 30px;
-`;
-
 const FlexColumnContainer = styled.div`
   display: flex;
   border-bottom: 1px solid #c5c5c5;
