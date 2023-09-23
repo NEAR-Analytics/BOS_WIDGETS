@@ -417,11 +417,14 @@ const loadAbi = () => {
     State.update({ contractError: null });
   } else {
     State.update({ contractError: "Can not parse ABI" });
+    State.update({ contractAbiCall: null });
+    State.update({ contractAbiView: null });
   }
 };
 loadAbi();
-const onBtnClick = () => {
+const onBtnClickBuildForm = () => {
   const abi = JSON.parse(state.contractAbi);
+  console.log("abi", abi);
   if (abi.body.functions) {
     const contractCall = [];
     const contractView = [];
@@ -435,8 +438,10 @@ const onBtnClick = () => {
       State.update({ contractAbiCall: contractCall });
       State.update({ contractAbiView: contractView });
     });
-    State.update({ contractError: null });
+    State.update({ contractError: "" });
   } else {
+    State.update({ contractAbiCall: null });
+    State.update({ contractAbiView: null });
     State.update({ contractError: "Can not parse ABI" });
   }
 };
@@ -457,7 +462,7 @@ const contractForm = (
         value={state.contractAbi}
         onChange={onInputChangeContractAbi}
       ></textarea>
-      <button class="btn btn-primary mt-2" onClick={onBtnClick}>
+      <button class="btn btn-primary mt-2" onClick={onBtnClickBuildForm}>
         Build Form
       </button>
     </div>
