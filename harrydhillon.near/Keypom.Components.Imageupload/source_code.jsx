@@ -61,7 +61,6 @@ return (
     <div style={{ padding: 10 }}>
       <div>
         <IpfsImageUpload image={state.img} />
-        <br />
         {!!state.img && (
           <button
             style={{
