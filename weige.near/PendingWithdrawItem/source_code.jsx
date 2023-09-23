@@ -38,8 +38,8 @@ return (
       {!state.checkDone || state.isPending || !state.execute ? (
         <div
           title={
-            chainId !== config.chains.l2.id
-              ? 'Please switch to "Arbitrum" network'
+            chainId !== config.chains.l1.id
+              ? "Please switch to Ethereum network"
               : 'Please wait for "Pending" status'
           }
         >
