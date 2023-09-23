@@ -37,8 +37,8 @@ if (!accountId) {
 
 function initialChainState() {
   return {
-    chainId: undefined,
-    newId: undefined,
+    chainId: 0,
+    newId: 0,
   };
 }
 
@@ -50,7 +50,6 @@ function getCurrentChainId() {
     .getNetwork()
     .then((chainData) => {
       const newId = chainData.chainId;
-      let chainId = 0;
       State.update({ chainId, newId });
     });
 }
@@ -94,14 +93,14 @@ return (
       <h2>Welcome to The People's Place</h2>
       <p style={{ whiteSpace: "pre-line" }}>{accountId}</p>
       <h1>Current Chain ID: {State.get().newId}</h1>
-      {State.get().chainId === 1101 ? (
+      {State.get().newId === 1101 ? (
         <div>
           <p>On Polygon zkEVM Mainnet</p>
           <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
         </div>
       ) : (
         <div>
-          {State.get().chainId === 1442 ? (
+          {State.get().newId === 1442 ? (
             <div>
               <p>On Polygon zkEVM Testnet</p>
               <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
