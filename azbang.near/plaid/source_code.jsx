@@ -4,6 +4,8 @@ State.init({
   origin: "",
 });
 
+console.log(state);
+
 // Connected!
 if (state.accessToken) {
   const response = fetch("https://sandbox.plaid.com/transactions/get", {
