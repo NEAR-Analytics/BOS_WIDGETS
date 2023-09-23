@@ -5,6 +5,11 @@ State.init({
   accessToken: "access-sandbox-ba9ee489-90fd-4b20-be28-96f9828cc5da",
 });
 
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+if (!sender) return "Please connect Ethereum wallet";
+
+const signer = Ethers.provider().getSigner(sender);
+
 const AppContainer = styled.div`
   width: 400px;
   margin: auto;
@@ -88,20 +93,23 @@ if (accessToken) {
       (t) => t.transaction_id === state.selected
     );
 
-    // const signer = Ethers.provider().getSigner();
-    // const signedMessage = "Verify transactin";
-    // const promises = Promise.all([
-    //   signer.getAddress(),
-    //   signer.signMessage(signedMessage),
-    // ]);
+    const signer = Ethers.provider().getSigner();
+    const signedMessage = "Verify transactin";
+    const promises = Promise.all([
+      signer.getAddress(),
+      signer.signMessage(signedMessage),
+    ]);
 
-    State.update({
-      iframe: {
-        type: "verify",
-        date: tx.date,
-        access_token: state.accessToken,
-        transaction_id: tx.transaction_id,
-      },
+    promises.then(([address, signed]) => {
+      console.log(address, signed);
+      State.update({
+        iframe: {
+          type: "verify",
+          date: tx.date,
+          access_token: state.accessToken,
+          transaction_id: tx.transaction_id,
+        },
+      });
     });
   };
 
@@ -227,7 +235,8 @@ if (props.public_token) {
   }
 }
 
-const location = `${state.origin}/${context.widgetSrc}`;
+const isBOSgg = state.origin?.includes("bos.gg");
+const location = `${state.origin}${isBOSgg ? "#" : ""}/${context.widgetSrc}`;
 const src = `
 <script>
 const origin = document.location.ancestorOrigins[0];
