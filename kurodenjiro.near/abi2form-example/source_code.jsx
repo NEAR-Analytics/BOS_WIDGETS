@@ -356,7 +356,7 @@ const onBtnClickCall = (e) => {
     Object.assign(args, item);
   });
   if (e.target.dataset.action == "view") {
-    asyncFetch("https://rpc.testnet.near.org/", {
+    asyncFetch("https://rpc.near.org/", {
       body: JSON.stringify({
         method: "query",
         params: {
