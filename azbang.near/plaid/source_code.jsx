@@ -1,5 +1,85 @@
 const PLAID_API = "http://localhost:3000";
-State.init({ origin: null });
+State.init({
+  origin: null,
+  selected: null,
+  accessToken: "access-sandbox-ba9ee489-90fd-4b20-be28-96f9828cc5da",
+});
+
+const AppContainer = styled.div`
+  width: 400px;
+  margin: auto;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const Transaction = styled.div`
+  padding: 16px;
+  border-radius: 12px;
+  margin: 0 12px 12px;
+  border: 1px solid #ccc;
+  position: relative;
+  cursor: pointer;
+  transition: 0.2s box-shadow;
+  p { margin: 0; }
+
+  &:hover {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const Checkbox = styled.div`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  display: block;
+  transition: 0.2s background-color;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+
+  &.active {
+    background-color: #255ff4;
+  }
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    border: 4px solid #255ff4;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    left: -6px;
+    top: -6px;
+  }
+`;
+
+const VerifyButton = styled.button`
+  color: #fff;
+  font-size: 16px;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  background-color: #255ff4;
+  position: absolute;
+  bottom: 20px;
+  padding: 16px;
+  width: 250px;
+  border-radius: 32px;
+  border: none;
+  left: 50%;
+  margin-left: -125px;
+  text-align: center;
+  font-weight: bold;
+  transition: 0.2s opacity;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
 
 const accessToken = state.accessToken || Storage.privateGet("plaidAccessToken");
 if (accessToken === null) {
@@ -9,18 +89,35 @@ if (accessToken === null) {
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
   if (response.body == null) return <p>Loading</p>;
-
+  console.log(response.body);
+  console.log(state.selected);
   return (
     <div>
-      <p>Bank connected {accessToken}</p>
-      {response.body.added.map((tx) => (
-        <div>
-          <p>{tx.name}</p>
-          <p>
-            {tx.amount} {tx.iso_currency_code}
-          </p>
-        </div>
-      ))}
+      <AppContainer style={{ marginTop: 48 }}>
+        <h4>Plaid x Blockhain</h4>
+        <p>Select payment to verify it on-chain:</p>
+        <AppContainer style={{ height: 400 }}>
+          {response.body.added.map((tx) => (
+            <Transaction
+              key={tx.transaction_id}
+              onClick={() => State.update({ selected: tx.transaction_id })}
+            >
+              <p style={{ fontWeight: "bold" }}>{tx.name}</p>
+              <p>
+                {tx.amount} {tx.iso_currency_code}
+              </p>
+              <Checkbox
+                key={tx.transaction_id}
+                onClick={() => State.update({ selected: tx.transaction_id })}
+                className={state.selected === tx.transaction_id && "active"}
+              />
+            </Transaction>
+          ))}
+        </AppContainer>
+        <VerifyButton>
+          <div style={{ margin: "auto" }}>Verify transaction</div>
+        </VerifyButton>
+      </AppContainer>
     </div>
   );
 }
