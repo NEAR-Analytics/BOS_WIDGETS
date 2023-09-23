@@ -5,9 +5,9 @@ State.init({
   //accessToken: "access-sandbox-ba9ee489-90fd-4b20-be28-96f9828cc5da",
 });
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender) return "Please connect Ethereum wallet";
-const signer = Ethers.provider().getSigner(sender);
+// const sender = Ethers.send("eth_requestAccounts", [])[0];
+// if (!sender) return "Please connect Ethereum wallet";
+// const signer = Ethers.provider().getSigner(sender);
 
 const AppContainer = styled.div`
   width: 400px;
@@ -84,7 +84,7 @@ if (accessToken === null) return "No access token";
 
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
-  if (!response.ok) return null;
+  if (!response.ok) return "Transactions failed";
 
   const handleVerify = () => {
     if (state.verifing) return;
