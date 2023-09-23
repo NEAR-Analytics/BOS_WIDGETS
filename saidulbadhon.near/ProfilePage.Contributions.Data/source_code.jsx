@@ -99,7 +99,7 @@ return (
       if (widget) {
         const data = generate();
 
-        console.log("data : ", data);
+        // console.log("data : ", data);
         props.responce(data);
       }
     }}
