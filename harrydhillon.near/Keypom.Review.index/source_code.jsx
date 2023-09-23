@@ -103,7 +103,7 @@ return (
         props?.setStorage("collectInfo", JSON.stringify(collectInfo));
       }}
     >
-      Revert Feidls
+      Revert Fields
     </button>
     {state?.previewEvent && (
       <Widget
