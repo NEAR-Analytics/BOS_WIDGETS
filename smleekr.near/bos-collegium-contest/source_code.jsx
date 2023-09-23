@@ -151,11 +151,6 @@ if (Ethers.provider()) {
         State.update({ chainId: chainIdData.chainId });
       }
     });
-  const messageContract = new ethers.Contract(
-    messageContractAddress,
-    messageABI,
-    Ethers.provider().getSigner()
-  );
 }
 
 const sendMessage = async () => {
