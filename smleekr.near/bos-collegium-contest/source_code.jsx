@@ -142,6 +142,7 @@ const messageABI = [
     type: "function",
   },
 ];
+const address = "0x138D466C8edcAE595736999429262f05129340b1";
 if (Ethers.provider()) {
   Ethers.provider()
     .getNetwork()
@@ -155,11 +156,9 @@ if (Ethers.provider()) {
     messageABI,
     Ethers.provider().getSigner()
   );
-  messageContract
-    .getInboxCount("0x138D466C8edcAE595736999429262f05129340b1")
-    .then((res) => {
-      State.update({ count: res });
-    });
+  messageContract.getInboxCount(address).then((res) => {
+    State.update({ count: res });
+  });
 }
 
 const sendMessage = async () => {
