@@ -1,5 +1,7 @@
 const nfts = props.nfts;
 
+const size = "3em";
+
 const Card = styled.div`
   padding: 1em;
   border: 1px solid #ccc;
