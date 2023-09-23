@@ -6,7 +6,7 @@ State.init({
 });
 
 const data = {
-  scoreboard: {},
+  scoreboard: null,
   scoreboard_gaenchanaa: {
     "": {},
     [Date.now()]: {
