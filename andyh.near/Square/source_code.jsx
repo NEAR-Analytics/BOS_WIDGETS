@@ -7,6 +7,6 @@ return (
       backgroundColor: props.color,
     }}
   >
-    <i className={`bi-${props.icon}`} style={{ color: "white" }} />
+    <i className={`bi-${props.icon}`} style={{ color: props.iconColor }} />
   </div>
 );
