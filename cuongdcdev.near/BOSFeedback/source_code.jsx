@@ -1,8 +1,8 @@
 const feedbackEndpoint = props.endpoint
   ? props.endpoint
   : "https://test1.sctuts.com";
-const projectName = props.projectName ? props.projectName : "uncategorized";
 
+const projectName = props.projectName ? props.projectName : "uncategorized";
 const thankyou = props.thankyou
   ? props.thankyou
   : "Your feedback was sent! Thanks!";
@@ -15,8 +15,9 @@ const txtContact = props.txtContact
   ? props.txtContact
   : "Contact address (optional)";
 const txtFeedback = props.txtFeedback ? props.txtFeedback : "Feedback message";
+const inlineCss = props.inlineCss ? props.inlineCss : {};
 
-const creatorId = "cuongdcdev.testnet";
+const creatorId = "cuongdcdev.near";
 
 const Css = styled.b`
   .DialogOverlay {
@@ -39,7 +40,6 @@ const Css = styled.b`
     width: 90vw;
     max-width: 450px;
     max-height: 450px;
-    // height: 450px;
     max-height: 85vh;
     padding: 25px;
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -104,6 +104,8 @@ const submitFeedback = () => {
       showMsg: false,
     });
 
+    console.log("project name : ", projectName);
+    // return;
     //submit user feedback
     asyncFetch(feedbackEndpoint + "/wp-json/bosfb/v1/new", {
       method: "POST",
@@ -215,14 +217,17 @@ return (
     <button
       className="btn btn-secondary btn-outline"
       style={{
-        borderRadius: "100%",
-        width: props.size ? props.size : "3em",
-        height: props.size ? props.size : "3em",
-        position: "fixed",
-        right: 5,
-        bottom: 10,
-        zIndex: 999,
-        display: state.opened ? "none" : "block",
+        ...{
+          borderRadius: "100%",
+          width: props.size ? props.size : "3em",
+          height: props.size ? props.size : "3em",
+          position: "fixed",
+          right: 0,
+          bottom: 0,
+          zIndex: 99,
+          display: state.opened ? "none" : "block",
+        },
+        ...inlineCss,
       }}
       onClick={() => {
         State.update({
