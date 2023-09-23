@@ -146,7 +146,7 @@ if (accessToken) {
                 authSig: {
                     sig: '0x90fd44268518c4e7eb28a879f71af07bb4b8722e0c52c7537f616665c368c3761f7275e311f14a5a5a4eacc61f223b4e2a233adadc110a8d58d827029a1a146c1b',
                     derivedVia: 'web3.eth.personal.sign',
-                    signedMessage: ${signedMessage},
+                    signedMessage: "${signedMessage}",
                     address: '0xf915Aa479b06d4c81cbba39EB939E4c2EF27ADae'
                 },
                 jsParams: {
