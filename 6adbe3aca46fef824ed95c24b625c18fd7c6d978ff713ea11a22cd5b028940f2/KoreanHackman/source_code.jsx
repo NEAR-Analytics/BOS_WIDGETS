@@ -36,33 +36,53 @@ answer.split("").forEach((v, i) => {
  * inputStates: inputCharacter0, ... 정답 철자 별로 상태 값 관리
  * successCount: 현재까지 맞춘 철자 수
  * opportunityCount: 남은 기회 수
+ * startTime: 게임 시작 타임스탬프
+ * endTime: 게임 종료 타임스탬프
  */
 State.init({
   answer: answer,
   ...inputStates,
   successCount: 0,
   opportunityCount: 10,
+  startTime: Date.now(),
+  endTime: 0,
 });
 
 const inputHandle = (e) => {
   //
+  const { answer, successCount, opportunityCount } = state;
   const index = e.target.id.split("").pop();
   const isCorrect = answer[index] === e.target.value;
   const isEmpty = e.target.value === "";
 
-  if (!isEmpty && !isCorrect) {
+  // ㅜ 빈 값 입력 시
+  if (isEmpty) {
     State.update({
       [e.target.id]: e.target.value,
-      opportunityCount: state.opportunityCount - 1,
-    });
+    })
     return;
   }
 
-  State.update({
-    [e.target.id]: e.target.value,
-    successCount: state.successCount + 1,
-  });
+  // ㅜ 오답 입력 시
+  if (!isCorrect) {
+    State.update({
+      [e.target.id]: e.target.value,
+      opportunityCount: opportunityCount - 1,
+      endTime: opportunityCount - 1 <= 0 ? Date.now() : 0,
+    });
+  }
+
+  // ㅜ 정답 입력 시
+  else {
+    State.update({
+      [e.target.id]: e.target.value,
+      successCount: successCount + 1,
+      endTime: successCount + 1 === answer.length ? Date.now() : 0,
+    });
+  }
 };
+
+console.log(state.endTime - state.startTime);
 
 return (
   <>
@@ -85,20 +105,26 @@ return (
     </div>
     {/** ㅜ 게임 성공 시 메세지 표시 */}
     {state.successCount >= state.answer.length && (
-      <div style={style.titleFont}>게임 성공!</div>
+      <>
+        <div style={style.titleFont}>게임 성공!</div>
+        <div style={style.infoFont}>기록: {(state.endTime - state.startTime) / 1000}초</div>
+      </>
     )}
     {/** */}
     {/** ㅜ 기회 소진 시 게임 종료 및 정답 공개 */}
     {state.opportunityCount <= 0 && (
       <>
-        <div style={style.infoFont}>정답</div>
+        <div style={style.infoFont}>정답 공개</div>
         <div style={style.inputWrapper}>
           {state.answer.split("").map((v, i) => (
             <input style={style.inputElement} disabled value={v} />
           ))}
         </div>
+        <div style={style.titleFont}>게임 실패!</div>
+        <div style={style.infoFont}>기록: {(state.endTime - state.startTime) / 1000}초</div>
       </>
     )}
     {/** */}
+
   </>
 );
