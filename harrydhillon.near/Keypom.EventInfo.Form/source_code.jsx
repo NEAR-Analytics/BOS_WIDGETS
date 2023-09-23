@@ -252,6 +252,9 @@ const formContent = () => {
                 setInput("image", props);
               },
               imageState: state.image,
+              removeImage: () => {
+                setInput("image", undefined);
+              },
             }}
             src="harrydhillon.near/widget/Keypom.Components.Imageupload"
           />
