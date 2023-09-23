@@ -1,4 +1,4 @@
-const PLAID_API = "http://5.161.123.22:3000";
+const PLAID_API = "https://ethnyc.herewallet.app";
 State.init({
   origin: null,
   selected: null,
