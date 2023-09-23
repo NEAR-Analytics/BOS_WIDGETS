@@ -2,6 +2,7 @@ State.init({
   origin: "",
 });
 
+const PLAID_API = "http://localhost:3000";
 const location = `${state.origin}/${context.widgetSrc}`;
 const src = `
 <script>
@@ -11,7 +12,7 @@ window.top.postMessage(origin, "*")
 `;
 
 if (props.public_token) {
-  const { access_token } = fetch("/exchange-public-token", {
+  const { access_token } = fetch(`${PLAID_API}/exchange-public-token`, {
     headers: { "Content-Type": "application/json" },
     body: { public_token },
     method: "POST",
@@ -24,7 +25,7 @@ if (props.public_token) {
 return (
   <div>
     <p>{location}</p>
-    <a href={`http://localhost:3000?return_url=${location}`}>Connect bank</a>
+    <a href={`${PLAID_API}?return_url=${location}`}>Connect bank</a>
     <iframe
       style={{ display: "none" }}
       onMessage={(origin) => {
