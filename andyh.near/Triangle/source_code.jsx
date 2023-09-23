@@ -14,8 +14,8 @@ return (
       style={{
         color: props.iconColor,
         position: "relative",
-        top: "calc(50% + 28px)",
-        right: "calc(50% + 8px)",
+        top: "calc(50% + 34px)",
+        right: "calc(50% + 9px)",
       }}
     />
   </div>
