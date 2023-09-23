@@ -418,13 +418,6 @@ return (
                         const num2 = showMetadata.num2.replace(/,/g, "");
                         const num3 = showMetadata.num3.replace(/,/g, "");
 
-                        console.log(
-                          "true",
-                          Number(coinPrice[coinName].usd) >= Number(num3)
-                        );
-                        console.log("1", Number(coinPrice[coinName].usd));
-                        console.log("2", Number(num3));
-
                         return (
                           <a
                             className="text-decoration-none text-black"
@@ -501,7 +494,7 @@ return (
                   </SmallContainer>
                 </Card>
                 {/* Coin DNFT Component */}
-                {/*<Widget
+                  {/*<Widget
                   src="7649ed19fe15dead3bb479bbbf3acd3a2b337eead0999673d20b9935e4d60d8e/widget/CoinDNFT"
                   props={{ nfts: nfts }}
                 />*/}
