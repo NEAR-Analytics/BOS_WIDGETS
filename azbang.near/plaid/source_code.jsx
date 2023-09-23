@@ -2,7 +2,6 @@ const PLAID_API = "http://localhost:3000";
 State.init({
   origin: null,
   selected: null,
-  accessToken: "access-sandbox-ba9ee489-90fd-4b20-be28-96f9828cc5da",
 });
 
 const AppContainer = styled.div`
