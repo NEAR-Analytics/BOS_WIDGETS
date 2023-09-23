@@ -6,6 +6,24 @@ State.init({
 
 // Connected!
 if (state.accessToken) {
+  const response = fetch("https://sandbox.plaid.com/transactions/get", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      client_id: "650ec5e216ecbb001b12ca1d",
+      access_token: state.accessToken,
+      start_date: "2018-01-01",
+      end_date: "2018-02-01",
+      options: {
+        count: 250,
+        offset: 100,
+        include_personal_finance_category: true,
+      },
+    }),
+  });
+
+  console.log(response);
+
   return <p>Bank connected {state.accessToken}</p>;
 }
 
