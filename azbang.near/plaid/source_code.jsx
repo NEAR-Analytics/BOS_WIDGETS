@@ -13,7 +13,7 @@ if (accessToken) {
   return (
     <div>
       <p>Bank connected {accessToken}</p>
-      {response.body.add.map((tx) => (
+      {response.body.added.map((tx) => (
         <div>
           <p>{tx.name}</p>
           <p>
