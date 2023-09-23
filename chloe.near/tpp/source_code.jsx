@@ -14,6 +14,16 @@ const GameButton = styled.button`
   }
 `;
 
+// Styling for the Wrapper
+const Wrapper = styled.div`
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+`;
+
 if (!accountId) {
   return (
     <div>
@@ -25,46 +35,44 @@ if (!accountId) {
   );
 }
 
-// This state variable holds the current chainId
-const [chainId, setChainId] = useState(null);
+function initialChainState() {
+  return {
+    chainId: undefined,
+    newId: undefined,
+  };
+}
 
-// Styling for the Wrapper
-const Wrapper = styled.div`
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-`;
+State.init(initialChainState());
 
 // Function to fetch and set the current chainId from the network
-const getCurrentChainId = () => {
+function getCurrentChainId() {
   Ethers.provider()
     .getNetwork()
-    .then(({ chainId }) => {
-      setChainId(chainId);
+    .then((chainData) => {
+      const newId = chainData.chainId;
+      State.update({ newId });
     });
-};
+}
+
+// Call the function to set the current chainId
+getCurrentChainId();
 
 // Function to switch to zkEVM testnet
 const switchToTestnet = () => {
-  Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x5a2" }]).then(
-    ({ chainId }) => {
-      setChainId(chainId);
-    }
-  );
+  Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x5a2" }]).then(() => {
+    getCurrentChainId();
+  });
 };
 
 // Function to switch to zkEVM mainnet
 const switchToMainnet = () => {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x44D" }]).then(() => {
-    setChainId(chainId);
+    getCurrentChainId();
   });
 };
 
 if (
-  state.chainId === undefined &&
+  State.get().chainId === undefined &&
   ethers !== undefined &&
   Ethers.send("eth_requestAccounts", [])[0]
 ) {
@@ -79,23 +87,20 @@ if (
     });
 }
 
-// Call the function to set the current chainId
-getCurrentChainId();
-
 return (
   <Wrapper>
     <div>
       <h2>Welcome to The People's Place</h2>
       <p style={{ whiteSpace: "pre-line" }}>{accountId}</p>
-      <h1>Current Chain ID: {chainId}</h1>
-      {chainId === 1101 ? (
+      <h1>Current Chain ID: {State.get().newId}</h1>
+      {State.get().chainId === 1101 ? (
         <div>
           <p>On Polygon zkEVM Mainnet</p>
           <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
         </div>
       ) : (
         <div>
-          {chainId === 1442 ? (
+          {State.get().chainId === 1442 ? (
             <div>
               <p>On Polygon zkEVM Testnet</p>
               <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
