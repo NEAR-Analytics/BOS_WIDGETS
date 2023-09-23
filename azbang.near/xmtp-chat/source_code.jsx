@@ -1,5 +1,6 @@
 State.init({
   receiver: null,
+  msgValue: "gm.xmtp.eth",
   messages: [],
   iframe: {},
 });
@@ -7,16 +8,21 @@ State.init({
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return "Please login first";
 
-const signer = Ethers.provider().getSigner();
+const signer = Ethers.provider().getSigner(sender);
+
 const onIframe = (data) => {
+  console.log(data);
   if (data.type === "signMessage") {
-    signer.signMessage(data.data).then((result) => {
-      State.update({ iframe: { id: data.id, resolve: result } });
+    signer.signMessage(data.data).then((res) => {
+      console.log(res);
+      State.update({ iframe: { id: data.id, resolve: res } });
     });
   }
 
   if (data.type === "getAddress") {
-    State.update({ iframe: { id: data.id, resolve: sender } });
+    signer.getAddress().then((addr) => {
+      State.update({ iframe: { id: data.id, resolve: addr } });
+    });
   }
 
   if (data.type === "getItem") {
@@ -77,6 +83,8 @@ const xmtpMessages = `
         window.addEventListener("message", (event) => {
             const data = event.data
             let task = this._tasks.get(data.id)
+            console.log(data);
+
             if (data.resolve) task.resolve(data.resolve)
             if (data.reject) task.reject(data.reject)
             if (data.type) this._subs.get(data.type)?.forEach(cb => cb(data.data))
@@ -115,17 +123,13 @@ class RemoteSigner {
 const rpc = new IframeRPC();
 const signer = new RemoteSigner(rpc);
 window.MockLocalStorage = {
-    data: {},
     setItem(key, value) {
-        console.log(key, value)
-        this.data[key] = value;
-        //return rpc.call("setItem", { key, value })
+        return rpc.call("setItem", { key, value })
     },
     getItem(key) {
-        return this.data[key]; //rpc.call("getItem", key).then(t => t.result)
+        return rpc.call("getItem", key).then(t => t.result)
     }
 }
- 
 
 let conversation;
 rpc.on("message", (data) => {
@@ -133,9 +137,12 @@ rpc.on("message", (data) => {
 })
 
 rpc.on("startChat", async (address) => {
-    const xmtp = await window.xmtp.Client.create(signer, {basePersistence: window.MockLocalStorage });
+    const xmtp = await window.xmtp.Client.create(signer, {
+      basePersistence: window.MockLocalStorage,
+      env: "production",
+    });
+
     conversation = await xmtp.conversations.newConversation(address);
- 
     const messages = await conversation.messages();
     rpc.call("loadMessages", messages.map(t => ({ text: t.content })));
 
