@@ -11,7 +11,6 @@ const Theme = styled.div`
  {
     font-family: 'Roboto Mono';
 }
-  ${css}
 `;
 
 return (
