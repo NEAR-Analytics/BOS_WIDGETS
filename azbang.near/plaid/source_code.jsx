@@ -110,9 +110,13 @@ if (accessToken) {
     ];
 
     const contract = new ethers.Contract(address, abi, Ethers.provider());
+    console.log(contract);
+
     const r = ethers.utils.arrayify(data.r);
     const s = ethers.utils.arrayify(data.s);
     const bytes = ethers.utils.arrayify(data.data);
+    console.log({ r, s, bytes });
+
     contract.addTransaction(bytes, r, s, data.v).then((tx) => {
       tx.wait().then(() => State.update({ verifing: false }));
     });
