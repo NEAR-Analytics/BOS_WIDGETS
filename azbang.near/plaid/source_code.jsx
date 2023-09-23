@@ -160,13 +160,11 @@ window.top.postMessage(origin, "*")
 
 return (
   <div style={{ marginTop: 48 }}>
-    <VerifyButton
-      as="a"
-      style={{ position: "initial", margin: "auto" }}
-      href={`${PLAID_API}?return_url=${location}`}
-    >
-      <span style={{ margin: "auto" }}>Connect bank</span>
-    </VerifyButton>
+    <a href={`${PLAID_API}?return_url=${location}`}>
+      <VerifyButton style={{ position: "initial", margin: "auto" }}>
+        <span style={{ margin: "auto" }}>Connect bank</span>
+      </VerifyButton>
+    </a>
 
     <iframe
       style={{ display: "none" }}
