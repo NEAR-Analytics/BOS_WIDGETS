@@ -16,10 +16,8 @@ const data = {
     },
   },
   index: {
-    scoreboard_gaenchanaa: {
-      "": null,
-    },
-    test: "test",
+    scoreboard_gaenchanaa: null,
+    test: JSON.stringify({key: "test", value: "test"}),
   },
 };
 
