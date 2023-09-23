@@ -1,10 +1,18 @@
 State.init({
-  chainId: 1001,
+  chainId: 0,
   count: 0,
   message: "",
   address: "",
 });
-
+if (Ethers.provider()) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      if (chainIdData?.chainId) {
+        State.update({ chainId: chainIdData.chainId });
+      }
+    });
+}
 const messageContractAddress = "0x319125a559454a728034f380ff05e4e6b34cd7ad";
 const messageABI = [
   {
@@ -150,16 +158,11 @@ const sendMessage = async () => {
     messageABI,
     Ethers.provider().getSigner()
   );
-  const ETHColl = ethers.BigNumber.from(
-    ethers.utils.parseEther(state.coll.toString())
-  );
   messageContract.getMessage().then((res) => {
     State.update({ count: res });
   });
   State.update({ chainId: chainIdData.chainId });
-  messageContract.sendMessage(state.address, state.message, {
-    value: ETHColl,
-  });
+  messageContract.sendMessage(state.address, state.message);
 };
 
 return (
