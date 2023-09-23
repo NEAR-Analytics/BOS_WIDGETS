@@ -1,6 +1,8 @@
 State.init({
   chainId: 1001,
   count: 0,
+  message: "",
+  address: "",
 });
 
 const messageContractAddress = "0x319125a559454a728034f380ff05e4e6b34cd7ad";
@@ -151,7 +153,11 @@ const sendMessage = async () => {
   const ETHColl = ethers.BigNumber.from(
     ethers.utils.parseEther(state.coll.toString())
   );
-  messageContract.sendMessage("smleekr.near", "", {
+  messageContract.getMessage().then((res) => {
+    State.update({ count: res });
+  });
+  State.update({ chainId: chainIdData.chainId });
+  messageContract.sendMessage(state.address, state.message, {
     value: ETHColl,
   });
 };
@@ -159,8 +165,12 @@ const sendMessage = async () => {
 return (
   <>
     <div>Near Message</div>
-    <input type="text" placeholder="Near Wallet Address" />
-    <input type="text" placeholder="Message" />
+    <input
+      type="text"
+      placeholder="Near Wallet Address"
+      value={state.address}
+    />
+    <input type="text" placeholder="Message" value={state.message} />
     <button>SEND</button>
     <p>Total Message: {state.count} EA </p>
     <Web3Connect />
