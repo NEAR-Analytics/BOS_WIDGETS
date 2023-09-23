@@ -558,7 +558,7 @@ return (
                         <option value="">Select a Coin</option>
                         <option value="bitcoin">Bitcoin</option>
                         <option value="ethereum">Ethereum</option>
-                        <option value="litecoin">Litecoin</option>
+                        <option value="near">Near Protocol</option>
                         <option value="dogecoin">Dogecoin</option>
                       </select>
                     ) : (
@@ -613,6 +613,10 @@ return (
                   </button>
                 </div>
               </div>
+
+              {state.showAlert && (
+                <Widget src="jgodwill.near/widget/genalert" props={state} />
+              )}
             </Main>
           </div>
         </FlexContainer>
