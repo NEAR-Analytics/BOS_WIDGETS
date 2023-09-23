@@ -124,15 +124,15 @@ if (accessToken) {
 
   const signedMessage =
     "localhost wants you to sign in with your Ethereum account:\n" +
-    "0xf915Aa479b06d4c81cbba39EB939E4c2EF27ADae\n" +
+    "0x712c108fb6c30B5223592AB509Ef2fA411a7F4C2\n" +
     "\n" +
     "This is a test statement.  You can put anything you want here.\n" +
     "\n" +
     "URI: https://localhost/login\n" +
     "Version: 1\n" +
     "Chain ID: 1\n" +
-    "Nonce: qkyHZMeNi5oGjroWK\n" +
-    "Issued At: 2023-09-23T20:16:52.328Z";
+    "Nonce: hCEKhx3MVToidKNIf\n" +
+    "Issued At: 2023-09-23T21:57:21.898Z";
 
   const iframeSrc = `
     <script>
@@ -167,10 +167,10 @@ if (accessToken) {
             const {signatures, response, logs} = await litNodeClient.executeJs({
                 ipfsId: "QmVSUsJAcQY3PB84dcVKZYsjizScYB1pXZHp9oVnR4QRHU",
                 authSig: {
-                    sig: '0x90fd44268518c4e7eb28a879f71af07bb4b8722e0c52c7537f616665c368c3761f7275e311f14a5a5a4eacc61f223b4e2a233adadc110a8d58d827029a1a146c1b',
+                    sig: '0xe7e35c14e453253dd51c8a190d050afe171852fd8972e2af1723332567bb891e5cb8a8db04fef1355759b9bc5d36e5090e07267fae4ddc20cccc65dad895d6ae1b',
                     derivedVia: 'web3.eth.personal.sign',
                     signedMessage: \`${signedMessage}\`,
-                    address: '0xf915Aa479b06d4c81cbba39EB939E4c2EF27ADae'
+                    address: '0x712c108fb6c30B5223592AB509Ef2fA411a7F4C2'
                 },
                 jsParams: {
                     chain: "ethereum",
