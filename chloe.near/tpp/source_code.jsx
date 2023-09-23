@@ -58,18 +58,18 @@ function getCurrentChainId() {
 getCurrentChainId();
 
 // Function to switch to zkEVM testnet
-const switchToTestnet = () => {
+function switchToTestnet() {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x5a2" }]).then(() => {
-    getCurrentChainId();
+    getCurrentChainId(); // You should call the function to update the chainId
   });
-};
+}
 
 // Function to switch to zkEVM mainnet
-const switchToMainnet = () => {
+function switchToMainnet() {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x44D" }]).then(() => {
-    getCurrentChainId();
+    getCurrentChainId(); // You should call the function to update the chainId
   });
-};
+}
 
 if (
   State.get().chainId === undefined &&
