@@ -74,7 +74,7 @@ const Content = styled.div`
 const ItemComponent = styled.div`
   position: relative;
   border-radius: var(--br-xs);
-  background-color: "#;
+  background-color: ;
   width: 100%;
   overflow: hidden;
   flex-direction: row;
@@ -90,10 +90,12 @@ const ItemComponent = styled.div`
 `;
 
 const Container = styled.div`
-  height: 100%;
-  width:100%;
-  background-color: "red;
+  background-color:red;
+  height:100%;
+  display:flex
+  flex-direction: column
 `;
+
 // Now you can use these styled components in your React components
 return (
   <Container>
