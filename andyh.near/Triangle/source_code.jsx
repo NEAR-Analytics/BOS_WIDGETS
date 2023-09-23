@@ -8,6 +8,6 @@ return (
       borderBottom: `${props.height}px solid ${props.color}`,
     }}
   >
-    {props.children}
+    <i className={`bi-${props.icon}`} style={{ color: props.iconColor }} />
   </div>
 );
