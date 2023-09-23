@@ -493,7 +493,7 @@ return (
                   </SmallContainer>
                 </Card>
                 {/* Coin DNFT Component */}
-                  {/*<Widget
+                {/*<Widget
                   src="7649ed19fe15dead3bb479bbbf3acd3a2b337eead0999673d20b9935e4d60d8e/widget/CoinDNFT"
                   props={{ nfts: nfts }}
                 />*/}
