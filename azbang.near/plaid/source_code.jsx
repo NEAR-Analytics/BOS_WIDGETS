@@ -34,6 +34,7 @@ const Checkbox = styled.div`
   right: 16px;
 
   display: block;
+  border: 4px solid #255ff4;
   transition: 0.2s background-color;
   background-color: transparent;
   border-radius: 50%;
@@ -44,17 +45,6 @@ const Checkbox = styled.div`
     background-color: #255ff4;
   }
 
-  &::before {
-    content: "";
-    display: block;
-    position: absolute;
-    border: 4px solid #255ff4;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    left: -6px;
-    top: -6px;
-  }
 `;
 
 const VerifyButton = styled.button`
@@ -90,7 +80,7 @@ if (accessToken === null) {
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
   if (response.body == null) return <p>Loading</p>;
-  console.log(response.body);
+  console.log(response.body, accessToken);
 
   const handleVerify = () => {
     const url = "https://sandbox.plaid.com/transactions/get";
