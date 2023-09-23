@@ -51,6 +51,17 @@ const getCurrentChainId = () => {
 };
 
 // Function to switch to zkEVM mainnet
+const switchToTestnet = () => {
+  Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x5a2" }])
+    .then(() => {
+      setChainId(1442);
+    })
+    .catch((error) => {
+      console.error("Failed to switch to mainnet:", error);
+    });
+};
+
+// Function to switch to zkEVM mainnet
 const switchToMainnet = () => {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x44D" }])
     .then(() => {
@@ -110,17 +121,18 @@ getCurrentChainId();
 return (
   <Wrapper>
     <div>
-      <h2>Welcome to The People's Place</h2>
-      <h3 style={{ whiteSpace: "pre-line" }}>{accountId}</h3>
+      <h2>Welcome to The Peoples Place</h2>
+      <p style={{ whiteSpace: "pre-line" }}>{accountId}</p>
       <h1>Current Chain ID: {chainId}</h1>
       {chainId === 1101 ? (
-        <h3>On Polygon</h3>
+        <p>On Polygon</p>
       ) : (
         <p>Please switch to Polygon zkEVM</p>
       )}
     </div>
-    {chainId !== 1101 && (
+    {chainId !== 1101 && chainId !== 1442 && (
       <div>
+        <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
         <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
       </div>
     )}
