@@ -15,7 +15,7 @@ const data = {
       message: state.message,
     },
   },
-  // ㅜ Social.index("scoreboard_gaenchanaa", "timestamp")로 검색할 예정
+  // ㅜ Social.index("scoreboard_gaenchanaa", "timestamp")로 검색할 예정 ?
   index: {
     scoreboard_gaenchanaa: {
       timestamp: "test",
@@ -45,13 +45,16 @@ const myScoreboardData2 = Social.getr(
   `${context.accountId}/scoreboard_gaenchanaa`
 );
 console.log(myScoreboardData2);
+// ㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗ
 
 const scoreboardIndex = Social.index("scoreboard_gaenchanaa", "timestamp", {
   order: "desc",
 });
 console.log(scoreboardIndex);
 
-const myIndexData = Social.get(`${context.accountId}/index/**`);
+const myIndexData = Social.get(
+  `${context.accountId}/index/scoreboard_gaenchanaa/timestamp`
+);
 console.log(myIndexData);
 
 // // ㅜ 22개의 데이터
