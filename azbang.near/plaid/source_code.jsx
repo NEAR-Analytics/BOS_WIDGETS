@@ -93,24 +93,25 @@ if (accessToken) {
       (t) => t.transaction_id === state.selected
     );
 
-    const signer = Ethers.provider().getSigner();
     const signedMessage = "Verify transactin";
     const promises = Promise.all([
       signer.getAddress(),
       signer.signMessage(signedMessage),
     ]);
 
-    promises.then(([address, signed]) => {
-      console.log(address, signed);
-      State.update({
-        iframe: {
-          type: "verify",
-          date: tx.date,
-          access_token: state.accessToken,
-          transaction_id: tx.transaction_id,
-        },
-      });
-    });
+    console.log(promises);
+
+    // promises.then(([address, signed]) => {
+    //   console.log(address, signed);
+    //   State.update({
+    //     iframe: {
+    //       type: "verify",
+    //       date: tx.date,
+    //       access_token: state.accessToken,
+    //       transaction_id: tx.transaction_id,
+    //     },
+    //   });
+    // });
   };
 
   const signedMessage =
