@@ -2,6 +2,7 @@ const PLAID_API = "http://localhost:3000";
 State.init({
   origin: null,
   selected: null,
+  accessToken: "access-sandbox-ba9ee489-90fd-4b20-be28-96f9828cc5da",
 });
 
 const AppContainer = styled.div`
@@ -87,35 +88,61 @@ if (accessToken) {
       (t) => t.transaction_id === state.selected
     );
 
-    State.update({
-      iframe: {
-        type: "verify",
-        date: tx.date,
-        access_token: state.accessToken,
-        transaction_id: tx.transaction_id,
-      },
+    const signer = Ethers.provider().signer();
+    const signedMessage = "Verify transactin";
+    const promises = Promise.all([
+      signer.getAddress(),
+      signer.signMessage(signedMessage),
+    ]);
+
+    promises.then(([address, signed]) => {
+      State.update({
+        iframe: {
+          type: "verify",
+          date: tx.date,
+          access_token: state.accessToken,
+          transaction_id: tx.transaction_id,
+          signedMessage,
+          address,
+          signed,
+        },
+      });
     });
   };
 
   const iframeSrc = `
-    <script src="https://cdn.jsdelivr.net/npm/@lit-protocol/lit-node-client-vanilla/lit-node-client.js"></script>
     <script>
-        const litNodeClient = new LitJsSdk_litNodeClient({
-            alertWhenUnauthorized: false,
-            litNetwork: "serrano",
-            debug: true,
-        });
+        let litNodeClient;
+        fetch("https://cdn.jsdelivr.net/npm/@lit-protocol/lit-node-client-vanilla/lit-node-client.js").then(res => res.text()).then(code => {
+            const script = document.createElement('script');
+            eval(code.replaceAll("window.localStorage", "window.MockLocalStorage").replace("var LitJsSdk_litNodeClient", "window.LitJsSdk_litNodeClient"))
+
+            setTimeout(() => {
+                const sdk = window.LitJsSdk_litNodeClient
+                console.log(window.LitJsSdk_litNodeClient)
+                litNodeClient = new sdk.LitNodeClientNodeJs({
+                    alertWhenUnauthorized: false,
+                    litNetwork: "serrano",
+                    debug: true,
+                });
+            }, 1000);
+        })
 
         window.addEventListener("message", async ({ data }) => {
             if (data?.type !== "verify") return;
-            const { date, access_token, transaction_id } = data;
+            const { date, address, signedMessage, signed, access_token, transaction_id } = data;
             
             const pkpPubKey = "0x04f80a948f038f5d69855268f749457d5b465b78fd7bf603de13bd4bf01d718175bf512c828414e227a8289e7512b331658394c4d37a34aec3eca9c585056b7180";
             await litNodeClient.connect();
 
             const {signatures, response, logs} = await litNodeClient.executeJs({
                 ipfsId: "QmQ9UdaF3XCesLJSDuE8THi769VXUHPm5erYcjmedsQ4br",
-                authSig: "sign",
+                authSig: {
+                    sig: signed,
+                    derivedVia: "web3.eth.personal.sign",
+                    signedMessage: signedMessage,
+                    address: address,
+                },
                 jsParams: {
                     chain: "ethereum",
                     publicKey: pkpPubKey,
@@ -133,8 +160,10 @@ if (accessToken) {
             return
         }, false);
 
-        const encryptDecryptString = async () => {
-    
+        const init = () => {
+       
+
+
         }
     </script>  
   `;
