@@ -73,7 +73,7 @@ const FlexColumnContainer = styled.div`
 `;
 // Coin Price
 const resCoin = fetch(
-  "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Clitecoin%2Cethereum%2Cdogecoin&vs_currencies=usd"
+  "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cnear%2Cethereum%2Cdogecoin&vs_currencies=usd"
 );
 const coinPrice = resCoin.body;
 
