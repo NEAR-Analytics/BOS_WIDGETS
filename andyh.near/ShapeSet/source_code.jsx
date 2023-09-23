@@ -7,7 +7,7 @@ return (
           color: "#C1200B",
           iconColor: "white",
           icon: "circle",
-          radius: "25px",
+          radius: 25,
         }}
       />
     </div>
@@ -18,7 +18,7 @@ return (
           color: "#4A825A",
           iconColor: "white",
           icon: "square",
-          length: "50px",
+          length: 50,
         }}
       />
     </div>
@@ -29,7 +29,7 @@ return (
           color: "#0A81D1",
           iconColor: "white",
           icon: "triangle",
-          height: "50px",
+          height: 50,
         }}
       />
     </div>
