@@ -92,8 +92,7 @@ const PreviewTicketModal = (
               borderWidth: 1,
               borderColor: "#E2E8F0",
               marginTop: 5,
-              color: "black",
-              curson: "default",
+              cursor: "black",
             }}
           >
             -
@@ -111,7 +110,7 @@ const PreviewTicketModal = (
               borderColor: "#E2E8F0",
               marginTop: 5,
               color: "black",
-              curson: "default",
+              cursor: "default",
             }}
           >
             1
@@ -125,7 +124,7 @@ const PreviewTicketModal = (
               borderColor: "#E2E8F0",
               marginTop: 5,
               color: "black",
-              curson: "default",
+              cursor: "default",
             }}
           >
             +
@@ -139,7 +138,7 @@ const PreviewTicketModal = (
             width: "100%",
             paddingLeft: 15,
             paddingRight: 15,
-            curson: "default",
+            cursor: "default",
           }}
         >
           Buy for {props.ticketPricing} NEAR
