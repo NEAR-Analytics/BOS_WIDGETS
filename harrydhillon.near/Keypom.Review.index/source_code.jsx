@@ -21,8 +21,8 @@ const EventDisplayFlex = styled.div`
     align-items: center;
 `;
 
-const eventData = props.eventData ?? {};
-const ticketValue = props.tickets ?? [];
+const eventData = props?.getStorage("formValues") ?? {};
+const ticketValue =  props?.getStorage("tickets") ?? [];
 
 return (
   <div style={{ padding: 10 }}>
@@ -36,6 +36,7 @@ return (
         Preview Event Page
       </UnstyledButton>
     </HeadingDisplayFlex>
+
     <EventDisplayFlex>
       <div style={{ width: "50%", display: "flex", alignItems: "center" }}>
         <img
@@ -46,7 +47,7 @@ return (
             borderRadius: 5,
             margin: 10,
             marginBottom: 5,
-            marginLeft: 0,
+            marginLeft: 0
           }}
           src={`https://ipfs.near.social/ipfs/${eventData?.image?.cid}`}
         />
@@ -57,7 +58,9 @@ return (
           <p style={{ fontSize: 12 }}>{eventData?.description}</p>
         </div>
       </div>
+
       <div style={{ width: "10%" }} />
+
       <div style={{ width: "40%" }}>
         <Label>Event date</Label>
         <p style={{ fontSize: 12 }}>
@@ -67,44 +70,51 @@ return (
         <p style={{ fontSize: 12 }}>{eventData.location}</p>
       </div>
     </EventDisplayFlex>
+
     <Widget
       props={{
-        ticketValue,
+        ticketValue
       }}
       src="harrydhillon.near/widget/Keypom.Review.TicketTable"
     />
+
     <button
       onClick={() => {
         const tickets = props?.getStorage("tickets");
         const formValues = props?.getStorage("formValues");
         const collectInfo = props?.getStorage("collectInfo");
-        props?.setStorage("tickets", "");
-        props?.setStorage("formValues", "");
-        props?.setStorage("collectInfo", "");
-        props?.setStorage(
+
+        props?.setStorage("tickets", '');
+        props?.setStorage("formValues", '');
+        props?.setStorage("collectInfo", '');
+
+        Storage?.set(
           "allData",
           JSON.stringify({
             tickets,
             formValues,
-            collectInfo,
+            collectInfo
           })
         );
       }}
     >
       Reset Fields
     </button>
+
     <button
       onClick={() => {
         const { tickets, formValues, collectInfo } = JSON.parse(
-          props?.getStorage("allData")
+          Storage?.get("allData")
         );
-        props?.setStorage("tickets", JSON.stringify(tickets));
-        props?.setStorage("formValues", JSON.stringify(formValues));
-        props?.setStorage("collectInfo", JSON.stringify(collectInfo));
+
+        props?.setStorage("tickets", tickets);
+        props?.setStorage("formValues", formValues);
+        props?.setStorage("collectInfo", collectInfo);
       }}
     >
       Revert Fields
     </button>
+
     {state?.previewEvent && (
       <Widget
         src="harrydhillon.near/widget/Keypom.Components.Modal"
@@ -127,7 +137,7 @@ return (
                   borderWidth: 1,
                   borderColor: "lightgray",
                   marginTop: 5,
-                  color: "black",
+                  color: "black"
                 }}
               >
                 Close
@@ -137,9 +147,9 @@ return (
           isOpen: state.previewEvent,
           contentStyles: {
             style: {
-              width: "600px",
-            },
-          },
+              width: "600px"
+            }
+          }
         }}
       />
     )}
