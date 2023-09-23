@@ -115,12 +115,14 @@ class RemoteSigner {
 const rpc = new IframeRPC();
 const signer = new RemoteSigner(rpc);
 window.MockLocalStorage = {
+    data: {},
     setItem(key, value) {
         console.log(key, value)
-        return rpc.call("setItem", { key, value })
+        this.data[key] = value;
+        //return rpc.call("setItem", { key, value })
     },
     getItem(key) {
-        return rpc.call("getItem", key).then(t => t.result)
+        return this.data[key]; //rpc.call("getItem", key).then(t => t.result)
     }
 }
  
