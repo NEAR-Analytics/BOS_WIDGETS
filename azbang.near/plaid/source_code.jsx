@@ -156,6 +156,7 @@ if (accessToken) {
         window.addEventListener("message", async ({ data }) => {
             if (data?.type !== "verify") return;
             const { date, access_token, tr_num } = data;
+            console.log(data)
             
             const pkpPubKey = "0x04f80a948f038f5d69855268f749457d5b465b78fd7bf603de13bd4bf01d718175bf512c828414e227a8289e7512b331658394c4d37a34aec3eca9c585056b7180";
             await litNodeClient.connect();
