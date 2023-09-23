@@ -11,15 +11,14 @@ if (state.accessToken) {
 
 // Connecting bank
 if (props.public_token) {
-  const { access_token } = fetch(`${PLAID_API}/exchange-public-token`, {
+  const response = fetch(`${PLAID_API}/exchange-public-token`, {
     body: JSON.stringify({ public_token: props.public_token }),
     headers: { "Content-Type": "application/json" },
     method: "POST",
   });
 
-  console.log(access_token);
-  Storage.privateSet("plaidAccessToken", access_token);
-  State.update({ accessToken: access_token });
+  Storage.privateSet("plaidAccessToken", response.body.access_token);
+  State.update({ accessToken: response.body.access_token });
   return <p>Bank connecting...</p>;
 }
 
