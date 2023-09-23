@@ -17,13 +17,12 @@ State.init({
 });
 
 const Grid = styled.div`
-    display: grid;
-    grid-template-columns: 1fr;  // By default, 1 item per row
-    gap: 16px;  // Gap between rows and columns
-
-    @media (min-width: 1000px) {
-        grid-template-columns: 1fr 1fr;  // 2 items per row if width is greater than 1000px
-    }
+  display: grid;
+  grid-template-columns: 1fr;  // By default, 1 item per row
+  gap: 16px;  // Gap between rows and columns
+  @media (min-width: 1000px) {
+    grid-template-columns: 1fr 1fr;  // 2 items per row if width is greater than 1000px
+  }
 `;
 const Label = styled.p`
 font-size: 16px;
@@ -160,6 +159,19 @@ const formContent = () => {
             }}
           />
           {showFormError("location", "Event location")}
+          <Widget
+            src="harrydhillon.near/widget/Keypom.Components.Input"
+            props={{
+              label: "Event Time",
+              inputProps: {
+                placeholder: "Select a date range",
+                value: state.to,
+                type: "time",
+                onChange: (e) => setInput("time", e.target.value),
+              },
+            }}
+          />
+          {showFormError("time", "Event Time")}
           <Label style={{ marginLeft: -5, fontWeight: "bold" }}>
             Event dates*
           </Label>
