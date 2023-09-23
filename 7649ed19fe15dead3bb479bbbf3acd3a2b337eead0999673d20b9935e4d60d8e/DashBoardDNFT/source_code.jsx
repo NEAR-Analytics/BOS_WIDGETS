@@ -141,7 +141,6 @@ display: flex;
 const FlexContainer = styled.div`
   display: grid;
   grid-template-columns: 300px 4fr; 
-  grid-gap: 30px; 
   
 `;
 
