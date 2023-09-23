@@ -92,7 +92,7 @@ const PreviewTicketModal = (
               borderWidth: 1,
               borderColor: "#E2E8F0",
               marginTop: 5,
-              cursor: "black",
+              cursor: "default",
             }}
           >
             -
