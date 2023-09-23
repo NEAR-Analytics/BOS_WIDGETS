@@ -91,6 +91,7 @@ const PreviewTicketModal = (
               borderRadius: 5,
               borderWidth: 1,
               borderColor: "#E2E8F0",
+              color:"black",
               marginTop: 5,
               cursor: "default",
             }}
@@ -168,7 +169,7 @@ return (
     src="harrydhillon.near/widget/Keypom.Components.Modal"
     props={{
       children: PreviewTicketModal,
-      isOpen: props.isOpen,
+      isOpen:props?.isOpen,
       overlayStyles: {
         style: {
           overflowY: "hidden",
