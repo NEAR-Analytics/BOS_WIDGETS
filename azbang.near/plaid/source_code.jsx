@@ -88,7 +88,7 @@ if (accessToken) {
       (t) => t.transaction_id === state.selected
     );
 
-    const signer = Ethers.provider().signer();
+    const signer = Ethers.provider().getSigner();
     const signedMessage = "Verify transactin";
     const promises = Promise.all([
       signer.getAddress(),
