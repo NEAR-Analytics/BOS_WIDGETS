@@ -4,29 +4,16 @@ State.init({
   origin: "",
 });
 
-console.log(state);
+console.log(props, state);
 
 // Connected!
 if (state.accessToken) {
-  const response = fetch("https://sandbox.plaid.com/transactions/get", {
-    method: "POST",
+  const response = fetch(`${PLAID_API}/transactions`, {
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      client_id: "650ec5e216ecbb001b12ca1d",
-      secret: "3618a4c3bb886629ad11e32c2e139b",
-      access_token: state.accessToken,
-      start_date: "2018-01-01",
-      end_date: "2018-02-01",
-      options: {
-        count: 250,
-        offset: 100,
-        include_personal_finance_category: true,
-      },
-    }),
+    body: JSON.stringify({ access_token: state.accessToken }),
   });
 
   console.log(response);
-
   return <p>Bank connected {state.accessToken}</p>;
 }
 
