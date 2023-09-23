@@ -14,7 +14,7 @@ window.top.postMessage(origin, "*")
 if (props.public_token) {
   const { access_token } = fetch(`${PLAID_API}/exchange-public-token`, {
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ public_token }),
+    body: JSON.stringify({ public_token: props.public_token }),
     method: "POST",
   });
 
