@@ -193,6 +193,7 @@ return (
       <div style={{ padding: 16 }}>
         <MessageForm>
           <input
+            placeholder={state.chat ? "Enter message" : "Enter Eth address"}
             value={state.msgValue}
             onChange={(e) => State.update({ msgValue: e.target.value })}
           />
