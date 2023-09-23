@@ -7,7 +7,7 @@ const renderApp = () => {
   // Connected!
   const accessToken =
     state.accessToken || Storage.privateGet("plaidAccessToken");
-  console.log(accessToken);
+  console.log({ accessToken });
 
   if (accessToken) {
     const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
