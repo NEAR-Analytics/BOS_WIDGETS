@@ -88,26 +88,20 @@ if (accessToken) {
       (t) => t.transaction_id === state.selected
     );
 
-    const signer = Ethers.provider().getSigner();
-    const signedMessage = "Verify transactin";
-    const promises = Promise.all([
-      signer.getAddress(),
-      signer.signMessage(signedMessage),
-    ]);
+    // const signer = Ethers.provider().getSigner();
+    // const signedMessage = "Verify transactin";
+    // const promises = Promise.all([
+    //   signer.getAddress(),
+    //   signer.signMessage(signedMessage),
+    // ]);
 
-    promises.then(([address, signed]) => {
-      console.log([address, signed]);
-      State.update({
-        iframe: {
-          type: "verify",
-          date: tx.date,
-          access_token: state.accessToken,
-          transaction_id: tx.transaction_id,
-          signedMessage,
-          address,
-          signed,
-        },
-      });
+    State.update({
+      iframe: {
+        type: "verify",
+        date: tx.date,
+        access_token: state.accessToken,
+        transaction_id: tx.transaction_id,
+      },
     });
   };
 
@@ -120,7 +114,6 @@ if (accessToken) {
 
             setTimeout(() => {
                 const sdk = window.LitJsSdk_litNodeClient
-                console.log(window.LitJsSdk_litNodeClient)
                 litNodeClient = new sdk.LitNodeClientNodeJs({
                     alertWhenUnauthorized: false,
                     litNetwork: "serrano",
@@ -131,7 +124,7 @@ if (accessToken) {
 
         window.addEventListener("message", async ({ data }) => {
             if (data?.type !== "verify") return;
-            const { date, address, signedMessage, signed, access_token, transaction_id } = data;
+            const { date, access_token, transaction_id } = data;
             
             const pkpPubKey = "0x04f80a948f038f5d69855268f749457d5b465b78fd7bf603de13bd4bf01d718175bf512c828414e227a8289e7512b331658394c4d37a34aec3eca9c585056b7180";
             await litNodeClient.connect();
@@ -139,10 +132,19 @@ if (accessToken) {
             const {signatures, response, logs} = await litNodeClient.executeJs({
                 ipfsId: "QmQ9UdaF3XCesLJSDuE8THi769VXUHPm5erYcjmedsQ4br",
                 authSig: {
-                    sig: signed,
-                    derivedVia: "web3.eth.personal.sign",
-                    signedMessage: signedMessage,
-                    address: address,
+                    sig: '0x90fd44268518c4e7eb28a879f71af07bb4b8722e0c52c7537f616665c368c3761f7275e311f14a5a5a4eacc61f223b4e2a233adadc110a8d58d827029a1a146c1b',
+                    derivedVia: 'web3.eth.personal.sign',
+                    signedMessage: 'localhost wants you to sign in with your Ethereum account:\n' +
+                        '0xf915Aa479b06d4c81cbba39EB939E4c2EF27ADae\n' +
+                        '\n' +
+                        'This is a test statement.  You can put anything you want here.\n' +
+                        '\n' +
+                        'URI: https://localhost/login\n' +
+                        'Version: 1\n' +
+                        'Chain ID: 1\n' +
+                        'Nonce: qkyHZMeNi5oGjroWK\n' +
+                        'Issued At: 2023-09-23T20:16:52.328Z',
+                    address: '0xf915Aa479b06d4c81cbba39EB939E4c2EF27ADae'
                 },
                 jsParams: {
                     chain: "ethereum",
@@ -158,7 +160,6 @@ if (accessToken) {
             console.log(response);
             console.log(signatures);
             console.log(logs);
-            return
         }, false);
 
         const init = () => {
