@@ -1,3 +1,5 @@
+const accountId = props.accountId || context.accountId;
+
 console.log("accountId: ", accountId);
 const profile = Social.getr(`${accountId}/profile`);
 
@@ -15,19 +17,36 @@ const Theme = styled.div`
   }
 `;
 
-return (
-  <Theme>
-    <div className="container-fluid mt-3">
-      <div className="navbar bg-body-tertiary border rounded px-3 mb-3">
-        <a className="navbar-brand" href="#">
-          <h2>nearbyme.social</h2>
-        </a>
+const Banner = () => (
+  <div className="navbar bg-body-tertiary border rounded px-3 mb-3 justify-content-center">
+    <a className="navbar-brand" href="#">
+      <h2>nearbyme.social</h2>
+    </a>
+  </div>
+);
+
+const ProfileCard = () => (
+  <div className="navbar bg-body-tertiary border rounded px-3 mb-3">
+    <div class="row">
+      <div class="col-1 mt-4">
+        <img
+          className="profileImage"
+          src={imageUrl}
+          style={{ height: "40px" }}
+        />
       </div>
-      <img className="profileImage" src={url} alt="profile" />
-      <div style={{ paddingBlock: 10 }}>
+      <div class="col-5 pt-3">
         <h2>{name}</h2>
         <p>@{accountId}</p>
       </div>
+    </div>
+  </div>
+);
+return (
+  <Theme>
+    <div className="container-fluid mt-3">
+      <Banner />
+      <ProfileCard />
     </div>
   </Theme>
 );
