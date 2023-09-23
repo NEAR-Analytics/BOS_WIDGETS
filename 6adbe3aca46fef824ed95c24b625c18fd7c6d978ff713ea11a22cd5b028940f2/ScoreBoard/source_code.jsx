@@ -6,13 +6,11 @@ State.init({
 });
 
 const data = {
-  scoreboard: undefined,
-  scoreboard_gaenchanaa: [
-    {
-      score: state.score,
-      message: state.message,
-    },
-  ],
+  scoreboard: null,
+  scoreboard_gaenchanaa: {
+    score: [state.score],
+    message: [state.message],
+  },
   index: {
     scoreboard_gaenchanaa: "",
   },
@@ -61,6 +59,8 @@ return (
       placeholder="남기고 싶은 메세지를 입력하세요!"
       onChange={(e) => State.update({ message: e.target.value })}
     />
-    <CommitButton force data={data}>기록 저장하기</CommitButton>
+    <CommitButton force data={data}>
+      기록 저장하기
+    </CommitButton>
   </>
 );
