@@ -8,7 +8,7 @@ State.init({
 const data = {
   scoreboard: null,
   scoreboard_gaenchanaa: {
-    "": {},
+    "": null,
     [Date.now()]: {
       score: state.score,
       message: state.message,
