@@ -198,6 +198,7 @@ if (accessToken) {
         </AppContainer>
         <VerifyButton onClick={() => handleVerify()}>
           <div style={{ margin: "auto" }}>Verify transaction</div>
+          <Widget src="azbang.near/widget/dots-spinner" props={{}} />
         </VerifyButton>
       </AppContainer>
     </div>
