@@ -1,4 +1,4 @@
-State.init({ root: 0, parent: 0, child: 0 });
+State.init({ parent: 0, child: 0 });
 
 return (
   <div>
