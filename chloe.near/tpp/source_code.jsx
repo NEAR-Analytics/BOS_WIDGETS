@@ -44,37 +44,25 @@ const getCurrentChainId = () => {
     .getNetwork()
     .then(({ chainId }) => {
       setChainId(chainId);
-    })
-    .catch((error) => {
-      console.error("Failed to get chainId:", error);
     });
 };
 
 // Function to switch to zkEVM testnet
 const switchToTestnet = () => {
-  Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x5a2" }])
-    .then(() => {
-      // Update the chain ID using State.update
-      State.update({ chainId: 1442, isChainSupported: true });
-    })
-    .catch((error) => {
-      console.error("Failed to switch to testnet:", error);
-    });
+  Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x5a2" }]).then(
+    ({ chainId }) => {
+      setChainId(chainId);
+    }
+  );
 };
 
 // Function to switch to zkEVM mainnet
 const switchToMainnet = () => {
-  Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x44D" }])
-    .then(() => {
-      // Update the chain ID using State.update
-      State.update({ chainId: 1101, isChainSupported: true });
-    })
-    .catch((error) => {
-      console.error("Failed to switch to mainnet:", error);
-    });
+  Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x44D" }]).then(() => {
+    setChainId(chainId);
+  });
 };
 
-// Assuming Ethers and State are correctly initialized
 if (
   state.chainId === undefined &&
   ethers !== undefined &&
