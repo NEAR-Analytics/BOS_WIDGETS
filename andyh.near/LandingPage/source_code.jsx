@@ -1,7 +1,7 @@
 State.init({ isDebug: true, showMonitor: true });
 
 const buildUrl = (componentPath) => {
-  return `${componentPath}?isDebug=${state.isDebug}&showMonitor=${state.showMonitor}`;
+  return `/${componentPath}?isDebug=${state.isDebug}&showMonitor=${state.showMonitor}`;
 };
 
 return (
@@ -69,7 +69,7 @@ return (
           </div>
           <ul className="icon-list">
             <li>
-              <a href={buildUrl("/andyh.near/widget/ComponentIdTestRoot")}>
+              <a href={buildUrl("andyh.near/widget/ComponentIdTestRoot")}>
                 Component ID test
               </a>
             </li>
