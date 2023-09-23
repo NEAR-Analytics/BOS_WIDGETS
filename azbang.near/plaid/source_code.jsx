@@ -94,37 +94,22 @@ if (accessToken) {
     );
 
     const signedMessage = "Verify transactin";
-    const promises = Promise.all([
-      signer.getAddress(),
-      signer.signMessage(signedMessage),
-    ]);
-
-    console.log(promises);
-
-    // promises.then(([address, signed]) => {
-    //   console.log(address, signed);
-    //   State.update({
-    //     iframe: {
-    //       type: "verify",
-    //       date: tx.date,
-    //       access_token: state.accessToken,
-    //       transaction_id: tx.transaction_id,
-    //     },
-    //   });
-    // });
+    signer.signMessage(signedMessage).then((signed) => {
+      signer.getAddress().then((address) => {
+        State.update({
+          iframe: {
+            type: "verify",
+            date: tx.date,
+            access_token: state.accessToken,
+            transaction_id: tx.transaction_id,
+            signedMessage,
+            signed,
+            address,
+          },
+        });
+      });
+    });
   };
-
-  const signedMessage =
-    "localhost wants you to sign in with your Ethereum account:\n" +
-    "0xf915Aa479b06d4c81cbba39EB939E4c2EF27ADae\n" +
-    "\n" +
-    "This is a test statement.  You can put anything you want here.\n" +
-    "\n" +
-    "URI: https://localhost/login\n" +
-    "Version: 1\n" +
-    "Chain ID: 1\n" +
-    "Nonce: qkyHZMeNi5oGjroWK\n" +
-    "Issued At: 2023-09-23T20:16:52.328Z";
 
   const iframeSrc = `
     <script>
@@ -153,10 +138,10 @@ if (accessToken) {
             const {signatures, response, logs} = await litNodeClient.executeJs({
                 ipfsId: "QmQ9UdaF3XCesLJSDuE8THi769VXUHPm5erYcjmedsQ4br",
                 authSig: {
-                    sig: '0x90fd44268518c4e7eb28a879f71af07bb4b8722e0c52c7537f616665c368c3761f7275e311f14a5a5a4eacc61f223b4e2a233adadc110a8d58d827029a1a146c1b',
+                    sig: data.signed,
                     derivedVia: 'web3.eth.personal.sign',
-                    signedMessage: \`${signedMessage}\`,
-                    address: '0xf915Aa479b06d4c81cbba39EB939E4c2EF27ADae'
+                    signedMessage: data.signedMessage,
+                    address: data.address,
                 },
                 jsParams: {
                     chain: "ethereum",
