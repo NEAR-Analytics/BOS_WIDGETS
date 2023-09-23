@@ -10,6 +10,7 @@ State.init({
 const data = {
   // ㅜ Social.getr(`${accountId}/scoreboard_gaenchanaa/timestamp`)로 조회할 예정
   scoreboard_gaenchanaa: {
+    1695488704617: { score: null },
     [timestamp]: {
       score: state.score,
       message: state.message,
@@ -17,10 +18,9 @@ const data = {
   },
   // ㅜ Social.index("scoreboard_gaenchanaa", "timestamp")로 검색할 예정
   index: {
-    "": null,
     scoreboard_gaenchanaa: {
-      timestamp: `${timestamp}`,
-    }
+      timestamp: null,
+    },
   },
 };
 
@@ -37,13 +37,17 @@ const myAccountData2 = Social.getr(`${context.accountId}`);
 console.log(myAccountData2);
 
 // ㅜ myScoreboardData와 myScoreboardData2는 동일
-const myScoreboardData = Social.get(`${context.accountId}/scoreboard_gaenchanaa/*`);
+const myScoreboardData = Social.get(
+  `${context.accountId}/scoreboard_gaenchanaa/**`
+);
 console.log(myScoreboardData);
 
-const myScoreboardData2 = Social.getr(`${context.accountId}/scoreboard_gaenchanaa`);
+const myScoreboardData2 = Social.getr(
+  `${context.accountId}/scoreboard_gaenchanaa`
+);
 console.log(myScoreboardData2);
 
-const scoreboardIndex = Social.index("scoreboard_gaenchanaa", "", {
+const scoreboardIndex = Social.index("scoreboard_gaenchanaa", "timestamp", {
   order: "desc",
 });
 console.log(scoreboardIndex);
