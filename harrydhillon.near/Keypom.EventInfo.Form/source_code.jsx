@@ -96,6 +96,9 @@ const executeValidation = () => {
   if (!state.location) {
     allErrors.location = true;
   }
+  if (!state.time) {
+    allErrors.time = true;
+  }
   if (state.isSingleDateEvent) {
     if (!state.from) {
       allErrors.from = true;
