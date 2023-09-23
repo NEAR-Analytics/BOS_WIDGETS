@@ -4,10 +4,6 @@ State.init({
   origin: null,
 });
 
-if (state.origin == null) {
-  return <p>Loading</p>;
-}
-
 const renderApp = () => {
   // Connected!
   if (state.accessToken) {
@@ -46,7 +42,7 @@ window.top.postMessage(origin, "*")
 
 return (
   <div>
-    {renderApp()}
+    {state.origin != null && renderApp()}
     <iframe
       style={{ display: "none" }}
       onMessage={(origin) => {
