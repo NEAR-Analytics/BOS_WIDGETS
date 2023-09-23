@@ -34,8 +34,8 @@ const CenteredDiv = styled.div`
 
 const StyledImage = styled.img`
   object-fit: cover;
-  max-width: 270px;
-  max-height: 270px;
+  max-width: 240px;
+  max-height: 240px;
   overflow-wrap: break-word;
   border-radius: 10px; /* Rounded corners, you can adjust the value */
 `;
