@@ -1,23 +1,32 @@
 const score = 99;
+const timestamp = Date.now();
 
 State.init({
   score: score,
   message: message,
+  timestamp: timestamp,
 });
 
 const data = {
-  scoreboard: {},
+  scoreboard: {
+    score: null,
+  },
   scoreboard_gaenchanaa: {
     "": null,
     score: null,
     message: null,
-    [Date.now()]: {
+    ["1695479151306"]: null,
+    1695479306574: null,
+    [timestamp]: {
       score: state.score,
       message: state.message,
     },
   },
   index: {
-    scoreboard_gaenchanaa: "",
+    scoreboard_gaenchanaa: {
+      key: "timestamp",
+      value: timestamp,
+    },
   },
 };
 
@@ -38,6 +47,11 @@ console.log(myScoreboardData);
 
 const myScoreboardData2 = Social.getr(`${context.accountId}/scoreboard`);
 console.log(myScoreboardData2);
+
+const scoreboardIndex = Social.index("scoreboard_gaenchanaa", {
+  order: "desc",
+});
+console.log(scoreboardIndex);
 
 // // ㅜ 22개의 데이터
 // const collegiumPostIndex = Social.index("collegium.post", "main", {
