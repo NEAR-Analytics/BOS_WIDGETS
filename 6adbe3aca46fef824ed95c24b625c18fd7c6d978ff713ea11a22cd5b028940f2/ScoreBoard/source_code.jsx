@@ -9,15 +9,16 @@ State.init({
 
 const data = {
   scoreboard_gaenchanaa: {
-    1695481201374: {score: null},
-    1695481435817: {score: null},
+    1695481610124: { score: null },
     [timestamp]: {
       score: state.score,
       message: state.message,
     },
   },
   index: {
-    scoreboard_gaenchanaa: "",
+    scoreboard_gaenchanaa: {
+      "": null,
+    },
   },
 };
 
