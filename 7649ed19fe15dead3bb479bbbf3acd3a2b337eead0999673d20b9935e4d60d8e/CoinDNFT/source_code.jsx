@@ -76,10 +76,6 @@ const resCoin = fetch(
   "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Clitecoin%2Cethereum%2Cdogecoin&vs_currencies=usd"
 );
 const coinPrice = resCoin.body;
-const dogePrice = coinPrice.dogecoin.usd;
-const bitcoinPrice = coinPrice.bitcoin.usd;
-const ethereumPrice = coinPrice.ethereum.usd;
-const litecoin = coinPrice.litecoin.usd;
 
 return (
   <Card>
