@@ -50,7 +50,8 @@ function getCurrentChainId() {
     .getNetwork()
     .then((chainData) => {
       const newId = chainData.chainId;
-      State.update({ newId });
+      let chainId = 0;
+      State.update({ chainId, newId });
     });
 }
 
