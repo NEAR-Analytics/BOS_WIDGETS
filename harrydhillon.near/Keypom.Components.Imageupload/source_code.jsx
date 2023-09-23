@@ -62,12 +62,15 @@ return (
     <div style={{ padding: 10 }}>
       <div>
         <IpfsImageUpload image={state.img} />
-        {!!state.img && (
+        {!!state.img && props?.removeImage && (
           <button
             style={{
               color: "red",
               backgroundColor: "transparent",
               border: "1px solid red",
+            }}
+            onClick={() => {
+              props?.removeImage();
             }}
           >
             Remove
