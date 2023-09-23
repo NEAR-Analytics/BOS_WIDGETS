@@ -56,10 +56,12 @@ const DotsSpinner = styled.div`
 }`;
 
 return (
-  <div class="lds-ellipsis" style={props.style}>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+  <DotsSpinner>
+    <div class="lds-ellipsis" style={props.style}>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </DotsSpinner>
 );
