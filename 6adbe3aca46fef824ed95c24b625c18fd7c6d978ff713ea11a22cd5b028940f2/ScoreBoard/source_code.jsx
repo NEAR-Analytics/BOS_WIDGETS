@@ -1,4 +1,4 @@
-const score = 100;
+const score = 99;
 
 State.init({
   score: score,
@@ -61,6 +61,6 @@ return (
       placeholder="남기고 싶은 메세지를 입력하세요!"
       onChange={(e) => State.update({ message: e.target.value })}
     />
-    <CommitButton data={data}>기록 저장하기</CommitButton>
+    <CommitButton force data={data}>기록 저장하기</CommitButton>
   </>
 );
