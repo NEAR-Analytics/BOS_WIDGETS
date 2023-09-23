@@ -39,6 +39,7 @@ const BottomStyledContainer = styled.div`
   background-color: white;
   width: 100%;
   padding: 10px;
+  position: absolute;
   padding-left: 25px;
   padding-right: 25px;
   display: flex;
@@ -196,8 +197,7 @@ const formContent = () => {
           }}
           style={{ backgroundColor: "black", borderWidth: 0 }}
         >
-        {state.index !== 3?`Next`:`Create Event for X NEAR`}
-          
+          {state.index !== 3 ? `Next` : `Create Event for X NEAR`}
         </button>
       </BottomStyledContainer>
     </>
