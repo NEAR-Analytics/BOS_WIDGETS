@@ -62,14 +62,12 @@ return (
     <div style={{ padding: 10 }}>
       <div>
         <IpfsImageUpload image={state.img} />
-        <br />
         {!!state.img && (
           <button
             style={{
               color: "red",
               backgroundColor: "transparent",
               border: "1px solid red",
-              marginTop: 10,
             }}
           >
             Remove
