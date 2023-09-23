@@ -10,9 +10,14 @@ window.top.postMessage(origin, "*")
 </script>
 `;
 
-console.log({ props, context });
-
 if (props.public_token) {
+  const { access_token } = fetch("/exchange-public-token", {
+    headers: { "Content-Type": "application/json" },
+    body: { public_token },
+    method: "POST",
+  });
+
+  console.log(access_token);
   return <p>Bank connected {props.public_token}</p>;
 }
 
