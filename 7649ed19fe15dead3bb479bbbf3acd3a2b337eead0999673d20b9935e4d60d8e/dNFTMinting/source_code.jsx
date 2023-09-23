@@ -63,6 +63,10 @@ State.init({
   img3: null,
   text3: null,
   num3: null,
+
+  selectedType: "none",
+  selectedLocation: "none",
+  selectedCoin: "none",
 });
 
 const handleMint = () => {
@@ -121,8 +125,8 @@ const handleMint = () => {
     const desc = JSON.stringify(attrdesc);
     const metadata = {
       name: state.title,
-      description: `dnft: ${selectedType}: ${
-        selectedLocation || selectedCoin
+      description: `dnft: ${state.selectedType}: ${
+        state.selectedLocation || state.selectedCoin
       } ${desc}`,
       properties: [],
       image: `ipfs://${state.image.cid}`,
@@ -147,8 +151,8 @@ const handleMint = () => {
             token_id: `${Date.now()}`,
             metadata: {
               title: state.title,
-              description: `dnft: ${selectedType}: ${
-                selectedLocation || selectedCoin
+              description: `dnft: ${state.selectedType}: ${
+                state.selectedLocation || state.selectedCoin
               } ${desc}`,
               properties: [],
               media: `https://ipfs.io/ipfs/${state.image.cid}`,
@@ -182,30 +186,41 @@ const onChangeReceiver = (receiver) => {
   });
 };
 
-const [selectedType, setSelectedType] = useState("none");
-const [selectedLocation, setSelectedLocation] = useState("none");
-const [selectedCoin, setSelectedCoin] = useState("none");
-
 const onChangeType = (value) => {
-  if (selectedLocation) {
-    setSelectedLocation("");
+  if (state.selectedLocation) {
+    State.update({
+      selectedLocation: "",
+    });
   }
-  if (selectedCoin) {
-    setSelectedCoin("");
+  if (state.selectedCoin) {
+    State.update({
+      selectedCoin: "",
+    });
   }
-  setSelectedType(value);
+  State.update({
+    selectedType: value,
+  });
 };
 const onChangeLocation = (value) => {
-  if (selectedCoin) {
-    setSelectedCoin("");
+  if (state.selectedCoin) {
+    State.update({
+      selectedCoin: "",
+    });
   }
-  setSelectedLocation(value);
+  State.update({
+    selectedLocation: value,
+  });
 };
+
 const onChangeCoin = (value) => {
-  if (selectedLocation) {
-    setSelectedLocation("");
+  if (state.selectedLocation) {
+    State.update({
+      selectedLocation: "",
+    });
   }
-  setSelectedCoin(value);
+  State.update({
+    selectedCoin: value,
+  });
 };
 
 const onChangeDesc = (description) => {
@@ -257,8 +272,7 @@ display: flex;
 
 const FlexContainer = styled.div`
   display: grid;
-  grid-template-columns: 300px 4fr; 
-  grid-gap: 30px; 
+  grid-template-columns: 300px 3fr; 
   
 `;
 
@@ -286,32 +300,6 @@ const Heading = styled.p`
   width:60%;
   text-align: center;
   font-family: "SF Pro Display",sans-serif;
-`;
-
-const Toast = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-conten: center;
-  bottom: 60px;
-  right: 20px;
-  background-color: red;
-  color: #fff;
-  padding: 16px;
-  border-radius: 8px;
-  
-  z-index: 100;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  line-height:1;
-`;
-
-const Elipse = styled.div`
-background-color:#eff3f9;
-height: 100px;
-width: 100px;
-
-border-radius: 50%;
 `;
 
 const Text = styled.p`
@@ -541,7 +529,7 @@ return (
                   <Card>
                     dNFT Type:
                     <select
-                      value={selectedType}
+                      value={state.selectedType}
                       onChange={(e) => onChangeType(e.target.value)}
                     >
                       <option value="none">Select a Type</option>
@@ -551,9 +539,9 @@ return (
                       <option value="NearComponent">Near Component</option>
                       <option value="CoinPrice">Coin Price</option>
                     </select>
-                    {selectedType === "Weather" ? (
+                    {state.selectedType === "Weather" ? (
                       <select
-                        value={selectedLocation}
+                        value={state.selectedLocation}
                         onChange={(e) => onChangeLocation(e.target.value)}
                       >
                         <option value="">Select a Location</option>
@@ -562,9 +550,9 @@ return (
                         <option value="NewYork">New York</option>
                         <option value="Beijing">Beijing</option>
                       </select>
-                    ) : selectedType === "CoinPrice" ? (
+                    ) : state.selectedType === "CoinPrice" ? (
                       <select
-                        value={selectedCoin}
+                        value={state.selectedCoin}
                         onChange={(e) => onChangeCoin(e.target.value)}
                       >
                         <option value="">Select a Coin</option>
@@ -577,15 +565,15 @@ return (
                       ""
                     )}
                     <div>
-                      {selectedType === "CoinPrice"
+                      {state.selectedType === "CoinPrice"
                         ? "✅ NFT changes based on the coin price. Text: Title. Number: Minimum USD"
-                        : selectedType === "NearSocial"
+                        : state.selectedType === "NearSocial"
                         ? "✅ NFT change based on the number of posts you publish on near social. Text: Title. Number: Minimum number of posts"
-                        : selectedType === "Weather"
+                        : state.selectedType === "Weather"
                         ? "✅ NFT change based on the weather. #1: ☀️ #2: 🌧️ #3: ☁️"
-                        : selectedType === "NearComponent"
+                        : state.selectedType === "NearComponent"
                         ? "✅ NFT change based on the number of component you publish on BOS. Text: Title. Number: Minimum number of Component"
-                        : selectedType === "NearSocialHeart"
+                        : state.selectedType === "NearSocialHeart"
                         ? "✅ NFT change based on the number of ❤️ you receive on near social. Text: Title. Number: Minimum number of ❤️."
                         : ""}
                     </div>
@@ -625,10 +613,6 @@ return (
                   </button>
                 </div>
               </div>
-
-              {state.showAlert && (
-                <Widget src="jgodwill.near/widget/genalert" props={state} />
-              )}
             </Main>
           </div>
         </FlexContainer>
