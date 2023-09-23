@@ -102,9 +102,13 @@ const Attendees = () => {
           const { name } = getProfile(accountId);
           return (
             <div className="col-4">
-              <div className="navbar bg-body-tertiary border rounded px-3 mb-3 justify-content-center">
-                <div className="text-truncate">{name}</div>
-              </div>
+              <a
+                href={`https://near.social/mob.near/widget/ProfilePage?accountId=${accountId}`}
+              >
+                <div className="navbar bg-body-tertiary border rounded px-3 mb-3 justify-content-center">
+                  <div className="text-truncate">{name}</div>
+                </div>
+              </a>
             </div>
           );
         })}
