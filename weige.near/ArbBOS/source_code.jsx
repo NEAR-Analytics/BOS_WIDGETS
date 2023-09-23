@@ -339,7 +339,11 @@ const PannelWrapper = styled.div`
 
 if (!state.sender) {
   return (
-    <Web3Connect className="connect-button" connectLabel="Connect Wallet" />
+    <Layout>
+      <div className="title">Arbitrum Bridge on BOS</div>
+
+      <Web3Connect className="connect-button" connectLabel="Connect Wallet" />
+    </Layout>
   );
 }
 
