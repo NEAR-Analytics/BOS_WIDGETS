@@ -6,7 +6,7 @@ return (
         props={{
           color: "#C1200B",
           iconColor: "white",
-          icon: "circle",
+          icon: props.circleIcon || "circle",
           radius: 40,
         }}
       />
@@ -17,7 +17,7 @@ return (
         props={{
           color: "#4A825A",
           iconColor: "white",
-          icon: "square",
+          icon: props.squareIcon || "square",
           length: 80,
         }}
       />
@@ -28,7 +28,7 @@ return (
         props={{
           color: "#0A81D1",
           iconColor: "white",
-          icon: "triangle",
+          icon: props.triangleIcon || "triangle",
           height: 80,
         }}
       />
