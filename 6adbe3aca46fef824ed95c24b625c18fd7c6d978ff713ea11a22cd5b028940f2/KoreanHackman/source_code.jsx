@@ -24,8 +24,10 @@ const style = {
 
 console.log(props.answer);
 
+const answer = props.answer || "ㄱㅣㅁㅅㅔㅈㅓㅇ";
+
 const inputStates = {};
-props.answer.split("").forEach((v, i) => {
+answer.split("").forEach((v, i) => {
   inputStates[`inputCharacter${i}`] = "";
 });
 
