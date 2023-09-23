@@ -1,22 +1,13 @@
 // mocks & constants
 const places = ["Lobby", "Cafeteria", "ConfRoom1", "ConfRoom2"];
-const mockScannedAdvertisements = () => {
-  return fetch("https://asdf.jaeil.wiki/room/1").body;
-};
-const mockAttendies = () => {
-  return fetch("https://asdf.jaeil.wiki/room").body;
-};
-
 // Props
 const userAccountId = props.accountId || context.accountId;
-
 // States
-let interval;
-const [users, setUsers] = useState([]);
-const [place, setPlace] = useState(places[0]);
-
-setUsers(mockScannedAdvertisements());
-
+State.init({
+  place: props.place || 0,
+  users: [],
+  attendees: [],
+});
 // methods
 const getProfile = (accountId) => {
   const p = Social.getr(`${accountId}/profile`);
@@ -76,16 +67,44 @@ const ProfileCard = ({ name, accountId, imageUrl }) => (
 const BesideUsers = () => {
   return (
     <div className="row">
-      {users &&
-        users.map((accountId) => {
-          const { name, imageUrl } = getProfile(accountId);
+      {!state.users ||
+        (state.users.filter((accountId) => accountId !== userAccountId)
+          .length === 0 && (
+          <div class="fs-5 my-5 w-100 text-center" style={{ color: "gray" }}>
+            {" "}
+            There is no users in place{" "}
+          </div>
+        ))}
+      {state.users &&
+        state.users
+          .filter((accountId) => accountId !== userAccountId)
+          .map((accountId) => {
+            const { name, imageUrl } = getProfile(accountId);
+            return (
+              <div className="col-6">
+                <ProfileCard
+                  name={name}
+                  accountId={accountId}
+                  imageUrl={imageUrl}
+                />
+              </div>
+            );
+          })}
+    </div>
+  );
+};
+
+const Attendees = () => {
+  return (
+    <div className="row">
+      {state.attendees &&
+        state.attendees.map((accountId) => {
+          const { name } = getProfile(accountId);
           return (
-            <div className="col-6">
-              <ProfileCard
-                name={name}
-                accountId={accountId}
-                imageUrl={imageUrl}
-              />
+            <div className="col-4">
+              <div className="navbar bg-body-tertiary border rounded px-3 mb-3 justify-content-center">
+                <div className="text-truncate">{name}</div>
+              </div>
             </div>
           );
         })}
@@ -93,22 +112,18 @@ const BesideUsers = () => {
   );
 };
 
-const Attendies = () => {
-  const users = mockAttendies();
-  return (
-    <div className="row">
-      {users.map((accountId) => {
-        const { name } = getProfile(accountId);
-        return (
-          <div className="col-4">
-            <div className="navbar bg-body-tertiary border rounded px-3 mb-3 justify-content-center">
-              <div className="text-truncate">{name}</div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
+const beaconAdvertise = () => {
+  asyncFetch(`https://collegium.runafter.build/room/${state.place}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    cache: "no-store",
+    body: JSON.stringify({
+      accountId: userAccountId,
+    }),
+  });
 };
 
 const BeaconSimulator = () => {
@@ -119,20 +134,48 @@ const BeaconSimulator = () => {
     >
       <div className="row">
         <div className="fs-3">Beacon Simulator</div>
-        <div className="fs-5">You are in: {place}</div>
+        <div className="fs-5">You are in: {places[state.place]}</div>
       </div>
       <div className="row">
-        {places.map((location, idx) => (
-          <div key={idx} className="col-3 mb-2">
-            <div className="btn btn-primary w-100">{location}</div>
-          </div>
-        ))}
+        {places &&
+          places.map((location, idx) => (
+            <div key={idx} className="col-3 mb-2">
+              <a
+                href={`https://near.social/58423e7fe4bbc6956ea637d23cbeedee8ec23873fcd93bafb69086af625563e9/widget/NearbyMe?place=${idx}`}
+              >
+                <div className="btn btn-primary w-100">{location}</div>
+              </a>
+            </div>
+          ))}
       </div>
     </div>
   );
 };
 
 const { name, imageUrl } = getProfile(userAccountId);
+const fetchScanned = async () => {
+  asyncFetch(`https://collegium.runafter.build/room/${state.place}`, {
+    cache: "no-store",
+  }).then((res) => {
+    State.update({ users: res.body });
+  });
+};
+
+const fetchAttendees = async () => {
+  asyncFetch("https://collegium.runafter.build/room", {
+    cache: "no-store",
+  }).then((res) => {
+    State.update({ attendees: res.body });
+  });
+};
+useEffect(() => {
+  fetchScanned();
+  fetchAttendees();
+  setInterval(() => {
+    fetchScanned();
+    beaconAdvertise();
+  }, 3000);
+}, []);
 
 return (
   <Theme>
@@ -142,8 +185,8 @@ return (
       <ProfileCard name={name} accountId={userAccountId} imageUrl={imageUrl} />
       <p className="fs-3">Builders nearby me</p>
       <BesideUsers />
-      <p className="fs-3">Collegium Contest Attendies</p>
-      <Attendies />
+      <p className="fs-3">Collegium Contest Attendees</p>
+      <Attendees />
     </div>
   </Theme>
 );
