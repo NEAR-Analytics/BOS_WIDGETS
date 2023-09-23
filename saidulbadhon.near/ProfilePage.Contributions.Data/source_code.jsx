@@ -89,7 +89,7 @@ const generate = () => {
 // console.log(array);
 
 // console.log("widget : ", widget);
-console.log("widget : ", widget);
+// console.log("widget : ", widget);
 
 return (
   <div
