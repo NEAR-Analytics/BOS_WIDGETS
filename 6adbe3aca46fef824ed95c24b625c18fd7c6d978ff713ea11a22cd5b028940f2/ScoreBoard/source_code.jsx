@@ -1,4 +1,4 @@
-const score = 99;
+const score = 100;
 const timestamp = Date.now();
 
 State.init({
@@ -10,7 +10,6 @@ State.init({
 const data = {
   // ㅜ Social.getr(`${accountId}/scoreboard_gaenchanaa/timestamp`)로 조회할 예정
   scoreboard_gaenchanaa: {
-    1695488704617: { score: null },
     [timestamp]: {
       score: state.score,
       message: state.message,
@@ -19,7 +18,7 @@ const data = {
   // ㅜ Social.index("scoreboard_gaenchanaa", "timestamp")로 검색할 예정
   index: {
     scoreboard_gaenchanaa: {
-      timestamp: null,
+      timestamp: "test",
     },
   },
 };
@@ -51,6 +50,9 @@ const scoreboardIndex = Social.index("scoreboard_gaenchanaa", "timestamp", {
   order: "desc",
 });
 console.log(scoreboardIndex);
+
+const myIndexData = Social.get(`${context.accountId}/index/**`);
+console.log(myIndexData);
 
 // // ㅜ 22개의 데이터
 // const collegiumPostIndex = Social.index("collegium.post", "main", {
