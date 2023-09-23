@@ -5,7 +5,6 @@ const srcData = `
 
 </style>
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 
 <script>
@@ -25,8 +24,9 @@ function draw() {
   // 랜덤한 위치 생성
   let x = random(width);
   let y = random(height);
+  let size = random(width/10);
   
-  ellipse(x, y, 100, 100); // 원 그리기
+  ellipse(x, y, size, size); // 원 그리기
 }
 
 </script>
