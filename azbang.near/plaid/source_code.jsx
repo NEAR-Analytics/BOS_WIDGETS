@@ -2,6 +2,7 @@ const PLAID_API = "http://localhost:3000";
 State.init({
   origin: null,
   selected: null,
+  accessToken: "access-sandbox-ba9ee489-90fd-4b20-be28-96f9828cc5da",
 });
 
 const AppContainer = styled.div`
@@ -34,12 +35,13 @@ const Checkbox = styled.div`
   right: 16px;
 
   display: block;
-  border: 4px solid #255ff4;
+  border: 2px solid #fff; 
+  box-shadow: 0 0 0 4px #255ff4;
   transition: 0.2s background-color;
   background-color: transparent;
   border-radius: 50%;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
 
   &.active {
     background-color: #255ff4;
@@ -152,7 +154,7 @@ window.top.postMessage(origin, "*")
 `;
 
 return (
-  <div style={{ marginTop: 48 }}>
+  <div style={{ marginTop: 48, background: "#fff" }}>
     <a href={`${PLAID_API}?return_url=${location}`}>
       <VerifyButton style={{ position: "initial", margin: "auto" }}>
         <span style={{ margin: "auto" }}>Connect bank</span>
