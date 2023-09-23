@@ -45,7 +45,6 @@ const BottomStyledContainer = styled.div`
   justify-content: space-between;
   bottom: 0;
   left: 0;
-  position: absolute;
 `;
 
 const BackButton = styled.button`
@@ -197,7 +196,8 @@ const formContent = () => {
           }}
           style={{ backgroundColor: "black", borderWidth: 0 }}
         >
-          Next
+        {state.index !== 3?`Next`:`Create Event for X NEAR`}
+          
         </button>
       </BottomStyledContainer>
     </>
