@@ -10,6 +10,7 @@ const Table = styled.table`
   overflow:hidden;
   border:0.1px solid #30C9F3;
   margin: 20px 0;
+  margin-bottom:10px;
   border-collapse: separate;
   border-spacing: 0;
 `;
