@@ -155,9 +155,11 @@ if (Ethers.provider()) {
     messageABI,
     Ethers.provider().getSigner()
   );
-  messageContract.getMessage().then((res) => {
-    State.update({ count: res });
-  });
+  messageContract
+    .getInboxCount("0x138D466C8edcAE595736999429262f05129340b1")
+    .then((res) => {
+      State.update({ count: res });
+    });
 }
 
 const sendMessage = async () => {
