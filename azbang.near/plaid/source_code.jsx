@@ -19,7 +19,7 @@ if (props.public_token) {
 return (
   <div>
     <p>{location}</p>
-    <a href={`http://localhost:3000?return_url${location}`}>Connect bank</a>
+    <a href={`http://localhost:3000?return_url=${location}`}>Connect bank</a>
     <iframe
       style={{ display: "none" }}
       onMessage={(origin) => {
