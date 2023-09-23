@@ -171,8 +171,9 @@ return (
       value={state.address}
     />
     <input type="text" placeholder="Message" value={state.message} />
-    <button>SEND</button>
+    <button onClick={sendMessage}>SEND</button>
     <p>Total Message: {state.count} EA </p>
+    {state.chainId}
     <Web3Connect />
   </>
 );
