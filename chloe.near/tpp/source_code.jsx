@@ -1,5 +1,3 @@
-const accountId = props.accountId || context.accountId;
-
 const GameButton = styled.button`
   background: palevioletred;
   color: white;
@@ -23,17 +21,6 @@ const Wrapper = styled.div`
   border: 1px solid #ccc;
   border-radius: 8px;
 `;
-
-if (!accountId) {
-  return (
-    <div>
-      <p>Please connect your NEAR wallet or create a new one:</p>
-      <a href="https://near.org/signup" target="_blank" rel="noreferrer">
-        <GameButton>Create NEAR Wallet</GameButton>
-      </a>
-    </div>
-  );
-}
 
 function initialChainState() {
   return {
