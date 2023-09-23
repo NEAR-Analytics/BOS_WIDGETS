@@ -146,7 +146,7 @@ if (accessToken) {
                         litNetwork: "serrano",
                         debug: true,
                     });
-                    
+
                     resolve(litNodeClient)
                 }, 1000);
             })
@@ -173,7 +173,6 @@ if (accessToken) {
                     publicKey: pkpPubKey,
                     sigName: "sig1",
                     access_token,
-                    transaction_id,
                     start_date: date,
                     end_date: date,
                     client_id: "650ec5e216ecbb001b12ca1d",
