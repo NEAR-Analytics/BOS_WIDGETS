@@ -89,14 +89,13 @@ if (accessToken) {
   const handleVerify = () => {
     if (state.verifing) return;
     State.update({ verifing: true });
-    const tr_num = response.body.added.findIndex(
-      (t) => t.transaction_id === state.selected
-    );
+    const list = response.body.added;
+    const tr_num = list.findIndex((t) => t.transaction_id === state.selected);
 
     State.update({
       iframe: {
         type: "verify",
-        date: tx.date,
+        date: list[tr_num].date,
         access_token: state.accessToken,
         tr_num,
       },
