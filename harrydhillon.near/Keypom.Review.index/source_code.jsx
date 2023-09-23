@@ -21,8 +21,8 @@ const EventDisplayFlex = styled.div`
     align-items: center;
 `;
 
-const eventData = {};
-const ticketValue = [];
+const eventData = JSON.parse(props?.getStorage("formValues")) ?? {};
+const ticketValue = JSON.parse(props?.getStorage("tickets")) ?? [];
 
 return (
   <div style={{ padding: 10 }}>
