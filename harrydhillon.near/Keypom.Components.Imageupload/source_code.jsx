@@ -70,7 +70,7 @@ return (
               border: "1px solid red",
             }}
             onClick={() => {
-              props?.removeImage();
+              props?.setImageState(null);
             }}
           >
             Remove
