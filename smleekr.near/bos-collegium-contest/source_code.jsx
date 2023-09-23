@@ -4,16 +4,6 @@ State.init({
   message: "",
   address: "",
 });
-if (Ethers.provider()) {
-  Ethers.provider()
-    .getNetwork()
-    .then((chainIdData) => {
-      if (chainIdData?.chainId) {
-        State.update({ chainId: chainIdData.chainId });
-      }
-    });
-  getMessage();
-}
 const messageContractAddress = "0x5eCebd454e890b49e9a74B81205a8bE9Ce7601a3";
 const messageABI = [
   {
@@ -152,6 +142,23 @@ const messageABI = [
     type: "function",
   },
 ];
+if (Ethers.provider()) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      if (chainIdData?.chainId) {
+        State.update({ chainId: chainIdData.chainId });
+      }
+    });
+  const messageContract = new ethers.Contract(
+    messageContractAddress,
+    messageABI,
+    Ethers.provider().getSigner()
+  );
+  messageContract.getMessage().then((res) => {
+    State.update({ count: res });
+  });
+}
 
 const sendMessage = async () => {
   const messageContract = new ethers.Contract(
@@ -163,16 +170,6 @@ const sendMessage = async () => {
   messageContract.sendMessage(state.address, state.message);
 };
 
-const getMessage = async () => {
-  const messageContract = new ethers.Contract(
-    messageContractAddress,
-    messageABI,
-    Ethers.provider().getSigner()
-  );
-  messageContract.getMessage().then((res) => {
-    State.update({ count: res });
-  });
-};
 return (
   <>
     <div>Near Message</div>
