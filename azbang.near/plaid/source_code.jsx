@@ -74,14 +74,11 @@ const VerifyButton = styled.button`
 `;
 
 const accessToken = state.accessToken || Storage.privateGet("plaidAccessToken");
-if (accessToken === null) {
-  return <p>Loading</p>;
-}
+if (accessToken === null) return null;
 
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
-  if (!response.ok) return <p>Loading</p>;
-  console.log(response.body, accessToken);
+  if (!response.ok) return null;
 
   const handleVerify = () => {
     const url = "https://sandbox.plaid.com/transactions/get";
