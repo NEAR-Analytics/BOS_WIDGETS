@@ -62,6 +62,19 @@ return (
     <div style={{ padding: 10 }}>
       <div>
         <IpfsImageUpload image={state.img} />
+        <br />
+        {Boolean(state.img) && (
+          <button
+            style={{
+              marginTop: 10,
+              backgroundColor: "transparent",
+              color: "red",
+              border: "1px solid red",
+            }}
+          >
+            Remove
+          </button>
+        )}
       </div>
       <div>
         <>
