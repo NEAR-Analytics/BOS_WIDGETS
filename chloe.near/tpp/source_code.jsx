@@ -1,3 +1,5 @@
+const accountId = props.accountId || context.accountId;
+
 const GameButton = styled.button`
   background: palevioletred;
   color: white;
@@ -22,19 +24,50 @@ const Wrapper = styled.div`
   border-radius: 8px;
 `;
 
-const chainId = undefined;
+if (!accountId) {
+  return (
+    <div>
+      <p>Please connect your NEAR wallet or create a new one:</p>
+      <a href="https://near.org/signup" target="_blank" rel="noreferrer">
+        <GameButton>Create NEAR Wallet</GameButton>
+      </a>
+    </div>
+  );
+}
+
+function initialChainState() {
+  return {
+    chainId: undefined,
+    newId: undefined,
+  };
+}
+
+State.init(initialChainState());
+
+// Function to fetch and set the current chainId from the network
+function getCurrentChainId() {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainData) => {
+      const newId = chainData.chainId;
+      State.update({ chainId, newId });
+    });
+}
+
+// Call the function to set the current chainId
+getCurrentChainId();
 
 // Function to switch to zkEVM testnet
 function switchToTestnet() {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x5a2" }]).then(() => {
-    State.update({ chainId });
+    getCurrentChainId(); // You should call the function to update the chainId
   });
 }
 
 // Function to switch to zkEVM mainnet
 function switchToMainnet() {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x44D" }]).then(() => {
-    State.update({ chainId });
+    getCurrentChainId(); // You should call the function to update the chainId
   });
 }
 
@@ -47,7 +80,7 @@ if (
     .getNetwork()
     .then((data) => {
       const chainId = data?.chainId;
-      State.update({ chainId });
+      State.update({ chainId, isChainSupported: true });
     })
     .catch((error) => {
       console.error("Failed to get network:", error);
@@ -59,7 +92,7 @@ return (
     <div>
       <h2>Welcome to The People's Place</h2>
       <p style={{ whiteSpace: "pre-line" }}>{accountId}</p>
-      <h1>Current Chain ID: {State.get().chainId}</h1>
+      <h1>Current Chain ID: {State.get().newId}</h1>
       {State.get().newId === 1101 ? (
         <div>
           <p>On Polygon zkEVM Mainnet</p>
