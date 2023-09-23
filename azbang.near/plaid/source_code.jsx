@@ -6,7 +6,7 @@ State.init({
 
 // Connected!
 if (state.accessToken) {
-  return <p>Bank connected {accessToken}</p>;
+  return <p>Bank connected {state.accessToken}</p>;
 }
 
 // Connecting bank
