@@ -71,6 +71,7 @@ const VerifyButton = styled.button`
   text-align: center;
   font-weight: bold;
   transition: 0.2s background-color;
+  height: 64px;
   &:hover {
     color: #fff;
     text-decoration: none;
