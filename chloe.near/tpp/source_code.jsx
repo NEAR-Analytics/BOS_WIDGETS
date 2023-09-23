@@ -24,30 +24,17 @@ const Wrapper = styled.div`
 
 const chainId = undefined;
 
-// Function to fetch and set the current chainId from the network
-function getCurrentChainId() {
-  Ethers.provider()
-    .getNetwork()
-    .then((chainData) => {
-      const chainId = chainData.chainId;
-      State.update({ chainId });
-    });
-}
-
-// Call the function to set the current chainId
-getCurrentChainId();
-
 // Function to switch to zkEVM testnet
 function switchToTestnet() {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x5a2" }]).then(() => {
-    getCurrentChainId(); // You should call the function to update the chainId
+    State.update({ chainId });
   });
 }
 
 // Function to switch to zkEVM mainnet
 function switchToMainnet() {
   Ethers.send("wallet_switchEthereumChain", [{ chainId: "0x44D" }]).then(() => {
-    getCurrentChainId(); // You should call the function to update the chainId
+    State.update({ chainId });
   });
 }
 
@@ -60,7 +47,7 @@ if (
     .getNetwork()
     .then((data) => {
       const chainId = data?.chainId;
-      State.update({ chainId, isChainSupported: true });
+      State.update({ chainId });
     })
     .catch((error) => {
       console.error("Failed to get network:", error);
