@@ -36,9 +36,8 @@ return (
   <>
     <iframe
       srcDoc={srcData}
-      
       style={{
-        height: "100%",
+        height: "1200vh",
         width: "100%",
       }}
     />
