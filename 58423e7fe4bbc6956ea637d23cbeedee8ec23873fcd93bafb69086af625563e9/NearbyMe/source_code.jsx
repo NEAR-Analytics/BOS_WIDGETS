@@ -1,6 +1,7 @@
 // mocks & constants
-const apiHost = 'https://collegium.runafter.build';
-const deployerAccountId = '58423e7fe4bbc6956ea637d23cbeedee8ec23873fcd93bafb69086af625563e9';
+const apiHost = "https://collegium.runafter.build";
+const deployerAccountId =
+  "58423e7fe4bbc6956ea637d23cbeedee8ec23873fcd93bafb69086af625563e9";
 const places = ["Lobby", "Cafeteria", "ConfRoom1", "ConfRoom2"];
 // Props
 const userAccountId = props.accountId || context.accountId;
@@ -29,9 +30,9 @@ const getProfile = (accountId) => {
 // Sub Components
 const Theme = styled.div`
   ${
-          fetch(
-                  "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          ).body
+    fetch(
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    ).body
   }
 `;
 
