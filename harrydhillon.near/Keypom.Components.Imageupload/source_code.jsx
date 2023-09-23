@@ -67,7 +67,6 @@ return (
               color: "red",
               backgroundColor: "transparent",
               border: "1px solid red",
-              marginTop: 10,
             }}
             onClick={() => {
               State.update({ img: null });
