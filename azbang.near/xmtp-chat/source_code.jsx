@@ -174,7 +174,7 @@ const Message = styled.div`
 `;
 
 return (
-  <div>
+  <div style={{ margin: 24 }}>
     <iframe
       style={{ display: "none" }}
       srcDoc={xmtpMessages}
