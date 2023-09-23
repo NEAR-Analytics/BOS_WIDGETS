@@ -125,16 +125,25 @@ return (
       <p style={{ whiteSpace: "pre-line" }}>{accountId}</p>
       <h1>Current Chain ID: {chainId}</h1>
       {chainId === 1101 ? (
-        <p>On Polygon</p>
+        <div>
+          <p>On Polygon zkEVM Mainnet</p>
+          <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
+        </div>
       ) : (
-        <p>Please switch to Polygon zkEVM</p>
+        <div>
+          {chainId === 1442 ? (
+            <div>
+              <p>On Polygon zkEVM Testnet</p>
+              <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
+            </div>
+          ) : (
+            <div>
+              <p>Please switch to Polygon zkEVM</p>
+              <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
+            </div>
+          )}
+        </div>
       )}
     </div>
-    {chainId !== 1101 && chainId !== 1442 && (
-      <div>
-        <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
-        <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
-      </div>
-    )}
   </Wrapper>
 );
