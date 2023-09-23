@@ -72,6 +72,29 @@ const switchToMainnet = () => {
     });
 };
 
+function switchEthereumChain(chainId) {
+  const chainIdHex = `0x${chainId.toString(16)}`;
+  const res = Ethers.send("wallet_switchEthereumChain", [
+    { chainId: chainIdHex },
+  ]);
+  // If `res` === `undefined`, it means switch chain failed, which is very weird but it works.
+  // If `res` is `null` the function is either not called or executed successfully.
+  if (res === undefined) {
+    console.log(
+      `Failed to switch chain to ${chainId}. Add the chain to wallet`
+    );
+    const config = getNetworkConfig(chainId);
+    Ethers.send("wallet_addEthereumChain", [
+      {
+        chainId: chainIdHex,
+        chainName: config.chainName,
+        nativeCurrency: config.nativeCurrency,
+        rpcUrls: [config.rpcUrl],
+      },
+    ]);
+  }
+}
+
 if (
   state.chainId === undefined &&
   ethers !== undefined &&
@@ -106,16 +129,20 @@ return (
           <p>On Polygon zkEVM Mainnet</p>
           <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
         </div>
-      ) : chainId === 1442 ? (
-        <div>
-          <p>On Polygon zkEVM Testnet</p>
-          <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
-        </div>
       ) : (
         <div>
-          <p>Please switch to Polygon zkEVM</p>
-          <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
-          <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
+          {chainId === 1442 ? (
+            <div>
+              <p>On Polygon zkEVM Testnet</p>
+              <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
+            </div>
+          ) : (
+            <div>
+              <p>Please switch to Polygon zkEVM</p>
+              <button onClick={switchToTestnet}>Switch to zkEVM Testnet</button>
+              <button onClick={switchToMainnet}>Switch to zkEVM Mainnet</button>
+            </div>
+          )}
         </div>
       )}
     </div>
