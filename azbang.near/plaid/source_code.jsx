@@ -106,10 +106,10 @@ if (accessToken) {
 
   return (
     <div>
-      <AppContainer style={{ marginTop: 48 }}>
+      <AppContainer style={{ marginTop: 48, paddingBottom: 24 }}>
         <h4>Plaid x Blockhain</h4>
         <p>Select payment to verify it on-chain:</p>
-        <AppContainer style={{ height: 400 }}>
+        <AppContainer style={{ height: 500 }}>
           {response.body.added.map((tx) => (
             <Transaction
               key={tx.transaction_id}
