@@ -140,7 +140,7 @@ display: flex;
 
 const FlexContainer = styled.div`
   display: grid;
-  grid-template-columns: 300px 4fr; 
+  grid-template-columns: 300px 3fr; 
   
 `;
 
@@ -168,32 +168,6 @@ const Heading = styled.p`
   width:60%;
   text-align: center;
   font-family: "SF Pro Display",sans-serif;
-`;
-
-const Toast = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-conten: center;
-  bottom: 60px;
-  right: 20px;
-  background-color: red;
-  color: #fff;
-  padding: 16px;
-  border-radius: 8px;
-  
-  z-index: 100;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  line-height:1;
-`;
-
-const Elipse = styled.div`
-background-color:#eff3f9;
-height: 100px;
-width: 100px;
-
-border-radius: 50%;
 `;
 
 const Text = styled.p`
