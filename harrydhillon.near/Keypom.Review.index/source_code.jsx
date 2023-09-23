@@ -77,7 +77,7 @@ return (
       onClick={() => {
         props?.setStorage("tickets", "");
         props?.setStorage("formValues", "");
-        props?.setStorage("formValues", "");
+        props?.setStorage("collectInfo", "");
       }}
     >
       Reset Fields
