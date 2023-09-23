@@ -1,6 +1,6 @@
 return (
-  <div className="col">
-    <div className="row">
+  <div className="row">
+    <div className="col">
       <Widget
         src="andyh.near/widget/Circle"
         props={{
@@ -11,7 +11,7 @@ return (
         }}
       />
     </div>
-    <div className="row">
+    <div className="col">
       <Widget
         src="andyh.near/widget/Square"
         props={{
@@ -22,7 +22,7 @@ return (
         }}
       />
     </div>
-    <div className="row">
+    <div className="col">
       <Widget
         src="andyh.near/widget/Triangle"
         props={{
