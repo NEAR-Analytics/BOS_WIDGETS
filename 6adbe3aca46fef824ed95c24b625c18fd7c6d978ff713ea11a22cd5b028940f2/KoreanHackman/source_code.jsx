@@ -52,8 +52,10 @@ const inputHandle = (e) => {
 
   if (!isEmpty && !isCorrect) {
     State.update({
+      [e.target.id]: e.target.value,
       opportunityCount: state.opportunityCount - 1,
     });
+    return;
   }
 
   State.update({
@@ -76,7 +78,7 @@ return (
             state[`inputCharacter${i}`] === answer[i]
           }
           onChange={inputHandle}
-          id={`inputCharacter${i}`}
+          id={`inputCharacter${i}`} maxLength={1}
         />
       ))}
     </div>
