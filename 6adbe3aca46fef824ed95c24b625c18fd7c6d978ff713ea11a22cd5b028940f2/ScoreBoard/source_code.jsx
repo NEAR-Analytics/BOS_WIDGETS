@@ -8,25 +8,20 @@ State.init({
 });
 
 const data = {
-  scoreboard: {
-    score: null,
-  },
   scoreboard_gaenchanaa: {
-    "": null,
-    score: null,
-    message: null,
-    ["1695479151306"]: null,
-    1695479306574: null,
+    "1695479151306": null,
+    "1695479306574": null,
+    "1695480068126": null,
     [timestamp]: {
       score: state.score,
       message: state.message,
     },
   },
   index: {
-    scoreboard_gaenchanaa: {
+    scoreboard_gaenchanaa: JSON.stringify({
       key: "timestamp",
       value: timestamp,
-    },
+    })
   },
 };
 
