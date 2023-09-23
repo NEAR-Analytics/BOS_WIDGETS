@@ -17,6 +17,7 @@ if (props.public_token) {
     method: "POST",
   });
 
+  console.log(access_token);
   Storage.privateSet("plaidAccessToken", access_token);
   State.update({ accessToken: access_token });
   return <p>Bank connecting...</p>;
