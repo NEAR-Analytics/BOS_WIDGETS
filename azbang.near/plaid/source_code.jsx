@@ -90,6 +90,7 @@ if (accessToken === null) {
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
   if (response.body == null) return <p>Loading</p>;
+  console.log(response.body);
 
   const handleVerify = () => {
     const url = "https://sandbox.plaid.com/transactions/get";
