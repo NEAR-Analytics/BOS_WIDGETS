@@ -1,5 +1,5 @@
 const nfts = props.nfts;
-
+let accountId = context.accountId;
 const size = "3em";
 
 const Card = styled.div`
