@@ -14,9 +14,7 @@ const data = {
     //   message: state.message,
     // },
   },
-  index: {
-    scoreboard_gaenchanaa: {"": null},
-  },
+  index: "test",
 };
 
 const myAccountId = context.accountId;
