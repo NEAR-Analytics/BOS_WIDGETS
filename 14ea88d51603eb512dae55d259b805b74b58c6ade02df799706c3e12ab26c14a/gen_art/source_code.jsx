@@ -5,10 +5,14 @@ const srcData = `
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 
+<script language="javascript" type="text/javascript" src="/path/to/p5.scribble.js"></script>
+
+
 <script>
 function setup() {
       createCanvas(1000, 1000); // 캔버스 크기 설정
-      background(220); // 배경색 설정
+      strokeWeight(5); // 선의 두께 설정
+      background(240); // 배경색 설정
     }
 
 
@@ -25,6 +29,7 @@ function draw() {
   let size = random(width/10);
   
   ellipse(x, y, size, size); // 원 그리기
+  
 }
 
 </script>
