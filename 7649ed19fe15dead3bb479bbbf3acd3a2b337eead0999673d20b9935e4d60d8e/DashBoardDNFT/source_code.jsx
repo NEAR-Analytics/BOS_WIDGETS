@@ -117,8 +117,6 @@ const Container = styled.div`
 const SmallContainer = styled.div`
     display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  
 `;
 
 const CenteredDiv = styled.div`
@@ -416,15 +414,16 @@ return (
                         const text2 = showMetadata.text2;
                         const text3 = showMetadata.text3;
 
-                        const num1 = showMetadata.num1.replace(/,/g, '');
-                        const num2 = showMetadata.num2.replace(/,/g, '');
-                        const num3 = showMetadata.num3.replace(/,/g, '');
+                        const num1 = showMetadata.num1.replace(/,/g, "");
+                        const num2 = showMetadata.num2.replace(/,/g, "");
+                        const num3 = showMetadata.num3.replace(/,/g, "");
 
-                        console.log('true', Number(coinPrice[coinName].usd) >=
-                              Number(num3))
-                              console.log('1', Number(coinPrice[coinName].usd) )
-                              console.log('2', 
-                              Number(num3))
+                        console.log(
+                          "true",
+                          Number(coinPrice[coinName].usd) >= Number(num3)
+                        );
+                        console.log("1", Number(coinPrice[coinName].usd));
+                        console.log("2", Number(num3));
 
                         return (
                           <a
