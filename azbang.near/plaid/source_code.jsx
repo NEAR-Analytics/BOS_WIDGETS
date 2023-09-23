@@ -4,6 +4,7 @@ State.init({ origin: null });
 const renderApp = () => {
   const accessToken =
     state.accessToken || Storage.privateGet("plaidAccessToken");
+  console.log("accessToken", accessToken);
   if (accessToken === null) {
     return <p>Loading</p>;
   }
