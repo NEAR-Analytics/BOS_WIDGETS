@@ -106,9 +106,9 @@ return (
           const text2 = showMetadata.text2;
           const text3 = showMetadata.text3;
 
-          const num1 = showMetadata.num1;
-          const num2 = showMetadata.num2;
-          const num3 = showMetadata.num3;
+          const num1 = showMetadata.num1.replace(/,/g, "");
+          const num2 = showMetadata.num2.replace(/,/g, "");
+          const num3 = showMetadata.num3.replace(/,/g, "");
           console.log(Number(coinPrice[coinName].usd));
           console.log(Number(num3));
 
