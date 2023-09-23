@@ -21,8 +21,8 @@ const EventDisplayFlex = styled.div`
     align-items: center;
 `;
 
-const eventData = props?.getStorage("formValues") ?? {};
-const ticketValue =  props?.getStorage("tickets") ?? [];
+const eventData = JSON.parse(props?.getStorage("formValues")) ?? {};
+const ticketValue = JSON.parse(props?.getStorage("tickets")) ?? [];
 
 return (
   <div style={{ padding: 10 }}>
@@ -47,7 +47,7 @@ return (
             borderRadius: 5,
             margin: 10,
             marginBottom: 5,
-            marginLeft: 0
+            marginLeft: 0,
           }}
           src={`https://ipfs.near.social/ipfs/${eventData?.image?.cid}`}
         />
@@ -73,7 +73,7 @@ return (
 
     <Widget
       props={{
-        ticketValue
+        ticketValue,
       }}
       src="harrydhillon.near/widget/Keypom.Review.TicketTable"
     />
@@ -84,16 +84,16 @@ return (
         const formValues = props?.getStorage("formValues");
         const collectInfo = props?.getStorage("collectInfo");
 
-        props?.setStorage("tickets", '');
-        props?.setStorage("formValues", '');
-        props?.setStorage("collectInfo", '');
+        props?.setStorage("tickets", "");
+        props?.setStorage("formValues", "");
+        props?.setStorage("collectInfo", "");
 
         Storage?.set(
           "allData",
           JSON.stringify({
             tickets,
             formValues,
-            collectInfo
+            collectInfo,
           })
         );
       }}
@@ -137,7 +137,7 @@ return (
                   borderWidth: 1,
                   borderColor: "lightgray",
                   marginTop: 5,
-                  color: "black"
+                  color: "black",
                 }}
               >
                 Close
@@ -147,9 +147,9 @@ return (
           isOpen: state.previewEvent,
           contentStyles: {
             style: {
-              width: "600px"
-            }
-          }
+              width: "600px",
+            },
+          },
         }}
       />
     )}
