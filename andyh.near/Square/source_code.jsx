@@ -5,8 +5,16 @@ return (
       width: lengthPx,
       height: lengthPx,
       backgroundColor: props.color,
+      textAlign: "center",
     }}
   >
-    <i className={`bi-${props.icon}`} style={{ color: props.iconColor }} />
+    <i
+      className={`bi-${props.icon}`}
+      style={{
+        color: props.iconColor,
+        position: "relative",
+        top: "calc(50% - 16px)",
+      }}
+    />
   </div>
 );
