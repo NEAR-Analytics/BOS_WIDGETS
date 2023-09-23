@@ -35,7 +35,7 @@ const Checkbox = styled.div`
   right: 16px;
 
   display: block;
-  border: 2px solid #fff; 
+  border: 2px solid var(--bs-body-bg, #fff); 
   box-shadow: 0 0 0 4px #255ff4;
   transition: 0.2s background-color;
   background-color: transparent;
