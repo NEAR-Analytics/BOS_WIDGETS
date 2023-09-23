@@ -1,4 +1,6 @@
 // mocks & constants
+const apiHost = 'https://collegium.runafter.build';
+const deployerAccountId = '58423e7fe4bbc6956ea637d23cbeedee8ec23873fcd93bafb69086af625563e9';
 const places = ["Lobby", "Cafeteria", "ConfRoom1", "ConfRoom2"];
 // Props
 const userAccountId = props.accountId || context.accountId;
@@ -26,11 +28,11 @@ const getProfile = (accountId) => {
 
 // Sub Components
 const Theme = styled.div`
-${
-  fetch(
-    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-  ).body
-}
+  ${
+          fetch(
+                  "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          ).body
+  }
 `;
 
 const Banner = () => (
@@ -117,7 +119,7 @@ const Attendees = () => {
 };
 
 const beaconAdvertise = () => {
-  asyncFetch(`https://collegium.runafter.build/room/${state.place}`, {
+  asyncFetch(`${apiHost}/room/${state.place}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -145,7 +147,7 @@ const BeaconSimulator = () => {
           places.map((location, idx) => (
             <div key={idx} className="col-3 mb-2">
               <a
-                href={`https://near.social/58423e7fe4bbc6956ea637d23cbeedee8ec23873fcd93bafb69086af625563e9/widget/NearbyMe?place=${idx}`}
+                href={`https://near.social/${deployerAccountId}/widget/NearbyMe?place=${idx}`}
               >
                 <div className="btn btn-primary w-100">{location}</div>
               </a>
@@ -158,7 +160,7 @@ const BeaconSimulator = () => {
 
 const { name, imageUrl } = getProfile(userAccountId);
 const fetchScanned = async () => {
-  asyncFetch(`https://collegium.runafter.build/room/${state.place}`, {
+  asyncFetch(`${apiHost}/room/${state.place}`, {
     cache: "no-store",
   }).then((res) => {
     State.update({ users: res.body });
@@ -166,7 +168,7 @@ const fetchScanned = async () => {
 };
 
 const fetchAttendees = async () => {
-  asyncFetch("https://collegium.runafter.build/room", {
+  asyncFetch(`${apiHost}/room`, {
     cache: "no-store",
   }).then((res) => {
     State.update({ attendees: res.body });
