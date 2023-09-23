@@ -15,8 +15,7 @@ const data = {
     // },
   },
   index: {
-    scoreboard_gaenchanaa: [11, 22],
-    test: null,
+    "scoreboard_gaenchanaa.": null,
   },
 };
 
