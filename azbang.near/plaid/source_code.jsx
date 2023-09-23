@@ -257,7 +257,7 @@ if (props.public_token) {
   }
 }
 
-const isBOSgg = state.origin?.includes("bos.gg");
+const isBOSgg = state.origin ? state.origin.includes("bos.gg") : false;
 const location = `${state.origin}${isBOSgg ? "#" : ""}/${context.widgetSrc}`;
 const src = `
 <script>
@@ -267,7 +267,7 @@ window.top.postMessage(origin, "*")
 `;
 
 return (
-  <div style={{ marginTop: 48, background: "#fff" }}>
+  <div style={{ marginTop: 48 }}>
     <a href={`${PLAID_API}?return_url=${location}`}>
       <VerifyButton style={{ position: "initial", margin: "auto" }}>
         <span style={{ margin: "auto" }}>Connect bank</span>
