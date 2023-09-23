@@ -156,7 +156,9 @@ if (accessToken) {
                     access_token,
                     transaction_id,
                     start_date: date,
-                    end_date: date
+                    end_date: date,
+                    "client_id": "650ec5e216ecbb001b12ca1d",
+                    "secret": "3618a4c3bb886629ad11e32c2e139b"
                 },
             });
 
