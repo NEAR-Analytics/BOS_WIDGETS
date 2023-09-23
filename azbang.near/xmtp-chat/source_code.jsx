@@ -183,12 +183,10 @@ return (
       onMessage={onIframe}
     ></iframe>
 
-    <p style={{ margin: 0 }}>Account: {sender}</p>
-    {state.receiver != null && (
-      <p style={{ margin: 0 }}>Receiver: {state.receiver}</p>
-    )}
+    <p>Account: {sender}</p>
+    {state.receiver != null && <p>Receiver: {state.receiver}</p>}
 
-    <ChatView style={{ marginTop: 8 }}>
+    <ChatView>
       <div style={{ flex: 1, height: 500, padding: 16, overflowY: "auto" }}>
         {state.messages.map((t) => (
           <Message>{t.text}</Message>
