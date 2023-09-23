@@ -11,11 +11,13 @@ if (!accountId) {
   return `Missing prop "accountId"`;
 }
 
-const nfts = Near.view(contractId, "nft_tokens_for_owner", {
-  account_id: accountId,
-  from_index: "0",
-  limit: 200,
-});
+const nfts =
+  props.nfts ||
+  Near.view(contractId, "nft_tokens_for_owner", {
+    account_id: accountId,
+    from_index: "0",
+    limit: 200,
+  });
 
 if (!nfts) {
   return "";
