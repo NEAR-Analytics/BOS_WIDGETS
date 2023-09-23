@@ -104,7 +104,7 @@ if (accessToken) {
         <h4 style={{ fontWeight: "bold" }}>Plaid x Blockhain</h4>
         <p>Select payment to verify it on-chain:</p>
         <AppContainer style={{ height: 500 }}>
-          {response.body.added.map((tx) => (
+          {response.body?.added.map((tx) => (
             <Transaction
               key={tx.transaction_id}
               onClick={() => State.update({ selected: tx.transaction_id })}
