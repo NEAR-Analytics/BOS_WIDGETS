@@ -78,7 +78,8 @@ return (
             state[`inputCharacter${i}`] === answer[i]
           }
           onChange={inputHandle}
-          id={`inputCharacter${i}`} maxLength={1}
+          id={`inputCharacter${i}`}
+          maxLength={1}
         />
       ))}
     </div>
