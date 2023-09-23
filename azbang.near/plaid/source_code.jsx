@@ -10,7 +10,7 @@ window.top.postMessage(origin, "*")
 </script>
 `;
 
-if (props.public_token) {
+if (context.public_token) {
   return <p>Bank connected</p>;
 }
 
