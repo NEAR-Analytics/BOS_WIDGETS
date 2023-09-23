@@ -168,9 +168,12 @@ const formContent = () => {
               label: "Event Time",
               inputProps: {
                 placeholder: "Select a date range",
-                value: state.to,
+                value: state.time,
                 type: "time",
-                onChange: (e) => setInput("time", e.target.value),
+                onChange: (e) => {
+                  console.log(e.target.value)
+                  setInput("time", e.target.value);
+                },
               },
             }}
           />
