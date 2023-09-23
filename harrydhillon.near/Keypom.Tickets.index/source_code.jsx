@@ -128,7 +128,11 @@ const createTickets = () => {
                     <div style={{ display: "flex", alignItems: "center" }}>
                       <div style={{ padding: 4 }}>
                         <img
-                          src={`https://ipfs.near.social/ipfs/${item.image.cid}`}
+                          src={
+                            item.image.cid
+                              ? `https://ipfs.near.social/ipfs/${item.image.cid}`
+                              : `https://i.ibb.co/kx9Y61n/Screenshot-2023-08-15-at-23-44-38.png`
+                          }
                           style={{
                             width: 35,
                             objectFit: "cover",
