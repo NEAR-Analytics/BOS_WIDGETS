@@ -1,13 +1,13 @@
 const PLAID_API = "http://localhost:3000";
 State.init({
+  accessToken: Storage.privateGet("plaidAccessToken"),
   origin: null,
 });
 
 const renderApp = () => {
-  // Connected!
-  const accessToken =
-    state.accessToken || Storage.privateGet("plaidAccessToken");
-  console.log({ accessToken, test: Storage.privateGet("test") });
+  if (accessToken === null) {
+    return <p>Loading</p>;
+  }
 
   if (accessToken) {
     const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
