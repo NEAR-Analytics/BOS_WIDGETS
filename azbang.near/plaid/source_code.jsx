@@ -1,38 +1,42 @@
 const PLAID_API = "http://localhost:3000";
 State.init({
-  publicToken: props.public_token,
   accessToken: Storage.privateGet("plaidAccessToken"),
-  origin: "",
+  origin: null,
 });
 
-// Connected!
-if (state.accessToken) {
-  const response = fetch(
-    `${PLAID_API}/transactions?token=${state.accessToken}`
-  );
-  console.log(response);
-  return <p>Bank connected {state.accessToken}</p>;
+if (state.origin == null) {
+  return <p>Loading</p>;
 }
 
-// Connecting bank
-if (state.publicToken) {
-  const response = fetch(`${PLAID_API}/exchange-public-token`, {
-    body: JSON.stringify({ public_token: state.publicToken }),
-    headers: { "Content-Type": "application/json" },
-    method: "POST",
-  });
-
-  if (!response.ok) {
-    State.update({ publicToken: null });
-    return null;
+const renderApp = () => {
+  // Connected!
+  if (state.accessToken) {
+    const response = fetch(
+      `${PLAID_API}/transactions?token=${state.accessToken}`
+    );
+    console.log(response);
+    return <p>Bank connected {state.accessToken}</p>;
   }
 
-  Storage.privateSet("plaidAccessToken", response.body.access_token);
-  State.update({ accessToken: response.body.access_token });
-  return <p>Bank connecting...</p>;
-}
+  // Connecting bank
+  if (props.public_token) {
+    const response = fetch(`${PLAID_API}/exchange-public-token`, {
+      body: JSON.stringify({ public_token: props.public_token }),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    });
 
-const location = `${state.origin}/${context.widgetSrc}`;
+    if (response.ok) {
+      Storage.privateSet("plaidAccessToken", response.body.access_token);
+      State.update({ accessToken: response.body.access_token });
+      return <p>Bank connecting...</p>;
+    }
+  }
+
+  const location = `${state.origin}/${context.widgetSrc}`;
+  return <a href={`${PLAID_API}?return_url=${location}`}>Connect bank</a>;
+};
+
 const src = `
 <script>
 const origin = document.location.ancestorOrigins[0];
@@ -42,7 +46,7 @@ window.top.postMessage(origin, "*")
 
 return (
   <div>
-    <a href={`${PLAID_API}?return_url=${location}`}>Connect bank</a>
+    {renderApp()}
     <iframe
       style={{ display: "none" }}
       onMessage={(origin) => {
