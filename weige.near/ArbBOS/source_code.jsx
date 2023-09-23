@@ -192,22 +192,8 @@ const NetworkTitle = (
   </div>
 );
 
-const css = fetch(
-  "https://fonts.googleapis.com/css2?family=Gantari:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@100&display=swap"
-).body;
-
-if (!css) {
-  return;
-}
-
 const Layout = styled.div`
-  * {
-    font-family: "Gantari";
-  }
-  ${css};
-
   margin: auto;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -363,23 +349,19 @@ return (
     {NetworkTitle}
 
     <Wrapper>
-      {state.chainId == config.chains.l1.id && (
-        <>
-          <PannelWrapper>
-            <div className="bold"> Pending Withdraws </div>
-            <Widget
-              src="weige.near/widget/PendingList"
-              props={{
-                config,
-                sender: state.sender,
-                chainId: state.chainId,
-              }}
-            />
-          </PannelWrapper>
+      <PannelWrapper>
+        <div className="bold"> Pending Withdraws </div>
+        <Widget
+          src="weige.near/widget/PendingList"
+          props={{
+            config,
+            sender: state.sender,
+            chainId: state.chainId,
+          }}
+        />
+      </PannelWrapper>
 
-          <Seperator />
-        </>
-      )}
+      <Seperator />
 
       <PannelWrapper>
         <div className="bold"> Transfer Panel </div>
