@@ -7,7 +7,6 @@ State.init({
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return "Please connect Ethereum wallet";
-
 const signer = Ethers.provider().getSigner(sender);
 
 const AppContainer = styled.div`
@@ -82,14 +81,13 @@ const VerifyButton = styled.button`
 const accessToken = state.accessToken || Storage.privateGet("plaidAccessToken");
 if (accessToken === null) return null;
 
-console.log({ accessToken });
-
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
   if (!response.ok) return null;
 
   const handleVerify = () => {
-    const tx = response.body.added.find(
+    State.update({ verifing: true });
+    const tr_num = response.body.added.findIndex(
       (t) => t.transaction_id === state.selected
     );
 
@@ -98,8 +96,24 @@ if (accessToken) {
         type: "verify",
         date: tx.date,
         access_token: state.accessToken,
-        transaction_id: tx.transaction_id,
+        tr_num,
       },
+    });
+  };
+
+  const handleVerified = (data) => {
+    if (data.type !== "verified") return;
+    const address = "0xFB7eF820cF2316f922CD6C55082B00232c643604";
+    const abi = [
+      "function addTransaction(bytes memory serializedData, bytes32 r, bytes32 s, uint8 v)",
+    ];
+
+    const contract = new ethers.Contract(address, abi, Ethers.provider());
+    const r = ethers.utils.arrayify(data.r);
+    const s = ethers.utils.arrayify(data.s);
+    const bytes = ethers.utils.arrayify(data.data);
+    contract.addTransaction(bytes, r, s, data.v).then((tx) => {
+      tx.wait().then(() => State.update({ verifing: false }));
     });
   };
 
@@ -134,7 +148,7 @@ if (accessToken) {
 
         window.addEventListener("message", async ({ data }) => {
             if (data?.type !== "verify") return;
-            const { date, access_token, transaction_id } = data;
+            const { date, access_token, tr_num } = data;
             
             const pkpPubKey = "0x04f80a948f038f5d69855268f749457d5b465b78fd7bf603de13bd4bf01d718175bf512c828414e227a8289e7512b331658394c4d37a34aec3eca9c585056b7180";
             await litNodeClient.connect();
@@ -155,14 +169,13 @@ if (accessToken) {
                     transaction_id,
                     start_date: date,
                     end_date: date,
-                    "client_id": "650ec5e216ecbb001b12ca1d",
-                    "secret": "3618a4c3bb886629ad11e32c2e139b"
+                    client_id: "650ec5e216ecbb001b12ca1d",
+                    secret: "3618a4c3bb886629ad11e32c2e139b",
+                    tr_num
                 },
             });
 
-            console.log(response);
-            console.log(signatures);
-            console.log(logs);
+            window.top.postMessage({ type: "verified", data: response }, "*");
         }, false);
     </script>  
   `;
@@ -173,6 +186,7 @@ if (accessToken) {
       <iframe
         srcDoc={iframeSrc}
         message={state.iframe}
+        onMessage={handleVerified}
         style={{ display: "none" }}
       ></iframe>
       <AppContainer style={appStyle}>
@@ -197,8 +211,11 @@ if (accessToken) {
           ))}
         </AppContainer>
         <VerifyButton onClick={() => handleVerify()}>
-          <div style={{ margin: "auto" }}>Verify transaction</div>
-          <Widget src="azbang.near/widget/dots-spinner" props={{}} />
+          {state.verifing ? (
+            <Widget src="azbang.near/widget/dots-spinner" props={{}} />
+          ) : (
+            <div style={{ margin: "auto" }}>Verify transaction</div>
+          )}
         </VerifyButton>
       </AppContainer>
     </div>
