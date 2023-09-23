@@ -258,7 +258,7 @@ if (props.public_token) {
 }
 
 const isBOSgg = state.origin ? state.origin.includes("bos.gg") : false;
-const location = `${state.origin}${isBOSgg ? "#" : ""}/${context.widgetSrc}`;
+const location = `${state.origin}${isBOSgg ? "/#/" : "/"}${context.widgetSrc}`;
 const src = `
 <script>
 const origin = document.location.ancestorOrigins[0];
