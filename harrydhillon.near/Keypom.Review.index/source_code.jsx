@@ -75,9 +75,20 @@ return (
     />
     <button
       onClick={() => {
+        const tickets = props?.getStorage("tickets");
+        const formValues = props?.getStorage("formValues");
+        const collectInfo = props?.getStorage("collectInfo");
         props?.setStorage("tickets", "");
         props?.setStorage("formValues", "");
         props?.setStorage("collectInfo", "");
+        props?.setStorage(
+          "allData",
+          JSON.parse({
+            tickets,
+            formValues,
+            collectInfo,
+          })
+        );
       }}
     >
       Reset Fields
