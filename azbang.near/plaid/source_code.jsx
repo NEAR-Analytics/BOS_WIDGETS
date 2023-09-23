@@ -12,8 +12,8 @@ window.top.postMessage(origin, "*")
 
 console.log({ props, context });
 
-if (context.public_token) {
-  return <p>Bank connected</p>;
+if (props.public_token) {
+  return <p>Bank connected {props.public_token}</p>;
 }
 
 return (
