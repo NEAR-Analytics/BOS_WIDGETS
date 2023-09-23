@@ -1,4 +1,27 @@
-const nfts = props.nfts;
+let accountId = context.accountId;
+const size = "3em";
+
+const contractId = "nft.genadrop.near";
+
+if (!contractId) {
+  return `Missing prop "contractId"`;
+}
+
+if (!accountId) {
+  return `Missing prop "accountId"`;
+}
+
+const nfts =
+  props.nfts ||
+  Near.view(contractId, "nft_tokens_for_owner", {
+    account_id: accountId,
+    from_index: "0",
+    limit: 200,
+  });
+
+if (!nfts) {
+  return "";
+}
 
 const Card = styled.div`
   padding: 1em;
