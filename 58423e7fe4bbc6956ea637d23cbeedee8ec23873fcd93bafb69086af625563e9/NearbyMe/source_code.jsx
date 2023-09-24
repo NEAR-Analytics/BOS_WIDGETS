@@ -112,7 +112,7 @@ const Attendees = () => {
               >
                 <div className="navbar bg-body-tertiary border rounded px-3 mb-3 justify-content-center">
                   <div className="text-truncate">
-                    {name ?? `0x${accountId.slice(0, 8)}...`}
+                    {name ?? `0x${accountId.slice(0)}...`}
                   </div>
                 </div>
               </a>
