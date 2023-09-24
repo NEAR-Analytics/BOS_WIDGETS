@@ -9,55 +9,61 @@ if (!css) {
 
 const Theme = styled.div`
 * {
-    font-family: 'Roboto Mono';
+    //font-family: 'Roboto Mono';
 }
   ${css}
 `;
 
-// Styled components for the hero section and its elements
-// const HeroSection = styled.div`
-//   position: relative;
-//   width: 1554.29px;
-//   height: 302.4px;
-//   left: 0px;
-//   top: 72px;
-//   margin-left: auto; /* Center the section by pushing it to the right */
-//   margin-right: auto; /* Center the section by pushing it to the left */
-// `;
-
 const HeroSection = styled.div`
-  //position: relative;
+  position: relative;
   //max-width: 1440px;
   width: 100%;
   height: 302.4px;
   margin: 0 auto;
   margin-top: 0; /* Remove the top margin to close the gap */
+  display: flex; /* Make the container a flex container */
+  justify-content: space-between; /* Space items horizontally */
+  align-items: center; /* Center items vertically */
 `;
 
 const WebImage = styled.div`
-  position: absolute;
-  //width: 836px;
+  position: relative;
+  width: 836px;
   width: 50%;
   height: 302px;
-  left: 689px;
-  top: 72px;
+  //left: 689px;
+  //top: 72px;
   background: url('https://ik.imagekit.io/n7h27i0lh/WebSize_sRGB_NEARCON_029%201.png?updatedAt=1695488619193') no-repeat;
   background-size: cover;
 `;
 
 const Rectangle48 = styled.div`
-  position: absolute;
+  position: relative;
+  width: 880px;
+  width: 60%;
+  height: 302px;
+  //left: 0px;
+  //top: 72px;
+  //right: -30px;
+  background: #00EC97;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+  //clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%); /* Adjust clip-path to overlap */
+  align-items: center; /* Center items vertically */
+`;
+
+const RectangleCommunities = styled.div`
+  //position: absolute;
   //width: 880px;
   width: 60%;
   height: 302px;
   left: 0px;
   top: 72px;
-  background: #00EC97;
+  background: #292929;
   clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
 `;
 
 const Text = styled.div`
-  position: absolute;
+  position: relative;
   width: 740px;
   height: 183px;
   left: 48px;
@@ -69,10 +75,11 @@ const Text = styled.div`
   line-height: 100%;
   letter-spacing: -0.02em;
   color: #F4F4F4;
+  text-align: start; /* Center the text horizontally */
 `;
 
 const Text2 = styled.div`
-  position: absolute;
+  //position: absolute;
   width: 740px;
   height: 183px;
   left: 48px;
@@ -88,7 +95,8 @@ const Text2 = styled.div`
 
 const SectionContainer = styled.div`
   //margin-top: 40px;
-  position: absolute;
+  //padding-top: 40px;
+  //position: absolute;
   width: 100%;
   //width: 1554.29px;
   //max-width: 1440px;
@@ -96,17 +104,17 @@ const SectionContainer = styled.div`
   left: 0;
   top: 406px;
   background: #FFFFFF;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  // display: flex;
+  // justify-content: space-between;
+  // align-items: center;
   padding: 0 24px; /* Add horizontal padding */
   margin-left: auto; /* Center the section by pushing it to the right */
   margin-right: auto; /* Center the section by pushing it to the left */
 `;
 
 const SectionContainer2 = styled.div`
-  margin-top: 40px;
-  position: absolute;
+  //margin-top: 40px;
+  //position: absolute;
   width: 100%;
   //width: 1554.29px;
   //max-width: 1440px;
@@ -114,9 +122,9 @@ const SectionContainer2 = styled.div`
   left: 0;
   top: 406px;
   background: #F4F4F4;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  // display: flex;
+  // justify-content: space-between;
+  // align-items: center;
   padding: 0 24px; /* Add horizontal padding */
   margin-left: auto; /* Center the section by pushing it to the right */
   margin-right: auto; /* Center the section by pushing it to the left */
@@ -160,7 +168,8 @@ const ArticleLink = styled.div`
 `;
 
 const DiveRightIn = styled.div`
-  position: absolute;
+  //position: absolute;
+  margin-top: 20px;
   width: 300px;
   height: 29px;
   left: 48px;
@@ -172,6 +181,7 @@ const DiveRightIn = styled.div`
   line-height: 120%;
   letter-spacing: -0.01em;
   color: #00EC97;
+   padding: 0 24px; /* Add horizontal padding */
 `;
 
 // Styled components for the header
@@ -216,68 +226,102 @@ return (
       </Nav>
     </Header>
     <HeroSection>
+      <Rectangle48>
+        <Text>
+          We are building{" "}
+          <div style={{ color: "black" }}>a decentralized community</div> for
+          NEAR Developers
+        </Text>
+      </Rectangle48>
       <WebImage></WebImage>
-      <Rectangle48></Rectangle48>
-      <Text>
-        We are building{" "}
-        <div style={{ color: "black" }}>a decentralized community</div> for NEAR
-        Developers
-      </Text>
     </HeroSection>
+
     <SectionContainer>
-      <Article>
-        <ArticleTitle>Near Docs</ArticleTitle>
-        <ArticleText>Read NEAR Docs and build something new.</ArticleText>
-        <ArticleLink>Read</ArticleLink>
-      </Article>
-      <Article>
-        <ArticleTitle>BOS</ArticleTitle>
-        <ArticleText>Read BOS Docs and build something new.</ArticleText>
-        <ArticleLink>Read</ArticleLink>
-      </Article>
-      <Article>
-        <ArticleTitle>Github</ArticleTitle>
-        <ArticleText>Read BOS Docs and build something new.</ArticleText>
-        <ArticleLink>Read</ArticleLink>
-      </Article>
       <DiveRightIn>Dive right in</DiveRightIn>
+      <div
+        style={{
+          display: "flex",
+          "justify-content": "space-between",
+          "align-items": "center",
+        }}
+      >
+        <Article>
+          <ArticleTitle>Near Docs</ArticleTitle>
+          <ArticleText>Read NEAR Docs and build something new.</ArticleText>
+          <ArticleLink>Read</ArticleLink>
+        </Article>
+        <Article>
+          <ArticleTitle>BOS</ArticleTitle>
+          <ArticleText>Read BOS Docs and build something new.</ArticleText>
+          <ArticleLink>Read</ArticleLink>
+        </Article>
+        <Article>
+          <ArticleTitle>Github</ArticleTitle>
+          <ArticleText>Read BOS Docs and build something new.</ArticleText>
+          <ArticleLink>Read</ArticleLink>
+        </Article>
+      </div>
     </SectionContainer>
-    <SectionContainer2 style={{ top: "706px" }}>
-      <Article>
-        <ArticleTitle>Action 1</ArticleTitle>
-        <ArticleText>Read NEAR Docs and build something new.</ArticleText>
-        <ArticleLink>Read</ArticleLink>
-      </Article>
-      <Article>
-        <ArticleTitle>Action 2</ArticleTitle>
-        <ArticleText>Read BOS Docs and build something new.</ArticleText>
-        <ArticleLink>Read</ArticleLink>
-      </Article>
-      <Article>
-        <ArticleTitle>Action 3</ArticleTitle>
-        <ArticleText>Read BOS Docs and build something new.</ArticleText>
-        <ArticleLink>Read</ArticleLink>
-      </Article>
+    <SectionContainer2>
       <DiveRightIn>Get Started</DiveRightIn>
+      <div
+        style={{
+          display: "flex",
+          "justify-content": "space-between",
+          "align-items": "center",
+        }}
+      >
+        <Article>
+          <ArticleTitle>Action 1</ArticleTitle>
+          <ArticleText>Read NEAR Docs and build something new.</ArticleText>
+          <ArticleLink>Read</ArticleLink>
+        </Article>
+        <Article>
+          <ArticleTitle>Action 2</ArticleTitle>
+          <ArticleText>Read BOS Docs and build something new.</ArticleText>
+          <ArticleLink>Read</ArticleLink>
+        </Article>
+        <Article>
+          <ArticleTitle>Action 3</ArticleTitle>
+          <ArticleText>Read BOS Docs and build something new.</ArticleText>
+          <ArticleLink>Read</ArticleLink>
+        </Article>
+      </div>
     </SectionContainer2>
-    <SectionContainer2 style={{ top: "1000px" }}>
-      <Article>
-        <ArticleTitle>Action 4</ArticleTitle>
-        <ArticleText>Read NEAR Docs and build something new.</ArticleText>
-        <ArticleLink>Read</ArticleLink>
-      </Article>
-      <Article>
-        <ArticleTitle>Action 5</ArticleTitle>
-        <ArticleText>Read BOS Docs and build something new.</ArticleText>
-        <ArticleLink>Read</ArticleLink>
-      </Article>
-      <Article>
-        <ArticleTitle>Action 6</ArticleTitle>
-        <ArticleText>Read BOS Docs and build something new.</ArticleText>
-        <ArticleLink>Read</ArticleLink>
-      </Article>
+    <SectionContainer2>
+      <div
+        style={{
+          display: "flex",
+          "justify-content": "space-between",
+          "align-items": "center",
+        }}
+      >
+        <Article>
+          <ArticleTitle>Action 4</ArticleTitle>
+          <ArticleText>Read NEAR Docs and build something new.</ArticleText>
+          <ArticleLink>Read</ArticleLink>
+        </Article>
+        <Article>
+          <ArticleTitle>Action 5</ArticleTitle>
+          <ArticleText>Read BOS Docs and build something new.</ArticleText>
+          <ArticleLink>Read</ArticleLink>
+        </Article>
+        <Article>
+          <ArticleTitle>Action 6</ArticleTitle>
+          <ArticleText>Read BOS Docs and build something new.</ArticleText>
+          <ArticleLink>Read</ArticleLink>
+        </Article>
+      </div>
     </SectionContainer2>
+    <HeroSection>
+      <RectangleCommunities>
+        <Text>
+          We are building{" "}
+          <div style={{ color: "black" }}>a decentralized community</div> for
+          NEAR Developers
+        </Text>
+      </RectangleCommunities>
+      <WebImage></WebImage>
+    </HeroSection>
   </Theme>
 );
-
-export
