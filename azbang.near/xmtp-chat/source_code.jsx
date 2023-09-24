@@ -1,5 +1,5 @@
 State.init({
-  receiver: props.receiver,
+  receiver: null,
   messages: [],
   iframe: {},
 });
@@ -49,9 +49,9 @@ const onIframe = (data) => {
   }
 };
 
-const handleStartChat = () => {
+const handleStartChat = (receiver) => {
   State.update({
-    receiver: state.msgValue,
+    receiver: receiver || state.msgValue,
     msgValue: "",
     iframe: {
       type: "startChat",
@@ -69,6 +69,11 @@ const handleMessage = () => {
     },
   });
 };
+
+console.log(props.receiver);
+if (props.receiver && state.receiver == null) {
+  handleStartChat(props.receiver);
+}
 
 const xmtpMessages = `
 <script src="https://nftstorage.link/ipfs/bafybeifophz4lgi5iyz5rpjmvy7pujqidloqkv4skanhvy3z7p5airwjdu"></script>
