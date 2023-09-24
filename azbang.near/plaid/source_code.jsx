@@ -8,17 +8,11 @@ const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return "Please connect Ethereum wallet";
 const signer = Ethers.provider().getSigner(sender);
 
-const PLAID_ADDR = "0x3fa5C488800A24Fb12904e47301D9337e8c9905e";
+const PLAID_ADDR = "0x3fa5C488800A24Fb12904e47301D9337e8c9905e"; // Eth goerli
 const PLAID_ABI = [
   "function addTransaction(bytes memory serializedData, bytes32 r, bytes32 s, uint8 v)",
 ];
 const PLAID_CONTRACT = new ethers.Contract(PLAID_ADDR, PLAID_ABI, signer);
-
-// signer.getAddress().then((address) => {
-//   console.log(
-//     fetch(`http://localhost:3000/siwe-message?address=${address}&msg=hel33lo`)
-//   );
-// });
 
 const AppContainer = styled.div`
   width: 400px;
