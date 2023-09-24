@@ -55,14 +55,21 @@ if (state.sender === undefined) {
 }
 
 const handleButtonClick = async () => {
-  return asyncFetch(API_URL, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  }).then((res) => {
-    state.result = JSON.stringify(res.body);
-  });
+  const contract = new ethers.Contract(
+    myContract,
+    myContractAbi.body,
+    Ethers.provider().getSigner()
+  );
+
+  contract
+    .submit(myContract, {
+      dropId: state.walletAddress,
+      amount: state.amount,
+      cooldownSeconds: state.cooldownSeconds,
+    })
+    .then((transactionHash) => {
+      console.log("transactionHash is " + transactionHash);
+    });
 };
 
 const handleInputChange = (e) => {
@@ -147,6 +154,13 @@ return (
           Save drop
         </button>
         {JSON.stringify(state)}
+        <p>
+          Claim URL:{" "}
+          <a class="underline">
+            https://near.social/a13x.near/widget/ethglobal-nyc-rewardify-drop?drop=
+            {state.walletAddress}
+          </a>
+        </p>
       </div>
     </div>
   </>
