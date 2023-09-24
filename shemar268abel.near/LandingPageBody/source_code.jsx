@@ -109,11 +109,7 @@ return (
       >
         Connect to Polygon zkEVM
       </StyledButton>
-      <StyledButton
-        href={
-          "https://near.social/mob.near/widget/MyPage?accountId=joelblenman21.near#/joelblenman21.near/widget/TheMarketPlan"
-        }
-      >
+      <StyledButton href={"https://lens.xyz"}>
         Connect to Lens on Polygon
       </StyledButton>
     </StyledBannerHeading>
