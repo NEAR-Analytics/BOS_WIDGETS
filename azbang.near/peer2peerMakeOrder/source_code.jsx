@@ -32,7 +32,7 @@ peer2peer.getPaymentRequestsByIds([props.order]).then(([data]) => {
 
 const handleVerify = (proof) => {
   peer2peer
-    .confirmPayment(props.order, proof.transactionId, { gasLimit: 40_000 })
+    .confirmPayment(props.order, proof.transactionId, { gasLimit: 3000000 })
     .then((tx) => {
       tx.wait().then(() => console.log("SUCCESS!!"));
     });
@@ -108,7 +108,10 @@ return (
       <div style={{ marginTop: -48 }}>
         <Widget
           src="azbang.near/widget/plaid"
-          props={{ onVerified: handleVerify }}
+          props={{
+            onVerified: handleVerify,
+            widgetSrc: "azbang.near/widget/peer2peer",
+          }}
         />
       </div>
     )}
