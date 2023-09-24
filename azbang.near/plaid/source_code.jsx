@@ -26,16 +26,12 @@ const AppContainer = styled.div`
 const Transaction = styled.div`
   padding: 16px;
   border-radius: 12px;
-  margin: 0 12px 12px;
+  margin-bottom: 16px;
   border: 1px solid #ccc;
   position: relative;
   cursor: pointer;
   transition: 0.2s box-shadow;
   p { margin: 0; }
-
-  &:hover {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-  }
 `;
 
 const Checkbox = styled.div`
