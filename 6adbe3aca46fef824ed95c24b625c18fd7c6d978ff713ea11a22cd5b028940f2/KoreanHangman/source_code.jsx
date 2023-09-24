@@ -25,6 +25,7 @@ const style = {
   },
   hangmanImageWrapper: {
     position: "relative",
+    height: "85vw",
   },
   hangmanImage: {
     transform: "translate(-50%)",
