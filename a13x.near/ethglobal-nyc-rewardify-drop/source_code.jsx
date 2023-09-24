@@ -1,6 +1,6 @@
 // FETCH ABI
 
-const myContract = "0x1CB2c332D190EED0Ba8A61c81d68a82b91321aD9";
+const myContract = "0x32D786463A3f454904566A9b7957856A332d4c60";
 const tokenDecimals = 18;
 
 const myContractAbi = fetch("https://rewardify.web.app/YourContract.json");
@@ -32,6 +32,7 @@ const getContractState = (receiver) => {
 
 if (state.sender) {
   getContractState(state.sender).then((data) => {
+    console.log(data);
     State.update(data);
   });
 }
