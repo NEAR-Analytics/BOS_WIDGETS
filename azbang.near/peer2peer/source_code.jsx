@@ -105,6 +105,7 @@ const daiDecimal = 18;
 
 const fetchOrders = () => {
   const ids = new Array(50).fill(0).map((_, i) => (i + 1).toString());
+  console.log("ids", ids);
   peer2peer.getPaymentRequestsByIds(ids).then((data) => {
     data = data.map((t, index) => ({
       id: ids[index],
