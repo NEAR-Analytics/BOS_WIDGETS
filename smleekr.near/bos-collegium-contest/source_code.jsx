@@ -163,7 +163,7 @@ const sendMessage = async () => {
   messageContract
     .sendMessage(state.address, state.message)
     .then((transactionHash) => {
-      State.update({ tx: transactionHash });
+      State.update({ tx: transactionHash.hash });
     });
 };
 
@@ -182,8 +182,10 @@ return (
       value={state.message}
       style={{ margin: "10px" }}
     />
+    <div>
+      <a href={"https://sepolia.etherscan.io/tx/" + { tx }}>{tx}</a>
+    </div>
     <button onClick={sendMessage}>SEND</button>
     <Web3Connect />
-    <a href={"https://sepolia.etherscan.io/tx/" + { tx }}>{tx}</a>
   </div>
 );
