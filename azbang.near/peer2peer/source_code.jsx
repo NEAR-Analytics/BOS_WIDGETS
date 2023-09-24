@@ -160,7 +160,7 @@ if (state.activeOrder) {
   return (
     <Widget
       src="azbang.near/widget/peer2peerMakeOrder"
-      props={{ order: state.activeOrder.id }}
+      props={{ order: state.activeOrder.id, public_token: props.public_token }}
     />
   );
 }
