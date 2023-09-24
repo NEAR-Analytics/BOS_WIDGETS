@@ -12,7 +12,7 @@ const abi = [
   "event PaymentReserved(uint256 requestId, address indexed reserver)",
 ];
 
-const CONTRACT = "0xa3724030aA74016d1AE1e1B54bD79608F0E5866F";
+const CONTRACT = "0xa50ba5122f1d3a68C0493c7dda4Fd717aa235B8D";
 const tokenAddress = "0x8c9e6c40d3402480ACE624730524fACC5482798c";
 const erc20abi = ["function approve(address _spender, uint _value)"];
 const erc20 = new ethers.Contract(tokenAddress, erc20abi, signer);
@@ -51,16 +51,53 @@ const Container = styled.div`
     width: 400px;
 `;
 
+const isRequester = order.requester.toLowerCase() === sender.toLowerCase();
+const isExecuter = order.executor.toLowerCase() === sender.toLowerCase();
+
 return (
   <Container>
-    <h4 style={{ lineBreak: "anywhere" }}>{order.requester}</h4>
-    <p style={{ marginBottom: 0 }}>{order.amount} DAI</p>
+    <h4 style={{ lineBreak: "anywhere" }}>
+      {isRequester ? "Your order, you SELL" : order.requester}
+    </h4>
+    <h5 style={{ marginBottom: 0 }}>{order.amount} DAI</h5>
 
-    <div style={{ marginTop: -32 }}>
-      <Widget
-        src="azbang.near/widget/plaid"
-        props={{ onVerified: handleVerify }}
-      />
-    </div>
+    {order.executor !== "0x0000000000000000000000000000000000000000" && (
+      <Widget src="azbang.near/widget/xmtp-chat" props={{}} />
+    )}
+
+    {order.executor === "0x0000000000000000000000000000000000000000" && (
+      <div
+        style={{
+          margin: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 100,
+        }}
+      >
+        <p style={{ marginTop: 24 }}>Wait order executor</p>
+        <Widget
+          src="azbang.near/widget/dots-spinner"
+          props={{
+            style: {
+              height: 32,
+              display: "flex",
+              alignItems: "center",
+              margin: "auto",
+            },
+          }}
+        />
+      </div>
+    )}
+
+    {isExecuter && (
+      <div style={{ marginTop: -32 }}>
+        <Widget
+          src="azbang.near/widget/plaid"
+          props={{ onVerified: handleVerify }}
+        />
+      </div>
+    )}
   </Container>
 );
