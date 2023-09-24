@@ -5,6 +5,8 @@ const deployerAccountId =
 const places = ["Lobby", "Cafeteria", "ConfRoom1", "ConfRoom2"];
 // Props
 const userAccountId = props.accountId || context.accountId;
+if (!userAccountId) return "login please...";
+
 // States
 State.init({
   place: props.place || 0,
@@ -109,7 +111,9 @@ const Attendees = () => {
                 href={`https://near.social/mob.near/widget/ProfilePage?accountId=${accountId}`}
               >
                 <div className="navbar bg-body-tertiary border rounded px-3 mb-3 justify-content-center">
-                  <div className="text-truncate">{name}</div>
+                  <div className="text-truncate">
+                    {name ?? `0x${accountId.slice(0, 8)}...`}
+                  </div>
                 </div>
               </a>
             </div>
