@@ -92,20 +92,30 @@ if (accessToken) {
   const handleVerify = () => {
     if (state.verifing) return;
     const trx = transactions.find((t) => t.transaction_id === state.selected);
-    const url = `${PLAID_API}/transactions/get?token=${accessToken}&date=${trx.date}`;
+    const fetchTrxs = `${PLAID_API}/transactions/get?token=${accessToken}&date=${trx.date}`;
     const trxId = trx.transaction_id;
     State.update({ verifing: true });
 
-    asyncFetch(url).then((resp) => {
-      const list = resp.body.transactions;
-      const tr_num = list.findIndex((t) => t.transaction_id === trxId);
-      State.update({
-        iframe: {
-          type: "verify",
-          date: list[tr_num].date,
-          access_token: accessToken,
-          tr_num,
-        },
+    signer.getAddress().then((address) => {
+      const fetchSiweFormat = `${PLAID_API}/siwe?address=${address}&msg=Verify bank transaction`;
+      asyncFetch(fetchSiweFormat).then((signedMessage) => {
+        signer.signMessage(signedMessage).then((signed) => {
+          asyncFetch(fetchTrxs).then((resp) => {
+            const list = resp.body.transactions;
+            const tr_num = list.findIndex((t) => t.transaction_id === trxId);
+            State.update({
+              iframe: {
+                type: "verify",
+                date: list[tr_num].date,
+                access_token: accessToken,
+                signedMessage,
+                address,
+                signed,
+                tr_num,
+              },
+            });
+          });
+        });
       });
     });
   };
@@ -127,18 +137,6 @@ if (accessToken) {
     Storage.privateSet("plaidAccessToken", undefined);
     State.update({ accessToken: undefined });
   };
-
-  const signedMessage =
-    "localhost wants you to sign in with your Ethereum account:\n" +
-    "0x712c108fb6c30B5223592AB509Ef2fA411a7F4C2\n" +
-    "\n" +
-    "This is a test statement.  You can put anything you want here.\n" +
-    "\n" +
-    "URI: https://localhost/login\n" +
-    "Version: 1\n" +
-    "Chain ID: 1\n" +
-    "Nonce: hCEKhx3MVToidKNIf\n" +
-    "Issued At: 2023-09-23T21:57:21.898Z";
 
   const iframeSrc = `
     <script>
@@ -163,7 +161,7 @@ if (accessToken) {
         window.addEventListener("message", async ({ data }) => {
             if (data?.type !== "verify") return;
             const litNodeClient = await litNodeClientTask
-            const { date, access_token, tr_num } = data;
+            const { date,signedMessage, address, signed, access_token, tr_num } = data;
             console.log(data)
             
             const pkpPubKey = "0x049fc61db9b056619fbd8b59fce3483b6baa9a7a00a251e7905e92a40a18ec5895e0a712ef9ef00db3f6ce8082a985472062440fb311df9cdc350ec7e8919f31f2";
@@ -172,10 +170,10 @@ if (accessToken) {
             const {signatures, response, logs} = await litNodeClient.executeJs({
                 ipfsId: "QmTioWBHeq1rSKdtBZwwsmw59WabAmPr6c8dVcWDHiP7cY",
                 authSig: {
-                    sig: '0xe7e35c14e453253dd51c8a190d050afe171852fd8972e2af1723332567bb891e5cb8a8db04fef1355759b9bc5d36e5090e07267fae4ddc20cccc65dad895d6ae1b',
+                    sig: signed,
                     derivedVia: 'web3.eth.personal.sign',
-                    signedMessage: \`${signedMessage}\`,
-                    address: '0x712c108fb6c30B5223592AB509Ef2fA411a7F4C2'
+                    signedMessage: signedMessage,
+                    address: address
                 },
                 jsParams: {
                     chain: "ethereum",
