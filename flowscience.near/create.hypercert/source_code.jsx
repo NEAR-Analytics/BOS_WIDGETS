@@ -146,7 +146,7 @@ State.init({
   selectedType: "flowscience.near/type/fileformat",
   view: defaultView,
   isPreview: false, //"TEMPLATE",
-  template: "flowscience.near/thing/fileformat.hypercert",
+  template: "flowscience.near/type/hypercert",
   templateVal: template,
   thingId,
 });
