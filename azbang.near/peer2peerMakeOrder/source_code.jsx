@@ -35,16 +35,30 @@ const handleVerify = (proof) => {
 };
 
 const order = state.order;
-if (!order) return "loading";
-//33
-return (
-  <div>
-    <h4>{order.requester}</h4>
-    <p>{order.amount} DAI</p>
+if (!order) return "";
 
-    <Widget
-      src="azbang.near/widget/plaid"
-      props={{ onVerified: handleVerify }}
-    />
-  </div>
+const Container = styled.div`
+    * {
+      font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    }
+
+    display: flex;
+    margin: 48px auto;
+    justify-content: center;
+    flex-direction: column;
+    width: 400px;
+`;
+
+return (
+  <Container>
+    <h4 style={{ lineBreak: "anywhere" }}>{order.requester}</h4>
+    <p style={{ marginBottom: 0 }}>{order.amount} DAI</p>
+
+    <div style={{ marginTop: -32 }}>
+      <Widget
+        src="azbang.near/widget/plaid"
+        props={{ onVerified: handleVerify }}
+      />
+    </div>
+  </Container>
 );
