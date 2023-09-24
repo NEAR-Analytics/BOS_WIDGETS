@@ -7,7 +7,7 @@ const debug = props.debug ?? false;
 
 const css = `
 * {
-    font-family: 'Gantari;
+    font-family: 'Inter custom', sans-serif;
 }
 .asset-item-debug-container{
     background-color: rgb(255, 255, 255);
