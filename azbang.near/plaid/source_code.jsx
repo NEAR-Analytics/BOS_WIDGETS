@@ -299,9 +299,12 @@ window.top.postMessage(origin, "*")
 
 return (
   <div style={{ marginTop: 48 }}>
-    <a href={`${PLAID_API}?return_url=${location}`}>
-      <VerifyButton style={{ position: "initial", margin: "auto" }}>
-        <span style={{ margin: "auto" }}>Connect bank</span>
+    <a
+      style={{ width: 300, display: "block" }}
+      href={`${PLAID_API}?return_url=${location}`}
+    >
+      <VerifyButton style={{ width: 300, position: "initial", margin: "auto" }}>
+        Connect bank via Plaid
       </VerifyButton>
     </a>
 
