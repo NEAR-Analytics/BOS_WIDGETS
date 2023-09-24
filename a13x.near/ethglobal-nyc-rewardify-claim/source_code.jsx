@@ -17,7 +17,7 @@ const handleButtonClick = async () => {
     },
     method: "POST",
   }).then((res) => {
-    state.update({ result: JSON.stringify(res.body) });
+    State.update({ result: JSON.stringify(res.body) });
   });
 };
 
