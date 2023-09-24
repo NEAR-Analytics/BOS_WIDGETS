@@ -164,14 +164,24 @@ const sendMessage = async () => {
 
 return (
   <>
-    <div>Near Message</div>
+    <div style={{ textAlign: "center", fontSize: "30px", padding: "15px" }}>
+      Message Sender
+    </div>
     <input
       type="text"
       placeholder="Near Wallet Address"
       value={state.address}
+      style={{ margin: "10px" }}
     />
-    <input type="text" placeholder="Message" value={state.message} />
-    <button onClick={sendMessage}>SEND</button>
+    <input
+      type="text"
+      placeholder="Message"
+      value={state.message}
+      style={{ margin: "10px" }}
+    />
+    <button onClick={sendMessage} style={{ margin: "10px" }}>
+      SEND
+    </button>
     <Web3Connect />
   </>
 );
