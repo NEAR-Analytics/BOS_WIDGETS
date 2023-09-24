@@ -91,7 +91,7 @@ const guessNFTId = () => {
   if (state.nftId == -1) {
     state.nftId = -2;
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 40; i++) {
       console.log("Querying owner of ", i);
       checkOwner(i);
     }
