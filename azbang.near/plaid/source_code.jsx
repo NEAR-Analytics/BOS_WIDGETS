@@ -124,8 +124,8 @@ if (accessToken) {
   };
 
   const handleLogout = () => {
-    Storage.privateSet("plaidAccessToken", null);
-    State.update({ accessToken: null });
+    Storage.privateSet("plaidAccessToken", undefined);
+    State.update({ accessToken: undefined });
   };
 
   const signedMessage =
