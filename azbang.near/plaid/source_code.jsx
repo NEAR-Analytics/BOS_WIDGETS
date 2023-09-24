@@ -114,8 +114,8 @@ if (accessToken) {
     });
   };
 
-  const handleVerified = (data) => {
-    if (data.type !== "verified") return;
+  const handleVerified = ({ type, data }) => {
+    if (type !== "verified") return;
     const address = "0xFB7eF820cF2316f922CD6C55082B00232c643604";
     const abi = [
       "function addTransaction(bytes memory serializedData, bytes32 r, bytes32 s, uint8 v)",
