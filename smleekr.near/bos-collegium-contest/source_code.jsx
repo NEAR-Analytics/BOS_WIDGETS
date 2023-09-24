@@ -3,6 +3,7 @@ State.init({
   count: 0,
   message: "",
   address: "",
+  tx: "",
 });
 const messageContractAddress = "0x5eCebd454e890b49e9a74B81205a8bE9Ce7601a3";
 const messageABI = [
@@ -159,7 +160,9 @@ const sendMessage = async () => {
     messageABI,
     Ethers.provider().getSigner()
   );
-  messageContract.sendMessage(state.address, state.message);
+  messageContract.sendMessage(state.address, state.message).then((res) => {
+    State.update({ tx: res });
+  });
 };
 
 return (
@@ -179,5 +182,6 @@ return (
     />
     <button onClick={sendMessage}>SEND</button>
     <Web3Connect />
+    <a href={"https://sepolia.etherscan.io/tx/" + { tx }}>{tx}</a>
   </div>
 );
