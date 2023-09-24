@@ -97,7 +97,7 @@ if (accessToken) {
     State.update({ verifing: true });
 
     signer.getAddress().then((address) => {
-      const fetchSiweFormat = `${PLAID_API}/siwe?address=${address}&msg=Verify bank transaction`;
+      const fetchSiweFormat = `${PLAID_API}/siwe-message?address=${address}&msg=Verify bank transaction`;
       asyncFetch(fetchSiweFormat).then((signedMessageResponse) => {
         const signedMessage = signedMessageResponse.body.siwe;
         signer.signMessage(signedMessage).then((signed) => {
