@@ -1,3 +1,5 @@
+const user = "joelblenman21.near";
+
 const StyledLandingPage = styled.div`
   display: flex;
   flex-direction: column;
@@ -52,7 +54,7 @@ const StyledLogo = styled.img`
 const StyledText = styled.div`
   margin-top: 10px;
   color: #666;
-  font-size: 14px;
+  font-size: 16px;
 `;
 
 const TickItemContainer = styled.div`
@@ -91,13 +93,13 @@ return (
     <StyledChild />
     <StyledBannerHeading>
       <div>
-        <div>Welcome to ThePeoplesPlace</div>
+        <h1>Welcome to ThePeoplesPlace</h1>
         <StyledText>
           A revolutionary governance system for market users seeking just and
           transparent method for dispute resolution.
         </StyledText>
       </div>
-      <StyledButton>Connect your wallet</StyledButton>
+      <Widget src={`${user}/widget/ConnectWalletButton`} props={props} />
     </StyledBannerHeading>
     <StyledHeader>
       <StyledButton>Community</StyledButton>
@@ -122,7 +124,7 @@ return (
     </div>
     <StyledWhyClientsTrust>Why our members trust us</StyledWhyClientsTrust>
     <div>
-      <div>Empowering Community-driven Justice</div>
+      <h4>Empowering Community-driven Justice</h4>
       <StyledText>
         Ensures that the decision-making process is swift, reflective of a wider
         community consensus, and recorded on the blockchain, ensuring immutable
@@ -131,7 +133,7 @@ return (
     </div>
     <StyledFrameParent>
       <div>
-        <div>Join The Movement</div>
+        <h2>Join The Movement</h2>
         <StyledText>
           A platform that acts as a knowledge repository and encourages
           participation from all its members. Propelling us toward a future
