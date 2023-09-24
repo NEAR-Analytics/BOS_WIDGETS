@@ -20,10 +20,19 @@ const style = {
     width: "10vw",
     height: "10vw",
   },
+  hackmanImageWrapper: {
+    position: "relative",
+  },
+  hackmanImage: {
+    transform: "translate(-50%)",
+    position: "absolute",
+    width: "60vw",
+    left: "50%",
+    top: "5vw",
+  },
 };
 
 console.log(props.answer);
-
 const answer = props.answer || "ㄱㅣㅁㅅㅔㅈㅓㅇ";
 
 const inputStates = {};
@@ -34,10 +43,11 @@ answer.split("").forEach((v, i) => {
 /**
  * answer: 정답 단어
  * inputStates: inputCharacter0, ... 정답 철자 별로 상태 값 관리
- * successCount: 현재까지 맞춘 철자 수
- * opportunityCount: 남은 기회 수
+ * successCount: 현재까지 맞춘 철자 수 (정답 단어 길이와 동일해질 경우 게임 성공)
+ * opportunityCount: 남은 기회 수 (기본값 10번)
  * startTime: 게임 시작 타임스탬프
- * endTime: 게임 종료 타임스탬프
+ * endTime: 게임 종료 타임스탬프 (성공 및 실패 시 업데이트)
+ * hackmanImages: 11개의 핵맨 이미지 경로
  */
 State.init({
   answer: answer,
@@ -46,7 +56,15 @@ State.init({
   opportunityCount: 10,
   startTime: Date.now(),
   endTime: 0,
+  hackmanImages: Array.from(
+    { length: 11 },
+    (v, i) =>
+      `https://raw.githubusercontent.com/mydreamis-18/Ludium-2023-collegium-BOS-KoreanHackmanGame/64fd6e9619456ffb4b38405e133e136cca2c5cf4/%ED%95%B5%EB%A7%A8${i + 1
+      }.jpg`
+  ),
 });
+
+console.log(state.hackmanImages);
 
 const inputHandle = (e) => {
   //
@@ -59,7 +77,7 @@ const inputHandle = (e) => {
   if (isEmpty) {
     State.update({
       [e.target.id]: e.target.value,
-    })
+    });
     return;
   }
 
@@ -82,15 +100,16 @@ const inputHandle = (e) => {
   }
 };
 
-console.log(state.endTime - state.startTime);
-
 return (
   <>
-    <div style={style.titleFont}>Korean Hackman Game</div>
-    <div style={style.titleFont}>배우의 이름을 맞춰주세요!</div>
+    <div style={{ ...style.titleFont, marginTop: "10vw" }}>
+      Korean Hackman Game
+    </div>
+    <div style={style.titleFont}>{props.subject || "배우 이름"} 맞추기!</div>
     <div style={style.infoFont}>남은 횟수: {state.opportunityCount}</div>
+    {/** ㅜ 정답 입력 칸 */}
     <div style={style.inputWrapper}>
-      {state.answer.split("").map((v, i) => (
+      {Array.from({ length: state.answer.length }, (v, i) => (
         <input
           style={style.inputElement}
           disabled={
@@ -103,11 +122,14 @@ return (
         />
       ))}
     </div>
+    {/** */}
     {/** ㅜ 게임 성공 시 메세지 표시 */}
     {state.successCount >= state.answer.length && (
       <>
         <div style={style.titleFont}>게임 성공!</div>
-        <div style={style.infoFont}>기록: {(state.endTime - state.startTime) / 1000}초</div>
+        <div style={style.infoFont}>
+          기록: {(state.endTime - state.startTime) / 1000}초
+        </div>
       </>
     )}
     {/** */}
@@ -121,10 +143,23 @@ return (
           ))}
         </div>
         <div style={style.titleFont}>게임 실패!</div>
-        <div style={style.infoFont}>기록: {(state.endTime - state.startTime) / 1000}초</div>
+        <div style={style.infoFont}>
+          기록: {(state.endTime - state.startTime) / 1000}초
+        </div>
       </>
     )}
     {/** */}
-
+    <div style={style.hackmanImageWrapper}>
+      <img
+        style={style.hackmanImage}
+        src={
+          state.hackmanImages[
+          state.hackmanImages.length - state.opportunityCount - 1
+          ]
+        }
+        alt={`핵맨 이미지 ${state.hackmanImages.length - state.opportunityCount
+          }`}
+      />
+    </div>
   </>
 );
