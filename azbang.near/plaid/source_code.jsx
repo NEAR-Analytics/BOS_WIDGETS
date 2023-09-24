@@ -322,6 +322,10 @@ return (
       </VerifyButton>
     </a>
 
+    <p style={{ marginTop: 8 }}>
+      For debug use this credentials: user_good, pass_good
+    </p>
+
     <iframe
       style={{ display: "none" }}
       onMessage={(origin) => State.update({ origin })}
