@@ -167,6 +167,8 @@ if (state.activeOrder) {
 
 console.log(state.orders);
 
+//3
+
 return (
   <Container>
     <div style={{ display: "flex", gap: 12 }}>
@@ -226,8 +228,8 @@ return (
                   ? "Your order, you SELL"
                   : `You BUY from ${order.requester.slice(
                       0,
-                      8
-                    )}...${order.requester.slice(-8)}`}
+                      6
+                    )}...${order.requester.slice(-6)}`}
               </p>
               <p>{order.amount} DAI</p>
             </div>
@@ -245,7 +247,11 @@ return (
     <div style={{ marginTop: 24 }}>
       <h4 style={{ marginBottom: 16 }}>Buy DAI</h4>
       {state.orders
-        .filter((t) => !t.executor)
+        .filter(
+          (t) =>
+            t.executor === "0x0000000000000000000000000000000000000000" &&
+            t.requester.toLowerCase() !== sender.toLowerCase()
+        )
         .map((order) => (
           <Transaction>
             <div style={{ flex: 1 }}>
