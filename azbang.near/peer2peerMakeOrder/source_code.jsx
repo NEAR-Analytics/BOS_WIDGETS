@@ -116,7 +116,7 @@ return (
         </div>
       )}
     </Container>
-    {isExecuter && (
+    {!isExecuter && (
       <div style={{ marginTop: -48 }}>
         <Widget
           src="azbang.near/widget/plaid"
