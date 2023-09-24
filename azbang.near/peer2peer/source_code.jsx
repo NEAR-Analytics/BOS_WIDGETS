@@ -83,7 +83,7 @@ const Transaction = styled.div`
   }
 `;
 
-const CONTRACT = "0xa50ba5122f1d3a68C0493c7dda4Fd717aa235B8D";
+const CONTRACT = "0xbeC6a3A108552e6ea9f3aa609847eBF4135bBE71";
 const tokenAddress = "0x8c9e6c40d3402480ACE624730524fACC5482798c";
 const erc20abi = ["function approve(address _spender, uint _value)"];
 
