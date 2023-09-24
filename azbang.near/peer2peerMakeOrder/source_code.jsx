@@ -31,6 +31,7 @@ peer2peer.getPaymentRequestsByIds([props.order]).then(([data]) => {
 });
 
 const handleVerify = (proof) => {
+  console.log("handleVerify", props.order, proof.transactionId);
   peer2peer
     .confirmPayment(props.order, proof.transactionId, { gasLimit: 3000000 })
     .then((tx) => {
