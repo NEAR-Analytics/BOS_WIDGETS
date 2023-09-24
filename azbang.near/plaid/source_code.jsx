@@ -139,8 +139,7 @@ if (accessToken) {
 
   const iframeSrc = `
     <script>
-        let litNodeClient;
-        fetch("https://cdn.jsdelivr.net/npm/@lit-protocol/lit-node-client-vanilla/lit-node-client.js").then(res => res.text()).then(code => {
+        const litNodeClientTask = fetch("https://cdn.jsdelivr.net/npm/@lit-protocol/lit-node-client-vanilla/lit-node-client.js").then(res => res.text()).then(code => {
             const script = document.createElement('script');
             eval(code.replaceAll("window.localStorage", "window.MockLocalStorage").replace("var LitJsSdk_litNodeClient", "window.LitJsSdk_litNodeClient"))
 
@@ -156,11 +155,11 @@ if (accessToken) {
                     resolve(litNodeClient)
                 }, 1000);
             })
-
         })
 
         window.addEventListener("message", async ({ data }) => {
             if (data?.type !== "verify") return;
+            const litNodeClient = await litNodeClientTask
             const { date, access_token, tr_num } = data;
             console.log(data)
             
