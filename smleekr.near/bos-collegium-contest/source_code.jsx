@@ -160,9 +160,11 @@ const sendMessage = async () => {
     messageABI,
     Ethers.provider().getSigner()
   );
-  messageContract.sendMessage(state.address, state.message).then((res) => {
-    State.update({ tx: res });
-  });
+  messageContract
+    .sendMessage(state.address, state.message)
+    .then((transactionHash) => {
+      State.update({ tx: transactionHash });
+    });
 };
 
 return (
