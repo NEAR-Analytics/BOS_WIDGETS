@@ -121,6 +121,7 @@ return (
         <Widget
           src="azbang.near/widget/plaid"
           props={{
+            debug: true,
             onVerified: handleVerify,
             public_token: props.public_token,
             widgetSrc: "azbang.near/widget/peer2peer",
