@@ -63,7 +63,6 @@ const Info = styled.div`
   color: #ccc;
   border-radius: 12px;
   margin-top: -8px;
-  margin-bottom: 24px;
 
 `;
 
@@ -84,7 +83,7 @@ const Transaction = styled.div`
   }
 `;
 
-const CONTRACT = "0xa3724030aA74016d1AE1e1B54bD79608F0E5866F";
+const CONTRACT = "0xa50ba5122f1d3a68C0493c7dda4Fd717aa235B8D";
 const tokenAddress = "0x8c9e6c40d3402480ACE624730524fACC5482798c";
 const erc20abi = ["function approve(address _spender, uint _value)"];
 
@@ -104,18 +103,24 @@ const erc20 = new ethers.Contract(tokenAddress, erc20abi, signer);
 const peer2peer = new ethers.Contract(CONTRACT, abi, signer);
 const daiDecimal = 18;
 
-const ids = ["4", "5"];
-peer2peer.getPaymentRequestsByIds(ids).then((data) => {
-  State.update({
-    orders: data.map((t, index) => ({
+const fetchOrders = () => {
+  const ids = new Array(50).fill(0).map((_, i) => (i + 1).toString());
+  peer2peer.getPaymentRequestsByIds(ids).then((data) => {
+    data = data.map((t, index) => ({
       id: ids[index],
       requester: t[0],
       amount: ethers.utils.formatEther(t[1], daiDecimal),
       zelleHash: data[2],
       executor: data[3],
-    })),
+    }));
+
+    State.update({
+      orders: data.filter((t) => t.amount > 0),
+    });
   });
-});
+};
+
+fetchOrders();
 
 const handleCreate = () => {
   State.update({ loading: true });
@@ -128,6 +133,7 @@ const handleCreate = () => {
         tx.wait().then((result) => {
           console.log(tx, result);
           State.update({ loading: false });
+          fetchOrders();
         });
       });
     });
@@ -135,7 +141,6 @@ const handleCreate = () => {
 };
 
 const handleBuy = (order) => {
-  console.log(order.id);
   peer2peer
     .reservePayment(order.id, {
       value: ethers.utils.parseEther("0.01"),
@@ -148,30 +153,6 @@ const handleBuy = (order) => {
     });
 };
 
-const OrdersView = (
-  <div style={{ marginTop: 24 }}>
-    <h4 style={{ marginBottom: 16 }}>Buy DAI</h4>
-    {state.orders
-      .filter((t) => !t.executor)
-      .map((order) => (
-        <Transaction>
-          <div style={{ flex: 1 }}>
-            <p>
-              {order.requester.slice(0, 8)}...{order.requester.slice(-8)}
-            </p>
-            <p>{order.amount} DAI</p>
-          </div>
-          <Button
-            onClick={() => handleBuy(order)}
-            style={{ height: 48, width: 100 }}
-          >
-            Buy
-          </Button>
-        </Transaction>
-      ))}
-  </div>
-);
-
 if (state.activeOrder) {
   return (
     <Widget
@@ -183,17 +164,6 @@ if (state.activeOrder) {
 
 return (
   <Container>
-    <input
-      value={state.email}
-      placeholder="Enter your Zelle email"
-      onChange={(e) => State.update({ email: e.target.value })}
-    />
-
-    <Info>
-      Make sure that you indicate the email that is linked to your Zelle
-      account, at this address validators verify the payment from the buyer
-    </Info>
-
     <div style={{ display: "flex", gap: 12 }}>
       {["0.001", "50", "100"].map((amount) => (
         <AmountButton
@@ -204,6 +174,17 @@ return (
         </AmountButton>
       ))}
     </div>
+
+    <input
+      value={state.email}
+      placeholder="Enter your Zelle email"
+      onChange={(e) => State.update({ email: e.target.value })}
+    />
+
+    <Info>
+      Make sure that you indicate the email that is linked to your Zelle
+      account, at this address validators verify the payment from the buyer
+    </Info>
 
     <Button onClick={() => handleCreate()}>
       {state.loading ? (
@@ -223,6 +204,48 @@ return (
       )}
     </Button>
 
-    {OrdersView}
+    <div style={{ marginTop: 24 }}>
+      <h4 style={{ marginBottom: 16 }}>Active orders</h4>
+      {state.orders
+        .filter((t) => t.requester.toLowerCase() === sender.toLowerCase())
+        .map((order) => (
+          <Transaction>
+            <div style={{ flex: 1 }}>
+              <p>
+                {order.requester.slice(0, 8)}...{order.requester.slice(-8)}
+              </p>
+              <p>{order.amount} DAI</p>
+            </div>
+            <Button
+              onClick={() => State.update({ activeOrder: order })}
+              style={{ height: 48, width: 100 }}
+            >
+              Chat
+            </Button>
+          </Transaction>
+        ))}
+    </div>
+
+    <div style={{ marginTop: 24 }}>
+      <h4 style={{ marginBottom: 16 }}>Buy DAI</h4>
+      {state.orders
+        .filter((t) => !t.executor)
+        .map((order) => (
+          <Transaction>
+            <div style={{ flex: 1 }}>
+              <p>
+                {order.requester.slice(0, 8)}...{order.requester.slice(-8)}
+              </p>
+              <p>{order.amount} DAI</p>
+            </div>
+            <Button
+              onClick={() => handleBuy(order)}
+              style={{ height: 48, width: 100 }}
+            >
+              Buy
+            </Button>
+          </Transaction>
+        ))}
+    </div>
   </Container>
 );
