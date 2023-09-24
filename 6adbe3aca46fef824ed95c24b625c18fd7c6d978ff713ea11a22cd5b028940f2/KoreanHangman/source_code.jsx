@@ -1,4 +1,5 @@
 const style = {
+  //
   titleFont: {
     margin: "1vw",
     fontSize: "5vw",
@@ -19,6 +20,8 @@ const style = {
   inputElement: {
     width: "10vw",
     height: "10vw",
+    fontSize: "5vw",
+    textAlign: "center",
   },
   hangmanImageWrapper: {
     position: "relative",
@@ -26,6 +29,7 @@ const style = {
   hangmanImage: {
     transform: "translate(-50%)",
     position: "absolute",
+    heigth: "100%",
     width: "60vw",
     left: "50%",
     top: "5vw",
@@ -64,8 +68,6 @@ State.init({
       }.jpg`
   ),
 });
-
-console.log(state.hangmanImages);
 
 const inputHandle = (e) => {
   //
