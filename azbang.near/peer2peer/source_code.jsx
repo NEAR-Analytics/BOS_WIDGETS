@@ -7,11 +7,19 @@ const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return "Please login first";
 
 const chains = {
-  421613: "https://cryptologos.cc/logos/arbitrum-arb-logo.svg?v=026",
-  534353: "svg",
-  84531:
-    "https://altcoinsbox.com/wp-content/uploads/2023/02/base-logo-in-blue.webp",
-  5000: "https://cryptologos.cc/logos/mantle-mnt-logo.svg?v=026",
+  421613: {
+    name: "Arbitrum",
+    logo: "https://cryptologos.cc/logos/arbitrum-arb-logo.svg?v=026",
+  },
+  534353: { name: "Scroll Network" },
+  84531: {
+    name: "Base Network",
+    logo: "https://altcoinsbox.com/wp-content/uploads/2023/02/base-logo-in-blue.webp",
+  },
+  5000: {
+    name: "Mantle Network",
+    logo: "https://cryptologos.cc/logos/mantle-mnt-logo.svg?v=026",
+  },
 };
 
 const Button = styled.button`
@@ -291,8 +299,10 @@ return (
           gap: 8,
         }}
       >
-        <p style={{ margin: 0 }}>Powered with</p>
-        {chains[props.p] === "svg" ? (
+        <p style={{ margin: 0, textAlign: "center" }}>
+          Powered with <br /> <b>{chains[props.p].name}</b>
+        </p>
+        {chains[props.p].name === "Scroll Network" ? (
           <svg
             width="100"
             height="100"
@@ -333,7 +343,7 @@ return (
             ></path>
           </svg>
         ) : (
-          <img width={100} src={chains[props.p]} />
+          <img width={100} src={chains[props.p].logo} />
         )}
       </div>
     )}
