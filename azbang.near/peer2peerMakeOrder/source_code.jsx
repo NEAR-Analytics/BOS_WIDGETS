@@ -70,7 +70,10 @@ return (
       <h5 style={{ marginBottom: 32 }}>{order.amount} DAI</h5>
 
       {order.executor !== "0x0000000000000000000000000000000000000000" && (
-        <Widget src="azbang.near/widget/xmtp-chat" props={{}} />
+        <Widget
+          src="azbang.near/widget/xmtp-chat"
+          props={{ receiver: isRequester ? order.executor : order.requester }}
+        />
       )}
 
       {order.executor === "0x0000000000000000000000000000000000000000" && (
