@@ -123,6 +123,11 @@ if (accessToken) {
     });
   };
 
+  const handleLogout = () => {
+    Storage.privateSet("plaidAccessToken", null);
+    State.update({ accessToken: null });
+  };
+
   const signedMessage =
     "localhost wants you to sign in with your Ethereum account:\n" +
     "0x712c108fb6c30B5223592AB509Ef2fA411a7F4C2\n" +
@@ -214,6 +219,7 @@ if (accessToken) {
           </div>
 
           <VerifyButton
+            onClick={() => handleLogout()}
             style={{
               width: 100,
               height: 42,
