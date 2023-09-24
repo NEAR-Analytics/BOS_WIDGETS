@@ -110,8 +110,8 @@ const fetchOrders = () => {
       id: ids[index],
       requester: t[0],
       amount: ethers.utils.formatEther(t[1], daiDecimal),
-      zelleHash: data[2],
-      executor: data[3],
+      zelleHash: t[2],
+      executor: t[3],
     }));
 
     State.update({
@@ -120,6 +120,8 @@ const fetchOrders = () => {
   });
 };
 
+//2
+
 fetchOrders();
 
 const handleCreate = () => {
@@ -127,11 +129,12 @@ const handleCreate = () => {
   const emailHash = ethers.utils.sha256(ethers.utils.toUtf8Bytes(state.amount));
   const amount = ethers.utils.parseUnits(state.amount.toString(), daiDecimal);
 
+  console.log(emailHash);
+
   erc20.approve(CONTRACT, amount).then((tx) => {
     tx.wait().then(() => {
       peer2peer.createPaymentRequest(amount, emailHash).then((tx) => {
         tx.wait().then((result) => {
-          console.log(tx, result);
           State.update({ loading: false });
           fetchOrders();
         });
@@ -161,6 +164,8 @@ if (state.activeOrder) {
     />
   );
 }
+
+console.log(state.orders);
 
 return (
   <Container>
@@ -206,13 +211,23 @@ return (
 
     <div style={{ marginTop: 24 }}>
       <h4 style={{ marginBottom: 16 }}>Active orders</h4>
-      {state.orders
-        .filter((t) => t.requester.toLowerCase() === sender.toLowerCase())
-        .map((order) => (
+      {state.orders.map((order) => {
+        const isRequester =
+          order.requester.toLowerCase() === sender.toLowerCase();
+        const isExecuter =
+          order.executor.toLowerCase() === sender.toLowerCase();
+        if (!isRequester && !isExecuter) return null;
+
+        return (
           <Transaction>
             <div style={{ flex: 1 }}>
               <p>
-                {order.requester.slice(0, 8)}...{order.requester.slice(-8)}
+                {isRequester
+                  ? "Your order, you SELL"
+                  : `You BUY from ${order.requester.slice(
+                      0,
+                      8
+                    )}...${order.requester.slice(-8)}`}
               </p>
               <p>{order.amount} DAI</p>
             </div>
@@ -223,7 +238,8 @@ return (
               Chat
             </Button>
           </Transaction>
-        ))}
+        );
+      })}
     </div>
 
     <div style={{ marginTop: 24 }}>
