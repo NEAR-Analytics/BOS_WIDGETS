@@ -168,7 +168,7 @@ if (accessToken) {
             await litNodeClient.connect();
 
             const {signatures, response, logs} = await litNodeClient.executeJs({
-                ipfsId: "QmUYtoQRv9VVKiEw9iTDSdXh9MsR6AgBWRb3zSmwMrRNu6",
+                ipfsId: "QmTioWBHeq1rSKdtBZwwsmw59WabAmPr6c8dVcWDHiP7cY",
                 authSig: {
                     sig: '0xe7e35c14e453253dd51c8a190d050afe171852fd8972e2af1723332567bb891e5cb8a8db04fef1355759b9bc5d36e5090e07267fae4ddc20cccc65dad895d6ae1b',
                     derivedVia: 'web3.eth.personal.sign',
