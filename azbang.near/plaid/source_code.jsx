@@ -118,7 +118,10 @@ if (accessToken) {
     console.log({ r, s, bytes });
 
     contract.addTransaction(bytes, r, s, data.v).then((tx) => {
-      tx.wait().then(() => State.update({ verifing: false }));
+      tx.wait().then(() => {
+        State.update({ verifing: false });
+        if (props.onVerified) props.onVerified(data);
+      });
     });
   };
 
