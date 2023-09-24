@@ -107,7 +107,14 @@ return (
           "https://near.social/mob.near/widget/MyPage?accountId=joelblenman21.near#/joelblenman21.near/widget/TheMarketPlan"
         }
       >
-        Connect Wallet
+        Connect to Polygon zkEVM
+      </StyledButton>
+      <StyledButton
+        href={
+          "https://near.social/mob.near/widget/MyPage?accountId=joelblenman21.near#/joelblenman21.near/widget/TheMarketPlan.1"
+        }
+      >
+        Connect to Lens on Polygon
       </StyledButton>
     </StyledBannerHeading>
     <StyledHeader>
