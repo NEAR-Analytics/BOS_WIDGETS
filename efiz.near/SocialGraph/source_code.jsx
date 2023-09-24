@@ -1,7 +1,7 @@
 const thingId = "f8ad9d1a76259lmdpjnd74e69162a0a014";
 
 const data = Social.getr(
-  ["hack.near/graph/follow", "efiz.near/graph/follow"],
+  ["efiz.near/graph/follow", "mob.near/graph/follow"],
   "final"
 );
 const [nodesState, setNodesState] = useState(null);
@@ -28,7 +28,6 @@ useEffect(() => {
     if (!(accountId in nodes)) {
       nodes[accountId] = {
         id: accountId,
-        group: 1,
         size: 10,
       };
     }
@@ -37,7 +36,6 @@ useEffect(() => {
         if (!(memberId in nodes)) {
           nodes[memberId] = {
             id: memberId,
-            group: 1,
             size: 10,
           };
         }
