@@ -100,7 +100,7 @@ if (accessToken) {
     const trxId = trx.transaction_id;
     State.update({ verifing: true });
 
-    fetchAsync(url).then((resp) => {
+    asyncFetch(url).then((resp) => {
       const list = resp.body.added;
       const tr_num = list.findIndex((t) => t.transaction_id === trxId);
       State.update({
