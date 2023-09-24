@@ -1,5 +1,9 @@
+// swap mint.sharddog.near for socialDB
+// swap nftData for profile.hypercerts
+// display every.hypercert by default
+
 const accountId = props.accountId ?? context.accountId;
-const communityId = props.communityId ?? "multi.sputnik-dao.near";
+const communityId = props.communityId ?? "cannabis-genome.sputnik-dao.near";
 const contractId = props.contractId ?? "mint.sharddog.near";
 
 const tab = props.tab === "following" ? props.tab : "members";
@@ -163,7 +167,9 @@ return (
             <Widget
               src="near/widget/DIG.Button"
               props={{
-                href: `${props.link ?? "#/hack.near/widget/docs"}`,
+                href: `${
+                  props.link ?? "#/flowscience.near/widget/create.impact"
+                }`,
                 label: `${props.buttonText ?? "Get Started"}`,
                 variant: "outline-dark",
                 size: "large",
@@ -176,7 +182,7 @@ return (
     {isNftHolder && (
       <HiddenText>
         <div className="m-2 mb-5">
-          <h5 className="mb-3">Non-Fungible Things</h5>
+          <h5 className="mb-3">Hypercerts</h5>
           <Widget src="near/widget/NFTCollection" props={{ accountId }} />
         </div>
       </HiddenText>
@@ -199,7 +205,7 @@ return (
           textAlign: "center",
         }}
       >
-        Made Possible by Collaboration
+        A Public Good Made Possible by Collaboration
       </Text>
       <Widget src="hack.near/widget/dev.Badge" />
     </Flex>
