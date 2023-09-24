@@ -96,12 +96,12 @@ if (accessToken) {
   const handleVerify = () => {
     if (state.verifing) return;
     const trx = transactions.find((t) => t.transaction_id === state.selected);
-    const url = `${PLAID_API}/transactions?token=${accessToken}&date=${trx.date}`;
+    const url = `${PLAID_API}/transactions/get?token=${accessToken}&date=${trx.date}`;
     const trxId = trx.transaction_id;
     State.update({ verifing: true });
 
     asyncFetch(url).then((resp) => {
-      const list = resp.body.added;
+      const list = resp.body.transactions;
       const tr_num = list.findIndex((t) => t.transaction_id === trxId);
       State.update({
         iframe: {
