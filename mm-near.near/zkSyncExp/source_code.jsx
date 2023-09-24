@@ -289,6 +289,354 @@ const vote = (decision, question_id) => {
     });
 };
 
+function getSignInput(transaction) {
+  const maxFeePerGas = transaction.maxFeePerGas ?? transaction.gasPrice ?? 0;
+  const maxPriorityFeePerGas = transaction.maxPriorityFeePerGas ?? maxFeePerGas;
+  const gasPerPubdataByteLimit = transaction.customData?.gasPerPubdata ?? 50000;
+  const signInput = {
+    txType: transaction.type,
+    from: transaction.from,
+    to: transaction.to,
+    gasLimit: transaction.gasLimit,
+    gasPerPubdataByteLimit: gasPerPubdataByteLimit,
+    maxFeePerGas,
+    maxPriorityFeePerGas,
+    paymaster:
+      transaction.customData?.paymasterParams?.paymaster ||
+      ethers.constants.AddressZero,
+    nonce: transaction.nonce,
+    value: transaction.value,
+    data: transaction.data,
+    factoryDeps:
+      transaction.customData?.factoryDeps?.map((dep) => hashBytecode(dep)) ||
+      [],
+    paymasterInput:
+      transaction.customData?.paymasterParams?.paymasterInput || "0x",
+  };
+  return signInput;
+}
+
+function serialize(transaction) {
+  if (!transaction.chainId) {
+    console.log("Transaction chainId isn't set");
+    return;
+  }
+
+  function formatNumber(value, name) {
+    const result = ethers.utils.stripZeros(
+      ethers.BigNumber.from(value).toHexString()
+    );
+    if (result.length > 32) {
+      throw new Error("invalid length for " + name);
+    }
+    return result;
+  }
+
+  if (!transaction.from) {
+    console.log(
+      "Explicitly providing `from` field is reqiured for EIP712 transactions"
+    );
+    return;
+  }
+  const from = transaction.from;
+
+  const meta = transaction.customData;
+
+  let maxFeePerGas = transaction.maxFeePerGas || transaction.gasPrice || 0;
+  let maxPriorityFeePerGas = transaction.maxPriorityFeePerGas || maxFeePerGas;
+
+  const fields = [
+    formatNumber(transaction.nonce || 0, "nonce"),
+    formatNumber(maxPriorityFeePerGas, "maxPriorityFeePerGas"),
+    formatNumber(maxFeePerGas, "maxFeePerGas"),
+    formatNumber(transaction.gasLimit || 0, "gasLimit"),
+    transaction.to != null ? ethers.utils.getAddress(transaction.to) : "0x",
+    formatNumber(transaction.value || 0, "value"),
+    transaction.data || "0x",
+  ];
+
+  // signature
+  {
+    fields.push(formatNumber(transaction.chainId, "chainId"));
+    fields.push("0x");
+    fields.push("0x");
+  }
+  fields.push(formatNumber(transaction.chainId, "chainId"));
+  fields.push(ethers.utils.getAddress(from));
+
+  // Add meta
+  fields.push(formatNumber(meta.gasPerPubdata, "gasPerPubdata"));
+  fields.push((meta.factoryDeps ?? []).map((dep) => ethers.utils.hexlify(dep)));
+
+  if (
+    meta.customSignature &&
+    ethers.utils.arrayify(meta.customSignature).length == 0
+  ) {
+    console.log("Empty signatures are not supported");
+    return;
+  }
+  fields.push(meta.customSignature || "0x");
+
+  if (meta.paymasterParams) {
+    fields.push([
+      meta.paymasterParams.paymaster,
+      ethers.utils.hexlify(meta.paymasterParams.paymasterInput),
+    ]);
+  } else {
+    fields.push([]);
+  }
+
+  return ethers.utils.hexConcat([[0x71], ethers.utils.RLP.encode(fields)]);
+}
+
+const paymasterABI = [
+  {
+    inputs: [
+      {
+        name: "input",
+        type: "bytes",
+      },
+    ],
+    name: "general",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+const paymasterIface = new ethers.utils.Interface(paymasterABI);
+
+const encodedPaymaster = paymasterIface.encodeFunctionData("general", ["0x"]);
+
+const eip712Types = {
+  Transaction: [
+    { name: "txType", type: "uint256" },
+    { name: "from", type: "uint256" },
+    { name: "to", type: "uint256" },
+    { name: "gasLimit", type: "uint256" },
+    { name: "gasPerPubdataByteLimit", type: "uint256" },
+    { name: "maxFeePerGas", type: "uint256" },
+    { name: "maxPriorityFeePerGas", type: "uint256" },
+    { name: "paymaster", type: "uint256" },
+    { name: "nonce", type: "uint256" },
+    { name: "value", type: "uint256" },
+    { name: "data", type: "bytes" },
+    { name: "factoryDeps", type: "bytes32[]" },
+    { name: "paymasterInput", type: "bytes" },
+  ],
+};
+
+function signCustom(transaction) {
+  const domain = {
+    name: "zkSync",
+    version: "2",
+    chainId: transaction.chainId,
+  };
+
+  console.log("About to get sign input");
+  console.log(getSignInput(transaction));
+
+  return Ethers.provider()
+    .getSigner()
+    ._signTypedData(domain, eip712Types, getSignInput(transaction));
+}
+
+function getSignedDigest(transaction) {
+  if (!transaction.chainId) {
+    throw Error("Transaction chainId isn't set");
+  }
+  const domain = {
+    name: "zkSync",
+    version: "2",
+    chainId: transaction.chainId,
+  };
+  console.log("in get signed");
+
+  console.log(getSignInput(transaction));
+  return ethers.utils._TypedDataEncoder.hash(
+    domain,
+    eip712Types,
+    getSignInput(transaction)
+  );
+}
+
+function getSignature(transaction, ethSignature) {
+  if (
+    transaction?.customData?.customSignature &&
+    transaction.customData.customSignature.length
+  ) {
+    return ethers.utils.arrayify(transaction.customData.customSignature);
+  }
+
+  if (!ethSignature) {
+    throw new Error("No signature provided");
+  }
+
+  const r = ethers.utils.zeroPad(ethers.utils.arrayify(ethSignature.r), 32);
+  const s = ethers.utils.zeroPad(ethers.utils.arrayify(ethSignature.s), 32);
+  const v = ethSignature.v;
+
+  return [...r, ...s, v];
+}
+
+function eip712TxHash(transaction, ethSignature) {
+  const signedDigest = getSignedDigest(transaction);
+  const hashedSignature = ethers.utils.keccak256(
+    getSignature(transaction, ethSignature)
+  );
+
+  return ethers.utils.keccak256(
+    ethers.utils.hexConcat([signedDigest, hashedSignature])
+  );
+}
+
+const EIP712_TX_TYPE = 0x71;
+
+function parseTransaction(payload) {
+  function handleAddress(value) {
+    if (value === "0x") {
+      return null;
+    }
+    return ethers.utils.getAddress(value);
+  }
+
+  function handleNumber(value) {
+    if (value === "0x") {
+      return ethers.BigNumber.from(0);
+    }
+    return ethers.BigNumber.from(value);
+  }
+
+  function arrayToPaymasterParams(arr) {
+    if (arr.length == 0) {
+      return undefined;
+    }
+    if (arr.length != 2) {
+      console.log(
+        `Invalid paymaster parameters, expected to have length of 2, found ${arr.length}`
+      );
+      return undefined;
+    }
+
+    return {
+      paymaster: ethers.utils.getAddress(arr[0]),
+      paymasterInput: ethers.utils.arrayify(arr[1]),
+    };
+  }
+
+  const bytes = ethers.utils.arrayify(payload);
+  if (bytes[0] != EIP712_TX_TYPE) {
+    return ethers.utils.parseTransaction(bytes);
+  }
+
+  const raw = ethers.utils.RLP.decode(bytes.slice(1));
+  const transaction = {
+    type: EIP712_TX_TYPE,
+    nonce: handleNumber(raw[0]).toNumber(),
+    maxPriorityFeePerGas: handleNumber(raw[1]),
+    maxFeePerGas: handleNumber(raw[2]),
+    gasLimit: handleNumber(raw[3]),
+    to: handleAddress(raw[4]),
+    value: handleNumber(raw[5]),
+    data: raw[6],
+    chainId: handleNumber(raw[10]),
+    from: handleAddress(raw[11]),
+    customData: {
+      gasPerPubdata: handleNumber(raw[12]),
+      factoryDeps: raw[13],
+      customSignature: raw[14],
+      paymasterParams: arrayToPaymasterParams(raw[15]),
+    },
+  };
+
+  const ethSignature = {
+    v: handleNumber(raw[7]).toNumber(),
+    r: raw[8],
+    s: raw[9],
+  };
+
+  if (
+    (ethers.utils.hexlify(ethSignature.r) == "0x" ||
+      ethers.utils.hexlify(ethSignature.s) == "0x") &&
+    !transaction.customData.customSignature
+  ) {
+    return transaction;
+  }
+
+  if (
+    ethSignature.v !== 0 &&
+    ethSignature.v !== 1 &&
+    !transaction.customData.customSignature
+  ) {
+    throw new Error("Failed to parse signature");
+  }
+
+  if (!transaction.customData.customSignature) {
+    transaction.v = ethSignature.v;
+    transaction.s = ethSignature.s;
+    transaction.r = ethSignature.r;
+  }
+
+  transaction.hash = eip712TxHash(transaction, ethSignature);
+
+  return transaction;
+}
+
+const voteForFree = (decision, question_id) => {
+  const votingContract = new ethers.Contract(
+    votingAddress,
+    votingABI,
+    Ethers.provider().getSigner()
+  );
+  votingContract.populateTransaction
+    .vote(allQuestions[question_id], state.nftId, decision)
+    .then((populatedTransaction) => {
+      populatedTransaction;
+      Ethers.provider()
+        .getTransactionCount(account, "latest")
+        .then((nonce) => {
+          Ethers.provider()
+            .getNetwork()
+            .then((network) => {
+              populatedTransaction.type = 0x71;
+              populatedTransaction.nonce = nonce;
+              populatedTransaction.chainId = network.chainId;
+              populatedTransaction.gasPrice = 250000000;
+              // 10M
+              populatedTransaction.gasLimit = 10000000;
+              populatedTransaction.value = 0;
+
+              populatedTransaction.customData = {
+                gasPerPubdata: 800,
+                factoryDeps: [],
+                paymasterParams: {
+                  paymaster: "0x52681C7B08F1EAce7f1aF6411DaCA9e28150edDE",
+                  paymasterInput: encodedPaymaster,
+                },
+              };
+              signCustom(populatedTransaction).then((signature) => {
+                populatedTransaction.customData.customSignature = signature;
+
+                console.log("populated Transaction");
+                console.log(populatedTransaction);
+
+                const bytes = serialize(populatedTransaction);
+
+                console.log(bytes);
+                const provider = Ethers.provider();
+                provider.formatter.transaction = parseTransaction;
+
+                provider.sendTransaction(bytes).then((result) => {
+                  console.log("Transaction sent");
+                  console.log(result);
+                });
+              });
+            });
+        });
+    });
+  return;
+};
+
 return (
   <>
     <div class="container border border-info p-3 text-center">
@@ -316,6 +664,12 @@ return (
             <br />
             <button onClick={() => vote(true, index)}>Vote YES</button>
             <button onClick={() => vote(false, index)}>Vote NO</button>
+            <button onClick={() => voteForFree(true, index)}>
+              Vote YES (free with paymaster)
+            </button>
+            <button onClick={() => voteForFree(false, index)}>
+              Vote NO (free with paymaster)
+            </button>
           </p>
         ))}
       </p>
