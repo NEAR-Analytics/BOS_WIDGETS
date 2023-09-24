@@ -46,104 +46,68 @@ const Rectangle48 = styled.div`
   //top: 72px;
   //right: -30px;
   background: #00EC97;
-  //clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
-  padding: 10px 24px; /* Add horizontal padding */
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
+  //clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%); /* Adjust clip-path to overlap */
   align-items: center; /* Center items vertically */
 `;
 
 const RectangleCommunities = styled.div`
-  position: relative;
-  width: 880px;
+  //position: absolute;
+  //width: 880px;
   width: 60%;
   height: 302px;
-//   left: 0px;
-//   top: 72px;
+  left: 0px;
+  top: 72px;
   background: #292929;
-  //clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
-  align-items: center; /* Center items vertically */
-  padding: 10px 24px;
-`;
-
-const FeaturedCommunities = styled.div`
-  position: relative;
-  width: 100%;
-  height: auto;//302px;
-  background: #292929;
-  align-items: center; /* Center items vertically */
-  padding: 10px 60px;
-`;
-
-const Explore = styled.div`
-  position: relative;
-  width: 100%;
-  height: 150px;
-  background: #292929;
-  align-items: center; /* Center items vertically */
-  padding: 10px 24px;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0 100%);
 `;
 
 const Text = styled.div`
   position: relative;
   width: 740px;
   height: 183px;
-  //left: 48px;
-  //top: 132px;
+  left: 48px;
+  top: 132px;
   //font-family: 'Aeonik';
   font-style: normal;
   font-weight: 700;
-  font-size: 40px;
+  font-size: 50px;
   line-height: 100%;
   letter-spacing: -0.02em;
   color: #F4F4F4;
   text-align: start; /* Center the text horizontally */
-  padding: 10px 24px;
 `;
 
-const TextCommunities = styled.div`
-  position: relative;
+const Text2 = styled.div`
+  //position: absolute;
   width: 740px;
-  //height: 183px;
-  //left: 25px;
-  //top: 132px;
+  height: 183px;
+  left: 48px;
+  top: 132px;
   //font-family: 'Aeonik';
   font-style: normal;
   font-weight: 700;
-  font-size: 30px;
+  font-size: 60px;
   line-height: 100%;
   letter-spacing: -0.02em;
-  color: white;
-  text-align: start; /* Center the text horizontally */
-  padding: 10px 24px;
-`;
-
-const SubCommunities = styled.div`
-  position: relative;
-  width: 450px;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 20px;
-  line-height: 100%;
-  letter-spacing: -0.02em;
-  color: white;
-  text-align: start; /* Center the text horizontally */
-  padding: 0px 24px;
+  color: black;
 `;
 
 const SectionContainer = styled.div`
   //margin-top: 40px;
-  //padding-top: 10px;
+  //padding-top: 40px;
   //position: absolute;
   width: 100%;
   //width: 1554.29px;
   //max-width: 1440px;
   height: 292px;
   left: 0;
-  //top: 406px;
+  top: 406px;
   background: #FFFFFF;
   // display: flex;
   // justify-content: space-between;
   // align-items: center;
-  padding: 10px 24px; /* Add horizontal padding */
+  padding: 0 24px; /* Add horizontal padding */
   margin-left: auto; /* Center the section by pushing it to the right */
   margin-right: auto; /* Center the section by pushing it to the left */
 `;
@@ -161,7 +125,7 @@ const SectionContainer2 = styled.div`
   // display: flex;
   // justify-content: space-between;
   // align-items: center;
-  padding: 10px 24px; /* Add horizontal padding */
+  padding: 0 24px; /* Add horizontal padding */
   margin-left: auto; /* Center the section by pushing it to the right */
   margin-right: auto; /* Center the section by pushing it to the left */
 `;
@@ -180,17 +144,6 @@ const ArticleTitle = styled.div`
   line-height: 120%;
   text-align: left;
   color: #101820;
-`;
-
-const CommunityTitle = styled.div`
-  height: 43px;
-  //font-family: 'Aeonik';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 36px;
-  line-height: 120%;
-  text-align: left;
-  color: #292929;
 `;
 
 const ArticleText = styled.div`
@@ -216,7 +169,7 @@ const ArticleLink = styled.div`
 
 const DiveRightIn = styled.div`
   //position: absolute;
-  padding-top: 20px;
+  margin-top: 20px;
   width: 300px;
   height: 29px;
   left: 48px;
@@ -360,103 +313,15 @@ return (
         </Article>
       </div>
     </SectionContainer2>
-    <Explore>
-      <DiveRightIn>Explore</DiveRightIn>
-      <SubCommunities style={{ color: "#818181", width: "950px" }}>
-        We firmly believe that communities form the sturdy foundation of a
-        decentralized ecosystem. Here at /dev/hub, they are the driving force
-        behind our most impactful innovations. Explore our diverse range of
-        communities, discover their ongoing initiatives, and start engaging with
-        them today to be a part of something bigger.
-      </SubCommunities>
-    </Explore>
-
     <HeroSection>
       <RectangleCommunities>
-        <TextCommunities>Communities</TextCommunities>
-        <SubCommunities>
-          We firmly believe that communities form the sturdy foundation of a
-          decentralized ecosystem. Here at /dev/hub, they are the driving force
-          behind our most impactful innovations. Explore our diverse range of
-          communities, discover their ongoing initiatives, and start engaging
-          with them today to be a part of something bigger.
-        </SubCommunities>
+        <Text>
+          We are building{" "}
+          <div style={{ color: "black" }}>a decentralized community</div> for
+          NEAR Developers
+        </Text>
       </RectangleCommunities>
       <WebImage></WebImage>
     </HeroSection>
-    <FeaturedCommunities>
-      <div
-        style={{
-          display: "flex",
-          "justify-content": "space-between",
-          "align-items": "center",
-        }}
-      >
-        <Article>
-          <ArticleTitle style={{ color: "#00EC97", "font-size": "30px" }}>
-            /BOS_community
-          </ArticleTitle>
-          <ArticleText
-            style={{
-              color: "#818181",
-              "font-size": "20px",
-              "margin-top": "10px",
-            }}
-          >
-            Read NEAR Docs and build something new.
-          </ArticleText>
-        </Article>
-        <Article>
-          <ArticleTitle style={{ color: "#00EC97" }}>
-            /zero_knowledge
-          </ArticleTitle>
-          <ArticleText
-            style={{
-              color: "#818181",
-              "font-size": "20px",
-              "margin-top": "10px",
-            }}
-          >
-            Read BOS Docs and build something new.
-          </ArticleText>
-        </Article>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          "justify-content": "space-between",
-          "align-items": "center",
-        }}
-      >
-        <Article>
-          <ArticleTitle style={{ color: "#00EC97", "font-size": "30px" }}>
-            /protocol
-          </ArticleTitle>
-          <ArticleText
-            style={{
-              color: "#818181",
-              "font-size": "20px",
-              "margin-top": "10px",
-            }}
-          >
-            Read NEAR Docs and build something new.
-          </ArticleText>
-        </Article>
-        <Article>
-          <ArticleTitle style={{ color: "#00EC97" }}>
-            /contract_standards
-          </ArticleTitle>
-          <ArticleText
-            style={{
-              color: "#818181",
-              "font-size": "20px",
-              "margin-top": "10px",
-            }}
-          >
-            Read BOS Docs and build something new.
-          </ArticleText>
-        </Article>
-      </div>
-    </FeaturedCommunities>
   </Theme>
 );
