@@ -58,7 +58,7 @@ const VerifyButton = styled.button`
   color: #fff;
   font-size: 16px;
   display: flex;
-  flex-direction: center;
+  justify-content: center;
   align-items: center;
   background-color: #255ff4;
   position: absolute;
@@ -198,9 +198,32 @@ if (accessToken) {
         onMessage={handleVerified}
         style={{ display: "none" }}
       ></iframe>
+
       <AppContainer style={appStyle}>
-        <h4 style={{ fontWeight: "bold" }}>Plaid x Blockhain</h4>
-        <p>Select payment to verify it on-chain:</p>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ flex: 1 }}>
+            <h4 style={{ fontWeight: "bold" }}>Plaid x Blockhain</h4>
+            <p>Select payment to verify it on-chain:</p>
+          </div>
+
+          <VerifyButton
+            style={{
+              width: 100,
+              height: 42,
+              position: "initial",
+              margin: "auto",
+            }}
+          >
+            <span style={{ margin: "auto" }}>Logout</span>
+          </VerifyButton>
+        </div>
+
         <AppContainer style={{ height: 500 }}>
           {transactions.map((tx) => (
             <Transaction
