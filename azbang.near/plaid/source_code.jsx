@@ -80,11 +80,11 @@ const VerifyButton = styled.button`
 `;
 
 const accessToken = state.accessToken || Storage.privateGet("plaidAccessToken");
-if (accessToken === null) return null;
+if (accessToken === null) return "";
 
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
-  if (!response.ok) return null;
+  if (!response.ok) return "";
 
   const handleVerify = () => {
     if (state.verifing) return;
