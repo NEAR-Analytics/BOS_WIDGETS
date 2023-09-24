@@ -29,11 +29,9 @@ const handleSendMessage = () => {
       const hours = now.getHours();
       const minutes = now.getMinutes();
       botResponse = `현재 시간은 ${hours}시 ${minutes}분이에요.`;
-    } else if (userMessage.toLowerCase().startsWith ("비트코인")) {
+    } else if (userMessage.toLowerCase().startsWith("비트코인")) {
       // Fetch Bitcoin price from Binance API
-      asyncFetch(
-        "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
-      )
+      asyncFetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
         .then(({ body }) => {
           const bitcoinPrice = parseFloat(body.price);
 
@@ -91,14 +89,14 @@ return (
             width: "Calc(100% - 25px)",
           }}
         >
-           <input
+          <input
             type="text"
             value={inputText}
             onChange={(e) => {
               handleInputChange(e);
             }}
-          /> 
-          
+          />
+
           <button
             onClick={handleSendMessage}
             style={{
