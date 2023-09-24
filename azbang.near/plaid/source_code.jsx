@@ -8,7 +8,7 @@ const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return "Please connect Ethereum wallet";
 const signer = Ethers.provider().getSigner(sender);
 
-const PLAID_ADDR = "0x3fa5C488800A24Fb12904e47301D9337e8c9905e"; // Eth goerli
+const PLAID_ADDR = "0xa52210eA78f678D10e0dD47DeC64ff6ACD3Fbe8B"; // Eth goerli
 const PLAID_ABI = [
   "function addTransaction(bytes memory serializedData, bytes32 r, bytes32 s, uint8 v)",
 ];
