@@ -237,6 +237,8 @@ const handleProfileSave = () => {
 return (
   <Container>
     <SidePanel>
+      {" "}
+      <h2>Create a Hyperfile</h2>
       <>
         <FormContainer>
           {state.isPreview ? (
