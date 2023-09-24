@@ -1,27 +1,25 @@
-const featuredProjects = [
-  "marmajgaming.near",
-  "research-collective.near",
-  "bac-inc.near",
-];
-
 const dummyItem = [
   {
-    image: "https://via.placeholder.com/150", // Placeholder image URL.
+    title: "Blue T-Shirt",
+    image: "https://via.placeholder.com/150",
     description: "A beautiful blue t-shirt made of 100% cotton.",
     price: "$29.99",
   },
   {
-    image: "https://via.placeholder.com/150?text=Red+Shirt", // Placeholder image URL with custom text.
+    title: "Red Shirt",
+    image: "https://via.placeholder.com/150?text=Red+Shirt",
     description: "A vibrant red shirt suitable for all occasions.",
     price: "$19.99",
   },
   {
-    image: "https://via.placeholder.com/150?text=Green+Hat", // Placeholder image URL with custom text.
+    title: "Green Hat",
+    image: "https://via.placeholder.com/150?text=Green+Hat",
     description: "A stylish green hat to complete your outfit.",
     price: "$15.99",
   },
   {
-    image: "https://via.placeholder.com/150?text=Black+Shoes", // Placeholder image URL with custom text.
+    title: "Black Shoes",
+    image: "https://via.placeholder.com/150?text=Black+Shoes",
     description: "Comfortable black shoes that fit any style.",
     price: "$49.99",
   },
@@ -31,7 +29,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, auto); 
-  gap: 2em;
+  
   padding: 0;
   width: 100%;
 
@@ -53,15 +51,52 @@ const heading = styled.h1`
     color: #101828;
   
 `;
+
+State.init({
+  selectedElements: [],
+});
+
+const items = JSON.parse(
+  Storage.get("cart-items", "joelblenman21.near/widget/ItemComponent") || "null"
+);
+
+const handleAddToCart = (title) => {
+  console.log("This is the title: ", title);
+  // check if already selected
+  if (state.selectedElements.includes(title)) {
+    // if already selected, remove check
+    const updatedItems = state.selectedElements.filter(
+      (elementId) => elementId !== title
+    );
+    // update in local storage so it can be picked up by the cart
+    // Storage.set("cart-items", JSON.stringify(updatedElements));
+    // update in state, so there is a smooth experience
+    State.update({
+      selectedElements: updatedItems,
+    });
+  } else {
+    // not selected, so add to array
+    const updatedElements = [...state.selectedElements, title];
+    // update in local storage so it can be picked up by the cart
+    // Storage.set("cart-items", JSON.stringify(updatedElements));
+    // update in state, so there is a smooth experience
+    State.update({
+      selectedElements: updatedElements,
+    });
+  }
+};
+
 return (
   <div>
-    <heading>Featured Projects</heading>
+    <p>Cart: {state.selectedElements}</p>
+    <heading>Featured Items</heading>
     <Container>
       {dummyItem.map((item) => (
         <Widget
           src={`joelblenman21.near/widget/ItemComponent`}
           props={{
             item,
+            handleAddToCart,
           }}
         />
       ))}
