@@ -38,9 +38,10 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 0;
+  padding: 20px 20px;
   background-color: #333;
   color: white;
+  margin-top:20px;
 `;
 
 const StyledLogo = styled.img`
@@ -87,6 +88,7 @@ const StyledFrameParent = styled.div`
 `;
 return (
   <StyledLandingPage>
+    <StyledChild />
     <StyledBannerHeading>
       <div>
         <div>Welcome to ThePeoplesPlace</div>
@@ -99,12 +101,7 @@ return (
     </StyledBannerHeading>
     <StyledHeader>
       <StyledButton>Community</StyledButton>
-      <StyledLogo src="/images/dao-logo.png" alt="ThePeoplesPlace Logo" />
     </StyledHeader>
-    <StyledIntroImage
-      src="/images/blockchain-community.jpg"
-      alt="Decentralized Community"
-    />
     <StyledText>
       Born out of the necessity to bridge the trust gap in decentralized
       platforms, ThePeoplesPlace stands as a testament to community-driven
@@ -112,30 +109,18 @@ return (
     </StyledText>
     <div>
       <TickItemContainer>
-        <TickImage
-          src="/images/fairness-icon.png"
-          alt="Icon representing Fairness"
-        />
         <StyledText>
           Operating on principles of fairness, community engagement, and
           transparency.
         </StyledText>
       </TickItemContainer>
       <TickItemContainer>
-        <TickImage
-          src="/images/voting-icon.png"
-          alt="Icon representing Voting"
-        />
         <StyledText>
           Members can propose resolutions, vote on outcomes, and stake tokens.
         </StyledText>
       </TickItemContainer>
     </div>
     <StyledWhyClientsTrust>Why our members trust us</StyledWhyClientsTrust>
-    <StyledTrustImage
-      src="/images/trust-community.jpg"
-      alt="Trustworthy Community"
-    />
     <div>
       <div>Empowering Community-driven Justice</div>
       <StyledText>
@@ -155,9 +140,5 @@ return (
       </div>
       <StyledButton>Learn More</StyledButton>
     </StyledFrameParent>
-    <StyledMovementImage
-      src="/images/join-movement.jpg"
-      alt="Join the Movement"
-    />
   </StyledLandingPage>
 );
