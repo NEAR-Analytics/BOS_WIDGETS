@@ -1,5 +1,5 @@
 State.init({
-  amount: 10,
+  amount: "0.01",
 });
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -18,7 +18,7 @@ const Button = styled.button`
   border: none;
   text-align: center;
   font-weight: bold;
-  transition: 0.2s background-color;
+  transition: 0.2s all;
   height: 64px;
   &:hover {
     color: #fff;
@@ -28,6 +28,11 @@ const Button = styled.button`
 `;
 
 const Container = styled.div`
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nerko+One&display=swap');
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+
     display: flex;
     height: 600px;
     margin: 48px auto;
@@ -43,14 +48,26 @@ const Container = styled.div`
     input {
       height: 56px;
     }
-
 `;
 
 const AmountButton = styled(Button)`
-  background-color: ${(p) => (p.selected ? "green" : "#255ff4")}
+  box-shadow: 0 0 0 0 #fff;
+  height: 48px;
+  &.active {
+    box-shadow: 0 0 0 4px #fff;
+  }
 `;
 
-const CONTRACT = "0x8c9e6c40d3402480ACE624730524fACC5482798c";
+const Info = styled.div`
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin-top: -8px;
+  margin-bottom: 24px;
+
+`;
+
+const CONTRACT = "0x99726c79719664f68f12274A4Ef432579891C0df";
 const tokenAddress = "0x8c9e6c40d3402480ACE624730524fACC5482798c";
 const erc20abi = ["function approve(address _spender, uint _value)"];
 const abi = [
@@ -70,7 +87,8 @@ const handleCreate = () => {
 
   erc20.approve(CONTRACT, 10).then((tx) => {
     tx.wait().then(() => {
-      peer2peer.createPaymentRequest(amount, emailHash).then((tx) => {
+      console.log("createPaymentRequest");
+      peer2peer.createPaymentRequest(10, emailHash).then((tx) => {
         tx.wait().then(() => {
           State.update({ loading: false });
         });
@@ -87,16 +105,20 @@ return (
       onChange={(e) => State.update({ email: e.target.value })}
     />
 
+    <Info>
+      Make sure that you indicate the email that is linked to your Zeally
+      account, at this address validators verify the payment from the buyer
+    </Info>
+
     <div style={{ display: "flex", gap: 12 }}>
-      <AmountButton selected onClick={() => State.update({ amount: 10 })}>
-        $10
-      </AmountButton>
-      <AmountButton onClick={() => State.update({ amount: 50 })}>
-        $50
-      </AmountButton>
-      <AmountButton onClick={() => State.update({ amount: 100 })}>
-        $100
-      </AmountButton>
+      {["0.01", "50", "100"].map((amount) => (
+        <AmountButton
+          className={amount == state.amount && "active"}
+          onClick={() => State.update({ amount })}
+        >
+          {amount} DAI
+        </AmountButton>
+      ))}
     </div>
 
     <Button onClick={() => handleCreate()}>
