@@ -1,4 +1,4 @@
-const PLAID_API = "https://ethnyc.herewallet.app";
+const PLAID_API = "http://localhost:3000"; // "https://ethnyc.herewallet.app";
 State.init({
   origin: null,
   selected: null,
@@ -8,6 +8,12 @@ State.init({
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return "Please connect Ethereum wallet";
 const signer = Ethers.provider().getSigner(sender);
+
+// signer.getAddress().then((address) => {
+//   console.log(
+//     fetch(`http://localhost:3000/siwe-message?address=${address}&msg=hel33lo`)
+//   );
+// });
 
 const AppContainer = styled.div`
   width: 400px;
@@ -88,7 +94,7 @@ if (accessToken) {
 
   const handleVerify = () => {
     if (state.verifing) return;
-    const trx = list.find((t) => t.transaction_id === state.selected);
+    const trx = state.orders.find((t) => t.transaction_id === state.selected);
     const url = `${PLAID_API}/transactions?token=${accessToken}&date=${trx.date}`;
     const trxId = trx.transaction_id;
     State.update({ verifing: true });
