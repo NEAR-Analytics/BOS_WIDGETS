@@ -84,6 +84,7 @@ const accessToken = state.accessToken || Storage.privateGet("plaidAccessToken");
 if (accessToken === null) return "";
 
 if (accessToken) {
+  console.log(accessToken);
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
   if (!response.ok) return "";
   const transactions = response.body?.added || [];
@@ -220,7 +221,7 @@ if (accessToken) {
               margin: "auto",
             }}
           >
-            <span style={{ margin: "auto" }}>Logout</span>
+            Logout
           </VerifyButton>
         </div>
 
