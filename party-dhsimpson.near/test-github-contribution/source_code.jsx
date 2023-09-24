@@ -36,7 +36,7 @@ return (
         <Widget
           src="party-dhsimpson.near/widget/github-contributions"
           props={{
-            token: "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",
+            token: "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",
             githubNickname: "dhsimpson",
           }}
         />
