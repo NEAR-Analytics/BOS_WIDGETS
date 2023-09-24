@@ -98,7 +98,8 @@ if (accessToken) {
 
     signer.getAddress().then((address) => {
       const fetchSiweFormat = `${PLAID_API}/siwe?address=${address}&msg=Verify bank transaction`;
-      asyncFetch(fetchSiweFormat).then((signedMessage) => {
+      asyncFetch(fetchSiweFormat).then((signedMessageResponse) => {
+        const signedMessage = signedMessageResponse.body.siwe;
         signer.signMessage(signedMessage).then((signed) => {
           asyncFetch(fetchTrxs).then((resp) => {
             const list = resp.body.transactions;
