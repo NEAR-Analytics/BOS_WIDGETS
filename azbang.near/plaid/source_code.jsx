@@ -80,6 +80,9 @@ const VerifyButton = styled.button`
   }
 `;
 
+Storage.privateSet("plaidAccessToken", undefined);
+State.update({ accessToken: undefined });
+
 const accessToken = state.accessToken || Storage.privateGet("plaidAccessToken");
 if (accessToken === null) return "";
 
