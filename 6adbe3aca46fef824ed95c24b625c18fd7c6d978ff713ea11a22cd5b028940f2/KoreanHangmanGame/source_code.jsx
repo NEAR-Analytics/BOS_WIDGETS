@@ -85,13 +85,12 @@ return (
           props={{ answer: state.answer, subject }}
         />
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <button style={{ fontSize: "4vw" }} onClick={restart}>
+          <button style={{ margin: "1vh", fontSize: "3vw" }} onClick={restart}>
             다시 시작
           </button>
         </div>
       </>
     )}
     {/** */}
-
   </>
 );
