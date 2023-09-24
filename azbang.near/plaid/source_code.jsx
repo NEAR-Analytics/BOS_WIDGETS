@@ -21,6 +21,9 @@ const AppContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  * {
+    font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  }
 `;
 
 const Transaction = styled.div`
@@ -288,7 +291,9 @@ if (props.public_token) {
 }
 
 const isBOSgg = state.origin ? state.origin.includes("bos.gg") : false;
-const location = `${state.origin}${isBOSgg ? "#" : "/"}${context.widgetSrc}`;
+const location = `${state.origin}${isBOSgg ? "#" : "/"}${
+  props.widgetSrc || context.widgetSrc
+}`;
 const src = `
 <script>
 const origin = document.location.ancestorOrigins[0];
