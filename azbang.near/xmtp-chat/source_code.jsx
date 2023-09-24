@@ -1,5 +1,5 @@
 State.init({
-  receiver: null,
+  receiver: props.receiver,
   messages: [],
   iframe: {},
 });
