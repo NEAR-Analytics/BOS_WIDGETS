@@ -12,11 +12,12 @@ if (state.sender === undefined) {
 
 const handleButtonClick = async () => {
   return asyncFetch(API_URL + encodeURIComponent(state.tweetUrl), {
-    body: data,
     headers: {
       "Content-Type": "application/json",
     },
     method: "POST",
+  }).then((res) => {
+    state.result = JSON.stringify(res.body);
   });
 };
 
@@ -57,6 +58,7 @@ return (
         >
           Claim
         </button>
+        {result}
       </div>
     </div>
   </>
