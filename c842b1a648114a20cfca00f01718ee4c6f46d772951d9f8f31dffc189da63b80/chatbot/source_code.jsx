@@ -68,7 +68,7 @@ return (
         </div>
         <div
           className="input-box"
-          style={{ position: "fixed", bottom: "50px", width: "100%" }}
+          style={{ position: "fixed", bottom: "0", width: "Calc(100% - 25px)" }}
         >
           <input
             style={{}}
