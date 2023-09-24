@@ -100,7 +100,7 @@ return (
     </div>
     <div className="mt-3">
       <h5>Theme Color</h5>
-      <input type="text" placeholder="#000" value={state.mainColor} />
+      <input type="text" placeholder="#000000" value={state.mainColor} />
     </div>
     <div className="mt-3">
       <button
@@ -117,14 +117,8 @@ return (
         className="btn btn-success mx-1"
         onClick={handleCreate}
       >
-        Create
+        Publish Your Impact
       </button>
-      <a
-        className="btn btn-outline-success mx-1"
-        href="#/edit/flowscience.near/widget/hypercert.page"
-      >
-        Edit Template
-      </a>
     </div>
     <hr />
     <h3>Preview</h3>
