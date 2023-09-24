@@ -2,12 +2,17 @@ const PLAID_API = "http://localhost:3000"; // "https://ethnyc.herewallet.app";
 State.init({
   origin: null,
   selected: null,
-  //accessToken: "access-sandbox-ba9ee489-90fd-4b20-be28-96f9828cc5da",
 });
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return "Please connect Ethereum wallet";
 const signer = Ethers.provider().getSigner(sender);
+
+const PLAID_ADDR = "0x3fa5C488800A24Fb12904e47301D9337e8c9905e";
+const PLAID_ABI = [
+  "function addTransaction(bytes memory serializedData, bytes32 r, bytes32 s, uint8 v)",
+];
+const PLAID_CONTRACT = new ethers.Contract(PLAID_ADDR, PLAID_ABI, signer);
 
 // signer.getAddress().then((address) => {
 //   console.log(
@@ -116,19 +121,10 @@ if (accessToken) {
 
   const handleVerified = ({ type, data }) => {
     if (type !== "verified") return;
-    const address = "0xFB7eF820cF2316f922CD6C55082B00232c643604";
-    const abi = [
-      "function addTransaction(bytes memory serializedData, bytes32 r, bytes32 s, uint8 v)",
-    ];
-
-    const contract = new ethers.Contract(address, abi, signer);
-    console.log(data);
-
     const r = ethers.utils.arrayify(data.r);
     const s = ethers.utils.arrayify(data.s);
     const bytes = ethers.utils.arrayify(data.data);
-
-    contract.addTransaction(bytes, r, s, data.v).then((tx) => {
+    PLAID_CONTRACT.addTransaction(bytes, r, s, data.v).then((tx) => {
       tx.wait().then(() => {
         State.update({ verifing: false });
         if (props.onVerified) props.onVerified(data);
