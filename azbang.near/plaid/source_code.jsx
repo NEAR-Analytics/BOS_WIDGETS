@@ -93,6 +93,13 @@ if (accessToken) {
   const transactions = response.body?.added || [];
 
   const handleVerify = () => {
+    if (props.debug) {
+      props.onVerified({
+        transaction_id: 0x0000000000000000000000000000000000000000,
+      });
+      return;
+    }
+
     if (state.verifing) return;
     const trx = transactions.find((t) => t.transaction_id === state.selected);
     const fetchTrxs = `${PLAID_API}/transactions/get?token=${accessToken}&date=${trx.date}`;
