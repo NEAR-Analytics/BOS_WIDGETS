@@ -1,13 +1,10 @@
-const PLAID_API = "https://ethnyc.herewallet.app";
-State.init({
-  origin: null,
-  selected: null,
-});
+State.init({ origin: null, selected: null });
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return "Please connect Ethereum wallet";
 const signer = Ethers.provider().getSigner(sender);
 
+const PLAID_API = "https://ethnyc.herewallet.app";
 const PLAID_ADDR = "0xa52210eA78f678D10e0dD47DeC64ff6ACD3Fbe8B"; // Eth goerli
 const PLAID_ABI = [
   "function addTransaction(bytes memory serializedData, bytes32 r, bytes32 s, uint8 v)",
