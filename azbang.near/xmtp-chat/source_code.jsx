@@ -183,16 +183,13 @@ const Message = styled.div`
 `;
 
 return (
-  <div style={{ margin: 24 }}>
+  <div>
     <iframe
       style={{ display: "none" }}
       srcDoc={xmtpMessages}
       message={state.iframe}
       onMessage={onIframe}
     ></iframe>
-
-    <p>Account: {sender}</p>
-    {state.receiver != null && <p>Receiver: {state.receiver}</p>}
 
     <ChatView>
       <div style={{ flex: 1, height: 500, padding: 16, overflowY: "auto" }}>
