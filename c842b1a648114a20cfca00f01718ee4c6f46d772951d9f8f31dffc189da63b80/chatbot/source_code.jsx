@@ -43,7 +43,7 @@ const handleSendMessage = () => {
 
 const ChatAppWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
 
   .chat-app {
     background-color: #bacee0;
