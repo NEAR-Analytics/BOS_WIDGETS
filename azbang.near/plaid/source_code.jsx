@@ -111,6 +111,8 @@ if (accessToken) {
       const fetchSiweFormat = `${PLAID_API}/siwe-message?address=${address}&msg=Verify bank transaction`;
       asyncFetch(fetchSiweFormat).then((signedMessageResponse) => {
         const signedMessage = signedMessageResponse.body.siwe;
+        console.log(signedMessage);
+
         signer.signMessage(signedMessage).then((signed) => {
           asyncFetch(fetchTrxs).then((resp) => {
             const list = resp.body.transactions;
