@@ -24,15 +24,11 @@ const style = {
     textAlign: "center",
   },
   hangmanImageWrapper: {
-    position: "relative",
-    height: "50vh",
+    display: "flex",
+    justifyContent: "center",
   },
   hangmanImage: {
-    transform: "translate(-50%)",
-    position: "absolute",
     width: "50vw",
-    left: "50%",
-    top: "5vw",
   },
 };
 
@@ -63,8 +59,7 @@ State.init({
   hangmanImages: Array.from(
     { length: 11 },
     (v, i) =>
-      `https://raw.githubusercontent.com/mydreamis-18/Ludium-2023-collegium-BOS-KoreanHangmanGame/main/%ED%96%89%EB%A7%A8${
-        i + 1
+      `https://raw.githubusercontent.com/mydreamis-18/Ludium-2023-collegium-BOS-KoreanHangmanGame/main/%ED%96%89%EB%A7%A8${i + 1
       }.jpg`
   ),
 });
@@ -158,12 +153,11 @@ return (
         style={style.hangmanImage}
         src={
           state.hangmanImages[
-            state.hangmanImages.length - state.opportunityCount - 1
+          state.hangmanImages.length - state.opportunityCount - 1
           ]
         }
-        alt={`행맨 이미지 ${
-          state.hangmanImages.length - state.opportunityCount
-        }`}
+        alt={`행맨 이미지 ${state.hangmanImages.length - state.opportunityCount
+          }`}
       />
     </div>
   </>
