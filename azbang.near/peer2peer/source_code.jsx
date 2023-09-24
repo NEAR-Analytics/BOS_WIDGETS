@@ -36,4 +36,4 @@ const handleCreate = () => {
   });
 };
 
-return <Button>Create order</Button>;
+return <Button onClick={() => handleCreate()}>Create order</Button>;
