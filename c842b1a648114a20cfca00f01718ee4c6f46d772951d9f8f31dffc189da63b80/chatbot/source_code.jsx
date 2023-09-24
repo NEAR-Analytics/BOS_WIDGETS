@@ -29,13 +29,15 @@ const handleSendMessage = () => {
       const hours = now.getHours();
       const minutes = now.getMinutes();
       botResponse = `현재 시간은 ${hours}시 ${minutes}분이에요.`;
-    } else if (userMessage.toLowerCase().startsWith("비트코인")) {
+    } else if (userMessage.toLowerCase().startsWith("ticker")) {
+      const coinSymbol = userMessage.substring(7).toUpperCase();
       // Fetch Bitcoin price from Binance API
-      asyncFetch("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT")
+      asyncFetch(
+        `https://api.binance.com/api/v3/ticker/price?symbol=${coinSymbol}USDT`
+      )
         .then(({ body }) => {
-          const bitcoinPrice = parseFloat(body.price);
-
-          botResponse = `현재 비트코인 가격은 $${bitcoinPrice.toFixed(
+          const coinPrice = parseFloat(body.price);
+          botResponse = `현재 ${coinSymbol} 가격은 $${coinPrice.toFixed(
             2
           )}입니다.`;
           addMessage(botResponse, true);
