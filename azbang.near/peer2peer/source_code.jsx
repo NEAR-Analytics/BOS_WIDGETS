@@ -141,29 +141,34 @@ const handleBuy = (order) => {
       value: ethers.utils.parseEther("0.01"),
     })
     .then((tx) => {
-      tx.wait().then(() => State.update({ activeOrder: order }));
+      tx.wait().then(() => {
+        Storage.privateSet("activeOrder", order);
+        State.update({ activeOrder: order });
+      });
     });
 };
 
 const OrdersView = (
   <div style={{ marginTop: 24 }}>
     <h4 style={{ marginBottom: 16 }}>Buy DAI</h4>
-    {state.orders.map((order) => (
-      <Transaction>
-        <div style={{ flex: 1 }}>
-          <p>
-            {order.requester.slice(0, 8)}...{order.requester.slice(-8)}
-          </p>
-          <p>{order.amount} DAI</p>
-        </div>
-        <Button
-          onClick={() => handleBuy(order)}
-          style={{ height: 48, width: 100 }}
-        >
-          Buy
-        </Button>
-      </Transaction>
-    ))}
+    {state.orders
+      .filter((t) => !t.executor)
+      .map((order) => (
+        <Transaction>
+          <div style={{ flex: 1 }}>
+            <p>
+              {order.requester.slice(0, 8)}...{order.requester.slice(-8)}
+            </p>
+            <p>{order.amount} DAI</p>
+          </div>
+          <Button
+            onClick={() => handleBuy(order)}
+            style={{ height: 48, width: 100 }}
+          >
+            Buy
+          </Button>
+        </Transaction>
+      ))}
   </div>
 );
 
