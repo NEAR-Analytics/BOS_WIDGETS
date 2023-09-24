@@ -79,7 +79,7 @@ const handleInputChange = (e) => {
   });
 };
 
-const networks = ["Polygon"];
+const networks = ["NEON EVM Dev", "Gnosis Chain Chiado", "Goerli (UMA)", ""];
 
 return (
   <>
