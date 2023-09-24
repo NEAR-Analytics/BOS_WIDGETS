@@ -255,7 +255,7 @@ if (props.public_token) {
   if (response?.ok) {
     Storage.privateSet("plaidAccessToken", response.body.access_token);
     State.update({ accessToken: response.body.access_token });
-    return null;
+    return "";
   }
 }
 
