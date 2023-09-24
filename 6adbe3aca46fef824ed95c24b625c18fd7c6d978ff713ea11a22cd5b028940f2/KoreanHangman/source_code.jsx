@@ -122,6 +122,7 @@ return (
           onChange={inputHandle}
           id={`inputCharacter${i}`}
           maxLength={1}
+          autoComplete={"off"}
         />
       ))}
     </div>
