@@ -1,4 +1,5 @@
 State.init({
+  orders: [],
   amount: "0.001",
 });
 
@@ -28,9 +29,8 @@ const Button = styled.button`
 `;
 
 const Container = styled.div`
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nerko+One&display=swap');
     * {
-      font-family: 'Inter', sans-serif;
+      font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     }
 
     display: flex;
@@ -59,7 +59,8 @@ const AmountButton = styled(Button)`
 
 const Info = styled.div`
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #6c757d88;
+  color: #ccc;
   border-radius: 12px;
   margin-top: -8px;
   margin-bottom: 24px;
@@ -93,7 +94,7 @@ const PaymentRequest =
 const abi = [
   "function createPaymentRequest(uint256 amount, bytes32 _zelleEmailHash) external returns (uint256)",
   `function getPaymentRequestsByIds(uint256[] memory requestIds) external view returns (${PaymentRequest}[] memory)`,
-  "function reservePayment(uint256 requestId)",
+  "function reservePayment(uint256 requestId) payable",
   "function confirmPayment(uint256 requestId, uint256 transactionId)",
   "event PaymentReserved(uint256 requestId, address indexed reserver)",
 ];
@@ -103,9 +104,11 @@ const erc20 = new ethers.Contract(tokenAddress, erc20abi, signer);
 const peer2peer = new ethers.Contract(CONTRACT, abi, signer);
 const daiDecimal = 18;
 
-peer2peer.getPaymentRequestsByIds(["1", "2", "3"]).then((data) => {
+const ids = ["4", "5"];
+peer2peer.getPaymentRequestsByIds(ids).then((data) => {
   State.update({
-    orders: data.map((t) => ({
+    orders: data.map((t, index) => ({
+      id: ids[index],
       requester: t[0],
       amount: ethers.utils.formatEther(t[1], daiDecimal),
       zelleHash: data[2],
@@ -114,8 +117,6 @@ peer2peer.getPaymentRequestsByIds(["1", "2", "3"]).then((data) => {
   });
 });
 
-console.log(state.orders);
-
 const handleCreate = () => {
   State.update({ loading: true });
   const emailHash = ethers.utils.sha256(ethers.utils.toUtf8Bytes(state.amount));
@@ -123,7 +124,6 @@ const handleCreate = () => {
 
   erc20.approve(CONTRACT, amount).then((tx) => {
     tx.wait().then(() => {
-      console.log("createPaymentRequest");
       peer2peer.createPaymentRequest(amount, emailHash).then((tx) => {
         tx.wait().then((result) => {
           console.log(tx, result);
@@ -135,27 +135,46 @@ const handleCreate = () => {
 };
 
 const handleBuy = (order) => {
-  peer2peer.reservePayment(order).then((tx) => {
-    tx.wait().then(() => {});
-  });
+  console.log(order.id);
+  peer2peer
+    .reservePayment(order.id, {
+      value: ethers.utils.parseEther("0.01"),
+    })
+    .then((tx) => {
+      tx.wait().then(() => State.update({ activeOrder: order }));
+    });
 };
 
 const OrdersView = (
   <div style={{ marginTop: 24 }}>
-    <h4>Buy DAI</h4>
+    <h4 style={{ marginBottom: 16 }}>Buy DAI</h4>
     {state.orders.map((order) => (
-      <Transaction onClick={() => handleBuy(order)}>
+      <Transaction>
         <div style={{ flex: 1 }}>
           <p>
             {order.requester.slice(0, 8)}...{order.requester.slice(-8)}
           </p>
           <p>{order.amount} DAI</p>
         </div>
-        <Button style={{ height: 48, width: 100 }}>Buy</Button>
+        <Button
+          onClick={() => handleBuy(order)}
+          style={{ height: 48, width: 100 }}
+        >
+          Buy
+        </Button>
       </Transaction>
     ))}
   </div>
 );
+
+if (state.activeOrder) {
+  return (
+    <Widget
+      src="azbang.near/widget/peer2peerMakeOrder"
+      props={{ order: state.activeOrder.id }}
+    />
+  );
+}
 
 return (
   <Container>
