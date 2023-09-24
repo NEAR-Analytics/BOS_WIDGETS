@@ -1,6 +1,7 @@
 const [messages, setMessages] = useState([]);
 const [inputText, setInputText] = useState("");
 const [scrollToBottom, setScrollToBottom] = useState(true);
+const [coinData, setCoinData] = useState([]);
 
 const handleInputChange = (e) => {
   setInputText(e.target.value);
@@ -23,13 +24,29 @@ const handleSendMessage = () => {
 
     if (userMessage === "안녕") {
       botResponse = "안녕하세요";
-    } else if (userMessage.includes("날씨")) {
-      botResponse = "오늘 날씨는 맑아요.";
     } else if (userMessage.includes("시간")) {
       const now = new Date();
       const hours = now.getHours();
       const minutes = now.getMinutes();
       botResponse = `현재 시간은 ${hours}시 ${minutes}분이에요.`;
+    } else if (userMessage.toLowerCase().startsWith ("비트코인")) {
+      // Fetch Bitcoin price from Binance API
+      asyncFetch(
+        "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
+      )
+        .then(({ body }) => {
+          const bitcoinPrice = parseFloat(body.price);
+
+          botResponse = `현재 비트코인 가격은 $${bitcoinPrice.toFixed(
+            2
+          )}입니다.`;
+          addMessage(botResponse, true);
+        })
+        .catch((error) => {
+          console.error("Error fetching Bitcoin price:", error);
+          botResponse = "죄송해요, 정보를 가져올 수 없어요.";
+          addMessage(botResponse, true);
+        });
     }
 
     addMessage(botResponse, true);
@@ -68,19 +85,20 @@ return (
         </div>
         <div
           className="input-box"
-          style={{ position: "fixed", bottom: "0", width: "Calc(100% - 25px)" }}
+          style={{
+            position: "fixed",
+            bottom: "50px",
+            width: "Calc(100% - 25px)",
+          }}
         >
-          <input
-            style={{}}
+           <input
             type="text"
             value={inputText}
-            onChange={handleInputChange}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                handleSendMessage();
-              }
+            onChange={(e) => {
+              handleInputChange(e);
             }}
-          />
+          /> 
+          
           <button
             onClick={handleSendMessage}
             style={{
