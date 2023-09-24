@@ -11,7 +11,7 @@ const src = "flowscience.near/widget/hypercert.page";
 State.init({
   h1,
   h2,
-  tagline,
+  description,
   communityId,
   contractId,
   buttonText,
@@ -25,7 +25,7 @@ const handleCreate = () =>
     widget: {
       [`${state.name}`]: {
         "": `const accountId = props.accountId ?? context.accountId; const ownerId = props.ownerId ?? "hack.near"; const pageId = props.pageId ?? "community.page"; return <Widget src="hack.near/widget/community.page" props={{ accountId, communityId: "${state.communityId}", contractId: "${state.contractId}", h1: "${state.h1}",
-        h2: "${state.h2}", tagline: "${state.tagline}", mainColor: "${state.mainColor}", buttonText: "${state.buttonText}", link: "${state.link}" }} />`,
+        h2: "${state.h2}", description: "${state.description}", mainColor: "${state.mainColor}", buttonText: "${state.buttonText}", link: "${state.link}" }} />`,
         metadata: {
           tags: {
             build: "",
@@ -51,7 +51,11 @@ return (
     <div className="mt-3">
       <div>
         <h5>Name Your Impact</h5>
-        <input type="text" placeholder="My Impact" value={state.h1} />
+        <input
+          type="text"
+          placeholder="My Impact Initiative"
+          value={state.h1}
+        />
       </div>
     </div>
     <div className="mt-3">
@@ -59,11 +63,15 @@ return (
       <input type="text" placeholder="DAO" value={state.h2} />
     </div>
     <div className="mt-3">
+      <h5>Project Name</h5>
+      <input type="text" placeholder="My Community" value={state.name} />
+    </div>
+    <div className="mt-3">
       <h5>Project Account ID</h5>
       <input type="text" placeholder={accountId} value={state.communityId} />
     </div>
     <div className="mt-3">
-      <h5>contractId (for an NFT gate)</h5>
+      <h5>Contract ID (for an NFT gate)</h5>
       <input
         type="text"
         placeholder="mint.sharddog.near"
@@ -71,19 +79,19 @@ return (
       />
     </div>
     <div className="mt-3">
-      <h5>tagline</h5>
+      <h5>Description</h5>
       <input
         type="text"
-        placeholder="Everyone builds everything together!"
-        value={state.tagline}
+        placeholder="Reward impact with Hypercerts!"
+        value={state.description}
       />
     </div>
     <div className="mt-3">
-      <h5>buttonText</h5>
-      <input type="text" placeholder="Get Started" value={state.buttonText} />
+      <h5>Call To Action</h5>
+      <input type="text" placeholder="Create Impact" value={state.buttonText} />
     </div>
     <div className="mt-3">
-      <h5>link</h5>
+      <h5>Proof of Impact</h5>
       <input
         type="text"
         placeholder="https://everything.dev"
@@ -91,12 +99,8 @@ return (
       />
     </div>
     <div className="mt-3">
-      <h5>mainColor</h5>
+      <h5>Theme Color</h5>
       <input type="text" placeholder="#000" value={state.mainColor} />
-    </div>
-    <div className="mt-3">
-      <h5>name (for this page)</h5>
-      <input type="text" placeholder="community" value={state.name} />
     </div>
     <div className="mt-3">
       <button
@@ -104,7 +108,7 @@ return (
           !state.name ??
           !state.h1 ??
           !state.h2 ??
-          !state.tagline ??
+          !state.description ??
           !state.buttonText ??
           !state.link ??
           !state.mainColor ??
@@ -130,7 +134,7 @@ return (
         props={{
           h1: state.h1,
           h2: state.h2,
-          tagline: state.tagline,
+          description: state.description,
           communityId: state.communityId,
           contractId: state.contractId,
           buttonText: state.buttonText,
