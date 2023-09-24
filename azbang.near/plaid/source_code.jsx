@@ -88,17 +88,22 @@ if (accessToken) {
 
   const handleVerify = () => {
     if (state.verifing) return;
+    const trx = list.find((t) => t.transaction_id === state.selected);
+    const url = `${PLAID_API}/transactions?token=${accessToken}&date=${trx.date}`;
+    const trxId = trx.transaction_id;
     State.update({ verifing: true });
-    const list = response.body.added;
-    const tr_num = list.findIndex((t) => t.transaction_id === state.selected);
 
-    State.update({
-      iframe: {
-        type: "verify",
-        date: list[tr_num].date,
-        access_token: accessToken,
-        tr_num,
-      },
+    fetchAsync(url).then((resp) => {
+      const list = resp.body.added;
+      const tr_num = list.findIndex((t) => t.transaction_id === trxId);
+      State.update({
+        iframe: {
+          type: "verify",
+          date: list[tr_num].date,
+          access_token: accessToken,
+          tr_num,
+        },
+      });
     });
   };
 
@@ -110,12 +115,11 @@ if (accessToken) {
     ];
 
     const contract = new ethers.Contract(address, abi, signer);
-    console.log(contract);
+    console.log(data);
 
     const r = ethers.utils.arrayify(data.r);
     const s = ethers.utils.arrayify(data.s);
     const bytes = ethers.utils.arrayify(data.data);
-    console.log({ r, s, bytes });
 
     contract.addTransaction(bytes, r, s, data.v).then((tx) => {
       tx.wait().then(() => {
