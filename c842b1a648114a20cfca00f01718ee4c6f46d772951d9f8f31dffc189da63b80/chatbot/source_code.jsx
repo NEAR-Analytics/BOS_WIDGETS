@@ -41,25 +41,33 @@ const handleSendMessage = () => {
   setInputText("");
 };
 
+const ChatAppWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+
+  .chat-app {
+    background-color: #bacee0;
+    width:100%;
+    height:100%;
+  }
+`;
+
 return (
-  <>
-    <div
-      class="App"
-      style={{ backgroundColor: "#bacee0", width: "100%", height: "100%" }}
-    >
-      <div class="chat-window" style={{}}>
-        <div class="messages">
+  <ChatAppWrapper>
+    <div className="chat-app">
+      <div className="chat-window">
+        <div className="messages">
           {messages.map((message, index) => (
             <div
               key={index}
-              class={`message ${message.isUser ? "user" : "bot"}`}
+              className={`message ${message.isUser ? "user" : "bot"}`}
             >
               {message.text}
             </div>
           ))}
         </div>
         <div
-          class="input-box"
+          className="input-box"
           style={{ position: "fixed", bottom: "50px", width: "100%" }}
         >
           <input
@@ -88,5 +96,5 @@ return (
         </div>
       </div>
     </div>
-  </>
+  </ChatAppWrapper>
 );
