@@ -8,6 +8,7 @@ const style = {
   startButton: {
     transform: "translate(-50%)",
     position: "absolute",
+    fontSize: "4vw",
     left: "50%",
     top: "60vw",
   },
@@ -31,6 +32,14 @@ function getAnswer() {
   return db[randomIndex];
 }
 
+const restart = () => {
+  State.update({
+    answer: getAnswer(),
+    subject: "배우 이름",
+    isStart: false,
+  });
+};
+
 /**
  * answer: db 배열에서 랜덤 인덱스로 뽑은 정답 단어
  * subject: db 단어의 주제
@@ -52,6 +61,7 @@ const startGame = () => {
 
 return (
   <>
+    {/** ㅜ 게임 시작 전 화면 */}
     {!state.isStart && (
       <>
         <div style={style.titleFont}>
@@ -66,11 +76,22 @@ return (
         </button>
       </>
     )}
+    {/** */}
+    {/** ㅜ 게임 진행 화면 */}
     {state.isStart && (
-      <Widget
-        src={`${developerAccountId}/widget/KoreanHangman`}
-        props={{ answer: state.answer, subject }}
-      />
+      <>
+        <Widget
+          src={`${developerAccountId}/widget/KoreanHangman`}
+          props={{ answer: state.answer, subject }}
+        />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <button style={{ fontSize: "4vw" }} onClick={restart}>
+            다시 시작
+          </button>
+        </div>
+      </>
     )}
+    {/** */}
+
   </>
 );
