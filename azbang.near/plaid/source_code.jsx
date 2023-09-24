@@ -91,10 +91,11 @@ if (accessToken === null) return "";
 if (accessToken) {
   const response = fetch(`${PLAID_API}/transactions?token=${accessToken}`);
   if (!response.ok) return "";
+  const transactions = response.body?.added || [];
 
   const handleVerify = () => {
     if (state.verifing) return;
-    const trx = state.orders.find((t) => t.transaction_id === state.selected);
+    const trx = transactions.find((t) => t.transaction_id === state.selected);
     const url = `${PLAID_API}/transactions?token=${accessToken}&date=${trx.date}`;
     const trxId = trx.transaction_id;
     State.update({ verifing: true });
@@ -215,7 +216,7 @@ if (accessToken) {
         <h4 style={{ fontWeight: "bold" }}>Plaid x Blockhain</h4>
         <p>Select payment to verify it on-chain:</p>
         <AppContainer style={{ height: 500 }}>
-          {response.body?.added.map((tx) => (
+          {transactions.map((tx) => (
             <Transaction
               key={tx.transaction_id}
               onClick={() => State.update({ selected: tx.transaction_id })}
