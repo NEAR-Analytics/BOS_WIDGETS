@@ -61,6 +61,15 @@ return (
     </h4>
     <h5 style={{ marginBottom: 0 }}>{order.amount} DAI</h5>
 
+    {isExecuter && (
+      <div style={{ marginTop: -32 }}>
+        <Widget
+          src="azbang.near/widget/plaid"
+          props={{ onVerified: handleVerify }}
+        />
+      </div>
+    )}
+
     {order.executor !== "0x0000000000000000000000000000000000000000" && (
       <Widget src="azbang.near/widget/xmtp-chat" props={{}} />
     )}
@@ -87,15 +96,6 @@ return (
               margin: "auto",
             },
           }}
-        />
-      </div>
-    )}
-
-    {isExecuter && (
-      <div style={{ marginTop: -32 }}>
-        <Widget
-          src="azbang.near/widget/plaid"
-          props={{ onVerified: handleVerify }}
         />
       </div>
     )}
