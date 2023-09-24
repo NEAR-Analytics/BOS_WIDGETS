@@ -93,7 +93,7 @@ const H2 = styled.h1`
 `;
 
 const Text = styled.p`
-  font-family: ${props.taglineFont ?? "sans-serif"};
+  font-family: ${props.descriptionFont ?? "sans-serif"};
   font-size: ${(p) => p.size ?? "21px"};
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
@@ -159,7 +159,7 @@ return (
         </H2>
         <div className="mt-3">
           <Text style={{ maxWidth: "350px" }}>
-            {props.tagline ?? "Reward impact with Hypercerts!"}
+            {props.description ?? "Reward impact with Hypercerts!"}
           </Text>
         </div>
         {context.accountId && (
