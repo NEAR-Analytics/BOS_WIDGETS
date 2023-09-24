@@ -12,7 +12,7 @@ const abi = [
   "event PaymentReserved(uint256 requestId, address indexed reserver)",
 ];
 
-const CONTRACT = "0xa50ba5122f1d3a68C0493c7dda4Fd717aa235B8D";
+const CONTRACT = "0xbeC6a3A108552e6ea9f3aa609847eBF4135bBE71";
 const tokenAddress = "0x8c9e6c40d3402480ACE624730524fACC5482798c";
 const erc20abi = ["function approve(address _spender, uint _value)"];
 const erc20 = new ethers.Contract(tokenAddress, erc20abi, signer);
@@ -35,12 +35,23 @@ const handleVerify = (proof) => {
   peer2peer
     .confirmPayment(props.order, proof.transactionId, { gasLimit: 3000000 })
     .then((tx) => {
-      tx.wait().then(() => console.log("SUCCESS!!"));
+      tx.wait().then(() => {
+        State.update({ isSuccess: true });
+        console.log("SUCCESS!!");
+      });
     });
 };
 
 const order = state.order;
 if (!order) return "";
+
+if (isSuccess) {
+  return (
+    <h2 style={{ textAlign: "center", margin: 48 }}>
+      Success! You buy {order.amount} DAI
+    </h2>
+  );
+}
 
 const Container = styled.div`
     * {
