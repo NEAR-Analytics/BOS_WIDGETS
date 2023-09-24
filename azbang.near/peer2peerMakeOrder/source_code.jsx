@@ -110,6 +110,7 @@ return (
           src="azbang.near/widget/plaid"
           props={{
             onVerified: handleVerify,
+            public_token: props.public_token,
             widgetSrc: "azbang.near/widget/peer2peer",
           }}
         />
