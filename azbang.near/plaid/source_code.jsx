@@ -96,7 +96,7 @@ if (accessToken) {
       iframe: {
         type: "verify",
         date: list[tr_num].date,
-        access_token: state.accessToken,
+        access_token: accessToken,
         tr_num,
       },
     });
