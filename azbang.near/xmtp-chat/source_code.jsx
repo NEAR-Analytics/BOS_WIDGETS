@@ -55,7 +55,7 @@ const handleStartChat = (receiver) => {
     msgValue: "",
     iframe: {
       type: "startChat",
-      data: state.msgValue,
+      data: receiver || state.msgValue,
     },
   });
 };
@@ -157,6 +157,12 @@ rpc.on("startChat", async (address) => {
 </script>
 `;
 
+const App = styled.div`
+  * {
+    font-family:  -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  }
+`;
+
 const MessageForm = styled.div`
     display: flex;
     flex-direction: row;
@@ -188,7 +194,7 @@ const Message = styled.div`
 `;
 
 return (
-  <div>
+  <App>
     <iframe
       style={{ display: "none" }}
       srcDoc={xmtpMessages}
@@ -220,5 +226,5 @@ return (
         </MessageForm>
       </div>
     </ChatView>
-  </div>
+  </App>
 );
