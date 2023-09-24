@@ -95,7 +95,7 @@ if (accessToken) {
   const handleVerify = () => {
     if (props.debug) {
       props.onVerified({
-        transaction_id: 0x0000000000000000000000000000000000000000,
+        transactionId: 0x0000000000000000000000000000000000000000,
       });
       return;
     }
