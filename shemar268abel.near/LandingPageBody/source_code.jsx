@@ -104,14 +104,14 @@ return (
       </div>
       <StyledButton
         href={
-          "https://near.social/mob.near/widget/MyPage?accountId=joelblenman21.near#/joelblenman21.near/widget/TheMarketPlan"
+          "https://near.social/mob.near/widget/MyPage?accountId=shemar268abel.near#/shemar268abel.near/widget/TheMarketPlan"
         }
       >
         Connect to Polygon zkEVM
       </StyledButton>
       <StyledButton
         href={
-          "https://near.social/mob.near/widget/MyPage?accountId=joelblenman21.near#/joelblenman21.near/widget/TheMarketPlan.1"
+          "https://near.social/mob.near/widget/MyPage?accountId=joelblenman21.near#/joelblenman21.near/widget/TheMarketPlan"
         }
       >
         Connect to Lens on Polygon
