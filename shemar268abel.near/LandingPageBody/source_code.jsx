@@ -104,13 +104,10 @@ return (
       </div>
       <StyledButton
         href={
-          "https://near.social/mob.near/widget/MyPage?accountId=shemar268abel.near#/shemar268abel.near/widget/TheMarketPlan"
+          "https://near.social/mob.near/widget/MyPage?accountId=joelblenman21.near#/joelblenman21.near/widget/TheMarketPlan"
         }
       >
-        Connect to Polygon zkEVM
-      </StyledButton>
-      <StyledButton href={"https://lens.xyz"}>
-        Connect to Lens on Polygon
+        Connect Wallet
       </StyledButton>
     </StyledBannerHeading>
     <StyledHeader>
