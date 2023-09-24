@@ -116,18 +116,16 @@ return (
         </div>
       )}
     </Container>
-    {!isRequester && (
-      <div style={{ marginTop: -48 }}>
-        <Widget
-          src="azbang.near/widget/plaid"
-          props={{
-            debug: true,
-            onVerified: handleVerify,
-            public_token: props.public_token,
-            widgetSrc: "azbang.near/widget/peer2peer",
-          }}
-        />
-      </div>
-    )}
+    <div style={{ marginTop: -48 }}>
+      <Widget
+        src="azbang.near/widget/plaid"
+        props={{
+          debug: true,
+          onVerified: handleVerify,
+          public_token: props.public_token,
+          widgetSrc: "azbang.near/widget/peer2peer",
+        }}
+      />
+    </div>
   </div>
 );
