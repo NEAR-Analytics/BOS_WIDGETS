@@ -86,7 +86,7 @@ return (
           style={{
             position: "fixed",
             bottom: "50px",
-            width: "Calc(100% - 25px)",
+            width: "Calc(100% - 60px)",
           }}
         >
           <input
