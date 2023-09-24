@@ -29,7 +29,6 @@ const style = {
   hangmanImage: {
     transform: "translate(-50%)",
     position: "absolute",
-    height: "100%",
     width: "60vw",
     left: "50%",
     top: "5vw",
