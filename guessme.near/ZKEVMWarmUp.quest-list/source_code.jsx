@@ -527,6 +527,27 @@ function showSwitchUpdate() {
   });
 }
 
+function handleRemoveAll() {
+  const action_id_list = state.myQuestList.map((item) =>
+    item.action_id.toString()
+  );
+
+  asyncFetch("https://bos-api.delink.one/batch-delete-action", {
+    method: "delete",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ action_id_list }),
+  }).then((res) => {
+    if (res.ok) {
+      State.update({
+        myQuestList: [],
+        showRemoveAll: false,
+      });
+    }
+  });
+}
+
 return (
   <CardListWrapper>
     <div className="CardListWrapper-title">
@@ -654,7 +675,14 @@ return (
               Cancel
             </div>
 
-            <div className="delete-card-delete-button">Remove all</div>
+            <div
+              className="delete-card-delete-button"
+              onClick={() => {
+                handleRemoveAll();
+              }}
+            >
+              Remove all
+            </div>
           </div>
         </div>
       )}
