@@ -21,7 +21,7 @@ const getRandomIcon = () => {
 // const updateTriangle = () => State.update({ triangle: getRandomIcon() });
 
 const { circle, square, triangle } = state;
-console.log({ circle, square, triangle });
+console.log({ localState: { circle, square, triangle } });
 return (
   <div className="col">
     <Widget
