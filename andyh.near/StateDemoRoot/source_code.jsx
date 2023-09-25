@@ -158,6 +158,7 @@ return (
       id="parent-shapes"
       src="andyh.near/widget/StateDemoParent"
       props={{
+        id: "sandbox-parent",
         circle,
         square,
         triangle,
