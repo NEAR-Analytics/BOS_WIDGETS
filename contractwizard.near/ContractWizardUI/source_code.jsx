@@ -263,10 +263,14 @@ return (
             config: {
               name: state.tokenName,
               symbol: state.tokenSymbol,
-              decimals: state.ftDecimals,
-              preMint: state.ftPremint,
-              preMintReceiver: state.ftPremintReceiver,
-              mintable: state.mintable,
+              baseUri: !state.fungibleToken ? state.nftBaseURI : null,
+              decimals: state.fungibleToken ? state.ftDecimals : null,
+              preMint: state.fungibleToken ? state.ftPremint : null,
+              preMintReceiver: state.fungibleToken
+                ? state.ftPremintReceiver
+                : null,
+              mintable:
+                state.authOption !== AUTH_OPTION.NO_AUTH && state.mintable,
               burnable: state.burnable,
             },
           },
@@ -274,7 +278,9 @@ return (
             ...(state.authOption === AUTH_OPTION.OWNERSHIP
               ? { owner: { accountId: state.owner } }
               : {}),
-            ...(state.pausable ? { pause: {} } : {}),
+            ...(state.pausable && state.authOption !== AUTH_OPTION.NO_AUTH
+              ? { pause: {} }
+              : {}),
             ...(state.authOption === AUTH_OPTION.ROLE_BASED
               ? { rbac: { accountId: state.owner } }
               : {}),
