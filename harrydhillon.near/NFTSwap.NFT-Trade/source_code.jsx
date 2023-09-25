@@ -1,4 +1,4 @@
-const accountId = 'harrydhillon.near';
+const accountId = "harrydhillon.near";
 if (!accountId) {
   return "You need to login with your near wallet in order to use this app";
 }
@@ -42,8 +42,9 @@ return (
           <a
             className={`nav-link ${state.tab === id ? "active" : ""}`}
             id={`pills-${id}-tab`}
-            onClick={() => {
+            onClick={(e) => {
               State.update({ tab: id });
+              e.preventDefault();
             }}
             href={`?tab=${id}`}
           >
