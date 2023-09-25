@@ -265,6 +265,7 @@ return (
               symbol: state.tokenSymbol,
               decimals: state.ftDecimals,
               preMint: state.ftPremint,
+              preMintReceiver: state.ftPremintReceiver,
               mintable: state.mintable,
               burnable: state.burnable,
             },
