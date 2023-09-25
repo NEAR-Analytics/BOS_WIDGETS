@@ -1,8 +1,17 @@
+const showTimer = 250;
+const hideTimer = 300;
+
 const handleOnMouseEnter = () => {
-  State.update({ show: true });
+  clearTimeout(state.debounce);
+  State.update({
+    debounce: setTimeout(() => State.update({ show: true }), showTimer),
+  });
 };
 const handleOnMouseLeave = () => {
-  State.update({ show: false });
+  clearTimeout(state.debounce);
+  State.update({
+    debounce: setTimeout(() => State.update({ show: false }), hideTimer),
+  });
 };
 
 State.init({
@@ -28,7 +37,7 @@ return (
   <OverlayTrigger
     show={state.show}
     trigger={["hover", "focus"]}
-    delay={{ show: 250, hide: 300 }}
+    delay={{ show: showTimer, hide: hideTimer }}
     placement="auto"
     overlay={overlay}
   >
