@@ -8,6 +8,7 @@ return (
           iconColor: "white",
           icon: props.circleIcon || "circle",
           radius: 40,
+          onClick: props.updateCircle,
         }}
       />
     </div>
@@ -19,6 +20,7 @@ return (
           iconColor: "white",
           icon: props.squareIcon || "square",
           length: 80,
+          onClick: props.updateSquare,
         }}
       />
     </div>
@@ -30,6 +32,7 @@ return (
           iconColor: "white",
           icon: props.triangleIcon || "triangle",
           height: 80,
+          onClick: props.updateTriangle,
         }}
       />
     </div>
