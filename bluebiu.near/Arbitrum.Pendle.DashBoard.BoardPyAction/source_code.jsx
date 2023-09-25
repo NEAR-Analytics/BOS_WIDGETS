@@ -124,18 +124,6 @@ const requestUserMarketInfo = () => {
 };
 requestUserMarketInfo();
 
-const allPrice = () => {
-    asyncFetch(
-        "https://api-v2.pendle.finance/core/v1/42161/assets/all"
-    ).then((res) => {
-        if (!res.ok) return;
-        State.update({
-            allPriceData: res.body,
-        });
-    });
-};
-allPrice()
-
 const matchedData = state.resdata[2] && allAssetsData.length > 0 ? allAssetsData.filter((data) => data.address.toLowerCase() === state.resdata[2][0].toLowerCase())
     .map((item) => {
         const dQuantity = state.resdata[2][1].toString();
@@ -146,10 +134,6 @@ const matchedData = state.resdata[2] && allAssetsData.length > 0 ? allAssetsData
 
 const total = matchedData.reduce((sum, value) => sum + value, 0);
 const formattedTotal = isNaN(total) ? 0 : total;
-
-if (formattedTotal) {
-    onLoad(formattedTotal);
-}
 
 return (
     <>
