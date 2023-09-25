@@ -16,6 +16,30 @@ const CreatePrompt = styled.div`
             resize: none;
             border-radius: 5px 0px 0px 5px;
             box-shadow: 3px 3px 3px rgba(0,0,0,.3);
+            &:active {
+              background-color: #FFE7C3 !important;
+            }
+            &::placeholder {
+                font-size: .8rem;
+                color: #CB4439;
+            }
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+            }
+
+            &:placeholder-shown {
+                & + label {
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateY(-1rem);
+                }
+                & + .eth-label {
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateX(-18rem);
+                }
+            }
+
         }
 
         label {
@@ -169,7 +193,7 @@ if (chainId !== 421613) {
 }
 
 State.init({
-  prompt: null,
+  prompt: "",
   response: "",
   widget: null,
   isLoading: false,
