@@ -13,6 +13,7 @@ const icons = [
 
 const getRandomIcon = () => {
   const icon = icons[Math.floor(Math.random() * icons.length)];
+  State.update({ i: state.i + 1 });
   console.log({ icon });
   return icon;
 };
@@ -22,7 +23,6 @@ const getRandomIcon = () => {
 
 const { circle, square, triangle } = state;
 console.log({ localState: { circle, square, triangle } });
-State.update({ i: state.i + 1 });
 return (
   <div className="col">
     <Widget
