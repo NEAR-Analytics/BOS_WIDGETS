@@ -43,6 +43,11 @@ return (
             className={`nav-link ${state.tab === id ? "active" : ""}`}
             id={`pills-${id}-tab`}
             href={`#/harrydhillon.near/widget/NFTSwap.NFT-Trade?tab=${id}`}
+            onClick={()=>{
+                State.update({
+                    tab:id
+                })
+            }}
           >
             {title}
           </a>
