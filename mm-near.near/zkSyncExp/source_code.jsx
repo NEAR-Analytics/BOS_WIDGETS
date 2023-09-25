@@ -1,7 +1,17 @@
-const allQuestions = ["first", "second", "third"];
+const allQuestions = [
+  "Did you use zksyncEra before this experiment?",
+  "Is 1$ a day enough for stipend?",
+  "Are you using zkSyncEra daily?",
+  "Did you ever use paymaster?",
+  "Can you answer this question without paymaster?",
+  "Did you eat breakfast today?",
+  "Can you answer NO this to question?",
+  "Do you like this form?",
+];
 
 State.init({
   accountBalance: 0,
+  paymasterAccountBalance: 0,
   hasNFT: 0,
   nftId: -1,
   getVotes: Array.from({ length: allQuestions.length }, () => ["?", "?"]),
@@ -19,6 +29,15 @@ Ethers.provider()
   .then((data) => {
     State.update({
       accountBalance: parseInt(data.toString()) / 1000000000000000000,
+    });
+  });
+
+const paymasterAccount = "0x52681C7B08F1EAce7f1aF6411DaCA9e28150edDE";
+Ethers.provider()
+  .getBalance(paymasterAccount)
+  .then((data) => {
+    State.update({
+      paymasterAccountBalance: parseInt(data.toString()) / 1000000000000000000,
     });
   });
 
@@ -56,24 +75,13 @@ const nftAddress = "0x5657a1278924839fbc32ebaa29fcd475e23105f7";
 
 const encodedData = iface.encodeFunctionData("balanceOf", [account]);
 
-Ethers.provider()
-  .call({
-    to: nftAddress,
-    data: encodedData,
-  })
-  .then((data) => {
-    State.update({
-      hasNFT: parseInt(data.toString()),
-    });
-  });
-
 const checkOwner = (nftId) => {
   const nftContract = new ethers.Contract(
     nftAddress,
     nftABI,
     Ethers.provider()
   );
-  nftContract
+  return nftContract
     .ownerOf(nftId)
     .then((data) => {
       if (data.toLowerCase() == account.toString()) {
@@ -90,15 +98,29 @@ const checkOwner = (nftId) => {
 const guessNFTId = () => {
   if (state.nftId == -1) {
     state.nftId = -2;
+    let promises = [];
 
     for (let i = 0; i < 40; i++) {
-      console.log("Querying owner of ", i);
-      checkOwner(i);
+      console.log("Querying owner ofs ", i);
+      promises.push(checkOwner(i));
     }
   }
 };
 
-guessNFTId();
+Ethers.provider()
+  .call({
+    to: nftAddress,
+    data: encodedData,
+  })
+  .then((data) => {
+    const hasNFT = parseInt(data.toString());
+    if (hasNFT) {
+      guessNFTId();
+    }
+    State.update({
+      hasNFT: hasNFT,
+    });
+  });
 
 const votingABI = [
   {
@@ -248,8 +270,8 @@ const getVotesForQuestion = (question_id) => {
     .then((result) => {
       console.log("Got votes: " + result);
 
-      state.getVotes[question_id][0] = result[0].toString();
-      state.getVotes[question_id][1] = result[1].toString();
+      state.getVotes[question_id][0] = result[0];
+      state.getVotes[question_id][1] = result[1];
 
       console.log("Updated display");
       State.update({ getVotes: state.getVotes });
@@ -284,8 +306,14 @@ const vote = (decision, question_id) => {
   );
   votingContract
     .vote(allQuestions[question_id], state.nftId, decision)
-    .then((transactionHash) => {
-      console.log("transaction hash is " + transactionHash);
+    .then((transaction) => {
+      console.log("transaction sent ");
+      console.log(transaction);
+      transaction.wait().then((receipt) => {
+        console.log("got receipt");
+        console.log(receipt);
+        getVotesForQuestion(question_id);
+      });
     });
 };
 
@@ -629,6 +657,11 @@ const voteForFree = (decision, question_id) => {
                 provider.sendTransaction(bytes).then((result) => {
                   console.log("Transaction sent");
                   console.log(result);
+                  result.wait().then((receipt) => {
+                    console.log("got receipt");
+                    console.log(receipt);
+                    getVotesForQuestion(question_id);
+                  });
                 });
               });
             });
@@ -637,11 +670,69 @@ const voteForFree = (decision, question_id) => {
   return;
 };
 
+function checkIfVoted(bn) {
+  if (state.nftId >= 0 && state.nftId < 255) {
+    return bn.shr(state.nftId).and(1).eq(1);
+  }
+  return true;
+}
+
+const renderButtons = (index) => {
+  if (state.hasNFT) {
+    if (state.getVotes[index][0] == "?") {
+      return <span>Question not found</span>;
+    }
+    if (checkIfVoted(state.getVotes[index][0].or(state.getVotes[index][1]))) {
+      return <span>Already voted</span>;
+    }
+
+    return (
+      <span>
+        <button onClick={() => vote(true, index)}>Vote YES</button>
+        <button onClick={() => vote(false, index)}>Vote NO</button>
+        <button onClick={() => voteForFree(true, index)}>
+          Vote YES (free with paymaster)
+        </button>
+        <button onClick={() => voteForFree(false, index)}>
+          Vote NO (free with paymaster)
+        </button>
+      </span>
+    );
+  } else {
+    return <span>NFT needed to vote</span>;
+  }
+};
+
+function countVotes(bn) {
+  if (bn == "?") {
+    return "?";
+  }
+
+  let count = 0;
+
+  while (!bn.isZero()) {
+    if (bn.and(1).eq(1)) {
+      count++;
+    }
+    bn = bn.shr(1);
+  }
+
+  return count;
+}
+
 return (
   <>
     <div class="container border border-info p-3 text-center">
-      <h1>Hello {props.name}</h1>
-
+      <h1>Welcome to voting page</h1>
+      <br />
+      You can vote only if you are the owner of the NFT.
+      <br />
+      Clicking Vote yes / no - will create a regular transaction.
+      <br />
+      Clicking Vote using paymaster - will create a transaction, but you will
+      not have to pay for gas (assuming paymaster have funds remaining).
+      <br />
+      <br />
       <p>
         {"Your zkSync account is:"}
         {account}
@@ -650,30 +741,49 @@ return (
         {" Balance is: "} {state.accountBalance}
       </p>
       <p>
+        {" "}
+        {" Paymaster balance: "} {state.paymasterAccountBalance}
+      </p>
+      <p>
         {" Has NFT is: "} {state.hasNFT} {" id"} {state.nftId}
       </p>
-
+      <p>
+        {state.hasNFT ? (
+          <h1 style={{ color: "green" }}>
+            {" "}
+            You have NFT {state.nftId >= 0
+              ? "( " + state.nftId + " )"
+              : ""}{" "}
+          </h1>
+        ) : (
+          <h1 style={{ color: "red" }}> NO NFT </h1>
+        )}
+      </p>
       <p>
         {allQuestions.map((name, index) => (
           <p>
             {" "}
             {"Question "} {index} {" is: "}
-            <b> {name}</b> <br /> {"Current votes: +"}{" "}
-            {state.getVotes[index][0]} {" - "}
-            {state.getVotes[index][1]}
+            <b> {name}</b> <br /> {"Current votes:"}{" "}
+            <img
+              height="20"
+              src="https://user-images.githubusercontent.com/128217157/270274380-89e98ae0-f7f0-4daa-a7b2-3cc414fa6306.png"
+            />
+            <b style={{ color: "green" }}>
+              {countVotes(state.getVotes[index][0])}
+            </b>
+            <img
+              height="20"
+              src="https://user-images.githubusercontent.com/128217157/270274279-208a1236-2ad0-487f-a830-08b8fee9fdc3.png"
+            />
+            <b style={{ color: "red" }}>
+              {countVotes(state.getVotes[index][1])}
+            </b>
             <br />
-            <button onClick={() => vote(true, index)}>Vote YES</button>
-            <button onClick={() => vote(false, index)}>Vote NO</button>
-            <button onClick={() => voteForFree(true, index)}>
-              Vote YES (free with paymaster)
-            </button>
-            <button onClick={() => voteForFree(false, index)}>
-              Vote NO (free with paymaster)
-            </button>
+            {renderButtons(index)}
           </p>
         ))}
       </p>
-
       <input
         value={state.addQuestion}
         onChange={(e) => State.update({ addQuestion: e.target.value })}
