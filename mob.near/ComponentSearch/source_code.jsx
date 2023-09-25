@@ -110,7 +110,14 @@ return (
         type="text"
         className={`form-control ${state.term ? "border-end-0" : ""}`}
         value={state.term ?? ""}
-        onChange={(e) => computeResults(e.target.value)}
+        onChange={(e) => {
+          const term = e.target.value;
+          clearTimeout(state.debounce);
+          State.update({
+            term,
+            debounce: setTimeout(() => computeResults(term), 350),
+          });
+        }}
         placeholder={props.placeholder ?? `🔍 Search Components`}
       />
 
@@ -118,7 +125,10 @@ return (
         <button
           className="btn btn-outline-secondary border border-start-0"
           type="button"
-          onClick={() => computeResults("")}
+          onClick={() => {
+            clearTimeout(state.debounce);
+            computeResults("");
+          }}
         >
           <i className="bi bi-x"></i>
         </button>
