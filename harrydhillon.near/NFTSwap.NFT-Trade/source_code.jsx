@@ -45,7 +45,7 @@ return (
             onClick={() => {
               State.update({ tab: id });
             }}
-            href={`?tab=${id}`}
+            href={`#/?tab=${id}`}
           >
             {title}
           </a>
