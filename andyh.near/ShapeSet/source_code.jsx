@@ -1,5 +1,5 @@
 State.init({ x: null });
-State.update({ x: 1 });
+State.update({ x: props.circle });
 
 return (
   <div className="row" style={{ padding: "8px 4px" }}>
