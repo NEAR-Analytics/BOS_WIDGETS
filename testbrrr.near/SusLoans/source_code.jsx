@@ -111,7 +111,6 @@ const Command = styled.div`
     align-items:center;
     justify-content:center;
     font-weight:bold;
-    font-size: 14px;
     color:#CB4439;
     background-color: #FFE7C3;
     width:80%;
@@ -200,8 +199,8 @@ State.init({
 const buttonList = [
   "View my balances",
   "Borrow 10 SUS using 0.1 WETH",
-  "Provide 10 SUS into the stability pool",
-  "Remove 10 SUS from the stability pool",
+  "Provide 10 SUS into stability pool",
+  "Remove 10 SUS from stability pool",
   "Repay 10 SUS against WETH debt",
   "Withdraw 0.1 WETH",
   "Deposit 0.1 WETH",
@@ -273,14 +272,8 @@ return (
           display: "none",
         }}
       ></div>
-      <div
-        style={{ display: "flex", justifyContent: "center", marginBottom: 30 }}
-      >
-        <img
-          style={{ width: 120, height: 120 }}
-          src="https://ipfs.io/ipfs/bafybeieub4xgdcph5cj4oa6kfskfpm2nj5vtd5xgbkyi7jvgr2pbodscjq/kendallc_Cartoon_logo_for_steak.loans_minimal_colors_solid_colo_575f812c-6e0d-4827-95d3-dac64469271c.png"
-        />
-      </div>
+
+      <h1>Steak Loans</h1>
       <div className="form-group" style={{ display: "flex" }}>
         <input
           id="name"
