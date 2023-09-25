@@ -132,10 +132,6 @@ const matchedData = state.resdata[3] && allAssetsData.length > 0 ? state.resdata
 const total = matchedData.reduce((sum, value) => sum + value, 0);
 const formattedTotal = isNaN(total) ? 0 : total;
 
-if (formattedTotal) {
-    onLoad(formattedTotal);
-}
-
 return (
     <>
         {formattedTotal ? (
