@@ -37,7 +37,6 @@ const icons = [
   "chat-text",
   "check2-circle",
   "chevron-compact-up",
-  "circle",
   "clock",
   "cloud-download-fill",
   "cloud-haze-1",
