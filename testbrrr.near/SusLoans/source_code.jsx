@@ -192,8 +192,8 @@ if (chainId !== 421613) {
   );
 }
 
-State.init({
-  prompt: "",
+initState({
+  prompt: null,
   response: "",
   widget: null,
   isLoading: false,
