@@ -16,9 +16,9 @@ const getRandomIcon = () => {
   console.log({ icon });
   return icon;
 };
-const updateCircle = () => State.update({ circle: getRandomIcon() });
-const updateSquare = () => State.update({ square: getRandomIcon() });
-const updateTriangle = () => State.update({ triangle: getRandomIcon() });
+// const updateCircle = () => State.update({ circle: getRandomIcon() });
+// const updateSquare = () => State.update({ square: getRandomIcon() });
+// const updateTriangle = () => State.update({ triangle: getRandomIcon() });
 
 const { circle, square, triangle } = state;
 console.log({ circle, square, triangle });
@@ -31,9 +31,9 @@ return (
         circle,
         square,
         triangle,
-        updateCircle,
-        updateSquare,
-        updateTriangle,
+        updateCircle: () => State.update({ circle: getRandomIcon() }),
+        updateSquare: () => State.update({ square: getRandomIcon() }),
+        updateTriangle: () => State.update({ triangle: getRandomIcon() }),
       }}
     />
     <Widget
@@ -43,9 +43,9 @@ return (
         circle,
         square,
         triangle,
-        updateCircle,
-        updateSquare,
-        updateTriangle,
+        updateCircle: () => State.update({ circle: getRandomIcon() }),
+        updateSquare: () => State.update({ square: getRandomIcon() }),
+        updateTriangle: () => State.update({ triangle: getRandomIcon() }),
       }}
     />
   </div>
