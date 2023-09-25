@@ -11,7 +11,11 @@ const icons = [
   "printer",
 ];
 
-const getRandomIcon = () => icons[Math.ceil(Math.random() * icons.length)];
+const getRandomIcon = () => {
+  const icon = icons[Math.ceil(Math.random() * icons.length)];
+  console.log({ icon });
+  return icon;
+};
 const updateCircle = () => State.update({ circle: getRandomIcon() });
 const updateSquare = () => State.update({ square: getRandomIcon() });
 const updateTriangle = () => State.update({ triangle: getRandomIcon() });
