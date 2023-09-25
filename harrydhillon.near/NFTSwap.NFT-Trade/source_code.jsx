@@ -44,8 +44,6 @@ return (
             id={`pills-${id}-tab`}
             data-bs-toggle="pill"
             data-bs-target={`#pills-${id}`}
-            type="button"
-            role="tab"
             aria-controls={`pills-${id}`}
             aria-selected={i === 0}
             href={`?tab=${id}`}
