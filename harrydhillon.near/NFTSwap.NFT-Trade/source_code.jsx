@@ -4,7 +4,7 @@ if (!accountId) {
 }
 
 State.init({
-  selected: props.tab ?? "swap",
+  tab: props.tab ?? "swap",
 });
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
@@ -39,21 +39,23 @@ return (
     <ul className="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
       {pills.map(({ id, title }, i) => (
         <li className="nav-item" role="presentation" key={i}>
-          <a
-            className={`nav-link ${state.selected === id ? "active" : ""}`}
+          <button
+            className={`nav-link ${state.tab === id ? "active" : ""}`}
             id={`pills-${id}-tab`}
-            href={`?tab=${id}`}
+            onClick={() => {
+              State.update({ tab: id });
+            }}
           >
             {title}
-          </a>
+          </button>
         </li>
       ))}
     </ul>
     <div className="tab-content" id="pills-tabContent">
-      {state?.selected === "swap" && (
+      {state?.tab === "swap" && (
         <Widget src="harrydhillon.near/widget/NFTSwap.NFT-Transfer" />
       )}
-      {state?.selected === "offer" && (
+      {state?.tab === "offer" && (
         <Widget src="harrydhillon.near/widget/NFTSwap.Order" />
       )}
     </div>
