@@ -1,5 +1,5 @@
 return (
-  <div className="row">
+  <div className="row" style={{ padding: "8px 4px" }}>
     <div className="col">
       <Widget
         id="circle"
