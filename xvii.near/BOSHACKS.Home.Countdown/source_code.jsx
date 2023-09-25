@@ -164,7 +164,7 @@ const InfoBlock = ({ mobile }) => (
             text: "What is the NRC?",
             size: "sm",
             style: { backgroundColor: "black", color: "white" }, // Inline styles
-            href: "https://hackmd.io/Jz4_FasRQGWdGGuifBU6Kw",
+            href: "https://marmaj.org/inside-the-near-research-collective-blockchain-elevated/",
           },
         }}
       />
