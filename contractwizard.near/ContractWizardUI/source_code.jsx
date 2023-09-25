@@ -297,7 +297,7 @@ return (
           Token Wizard <i class="ph-bold ph-magic-wand"></i>
         </h1>
         <h5>
-          Easily generate complete code snippets for your fungible and
+          Generate complete Rust code snippets for your fungible and
           non-fungible NEAR token contracts.
         </h5>
         <Widget
