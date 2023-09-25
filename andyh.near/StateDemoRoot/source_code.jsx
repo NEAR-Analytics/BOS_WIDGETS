@@ -1,4 +1,4 @@
-State.init({ circle: null, triangle: null, square: null });
+State.init({ circle: "circle", triangle: "triangle", square: "square" });
 State.update({ circle: state.circle || null });
 
 const icons = [
@@ -13,7 +13,7 @@ const icons = [
 ];
 
 const getRandomIcon = () => {
-  const icon = icons[Math.ceil(Math.random() * icons.length)];
+  const icon = icons[Math.floor(Math.random() * icons.length)];
   console.log({ icon });
   return icon;
 };
