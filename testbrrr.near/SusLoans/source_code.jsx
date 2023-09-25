@@ -290,7 +290,6 @@ return (
           placeholder="What is Steak Loans?"
           value={state.prompt}
           onChange={(event) => State.update({ prompt: event.target.value })}
-          required
           style={{ width: "80%", height: "50px" }}
         />
         <Button
