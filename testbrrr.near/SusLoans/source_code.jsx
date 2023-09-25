@@ -111,6 +111,7 @@ const Command = styled.div`
     align-items:center;
     justify-content:center;
     font-weight:bold;
+    font-size: 14px;
     color:#CB4439;
     background-color: #FFE7C3;
     width:80%;
