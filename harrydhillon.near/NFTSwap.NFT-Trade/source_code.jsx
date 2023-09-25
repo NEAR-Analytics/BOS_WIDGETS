@@ -48,10 +48,6 @@ return (
             role="tab"
             aria-controls={`pills-${id}`}
             aria-selected={i === 0}
-            onClick={() => {
-              const key = `load${id}`;
-              !state[id] && State.update({ selected: id });
-            }}
             href={`?tab=${id}`}
           >
             {title}
