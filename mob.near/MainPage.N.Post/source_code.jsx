@@ -46,8 +46,13 @@ const Wrapper = styled.div`
       max-height: 40em;
     }
 
-    :hover {
+    &:hover {
       background-color: rgba(0, 0, 0, 0.03);
+      .expand-post {
+        background-image : linear-gradient(to bottom, 
+                      rgba(0,0,0, 0), 
+                      rgba(247.35,247.35,247.35, 1) 25%);
+      }
     }
 
     .post-header {
