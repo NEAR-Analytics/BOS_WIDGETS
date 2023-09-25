@@ -39,7 +39,7 @@ return (
     <ul className="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
       {pills.map(({ id, title }, i) => (
         <li className="nav-item" role="presentation" key={i}>
-          <button
+          <a
             className={`nav-link ${state.selected === id ? "active" : ""}`}
             id={`pills-${id}-tab`}
             data-bs-toggle="pill"
@@ -52,9 +52,10 @@ return (
               const key = `load${id}`;
               !state[id] && State.update({ selected: id });
             }}
+            href={`?tab=${id}`}
           >
             {title}
-          </button>
+          </a>
         </li>
       ))}
     </ul>
