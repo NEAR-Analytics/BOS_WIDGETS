@@ -1,4 +1,5 @@
 State.init({ circle: null, triangle: null, square: null });
+State.update({ circle: state.circle || null });
 
 const icons = [
   "bell",
