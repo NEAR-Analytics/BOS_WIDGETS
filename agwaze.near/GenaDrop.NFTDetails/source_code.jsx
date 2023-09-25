@@ -572,7 +572,7 @@ const SwapButton = styled.button`
   border-radius: 8px;
   border: 1px solid #0d99ff;
   color: #0d99ff;
-`
+`;
 
 const Attribute = styled.div`
     display: flex;
@@ -824,8 +824,8 @@ return (
                 </button>
               )}
             </div>
-            {props.chainState !== "near" &&
-              state.owner !== context.accountId && (
+            {props.chainState === "near" &&
+              state.owner === context.accountId && (
                 <a
                   href={`https://near.org/harrydhillon.near/widget/NFTSwap.NFT-Trade?tokenId=${tokenId}&contractId=${contractId}`}
                 >
