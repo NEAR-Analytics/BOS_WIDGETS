@@ -824,14 +824,13 @@ return (
                 </button>
               )}
             </div>
-            {props.chainState === "near" &&
-              state.owner === context.accountId && (
-                <a
-                  href={`https://near.org/harrydhillon.near/widget/NFTSwap.NFT-Trade?tokenId=${tokenId}&contractId=${contractId}`}
-                >
-                  <SwapButton>Swap</SwapButton>
-                </a>
-              )}
+            {state.owner === context.accountId && (
+              <a
+                href={`https://near.org/harrydhillon.near/widget/NFTSwap.NFT-Trade?tokenId=${tokenId}&contractId=${contractId}`}
+              >
+                <SwapButton>Swap</SwapButton>
+              </a>
+            )}
           </PriceBucket>
           <Description>
             <h6>Description</h6>
