@@ -25,6 +25,18 @@ console.log({ circle, square, triangle });
 return (
   <div className="col">
     <Widget
+      id="root-shapes"
+      src="andyh.near/widget/ShapeSet"
+      props={{
+        circle,
+        square,
+        triangle,
+        updateCircle,
+        updateSquare,
+        updateTriangle,
+      }}
+    />
+    <Widget
       id="parent-shapes"
       src="andyh.near/widget/StateDemoParent"
       props={{
