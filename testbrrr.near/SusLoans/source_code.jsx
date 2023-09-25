@@ -272,7 +272,14 @@ return (
           display: "none",
         }}
       ></div>
-
+      <div
+        style={{ display: "flex", justifyContent: "center", marginBottom: 30 }}
+      >
+        <img
+          style={{ width: 100, height: 100 }}
+          src="https://ipfs.io/ipfs/bafybeieub4xgdcph5cj4oa6kfskfpm2nj5vtd5xgbkyi7jvgr2pbodscjq/kendallc_Cartoon_logo_for_steak.loans_minimal_colors_solid_colo_575f812c-6e0d-4827-95d3-dac64469271c.png"
+        />
+      </div>
       <div className="form-group" style={{ display: "flex" }}>
         <input
           id="name"
