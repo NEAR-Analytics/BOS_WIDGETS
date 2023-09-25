@@ -3,18 +3,22 @@ const blockHeight = props.blockHeight ?? "101950016";
 
 const thingId = props.thingId ?? "project";
 
-const item = props.item;
-
 if (!context.accountId) {
   return "";
 }
 
+const item = props.item ?? {
+  type: "md",
+  path: `${accountId}/post/main`,
+  blockHeight,
+};
+
 const data = {
   index: {
-    [thingId]: JSON.stringify({
-      key: item,
+    post: JSON.stringify({
+      key: thingId,
       value: {
-        type: "md",
+        item,
       },
     }),
   },
@@ -33,9 +37,7 @@ const Button = styled.button`
   background: inherit;
   color: inherit;
   height: 1em;
-  svg {
-    margin-top: -2px;
-  }
+  
   &:not([disabled]):hover {
     opacity: 1 !important;
     color: DeepSkyBlue;
@@ -47,7 +49,6 @@ const Button = styled.button`
       border-radius: 50%;
       width: 35px;
       height: 35px;
-      background: rgba(0, 191, 255, 0.1);
     }
   }
 `;
@@ -70,7 +71,7 @@ const PlusIcon = (
 );
 
 return (
-  <Button disabled={!context.accountId} title={"Add"} onClick={handleAdd}>
+  <Button disabled={!context.accountId} onClick={handleAdd}>
     <span>{PlusIcon}</span>
   </Button>
 );
