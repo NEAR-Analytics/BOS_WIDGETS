@@ -45,7 +45,7 @@ return (
             onClick={() => {
               State.update({ tab: id });
             }}
-            href={`#/${ownerId}/widget/NFTSwap.NFT-Trade?tab=${id}`}
+            href={`/?tab=${id}`}
           >
             {title}
           </a>
