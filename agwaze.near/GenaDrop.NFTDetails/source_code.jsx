@@ -565,6 +565,15 @@ const AttributeContainer = styled.div`
     width: 100%;
 `;
 
+const SwapButton = styled.button`
+  background: white;
+  padding: 5px 7px;
+  width: 90px;
+  border-radius: 8px;
+  border: 1px solid #0d99ff;
+  color: #0d99ff;
+`
+
 const Attribute = styled.div`
     display: flex;
     align-items: flex-start;
@@ -815,12 +824,12 @@ return (
                 </button>
               )}
             </div>
-            {props.chainState === "near" &&
-              state.owner === context.accountId && (
+            {props.chainState !== "near" &&
+              state.owner !== context.accountId && (
                 <a
                   href={`https://near.org/harrydhillon.near/widget/NFTSwap.NFT-Trade?tokenId=${tokenId}&contractId=${contractId}`}
                 >
-                  <button>Transfer</button>
+                  <SwapButton>Swap</SwapButton>
                 </a>
               )}
           </PriceBucket>
