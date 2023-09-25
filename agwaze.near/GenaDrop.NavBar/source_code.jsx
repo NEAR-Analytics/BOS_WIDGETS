@@ -476,12 +476,6 @@ const content = (
       iconSelected: <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />,
     })}
     {navItem({
-      text: "EVM NFTS",
-      id: "evmNFTs",
-      icon: speakers,
-      iconSelected: speakers,
-    })}
-    {navItem({
       text: "AI",
       id: "ai",
       icon: aiLogo,
