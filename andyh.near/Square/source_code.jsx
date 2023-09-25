@@ -10,6 +10,7 @@ return (
   >
     <i
       className={`bi-${props.icon}`}
+      onClick={props.onClick}
       style={{
         color: props.iconColor,
         position: "relative",
