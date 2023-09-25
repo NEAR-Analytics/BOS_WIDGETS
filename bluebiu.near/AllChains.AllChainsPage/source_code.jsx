@@ -108,7 +108,7 @@ const data = [
         tags: ["Bridge", "Dexes", "Lending", "Staking"],
       },
       {
-        name: "NEAR Staking",
+        name: "Near Staking Collection",
         icon: "https://ipfs.near.social/ipfs/bafkreihiv2dr4rruznpehhd7eoxaem2otpokj7y2uj6tzqpgmb2otlcynq",
         tags: ["Staking"],
         widgetSrc: "ref-admin.near/widget/xBox",
@@ -147,7 +147,7 @@ const data = [
         widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-bridge",
       },
       {
-        name: "Polygon zkEVM Dex collection",
+        name: "Polygon zkEVM Dex Collection",
         icon: "https://ipfs.near.social/ipfs/bafkreihbw36one4ytfwxyw5drrpu2a7kz4gm7q4wwrluzvke3wr7qd5tda",
         tags: ["Dexes"],
         widgetSrc: "guessme.near/widget/ZKEVMSwap.zkevm-swap",
