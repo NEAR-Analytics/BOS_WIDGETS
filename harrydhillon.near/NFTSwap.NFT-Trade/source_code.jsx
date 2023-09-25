@@ -1,4 +1,4 @@
-const accountId = 'harrydhillon.near';
+const accountId = "harrydhillon.near";
 if (!accountId) {
   return "You need to login with your near wallet in order to use this app";
 }
@@ -45,7 +45,7 @@ return (
             onClick={() => {
               State.update({ tab: id });
             }}
-            href={`#/${ownerId}/widget/NFTSwap.NFT-Trade?tab=${id}`}
+            href={`?tab=${id}`}
           >
             {title}
           </a>
