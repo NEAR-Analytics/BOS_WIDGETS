@@ -100,7 +100,7 @@ const Button = styled.div`
     text-align:center;
     cursor: pointer;
     user-select: none;
-    box-shadow: 3px 3px 3px rgba(0,0,0,.3);
+    box-shadow: 3px 3px 6px 1px rgba(0,0,0,.3);
 
     &:active {
       box-shadow: 0 0 0 rgba(0,0,0,0);
@@ -298,7 +298,7 @@ return (
           style={{ width: "15%", height: "50px" }}
         >
           <img
-            src="https://ipfs.io/ipfs/bafybeihvhlxx4km5dhtgr43kspxlbqkkrviszdplrk6q74nqqmgqqihiba/send%281%29.png"
+            src="https://ipfs.io/ipfs/bafybeigb3yfd3t4qz6sxoz3sfwljmlbth5zrwfindvdjxezyn3rcdeei6m/send%282%29.png"
             alt="arrow"
             style={{ height: "60%" }}
           />
