@@ -14,6 +14,8 @@ const CreatePrompt = styled.div`
             color: #CB4439 !important;
             background-color: #FFE7C3 !important;
             resize: none;
+            border-radius: 5px 0px 0px 5px;
+            box-shadow: 3px 3px 3px rgba(0,0,0,.3);
             &:active {
               background-color: #FFE7C3 !important;
             }
@@ -94,11 +96,11 @@ const Button = styled.div`
     width:100%;
     height:50px;
     border-radius: 0px 5px 5px 0px;
-    background-color:#2fbc2f;
+    background-color:#CB4439;
     text-align:center;
     cursor: pointer;
     user-select: none;
-    box-shadow: 0 3px 3px rgba(0,0,0,.3);
+    box-shadow: 3px 3px 3px rgba(0,0,0,.3);
 
     &:active {
       box-shadow: 0 0 0 rgba(0,0,0,0);
