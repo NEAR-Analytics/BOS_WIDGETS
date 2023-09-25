@@ -273,7 +273,6 @@ return (
         }}
       ></div>
 
-      <h1>Steak Loans</h1>
       <div className="form-group" style={{ display: "flex" }}>
         <input
           id="name"
