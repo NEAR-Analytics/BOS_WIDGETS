@@ -1,5 +1,6 @@
 return (
   <div
+    onClick={props.onClick}
     style={{
       width: 0,
       height: 0,
@@ -11,7 +12,6 @@ return (
   >
     <i
       className={`bi-${props.icon}`}
-      onClick={props.onClick}
       style={{
         color: props.iconColor,
         position: "relative",
