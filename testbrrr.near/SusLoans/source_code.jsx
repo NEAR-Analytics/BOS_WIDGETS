@@ -179,18 +179,18 @@ const switchChain = () => {
   Ethers.send("wallet_addEthereumChain", [goerliChain]);
 };
 
-// if (chainId !== 421613) {
-//   return (
-//     <div style={{ margin: "auto", textAlign: "center" }}>
-//       <h2>Please switch to Goerli</h2>
-//       <br />
-//       <button onClick={switchChain}>Switch to Goerli</button>
-//       <br />
-//       <br />
-//       <p>**Please refresh once after switch chain**</p>
-//     </div>
-//   );
-// }
+if (chainId !== 421613) {
+  return (
+    <div style={{ margin: "auto", textAlign: "center" }}>
+      <h2>Please switch to Goerli</h2>
+      <br />
+      <button onClick={switchChain}>Switch to Goerli</button>
+      <br />
+      <br />
+      <p>**Please refresh once after switch chain**</p>
+    </div>
+  );
+}
 
 State.init({
   prompt: null,
