@@ -1,4 +1,4 @@
-State.init({ root: null, parent: null, child: null });
+State.init({ circle: null, triangle: null, square: null });
 
 const icons = [
   "bell",
@@ -19,6 +19,8 @@ const getRandomIcon = () => {
 const updateCircle = () => State.update({ circle: getRandomIcon() });
 const updateSquare = () => State.update({ square: getRandomIcon() });
 const updateTriangle = () => State.update({ triangle: getRandomIcon() });
+
+const { circle, square, triangle } = state;
 
 return (
   <div className="col">
