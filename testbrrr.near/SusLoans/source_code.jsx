@@ -192,7 +192,7 @@ if (chainId !== 421613) {
   );
 }
 
-initState({
+State.init({
   prompt: null,
   response: "",
   widget: null,
