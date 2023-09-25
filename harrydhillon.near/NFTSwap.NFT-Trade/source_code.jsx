@@ -42,10 +42,6 @@ return (
           <a
             className={`nav-link ${state.selected === id ? "active" : ""}`}
             id={`pills-${id}-tab`}
-            data-bs-toggle="pill"
-            data-bs-target={`#pills-${id}`}
-            aria-controls={`pills-${id}`}
-            aria-selected={i === 0}
             href={`?tab=${id}`}
           >
             {title}
