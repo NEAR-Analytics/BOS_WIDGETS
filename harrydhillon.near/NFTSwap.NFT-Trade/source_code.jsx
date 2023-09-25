@@ -42,7 +42,7 @@ return (
           <a
             className={`nav-link ${state.tab === id ? "active" : ""}`}
             id={`pills-${id}-tab`}
-            href={`#/?tab=${id}`}
+            href={`#/harrydhillon.near/widget/NFTSwap.NFT-Trade?tab=${id}`}
           >
             {title}
           </a>
