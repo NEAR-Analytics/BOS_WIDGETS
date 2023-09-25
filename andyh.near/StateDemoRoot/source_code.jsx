@@ -37,7 +37,7 @@ return (
         updateTriangle: () => State.update({ triangle: getRandomIcon() }),
       }}
     />
-    <Widget
+    {/*<Widget
       id="parent-shapes"
       src="andyh.near/widget/StateDemoParent"
       props={{
@@ -48,6 +48,6 @@ return (
         updateSquare: () => State.update({ square: getRandomIcon() }),
         updateTriangle: () => State.update({ triangle: getRandomIcon() }),
       }}
-    />
+    />*/}
   </div>
 );
