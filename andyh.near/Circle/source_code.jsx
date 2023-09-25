@@ -1,6 +1,7 @@
 const diameterPx = `${props.radius * 2}px`;
 return (
   <div
+    onClick={props.onClick}
     style={{
       width: diameterPx,
       height: diameterPx,
@@ -11,7 +12,6 @@ return (
   >
     <i
       className={`bi-${props.icon}`}
-      onClick={props.onClick}
       style={{
         color: props.iconColor,
         position: "relative",
