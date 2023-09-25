@@ -39,7 +39,7 @@ return (
     <ul className="nav nav-pills nav-fill mb-4" id="pills-tab" role="tablist">
       {pills.map(({ id, title }, i) => (
         <li className="nav-item" role="presentation" key={i}>
-          <button
+          <a
             className={`nav-link ${state.tab === id ? "active" : ""}`}
             id={`pills-${id}-tab`}
             onClick={() => {
@@ -48,7 +48,7 @@ return (
             href={`?tab=${id}`}
           >
             {title}
-          </button>
+          </a>
         </li>
       ))}
     </ul>
