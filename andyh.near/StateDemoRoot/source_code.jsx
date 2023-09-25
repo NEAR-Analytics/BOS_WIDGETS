@@ -27,7 +27,6 @@ return (
   <div className="col">
     <Widget
       src="andyh.near/widget/ShapeSet"
-      isTrusted={true}
       props={{
         circle,
         square,
@@ -39,7 +38,6 @@ return (
     />
     <Widget
       src="andyh.near/widget/StateDemoParent"
-      isTrusted={true}
       props={{
         circle,
         square,
