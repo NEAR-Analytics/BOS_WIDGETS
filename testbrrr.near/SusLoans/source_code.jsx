@@ -1,20 +1,25 @@
 const CreatePrompt = styled.div`
+        color: #FFE7C3;
         margin:auto;
         width:100%;
         max-width: 420px;
-        border: 1px solid rgba(0,0,0, .15);
         padding: 1.5rem;
         border-radius: .7rem;
-        box-shadow: .3rem .3rem 1rem rgba(0,0,0, .1);
         h1 {
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 2rem;
         }
         input, textarea {
+            color: #CB4439 !important;
+            background-color: #FFE7C3 !important;
             resize: none;
+            &:active {
+              background-color: #FFE7C3 !important;
+            }
             &::placeholder {
                 font-size: .8rem;
+                color: #CB4439;
             }
             &::-webkit-inner-spin-button {
                 -webkit-appearance: none;
@@ -32,6 +37,7 @@ const CreatePrompt = styled.div`
                     transform: translateX(-18rem);
                 }
             }
+
         }
 
         label {
@@ -105,16 +111,16 @@ const Command = styled.div`
     align-items:center;
     justify-content:center;
     font-weight:bold;
-    color:#fff;
+    color:#CB4439;
+    background-color: #FFE7C3;
     width:80%;
     height:40px;
     border-radius: 5px;
-    background-color:black;
     text-align:center;
     cursor: pointer;
     user-select: none;
     box-shadow: 0 3px 3px rgba(0,0,0,.3);
-    border: 1px solid #5A5A5A;
+    border: 3px solid black;
     margin-top: 10px;
     margin-bottom: 10px;
 
@@ -259,7 +265,7 @@ const sendPrompt = () => {
 };
 
 return (
-  <div>
+  <div style={{ backgroundColor: "#CB4439" }}>
     <CreatePrompt>
       <div
         style={{
@@ -267,12 +273,12 @@ return (
         }}
       ></div>
 
-      <h1>Sus Loans</h1>
+      <h1>Steak Loans</h1>
       <div className="form-group" style={{ display: "flex" }}>
         <input
           id="name"
           type="text"
-          placeholder="What is Sus?"
+          placeholder="What is Steak Loans?"
           value={state.prompt}
           onChange={(event) => State.update({ prompt: event.target.value })}
           required
