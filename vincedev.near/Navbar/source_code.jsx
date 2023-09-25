@@ -47,7 +47,7 @@ return (
           <MenuItem>{data.name}</MenuItem>
         ))}
       </MenuStyle>
-      <Widget src="tvh050423.near/widget/ConnectButton" props={{}} />
+      <button>ConnectWallet</button>
     </Navbar>
   </div>
 );
