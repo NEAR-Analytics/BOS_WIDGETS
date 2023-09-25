@@ -59,7 +59,7 @@ return (
     />
 
     <button class="btn btn-success" onClick={handleAskChatGPT} disabled={false}>
-      Ask ChatGPT for Thaiprogrammer
+      Ask ChatGPT for DEPA
     </button>
     <div>{state.respAnswer}</div>
   </div>
