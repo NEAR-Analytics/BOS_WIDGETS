@@ -44,7 +44,6 @@ return (
             id={`pills-${id}-tab`}
             onClick={(e) => {
               State.update({ tab: id });
-              e.preventDefault();
             }}
             href={`?tab=${id}`}
           >
