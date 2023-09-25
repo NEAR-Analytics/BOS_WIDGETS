@@ -71,9 +71,7 @@ const unflattenDocuments = (inputObject) => {
 
 return (
   <Widget
-    src={
-      project.template.src || "createit.near/widget/templates.project.doc"
-    }
+    src={project.template.src || "createit.near/widget/templates.project.doc"}
     props={{
       project: project.data,
       theme: project.template.theme,
