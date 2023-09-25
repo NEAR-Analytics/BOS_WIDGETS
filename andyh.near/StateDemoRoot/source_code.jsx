@@ -1,4 +1,4 @@
-State.init({ circle: "circle", triangle: "triangle", square: "square" });
+State.init({ circle: "circle", triangle: "triangle", square: "square", i: 0 });
 
 const icons = [
   "bell",
@@ -22,6 +22,7 @@ const getRandomIcon = () => {
 
 const { circle, square, triangle } = state;
 console.log({ localState: { circle, square, triangle } });
+State.update({ i: state.i + 1 });
 return (
   <div className="col">
     <Widget
