@@ -16,9 +16,10 @@ const Wrapper = styled.div`
       left     : 0;
       background-image : linear-gradient(to bottom, 
                         rgba(255,255,255, 0), 
-                        rgba(255,255,255, 1) 50%);
+                        rgba(255,255,255, 1) 25%);
       width    : 100%;
       height   : 3em;
+
       > div {
         position: relative;
         width: 100%;
@@ -29,10 +30,11 @@ const Wrapper = styled.div`
         justify-content: flex-end;
         cursor: pointer;
         > a {
-          margin-bottom: 0.2em;
+          margin: 0 0 0.7em 0.7em;
         }
       }
     }
+    
   }
 
   .full-content {
