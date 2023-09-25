@@ -1,3 +1,29 @@
+const accountId = props.accountId ?? "efiz.near";
+const blockHeight = props.blockHeight ?? "101950016";
+
+const thingId = props.thingId ?? "project";
+
+const item = props.item;
+
+if (!context.accountId) {
+  return "";
+}
+
+const data = {
+  index: {
+    [thingId]: JSON.stringify({
+      key: item,
+      value: {
+        type: "md",
+      },
+    }),
+  },
+};
+
+const handleAdd = () => {
+  Social.set(data);
+};
+
 const Button = styled.button`
   border: 0 !important;
   display: inline-flex;
@@ -44,7 +70,7 @@ const PlusIcon = (
 );
 
 return (
-  <Button disabled={!context.accountId} title={"Add"} onClick={props.onClick}>
+  <Button disabled={!context.accountId} title={"Add"} onClick={handleAdd}>
     <span>{PlusIcon}</span>
   </Button>
 );
