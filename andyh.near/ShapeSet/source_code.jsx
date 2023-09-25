@@ -28,7 +28,6 @@ return (
     </div>
     <div className="col">
       <Widget
-        id="triangle"
         src="andyh.near/widget/Triangle"
         props={{
           color: "#0A81D1",
