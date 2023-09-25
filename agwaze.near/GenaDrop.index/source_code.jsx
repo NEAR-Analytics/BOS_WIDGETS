@@ -81,7 +81,7 @@ const tabContentWidget = {
   evmNFTs: "agwaze.near/widget/GenaDrop.EVMExplore",
   socials: "genadrop.near/widget/GenaDrop.Home",
   ai: "0xprometheus.near/widget/Genadrop-Ai-Minter",
-  swap: "harrydhillon.near/widget/NFTSwap.NFT-Trade"
+  swap: "harrydhillon.near/widget/NFTSwap.NFT-Trade",
 }[state.tab];
 
 const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
