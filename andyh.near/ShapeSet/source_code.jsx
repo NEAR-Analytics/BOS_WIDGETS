@@ -6,7 +6,7 @@ return (
         props={{
           color: "#C1200B",
           iconColor: "white",
-          icon: props.circleIcon || "circle",
+          icon: props.circle || "circle",
           radius: 40,
           onClick: props.updateCircle,
         }}
@@ -18,7 +18,7 @@ return (
         props={{
           color: "#4A825A",
           iconColor: "white",
-          icon: props.squareIcon || "square",
+          icon: props.square || "square",
           length: 80,
           onClick: props.updateSquare,
         }}
@@ -30,7 +30,7 @@ return (
         props={{
           color: "#0A81D1",
           iconColor: "white",
-          icon: props.triangleIcon || "triangle",
+          icon: props.triangle || "triangle",
           height: 80,
           onClick: props.updateTriangle,
         }}
