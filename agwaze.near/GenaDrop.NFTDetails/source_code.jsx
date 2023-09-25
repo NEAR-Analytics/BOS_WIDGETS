@@ -823,7 +823,6 @@ return (
                   Not Listed
                 </button>
               )}
-            </div>
             {state.owner === context.accountId && (
               <a
                 href={`https://near.org/harrydhillon.near/widget/NFTSwap.NFT-Trade?tokenId=${tokenId}&contractId=${contractId}`}
@@ -831,6 +830,7 @@ return (
                 <SwapButton>Swap</SwapButton>
               </a>
             )}
+            </div>
           </PriceBucket>
           <Description>
             <h6>Description</h6>
