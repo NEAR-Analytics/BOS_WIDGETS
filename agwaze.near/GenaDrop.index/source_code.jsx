@@ -77,8 +77,7 @@ const ContentContainer = styled.div`
 const tabContentWidget = {
   create: "agwaze.near/widget/GenaDrop.Minter",
   list: "jgodwill.near/widget/GenaDrop.MultiListing",
-  nearNFTs: "jgodwill.near/widget/GenaDrop.Explore",
-  evmNFTs: "agwaze.near/widget/GenaDrop.EVMExplore",
+  nearNFTs: "agwaze.near/widget/GenaDrop.Explore",
   socials: "genadrop.near/widget/GenaDrop.Home",
   ai: "0xprometheus.near/widget/Genadrop-Ai-Minter",
   swap: "harrydhillon.near/widget/NFTSwap.NFT-Trade",
