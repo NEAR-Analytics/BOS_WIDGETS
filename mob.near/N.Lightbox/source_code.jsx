@@ -8,26 +8,20 @@ const Lightbox = styled.div`
 
 return show ? (
   <>
-    <div
-      key="backdrop"
-      className="fade modal-backdrop show"
-      onClick={(e) => {
-        console.log("dialog");
-        setShow(false);
-      }}
-    />
+    <div key="backdrop" className="fade modal-backdrop show" />
     <div
       role="dialog"
       aria-modal="true"
       className="fade modal show"
-      tabindex="-1"
       style={{ display: "block" }}
+      onClick={(e) => {
+        setShow(false);
+      }}
     >
       <div
         className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
         onClick={(e) => {
-          console.log("modal");
-          return true;
+          e.stopPropagation();
         }}
       >
         <div className="modal-content">
