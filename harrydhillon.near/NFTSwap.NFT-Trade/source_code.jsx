@@ -42,7 +42,7 @@ return (
           <a
             className={`nav-link ${state.tab === id ? "active" : ""}`}
             id={`pills-${id}-tab`}
-            onClick={(e) => {
+            onClick={() => {
               State.update({ tab: id });
             }}
             href={`?tab=${id}`}
