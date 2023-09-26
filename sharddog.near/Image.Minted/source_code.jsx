@@ -25,24 +25,20 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
     image,
     imageUrl: null,
   });
-  fetchContentType(image.url);
 }
 
-async function fetchContentType(ipfsUrl) {
-  try {
-    const response = await fetch(ipfsUrl);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const contentType = response.headers.get("Content-Type");
-    const isVideo = contentType.startsWith("video/");
-    State.update({ isVideo });
-  } catch (error) {
-    console.log("Error fetching content type:", error);
-  }
+function fetchContentType(url) {
+  asyncFetch(url, { method: "HEAD" })
+    .then((response) => {
+      const contentType = response.headers.get("Content-Type");
+      const isVideo = contentType.startsWith("video/");
+      State.update({ isVideo });
+    })
+    .catch((error) => {
+      console.log("Error fetching content type:", error);
+    });
 }
-
+ fetchContentType(image.url);
 function toUrl(image) {
   const url =
     (image.ipfs_cid
@@ -54,7 +50,7 @@ function toUrl(image) {
 
   return url;
 }
-
+ 
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
