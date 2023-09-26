@@ -86,6 +86,10 @@ const IconContainer = styled.div`
   transform: rotate(-90deg);
 `;
 
+const Icon = styled.i`
+  margin: 0;
+`;
+
 const CallLibrary = styled.div`
   display: none;
 `;
@@ -102,7 +106,7 @@ return (
           onClick: upVoteButtonListener,
           icon: (
             <IconContainer>
-              <i className="bi bi-fast-forward-btn"></i>
+              <Icon className="bi bi-fast-forward-btn"></Icon>
             </IconContainer>
           ),
           // icon: <i className="bi bi-hand-thumbs-up"></i>,
