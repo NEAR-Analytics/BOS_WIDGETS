@@ -152,7 +152,7 @@ const fetchMore =
           <a
             href="#"
             onClick={(e) => {
-              e.preventDefault();
+              e?.preventDefault();
               makeMoreItems();
             }}
           >
