@@ -25,6 +25,7 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
     image,
     imageUrl: null,
   });
+  fetchContentType(image.url);
 }
 
 async function fetchContentType(ipfsUrl) {
@@ -53,7 +54,7 @@ function toUrl(image) {
 
   return url;
 }
-  fetchContentType(state.imageUrl);
+
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
