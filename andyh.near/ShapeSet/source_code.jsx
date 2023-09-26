@@ -1,3 +1,6 @@
+State.init({ x: 0 });
+State.update({ x: 1 });
+
 return (
   <div className="row" style={{ padding: "8px 4px" }}>
     <div className="col">
