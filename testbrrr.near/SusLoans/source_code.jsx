@@ -22,10 +22,8 @@ const CreatePrompt = styled.div`
             resize: none;
             border-radius: 5px 0px 0px 5px;
             box-shadow: 3px 3px 3px rgba(0,0,0,.3);
+            @media (min-width: 768px) {
             min-width: 400px;
-            @media (max-width: 768px) {
-              min-width: none;
-              max-width: 300px!important;
             }
             &:active {
               background-color: #FFE7C3 !important;
