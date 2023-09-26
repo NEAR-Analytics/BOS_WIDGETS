@@ -151,7 +151,6 @@ const render = (transaction) => {
         {date_data.time} UTC - {date_data.day} {date_data.month},{" "}
         {date_data.year}
       </p>
-      <h4>Reciever NFT</h4>
       <div
         style={{
           border: "1px solid lightgray",
@@ -194,56 +193,6 @@ const render = (transaction) => {
           );
         })}
       </div>
-      {transaction.sender_nfts.length !== 0 && (
-        <>
-          <h4>Sending NFT</h4>
-          <div
-            style={{
-              border: "1px solid lightgray",
-              width: "100%",
-              borderRadius: 5,
-              padding: 10,
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              gap: "10px",
-              textAlign: "center",
-              marginBottom: 10,
-            }}
-          >
-            {transaction.sender_nfts.map((item) => {
-              const transaction_data = state.nftData.filter(
-                (_) =>
-                  _.token_id === item.token_id &&
-                  item.contract_id === _.contract_id
-              )[0];
-
-              return (
-                <div>
-                  <img
-                    style={{
-                      width: "100%",
-                      height: "220px",
-                      borderRadius: "5px",
-                      objectFit: "cover",
-                      marginBottom: 5,
-                    }}
-                    src={transaction_data.image}
-                  />
-                  <p style={{ marginBottom: 0, fontSize: 12 }}>
-                    Collection : {transaction_data.collection}
-                  </p>
-                  <p style={{ marginBottom: 0, fontSize: 12 }}>
-                    {item.contract_id}
-                  </p>
-                  <p style={{ marginBottom: 0, fontSize: 12 }}>
-                    {item.token_id}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </>
-      )}
       <div
         style={{
           display: "grid",
@@ -316,27 +265,29 @@ const render = (transaction) => {
   );
 };
 
+const ResponsiveGridDiv = styled.div`
+  grid-template-columns: 50% 50%; 
+
+@media screen and (max-width: 992px) {
+  display:block;
+}
+`;
+
 return (
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(2,1fr)",
-      gap: "20px",
-    }}
-  >
-    <div>
+  <ResponsiveGridDiv>
+    <div style={{ margin: 5 }}>
       <h4>Your Offers</h4>
       {[
         ...state.allTransactions.filter((item) => item.sender_id === accountId),
       ].map((transaction) => render(transaction))}
     </div>
-    <div>
+    <div style={{ margin: 5 }}>
       <h4>Offered To you</h4>
       {[
         ...state.allTransactions.filter((item) => item.sender_id !== accountId),
       ].map((transaction) => render(transaction))}
     </div>
-  </div>
+  </ResponsiveGridDiv>
 );
 
 // receiverId: nft.contract_id,
