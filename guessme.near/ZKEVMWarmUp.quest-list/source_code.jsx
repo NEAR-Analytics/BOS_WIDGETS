@@ -7,7 +7,9 @@ State.init({
   myQuestList: [],
 });
 
-if (!innerWidth) return "";
+// console.log("innerWidth: ", innerWidth);
+
+// if (!innerWidth) return "";
 
 const arrowDown = (
   <svg
@@ -394,6 +396,8 @@ const uuid = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
 );
 
+console.log("uuid: ", uuid);
+
 const quest_url = `https://bos-api.delink.one/get-action-by-account?account_id=${
   sender || ""
 }&account_info=${uuid}&action_network_id=zkEVM`;
@@ -511,7 +515,7 @@ const baseList = myQuestList.filter((item) => {
   return !state.notShowing?.[item.action_id];
 });
 
-const realList = baseList.slice(0, size);
+const realList = baseList.slice(0, !innerWidth ? baseList.length : size);
 
 if (realList.length === 0) {
   return noQuestTip;
