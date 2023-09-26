@@ -171,39 +171,42 @@ const Thumbnail = styled.a`
 
 const TagsWrapper = styled.div`
   display: flex;
+  align-items: center;
+  gap: 12px;
 `;
 
 const Tag = styled.div`
-  color: #000;
-  font-weight: 500;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  margin-right: 5px;
-  padding: 4px 11px 4px 11px;
-  white-space: nowrap;
+  border-radius: 30px;
+  font-size: 16px;
+  padding: 2px 16px;
+  color: #000000;
   background: ${({ content }) => {
     if (content === "bridge") {
       return "rgba(227, 233, 157, 1)";
+    } else if (content === "Dexes") {
+      return "rgba(172, 252, 237, 1)";
     } else if (content === "dexes") {
       return "rgba(172, 252, 237, 1)";
     } else if (content === "lending") {
       return "rgba(173, 255, 181, 1)";
-    } else if (content === "liquid-staking") {
+    } else if (content === "Staking") {
       return "rgba(193, 191, 255, 1)";
-    } else if (content.toLowerCase() === "staking") {
+    } else if (content === "staking") {
       return "rgba(193, 191, 255, 1)";
+    } else if (content === "liquidity-manager") {
+      return "rgba(170, 214, 255, 1)";
+    } else if (content === "Liquidity Manage") {
+      return "rgba(170, 214, 255, 1)";
+    } else if (content === "Yield") {
+      return " rgba(249, 181, 230, 1)";
     } else {
       return "rgba(26, 46, 51, 0.25)";
     }
   }};
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
+
   @media (max-width: 900px) {
-    color: #000000;
     font-size: 12px;
     padding: 2px 10px;
-    border: none;
   }
 `;
 
