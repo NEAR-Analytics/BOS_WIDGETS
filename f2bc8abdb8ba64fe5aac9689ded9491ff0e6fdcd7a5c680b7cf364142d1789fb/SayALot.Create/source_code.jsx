@@ -241,9 +241,9 @@ return (
               props={{
                 Button: {
                   className: "primary dark",
-                  disabled:
-                    state.articleId.length == 0 &&
-                    state.articleBody.length == 0,
+                  disabled: true,
+                  // state.articleId.length == 0 &&
+                  // state.articleBody.length == 0,
                   text: editArticleData ? "Save edition" : "Post",
                   onClick: createArticleListener,
                   icon: <i className="bi bi-check2"></i>,
