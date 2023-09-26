@@ -265,6 +265,10 @@ if (originalComment) {
     article.realArticleId ?? `${article.author}-${article.timeCreate}`;
 }
 
+function onClickAddComment() {
+  State.update({ showSpinner: true });
+}
+
 const libCalls = [];
 
 const libSrcArray = [widgets.libComment];
@@ -304,6 +308,19 @@ const SetText = (txt) => {
   State.update({ shareText: txt });
 };
 
+const renderSpinner = () => {
+  return (
+    <div className="spinner-border" role="status">
+      <span className="sr-only">Loading...</span>
+    </div>
+  );
+};
+
+function onCommit() {
+  State.update({ showSpinner: false });
+  onCloseModal();
+}
+
 function addCommentListener() {
   let newLibCalls = [...libCalls];
   const comment = {
@@ -319,7 +336,7 @@ function addCommentListener() {
   newLibCalls.push({
     functionName: "createComment",
     key: "createComment",
-    props: { comment, onCommit: onCloseModal },
+    props: { comment, onClick: onClickAddComment, onCommit },
   });
   State.update({ libCalls: newLibCalls });
 }
@@ -414,8 +431,9 @@ return (
             src={widgets.styledComponents}
             props={{
               Button: {
-                text: "Submit",
-                onClick: addCommentListener,
+                text: showSpinner ? "" : "Submit",
+                onClick: !showSpinner ? addCommentListener : () => {},
+                icon: showSpinner ? renderSpinner() : <></>,
               },
             }}
           />
