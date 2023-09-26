@@ -78,11 +78,12 @@ const StyledWrapper = styled.div`
     @media(max-width: 800px) {
         flex-direction: column;
         
-        .left-side, .right-side {
+        .left-side {
             width: 100%;
         }
-        .right-side {
+        > pre {
             margin-top: 30px;
+            width: 100%;
         }
     }
   }
