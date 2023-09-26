@@ -69,8 +69,8 @@ return (
           </div>
           <ul className="icon-list">
             <li>
-              <a href={buildUrl("andyh.near/widget/ComponentIdTestRoot")}>
-                Component ID test
+              <a href={buildUrl("andyh.near/widget/StateDemo")}>
+                Sandboxed and Trusted State
               </a>
             </li>
           </ul>
