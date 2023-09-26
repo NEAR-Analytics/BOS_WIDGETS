@@ -11,7 +11,7 @@ const requirementsOptions = [
   { name: "Like", value: "like" },
   { name: "Repost", value: "repost" },
   { name: "Comment", value: "comment" },
-  { name: "I-Am-Human Verified", value: "human" },
+  { name: "Iam human verified", value: "human" },
 ];
 
 const hrOption = [];
@@ -29,17 +29,14 @@ State.init({
   requirements: [],
   username: profile.name ? profile.name : accountId,
   post_link: "",
-  amount: 0.1,
+  amount: 0,
   token: "NEAR",
-  winners: 1,
+  winners: 0,
   total_reward: "",
   duration_hr: "12",
   duration_min: "00",
   tokens: [],
   error: "",
-  balance: 0,
-  loading: false,
-  notification: "",
 });
 
 const Wrapper = styled.div`
@@ -103,19 +100,14 @@ const getTokenData = () => {
   return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
     (res) => {
       if (res.ok) {
-        let balance = 0;
-        const tokens = res.body.token.map((item) => {
-          if (item.id === "NEAR") balance = item.balance;
-          return {
-            ...item,
-            value: item.id,
-            text: item.id,
-          };
-        });
+        const tokens = res.body.token.map((item) => ({
+          ...item,
+          value: item.id,
+          text: item.id,
+        }));
 
         State.update({
           tokens,
-          balance,
         });
       }
     }
@@ -155,7 +147,7 @@ const createCampaign = () => {
   )
     return State.update({ error: "Please fill out all form fields" });
 
-  State.update({ error: "", loading: true });
+  State.update({ error: "" });
   asyncFetch(API_URL + `/api/campaign`, {
     method: "POST",
     headers: {
@@ -165,12 +157,9 @@ const createCampaign = () => {
   }).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) State.update({ error, loading: false });
+      if (error) State.update({ error });
       else if (data && data === "success") {
-        State.update({ loading: false, notification: "Campaign created!" });
-        setTimeout(() => {
-          changePage("dashboard");
-        }, 2000);
+        changePage("dashboard");
       }
     }
   });
@@ -188,7 +177,6 @@ return (
         {"< GoBack"}
       </p>
     </div>
-
     <HeadComponent>
       <div
         style={{
@@ -205,6 +193,15 @@ return (
         {state.error && (
           <p style={{ fontSize: 14, margin: 0, color: "red" }}>{state.error}</p>
         )}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 21,
+        }}
+      >
+        <Button onClick={createCampaign}>{"Create New Campaigns"}</Button>
       </div>
     </HeadComponent>
 
@@ -268,11 +265,25 @@ return (
             multiple
             labelKey="name"
             className="col-lg-12"
+            // onInputChange={checkLabel}
             onChange={changeRequirement}
             options={requirementsOptions}
             placeholder=""
             selected={state.requirements}
             positionFixed
+            // allowNew={(results, props) => {
+            //   return (
+            //     !existingLabelSet.has(props.text) &&
+            //     props.selected.filter(
+            //       (selected) => selected.name === props.text
+            //     ).length == 0 &&
+            //     Near.view(
+            //       nearDevGovGigsContractAccountId,
+            //       "is_allowed_to_use_labels",
+            //       { editor: context.accountId, labels: [props.text] }
+            //     )
+            //   );
+            // }}
           />
         </div>
       </div>
@@ -287,17 +298,14 @@ return (
             {"Amount and Token Type "}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-8 gap-4">
+        <div className="d-flex align-items-center col-lg-6 gap-4">
           <div>
             <p>{`Amount`}</p>
             <Input
               type="number"
-              min="0.01"
-              step="0.1"
               value={state.amount}
               onChange={(e) => {
                 const amount = Number(e.target.value);
-                if (amount < 0.01) return;
                 const total_reward = `${Number(
                   (amount * state.winners).toFixed(4)
                 )} ${state.token}`;
@@ -308,7 +316,7 @@ return (
               }}
             />
           </div>
-          <div className="d-flex align-items-center" style={{ gap: 10 }}>
+          <div>
             <Widget
               props={{
                 label: "Token",
@@ -323,15 +331,11 @@ return (
                   State.update({
                     token: e.value,
                     total_reward,
-                    balance: e.balance,
                   });
                 },
               }}
               src={`${Owner}/widget/Select`}
             />
-            <p
-              style={{ fontSize: 12, marginTop: 25 }}
-            >{`Available Balance = ${state.balance} ${state.token}`}</p>
           </div>
         </div>
       </div>
@@ -349,13 +353,9 @@ return (
         <div className="d-flex align-items-center col-lg-6">
           <Input
             type="number"
-            min="1"
-            max="20"
-            step="1"
             value={state.winners}
             onChange={(e) => {
               const winners = Number(e.target.value);
-              if (winners < 1 || winners > 20) return;
               const total_reward = `${Number(
                 (state.amount * winners).toFixed(4)
               )} ${state.token}`;
@@ -369,7 +369,7 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20, marginTop: 10 }}>
+      <div className="d-flex" style={{ gap: 20 }}>
         <div
           className="d-flex"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
@@ -425,31 +425,6 @@ return (
           />
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "end",
-          gap: 21,
-        }}
-      >
-        <Button disabled={state.loading} onClick={createCampaign}>
-          {state.loading ? "Loading..." : "Submit"}
-        </Button>
-      </div>
     </MainComponent>
-    {state.notification && (
-      <div
-        className="d-flex justify-content-end position-absolute"
-        style={{ right: 10 }}
-      >
-        <Widget
-          props={{
-            text: state.notification,
-          }}
-          src={`${Owner}/widget/Alert`}
-        />
-      </div>
-    )}
   </Wrapper>
 );
