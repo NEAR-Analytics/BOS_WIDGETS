@@ -1,8 +1,12 @@
 const CreatePrompt = styled.div`
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         color: #FFE7C3;
         margin:auto;
         width:100%;
-        max-width: 420px;
+        max-width: 60%;
         padding: 1.5rem;
         border-radius: .7rem;
         h1 {
@@ -16,6 +20,7 @@ const CreatePrompt = styled.div`
             resize: none;
             border-radius: 5px 0px 0px 5px;
             box-shadow: 3px 3px 3px rgba(0,0,0,.3);
+            min-width: 400px;
             &:active {
               background-color: #FFE7C3 !important;
             }
@@ -283,7 +288,10 @@ return (
           src="https://ipfs.io/ipfs/bafybeieub4xgdcph5cj4oa6kfskfpm2nj5vtd5xgbkyi7jvgr2pbodscjq/kendallc_Cartoon_logo_for_steak.loans_minimal_colors_solid_colo_575f812c-6e0d-4827-95d3-dac64469271c.png"
         />
       </div>
-      <div className="form-group" style={{ display: "flex" }}>
+      <div
+        className="form-group"
+        style={{ display: "flex", alignItems: "start" }}
+      >
         <input
           id="name"
           type="text"
@@ -295,7 +303,7 @@ return (
         />
         <Button
           onClick={() => sendPrompt()}
-          style={{ width: "15%", height: "50px" }}
+          style={{ width: "60px", height: "50px" }}
         >
           <img
             src="https://ipfs.io/ipfs/bafybeigb3yfd3t4qz6sxoz3sfwljmlbth5zrwfindvdjxezyn3rcdeei6m/send%282%29.png"
@@ -315,7 +323,9 @@ return (
       ) : null}
 
       {!state.isLoading ? (
-        <p>{state.response ? state.response : null}</p>
+        <p style={{ marginTop: 20 }}>
+          {state.response ? state.response : null}
+        </p>
       ) : null}
 
       {!state.isLoading ? state.widget : null}
