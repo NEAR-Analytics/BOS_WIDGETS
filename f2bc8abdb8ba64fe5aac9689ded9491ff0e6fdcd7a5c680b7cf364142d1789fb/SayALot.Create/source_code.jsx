@@ -122,7 +122,7 @@ console.log("state.articleId: ", state.articleId);
 console.log("state.articleBody: ", state.articleBody);
 console.log(
   "resultado: ",
-  state.articleId.length > 0 && state.articleBody.length > 0
+  !(state.articleId.length > 0 && state.articleBody.length > 0)
 );
 
 return (
@@ -241,9 +241,8 @@ return (
               props={{
                 Button: {
                   className: "primary dark",
-                  disable: !(
-                    state.articleId.length > 0 && state.articleBody.length > 0
-                  ),
+                  disable:
+                    state.articleId.length > 0 && state.articleBody.length > 0,
                   text: editArticleData ? "Save edition" : "Post",
                   onClick: createArticleListener,
                   icon: <i className="bi bi-check2"></i>,
