@@ -14,6 +14,7 @@ let {
   editArticleData,
   callLibs,
   handleEditArticle,
+  showCreateArticle,
 } = props;
 
 State.init({ start: Date.now() });
@@ -39,22 +40,24 @@ function getDateLastEdit(timestamp) {
 
 return (
   <>
-    <Widget
-      src={widgets.create}
-      props={{
-        isTest,
-        addressForArticles,
-        authorForWidget,
-        stateUpdate,
-        widgets,
-        initialBody: "Create post",
-        initialCreateState,
-        editArticleData,
-        callLibs,
-        handleFilterArticles,
-        handleEditArticle,
-      }}
-    />
+    {showCreateArticle && (
+      <Widget
+        src={widgets.create}
+        props={{
+          isTest,
+          addressForArticles,
+          authorForWidget,
+          stateUpdate,
+          widgets,
+          initialBody: "Create post",
+          initialCreateState,
+          editArticleData,
+          callLibs,
+          handleFilterArticles,
+          handleEditArticle,
+        }}
+      />
+    )}
     <div className="row card-group py-3">
       {finalArticles.length > 0 &&
         finalArticles.map((article, i) => {
