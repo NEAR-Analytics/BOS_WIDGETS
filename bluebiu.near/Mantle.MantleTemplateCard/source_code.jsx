@@ -65,7 +65,7 @@ const Metadata = styled.div`
     .hot {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
   }
   @media (max-width: 900px) {
@@ -90,34 +90,41 @@ const Metadata = styled.div`
   }
 `;
 const Label = styled.div`
-  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 30px;
-  color: #fff;
   font-size: 16px;
   padding: 2px 16px;
-  background-color: rgba(26, 46, 51, 0.25);
+  color: #000000;
+  background: ${({ content }) => {
+    if (content === "bridge") {
+      return "rgba(227, 233, 157, 1)";
+    } else if (content === "Dexes") {
+      return "rgba(172, 252, 237, 1)";
+    } else if (content === "dexes") {
+      return "rgba(172, 252, 237, 1)";
+    } else if (content === "dex") {
+      return "rgba(172, 252, 237, 1)";
+    } else if (content === "lending") {
+      return "rgba(173, 255, 181, 1)";
+    } else if (content === "liquid-staking") {
+      return "rgba(193, 191, 255, 1)";
+    } else if (content === "staking") {
+      return "rgba(193, 191, 255, 1)";
+    } else if (content === "liquidity-manager") {
+      return "rgba(170, 214, 255, 1)";
+    } else if (content === "Liquidity Manager") {
+      return "rgba(170, 214, 255, 1)";
+    } else if (content === "Liquidity Manage") {
+      return "rgba(170, 214, 255, 1)";
+    } else if (content === "Yield") {
+      return " rgba(249, 181, 230, 1)";
+    } else {
+      return "rgba(26, 46, 51, 0.25)";
+    }
+  }};
+
   @media (max-width: 900px) {
-    color: #000000;
     font-size: 12px;
     padding: 2px 10px;
-    background: ${({ content }) => {
-      if (content === "bridge") {
-        return "rgba(227, 233, 157, 1)";
-      } else if (content === "Dexes") {
-        return "rgba(172, 252, 237, 1)";
-      } else if (content === "lending") {
-        return "rgba(173, 255, 181, 1)";
-      } else if (content === "liquid-staking") {
-        return "rgba(193, 191, 255, 1)";
-      } else if (content === "staking") {
-        return "rgba(193, 191, 255, 1)";
-      } else if (content === "liquidity-manager") {
-        return "rgba(170, 214, 255, 1)";
-      } else {
-        return "rgba(26, 46, 51, 0.25)";
-      }
-    }};
-    border: none;
   }
 `;
 const Icon = styled.a`
