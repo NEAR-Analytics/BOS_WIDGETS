@@ -83,7 +83,7 @@ function upVoteButtonListener() {
 }
 
 const IconContainer = styled.div`
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) !important;
 `;
 
 const Icon = styled.i`
