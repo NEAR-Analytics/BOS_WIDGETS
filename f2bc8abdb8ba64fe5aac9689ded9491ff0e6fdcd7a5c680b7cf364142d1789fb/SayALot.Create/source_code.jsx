@@ -119,7 +119,7 @@ const SecondContainer = styled.div`
 `;
 
 return (
-  <div className="border rounded">
+  <div className="border rounded mx-3">
     {
       //   {state.createdArticle && state.showCreatedArticle ? (
       //   <Widget
@@ -235,8 +235,8 @@ return (
               props={{
                 Button: {
                   className: "primary dark",
-                  disable: state.articleId > 0 || state.articleBody > 0,
-                  text: editArticleData ? "Save edition" : "Save article",
+                  disable: state.articleId > 0 && state.articleBody > 0,
+                  text: editArticleData ? "Save edition" : "Post",
                   onClick: createArticleListener,
                   icon: <i className="bi bi-check2"></i>,
                 },
