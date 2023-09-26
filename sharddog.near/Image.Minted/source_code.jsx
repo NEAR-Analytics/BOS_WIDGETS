@@ -55,7 +55,7 @@ const thumb = (imageUrl) =>
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
     : imageUrl;
 
-return image.nft.contractId && image.nft.tokenId (
+return 
   <>
     {state.isVideo ? (
       <video
@@ -128,4 +128,4 @@ return image.nft.contractId && image.nft.tokenId (
       </div>
     )}
   </>
-);
+;
