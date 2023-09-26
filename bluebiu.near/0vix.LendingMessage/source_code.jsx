@@ -92,7 +92,7 @@ return (
         <Text>{text}</Text>
       </Flex>
       <Widget
-        src="bluebiu.near/widget/Base.BaseCloseIcon"
+        src="bluebiu.near/widget/Arbitrum.Swap.CloseIcon"
         props={{
           onClose: () => {
             onClose?.();
