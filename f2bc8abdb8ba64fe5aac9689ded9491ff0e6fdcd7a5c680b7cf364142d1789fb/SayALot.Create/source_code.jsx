@@ -241,7 +241,7 @@ return (
               props={{
                 Button: {
                   className: "primary dark",
-                  disable:
+                  disabled:
                     state.articleId.length > 0 && state.articleBody.length > 0,
                   text: editArticleData ? "Save edition" : "Post",
                   onClick: createArticleListener,
