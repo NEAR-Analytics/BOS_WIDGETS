@@ -5,4 +5,7 @@ const ratingMessage = Near.call(contract, "get_rating_for_account", {
 });
 console.log(ratingMessage);
 
-return <div>{ratingMessage}</div>;
+const notLoggedInWarning = <p> Login </p>;
+
+// Render
+return <>{context.accountId ? context.accountId : notLoggedInWarning}</>;
