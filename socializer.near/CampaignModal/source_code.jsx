@@ -11,6 +11,7 @@ State.init({
   follow: false,
   repost: false,
   comment: false,
+  human: false,
   loaded: false,
   loading: false,
 });
@@ -112,12 +113,13 @@ const getVerifyState = () => {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
       else if (data) {
-        const { like, follow, repost, comment } = data;
+        const { like, follow, repost, comment, human } = data;
         State.update({
           like,
           follow,
           repost,
           comment,
+          human,
           loaded: true,
           loading: false,
         });
