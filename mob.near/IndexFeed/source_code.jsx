@@ -150,9 +150,9 @@ const fetchMore =
     : state.displayCount < filteredItems.length && (
         <div key={"loader more"}>
           <a
-            href="#"
+            className=""
             onClick={(e) => {
-              e?.preventDefault();
+              e.preventDefault && e.preventDefault();
               makeMoreItems();
             }}
           >
