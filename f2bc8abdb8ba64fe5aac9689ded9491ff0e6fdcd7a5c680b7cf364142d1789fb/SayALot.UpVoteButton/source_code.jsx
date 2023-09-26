@@ -96,8 +96,14 @@ return (
           className: `${getUpVoteButtonClass()}`,
           size: "sm",
           onClick: upVoteButtonListener,
+          icon: (
+            <i
+              style={{ transform: "rotate(-90deg)" }}
+              className="bi bi-fast-forward-btn"
+            ></i>
+          ),
           // icon: <i className="bi bi-hand-thumbs-up"></i>,
-          icon: "⏫",
+          // icon: "⏫",
         },
       }}
     />
