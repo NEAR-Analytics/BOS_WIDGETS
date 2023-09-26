@@ -10,26 +10,22 @@ if (profile === null) {
   return "Loading";
 }
 
-return (
-  <div className="py-1 px-1">
-    <div className="mx-auto">
-      <Widget
-        src="mob.near/widget/ProfileLarge"
-        props={{
-          accountId,
-          profile,
-          link: true,
-          fast,
-          showEditButton: !props.profile,
-        }}
-      />
+const Wrapper = styled.div`
+  marginTop: calc(-1 * var(--body-top-padding));
+`;
 
-      <div className="mt-3">
-        <Widget
-          src="mob.near/widget/ProfileTabs"
-          props={{ accountId, profile }}
-        />
-      </div>
-    </div>
-  </div>
+return (
+  <Wrapper>
+    <Widget
+      src="mob.near/widget/ProfileLarge"
+      props={{
+        accountId,
+        profile,
+        link: true,
+        fast,
+        showEditButton: !props.profile,
+      }}
+    />
+    <Widget src="mob.near/widget/ProfileTabs" props={{ accountId, profile }} />
+  </Wrapper>
 );
