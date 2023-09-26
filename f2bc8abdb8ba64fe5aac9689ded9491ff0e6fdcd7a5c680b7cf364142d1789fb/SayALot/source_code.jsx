@@ -507,26 +507,25 @@ return (
       />
     )}
 
-    {
-      // {state.displayedTabId == tabs.ARTICLE_WORKSHOP.id && (
-      //   <Widget
-      //     src={widgets.create}
-      //     props={{
-      //       isTest,
-      //       addressForArticles,
-      //       authorForWidget,
-      //       stateUpdate,
-      //       widgets,
-      //       initialBody: initialBodyAtCreation,
-      //       initialCreateState,
-      //       editArticleData: state.editArticleData,
-      //       callLibs,
-      //       handleFilterArticles,
-      //       handleEditArticle,
-      //     }}
-      //   />
-      // )}
-    }
+    {state.displayedTabId == tabs.ARTICLE_WORKSHOP.id && (
+      <Widget
+        src={widgets.create}
+        props={{
+          isTest,
+          addressForArticles,
+          authorForWidget,
+          stateUpdate,
+          widgets,
+          initialBody: initialBodyAtCreation,
+          initialCreateState,
+          editArticleData: state.editArticleData,
+          callLibs,
+          handleFilterArticles,
+          handleEditArticle,
+        }}
+      />
+    )}
+
     <CallLibrary>
       {callLibs(libSrcArray, stateUpdate, state.libCalls)}
     </CallLibrary>
