@@ -120,6 +120,10 @@ const SecondContainer = styled.div`
 
 console.log("state.articleId: ", state.articleId);
 console.log("state.articleBody: ", state.articleBody);
+console.log(
+  "resultado: ",
+  state.articleId.length > 0 && state.articleBody.length > 0
+);
 
 return (
   <div className="border rounded mx-3">
