@@ -96,7 +96,8 @@ return (
           className: `${getUpVoteButtonClass()}`,
           size: "sm",
           onClick: upVoteButtonListener,
-          icon: <i className="bi bi-hand-thumbs-up"></i>,
+          // icon: <i className="bi bi-hand-thumbs-up"></i>,
+          icon: "⏫",
         },
       }}
     />
