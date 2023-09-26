@@ -118,13 +118,6 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
-console.log("state.articleId: ", state.articleId.length);
-console.log("state.articleBody: ", state.articleBody.length);
-console.log(
-  "resultado: ",
-  !(state.articleId.length > 0 && state.articleBody.length > 0)
-);
-
 return (
   <div className="border rounded mx-3">
     {
@@ -147,9 +140,9 @@ return (
         // <CreationContainer className="container-fluid">
       }
       <SecondContainer>
-        <h3 className="mb-1">
+        <h5 className="mb-1">
           {editArticleData ? "Edit Article" : "Create Article"}
-        </h3>
+        </h5>
 
         <div>
           {
