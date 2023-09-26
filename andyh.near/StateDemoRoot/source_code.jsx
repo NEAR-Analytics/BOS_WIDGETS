@@ -140,7 +140,7 @@ const getRandomIcon = () => {
 const { circle, square, triangle } = state;
 
 return (
-  <div className="row">
+  <div>
     <div className="col">
       <p>{props.title}</p>
     </div>
