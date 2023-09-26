@@ -412,7 +412,7 @@ return (
             </Title>
             <CloseIcon>
               <Widget
-                src="bluebiu.near/widget/Base.BaseCloseIcon"
+                src="bluebiu.near/widget/Arbitrum.Swap.CloseIcon"
                 props={{ onClose: handleClose, size: 18 }}
               />
             </CloseIcon>
