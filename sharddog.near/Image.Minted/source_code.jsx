@@ -28,7 +28,7 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 }
 
 function fetchContentType(url) {
-  asyncFetch(url, { method: "HEAD" })
+  asyncFetch(url, { method: "GET" })
     .then((response) => {
       console.log("check response " + response);
       const contentType = response.headers.get("Content-Type");
