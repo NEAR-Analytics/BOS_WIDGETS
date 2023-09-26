@@ -43,7 +43,7 @@ return (
         authorForWidget,
         stateUpdate,
         widgets,
-        initialBody: initialBodyAtCreation ?? "Create post",
+        initialBody: "Create post",
         initialCreateState,
         editArticleData: state.editArticleData,
         callLibs,
