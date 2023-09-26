@@ -29,8 +29,12 @@ const tags = Object.keys(profile.tags ?? {});
 
 const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
 
+const Wrapper = styled.div`
+  overflow: hidden;
+`;
+
 return (
-  <div className="bg-white shadow rounded overflow-hidden">
+  <Wrapper>
     <div className="px-4 pt-0 pb-5 bg-dark position-relative">
       {backgroundImage && (
         <Widget
@@ -161,5 +165,5 @@ return (
         </div>
       </div>
     </div>
-  </div>
+  </Wrapper>
 );
