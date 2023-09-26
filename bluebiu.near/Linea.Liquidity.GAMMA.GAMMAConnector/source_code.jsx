@@ -284,6 +284,7 @@ return (
             defaultPair,
             handlePairClick,
             userPositions,
+            chainName: CHAIN_CONFIG.chainName,
           }}
         />
 
