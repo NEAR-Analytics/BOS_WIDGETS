@@ -32,17 +32,25 @@ const offerButtonDisabled =
 
 console.log(state);
 
+const ResponsiveFlex = styled.div`
+  display:grid;
+  grid-template-columns: 40% 20% 40%;
+  gap: 7px;
+  @media screen and (max-width: 800px) {
+    display:block;
+ }`;
+
 return (
   <div>
     <h1> 🛍️ Transfer NFT </h1>
-    <div style={{ display: "flex", gap: "5px" }}>
+    <ResponsiveFlex>
       <div
         className="p-2"
         style={{
           background: "#fdfdfd",
+          margin: 5,
           border: "1px solid lightgray",
           borderTop: 0,
-          width: "40%",
           borderRadius: "5px",
         }}
       >
@@ -92,8 +100,9 @@ return (
       </div>
       <div
         style={{
-          width: "20%",
           padding: 10,
+          marginLeft: 5,
+          marginRight: 5,
           border: "1px solid lightgray",
           borderRadius: 10,
           height: "fit-content",
@@ -145,9 +154,10 @@ return (
         className="p-2"
         style={{
           background: "#fdfdfd",
+          margin: 5,
+
           border: "1px solid lightgray",
           borderTop: 0,
-          width: "40%",
           borderRadius: "5px",
         }}
       >
@@ -207,7 +217,7 @@ return (
           </div>
         </div>
       </div>
-    </div>
+    </ResponsiveFlex>
 
     <Widget
       src="harrydhillon.near/widget/NFTSwap.NewOffer"
