@@ -118,8 +118,8 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
-console.log("state.articleId: ", state.articleId);
-console.log("state.articleBody: ", state.articleBody);
+console.log("state.articleId: ", state.articleId.length);
+console.log("state.articleBody: ", state.articleBody.length);
 console.log(
   "resultado: ",
   !(state.articleId.length > 0 && state.articleBody.length > 0)
@@ -241,9 +241,9 @@ return (
               props={{
                 Button: {
                   className: "primary dark",
-                  disabled: true,
-                  // state.articleId.length == 0 &&
-                  // state.articleBody.length == 0,
+                  disabled:
+                    state.articleId.length == 0 &&
+                    state.articleBody.length == 0,
                   text: editArticleData ? "Save edition" : "Post",
                   onClick: createArticleListener,
                   icon: <i className="bi bi-check2"></i>,
