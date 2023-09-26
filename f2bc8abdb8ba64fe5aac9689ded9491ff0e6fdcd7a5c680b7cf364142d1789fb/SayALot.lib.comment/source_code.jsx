@@ -5,7 +5,9 @@ const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
 function createComment(props) {
-  const { comment, onCommit, onCancel } = props;
+  const { comment, onClick, onCommit, onCancel } = props;
+
+  onClick();
 
   saveComment(comment, onCommit, onCancel);
 
@@ -35,7 +37,6 @@ function composeCommentData(comment) {
 function saveComment(comment, onCommit, onCancel) {
   if (comment.text) {
     const newData = composeCommentData(comment);
-
     Social.set(newData, {
       force: true,
       onCommit,
