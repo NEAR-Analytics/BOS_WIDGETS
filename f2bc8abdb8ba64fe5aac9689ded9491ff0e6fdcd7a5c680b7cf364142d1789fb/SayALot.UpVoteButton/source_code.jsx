@@ -83,11 +83,11 @@ function upVoteButtonListener() {
 }
 
 const IconContainer = styled.div`
-  transform: rotate(-90deg) !important;
+  transform: rotate(-90deg);
 `;
 
 const Icon = styled.i`
-  margin: 0;
+  margin: 0px !important;
 `;
 
 const CallLibrary = styled.div`
