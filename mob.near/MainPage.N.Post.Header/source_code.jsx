@@ -97,7 +97,7 @@ return (
       </div>
     </div>
     {pinned && (
-      <span title="Pinned">
+      <span title="Pinned" className="ms-2">
         <i className="bi bi-pin-angle" />
       </span>
     )}
