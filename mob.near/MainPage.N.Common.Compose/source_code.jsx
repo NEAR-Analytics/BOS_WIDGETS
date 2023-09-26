@@ -202,7 +202,7 @@ return (
       <Widget
         loading=""
         src="mob.near/widget/MainPage.N.Post.Left"
-        props={{ accountId }}
+        props={{ accountId: context.accountId }}
       />
     </div>
     <div className="right">
