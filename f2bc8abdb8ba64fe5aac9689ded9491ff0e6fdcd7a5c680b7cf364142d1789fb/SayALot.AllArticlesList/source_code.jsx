@@ -62,7 +62,7 @@ return (
         }}
       />
     )}
-    <ArticlesListContainer className="row card-group py-3">
+    <ArticlesListContainer className="row card-group mt-3 py-3 rounded">
       {finalArticles.length > 0 &&
         finalArticles.map((article, i) => {
           const authorProfileCall = Social.getr(`${article.author}/profile`);
