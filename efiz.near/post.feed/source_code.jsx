@@ -4,30 +4,6 @@ const { ContextMenu } = VM.require("efiz.near/widget/Module.ContextMenu");
 ContextMenu = ContextMenu || (() => <></>); // make sure you have this or else it can break
 Feed = Feed || (() => <></>);
 
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: grid;
-  place-items: center;
-  overflow-y: auto;
-  z-index: 1000;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(6px);
-`;
-
-const Content = styled.div`
-  min-width: 500px;
-  max-width: 1000px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  outline: none !important;
-`;
-
 return (
   <div
     className="d-flex flex-column gap-1"
@@ -115,10 +91,11 @@ return (
                 const data = {
                   index: {},
                 };
+
                 const notifications = ["james.near"].map((accountId) => ({
                   key: accountId,
                   value: {
-                    type: "forward",
+                    type: "mention",
                     item,
                   },
                 }));
