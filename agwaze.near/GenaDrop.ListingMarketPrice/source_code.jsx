@@ -413,18 +413,6 @@ return (
               {props.state.tokenInfo.metadata.description ?? state.description}
             </p>
           </div>
-          {Object.keys(props.state.tokenInfo.approved_account_ids || {})
-            .length > 0 && (
-            <a
-              href={props.state.tradeportLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-dark mt-3"
-              style={{ alignSelf: "flex-end" }}
-            >
-              View on Tradeport
-            </a>
-          )}
           <p>
             <a href={props.state.tokenInfo.media} target="_blank">
               {props.state.tokenInfo.media}
