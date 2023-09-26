@@ -534,7 +534,7 @@ const renderArticleBody = () => {
 
 //===================================================RENDER========================================================
 return (
-  <div className="border border-dark rounded p-2 col-lg-10 col-md-10 col-sm-12">
+  <div className="border border-light rounded p-2 ml-2 col-lg-10 col-md-10 col-sm-12">
     <Card>
       {state.showModal && (
         <Widget
