@@ -132,36 +132,45 @@ const getRandomIcon = () => icons[Math.floor(Math.random() * icons.length)];
 const { circle, square, triangle } = state;
 
 return (
-  <div>
-    <div className="col">
-      <p>{props.title}</p>
+  <>
+    <div className="row">
+      <p>
+        Click on any shape to trigger a state change in the root Component.
+        These state changes will then propagate down to its descendants as
+        props.
+      </p>
     </div>
-    <div className="col">
-      <Widget
-        id="root-shapes"
-        src="andyh.near/widget/ShapeSet"
-        props={{
-          circle,
-          square,
-          triangle,
-          updateCircle: () => State.update({ circle: getRandomIcon() }),
-          updateSquare: () => State.update({ square: getRandomIcon() }),
-          updateTriangle: () => State.update({ triangle: getRandomIcon() }),
-        }}
-      />
-      <Widget
-        id="parent-shapes"
-        src="andyh.near/widget/StateDemoParent"
-        props={{
-          id: "sandbox-parent",
-          circle,
-          square,
-          triangle,
-          updateCircle: () => State.update({ circle: getRandomIcon() }),
-          updateSquare: () => State.update({ square: getRandomIcon() }),
-          updateTriangle: () => State.update({ triangle: getRandomIcon() }),
-        }}
-      />
+    <div className="row">
+      <div className="col">
+        <p>{props.title}</p>
+      </div>
+      <div className="col">
+        <Widget
+          id="root-shapes"
+          src="andyh.near/widget/ShapeSet"
+          props={{
+            circle,
+            square,
+            triangle,
+            updateCircle: () => State.update({ circle: getRandomIcon() }),
+            updateSquare: () => State.update({ square: getRandomIcon() }),
+            updateTriangle: () => State.update({ triangle: getRandomIcon() }),
+          }}
+        />
+        <Widget
+          id="parent-shapes"
+          src="andyh.near/widget/StateDemoParent"
+          props={{
+            id: "sandbox-parent",
+            circle,
+            square,
+            triangle,
+            updateCircle: () => State.update({ circle: getRandomIcon() }),
+            updateSquare: () => State.update({ square: getRandomIcon() }),
+            updateTriangle: () => State.update({ triangle: getRandomIcon() }),
+          }}
+        />
+      </div>
     </div>
-  </div>
+  </>
 );
