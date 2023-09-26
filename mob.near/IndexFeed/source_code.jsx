@@ -151,6 +151,7 @@ const fetchMore =
         <div key={"loader more"}>
           <a
             className=""
+            style={{ cursor: "pointer" }}
             onClick={(e) => {
               e.preventDefault && e.preventDefault();
               makeMoreItems();
