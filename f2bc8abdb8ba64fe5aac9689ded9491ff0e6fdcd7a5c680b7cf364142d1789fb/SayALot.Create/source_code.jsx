@@ -118,6 +118,9 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
+console.log("state.articleId: ", state.articleId);
+console.log("state.articleBody: ", state.articleBody);
+
 return (
   <div className="border rounded mx-3">
     {
