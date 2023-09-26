@@ -1,5 +1,6 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
+const pinned = !!props.pinned;
 const name = Social.get(`${accountId}/profile/name`);
 
 const postType = props.postType ?? "post";
@@ -76,24 +77,31 @@ return (
               <div className="text-truncate text-muted">@{accountId}</div>
             </Overlay>
           </div>
-          <div className="text-nowrap text-muted flex-shrink-0">
-            <span className="ps-1 text-muted">·</span>
-            {blockHeight === "now" ? (
-              "now"
-            ) : (
-              <a className="text-muted" href={link}>
-                <Widget
-                  loading=""
-                  src="mob.near/widget/TimeAgo"
-                  props={{ blockHeight }}
-                />
-              </a>
-            )}
-          </div>
+          {!pinned && (
+            <div className="text-nowrap text-muted flex-shrink-0">
+              <span className="ps-1 text-muted">·</span>
+              {blockHeight === "now" ? (
+                "now"
+              ) : (
+                <a className="text-muted" href={link}>
+                  <Widget
+                    loading=""
+                    src="mob.near/widget/TimeAgo"
+                    props={{ blockHeight }}
+                  />
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
-    {blockHeight !== "now" && (
+    {pinned && (
+      <span title="Pinned">
+        <i className="bi bi-pin-angle" />
+      </span>
+    )}
+    {!pinned && blockHeight !== "now" && (
       <span>
         <Button
           className="text-nowrap"
