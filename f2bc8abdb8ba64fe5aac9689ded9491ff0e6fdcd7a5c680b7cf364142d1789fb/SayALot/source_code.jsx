@@ -475,6 +475,7 @@ return (
           callLibs,
           handleFilterArticles,
           handleEditArticle,
+          showCreateArticle: state.filterBy.parameterName.length == 0,
         }}
       />
     )}
