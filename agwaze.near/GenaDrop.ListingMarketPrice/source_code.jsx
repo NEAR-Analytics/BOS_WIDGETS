@@ -429,7 +429,7 @@ return (
                     (key) => (
                       <li>
                         <a
-                          href={props.state.tradeportLink}
+                          href={props.state.marketLinks[matchedKeyWords(key)].link}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
