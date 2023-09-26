@@ -10,6 +10,11 @@ let {
   handleFilterArticles,
   handleOpenArticle,
   authorForWidget,
+  initialCreateState,
+  editArticleData,
+  callLibs,
+  handleFilterArticles,
+  handleEditArticle,
 } = props;
 
 State.init({ start: Date.now() });
@@ -45,7 +50,7 @@ return (
         widgets,
         initialBody: "Create post",
         initialCreateState,
-        editArticleData: state.editArticleData,
+        editArticleData,
         callLibs,
         handleFilterArticles,
         handleEditArticle,
