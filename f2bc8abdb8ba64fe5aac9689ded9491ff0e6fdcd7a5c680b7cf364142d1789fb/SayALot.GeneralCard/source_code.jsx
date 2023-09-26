@@ -63,7 +63,7 @@ const Card = styled.div`
   align-items: flex-start;
   padding: 16px;
   gap: 16px;
-  background: #f8f8f9;
+  background: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
   border-radius: 10px;
 `;
 const HeaderCard = styled.div`
@@ -534,7 +534,7 @@ const renderArticleBody = () => {
 
 //===================================================RENDER========================================================
 return (
-  <div className="border border-dark rounded p-2 ml-2 col-lg-10 col-md-10 col-sm-12">
+  <div className="bg-white rounded-3 p-3 ml-2 col-lg-10 col-md-10 col-sm-12">
     <Card>
       {state.showModal && (
         <Widget
