@@ -7,10 +7,10 @@ const alt = props.alt;
 const fallbackUrl = props.fallbackUrl;
 const thumbnail = props.thumbnail;
 
-if(props.timestamp){
-const date = new Date(timestamp);
-const humanReadableDate = date.toLocaleString();
-timestamp = humanReadableDate;
+if (props.timestamp) {
+  const date = new Date(timestamp);
+  const humanReadableDate = date.toLocaleString();
+  timestamp = humanReadableDate;
 }
 
 State.init({
@@ -50,7 +50,7 @@ function toUrl(image) {
 
   return url;
 }
-
+  fetchContentType(url);
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
