@@ -7,7 +7,7 @@ const CreatePrompt = styled.div`
         margin:auto;
         max-width: 60%;
         @media (max-width: 768px) {
-          max-width: 80%!important;
+          max-width: 90%!important;
         }
         padding: 1.5rem;
         border-radius: .7rem;
@@ -24,6 +24,7 @@ const CreatePrompt = styled.div`
             box-shadow: 3px 3px 3px rgba(0,0,0,.3);
             min-width: 400px;
             @media (max-width: 768px) {
+              min-width: none;
               max-width: 300px!important;
             }
             &:active {
