@@ -201,13 +201,13 @@ State.init({
 
 const buttonList = [
   "View my balances",
-  "Borrow 10 SUS using 0.1 WETH",
-  "Provide 10 SUS into stability pool",
-  "Remove 10 SUS from stability pool",
-  "Repay 10 SUS against WETH debt",
+  "Borrow 10 USDA using 0.1 WETH",
+  "Provide 10 USDA into stability pool",
+  "Remove 10 USDA from stability pool",
+  "Repay 10 USDA against WETH debt",
   "Withdraw 0.1 WETH",
   "Deposit 0.1 WETH",
-  "Close my SUS position for WETH",
+  "Close my USDA position for WETH",
 ]; // Add your button texts here
 
 const resendPrompt = (error) => {
