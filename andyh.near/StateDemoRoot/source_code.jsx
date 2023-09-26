@@ -138,33 +138,38 @@ const getRandomIcon = () => {
 // const updateTriangle = () => State.update({ triangle: getRandomIcon() });
 
 const { circle, square, triangle } = state;
-console.log({ localState: { circle, square, triangle } });
+
 return (
-  <div className="col">
-    <Widget
-      id="root-shapes"
-      src="andyh.near/widget/ShapeSet"
-      props={{
-        circle,
-        square,
-        triangle,
-        updateCircle: () => State.update({ circle: getRandomIcon() }),
-        updateSquare: () => State.update({ square: getRandomIcon() }),
-        updateTriangle: () => State.update({ triangle: getRandomIcon() }),
-      }}
-    />
-    <Widget
-      id="parent-shapes"
-      src="andyh.near/widget/StateDemoParent"
-      props={{
-        id: "sandbox-parent",
-        circle,
-        square,
-        triangle,
-        updateCircle: () => State.update({ circle: getRandomIcon() }),
-        updateSquare: () => State.update({ square: getRandomIcon() }),
-        updateTriangle: () => State.update({ triangle: getRandomIcon() }),
-      }}
-    />
+  <div className="row">
+    <div className="col">
+      <p>{props.title}</p>
+    </div>
+    <div className="col">
+      <Widget
+        id="root-shapes"
+        src="andyh.near/widget/ShapeSet"
+        props={{
+          circle,
+          square,
+          triangle,
+          updateCircle: () => State.update({ circle: getRandomIcon() }),
+          updateSquare: () => State.update({ square: getRandomIcon() }),
+          updateTriangle: () => State.update({ triangle: getRandomIcon() }),
+        }}
+      />
+      <Widget
+        id="parent-shapes"
+        src="andyh.near/widget/StateDemoParent"
+        props={{
+          id: "sandbox-parent",
+          circle,
+          square,
+          triangle,
+          updateCircle: () => State.update({ circle: getRandomIcon() }),
+          updateSquare: () => State.update({ square: getRandomIcon() }),
+          updateTriangle: () => State.update({ triangle: getRandomIcon() }),
+        }}
+      />
+    </div>
   </div>
 );
