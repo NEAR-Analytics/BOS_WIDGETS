@@ -109,16 +109,17 @@ const Nav = styled.div`
     background: rgba(13, 110, 253, 0.15);
   }
 
-  margin: -12px 0;
+  margin: -12px 0; 
+
+  @media(max-width: 991px) {
+    margin: -24px -12px 0;
+  }
 `;
 
 const isPremiumFeed = state.feedIndex === "premium";
 
 return (
-  <div
-    className="row"
-    style={{ marginTop: "calc(-1 * var(--body-top-padding))" }}
-  >
+  <div className="row">
     <div className="col-lg-8">
       <Nav>
         <ul className="nav nav-pills nav-fill">
