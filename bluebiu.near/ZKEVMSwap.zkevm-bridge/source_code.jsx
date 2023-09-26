@@ -266,10 +266,30 @@ const handleBridge = (props) => {
       value: token.symbol === "ETH" ? amountBig : "0",
     })
     .then((tx) => {
-      consle.log("tx111111:", tx);
+      console.log("tx: ", tx);
+      tx.wait().then((receipt) => {
+        const { transactionHash, status } = receipt;
+
+        add_action({
+          action_title: `Bridge ${token.symbol} from ${
+            chainId === 1 ? "Ethereum" : "Polygon zkEVM"
+          }`,
+          action_type: "Bridge",
+          action_tokens: JSON.stringify([`${token.symbol}`]),
+          action_amount: amount,
+          account_id: sender,
+          account_info: uuid,
+          template: "native bridge",
+          action_network_id: "zkEVM",
+          action_switch: state.add ? 1 : 0,
+          actions,
+          tx_id: transactionHash,
+          action_status: status === 1 ? "Success" : "Failed",
+        });
+      });
     })
     .catch((e) => {
-      console.log("bridge error:", e);
+      console.log("e1111: ", e);
       if (!e.code) {
         State.update({
           isToastOpen: true,
