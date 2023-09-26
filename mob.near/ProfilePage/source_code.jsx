@@ -11,7 +11,7 @@ if (profile === null) {
 }
 
 const Wrapper = styled.div`
-  marginTop: calc(-1 * var(--body-top-padding));
+  margin-top: calc(-1 * var(--body-top-padding));
 `;
 
 return (
