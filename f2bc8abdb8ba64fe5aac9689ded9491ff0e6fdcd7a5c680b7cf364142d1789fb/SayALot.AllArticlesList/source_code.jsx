@@ -35,6 +35,22 @@ function getDateLastEdit(timestamp) {
 
 return (
   <div className="row card-group py-3">
+    <Widget
+      src={widgets.create}
+      props={{
+        isTest,
+        addressForArticles,
+        authorForWidget,
+        stateUpdate,
+        widgets,
+        initialBody: initialBodyAtCreation ?? "Create post",
+        initialCreateState,
+        editArticleData: state.editArticleData,
+        callLibs,
+        handleFilterArticles,
+        handleEditArticle,
+      }}
+    />
     {finalArticles.length > 0 &&
       finalArticles.map((article, i) => {
         const authorProfileCall = Social.getr(`${article.author}/profile`);
