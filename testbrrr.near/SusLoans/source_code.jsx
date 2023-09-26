@@ -5,8 +5,10 @@ const CreatePrompt = styled.div`
         justify-content: center;
         color: #FFE7C3;
         margin:auto;
-        width:100%;
         max-width: 60%;
+        @media (max-width: 768px) {
+          max-width: 80%!important;
+        }
         padding: 1.5rem;
         border-radius: .7rem;
         h1 {
@@ -21,6 +23,9 @@ const CreatePrompt = styled.div`
             border-radius: 5px 0px 0px 5px;
             box-shadow: 3px 3px 3px rgba(0,0,0,.3);
             min-width: 400px;
+            @media (max-width: 768px) {
+              max-width: 300px!important;
+            }
             &:active {
               background-color: #FFE7C3 !important;
             }
