@@ -38,7 +38,6 @@ function fetchContentType(url) {
       console.log("Error fetching content type:", error);
     });
 }
- fetchContentType(image.url);
 function toUrl(image) {
   const url =
     (image.ipfs_cid
@@ -50,25 +49,13 @@ function toUrl(image) {
 
   return url;
 }
- 
+fetchContentType(image.url);
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
     : imageUrl;
 
-return image.nft.contractId && image.nft.tokenId ? (
-  <Widget
-    src="mob.near/widget/NftImage"
-    props={{
-      className,
-      style,
-      alt,
-      nft: image.nft,
-      thumbnail,
-      fallbackUrl,
-    }}
-  />
-) : (
+return image.nft.contractId && image.nft.tokenId (
   <>
     {state.isVideo ? (
       <video
