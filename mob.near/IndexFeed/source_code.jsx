@@ -149,7 +149,13 @@ const fetchMore =
     ? loader
     : state.displayCount < filteredItems.length && (
         <div key={"loader more"}>
-          <a href="javascript:void" onClick={(e) => makeMoreItems()}>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              makeMoreItems();
+            }}
+          >
             {props.loadMoreText ?? "Load more..."}
           </a>
         </div>
