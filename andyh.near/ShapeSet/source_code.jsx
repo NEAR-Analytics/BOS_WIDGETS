@@ -1,9 +1,5 @@
-State.init({ x: null });
-State.update({ x: props.circle });
-
 return (
   <div className="row" style={{ padding: "8px 4px" }}>
-    <h2>{state.x}</h2>
     <div className="col">
       <Widget
         id="circle"
