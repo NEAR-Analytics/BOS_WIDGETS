@@ -33,6 +33,10 @@ const StyledWrapper = styled.div`
     background-size: 30px 30px;
     border-radius: 6px;
 
+    @media(max-width: 800px) {
+        padding: 20px;
+    }
+
   > button {
     margin: 20px 10px 20px 0;
   }
@@ -77,7 +81,6 @@ const StyledWrapper = styled.div`
 
     @media(max-width: 800px) {
         flex-direction: column;
-        padding: 20px;
         
         .left-side {
             width: 100%;
