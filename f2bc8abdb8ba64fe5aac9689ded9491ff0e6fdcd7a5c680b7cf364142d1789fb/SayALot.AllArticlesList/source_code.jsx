@@ -13,7 +13,6 @@ let {
   initialCreateState,
   editArticleData,
   callLibs,
-  handleFilterArticles,
   handleEditArticle,
 } = props;
 
