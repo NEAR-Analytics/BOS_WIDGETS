@@ -290,7 +290,7 @@ const tokenInApprovaleNeededCheck = () => {
   }
 
   if (
-    getEVMAccountId() &&
+    state.sender &&
     state.erc20Abi !== undefined &&
     state.routerContract !== undefined &&
     [NETWORK_ZKSYNC, NETWORK_ZKEVM, NETWORK_POLYGON].includes(state.network)
@@ -299,7 +299,7 @@ const tokenInApprovaleNeededCheck = () => {
 
     const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
       "allowance",
-      [getEVMAccountId(), state.routerContract]
+      [state.sender, state.routerContract]
     );
 
     return Ethers.provider()
