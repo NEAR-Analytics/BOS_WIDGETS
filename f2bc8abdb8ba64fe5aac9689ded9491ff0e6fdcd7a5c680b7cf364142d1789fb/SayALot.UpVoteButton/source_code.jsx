@@ -106,7 +106,7 @@ return (
           onClick: upVoteButtonListener,
           icon: (
             <IconContainer>
-              <Icon className="bi bi-fast-forward-btn"></Icon>
+              <Icon className="bi bi-fast-forward-fill"></Icon>
             </IconContainer>
           ),
           // icon: <i className="bi bi-hand-thumbs-up"></i>,
