@@ -76,7 +76,7 @@ return (
         />
       </div>
     </div>
-    <div className="bg-light px-4 pb-4">
+    <div className="px-4 pb-4">
       <div className="d-md-flex justify-content-between pt-3 mb-2">
         <div style={{ paddingTop: "3rem" }}>
           <div className="me-2 d-sm-flex gap-1 flex-row align-items-center">
