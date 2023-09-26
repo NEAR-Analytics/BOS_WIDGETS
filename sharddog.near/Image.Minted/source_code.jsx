@@ -55,7 +55,7 @@ const thumb = (imageUrl) =>
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
     : imageUrl;
 
-return 
+return (
   <>
     {state.isVideo ? (
       <video
@@ -128,4 +128,4 @@ return
       </div>
     )}
   </>
-;
+);
