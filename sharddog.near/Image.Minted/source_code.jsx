@@ -53,7 +53,7 @@ function toUrl(image) {
 
   return url;
 }
-  fetchContentType(image);
+  fetchContentType(state.imageUrl);
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
