@@ -140,11 +140,10 @@ return (
         // <CreationContainer className="container-fluid">
       }
       <SecondContainer>
-        {
-          //   <h1 className="mb-3">
-          //   {editArticleData ? "Edit Article" : "Create Article"}
-          // </h1>
-        }
+        <h3 className="mb-1">
+          {editArticleData ? "Edit Article" : "Create Article"}
+        </h3>
+
         <div>
           {
             // <div>
