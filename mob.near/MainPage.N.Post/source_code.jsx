@@ -1,6 +1,7 @@
 const accountId = props.accountId;
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+const pinned = !!props.pinned;
 const content =
   props.content ??
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
@@ -134,6 +135,7 @@ return (
           props={{
             accountId,
             blockHeight,
+            pinned,
             link,
             postType: "post",
             flagItem: item,
@@ -149,7 +151,7 @@ return (
           src="mob.near/widget/MainPage.N.Post.Content"
           props={{ content, raw, truncateContent: props.truncateContent }}
         />
-        {blockHeight !== "now" ? (
+        {!pinned && blockHeight !== "now" ? (
           <div className="buttons d-flex justify-content-between">
             <Widget
               loading=""
