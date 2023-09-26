@@ -30,6 +30,7 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 function fetchContentType(url) {
   asyncFetch(url, { method: "HEAD" })
     .then((response) => {
+      console.log("check response " + response);
       const contentType = response.headers.get("Content-Type");
       const isVideo = contentType.startsWith("video/");
       State.update({ isVideo });
