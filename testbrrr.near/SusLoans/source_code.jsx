@@ -330,7 +330,7 @@ return (
 
       {!state.isLoading ? state.widget : null}
 
-      <h5 style={{ marginTop: 50, marginBottom: 20 }}>Quick Commands</h5>
+      <h5 style={{ marginTop: 30, marginBottom: 20 }}>Quick Commands</h5>
     </CreatePrompt>
     <ButtonContainer>
       {buttonList.map((buttonText, index) => (
