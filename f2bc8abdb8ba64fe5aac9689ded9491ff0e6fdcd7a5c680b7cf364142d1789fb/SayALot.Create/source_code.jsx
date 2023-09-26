@@ -133,26 +133,31 @@ return (
         }}
       />
     ) : (
-      <CreationContainer className="container-fluid">
+      <>
+        {
+          // <CreationContainer className="container-fluid">
+        }
         <SecondContainer>
           <h1 className="mb-3">
             {editArticleData ? "Edit Article" : "Create Article"}
           </h1>
           <div>
-            <div>
-              <Widget
-                src={"rubycop.near/widget/NDC.StyledComponents"}
-                props={{
-                  Button: {
-                    className: "primary dark",
-                    disable: state.articleId > 0 || state.articleBody > 0,
-                    text: editArticleData ? "Save edition" : "Save article",
-                    onClick: createArticleListener,
-                    icon: <i className="bi bi-check2"></i>,
-                  },
-                }}
-              />
-            </div>
+            {
+              // <div>
+              //   <Widget
+              //     src={"rubycop.near/widget/NDC.StyledComponents"}
+              //     props={{
+              //       Button: {
+              //         className: "primary dark",
+              //         disable: state.articleId > 0 || state.articleBody > 0,
+              //         text: editArticleData ? "Save edition" : "Save article",
+              //         onClick: createArticleListener,
+              //         icon: <i className="bi bi-check2"></i>,
+              //       },
+              //     }}
+              //   />
+              // </div>
+            }
             <div className="d-flex flex-column pt-3">
               <label for="inputArticleId">
                 Input article id (case-sensitive, without spaces):
@@ -191,29 +196,58 @@ return (
                 {state.errorBody}
               </label>
               <div className="d-flex gap-2" style={{ minHeight: "300px" }}>
-                <div className="w-50">
-                  <Widget
-                    src="mob.near/widget/MarkdownEditorIframe"
-                    props={{
-                      initialText: initialBody,
-                      onChange: (articleBody) => State.update({ articleBody }),
-                    }}
-                  />
-                </div>
-                <div className="w-50">
-                  <Widget
-                    src="mob.near/widget/SocialMarkdown"
-                    props={{ text: state.articleBody }}
-                  />
-                </div>
+                {
+                  //<div className="w-50">
+                }
+                <Widget
+                  src="mob.near/widget/MarkdownEditorIframe"
+                  props={{
+                    initialText: initialBody,
+                    onChange: (articleBody) => State.update({ articleBody }),
+                  }}
+                />
+                {
+                  //</div>
+                }
+                {
+                  //<div className="w-50">
+                }
+                {
+                  //TODO make this visible when clicking a show preview button after creating it
+                  //
+                  // <Widget
+                  // src="mob.near/widget/SocialMarkdown"
+                  // props={{ text: state.articleBody }}
+                  // />
+                }
+                {
+                  //</div>
+                }
               </div>
+            </div>
+            <div className="d-flex justify-content-end">
+              <Widget
+                src={"rubycop.near/widget/NDC.StyledComponents"}
+                props={{
+                  Button: {
+                    className: "primary dark",
+                    disable: state.articleId > 0 || state.articleBody > 0,
+                    text: editArticleData ? "Save edition" : "Save article",
+                    onClick: createArticleListener,
+                    icon: <i className="bi bi-check2"></i>,
+                  },
+                }}
+              />
             </div>
           </div>
         </SecondContainer>
         <div style={{ display: "none" }}>
           {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
         </div>
-      </CreationContainer>
+        {
+          //</CreationContainer>
+        }
+      </>
     )}
   </>
 );
