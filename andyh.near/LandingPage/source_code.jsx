@@ -32,7 +32,9 @@ return (
     </header>
     <div>
       <h1>Get Started</h1>
-      <p className="fs-5 col-md-8">TBD</p>
+      <p className="fs-5 col-md-8">
+        Click the links below to try out demo components
+      </p>
 
       <hr className="col-3 col-md-2 mb-5" />
 
