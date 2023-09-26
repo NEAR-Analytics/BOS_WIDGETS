@@ -229,7 +229,7 @@ return (
               }
             </div>
           </div>
-          <div className="d-flex justify-content-end">
+          <div className="mt-2 d-flex justify-content-end">
             <Widget
               src={"rubycop.near/widget/NDC.StyledComponents"}
               props={{
