@@ -242,7 +242,7 @@ return (
                 Button: {
                   className: "primary dark",
                   disabled:
-                    state.articleId.length == 0 &&
+                    state.articleId.length == 0 ||
                     state.articleBody.length == 0,
                   text: editArticleData ? "Save edition" : "Post",
                   onClick: createArticleListener,
