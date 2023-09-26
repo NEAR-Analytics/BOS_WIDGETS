@@ -49,6 +49,7 @@ function toUrl(image) {
 
   return url;
 }
+console.log(image.url);
 fetchContentType(image.url);
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
