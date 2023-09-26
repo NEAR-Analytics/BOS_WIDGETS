@@ -127,15 +127,7 @@ const icons = [
   "x-octagon-fill",
 ];
 
-const getRandomIcon = () => {
-  const icon = icons[Math.floor(Math.random() * icons.length)];
-  State.update({ i: state.i + 1 });
-  console.log({ icon });
-  return icon;
-};
-// const updateCircle = () => State.update({ circle: getRandomIcon() });
-// const updateSquare = () => State.update({ square: getRandomIcon() });
-// const updateTriangle = () => State.update({ triangle: getRandomIcon() });
+const getRandomIcon = () => icons[Math.floor(Math.random() * icons.length)];
 
 const { circle, square, triangle } = state;
 
