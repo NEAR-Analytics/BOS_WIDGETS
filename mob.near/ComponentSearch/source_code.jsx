@@ -99,7 +99,12 @@ if (props.term && props.term !== state.oldTerm) {
     oldTerm: props.term,
   });
   if (props.term !== state.term) {
-    computeResults(props.term);
+    clearTimeout(state.debounce);
+    const term = props.term;
+    State.update({
+      term,
+      debounce: setTimeout(() => computeResults(term), 350),
+    });
   }
 }
 
