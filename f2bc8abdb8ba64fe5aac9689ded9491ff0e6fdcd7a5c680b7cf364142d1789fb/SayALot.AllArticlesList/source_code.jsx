@@ -23,6 +23,10 @@ State.init({ start: Date.now() });
 
 //===================================================CONSTS=========================================================
 
+const ArticlesListContainer = styled.div`
+  background-color: rgb(248, 248, 249);
+`;
+
 //=================================================END CONSTS=======================================================
 
 //==================================================FUNCTIONS=======================================================
@@ -58,7 +62,7 @@ return (
         }}
       />
     )}
-    <div className="row card-group py-3">
+    <ArticlesListContainer className="row card-group py-3">
       {finalArticles.length > 0 &&
         finalArticles.map((article, i) => {
           const authorProfileCall = Social.getr(`${article.author}/profile`);
@@ -86,6 +90,6 @@ return (
             />
           );
         })}
-    </div>
+    </ArticlesListContainer>
   </>
 );
