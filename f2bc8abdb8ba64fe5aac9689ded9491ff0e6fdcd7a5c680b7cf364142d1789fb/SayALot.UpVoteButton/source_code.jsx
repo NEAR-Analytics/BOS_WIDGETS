@@ -82,6 +82,10 @@ function upVoteButtonListener() {
   State.update({ libCalls: newLibCalls });
 }
 
+const IconContainer = styled.div`
+  transform: rotate(-90deg);
+`;
+
 const CallLibrary = styled.div`
   display: none;
 `;
@@ -97,10 +101,9 @@ return (
           size: "sm",
           onClick: upVoteButtonListener,
           icon: (
-            <i
-              style={{ transform: "rotate(-90deg)" }}
-              className="bi bi-fast-forward-btn"
-            ></i>
+            <IconContainer>
+              <i className="bi bi-fast-forward-btn"></i>
+            </IconContainer>
           ),
           // icon: <i className="bi bi-hand-thumbs-up"></i>,
           // icon: "⏫",
