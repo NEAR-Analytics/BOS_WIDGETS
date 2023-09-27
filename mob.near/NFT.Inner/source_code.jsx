@@ -9,8 +9,6 @@ const token = Near.view(nft.contractId, "nft_token", {
 });
 const tokenMetadata = token.metadata;
 
-console.log(token, nftMetadata, tokenMetadata);
-
 const [imageUrl, setImageUrl] = useState(null);
 
 useEffect(() => {
@@ -28,6 +26,16 @@ return (
         className="nft-image"
         loading="lazy"
         src={imageUrl}
+        onError={() => {
+          if (imageUrl && !imageUrl.includes("?")) {
+            console.log(
+              `Retying load image NFT ${nft.contractId}/${nft.tokenId} in 15 seconds`
+            );
+            setTimeout(() => {
+              setImageUrl(imageUrl + "?retry");
+            }, 15 * 1000);
+          }
+        }}
         alt={`${nft.contractId}/${nft.tokenId}`}
       />
     </div>
