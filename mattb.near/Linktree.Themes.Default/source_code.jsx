@@ -181,15 +181,15 @@ const FollowButtonWrapper = styled.div`
 `;
 
 return {
-    Wrapper,
-    Section,
-    Avatar,
-    Title,
-    Text,
-    TextLink,
-    TextBadge,
-    Actions,
-    Stats,
-    SocialLinks,
-    FollowButtonWrapper
+  Wrapper,
+  Section,
+  Avatar,
+  Title,
+  Text,
+  TextLink,
+  TextBadge,
+  Actions,
+  Stats,
+  SocialLinks,
+  FollowButtonWrapper,
 };
