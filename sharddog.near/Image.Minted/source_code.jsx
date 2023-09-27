@@ -30,7 +30,7 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 
 async function fetchContentType(url) {
   try {
-    const response = await fetch(url, { method: "GET" })
+    await fetch(url, { method: "HEAD" })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
