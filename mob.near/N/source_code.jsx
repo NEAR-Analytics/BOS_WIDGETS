@@ -109,7 +109,7 @@ const Nav = styled.div`
     background: rgba(13, 110, 253, 0.15);
   }
 
-  margin: -12px 0; 
+  margin: 0 -12px; 
 
   @media(max-width: 991px) {
     margin: -24px -12px 0;
