@@ -37,24 +37,23 @@ if (state.refresh) {
     console.log("No chainId");
   }
   const dexName = state.dex_name;
-  if (!dex_name) {
+  if (!dexName) {
     console.log("No dexName");
   }
   const chainlistData = Social.get(
-    `zavodil.near/${appName}/chains/${chainId}/${dexName}/*`,
+    `zavodil.near/${appName}/chains/${chainId}/${dexName}/**`,
     "final"
   );
 
+  console.log("chainlistData", chainlistData);
+
   State.update({
-    assets: chainlistData.chains[chainId][dexName].assets,
-    coingecko_token_ids:
-      chainlistData.chains[chainId][dexName].coingecko_token_ids,
-    input_asset_token_id:
-      chainlistData.chains[chainId][dexName].input_asset_token_id,
-    output_asset_token_id:
-      chainlistData.chains[chainId][dexName].output_asset_token_id,
-    router_contract: chainlistData.chains[chainId][dexName].router_contract,
-    quoter_contract: chainlistData.chains[chainId][dexName].quoter_contract,
+    assets: chainlistData.assets,
+    coingecko_token_ids: chainlistData.coingecko_token_ids,
+    input_asset_token_id: chainlistData.input_asset_token_id,
+    output_asset_token_id: chainlistData.output_asset_token_id,
+    router_contract: chainlistData.router_contract,
+    quoter_contract: chainlistData.quoter_contract,
   });
 }
 
@@ -153,7 +152,7 @@ return (
           class="form-control"
           value={state.coingecko_token_ids}
           onChange={(e) =>
-            State.update({ coingecko_token_ids: JSON.parse(e.target.value) })
+            State.update({ coingecko_token_ids: e.target.value })
           }
           id="coingecko_token_ids"
         />
