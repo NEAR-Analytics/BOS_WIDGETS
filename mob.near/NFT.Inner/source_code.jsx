@@ -3,6 +3,14 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 };
 
+const nftMetadata = Near.view(nft.contractId, "nft_metadata");
+const token = Near.view(nft.contractId, "nft_token", {
+  token_id: nft.tokenId,
+});
+const tokenMetadata = token.metadata;
+
+console.log(token, nftMetadata, tokenMetadata);
+
 const [imageUrl, setImageUrl] = useState(null);
 
 useEffect(() => {
@@ -22,8 +30,8 @@ return (
       ></div>
     </div>
     <div className="nft-text">
-      <div className="nft-title">Your NFT Title</div>
-      <div className="nft-description">Description of your NFT goes here.</div>
+      <div className="nft-title">{tokenMetadata.title || nft.tokenId}</div>
+      <div className="nft-description">{tokenMetadata.description}</div>
     </div>
   </div>
 );
