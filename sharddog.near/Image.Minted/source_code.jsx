@@ -38,8 +38,8 @@ function fetchContentType(url) {
       const isVideo = contentType && contentType.startsWith("video/");
       State.update({ isVideo, isLoading: false });
     })
-    .catch((error) => {
-      console.log("Error fetching content type:", error);
+    .catch((response) => {
+      console.log("Error fetching content type:", response);
       State.update({ isLoading: false });
     });
 }
