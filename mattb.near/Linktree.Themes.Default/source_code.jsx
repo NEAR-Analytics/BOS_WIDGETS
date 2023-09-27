@@ -185,7 +185,7 @@ const Linktree = styled.div`
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  gap: 16;
+  gap: 16px;
   padding: 0 8px;
 `;
 
@@ -201,5 +201,5 @@ return {
   Stats,
   SocialLinks,
   FollowButtonWrapper,
-  Linktree
+  Linktree,
 };
