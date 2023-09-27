@@ -1,3 +1,8 @@
+const HoMContractID = "congress-test.testnet";
+const CoAContractID = "";
+const VotingBodyContractID = "";
+const TCContractID = "";
+
 const widgetOwner = props.widgetOwner ?? "astraplusplus.ndctools.near";
 
 State.init({
@@ -20,16 +25,22 @@ const constructURL = (paramObj, base) => {
     return `${baseURL}?${params}`;
 };
 
+const isCongressScreen =
+    props.daoId === HoMContractID ||
+    props.daoId === VotingBodyContractID ||
+    props.daoId === CoAContractID ||
+    props.daoId === TCContractID;
+
 const tabs = {
-    home: {
-        name: "Discussion",
-        widget: "DAO.Discussion",
-        href: constructURL({ tab: "home", daoId: state.daoId })
-    },
     proposals: {
         name: "Proposals",
         widget: "DAO.Proposals.index",
         href: constructURL({ tab: "proposals", daoId: state.daoId })
+    },
+    home: {
+        name: "Discussion",
+        widget: "DAO.Discussion",
+        href: constructURL({ tab: "home", daoId: state.daoId })
     },
     funds: {
         name: "Fund Flows",
@@ -57,6 +68,12 @@ const tabs = {
         href: constructURL({ tab: "bounties", daoId: state.daoId })
     }
 };
+
+if (isCongressScreen) {
+    delete tabs["funds"];
+    delete tabs["projects"];
+    delete tabs["bounties"];
+}
 
 if (!props.daoId) {
     // TODO: add a proper error screen
