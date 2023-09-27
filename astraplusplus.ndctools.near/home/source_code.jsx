@@ -1,7 +1,7 @@
-const HoMContractID = "congress-test.testnet";
-const CoAContractID = "";
-const VotingBodyContractID = "";
-const TCContractID = "";
+const CoADaoId = "/*__@replace:CoADaoId*/";
+const VotingBodyDaoId = "/*__@replace:VotingBodyDaoId*/";
+const TCDaoId = "/*__@replace:TCDaoId*/";
+const HoMDaoId = "/*__@replace:HoMDaoId*/";
 
 let { page, tab, daoId } = props;
 if (!page) {
@@ -87,35 +87,35 @@ const pages = [
         },
         {
             title: "HoM",
-            active: page === "dao" && daoId === HoMContractID,
-            href: currentLink + `?page=dao&daoId=${HoMContractID}`,
+            active: page === "dao" && daoId === HoMDaoId,
+            href: currentLink + `?page=dao&daoId=${HoMDaoId}`,
             onClick: () => router.navigate({ page: "dao" }),
             widgetName: "DAO.index",
-            defaultProps: { daoId: HoMContractID }
+            defaultProps: { daoId: HoMDaoId }
         },
         {
             title: "CoA",
-            active: page === "dao" && daoId === CoAContractID,
-            href: currentLink + `?page=dao&daoId=${CoAContractID}`,
+            active: page === "dao" && daoId === CoADaoId,
+            href: currentLink + `?page=dao&daoId=${CoADaoId}`,
             onClick: () => router.navigate({ page: "dao" }),
             widgetName: "DAO.index",
-            defaultProps: { daoId: CoAContractID }
+            defaultProps: { daoId: CoADaoId }
         },
         {
             title: "TC",
-            active: page === "dao" && daoId === TCContractID,
-            href: currentLink + `?page=dao&daoId=${TCContractID}`,
+            active: page === "dao" && daoId === TCDaoId,
+            href: currentLink + `?page=dao&daoId=${TCDaoId}`,
             onClick: () => router.navigate({ page: "dao" }),
             widgetName: "DAO.index",
-            defaultProps: { daoId: TCContractID }
+            defaultProps: { daoId: TCDaoId }
         },
         {
             title: "Voting Body",
-            active: page === "dao" && daoId === VotingBodyContractID,
-            href: currentLink + `?page=dao&daoId=${VotingBodyContractID}`,
+            active: page === "dao" && daoId === VotingBodyDaoId,
+            href: currentLink + `?page=dao&daoId=${VotingBodyDaoId}`,
             onClick: () => router.navigate({ page: "dao" }),
             widgetName: "DAO.index",
-            defaultProps: { daoId: VotingBodyContractID }
+            defaultProps: { daoId: VotingBodyDaoId }
         },
         {
             title: "Govt Proposals",
