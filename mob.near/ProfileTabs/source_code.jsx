@@ -101,7 +101,7 @@ return (
         aria-labelledby="pills-nfts-tab"
       >
         {state.loadnfts && (
-          <Widget src="mob.near/widget/YourNFTs" props={{ accountId }} />
+          <Widget src="mob.near/widget/N.YourNFTs" props={{ accountId }} />
         )}
       </div>
       <div
