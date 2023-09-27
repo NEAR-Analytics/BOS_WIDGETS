@@ -232,7 +232,7 @@ const KeyIssuesContainer = styled.div`
 `;
 
 const ArticleBodyContainer = styled.div`
-  margin: 0 0.5rem;
+  margin: 0 0.5rem 0.5rem 0.5rem;
 `;
 
 const KeyIssueTitle = styled.p`
