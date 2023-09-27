@@ -36,6 +36,8 @@ const Nav = styled.div`
   .nav-item:not(:has(> .disabled)):hover {
     background: rgba(13, 110, 253, 0.15);
   }
+
+  margin: 0 -12px; 
 `;
 
 return (
