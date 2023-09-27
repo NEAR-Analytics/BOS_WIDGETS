@@ -58,8 +58,11 @@ const getArticleData = () => {
 
 function onCommit() {
   State.update({
+    articleId: "",
     clearArticleId: true,
+    tags: [],
     clearTags: true,
+    articleBody: "",
     clearArticleBody: true,
     showCreatedArticle: true,
   });
@@ -194,6 +197,8 @@ return (
               <Widget
                 src={`${authorForWidget}/widget/TagsEditor`}
                 props={{
+                  forceClear: state.clearTags,
+                  stateUpdate: (obj) => State.update(obj),
                   initialTagsObject: state.tags,
                   placeholder: "Input tags",
                   setTagsObject: (tags) => {
