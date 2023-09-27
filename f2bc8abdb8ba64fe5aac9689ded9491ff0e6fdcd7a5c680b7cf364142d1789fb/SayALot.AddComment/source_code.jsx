@@ -241,6 +241,11 @@ const CFSubmit = styled.button`
   }
 `;
 
+const Spinner = styled.div`
+  height: 2rem;
+  width: 2rem;
+`;
+
 const CallLibrary = styled.div`
   display: none;
 `;
@@ -305,7 +310,7 @@ const SetText = (txt) => {
 };
 
 const renderSpinner = () => {
-  return <div className="spinner-border" role="status"></div>;
+  return <Spinner className="spinner-border" role="status"></Spinner>;
 };
 
 function onCommit() {
