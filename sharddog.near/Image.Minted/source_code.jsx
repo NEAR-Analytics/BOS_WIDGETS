@@ -27,22 +27,25 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
     imageUrl: null,
   });
 }
-
 function fetchContentType(url) {
-  console.log("url to check: " + url);
-  asyncFetch(url, { method: "HEAD", mode: "no-cors" })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const contentType = response.headers.get("Content-Type");
-      const isVideo = contentType && contentType.startsWith("video/");
-      State.update({ isVideo, isLoading: false });
-    })
-    .catch((response) => {
-      console.log("Error fetching content type:", response);
-      State.update({ isLoading: false });
-    });
+  try {
+    let response = asyncFetch(url, { method: "GET", redirect: "follow" });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    // Get the final URL after redirection
+    const finalUrl = response.url;
+
+    // Fetch the content type from the final URL
+    response = asyncFetch(finalUrl, { method: "HEAD" });
+    const contentType = response.headers.get("Content-Type");
+    const isVideo = contentType && contentType.startsWith("video/");
+    State.update({ isVideo, isLoading: false });
+  } catch (error) {
+    console.log("Error fetching content type:", error);
+    State.update({ isLoading: false });
+  }
 }
 function toUrl(image) {
   const url =
