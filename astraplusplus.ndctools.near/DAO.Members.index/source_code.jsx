@@ -3,6 +3,17 @@ const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const baseApi = "https://api.pikespeak.ai";
 let voters = [];
 
+const CoADaoId = "";
+const VotingBodyDaoId = "";
+const TCDaoId = "";
+const HoMDaoId = "congress-test.testnet";
+
+const isCongressDaoID =
+    daoId === HoMDaoId ||
+    daoId === VotingBodyDaoId ||
+    daoId === CoADaoId ||
+    daoId === TCDaoId;
+
 function fetchIsHuman(account) {
     const userSBTs = Near.view("registry.i-am-human.near", "is_human", {
         account: account
@@ -108,14 +119,52 @@ const processPolicy = (policy) => {
     return obj;
 };
 
-const policy = useCache(
-    () =>
-        Near.asyncView(daoId, "get_policy").then((policy) =>
-            processPolicy(policy)
-        ),
-    daoId + "-processed_policy",
-    { subscribe: false }
-);
+function processCongressMembers(members) {
+    let group = "";
+    switch (daoId) {
+        case HoMDaoId:
+            group = "HoM Member";
+        case CoADaoId:
+            group = "CoA Member";
+        case VotingBodyDaoId:
+            group = "Voting body Member";
+        case TCDaoId:
+            group = "Transparency Commission Member";
+    }
+    const obj = {
+        policy,
+        users: {},
+        roles: {
+            [group]: {
+                permissions: members?.permissions
+            }
+        },
+        everyone: {}
+    };
+
+    members?.members?.map((item) => {
+        obj.users[item] = [group];
+    });
+    return obj;
+}
+
+const policy = isCongressDaoID
+    ? useCache(
+          () =>
+              Near.asyncView(daoId, "get_members").then((members) =>
+                  processCongressMembers(members)
+              ),
+          daoId + "-processed_congress_policy",
+          { subscribe: false }
+      )
+    : useCache(
+          () =>
+              Near.asyncView(daoId, "get_policy").then((policy) =>
+                  processPolicy(policy)
+              ),
+          daoId + "-processed_policy",
+          { subscribe: false }
+      );
 
 if (policy === null) return "";
 
@@ -140,7 +189,8 @@ return (
                 src="astraplusplus.ndctools.near/widget/DAO.Members.MembersGroup"
                 props={{
                     data: voters,
-                    policy: policy
+                    policy: policy,
+                    isCongressDaoID: isCongressDaoID
                 }}
             />
         </Wrapper>
