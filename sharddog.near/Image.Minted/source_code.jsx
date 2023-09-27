@@ -36,7 +36,7 @@ function fetchContentType(url) {
 
     // Get the final URL after redirection
     const finalUrl = response.url;
-
+    console.log("final URL: " + finalUrl);
     // Fetch the content type from the final URL
     response = asyncFetch(finalUrl, { method: "HEAD" });
     const contentType = response.headers.get("Content-Type");
