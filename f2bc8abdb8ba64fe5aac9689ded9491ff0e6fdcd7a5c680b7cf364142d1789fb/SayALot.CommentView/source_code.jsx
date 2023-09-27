@@ -2,6 +2,7 @@ const { widgets, data, isTest, authorForWidget, isReply, orginalCommentData } =
   props;
 
 console.log("data data data: ", data);
+console.log("orginalCommentData: ", orginalCommentData);
 
 State.init({
   showModal: false,
@@ -316,7 +317,7 @@ return (
               src={widgets.comment}
               props={{
                 widgets,
-                data: answer,
+                data: { originalComment: answer },
                 orginalCommentData: data,
                 isTest,
                 authorForWidget,
