@@ -31,7 +31,7 @@ function fetchContentType(url) {
   try {
     let response = asyncFetch(url, { method: "GET", redirect: "follow" });
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+       console.log("Error response:", response);
     }
 
     // Get the final URL after redirection
