@@ -315,7 +315,7 @@ return (
               props={{
                 widgets,
                 data: { originalComment: answer },
-                orginalCommentData: data,
+                orginalCommentData: answer,
                 isTest,
                 authorForWidget,
                 isReply: true,
