@@ -29,13 +29,13 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 }
 function fetchContentType(url) {
   try {
-    let response = asyncFetch(url, { method: "GET", redirect: "follow" });
+    let response = asyncFetch(url, { method: "HEAD", redirect: "follow" });
     if (!response.ok) {
-       console.log("Error response:", response);
+      console.log("Error response:", response);
     }
 
     // Get the final URL after redirection
-    const finalUrl = response.url;
+    const finalUrl = response.location;
     console.log("final URL: " + finalUrl);
     // Fetch the content type from the final URL
     response = asyncFetch(finalUrl, { method: "HEAD" });
