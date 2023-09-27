@@ -1,5 +1,19 @@
-const { selectedDex, debug } = props;
-console.log("DexData3", selectedDex);
+const dexlistData = Social.get(`zavodil.near/dexlist/chains/**`, "final");
+console.log("All DexlistData", dexlistData);
+
+// PancakeZKEVM added
+const {
+  NETWORK_NEAR,
+  NETWORK_ETH,
+  NETWORK_ZKSYNC,
+  NETWORK_ZKEVM,
+  NETWORK_AURORA,
+  NETWORK_POLYGON,
+  NETWORK_MANTLE,
+  DEX,
+  debug,
+} = props;
+console.log("DexData2.2", DEX);
 
 let onLoad = props.onLoad;
 const forceReload = props.forceReload ?? false;
@@ -27,32 +41,43 @@ if (debug) {
         props.onLoad(data);
       }
 
-      // review swap data for debug mode
+      data.sender = "0x487D484614d26A89c3079Ae58109E474599555be";
+      data.inputAssetAmount = "0.3";
 
-      data.sender = "0xCde2aE6aAaFDf4Af492d65561Cc1fF4989c32c5a";
-      data.inputAssetAmount = "4123";
-      data.inputAssetTokenId = "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035";
+      data.inputAssetTokenId = "0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9";
       data.inputAsset = {
         metadata: {
           symbol: "USDC",
           decimals: 6,
         },
       };
-      data.outputAssetTokenId = "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9";
+
+      data.outputAssetTokenId = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
       data.outputAsset = {
         metadata: {
-          symbol: "WETH",
+          symbol: "MNT",
           decimals: 18,
         },
       };
+
       const f = (e) => {
         console.log(e);
       };
 
-      data.callTx(data, f, undefined, undefined, undefined, [
-        "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
-      ]);
+      Ethers.provider()
+        .getFeeData()
+        .then((gasData) => {
+          data.callTx(
+            data,
+            f,
+            //Big(gasData.gasPrice).div(Big(10).pow(9)).toFixed(10) /*"120"*/,
+            "0.03",
+            undefined,
+            undefined,
+            [data.inputAssetTokenId, data.outputAssetTokenId],
+            undefined // "605169011484526500"
+          );
+        });
 
       State.update({ debugOutput: <div>Data: [{JSON.stringify(data)}]</div> });
     }
@@ -494,6 +519,372 @@ const callTxTrisolaris = (input, onComplete, gasPrice, gasLimit) => {
   }
 };
 
+const callTxIziSwap = (
+  input,
+  onComplete,
+  gasPrice,
+  gasLimit,
+  sqrtPriceLimitX96,
+  path,
+  amountOutMinimum
+) => {
+  console.log("callTxIziSwap", input, path, amountOutMinimum);
+  if (
+    input.sender &&
+    input.routerContract !== undefined &&
+    input.routerAbi &&
+    input.inputAssetAmount &&
+    input.inputAsset.metadata.decimals
+  ) {
+    const value = expandToken(
+      input.inputAssetAmount,
+      input.inputAsset.metadata.decimals
+    ).toFixed();
+
+    const swapContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
+
+    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    const WMNT = "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8";
+    const MNT = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
+
+    if (path[path.length - 1] === MNT || path[0] === MNT) {
+      // Native MNT multicall
+      let attachedValue = "0";
+      if (path[0] === MNT) {
+        path[0] = WMNT;
+        attachedValue = value;
+      }
+
+      if (path[path.length - 1] === MNT) {
+        path[path.length - 1] = WMNT;
+      }
+
+      if (path[0] == path[path.length - 1]) {
+        console.log("Illegal swap");
+        return "";
+      }
+    }
+
+    console.log("path", path);
+
+    const tokenInAddress = path[0];
+    const tokenOutAddress = path[path.length - 1];
+
+    const isX2Y = tokenInAddress.toLowerCase() < tokenOutAddress.toLowerCase();
+    const boundaryPt = isX2Y ? -799999 : 799999;
+
+    const multicallParams = [];
+
+    const options = {
+      from: input.sender,
+      value: attachedValue,
+      gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
+      gasLimit: gasLimit ?? 300000,
+    };
+
+    const iface = new ethers.utils.Interface(input.routerAbi);
+
+    if (isX2Y) {
+      const inputs = [
+        {
+          tokenX: tokenInAddress,
+          tokenY: tokenOutAddress,
+          fee: "500",
+          boundaryPt: boundaryPt,
+          recipient:
+            input.outputAssetTokenId === MNT
+              ? "0x0000000000000000000000000000000000000000"
+              : input.sender,
+          amount: value,
+          maxPayed: "0",
+          minAcquired: "0",
+          deadline: deadline.toFixed(),
+        },
+      ];
+      console.log("iface", iface, inputs);
+      const encodedDataCallSwap = iface.encodeFunctionData("swapX2Y", inputs);
+
+      multicallParams.push(encodedDataCallSwap);
+    } else {
+      const inputs = [
+        {
+          tokenX: tokenOutAddress,
+          tokenY: tokenInAddress,
+          fee: "500",
+          boundaryPt: boundaryPt,
+          recipient:
+            input.outputAssetTokenId === MNT
+              ? "0x0000000000000000000000000000000000000000"
+              : input.sender,
+          amount: value,
+          maxPayed: "0",
+          minAcquired: "0",
+          deadline: deadline.toFixed(),
+        },
+      ];
+      console.log("iface", iface, inputs);
+      const encodedDataCallSwap = iface.encodeFunctionData("swapY2X", inputs);
+
+      multicallParams.push(encodedDataCallSwap);
+    }
+
+    if (input.inputAssetTokenId === MNT) {
+      multicallParams.push(iface.encodeFunctionData("refundETH", []));
+    }
+
+    if (input.outputAssetTokenId === MNT) {
+      multicallParams.push(
+        iface.encodeFunctionData("unwrapWETH9", ["0", input.sender])
+      );
+    }
+
+    const multicallData = iface.encodeFunctionData("multicall", [
+      multicallParams,
+    ]);
+
+    console.log("multicallData: ", multicallParams, multicallData);
+
+    const txdata = {
+      ...options,
+      to: selectedDexItem.swapRouter,
+      from: sender,
+      data: multicallData,
+    };
+
+    // return Ethers.provider().getSigner().sendTransaction(txdata);
+
+    swapContract
+      .multicall(multicallParams, options)
+      .then((tx) => {
+        tx.wait().then((receipt) => {
+          console.log(receipt);
+          const { status, transactionHash } = receipt;
+          onSwapCallBack();
+          onComplete(transactionHash);
+        });
+      })
+      .catch(() => {});
+  }
+};
+
+const callTxAgniSwap = (
+  input,
+  onComplete,
+  gasPrice,
+  gasLimit,
+  sqrtPriceLimitX96,
+  path,
+  amountOutMinimum
+) => {
+  console.log("callTxAgniSwap", DEX, input, path, amountOutMinimum);
+  if (
+    input.sender &&
+    input.routerContract !== undefined &&
+    input.routerAbi &&
+    input.inputAssetAmount &&
+    input.inputAsset.metadata.decimals
+  ) {
+    const value = expandToken(
+      input.inputAssetAmount,
+      input.inputAsset.metadata.decimals
+    ).toFixed();
+
+    const swapContract = new ethers.Contract(
+      input.routerContract,
+      input.routerAbi,
+      Ethers.provider().getSigner()
+    );
+
+    const deadline = new Big(Math.floor(Date.now() / 1000)).add(new Big(1800));
+
+    const WMNT = "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8";
+    const MNT = "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000";
+
+    if (path[path.length - 1] === MNT || path[0] === MNT) {
+      // Native MNT multicall
+      let attachedValue = "0";
+      if (path[0] === MNT) {
+        path[0] = WMNT;
+        attachedValue = value;
+      }
+
+      if (path[path.length - 1] === MNT) {
+        path[path.length - 1] = WMNT;
+      }
+
+      if (path[0] == path[path.length - 1]) {
+        console.log("Illegal swap");
+        return "";
+      }
+
+      console.log("path", path);
+
+      const tokenInAddress = path[0];
+      const tokenOutAddress = path[path.length - 1];
+
+      const inputs = [
+        tokenInAddress,
+        tokenOutAddress,
+        "500",
+        input.outputAssetTokenId === MNT
+          ? "0x0000000000000000000000000000000000000000"
+          : input.sender,
+        deadline.toFixed(),
+        value,
+        amountOutMinimum ?? "0",
+        "0",
+      ];
+
+      const multicallParams = [];
+
+      const iface = new ethers.utils.Interface(input.routerAbi);
+
+      console.log("iface", iface, inputs);
+
+      const encodedDataCallSwap = iface.encodeFunctionData(
+        "exactInputSingle((address,address,uint24,address,uint256,uint256,uint256,uint160))",
+        [inputs]
+      );
+
+      console.log("encodedDataCallSwap", encodedDataCallSwap);
+
+      multicallParams.push(encodedDataCallSwap);
+
+      if (input.inputAssetTokenId === MNT && DEX !== "Agni") {
+        console.log("refundETH push");
+        multicallParams.push(iface.encodeFunctionData("refundETH", []));
+      }
+
+      if (input.outputAssetTokenId === MNT) {
+        console.log("unwrapWMNT push");
+        multicallParams.push(
+          iface.encodeFunctionData(
+            DEX === "Agni" ? "unwrapWMNT" : "unwrapWETH9",
+            [
+              "0", //amountOutMinimum ?? "0",
+              input.sender,
+            ]
+          )
+        );
+      }
+
+      console.log("multicallParams", multicallParams, gasPrice);
+
+      const multicallContract = swapContract;
+
+      const options = {
+        gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
+        gasLimit: gasLimit ?? 300000,
+        value: attachedValue,
+      };
+
+      multicallContract
+        .multicall(multicallParams, options)
+        .then((tx) => {
+          tx.wait().then((receipt) => {
+            const { status, transactionHash } = receipt;
+            console.log("transactionHash: ", transactionHash);
+          });
+        })
+        .catch(() => {});
+    } else if (path.length === 2) {
+      // tokenIn tokenOut fee recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
+
+      swapContract
+        .exactInputSingle(
+          [
+            input.inputAssetTokenId,
+            input.outputAssetTokenId,
+            500,
+            input.sender,
+            deadline.toFixed(),
+            value,
+            "0",
+            sqrtPriceLimitX96 ?? 0,
+          ],
+          {
+            gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.05", "gwei"),
+            gasLimit: gasLimit ?? 400000,
+          }
+        )
+        .then((transactionHash) => {
+          onComplete(transactionHash);
+        })
+        .catch((ex) => console.log("exactInputSingle ex", ex));
+    } else if (path.length > 2) {
+      // path recepient deadline amountIn amountOutMinimum
+
+      const encodePath = (path, fees) => {
+        if (path.length != fees.length + 1) {
+          throw new Error("path/fee lengths do not match");
+        }
+
+        let encoded = "0x";
+        for (let i = 0; i < fees.length; i++) {
+          // 20 byte encoding of the address
+          encoded += path[i].slice(2);
+          // 3 byte encoding of the fee
+          encoded += fees[i].toString(16).padStart(2 * FEE_SIZE, "0");
+        }
+        // encode the final token
+        encoded += path[path.length - 1].slice(2);
+
+        return encoded.toLowerCase();
+      };
+
+      const fees = path.length == 2 ? ["000064"] : ["0001f4", "000064"];
+      const pathBytes = encodePath(path, fees);
+
+      swapContract
+        .exactInput([pathBytes, input.sender, deadline.toFixed(), value, "0"], {
+          gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.05", "gwei"),
+          gasLimit: gasLimit ?? 400000,
+        })
+        .then((transactionHash) => {
+          onComplete(transactionHash);
+        });
+    }
+  }
+};
+
+const masaTracking = ({
+  transactionHash,
+  sender,
+  contractAddress,
+  assetAmount,
+  assetUsdAmount,
+  assetTicker,
+}) => {
+  const url = "https://api.cookiemonster.masa.finance/tracking";
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      type: "swap",
+      client_id: "d3859a90-3d1e-44bf-8925-eb14935442c8",
+      user_address: sender,
+      event_data: {
+        network: "polygon-zkevm",
+        contract_address: contractAddress,
+        transactionHash,
+        asset_amount: assetAmount,
+        asset_ticker: assetTicker,
+        asset_usd_amount: assetUsdAmount,
+      },
+    }),
+  };
+  console.log("Masa tracking", url, options);
+  return asyncFetch(url, options);
+};
+
 const callTxQuickSwap = (
   input,
   onComplete,
@@ -541,8 +932,30 @@ const callTxQuickSwap = (
             gasLimit: gasLimit ?? 300000,
           }
         )
-        .then((transactionHash) => {
-          onComplete(transactionHash);
+        .then((tx) => {
+          console.log("tx", tx);
+          tx.wait().then((receipt) => {
+            console.log("receipt", receipt);
+            const { _status, transactionHash } = receipt;
+            console.log("transactionHash: ", transactionHash);
+            const assetAmount = Big(value)
+              .div(Big(10).pow(input.inputAsset.metadata.decimals))
+              .toFixed();
+            const assetUsdAmount = Big(value)
+              .div(Big(10).pow(input.inputAsset.metadata.decimals))
+              .mul(Big(input.inputAsset.price))
+              .toFixed();
+            masaTracking({
+              transactionHash,
+              sender: input.sender,
+              contractAddress: input.routerContract,
+              assetAmount,
+              assetUsdAmount,
+              assetTicker: input.inputAsset.metadata.symbol,
+            });
+
+            onComplete(transactionHash);
+          });
         });
     } else if (path.length > 2) {
       // path recepient deadline amountIn amountOutMinimum
@@ -550,12 +963,34 @@ const callTxQuickSwap = (
         "0x" + path.map((address) => address.substr(2)).join("");
 
       swapContract
-        .exactInput([pathBytes, input.sender, deadline, value, "0"], {
+        .exactInput([pathBytes, input.sender, deadline.toFixed(), value, "0"], {
           gasPrice: ethers.utils.parseUnits(gasPrice ?? "10", "gwei"),
           gasLimit: gasLimit ?? 300000,
         })
-        .then((transactionHash) => {
-          onComplete(transactionHash);
+        .then((tx) => {
+          console.log("tx", tx);
+          tx.wait().then((receipt) => {
+            console.log("receipt", receipt);
+            const { _status, transactionHash } = receipt;
+            console.log("transactionHash: ", transactionHash);
+            const assetAmount = Big(value)
+              .div(Big(10).pow(input.inputAsset.metadata.decimals))
+              .toFixed();
+            const assetUsdAmount = Big(value)
+              .div(Big(10).pow(input.inputAsset.metadata.decimals))
+              .mul(Big(input.inputAsset.price))
+              .toFixed();
+            masaTracking({
+              transactionHash,
+              sender: input.sender,
+              contractAddress: input.routerContract,
+              assetAmount,
+              assetUsdAmount,
+              assetTicker: input.inputAsset.metadata.symbol,
+            });
+
+            onComplete(transactionHash);
+          });
         });
     }
   }
@@ -679,36 +1114,6 @@ const callTxPancakeZKEVM2 = (
       });
 
     return;
-
-    const swapContract = new ethers.Contract(
-      input.routerContract,
-      input.routerAbi,
-      Ethers.provider().getSigner()
-    );
-
-    if (path.length === 2) {
-      // tokenIn tokenOut recipient deadline amountIn amountOutMinimum sqrtPriceLimitX96
-      console.log("swapContract", swapContract);
-      swapContract
-        .aggregate(
-          [
-            {
-              target: input.routerContract,
-              callData: encodedExactOutputSingleData,
-            },
-          ] /*,
-          {
-            gasPrice: ethers.utils.parseUnits(gasPrice ?? "0.801", "gwei"),
-            gasLimit: gasLimit ?? 300000,
-          }*/
-        )
-        .then((transactionHash) => {
-          console.log("transactionHash", transactionHash);
-          // onComplete(transactionHash);
-        });
-    } else {
-      console.log("path.length", path.length);
-    }
   }
 };
 
@@ -856,7 +1261,7 @@ const callTxRef = (input, onComplete) => {
 // FINAL RESULTS
 
 const NearData = {
-  network: "Near",
+  network: NETWORK_NEAR,
   inputAssetTokenId: "NEAR",
   outputAssetTokenId:
     "dac17f958d2ee523a2206206994597c13d831ec7.factory.bridge.near",
@@ -877,6 +1282,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
     .getNetwork()
     .then((chainIdData) => {
       console.log("chainId", chainIdData.chainId);
+      const dexData = dexlistData[chainIdData.chainId]?.[DEX];
       if (chainIdData.chainId === 324) {
         // ZKSYNC
 
@@ -885,7 +1291,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/0xnakato/80ca6221ef258b7b27bf309c8a3eeff2/raw/50b1b27d5a5741a37667d35e62b7f9bccd0c5847/SyncSwapRouter.json"
           );
           if (!routerAbi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ routerAbi: routerAbi.body });
         }
@@ -895,7 +1301,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/0xnakato/13e8393c09ea842912f5f2e5995e9770/raw/7d4edfa0a29de02f7b84d4fb79f1e6125ed0e7cc/SyncSwapClassicPoolFactory.json"
           );
           if (!factoryAbi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ factoryAbi: factoryAbi.body });
         }
@@ -905,16 +1311,15 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
           );
           if (!erc20Abi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ erc20Abi: erc20Abi.body });
         }
 
-        if (!state.routerAbi || !state.factoryAbi || !state.erc20Abi)
-          return "Loading ABIs";
+        if (!state.routerAbi || !state.factoryAbi || !state.erc20Abi) return "";
 
         onLoad({
-          network: "zkSync Era Mainnet",
+          network: NETWORK_ZKSYNC,
           assets: [
             "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4", // USDC
             "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91", // WETH
@@ -947,7 +1352,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
           );
           if (!erc20Abi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ erc20Abi: erc20Abi.body });
         }
@@ -957,16 +1362,16 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/zavodil/108a3719d4ac4b53131b09872ff81b83/raw/82561cf48afcc72861fa8fa8283b33c04da316d7/SwapRouter02.json"
           );
           if (!routerAbi.ok) {
-            return "Loading";
+            return "";
           }
 
           State.update({ routerAbi: routerAbi.body });
         }
 
-        if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+        if (!state.routerAbi || !state.erc20Abi) return "";
 
         onLoad({
-          network: "Ethereum Mainnet",
+          network: NETWORK_ETH,
           assets: [
             "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // USDC
             "0x6B175474E89094C44Da98b954EedeAC495271d0F", // DAI
@@ -991,7 +1396,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://raw.githubusercontent.com/trisolaris-labs/interface/main/src/constants/abis/polygon/IUniswapV2Router02.json"
           );
           if (!routerAbi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ routerAbi: routerAbi.body });
         }
@@ -1001,7 +1406,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
           );
           if (!erc20Abi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ erc20Abi: erc20Abi.body });
         }
@@ -1011,16 +1416,15 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://raw.githubusercontent.com/DaniPopes/uniswap-rs/9a7c8f9aadc38b458eac6571509d354859e6cca0/abi/IUniswapV2Factory.json"
           );
           if (!factoryAbi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ factoryAbi: factoryAbi.body });
         }
 
-        if (!state.routerAbi || !state.factoryAbi || !state.erc20Abi)
-          return "Loading ABIs";
+        if (!state.routerAbi || !state.factoryAbi || !state.erc20Abi) return "";
 
         onLoad({
-          network: "Aurora Mainent",
+          network: NETWORK_AURORA,
           assets: [
             "0xB12BFcA5A55806AaF64E99521918A4bf0fC40802",
             "0x8bec47865ade3b172a928df8f990bc7f2a3b9f79",
@@ -1028,6 +1432,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d",
             "0xFa94348467f64D5A457F75F8bc40495D33c65aBB",
           ],
+          coingeckoNetworkHandle: "aurora",
           inputAssetTokenId: "0xB12BFcA5A55806AaF64E99521918A4bf0fC40802",
           outputAssetTokenId: "0xC42C30aC6Cc15faC9bD938618BcaA1a1FaE8501d",
           routerContract: "0x2CB45Edb4517d5947aFdE3BEAbF95A582506858B",
@@ -1048,7 +1453,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
           );
           if (!erc20Abi.ok) {
-            return "Loading";
+            return "";
           }
           State.update({ erc20Abi: erc20Abi.body });
         }
@@ -1058,16 +1463,16 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             "https://raw.githubusercontent.com/gerrrg/balancer-tutorials/master/abis/Vault.json"
           );
           if (!routerAbi.ok) {
-            return "Loading";
+            return "";
           }
 
           State.update({ routerAbi: routerAbi.body });
         }
 
-        if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+        if (!state.routerAbi || !state.erc20Abi) return "";
 
         onLoad({
-          network: "Polygon Mainnet",
+          network: NETWORK_POLYGON,
           assets: [
             "0x2791bca1f2de4661ed88a30c99a7a9449aa84174", // USDC
             "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", // WETH
@@ -1100,16 +1505,72 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           callTokenApproval: callTokenApprovalEVM,
         });
         State.update({ loadComplete: true });
-      } else if (chainIdData.chainId === 1101) {
-        // ZKEVM
-        console.log("ZKEVM", selectedDex, state);
-        if (selectedDex === "QuickSwap") {
+      } else if (chainIdData.chainId === 5000) {
+        // Mantle
+        console.log("Mantle", DEX, state);
+        if (
+          ["FusionX_V3", "AmmosFinance", "Agni", "iZiSwap"].includes(DEX) &&
+          dexData
+        ) {
+          console.log("dexData", dexData);
           if (state.erc20Abi == undefined) {
             const erc20Abi = fetch(
               "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
             );
             if (!erc20Abi.ok) {
-              return "Loading";
+              return "";
+            }
+            State.update({ erc20Abi: erc20Abi.body });
+          }
+
+          if (state.routerAbi == undefined) {
+            const routerAbi = fetch(dexData["router_contract_abi_url"]);
+            if (!routerAbi.ok) {
+              return "";
+            }
+
+            State.update({ routerAbi: routerAbi.body });
+          }
+
+          if (!state.routerAbi || !state.erc20Abi) return "";
+
+          const onLoadData = {
+            network: NETWORK_MANTLE,
+            assets: JSON.parse(dexData["assets"]),
+            coingeckoNetworkHandle: "mantle",
+            inputAssetTokenId: dexData["input_asset_token_id"],
+            outputAssetTokenId: dexData["output_asset_token_id"],
+            routerContract: dexData["router_contract"],
+            quoterContract: dexData["quoter_contract"],
+            dexName: DEX,
+            erc20Abi: state.erc20Abi,
+            routerAbi: state.routerAbi,
+            callTokenApproval: callTokenApprovalEVM,
+          };
+          if (["Agni", "FusionX_V3", "AmmosFinance"].includes(DEX)) {
+            onLoadData.callTx = callTxAgniSwap;
+          } else if (DEX == "iZiSwap") {
+            onLoadData.callTx = callTxIziSwap;
+          }
+
+          onLoad(onLoadData);
+          State.update({ loadComplete: true });
+        } else {
+          onLoad({
+            network: NETWORK_MANTLE,
+          });
+          State.update({ loadComplete: true });
+        }
+      } else if (chainIdData.chainId === 1101) {
+        // ZKEVM
+        console.log("ZKEVM", DEX, state);
+        if (DEX === "QuickSwap") {
+          if (state.erc20Abi == undefined) {
+            const erc20Abi = fetch(
+              "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+            );
+            if (!erc20Abi.ok) {
+              return "";
             }
             State.update({ erc20Abi: erc20Abi.body });
           }
@@ -1119,38 +1580,25 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://gist.githubusercontent.com/zavodil/a50ed9fcd2e1ba1adc40db19a94c79fe/raw/a3b92a2b9120d7d503e01714980ad44bd10c9030/quickswap_swapRouter_zkevm.json"
             );
             if (!routerAbi.ok) {
-              return "Loading";
+              return "";
             }
 
             State.update({ routerAbi: routerAbi.body });
           }
 
-          if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+          if (!state.routerAbi || !state.erc20Abi) return "";
 
           onLoad({
-            network: "Polygon zkEVM",
+            network: NETWORK_ZKEVM,
             assets: [
               "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035", // USDC
               "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
               "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1", // WBTC
-              "0xa2036f0538221a77a3937f1379699f44945018d0", // MATIC
+              // "0xa2036f0538221a77a3937f1379699f44945018d0", // MATIC
               "0x1E4a5963aBFD975d8c9021ce480b42188849D41d", // USDT
               "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4", // DAI
             ],
-            coinGeckoTokenIds: {
-              "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
-                "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-              "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
-                "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-              "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1":
-                "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-              "0xa2036f0538221a77a3937f1379699f44945018d0":
-                "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
-              "0x1E4a5963aBFD975d8c9021ce480b42188849D41d":
-                "0xdac17f958d2ee523a2206206994597c13d831ec7",
-              "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4":
-                "0x6b175474e89094c44da98b954eedeac495271d0f",
-            },
+            coingeckoNetworkHandle: "polygon-zkevm",
             inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
             routerContract: "0xF6Ad3CcF71Abb3E12beCf6b3D2a74C963859ADCd",
@@ -1161,13 +1609,13 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             callTokenApproval: callTokenApprovalEVM,
           });
           State.update({ loadComplete: true });
-        } else if (selectedDex === "Balancer") {
+        } else if (DEX === "Balancer") {
           if (state.erc20Abi == undefined) {
             const erc20Abi = fetch(
               "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
             );
             if (!erc20Abi.ok) {
-              return "Loading";
+              return "";
             }
             State.update({ erc20Abi: erc20Abi.body });
           }
@@ -1177,38 +1625,25 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://raw.githubusercontent.com/gerrrg/balancer-tutorials/master/abis/Vault.json"
             );
             if (!routerAbi.ok) {
-              return "Loading";
+              return "";
             }
 
             State.update({ routerAbi: routerAbi.body });
           }
 
-          if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+          if (!state.routerAbi || !state.erc20Abi) return "";
 
           onLoad({
-            network: "Polygon zkEVM",
+            network: NETWORK_ZKEVM,
             assets: [
               "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035", // USDC
               "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
               "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1", // WBTC
-              "0xa2036f0538221a77a3937f1379699f44945018d0", // MATIC
+              // "0xa2036f0538221a77a3937f1379699f44945018d0", // MATIC
               "0x1E4a5963aBFD975d8c9021ce480b42188849D41d", // USDT
               "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4", // DAI
             ],
-            coinGeckoTokenIds: {
-              "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
-                "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-              "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
-                "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-              "0xea034fb02eb1808c2cc3adbc15f447b93cbe08e1":
-                "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-              "0xa2036f0538221a77a3937f1379699f44945018d0":
-                "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
-              "0x1E4a5963aBFD975d8c9021ce480b42188849D41d":
-                "0xdac17f958d2ee523a2206206994597c13d831ec7",
-              "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4":
-                "0x6b175474e89094c44da98b954eedeac495271d0f",
-            },
+            coingeckoNetworkHandle: "polygon-zkevm",
             inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
             routerContract: "0xBA12222222228d8Ba445958a75a0704d566BF2C8", // Balancer Vault
@@ -1220,13 +1655,13 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           });
 
           State.update({ loadComplete: true });
-        } else if (selectedDex === "Pancake Swap") {
+        } else if (DEX === "Pancake Swap") {
           if (state.erc20Abi == undefined) {
             const erc20Abi = fetch(
               "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
             );
             if (!erc20Abi.ok) {
-              return "Loading";
+              return "";
             }
             State.update({ erc20Abi: erc20Abi.body });
           }
@@ -1237,29 +1672,22 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
               "https://gist.githubusercontent.com/zavodil/c51f14cbc5c379ab15548dcd63bee279/raw/1f797efe368cadd6c817df0a736f1ea9a522bd8a/PancakeMixedRouteQuoterV1ABI?1"
             );
             if (!routerAbi.ok) {
-              return "Loading";
+              return "";
             }
 
             State.update({ routerAbi: routerAbi.body });
           }
 
-          if (!state.routerAbi || !state.erc20Abi) return "Loading ABIs";
+          if (!state.routerAbi || !state.erc20Abi) return "";
 
           onLoad({
-            network: "Polygon zkEVM",
+            network: NETWORK_ZKEVM,
             assets: [
               "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035", // USDC
               "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9", // WETH
               "0x1E4a5963aBFD975d8c9021ce480b42188849D41d", // USDT
             ],
-            coinGeckoTokenIds: {
-              "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035":
-                "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-              "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9":
-                "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-              "0x1E4a5963aBFD975d8c9021ce480b42188849D41d":
-                "0xdac17f958d2ee523a2206206994597c13d831ec7",
-            },
+            coingeckoNetworkHandle: "polygon-zkevm",
             inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
             outputAssetTokenId: "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
             routerContract: "0x678Aa4bF4E210cf2166753e054d5b7c31cc7fa86", // PancakeMixedRouteQuoterV1ABI
@@ -1270,6 +1698,11 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
             callTokenApproval: callTokenApprovalEVM,
           });
 
+          State.update({ loadComplete: true });
+        } else {
+          onLoad({
+            network: NETWORK_ZKEVM,
+          });
           State.update({ loadComplete: true });
         }
       } else {
