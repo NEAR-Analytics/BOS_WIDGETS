@@ -464,16 +464,16 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
-console.log("All comments: ", state.comments);
+// console.log("All comments: ", state.comments);
 
 //Get basic original comments info
 let originalComments = state.comments.filter(
   (comment) => comment.value.comment.originalCommentId === realArticleId
 );
 
-console.log("Original comments: ", originalComments);
+// console.log("Original comments: ", originalComments);
 
-//Add answers to original comments
+//Append answers to original comments
 originalComments = originalComments.map((originalComment) => {
   let answers = state.comments.filter((comment) => {
     return (
@@ -488,7 +488,7 @@ originalComments = originalComments.map((originalComment) => {
   };
 });
 
-console.log("answers to comments: ", originalComments);
+// console.log("answers to comments: ", originalComments);
 
 function stateUpdate(obj) {
   State.update(obj);
