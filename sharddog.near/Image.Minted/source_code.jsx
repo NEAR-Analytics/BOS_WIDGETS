@@ -33,16 +33,21 @@ function fetchContentType(url) {
     const newURL =
       "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
     console.log(newURL);
-    asyncFetch(newURL, { method: "HEAD" }).then((response) => {
-      console.log(response);
-      if (response.ok) {
-        const contentType = response.headers.get("Content-Type");
-        const isVideo = contentType && contentType.startsWith("video/");
-        State.update({ isVideo, isLoading: false });
-      } else {
+    asyncFetch(newURL, { method: "HEAD" })
+      .then((response) => {
+        console.log(response);
+        if (response.ok) {
+          const contentType = response.headers.get("Content-Type");
+          const isVideo = contentType && contentType.startsWith("video/");
+          State.update({ isVideo, isLoading: false });
+        } else {
+          State.update({ isLoading: false });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
         State.update({ isLoading: false });
-      }
-    });
+      });
   } catch (error) {
     console.log("Error fetching content type:", error);
     State.update({ isLoading: false });
