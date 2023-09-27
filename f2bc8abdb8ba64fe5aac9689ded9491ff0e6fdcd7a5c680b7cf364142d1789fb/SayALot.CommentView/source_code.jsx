@@ -1,7 +1,7 @@
 const { widgets, data, isTest, authorForWidget, isReply, orginalCommentData } =
   props;
 
-console.log(data);
+console.log("data data data: ", data);
 
 State.init({
   showModal: false,
