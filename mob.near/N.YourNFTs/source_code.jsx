@@ -34,7 +34,8 @@ const Wrapper = styled.div`
     --template-columns: 4;
   }
 
-  margin-top: var(--template-column-gutters);
+
+  margin: var(--template-column-gutters) -12px 0;
 
   display: grid;
   gap: var(--template-column-gutters);
