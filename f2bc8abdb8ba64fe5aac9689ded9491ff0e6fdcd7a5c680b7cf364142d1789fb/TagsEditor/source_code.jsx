@@ -73,8 +73,7 @@ return (
       onChange={setTags}
       options={state.allTags}
       placeholder={placeholder}
-      // selected={props.forceClear ? [{}] : state.tags}
-      selected={undefined}
+      selected={props.forceClear ? undefined : state.tags}
       positionFixed
       allowNew
     />
