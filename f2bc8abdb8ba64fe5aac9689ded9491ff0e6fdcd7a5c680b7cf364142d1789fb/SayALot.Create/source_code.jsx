@@ -120,141 +120,137 @@ const SecondContainer = styled.div`
 
 return (
   <div className="border rounded mx-3">
-    {
-      //   {state.createdArticle && state.showCreatedArticle ? (
-      //   <Widget
-      //     src={widgets.articleView}
-      //     props={{
-      //       widgets,
-      //       isTest,
-      //       handleFilterArticles,
-      //       articleToRenderData: state.createdArticle,
-      //       authorForWidget,
-      //       handleEditArticle,
-      //     }}
-      //   />
-      // ) : (
-    }
-    <>
-      {
-        // <CreationContainer className="container-fluid">
-      }
-      <SecondContainer>
-        <h5 className="mb-1">
-          {editArticleData ? "Edit Article" : "Create Article"}
-        </h5>
+    {state.createdArticle && state.showCreatedArticle ? (
+      <Widget
+        src={widgets.articleView}
+        props={{
+          widgets,
+          isTest,
+          handleFilterArticles,
+          articleToRenderData: state.createdArticle,
+          authorForWidget,
+          handleEditArticle,
+        }}
+      />
+    ) : (
+      <>
+        {
+          // <CreationContainer className="container-fluid">
+        }
+        <SecondContainer>
+          <h5 className="mb-1">
+            {editArticleData ? "Edit Article" : "Create Article"}
+          </h5>
 
-        <div>
-          {
-            // <div>
-            //   <Widget
-            //     src={"rubycop.near/widget/NDC.StyledComponents"}
-            //     props={{
-            //       Button: {
-            //         className: "primary dark",
-            //         disable: state.articleId > 0 || state.articleBody > 0,
-            //         text: editArticleData ? "Save edition" : "Save article",
-            //         onClick: createArticleListener,
-            //         icon: <i className="bi bi-check2"></i>,
-            //       },
-            //     }}
-            //   />
-            // </div>
-          }
-          <div className="d-flex flex-column pt-3">
-            <label for="inputArticleId">
-              Input article id (case-sensitive, without spaces):
-            </label>
-            <label for="inputArticleId" className="small text-danger">
-              {state.errorId}
-            </label>
-            <Widget
-              src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
-              props={{
-                firstText: state.articleId,
-                stateUpdate: (obj) => State.update(obj),
-                filterText: (e) => e.target.value.replace(/\s+/g, ""),
-                editable: editArticleData,
-              }}
-            />
-          </div>
-          <div className="d-flex flex-column pt-3">
-            <Widget
-              src={`${authorForWidget}/widget/TagsEditor`}
-              props={{
-                initialTagsObject: state.tags,
-                placeholder: "Input tags",
-                setTagsObject: (tags) => {
-                  state.tags = Object.keys(tags);
-                  State.update();
-                },
-              }}
-            />
-          </div>
-          <div className="d-flex flex-column pt-3">
-            <label for="textareaArticleBody">
-              Input article body (in makrdown format):
-            </label>
-            <label for="textareaArticleBody" className="small text-danger">
-              {state.errorBody}
-            </label>
-            <div className="d-flex gap-2">
-              {
-                //<div className="w-50">
-              }
+          <div>
+            {
+              // <div>
+              //   <Widget
+              //     src={"rubycop.near/widget/NDC.StyledComponents"}
+              //     props={{
+              //       Button: {
+              //         className: "primary dark",
+              //         disable: state.articleId > 0 || state.articleBody > 0,
+              //         text: editArticleData ? "Save edition" : "Save article",
+              //         onClick: createArticleListener,
+              //         icon: <i className="bi bi-check2"></i>,
+              //       },
+              //     }}
+              //   />
+              // </div>
+            }
+            <div className="d-flex flex-column pt-3">
+              <label for="inputArticleId">
+                Input article id (case-sensitive, without spaces):
+              </label>
+              <label for="inputArticleId" className="small text-danger">
+                {state.errorId}
+              </label>
               <Widget
-                src="mob.near/widget/MarkdownEditorIframe"
+                src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
                 props={{
-                  initialText: initialBody,
-                  onChange: (articleBody) => State.update({ articleBody }),
+                  firstText: state.articleId,
+                  stateUpdate: (obj) => State.update(obj),
+                  filterText: (e) => e.target.value.replace(/\s+/g, ""),
+                  editable: editArticleData,
                 }}
               />
-              {
-                //</div>
-              }
-              {
-                //<div className="w-50">
-              }
-              {
-                //TODO make this visible when clicking a show preview button after creating it
-                //
-                // <Widget
-                // src="mob.near/widget/SocialMarkdown"
-                // props={{ text: state.articleBody }}
-                // />
-              }
-              {
-                //</div>
-              }
+            </div>
+            <div className="d-flex flex-column pt-3">
+              <Widget
+                src={`${authorForWidget}/widget/TagsEditor`}
+                props={{
+                  initialTagsObject: state.tags,
+                  placeholder: "Input tags",
+                  setTagsObject: (tags) => {
+                    state.tags = Object.keys(tags);
+                    State.update();
+                  },
+                }}
+              />
+            </div>
+            <div className="d-flex flex-column pt-3">
+              <label for="textareaArticleBody">
+                Input article body (in makrdown format):
+              </label>
+              <label for="textareaArticleBody" className="small text-danger">
+                {state.errorBody}
+              </label>
+              <div className="d-flex gap-2">
+                {
+                  //<div className="w-50">
+                }
+                <Widget
+                  src="mob.near/widget/MarkdownEditorIframe"
+                  props={{
+                    initialText: initialBody,
+                    onChange: (articleBody) => State.update({ articleBody }),
+                  }}
+                />
+                {
+                  //</div>
+                }
+                {
+                  //<div className="w-50">
+                }
+                {
+                  //TODO make this visible when clicking a show preview button after creating it
+                  //
+                  // <Widget
+                  // src="mob.near/widget/SocialMarkdown"
+                  // props={{ text: state.articleBody }}
+                  // />
+                }
+                {
+                  //</div>
+                }
+              </div>
+            </div>
+            <div className="mt-2 d-flex justify-content-end">
+              <Widget
+                src={"rubycop.near/widget/NDC.StyledComponents"}
+                props={{
+                  Button: {
+                    className: "primary dark",
+                    disabled:
+                      state.articleId.length == 0 ||
+                      state.articleBody.length == 0,
+                    text: editArticleData ? "Save edition" : "Post",
+                    onClick: createArticleListener,
+                    icon: <i className="bi bi-check2"></i>,
+                  },
+                }}
+              />
             </div>
           </div>
-          <div className="mt-2 d-flex justify-content-end">
-            <Widget
-              src={"rubycop.near/widget/NDC.StyledComponents"}
-              props={{
-                Button: {
-                  className: "primary dark",
-                  disabled:
-                    state.articleId.length == 0 ||
-                    state.articleBody.length == 0,
-                  text: editArticleData ? "Save edition" : "Post",
-                  onClick: createArticleListener,
-                  icon: <i className="bi bi-check2"></i>,
-                },
-              }}
-            />
-          </div>
+        </SecondContainer>
+        <div style={{ display: "none" }}>
+          {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
         </div>
-      </SecondContainer>
-      <div style={{ display: "none" }}>
-        {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
-      </div>
-      {
-        //</CreationContainer>
-      }
-    </>
-    {
-      // )
-    }
+        {
+          //</CreationContainer>
+        }
+      </>
+    )}
   </div>
 );
