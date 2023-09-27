@@ -11,15 +11,23 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 }; // just in case need to pass in a NFT
 const NEAR_NOMINATION_EXP = 24;
-const contractId =
-  props.contractId ?? "0x436aeceaeec57b38a17ebe71154832fb0faff878249170"; // default nft contract - genadrop-contract.nftgen.near
-const tokenId = props.tokenId ?? "249170"; // maybe condtional check if props is eempty // default nft
+const newContractId = props.contractId ? props?.contractId?.includes("genadrop") ? "genadrop-contract.nftgen.near": props.contractId : "genadrop-contract.nftgen.near"
+const contractId = newContractId // default nft contract - genadrop-contract.nftgen.near
+const tokenId = props.tokenId ?? ""; // maybe condtional check if props is eempty // default nft
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
-// fewfar link // display button if listed // asking them for format and they are working on a fix // https://fewfar.com/genadrop-single-nft-near/1675689302938/
-const tradeportLink = `https://www.tradeport.xyz/near/collection/${contractId}?tab=items&tokenId=${tokenId}`;
-// maybe utilize the helper funciton here
-// const fewfarlink =
+
+const tradeportLink = `https://www.tradeport.xyz/near/collection/${
+  contractId.includes("genadrop") ? "genadrop-contract.nftgen.near" : contractId
+}?tab=items&tokenId=${tokenId}`;
+
+//Few and Far Link
+const fewfarlink = `https://fewfar.com/genadrop-single-nft-c40d654de/1668413944503`;
+
+const mintBaseLink = `https://www.mintbase.xyz/contract/genadrop-contract.nftgen.near/nfts/all/0?onlyListed=true`;
+
+const parasLink = `https://paras.id/token/${contractId}::${tokenId}`;
+
 const defaultCustomMarket = "apollo42.near";
 const mintbasemarket = "simple.market.mintbase1.near";
 const default_receiver = "minorityprogrammers.near"; // default reciver nft for transfers
@@ -28,6 +36,21 @@ const trpMsg = JSON.stringify({
   market_type: "sale",
   ft_token_id: "near",
 });
+
+const marketLinks = {
+  tradeport: {
+    link: tradeportLink,
+  },
+  fewandfar: {
+    link: fewfarlink,
+  },
+  mintbase: {
+    link: mintBaseLink,
+  },
+  paras: {
+    link: parasLink,
+  },
+};
 
 const fnfMsg = JSON.stringify({
   sale_conditions: {
@@ -48,7 +71,7 @@ initState({
   fnfMsg: fnfMsg,
   trpMsg: trpMsg,
   chainState: chainState,
-  tradeportLink: tradeportLink,
+  marketLinks: marketLinks,
   custom: false,
   customMarketLink: defaultCustomMarket,
   isOpen: false,
@@ -264,7 +287,6 @@ const listAbi = [
   "function createMarketplaceItem(address nftContract, uint256 tokenId, uint256 price, string calldata category, address seller) public payable {}",
   "function nftSale(uint256 price, uint256 tokenId, address seller, address nftContract) public payable {}",
 ];
-
 
 const evmList = () => {
   if (state.amount > 10000000) return;
@@ -507,7 +529,7 @@ return (
     )}
     <Heading className="text-center fs-2 fw-bold my-4">
       {" "}
-      🛍️ List NFT {props.chainState === 'near' && "to Multiple Marketplaces"}
+      🛍️ List NFT {props.chainState === "near" && "to Multiple Marketplaces"}
     </Heading>
     {!props.tokenId && !props.contractId && (
       <div>
