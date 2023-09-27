@@ -16,7 +16,7 @@ if (!f.ok) {
 const allNfts = f.body.list;
 
 const Wrapper = styled.div`
-  --template-column-gutters: 8px;
+  --template-column-gutters: 16px;
   --template-columns: 1;
   --template-column-compact-multiplier: 1;
   --template-reduced-columns: 0;
@@ -34,10 +34,6 @@ const Wrapper = styled.div`
     --template-columns: 4;
   }
 
-  @media(min-width: 768px) {
-    --template-column-gutters: 16px;
-  }
-
   margin-top: var(--template-column-gutters);
 
   display: grid;
@@ -48,7 +44,6 @@ const Wrapper = styled.div`
 .nft-card {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 15px;
   display: flex;
@@ -71,7 +66,6 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     background-color: #fff;
-    border-radius: 10px 10px 0 0;
     overflow: hidden;
   }
 
