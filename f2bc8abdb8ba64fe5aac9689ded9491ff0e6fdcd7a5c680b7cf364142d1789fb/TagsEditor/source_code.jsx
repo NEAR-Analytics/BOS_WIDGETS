@@ -64,6 +64,8 @@ const setTags = (tags) => {
   }
 };
 
+console.log("check: ", state.tags);
+
 return (
   <>
     <Typeahead
