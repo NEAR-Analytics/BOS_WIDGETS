@@ -225,11 +225,11 @@ const KeyIssuesContainer = styled.div`
   overflow-y: scroll;
   height: 250px;
   width: 100%;
+  border: 1px solid rgb(248, 248, 249);
+  border-radius: var(--bs-border-radius-lg) !important;
 `;
 
 const ArticleBodyContainer = styled.div`
-  border: 1px solid rgb(248, 248, 249);
-  border-radius: var(--bs-border-radius-lg) !important;
   margin-right: 0.5rem;
 `;
 
