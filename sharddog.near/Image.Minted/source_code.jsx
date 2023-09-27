@@ -33,7 +33,7 @@ function fetchContentType(url) {
     const newURL =
       "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
 
-    let response = asyncFetch(newURL, { method: "HEAD", redirect: "follow" });
+    let response = asyncFetch(newURL, { method: "GET", redirect: "follow" });
     if (!response.ok) {
       console.log("Error response:", response);
     }
