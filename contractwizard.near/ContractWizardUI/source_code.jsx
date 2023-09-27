@@ -6,8 +6,8 @@ const AUTH_OPTION = {
 
 State.init({
   fungibleToken: true,
-  tokenName: "MyToken",
-  tokenSymbol: "MTK",
+  tokenName: "NearToken",
+  tokenSymbol: "NTK",
   ftDecimals: 24,
   ftDecimalsError: false,
   ftPremint: null,
