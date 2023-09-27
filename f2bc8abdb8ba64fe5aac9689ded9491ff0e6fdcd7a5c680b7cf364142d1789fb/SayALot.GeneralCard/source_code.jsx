@@ -191,7 +191,8 @@ const KeyIssues = styled.div`
   align-items: flex-start;
   padding: 12px;
   gap: 12px;
-  background: #ffffff;
+  background: #ffffff;  
+  border: 1px solid rgb(248, 248, 249);
   border-radius: 6px;
   width: 100%;
 `;
