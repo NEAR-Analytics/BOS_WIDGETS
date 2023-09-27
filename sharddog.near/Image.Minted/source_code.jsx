@@ -43,7 +43,9 @@ async function fetchContentType(url) {
         console.log("Error fetching content type:", error);
         State.update({ isLoading: false });
       });
-  } catch {}
+  } catch {
+    console.log("Error catch fetching content type:", error);
+  }
 }
 function toUrl(image) {
   const url =
