@@ -1,9 +1,6 @@
 const { widgets, data, isTest, authorForWidget, isReply, orginalCommentData } =
   props;
 
-console.log("data data data: ", data);
-console.log("orginalCommentData: ", orginalCommentData);
-
 State.init({
   showModal: false,
   hasReply: false,
@@ -314,7 +311,7 @@ return (
         {data.answers.map((answer) => {
           return (
             <Widget
-              src={widgets.comment}
+              src={widgets.commentView}
               props={{
                 widgets,
                 data: { originalComment: answer },
