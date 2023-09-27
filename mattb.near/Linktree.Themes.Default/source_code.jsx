@@ -190,6 +190,14 @@ const Linktree = styled.div`
   height:100vh;
 `;
 
+const LinktreeLinks = styled.div`
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  width:100%;
+  max-width:400px;
+`;
+
 return {
   Wrapper,
   Section,
@@ -203,4 +211,5 @@ return {
   SocialLinks,
   FollowButtonWrapper,
   Linktree,
+  LinktreeLinks,
 };
