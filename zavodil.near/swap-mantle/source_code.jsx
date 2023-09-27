@@ -8,7 +8,7 @@ const NETWORKS = [
   {
     name: NETWORK_MANTLE,
     chainId: 5000,
-    dex: "FusionX V3",
+    dex: "FusionX_V3",
     icon: "https://ipfs.near.social/ipfs/bafkreifiphkr4bvatimqrz2lty4fgygb2awpvbcsri2bny23w47dactnly",
   },
   {
@@ -20,7 +20,7 @@ const NETWORKS = [
   {
     name: NETWORK_MANTLE,
     chainId: 5000,
-    dex: "Ammos Finance",
+    dex: "AmmosFinance",
     icon: "https://ipfs.near.social/ipfs/bafkreicwvufboezdhcjnvmwmy5ctbd7d4zimdivuaawn5g3bs2hxb567ra",
   },
 ];
@@ -687,7 +687,7 @@ return (
   <Theme>
     <div id="rr"></div>
     <Widget
-      src="zavodil.near/widget/DexData2.2"
+      src="zavodil.near/widget/DexData3"
       loading={loadingBlock}
       props={{
         onLoad: onDexDataLoad,
