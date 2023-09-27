@@ -556,7 +556,7 @@ return (
           }}
         />
       )}
-      <HeaderCard className="d-flex justify-content-between border-bottom border-dark">
+      <HeaderCard className="d-flex justify-content-between pb-1 border-bottom border-dark">
         <div className="d-flex align-items-center gap-2">
           <Widget
             src="mob.near/widget/Profile.OverlayTrigger"
