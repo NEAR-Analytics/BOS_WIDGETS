@@ -408,7 +408,12 @@ const content = (
       icon: submission,
       iconSelected: submissionSelected,
     })}
-
+    {navItem({
+      text: "Resources",
+      id: "resources",
+      icon: resources,
+      iconSelected: resourcesSelected,
+    })}
     <Divider />
     <NavItem href="https://t.me/ResearchWG" target="_blank">
       <svg
