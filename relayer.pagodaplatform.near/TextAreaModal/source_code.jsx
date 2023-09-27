@@ -1,8 +1,3 @@
-State.init({
-  key: "",
-  value: "",
-});
-
 const keyLabel = props.keyLabel || "Key";
 const keyPlaceholder = props.keyPlaceholder || "Key";
 const valueLabel = props.valueLabel || "Value";
@@ -14,42 +9,23 @@ const onConfirm = props.onConfirm;
 const hidden = props.hidden;
 const onClose = props.onClose;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 0px;
-  gap: 0.45em;
-  width: 100%;
-`;
-
-const Label = styled.label`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 0.95em;
-  line-height: 1.25em;
-  color: #344054;
-  margin-top: 3%;
-`;
-
-const Input = styled.textarea`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0.5em 0.75em;
-  width: 100%;
-  gap: 0.5em;
-  background: #ffffff;
-  border: 1px solid #d0d5dd;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 4px;
-  margin-top: 3px;
-`;
+State.init({
+  key: "",
+  value: "",
+});
 
 const Modal = styled.div`
-  display: ${({ hidden }) => (hidden ? "none" : "flex")};
+  display: flex;
+  position: fixed;
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  z-index: 1;
+`;
+
+const HiddenModal = styled.div`
+  display: none
   position: fixed;
   inset: 0;
   justify-content: center;
@@ -129,17 +105,21 @@ const ConfirmButton = styled.button`
   }
 `;
 
-const ModalContent = styled.div`
-  flex: 1;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  overflow-y: auto;
-  max-height: 50%;
-`;
-
-const handleOnConfirm = () => {
+const handleOnConfirm = (key, value) => {
   onConfirm(key, value);
 };
+
+const handleKeyChange = (e) => {
+  State.update({ key: e.target.value });
+};
+
+const handleValueChange = (e) => {
+  State.update({ value: e.target.value });
+};
+
+if (hidden) {
+  <HiddenModal />;
+}
 
 return (
   <Modal hidden={hidden}>
@@ -149,25 +129,24 @@ return (
       <ModalHeader>
         <h5>{title}</h5>
       </ModalHeader>
-
-      <Container>
-        <Label>{keyLabel}</Label>
-        <Input
-          placeholder={keyPlaceholder}
-          value={key}
-          onChange={({ target: { key } }) => onChange(key)}
-          rows={1}
-        />
-
-        <Label>{valueLabel}</Label>
-        <Input
-          placeholder={valuePlaceHolder}
-          value={value}
-          onChange={({ target: { value } }) => onChange(value)}
-          rows={1}
-        />
-      </Container>
-
+      <Widget
+        src="alicolakk.near/widget/Form"
+        props={{
+          label: "Key",
+          placeholder: "Key",
+          onInput: handleKeyChange,
+          value: state.key,
+        }}
+      />
+      <Widget
+        src="alicolakk.near/widget/Form"
+        props={{
+          label: "Value",
+          placeholder: "Value",
+          onInput: handleValueChange,
+          value: state.value,
+        }}
+      />
       <ModalFooter>
         <CloseButton onClick={onClose}>Cancel</CloseButton>
         <ConfirmButton onClick={handleOnConfirm}>{confirmText}</ConfirmButton>
