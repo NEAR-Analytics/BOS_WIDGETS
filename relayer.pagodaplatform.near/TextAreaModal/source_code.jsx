@@ -1,237 +1,177 @@
-let {
-  assistiveText,
-  disabled,
-  iconLeft,
-  iconRight,
-  inputNodeLeft,
-  inputNodeRight,
-  invalid,
-  label,
-  search,
-  select,
-  textarea,
-  valid,
-  value,
-  ...forwardedProps
-} = props;
+State.init({
+  key: "",
+  value: "",
+});
 
-const hasNoValue = !value;
+const keyLabel = props.keyLabel || "Key";
+const keyPlaceholder = props.keyPlaceholder || "Key";
+const valueLabel = props.valueLabel || "Value";
+const valuePlaceHolder = props.valuePlaceHolder || "Value";
 
-const Wrapper = styled.label`
+const title = props.title || "Add Attribute";
+const confirmText = props.confirmText || "Save";
+const onConfirm = props.onConfirm;
+const hidden = props.hidden;
+const onClose = props.onClose;
+
+const Container = styled.div`
   display: flex;
-  width: 100%;
   flex-direction: column;
-  gap: 4px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0px;
+  gap: 0.45em;
+  width: 100%;
+`;
 
-  &[data-disabled="true"] {
-    pointer-events: none;
+const Label = styled.label`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.95em;
+  line-height: 1.25em;
+  color: #344054;
+  margin-top: 3%;
+`;
+
+const Input = styled.textarea`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5em 0.75em;
+  width: 100%;
+  gap: 0.5em;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 4px;
+  margin-top: 3px;
+`;
+
+const Modal = styled.div`
+  display: ${({ hidden }) => (hidden ? "none" : "flex")};
+  position: fixed;
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  z-index: 1;
+`;
+
+const ModalBackdrop = styled.div`
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0.4;
+`;
+
+const ModalDialog = styled.div`
+  padding: 2em;
+  z-index: 3;
+  background-color: white;
+  border-radius: 6px;
+  width: 60%;
+  max-height: 80%;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  overflow-y: auto;
+
+  @media (width < 720px) {
+    width: 100%;
   }
 `;
 
-const Label = styled.span`
-  display: block;
-  font: var(--text-xs);
-  font-weight: 600;
-  color: var(--sand12);
+const ModalHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d3d3d3;
+  padding-bottom: 4px;
+  margin-bottom: 3%;
 `;
 
-const InputWrapper = styled.div`
+const ModalFooter = styled.div`
+  padding-top: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: items-center;
+  margin-top: 5%;
+`;
+
+const CloseButton = styled.button`
   display: flex;
   align-items: center;
-  padding: 0 12px;
-  column-gap: 10px;
-  position: relative;
+  justify-content: center;
+  background-color: white;
+  padding: 0.7em;
   border-radius: 6px;
-  border: 1px solid var(--sand6);
-  background: var(--sand1);
-  transition: background-color 200ms, border-color 200ms, color 200ms,
-    box-shadow 200ms;
-  flex-wrap: wrap;
-
-  i {
-    font-size: 16px;
-    color: var(--sand10);
-    transition: all 200ms;
-    pointer-events: none;
-  }
+  border: 0;
+  color: #344054;
+  transition: 300ms;
 
   &:hover {
-    border-color: var(--sand7);
-    background: var(--sand2);
-  }
-
-  [data-search="true"] & {
-    border-radius: 100px;
-  }
-
-  [data-invalid="true"] & {
-    background: var(--red1);
-    border-color: var(--red9);
-    i {
-      color: var(--red9);
-    }
-    input {
-      color: var(--red12);
-    }
-    &:hover {
-      background: var(--red2);
-      border-color: var(--red8);
-    }
-  }
-
-  [data-valid="true"] & {
-    background: var(--green1);
-    border-color: var(--green9);
-    i {
-      color: var(--green8);
-    }
-    input {
-      color: var(--green12);
-    }
-    &:hover {
-      background: var(--green2);
-      border-color: var(--green8);
-    }
-  }
-
-  [data-textarea="true"] & {
-    padding: 0;
-    overflow: hidden;
-  }
-
-  [data-select="true"] & {
-    padding: 0;
-
-    input {
-      padding: 0 40px 0 12px;
-    }
-
-    i {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      line-height: 40px;
-      padding: 0 12px;
-    }
-  }
-
-  [data-no-value="true"][data-select="true"] & {
-    input {
-      color: var(--sand10);
-    }
-  }
-
-  [data-disabled="true"] & {
-    pointer-events: none;
-    background: var(--sand3);
-    border-color: var(--sand3);
-    i {
-      color: var(--sand8);
-    }
-  }
-
-  &:focus-within {
-    outline: none;
-    border-color: var(--violet8) !important;
-    background: var(--white) !important;
-    box-shadow: 0 0 0 4px var(--violet4);
-    i {
-      color: var(--violet7);
-    }
-    input {
-      color: var(--violet12);
-    }
+    background-color: #d3d3d3;
   }
 `;
 
-const Input = styled.input`
-  display: block;
-  flex-grow: 1;
-  border: none;
-  background: none;
-  margin: 0;
-  min-width: 150px;
-  height: 40px;
-  line-height: 40px;
-  padding: 0;
-  color: var(--sand12);
-  font: var(--text-base);
-  outline: none !important;
-  text-align: left;
-  transition: color 200ms, opacity 200ms;
+const ConfirmButton = styled.button`
+  padding: 0.7em;
+  border-radius: 6px;
+  border: 0;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  background-color: #12b76a;
+  color: white;
+  transition: background-color 0.2s ease-in-out;
 
-  [data-textarea="true"] & {
-    line-height: 1.5;
-    padding: 8px 12px;
-    height: unset;
-    min-height: 5.5rem;
-  }
-
-  &::placeholder {
-    color: var(--sand10);
-    font: var(--text-base);
-    opacity: 1;
-  }
-
-  [data-disabled="true"] & {
-    opacity: 1;
-    color: var(--sand9);
-
-    &::placeholder {
-      color: var(--sand9);
-    }
+  &:hover {
+    background-color: #0e9f5d;
   }
 `;
 
-const AssistiveText = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font: var(--text-xs);
-  color: var(--sand11);
-  padding-top: 1px;
-  transition: all 200ms;
-
-  i {
-    font-size: 14px;
-  }
-
-  [data-invalid="true"] & {
-    color: var(--red11);
-    i {
-      color: var(--red8);
-    }
-  }
-
-  [data-valid="true"] & {
-    color: var(--green11);
-    i {
-      color: var(--green8);
-    }
-  }
+const ModalContent = styled.div`
+  flex: 1;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  overflow-y: auto;
+  max-height: 50%;
 `;
+
+const handleOnConfirm = () => {
+  onConfirm(key, value);
+};
 
 return (
-  <Wrapper
-    data-invalid={invalid}
-    data-valid={valid}
-    data-disabled={disabled}
-    data-textarea={textarea}
-    data-search={search}
-    data-select={select}
-    data-no-value={hasNoValue}
-  >
-    {label && <Label>{label}</Label>}
+  <Modal hidden={hidden}>
+    <ModalBackdrop />
 
-    <InputWrapper>
-      <Input
-        as="textarea"
-        aria-invalid={invalid === true}
-        ref="forwardedRef"
-        value={value}
-        {...forwardedProps}
-      />
-    </InputWrapper>
-  </Wrapper>
+    <ModalDialog>
+      <ModalHeader>
+        <h5>{title}</h5>
+      </ModalHeader>
+
+      <Container>
+        <Label>{keyLabel}</Label>
+        <Input
+          placeholder={keyPlaceholder}
+          value={key}
+          onChange={({ target: { key } }) => onChange(key)}
+          rows={1}
+        />
+
+        <Label>{valueLabel}</Label>
+        <Input
+          placeholder={valuePlaceHolder}
+          value={value}
+          onChange={({ target: { value } }) => onChange(value)}
+          rows={1}
+        />
+      </Container>
+
+      <ModalFooter>
+        <CloseButton onClick={onClose}>Cancel</CloseButton>
+        <ConfirmButton onClick={handleOnConfirm}>{confirmText}</ConfirmButton>
+      </ModalFooter>
+    </ModalDialog>
+  </Modal>
 );
