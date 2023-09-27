@@ -28,24 +28,20 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
   });
 }
 
-async function fetchContentType(url) {
-  try {
-    await fetch(url, { method: "HEAD" })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const contentType = response.headers.get("Content-Type");
-        const isVideo = contentType && contentType.startsWith("video/");
-        State.update({ isVideo, isLoading: false });
-      })
-      .catch((error) => {
-        console.log("Error fetching content type:", error);
-        State.update({ isLoading: false });
-      });
-  } catch {
-    console.log("Error catch fetching content type:", error);
-  }
+function fetchContentType(url) {
+  asyncFetch(url, { method: "HEAD" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const contentType = response.headers.get("Content-Type");
+      const isVideo = contentType && contentType.startsWith("video/");
+      State.update({ isVideo, isLoading: false });
+    })
+    .catch((error) => {
+      console.log("Error fetching content type:", error);
+      State.update({ isLoading: false });
+    });
 }
 function toUrl(image) {
   const url =
