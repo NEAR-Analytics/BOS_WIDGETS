@@ -32,20 +32,13 @@ function fetchContentType(url) {
     const segments = url.split("/");
     const newURL =
       "https://ipfs.near.social/ipfs/" + segments[segments.length - 1];
-    let response = asyncFetch(newURL, {
-      method: "GET",
-      redirect: "follow",
-      mode: "no-cors",
-    });
+    let response = asyncFetch(newURL, { method: "HEAD", redirect: "follow" });
     if (!response.ok) {
       console.log("Error response:", response);
     }
     console.log("response|| " + JSON.stringify(response));
     // Get the final URL after redirection
-    const finalUrl = response.url;
-    console.log("final URL: " + finalUrl);
-    // Fetch the content type from the final URL
-    response = asyncFetch(finalUrl, { method: "HEAD" });
+
     const contentType = response.headers.get("Content-Type");
     const isVideo = contentType && contentType.startsWith("video/");
     State.update({ isVideo, isLoading: false });
