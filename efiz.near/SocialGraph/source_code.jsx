@@ -1,11 +1,24 @@
-const thingId = "f8ad9d1a76259lmdpjnd74e69162a0a014";
-
-const data = Social.getr(
-  ["efiz.near/graph/follow", "mob.near/graph/follow"],
-  "final"
+const [accountIds, setAccountIds] = useState(
+  props.accountIds || [`${context.accountId || "every.near"}`]
 );
+
+const graphId = props.graphId ?? "follow";
+
+const generatePaths = () => {
+  return (
+    props.paths ??
+    accountIds.map((accountId) => {
+      return `${accountId}/graph/${graphId}`;
+    })
+  );
+};
+
+const paths = generatePaths();
+
+const data = Social.getr(paths, "final");
+
 const [nodesState, setNodesState] = useState(null);
-const [selectedAccountId, setSelectedAccountId] = useState(context.accountId);
+const [selectedAccountId, setSelectedAccountId] = useState(null);
 const debug = false;
 
 useEffect(() => {
@@ -13,7 +26,7 @@ useEffect(() => {
 }, [data]);
 
 if (!nodesState) {
-  return "Loading";
+  return "Loading...";
 }
 
 const [message, setMessage] = useState(null);
@@ -22,36 +35,62 @@ useEffect(() => {
   if (!nodesState) {
     return;
   }
+
   const nodes = {};
-  const links = [];
-  Object.entries(nodesState).forEach(([accountId, graphData]) => {
+  const edges = [];
+
+  const createNodesAndEdges = (accountId, graphData) => {
     if (!(accountId in nodes)) {
       nodes[accountId] = {
         id: accountId,
         size: 10,
       };
     }
-    Object.values(graphData.graph).forEach((edges) => {
-      Object.keys(edges).forEach((memberId) => {
+    Object.values(graphData).forEach((links) => {
+      console.log(graphData);
+      Object.keys(links).forEach((memberId) => {
         if (!(memberId in nodes)) {
           nodes[memberId] = {
             id: memberId,
             size: 10,
           };
         }
-        links.push({
+        edges.push({
           source: accountId,
           target: memberId,
           value: 1,
         });
       });
     });
-  });
+  };
+
+  if (accountIds.length === 1) {
+    const accountId = accountIds[0];
+    createNodesAndEdges(accountId, { [graphId]: nodesState });
+  } else if (accountIds.length > 1) {
+    Object.entries(nodesState).forEach(([accountId, graphData]) => {
+      createNodesAndEdges(accountId, graphData.graph);
+    });
+  }
+  console.log("nodes", nodes);
+  console.log("edges", edges);
+
   setMessage({
     nodes: Object.values(nodes),
-    links,
+    edges,
   });
-}, [nodesState]);
+}, [nodesState, accountIds]);
+
+useEffect(() => {
+  if (selectedAccountId) {
+    if (accountIds.includes(selectedAccountId)) {
+      setAccountIds(accountIds.filter((it) => it !== selectedAccountId));
+    } else {
+      setAccountIds([...accountIds, selectedAccountId]);
+    }
+  }
+  setSelectedAccountId(null);
+}, [selectedAccountId]);
 
 const code = `
 <!DOCTYPE html>
@@ -71,7 +110,7 @@ const run = (data) => {
 
   // The force simulation mutates links and nodes, so create a copy
   // so that re-evaluating this cell produces the same result.
-  const links = data.links.map(d => ({...d}));
+  const links = data.edges.map(d => ({...d}));
   const nodes = data.nodes.map(d => ({...d}));
 
   // Create a simulation with several forces.
@@ -241,7 +280,7 @@ return (
     <div>
       <iframe
         className="w-100 h-100"
-        style={{ minHeight: "800px" }}
+        style={{ minHeight: "888px" }}
         srcDoc={code}
         message={message}
         onMessage={onMessage}
