@@ -31,6 +31,7 @@ const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
 
 const Wrapper = styled.div`
   overflow: hidden;
+  margin: 0 -12px; 
 `;
 
 return (
