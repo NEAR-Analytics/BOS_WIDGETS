@@ -61,20 +61,20 @@ const Wrapper = styled.div`
     line-height: 15px;
     text-align: center;
     cursor: pointer;
-    background: #fbfcfd;
-    border: 1px solid #d7dbdf;
-    color: #006adc !important;
+    background: #FBFCFD;
+    border: 1px solid #D7DBDF;
+    color: #006ADC !important;
     white-space: nowrap;
 
     &:hover,
     &:focus {
-      background: #ecedee;
+      background: #ECEDEE;
       text-decoration: none;
       outline: none;
     }
 
     i {
-      color: #7e868c;
+      color: #7E868C;
     }
 
     .bi-16 {
@@ -85,17 +85,7 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper className={props.className}>
-    <CommitButton
-      onCommit={() => {
-        props.onCommit();
-      }}
-      onClick={() => {
-        props.onClick();
-      }}
-      disabled={loading}
-      className="follow-button"
-      data={data}
-    >
+    <CommitButton disabled={loading} className="follow-button" data={data}>
       {isFollowing && <i className="bi-16 bi bi-check"></i>}
       {isFollowing ? "Following" : isInverse ? "Follow Back" : "Follow"}
     </CommitButton>
