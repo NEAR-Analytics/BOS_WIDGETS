@@ -74,9 +74,11 @@ const ContentContainer = styled.div`
     margin: 0;
   }
 `;
+
+//jgodwill.near/widget/GenaDrop.MultiListing
 const tabContentWidget = {
   create: "agwaze.near/widget/GenaDrop.Minter",
-  list: "jgodwill.near/widget/GenaDrop.MultiListing",
+  list: "agwaze.near/widget/GenaDrop.NFTListing",
   nearNFTs: "agwaze.near/widget/GenaDrop.Explore",
   socials: "genadrop.near/widget/GenaDrop.Home",
   ai: "0xprometheus.near/widget/Genadrop-Ai-Minter",
