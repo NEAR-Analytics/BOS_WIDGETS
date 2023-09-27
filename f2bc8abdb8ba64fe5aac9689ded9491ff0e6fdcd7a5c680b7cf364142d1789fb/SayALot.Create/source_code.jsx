@@ -119,7 +119,7 @@ const SecondContainer = styled.div`
 `;
 
 return (
-  <div className="border rounded mx-3">
+  <>
     {state.createdArticle && state.showCreatedArticle ? (
       <Widget
         src={widgets.articleView}
@@ -133,7 +133,7 @@ return (
         }}
       />
     ) : (
-      <>
+      <div className="border rounded mx-3">
         {
           // <CreationContainer className="container-fluid">
         }
@@ -250,7 +250,7 @@ return (
         {
           //</CreationContainer>
         }
-      </>
+      </div>
     )}
-  </div>
+  </>
 );
