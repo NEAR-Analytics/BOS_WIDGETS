@@ -9,7 +9,7 @@ const filterText = props.filterText ?? returnText;
 return (
   <input
     className="form-control mt-2"
-    value={state.text}
+    value={props.forceClear ? "" : state.text}
     readonly={props.editable ? "readonly" : false}
     disabled={props.editable ? "disabled" : false}
     onBlur={() => stateUpdate({ articleId: state.text })}
@@ -17,6 +17,7 @@ return (
       State.update({
         text: filterText(e),
       });
+      props.forceClear && props.stateUpdate({ clearArticleId: false });
     }}
   />
 );
