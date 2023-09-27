@@ -3,7 +3,7 @@ const MAX_RETRIES = props.config.MAX_RETRIES;
 const RECONNECT_DELAY = props.config.RECONNECT_DELAY;
 const PONG_WAIT_TIME = props.config.PONG_WAIT_TIME;
 const MAX_DELAY = props.config.MAX_DELAY;
-
+console.log(props);
 const userId = context.accountId;
 
 const ConnectionStatus = {
