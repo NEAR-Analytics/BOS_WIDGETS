@@ -37,7 +37,7 @@ function fetchContentType(url) {
       .then((response) => {
         console.log(response);
         if (response.ok) {
-          const contentType = response.headers.get("Content-Type");
+          const contentType = response.headers.get("contentType");
           const isVideo = contentType && contentType.startsWith("video/");
           State.update({ isVideo, isLoading: false });
         } else {
