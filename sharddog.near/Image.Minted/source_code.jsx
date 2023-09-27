@@ -29,6 +29,7 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 }
 
 function fetchContentType(url) {
+  console.log("url to check: " + url);
   asyncFetch(url, { method: "GET" })
     .then((response) => {
       if (!response.ok) {
