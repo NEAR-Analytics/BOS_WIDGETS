@@ -57,7 +57,12 @@ const getArticleData = () => {
 };
 
 function onCommit() {
-  State.update({ showCreatedArticle: true });
+  State.update({
+    showCreatedArticle: true,
+    articleId: "",
+    tags: [],
+    articleBody: "Create post",
+  });
 }
 
 function onCancel() {
