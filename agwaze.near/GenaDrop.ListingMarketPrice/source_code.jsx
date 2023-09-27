@@ -394,7 +394,7 @@ return (
               <BlueSub>Contract ID</BlueSub>
               <SecondaryText>
                 {props.state.contractId.length > 6
-                  ? `...${props.state.contractId?.slice(
+                  ? `${props.state.contractId?.slice(0, 6)}...${props.state.contractId?.slice(
                       props.state.contractId.length - 4
                     )}`
                   : props.state.contractId || "Sample Contract"}
@@ -429,9 +429,7 @@ return (
                     (key) => (
                       <li>
                         <a
-                          href={
-                            props.marketLinks[matchedKeyWords(key)].link
-                          }
+                          href={props.marketLinks[matchedKeyWords(key)].link}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
