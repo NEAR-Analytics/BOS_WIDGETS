@@ -30,7 +30,7 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 
 function fetchContentType(url) {
   console.log("url to check: " + url);
-  asyncFetch(url, { method: "GET" })
+  asyncFetch(url, { method: "HEAD", mode: "no-cors" })
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
