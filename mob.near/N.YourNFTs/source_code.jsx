@@ -64,30 +64,31 @@ const Wrapper = styled.div`
 
   .nft-image-wrapper {
     width: 100%;
-    height: 100%;
+    padding-bottom: 100%;
+    position:relative;
     background-color: #fff;
     overflow: hidden;
   }
 
   .nft-image {
+    position: absolute;
+    top:0;
+    left:0;
     width: 100%;
     height: 100%;
-    padding-bottom: 100%;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+    object-fit: contain;
   }
 
   .nft-text {
     width: 100%;
     height: 100%;
-    padding: 10px;
+    padding: 8px;
     max-height: 7em;
     overflow: hidden;
   }
 
   .nft-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
