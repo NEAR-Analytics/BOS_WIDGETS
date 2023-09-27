@@ -57,17 +57,10 @@ const getArticleData = () => {
 };
 
 function onCommit() {
-  console.log(
-    "Prev Commit: ",
-    state.showCreatedArticle,
-    state.articleId,
-    state.tags,
-    state.articleBody
-  );
   State.update({
-    articleId: "",
-    tags: [],
-    articleBody: "Create post",
+    clearArticleId: true,
+    clearTags: true,
+    clearArticleBody: true,
     showCreatedArticle: true,
   });
 }
@@ -132,7 +125,7 @@ const SecondContainer = styled.div`
 
 console.log(
   "Data: ",
-  state.showCreatedArticle,
+  state.clearArticleId,
   state.articleId,
   state.tags,
   state.articleBody
@@ -190,6 +183,7 @@ return (
                 src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
                 props={{
                   firstText: state.articleId,
+                  forceClear: state.clearArticleId,
                   stateUpdate: (obj) => State.update(obj),
                   filterText: (e) => e.target.value.replace(/\s+/g, ""),
                   editable: editArticleData,
