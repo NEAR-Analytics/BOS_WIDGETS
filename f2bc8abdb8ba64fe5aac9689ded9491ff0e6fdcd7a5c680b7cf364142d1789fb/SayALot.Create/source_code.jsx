@@ -125,7 +125,7 @@ const SecondContainer = styled.div`
 
 return (
   <>
-    {state.createdArticle && state.showCreatedArticle ? (
+    {state.createdArticle && state.showCreatedArticle && editArticleData ? (
       <Widget
         src={widgets.articleView}
         props={{
