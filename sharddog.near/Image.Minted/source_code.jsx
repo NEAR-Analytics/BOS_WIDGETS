@@ -54,7 +54,7 @@ function toUrl(image) {
       : image.url) || fallbackUrl;
 
   // Fetch the content type to determine if the file is a video
-  fetchContentType(url);
+  //fetchContentType(url);
 
   return url;
 }
