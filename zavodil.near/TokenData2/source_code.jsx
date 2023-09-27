@@ -12,6 +12,27 @@ const NETWORK_POLYGON = "POLYGON";
 const NETWORK_MANTLE = "MANTLE";
 
 const network = props.network ?? NETWORK_NEAR;
+let cacheTokenData = undefined;
+
+if (network === NETWORK_MANTLE) {
+  const cachedData = fetch(
+    "https://raw.githubusercontent.com/zavodil/near-nft-owners-list/main/mantle.json"
+  );
+  if (cachedData.ok) {
+    const cache = JSON.parse(cachedData.body);
+    const cacheDate = new Date(cache.timestamp);
+    const timeDifference = Date.now() - cacheDate.getTime();
+    if (timeDifference <= 30 * 60 * 1000 /* 30 min  cache */) {
+      if (!cacheTokenData) {
+        console.log(
+          "cache was loaded, timestamp",
+          cacheDate.toLocaleTimeString()
+        );
+      }
+      cacheTokenData = cache.data;
+    }
+  }
+}
 
 if (!tokenId) return;
 
@@ -101,6 +122,28 @@ const getErc20Balance = (tokenId, receiver) => {
 };
 
 const getErc20Tokendata = (tokenId) => {
+  if (cacheTokenData) {
+    const metadata = cacheTokenData?.[tokenId.toLowerCase()]?.metadata;
+    const price = cacheTokenData?.[tokenId.toLowerCase()]?.price;
+    if (
+      price > 0 &&
+      metadata.name &&
+      metadata.symbol &&
+      metadata.icon &&
+      metadata.decimals
+    ) {
+      console.log(
+        "cache used for tokenId ",
+        tokenId,
+        "metadata",
+        metadata,
+        "price",
+        price
+      );
+      return State.update({ metadata, price });
+    }
+  }
+
   let dataUrl = `https://api.coingecko.com/api/v3/coins/${
     coingeckoNetworkHandle ?? "ethereum"
   }/contract/${tokenId}`;
