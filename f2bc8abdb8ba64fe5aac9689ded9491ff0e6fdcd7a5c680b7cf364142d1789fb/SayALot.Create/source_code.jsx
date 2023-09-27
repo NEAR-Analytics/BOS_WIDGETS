@@ -126,13 +126,13 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
-console.log(
-  "Data: ",
-  state.clearArticleId,
-  state.articleId,
-  state.tags,
-  state.articleBody
-);
+// console.log(
+//   "Data: ",
+//   state.clearArticleId,
+//   state.articleId,
+//   state.tags,
+//   state.articleBody
+// );
 
 return (
   <>
