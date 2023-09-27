@@ -33,7 +33,7 @@ function fetchContentType(url) {
     if (!response.ok) {
       console.log("Error response:", response);
     }
-    console.log("response|| " + response);
+    console.log("response|| " + JSON.parse(response));
     // Get the final URL after redirection
     const finalUrl = response.headers.location;
     console.log("final URL: " + finalUrl);
