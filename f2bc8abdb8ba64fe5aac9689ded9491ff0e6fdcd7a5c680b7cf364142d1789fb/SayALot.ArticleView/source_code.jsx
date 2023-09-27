@@ -464,10 +464,14 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
+console.log("All comments: ", state.comments);
+
 //Get basic original comments info
 let originalComments = state.comments.filter(
   (comment) => comment.value.comment.originalCommentId === realArticleId
 );
+
+console.log("Original comments: ", originalComments);
 
 //Add answers to original comments
 originalComments = originalComments.map((originalComment) => {
@@ -483,6 +487,8 @@ originalComments = originalComments.map((originalComment) => {
     answers,
   };
 });
+
+console.log("answers to comments: ", originalComments);
 
 function stateUpdate(obj) {
   State.update(obj);
