@@ -1,6 +1,8 @@
 const { widgets, data, isTest, authorForWidget, isReply, orginalCommentData } =
   props;
 
+console.log(data);
+
 State.init({
   showModal: false,
   hasReply: false,
@@ -314,8 +316,8 @@ return (
               src={widgets.comment}
               props={{
                 widgets,
-                data: { originalComment: answer },
-                orginalCommentData: answer,
+                data: answer,
+                orginalCommentData: data,
                 isTest,
                 authorForWidget,
                 isReply: true,
