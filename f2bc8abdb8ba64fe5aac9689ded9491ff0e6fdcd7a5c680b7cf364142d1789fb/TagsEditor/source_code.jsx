@@ -64,8 +64,6 @@ const setTags = (tags) => {
   }
 };
 
-console.log("check: ", state.tags);
-
 return (
   <>
     <Typeahead
@@ -75,14 +73,14 @@ return (
       onChange={setTags}
       options={state.allTags}
       placeholder={placeholder}
-      selected={state.tags}
+      selected={props.forceClear ? [{}] : state.tags}
       positionFixed
       allowNew
     />
     {props.debug && (
       <div>
         Debugging tags:
-        <pre>{JSON.stringify(props.forceClear ? {} : state.tags)}</pre>
+        <pre>{JSON.stringify(state.tags)}</pre>
       </div>
     )}
   </>
