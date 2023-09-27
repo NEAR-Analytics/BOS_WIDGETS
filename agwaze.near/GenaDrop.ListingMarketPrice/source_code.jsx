@@ -340,7 +340,7 @@ const getUsdValue = (price) => {
   }
 };
 
-const keywordsToCheck = ["tradeport", "mintbase", "fewandfar"];
+const keywordsToCheck = ["tradeport", "mintbase", "fewandfar", 'paras'];
 
 const matchedKeyWords = (inputString) => {
   return keywordsToCheck.find((keyword) => inputString.includes(keyword));
@@ -429,7 +429,9 @@ return (
                     (key) => (
                       <li>
                         <a
-                          href={props.state.marketLinks[matchedKeyWords(key)].link}
+                          href={
+                            props.state.marketLinks[matchedKeyWords(key)].link
+                          }
                           target="_blank"
                           rel="noopener noreferrer"
                         >
