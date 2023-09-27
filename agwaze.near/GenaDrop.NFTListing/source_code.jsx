@@ -21,8 +21,6 @@ const tokenId = props.tokenId ?? ""; // maybe condtional check if props is eempt
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
 
-
-
 const fnfMsg = JSON.stringify({
   sale_conditions: {
     near: amount,
@@ -42,7 +40,7 @@ initState({
   fnfMsg: fnfMsg,
   trpMsg: trpMsg,
   chainState: chainState,
-  marketLinks: marketLinks,
+  marketLinks: [],
   custom: false,
   customMarketLink: defaultCustomMarket,
   isOpen: false,
@@ -67,8 +65,6 @@ function ownsNFT() {
 }
 ownsNFT();
 
-
-
 const getSender = () => {
   return !state.sender
     ? ""
@@ -85,12 +81,16 @@ if (state.sender === undefined) {
 }
 
 const tradeportLink = `https://www.tradeport.xyz/near/collection/${
-  state.contractId.includes("genadrop") ? "genadrop-contract.nftgen.near" : state.contractId
+  state.contractId.includes("genadrop")
+    ? "genadrop-contract.nftgen.near"
+    : state.contractId
 }?tab=items&tokenId=${state.tokenId}`;
 
 //Few and Far Link
 const fewfarlink = `https://fewfar.com/${
-  state.contractId.includes("genadrop") ? "genadrop-single-nft-c40d654de" : state.contractId
+  state.contractId.includes("genadrop")
+    ? "genadrop-single-nft-c40d654de"
+    : state.contractId
 }/${state.tokenId}`;
 
 const mintBaseLink = `https://www.mintbase.xyz/contract/genadrop-contract.nftgen.near/nfts/all/0?onlyListed=true`;
@@ -121,10 +121,9 @@ const marketLinks = {
   },
 };
 
-
 function updateTradeportLink() {
   // Function body goes here
-   updatedLink =
+  updatedLink =
     "https://www.tradeport.xyz/near/collection/" +
     state.contractId +
     "/" +
@@ -587,6 +586,7 @@ return (
             loadingListing: state.loadingListing,
             selectCustom,
             selectMintbase,
+            marketLinks,
             chainState,
             onChangeCustomMarket,
             onChangeAmount,
