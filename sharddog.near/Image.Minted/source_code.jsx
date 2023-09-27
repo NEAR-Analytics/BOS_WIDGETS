@@ -37,7 +37,7 @@ function fetchContentType(url) {
     if (!response.ok) {
       console.log("Error response:", response);
     }
-    console.log("response|| " + JSON.stringify(response));
+    console.log("response|| " + JSON.stringify(response.headers));
     // Get the final URL after redirection
 
     const contentType = response.headers.get("Content-Type");
