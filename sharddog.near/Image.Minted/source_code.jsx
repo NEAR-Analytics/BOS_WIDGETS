@@ -29,7 +29,14 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 }
 function fetchContentType(url) {
   try {
-    let response = asyncFetch(url, { method: "GET", redirect: "follow", mode: 'no-cors' });
+    const segments = url.split("/");
+    const newURL =
+      "https://ipfs.near.social/ipfs/" + segments[segments.length - 1];
+    let response = asyncFetch(newURL, {
+      method: "GET",
+      redirect: "follow",
+      mode: "no-cors",
+    });
     if (!response.ok) {
       console.log("Error response:", response);
     }
