@@ -46,6 +46,13 @@ const Wrapper = styled.div`
       border-radius: var(--bs-border-radius-lg);
       max-height: 40em;
     }
+    th {
+      min-width: 5em;
+    }
+
+    .table>:not(caption)>*>* {
+      padding: .3rem;
+    }
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.03);
