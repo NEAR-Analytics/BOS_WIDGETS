@@ -126,7 +126,6 @@ if (Object.keys(state.hasFetched).length !== countryList.length) {
 
 const DivBackground = styled.div`
   background-color: #FDF3DD;
-  height: 100vh;
   display: flex;
   padding-bottom:20vh;
   width:100%;
