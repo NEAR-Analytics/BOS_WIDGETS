@@ -31,7 +31,8 @@ function fetchContentType(url) {
   try {
     const segments = url.split("/");
     const newURL =
-      "https://ipfs.near.social/ipfs/" + segments[segments.length - 1];
+      "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
+
     let response = asyncFetch(newURL, { method: "HEAD", redirect: "follow" });
     if (!response.ok) {
       console.log("Error response:", response);
