@@ -1,5 +1,9 @@
 const accountId = context.accountId;
 
+if (!accountId) {
+  return "Please login to see offers";
+}
+
 initState({ allTransactions: [] });
 
 const contract_id = "swap.genadrop.near";
@@ -132,6 +136,13 @@ function formatDate(timestamp) {
   };
 }
 
+const ImageGrid = styled.div`
+  grid-template-columns: repeat(2,1fr);
+  @media screen and (max-width: 1000px) {
+   grid-template-columns: repeat(1,1fr);
+}
+`;
+
 const render = (transaction) => {
   const date_data = formatDate(transaction.timestamp);
   return (
@@ -154,14 +165,13 @@ const render = (transaction) => {
       <p style={{ fontSize: 20, marginBottom: 4, fontWeight: "500" }}>
         Receiving NFT{`'`}s
       </p>
-      <div
+      <ImageGrid
         style={{
           border: "1px solid lightgray",
           width: "100%",
           borderRadius: 5,
           padding: 10,
           display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
           gap: "10px",
           textAlign: "center",
           marginBottom: 10,
@@ -205,20 +215,19 @@ const render = (transaction) => {
             </a>
           );
         })}
-      </div>
+      </ImageGrid>
       {transaction.sender_nfts.length !== 0 && (
         <>
           <p style={{ fontSize: 20, marginBottom: 4, fontWeight: "500" }}>
             Sending NFT{`'`}s
           </p>
-          <div
+          <ImageGrid
             style={{
               border: "1px solid lightgray",
               width: "100%",
               borderRadius: 5,
               padding: 10,
               display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
               gap: "10px",
               textAlign: "center",
               marginBottom: 10,
@@ -265,7 +274,7 @@ const render = (transaction) => {
                 </a>
               );
             })}
-          </div>
+          </ImageGrid>
         </>
       )}
 
@@ -342,11 +351,10 @@ const render = (transaction) => {
 };
 
 const ResponsiveGridDiv = styled.div`
+display:grid;
   grid-template-columns: 50% 50%; 
 
-@media screen and (max-width: 992px) {
-  display:block;
-}
+
 `;
 
 return (
