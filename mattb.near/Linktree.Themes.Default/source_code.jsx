@@ -187,6 +187,7 @@ const Linktree = styled.div`
   align-items:center;
   gap: 16px;
   padding: 0 8px;
+  height:100vh;
 `;
 
 return {
