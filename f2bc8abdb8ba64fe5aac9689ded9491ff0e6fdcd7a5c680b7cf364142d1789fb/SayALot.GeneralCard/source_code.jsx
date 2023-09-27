@@ -156,6 +156,7 @@ const Icon = styled.img`
 const CollapseCandidate = styled.div`
   padding: 12px;
   background: #ffffff;
+  border: 1px solid rgb(248, 248, 249);
   border-radius: 6px;
 `;
 const CollapseCandidateContent = styled.div`
@@ -230,7 +231,7 @@ const KeyIssuesContainer = styled.div`
 `;
 
 const ArticleBodyContainer = styled.div`
-  margin-right: 0.5rem;
+  margin: 0 0.5rem;
 `;
 
 const KeyIssueTitle = styled.p`
