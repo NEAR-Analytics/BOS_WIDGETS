@@ -225,7 +225,6 @@ const KeyIssuesContainer = styled.div`
   padding: 0px;
   gap: 8px;
   overflow-y: scroll;
-  height: 250px;
   width: 100%;
   border: 1px solid rgb(248, 248, 249);
   border-radius: var(--bs-border-radius-lg) !important;
