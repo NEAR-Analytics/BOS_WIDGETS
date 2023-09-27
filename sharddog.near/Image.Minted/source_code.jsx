@@ -15,9 +15,10 @@ if (props.timestamp) {
 
 State.init({
   image,
-  modalMediaUrl: null, // Rename to modalMediaUrl
+  modalMediaUrl: null,
   showModal: false,
-  isVideo: false, // Add isVideo to your State object
+  isVideo: false,
+  isLoading: true,
 });
 
 if (JSON.stringify(image) !== JSON.stringify(state.image)) {
@@ -30,19 +31,19 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 async function fetchContentType(url) {
   try {
     const response = await fetch(url, { method: "GET" })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const contentType = response.headers.get("Content-Type");
-    const isVideo = contentType && contentType.startsWith("video/");
-    State.update({ isVideo });
-  })
-  .catch(error => {
-    console.log("Error fetching content type:", error);
-  });
-
-  }catch{}
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const contentType = response.headers.get("Content-Type");
+        const isVideo = contentType && contentType.startsWith("video/");
+        State.update({ isVideo, isLoading: false });
+      })
+      .catch((error) => {
+        console.log("Error fetching content type:", error);
+        State.update({ isLoading: false });
+      });
+  } catch {}
 }
 function toUrl(image) {
   const url =
@@ -55,8 +56,8 @@ function toUrl(image) {
 
   return url;
 }
-console.log(image.url);
-fetchContentType(image.url);
+
+fetchContentType(toUrl(image));
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
@@ -64,7 +65,9 @@ const thumb = (imageUrl) =>
 
 return (
   <>
-    {state.isVideo ? (
+    {state.isLoading ? (
+      <div>Loading...</div> // Show a loading placeholder or spinner
+    ) : state.isVideo ? (
       <video
         className={className}
         controls
