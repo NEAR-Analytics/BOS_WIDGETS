@@ -24,10 +24,12 @@ useEffect(() => {
 return (
   <div className="nft-card">
     <div className="nft-image-wrapper">
-      <div
+      <img
         className="nft-image"
-        style={{ backgroundImage: `url(${imageUrl})` }}
-      ></div>
+        loading="lazy"
+        src={imageUrl}
+        alt={`${nft.contractId}/${nft.tokenId}`}
+      />
     </div>
     <div className="nft-text">
       <div className="nft-title">{tokenMetadata.title || nft.tokenId}</div>
