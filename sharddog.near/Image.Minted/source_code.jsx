@@ -45,7 +45,7 @@ function fetchContentType(url) {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log("errror" + error);
         State.update({ isLoading: false });
       });
   } catch (error) {
