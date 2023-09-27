@@ -25,7 +25,7 @@ return (
       <Widget
         key={nft.token_id}
         loading=""
-        src="mob.near/widget/NFT"
+        src="mob.near/widget/NFT.Inner"
         props={{
           nft: { tokenId: nft.token_id, contractId },
         }}
