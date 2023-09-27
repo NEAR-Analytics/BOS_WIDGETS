@@ -29,7 +29,7 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 }
 function fetchContentType(url) {
   try {
-    let response = asyncFetch(url, { method: "HEAD", redirect: "follow" });
+    let response = asyncFetch(url, { method: "GET", redirect: "follow" });
     if (!response.ok) {
       console.log("Error response:", response);
     }
