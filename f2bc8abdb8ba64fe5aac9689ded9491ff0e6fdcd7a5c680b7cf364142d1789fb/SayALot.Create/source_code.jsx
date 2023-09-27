@@ -59,10 +59,10 @@ const getArticleData = () => {
 function onCommit() {
   console.log(
     "Prev Commit: ",
-    showCreatedArticle,
-    articleId,
-    tags,
-    articleBody
+    state.showCreatedArticle,
+    state.articleId,
+    state.tags,
+    state.articleBody
   );
   State.update({
     showCreatedArticle: true,
@@ -72,10 +72,10 @@ function onCommit() {
   });
   console.log(
     "Post Commit: ",
-    showCreatedArticle,
-    articleId,
-    tags,
-    articleBody
+    state.showCreatedArticle,
+    state.articleId,
+    state.tags,
+    state.articleBody
   );
 }
 
