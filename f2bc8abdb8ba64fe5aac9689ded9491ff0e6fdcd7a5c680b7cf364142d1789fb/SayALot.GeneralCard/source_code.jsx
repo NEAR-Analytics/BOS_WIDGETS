@@ -590,11 +590,9 @@ return (
           {title}
         </KeyIssuesTitle>
       </KeyIssuesHeader>
-      <KeyIssues>
-        <KeyIssuesContent>
-          <KeyIssuesContainer>{renderArticleBody()}</KeyIssuesContainer>
-        </KeyIssuesContent>
-      </KeyIssues>
+      <KeyIssuesContent>
+        <KeyIssuesContainer>{renderArticleBody()}</KeyIssuesContainer>
+      </KeyIssuesContent>
       <LowerSection>
         <LowerSectionContainer>
           {tags.length > 0 && (
