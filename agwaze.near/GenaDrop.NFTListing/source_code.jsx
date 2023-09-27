@@ -11,8 +11,12 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 }; // just in case need to pass in a NFT
 const NEAR_NOMINATION_EXP = 24;
-const newContractId = props.contractId ? props?.contractId?.includes("genadrop") ? "genadrop-contract.nftgen.near": props.contractId : "genadrop-contract.nftgen.near"
-const contractId = newContractId // default nft contract - genadrop-contract.nftgen.near
+const newContractId = props.contractId
+  ? props?.contractId?.includes("genadrop")
+    ? "genadrop-contract.nftgen.near"
+    : props.contractId
+  : "genadrop-contract.nftgen.near";
+const contractId = newContractId; // default nft contract - genadrop-contract.nftgen.near
 const tokenId = props.tokenId ?? ""; // maybe condtional check if props is eempty // default nft
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
@@ -22,7 +26,9 @@ const tradeportLink = `https://www.tradeport.xyz/near/collection/${
 }?tab=items&tokenId=${tokenId}`;
 
 //Few and Far Link
-const fewfarlink = `https://fewfar.com/genadrop-single-nft-c40d654de/1668413944503`;
+const fewfarlink = `https://fewfar.com/${
+  contractId.includes("genadrop") ? "genadrop-single-nft-c40d654de" : contractId
+}/${tokenId}`;
 
 const mintBaseLink = `https://www.mintbase.xyz/contract/genadrop-contract.nftgen.near/nfts/all/0?onlyListed=true`;
 
