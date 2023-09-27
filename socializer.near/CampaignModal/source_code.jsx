@@ -143,7 +143,7 @@ const verifyEnter = () => {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
       else if (data) {
-        const { like, follow, repost, comment } = data;
+        const { like, follow, repost, comment, human } = data;
         State.update({
           like,
           follow,
