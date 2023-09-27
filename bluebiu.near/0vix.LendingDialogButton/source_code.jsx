@@ -158,9 +158,12 @@ const getAllowance = () => {
   );
   TokenContract.allowance(account, market.address).then((allowanceRaw) => {
     State.update({
-      isApproved: Big(Number(allowanceRaw._hex)).gt(
-        ethers.utils.parseUnits(amount || "0", market.underlyingToken.decimals)
-      ),
+      isApproved: !Big(
+        ethers.utils.formatUnits(
+          allowanceRaw._hex,
+          market.underlyingToken.decimals
+        )
+      ).lt(amount || "0"),
     });
   });
 };
