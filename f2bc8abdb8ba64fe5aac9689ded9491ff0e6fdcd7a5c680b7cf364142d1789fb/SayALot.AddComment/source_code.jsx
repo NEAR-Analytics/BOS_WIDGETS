@@ -242,8 +242,8 @@ const CFSubmit = styled.button`
 `;
 
 const Spinner = styled.div`
-  height: 2rem;
-  width: 2rem;
+  height: 1rem;
+  width: 1rem;
 `;
 
 const CallLibrary = styled.div`
@@ -318,6 +318,10 @@ function onCommit() {
   onCloseModal();
 }
 
+function onCancel() {
+  State.update({ showSpinner: false });
+}
+
 function onClickAddComment() {
   State.update({ showSpinner: true });
 }
@@ -337,7 +341,7 @@ function addCommentListener() {
   newLibCalls.push({
     functionName: "createComment",
     key: "createComment",
-    props: { comment, onClick: onClickAddComment, onCommit },
+    props: { comment, onClick: onClickAddComment, onCommit, onCancel },
   });
   State.update({ libCalls: newLibCalls });
 }
