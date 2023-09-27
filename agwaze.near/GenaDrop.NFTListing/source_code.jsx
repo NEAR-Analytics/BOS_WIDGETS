@@ -21,42 +21,7 @@ const tokenId = props.tokenId ?? ""; // maybe condtional check if props is eempt
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
 
-const tradeportLink = `https://www.tradeport.xyz/near/collection/${
-  contractId.includes("genadrop") ? "genadrop-contract.nftgen.near" : contractId
-}?tab=items&tokenId=${tokenId}`;
 
-//Few and Far Link
-const fewfarlink = `https://fewfar.com/${
-  contractId.includes("genadrop") ? "genadrop-single-nft-c40d654de" : contractId
-}/${tokenId}`;
-
-const mintBaseLink = `https://www.mintbase.xyz/contract/genadrop-contract.nftgen.near/nfts/all/0?onlyListed=true`;
-
-const parasLink = `https://paras.id/token/${contractId}::${tokenId}`;
-
-const defaultCustomMarket = "apollo42.near";
-const mintbasemarket = "simple.market.mintbase1.near";
-const default_receiver = "minorityprogrammers.near"; // default reciver nft for transfers
-const trpMsg = JSON.stringify({
-  price: amount,
-  market_type: "sale",
-  ft_token_id: "near",
-});
-
-const marketLinks = {
-  tradeport: {
-    link: tradeportLink,
-  },
-  fewandfar: {
-    link: fewfarlink,
-  },
-  mintbase: {
-    link: mintBaseLink,
-  },
-  paras: {
-    link: parasLink,
-  },
-};
 
 const fnfMsg = JSON.stringify({
   sale_conditions: {
@@ -102,6 +67,8 @@ function ownsNFT() {
 }
 ownsNFT();
 
+
+
 const getSender = () => {
   return !state.sender
     ? ""
@@ -117,9 +84,47 @@ if (state.sender === undefined) {
   }
 }
 
+const tradeportLink = `https://www.tradeport.xyz/near/collection/${
+  state.contractId.includes("genadrop") ? "genadrop-contract.nftgen.near" : state.contractId
+}?tab=items&tokenId=${state.tokenId}`;
+
+//Few and Far Link
+const fewfarlink = `https://fewfar.com/${
+  state.contractId.includes("genadrop") ? "genadrop-single-nft-c40d654de" : state.contractId
+}/${state.tokenId}`;
+
+const mintBaseLink = `https://www.mintbase.xyz/contract/genadrop-contract.nftgen.near/nfts/all/0?onlyListed=true`;
+
+const parasLink = `https://paras.id/token/${state.contractId}::${state.tokenId}`;
+
+const defaultCustomMarket = "apollo42.near";
+const mintbasemarket = "simple.market.mintbase1.near";
+const default_receiver = "minorityprogrammers.near"; // default reciver nft for transfers
+const trpMsg = JSON.stringify({
+  price: amount,
+  market_type: "sale",
+  ft_token_id: "near",
+});
+
+const marketLinks = {
+  tradeport: {
+    link: tradeportLink,
+  },
+  fewandfar: {
+    link: fewfarlink,
+  },
+  mintbase: {
+    link: mintBaseLink,
+  },
+  paras: {
+    link: parasLink,
+  },
+};
+
+
 function updateTradeportLink() {
   // Function body goes here
-  const updatedLink =
+   updatedLink =
     "https://www.tradeport.xyz/near/collection/" +
     state.contractId +
     "/" +
