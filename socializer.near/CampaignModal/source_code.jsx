@@ -149,6 +149,7 @@ const verifyEnter = () => {
           follow,
           repost,
           comment,
+          human,
           loading: false,
         });
       }
