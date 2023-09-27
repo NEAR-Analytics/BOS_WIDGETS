@@ -265,10 +265,6 @@ if (originalComment) {
     article.realArticleId ?? `${article.author}-${article.timeCreate}`;
 }
 
-function onClickAddComment() {
-  State.update({ showSpinner: true });
-}
-
 const libCalls = [];
 
 const libSrcArray = [widgets.libComment];
@@ -319,6 +315,10 @@ const renderSpinner = () => {
 function onCommit() {
   State.update({ showSpinner: false });
   onCloseModal();
+}
+
+function onClickAddComment() {
+  State.update({ showSpinner: true });
 }
 
 function addCommentListener() {
@@ -431,9 +431,9 @@ return (
             src={widgets.styledComponents}
             props={{
               Button: {
-                text: showSpinner ? "" : "Submit",
-                onClick: !showSpinner ? addCommentListener : () => {},
-                icon: showSpinner ? renderSpinner() : <></>,
+                text: state.showSpinner ? "" : "Submit",
+                onClick: !state.showSpinner ? addCommentListener : () => {},
+                icon: state.showSpinner ? renderSpinner() : <></>,
               },
             }}
           />
