@@ -57,12 +57,26 @@ const getArticleData = () => {
 };
 
 function onCommit() {
+  console.log(
+    "Prev Commit: ",
+    showCreatedArticle,
+    articleId,
+    tags,
+    articleBody
+  );
   State.update({
     showCreatedArticle: true,
     articleId: "",
     tags: [],
     articleBody: "Create post",
   });
+  console.log(
+    "Post Commit: ",
+    showCreatedArticle,
+    articleId,
+    tags,
+    articleBody
+  );
 }
 
 function onCancel() {
