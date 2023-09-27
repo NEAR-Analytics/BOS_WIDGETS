@@ -29,17 +29,20 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 
 async function fetchContentType(url) {
   try {
-    const response = await fetch(url, { method: "HEAD" });
+    const response = await fetch(url, { method: "GET" })
+  .then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-
     const contentType = response.headers.get("Content-Type");
-    const isVideo = contentType.startsWith("video/");
+    const isVideo = contentType && contentType.startsWith("video/");
     State.update({ isVideo });
-  } catch (error) {
+  })
+  .catch(error => {
     console.log("Error fetching content type:", error);
-  }
+  });
+
+  }catch{}
 }
 function toUrl(image) {
   const url =
