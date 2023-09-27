@@ -151,6 +151,9 @@ const render = (transaction) => {
         {date_data.time} UTC - {date_data.day} {date_data.month},{" "}
         {date_data.year}
       </p>
+      <p style={{ fontSize: 20, marginBottom: 4, fontWeight: "500" }}>
+        Receiving NFT{`'`}s
+      </p>
       <div
         style={{
           border: "1px solid lightgray",
@@ -171,28 +174,101 @@ const render = (transaction) => {
           )[0];
 
           return (
-            <div>
-              <img
-                style={{
-                  width: "100%",
-                  height: "220px",
-                  borderRadius: "5px",
-                  objectFit: "cover",
-                  marginBottom: 5,
-                }}
-                src={transaction_data.image}
-              />
-              <p style={{ marginBottom: 0, fontSize: 12 }}>
-                Collection : {transaction_data.collection}
-              </p>
-              <p style={{ marginBottom: 0, fontSize: 12 }}>
-                {item.contract_id}
-              </p>
-              <p style={{ marginBottom: 0, fontSize: 12 }}>{item.token_id}</p>
-            </div>
+            <a
+              style={{
+                backgroundColor: "transparent",
+                borderWidth: 0,
+                color: "black",
+              }}
+              target="_blank"
+              href={`/#/agwaze.near/widget/GenaDrop.NFTDetails?contractId=${item.contract_id}&tokenId=${item.token_id}`}
+            >
+              <div>
+                <img
+                  style={{
+                    width: "100%",
+                    height: "220px",
+                    borderRadius: "5px",
+                    objectFit: "cover",
+                    marginBottom: 5,
+                  }}
+                  src={transaction_data.image}
+                />
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  Collection : {transaction_data.collection}
+                </p>
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  {item.contract_id}
+                </p>
+                <p style={{ marginBottom: 0, fontSize: 12 }}>{item.token_id}</p>
+              </div>
+            </a>
           );
         })}
       </div>
+      {transaction.sender_nfts.length !== 0 && (
+        <>
+          <p style={{ fontSize: 20, marginBottom: 4, fontWeight: "500" }}>
+            Sending NFT{`'`}s
+          </p>
+          <div
+            style={{
+              border: "1px solid lightgray",
+              width: "100%",
+              borderRadius: 5,
+              padding: 10,
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: "10px",
+              textAlign: "center",
+              marginBottom: 10,
+            }}
+          >
+            {transaction.sender_nfts.map((item) => {
+              const transaction_data = state.nftData.filter(
+                (_) =>
+                  _.token_id === item.token_id &&
+                  item.contract_id === _.contract_id
+              )[0];
+
+              return (
+                <a
+                  style={{
+                    backgroundColor: "transparent",
+                    borderWidth: 0,
+                    color: "black",
+                  }}
+                  target="_blank"
+                  href={`/#/agwaze.near/widget/GenaDrop.NFTDetails?contractId=${item.contract_id}&tokenId=${item.token_id}`}
+                >
+                  <div>
+                    <img
+                      style={{
+                        width: "100%",
+                        height: "220px",
+                        borderRadius: "5px",
+                        objectFit: "cover",
+                        marginBottom: 5,
+                      }}
+                      src={transaction_data.image}
+                    />
+                    <p style={{ marginBottom: 0, fontSize: 12 }}>
+                      Collection : {transaction_data.collection}
+                    </p>
+                    <p style={{ marginBottom: 0, fontSize: 12 }}>
+                      {item.contract_id}
+                    </p>
+                    <p style={{ marginBottom: 0, fontSize: 12 }}>
+                      {item.token_id}
+                    </p>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </>
+      )}
+
       <div
         style={{
           display: "grid",
