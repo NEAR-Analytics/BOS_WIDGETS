@@ -65,18 +65,11 @@ function onCommit() {
     state.articleBody
   );
   State.update({
-    showCreatedArticle: true,
     articleId: "",
     tags: [],
     articleBody: "Create post",
+    showCreatedArticle: true,
   });
-  console.log(
-    "Post Commit: ",
-    state.showCreatedArticle,
-    state.articleId,
-    state.tags,
-    state.articleBody
-  );
 }
 
 function onCancel() {
@@ -136,6 +129,14 @@ const SecondContainer = styled.div`
   padding: 1rem;
   border-radius: 20px;
 `;
+
+console.log(
+  "Data: ",
+  state.showCreatedArticle,
+  state.articleId,
+  state.tags,
+  state.articleBody
+);
 
 return (
   <>
