@@ -28,26 +28,21 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
   });
 }
 function fetchContentType(url) {
-  try {
-    const segments = url.split("/");
-    const newURL =
-      "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
-    console.log(newURL);
-    let response = asyncFetch(newURL, { method: "GET", mode: "no-cors" });
-    if (!response.ok) {
-      console.log("Error response:", response);
+  const segments = url.split("/");
+  const newURL =
+    "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
+  console.log(newURL);
+  asyncFetch(newURL, { method: "GET" }).then((res) => {
+    if (res.ok) {
+      const contentType = response.headers.get("Content-Type");
+      const isVideo = contentType && contentType.startsWith("video/");
+      State.update({ isVideo, isLoading: false });
+    } else {
+      State.update({ isLoading: false });
     }
-    console.log("response|| " + JSON.stringify(response.headers));
-    // Get the final URL after redirection
-
-    const contentType = response.headers.get("Content-Type");
-    const isVideo = contentType && contentType.startsWith("video/");
-    State.update({ isVideo, isLoading: false });
-  } catch (error) {
-    console.log("Error fetching content type:", error);
-    State.update({ isLoading: false });
-  }
+  });
 }
+
 function toUrl(image) {
   const url =
     (image.ipfs_cid
