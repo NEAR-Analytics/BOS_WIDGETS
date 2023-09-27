@@ -106,7 +106,7 @@ const ConfirmButton = styled.button`
 `;
 
 const handleOnConfirm = (key, value) => {
-  onConfirm(key, value);
+  onConfirm({ key, value });
 };
 
 const handleKeyChange = (e) => {
