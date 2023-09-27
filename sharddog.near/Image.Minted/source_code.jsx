@@ -36,13 +36,11 @@ function fetchContentType(url) {
     asyncFetch(newURL, { method: "HEAD" })
       .then((response) => {
         console.log(response);
-        if (response.ok) {
+  
           const contentType = response.headers.get("contentType");
           const isVideo = contentType && contentType.startsWith("video/");
           State.update({ isVideo, isLoading: false });
-        } else {
-          State.update({ isLoading: false });
-        }
+   
       })
       .catch((error) => {
         console.log("errror" + error);
