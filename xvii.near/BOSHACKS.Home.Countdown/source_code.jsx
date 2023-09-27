@@ -40,7 +40,7 @@ const timer = setInterval(() => {
   if (now < start) title = <>NCR Course Starts</>;
   else if (now > start && now < end) title = <>Final Project Submission</>;
   else {
-    title = <>{type} is ended</>;
+    title = <>{type} Course has begun</>;
     days = 0;
     hours = 0;
     minutes = 0;
