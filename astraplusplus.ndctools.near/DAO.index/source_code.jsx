@@ -1,8 +1,7 @@
-const HoMContractID = "congress-test.testnet";
-const CoAContractID = "";
-const VotingBodyContractID = "";
-const TCContractID = "";
-
+const CoADaoId = "";
+const VotingBodyDaoId = "";
+const TCDaoId = "";
+const HoMDaoId = "congress-test.testnet";
 const widgetOwner = props.widgetOwner ?? "astraplusplus.ndctools.near";
 
 State.init({
@@ -25,11 +24,11 @@ const constructURL = (paramObj, base) => {
     return `${baseURL}?${params}`;
 };
 
-const isCongressScreen =
-    props.daoId === HoMContractID ||
-    props.daoId === VotingBodyContractID ||
-    props.daoId === CoAContractID ||
-    props.daoId === TCContractID;
+const isCongressDaoID =
+    props.daoId === HoMDaoId ||
+    props.daoId === VotingBodyDaoId ||
+    props.daoId === CoADaoId ||
+    props.daoId === TCDaoId;
 
 const tabs = {
     proposals: {
@@ -69,7 +68,7 @@ const tabs = {
     }
 };
 
-if (isCongressScreen) {
+if (isCongressDaoID) {
     delete tabs["funds"];
     delete tabs["projects"];
     delete tabs["bounties"];
