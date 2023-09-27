@@ -228,7 +228,7 @@ const KeyIssuesContainer = styled.div`
 `;
 
 const ArticleBodyContainer = styled.div`
-  border: 1px, solid, rgb(248, 248, 249);
+  border: 1px solid rgb(248, 248, 249);
   border-radius: var(--bs-border-radius-lg) !important;
   margin-right: 0.5rem;
 `;
