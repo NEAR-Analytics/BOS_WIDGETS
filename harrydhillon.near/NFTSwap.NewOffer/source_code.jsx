@@ -175,16 +175,21 @@ const ConfirmOffer = () => {
               justifyContent: "center",
             }}
           >
-            <div>
-              <img
-                style={{ width: 60, height: 60, borderRadius: 10 }}
-                src={item.media}
-              />
-              <p style={{ marginBottom: 0 }}>Token ID : {item.tokenId}</p>
-              <p style={{ marginBottom: 0, fontSize: 10 }}>
-                NFT Contract : {item.contractId}
-              </p>
-            </div>
+            <a
+              target="_blank"
+              href={`/#/agwaze.near/widget/GenaDrop.NFTDetails?contractId=${item.contractId}&tokenId=${item.tokenId}`}
+            >
+              <div>
+                <img
+                  style={{ width: 60, height: 60, borderRadius: 10 }}
+                  src={item.media}
+                />
+                <p style={{ marginBottom: 0 }}>Token ID : {item.tokenId}</p>
+                <p style={{ marginBottom: 0, fontSize: 10 }}>
+                  NFT Contract : {item.contractId}
+                </p>
+              </div>
+            </a>
           </ShadowBOX>
         ))}
       </ScrollContainer>
@@ -207,18 +212,23 @@ const ConfirmOffer = () => {
               justifyContent: "center",
             }}
           >
-            <div>
-              <img
-                style={{ width: 60, height: 60, borderRadius: 10 }}
-                src={item.media}
-              />
-              <p style={{ marginBottom: 0, fontSize: 12 }}>
-                Token ID : {item.tokenId}
-              </p>
-              <p style={{ marginBottom: 0, fontSize: 10 }}>
-                NFT Contract : {item.contractId}
-              </p>
-            </div>
+            <a
+              target="_blank"
+              href={`/#/agwaze.near/widget/GenaDrop.NFTDetails?contractId=${item.contractId}&tokenId=${item.tokenId}`}
+            >
+              <div>
+                <img
+                  style={{ width: 60, height: 60, borderRadius: 10 }}
+                  src={item.media}
+                />
+                <p style={{ marginBottom: 0, fontSize: 12 }}>
+                  Token ID : {item.tokenId}
+                </p>
+                <p style={{ marginBottom: 0, fontSize: 10 }}>
+                  NFT Contract : {item.contractId}
+                </p>
+              </div>
+            </a>
           </ShadowBOX>
         ))}
       </ScrollContainer>
