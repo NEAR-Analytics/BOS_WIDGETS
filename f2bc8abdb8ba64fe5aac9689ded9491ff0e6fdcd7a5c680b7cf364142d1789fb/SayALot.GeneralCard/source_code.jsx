@@ -228,6 +228,8 @@ const KeyIssuesContainer = styled.div`
 `;
 
 const ArticleBodyContainer = styled.div`
+  border: 1px, solid, rgb(248, 248, 249);
+  border-radius: var(--bs-border-radius-lg) !important;
   margin-right: 0.5rem;
 `;
 
@@ -554,7 +556,7 @@ return (
           }}
         />
       )}
-      <HeaderCard className="d-flex justify-content-between">
+      <HeaderCard className="d-flex justify-content-between border-bottom border-dark">
         <div className="d-flex align-items-center gap-2">
           <Widget
             src="mob.near/widget/Profile.OverlayTrigger"
