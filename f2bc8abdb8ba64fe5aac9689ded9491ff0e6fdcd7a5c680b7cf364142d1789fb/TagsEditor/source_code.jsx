@@ -51,7 +51,7 @@ if (!state.allTags) {
 }
 
 const setTags = (tags) => {
-  props.forceClear && props.stateUpdate({ clearArticleId: false });
+  props.forceClear && props.stateUpdate({ clearTags: false });
   tags = tags.map((o) => {
     o.name = normalizeTag(o.name);
     return o;
@@ -80,7 +80,7 @@ return (
     {props.debug && (
       <div>
         Debugging tags:
-        <pre>{JSON.stringify(props.forceClear ? "" : state.tags)}</pre>
+        <pre>{JSON.stringify(props.forceClear ? {} : state.tags)}</pre>
       </div>
     )}
   </>
