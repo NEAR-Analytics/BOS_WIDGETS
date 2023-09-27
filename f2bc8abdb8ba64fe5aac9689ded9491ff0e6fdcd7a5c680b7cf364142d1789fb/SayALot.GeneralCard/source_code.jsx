@@ -57,6 +57,10 @@ const getShortUserName = () => {
 
 //==============================================STYLED COMPONENTS===================================================
 
+const CardContainer = styled.div`
+  box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+`;
+
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -534,7 +538,7 @@ const renderArticleBody = () => {
 
 //===================================================RENDER========================================================
 return (
-  <div className="bg-white rounded-3 p-3 m-3 col-lg-10 col-md-10 col-sm-12">
+  <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-10 col-md-10 col-sm-12">
     <Card>
       {state.showModal && (
         <Widget
@@ -666,5 +670,5 @@ return (
         </LowerSectionContainer>
       </LowerSection>
     </Card>
-  </div>
+  </CardContainer>
 );
