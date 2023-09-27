@@ -1,1 +1,1 @@
-return <div>Hello s5</div>;
+return <Widget src="bozon.near/widget/WidgetHistory" />;
