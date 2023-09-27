@@ -180,6 +180,15 @@ const FollowButtonWrapper = styled.div`
   }
 `;
 
+const Linktree = styled.div`
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap: 16;
+  padding: 0 8px;
+`;
+
 return {
   Wrapper,
   Section,
@@ -192,4 +201,5 @@ return {
   Stats,
   SocialLinks,
   FollowButtonWrapper,
+  Linktree
 };
