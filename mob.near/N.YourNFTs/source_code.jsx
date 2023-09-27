@@ -30,9 +30,15 @@ const Wrapper = styled.div`
     --template-columns: 3;
   }
 
+  @media(min-width: 1140px) {
+    --template-columns: 4;
+  }
+
   @media(min-width: 768px) {
     --template-column-gutters: 16px;
   }
+
+  margin-top: var(--template-column-gutters);
 
   display: grid;
   gap: var(--template-column-gutters);
@@ -116,6 +122,7 @@ return (
   <Wrapper>
     {allNfts.map((contractId, i) => (
       <Widget
+        loading=""
         key={contractId}
         src="mob.near/widget/N.NftCollection"
         props={{ accountId, contractId }}
