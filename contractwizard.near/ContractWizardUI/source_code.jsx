@@ -9,6 +9,7 @@ State.init({
   tokenName: "MyToken",
   tokenSymbol: "MTK",
   ftDecimals: 24,
+  ftDecimalsError: false,
   ftPremint: null,
   ftPremintReceiver: "",
   nftBaseURI: "",
@@ -408,9 +409,25 @@ return (
                       type="number"
                       props={{
                         label: "Decimals",
+                        assistiveText: state.ftDecimalsError
+                          ? "A fungible token can have max 38 decimals"
+                          : "",
                         placeholder: 24,
-                        onInput: (e) =>
-                          State.update({ ftDecimals: e.target.value }),
+                        onInput: (e) => {
+                          const v = e.target.value.trim();
+                          if (v === 0 || isNaN(v) || v < 0 || v > 38) {
+                            State.update({ ftDecimalsError: true });
+                            setTimeout(() => {
+                              State.update({ ftDecimalsError: false });
+                            }, 2000);
+                            return;
+                          } else {
+                            State.update({ ftDecimals: v });
+                            if (state.ftDecimalsError) {
+                              State.update({ ftDecimalsError: false });
+                            }
+                          }
+                        },
                         value: state.ftDecimals,
                       }}
                     />
