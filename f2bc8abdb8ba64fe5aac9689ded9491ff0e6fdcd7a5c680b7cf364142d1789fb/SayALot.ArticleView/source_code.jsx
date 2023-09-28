@@ -41,7 +41,6 @@ const tabs = [
     title: "Post info",
     icon: "bi bi-info-circle",
   },
-  { id: "comments", title: "Comments", icon: "bi bi-chat-square-dots-fill" },
 ];
 
 const prodAction = "sayALotArticle";
@@ -57,7 +56,7 @@ const libCalls = [
 ];
 
 State.init({
-  tabSelected: tabs[1].id,
+  tabSelected: tabs[0].id,
   comments: [],
   sliceContent: true,
   libCalls,
@@ -654,6 +653,53 @@ return (
               </PlatformContent>
             </PlatformCard>
           </BodyContainer>
+          <CommentSection>
+            <NominationTitle>
+              <i className="bi bi-chat-square-dots-fill" />
+              Comments
+            </NominationTitle>
+
+            {state.showModal && (
+              <Widget
+                src={widgets.addComment}
+                props={{
+                  article: articleToRenderData,
+                  originalComment,
+                  widgets,
+                  isTest,
+                  isReplying: false,
+                  username: accountId,
+                  onCloseModal: () => State.update({ showModal: false }),
+                  // nomination_contract,
+                }}
+              />
+            )}
+            <Widget
+              src={widgets.styledComponents}
+              props={{
+                Button: {
+                  text: "Add a Comment",
+                  disabled:
+                    !context.accountId || context.accountId === accountId,
+                  className: "primary w-100 mt-4 mb-2 justify-content-center",
+                  onClick: () => State.update({ showModal: true }),
+                  icon: <i className="bi bi-plus-lg"></i>,
+                },
+              }}
+            />
+            {originalComments.map((data) => (
+              <Widget
+                props={{
+                  widgets,
+                  data,
+                  isTest,
+                  authorForWidget,
+                  isReply: false,
+                }}
+                src={widgets.commentView}
+              />
+            ))}
+          </CommentSection>
         </div>
       </div>
       <SecondContainer className="col-lg-3 col-sm-12">
@@ -672,7 +718,7 @@ return (
             ))}
           </ul>
           <div>
-            {state.tabSelected == "generalInfo" ? (
+            {state.tabSelected == "generalInfo" && (
               <DeclarationCard>
                 <SectionTitle className="mt-4 mb-3"></SectionTitle>
                 <div>
@@ -693,50 +739,6 @@ return (
                   </DescriptionInfoSpan>
                 </div>
               </DeclarationCard>
-            ) : (
-              <CommentSection>
-                {state.showModal && (
-                  <Widget
-                    src={widgets.addComment}
-                    props={{
-                      article: articleToRenderData,
-                      originalComment,
-                      widgets,
-                      isTest,
-                      isReplying: false,
-                      username: accountId,
-                      onCloseModal: () => State.update({ showModal: false }),
-                      // nomination_contract,
-                    }}
-                  />
-                )}
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Button: {
-                      text: "Add a Comment",
-                      disabled:
-                        !context.accountId || context.accountId === accountId,
-                      className:
-                        "primary w-100 mt-4 mb-2 justify-content-center",
-                      onClick: () => State.update({ showModal: true }),
-                      icon: <i className="bi bi-plus-lg"></i>,
-                    },
-                  }}
-                />
-                {originalComments.map((data) => (
-                  <Widget
-                    props={{
-                      widgets,
-                      data,
-                      isTest,
-                      authorForWidget,
-                      isReply: false,
-                    }}
-                    src={widgets.commentView}
-                  />
-                ))}
-              </CommentSection>
             )}
           </div>
         </>
