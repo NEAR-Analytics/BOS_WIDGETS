@@ -19,7 +19,7 @@ return (
   <div style={{ backgroundColor: "#FDF3DD" }}>
     <button
       style={{ backgroundColor: "transparent", borderWidth: 0, padding: 10 }}
-      onClick={props.onBack}
+      onClick={() => props?.onBack()}
     >
       <img
         style={{ width: 30, height: 30, borderRadius: 100 }}
