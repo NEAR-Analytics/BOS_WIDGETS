@@ -213,7 +213,9 @@ function getArticle(articleIndex) {
     articleParsed.iAmHumanData = iAmHumanData;
   }
 
-  return articleParsed;
+  if (articleParsed) {
+    return articleParsed;
+  }
 }
 
 function getOldArticleBasicDataArray(env) {
@@ -298,9 +300,6 @@ function getLastEditArticles(props) {
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env, filterBy);
 
-  console.log("oldFormatArticles: ", oldFormatArticles);
-  console.log("newFormatArticles: ", newFormatArticles);
-
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
       return !newFormatArticles.find(
@@ -310,7 +309,11 @@ function getLastEditArticles(props) {
     }
   );
 
+  console.log("finalOldFormatArticles: ", finalOldFormatArticles);
+
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
+
+  console.log("lastEditionArticles: ", lastEditionArticles);
 
   const validFormatLastEditionArticles =
     convertArticlesTagsToValidFormat(lastEditionArticles);
@@ -319,6 +322,8 @@ function getLastEditArticles(props) {
     filterBy,
     validFormatLastEditionArticles
   );
+
+  console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
 
   return validFormatFilteredArticles;
 }
