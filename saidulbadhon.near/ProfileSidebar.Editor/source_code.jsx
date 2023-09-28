@@ -1,4 +1,5 @@
 const accountId = props.accountId || context.accountId;
+const theme = props.theme;
 
 if (!accountId) return "Login or send accountId in the props";
 
@@ -48,7 +49,7 @@ const styles = {
   inputLabel: {
     padding: 0,
     margin: 0,
-    color: props.theme.textColor3,
+    color: theme.textColor3,
   },
   input: {
     width: "100%",
@@ -58,7 +59,7 @@ const styles = {
     borderRadius: 4,
     resize: "vertical",
     paddingInline: 8,
-    color: props.theme.textColor2,
+    color: theme.textColor2,
   },
 
   buttonSuccess: {
@@ -70,7 +71,7 @@ const styles = {
     cursor: "pointer",
     transition: "all 0.2s ease-in-out",
     backgroundColor: "#2ea043",
-    color: props.theme.buttonTextColor,
+    color: theme.buttonTextColor,
   },
 };
 
@@ -96,8 +97,8 @@ return (
           height: 40,
           padding: 0,
           borderRadius: 4,
-          backgroundColor: props.theme.buttonColor,
-          color: props.theme.buttonTextColor,
+          backgroundColor: theme.buttonColor,
+          color: theme.buttonTextColor,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -170,7 +171,7 @@ return (
         flexDirection: "column",
       }}
     >
-      <h3 style={{ color: props.theme.textColor }}>Social accounts</h3>
+      <h3 style={{ color: theme.textColor }}>Social accounts</h3>
       <div style={styles.inputContainer}>
         <p style={styles.inputLabel}>Twitter:</p>
 
