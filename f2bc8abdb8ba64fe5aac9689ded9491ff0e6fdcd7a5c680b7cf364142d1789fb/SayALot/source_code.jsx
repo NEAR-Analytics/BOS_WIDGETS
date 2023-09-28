@@ -25,7 +25,7 @@ const initLibCalls = [
   },
 ];
 
-console.log("canLoggedUserCreateArticle: ", canLoggedUserCreateArticle);
+// console.log("canLoggedUserCreateArticle: ", canLoggedUserCreateArticle);
 
 if (!accountId) accountId = context.accountId;
 
