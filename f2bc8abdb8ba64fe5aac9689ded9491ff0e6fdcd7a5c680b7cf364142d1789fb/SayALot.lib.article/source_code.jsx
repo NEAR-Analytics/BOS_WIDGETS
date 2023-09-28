@@ -1,8 +1,16 @@
 const { isTest, stateUpdate, libCalls } = props;
 
+//TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
+
 const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
+
+const userHumanValidations = Near.view(
+  "registry.i-am-human.near",
+  "sbt_tokens_by_owner",
+  { account: context.accountId }
+);
 
 // const initLibCalls = [
 //   {
@@ -17,36 +25,44 @@ const action = isTest ? testAction : prodAction;
 //   },
 // ];
 
-function getWritersWhitelist(env) {
-  if (env === "test") {
-    return [
-      "silkking.near",
-      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-      "blaze.near",
-      "ayelen.near",
-      "kenrou-it.near",
-    ];
-  } else {
-    return [
-      "neardigitalcollective.near",
-      "blaze.near",
-      "jlw.near",
-      "kazanderdad.near",
-      "joep.near",
-      "sarahkornfeld.near",
-      "yuensid.near",
-      "shubham007.near",
-      "fiftycent.near",
-      "ozymandius.near",
-      "chloe.near",
-    ];
-  }
-}
+// function getWritersWhitelist(env) {
+//   if (env === "test") {
+//     return [
+//       "silkking.near",
+//       "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+//       "blaze.near",
+//       "ayelen.near",
+//       "kenrou-it.near",
+//     ];
+//   } else {
+//     return [
+//       "neardigitalcollective.near",
+//       "blaze.near",
+//       "jlw.near",
+//       "kazanderdad.near",
+//       "joep.near",
+//       "sarahkornfeld.near",
+//       "yuensid.near",
+//       "shubham007.near",
+//       "fiftycent.near",
+//       "ozymandius.near",
+//       "chloe.near",
+//     ];
+//   }
+// }
 
 function canUserCreateArticle(props) {
-  const { env, accountId } = props;
+  const { env, accountId, currentValidator } = props;
+  let isValidUser = false;
 
-  return getWritersWhitelist(env).includes(accountId);
+  for (let i = 0; i < userHumanValidations.length; i++) {
+    if (!isValidUser) {
+      isValidUser = userHumanValidations[i][0] === currentValidator;
+    }
+  }
+
+  return isValidUser;
+  // return getWritersWhitelist(env).includes(accountId);
 }
 
 function canUserEditArticle(props) {
@@ -141,23 +157,25 @@ function getArticleBlackListByRealArticleId() {
 }
 
 function filterInvalidArticlesIndexes(env, articlesIndexes) {
-  return articlesIndexes
-    .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
-    .filter(
-      (articleIndex) =>
-        articleIndex.value.id.split("-")[0] === articleIndex.accountId
-    ) // realArticleId begins with same accountId as index object
-    .filter((articleIndex) =>
-      getWritersWhitelist(env).includes(articleIndex.accountId)
-    ) // Account is in whitelist
-    .filter(
-      (articleIndex) =>
-        !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Article is not in blacklist
-    )
-    .filter(
-      (articleIndex) =>
-        !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article is not in blacklist
-    );
+  return (
+    articlesIndexes
+      .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
+      .filter(
+        (articleIndex) =>
+          articleIndex.value.id.split("-")[0] === articleIndex.accountId
+      ) // realArticleId begins with same accountId as index object
+      // .filter((articleIndex) =>
+      //   getWritersWhitelist(env).includes(articleIndex.accountId)
+      // ) // Account is in whitelist
+      .filter(
+        (articleIndex) =>
+          !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Article is not in blacklist
+      )
+      .filter(
+        (articleIndex) =>
+          !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article is not in blacklist
+      )
+  );
 }
 
 function getLatestEdits(newFormatArticlesIndexes) {
@@ -176,12 +194,20 @@ function getArticle(articleIndex) {
     `${articleIndex.accountId}/${action}/main`,
     articleIndex.blockHeight
   );
+  const iAmHumanData = Near.view(
+    "registry.i-am-human.near",
+    "sbt_tokens_by_owner",
+    {
+      account: articleIndex.accountId,
+    }
+  );
 
   let articleParsed = undefined;
-  if (article) {
+  if (article && iAmHumanData.length > 0) {
     articleParsed = JSON.parse(article);
     articleParsed.blockHeight = articleIndex.blockHeight;
     articleParsed.realArticleId = articleIndex.value.id;
+    articleParsed.iAmHumanData = iAmHumanData;
   }
 
   return articleParsed;
