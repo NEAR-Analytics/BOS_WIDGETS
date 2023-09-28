@@ -17,8 +17,17 @@ ${embedCss}
 <script>
 function TestReact(props) {
   const [value, setValue] = React.useState(props.initialText || "");
+  
+  let textValue
+
+  if(${props.forceClear}) {
+    textValue = ""
+  } else {
+    textValue = value
+  }
+
   return React.createElement(ReactMarkdownEditorLite.default, {
-      value: value,
+      value: textValue,
       view: { menu: true, md: true, html: false },
       canView: { menu: true, md: false, html: false, fullScreen: false, hideMenu: true },
       onChange: ({ text }) => {
