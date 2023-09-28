@@ -1,0 +1,2 @@
+const accountId = props.accountId ?? context.accountId; const ownerId = props.ownerId ?? "hack.near"; const pageId = props.pageId ?? "community.page"; return <Widget src="hack.near/widget/community.page" props={{ accountId, communityId: "devs.near", contractId: "", h1: "Build",
+        h2: "City", tagline: "freedom for everyone", mainColor: "", buttonText: "Let's go!", link: "https://libertydao.online" }} />
