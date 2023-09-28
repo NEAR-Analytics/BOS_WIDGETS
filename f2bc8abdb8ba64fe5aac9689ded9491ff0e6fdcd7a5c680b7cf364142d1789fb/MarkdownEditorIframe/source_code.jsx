@@ -23,7 +23,6 @@ function TestReact(props) {
       view: { menu: true, md: true, html: false },
       canView: { menu: true, md: false, html: false, fullScreen: false, hideMenu: true },
       onChange: ({ text }) => {
-        ${props.forceClear} && parentStateUpdate({ clearArticleBody: false })
         setValue(text);
         window.top.postMessage(text, "*");
       },
