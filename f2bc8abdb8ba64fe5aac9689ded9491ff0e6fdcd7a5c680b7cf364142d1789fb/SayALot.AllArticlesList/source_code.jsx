@@ -58,6 +58,7 @@ return (
           callLibs,
           handleFilterArticles,
           handleEditArticle,
+          initialBody: "",
         }}
       />
     )}
