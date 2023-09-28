@@ -288,17 +288,13 @@ function getNewFormatValidArticles(env, filterBy) {
     articlesIndexes
   );
 
-  const validLatestEdits = getLatestEdits(validArticlesIndexes).filter(
-    (article) => article !== undefined
-  );
+  const validLatestEdits = getLatestEdits(validArticlesIndexes);
 
   return validLatestEdits.map(getArticle);
 }
 
 function getOldFormatArticles(env) {
-  const oldBasicDataArray = getOldArticleBasicDataArray(env).filter(
-    (article) => article !== undefined
-  );
+  const oldBasicDataArray = getOldArticleBasicDataArray(env);
   return oldBasicDataArray.map(getArticle);
 }
 
@@ -306,6 +302,8 @@ function getLastEditArticles(props) {
   const { env, filterBy } = props;
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env, filterBy);
+
+  // console.log("newFormatArticles: ", newFormatArticles);
 
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
@@ -316,9 +314,11 @@ function getLastEditArticles(props) {
     }
   );
 
+  // console.log("finalOldFormatArticles: ", finalOldFormatArticles);
+
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
 
-  console.log("lastEditionArticles: ", lastEditionArticles);
+  // console.log("lastEditionArticles: ", lastEditionArticles);
 
   const validFormatLastEditionArticles =
     convertArticlesTagsToValidFormat(lastEditionArticles);
@@ -328,7 +328,7 @@ function getLastEditArticles(props) {
     validFormatLastEditionArticles
   );
 
-  console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
+  // console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
 
   return validFormatFilteredArticles;
 }
