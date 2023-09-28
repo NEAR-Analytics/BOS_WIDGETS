@@ -18,7 +18,7 @@ ${embedCss}
 function TestReact(props) {
   const [value, setValue] = React.useState(props.initialText || "");
   return React.createElement(ReactMarkdownEditorLite.default, {
-      value: false ? "aaaa" : "bbbb",
+      value: props.forceClear ? "FC" : "N",
       view: { menu: true, md: true, html: false },
       canView: { menu: true, md: false, html: false, fullScreen: false, hideMenu: true },
       onChange: ({ text }) => {
@@ -42,6 +42,8 @@ window.addEventListener("message", (event) => {
 
 </script>
 `;
+
+console.log("FC: ", props.forceClear);
 
 return (
   <iframe
