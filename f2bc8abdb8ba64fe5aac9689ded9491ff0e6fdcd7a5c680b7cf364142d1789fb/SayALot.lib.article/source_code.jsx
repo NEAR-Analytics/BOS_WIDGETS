@@ -288,13 +288,17 @@ function getNewFormatValidArticles(env, filterBy) {
     articlesIndexes
   );
 
-  const validLatestEdits = getLatestEdits(validArticlesIndexes);
+  const validLatestEdits = getLatestEdits(validArticlesIndexes).filter(
+    (article) => article !== undefined
+  );
 
   return validLatestEdits.map(getArticle);
 }
 
 function getOldFormatArticles(env) {
-  const oldBasicDataArray = getOldArticleBasicDataArray(env);
+  const oldBasicDataArray = getOldArticleBasicDataArray(env).filter(
+    (article) => article !== undefined
+  );
   return oldBasicDataArray.map(getArticle);
 }
 
@@ -322,7 +326,7 @@ function getLastEditArticles(props) {
   const validFormatFilteredArticles = filterArticles(
     filterBy,
     validFormatLastEditionArticles
-  ).filter((articles) => articles !== undefined);
+  );
 
   console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
 
