@@ -13,7 +13,7 @@ const trendingProfilesURL = `${BASE_URL}/${algorithm}_page`;
 return (
   <TrendingUsersView>
     <Widget
-      src={`${REPL_ACCOUNT}/widget/Recommender.Service.RecommendedUsers`}
+      src={`scopalaffairs.near/widget/Recommender.Service.RecommendedUsers`}
       props={{
         dataset: trendingProfilesURL,
         sidebar: props.sidebar,
