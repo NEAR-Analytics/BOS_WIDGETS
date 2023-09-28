@@ -16,6 +16,7 @@ ${embedCss}
 
 <script>
 function TestReact(props) {
+  console.log("FC0: ", props.forceClear)
   const [value, setValue] = React.useState(props.initialText || "");
   return React.createElement(ReactMarkdownEditorLite.default, {
       value: props.forceClear ? "FC" : "N",
