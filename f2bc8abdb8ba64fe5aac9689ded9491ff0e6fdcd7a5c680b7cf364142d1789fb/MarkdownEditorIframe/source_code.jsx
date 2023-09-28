@@ -16,14 +16,14 @@ ${embedCss}
 
 <script>
 function TestReact(props) {
-  console.log("FC0: ", props.forceClear)
+  console.log("FC0: ", ${props.forceClear})
   const [value, setValue] = React.useState(props.initialText || "");
   return React.createElement(ReactMarkdownEditorLite.default, {
-      value: props.forceClear ? "FC" : "N",
+      value: ${props.forceClear} ? "FC" : "N",
       view: { menu: true, md: true, html: false },
       canView: { menu: true, md: false, html: false, fullScreen: false, hideMenu: true },
       onChange: ({ text }) => {
-        props.forceClear && props.stateUpdate({ clearArticleBody: false })
+        ${props.forceClear && props.stateUpdate({ clearArticleBody: false })}
         setValue(text);
         window.top.postMessage(text, "*");
       },
