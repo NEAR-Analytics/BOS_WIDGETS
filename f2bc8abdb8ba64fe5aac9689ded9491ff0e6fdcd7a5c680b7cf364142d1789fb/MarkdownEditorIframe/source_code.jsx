@@ -1,7 +1,6 @@
-const initialText = "# Hello World\n\n";
-State.init({
-  m: initialText,
-});
+const initialText = props.initialText ?? "# Hello World\n\n";
+
+const embedCss = props.embedCss || "";
 
 const code = `
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
@@ -9,6 +8,9 @@ const code = `
 <script src="https://unpkg.com/react-markdown-editor-lite@1.3.4/lib/index.js" crossorigin></script>
 <link rel="stylesheet" href="https://unpkg.com/react-markdown-editor-lite@1.3.4/lib/index.css" />
 
+<style>
+${embedCss}
+</style>
 
 <div id="react-root"></div>
 
@@ -42,14 +44,10 @@ window.addEventListener("message", (event) => {
 `;
 
 return (
-  <div>
-    <iframe
-      className="w-100"
-      style={{ height: "300px" }}
-      srcDoc={code}
-      message={initialText}
-      onMessage={(m) => State.update({ m })}
-    />
-    <Markdown text={state.m} />
-  </div>
+  <iframe
+    className="w-100 h-100"
+    srcDoc={code}
+    message={initialText}
+    onMessage={props.onChange}
+  />
 );
