@@ -65,6 +65,14 @@ const loadEstimationResult = (value) => {
   });
 };
 
+let selectedDex = props.dex ?? DEFAULT_DEX;
+if (selectedDex == "Ammos Finance") {
+  selectedDex = "AmmosFinance";
+}
+if (selectedDex == "FusionX V3") {
+  selectedDex = "FusionX_V3";
+}
+
 State.init({
   rpcError: false,
   isNetworkSelectOpen: false,
@@ -75,7 +83,7 @@ State.init({
   slippagetolerance: "0.5",
   reloadPools: false,
   estimate: {},
-  selectedDex: props.dex ?? DEFAULT_DEX,
+  selectedDex,
   loadRes: loadEstimationResult,
 });
 
@@ -90,7 +98,7 @@ const reload = () => {
     slippagetolerance: "0.5",
     reloadPools: false,
     estimate: {},
-    selectedDex: props.dex ?? DEFAULT_DEX,
+    selectedDex,
     loadRes: loadEstimationResult,
   });
 };
@@ -886,7 +894,7 @@ return (
         </>
       )}
     {state.network === NETWORK_MANTLE &&
-      ["FusionX V3", "Ammos Finance"].includes(state.selectedDex) &&
+      ["FusionX_V3", "AmmosFinance"].includes(state.selectedDex) &&
       state.inputAssetTokenId &&
       state.outputAssetTokenId &&
       state.inputAssetTokenId !== state.outputAssetTokenId &&
