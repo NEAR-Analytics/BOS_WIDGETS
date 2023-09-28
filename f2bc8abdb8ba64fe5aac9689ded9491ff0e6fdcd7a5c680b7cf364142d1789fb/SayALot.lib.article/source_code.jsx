@@ -282,16 +282,13 @@ function getOldArticleBasicDataArray(env) {
 
 function getNewFormatValidArticles(env, filterBy) {
   const articlesIndexes = getArticlesIndexes(filterBy);
-  console.log("articlesIndexes", articlesIndexes);
 
   const validArticlesIndexes = filterInvalidArticlesIndexes(
     env,
     articlesIndexes
   );
-  console.log("validArticlesIndexes", validArticlesIndexes);
 
   const validLatestEdits = getLatestEdits(validArticlesIndexes);
-  console.log("validArticlesIndexes: ", validArticlesIndexes);
 
   return validLatestEdits.map(getArticle);
 }
@@ -306,8 +303,6 @@ function getLastEditArticles(props) {
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env, filterBy);
 
-  console.log("newFormatArticles: ", newFormatArticles);
-
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
       return !newFormatArticles.find(
@@ -316,8 +311,6 @@ function getLastEditArticles(props) {
       );
     }
   );
-
-  // console.log("finalOldFormatArticles: ", finalOldFormatArticles);
 
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
 
@@ -329,7 +322,7 @@ function getLastEditArticles(props) {
   const validFormatFilteredArticles = filterArticles(
     filterBy,
     validFormatLastEditionArticles
-  );
+  ).filter((articles) => articles !== undefined);
 
   console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
 
