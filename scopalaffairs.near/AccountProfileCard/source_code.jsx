@@ -1,7 +1,7 @@
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `#/${REPL_ACCOUNT}/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
 
 State.init({
   show: false,
@@ -87,7 +87,7 @@ return (
     <CardLeft>
       <Avatar href={profileUrl}>
         <Widget
-          src="${REPL_MOB}/widget/Image"
+          src="mob.near/widget/Image"
           props={{
             image: profile.image,
             alt: profile.name,
@@ -107,7 +107,7 @@ return (
 
         {tags.length > 0 && (
           <TagsWrapper>
-            <Widget src="${REPL_ACCOUNT}/widget/Tags" props={{ tags, scroll: true }} />
+            <Widget src="scopalaffairs.near/widget/Tags" props={{ tags, scroll: true }} />
           </TagsWrapper>
         )}
       </div>
@@ -115,7 +115,7 @@ return (
 
     {!!context.accountId && context.accountId !== props.accountId && (
       <Widget
-        src="${REPL_ACCOUNT}/widget/FollowButton"
+        src="scopalaffairs.near/widget/FollowButton"
         props={{ accountId: props.accountId }}
       />
     )}
