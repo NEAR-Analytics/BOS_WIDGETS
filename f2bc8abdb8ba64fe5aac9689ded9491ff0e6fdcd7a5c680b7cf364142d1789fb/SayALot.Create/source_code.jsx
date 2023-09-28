@@ -226,9 +226,9 @@ return (
                     onChange: (articleBody) =>
                       State.update({
                         articleBody: articleBody,
+                        clearArticleBody: false,
                       }),
-                    forceClear: true,
-                    // forceClear: state.clearArticleBody,
+                    forceClear: state.clearArticleBody,
                     stateUpdate: (obj) => State.update(obj),
                   }}
                 />
