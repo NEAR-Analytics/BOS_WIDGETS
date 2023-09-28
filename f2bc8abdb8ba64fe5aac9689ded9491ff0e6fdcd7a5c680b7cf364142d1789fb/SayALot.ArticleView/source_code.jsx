@@ -640,7 +640,7 @@ return (
                     ),
                   }}
                 />
-                {state.sliceContent && content.length > 1000 && (
+                {state.sliceContent && displayedContent.length > 1000 && (
                   <Widget
                     src={widgets.styledComponents}
                     props={{
