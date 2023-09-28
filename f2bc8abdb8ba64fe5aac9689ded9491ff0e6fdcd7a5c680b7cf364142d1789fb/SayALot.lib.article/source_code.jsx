@@ -203,11 +203,10 @@ function getArticle(articleIndex) {
     }
   );
 
-  console.log("iAmHumanData: ", iAmHumanData, article, iAmHumanData.length > 0);
+  // console.log("iAmHumanData: ", iAmHumanData, article, iAmHumanData.length > 0);
 
   let articleParsed = undefined;
   if (article && iAmHumanData.length > 0) {
-    console.log("in");
     articleParsed = JSON.parse(article);
     articleParsed.blockHeight = articleIndex.blockHeight;
     articleParsed.realArticleId = articleIndex.value.id;
@@ -298,6 +297,9 @@ function getLastEditArticles(props) {
   const { env, filterBy } = props;
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env, filterBy);
+
+  console.log("oldFormatArticles: ", oldFormatArticles);
+  console.log("newFormatArticles: ", newFormatArticles);
 
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
