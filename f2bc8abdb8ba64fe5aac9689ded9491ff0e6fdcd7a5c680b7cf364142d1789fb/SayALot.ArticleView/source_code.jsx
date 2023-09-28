@@ -508,12 +508,6 @@ let displayedContent = state.sliceContent
   ? articleToRenderData.body.slice(0, 1000)
   : articleToRenderData.body;
 
-console.log("sliceContent: ", state.sliceContent);
-console.log(
-  "displayedContent.length > 1000: ",
-  articleToRenderData.body.length > 1000
-);
-
 return (
   <>
     <Container className="row">
