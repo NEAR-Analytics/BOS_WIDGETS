@@ -59,6 +59,7 @@ const libCalls = [
 State.init({
   tabSelected: tabs[1].id,
   comments: [],
+  sliceContent: true,
   libCalls,
 });
 
@@ -509,6 +510,10 @@ const getShortUserName = () => {
   return name.length > 20 ? `${name.slice(0, 20)}...` : name;
 };
 
+let displayedContent = state.sliceContent
+  ? articleToRenderData.body.slice(0, 1000)
+  : articleToRenderData.body;
+
 return (
   <>
     <Container className="row">
@@ -618,7 +623,7 @@ return (
                 <Widget
                   src="mob.near/widget/SocialMarkdown"
                   props={{
-                    text: articleToRenderData.body,
+                    text: displayedContent,
                     onHashtag: (hashtag) => (
                       <span
                         key={hashtag}
@@ -635,6 +640,22 @@ return (
                     ),
                   }}
                 />
+                {state.sliceContent && content.length > 1000 && (
+                  <Widget
+                    src={widgets.styledComponents}
+                    props={{
+                      Button: {
+                        text: `Show more`,
+                        size: "sm",
+                        className: "w-100 justify-content-center",
+                        onClick: () => {
+                          State.update({ sliceContent: false });
+                        },
+                        icon: <i className="bi bi-chat-square-text-fill"></i>,
+                      },
+                    }}
+                  />
+                )}
               </PlatformContent>
             </PlatformCard>
           </BodyContainer>
