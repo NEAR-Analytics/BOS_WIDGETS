@@ -65,12 +65,12 @@ const loadEstimationResult = (value) => {
   });
 };
 
-let selectedDex = props.dex ?? DEFAULT_DEX;
-if (selectedDex == "Ammos Finance") {
-  selectedDex = "AmmosFinance";
+let selectedDexInput = props.dex ?? DEFAULT_DEX;
+if (selectedDexInput == "Ammos Finance") {
+  selectedDexInput = "AmmosFinance";
 }
-if (selectedDex == "FusionX V3") {
-  selectedDex = "FusionX_V3";
+if (selectedDexInput == "FusionX V3") {
+  selectedDexInput = "FusionX_V3";
 }
 
 State.init({
@@ -83,7 +83,7 @@ State.init({
   slippagetolerance: "0.5",
   reloadPools: false,
   estimate: {},
-  selectedDex,
+  selectedDex: selectedDexInput,
   loadRes: loadEstimationResult,
 });
 
@@ -98,7 +98,7 @@ const reload = () => {
     slippagetolerance: "0.5",
     reloadPools: false,
     estimate: {},
-    selectedDex,
+    selectedDex: selectedDexInput,
     loadRes: loadEstimationResult,
   });
 };
