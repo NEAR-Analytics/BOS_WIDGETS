@@ -303,7 +303,7 @@ function getLastEditArticles(props) {
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env, filterBy);
 
-  console.log("newFormatArticles: ", newFormatArticles);
+  // console.log("newFormatArticles: ", newFormatArticles);
 
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
@@ -314,11 +314,11 @@ function getLastEditArticles(props) {
     }
   );
 
-  console.log("finalOldFormatArticles: ", finalOldFormatArticles);
+  // console.log("finalOldFormatArticles: ", finalOldFormatArticles);
 
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
 
-  console.log("lastEditionArticles: ", lastEditionArticles);
+  // console.log("lastEditionArticles: ", lastEditionArticles);
 
   const validFormatLastEditionArticles =
     convertArticlesTagsToValidFormat(lastEditionArticles);
@@ -328,7 +328,7 @@ function getLastEditArticles(props) {
     validFormatLastEditionArticles
   );
 
-  console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
+  // console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
 
   return validFormatFilteredArticles;
 }
