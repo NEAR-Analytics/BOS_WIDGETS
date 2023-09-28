@@ -6,6 +6,7 @@ const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 
 State.init({
+  hasBeenFlagged: false,
   content: JSON.parse(props.content) ?? undefined,
   notifyAccountId: undefined,
 });
@@ -40,22 +41,24 @@ query CommentQuery {
 `;
 
   function fetchGraphQL(operationsDoc, operationName, variables) {
-    return asyncFetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
-      method: "POST",
-      headers: { "x-hasura-role": "dataplatform_near" },
-      body: JSON.stringify({
-        query: operationsDoc,
-        variables: variables,
-        operationName: operationName,
-      }),
-    });
+    return asyncFetch(
+     `${GRAPHQL_ENDPOINT}/v1/graphql`, 
+      {
+        method: "POST",
+        headers: { "x-hasura-role": "dataplatform_near" },
+        body: JSON.stringify({
+          query: operationsDoc,
+          variables: variables,
+          operationName: operationName,
+        }),
+      }
+    );
   }
 
   fetchGraphQL(commentQuery, "CommentQuery", {}).then((result) => {
     if (result.status === 200) {
       if (result.body.data) {
-        const comments =
-          result.body.data.dataplatform_near_social_feed_comments;
+        const comments = result.body.data.dataplatform_near_social_feed_comments;
         if (comments.length > 0) {
           const comment = comments[0];
           let content = JSON.parse(comment.content);
@@ -120,6 +123,14 @@ const Actions = styled.div`
   margin: -6px -6px 6px;
 `;
 
+if (state.hasBeenFlagged) {
+  return (
+    <div className="alert alert-secondary">
+      <i className="bi bi-flag" /> This content has been flagged for moderation
+    </div>
+  );
+}
+
 return (
   <Comment>
     <Header>
@@ -171,7 +182,7 @@ return (
       {blockHeight !== "now" && (
         <Actions>
           <Widget
-            src="near/widget/LikeButton"
+            src={`mob.near/widget/LikeButton`}
             props={{
               item: {
                 type: "social",
@@ -192,6 +203,19 @@ return (
             src="calebjacob.near/widget/CopyUrlButton"
             props={{
               url: commentUrl,
+            }}
+          />
+          <Widget
+            src="near/widget/FlagButton"
+            props={{
+              item: {
+                type: "social",
+                path: `${accountId}/post/comment`,
+                blockHeight,
+              },
+              onFlag: () => {
+                State.update({ hasBeenFlagged: true });
+              },
             }}
           />
         </Actions>
