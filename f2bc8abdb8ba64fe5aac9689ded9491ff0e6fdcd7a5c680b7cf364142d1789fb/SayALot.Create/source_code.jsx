@@ -186,7 +186,7 @@ return (
                 src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
                 props={{
                   firstText: state.articleId,
-                  // forceClear: state.clearArticleId,
+                  forceClear: state.clearArticleId,
                   stateUpdate: (obj) => State.update(obj),
                   filterText: (e) => e.target.value.replace(/\s+/g, ""),
                   editable: editArticleData,
