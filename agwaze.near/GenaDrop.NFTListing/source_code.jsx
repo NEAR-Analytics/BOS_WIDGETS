@@ -95,7 +95,7 @@ const fewfarlink = `https://fewfar.com/${
     : state.contractId
 }/${state.tokenId}`;
 
-const mintBaseLink = `https://www.mintbase.xyz/meta/${state.mintbaseMarketId}`;
+
 
 const parasLink = `https://paras.id/token/${state.contractId}::${state.tokenId}`;
 
@@ -133,7 +133,11 @@ function fetchMintbaseURL() {
     }
   });
 }
+
+
 fetchMintbaseURL();
+
+const mintBaseLink = `https://www.mintbase.xyz/meta/${state.mintbaseMarketId}`;
 
 const marketLinks = {
   tradeport: {
