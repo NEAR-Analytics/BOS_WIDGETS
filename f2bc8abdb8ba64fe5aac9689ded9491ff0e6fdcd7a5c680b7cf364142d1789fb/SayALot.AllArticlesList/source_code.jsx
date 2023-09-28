@@ -53,7 +53,6 @@ return (
           authorForWidget,
           stateUpdate,
           widgets,
-          initialBody: "Create post",
           initialCreateState,
           editArticleData,
           callLibs,
