@@ -76,11 +76,11 @@ const countryList = [
 ];
 
 const GridView = styled.div`
-display: grid;
-width:100%;
-margin: auto;
-gap:5px;
-grid-template-columns: repeat(10, 1fr);
+  display: grid;
+  width:100%;
+  margin: auto;
+  gap:5px;
+  grid-template-columns: repeat(10, 1fr);
 `;
 
 const allHolders = [
