@@ -1,6 +1,6 @@
 const accountId = props.accountId || context.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `#/${REPL_ACCOUNT}/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.a`
   display: inline-grid;
@@ -97,7 +97,7 @@ const AccountProfile = (
   >
     <Avatar className="hover">
       <Widget
-        src="${REPL_MOB}/widget/Image"
+        src="mob.near/widget/Image"
         props={{
           image: profile.image,
           alt: profile.name,
@@ -119,7 +119,7 @@ const AccountProfile = (
           <Text small style={{ marginLeft: "auto" }}>
             Joined{" "}
             <Widget
-              src="${REPL_MOB_2}/widget/TimeAgo"
+              src="mob.near}/widget/TimeAgo"
               props={{ blockHeight: props.blockHeight }}
             />{" "}
             ago
@@ -130,7 +130,7 @@ const AccountProfile = (
           <>
             <AvatarCount className="hover-state1">
               <Widget
-                src="${REPL_ACCOUNT}/widget/Recommender.Views.RecommendedAvatars"
+                src="scopalaffairs.near/widget/Recommender.Views.RecommendedAvatars"
                 props={{
                   avatarSize: "25px",
                   becauseYouFollow: props.becauseYouFollow,
@@ -157,7 +157,7 @@ if (props.noOverlay) return AccountProfile;
 
 return (
     <Widget
-      src="${REPL_ACCOUNT}/widget/AccountProfileOverlay"
+      src="scopalaffairs.near/widget/AccountProfileOverlay"
       props={{
         accountId: props.accountId,
         profile,
