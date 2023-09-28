@@ -227,7 +227,8 @@ return (
                       State.update({
                         articleBody: articleBody,
                       }),
-                    forceClear: state.clearArticleBody,
+                    forceClear: true,
+                    // forceClear: state.clearArticleBody,
                     stateUpdate: (obj) => State.update(obj),
                   }}
                 />
