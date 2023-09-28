@@ -225,7 +225,7 @@ return (
                     initialText: initialBody,
                     onChange: (articleBody) =>
                       State.update({
-                        articleBody: forceClear ? "" : articleBody,
+                        articleBody: articleBody,
                       }),
                     forceClear: state.clearArticleBody,
                     stateUpdate: (obj) => State.update(obj),
