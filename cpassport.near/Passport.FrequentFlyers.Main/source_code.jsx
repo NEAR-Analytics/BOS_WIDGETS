@@ -92,7 +92,7 @@ const allHolders = [
 
 return (
   <DivBackground>
-    <div style={{width:"100%",padding:10}}>
+    <div style={{ width: "100%", padding: 10 }}>
       <h1 style={{ textAlign: "center" }}>Frequent Flyers</h1>
       {allHolders.map((item) => (
         <GridView>
@@ -103,7 +103,7 @@ return (
             style={{ display: "grid", gridTemplateColumns: "repeat(8,1fr)" }}
           >
             {countryList.map((item) => (
-              <img style={{ height: 40, width: 40 }} src={item.image} />
+              <img style={{ height: 60, width: 60 }} src={item.image} />
             ))}
           </div>
         </GridView>
