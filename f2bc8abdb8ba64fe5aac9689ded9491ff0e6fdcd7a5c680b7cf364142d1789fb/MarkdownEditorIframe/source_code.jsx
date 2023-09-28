@@ -16,7 +16,7 @@ ${embedCss}
 
 <script>
 function TestReact(props) {
-  const [value, setValue] = React.useState(props.forceClear ? "" : props.initialText || "");
+  const [value, setValue] = React.useState(props.initialText || "");
   return React.createElement(ReactMarkdownEditorLite.default, {
       value,
       view: { menu: true, md: true, html: false },
@@ -36,7 +36,7 @@ const root = ReactDOM.createRoot(domContainer);
 
 window.addEventListener("message", (event) => {
   root.render(React.createElement(TestReact, {
-    initialText: event.data,
+    initialText: props.forceClear ? "" : event.data,
   }));
 });
 
