@@ -6,14 +6,7 @@ const Profile = styled.div`
 
 State.init({ currentCount: 0 });
 
-const users = [
-  props.user1,
-  props.user2,
-  props.user3,
-  props.user4,
-  props.user5,
-  props.user6,
-];
+const users = [props.user1, props.user2, props.user3, props.user4];
 
 const total_items = users.length - 1;
 
