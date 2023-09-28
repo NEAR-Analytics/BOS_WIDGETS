@@ -328,7 +328,7 @@ function getLastEditArticles(props) {
     validFormatLastEditionArticles
   );
 
-  // console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
+  console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
 
   return validFormatFilteredArticles;
 }
