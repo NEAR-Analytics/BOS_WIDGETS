@@ -220,10 +220,12 @@ return (
                   //<div className="w-50">
                 }
                 <Widget
-                  src="mob.near/widget/MarkdownEditorIframe"
+                  src="f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe"
                   props={{
                     initialText: initialBody,
                     onChange: (articleBody) => State.update({ articleBody }),
+                    forceClear: state.clearArticleBody,
+                    stateUpdate: (obj) => State.update(obj),
                   }}
                 />
                 {
