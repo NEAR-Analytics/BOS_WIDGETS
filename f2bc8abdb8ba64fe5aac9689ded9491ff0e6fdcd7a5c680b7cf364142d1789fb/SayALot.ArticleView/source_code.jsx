@@ -514,6 +514,9 @@ let displayedContent = state.sliceContent
   ? articleToRenderData.body.slice(0, 1000)
   : articleToRenderData.body;
 
+console.log("sliceContent: ", state.sliceContent);
+console.log("displayedContent.length > 1000: ", displayedContent.length > 1000);
+
 return (
   <>
     <Container className="row">
@@ -640,21 +643,22 @@ return (
                     ),
                   }}
                 />
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Button: {
-                      text: `Show more`,
-                      size: "sm",
-                      className: "w-100 justify-content-center",
-                      onClick: () => {
-                        State.update({ sliceContent: false });
+                {state.sliceContent && displayedContent.length > 1000 && (
+                  <Widget
+                    src={widgets.styledComponents}
+                    props={{
+                      Button: {
+                        text: `Show more`,
+                        size: "sm",
+                        className: "w-100 justify-content-center",
+                        onClick: () => {
+                          State.update({ sliceContent: false });
+                        },
+                        icon: <i className="bi bi-chat-square-text-fill"></i>,
                       },
-                      icon: <i className="bi bi-chat-square-text-fill"></i>,
-                    },
-                  }}
-                />
-                {state.sliceContent && displayedContent.length > 1000 && <></>}
+                    }}
+                  />
+                )}
               </PlatformContent>
             </PlatformCard>
           </BodyContainer>
