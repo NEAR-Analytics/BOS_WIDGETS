@@ -24,6 +24,8 @@ const initLibCalls = [
   },
 ];
 
+console.log("canLoggedUserCreateArticle: ", canLoggedUserCreateArticle);
+
 if (!accountId) accountId = context.accountId;
 
 const tabs = {
