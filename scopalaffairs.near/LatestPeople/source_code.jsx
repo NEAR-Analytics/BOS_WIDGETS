@@ -100,7 +100,7 @@ return (
       <H2>People</H2>
       <Select>
         <Widget
-          src="${REPL_ACCOUNT}/widget/Select"
+          src="scopalaffairs.near/widget/Select"
           props={{
             border: "0px",
             noLabel: true,
@@ -126,7 +126,7 @@ return (
             </Item>
           ))}
         </LatestPeople>
-        <ButtonLink href="#/${REPL_ACCOUNT}/widget/PeoplePage">
+        <ButtonLink href="#/scopalaffairs.near/widget/PeoplePage">
           View All People <span>({totalAccounts})</span>
         </ButtonLink>
       </>
@@ -134,7 +134,7 @@ return (
     {state.selectedView.value === "trending" && (
       <>
         <Widget
-          src="${REPL_ACCOUNT}/widget/Recommender.Views.TrendingUsersView"
+          src="scopalaffairs.near/widget/Recommender.Views.TrendingUsersView"
           props={{ sidebar: true }}
         />
       </>
@@ -142,7 +142,7 @@ return (
     {state.selectedView.value === "recommended" && (
       <>
         <Widget
-          src="${REPL_ACCOUNT}/widget/Recommender.Views.FriendsOfFriendsView"
+          src="scopalaffairs.near/widget/Recommender.Views.FriendsOfFriendsView"
           props={{ sidebar: true }}
         />
       </>
