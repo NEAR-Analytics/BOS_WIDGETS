@@ -14,6 +14,7 @@ const initLibCalls = [
         parameterName: "",
         parameterValue: undefined,
       },
+      currentValidator: state.currentValidator || startingValidator,
     },
   },
   {
