@@ -1,7 +1,8 @@
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 
-const startingValidator = "registry.i-am-human.near";
+const startingValidator = "gooddollar-v1.i-am-human.near";
+// const startingValidator = "registry.i-am-human.near";
 
 const initLibCalls = [
   {
