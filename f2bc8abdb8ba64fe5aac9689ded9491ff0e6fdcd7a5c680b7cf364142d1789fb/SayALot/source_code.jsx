@@ -1,6 +1,8 @@
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 
+const startingValidator = "registry.i-am-human.near";
+
 const initLibCalls = [
   {
     functionName: "getLastEditArticles",
@@ -11,6 +13,13 @@ const initLibCalls = [
         parameterName: "",
         parameterValue: undefined,
       },
+    },
+  },
+  {
+    functionName: "canUserCreateArticle",
+    key: "canLoggedUserCreateArticle",
+    props: {
+      currentValidator: state.currentValidator || startingValidator,
     },
   },
 ];
@@ -475,7 +484,7 @@ return (
           callLibs,
           handleFilterArticles,
           handleEditArticle,
-          showCreateArticle: state.filterBy.parameterName.length == 0,
+          showCreateArticle: state.canLoggedUserCreateArticle,
         }}
       />
     )}
