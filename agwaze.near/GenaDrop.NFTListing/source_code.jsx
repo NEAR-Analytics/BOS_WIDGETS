@@ -32,6 +32,7 @@ const nftMetadata = Near.view(contractId, "nft_metadata"); // get the contract n
 const tokenInfo = Near.view(contractId, "nft_token", {
   token_id: tokenId,
 });
+
 initState({
   contractId: contractId,
   tokenId: tokenId,
@@ -39,6 +40,7 @@ initState({
   msg: msg,
   fnfMsg: fnfMsg,
   trpMsg: trpMsg,
+  mintbaseMarketId: null,
   chainState: chainState,
   marketLinks: [],
   custom: false,
@@ -93,7 +95,7 @@ const fewfarlink = `https://fewfar.com/${
     : state.contractId
 }/${state.tokenId}`;
 
-const mintBaseLink = `https://www.mintbase.xyz/contract/genadrop-contract.nftgen.near/nfts/all/0?onlyListed=true`;
+const mintBaseLink = `https://www.mintbase.xyz/meta/${state.mintbaseMarketId}`;
 
 const parasLink = `https://paras.id/token/${state.contractId}::${state.tokenId}`;
 
@@ -105,6 +107,33 @@ const trpMsg = JSON.stringify({
   market_type: "sale",
   ft_token_id: "near",
 });
+
+function fetchMintbaseURL() {
+  asyncFetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "omni-site",
+      "Content-Type": "application/json",
+      "x-hasura-role": "anonymous",
+    },
+    body: JSON.stringify({
+      query: `
+        query MyQuery {
+        nft_listings(where: {token_id: {_eq: "${tokenId}"}}) {
+      	metadata_id
+      }
+    }
+      `,
+    }),
+  }).then((data) => {
+    if (data.body.data.nft_listings?.length) {
+      State.update({
+        mintbaseMarketId: data.body.data.nft_listings[0].metadata_id,
+      });
+    }
+  });
+}
+fetchMintbaseURL();
 
 const marketLinks = {
   tradeport: {
