@@ -18,7 +18,7 @@ ${embedCss}
 function TestReact(props) {
   const [value, setValue] = React.useState(props.initialText || "");
   return React.createElement(ReactMarkdownEditorLite.default, {
-      value: "caca",
+      value: true ? "aaaa" : "bbbb",
       view: { menu: true, md: true, html: false },
       canView: { menu: true, md: false, html: false, fullScreen: false, hideMenu: true },
       onChange: ({ text }) => {
