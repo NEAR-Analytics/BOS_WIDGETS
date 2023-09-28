@@ -1,7 +1,7 @@
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `#/${REPL_ACCOUNT}/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
 
 const handleOnMouseEnter = () => {
   State.update({ show: true });
@@ -81,12 +81,12 @@ const overlay = (
     <Card onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
       <div className="d-flex align-items-center">
         <Widget
-          src="${REPL_ACCOUNT}/widget/AccountProfile"
+          src="scopalaffairs.near/widget/AccountProfile"
           props={{ accountId: props.accountId, profile, noOverlay: true }}
         />
         {!!context.accountId && context.accountId !== props.accountId && (
           <Widget
-            src="${REPL_ACCOUNT}/widget/FlagButton"
+            src="scopalaffairs.near/widget/FlagButton"
             props={{
               item: contentModerationItem,
               onFlag: () => {
@@ -101,12 +101,12 @@ const overlay = (
         <OverlayTagsWrapper>
           <Widget
             className="layout"
-            src="${REPL_ACCOUNT}/widget/Tags"
+            src="scopalaffairs.near/widget/Tags"
             props={{ tags, scroll: true }}
           />
           <RecommendedAvatars>
             <Widget
-              src="${REPL_ACCOUNT}/widget/Recommender.Views.RecommendedAvatars"
+              src="scopalaffairs.near/widget/Recommender.Views.RecommendedAvatars"
               props={{
                 avatarSize: "25px",
                 becauseYouFollow: props.becauseYouFollow,
@@ -119,7 +119,7 @@ const overlay = (
         </OverlayTagsWrapper>
       ) : (
         <Widget
-          src="${REPL_ACCOUNT}/widget/Tags"
+          src="scopalaffairs.near/widget/Tags"
           props={{ tags, scroll: true }}
         />
       )}
@@ -127,7 +127,7 @@ const overlay = (
       {!!context.accountId && context.accountId !== props.accountId && (
         <FollowButtonWrapper>
           <Widget
-            src="${REPL_ACCOUNT}/widget/FollowButton"
+            src="scopalaffairs.near/widget/FollowButton"
             props={{
               accountId: props.accountId,
               onClick: handleFollow(props.accountId),
@@ -160,7 +160,7 @@ return (
 
       {state.hasBeenFlagged && (
         <Widget
-          src={`${REPL_ACCOUNT}/widget/DIG.Toast`}
+          src={`scopalaffairs.near/widget/DIG.Toast`}
           props={{
             type: "info",
             title: "Flagged for moderation",
