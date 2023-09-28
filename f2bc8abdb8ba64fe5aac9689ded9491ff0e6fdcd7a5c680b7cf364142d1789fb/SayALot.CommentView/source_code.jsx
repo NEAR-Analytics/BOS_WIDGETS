@@ -304,6 +304,7 @@ return (
             isTest,
             authorForWidget,
             elementReactedId: data.originalComment.value.comment.commentId,
+            widgets,
           }}
         />
       </CommentCardLowerSection>
