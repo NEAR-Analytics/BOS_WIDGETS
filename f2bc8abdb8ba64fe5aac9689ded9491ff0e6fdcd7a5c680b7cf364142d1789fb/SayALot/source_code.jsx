@@ -341,6 +341,7 @@ const initialBodyAtCreation = state.editArticleData.body;
 
 //=================================================GET DATA=========================================================
 const finalArticles = state.articles;
+console.log("finalArticles: ", finalArticles);
 //===============================================END GET DATA=======================================================
 
 //=============================================STYLED COMPONENTS====================================================
