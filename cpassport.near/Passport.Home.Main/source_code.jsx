@@ -2,6 +2,7 @@ const accountId = props?.accountId ?? context?.accountId;
 
 State.init({
   tokenId: {},
+  nftDetails: false,
   hasFetched: {},
 });
 
@@ -146,7 +147,18 @@ const ImageGrid = styled.div`
     grid-template-columns: repeat(4,1fr);
 `;
 
-return (
+return state?.nftDetails ? (
+  <>
+    <Widget
+      src="cpassport.near/widget/Passport.NFTDetails.Main"
+      props={{
+        onBack: () => {
+          State.update({ nftDetails:false });
+        },
+      }}
+    />
+  </>
+) : (
   <DivBackground>
     <div style={{ width: "100%", textAlign: "center" }}>
       <h1>AROUND THE WORLD</h1>
@@ -165,9 +177,19 @@ return (
           <p style={{ fontSize: 25 }}>{accountId}</p>
           <ImageGrid>
             {countryList.map((item) => (
-              <div style={{ opacity: state.tokenId[item.series] ? 1 : 0.4 }}>
+              <button
+                onClick={() => {
+                  State.update({ nftDetails: true });
+                }}
+                style={{
+                  opacity: state.tokenId[item.series] ? 1 : 0.4,
+                  padding: 0,
+                  backgroundColor: "transparent",
+                  borderWidth: 0,
+                }}
+              >
                 <img style={{ width: 80, height: 80 }} src={item.image} />
-              </div>
+              </button>
             ))}
           </ImageGrid>
         </div>
