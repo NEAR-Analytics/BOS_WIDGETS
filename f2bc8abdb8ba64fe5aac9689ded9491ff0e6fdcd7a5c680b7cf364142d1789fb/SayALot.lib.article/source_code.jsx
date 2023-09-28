@@ -299,7 +299,7 @@ function getOldFormatArticles(env) {
 }
 
 function getLastEditArticles(props) {
-  const { env, filterBy } = props;
+  const { env, filterBy, currentValidator } = props;
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env, filterBy);
 
@@ -325,6 +325,7 @@ function getLastEditArticles(props) {
 
   const validFormatFilteredArticles = filterArticles(
     filterBy,
+    currentValidator,
     validFormatLastEditionArticles
   );
 
@@ -362,7 +363,19 @@ function filterArticlesByAuthor(author, articles) {
   });
 }
 
-function filterArticles(filterBy, articles) {
+function fiterVaidator(articles, currentValidator) {
+  return articles.filter((article) => {
+    let isValid = false;
+    for (let i = 0; i < article.iAmHumanData.length; i++) {
+      if (!isValid) {
+        isValid = article.iAmHumanData[i][0] === currentValidator;
+      }
+    }
+    return isValid;
+  });
+}
+
+function filterArticles(filterBy, currentValidator, articles) {
   let filteredArticles;
 
   if (filterBy.parameterName == "tag") {
@@ -373,7 +386,7 @@ function filterArticles(filterBy, articles) {
       articles
     );
   } else {
-    filteredArticles = articles;
+    filteredArticles = fiterVaidator(articles, currentValidator);
   }
 
   return filteredArticles;
