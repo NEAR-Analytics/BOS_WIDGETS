@@ -10,7 +10,7 @@
 //     href={profileUrl}
 //   >
 //     <Widget
-//       src="${REPL_MOB}/widget/Image"
+//       src="mob.near/widget/Image"
 //       props={{
 //         image: props.profileImage || profile.image,
 //         alt: props.profileName || profile.name,
