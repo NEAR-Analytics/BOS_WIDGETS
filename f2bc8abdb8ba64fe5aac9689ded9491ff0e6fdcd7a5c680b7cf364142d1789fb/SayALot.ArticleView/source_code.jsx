@@ -412,11 +412,11 @@ const DeclarationCard = styled.div`
 
 const CommentSection = styled.div`
   display: flex;
-  padding: 0;
+  padding: 20px;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #f8f8f9;
 `;
 
@@ -655,8 +655,9 @@ return (
           </BodyContainer>
           <CommentSection>
             <NominationTitle>
-              <i className="bi bi-chat-square-dots-fill" />
-              Comments
+              <span>
+                <i className="bi bi-chat-square-dots-fill" /> Comments
+              </span>
             </NominationTitle>
 
             {state.showModal && (
