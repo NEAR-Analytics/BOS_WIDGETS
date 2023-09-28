@@ -228,7 +228,7 @@ const DeleteReplyText = styled.p`
 `;
 
 const AnswerContainer = styled.div`
-  width: "90%";
+  width: 96%;;
 `;
 
 const formatName = (name) =>
