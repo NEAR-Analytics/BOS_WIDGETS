@@ -15,6 +15,7 @@ const CommentCard = styled.div`
   gap: 12px;
   border-radius: "10px"};
   background: #fff;
+  width: 100%;
 `;
 
 const CommentCardHeader = styled.div`
@@ -226,6 +227,10 @@ const DeleteReplyText = styled.p`
   margin: 0px;
 `;
 
+const AnswerContainer = styled.div`
+  width: "90%";
+`;
+
 const formatName = (name) =>
   name.length === 64
     ? `${name.slice(0, 4)}..${name.slice(name.length - 4, name.length)}`
@@ -310,17 +315,19 @@ return (
         )}
         {data.answers.map((answer) => {
           return (
-            <Widget
-              src={widgets.commentView}
-              props={{
-                widgets,
-                data: { originalComment: answer },
-                orginalCommentData: data,
-                isTest,
-                authorForWidget,
-                isReply: true,
-              }}
-            />
+            <AnswerContainer>
+              <Widget
+                src={widgets.commentView}
+                props={{
+                  widgets,
+                  data: { originalComment: answer },
+                  orginalCommentData: data,
+                  isTest,
+                  authorForWidget,
+                  isReply: true,
+                }}
+              />
+            </AnswerContainer>
           );
         })}
       </>
