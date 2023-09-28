@@ -54,6 +54,7 @@ const userHumanValidations = Near.view(
 function canUserCreateArticle(props) {
   const { env, accountId, currentValidator } = props;
   let isValidUser = false;
+  console.log("userHumanValidations1: ", userHumanValidations);
 
   for (let i = 0; i < userHumanValidations.length; i++) {
     if (!isValidUser) {
@@ -201,6 +202,8 @@ function getArticle(articleIndex) {
       account: articleIndex.accountId,
     }
   );
+
+  console.log("iAmHumanData: ", iAmHumanData);
 
   let articleParsed = undefined;
   if (article && iAmHumanData.length > 0) {
@@ -414,5 +417,7 @@ if (libCalls && libCalls.length > 0) {
   updateObj.libCalls = resultLibCalls;
   stateUpdate(updateObj);
 }
+
+console.log("userHumanValidations0: ", userHumanValidations);
 
 return <></>;
