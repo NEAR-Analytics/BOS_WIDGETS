@@ -91,18 +91,23 @@ const generate = () => {
 // console.log("widget : ", widget);
 // console.log("widget : ", widget);
 
+useEffect(() => {
+  const data = generate();
+  props.responce(data);
+}, []);
+
 return (
   <div
     id="Getting-Contributions"
-    onClick={() => {
-      // console.log("X", widget);
-      if (widget) {
-        const data = generate();
+    // onClick={() => {
+    //   // console.log("X", widget);
+    //   if (widget) {
+    //     const data = generate();
 
-        // console.log("data : ", data);
-        props.responce(data);
-      }
-    }}
+    //     // console.log("data : ", data);
+    //     props.responce(data);
+    //   }
+    // }}
     // >
     //   asdasd
     // </div
