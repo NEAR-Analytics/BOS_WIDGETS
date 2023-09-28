@@ -336,14 +336,16 @@ function getLastEditArticles(props) {
 function convertArticlesTagsToValidFormat(articlesArray) {
   let validFormatArticlesArray = [];
   articlesArray.map((article) => {
-    let tags = article.tags;
+    if (article) {
+      let tags = article.tags;
 
-    if (tags && !tags.length && tags + "" != "0") {
-      tags = Object.keys(tags);
+      if (tags && !tags.length && tags + "" != "0") {
+        tags = Object.keys(tags);
+      }
+      article.tags = tags;
+
+      validFormatArticlesArray.push(article);
     }
-    article.tags = tags;
-
-    validFormatArticlesArray.push(article);
   });
   return validFormatArticlesArray;
 }
