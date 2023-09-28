@@ -195,26 +195,36 @@ function getArticle(articleIndex) {
     `${articleIndex.accountId}/${action}/main`,
     articleIndex.blockHeight
   );
-  const iAmHumanData = Near.view(
-    "registry.i-am-human.near",
-    "sbt_tokens_by_owner",
-    {
-      account: articleIndex.accountId,
-    }
-  );
 
   // console.log("iAmHumanData: ", iAmHumanData, article, iAmHumanData.length > 0);
 
   let articleParsed = undefined;
-  if (article && iAmHumanData.length > 0) {
+  if (article) {
     articleParsed = JSON.parse(article);
     articleParsed.blockHeight = articleIndex.blockHeight;
     articleParsed.realArticleId = articleIndex.value.id;
-    articleParsed.iAmHumanData = iAmHumanData;
   }
 
   if (articleParsed) {
     return articleParsed;
+  }
+}
+
+function addIAmHumanData(article) {
+  const articleIAmHumanData = Near.view(
+    "registry.i-am-human.near",
+    "sbt_tokens_by_owner",
+    { account: article.author }
+  );
+
+  let newArticleData = undefined;
+  if (articleIAmHumanData) {
+    newArticleData = article;
+    newArtcileData.iAmHumanData = articleIAmHumanData;
+  }
+
+  if (newArticleData) {
+    return newArticleData;
   }
 }
 
@@ -323,15 +333,18 @@ function getLastEditArticles(props) {
   const validFormatLastEditionArticles =
     convertArticlesTagsToValidFormat(lastEditionArticles);
 
-  const validFormatFilteredArticles = filterArticles(
+  const validFormatFilteredArticlesWithIAmHumanData =
+    validFormatLastEditionArticles.map(addIAmHumanData);
+
+  finalArticles = filterArticles(
     filterBy,
     currentValidator,
-    validFormatLastEditionArticles
+    validFormatFilteredArticlesWithIAmHumanData
   );
 
   // console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
 
-  return validFormatFilteredArticles;
+  return finalArticles;
 }
 
 function convertArticlesTagsToValidFormat(articlesArray) {
@@ -385,9 +398,8 @@ function filterArticles(filterBy, currentValidator, articles) {
       filterBy.parameterValue,
       articles
     );
-  } else {
-    filteredArticles = fiterVaidator(articles, currentValidator);
   }
+  filteredArticles = fiterVaidator(articles, currentValidator);
 
   return filteredArticles;
 }
