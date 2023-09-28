@@ -36,7 +36,7 @@ const root = ReactDOM.createRoot(domContainer);
 
 window.addEventListener("message", (event) => {
   root.render(React.createElement(TestReact, {
-    initialText: props.forceClear ? "" : event.data,
+    initialText: event.data,
   }));
 });
 
