@@ -159,10 +159,6 @@ return (
               <p style={{ fontSize: 20 }}>Collect Stamps</p>
               <p style={{ fontSize: 20 }}>Unlock Prizes</p>
             </>
-            <img
-              style={{ width: 100, height: 100 }}
-              src="https://media.canva.com/1/image-resize/1/200_200_100_PNG_F/czM6Ly9tZWRpYS1wcml2YXRlLmNhbnZhLmNvbS9OTUl3SS9NQUZ0eXpOTUl3SS8xL3AucG5n?osig=AAAAAAAAAAAAAAAAAAAAAFbF8dXMQkrOUGxos8zLxMfFarQGdgdU54q-5Nqjj3On&exp=1695814320&x-canva-quality=thumbnail&csig=AAAAAAAAAAAAAAAAAAAAAHt8Ci5BdqyqTI14M4EtIAi5wSXrInW0K5ggcNmELSfb"
-            />
           </div>
         </div>
         <div>
