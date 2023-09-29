@@ -1,3 +1,5 @@
+// this is included to test for cascading renders resulting
+// from State.update(...) execution at render time
 State.init({ x: 0 });
 State.update({ x: 1 });
 
