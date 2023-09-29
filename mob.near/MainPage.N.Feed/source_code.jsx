@@ -1,4 +1,5 @@
 const indexKey = props.indexKey ?? "main";
+const groupId = props.groupId;
 
 const index = [
   {
@@ -58,6 +59,7 @@ const renderPost = (a) => {
           isPremiumFeed,
           commentAccounts,
           indexKey,
+          groupId,
         }}
       />
     </div>
@@ -150,6 +152,7 @@ const renderRepost = (a) => {
           isPremiumFeed,
           commentAccounts,
           indexKey,
+          groupId,
         }}
       />
     </div>
