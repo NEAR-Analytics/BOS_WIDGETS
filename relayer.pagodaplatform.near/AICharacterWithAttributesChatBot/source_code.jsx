@@ -12,7 +12,6 @@ let {
   PRESENCE_PENALTY,
   FREQUENCY_PENALTY,
   ATTRIBUTES,
-  NEAR_ACC,
 } = props;
 
 const conversationHistoryToString = () => {
@@ -111,7 +110,6 @@ const fetchResponseFromChatGPT = () => {
       conversationHistoryStr: conversationHistoryToString(),
     });
   });
-  Storage.privateSet(props.NEAR_ACC, "denene");
 };
 
 return (
