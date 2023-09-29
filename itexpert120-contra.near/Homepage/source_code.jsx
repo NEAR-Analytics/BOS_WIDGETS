@@ -7,7 +7,7 @@ if (homepage === null) {
 }
 
 State.init({
-  homepage: homepage ?? "itexpert120-contra.near/widget/DefaultHomepage",
+  homepage: homepage ?? "devs.near/widget/Home",
 });
 
 return <Widget src={state.homepage} />;
