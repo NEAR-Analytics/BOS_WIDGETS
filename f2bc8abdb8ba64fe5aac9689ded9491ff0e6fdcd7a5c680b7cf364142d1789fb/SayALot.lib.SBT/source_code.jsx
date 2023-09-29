@@ -1,5 +1,7 @@
 const { isTest, stateUpdate, libCalls } = props;
 
+let resultLibCalls = [];
+
 function isValidUser(props) {
   const { accountId, sbtName } = props;
   const userSBTs = Near.view(
@@ -27,8 +29,6 @@ function libCall(call) {
     return isValidUser(call.props);
   }
 }
-
-let resultLibCalls = [];
 
 if (libCalls && libCalls.length > 0) {
   const updateObj = {};
