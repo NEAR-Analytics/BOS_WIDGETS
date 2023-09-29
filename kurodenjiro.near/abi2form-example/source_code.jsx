@@ -1,12 +1,19 @@
 State.init({
-  contractAddress: props.address,
-  contractAbi: props,
+  contractAddress,
+  contractAbi,
   contractError,
   contractAbiCall,
   contractAbiView,
   response,
   contractAbiArg: [],
 });
+
+const onInputChangeContractAddress = ({ target }) => {
+  State.update({ contractAddress: target.value });
+};
+const onInputChangeContractAbi = ({ target }) => {
+  State.update({ contractAbi: target.value });
+};
 
 const onInputChangeContractArg = (obj) => {
   const data = state.contractAbiArg;
@@ -91,8 +98,8 @@ const onBtnClickCall = (e) => {
   }
 };
 
-const loadData = () => {
-  const abi = state.contractAbi;
+const onBtnClick = () => {
+  const abi = JSON.parse(state.contractAbi);
   if (abi.body.functions) {
     const contractCall = [];
     const contractView = [];
@@ -111,10 +118,35 @@ const loadData = () => {
     State.update({ contractError: "Can not parse ABI" });
   }
 };
-loadData();
 
-const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
+// Define components
+const contractForm = (
+  <>
+    <div class="border border-black p-3">
+      <input
+        class="form-control mb-3"
+        value={state.contractAddress}
+        placeholder="Contract Address"
+        onChange={onInputChangeContractAddress}
+      />
+      <textarea
+        class="form-control"
+        placeholder="Contract ABI"
+        value={state.contractAbi}
+        onChange={onInputChangeContractAbi}
+      ></textarea>
+      <button class="btn btn-primary mt-2" onClick={onBtnClick}>
+        Build Form
+      </button>
+    </div>
+  </>
+);
 
+const notLoggedInWarning = (
+  <p class="text-center py-2"> Login to Usint this Tool </p>
+);
+
+// Render
 return (
   <>
     <div class="container border border-info p-3">
