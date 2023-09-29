@@ -102,7 +102,7 @@ function canUserCreateArticle(props) {
   const result = state[`isValidUser-${accountId}`];
 
   resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "canUserCreateArticle";
+    return call.functionName !== "canUserCreateArticle" && result !== undefined;
   });
 
   return result;
