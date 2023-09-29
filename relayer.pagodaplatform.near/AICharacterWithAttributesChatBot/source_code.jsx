@@ -105,7 +105,7 @@ const fetchResponseFromChatGPT = () => {
 };
 
 return (
-  <div className="border border-2 border-black m-2 w-100">
+  <div className="border border-2 border-black p-2 w-100">
     <div style={{ height: "500px" }}>
       <div className="overflow-auto h-100 mb-3 border border-2 border-dark m-1">
         <div>
