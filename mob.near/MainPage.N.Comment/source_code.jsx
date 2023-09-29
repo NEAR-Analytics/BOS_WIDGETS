@@ -7,6 +7,8 @@ const content =
 const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
+const groupId = props.groupId;
+const disableComment = !!props.disableComment;
 
 const extractNotifyAccountId = (item) => {
   if (!item || item.type !== "social" || !item.path) {
@@ -63,6 +65,7 @@ return (
                   loading=""
                   src="mob.near/widget/N.CommentButton"
                   props={{
+                    disabled: disableComment,
                     onClick: () =>
                       !state.showReply && State.update({ showReply: true }),
                   }}
@@ -88,7 +91,7 @@ return (
             <Widget
               loading=""
               src="mob.near/widget/MainPage.N.Post.ShareButton"
-              props={{ accountId, blockHeight, postType: "comment" }}
+              props={{ accountId, blockHeight, postType: "comment", groupId }}
             />
           </div>
         ) : (
