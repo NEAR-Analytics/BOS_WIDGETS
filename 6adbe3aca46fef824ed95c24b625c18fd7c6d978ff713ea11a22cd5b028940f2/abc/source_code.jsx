@@ -1,10 +1,12 @@
 Social.set({
   widget: {
-    KoreanHackmanGame: {
+    abc: {
       "": null,
     },
-    KoreanHackman: {
-      "": null,
+    abc: {
+      metadata: {
+        platform: null,
+      },
     },
   },
 });
