@@ -56,6 +56,7 @@ const handleProposal = () => {
   };
   if (state.tokenAddress !== "") {
     ftMetadata = Near.view(address, "ft_metadata", {});
+    console.log("ftmetadata: " + ftMetadata)
     if (ftMetadata === null) return null;
   }
 
@@ -165,16 +166,9 @@ return (
           variant: "success",
         }}
       />
-      {onClose && (
-        <Widget
-          src="sking.near/widget/Common.Button"
-          props={{
-            children: "Close",
-            onClick: onClose,
-            className: "mt-2",
-          }}
-        />
-      )}
+   
+  
+      
     </div>
   </>
 );
