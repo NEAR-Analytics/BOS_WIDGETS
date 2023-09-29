@@ -17,7 +17,9 @@ let {
   showCreateArticle,
 } = props;
 
-State.init({ start: Date.now() });
+State.init({ start: Date.now(), sbt: "" });
+
+const sbt = state.sbt;
 
 //=============================================END INITIALIZATION===================================================
 
@@ -44,6 +46,9 @@ function getDateLastEdit(timestamp) {
 
 return (
   <>
+    {
+      //TODO add sbt selector with predeterminated value
+    }
     {showCreateArticle && (
       <Widget
         src={widgets.create}
@@ -59,6 +64,7 @@ return (
           handleFilterArticles,
           handleEditArticle,
           initialBody: "",
+          sbt,
         }}
       />
     )}
