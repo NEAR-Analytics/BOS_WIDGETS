@@ -188,10 +188,8 @@ function parseNearAmount(amt) {
   );
 }
 /*ON CHANGE FUNCTIONS - NEED TO FINISH NOT CONCATENATING*/
-const onChangeAmount = (amount) => {
-  if (chainState === "near") {
-    amount = parseNearAmount(amount);
-  }
+const onChangeNearAmount = (amount) => {
+  amount = parseNearAmount(amount);
   const msgConcat = JSON.stringify({
     price: amount,
     market_type: "sale",
@@ -210,6 +208,12 @@ const onChangeAmount = (amount) => {
     trpMsg: msgConcat,
   });
 };
+
+const onChangeEVMAmount = (amount) => {
+  State.update({
+    amount
+  })
+}
 
 const onChangeMsg = (msg) => {
   // currently done in the amount
@@ -376,7 +380,6 @@ const evmList = () => {
 const closeModal = () => State.update({ isOpen: false });
 
 const list = () => {
-
   if (!accountId) {
     console.log("Sign in to list");
     return;
@@ -627,7 +630,8 @@ return (
             marketLinks,
             chainState,
             onChangeCustomMarket,
-            onChangeAmount,
+            onChangeNearAmount,
+            onChangeEVMAmount,
             list,
             evmList,
             onChangeReceiver,
