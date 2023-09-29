@@ -42,7 +42,7 @@ const CommentIcon = (
 
 return (
   <Button
-    disabled={!context.accountId}
+    disabled={!context.accountId || props.disabled}
     title={"Comment"}
     onClick={props.onClick}
   >
