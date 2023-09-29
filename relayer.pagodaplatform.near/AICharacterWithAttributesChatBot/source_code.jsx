@@ -12,6 +12,7 @@ let {
   PRESENCE_PENALTY,
   FREQUENCY_PENALTY,
   ATTRIBUTES,
+  NEAR_ACC,
 } = props;
 
 const conversationHistoryToString = () => {
@@ -110,6 +111,7 @@ const fetchResponseFromChatGPT = () => {
       conversationHistoryStr: conversationHistoryToString(),
     });
   });
+  Storage.set(props.NEAR_ACC, JSON.stringify(state));
 };
 
 return (
