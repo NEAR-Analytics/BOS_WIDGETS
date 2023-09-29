@@ -8,6 +8,7 @@ const content =
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 const groupId = props.groupId;
+const groupIdLinkPart = groupId ? `&groupId=${groupId}` : "";
 const indexKey = props.indexKey;
 const permissions = props.permissions;
 
@@ -18,7 +19,7 @@ const item = {
   blockHeight,
 };
 
-const link = `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}${groupIdLinkPart}`;
 
 const Wrapper = styled.div`
   margin: 0 -12px;
