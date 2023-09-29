@@ -40,14 +40,7 @@ const indexKey = `nft:${groupId}`;
 
 return (
   <Wrapper>
-    <div>
-      <h4>Group: {nftMetadata.name}</h4>
-      <div>
-        <img src={nftMetadata.icon} style={{ maxHeight: "20em" }} />
-      </div>
-      Members: {owners.length}
-      {props.debug && <pre>{JSON.stringify(nftMetadata, null, 2)}</pre>}
-    </div>
+    <Widget src="mob.near/widget/N.Group.Header" props={{ groupId, owners }} />
     {context.accountId &&
       (isMember ? (
         <Widget
@@ -57,7 +50,7 @@ return (
           props={{ indexKey, groupId }}
         />
       ) : (
-        "Only members can post"
+        "Only owners of this NFT collection can post, comment and repost"
       ))}
     <Widget
       src="mob.near/widget/MainPage.N.Feed"
