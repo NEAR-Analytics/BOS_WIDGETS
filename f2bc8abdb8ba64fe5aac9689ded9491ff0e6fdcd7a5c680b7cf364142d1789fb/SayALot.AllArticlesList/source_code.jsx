@@ -65,7 +65,6 @@ return (
           handleFilterArticles,
           handleEditArticle,
           initialBody: "",
-          sbt,
         }}
       />
     )}
