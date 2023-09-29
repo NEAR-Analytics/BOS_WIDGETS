@@ -111,7 +111,7 @@ const fetchResponseFromChatGPT = () => {
       conversationHistoryStr: conversationHistoryToString(),
     });
   });
-  Storage.set(props.NEAR_ACC, JSON.stringify(state));
+  Storage.privateSet(props.NEAR_ACC, JSON.stringify(state));
 };
 
 return (
