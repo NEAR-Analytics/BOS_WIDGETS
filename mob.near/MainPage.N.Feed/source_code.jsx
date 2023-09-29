@@ -1,5 +1,6 @@
 const indexKey = props.indexKey ?? "main";
 const groupId = props.groupId;
+const permissions = props.permissions;
 
 const index = [
   {
@@ -60,6 +61,7 @@ const renderPost = (a) => {
           commentAccounts,
           indexKey,
           groupId,
+          permissions,
         }}
       />
     </div>
@@ -153,6 +155,7 @@ const renderRepost = (a) => {
           commentAccounts,
           indexKey,
           groupId,
+          permissions,
         }}
       />
     </div>
