@@ -108,14 +108,13 @@ function canUserCreateArticle(props) {
   setAreValidUsers([accountId], sbtName);
 
   console.log("state: ", state);
-  console.log("isValidUser-${accountId}: ", `isValidUser-${accountId}`);
 
   const result = state[`isValidUser-${accountId}`];
 
   console.log("result: ", result);
 
   resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "canUserCreateArticle" && result !== undefined;
+    return call.functionName !== "canUserCreateArticle" && result === undefined;
   });
 
   return result;
