@@ -95,8 +95,6 @@ const fewfarlink = `https://fewfar.com/${
     : state.contractId
 }/${state.tokenId}`;
 
-
-
 const parasLink = `https://paras.id/token/${state.contractId}::${state.tokenId}`;
 
 const defaultCustomMarket = "apollo42.near";
@@ -133,7 +131,6 @@ function fetchMintbaseURL() {
     }
   });
 }
-
 
 fetchMintbaseURL();
 
@@ -379,10 +376,15 @@ const evmList = () => {
 const closeModal = () => State.update({ isOpen: false });
 
 const list = () => {
+
   if (!accountId) {
     console.log("Sign in to list");
     return;
   }
+  State.update({
+    loadingListing: true,
+  });
+
   console.log(state.trpMsg);
   // need to buffer serialize arguments, add helper functions with state arguments
   const gas = 100000000000000; // 100 tGas
@@ -492,6 +494,9 @@ const list = () => {
         : null,
     ].filter((entry) => entry !== null)
   );
+  State.update({
+    loadingListing: false,
+  });
 };
 const transfer = () => {
   if (!accountId) {
