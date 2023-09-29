@@ -361,45 +361,30 @@ function getLastEditArticles(props) {
   const validFormatLastEditionArticles =
     convertArticlesTagsToValidFormat(lastEditionArticles);
 
-  const validFormatLastEditionArticlesAuthors = validFormatLastEditionArticles
-    .map((article) => {
+  const validFormatLastEditionArticlesAuthors =
+    validFormatLastEditionArticles.map((article) => {
       return article.author;
-    })
-    .reduce((acc, item) => {
-      if (!acc.includes(item)) {
-        acc.push(item);
-      }
-      return acc;
-    }, []);
+    });
 
   setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtName);
 
-  const areAuthorsValid = validFormatLastEditionArticlesAuthors.map(
+  const validAuthors = validFormatLastEditionArticlesAuthors.filter(
     (author) => {
-      return {
-        name: author,
-        isValid: state[`isValidUser-${author}`],
-      };
+      return state[`isValidUser-${author}`] === true;
     }
   );
 
   resultLibCalls = resultLibCalls.filter((call) => {
-    const allIsAsyncStatusComplete = [];
-
-    areAuthorsValid.forEach((data) => {
-      allIsAsyncStatusComplete.push(data.isValid);
-    });
-
     const discardCondition =
       call.functionName === "getLastEditArticles" &&
-      !allIsAsyncStatusComplete.find((e) => e === undefined);
+      state[`isValidUser-${call.props.accountId}`] !== undefined;
     return !discardCondition;
   });
 
   finalArticles = filterArticles(
     filterBy,
     validFormatLastEditionArticles,
-    areAuthorsValid
+    validAuthors
   );
 
   return finalArticles;
@@ -434,19 +419,13 @@ function filterArticlesByAuthor(author, articles) {
   });
 }
 
-function filterValidator(articles, areAuthorsValid) {
+function filterValidator(articles, validAuthors) {
   return articles.filter((article) => {
-    const authorData = areAuthorsValid.find((author) => {
-      article.author === author.name;
-    });
-
-    const isValid = authorData.isValid;
-
-    return isValid;
+    return validAuthors.includes(article.author);
   });
 }
 
-function filterArticles(filterBy, articles, areAuthorsValid) {
+function filterArticles(filterBy, articles, validAuthors) {
   let filteredArticles;
 
   if (filterBy.parameterName == "tag") {
@@ -457,17 +436,9 @@ function filterArticles(filterBy, articles, areAuthorsValid) {
       articles
     );
   }
-  filteredArticles = filterValidator(articles, areAuthorsValid);
+  filteredArticles = filterValidator(articles, validAuthors);
 
-  const allIsAsyncStatusComplete = [];
-
-  areAuthorsValid.forEach((data) => {
-    allIsAsyncStatusComplete.push(data.isValid);
-  });
-
-  if (allIsAsyncStatusComplete) {
-    return filteredArticles;
-  }
+  return filteredArticles;
 }
 
 function libCall(call) {
