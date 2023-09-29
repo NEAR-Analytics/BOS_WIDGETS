@@ -497,7 +497,9 @@ return (
                       type="number"
                       placeholder={props.state.amount / 1e24}
                       onChange={(e) => {
-                        props.onChangeAmount(e.target.value);
+                        props.chainState && props.chainState !== "near"
+                          ? props.onChangeEVMAmount(e.target.value)
+                          : props.onChangeAmount(e.target.value);
                       }}
                     />
                   </PriceInput>
@@ -588,7 +590,9 @@ return (
                 disabled={props.loadingListing}
                 className={props.loadingListing ? "loading" : ""}
                 onClick={
-                  props.chainState && props.chainState !== "near" ? props.evmList : props.list
+                  props.chainState && props.chainState !== "near"
+                    ? props.evmList
+                    : props.list
                 }
               >
                 {!props.loadingListing && "Listing"}
