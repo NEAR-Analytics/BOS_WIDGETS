@@ -91,9 +91,10 @@ function callLibs(srcArray, libStateUpdate, libCalls) {
 // }
 
 function canUserCreateArticle(props) {
-  const { env, accountId, sbt } = props;
+  const { env, accountId, sbtName } = props;
+  console.log(0, accountId, sbtName);
 
-  setAreValidUsers([accountId], sbt);
+  setAreValidUsers([accountId], sbtName);
 
   return state[`isValidUser-${accountId}`];
   // return getWritersWhitelist(env).includes(accountId);
