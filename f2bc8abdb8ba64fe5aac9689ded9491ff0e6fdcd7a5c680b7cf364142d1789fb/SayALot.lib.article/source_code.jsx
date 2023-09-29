@@ -19,6 +19,7 @@ function libStateUpdate(obj) {
 
 function setAreValidUsers(accountIds, sbt) {
   console.log(1, accountIds);
+  console.log(2, ...state.libCalls);
   const newLibCalls = { ...state.libCalls };
   accountIds.forEach((accountId) => {
     newLibCalls.push({
@@ -31,7 +32,7 @@ function setAreValidUsers(accountIds, sbt) {
     });
   });
   State.update({ libCalls: newLibCalls });
-  console.log(2, libCalls);
+  console.log(3, libCalls);
 }
 
 function callLibs(srcArray, libStateUpdate, libCalls) {
