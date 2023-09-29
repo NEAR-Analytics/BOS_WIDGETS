@@ -114,7 +114,9 @@ function canUserCreateArticle(props) {
   console.log("result: ", result);
 
   resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "canUserCreateArticle" && result === undefined;
+    const discardCondition =
+      call.functionName === "canUserCreateArticle" && result !== undefined;
+    return !discardCondition;
   });
 
   return result;
