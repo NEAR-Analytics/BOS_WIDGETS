@@ -35,7 +35,7 @@ function setAreValidUsers(accountIds, sbt) {
   console.log(3, libCalls);
 }
 
-function callLibs(srcArray, libStateUpdate, libCalls) {
+function callLibs(srcArray, stateUpdate, libCalls) {
   return (
     <>
       {srcArray.map((src) => {
@@ -44,7 +44,7 @@ function callLibs(srcArray, libStateUpdate, libCalls) {
             src={src}
             props={{
               isTest,
-              libStateUpdate,
+              stateUpdate,
               libCalls,
             }}
           />
