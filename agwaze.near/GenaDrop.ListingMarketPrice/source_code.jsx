@@ -394,7 +394,10 @@ return (
               <BlueSub>Contract ID</BlueSub>
               <SecondaryText>
                 {props.state.contractId.length > 6
-                  ? `${props.state.contractId?.slice(0, 6)}...${props.state.contractId?.slice(
+                  ? `${props.state.contractId?.slice(
+                      0,
+                      6
+                    )}...${props.state.contractId?.slice(
                       props.state.contractId.length - 4
                     )}`
                   : props.state.contractId || "Sample Contract"}
@@ -585,7 +588,7 @@ return (
                 disabled={props.loadingListing}
                 className={props.loadingListing ? "loading" : ""}
                 onClick={
-                  props.chainState === "near" ? props.list : props.evmList
+                  props.chainState && props.chainState !== "near" ? props.evmList : props.list
                 }
               >
                 {!props.loadingListing && "Listing"}
