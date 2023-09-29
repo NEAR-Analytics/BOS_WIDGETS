@@ -12,7 +12,7 @@ let {
   MAX_TOKENS,
   PRESENCE_PENALTY,
   FREQUENCY_PENALTY,
-  attributes,
+  ATTRIBUTES,
 } = props;
 
 const conversationHistoryToString = () => {
@@ -41,7 +41,7 @@ State.init({
 
 // Attributes object to attributes string which is used in system prompt to spesify chatgpt character
 const attribute_str = "";
-for (const [key, value] of Object.entries(props.attributes)) {
+for (const [key, value] of Object.entries(props.attributes.attribute)) {
   attribute_str += `${key}: ${value}\n`;
 }
 
