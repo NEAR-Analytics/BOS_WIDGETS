@@ -11,9 +11,8 @@ const {
   handleFilterArticles,
   handleEditArticle,
   handlerStateUpdate,
+  sbtWhiteList,
 } = props;
-
-//TODO add sbts selector
 
 const libSrcArray = [widgets.libArticle];
 
@@ -42,6 +41,8 @@ function getRealArticleId() {
   }
 }
 
+const sbts = state.sbts; //TODO[""] currently it will be only 1 sbt
+
 const getArticleData = () => {
   const args = {
     articleId: editArticleData.articleId ?? state.articleId,
@@ -54,7 +55,7 @@ const getArticleData = () => {
     navigation_id: null,
     tags: tagsArray,
     realArticleId: getRealArticleId(),
-    sbts: state.sbts,
+    sbts,
   };
   return args;
 };
