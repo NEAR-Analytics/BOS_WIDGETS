@@ -381,7 +381,7 @@ function getLastEditArticles(props) {
     return !discardCondition;
   });
 
-  finalArticles = filterArticles(
+  const finalArticles = filterArticles(
     filterBy,
     validFormatLastEditionArticles,
     validAuthors
