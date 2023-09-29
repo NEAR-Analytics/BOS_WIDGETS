@@ -18,9 +18,7 @@ let {
   sbtWhiteList,
 } = props;
 
-State.init({ start: Date.now(), sbt: "fractal.i-am-human.near" });
-
-const sbt = state.sbt;
+State.init({ start: Date.now() });
 
 //=============================================END INITIALIZATION===================================================
 
