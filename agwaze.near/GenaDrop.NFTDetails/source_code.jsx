@@ -737,7 +737,7 @@ return (
                 color: "#0d99ff",
               }}
             >
-              Onwer
+              Owner
             </p>
             <a
               target="_blank"
@@ -823,7 +823,6 @@ return (
                   Not Listed
                 </button>
               )}
-             
             </div>
           </PriceBucket>
           <Description>
