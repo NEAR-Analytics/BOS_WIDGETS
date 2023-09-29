@@ -7,7 +7,9 @@ const content =
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
+const groupId = props.groupId;
 const indexKey = props.indexKey;
+const permissions = props.permissions;
 
 const notifyAccountId = accountId;
 const item = {
@@ -165,6 +167,7 @@ return (
               loading=""
               src="mob.near/widget/N.CommentButton"
               props={{
+                disabled: permissions.disableComment,
                 onClick: () => State.update({ showReply: !state.showReply }),
               }}
             />
@@ -172,6 +175,7 @@ return (
               loading=""
               src="mob.near/widget/N.RepostButton"
               props={{
+                disabled: permissions.disableRepost,
                 notifyAccountId,
                 item,
                 indexKey,
@@ -188,7 +192,7 @@ return (
             <Widget
               loading=""
               src="mob.near/widget/MainPage.N.Post.ShareButton"
-              props={{ accountId, blockHeight, postType: "post" }}
+              props={{ accountId, blockHeight, postType: "post", groupId }}
             />
           </div>
         ) : (
@@ -221,6 +225,8 @@ return (
           subscribe,
           raw,
           accounts: props.commentAccounts,
+          groupId,
+          permissions,
         }}
       />
     )}
