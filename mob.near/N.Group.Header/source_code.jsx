@@ -26,6 +26,7 @@ const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
 const Wrapper = styled.div`
   overflow: hidden;
   margin: 0 -12px; 
+  border-bottom: 1px solid #eee; 
 `;
 
 const shareSvg = (
@@ -72,7 +73,7 @@ return (
         </div>
       </div>
     </div>
-    <div className="px-4 pb-4">
+    <div className="px-4 pb-1">
       <div className="d-md-flex justify-content-between pt-3 mb-2">
         <div style={{ paddingTop: "3rem" }}>
           <div className="me-2 d-sm-flex gap-1 flex-row align-items-center">
