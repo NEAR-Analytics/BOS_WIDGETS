@@ -107,11 +107,7 @@ function canUserCreateArticle(props) {
 
   setAreValidUsers([accountId], sbtName);
 
-  console.log("state: ", state);
-
   const result = state[`isValidUser-${accountId}`];
-
-  console.log("result: ", result);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     const discardCondition =
@@ -266,24 +262,6 @@ function getArticle(articleIndex) {
   }
 }
 
-function addIAmHumanData(article) {
-  const articleIAmHumanData = Near.view(
-    "registry.i-am-human.near",
-    "sbt_tokens_by_owner",
-    { account: article.author }
-  );
-
-  let newArticleData = undefined;
-  if (articleIAmHumanData) {
-    newArticleData = article;
-    newArtcileData.iAmHumanData = articleIAmHumanData;
-  }
-
-  if (newArticleData) {
-    return newArticleData;
-  }
-}
-
 function getOldArticleBasicDataArray(env) {
   if (env === "test") {
     return [
@@ -365,7 +343,7 @@ function getOldFormatArticles(env) {
 }
 
 function getLastEditArticles(props) {
-  const { env, filterBy, currentValidator } = props;
+  const { env, filterBy, sbtName } = props;
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env, filterBy);
 
@@ -383,13 +361,45 @@ function getLastEditArticles(props) {
   const validFormatLastEditionArticles =
     convertArticlesTagsToValidFormat(lastEditionArticles);
 
-  const validFormatFilteredArticlesWithIAmHumanData =
-    validFormatLastEditionArticles.map(addIAmHumanData);
+  const validFormatLastEditionArticlesAuthors = validFormatLastEditionArticles
+    .map((article) => {
+      return article.author;
+    })
+    .reduce((acc, item) => {
+      if (!acc.includes(item)) {
+        acc.push(item);
+      }
+      return acc;
+    }, []);
+
+  setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtName);
+
+  const areAuthorsValid = validFormatLastEditionArticlesAuthors.map(
+    (author) => {
+      return {
+        name: author,
+        isValid: state[`isValidUser-${author}`],
+      };
+    }
+  );
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    const allIsAsyncStatusComplete = [];
+
+    areAuthorsValid.forEach((data) => {
+      allIsAsyncStatusComplete.push(data.isValid);
+    });
+
+    const discardCondition =
+      call.functionName === "getLastEditArticles" &&
+      !allIsAsyncStatusComplete.find((e) => e === undefined);
+    return !discardCondition;
+  });
 
   finalArticles = filterArticles(
     filterBy,
-    currentValidator,
-    validFormatFilteredArticlesWithIAmHumanData
+    validFormatLastEditionArticles,
+    areAuthorsValid
   );
 
   return finalArticles;
@@ -424,19 +434,19 @@ function filterArticlesByAuthor(author, articles) {
   });
 }
 
-function fiterVaidator(articles, currentValidator) {
+function filterValidator(articles, areAuthorsValid) {
   return articles.filter((article) => {
-    let isValid = false;
-    for (let i = 0; i < article.iAmHumanData.length; i++) {
-      if (!isValid) {
-        isValid = article.iAmHumanData[i][0] === currentValidator;
-      }
-    }
+    const authorData = areAuthorsValid.find((author) => {
+      article.author === author.name;
+    });
+
+    const isValid = authorData.isValid;
+
     return isValid;
   });
 }
 
-function filterArticles(filterBy, currentValidator, articles) {
+function filterArticles(filterBy, articles, areAuthorsValid) {
   let filteredArticles;
 
   if (filterBy.parameterName == "tag") {
@@ -447,9 +457,17 @@ function filterArticles(filterBy, currentValidator, articles) {
       articles
     );
   }
-  filteredArticles = fiterVaidator(articles, currentValidator);
+  filteredArticles = filterValidator(articles, areAuthorsValid);
 
-  return filteredArticles;
+  const allIsAsyncStatusComplete = [];
+
+  areAuthorsValid.forEach((data) => {
+    allIsAsyncStatusComplete.push(data.isValid);
+  });
+
+  if (allIsAsyncStatusComplete) {
+    return filteredArticles;
+  }
 }
 
 function libCall(call) {
@@ -505,7 +523,5 @@ if (libCalls && libCalls.length > 0) {
   updateObj.libCalls = resultLibCalls;
   stateUpdate(updateObj);
 }
-
-console.log("algun numerito random", state);
 
 return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
