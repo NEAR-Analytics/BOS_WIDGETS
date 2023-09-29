@@ -143,7 +143,7 @@ const contractForm = (
 );
 
 const notLoggedInWarning = (
-  <p class="text-center py-2"> Login to Usint this Tool </p>
+  <p class="text-center py-2"> Login to Use this Tool </p>
 );
 
 // Render
