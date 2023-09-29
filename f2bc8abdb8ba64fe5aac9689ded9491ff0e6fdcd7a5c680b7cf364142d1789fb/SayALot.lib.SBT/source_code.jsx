@@ -18,7 +18,7 @@ function isValidUser(accountId, sbtName) {
 
 function libCall(call) {
   if (call.functionName === "isValidUser") {
-    return isValidUser(call.props);
+    return isValidUser(...call.props);
   }
 }
 
