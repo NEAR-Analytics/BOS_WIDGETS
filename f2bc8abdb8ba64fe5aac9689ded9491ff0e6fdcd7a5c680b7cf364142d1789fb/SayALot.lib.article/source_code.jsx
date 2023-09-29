@@ -18,8 +18,6 @@ function libStateUpdate(obj) {
 }
 
 function setAreValidUsers(accountIds, sbt) {
-  console.log(1, accountIds);
-  console.log(2, [...state.libCalls]);
   const newLibCalls = [...state.libCalls];
   accountIds.forEach((accountId) => {
     newLibCalls.push({
@@ -32,7 +30,6 @@ function setAreValidUsers(accountIds, sbt) {
     });
   });
   State.update({ libCalls: newLibCalls });
-  console.log(3, libCalls);
 }
 
 function callLibs(srcArray, stateUpdate, libCalls) {
@@ -95,17 +92,20 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 
 function canUserCreateArticle(props) {
   const { env, accountId, sbtName } = props;
-  console.log(0, accountId, sbtName);
 
   setAreValidUsers([accountId], sbtName);
 
   const result = state[`isValidUser-${accountId}`];
 
-  resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "canUserCreateArticle" && result !== undefined;
-  });
+  if (result) {
+    resultLibCalls = resultLibCalls.filter((call) => {
+      return (
+        call.functionName !== "canUserCreateArticle" && result !== undefined
+      );
+    });
 
-  return result;
+    return result;
+  }
   // return getWritersWhitelist(env).includes(accountId);
 }
 
@@ -239,8 +239,6 @@ function getArticle(articleIndex) {
     articleIndex.blockHeight
   );
 
-  // console.log("iAmHumanData: ", iAmHumanData, article, iAmHumanData.length > 0);
-
   let articleParsed = undefined;
   if (article) {
     articleParsed = JSON.parse(article);
@@ -356,8 +354,6 @@ function getLastEditArticles(props) {
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env, filterBy);
 
-  // console.log("newFormatArticles: ", newFormatArticles);
-
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
       return !newFormatArticles.find(
@@ -367,11 +363,7 @@ function getLastEditArticles(props) {
     }
   );
 
-  // console.log("finalOldFormatArticles: ", finalOldFormatArticles);
-
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
-
-  // console.log("lastEditionArticles: ", lastEditionArticles);
 
   const validFormatLastEditionArticles =
     convertArticlesTagsToValidFormat(lastEditionArticles);
@@ -384,8 +376,6 @@ function getLastEditArticles(props) {
     currentValidator,
     validFormatFilteredArticlesWithIAmHumanData
   );
-
-  // console.log("validFormatFilteredArticles: ", validFormatFilteredArticles);
 
   return finalArticles;
 }
@@ -501,6 +491,6 @@ if (libCalls && libCalls.length > 0) {
   stateUpdate(updateObj);
 }
 
-// console.log("userHumanValidations0: ", userHumanValidations);
+console.log("algun numerito random", state);
 
 return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
