@@ -6,6 +6,9 @@ const auth = "Basic MlVvMlBYSE9UdzJjUWRucThJUWJQTG9DOG5mOg=="; //test
 // const auth = "Basic MlVub3dMd2lXRnc3YzM1QU11RUVkREVJa2RvOg=="; //prod
 const currentTimeStamp = new Date().toISOString();
 
+// since we already have rudderstack in near, we should be abe to pass the js object to any analysics trackign
+
+
 const trackEngagement = () => {
   console.log("trackEngagement", props);
   const payload = {
