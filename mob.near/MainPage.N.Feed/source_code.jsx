@@ -1,7 +1,9 @@
+const indexKey = props.indexKey ?? "main";
+
 const index = [
   {
     action: "post",
-    key: "main",
+    key: indexKey,
     options: {
       limit: 10,
       order: "desc",
@@ -13,7 +15,7 @@ const index = [
   },
   {
     action: "repost",
-    key: "main",
+    key: indexKey,
     options: {
       limit: 10,
       order: "desc",
@@ -55,6 +57,7 @@ const renderPost = (a) => {
           blockHeight: a.blockHeight,
           isPremiumFeed,
           commentAccounts,
+          indexKey,
         }}
       />
     </div>
@@ -146,6 +149,7 @@ const renderRepost = (a) => {
           reposted: true,
           isPremiumFeed,
           commentAccounts,
+          indexKey,
         }}
       />
     </div>
