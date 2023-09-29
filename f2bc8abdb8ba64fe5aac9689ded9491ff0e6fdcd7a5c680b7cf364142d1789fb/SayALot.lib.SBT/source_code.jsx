@@ -10,11 +10,16 @@ function isValidUser(props) {
     }
   );
 
-  return (
+  const result =
     userSBTs.find((sbt) => {
       return sbt[0] === sbtName;
-    }) !== undefined
-  );
+    }) !== undefined;
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "isValidUser";
+  });
+
+  return result;
 }
 
 function libCall(call) {
