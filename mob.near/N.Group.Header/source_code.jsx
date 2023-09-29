@@ -66,7 +66,7 @@ return (
         <div className="mb-2" style={{ width: "10rem", height: "10rem" }}>
           <img
             src={imageUrl}
-            className="rounded-circle w-100 h-100 img-thumbnail d-block"
+            className="rounded-5 w-100 h-100 img-thumbnail d-block"
             style={{ objectFit: "cover" }}
           />
         </div>
