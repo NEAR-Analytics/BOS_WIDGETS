@@ -97,15 +97,12 @@ function canUserCreateArticle(props) {
 
   const result = state[`isValidUser-${accountId}`];
 
-  if (result) {
-    resultLibCalls = resultLibCalls.filter((call) => {
-      return (
-        call.functionName !== "canUserCreateArticle" && result !== undefined
-      );
-    });
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "canUserCreateArticle" && result !== undefined;
+  });
 
-    return result;
-  }
+  return result;
+
   // return getWritersWhitelist(env).includes(accountId);
 }
 
