@@ -2,7 +2,9 @@ if (!context.accountId) {
   return "";
 }
 
-const draft = Storage.privateGet("draft");
+const indexKey = props.indexKey ?? "main";
+const draftKey = props.indexKey ?? "draft";
+const draft = Storage.privateGet(draftKey);
 
 if (draft === null) {
   return "";
@@ -17,7 +19,7 @@ const composeData = () => {
     },
     index: {
       post: JSON.stringify({
-        key: "main",
+        key: indexKey,
         value: {
           type: "md",
         },
@@ -58,7 +60,7 @@ const composeData = () => {
 State.init({
   onChange: ({ content }) => {
     State.update({ content });
-    Storage.privateSet("draft", content.text || "");
+    Storage.privateSet(draftKey, content.text || "");
   },
 });
 
