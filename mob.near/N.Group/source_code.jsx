@@ -61,7 +61,7 @@ return (
       ))}
     <Widget
       src="mob.near/widget/MainPage.N.Feed"
-      props={{ accounts: owners, indexKey, commentAccounts: owners }}
+      props={{ accounts: owners, indexKey, groupId, commentAccounts: owners }}
     />
   </Wrapper>
 );
