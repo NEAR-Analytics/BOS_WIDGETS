@@ -11,6 +11,7 @@ const {
   handleFilterArticles,
   handleEditArticle,
   handlerStateUpdate,
+  sbt,
 } = props;
 
 const libSrcArray = [widgets.libArticle];
@@ -52,6 +53,7 @@ const getArticleData = () => {
     navigation_id: null,
     tags: tagsArray,
     realArticleId: getRealArticleId(),
+    sbt,
   };
   return args;
 };
