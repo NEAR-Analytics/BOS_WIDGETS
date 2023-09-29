@@ -5,6 +5,7 @@ if (!context.accountId) {
 const indexKey = props.indexKey ?? "main";
 const draftKey = props.indexKey ?? "draft";
 const draft = Storage.privateGet(draftKey);
+const groupId = props.groupId;
 
 if (draft === null) {
   return "";
@@ -15,7 +16,7 @@ const [initialText] = useState(draft);
 const composeData = () => {
   const data = {
     post: {
-      main: JSON.stringify(state.content),
+      main: JSON.stringify(Object.assign({ groupId }, state.content)),
     },
     index: {
       post: JSON.stringify({
