@@ -7,6 +7,7 @@ const content =
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
+const indexKey = props.indexKey;
 
 const notifyAccountId = accountId;
 const item = {
@@ -173,6 +174,7 @@ return (
               props={{
                 notifyAccountId,
                 item,
+                indexKey,
               }}
             />
             <Widget
