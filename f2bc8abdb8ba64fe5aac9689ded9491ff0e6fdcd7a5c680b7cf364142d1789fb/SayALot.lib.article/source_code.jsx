@@ -99,7 +99,13 @@ function canUserCreateArticle(props) {
 
   setAreValidUsers([accountId], sbtName);
 
-  return state[`isValidUser-${accountId}`];
+  const result = state[`isValidUser-${accountId}`];
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "canUserCreateArticle";
+  });
+
+  return result;
   // return getWritersWhitelist(env).includes(accountId);
 }
 
