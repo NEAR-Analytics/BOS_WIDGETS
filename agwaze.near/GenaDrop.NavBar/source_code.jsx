@@ -470,7 +470,7 @@ const content = (
       iconSelected: selectedSwapIcon,
     })}
     {navItem({
-      text: "Near NFTS",
+      text: "Explore NFTS",
       id: "nearNFTs",
       icon: <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />,
       iconSelected: <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />,
