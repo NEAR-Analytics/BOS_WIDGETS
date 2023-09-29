@@ -9,6 +9,8 @@ const index = {
   },
 };
 
+const groupId = props.groupId;
+const permissions = props.permissions;
 const raw = !!props.raw;
 
 const renderItem = (a) =>
@@ -24,6 +26,8 @@ const renderItem = (a) =>
           a.accountId === props.highlightComment?.accountId &&
           a.blockHeight === props.highlightComment?.blockHeight,
         raw,
+        groupId,
+        permissions,
       }}
     />
   );
