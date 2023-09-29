@@ -63,6 +63,8 @@ const authorForWidget =
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
 
+const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
+
 // let writersWhiteList = [
 //   "neardigitalcollective.near",
 //   "blaze.near",
@@ -490,6 +492,7 @@ return (
           handleFilterArticles,
           handleEditArticle,
           showCreateArticle: state.canLoggedUserCreateArticle,
+          sbtWhiteList,
         }}
       />
     )}
