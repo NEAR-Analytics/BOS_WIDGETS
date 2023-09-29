@@ -19,8 +19,8 @@ function libStateUpdate(obj) {
 
 function setAreValidUsers(accountIds, sbt) {
   console.log(1, accountIds);
-  console.log(2, ...state.libCalls);
-  const newLibCalls = { ...state.libCalls };
+  console.log(2, [...state.libCalls]);
+  const newLibCalls = [...state.libCalls];
   accountIds.forEach((accountId) => {
     newLibCalls.push({
       functionName: "isValidUser",
