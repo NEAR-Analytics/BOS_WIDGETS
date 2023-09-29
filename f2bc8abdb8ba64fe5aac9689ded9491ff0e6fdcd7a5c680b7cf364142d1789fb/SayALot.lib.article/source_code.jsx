@@ -23,7 +23,7 @@ function setAreValidUsers(accountIds, sbt) {
     const isCallPushed =
       newLibCalls.find((libCall) => {
         return (
-          libCall.functionName === isValidUser &&
+          libCall.functionName === "isValidUser" &&
           libCall.props.accountId === accountId
         );
       }) !== undefined;
