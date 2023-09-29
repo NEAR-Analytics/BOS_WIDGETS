@@ -6,11 +6,50 @@ const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-const userHumanValidations = Near.view(
-  "registry.i-am-human.near",
-  "sbt_tokens_by_owner",
-  { account: context.accountId }
-);
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+//const authorForWidget = "sayalot.near";
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
+
+State.init({ libCalls: [] });
+
+function libStateUpdate(obj) {
+  State.update(obj);
+}
+
+function setAreValidUsers(accountIds, sbt) {
+  const newLibCalls = { ...state.libCalls };
+  accountIds.forEach((accountId) => {
+    newLibCalls.push({
+      functionName: "isValidUser",
+      key: `isValidUser-${accountId}`,
+      props: {
+        accountId,
+        sbtName: sbt,
+      },
+    });
+  });
+  State.update({ libCalls: newLibCalls });
+}
+
+function callLibs(srcArray, libStateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              libStateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
 
 // const initLibCalls = [
 //   {
@@ -52,17 +91,11 @@ const userHumanValidations = Near.view(
 // }
 
 function canUserCreateArticle(props) {
-  const { env, accountId, currentValidator } = props;
-  let isValidUser = false;
-  // console.log("userHumanValidations1: ", userHumanValidations);
+  const { env, accountId, sbt } = props;
 
-  for (let i = 0; i < userHumanValidations.length; i++) {
-    if (!isValidUser) {
-      isValidUser = userHumanValidations[i][0] === currentValidator;
-    }
-  }
+  setAreValidUsers([accountId], sbt);
 
-  return isValidUser;
+  return state[`isValidUser-${accountId}`];
   // return getWritersWhitelist(env).includes(accountId);
 }
 
@@ -460,4 +493,4 @@ if (libCalls && libCalls.length > 0) {
 
 // console.log("userHumanValidations0: ", userHumanValidations);
 
-return <></>;
+return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
