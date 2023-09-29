@@ -41,7 +41,8 @@ State.init({
 
 // Attributes object to attributes string which is used in system prompt to spesify chatgpt character
 const attribute_str = "";
-for (const [key, value] of Object.entries(props.attributes.attribute)) {
+for (const attribute_object of props.attributes) {
+  const [key, value] = Object.entries(attribute_object.attribute);
   attribute_str += `${key}: ${value}\n`;
 }
 
