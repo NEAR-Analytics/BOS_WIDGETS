@@ -16,11 +16,9 @@ function isValidUser(props) {
     userSBTs.find((sbt) => {
       return sbt[0] === sbtName;
     }) !== undefined;
-  console.log(9);
-  // resultLibCalls = resultLibCalls.filter((call) => {
-  //   return call.functionName !== "isValidUser";
-  // });
-  console.log(0, result);
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "isValidUser";
+  });
 
   return result;
 }
