@@ -20,7 +20,7 @@ function isValidUser(props) {
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "isValidUser";
   });
-  console.log(0);
+  console.log(0, result);
 
   return result;
 }
