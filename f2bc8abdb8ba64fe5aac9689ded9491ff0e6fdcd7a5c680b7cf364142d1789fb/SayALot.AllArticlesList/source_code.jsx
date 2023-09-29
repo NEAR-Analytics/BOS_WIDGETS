@@ -15,6 +15,7 @@ let {
   callLibs,
   handleEditArticle,
   showCreateArticle,
+  sbtWhiteList,
 } = props;
 
 State.init({ start: Date.now(), sbt: "fractal.i-am-human.near" });
@@ -47,7 +48,7 @@ function getDateLastEdit(timestamp) {
 return (
   <>
     {
-      //TODO add sbt selector with predeterminated value
+      //TODO add sbt selector using the variable sbtWhiteList
     }
     {showCreateArticle && (
       <Widget
