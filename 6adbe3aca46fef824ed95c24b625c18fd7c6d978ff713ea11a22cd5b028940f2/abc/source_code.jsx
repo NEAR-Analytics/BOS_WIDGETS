@@ -1,8 +1,10 @@
 Social.set({
-  KoreanHackmanGame: {
-    "": null,
-  },
-  KoreanHackman: {
-    "": null,
+  widget: {
+    KoreanHackmanGame: {
+      "": null,
+    },
+    KoreanHackman: {
+      "": null,
+    },
   },
 });
