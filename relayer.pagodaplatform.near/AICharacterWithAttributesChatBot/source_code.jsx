@@ -1,18 +1,19 @@
 // Written by Ramazan Burak Korkmaz
 
 // Props
-const props = {
-  URL: "https://api.openai.com/v1/chat/completions",
-  OPEN_AI_API: "",
-  MODEL: "gpt-3.5-turbo",
-  TEMPERATURE: 0.5,
-  TOP_P: 1,
-  N: 1,
-  STREAM: false,
-  MAX_TOKENS: 200,
-  PRESENCE_PENALTY: 0,
-  FREQUENCY_PENALTY: 0,
-};
+let {
+  API_URL,
+  OPEN_AI_API,
+  MODEL,
+  TEMPERATURE,
+  TOP_P,
+  N,
+  STREAM,
+  MAX_TOKENS,
+  PRESENCE_PENALTY,
+  FREQUENCY_PENALTY,
+  attributes,
+} = props;
 
 const conversationHistoryToString = () => {
   let temp = "";
@@ -34,14 +35,13 @@ State.init({
   presence_penalty: props.PRESENCE_PENALTY,
   frequency_penalty: props.FREQUENCY_PENALTY,
   text: "",
-  attributes: {},
   conversationHistory: [],
   conversationHistoryStr: "",
 });
 
 // Attributes object to attributes string which is used in system prompt to spesify chatgpt character
 const attribute_str = "";
-for (const [key, value] of Object.entries(state.attributes)) {
+for (const [key, value] of Object.entries(props.attributes)) {
   attribute_str += `${key}: ${value}\n`;
 }
 
@@ -105,7 +105,7 @@ const fetchResponseFromChatGPT = () => {
 };
 
 return (
-  <div className="border border-2 border-black p-2 w-100">
+  <div className="border border-2 border-black p-2">
     <div style={{ height: "500px" }}>
       <div className="overflow-auto h-100 mb-3 border border-2 border-dark m-1">
         <div>
