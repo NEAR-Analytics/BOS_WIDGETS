@@ -251,6 +251,10 @@ const Tab = styled.div`
 
 const Section = styled.div`
     padding: 35px;
+
+    @media (max-width: 768px) {
+        padding: 25px 5px;
+    }
 `;
 
 const UserIcon = styled.div`
@@ -285,6 +289,13 @@ const Tabs = styled.div`
 
 const Img = styled.img`
     width: 90%;
+`;
+
+const ImgContainer = styled.div`
+    @media (max-width: 768px) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
 `;
 
 const Dropdown = styled.div`
@@ -596,13 +607,13 @@ const PowerChecksDescription = ({ house, index, text, description, type }) => (
 return (
     <Container className="row p-0">
         <div id="main" className="col-lg-7 p-0">
-            <div className="px-5 py-3 bg-dark">
+            <div className="py-3 bg-dark d-flex justify-content-center">
                 <h6>
-                    <span className="text-secondary">NDC Governance: </span>
+                    <span className="text-secondary">NDC Governance | </span>
                     <span className="text-white">Interhouse relations</span>
                 </h6>
             </div>
-            <div
+            <ImgContainer
                 className={`w-100 d-flex justify-content-center align-items-center py-5 position-relative ${
                     state.vbWithTrust ? "px-1" : "px-5"
                 }`}
@@ -625,7 +636,7 @@ return (
                             : HOM_IMG
                     }
                 />
-            </div>
+            </ImgContainer>
         </div>
 
         <HousePanel className="shadow-sm col-lg-5">
