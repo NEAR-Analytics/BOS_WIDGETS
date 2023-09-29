@@ -1,8 +1,9 @@
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 
-const startingValidator = "gooddollar-v1.i-am-human.near";
-// const startingValidator = "registry.i-am-human.near";
+const initSbtName = "fractal.i-am-human.near";
+
+const sbtName = state.sbt;
 
 const initLibCalls = [
   {
@@ -14,14 +15,15 @@ const initLibCalls = [
         parameterName: "",
         parameterValue: undefined,
       },
-      currentValidator: state.currentValidator || startingValidator,
+      sbtName: initSbtName,
     },
   },
   {
     functionName: "canUserCreateArticle",
     key: "canLoggedUserCreateArticle",
     props: {
-      currentValidator: state.currentValidator || startingValidator,
+      accountId: context.accountId,
+      sbtName: initSbtName,
     },
   },
 ];
@@ -45,6 +47,7 @@ State.init({
     : { parameterName: "" },
   authorsProfiles: [],
   libCalls: initLibCalls,
+  sbtName: "fractal.i-am-human.near",
 });
 
 let newLibCalls = state.libCalls;
