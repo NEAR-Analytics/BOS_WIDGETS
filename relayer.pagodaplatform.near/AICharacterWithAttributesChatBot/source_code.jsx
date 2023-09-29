@@ -3,7 +3,6 @@
 // Props
 let {
   API_URL,
-  OPEN_AI_API_KEY,
   MODEL,
   TEMPERATURE,
   TOP_P,
@@ -24,7 +23,7 @@ const conversationHistoryToString = () => {
 };
 
 State.init({
-  apiKey: props.OPEN_AI_API_KEY,
+  apiKey: "",
   model: props.MODEL,
   userMessage: "",
   temperature: props.TEMPERATURE,
@@ -54,7 +53,6 @@ const createAttributeStr = () => {
 
 const attribute_str = createAttributeStr();
 
-console.log(props.ATTRIBUTES);
 // ChatGPT API URL
 const url = props.API_URL;
 
