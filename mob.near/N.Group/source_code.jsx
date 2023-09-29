@@ -54,7 +54,7 @@ return (
           key="compose"
           loading=""
           src="mob.near/widget/MainPage.N.Compose"
-          props={{ indexKey }}
+          props={{ indexKey, groupId }}
         />
       ) : (
         "Only members can post"
