@@ -1,4 +1,5 @@
 const item = props.item;
+const indexKey = props.indexKey ?? "main";
 
 if (!item) {
   return "";
@@ -65,7 +66,7 @@ const repostClick = () => {
   });
   const reposts = [
     {
-      key: "main",
+      key: indexKey,
       value: {
         type: "repost",
         item,
