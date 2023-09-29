@@ -18,7 +18,6 @@ const TextArea = styled.textarea`
     border:1px solid #0d99ff;
   }
 `;
-
 const Wrapper = styled.div``;
 
 const handleSubmit = async (event) => {
@@ -55,7 +54,7 @@ return (
       type="submit"
       className="btn btn-primary"
       style={{
-        width: "100%",
+        width: 890,
         padding: 25,
         marginTop: 20,
         marginBottom: 20,
@@ -68,5 +67,11 @@ return (
       Humanoid dog, wearing colorful clothing, dancing pose, outdoor, daylight,
       mountains, cinema 4d
     </h4>
+    <h5> Sample: </h5>
+    <img
+      src="https://ipfs.near.social/ipfs/bafkreie75zc7tqt2xk6ttwnf6x2r5mmzd74emuj2u6yaycbh7tabiirwlq"
+      alt="Otter"
+      style={{ width: "35%", borderRadius: 40 }}
+    />
   </Wrapper>
 );
