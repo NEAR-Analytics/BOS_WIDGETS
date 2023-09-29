@@ -8,7 +8,8 @@ const parentItem = content.item;
 const highlight = !!props.highlight;
 const raw = !!props.raw;
 const groupId = props.groupId;
-const disableComment = !!props.disableComment;
+const groupIdLinkPart = groupId ? `&groupId=${groupId}` : "";
+const permissions = props.permissions;
 
 const extractNotifyAccountId = (item) => {
   if (!item || item.type !== "social" || !item.path) {
@@ -18,7 +19,7 @@ const extractNotifyAccountId = (item) => {
   return `${accountId}/post/main` === item.path ? accountId : undefined;
 };
 
-const link = `/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}${groupIdLinkPart}`;
 
 const item = {
   type: "social",
@@ -65,7 +66,7 @@ return (
                   loading=""
                   src="mob.near/widget/N.CommentButton"
                   props={{
-                    disabled: disableComment,
+                    disabled: permissions.disableComment,
                     onClick: () =>
                       !state.showReply && State.update({ showReply: true }),
                   }}
