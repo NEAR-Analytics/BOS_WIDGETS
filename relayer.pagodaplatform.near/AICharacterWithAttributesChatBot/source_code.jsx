@@ -40,12 +40,21 @@ State.init({
 });
 
 // Attributes object to attributes string which is used in system prompt to spesify chatgpt character
-const attribute_str = "";
-for (const attribute_object of props.attributes) {
-  const [key, value] = Object.entries(attribute_object.attribute);
-  attribute_str += `${key}: ${value}\n`;
-}
 
+const createAttributeStr = () => {
+  const temp = "";
+  if (Array.isArray(props.ATTRIBUTES) && props.ATTRIBUTES.length) {
+    for (const element of props.ATTRIBUTES) {
+      const [key, value] = Object.entries(element.attribute);
+      temp += `${key}: ${value}\n`;
+    }
+  }
+  return temp;
+};
+
+const attribute_str = createAttributeStr();
+
+console.log(props.ATTRIBUTES);
 // ChatGPT API URL
 const url = props.URL;
 
