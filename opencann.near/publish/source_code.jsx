@@ -1,5 +1,6 @@
-//integrate with feed, proposals, create subdao groups,
-//integrate with marketplace
+// integrate with feed
+// integrate with groups (instead of DAOs)
+// implement encryption by default
 
 const accountId = props.accountId ?? context.accountId;
 
@@ -178,7 +179,9 @@ return (
       </a>
     </p>
     <hr></hr>
-    <h5>Upload Anything</h5>
+    <h5>Publish Anything</h5>
+    <Widget src="nearhorizon.near/widget/IpfsFilesUpload" />
+    <p></p>
     <div className="mb-2">
       Name of Data Set
       <input type="text" onChange={(e) => onChangeName(e.target.value)} />
@@ -192,15 +195,14 @@ return (
       <input type="text" onChange={(e) => onChangePurpose(e.target.value)} />
     </div>
     <Widget src="mob.near/widget/IpfsImageUploadDemo" />{" "}
-    <Widget src="nearhorizon.near/widget/IpfsFilesUpload" />
-    <Widget src="sking.near/widget/DAO.Permissions" />
+    <Widget src="opencann.near/widget/publish.permissions" />
     <div>
       <h5> List on Optimism </h5>
       <Widget src="ciocan.near/widget/op-bridge-demo" props={{ ownerId }} />
       <Widget src="ciocan.near/widget/op-bridge-list" props={{ ownerId }} />
     </div>
     <button className="btn btn-outline-success mt-3" onClick={handleCreate}>
-      Publish Data Set
+      Publish
     </button>
   </div>
 );
