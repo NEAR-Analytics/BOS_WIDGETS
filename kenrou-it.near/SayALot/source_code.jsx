@@ -28,10 +28,6 @@ const initLibCalls = [
   },
 ];
 
-console.log("state: ", state);
-
-// console.log("canLoggedUserCreateArticle: ", canLoggedUserCreateArticle);
-
 if (!accountId) accountId = context.accountId;
 
 const tabs = {
@@ -50,7 +46,7 @@ State.init({
   authorsProfiles: [],
   libCalls: initLibCalls,
   sbtName: "fractal.i-am-human.near",
-  sbts: [sbtWhiteList[0]],
+  sbts: [initSbtName],
 });
 
 let newLibCalls = state.libCalls;
@@ -66,10 +62,9 @@ State.update({ libCalls: newLibCalls });
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
-const libSrcArray = [`kenrou-it.near/widget/SayALot.lib.article`];
+const testAuthor = "kenrou-it.near";
+const libSrcArray = [`${testAuthor}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
-
-const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
 
 // let writersWhiteList = [
 //   "neardigitalcollective.near",
@@ -96,13 +91,14 @@ const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
 // if (isTest) {
 //   writersWhiteList = sayALotWorkers;
 // }
+const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/SayALot.Create`,
+  create: `${testAuthor}/widget/SayALot.Create`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/SayALot.NavBar`,
-  showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
+  showArticlesList: `${testAuthor}/widget/SayALot.AllArticlesList`,
   showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
   generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
@@ -112,7 +108,7 @@ const widgets = {
   commentView: `${authorForWidget}/widget/SayALot.CommentView`,
   // candidatePage: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page`,
   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  libArticle: `kenrou-it.near/widget/SayALot.lib.article`,
+  libArticle: `${testAuthor}/widget/SayALot.lib.article`,
   libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
   libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
   upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
@@ -175,11 +171,23 @@ function getValidEditArticleDataTags() {
   return newFormatTags;
 }
 
+function createSbtOptions() {
+  return sbtWhiteList.map((option, i) => {
+    //The first options is always the default one
+    if (i == 0) {
+      return { title: option, default: true, value: option };
+    } else {
+      return { title: option, value: option };
+    }
+  });
+}
+
 const initialCreateState = {
   articleId: state.editArticleData.articleId ?? "",
   articleBody: state.editArticleData.body ?? initialBodyAtCreation,
   tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
   libCalls: [],
+  sbts: [sbtWhiteList[0]],
 };
 
 function stateUpdate(obj) {
@@ -264,6 +272,10 @@ function callLibs(srcArray, stateUpdate, libCalls) {
   );
 }
 
+function handleSbtSelection(string) {
+  State.update({ sbts: [string] });
+}
+
 //===============================================END FUNCTIONS======================================================
 return (
   <>
@@ -303,6 +315,9 @@ return (
           handleEditArticle,
           showCreateArticle: state.canLoggedUserCreateArticle,
           sbtWhiteList,
+          handleSbtSelection,
+          sbts,
+          createSbtOptions,
         }}
       />
     )}
@@ -351,6 +366,7 @@ return (
           handleFilterArticles,
           handleEditArticle,
           sbtWhiteList,
+          createSbtOptions,
         }}
       />
     )}
