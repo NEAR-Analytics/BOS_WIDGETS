@@ -14,8 +14,11 @@ const LessonLinks = () => {
     textAlign: "center",
   };
 
+  const ownerId = "xvii.near"; // Replace this with your actual ownerId
+
   return (
     <div>
+      <Widget src={`${ownerId}/widget/Resources.Header`} />
       <div style={linkContainerStyle}>
         <a
           style={linkStyle}
