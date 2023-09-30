@@ -4,12 +4,12 @@ const rights = {
   AddMemberToGroup: {
     title: "Add Member To Group",
     description:
-      "Add member to given group in the policy. This is short cut to updating the whole policy.",
+      "Add member to given group for only these files. This is a short cut to updating DAO-wide permissions.",
   },
   RemoveMemberFromGroup: {
     title: "Remove Member From Group",
     description:
-      "Remove member to given group in the policy. This is short cut to updating the whole policy.",
+      "Remove member from given group for only these files. This is a short cut to updating DAO-wide permissions.",
   },
   Vote: {
     title: "Text Vote",
@@ -34,11 +34,11 @@ const rights = {
   },
   ChangeConfig: {
     title: "Change Config",
-    description: "Change the DAO config",
+    description: "Change the group-level config for this set of files.",
   },
   ChangePolicy: {
     title: "Change Policy",
-    description: "Change the DAO policy",
+    description: "Change the permissions policy you are currently setting.",
   },
   ChangePolicyAddOrUpdateGroup: {
     title: "Add Or Update Group",
