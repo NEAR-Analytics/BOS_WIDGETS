@@ -293,8 +293,19 @@ return (
         )}
 
         {state.selectedTab === "proposals" && (
-          <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
-        )}
+            <div className="mb-3">
+              <label for="daoId">DAO ID: </label>
+              <a
+                href="https://explorer.near.org/accounts/cannabis-genome.sputnik-dao.near"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                cannabis-genome.sputnik-dao.near
+              </a>
+            </div>
+          ) && (
+            <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
+          )}
 
         {state.selectedTab === "proposal" && (
           <Widget
