@@ -9,7 +9,7 @@
  */
 const accountId = props.accountId ?? "sharddog.near";
 State.init({
-  selectedTab: props.tab || "main",
+  selectedTab: props?.tab ?? "main",
 });
 
 if (!accountId) {
@@ -26,8 +26,6 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const accountUrl = `#/cpassport.near/widget/Passport.Main?accountId=${accountId}`;
 
 const Wrapper = styled.div`
-  padding-bottom: 48px;
-  padding-top:20px;
   background-color: #FDF3DD;
 `;
 
