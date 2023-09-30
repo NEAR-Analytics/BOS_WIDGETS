@@ -34,7 +34,7 @@ const onInputChangeFunctionsAction = ({ target }) => {
   State.update({ fAction: target.value });
 };
 const onInputChangeContractAddress = ({ target }) => {
-  State.update({ contractAddress: target.value });
+  State.update({ contractAddress: target.value.toLowerCase() });
 };
 const onCreateArgs = (fName, fIndex) => {
   State.update({ createArgError: { [fName]: null } });
@@ -154,24 +154,15 @@ const getMethodFromSource = () => {
         const abiMethod = [];
         State.update({ cMethod: [] });
         filterFunction.forEach((item) => {
-          asyncFetch(state.rpcUrl, {
-            body: JSON.stringify({
-              method: "query",
-              params: {
-                request_type: "call_function",
-                account_id: state.contractAddress,
-                method_name: item,
-                args_base64: "eyIiOiIifQ==",
-                finality: "optimistic",
+          asyncFetch(
+            `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=1`,
+            {
+              headers: {
+                "Content-Type": "application/json",
               },
-              id: 128,
-              jsonrpc: "2.0",
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-            method: "POST",
-          }).then((res) => {
+              method: "GET",
+            }
+          ).then((res) => {
             const method = {
               name: item,
               kind: "view",
@@ -183,12 +174,8 @@ const getMethodFromSource = () => {
               deposit: 0,
               gas: 30000000000000,
             };
-            if (res.body.result.error) {
-              const isCallFunction =
-                res.body.result.error.search("storage_write");
-              if (isCallFunction !== -1) {
-                method.kind = "call";
-              }
+            if (res.body.txns.length > 0) {
+              method.kind = "call";
             }
             abiMethod.push(method);
             State.update({ cMethod: abiMethod });
