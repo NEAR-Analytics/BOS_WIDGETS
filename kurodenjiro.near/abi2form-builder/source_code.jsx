@@ -158,7 +158,7 @@ const getMethodFromSource = () => {
         State.update({ cMethod: [] });
         filterFunction.forEach((item) => {
           asyncFetch(
-            `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=1`,
+            `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -177,6 +177,7 @@ const getMethodFromSource = () => {
               deposit: 0,
               gas: 30000000000000,
             };
+            console.log(item, res.body.txns);
             if (res.body.txns.length > 0) {
               const isCheckSuccess = false;
               res.body.txns.forEach((item) => {
