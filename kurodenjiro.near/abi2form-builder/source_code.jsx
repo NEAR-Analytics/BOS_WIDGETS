@@ -379,7 +379,7 @@ return (
         </div>
         <div class="row">
           <div class="form-group col-md-4">
-            <label>Function Name</label>
+            <label>Method Name</label>
             <input
               type="text"
               onChange={onInputChangeFunctionsName}
