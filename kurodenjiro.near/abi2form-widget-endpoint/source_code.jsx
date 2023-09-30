@@ -1,4 +1,4 @@
-const user = "kurodenjiro.near";
+const user = context.accountId;
 const props = {
   schema_version: "0.3.0",
   address: "trustcore.near",
