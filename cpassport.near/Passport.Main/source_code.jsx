@@ -24,13 +24,6 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.div`
-  display: grid;
-  gap: 40px;
-    grid-template-columns: minmax(0, 1fr);
-  align-items: start;
-
-  @media (max-width: 1024px) {
-  }
 `;
 
 const BackgroundImage = styled.div`
