@@ -212,7 +212,7 @@ return (
         )}
 
         {state.selectedTab === "leaderboard" && (
-          <Widget src="cpassport.near/widget/Passport.Leaderboard.Main" />
+          <Widget src="cpassport.near/widget/Passport.FrequentFlyers.Main" />
         )}
       </Content>
     </Main>
