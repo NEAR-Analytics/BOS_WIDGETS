@@ -228,6 +228,8 @@ const getArgsFromMethod = (fName, fIndex) => {
               "base64"
             ).toString("ascii");
             if (Object.keys(JSON.parse(args)).length > 0) {
+              const abiMethod = state.cMethod;
+              abiMethod[fIndex].params.args = [];
               Object.keys(JSON.parse(args)).forEach((item) => {
                 const arg = {
                   name: item,
@@ -236,10 +238,8 @@ const getArgsFromMethod = (fName, fIndex) => {
                   },
                   value: "",
                 };
-                const abiMethod = state.cMethod;
-                abiMethod[fIndex].params.args = [];
+
                 abiMethod[fIndex].params.args.push(arg);
-                console.log(abiMethod);
                 State.update({ cMethod: abiMethod });
               });
             }
@@ -296,13 +296,18 @@ const onBtnClickCall = (fName, action, fIndex) => {
     });
   }
   if (action === "call") {
-    Near.call(
-      state.contractAddress,
-      abiMethod[fIndex].name,
-      args,
-      abiMethod[fIndex].deposit,
-      abiMethod[fIndex].gas
-    );
+    if (
+      abiMethod[fIndex].deposit == 0 &&
+      abiMethod[fIndex].gas == 30000000000000
+    ) {
+      Near.call(state.contractAddress, abiMethod[fIndex].name, args);
+    }
+    if (
+      abiMethod[fIndex].deposit > 0 &&
+      abiMethod[fIndex].gas > 30000000000000
+    ) {
+      Near.call(state.contractAddress, abiMethod[fIndex].name, args);
+    }
   }
 };
 
