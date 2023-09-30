@@ -48,24 +48,27 @@ return (
     {
       //TODO add sbt selector using the variable sbtWhiteList
     }
-    {showCreateArticle && (
-      <Widget
-        src={widgets.create}
-        props={{
-          isTest,
-          addressForArticles,
-          authorForWidget,
-          stateUpdate,
-          widgets,
-          initialCreateState,
-          editArticleData,
-          callLibs,
-          handleFilterArticles,
-          handleEditArticle,
-          initialBody: "",
-        }}
-      />
-    )}
+    {
+      // true && (
+      showCreateArticle && (
+        <Widget
+          src={widgets.create}
+          props={{
+            isTest,
+            addressForArticles,
+            authorForWidget,
+            stateUpdate,
+            widgets,
+            initialCreateState,
+            editArticleData,
+            callLibs,
+            handleFilterArticles,
+            handleEditArticle,
+            initialBody: "",
+          }}
+        />
+      )
+    }
     <ArticlesListContainer className="row card-group mt-3 py-3 rounded">
       {finalArticles.length > 0 &&
         finalArticles.map((article, i) => {
