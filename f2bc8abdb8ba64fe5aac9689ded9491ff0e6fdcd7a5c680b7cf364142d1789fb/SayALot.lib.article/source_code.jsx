@@ -9,6 +9,7 @@ const action = isTest ? testAction : prodAction;
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 //const authorForWidget = "sayalot.near";
+// const authorForWidget = "kenrou-it.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
 State.init({ libCalls: [] });
@@ -19,7 +20,7 @@ function libStateUpdate(obj) {
 
 function setAreValidUsers(accountIds, sbtName) {
   const newLibCalls = [...state.libCalls];
-  accountIds.forEach((accountId) => {
+  accountIds.forEach((accountId, index) => {
     const isCallPushed =
       newLibCalls.find((libCall) => {
         return (
@@ -27,8 +28,9 @@ function setAreValidUsers(accountIds, sbtName) {
           libCall.props.accountId === accountId
         );
       }) !== undefined;
+    const isCallReturned = state[`isValidUser-${accountId}`] !== undefined;
 
-    if (isCallPushed) {
+    if (isCallPushed || isCallReturned) {
       return;
     }
 
@@ -104,12 +106,10 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 
 function canUserCreateArticle(props) {
   const { env, accountId, sbtName } = props;
-  console.log("props: ", props);
 
   setAreValidUsers([accountId], sbtName);
 
   const result = state[`isValidUser-${accountId}`];
-  console.log("result: ", state);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     const discardCondition =
