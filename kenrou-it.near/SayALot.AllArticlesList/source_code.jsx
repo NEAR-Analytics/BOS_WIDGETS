@@ -45,8 +45,6 @@ function getDateLastEdit(timestamp) {
 }
 
 //================================================END FUNCTIONS=====================================================
-console.log("sbts selected: ", sbts);
-console.log(1, showCreateArticle);
 
 return (
   <>
