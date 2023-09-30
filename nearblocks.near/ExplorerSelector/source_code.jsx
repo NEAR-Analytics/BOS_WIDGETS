@@ -54,7 +54,7 @@ function getHref(link) {
   }
 }
 
-function hasLinkNearblocks(link) {
+function linkNearblocks(link) {
   if (link)
     switch (getFirstPathSegment(link)) {
       case "":
@@ -72,7 +72,7 @@ function hasLinkNearblocks(link) {
     }
 }
 
-function hasLinkNearExplorer(link) {
+function linkNearExplorer(link) {
   if (link)
     switch (getFirstPathSegment(link)) {
       case "":
@@ -95,10 +95,10 @@ function hasLinkNearExplorer(link) {
 const path = props?.path || "";
 const href = getHref(path);
 const hasLinkNearblocks = props?.path
-  ? !hasLinkNearblocks(path)
+  ? !linkNearblocks(path)
   : false;
 const hasLinkNearExplorer = props?.path
-  ? !hasLinkNearExplorer(path)
+  ? !linkNearExplorer(path)
   : false;
 
 function onSelect(data) {
@@ -209,6 +209,7 @@ return (
         <Tag>Recommended</Tag>
         <ImageTab
           src={"https://nearblocks.io/images/nearblocksblack.svg"}
+          alt="Nearblocks"
         ></ImageTab>
       </NearBlocksButton>
       <NearExplorerButton
