@@ -208,7 +208,7 @@ return (
         )}
 
         {state.selectedTab === "history" && (
-          <Widget src="cpassport.near/widget/Passport.History.Main" />
+          <Widget src="cpassport.near/widget/Passport.Leaderboard.Main" />
         )}
 
         {state.selectedTab === "leaderboard" && (
