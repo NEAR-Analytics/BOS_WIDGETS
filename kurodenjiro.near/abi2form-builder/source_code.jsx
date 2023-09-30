@@ -74,31 +74,33 @@ const onInputChangeArgValue = (e, fIndex, aIndex) => {
   abiMethod[fIndex].params.args[aIndex].value = e.target.value;
   State.update({ cMethod: abiMethod });
 };
-const onCreateMethod = (e) => {
-  State.update({ createMethodError: null });
-  const method = {
-    name: state.fName,
-    kind: state.fAction,
-    export: true,
-    params: {
-      serialization_type: "json",
-      args: [],
-    },
-    deposit: 0,
-    gas: 30000000000000,
-  };
-  const abiMethod = state.cMethod;
-  const isExistFunction = false;
-  abiMethod.forEach((item) => {
-    if (item.name == state.fName) {
-      isExistFunction = true;
+const onCreateMethod = () => {
+  if (state.fName.length > 0) {
+    State.update({ createMethodError: null });
+    const method = {
+      name: state.fName,
+      kind: state.fAction,
+      export: true,
+      params: {
+        serialization_type: "json",
+        args: [],
+      },
+      deposit: 0,
+      gas: 30000000000000,
+    };
+    const abiMethod = state.cMethod;
+    const isExistFunction = false;
+    abiMethod.forEach((item) => {
+      if (item.name == state.fName) {
+        isExistFunction = true;
+      }
+    });
+    if (!isExistFunction) {
+      abiMethod.push(method);
+      State.update({ cMethod: abiMethod });
+    } else {
+      State.update({ createMethodError: "Function Exist" });
     }
-  });
-  if (!isExistFunction) {
-    abiMethod.push(method);
-    State.update({ cMethod: abiMethod });
-  } else {
-    State.update({ createMethodError: "Function Exist" });
   }
 };
 const onInputChangeDeposit = (fIndex, e) => {
@@ -398,7 +400,7 @@ return (
             <label></label>
             <button
               onClick={onCreateMethod}
-              class="btn btn-success form-control "
+              class="btn btn-primary form-control "
             >
               Create
             </button>
@@ -407,7 +409,7 @@ return (
             <label></label>
             <button
               onClick={getMethodFromSource}
-              class="btn btn-success form-control "
+              class="btn btn-primary form-control "
             >
               Detect
             </button>
@@ -417,7 +419,7 @@ return (
             <button
               data-bs-toggle="modal"
               data-bs-target="#export"
-              class="btn btn-success form-control "
+              class="btn btn-primary form-control "
             >
               Export
             </button>
@@ -515,7 +517,7 @@ return (
                 </div>
                 <div class="form-group col-md-4">
                   <button
-                    class="btn btn-primary"
+                    class="btn btn-secondary btn-sm"
                     onClick={(e) => onCreateArgs(functions.name, fIndex)}
                   >
                     Add
@@ -523,7 +525,7 @@ return (
                 </div>
                 <div class="form-group col-md-4">
                   <button
-                    class="btn btn-secondary"
+                    class="btn btn-secondary btn-sm"
                     onClick={(e) => getArgsFromMethod(functions.name, fIndex)}
                   >
                     Auto detect
@@ -650,7 +652,7 @@ return (
               <div class="row">
                 <div class="form-group col-md-2">
                   <button
-                    class="btn btn-success"
+                    class="btn btn-primary"
                     onClick={(e) =>
                       onBtnClickCall(functions.name, functions.kind, fIndex)
                     }
