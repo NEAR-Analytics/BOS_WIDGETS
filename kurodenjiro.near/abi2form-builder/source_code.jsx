@@ -175,7 +175,15 @@ const getMethodFromSource = () => {
               gas: 30000000000000,
             };
             if (res.body.txns.length > 0) {
-              method.kind = "call";
+              const isCheckSuccess = false;
+              res.body.txns.forEach((item) => {
+                if (item.outcomes.status) {
+                  isCheckSuccess = true;
+                }
+              });
+              if (isCheckSuccess) {
+                method.kind = "call";
+              }
             }
             abiMethod.push(method);
             State.update({ cMethod: abiMethod });
