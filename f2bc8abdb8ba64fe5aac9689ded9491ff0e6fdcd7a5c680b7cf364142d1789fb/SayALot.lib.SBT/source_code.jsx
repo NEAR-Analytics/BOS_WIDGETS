@@ -4,6 +4,7 @@ let resultLibCalls = [];
 
 function isValidUser(props) {
   const { accountId, sbtName } = props;
+  console.log(0, accountId);
   const userSBTs = Near.view(
     "registry.i-am-human.near",
     "sbt_tokens_by_owner",
@@ -19,7 +20,8 @@ function isValidUser(props) {
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "isValidUser";
   });
-  // return true;
+
+  return true;
 
   return result;
 }
