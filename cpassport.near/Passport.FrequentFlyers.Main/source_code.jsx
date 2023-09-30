@@ -8,6 +8,13 @@ const DivBackground = styled.div`
   justify-content:center;
 `;
 
+State.init({
+  tokenId: {},
+  nftDetails: false,
+  hasFetched: {},
+  allTokens: [],
+});
+
 const phillipines = {
   series: "224",
   country: "Phillipines",
@@ -75,6 +82,102 @@ const countryList = [
   canada,
 ];
 
+function fetchTokens(series) {
+  asyncFetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "omni-site",
+      "Content-Type": "application/json",
+      "x-hasura-role": "anonymous",
+    },
+    body: JSON.stringify({
+      query: `
+          query MyQuery {
+            mb_views_nft_tokens(
+              where: { nft_contract_id: { _eq: "mint.sharddog.near" } token_id: {_regex: "^${series}:"}}
+            ) {
+              owner
+              token_id
+              media
+              base_uri
+              minter
+              metadata_id
+            }
+          }
+        `,
+    }),
+  }).then((res) => {
+    if (res.ok) {
+      const token = res.body.data.mb_views_nft_tokens;
+      if (token) {
+        State.update({
+          [`${series}:token`]: token,
+        });
+      }
+    }
+  });
+}
+
+const fetchAllTokens = () => {
+  countryList.forEach((item, idx) => {
+    if (state.hasFetched[item.series] !== true) {
+      fetchTokens(item.series);
+      State.update({
+        hasFetched: { ...state.hasFetched, [item.series]: true },
+      });
+    }
+  });
+};
+
+if (Object.keys(state.hasFetched).length !== countryList.length) {
+  fetchAllTokens();
+}
+
+const tokenSeries = countryList.map((item) => `${item.series}:token`);
+const allState = [];
+
+tokenSeries.map((item, idx) => {
+  const totalState = state?.[item];
+  (totalState ?? [])?.map((item) => {
+    allState.push(item);
+  });
+  if (idx !== tokenSeries.length - 1) {
+    State.update({ allTokens: allState });
+  }
+});
+
+function findTopNFrequentOwners(data, n) {
+  const ownerFrequency = {};
+
+  // Building the frequency map
+  for (let item of data) {
+    if (item.owner in ownerFrequency) {
+      ownerFrequency[item.owner]++;
+    } else {
+      ownerFrequency[item.owner] = 1;
+    }
+  }
+
+  // Sorting owners based on their frequencies
+  const sortedOwners = Object.entries(ownerFrequency).sort(
+    (a, b) => b[1] - a[1]
+  );
+
+  // Getting the top N owners
+  const topNOwners = sortedOwners.slice(0, n).map((item) => {
+    return {
+      owner: item[0],
+      frequency: item[1],
+    };
+  });
+
+  return topNOwners;
+}
+
+const allOwnerIds = findTopNFrequentOwners(state.allTokens).map(
+  (item) => item.owner
+);
+
 const GridView = styled.div`
 display: grid;
 width:100%;
@@ -90,24 +193,43 @@ const allHolders = [
   "ndcplug.near",
 ];
 
+const findIfExisting = (owner, token) => {
+  const allitems = state.allTokens.filter(
+    (item) => item.owner === owner && item.token_id.includes(token)
+  );
+  return allitems;
+};
+
 return (
   <DivBackground>
     <div style={{ width: "100%", padding: 10 }}>
       <h1 style={{ textAlign: "center" }}>Frequent Flyers</h1>
-      {allHolders.map((item) => (
-        <GridView>
-          <div>
-            <p style={{ fontSize: 12, marginBottom: 0 }}>{item}</p>
-          </div>
-          <div
-            style={{ display: "grid", gridTemplateColumns: "repeat(8,1fr)" }}
-          >
-            {countryList.map((item) => (
-              <img style={{ height: 60, width: 60 }} src={item.image} />
-            ))}
-          </div>
-        </GridView>
-      ))}
+      {allOwnerIds.splice(0, 5).map((item) => {
+        return (
+          <GridView>
+            <div>
+              <p style={{ fontSize: 12, marginBottom: 0 }}>{item}</p>
+            </div>
+            <div
+              style={{ display: "grid", gridTemplateColumns: "repeat(8,1fr)" }}
+            >
+              {countryList.map((_) => {
+                const isExsisting = findIfExisting(item, _.series);
+                return (
+                  <img
+                    style={{
+                      height: 60,
+                      width: 60,
+                      opacity: isExsisting.length === 0 ? 0.6 : 1,
+                    }}
+                    src={_.image}
+                  />
+                );
+              })}
+            </div>
+          </GridView>
+        );
+      })}
     </div>
   </DivBackground>
 );
