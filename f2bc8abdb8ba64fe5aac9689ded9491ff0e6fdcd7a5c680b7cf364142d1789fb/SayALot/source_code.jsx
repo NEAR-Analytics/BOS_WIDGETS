@@ -50,7 +50,7 @@ State.init({
   authorsProfiles: [],
   libCalls: initLibCalls,
   sbtName: "fractal.i-am-human.near",
-  sbts: [sbtWhiteList[0]],
+  sbts: [initSbtName],
 });
 
 let newLibCalls = state.libCalls;
@@ -68,8 +68,6 @@ const authorForWidget =
 // const authorForWidget = "kenrou-it.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
-
-const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
 
 // let writersWhiteList = [
 //   "neardigitalcollective.near",
@@ -96,6 +94,7 @@ const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
 // if (isTest) {
 //   writersWhiteList = sayALotWorkers;
 // }
+const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
@@ -264,6 +263,10 @@ function callLibs(srcArray, stateUpdate, libCalls) {
   );
 }
 
+function handleSbtSelection(string) {
+  State.update({ sbts: [string] });
+}
+
 //===============================================END FUNCTIONS======================================================
 return (
   <>
@@ -303,6 +306,8 @@ return (
           handleEditArticle,
           showCreateArticle: state.canLoggedUserCreateArticle,
           sbtWhiteList,
+          handleSbtSelection,
+          sbts,
         }}
       />
     )}
