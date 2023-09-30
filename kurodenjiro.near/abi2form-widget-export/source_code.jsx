@@ -1,0 +1,8 @@
+const user = context.accountId;
+const props = {"schema_version":"0.3.0","add":"trustcore.near","metadata":{"name":"trustcore.near","version":"0.1.0","authors":[""]},"body":{"functions":[{"name":"getVotes","kind":"view","export":true,"params":{"serialization_type":"json","args":[]}},{"name":"didParticipate","kind":"view","export":true,"params":{"serialization_type":"json","args":[]}},{"name":"clearPromptArray","kind":"view","export":true,"params":{"serialization_type":"json","args":[]},"deposit":0,"gas":30000000000000},{"name":"participateArray","kind":"view","export":true,"params":{"serialization_type":"json","args":[]}},{"name":"getAllPrompts","kind":"view","export":true,"params":{"serialization_type":"json","args":[]}},{"name":"getCandidatePair","kind":"view","export":true,"params":{"serialization_type":"json","args":[]}},{"name":"getUrl","kind":"view","export":true,"params":{"serialization_type":"json","args":[]},"deposit":0,"gas":30000000000000},{"name":"recordUser","kind":"call","export":true,"params":{"serialization_type":"json","args":[]},"deposit":0,"gas":30000000000000},{"name":"addVote","kind":"call","export":true,"params":{"serialization_type":"json","args":[]},"deposit":0,"gas":30000000000000},{"name":"addToPromptArray","kind":"call","export":true,"params":{"serialization_type":"json","args":[]},"deposit":0,"gas":30000000000000},{"name":"initializeVotes","kind":"call","export":true,"params":{"serialization_type":"json","args":[]},"deposit":0,"gas":30000000000000},{"name":"addCandidatePair","kind":"call","export":true,"params":{"serialization_type":"json","args":[]},"deposit":0,"gas":30000000000000}]}} 
+
+return (
+  <>
+    <Widget src={`${user}/widget/abi2form-widget`} props={props} />
+  </>
+);
