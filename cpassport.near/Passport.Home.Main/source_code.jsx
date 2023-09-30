@@ -6,6 +6,8 @@ State.init({
   hasFetched: {},
 });
 
+console.log(state)
+
 const phillipines = {
   series: "224",
   country: "Phillipines",
@@ -153,7 +155,7 @@ return state?.nftDetails ? (
       src="cpassport.near/widget/Passport.NFTDetails.Main"
       props={{
         onBack: () => {
-          State.update({ nftDetails:false });
+          State.update({ nftDetails: false });
         },
       }}
     />
@@ -182,7 +184,7 @@ return state?.nftDetails ? (
                   State.update({ nftDetails: true });
                 }}
                 style={{
-                  opacity: state.tokenId[item.series] ? 1 : 0.4,
+                  opacity: state.tokens[item.series] ? 1 : 0.4,
                   padding: 0,
                   backgroundColor: "transparent",
                   borderWidth: 0,
