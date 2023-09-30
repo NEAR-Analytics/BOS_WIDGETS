@@ -3,7 +3,7 @@ const DivBackground = styled.div`
   background-color: #FDF3DD;
   display: flex;
   padding-bottom:20vh;
-  width:100vw;
+  width:100%;
   align-items:center;
   justify-content:center;
 `;
