@@ -12,6 +12,7 @@ const {
   handleEditArticle,
   handlerStateUpdate,
   sbtWhiteList,
+  createSbtOptions,
 } = props;
 
 const libSrcArray = [widgets.libArticle];
@@ -39,6 +40,10 @@ function getRealArticleId() {
   } else {
     return `${accountId}-${Date.now()}`;
   }
+}
+
+function handleSbtSelection(string) {
+  State.update({ sbts: [string] });
 }
 
 const sbts = state.sbts; //TODO[""] currently it will be only 1 sbt
@@ -208,6 +213,19 @@ return (
                   setTagsObject: (tags) => {
                     state.tags = Object.keys(tags);
                     State.update();
+                  },
+                }}
+              />
+            </div>
+            <div className="d-flex flex-column pt-3 ">
+              <Widget
+                src={widgets.styledComponents}
+                props={{
+                  Dropdown: {
+                    label: "Select SBT requiered to interact",
+                    value: sbts[0],
+                    handleChange: handleSbtSelection,
+                    options: createSbtOptions(),
                   },
                 }}
               />
