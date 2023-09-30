@@ -9,14 +9,14 @@
  */
 const accountId = props.accountId ?? "sharddog.near";
 State.init({
-  selectedTab: props?.tab ?? "main",
+  selectedTab: "main",
 });
 
 if (!accountId) {
   return "No account ID";
 }
 
-if (props.tab && props.tab !== state.selectedTab) {
+if (props?.tab && props?.tab !== state.selectedTab) {
   State.update({
     selectedTab: props.tab,
   });
