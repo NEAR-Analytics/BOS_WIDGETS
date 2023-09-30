@@ -18,6 +18,7 @@ let {
   sbtWhiteList,
   handleSbtSelection,
   sbts,
+  createSbtOptions,
 } = props;
 
 State.init({ start: Date.now() });
@@ -43,17 +44,6 @@ function getDateLastEdit(timestamp) {
   return dateString;
 }
 
-function createSbtOptions() {
-  return sbtWhiteList.map((option, i) => {
-    //The first options is always the default one
-    if (i == 0) {
-      return { title: option, default: true, value: option };
-    } else {
-      return { title: option, value: option };
-    }
-  });
-}
-
 //================================================END FUNCTIONS=====================================================
 console.log("sbts selected: ", sbts);
 
@@ -75,6 +65,7 @@ return (
           handleFilterArticles,
           handleEditArticle,
           initialBody: "",
+          createSbtOptions,
         }}
       />
     )}
