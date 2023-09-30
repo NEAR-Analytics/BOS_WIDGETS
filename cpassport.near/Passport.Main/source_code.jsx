@@ -27,18 +27,17 @@ const accountUrl = `#/cpassport.near/widget/Passport.Main?accountId=${accountId}
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
-    background-color: #FDF3DD;
-
+  padding-top:20px;
+  background-color: #FDF3DD;
 `;
 
 const Main = styled.div`
   display: grid;
   gap: 40px;
-  grid-template-columns: 352px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
   align-items: start;
 
   @media (max-width: 1024px) {
-    grid-template-columns: minmax(0, 1fr);
   }
 `;
 
@@ -98,6 +97,7 @@ const Tabs = styled.div`
   border-bottom: 1px solid #eceef0;
   margin-bottom: 72px;
   overflow: auto;
+  width:100%;
   scroll-behavior: smooth;
   align-content: center;
   justify-content: center;
@@ -106,17 +106,11 @@ const Tabs = styled.div`
   @media (max-width: 1024px) {
     background: #f8f9fa;
     border-top: 1px solid #eceef0;
-    margin: 0 -12px 48px;
-
-    > * {
-      flex: 1;
-    }
   }
 `;
 
 const TabsButton = styled.a`
   display: inline-flex;
-
   height: 100%;
   font-weight: 600;
   font-size: 12px;
@@ -127,7 +121,7 @@ const TabsButton = styled.a`
   border: none;
   outline: none;
   text-align: center;
-    align-items: center;
+  align-items: center;
   justify-content: center;
   text-decoration: none !important;
 
