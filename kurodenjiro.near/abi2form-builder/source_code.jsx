@@ -99,8 +99,10 @@ const onCreateMethod = () => {
       abiMethod.push(method);
       State.update({ cMethod: abiMethod });
     } else {
-      State.update({ createMethodError: "Function Exist" });
+      State.update({ createMethodError: "Method Exist!" });
     }
+  } else {
+    State.update({ createMethodError: "Please Input Method Name!" });
   }
 };
 const onInputChangeDeposit = (fIndex, e) => {
@@ -486,7 +488,11 @@ return (
           </div>
         </div>
       </div>
-      {state.createMethodError && state.createMethodError}
+      {state.createMethodError && (
+        <p class="text-danger" role="alert">
+          {state.createMethodError}
+        </p>
+      )}
     </div>
     <br />
     {state.cMethod &&
