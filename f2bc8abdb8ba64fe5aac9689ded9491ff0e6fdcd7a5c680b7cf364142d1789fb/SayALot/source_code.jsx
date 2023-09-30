@@ -174,11 +174,23 @@ function getValidEditArticleDataTags() {
   return newFormatTags;
 }
 
+function createSbtOptions() {
+  return sbtWhiteList.map((option, i) => {
+    //The first options is always the default one
+    if (i == 0) {
+      return { title: option, default: true, value: option };
+    } else {
+      return { title: option, value: option };
+    }
+  });
+}
+
 const initialCreateState = {
   articleId: state.editArticleData.articleId ?? "",
   articleBody: state.editArticleData.body ?? initialBodyAtCreation,
   tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
   libCalls: [],
+  sbts: [sbtWhiteList[0]],
 };
 
 function stateUpdate(obj) {
@@ -308,6 +320,7 @@ return (
           sbtWhiteList,
           handleSbtSelection,
           sbts,
+          createSbtOptions,
         }}
       />
     )}
@@ -356,6 +369,7 @@ return (
           handleFilterArticles,
           handleEditArticle,
           sbtWhiteList,
+          createSbtOptions,
         }}
       />
     )}
