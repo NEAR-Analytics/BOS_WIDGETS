@@ -16,12 +16,6 @@ if (!accountId) {
   return "No account ID";
 }
 
-if (props?.tab && props?.tab !== state.selectedTab) {
-  State.update({
-    selectedTab: props.tab,
-  });
-}
-
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const accountUrl = `#/cpassport.near/widget/Passport.Main?accountId=${accountId}`;
 
