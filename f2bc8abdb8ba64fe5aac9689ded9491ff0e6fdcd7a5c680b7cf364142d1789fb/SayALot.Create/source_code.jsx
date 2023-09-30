@@ -143,6 +143,8 @@ const SecondContainer = styled.div`
 //   state.articleBody
 // );
 
+console.log("creationSbtSelected: ", state.sbts);
+
 return (
   <>
     {state.createdArticle && state.showCreatedArticle && editArticleData ? (
