@@ -16,6 +16,8 @@ let {
   handleEditArticle,
   showCreateArticle,
   sbtWhiteList,
+  handleSbtSelection,
+  sbts,
 } = props;
 
 State.init({ start: Date.now() });
@@ -41,34 +43,57 @@ function getDateLastEdit(timestamp) {
   return dateString;
 }
 
+function createSbtOptions() {
+  return sbtWhiteList.map((option, i) => {
+    //The first options is always the default one
+    if (i == 0) {
+      return { title: option, default: true, value: option };
+    } else {
+      return { title: option, value: option };
+    }
+  });
+}
+
 //================================================END FUNCTIONS=====================================================
+console.log("sbts selected: ", sbts);
 
 return (
   <>
+    {true && (
+      // showCreateArticle && (
+      <Widget
+        src={widgets.create}
+        props={{
+          isTest,
+          addressForArticles,
+          authorForWidget,
+          stateUpdate,
+          widgets,
+          initialCreateState,
+          editArticleData,
+          callLibs,
+          handleFilterArticles,
+          handleEditArticle,
+          initialBody: "",
+        }}
+      />
+    )}
     {
       //TODO add sbt selector using the variable sbtWhiteList
     }
-    {
-      // true && (
-      showCreateArticle && (
-        <Widget
-          src={widgets.create}
-          props={{
-            isTest,
-            addressForArticles,
-            authorForWidget,
-            stateUpdate,
-            widgets,
-            initialCreateState,
-            editArticleData,
-            callLibs,
-            handleFilterArticles,
-            handleEditArticle,
-            initialBody: "",
-          }}
-        />
-      )
-    }
+    <div className="mt-3 border-top pt-2">
+      <Widget
+        src={widgets.styledComponents}
+        props={{
+          Dropdown: {
+            label: "Select sbt filter",
+            value: sbts[0],
+            handleChange: handleSbtSelection,
+            options: createSbtOptions(),
+          },
+        }}
+      />
+    </div>
     <ArticlesListContainer className="row card-group mt-3 py-3 rounded">
       {finalArticles.length > 0 &&
         finalArticles.map((article, i) => {
