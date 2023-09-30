@@ -23,8 +23,7 @@ const Wrapper = styled.div`
   background-color: #FDF3DD;
 `;
 
-const Main = styled.div`
-`;
+const Main = styled.div``;
 
 const BackgroundImage = styled.div`
   height: 600px;
