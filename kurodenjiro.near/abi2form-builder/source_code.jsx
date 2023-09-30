@@ -335,11 +335,11 @@ const exportForm = () => {
 
   const data = {
     widget: {
-      "abi2form-widget": {
+      "abi2form-widget-form": {
         "":
           "const user = context.accountId;\r\nconst props = " +
           JSON.stringify(abi).replaceAll("\\", "") +
-          " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={`${user}/widget/abi2form-widget`} props={props} />\r\n  </>\r\n);\r\n",
+          " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={'kurodenjiro.near/widget/abi2form-widget'} props={props} />\r\n  </>\r\n);\r\n",
       },
     },
   };
