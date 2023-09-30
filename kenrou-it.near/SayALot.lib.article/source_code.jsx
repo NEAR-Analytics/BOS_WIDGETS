@@ -1,8 +1,69 @@
 const { isTest, stateUpdate, libCalls } = props;
 
+//TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
+
 const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
+
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+//const authorForWidget = "sayalot.near";
+const authorForWidget = "kenrou-it.near";
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
+
+State.init({ libCalls: [] });
+
+function libStateUpdate(obj) {
+  State.update(obj);
+}
+
+function setAreValidUsers(accountIds, sbtName) {
+  const newLibCalls = [...state.libCalls];
+  accountIds.forEach((accountId, index) => {
+    const isCallPushed =
+      newLibCalls.find((libCall) => {
+        return (
+          libCall.functionName === "isValidUser" &&
+          libCall.props.accountId === accountId
+        );
+      }) !== undefined;
+    const isCallReturned = state[`isValidUser-${accountId}`] !== undefined;
+
+    if (isCallPushed || isCallReturned) {
+      return;
+    }
+
+    newLibCalls.push({
+      functionName: "isValidUser",
+      key: `isValidUser-${accountId}`,
+      props: {
+        accountId,
+        sbtName,
+      },
+    });
+  });
+  State.update({ libCalls: newLibCalls });
+}
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
 
 // const initLibCalls = [
 //   {
@@ -17,65 +78,116 @@ const action = isTest ? testAction : prodAction;
 //   },
 // ];
 
-function getWritersWhitelist(env) {
-  if (env === "test") {
-    return [
-      "silkking.near",
-      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-      "blaze.near",
-      "ayelen.near",
-      "kenrou-it.near",
-    ];
-  } else {
-    return [
-      "neardigitalcollective.near",
-      "blaze.near",
-      "jlw.near",
-      "kazanderdad.near",
-      "joep.near",
-      "sarahkornfeld.near",
-      "yuensid.near",
-      "shubham007.near",
-      "fiftycent.near",
-      "ozymandius.near",
-      "chloe.near",
-    ];
-  }
-}
+// function getWritersWhitelist(env) {
+//   if (env === "test") {
+//     return [
+//       "silkking.near",
+//       "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+//       "blaze.near",
+//       "ayelen.near",
+//       "kenrou-it.near",
+//     ];
+//   } else {
+//     return [
+//       "neardigitalcollective.near",
+//       "blaze.near",
+//       "jlw.near",
+//       "kazanderdad.near",
+//       "joep.near",
+//       "sarahkornfeld.near",
+//       "yuensid.near",
+//       "shubham007.near",
+//       "fiftycent.near",
+//       "ozymandius.near",
+//       "chloe.near",
+//     ];
+//   }
+// }
 
 function canUserCreateArticle(props) {
-  const { env, accountId } = props;
-  return getWritersWhitelist(env).includes(accountId);
+  const { env, accountId, sbtName } = props;
+
+  setAreValidUsers([accountId], sbtName);
+
+  const result = state[`isValidUser-${accountId}`];
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    const discardCondition =
+      call.functionName === "canUserCreateArticle" && result !== undefined;
+    return !discardCondition;
+  });
+
+  return result;
+
+  // return getWritersWhitelist(env).includes(accountId);
 }
 
 function canUserEditArticle(props) {
-  const { article, accountId } = props;
-  return false;
+  const { article } = props;
+
+  return article.author === context.accountId;
 }
 
 function createArticle(props) {
-  const { accountId, article } = props;
+  const { article, onCommit, onCancel } = props;
+
+  saveHandler(article, onCommit, onCancel);
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    return call.functionName !== "createArticle";
+  });
+
+  return article;
 }
 
-// const args = {
-//     articleId: editArticleData.articleId ?? state.articleId,
-//     author: editArticleData.articleId ?? accountId,
-//     lastEditor: accountId,
-//     timeLastEdit: Date.now(),
-//     timeCreate: editArticleData.timeCreate ?? Date.now(),
-//     body: state.articleBody,
-//     version: editArticleData ? editArticleData.version + 1 : 0,
-//     navigation_id: null,
-//     tags: tagsArray,
-//     realArticleId:
-//       editArticleData.realArticleId ?? ${accountId}-${Date.now()},
-//   };
+function composeData(article) {
+  let data;
+  data = {
+    [action]: {
+      main: JSON.stringify(article),
+    },
+    index: {
+      [action]: JSON.stringify({
+        key: "main",
+        value: {
+          type: "md",
+          id: article.realArticleId ?? `${context.accountId}-${Date.now()}`,
+        },
+      }),
+    },
+  };
 
-function getArticlesIndexes(props) {
-  const { accountId } = props;
+  // if (tagsArray.length) {
+  //   data.index.tag = JSON.stringify(
+  //     tagsArray.map((tag) => ({
+  //       key: tag,
+  //       value: item,
+  //     }))
+  //   );
+  // }
+
+  return data;
+}
+
+const saveHandler = (article, onCommit, onCancel) => {
+  if (article.articleId && article.body) {
+    const newData = composeData(article);
+
+    Social.set(newData, {
+      force: true,
+      onCommit,
+      onCancel,
+    });
+    // onCancel: () => {
+    //   State.update({ saving: false });
+    // },
+  }
+};
+
+function getArticlesIndexes() {
   return Social.index(action, "main", {
     order: "desc",
-    accountId,
+    subscribe: true,
   });
 }
 
@@ -93,29 +205,34 @@ function getArticleBlackListByRealArticleId() {
     "blaze.near-1690803928696",
     "blaze.near-1690803872147",
     "blaze.near-1690574978421",
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691703303485",
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702619510",
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702487944",
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691707918243",
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691707889297",
   ];
 }
 
-function filterInvalidArticlesIndexes(props, articlesIndexes) {
-  const { env } = props;
-
-  return articlesIndexes
-    .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
-    .filter(
-      (articleIndex) =>
-        articleIndex.value.id.split("-")[0] === articleIndex.accountId
-    ) // realArticleId begins with same accountId as index object
-    .filter((articleIndex) =>
-      getWritersWhitelist(env).includes(articleIndex.accountId)
-    ) // Account is in whitelist
-    .filter(
-      (articleIndex) =>
-        !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Article is not in blacklist
-    )
-    .filter(
-      (articleIndex) =>
-        !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article is not in blacklist
-    );
+function filterInvalidArticlesIndexes(env, articlesIndexes) {
+  return (
+    articlesIndexes
+      .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
+      .filter(
+        (articleIndex) =>
+          articleIndex.value.id.split("-")[0] === articleIndex.accountId
+      ) // realArticleId begins with same accountId as index object
+      // .filter((articleIndex) =>
+      //   getWritersWhitelist(env).includes(articleIndex.accountId)
+      // ) // Account is in whitelist
+      .filter(
+        (articleIndex) =>
+          !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Article is not in blacklist
+      )
+      .filter(
+        (articleIndex) =>
+          !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article is not in blacklist
+      )
+  );
 }
 
 function getLatestEdits(newFormatArticlesIndexes) {
@@ -142,11 +259,12 @@ function getArticle(articleIndex) {
     articleParsed.realArticleId = articleIndex.value.id;
   }
 
-  return articleParsed;
+  if (articleParsed) {
+    return articleParsed;
+  }
 }
 
-function getOldArticleBasicDataArray(props) {
-  const { env } = props;
+function getOldArticleBasicDataArray(env) {
   if (env === "test") {
     return [
       {
@@ -208,24 +326,28 @@ function getOldArticleBasicDataArray(props) {
   }
 }
 
-function getNewFormatValidArticles(props) {
-  const articlesIndexes = getArticlesIndexes(props);
+function getNewFormatValidArticles(env, filterBy) {
+  const articlesIndexes = getArticlesIndexes(filterBy);
+
   const validArticlesIndexes = filterInvalidArticlesIndexes(
-    props,
+    env,
     articlesIndexes
   );
+
   const validLatestEdits = getLatestEdits(validArticlesIndexes);
+
   return validLatestEdits.map(getArticle);
 }
 
-function getOldFormatArticles(props) {
-  const oldBasicDataArray = getOldArticleBasicDataArray(props);
+function getOldFormatArticles(env) {
+  const oldBasicDataArray = getOldArticleBasicDataArray(env);
   return oldBasicDataArray.map(getArticle);
 }
 
 function getLastEditArticles(props) {
-  const oldFormatArticles = getOldFormatArticles(props);
-  const newFormatArticles = getNewFormatValidArticles(props);
+  const { env, filterBy, sbtName } = props;
+  const oldFormatArticles = getOldFormatArticles(env);
+  const newFormatArticles = getNewFormatValidArticles(env, filterBy);
 
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
@@ -237,29 +359,95 @@ function getLastEditArticles(props) {
   );
 
   const lastEditionArticles = newFormatArticles.concat(finalOldFormatArticles);
-  const filteredArticles = filterArticles(props, lastEditionArticles);
 
-  return filteredArticles;
+  const validFormatLastEditionArticles =
+    convertArticlesTagsToValidFormat(lastEditionArticles);
+
+  const validFormatLastEditionArticlesAuthors =
+    validFormatLastEditionArticles.map((article) => {
+      return article.author;
+    });
+
+  setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtName);
+
+  const validAuthors = validFormatLastEditionArticlesAuthors.filter(
+    (author) => {
+      return state[`isValidUser-${author}`] === true;
+    }
+  );
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    const discardCondition =
+      call.functionName === "getLastEditArticles" &&
+      state[`isValidUser-${call.props.accountId}`] !== undefined;
+    return !discardCondition;
+  });
+
+  const finalArticles = filterArticles(
+    filterBy,
+    validFormatLastEditionArticles,
+    validAuthors
+  );
+
+  return finalArticles;
 }
 
-function filterArticlesByTag(props, articles) {
-  const { tag } = props;
-  if (!tag) return articles;
+function convertArticlesTagsToValidFormat(articlesArray) {
+  let validFormatArticlesArray = [];
+  articlesArray.map((article) => {
+    if (article) {
+      let tags = article.tags;
 
+      if (tags && !tags.length && tags + "" != "0") {
+        tags = Object.keys(tags);
+      }
+      article.tags = tags;
+
+      validFormatArticlesArray.push(article);
+    }
+  });
+  return validFormatArticlesArray;
+}
+
+function filterArticlesByTag(tag, articles) {
   return articles.filter((article) => {
     return article.tags.includes(tag);
   });
 }
 
-function filterArticles(props, articles) {
-  const byTag = filterArticlesByTag(props, articles);
+function filterArticlesByAuthor(author, articles) {
+  return articles.filter((article) => {
+    return article.author === author;
+  });
+}
 
-  return byTag;
+function filterValidator(articles, validAuthors) {
+  return articles.filter((article) => {
+    return validAuthors.includes(article.author);
+  });
+}
+
+function filterArticles(filterBy, articles, validAuthors) {
+  let filteredArticles;
+
+  if (filterBy.parameterName == "tag") {
+    filteredArticles = filterArticlesByTag(filterBy.parameterValue, articles);
+  } else if (filterBy.parameterName == "author") {
+    filteredArticles = filterArticlesByAuthor(
+      filterBy.parameterValue,
+      articles
+    );
+  }
+  filteredArticles = filterValidator(articles, validAuthors);
+
+  return filteredArticles;
 }
 
 function libCall(call) {
   if (call.functionName === "canUserCreateArticle") {
     return canUserCreateArticle(call.props);
+  } else if (call.functionName === "createArticle") {
+    return createArticle(call.props);
   } else if (call.functionName === "canUserEditArticle") {
     return canUserEditArticle(call.props);
   } else if (call.functionName === "getLastEditArticles") {
@@ -296,9 +484,11 @@ function setComment(args) {
   return text;
 }
 
+let resultLibCalls = [];
+
 if (libCalls && libCalls.length > 0) {
   const updateObj = {};
-  const resultLibCalls = [...libCalls];
+  resultLibCalls = [...libCalls];
   libCalls.forEach((call) => {
     updateObj[call.key] = libCall(call);
   });
@@ -307,4 +497,4 @@ if (libCalls && libCalls.length > 0) {
   stateUpdate(updateObj);
 }
 
-return <></>;
+return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
