@@ -104,10 +104,12 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 
 function canUserCreateArticle(props) {
   const { env, accountId, sbtName } = props;
+  console.log("props: ", props);
 
   setAreValidUsers([accountId], sbtName);
 
   const result = state[`isValidUser-${accountId}`];
+  console.log("result: ", state);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     const discardCondition =
