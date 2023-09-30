@@ -18,7 +18,7 @@ ${embedCss}
 function TestReact(props) {
   const [value, setValue] = React.useState(props.initialText || "");
   
-  let textValue
+  let textValue = value
 
   if(${props.forceClear}) {
     textValue = ""
