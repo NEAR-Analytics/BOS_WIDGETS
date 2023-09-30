@@ -183,12 +183,18 @@ return (
         <Tabs>
           <TabsButton
             href={`${accountUrl}&tab=main`}
+            onClick={() => {
+              State.update({ selectedTab: "main" });
+            }}
             selected={state.selectedTab === "main"}
           >
             Main
           </TabsButton>
           <TabsButton
             href={`${accountUrl}&tab=leaderboard`}
+            onClick={() => {
+              State.update({ selectedTab: "leaderboard" });
+            }}
             selected={state.selectedTab === "leaderboard"}
           >
             Leaderboard
@@ -196,6 +202,9 @@ return (
 
           <TabsButton
             href={`${accountUrl}&tab=history`}
+            onClick={() => {
+              State.update({ selectedTab: "history" });
+            }}
             selected={state.selectedTab === "history"}
           >
             History
