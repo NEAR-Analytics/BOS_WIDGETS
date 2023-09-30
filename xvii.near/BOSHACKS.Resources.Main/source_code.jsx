@@ -1,4 +1,4 @@
-const LessonOneLink = () => {
+const LessonLinks = () => {
   const linkStyle = {
     fontSize: "18px",
     fontWeight: "600",
@@ -15,14 +15,25 @@ const LessonOneLink = () => {
   };
 
   return (
-    <div style={linkContainerStyle}>
-      <a
-        style={linkStyle}
-        href="https://hackmd.io/23MmiNmXQ6WFW7zq_xYCHg?view"
-        target="_blank"
-      >
-        Lesson 1
-      </a>
+    <div>
+      <div style={linkContainerStyle}>
+        <a
+          style={linkStyle}
+          href="https://hackmd.io/23MmiNmXQ6WFW7zq_xYCHg?view"
+          target="_blank"
+        >
+          Lesson 1
+        </a>
+      </div>
+      <div style={linkContainerStyle}>
+        <a
+          style={linkStyle}
+          href="https://hackmd.io/@doulos819/ncr-2"
+          target="_blank"
+        >
+          Lesson 2
+        </a>
+      </div>
     </div>
   );
 };
@@ -30,6 +41,6 @@ const LessonOneLink = () => {
 // Usage in your main function or another component
 return (
   <div>
-    <LessonOneLink />
+    <LessonLinks />
   </div>
 );
