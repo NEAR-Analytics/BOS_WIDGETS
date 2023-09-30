@@ -142,9 +142,11 @@ const getMethodFromSource = () => {
         const filterFunction = [];
         functionsData.forEach((item, index) => {
           if (index > 0) {
-            if (item.length > 0) {
+            if (item.length > 1) {
               if (!/^[A-Z]+(?:_[A-Z]+)*$/m.test(item)) {
-                filterFunction.push(item);
+                if (!/^[0-9]*$/.test(string)) {
+                  filterFunction.push(item);
+                }
               }
             }
           }
@@ -237,6 +239,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 const abiMethod = state.cMethod;
                 abiMethod[fIndex].params.args = [];
                 abiMethod[fIndex].params.args.push(arg);
+                console.log(abiMethod);
                 State.update({ cMethod: abiMethod });
               });
             }
@@ -349,30 +352,23 @@ const exportForm = () => {
     onCancel: () => {},
   });
 };
-const contractForm = (
-  <>
-    <div class="card mb-2">
-      <div class="card-header">Build ABI</div>
-      <div class="card-body">
-        <div class="form-group">
-          <label class="mb-2">Contract Address</label>
-          <input
-            class="form-control"
-            value={state.contractAddress}
-            placeholder="Contract Address"
-            onChange={onInputChangeContractAddress}
-          />
-        </div>
-      </div>
-    </div>
-  </>
-);
+
 return (
   <>
     <div class="container border border-info p-3">
-      {context.accountId ? contractForm : notLoggedInWarning}
-      <h3 class="text-center">Create Method</h3>
+      <h3 class="text-center">Build Form</h3>
       <div class="container">
+        <div class="row mb-3">
+          <div class="form-group col-md-12">
+            <label class="mb-2">Contract Address</label>
+            <input
+              class="form-control"
+              value={state.contractAddress}
+              placeholder="Contract Address"
+              onChange={onInputChangeContractAddress}
+            />
+          </div>
+        </div>
         <div class="row">
           <div class="form-group col-md-4">
             <label>Function Name</label>
@@ -541,6 +537,7 @@ return (
                         <input
                           placeholder="Argument name"
                           class="form-control"
+                          defaultValue={args.name || ""}
                           onChange={(e) =>
                             onInputChangeArgName(e, fIndex, argIndex)
                           }
@@ -548,14 +545,12 @@ return (
                       </div>
                       <div class="form-group col-md-2">
                         <select
+                          defaultValue={args.type_schema.type}
                           class="form-control"
                           onChange={(e) =>
                             onInputChangeArgType(e, fIndex, argIndex)
                           }
                         >
-                          <option selected disabled>
-                            Type
-                          </option>
                           <option value="string">String</option>
                           <option value="number">Number</option>
                           <option value="boolean">Boolean</option>
