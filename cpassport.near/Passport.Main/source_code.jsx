@@ -43,9 +43,7 @@ const Main = styled.div`
 
 const BackgroundImage = styled.div`
   height: 600px;
-  border-radius: 20px 20px 0 0;
   overflow: hidden;
-  margin: 0 -12px;
   background: #eceef0;
 
   img {
@@ -55,12 +53,11 @@ const BackgroundImage = styled.div`
   }
 
   @media (max-width: 1024px) {
-    margin: calc(var(--body-top-padding) * -1) -12px 0;
     border-radius: 0;
   }
 
   @media (max-width: 1024px) {
-    height: 100px;
+    height: 200px;
   }
 `;
 
