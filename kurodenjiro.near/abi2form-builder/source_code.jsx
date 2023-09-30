@@ -18,28 +18,26 @@ State.init({
       functions: [],
     },
   },
-  functionsName,
-  functionsAction: "view",
-  contractAbiMethod: [],
-  contractAbiArg,
+  fName,
+  fAction: "view",
+  cMethod: [],
   createMethodError,
   response,
   createArgError,
   checkMethodExport: [],
-  commitLoading: false,
 });
 
 const onInputChangeFunctionsName = ({ target }) => {
-  State.update({ functionsName: target.value });
+  State.update({ fName: target.value });
 };
 const onInputChangeFunctionsAction = ({ target }) => {
-  State.update({ functionsAction: target.value });
+  State.update({ fAction: target.value });
 };
 const onInputChangeContractAddress = ({ target }) => {
   State.update({ contractAddress: target.value });
 };
-const onCreateArgs = (functionsName, functionsIndex) => {
-  State.update({ createArgError: { [functionsName]: null } });
+const onCreateArgs = (fName, fIndex) => {
+  State.update({ createArgError: { [fName]: null } });
   const arg = {
     name: "",
     type_schema: {
@@ -48,37 +46,36 @@ const onCreateArgs = (functionsName, functionsIndex) => {
     value: "",
   };
 
-  const abiMethod = state.contractAbiMethod;
-  abiMethod[functionsIndex].params.args.push(arg);
-  State.update({ contractAbiMethod: abiMethod });
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].params.args.push(arg);
+  State.update({ cMethod: abiMethod });
 };
-const onInputChangeArgName = (e, functionsIndex, argsIndex) => {
-  const abiMethod = state.contractAbiMethod;
-  abiMethod[functionsIndex].params.args[argsIndex].name = e.target.value;
-  State.update({ contractAbiMethod: abiMethod });
+const onInputChangeArgName = (e, fIndex, aIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].params.args[aIndex].name = e.target.value;
+  State.update({ cMethod: abiMethod });
 };
-const onRemoveArg = (functionsIndex, argsIndex) => {
-  const abiMethod = state.contractAbiMethod;
-  abiMethod[functionsIndex].params.args.splice(argsIndex, 1);
-  State.update({ contractAbiMethod: abiMethod });
+const onRemoveArg = (fIndex, aIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].params.args.splice(aIndex, 1);
+  State.update({ cMethod: abiMethod });
 };
 
-const onInputChangeArgType = (e, functionsIndex, argsIndex) => {
-  const abiMethod = state.contractAbiMethod;
-  abiMethod[functionsIndex].params.args[argsIndex].type_schema.type =
-    e.target.value;
-  State.update({ contractAbiMethod: abiMethod });
+const onInputChangeArgType = (e, fIndex, aIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].params.args[aIndex].type_schema.type = e.target.value;
+  State.update({ cMethod: abiMethod });
 };
-const onInputChangeArgValue = (e, functionsIndex, argsIndex) => {
-  const abiMethod = state.contractAbiMethod;
-  abiMethod[functionsIndex].params.args[argsIndex].value = e.target.value;
-  State.update({ contractAbiMethod: abiMethod });
+const onInputChangeArgValue = (e, fIndex, aIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].params.args[aIndex].value = e.target.value;
+  State.update({ cMethod: abiMethod });
 };
 const onCreateMethod = (e) => {
   State.update({ createMethodError: null });
   const method = {
-    name: state.functionsName,
-    kind: state.functionsAction,
+    name: state.fName,
+    kind: state.fAction,
     export: true,
     params: {
       serialization_type: "json",
@@ -87,29 +84,29 @@ const onCreateMethod = (e) => {
     deposit: 0,
     gas: 30000000000000,
   };
-  const abiMethod = state.contractAbiMethod;
+  const abiMethod = state.cMethod;
   const isExistFunction = false;
   abiMethod.forEach((item) => {
-    if (item.name == state.functionsName) {
+    if (item.name == state.fName) {
       isExistFunction = true;
     }
   });
   if (!isExistFunction) {
     abiMethod.push(method);
-    State.update({ contractAbiMethod: abiMethod });
+    State.update({ cMethod: abiMethod });
   } else {
     State.update({ createMethodError: "Function Exist" });
   }
 };
-const onInputChangeDeposit = (functionsIndex, e) => {
-  const abiMethod = state.contractAbiMethod;
-  abiMethod[functionsIndex].deposit = parseInt(e.target.value);
-  State.update({ contractAbiMethod: abiMethod });
+const onInputChangeDeposit = (fIndex, e) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].deposit = parseInt(e.target.value);
+  State.update({ cMethod: abiMethod });
 };
-const onInputChangeGas = (functionsIndex, e) => {
-  const abiMethod = state.contractAbiMethod;
-  abiMethod[functionsIndex].gas = e.target.value;
-  State.update({ contractAbiMethod: abiMethod });
+const onInputChangeGas = (fIndex, e) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].gas = e.target.value;
+  State.update({ cMethod: abiMethod });
 };
 const getMethodFromSource = () => {
   asyncFetch(state.rpcUrl, {
@@ -153,7 +150,7 @@ const getMethodFromSource = () => {
           }
         });
         const abiMethod = [];
-        State.update({ contractAbiMethod: [] });
+        State.update({ cMethod: [] });
         filterFunction.forEach((item) => {
           asyncFetch(state.rpcUrl, {
             body: JSON.stringify({
@@ -192,16 +189,16 @@ const getMethodFromSource = () => {
               }
             }
             abiMethod.push(method);
-            State.update({ contractAbiMethod: abiMethod });
+            State.update({ cMethod: abiMethod });
           });
         });
       }
     }
   });
 };
-const getArgsFromMethod = (functionsName, action, functionsIndex) => {
+const getArgsFromMethod = (fName, fIndex) => {
   asyncFetch(
-    `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${functionsName}&order=desc&page=1&per_page=1`,
+    `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -237,10 +234,10 @@ const getArgsFromMethod = (functionsName, action, functionsIndex) => {
                   },
                   value: "",
                 };
-                const abiMethod = state.contractAbiMethod;
-                abiMethod[functionsIndex].params.args = [];
-                abiMethod[functionsIndex].params.args.push(arg);
-                State.update({ contractAbiMethod: abiMethod });
+                const abiMethod = state.cMethod;
+                abiMethod[fIndex].params.args = [];
+                abiMethod[fIndex].params.args.push(arg);
+                State.update({ cMethod: abiMethod });
               });
             }
           }
@@ -249,13 +246,11 @@ const getArgsFromMethod = (functionsName, action, functionsIndex) => {
     }
   });
 };
-const onBtnClickCall = (functionsName, action, functionsIndex) => {
-  const abiMethod = state.contractAbiMethod;
-  const argMap = abiMethod[functionsIndex].params.args.map(
-    ({ name, value }) => ({
-      [name]: value,
-    })
-  );
+const onBtnClickCall = (fName, action, fIndex) => {
+  const abiMethod = state.cMethod;
+  const argMap = abiMethod[fIndex].params.args.map(({ name, value }) => ({
+    [name]: value,
+  }));
   const args = {};
   argMap.forEach((item) => {
     Object.assign(args, item);
@@ -267,7 +262,7 @@ const onBtnClickCall = (functionsName, action, functionsIndex) => {
         params: {
           request_type: "call_function",
           account_id: state.contractAddress,
-          method_name: abiMethod[functionsIndex].name,
+          method_name: abiMethod[fIndex].name,
           args_base64: new Buffer.from(JSON.stringify(args)).toString("base64"),
           finality: "final",
         },
@@ -283,7 +278,7 @@ const onBtnClickCall = (functionsName, action, functionsIndex) => {
         const result = new Buffer.from(res.body.result.result).toString();
         State.update({
           response: {
-            [functionsName]: { value: result, error: false },
+            [fName]: { value: result, error: false },
           },
         });
       }
@@ -291,7 +286,7 @@ const onBtnClickCall = (functionsName, action, functionsIndex) => {
         const error = res.body.result.error;
         State.update({
           response: {
-            [functionsName]: { value: error, error: true },
+            [fName]: { value: error, error: true },
           },
         });
       }
@@ -300,32 +295,25 @@ const onBtnClickCall = (functionsName, action, functionsIndex) => {
   if (action === "call") {
     Near.call(
       state.contractAddress,
-      abiMethod[functionsIndex].name,
+      abiMethod[fIndex].name,
       args,
-      abiMethod[functionsIndex].deposit,
-      abiMethod[functionsIndex].gas
+      abiMethod[fIndex].deposit,
+      abiMethod[fIndex].gas
     );
   }
 };
 
-const onSwitchChangeArgExport = (action, functionsIndex) => {
-  const abiMethod = state.contractAbiMethod;
-  abiMethod[functionsIndex].export = !abiMethod[functionsIndex].export;
-  State.update({ contractAbiMethod: abiMethod });
+const onSwitchChangeArgExport = (fIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].export = !abiMethod[fIndex].export;
+  State.update({ cMethod: abiMethod });
 };
 
-const onRemoveMethod = (action, functionsIndex) => {
-  const abiMethod = state.contractAbiMethod;
-  abiMethod.splice(functionsIndex, 1);
-  State.update({ contractAbiMethod: abiMethod });
+const onRemoveMethod = (fIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod.splice(fIndex, 1);
+  State.update({ cMethod: abiMethod });
 };
-const Loading = (
-  <span
-    className="spinner-grow spinner-grow-sm me-1"
-    role="status"
-    aria-hidden="true"
-  />
-);
 const exportForm = () => {
   const abi = {
     schema_version: "0.3.0",
@@ -339,7 +327,8 @@ const exportForm = () => {
       functions: [],
     },
   };
-  const abiMethod = state.contractAbiMethod;
+
+  const abiMethod = state.cMethod;
   abiMethod.forEach((item) => {
     abi.body.functions.push(item);
   });
@@ -354,15 +343,10 @@ const exportForm = () => {
       },
     },
   };
-  State.update({ commitLoading: true });
   Social.set(data, {
     force: true,
-    onCommit: () => {
-      State.update({ commitLoading: false });
-    },
-    onCancel: () => {
-      State.update({ commitLoading: false });
-    },
+    onCommit: () => {},
+    onCancel: () => {},
   });
 };
 const contractForm = (
@@ -458,32 +442,25 @@ return (
                     ></button>
                   </div>
                   <div class="modal-body">
-                    {state.contractAbiMethod &&
-                      state.contractAbiMethod.map(
-                        (functions, functionsIndex) => (
-                          <div class="form-check form-switch">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              role="switch"
-                              checked={functions.export}
-                              onChange={() =>
-                                onSwitchChangeArgExport(
-                                  functions.kind,
-                                  functionsIndex
-                                )
-                              }
-                              id={`flexSwitchCheckDefaultView${functionsIndex}`}
-                            />
-                            <label
-                              class="form-check-label"
-                              for={`flexSwitchCheckDefault${functionsIndex}`}
-                            >
-                              {functions.name}
-                            </label>
-                          </div>
-                        )
-                      )}
+                    {state.cMethod &&
+                      state.cMethod.map((functions, fIndex) => (
+                        <div class="form-check form-switch">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            checked={functions.export}
+                            onChange={() => onSwitchChangeArgExport(fIndex)}
+                            id={`flexSwitchCheckDefaultView${fIndex}`}
+                          />
+                          <label
+                            class="form-check-label"
+                            for={`flexSwitchCheckDefault${fIndex}`}
+                          >
+                            {functions.name}
+                          </label>
+                        </div>
+                      ))}
                   </div>
                   <div class="modal-footer">
                     <button
@@ -498,7 +475,7 @@ return (
                       onClick={exportForm}
                       class="btn btn-primary"
                     >
-                      {state.commitLoading && Loading} Export
+                      Export
                     </button>
                   </div>
                 </div>
@@ -510,8 +487,8 @@ return (
       {state.createMethodError && state.createMethodError}
     </div>
     <br />
-    {state.contractAbiMethod &&
-      state.contractAbiMethod.map((functions, functionsIndex) => (
+    {state.cMethod &&
+      state.cMethod.map((functions, fIndex) => (
         <div class="card mb-2">
           <div class="card-header">
             <div class="container">
@@ -523,9 +500,7 @@ return (
                   {" "}
                   <button
                     type="button"
-                    onClick={() =>
-                      onRemoveMethod(functions.kind, functionsIndex)
-                    }
+                    onClick={() => onRemoveMethod(fIndex)}
                     class="btn-close"
                   ></button>
                 </div>
@@ -541,9 +516,7 @@ return (
                 <div class="form-group col-md-4">
                   <button
                     class="btn btn-primary"
-                    onClick={(e) =>
-                      onCreateArgs(functions.name, functionsIndex)
-                    }
+                    onClick={(e) => onCreateArgs(functions.name, fIndex)}
                   >
                     Add
                   </button>
@@ -551,13 +524,7 @@ return (
                 <div class="form-group col-md-4">
                   <button
                     class="btn btn-secondary"
-                    onClick={(e) =>
-                      getArgsFromMethod(
-                        functions.name,
-                        functions.kind,
-                        functionsIndex
-                      )
-                    }
+                    onClick={(e) => getArgsFromMethod(functions.name, fIndex)}
                   >
                     Auto detect
                   </button>
@@ -575,7 +542,7 @@ return (
                           placeholder="Argument name"
                           class="form-control"
                           onChange={(e) =>
-                            onInputChangeArgName(e, functionsIndex, argIndex)
+                            onInputChangeArgName(e, fIndex, argIndex)
                           }
                         />
                       </div>
@@ -583,7 +550,7 @@ return (
                         <select
                           class="form-control"
                           onChange={(e) =>
-                            onInputChangeArgType(e, functionsIndex, argIndex)
+                            onInputChangeArgType(e, fIndex, argIndex)
                           }
                         >
                           <option selected disabled>
@@ -599,7 +566,7 @@ return (
                       <div class="form-group col-md-4">
                         <input
                           onChange={(e) =>
-                            onInputChangeArgValue(e, functionsIndex, argIndex)
+                            onInputChangeArgValue(e, fIndex, argIndex)
                           }
                           class="form-control"
                           type="string"
@@ -609,7 +576,7 @@ return (
                       <div class="form-group col-md-2">
                         <button
                           type="button"
-                          onClick={() => onRemoveArg(functionsIndex, argIndex)}
+                          onClick={() => onRemoveArg(fIndex, argIndex)}
                           class="btn btn-danger "
                         >
                           <svg
@@ -637,6 +604,65 @@ return (
                     </div>
                   </div>
                 </div>
-
-         
-          
+                <div class="container">
+                  <div class="row">
+                    <div class="form-group col-md-6">
+                      <label>Attached deposit</label>
+                      <input
+                        type="text"
+                        defaultValue="0"
+                        onChange={(e) => onInputChangeDeposit(fIndex, e)}
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Gas</label>
+                      <input
+                        type="text"
+                        defaultValue="30000000000000"
+                        onChange={(e) => onInputChangeGas(fIndex, e)}
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+            {state.response[functions.name] &&
+            state.response[functions.name] ? (
+              <>
+                <div
+                  className={
+                    state.response[functions.name].error
+                      ? "alert  alert-danger"
+                      : "alert  alert-primary"
+                  }
+                  role="alert"
+                >
+                  {state.response[functions.name].value}
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+            <div class="container pt-2">
+              <div class="row">
+                <div class="form-group col-md-2">
+                  <button
+                    class="btn btn-success"
+                    onClick={(e) =>
+                      onBtnClickCall(functions.name, functions.kind, fIndex)
+                    }
+                  >
+                    {functions.kind == "view" ? "View" : "Call"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+  </>
+);
