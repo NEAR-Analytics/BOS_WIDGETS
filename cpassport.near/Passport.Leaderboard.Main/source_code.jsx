@@ -7,6 +7,15 @@ const DivBackground = styled.div`
   align-items:center;
   justify-content:center;
 `;
+const accountId = props?.accountId ?? context?.accountId;
+
+State.init({
+  tokenId: {},
+  nftDetails: false,
+  hasFetched: {},
+});
+
+console.log(state);
 
 const phillipines = {
   series: "224",
@@ -75,6 +84,60 @@ const countryList = [
   canada,
 ];
 
+function fetchTokens(series) {
+  asyncFetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "omni-site",
+      "Content-Type": "application/json",
+      "x-hasura-role": "anonymous",
+    },
+    body: JSON.stringify({
+      query: `
+          query MyQuery {
+            mb_views_nft_tokens(
+              where: { nft_contract_id: { _eq: "mint.sharddog.near" } token_id: {_regex: "^${series}:"}}
+            ) {
+              owner
+              token_id
+              media
+              base_uri
+              minter
+              metadata_id
+            }
+          }
+        `,
+    }),
+  }).then((res) => {
+    console.log(res.ok,series)
+    if (res.ok) {
+      const token = res.body.data.mb_views_nft_tokens;
+      if (token) {
+        State.update({
+         [`${series}:token`]:token
+        });
+      }
+    }
+  });
+}
+
+console.log(state.tokens);
+
+const fetchAllTokens = () => {
+  countryList.forEach((item, idx) => {
+    if (state.hasFetched[item.series] !== true) {
+      fetchTokens(item.series);
+      State.update({
+        hasFetched: { ...state.hasFetched, [item.series]: true },
+      });
+    }
+  });
+};
+
+if (Object.keys(state.hasFetched).length !== countryList.length) {
+  fetchAllTokens();
+}
+
 const GridView = styled.div`
   display: grid;
   width:100%;
@@ -91,6 +154,10 @@ const allHolders = [
   "ndcplug.near",
 ];
 
+const getToken = (series)=>{
+  return state[`${series}:token`];
+}
+
 return (
   <DivBackground>
     <div>
@@ -104,9 +171,9 @@ return (
         {countryList.map((item) => (
           <div style={{ textAlign: "center" }}>
             <img style={{ width: 70, height: 70 }} src={item.image} />
-            <p>{item.series}</p>
-            {allHolders.map((item) => (
-              <p style={{ fontSize: 8 }}>{item}</p>
+            <p>{getToken(item.series).length}</p>
+            {getToken(item.series).map((item) => (
+              <p style={{ fontSize: 8 }}>{item.owner}</p>
             ))}
           </div>
         ))}
