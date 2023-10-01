@@ -73,13 +73,19 @@ const dapps = [
       background: "#05180A",
     },
   },
-
   {
     src: "bluebiu.near/widget/Mantle.GAMMA",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreih77ecmgng2fpy6mblk2aipt3agwm3anjldcyktx2j6kssggpelue",
     icon: "https://ipfs.near.social/ipfs/bafkreial4i3eb5uuxkhecn7nwos76km3qvb7jzxmups57rkxizr5i7dyaa",
     tags: ["Liquidity Manager"],
+  },
+  {
+    src: "bluebiu.near/widget/Mantle.Lending",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreie7a5cb6qj3je2dn5iatdulom3ottpwvtyxc7q2zodqqafizum6ge",
+    icon: "https://ipfs.near.social/ipfs/bafkreiccujcoir742fkxiwuxaic57xdcpmj36avz273sxiqaade7ku4wxi",
+    tags: ["Lending"],
   },
 ];
 
