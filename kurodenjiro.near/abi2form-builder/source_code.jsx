@@ -328,7 +328,7 @@ const onRemoveMethod = (fIndex) => {
 const exportForm = () => {
   const abi = {
     schema_version: "0.3.0",
-    add: state.contractAddress,
+    address: state.contractAddress,
     metadata: {
       name: state.contractAddress,
       version: "0.1.0",
