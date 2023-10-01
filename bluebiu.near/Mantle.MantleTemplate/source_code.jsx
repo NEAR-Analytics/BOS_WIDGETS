@@ -83,7 +83,7 @@ const dapps = [
   {
     src: "bluebiu.near/widget/Mantle.Lending",
     bannerImg:
-      "https://ipfs.near.social/ipfs/bafkreie7a5cb6qj3je2dn5iatdulom3ottpwvtyxc7q2zodqqafizum6ge",
+      "https://ipfs.near.social/ipfs/bafkreifug44p2exzk6knoyhimjqaztvlvjaj43da3y53ly3iyqtn42ozku",
     icon: "https://ipfs.near.social/ipfs/bafkreiccujcoir742fkxiwuxaic57xdcpmj36avz273sxiqaade7ku4wxi",
     tags: ["Lending"],
   },
