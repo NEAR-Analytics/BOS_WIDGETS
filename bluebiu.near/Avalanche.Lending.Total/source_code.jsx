@@ -1,0 +1,10 @@
+const { total, digit } = props;
+if (total === "-") return "-";
+if (!total) return "0";
+const BTotal = Big(total);
+if (BTotal.eq(0)) return "0";
+const digitSplit = 1 / Math.pow(10, digit);
+if (BTotal.lt(digitSplit)) return "<" + digitSplit;
+if (BTotal.lt(1e3)) return BTotal.toFixed(digit);
+if (BTotal.lt(1e6)) return BTotal.div(1e3).toFixed(digit) + "K";
+return BTotal.div(1e6).toFixed(digit) + "M";
