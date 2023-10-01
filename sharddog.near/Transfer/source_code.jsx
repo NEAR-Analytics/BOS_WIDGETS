@@ -115,7 +115,8 @@ return (
   <>
     {state.showAmount && (
       <div className=" mb-2">
-        Pay what you want option to mint missed panels
+      Missed a panel?<br/>
+        Pay what you want and then claim this panels through the link below.
         <input
           type="number"
           placeholder={state.amount}
