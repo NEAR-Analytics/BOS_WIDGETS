@@ -531,13 +531,10 @@ const onConfirm = (props) => {
 };
 
 const onChangeAmount = (props) => {
-  console.log("onChangeAmount", props);
   setIsContractAllowedToSpendToken(props);
 };
 
 const onUpdateToken = (props) => {
-  console.log("props: ", props);
-  console.log("onUpdateToken", props);
   setIsContractAllowedToSpendToken(props);
   setName(props.token);
   setNonce(props);
