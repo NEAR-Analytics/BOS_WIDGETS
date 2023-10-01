@@ -1,9 +1,9 @@
 // This is a demo component to transfer NEAR tokens using BOS component with a helper `transfer-near.near` contract as native transfers are not supported on BOS yet: https://t.me/neardev/29391
 // Here is the contract itself: https://github.com/frol/transfer-near-contract; it is implemented with nesdie, so it only requires only 1 TGas attached to the function call.
 
-const amount = props.amount ?? "1";
+const amount = props.amount ?? "0.1";
 const receiver = "comic.sharddog.near";
-const showReceiver = props.showReceiver ?? false;
+const showReceiver = props.showReceiver ?? true;
 const showAmount = props.showAmount ?? true;
 
 State.init({
@@ -15,6 +15,7 @@ State.init({
 const transferNEAR = () => {
   const oneTeraGas = 1000000000000;
   const oneNEARInYoctoNEAR = 1000000000000000000000000;
+  // Let's transfer amount NEAR to frol.near
   Near.call(
     "transfer-near.near",
     "transfer_near",
@@ -23,10 +24,16 @@ const transferNEAR = () => {
     state.amount * oneNEARInYoctoNEAR
   );
 };
-
 const onChangeAmount = (amount) => {
   State.update({
     amount,
+  });
+};
+const onChangeReceiver = (receiver) => {
+  //   const validReceiverLink = isNearAddress(receiver); // add error message or change button based on this
+  State.update({
+    receiver,
+    // validReceiver: validReceiverLink,
   });
 };
 // styled div
@@ -61,15 +68,14 @@ const Wrapper = styled.div`
 
   .input-group {
     height: 100%;
-    width: 100%;
+    wdith: 100%;
   }
 
-  .amount {
+  input {
     padding: 0 14px 0 42px;
     border: 1px solid #d0d5dd !important;
     background: #ffffff;
     border-radius: 100px;
-    width: 20px;
   }
 
   .join-button {
@@ -107,15 +113,10 @@ const Wrapper = styled.div`
 return (
   <>
     {state.showAmount && (
-      <div className="mb-2">
-        Missed this panel?
-        <br />
-        Pay what you want (even zero) and then claim this panel through the link
-        below.
-        <br />
+      <div className=" mb-2">
+        Enter Amount of NEAR to Transfer
         <input
           type="number"
-          className="amount"
           placeholder={state.amount}
           onChange={(e) => onChangeAmount(e.target.value)}
         />
@@ -124,7 +125,12 @@ return (
     {state.showReceiver && (
       <div className="mb-2">
         Receiver Address
-        <input type="text" readOnly={true} placeholder={state.receiver} />
+        <input
+          type="text"
+          readOnly={true}
+          placeholder={state.receiver}
+          onChange={(e) => onChangeReceiver(e.target.value)}
+        />
       </div>
     )}
 
@@ -132,7 +138,7 @@ return (
       <FollowButtonWrapper>
         <Wrapper>
           <button className="join-button" onClick={transferNEAR}>
-            Send {state.amount} NEAR to {state.receiver}
+            Transfer {state.amount} NEAR to {state.receiver}
           </button>
         </Wrapper>
       </FollowButtonWrapper>
