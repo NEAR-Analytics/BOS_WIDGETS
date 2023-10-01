@@ -315,7 +315,10 @@ const onBtnClickCall = (fName, action, fIndex) => {
     ) {
       Near.call(state.contractAddress, abiMethod[fIndex].name, args);
     }
-    if (abiMethod[fIndex].deposit > 0) {
+    if (
+      abiMethod[fIndex].deposit > 0 ||
+      abiMethod[fIndex].gas > 30000000000000
+    ) {
       Near.call(
         state.contractAddress,
         abiMethod[fIndex].name,
