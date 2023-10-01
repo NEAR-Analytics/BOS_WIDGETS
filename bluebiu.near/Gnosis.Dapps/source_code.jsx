@@ -70,6 +70,13 @@ const dapps = [
     icon: "https://ipfs.near.social/ipfs/bafkreibcqclfvk7tnd7nkwfp6wybbju44nz5qx6ppnvla4umot7yr3s2ei",
     tags: ["Dexes"],
   },
+  {
+    src: "bluebiu.near/widget/Gnosis.Lending",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreia5kudzyc34oa3hwlpzt5wiixl27ufcbacz5ijesr7m4lxkyua3xq",
+    icon: "https://ipfs.near.social/ipfs/bafkreid7avlontucqtfo3hppewujp55ats4hldcjdfko5s327domtv65ta",
+    tags: ["Lending"],
+  },
 ];
 
 State.init({
