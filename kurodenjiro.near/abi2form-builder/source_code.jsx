@@ -116,6 +116,9 @@ const onInputChangeGas = (fIndex, e) => {
   State.update({ cMethod: abiMethod });
 };
 const getMethodFromSource = () => {
+  State.update({ createMethodError: null });
+  const abiMethod = [];
+  State.update({ cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
@@ -158,8 +161,7 @@ const getMethodFromSource = () => {
             }
           }
         });
-        const abiMethod = [];
-        State.update({ cMethod: [] });
+
         filterFunction.forEach((item) => {
           asyncFetch(
             `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
@@ -197,7 +199,11 @@ const getMethodFromSource = () => {
             State.update({ cMethod: abiMethod });
           });
         });
+      } else {
+        State.update({ createMethodError: "Unable to detect Method!" });
       }
+    } else {
+      State.update({ createMethodError: "Unable to detect Method!" });
     }
   });
 };
