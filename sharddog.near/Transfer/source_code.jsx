@@ -118,6 +118,7 @@ return (
         Missed a panel?
         <br />
         Pay what you want and then claim this panels through the link below.
+        <br />
         <input
           type="number"
           placeholder={state.amount}
