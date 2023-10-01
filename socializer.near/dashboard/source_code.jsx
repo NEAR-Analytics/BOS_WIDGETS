@@ -14,10 +14,10 @@ const options = [
     text: "Expired",
     value: "expired",
   },
-  {
-    text: "Claimed",
-    value: "claimed",
-  },
+  // {
+  //   text: "Claimed",
+  //   value: "claimed",
+  // },
   // {
   //   text: "Unclaimed",
   //   value: "unclaimed",
