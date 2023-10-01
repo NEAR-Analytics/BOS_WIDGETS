@@ -70,11 +70,18 @@ const dapps = [
     icon: "https://ipfs.near.social/ipfs/bafkreieiq7go6lsagwhdejfiniwi3gvr3ttzb7jl67uepp3n2hh6htzk3m",
     tags: ["Dexes"],
   },
+  {
+    src: "bluebiu.near/widget/Bsc.Lending",
+    // TODO
+    bannerImg: "https://ipfs.near.social/ipfs/",
+    icon: "https://ipfs.near.social/ipfs/bafkreiagtnp6xbpowvmmvb2i73ceykcwk6xwrcc5njwed2rui275us2adi",
+    tags: ["Lending"],
+  },
 ];
 
 State.init({
   searchValue: "",
-}); // 初始化状态
+});
 
 const handleSearchChange = (e) => {
   const value = e.target.value;
