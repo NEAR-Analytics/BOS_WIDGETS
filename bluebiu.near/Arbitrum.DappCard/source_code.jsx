@@ -101,6 +101,8 @@ const Label = styled.div`
       return "rgba(172, 252, 237, 1)";
     } else if (content === "lending") {
       return "rgba(173, 255, 181, 1)";
+    } else if (content === "Lending") {
+      return "rgba(173, 255, 181, 1)";
     } else if (content === "liquid-staking") {
       return "rgba(193, 191, 255, 1)";
     } else if (content === "staking") {
