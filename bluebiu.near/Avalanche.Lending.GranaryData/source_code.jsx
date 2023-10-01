@@ -454,18 +454,6 @@ if (!state.markets && state.tokensPrice) {
   getMarkets();
 }
 
-function executePromisesSequentially(promiseArray) {
-  if (promiseArray.length === 0) {
-    return Promise.resolve();
-  }
-
-  const [currentPromise, ...remainingPromises] = promiseArray;
-
-  return currentPromise().then(() =>
-    executePromisesSequentially(remainingPromises)
-  );
-}
-
 if (
   state.markets &&
   Object.keys(state).length === 2 &&
@@ -482,38 +470,32 @@ if (
 
     const tokensPrice = state.tokensPrice;
 
-    const promise = () =>
-      dataProviderContract
-        .getReserveConfigurationData(address)
-        .then((res) => {
-          const loanToValue = Big(res[1].toString()).div(100).toNumber();
+    dataProviderContract
+      .getReserveConfigurationData(address)
+      .then((res) => {
+        const loanToValue = Big(res[1].toString()).div(100).toNumber();
 
-          return loanToValue;
-        })
-        .then((loanToValue) => {
-          dataProviderContract
-            .getReserveTokensAddresses(address)
-            .then((data) => {
-              const aTokenAddress = data[0];
-              const variableDebtTokenAddress = data[2];
+        return loanToValue;
+      })
+      .then((loanToValue) => {
+        dataProviderContract.getReserveTokensAddresses(address).then((data) => {
+          const aTokenAddress = data[0];
+          const variableDebtTokenAddress = data[2];
 
-              getUserReverveData(market).then((userReserveParsed) => {
-                getTokenReserveData(
-                  address,
-                  symbol,
-                  tokensPrice[address],
-                  aTokenAddress,
-                  variableDebtTokenAddress,
-                  loanToValue,
-                  userReserveParsed
-                );
-              });
-            });
+          getUserReverveData(market).then((userReserveParsed) => {
+            getTokenReserveData(
+              address,
+              symbol,
+              tokensPrice[address],
+              aTokenAddress,
+              variableDebtTokenAddress,
+              loanToValue,
+              userReserveParsed
+            );
+          });
         });
-    promiseArray.push(promise);
+      });
   });
-
-  executePromisesSequentially(promiseArray);
 }
 
 if (
