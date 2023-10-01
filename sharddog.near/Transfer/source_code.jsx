@@ -69,7 +69,7 @@ const Wrapper = styled.div`
 
   .input-group {
     height: 100%;
-    wdith: 100%;
+    wdith: 50%;
   }
 
   input {
@@ -115,7 +115,8 @@ return (
   <>
     {state.showAmount && (
       <div className=" mb-2">
-      Missed a panel?<br/>
+        Missed a panel?
+        <br />
         Pay what you want and then claim this panels through the link below.
         <input
           type="number"
