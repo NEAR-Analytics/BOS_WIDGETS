@@ -21,6 +21,7 @@ State.init({
       functions: [],
     },
   },
+  widgetName: "abi2form-widget-form",
   fName,
   fAction: "view",
   cMethod: [],
@@ -32,6 +33,9 @@ State.init({
 
 const onInputChangeFunctionsName = ({ target }) => {
   State.update({ fName: target.value });
+};
+const onInputChangeWidgetName = ({ target }) => {
+  State.update({ widgetName: target.value });
 };
 const onInputChangeFunctionsAction = ({ target }) => {
   State.update({ fAction: target.value });
@@ -352,7 +356,7 @@ const exportForm = () => {
 
   const data = {
     widget: {
-      "abi2form-widget-form": {
+      [state.widgetName]: {
         "":
           "const user = context.accountId;\r\nconst props = " +
           JSON.stringify(abi).replaceAll("\\", "") +
@@ -452,6 +456,17 @@ return (
                     ></button>
                   </div>
                   <div class="modal-body">
+                    <div class="form-group">
+                      <label>Widget Name</label>
+                      <input
+                        class="form-control"
+                        defaultValue={state.widgetName}
+                        onChange={(e) => onInputChangeWidgetName(e)}
+                      />
+                      <small class="form-text text-muted">
+                        A new widget configured with the form will be created.
+                      </small>
+                    </div>
                     {state.cMethod &&
                       state.cMethod.map((functions, fIndex) => (
                         <div class="form-check form-switch">
