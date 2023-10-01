@@ -157,7 +157,6 @@ return (
         />
       )}
     </BackgroundImage>
-
     <Main>
       {false && (
         <SidebarWrapper>
@@ -170,7 +169,6 @@ return (
           />
         </SidebarWrapper>
       )}
-
       <Content>
         <Tabs>
           <TabsButton
@@ -202,15 +200,12 @@ return (
             History
           </TabsButton>
         </Tabs>
-
         {state.selectedTab === "main" && (
           <Widget src="cpassport.near/widget/Passport.Home.Main" />
         )}
-
         {state.selectedTab === "history" && (
           <Widget src="cpassport.near/widget/Passport.Leaderboard.Main" />
         )}
-
         {state.selectedTab === "leaderboard" && (
           <Widget src="cpassport.near/widget/Passport.FrequentFlyers.Main" />
         )}
