@@ -237,7 +237,7 @@ return (
                     style={{
                       height: 60,
                       width: 60,
-                      cursor:"pointer",
+                      cursor: "pointer",
                       opacity: isExsisting.length === 0 ? 0.6 : 1,
                     }}
                     src={_.image}
