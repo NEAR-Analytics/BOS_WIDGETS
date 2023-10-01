@@ -151,7 +151,7 @@ const getToken = (series) => {
 };
 
 if (state.series) {
-   return (
+  return (
     <Widget
       src="cpassport.near/widget/Passport.NFTDetails.Main"
       props={{
