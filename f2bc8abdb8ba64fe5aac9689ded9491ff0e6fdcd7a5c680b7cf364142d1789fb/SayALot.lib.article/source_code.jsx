@@ -438,7 +438,11 @@ function filterArticles(filterBy, articles, validAuthors) {
       articles
     );
   }
-  filteredArticles = filterValidator(articles, validAuthors);
+
+  filteredArticles = filterValidator(
+    filteredArticles ?? articles,
+    validAuthors
+  );
 
   return filteredArticles;
 }
