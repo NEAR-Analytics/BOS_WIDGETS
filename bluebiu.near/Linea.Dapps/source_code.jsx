@@ -78,6 +78,13 @@ const dapps = [
     icon: "https://ipfs.near.social/ipfs/bafkreial4i3eb5uuxkhecn7nwos76km3qvb7jzxmups57rkxizr5i7dyaa",
     tags: ["Liquidity Manage"],
   },
+  {
+    src: "bluebiu.near/widget/Linea.Lending",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreifbxs3ubqbl3wjpk33bzzdhmosybmwr6dglmh3h463yjyxrne6tni",
+    icon: "https://ipfs.near.social/ipfs/bafkreih42ufviwxtxk5oab24mdt46gm73jbhm5rhxsyq6l6fqngt5zc424",
+    tags: ["Lending"],
+  },
 ];
 
 State.init({
