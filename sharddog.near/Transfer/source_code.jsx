@@ -115,7 +115,7 @@ return (
   <>
     {state.showAmount && (
       <div className=" mb-2">
-        Enter Amount of NEAR to Transfer
+        Pay what you want option to mint missed panels
         <input
           type="number"
           placeholder={state.amount}
