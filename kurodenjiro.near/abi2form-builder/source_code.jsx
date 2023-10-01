@@ -35,7 +35,7 @@ const onInputChangeFunctionsName = ({ target }) => {
   State.update({ fName: target.value });
 };
 const onInputChangeWidgetName = ({ target }) => {
-  State.update({ widgetName: target.value.replaceAll(" ", "") });
+  State.update({ widgetName: target.value.replaceAll(" ", "-") });
 };
 const onInputChangeFunctionsAction = ({ target }) => {
   State.update({ fAction: target.value });
