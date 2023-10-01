@@ -72,12 +72,12 @@ const Wrapper = styled.div`
     width: 100%;
   }
 
-  input {
+  .amount {
     padding: 0 14px 0 42px;
     border: 1px solid #d0d5dd !important;
     background: #ffffff;
     border-radius: 100px;
-    width: 50%
+    width: 20px;
   }
 
   .join-button {
@@ -122,6 +122,7 @@ return (
         <br />
         <input
           type="number"
+          className="amount"
           placeholder={state.amount}
           onChange={(e) => onChangeAmount(e.target.value)}
         />
