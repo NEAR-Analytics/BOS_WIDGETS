@@ -69,7 +69,7 @@ const Wrapper = styled.div`
 
   .input-group {
     height: 100%;
-    width: 50%;
+    width: 100%;
   }
 
   input {
@@ -77,6 +77,7 @@ const Wrapper = styled.div`
     border: 1px solid #d0d5dd !important;
     background: #ffffff;
     border-radius: 100px;
+    width: 50%
   }
 
   .join-button {
@@ -114,7 +115,7 @@ const Wrapper = styled.div`
 return (
   <>
     {state.showAmount && (
-      <div className="mb-2 input-group">
+      <div className="mb-2">
         Missed a panel?
         <br />
         Pay what you want and then claim this panels through the link below.
