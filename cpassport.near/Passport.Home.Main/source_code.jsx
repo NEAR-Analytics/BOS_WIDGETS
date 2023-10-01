@@ -6,7 +6,7 @@ State.init({
   hasFetched: {},
 });
 
-console.log(state)
+console.log(state);
 
 const phillipines = {
   series: "224",
@@ -149,11 +149,14 @@ const ImageGrid = styled.div`
     grid-template-columns: repeat(4,1fr);
 `;
 
+console.log(state)
+
 return state?.nftDetails ? (
   <>
     <Widget
       src="cpassport.near/widget/Passport.NFTDetails.Main"
       props={{
+        series: state.series,
         onBack: () => {
           State.update({ nftDetails: false });
         },
@@ -181,7 +184,7 @@ return state?.nftDetails ? (
             {countryList.map((item) => (
               <button
                 onClick={() => {
-                  State.update({ nftDetails: true });
+                  State.update({ nftDetails: true, series: item.series });
                 }}
                 style={{
                   opacity: state.tokens[item.series] ? 1 : 0.4,
