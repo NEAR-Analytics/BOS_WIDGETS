@@ -29,11 +29,11 @@ const onInputChangeContractArg = (obj) => {
   State.update({ contractAbiArg: data });
 };
 
-const onBtnClickCall = (e) => {
+const onBtnClickCall = (e, fName, action, fIndex) => {
   const argsArr = [];
   const data = state.contractAbiArg;
   data.forEach((item) => {
-    if (item.functions == e.target.dataset.name) {
+    if (item.functions == fName) {
       if (item.type == "number") {
         item.value = parseInt(item.value);
       }
@@ -49,15 +49,15 @@ const onBtnClickCall = (e) => {
   argMap.forEach((item) => {
     Object.assign(args, item);
   });
-  if (e.target.dataset.action == "view") {
+  if (action == "view") {
     asyncFetch("https://rpc.near.org/", {
       body: JSON.stringify({
         method: "query",
         params: {
           request_type: "call_function",
           account_id: state.contractAddress,
-          method_name: e.target.dataset.name,
-          args_base64: new Buffer.from(JSON.stringify(args)).toString("base64"), //fix here
+          method_name: fName,
+          args_base64: new Buffer.from(JSON.stringify(args)).toString("base64"),
           finality: "final",
         },
         id: 154,
@@ -72,7 +72,7 @@ const onBtnClickCall = (e) => {
         const result = new Buffer.from(res.body.result.result).toString();
         State.update({
           response: {
-            [e.target.dataset.name]: { value: result, error: false },
+            [fName]: { value: result, error: false },
           },
         });
       }
@@ -80,14 +80,27 @@ const onBtnClickCall = (e) => {
         const error = res.body.result.error;
         State.update({
           response: {
-            [e.target.dataset.name]: { value: error, error: true },
+            [fName]: { value: error, error: true },
           },
         });
       }
     });
   }
-  if (e.target.dataset.action == "call") {
-    const data = Near.call(state.contractAddress, e.target.dataset.name, args);
+  if (action == "call") {
+    const abiCall = state.contractAbiCall;
+    Near.call(state.contractAddress, fName, args);
+    if (abiCall[fIndex].deposit == 0 && abiCall[fIndex].gas == 30000000000000) {
+      Near.call(state.contractAddress, abiCall[fIndex].name, args);
+    }
+    if (abiCall[fIndex].deposit > 0 || abiCall[fIndex].gas > 30000000000000) {
+      Near.call(
+        state.contractAddress,
+        abiCall[fIndex].name,
+        args,
+        abiCall[fIndex].deposit,
+        abiCall[fIndex].gas
+      );
+    }
   }
 };
 
@@ -219,7 +232,9 @@ return (
                 class="btn btn-primary"
                 data-action="view"
                 data-name={functions.name}
-                onClick={onBtnClickCall}
+                onClick={(e) =>
+                  onBtnClickCall(e, functions.name, functions.kind, fIndex)
+                }
               >
                 View
               </button>
@@ -228,7 +243,7 @@ return (
         ))}
 
       {state.contractAbiCall &&
-        state.contractAbiCall.map((functions) => (
+        state.contractAbiCall.map((functions, fIndex) => (
           <div class="card mb-2">
             <div class="card-header">{functions.name}</div>
             <div class="card-body">
@@ -311,7 +326,9 @@ return (
                 class="btn btn-primary"
                 data-action="call"
                 data-name={functions.name}
-                onClick={onBtnClickCall}
+                onClick={(e) =>
+                  onBtnClickCall(e, functions.name, functions.kind, fIndex)
+                }
               >
                 Call
               </button>
