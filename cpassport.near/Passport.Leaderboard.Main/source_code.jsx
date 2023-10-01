@@ -109,12 +109,12 @@ function fetchTokens(series) {
         `,
     }),
   }).then((res) => {
-    console.log(res.ok,series)
+    console.log(res.ok, series);
     if (res.ok) {
       const token = res.body.data.mb_views_nft_tokens;
       if (token) {
         State.update({
-         [`${series}:token`]:token
+          [`${series}:token`]: token,
         });
       }
     }
@@ -146,16 +146,22 @@ const GridView = styled.div`
   grid-template-columns: repeat(10, 1fr);
 `;
 
-const allHolders = [
-  "harrydhillon.near",
-  "noak.near",
-  "blaze.near",
-  "james.near",
-  "ndcplug.near",
-];
-
-const getToken = (series)=>{
+const getToken = (series) => {
   return state[`${series}:token`];
+};
+
+if (state.series) {
+   return (
+    <Widget
+      src="cpassport.near/widget/Passport.NFTDetails.Main"
+      props={{
+        series: state.series,
+        onBack: () => {
+          State.update({ series: null });
+        },
+      }}
+    />
+  );
 }
 
 return (
@@ -170,7 +176,13 @@ return (
         </div>
         {countryList.map((item) => (
           <div style={{ textAlign: "center" }}>
-            <img style={{ width: 70, height: 70 }} src={item.image} />
+            <img
+              style={{ width: 70, height: 70, cursor: "pointer" }}
+              onClick={() => {
+                State.update({ series: item.series });
+              }}
+              src={item.image}
+            />
             <p>{getToken(item.series).length}</p>
             {getToken(item.series).map((item) => (
               <p style={{ fontSize: 8 }}>{item.owner}</p>
