@@ -118,7 +118,7 @@ return (
       <div className="mb-2">
         Missed a panel?
         <br />
-        Pay what you want and then claim this panels through the link below.
+        Pay what you want (even zero) and then claim this panel through the link below.
         <br />
         <input
           type="number"
