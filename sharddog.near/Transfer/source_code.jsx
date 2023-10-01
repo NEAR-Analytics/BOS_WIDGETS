@@ -15,7 +15,6 @@ State.init({
 const transferNEAR = () => {
   const oneTeraGas = 1000000000000;
   const oneNEARInYoctoNEAR = 1000000000000000000000000;
-  // Let's transfer amount NEAR to frol.near
   Near.call(
     "transfer-near.near",
     "transfer_near",
@@ -28,13 +27,6 @@ const transferNEAR = () => {
 const onChangeAmount = (amount) => {
   State.update({
     amount,
-  });
-};
-const onChangeReceiver = (receiver) => {
-  //   const validReceiverLink = isNearAddress(receiver); // add error message or change button based on this
-  State.update({
-    receiver,
-    // validReceiver: validReceiverLink,
   });
 };
 // styled div
@@ -135,7 +127,6 @@ return (
           type="text"
           readOnly={true}
           placeholder={state.receiver}
-          onChange={(e) => onChangeReceiver(e.target.value)}
         />
       </div>
     )}
@@ -144,7 +135,7 @@ return (
       <FollowButtonWrapper>
         <Wrapper>
           <button className="join-button" onClick={transferNEAR}>
-            Transfer {state.amount} NEAR to {state.receiver}
+            Send {state.amount} NEAR to {state.receiver}
           </button>
         </Wrapper>
       </FollowButtonWrapper>
