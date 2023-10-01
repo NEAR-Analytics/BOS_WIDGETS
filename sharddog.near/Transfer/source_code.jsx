@@ -1,9 +1,9 @@
 // This is a demo component to transfer NEAR tokens using BOS component with a helper `transfer-near.near` contract as native transfers are not supported on BOS yet: https://t.me/neardev/29391
 // Here is the contract itself: https://github.com/frol/transfer-near-contract; it is implemented with nesdie, so it only requires only 1 TGas attached to the function call.
 
-const amount = props.amount ?? "0.1";
+const amount = props.amount ?? "1";
 const receiver = "comic.sharddog.near";
-const showReceiver = props.showReceiver ?? true;
+const showReceiver = props.showReceiver ?? false;
 const showAmount = props.showAmount ?? true;
 
 State.init({
@@ -24,6 +24,7 @@ const transferNEAR = () => {
     state.amount * oneNEARInYoctoNEAR
   );
 };
+
 const onChangeAmount = (amount) => {
   State.update({
     amount,
