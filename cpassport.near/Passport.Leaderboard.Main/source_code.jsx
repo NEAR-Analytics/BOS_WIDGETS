@@ -5,7 +5,6 @@ const DivBackground = styled.div`
   padding-bottom:20vh;
   width:100%;
   align-items:center;
-  padding:10px;
   justify-content:center;
 `;
 const accountId = props?.accountId ?? context?.accountId;
@@ -110,12 +109,12 @@ function fetchTokens(series) {
         `,
     }),
   }).then((res) => {
-    console.log(res.ok, series);
+    console.log(res.ok,series)
     if (res.ok) {
       const token = res.body.data.mb_views_nft_tokens;
       if (token) {
         State.update({
-          [`${series}:token`]: token,
+         [`${series}:token`]:token
         });
       }
     }
@@ -155,9 +154,9 @@ const allHolders = [
   "ndcplug.near",
 ];
 
-const getToken = (series) => {
+const getToken = (series)=>{
   return state[`${series}:token`];
-};
+}
 
 return (
   <DivBackground>
@@ -166,15 +165,15 @@ return (
       <GridView>
         <div>
           <div style={{ height: 70 }} />
-          <p style={{ fontSize: 16 }}>Total:</p>
-          <p style={{ fontSize: 16 }}>Flight log:</p>
+          <p style={{ fontSize: 12 }}>Total:</p>
+          <p style={{ fontSize: 12 }}>Flight log:</p>
         </div>
         {countryList.map((item) => (
           <div style={{ textAlign: "center" }}>
             <img style={{ width: 70, height: 70 }} src={item.image} />
             <p>{getToken(item.series).length}</p>
             {getToken(item.series).map((item) => (
-              <p style={{ fontSize: 10 }}>{item.owner}</p>
+              <p style={{ fontSize: 8 }}>{item.owner}</p>
             ))}
           </div>
         ))}
