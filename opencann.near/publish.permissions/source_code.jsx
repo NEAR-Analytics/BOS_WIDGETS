@@ -1,4 +1,11 @@
-const groups = ["Public", "Members", "OGs", ".edu emails", "Admin"];
+const groups = [
+  "Public",
+  "Members",
+  "Licensed Growers",
+  "OGs",
+  ".edu emails",
+  "Admin",
+];
 
 const rights = {
   AddMemberToGroup: {
