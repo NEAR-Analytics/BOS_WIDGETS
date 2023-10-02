@@ -67,7 +67,6 @@ return (
         groupId,
         commentAccounts: owners,
         permissions: {
-          disableRepost: !isMember,
           disableComment: !isMember,
         },
       }}
