@@ -80,13 +80,13 @@ return (
           className="btn btn-outline-primary rounded-5 text-nowrap"
           href={`/mintbase.near/widget/nft-marketplace?contracts=${groupId}&affiliateAccount=mob.near`}
         >
-          Buy with {Mintbase}
+          Buy on {Mintbase}
         </a>
         <a
           className="btn btn-outline-primary rounded-5 text-nowrap"
           href={`https://paras.id/collection/${groupId}`}
         >
-          Buy with {Paras}
+          Buy on {Paras}
         </a>
       </div>
     </div>
