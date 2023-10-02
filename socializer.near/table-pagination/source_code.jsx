@@ -3,12 +3,12 @@ if (!props.data || !props.columns) {
 }
 
 const { data, columns, searchValue } = props;
-
-State.init({ currentPage: 1, list: data, loaded: false });
-
 const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
 const timer = props.timer ?? false;
+const timer_load = props.timer_load ?? false;
+
+State.init({ currentPage: 1, list: data, loaded: timer_load });
 
 let Interval = null;
 
