@@ -100,6 +100,17 @@ useEffect(() => {
   setMergedAccounts([...new Set([...followingAccounts, ...premiumAccounts])]);
 }, [premiumAccounts, followingAccounts]);
 
+const Wrapper = styled.div`
+  @media(min-width: 992px) {
+    .b-s {
+      border-left: 1px solid #eee;
+    }
+    .b-e {
+      border-right: 1px solid #eee;
+    }
+  }
+`;
+
 const Nav = styled.div`
   .nav-pills {
     background: #fbfbfb;
@@ -124,14 +135,17 @@ const Nav = styled.div`
 
   @media(max-width: 991px) {
     margin: -24px -12px 0;
+    .b-e {
+      border-right: 0;
+    }
   }
 `;
 
 const isPremiumFeed = state.feedIndex === "premium";
 
 return (
-  <div className="row">
-    <div className="col-lg-8">
+  <Wrapper className="row">
+    <div className="col-lg-8 b-e b-s">
       <Nav>
         <ul className="nav nav-pills nav-fill">
           {options.map((option, i) => (
@@ -228,9 +242,9 @@ return (
     <div
       className={`${
         state.feedIndex !== "menu" ? "d-none" : "pt-3"
-      } d-lg-block col-lg-4`}
+      } d-lg-block col-lg-4 b-e`}
     >
       <Widget src="mob.near/widget/Welcome.RHS" props={props} />
     </div>
-  </div>
+  </Wrapper>
 );
