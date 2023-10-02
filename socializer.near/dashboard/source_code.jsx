@@ -300,13 +300,14 @@ const getTimeRemaining = (e) => {
 };
 
 const startTimer = () => {
-  state.campaigns.map((row) => {
+  const data = state.campaigns.map((row) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     return {
       ...row,
       endsin: `Ends in ${hours}hr ${minutes}m ${seconds}s`,
     };
   });
+  console.log(data, "==>data");
   // if (total >= 0) {
   //   // update the timer
   //   // check if less than 10 then we need to
