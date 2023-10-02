@@ -74,6 +74,7 @@ return (
                   fontSize: 12,
                   width: `${th.width}%`,
                   verticalAlign: "middle",
+                  textAlign: th.align,
                 }}
                 scope="col"
               >
