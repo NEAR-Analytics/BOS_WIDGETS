@@ -43,7 +43,7 @@ return (
     {context.accountId && (
       <a
         key="edit"
-        href={"#/mob.near/widget/Welcome.RHS.Editor"}
+        href={"/mob.near/widget/Welcome.RHS.Editor"}
         className="edit-link position-absolute top-0 end-0 link-secondary me-2 mt-1"
       >
         <i class="bi bi-pencil" /> Edit Menu
@@ -52,10 +52,19 @@ return (
     {widgets.map(
       ({ src, requiresLogin }, i) =>
         (!requiresLogin || context.accountId) && (
-          <div key={i} className="text-bg-light rounded-4 p-3 mb-3">
+          <div key={i} className="mb-3 p-3 border-bottom">
             <Widget src={src} />
           </div>
         )
     )}
+    <div className="p-3">
+      <a
+        className="link-secondary"
+        key="edit"
+        href="/mob.near/widget/Welcome.RHS.Editor"
+      >
+        <i class="bi bi-pencil" /> Edit Menu
+      </a>
+    </div>
   </Div>
 );
