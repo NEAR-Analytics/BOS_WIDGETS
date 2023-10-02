@@ -356,7 +356,6 @@ return (
           rowsCount: 8,
           searchValue: state.searchValue,
           timer: true,
-          TIMER: null,
         }}
       />
     </TableComponent>
