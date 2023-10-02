@@ -355,7 +355,7 @@ return (
             columns: state.columns[state.menu.value],
             rowsCount: 8,
             searchValue: state.searchValue,
-            timer: true,
+            timer: state.menu.value === "live" ? true : false,
             timer_load: state.timer_load,
           }}
         />
