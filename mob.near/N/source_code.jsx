@@ -101,6 +101,7 @@ useEffect(() => {
 }, [premiumAccounts, followingAccounts]);
 
 const Wrapper = styled.div`
+  margin-top: calc(-1 * var(--body-top-padding, 0));
   @media(min-width: 992px) {
     .b-s {
       border-left: 1px solid #eee;
@@ -131,14 +132,7 @@ const Nav = styled.div`
     background: rgba(13, 110, 253, 0.15);
   }
 
-  margin: 0 -12px; 
-
-  @media(max-width: 991px) {
-    margin: -24px -12px 0;
-    .b-e {
-      border-right: 0;
-    }
-  }
+  margin: 0 -12px;
 `;
 
 const isPremiumFeed = state.feedIndex === "premium";
