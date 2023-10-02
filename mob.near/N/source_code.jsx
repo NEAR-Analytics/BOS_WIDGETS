@@ -1,13 +1,11 @@
 const hashtag = props.hashtag;
+const groupId = props.groupId;
 
-if (!state || state.hashtag !== hashtag) {
+if (!state || state.hashtag !== hashtag || groupId !== groupId) {
   State.update({
-    feedIndex: hashtag
-      ? "hashtag"
-      : // : context.accountId
-        // ? "following"
-        "premium",
+    feedIndex: hashtag ? "hashtag" : groupId ? "group" : "premium",
     hashtag,
+    groupId,
   });
 }
 
@@ -33,10 +31,23 @@ const options = [
 ];
 
 if (hashtag) {
-  options.splice(2, 0, {
-    id: "hashtag",
-    title: `#${hashtag}`,
-  });
+  options.splice(
+    options.findIndex(({ id }) => id === "all"),
+    1,
+    {
+      id: "hashtag",
+      title: `#${hashtag}`,
+    }
+  );
+} else if (groupId) {
+  options.splice(
+    options.findIndex(({ id }) => id === "all"),
+    1,
+    {
+      id: "group",
+      title: `Group`,
+    }
+  );
 }
 
 const [followingAccounts, setFollowingAccounts] = useState([]);
@@ -152,54 +163,62 @@ return (
           src="mob.near/widget/N.ProfileOnboarding"
           props={{}}
         />
-        {context.accountId && isPremiumFeed && !premium && (
-          <Widget
-            key="not-premium"
-            loading=""
-            src="mob.near/widget/N.NotPremiumCompose"
-            props={{}}
-          />
-        )}
-        {context.accountId && isPremiumFeed && premiumExpiringSoon && (
-          <Widget
-            key="expiring-premium"
-            loading=""
-            src="mob.near/widget/N.NotPremiumCompose"
-            props={{
-              text: "Your Premium subscription expiring soon!",
-              buttonText: "Renew subscription",
-            }}
-          />
-        )}
-        {context.accountId && (
-          <Widget
-            key="compose"
-            loading=""
-            src="mob.near/widget/MainPage.N.Compose"
-            props={{}}
-          />
-        )}
-        {state.feedIndex === "hashtag" ? (
-          <Widget
-            key="hash-feed"
-            src="mob.near/widget/Hashtag.N.Feed"
-            props={{ hashtag }}
-          />
-        ) : isPremiumFeed ? (
-          <Widget
-            key="premium-feed"
-            src="mob.near/widget/MainPage.N.Feed"
-            props={{ accounts: mergedAccounts, isPremiumFeed }}
-          />
+        {state.feedIndex === "group" ? (
+          <Widget src="mob.near/widget/N.Group" props={{ groupId }} />
         ) : (
-          <Widget
-            key="reg-feed"
-            src="mob.near/widget/MainPage.N.Feed"
-            props={{
-              accounts:
-                state.feedIndex === "following" ? followingAccounts : undefined,
-            }}
-          />
+          <>
+            {context.accountId && isPremiumFeed && !premium && (
+              <Widget
+                key="not-premium"
+                loading=""
+                src="mob.near/widget/N.NotPremiumCompose"
+                props={{}}
+              />
+            )}
+            {context.accountId && isPremiumFeed && premiumExpiringSoon && (
+              <Widget
+                key="expiring-premium"
+                loading=""
+                src="mob.near/widget/N.NotPremiumCompose"
+                props={{
+                  text: "Your Premium subscription expiring soon!",
+                  buttonText: "Renew subscription",
+                }}
+              />
+            )}
+            {context.accountId && (
+              <Widget
+                key="compose"
+                loading=""
+                src="mob.near/widget/MainPage.N.Compose"
+                props={{}}
+              />
+            )}
+            {state.feedIndex === "hashtag" ? (
+              <Widget
+                key="hash-feed"
+                src="mob.near/widget/Hashtag.N.Feed"
+                props={{ hashtag }}
+              />
+            ) : isPremiumFeed ? (
+              <Widget
+                key="premium-feed"
+                src="mob.near/widget/MainPage.N.Feed"
+                props={{ accounts: mergedAccounts, isPremiumFeed }}
+              />
+            ) : (
+              <Widget
+                key="reg-feed"
+                src="mob.near/widget/MainPage.N.Feed"
+                props={{
+                  accounts:
+                    state.feedIndex === "following"
+                      ? followingAccounts
+                      : undefined,
+                }}
+              />
+            )}
+          </>
         )}
       </div>
     </div>
