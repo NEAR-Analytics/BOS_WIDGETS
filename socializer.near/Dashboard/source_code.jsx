@@ -415,7 +415,10 @@ return (
         }}
       />
     </TableComponent>
-    <div className="d-flex" style={{ gap: 50, paddingLeft: 30 }}>
+    <div
+      className="d-flex"
+      style={{ gap: 50, paddingLeft: 30, marginTop: -50 }}
+    >
       <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
