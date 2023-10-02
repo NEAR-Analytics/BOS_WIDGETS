@@ -74,7 +74,7 @@ function fetchTokens() {
         };
       });
 
-     // console.log(tokens);
+      // console.log(tokens);
       State.update({
         tokens: tokens,
       });
@@ -107,7 +107,6 @@ const loader = (
   </div>
 );
 
-
 const nfts = Near.view("mint.sharddog.near", "nft_tokens_for_owner", {
   account_id: accountId,
   from_index: "0",
@@ -117,7 +116,7 @@ const nfts = Near.view("mint.sharddog.near", "nft_tokens_for_owner", {
 if (!nfts) {
   return "";
 }
- console.log(nfts);
+console.log(nfts);
 
 return (
   <>
@@ -130,50 +129,56 @@ return (
     <br />
     <div style={styles.gridContainer}>
       <Grid>
-  {nfts?.map((nft, i) => {
-    if (nft.metadata.reference === "https://nftstorage.link/ipfs/bafkreia7y3fwfr3bwafvggjrztkjjq25crgxpbpgc4vfejcvez4yfshazi") {
-      return (
-        <div
-          key={i}  // It's a good practice to provide a unique key when mapping over items
-          style={styles.gridItem}
-          onMouseOver={() => {
-            // Define what you want to happen on hover here
-          }}
-        >
-          <Widget
-            src="sharddog.near/widget/Image.Minted"
-            title={nft.owner_id}
-            props={{
-              title: nft.owner_id,
-              timestamp: nft.minted_timestamp,
-              image: {
-                url: nft.metadata.media,
-              },
-              style: {
-                width: wsize,
-                height: hsize,
-                objectFit: "cover",
-                minWidth: wsize,
-                minHeight: hsize,
-                maxWidth: wsize,
-                maxHeight: hsize,
-              },
-            }}
-          />
-          <h4>{nft.title}</h4>
-          <p>Released: {JSON.parse(nft.metadata.extra).date}</p>
-          <p>
-            <a href={JSON.parse(nft.metadata.extra).link} target="_blank" rel="noopener noreferrer">
-              READ ISSUE
-            </a>
-          </p>
-        </div>
-      );
-    }
-    return null;  // Return null or some fallback JSX if the condition is not met
-  })}
-</Grid>
-
+        {nfts?.map((nft, i) => {
+          if (
+            nft.metadata.reference ===
+            "https://nftstorage.link/ipfs/bafkreia7y3fwfr3bwafvggjrztkjjq25crgxpbpgc4vfejcvez4yfshazi"
+          ) {
+            return (
+              <div
+                key={i} // It's a good practice to provide a unique key when mapping over items
+                style={styles.gridItem}
+                onMouseOver={() => {
+                  // Define what you want to happen on hover here
+                }}
+              >
+                <Widget
+                  src="sharddog.near/widget/Image.Minted"
+                  title={nft.owner_id}
+                  props={{
+                    title: nft.owner_id,
+                    timestamp: nft.minted_timestamp,
+                    image: {
+                      url: nft.metadata.media,
+                    },
+                    style: {
+                      width: wsize,
+                      height: hsize,
+                      objectFit: "cover",
+                      minWidth: wsize,
+                      minHeight: hsize,
+                      maxWidth: wsize,
+                      maxHeight: hsize,
+                    },
+                  }}
+                />
+                <h4>{nft.title}</h4>
+                <p>Released: {JSON.parse(nft.metadata.extra).date}</p>
+                <p>
+                  <a
+                    href={JSON.parse(nft.metadata.extra).link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    READ ISSUE
+                  </a>
+                </p>
+              </div>
+            );
+          }
+          return null; // Return null or some fallback JSX if the condition is not met
+        })}
+      </Grid>
     </div>
   </>
 );
