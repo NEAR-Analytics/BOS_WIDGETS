@@ -101,6 +101,9 @@ const setEndsIn = () => {
     console.log(data, "==>list222", Interval);
     startTimer();
   }, 1000);
+  State.update({
+    loaded: true,
+  });
   Interval = interval;
 };
 if (timer && !state.loaded) setEndsIn();
