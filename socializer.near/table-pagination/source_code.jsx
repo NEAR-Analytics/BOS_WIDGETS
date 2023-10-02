@@ -75,7 +75,7 @@ const getTimeRemaining = (e) => {
 };
 
 const startTimer = () => {
-  if (!state.campaigns.length) return;
+  if (!data.length) return;
   const compaign = data.map((row) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     if (total <= 0) {
