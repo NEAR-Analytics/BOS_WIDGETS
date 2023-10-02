@@ -1,5 +1,6 @@
 const item = props.item;
 const indexKey = props.indexKey ?? "main";
+const groupId = props.groupId;
 
 if (!item) {
   return "";
@@ -57,10 +58,11 @@ const RepostButton = styled.button`
   }
 `;
 
-const repostClick = () => {
+const repostClick = (indexKey) => {
   if (state.loading) {
     return;
   }
+  indexKey = indexKey ?? "main";
   State.update({
     loading: true,
   });
@@ -115,35 +117,78 @@ const repostSvg = (
     strokeWidth="0.5"
   >
     <path
-      fillRule="evenodd"
+      fill-rule="evenodd"
       d="M4.854 1.146a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L4 2.707V12.5A2.5 2.5 0 0 0 6.5 15h8a.5.5 0 0 0 0-1h-8A1.5 1.5 0 0 1 5 12.5V2.707l3.146 3.147a.5.5 0 1 0 .708-.708l-4-4z"
       transform="rotate(180, 12, 12), translate(0, 4)"
     />
     <path
-      fillRule="evenodd"
+      fill-rule="evenodd"
       d="M4.854 1.146a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L4 2.707V12.5A2.5 2.5 0 0 0 6.5 15h8a.5.5 0 0 0 0-1h-8A1.5 1.5 0 0 1 5 12.5V2.707l3.146 3.147a.5.5 0 1 0 .708-.708l-4-4z"
       transform="translate(0, 4)"
     />
   </svg>
 );
 
+const quoteSvg = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+    style={{ margin: "0 3px" }}
+  >
+    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+  </svg>
+);
+
 return (
-  <div className="d-inline-flex align-items-center">
-    <RepostButton
-      disabled={
-        props.disabled || state.loading || dataLoading || !context.accountId
-      }
-      title={title}
-      onClick={repostClick}
-    >
-      <span className={hasRepost ? "clicked" : ""}>{repostSvg}</span>
-      <span className={`count ${hasRepost ? "clicked" : ""}`}>
-        <Widget
-          loading={repostCount || ""}
-          src="mob.near/widget/N.Overlay.Faces"
-          props={{ accounts: repostsByUsers, limit: 10 }}
-        />
-      </span>
-    </RepostButton>
+  <div
+    className="d-inline-flex align-items-center"
+    // style={props.debug ? { display: "block", height: "300px" } : {}}
+  >
+    <span>
+      <RepostButton
+        disabled={
+          props.disabled || state.loading || dataLoading || !context.accountId
+        }
+        className="text-nowrap"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        title={title}
+      >
+        <span className={hasRepost ? "clicked" : ""}>{repostSvg}</span>
+        <span className={`count ${hasRepost ? "clicked" : ""}`}>
+          <Widget
+            loading={repostCount || ""}
+            src="mob.near/widget/N.Overlay.Faces"
+            props={{ accounts: repostsByUsers, limit: 10 }}
+          />
+        </span>
+      </RepostButton>
+      <ul className="dropdown-menu">
+        <li>
+          <button className="dropdown-item" onClick={() => repostClick("main")}>
+            {repostSvg} Repost
+          </button>
+        </li>
+        {groupId && (
+          <li>
+            <button
+              className="dropdown-item"
+              disabled={props.disableGroupRepost}
+              onClick={() => repostClick(indexKey)}
+            >
+              {repostSvg} Repost to the group
+            </button>
+          </li>
+        )}
+        <li>
+          <button className="dropdown-item" disabled={true}>
+            {quoteSvg} Quote
+          </button>
+        </li>
+      </ul>
+    </span>
   </div>
 );
