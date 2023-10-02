@@ -97,9 +97,10 @@ return (
           {data.length > 0 &&
             handlePagination()
               .table.filter((row) =>
-                Object.values(row).some((value) =>
-                  value.toString().includes(searchValue ?? "")
-                )
+                // Object.values(row).some((value) =>
+                //   value.toString().includes(searchValue ?? "")
+                // )
+                row.name.includes(searchValue ?? "")
               )
               .map((row, i) => {
                 return (
