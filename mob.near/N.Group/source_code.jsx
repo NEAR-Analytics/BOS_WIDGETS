@@ -40,7 +40,10 @@ const indexKey = `nft:${groupId}`;
 
 return (
   <Wrapper>
-    <Widget src="mob.near/widget/N.Group.Header" props={{ groupId, owners }} />
+    <Widget
+      src="mob.near/widget/N.Group.Header"
+      props={{ link: true, groupId, owners }}
+    />
     {context.accountId &&
       (isMember ? (
         <Widget
