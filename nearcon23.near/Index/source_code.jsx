@@ -4,11 +4,11 @@ const availableTabs = [
   "register",
   "hackathon",
   "speakers",
-  "schedule",
+  // "schedule",
   "terms",
   "ticket",
   "profile",
-  "travel",
+  // "travel",
 ];
 
 const getTab = (tab) => {
