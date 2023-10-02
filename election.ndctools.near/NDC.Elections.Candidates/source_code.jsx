@@ -634,7 +634,7 @@ const CandidateItem = ({ candidateId, votes }) => (
       className="d-flex align-items-center justify-content-between"
       selected={state.selected === candidateId}
       filtered={candidateFilterId.includes(candidateId)}
-      winnerId={false} // state.winnerIds.includes(candidateId)
+      winnerId={state.winnerIds.includes(candidateId)}
     >
       <div className="d-flex w-100 align-items-center">
         {isVisible() && (
@@ -931,7 +931,7 @@ return (
         }}
       />
     )}
-    {true && (
+    {state.showMintPolicyModal && (
       <Widget
         src={widgets.modal}
         props={{
