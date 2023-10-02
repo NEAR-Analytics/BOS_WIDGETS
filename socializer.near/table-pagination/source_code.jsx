@@ -73,7 +73,7 @@ const getTimeRemaining = (e) => {
     seconds,
   };
 };
-console.log(data, "==>list", state.loaded);
+
 const startTimer = () => {
   if (!data.length) return;
   const compaign = data.map((row) => {
@@ -96,9 +96,9 @@ const startTimer = () => {
 
 const setEndsIn = () => {
   if (Interval) clearInterval(Interval);
+  startTimer();
   const interval = setInterval(() => {
     if (!data.length) clearInterval(Interval);
-    console.log(data, "==>list222", Interval);
     startTimer();
   }, 1000);
   State.update({
