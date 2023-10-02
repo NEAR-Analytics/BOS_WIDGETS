@@ -75,7 +75,7 @@ return (
     <div className="me-3">{Locked}</div>
     <div className="flex-grow-1">
       <p>{text}</p>
-      <div className="d-flex gap-2">
+      <div className="d-flex flex-wrap gap-2">
         <a
           className="btn btn-outline-primary rounded-5 text-nowrap"
           href={`/mintbase.near/widget/nft-marketplace?contracts=${groupId}&affiliateAccount=mob.near`}
