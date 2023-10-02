@@ -8,11 +8,17 @@ const Container = styled.div`
   flex-wrap: nowrap;
   padding: 3.5em 3.5em 4.5em;
   gap: 3em;
-  background: #f2f1ea;
+  // background: #f2f1ea;
+
+  background-image: url("https://nearcon.s3.amazonaws.com/venues.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; 
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
-  }
+    background-image: url("https://nearcon.s3.amazonaws.com/venues-mobile.png");
+}
 `;
 
 const Text = styled.div`
@@ -83,8 +89,10 @@ const Visual = styled.div`
   }
 `;
 
-const palace = "bafkreia2u26264amx5spk5ftcyyjxv7huxzdljbvuvpyae6rbt6tk5dffu";
-const haven = "bafkreiaajatqfh2vm6jidi2kr24ierbzk6ubr76tcx5haptru73aic3baa";
+const palace = "bafkreigeski6yg4tjbzssyrkvxmm4yfidm6mdbnwkdbiytvjf3nr2jgnhm";
+const haven = "bafkreid5xyx7nuscivi4immsmgzfrjpi7f6okyx67yiqra6keinzmbzzf4";
+const communityQ =
+  "bafkreiclihjtbiowl2pzrdjspw24m6r63g5kw4jllwtqol3ohbsflk7w7y";
 const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
 
 return (
@@ -131,5 +139,18 @@ return (
         Lisboa, Portugal
       </p>
     </Visual>
+    <Visual>
+      <img src={mapImage(communityQ)} alt="NEARCON Haven" />
+      <p>
+        <b>Community HQ</b>
+        <br />
+        Rua Pereira Henriques
+        <br />
+        31950-242
+        <br />
+        Lisboa, Portugal
+      </p>
+    </Visual>
   </Container>
 );
+
