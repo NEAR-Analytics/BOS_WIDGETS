@@ -4,16 +4,19 @@ if (!props.data || !props.columns) {
 
 const { data, columns, searchValue } = props;
 
-State.init({ currentPage: 1 });
+State.init({ currentPage: 1, list: data });
 
 const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
+const timer = props.timer ?? false;
+
+let TIMER = null;
 
 const handlePagination = () => {
-  if (!rowsCount) return { table: data };
+  if (!rowsCount) return { table: state.list };
   const currentPage = state.currentPage;
-  const totalPages = Math.ceil(data.length / rowsCount);
-  const currentTableData = data.slice(
+  const totalPages = Math.ceil(state.list.length / rowsCount);
+  const currentTableData = state.list.slice(
     (currentPage - 1) * rowsCount,
     rowsCount * currentPage
   );
@@ -58,6 +61,49 @@ const onHandelId = (id) => {
   }
 };
 
+const getTimeRemaining = (e) => {
+  const total = Date.parse(e) - Date.parse(new Date());
+  const seconds = Math.floor((total / 1000) % 60);
+  const minutes = Math.floor((total / 1000 / 60) % 60);
+  const hours = Math.floor((total / 1000 / 60 / 60) % 24);
+  return {
+    total,
+    hours,
+    minutes,
+    seconds,
+  };
+};
+
+const startTimer = () => {
+  if (!state.campaigns.length) return;
+  const compaign = data.map((row) => {
+    let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
+    if (total <= 0) {
+      return {};
+    }
+    return {
+      ...row,
+      endsin: `Ends in ${hours}hr ${minutes}m ${seconds}s`,
+    };
+  });
+
+  if (!compaign.length) return;
+  State.update({
+    list: compaign,
+  });
+};
+
+const setEndsIn = () => {
+  if (TIMER) clearInterval(TIMER);
+  console.log(TIMER, "==>TIMER");
+  TIMER = setInterval(() => {
+    startTimer();
+  }, 1000);
+};
+
+if (timer) setEndsIn();
+else if (!timer && TIMER) clearInterval(TIMER);
+
 return (
   <div className="table-responsive" style={{ backgroundColor: "#FAFAFA" }}>
     <div style={{ borderRadius: 8, border: "1px solid #AAA" }}>
@@ -95,7 +141,7 @@ return (
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 &&
+          {state.list.length > 0 &&
             handlePagination()
               .table.filter((row) => {
                 if (!searchValue) return true;
@@ -251,7 +297,7 @@ return (
                 </svg>
               </button>
             </li>
-            {data.length > 0 &&
+            {state.list.length > 0 &&
               handlePagination().buttons.map((btn, i) => {
                 return (
                   <li key={i} className="page-item">
