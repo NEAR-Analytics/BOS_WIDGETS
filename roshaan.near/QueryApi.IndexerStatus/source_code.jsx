@@ -109,7 +109,7 @@ State.init({
   indexer_resPage: 0,
   logsPage: 0,
   statePage: 0,
-  v2Toggle: Storage.privateGet("QueryAPIV2Toggle") || false,
+  v2Toggle: Storage.get("QueryAPIV2Toggle") || false,
 });
 
 function fetchGraphQL(operationsDoc, operationName, variables) {
@@ -163,9 +163,9 @@ const indexerStateDoc = `
   }
 `;
 
-const prevV2ToggleSelected = Storage.privateGet("QueryAPIV2Toggle");
+const prevV2ToggleSelected = Storage.get("QueryAPIV2Toggle");
 if (!state.initialFetch || prevV2ToggleSelected !== state.v2Toggle) {
-  Storage.privateSet("QueryAPIV2Toggle", state.v2Toggle);
+  Storage.set("QueryAPIV2Toggle", state.v2Toggle);
   fetchGraphQL(logsDoc, "QueryLogs", {
     offset: state.logsPage * LIMIT,
   }).then((result) => {
