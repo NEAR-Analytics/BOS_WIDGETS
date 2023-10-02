@@ -86,7 +86,7 @@ return (
     <div className="px-4 pb-4">
       <div
         className="d-flex justify-content-end align-items-center"
-        style={{ height: "3rem" }}
+        style={{ height: "4rem" }}
       >
         {showEditButton && (
           <div>
