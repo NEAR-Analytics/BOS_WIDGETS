@@ -269,47 +269,6 @@ const SearchIcon = () => (
   </svg>
 );
 
-const getTimeRemaining = (e) => {
-  const total = Date.parse(e) - Date.parse(new Date());
-  const seconds = Math.floor((total / 1000) % 60);
-  const minutes = Math.floor((total / 1000 / 60) % 60);
-  const hours = Math.floor((total / 1000 / 60 / 60) % 24);
-  return {
-    total,
-    hours,
-    minutes,
-    seconds,
-  };
-};
-
-const startTimer = (data) => {
-  if (!state.campaigns.length) return;
-  const compaign = data.map((row) => {
-    let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
-    if (total <= 0) {
-      return {};
-    }
-    return {
-      ...row,
-      endsin: `Ends in ${hours}hr ${minutes}m ${seconds}s`,
-    };
-  });
-
-  if (!compaign.length) return;
-  State.update({
-    campaigns: compaign,
-  });
-};
-
-const setEndsIn = (data) => {
-  if (timer) clearInterval(timer);
-  if (state.menu.value !== "live") return;
-  console.log(timer, "==>timer");
-  timer = setInterval(() => {
-    startTimer(data);
-  }, 1000);
-};
-
 const getCampaignData = (type) => {
   return asyncFetch(
     API_URL + `/api/campaign?accountId=${accountId}&type=${type}`
@@ -320,7 +279,6 @@ const getCampaignData = (type) => {
       State.update({
         campaigns: data,
       });
-      setEndsIn(data);
     }
   });
 };
@@ -397,6 +355,7 @@ return (
           columns: state.columns[state.menu.value],
           rowsCount: 8,
           searchValue: state.searchValue,
+          timer: true,
         }}
       />
     </TableComponent>
