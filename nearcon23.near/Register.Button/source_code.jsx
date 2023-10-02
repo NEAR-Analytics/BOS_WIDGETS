@@ -31,6 +31,6 @@ const Anchor = styled.a`
 
 return (
   <Anchor href={props.href ?? `/${ownerId}/widget/Index?tab=register`}>
-    Register
+    Register $99
   </Anchor>
 );
