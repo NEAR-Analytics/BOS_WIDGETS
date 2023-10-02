@@ -344,21 +344,23 @@ return (
         </TitleContent>
       </TitleComponent>
     </HeadComponent>
-    <TableComponent>
-      <Widget
-        src={`${Owner}/widget/table-pagination`}
-        props={{
-          API_URL,
-          themeColor: { table_pagination: themeColor.table_pagination },
-          data: state.campaigns,
-          columns: state.columns[state.menu.value],
-          rowsCount: 8,
-          searchValue: state.searchValue,
-          timer: true,
-          timer_load: state.timer_load,
-        }}
-      />
-    </TableComponent>
+    {state.campaigns.length && (
+      <TableComponent>
+        <Widget
+          src={`${Owner}/widget/table-pagination`}
+          props={{
+            API_URL,
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: state.campaigns,
+            columns: state.columns[state.menu.value],
+            rowsCount: 8,
+            searchValue: state.searchValue,
+            timer: true,
+            timer_load: state.timer_load,
+          }}
+        />
+      </TableComponent>
+    )}
 
     <Widget
       props={{
