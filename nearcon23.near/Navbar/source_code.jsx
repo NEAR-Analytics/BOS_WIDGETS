@@ -235,4 +235,3 @@ return (
     {actions}
   </Navbar>
 );
-
