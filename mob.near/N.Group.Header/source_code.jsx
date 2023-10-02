@@ -6,7 +6,7 @@ if (!groupId) {
 const link =
   props.link &&
   (props.link === true
-    ? `https://near.social/mob.near/widget/N?groupId=${groupId}`
+    ? `https://near.social/?groupId=${groupId}`
     : props.link);
 
 const nftMetadata = props.nftMetadata ?? Near.view(groupId, "nft_metadata");
