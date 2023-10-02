@@ -372,7 +372,6 @@ return (
         }}
       />
     </TableComponent>
-    1
     {state.show_detail && state.selected && (
       <Widget
         props={{
