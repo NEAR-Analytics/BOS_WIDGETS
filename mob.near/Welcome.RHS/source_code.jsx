@@ -53,6 +53,7 @@ return (
     {context.accountId && (
       <a
         key="edit"
+        style={{ zIndex: 1 }}
         href="/mob.near/widget/Welcome.RHS.Editor"
         className="edit-link position-absolute top-0 end-0 link-secondary me-2 mt-1"
       >
