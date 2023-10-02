@@ -1,4 +1,5 @@
 const ownerId = "nearcon23.near";
+
 const countries = [
   "Afghanistan",
   "Albania",
@@ -322,7 +323,7 @@ const url = () => {
     goal: state.goal,
   };
 
-  ["age", "twitter", "telegram", "referral"].forEach((key) => {
+  ["age", "twitter", "telegram", "referral", "accountId"].forEach((key) => {
     if (state[key]) {
       meta[key] = state[key];
     }
@@ -448,7 +449,8 @@ return (
     <Widget
       src={`${ownerId}/widget/Inputs.AccountId`}
       props={{
-        label: "NEAR Account",
+        label: "Near ID",
+        placeholder: ".near",
         value: state.accountId,
         onChange: (accountId) => State.update({ accountId }),
         setError: (accountIdError) => State.update({ accountIdError }),
@@ -535,10 +537,9 @@ return (
     <Widget
       src={`${ownerId}/widget/Inputs.Number`}
       props={{
-        label: "Age (Optional)",
+        label: "Age",
         value: state.age,
         error: state.ageError,
-        placeholder: "Enter Age",
         onChange: (age) => State.update({ age }),
         validate: () => {
           if (state.age < 1) {
@@ -589,10 +590,10 @@ return (
     <Widget
       src={`${ownerId}/widget/Inputs.Text`}
       props={{
-        label: "Twitter (Optional)",
+        label: "Twitter",
         value: state.twitter,
         error: state.twitterError,
-        placeholder: "Enter Twitter",
+        placeholder: "@",
         onChange: (twitter) => State.update({ twitter }),
         validate: () => {
           if (state.twitter.length < 3) {
@@ -616,10 +617,10 @@ return (
     <Widget
       src={`${ownerId}/widget/Inputs.Text`}
       props={{
-        label: "Telegram (Optional)",
+        label: "Telegram",
         value: state.telegram,
         error: state.telegramError,
-        placeholder: "Enter Telegram",
+        placeholder: "@",
         onChange: (telegram) => State.update({ telegram }),
         validate: () => {
           if (state.telegram.length < 3) {
@@ -640,26 +641,13 @@ return (
         },
       }}
     />
-    <Widget
-      src={`${ownerId}/widget/Inputs.Text`}
-      props={{
-        label: "Did anyone refer you? (Optional)",
-        value: state.referral,
-        error: state.referralError,
-        placeholder: "Enter referral",
-        onChange: (referral) => State.update({ referral }),
-        validate: () => {
-          if (state.referral.length > 100) {
-            State.update({
-              referralError: "Referral must be less than 100 characters",
-            });
-            return;
-          }
 
-          State.update({ referralError: "" });
-        },
-      }}
-    />
+    <span>
+      By clicking 'Submit' you agree to the <br />{" "}
+      <a href={`/${ownerId}/widget/Index?tab=terms`}>
+        NEARCON 2023 Terms & Conditions
+      </a>
+    </span>
     <SubmitButton href={url()} className={isValid() ? "" : "disabled"}>
       Submit
       <svg
