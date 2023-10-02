@@ -59,6 +59,50 @@ const people = (
   </svg>
 );
 
+const feedSelected = (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_1_4)">
+      <path
+        d="M2.72813 18.5438C1.21875 18.5438 0 19.7672 0 21.2719C0 22.7766 1.21875 24 2.72813 24C4.23281 24 5.45625 22.7812 5.45625 21.2719C5.45625 19.7625 4.23281 18.5438 2.72813 18.5438ZM0 0V4.36406C10.8469 4.36406 19.6359 13.1531 19.6359 24H24C24 10.7438 13.2562 0 0 0ZM0 8.72812V13.0922C6.02344 13.0922 10.9078 17.9766 10.9078 24H15.2719C15.2719 15.5625 8.43281 8.72812 0 8.72812Z"
+        fill="#0D99FF"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_1_4">
+        <rect width="24" height="24" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+const feed = (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_1_2)">
+      <path
+        d="M2.72813 18.5438C1.21875 18.5438 0 19.7672 0 21.2719C0 22.7766 1.21875 24 2.72813 24C4.23281 24 5.45625 22.7812 5.45625 21.2719C5.45625 19.7625 4.23281 18.5438 2.72813 18.5438ZM0 0V4.36406C10.8469 4.36406 19.6359 13.1531 19.6359 24H24C24 10.7438 13.2562 0 0 0ZM0 8.72812V13.0922C6.02344 13.0922 10.9078 17.9766 10.9078 24H15.2719C15.2719 15.5625 8.43281 8.72812 0 8.72812Z"
+        fill="black"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_1_2">
+        <rect width="24" height="24" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
 const aiLogo = (
   <svg
     width="35"
@@ -484,6 +528,12 @@ const content = (
     {navItem({
       text: "Feeds",
       id: "socials",
+      icon: feed,
+      iconSelected: feedSelected,
+    })}
+    {navItem({
+      text: "Community",
+      id: "community",
       icon: people,
       iconSelected: peopleSelected,
     })}
