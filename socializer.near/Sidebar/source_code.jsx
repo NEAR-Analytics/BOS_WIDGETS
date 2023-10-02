@@ -7,7 +7,7 @@ const list = props?.list || [];
 
 const Sidebar = styled.div`
   display: flex;
-  width: 200px;
+  width: 325px;
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
