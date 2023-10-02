@@ -91,6 +91,7 @@ const startTimer = () => {
     loaded: true,
   });
 };
+console.log(data, "==>list");
 
 const setEndsIn = () => {
   // if (state.interval) clearInterval(state.interval);
@@ -98,7 +99,6 @@ const setEndsIn = () => {
     startTimer();
   }, 1000);
 };
-console.log(state.list, "==>list");
 if (timer && !state.loaded) setEndsIn();
 else if (!timer && state.interval) clearInterval(state.interval);
 
