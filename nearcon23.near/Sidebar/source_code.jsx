@@ -1,5 +1,23 @@
 const ownerId = "nearcon23.near";
 
+const travel = (
+  <>
+    <Widget src={`${ownerId}/widget/Icons.Travel`} />
+  </>
+);
+
+const travelSelected = (
+  <>
+    <Widget src={`${ownerId}/widget/Icons.TravelSelected`} />
+  </>
+);
+
+const profileSelected = (
+  <Widget src={`${ownerId}/widget/Icons.ProfileSelected`} />
+);
+
+const profile = profileSelected;
+
 const homeSelected = (
   <svg
     width="41"
@@ -15,19 +33,12 @@ const homeSelected = (
   </svg>
 );
 
-const home = (
-  <svg
-    width="41"
-    height="40"
-    viewBox="0 0 41 40"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M31.8538 16.9713L21.8538 7.53626C21.8489 7.532 21.8443 7.5274 21.84 7.52251C21.4718 7.18768 20.992 7.00214 20.4944 7.00214C19.9967 7.00214 19.5169 7.18768 19.1488 7.52251L19.135 7.53626L9.14625 16.9713C8.9425 17.1586 8.77985 17.3862 8.66861 17.6397C8.55737 17.8932 8.49996 18.167 8.5 18.4438V30C8.5 30.5304 8.71071 31.0392 9.08579 31.4142C9.46086 31.7893 9.96957 32 10.5 32H30.5C31.0304 32 31.5391 31.7893 31.9142 31.4142C32.2893 31.0392 32.5 30.5304 32.5 30V18.4438C32.5 18.167 32.4426 17.8932 32.3314 17.6397C32.2201 17.3862 32.0575 17.1586 31.8538 16.9713ZM30.5 30H10.5V18.4438L10.5138 18.4313L20.5 9.00001L30.4875 18.4288L30.5012 18.4413L30.5 30Z"
-      fill="#343330"
-    />
-  </svg>
+const home = <Widget src={`${ownerId}/widget/Icons.Home`} />;
+
+const schedule = <Widget src={`${ownerId}/widget/Icons.Schedule`} />;
+
+const scheduleSelected = (
+  <Widget src={`${ownerId}/widget/Icons.ScheduleSelected`} />
 );
 
 const registerSelected = (
@@ -121,51 +132,60 @@ const speakersSelected = (
 );
 
 const NavItem = styled.div`
-  & > a {
-    position: relative;
-    cursor: pointer;
-    padding: 0.5em;
-    margin: 0.25em 0;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 0.8em;
-    line-height: 1em;
-    color: #3a3f42;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out;
+  position: relative;
+  cursor: pointer;
+  padding: 0.5em;
+  margin: 0.25em 0;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.8em;
+  line-height: 1em;
+  color: #3a3f42;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75em;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    flex-direction: row;
+
+    border-radius: 0;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+
+    min-height: 60px;
+    margin: 0px;
+    border-bottom: 1px #dbdbd7 solid;
+  }
+
+  &:hover {
+    color: #667085;
+    text-decoration: none;
+    background-color: #f9fafb;
+  }
+
+  span {
+    display: flex;
     align-items: center;
-    gap: 0.75em;
-
-    @media screen and (max-width: 768px) {
-      width: 100%;
-      flex-direction: row;
-    }
-
-    &:hover {
-      color: #667085;
-      text-decoration: none;
-      background-color: #f9fafb;
-    }
-
-    span {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
+    justify-content: center;
+    text-align: center;
   }
 `;
 
 const navItem = ({ text, icon, id, iconSelected }) => (
-  <NavItem>
-    <Link href={`/${ownerId}/widget/Index?tab=${id}`}>
-      {id === props.tab ? iconSelected : icon}
-      <span>{text}</span>
-    </Link>
+  <NavItem
+    // href={`/${ownerId}/widget/Index?tab=${id}`}
+    // href={`?tab=${id}`}
+    // href={"#"}
+    onClick={() => props.update({ tab: id })}
+  >
+    {id === props.tab ? iconSelected : icon}
+    <span>{text}</span>
   </NavItem>
 );
 
@@ -175,8 +195,15 @@ const NavContainer = styled.div`
   margin-right: 2.5em;
   gap: 0.8em;
 
+  position: fixed;
+  top: 120px;
+
   @media screen and (max-width: 768px) {
     width: 100%;
+    gap: 0px;
+    background-color: #f2f1ea;
+    margin-right: 0px;
+    margin-bottom: 2.5em;
   }
 `;
 
@@ -279,79 +306,108 @@ const Divider = styled.hr`
   height: 1px;
   border: none;
   width: 100%;
+
+  @media screen and (max-width: 768px) {
+    display:none;
+  }
 `;
 
 const content = (
-  <NavContainer>
-    {navItem({
-      text: "Home",
-      id: "home",
-      icon: home,
-      iconSelected: homeSelected,
-    })}
-    {navItem({
-      text: "Register",
-      id: "register",
-      icon: register,
-      iconSelected: registerSelected,
-    })}
-    {navItem({
-      text: "Speakers",
-      id: "speakers",
-      icon: speakers,
-      iconSelected: speakersSelected,
-    })}
-    {navItem({
-      text: "Hackathon",
-      id: "hackathon",
-      icon: hackathon,
-      iconSelected: hackathonSelected,
-    })}
-    <Divider />
-    <NavItem href="https://t.me/nearcon">
-      <svg
-        width="25"
-        height="24"
-        viewBox="0 0 25 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M9.59 9C9.8251 8.33167 10.2892 7.76811 10.9 7.40913C11.5108 7.05016 12.2289 6.91894 12.9272 7.03871C13.6255 7.15849 14.2588 7.52152 14.7151 8.06353C15.1713 8.60553 15.4211 9.29152 15.42 10C15.42 12 12.42 13 12.42 13M12.5 17H12.51M22.5 12C22.5 17.5228 18.0228 22 12.5 22C6.97715 22 2.5 17.5228 2.5 12C2.5 6.47715 6.97715 2 12.5 2C18.0228 2 22.5 6.47715 22.5 12Z"
-          stroke="#3A3F42"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      <span>Help</span>
-    </NavItem>
-  </NavContainer>
-);
-
-if (props.collapsible) {
-  return (
-    <Root>
-      <Trigger>
+  <div style={{ position: "relative", minWidth: 85 }}>
+    <NavContainer>
+      {context.accountId &&
+        navItem({
+          text: "Profile",
+          id: "profile",
+          icon: profile,
+          iconSelected: profileSelected,
+        })}
+      {navItem({
+        text: "Home",
+        id: "home",
+        icon: home,
+        iconSelected: homeSelected,
+      })}
+      {navItem({
+        text: "Register",
+        id: "register",
+        icon: register,
+        iconSelected: registerSelected,
+      })}
+      {navItem({
+        text: "Speakers",
+        id: "speakers",
+        icon: speakers,
+        iconSelected: speakersSelected,
+      })}
+      {navItem({
+        text: "Schedule",
+        id: "schedule",
+        icon: schedule,
+        iconSelected: scheduleSelected,
+      })}
+      {navItem({
+        text: "Hackathon",
+        id: "hackathon",
+        icon: hackathon,
+        iconSelected: hackathonSelected,
+      })}
+      {navItem({
+        text: "Travel",
+        id: "travel",
+        icon: travel,
+        iconSelected: travelSelected,
+      })}
+      <Divider />
+      <NavItem href="https://t.me/nearcon">
         <svg
-          width="20"
-          height="14"
-          viewBox="0 0 20 14"
+          width="25"
+          height="24"
+          viewBox="0 0 25 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M1 7H19M1 1H19M1 13H19"
-            stroke="black"
+            d="M9.59 9C9.8251 8.33167 10.2892 7.76811 10.9 7.40913C11.5108 7.05016 12.2289 6.91894 12.9272 7.03871C13.6255 7.15849 14.2588 7.52152 14.7151 8.06353C15.1713 8.60553 15.4211 9.29152 15.42 10C15.42 12 12.42 13 12.42 13M12.5 17H12.51M22.5 12C22.5 17.5228 18.0228 22 12.5 22C6.97715 22 2.5 17.5228 2.5 12C2.5 6.47715 6.97715 2 12.5 2C18.0228 2 22.5 6.47715 22.5 12Z"
+            stroke="#3A3F42"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
         </svg>
-      </Trigger>
-      <Content>{content}</Content>
-    </Root>
-  );
+        <span>Help</span>
+      </NavItem>
+    </NavContainer>
+  </div>
+);
+
+// if (props.collapsible) {
+//   return (
+//     <Root>
+//       <Trigger>
+//         <svg
+//           width="20"
+//           height="14"
+//           viewBox="0 0 20 14"
+//           fill="none"
+//           xmlns="http://www.w3.org/2000/svg"
+//         >
+//           <path
+//             d="M1 7H19M1 1H19M1 13H19"
+//             stroke="black"
+//             stroke-width="2"
+//             stroke-linecap="round"
+//             stroke-linejoin="round"
+//           />
+//         </svg>
+//       </Trigger>
+//       <Content>{content}</Content>
+//     </Root>
+//   );
+// }
+
+if (!props.collapsible) {
+  return content;
 }
 
-return content;
+return <div />;
