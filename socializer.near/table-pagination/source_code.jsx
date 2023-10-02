@@ -99,7 +99,7 @@ const setEndsIn = () => {
     startTimer();
   }, 1000);
 };
-console.log(state.list, "==>list");
+console.log(state.list, "==>list", TIMER);
 if (timer && !state.loaded) setEndsIn();
 else if (!timer && TIMER) clearInterval(TIMER);
 
