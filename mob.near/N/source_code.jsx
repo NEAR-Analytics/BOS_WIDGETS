@@ -30,16 +30,16 @@ const options = [
   },
 ];
 
-if (hashtag) {
+if (state.hashtag) {
   options.splice(
     options.findIndex(({ id }) => id === "all"),
     1,
     {
       id: "hashtag",
-      title: `#${hashtag}`,
+      title: `#${state.hashtag}`,
     }
   );
-} else if (groupId) {
+} else if (state.groupId) {
   options.splice(
     options.findIndex(({ id }) => id === "all"),
     1,
@@ -164,7 +164,10 @@ return (
           props={{}}
         />
         {state.feedIndex === "group" ? (
-          <Widget src="mob.near/widget/N.Group" props={{ groupId }} />
+          <Widget
+            src="mob.near/widget/N.Group"
+            props={{ groupId: state.groupId }}
+          />
         ) : (
           <>
             {context.accountId && isPremiumFeed && !premium && (
@@ -198,7 +201,7 @@ return (
               <Widget
                 key="hash-feed"
                 src="mob.near/widget/Hashtag.N.Feed"
-                props={{ hashtag }}
+                props={{ hashtag: state.hashtag }}
               />
             ) : isPremiumFeed ? (
               <Widget
