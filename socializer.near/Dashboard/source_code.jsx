@@ -61,14 +61,14 @@ State.init({
         title: "Project/User",
         key: "accountId",
         description: "Project/User",
-        width: 20,
+        width: 16,
         project: true,
       },
       {
         title: "Near Social  Post",
         key: "social",
         description: "Near Social  Post",
-        width: 40,
+        width: 32,
         align: "center",
       },
       {
