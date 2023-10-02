@@ -96,7 +96,7 @@ return (
         <tbody>
           {data.length > 0 &&
             handlePagination()
-              .table.filter((row) => row.name.includes(searchValue ?? ""))
+              .table.filter((row) => row.accountId.includes(searchValue ?? ""))
               .map((row, i) => {
                 // .table.filter((row) =>
                 // Object.values(row).some((value) =>
