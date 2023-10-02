@@ -344,7 +344,7 @@ return (
         </TitleContent>
       </TitleComponent>
     </HeadComponent>
-    {state.campaigns.length && (
+    {state.campaigns.length !== 0 && (
       <TableComponent>
         <Widget
           src={`${Owner}/widget/table-pagination`}
