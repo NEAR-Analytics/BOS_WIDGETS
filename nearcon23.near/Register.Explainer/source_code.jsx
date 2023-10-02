@@ -84,7 +84,8 @@ const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
 
 return (
   <Container>
-    <h2>What you get</h2>
+    {/*<h2>What you get</h2>*/}
+    <h2>For $99, you get...</h2>
     <ul>
       <li>3 days of access to both Nearcon HQ and Hacker HQ venues</li>
       <li>
