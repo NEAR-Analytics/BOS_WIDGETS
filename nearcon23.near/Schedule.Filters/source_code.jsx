@@ -196,7 +196,7 @@ return (
               marginBottom: 6,
             }}
           >
-            <Widget src="nearpad.testnet/widget/Icons.Filter" />
+            <Widget src={`${accountId}/widget/Icons.Filter`} />
           </button>
         </div>
         {state.filterOn ? allSelected : null}
