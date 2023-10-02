@@ -54,6 +54,7 @@ return (
         />
       ) : (
         <Widget
+          loading=""
           src="mob.near/widget/N.Group.NotMemberCompose"
           props={{ groupId }}
         />
