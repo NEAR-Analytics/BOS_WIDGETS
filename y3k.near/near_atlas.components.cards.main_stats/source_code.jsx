@@ -39,8 +39,8 @@ State.update({
   WALLETS_CREATED: WALLETS_CREATED_RAW,
 });
 
-const MAA = state.MAA.body[0].MAA;
-const WALLETS_CREATED = state.WALLETS_CREATED[0].TOTAL_WALLETS;
+const MAA = state.MAA.body[0].MAA || [];
+const WALLETS_CREATED = state.WALLETS_CREATED[0].TOTAL_WALLETS || [];
 
 function formatNumber(num) {
   return (
