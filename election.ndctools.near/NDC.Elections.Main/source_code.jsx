@@ -330,7 +330,7 @@ return (
               props={{
                 startTime: house.start,
                 endTime: house.end,
-                cooldown: house.cooldown,
+                cooldown: state.finishTime,
                 type: "Election",
                 isWhistleblower: true,
                 ids,
