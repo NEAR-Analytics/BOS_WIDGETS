@@ -74,9 +74,9 @@ const getTimeRemaining = (e) => {
   };
 };
 console.log(data, "==>list", state.loaded);
-const startTimer = (list) => {
+const startTimer = () => {
   if (!data.length) return;
-  const compaign = list.map((row) => {
+  const compaign = data.map((row) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     if (total <= 0) {
       return {};
@@ -94,14 +94,15 @@ const startTimer = (list) => {
   });
 };
 
-const setEndsIn = (list) => {
+const setEndsIn = () => {
   if (Interval) clearInterval(Interval);
   const interval = setInterval(() => {
-    startTimer(list);
+    console.log(data, "==>list222", Interval);
+    startTimer();
   }, 1000);
   Interval = interval;
 };
-if (timer && !state.loaded) setEndsIn(data);
+if (timer && !state.loaded) setEndsIn();
 else if (!timer && Interval) clearInterval(Interval);
 
 return (
