@@ -36,10 +36,8 @@ const handleSearch = (event) => {
 };
 
 const selectMenu = (data) => {
-  State.update({ menu: data, campaigns: [] });
+  State.update({ menu: data, campaigns: [], timer_load: false });
 };
-
-let timer;
 
 State.init({
   campaigns: [],
@@ -165,6 +163,7 @@ State.init({
       subtl: "These Engage-To-Earn campaigns have ended",
     },
   },
+  timer_load: false,
 });
 
 const MainComponent = styled.div`
@@ -356,6 +355,7 @@ return (
           rowsCount: 8,
           searchValue: state.searchValue,
           timer: true,
+          timer_load: state.timer_load,
         }}
       />
     </TableComponent>
