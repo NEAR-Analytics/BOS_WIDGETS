@@ -75,6 +75,7 @@ const getTimeRemaining = (e) => {
 };
 
 const startTimer = () => {
+  console.log(state, "==>timer");
   if (!data.length) return;
   const compaign = data.map((row, index) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
@@ -164,6 +165,7 @@ return (
                 //   value.toString().includes(searchValue ?? "")
                 // )
                 // row.name.includes(searchValue ?? "")
+                if (!row) return;
                 return (
                   <tr key={row.key}>
                     {columns.map((td) => {
