@@ -79,11 +79,8 @@ const startTimer = () => {
   if (!data.length) return;
   const compaign = data.map((row, index) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
-    if (total <= 0) {
-      data.splice(index, 1);
-      clearInterval(Interval);
-      return false;
-    }
+    if (total <= 0) return false;
+
     return {
       ...row,
       endsin: `Ends in ${hours}hr ${minutes}m ${seconds}s`,
