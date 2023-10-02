@@ -1,7 +1,7 @@
 const hashtag = props.hashtag ?? null;
 const groupId = props.groupId ?? null;
 
-console.log(hashtag, groupId, JSON.stringify(hashtag));
+console.log(hashtag, groupId, JSON.stringify(state));
 
 if (!state || state.hashtag !== hashtag || groupId !== groupId) {
   State.update({
