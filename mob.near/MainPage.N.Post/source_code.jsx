@@ -7,7 +7,7 @@ const content =
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
-const groupId = props.groupId;
+const groupId = props.groupId ?? content.groupId;
 const groupIdLinkPart = groupId ? `&groupId=${groupId}` : "";
 const indexKey = props.indexKey;
 const permissions = props.permissions;
@@ -97,6 +97,8 @@ const Wrapper = styled.div`
   .left {
     margin-right: 12px;
     min-width: 40px;
+    width: 40px;
+    overflow: hidden;
   }
   .right {
     margin-top: -4px;
@@ -136,7 +138,7 @@ return (
         <Widget
           loading=""
           src="mob.near/widget/MainPage.N.Post.Left"
-          props={{ accountId }}
+          props={{ accountId, groupId }}
         />
       </div>
       <div className="right">
