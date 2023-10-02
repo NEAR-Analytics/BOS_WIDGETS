@@ -65,15 +65,6 @@ return (
           }}
         />
       )}
-      {showEditButton && (
-        <a
-          href="#/mob.near/widget/ProfileEditor"
-          className="btn mt-4 btn-outline-light float-end position-relative"
-          style={{ zIndex: 1 }}
-        >
-          Edit profile
-        </a>
-      )}
       <div
         className="profile-picture d-inline-block"
         style={{ transform: "translateY(7rem)" }}
@@ -93,8 +84,23 @@ return (
       </div>
     </div>
     <div className="px-4 pb-4">
-      <div className="d-md-flex justify-content-between pt-3 mb-2">
-        <div style={{ paddingTop: "3rem" }}>
+      <div
+        className="d-flex justify-content-end align-items-center"
+        style={{ height: "3rem" }}
+      >
+        {showEditButton && (
+          <div>
+            <a
+              href="#/mob.near/widget/ProfileEditor"
+              className="btn btn-outline-secondary rounded-5"
+            >
+              Edit profile
+            </a>
+          </div>
+        )}
+      </div>
+      <div className="d-md-flex justify-content-between mb-2 float-clear">
+        <div>
           <div className="me-2 d-sm-flex gap-1 flex-row align-items-center">
             <div className="me-2 position-relative">
               <div className="d-flex text-truncate">
