@@ -81,11 +81,7 @@ const startTimer = () => {
     if (total <= 0) {
       data.splice(index, 1);
       clearInterval(Interval);
-      State.update({
-        list: data,
-        loaded: false,
-      });
-      return;
+      return false;
     }
     return {
       ...row,
