@@ -14,14 +14,6 @@ const options = [
     text: "Expired",
     value: "expired",
   },
-  // {
-  //   text: "Claimed",
-  //   value: "claimed",
-  // },
-  // {
-  //   text: "Unclaimed",
-  //   value: "unclaimed",
-  // },
 ];
 
 const showDetail = (data) => {
@@ -172,15 +164,6 @@ State.init({
       tl: "Expired",
       subtl: "These Engage-To-Earn campaigns have ended",
     },
-    claimed: {
-      tl: "Claimed",
-      subtl: "You have claimed these rewards!",
-    },
-    // unclaimed: {
-    //   tl: "Unclaimed",
-    //   subtl:
-    //     "These are rewards yet to be claimed by you. These rewards expire  7 days after the campaign, end date.",
-    // },
   },
 });
 
@@ -427,12 +410,30 @@ return (
           viewBox="0 0 24 24"
         >
           <path
-            fill="#4886fe"
+            fill={state.menu.value === "live" ? "#4886fe" : "#139499"}
             d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
           />
         </svg>
-        {`You haven’t  participated yet`}
+        {state.menu.value === "live"
+          ? `You haven’t  participated yet`
+          : `You Won  this Campaign`}
       </div>
+      {state.menu.value === "live" && (
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill={"#be7c05"}
+              d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
+            />
+          </svg>
+          {`You lost  this Campaign`}
+        </div>
+      )}
       <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -445,7 +446,9 @@ return (
             d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
           />
         </svg>
-        {`You  have already entered`}
+        {state.menu.value === "live"
+          ? `You haven’t  participated yet`
+          : `You haven’t  participated`}
       </div>
     </div>
     {state.show_detail && state.selected && (
