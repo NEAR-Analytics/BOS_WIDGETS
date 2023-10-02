@@ -96,11 +96,11 @@ return (
         <tbody>
           {data.length > 0 &&
             handlePagination()
-              .table.filter((row) =>
-                (
-                  Social.getr(`${row.accountId}/profile`).name ?? row.accountId
-                ).includes(searchValue ?? "")
-              )
+              .table.filter((row) => {
+                const profile = Social.getr(`${row.accountId}/profile`);
+                const name = profile.name ?? row.accountId;
+                return name.includes(searchValue ?? "");
+              })
               .map((row, i) => {
                 // .table.filter((row) =>
                 // Object.values(row).some((value) =>
