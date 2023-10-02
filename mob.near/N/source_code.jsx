@@ -1,6 +1,8 @@
 const hashtag = props.hashtag ?? null;
 const groupId = props.groupId ?? null;
 
+console.log(hashtag, groupId, JSON.stringify(hashtag));
+
 if (!state || state.hashtag !== hashtag || groupId !== groupId) {
   State.update({
     feedIndex: hashtag ? "hashtag" : groupId ? "group" : "premium",
