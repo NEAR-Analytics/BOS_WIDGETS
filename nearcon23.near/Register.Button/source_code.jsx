@@ -1,12 +1,12 @@
 const ownerId = "nearcon23.near";
 
-const Link = styled.a`
+const Anchor = styled.a`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
-  width: 10.625em;
+  min-width: 10.625em;
   gap: 0.5em;
   border: 1px solid #00ec97;
   border-radius: 50px;
@@ -30,7 +30,7 @@ const Link = styled.a`
 `;
 
 return (
-  <Link href={props.href ?? `/${ownerId}/widget/Index?tab=register`}>
-    Register
-  </Link>
+  <Anchor href={props.href ?? `/${ownerId}/widget/Index?tab=register`}>
+    Register $99
+  </Anchor>
 );
