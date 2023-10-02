@@ -45,10 +45,10 @@ const VotesContainer = styled.div`
   flex-direction: row;
   justify-content: space-around;
   padding: 0;
-  gap: 1em;
+  gap: 0.5em;
   width: 100%;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1400px) {
     flex-direction: column;
   }
 `;
