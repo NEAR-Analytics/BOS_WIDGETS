@@ -74,9 +74,9 @@ return (
       </div>
     </div>
     <div className="px-4 pb-1">
-      <div className="d-md-flex justify-content-between pt-3 mb-2">
+      <div className="d-flex justify-content-between pt-3 mb-2">
         <div style={{ paddingTop: "3rem" }}>
-          <div className="me-2 d-sm-flex gap-1 flex-row align-items-center">
+          <div className="me-2 d-flex gap-1 flex-row align-items-center">
             <div className="me-2 position-relative">
               {link ? (
                 <a className="text-truncate text-dark" href={link}>
