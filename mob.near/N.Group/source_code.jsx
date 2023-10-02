@@ -50,7 +50,10 @@ return (
           props={{ indexKey, groupId }}
         />
       ) : (
-        "Only owners of this NFT collection can post, comment and repost"
+        <Widget
+          src="mob.near/widget/N.Group.NotMemberCompose"
+          props={{ groupId }}
+        />
       ))}
     <Widget
       src="mob.near/widget/MainPage.N.Feed"
