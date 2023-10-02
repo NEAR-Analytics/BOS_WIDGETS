@@ -1,5 +1,5 @@
-const hashtag = props.hashtag;
-const groupId = props.groupId;
+const hashtag = props.hashtag ?? null;
+const groupId = props.groupId ?? null;
 
 if (!state || state.hashtag !== hashtag || groupId !== groupId) {
   State.update({
