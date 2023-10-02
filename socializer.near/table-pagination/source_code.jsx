@@ -71,9 +71,10 @@ const getTimeRemaining = (e) => {
     seconds,
   };
 };
-
+console.log(data, "==>list");
 const startTimer = () => {
   if (!data.length) return;
+  console.log(data, "==>list222");
   const compaign = data.map((row) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     if (total <= 0) {
@@ -91,7 +92,6 @@ const startTimer = () => {
     loaded: true,
   });
 };
-console.log(data, "==>list");
 
 const setEndsIn = () => {
   // if (state.interval) clearInterval(state.interval);
