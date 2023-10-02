@@ -3,7 +3,7 @@
 // add search for filtering left side rooms
 const feeds = [
   {
-    name: "all",
+    name: "All Posts",
     data: {
       sources: [
         {
@@ -12,6 +12,38 @@ const feeds = [
         },
       ],
       typeWhitelist: ["md"],
+    },
+  },
+  {
+    name: "OpenCann.net",
+    data: {
+      sources: [
+        {
+          domain: "post",
+          key: "main",
+        },
+      ],
+      typeWhitelist: ["md"],
+      hashtagWhitelist: [
+        "opencann",
+        "cannsta",
+        "cannstagram",
+        "reeferdao",
+        "cannadata",
+      ],
+    },
+  },
+  {
+    name: "Cannstagram",
+    data: {
+      sources: [
+        {
+          domain: "post",
+          key: "main",
+        },
+      ],
+      typeWhitelist: ["md"],
+      hashtagWhitelist: ["cannsta", "cannstagram"],
     },
   },
   {
@@ -44,7 +76,7 @@ const feeds = [
         },
       ],
       typeWhitelist: ["md"],
-      hashtagWhitelist: ["data", "data-science", "database"],
+      hashtagWhitelist: ["data", "data-science", "database", "cannadata"],
     },
   },
   {
