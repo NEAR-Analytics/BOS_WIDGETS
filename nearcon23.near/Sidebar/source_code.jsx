@@ -16,22 +16,7 @@ const profileSelected = (
   <Widget src={`${ownerId}/widget/Icons.ProfileSelected`} />
 );
 
-// const profile = profileSelected;
-const profile = (
-  <svg
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M20.2911 20.6805C23.4764 21.7214 29.999 27 27.9969 27C27.9969 27 8.49821 27 3.99907 27C-0.500066 27 8.51958 21.7214 11.7048 20.6805L13.7973 19.9968L11.9058 18.8707C10.4004 17.9746 9.23087 16.609 8.5767 14.9838C7.92252 13.3586 7.81992 11.5636 8.28464 9.87445C8.74937 8.18528 9.75573 6.69538 11.1491 5.63352C12.5426 4.57167 14.2461 3.99658 15.998 3.99658C17.7499 3.99658 19.4534 4.57167 20.8468 5.63352C22.2403 6.69537 23.2466 8.18528 23.7114 9.87445C24.1761 11.5636 24.0735 13.3586 23.4193 14.9838C22.7651 16.609 21.5956 17.9746 20.0902 18.8707L18.1986 19.9968L20.2911 20.6805Z"
-      stroke="#343330"
-      stroke-width="2"
-    />
-  </svg>
-);
+const profile = profileSelected;
 
 const homeSelected = (
   <svg
@@ -168,54 +153,6 @@ const NavItem = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
     flex-direction: row;
-    background-color: #f2f1ea;
-
-    border-radius: 0;
-    display: flex;
-    justify-content: flex-start;
-
-    min-height: 60px;
-    margin: 0px;
-    border-bottom: 1px #dbdbd7 solid;
-  }
-
-  &:hover {
-    color: #667085;
-    text-decoration: none;
-    background-color: #f9fafb;
-  }
-
-  span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-`;
-
-const NavItemLink = styled.a`
-  position: relative;
-  cursor: pointer;
-  padding: 0.5em;
-  margin: 0.25em 0;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 0.8em;
-  line-height: 1em;
-  color: #3a3f42;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background-color 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.75em;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    flex-direction: row;
-    background-color: #f2f1ea;
 
     border-radius: 0;
     display: flex;
@@ -241,22 +178,15 @@ const NavItemLink = styled.a`
 `;
 
 const navItem = ({ text, icon, id, iconSelected }) => (
-  <Link to={`/${id}`} style={{ textDecoration: "none" }}>
-    <NavItem
-      // href={`/${ownerId}/widget/Index?tab=${id}`}
-      // href={`?tab=${id}`}
-      // href={"#"}
-      onClick={() => {
-        props.update({
-          tab: id,
-          collapsible: true,
-        });
-      }}
-    >
-      {id === props.tab ? iconSelected : icon}
-      <span>{text}</span>
-    </NavItem>
-  </Link>
+  <NavItem
+    // href={`/${ownerId}/widget/Index?tab=${id}`}
+    // href={`?tab=${id}`}
+    // href={"#"}
+    onClick={() => props.update({ tab: id })}
+  >
+    {id === props.tab ? iconSelected : icon}
+    <span>{text}</span>
+  </NavItem>
 );
 
 const NavContainer = styled.div`
@@ -264,21 +194,12 @@ const NavContainer = styled.div`
   flex-direction: column;
   margin-right: 2.5em;
   gap: 0.8em;
-  max-height:90vh;
-     -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
-::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
-}
+
   position: fixed;
   top: 120px;
 
   @media screen and (max-width: 768px) {
-    width: 90%;
-    z-index:1;
-    margin-left:5px;
-    border-top-right-radius:5px;
-    border-top-left-radius:5px;
+    width: 100%;
     gap: 0px;
     background-color: #f2f1ea;
     margin-right: 0px;
@@ -392,9 +313,9 @@ const Divider = styled.hr`
 `;
 
 const content = (
-  <div style={{ minWidth: 85 }}>
-    <NavContainer style={{ overflow: "auto", paddingBottom: 100 }}>
-      {!!context.accountId &&
+  <div style={{ position: "relative", minWidth: 85 }}>
+    <NavContainer>
+      {context.accountId &&
         navItem({
           text: "Profile",
           id: "profile",
@@ -419,25 +340,16 @@ const content = (
         icon: speakers,
         iconSelected: speakersSelected,
       })}
-      {navItem({
-        text: "Schedule",
-        id: "schedule",
-        icon: schedule,
-        iconSelected: scheduleSelected,
-      })}
+      
       {navItem({
         text: "Hackathon",
         id: "hackathon",
         icon: hackathon,
         iconSelected: hackathonSelected,
       })}
-      {navItem({
-        text: "Travel",
-        id: "travel",
-        icon: travel,
-        iconSelected: travelSelected,
-      })}
-      <NavItemLink target="_blank" href="https://t.me/nearcon">
+     
+      <Divider />
+      <NavItem href="https://t.me/nearcon">
         <svg
           width="25"
           height="24"
@@ -454,10 +366,35 @@ const content = (
           />
         </svg>
         <span>Help</span>
-      </NavItemLink>
+      </NavItem>
     </NavContainer>
   </div>
 );
+
+// if (props.collapsible) {
+//   return (
+//     <Root>
+//       <Trigger>
+//         <svg
+//           width="20"
+//           height="14"
+//           viewBox="0 0 20 14"
+//           fill="none"
+//           xmlns="http://www.w3.org/2000/svg"
+//         >
+//           <path
+//             d="M1 7H19M1 1H19M1 13H19"
+//             stroke="black"
+//             stroke-width="2"
+//             stroke-linecap="round"
+//             stroke-linejoin="round"
+//           />
+//         </svg>
+//       </Trigger>
+//       <Content>{content}</Content>
+//     </Root>
+//   );
+// }
 
 if (!props.collapsible) {
   return content;
