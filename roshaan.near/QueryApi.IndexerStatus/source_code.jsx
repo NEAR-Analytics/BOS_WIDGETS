@@ -3,7 +3,10 @@ const indexer_name = "social_feed";
 
 const LIMIT = 20;
 const accountId = "dataplatform.near";
-console.log(Storage.get("QueryAPIV2Toggle"), "toggle value");
+console.log(
+  Storage.get("QueryAPIV2Toggle", "roshaan.near/widget/QueryApi.IndexerStatus"),
+  "toggle value"
+);
 const H2 = styled.h2`
   font-size: 19px;
   line-height: 22px;
