@@ -1,6 +1,4 @@
 const ownerId = "nearcon23.near";
-const apiUrl =
-  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
 const availableTabs = [
   "home",
   "register",
@@ -12,30 +10,6 @@ const availableTabs = [
   "profile",
   "travel",
 ];
-
-const { secretkey } = props;
-
-const storedSecretKey = Storage.get(
-  "newPrivateKey",
-  `${ownerId}/widget/Ticket.Page`
-)
-  ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
-  : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
-
-const fetchData = () => {
-  const key = secretkey ? secretkey : storedSecretKey;
-  asyncFetch(`${apiUrl}/accounts/auth/${key}`).then(({ body }) => {
-    State.update({ redirectToMobile: !!body?.nearconId });
-  });
-};
-
-useEffect(() => {
-  fetchData();
-}, [secretkey, storedSecretKey]);
-
-if (state.redirectToMobile) {
-  return <Redirect to="/mobile" />;
-}
 
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
@@ -50,12 +24,13 @@ State.init({
   collapsible: true,
 });
 
+const showSidebar = ![].includes(state.tab);
 const isForm = [].includes(state.tab);
 
 const update = (state) => State.update(state);
 
 const tabContentWidget = {
-  profile: "Profile.Page",
+  //profile: "Profile.Page",
   home: "Home.Page",
   register: "Register.Page",
   hackathon: "Hackathon.Page",
@@ -96,6 +71,7 @@ const ContentContainer = styled.div`
 `;
 
 const Sidebar = styled.div`
+  display: ${({ show }) => (show ? "flex" : "none")};
   flex-direction: row;
   position: sticky;
   top: 0;
@@ -134,20 +110,19 @@ return (
   <Container>
     <Widget
       src={`${ownerId}/widget/Navbar`}
-      props={{ update, collapsible: state.collapsible }}
+      props={{ update, showSidebar, collapsible: state.collapsible }}
     />
     <Content>
-      <Sidebar>
+      <Sidebar show={showSidebar}>
         <Widget
           src={`${ownerId}/widget/Sidebar`}
-          props={{
-            tab: state.tab,
-            update,
-            collapsible: state.collapsible,
-          }}
+          // props={{ tab: state.tab, update, collapsible: true }}
+          props={{ tab: state.tab, update, collapsible: state.collapsible }}
         />
+
         <Widget
           src={`${ownerId}/widget/Sidebar`}
+          // props={{ tab: state.tab, update, collapsible: false }}
           props={{ tab: state.tab, update, collapsible: false }}
         />
       </Sidebar>
