@@ -177,10 +177,11 @@ return (
               loading=""
               src="mob.near/widget/N.RepostButton"
               props={{
-                disabled: permissions.disableRepost,
+                disableGroupRepost: permissions.disableRepost,
                 notifyAccountId,
                 item,
-                indexKey,
+                // indexKey,
+                // groupId,
               }}
             />
             <Widget
