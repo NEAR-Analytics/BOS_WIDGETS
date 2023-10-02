@@ -3,6 +3,8 @@ const [selected, setSelected] = useState({});
 
 const options = props.options ?? [];
 
+const accountId = "nearcon23.near";
+
 console.log(selected);
 
 const handleCheckboxChange = (id) => {
@@ -68,7 +70,7 @@ return (
         {options.map((item) => (
           <div style={{ marginTop: 15 }}>
             <Widget
-              src="nearpad.testnet/widget/Inputs.Checkbox"
+              src={`${accountId}/widget/Inputs.Checkbox`}
               props={{
                 label: item.label,
                 color: item.color ?? "#000",
