@@ -282,9 +282,9 @@ const getTimeRemaining = (e) => {
   };
 };
 
-const startTimer = () => {
+const startTimer = (data) => {
   if (!state.campaigns.length) return;
-  const data = state.campaigns.map((row) => {
+  const compaign = data.map((row) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     if (total <= 0) {
       return {};
@@ -295,17 +295,17 @@ const startTimer = () => {
     };
   });
 
-  if (!data.length) return;
+  if (!compaign.length) return;
   State.update({
-    campaigns: data,
+    campaigns: compaign,
   });
 };
 
-const setEndsIn = () => {
+const setEndsIn = (data) => {
   if (timer) clearInterval(timer);
   if (state.menu.value !== "live") return;
   timer = setInterval(() => {
-    startTimer();
+    startTimer(data);
   }, 1000);
 };
 
@@ -319,7 +319,7 @@ const getCampaignData = (type) => {
       State.update({
         campaigns: data,
       });
-      setEndsIn();
+      setEndsIn(data);
     }
   });
 };
