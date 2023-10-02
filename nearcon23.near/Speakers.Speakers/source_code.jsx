@@ -1,9 +1,6 @@
 const ownerId = "nearcon23.near";
-
 const apiKey =
   "patWQQ6FY8H5O8wTY.4b08b48ac31aa13eb9fea974cfa60e103ae7297c010d4fe752e1abb37bd24c9d";
-// const apiKey =
-//   "patOH9NyQAOS284vt.f2def1ed9bfc2c5d8679d23e00f4a524f4ac446e7dbf05d91496595c58ac72e9";
 
 const Container = styled.div`
   display: flex;
@@ -36,9 +33,8 @@ State.init({
 });
 
 if (!state.speakersIsFetched) {
-  // "https://api.airtable.com/v0/appcR9zt96Wv7VXWl/tbl8IoEJuAorcE7qQ?fields%5B%5D=Name&fields%5B%5D=Headshot",
   asyncFetch(
-    "https://api.airtable.com/v0/appQ5KiH1VkoRuhME/tbl9gfpl5Ra30INUU?fields%5B%5D=Name&fields%5B%5D=Headshot",
+    "https://api.airtable.com/v0/appcR9zt96Wv7VXWl/tbl8IoEJuAorcE7qQ?fields%5B%5D=Name&fields%5B%5D=Headshot",
     {
       headers: {
         Authorization: `Bearer ${apiKey}`,
