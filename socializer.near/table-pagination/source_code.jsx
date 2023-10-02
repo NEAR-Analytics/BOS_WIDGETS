@@ -93,15 +93,12 @@ const startTimer = () => {
 };
 
 const setEndsIn = () => {
-  if (state.interval) clearInterval(state.interval);
+  // if (state.interval) clearInterval(state.interval);
   const interval = setInterval(() => {
     startTimer();
   }, 1000);
-  State.update({
-    interval,
-  });
 };
-console.log(state.list, "==>list", state.interval);
+console.log(state.list, "==>list");
 if (timer && !state.loaded) setEndsIn();
 else if (!timer && state.interval) clearInterval(state.interval);
 
