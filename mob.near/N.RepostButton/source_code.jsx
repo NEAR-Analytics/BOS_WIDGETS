@@ -142,6 +142,14 @@ const quoteSvg = (
   </svg>
 );
 
+const Loading = (
+  <span
+    className="spinner-grow spinner-grow-sm me-1"
+    role="status"
+    aria-hidden="true"
+  />
+);
+
 return (
   <div
     className="d-inline-flex align-items-center"
@@ -169,7 +177,7 @@ return (
       <ul className="dropdown-menu">
         <li>
           <button className="dropdown-item" onClick={() => repostClick("main")}>
-            {repostSvg} Repost
+            {state.loading && Loading} {repostSvg} Repost
           </button>
         </li>
         {groupId && (
