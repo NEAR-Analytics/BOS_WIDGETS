@@ -97,8 +97,6 @@ const startTimer = () => {
 const setEndsIn = () => {
   if (Interval) clearInterval(Interval);
   const interval = setInterval(() => {
-    console.log(data, "==>list222");
-
     startTimer();
   }, 1000);
   Interval = interval;
