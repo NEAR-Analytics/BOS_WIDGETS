@@ -93,9 +93,9 @@ State.init({
         align: "left",
       },
       {
-        title: "Status",
-        key: "status",
-        description: "Status",
+        title: "Winners",
+        key: "winners",
+        description: "Winners",
         width: 10,
         align: "center",
         button: true,
