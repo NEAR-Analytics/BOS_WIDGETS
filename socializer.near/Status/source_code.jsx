@@ -1,7 +1,7 @@
 const menu = props.menu ?? { value: "live" };
 
 return (
-  <div className="d-flex" style={{ gap: 25, paddingLeft: 30, marginTop: -50 }}>
+  <div className="d-flex" style={{ gap: 50, paddingLeft: 30, marginTop: -50 }}>
     <div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +47,7 @@ return (
         />
       </svg>
       {menu.value === "live"
-        ? `You  have already entered`
+        ? `You haven’t  participated yet`
         : `You haven’t  participated`}
     </div>
   </div>
