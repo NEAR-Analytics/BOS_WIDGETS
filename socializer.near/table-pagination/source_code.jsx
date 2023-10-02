@@ -76,10 +76,16 @@ const getTimeRemaining = (e) => {
 
 const startTimer = () => {
   if (!data.length) return;
-  const compaign = data.map((row) => {
+  const compaign = data.map((row, index) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     if (total <= 0) {
-      return {};
+      data.splice(index, 1);
+      clearInterval(Interval);
+      State.update({
+        list: data,
+        loaded: false,
+      });
+      return;
     }
     return {
       ...row,
