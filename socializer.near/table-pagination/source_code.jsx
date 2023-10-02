@@ -96,13 +96,13 @@ return (
         <tbody>
           {data.length > 0 &&
             handlePagination()
-              .table.filter((row) =>
+              .table.filter((row) => row.name.includes(searchValue ?? ""))
+              .map((row, i) => {
+                // .table.filter((row) =>
                 // Object.values(row).some((value) =>
                 //   value.toString().includes(searchValue ?? "")
                 // )
-                row.name.includes(searchValue ?? "")
-              )
-              .map((row, i) => {
+                // row.name.includes(searchValue ?? "")
                 return (
                   <tr key={row.key}>
                     {columns.map((td) => {
