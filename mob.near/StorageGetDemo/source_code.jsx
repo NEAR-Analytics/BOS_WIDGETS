@@ -5,7 +5,8 @@ return (
       {Storage.get("lastBlockHeight", "mob.near/widget/NotificationFeed")}
     </div>
     <div>
-      near.org: {Storage.get("lastBlockHeight", "near/widget/NotificationPage")}
+      near.org:{" "}
+      {Storage.get("lastBlockHeight", "near/widget/NotificationsPage")}
     </div>
   </div>
 );
