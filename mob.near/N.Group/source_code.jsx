@@ -27,7 +27,7 @@ query Owners {
 const nftMetadata = Near.view(groupId, "nft_metadata");
 
 if (!data.ok || !nftMetadata) {
-  return;
+  return "";
 }
 
 const owners = data.body.data.mb_views_nft_tokens.map((o) => o.owner);
