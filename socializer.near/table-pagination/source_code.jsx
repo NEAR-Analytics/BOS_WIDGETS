@@ -75,7 +75,6 @@ const getTimeRemaining = (e) => {
 };
 
 const startTimer = () => {
-  console.log(state, "==>timer", Interval);
   if (!data.length) return;
   const compaign = data.map((row, index) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
