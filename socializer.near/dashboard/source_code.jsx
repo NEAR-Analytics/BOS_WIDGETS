@@ -303,6 +303,7 @@ const startTimer = () => {
 
 const setEndsIn = () => {
   if (timer) clearInterval(timer);
+  if (state.menu.value !== "live") return;
   timer = setInterval(() => {
     startTimer();
   }, 1000);
