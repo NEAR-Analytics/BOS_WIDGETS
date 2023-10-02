@@ -4,8 +4,11 @@ const availableTabs = [
   "register",
   "hackathon",
   "speakers",
+  "schedule",
   "terms",
   "ticket",
+  "profile",
+  "travel",
 ];
 
 const getTab = (tab) => {
@@ -16,19 +19,27 @@ const getTab = (tab) => {
   return tab;
 };
 
-const showSidebar = ![].includes(props.tab);
-const isForm = [].includes(props.tab);
+State.init({
+  tab: getTab(props.tab),
+  collapsible: true,
+});
+
+const showSidebar = ![].includes(state.tab);
+const isForm = [].includes(state.tab);
 
 const update = (state) => State.update(state);
 
 const tabContentWidget = {
+  //profile: "Profile.Page",
   home: "Home.Page",
   register: "Register.Page",
   hackathon: "Hackathon.Page",
   speakers: "Speakers.Page",
+  schedule: "Schedule.Page",
   terms: "Terms.Page",
   ticket: "Ticket.Page",
-}[getTab(props.tab)];
+  travel: "Travel.Page",
+}[state.tab];
 
 const tabContent = (
   <Widget
@@ -97,18 +108,25 @@ const Container = styled.div``;
 
 return (
   <Container>
-    <Widget src={`${ownerId}/widget/Navbar`} props={{ update }} />
+    <Widget
+      src={`${ownerId}/widget/Navbar`}
+      props={{ update, showSidebar, collapsible: state.collapsible }}
+    />
     <Content>
       <Sidebar show={showSidebar}>
         <Widget
           src={`${ownerId}/widget/Sidebar`}
-          props={{ tab: props.tab, update, collapsible: true }}
+          // props={{ tab: state.tab, update, collapsible: true }}
+          props={{ tab: state.tab, update, collapsible: state.collapsible }}
         />
+
         <Widget
           src={`${ownerId}/widget/Sidebar`}
-          props={{ tab: props.tab, update, collapsible: false }}
+          // props={{ tab: state.tab, update, collapsible: false }}
+          props={{ tab: state.tab, update, collapsible: false }}
         />
       </Sidebar>
+
       <ContentContainer className={isForm ? "form" : ""}>
         {tabContent}
         <Widget src={`${ownerId}/widget/Footer`} />
