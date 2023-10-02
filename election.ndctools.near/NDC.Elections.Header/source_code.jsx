@@ -18,9 +18,7 @@ const timer = setInterval(() => {
   const now = new Date().getTime();
   const start = new Date(parseInt(startTime)).getTime();
   const end = new Date(parseInt(endTime)).getTime();
-  const coold =
-    new Date(parseInt(endTime)).getTime() +
-    new Date(parseInt(cooldown)).getTime();
+  const coold = new Date(parseInt(cooldown)).getTime();
   let title = "";
 
   let diff;
