@@ -14,6 +14,15 @@ const GroupLink = styled.a`
   }
 `;
 
+const groupInner = groupId ? (
+  <div style={imgWrapperStyle}>
+    <img
+      src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/nft/${groupId}`}
+      alt={`Group icon: ${groupId}`}
+    />
+  </div>
+) : null;
+
 return (
   <>
     <a
@@ -35,12 +44,19 @@ return (
     </a>
     {groupId && (
       <GroupLink href={`?groupId=${groupId}`}>
-        <div style={imgWrapperStyle}>
-          <img
-            src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/nft/${groupId}`}
-            alt={`Group icon: ${groupId}`}
-          />
-        </div>
+        <Widget
+          loading={groupInner}
+          src="mob.near/widget/N.Common.OverlayTrigger"
+          props={{
+            popup: (
+              <Widget
+                src="mob.near/widget/N.Group.Header"
+                props={{ groupId, noBorder: true, link: true }}
+              />
+            ),
+            children: groupInner,
+          }}
+        />
       </GroupLink>
     )}
   </>
