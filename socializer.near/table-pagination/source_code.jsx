@@ -100,7 +100,9 @@ return (
               .table.filter((row) => {
                 const profile = Social.getr(`${row.accountId}/profile`);
                 const name = profile.name ?? row.accountId;
-                return name.includes(searchValue ?? "");
+                return name
+                  .toLocaleLowerCase()
+                  .includes(searchValue.toLocaleLowerCase() ?? "");
               })
               .map((row, i) => {
                 // .table.filter((row) =>
