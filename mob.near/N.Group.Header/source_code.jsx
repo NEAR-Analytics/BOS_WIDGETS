@@ -25,8 +25,7 @@ const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
 
 const Wrapper = styled.div`
   overflow: hidden;
-  margin: 0 -12px; 
-  border-bottom: 1px solid #eee; 
+  margin: 0 -12px;
 `;
 
 const shareSvg = (
@@ -45,7 +44,15 @@ const shareSvg = (
 );
 
 return (
-  <Wrapper>
+  <Wrapper
+    style={
+      props.noBorder
+        ? undefined
+        : {
+            borderBottom: "1px solid #eee",
+          }
+    }
+  >
     <div className="px-4 pt-0 pb-5 bg-dark position-relative">
       {backgroundImage && (
         <Widget
@@ -98,23 +105,25 @@ return (
               </div>
             </div>
           </div>
-          <div>
-            <div className="d-flex flex-row">
-              <div className="me-4">
-                <a
-                  href={`#/mob.near/widget/FollowPage?accountId=${accountId}&tab=following`}
-                  className="text-dark"
-                >
-                  {owners && owners.length > 0 ? (
-                    <span className="fw-bolder">{owners.length}</span>
-                  ) : (
-                    "?"
-                  )}{" "}
-                  <span className="text-muted">Members</span>
-                </a>
+          {owners !== undefined && (
+            <div>
+              <div className="d-flex flex-row">
+                <div className="me-4">
+                  <a
+                    href={`#/mob.near/widget/FollowPage?accountId=${accountId}&tab=following`}
+                    className="text-dark"
+                  >
+                    {owners && owners.length > 0 ? (
+                      <span className="fw-bolder">{owners.length}</span>
+                    ) : (
+                      "?"
+                    )}{" "}
+                    <span className="text-muted">Members</span>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
         {/*
         <div style={{ minWidth: "12rem" }}>
