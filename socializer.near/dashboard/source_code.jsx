@@ -418,7 +418,7 @@ return (
           ? `You haven’t  participated yet`
           : `You Won  this Campaign`}
       </div>
-      {state.menu.value === "live" && (
+      {state.menu.value !== "live" && (
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
