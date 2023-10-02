@@ -340,24 +340,14 @@ const content = (
         icon: speakers,
         iconSelected: speakersSelected,
       })}
-      {navItem({
-        text: "Schedule",
-        id: "schedule",
-        icon: schedule,
-        iconSelected: scheduleSelected,
-      })}
+      
       {navItem({
         text: "Hackathon",
         id: "hackathon",
         icon: hackathon,
         iconSelected: hackathonSelected,
       })}
-      {navItem({
-        text: "Travel",
-        id: "travel",
-        icon: travel,
-        iconSelected: travelSelected,
-      })}
+     
       <Divider />
       <NavItem href="https://t.me/nearcon">
         <svg
