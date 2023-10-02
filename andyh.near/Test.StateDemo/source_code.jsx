@@ -12,7 +12,7 @@ return (
         <Widget
           id="trusted"
           src="andyh.near/widget/StateDemoRoot"
-          isTrusted={true}
+          isTrusted
           props={{ title: "State across Trusted Components" }}
         />
       </div>
