@@ -9,8 +9,7 @@ State.init({ currentPage: 1, list: data });
 const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
 const timer = props.timer ?? false;
-
-let TIMER = null;
+let TIMER = props.TIMER ?? null;
 
 const handlePagination = () => {
   if (!rowsCount) return { table: state.list };
