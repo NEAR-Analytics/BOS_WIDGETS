@@ -9,7 +9,6 @@ State.init({ currentPage: 1, list: data, loaded: false });
 const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
 const timer = props.timer ?? false;
-let TIMER = props.TIMER ?? null;
 
 const handlePagination = () => {
   if (!rowsCount) return { table: state.list };
@@ -94,14 +93,17 @@ const startTimer = () => {
 };
 
 const setEndsIn = () => {
-  if (TIMER) clearInterval(TIMER);
-  TIMER = setInterval(() => {
+  if (state.interval) clearInterval(state.interval);
+  const interval = setInterval(() => {
     startTimer();
   }, 1000);
+  State.update({
+    interval,
+  });
 };
-console.log(state.list, "==>list", TIMER);
+console.log(state.list, "==>list", state.interval);
 if (timer && !state.loaded) setEndsIn();
-else if (!timer && TIMER) clearInterval(TIMER);
+else if (!timer && state.interval) clearInterval(state.interval);
 
 return (
   <div className="table-responsive" style={{ backgroundColor: "#FAFAFA" }}>
