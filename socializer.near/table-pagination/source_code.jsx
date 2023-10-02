@@ -98,6 +98,7 @@ return (
           {data.length > 0 &&
             handlePagination()
               .table.filter((row) => {
+                if (!searchValue) return true;
                 const profile = Social.getr(`${row.accountId}/profile`);
                 const name = profile.name ?? row.accountId;
                 return name
