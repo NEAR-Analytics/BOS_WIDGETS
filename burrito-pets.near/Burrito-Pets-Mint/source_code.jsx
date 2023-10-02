@@ -1,7 +1,7 @@
-const virtualPetContract = "0x559bB1D9a4236e6Fc3D3314c8832Ddf5476606C2";
+const virtualPetContract = "0xc533FCB43DEf76ac1A175Ee6beB0Ad7d39469220";
 
 const virtualPetAbi = fetch(
-  "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/ABI.json"
+  "https://raw.githubusercontent.com/cloudmex/burritobattle-pet/main/ABI.txt"
 );
 
 if (!virtualPetAbi.ok) {
