@@ -81,7 +81,7 @@ const tabContentWidget = {
   list: "agwaze.near/widget/GenaDrop.NFTListing",
   nearNFTs: "agwaze.near/widget/GenaDrop.Explore",
   socials: "genadrop.near/widget/GenaDrop.Home",
-  community: "mob.near/widget/N.Group?groupId=nft.genadrop.near",
+  community: "mob.near/widget/N.Group",
   ai: "0xprometheus.near/widget/Genadrop-Ai-Minter",
   swap: "harrydhillon.near/widget/NFTSwap.NFT-Trade",
 }[state.tab];
