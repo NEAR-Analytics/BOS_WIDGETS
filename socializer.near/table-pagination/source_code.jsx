@@ -4,7 +4,7 @@ if (!props.data || !props.columns) {
 
 const { data, columns, searchValue } = props;
 
-State.init({ currentPage: 1, list: data });
+State.init({ currentPage: 1, list: data, loaded: false });
 
 const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
@@ -89,6 +89,7 @@ const startTimer = () => {
   if (!compaign.length) return;
   State.update({
     list: compaign,
+    loaded: true,
   });
 };
 
@@ -100,7 +101,7 @@ const setEndsIn = () => {
   }, 1000);
 };
 
-if (timer) setEndsIn();
+if (timer && !state.loaded) setEndsIn();
 else if (!timer && TIMER) clearInterval(TIMER);
 
 return (
