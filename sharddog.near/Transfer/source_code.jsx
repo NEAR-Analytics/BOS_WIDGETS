@@ -110,7 +110,8 @@ return (
       <div className="mb-2">
         Missed a panel?
         <br />
-        Pay what you want (even zero) and then claim this panel through the link below.
+        Pay what you want (even zero) and then claim this panel through the link
+        below.
         <br />
         <input
           type="number"
@@ -123,11 +124,7 @@ return (
     {state.showReceiver && (
       <div className="mb-2">
         Receiver Address
-        <input
-          type="text"
-          readOnly={true}
-          placeholder={state.receiver}
-        />
+        <input type="text" readOnly={true} placeholder={state.receiver} />
       </div>
     )}
 
