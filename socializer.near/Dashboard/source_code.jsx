@@ -304,6 +304,7 @@ const startTimer = (data) => {
 const setEndsIn = (data) => {
   if (timer) clearInterval(timer);
   if (state.menu.value !== "live") return;
+  console.log(timer, "==>timer");
   timer = setInterval(() => {
     startTimer(data);
   }, 1000);
@@ -399,59 +400,15 @@ return (
         }}
       />
     </TableComponent>
-    <div
-      className="d-flex"
-      style={{ gap: 50, paddingLeft: 30, marginTop: -50 }}
-    >
-      <div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
-          <path
-            fill={state.menu.value === "live" ? "#4886fe" : "#139499"}
-            d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
-          />
-        </svg>
-        {state.menu.value === "live"
-          ? `You haven’t  participated yet`
-          : `You Won  this Campaign`}
-      </div>
-      {state.menu.value !== "live" && (
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill={"#be7c05"}
-              d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
-            />
-          </svg>
-          {`You lost  this Campaign`}
-        </div>
-      )}
-      <div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-        >
-          <path
-            fill="currentColor"
-            d="M9.043 5.793L2.836 12l6.207 6.207l1.414-1.414L5.664 12l4.793-4.793l-1.414-1.414Zm5.914 12.414L21.164 12l-6.207-6.207l-1.414 1.414L18.336 12l-4.793 4.793l1.414 1.414Z"
-          />
-        </svg>
-        {state.menu.value === "live"
-          ? `You haven’t  participated yet`
-          : `You haven’t  participated`}
-      </div>
-    </div>
+
+    <Widget
+      props={{
+        API_URL,
+        menu: state.menu,
+      }}
+      src={`${Owner}/widget/Status`}
+    />
+
     {state.show_detail && state.selected && (
       <Widget
         props={{
