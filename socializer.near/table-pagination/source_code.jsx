@@ -95,7 +95,7 @@ const startTimer = () => {
 
 const setEndsIn = () => {
   if (TIMER) clearInterval(TIMER);
-  console.log(TIMER, "==>TIMER");
+  console.log(TIMER, "==>TIMER", timer);
   TIMER = setInterval(() => {
     startTimer();
   }, 1000);
