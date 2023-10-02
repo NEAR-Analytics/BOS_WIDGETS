@@ -339,7 +339,9 @@ return (
             />
             <Button
               onClick={() => {
-                changePage("new_campaigns");
+                if (accountId) {
+                  changePage("new_campaigns");
+                }
               }}
             >
               {"+ Create New Campaigns"}
