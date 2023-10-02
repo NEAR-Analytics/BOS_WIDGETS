@@ -143,7 +143,7 @@ State.init({
       },
       {
         title: "Winners",
-        key: "winners",
+        key: "winner",
         description: "Winners",
         width: 10,
         align: "left",
