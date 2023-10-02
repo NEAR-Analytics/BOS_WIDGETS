@@ -76,7 +76,6 @@ const getTimeRemaining = (e) => {
 console.log(data, "==>list");
 const startTimer = () => {
   if (!data.length) return;
-  console.log(data, "==>list222");
   const compaign = data.map((row) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     if (total <= 0) {
@@ -98,6 +97,8 @@ const startTimer = () => {
 const setEndsIn = () => {
   if (Interval) clearInterval(Interval);
   const interval = setInterval(() => {
+    console.log(data, "==>list222");
+
     startTimer();
   }, 1000);
   Interval = interval;
