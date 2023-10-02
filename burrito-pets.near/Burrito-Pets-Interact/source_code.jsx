@@ -15,6 +15,8 @@ State.init({
   tokenId: 0,
   isBusy: false,
   isPlay: false,
+  error: "",
+  pet: null,
 });
 
 if (state.sender === undefined) {
@@ -25,7 +27,6 @@ if (state.sender === undefined) {
 }
 
 const getSender = () => {
-  console.log("getSender()");
   return !state.sender
     ? ""
     : state.sender.substring(0, 6) +
@@ -34,23 +35,22 @@ const getSender = () => {
 };
 
 const _castData = (data) => {
-  console.log("_castData()");
   return {
     tokenId: data[0],
-    image: data[1],
-    name: data[2],
-    happiness: data[3].toNumber(),
-    hunger: data[4].toNumber(),
-    sleep: data[5].toNumber(),
-    currentActivity: data[6],
-    isHungry: data[7],
-    isSleepy: data[8],
-    isBored: data[9],
+    status: data[1],
+    image: data[2],
+    name: data[3],
+    happiness: data[4].toNumber(),
+    hunger: data[5].toNumber(),
+    sleep: data[6].toNumber(),
+    currentActivity: data[7],
+    isHungry: data[8],
+    isSleepy: data[9],
+    isBored: data[10],
   };
 };
 
 const getNft = () => {
-  console.log("getNft()");
   State.update({
     tokenId: state.inputTokenId,
   });
@@ -61,37 +61,43 @@ const getNft = () => {
   );
 
   contract.getTokenInfoById(state.inputTokenId).then((res) => {
-    const petInfo = [res].map(_castData);
-    console.log(petInfo);
-    State.update({
-      firstSearch: false,
-      pet: petInfo[0],
-      currentActivity: petInfo[0].currentActivity,
-      currentImg: _getCurrentImg(petInfo[0]),
-      isBusy: false,
-    });
+    if (res[1] == 0) {
+      State.update({
+        error: "Burrito's ID doesn't exist",
+      });
+    }
+    if (res[1] == 1) {
+      State.update({
+        error: "You don't own the Burrito",
+      });
+    }
+    if (res[1] == 2) {
+      const petInfo = [res].map(_castData);
+      State.update({
+        firstSearch: false,
+        pet: petInfo[0],
+        currentActivity: petInfo[0].currentActivity,
+        currentImg: _getCurrentImg(petInfo[0]),
+        isBusy: false,
+        error: "",
+      });
+    }
   });
 };
 
 const _getCurrentImg = (petInfo) => {
   if (petInfo.isHungry) {
-    console.log("isHungry");
     return _getIsHungryImg(petInfo.image);
   } else if (petInfo.isSleepy) {
-    console.log("isSleepy");
     return _getIsSleepyImg(petInfo.image);
   } else if (petInfo.isBored) {
-    console.log("isBored");
     return _getIsBoredImg(petInfo.image);
   } else if (!petInfo.isHungry && !petInfo.isSleepy && !petInfo.isBored) {
-    console.log("It's fine");
     return _getIdleImg(petInfo.image);
   }
 };
 
 const _getIdleImg = (img) => {
-  console.log("_getIdleImg()");
-  console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
       return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Idle.gif";
@@ -103,8 +109,6 @@ const _getIdleImg = (img) => {
 };
 
 const _getPlayImg = (img) => {
-  console.log("_getPlayImg()");
-  console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
       return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Play.gif";
@@ -116,8 +120,6 @@ const _getPlayImg = (img) => {
 };
 
 const _getEatImg = (img) => {
-  console.log("_getEatImg()");
-  console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
       return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Eat.gif";
@@ -129,8 +131,6 @@ const _getEatImg = (img) => {
 };
 
 const _getSleepImg = (img) => {
-  console.log("_getSleepImg()");
-  console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
       return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Sleep.gif";
@@ -142,8 +142,6 @@ const _getSleepImg = (img) => {
 };
 
 const _getIsBoredImg = (img) => {
-  console.log("_getIsBoredImg()");
-  console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
       return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Bored.gif";
@@ -155,8 +153,6 @@ const _getIsBoredImg = (img) => {
 };
 
 const _getIsHungryImg = (img) => {
-  console.log("_getIsHungryImg()");
-  console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
       return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Hungry.gif";
@@ -168,8 +164,6 @@ const _getIsHungryImg = (img) => {
 };
 
 const _getIsSleepyImg = (img) => {
-  console.log("_getIsSleepyImg()");
-  console.log(img);
   switch (img) {
     case "https://pin.ski/3Jjp95g":
       return "https://raw.githubusercontent.com/yaairnaavaa/Burrito-Virtual-Pet/main/Burrito-Fuego-Sleepy.gif";
@@ -181,7 +175,6 @@ const _getIsSleepyImg = (img) => {
 };
 
 const play = () => {
-  console.log("play()");
   const contract = new ethers.Contract(
     virtualPetContract,
     virtualPetAbi.body,
@@ -204,7 +197,6 @@ const play = () => {
 };
 
 const eat = () => {
-  console.log("eat()");
   const contract = new ethers.Contract(
     virtualPetContract,
     virtualPetAbi.body,
@@ -223,7 +215,6 @@ const eat = () => {
 };
 
 const sleep = () => {
-  console.log("sleep()");
   const contract = new ethers.Contract(
     virtualPetContract,
     virtualPetAbi.body,
@@ -242,7 +233,6 @@ const sleep = () => {
 };
 
 const back = () => {
-  console.log("back()");
   State.update({
     tokenId: 0,
     pet: null,
@@ -254,7 +244,6 @@ const getGame = () => {
 };
 
 const onFinish = () => {
-  console.log("Finish Game");
   State.update({ isPlay: false });
   getNft();
 };
@@ -429,7 +418,7 @@ return (
             </div>
             <div class="col-4" style={{ "text-align": "right" }}>
               {state.sender ? (
-                state.tokenId == 0 ? (
+                !state.pet ? (
                   <a href="#/burrito-pets.near/widget/Burrito-Pets-Mint">
                     <ItemMintButton
                       onClick={async () => {
@@ -453,7 +442,7 @@ return (
           </ItemTitle>
         </ItemHeader>
         {state.sender ? (
-          state.tokenId == 0 ? (
+          !state.pet ? (
             <ItemBodySelect>
               <div class="m-5">
                 <div style={{ "text-align": "center" }}>
@@ -496,6 +485,7 @@ return (
                       Request Early Access
                     </a>
                   </div>
+                  <div style={{ "text-align": "center" }}>{state.error}</div>
                 </div>
               </div>
             </ItemBodySelect>
