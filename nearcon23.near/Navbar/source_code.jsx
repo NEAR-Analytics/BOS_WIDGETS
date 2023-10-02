@@ -6,15 +6,22 @@ const Navbar = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0 2.5rem 0;
+  padding: 0.75rem 0 1.5rem 0;
   flex: none;
   order: 0;
   align-self: stretch;
   flex-grow: 0;
   position: sticky;
   top: 0;
+  // padding-top: 32px;
   margin-bottom: 0.75rem;
-  max-height: 2.5em;
+
+  // max-height: 2.5em;
+  // height: 100%;
+  // max-height: 5.5em;
+
+ background-color: ${props.collapsible ? "transparent" : "#FFFFFF"};
+  backdrop-filter: blur(8px);
 `;
 
 const LogoArea = styled.a`
@@ -50,7 +57,7 @@ const logo = (
     onClick={() => props.update({ tab: "home" })}
   >
     <svg
-      width="254"
+      width="204"
       height="84"
       viewBox="0 0 254 84"
       fill="none"
@@ -135,14 +142,50 @@ const Info = styled.div`
   font-size: 1em;
   line-height: 1em;
   text-align: right;
-  color: #666666;
+  color: #00EC97;
 
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
-const info = <Info>November 7-10, 2023 + Lisbon, Portugal</Info>;
+const Trigger = styled.button`
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  padding: 0.5em;
+  border: none;
+  // background-color: #f9fafb;
+  background-color: #000000;
+  transition: all 0.25s ease-in-out;
+  width: 40px;
+  height: 40px;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
+
+  // &[data-state="open"] {
+  //   transform: rotate(-90deg);
+  // }
+
+  // &[data-state="closed"] {
+  //   transform: rotate(0deg);
+  // }
+
+  transform: rotate(${props.collapsible ? "0" : "-90"}deg)
+`;
+
+const info = <Info>Nov 7-10 + Lisbon</Info>;
+
+const accountId = props.accountId || context.accountId;
+const profile = Social.getr(`${accountId}/profile`);
+const image = profile?.image;
+const url = image.ipfs_cid
+  ? `https://ipfs.near.social/ipfs/${image?.ipfs_cid}`
+  : "https://thewiki.io/static/media/sasha_anon.6ba19561.png";
 
 const actions = (
   <ActionArea>
@@ -153,7 +196,43 @@ const actions = (
 
 return (
   <Navbar>
-    {logo}
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 12,
+      }}
+    >
+      <Trigger
+        onClick={() => {
+          props.update({
+            showSidebar: !props.showSidebar,
+            collapsible: !props.collapsible,
+          });
+        }}
+      >
+        <svg
+          width="20"
+          height="14"
+          viewBox="0 0 20 14"
+          fill="red"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 7H19M1 1H19M1 13H19"
+            stroke="#00ec97"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </Trigger>
+
+      {logo}
+    </div>
+
     {actions}
   </Navbar>
 );
+
