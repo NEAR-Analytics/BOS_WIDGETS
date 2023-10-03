@@ -141,6 +141,7 @@ if (Object.keys(state.hasFetched).length !== countryList.length) {
 const GridView = styled.div`
   display: grid;
   width:100%;
+  padding-left:10px;
   margin: auto;
   gap:5px;
   grid-template-columns: repeat(10, 1fr);
