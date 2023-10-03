@@ -7,6 +7,7 @@ const {
   articleToRenderData,
   authorForWidget,
   handleEditArticle,
+  // logedUserSbts,
 } = props;
 
 const accountId = articleToRenderData.author;
