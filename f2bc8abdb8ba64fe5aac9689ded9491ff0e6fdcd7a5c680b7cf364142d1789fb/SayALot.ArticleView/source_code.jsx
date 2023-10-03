@@ -14,6 +14,9 @@ const realArticleId =
   articleToRenderData.realArticleId ??
   `${articleToRenderData.author}-${articleToRenderData.timeCreate}`;
 
+//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
+const articleSbts = articleToRenderData.sbts[0] ?? [];
+
 const libSrcArray = [widgets.libComment];
 
 function callLibs(srcArray, stateUpdate, libCalls) {
@@ -47,11 +50,19 @@ const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-const libCalls = [
+const initLibCalls = [
   {
     functionName: "getValidComments",
     key: "comments",
-    props: { realArticleId },
+    props: { realArticleId, articleSbts },
+  },
+  {
+    functionName: "canUserCreateComment",
+    key: "canLoggedUserCreateComment",
+    props: {
+      accountId: context.accountId,
+      sbtName: articleSbts,
+    },
   },
 ];
 
@@ -59,7 +70,7 @@ State.init({
   tabSelected: tabs[0].id,
   comments: [],
   sliceContent: true,
-  libCalls,
+  libCalls: initLibCalls,
 });
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
@@ -681,7 +692,10 @@ return (
                 Button: {
                   text: "Add a Comment",
                   disabled:
-                    !context.accountId || context.accountId === accountId,
+                    !context.accountId ||
+                    context.accountId === accountId ||
+                    (articleSbts.length > 0 &&
+                      !state.canLoggedUserCreateComment),
                   className: "primary w-100 mt-4 mb-2 justify-content-center",
                   onClick: () => State.update({ showModal: true }),
                   icon: <i className="bi bi-plus-lg"></i>,
@@ -739,6 +753,16 @@ return (
                     {articleToRenderData.version}
                   </DescriptionInfoSpan>
                 </div>
+                {articleSbts.length > 0 && (
+                  <div>
+                    <DescriptionSubtitle>
+                      SBT requiered to interact:
+                    </DescriptionSubtitle>
+                    {articleSbts.map((sbt) => {
+                      return <DescriptionInfoSpan>{sbt}</DescriptionInfoSpan>;
+                    })}
+                  </div>
+                )}
               </DeclarationCard>
             )}
           </div>
