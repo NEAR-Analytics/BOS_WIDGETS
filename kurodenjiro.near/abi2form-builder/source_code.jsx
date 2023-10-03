@@ -165,7 +165,6 @@ const getMethodFromSource = () => {
             }
           }
         });
-
         filterFunction.forEach((item) => {
           asyncFetch(
             `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
@@ -187,7 +186,6 @@ const getMethodFromSource = () => {
               deposit: 0,
               gas: 30000000000000,
             };
-            console.log(item, res.body.txns);
             if (res.body.txns.length > 0) {
               const isCheckSuccess = false;
               res.body.txns.forEach((item) => {
@@ -200,7 +198,11 @@ const getMethodFromSource = () => {
               }
             }
             abiMethod.push(method);
+
             State.update({ cMethod: abiMethod });
+            abiMethod.forEach((item, index) => {
+              getArgsFromMethod(item.name, index);
+            });
           });
         });
       } else {
@@ -212,6 +214,7 @@ const getMethodFromSource = () => {
   });
 };
 const getArgsFromMethod = (fName, fIndex) => {
+  console.log(state.cMethod);
   asyncFetch(
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     {
@@ -259,6 +262,148 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
         });
       }
+    } else {
+      const getArg = setInterval(() => {
+        const abiMethod = state.cMethod;
+        const argsArr = abiMethod[fIndex].params.args;
+        const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
+        const args = {};
+        argMap.forEach((item) => {
+          Object.assign(args, item);
+        });
+
+        asyncFetch(state.rpcUrl, {
+          body: JSON.stringify({
+            method: "query",
+            params: {
+              request_type: "call_function",
+              account_id: state.contractAddress,
+              method_name: fName,
+              args_base64: new Buffer.from(JSON.stringify(args)).toString(
+                "base64"
+              ),
+              finality: "optimistic",
+            },
+            id: 154,
+            jsonrpc: "2.0",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+        }).then((res) => {
+          if (res.body.result.error) {
+            if (res.body.result.error.includes("missing field")) {
+              const str = res.body.result.error;
+              const argName = str.substring(
+                str.indexOf("`") + 1,
+                str.lastIndexOf("`")
+              );
+              const checkType = [
+                { value: "", type: "string" },
+                { value: 0, type: "number" },
+                { value: [], type: "array" },
+                { value: true, type: "boolean" },
+                { value: "", type: "enum" },
+                { value: {}, type: "object" },
+              ];
+              const isCheck = false;
+              checkType.forEach((typeItem, typeIndex) => {
+                if (isCheck == false) {
+                  asyncFetch(state.rpcUrl, {
+                    body: JSON.stringify({
+                      method: "query",
+                      params: {
+                        request_type: "call_function",
+                        account_id: state.contractAddress,
+                        method_name: fName,
+                        args_base64: new Buffer.from(
+                          JSON.stringify({
+                            [argName]: checkType[typeIndex].value,
+                          })
+                        ).toString("base64"),
+                        finality: "optimistic",
+                      },
+                      id: 154,
+                      jsonrpc: "2.0",
+                    }),
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    method: "POST",
+                  }).then((res) => {
+                    const fetchData = res.body.result.error;
+                    const updateState = (argName, type, value) => {
+                      isCheck = true;
+                      const arg = {
+                        name: argName,
+                        type_schema: {
+                          type: type,
+                        },
+                        value: value,
+                      };
+                      const isExist = false;
+                      abiMethod[fIndex].params.args.forEach((item) => {
+                        if (item.name == argName) {
+                          isExist = true;
+                        }
+                      });
+                      if (isExist == false) {
+                        abiMethod[fIndex].params.args.push(arg);
+                        State.update({ cMethod: abiMethod });
+                      }
+                    };
+                    if (res.body.result.result) {
+                      updateState(argName, typeItem.type, typeItem.value);
+                      clearInterval(getArg);
+                    }
+                    if (fetchData.includes("the account ID")) {
+                      updateState(argName, "$ref", state.contractAddress);
+                    }
+                    if (fetchData.includes("unknown variant")) {
+                      isCheck = true;
+                      const getEnum = fetchData
+                        .substring(
+                          fetchData.indexOf("expected one of") + 17,
+                          fetchData.lastIndexOf("\\")
+                        )
+                        .replaceAll("`", "")
+                        .split(",");
+                      updateState(argName, typeItem.type, getEnum[0]);
+                    }
+
+                    if (fetchData.includes("Option::unwrap()`")) {
+                      updateState(argName, typeItem.type, typeItem.value);
+                      clearInterval(getArg);
+                    }
+                    if (fetchDatar.includes("missing field")) {
+                      updateState(argName, typeItem.type, typeItem.value);
+                    }
+                  });
+                }
+              });
+            }
+            if (
+              fetchData.includes("Requires attached deposit") ||
+              fetchData.includes("storage_write") ||
+              fetchData.includes("predecessor_account_id")
+            ) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            if (
+              fetchData.includes("MethodNotFound") ||
+              res.body.result.result
+            ) {
+              clearInterval(getArg);
+            }
+          }
+        });
+        setTimeout(() => {
+          clearInterval(getArg);
+        }, "10000");
+      }, 1000);
     }
   });
 };
@@ -330,51 +475,10 @@ const onBtnClickCall = (fName, action, fIndex) => {
   }
 };
 
-const onSwitchChangeArgExport = (fIndex) => {
-  const abiMethod = state.cMethod;
-  abiMethod[fIndex].export = !abiMethod[fIndex].export;
-  State.update({ cMethod: abiMethod });
-};
-
 const onRemoveMethod = (fIndex) => {
   const abiMethod = state.cMethod;
   abiMethod.splice(fIndex, 1);
   State.update({ cMethod: abiMethod });
-};
-const exportForm = () => {
-  const abi = {
-    schema_version: "0.3.0",
-    address: state.contractAddress,
-    metadata: {
-      name: state.contractAddress,
-      version: "0.1.0",
-      authors: [""],
-    },
-    body: {
-      functions: [],
-    },
-  };
-
-  const abiMethod = state.cMethod;
-  abiMethod.forEach((item) => {
-    abi.body.functions.push(item);
-  });
-
-  const data = {
-    widget: {
-      [state.widgetName]: {
-        "":
-          "const user = context.accountId;\r\nconst props = " +
-          JSON.stringify(abi).replaceAll("\\", "") +
-          " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={'kurodenjiro.near/widget/abi2form-widget'} props={props} />\r\n  </>\r\n);\r\n",
-      },
-    },
-  };
-  Social.set(data, {
-    force: true,
-    onCommit: () => {},
-    onCancel: () => {},
-  });
 };
 
 return (
@@ -424,94 +528,19 @@ return (
             </button>
           </div>
           <div class="form-group col-md-2">
+            <Widget
+              src={"kurodenjiro.near/widget/abi2form-export-widget-button"}
+              props={props}
+            />
+          </div>
+          <div class="form-group col-md-2">
             <label></label>
             <button
               onClick={getMethodFromSource}
               class="btn btn-primary form-control "
             >
-              Detect
+              Scan
             </button>
-          </div>
-          <div class="form-group col-md-2">
-            <label></label>
-            <button
-              data-bs-toggle="modal"
-              data-bs-target="#export"
-              class="btn btn-primary form-control "
-            >
-              Export
-            </button>
-            <div
-              class="modal fade"
-              id="export"
-              tabindex="-1"
-              aria-labelledby="exportLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exportLabel">
-                      Choose Method to Export
-                    </h1>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <label>Widget Name</label>
-                      <input
-                        class="form-control"
-                        defaultValue={state.widgetName}
-                        onChange={(e) => onInputChangeWidgetName(e)}
-                      />
-                      <small class="form-text text-muted">
-                        A new widget configured with the form will be created.
-                      </small>
-                    </div>
-                    {state.cMethod &&
-                      state.cMethod.map((functions, fIndex) => (
-                        <div class="form-check form-switch">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            role="switch"
-                            checked={functions.export}
-                            onChange={() => onSwitchChangeArgExport(fIndex)}
-                            id={`flexSwitchCheckDefaultView${fIndex}`}
-                          />
-                          <label
-                            class="form-check-label"
-                            for={`flexSwitchCheckDefault${fIndex}`}
-                          >
-                            {functions.name}
-                          </label>
-                        </div>
-                      ))}
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button
-                      type="button"
-                      onClick={exportForm}
-                      class="btn btn-primary"
-                    >
-                      Export
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
