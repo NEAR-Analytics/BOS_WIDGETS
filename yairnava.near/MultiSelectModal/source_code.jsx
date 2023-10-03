@@ -50,7 +50,7 @@ return (
       color: "rgb(255, 255, 255)",
       backgroundImage:
         "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))",
-      margin: "32px",
+      margin: "auto",
       position: "absolute",
       overflowY: "auto",
       display: "flex",
@@ -59,6 +59,10 @@ return (
       maxWidth: "600px",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       borderRadius: "20px",
+      right: "0",
+      left: "0",
+      top: "0",
+      zIndex: "100"
     }}
   >
     <div style={{ color: "rgb(255, 255, 255)" }}>
