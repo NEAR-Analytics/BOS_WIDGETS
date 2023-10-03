@@ -613,7 +613,17 @@ return (
         </div>
         <Widget
           src={widgets.upVoteButton}
-          props={{ isTest, authorForWidget, reactedElementData: data, widgets }}
+          props={{
+            isTest,
+            authorForWidget,
+            reactedElementData: data,
+            widgets,
+            disabled:
+              !context.accountId ||
+              context.accountId === accountId ||
+              (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
+            articleSbts,
+          }}
         />
       </HeaderCard>
       <KeyIssuesHeader>
@@ -664,6 +674,10 @@ return (
                 isTest,
                 authorForWidget,
                 elementReactedId: realArticleId,
+                disabled:
+                  !context.accountId ||
+                  context.accountId === accountId ||
+                  (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
               }}
             />
           </ButtonsLowerSection>
