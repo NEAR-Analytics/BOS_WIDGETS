@@ -11,19 +11,19 @@ return (
       <div className="col">
         <h2>trusted</h2>
         <Widget
-          id="sandboxed"
+          id="trusted"
           src="andyh.near/widget/StateDemoRoot"
           isTrusted={true}
-          props={{ title: "State within Sandboxed Components" }}
+          props={{ title: "State within Trusted Components" }}
         />
       </div>
       <div className="col">
         <h2>sandboxed</h2>
         <Widget
-          id="trusted"
+          id="sandboed"
           src="andyh.near/widget/StateDemoRoot"
           isTrusted={false}
-          props={{ title: "State across Trusted Components" }}
+          props={{ title: "State across Sandboxed Components" }}
         />
       </div>
     </div>
