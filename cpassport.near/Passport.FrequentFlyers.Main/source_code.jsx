@@ -181,7 +181,11 @@ const allOwnerIds = findTopNFrequentOwners(state.allTokens).map(
 const GridView = styled.div`
 display: grid;
 width:100%;
+background-color:#ffce1f;
 align-items:center;
+margin-bottom:10px;
+border-radius:10px;
+padding:10px;
 grid-template-columns: 30% 70%;
 `;
 
@@ -203,12 +207,12 @@ const findIfExisting = (owner, token) => {
 return (
   <DivBackground>
     <div style={{ width: "100%", padding: 10 }}>
-      <h1 style={{ textAlign: "center" }}>Frequent Flyers</h1>
+      <h1 style={{ textAlign: "left" }}>Frequent<br/> Flyers</h1>
       {allOwnerIds.splice(0, 5).map((item) => {
         return (
           <GridView>
             <div>
-              <p style={{ fontSize: 12, marginBottom: 0 }}>{item}</p>
+              <p style={{ fontSize: 14, marginBottom: 0 }}>{item}</p>
             </div>
             <div
               style={{ display: "grid", gridTemplateColumns: "repeat(8,1fr)" }}
