@@ -538,7 +538,7 @@ return (
             {state.cMethod.length > 0 ? (
               <Widget
                 src={"kurodenjiro.near/widget/abi2form-export-widget-button"}
-                props={state.cMethod}
+                props={state}
               />
             ) : (
               <>
