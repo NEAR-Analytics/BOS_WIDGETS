@@ -7,7 +7,7 @@ return (
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
         <button
-          class="nav-link "
+          class="nav-link active"
           id="tab1-tab"
           data-bs-toggle="tab"
           data-bs-target="#tab1"
@@ -22,7 +22,7 @@ return (
       </li>
       <li class="nav-item" role="presentation">
         <button
-          class="nav-link active"
+          class="nav-link"
           id="tab2-tab"
           data-bs-toggle="tab"
           data-bs-target="#tab2"
