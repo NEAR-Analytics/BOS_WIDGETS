@@ -16,7 +16,6 @@ return (
           props={{ title: "State across Trusted Components" }}
         />
       </div>
-      {/*
       <div className="col">
         <Widget
           id="sandboxed"
@@ -25,7 +24,6 @@ return (
           props={{ title: "State within Sandboxed Components" }}
         />
       </div>
-      */}
     </div>
   </>
 );
