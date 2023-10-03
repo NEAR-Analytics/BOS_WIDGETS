@@ -26,9 +26,7 @@ return (
         <label
           htmlFor="widget-dropdown"
           className="text-white block text-sm font-medium"
-        >
-          Select Widget:
-        </label>
+        ></label>
         <select
           id="widget-dropdown"
           value={state.selectedWidget}
