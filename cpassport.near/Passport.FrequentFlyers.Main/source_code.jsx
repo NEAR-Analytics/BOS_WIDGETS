@@ -13,6 +13,7 @@ State.init({
   nftDetails: false,
   hasFetched: {},
   allTokens: [],
+  nftDetails: false,
 });
 
 const phillipines = {
@@ -187,6 +188,9 @@ margin-bottom:10px;
 border-radius:10px;
 padding:10px;
 grid-template-columns: 30% 70%;
+@media (max-width: 1024px) {
+grid-template-columns: 40% 60%;
+  }
 `;
 
 const allHolders = [
@@ -204,6 +208,29 @@ const findIfExisting = (owner, token) => {
   return allitems;
 };
 
+if (state.nftDetails) {
+  return (
+    <>
+      <Widget
+        src="cpassport.near/widget/Passport.NFTDetails.Main"
+        props={{
+          series: state.nftDetails,
+          onBack: () => {
+            State.update({ nftDetails: null });
+          },
+        }}
+      />
+    </>
+  );
+}
+
+const GridDetailsNFT = styled.div`
+  grid-template-columns:repeat(8,1fr);
+   @media (max-width: 1024px) {
+   grid-template-columns:repeat(2,1fr);
+  }
+`;
+
 return (
   <DivBackground>
     <div style={{ width: "100%", padding: 10 }}>
@@ -217,13 +244,14 @@ return (
             <div>
               <p style={{ fontSize: 14, marginBottom: 0 }}>{item}</p>
             </div>
-            <div
-              style={{ display: "grid", gridTemplateColumns: "repeat(8,1fr)" }}
-            >
+            <GridDetailsNFT style={{ display: "grid" }}>
               {countryList.map((_) => {
                 const isExsisting = findIfExisting(item, _.series);
                 return (
                   <img
+                    onClick={() => {
+                      State.update({ nftDetails: _.series });
+                    }}
                     style={{
                       height: 60,
                       width: 60,
@@ -233,7 +261,7 @@ return (
                   />
                 );
               })}
-            </div>
+            </GridDetailsNFT>
           </GridView>
         );
       })}
