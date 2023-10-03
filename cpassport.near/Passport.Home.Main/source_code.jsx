@@ -168,7 +168,7 @@ return state?.nftDetails ? (
   </>
 ) : (
   <DivBackground>
-    <div style={{ width: "100%", textAlign: "center" }}>
+    <div style={{ width: "100%" }}>
       <GridView>
         <div style={{ paddingLeft: 20 }}>
           <div style={{ textAlign: "left" }}>
