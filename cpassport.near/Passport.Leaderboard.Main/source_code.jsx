@@ -143,7 +143,7 @@ const GridView = styled.div`
   margin: auto;
   gap:5px;
   grid-template-columns: repeat(10, 1fr);
-  @media only screen and (max-width: 1024px) {
+  @media only screen and (max-width: 800px) {
     display:block;
   }
 `;
@@ -192,8 +192,9 @@ return (
         </HideInMobile>
         {countryList.map((item) => (
           <>
-            <ShowInMobile style={{ marginBottom: 20 }} />
             <div style={{ textAlign: "center" }}>
+              <ShowInMobile style={{ marginBottom: 20 }} />
+
               <img
                 style={{ width: 70, height: 70, cursor: "pointer" }}
                 onClick={() => {
