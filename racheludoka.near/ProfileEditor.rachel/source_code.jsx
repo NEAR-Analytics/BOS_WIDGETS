@@ -1,0 +1,1 @@
+https://near.social/mob.near/widget/ProfilePage?accountId=racheludoka.near
