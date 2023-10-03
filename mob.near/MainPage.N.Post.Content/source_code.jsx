@@ -82,7 +82,7 @@ return (
       <div className="expand-post">
         <div>
           <a className="stretched-link" onClick={() => setTruncated(false)}>
-            Read more...
+            Show more
           </a>
         </div>
       </div>
