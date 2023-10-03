@@ -4,6 +4,9 @@ const onSwitchChangeArgExport = (fIndex) => {
   abiMethod[fIndex].export = !abiMethod[fIndex].export;
   State.update({ cMethod: abiMethod });
 };
+const onInputChangeWidgetName = ({ target }) => {
+  State.update({ widgetName: target.value.replaceAll(" ", "-") });
+};
 const exportForm = () => {
   const abi = {
     schema_version: "0.3.0",
