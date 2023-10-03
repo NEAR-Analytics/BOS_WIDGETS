@@ -18,11 +18,47 @@ const content = data.body;
 const timeLastEdit = data.timeLastEdit;
 const realArticleId = data.realArticleId ?? `${data.author}-${data.timeCreate}`;
 
+//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
+const articleSbts = articleToRenderData.sbts[0] ?? [];
+
+const libSrcArray = [widgets.libComment];
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+const initLibCalls = [
+  {
+    functionName: "canUserCreateComment",
+    key: "canLoggedUserCreateComment",
+    props: {
+      accountId: context.accountId,
+      sbtName: articleSbts,
+    },
+  },
+];
+
 State.init({
   verified: true,
   start: true,
   voted: false,
   sliceContent: true,
+  libCalls: initLibCalls,
 });
 //=============================================END INITIALIZATION===================================================
 
@@ -639,7 +675,10 @@ return (
                   Button: {
                     text: `Add comment`,
                     disabled:
-                      !context.accountId || context.accountId === accountId,
+                      !context.accountId ||
+                      context.accountId === accountId ||
+                      (articleSbts.length > 0 &&
+                        !state.canLoggedUserCreateComment),
                     size: "sm",
                     className: "secondary dark w-100 justify-content-center",
                     onClick: () => {
