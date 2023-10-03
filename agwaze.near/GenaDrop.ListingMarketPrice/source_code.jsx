@@ -155,7 +155,7 @@ const SecondaryText = styled.h3`
   font-family: "SF Pro Display",sans-serif;
   line-height: 1.02;
   white-space: nowrap;
-  
+  padding-bottom: 3px;
 `;
 const Card = styled.div`
   overflow: hidden;
