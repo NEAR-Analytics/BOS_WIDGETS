@@ -1,7 +1,7 @@
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
 const verifications = props.verifications;
 const overlayStyles = props.overlayStyles;
 
@@ -64,12 +64,12 @@ const overlay = (
     <Card onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
       <div className="d-flex align-items-center">
         <Widget
-          src="near/widget/AccountProfile"
+          src="scopalaffairs.near/widget/AccountProfile"
           props={{ accountId: props.accountId, profile, noOverlay: true }}
         />
         {!!context.accountId && context.accountId !== props.accountId && (
           <Widget
-            src="near/widget/FlagButton"
+            src="scopalaffairs.near/widget/FlagButton"
             props={{
               item: contentModerationItem,
               disabled: !context.accountId || context.accountId === accountId,
@@ -114,13 +114,13 @@ const overlay = (
       </div>)}
 
       <Widget
-        src="near/widget/Tags"
+        src="scopalaffairs.near/widget/Tags"
         props={{ tags, scroll: true }}
       />
       {!!context.accountId && context.accountId !== props.accountId && (
         <FollowButtonWrapper>
           <Widget
-            src="near/widget/FollowButton"
+            src="scopalaffairs.near/widget/FollowButton"
             props={{ accountId: props.accountId }}
           />
         </FollowButtonWrapper>
@@ -150,7 +150,7 @@ return (
 
       {state.hasBeenFlagged && (
         <Widget
-          src={`near/widget/DIG.Toast`}
+          src={`scopalaffairs.near/widget/DIG.Toast`}
           props={{
             type: "info",
             title: "Flagged for moderation",
