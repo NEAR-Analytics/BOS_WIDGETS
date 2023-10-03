@@ -38,7 +38,7 @@ const header = (
           paddingInline: 24,
         }}
       >
-        Em cosntrução
+        Em construção
       </a>
     </Nav>
   </HeaderContainer>
