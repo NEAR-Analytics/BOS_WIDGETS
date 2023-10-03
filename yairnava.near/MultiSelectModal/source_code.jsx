@@ -61,8 +61,8 @@ return (
       borderRadius: "20px",
       right: "0",
       left: "0",
-      top: "0",
-      zIndex: "100"
+      top: "5px",
+      zIndex: "100",
     }}
   >
     <div style={{ color: "rgb(255, 255, 255)" }}>
@@ -169,7 +169,7 @@ return (
         </span>
       </div>
       <div style={{ width: "100%", fontSize: "0.875rem", marginTop: "15px" }}>
-        <div style={{ height: "300px", overflow: "auto" }}>
+        <div style={{ height: "270px", overflow: "auto" }}>
           <div
             style={{
               display: "inline-flex",
