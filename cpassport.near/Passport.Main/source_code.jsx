@@ -149,10 +149,10 @@ return (
           src="mob.near/widget/Image"
           props={{
             image:
-              "https://ipfs.near.social/ipfs/bafkreih6zqcg2z7odrflt2ydcjk6ramymsdbccz53zgcc5htsnkx6yn544",
+              "https://ipfs.near.social/ipfs/bafybeifgirbltzxt2ix5t5yf2upkkzinzr2mfl2rcyrq5jrz673gzgap4i",
             alt: "profile background image",
             fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreih6zqcg2z7odrflt2ydcjk6ramymsdbccz53zgcc5htsnkx6yn544",
+              "https://ipfs.near.social/ipfs/bafybeifgirbltzxt2ix5t5yf2upkkzinzr2mfl2rcyrq5jrz673gzgap4i",
           }}
         />
       )}
