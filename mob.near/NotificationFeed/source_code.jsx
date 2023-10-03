@@ -8,9 +8,8 @@ const index = {
   action: "notify",
   key: accountId,
   options: {
-    limit: 10,
+    limit: 50,
     order: "desc",
-    subscribe: true,
   },
   cacheOptions: {
     ignoreCache: true,
