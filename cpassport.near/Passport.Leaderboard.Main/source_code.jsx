@@ -1,5 +1,5 @@
 const DivBackground = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   background-color: #FDF3DD;
   display: flex;
   padding-bottom:20vh;
