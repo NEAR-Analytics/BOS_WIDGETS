@@ -28,8 +28,6 @@ const initLibCalls = [
   },
 ];
 
-console.log("state: ", state);
-
 // console.log("canLoggedUserCreateArticle: ", canLoggedUserCreateArticle);
 
 if (!accountId) accountId = context.accountId;
@@ -54,7 +52,18 @@ State.init({
 });
 
 let newLibCalls = state.libCalls;
-newLibCalls[0].props.filterBy = state.filterBy;
+
+const functionsCalledList = newLibCalls.map((functionCalled, index) => {
+  return { functionName: functionCalled.functionName, i: index };
+});
+
+const lastEditArticlesCall = functionsCalledList.filter(
+  (functionCalled) => functionCalled.functionName === "getLastEditArticles"
+);
+
+if (getLastEditArticles) {
+  newLibCalls[getLastEditArticles.index].props.filterBy = state.filterBy;
+}
 
 State.update({ libCalls: newLibCalls });
 
@@ -276,7 +285,21 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 }
 
 function handleSbtSelection(string) {
-  State.update({ sbts: [string] });
+  State.update({
+    sbts: [string],
+    libCalls: [
+      ...state.libCalls,
+      {
+        functionName: "getLastEditArticles",
+        key: "articles",
+        props: {
+          env: isTest ? "test" : "prod",
+          filterBy: state.filterBy,
+          sbtName: [string],
+        },
+      },
+    ],
+  });
 }
 
 //===============================================END FUNCTIONS======================================================
