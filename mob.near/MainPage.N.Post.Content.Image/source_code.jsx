@@ -1,6 +1,7 @@
 const image = props.image;
 
 const Wrapper = styled.div`
+  white-space: normal;
   .lightbox {
     img {
       width: 100vw;
