@@ -1,6 +1,6 @@
 const accountId = props.accountId || context.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
 const verifications = props.verifications;
 
 const Wrapper = styled.a`
@@ -103,7 +103,7 @@ const AccountProfile = (
   >
     <Avatar className="hover">
       <Widget
-        src="near/widget/Recommender.Engagement.ImageTracked"
+        src="scopalaffairs.near/widget/Recommender.Engagement.ImageTracked"
         props={{
           accountId: props.accountId,
           accountIdRank: props.accountIdRank,
@@ -143,7 +143,7 @@ const AccountProfile = (
     <div>
       <Name>
         <Widget
-          src="near/widget/Recommender.Engagement.ProfileInfoTracked"
+          src="scopalaffairs.near/widget/Recommender.Engagement.ProfileInfoTracked"
           props={{
             accountId: props.accountId,
             accountIdRank: props.accountIdRank,
@@ -166,7 +166,7 @@ if (props.noOverlay) return AccountProfile;
 
 return (
   <Widget
-    src="near/widget/Recommender.Account.AccountProfileOverlay"
+    src="scopalaffairs.near/widget/Recommender.Account.AccountProfileOverlay"
     props={{
       accountId: props.accountId,
       accountIdRank: props.accountIdRank || null,
