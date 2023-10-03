@@ -206,8 +206,8 @@ return state?.nftDetails ? (
           }}
         >
           <p style={{ fontSize: 14, textAlign: "left" }}>{accountId} stamps</p>
-          <div style={{ display: "flex", height: "100%", marginTop: -50 }}>
-            <ImageGrid>
+          <div style={{ display: "flex", height: "100%", marginTop: -50,width:"100%" }}>
+            <ImageGrid style={{ width: "50%" }}>
               {[...countryList.slice(0, 4)].map((item) => (
                 <button
                   onClick={() => {
@@ -226,7 +226,7 @@ return state?.nftDetails ? (
               ))}
             </ImageGrid>
             <div style={{ border: "4px dotted  #ffe224" }} />
-            <ImageGrid>
+            <ImageGrid style={{ width: "50%" }}>
               {[...countryList.slice(0, 4)].map((item) => (
                 <button
                   onClick={() => {
