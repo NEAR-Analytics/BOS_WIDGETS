@@ -97,7 +97,7 @@ function getUpVotes(props) {
     subscribe: true,
   });
 
-  const validUpVotes = allVotes;
+  let validUpVotes = allVotes;
 
   if (articleSbts.length > 0) {
     const validUpVotesAuthors = validUpVotes.map((upVote) => {
