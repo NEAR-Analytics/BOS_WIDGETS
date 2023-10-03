@@ -149,7 +149,7 @@ const ImageGrid = styled.div`
     grid-template-columns: repeat(4,1fr);
 `;
 
-console.log(state)
+console.log(state);
 
 return state?.nftDetails ? (
   <>
@@ -166,15 +166,21 @@ return state?.nftDetails ? (
 ) : (
   <DivBackground>
     <div style={{ width: "100%", textAlign: "center" }}>
-      <h1>AROUND THE WORLD</h1>
       <GridView>
         <div>
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "left" }}>
             <>
-              <p style={{ fontSize: 20 }}>Visit with Artists</p>
-              <p style={{ fontSize: 20 }}>Scan the QR Codes</p>
-              <p style={{ fontSize: 20 }}>Collect Stamps</p>
-              <p style={{ fontSize: 20 }}>Unlock Prizes</p>
+              <h1>
+                AROUND
+                <br /> THE
+                <br /> WORLD
+              </h1>
+              <div style={{ marginLeft: 20 }}>
+                <p style={{ fontSize: 20 }}>Visit with Artists</p>
+                <p style={{ fontSize: 20 }}>Scan the QR Codes</p>
+                <p style={{ fontSize: 20 }}>Collect Stamps</p>
+                <p style={{ fontSize: 20 }}>Unlock Prizes</p>
+              </div>
             </>
           </div>
         </div>
