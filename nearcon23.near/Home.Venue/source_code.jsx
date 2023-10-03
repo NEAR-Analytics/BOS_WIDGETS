@@ -26,7 +26,7 @@ const Text = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 33%;
+  width: 100%%;
   gap: 2em;
   padding: 0;
 
@@ -97,24 +97,31 @@ const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
 
 return (
   <Container>
-    <Text>
-      <h2>Dual Venues</h2>
-      <p>
-        Two beautiful venues just down the street from each other will offer a
+    <div>
+      <Text>
+        <h2>Venue(s)</h2>
+      </Text>
+
+      <p style={{ fontWeight: "400" }}>
+        Three beautiful venues just down the street from each other will offer a
         unique and focused experience.
       </p>
-      <b>
-        Join the official telegram channel, and drop into the spirit before the
-        event.
-      </b>
-      <Widget
-        src={`${ownerId}/widget/Home.TelegramButton`}
-        props={{
-          href: "https://t.me/nearcon",
-          text: "Nearcon Telegram",
-        }}
-      />
-    </Text>
+      <Text>
+        <b>
+          Join the official telegram channel, and drop into the spirit before
+          the event.
+        </b>
+      </Text>
+      <div style={{ marginTop: 20 }}>
+        <Widget
+          src={`${ownerId}/widget/Home.TelegramButton`}
+          props={{
+            href: "https://t.me/nearcon",
+            text: "Nearcon Telegram",
+          }}
+        />
+      </div>
+    </div>
     <Visual>
       <img src={mapImage(palace)} alt="NEARCON Palace" />
       <p>
@@ -153,4 +160,3 @@ return (
     </Visual>
   </Container>
 );
-
