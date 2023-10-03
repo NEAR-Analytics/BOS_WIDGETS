@@ -4,6 +4,81 @@ const prodAction = "sayALotReaction";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+//const authorForWidget = "sayalot.near";
+// const authorForWidget = "kenrou-it.near";
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
+
+State.init({ libCalls: [] });
+
+function libStateUpdate(obj) {
+  State.update(obj);
+}
+
+function setAreValidUsers(accountIds, sbtName) {
+  const newLibCalls = [...state.libCalls];
+  accountIds.forEach((accountId) => {
+    const isCallPushed =
+      newLibCalls.find((libCall) => {
+        return (
+          libCall.functionName === "isValidUser" &&
+          libCall.props.accountId === accountId
+        );
+      }) !== undefined;
+    const isCallReturned = state[`isValidUser-${accountId}`] !== undefined;
+
+    if (isCallPushed || isCallReturned) {
+      return;
+    }
+
+    newLibCalls.push({
+      functionName: "isValidUser",
+      key: `isValidUser-${accountId}`,
+      props: {
+        accountId,
+        sbtName,
+      },
+    });
+  });
+  State.update({ libCalls: newLibCalls });
+}
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+function canUserReact(props) {
+  const { env, accountId, sbtName } = props;
+
+  setAreValidUsers([accountId], sbtName);
+
+  const result = state[`isValidUser-${accountId}`];
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    const discardCondition =
+      call.functionName === "canUserReact" && result !== undefined;
+    return !discardCondition;
+  });
+
+  return result;
+}
+
 function createReaction(props) {
   const { reaction, elementReactedId, onCommit, onCancel } = props;
 
@@ -46,17 +121,42 @@ function saveReaction(reaction, elementReactedId, onCommit, onCancel) {
 
 function getReactionsData(props) {
   // const { elementReactedId, createdReaction } = props;
-  const { elementReactedId } = props;
+  const { elementReactedId, articleSbts } = props;
   const allReactions = Social.index(action, elementReactedId, {
     order: "desc",
     subscribe: true,
   });
 
+  let validReactions = allReactions;
+
+  if (articleSbts.length > 0) {
+    const validReactionsAuthors = validReactions.map((reaction) => {
+      return reaction.accountId;
+    });
+
+    setAreValidUsers(validReactionsAuthors, articleSbts);
+
+    const validAuthors = validReactionsAuthors.filter((author) => {
+      return state[`isValidUser-${author}`] === true;
+    });
+
+    resultLibCalls = resultLibCalls.filter((call) => {
+      const discardCondition =
+        call.functionName === "getReactions" &&
+        state[`isValidUser-${call.props.accountId}`] !== undefined;
+      return !discardCondition;
+    });
+
+    validReactions = validReactionsAuthors.filter((author) => {
+      return validAuthors.includes(author.accountId);
+    });
+  }
+
   // const uniqueAccounts = [];
   let arrayLastReactionForEachUser =
-    allReactions &&
-    allReactions.filter((obj) => {
-      const userLatestInteraction = allReactions.find(
+    validReactions &&
+    validReactions.filter((obj) => {
+      const userLatestInteraction = validReactions.find(
         (vote) => vote.accountId === obj.accountId
       );
       return JSON.stringify(userLatestInteraction) === JSON.stringify(obj);
@@ -137,6 +237,8 @@ function libCall(call) {
     return createReaction(call.props);
   } else if (call.functionName === "getReactionsData") {
     return getReactionsData(call.props);
+  } else if (call.functionName === "canUserReact") {
+    return canUserReact(call.props);
   }
 }
 
