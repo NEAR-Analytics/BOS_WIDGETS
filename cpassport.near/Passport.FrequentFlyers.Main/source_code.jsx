@@ -207,7 +207,10 @@ const findIfExisting = (owner, token) => {
 return (
   <DivBackground>
     <div style={{ width: "100%", padding: 10 }}>
-      <h1 style={{ textAlign: "left" }}>Frequent<br/> Flyers</h1>
+      <h1 style={{ textAlign: "left" }}>
+        Frequent
+        <br /> Flyers
+      </h1>
       {allOwnerIds.splice(0, 5).map((item) => {
         return (
           <GridView>
