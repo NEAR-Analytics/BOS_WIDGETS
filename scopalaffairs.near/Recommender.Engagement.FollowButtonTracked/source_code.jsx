@@ -9,7 +9,7 @@ State.init({
 return (
   <div onClick={handleClick}>
     <Widget
-      src="near/widget/Recommender.Service.EngagementTracker"
+      src="scopalaffairs.near/widget/Recommender.Service.EngagementTracker"
       props={{
         accountId: props.accountId,
         accountIdRank: props.accountIdRank,
@@ -19,7 +19,7 @@ return (
       }}
     />
     <Widget
-      src={"near/widget/FollowButton"}
+      src={"scopalaffairs.near/widget/FollowButton"}
       props={{
         accountId: props.accountId,
       }}
