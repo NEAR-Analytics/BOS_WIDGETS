@@ -1,5 +1,5 @@
 const show = props.show;
-const hide = props.hide ?? (() => {});
+const hide = props.onHide ?? (() => {});
 
 return show ? (
   <>
@@ -9,7 +9,7 @@ return show ? (
       aria-modal="true"
       className="fade modal show"
       style={{ display: "block" }}
-      onClick={hide}
+      onClick={() => hide()}
     >
       <div
         className="modal-dialog modal-xl modal-dialog-centered"
@@ -19,7 +19,11 @@ return show ? (
       >
         <div className="modal-content position-relative">
           <div className="position-absolute top-0 end-0">
-            <button type="button" className="btn-close" onClick={hide}></button>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => hide()}
+            ></button>
           </div>
           {props.children}
         </div>
