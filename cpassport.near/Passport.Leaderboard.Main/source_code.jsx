@@ -143,6 +143,15 @@ const GridView = styled.div`
   margin: auto;
   gap:5px;
   grid-template-columns: repeat(10, 1fr);
+  @media only screen and (max-width: 1024px) {
+    display:block;
+  }
+`;
+
+const HideInMobile = styled.div`
+  @media only screen and (max-width: 1024px) {
+    display:none;
+  }
 `;
 
 const getToken = (series) => {
@@ -168,11 +177,13 @@ return (
     <div>
       <h1 style={{ textAlign: "center" }}>Onboarding Manifest</h1>
       <GridView>
-        <div>
-          <div style={{ height: 70 }} />
-          <p style={{ fontSize: 12 }}>Total:</p>
-          <p style={{ fontSize: 12 }}>Flight log:</p>
-        </div>
+        <HideInMobile>
+          <div>
+            <div style={{ height: 70 }} />
+            <p style={{ fontSize: 12 }}>Total:</p>
+            <p style={{ fontSize: 12 }}>Flight log:</p>
+          </div>
+        </HideInMobile>
         {countryList.map((item) => (
           <div style={{ textAlign: "center" }}>
             <img
