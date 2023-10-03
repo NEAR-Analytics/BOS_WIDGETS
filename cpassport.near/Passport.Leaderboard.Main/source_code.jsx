@@ -7,6 +7,10 @@ const DivBackground = styled.div`
   align-items:center;
    overflow-x: auto;
   justify-content:center;
+    background-image: url("https://ipfs.near.social/ipfs/bafkreifhkr2j72jezjrb3dhuilmgavdlpnmcobxfdl56h6el6msj6bh6se");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 const accountId = props?.accountId ?? context?.accountId;
 
@@ -149,13 +153,13 @@ const GridView = styled.div`
 `;
 
 const HideInMobile = styled.div`
-  @media only screen and (max-width: 1024px) {
+  @media only screen and (max-width: 900px) {
     display:none;
   }
 `;
 
 const ShowInMobile = styled.div`
-  @media only screen and (max-width: 1024px) {
+  @media only screen and (max-width: 900px) {
     display:block;
   }
 `;
