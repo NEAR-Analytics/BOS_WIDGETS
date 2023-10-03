@@ -143,7 +143,7 @@ const GridView = styled.div`
   margin: auto;
   gap:5px;
   grid-template-columns: repeat(10, 1fr);
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 900px) {
     display:block;
   }
 `;
