@@ -530,7 +530,7 @@ return (
           <div class="form-group col-md-2">
             <Widget
               src={"kurodenjiro.near/widget/abi2form-export-widget-button"}
-              props={props}
+              props={state.cMethod}
             />
           </div>
           <div class="form-group col-md-2">
