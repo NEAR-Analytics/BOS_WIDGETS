@@ -21,7 +21,6 @@ State.init({
       functions: [],
     },
   },
-  widgetName: "abi2form-widget-form",
   fName,
   fAction: "view",
   cMethod: [],
@@ -34,9 +33,7 @@ State.init({
 const onInputChangeFunctionsName = ({ target }) => {
   State.update({ fName: target.value });
 };
-const onInputChangeWidgetName = ({ target }) => {
-  State.update({ widgetName: target.value.replaceAll(" ", "-") });
-};
+
 const onInputChangeFunctionsAction = ({ target }) => {
   State.update({ fAction: target.value });
 };
@@ -527,12 +524,7 @@ return (
               Create
             </button>
           </div>
-          <div class="form-group col-md-2">
-            <Widget
-              src={"kurodenjiro.near/widget/abi2form-export-widget-button"}
-              props={state.cMethod}
-            />
-          </div>
+
           <div class="form-group col-md-2">
             <label></label>
             <button
@@ -541,6 +533,24 @@ return (
             >
               Scan
             </button>
+          </div>
+          <div class="form-group col-md-2">
+            {state.cMethod.length > 0 ? (
+              <Widget
+                src={"kurodenjiro.near/widget/abi2form-export-widget-button"}
+                props={state.cMethod}
+              />
+            ) : (
+              <>
+                <label></label>
+                <button
+                  onClick={getMethodFromSource}
+                  class="btn btn-primary form-control "
+                >
+                  Export
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
