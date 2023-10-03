@@ -588,6 +588,12 @@ return (
                       authorForWidget,
                       reactedElementData: articleToRenderData,
                       widgets,
+                      disabled:
+                        !context.accountId ||
+                        context.accountId === accountId ||
+                        (articleSbts.length > 0 &&
+                          !state.canLoggedUserCreateComment),
+                      articleSbts,
                     }}
                   />
                   <Widget
@@ -597,6 +603,11 @@ return (
                       isTest,
                       authorForWidget,
                       elementReactedId: realArticleId,
+                      disabled:
+                        !context.accountId ||
+                        context.accountId === accountId ||
+                        (articleSbts.length > 0 &&
+                          !state.canLoggedUserCreateComment),
                     }}
                   />
                   {context.accountId == accountId && (
@@ -711,6 +722,8 @@ return (
                   isTest,
                   authorForWidget,
                   isReply: false,
+                  canLoggedUserCreateComment: state.canLoggedUserCreateComment,
+                  articleSbts,
                 }}
                 src={widgets.commentView}
               />
