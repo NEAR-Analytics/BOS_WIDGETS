@@ -33,9 +33,9 @@ const Wrapper = styled.div`
       font-size: 16px !important;
     }
     @media(max-width: 767px) {
-      font-size: 14px !important;
+      font-size: 15px !important;
       h1, h2, h3, h4, h5, h6 {
-        font-size: 14px !important;
+        font-size: 15px !important;
       }
     }
 
