@@ -26,9 +26,14 @@ const initLibCalls = [
       sbtName: initSbtName,
     },
   },
+  // {
+  //   functionName: "getLoggedUserSbts",
+  //   key: "logedUserSbts",
+  //   props: {
+  //     accountId: context.accountId,
+  //   },
+  // },
 ];
-
-// console.log("canLoggedUserCreateArticle: ", canLoggedUserCreateArticle);
 
 if (!accountId) accountId = context.accountId;
 
@@ -75,7 +80,10 @@ State.update({ libCalls: newLibCalls });
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
-const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
+const libSrcArray = [
+  `${authorForWidget}/widget/SayALot.lib.article`,
+  // `${authorForWidget}/widget/SayALot.lib.SBT`,
+];
 const thisWidgetName = "SayALot";
 
 // let writersWhiteList = [
@@ -344,6 +352,7 @@ return (
           handleSbtSelection,
           sbts,
           createSbtOptions,
+          // logedUserSbts: state.logedUserSbts,
         }}
       />
     )}
@@ -357,6 +366,7 @@ return (
           articleToRenderData: state.articleToRenderData,
           authorForWidget,
           handleEditArticle,
+          // logedUserSbts: state.logedUserSbts,
         }}
       />
     )}
@@ -372,6 +382,7 @@ return (
           handleOpenArticle,
           handleFilterArticles,
           authorForWidget,
+          // logedUserSbts: state.logedUserSbts,
         }}
       />
     )}
