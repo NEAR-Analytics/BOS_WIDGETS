@@ -1,4 +1,11 @@
-const { isTest, authorForWidget, reactedElementData, widgets } = props;
+const {
+  isTest,
+  authorForWidget,
+  reactedElementData,
+  widgets,
+  disabled,
+  articleSbts,
+} = props;
 
 const data = reactedElementData;
 
@@ -10,6 +17,7 @@ const libCalls = [
     key: "upVotes",
     props: {
       realArticleId: data.realArticleId ?? `${data.author}-${data.timeCreate}`,
+      articleSbts,
     },
   },
 ];
@@ -101,6 +109,7 @@ return (
       props={{
         Button: {
           text: `+${state.upVotes.length}`,
+          disabled,
           className: `${getUpVoteButtonClass()}`,
           size: "sm",
           onClick: upVoteButtonListener,
