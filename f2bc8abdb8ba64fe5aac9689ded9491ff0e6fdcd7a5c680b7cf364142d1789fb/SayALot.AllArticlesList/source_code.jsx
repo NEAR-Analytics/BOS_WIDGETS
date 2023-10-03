@@ -19,6 +19,7 @@ let {
   handleSbtSelection,
   sbts,
   createSbtOptions,
+  // logedUserSbts,
 } = props;
 
 State.init({ start: Date.now() });
@@ -107,6 +108,7 @@ return (
                 handleOpenArticle,
                 handleFilterArticles,
                 authorForWidget,
+                // logedUserSbts,
               }}
             />
           );
