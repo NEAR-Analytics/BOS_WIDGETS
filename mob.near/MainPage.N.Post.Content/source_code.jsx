@@ -48,32 +48,6 @@ const Wrapper = styled.div`
       display: none;
     }
   }
-
-  .lightbox {
-    img {
-      width: 100vw;
-      height: 100vh;
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-  }
-
-  .img-wrapper {
-    width: 100%;
-    border-radius: 0.5em;
-    text-align: center;
-    margin-top: 0.5rem;
-    overflow: hidden;
-    height: 20em;
-    cursor: pointer;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
 `;
 
 const [onHashtag] = useState(() => (hashtag) => (
@@ -88,46 +62,19 @@ const [onHashtag] = useState(() => (hashtag) => (
 
 const [showLightbox, setShowLightbox] = useState(false);
 
-let image = "";
-if (content.image) {
-  const innerImage = (
-    <div className="h-100">
-      <Widget
-        key="img-widget"
-        loading={<div className="img-fluid rounded-3 placeholder" />}
-        src="mob.near/widget/Image"
-        props={{
-          image: content.image,
-          className: "rounded-3",
-          style: {},
-        }}
-      />
-    </div>
-  );
-  image = (
-    <>
-      <div
-        key="c-img"
-        className="img-wrapper"
-        onClick={() => setShowLightbox(true)}
-      >
-        {innerImage}
-      </div>
-      <Widget
-        key="img-lightbox"
-        src="mob.near/widget/N.Lightbox"
-        loading=""
-        props={{
-          show: showLightbox,
-          onHide: () => {
-            setShowLightbox(false);
-          },
-          children: innerImage,
-        }}
-      />
-    </>
-  );
-}
+const [onImage] = useState(() => (props) => (
+  <Widget
+    key="content-img"
+    src="mob.near/widget/MainPage.N.Post.Content.Image"
+    loading=""
+    props={{
+      image: {
+        url: props.src,
+      },
+      alt: props.alt ?? "inline image",
+    }}
+  />
+));
 
 return (
   <Wrapper>
@@ -145,6 +92,7 @@ return (
           props={{
             text: content.text,
             onHashtag,
+            onImage,
           }}
         />
       </div>
@@ -156,6 +104,13 @@ return (
         </div>
       </div>
     </div>
-    {image}
+    {content.image && (
+      <Widget
+        key="content-img"
+        src="mob.near/widget/MainPage.N.Post.Content.Image"
+        loading=""
+        props={{ image: content.image, alt: "attached image" }}
+      />
+    )}
   </Wrapper>
 );
