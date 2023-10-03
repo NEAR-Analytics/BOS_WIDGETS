@@ -142,6 +142,9 @@ const GridView = styled.div`
   width:100%;
   margin-top: 20px;
   grid-template-columns: 50% 40%;
+  @media only screen and (max-width: 768px) {
+    display:block;
+}
 `;
 
 const ImageGrid = styled.div`
@@ -167,7 +170,7 @@ return state?.nftDetails ? (
   <DivBackground>
     <div style={{ width: "100%", textAlign: "center" }}>
       <GridView>
-        <div>
+        <div style={{paddingLeft:20}}>
           <div style={{ textAlign: "left" }}>
             <>
               <h1>
@@ -185,7 +188,7 @@ return state?.nftDetails ? (
           </div>
         </div>
         <div>
-          <p style={{ fontSize: 25 }}>{accountId}</p>
+          <p style={{ fontSize: 14,textAlign:"left", }}>{accountId} stamps</p>
           <ImageGrid>
             {countryList.map((item) => (
               <button
