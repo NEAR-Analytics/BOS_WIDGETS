@@ -15,7 +15,6 @@ const Wrapper = styled.div`
     width: 100%;
     border-radius: 0.5em;
     text-align: center;
-    margin-top: 0.5rem;
     overflow: hidden;
     height: 20em;
     cursor: pointer;
