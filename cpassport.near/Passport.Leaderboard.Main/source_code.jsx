@@ -154,6 +154,12 @@ const HideInMobile = styled.div`
   }
 `;
 
+const ShowInMobile = styled.div`
+  @media only screen and (max-width: 1024px) {
+    display:block;
+  }
+`;
+
 const getToken = (series) => {
   return state[`${series}:token`];
 };
@@ -185,44 +191,52 @@ return (
           </div>
         </HideInMobile>
         {countryList.map((item) => (
-          <div style={{ textAlign: "center" }}>
-            <img
-              style={{ width: 70, height: 70, cursor: "pointer" }}
-              onClick={() => {
-                State.update({ series: item.series });
-              }}
-              src={item.image}
-            />
-            <div
-              style={{
-                backgroundColor: "white",
-                border: "1px solid #ffce1f",
-                borderRadius: 10,
-                zIndex: -5,
-                transform: "translateY(10px)",
-              }}
-            >
-              <p style={{ marginBottom: 0, padding: 10 }}>
-                {getToken(item.series).length}
-              </p>
-            </div>
-            {getToken(item.series).length !== 0 && (
+          <>
+            <ShowInMobile style={{ marginBottom: 20 }} />
+            <div style={{ textAlign: "center" }}>
+              <img
+                style={{ width: 70, height: 70, cursor: "pointer" }}
+                onClick={() => {
+                  State.update({ series: item.series });
+                }}
+                src={item.image}
+              />
               <div
                 style={{
                   backgroundColor: "white",
                   border: "1px solid #ffce1f",
-                  padding: 10,
-                  paddingTop: 20,
-                  zIndex: 10,
                   borderRadius: 10,
+                  zIndex: -5,
+                  transform: "translateY(10px)",
                 }}
               >
-                {getToken(item.series).map((item) => (
-                  <p style={{ fontSize: 8 }}>{item.owner}</p>
-                ))}
+                <p style={{ marginBottom: 0, padding: 10 }}>
+                  <ShowInMobile>
+                    Total : {getToken(item.series).length}
+                  </ShowInMobile>
+                </p>
               </div>
-            )}
-          </div>
+              {getToken(item.series).length !== 0 && (
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    border: "1px solid #ffce1f",
+                    padding: 10,
+                    paddingTop: 20,
+                    zIndex: 10,
+                    borderRadius: 10,
+                  }}
+                >
+                  <ShowInMobile style={{ marginBottom: 16 }}>
+                    Flight log
+                  </ShowInMobile>
+                  {getToken(item.series).map((item) => (
+                    <p style={{ fontSize: 8 }}>{item.owner}</p>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
         ))}
       </GridView>
     </div>
