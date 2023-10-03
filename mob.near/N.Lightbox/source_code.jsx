@@ -14,7 +14,7 @@ return show ? (
       <div
         className="modal-dialog modal-xl modal-dialog-centered"
         onClick={(e) => {
-          e.stopPropagation();
+          e.stopPropagation && e.stopPropagation();
         }}
       >
         <div className="modal-content position-relative">
