@@ -333,9 +333,12 @@ const ListButton = styled.button`
 
 const ListedMarkets = styled.ul`
    list-style-type: none;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
    li {
     background: #EFF3F9;
-    padding: 5px 10px;
+    padding: 7px 10px;
     border-radius: 12px;
     margin-right: 20px;
    }
@@ -344,7 +347,7 @@ const ListedMarkets = styled.ul`
     height: 20px;
     margin-right: 4px;
   }
-`
+`;
 
 State.init({
   amount: 0,
@@ -454,7 +457,10 @@ return (
                   Object.keys(props.state.tokenInfo.approved_account_ids).map(
                     (key) => (
                       <li>
-                        <img src={marketPlaceImage[matchedKeyWords(key)]} alt="" />
+                        <img
+                          src={marketPlaceImage[matchedKeyWords(key)]}
+                          alt=""
+                        />
                         <a
                           href={props.marketLinks[matchedKeyWords(key)].link}
                           target="_blank"
