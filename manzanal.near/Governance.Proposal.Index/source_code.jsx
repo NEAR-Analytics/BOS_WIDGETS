@@ -169,10 +169,10 @@ const statusColor =
   state.status === "Accepted" || state.status == "Executed"
     ? "#28a930"
     : state.status === "VotingProcess"
-    ? "#58a1ff"
-    : state.status === "Rejected" || state.status == "Canceled"
-    ? "#dc3545"
-    : "#6c757d";
+      ? "#58a1ff"
+      : state.status === "Rejected" || state.status == "Canceled"
+        ? "#dc3545"
+        : "#6c757d";
 
 const Container = styled.div`
   margin: 16px auto; 
@@ -443,7 +443,10 @@ return (
           />
         </div>
         <div>
-          <Markdown text={state.proposal.body} />
+          <Widget
+            src="mob.near/widget/SocialMarkdown"
+            props={{ text: state.proposal.body }}
+          />
         </div>
         <div
           className="d-flex flex-wrap align-items-start"
