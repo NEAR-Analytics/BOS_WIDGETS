@@ -1,4 +1,11 @@
-const { isTest, authorForWidget, elementReactedId, widgets } = props;
+const {
+  isTest,
+  authorForWidget,
+  elementReactedId,
+  widgets,
+  disabled,
+  articleSbts,
+} = props;
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
 // It is important that 'Heart' Positive emoji is first
@@ -45,6 +52,7 @@ const libCalls = [
     key: "reactionsData",
     props: {
       elementReactedId,
+      articleSbts,
     },
   },
 ];
@@ -60,7 +68,9 @@ State.init({
 // ================= Mouse Handlers ===============
 
 function handleOnMouseEnter() {
-  State.update({ show: true });
+  if (!disabled) {
+    State.update({ show: true });
+  }
 }
 
 function handleOnMouseLeave() {
@@ -72,7 +82,7 @@ function onPushEnd() {
 }
 
 function reactListener(emojiMessage) {
-  if (state.loading) {
+  if (state.loading || disabled) {
     return;
   }
 
@@ -113,10 +123,14 @@ const Button = styled.button`
   margin: 2px 0;
   border: 0;
   border-radius: .375rem;
-  :hover {
+  ${
+    !disabled &&
+    `:hover {
     background: #EBEBEB; 
     outline: 1px solid #C6C7C8;
+    }`
   }
+  
 `;
 
 const SmallReactButton = styled.button`
@@ -130,9 +144,12 @@ const SmallReactButton = styled.button`
   margin: 2px 0;
   border: 0;
   border-radius: .375rem;
-  :hover {
+  ${
+    !disabled &&
+    `:hover {
     background: #EBEBEB; 
     outline: 1px solid #C6C7C8;
+    }`
   }
 `;
 
@@ -271,25 +288,29 @@ const renderReaction = (item, isInButton) => {
 return (
   <>
     <EmojiWrapper>
-      {!state.reactionsData.userReaction ? (
-        <Button
-          onMouseEnter={handleOnMouseEnter}
-          onMouseLeave={handleOnMouseLeave}
-        >
-          {state.loading && <Spinner />}
-          {initialEmoji}
-        </Button>
-      ) : (
-        <SmallReactButton
-          onMouseEnter={handleOnMouseEnter}
-          onMouseLeave={handleOnMouseLeave}
-        >
-          {state.loading && <Spinner />}
-          {state.reactionsData.reactionsStatistics &&
-            state.reactionsData.reactionsStatistics.map((item) =>
-              renderReaction(item, true)
-            )}
-        </SmallReactButton>
+      {!disabled && (
+        <>
+          {!state.reactionsData.userReaction ? (
+            <Button
+              onMouseEnter={handleOnMouseEnter}
+              onMouseLeave={handleOnMouseLeave}
+            >
+              {state.loading && <Spinner />}
+              {initialEmoji}
+            </Button>
+          ) : (
+            <SmallReactButton
+              onMouseEnter={handleOnMouseEnter}
+              onMouseLeave={handleOnMouseLeave}
+            >
+              {state.loading && <Spinner />}
+              {state.reactionsData.reactionsStatistics &&
+                state.reactionsData.reactionsStatistics.map((item) =>
+                  renderReaction(item, true)
+                )}
+            </SmallReactButton>
+          )}
+        </>
       )}
       <Overlay />
       {state.reactionsData.reactionsStatistics &&
