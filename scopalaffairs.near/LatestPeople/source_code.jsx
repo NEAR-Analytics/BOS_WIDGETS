@@ -37,6 +37,8 @@ const options = [
   { text: "Recommended", value: "recommended" },
 ];
 
+const fromContext = props;
+
 const FlexContainer = styled.div`
   display: flex;
   align-items: center;
@@ -100,7 +102,7 @@ return (
       <H2>People</H2>
       <Select>
         <Widget
-          src="scopalaffairs.near/widget/Select"
+          src="near/widget/Select"
           props={{
             border: "0px",
             noLabel: true,
@@ -126,7 +128,7 @@ return (
             </Item>
           ))}
         </LatestPeople>
-        <ButtonLink href="#/scopalaffairs.near/widget/PeoplePage">
+        <ButtonLink href="#/near/widget/PeoplePage">
           View All People <span>({totalAccounts})</span>
         </ButtonLink>
       </>
@@ -134,16 +136,26 @@ return (
     {state.selectedView.value === "trending" && (
       <>
         <Widget
-          src="scopalaffairs.near/widget/Recommender.Views.TrendingUsersView"
-          props={{ sidebar: true }}
+          src="near/widget/Recommender.Views.TrendingUsersView"
+          props={{
+            sidebar: true,
+            fromContext: fromContext,
+            gridCols: "repeat(1, minmax(0, 1fr))",
+            returnElements: 5,
+          }}
         />
       </>
     )}
     {state.selectedView.value === "recommended" && (
       <>
         <Widget
-          src="scopalaffairs.near/widget/Recommender.Views.FriendsOfFriendsView"
-          props={{ sidebar: true }}
+          src="near/widget/Recommender.Views.FriendsOfFriendsView"
+          props={{
+            sidebar: true,
+            fromContext: fromContext,
+            gridCols: "repeat(1, minmax(0, 1fr))",
+            returnElements: 10,
+          }}
         />
       </>
     )}
