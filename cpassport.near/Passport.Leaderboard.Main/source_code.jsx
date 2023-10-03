@@ -15,8 +15,6 @@ State.init({
   hasFetched: {},
 });
 
-console.log(state);
-
 const phillipines = {
   series: "224",
   country: "Phillipines",
