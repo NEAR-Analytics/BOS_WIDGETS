@@ -9,7 +9,7 @@ return (
     </div>
     <div className="row">
       <div className="col">
-        <h2>trusted<h2>
+        <h2>trusted</h2>
         <Widget
           id="trusted"
           src="andyh.near/widget/StateDemoRoot"
@@ -18,7 +18,7 @@ return (
         />
       </div>
       <div className="col">
-        <h2>sandboxed<h2>
+        <h2>sandboxed</h2>
         <Widget
           id="sandboxed"
           src="andyh.near/widget/StateDemoRoot"
