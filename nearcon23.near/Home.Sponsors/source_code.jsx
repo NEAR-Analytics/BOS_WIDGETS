@@ -35,23 +35,26 @@ const Section = styled.div`
 `;
 
 const Logos = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  flex-wrap:wrap;
   width: 100%;
-  gap: 3rem;
+  gap: 2rem;
+  justify-content:center;
+  & > img {
+    object-fit: contain;
+  }
+`;
 
+const Img = styled.img`
+  width:22%;
   @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
+    width:44%;
   }
 
   @media screen and (max-width: 480px) {
-    grid-template-columns: repeat(1, 1fr);
+    width:100%;
   }
 
-  & > img {
-    width: 100%;
-    object-fit: contain;
-  }
 `;
 
 State.init({
@@ -80,7 +83,7 @@ if (!state.sponsorsIsFetched) {
 return (
   <Section>
     <div>
-      <h2>Last year’s Sponsors</h2>
+      <h2>Media Partners</h2>
       <Widget
         src={`${ownerId}/widget/Home.BlackButton`}
         props={{
@@ -91,7 +94,7 @@ return (
     </div>
     <Logos>
       {state.sponsors.map((src) => (
-        <img src={src} />
+        <Img src={src} />
       ))}
     </Logos>
   </Section>
