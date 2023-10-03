@@ -183,7 +183,7 @@ const tabsData = [
     label: "Active Accounts",
     content: "...",
     widgets: [
-      "y3k.near/widget/near_atlas.components.MonthlyActiveAcounts",
+      "y3k.near/widget/near_atlas.components.MAAS.dropdown",
       "y3k.near/widget/near_atlas.tailwind.React.Table.TopDapps",
       "y3k.near/widget/near_atlas.tailwind.Aurora.Table.TopDapps",
     ],
