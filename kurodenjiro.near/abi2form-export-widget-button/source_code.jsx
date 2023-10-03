@@ -1,4 +1,4 @@
-State.init({ cMethod: props, widgetName: "abi2form-widget-form" });
+State.init({ cMethod: props.cMethod, widgetName: "abi2form-widget-form" });
 const onSwitchChangeArgExport = (fIndex) => {
   const abiMethod = state.cMethod;
   abiMethod[fIndex].export = !abiMethod[fIndex].export;
@@ -10,9 +10,9 @@ const onInputChangeWidgetName = ({ target }) => {
 const exportForm = () => {
   const abi = {
     schema_version: "0.3.0",
-    address: state.contractAddress,
+    address: props.contractAddress,
     metadata: {
-      name: state.contractAddress,
+      name: props.contractAddress,
       version: "0.1.0",
       authors: [""],
     },
