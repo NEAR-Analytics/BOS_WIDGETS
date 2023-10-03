@@ -26,35 +26,48 @@ const accountsWithReposts = Object.keys(repostsByUsers);
 const repostCount = accountsWithReposts.length;
 const hasRepost = context.accountId && !!repostsByUsers[context.accountId];
 
-const RepostButton = styled.button`
-  border: 0 !important;
+const RepostButton = styled.div`
+  line-height: 20px;
+  min-height: 20px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
+  justify-content: left;
   background: inherit;
   color: inherit;
-  height: 1em;
-  line-height: normal;
+  font-size: 16px;
+  .icon {
+    position: relative;
+    &:before {
+      margin: -8px;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 50%;
+    }
+  }
+
+  .count {
+    margin-left: 8px;
+  }
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+
   &:not([disabled]):hover {
     opacity: 1 !important;
     color: rgb(0, 184, 124);
 
-    &:before {
-      content: "";
-      position: absolute;
-      left: 1px;
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
+    .icon:before {
       background: rgb(0, 184, 124, 0.1);
     }
   }
+
   .clicked {
     color: rgb(0, 184, 124);
-  }
-  .count {
-    margin-left: 8px;
   }
 `;
 
@@ -109,12 +122,11 @@ const title = "Repost";
 const repostSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="26"
-    height="26"
+    style={{ width: "1.25em" }}
     fill="currentColor"
-    viewBox="0 0 24 24"
+    viewBox="0 1 24 24"
     stroke="currentColor"
-    strokeWidth="0.5"
+    strokeWidth="0.75"
   >
     <path
       fill-rule="evenodd"
@@ -160,12 +172,13 @@ return (
         disabled={
           props.disabled || state.loading || dataLoading || !context.accountId
         }
-        className="text-nowrap"
         data-bs-toggle="dropdown"
         aria-expanded="false"
         title={title}
       >
-        <span className={hasRepost ? "clicked" : ""}>{repostSvg}</span>
+        <span className={`icon ${hasRepost ? " clicked" : ""}`}>
+          {repostSvg}
+        </span>
         <span className={`count ${hasRepost ? "clicked" : ""}`}>
           <Widget
             loading={repostCount || ""}
