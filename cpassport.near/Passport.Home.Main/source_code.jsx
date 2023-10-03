@@ -135,6 +135,10 @@ const DivBackground = styled.div`
   width:100%;
   align-items:center;
   justify-content:center;
+    background-image: url("https://ipfs.near.social/ipfs/bafkreifhkr2j72jezjrb3dhuilmgavdlpnmcobxfdl56h6el6msj6bh6se");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const GridView = styled.div`
@@ -168,7 +172,7 @@ return state?.nftDetails ? (
   </>
 ) : (
   <DivBackground>
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", textAlign: "center" }}>
       <GridView>
         <div style={{ paddingLeft: 20 }}>
           <div style={{ textAlign: "left" }}>
