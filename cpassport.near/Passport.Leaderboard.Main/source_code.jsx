@@ -5,6 +5,7 @@ const DivBackground = styled.div`
   padding-bottom:20vh;
   width:100%;
   align-items:center;
+   overflow-x: auto;
   justify-content:center;
 `;
 const accountId = props?.accountId ?? context?.accountId;
@@ -107,7 +108,6 @@ function fetchTokens(series) {
         `,
     }),
   }).then((res) => {
-    console.log(res.ok, series);
     if (res.ok) {
       const token = res.body.data.mb_views_nft_tokens;
       if (token) {
