@@ -333,6 +333,7 @@ return (
             authorForWidget,
             elementReactedId: data.originalComment.value.comment.commentId,
             widgets,
+            articleSbts,
           }}
         />
       </CommentCardLowerSection>
