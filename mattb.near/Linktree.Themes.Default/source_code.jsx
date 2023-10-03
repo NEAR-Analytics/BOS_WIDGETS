@@ -198,6 +198,12 @@ const LinktreeLinks = styled.div`
   max-width:400px;
 `;
 
+const Details = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 return {
   Wrapper,
   Section,
@@ -212,4 +218,5 @@ return {
   FollowButtonWrapper,
   Linktree,
   LinktreeLinks,
+  Details,
 };
