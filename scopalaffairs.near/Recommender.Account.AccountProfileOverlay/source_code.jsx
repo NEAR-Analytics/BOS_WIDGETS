@@ -1,7 +1,7 @@
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
 const verifications = props.verifications;
 const overlayStyles = props.overlayStyles;
 
@@ -86,7 +86,7 @@ const overlay = (
     <Card onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
       <div className="d-flex align-items-center">
         <Widget
-          src="near/widget/Recommender.Account.AccountProfileSidebar"
+          src="scopalaffairs.near/widget/Recommender.Account.AccountProfileSidebar"
           props={{
             accountId: props.accountId,
             profile,
@@ -95,7 +95,7 @@ const overlay = (
         />
         {!!context.accountId && context.accountId !== props.accountId && (
           <Widget
-            src="near/widget/FlagButton"
+            src="scopalaffairs.near/widget/FlagButton"
             props={{
               item: contentModerationItem,
               disabled: !context.accountId || context.accountId === accountId,
@@ -214,12 +214,12 @@ const overlay = (
         <OverlayTagsWrapper>
           <Widget
             className="layout"
-            src="near/widget/Tags"
+            src="scopalaffairs.near/widget/Tags"
             props={{ tags, scroll: true }}
           />
           <RecommendedAvatars>
             <Widget
-              src="near/widget/Recommender.Views.RecommendedAvatars"
+              src="scopalaffairs.near/widget/Recommender.Views.RecommendedAvatars"
               props={{
                 avatarSize: "25px",
                 becauseYouFollow: props.becauseYouFollow,
@@ -232,7 +232,7 @@ const overlay = (
         </OverlayTagsWrapper>
       ) : (
         <Widget
-          src="near/widget/Tags"
+          src="scopalaffairs.near/widget/Tags"
           props={{ tags, scroll: true }}
         />
       )}
@@ -240,7 +240,7 @@ const overlay = (
       {!!context.accountId && context.accountId !== props.accountId && (
         <FollowButtonWrapper>
           <Widget
-            src="near/widget/Recommender.Engagement.FollowButtonTracked"
+            src="scopalaffairs.near/widget/Recommender.Engagement.FollowButtonTracked"
             props={{
               accountIdRank: props.accountIdRank || null,
               accountId: accountId || props.accountId,
@@ -274,7 +274,7 @@ return (
 
       {state.hasBeenFlagged && (
         <Widget
-          src={`near/widget/DIG.Toast`}
+          src={`scopalaffairs.near/widget/DIG.Toast`}
           props={{
             type: "info",
             title: "Flagged for moderation",
