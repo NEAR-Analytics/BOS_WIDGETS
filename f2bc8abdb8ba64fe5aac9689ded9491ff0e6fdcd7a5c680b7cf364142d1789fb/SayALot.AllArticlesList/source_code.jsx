@@ -45,32 +45,30 @@ function getDateLastEdit(timestamp) {
 }
 
 //================================================END FUNCTIONS=====================================================
-console.log("sbts selected: ", sbts);
 
 return (
   <>
-    {true && (
-      // showCreateArticle && (
-      <Widget
-        src={widgets.create}
-        props={{
-          isTest,
-          addressForArticles,
-          authorForWidget,
-          stateUpdate,
-          widgets,
-          initialCreateState,
-          editArticleData,
-          callLibs,
-          handleFilterArticles,
-          handleEditArticle,
-          initialBody: "",
-          createSbtOptions,
-        }}
-      />
-    )}
     {
-      //TODO add sbt selector using the variable sbtWhiteList
+      // true && (
+      showCreateArticle && (
+        <Widget
+          src={widgets.create}
+          props={{
+            isTest,
+            addressForArticles,
+            authorForWidget,
+            stateUpdate,
+            widgets,
+            initialCreateState,
+            editArticleData,
+            callLibs,
+            handleFilterArticles,
+            handleEditArticle,
+            initialBody: "",
+            createSbtOptions,
+          }}
+        />
+      )
     }
     <div className="mt-3 border-top pt-2">
       <Widget
