@@ -169,10 +169,10 @@ const statusColor =
   state.status === "Accepted" || state.status == "Executed"
     ? "#28a930"
     : state.status === "VotingProcess"
-      ? "#58a1ff"
-      : state.status === "Rejected" || state.status == "Canceled"
-        ? "#dc3545"
-        : "#6c757d";
+    ? "#58a1ff"
+    : state.status === "Rejected" || state.status == "Canceled"
+    ? "#dc3545"
+    : "#6c757d";
 
 const Container = styled.div`
   margin: 16px auto; 
@@ -183,33 +183,37 @@ const Container = styled.div`
   justify-content: start; 
 `;
 
+const Text = styled.p`
+    line-height: 1.4;
+    font-weight: 400;
+    font-size: 15px;
+    color: #868682;
+    margin: 0;
+  `;
+const Heading3 = styled.h3`
+    font-weight: 600;
+    font-size: 24px;
+    color: #1b1b18;
+`;
+const Heading5 = styled.h5`
+   font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #6c757d;
+`;
+const Heading4 = styled.h4`
+   font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #1b1b18;
+`;
+
 const ContentContainer = styled.div`
   width:100%;
   display: flex;
   flex-direction: row;
   gap: 24px;
   min-height: 500px;
-
-  p {
-    line-height: 1.4;
-    font-weight: 400;
-    font-size: 15px;
-    color: #868682;
-    margin: 0;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 24px;
-    color: #1b1b18;
-  }
-
-  h5 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #6c757d;
-  }
 
   .status {
     font-size: 14px;
@@ -232,27 +236,6 @@ const WrapperLeft = styled.div`
   flex-direction: column;
   gap: 24px;
   min-height: 500px;
-
-  p {
-    line-height: 1.4;
-    font-weight: 400;
-    font-size: 15px;
-    color: #868682;
-    margin: 0;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 24px;
-    color: #1b1b18;
-  }
-
-  h5 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #6c757d;
-  }
 
   .status {
     font-size: 14px;
@@ -351,6 +334,7 @@ if (
   !state.proposalIsEditableIsFetched
 )
   return <>Loading...</>;
+console.log(state.proposal.body);
 
 return (
   <Container>
@@ -428,26 +412,26 @@ return (
         </div>
 
         <div className="d-flex flex-row gap-1 justify-content-between">
-          <h3>
+          <Heading3>
             Prop {state.proposal.mpip_id} - {state.proposal.title}
-          </h3>
+          </Heading3>
         </div>
         <div>
-          <h4>{state.proposal.short_description}</h4>
+          <Heading4>{state.proposal.short_description}</Heading4>
         </div>
         <div className="d-flex flex-row gap-1 align-items-center">
-          <h5>by </h5>
+          <Heading5>by </Heading5>
           <Widget
             src="mob.near/widget/Profile.ShortInlineBlock"
             props={{ accountId: state.proposal.creator_id, tooltip: true }}
           />
         </div>
-        <div>
-          <Widget
-            src="mob.near/widget/SocialMarkdown"
-            props={{ text: state.proposal.body }}
-          />
-        </div>
+
+        <Widget
+          src="mob.near/widget/SocialMarkdown"
+          props={{ text: state.proposal.body }}
+        />
+
         <div
           className="d-flex flex-wrap align-items-start"
           style={{
