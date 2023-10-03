@@ -1,4 +1,7 @@
 const accountId = props.accountId;
+if (!accountId) {
+  return "No accountId";
+}
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const pinned = !!props.pinned;
