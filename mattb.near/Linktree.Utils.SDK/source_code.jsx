@@ -32,7 +32,7 @@ const LinktreeSDK = {
     };
   },
   getAccountUrl: (account) => `#/near/widget/ProfilePage?accountId=${account}`,
-  getShareUrl: (account) => `https://near.org${account}`,
+  getShareUrl: (account) => `https://near.org/${Linktree.getAccountUrl(account)}`,
   getProfile: (account) => Social.get(`${account}/profile/**`, "final") || {},
   getFollowing: (account) =>
     Social.keys(`${account}/graph/follow/*`, "final", {
