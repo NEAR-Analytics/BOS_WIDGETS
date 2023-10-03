@@ -32,12 +32,11 @@ const hasLike = context.accountId && !!likesByUsers[context.accountId];
 const heartSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
     fill="currentColor"
     viewBox="-2 -2 20 20"
     stroke="currentColor"
     strokeWidth="0.5"
+    style={{ width: "1.25em" }}
   >
     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
   </svg>
@@ -46,8 +45,7 @@ const heartSvg = (
 const heartFillSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    style={{ width: "1.25em" }}
     fill="currentColor"
     viewBox="-2 -2 20 20"
     stroke="currentColor"
@@ -60,38 +58,47 @@ const heartFillSvg = (
   </svg>
 );
 
-const LikeButton = styled.button`
-  border: 0 !important;
+const LikeButton = styled.div`
+  line-height: 20px;
+  min-height: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: left;
-  position: relative;
   background: inherit;
   color: inherit;
-  height: 1em;
-  line-height: normal;
-  &:hover {
+  font-size: 16px;
+  .icon {
+    position: relative;
+    &:before {
+      margin: -8px;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 50%;
+    }
+  }
+
+  .count {
+    margin-left: 8px;
+  }
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+
+  &:not([disabled]):hover {
     opacity: 1 !important;
     color: red;
 
-    &:before {
-      content: "";
-      position: absolute;
-      left: 1px;
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
+    .icon:before {
       background: rgba(255, 0, 0, 0.1);
     }
   }
-  svg {
-    margin-top: 2px;
-  }
   .liked {
     color: red;
-  }
-  .count {
-    margin-left: 8px;
   }
 `;
 
@@ -137,7 +144,7 @@ return (
       title={title}
       onClick={likeClick}
     >
-      <span className={hasLike ? "liked" : ""}>
+      <span className={`icon ${hasLike ? "liked" : ""}`}>
         {hasLike ? heartFillSvg : heartSvg}
       </span>
       <span className={`count ${hasLike ? "liked" : ""}`}>
