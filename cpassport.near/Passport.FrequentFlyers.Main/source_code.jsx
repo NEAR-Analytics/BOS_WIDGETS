@@ -200,20 +200,6 @@ const findIfExisting = (owner, token) => {
   return allitems;
 };
 
-if (state.series) {
-  return (
-    <Widget
-      src="cpassport.near/widget/Passport.NFTDetails.Main"
-      props={{
-        series: state.series,
-        onBack: () => {
-          State.update({ series: null });
-        },
-      }}
-    />
-  );
-}
-
 return (
   <DivBackground>
     <div style={{ width: "100%", padding: 10 }}>
@@ -231,13 +217,9 @@ return (
                 const isExsisting = findIfExisting(item, _.series);
                 return (
                   <img
-                    onClick={() => {
-                      State.update({ series: _.series });
-                    }}
                     style={{
                       height: 60,
                       width: 60,
-                      cursor: "pointer",
                       opacity: isExsisting.length === 0 ? 0.6 : 1,
                     }}
                     src={_.image}
