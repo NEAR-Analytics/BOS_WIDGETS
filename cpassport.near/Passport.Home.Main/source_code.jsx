@@ -170,7 +170,7 @@ return state?.nftDetails ? (
   <DivBackground>
     <div style={{ width: "100%", textAlign: "center" }}>
       <GridView>
-        <div style={{paddingLeft:20}}>
+        <div style={{ paddingLeft: 20 }}>
           <div style={{ textAlign: "left" }}>
             <>
               <h1>
@@ -187,8 +187,8 @@ return state?.nftDetails ? (
             </>
           </div>
         </div>
-        <div>
-          <p style={{ fontSize: 14,textAlign:"left", }}>{accountId} stamps</p>
+        <div style={{ paddingLeft: 10 }}>
+          <p style={{ fontSize: 14, textAlign: "left" }}>{accountId} stamps</p>
           <ImageGrid>
             {countryList.map((item) => (
               <button
