@@ -341,7 +341,7 @@ return (
             width: "100%",
           }}
           onClick={async () => {
-            setBins("HOLI");
+            setBins(state.allBins);
           }}
         >
           Select
