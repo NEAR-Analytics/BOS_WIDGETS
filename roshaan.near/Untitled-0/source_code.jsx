@@ -95,8 +95,8 @@ const TextLink = styled.a`
 
 if (!indexer_name) return "missing indexer_name";
 
-let v1_endpoint = `${REPL_GRAPHQL_ENDPOINT}`;
-let v2_endpoint = `${REPL_GRAPHQL_ENDPOINT_V2}`;
+let v1_endpoint = `https://near-queryapi.api.pagoda.co`;
+let v2_endpoint = `https://queryapi-hasura-graphql-mainnet-vcqilefdcq-ew.a.run.app`;
 
 State.init({
   logs: [],
