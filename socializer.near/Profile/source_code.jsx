@@ -220,7 +220,14 @@ return (
         }}
       />
       <div>
-        <h4>Hi, {profile.name ? profile.name : accountId}</h4>
+        <h4>
+          Hi,{" "}
+          {profile.name
+            ? profile.name
+            : accountId.length > 30
+            ? `${accountId.slice(0, 30)}...`
+            : accountId}
+        </h4>
         <h6>
           <b>Wallet ID:</b>
           {accountId}
