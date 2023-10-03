@@ -15,6 +15,27 @@ const Container = styled.div`
   border-radius: 16px;
   background: #ffffff;
 
+  p {
+    line-height: 1.4;
+    font-weight: 400;
+    font-size: 15px;
+    color: #868682;
+    margin: 0;
+  }
+
+  h3 {
+    font-weight: 600;
+    font-size: 24px;
+    color: #1b1b18;
+  }
+
+  h5 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #6c757d;
+  }
+
   & h4 {
     font-family: "Inter";
     font-style: normal;
