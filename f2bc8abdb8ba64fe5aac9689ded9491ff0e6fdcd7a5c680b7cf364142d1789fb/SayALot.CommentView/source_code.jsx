@@ -1,5 +1,13 @@
-const { widgets, data, isTest, authorForWidget, isReply, orginalCommentData } =
-  props;
+const {
+  widgets,
+  data,
+  isTest,
+  authorForWidget,
+  isReply,
+  orginalCommentData,
+  canLoggedUserCreateComment,
+  articleSbts,
+} = props;
 
 State.init({
   showModal: false,
@@ -145,7 +153,20 @@ const ShareCommentIcon = styled.img`
   flex-shrink: 0;
 `;
 
-const ReplyCommentButton = styled.div`
+const ReplyCommentButtonDisabled = styled.div`
+  display: flex;
+  padding: 2px 12px;
+  cursor: not-allowed;
+  background: rgb(195, 202, 206);
+  color: rgb(130, 134, 136);
+  border: 0px;
+  align-items: center;
+  gap: 6px;
+  align-self: stretch;
+  border-radius: 4px;
+`;
+
+const ReplyCommentButtonActive = styled.div`
   cursor: pointer;
   display: flex;
   padding: 2px 12px;
@@ -289,14 +310,21 @@ return (
               }}
             />
           )}
-          <ReplyCommentButton
-            onClick={async () => {
-              State.update({ showModal: true });
-            }}
-          >
-            <ReplyCommentText>Reply</ReplyCommentText>
-            <i className="bi bi-reply"></i>
-          </ReplyCommentButton>
+          {articleSbts.length > 0 && !state.canLoggedUserCreateComment ? (
+            <ReplyCommentButtonDisabled>
+              <ReplyCommentText>Reply</ReplyCommentText>
+              <i className="bi bi-reply"></i>
+            </ReplyCommentButtonDisabled>
+          ) : (
+            <ReplyCommentButtonActive
+              onClick={async () => {
+                State.update({ showModal: true });
+              }}
+            >
+              <ReplyCommentText>Reply</ReplyCommentText>
+              <i className="bi bi-reply"></i>
+            </ReplyCommentButtonActive>
+          )}
         </div>
         <Widget
           src={widgets.reactions}
