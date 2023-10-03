@@ -28,8 +28,7 @@ ${externalLink}
 const shareSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    style={{ height: "1.5em" }}
     fill="currentColor"
     viewBox="0 0 16 16"
     stroke="currentColor"
@@ -57,8 +56,8 @@ const Button = styled.button`
       position: absolute;
       left: 1px;
       border-radius: 50%;
-      width: 35px;
-      height: 35px;
+      width: 2.1875em;
+      height: 2.1875em;
       background: rgba(0, 191, 255, 0.1);
     }
   }
