@@ -14,7 +14,7 @@ const Nav = styled.div`
   justify-content: end;
   align-items: center;
   gap: 12px;
-  font-weight: 500;
+  font-weight: 00;
 
   a{
     color: #000000;
@@ -49,48 +49,47 @@ const projects = [
     image:
       "https://global-uploads.webflow.com/6241bcd9e666c1514401461d/62e156a2c420dd2b31cc61d8_Caramelo-Club-NFTMintRadar.png",
     name: "Caramelo Clube",
-    description: "ABCABCABC.",
     rtl: false,
   },
   {
     image:
       "https://pbs.twimg.com/media/FsQwvVdXoAAU8a3?format=png&name=360x360",
     name: "Rasta Cripto",
-    description: "ABCABCABCABC",
+    link: "https://twitter.com/home",
     rtl: true,
   },
   {
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv_jznVZ-xZOGEHWzuIK4xRV13mjUtkjcKzw2yM4rvYo25rEGn7Wzkwgaro6JbhlUIu98&usqp=CAU",
-    name: "Pug Cripto",
-    description: "ABCABCABCABC",
+    name: "Pug Gang",
     rtl: true,
   },
   // Adicione mais projetos conforme necessário
 ];
-
 return (
   <div>
     {header}
     <div style={{ display: "flex", flexWrap: "wrap" }}>
-      {projects.map((project, index) => (
+      {projects.map((project) => (
         <div
-          key={index}
+          key={project.id}
           style={{
             width: "25%", // Cada coluna ocupa 25% da largura da página
-            padding: "16px", // Espaçamento interno
+            padding: "5px", // Espaçamento interno
             boxSizing: "border-box",
           }}
         >
-          <img
-            style={{
-              width: "100%",
-              height: "200px", // Altura da imagem
-              objectFit: "cover",
-            }}
-            src={project.image}
-            alt={project.name}
-          />
+          <a href={project.link} target="_blank" rel="noopener noreferrer">
+            <img
+              style={{
+                width: "100%",
+                height: "100px", // Altura da imagem
+                objectFit: "cover",
+              }}
+              src={project.image}
+              alt={project.name}
+            />
+          </a>
           <h2>{project.name}</h2>
           <p>{project.description}</p>
         </div>
@@ -98,3 +97,4 @@ return (
     </div>
   </div>
 );
+
