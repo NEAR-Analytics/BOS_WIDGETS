@@ -141,10 +141,10 @@ const GridView = styled.div`
   display: grid;
   width:100%;
   margin-top: 20px;
-  grid-template-columns: 50% 40%;
+  grid-template-columns: 35% 60%;
   @media only screen and (max-width: 768px) {
     display:block;
-}
+  }
 `;
 
 const ImageGrid = styled.div`
