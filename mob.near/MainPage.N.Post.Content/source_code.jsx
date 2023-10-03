@@ -105,12 +105,13 @@ return (
       </div>
     </div>
     {content.image && (
-      <Widget
-        key="content-img"
-        src="mob.near/widget/MainPage.N.Post.Content.Image"
-        loading=""
-        props={{ image: content.image, alt: "attached image" }}
-      />
+      <div key="content-img" className="mt-2">
+        <Widget
+          src="mob.near/widget/MainPage.N.Post.Content.Image"
+          loading=""
+          props={{ image: content.image, alt: "attached image" }}
+        />
+      </div>
     )}
   </Wrapper>
 );
