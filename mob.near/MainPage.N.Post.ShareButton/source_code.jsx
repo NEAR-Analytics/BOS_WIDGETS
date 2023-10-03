@@ -28,7 +28,7 @@ ${externalLink}
 const shareSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    style={{ height: "1.5em" }}
+    style={{ width: "1.25em" }}
     fill="currentColor"
     viewBox="0 0 16 16"
     stroke="currentColor"
@@ -39,25 +39,38 @@ const shareSvg = (
   </svg>
 );
 
-const Button = styled.button`
-  border: 0 !important;
+const Button = styled.div`
+  line-height: 20px;
+  min-height: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: left;
-  position: relative;
   background: inherit;
   color: inherit;
-  height: 1em;
-  &:hover {
-    opacity: 1 !important;
-    color: DeepSkyBlue;
+  font-size: 16px;
+  .icon {
+    position: relative;
     &:before {
+      margin: -8px;
       content: "";
       position: absolute;
-      left: 1px;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
       border-radius: 50%;
-      width: 2.1875em;
-      height: 2.1875em;
+    }
+  }
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+
+  &:not([disabled]):hover {
+    opacity: 1 !important;
+    color: DeepSkyBlue;
+
+    .icon:before {
       background: rgba(0, 191, 255, 0.1);
     }
   }
@@ -67,7 +80,7 @@ return (
   blockHeight !== "now" && (
     <span>
       <Button data-bs-toggle="dropdown" aria-expanded="false" title="Share">
-        <span>{shareSvg}</span>
+        <span className="icon">{shareSvg}</span>
         <span className="count" />
       </Button>
       <ul className="dropdown-menu">
