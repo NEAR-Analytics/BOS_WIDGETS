@@ -315,13 +315,6 @@ const Divider = styled.hr`
 const content = (
   <div style={{ position: "relative", minWidth: 85 }}>
     <NavContainer>
-      {context.accountId &&
-        navItem({
-          text: "Profile",
-          id: "profile",
-          icon: profile,
-          iconSelected: profileSelected,
-        })}
       {navItem({
         text: "Home",
         id: "home",
@@ -340,14 +333,12 @@ const content = (
         icon: speakers,
         iconSelected: speakersSelected,
       })}
-      
       {navItem({
         text: "Hackathon",
         id: "hackathon",
         icon: hackathon,
         iconSelected: hackathonSelected,
       })}
-     
       <Divider />
       <NavItem href="https://t.me/nearcon">
         <svg
