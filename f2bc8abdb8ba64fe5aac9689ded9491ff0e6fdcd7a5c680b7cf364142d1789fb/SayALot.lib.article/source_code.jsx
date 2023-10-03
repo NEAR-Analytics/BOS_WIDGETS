@@ -422,7 +422,6 @@ function filterArticlesByAuthor(author, articles) {
 }
 
 function filterValidator(articles, validAuthors) {
-  console.log("filterValidator props: ", articles, validAuthors);
   return articles.filter((article) => {
     return validAuthors.includes(article.author);
   });
