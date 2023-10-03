@@ -152,8 +152,13 @@ const GridView = styled.div`
 `;
 
 const ImageGrid = styled.div`
-    display:grid;
-    grid-template-columns: repeat(4,1fr);
+margin-top:60px;
+`;
+
+const BackDiv = styled.div`
+  width:100%;
+  display: flex;
+  justify-content:space-around;
 `;
 
 console.log(state);
@@ -191,25 +196,55 @@ return state?.nftDetails ? (
             </>
           </div>
         </div>
-        <div style={{ paddingLeft: 10 }}>
+        <div
+          style={{
+            paddingLeft: 10,
+            border: "3px solid #ffe224",
+            borderRadius: 10,
+            margin: 10,
+            paddingTop: 10,
+          }}
+        >
           <p style={{ fontSize: 14, textAlign: "left" }}>{accountId} stamps</p>
-          <ImageGrid>
-            {countryList.map((item) => (
-              <button
-                onClick={() => {
-                  State.update({ nftDetails: true, series: item.series });
-                }}
-                style={{
-                  opacity: state.tokens[item.series] ? 1 : 0.4,
-                  padding: 0,
-                  backgroundColor: "transparent",
-                  borderWidth: 0,
-                }}
-              >
-                <img style={{ width: 80, height: 80 }} src={item.image} />
-              </button>
-            ))}
-          </ImageGrid>
+          <div style={{ display: "flex", height: "100%", marginTop: -50 }}>
+            <ImageGrid>
+              {[...countryList.slice(0, 4)].map((item) => (
+                <button
+                  onClick={() => {
+                    State.update({ nftDetails: true, series: item.series });
+                  }}
+                  style={{
+                    opacity: state.tokens[item.series] ? 1 : 0.4,
+                    padding: 0,
+                    width: "50%",
+                    backgroundColor: "transparent",
+                    borderWidth: 0,
+                  }}
+                >
+                  <img style={{ width: 80, height: 80 }} src={item.image} />
+                </button>
+              ))}
+            </ImageGrid>
+            <div style={{ border: "4px dotted  #ffe224" }} />
+            <ImageGrid>
+              {[...countryList.slice(0, 4)].map((item) => (
+                <button
+                  onClick={() => {
+                    State.update({ nftDetails: true, series: item.series });
+                  }}
+                  style={{
+                    opacity: state.tokens[item.series] ? 1 : 0.4,
+                    padding: 0,
+                    width: "50%",
+                    backgroundColor: "transparent",
+                    borderWidth: 0,
+                  }}
+                >
+                  <img style={{ width: 80, height: 80 }} src={item.image} />
+                </button>
+              ))}
+            </ImageGrid>
+          </div>
         </div>
       </GridView>
     </div>
