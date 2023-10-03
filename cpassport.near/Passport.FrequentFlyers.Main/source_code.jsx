@@ -12,8 +12,8 @@ State.init({
   tokenId: {},
   nftDetails: false,
   hasFetched: {},
+  numberOfNfts: {},
   allTokens: [],
-  nftDetails: false,
 });
 
 const phillipines = {
@@ -191,6 +191,7 @@ grid-template-columns: 30% 70%;
 @media (max-width: 1024px) {
 grid-template-columns: 40% 60%;
   }
+  
 `;
 
 const allHolders = [
@@ -227,9 +228,27 @@ if (state.nftDetails) {
 const GridDetailsNFT = styled.div`
   grid-template-columns:repeat(8,1fr);
    @media (max-width: 1024px) {
+   grid-template-columns:repeat(4,1fr);
+  }
+  @media (max-width: 768px) {
    grid-template-columns:repeat(2,1fr);
   }
 `;
+
+allOwnerIds.map((item) => {
+  let counter = 0;
+  countryList.map((_, index) => {
+    const isExsisting = findIfExisting(item, _.series);
+    if (isExsisting?.[0]) {
+      counter++;
+    }
+    if (index !== countryList.length - 1) {
+      State.update({ [item]: counter });
+    }
+  });
+});
+
+console.log(state)
 
 return (
   <DivBackground>
@@ -242,7 +261,7 @@ return (
         return (
           <GridView>
             <div>
-              <p style={{ fontSize: 14, marginBottom: 0 }}>{item}</p>
+              <p style={{ fontSize: 14, marginBottom: 0 }}>{item} <span style={{marginLeft:10}}>{state[item]}/8</span></p>
             </div>
             <GridDetailsNFT style={{ display: "grid" }}>
               {countryList.map((_) => {
