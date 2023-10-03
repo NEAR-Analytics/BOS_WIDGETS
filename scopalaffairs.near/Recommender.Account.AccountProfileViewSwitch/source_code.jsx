@@ -7,7 +7,7 @@ return (
   <>
     {props.sidebar ? (
       <Widget
-        src="near/widget/Recommender.Account.AccountProfileSidebar"
+        src="scopalaffairs.near/widget/Recommender.Account.AccountProfileSidebar"
         props={{
           accountId: props.accountId,
           accountIdRank: props.accountIdRank || null,
@@ -27,7 +27,7 @@ return (
       />
     ) : (
       <Widget
-        src="near/widget/Recommender.Account.AccountProfileLargeCard"
+        src="scopalaffairs.near/widget/Recommender.Account.AccountProfileLargeCard"
         props={{
           accountId: props.accountId,
           accountIdRank: props.accountIdRank || null,
