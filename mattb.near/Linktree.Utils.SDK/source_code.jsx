@@ -20,7 +20,7 @@ const LinktreeSDK = {
     LinktreeSDK.account = {
       name: account,
       data: profile,
-      tags: profile.tags || [],
+      tags: Object.keys(profile.tags || {}),
       followers: {
         list: followers[account],
         count: Object.keys(followers[account].graph.follow || {}).length,
@@ -31,11 +31,9 @@ const LinktreeSDK = {
       },
     };
   },
-  getAccountUrl: (account) =>
-    `#/near/widget/ProfilePage?accountId=${account}`,
+  getAccountUrl: (account) => `#/near/widget/ProfilePage?accountId=${account}`,
   getShareUrl: (account) => `https://near.org${account}`,
-  getProfile: (account) =>
-    Social.get(`${account}/profile/**`, "final") || {},
+  getProfile: (account) => Social.get(`${account}/profile/**`, "final") || {},
   getFollowing: (account) =>
     Social.keys(`${account}/graph/follow/*`, "final", {
       return_type: "BlockHeight",
