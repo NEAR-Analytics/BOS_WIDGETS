@@ -51,7 +51,7 @@ return (
       backgroundImage:
         "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))",
       margin: "32px",
-      position: "relative",
+      position: "absolute",
       overflowY: "auto",
       display: "flex",
       flexDirection: "column",
