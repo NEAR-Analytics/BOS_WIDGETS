@@ -116,6 +116,6 @@ const newData = data.map((item) => ({
 
 return (
   <div>
-    <CohortEl data={newData} />
+    <CohortEl data={newData} minRowsShown={5} />
   </div>
 );
