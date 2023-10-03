@@ -345,30 +345,31 @@ return (
       </TitleComponent>
     </HeadComponent>
     {state.campaigns.length !== 0 && (
-      <TableComponent>
+      <>
+        <TableComponent>
+          <Widget
+            src={`${Owner}/widget/table-pagination`}
+            props={{
+              API_URL,
+              themeColor: { table_pagination: themeColor.table_pagination },
+              data: state.campaigns,
+              columns: state.columns[state.menu.value],
+              rowsCount: 8,
+              searchValue: state.searchValue,
+              timer: state.menu.value === "live" ? true : false,
+              timer_load: state.timer_load,
+            }}
+          />
+        </TableComponent>
         <Widget
-          src={`${Owner}/widget/table-pagination`}
           props={{
             API_URL,
-            themeColor: { table_pagination: themeColor.table_pagination },
-            data: state.campaigns,
-            columns: state.columns[state.menu.value],
-            rowsCount: 8,
-            searchValue: state.searchValue,
-            timer: state.menu.value === "live" ? true : false,
-            timer_load: state.timer_load,
+            menu: state.menu,
           }}
+          src={`${Owner}/widget/Status`}
         />
-      </TableComponent>
+      </>
     )}
-
-    <Widget
-      props={{
-        API_URL,
-        menu: state.menu,
-      }}
-      src={`${Owner}/widget/Status`}
-    />
 
     {state.show_detail && state.selected && (
       <Widget
