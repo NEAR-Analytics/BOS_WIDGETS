@@ -1,10 +1,5 @@
-const [show, setShow] = useState(true);
-const backdrop = false;
-
-const Lightbox = styled.div`
-  .modal-bg {
-    position: fixed;
-`;
+const show = props.show;
+const hide = props.hide ?? (() => {});
 
 return show ? (
   <>
@@ -14,34 +9,19 @@ return show ? (
       aria-modal="true"
       className="fade modal show"
       style={{ display: "block" }}
-      onClick={(e) => {
-        setShow(false);
-      }}
+      onClick={hide}
     >
       <div
-        className="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+        className="modal-dialog modal-xl modal-dialog-centered"
         onClick={(e) => {
           e.stopPropagation();
         }}
       >
-        <div className="modal-content">
-          <div className="modal-header">
-            <div className="modal-title h4">Saving data</div>
-            <button
-              type="button"
-              className="btn-close"
-              aria-label="Close"
-            ></button>
+        <div className="modal-content position-relative">
+          <div className="position-absolute top-0 end-0">
+            <button type="button" className="btn-close" onClick={hide}></button>
           </div>
-          <div className="modal-body">
-            <div>
-              <div></div>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button className="btn btn-success"> Save Data</button>
-            <button className="btn btn-secondary">Close</button>
-          </div>
+          {props.children}
         </div>
       </div>
     </div>
