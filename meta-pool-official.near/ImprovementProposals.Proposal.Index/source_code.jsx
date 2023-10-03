@@ -183,33 +183,37 @@ const Container = styled.div`
   justify-content: start; 
 `;
 
+const Text = styled.p`
+    line-height: 1.4;
+    font-weight: 400;
+    font-size: 15px;
+    color: #868682;
+    margin: 0;
+  `;
+const Heading3 = styled.h3`
+    font-weight: 600;
+    font-size: 24px;
+    color: #1b1b18;
+`;
+const Heading5 = styled.h5`
+   font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #6c757d;
+`;
+const Heading4 = styled.h4`
+   font-size: 18px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #1b1b18;
+`;
+
 const ContentContainer = styled.div`
   width:100%;
   display: flex;
   flex-direction: row;
   gap: 24px;
   min-height: 500px;
-
-  p {
-    line-height: 1.4;
-    font-weight: 400;
-    font-size: 15px;
-    color: #868682;
-    margin: 0;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 24px;
-    color: #1b1b18;
-  }
-
-  h5 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #6c757d;
-  }
 
   .status {
     font-size: 14px;
@@ -233,36 +237,11 @@ const WrapperLeft = styled.div`
   gap: 24px;
   min-height: 500px;
 
-  p {
-    line-height: 1.4;
-    font-weight: 400;
-    font-size: 15px;
-    color: #868682;
-    margin: 0;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 24px;
-    color: #1b1b18;
-  }
-
-  h5 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #6c757d;
-  }
-
   .status {
     font-size: 14px;
     font-weight: 600;
     line-height: 1.2;
     color: ${statusColor};
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
   }
 `;
 
@@ -273,27 +252,6 @@ const WrapperRight = styled.div`
   flex-direction: column;
   gap: 24px;
   min-height: 500px;
-
-  p {
-    line-height: 1.4;
-    font-weight: 400;
-    font-size: 15px;
-    color: #868682;
-    margin: 0;
-  }
-
-  h3 {
-    font-weight: 600;
-    font-size: 24px;
-    color: #1b1b18;
-  }
-
-  h5 {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.2;
-    color: #6c757d;
-  }
 
   .status {
     font-size: 14px;
@@ -435,15 +393,15 @@ return (
         </div>
 
         <div className="d-flex flex-row gap-1 justify-content-between">
-          <h3>
+          <Heading3>
             Prop {state.proposal.mpip_id} - {state.proposal.title}
-          </h3>
+          </Heading3>
         </div>
         <div>
-          <h4>{state.proposal.short_description}</h4>
+          <Heading4>{state.proposal.short_description}</Heading4>
         </div>
         <div className="d-flex flex-row gap-1 align-items-center">
-          <h5>by </h5>
+          <Heading5>by </Heading5>
           <Widget
             src="mob.near/widget/Profile.ShortInlineBlock"
             props={{ accountId: state.proposal.creator_id, tooltip: true }}
@@ -477,44 +435,43 @@ return (
         />
       </WrapperLeft>
       <WrapperRight>
-       
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VoteCard`}
-            props={{
-              proposal: { ...state.proposal, status: state.status },
-              authorId,
-              contractId,
-            }}
-          />
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VotingPeriodCard`}
-            props={{
-              startDate: state.proposal.vote_start_timestamp,
-              endDate: state.proposal.vote_end_timestamp,
-              authorId,
-              contractId,
-            }}
-          />
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VotingResultsCard`}
-            props={{
-              yesVotes: state.proposalVotes.for_votes,
-              noVotes: state.proposalVotes.against_votes,
-              abstainVotes: state.proposalVotes.abstain_votes,
-              quorum: state.proposal.v_power_quorum_to_reach,
-              isQuorumReached: state.isQuorumReached,
-              isProposalSucceeded: state.isProposalSucceeded,
-              onVotingPeriod,
-              authorId,
-              contractId,
-            }}
-          />
-          <Widget
-            src={`${authorId}/widget/Governance.Proposal.VotesCard`}
-            props={{
-              accountVotes: state.proposalVotes.has_voted,
-            }}
-          />
+        <Widget
+          src={`${authorId}/widget/Governance.Proposal.VoteCard`}
+          props={{
+            proposal: { ...state.proposal, status: state.status },
+            authorId,
+            contractId,
+          }}
+        />
+        <Widget
+          src={`${authorId}/widget/Governance.Proposal.VotingPeriodCard`}
+          props={{
+            startDate: state.proposal.vote_start_timestamp,
+            endDate: state.proposal.vote_end_timestamp,
+            authorId,
+            contractId,
+          }}
+        />
+        <Widget
+          src={`${authorId}/widget/Governance.Proposal.VotingResultsCard`}
+          props={{
+            yesVotes: state.proposalVotes.for_votes,
+            noVotes: state.proposalVotes.against_votes,
+            abstainVotes: state.proposalVotes.abstain_votes,
+            quorum: state.proposal.v_power_quorum_to_reach,
+            isQuorumReached: state.isQuorumReached,
+            isProposalSucceeded: state.isProposalSucceeded,
+            onVotingPeriod,
+            authorId,
+            contractId,
+          }}
+        />
+        <Widget
+          src={`${authorId}/widget/Governance.Proposal.VotesCard`}
+          props={{
+            accountVotes: state.proposalVotes.has_voted,
+          }}
+        />
       </WrapperRight>
     </ContentContainer>
   </Container>
