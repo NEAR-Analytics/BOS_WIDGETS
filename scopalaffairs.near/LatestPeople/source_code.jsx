@@ -102,7 +102,7 @@ return (
       <H2>People</H2>
       <Select>
         <Widget
-          src="near/widget/Select"
+          src="scopalaffairs.near/widget/Select"
           props={{
             border: "0px",
             noLabel: true,
@@ -119,7 +119,7 @@ return (
           {accounts.map((account) => (
             <Item key={account.accountId}>
               <Widget
-                src="near/widget/AccountProfile"
+                src="scopalaffairs.near/widget/AccountProfile"
                 props={{
                   accountId: account.accountId,
                   blockHeight: account.blockHeight,
@@ -128,7 +128,7 @@ return (
             </Item>
           ))}
         </LatestPeople>
-        <ButtonLink href="#/near/widget/PeoplePage">
+        <ButtonLink href="#/scopalaffairs.near/widget/PeoplePage">
           View All People <span>({totalAccounts})</span>
         </ButtonLink>
       </>
@@ -136,7 +136,7 @@ return (
     {state.selectedView.value === "trending" && (
       <>
         <Widget
-          src="near/widget/Recommender.Views.TrendingUsersView"
+          src="scopalaffairs.near/widget/Recommender.Views.TrendingUsersView"
           props={{
             sidebar: true,
             fromContext: fromContext,
@@ -149,7 +149,7 @@ return (
     {state.selectedView.value === "recommended" && (
       <>
         <Widget
-          src="near/widget/Recommender.Views.FriendsOfFriendsView"
+          src="scopalaffairs.near/widget/Recommender.Views.FriendsOfFriendsView"
           props={{
             sidebar: true,
             fromContext: fromContext,
