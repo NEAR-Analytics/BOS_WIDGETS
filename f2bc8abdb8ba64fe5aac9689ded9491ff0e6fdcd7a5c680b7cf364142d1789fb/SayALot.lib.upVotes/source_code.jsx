@@ -4,6 +4,81 @@ const prodAction = "sayALotUpVote-v1.0.0";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+//const authorForWidget = "sayalot.near";
+// const authorForWidget = "kenrou-it.near";
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
+
+State.init({ libCalls: [] });
+
+function libStateUpdate(obj) {
+  State.update(obj);
+}
+
+function setAreValidUsers(accountIds, sbtName) {
+  const newLibCalls = [...state.libCalls];
+  accountIds.forEach((accountId) => {
+    const isCallPushed =
+      newLibCalls.find((libCall) => {
+        return (
+          libCall.functionName === "isValidUser" &&
+          libCall.props.accountId === accountId
+        );
+      }) !== undefined;
+    const isCallReturned = state[`isValidUser-${accountId}`] !== undefined;
+
+    if (isCallPushed || isCallReturned) {
+      return;
+    }
+
+    newLibCalls.push({
+      functionName: "isValidUser",
+      key: `isValidUser-${accountId}`,
+      props: {
+        accountId,
+        sbtName,
+      },
+    });
+  });
+  State.update({ libCalls: newLibCalls });
+}
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
+function canUserUpVote(props) {
+  const { env, accountId, sbtName } = props;
+
+  setAreValidUsers([accountId], sbtName);
+
+  const result = state[`isValidUser-${accountId}`];
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    const discardCondition =
+      call.functionName === "canUserUpVote" && result !== undefined;
+    return !discardCondition;
+  });
+
+  return result;
+}
+
 // ========= GET UPVOTES STATISTICS =========
 function countUpVotes(arrayLastInteractionForEachUser) {
   let upVotes =
@@ -15,19 +90,44 @@ function countUpVotes(arrayLastInteractionForEachUser) {
 }
 
 function getUpVotes(props) {
-  const { realArticleId } = props;
+  const { realArticleId, articleSbts } = props;
   // const { realArticleId, createdInteraction } = props;
   const allVotes = Social.index(action, realArticleId, {
     order: "desc",
     subscribe: true,
   });
 
+  const validUpVotes = allVotes;
+
+  if (articleSbts.length > 0) {
+    const validUpVotesAuthors = validUpVotes.map((upVote) => {
+      return upVote.accountId;
+    });
+
+    setAreValidUsers(validUpVotesAuthors, articleSbts);
+
+    const validAuthors = validUpVotesAuthors.filter((author) => {
+      return state[`isValidUser-${author}`] === true;
+    });
+
+    resultLibCalls = resultLibCalls.filter((call) => {
+      const discardCondition =
+        call.functionName === "getUpVotes" &&
+        state[`isValidUser-${call.props.accountId}`] !== undefined;
+      return !discardCondition;
+    });
+
+    validUpVotes = validUpVotesAuthors.filter((author) => {
+      return validAuthors.includes(author.accountId);
+    });
+  }
+
   // const uniqueAccounts = [];
   let upVotes =
-    allVotes &&
-    allVotes
+    validUpVotes &&
+    validUpVotes
       .filter((obj) => {
-        const userLatestInteraction = allVotes.find(
+        const userLatestInteraction = validUpVotes.find(
           (vote) => vote.accountId === obj.accountId
         );
         return JSON.stringify(userLatestInteraction) === JSON.stringify(obj);
@@ -38,6 +138,7 @@ function getUpVotes(props) {
         // return false;
       })
       .filter((vote) => !vote.value.isDelete);
+
   return upVotes ?? [];
 
   // const userInteraction =
@@ -143,6 +244,8 @@ function libCall(call) {
     return addVote(call.props);
   } else if (call.functionName === "deleteVote") {
     return deleteVote(call.props);
+  } else if (call.functionName === "canUserUpVote") {
+    return canUserUpVote(call.props);
   }
 }
 
