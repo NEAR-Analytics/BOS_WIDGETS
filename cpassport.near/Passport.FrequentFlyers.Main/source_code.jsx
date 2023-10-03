@@ -1,5 +1,5 @@
 const DivBackground = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   background-color: #FDF3DD;
   display: flex;
   padding-bottom:20vh;
@@ -248,7 +248,7 @@ allOwnerIds.map((item) => {
   });
 });
 
-console.log(state)
+console.log(state);
 
 return (
   <DivBackground>
@@ -261,7 +261,9 @@ return (
         return (
           <GridView>
             <div>
-              <p style={{ fontSize: 14, marginBottom: 0 }}>{item} <span style={{marginLeft:10}}>{state[item]}/8</span></p>
+              <p style={{ fontSize: 14, marginBottom: 0 }}>
+                {item} <span style={{ marginLeft: 10 }}>{state[item]}/8</span>
+              </p>
             </div>
             <GridDetailsNFT style={{ display: "grid" }}>
               {countryList.map((_) => {
