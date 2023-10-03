@@ -1,6 +1,6 @@
 const accountId = props.accountId || context.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
 const verifications = props.verifications;
 const Wrapper = styled.a`
   display: inline-grid;
@@ -107,7 +107,7 @@ const AccountProfile = (
           <Text small style={{ marginLeft: "auto" }}>
             Joined{" "}
             <Widget
-              src="mob.near/widget/TimeAgo${REPL_TIME_AGO_VERSION}"
+              src="mob.near/widget/TimeAgo"
               props={{ blockHeight: props.blockHeight }}
             />{" "}
             ago
@@ -124,7 +124,7 @@ if (props.noOverlay) return AccountProfile;
 
 return (
   <Widget
-    src="near/widget/AccountProfileOverlay"
+    src="scopalaffairs.near/widget/AccountProfileOverlay"
     props={{
       accountId: props.accountId,
       profile,
