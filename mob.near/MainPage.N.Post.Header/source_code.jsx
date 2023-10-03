@@ -23,28 +23,49 @@ const Overlay = (props) => (
   </a>
 );
 
-const Button = styled.button`
-  border: 0 !important;
+const DotsSvg = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="-2 -2 20 20"
+    style={{ width: "1.25em" }}
+  >
+    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+  </svg>
+);
+
+const Button = styled.div`
+  line-height: 20px;
+  min-height: 20px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   background: inherit;
-  position: relative;
   color: #6c757d;
-  height: 1em;
-  svg {
-    margin-top: -2px;
+  font-size: 16px;
+  .icon {
+    position: relative;
+    &:before {
+      margin: -8px;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 50%;
+    }
   }
+
+  &:not([disabled]) {
+    cursor: pointer;
+  }
+
   &:not([disabled]):hover {
     opacity: 1 !important;
     color: DeepSkyBlue;
 
-    &:before {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
+    .icon:before {
       background: rgba(0, 191, 255, 0.1);
     }
   }
@@ -103,12 +124,8 @@ return (
     )}
     {!pinned && blockHeight !== "now" && (
       <span>
-        <Button
-          className="text-nowrap"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <i className="fs-6 bi bi-three-dots-vertical" />
+        <Button data-bs-toggle="dropdown" aria-expanded="false">
+          <span className="icon">{DotsSvg}</span>
         </Button>
         <ul className="dropdown-menu">
           <li className="dropdown-item">
