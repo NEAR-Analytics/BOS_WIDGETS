@@ -182,10 +182,35 @@ return (
               }}
               src={item.image}
             />
-            <p>{getToken(item.series).length}</p>
-            {getToken(item.series).map((item) => (
-              <p style={{ fontSize: 8 }}>{item.owner}</p>
-            ))}
+            <div
+              style={{
+                backgroundColor: "white",
+                border: "1px solid #ffce1f",
+                borderRadius: 10,
+                zIndex: -5,
+                transform: "translateY(10px)",
+              }}
+            >
+              <p style={{ marginBottom: 0, padding: 10 }}>
+                {getToken(item.series).length}
+              </p>
+            </div>
+            {getToken(item.series).length !== 0 && (
+              <div
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid #ffce1f",
+                  padding: 10,
+                  paddingTop: 20,
+                  zIndex: 10,
+                  borderRadius: 10,
+                }}
+              >
+                {getToken(item.series).map((item) => (
+                  <p style={{ fontSize: 8 }}>{item.owner}</p>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </GridView>
