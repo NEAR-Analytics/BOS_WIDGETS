@@ -115,7 +115,7 @@ const newData = data.map((item) => ({
 }));
 
 return (
-  <div>
+  <div class="container border border-info p-3 text-center min-vw-100">
     <CohortEl data={newData} minRowsShown={5} />
   </div>
 );
