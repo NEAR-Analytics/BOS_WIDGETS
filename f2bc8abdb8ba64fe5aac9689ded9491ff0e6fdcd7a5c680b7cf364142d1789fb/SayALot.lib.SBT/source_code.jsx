@@ -26,9 +26,30 @@ function isValidUser(props) {
   return result;
 }
 
+function getLoggedUserSbts(props) {
+  const { accountId } = props;
+  const userSBTs = Near.view(
+    "registry.i-am-human.near",
+    "sbt_tokens_by_owner",
+    {
+      account: accountId,
+    }
+  );
+
+  if (userSBTs) {
+    resultLibCalls = resultLibCalls.filter((call) => {
+      return call.functionName !== "getLoggedUserSbts";
+    });
+  }
+
+  return userSBTs;
+}
+
 function libCall(call) {
   if (call.functionName === "isValidUser") {
     return isValidUser(call.props);
+  } else if (call.functionName === "getLoggedUserSbts") {
+    return getLoggedUserSbts(call.props);
   }
 }
 
