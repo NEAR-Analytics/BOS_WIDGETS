@@ -62,19 +62,22 @@ const [onHashtag] = useState(() => (hashtag) => (
 
 const [showLightbox, setShowLightbox] = useState(false);
 
-const [onImage] = useState(() => (props) => (
-  <Widget
-    key="content-img"
-    src="mob.near/widget/MainPage.N.Post.Content.Image"
-    loading=""
-    props={{
-      image: {
-        url: props.src,
-      },
-      alt: props.alt ?? "inline image",
-    }}
-  />
-));
+const [onImage] = useState(
+  () => (props) =>
+    props.src && (
+      <Widget
+        key="content-img"
+        src="mob.near/widget/MainPage.N.Post.Content.Image"
+        loading=""
+        props={{
+          image: {
+            url: props.src,
+          },
+          alt: props.alt ?? "inline image",
+        }}
+      />
+    )
+);
 
 return (
   <Wrapper>
