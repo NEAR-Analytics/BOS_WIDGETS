@@ -47,7 +47,7 @@ State.init({
     : { parameterName: "" },
   authorsProfiles: [],
   libCalls: initLibCalls,
-  sbtName: "fractal.i-am-human.near",
+  sbtName: initSbtName,
   sbts: [initSbtName],
 });
 
