@@ -131,6 +131,9 @@ return (
           type="button"
           onClick={() => {
             clearTimeout(state.debounce);
+            State.update({
+              term: "",
+            });
             computeResults("");
           }}
         >
