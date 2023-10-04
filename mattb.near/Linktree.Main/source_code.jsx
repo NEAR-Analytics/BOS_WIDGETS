@@ -1,4 +1,4 @@
-const { theme } = props;
+const { themeName } = props;
 
 const loggedIn = context.accountId ? props.loggedIn ?? false : false;
 const accountId = loggedIn
@@ -9,20 +9,11 @@ const viewingOwnAccount = accountId === context.accountId;
 const AVAILABLE_THEMES = {
   default: "Default",
   dark: "Dark",
-  gold: "Gold",
-  blossom: "Blossom",
-  vibrant: "Vibrant",
-  aqua: "Aqua",
-  neon: "Neon",
-  vintage: "Vintage",
-  eclectic: "Eclectic",
 };
-const themeName =
-  theme in AVAILABLE_THEMES
-    ? AVAILABLE_THEMES[theme]
-    : AVAILABLE_THEMES["default"];
+const theme =
+  themeName in AVAILABLE_THEMES ? themeName : AVAILABLE_THEMES["default"];
 
-const Theme = VM.require(`mattb.near/widget/Linktree.Themes.${themeName}`);
+const Theme = VM.require(`mattb.near/widget/Linktree.Themes.${theme}`);
 
 const LinktreeSDK = VM.require("mattb.near/widget/Linktree.Utils.SDK");
 
