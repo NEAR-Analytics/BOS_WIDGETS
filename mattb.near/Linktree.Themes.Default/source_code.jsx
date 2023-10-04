@@ -2,6 +2,8 @@ const Wrapper = styled.div`
   display: grid;
   gap: 40px;
   position: relative;
+  background-color:#fafafa;
+  border-radius:20px;
 
   .button {
     display: inline-flex;
@@ -188,6 +190,10 @@ const Linktree = styled.div`
   gap: 16px;
   padding: 0 8px;
   height:100vh;
+
+  > a img {
+    box-shadow: 0 0 0 10px rgba(0,0,0,.05);
+  }
 `;
 
 const LinktreeLinks = styled.div`
