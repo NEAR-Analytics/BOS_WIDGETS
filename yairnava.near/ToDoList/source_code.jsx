@@ -33,20 +33,28 @@ const submitTask = () => {
   });
 };
 
+const finishTask = (task) => {
+  console.log(task);
+  contract.updateStatus(task.id, true).then((transactionHash) => {
+    setTimeout(() => {
+      getTasks();
+    }, 5000);
+  });
+};
+
 const getTasks = () => {
   contract.getTaskCount().then((res) => {
     const countTasks = res.toNumber();
     let tasks = [];
     for (let i = 0; i < countTasks; i++) {
+      const taskNumber = i;
       contract.getTask(i).then((res) => {
-        const newTask = { name: res[0], status: res[1] };
-        console.log(newTask);
+        const newTask = { id: taskNumber, name: res[0], status: res[1] };
         tasks.push(newTask);
       });
     }
     setTimeout(() => {
       State.update({ user_tasks: tasks, getTasks: false });
-      console.log(tasks);
     }, 10000);
   });
 };
@@ -58,7 +66,7 @@ if (state.sender === undefined) {
   }
 }
 
-if (state.tasks === undefined && state.sender) {
+if (state.user_tasks.length == 0 && state.sender) {
   getTasks();
 }
 
@@ -119,11 +127,41 @@ return (
             {state.getTasks ? (
               <span>Consultando tareas...</span>
             ) : state.user_tasks.length > 0 ? (
-              <ul>
-                {state.user_tasks.map((item) => {
-                  return <li>{item.name}</li>;
-                })}
-              </ul>
+              <table className="table table-hover table-sm">
+                <thead>
+                  <tr class="p-3 mb-2 bg-primary bg-gradient text-white rounded-5 text-center">
+                    <th>Nombre</th>
+                    <th>Terminada</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {state.user_tasks.map((data, key) => {
+                    return (
+                      <>
+                        <tr class="text-center">
+                          <td>{data.name}</td>
+                          <td>{data.status ? "Si" : "No"}</td>
+                          <td>
+                            {!data.status ? (
+                              <button
+                                class="btn btn-primary"
+                                onClick={async () => {
+                                  finishTask(data);
+                                }}
+                              >
+                                Finalizar
+                              </button>
+                            ) : (
+                              <span></span>
+                            )}
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
             ) : (
               <span>No hay tareas guardadas</span>
             )}
