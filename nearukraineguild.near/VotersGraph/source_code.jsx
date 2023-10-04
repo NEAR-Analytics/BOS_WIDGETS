@@ -1054,7 +1054,7 @@ return (
     </div>
     <div>
       <Widget
-        src="vadim.near/widget/elections"
+        src="nearukraineguild.near/widget/elections"
         props={{ accountId: selectedAccountId }}
       />
     </div>
