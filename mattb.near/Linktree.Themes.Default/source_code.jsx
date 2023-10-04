@@ -167,6 +167,11 @@ const LinktreeLinks = styled.div`
       border-radius:30px;
       max-width:230px;
       background-color:#000;
+
+      :hover {
+        background-color:#000;
+        opacity:.8;
+      }
     }
   }
 `;
