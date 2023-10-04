@@ -181,7 +181,7 @@ const Details = styled.div`
 
   h5 {
     font-size:.8rem;
-    opacity:.8;
+    opacity:.5;
     margin-bottom:20px;
   }
 `;
