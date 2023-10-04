@@ -1,5 +1,5 @@
 return (
-  <>
+  <div className="row">
     <div className="col">
       <h6>trusted parent</h6>
       <Widget
@@ -16,5 +16,5 @@ return (
         src="andyh.near/widget/TrustDemoParent"
       />
     </div>
-  </>
+  </div>
 );
