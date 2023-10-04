@@ -166,6 +166,7 @@ const LinktreeLinks = styled.div`
     button {
       border-radius:30px;
       max-width:230px;
+      background-color:#000;
     }
   }
 `;
