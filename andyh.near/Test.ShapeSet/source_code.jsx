@@ -22,6 +22,7 @@ return (
     <div className="col">
       <Widget
         id="square"
+        isTrusted
         src="andyh.near/widget/Square"
         props={{
           color: "#4A825A",
@@ -35,6 +36,7 @@ return (
     <div className="col">
       <Widget
         src="andyh.near/widget/Triangle"
+        isTrusted
         props={{
           color: "#0A81D1",
           iconColor: "white",
