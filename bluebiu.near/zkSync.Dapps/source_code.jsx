@@ -70,6 +70,13 @@ const dapps = [
     icon: "https://ipfs.near.social/ipfs/bafkreido2creciicfwo7ceojij2kmn524c63pthhteez6higs5msym4rg4",
     tags: ["Dexes"],
   },
+  {
+    src: "bluebiu.near/widget/zkSync.Lending",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreie7uzcqggfm6266tnpzxeldgiihzsmv2btj2l5iy33feulcy7dksq",
+    icon: "https://ipfs.near.social/ipfs/bafkreihndusnccw4pu2ngyvxoxmxcufqzy2wfjulnqurox6ec7qgfhvhau",
+    tags: ["Lending"],
+  },
 ];
 
 State.init({
