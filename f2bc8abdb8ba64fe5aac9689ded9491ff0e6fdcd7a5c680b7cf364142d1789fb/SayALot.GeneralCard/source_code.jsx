@@ -17,6 +17,7 @@ const title = data.articleId;
 const content = data.body;
 const timeLastEdit = data.timeLastEdit;
 const realArticleId = data.realArticleId ?? `${data.author}-${data.timeCreate}`;
+const upVotes = data.upVotes;
 
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
 const articleSbts = articleToRenderData.sbts[0] ?? [];
@@ -623,6 +624,7 @@ return (
               context.accountId === accountId ||
               (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
             articleSbts,
+            upVotes,
           }}
         />
       </HeaderCard>
