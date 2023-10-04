@@ -140,7 +140,7 @@ return (
       <Widget
         id="root-shapes"
         isTrusted
-        src="andyh.near/widget/ShapeSet"
+        src="andyh.near/widget/Test.ShapeSet"
         props={{
           circle,
           square,
