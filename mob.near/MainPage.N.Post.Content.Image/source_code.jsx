@@ -17,15 +17,29 @@ const Wrapper = styled.div`
     border-radius: 0.5em;
     text-align: center;
     overflow: hidden;
-    height: 20em;
-    cursor: pointer;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 0.5em;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    max-height: 24em;
+    @media(max-width: 991px) {
+      max-height: 20em;
     }
+    cursor: pointer;
+    .img-box {
+      flex-grow: 1;
+      overflow: hidden;
+      img {
+        max-height: 24em;
+        @media(max-width: 991px) {
+          max-height: 20em;
+        }
+        width: 100%;
+        object-fit: contain;
+        border-radius: 0.5em;
+      }
+    }
+    
   }
 `;
 
@@ -39,7 +53,7 @@ const imageUrl =
     : image.url;
 
 const innerImage = (
-  <div className="h-100">
+  <div className="img-box">
     <img src={imageUrl} alt={props.alt} />
   </div>
 );
