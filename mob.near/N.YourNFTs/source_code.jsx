@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   }
 
 
-  margin: var(--template-column-gutters) -12px 0;
+  margin: var(--template-column-gutters) -12px 16px;
 
   display: grid;
   gap: var(--template-column-gutters);
