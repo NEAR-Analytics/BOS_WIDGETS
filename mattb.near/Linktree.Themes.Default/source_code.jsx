@@ -1,6 +1,15 @@
 const TagsSection = styled.div`
   display: grid;
   gap: 24px;
+
+  ul {
+    li {
+      padding: 7px 15px;
+      background-color: rgba(0,0,0,.02);
+      border: 2px solid rgba(0,0,0,.05);
+      font-weight: 700;
+    }
+  }
 `;
 
 const Avatar = styled.div`
