@@ -42,7 +42,9 @@ const handleSelectBin = (b) => {
   });
   State.update({ allBins: updatedBins });
   const countBinsToRemove = updatedBins.filter((b) => b.selected).lenght;
+  console.log("countBinsToRemove");
   console.log(countBinsToRemove);
+  console.log(updatedBins);
   console.log(updatedBins.lenght);
   if (countBinsToRemove != state.allBins.lenght) {
     State.update({ allChecked: false });
