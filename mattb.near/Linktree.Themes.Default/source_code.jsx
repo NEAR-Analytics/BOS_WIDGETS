@@ -1,57 +1,3 @@
-const Wrapper = styled.div`
-  display: grid;
-  gap: 40px;
-  position: relative;
-  background-color:#fafafa;
-  border-radius:20px;
-
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px 16px;
-    height: 32px;
-    border-radius: 100px;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 15px;
-    text-align: center;
-    cursor: pointer;
-    background: #fbfcfd;
-    border: 1px solid #d7dbdf;
-    color: #11181c !important;
-
-    &.button--primary {
-      width: 100%;
-      color: #006adc !important;
-
-      @media (max-width: 1024px) {
-        width: auto;
-      }
-    }
-
-    &:hover,
-    &:focus {
-      background: #ecedee;
-      text-decoration: none;
-      outline: none;
-    }
-
-    i {
-      color: #7e868c;
-    }
-
-    .bi-16 {
-      font-size: 16px;
-    }
-  }
-
-  @media (max-width: 900px) {
-    gap: 24px;
-  }
-`;
-
 const TagsSection = styled.div`
   display: grid;
   gap: 24px;
@@ -190,6 +136,8 @@ const Linktree = styled.div`
   gap: 16px;
   padding: 0 8px;
   height:100vh;
+  background-color:#fafafa;
+  border-radius:20px;
 
   > a img {
     box-shadow: 0 0 0 10px rgba(0,0,0,.05);
@@ -211,7 +159,6 @@ const Details = styled.div`
 `;
 
 return {
-  Wrapper,
   TagsSection,
   Avatar,
   Title,
