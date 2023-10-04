@@ -136,7 +136,7 @@ return (
     {state.selectedView.value === "trending" && (
       <>
         <Widget
-          src="scopalaffairs.near/widget/Recommender.Views.TrendingUsersView"
+          src="scopalaffairs.near/widget/Recommender.Views.TrendingUsersSidebar"
           props={{
             sidebar: true,
             fromContext: fromContext,
@@ -149,7 +149,7 @@ return (
     {state.selectedView.value === "recommended" && (
       <>
         <Widget
-          src="scopalaffairs.near/widget/Recommender.Views.FriendsOfFriendsView"
+          src="scopalaffairs.near/widget/Recommender.Views.RecommendedUsersSidebar"
           props={{
             sidebar: true,
             fromContext: fromContext,
