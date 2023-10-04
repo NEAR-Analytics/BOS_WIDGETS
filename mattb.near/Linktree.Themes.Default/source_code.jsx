@@ -150,6 +150,14 @@ const LinktreeLinks = styled.div`
   gap:8px;
   width:100%;
   max-width:400px;
+
+  a {
+    text-align:center;
+    
+    button {
+      border-radius:30px;
+    }
+  }
 `;
 
 const Details = styled.div`
