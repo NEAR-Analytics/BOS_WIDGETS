@@ -13,7 +13,6 @@ const {
 return (
   <div>
     <Widget
-      isTrusted
       id={id}
       src="andyh.near/widget/ShapeSet"
       props={{
