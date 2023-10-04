@@ -1,7 +1,7 @@
 return (
   <div className="row">
     <div className="col">
-      <h2>trusted parent</h2>
+      <h6>trusted parent</h6>
       <Widget
         id="trusted-parent"
         isTrusted
@@ -9,7 +9,7 @@ return (
       />
     </div>
     <div className="col">
-      <h2>sandboxed parent</h2>
+      <h6>sandboxed parent</h6>
       <Widget
         id="sandboxed-parent"
         isTrusted={false}
