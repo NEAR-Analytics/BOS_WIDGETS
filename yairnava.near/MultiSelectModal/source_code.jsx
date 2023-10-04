@@ -1,6 +1,7 @@
 const BINS = props.bins ? props.bins : [];
 const TOKENS = props.tokens ? props.tokens : {};
 const setBins = props.setBins;
+const closeModal = props.closeModal;
 
 State.init({
   allChecked: false,
@@ -61,7 +62,7 @@ return (
       borderRadius: "20px",
       right: "0",
       left: "0",
-      top: "5px",
+      top: "10px",
       zIndex: "100",
     }}
   >
@@ -103,6 +104,9 @@ return (
                 "background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
               color: "rgb(158, 158, 158)",
               margin: "-8px",
+            }}
+            onClick={async () => {
+              closeModal();
             }}
           >
             x
