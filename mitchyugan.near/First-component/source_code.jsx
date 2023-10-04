@@ -3,6 +3,10 @@ const onclick = () => {
   State.update({ user: context.accountId });
 };
 
+const onclickLogout = () => {
+  State.update({ user: "user" });
+};
+
 const onchange = ({ target }) => {
   State.update({ memoInputValue: target.value });
 };
@@ -15,7 +19,11 @@ return (
   <>
     <div>
       <h4>Welcome {state.user}</h4>
-      <button onClick={onclick}>Login</button>
+      {state.user == "user" ? (
+        <button onClick={onclick}>Login</button>
+      ) : (
+        <button onClick={onclickLogout}>Logout</button>
+      )}
     </div>
     <br />
     <br />
