@@ -85,12 +85,11 @@ const computeResults = (term) => {
   const result = matchedWidgets.slice(0, limit);
 
   State.update({
-    term,
     result,
   });
 
   if (props.onChange) {
-    props.onChange({ term, result });
+    props.onChange({ result });
   }
 };
 
