@@ -50,7 +50,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Section = styled.div`
+const TagsSection = styled.div`
   display: grid;
   gap: 24px;
 `;
@@ -206,7 +206,7 @@ const Details = styled.div`
 
 return {
   Wrapper,
-  Section,
+  TagsSection,
   Avatar,
   Title,
   Text,
