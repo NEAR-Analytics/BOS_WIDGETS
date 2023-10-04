@@ -98,7 +98,7 @@ const CandidateItemRow = styled.div`
     props.winnerId
       ? "rgb(206 233 207)"
       : props.disqualified
-      ? "#eee"
+      ? "#ccc"
       : props.selected
       ? "#4aa6ee"
       : props.filtered
