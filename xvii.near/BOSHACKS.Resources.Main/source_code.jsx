@@ -31,7 +31,7 @@ const LessonLinks = () => {
       <div style={linkContainerStyle}>
         <a
           style={linkStyle}
-          href="https://hackmd.io/@doulos819/ncr-2"
+          href="https://hackmd.io/@doulos819/ncr-02"
           target="_blank"
         >
           Lesson 2
