@@ -15,7 +15,7 @@ return (
     <Widget
       id={id}
       isTrusted
-      src="andyh.near/widget/ShapeSet"
+      src="andyh.near/widget/Test.ShapeSet"
       props={{
         circle,
         square,
