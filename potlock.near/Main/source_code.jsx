@@ -65,23 +65,23 @@ const tabContentWidget = {
   // profile: "Profile.Page",
 };
 
-const getTabWidget = (tab) => {
-  if (tab in tabContentWidget) {
-    return tabContentWidget[tab];
-  }
+// const getTabWidget = (tab) => {
+//   if (tab in tabContentWidget) {
+//     return tabContentWidget[tab];
+//   }
 
-  return "Dashboard";
-};
+//   return "Dashboard";
+// };
 
-const tabContent = (
-  <Widget
-    src={`${ownerId}/widget/${getTabWidget(props.tab)}`}
-    props={{
-      ...props,
-      urlProps: props,
-    }}
-  />
-);
+// const tabContent = (
+//   <Widget
+//     src={`${ownerId}/widget/${getTabWidget(props.tab)}`}
+//     props={{
+//       ...props,
+//       urlProps: props,
+//     }}
+//   />
+// );
 
 const Page = styled.div`
   width: 100%;
@@ -129,7 +129,8 @@ return (
   <>
     <Widget src={`${ownerId}/widget/Header`} />
     <Page>
-      <Content className={isForm ? "form" : ""}>{tabContent}</Content>
+      // <Content className={isForm ? "form" : ""}>{tabContent}</Content>
+      <Widget src={`${ownerId}/widget/Project.Form`} />
     </Page>
   </>
 );
