@@ -41,6 +41,10 @@ const handleSelectBin = (b) => {
     return bin;
   });
   State.update({ allBins: updatedBins });
+  const countBinsToRemove = btr.filter((b) => b.selected).lenght;
+  if(countBinsToRemove != state.allBins.lenght){
+      State.update({ allChecked: false });
+  }
 };
 
 return (
@@ -346,7 +350,7 @@ return (
             width: "100%",
           }}
           onClick={async () => {
-            setBins(state.allBins,state.allChecked);
+            setBins(state.allBins, state.allChecked);
           }}
         >
           Select
