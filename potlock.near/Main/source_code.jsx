@@ -129,7 +129,6 @@ return (
   <>
     <Widget src={`${ownerId}/widget/Header`} />
     <Page>
-      // <Content className={isForm ? "form" : ""}>{tabContent}</Content>
       <Widget src={`${ownerId}/widget/Project.Form`} />
     </Page>
   </>
