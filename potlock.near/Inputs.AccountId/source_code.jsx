@@ -1,4 +1,4 @@
-const ownerId = "potlock.near";
+const ownerId = "nearhorizon.near";
 const label = props.label ?? "Account ID";
 const placeholder = props.placeholder ?? "Enter your account ID";
 const value = props.value ?? "";
