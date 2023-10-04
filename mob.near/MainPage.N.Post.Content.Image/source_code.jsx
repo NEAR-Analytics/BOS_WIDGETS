@@ -3,6 +3,8 @@ const image = props.image;
 const Wrapper = styled.div`
   white-space: normal;
   .lightbox {
+    backdrop-filter: blur(5px);
+
     img {
       width: 100vw;
       height: 100vh;
