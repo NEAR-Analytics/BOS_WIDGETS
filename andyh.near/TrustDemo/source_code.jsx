@@ -1,6 +1,6 @@
 return (
   <div className="row">
-    <div className="col">
+    <div className="col" style={{ border: "1px solid orange" }}>
       <h6>trusted root</h6>
       <Widget
         id="trusted-root"
