@@ -346,7 +346,7 @@ return (
             width: "100%",
           }}
           onClick={async () => {
-            setBins(state.allBins);
+            setBins(state.allBins,state.allChecked);
           }}
         >
           Select
