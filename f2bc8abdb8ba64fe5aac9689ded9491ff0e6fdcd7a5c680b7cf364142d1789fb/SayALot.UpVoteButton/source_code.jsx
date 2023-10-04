@@ -5,13 +5,14 @@ const {
   widgets,
   disabled,
   articleSbts,
+  upVotes,
 } = props;
 
 const data = reactedElementData;
 
 const libSrcArray = [widgets.libUpVotes];
 
-const libCalls = [
+const initLibCalls = [
   {
     functionName: "getUpVotes",
     key: "upVotes",
@@ -22,14 +23,16 @@ const libCalls = [
   },
 ];
 
-State.init({
-  libCalls,
-  upVotes: [],
-});
+if (!upVotes) {
+  State.init({
+    libCalls: initLibCalls,
+    upVotes: [],
+  });
+}
 
-let userVote = state.upVotes.find(
-  (vote) => vote.accountId === context.accountId
-);
+let upVotesData = upVotes ?? state.upVotes;
+
+let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
 let hasUserVoted = userVote !== undefined;
 
@@ -108,7 +111,7 @@ return (
       src={widgets.styledComponents}
       props={{
         Button: {
-          text: `+${state.upVotes.length}`,
+          text: `+${upVotesData.length}`,
           disabled,
           className: `${getUpVoteButtonClass()}`,
           size: "sm",
