@@ -1,4 +1,4 @@
-const ownerId = "potlock.near";
+const ownerId = "nearhorizon.near";
 
 if (!context.accountId) {
   return (
@@ -178,7 +178,7 @@ const validateForm = () => {
 return (
   <Container>
     <div>
-      <Header>Register new project</Header>
+      <Header>Create new project</Header>
     </div>
     <Form>
       <FormHeader>General</FormHeader>
