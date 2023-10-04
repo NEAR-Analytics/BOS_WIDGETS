@@ -97,6 +97,8 @@ const CandidateItemRow = styled.div`
   background: ${(props) =>
     props.winnerId
       ? "rgb(206 233 207)"
+      : props.disqualified
+      ? "#ccc"
       : props.selected
       ? "#4aa6ee"
       : props.filtered
@@ -634,6 +636,7 @@ const CandidateItem = ({ candidateId, votes }) => (
       className="d-flex align-items-center justify-content-between"
       selected={state.selected === candidateId}
       filtered={candidateFilterId.includes(candidateId)}
+      disqualified={votes === 0}
       winnerId={state.winnerIds.includes(candidateId)}
     >
       <div className="d-flex w-100 align-items-center">
