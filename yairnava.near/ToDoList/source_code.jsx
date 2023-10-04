@@ -1,7 +1,7 @@
-const todolistContract = "0xbA494aEa8295B5640Efb4FF9252df8D388e655dc";
+const todolistContract = "0x9098DB859F8912aCb8856fa7298Cb28dD33D65ce";
 
 const todolistAbi = fetch(
-  "https://gateway.pinata.cloud/ipfs/QmVgbfZJiXk1JRtNTkCTMUQtFhhCpaeD4aUiHFmZiKnPd7?_gl=1*jgy6f*rs_ga*ZWExOWRjODgtOWM4Ny00MzE1LTlhMGQtMDc1NDFhZjA2YWQy*rs_ga_5RMPXG14TE*MTY4MzIxOTg2NS4yLjEuMTY4MzIyMDkzMy42MC4wLjA."
+  "https://raw.githubusercontent.com/open-web-academy/Components-BOS/main/Contracts/ToDoListAbi.txt"
 );
 
 if (!todolistAbi.ok) {
@@ -10,27 +10,44 @@ if (!todolistAbi.ok) {
 
 const iface = new ethers.utils.Interface(todolistAbi.body);
 
+const contract = new ethers.Contract(
+  todolistContract,
+  todolistAbi.body,
+  Ethers.provider().getSigner()
+);
+
+State.init({
+  getTasks: true,
+  user_tasks: [],
+});
+
 const submitTask = () => {
   if (state.strTask == "") {
     return console.log("El nombre de la tarea no debe estar vacia");
   }
 
-  const contract = new ethers.Contract(
-    todolistContract,
-    todolistAbi.body,
-    Ethers.provider().getSigner()
-  );
+  contract.addTask(state.strTask).then((transactionHash) => {
+    setTimeout(() => {
+      getTasks();
+    }, 5000);
+  });
+};
 
-  contract.add_task(state.strTask).then((transactionHash) => {
-    console.log("transactionHash is " + transactionHash);
-    const contract = new ethers.Contract(
-      todolistContract,
-      todolistAbi.body,
-      Ethers.provider().getSigner()
-    );
-    contract.get_tasks().then((res) => {
-      State.update({ user_tasks: res });
-    });
+const getTasks = () => {
+  contract.getTaskCount().then((res) => {
+    const countTasks = res.toNumber();
+    let tasks = [];
+    for (let i = 0; i < countTasks; i++) {
+      contract.getTask(i).then((res) => {
+        const newTask = { name: res[0], status: res[1] };
+        console.log(newTask);
+        tasks.push(newTask);
+      });
+    }
+    setTimeout(() => {
+      State.update({ user_tasks: tasks, getTasks: false });
+      console.log(tasks);
+    }, 10000);
   });
 };
 
@@ -42,14 +59,7 @@ if (state.sender === undefined) {
 }
 
 if (state.tasks === undefined && state.sender) {
-  const contract = new ethers.Contract(
-    todolistContract,
-    todolistAbi.body,
-    Ethers.provider().getSigner()
-  );
-  contract.get_tasks().then((res) => {
-    State.update({ user_tasks: res });
-  });
+  getTasks();
 }
 
 const cssFont = fetch(
@@ -106,10 +116,12 @@ return (
           </button>
           <div>
             <div class="SubHeader">Tareas creadas: </div>
-            {state.user_tasks.length > 0 ? (
+            {state.getTasks ? (
+              <span>Consultando tareas...</span>
+            ) : state.user_tasks.length > 0 ? (
               <ul>
                 {state.user_tasks.map((item) => {
-                  return <li>{item[0]}</li>;
+                  return <li>{item.name}</li>;
                 })}
               </ul>
             ) : (
