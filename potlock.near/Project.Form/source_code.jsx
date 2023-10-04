@@ -178,7 +178,7 @@ const validateForm = () => {
 return (
   <Container>
     <div>
-      <Header>Create new project</Header>
+      <Header>Register new project</Header>
     </div>
     <Form>
       <FormHeader>General</FormHeader>
