@@ -18,16 +18,12 @@ ${embedCss}
 function TestReact(props) {
   const [value, setValue] = React.useState(props.initialText || "");
   
-  let textValue = value
-
-  if(${props.forceClear}) {
-    textValue = ""
-  } else {
-    textValue = value
-  }
+  React.useEffect(() => {
+    setValue(props.initialText)
+  }, [props.initialText])
 
   return React.createElement(ReactMarkdownEditorLite.default, {
-      value: textValue,
+      value,
       view: { menu: true, md: true, html: false },
       canView: { menu: true, md: false, html: false, fullScreen: false, hideMenu: true },
       onChange: ({ text }) => {
@@ -43,6 +39,7 @@ const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
 window.addEventListener("message", (event) => {
+  console.log(2, event)
   root.render(React.createElement(TestReact, {
     initialText: event.data,
   }));
