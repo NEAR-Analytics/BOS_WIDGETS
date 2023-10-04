@@ -849,6 +849,7 @@ const run = (data) => {
   const width = 1080;
   const height = 768;
   let dragIsOn = false;
+  console.log('data', data)
 
   // Specify the color scale.
   const color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -916,7 +917,7 @@ const run = (data) => {
     .attr("fill", d => d.group < 4 ? "none" : color(d.group));
 
   node.append("title")
-      .text(d => house(d.group) + d.id);
+      .text(d => house(d.group) + d.id + ' ' + d.size);
 
   // Add a drag behavior.
   node.call(d3.drag()
