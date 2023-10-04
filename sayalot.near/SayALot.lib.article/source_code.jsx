@@ -40,6 +40,7 @@ function getWritersWhitelist(env) {
       "ozymandius.near",
       "chloe.near",
       "vikash.near",
+      "antmarshall360.near",
     ];
   }
 }
