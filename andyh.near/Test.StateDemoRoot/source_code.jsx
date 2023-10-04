@@ -139,7 +139,6 @@ return (
     <div className="col">
       <Widget
         id="root-shapes"
-        isTrusted
         src="andyh.near/widget/Test.ShapeSet"
         props={{
           circle,
@@ -152,7 +151,6 @@ return (
       />
       <Widget
         id="parent-shapes"
-        isTrusted
         src="andyh.near/widget/Test.StateDemoParent"
         props={{
           id: "sandbox-parent",
