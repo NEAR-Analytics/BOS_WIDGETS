@@ -165,6 +165,10 @@ const Details = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  h2 {
+    font-weight:700;
+  }
 `;
 
 return {
