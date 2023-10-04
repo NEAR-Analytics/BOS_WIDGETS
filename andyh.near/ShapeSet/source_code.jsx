@@ -8,6 +8,7 @@ return (
     <div className="col">
       <Widget
         id="circle"
+        isTrusted
         src="andyh.near/widget/Circle"
         props={{
           color: "#C1200B",
