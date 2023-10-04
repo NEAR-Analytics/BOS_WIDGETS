@@ -1,4 +1,4 @@
-const ownerId = "nearhorizon.near";
+const ownerId = "potlock.near";
 
 if (!context.accountId) {
   return (
