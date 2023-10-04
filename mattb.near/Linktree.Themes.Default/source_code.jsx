@@ -169,6 +169,12 @@ const Details = styled.div`
   h2 {
     font-weight:700;
   }
+
+  h5 {
+    font-size:.8rem;
+    opacity:.8;
+    margin-bottom:20px;
+  }
 `;
 
 return {
