@@ -2,9 +2,10 @@ const BINS = props.bins ? props.bins : [];
 const TOKENS = props.tokens ? props.tokens : {};
 const setBins = props.setBins;
 const closeModal = props.closeModal;
+const allChecked = props.allChecked;
 
 State.init({
-  allChecked: false,
+  allChecked: allChecked,
   allBins: BINS,
 });
 
