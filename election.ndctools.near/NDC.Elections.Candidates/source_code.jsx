@@ -563,7 +563,7 @@ State.init({
   filterOption: "",
   showToSModal: false,
   bountyProgramModal: false,
-  showReviewModal: true,
+  showReviewModal: false,
   blacklistedModal: true,
 
   showMintPolicyModal: false,
