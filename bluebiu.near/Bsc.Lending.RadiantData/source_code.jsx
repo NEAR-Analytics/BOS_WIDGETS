@@ -345,7 +345,6 @@ const getUserRewards = (aTokenAddress) => {
       outputs: [
         { internalType: "uint256", name: "amount", type: "uint256" },
         { internalType: "uint256", name: "rewardDebt", type: "uint256" },
-        { internalType: "uint256", name: "enterTime", type: "uint256" },
         { internalType: "uint256", name: "lastClaimTime", type: "uint256" },
       ],
       stateMutability: "view",
@@ -422,7 +421,6 @@ const getUserRewards = (aTokenAddress) => {
             .then((res) => {
               const totalSupply = res[0].toString();
               const allocPoint = res[1].toString();
-              console.log("totalSupply: ", totalSupply, allocPoint);
 
               const dailyRewardToThisPool = Big(60 * 60 * 24)
                 .times(rewardsPerSecond)
@@ -436,12 +434,6 @@ const getUserRewards = (aTokenAddress) => {
               return rewardPerShareThisPool;
             })
             .then((rewardPerShareThisPool) => {
-              console.log(
-                "rewardPerShareThisPool: ",
-                rewardPerShareThisPool,
-                aTokenAddress,
-                account
-              );
               return incentiveControllerContract
                 .userInfo(aTokenAddress, account)
                 .then((res) => {
@@ -469,21 +461,20 @@ const getUserRewards = (aTokenAddress) => {
 
                       return {
                         ...RDNTToken,
-                        rewardTokenAddress: RDNTToken.address,
                         unclaimed: Big(unclaimed)
                           .div(Big(10).pow(RDNTToken.decimals))
                           .toFixed(),
                         price: rndtPrice,
                         dailyRewards,
-                        aTokenAddress,
+                        rewardAddress: aTokenAddress,
                       };
                     });
-                })
-                .catch((e) => {
-                  return undefined;
                 });
             });
         });
+    })
+    .catch((e) => {
+      return undefined;
     });
 };
 
@@ -516,18 +507,42 @@ const getMarkets = () => {
             .then((data) => {
               const aTokenAddress = data[0];
               const variableDebtTokenAddress = data[2];
-              getUserRewards(aTokenAddress, signer).then((res) => {
-                const rewards = !res ? undefined : [res];
-                getTokenReserveData(
-                  address,
-                  symbol,
-                  tokensPrice[address],
-                  aTokenAddress,
-                  variableDebtTokenAddress,
-                  loanToValue,
-                  rewards
-                );
-              });
+              getUserRewards(aTokenAddress, signer)
+                .then((res) => {
+                  return res;
+                })
+                .then((atokenReward) => {
+                  return getUserRewards(variableDebtTokenAddress, signer).then(
+                    (variableDebtTokenReward) => {
+                      if (!atokenReward) return variableDebtTokenReward;
+                      else if (atokenReward && !variableDebtTokenReward)
+                        return atokenReward;
+                      else {
+                        return {
+                          ...atokenReward,
+                          unclaimed: Big(atokenReward.unclaimed)
+                            .plus(variableDebtTokenReward.unclaimed)
+                            .toFixed(),
+                          dailyRewards: Big(atokenReward.dailyRewards)
+                            .plus(variableDebtTokenReward.dailyRewards)
+                            .toFixed(),
+                        };
+                      }
+                    }
+                  );
+                })
+                .then((rawRewards) => {
+                  const rewards = !rawRewards ? undefined : [rawRewards];
+                  getTokenReserveData(
+                    address,
+                    symbol,
+                    tokensPrice[address],
+                    aTokenAddress,
+                    variableDebtTokenAddress,
+                    loanToValue,
+                    rewards
+                  );
+                });
             });
         });
     });
@@ -635,7 +650,6 @@ const getTokenReserveData = (
         variableBorrowAPY,
         borrowApy: variableBorrowAPY + "%",
         underlyingPrice: price,
-        rewards,
         underlyingToken:
           tokenAddress.toLowerCase() === wethAddress.toLowerCase()
             ? native
@@ -651,6 +665,7 @@ const getTokenReserveData = (
         aTokenAddress,
         variableDebtTokenAddress,
         wethAddress,
+        rewards,
       },
     });
   });
@@ -829,8 +844,21 @@ if (
     };
   });
 
+  let reduceUnclaimed = Big(0);
+
+  let reduceDailyRewards = Big(0);
+
   Object.keys(marketData).forEach((address) => {
     const market = marketData[address];
+    if (market.rewards) {
+      const unclaimed = market.rewards[0].unclaimed;
+      const dailyRewards = market.rewards[0].dailyRewards;
+
+      reduceUnclaimed = reduceUnclaimed.plus(Big(unclaimed));
+
+      reduceDailyRewards = reduceDailyRewards.plus(Big(dailyRewards));
+    }
+    market.rewards = undefined;
 
     const { netApy: netApyRaw } = market;
     netApy = netApy.plus(netApyRaw);
@@ -848,8 +876,19 @@ if (
 
   const parsedMarketData = {};
 
-  Object.entries(marketData).map(([address, market]) => {
+  Object.entries(marketData).map(([address, market], index) => {
     parsedMarketData[market.aTokenAddress] = market;
+
+    if (index === 0 && reduceUnclaimed.gt(0)) {
+      market.rewards = [
+        {
+          ...RDNTToken,
+          unclaimed: reduceUnclaimed.toFixed(),
+          dailyRewards: reduceDailyRewards.toFixed(),
+          price: rndtPrice,
+        },
+      ];
+    }
   });
 
   onLoad({
