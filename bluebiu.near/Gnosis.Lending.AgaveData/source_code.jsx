@@ -11,8 +11,6 @@ const {
   loaded,
 } = props;
 
-console.log("update: ", update);
-
 if ((!update || !account) && !state.tokensPrice) return "";
 
 const native = {
@@ -25,6 +23,14 @@ const native = {
 };
 
 const wethAddress = "null";
+
+const RewardToken = {
+  symbol: "40AGVE-60GNO",
+  address: "0x870Bb2C024513B5c9A69894dCc65fB5c47e422f3",
+  decimals: 18,
+  name: "40AGVE-60GNO",
+  icon: "https://ipfs.near.social/ipfs/bafkreicbv62kdvlpycujxhzjtfwjmxuavxmwrsi22cqlrgtmmeqs7eoeoe",
+};
 
 const Tokens = {
   "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb": {
@@ -317,12 +323,6 @@ const getTokenReserveData = (
   loanToValue,
   userReserveParsed
 ) => {
-  if (state[tokenAddress]) {
-    console.log("addres", state[tokenAddress]);
-  }
-
-  console.log("token reserves trigger", symbol);
-
   dataProviderContract.getReserveData(tokenAddress).then((data) => {
     const [
       availableLiquidity,
@@ -434,9 +434,7 @@ const getUserReverveData = (market) => {
   return dataProviderContract
     .getUserReserveData(address, account)
     .then((data) => {
-      console.log("data: ", data, market[0]);
       const underlyingAsset = Tokens[address];
-      console.log("underlyingAsset: ", underlyingAsset, market[0]);
       const scaledATokenBalanceUsd = Big(data[0].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
@@ -470,7 +468,6 @@ const getUserReverveData = (market) => {
 if (!state.tokensPrice) {
   getTokensPrices();
 }
-console.log({ state });
 
 if (!state.markets && state.tokensPrice) {
   getMarkets();
@@ -501,11 +498,9 @@ if (
         dataProviderContract.getReserveTokensAddresses(address).then((data) => {
           const aTokenAddress = data[0];
           const variableDebtTokenAddress = data[2];
-          console.log("variableDebtTokenAddress: ", variableDebtTokenAddress);
 
           getUserReverveData(market)
             .then((userReserveParsed) => {
-              console.log("userReserveParsed: ", userReserveParsed);
               getTokenReserveData(
                 address,
                 symbol,
@@ -617,9 +612,784 @@ if (
     parsedMarketData[market.aTokenAddress] = market;
   });
 
+  console.log("parsedMarketData: ", parsedMarketData);
+
   onLoad({
     ...{ ...userData, ...props },
     markets: parsedMarketData,
     name: initConfig.name,
   });
 }
+
+[
+  {
+    inputs: [
+      {
+        internalType: "contract IERC20",
+        name: "rewardToken",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "emissionManager",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "asset",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "decimals",
+        type: "uint8",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "emission",
+        type: "uint256",
+      },
+    ],
+    name: "AssetConfigUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "asset",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "index",
+        type: "uint256",
+      },
+    ],
+    name: "AssetIndexUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newBulkClaimer",
+        type: "address",
+      },
+    ],
+    name: "BulkClaimerUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "claimer",
+        type: "address",
+      },
+    ],
+    name: "ClaimerSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newDistributionEnd",
+        type: "uint256",
+      },
+    ],
+    name: "DistributionEndUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+    ],
+    name: "RewardTokenUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "RewardsAccrued",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "claimer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "RewardsClaimed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "vault",
+        type: "address",
+      },
+    ],
+    name: "RewardsVaultUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "asset",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "index",
+        type: "uint256",
+      },
+    ],
+    name: "UserIndexUpdated",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "BULK_CLAIMER",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "DISTRIBUTION_END",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "EMISSION_MANAGER",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "PRECISION",
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "PROXY_ADMIN",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "REVISION",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "REWARD_TOKEN",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "assets",
+    outputs: [
+      {
+        internalType: "uint104",
+        name: "emissionPerSecond",
+        type: "uint104",
+      },
+      {
+        internalType: "uint104",
+        name: "index",
+        type: "uint104",
+      },
+      {
+        internalType: "uint40",
+        name: "lastUpdateTimestamp",
+        type: "uint40",
+      },
+      {
+        internalType: "uint8",
+        name: "decimals",
+        type: "uint8",
+      },
+      {
+        internalType: "bool",
+        name: "disabled",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "assets",
+        type: "address[]",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+    ],
+    name: "bulkClaimRewardsOnBehalf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "assets",
+        type: "address[]",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+    ],
+    name: "claimRewards",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "assets",
+        type: "address[]",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+    ],
+    name: "claimRewardsOnBehalf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "assets",
+        type: "address[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "emissionsPerSecond",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "assetDecimals",
+        type: "uint256[]",
+      },
+    ],
+    name: "configureAssets",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "assets",
+        type: "address[]",
+      },
+    ],
+    name: "disableAssets",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "asset",
+        type: "address",
+      },
+    ],
+    name: "getAssetData",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "getClaimer",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getDistributionEnd",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "assets",
+        type: "address[]",
+      },
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "getRewardsBalance",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getRewardsVault",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "asset",
+        type: "address",
+      },
+    ],
+    name: "getUserAssetData",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_user",
+        type: "address",
+      },
+    ],
+    name: "getUserUnclaimedRewards",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "totalSupply",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "userBalance",
+        type: "uint256",
+      },
+    ],
+    name: "handleAction",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "rewardsVault",
+        type: "address",
+      },
+    ],
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "newRewardTokenAdjustmentAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "newRewardTokenAdjustmentMultiplier",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "bulkClaimer",
+        type: "address",
+      },
+    ],
+    name: "setBulkClaimer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "caller",
+        type: "address",
+      },
+    ],
+    name: "setClaimer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "distributionEnd",
+        type: "uint256",
+      },
+    ],
+    name: "setDistributionEnd",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "rewardToken",
+        type: "address",
+      },
+    ],
+    name: "setRewardToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bool",
+        name: "RewardTokenAdjustmentMultiplier",
+        type: "bool",
+      },
+      {
+        internalType: "uint256",
+        name: "RewardTokenAdjustmentAmount",
+        type: "uint256",
+      },
+    ],
+    name: "setRewardTokenAdjustment",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "rewardsVault",
+        type: "address",
+      },
+    ],
+    name: "setRewardsVault",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
