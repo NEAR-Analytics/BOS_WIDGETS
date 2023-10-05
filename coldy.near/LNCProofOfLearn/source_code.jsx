@@ -23,15 +23,20 @@ const data = response?.body?.data;
 return (
   <>
     {data !== null ? (
-      <div>
-        {data.body.map((item) => (
-          <div>
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>nLEARNs</th>
+          <th>Entry</th>
+        </tr>
+        {data.map((item) => (
+          <tr>
+            <td>{item.date}</td>
             <td>{item.creds}</td>
             <td>{item.message}</td>
-            <td>{item.date}</td>
-          </div>
+          </tr>
         ))}
-      </div>
+      </table>
     ) : (
       <div>Loading ...</div>
     )}
