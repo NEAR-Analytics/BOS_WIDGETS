@@ -1,10 +1,15 @@
-const response = await fetch(
-  `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=coldy.near`,
-  {
-    method: "GET",
-  }
-);
-const data = await response.json();
+try {
+  const response = await fetch(
+    `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=coldy.near`,
+    {
+      method: "GET",
+    }
+  );
+  const data = await response.json();
+  // Handle the data here
+} catch (error) {
+  console.error("Error fetching data:", error);
+}
 
 return (
   <>
