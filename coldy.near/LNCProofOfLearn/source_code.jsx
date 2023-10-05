@@ -1,7 +1,7 @@
 const fetchData = async () => {
   try {
     const response = await fetch(
-      `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=${context.accountId}`,
+      `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=coldy.near`,
       {
         method: "GET",
       }
