@@ -153,6 +153,7 @@ return (
       <Widget
         id="parent-shapes"
         src="andyh.near/widget/StateDemoParent.Trusted"
+        isTrusted
         props={{
           id: "sandbox-parent",
           circle,
