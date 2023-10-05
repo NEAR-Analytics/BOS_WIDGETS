@@ -2,13 +2,13 @@ const { router, house } = props;
 const accountId = props.accountId ?? context.accountId ?? "";
 
 const HOM_IMG =
-    "https://ipfs.near.social/ipfs/bafkreiafbuabus4klh5kdlfef3hhi5baqcoc4ltomg2uzgu4vydgc7oj5u";
+    "https://ipfs.near.social/ipfs/bafkreidqibol2yjcaja7hdivezfumbb323niqz6csntmeyrscl2iym5vrm";
 const COA_IMG =
-    "https://ipfs.near.social/ipfs/bafkreig3y6dsilf5kfftvwys3rsczam2ntcaub3bx4solf5k7ay63iewwa";
+    "https://ipfs.near.social/ipfs/bafkreifh4j3tc5klc3mjkfx7prced4rbxm2xel2qoz2sr3ekoxez53ik2m";
 const TC_IMG =
-    "https://ipfs.near.social/ipfs/bafkreiaca64a4dapymnwzbe3qminrc3ggwteqwmolligibbvmp6zvw5ghu";
+    "https://ipfs.near.social/ipfs/bafkreif3aql3iceqrmbkyvoxnvh3elo3sodbvxsaok6qzpjxaqnzuejwni";
 const VB_IMG =
-    "https://ipfs.near.social/ipfs/bafkreigkbdfbaz73srswvv7p4rys5pqosesyxxlbr6htcrghmunktdrqu4";
+    "https://ipfs.near.social/ipfs/bafkreigbn55gk57jzzuvae3rbdeoqzvhy2ikggjhwc6dcfwlbx74s4u5v4";
 const VB_TRUST_IMG =
     "https://ipfs.near.social/ipfs/bafkreiegx5ygl7vpp5fblgyapnhgevqdpyh3lrucw6d5boqi7bikt4q7iq";
 
@@ -16,13 +16,12 @@ const Content = {
     hom: {
         title: "House of Merit",
         abbr: "HoM",
+        address: "hom.gwg-testing.near",
         color: "#5BC65F",
         description:
             "The House of Merit is in charge of allocating the treasury and deploying capital for the growth of the ecosystem.",
         metadata: {
-            members: 15,
             groups: 1,
-            proposals: { active: 1, total: 4 },
             powers: [
                 {
                     text: "The House of Merit can propose setup package, budget, large budget items, and recurring budget items.",
@@ -60,13 +59,12 @@ const Content = {
     coa: {
         title: "Council of Advisors",
         abbr: "CoA",
+        address: "coa.gwg-testing.near",
         color: "#4498E0",
         description:
             "The Council of Advisors is in charge of vetoing proposals from the HoM and guiding the deployment of the treasury.",
         metadata: {
-            members: 7,
             groups: 1,
-            proposals: { active: 1, total: 4 },
             powers: [
                 {
                     text: "All proposals originated from the House of Merit (except the Setup Package and Budget) can be vetoed by the Council of Advisors.",
@@ -94,14 +92,13 @@ const Content = {
     tc: {
         title: "Transparency Commission",
         abbr: "TC",
+        address: "tc.gwg-testing.near",
         color: "#F19D38",
         description:
             "The Transparency Commission is In charge of keeping behavior of elected officials clean, and making sure cartels do not form in the ecosystem.",
         metadata: {
             funds: "10M",
-            members: 7,
             groups: 1,
-            proposals: { active: 1, total: 4 },
             powers: [
                 {
                     text: "The Transparency Commission can conduct investigations on Congressional members.",
@@ -141,14 +138,13 @@ const Content = {
     vb: {
         title: "Voting Body",
         abbr: "VB",
+        address: "vb.gwg-testing.near",
         color: "#F29BC0",
         description:
             "The Voting Body consists all fair voters who participated in the inaugural NDC elections and received a “I Voted” Soul Bound Token. ",
         metadata: {
             funds: "10M",
-            members: 850,
             groups: 1,
-            proposals: { active: 1, total: 4 },
             powers: [
                 {
                     text: "The Voting Body must ratify Set Up Package.",
@@ -181,7 +177,7 @@ const Content = {
                         "The vote needs a NEAR Supermajority Consent, which is 12% of voting body participating with a supermajority of 60% approval."
                 }
             ],
-            checks: []
+            checks: null
         }
     }
 };
@@ -226,9 +222,16 @@ const CircleLogoSmall = styled.div`
     border-color: ${(props) => Content[props.house].color};
 `;
 
+const Info = styled.div`
+    border-radius: 4px;
+    border: 0.75px solid #d3d3d3;
+    background: rgba(0, 0, 0, 0.05);
+`;
+
 const Tab = styled.div`
-    padding: 6px 12px;
+    padding: 4px 10px;
     gap: 5px;
+    width: fit-content;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -302,15 +305,29 @@ const Dropdown = styled.div`
     position: relative;
     display: inline-block;
 
-    .dropdown-content {
+    .container {
         display: none;
-        border-radius: 4px;
         position: absolute;
         right: -25px;
-        top: 35px;
-        background-color: #fff;
-        min-width: 230px;
+        top: 15px;
         z-index: 1;
+        padding: 15px;
+        min-width: 265px;
+    }
+
+    &:hover .container {
+        display: flex;
+    }
+
+    &:hover,
+    i:hover {
+        cursor: pointer;
+    }
+
+    .dropdown-content {
+        border-radius: 4px;
+        min-width: 230px;
+        background-color: #fff;
         font-size: 14px;
 
         div,
@@ -322,10 +339,6 @@ const Dropdown = styled.div`
             }
         }
     }
-
-    &:hover .dropdown-content {
-        display: flex;
-    }
 `;
 
 State.init({
@@ -333,17 +346,54 @@ State.init({
     selectedTab: "powers",
     copied: false,
     proposals: [],
+    members: [],
     showPowerChecksDescription: false,
-    vbWithTrust: false
+    vbWithTrust: false,
+    proposalsCount: 0,
+    hideProposalBtn: true
 });
 
-const changeHouse = (house) =>
+const getProposalsCount = () => {
+    const proposalsCount = Near.view(
+        Content[state.selectedHouse].address,
+        "number_of_proposals",
+        {}
+    );
+    State.update({ proposalsCount });
+};
+
+const changeHouse = (house) => {
     State.update({
         selectedHouse: house,
         selectedTab: "powers",
         showPowerChecksDescription: false,
         vbWithTrust: false
     });
+};
+
+const getProposals = () => {
+    const proposals = Near.view(
+        Content[state.selectedHouse].address,
+        "get_proposals",
+        { from_index: 0, limit: 20 }
+    );
+
+    State.update({ proposals: proposals ?? [] });
+};
+
+const getMembers = () => {
+    const resp = Near.view(
+        Content[state.selectedHouse].address,
+        "get_members",
+        {}
+    );
+    const isMember = resp?.members?.includes(accountId);
+    State.update({ members: resp?.members ?? [], hideProposalBtn: !isMember });
+};
+
+getProposalsCount();
+getProposals();
+getMembers();
 
 const ContentBlock = ({ title, abbr, address, description, metadata }) => (
     <Section className="d-flex flex-column justify-content-between h-100">
@@ -357,13 +407,24 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
 
                 <Dropdown className="mt-1 px-2">
                     <i class="bi bi-three-dots-vertical" />
-                    <div class="flex-column dropdown-content shadow">
-                        <a href="#/astraplusplus.ndctools.near/widget/home?page=proposals">
-                            Proposals
-                        </a>
-                        <a href="#/astraplusplus.ndctools.near/widget/home?page=members">
-                            Members
-                        </a>
+                    <div className="container">
+                        <div class="d-flex flex-column dropdown-content shadow">
+                            <a
+                                href={`#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${
+                                    Content[state.selectedHouse].address
+                                }`}
+                            >
+                                Proposals
+                            </a>
+
+                            <a
+                                href={`#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${
+                                    Content[state.selectedHouse].address
+                                }&tab=members`}
+                            >
+                                Members
+                            </a>
+                        </div>
                     </div>
                 </Dropdown>
             </div>
@@ -374,31 +435,33 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                     </h4>
                     <Dropdown className="mt-1 px-2">
                         <i className="bi bi-caret-down-fill" />
-                        <div class="flex-column dropdown-content shadow">
-                            <a
-                                onClick={() => changeHouse("hom")}
-                                href="#/astraplusplus.ndctools.near/widget/home?page=congress&house=hom"
-                            >
-                                {Content.hom.title}
-                            </a>
-                            <a
-                                onClick={() => changeHouse("coa")}
-                                href="#/astraplusplus.ndctools.near/widget/home?page=congress&house=coa"
-                            >
-                                {Content.coa.title}
-                            </a>
-                            <a
-                                onClick={() => changeHouse("tc")}
-                                href="#/astraplusplus.ndctools.near/widget/home?page=congress&house=tc"
-                            >
-                                {Content.tc.title}
-                            </a>
-                            <a
-                                onClick={() => changeHouse("vb")}
-                                href="#/astraplusplus.ndctools.near/widget/home?page=congress&house=vb"
-                            >
-                                {Content.vb.title}
-                            </a>
+                        <div className="container">
+                            <div class="d-flex flex-column dropdown-content shadow">
+                                <a
+                                    onClick={() => changeHouse("hom")}
+                                    href="#/astraplusplus.ndctools.near/widget/home?page=congress&house=hom"
+                                >
+                                    {Content.hom.title}
+                                </a>
+                                <a
+                                    onClick={() => changeHouse("coa")}
+                                    href="#/astraplusplus.ndctools.near/widget/home?page=congress&house=coa"
+                                >
+                                    {Content.coa.title}
+                                </a>
+                                <a
+                                    onClick={() => changeHouse("tc")}
+                                    href="#/astraplusplus.ndctools.near/widget/home?page=congress&house=tc"
+                                >
+                                    {Content.tc.title}
+                                </a>
+                                <a
+                                    onClick={() => changeHouse("vb")}
+                                    href="#/astraplusplus.ndctools.near/widget/home?page=congress&house=vb"
+                                >
+                                    {Content.vb.title}
+                                </a>
+                            </div>
                         </div>
                     </Dropdown>
                 </div>
@@ -422,7 +485,7 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                 <div className="text-center">
                     <h5 className="mb-0">
                         <b>
-                            {metadata.members}/{metadata.groups}
+                            {state.members.length}/{1}
                         </b>
                     </h5>
                     <span className="text-secondary">
@@ -432,8 +495,12 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                 <div className="text-center">
                     <h5 className="mb-0">
                         <b>
-                            {metadata.proposals.active}/
-                            {metadata.proposals.total}
+                            {
+                                state.proposals.filter(
+                                    (p) => p.status === "InProgress"
+                                ).length
+                            }
+                            /{state.proposalsCount}
                         </b>
                     </h5>
                     <span className="text-secondary">
@@ -442,7 +509,7 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                 </div>
             </div>
             <Tabs className="flex-column mb-4">
-                <div className="d-flex justify-content-between gap-2">
+                <div className="d-flex flex-column flex-sm-row gap-3">
                     <Tab
                         onClick={() => State.update({ selectedTab: "powers" })}
                         selected={state.selectedTab === "powers"}
@@ -452,15 +519,19 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                             <div>{metadata.powers.length}</div>
                         </div>
                     </Tab>
-                    <Tab
-                        onClick={() => State.update({ selectedTab: "checks" })}
-                        selected={state.selectedTab === "checks"}
-                    >
-                        <div>Checks on {Content[house].abbr}</div>
-                        <div className="circle d-flex justify-content-center align-items-center">
-                            <div>{metadata.checks.length}</div>
-                        </div>
-                    </Tab>
+                    {metadata.checks && (
+                        <Tab
+                            onClick={() =>
+                                State.update({ selectedTab: "checks" })
+                            }
+                            selected={state.selectedTab === "checks"}
+                        >
+                            <div>Checks on {Content[house].abbr}</div>
+                            <div className="circle d-flex justify-content-center align-items-center">
+                                <div>{metadata.checks.length}</div>
+                            </div>
+                        </Tab>
+                    )}
                     <Tab
                         onClick={() =>
                             State.update({ selectedTab: "proposals" })
@@ -469,7 +540,7 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                     >
                         <div>Proposals</div>
                         <div className="circle d-flex justify-content-center align-items-center">
-                            <div>{state.proposals.length}</div>
+                            <div>{state.proposalsCount}</div>
                         </div>
                     </Tab>
                 </div>
@@ -477,6 +548,7 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                     {state.selectedTab === "powers" &&
                         metadata.powers.map((r, i) => (
                             <PowerChecksDescription
+                                key={i}
                                 index={i + 1}
                                 house={state.selectedHouse}
                                 text={r.text}
@@ -487,73 +559,74 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                     {state.selectedTab === "checks" &&
                         metadata.checks.map((c, i) => (
                             <PowerChecksDescription
+                                key={i}
                                 index={i + 1}
                                 house={c.house}
                                 text={c.text}
                                 description={c.description}
                             />
                         ))}
+                    {state.selectedTab === "proposals" && (
+                        <Widget
+                            src="astraplusplus.ndctools.near/widget/DAO.Proposals.Congress.index"
+                            props={{
+                                daoId: Content[state.selectedHouse].address
+                            }}
+                        />
+                    )}
                 </div>
             </Tabs>
         </div>
 
-        <div className="d-flex justify-content-end">
-            <Widget
-                src="astraplusplus.ndctools.near/widget/Common.Layout.CardModal"
-                props={{
-                    title: "Create Proposal",
-                    onToggle: () =>
-                        State.update({
-                            isProposalModalOpen: !state.isProposalModalOpen
-                        }),
-                    isOpen: state.isProposalModalOpen,
-                    toggle: (
-                        <Widget
-                            src="nearui.near/widget/Input.Button"
-                            props={{
-                                children: (
-                                    <>
-                                        Create Proposal
-                                        <i className="bi bi-16 bi-plus-lg"></i>
-                                    </>
-                                ),
-                                variant: "info"
-                            }}
-                        />
-                    ),
-                    content: (
-                        <div
-                            className="d-flex flex-column align-items-stretch"
-                            style={{
-                                width: "800px",
-                                maxWidth: "100vw"
-                            }}
-                        >
+        {!state.hideProposalBtn && (
+            <div className="d-flex justify-content-end">
+                <Widget
+                    src="astraplusplus.ndctools.near/widget/Common.Layout.CardModal"
+                    props={{
+                        title: "Create Proposal",
+                        onToggle: () =>
+                            State.update({
+                                isProposalModalOpen: !state.isProposalModalOpen
+                            }),
+                        isOpen: state.isProposalModalOpen,
+                        toggle: (
                             <Widget
-                                src={
-                                    "astraplusplus.ndctools.near/widget/DAO.Proposal.Create"
-                                }
+                                src="nearui.near/widget/Input.Button"
                                 props={{
-                                    daoId: daoId
+                                    children: (
+                                        <>
+                                            Create Proposal
+                                            <i className="bi bi-16 bi-plus-lg"></i>
+                                        </>
+                                    ),
+                                    variant: "info"
                                 }}
                             />
-                        </div>
-                    )
-                }}
-            />
-        </div>
+                        ),
+                        content: (
+                            <div
+                                className="d-flex flex-column align-items-stretch"
+                                style={{
+                                    width: "800px",
+                                    maxWidth: "100vw"
+                                }}
+                            >
+                                <Widget
+                                    src={
+                                        "astraplusplus.ndctools.near/widget/DAO.Proposal.Create"
+                                    }
+                                    props={{
+                                        daoId: `${state.selectedHouse}.gwg-testing.near`
+                                    }}
+                                />
+                            </div>
+                        )
+                    }}
+                />
+            </div>
+        )}
     </Section>
 );
-
-const getProposals = (house) => {
-    const proposals = Near.view(
-        "registry.i-am-human.near",
-        "get_proposals",
-        {}
-    );
-
-    State.update({ proposals });
-};
 
 const PowerChecksDescription = ({ house, index, text, description, type }) => (
     <div className="d-flex gap-3">
@@ -604,6 +677,19 @@ const PowerChecksDescription = ({ house, index, text, description, type }) => (
     </div>
 );
 
+const statusMap = {
+    InProgress: {
+        text: "In Progress",
+        color: "primary",
+        icon: "bi bi-arrow-clockwise"
+    },
+    Approved: { text: "Approved", color: "success", icon: "bi bi-check-lg" },
+    Rejected: { text: "Rejected", color: "danger", icon: "bi bi-x" },
+    Failed: { text: "Failed", color: "danger", icon: "bi bi-x" },
+    Vetoed: { text: "Vetoed", color: "danger", icon: "bi bi-ban" },
+    Executed: { text: "Executed", color: "info", icon: "bi bi-circle" }
+};
+
 return (
     <Container className="row p-0">
         <div id="main" className="col-lg-7 p-0">
@@ -614,10 +700,24 @@ return (
                 </h6>
             </div>
             <ImgContainer
-                className={`w-100 d-flex justify-content-center align-items-center py-5 position-relative ${
+                className={`w-100 d-flex flex-column justify-content-center align-items-center py-4 position-relative ${
                     state.vbWithTrust ? "px-1" : "px-5"
                 }`}
             >
+                {state.members.find((m) => m === context.accountId) && (
+                    <Info className="mb-4 py-2 px-3 gap-2 d-flex justify-content-center align-items-center">
+                        <UserIcon color={Content[house].color}>
+                            <img
+                                width={11}
+                                src="https://ipfs.near.social/ipfs/bafkreig7hd3ysbcb7dkvgzhaavltjvaw5pjtaqyj4qdbamwxhhh4yqp4su"
+                            />
+                        </UserIcon>
+                        <small>
+                            You are a member of
+                            <b> {Content[state.selectedHouse].title}</b>
+                        </small>
+                    </Info>
+                )}
                 <Img
                     onClick={() =>
                         State.update({ vbWithTrust: !state.vbWithTrust })
@@ -644,7 +744,7 @@ return (
                 title={Content[state.selectedHouse].title}
                 description={Content[state.selectedHouse].description}
                 abbr={state.selectedHouse}
-                address={`${state.selectedHouse}@sputnik-dao.near`}
+                address={Content[state.selectedHouse].address}
                 metadata={Content[state.selectedHouse].metadata}
             />
         </HousePanel>
