@@ -345,7 +345,7 @@ function getOldFormatArticles(env) {
 }
 
 function getLastEditArticles(props) {
-  const { env, filterBy, sbtName } = props;
+  const { env, sbtName } = props;
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env);
 
@@ -382,8 +382,7 @@ function getLastEditArticles(props) {
     return !discardCondition;
   });
 
-  const finalArticles = filterArticles(
-    filterBy,
+  const finalArticles = filterValidArticles(
     validFormatLastEditionArticles,
     validAuthors
   );
@@ -410,37 +409,14 @@ function convertArticlesTagsToValidFormat(articlesArray) {
   return validFormatArticlesArray;
 }
 
-function filterArticlesByTag(tag, articles) {
-  return articles.filter((article) => {
-    return article.tags.includes(tag);
-  });
-}
-
-function filterArticlesByAuthor(author, articles) {
-  return articles.filter((article) => {
-    return article.author === author;
-  });
-}
-
 function filterValidator(articles, validAuthors) {
   return articles.filter((article) => {
     return validAuthors.includes(article.author);
   });
 }
 
-function filterArticles(filterBy, articles, validAuthors) {
-  let filteredArticles;
-
-  if (filterBy.parameterName == "tag") {
-    filteredArticles = filterArticlesByTag(filterBy.parameterValue, articles);
-  } else if (filterBy.parameterName == "author") {
-    filteredArticles = filterArticlesByAuthor(
-      filterBy.parameterValue,
-      articles
-    );
-  }
-
-  filteredArticles = filterValidator(
+function filterValidArticles(articles, validAuthors) {
+  let filteredArticles = filterValidator(
     filteredArticles ?? articles,
     validAuthors
   );
