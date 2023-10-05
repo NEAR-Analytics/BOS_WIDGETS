@@ -124,33 +124,6 @@ const SectionInfo = ({ info }) => {
   return <Info>{info}</Info>;
 };
 
-const RectangleImageStack = ({ images }) => {
-  const ImageItem = styled.img`
-    width: 585.151px;
-    height: 425px;
-    flex-shrink: 0;
-    border-radius: 23px;
-    background: #fffefe;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    object-fit: cover;
-    justify-content: center;
-  `;
-  return (
-    <div style={{ width: "685px", height: "480px" }}>
-      <div className="position-relative">
-        <ImageItem src={images[1]} />
-        <ImageItem
-          className="position-absolute"
-          style={{ bottom: "-55px", left: "98px" }}
-          src={images[0]}
-        />
-      </div>
-    </div>
-  );
-};
-
 const Related = styled.p`
   color: #1b1b18;
   font-size: 15px;
@@ -236,6 +209,10 @@ const HomeSection = () => {
         filter: invert(42%) sepia(97%) saturate(649%) hue-rotate(117deg)
           brightness(97%) contrast(98%);
       }
+
+      i {
+        transform: rotate(180deg);
+      }
     }
   `;
 
@@ -245,7 +222,11 @@ const HomeSection = () => {
         {MobileSwitcher && (
           <Mobile
             className={`${state.open && "selected-index"}`}
-            style={{ marginBottom: 24 }}
+            style={{
+              marginBottom: 24,
+              border: `${state.open ? "1px solid #03b071" : ""}`,
+              borderRadius: 8,
+            }}
             onClick={() => State.update({ open: !state.open })}
           >
             <MobileSwitcher />
@@ -266,9 +247,6 @@ const HomeSection = () => {
           <RelatedLinks relatedLinks={relatedLinks} />
         )}
       </div>
-      {/* <div>
-        <RectangleImageStack images={images} />
-      </div> */}
       {Switcher && (
         <div>
           <Switcher />
