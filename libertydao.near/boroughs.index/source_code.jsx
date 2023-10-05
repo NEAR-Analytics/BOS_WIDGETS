@@ -28,7 +28,7 @@ const Container = styled.div`
   flex-direction: column;
   overflow: auto;
   position: relative;
-  z-index: 75;
+  z-index: 100;
 `;
 
 const Button = styled.button`
@@ -174,7 +174,7 @@ return (
         <DownIcon />
       </Button>
     </Profile>
-    {state.showForm && (
+    {accountId && state.showForm && (
       <Widget
         src={"libertydao.near/widget/boroughs.form"}
         props={{
@@ -209,7 +209,7 @@ return (
             onClick={
               state.edit
                 ? () => handleSave()
-                : () => State.update({ edit: !state.edit, showForm: false })
+                : () => State.update({ edit: !state.edit, showForm: true })
             }
           >
             {`${!state.edit ? "Mark your Borough!" : "Save"}`}
