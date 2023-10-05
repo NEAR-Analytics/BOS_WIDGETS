@@ -53,6 +53,9 @@ return (
             lendingPoolAddress: "0xCFa5aE7c2CE8Fadc6426C1ff872cA45378Fb7cF3",
             wethGateway: "0xEc831f8710C6286a91a348928600157f07aC55c2",
             data: "bluebiu.near/widget/Mantle.Lending.LendleData",
+            incentiveController: "0x79e2fd1c484EB9EE45001A98Ce31F28918F27C41",
+            handlerClaim:
+              "bluebiu.near/widget/Mantle.Lending.LendleClaimHandler",
             handlerCollateral:
               "bluebiu.near/widget/Arbitrum.Lending.RadiantHandlerCollateral",
             type: "aave2",
