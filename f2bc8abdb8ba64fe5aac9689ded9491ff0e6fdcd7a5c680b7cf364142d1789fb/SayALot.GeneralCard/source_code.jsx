@@ -9,6 +9,7 @@ const {
   handleFilterArticles,
   addressForArticles,
   authorForWidget,
+  handleShareButton,
 } = props;
 
 const tags = data.tags;
@@ -121,11 +122,6 @@ const profilePictureStyles = {
   height: "45px",
   borderRadius: "50%",
 };
-const ProfilePicture = styled.img`
-  width: ${profilePictureStyles.width};
-  height: ${profilePictureStyles.height};
-  border-radius: ${profilePictureStyles.borderRadius};
-`;
 const HeaderContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -134,25 +130,9 @@ const HeaderContent = styled.div`
   gap: 4px;
   width: 70%;
 `;
-const HeaderTag = styled.div`
+const HeaderButtonsContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 8px;
-  height: 18px;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  border-radius: 100px;
-`;
-const HeaderTagP = styled.p`
-  height: 10px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  color: white;
-  margin: 0;
+  gap: 0.5rem;
 `;
 const HeaderContentText = styled.div`
   display: flex;
@@ -184,42 +164,6 @@ const NominationUser = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
-
-const Icon = styled.img`
-  width: 17px;
-  height: 17px;
-`;
-const CollapseCandidate = styled.div`
-  padding: 12px;
-  background: #ffffff;
-  border: 1px solid rgb(248, 248, 249);
-  border-radius: 6px;
-`;
-const CollapseCandidateContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 5px;
-`;
-const CollapseCandidateText = styled.p`
-  width: 274px;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 120%;
-  margin: 0px;
-  margin-bottom: 3px;
-  color: #000000;
-`;
-const DownArrow = styled.img`
-  width: 16px;
-  height: 16px;
-`;
-const CandidateTagContainer = styled.div`
-  gap: 4px;
 `;
 
 const KeyIssues = styled.div`
@@ -272,24 +216,6 @@ const ArticleBodyContainer = styled.div`
   margin: 0 0.5rem 0.5rem 0.5rem;
 `;
 
-const KeyIssueTitle = styled.p`
-  font-weight: 500;
-  font-size: 11px;
-  margin-bottom: 0px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-const KeyIssueDescription = styled.p`
-  font-weight: 400;
-  font-size: 11px;
-  margin-bottom: 0;
-`;
-const KeyIssueSeparator = styled.div`
-  height: 1px;
-  margin: 7px 0 2px 0;
-  background: rgba(208, 214, 217, 0.4);
-`;
 const LowerSection = styled.div`
   display: flex;
   width: 100%;
@@ -338,21 +264,6 @@ const TimestampText = styled.div`
     font-weight: 600;
   }
 `;
-const CommentsCounter = styled.p`
-  width: 96px;
-  height: 24px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 24px;
-  margin: 0px;
-  text-align: right;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-`;
 const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -371,72 +282,6 @@ const TagSection = styled.div`
   cursor: pointer;
 `;
 
-const CommentButtonDisabled = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  border-radius: 4px;
-  b
-  background: var(--buttons-disable, #c3cace);
-  cursor: default !important;
-`;
-const CommentButtonDiv = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  b
-  border-radius: 80px;
-  background-image: linear-gradient(#f8f8f9, #f8f8f9),
-    radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 4px;
-`;
-const CommentButtonCounter = styled.p`
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  margin: 0px;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-`;
-const CommentButtonIcon = styled.img`
-  width: 14px;
-  height: 14px;
-`;
-
-const DropdownContainer = styled.div`
-  position: relative;
-  display: inline-block;
-`;
-
-const Dropbtn = styled.button`
-  background-color: #4caf50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-`;
-
-const DropdownContent = styled.div`
-  display: none;
-  left: 0;
-  font-size: 12px;
-  flex-direction: column;
-  align-items: flex-start;
-  position: absolute;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  z-index: 1;
-  padding: 8px;
-`;
-
 const Element = styled.div`
   width: 150px;
   display: flex;
@@ -448,33 +293,6 @@ const Element = styled.div`
   &:hover {
     border-radius: 6px;
     background: #f8f8f9;
-  }
-`;
-
-const ShareLink = styled.a`
-  color: black;
-  margin-right: 8px 12px;
-  text-decoration: none;
-  display: block;
-  text-align: start;
-`;
-
-const ShareIcon = styled.img`
-  width: 20px;
-`;
-
-const DropdownContainerHover = styled.div`
-  width: fit-content;
-  float: right;
-
-  &:hover ${DropdownContent} {
-    display: flex;
-    margin-top: -165px;
-  }
-`;
-
-const Separation = styled.div`
-    position: absolute;
   }
 `;
 //============================================END STYLED COMPONENTS=================================================
@@ -612,21 +430,38 @@ return (
             </HeaderContentText>
           </HeaderContent>
         </div>
-        <Widget
-          src={widgets.upVoteButton}
-          props={{
-            isTest,
-            authorForWidget,
-            reactedElementData: data,
-            widgets,
-            disabled:
-              !context.accountId ||
-              context.accountId === accountId ||
-              (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
-            articleSbts,
-            upVotes,
-          }}
-        />
+        <HeaderButtonsContainer>
+          <Widget
+            src={widgets.upVoteButton}
+            props={{
+              isTest,
+              authorForWidget,
+              reactedElementData: data,
+              widgets,
+              disabled:
+                !context.accountId ||
+                context.accountId === accountId ||
+                (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
+              articleSbts,
+              upVotes,
+            }}
+          />
+          <Widget
+            src={"rubycop.near/widget/NDC.StyledComponents"}
+            props={{
+              Button: {
+                size: "sm",
+                className: "secondary dark",
+                icon: <i className="bi bi-share"></i>,
+                onClick: () =>
+                  handleShareButton(true, {
+                    type: "sharedBlockHeight",
+                    value: data.blockHeight,
+                  }),
+              },
+            }}
+          />
+        </HeaderButtonsContainer>
       </HeaderCard>
       <KeyIssuesHeader>
         <KeyIssuesTitle
