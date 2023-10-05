@@ -9,7 +9,7 @@ if (state.image === undefined) {
     text: props.initialText || "",
   });
 
-  if (props.onHelper) {
+  if (props?.onHelper) {
     const extractMentions = (text) => {
       const mentionRegex =
         /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
@@ -54,7 +54,7 @@ if (state.image === undefined) {
           },
         }));
 
-    props.onHelper({
+    props?.onHelper({
       extractHashtags,
       extractMentions,
       extractTagNotifications: extractMentionNotifications,
@@ -170,7 +170,7 @@ return (
           image={state.image}
           className="btn btn-outline-secondary border-0 rounded-3"
         />
-        {(state.text && state.image?.cid) && (
+        {state.text && state.image?.cid && (
           <EmbedNFT>
             <div className="form-check form-switch">
               <input
