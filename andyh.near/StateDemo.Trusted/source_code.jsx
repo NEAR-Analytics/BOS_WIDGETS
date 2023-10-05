@@ -13,7 +13,7 @@ return (
         <Widget
           id="trusted"
           src="andyh.near/widget/StateDemoRoot.Trusted"
-          trust={{ mode: "trusted" }}
+          trust={{ mode: "trust-author" }}
           props={{ title: "State within Trusted Components" }}
         />
       </div>
