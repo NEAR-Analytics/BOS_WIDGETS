@@ -37,7 +37,7 @@ function setAreValidUsers(accountIds, sbtName) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtName,
+        sbtName: sbtName[0],
       },
     });
   });
@@ -64,9 +64,9 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 }
 
 function canUserCreateComment(props) {
-  const { env, accountId, sbtName } = props;
+  const { env, accountId, sbtsNames } = props;
 
-  setAreValidUsers([accountId], sbtName);
+  setAreValidUsers([accountId], sbtsNames);
 
   const result = state[`isValidUser-${accountId}`];
 
