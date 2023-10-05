@@ -23,7 +23,7 @@ if (response?.body?.error) {
 const pages = response?.body?.pages;
 const data = response?.body?.data;
 
-console.log(response.body.da);
+console.log(data);
 
 return (
   <>
