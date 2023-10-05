@@ -1278,7 +1278,7 @@ return (
                           state.estimate.path
                         ) {
                           console.log(
-                            " state.estimate.path",
+                            "state.estimate.path",
                             state.estimate.path
                           );
 
@@ -1291,7 +1291,7 @@ return (
                                 Big(data.gasPrice)
                                   .div(Big(10).pow(9))
                                   .toFixed(10),
-                                300000,
+                                400000,
                                 "0",
                                 state.estimate.path
                               );
