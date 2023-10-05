@@ -181,9 +181,7 @@ return (
                 checked={state.isChecked}
                 onChange={handleCheckboxChange}
               />
-              <label htmlFor="embed" className="flex-1">
-                Embed NFT
-              </label>
+              <label htmlFor="embed">Embed NFT</label>
             </div>
           </EmbedNFT>
         )}
