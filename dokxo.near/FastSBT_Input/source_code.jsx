@@ -27,6 +27,9 @@ return (
     type={props.type}
     value={props.value}
     placeholder={props.placeholder}
-    onChange={(e) => props.onchange(e.target.value)}
+    onChange={(e) => {
+      console.log("from atom");
+      props.onchange(e.target.value);
+    }}
   ></FormInput>
 );
