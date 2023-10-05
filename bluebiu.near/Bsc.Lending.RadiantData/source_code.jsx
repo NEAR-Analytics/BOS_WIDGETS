@@ -57,6 +57,14 @@ const Tokens = {
   },
 };
 
+const RDNTToken = {
+  symbol: "RDNT",
+  address: "0xf7DE7E8A6bd59ED41a4b5fe50278b3B7f31384dF",
+  decimals: 18,
+  name: "Radiant",
+  icon: "https://ipfs.near.social/ipfs/bafkreiboaplfrmdlyxumajlxnipkk4viu6pxqow7ue2ixlimgkenre2gru",
+};
+
 const aaveProtocolDataProviderAbi = [
   {
     inputs: [
@@ -237,6 +245,8 @@ const {
   loaded,
 } = props;
 
+const { incentiveController } = initConfig;
+
 if (
   !aaveProtocolDataProviderAddress ||
   !oracleAddress ||
@@ -246,18 +256,10 @@ if (
 )
   return "";
 
-const dataProviderContract = new ethers.Contract(
-  aaveProtocolDataProviderAddress,
-  aaveProtocolDataProviderAbi,
-  Ethers.provider().getSigner()
-);
+const signer = Ethers.provider().getSigner();
 
 const getTokensPrices = () => {
-  const oracleContract = new ethers.Contract(
-    oracleAddress,
-    ORACLE_ABI,
-    Ethers.provider().getSigner()
-  );
+  const oracleContract = new ethers.Contract(oracleAddress, ORACLE_ABI, signer);
   oracleContract.getAssetsPrices(Object.keys(Tokens)).then((res) => {
     const parsedRes = res.map((price, i) => {
       return Big(price.toString()).div(100000000).toFixed();
@@ -291,7 +293,7 @@ const getUserWalletBalances = () => {
         type: "function",
       },
     ],
-    Ethers.provider().getSigner()
+    signer
   );
 
   const balances = {};
@@ -320,7 +322,178 @@ if (!state.balances) {
   getUserWalletBalances();
 }
 
+let rndtPrice = "0";
+
+const rndtPriceData = fetch(
+  "https://api.coingecko.com/api/v3/simple/price?ids=radiant&vs_currencies=usd"
+);
+
+if (rndtPriceData) {
+  const data = rndtPriceData.body || [];
+
+  rndtPrice = data["radiant"].usd;
+}
+
+const getUserRewards = (aTokenAddress) => {
+  const incentiveControllerAbi = [
+    {
+      inputs: [
+        { internalType: "address", name: "", type: "address" },
+        { internalType: "address", name: "", type: "address" },
+      ],
+      name: "userInfo",
+      outputs: [
+        { internalType: "uint256", name: "amount", type: "uint256" },
+        { internalType: "uint256", name: "rewardDebt", type: "uint256" },
+        { internalType: "uint256", name: "enterTime", type: "uint256" },
+        { internalType: "uint256", name: "lastClaimTime", type: "uint256" },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "address", name: "_user", type: "address" },
+        { internalType: "address[]", name: "_tokens", type: "address[]" },
+      ],
+      name: "pendingRewards",
+      outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "address", name: "", type: "address" }],
+      name: "poolInfo",
+      outputs: [
+        { internalType: "uint256", name: "totalSupply", type: "uint256" },
+        { internalType: "uint256", name: "allocPoint", type: "uint256" },
+        { internalType: "uint256", name: "lastRewardTime", type: "uint256" },
+        { internalType: "uint256", name: "accRewardPerShare", type: "uint256" },
+        {
+          internalType: "contract IOnwardIncentivesController",
+          name: "onwardIncentives",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "totalAllocPoint",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "rewardsPerSecond",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
+
+  const incentiveControllerContract = new ethers.Contract(
+    incentiveController,
+    incentiveControllerAbi,
+    signer
+  );
+
+  return incentiveControllerContract
+    .totalAllocPoint()
+    .then((res) => {
+      return res.toString();
+    })
+    .then((totalAllocPoint) => {
+      return incentiveControllerContract
+        .rewardsPerSecond()
+        .then((res) => {
+          const rewardsPerSecond = res.toString();
+
+          return {
+            totalAllocPoint,
+            rewardsPerSecond,
+          };
+        })
+        .then(({ totalAllocPoint, rewardsPerSecond }) => {
+          return incentiveControllerContract
+            .poolInfo(aTokenAddress)
+            .then((res) => {
+              const totalSupply = res[0].toString();
+              const allocPoint = res[1].toString();
+              console.log("totalSupply: ", totalSupply, allocPoint);
+
+              const dailyRewardToThisPool = Big(60 * 60 * 24)
+                .times(rewardsPerSecond)
+                .times(allocPoint)
+                .div(totalAllocPoint);
+
+              const rewardPerShareThisPool = dailyRewardToThisPool
+                .div(totalSupply)
+                .toFixed(0);
+
+              return rewardPerShareThisPool;
+            })
+            .then((rewardPerShareThisPool) => {
+              console.log(
+                "rewardPerShareThisPool: ",
+                rewardPerShareThisPool,
+                aTokenAddress,
+                account
+              );
+              return incentiveControllerContract
+                .userInfo(aTokenAddress, account)
+                .then((res) => {
+                  const amount = res[0].toString();
+
+                  const userDailyReward = Big(rewardPerShareThisPool)
+                    .times(Big(amount))
+                    .toFixed();
+
+                  return userDailyReward;
+                })
+                .then((userDailyReward) => {
+                  if (Big(userDailyReward).eq(0)) return undefined;
+
+                  return incentiveControllerContract
+                    .pendingRewards(account, [aTokenAddress])
+                    .then((res) => {
+                      const unclaimed = res[0].toString();
+
+                      if (Big(unclaimed).eq(0)) return undefined;
+
+                      const dailyRewards = Big(userDailyReward)
+                        .div(Big(10).pow(RDNTToken.decimals))
+                        .toFixed();
+
+                      return {
+                        ...RDNTToken,
+                        rewardTokenAddress: RDNTToken.address,
+                        unclaimed: Big(unclaimed)
+                          .div(Big(10).pow(RDNTToken.decimals))
+                          .toFixed(),
+                        price: rndtPrice,
+                        dailyRewards,
+                        aTokenAddress,
+                      };
+                    });
+                })
+                .catch((e) => {
+                  return undefined;
+                });
+            });
+        });
+    });
+};
+
 const getMarkets = () => {
+  const dataProviderContract = new ethers.Contract(
+    aaveProtocolDataProviderAddress,
+    aaveProtocolDataProviderAbi,
+    signer
+  );
+
   dataProviderContract.getAllReservesTokens().then((markets) => {
     State.update({
       markets,
@@ -343,14 +516,18 @@ const getMarkets = () => {
             .then((data) => {
               const aTokenAddress = data[0];
               const variableDebtTokenAddress = data[2];
-              getTokenReserveData(
-                address,
-                symbol,
-                tokensPrice[address],
-                aTokenAddress,
-                variableDebtTokenAddress,
-                loanToValue
-              );
+              getUserRewards(aTokenAddress, signer).then((res) => {
+                const rewards = !res ? undefined : [res];
+                getTokenReserveData(
+                  address,
+                  symbol,
+                  tokensPrice[address],
+                  aTokenAddress,
+                  variableDebtTokenAddress,
+                  loanToValue,
+                  rewards
+                );
+              });
             });
         });
     });
@@ -363,8 +540,15 @@ const getTokenReserveData = (
   price,
   aTokenAddress,
   variableDebtTokenAddress,
-  loanToValue
+  loanToValue,
+  rewards
 ) => {
+  const dataProviderContract = new ethers.Contract(
+    aaveProtocolDataProviderAddress,
+    aaveProtocolDataProviderAbi,
+    signer
+  );
+
   dataProviderContract.getReserveData(tokenAddress).then((data) => {
     const [
       availableLiquidity,
@@ -451,6 +635,7 @@ const getTokenReserveData = (
         variableBorrowAPY,
         borrowApy: variableBorrowAPY + "%",
         underlyingPrice: price,
+        rewards,
         underlyingToken:
           tokenAddress.toLowerCase() === wethAddress.toLowerCase()
             ? native
@@ -471,7 +656,7 @@ const getTokenReserveData = (
   });
 };
 
-const getUserRevervesData = (markets) => {
+const getUserRevervesData = () => {
   const abi = [
     {
       inputs: [
@@ -533,11 +718,7 @@ const getUserRevervesData = (markets) => {
     },
   ];
 
-  const contract = new ethers.Contract(
-    uiPoolDataProviderAddress,
-    abi,
-    Ethers.provider().getSigner()
-  );
+  const contract = new ethers.Contract(uiPoolDataProviderAddress, abi, signer);
   contract.getUserReservesData(PoolAddressProvider, account).then((res) => {
     const parsedData = res[0].map((data) => {
       const address = data[0];
@@ -614,7 +795,7 @@ if (
 }
 
 if (state.markets && !state.userData) {
-  getUserRevervesData(state.markets);
+  getUserRevervesData();
 }
 
 if (
