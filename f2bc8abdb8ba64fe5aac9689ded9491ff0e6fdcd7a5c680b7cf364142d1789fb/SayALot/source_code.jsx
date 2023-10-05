@@ -11,10 +11,6 @@ const initLibCalls = [
     key: "articles",
     props: {
       env: isTest ? "test" : "prod",
-      filterBy: {
-        parameterName: "",
-        parameterValue: undefined,
-      },
       sbtName: initSbtName,
     },
   },
@@ -58,17 +54,17 @@ State.init({
 
 let newLibCalls = state.libCalls;
 
-const functionsCalledList = newLibCalls.map((functionCalled, index) => {
-  return { functionName: functionCalled.functionName, i: index };
-});
+// const functionsCalledList = newLibCalls.map((functionCalled, index) => {
+//   return { functionName: functionCalled.functionName, i: index };
+// });
 
-const lastEditArticlesCall = functionsCalledList.filter(
-  (functionCalled) => functionCalled.functionName === "getLastEditArticles"
-);
+// const lastEditArticlesCall = functionsCalledList.filter(
+//   (functionCalled) => functionCalled.functionName === "getLastEditArticles"
+// );
 
-if (getLastEditArticles) {
-  newLibCalls[getLastEditArticles.index].props.filterBy = state.filterBy;
-}
+// if (lastEditArticlesCall) {
+//   newLibCalls[getLastEditArticles.index].props.filterBy = state.filterBy;
+// }
 
 State.update({ libCalls: newLibCalls });
 
@@ -171,6 +167,30 @@ const initialBodyAtCreation = state.editArticleData.body;
 
 //=================================================GET DATA=========================================================
 const finalArticles = state.articles;
+
+function filterArticlesByTag(tag, articles) {
+  return articles.filter((article) => {
+    return article.tags.includes(tag);
+  });
+}
+
+function filterArticlesByAuthor(author, articles) {
+  return articles.filter((article) => {
+    return article.author === author;
+  });
+}
+
+if (state.filterBy.parameterName == "tag") {
+  finalArticles = filterArticlesByTag(
+    state.filterBy.parameterValue,
+    finalArticles
+  );
+} else if (state.filterBy.parameterName == "author") {
+  finalArticles = filterArticlesByAuthor(
+    state.filterBy.parameterValue,
+    finalArticles
+  );
+}
 //===============================================END GET DATA=======================================================
 
 //=============================================STYLED COMPONENTS====================================================
@@ -180,6 +200,7 @@ const CallLibrary = styled.div`
 //===========================================END STYLED COMPONENTS==================================================
 
 //=================================================FUNCTIONS========================================================
+
 function getValidEditArticleDataTags() {
   let tags = state.editArticleData.tags;
   let newFormatTags = {};
@@ -231,8 +252,11 @@ function handleEditArticle(articleData) {
 
 function handleFilterArticles(filter) {
   State.update({
+    filterBy: {
+      parameterName: filter.filterBy,
+      parameterValue: filter.value,
+    },
     displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-    filterBy: { parameterName: filter.filterBy, parameterValue: filter.value },
     editArticleData: undefined,
   });
 }
@@ -273,6 +297,7 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
+// console.log(0, "libCalls: ", state.libCalls);
 function callLibs(srcArray, stateUpdate, libCalls) {
   return (
     <>
@@ -295,18 +320,6 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 function handleSbtSelection(string) {
   State.update({
     sbts: [string],
-    libCalls: [
-      ...state.libCalls,
-      {
-        functionName: "getLastEditArticles",
-        key: "articles",
-        props: {
-          env: isTest ? "test" : "prod",
-          filterBy: state.filterBy,
-          sbtName: [string],
-        },
-      },
-    ],
   });
 }
 
@@ -345,7 +358,6 @@ return (
           initialCreateState,
           editArticleData: state.editArticleData,
           callLibs,
-          handleFilterArticles,
           handleEditArticle,
           showCreateArticle: state.canLoggedUserCreateArticle,
           sbtWhiteList,
