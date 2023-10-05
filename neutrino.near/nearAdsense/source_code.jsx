@@ -34,7 +34,7 @@ return (
     <div className="mt-2" style={bannerStyle}>
       <img src={state.img} alt="adbanner" />
     </div>
-    <Button primary onClick={onBannerClick}>
+    <Button primary href={state.url}>
       Primary
     </Button>
   </div>
