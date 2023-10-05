@@ -1,7 +1,6 @@
 if (!context.accountId) {
   return "";
 }
-console.log("content here", state.content);
 
 const composeData = () => {
   const data = {
@@ -49,49 +48,41 @@ const composeData = () => {
 };
 
 State.init({
-  onChange: ({ content, isChecked }) => {
-    State.update({ content, isChecked });
-  },
-  onHelp: ({ extractMentionNotifications, extractHashtags }) => {
-    State.update({ extractMentionNotifications, extractHashtags });
+  onChange: ({ content }) => {
+    State.update({ content });
   },
 });
 
-const onHelp = ({ extractMentionNotifications, extractHashtags }) => {
-  State.update({ extractMentionNotifications, extractHashtags });
-};
-
-console.log("checked state: ", state.isChecked);
-
 return (
   <>
-    <div style={{ margin: "0 -12px" }}>
-      <Widget
-        src="jgodwill.near/widget/CPlanet.Common.Compose"
-        props={{
-          placeholder: "What's happening?",
-          onChange: state.onChange,
-          onHelper: state.onHelp,
-          composeButton: (onCompose) => (
-            <CommitButton
-              disabled={!state.content.text}
-              force
-              className="btn btn-dark rounded-3"
-              data={composeData}
-              onCommit={() => {
-                onCompose();
-              }}
-            >
-              Post
-            </CommitButton>
-          ),
-        }}
-      />
-    </div>
-    {state.content && state.isChecked && (
+    <Widget
+      src="jgodwill.near/widget/Common.Compose"
+      props={{
+        placeholder: "What's happening?",
+        onChange: state.onChange,
+        onHelper: ({ extractMentionNotifications, extractHashtags }) => {
+          // Major changes here
+          State.update({ extractMentionNotifications: state.extractMentionNotifications , extractHashtags: state.extractHashtags });
+        },
+        composeButton: (onCompose) => (
+          <CommitButton
+            disabled={!state.content}
+            force
+            className="btn btn-dark rounded-3"
+            data={composeData}
+            onCommit={() => {
+              onCompose();
+            }}
+          >
+            Post
+          </CommitButton>
+        ),
+      }}
+    />
+    {state.content && (
       <div className="mt-3">
         <Widget
-          src="jgodwill.near/widget/MainPage.Post"
+          src="mob.near/widget/MainPage.Post"
           props={{
             accountId: context.accountId,
             content: state.content,
