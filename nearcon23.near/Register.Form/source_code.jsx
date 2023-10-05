@@ -334,6 +334,7 @@ return (
         value: state.firstName,
         error: state.firstNameError,
         placeholder: "Enter First Name",
+        required: true,
         onChange: (firstName) => State.update({ firstName }),
         validate: () => {
           if (state.firstName.length < 3) {
@@ -362,6 +363,7 @@ return (
         error: state.lastNameError,
         placeholder: "Enter Last Name",
         onChange: (lastName) => State.update({ lastName }),
+        required: true,
         validate: () => {
           if (state.lastName.length < 3) {
             State.update({
@@ -388,6 +390,7 @@ return (
         value: state.email,
         error: state.emailError,
         placeholder: "Enter Email",
+        required: true,
         onChange: (email) => State.update({ email }),
         validate: () => {
           if (state.email.length < 3) {
