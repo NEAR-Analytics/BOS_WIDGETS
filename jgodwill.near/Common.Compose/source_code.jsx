@@ -208,24 +208,28 @@ return (
           image={state.image}
           className="btn btn-outline-secondary border-0 rounded-3"
         />
-        {!state.text && !state.image.cid && (
-        <EmbedNFT>
-          <div className="form-check form-switch embed">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              role="switch"
-              id="embed"
-              checked={state.isChecked}
-              onChange={handleCheckboxChange}
-            />
-            <label htmlFor="embed">Embed NFT</label>
-          </div>
-          <Widget
-            src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
-            props={{ chains: chains, updateChain }}
-          />
-        </EmbedNFT>
+        {state.text && state.image.cid && (
+          <EmbedNFT>
+            <div className="form-check form-switch embed">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="embed"
+                checked={state.isChecked}
+                onChange={handleCheckboxChange}
+              />
+              <label htmlFor="embed">Embed NFT</label>
+            </div>
+            {state.isChecked ?? (
+              <div>
+                <Widget
+                  src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                  props={{ chains: chains, updateChain }}
+                />
+              </div>
+            )}
+          </EmbedNFT>
         )}
       </div>
       <div>{props.composeButton && props.composeButton(onCompose)}</div>
