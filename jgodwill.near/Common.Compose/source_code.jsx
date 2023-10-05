@@ -1,8 +1,8 @@
 const autocompleteEnabled = props.autocompleteEnabled ?? true;
 
-// State.init({
-//   isChecked: false,
-// });
+State.init({
+  isChecked: false,
+});
 if (state.image === undefined) {
   State.init({
     image: {},
@@ -136,7 +136,7 @@ const EmbedNFT = styled.div`
 const handleCheckboxChange = () => {
   State.update({ isChecked: !state.isChecked });
 };
-console.log(state.isChecked);
+// console.log(state.isChecked);
 return (
   <div className="text-bg-light rounded-4">
     <TextareaWrapper className="p-3" data-value={state.text || ""}>
@@ -170,7 +170,7 @@ return (
           image={state.image}
           className="btn btn-outline-secondary border-0 rounded-3"
         />
-        {state.text && state.image?.cid && (
+        {(state.text && state.image?.cid) && (
           <EmbedNFT>
             <div className="form-check form-switch">
               <input
