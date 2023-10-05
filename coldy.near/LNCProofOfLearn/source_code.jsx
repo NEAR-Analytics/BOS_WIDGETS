@@ -7,30 +7,7 @@ const fetchData = async () => {
       }
     );
     const data = await response.json();
-    const tableData = data.data;
-
-    const table = (
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Credentials</th>
-            <th>Message</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map((item, index) => (
-            <tr key={index}>
-              <td>{item.creds}</td>
-              <td>{item.message}</td>
-              <td>{item.date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-
-    ReactDOM.render(table, document.getElementById("table-container"));
+    return data;
   } catch (error) {
     console.log("Error fetching data:", error);
   }
