@@ -32,7 +32,7 @@ const fetchData = async () => {
 
     ReactDOM.render(table, document.getElementById("table-container"));
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.log("Error fetching data:", error);
   }
 };
 
