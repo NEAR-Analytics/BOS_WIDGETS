@@ -16,7 +16,7 @@ function libStateUpdate(obj) {
   State.update(obj);
 }
 
-function setAreValidUsers(accountIds, sbtName) {
+function setAreValidUsers(accountIds, sbtsNames) {
   const newLibCalls = [...state.libCalls];
   accountIds.forEach((accountId) => {
     const isCallPushed =
@@ -37,7 +37,7 @@ function setAreValidUsers(accountIds, sbtName) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtName,
+        sbtsNames: sbtsNames[0],
       },
     });
   });
@@ -64,9 +64,9 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 }
 
 function canUserUpVote(props) {
-  const { env, accountId, sbtName } = props;
+  const { env, accountId, sbtsNames } = props;
 
-  setAreValidUsers([accountId], sbtName);
+  setAreValidUsers([accountId], sbtsNames);
 
   const result = state[`isValidUser-${accountId}`];
 
