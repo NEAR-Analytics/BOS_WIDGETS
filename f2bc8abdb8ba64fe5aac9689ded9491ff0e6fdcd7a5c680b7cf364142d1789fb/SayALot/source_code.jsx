@@ -1,5 +1,6 @@
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
+sharedBlockHeight = Number(sharedBlockHeight);
 
 const initSbtName = "fractal.i-am-human.near";
 
@@ -31,7 +32,8 @@ const initLibCalls = [
   // },
 ];
 
-if (!accountId) accountId = context.accountId;
+// if (!accountId) accountId = context.accountId;
+accountId = context.accountId;
 
 const tabs = {
   SHOW_ARTICLES_LIST: { id: 0 },
@@ -40,12 +42,41 @@ const tabs = {
   SHOW_ARTICLES_LIST_BY_AUTHORS: { id: 3 },
 };
 
+function getInitialFilter() {
+  if (sharedBlockHeight) {
+    return {
+      parameterName: "getPost",
+      parameterValue: sharedBlockHeight,
+    };
+  } else if (tagShared) {
+    return {
+      parameterName: "tag",
+      parameterValue: tagShared,
+    };
+  } else if (authorShared) {
+    return {
+      parameterName: "author",
+      parameterValue: authorShared,
+    };
+  } else {
+    return {
+      parameterName: "",
+    };
+  }
+}
+
+function getInitialTabId() {
+  if (sharedBlockHeight) {
+    return tabs.SHOW_ARTICLE.id;
+  } else {
+    return tabs.SHOW_ARTICLES_LIST.id;
+  }
+}
+
 State.init({
-  displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
+  displayedTabId: getInitialTabId(),
   articleToRenderData: {},
-  filterBy: tagShared
-    ? { parameterName: "tag", parameterValue: tagShared }
-    : { parameterName: "" },
+  filterBy: getInitialFilter(),
   authorsProfiles: [],
   libCalls: initLibCalls,
   sbtName: initSbtName,
@@ -180,16 +211,29 @@ function filterArticlesByAuthor(author, articles) {
   });
 }
 
-if (state.filterBy.parameterName == "tag") {
+function filterOnePost(blockHeight, articles) {
+  if (articles) {
+    return articles.filter((article) => article.blockHeight === blockHeight);
+  } else {
+    return [];
+  }
+}
+
+if (state.filterBy.parameterName === "tag") {
   finalArticles = filterArticlesByTag(
     state.filterBy.parameterValue,
     finalArticles
   );
-} else if (state.filterBy.parameterName == "author") {
+} else if (state.filterBy.parameterName === "author") {
   finalArticles = filterArticlesByAuthor(
     state.filterBy.parameterValue,
     finalArticles
   );
+} else if (state.filterBy.parameterName === "getPost") {
+  finalArticles = filterOnePost(state.filterBy.parameterValue, finalArticles);
+  if (finalArticles.length > 0) {
+    State.update({ articleToRenderData: finalArticles[0] });
+  }
 }
 //===============================================END GET DATA=======================================================
 
@@ -197,7 +241,110 @@ if (state.filterBy.parameterName == "tag") {
 const CallLibrary = styled.div`
   display: none;
 `;
+
+const ShareInteractionGeneralContainer = styled.div`
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+`;
+
+const ShareInteractionMainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 1rem;
+  border-radious: 12px;
+`;
+
+const ClosePopUpContainer = styled.div`
+  display: flex;  
+  flex-direction: row-reverse;
+`;
+
+const CloseIcon = styled.div`
+  cursor: pointer;
+`;
+
+const PopUpDescription = styled.p`
+  color: #474D55;
+`;
+
+const ShowLinkShared = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #F2F6FA;
+  padding: 1rem 2rem;
+  border-radius: 17px;
+`;
+
+const LinkShared = styled.span`
+  color: #0065FF;
+  word-wrap: anywhere;
+`;
+
+const ClipboardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 0.5rem;
+  min-width: 2.5rem;
+`;
+
+const ClipboardIcon = styled.i`
+  color: ${state.linkCopied ? "#0065FF" : "black"};
+  transition: color 0.3s linear;
+  cursor: pointer;
+`;
+
+const CopiedFeedback = styled.span`
+  font-size: 0.7rem;
+  color: #6c757d;
+`;
 //===========================================END STYLED COMPONENTS==================================================
+
+//================================================COMPONENTS========================================================
+const renderShareInteraction = () => {
+  return (
+    <ShareInteractionGeneralContainer
+      onClick={() => State.update({ showShareModal: false })}
+    >
+      <ShareInteractionMainContainer>
+        <ClosePopUpContainer>
+          <CloseIcon
+            className="bi bi-x"
+            onClick={() =>
+              State.update({ showShareModal: false, linkCopied: false })
+            }
+          ></CloseIcon>
+        </ClosePopUpContainer>
+        <h3>Share</h3>
+        <PopUpDescription>Use this link to share the article</PopUpDescription>
+        <ShowLinkShared>
+          <LinkShared>{getLink()}</LinkShared>
+          <ClipboardContainer>
+            <ClipboardIcon
+              className="bi-clipboard"
+              onClick={() => {
+                clipboard.writeText(getLink());
+                State.update({ linkCopied: true });
+              }}
+            ></ClipboardIcon>
+            {state.linkCopied && <CopiedFeedback>Copied!</CopiedFeedback>}
+          </ClipboardContainer>
+        </ShowLinkShared>
+      </ShareInteractionMainContainer>
+    </ShareInteractionGeneralContainer>
+  );
+};
+//==============================================END COMPONENTS======================================================
 
 //=================================================FUNCTIONS========================================================
 
@@ -323,9 +470,23 @@ function handleSbtSelection(string) {
   });
 }
 
+function handleShareButton(showShareModal, sharedElement) {
+  //showShareModal is a boolean
+  //sharedElement is and object like the example: {
+  //   type: string,
+  //   value: number||string,
+  // }
+  State.update({ showShareModal, sharedElement });
+}
+
+function getLink() {
+  return `https://near.social/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot?${state.sharedElement.type}=${state.sharedElement.value}`;
+}
+
 //===============================================END FUNCTIONS======================================================
 return (
   <>
+    {state.showShareModal && renderShareInteraction()}
     <Widget
       src={widgets.header}
       props={{
@@ -364,11 +525,13 @@ return (
           handleSbtSelection,
           sbts,
           createSbtOptions,
+          handleShareButton,
           // logedUserSbts: state.logedUserSbts,
         }}
       />
     )}
-    {state.displayedTabId == tabs.SHOW_ARTICLE.id && (
+    {state.articleToRenderData.articleId &&
+    state.displayedTabId == tabs.SHOW_ARTICLE.id ? (
       <Widget
         src={widgets.articleView}
         props={{
@@ -381,6 +544,10 @@ return (
           // logedUserSbts: state.logedUserSbts,
         }}
       />
+    ) : (
+      <div className="spinner-grow" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
     )}
 
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id && (
