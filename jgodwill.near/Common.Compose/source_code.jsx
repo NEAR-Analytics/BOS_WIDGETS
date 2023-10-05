@@ -1,8 +1,8 @@
 const autocompleteEnabled = props.autocompleteEnabled ?? true;
 
-State.init({
-  isChecked: false,
-});
+// State.init({
+//   isChecked: false,
+// });
 if (state.image === undefined) {
   State.init({
     image: {},
