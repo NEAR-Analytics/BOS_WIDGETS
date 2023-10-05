@@ -39,7 +39,7 @@ return (
   <>
     {context.accountId && (
       <div className="mb-3">
-        <Widget src="mob.near/widget/MainPage.Compose" props={{}} />
+        <Widget src="jgodwill.near/widget/MainPage.Compose" props={{}} />
       </div>
     )}
     <ul className="nav nav-pills mb-3">
