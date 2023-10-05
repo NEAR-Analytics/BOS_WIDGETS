@@ -56,59 +56,20 @@ let finalArticlesWithUpVotes = finalArticles.map((article) => {
   return article;
 });
 
-const articles = [
-  {
-    articleId: "Test",
-    author: "silkking.near",
-    lastEditor: "silkking.near",
-    timeLastEdit: 1694531955307,
-    timeCreate: 1694531955307,
-    body: "Test",
-    version: 0,
-    navigation_id: null,
-    tags: [],
-    realArticleId: "silkking.near-1694531955308",
-    blockHeight: 100967515,
-    upVotes: [],
-  },
-  {
-    articleId: "Pruebacondanito",
-    author: "blaze.near",
-    lastEditor: "blaze.near",
-    timeLastEdit: 1690304697321,
-    timeCreate: 1690304697321,
-    body: "Texto de prueba",
-    version: 0,
-    navigation_id: null,
-    tags: [],
-    blockHeight: 97314358,
-    realArticleId:
-      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1690304697321",
-    upVotes: [
-      {
-        accountId: "ayelen.near",
-        blockHeight: 99281192,
-        value: {
-          upVoteId: "uv-ayelen.near-1692579012586",
-        },
-      },
-    ],
-  },
+const fiveDaysTimeLapse = 432000000;
+
+const newestArticlesWithUpVotes = finalArticlesWithUpVotes
+  .filter((article) => article.timeLastEdit > Date.now() - fiveDaysTimeLapse)
+  .sort((a, b) => b.timeLastEdit - a.timeLastEdit);
+
+const olderArticlesWithUpVotes = finalArticlesWithUpVotes
+  .filter((article) => article.timeLastEdit < Date.now() - fiveDaysTimeLapse)
+  .sort((a, b) => b.upVotes.length - a.upVotes.length);
+
+const sortedFinalArticlesWithUpVotes = [
+  ...newestArticlesWithUpVotes,
+  ...olderArticlesWithUpVotes,
 ];
-
-const sortedFinalArticlesWithUpVotes = finalArticlesWithUpVotes.sort((a, b) => {
-  const fiveDaysTimeLapse = 432000;
-  const now = Date.now();
-  const uploadDate = a.timeLastEdit;
-
-  if (now - fiveDaysTimeLapse <= uploadDate) {
-    return a.timeLastEdit - b.timeLastEdit;
-  } else if (a.upVotes) {
-    return b.upVotes.length - a.upVotes.length;
-  } else {
-    return 0;
-  }
-});
 
 //=============================================END INITIALIZATION===================================================
 
