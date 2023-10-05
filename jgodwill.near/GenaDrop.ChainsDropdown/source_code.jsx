@@ -1,3 +1,45 @@
+const defaultProps = [
+  {
+    id: "0",
+    name: "near",
+    url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
+  },
+  {
+    id: "137",
+    name: "polygon",
+    url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
+  },
+];
+
+const propsChains = props.chains ?? defaultProps;
+
+const chains = {
+  polygon: {
+    name: "Polygon",
+    url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
+  },
+  aurora: {
+    name: "Aurora",
+    url: "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
+  },
+  celo: {
+    name: "Celo",
+    url: "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
+  },
+  avalanche: {
+    name: "Avax",
+    url: "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
+  },
+  arbitrum: {
+    name: "Arbitrum",
+    url: "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
+  },
+  near: {
+    name: "Near",
+    url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
+  },
+};
+
 State.init({
   selectIsOpen: false,
   selectedChain: "0",
@@ -15,33 +57,6 @@ const handleOutsideClick = (e) => {
       selectIsOpen: false,
     });
   }
-};
-
-const chains = {
-  137: {
-    name: "Polygon",
-    url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
-  },
-  1313161554: {
-    name: "Aurora",
-    url: "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
-  },
-  42220: {
-    name: "Celo",
-    url: "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
-  },
-  43114: {
-    name: "Avax",
-    url: "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
-  },
-  42161: {
-    name: "Arbitrum",
-    url: "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
-  },
-  0: {
-    name: "Near",
-    url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
-  },
 };
 
 const SelectTag = styled.select`
@@ -63,6 +78,7 @@ const ChainIcon = styled.option`
 const SelectReplicaContainer = styled.div`
   position: relative;
   display: inline-block;
+  margin: 0 20px;
   user-select:none;
     z-index: 1;
 
@@ -76,15 +92,15 @@ const SelectReplicaContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 4px solid rgba(0,0,0,.05);
+    border: 1px solid #0d99ff;
     gap: 10px;
     z-index: 1;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: transparent;
     width:100%;
     max-width: 350px;
-    padding:0 15px 0 10px;
-    min-height:70px;
+    padding:0 10px 0 5px;
+    min-height:20px;
     
 
 
@@ -107,10 +123,9 @@ const SelectReplicaContainer = styled.div`
     left: 0;
     width: 100%;
     margin:auto;
-    overflow-y: auto;
     border-radius: 10px;
-    background-color: #fff;
-    max-height: 300px;
+    background-color: transparent;
+    height: auto;
     box-shadow: 0 10px 20px 10px rgba(0,0,0,.05);
     pointer-events:none;
     transform:translateY(-100px);
@@ -147,22 +162,20 @@ const SelectReplicaContainer = styled.div`
     object-fit: contain;
   }
 `;
-State.update({ chains: props.chains || chains });
-const handleChainChange = (chain_id) => {
+State.update({ chains: propsChains || chains });
+const handleChainChange = (chain_id, chainName) => {
+    props.updateChain(chainName);
   try {
     Ethers.send("wallet_switchEthereumChain", [
       { chainId: `0x${Number(chain_id).toString(16)}` },
     ]);
-
     State.update({
       selectedChain: chain_id,
     });
-    console.log(state.selectedChain);
   } catch (err) {
     console.log(err);
   }
 };
-console.log(props?.chains);
 
 return (
   <>
@@ -172,8 +185,9 @@ return (
         onClick={handleSelectClick}
       >
         <div className="select-replica__selected">
-          {state.chains.filter(
-            (chain) => chain.id === state.selectedChain.toString()
+          {state.chains &&
+          state.chains.filter(
+            (chain) => chain?.id === state?.selectedChain?.toString()
           ) ? (
             <img
               src={state.chains
@@ -193,21 +207,22 @@ return (
             state.selectIsOpen ? "open" : ""
           }`}
         >
-          {state.chains.map((chain) =>
-            chain.id !== state.selectedChain.toString() ? (
-              <div
-                key={chain.id}
-                className={`select-replica__option ${
-                  selectedOption === chain.name ? "selected" : ""
-                }`}
-                onClick={() => handleChainChange(chain.id)}
-              >
-                <img src={chain.url} alt={chain.name} />
-              </div>
-            ) : (
-              ""
-            )
-          )}
+          {state.chains &&
+            state.chains.map((chain) =>
+              chain.id !== state.selectedChain.toString() ? (
+                <div
+                  key={chain.id}
+                  className={`select-replica__option ${
+                    selectedOption === chain.name ? "selected" : ""
+                  }`}
+                  onClick={() => handleChainChange(chain.id, chain.name)}
+                >
+                  <img src={chain.url} alt={chain.name} />
+                </div>
+              ) : (
+                ""
+              )
+            )}
         </div>
       </div>
     </SelectReplicaContainer>
