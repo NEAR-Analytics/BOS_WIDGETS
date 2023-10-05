@@ -1,4 +1,4 @@
-const response = await fetch(
+const response = fetch(
   `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=coldy.near`,
   {
     method: "GET",
