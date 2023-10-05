@@ -4,13 +4,16 @@ return (
     <Widget
       src="andyh.near/widget/MainPage.FeaturedApps"
       props={{}}
-      isTrusted={true}
+      trust={{ mode: "trust-author" }}
     />
     <div className="row mb-3">
-      <Widget src="andyh.near/widget/Applications" isTrusted={true} />
+      <Widget
+        src="andyh.near/widget/Applications"
+        trust={{ mode: "trust-author" }}
+      />
     </div>
     <div className="row mb-3">
-      <Widget src="andyh.near/widget/People" isTrusted={true} />
+      <Widget src="andyh.near/widget/People" trust={{ mode: "trust-author" }} />
     </div>
     <div className="row mb-3">
       <div>
@@ -68,12 +71,15 @@ return (
       <div className="col-md-8">
         <h4>Follow activity</h4>
         {/*
-        <Widget src="andyh.near/widget/FollowFeed" isTrusted={true} />
+        <Widget src="andyh.near/widget/FollowFeed" trust={{ mode: "trust-author" }} />
         */}
       </div>
       <div className="col-md-4">
         <h4>Poke activity</h4>
-        <Widget src="andyh.near/widget/PokeFeed" isTrusted={true} />
+        <Widget
+          src="andyh.near/widget/PokeFeed"
+          trust={{ mode: "trust-author" }}
+        />
       </div>
     </div>
   </>
