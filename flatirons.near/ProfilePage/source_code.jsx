@@ -1,17 +1,15 @@
 const accountId = props.accountId ?? context.accountId;
-const isCustomProfile = props.isCustomProfile || false;
 if (!accountId) {
   return "No account ID";
 }
 
 // if it exists, render the accountId's custom profile component
-if (!isCustomProfile && Social.getr(`${accountId}/widget/ProfilePage`)) {
+if (Social.getr(`${accountId}/widget/ProfilePage`)) {
   return (
     <Widget
       src={`${accountId}/widget/ProfilePage`}
       props={{
         accountId,
-        isCustomProfile: true,
       }}
     />
   );
@@ -27,7 +25,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `/near/widget/ProfilePage?accountId=${accountId}`;
+const accountUrl = `#/near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -112,7 +110,7 @@ const Tabs = styled.div`
   }
 `;
 
-const TabsButton = styled("Link")`
+const TabsButton = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -163,11 +161,6 @@ if (profile === null) {
   return "Loading";
 }
 
-const feeds = ["all"];
-if (accountId !== context.accountId) {
-  feeds.push("mutual");
-}
-
 return (
   <Wrapper>
     <BackgroundImage>
@@ -196,6 +189,7 @@ return (
       </SidebarWrapper>
 
       <Content>
+        <h1>Gabe No moderation profile</h1>
         <Tabs>
           <TabsButton
             href={`${accountUrl}&tab=overview`}
@@ -258,12 +252,8 @@ return (
             )}
 
             <Widget
-              src="near/widget/ActivityFeeds.DetermineActivityFeed"
-              props={{
-                filteredAccountIds: accountId,
-                showCompose: false,
-                feeds: feeds,
-              }}
+              src="near/widget/v1.Feed"
+              props={{ accounts: [accountId] }}
             />
           </>
         )}
