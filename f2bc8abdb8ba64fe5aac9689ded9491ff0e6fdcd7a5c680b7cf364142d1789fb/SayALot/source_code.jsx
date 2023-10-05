@@ -313,9 +313,7 @@ const CopiedFeedback = styled.span`
 //================================================COMPONENTS========================================================
 const renderShareInteraction = () => {
   return (
-    <ShareInteractionGeneralContainer
-      onClick={() => State.update({ showShareModal: false })}
-    >
+    <ShareInteractionGeneralContainer>
       <ShareInteractionMainContainer>
         <ClosePopUpContainer>
           <CloseIcon
