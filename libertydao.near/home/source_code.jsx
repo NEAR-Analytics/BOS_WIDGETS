@@ -1,4 +1,5 @@
 const tab = props.tab || "welcome";
+const signIn = props.signIn || (() => {});
 
 const tabs = {
   welcome: () => (
@@ -63,7 +64,7 @@ return (
     <Widget src={`libertydao.near/widget/Typography.DMSans`} loading={<></>} />
     <Widget
       src={"libertydao.near/widget/navbar"}
-      props={{ tab, tabs }}
+      props={{ tab, tabs, signIn }}
       loading={<></>}
     />
     {tabs[state.selectedTab] && tabs[state.selectedTab]()}
