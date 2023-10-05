@@ -101,7 +101,7 @@ function allArticlesListStateUpdate(obj) {
 }
 
 //================================================END FUNCTIONS=====================================================
-
+// console.log("state.libCalls: ", state.libCalls);
 return (
   <>
     {
