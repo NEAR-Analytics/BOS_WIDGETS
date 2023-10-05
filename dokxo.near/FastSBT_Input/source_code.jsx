@@ -28,9 +28,6 @@ return (
     type={props.type}
     value={props.value}
     placeholder={props.placeholder}
-    onChange={(e) => {
-      console.log("from atom");
-      onChangeFunction(e.target.value);
-    }}
+    onChange={(e) => onChangeFunction(e.target.value)}
   ></FormInput>
 );
