@@ -140,7 +140,7 @@ return (
       <Widget
         id="root-shapes"
         src="andyh.near/widget/ShapeSet.Trusted"
-        isTrusted
+        trust={{ mode: "trusted" }}
         props={{
           circle,
           square,
@@ -153,7 +153,7 @@ return (
       <Widget
         id="parent-shapes"
         src="andyh.near/widget/StateDemoParent.Trusted"
-        isTrusted
+        trust={{ mode: "sandboxed" }}
         props={{
           id: "sandbox-parent",
           circle,
