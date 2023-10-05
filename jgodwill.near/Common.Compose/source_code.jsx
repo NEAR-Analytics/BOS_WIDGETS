@@ -151,7 +151,7 @@ return (
         placeholder={props.placeholder ?? "What's happening?"}
       />
 
-      {autocompleteEnabled && state.showAccountAutocomplete && (
+      {autocompleteEnabled && state?.showAccountAutocomplete && (
         <div className="pt-1 w-100 overflow-hidden">
           <Widget
             src="mob.near/widget/AccountAutocomplete"
