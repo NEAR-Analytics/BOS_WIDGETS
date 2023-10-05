@@ -60,7 +60,7 @@ const NETWORK_POLYGON = "POLYGON";
 const NETWORK_MANTLE = "MANTLE";
 
 const FORCED_NETWORK = NETWORK_ZKEVM;
-const FORCED_CHAIN_ID = 5000;
+const FORCED_CHAIN_ID = 1101;
 const DEFAULT_DEX = "QuickSwap";
 
 const isEVM = [
@@ -1282,6 +1282,13 @@ return (
                             state.estimate.path
                           );
 
+                          if (state.estimate.path.length === 3) {
+                            state.estimate.path = [
+                              state.estimate.path[0],
+                              state.estimate.path[2],
+                            ];
+                          }
+
                           Ethers.provider()
                             .getFeeData()
                             .then((data) => {
@@ -1291,7 +1298,7 @@ return (
                                 Big(data.gasPrice)
                                   .div(Big(10).pow(9))
                                   .toFixed(10),
-                                400000,
+                                500000,
                                 "0",
                                 state.estimate.path
                               );
