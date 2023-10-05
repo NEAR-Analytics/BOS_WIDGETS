@@ -1,6 +1,6 @@
 State.init({
   img: "https://raw.githubusercontent.com/phamr39/ezidev-imagestorage/master/ads/Test%20Ads%20Banner%20728x90.png",
-  url: "ezidev.tech",
+  url: "https://www.ezidev.tech",
 });
 
 const Button = styled.button`
@@ -16,7 +16,8 @@ const Button = styled.button`
 `;
 
 const onBannerClick = () => {
-  window.open(state.url, "_blank");
+  //   window.open(state.url, "_blank");
+  window.location.href = state.url;
 };
 
 const bannerStyle = {
@@ -25,16 +26,16 @@ const bannerStyle = {
   height: "90px",
   position: "fixed",
   magin: "auto",
-  left: "30%",
   bottom: "0%",
-  transform: "'translate(-50%, -10%)'",
 };
 
 return (
-  <div className="container row">
+  <div>
     <div className="mt-2" style={bannerStyle}>
-      <img src={state.img} alt="adbanner" onClick={onBannerClick} />
+      <img src={state.img} alt="adbanner" />
     </div>
-    <Button primary>Primary</Button>
+    <Button primary onClick={onBannerClick}>
+      Primary
+    </Button>
   </div>
 );
