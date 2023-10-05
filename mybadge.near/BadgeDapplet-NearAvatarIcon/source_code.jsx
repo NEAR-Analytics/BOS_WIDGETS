@@ -2,7 +2,6 @@ const IconWrapper = styled.div`
     display: flex;
     width: 32px;
     height: 32px;
-    padding: 6px;
     justify-content: center;
     align-items: center;
     border-radius: 20px;
