@@ -5,7 +5,25 @@ const response = fetch(
   }
 );
 
-console.log(data.body);
+if (response?.body?.error) {
+  return (
+    <>
+      <div class="container border border-info p-3">
+        <h3 class="text-center">
+          <span class="text-decoration-underline">
+            {" "}
+            {response.body.message}{" "}
+          </span>
+        </h3>
+      </div>
+    </>
+  );
+}
+
+const pages = response?.body?.pages;
+const data = response?.body?.data;
+
+console.log(response.body.da);
 
 return (
   <>
