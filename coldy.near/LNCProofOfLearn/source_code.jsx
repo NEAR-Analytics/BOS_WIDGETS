@@ -20,8 +20,6 @@ if (response?.body?.error) {
 const pages = response?.body?.pages;
 const data = response?.body?.data;
 
-console.log(data);
-
 return (
   <>
     {data !== null ? (
