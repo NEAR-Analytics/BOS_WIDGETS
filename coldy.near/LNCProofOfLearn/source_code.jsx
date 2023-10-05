@@ -39,7 +39,7 @@ const fetchData = async () => {
 return (
   <>
     <div class="container border border-info p-3">
-      {fetchData()}
+      {await fetchData()}
       <h3 class="text-center">
         <span class="text-decoration-underline"> {context.accountId} </span>
       </h3>
