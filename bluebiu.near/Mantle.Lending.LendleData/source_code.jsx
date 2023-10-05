@@ -51,6 +51,14 @@ const Tokens = {
   },
 };
 
+const RewardToken = {
+  symbol: "LEND",
+  address: "0x25356aeca4210ef7553140edb9b8026089e49396",
+  decimals: 18,
+  name: "LEND",
+  icon: "https://ipfs.near.social/ipfs/bafkreig36gyyl6bv2s6f5c2kq22x4omgaclfzyf5ifvjmsxl55svptlq3e",
+};
+
 const aaveProtocolDataProviderAbi = [
   {
     inputs: [
@@ -229,7 +237,186 @@ const {
   loaded,
 } = props;
 
+const { incentiveController } = initConfig;
+
 if ((!update || !account) && !state.tokensPrice) return "";
+
+let rewardPrice = "0";
+
+const rndtPriceData = fetch(
+  "https://api.coingecko.com/api/v3/simple/price?ids=lendle&vs_currencies=usd"
+);
+
+if (rndtPriceData) {
+  const data = rndtPriceData.body || [];
+
+  rewardPrice = data["lendle"].usd;
+}
+
+const getUserRewards = (aTokenAddress) => {
+  const incentiveControllerAbi = [
+    {
+      type: "function",
+      stateMutability: "view",
+      outputs: [
+        { type: "uint256", name: "amount", internalType: "uint256" },
+        { type: "uint256", name: "rewardDebt", internalType: "uint256" },
+      ],
+      name: "userInfo",
+      inputs: [
+        { type: "address", name: "", internalType: "address" },
+        { type: "address", name: "", internalType: "address" },
+      ],
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "_user",
+          type: "address",
+        },
+        {
+          internalType: "address[]",
+          name: "_tokens",
+          type: "address[]",
+        },
+      ],
+      name: "claimableReward",
+      outputs: [
+        {
+          internalType: "uint256[]",
+          name: "",
+          type: "uint256[]",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "address", name: "", type: "address" }],
+      name: "poolInfo",
+      outputs: [
+        { internalType: "uint256", name: "totalSupply", type: "uint256" },
+        { internalType: "uint256", name: "allocPoint", type: "uint256" },
+        { internalType: "uint256", name: "lastRewardTime", type: "uint256" },
+        { internalType: "uint256", name: "accRewardPerShare", type: "uint256" },
+        {
+          internalType: "contract IOnwardIncentivesController",
+          name: "onwardIncentives",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "totalAllocPoint",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "rewardsPerSecond",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+
+    {
+      type: "function",
+      stateMutability: "view",
+      outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+      name: "poolLength",
+      inputs: [],
+    },
+  ];
+
+  const incentiveControllerContract = new ethers.Contract(
+    incentiveController,
+    incentiveControllerAbi,
+    Ethers.provider().getSigner()
+  );
+
+  return incentiveControllerContract
+    .totalAllocPoint()
+    .then((res) => {
+      return res.toString();
+    })
+    .then((totalAllocPoint) => {
+      return incentiveControllerContract
+        .rewardsPerSecond()
+        .then((res) => {
+          const rewardsPerSecond = res.toString();
+
+          return {
+            totalAllocPoint,
+            rewardsPerSecond,
+          };
+        })
+        .then(({ totalAllocPoint, rewardsPerSecond }) => {
+          return incentiveControllerContract
+            .poolInfo(aTokenAddress)
+            .then((res) => {
+              const totalSupply = res[0].toString();
+              const allocPoint = res[1].toString();
+
+              const dailyRewardToThisPool = Big(60 * 60 * 24)
+                .times(rewardsPerSecond)
+                .times(allocPoint)
+                .div(totalAllocPoint);
+
+              const rewardPerShareThisPool = dailyRewardToThisPool
+                .div(totalSupply)
+                .toFixed();
+
+              return rewardPerShareThisPool;
+            })
+            .then((rewardPerShareThisPool) => {
+              return incentiveControllerContract
+                .userInfo(aTokenAddress, account)
+                .then((res) => {
+                  const amount = res[0].toString();
+
+                  const userDailyReward = Big(rewardPerShareThisPool)
+                    .times(Big(amount))
+                    .toFixed();
+
+                  return userDailyReward;
+                })
+                .then((userDailyReward) => {
+                  if (Big(userDailyReward).eq(0)) return undefined;
+
+                  return incentiveControllerContract
+                    .claimableReward(account, [aTokenAddress])
+                    .then((res) => {
+                      const unclaimed = res[0].toString();
+
+                      if (Big(unclaimed).eq(0)) return undefined;
+
+                      const dailyRewards = Big(userDailyReward)
+                        .div(Big(10).pow(RewardToken.decimals))
+                        .toFixed();
+
+                      return {
+                        ...RewardToken,
+                        unclaimed: Big(unclaimed)
+                          .div(Big(10).pow(RewardToken.decimals))
+                          .toFixed(),
+                        price: rewardPrice,
+                        dailyRewards,
+                        rewardAddress: aTokenAddress,
+                      };
+                    });
+                });
+            });
+        });
+    })
+    .catch(() => {
+      return undefined;
+    });
+};
 
 const dataProviderContract = new ethers.Contract(
   aaveProtocolDataProviderAddress,
@@ -261,7 +448,6 @@ const getTokensPrices = () => {
 
 const getMarkets = () => {
   dataProviderContract.getAllReservesTokens().then((marketsRaw) => {
-    console.log("marketsRaw: ", marketsRaw);
     const markets = marketsRaw.filter((market) => {
       const add = market[1];
       return Object.keys(Tokens)
@@ -282,14 +468,9 @@ const getTokenReserveData = (
   aTokenAddress,
   variableDebtTokenAddress,
   loanToValue,
-  userReserveParsed
+  userReserveParsed,
+  rewards
 ) => {
-  if (state[tokenAddress]) {
-    console.log("addres", state[tokenAddress]);
-  }
-
-  console.log("token reserves trigger", symbol);
-
   dataProviderContract.getReserveData(tokenAddress).then((data) => {
     const [
       availableLiquidity,
@@ -391,6 +572,7 @@ const getTokenReserveData = (
         variableDebtTokenAddress,
         wethAddress,
         userReserveParsed,
+        rewards,
       },
     });
   });
@@ -401,9 +583,7 @@ const getUserReverveData = (market) => {
   return dataProviderContract
     .getUserReserveData(address, account)
     .then((data) => {
-      console.log("data: ", data, market[0]);
       const underlyingAsset = Tokens[address];
-      console.log("underlyingAsset: ", underlyingAsset, market[0]);
       const scaledATokenBalanceUsd = Big(data[0].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
@@ -437,7 +617,6 @@ const getUserReverveData = (market) => {
 if (!state.tokensPrice) {
   getTokensPrices();
 }
-console.log({ state });
 
 if (!state.markets && state.tokensPrice) {
   getMarkets();
@@ -468,23 +647,45 @@ if (
         dataProviderContract.getReserveTokensAddresses(address).then((data) => {
           const aTokenAddress = data[0];
           const variableDebtTokenAddress = data[2];
-          console.log("variableDebtTokenAddress: ", variableDebtTokenAddress);
-
-          getUserReverveData(market)
-            .then((userReserveParsed) => {
-              console.log("userReserveParsed: ", userReserveParsed);
-              getTokenReserveData(
-                address,
-                symbol,
-                tokensPrice[address],
-                aTokenAddress,
-                variableDebtTokenAddress,
-                loanToValue,
-                userReserveParsed
+          getUserRewards(aTokenAddress, signer)
+            .then((res) => {
+              return res;
+            })
+            .then((atokenReward) => {
+              return getUserRewards(variableDebtTokenAddress, signer).then(
+                (variableDebtTokenReward) => {
+                  if (!atokenReward) return variableDebtTokenReward;
+                  else if (atokenReward && !variableDebtTokenReward)
+                    return atokenReward;
+                  else {
+                    return {
+                      ...atokenReward,
+                      unclaimed: Big(atokenReward.unclaimed)
+                        .plus(variableDebtTokenReward.unclaimed)
+                        .toFixed(),
+                      dailyRewards: Big(atokenReward.dailyRewards)
+                        .plus(variableDebtTokenReward.dailyRewards)
+                        .toFixed(),
+                    };
+                  }
+                }
               );
             })
-            .catch((e) => {
-              console.log("e", e);
+            .then((rawRewards) => {
+              const rewards = !rawRewards ? undefined : [rawRewards];
+
+              getUserReverveData(market).then((userReserveParsed) => {
+                getTokenReserveData(
+                  address,
+                  symbol,
+                  tokensPrice[address],
+                  aTokenAddress,
+                  variableDebtTokenAddress,
+                  loanToValue,
+                  userReserveParsed,
+                  rewards
+                );
+              });
             });
         });
       });
@@ -561,8 +762,24 @@ if (
     };
   });
 
+  let reduceUnclaimed = Big(0);
+
+  let reduceDailyRewards = Big(0);
+
+  const allPools = [];
+
   Object.keys(marketData).forEach((address) => {
     const market = marketData[address];
+    if (market.rewards) {
+      const unclaimed = market.rewards[0].unclaimed;
+      const dailyRewards = market.rewards[0].dailyRewards;
+
+      reduceUnclaimed = reduceUnclaimed.plus(Big(unclaimed || 0));
+
+      reduceDailyRewards = reduceDailyRewards.plus(Big(dailyRewards || 0));
+    }
+
+    market.rewards = undefined;
 
     const { netApy: netApyRaw } = market;
     netApy = netApy.plus(netApyRaw);
@@ -574,14 +791,30 @@ if (
     market.wethGateway = wethGateway;
 
     market.address = market.aTokenAddress;
+
+    allPools.push(market.aTokenAddress);
+    allPools.push(market.variableDebtTokenAddress);
   });
 
   userData.netApy = netApy.toFixed(2);
 
   const parsedMarketData = {};
 
-  Object.entries(marketData).map(([address, market]) => {
+  Object.entries(marketData).map(([address, market], index) => {
     parsedMarketData[market.aTokenAddress] = market;
+
+    market.allPools = allPools;
+
+    if (index === 0 && reduceUnclaimed.gt(0)) {
+      market.rewards = [
+        {
+          ...RewardToken,
+          unclaimed: reduceUnclaimed.toFixed(),
+          dailyRewards: reduceDailyRewards.toFixed(),
+          price: rewardPrice,
+        },
+      ];
+    }
   });
 
   onLoad({
