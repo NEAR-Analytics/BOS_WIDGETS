@@ -27,6 +27,6 @@ return (
     type={props.type}
     value={props.value}
     placeholder={props.placeholder}
-    onChange={(e) => props.onChange(e.target.value)}
+    onChange={(e) => props.onchange(e.target.value)}
   ></FormInput>
 );
