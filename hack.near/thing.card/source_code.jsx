@@ -1,5 +1,5 @@
 const accountId = props.accountId ?? context.accountId;
-const thingId = props.thingId ?? "near";
+const thingId = props.thingId ?? "f8ad9d1a76259lmdpjnd74e69162a0a014";
 
 const thing =
   props.thing ?? Social.get(`${accountId}/thing/${thingId}/metadata/**`);
@@ -20,12 +20,11 @@ const Tag = styled.a`
 
 return (
   <div className="d-flex flex-row">
-    <a href={`/hack.near/widget/thing?thingId=${thingId}`}>
+    <a href={`/hack.near/widget/some?thingId=${thingId}`}>
       <Widget
-        src="hack.near/widget/group.image"
+        src="hack.near/widget/thing.image"
         props={{
           thingId,
-          widgetName,
           style: { height: "3.4em", width: "3.4em", minWidth: "3.4em" },
           className: "me-3",
         }}
