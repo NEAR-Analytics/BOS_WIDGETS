@@ -2,7 +2,7 @@ const autocompleteEnabled = props.autocompleteEnabled ?? true;
 
 State.init({
   isChecked: false,
-})
+});
 if (state.image === undefined) {
   State.init({
     image: {},
@@ -134,9 +134,9 @@ const EmbedNFT = styled.div`
 `;
 
 const handleCheckboxChange = () => {
-    State.update({isChecked: !state.isChecked});
-  };
-console.log(state.isChecked)
+  State.update({ isChecked: !state.isChecked });
+};
+console.log(state.isChecked);
 return (
   <div className="text-bg-light rounded-4">
     <TextareaWrapper className="p-3" data-value={state.text || ""}>
@@ -185,7 +185,6 @@ return (
                 Embed NFT
               </label>
             </div>
-            
           </EmbedNFT>
         )}
       </div>
