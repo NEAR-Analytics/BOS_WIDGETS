@@ -36,10 +36,11 @@ const fetchData = async () => {
   }
 };
 
+const data = await fetchData();
+console.log(data);
 return (
   <>
     <div class="container border border-info p-3">
-      {await fetchData()}
       <h3 class="text-center">
         <span class="text-decoration-underline"> {context.accountId} </span>
       </h3>
