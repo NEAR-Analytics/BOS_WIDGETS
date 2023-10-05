@@ -1,5 +1,7 @@
 const ownerId = "nearcon23.near";
 
+const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
+
 const countries = [
   "Afghanistan",
   "Albania",
@@ -237,21 +239,7 @@ const isValid = () => {
     state.lastName &&
     state.lastNameError === "" &&
     state.email &&
-    state.emailError === "" &&
-    state.persona &&
-    state.personaError === "" &&
-    state.jobTitle &&
-    state.jobTitleError === "" &&
-    state.projectOrCompany &&
-    state.projectOrCompanyError === "" &&
-    state.country &&
-    state.countryError === "" &&
-    state.goal &&
-    state.goalError === "" &&
-    (!state.referral || state.referralError === "") &&
-    (!state.age || state.ageError === "") &&
-    (!state.twitter || state.twitterError === "") &&
-    (!state.telegram || state.telegramError === "")
+    state.emailError === ""
   );
 };
 
@@ -416,6 +404,13 @@ return (
             return;
           }
 
+          if (!validateEmail(state.email)) {
+            State.update({
+              emailError: "Invalid Email Address",
+            });
+            return;
+          }
+
           State.update({ emailError: "" });
         },
       }}
@@ -434,16 +429,6 @@ return (
           { value: "other", text: "Other" },
         ],
         onChange: (persona) => State.update({ persona }),
-        validate: () => {
-          if (!state.persona) {
-            State.update({
-              personaError: "Please select a persona",
-            });
-            return;
-          }
-
-          State.update({ personaError: "" });
-        },
       }}
     />
     <Widget
@@ -466,13 +451,6 @@ return (
         placeholder: "Enter Job Title",
         onChange: (jobTitle) => State.update({ jobTitle }),
         validate: () => {
-          if (state.jobTitle.length < 3) {
-            State.update({
-              jobTitleError: "Job title must be at least 3 characters",
-            });
-            return;
-          }
-
           if (state.jobTitle.length > 100) {
             State.update({
               jobTitleError: "Job title must be less than 100 characters",
@@ -493,14 +471,6 @@ return (
         placeholder: "Enter Name of Project or Company",
         onChange: (projectOrCompany) => State.update({ projectOrCompany }),
         validate: () => {
-          if (state.projectOrCompany.length < 3) {
-            State.update({
-              projectOrCompanyError:
-                "Project or company name must be at least 3 characters",
-            });
-            return;
-          }
-
           if (state.projectOrCompany.length > 100) {
             State.update({
               projectOrCompanyError:
@@ -522,16 +492,6 @@ return (
         placeholder: "Choose...",
         options: countries,
         onChange: ([country]) => State.update({ country }),
-        validate: () => {
-          if (!state.country) {
-            State.update({
-              countryError: "Please select a country",
-            });
-            return;
-          }
-
-          State.update({ countryError: "" });
-        },
       }}
     />
     <Widget
@@ -542,6 +502,10 @@ return (
         error: state.ageError,
         onChange: (age) => State.update({ age }),
         validate: () => {
+          if (!state.age) {
+            return;
+          }
+
           if (state.age < 1) {
             State.update({
               ageError: "Age must be at least 1",
@@ -569,13 +533,6 @@ return (
         placeholder: "",
         onChange: (goal) => State.update({ goal }),
         validate: () => {
-          if (state.goal.length < 3) {
-            State.update({
-              goalError: "Goal must be at least 3 characters",
-            });
-            return;
-          }
-
           if (state.goal.length > 500) {
             State.update({
               goalError: "Goal must be less than 500 characters",
@@ -596,13 +553,6 @@ return (
         placeholder: "@",
         onChange: (twitter) => State.update({ twitter }),
         validate: () => {
-          if (state.twitter.length < 3) {
-            State.update({
-              twitterError: "Twitter must be at least 3 characters",
-            });
-            return;
-          }
-
           if (state.twitter.length > 100) {
             State.update({
               twitterError: "Twitter must be less than 100 characters",
@@ -623,13 +573,6 @@ return (
         placeholder: "@",
         onChange: (telegram) => State.update({ telegram }),
         validate: () => {
-          if (state.telegram.length < 3) {
-            State.update({
-              telegramError: "Telegram must be at least 3 characters",
-            });
-            return;
-          }
-
           if (state.telegram.length > 100) {
             State.update({
               telegramError: "Telegram must be less than 100 characters",
