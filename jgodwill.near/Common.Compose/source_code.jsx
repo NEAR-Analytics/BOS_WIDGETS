@@ -170,7 +170,7 @@ return (
           image={state.image}
           className="btn btn-outline-secondary border-0 rounded-3"
         />
-        {state.text && state.image?.cid && (
+        {state.text && state.image && (
           <EmbedNFT>
             <div className="form-check form-switch">
               <input
