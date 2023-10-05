@@ -326,8 +326,8 @@ function getOldArticleBasicDataArray(env) {
   }
 }
 
-function getNewFormatValidArticles(env, filterBy) {
-  const articlesIndexes = getArticlesIndexes(filterBy);
+function getNewFormatValidArticles(env) {
+  const articlesIndexes = getArticlesIndexes();
 
   const validArticlesIndexes = filterInvalidArticlesIndexes(
     env,
@@ -347,7 +347,7 @@ function getOldFormatArticles(env) {
 function getLastEditArticles(props) {
   const { env, filterBy, sbtName } = props;
   const oldFormatArticles = getOldFormatArticles(env);
-  const newFormatArticles = getNewFormatValidArticles(env, filterBy);
+  const newFormatArticles = getNewFormatValidArticles(env);
 
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
@@ -369,7 +369,6 @@ function getLastEditArticles(props) {
     });
 
   setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtName);
-
   const validAuthors = validFormatLastEditionArticlesAuthors.filter(
     (author) => {
       return state[`isValidUser-${author}`] === true;
@@ -400,6 +399,8 @@ function convertArticlesTagsToValidFormat(articlesArray) {
 
       if (tags && !tags.length && tags + "" != "0") {
         tags = Object.keys(tags);
+      } else if (tags === undefined) {
+        tags = [];
       }
       article.tags = tags;
 
