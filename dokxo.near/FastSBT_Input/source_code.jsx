@@ -22,6 +22,7 @@ align-items: center;
 color:  ${props.fontColor ? props.fontColor : "#828688"};
 `;
 
+const { onChangeFunction } = props;
 return (
   <FormInput
     type={props.type}
@@ -29,7 +30,7 @@ return (
     placeholder={props.placeholder}
     onChange={(e) => {
       console.log("from atom");
-      props.onchange(e.target.value);
+      onChangeFunction(e.target.value);
     }}
   ></FormInput>
 );
