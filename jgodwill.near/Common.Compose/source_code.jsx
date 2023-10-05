@@ -131,6 +131,7 @@ const TextareaWrapper = styled.div`
   }
 `;
 const EmbedNFT = styled.div`
+  margin: 10px;
 `;
 
 const handleCheckboxChange = () => {
@@ -170,9 +171,9 @@ return (
           image={state.image}
           className="btn btn-outline-secondary border-0 rounded-3"
         />
-        {state.text && state.image && (
+        {/*{!state.text && !state.image.cid && (*/}
           <EmbedNFT>
-            <div className="form-check form-switch">
+            <div className="form-check form-switch embed">
               <input
                 className="form-check-input"
                 type="checkbox"
@@ -184,7 +185,7 @@ return (
               <label htmlFor="embed">Embed NFT</label>
             </div>
           </EmbedNFT>
-        )}
+        {/*)}*/}
       </div>
       <div>{props.composeButton && props.composeButton(onCompose)}</div>
     </div>
