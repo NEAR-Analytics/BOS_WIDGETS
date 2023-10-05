@@ -143,8 +143,6 @@ const SecondContainer = styled.div`
 //   state.articleBody
 // );
 
-console.log("creationSbtSelected: ", state.sbts);
-
 return (
   <>
     {state.createdArticle && state.showCreatedArticle && editArticleData ? (
@@ -244,9 +242,9 @@ return (
                   //<div className="w-50">
                 }
                 <Widget
-                  src="mob.near/widget/MarkdownEditorIframe"
+                  src={`${authorForWidget}/widget/MarkdownEditorIframe`}
                   props={{
-                    initialText: initialBody,
+                    initialText: state.clearArticleId ? initialBody : "",
                     onChange: (articleBody) =>
                       State.update({
                         articleBody: articleBody,
