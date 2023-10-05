@@ -305,6 +305,12 @@ const assetContainer = (
                 maxlength="79"
                 spellcheck="false"
                 value={state[amountName]}
+                onChange={(e) =>
+                  State.update({
+                    [amountName]: e.target.value,
+                    approvalNeeded: undefined,
+                  })
+                }
               />
               <button class="input-asset-token" onClick={assetNameOnClick}>
                 <span class="input-asset-token-menu">
@@ -442,10 +448,20 @@ const tokenInApprovaleNeededCheck = () => {
             encodedTokenAllowanceHex
           );
 
-          if (tokenAllowance) {
+          if (
+            tokenAllowance &&
+            Big(
+              expandToken(
+                state.inputAssetAmount,
+                state.inputAsset.metadata.decimals
+              )
+            ).gt(Big(tokenAllowance))
+          ) {
             State.update({
-              approvalNeeded: new Big(tokenAllowance).toFixed(0) == "0",
+              approvalNeeded: true,
             });
+          } else {
+            State.update({ approvalNeeded: false });
           }
         });
     } else {
