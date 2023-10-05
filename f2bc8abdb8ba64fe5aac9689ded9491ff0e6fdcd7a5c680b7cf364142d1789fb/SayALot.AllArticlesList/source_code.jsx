@@ -19,6 +19,7 @@ let {
   handleSbtSelection,
   sbts,
   createSbtOptions,
+  handleShareButton,
   // logedUserSbts,
 } = props;
 
@@ -163,6 +164,7 @@ return (
                 handleOpenArticle,
                 handleFilterArticles,
                 authorForWidget,
+                handleShareButton,
                 // logedUserSbts,
               }}
             />
