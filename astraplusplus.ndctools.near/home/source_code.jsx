@@ -1,7 +1,7 @@
-const CoADaoId = "";
+const CoADaoId = "coa.gwg-testing.near";
 const VotingBodyDaoId = "";
-const TCDaoId = "";
-const HoMDaoId = "congress-test.testnet";
+const TCDaoId = "tc.gwg-testing.near";
+const HoMDaoId = "hom.gwg-testing.near";
 
 let { page, tab, daoId } = props;
 if (!page) {
@@ -116,14 +116,6 @@ const pages = [
             onClick: () => router.navigate({ page: "dao" }),
             widgetName: "DAO.index",
             defaultProps: { daoId: VotingBodyDaoId }
-        },
-        {
-            title: "Govt Proposals",
-            active: page === "proposals",
-            href: currentLink + "?page=proposals",
-            onClick: () => router.navigate({ page: "proposals" }),
-            widgetName: "Congress.Proposals",
-            defaultProps: {}
         }
     ],
     [
