@@ -23,12 +23,10 @@ color:  ${props.fontColor ? props.fontColor : "#828688"};
 `;
 
 return (
-  <div>
-    <FormInput
-      type={props.type}
-      value={props.value}
-      placeholder={props.placeholder}
-      onChange={props.onchange}
-    ></FormInput>
-  </div>
+  <FormInput
+    type={props.type}
+    value={props.value}
+    placeholder={props.placeholder}
+    onChange={props.onchange}
+  ></FormInput>
 );
