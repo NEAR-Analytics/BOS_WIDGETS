@@ -80,9 +80,12 @@ return (
             lendingPoolAddress: "0xd50Cf00b6e600Dd036Ba8eF475677d816d6c4281",
             wethGateway: "0x8a226b70dcEB9656Eb75545424400128fCEF9d9e",
             data: "bluebiu.near/widget/Bsc.Lending.RadiantData",
+            incentiveController: "0x7C16aBb090d3FB266E9d17F60174B632f4229933",
+            type: "aave2",
             handlerCollateral:
               "bluebiu.near/widget/Arbitrum.Lending.RadiantHandlerCollateral",
-            type: "aave2",
+            handlerClaim:
+              "bluebiu.near/widget/Arbitrum.Lending.RadiantClaimHandler",
             handlerCToken:
               "bluebiu.near/widget/Arbitrum.Lending.RadiantActionHandler",
           },
