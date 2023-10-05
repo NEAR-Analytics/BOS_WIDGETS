@@ -1,7 +1,7 @@
-const CoADaoId = "";
+const CoADaoId = "coa.gwg-testing.near";
 const VotingBodyDaoId = "";
-const TCDaoId = "";
-const HoMDaoId = "congress-test.testnet";
+const TCDaoId = "tc.gwg-testing.near";
+const HoMDaoId = "hom.gwg-testing.near";
 const widgetOwner = props.widgetOwner ?? "astraplusplus.ndctools.near";
 
 State.init({
