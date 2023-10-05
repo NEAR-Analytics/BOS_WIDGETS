@@ -457,12 +457,12 @@ if (!prices[selectedToken]) {
 
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
-  //   console.log("updateBalance", address, symbol);
+  // console.log("updateBalance", address, symbol, chainId);
   // if (state.balances[symbol]) {
   //   return;
   // }
 
-  if (symbol === "ETH") {
+  if (symbol === "ETH" && [1, 5].includes(chainId)) {
     Ethers.provider()
       .getBalance(sender)
       .then((balanceBig) => {
