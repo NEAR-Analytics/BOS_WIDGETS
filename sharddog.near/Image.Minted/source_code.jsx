@@ -27,11 +27,12 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
     imageUrl: null,
   });
 }
+
 function fetchContentType(url) {
   try {
     if (url.includes("arweave")) {
       // Handle Arweave URLs
-      asycFetch(url, { method: "HEAD" })
+      asyncFetch(url, { method: "HEAD" })
         .then((response) => {
           const contentType = response.headers.get("Content-Type");
           const isVideo = contentType && contentType.startsWith("video/");
@@ -48,7 +49,7 @@ function fetchContentType(url) {
         "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
       console.log(newURL);
 
-      asycFetch(newURL, { method: "HEAD" })
+      asyncFetch(newURL, { method: "HEAD" })
         .then((response) => {
           const contentType = response.headers.get("Content-Type");
           const isVideo = contentType && contentType.startsWith("video/");
