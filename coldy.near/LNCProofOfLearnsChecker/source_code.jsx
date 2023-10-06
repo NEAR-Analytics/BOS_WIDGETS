@@ -1,15 +1,18 @@
 const url = `https://learnnear.club/wp-json/api/lnw-proof-of-learns-value?wallet=${props.wallet}`;
-console.log(url);
+
+if (!props.wallet) {
+  return <div></div>;
+}
 
 const response = fetch(url, {
   method: "GET",
 });
-console.log(response);
 
 return (
   <div>
-    <a href="https://learnnear.club/">
-      {props.wallet} nLEARNs balance: {response.body.toLocaleString()}{" "}
-    </a>
+    Proof of (L)Earn by Learn NEAR Club {props.wallet}{" "}
+    <b> nLEARNs balance: {response.body.toLocaleString()} </b>
+    <br />
+    <a href="https://learnnear.club/"> Verify Proof of (L)Earn</a>
   </div>
 );
