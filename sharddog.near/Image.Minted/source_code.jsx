@@ -29,7 +29,6 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 }
 
 function fetchContentType(url) {
-       console.log(url);
   try {
     if (url.includes("arweave")) {
       // Handle Arweave URLs
