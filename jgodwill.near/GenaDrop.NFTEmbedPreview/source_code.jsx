@@ -677,7 +677,8 @@ const closeModal = () => State.update({ message: false });
 
 // const PRICE_CONVERSION_CONSTANT =
 //   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
-console.log(state.owner);
+const ownerName = profile.name;
+console.log(ownerName);
 return (
   <Root>
     <MainContainer>
@@ -710,7 +711,7 @@ return (
                 }}
               >
                 Owner
-                {profile.name || "owner_here"}
+                {ownerName || "owner_here"}
               </p>
               <a
                 target="_blank"
