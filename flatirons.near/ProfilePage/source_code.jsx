@@ -189,7 +189,6 @@ return (
       </SidebarWrapper>
 
       <Content>
-        <h1>Gabe No moderation profile</h1>
         <Tabs>
           <TabsButton
             href={`${accountUrl}&tab=overview`}
