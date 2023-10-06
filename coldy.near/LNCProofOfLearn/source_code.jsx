@@ -24,7 +24,7 @@ context.data = response?.body?.data;
 
 const handlePageChange = (newPage) => {
   if (newPage >= 1 && newPage <= pages) {
-    currentPage = newPage;
+    context.currentPage = newPage;
     const pgResponse = fetch(
       `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=${context.accountId}&p=${newPage}`,
       {
