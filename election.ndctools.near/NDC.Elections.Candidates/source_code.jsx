@@ -622,8 +622,12 @@ const UserLink = ({ title, src, selected, winnerId }) => (
       className="d-flex align-items-center"
     >
       <Icon className="bi bi-arrow-up-right" />
-      {state.winnerIds.includes(title) && (
-        <Winner className="bi bi-trophy-fill p-1 text-success" />
+      {state.disqualified.includes(title) ? (
+        <Winner className="bi bi-ban p-1 text-danger" />
+      ) : (
+        state.winnerIds.includes(title) && (
+          <Winner className="bi bi-trophy-fill p-1 text-success" />
+        )
       )}
     </UserIcons>
   </div>
