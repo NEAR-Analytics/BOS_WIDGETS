@@ -685,7 +685,7 @@ const CandidateItem = ({ candidateId, votes }) => (
             )}
           </Bookmark>
         )}
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center w-100">
           <div className="d-flex justify-items-center">
             <UserLink
               selected={state.selected === candidateId}
