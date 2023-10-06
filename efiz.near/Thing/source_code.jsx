@@ -1,7 +1,7 @@
 function Thing({ type }) {
   function create({ key, value }) {
     // or it could be front loaded
-    console.log(`${key} : ${value}`);
+    console.log(`${key} : ${value} : look at this: ${type}`);
   }
 
   return {
