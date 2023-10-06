@@ -98,7 +98,7 @@ const CandidateItemRow = styled.div`
     props.winnerId
       ? "rgb(206 233 207)"
       : props.disqualified
-      ? "#ccc"
+      ? "rgb(233 206 206)"
       : props.selected
       ? "#4aa6ee"
       : props.filtered
@@ -107,6 +107,8 @@ const CandidateItemRow = styled.div`
   border-color: ${(props) =>
     props.winnerId
       ? "rgb(137 201 139)"
+      : props.disqualified
+      ? "rgb(201 137 137)"
       : props.selected || props.filtered
       ? "#4aa6ee"
       : "#F8F8F9"};
