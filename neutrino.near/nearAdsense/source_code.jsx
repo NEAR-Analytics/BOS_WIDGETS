@@ -17,9 +17,9 @@ const Button = styled.button`
 `;
 
 const onBannerClick = () => {
-  //   window.open(state.url, "_blank");
-  //   window.location.href = state.url;
-  State.update({ show: !state.show });
+  return (
+    <iframe srcDoc={<a hreft="https://www.ezidev.tech" target="_blank" />} />
+  );
 };
 
 const bannerStyle = {
@@ -41,6 +41,19 @@ return (
     >
       <img src={state.img} alt="adbanner" />
     </div>
-    {state.show && <Button primary>Primary</Button>}
+    {state.show && (
+      <Button primary onClick={onBannerClick}>
+        Primary
+      </Button>
+    )}
+    <a
+      href="https://www.ezidev.tech"
+      style={{
+        "background-color": "palevioletred",
+      }}
+    >
+      {" "}
+      Click me{" "}
+    </a>
   </div>
 );
