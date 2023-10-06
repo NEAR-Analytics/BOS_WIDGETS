@@ -20,7 +20,7 @@ return (
       <div className="col">
         <h2>sandboxed</h2>
         <Widget
-          id="sandboed"
+          id="sandboxed"
           src="andyh.near/widget/StateDemoRoot"
           trust={{ mode: "sandboxed" }}
           props={{ title: "State across Sandboxed Components" }}
