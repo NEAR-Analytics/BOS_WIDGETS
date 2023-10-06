@@ -67,7 +67,7 @@ const Container = styled.div`
 
 const StyledLink = styled.a`
   color: inherit !important;
-  width: 205px;
+  width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -75,7 +75,7 @@ const StyledLink = styled.a`
   padding-top: 2px;
 
   @media (max-width: 400px) {
-    width: 120px;
+    width: 110px;
   }
 `;
 
