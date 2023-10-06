@@ -18,7 +18,7 @@ const bannerStyle = {
 const closeBtnStyle = {
   position: "absolute",
   top: "0px",
-  right: "-10px",
+  right: "0px",
   cursor: "pointer",
   width: "20px",
 };
