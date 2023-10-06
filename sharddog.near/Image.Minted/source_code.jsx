@@ -29,27 +29,42 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 }
 function fetchContentType(url) {
   try {
-    const segments = url.split("/");
-    const newURL =
-      "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
-    console.log(newURL);
-    asyncFetch(newURL, { method: "HEAD" })
-      .then((response) => {
-        console.log(response);
+    if (url.includes("arweave.net")) {
+      // Handle Arweave URLs
+      asycFetch(url, { method: "HEAD" })
+        .then((response) => {
+          const contentType = response.headers.get("Content-Type");
+          const isVideo = contentType && contentType.startsWith("video/");
+          State.update({ isVideo, isLoading: false });
+        })
+        .catch((error) => {
+          console.log("Error:" + error);
+          State.update({ isLoading: false });
+        });
+    } else {
+      // Handle IPFS URLs
+      const segments = url.split("/");
+      const newURL =
+        "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
+      console.log(newURL);
 
-        const contentType = response.contentType;
-        const isVideo = contentType && contentType.startsWith("video/");
-        State.update({ isVideo, isLoading: false });
-      })
-      .catch((error) => {
-        console.log("errror" + error);
-        State.update({ isLoading: false });
-      });
+      asycFetch(newURL, { method: "HEAD" })
+        .then((response) => {
+          const contentType = response.headers.get("Content-Type");
+          const isVideo = contentType && contentType.startsWith("video/");
+          State.update({ isVideo, isLoading: false });
+        })
+        .catch((error) => {
+          console.log("Error:" + error);
+          State.update({ isLoading: false });
+        });
+    }
   } catch (error) {
     console.log("Error fetching content type:", error);
     State.update({ isLoading: false });
   }
 }
+
 function toUrl(image) {
   const url =
     (image.ipfs_cid
