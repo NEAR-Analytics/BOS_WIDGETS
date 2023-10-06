@@ -1,8 +1,9 @@
+const data = Social.keys("*/profile", "final");
 const data1 = Social.keys("*/profile/image/nft", "final");
 const data2 = Social.keys("*/profile/image/url", "final");
 const data3 = Social.keys("*/profile/image/ipfs_cid", "final");
 
-if (!data1 || !data2 || !data3) {
+if (!data || !data1 || !data2 || !data3) {
   return "Loading";
 }
 
@@ -23,20 +24,22 @@ const Wrapper = styled.div`
   }
 `;
 
-const accounts = [
-  ...new Set([
-    ...Object.keys(data1),
-    ...Object.keys(data2),
-    ...Object.keys(data3),
-  ]),
-].map((accountId) => (
-  <div>
-    <img
-      src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${accountId}`}
-      alt={accountId}
-      title={accountId}
-    />
-  </div>
-));
+const withImgs = new Set([
+  ...Object.keys(data1),
+  ...Object.keys(data2),
+  ...Object.keys(data3),
+]);
+
+const accounts = Object.keys(data)
+  .filter((accountId) => withImgs.has(accountId))
+  .map((accountId) => (
+    <div>
+      <img
+        src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${accountId}`}
+        alt={accountId}
+        title={accountId}
+      />
+    </div>
+  ));
 
 return <Wrapper>{accounts}</Wrapper>;
