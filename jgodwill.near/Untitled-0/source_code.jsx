@@ -763,68 +763,6 @@ return (
           </div>
         </TopImageContainer>
         <RightSection>
-          <PriceBucket>
-            <div>
-              <p style={{ color: "#b2b7c2", marginBottom: 0 }}>CURRENT PRICE</p>
-              <PriceArea>
-                {props.chainState ? (
-                  <Logo>
-                    <img src={currentChainProps[props.chainState]?.img} />
-                  </Logo>
-                ) : (
-                  <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
-                )}
-                <h6>
-                  {`${
-                    state.listings.price
-                      ? (
-                          state.listings.price / 1000000000000000000000000
-                        ).toFixed(2)
-                      : state.price
-                      ? (state.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
-                      : "0.00"
-                  }`}
-                </h6>
-                <span>{` (${
-                  state.listings.price
-                    ? getUsdValue(
-                        state.listings.price / 1000000000000000000000000
-                      )
-                    : state.price
-                    ? getUsdValue(state.price / PRICE_CONVERSION_CONSTANT)
-                    : "0.00"
-                })`}</span>
-              </PriceArea>
-            </div>
-            <div>
-              {state.price && state.owner !== state.sender ? (
-                <BuyButton
-                  disabled={state.loadingBuying}
-                  className={state.loadingBuying ? "loading" : ""}
-                  onClick={() => handleBuyClick(state.price, state.owner)}
-                >
-                  {state.loadingBuying ? "" : "BUY"}
-                </BuyButton>
-              ) : state.owner === context.accountId ||
-                state.owner === state.sender ? (
-                <a
-                  href={`#/agwaze.near/widget/GenaDrop.NFTListing?tokenId=${tokenId}&contractId=${contractId}&chainState=${props.chainState}`}
-                >
-                  <button>List</button>
-                </a>
-              ) : (
-                <button
-                  style={{
-                    backgroundColor: "#525c76",
-                    borderColor: "#525c76",
-                    cursor: "not-allowed",
-                  }}
-                >
-                  Not Listed
-                </button>
-              )}
-            </div>
-          </PriceBucket>
           <Description>
             <h6>Description</h6>
             <span>
@@ -901,18 +839,5 @@ return (
         </RightSection>
       </TopSection>
     </MainContainer>
-    <Widget src="jgodwill.near/widget/GenaDrop.Footer" />
-    {state.message && (
-      <Popup>
-        <Widget
-          src="agwaze.near/widget/GenaDrop.SuccessModal"
-          props={{
-            closeModal,
-            externalLink: state.text,
-            modalText: "Successfully Purchased",
-          }}
-        />
-      </Popup>
-    )}
   </Root>
 );
