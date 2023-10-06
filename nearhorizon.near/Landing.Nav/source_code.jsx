@@ -25,7 +25,7 @@ const Links = styled.div`
   gap: 1.5rem;
 
   @media screen and (max-width: 768px) {
-    & > div:first-child {
+    & > a:first-child {
       display: none;
     }
   }
@@ -49,11 +49,11 @@ return (
       <Widget src={`${ownerId}/widget/Logo`} />
     </div>
     <Links>
-      <Widget src={`${ownerId}/widget/Buttons.Explore`} />
+      <Link href={`/${ownerId}/widget/Index`}>Explore Horizon</Link>
       <Widget src={`${ownerId}/widget/Buttons.CreateProfile`} />
     </Links>
     <Explore>
-      <Widget src={`${ownerId}/widget/Buttons.Explore`} />
+      <Link href={`/${ownerId}/widget/Index`}>Explore Horizon</Link>
     </Explore>
   </Container>
 );
