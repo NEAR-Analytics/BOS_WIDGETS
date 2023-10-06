@@ -128,6 +128,8 @@ const CandidateItemRow = styled.div`
     background: ${(props) =>
       props.winnerId
         ? "rgb(206 233 207)"
+        : props.disqualified
+        ? "rgb(233 206 206)"
         : props.selected
         ? "#4aa6ee"
         : "#d4e4f461"};
