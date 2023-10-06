@@ -27,6 +27,8 @@ State.init({
   imageUrl: null,
 });
 
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+
 const currentChainProps = {
   near: {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
@@ -675,7 +677,7 @@ const closeModal = () => State.update({ message: false });
 
 // const PRICE_CONVERSION_CONSTANT =
 //   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
-
+console.log(state.owner);
 return (
   <Root>
     <MainContainer>
@@ -708,6 +710,7 @@ return (
                 }}
               >
                 Owner
+                {profile.name || "owner_here"}
               </p>
               <a
                 target="_blank"
