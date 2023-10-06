@@ -33,27 +33,18 @@ const bannerStyle = {
 
 return (
   <div>
-    <div
+    <a
       className="mt-2"
       style={bannerStyle}
       onClick={onBannerClick}
       href={state.url}
     >
       <img src={state.img} alt="adbanner" />
-    </div>
+    </a>
     {state.show && (
       <Button primary onClick={onBannerClick}>
         Primary
       </Button>
     )}
-    <a
-      href="https://www.ezidev.tech"
-      style={{
-        "background-color": "palevioletred",
-      }}
-    >
-      {" "}
-      Click me{" "}
-    </a>
   </div>
 );
