@@ -1,34 +1,38 @@
-function Thing({ type, Template }) {
-  function create(key, value) {
+function Thing({ type }) {
+  function create({ key, value }) {
     // or it could be front loaded
-    console.log("create");
+    console.log(`${key} : ${value}`);
   }
 
-  function set(key, value) {
-    // Validate the type
-    const typeObj = JSON.parse(type);
-    const typeOfValue = typeof value;
-    if (typeObj[key] !== typeOfValue) {
-      console.log(`Expected ${typeObj[key]} but got ${typeOfValue}`);
-      // can't throw error, but could return or display something on screen
-      // handle error?
-    }
+  return {
+    create,
+  };
 
-    Social.set({
-      thing: {
-        [key]: {
-          "": JSON.stringify(value),
-        },
-      },
-      // and index?
-    });
-  }
+  //   function set(key, value) {
+  //     // Validate the type
+  //     const typeObj = JSON.parse(type);
+  //     const typeOfValue = typeof value;
+  //     if (typeObj[key] !== typeOfValue) {
+  //       console.log(`Expected ${typeObj[key]} but got ${typeOfValue}`);
+  //       // can't throw error, but could return or display something on screen
+  //       // handle error?
+  //     }
 
-  function get(key) {
-    return JSON.parse(Social.get(key, "final") || "null");
-  }
+  //     Social.set({
+  //       thing: {
+  //         [key]: {
+  //           "": JSON.stringify(value),
+  //         },
+  //       },
+  //       // and index?
+  //     });
+  //   }
 
-  return <Template create={create} set={set} get={get} />;
+  //   function get(key) {
+  //     return JSON.parse(Social.get(key, "final") || "null");
+  //   }
+
+  //   return <Template create={create} set={set} get={get} />;
 }
 
 return { Thing };
