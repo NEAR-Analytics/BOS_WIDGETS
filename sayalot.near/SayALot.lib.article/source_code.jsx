@@ -65,7 +65,6 @@ function getWritersWhitelist(env) {
       "alejandro.near",
       "yourdad.near",
       "rahulgoel.near",
-      "johanga108.near",
       "escobarindo.near",
       "izubair.near",
       "jarednotjerry.near",
