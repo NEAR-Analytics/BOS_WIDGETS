@@ -33,7 +33,7 @@ function fetchContentType(url) {
     if (url.includes("arweave")) {
       // Handle Arweave URLs
          console.log(url);
-      fetch(url, { method: "HEAD" })
+      asyncFetch(url, { method: "HEAD" })
         .then((response) => {
           const contentType = response.headers.get("Content-Type");
           const isVideo = contentType && contentType.startsWith("video/");
@@ -50,7 +50,7 @@ function fetchContentType(url) {
         "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
       console.log(newURL);
 
-      fetch(newURL, { method: "HEAD" })
+      asyncFetch(newURL, { method: "HEAD" })
         .then((response) => {
           const contentType = response.headers.get("Content-Type");
           const isVideo = contentType && contentType.startsWith("video/");
