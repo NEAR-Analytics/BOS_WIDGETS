@@ -1,5 +1,7 @@
+const initialPage = 1;
+let currentPage = initialPage;
 const response = fetch(
-  `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=${context.accountId}`,
+  `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=${context.accountId}&p=1`,
   {
     method: "GET",
   }
@@ -17,26 +19,54 @@ if (response?.body?.error) {
   );
 }
 
-const pages = response?.body?.pages;
-const data = response?.body?.data;
+const pages = response?.body?.total_pages;
+context.data = response?.body?.data;
+
+const handlePageChange = (newPage) => {
+  if (newPage >= 1 && newPage <= pages) {
+    currentPage = newPage;
+    const pgResponse = fetch(
+      `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=${context.accountId}&p=${newPage}`,
+      {
+        method: "GET",
+      }
+    );
+    context.data = pgResponse?.body?.data;
+  }
+};
 
 return (
   <>
-    {data !== null ? (
-      <table>
-        <tr>
-          <th>Date</th>
-          <th>nLEARNs</th>
-          <th>Entry</th>
-        </tr>
-        {data.map((item) => (
+    <h2>Proof of learns for {context.accountId}</h2>
+    {context.data !== null ? (
+      <div>
+        <table id="proof-of-learns-table">
           <tr>
-            <td>{item.date}</td>
-            <td>{item.creds}</td>
-            <td>{item.message}</td>
+            <th>Date</th>
+            <th>nLEARNs</th>
+            <th>Entry</th>
           </tr>
-        ))}
-      </table>
+          <div id="important-content">
+            {context.data.map((item) => (
+              <tr>
+                <td>{item.date}</td>
+                <td>{item.creds}</td>
+                <td>{item.message}</td>
+              </tr>
+            ))}
+          </div>
+        </table>
+        <br />
+        <div className="pagination">
+          <button onClick={() => handlePageChange(currentPage - 1)}>
+            Prev
+          </button>
+          <span>{`Page ${currentPage} of ${pages}`}</span>
+          <button onClick={() => handlePageChange(currentPage + 1)}>
+            Next
+          </button>
+        </div>
+      </div>
     ) : (
       <div>Loading ...</div>
     )}
