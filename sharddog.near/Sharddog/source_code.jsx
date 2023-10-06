@@ -1,4 +1,4 @@
-const limit = 1000;
+const limit = 20;
 
 State.init({
   offset: 0,
@@ -29,7 +29,6 @@ function fetchTokens() {
             {nft_contract_id: {_eq: "nft.bluntdao.near"}},
             {nft_contract_id: {_eq: "meteor.sharddog.near"}},
              {nft_contract_id: {_eq: "open.sharddog.near"}},
-             {nft_contract_id: {_eq: "harvestmoon.sharddog.near"}},
           ]
         }
               order_by: {minted_timestamp: desc}
@@ -94,7 +93,7 @@ return (
         {state.tokens?.map((it) => {
           return (
             <Widget
-              src="sharddog.near/widget/Image"
+              src="sharddog.near/widget/Image.Minted"
               title={it.owner}
               props={{
                 title: it.owner,
