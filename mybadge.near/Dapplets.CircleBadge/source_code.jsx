@@ -2,7 +2,7 @@ return (
   <Widget
     src="mybadge.near/widget/Generic.CircleBadge"
     props={{
-      color: "red",
+      color: "gray",
       iconSrc: "mybadge.near/widget/Dapplets.LogoIcon",
     }}
   />
