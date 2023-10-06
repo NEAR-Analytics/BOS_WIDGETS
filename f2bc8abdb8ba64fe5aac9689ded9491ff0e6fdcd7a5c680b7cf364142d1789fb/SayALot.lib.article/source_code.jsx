@@ -39,7 +39,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtsNames: sbtsNames[0],
+        sbtsNames: [sbtsNames[0]],
       },
     });
   });
@@ -367,7 +367,6 @@ function getLastEditArticles(props) {
     validFormatLastEditionArticles.map((article) => {
       return article.author;
     });
-
   setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtsNames);
   const validAuthors = validFormatLastEditionArticlesAuthors.filter(
     (author) => {
