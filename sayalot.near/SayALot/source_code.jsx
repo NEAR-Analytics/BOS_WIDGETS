@@ -29,7 +29,7 @@ let writersWhiteList = [
   "odins_eyehole.near",
   "rexux.near",
   "louisliu.near",
-  "auroracfo.near"
+  "auroracfo.near",
   "as.near",
   "blaze.near",
   "marieke.near",
