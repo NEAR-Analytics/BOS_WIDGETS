@@ -13,7 +13,7 @@ return (
     <h3>Proof of (L)Earn by Learn NEAR Club </h3>
     <b>
       {" "}
-      {props.wallet} nLEARNs balance: {response.body.toLocaleString()}{" "}
+      {props.wallet} nLEARNs {response.body.toLocaleString()}{" "}
     </b>
     <br />
     <a href="https://learnnear.club/"> Verify Proof of (L)Earn</a>
