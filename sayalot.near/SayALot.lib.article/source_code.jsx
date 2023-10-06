@@ -50,6 +50,25 @@ function getWritersWhitelist(env) {
       "chloe.near",
       "dk_51.near",
       "kiskesis.near",
+      "davletuner.near",
+      "woben.near",
+      "odins_eyehole.near",
+      "rexux.near",
+      "louisliu.near",
+      "auroracfo.near"
+      "as.near",
+      "marieke.near",
+      "mattlock.near",
+      "frol.near",
+      "ahsas.near",
+      "evangel.near"
+      "alejandro.near",
+      "yourdad.near",
+      "rahulgoel.near",
+      "johanga108.near",
+      "escobarindo.near",
+      "izubair.near",
+      "jarednotjerry.near",
     ];
   }
 }
