@@ -11,6 +11,7 @@ const {
   filterParameter,
   handleBackButton,
   tabs,
+  sbtsNames,
 } = props;
 
 function stateUpdate(obj) {
@@ -62,21 +63,22 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 const loggedUserAccountId = context.accountId;
 
 const initLibCalls = [
-  {
-    functionName: "canUserCreateArticle",
-    key: "canLoggedUserCreateArticle",
-    props: {
-      accountId: loggedUserAccountId,
-      env: isTest ? "test" : "prod",
-    },
-  },
+  // {
+  //   functionName: "canUserCreateArticle",
+  //   key: "canLoggedUserCreateArticle",
+  //   props: {
+  //     accountId: loggedUserAccountId,
+  //     env: isTest ? "test" : "prod",
+  //     sbtsNames,
+  //   },
+  // },
 ];
 
 State.init({
   selectedPillIndex: 0,
   libCalls: initLibCalls,
 });
-const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle;
+// const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle;
 
 const logoRemWidth = brand.logoRemWidth
   ? brand.logoRemWidth + "rem"
@@ -290,16 +292,18 @@ return (
             })*/}
           </ul>
         </div>
-        {navigationButtons &&
-          loggedUserAccountId &&
-          canLoggedUserCreateArticle &&
-          navigationButtons.map((button, i) => {
-            return !(button.id + "") || !button.title ? (
-              <p className="text-danger border">Button passed wrong</p>
-            ) : (
-              <div className="d-none d-md-block">{renderButton(button, i)}</div>
-            );
-          })}
+        {
+          // navigationButtons &&
+          // loggedUserAccountId &&
+          // canLoggedUserCreateArticle &&
+          // navigationButtons.map((button, i) => {
+          //   return !(button.id + "") || !button.title ? (
+          //     <p className="text-danger border">Button passed wrong</p>
+          //   ) : (
+          //     <div className="d-none d-md-block">{renderButton(button, i)}</div>
+          //   );
+          // })
+        }
       </div>
     </div>
 
