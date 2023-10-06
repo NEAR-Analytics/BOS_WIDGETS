@@ -576,6 +576,7 @@ State.init({
 
 const winnerIds = Near.view(electionContract, "winners_by_proposal", {
   prop_id: props.id,
+  ongoing: true,
 });
 
 const disqualifiedIds = Near.view(
