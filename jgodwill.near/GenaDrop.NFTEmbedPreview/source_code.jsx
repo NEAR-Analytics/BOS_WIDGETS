@@ -464,64 +464,34 @@ const loadingAnimation = styled.keyframes`
   75% { content: "Loading..."; }
 `;
 
-const BuyButton = styled.button`
-  padding: 10px 15px;
-  font-size: 14px;
-  margin-top: 20px;
-  background-color: #007bff;
-  color: #fff;
-  width:  120px;
-  border-radius: 16px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+// const BuyButton = styled.button`
+//   padding: 10px 15px;
+//   font-size: 14px;
+//   margin-top: 20px;
+//   background-color: #007bff;
+//   color: #fff;
+//   width:  120px;
+//   border-radius: 16px;
+//   border: none;
+//   cursor: pointer;
+//   transition: background-color 0.3s ease;
 
-  &:hover {
-    background-color: #0056b3;
-  }
-  &.loading {
-    background: #0056b5;
-    cursor: not-allowed;
-  }
-  &.loading::before {
-    content: "Loading";
-    animation: ${loadingAnimation} 1s infinite;
-    display: inline-block;
-  }
-`;
+//   &:hover {
+//     background-color: #0056b3;
+//   }
+//   &.loading {
+//     background: #0056b5;
+//     cursor: not-allowed;
+//   }
+//   &.loading::before {
+//     content: "Loading";
+//     animation: ${loadingAnimation} 1s infinite;
+//     display: inline-block;
+//   }
+// `;
 
 const HeaderText = styled.h1`
   font-size: 1.5rem;
-`;
-
-const PriceArea = styled.div`
-  display: flex;
-  align-items: center;
-  color: #0d99ff;
-  &>*{
-  margin: 0px;
-  padding: 0px;
-  }
-  &>h6{
-    font-weight: 700;
-    margin-left: 5px;
-    margin-top: 4px;
-    margin-right: 3px;
-    font-size: 1.3rem;
-  }
-  &>span{
-  font-size: 1.2rem;
-  margin: 0px;
-  }
-`;
-
-const PriceBucket = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: space-between;
-    margin-top: 30px;
-  width: 100%;
 `;
 
 const Logo = styled.div`
@@ -532,9 +502,7 @@ const Logo = styled.div`
 `;
 
 const RightSection = styled.div`
-    width: 46%;
-    min-width: 350px;
-    margin-left: 10px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -547,7 +515,7 @@ const Description = styled.div`
     background: #ffffff;
     border: 2px solid #eeeff2;
     padding: 1em;
-    margin-top: 40px;
+    margin-top: 10px;
     box-shadow: 2px 7px 22px rgba(28, 27, 28, 0.1);
     &>h6{
         font-weight: 600;
@@ -685,27 +653,27 @@ const MintDetails = styled.div`
     }
 `;
 
-const HandleList = () => {
-  console.log(props.singleNftProps);
-};
+// const HandleList = () => {
+//   console.log(props.singleNftProps);
+// };
 
 const closeModal = () => State.update({ message: false });
 
-const getUsdValue = (price) => {
-  const res = fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${
-      currentChainProps[props.chainState]?.livePrice
-    }&vs_currencies=usd`
-  );
-  if (res.ok) {
-    const multiplyBy = Object.values(res?.body)[0]?.usd;
-    const value = multiplyBy * price.toFixed(2);
-    return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
-  }
-};
+// const getUsdValue = (price) => {
+//   const res = fetch(
+//     `https://api.coingecko.com/api/v3/simple/price?ids=${
+//       currentChainProps[props.chainState]?.livePrice
+//     }&vs_currencies=usd`
+//   );
+//   if (res.ok) {
+//     const multiplyBy = Object.values(res?.body)[0]?.usd;
+//     const value = multiplyBy * price.toFixed(2);
+//     return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
+//   }
+// };
 
-const PRICE_CONVERSION_CONSTANT =
-  props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
+// const PRICE_CONVERSION_CONSTANT =
+//   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
 
 return (
   <Root>
@@ -761,7 +729,6 @@ return (
               </span>
             </a>
           </div>
-        </TopImageContainer>
         <RightSection>
           <Description>
             <h6>Description</h6>
@@ -773,7 +740,7 @@ return (
                 : "Ai generated sunset cliffs"}
             </span>
           </Description>
-          <Description>
+          {/*          <Description>
             <h6>Attributes</h6>
             <AttributeContainer>
               {state.attributes ? (
@@ -802,7 +769,7 @@ return (
                 </Attribute>
               )}
             </AttributeContainer>
-          </Description>
+          </Description>*/}
           <Description>
             <h6>Details</h6>
             <MintDetails>
@@ -837,6 +804,7 @@ return (
             </div>
           )}
         </RightSection>
+        </TopImageContainer>
       </TopSection>
     </MainContainer>
   </Root>
