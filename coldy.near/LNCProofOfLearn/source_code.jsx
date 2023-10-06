@@ -1,5 +1,50 @@
 context.initialPage = 1;
 context.currentPage = context.initialPage;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+`;
+
+const TableHeader = styled.th`
+  background-color: #f2f2f2;
+  padding: 8px;
+  border: 1px solid #ddd;
+`;
+
+const TableCell = styled.td`
+  padding: 8px;
+  border: 1px solid #ddd;
+`;
+
+const TableRow = styled.tr`
+  background-color: ${(props) => (props.even ? "#f2f2f2" : "white")};
+
+  &:hover {
+    background-color: #ddd;
+  }
+`;
+
+const Pagination = styled.div`
+  text-align: center;
+  margin-top: 20px;
+`;
+
+const PaginationButton = styled.button`
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #005f79;
+  }
+`;
+
 const response = fetch(
   `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=${context.accountId}&p=1`,
   {
@@ -31,8 +76,11 @@ const handlePageChange = (newPage) => {
         method: "GET",
       }
     );
+    console.log(context.currentPage);
+    console.log(context.data);
     context.data = pgResponse?.body?.data;
   }
+  render("<div>1</div>");
 };
 
 return (
@@ -40,32 +88,38 @@ return (
     <h2>Proof of learns for {context.accountId}</h2>
     {context.data !== null ? (
       <div>
-        <table id="proof-of-learns-table">
-          <tr>
-            <th>Date</th>
-            <th>nLEARNs</th>
-            <th>Entry</th>
-          </tr>
-          <div id="important-content">
-            {context.data.map((item) => (
-              <tr>
-                <td>{item.date}</td>
-                <td>{item.creds}</td>
-                <td>{item.message}</td>
-              </tr>
+        <Table>
+          <thead>
+            <tr>
+              <TableHeader>Date</TableHeader>
+              <TableHeader>nLEARNs</TableHeader>
+              <TableHeader>Entry</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {context.data.map((item, index) => (
+              <TableRow key={index} even={index % 2 === 0}>
+                <TableCell>{item.date}</TableCell>
+                <TableCell>{item.creds}</TableCell>
+                <TableCell>{item.message}</TableCell>
+              </TableRow>
             ))}
-          </div>
-        </table>
+          </tbody>
+        </Table>
         <br />
-        <div className="pagination">
-          <button onClick={() => handlePageChange(context.currentPage - 1)}>
+        <Pagination>
+          <PaginationButton
+            onClick={() => handlePageChange(context.currentPage - 1)}
+          >
             Prev
-          </button>
+          </PaginationButton>
           <span>{`Page ${context.currentPage} of ${pages}`}</span>
-          <button onClick={() => handlePageChange(context.currentPage + 1)}>
+          <PaginationButton
+            onClick={() => handlePageChange(context.currentPage + 1)}
+          >
             Next
-          </button>
-        </div>
+          </PaginationButton>
+        </Pagination>
       </div>
     ) : (
       <div>Loading ...</div>
