@@ -28,6 +28,7 @@ function fetchTokens() {
             {nft_contract_id: {_eq: "mmc-mint.sharddog.near"}},
             {nft_contract_id: {_eq: "nft.bluntdao.near"}},
             {nft_contract_id: {_eq: "meteor.sharddog.near"}},
+             {nft_contract_id: {_eq: "open.sharddog.near"}},
           ]
         }
               order_by: {minted_timestamp: desc}
