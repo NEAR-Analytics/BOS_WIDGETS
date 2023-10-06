@@ -172,31 +172,32 @@ const EmbedNFT = styled.div`
   margin: 10px;
 `;
 
-// Modal
+// 
 
-const ModalOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  height: 100vh;
-  width: 100vw;
-`;
+// const Overlay = styled.div`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background-color: rgba(0, 0, 0, 0.5);
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   z-index: 10;
+//   height: 100vh;
+//   width: 100vw;
+// `;
 
-const ModalContent = styled.div`
-  background-color: white;
+const Content = styled.div`
+  // background-color: white;
   padding: 20px;
   border-radius: .5rem;
-  border: 4px solid rgba(13, 154, 255, 0.317);
+  margin-top: 2rem;
+  // border: 4px solid rgba(13, 154, 255, 0.317);
 `;
 
-const ModalTitle = styled.h3`
+const Title = styled.h3`
   margin-bottom: 10px;
 `;
 
@@ -232,12 +233,12 @@ border-radius: .7em;
 `;
 
 const handleCheckboxChange = () => {
-  State.update({ isChecked: !state.isChecked, isModalOpen: true });
+  State.update({ isChecked: !state.isChecked, isOpen: true });
 };
 
-const onCloseModal = () => {
+const onClose = () => {
   State.update({
-    isModalOpen: false,
+    isOpen: false,
     isChecked: false,
     chain: "Near",
   });
@@ -254,9 +255,9 @@ const onChangeTokenID = (tokenId) => {
     tokenId,
   });
 };
-// const onOpenModal = () =>{
+// const onOpen = () =>{
 //   State.update({
-//     isModalOpen: true
+//     isOpen: true
 //   })
 // }
 // console.log(state.isChecked);
@@ -309,55 +310,52 @@ return (
             </div>
             {state.isChecked && (
               <div>
-                <ModalOverlay>
-                  <ModalContent>
-                    <Button onClick={onCloseModal}>X</Button>
-                    <ModalTitle>Embed NFT</ModalTitle>
-                    <Widget
-                      src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
-                      props={{ chains: chains, updateChain }}
-                    />
-                    {state.sender ? (
-                      <div>
-                        <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
-                      </div>
-                    ) : (
-                      state.chain !== "Near" && (
-                        <Web3Connect
-                          connectLabel={`Connect ${state.chain} Wallet`}
-                          className="w-50"
-                        />
-                      )
-                    )}
+                <Card>
+                  <Title>Embed NFT</Title>
+                  <Widget
+                    src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                    props={{ chains: chains, updateChain }}
+                  />
+                  {state.sender ? (
+                    <div>
+                      <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
+                    </div>
+                  ) : (
+                    state.chain !== "Near" && (
+                      <Web3Connect
+                        connectLabel={`Connect ${state.chain} Wallet`}
+                        className="w-50"
+                      />
+                    )
+                  )}
+                  <Card>
+                    <h4>Enter the NFT details</h4>
                     <Card>
-                      <h4>Enter the NFT details</h4>
-                      <Card>
-                        NFT Contract ID:
-                        <Input
-                          type="text"
-                          onChange={(e) => onChangeContractID(e.target.value)}
-                        />
-                      </Card>
-                      <Card>
-                        NFT Token Id:
-                        <Input
-                          type="text"
-                          onChange={(e) => onChangeTokenID(e.target.value)}
-                        />
-                      </Card>
-                      {state.contractId && state.tokenId && (
-                        <Widget
-                          src="agwaze.near/widget/GenaDrop.NFTDetails"
-                          props={{
-                            contractId: state.contractId,
-                            tokenId: state.tokenId,
-                            chainState: state.chain.toLowerCase(),
-                          }}
-                        />
-                      )}
+                      NFT Contract ID:
+                      <Input
+                        type="text"
+                        onChange={(e) => onChangeContractID(e.target.value)}
+                      />
                     </Card>
-                  </ModalContent>
-                </ModalOverlay>
+                    <Card>
+                      NFT Token Id:
+                      <Input
+                        type="text"
+                        onChange={(e) => onChangeTokenID(e.target.value)}
+                      />
+                    </Card>
+                    {state.contractId && state.tokenId && (
+                      <Widget
+                        src="agwaze.near/widget/GenaDrop.NFTDetails"
+                        props={{
+                          contractId: state.contractId,
+                          tokenId: state.tokenId,
+                          chainState: state.chain.toLowerCase(),
+                        }}
+                      />
+                    )}
+                  </Card>
+                </Card>
               </div>
             )}
           </EmbedNFT>
