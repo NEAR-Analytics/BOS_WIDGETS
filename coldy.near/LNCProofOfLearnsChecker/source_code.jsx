@@ -10,7 +10,7 @@ const response = fetch(url, {
 
 return (
   <div>
-    Proof of (L)Earn by Learn NEAR Club {props.wallet}{" "}
+    <h3>Proof of (L)Earn by Learn NEAR Club {props.wallet}</h3>
     <b> nLEARNs balance: {response.body.toLocaleString()} </b>
     <br />
     <a href="https://learnnear.club/"> Verify Proof of (L)Earn</a>
