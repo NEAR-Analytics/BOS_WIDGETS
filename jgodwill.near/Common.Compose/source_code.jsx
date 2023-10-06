@@ -186,6 +186,7 @@ const ModalOverlay = styled.div`
   justify-content: center;
   z-index: 10;
   height: 100vh;
+  width: 100vw;
 `;
 
 const ModalContent = styled.div`
