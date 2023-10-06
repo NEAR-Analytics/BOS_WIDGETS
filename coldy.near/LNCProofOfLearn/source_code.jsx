@@ -1,5 +1,5 @@
-const initialPage = 1;
-let currentPage = initialPage;
+context.initialPage = 1;
+context.currentPage = context.initialPage;
 const response = fetch(
   `https://learnnear.club/wp-json/api/lnw-proof-of-learns-data?wallet=${context.accountId}&p=1`,
   {
@@ -58,11 +58,11 @@ return (
         </table>
         <br />
         <div className="pagination">
-          <button onClick={() => handlePageChange(currentPage - 1)}>
+          <button onClick={() => handlePageChange(context.currentPage - 1)}>
             Prev
           </button>
-          <span>{`Page ${currentPage} of ${pages}`}</span>
-          <button onClick={() => handlePageChange(currentPage + 1)}>
+          <span>{`Page ${context.currentPage} of ${pages}`}</span>
+          <button onClick={() => handlePageChange(context.currentPage + 1)}>
             Next
           </button>
         </div>
