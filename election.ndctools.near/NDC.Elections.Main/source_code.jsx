@@ -174,8 +174,10 @@ function loadPolicy() {
 
 function loadWinners() {
   const finishTime = Near.view(electionContract, "finish_time", {});
+
   const winnerIds = Near.view(electionContract, "winners_by_proposal", {
     prop_id: state.selectedHouse,
+    ongoing: true,
   });
 
   State.update({ winnerIds, finishTime });
