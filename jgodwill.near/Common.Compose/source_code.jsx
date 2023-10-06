@@ -185,6 +185,7 @@ const ModalOverlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 10;
+  height: 100vh;
 `;
 
 const ModalContent = styled.div`
@@ -204,6 +205,31 @@ font-weight: 600;
 cursor: pointer;
 `;
 
+const Input = styled.input`
+  display: block;
+  padding:.5em;
+  width:100%;
+  border: 1px solid #e5e8eb;
+  border-radius: 10px;
+  outline: none;
+  background: #f4f5f6;
+  color: #525c76;
+  :focus{
+    border:1px solid #0d99ff;
+  }
+  ::placeholder {
+    color: palevioletred;
+  }
+`;
+
+const Card = styled.div`
+padding: 1em;
+border: 1px solid #e5e8eb;
+gap: 2em;
+margin: 10px auto;
+border-radius: .7em;
+`;
+
 const handleCheckboxChange = () => {
   State.update({ isChecked: !state.isChecked, isModalOpen: true });
 };
@@ -213,6 +239,18 @@ const onCloseModal = () => {
     isModalOpen: false,
     isChecked: false,
     chain: "Near",
+  });
+};
+
+const onChangeContractID = (contractId) => {
+  State.update({
+    contractId,
+  });
+};
+
+const onChangeTokenID = (tokenId) => {
+  State.update({
+    tokenId,
   });
 };
 // const onOpenModal = () =>{
@@ -290,6 +328,33 @@ return (
                         />
                       )
                     )}
+                    <Card>
+                      <h4>Enter the NFT details</h4>
+                      <Card>
+                        NFT Contract ID:
+                        <Input
+                          type="text"
+                          onChange={(e) => onChangeContractID(e.target.value)}
+                        />
+                      </Card>
+                      <Card>
+                        NFT Token Id:
+                        <Input
+                          type="text"
+                          onChange={(e) => onChangeTokenID(e.target.value)}
+                        />
+                      </Card>
+                      {state.contractId && state.tokenId && (
+                        <Widget
+                          src="agwaze.near/widget/GenaDrop.NFTDetails"
+                          props={{
+                            contractId: state.contractId,
+                            tokenId: state.tokenId,
+                            chainState: state.chain.toLowerCase(),
+                          }}
+                        />
+                      )}
+                    </Card>
                   </ModalContent>
                 </ModalOverlay>
               </div>
