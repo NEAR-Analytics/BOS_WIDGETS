@@ -3,15 +3,15 @@ const DEFAULT_COLOR = "gray";
 const palette = {
   red: {
     background: "#DB504A",
-    text: "#000",
+    text: "#fff",
   },
   green: {
     background: "#16AD38",
-    text: "#000",
+    text: "#fff",
   },
   blue: {
     background: "#4A73DB",
-    text: "#000",
+    text: "#fff",
   },
   gray: {
     background: "#E7ECEF",
