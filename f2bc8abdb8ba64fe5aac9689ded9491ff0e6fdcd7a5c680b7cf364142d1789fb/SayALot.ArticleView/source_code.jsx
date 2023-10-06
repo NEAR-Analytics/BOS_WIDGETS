@@ -7,6 +7,7 @@ const {
   articleToRenderData,
   authorForWidget,
   handleEditArticle,
+  handleShareButton,
   // logedUserSbts,
 } = props;
 
@@ -16,7 +17,7 @@ const realArticleId =
   `${articleToRenderData.author}-${articleToRenderData.timeCreate}`;
 
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
-const articleSbts = articleToRenderData.sbts[0] ?? [];
+const articleSbts = articleToRenderData.sbts ?? [];
 
 const libSrcArray = [widgets.libComment];
 
@@ -476,6 +477,11 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
+const HeaderButtonsContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
 //Get basic original comments info
 let originalComments = state.comments.filter(
   (comment) => comment.value.comment.originalCommentId === realArticleId
@@ -581,21 +587,38 @@ return (
               </div>
               <div className="d-flex gap-3">
                 <div className="d-flex flex-column">
-                  <Widget
-                    src={widgets.upVoteButton}
-                    props={{
-                      isTest,
-                      authorForWidget,
-                      reactedElementData: articleToRenderData,
-                      widgets,
-                      disabled:
-                        !context.accountId ||
-                        context.accountId === accountId ||
-                        (articleSbts.length > 0 &&
-                          !state.canLoggedUserCreateComment),
-                      articleSbts,
-                    }}
-                  />
+                  <HeaderButtonsContainer>
+                    <Widget
+                      src={widgets.upVoteButton}
+                      props={{
+                        isTest,
+                        authorForWidget,
+                        reactedElementData: articleToRenderData,
+                        widgets,
+                        disabled:
+                          !context.accountId ||
+                          context.accountId === accountId ||
+                          (articleSbts.length > 0 &&
+                            !state.canLoggedUserCreateComment),
+                        articleSbts,
+                      }}
+                    />
+                    <Widget
+                      src={"rubycop.near/widget/NDC.StyledComponents"}
+                      props={{
+                        Button: {
+                          size: "sm",
+                          className: "secondary dark",
+                          icon: <i className="bi bi-share"></i>,
+                          onClick: () =>
+                            handleShareButton(true, {
+                              type: "sharedBlockHeight",
+                              value: data.blockHeight,
+                            }),
+                        },
+                      }}
+                    />
+                  </HeaderButtonsContainer>
                   <Widget
                     src={widgets.reactions}
                     props={{
