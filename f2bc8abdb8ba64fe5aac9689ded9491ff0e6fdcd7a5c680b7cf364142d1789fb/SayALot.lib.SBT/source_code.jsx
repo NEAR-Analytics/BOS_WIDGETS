@@ -3,7 +3,7 @@ const { isTest, stateUpdate, libCalls } = props;
 let resultLibCalls = [];
 
 function isValidUser(props) {
-  const { accountId, sbtName } = props;
+  const { accountId, sbtsNames } = props;
   // console.log(0, accountId);
   const userSBTs = Near.view(
     "registry.i-am-human.near",
@@ -15,7 +15,7 @@ function isValidUser(props) {
 
   const result =
     userSBTs.find((sbt) => {
-      return sbt[0] === sbtName;
+      return sbt[0] === sbtsNames[0];
     }) !== undefined;
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "isValidUser";
