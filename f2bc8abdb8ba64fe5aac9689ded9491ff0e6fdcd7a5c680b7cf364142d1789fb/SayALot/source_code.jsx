@@ -2,9 +2,9 @@
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
-const initSbtName = "fractal.i-am-human.near";
+const initSbtsNames = ["fractal.i-am-human.near"];
 
-const sbtName = state.sbt;
+const sbtsNames = state.sbt;
 
 const initLibCalls = [
   {
@@ -12,7 +12,7 @@ const initLibCalls = [
     key: "articles",
     props: {
       env: isTest ? "test" : "prod",
-      sbtName: initSbtName,
+      sbtsNames: initSbtsNames,
     },
   },
   {
@@ -20,7 +20,7 @@ const initLibCalls = [
     key: "canLoggedUserCreateArticle",
     props: {
       accountId: context.accountId,
-      sbtName: initSbtName,
+      sbtsNames: initSbtsNames,
     },
   },
   // {
@@ -79,8 +79,8 @@ State.init({
   filterBy: getInitialFilter(),
   authorsProfiles: [],
   libCalls: initLibCalls,
-  sbtName: initSbtName,
-  sbts: [initSbtName],
+  sbtsNames: initSbtsNames,
+  sbts: initSbtsNames,
 });
 
 let newLibCalls = state.libCalls;
@@ -500,9 +500,10 @@ return (
         filterParameter: state.filterBy.parameterName,
         handleBackButton,
         tabs,
+        sbtsNames,
       }}
     />
-    {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
+    {finalArticles && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
         props={{
@@ -539,6 +540,7 @@ return (
           articleToRenderData: state.articleToRenderData,
           authorForWidget,
           handleEditArticle,
+          handleShareButton,
           // logedUserSbts: state.logedUserSbts,
         }}
       />
