@@ -18,7 +18,7 @@ function libStateUpdate(obj) {
   State.update(obj);
 }
 
-function setAreValidUsers(accountIds, sbtName) {
+function setAreValidUsers(accountIds, sbtsNames) {
   const newLibCalls = [...state.libCalls];
   accountIds.forEach((accountId, index) => {
     const isCallPushed =
@@ -39,7 +39,7 @@ function setAreValidUsers(accountIds, sbtName) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtName,
+        sbtsNames: sbtsNames[0],
       },
     });
   });
@@ -105,9 +105,9 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 // }
 
 function canUserCreateArticle(props) {
-  const { env, accountId, sbtName } = props;
+  const { env, accountId, sbtsNames } = props;
 
-  setAreValidUsers([accountId], sbtName);
+  setAreValidUsers([accountId], sbtsNames);
 
   const result = state[`isValidUser-${accountId}`];
 
@@ -345,7 +345,7 @@ function getOldFormatArticles(env) {
 }
 
 function getLastEditArticles(props) {
-  const { env, sbtName } = props;
+  const { env, sbtsNames } = props;
   const oldFormatArticles = getOldFormatArticles(env);
   const newFormatArticles = getNewFormatValidArticles(env);
 
@@ -368,7 +368,7 @@ function getLastEditArticles(props) {
       return article.author;
     });
 
-  setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtName);
+  setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtsNames);
   const validAuthors = validFormatLastEditionArticlesAuthors.filter(
     (author) => {
       return state[`isValidUser-${author}`] === true;
