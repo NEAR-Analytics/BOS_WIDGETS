@@ -113,11 +113,15 @@ const CandidateItemRow = styled.div`
       ? "#4aa6ee"
       : "#F8F8F9"};
       color: ${(props) =>
-        props.selected && !props.winnerId ? "#fff" : "inherit"};
+        props.selected && !props.winnerId && !props.disqualified
+          ? "#fff"
+          : "inherit"};
 
   small span {
     color: ${(props) =>
-      props.selected && !props.winnerId ? "#fff" : "inherit"};
+      props.selected && !props.winnerId && !props.disqualified
+        ? "#fff"
+        : "inherit"};
   }
 
   &:hover {
