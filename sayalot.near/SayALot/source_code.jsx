@@ -31,12 +31,11 @@ let writersWhiteList = [
   "louisliu.near",
   "auroracfo.near",
   "as.near",
-  "blaze.near",
   "marieke.near",
   "mattlock.near",
   "frol.near",
   "ahsas.near",
-  "evangel.near"
+  "evangel.near",
   "alejandro.near",
   "yourdad.near",
   "rahulgoel.near",
