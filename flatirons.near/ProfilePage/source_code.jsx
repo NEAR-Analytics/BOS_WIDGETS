@@ -4,16 +4,6 @@ if (!accountId) {
 }
 
 // if it exists, render the accountId's custom profile component
-if (Social.getr(`${accountId}/widget/ProfilePage`)) {
-  return (
-    <Widget
-      src={`${accountId}/widget/ProfilePage`}
-      props={{
-        accountId,
-      }}
-    />
-  );
-}
 State.init({
   selectedTab: props.tab || "overview",
 });
