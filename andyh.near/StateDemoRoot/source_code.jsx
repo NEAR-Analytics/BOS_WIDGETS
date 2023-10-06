@@ -134,7 +134,7 @@ const { circle, square, triangle } = state;
 return (
   <div>
     <div className="col">
-      <p title-attr="yes">{props.title}</p>
+      <p>{props.title}</p>
     </div>
     <div className="col">
       <Widget
