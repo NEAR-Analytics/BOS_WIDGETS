@@ -475,9 +475,7 @@ const handleStateTransition = () => {
         });
       break;
     case "COOLDOWN":
-      State.update({
-        showReviewModal: true,
-      });
+      State.update({ winnerIds });
       break;
     case "ENDED":
       State.update({ winnerIds });
