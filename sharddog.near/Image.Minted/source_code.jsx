@@ -33,7 +33,6 @@ function fetchContentType(url) {
   try {
     if (url.includes("arweave")) {
       // Handle Arweave URLs
-      console.log("ar: " + url);
       fetch(url, { method: "HEAD" })
         .then((response) => {
           const contentType = response.headers.get("Content-Type");
