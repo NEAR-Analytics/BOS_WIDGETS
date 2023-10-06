@@ -172,7 +172,7 @@ const EmbedNFT = styled.div`
   margin: 10px;
 `;
 
-// 
+//
 
 // const Overlay = styled.div`
 //   position: absolute;
@@ -346,7 +346,7 @@ return (
                     </Card>
                     {state.contractId && state.tokenId && (
                       <Widget
-                        src="agwaze.near/widget/GenaDrop.NFTDetails"
+                        src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
                         props={{
                           contractId: state.contractId,
                           tokenId: state.tokenId,
