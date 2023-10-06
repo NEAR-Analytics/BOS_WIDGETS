@@ -12,6 +12,7 @@ if (props.timestamp) {
   const humanReadableDate = date.toLocaleString();
   timestamp = humanReadableDate;
 }
+
 State.init({
   image,
   modalMediaUrl: null, // Rename to modalMediaUrl
@@ -46,8 +47,19 @@ const thumb = (imageUrl) =>
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
     : imageUrl;
 
-return image.nft.contractId && image.nft.tokenId (
- 
+return image.nft.contractId && image.nft.tokenId ? (
+  <Widget
+    src="mob.near/widget/NftImage"
+    props={{
+      className,
+      style,
+      alt,
+      nft: image.nft,
+      thumbnail,
+      fallbackUrl,
+    }}
+  />
+) : (
   <>
     {isVideo ? (
       <video
@@ -120,5 +132,4 @@ return image.nft.contractId && image.nft.tokenId (
       </div>
     )}
   </>
-
 );
