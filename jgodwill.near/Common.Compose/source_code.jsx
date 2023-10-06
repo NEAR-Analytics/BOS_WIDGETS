@@ -2,6 +2,7 @@ const autocompleteEnabled = props.autocompleteEnabled ?? true;
 
 State.init({
   isChecked: false,
+  chain: "Near",
 });
 if (state.image === undefined) {
   State.init({
@@ -171,10 +172,56 @@ const EmbedNFT = styled.div`
   margin: 10px;
 `;
 
+// Modal
+
+const ModalOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: .5rem;
+  border: 4px solid rgba(13, 154, 255, 0.317);
+`;
+
+const ModalTitle = styled.h3`
+  margin-bottom: 10px;
+`;
+
+const Button = styled.div`
+background: transparent;
+font-weight: 600;
+cursor: pointer;
+`;
+
 const handleCheckboxChange = () => {
-  State.update({ isChecked: !state.isChecked });
+  State.update({ isChecked: !state.isChecked, isModalOpen: true });
 };
+
+const onCloseModal = () => {
+  State.update({
+    isModalOpen: false,
+    isChecked: false,
+    chain: "Near",
+  });
+};
+// const onOpenModal = () =>{
+//   State.update({
+//     isModalOpen: true
+//   })
+// }
 // console.log(state.isChecked);
+console.log(state.chain);
 return (
   <div className="text-bg-light rounded-4">
     <TextareaWrapper className="p-3" data-value={state.text || ""}>
@@ -208,7 +255,7 @@ return (
           image={state.image}
           className="btn btn-outline-secondary border-0 rounded-3"
         />
-        {state.text && state.image.cid && (
+        {!state.text && !state.image.cid && (
           <EmbedNFT>
             <div className="form-check form-switch embed">
               <input
@@ -221,12 +268,30 @@ return (
               />
               <label htmlFor="embed">Embed an NFT</label>
             </div>
-            {state.isChecked ?? (
+            {state.isChecked && (
               <div>
-                <Widget
-                  src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
-                  props={{ chains: chains, updateChain }}
-                />
+                <ModalOverlay>
+                  <ModalContent>
+                    <Button onClick={onCloseModal}>X</Button>
+                    <ModalTitle>Embed NFT</ModalTitle>
+                    <Widget
+                      src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                      props={{ chains: chains, updateChain }}
+                    />
+                    {state.sender ? (
+                      <div>
+                        <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
+                      </div>
+                    ) : (
+                      state.chain !== "Near" && (
+                        <Web3Connect
+                          connectLabel={`Connect ${state.chain} Wallet`}
+                          className="w-50"
+                        />
+                      )
+                    )}
+                  </ModalContent>
+                </ModalOverlay>
               </div>
             )}
           </EmbedNFT>
