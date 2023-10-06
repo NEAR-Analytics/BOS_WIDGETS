@@ -27,7 +27,7 @@ State.init({
   imageUrl: null,
 });
 
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const profile = props.profile ?? Social.getr(`${state.owner}/profile`);
 
 const currentChainProps = {
   near: {
