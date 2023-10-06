@@ -19,12 +19,12 @@ return (
       </div>
       <div className="col">
         <h2>sandboxed</h2>
-        {/*<Widget
+        <Widget
           id="sandboxed"
           src="andyh.near/widget/StateDemoRoot"
           trust={{ mode: "sandboxed" }}
           props={{ title: "State across Sandboxed Components" }}
-        />*/}
+        />
       </div>
     </div>
   </>
