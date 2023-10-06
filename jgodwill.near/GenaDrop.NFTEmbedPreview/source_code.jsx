@@ -710,8 +710,7 @@ return (
                   color: "#0d99ff",
                 }}
               >
-                Owner
-                {ownerName || "owner_here"}
+                {ownerName || "Owner"}
               </p>
               <a
                 target="_blank"
