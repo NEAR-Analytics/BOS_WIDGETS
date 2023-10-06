@@ -38,6 +38,7 @@ const accounts = Object.keys(data)
       href={`mob.near/widget/ProfilePage?accountId=${accountId}`}
     >
       <img
+        loading="lazy"
         src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${accountId}`}
         alt={accountId}
       />
