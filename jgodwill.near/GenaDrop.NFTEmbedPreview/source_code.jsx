@@ -448,7 +448,8 @@ const TopImageContainer = styled.div`
   background: #ffffff;
     width: 50%;
     min-width: 355px;
-  border: 2px solid #cacdd5;
+  // border: 2px solid #cacdd5;
+  border: 4px solid rgba(13, 154, 255, 0.317);
   margin-right: 20px;
   box-shadow: 2px 7px 22px rgba(28, 27, 28, 0.1);
   border-radius: 0.7em;
@@ -681,66 +682,69 @@ return (
       <TopSection>
         <TopImageContainer>
           <HeaderText>{state.title || "AI Sunset"}</HeaderText>
-          <img
-            src={
-              src ||
-              "https://genadrop.mypinata.cloud/ipfs/QmZbtU8RnMymJAJRpTriZgDXVeeCpm5RyXMJNquGoVc4Rb"
-            }
-            alt="NFT"
-            width="100%"
-            height="100%"
-            className="rounded-3"
-          />
-          <div
-            style={{
-              display: "flex",
-              marginTop: "10px",
-              justifyContent: "space-between",
-            }}
-          >
-            <p
+          <Description>
+            <img
+              src={
+                src ||
+                "https://genadrop.mypinata.cloud/ipfs/QmZbtU8RnMymJAJRpTriZgDXVeeCpm5RyXMJNquGoVc4Rb"
+              }
+              alt="NFT"
+              width="100%"
+              height="100%"
+              className="rounded-3"
+            />
+            <div
               style={{
-                marginBottom: "0.5em",
-                fontSize: "0.85rem",
-                color: "#0d99ff",
+                display: "flex",
+                marginTop: "10px",
+                justifyContent: "space-between",
               }}
             >
-              Owner
-            </p>
-            <a
-              target="_blank"
-              style={{ textDecoration: "none" }}
-              href={
-                state.owner && tokenId
-                  ? currentChainProps[props.chainState]?.explorer + state.owner
-                  : "#"
-              }
-            >
-              <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
-                {state.owner?.length > 25
-                  ? state.owner.slice(0, 8) + "..." + state.owner.slice(34)
-                  : state.owner?.length < 25
-                  ? state.owner.slice(0, 12) + "...near"
-                  : !state.owner && tokenId
-                  ? "----"
-                  : "genadrop-contract.nftgen.near".slice(0, 8) +
-                    "..." +
-                    "near"}
-              </span>
-            </a>
-          </div>
-        <RightSection>
-          <Description>
-            <h6>Description</h6>
-            <span>
-              {state.description
-                ? state.description
-                : tokenId && !state.description
-                ? "--No Description--"
-                : "Ai generated sunset cliffs"}
-            </span>
+              <p
+                style={{
+                  marginBottom: "0.5em",
+                  fontSize: "0.85rem",
+                  color: "#0d99ff",
+                }}
+              >
+                Owner
+              </p>
+              <a
+                target="_blank"
+                style={{ textDecoration: "none" }}
+                href={
+                  state.owner && tokenId
+                    ? currentChainProps[props.chainState]?.explorer +
+                      state.owner
+                    : "#"
+                }
+              >
+                <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
+                  {state.owner?.length > 25
+                    ? state.owner.slice(0, 8) + "..." + state.owner.slice(34)
+                    : state.owner?.length < 25
+                    ? state.owner.slice(0, 12) + "...near"
+                    : !state.owner && tokenId
+                    ? "----"
+                    : "genadrop-contract.nftgen.near".slice(0, 8) +
+                      "..." +
+                      "near"}
+                </span>
+              </a>
+            </div>
           </Description>
-          {/*          <Description>
+          <RightSection>
+            <Description>
+              <h6>Description</h6>
+              <span>
+                {state.description
+                  ? state.description
+                  : tokenId && !state.description
+                  ? "--No Description--"
+                  : "Ai generated sunset cliffs"}
+              </span>
+            </Description>
+            {/*          <Description>
             <h6>Attributes</h6>
             <AttributeContainer>
               {state.attributes ? (
@@ -770,40 +774,40 @@ return (
               )}
             </AttributeContainer>
           </Description>*/}
-          <Description>
-            <h6>Details</h6>
-            <MintDetails>
-              <span>Mint Address</span>
-              <a
-                target="_blank"
-                href={
-                  state.owner && tokenId
-                    ? currentChainProps[props.chainState]?.explorer +
-                      state.owner
-                    : "#"
-                }
-              >
-                {state.owner?.length > 25
-                  ? state.owner.slice(0, 8) + "..." + state.owner.slice(34)
-                  : state.owner?.length < 25
-                  ? state.owner.slice(0, 12) + "...near"
-                  : !state.owner && tokenId
-                  ? "----"
-                  : "genadrop-contract.nftgen.near".slice(0, 8) +
-                    "..." +
-                    "near"}
-              </a>
-            </MintDetails>
-          </Description>
-          {state.error && (
-            <div className="bg-danger p-2 mt-4 rounded">
-              <p className="text-center text-white pt-2">
-                Something went wrong when trying to Buy, Please make sure you
-                are connected to the correct chain and have enough gas
-              </p>
-            </div>
-          )}
-        </RightSection>
+            <Description>
+              <h6>Details</h6>
+              <MintDetails>
+                <span>Mint Address</span>
+                <a
+                  target="_blank"
+                  href={
+                    state.owner && tokenId
+                      ? currentChainProps[props.chainState]?.explorer +
+                        state.owner
+                      : "#"
+                  }
+                >
+                  {state.owner?.length > 25
+                    ? state.owner.slice(0, 8) + "..." + state.owner.slice(34)
+                    : state.owner?.length < 25
+                    ? state.owner.slice(0, 12) + "...near"
+                    : !state.owner && tokenId
+                    ? "----"
+                    : "genadrop-contract.nftgen.near".slice(0, 8) +
+                      "..." +
+                      "near"}
+                </a>
+              </MintDetails>
+            </Description>
+            {state.error && (
+              <div className="bg-danger p-2 mt-4 rounded">
+                <p className="text-center text-white pt-2">
+                  Something went wrong when trying to Buy, Please make sure you
+                  are connected to the correct chain and have enough gas
+                </p>
+              </div>
+            )}
+          </RightSection>
         </TopImageContainer>
       </TopSection>
     </MainContainer>
