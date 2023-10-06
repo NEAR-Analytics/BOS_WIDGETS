@@ -4,7 +4,6 @@ let resultLibCalls = [];
 
 function isValidUser(props) {
   const { accountId, sbtsNames } = props;
-  // console.log(0, accountId);
   const userSBTs = Near.view(
     "registry.i-am-human.near",
     "sbt_tokens_by_owner",
@@ -12,9 +11,11 @@ function isValidUser(props) {
       account: accountId,
     }
   );
+  console.log("userSBTs: ", userSBTs);
 
   const result =
     userSBTs.find((sbt) => {
+      console.log("sbt: ", sbt);
       return sbt[0] === sbtsNames[0];
     }) !== undefined;
   resultLibCalls = resultLibCalls.filter((call) => {
