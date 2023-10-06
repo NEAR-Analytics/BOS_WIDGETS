@@ -623,7 +623,7 @@ const UserLink = ({ title, src, selected, winnerId }) => (
     >
       <Icon className="bi bi-arrow-up-right" />
       {state.winnerIds.includes(title) && (
-        <Winner className="bi bi-trophy-fill p-1 mr-2 text-success" />
+        <Winner className="bi bi-trophy-fill pr-3 text-success" />
       )}
     </UserIcons>
   </div>
