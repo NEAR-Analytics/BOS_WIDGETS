@@ -1,9 +1,4 @@
 const SectionPill = ({ name }) => {
-  const [data, setData] = useState("nothing :U");
-  useEffect(() => {
-    setData("Jabolo!");
-  }, []);
-
   const PillContainer = styled.div`
     display: flex;
     width: min-content;
@@ -68,6 +63,11 @@ const SectionDetial = ({ text }) => {
 };
 
 const WhatIsBOS = () => {
+  const [data, setData] = useState("nothing :U");
+  useEffect(() => {
+    setData("Jabolo!");
+  }, []);
+
   const Container = styled.div`
     padding: 154px 120px;
     display: flex;
