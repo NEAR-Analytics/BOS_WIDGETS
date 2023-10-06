@@ -10,7 +10,7 @@ if (!data || !data1 || !data2 || !data3) {
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  > div {
+  a {
     width: 3em;
     height: 3em;
     display: inline-block;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
       width: 100%;
       height: 100%;
       object-fit: cover;
-    } 
+    }
   }
 `;
 
@@ -33,13 +33,15 @@ const withImgs = new Set([
 const accounts = Object.keys(data)
   .filter((accountId) => withImgs.has(accountId))
   .map((accountId) => (
-    <div>
+    <a
+      title={accountId}
+      href={`mob.near/widget/ProfilePage?accountId=${accountId}`}
+    >
       <img
         src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${accountId}`}
         alt={accountId}
-        title={accountId}
       />
-    </div>
+    </a>
   ));
 
 return <Wrapper>{accounts}</Wrapper>;
