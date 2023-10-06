@@ -29,10 +29,11 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
 }
 
 function fetchContentType(url) {
+       console.log(url);
   try {
     if (url.includes("arweave")) {
       // Handle Arweave URLs
-      console.log(url);
+      console.log("ar: " + url);
       fetch(url, { method: "HEAD" })
         .then((response) => {
           const contentType = response.headers.get("Content-Type");
