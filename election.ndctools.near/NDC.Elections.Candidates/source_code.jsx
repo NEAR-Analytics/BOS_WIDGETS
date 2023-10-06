@@ -623,7 +623,7 @@ const UserLink = ({ title, src, selected, winnerId }) => (
     >
       <Icon className="bi bi-arrow-up-right" />
       {state.winnerIds.includes(title) && (
-        <Winner className="bi bi-trophy-fill pr-3 text-success" />
+        <Winner className="bi bi-trophy-fill p-1 text-success" />
       )}
     </UserIcons>
   </div>
@@ -640,7 +640,7 @@ const Loader = () => (
 const CandidateItem = ({ candidateId, votes }) => (
   <div>
     <CandidateItemRow
-      className="d-flex align-items-center justify-content-between"
+      className="d-flex align-items-center justify-content-between gap-2"
       selected={state.selected === candidateId}
       filtered={candidateFilterId.includes(candidateId)}
       disqualified={state.disqualifiedIds.includes(candidateId)}
