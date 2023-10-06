@@ -52,11 +52,6 @@ function getWritersWhitelist(env) {
       "kiskesis.near",
       "davletuner.near",
       "woben.near",
-      "odins_eyehole.near",
-      "rexux.near",
-      "louisliu.near",
-      "auroracfo.near"
-      "as.near",
     ];
   }
 }
