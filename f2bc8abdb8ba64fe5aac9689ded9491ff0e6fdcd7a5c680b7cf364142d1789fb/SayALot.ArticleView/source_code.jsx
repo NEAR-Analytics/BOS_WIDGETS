@@ -613,7 +613,7 @@ return (
                           onClick: () =>
                             handleShareButton(true, {
                               type: "sharedBlockHeight",
-                              value: data.blockHeight,
+                              value: articleToRenderData.blockHeight,
                             }),
                         },
                       }}
