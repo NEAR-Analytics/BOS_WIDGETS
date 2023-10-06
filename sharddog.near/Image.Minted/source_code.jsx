@@ -12,13 +12,10 @@ if (props.timestamp) {
   const humanReadableDate = date.toLocaleString();
   timestamp = humanReadableDate;
 }
-
 State.init({
   image,
-  modalMediaUrl: null,
+  modalMediaUrl: null, // Rename to modalMediaUrl
   showModal: false,
-  isVideo: false,
-  isLoading: true,
 });
 
 if (JSON.stringify(image) !== JSON.stringify(state.image)) {
@@ -28,44 +25,12 @@ if (JSON.stringify(image) !== JSON.stringify(state.image)) {
   });
 }
 
-function fetchContentType(url) {
-  try {
-    if (url.includes("arweave")) {
-      // Handle Arweave URLs
-      console.log(url);
-      asyncFetch(url, { method: "HEAD" })
-        .then((response) => {
-          const contentType = response.headers.get("Content-Type");
-          const isVideo = contentType && contentType.startsWith("video/");
-          State.update({ isVideo, isLoading: false });
-        })
-        .catch((error) => {
-          console.log("Error:" + error);
-          State.update({ isLoading: false });
-        });
-    } else {
-      // Handle IPFS URLs
-      const segments = url.split("/");
-      const newURL =
-        "https://" + segments[segments.length - 1] + ".ipfs.nftstorage.link/";
-      console.log(newURL);
-
-      asyncFetch(newURL, { method: "HEAD" })
-        .then((response) => {
-          const contentType = response.headers.get("Content-Type");
-          const isVideo = contentType && contentType.startsWith("video/");
-          State.update({ isVideo, isLoading: false });
-        })
-        .catch((error) => {
-          console.log("Error:" + error);
-          State.update({ isLoading: false });
-        });
-    }
-  } catch (error) {
-    console.log("Error fetching content type:", error);
-    //State.update({ isLoading: false });
-  }
+const response = fetch(image.url, { method: "HEAD" });
+if (!response) {
+  return <p>Loading...</p>;
 }
+const contentType = response["contentType"];
+const isVideo = contentType.startsWith("video/");
 
 function toUrl(image) {
   const url =
@@ -73,23 +38,18 @@ function toUrl(image) {
       ? `https://ipfs.near.social/ipfs/${image.ipfs_cid}`
       : image.url) || fallbackUrl;
 
-  // Fetch the content type to determine if the file is a video
-  //fetchContentType(url);
-
   return url;
 }
 
-fetchContentType(toUrl(image));
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
     : imageUrl;
 
-return (
+return image.nft.contractId && image.nft.tokenId (
+ 
   <>
-    {state.isLoading ? (
-      <div>Loading...</div> // Show a loading placeholder or spinner
-    ) : state.isVideo ? (
+    {isVideo ? (
       <video
         className={className}
         controls
@@ -137,7 +97,7 @@ return (
         >
           <div className="modal-content">
             <div className="modal-body">
-              {state.isVideo ? (
+              {isVideo ? (
                 <video
                   src={state.modalMediaUrl}
                   className="img-fluid"
@@ -160,4 +120,5 @@ return (
       </div>
     )}
   </>
+
 );
