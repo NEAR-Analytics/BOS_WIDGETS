@@ -63,7 +63,8 @@ const LinktreeLinks = styled.div`
       }
 
       :hover {
-        background-color:#FFD1DC;
+        background-color:#505050;
+        color:#FFD1DC;
         opacity:.8;
       }
     }
