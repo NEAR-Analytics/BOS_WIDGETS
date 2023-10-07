@@ -12,7 +12,7 @@ const TagsSection = styled.div`
       background-color: rgba(255, 209, 220, .2);
       border: 2px solid rgba(255, 209, 220, .4);
       font-weight: 700;
-      color:#fff;
+      color:#505050;
     }
   }
 `;
@@ -27,7 +27,7 @@ const Linktree = styled.div`
   height:100vh;
   background-color:#F7F7F7;
   border-radius:20px;
-  color:#fff;
+  color:#505050;
 
   > a img {
     box-shadow: 0 0 0 10px rgba(255, 209, 220, .2);
