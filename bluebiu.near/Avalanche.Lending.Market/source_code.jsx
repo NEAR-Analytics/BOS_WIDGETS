@@ -206,12 +206,12 @@ return (
           }}
         >
           <Item className="td w_50">
-            $
             <Widget
               src="bluebiu.near/widget/Avalanche.Lending.Total"
               props={{
                 total: market.totalSupply,
                 digit: 2,
+                unit: "$",
               }}
             />
           </Item>
@@ -224,23 +224,23 @@ return (
           }}
         >
           <Item className="td w_33">
-            $
             <Widget
               src="bluebiu.near/widget/Avalanche.Lending.Total"
               props={{
                 total: market.totalBorrows,
                 digit: 2,
+                unit: "$",
               }}
             />
           </Item>
           <Item className="td w_33">{market.borrowApy}</Item>
           <Item className="td w_33">
-            $
             <Widget
               src="bluebiu.near/widget/Avalanche.Lending.Total"
               props={{
                 total: market.liquidity,
                 digit: 2,
+                unit: "$",
               }}
             />
           </Item>
