@@ -3,6 +3,8 @@ const TagsSection = styled.div`
   gap: 24px;
 
   ul {
+    justify-content:center;
+
     li {
       padding: 7px 15px;
       background-color: rgba(0,0,0,.02);
@@ -164,9 +166,18 @@ const LinktreeLinks = styled.div`
     text-align:center;
     
     button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border-radius:30px;
       max-width:230px;
       background-color:#000;
+      padding: 10px;
+      font-weight: 500;
+
+      i {
+        font-size:1.4rem;
+      }
 
       :hover {
         background-color:#000;
