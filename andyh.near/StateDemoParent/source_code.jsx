@@ -14,7 +14,6 @@ return (
   <div>
     <Widget
       id={id}
-      trust={{ mode: "trusted" }}
       src="andyh.near/widget/ShapeSet"
       props={{
         circle,
