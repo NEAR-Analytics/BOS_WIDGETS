@@ -10,9 +10,9 @@ const SectionHeroStyle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 800px;
+  width: 858px;
   height: 224px;
-  max-width: 800px;
+  max-width: 858px;
   padding: 0px 5px;
 
   .hero-container {
