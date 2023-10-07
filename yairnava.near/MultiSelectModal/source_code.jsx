@@ -49,6 +49,10 @@ const handleSelectBin = (b) => {
   }
 };
 
+const getPoolsSelected = () => {
+    return state.allBins.filter((b) => b.selected).length;
+}
+
 return (
   <div
     style={{
@@ -84,7 +88,7 @@ return (
           placeContent: "space-between flex-start",
         }}
       >
-        <div>0 Bins Selected</div>
+        <div>{getPoolsSelected()} Bins Selected</div>
         <div style={{ float: "right", right: "16px", position: "absolute" }}>
           <button
             style={{
