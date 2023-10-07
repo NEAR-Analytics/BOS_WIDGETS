@@ -11,7 +11,8 @@ const AVAILABLE_THEMES = {
   dark: "Dark",
   gold: "Gold",
   blossom: "Blossom",
-  vibrant: "Vibrant"
+  vibrant: "Vibrant",
+  aqua: "Aqua"
 };
 const themeName =
   theme in AVAILABLE_THEMES
