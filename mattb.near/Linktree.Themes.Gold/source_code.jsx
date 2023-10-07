@@ -49,10 +49,10 @@ const LinktreeLinks = styled.div`
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius:30px;
+      border-radius:10px;
       max-width:230px;
       background-color:#A67D3D;
-      padding: 10px;
+      padding: 7px;
       font-weight: 500;
       border:0;
       color:#fff;
