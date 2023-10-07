@@ -9,8 +9,8 @@ const TagsSection = styled.div`
 
     li {
       padding: 7px 15px;
-      background-color: rgba(255,255,255,.02);
-      border: 2px solid rgba(255,255,255,.05);
+      background-color: rgba(133, 100, 49, .02);
+      border: 2px solid rgba(133, 100, 49, .05);
       font-weight: 700;
     }
   }
@@ -27,10 +27,9 @@ const Linktree = styled.div`
   background-color:#000;
   border-radius:20px;
   color:#fff;
-  font-family: Times New Roman;
 
   > a img {
-    box-shadow: 0 0 0 10px rgba(255,255,255,.05);
+    box-shadow: 0 0 0 10px rgba(133, 100, 49, .05);
   }
 `;
 
