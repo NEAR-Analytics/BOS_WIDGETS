@@ -70,7 +70,7 @@ const Linktree = styled.div`
   color:#505050;
 
   > a img {
-    box-shadow: 0 0 0 10px rgba(0, 121, 107, .2);
+    box-shadow: 0 0 0 10px rgba(255,255,255, .2);
   }
 `;
 
