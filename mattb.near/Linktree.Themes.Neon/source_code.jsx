@@ -42,8 +42,7 @@ const Linktree = styled.div`
   color:#fff;
 
   > a img {
-    border: 8px solid #2196F3;
-    box-shadow: 0 0 10px 10px #1552835c;
+    box-shadow: 0 0 10px 10px #d52f6763;
   }
 `;
 
