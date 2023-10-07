@@ -120,12 +120,12 @@ const renderTotal = (record, key, isSpecialKey) => {
   return (
     <div className={`${isSpecialKey && "special-total"}`}>
       <Total>
-        $
         <Widget
           src="bluebiu.near/widget/Avalanche.Lending.Total"
           props={{
             total: totalReverse ? record[key] : record[`${key}_value`],
             digit: 2,
+            unit: "$",
           }}
         />
       </Total>
