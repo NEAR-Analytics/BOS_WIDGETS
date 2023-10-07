@@ -1,4 +1,5 @@
-const { total, digit, unit } = props;
+const { total, digit } = props;
+const unit = props.unit || "";
 if (total === "-") return "-";
 if (!total) return unit + "0";
 const BTotal = Big(total);
