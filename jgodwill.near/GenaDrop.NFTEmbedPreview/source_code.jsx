@@ -736,6 +736,13 @@ return (
               </a>
             </div>
           </Description>
+          {props.chainState ? (
+            <Logo>
+              <img src={currentChainProps[props.chainState]?.img} />
+            </Logo>
+          ) : (
+            <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
+          )}
           <RightSection>
             <Description>
               <h6>Description</h6>
@@ -747,36 +754,6 @@ return (
                   : "Ai generated sunset cliffs"}
               </span>
             </Description>
-            {/*          <Description>
-            <h6>Attributes</h6>
-            <AttributeContainer>
-              {state.attributes ? (
-                state.attributes.map((data) => (
-                  <Attribute>
-                    <div>
-                      <span style={{ color: "#b2b7c2" }}>File Type</span>
-                      <p style={{ marginTop: "10px" }}>{data.type}</p>
-                    </div>
-                    <div>
-                      <span style={{ color: "#b2b7c2" }}>Rarity</span>
-                      <p style={{ marginTop: "10px" }}>{data.rarity}%</p>
-                    </div>
-                  </Attribute>
-                ))
-              ) : (
-                <Attribute>
-                  <div>
-                    <span style={{ color: "#b2b7c2" }}>File Type</span>
-                    <p style={{ marginTop: "10px" }}>PNG</p>
-                  </div>
-                  <div>
-                    <span style={{ color: "#b2b7c2" }}>Rarity</span>
-                    <p style={{ marginTop: "10px" }}>1%</p>
-                  </div>
-                </Attribute>
-              )}
-            </AttributeContainer>
-          </Description>*/}
             <Description>
               <h6>Details</h6>
               <MintDetails>
