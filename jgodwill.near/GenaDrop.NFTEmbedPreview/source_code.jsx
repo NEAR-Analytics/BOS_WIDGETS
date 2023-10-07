@@ -504,7 +504,7 @@ const HeaderText = styled.h1`
 
 const Logo = styled.div`
     &>img {
-        width: 40px;
+        width: 30px;
         margin-right: 5px;
     }
 `;
@@ -696,7 +696,12 @@ return (
                 <img src={currentChainProps[props.chainState]?.img} />
               </Logo>
             ) : (
-              <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
+              <Logo>
+                <Widget
+                  src="jgodwill.near/widget/GenaDrop.NearLogo"
+                  props={{ width: 25 }}
+                />
+              </Logo>
             )}
           </div>
           <Description>
