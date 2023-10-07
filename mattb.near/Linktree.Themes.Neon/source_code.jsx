@@ -55,14 +55,9 @@ const LinktreeLinks = styled.div`
       background-color:transparent;
       padding: 10px;
       border:0;
-      color:#fff;
       text-transform:uppercase;
-      border: 4px solid #FF4081;
-      box-shadow: 0 0 5px 5px #d52f6763;
-      text-transform: uppercase;
-      color: #FF4081;
-      font-weight: bold;
       letter-spacing:2px;
+      font-weight: bold;
 
       i {
         font-size:1.4rem;
@@ -73,6 +68,22 @@ const LinktreeLinks = styled.div`
         background-color:transparent;
         opacity:.8;
       }
+    }
+
+    &:nth-child(even) {
+        button {
+            border: 4px solid #2196F3;
+            box-shadow: 0 0 5px 5px #1552835c;
+            color: #2196F3;
+        }
+    }
+
+    &:nth-child(odd) {
+        button {
+            border: 4px solid #FF4081;
+            box-shadow: 0 0 5px 5px #d52f6763;
+            color: #FF4081;
+        }
     }
   }
 `;
