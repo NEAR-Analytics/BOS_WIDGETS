@@ -12,7 +12,8 @@ const AVAILABLE_THEMES = {
   gold: "Gold",
   blossom: "Blossom",
   vibrant: "Vibrant",
-  aqua: "Aqua"
+  aqua: "Aqua",
+  neon: "Neon",
 };
 const themeName =
   theme in AVAILABLE_THEMES
