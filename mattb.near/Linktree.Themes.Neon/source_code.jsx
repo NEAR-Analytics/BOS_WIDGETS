@@ -14,13 +14,13 @@ const TagsSection = styled.div`
       background-color:transparent;
 
       &:nth-child(odd) {
-        border: 4px solid #2196F3;
+        border: 2px solid #2196F3;
         box-shadow: inset 0 0 5px 5px #1552835c, 0 0 5px 5px #1552835c;
         color: #2196F3;
       }
 
       &:nth-child(even) {
-        border: 4px solid #FF4081;
+        border: 2px solid #FF4081;
         box-shadow: inset 0 0 5px 5px #d52f6763, 0 0 5px 5px #d52f6763;
         color: #FF4081;
       }
