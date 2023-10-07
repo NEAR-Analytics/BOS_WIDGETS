@@ -111,42 +111,50 @@ const LinktreeLinks = styled.div`
     }
 
     &:nth-child(1) {
-        background-color:#FFDB58;
-        color:#505050;
+        button {
+            background-color:#FFDB58;
+            color:#505050;
 
-        &:hover {
-            color:#FFDB58;
-            background-color:#505050;
+            &:hover {
+                color:#FFDB58;
+                background-color:#505050;
+            }
         }
     }
 
     &:nth-child(2) {
-        background-color:#FFB6C1;
-        color: #008B45;
+        button {
+            background-color:#FFB6C1;
+            color: #008B45;
 
-        &:hover {
-            color:#FFB6C1;
-            background-color: #008B45;
+            &:hover {
+                color:#FFB6C1;
+                background-color: #008B45;
+            }
         }
     }
 
     &:nth-child(3) {
-        background-color:#FF6F61;
-        color:#fff;
+        button {
+            background-color:#FF6F61;
+            color:#fff;
 
-        &:hover {
-            color:#FF6F61;
-            background-color:#fff;
+            &:hover {
+                color:#FF6F61;
+                background-color:#fff;
+            }
         }
     }
 
     &:nth-child(4) {
-        background-color:#0047AB;
-        color:#FF69B4;
+        button {
+            background-color:#0047AB;
+            color:#FF69B4;
 
-        &:hover {
-            color:#0047AB;
-            background-color:#FF69B4;
+            &:hover {
+                color:#0047AB;
+                background-color:#FF69B4;
+            }
         }
     }
   }
