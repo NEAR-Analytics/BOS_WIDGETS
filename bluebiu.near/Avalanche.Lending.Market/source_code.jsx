@@ -88,7 +88,7 @@ State.init({
 
 const { currentDapp, markets, dapps, onButtonClick } = props;
 
-const formatData = (sortKey) => {
+const formateData = (sortKey) => {
   const marketsToList = Object.values(markets);
   const data = marketsToList
     .filter((market) => currentDapp === "All" || market.dapp === currentDapp)
@@ -119,7 +119,7 @@ const prevMarketTimestamp = Storage.privateGet("prevMarketTimestampMarket");
 
 if (prevMarketTimestamp !== props.timestamp) {
   if (markets) {
-    formatData(state.sortKey);
+    formateData(state.sortKey);
     Storage.privateSet("prevMarketTimestampMarket", props.timestamp);
   }
 }
