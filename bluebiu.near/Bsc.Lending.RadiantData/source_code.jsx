@@ -763,7 +763,6 @@ const getUserRevervesData = () => {
         usageAsCollateralEnabledOnUser,
         scaledVariableDebt,
         aTokenBalance,
-        userMerberShip: usageAsCollateralEnabledOnUser,
       };
     });
 
@@ -826,11 +825,6 @@ if (
     userLoading,
     ...marketData
   } = state;
-
-  userData.parsedData.forEach((d) => {
-    const { address } = d;
-    marketData[address].userMerberShip = d.userMerberShip;
-  });
 
   let netApy = Big(0);
 
