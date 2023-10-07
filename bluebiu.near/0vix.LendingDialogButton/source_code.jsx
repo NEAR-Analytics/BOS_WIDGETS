@@ -387,7 +387,7 @@ return (
         });
         const handleSuccess = (tx, type) => {
           tx.wait().then((res) => {
-            const { status } = res;
+            const { status, transactionHash } = res;
             State.update({
               loading: false,
             });
