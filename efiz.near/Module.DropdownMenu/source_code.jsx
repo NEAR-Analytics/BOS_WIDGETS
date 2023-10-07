@@ -1,4 +1,5 @@
 function DropdownMenu({ Trigger, items }) {
+  const Item = item.Item || (() => {});
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -9,7 +10,7 @@ function DropdownMenu({ Trigger, items }) {
           items.map((item, index) => {
             return (
               <DropdownMenu.Item key={index} onSelect={item.onSelect}>
-                {item.Children}
+                <Item />
               </DropdownMenu.Item>
             );
           })}
