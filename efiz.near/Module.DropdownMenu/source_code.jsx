@@ -1,5 +1,4 @@
-function DropdownMenu({ Trigger, items }) {
-  const Item = item.Item || (() => {});
+function DropdownMenu({ Trigger, Item, items }) {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
