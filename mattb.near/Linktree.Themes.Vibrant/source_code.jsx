@@ -34,7 +34,7 @@ const Linktree = styled.div`
   color:#283593;
 
   > a img {
-    box-shadow: 0 0 0 10px rgba(255,255,255, .2);
+    box-shadow: 0 0 0 10px #fff;
   }
 `;
 
