@@ -10,6 +10,8 @@ const TagsSection = styled.div`
     li {
       padding: 7px 15px;
       background-color: #fff;
+      border:0;
+      border-radius:0;
       font-weight: 700;
       color:#283593;
       transform: skewX(10deg);
@@ -50,7 +52,7 @@ const LinktreeLinks = styled.div`
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius:30px;
+      border-radius:0;
       max-width:230px;
       background-color:#fff;
       padding: 10px;
