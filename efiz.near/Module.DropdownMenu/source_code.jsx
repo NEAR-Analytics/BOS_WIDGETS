@@ -9,8 +9,8 @@ function DropdownMenu({ Trigger, items }) {
         {items &&
           items.map((item, index) => {
             return (
-              <DropdownMenu.Item key={index} onSelect={item.onSelect}>
-                <Item />
+              <DropdownMenu.Item key={index}>
+                <Item label={item.label} onSelect={item.onSelect} />
               </DropdownMenu.Item>
             );
           })}
