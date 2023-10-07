@@ -504,7 +504,7 @@ const HeaderText = styled.h1`
 
 const Logo = styled.div`
     &>img {
-        width: 20px;
+        width: 40px;
         margin-right: 5px;
     }
 `;
