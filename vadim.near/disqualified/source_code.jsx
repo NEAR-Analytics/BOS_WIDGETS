@@ -3,7 +3,7 @@ const disqualified = fetch(
 );
 if (disqualified.ok) {
   State.update({ disqualified: disqualified.body.split("\n") });
-}
+} else return "Loading";
 
 const data = fetch(
   "https://raw.githubusercontent.com/zavodil/near-nft-owners-list/main/output_election_votes.txt"
