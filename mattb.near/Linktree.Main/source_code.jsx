@@ -10,7 +10,8 @@ const AVAILABLE_THEMES = {
   default: "Default",
   dark: "Dark",
   gold: "Gold",
-  blossom: "Blossom"
+  blossom: "Blossom",
+  vibrant: "Vibrant"
 };
 const themeName =
   theme in AVAILABLE_THEMES
