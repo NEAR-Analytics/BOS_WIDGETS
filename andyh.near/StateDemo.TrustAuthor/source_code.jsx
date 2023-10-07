@@ -9,9 +9,9 @@ return (
     </div>
     <div className="row">
       <div className="col">
-        <h2>trusted</h2>
+        <h2>trusted author</h2>
         <Widget
-          id="trusted"
+          id="trusted-author"
           src="andyh.near/widget/StateDemoRoot"
           trust={{ mode: "trust-author" }}
           props={{ title: "State within Trusted Components" }}
