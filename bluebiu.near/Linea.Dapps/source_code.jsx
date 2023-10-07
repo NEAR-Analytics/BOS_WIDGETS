@@ -3,7 +3,9 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 30px 36px;
   color: #fff;
-  padding: 0 12px;
+  @media (max-width: 900px) {
+    padding: 0 12px;
+  }
 `;
 
 const Search = styled.div`
@@ -70,20 +72,19 @@ const dapps = [
     icon: "https://ipfs.near.social/ipfs/bafkreicjziybpod3isxnkw3q6w4ld57bacs4hddmipzx57k6ebv4wtzx4e",
     tags: ["Dexes"],
   },
-
-  {
-    src: "bluebiu.near/widget/Linea.Liquidity.GAMMA.GAMMA",
-    bannerImg:
-      "https://ipfs.near.social/ipfs/bafkreih77ecmgng2fpy6mblk2aipt3agwm3anjldcyktx2j6kssggpelue",
-    icon: "https://ipfs.near.social/ipfs/bafkreial4i3eb5uuxkhecn7nwos76km3qvb7jzxmups57rkxizr5i7dyaa",
-    tags: ["Liquidity Manage"],
-  },
   {
     src: "bluebiu.near/widget/Linea.Lending",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreifbxs3ubqbl3wjpk33bzzdhmosybmwr6dglmh3h463yjyxrne6tni",
     icon: "https://ipfs.near.social/ipfs/bafkreih42ufviwxtxk5oab24mdt46gm73jbhm5rhxsyq6l6fqngt5zc424",
     tags: ["Lending"],
+  },
+  {
+    src: "bluebiu.near/widget/Linea.Liquidity.GAMMA.GAMMA",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreih77ecmgng2fpy6mblk2aipt3agwm3anjldcyktx2j6kssggpelue",
+    icon: "https://ipfs.near.social/ipfs/bafkreial4i3eb5uuxkhecn7nwos76km3qvb7jzxmups57rkxizr5i7dyaa",
+    tags: ["Liquidity Manage"],
   },
 ];
 
