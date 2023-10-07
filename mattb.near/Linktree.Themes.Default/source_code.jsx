@@ -161,6 +161,7 @@ const LinktreeLinks = styled.div`
   gap:8px;
   width:100%;
   max-width:400px;
+  margin-top:1rem;
 
   a {
     text-align:center;
