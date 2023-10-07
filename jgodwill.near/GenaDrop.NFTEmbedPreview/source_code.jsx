@@ -455,6 +455,11 @@ const TopImageContainer = styled.div`
   margin-right: 20px;
   box-shadow: 2px 7px 22px rgba(28, 27, 28, 0.1);
   border-radius: 0.7em;
+  .Top-section{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 .4rem;
+  }
   &>img {
     width: 100%;
   }
@@ -684,7 +689,16 @@ return (
     <MainContainer>
       <TopSection>
         <TopImageContainer>
-          <HeaderText>{state.title || "AI Sunset"}</HeaderText>
+          <div className="Top-section">
+            <HeaderText>{state.title || "AI Sunset"}</HeaderText>
+            {props.chainState ? (
+              <Logo>
+                <img src={currentChainProps[props.chainState]?.img} />
+              </Logo>
+            ) : (
+              <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
+            )}
+          </div>
           <Description>
             <img
               src={
@@ -736,13 +750,6 @@ return (
               </a>
             </div>
           </Description>
-          {props.chainState ? (
-            <Logo>
-              <img src={currentChainProps[props.chainState]?.img} />
-            </Logo>
-          ) : (
-            <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
-          )}
           <RightSection>
             <Description>
               <h6>Description</h6>
