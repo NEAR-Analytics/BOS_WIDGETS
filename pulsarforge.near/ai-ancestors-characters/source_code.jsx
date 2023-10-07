@@ -1,5 +1,5 @@
 State.init({
-  queryPlanet: "",
+  queryPlanet: "Strong",
 });
 const handleInputChange = (event) => {
   State.update({ queryPlanet: event.target.value });
