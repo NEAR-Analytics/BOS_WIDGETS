@@ -3,7 +3,9 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 30px 36px;
   color: #fff;
-  padding: 0 12px;
+  @media (max-width: 900px) {
+    padding: 0 12px;
+  }
 `;
 
 const Search = styled.div`
@@ -70,17 +72,31 @@ const dapps = [
     icon: "https://ipfs.near.social/ipfs/bafkreihtp5vexzm2mul6jaqs2qwdy5th4ctmaj7tcqc6b43tebjq5rocku",
     tags: ["Dexes"],
   },
+  {
+    src: "bluebiu.near/widget/Arbitrum.Lending",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreigzufesirrjsbtqjcjlzt6m4rnyzhyzvh2732bn44h5vbpzsq67iq",
+    icon: "https://ipfs.near.social/ipfs/bafkreicoeaezefzsgadszuqjnzg5p7vh3zaou7h2phzdcwef4w7xmak3t4",
+    tags: ["Lending"],
+  },
+  {
+    src: "bluebiu.near/widget/Arbitrum.Pendle.TradeMarkets",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafybeiexzrgrlevy3x5gqr524tvhdf2owupafcnfgabr75rzuaullau3em",
+    icon: "https://ipfs.near.social/ipfs/bafkreibcsptbgmv2coqwhrr7o7sgtilcbztxl7ehrd32nck4vbnab772ua",
+    tags: ["Yield"],
+  },
 ];
 
 State.init({
   searchValue: "",
-}); // 初始化状态
+});
 
 const handleSearchChange = (e) => {
   const value = e.target.value;
   State.update({
     searchValue: value,
-  }); // 更新状态值
+  });
 };
 
 const metadataPromises = dapps.map(({ src }) =>
