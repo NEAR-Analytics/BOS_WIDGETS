@@ -9,10 +9,11 @@ const TagsSection = styled.div`
 
     li {
       padding: 7px 15px;
-      background-color: rgba(255,255,255, .2);
-      border: 2px solid rgba(255,255,255, .4);
+      background-color: #fff;
       font-weight: 700;
       color:#283593;
+      transform: skewX(10deg);
+      transform-origin:bottom;
     }
   }
 `;
@@ -57,6 +58,8 @@ const LinktreeLinks = styled.div`
       border:0;
       color:#283593;
       text-transform:uppercase;
+      transform: skewX(10deg);
+      transform-origin:bottom;
 
       i {
         font-size:1.4rem;
@@ -64,7 +67,7 @@ const LinktreeLinks = styled.div`
       }
 
       :hover {
-        background-color:#fff;
+        background-color:#283593;
         opacity:.8;
       }
     }
