@@ -14,18 +14,14 @@ const TagsSection = styled.div`
       color:#fff;
 
       &:nth-child(odd) {
-        button {
-            background-color: rgba(33, 150, 243, .2);
-            border: 2px solid rgba(33, 150, 243, .4);
-        }
-    }
+        background-color: rgba(33, 150, 243, .2);
+        border: 2px solid rgba(33, 150, 243, .4);
+      }
 
-    &:nth-child(even) {
-        button {
-            background-color: rgba(255, 64, 129, .2);
-            border: 2px solid rgba(255, 64, 129, .4);
-        }
-    }
+      &:nth-child(even) {
+        background-color: rgba(255, 64, 129, .2);
+        border: 2px solid rgba(255, 64, 129, .4);
+      }
     }
   }
 `;
