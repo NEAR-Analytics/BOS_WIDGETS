@@ -56,6 +56,7 @@ const LinktreeLinks = styled.div`
       font-weight: 500;
       border:0;
       color:#FFF5E1;
+      font-style:italic;
 
       i {
         font-size:1.4rem;
