@@ -11,7 +11,7 @@ const AVAILABLE_THEMES = {
   dark: "Dark",
 };
 const theme =
-  themeName in AVAILABLE_THEMES ? themeName : AVAILABLE_THEMES["default"];
+  themeName in AVAILABLE_THEMES ? AVAILABLE_THEMES[themeName] : AVAILABLE_THEMES["default"];
 
 const Theme = VM.require(`mattb.near/widget/Linktree.Themes.${theme}`);
 
