@@ -9,8 +9,8 @@ const TagsSection = styled.div`
 
     li {
       padding: 7px 15px;
-      background-color: rgba(133, 100, 49, .02);
-      border: 2px solid rgba(133, 100, 49, .05);
+      background-color: rgba(133, 100, 49, .2);
+      border: 2px solid rgba(133, 100, 49, .4);
       font-weight: 700;
     }
   }
