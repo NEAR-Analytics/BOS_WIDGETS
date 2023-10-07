@@ -177,6 +177,7 @@ const LinktreeLinks = styled.div`
 
       i {
         font-size:1.4rem;
+        margin-right:10px;
       }
 
       :hover {
