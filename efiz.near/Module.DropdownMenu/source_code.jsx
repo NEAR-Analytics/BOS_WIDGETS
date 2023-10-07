@@ -17,3 +17,5 @@ function DropdownMenu({ TriggerElement, TriggerChildren, items }) {
     </DropdownMenu.Root>
   );
 }
+
+return { DropdownMenu };
