@@ -86,6 +86,11 @@ const LinktreeLinks = styled.div`
             border: 4px solid #2196F3;
             box-shadow: inset 0 0 5px 5px #1552835c, 0 0 5px 5px #1552835c;
             color: #2196F3;
+
+            &:hover {
+                opacity:1;
+                box-shadow: inset 0 0 10px 10px #1552835c, 0 0 10px 10px #1552835c;
+            }
         }
     }
 
@@ -94,6 +99,11 @@ const LinktreeLinks = styled.div`
             border: 4px solid #FF4081;
             box-shadow: inset 0 0 5px 5px #d52f6763, 0 0 5px 5px #d52f6763;
             color: #FF4081;
+
+            &:hover {
+                opacity:1;
+                box-shadow: inset 0 0 10px 10px #d52f6763, 0 0 10px 10px #d52f6763;
+            }
         }
     }
   }
