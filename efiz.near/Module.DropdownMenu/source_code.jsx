@@ -1,15 +1,15 @@
-function DropdownMenu({ TriggerElement, TriggerChildren, items }) {
+function DropdownMenu({ Trigger, items }) {
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger as={TriggerElement}>
-        <TriggerChildren />
+      <DropdownMenu.Trigger>
+        <Trigger />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         {items &&
           items.map((item, index) => {
             return (
               <DropdownMenu.Item key={index} onSelect={item.onSelect}>
-                {item.Children}
+                {item.Item}
               </DropdownMenu.Item>
             );
           })}
@@ -17,5 +17,3 @@ function DropdownMenu({ TriggerElement, TriggerChildren, items }) {
     </DropdownMenu.Root>
   );
 }
-
-return { DropdownMenu };
