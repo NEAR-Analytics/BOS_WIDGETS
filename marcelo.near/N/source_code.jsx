@@ -139,7 +139,7 @@ const isPremiumFeed = state.feedIndex === "premium";
 
 return (
   <Wrapper className="row">
-    <p> test </p>
+    <p> Probando BOS </p>
     <div className="col-lg-8 b-e b-s">
       <Nav>
         <ul className="nav nav-pills nav-fill">
