@@ -38,7 +38,7 @@ useEffect(() => {
 
 return image.nft.contractId && image.nft.tokenId ? (
   <Widget
-    src={`${componentOwnerId}/widget/Calimero.Curb.ProfileIcon.FnFTImage`}
+    src={`${componentOwnerId}/widget/FNftImage`}
     props={{
       className,
       style,
