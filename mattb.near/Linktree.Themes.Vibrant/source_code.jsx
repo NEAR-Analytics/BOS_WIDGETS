@@ -6,6 +6,7 @@ const TagsSection = styled.div`
 
   ul {
     justify-content:center;
+    overflow:visible;
 
     li {
       padding: 7px 15px;
