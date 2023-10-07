@@ -7,9 +7,10 @@ function DropdownMenu({ Trigger, items }) {
       <DropdownMenu.Content>
         {items &&
           items.map((item, index) => {
+            const Item = item.Item || <></>;
             return (
               <DropdownMenu.Item key={index} onSelect={item.onSelect}>
-                {item.Item}
+                <Item />
               </DropdownMenu.Item>
             );
           })}
