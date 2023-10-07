@@ -1,8 +1,8 @@
-function DropdownMenu({ TriggerElement, TriggerChildren, items }) {
+function DropdownMenu({ Trigger, items }) {
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger as={TriggerElement}>
-        <TriggerChildren />
+      <DropdownMenu.Trigger>
+        <Trigger />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         {items &&
