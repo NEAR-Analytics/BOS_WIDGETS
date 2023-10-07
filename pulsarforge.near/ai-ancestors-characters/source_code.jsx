@@ -22,7 +22,7 @@ const Wrapper = styled.div``;
 
 const handleSubmit = () => {
   // The base URL for our API
-  const url = "https://ancestorsbos.pulsarforge.io";
+  const url = "https://bos-ancestors.pulsarforge.workers.dev/";
 
   asyncFetch(url, {
     method: "POST",
