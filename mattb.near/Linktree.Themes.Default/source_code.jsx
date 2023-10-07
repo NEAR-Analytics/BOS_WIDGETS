@@ -175,6 +175,7 @@ const LinktreeLinks = styled.div`
       background-color:#000;
       padding: 10px;
       font-weight: 500;
+      border:0;
 
       i {
         font-size:1.4rem;
