@@ -311,23 +311,25 @@ return (
             {state.isChecked && (
               <div>
                 <Card>
-                  <Title>Embed NFT</Title>
-                  <Widget
-                    src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
-                    props={{ chains: chains, updateChain }}
-                  />
-                  {state.sender ? (
-                    <div>
-                      <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
-                    </div>
-                  ) : (
-                    state.chain !== "Near" && (
-                      <Web3Connect
-                        connectLabel={`Connect ${state.chain} Wallet`}
-                        className="w-50"
-                      />
-                    )
-                  )}
+                  {/*<Title>Embed NFT</Title>*/}
+                  <div className="d-flex align-center text-center gap-2">
+                    <Widget
+                      src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                      props={{ chains: chains, updateChain }}
+                    />
+                    {state.sender ? (
+                      <div>
+                        <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
+                      </div>
+                    ) : (
+                      state.chain !== "Near" && (
+                        <Web3Connect
+                          connectLabel={`Connect ${state.chain} Wallet`}
+                          className="w-50"
+                        />
+                      )
+                    )}
+                  </div>
                   <Card>
                     <h4>Enter the NFT details</h4>
                     <Card>
