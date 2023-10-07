@@ -14,12 +14,12 @@ const TagsSection = styled.div`
       color:#fff;
 
       &:nth-child(odd) {
-        background-color: inset rgba(33, 150, 243, .2), rgba(33, 150, 243, .2);
+        background-color: rgba(33, 150, 243, .2);
         border: 2px solid rgba(33, 150, 243, .4);
       }
 
       &:nth-child(even) {
-        background-color: inset rgba(255, 64, 129, .2), rgba(255, 64, 129, .2);
+        background-color: rgba(255, 64, 129, .2);
         border: 2px solid rgba(255, 64, 129, .4);
       }
     }
@@ -82,7 +82,7 @@ const LinktreeLinks = styled.div`
     &:nth-child(odd) {
         button {
             border: 4px solid #2196F3;
-            box-shadow: 0 0 5px 5px #1552835c;
+            box-shadow: inset 0 0 5px 5px #1552835c, 0 0 5px 5px #1552835c;
             color: #2196F3;
         }
     }
@@ -90,7 +90,7 @@ const LinktreeLinks = styled.div`
     &:nth-child(even) {
         button {
             border: 4px solid #FF4081;
-            box-shadow: 0 0 5px 5px #d52f6763;
+            box-shadow: inset 0 0 5px 5px #d52f6763, 0 0 5px 5px #d52f6763;
             color: #FF4081;
         }
     }
