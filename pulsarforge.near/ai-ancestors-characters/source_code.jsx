@@ -27,7 +27,6 @@ const handleSubmit = () => {
   asyncFetch(url, {
     method: "POST",
     body: JSON.stringify({ queryPlanet }),
-    mode: "no-cors",
   })
     .then((response) => response)
     .catch((err) => console.log(err));
