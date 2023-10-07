@@ -1,7 +1,7 @@
 function DropdownMenu({ Trigger, items }) {
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
+      <DropdownMenu.Trigger asChild>
         <Trigger />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
