@@ -15,7 +15,7 @@ const TagsSection = styled.div`
       border-radius:0;
       font-weight: 700;
       color:#283593;
-      transform: skewX(10deg);
+      transform: skewX(-10deg);
       transform-origin:bottom;
     }
   }
