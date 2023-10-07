@@ -45,8 +45,8 @@ if (state.read_index != -1) {
   }
 }
 
-const tokens = state.tokens.filter((token) =>
-  state.filter == 1 ? token.metadata.class == 1 : token.metadata.class > 1
+const tokens = state.tokens.filter(
+  (token) => token.metadata.class == state.filter
 );
 const votersFiltered = tokens.map((token) => token.owner);
 
@@ -100,6 +100,18 @@ return (
         SBT NDC Contributor
       </label>
     </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        id="filter-3"
+        onChange={() => State.update({ filter: 3 })}
+        checked={state.filter == 3}
+      />
+      <label class="form-check-label" for="filter-3">
+        GWG Core Contributor
+      </label>
+    </div>
 
     <div class="input-group mb-1">
       <input
@@ -151,5 +163,13 @@ return (
           </div>
         );
       })}
+    <div class="pt-3">
+      Voters:{" "}
+      <ol>
+        {votersFiltered.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ol>
+    </div>
   </div>
 );
