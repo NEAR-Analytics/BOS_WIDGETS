@@ -12,6 +12,7 @@ const TagsSection = styled.div`
       background-color: rgba(133, 100, 49, .2);
       border: 2px solid rgba(133, 100, 49, .4);
       font-weight: 700;
+      color:#fff;
     }
   }
 `;
