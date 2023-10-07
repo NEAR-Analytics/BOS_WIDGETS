@@ -17,7 +17,7 @@ const newContractId = props.contractId
     : props.contractId
   : "genadrop-contract.nftgen.near";
 const contractId = newContractId; // default nft contract - genadrop-contract.nftgen.near
-const tokenId = props.tokenId ?? ""; // maybe condtional check if props is eempty // default nft
+const tokenId = props.tokenId ?? "1679119560198"; // maybe condtional check if props is eempty // default nft
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
 
@@ -211,9 +211,9 @@ const onChangeNearAmount = (amount) => {
 
 const onChangeEVMAmount = (amount) => {
   State.update({
-    amount
-  })
-}
+    amount,
+  });
+};
 
 const onChangeMsg = (msg) => {
   // currently done in the amount
