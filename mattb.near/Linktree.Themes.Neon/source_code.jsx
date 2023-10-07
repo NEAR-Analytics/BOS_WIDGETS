@@ -14,12 +14,12 @@ const TagsSection = styled.div`
       color:#fff;
 
       &:nth-child(odd) {
-        background-color: rgba(33, 150, 243, .2);
+        background-color: inset rgba(33, 150, 243, .2), rgba(33, 150, 243, .2);
         border: 2px solid rgba(33, 150, 243, .4);
       }
 
       &:nth-child(even) {
-        background-color: rgba(255, 64, 129, .2);
+        background-color: inset rgba(255, 64, 129, .2), rgba(255, 64, 129, .2);
         border: 2px solid rgba(255, 64, 129, .4);
       }
     }
