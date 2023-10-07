@@ -9,11 +9,23 @@ const TagsSection = styled.div`
 
     li {
       padding: 7px 15px;
-      background-color: rgba(255, 64, 129, .2);
-      border: 2px solid rgba(255, 64, 129, .4);
       font-weight: 700;
       border-radius:0;
       color:#fff;
+
+      &:nth-child(odd) {
+        button {
+            background-color: rgba(33, 150, 243, .2);
+            border: 2px solid rgba(33, 150, 243, .4);
+        }
+    }
+
+    &:nth-child(even) {
+        button {
+            background-color: rgba(255, 64, 129, .2);
+            border: 2px solid rgba(255, 64, 129, .4);
+        }
+    }
     }
   }
 `;
@@ -58,6 +70,7 @@ const LinktreeLinks = styled.div`
       text-transform:uppercase;
       letter-spacing:2px;
       font-weight: bold;
+      margin-bottom:10px;
 
       i {
         font-size:1.4rem;
@@ -70,7 +83,7 @@ const LinktreeLinks = styled.div`
       }
     }
 
-    &:nth-child(even) {
+    &:nth-child(odd) {
         button {
             border: 4px solid #2196F3;
             box-shadow: 0 0 5px 5px #1552835c;
@@ -78,7 +91,7 @@ const LinktreeLinks = styled.div`
         }
     }
 
-    &:nth-child(odd) {
+    &:nth-child(even) {
         button {
             border: 4px solid #FF4081;
             box-shadow: 0 0 5px 5px #d52f6763;
