@@ -28,6 +28,7 @@ const Linktree = styled.div`
   background-color:#FFF5E1;
   border-radius:20px;
   color:#556B2F;
+  font-family:serif;
 
   > a img {
     box-shadow: 0 0 0 10px rgba(0,0,0, .2);
