@@ -73,5 +73,6 @@ const LinktreeLinks = styled.div`
 return {
   ...DefaultTheme,
   Linktree,
+  LinktreeLinks,
   TagsSection,
 };
