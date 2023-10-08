@@ -343,7 +343,9 @@ const onSaveParams = () => {
 const getAmountFromTitle = (title) => {
   const arr = title.split(/\s+/);
 
-  const index = arr.findIndex((item) => !isNaN(item));
+  const index = arr.findIndex(
+    (item) => !isNaN(item) || !isNaN(item.substring(1))
+  );
 
   return index;
 };
