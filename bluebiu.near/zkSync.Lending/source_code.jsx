@@ -16,6 +16,7 @@ const Theme = styled.div`
   --switch-color: #3b6bdc;
   --switch-border-color: #32496a;
   --secondary-border-color: #32496a;
+  --yours-table-title: #ffffff;
 `;
 const CHAIN_ID = 324;
 const CHAIN_NAME = "zkSync";
