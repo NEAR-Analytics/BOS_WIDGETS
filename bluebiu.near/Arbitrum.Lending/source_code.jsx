@@ -16,10 +16,11 @@ const Theme = styled.div`
   --switch-color: #33549c;
   --switch-border-color: #32496a;
   --secondary-border-color: #3f577b;
+  --yours-table-title: #ffffff;
 `;
+
 const CHAIN_ID = 42161;
 const CHAIN_NAME = "Arbitrum";
-
 return (
   <Theme>
     <Widget
@@ -45,7 +46,7 @@ return (
         dapps: {
           Radiant: {
             name: "Radiant",
-            icon: "https://ipfs.near.social/ipfs/bafkreiazgdy53hbpwgvvrrxjl4kslcxcjoedrdjpj2ysiq47jyvf2xlxcq",
+            icon: "https://ipfs.near.social/ipfs/bafkreigbuxe2ernc4xqtnepturk55k3rnqzs3tikqfzdpptky7i6cwypfu",
             unitrollerAddress: "0x486Af39519B4Dc9a7fCcd318217352830E8AD9b4",
             oracleAddress: "0xC0cE5De939aaD880b0bdDcf9aB5750a53EDa454b",
             PoolAddressProvider: "0x091d52CacE1edc5527C99cDCFA6937C1635330E4",
