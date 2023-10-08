@@ -57,9 +57,9 @@ const Tokens = {
   },
 };
 
-const RDNTToken = {
+const RewardToken = {
   symbol: "RDNT",
-  address: "0xf7DE7E8A6bd59ED41a4b5fe50278b3B7f31384dF",
+  address: "0x3082CC23568eA640225c2467653dB90e9250AaA0",
   decimals: 18,
   name: "Radiant",
   icon: "https://ipfs.near.social/ipfs/bafkreiboaplfrmdlyxumajlxnipkk4viu6pxqow7ue2ixlimgkenre2gru",
@@ -243,7 +243,39 @@ const {
   wethGateway,
   initConfig,
   loaded,
+  multicallAddress,
 } = props;
+
+const MULTICALL_ABI = [
+  {
+    inputs: [
+      { internalType: "bool", name: "requireSuccess", type: "bool" },
+      {
+        components: [
+          { internalType: "address", name: "target", type: "address" },
+          { internalType: "bytes", name: "callData", type: "bytes" },
+        ],
+        internalType: "struct Multicall2.Call[]",
+        name: "calls",
+        type: "tuple[]",
+      },
+    ],
+    name: "tryAggregate",
+    outputs: [
+      {
+        components: [
+          { internalType: "bool", name: "success", type: "bool" },
+          { internalType: "bytes", name: "returnData", type: "bytes" },
+        ],
+        internalType: "struct Multicall2.Result[]",
+        name: "returnData",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
 
 const { incentiveController } = initConfig;
 
@@ -257,6 +289,47 @@ if (
   return "";
 
 const signer = Ethers.provider().getSigner();
+
+const multicallv2 = (abi, calls, options, onError) => {
+  const { requireSuccess, ...overrides } = options || {};
+  const itf = new ethers.utils.Interface(abi);
+  const calldata = calls.map((call) => ({
+    target: call.address.toLowerCase(),
+    callData: itf.encodeFunctionData(call.name, call.params),
+  }));
+
+  const MulticallContract = new ethers.Contract(
+    multicallAddress,
+    MULTICALL_ABI,
+    signer
+  );
+  return MulticallContract.callStatic
+    .tryAggregate(requireSuccess || true, calldata, overrides)
+    .then((res) => {
+      console.log("res111: ", res);
+      return res.map((call, i) => {
+        const [result, data] = call;
+        return result && data !== "0x"
+          ? itf.decodeFunctionResult(calls[i].name, data)
+          : null;
+      });
+    })
+    .catch((err) => {
+      onError?.(err);
+    });
+};
+
+let rewardPrice = "0";
+
+const rndtPriceData = fetch(
+  "https://api.coingecko.com/api/v3/simple/price?ids=radiant&vs_currencies=usd"
+);
+
+if (rndtPriceData) {
+  const data = rndtPriceData.body || [];
+
+  rewardPrice = data["radiant"].usd;
+}
 
 const getTokensPrices = () => {
   const oracleContract = new ethers.Contract(oracleAddress, ORACLE_ABI, signer);
@@ -322,19 +395,7 @@ if (!state.balances) {
   getUserWalletBalances();
 }
 
-let rndtPrice = "0";
-
-const rndtPriceData = fetch(
-  "https://api.coingecko.com/api/v3/simple/price?ids=radiant&vs_currencies=usd"
-);
-
-if (rndtPriceData) {
-  const data = rndtPriceData.body || [];
-
-  rndtPrice = data["radiant"].usd;
-}
-
-const getUserRewards = (aTokenAddress) => {
+const getUserRewards = (aTokenAddress, variableDebtTokenAddress) => {
   const incentiveControllerAbi = [
     {
       inputs: [
@@ -345,6 +406,7 @@ const getUserRewards = (aTokenAddress) => {
       outputs: [
         { internalType: "uint256", name: "amount", type: "uint256" },
         { internalType: "uint256", name: "rewardDebt", type: "uint256" },
+        { internalType: "uint256", name: "enterTime", type: "uint256" },
         { internalType: "uint256", name: "lastClaimTime", type: "uint256" },
       ],
       stateMutability: "view",
@@ -393,85 +455,135 @@ const getUserRewards = (aTokenAddress) => {
     },
   ];
 
-  const incentiveControllerContract = new ethers.Contract(
-    incentiveController,
-    incentiveControllerAbi,
-    signer
-  );
+  const calls = [
+    {
+      address: incentiveController,
+      name: "totalAllocPoint",
+      params: [],
+    },
+    {
+      address: incentiveController,
+      name: "rewardsPerSecond",
+      params: [],
+    },
+    {
+      address: incentiveController,
+      name: "poolInfo",
+      params: [aTokenAddress],
+    },
+    {
+      address: incentiveController,
+      name: "userInfo",
+      params: [aTokenAddress, account],
+    },
+    {
+      address: incentiveController,
+      name: "pendingRewards",
+      params: [account, [aTokenAddress]],
+    },
 
-  return incentiveControllerContract
-    .totalAllocPoint()
+    {
+      address: incentiveController,
+      name: "poolInfo",
+      params: [variableDebtTokenAddress],
+    },
+    {
+      address: incentiveController,
+      name: "userInfo",
+      params: [variableDebtTokenAddress, account],
+    },
+    {
+      address: incentiveController,
+      name: "pendingRewards",
+      params: [account, [variableDebtTokenAddress]],
+    },
+  ];
+
+  return multicallv2(incentiveControllerAbi, calls, {})
     .then((res) => {
-      return res.toString();
-    })
-    .then((totalAllocPoint) => {
-      return incentiveControllerContract
-        .rewardsPerSecond()
-        .then((res) => {
-          const rewardsPerSecond = res.toString();
+      const ACC_REWARD_PRECISION = Big(10).pow(12);
 
-          return {
-            totalAllocPoint,
-            rewardsPerSecond,
-          };
-        })
-        .then(({ totalAllocPoint, rewardsPerSecond }) => {
-          return incentiveControllerContract
-            .poolInfo(aTokenAddress)
-            .then((res) => {
-              const totalSupply = res[0].toString();
-              const allocPoint = res[1].toString();
+      const totalAllocPoint = res[0].toString();
+      const rewardsPerSecond = res[1].toString();
 
-              const dailyRewardToThisPool = Big(60 * 60 * 24)
-                .times(rewardsPerSecond)
-                .times(allocPoint)
-                .div(totalAllocPoint);
+      const poolInfo = res[2];
+      const poolInfoDebt = res[5];
 
-              const rewardPerShareThisPool = dailyRewardToThisPool
-                .div(totalSupply)
-                .toFixed(0);
+      const totalSupply = poolInfo[0].toString();
+      const totalSupplyDebt = poolInfoDebt[0].toString();
 
-              return rewardPerShareThisPool;
-            })
-            .then((rewardPerShareThisPool) => {
-              return incentiveControllerContract
-                .userInfo(aTokenAddress, account)
-                .then((res) => {
-                  const amount = res[0].toString();
+      const allocPoint = poolInfo[1].toString();
+      const allocPointDebt = poolInfoDebt[1].toString();
 
-                  const userDailyReward = Big(rewardPerShareThisPool)
-                    .times(Big(amount))
-                    .toFixed();
+      const dailyRewardToThisPool = Big(60 * 60 * 24)
+        .times(rewardsPerSecond)
+        .times(allocPoint)
+        .div(totalAllocPoint);
 
-                  return userDailyReward;
-                })
-                .then((userDailyReward) => {
-                  if (Big(userDailyReward).eq(0)) return undefined;
+      const dailyRewardToThisPoolDebt = Big(60 * 60 * 24)
+        .times(rewardsPerSecond)
+        .times(allocPointDebt)
+        .div(totalAllocPoint);
 
-                  return incentiveControllerContract
-                    .pendingRewards(account, [aTokenAddress])
-                    .then((res) => {
-                      const unclaimed = res[0].toString();
+      const rewardPerShareThisPool = dailyRewardToThisPool
+        .mul(ACC_REWARD_PRECISION)
+        .div(totalSupply)
+        .toFixed(0);
 
-                      if (Big(unclaimed).eq(0)) return undefined;
+      const rewardPerShareThisPoolDebt = dailyRewardToThisPoolDebt
+        .mul(ACC_REWARD_PRECISION)
+        .div(totalSupplyDebt)
+        .toFixed(0);
 
-                      const dailyRewards = Big(userDailyReward)
-                        .div(Big(10).pow(RDNTToken.decimals))
-                        .toFixed();
+      const userInfo = res[3];
+      const userInfoDebt = res[6];
 
-                      return {
-                        ...RDNTToken,
-                        unclaimed: Big(unclaimed)
-                          .div(Big(10).pow(RDNTToken.decimals))
-                          .toFixed(),
-                        price: rndtPrice,
-                        dailyRewards,
-                        rewardAddress: aTokenAddress,
-                      };
-                    });
-                });
-            });
-        });
+      const amount = userInfo[0].toString();
+      const amountDebt = userInfoDebt[0].toString();
+
+      const userDailyReward = Big(rewardPerShareThisPool)
+        .times(Big(amount))
+        .div(ACC_REWARD_PRECISION)
+        .toFixed();
+
+      const userDailyRewardDebt = Big(rewardPerShareThisPoolDebt)
+        .times(Big(amountDebt))
+        .div(ACC_REWARD_PRECISION)
+        .toFixed();
+
+      const pendingRewards = res[4];
+      const pendingRewardsDebt = res[7];
+
+      const unclaimed = pendingRewards[0].toString();
+      const unclaimedDebt = pendingRewardsDebt[0].toString();
+
+      const dailyRewards = Big(userDailyReward).toFixed();
+
+      const dailyRewardsDebt = Big(userDailyRewardDebt).toFixed();
+
+      const rewards = {
+        ...RewardToken,
+        unclaimed,
+        price: rewardPrice,
+        dailyRewards,
+        rewardAddress: aTokenAddress,
+      };
+
+      const rewardsDebt = {
+        ...RewardToken,
+        unclaimed: unclaimedDebt,
+        price: rewardPrice,
+        dailyRewards: dailyRewardsDebt,
+        rewardAddress: variableDebtTokenAddress,
+      };
+
+      return {
+        ...rewards,
+        unclaimed: Big(rewards.unclaimed).plus(rewardsDebt.unclaimed).toFixed(),
+        dailyRewards: Big(rewards.dailyRewards)
+          .plus(rewardsDebt.dailyRewards)
+          .toFixed(),
+      };
     })
     .catch((e) => {
       return undefined;
@@ -489,62 +601,46 @@ const getMarkets = () => {
     State.update({
       markets,
     });
+
     markets.forEach((token) => {
       const [symbol, address] = token;
 
       const tokensPrice = state.tokensPrice;
 
-      dataProviderContract
-        .getReserveConfigurationData(address)
-        .then((res) => {
-          const loanToValue = Big(res[1].toString()).div(100).toNumber();
+      const calls = [
+        {
+          address: aaveProtocolDataProviderAddress,
+          name: "getReserveConfigurationData",
+          params: [address],
+        },
+        {
+          address: aaveProtocolDataProviderAddress,
+          name: "getReserveTokensAddresses",
+          params: [address],
+        },
+      ];
 
-          return loanToValue;
-        })
-        .then((loanToValue) => {
-          dataProviderContract
-            .getReserveTokensAddresses(address)
-            .then((data) => {
-              const aTokenAddress = data[0];
-              const variableDebtTokenAddress = data[2];
-              getUserRewards(aTokenAddress, signer)
-                .then((res) => {
-                  return res;
-                })
-                .then((atokenReward) => {
-                  return getUserRewards(variableDebtTokenAddress, signer).then(
-                    (variableDebtTokenReward) => {
-                      if (!atokenReward) return variableDebtTokenReward;
-                      else if (atokenReward && !variableDebtTokenReward)
-                        return atokenReward;
-                      else {
-                        return {
-                          ...atokenReward,
-                          unclaimed: Big(atokenReward.unclaimed)
-                            .plus(variableDebtTokenReward.unclaimed)
-                            .toFixed(),
-                          dailyRewards: Big(atokenReward.dailyRewards)
-                            .plus(variableDebtTokenReward.dailyRewards)
-                            .toFixed(),
-                        };
-                      }
-                    }
-                  );
-                })
-                .then((rawRewards) => {
-                  const rewards = !rawRewards ? undefined : [rawRewards];
-                  getTokenReserveData(
-                    address,
-                    symbol,
-                    tokensPrice[address],
-                    aTokenAddress,
-                    variableDebtTokenAddress,
-                    loanToValue,
-                    rewards
-                  );
-                });
-            });
-        });
+      return multicallv2(aaveProtocolDataProviderAbi, calls, {}).then((res) => {
+        const loanToValue = Big(res[0][1].toString()).div(100).toNumber();
+
+        const aTokenAddress = res[1][0];
+        const variableDebtTokenAddress = res[1][2];
+
+        getUserRewards(aTokenAddress, variableDebtTokenAddress).then(
+          (rawRewards) => {
+            const rewards = !rawRewards ? undefined : [rawRewards];
+            getTokenReserveData(
+              address,
+              symbol,
+              tokensPrice[address],
+              aTokenAddress,
+              variableDebtTokenAddress,
+              loanToValue,
+              rewards
+            );
+          }
+        );
+      });
     });
   });
 };
@@ -563,6 +659,8 @@ const getTokenReserveData = (
     aaveProtocolDataProviderAbi,
     signer
   );
+
+  console.log("on researbe");
 
   dataProviderContract.getReserveData(tokenAddress).then((data) => {
     const [
@@ -753,6 +851,10 @@ const getUserRevervesData = () => {
 
       const scaledVariableDebt = Big(data[4].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
+        .toFixed(4);
+
+      const scaledVariableDebtUsd = Big(data[4].toString())
+        .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
         .toFixed(4);
 
@@ -762,7 +864,9 @@ const getUserRevervesData = () => {
         scaledATokenBalanceUsd,
         usageAsCollateralEnabledOnUser,
         scaledVariableDebt,
+        scaledVariableDebtUsd,
         aTokenBalance,
+        userMerberShip: usageAsCollateralEnabledOnUser,
       };
     });
 
@@ -779,7 +883,7 @@ const getUserRevervesData = () => {
 
       userTotalSupplyUsd = userTotalSupplyUsd.plus(data.scaledATokenBalanceUsd);
 
-      userTotalBorrowUsd = userTotalBorrowUsd.plus(data.scaledVariableDebt);
+      userTotalBorrowUsd = userTotalBorrowUsd.plus(data.scaledVariableDebtUsd);
     });
 
     State.update({
@@ -826,13 +930,18 @@ if (
     ...marketData
   } = state;
 
+  userData.parsedData.forEach((d) => {
+    const { address } = d;
+    marketData[address].userMerberShip = d.userMerberShip;
+  });
+
   let netApy = Big(0);
 
   userData.parsedData.forEach((d) => {
     const { address } = d;
     marketData[address] = {
-      ...marketData[address],
       ...d,
+      ...marketData[address],
       userSupply: d.scaledATokenBalanceUsd,
       userBorrow: d.scaledVariableDebt,
     };
@@ -876,10 +985,14 @@ if (
     if (index === 0 && reduceUnclaimed.gt(0)) {
       market.rewards = [
         {
-          ...RDNTToken,
-          unclaimed: reduceUnclaimed.toFixed(),
-          dailyRewards: reduceDailyRewards.toFixed(),
-          price: rndtPrice,
+          ...RewardToken,
+          unclaimed: reduceUnclaimed
+            .div(Big(10).pow(RewardToken.decimals))
+            .toFixed(),
+          dailyRewards: reduceDailyRewards
+            .div(Big(10).pow(RewardToken.decimals))
+            .toFixed(),
+          price: rewardPrice,
         },
       ];
     }
