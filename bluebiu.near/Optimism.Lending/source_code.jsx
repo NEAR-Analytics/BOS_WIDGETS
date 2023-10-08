@@ -16,6 +16,7 @@ const Theme = styled.div`
   --switch-color: #ea3431;
   --switch-border-color: #32496a;
   --secondary-border-color: #32496a;
+  --yours-table-title: #7c7f96;
 `;
 const CHAIN_ID = 10;
 const CHAIN_NAME = "Optimism";
