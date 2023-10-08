@@ -18,7 +18,7 @@ const Handler = styled.div`
   width: 16px;
   height: 16px;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: #979abe;
   border: 1px solid var(--secondary-border-color);
   border-radius: 50%;
   transition: 0.5s;
