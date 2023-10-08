@@ -599,12 +599,12 @@ const getUserReverveData = (market) => {
 
       const usageAsCollateralEnabledOnUser = data[8];
 
-      const scaledVariableDebt = Big(data[4].toString())
+      const scaledVariableDebt = Big(data[2].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
 
         .toFixed(4);
 
-      const scaledVariableDebtUsd = Big(data[4].toString())
+      const scaledVariableDebtUsd = Big(data[2].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
         .toFixed(4);
