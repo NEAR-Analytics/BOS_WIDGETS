@@ -51,6 +51,7 @@ if (!state.allTags) {
 }
 
 const setTags = (tags) => {
+  props.forceClear && props.stateUpdate({ clearTags: false });
   tags = tags.map((o) => {
     o.name = normalizeTag(o.name);
     return o;
@@ -72,7 +73,7 @@ return (
       onChange={setTags}
       options={state.allTags}
       placeholder={placeholder}
-      selected={state.tags}
+      selected={props.forceClear ? [] : state.tags}
       positionFixed
       allowNew
     />
