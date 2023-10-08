@@ -54,8 +54,8 @@ const handleTableButtonClick = (address, actionText) => {
   const dappConfig = dapps[market.dapp];
   State.update({
     tableButtonClickData: {
-      ...market,
       ...dapp,
+      ...market,
       config: dappConfig,
       actionText,
     },
