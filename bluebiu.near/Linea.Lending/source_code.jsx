@@ -16,6 +16,7 @@ const Theme = styled.div`
   --switch-color: #56daff;
   --switch-border-color: #3f577b;
   --secondary-border-color: #32496a;
+  --yours-table-title: #ffffff;
 `;
 const CHAIN_ID = 59144;
 const CHAIN_NAME = "Linea";
