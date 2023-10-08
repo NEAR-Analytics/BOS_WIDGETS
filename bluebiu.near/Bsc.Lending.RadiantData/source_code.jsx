@@ -769,91 +769,37 @@ const getTokenReserveData = (
   });
 };
 
-const getUserRevervesData = () => {
-  const abi = [
-    {
-      inputs: [
-        {
-          internalType: "contract ILendingPoolAddressesProvider",
-          name: "provider",
-          type: "address",
-        },
-        { internalType: "address", name: "user", type: "address" },
-      ],
-      name: "getUserReservesData",
-      outputs: [
-        {
-          components: [
-            {
-              internalType: "address",
-              name: "underlyingAsset",
-              type: "address",
-            },
-            {
-              internalType: "uint256",
-              name: "scaledATokenBalance",
-              type: "uint256",
-            },
-            {
-              internalType: "bool",
-              name: "usageAsCollateralEnabledOnUser",
-              type: "bool",
-            },
-            {
-              internalType: "uint256",
-              name: "stableBorrowRate",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "scaledVariableDebt",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "principalStableDebt",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "stableBorrowLastUpdateTimestamp",
-              type: "uint256",
-            },
-          ],
-          internalType: "struct IUiPoolDataProviderV3.UserReserveData[]",
-          name: "",
-          type: "tuple[]",
-        },
-        { internalType: "uint8", name: "", type: "uint8" },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-  ];
+const getUserRevervesData = (addresses) => {
+  const calls = addresses.map((address) => {
+    return {
+      address: aaveProtocolDataProviderAddress,
+      name: "getUserReserveData",
+      params: [address, account],
+    };
+  });
 
-  const contract = new ethers.Contract(uiPoolDataProviderAddress, abi, signer);
-  contract.getUserReservesData(PoolAddressProvider, account).then((res) => {
-    const parsedData = res[0].map((data) => {
-      const address = data[0];
+  multicallv2(aaveProtocolDataProviderAbi, calls, {}).then((res) => {
+    const parsedData = res.map((data, index) => {
+      const address = addresses[index];
 
-      const underlyingAsset = Tokens[data[0]];
+      const underlyingAsset = Tokens[address];
 
-      const scaledATokenBalanceUsd = Big(data[1].toString())
+      const scaledATokenBalanceUsd = Big(data[0].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
         .toFixed(4);
 
-      const aTokenBalance = Big(data[1].toString())
+      const aTokenBalance = Big(data[0].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .toFixed();
 
-      const usageAsCollateralEnabledOnUser = data[2];
+      const usageAsCollateralEnabledOnUser = data[8];
 
-      const scaledVariableDebt = Big(data[4].toString())
+      const scaledVariableDebt = Big(data[2].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .toFixed(4);
 
-      const scaledVariableDebtUsd = Big(data[4].toString())
+      const scaledVariableDebtUsd = Big(data[2].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
         .toFixed(4);
@@ -913,7 +859,9 @@ if (
 }
 
 if (state.markets && !state.userData) {
-  getUserRevervesData();
+  const addresses = state.markets.map((market) => market[1]);
+
+  getUserRevervesData(addresses);
 }
 
 if (
@@ -950,6 +898,8 @@ if (
   let reduceUnclaimed = Big(0);
 
   let reduceDailyRewards = Big(0);
+
+  console.log("marketData: ", marketData);
 
   Object.keys(marketData).forEach((address) => {
     const market = marketData[address];
