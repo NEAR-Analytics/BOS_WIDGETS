@@ -12,10 +12,10 @@ State.init({
 const formatNumberToken = (n) => {
   let result;
 
-  if(n == 0){
+  if (n == 0) {
     return 0;
   }
-  
+
   if (n >= 1000000) {
     result = (n / 1000000).toFixed(2);
   } else if (n >= 1000) {
@@ -142,6 +142,7 @@ return (
           fontSize: "0.75rem",
           lineHeight: "1.57",
           color: "rgba(255, 255, 255, 0.5)",
+          textAlign: "left"
         }}
       >
         Select bins to remove liquidity.
