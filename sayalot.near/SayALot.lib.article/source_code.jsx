@@ -1,8 +1,69 @@
 const { isTest, stateUpdate, libCalls } = props;
 
+//TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
+
 const prodAction = "sayALotArticle";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
+
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+//const authorForWidget = "sayalot.near";
+// const authorForWidget = "silkking.near";
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
+
+State.init({ libCalls: [] });
+
+function libStateUpdate(obj) {
+  State.update(obj);
+}
+
+function setAreValidUsers(accountIds, sbtsNames) {
+  const newLibCalls = [...state.libCalls];
+  accountIds.forEach((accountId, index) => {
+    const isCallPushed =
+      newLibCalls.find((libCall) => {
+        return (
+          libCall.functionName === "isValidUser" &&
+          libCall.props.accountId === accountId
+        );
+      }) !== undefined;
+    const isCallReturned = state[`isValidUser-${accountId}`] !== undefined;
+
+    if (isCallPushed || isCallReturned) {
+      return;
+    }
+
+    newLibCalls.push({
+      functionName: "isValidUser",
+      key: `isValidUser-${accountId}`,
+      props: {
+        accountId,
+        sbtsNames,
+      },
+    });
+  });
+  State.update({ libCalls: newLibCalls });
+}
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
 
 // const initLibCalls = [
 //   {
@@ -17,75 +78,22 @@ const action = isTest ? testAction : prodAction;
 //   },
 // ];
 
-function getWritersWhitelist(env) {
-  if (env === "test") {
-    return [
-      "silkking.near",
-      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-      "blaze.near",
-      "ayelen.near",
-      "kenrou-it.near",
-    ];
-  } else {
-    return [
-      "neardigitalcollective.near",
-      "blaze.near",
-      "jlw.near",
-      "kazanderdad.near",
-      "joep.near",
-      "sarahkornfeld.near",
-      "yuensid.near",
-      "shubham007.near",
-      "fiftycent.near",
-      "ozymandius.near",
-      "chloe.near",
-      "vikash.near",
-      "antmarshall360.near",
-      "vlad.near",
-      "vadim.near",
-      "mob.near",
-      "whendacha.near",
-      "haenko.near",
-      "cameron.near",
-      "chloe.near",
-      "dk_51.near",
-      "kiskesis.near",
-      "davletuner.near",
-      "woben.near",
-      "odins_eyehole.near",
-      "rexux.near",
-      "louisliu.near",
-      "auroracfo.near",
-      "as.near",
-      "marieke.near",
-      "mattlock.near",
-      "frol.near",
-      "ahsas.near",
-      "evangel.near",
-      "alejandro.near",
-      "yourdad.near",
-      "rahulgoel.near",
-      "johanga108.near",
-      "escobarindo.near",
-      "izubair.near",
-      "jarednotjerry.near",
-    ];
-
-    const sayALotWorkers = [
-      "silkking.near",
-      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-      "blaze.near",
-      "ayelen.near",
-      "kenrou-it.near",
-      "sayalot.near",
-    ];
-  }
-}
-
 function canUserCreateArticle(props) {
-  const { env, accountId } = props;
+  const { env, accountId, sbtsNames } = props;
 
-  return getWritersWhitelist(env).includes(accountId);
+  setAreValidUsers([accountId], sbtsNames);
+
+  const result = state[`isValidUser-${accountId}`];
+
+  resultLibCalls = resultLibCalls.filter((call) => {
+    const discardCondition =
+      call.functionName === "canUserCreateArticle" && result !== undefined;
+    return !discardCondition;
+  });
+
+  return result;
+
+  // return getWritersWhitelist(env).includes(accountId);
 }
 
 function canUserEditArticle(props) {
@@ -180,23 +188,25 @@ function getArticleBlackListByRealArticleId() {
 }
 
 function filterInvalidArticlesIndexes(env, articlesIndexes) {
-  return articlesIndexes
-    .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
-    .filter(
-      (articleIndex) =>
-        articleIndex.value.id.split("-")[0] === articleIndex.accountId
-    ) // realArticleId begins with same accountId as index object
-    .filter((articleIndex) =>
-      getWritersWhitelist(env).includes(articleIndex.accountId)
-    ) // Account is in whitelist
-    .filter(
-      (articleIndex) =>
-        !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Article is not in blacklist
-    )
-    .filter(
-      (articleIndex) =>
-        !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article is not in blacklist
-    );
+  return (
+    articlesIndexes
+      .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
+      .filter(
+        (articleIndex) =>
+          articleIndex.value.id.split("-")[0] === articleIndex.accountId
+      ) // realArticleId begins with same accountId as index object
+      // .filter((articleIndex) =>
+      //   getWritersWhitelist(env).includes(articleIndex.accountId)
+      // ) // Account is in whitelist
+      .filter(
+        (articleIndex) =>
+          !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Article is not in blacklist
+      )
+      .filter(
+        (articleIndex) =>
+          !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article is not in blacklist
+      )
+  );
 }
 
 function getLatestEdits(newFormatArticlesIndexes) {
@@ -223,7 +233,9 @@ function getArticle(articleIndex) {
     articleParsed.realArticleId = articleIndex.value.id;
   }
 
-  return articleParsed;
+  if (articleParsed) {
+    return articleParsed;
+  }
 }
 
 function getOldArticleBasicDataArray(env) {
@@ -288,13 +300,16 @@ function getOldArticleBasicDataArray(env) {
   }
 }
 
-function getNewFormatValidArticles(env, filterBy) {
-  const articlesIndexes = getArticlesIndexes(filterBy);
+function getNewFormatValidArticles(env) {
+  const articlesIndexes = getArticlesIndexes();
+
   const validArticlesIndexes = filterInvalidArticlesIndexes(
     env,
     articlesIndexes
   );
+
   const validLatestEdits = getLatestEdits(validArticlesIndexes);
+
   return validLatestEdits.map(getArticle);
 }
 
@@ -304,9 +319,9 @@ function getOldFormatArticles(env) {
 }
 
 function getLastEditArticles(props) {
-  const { env, filterBy } = props;
+  const { env, sbtsNames } = props;
   const oldFormatArticles = getOldFormatArticles(env);
-  const newFormatArticles = getNewFormatValidArticles(env, filterBy);
+  const newFormatArticles = getNewFormatValidArticles(env);
 
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
@@ -322,68 +337,75 @@ function getLastEditArticles(props) {
   const validFormatLastEditionArticles =
     convertArticlesTagsToValidFormat(lastEditionArticles);
 
-  const validFormatFilteredArticles = filterArticles(
-    filterBy,
-    validFormatLastEditionArticles
+  const validFormatLastEditionArticlesAuthors =
+    validFormatLastEditionArticles.map((article) => {
+      return article.author;
+    });
+  setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtsNames);
+  const validAuthors = validFormatLastEditionArticlesAuthors.filter(
+    (author) => {
+      return state[`isValidUser-${author}`] === true;
+    }
   );
 
-  return validFormatFilteredArticles;
+  resultLibCalls = resultLibCalls.filter((call) => {
+    const discardCondition =
+      call.functionName === "getLastEditArticles" &&
+      state[`isValidUser-${call.props.accountId}`] !== undefined;
+    return !discardCondition;
+  });
+
+  const validFilteredArticles = validFormatLastEditionArticles.filter(
+    (article) => {
+      if (!article.sbts) return false;
+      return (
+        sbtsNames.filter((sbtName) => {
+          return article.sbts.indexOf(sbtName) !== -1;
+        }).length > 0
+      );
+    }
+  );
+
+  const finalArticles = filterValidArticles(
+    validFilteredArticles,
+    validAuthors
+  );
+
+  return finalArticles;
 }
 
 function convertArticlesTagsToValidFormat(articlesArray) {
   let validFormatArticlesArray = [];
   articlesArray.map((article) => {
-    let tags = article.tags;
+    if (article) {
+      let tags = article.tags;
 
-    if (tags && !tags.length && tags + "" != "0") {
-      tags = Object.keys(tags);
+      if (tags && !tags.length && tags + "" != "0") {
+        tags = Object.keys(tags);
+      } else if (tags === undefined) {
+        tags = [];
+      }
+      article.tags = tags;
+
+      validFormatArticlesArray.push(article);
     }
-    article.tags = tags;
-
-    validFormatArticlesArray.push(article);
   });
   return validFormatArticlesArray;
 }
 
-function filterArticlesByTag(tag, articles) {
+function filterValidator(articles, validAuthors) {
   return articles.filter((article) => {
-    return article.tags.includes(tag);
+    return validAuthors.includes(article.author);
   });
 }
 
-function filterArticlesByAuthor(author, articles) {
-  return articles.filter((article) => {
-    return article.author === author;
-  });
-}
-
-function filterArticles(filterBy, articles) {
-  let filteredArticles;
-
-  if (filterBy.parameterName == "tag") {
-    filteredArticles = filterArticlesByTag(filterBy.parameterValue, articles);
-  } else if (filterBy.parameterName == "author") {
-    filteredArticles = filterArticlesByAuthor(
-      filterBy.parameterValue,
-      articles
-    );
-  } else {
-    filteredArticles = articles;
-  }
+function filterValidArticles(articles, validAuthors) {
+  let filteredArticles = filterValidator(
+    filteredArticles ?? articles,
+    validAuthors
+  );
 
   return filteredArticles;
-}
-
-function libCall(call) {
-  if (call.functionName === "canUserCreateArticle") {
-    return canUserCreateArticle(call.props);
-  } else if (call.functionName === "createArticle") {
-    return createArticle(call.props);
-  } else if (call.functionName === "canUserEditArticle") {
-    return canUserEditArticle(call.props);
-  } else if (call.functionName === "getLastEditArticles") {
-    return getLastEditArticles(call.props);
-  }
 }
 
 function getComments(args) {
@@ -415,6 +437,18 @@ function setComment(args) {
   return text;
 }
 
+function libCall(call) {
+  if (call.functionName === "canUserCreateArticle") {
+    return canUserCreateArticle(call.props);
+  } else if (call.functionName === "createArticle") {
+    return createArticle(call.props);
+  } else if (call.functionName === "canUserEditArticle") {
+    return canUserEditArticle(call.props);
+  } else if (call.functionName === "getLastEditArticles") {
+    return getLastEditArticles(call.props);
+  }
+}
+
 let resultLibCalls = [];
 
 if (libCalls && libCalls.length > 0) {
@@ -428,4 +462,4 @@ if (libCalls && libCalls.length > 0) {
   stateUpdate(updateObj);
 }
 
-return <></>;
+return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
