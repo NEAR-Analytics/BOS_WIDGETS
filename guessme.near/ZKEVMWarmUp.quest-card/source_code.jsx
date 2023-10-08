@@ -448,7 +448,7 @@ if (amountIndex > -1) {
   const arr = item.action_title.split(/\s+/);
   const amount = item.action_title.split(/\s+/)[amountIndex];
 
-  const amountNumber = parseFloat(amount);
+  const amountNumber = amount;
 
   displayTitle = (
     <>
