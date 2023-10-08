@@ -10,14 +10,25 @@ State.init({
 });
 
 const formatNumberToken = (n) => {
-  if (n == 0) {
+  let result;
+
+  if(n == 0){
     return 0;
   }
-  if (n < 0.1) {
-    return n.toFixed(3);
+  
+  if (n >= 1000000) {
+    result = (n / 1000000).toFixed(2);
+  } else if (n >= 1000) {
+    result = (n / 1000).toFixed(2);
   } else {
-    return n.toFixed(2);
+    result = n.toFixed(2);
   }
+
+  if (parseFloat(result) < 0.01) {
+    return "<0.01";
+  }
+
+  return result;
 };
 
 const formatNumber = (n) => {
@@ -50,8 +61,8 @@ const handleSelectBin = (b) => {
 };
 
 const getPoolsSelected = () => {
-    return state.allBins.filter((b) => b.selected).length;
-}
+  return state.allBins.filter((b) => b.selected).length;
+};
 
 return (
   <div
