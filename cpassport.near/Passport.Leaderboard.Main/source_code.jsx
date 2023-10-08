@@ -236,7 +236,11 @@ return (
                     Flight log
                   </ShowInMobile>
                   {getToken(item.series).map((item) => (
-                    <p style={{ fontSize: 8 }}>{item.owner}</p>
+                    <p
+                      style={{ fontSize: 8, width: '100%', wordBreak: "break-all",textAlign:"center" }}
+                    >
+                      {item.owner}
+                    </p>
                   ))}
                 </div>
               )}
