@@ -16,6 +16,7 @@ const Theme = styled.div`
   --switch-color: #004bfc;
   --switch-border-color: #32496a;
   --secondary-border-color: #3f577b;
+  --yours-table-title: #ffffff;
 `;
 const CHAIN_ID = 8453;
 const CHAIN_NAME = "Base";
