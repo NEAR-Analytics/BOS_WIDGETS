@@ -16,6 +16,7 @@ const Theme = styled.div`
   --switch-color: #f3ba2f;
   --switch-border-color: #32496a;
   --secondary-border-color: #32496a;
+  --yours-table-title: #ffffff;
 `;
 const CHAIN_ID = 56;
 const CHAIN_NAME = "BSC";
@@ -68,7 +69,7 @@ return (
 
           Radiant: {
             name: "Radiant",
-            icon: "https://ipfs.near.social/ipfs/bafkreiazgdy53hbpwgvvrrxjl4kslcxcjoedrdjpj2ysiq47jyvf2xlxcq",
+            icon: "https://ipfs.near.social/ipfs/bafkreigbuxe2ernc4xqtnepturk55k3rnqzs3tikqfzdpptky7i6cwypfu",
             unitrollerAddress: "0x486Af39519B4Dc9a7fCcd318217352830E8AD9b4",
             oracleAddress: "0x0BB5c1Bc173b207cBf47CDf013617087776F3782",
             PoolAddressProvider: "0x63764769dA006395515c3f8afF9c91A809eF6607",
