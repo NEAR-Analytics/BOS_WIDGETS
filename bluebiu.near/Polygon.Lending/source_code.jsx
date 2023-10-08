@@ -16,7 +16,9 @@ const Theme = styled.div`
   --switch-color: #5465ff;
   --switch-border-color: #32496a;
   --secondary-border-color: #32496a;
+  --yours-table-title: #ffffff;
 `;
+
 const CHAIN_ID = 137;
 const CHAIN_NAME = "Polygon";
 
