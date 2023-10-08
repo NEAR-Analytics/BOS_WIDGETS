@@ -421,6 +421,10 @@ const getUserReverveData = (market) => {
 
       const scaledVariableDebt = Big(data[4].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
+        .toFixed(4);
+
+      const scaledVariableDebtUsd = Big(data[4].toString())
+        .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
         .toFixed(4);
 
@@ -431,6 +435,8 @@ const getUserReverveData = (market) => {
         usageAsCollateralEnabledOnUser,
         scaledVariableDebt,
         aTokenBalance,
+        scaledVariableDebtUsd,
+        userMerberShip: usageAsCollateralEnabledOnUser,
       };
 
       return userReserveParsed;
@@ -516,7 +522,7 @@ if (
 
     userTotalSupplyUsd = userTotalSupplyUsd.plus(data.scaledATokenBalanceUsd);
 
-    userTotalBorrowUsd = userTotalBorrowUsd.plus(data.scaledVariableDebt);
+    userTotalBorrowUsd = userTotalBorrowUsd.plus(data.scaledVariableDebtUsd);
   });
 
   State.update({
@@ -541,6 +547,11 @@ if (
     userDataLoading,
     ...marketData
   } = state;
+
+  userData.parsedData.forEach((d) => {
+    const { address } = d;
+    marketData[address].userMerberShip = d.userMerberShip;
+  });
 
   let netApy = Big(0);
 
