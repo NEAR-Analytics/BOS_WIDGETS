@@ -242,23 +242,81 @@ const {
   wethGateway,
   initConfig,
   loaded,
+  multicallAddress,
 } = props;
 
 if (!aaveProtocolDataProviderAddress || !oracleAddress || !update || !account)
   return "";
 
+const signer = Ethers.provider().getSigner();
+
+const MULTICALL_ABI = [
+  {
+    inputs: [
+      { internalType: "bool", name: "requireSuccess", type: "bool" },
+      {
+        components: [
+          { internalType: "address", name: "target", type: "address" },
+          { internalType: "bytes", name: "callData", type: "bytes" },
+        ],
+        internalType: "struct Multicall2.Call[]",
+        name: "calls",
+        type: "tuple[]",
+      },
+    ],
+    name: "tryAggregate",
+    outputs: [
+      {
+        components: [
+          { internalType: "bool", name: "success", type: "bool" },
+          { internalType: "bytes", name: "returnData", type: "bytes" },
+        ],
+        internalType: "struct Multicall2.Result[]",
+        name: "returnData",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+const multicallv2 = (abi, calls, options, onError) => {
+  const { requireSuccess, ...overrides } = options || {};
+  const itf = new ethers.utils.Interface(abi);
+  const calldata = calls.map((call) => ({
+    target: call.address.toLowerCase(),
+    callData: itf.encodeFunctionData(call.name, call.params),
+  }));
+
+  const MulticallContract = new ethers.Contract(
+    multicallAddress,
+    MULTICALL_ABI,
+    signer
+  );
+  return MulticallContract.callStatic
+    .tryAggregate(requireSuccess || true, calldata, overrides)
+    .then((res) => {
+      return res.map((call, i) => {
+        const [result, data] = call;
+        return result && data !== "0x"
+          ? itf.decodeFunctionResult(calls[i].name, data)
+          : null;
+      });
+    })
+    .catch((err) => {
+      onError?.(err);
+    });
+};
+
 const dataProviderContract = new ethers.Contract(
   aaveProtocolDataProviderAddress,
   aaveProtocolDataProviderAbi,
-  Ethers.provider().getSigner()
+  signer
 );
 
 const getTokensPrices = () => {
-  const oracleContract = new ethers.Contract(
-    oracleAddress,
-    ORACLE_ABI,
-    Ethers.provider().getSigner()
-  );
+  const oracleContract = new ethers.Contract(oracleAddress, ORACLE_ABI, signer);
   oracleContract.getAssetsPrices(Object.keys(Tokens)).then((res) => {
     const parsedRes = res.map((price, i) => {
       return Big(price.toString()).div(100000000).toFixed();
@@ -298,12 +356,6 @@ const getTokenReserveData = (
   loanToValue,
   userReserveParsed
 ) => {
-  if (state[tokenAddress]) {
-    console.log("addres", state[tokenAddress]);
-  }
-
-  console.log("token reserves trigger", symbol);
-
   dataProviderContract.getReserveData(tokenAddress).then((data) => {
     const [
       availableLiquidity,
@@ -427,11 +479,12 @@ const getUserReverveData = (market) => {
 
       const usageAsCollateralEnabledOnUser = data[8];
 
-      const scaledVariableDebt = Big(data[4].toString())
+      const scaledVariableDebt = Big(data[2].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
+
         .toFixed(4);
 
-      const scaledVariableDebtUsd = Big(data[4].toString())
+      const scaledVariableDebtUsd = Big(data[2].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
         .toFixed(4);
@@ -442,8 +495,8 @@ const getUserReverveData = (market) => {
         scaledATokenBalanceUsd,
         usageAsCollateralEnabledOnUser,
         scaledVariableDebt,
-        aTokenBalance,
         scaledVariableDebtUsd,
+        aTokenBalance,
         userMerberShip: usageAsCollateralEnabledOnUser,
       };
 
@@ -475,31 +528,37 @@ if (
 
     const tokensPrice = state.tokensPrice;
 
-    dataProviderContract
-      .getReserveConfigurationData(address)
-      .then((res) => {
-        const loanToValue = Big(res[1].toString()).div(100).toNumber();
+    const calls = [
+      {
+        address: aaveProtocolDataProviderAddress,
+        name: "getReserveConfigurationData",
+        params: [address],
+      },
+      {
+        address: aaveProtocolDataProviderAddress,
+        name: "getReserveTokensAddresses",
+        params: [address],
+      },
+    ];
 
-        return loanToValue;
-      })
-      .then((loanToValue) => {
-        dataProviderContract.getReserveTokensAddresses(address).then((data) => {
-          const aTokenAddress = data[0];
-          const variableDebtTokenAddress = data[2];
+    multicallv2(aaveProtocolDataProviderAbi, calls, {}).then((res) => {
+      const loanToValue = Big(res[0][1].toString()).div(100).toNumber();
 
-          getUserReverveData(market).then((userReserveParsed) => {
-            getTokenReserveData(
-              address,
-              symbol,
-              tokensPrice[address],
-              aTokenAddress,
-              variableDebtTokenAddress,
-              loanToValue,
-              userReserveParsed
-            );
-          });
-        });
+      const aTokenAddress = res[1][0];
+      const variableDebtTokenAddress = res[1][2];
+
+      getUserReverveData(market).then((userReserveParsed) => {
+        getTokenReserveData(
+          address,
+          symbol,
+          tokensPrice[address],
+          aTokenAddress,
+          variableDebtTokenAddress,
+          loanToValue,
+          userReserveParsed
+        );
       });
+    });
   });
 }
 
