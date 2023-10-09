@@ -638,7 +638,7 @@ return (
                         <button
                           type="button"
                           onClick={() => onRemoveArg(fIndex, argIndex)}
-                          class="btn btn-danger "
+                          class="btn btn-danger btn-sm"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -712,7 +712,7 @@ return (
               <div class="row">
                 <div class="form-group col-md-2">
                   <button
-                    class="btn btn-primary"
+                    class="btn btn-primary btn-sm"
                     onClick={(e) =>
                       onBtnClickCall(functions.name, functions.kind, fIndex)
                     }
