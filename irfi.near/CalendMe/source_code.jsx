@@ -42,7 +42,8 @@ const addToGoogleCalendar = (date, details, text) => {
   );
 };
 const settings = () => {
-  const meetPreference = Social.get(`${sourceAccountId}/meet_preference/*`);
+  const meetPreference = Social.get(`${sourceAccountId}/meet_preference/**`);
+  console.log(meetPreference);
   State.init({
     active_days: JSON.parse(meetPreference?.active_days ?? "[]"),
     active_hours_begin: meetPreference?.active_hours_begin ?? null,
