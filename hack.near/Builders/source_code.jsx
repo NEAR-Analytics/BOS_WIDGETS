@@ -1,73 +1,46 @@
-const composeData = () => {
-  const data = {
-    post: {
-      main: JSON.stringify(state.content),
-    },
-    index: {
-      post: JSON.stringify({
-        key: "main",
-        value: {
-          type: "md",
-        },
-      }),
-    },
-  };
+const data = Social.keys("*/widget", "final");
 
-  const notifications = state.extractTagNotifications(state.content.text, {
-    type: "social",
-    path: `${context.accountId}/post/main`,
-  });
+if (!data) {
+  return "Loading...";
+}
 
-  if (notifications.length) {
-    data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0]
-    );
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  a {
+    width: 3em;
+    height: 3em;
+    display: inline-block;
+    overflow: hidden;
+
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
+`;
 
-  return data;
-};
+const builders = new Set([...Object.keys(data)]);
 
-State.init({
-  onChange: ({ content }) => {
-    State.update({ content });
-  },
-});
+const accounts = Object.keys(data)
+  .filter((accountId) => builders.has(accountId))
+  .map((accountId) => (
+    <a
+      title={accountId}
+      href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
+    >
+      <img
+        loading="lazy"
+        src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${accountId}`}
+        alt={accountId}
+      />
+    </a>
+  ));
 
 return (
-  <div className="container">
-    <Widget src="mob.near/widget/ProfileOnboarding" />
-    <div className="row mb-3">
-      <div className="mb-3"></div>
-      <div>
-        <h1>Evolving Guides for Builders</h1>
-        <p>
-          Let's collaborate to gather knowledge and improve common resources for
-          open web developers. Choose your own adventure to discover what is
-          possible! #NEAR
-        </p>
-        <div className="mb-3"></div>
-        <a
-          className="btn btn-primary"
-          href="https://near.social/#/hack.near/widget/Dev"
-        >
-          Widgets
-        </a>
-        <a
-          className="btn btn-primary"
-          href="https://near.social/#/hack.near/widget/Docs"
-        >
-          APIs
-        </a>
-        <a
-          className="btn btn-primary"
-          href="https://near.social/#/hack.near/widget/Data"
-        >
-          Data
-        </a>
-      </div>
-      <div className="row mt-3">
-        <Widget src="manzanal.near/widget/CommonComponentsLibrary" />
-      </div>
-    </div>
-  </div>
+  <Wrapper>
+    <h3>{accounts.length} Builders</h3>
+    <div>{accounts}</div>
+  </Wrapper>
 );
