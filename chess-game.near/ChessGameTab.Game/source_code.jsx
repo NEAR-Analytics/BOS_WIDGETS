@@ -1,4 +1,4 @@
-const { game_id } = props;
+const { game_id, returnToLobby } = props;
 
 const gameWidget = "chess-game.near/widget/ChessGame";
 const buttonWidget = "chess-game.near/widget/ChessGameButton";
@@ -9,6 +9,14 @@ const Content = styled.div`
   align-items: stretch;
   gap: 0.4rem 0;
 `;
+
+const resign = () => {
+  Near.call(contractId, "resign", {
+    game_id,
+  });
+  // TODO await tx before navigation
+  returnToLobby();
+};
 
 return (
   <Content>
