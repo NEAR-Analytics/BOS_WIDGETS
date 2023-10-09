@@ -9,7 +9,7 @@ const action = isTest ? testAction : prodAction;
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 //const authorForWidget = "sayalot.near";
-// const authorForWidget = "kenrou-it.near";
+// const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
 State.init({ libCalls: [] });
@@ -77,32 +77,6 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 //     props: { env: "test" },
 //   },
 // ];
-
-// function getWritersWhitelist(env) {
-//   if (env === "test") {
-//     return [
-//       "silkking.near",
-//       "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-//       "blaze.near",
-//       "ayelen.near",
-//       "kenrou-it.near",
-//     ];
-//   } else {
-//     return [
-//       "neardigitalcollective.near",
-//       "blaze.near",
-//       "jlw.near",
-//       "kazanderdad.near",
-//       "joep.near",
-//       "sarahkornfeld.near",
-//       "yuensid.near",
-//       "shubham007.near",
-//       "fiftycent.near",
-//       "ozymandius.near",
-//       "chloe.near",
-//     ];
-//   }
-// }
 
 function canUserCreateArticle(props) {
   const { env, accountId, sbtsNames } = props;
@@ -381,8 +355,19 @@ function getLastEditArticles(props) {
     return !discardCondition;
   });
 
+  const validFilteredArticles = validFormatLastEditionArticles.filter(
+    (article) => {
+      if (!article.sbts) return false;
+      return (
+        sbtsNames.filter((sbtName) => {
+          return article.sbts.indexOf(sbtName) !== -1;
+        }).length > 0
+      );
+    }
+  );
+
   const finalArticles = filterValidArticles(
-    validFormatLastEditionArticles,
+    validFilteredArticles,
     validAuthors
   );
 
@@ -423,18 +408,6 @@ function filterValidArticles(articles, validAuthors) {
   return filteredArticles;
 }
 
-function libCall(call) {
-  if (call.functionName === "canUserCreateArticle") {
-    return canUserCreateArticle(call.props);
-  } else if (call.functionName === "createArticle") {
-    return createArticle(call.props);
-  } else if (call.functionName === "canUserEditArticle") {
-    return canUserEditArticle(call.props);
-  } else if (call.functionName === "getLastEditArticles") {
-    return getLastEditArticles(call.props);
-  }
-}
-
 function getComments(args) {
   const { realArticleId } = args;
   const key = realArticleId;
@@ -462,6 +435,18 @@ function setComment(args) {
   });
 
   return text;
+}
+
+function libCall(call) {
+  if (call.functionName === "canUserCreateArticle") {
+    return canUserCreateArticle(call.props);
+  } else if (call.functionName === "createArticle") {
+    return createArticle(call.props);
+  } else if (call.functionName === "canUserEditArticle") {
+    return canUserEditArticle(call.props);
+  } else if (call.functionName === "getLastEditArticles") {
+    return getLastEditArticles(call.props);
+  }
 }
 
 let resultLibCalls = [];
