@@ -132,20 +132,6 @@ if (isCongressDaoID) {
     }
 }
 
-function hasNextHandler() {
-    const hasNext = false;
-    if (isCongressDaoID) {
-        hasNext =
-            state.page === 0
-                ? proposalsCount > resPerPage
-                : proposalsCount > state.page * resPerPage;
-    } else {
-        hasNext = resPerPage === res.body.length;
-    }
-
-    return hasNext;
-}
-
 return (
     <>
         <div
@@ -307,7 +293,10 @@ return (
                     src="nearui.near/widget/Navigation.PrevNext"
                     props={{
                         hasPrev: state.page > 0,
-                        hasNext: hasNextHandler(),
+                        hasNext:
+                            state.page === 0
+                                ? proposalsCount > resPerPage
+                                : proposalsCount > state.page * resPerPage,
                         onPrev: () => {
                             update({
                                 page: state.page - 1
