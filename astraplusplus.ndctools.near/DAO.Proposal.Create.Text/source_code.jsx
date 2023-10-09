@@ -3,29 +3,14 @@ const daoId = props.daoId ?? "multi.sputnik-dao.near";
 const onClose = props.onClose;
 const isCongressDaoID = props.isCongressDaoID;
 
-const HoMDaoId = "hom.gwg-testing.near";
-
 if (!accountId) {
     return "Please connect your NEAR wallet :)";
 }
 
 State.init({
     description: state.description,
-    error: state.error,
-    powerType: null
+    error: state.error
 });
-
-// only for UI
-const powerTypes = [
-    {
-        text: "Propose Budget",
-        value: "Budget"
-    },
-    {
-        text: "Propose Motion",
-        value: "Motion"
-    }
-];
 
 const handleProposal = () => {
     if (!state.description) {
@@ -72,26 +57,6 @@ const defaultDescription =
 
 return (
     <>
-        {daoId === HoMDaoId && (
-            <div className="mb-2">
-                <Widget
-                    src={`sking.near/widget/Common.Inputs.Select`}
-                    props={{
-                        label: "Power",
-                        noLabel: false,
-                        placeholder: "Can propose motion",
-                        options: powerTypes,
-                        value: state.powerType,
-                        onChange: (powerType) =>
-                            State.update({
-                                ...state,
-                                powerType: powerType.value
-                            }),
-                        error: undefined
-                    }}
-                />
-            </div>
-        )}
         <h5>Proposal Description</h5>
         <Widget
             src="sking.near/widget/Common.Inputs.Markdown"
