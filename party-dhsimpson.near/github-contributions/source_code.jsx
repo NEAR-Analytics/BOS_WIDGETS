@@ -343,21 +343,23 @@ return (
       <FilterButton clicked={closed} onClick={toggleClosed}>
         Closed
       </FilterButton>
-      <ChangeNameWrapper>
-        <input
-          type="text"
-          name="github_nickname"
-          placeholder="닉네임을 입력하세요."
-          onChange={handleInputChange}
-        />
-        <ChangeNameButton
-          onClick={() => {
-            changeName(tempText);
-          }}
-        >
-          적용
-        </ChangeNameButton>
-      </ChangeNameWrapper>
+      {props.canChangeAuthor && (
+        <ChangeNameWrapper>
+          <input
+            type="text"
+            name="github_nickname"
+            placeholder="닉네임을 입력하세요."
+            onChange={handleInputChange}
+          />
+          <ChangeNameButton
+            onClick={() => {
+              changeName(tempText);
+            }}
+          >
+            적용
+          </ChangeNameButton>
+        </ChangeNameWrapper>
+      )}
     </OptionWrapper>
     <MyContributionList>
       {contributionData.map((issue) => {
