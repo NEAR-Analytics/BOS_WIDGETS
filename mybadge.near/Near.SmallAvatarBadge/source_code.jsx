@@ -5,14 +5,13 @@ const IconWrapper = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 13px;
-    padding: 3px;
     background: var(--colors-pure-white, #fff);
 `;
 
 const NearIcon = () => (
   <svg
-    width="20"
-    height="20"
+    width="7"
+    height="7"
     viewBox="0 0 20 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
