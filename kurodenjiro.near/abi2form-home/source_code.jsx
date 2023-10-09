@@ -134,7 +134,7 @@ return (
                             <label>Contract ID</label>
                             <input
                               class="form-control"
-                              onChange={(e) => onInputChangeClientName(e)}
+                              onChange={(e) => onInputChangeClientContract(e)}
                             />
                           </div>
                           <small class="form-text text-muted">
