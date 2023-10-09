@@ -97,7 +97,7 @@ return (
         }}
       />
       <Widget
-        src={`${ownerId}/widget/CreaiveDAO.Navbar`}
+        src={`${ownerId}/widget/CreativeDAO.Navbar`}
         props={{
           tab: state.tab,
           update,
