@@ -1,5 +1,5 @@
-const targetAccountId = props.accountId;
 const sourceAccountId = context.accountId;
+const targetAccountId = props.accountId || sourceAccountId;
 const isOwner = targetAccountId == sourceAccountId;
 
 const dayOptions = [
