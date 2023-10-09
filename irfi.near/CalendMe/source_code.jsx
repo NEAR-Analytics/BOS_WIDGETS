@@ -112,6 +112,12 @@ const settings = () => {
       <CommitButton force data={{ meet_preference: state }}>
         Update
       </CommitButton>
+      <p>
+        Your CalendMe link:
+        <a
+          href={`https://near.social/irfi.near/widget/CalendMe?accountId=${sourceAccountId}`}
+        >{`https://near.social/irfi.near/widget/CalendMe?accountId=${sourceAccountId}`}</a>
+      </p>
     </div>
   );
 };
@@ -236,7 +242,7 @@ const bookAMeet = () => {
 };
 
 const proposedCalendar = () => {
-  const proposedMeets = Social.get(`${sourceAccountId}/calendme/**`);
+  const proposedMeets = Social.get(`${sourceAccountId}/calendme/**`) || {};
 
   const proposedMeetsBlocks = Object.keys(proposedMeets).map((accountId) => {
     return Object.keys(proposedMeets[accountId]).map((timeStamp) => (
@@ -284,11 +290,8 @@ const proposedCalendar = () => {
 };
 
 const receivedCalendar = () => {
-  const accountsHaveCal = Social.keys(
-    `*/calendme/${sourceAccountId}`,
-    "final",
-    {}
-  );
+  const accountsHaveCal =
+    Social.keys(`*/calendme/${sourceAccountId}`, "final", {}) || {};
 
   const allProposedMeets = [];
 
