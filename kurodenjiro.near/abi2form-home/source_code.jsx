@@ -63,7 +63,7 @@ return (
                 id="pills-tab"
                 role="tablist"
               >
-                <li class="mb-3">
+                <li class="mb-1">
                   <div class=" small fw-bold text-uppercase px-3">
                     🪄 Magic Build
                   </div>
@@ -86,12 +86,12 @@ return (
                 <li>
                   <hr />
                 </li>
-                <li class="mb-3">
+                <li class="mb-1">
                   <div class="small fw-bold text-uppercase d-flex  px-3 align-items-center justify-content-between">
                     <span>Client</span>
                     <button
                       type="button"
-                      class="btn btn-primary"
+                      class="btn btn-sm"
                       data-bs-toggle="modal"
                       data-bs-target="#createClient"
                     >
