@@ -8,7 +8,6 @@ const contractId = "app.chess-game.near";
 const buttonWidget = "chess-game.near/widget/ChessGameButton";
 const challengeWidget = "chess-game.near/widget/ChessGameChallenge";
 const aiWidget = "chess-game.near/widget/ChessGameAi";
-const loadingWidget = "chess-game.near/widget/ChessGameLoading";
 
 if (state.isRegistered) {
   Near.asyncView(contractId, "get_game_ids", {
@@ -24,7 +23,7 @@ if (state.isRegistered) {
   });
 }
 if (!state.gameIds) {
-  return <Widget src={loadingWidget} />;
+  return <Widget src="chess-game.near/widget/ChessGameLoading" />;
 }
 
 const GameSelector = styled.div`
