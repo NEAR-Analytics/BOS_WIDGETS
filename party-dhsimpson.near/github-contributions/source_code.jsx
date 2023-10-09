@@ -7,19 +7,20 @@
 
 //Sort "sort=" 필수
 // &sort=created&order=desc&per_page=30&page=1
+const [githubNickname, setGithubNickname] = useState(props.githubNickname);
 
 if (!props.token) {
   return <p>your token is required.</p>;
 }
-if (!props.githubNickname) {
+if (!githubNickname) {
   return <p>github nickname is required.</p>;
 }
 
 const searchBaseUrl = "https://api.github.com/search/issues?q=";
 const nickName = "dhsimpson";
 const defulatFilterList = [
-  `-user:${props.githubNickname}`,
-  `author:${props.githubNickname}`,
+  `-user:${githubNickname}`,
+  `author:${githubNickname}`,
 ];
 const pullRequestDefaultFilterList = ["type:pr"];
 const issueDefaultFilterList = ["is:issue"];
@@ -291,6 +292,35 @@ function Profile() {
   );
 }
 
+const changeName = (newName) => {
+  //allState isOpen isClosed
+  const filteredOptions = searchOptions.filter((option) => {
+    return `author:${githubNickname}` !== option;
+  });
+  setGithubNickname(newName);
+
+  setSearchOptions([...filteredOptions, `author:${newName}`]);
+};
+
+const ChangeNameWrapper = styled.div`
+  display: flex;
+  margin-top: 10px;
+`;
+const ChangeNameButton = styled.button`
+  width: 100px;
+  margin-left: 10px;
+  border: none;
+  background-color: rgba(40,70,145,0.8);
+  border-radius: 15px;
+  color: white;
+  font-weight: 600;
+`;
+const [tempText, setTempText] = useState("");
+
+const handleInputChange = (event) => {
+  setTempText(event.target.value);
+};
+
 return (
   <MyContributionWrapper>
     <OptionWrapper>
@@ -314,6 +344,21 @@ return (
       <FilterButton clicked={closed} onClick={toggleClosed}>
         Closed
       </FilterButton>
+      <ChangeNameWrapper>
+        <input
+          type="text"
+          name="github_nickname"
+          placeholder="닉네임을 입력하세요."
+          onChange={handleInputChange}
+        />
+        <ChangeNameButton
+          onClick={() => {
+            changeName(tempText);
+          }}
+        >
+          적용
+        </ChangeNameButton>
+      </ChangeNameWrapper>
     </OptionWrapper>
     <MyContributionList>
       {contributionData.map((issue) => {
