@@ -143,7 +143,7 @@ return (
                           <td>{data.name}</td>
                           <td>{data.status ? "Si" : "No"}</td>
                           <td>
-                            {!data.status ? (
+                            {!data.status && (
                               <button
                                 class="btn btn-primary"
                                 onClick={async () => {
@@ -152,8 +152,6 @@ return (
                               >
                                 Finalizar
                               </button>
-                            ) : (
-                              <span></span>
                             )}
                           </td>
                         </tr>
