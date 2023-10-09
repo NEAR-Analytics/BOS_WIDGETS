@@ -45,9 +45,9 @@ const settings = () => {
   const meetPreference = Social.get(`${sourceAccountId}/meet_preference/*`);
   State.init({
     active_days: JSON.parse(meetPreference?.active_days ?? "[]"),
-    active_hours_begin: meetPreference?.active_hours_begin ?? "00:00",
-    active_hours_end: meetPreference?.active_hours_end ?? "12:00",
-    meet_duration: meetPreference?.meet_duration ?? "30 minutes",
+    active_hours_begin: meetPreference?.active_hours_begin ?? null,
+    active_hours_end: meetPreference?.active_hours_end ?? null,
+    meet_duration: meetPreference?.meet_duration ?? null,
   });
 
   const quarterHours = ["00"];
@@ -83,7 +83,9 @@ const settings = () => {
           onChange={(value) => {
             State.update({ active_hours_begin: value[0] });
           }}
-          selected={[state.active_hours_begin]}
+          selected={
+            state.active_hours_begin ? [state.active_hours_begin] : null
+          }
           placeholder="Edit your preferred starting hour..."
         />
       </div>
@@ -94,7 +96,7 @@ const settings = () => {
           onChange={(value) => {
             State.update({ active_hours_end: value[0] });
           }}
-          selected={[state.active_hours_end]}
+          selected={state.active_hours_end ? [state.active_hours_end] : null}
           placeholder="Edit your preferred last hour..."
         />
       </div>
@@ -105,7 +107,7 @@ const settings = () => {
           onChange={(value) => {
             State.update({ meet_duration: value[0] });
           }}
-          selected={[state.meet_duration]}
+          selected={state.meet_duration ? [state.meet_duration] : null}
           placeholder="Edit your meeting duration..."
         />
       </div>
