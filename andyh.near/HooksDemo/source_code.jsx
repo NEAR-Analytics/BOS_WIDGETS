@@ -3,6 +3,7 @@ const [isInit, setIsInit] = useState(false);
 // const [value, setValue] = [4, console.log];
 
 useEffect(() => {
+  console.log({ isInit });
   if (!isInit) {
     setTimeout(() => setValue(500), 500);
     setIsInit(true);
