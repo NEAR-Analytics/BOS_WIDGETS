@@ -6,7 +6,7 @@ console.log({ useEffect });
 useEffect(() => {
   console.log({ isInit });
   if (!isInit) {
-    setTimeout(() => setValue(5000), 500);
+    setTimeout(() => setValue(500), 5000);
     setIsInit(true);
   }
 }, [isInit]);
