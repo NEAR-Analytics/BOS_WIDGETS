@@ -10,6 +10,7 @@ const index = {
   options: {
     limit: 50,
     order: "desc",
+    subscribe: true,
   },
   cacheOptions: {
     ignoreCache: true,
