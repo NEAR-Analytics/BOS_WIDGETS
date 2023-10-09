@@ -3,23 +3,12 @@ const contractId = props.contractId;
 const onClose = props.onClose;
 const daoId = props.daoId;
 const isCongressDaoID = props.isCongressDaoID;
-const powerType = props.powerType;
-const showPowers = props.showPowers ?? true;
-const registry = props.registry;
-const isVotingBodyDao = props.isVotingBodyDao;
+const registry = "registry.i-am-human.near";
 
-const CoADaoId = props.dev
-    ? "coa.gwg-testing.near"
-    : "congress-coa-v1.ndc-gwg.near";
-const VotingBodyDaoId = props.dev
-    ? "voting-body-v1.gwg-testing.near"
-    : "voting-body-v1.ndc-gwg.near";
-const TCDaoId = props.dev
-    ? "tc.gwg-testing.near"
-    : "congress-tc-v1.ndc-gwg.near";
-const HoMDaoId = props.dev
-    ? "hom.gwg-testing.near"
-    : "congress-hom-v1.ndc-gwg.near";
+const CoADaoId = "coa.gwg-testing.near";
+const VotingBodyDaoId = "";
+const TCDaoId = "tc.gwg-testing.near";
+const HoMDaoId = "hom.gwg-testing.near";
 
 if (!accountId) {
     return "Please connect your NEAR wallet :)";
@@ -34,20 +23,44 @@ State.init({
     method_name: state.method_name,
     args: state.args || "{}",
     deposit: state.deposit || "0",
-    gas: "300000000000000",
+    gas: "200000000000000",
     error: undefined,
     receiver_id: null,
     description: null,
-    powerType,
+    powerType: null,
     member: null, // for dismiss and ban hook
     house: null, // for dismiss and ban hook
     accounts: null, // for unban hook
-    memo: null, // for unban hook
-    showReceiverAsOptions: false,
-    disableReceiverField: false,
-    attachDeposit: 0,
-    proposalQueue: null
+    memo: null // for unban hook
 });
+
+// only for UI
+const powerTypes =
+    daoId === CoADaoId
+        ? [
+              {
+                  text: "Veto House of Merit motion",
+                  value: "Veto"
+              },
+              {
+                  text: "Unban member previously banned",
+                  value: "Unban"
+              }
+          ]
+        : daoId === TCDaoId
+        ? [
+              {
+                  text: "Dismiss member from an house",
+                  value: "Dismiss"
+              },
+              {
+                  text: "Ban member from an house",
+                  value: "DismissAndBan"
+              }
+          ]
+        : daoId === VotingBodyDaoId
+        ? [] // TODO :  after VB contract is ready
+        : [];
 
 const fc_args = Buffer.from(state.args, "utf-8").toString("base64");
 
@@ -62,7 +75,7 @@ function isNearAddress(address) {
 }
 
 const handleFunctionCall = () => {
-    if (!isCongressDaoID && !VotingBodyDaoId) {
+    if (!isCongressDaoID) {
         if (isEmpty(state.contractId) || !isNearAddress(state.contractId)) {
             State.update({
                 error: "Please enter a valid contract ID"
@@ -70,7 +83,7 @@ const handleFunctionCall = () => {
             return;
         }
     }
-    if (state.powerType !== "Unban" && state.powerType !== "DismissAndBan") {
+    if (state.powerType !== "Unban") {
         if (isEmpty(state.method_name)) {
             State.update({
                 error: "Please enter a valid method name"
@@ -108,69 +121,68 @@ const handleFunctionCall = () => {
     }
 
     const deposit = Big(state.deposit).mul(Big(10).pow(24)).toFixed();
-    if (isVotingBodyDao) {
-        if (isEmpty(state.description)) {
-            State.update({
-                error: "Please enter a description"
-            });
-            return;
-        }
-        Near.call([
-            {
-                contractName: registry,
-                methodName: "is_human_call",
-                args: {
-                    ctr: daoId,
-                    function: "create_proposal",
-                    payload: JSON.stringify({
-                        kind: {
-                            FunctionCall: {
-                                receiver_id: state.receiver_id,
-                                actions: [
-                                    {
-                                        method_name: state.method_name,
-                                        args: fc_args,
-                                        deposit: deposit,
-                                        gas: state.gas
-                                    }
-                                ]
-                            }
-                        },
-                        caller: accountId,
-                        description: state.description
-                    })
-                },
-                deposit: state.attachDeposit
-                    ? Big(state.attachDeposit)
-                    : 100000000000000000000000,
-                gas: 20000000000000
-            }
-        ]);
-    } else {
-        if (isCongressDaoID) {
-            if (isEmpty(state.description)) {
+
+    if (isCongressDaoID) {
+        if (state.powerType === "Unban") {
+            const accountsArray = state.accounts
+                ?.split(",")
+                .map((item) => item.trim());
+            if (
+                !accountsArray?.length ||
+                accountsArray?.some((item) => !isNearAddress(item))
+            ) {
                 State.update({
-                    error: "Please enter a description"
+                    error: "Please enter valid account IDs"
                 });
                 return;
             }
+            Near.call([
+                {
+                    contractName: registry,
+                    methodName: "admin_unflag_accounts",
+                    args: { accounts: accountsArray, memo: state.memo },
+                    deposit: 0,
+                    gas: 200000000000000
+                }
+            ]);
+            return;
+        } else {
             let args = {};
-            if (state.powerType === "Unban") {
-                const accountsArray = state.accounts
-                    ?.split(",")
-                    .map((item) => item.trim());
-                if (
-                    !accountsArray?.length ||
-                    accountsArray?.some((item) => !isNearAddress(item))
-                ) {
+            if (state.powerType === "DismissAndBan") {
+                if (isEmpty(state.house) || !isNearAddress(state.house)) {
                     State.update({
-                        error: "Please enter valid account IDs"
+                        error: "Please enter a valid house contract ID"
                     });
                     return;
                 }
-                if (isEmpty(state.memo)) {
+                if (isEmpty(state.member) || !isNearAddress(state.member)) {
                     State.update({
-                        error: "Please enter a valid memo"
+                        error: "Please enter a valid member ID"
+                    });
+                    return;
+                }
+                args = {
+                    kind: {
+                        DismissAndBan: {
+                            member: state.member,
+                            house: state.house
+                        }
+                    },
+                    description: state.description
+                };
+            } else {
+                if (
+                    isEmpty(state.receiver_id) ||
+                    !isNearAddress(state.receiver_id)
+                ) {
+                    State.update({
+                        error: "Please enter a valid recipient address"
+                    });
+                    return;
+                }
+                if (isEmpty(state.description)) {
+                    State.update({
+                        error: "Please enter a description"
                     });
                     return;
                 }
@@ -178,114 +190,43 @@ const handleFunctionCall = () => {
                 args = {
                     kind: {
                         FunctionCall: {
-                            receiver_id: registry,
+                            receiver_id: state.receiver_id,
                             actions: [
                                 {
-                                    method_name: "admin_unflag_accounts",
-                                    args: Buffer.from(
-                                        JSON.stringify({
-                                            accounts: accountsArray,
-                                            memo: state.memo
-                                        }),
-                                        "utf-8"
-                                    ).toString("base64"),
+                                    method_name: state.method_name,
+                                    args: fc_args,
                                     deposit: deposit,
-                                    gas: "20000000000000"
+                                    gas: state.gas
                                 }
                             ]
                         }
                     },
                     description: state.description
                 };
-            } else {
-                if (state.powerType === "DismissAndBan") {
-                    if (isEmpty(state.house) || !isNearAddress(state.house)) {
-                        State.update({
-                            error: "Please enter a valid house contract ID"
-                        });
-                        return;
-                    }
-
-                    if (isEmpty(state.member) || !isNearAddress(state.member)) {
-                        State.update({
-                            error: "Please enter a valid member ID"
-                        });
-                        return;
-                    }
-                    args = {
-                        kind: {
-                            DismissAndBan: {
-                                member: state.member,
-                                house: state.house
-                            }
-                        },
-                        description: state.description
-                    };
-                } else {
-                    if (
-                        isEmpty(state.receiver_id) ||
-                        !isNearAddress(state.receiver_id)
-                    ) {
-                        State.update({
-                            error: "Please enter a valid recipient address"
-                        });
-                        return;
-                    }
-                    args = {
-                        kind: {
-                            FunctionCall: {
-                                receiver_id: state.receiver_id,
-                                actions: [
-                                    {
-                                        method_name: state.method_name,
-                                        args: fc_args,
-                                        deposit: deposit,
-                                        gas: state.gas
-                                    }
-                                ]
-                            }
-                        },
-                        description: state.description
-                    };
-                }
             }
+
             Near.call([
                 {
                     contractName: daoId,
                     methodName: "create_proposal",
                     args: args,
                     deposit: 100000000000000000000000,
-                    gas: 20000000000000
-                }
-            ]);
-        } else {
-            Near.call([
-                {
-                    contractName: daoId,
-                    methodName: "add_proposal",
-                    args: {
-                        proposal: {
-                            description: state.description,
-                            kind: {
-                                FunctionCall: {
-                                    receiver_id: state.contractId,
-                                    actions: [
-                                        {
-                                            method_name: state.method_name,
-                                            args: fc_args,
-                                            deposit: deposit,
-                                            gas: state.gas ?? "200000000000000"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    deposit: 100000000000000000000000,
-                    gas: state.gas ?? "200000000000000"
+                    gas: 200000000000000
                 }
             ]);
         }
+    } else {
+        Near.call([
+            {
+                contractName: state.contractId,
+                methodName: state.method_name,
+                args: {
+                    Arguments: fc_args
+                },
+                deposit: deposit,
+                gas: state.gas ?? "200000000000000"
+            }
+        ]);
     }
 };
 
@@ -366,26 +307,77 @@ const onChangeMemo = (memo) => {
     });
 };
 
-const onChangeQueue = ({ amount, queue }) => {
-    State.update({
-        attachDeposit: amount,
-        proposalQueue: queue
-    });
+const onChangePowerType = (power) => {
+    switch (power?.value) {
+        case "Dismiss": {
+            State.update({
+                method_name: "dismiss_hook",
+                args: JSON.stringify({
+                    member: ""
+                })
+            });
+            break;
+        }
+        case "Veto": {
+            State.update({
+                method_name: "veto_hook",
+                args: JSON.stringify({
+                    id: ""
+                })
+            });
+            break;
+        }
+        case "Ban": {
+            break;
+        }
+        case "Unban": {
+            State.update({
+                accounts: null,
+                memo: null
+            });
+            break;
+        }
+        case "DismissAndBan": {
+            State.update({
+                house: null,
+                member: null
+            });
+            break;
+        }
+        default: {
+            break;
+        }
+    }
 };
 
 const defaultDescription =
-    "### [Your Title Here]\n\n#### Description\n\n[Detailed description of what the proposal is about.]\n\n#### Why This Proposal?\n\n[Explanation of why this proposal is necessary or beneficial.]\n\n#### Execution Plan\n\n[Description of how the proposal will be implemented.]\n\n#### Budget\n\n[If applicable, outline the budget required to execute this proposal.]\n\n#### Timeline\n\n[Proposed timeline for the execution of the proposal.]";
+    "# [Your Title Here]\n\n## Description\n\n[Detailed description of what the proposal is about.]\n\n## Why This Proposal?\n\n[Explanation of why this proposal is necessary or beneficial.]\n\n## Execution Plan\n\n[Description of how the proposal will be implemented.]\n\n## Budget\n\n[If applicable, outline the budget required to execute this proposal.]\n\n## Timeline\n\n[Proposed timeline for the execution of the proposal.]";
 
 return (
     <>
-        <Widget
-            src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.ProposalQueue"
-            props={{
-                daoId: daoId,
-                onUpdate: onChangeQueue,
-                dev: props.dev
-            }}
-        />
+        {(daoId === CoADaoId || daoId === TCDaoId) && (
+            <div className="mb-3">
+                <Widget
+                    src={`sking.near/widget/Common.Inputs.Select`}
+                    props={{
+                        label: "Power",
+                        noLabel: false,
+                        placeholder: "Can propose motion",
+                        options: powerTypes,
+                        value: state.powerType,
+                        onChange: (powerType) => {
+                            State.update({
+                                ...state,
+                                powerType: powerType.value
+                            });
+                            onChangePowerType(powerType);
+                        },
+
+                        error: undefined
+                    }}
+                />
+            </div>
+        )}
 
         {state.powerType === "DismissAndBan" ? (
             <>
@@ -398,20 +390,15 @@ return (
                         placeholder="Specify member account"
                     />
                 </div>
-                <Widget
-                    src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.CongressHouseDropdown"
-                    props={{
-                        daoId: daoId,
-                        label: "House",
-                        placeholder: "Select house account",
-                        onUpdate: (house) => {
-                            State.update({
-                                house: house,
-                                error: undefined
-                            });
-                        }
-                    }}
-                />
+                <div className="mb-3">
+                    <h5>House</h5>
+                    <input
+                        type="text"
+                        value={state.house}
+                        onChange={(e) => onChangeHouse(e.target.value)}
+                        placeholder="Specify house account"
+                    />
+                </div>
             </>
         ) : (
             <>
@@ -429,20 +416,16 @@ return (
                         </div>
                         <div className="mb-3">
                             <h5>Memo</h5>
-                            <Widget
-                                src="sking.near/widget/Common.Inputs.Markdown"
-                                props={{
-                                    value: state.memo,
-                                    onChange: (value) => onChangeMemo(value),
-                                    height: "160px",
-                                    initialText: ""
-                                }}
+                            <input
+                                type="text"
+                                value={state.memo}
+                                onChange={(e) => onChangeMemo(e.target.value)}
                             />
                         </div>
                     </>
                 ) : (
                     <>
-                        {!isCongressDaoID && !isVotingBodyDao && (
+                        {!isCongressDaoID && (
                             <div className="mb-3">
                                 <h5>Contract</h5>
                                 <input
@@ -463,7 +446,26 @@ return (
                                 onChange={(e) => onChangeMethod(e.target.value)}
                             />
                         </div>
-
+                        <div className="mb-3">
+                            <h5>Deposit</h5>
+                            <input
+                                type="number"
+                                value={state.deposit}
+                                onChange={(e) =>
+                                    onChangeDeposit(e.target.value)
+                                }
+                                defaultValue={0}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <h5>Gas</h5>
+                            <input
+                                type="number"
+                                value={state.gas}
+                                onChange={(e) => onChangeGas(e.target.value)}
+                                defaultValue="200000000000000"
+                            />
+                        </div>
                         <div className="mb-3">
                             <h5>Arguments (JSON)</h5>
                             <textarea
@@ -474,30 +476,10 @@ return (
                                 defaultValue={state.args}
                             />
                         </div>
-                        {state.showReceiverAsOptions && (
-                            <div className="mb-3">
-                                <Widget
-                                    src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.CongressHouseDropdown"
-                                    props={{
-                                        daoId: daoId,
-                                        label: "Recipient",
-                                        placeholder: "Select Recipient account",
-                                        onUpdate: (house) => {
-                                            State.update({
-                                                receiver_id: house,
-                                                error: undefined
-                                            });
-                                        }
-                                    }}
-                                />
-                            </div>
-                        )}
-                        {((isCongressDaoID && !state.showReceiverAsOptions) ||
-                            isVotingBodyDao) && (
+                        {isCongressDaoID && (
                             <div className="mb-3">
                                 <h5>Recipient</h5>
                                 <input
-                                    disabled={state.disableReceiverField}
                                     type="text"
                                     value={state.receiver_id}
                                     onChange={(e) =>
@@ -507,47 +489,24 @@ return (
                                 />
                             </div>
                         )}
-                        {!isCongressDaoID && !isVotingBodyDao && (
-                            <div className="mb-3">
-                                <h5>Gas</h5>
-                                <input
-                                    type="number"
-                                    value={state.gas}
-                                    onChange={(e) =>
-                                        onChangeGas(e.target.value)
-                                    }
-                                    defaultValue="300000000000000"
-                                />
-                            </div>
-                        )}
                     </>
                 )}
-                <div className="mb-3">
-                    <h5>
-                        Deposit{" "}
-                        {(isCongressDaoID || isVotingBodyDao) && "(NEAR)"}
-                    </h5>
-                    <input
-                        type="number"
-                        value={state.deposit}
-                        onChange={(e) => onChangeDeposit(e.target.value)}
-                        defaultValue={0}
-                    />
-                </div>
             </>
         )}
-        <div className="mb-3">
-            <h5>Description</h5>
-            <Widget
-                src="sking.near/widget/Common.Inputs.Markdown"
-                props={{
-                    value: state.description,
-                    onChange: (value) => onChangeDescription(value),
-                    height: "270px",
-                    initialText: defaultDescription
-                }}
-            />
-        </div>
+        {isCongressDaoID && state.powerType !== "Unban" && (
+            <div className="mb-3">
+                <h5>Description</h5>
+                <Widget
+                    src="sking.near/widget/Common.Inputs.Markdown"
+                    props={{
+                        value: state.description,
+                        onChange: (value) => onChangeDescription(value),
+                        height: "270px",
+                        initialText: defaultDescription
+                    }}
+                />
+            </div>
+        )}
         {state.error && <div className="text-danger">{state.error}</div>}
         <div className="ms-auto">
             <Widget
