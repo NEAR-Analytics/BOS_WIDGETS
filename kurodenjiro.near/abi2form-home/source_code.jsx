@@ -61,11 +61,7 @@ return (
         >
           <div class="offcanvas-body p-0">
             <div class="navbar-white">
-              <ul
-                class="navbar-nav nav nav-pills"
-                id="pills-tab"
-                role="tablist"
-              >
+              <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
                 <li class="mb-3">
                   <div class=" small fw-bold text-uppercase px-3">
                     🪄 Magic Build
