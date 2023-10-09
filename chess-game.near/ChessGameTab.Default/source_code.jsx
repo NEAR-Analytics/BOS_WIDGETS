@@ -15,6 +15,10 @@ const Content = styled.div`
   flex-direction: column;
   align-items: stretch;
   gap: 0.4rem 0;
+
+  h2, h3, h4 {
+    align-self: center;
+  }
 `;
 const GameSelector = styled.div`
   display: flex;
@@ -121,14 +125,8 @@ const renderGameIds = (gameIds) =>
   });
 
 return (
-  <>
-    {state.gameIds.length > 0 && (
-      <div>
-        <h2>Select Game:</h2>
-        <GameSelector>{renderGameIds(state.gameIds)}</GameSelector>
-      </div>
-    )}
-    <Widget src={challengeWidget} />
-    <Widget src={aiWidget} />
-  </>
+  <Content>
+    <h2>Select Game:</h2>
+    <GameSelector>{renderGameIds(state.gameIds)}</GameSelector>
+  </Content>
 );
