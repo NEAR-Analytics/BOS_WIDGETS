@@ -633,7 +633,7 @@ return (
                           !state.canLoggedUserCreateComment),
                     }}
                   />
-                  {(true || context.accountId == accountId) && (
+                  {context.accountId == accountId && (
                     <Widget
                       src={widgets.styledComponents}
                       props={{
