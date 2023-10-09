@@ -12,7 +12,7 @@ return (
         <Widget
           id="trusted"
           src="andyh.near/widget/StateDemoRoot"
-          isTrusted={true}
+          trust={{ mode: "trusted-author" }}
           props={{ title: "State across Trusted Components" }}
         />
       </div>
@@ -20,7 +20,6 @@ return (
         <Widget
           id="sandboxed"
           src="andyh.near/widget/StateDemoRoot"
-          isTrusted={false}
           props={{ title: "State within Sandboxed Components" }}
         />
       </div>
