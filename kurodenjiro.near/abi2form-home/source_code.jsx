@@ -51,7 +51,6 @@ return (
       <div class="col-md-3">
         <div
           class="side-bar"
-          style={{ backgroundColor: "#FFF" }}
           data-bs-scroll="true"
           tabindex="-1"
           id="offcanvas"
