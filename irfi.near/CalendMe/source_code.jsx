@@ -350,6 +350,13 @@ const receivedCalendar = () => {
   );
 };
 
+if (!sourceAccountId) {
+  return (
+    <>
+      <h1>Please Login before using CalendMe!</h1>
+    </>
+  );
+}
 return (
   <>
     <h1>Hey {sourceAccountId}, welcome to CalendMe!</h1>
