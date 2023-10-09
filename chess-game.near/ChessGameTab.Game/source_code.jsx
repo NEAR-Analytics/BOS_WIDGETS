@@ -1,4 +1,9 @@
-const { game_id, returnToLobby } = props;
+const { returnToLobby } = props;
+const game_id = props.game_id ? JSON.parse(props.game_id) : null;
+
+if (!game_id) {
+  return "`game_id` required";
+}
 
 const gameWidget = "chess-game.near/widget/ChessGame";
 const buttonWidget = "chess-game.near/widget/ChessGameButton";
