@@ -107,37 +107,9 @@ State.update({ libCalls: newLibCalls });
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
-const libSrcArray = [
-  `${authorForWidget}/widget/SayALot.lib.article`,
-  // `${authorForWidget}/widget/SayALot.lib.SBT`,
-];
+const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
 
-// let writersWhiteList = [
-//   "neardigitalcollective.near",
-//   "blaze.near",
-//   "jlw.near",
-//   "kazanderdad.near",
-//   "joep.near",
-//   "sarahkornfeld.near",
-//   "yuensid.near",
-//   "shubham007.near",
-//   "fiftycent.near",
-//   "ozymandius.near",
-//   "chloe.near",
-// ];
-
-// const sayALotWorkers = [
-//   "silkking.near",
-//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-//   "blaze.near",
-//   "ayelen.near",
-//   "kenrou-it.near",
-// ];
-
-// if (isTest) {
-//   writersWhiteList = sayALotWorkers;
-// }
 const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
 
 const widgets = {
@@ -153,7 +125,6 @@ const widgets = {
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
   commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  // candidatePage: `#/rubycop.near/widget/NDC.Nomination.Candidate.Page`,
   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
   libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
   libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
