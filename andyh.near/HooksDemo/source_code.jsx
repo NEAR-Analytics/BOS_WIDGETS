@@ -2,6 +2,7 @@ const [value, setValue] = useState(0);
 const [isInit, setIsInit] = useState(false);
 // const [value, setValue] = [4, console.log];
 
+console.log({ useEffect });
 useEffect(() => {
   console.log({ isInit });
   if (!isInit) {
