@@ -21,7 +21,7 @@ const errTextNoBody = "ERROR: no article Body",
   errTextNoId = "ERROR: no article Id",
   errTextDublicatedId = "ERROR: there is article with such name";
 
-State.init(initialCreateState);
+State.init({ ...initialCreateState, initialBody: props.initialBody ?? "" });
 
 function createStateUpdate(obj) {
   State.update(obj);
@@ -73,6 +73,7 @@ function onCommit() {
     clearTags: true,
     articleBody: "",
     clearArticleBody: true,
+    initalBody: "",
     showCreatedArticle: true,
     showPreview: false,
   });
@@ -98,7 +99,10 @@ function createArticleListener() {
 }
 
 function switchShowPreview() {
-  State.update({ showPreview: !state.showPreview });
+  State.update({
+    showPreview: !state.showPreview,
+    initialBody: state.articleBody,
+  });
 }
 
 const Button = styled.button` 
@@ -268,14 +272,13 @@ return (
                   <Widget
                     src={`${authorForWidget}/widget/MarkdownEditorIframe`}
                     props={{
-                      initialText: state.clearArticleId ? initialBody : "",
+                      initialText: state.initialBody ?? "",
                       onChange: (articleBody) =>
                         State.update({
-                          articleBody: articleBody,
+                          articleBody,
                           clearArticleBody: false,
                         }),
-                      forceClear: state.clearArticleBody,
-                      stateUpdate: (obj) => State.update(obj),
+                      clearArticleBody: state.clearArticleBody,
                     }}
                   />
                   {
