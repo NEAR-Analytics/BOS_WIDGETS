@@ -289,14 +289,14 @@ return (
                 </li>
                 <li>
                   <a
-                    href="https://near.social/mob.near/widget/ProfilePage?accountId=kurodenjiro.near"
+                    href="https://www.minorityprogrammers.com/"
                     class="nav-link px-3"
                   >
                     <span class="me-2">
                       <i class="bi bi-info-circle"></i>
                     </span>
-                    Provided by
-                    <span class="fw-bold">Kuro Denjiro</span>
+                    Built with ❤️ by
+                    <span class="fw-bold">Minority Programmers</span>
                   </a>
                 </li>
               </ul>
