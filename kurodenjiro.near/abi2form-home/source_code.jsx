@@ -65,7 +65,7 @@ return (
               >
                 <li>
                   <div class=" small fw-bold text-uppercase px-3">
-                    Magic Build
+                    🪄 Magic Build
                   </div>
                 </li>
                 <li class="nav-item" role="presentation">
