@@ -16,9 +16,6 @@ const loadData = () => {
       );
       if (abiRes) {
         const abi = JSON.parse(abiRes);
-        abi.address = item.contract;
-        abi.name = item.name;
-        abi.id = item.id;
         clientListData[index].abi = abi;
       }
     });
@@ -338,7 +335,7 @@ return (
               >
                 <Widget
                   src={"kurodenjiro.near/widget/abi2form-builder"}
-                  props={client.abi}
+                  props={client}
                 />
               </div>
             ))}
