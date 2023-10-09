@@ -1,5 +1,5 @@
-// const [value, setValue] = useState(0);
-const [value, setValue] = [4, console.log];
+const [value, setValue] = useState(0);
+// const [value, setValue] = [4, console.log];
 
 return (
   <>
