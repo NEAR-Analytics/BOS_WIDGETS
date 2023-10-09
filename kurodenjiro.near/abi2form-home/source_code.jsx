@@ -80,10 +80,7 @@ return (
                     aria-selected="true"
                     class="nav-link px-3 active"
                   >
-                    <span class="me-2">
-                      <i class="bi bi-house-door"></i>
-                    </span>
-                    <span class="fw-bold">Home</span>
+                    <span class="fw-bold">🏠 Home</span>
                   </a>
                 </li>
                 <li>
@@ -176,10 +173,7 @@ return (
                             aria-controls={`#pills-${client.id}`}
                             aria-selected="true"
                           >
-                            <span class="me-2">
-                              <i class="bi bi-file-text"></i>
-                            </span>
-                            <span class="fw-bold">{client.name}</span>
+                            <span class="fw-bold">✨{client.name}</span>
                           </a>
                         </li>
                       );
@@ -195,10 +189,7 @@ return (
                     aria-expanded="false"
                     aria-controls="collapseArchive"
                   >
-                    <span class="me-2">
-                      <i class="bi bi-archive"></i>
-                    </span>
-                    <span class="fw-bold">Archive</span>
+                    <span class="fw-bold">📦Archive</span>
                     <span class="right-icon ms-auto">
                       <i class="bi bi-chevron-down"></i>
                     </span>
@@ -223,10 +214,7 @@ return (
                                     aria-controls={`#pills-${client.id}`}
                                     aria-selected="true"
                                   >
-                                    <span class="me-2">
-                                      <i class="bi bi-file-text"></i>
-                                    </span>
-                                    <span class="fw-bold">{client.name}</span>
+                                    <span class="fw-bold">✨{client.name}</span>
                                   </a>
                                 </li>
                               );
@@ -276,10 +264,7 @@ return (
                   >
                     {" "}
                     <label class="custom-control-label" for="darkSwitch">
-                      <span class="fw-bold">
-                        <i class="bi bi-question-circle"></i>
-                        Help
-                      </span>
+                      <span class="fw-bold">ℹ️ Help</span>
                     </label>
                   </a>
                 </li>
@@ -292,9 +277,6 @@ return (
                     href="https://www.minorityprogrammers.com/"
                     class="nav-link px-3"
                   >
-                    <span class="me-2">
-                      <i class="bi bi-info-circle"></i>
-                    </span>
                     Built with ❤️ by
                     <span class="fw-bold">Minority Programmers</span>
                   </a>
