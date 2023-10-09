@@ -138,24 +138,22 @@ return (
                 <tbody>
                   {state.user_tasks.map((data, key) => {
                     return (
-                      <>
-                        <tr class="text-center">
-                          <td>{data.name}</td>
-                          <td>{data.status ? "Si" : "No"}</td>
-                          <td>
-                            {!data.status && (
-                              <button
-                                class="btn btn-primary"
-                                onClick={async () => {
-                                  finishTask(data);
-                                }}
-                              >
-                                Finalizar
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      </>
+                      <tr class="text-center">
+                        <td>{data.name}</td>
+                        <td>{data.status ? "Si" : "No"}</td>
+                        <td>
+                          {!data.status && (
+                            <button
+                              class="btn btn-primary"
+                              onClick={async () => {
+                                finishTask(data);
+                              }}
+                            >
+                              Finalizar
+                            </button>
+                          )}
+                        </td>
+                      </tr>
                     );
                   })}
                 </tbody>
