@@ -29,7 +29,7 @@ const saveClient = () => {
   const clientData = {
     id: Date.now(),
     name: state.clientName,
-    contract: state.clientContract,
+    address: state.clientContract,
     archived: false,
     abi: null,
   };
