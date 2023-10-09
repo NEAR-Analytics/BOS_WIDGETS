@@ -469,7 +469,7 @@ const onRemoveMethod = (fIndex) => {
 
 return (
   <>
-    <div class="container border border-info p-3">
+    <div class="container border rounded p-3 border-2">
       <div class="container">
         <div class="row mb-3">
           <div class="form-group col-md-12">
