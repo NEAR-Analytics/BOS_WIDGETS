@@ -6,6 +6,9 @@ const onInputChangeClientContract = ({ target }) => {
   State.update({ clientContract: target.value.replaceAll(" ", "-") });
 };
 
+const dstyle = `.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+    color: white;
+}`;
 const loadData = () => {
   const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
   if (clientList) {
@@ -46,7 +49,7 @@ const saveClient = () => {
   });
 };
 return (
-  <div class="container">
+  <div class="container" style={{ dstyle }}>
     <div class="row">
       <div class="col-md-3">
         <div
@@ -69,7 +72,7 @@ return (
                   </div>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <a
+                  <span
                     class="nav-link active"
                     id="pills-tab-home"
                     data-bs-toggle="pill"
@@ -81,7 +84,7 @@ return (
                     class="nav-link px-3 active"
                   >
                     <span class="fw-bold">🏠 Home</span>
-                  </a>
+                  </span>
                 </li>
                 <li>
                   <hr />
@@ -163,7 +166,7 @@ return (
                     if (client.archived == false) {
                       return (
                         <li role="presentation">
-                          <a
+                          <span
                             class="nav-link px-3"
                             id={`pills-tab-${client.id}`}
                             data-bs-toggle="pill"
@@ -174,7 +177,7 @@ return (
                             aria-selected="true"
                           >
                             <span class="fw-bold">✨{client.name}</span>
-                          </a>
+                          </span>
                         </li>
                       );
                     }
@@ -251,7 +254,7 @@ return (
                   <hr />
                 </li>
                 <li class="nav-item" role="presentation">
-                  <a
+                  <span
                     class="nav-link active"
                     id="pills-tab-help"
                     data-bs-toggle="pill"
@@ -266,7 +269,7 @@ return (
                     <label class="custom-control-label" for="darkSwitch">
                       <span class="fw-bold">ℹ️ Help</span>
                     </label>
-                  </a>
+                  </span>
                 </li>
 
                 <li>
