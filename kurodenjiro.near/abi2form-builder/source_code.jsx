@@ -1,8 +1,6 @@
 State.init({
+  id,
   contractAddress: "",
-  // rpcUrl: "https://rpc.testnet.near.org",
-  // archivalRpc: "https://archival-rpc.testnet.near.org",
-  // nearBlockRpc: "https://api-testnet.nearblocks.io/",
   rpcUrl: "https://rpc.near.org/",
   archivalRpc: "https://archival-rpc.mainnet.near.org",
   nearBlockRpc: "https://api.nearblocks.io/",
@@ -14,11 +12,14 @@ State.init({
   createArgError,
   checkMethodExport: [],
 });
-if (props.body.functions) {
-  State.update({ cMethod: props.body.functions });
+if (props.abi.body.functions) {
+  State.update({ cMethod: props.abi.body.functions });
 }
 if (props.address) {
   State.update({ contractAddress: props.address });
+}
+if (props.id) {
+  State.update({ id: props.id });
 }
 const onInputChangeFunctionsName = ({ target }) => {
   State.update({ fName: target.value });
@@ -39,7 +40,6 @@ const onCreateArgs = (fName, fIndex) => {
     },
     value: "",
   };
-
   const abiMethod = state.cMethod;
   abiMethod[fIndex].params.args.push(arg);
   State.update({ cMethod: abiMethod });
@@ -185,7 +185,6 @@ const getMethodFromSource = () => {
               }
             }
             abiMethod.push(method);
-
             State.update({ cMethod: abiMethod });
             abiMethod.forEach((item, index) => {
               getArgsFromMethod(item.name, index);
