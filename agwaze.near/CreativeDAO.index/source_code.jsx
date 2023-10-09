@@ -77,10 +77,9 @@ const ContentContainer = styled.div`
 
 //jgodwill.near/widget/GenaDrop.MultiListing
 const tabContentWidget = {
-  nfts: "agwaze.near/widget/GenaDrop.Explore",
   feeds: "genadrop.near/widget/GenaDrop.Home",
   polling: "agwaze.near/widget/CreativeDAO/EasyPoll",
-  discussions: "agwaze.near/widget/GenaDrop.Community",
+  discussions: "agwaze.near/widget/CreativeDAO.Community",
 }[state.tab];
 
 const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
