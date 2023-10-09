@@ -50,14 +50,15 @@ return (
     <div class="row">
       <div class="col-md-3">
         <div
-          class=" bg-white text-dark side-bar"
+          class="side-bar"
+          style={{ backgroundColor: "#FFF" }}
           data-bs-scroll="true"
           tabindex="-1"
           id="offcanvas"
           aria-labelledby="offcanvas"
         >
           <div class="offcanvas-body p-0">
-            <div class="navbar-white">
+            <div class="navbar-dark">
               <ul
                 class="nav flex-column nav-pills"
                 id="pills-tab"
@@ -70,7 +71,7 @@ return (
                 </li>
                 <li class="nav-item" role="presentation">
                   <span
-                    class="nav-link active"
+                    class="nav-link px-3 active"
                     id="pills-tab-home"
                     data-bs-toggle="pill"
                     data-bs-target="#pills-home"
@@ -78,7 +79,6 @@ return (
                     role="tab"
                     aria-controls="pills-home"
                     aria-selected="true"
-                    class="nav-link px-3 active"
                   >
                     <span class="fw-bold">🏠 Home</span>
                   </span>
