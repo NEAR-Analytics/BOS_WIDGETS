@@ -103,7 +103,7 @@ return (
     <div class="LidoContainer">
       <div class="Header">Lista de Tareas</div>
 
-      {!!state.sender ? (
+      {state.sender ? (
         <>
           <div class="SubHeader">Crear nueva tarea </div>
           <div class="LidoStakeFormInputContainer">
