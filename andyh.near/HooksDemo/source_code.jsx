@@ -5,11 +5,11 @@ const [isInit, setIsInit] = useState(false);
 console.log({ useEffect });
 useEffect(() => {
   console.log({ isInit });
-  // if (!isInit) {
-  //   setTimeout(() => setValue(500), 500);
-  //   setIsInit(true);
-  // }
-}, []);
+  if (!isInit) {
+    setTimeout(() => setValue(500), 500);
+    setIsInit(true);
+  }
+}, [isInit]);
 
 return (
   <>
