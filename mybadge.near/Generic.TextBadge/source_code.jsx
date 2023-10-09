@@ -30,6 +30,7 @@ const palette = {
 const colors = palette[props.color ?? DEFAULT_COLOR];
 
 const Chip = styled.div`
+    font-family: sans-serif;
     display: flex;
     align-items: center;
     border-radius: 4px;
@@ -53,7 +54,7 @@ const IconWrapper = styled.div`
     height: 16px;
     justify-content: center;
     align-items: center;
-    padding: 2px;
+    padding: 2px 4px;
     background: ${colors.iconBackground};
 
     * {
