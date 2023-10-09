@@ -34,6 +34,7 @@ if (!state.transactions) {
       `https://api.pikespeak.ai/event-historic/${contractId}?offset=${offset}&contractFilter=${playerWhiteId}&filters=FUNCTION_CALL`,
       fetchOptions
     );
+    if (!res) return;
     offset += 50;
     if (!res.ok) {
       return `Pikespeak API returned error: ${JSON.stringify(res)}`;
