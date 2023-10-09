@@ -6,21 +6,6 @@ State.init({
   rpcUrl: "https://rpc.near.org/",
   archivalRpc: "https://archival-rpc.mainnet.near.org",
   nearBlockRpc: "https://api.nearblocks.io/",
-  contractAbi: {
-    schema_version: "0.3.0",
-    metadata: {
-      name: "",
-      version: "1.0.0",
-      authors: [],
-      build: {
-        compiler: "",
-        builder: "",
-      },
-    },
-    body: {
-      functions: [],
-    },
-  },
   fName,
   fAction: "view",
   cMethod: [],
@@ -29,7 +14,12 @@ State.init({
   createArgError,
   checkMethodExport: [],
 });
-
+if (props.body.functions) {
+  State.update({ cMethod: props.body.functions });
+}
+if (props.address) {
+  State.update({ contractAddress: props.address });
+}
 const onInputChangeFunctionsName = ({ target }) => {
   State.update({ fName: target.value });
 };
