@@ -43,7 +43,7 @@ const addToGoogleCalendar = (date, details, text) => {
 };
 const settings = () => {
   const meetPreference = Social.get(`${sourceAccountId}/meet_preference/**`);
-  console.log(meetPreference);
+
   State.init({
     active_days: JSON.parse(meetPreference?.active_days ?? "[]"),
     active_hours_begin: meetPreference?.active_hours_begin ?? null,
@@ -66,49 +66,49 @@ const settings = () => {
   return (
     <div className="container mx-auto">
       <div className="my-2">
-        <p>Preferred Meeting Days</p>
+        <p>Preferred Meeting Days (Current: {meetPreference.active_days})</p>
         <Typeahead
           options={dayOptions}
           multiple
           onChange={(value) => {
             State.update({ active_days: value });
           }}
-          selected={state.active_days}
           placeholder="Edit your preferred meeting days..."
         />
       </div>
       <div className="my-2">
-        <p>Active hours begin at (UTC)</p>
+        <p>
+          Active hours begin at (UTC) (Current:{" "}
+          {meetPreference.active_hours_begin})
+        </p>
         <Typeahead
           options={times}
           onChange={(value) => {
             State.update({ active_hours_begin: value[0] });
           }}
-          selected={
-            state.active_hours_begin ? [state.active_hours_begin] : null
-          }
           placeholder="Edit your preferred starting hour..."
         />
       </div>
       <div className="my-2">
-        <p>Active hours stop at (UTC)</p>
+        <p>
+          Active hours stop at (UTC) (Current: {meetPreference.active_hours_end}
+          )
+        </p>
         <Typeahead
           options={times}
           onChange={(value) => {
             State.update({ active_hours_end: value[0] });
           }}
-          selected={state.active_hours_end ? [state.active_hours_end] : null}
           placeholder="Edit your preferred last hour..."
         />
       </div>
       <div className="my-2">
-        <p>Meet duration</p>
+        <p>Meet duration (Current: {meetPreference.meet_duration})</p>
         <Typeahead
           options={Object.keys(meetDurations)}
           onChange={(value) => {
             State.update({ meet_duration: value[0] });
           }}
-          selected={state.meet_duration ? [state.meet_duration] : null}
           placeholder="Edit your meeting duration..."
         />
       </div>
