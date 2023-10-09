@@ -78,7 +78,7 @@ const ContentContainer = styled.div`
 //jgodwill.near/widget/GenaDrop.MultiListing
 const tabContentWidget = {
   feeds: "genadrop.near/widget/GenaDrop.Home",
-  polling: "agwaze.near/widget/CreativeDAO/EasyPoll",
+  polling: "agwaze.near/widget/CreativeDAO.EasyPoll",
   discussions: "agwaze.near/widget/CreativeDAO.Community",
 }[state.tab];
 
