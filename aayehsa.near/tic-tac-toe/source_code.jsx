@@ -115,6 +115,11 @@ const body = styled.div`
 return (
   <body>
     <div>
+      <h1 class=" border-red text-red p-3">
+        FDAO x GURU Guru Jambheshwar University of Science & Technology{" "}
+      </h1>
+    </div>
+    <div>
       <div
         class="box"
         style={{
