@@ -63,7 +63,7 @@ return (
                 id="pills-tab"
                 role="tablist"
               >
-                <li>
+                <li class="mb-3">
                   <div class=" small fw-bold text-uppercase px-3">
                     🪄 Magic Build
                   </div>
@@ -89,7 +89,7 @@ return (
                 <li>
                   <hr />
                 </li>
-                <li>
+                <li class="mb-3">
                   <div class="small fw-bold text-uppercase d-flex  px-3 align-items-center justify-content-between">
                     <span>Client</span>
                     <button
@@ -240,7 +240,7 @@ return (
                 <li>
                   <hr />
                 </li>
-                <li>
+                <li class="mb-3">
                   <div class=" small fw-bold text-uppercase px-3">Addons</div>
                 </li>
                 <li>
