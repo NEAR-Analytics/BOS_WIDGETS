@@ -11,11 +11,15 @@ const loadData = () => {
   if (clientList) {
     const clientListData = JSON.parse(clientList);
     clientListData.forEach((item, index) => {
-      const abi = Social.get(
+      const abiRes = Social.get(
         `${context.accountId}/magicbuild/client/${item.id}/abi`
       );
-      if (abi) {
-        clientListData[index].abi = JSON.parse(abi);
+      if (abiRes) {
+        const abi = JSON.parse(abiRes);
+        abi.address = item.contract;
+        abi.name = item.name;
+        abi.id = item.id;
+        clientListData[index].abi = abi;
       }
     });
     console.log(clientListData);
