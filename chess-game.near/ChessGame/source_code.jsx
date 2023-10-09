@@ -40,7 +40,7 @@ State.init({
   error: state.error,
 });
 
-if (state.board == null || state.gameInfo == null) {
+if (!state.board || !state.gameInfo) {
   return "loading...";
 }
 if (state.error) {
@@ -95,7 +95,6 @@ const updateMove = (event) => {
   });
 };
 const selectAsset = (event) => {
-  console.log("event.target.value", event.target.value);
   State.update({
     assetType: event.target.value,
   });
