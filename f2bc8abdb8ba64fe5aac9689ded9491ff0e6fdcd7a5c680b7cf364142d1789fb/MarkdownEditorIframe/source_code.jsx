@@ -1,4 +1,5 @@
 const initialText = props.initialText ?? "# Hello World\n\n";
+const clear = props.clearArticleBody ?? false;
 
 const embedCss = props.embedCss || "";
 
@@ -19,8 +20,8 @@ function TestReact(props) {
   const [value, setValue] = React.useState(props.initialText || "");
   
   React.useEffect(() => {
-    setValue(props.initialText)
-  }, [props.initialText])
+    if(props.clear) setValue(props.initialText)
+  }, [props.initialText, props.clear])
 
   return React.createElement(ReactMarkdownEditorLite.default, {
       value,
@@ -39,22 +40,20 @@ const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
 
 window.addEventListener("message", (event) => {
-  console.log(2, event)
   root.render(React.createElement(TestReact, {
-    initialText: event.data,
+    initialText: event.data.initialText,
+    clear: event.data.clear,
   }));
 });
 
 </script>
 `;
 
-console.log("FC: ", props.forceClear);
-
 return (
   <iframe
     className="w-100 h-100"
     srcDoc={code}
-    message={initialText}
+    message={{ initialText, clear }}
     onMessage={props.onChange}
   />
 );
