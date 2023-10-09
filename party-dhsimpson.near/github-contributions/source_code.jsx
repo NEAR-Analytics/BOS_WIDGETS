@@ -12,9 +12,6 @@ const [githubNickname, setGithubNickname] = useState(props.githubNickname);
 if (!props.token) {
   return <p>your token is required.</p>;
 }
-if (!githubNickname) {
-  return <p>github nickname is required.</p>;
-}
 
 const searchBaseUrl = "https://api.github.com/search/issues?q=";
 const nickName = "dhsimpson";
@@ -166,11 +163,13 @@ const toggleClosed = () => {
 };
 
 useEffect(() => {
-  asyncFetch(`${searchBaseUrl}${mergeFilters([searchOptions])}`, config).then(
-    (res) => {
+  asyncFetch(`${searchBaseUrl}${mergeFilters([searchOptions])}`, config)
+    .then((res) => {
       setContributionData(res.body?.items ?? []);
-    }
-  );
+    })
+    .catch((e) => {
+      setContributionData([]);
+    });
 }, [searchOptions]);
 
 const [isChecked, setIsChecked] = useState(true);
