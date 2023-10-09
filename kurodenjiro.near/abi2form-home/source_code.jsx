@@ -6,9 +6,6 @@ const onInputChangeClientContract = ({ target }) => {
   State.update({ clientContract: target.value.replaceAll(" ", "-") });
 };
 
-const dstyle = `.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
-    color: white;
-}`;
 const loadData = () => {
   const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
   if (clientList) {
@@ -49,7 +46,7 @@ const saveClient = () => {
   });
 };
 return (
-  <div class="container" style={{ dstyle }}>
+  <div class="container">
     <div class="row">
       <div class="col-md-3">
         <div
