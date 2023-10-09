@@ -131,7 +131,7 @@ return (
                             />
                           </div>
                           <div class="form-group">
-                            <label>Contract ID</label>
+                            <label>Address</label>
                             <input
                               class="form-control"
                               onChange={(e) => onInputChangeClientContract(e)}
