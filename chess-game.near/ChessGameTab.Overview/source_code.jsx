@@ -43,7 +43,7 @@ const renderGameIds = (gameIds) =>
       <Widget
         src={buttonWidget}
         props={{
-          onClick: selectGame(gameId, isFinished),
+          onClick: selectGame("game")(gameId, isFinished),
           content: (
             <>
               <div>ID: {gameId[0]}</div>
