@@ -470,7 +470,6 @@ const onRemoveMethod = (fIndex) => {
 return (
   <>
     <div class="container border border-info p-3">
-      <h3 class="text-center">Build Form</h3>
       <div class="container">
         <div class="row mb-3">
           <div class="form-group col-md-12">
