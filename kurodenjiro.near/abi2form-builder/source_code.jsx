@@ -473,7 +473,7 @@ return (
       <div class="container">
         <div class="row mb-3">
           <div class="form-group col-md-12">
-            <label class="mb-2">Contract Address</label>
+            <h6 class="mb-2">Contract Address</h6>
             <input
               class="form-control"
               value={state.contractAddress}
@@ -484,7 +484,7 @@ return (
         </div>
         <div class="row">
           <div class="form-group col-md-4">
-            <label>Method Name</label>
+            <h6>Method Name</h6>
             <input
               type="text"
               onChange={onInputChangeFunctionsName}
@@ -492,7 +492,7 @@ return (
             />
           </div>
           <div class="form-group col-md-2">
-            <label>Action</label>
+            <h6>Action</h6>
             <select
               class="form-control"
               onChange={onInputChangeFunctionsAction}
@@ -556,7 +556,7 @@ return (
             <div class="container">
               <div class="row">
                 <div class="col pt-2">
-                  <h5>{functions.name}</h5>
+                  <h6>{functions.name}</h6>
                 </div>
                 <div class="col text-end pt-2">
                   {" "}
@@ -573,7 +573,7 @@ return (
             <div class="container">
               <div class="row">
                 <div class="form-group col-md-4">
-                  <h5>Arguments</h5>
+                  <h6>Arguments</h6>
                 </div>
                 <div class="form-group col-md-4">
                   <button
@@ -661,7 +661,7 @@ return (
                 <div class="container pb-1 pt-3">
                   <div class="row">
                     <div class="form-group col-md-12">
-                      <h5>Options</h5>
+                      <h6>Options</h6>
                     </div>
                   </div>
                 </div>
