@@ -7,6 +7,40 @@ const onSwitchChangeArgExport = (fIndex) => {
 const onInputChangeWidgetName = ({ target }) => {
   State.update({ widgetName: target.value.replaceAll(" ", "-") });
 };
+const saveClient = () => {
+  const abi = {
+    schema_version: "0.3.0",
+    address: props.contractAddress,
+    metadata: {
+      name: "",
+      version: "0.1.0",
+      authors: [""],
+    },
+    body: {
+      functions: [],
+    },
+  };
+
+  const abiMethod = state.cMethod;
+  abiMethod.forEach((item) => {
+    abi.body.functions.push(item);
+  });
+
+  const data = {
+    magicbuild: {
+      client: {
+        [props.id]: {
+          abi: JSON.stringify(abi),
+        },
+      },
+    },
+  };
+  Social.set(data, {
+    force: true,
+    onCommit: () => {},
+    onCancel: () => {},
+  });
+};
 const exportForm = () => {
   const abi = {
     schema_version: "0.3.0",
@@ -112,6 +146,16 @@ return (
             >
               Close
             </button>
+            {props.id && (
+              <button
+                type="button"
+                onClick={saveClient}
+                class="btn btn-primary"
+              >
+                Save Client
+              </button>
+            )}
+
             <button type="button" onClick={exportForm} class="btn btn-primary">
               Export
             </button>
