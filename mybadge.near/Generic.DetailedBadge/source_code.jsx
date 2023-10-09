@@ -37,8 +37,8 @@ const Chip = styled.div`
     overflow: hidden;
     background: ${colors.textBackground};
     height: 32px;
-    padding: 0 6px;
-    gap: 6px;
+    padding: 0 3px;
+    gap: 3px;
 `;
 
 const IconWrapper = styled.div`
