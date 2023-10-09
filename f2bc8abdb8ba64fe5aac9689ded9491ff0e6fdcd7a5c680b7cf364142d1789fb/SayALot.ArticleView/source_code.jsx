@@ -633,13 +633,13 @@ return (
                           !state.canLoggedUserCreateComment),
                     }}
                   />
-                  {context.accountId == accountId && (
+                  {(true || context.accountId == accountId) && (
                     <Widget
                       src={widgets.styledComponents}
                       props={{
                         Button: {
                           text: `Edit`,
-                          className: `primary dark`,
+                          className: `primary dark mt-2`,
                           onClick: () => handleEditArticle(articleToRenderData),
                           icon: <i className="bi bi-pencil"></i>,
                         },
