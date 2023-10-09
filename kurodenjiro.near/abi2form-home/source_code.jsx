@@ -3,7 +3,7 @@ const onInputChangeClientName = ({ target }) => {
   State.update({ clientName: target.value.replaceAll(" ", "-") });
 };
 const onInputChangeClientContract = ({ target }) => {
-  State.update({ clientName: target.value.replaceAll(" ", "-") });
+  State.update({ clientContract: target.value.replaceAll(" ", "-") });
 };
 
 const loadData = () => {
