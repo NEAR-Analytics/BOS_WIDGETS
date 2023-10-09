@@ -531,25 +531,24 @@ return (
         }}
       />
     )}
-    {state.articleToRenderData.articleId &&
-    state.displayedTabId == tabs.SHOW_ARTICLE.id ? (
-      <Widget
-        src={widgets.articleView}
-        props={{
-          isTest,
-          widgets,
-          handleFilterArticles,
-          articleToRenderData: state.articleToRenderData,
-          authorForWidget,
-          handleEditArticle,
-          handleShareButton,
-          // logedUserSbts: state.logedUserSbts,
-        }}
-      />
+    {state.articleToRenderData.articleId ? (
+      state.displayedTabId == tabs.SHOW_ARTICLE.id && (
+        <Widget
+          src={widgets.articleView}
+          props={{
+            isTest,
+            widgets,
+            handleFilterArticles,
+            articleToRenderData: state.articleToRenderData,
+            authorForWidget,
+            handleEditArticle,
+            handleShareButton,
+            // logedUserSbts: state.logedUserSbts,
+          }}
+        />
+      )
     ) : (
-      <div className="spinner-grow" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
+      <></>
     )}
 
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id && (
