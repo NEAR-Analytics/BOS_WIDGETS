@@ -105,7 +105,7 @@ const run = (data) => {
   // Add a line for each link, and a circle for each node.
   const link = svg.append("g")
       .attr("stroke", "#999")
-      .attr("stroke-opacity", 0.6)
+      .attr("stroke-opacity", 0.888)
     .selectAll()
     .data(links)
     .join("line")
@@ -120,15 +120,15 @@ const run = (data) => {
 
   node
     .append("image")
-    .attr("xlink:href", (d) => \`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/\${d.id}\`) // Set the image URL based on your data
-    .attr("x", (d) => -Math.sqrt(d.size) - 9)
-    .attr("y", (d) => -Math.sqrt(d.size) - 9)
-    .attr("clip-path", d => \`circle(\${Math.sqrt(d.size) + 9}px at \${Math.sqrt(d.size) + 9} \${Math.sqrt(d.size) + 9})\`)
-    .attr("width", (d) => 2 * Math.sqrt(d.size) + 18);
+    .attr("xlink:href", (d) => \`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/\${d.id}\`)
+    .attr("x", (d) => -Math.sqrt(d.size) - 10)
+    .attr("y", (d) => -Math.sqrt(d.size) - 10)
+    .attr("clip-path", d => \`circle(\${Math.sqrt(d.size) + 10}px at \${Math.sqrt(d.size) + 10} \${Math.sqrt(d.size) + 10})\`)
+    .attr("width", (d) => 2 * Math.sqrt(d.size) + 20);
 
 node
   .append("circle")
-  .attr("r", d => Math.sqrt(d.size) + 9)
+  .attr("r", d => Math.sqrt(d.size) + 10)
   .attr("fill", "none");
 
   node.append("title")
