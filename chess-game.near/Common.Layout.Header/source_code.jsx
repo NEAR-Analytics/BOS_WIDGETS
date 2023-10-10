@@ -114,7 +114,7 @@ const Sidebar = styled.div`
     }
   }
 
-  li[href]:hover {
+  li[data-is-link]:hover {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
@@ -122,14 +122,14 @@ const Sidebar = styled.div`
     }
   }
 
-  li[href]:active {
+  li[data-is-link]:active {
     background-color: rgba(68, 152, 224, 0.12);
     * {
       color: #4498e0 !important;
     }
   }
 
-  li[href].active {
+  li[data-is-link].active {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
@@ -275,7 +275,7 @@ return (
                         style={{
                           width: j > 0 ? "85%" : "",
                         }}
-                        href={!!subItem.href}
+                        data-is-link={!!subItem.href}
                       >
                         {subItem.href ? (
                           <a href={subItem.href} target="_blank">
@@ -300,7 +300,7 @@ return (
               <li
                 key={i}
                 className={item.active && "active"}
-                href={!!subItem.href}
+                data-is-link={!!subItem.href}
               >
                 {item.href ? (
                   <a href={item.href} onClick={item.onClick}>
