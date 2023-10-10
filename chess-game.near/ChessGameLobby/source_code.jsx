@@ -1,22 +1,15 @@
 const { accountId } = context;
-if (!accountId) {
-  return "You need to login with your Near wallet first!";
-}
 
 const contractId = "app.chess-game.near";
-const socialContractId = "social.near";
-const headerWidget = "chess-game.near/widget/ChessGameHeader";
-const gameWidget = "chess-game.near/widget/ChessGame";
-const replayWidget = "chess-game.near/widget/ChessGameReplay";
-const challengeWidget = "chess-game.near/widget/ChessGameChallenge";
-const aiWidget = "chess-game.near/widget/ChessGameAi";
 const buttonWidget = "chess-game.near/widget/ChessGameButton";
 const loadingWidget = "chess-game.near/widget/ChessGameLoading";
+
+const currentLink = "#/chess-game.near/widget/ChessGameLobby";
 
 const LobbyView = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: ${(props) => (props.alignItems ? props.alignItems : "center")};
+  align-items: center;
   max-width: 550px;
   margin: 0 auto;
   box-sizing: border-box;
@@ -29,15 +22,6 @@ const LobbyView = styled.div`
     margin: 1.2rem 0;
   }
 `;
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: ${(props) => (props.alignItems ? props.alignItems : "center")};
-
-  > * {
-    margin: 0.4rem 0;
-  }
-`;
 const Disclaimer = styled.div`
   margin-top: 1rem;
   font-style: italic;
@@ -45,14 +29,8 @@ const Disclaimer = styled.div`
 `;
 
 State.init({
-  game_id: props.game_id ? JSON.parse(props.game_id) : null,
-  replay_game_id: props.replay_game_id
-    ? JSON.parse(props.replay_game_id)
-    : null,
+  tab: props.tab ?? state.tab ?? "game",
   isRegistered: state.isRegistered,
-  gameIds: null,
-  finishedGames: null,
-  recentFinishedGames: null,
 });
 
 const updateIsRegistered = () => {
@@ -64,9 +42,15 @@ const updateIsRegistered = () => {
     });
   });
 };
-updateIsRegistered();
 
-if (state.isRegistered == null) {
+if (state.isRegistered === null || state.isRegistered === undefined) {
+  if (!accountId) {
+    State.update({
+      isRegistered: false,
+    });
+  } else {
+    updateIsRegistered();
+  }
   return <Widget src={loadingWidget} />;
 }
 
@@ -78,239 +62,141 @@ const registerAccount = () => {
     undefined,
     "50000000000000000000000"
   );
+  // TODO wait for tx
   updateIsRegistered();
 };
 
-if (state.isRegistered) {
-  Near.asyncView(contractId, "get_game_ids", {
-    account_id: accountId,
-  }).then((gameIds) =>
-    State.update({
-      gameIds,
-    })
-  );
-  Near.asyncView(contractId, "finished_games", {
-    account_id: accountId,
-  }).then((finishedGames) => {
-    finishedGames.sort((a, b) => b[0] - a[0]);
-    State.update({
-      finishedGames,
-    });
-  });
-} else {
+const navigate = (tab) => {
   State.update({
-    gameIds: [],
-    finishedGames: [],
+    tab,
   });
-}
-Near.asyncView(contractId, "recent_finished_games", {}).then(
-  (recentFinishedGames) =>
-    State.update({
-      recentFinishedGames,
-    })
+};
+
+const pages = [
+  {
+    title: "Home",
+    icon: <i className="bi-joystick"></i>,
+    active: state.tab === "game",
+    href: currentLink + "?tab=game",
+    onClick: () => navigate("game"),
+    widgetName: "ChessGameTab.Default",
+  },
+  {
+    title: "Challenge",
+    icon: <i className="bi-people-fill"></i>,
+    active: state.tab === "challenge",
+    href: currentLink + "?tab=challenge",
+    onClick: () => navigate("challenge"),
+    widgetName: "ChessGameTab.Challenge",
+  },
+  {
+    title: "AI",
+    icon: <i className="bi-robot"></i>,
+    active: state.tab === "ai",
+    href: currentLink + "?tab=ai",
+    onClick: () => navigate("ai"),
+    widgetName: "ChessGameTab.AI",
+  },
+  {
+    title: "Replay",
+    icon: <i className="bi-collection-play"></i>,
+    active: state.tab === "replay",
+    href: currentLink + "?tab=replay",
+    onClick: () => navigate("game"),
+    widgetName: "ChessGameTab.Replay",
+  },
+  [
+    {
+      title: "Links",
+      icon: <i className="bi-link"></i>,
+    },
+    {
+      title: "BOS Profile",
+      icon: <i className="bi-person-fill"></i>,
+      href: "#/mob.near/widget/ProfilePage?accountId=chess-game.near",
+    },
+    {
+      title: "Github",
+      icon: <i className="bi-github"></i>,
+      href: "https://github.com/Protocol-Pawns",
+    },
+    {
+      title: "Twitter",
+      icon: <i className="bi-twitter"></i>,
+      href: "https://twitter.com/protocolpawns",
+    },
+    {
+      title: "Discord",
+      icon: <i className="bi-discord"></i>,
+      href: "https://discord.com/invite/wKqEnXjaVH",
+    },
+  ],
+];
+
+let activePage = null;
+pages.find((page) => {
+  if (page.active) {
+    activePage = page;
+    return true;
+  }
+  return false;
+});
+
+const pageContent = activePage ? (
+  <Widget
+    src={"chess-game.near/widget/" + activePage.widgetName}
+    props={{ isRegistered: state.isRegistered }}
+  />
+) : (
+  "404"
 );
-if (
-  state.gameIds == null ||
-  state.finishedGames == null ||
-  state.recentFinishedGames == null
-) {
-  return <Widget src={loadingWidget} />;
-}
 
-const GameSelector = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-
-  > * {
-    margin: 1rem;
-  }
-`;
-
-const selectGame = (gameId, isFinished) => () => {
-  if (isFinished) {
-    State.update({
-      replay_game_id: gameId,
-    });
-  } else {
-    State.update({
-      game_id: gameId,
-    });
-  }
-};
-const returnToLobby = () => {
-  State.update({
-    game_id: null,
-    replay_game_id: null,
-  });
-};
-const resign = () => {
-  Near.call(contractId, "resign", {
-    game_id: state.game_id,
-  });
-  State.update({
-    game_id: null,
-  });
-};
-
-const renderGameIds = (gameIds, isFinished, displayPlayers) =>
-  gameIds.map((gameId) => {
-    let gameInfo;
-    if (!isFinished) {
-      gameInfo = Near.view(contractId, "game_info", {
-        game_id: gameId,
-      });
-    }
-    return (
-      <Widget
-        src={buttonWidget}
-        props={{
-          onClick: selectGame(gameId, isFinished),
-          content: (
-            <>
-              <div>ID: {gameId[0]}</div>
-              {displayPlayers && (
-                <>
-                  <div>White: {gameId[1]}</div>
-                  {gameId[2] && <div>Black: {gameId[2]}</div>}
-                </>
-              )}
-              {gameInfo && (
-                <div>
-                  VS:{" "}
-                  {gameInfo.black.Ai ? (
-                    <>AI ({gameInfo.black.Ai})</>
-                  ) : (
-                    <>
-                      Player
-                      {gameInfo.black.Human === accountId ? (
-                        <> ({gameInfo.white.Human})</>
-                      ) : (
-                        <> ({gameInfo.black.Human})</>
-                      )}
-                    </>
-                  )}
-                </div>
-              )}
-            </>
-          ),
-        }}
-      />
-    );
-  });
-
-let content;
-if (state.game_id) {
-  content = (
-    <Content alignItems="stretch">
-      <Widget
-        src={buttonWidget}
-        props={{
-          onClick: returnToLobby,
-          alignSelf: "center",
-          content: "Return To Lobby",
-        }}
-      />
-      <Widget
-        src={buttonWidget}
-        props={{
-          onClick: resign,
-          alignSelf: "center",
-          content: "Resign",
-        }}
-      />
-      <Widget src={gameWidget} props={{ game_id: state.game_id }} />
-    </Content>
-  );
-} else if (state.replay_game_id) {
-  content = (
-    <Content alignItems="stretch">
-      <Widget
-        src={buttonWidget}
-        props={{
-          onClick: returnToLobby,
-          alignSelf: "center",
-          content: "Return To Lobby",
-        }}
-      />
-      <Widget src={replayWidget} props={{ game_id: state.replay_game_id }} />
-    </Content>
-  );
-} else {
-  content = (
-    <>
-      {state.gameIds?.length > 0 && (
-        <div>
-          <h2>Select Game:</h2>
-          <GameSelector>
-            {renderGameIds(state.gameIds, false, false)}
-          </GameSelector>
-        </div>
-      )}
-      <Widget src={challengeWidget} />
-      <Widget src={aiWidget} />
-      {state.finishedGames?.length > 0 && (
-        <div>
-          <h2>Replay your finished games:</h2>
-          <GameSelector>
-            {renderGameIds(state.finishedGames, true, false)}
-          </GameSelector>
-        </div>
-      )}
-      {state.recentFinishedGames?.length > 0 && (
-        <div>
-          <h2>Replay recently finished games:</h2>
-          <GameSelector>
-            {renderGameIds(state.recentFinishedGames, true, true)}
-          </GameSelector>
-        </div>
-      )}
-    </>
-  );
-}
 return (
-  <LobbyView
-    alignItems={state.game_id || state.replay_game_id ? "stretch" : "center"}
-  >
-    <Widget src={headerWidget} />
-    {!state.isRegistered && (
-      <>
+  <div className="row">
+    <Widget
+      src="chess-game.near/widget/Common.Layout.Header"
+      props={{
+        items: pages,
+      }}
+    />
+    <div className="col">
+      <LobbyView>
         <Disclaimer>
-          You need to pay storage deposit of 0.05N first before being allowed to
-          play Chess On Chain.
-          <br />
-          If you don't get redirected after registering, please refresh the
-          page.
+          Play chess fully on chain powered by Near Protocol and the BOS. If you
+          want to learn more please visit the profile page.
         </Disclaimer>
-        <Widget
-          src={buttonWidget}
-          props={{
-            onClick: registerAccount,
-            fontSize: "1.2rem",
-            content: "Register Account",
-          }}
-        />
-      </>
-    )}
-    {content}
-    <Disclaimer>
-      If you won or lost a game it will no longer be displayed. You can check
-      the most recent transactions status on{" "}
-      <a
-        target="_blank"
-        href="https://explorer.near.org/accounts/app.chess-game.near"
-      >
-        Near Explorer
-      </a>{" "}
-      or{" "}
-      <a
-        target="_blank"
-        href="https://nearblocks.io/address/app.chess-game.near"
-      >
-        Nearblocks
-      </a>
-      .
-    </Disclaimer>
-  </LobbyView>
+        {!state.isRegistered && accountId && (
+          <>
+            <Disclaimer>
+              You need to pay storage deposit of 0.05N first before being
+              allowed to play Protocol Pawns.
+              <br />
+              If you don't get redirected after registering, please refresh the
+              page.
+            </Disclaimer>
+            <Widget
+              src={buttonWidget}
+              props={{
+                onClick: registerAccount,
+                fontSize: "1.2rem",
+                content: "Register Account",
+              }}
+            />
+          </>
+        )}
+        {pageContent}
+        <Disclaimer>
+          If you won or lost a game it will no longer be displayed. You can
+          check the most recent transactions status on{" "}
+          <a
+            target="_blank"
+            href="https://nearblocks.io/address/app.chess-game.near"
+          >
+            Nearblocks
+          </a>
+          .
+        </Disclaimer>
+      </LobbyView>
+    </div>
+  </div>
 );
