@@ -6,6 +6,7 @@ State.init({
   nearBlockRpc: "https://api.nearblocks.io/",
   fName,
   fAction: "view",
+  fLabel,
   cMethod: [],
   createMethodError,
   response,
@@ -24,7 +25,9 @@ if (props.id) {
 const onInputChangeFunctionsName = ({ target }) => {
   State.update({ fName: target.value });
 };
-
+const onInputChangeFunctionsLabel = ({ target }) => {
+  State.update({ fLabel: target.value });
+};
 const onInputChangeFunctionsAction = ({ target }) => {
   State.update({ fAction: target.value });
 };
@@ -49,6 +52,21 @@ const onInputChangeArgName = (e, fIndex, aIndex) => {
   abiMethod[fIndex].params.args[aIndex].name = e.target.value;
   State.update({ cMethod: abiMethod });
 };
+const onInputChangeArgLabel = (e, fIndex, aIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].params.args[aIndex].label = e.target.value;
+  State.update({ cMethod: abiMethod });
+};
+const onInputChangeMethodLabel = (e, fIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].label = e.target.value;
+  State.update({ cMethod: abiMethod });
+};
+const onInputChangeButtonLabel = (e, fIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].button = e.target.value;
+  State.update({ cMethod: abiMethod });
+};
 const onRemoveArg = (fIndex, aIndex) => {
   const abiMethod = state.cMethod;
   abiMethod[fIndex].params.args.splice(aIndex, 1);
@@ -71,6 +89,8 @@ const onCreateMethod = () => {
     const method = {
       name: state.fName,
       kind: state.fAction,
+      label: state.fLabel,
+      button: "",
       export: true,
       params: {
         serialization_type: "json",
@@ -472,7 +492,7 @@ return (
     <div class="container border rounded p-3 border-2">
       <div class="container">
         <div class="row mb-3">
-          <div class="form-group col-md-12">
+          <div class="form-group col-md-10">
             <h6 class="mb-2">Contract Address</h6>
             <input
               class="form-control"
@@ -481,6 +501,16 @@ return (
               onChange={onInputChangeContractAddress}
             />
           </div>
+
+          <div class="form-group col-md-2">
+            <label></label>
+            <button
+              onClick={getMethodFromSource}
+              class="btn btn-primary form-control "
+            >
+              Scan
+            </button>
+          </div>
         </div>
         <div class="row">
           <div class="form-group col-md-4">
@@ -488,6 +518,14 @@ return (
             <input
               type="text"
               onChange={onInputChangeFunctionsName}
+              class="form-control"
+            />
+          </div>
+          <div class="form-group col-md-4">
+            <h6>Label</h6>
+            <input
+              type="text"
+              onChange={onInputChangeFunctionsLabel}
               class="form-control"
             />
           </div>
@@ -512,17 +550,10 @@ return (
               Create
             </button>
           </div>
-
-          <div class="form-group col-md-2">
-            <label></label>
-            <button
-              onClick={getMethodFromSource}
-              class="btn btn-primary form-control "
-            >
-              Scan
-            </button>
-          </div>
-          <div class="form-group col-md-2">
+        </div>
+        <div class="row">
+          {" "}
+          <div class="form-group col-md-12">
             {state.cMethod.length > 0 ? (
               <Widget
                 src={"kurodenjiro.near/widget/abi2form-export-widget-button"}
@@ -571,11 +602,43 @@ return (
           </div>
           <div class="card-body">
             <div class="container">
+              <div class="row mb-3">
+                <div class="form-group col-md-8">
+                  <div class="form-group row mb-2">
+                    <h6 class="col-sm-4 col-form-label">Method Label</h6>
+                    <div class="col-sm-6">
+                      <input
+                        placeholder="Method Label"
+                        class="form-control"
+                        defaultValue={functions.label || ""}
+                        onChange={(e) => onInputChangeMethodLabel(e, fIndex)}
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <h6 class="col-sm-4 col-form-label">Button Label</h6>
+                    <div class="col-sm-6">
+                      <input
+                        placeholder="Button Label"
+                        class="form-control"
+                        defaultValue={args.button || ""}
+                        onChange={(e) => onInputChangeButtonLabel(e, fIndex)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-2">
                   <h6>Arguments</h6>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-2">
+                  <h6>Label</h6>
+                </div>
+                <div class="form-group col-md-2">
+                  <h6>Type</h6>
+                </div>
+                <div class="form-group col-md-2">
                   <button
                     class="btn btn-secondary btn-sm"
                     onClick={(e) => onCreateArgs(functions.name, fIndex)}
@@ -583,12 +646,12 @@ return (
                     Add
                   </button>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-2">
                   <button
                     class="btn btn-secondary btn-sm"
                     onClick={(e) => getArgsFromMethod(functions.name, fIndex)}
                   >
-                    Auto detect
+                    Detect
                   </button>
                 </div>
               </div>
@@ -599,13 +662,23 @@ return (
                 return (
                   <div class="container pb-2">
                     <div class="row">
-                      <div class="form-group col-md-4">
+                      <div class="form-group col-md-2">
                         <input
-                          placeholder="Argument name"
+                          placeholder="Name"
                           class="form-control"
                           defaultValue={args.name || ""}
                           onChange={(e) =>
                             onInputChangeArgName(e, fIndex, argIndex)
+                          }
+                        />
+                      </div>
+                      <div class="form-group col-md-2">
+                        <input
+                          placeholder="Label"
+                          class="form-control"
+                          defaultValue={args.label || ""}
+                          onChange={(e) =>
+                            onInputChangeArgLabel(e, fIndex, argIndex)
                           }
                         />
                       </div>
