@@ -1,6 +1,6 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-const prodAction = "sayALotUpVote-v1.0.0";
+const prodAction = "sayALotUpVote-v1.0.1";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
