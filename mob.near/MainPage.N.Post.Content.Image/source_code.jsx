@@ -56,7 +56,7 @@ const imageUrl =
 
 const innerImage = (
   <div className="img-box">
-    <img src={imageUrl} alt={props.alt} />
+    <img src={imageUrl} alt={props.alt} loading="lazy" />
   </div>
 );
 
