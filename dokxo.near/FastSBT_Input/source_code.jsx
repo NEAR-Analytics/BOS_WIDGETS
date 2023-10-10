@@ -48,7 +48,7 @@ margin-top:.5rem;
 
 `;
 
-const onChangeFunction = props.handleDao_Contract;
+const onChangeFunction = props.onchangeFunc;
 return (
   <Colcont>
     <H1styled>{props.title}</H1styled>
