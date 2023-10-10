@@ -5,9 +5,6 @@ let resultLibCalls = [];
 function isValidUser(props) {
   const { accountId, sbtsNames } = props;
 
-  console.log("aID: ", accountId);
-  console.log("sbtsNames: ", sbtsNames);
-
   const userSBTs = Near.view(
     "registry.i-am-human.near",
     "sbt_tokens_by_owner",
@@ -15,27 +12,21 @@ function isValidUser(props) {
       account: accountId,
     }
   );
-  console.log("userSBTs: ", userSBTs);
 
   const sbtsData = sbtsNames.map((sbt) => {
-    console.log("SBT: ", sbt);
     const data = sbt.split(" - class ");
-    console.log("split: ", data);
     return { name: data[0], classNumber: data[1] };
   });
 
-  console.log("sbtsData: ", sbtsData);
+  const sbtsFiltered = userSBTs.filter((sbt) => {
+    return sbt[0] === sbtsData[0].name;
+  });
 
   const result =
-    userSBTs
-      .filter((sbt) => {
-        return sbt[0] === sbtsData[0].name;
-      })
-      .find((sbt) => {
-        return (
-          Number(sbt[1].metadata["class"]) === Number(sbtsData[0].classNumber)
-        );
-      }) !== undefined;
+    sbtsFiltered[0][1].find((sbt) => {
+      return Number(sbt.metadata["class"]) === Number(sbtsData[0].classNumber);
+    }) !== undefined;
+
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "isValidUser";
   });
