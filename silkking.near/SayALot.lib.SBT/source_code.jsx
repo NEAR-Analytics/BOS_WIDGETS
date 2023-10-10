@@ -4,7 +4,7 @@ let resultLibCalls = [];
 
 function isValidUser(props) {
   const { accountId, sbtsNames } = props;
-
+  console.log(5);
   const userSBTs = Near.view(
     "registry.i-am-human.near",
     "sbt_tokens_by_owner",
@@ -17,16 +17,19 @@ function isValidUser(props) {
     const data = sbt.split(" - class ");
     return { name: data[0], classNumber: Number(data[1]) };
   });
-
-  const userValidityBySBT = sbtsNames.map((sbtName, index) => {
-    userSBTs.find(
-      (userSbt) =>
-        userSbt[0] === sbtsData[index].name &&
-        userSbt[1].find(
-          (sbtExtraData) =>
-            sbtExtraData.metadata["class"] === sbtsData[index].classNumber
-        )
-    );
+  console.log(4, sbtsNames);
+  const usersValidityBySBT = sbtsNames.map((sbtName, index) => {
+    const userValidityBySBT =
+      userSBTs.find((userSbt) => {
+        console.log(3, userSbt, sbtsData);
+        return (
+          userSbt[0] === sbtsData[index].name &&
+          userSbt[1].find(
+            (sbtExtraData) =>
+              sbtExtraData.metadata["class"] === sbtsData[index].classNumber
+          )
+        );
+      }) !== undefined;
     return {
       [sbtName]: userValidityBySBT,
     };
@@ -58,8 +61,8 @@ function isValidUser(props) {
   });
 
   // return true;
-  console.log(2, userValidityBySBT);
-  return userValidityBySBT;
+  console.log(2, usersValidityBySBT);
+  return usersValidityBySBT;
 }
 
 function getLoggedUserSbts(props) {
