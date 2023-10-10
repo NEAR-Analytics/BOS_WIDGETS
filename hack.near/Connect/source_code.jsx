@@ -173,7 +173,7 @@ return (
       <CardStyled name="add">
         <div className="d-flex flex-column">
           <CardForm>
-            <div className="d-flex">
+            <div className="d-flex align-items-center justify-content-center">
               <H1>Builders</H1>
               <Submitcontainer>
                 <button
