@@ -16,21 +16,21 @@ return (
             type="button"
             class="btn btn-dark btn-lg px-4"
           >
-            🎉Telegram
+            #Telegram
           </a>
           <a
             href="https://twitter.com/MagicBuildAI"
             type="button"
             class="btn btn-dark btn-lg px-4"
           >
-            🐥 Twitter
+            #Twitter
           </a>
           <a
             href="https://near.social/mob.near/widget/ProfilePage?accountId=magicbuild.near"
             type="button"
             class="btn btn-dark btn-lg px-4"
           >
-            🧙🏻‍♂️ Near Social
+            #Near Social
           </a>
         </div>
       </div>
