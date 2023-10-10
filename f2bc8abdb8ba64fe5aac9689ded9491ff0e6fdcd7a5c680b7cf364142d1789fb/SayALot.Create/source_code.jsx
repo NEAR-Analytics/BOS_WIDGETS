@@ -1,569 +1,350 @@
-//===============================================INITIALIZATION=====================================================
-let { sharedBlockHeight, tagShared, isTest, accountId } = props;
-sharedBlockHeight = Number(sharedBlockHeight);
+const {
+  isTest,
+  addressForArticles,
+  authorForWidget,
+  stateUpdate,
+  initialBody,
+  initialCreateState,
+  editArticleData,
+  callLibs,
+  widgets,
+  handleFilterArticles,
+  handleEditArticle,
+  handlerStateUpdate,
+  sbtWhiteList,
+  createSbtOptions,
+} = props;
 
-const initSbtsNames = ["fractal.i-am-human.near"];
+const libSrcArray = [widgets.libArticle];
 
-const sbtsNames = state.sbt;
+const errTextNoBody = "ERROR: no article Body",
+  errTextNoId = "ERROR: no article Id",
+  errTextDublicatedId = "ERROR: there is article with such name";
 
-const initLibCalls = [
-  {
-    functionName: "getLastEditArticles",
-    key: "articles",
-    props: {
-      env: isTest ? "test" : "prod",
-      sbtsNames: initSbtsNames,
-    },
-  },
-  {
-    functionName: "canUserCreateArticle",
-    key: "canLoggedUserCreateArticle",
-    props: {
-      accountId: context.accountId,
-      sbtsNames: initSbtsNames,
-    },
-  },
-  // {
-  //   functionName: "getLoggedUserSbts",
-  //   key: "logedUserSbts",
-  //   props: {
-  //     accountId: context.accountId,
-  //   },
-  // },
-];
+State.init({ ...initialCreateState, initialBody: props.initialBody ?? "" });
 
-// if (!accountId) accountId = context.accountId;
-accountId = context.accountId;
-
-const tabs = {
-  SHOW_ARTICLES_LIST: { id: 0 },
-  SHOW_ARTICLE: { id: 1 },
-  ARTICLE_WORKSHOP: { id: 2 },
-  SHOW_ARTICLES_LIST_BY_AUTHORS: { id: 3 },
-};
-
-function getInitialFilter() {
-  if (sharedBlockHeight) {
-    return {
-      parameterName: "getPost",
-      parameterValue: sharedBlockHeight,
-    };
-  } else if (tagShared) {
-    return {
-      parameterName: "tag",
-      parameterValue: tagShared,
-    };
-  } else if (authorShared) {
-    return {
-      parameterName: "author",
-      parameterValue: authorShared,
-    };
-  } else {
-    return {
-      parameterName: "",
-    };
-  }
-}
-
-function getInitialTabId() {
-  if (sharedBlockHeight) {
-    return tabs.SHOW_ARTICLE.id;
-  } else {
-    return tabs.SHOW_ARTICLES_LIST.id;
-  }
-}
-
-State.init({
-  displayedTabId: getInitialTabId(),
-  articleToRenderData: {},
-  filterBy: getInitialFilter(),
-  authorsProfiles: [],
-  libCalls: initLibCalls,
-  sbtsNames: initSbtsNames,
-  sbts: initSbtsNames,
-});
-
-let newLibCalls = state.libCalls;
-
-// const functionsCalledList = newLibCalls.map((functionCalled, index) => {
-//   return { functionName: functionCalled.functionName, i: index };
-// });
-
-// const lastEditArticlesCall = functionsCalledList.filter(
-//   (functionCalled) => functionCalled.functionName === "getLastEditArticles"
-// );
-
-// if (lastEditArticlesCall) {
-//   newLibCalls[getLastEditArticles.index].props.filterBy = state.filterBy;
-// }
-
-State.update({ libCalls: newLibCalls });
-
-//=============================================END INITIALIZATION===================================================
-
-//==================================================CONSTS==========================================================
-
-//const authorForWidget = "sayalot.near";
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-// const authorForWidget = "kenrou-it.near";
-const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
-const thisWidgetName = "SayALot";
-
-const sbtWhiteList = [
-  "fractal.i-am-human.near - class 1",
-  "fractal.i-am-human.near - class 1",
-  "fractal.i-am-human.near - class 2",
-];
-
-const widgets = {
-  sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/SayALot.Create`,
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  header: `${authorForWidget}/widget/SayALot.NavBar`,
-  showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
-  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
-  reactions: `${authorForWidget}/widget/SayALot.Reactions`,
-  addComment: `${authorForWidget}/widget/SayALot.AddComment`,
-  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
-  libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
-  libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
-  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
-};
-
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-if (profile === null) {
-  return "Loading";
-}
-
-let authorProfile = {};
-if (state.filterBy.parameterName == "author") {
-  authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
-  // if (!authorProfile) return "Loading...";
-}
-
-const brand = {
-  homePageId: tabs.SHOW_ARTICLES_LIST.id,
-  brandName: "Say a lot",
-  logoHref:
-    "https://ipfs.near.social/ipfs/bafkreiaqxa4st4vp4rtq2iyobdgqe5tpfg55mmyvfg25upd2qplcxylyfi",
-  logoRemWidth: 6,
-  logoRemHeight: 6,
-};
-
-const navigationPills = [
-  { id: tabs.SHOW_ARTICLES_LIST.id, title: "Articles" },
-  { id: tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id, title: "Authors" },
-];
-
-const navigationButtons = [
-  // { id: tabs.ARTICLE_WORKSHOP.id, title: "+Create article" },
-];
-
-const sbts = state.sbts;
-
-const initialBodyAtCreation = state.editArticleData.body;
-
-//=================================================END CONSTS=======================================================
-
-//=================================================GET DATA=========================================================
-const finalArticles = state.articles;
-
-function filterArticlesByTag(tag, articles) {
-  return articles.filter((article) => {
-    return article.tags.includes(tag);
-  });
-}
-
-function filterArticlesByAuthor(author, articles) {
-  return articles.filter((article) => {
-    return article.author === author;
-  });
-}
-
-function filterOnePost(blockHeight, articles) {
-  if (articles) {
-    return articles.filter((article) => article.blockHeight === blockHeight);
-  } else {
-    return [];
-  }
-}
-
-if (state.filterBy.parameterName === "tag") {
-  finalArticles = filterArticlesByTag(
-    state.filterBy.parameterValue,
-    finalArticles
-  );
-} else if (state.filterBy.parameterName === "author") {
-  finalArticles = filterArticlesByAuthor(
-    state.filterBy.parameterValue,
-    finalArticles
-  );
-} else if (state.filterBy.parameterName === "getPost") {
-  finalArticles = filterOnePost(state.filterBy.parameterValue, finalArticles);
-  if (finalArticles.length > 0) {
-    State.update({ articleToRenderData: finalArticles[0] });
-  }
-}
-//===============================================END GET DATA=======================================================
-
-//=============================================STYLED COMPONENTS====================================================
-const CallLibrary = styled.div`
-  display: none;
-`;
-
-const ShareInteractionGeneralContainer = styled.div`
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    backdrop-filter: blur(10px);
-    z-index: 1;
-`;
-
-const ShareInteractionMainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: white;
-  padding: 1rem;
-  border-radious: 12px;
-`;
-
-const ClosePopUpContainer = styled.div`
-  display: flex;  
-  flex-direction: row-reverse;
-`;
-
-const CloseIcon = styled.div`
-  cursor: pointer;
-`;
-
-const PopUpDescription = styled.p`
-  color: #474D55;
-`;
-
-const ShowLinkShared = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #F2F6FA;
-  padding: 1rem 2rem;
-  border-radius: 17px;
-`;
-
-const LinkShared = styled.span`
-  color: #0065FF;
-  word-wrap: anywhere;
-`;
-
-const ClipboardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 0.5rem;
-  min-width: 2.5rem;
-`;
-
-const ClipboardIcon = styled.i`
-  color: ${state.linkCopied ? "#0065FF" : "black"};
-  transition: color 0.3s linear;
-  cursor: pointer;
-`;
-
-const CopiedFeedback = styled.span`
-  font-size: 0.7rem;
-  color: #6c757d;
-`;
-//===========================================END STYLED COMPONENTS==================================================
-
-//================================================COMPONENTS========================================================
-const renderShareInteraction = () => {
-  return (
-    <ShareInteractionGeneralContainer>
-      <ShareInteractionMainContainer>
-        <ClosePopUpContainer>
-          <CloseIcon
-            className="bi bi-x"
-            onClick={() =>
-              State.update({ showShareModal: false, linkCopied: false })
-            }
-          ></CloseIcon>
-        </ClosePopUpContainer>
-        <h3>Share</h3>
-        <PopUpDescription>Use this link to share the article</PopUpDescription>
-        <ShowLinkShared>
-          <LinkShared>{getLink()}</LinkShared>
-          <ClipboardContainer>
-            <ClipboardIcon
-              className="bi-clipboard"
-              onClick={() => {
-                clipboard.writeText(getLink());
-                State.update({ linkCopied: true });
-              }}
-            ></ClipboardIcon>
-            {state.linkCopied && <CopiedFeedback>Copied!</CopiedFeedback>}
-          </ClipboardContainer>
-        </ShowLinkShared>
-      </ShareInteractionMainContainer>
-    </ShareInteractionGeneralContainer>
-  );
-};
-//==============================================END COMPONENTS======================================================
-
-//=================================================FUNCTIONS========================================================
-
-function getValidEditArticleDataTags() {
-  let tags = state.editArticleData.tags;
-  let newFormatTags = {};
-
-  tags &&
-    tags.map((tag) => {
-      newFormatTags[tag] = "";
-    });
-  return newFormatTags;
-}
-
-function createSbtOptions() {
-  return sbtWhiteList.map((option, i) => {
-    //The first options is always the default one
-    if (i == 0) {
-      return { title: option, default: true, value: option };
-    } else {
-      return { title: option, value: option };
-    }
-  });
-}
-
-const initialCreateState = {
-  articleId: state.editArticleData.articleId ?? "",
-  articleBody: state.editArticleData.body ?? initialBodyAtCreation,
-  tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
-  libCalls: [],
-  sbts: [sbtWhiteList[0]],
-};
-
-function stateUpdate(obj) {
+function createStateUpdate(obj) {
   State.update(obj);
 }
 
-function handleOpenArticle(articleToRenderData) {
-  State.update({
-    displayedTabId: tabs.SHOW_ARTICLE.id,
-    articleToRenderData,
-    editArticleData: undefined,
-  });
-}
+const tagsArray = state.tags;
 
-function handleEditArticle(articleData) {
-  State.update({
-    displayedTabId: tabs.ARTICLE_WORKSHOP.id,
-    editArticleData: articleData,
-  });
-}
+const accountId = context.accountId;
 
-function handleFilterArticles(filter) {
-  State.update({
-    filterBy: {
-      parameterName: filter.filterBy,
-      parameterValue: filter.value,
-    },
-    displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-    editArticleData: undefined,
-  });
-}
-
-function handleBackButton() {
-  props.editArticleData
-    ? State.update({
-        displayedTabId: tabs.SHOW_ARTICLE.id,
-        editArticleData: undefined,
-        filterBy: {
-          parameterName: "",
-          parameterValue: undefined,
-          handleBackClicked: true,
-        },
-      })
-    : State.update({
-        displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-        articleToRenderData: {},
-        editArticleData: undefined,
-        filterBy: {
-          parameterName: "",
-          parameterValue: undefined,
-          handleBackClicked: true,
-        },
-      });
-}
-
-function handleGoHomeButton() {
-  State.update({
-    displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-    articleToRenderData: {},
-    filterBy: { parameterName: "", parameterValue: {} },
-    editArticleData: undefined,
-  });
-}
-
-function handlePillNavigation(navegateTo) {
-  State.update({ displayedTabId: navegateTo, editArticleData: undefined });
-}
-
-// console.log(0, "libCalls: ", state.libCalls);
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
+function getRealArticleId() {
+  if (editArticleData) {
+    return (
+      editArticleData.realArticleId ??
+      `${editArticleData.author}-${editArticleData.timeCreate}`
+    );
+  } else {
+    return `${accountId}-${Date.now()}`;
+  }
 }
 
 function handleSbtSelection(string) {
+  State.update({ sbts: [string] });
+}
+
+const sbts = state.sbts; //TODO[""] currently it will be only 1 sbt
+
+const getArticleData = () => {
+  const args = {
+    articleId: editArticleData.articleId ?? state.articleId,
+    author: editArticleData.author ?? accountId,
+    lastEditor: accountId,
+    timeLastEdit: Date.now(),
+    timeCreate: editArticleData.timeCreate ?? Date.now(),
+    body: state.articleBody,
+    version: editArticleData ? editArticleData.version + 1 : 0,
+    navigation_id: null,
+    tags: tagsArray,
+    realArticleId: getRealArticleId(),
+    sbts,
+  };
+  return args;
+};
+
+function onCommit() {
   State.update({
-    sbts: [string],
+    articleId: "",
+    clearArticleId: true,
+    tags: [],
+    clearTags: true,
+    articleBody: "",
+    clearArticleBody: true,
+    initalBody: "",
+    showCreatedArticle: true,
+    showPreview: false,
   });
 }
 
-function handleShareButton(showShareModal, sharedElement) {
-  //showShareModal is a boolean
-  //sharedElement is and object like the example: {
-  //   type: string,
-  //   value: number||string,
-  // }
-  State.update({ showShareModal, sharedElement });
+function onCancel() {
+  State.update({ createdArticle: undefined });
 }
 
-function getLink() {
-  return `https://near.social/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot?${state.sharedElement.type}=${state.sharedElement.value}`;
+function createArticleListener() {
+  const article = getArticleData();
+  const newLibCalls = [...state.libCalls];
+  newLibCalls.push({
+    functionName: "createArticle",
+    key: "createdArticle",
+    props: {
+      article,
+      onCommit,
+      onCancel,
+    },
+  });
+  State.update({ libCalls: newLibCalls });
 }
 
-//===============================================END FUNCTIONS======================================================
+function switchShowPreview() {
+  State.update({
+    showPreview: !state.showPreview,
+    initialBody: state.articleBody,
+  });
+}
+
+const Button = styled.button` 
+  margin: 0px 1rem; 
+  display: inline-block; 
+  text-align: center; 
+  vertical-align: middle; 
+  cursor: pointer; 
+  user-select: none; 
+  transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out; 
+ 
+  border: 2px solid transparent; 
+  font-weight: 500; 
+  padding: 0.3rem 0.5rem; 
+  background-color: #010A2D; 
+  border-radius: 12px; 
+  color: white; 
+  text-decoration: none;   
+ 
+  &:hover { 
+    color: #010A2D; 
+    background-color: white; 
+  } 
+`;
+
+const CreationContainer = styled.div`
+  background-color: rgb(230, 230, 230);
+  border-radius: 20px;
+  padding: 1rem 0;
+  position: relative;
+`;
+
+const SecondContainer = styled.div`
+  margin: 0 auto;
+  width: 90%;
+  min-width: 360px;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 20px;
+`;
+
 return (
   <>
-    {state.showShareModal && renderShareInteraction()}
-    <Widget
-      src={widgets.header}
-      props={{
-        isTest,
-        stateUpdate,
-        handleGoHomeButton,
-        handlePillNavigation,
-        brand,
-        pills: navigationPills,
-        navigationButtons,
-        displayedTabId: state.displayedTabId,
-        handleFilterArticles,
-        filterParameter: state.filterBy.parameterName,
-        handleBackButton,
-        tabs,
-        sbtsNames,
-      }}
-    />
-    {finalArticles && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
-      <Widget
-        src={widgets.showArticlesList}
-        props={{
-          isTest,
-          finalArticles,
-          tabs,
-          widgets,
-          addressForArticles,
-          handleOpenArticle,
-          handleFilterArticles,
-          authorForWidget,
-          initialCreateState,
-          editArticleData: state.editArticleData,
-          callLibs,
-          handleEditArticle,
-          showCreateArticle: state.canLoggedUserCreateArticle,
-          sbtWhiteList,
-          handleSbtSelection,
-          sbts,
-          createSbtOptions,
-          handleShareButton,
-          // logedUserSbts: state.logedUserSbts,
-        }}
-      />
-    )}
-    {state.articleToRenderData.articleId &&
-    state.displayedTabId == tabs.SHOW_ARTICLE.id ? (
+    {state.createdArticle && state.showCreatedArticle && editArticleData ? (
       <Widget
         src={widgets.articleView}
         props={{
-          isTest,
           widgets,
+          isTest,
           handleFilterArticles,
-          articleToRenderData: state.articleToRenderData,
+          articleToRenderData: state.createdArticle,
           authorForWidget,
           handleEditArticle,
-          handleShareButton,
-          // logedUserSbts: state.logedUserSbts,
         }}
       />
     ) : (
-      <div className="spinner-grow" role="status">
-        <span className="visually-hidden">Loading...</span>
+      <div className="border rounded">
+        {
+          // <CreationContainer className="container-fluid">
+        }
+        <SecondContainer className="mx-3">
+          <h5 className="mb-1">
+            {editArticleData ? "Edit Article" : "Create Article"}
+          </h5>
+
+          {state.showPreview ? (
+            <Widget
+              src={widgets.generalCard}
+              props={{
+                widgets,
+                isTest,
+                data: {
+                  articleId: state.articleId,
+                  author: accountId,
+                  lastEditor: accountId,
+                  timeLastEdit: Date.now(),
+                  timeCreate: Date.now(),
+                  body: state.articleBody,
+                  version: 0,
+                  navigation_id: null,
+                  tags: tagsArray,
+                  realArticleId: getRealArticleId(),
+                  sbts,
+                },
+                addressForArticles,
+                handleOpenArticle: () => {},
+                handleFilterArticles: () => {},
+                authorForWidget,
+                handleShareButton: () => {},
+              }}
+            />
+          ) : (
+            <div>
+              {
+                // <div>
+                //   <Widget
+                //     src={"rubycop.near/widget/NDC.StyledComponents"}
+                //     props={{
+                //       Button: {
+                //         className: "primary dark",
+                //         disable: state.articleId > 0 || state.articleBody > 0,
+                //         text: editArticleData ? "Save edition" : "Save article",
+                //         onClick: createArticleListener,
+                //         icon: <i className="bi bi-check2"></i>,
+                //       },
+                //     }}
+                //   />
+                // </div>
+              }
+              <div className="d-flex flex-column pt-3">
+                <label for="inputArticleId">
+                  Input article id (case-sensitive, without spaces):
+                </label>
+                <label for="inputArticleId" className="small text-danger">
+                  {state.errorId}
+                </label>
+                <Widget
+                  src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
+                  props={{
+                    firstText: state.articleId,
+                    forceClear: state.clearArticleId,
+                    stateUpdate: (obj) => State.update(obj),
+                    filterText: (e) => e.target.value.replace(/\s+/g, ""),
+                    editable: editArticleData,
+                  }}
+                />
+              </div>
+              <div className="d-flex flex-column pt-3">
+                <Widget
+                  src={`${authorForWidget}/widget/TagsEditor`}
+                  props={{
+                    forceClear: state.clearTags,
+                    stateUpdate: (obj) => State.update(obj),
+                    initialTagsObject: state.tags,
+                    placeholder: "Input tags",
+                    setTagsObject: (tags) => {
+                      state.tags = Object.keys(tags);
+                      State.update();
+                    },
+                  }}
+                />
+              </div>
+              <div className="d-flex flex-column pt-3 ">
+                <Widget
+                  src={widgets.styledComponents}
+                  props={{
+                    Dropdown: {
+                      label: "Select SBT requiered to interact",
+                      value: sbts[0],
+                      handleChange: handleSbtSelection,
+                      options: createSbtOptions(),
+                    },
+                  }}
+                />
+              </div>
+              <div className="d-flex flex-column pt-3">
+                <label for="textareaArticleBody">
+                  Input article body (in makrdown format):
+                </label>
+                <label for="textareaArticleBody" className="small text-danger">
+                  {state.errorBody}
+                </label>
+                <div className="d-flex gap-2">
+                  {
+                    //<div className="w-50">
+                  }
+                  <Widget
+                    src={`${authorForWidget}/widget/MarkdownEditorIframe`}
+                    props={{
+                      initialText: state.initialBody ?? "",
+                      onChange: (articleBody) =>
+                        State.update({
+                          articleBody,
+                          clearArticleBody: false,
+                        }),
+                      clearArticleBody: state.clearArticleBody,
+                    }}
+                  />
+                  {
+                    //</div>
+                  }
+                  {
+                    //<div className="w-50">
+                  }
+                  {
+                    //TODO make this visible when clicking a show preview button after creating it
+                    //
+                    // <Widget
+                    // src="mob.near/widget/SocialMarkdown"
+                    // props={{ text: state.articleBody }}
+                    // />
+                  }
+                  {
+                    //</div>
+                  }
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="mt-2 d-flex justify-content-end">
+            <Widget
+              src={"rubycop.near/widget/NDC.StyledComponents"}
+              props={{
+                Button: {
+                  className: "primary light mx-2",
+                  disabled:
+                    state.articleId.length === 0 ||
+                    state.articleBody.length === 0,
+                  onClick: switchShowPreview,
+                  icon: (
+                    <i
+                      className={`bi ${
+                        state.showPreview ? "bi-pencil" : "bi-eye-fill"
+                      }`}
+                    ></i>
+                  ),
+                },
+              }}
+            />
+            <Widget
+              src={"rubycop.near/widget/NDC.StyledComponents"}
+              props={{
+                Button: {
+                  className: "primary dark",
+                  disabled:
+                    state.articleId.length === 0 ||
+                    state.articleBody.length === 0,
+                  text: editArticleData ? "Save edition" : "Post",
+                  onClick: createArticleListener,
+                  icon: <i className="bi bi-check2"></i>,
+                },
+              }}
+            />
+          </div>
+        </SecondContainer>
+        <div style={{ display: "none" }}>
+          {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
+        </div>
+        {
+          //</CreationContainer>
+        }
       </div>
     )}
-
-    {state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id && (
-      <Widget
-        src={widgets.showArticlesListSortedByAuthors}
-        props={{
-          isTest,
-          finalArticles,
-          tabs,
-          widgets,
-          handleOpenArticle,
-          handleFilterArticles,
-          authorForWidget,
-          // logedUserSbts: state.logedUserSbts,
-        }}
-      />
-    )}
-
-    {state.displayedTabId == tabs.ARTICLE_WORKSHOP.id && (
-      <Widget
-        src={widgets.create}
-        props={{
-          isTest,
-          addressForArticles,
-          authorForWidget,
-          stateUpdate,
-          widgets,
-          initialBody: initialBodyAtCreation,
-          initialCreateState,
-          editArticleData: state.editArticleData,
-          callLibs,
-          handleFilterArticles,
-          handleEditArticle,
-          sbtWhiteList,
-          createSbtOptions,
-        }}
-      />
-    )}
-
-    <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </CallLibrary>
   </>
 );
