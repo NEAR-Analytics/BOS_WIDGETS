@@ -187,51 +187,54 @@ return (
                       );
                     }
                   })}
+                {state.clientList.length > 0 && (
+                  <li>
+                    <a
+                      class="nav-link px-3 sidebar-link"
+                      data-bs-toggle="collapse"
+                      href="#collapseArchive"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="collapseArchive"
+                    >
+                      <span class="fw-bold">📦Archive</span>
+                      <span class="right-icon ms-auto">
+                        <i class="bi bi-chevron-down"></i>
+                      </span>
+                    </a>
 
-                <li>
-                  <a
-                    class="nav-link px-3 sidebar-link"
-                    data-bs-toggle="collapse"
-                    href="#collapseArchive"
-                    role="button"
-                    aria-expanded="false"
-                    aria-controls="collapseArchive"
-                  >
-                    <span class="fw-bold">📦Archive</span>
-                    <span class="right-icon ms-auto">
-                      <i class="bi bi-chevron-down"></i>
-                    </span>
-                  </a>
-
-                  <div class="collapse" id="collapseArchive">
-                    <div>
-                      <ul class="navbar-nav ps-3">
-                        {state.clientList &&
-                          state.clientList.map((client, index) => {
-                            if (client.archived == true) {
-                              return (
-                                <li>
-                                  <a
-                                    href="#"
-                                    class="nav-link px-3"
-                                    id={`pills-tab-${client.id}`}
-                                    data-bs-toggle="pill"
-                                    data-bs-target={`#pills-${client.id}`}
-                                    type="button"
-                                    role="tab"
-                                    aria-controls={`#pills-${client.id}`}
-                                    aria-selected="true"
-                                  >
-                                    <span class="fw-bold">✨{client.name}</span>
-                                  </a>
-                                </li>
-                              );
-                            }
-                          })}
-                      </ul>
+                    <div class="collapse" id="collapseArchive">
+                      <div>
+                        <ul class="navbar-nav ps-3">
+                          {state.clientList &&
+                            state.clientList.map((client, index) => {
+                              if (client.archived == true) {
+                                return (
+                                  <li>
+                                    <a
+                                      href="#"
+                                      class="nav-link px-3"
+                                      id={`pills-tab-${client.id}`}
+                                      data-bs-toggle="pill"
+                                      data-bs-target={`#pills-${client.id}`}
+                                      type="button"
+                                      role="tab"
+                                      aria-controls={`#pills-${client.id}`}
+                                      aria-selected="true"
+                                    >
+                                      <span class="fw-bold">
+                                        ✨{client.name}
+                                      </span>
+                                    </a>
+                                  </li>
+                                );
+                              }
+                            })}
+                        </ul>
+                      </div>
                     </div>
-                  </div>
-                </li>
+                  </li>
+                )}
 
                 <li>
                   <hr />
