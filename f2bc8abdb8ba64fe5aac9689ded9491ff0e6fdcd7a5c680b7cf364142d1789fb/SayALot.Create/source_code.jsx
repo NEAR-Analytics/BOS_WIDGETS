@@ -86,7 +86,6 @@ function onCancel() {
 function createArticleListener() {
   const article = getArticleData();
   const newLibCalls = [...state.libCalls];
-  console.log("creating");
   newLibCalls.push({
     functionName: "createArticle",
     key: "createdArticle",
