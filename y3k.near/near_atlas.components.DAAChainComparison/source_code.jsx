@@ -67,21 +67,21 @@ State.update({ _raw_data: _raw_data });
 let Style = styled.div``;
 
 const darkColors = [
-  "rgb(250,164,58)", // Bright Orange
-  "rgb(13,131,171)", // Ocean Blue
-  "rgb(255,85,85)", // Light Red
-  "rgb(85,255,85)", // Light Green
-  "rgb(85,85,255)", // Light Blue
-  "rgb(255,255,85)", // Bright Yellow
-  "rgb(240,130,130)", // Soft Pink
-  "rgb(130,240,240)", // Aqua
-  "rgb(240,240,130)", // Soft Gold
-  "rgb(130,130,240)", // Periwinkle
-  "rgb(200,100,150)", // Mauve
-  "rgb(150,200,100)", // Olive Green
-  "rgb(100,150,200)", // Sky Blue
-  "rgb(200,150,100)", // Sandstone
-  "rgb(150,100,200)", // Lavender
+  "rgb(250,164,58)", // Bright Orange (kept unchanged for reference)
+  "rgb(0,100,150)", // Darker Ocean Blue
+  "rgb(255,0,0)", // Pure Red
+  "rgb(0,255,0)", // Pure Green
+  "rgb(0,0,255)", // Pure Blue
+  "rgb(255,255,0)", // Pure Yellow
+  "rgb(200,50,120)", // Deep Pink (different from red and mauve)
+  "rgb(0,150,150)", // Dark Teal (between green and blue)
+  "rgb(170,170,0)", // Olive (muting down from Soft Gold)
+  "rgb(120,0,120)", // Deep Purple (not close to Lavender or Periwinkle)
+  "rgb(220,85,85)", // Rust (redder than orange, more muted than red)
+  "rgb(0,120,0)", // Dark Green
+  "rgb(50,50,150)", // Royal Blue (brighter than Ocean Blue but darker than Light Blue)
+  "rgb(170,100,50)", // Earth Brown (muting and darkening the Sandstone)
+  "rgb(150,0,200)", // Vibrant Purple (distinct from Lavender and Deep Purple)
 ];
 
 let colorIndex = 0;
