@@ -257,6 +257,7 @@ const renderOpenChallenges = (challenges) => {
               props={{
                 onClick: rejectChallenge(challenge_id, is_challenger),
                 content: "Reject",
+                secondary: true,
               }}
             />
           </Challenge>
