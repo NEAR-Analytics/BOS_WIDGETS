@@ -2,15 +2,7 @@
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
-const sbtWhiteList = [
-  // "fractal.i-am-human.near",
-  // "community.i-am-human.near",
-  "fractal.i-am-human.near - class 1",
-  "community.i-am-human.near - class 1",
-  "community.i-am-human.near - class 2",
-];
-
-const initSbtsNames = sbtWhiteList[0];
+const initSbtsNames = ["fractal.i-am-human.near - class 1"];
 
 const sbtsNames = state.sbt;
 
@@ -117,6 +109,14 @@ const authorForWidget =
 // const authorForWidget = "kenrou-it.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
+
+const sbtWhiteList = [
+  // "fractal.i-am-human.near",
+  // "community.i-am-human.near",
+  "fractal.i-am-human.near - class 1",
+  "community.i-am-human.near - class 1",
+  "community.i-am-human.near - class 2",
+];
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
