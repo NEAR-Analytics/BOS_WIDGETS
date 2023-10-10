@@ -300,7 +300,7 @@ return (
               <li
                 key={i}
                 className={item.active ? "active" : ""}
-                data-is-link={!!subItem.href}
+                data-is-link={!!item.href}
               >
                 {item.href ? (
                   <a href={item.href} onClick={item.onClick}>
