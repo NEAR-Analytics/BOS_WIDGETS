@@ -33,10 +33,9 @@ const articleSbts = articleToRenderData.sbts[0] ?? [];
 finalArticles.forEach((article) =>
   initLibCalls.push({
     functionName: "getUpVotes",
-    key: `upVotes-${article.realArticleId}`,
+    key: `upVotes-${article.id}`,
     props: {
-      realArticleId:
-        article.realArticleId ?? `${article.author}-${article.timeCreate}`,
+      id: article.id ?? `${article.author}-${article.timeCreate}`,
       articleSbts: article.sbts[0] ?? [],
     },
   })
@@ -52,7 +51,7 @@ State.init({
 });
 
 let finalArticlesWithUpVotes = finalArticles.map((article) => {
-  article.upVotes = state[`upVotes-${article.realArticleId}`];
+  article.upVotes = state[`upVotes-${article.id}`];
 
   return article;
 });
