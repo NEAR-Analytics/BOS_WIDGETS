@@ -28,6 +28,7 @@ State.init({
   group: groupData,
   members: initMembers,
   newMember: "",
+  isDao: false,
 });
 
 function addMember(newMember) {
@@ -70,7 +71,7 @@ const memberId = props.memberId ?? state.newMember;
 const isValid = isNearAddress(memberId);
 
 const handleSave = () => {
-  const data = {
+  Social.set({
     graph: {
       [groupId]: {
         ...state.members,
@@ -86,22 +87,18 @@ const handleSave = () => {
           },
         }))
       ),
+      notify: JSON.stringify(
+        Object.keys(state.members)
+          .filter((it) => initMembers.includes(it))
+          .map((account) => ({
+            key: account,
+            value: {
+              type: "add",
+            },
+          }))
+      ),
     },
-  };
-  const notify = Object.keys(state.members).filter(
-    (it) => it !== context.accountId
-  );
-  if (notify.length > 0) {
-    data.index.notify = JSON.stringify(
-      notify.map((account) => ({
-        key: account,
-        value: {
-          type: "add",
-        },
-      }))
-    );
-  }
-  Social.set(data);
+  });
 };
 
 const CardStyled = styled.div`
@@ -148,6 +145,8 @@ const Modal = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
   background: rgba(0, 0, 0, 0.7);
 `;
 
@@ -166,70 +165,60 @@ const ComponentWrapper = styled.div`
   }
 `;
 
-const Label = styled.div`
-  margin-bottom: 8px;
-  font-weight: bold;
-  text-align: left;
-`;
-
 return (
   <Modal>
     <ComponentWrapper>
-      <CardStyled>
+      <CardStyled name="add">
         <div className="d-flex flex-column">
           <CardForm>
-            <div className="d-flex align-items-center justify-content-between">
+            <div className="d-flex justify-content-between align-items-center">
               <H1>Builders</H1>
               <Submitcontainer>
                 <button
                   onClick={handleClose}
                   className="btn btn-secondary me-1"
                 >
-                  Close
+                  exit
                 </button>
-                <button className="btn btn-success m-2" onClick={handleSave}>
-                  Save
+                <button onClick={handleCreate} className="btn btn-success me-1">
+                  save
                 </button>
               </Submitcontainer>
             </div>
             <div>
-              <Label>Account ID</Label>
+              Account ID
               <input
                 label="input each member's account ID here, then click `add` below"
                 placeholder="<example>.near"
                 onChange={(e) => State.update({ newMember: e.target.value })}
               />
-              <div className="d-flex mt-2">
+              <div className="d-flex align-items-center mt-2">
                 <button
                   className="btn btn-primary m-2"
                   onClick={() => addMember(state.newMember)}
                 >
-                  Add
+                  add
                 </button>
-                {JSON.stringify(state.members) !==
-                  JSON.stringify(initMembers) && (
-                  <button
-                    className="btn btn-outline-primary m-2"
-                    onClick={() => State.update({ members: initMembers })}
-                  >
-                    Reset
-                  </button>
-                )}
+                <button className="btn btn-success m-2" onClick={handleSave}>
+                  save
+                </button>
               </div>
             </div>
             <div>
               {Object.keys(state.members).map((a) => {
                 return (
-                  <div className="d-flex m-2 p-2 justify-content-between">
-                    <Widget
-                      src="mob.near/widget/Profile"
-                      props={{ accountId: a }}
-                    />
+                  <div className="d-flex m-2 p-2 justify-content-between align-items-center">
+                    <div className="d-flex align-items-center">
+                      <Widget
+                        src="mob.near/widget/Profile"
+                        props={{ accountId: a }}
+                      />
+                    </div>
                     <button
-                      className="btn btn-danger m-2"
+                      className="btn btn-danger m-1"
                       onClick={() => removeMember(a)}
                     >
-                      Remove
+                      remove
                     </button>
                   </div>
                 );
