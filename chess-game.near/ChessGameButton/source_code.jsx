@@ -7,6 +7,7 @@ const {
   alignSelf,
   fontWeight,
   flexDirection,
+  disabled,
 } = props;
 
 const Button = styled.button`
@@ -27,6 +28,13 @@ const Button = styled.button`
     opacity: 0.85;
   }
 
+  &.disabled {
+    pointer-events: none;
+    background-color: grey;
+    border-color: grey;
+    color: #fff;
+  }
+
   > * {
     max-width: 100%;
     text-overflow: ellipsis;
@@ -35,4 +43,8 @@ const Button = styled.button`
   }
 `;
 
-return <Button onClick={onClick ?? undefined}>{content ?? ""}</Button>;
+return (
+  <Button onClick={onClick ?? undefined} className={disabled ? "disabled" : ""}>
+    {content ?? ""}
+  </Button>
+);
