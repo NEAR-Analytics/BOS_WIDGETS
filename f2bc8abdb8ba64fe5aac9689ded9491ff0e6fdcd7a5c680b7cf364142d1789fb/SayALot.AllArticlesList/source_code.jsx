@@ -104,26 +104,28 @@ function allArticlesListStateUpdate(obj) {
 // console.log("state.libCalls: ", state.libCalls);
 return (
   <>
-    {true && (
-      // showCreateArticle && (
-      <Widget
-        src={widgets.create}
-        props={{
-          isTest,
-          addressForArticles,
-          authorForWidget,
-          stateUpdate,
-          widgets,
-          initialCreateState,
-          editArticleData,
-          callLibs,
-          handleFilterArticles,
-          handleEditArticle,
-          initialBody: "",
-          createSbtOptions,
-        }}
-      />
-    )}
+    {
+      // true && (
+      showCreateArticle && (
+        <Widget
+          src={widgets.create}
+          props={{
+            isTest,
+            addressForArticles,
+            authorForWidget,
+            stateUpdate,
+            widgets,
+            initialCreateState,
+            editArticleData,
+            callLibs,
+            handleFilterArticles,
+            handleEditArticle,
+            initialBody: "",
+            createSbtOptions,
+          }}
+        />
+      )
+    }
     <div className="mt-3 border-top pt-2">
       <Widget
         src={widgets.styledComponents}
