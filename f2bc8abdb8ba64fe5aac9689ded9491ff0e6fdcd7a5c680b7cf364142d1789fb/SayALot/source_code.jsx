@@ -111,11 +111,11 @@ const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
 
 const sbtWhiteList = [
-  "fractal.i-am-human.near",
-  "community.i-am-human.near",
-  // "fractal.i-am-human.near - class 1",
-  // "community.i-am-human.near - class 1",
-  // "community.i-am-human.near - class 2",
+  // "fractal.i-am-human.near",
+  // "community.i-am-human.near",
+  "fractal.i-am-human.near - class 1",
+  "community.i-am-human.near - class 1",
+  "community.i-am-human.near - class 2",
 ];
 
 const widgets = {
