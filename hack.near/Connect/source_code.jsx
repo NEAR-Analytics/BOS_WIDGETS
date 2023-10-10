@@ -210,7 +210,7 @@ return (
                 {JSON.stringify(state.members) !==
                   JSON.stringify(initMembers) && (
                   <button
-                    className="btn btn-outline-danger float-end"
+                    className="btn btn-outline-primary"
                     onClick={() => State.update({ members: initMembers })}
                   >
                     Reset
