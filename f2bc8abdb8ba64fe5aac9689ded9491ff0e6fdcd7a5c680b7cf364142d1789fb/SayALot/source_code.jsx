@@ -346,7 +346,7 @@ function createSbtOptions() {
 }
 
 const initialCreateState = {
-  articleId: state.editArticleData.articleId ?? "",
+  title: state.editArticleData.title ?? "",
   articleBody: state.editArticleData.body ?? initialBodyAtCreation,
   tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
   libCalls: [],
@@ -506,7 +506,7 @@ return (
         }}
       />
     )}
-    {state.articleToRenderData.articleId &&
+    {state.articleToRenderData.title &&
     state.displayedTabId == tabs.SHOW_ARTICLE.id ? (
       <Widget
         src={widgets.articleView}
