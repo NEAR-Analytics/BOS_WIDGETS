@@ -27,6 +27,16 @@ function isValidUser(props) {
       return Number(sbt.metadata["class"]) === Number(sbtsData[0].classNumber);
     }) !== undefined;
 
+  // const result =
+  //   userSBTs
+  //     .filter((sbt) => {
+  //       return sbt[0] === sbtsData[0].name;
+  //     })
+  //     .find((sbt) => {
+  //       return (
+  //         Number(sbt[1].metadata["class"]) === Number(sbtsData[0].classNumber)
+  //       );
+  //     }) !== undefined;
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "isValidUser";
   });
