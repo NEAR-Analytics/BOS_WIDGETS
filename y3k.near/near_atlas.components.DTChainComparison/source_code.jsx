@@ -163,6 +163,13 @@ Object.entries(dataSetsInfo).forEach(([name, datasetInfo]) => {
   }
 });
 
+stacked_bar_data.datasets = stacked_bar_data.datasets.map((dataset) => {
+  return {
+    ...dataset,
+    borderColor: dataset.backgroundColor, // Setting the borderColor the same as backgroundColor
+  };
+});
+
 // Extract dates
 if (Object.values(dataSetsInfo).length > 0) {
   stacked_bar_data.dates = Object.values(dataSetsInfo)[0].data.map(
@@ -251,7 +258,7 @@ return (
         {" "}
         {data !== null ? (
           <div>
-            <BarEl options={stacked_options} data={stacked_bar_data} />
+            <LineEl options={stacked_options} data={stacked_bar_data} />
           </div>
         ) : (
           <div>Loading ...</div>
