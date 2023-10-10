@@ -68,21 +68,21 @@ State.update({ _raw_data: _raw_data });
 let Style = styled.div``;
 
 const darkColors = [
-  "rgb(250,164,58)", // Bright Orange
-  "rgb(13,131,171)", // Ocean Blue
-  "rgb(255,85,85)", // Light Red
-  "rgb(85,255,85)", // Light Green
-  "rgb(85,85,255)", // Light Blue
-  "rgb(255,255,85)", // Bright Yellow
-  "rgb(240,130,130)", // Soft Pink
-  "rgb(130,240,240)", // Aqua
-  "rgb(240,240,130)", // Soft Gold
-  "rgb(130,130,240)", // Periwinkle
-  "rgb(200,100,150)", // Mauve
-  "rgb(150,200,100)", // Olive Green
-  "rgb(100,150,200)", // Sky Blue
-  "rgb(200,150,100)", // Sandstone
-  "rgb(150,100,200)", // Lavender
+  "rgb(250,164,58)", // Bright Orange (no change)
+  "rgb(13,131,171)", // Ocean Blue (no change)
+  "rgb(255,85,85)", // Light Red (no change)
+  "rgb(85,255,85)", // Light Green (no change)
+  "rgb(85,85,255)", // Light Blue (no change)
+  "rgb(255,255,85)", // Bright Yellow (no change)
+  "rgb(215,105,105)", // Darkened Soft Pink
+  "rgb(100,210,210)", // Darkened Aqua
+  "rgb(230,230,110)", // Modified Soft Gold
+  "rgb(130,130,240)", // Periwinkle (no change)
+  "rgb(200,100,150)", // Mauve (no change)
+  "rgb(150,200,100)", // Olive Green (no change)
+  "rgb(100,150,200)", // Sky Blue (no change)
+  "rgb(200,150,100)", // Sandstone (no change)
+  "rgb(150,100,200)", // Lavender (no change)
 ];
 
 let colorIndex = 0;
