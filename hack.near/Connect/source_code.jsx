@@ -148,7 +148,6 @@ const Modal = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  align-items:center;
   background: rgba(0, 0, 0, 0.7);
 `;
 
@@ -221,7 +220,7 @@ return (
             <div>
               {Object.keys(state.members).map((a) => {
                 return (
-                  <div className="m-2 p-2 justify-content-between">
+                  <div className="d-flex m-2 p-2 justify-content-between">
                     <Widget
                       src="mob.near/widget/Profile"
                       props={{ accountId: a }}
