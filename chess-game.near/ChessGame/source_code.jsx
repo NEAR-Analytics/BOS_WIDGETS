@@ -134,8 +134,8 @@ const text = `
   - \"castle queenside\"
   - \"castle kingside\"'
 
-  _If a game stalls because players stop sending moves,_
-  _it can be stopped after ~3 days._
+  _If a game stalls because players stop sending moves, it can be stopped after ~3 days._
+  _Cancelling a game won't affect your ELO rating, but resigning will result in a lost match._
 `;
 const assetText = `
   _Assets are free to use right now, but will later be unlocked via NFTs._
