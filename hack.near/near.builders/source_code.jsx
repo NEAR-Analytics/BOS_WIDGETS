@@ -150,6 +150,12 @@ return (
                 src="hack.near/widget/Join"
                 props={{ groupId, accountId, curatorId }}
               />
+              <button
+                onClick={() => State.update({ showModal: true })}
+                className="btn btn-dark m-1"
+              >
+                Edit
+              </button>
             </div>
           </FlexContainer>
         </div>
