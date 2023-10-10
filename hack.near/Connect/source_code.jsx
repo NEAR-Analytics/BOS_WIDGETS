@@ -28,7 +28,6 @@ State.init({
   group: groupData,
   members: initMembers,
   newMember: "",
-  isDao: false,
 });
 
 function addMember(newMember) {
@@ -180,9 +179,6 @@ return (
                 >
                   exit
                 </button>
-                <button onClick={handleCreate} className="btn btn-success me-1">
-                  save
-                </button>
               </Submitcontainer>
             </div>
             <div>
@@ -197,10 +193,10 @@ return (
                   className="btn btn-primary m-2"
                   onClick={() => addMember(state.newMember)}
                 >
-                  add
+                  Add
                 </button>
                 <button className="btn btn-success m-2" onClick={handleSave}>
-                  save
+                  Save
                 </button>
               </div>
             </div>
@@ -218,7 +214,7 @@ return (
                       className="btn btn-danger m-1"
                       onClick={() => removeMember(a)}
                     >
-                      remove
+                      Remove
                     </button>
                   </div>
                 );
