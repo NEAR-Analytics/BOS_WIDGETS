@@ -19,7 +19,6 @@ function libStateUpdate(obj) {
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  console.log("setAreValidUsers");
   const newLibCalls = [...state.libCalls];
   accountIds.forEach((accountId, index) => {
     const isCallPushed =
@@ -83,10 +82,7 @@ function canUserCreateArticle(props) {
   const { env, accountId, sbtsNames } = props;
 
   setAreValidUsers([accountId], sbtsNames);
-
-  console.log("state: ", state);
   const result = state[`isValidUser-${accountId}`];
-  console.log("result: ", result);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     const discardCondition =
@@ -147,6 +143,8 @@ function composeData(article) {
 }
 
 const saveHandler = (article, onCommit, onCancel) => {
+  console.log("SH");
+  console.log("article: ", article);
   if (article.title && article.body) {
     const newData = composeData(article);
 
