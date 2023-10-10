@@ -7,7 +7,7 @@ if (!props.accountId && !context.accountId) {
 }
 
 const joinEdge = Social.keys(
-  `${context.accountId}/graph/${groupId}/${context.accountId}`,
+  `${accountId}/graph/${groupId}/${accountId}`,
   undefined,
   {
     values_only: true,
@@ -15,7 +15,7 @@ const joinEdge = Social.keys(
 );
 
 const memberEdge = Social.keys(
-  `${curatorId}/graph/${groupId}/${context.accountId}`,
+  `${curatorId}/graph/${groupId}/${accountId}`,
   undefined,
   {
     values_only: true,
