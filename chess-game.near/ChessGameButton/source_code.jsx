@@ -1,10 +1,9 @@
-const { onClick, content, ...props } = props;
+const { onClick, content, inline, ...props } = props;
 
 const Button = styled.button`
-  display: flex;
+  display: ${inline ? "inline-flex" : "flex"};
   flex-direction: column;
   align-self: ${(props) => (props.alignSelf ? props.alignSelf : "unset")};
-  border: 1px solid black;
   border-radius: 4px;
   font-size: ${(props) => (props.fontSize ? props.fontSize : "1rem")};
   max-width: 220px;
