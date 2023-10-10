@@ -114,7 +114,7 @@ const Sidebar = styled.div`
     }
   }
 
-  li:hover {
+  li[href]:hover {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
@@ -122,14 +122,14 @@ const Sidebar = styled.div`
     }
   }
 
-  li:active {
+  li[href]:active {
     background-color: rgba(68, 152, 224, 0.12);
     * {
       color: #4498e0 !important;
     }
   }
 
-  li.active {
+  li[href].active {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
@@ -275,6 +275,7 @@ return (
                         style={{
                           width: j > 0 ? "85%" : "",
                         }}
+                        href={!!subItem.href}
                       >
                         {subItem.href ? (
                           <a href={subItem.href} target="_blank">
@@ -296,7 +297,11 @@ return (
           } else {
             if (item.hidden) return null;
             return (
-              <li key={i} className={item.active && "active"}>
+              <li
+                key={i}
+                className={item.active && "active"}
+                href={!!subItem.href}
+              >
                 {item.href ? (
                   <a href={item.href} onClick={item.onClick}>
                     <span className="icon">{item.icon}</span>
