@@ -262,12 +262,11 @@ const {
   replyingTo,
 } = props;
 
-let realArticleId;
+let id;
 if (originalComment) {
-  realArticleId = originalComment.originalComment.value.comment.realArticleId;
+  id = originalComment.originalComment.value.comment.id;
 } else {
-  realArticleId =
-    article.realArticleId ?? `${article.author}-${article.timeCreate}`;
+  id = article.id ?? `${article.author}-${article.timeCreate}`;
 }
 
 const libCalls = [];
@@ -330,11 +329,11 @@ function addCommentListener() {
   let newLibCalls = [...libCalls];
   const comment = {
     text: state.reply,
-    realArticleId,
+    id,
     timestamp: Date.now(),
     originalCommentId:
       originalComment.originalComment.value.comment.commentId ??
-      article.realArticleId ??
+      article.id ??
       `${article.author}-${article.timeCreate}`,
     commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
   };
