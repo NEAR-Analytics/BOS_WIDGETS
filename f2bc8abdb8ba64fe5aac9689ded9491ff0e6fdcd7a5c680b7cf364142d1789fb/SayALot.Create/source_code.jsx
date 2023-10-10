@@ -213,9 +213,7 @@ return (
                 // </div>
               }
               <div className="d-flex flex-column pt-3">
-                <label for="inputArticleId">
-                  Input article id (case-sensitive, without spaces):
-                </label>
+                <label for="inputArticleId">Title (case-sensitive):</label>
                 <label for="inputArticleId" className="small text-danger">
                   {state.errorId}
                 </label>
