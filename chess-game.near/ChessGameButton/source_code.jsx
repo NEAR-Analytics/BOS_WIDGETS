@@ -26,6 +26,7 @@ const Button = styled.button`
     max-width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
+    text-align: left;
   }
 `;
 
