@@ -1,5 +1,6 @@
 const {
   onClick,
+  secondary,
   content,
   inline,
   fontSize,
@@ -17,8 +18,8 @@ const Button = styled.button`
   border: 1px solid rgb(68, 152, 224);
   font-size: ${fontSize ? fontSize : "1.1rem"};
   max-width: 220px;
-  background-color: rgb(68, 152, 224);
-  color: #fff;
+  background-color: ${secondary ? "#fff" : "rgb(68, 152, 224)"};
+  color: ${secondary ? "#000" : "#fff"};
   padding: 0.3rem 0.8rem;
   font-weight: ${fontWeight ? fontWeight : "400"};
 
