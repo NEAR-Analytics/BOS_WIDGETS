@@ -143,8 +143,6 @@ function composeData(article) {
 }
 
 const saveHandler = (article, onCommit, onCancel) => {
-  console.log("SH");
-  console.log("article: ", article);
   if (article.title && article.body) {
     const newData = composeData(article);
 
