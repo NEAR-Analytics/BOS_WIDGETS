@@ -62,7 +62,7 @@ function isValidUser(props) {
 
   // return true;
   console.log(2, usersValidityBySBT);
-  return usersValidityBySBT;
+  return { ...usersValidityBySBT };
 }
 
 function getLoggedUserSbts(props) {
