@@ -1,29 +1,24 @@
 State.init({
   id: props.id ? props.id : null,
   contractAddress: props.address ? props.address : "",
+  cMethod: props.abi.body.functions ? props.abi.body.functions : [],
   rpcUrl: "https://rpc.near.org/",
   archivalRpc: "https://archival-rpc.mainnet.near.org",
   nearBlockRpc: "https://api.nearblocks.io/",
   fName,
   fAction: "view",
   fLabel,
-  cMethod: props.abi.body.functions ? props.abi.body.functions : [],
   createMethodError,
   response,
   createArgError,
   checkMethodExport: [],
 });
-const cFName = ({ target }) => {
-  State.update({ fName: target.value });
-};
-const cFLabel = ({ target }) => {
-  State.update({ fLabel: target.value });
-};
-const cFAction = ({ target }) => {
-  State.update({ fAction: target.value });
-};
-const cCAddress = ({ target }) => {
-  State.update({ contractAddress: target.value.toLowerCase() });
+const cFunc = (e, type) => {
+  const data = e.target.value;
+  if (type == "name") State.update({ fName: data });
+  if (type == "label") State.update({ fLabel: data });
+  if (type == "action") State.update({ fAction: data });
+  if (type == "address") State.update({ contractAddress: data.toLowerCase() });
 };
 const onCreateArgs = (fName, fIndex) => {
   State.update({ createArgError: { [fName]: null } });
@@ -455,7 +450,7 @@ return (
               class="form-control"
               value={state.contractAddress}
               placeholder="Contract Address"
-              onChange={cCAddress}
+              onChange={(e) => cFunc(e, "address")}
             />
           </div>
 
@@ -472,15 +467,23 @@ return (
         <div class="row">
           <div class="form-group col-md-4">
             <h6>Method Name</h6>
-            <input type="text" onChange={cFName} class="form-control" />
+            <input
+              type="text"
+              onChange={(e) => cFunc(e, "name")}
+              class="form-control"
+            />
           </div>
           <div class="form-group col-md-4">
             <h6>Label</h6>
-            <input type="text" onChange={cFLabel} class="form-control" />
+            <input
+              type="text"
+              onChange={(e) => cFunc(e, "label")}
+              class="form-control"
+            />
           </div>
           <div class="form-group col-md-2">
             <h6>Action</h6>
-            <select class="form-control" onChange={cFAction}>
+            <select class="form-control" onChange={(e) => cFunc(e, "action")}>
               <option value="view" selected>
                 View
               </option>
@@ -508,12 +511,7 @@ return (
             ) : (
               <>
                 <label></label>
-                <button
-                  onClick={getMethodFromSource}
-                  class="btn btn-primary form-control "
-                >
-                  Export
-                </button>
+                <button class="btn btn-primary form-control ">Export</button>
               </>
             )}
           </div>
@@ -620,9 +618,7 @@ return (
                             placeholder="Label"
                             class="form-control"
                             defaultValue={args.label || ""}
-                            onChange={(e) =>
-                              cData(e, fIndex, argIndex, "label")
-                            }
+                            onChange={(e) => cAD(e, fIndex, argIndex, "label")}
                           />
                         </div>
                         <div class="form-group col-md-2">
