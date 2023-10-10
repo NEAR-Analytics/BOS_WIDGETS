@@ -444,33 +444,32 @@ const validateReference = (link) => {
 const handleDao_Contract = (e) => {
   console.log("padre", e);
   State.update({ Dao_Contract: e });
-  //validatedInputs();
+  //props.validatedInputs();
 };
+const handleIssuer_selected = (e) => {
+  console.log("padre", e);
+  State.update({ Issuer_filled: e });
+  //props.validatedInputs();
+};
+const handleReceiver = (e) => {
+  console.log("padre", e);
+  State.update({ Receiver: e.target.value });
 
+  //props.validatedInputs();
+};
 return (
   <Theme>
     <div class="Rowcont">
-      <div class="Colcont">
-        <h1 class="H1styled">Minter DAO </h1>
-        <Widget
-          src={`dokxo.near/widget/FastSBT_Input`}
-          props={{
-            value: state.Dao_Contract,
-            handleDao_Contract,
-          }}
-        />
-        <input
-          class="InputStyled"
-          type="text"
-          placeholder="Input DAO contract address"
-          value={state.Dao_Contract}
-          onChange={(e) => {
-            State.update({ Dao_Contract: e.target.value });
+      <Widget
+        src={`dokxo.near/widget/FastSBT_Input`}
+        props={{
+          title: "Minter DAO",
+          placeholder: "Input DAO contract address",
+          value: state.Dao_Contract,
+          onchangeFunc: handleDao_Contract,
+        }}
+      />
 
-            validatedInputs();
-          }}
-        />
-      </div>
       <div class="Colcont">
         <h1 class="H1styled">Issuer </h1>
         <select
@@ -511,35 +510,28 @@ return (
         </select>
       </div>
       {state.Issuer_selected === _type.SHOWINPUT ? (
-        <div class="Colcont">
-          <h1 class="H1styled">Enter issuer </h1>
-          <input
-            class="InputStyled"
-            type="text"
-            placeholder="Input Issuer"
-            value={state.Issuer_filled}
-            onChange={(e) => {
-              State.update({ Issuer_filled: e.target.value });
-              validatedInputs();
-            }}
-          />
-        </div>
+        <Widget
+          src={`dokxo.near/widget/FastSBT_Input`}
+          props={{
+            title: "Enter issuer",
+            placeholder: "Input Issuer",
+            value: state.Issuer_filled,
+            onchangeFunc: handleIssuer_selected,
+          }}
+        />
       ) : (
         <></>
       )}
-      <div class="Colcont">
-        <h1 class="H1styled">Receiver </h1>
-        <input
-          class="InputStyled"
-          type="text"
-          placeholder="dokxo.near"
-          value={state.Receiver}
-          onChange={(e) => {
-            State.update({ Receiver: e.target.value });
-            validatedInputs();
-          }}
-        />
-      </div>
+
+      <Widget
+        src={`dokxo.near/widget/FastSBT_Input`}
+        props={{
+          title: "Receiver",
+          placeholder: "dokxo.near",
+          value: state.Receiver,
+          onchangeFunc: handleReceiver,
+        }}
+      />
     </div>
   </Theme>
 );
