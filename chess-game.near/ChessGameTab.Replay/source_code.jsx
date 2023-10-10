@@ -22,6 +22,10 @@ const GameSelector = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+
+  > * {
+    flex: 1 1 1000px;
+  }
 `;
 
 State.init({
@@ -85,6 +89,7 @@ const renderGameIds = (gameIds, displayPlayers) =>
         src={buttonWidget}
         props={{
           onClick: () => selectGame(gameId),
+          flexDirection: "column",
           content: (
             <>
               <div>ID: {gameId[0]}</div>
@@ -110,7 +115,7 @@ return (
       </div>
     )}
     {state.recentFinishedGames.length > 0 && (
-      <div>
+      <div class="mt-4">
         <h2>Replay recently finished games:</h2>
         <GameSelector>
           {renderGameIds(state.recentFinishedGames, true)}
