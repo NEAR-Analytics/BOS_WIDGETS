@@ -90,9 +90,9 @@ function countUpVotes(arrayLastInteractionForEachUser) {
 }
 
 function getUpVotes(props) {
-  const { realArticleId, articleSbts } = props;
-  // const { realArticleId, createdInteraction } = props;
-  const allVotes = Social.index(action, realArticleId, {
+  const { id, articleSbts } = props;
+  // const { id, createdInteraction } = props;
+  const allVotes = Social.index(action, id, {
     order: "desc",
     subscribe: true,
   });
@@ -170,8 +170,8 @@ function getUpVotes(props) {
 }
 
 function addVote(props) {
-  const { realArticleId } = props;
-  saveUpVote(realArticleId);
+  const { id } = props;
+  saveUpVote(id);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "addVote";
@@ -181,28 +181,28 @@ function addVote(props) {
 }
 
 function deleteVote(props) {
-  const { realArticleId, upVoteId } = props;
+  const { id, upVoteId } = props;
 
-  saveDeleteVote(realArticleId, upVoteId);
+  saveDeleteVote(id, upVoteId);
 
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "deleteVote";
   });
 }
 
-function saveDeleteVote(realArticleId, upVoteId) {
-  const newData = composeDeleteUpVoteData(realArticleId, upVoteId);
+function saveDeleteVote(id, upVoteId) {
+  const newData = composeDeleteUpVoteData(id, upVoteId);
 
   Social.set(newData, {
     force: true,
   });
 }
 
-function composeDeleteUpVoteData(realArticleId, upVoteId) {
+function composeDeleteUpVoteData(id, upVoteId) {
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: realArticleId,
+        key: id,
         value: {
           isDelete: true,
           upVoteId,
@@ -214,11 +214,11 @@ function composeDeleteUpVoteData(realArticleId, upVoteId) {
   return data;
 }
 
-function composeUpVoteData(realArticleId) {
+function composeUpVoteData(id) {
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: realArticleId,
+        key: id,
         value: {
           upVoteId: `uv-${context.accountId}-${Date.now()}`,
         },
@@ -229,8 +229,8 @@ function composeUpVoteData(realArticleId) {
   return data;
 }
 
-function saveUpVote(realArticleId) {
-  const newData = composeUpVoteData(realArticleId);
+function saveUpVote(id) {
+  const newData = composeUpVoteData(id);
 
   Social.set(newData, {
     force: true,
