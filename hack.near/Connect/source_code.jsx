@@ -167,10 +167,21 @@ const ComponentWrapper = styled.div`
   }
 `;
 
+const Label = styled.div`
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-align: left;
+`;
+
+const Profile = styled.div`
+  display: flex;
+  align-items: flex-start;
+`;
+
 return (
   <Modal>
     <ComponentWrapper>
-      <CardStyled name="add">
+      <CardStyled>
         <div className="d-flex flex-column">
           <CardForm>
             <div className="d-flex align-items-center justify-content-between">
@@ -188,7 +199,7 @@ return (
               </Submitcontainer>
             </div>
             <div>
-              Account ID
+              <Label>Account ID</Label>
               <input
                 label="input each member's account ID here, then click `add` below"
                 placeholder="<example>.near"
@@ -216,12 +227,12 @@ return (
               {Object.keys(state.members).map((a) => {
                 return (
                   <div className="d-flex m-2 p-2 justify-content-between align-items-center">
-                    <div className="d-flex align-items-center">
+                    <Profile>
                       <Widget
                         src="mob.near/widget/Profile"
                         props={{ accountId: a }}
                       />
-                    </div>
+                    </Profile>
                     <button
                       className="btn btn-danger m-1"
                       onClick={() => removeMember(a)}
