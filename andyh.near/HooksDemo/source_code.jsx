@@ -15,7 +15,7 @@ useEffect(() => {
 useEffect(() => {
   console.log({ textRef: textRef.current });
   textRef.current?.focus();
-}, [textRef]);
+}, [textRef.current]);
 
 return (
   <>
