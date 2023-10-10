@@ -12,6 +12,7 @@ useEffect(() => {
   }
 }, [isInit]);
 useEffect(() => {
+  console.log({ textRef });
   textRef.current?.focus();
 }, [textRef]);
 
