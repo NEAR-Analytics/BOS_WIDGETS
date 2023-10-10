@@ -74,7 +74,7 @@ const navigate = (tab) => {
 
 const pages = [
   {
-    title: "Home",
+    title: "Play",
     icon: <i className="bi-joystick"></i>,
     active: state.tab === "game",
     href: currentLink + "?tab=game",
