@@ -11,10 +11,11 @@ useEffect(() => {
     setIsInit(true);
   }
 }, [isInit]);
-// useEffect(() => {
-//   console.log({ textRef });
-textRef.current?.focus();
-// }, [textRef]);
+
+useEffect(() => {
+  console.log({ textRef: textRef.current });
+  textRef.current?.focus();
+}, [textRef]);
 
 return (
   <>
