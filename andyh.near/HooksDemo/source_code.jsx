@@ -2,6 +2,7 @@ const [value, setValue] = useState(0);
 const [text, setText] = useState("");
 const [isInit, setIsInit] = useState(false);
 // const [value, setValue] = [4, console.log];
+const textRef = useRef(null);
 
 console.log({ useEffect });
 useEffect(() => {
@@ -11,6 +12,9 @@ useEffect(() => {
     setIsInit(true);
   }
 }, [isInit]);
+useEffect(() => {
+  textRef.current.focus();
+}, []);
 
 return (
   <>
@@ -21,6 +25,10 @@ return (
     </button>
     <br />
     <h2>{text}</h2>
-    <input type="text" onChange={(e) => setText(e.target.value)} />
+    <input
+      ref={textRef}
+      type="text"
+      onChange={(e) => setText(e.target.value)}
+    />
   </>
 );
