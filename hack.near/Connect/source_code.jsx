@@ -226,7 +226,7 @@ return (
             <div>
               {Object.keys(state.members).map((a) => {
                 return (
-                  <div className="d-flex m-2 p-2 justify-content-between align-items-center">
+                  <div className="d-flex m-2 p-2 justify-content-between">
                     <Profile>
                       <Widget
                         src="mob.near/widget/Profile"
