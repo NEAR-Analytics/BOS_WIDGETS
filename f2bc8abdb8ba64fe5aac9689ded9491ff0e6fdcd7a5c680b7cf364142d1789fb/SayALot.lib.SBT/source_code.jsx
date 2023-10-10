@@ -22,8 +22,10 @@ function isValidUser(props) {
     return sbt[0] === sbtsData[0].name;
   });
 
+  console.log(0, sbtsData);
+  console.log(1, sbtsFiltered);
+
   const result =
-    sbtsFiltered &&
     sbtsFiltered[0][1].find((sbt) => {
       return Number(sbt.metadata["class"]) === Number(sbtsData[0].classNumber);
     }) !== undefined;
