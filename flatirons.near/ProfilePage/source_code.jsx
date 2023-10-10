@@ -182,7 +182,7 @@ return (
     <Main>
       <SidebarWrapper>
         <Widget
-          src="flatirons.near/widget/ProfilePage.Sidebar"
+          src="near/widget/ProfilePage.Sidebar"
           props={{
             accountId,
             profile,
