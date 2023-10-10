@@ -1,37 +1,28 @@
 State.init({
-  id,
-  contractAddress: "",
+  id: props.id ? props.id : null,
+  contractAddress: props.address ? props.address : "",
   rpcUrl: "https://rpc.near.org/",
   archivalRpc: "https://archival-rpc.mainnet.near.org",
   nearBlockRpc: "https://api.nearblocks.io/",
   fName,
   fAction: "view",
   fLabel,
-  cMethod: [],
+  cMethod: props.abi.body.functions ? props.abi.body.functions : [],
   createMethodError,
   response,
   createArgError,
   checkMethodExport: [],
 });
-if (props.abi.body.functions) {
-  State.update({ cMethod: props.abi.body.functions });
-}
-if (props.address) {
-  State.update({ contractAddress: props.address });
-}
-if (props.id) {
-  State.update({ id: props.id });
-}
-const onInputChangeFunctionsName = ({ target }) => {
+const cFName = ({ target }) => {
   State.update({ fName: target.value });
 };
-const onInputChangeFunctionsLabel = ({ target }) => {
+const cFLabel = ({ target }) => {
   State.update({ fLabel: target.value });
 };
-const onInputChangeFunctionsAction = ({ target }) => {
+const cFAction = ({ target }) => {
   State.update({ fAction: target.value });
 };
-const onInputChangeContractAddress = ({ target }) => {
+const cCAddress = ({ target }) => {
   State.update({ contractAddress: target.value.toLowerCase() });
 };
 const onCreateArgs = (fName, fIndex) => {
@@ -48,40 +39,25 @@ const onCreateArgs = (fName, fIndex) => {
   abiMethod[fIndex].params.args.push(arg);
   State.update({ cMethod: abiMethod });
 };
-const onInputChangeArgName = (e, fIndex, aIndex) => {
+const cMLabel = (e, fIndex, type) => {
+  const value = e.target.value;
   const abiMethod = state.cMethod;
-  abiMethod[fIndex].params.args[aIndex].name = e.target.value;
+  if (type == "method") abiMethod[fIndex].label = value;
+  if (type == "button") abiMethod[fIndex].button = value;
+  if (type == "gas") abiMethod[fIndex].gas = value;
+  if (type == "deposit") abiMethod[fIndex].deposit = value;
+  if (type == "remove") abiMethod.splice(fIndex, 1);
   State.update({ cMethod: abiMethod });
 };
-const onInputChangeArgLabel = (e, fIndex, aIndex) => {
+const cAD = (e, fIndex, aIndex, type) => {
+  const value = e.target.value;
   const abiMethod = state.cMethod;
-  abiMethod[fIndex].params.args[aIndex].label = e.target.value;
-  State.update({ cMethod: abiMethod });
-};
-const onInputChangeMethodLabel = (e, fIndex) => {
-  const abiMethod = state.cMethod;
-  abiMethod[fIndex].label = e.target.value;
-  State.update({ cMethod: abiMethod });
-};
-const onInputChangeButtonLabel = (e, fIndex) => {
-  const abiMethod = state.cMethod;
-  abiMethod[fIndex].button = e.target.value;
-  State.update({ cMethod: abiMethod });
-};
-const onRemoveArg = (fIndex, aIndex) => {
-  const abiMethod = state.cMethod;
-  abiMethod[fIndex].params.args.splice(aIndex, 1);
-  State.update({ cMethod: abiMethod });
-};
-
-const onInputChangeArgType = (e, fIndex, aIndex) => {
-  const abiMethod = state.cMethod;
-  abiMethod[fIndex].params.args[aIndex].type_schema.type = e.target.value;
-  State.update({ cMethod: abiMethod });
-};
-const onInputChangeArgValue = (e, fIndex, aIndex) => {
-  const abiMethod = state.cMethod;
-  abiMethod[fIndex].params.args[aIndex].value = e.target.value;
+  if (type == "name") abiMethod[fIndex].params.args[aIndex].name = value;
+  if (type == "label") abiMethod[fIndex].params.args[aIndex].label = value;
+  if (type == "type")
+    abiMethod[fIndex].params.args[aIndex].type_schema.type = value;
+  if (type == "value") abiMethod[fIndex].params.args[aIndex].value = value;
+  if (type == "remove") abiMethod[fIndex].params.args.splice(aIndex, 1);
   State.update({ cMethod: abiMethod });
 };
 const onCreateMethod = () => {
@@ -117,16 +93,7 @@ const onCreateMethod = () => {
     State.update({ createMethodError: "Please Input Method Name!" });
   }
 };
-const onInputChangeDeposit = (fIndex, e) => {
-  const abiMethod = state.cMethod;
-  abiMethod[fIndex].deposit = parseInt(e.target.value);
-  State.update({ cMethod: abiMethod });
-};
-const onInputChangeGas = (fIndex, e) => {
-  const abiMethod = state.cMethod;
-  abiMethod[fIndex].gas = e.target.value;
-  State.update({ cMethod: abiMethod });
-};
+
 const getMethodFromSource = () => {
   State.update({ createMethodError: null });
   const abiMethod = [];
@@ -221,7 +188,6 @@ const getMethodFromSource = () => {
   });
 };
 const getArgsFromMethod = (fName, fIndex) => {
-  console.log(state.cMethod);
   asyncFetch(
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     {
@@ -261,7 +227,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   },
                   value: "",
                 };
-
                 abiMethod[fIndex].params.args.push(arg);
                 State.update({ cMethod: abiMethod });
               });
@@ -278,7 +243,6 @@ const getArgsFromMethod = (fName, fIndex) => {
         argMap.forEach((item) => {
           Object.assign(args, item);
         });
-
         asyncFetch(state.rpcUrl, {
           body: JSON.stringify({
             method: "query",
@@ -360,7 +324,10 @@ const getArgsFromMethod = (fName, fIndex) => {
                         State.update({ cMethod: abiMethod });
                       }
                     };
-                    if (res.body.result.result) {
+                    if (
+                      res.body.result.result ||
+                      fetchData.includes("Option::unwrap()`")
+                    ) {
                       updateState(argName, typeItem.type, typeItem.value);
                       clearInterval(getArg);
                     }
@@ -379,10 +346,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                       updateState(argName, typeItem.type, getEnum[0]);
                     }
 
-                    if (fetchData.includes("Option::unwrap()`")) {
-                      updateState(argName, typeItem.type, typeItem.value);
-                      clearInterval(getArg);
-                    }
                     if (fetchDatar.includes("missing field")) {
                       updateState(argName, typeItem.type, typeItem.value);
                     }
@@ -481,17 +444,10 @@ const onBtnClickCall = (fName, action, fIndex) => {
     }
   }
 };
-
-const onRemoveMethod = (fIndex) => {
-  const abiMethod = state.cMethod;
-  abiMethod.splice(fIndex, 1);
-  State.update({ cMethod: abiMethod });
-};
-
 return (
-  <>
-    <div class="container border rounded p-3 border-2">
-      <div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="container border rounded p-3 border-2">
         <div class="row mb-3">
           <div class="form-group col-md-10">
             <h6 class="mb-2">Contract Address</h6>
@@ -499,7 +455,7 @@ return (
               class="form-control"
               value={state.contractAddress}
               placeholder="Contract Address"
-              onChange={onInputChangeContractAddress}
+              onChange={cCAddress}
             />
           </div>
 
@@ -516,26 +472,15 @@ return (
         <div class="row">
           <div class="form-group col-md-4">
             <h6>Method Name</h6>
-            <input
-              type="text"
-              onChange={onInputChangeFunctionsName}
-              class="form-control"
-            />
+            <input type="text" onChange={cFName} class="form-control" />
           </div>
           <div class="form-group col-md-4">
             <h6>Label</h6>
-            <input
-              type="text"
-              onChange={onInputChangeFunctionsLabel}
-              class="form-control"
-            />
+            <input type="text" onChange={cFLabel} class="form-control" />
           </div>
           <div class="form-group col-md-2">
             <h6>Action</h6>
-            <select
-              class="form-control"
-              onChange={onInputChangeFunctionsAction}
-            >
+            <select class="form-control" onChange={cFAction}>
               <option value="view" selected>
                 View
               </option>
@@ -573,231 +518,224 @@ return (
             )}
           </div>
         </div>
+        {state.createMethodError && (
+          <p class="text-danger" role="alert">
+            {state.createMethodError}
+          </p>
+        )}
       </div>
-      {state.createMethodError && (
-        <p class="text-danger" role="alert">
-          {state.createMethodError}
-        </p>
+      <br />
+      {state.cMethod &&
+        state.cMethod.map((functions, fIndex) => (
+          <div class="card mb-2">
+            <div class="card-header">
+              <div class="container">
+                <div class="row">
+                  <div class="col pt-2">
+                    <h6>{functions.name}</h6>
+                  </div>
+                  <div class="col text-end pt-2">
+                    {" "}
+                    <button
+                      type="button"
+                      onClick={(e) => cMLabel(e, fIndex, "remove")}
+                      class="btn-close"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="container">
+                <div class="row mb-3">
+                  <div class="form-group col-md-8">
+                    <div class="form-group row mb-2">
+                      <h6 class="col-sm-4 col-form-label">Method Label</h6>
+                      <div class="col-sm-6">
+                        <input
+                          placeholder="Method Label"
+                          class="form-control"
+                          defaultValue={functions.label || ""}
+                          onChange={(e) => cMLabel(e, fIndex, "method")}
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <h6 class="col-sm-4 col-form-label">Button Label</h6>
+                      <div class="col-sm-6">
+                        <input
+                          placeholder="Button Label"
+                          class="form-control"
+                          defaultValue={args.button || ""}
+                          onChange={(e) => cMLabel(e, fIndex, "button")}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-2">
+                    <h6>Arguments</h6>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <h6>Label</h6>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <h6>Type</h6>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <button
+                      class="btn btn-secondary btn-sm"
+                      onClick={(e) => onCreateArgs(functions.name, fIndex)}
+                    >
+                      Add
+                    </button>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <button
+                      class="btn btn-secondary btn-sm"
+                      onClick={(e) => getArgsFromMethod(functions.name, fIndex)}
+                    >
+                      Detect
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <br />
+              {functions.params.args &&
+                functions.params.args.map((args, argIndex) => {
+                  return (
+                    <div class="container pb-2">
+                      <div class="row">
+                        <div class="form-group col-md-2">
+                          <input
+                            placeholder="Name"
+                            class="form-control"
+                            defaultValue={args.name || ""}
+                            onChange={(e) => cAD(e, fIndex, argIndex, "name")}
+                          />
+                        </div>
+                        <div class="form-group col-md-2">
+                          <input
+                            placeholder="Label"
+                            class="form-control"
+                            defaultValue={args.label || ""}
+                            onChange={(e) =>
+                              cData(e, fIndex, argIndex, "label")
+                            }
+                          />
+                        </div>
+                        <div class="form-group col-md-2">
+                          <select
+                            defaultValue={args.type_schema.type}
+                            class="form-control"
+                            onChange={(e) => cAD(e, fIndex, argIndex, "type")}
+                          >
+                            <option value="string">String</option>
+                            <option value="number">Number</option>
+                            <option value="boolean">Boolean</option>
+                            <option value="json">Json</option>
+                            <option value="array">Array</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <input
+                            onChange={(e) => cAD(e, fIndex, argIndex, "value")}
+                            class="form-control"
+                            type="string"
+                            placeholder="Argument value"
+                          />
+                        </div>
+                        <div class="form-group col-md-2">
+                          <button
+                            type="button"
+                            onClick={(e) => cAD(e, fIndex, argIndex, "remove")}
+                            class="btn btn-danger btn-sm"
+                          >
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              {functions.kind == "call" ? (
+                <>
+                  <div class="container pb-1 pt-3">
+                    <div class="row">
+                      <div class="form-group col-md-12">
+                        <h6>Options</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label>Attached deposit</label>
+                        <input
+                          type="text"
+                          defaultValue="0"
+                          onChange={(e) => cMLabel(e, fIndex, "deposit")}
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Gas</label>
+                        <input
+                          type="text"
+                          defaultValue="30000000000000"
+                          onChange={(e) => cMLabel(e, fIndex, "gas")}
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+              {state.response[functions.name] &&
+              state.response[functions.name] ? (
+                <>
+                  <div
+                    className={
+                      state.response[functions.name].error
+                        ? "alert  alert-danger"
+                        : "alert  alert-primary"
+                    }
+                    role="alert"
+                  >
+                    {state.response[functions.name].value}
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+              <div class="container pt-2">
+                <div class="row">
+                  <div class="form-group col-md-2">
+                    <button
+                      class="btn btn-primary btn-sm"
+                      onClick={(e) =>
+                        onBtnClickCall(functions.name, functions.kind, fIndex)
+                      }
+                    >
+                      {functions.kind == "view" ? "View" : "Call"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+    </div>
+    <div class="col-md-6">
+      {state.cMethod.length > 0 && (
+        <Widget
+          src={"kurodenjiro.near/widget/abi2form-widget-preview"}
+          props={state}
+        />
       )}
     </div>
-    <br />
-    {state.cMethod &&
-      state.cMethod.map((functions, fIndex) => (
-        <div class="card mb-2">
-          <div class="card-header">
-            <div class="container">
-              <div class="row">
-                <div class="col pt-2">
-                  <h6>{functions.name}</h6>
-                </div>
-                <div class="col text-end pt-2">
-                  {" "}
-                  <button
-                    type="button"
-                    onClick={() => onRemoveMethod(fIndex)}
-                    class="btn-close"
-                  ></button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="container">
-              <div class="row mb-3">
-                <div class="form-group col-md-8">
-                  <div class="form-group row mb-2">
-                    <h6 class="col-sm-4 col-form-label">Method Label</h6>
-                    <div class="col-sm-6">
-                      <input
-                        placeholder="Method Label"
-                        class="form-control"
-                        defaultValue={functions.label || ""}
-                        onChange={(e) => onInputChangeMethodLabel(e, fIndex)}
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <h6 class="col-sm-4 col-form-label">Button Label</h6>
-                    <div class="col-sm-6">
-                      <input
-                        placeholder="Button Label"
-                        class="form-control"
-                        defaultValue={args.button || ""}
-                        onChange={(e) => onInputChangeButtonLabel(e, fIndex)}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-group col-md-2">
-                  <h6>Arguments</h6>
-                </div>
-                <div class="form-group col-md-2">
-                  <h6>Label</h6>
-                </div>
-                <div class="form-group col-md-2">
-                  <h6>Type</h6>
-                </div>
-                <div class="form-group col-md-2">
-                  <button
-                    class="btn btn-secondary btn-sm"
-                    onClick={(e) => onCreateArgs(functions.name, fIndex)}
-                  >
-                    Add
-                  </button>
-                </div>
-                <div class="form-group col-md-2">
-                  <button
-                    class="btn btn-secondary btn-sm"
-                    onClick={(e) => getArgsFromMethod(functions.name, fIndex)}
-                  >
-                    Detect
-                  </button>
-                </div>
-              </div>
-            </div>
-            <br />
-            {functions.params.args &&
-              functions.params.args.map((args, argIndex) => {
-                return (
-                  <div class="container pb-2">
-                    <div class="row">
-                      <div class="form-group col-md-2">
-                        <input
-                          placeholder="Name"
-                          class="form-control"
-                          defaultValue={args.name || ""}
-                          onChange={(e) =>
-                            onInputChangeArgName(e, fIndex, argIndex)
-                          }
-                        />
-                      </div>
-                      <div class="form-group col-md-2">
-                        <input
-                          placeholder="Label"
-                          class="form-control"
-                          defaultValue={args.label || ""}
-                          onChange={(e) =>
-                            onInputChangeArgLabel(e, fIndex, argIndex)
-                          }
-                        />
-                      </div>
-                      <div class="form-group col-md-2">
-                        <select
-                          defaultValue={args.type_schema.type}
-                          class="form-control"
-                          onChange={(e) =>
-                            onInputChangeArgType(e, fIndex, argIndex)
-                          }
-                        >
-                          <option value="string">String</option>
-                          <option value="number">Number</option>
-                          <option value="boolean">Boolean</option>
-                          <option value="json">Json</option>
-                          <option value="array">Array</option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-4">
-                        <input
-                          onChange={(e) =>
-                            onInputChangeArgValue(e, fIndex, argIndex)
-                          }
-                          class="form-control"
-                          type="string"
-                          placeholder="Argument value"
-                        />
-                      </div>
-                      <div class="form-group col-md-2">
-                        <button
-                          type="button"
-                          onClick={() => onRemoveArg(fIndex, argIndex)}
-                          class="btn btn-danger btn-sm"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            class="bi bi-trash3"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"></path>
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            {functions.kind == "call" ? (
-              <>
-                <div class="container pb-1 pt-3">
-                  <div class="row">
-                    <div class="form-group col-md-12">
-                      <h6>Options</h6>
-                    </div>
-                  </div>
-                </div>
-                <div class="container">
-                  <div class="row">
-                    <div class="form-group col-md-6">
-                      <label>Attached deposit</label>
-                      <input
-                        type="text"
-                        defaultValue="0"
-                        onChange={(e) => onInputChangeDeposit(fIndex, e)}
-                        class="form-control"
-                      />
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label>Gas</label>
-                      <input
-                        type="text"
-                        defaultValue="30000000000000"
-                        onChange={(e) => onInputChangeGas(fIndex, e)}
-                        class="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </>
-            ) : (
-              ""
-            )}
-            {state.response[functions.name] &&
-            state.response[functions.name] ? (
-              <>
-                <div
-                  className={
-                    state.response[functions.name].error
-                      ? "alert  alert-danger"
-                      : "alert  alert-primary"
-                  }
-                  role="alert"
-                >
-                  {state.response[functions.name].value}
-                </div>
-              </>
-            ) : (
-              ""
-            )}
-            <div class="container pt-2">
-              <div class="row">
-                <div class="form-group col-md-2">
-                  <button
-                    class="btn btn-primary btn-sm"
-                    onClick={(e) =>
-                      onBtnClickCall(functions.name, functions.kind, fIndex)
-                    }
-                  >
-                    {functions.kind == "view" ? "View" : "Call"}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-  </>
+  </div>
 );
