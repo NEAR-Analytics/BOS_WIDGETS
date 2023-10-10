@@ -148,7 +148,7 @@ const Modal = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  align-items:center;
   background: rgba(0, 0, 0, 0.7);
 `;
 
@@ -173,7 +173,7 @@ return (
       <CardStyled name="add">
         <div className="d-flex flex-column">
           <CardForm>
-            <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex">
               <H1>Builders</H1>
               <Submitcontainer>
                 <button
@@ -194,7 +194,7 @@ return (
                 placeholder="<example>.near"
                 onChange={(e) => State.update({ newMember: e.target.value })}
               />
-              <div className="d-flex align-items-center mt-2">
+              <div className="d-flex mt-2">
                 <button
                   className="btn btn-primary m-2"
                   onClick={() => addMember(state.newMember)}
