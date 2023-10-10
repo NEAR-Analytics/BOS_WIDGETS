@@ -48,7 +48,7 @@ const tabs = [
   },
 ];
 
-const prodAction = "sayALotArticle";
+const prodAction = "sayALotArticle_v0.0.3";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -655,7 +655,7 @@ return (
               <PlatformContent>
                 <ContentHeader>
                   <ContentHeaderText>
-                    {articleToRenderData.articleId}
+                    {articleToRenderData.title}
                   </ContentHeaderText>
                 </ContentHeader>
 
