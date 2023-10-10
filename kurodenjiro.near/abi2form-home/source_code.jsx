@@ -287,7 +287,7 @@ return (
                     >
                       {" "}
                       <label class="custom-control-label" for="darkSwitch">
-                        <span class="fw-bold">ℹ️ Help</span>
+                        <span class="fw-bold">🛟 Help</span>
                       </label>
                     </span>
                   </li>
@@ -300,7 +300,7 @@ return (
                       href="https://www.minorityprogrammers.com/"
                       class="nav-link px-3"
                     >
-                      Built with ❤️ by
+                      ℹ Built with ❤️ by
                       <span class="fw-bold">Minority Programmers</span>
                     </a>
                   </li>
