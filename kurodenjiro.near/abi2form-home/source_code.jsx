@@ -155,7 +155,7 @@ return (
                     </div>
                   </div>
                 </li>
-                {!state.clientList == 0 && (
+                {!state.clientList && (
                   <button
                     type="button"
                     class="btn btn-sm"
