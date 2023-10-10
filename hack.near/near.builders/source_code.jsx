@@ -1,13 +1,5 @@
 const accountId = props.accountId ?? context.accountId ?? "hack.near";
 
-const curatorId = props.curatorId ?? "hack.near";
-
-const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
-
-const data = props.accounts ?? Social.get(`${curatorId}/graph/${groupId}/*`);
-
-const builders = Object.keys(data);
-
 let isBuilder = false;
 let widgets = Social.get(`${accountId}/widget/*`, "final", {
   return_type: "BlockHeight",
@@ -133,7 +125,7 @@ return (
         <H1>
           Build
           <span>
-            DAOs
+            DAO
             <svg viewBox="0 0 26 24" fill="none" aria-hidden="true">
               <path
                 d="M24.3767 8.06326L1.51965 0.0649912C1.10402 -0.0830767 0.639031 0.026026 0.327308 0.340346C0.0181841 0.657263 -0.0831256 1.12225 0.0701378 1.53788L8.071 23.2519C8.23726 23.7013 8.66587 24 9.14385 24H9.14644C9.62702 24 10.0556 23.6961 10.2167 23.2441L13.734 13.495L24.3325 10.2349C24.8053 10.0895 25.13 9.65824 25.1378 9.16468C25.1482 8.67112 24.8391 8.22691 24.3715 8.06326H24.3767Z"
@@ -175,8 +167,8 @@ return (
               <Widget
                 src="near/widget/DIG.Button"
                 props={{
-                  href: "#/hack.near/widget/Academy",
-                  label: "Learn Together",
+                  href: "#/hack.near/widget/create.page",
+                  label: "Create Something",
                   variant: "outline-secondary",
                   size: "large",
                 }}
@@ -188,10 +180,18 @@ return (
       <Widget
         src="hack.near/widget/Graph"
         props={{
-          things: builders,
+          accountId,
           thingId: groupId,
         }}
       />
+      {state.showModal && (
+        <Widget
+          src="hack.near/widget/Connect"
+          props={{
+            handleClose: () => State.update({ showModal: false }),
+          }}
+        />
+      )}
     </Container>
   </Wrapper>
 );
