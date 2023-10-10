@@ -11,6 +11,9 @@ const index = {
     order: "desc",
     accountId: props.accounts,
   },
+  cacheOptions: {
+    ignoreCache: true,
+  },
 };
 
 const renderItem = (a) =>
@@ -35,6 +38,6 @@ const renderItem = (a) =>
 return (
   <Widget
     src="mob.near/widget/FilteredIndexFeed"
-    props={{ index, renderItem }}
+    props={{ index, renderItem, threshold: 800 }}
   />
 );
