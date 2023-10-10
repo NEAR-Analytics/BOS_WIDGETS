@@ -11,7 +11,11 @@ return (
           Generate front end code in one click! Now on NEAR Protocol
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-          <a href="#" type="button" class="btn btn-dark btn-lg px-4">
+          <a
+            href="https://magicbuild.ai/telegram"
+            type="button"
+            class="btn btn-dark btn-lg px-4"
+          >
             🎉Telegram
           </a>
           <a
