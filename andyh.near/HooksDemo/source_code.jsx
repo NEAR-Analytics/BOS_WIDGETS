@@ -12,8 +12,8 @@ useEffect(() => {
   }
 }, [isInit]);
 useEffect(() => {
-  textRef.current.focus();
-}, []);
+  textRef.current?.focus();
+}, [textRef]);
 
 return (
   <>
