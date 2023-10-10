@@ -151,7 +151,7 @@ return (
     <div class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
       <h3 class="text-center">
-        Address:
+        Preview // Address: //{" "}
         <span class="text-decoration-underline"> {state.contractAddress} </span>
       </h3>
       {state.contractError}
