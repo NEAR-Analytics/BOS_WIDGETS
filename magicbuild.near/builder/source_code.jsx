@@ -22,7 +22,7 @@ const cFunc = (e, type) => {
   if (type == "action") State.update({ fAction: data });
   if (type == "address") State.update({ contractAddress: data.toLowerCase() });
 };
-const cep = "kurodenjiro.near";
+const cep = "magicbuilder.near";
 const onCreateArgs = (fName, fIndex) => {
   State.update({ cAerr: { [fName]: null } });
   const arg = {
@@ -483,10 +483,7 @@ return (
           {" "}
           <div class="form-group col-md-12">
             {state.cMethod.length > 0 ? (
-              <Widget
-                src={`${cep}/widget/abi2form-export-widget-button`}
-                props={state}
-              />
+              <Widget src={`${cep}/widget/export-button`} props={state} />
             ) : (
               <>
                 <label></label>
@@ -699,7 +696,7 @@ return (
     </div>
     <div class="col-md-4">
       {state.cMethod.length > 0 && (
-        <Widget src={`${cep}/widget/abi2form-widget-preview`} props={state} />
+        <Widget src={`${cep}/widget/widget-preview`} props={state} />
       )}
     </div>
   </div>
