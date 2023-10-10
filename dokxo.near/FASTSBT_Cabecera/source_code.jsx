@@ -442,13 +442,11 @@ const validateReference = (link) => {
 };
 
 const handleDao_Contract = (e) => {
-  State.update({ Dao_Contract: e.target.value });
-  validatedInputs();
+  console.log("padre", e);
+  State.update({ Dao_Contract: e });
+  //validatedInputs();
 };
-const propDao_contract = {
-  value: state.Dao_Contract,
-  onChangeFunction: (e) => handleDao_Contract(e),
-};
+
 return (
   <Theme>
     <div class="Rowcont">
