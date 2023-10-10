@@ -22,7 +22,7 @@ align-items: center;
 color:  ${props.fontColor ? props.fontColor : "#828688"};
 `;
 
-const H1styled = styled.input`
+const H1styled = styled.h1`
 
 width: 100%;
 height: 10px;
@@ -34,7 +34,7 @@ line-height: 120%;
 color: #000000;
 
 `;
-const Colcont = styled.h1`
+const Colcont = styled.div`
 
 margin-top:.5rem;
  width:33.3%;
