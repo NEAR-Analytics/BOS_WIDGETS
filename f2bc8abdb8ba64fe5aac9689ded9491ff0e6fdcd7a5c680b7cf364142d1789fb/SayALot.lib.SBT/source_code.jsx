@@ -12,10 +12,10 @@ function isValidUser(props) {
     }
   );
 
-  const sbtsData = sbtsNames.map(sbt => {
-    name: 
-  })
-  sbtsNames = 
+  // const sbtsData = sbtsNames.map(sbt => {
+  //   name:
+  // })
+  // sbtsNames =
 
   const result =
     userSBTs.find((sbt) => {
