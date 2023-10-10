@@ -18,13 +18,13 @@ if (!accountId) {
 }
 
 const profile = Social.getr(`${accountId}/profile`);
-console.log({ accountId, profile });
 if (profile === null) {
   return "";
 }
 
 const name = profile?.name;
 const image = profile?.image;
+console.log({ accountId, profile, name, image });
 
 const editProfileButton = (
   <div>
