@@ -22,7 +22,7 @@ const cFunc = (e, type) => {
   if (type == "action") State.update({ fAction: data });
   if (type == "address") State.update({ contractAddress: data.toLowerCase() });
 };
-const cep = "magicbuilder.near";
+const cep = "magicbuild.near";
 const onCreateArgs = (fName, fIndex) => {
   State.update({ cAerr: { [fName]: null } });
   const arg = {
