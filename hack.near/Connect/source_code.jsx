@@ -174,7 +174,7 @@ const Label = styled.div`
 `;
 
 const Profile = styled.div`
-  align-items: flex-start;
+  align-items: left;
 `;
 
 return (
