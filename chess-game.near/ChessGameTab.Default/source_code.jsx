@@ -10,6 +10,8 @@ const buttonWidget = "chess-game.near/widget/ChessGameButton";
 const challengeWidget = "chess-game.near/widget/ChessGameChallenge";
 const aiWidget = "chess-game.near/widget/ChessGameAi";
 
+const minBlockDiffCancel = 60 * 60 * 24 * 3;
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,6 +49,40 @@ const resign = () => {
 };
 
 if (state.game_id) {
+  const res = fetch("https://rpc.mainnet.near.org", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: "dontcare",
+      method: "status",
+      params: [],
+    }),
+  });
+  if (!res.ok || res.body.error) {
+    return `Something went wrong: ${res.body.error}`;
+  }
+  console.log("res", res);
+  const currentBlockHeight = res.body.result.sync_info.latest_block_height;
+  const currentBlockTime = new Date(
+    res.body.result.sync_info.latest_block_time
+  );
+  const gameInfo = Near.view(contractId, "game_info", {
+    game_id: state.game_id,
+  });
+  if (!gameInfo) return;
+  console.log("gameInfo", gameInfo);
+  console.log("blockHeight", currentBlockHeight);
+  console.log("blockTime", currentBlockTime);
+  const blockDiffCancel =
+    gameInfo.last_block_height - currentBlockHeight + minBlockDiffCancel;
+  console.log("blockDiffCancel", blockDiffCancel);
+  const cancelDate = new Date(
+    currentBlockTime.valueOf() + blockDiffCancel * 1_100
+  );
+  console.log("cancelDate", cancelDate.toLocaleString());
   return (
     <Content>
       <Widget
@@ -97,6 +133,7 @@ const renderGameIds = (gameIds) =>
         src={buttonWidget}
         props={{
           onClick: () => selectGame(gameId),
+          flexDirection: "column",
           content: (
             <>
               <div>ID: {gameId[0]}</div>
