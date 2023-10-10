@@ -179,6 +179,7 @@ return props.manual ? (
   <InfiniteScroll
     pageStart={0}
     loadMore={makeMoreItems}
+    threshold={props.threshold ?? 250}
     hasMore={state.displayCount < filteredItems.length}
     loader={
       <div className="loader">
