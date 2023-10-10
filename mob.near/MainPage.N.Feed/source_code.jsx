@@ -168,6 +168,6 @@ const renderItem = (item) =>
 return (
   <Widget
     src="mob.near/widget/MergedIndexFeed"
-    props={{ index, renderItem, filter: props.filter }}
+    props={{ index, renderItem, filter: props.filter, threshold: 800 }}
   />
 );
