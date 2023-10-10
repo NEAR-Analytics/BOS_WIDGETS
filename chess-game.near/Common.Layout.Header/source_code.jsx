@@ -214,7 +214,7 @@ return (
       <div className="sidebar-toggle-reverse">
         <Widget
           src="hack.near/widget/star.button"
-          props={{ widgetPath: "chess-game.near/widget/ChessGameLobby" }}
+          props={{ thingPath: "chess-game.near/widget/ChessGameLobby" }}
         />
       </div>
       <span
