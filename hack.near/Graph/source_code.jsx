@@ -1,11 +1,11 @@
-const accountIds = props.accountIds || [
+const accounts = props.accounts || [
   "every.near",
   `${context.accountId ?? "hack.near"}`,
 ];
 
 const things =
   props.things ??
-  accountIds.map((accountId) => {
+  accounts.map((accountId) => {
     return `${accountId}/graph/${
       props.thingId ?? "526fb256e74eelmf0nw3n5909bc189c13d"
     }`;
@@ -73,8 +73,8 @@ const code = `
 <script>
 
 const run = (data) => {
-  const width = 1080;
-  const height = 768;
+  const width = 888;
+  const height = 888;
   let dragIsOn = false;
 
   // The force simulation mutates links and nodes, so create a copy
@@ -121,15 +121,15 @@ const run = (data) => {
   node
     .append("image")
     .attr("xlink:href", (d) => \`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/\${d.id}\`) // Set the image URL based on your data
-    .attr("x", (d) => -Math.sqrt(d.size) - 5)
-    .attr("y", (d) => -Math.sqrt(d.size) - 5)
-    .attr("clip-path", d => \`circle(\${Math.sqrt(d.size) + 5}px at \${Math.sqrt(d.size) + 5} \${Math.sqrt(d.size) + 5})\`)
-    .attr("width", (d) => 2 * Math.sqrt(d.size) + 10);
+    .attr("x", (d) => -Math.sqrt(d.size) - 9)
+    .attr("y", (d) => -Math.sqrt(d.size) - 9)
+    .attr("clip-path", d => \`circle(\${Math.sqrt(d.size) + 9}px at \${Math.sqrt(d.size) + 9} \${Math.sqrt(d.size) + 9})\`)
+    .attr("width", (d) => 2 * Math.sqrt(d.size) + 18);
 
-  node
-    .append("circle")
-    .attr("r", d => Math.sqrt(d.size) + 5)
-    .attr("fill", "none");
+node
+  .append("circle")
+  .attr("r", d => Math.sqrt(d.size) + 9)
+  .attr("fill", "none");
 
   node.append("title")
       .text(d => d.id);
@@ -246,14 +246,12 @@ const [onMessage] = useState(() => {
 
 return (
   <div>
-    <div>
-      <iframe
-        className="w-100 h-100"
-        style={{ minHeight: "888px" }}
-        srcDoc={code}
-        message={message}
-        onMessage={onMessage}
-      />
-    </div>
+    <iframe
+      className="w-100 h-100"
+      style={{ minHeight: "888px" }}
+      srcDoc={code}
+      message={message}
+      onMessage={onMessage}
+    />
   </div>
 );
