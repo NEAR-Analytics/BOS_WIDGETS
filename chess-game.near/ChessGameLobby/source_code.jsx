@@ -102,7 +102,7 @@ const pages = [
     icon: <i className="bi-collection-play"></i>,
     active: state.tab === "replay",
     href: currentLink + "?tab=replay",
-    onClick: () => navigate("game"),
+    onClick: () => navigate("replay"),
     widgetName: "ChessGameTab.Replay",
   },
   [
