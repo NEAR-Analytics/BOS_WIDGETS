@@ -444,7 +444,7 @@ return (
                     </div>
                   </div>
                   <div class="FeesContainer">
-                    <div class="Line" />
+                    <div style={{width: "450px", height: "1px", background: "rgba(255, 255, 255, 0.1)"}} />
                   </div>
                 </div>
                 <div
@@ -705,7 +705,7 @@ return (
                     </div>
                   </div>
                   <div class="FeesContainer">
-                    <div class="Line" />
+                    <div style={{width: "450px", height: "1px", background: "rgba(255, 255, 255, 0.1)"}} />
                   </div>
                   <div
                     class="SendContainer"
@@ -922,7 +922,7 @@ return (
                     </div>
                   </div>
                   <div class="FeesContainer">
-                    <div class="Line" />
+                    <div style={{width: "450px", height: "1px", background: "rgba(255, 255, 255, 0.1)"}} />
                   </div>
                   <div
                     class="SendContainer"
