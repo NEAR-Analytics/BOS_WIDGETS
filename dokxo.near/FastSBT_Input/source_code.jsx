@@ -22,7 +22,7 @@ align-items: center;
 color:  ${props.fontColor ? props.fontColor : "#828688"};
 `;
 
-const { onChangeFunction } = props;
+const onChangeFunction = props.handleDao_Contract;
 return (
   <FormInput
     type={props.type}
