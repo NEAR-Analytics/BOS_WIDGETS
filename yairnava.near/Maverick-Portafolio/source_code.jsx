@@ -367,7 +367,7 @@ const Theme = state.theme;
 return (
   <Theme>
     <div class="text-center mt-1">
-      <div class="MainContainer" style={{ width: "450px", height: "500px" }}>
+      <div class="MainContainer" style={{ width: "420px", height: "500px" }}>
         <div class="ProtocolContainer">
           <div class="ProtocolNetworkContainet">
             <div class="ProtocolNetworkTextSection">
@@ -391,7 +391,7 @@ return (
                 <div>
                   <div
                     class="SendContainer"
-                    style={{ margin: "auto", width: "420px" }}
+                    style={{ margin: "auto", width: "390px" }}
                   >
                     <div class="row" style={{ color: "white", width: "100%" }}>
                       <div class="col-3" style={{ fontSize: "11px" }}>
@@ -444,7 +444,13 @@ return (
                     </div>
                   </div>
                   <div class="FeesContainer">
-                    <div style={{width: "450px", height: "1px", background: "rgba(255, 255, 255, 0.1)"}} />
+                    <div
+                      style={{
+                        width: "420px",
+                        height: "1px",
+                        background: "rgba(255, 255, 255, 0.1)",
+                      }}
+                    />
                   </div>
                 </div>
                 <div
@@ -648,7 +654,7 @@ return (
                 <div>
                   <div
                     class="SendContainer"
-                    style={{ margin: "auto", width: "420px" }}
+                    style={{ margin: "auto", width: "390px" }}
                   >
                     <div class="row" style={{ color: "white", width: "100%" }}>
                       <div class="col-12 titleSwap mb-2">Manage Liquidity</div>
@@ -705,11 +711,17 @@ return (
                     </div>
                   </div>
                   <div class="FeesContainer">
-                    <div style={{width: "450px", height: "1px", background: "rgba(255, 255, 255, 0.1)"}} />
+                    <div
+                      style={{
+                        width: "420px",
+                        height: "1px",
+                        background: "rgba(255, 255, 255, 0.1)",
+                      }}
+                    />
                   </div>
                   <div
                     class="SendContainer"
-                    style={{ margin: "auto", width: "420px", height: "320px" }}
+                    style={{ margin: "auto", width: "390px", height: "320px" }}
                   >
                     <div class="row" style={{ color: "white" }}>
                       <div
@@ -836,7 +848,7 @@ return (
                 <div>
                   <div
                     class="SendContainer"
-                    style={{ margin: "auto", width: "420px" }}
+                    style={{ margin: "auto", width: "390px" }}
                   >
                     <div class="row" style={{ color: "white", width: "100%" }}>
                       <div class="col-12 titleSwap mb-2">Remove Liquidity</div>
@@ -922,7 +934,13 @@ return (
                     </div>
                   </div>
                   <div class="FeesContainer">
-                    <div style={{width: "450px", height: "1px", background: "rgba(255, 255, 255, 0.1)"}} />
+                    <div
+                      style={{
+                        width: "420px",
+                        height: "1px",
+                        background: "rgba(255, 255, 255, 0.1)",
+                      }}
+                    />
                   </div>
                   <div
                     class="SendContainer"
