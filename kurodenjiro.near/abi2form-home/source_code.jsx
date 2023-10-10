@@ -57,16 +57,14 @@ return (
           aria-labelledby="offcanvas"
         >
           <div class="offcanvas-body p-0">
-            <div class="navbar-dark">
+            <div>
               <ul
-                class="nav flex-column nav-pills"
+                class="nav flex-column nav-pills  navbar-dark "
                 id="pills-tab"
                 role="tablist"
               >
                 <li class="mb-1">
-                  <div class=" small fw-bold text-uppercase px-3">
-                    🪄 Magic Build
-                  </div>
+                  <div class=" small fw-bold text-uppercase px-3">Core</div>
                 </li>
                 <li class="nav-item" role="presentation">
                   <span
@@ -79,7 +77,7 @@ return (
                     aria-controls="pills-home"
                     aria-selected="true"
                   >
-                    <span class="fw-bold">🏠 Home</span>
+                    <span class="fw-bold">🪄 Magic Build</span>
                   </span>
                 </li>
                 <li>
@@ -157,6 +155,17 @@ return (
                     </div>
                   </div>
                 </li>
+                {!state.clientList == 0 && (
+                  <button
+                    type="button"
+                    class="btn btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#createClient"
+                  >
+                    Create Your First Client
+                    <i class="bi bi-file-earmark-plus"></i>
+                  </button>
+                )}
                 {state.clientList &&
                   state.clientList.map((client, index) => {
                     if (client.archived == false) {
