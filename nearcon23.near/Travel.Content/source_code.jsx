@@ -96,7 +96,7 @@ const hotels2 = [
 
 return (
   <div>
-    <GridView>
+   { /* <GridView>
       <MobileImage
         style={{ margin: "auto" }}
         src="https://ipfs.near.social/ipfs/bafkreicnq6ab66u4asm2ctvhjvvqtsfbbgiwnqiqyttgydxom7w4uofshy"
@@ -115,6 +115,7 @@ return (
       </div>
       <DesktopImage src="https://ipfs.near.social/ipfs/bafybeiaa7gc5wuifwzbncdeac6gtbswjktkldrfwfze3y2xblagtczortq" />
     </GridView>
+    */}
     <GridView
       style={{ backgroundColor: "black", gridTemplateColumns: "45% 55%" }}
     >
