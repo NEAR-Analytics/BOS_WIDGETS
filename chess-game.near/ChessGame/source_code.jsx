@@ -1,6 +1,9 @@
-const { game_id } = props;
+const { game_id, cancelDate } = props;
+
 const contractId = "app.chess-game.near";
 const chessBoardWidget = "chess-game.near/widget/ChessBoard";
+const loadingWidget = "chess-game.near/widget/ChessGameLoading";
+
 if (!game_id) return <div>"game_id" prop required</div>;
 
 Near.asyncView(contractId, "get_board", {
@@ -41,7 +44,7 @@ State.init({
 });
 
 if (!state.board || !state.gameInfo) {
-  return "loading...";
+  return <Widget src={loadingWidget} />;
 }
 if (state.error) {
   return "The game no longer exists. Please return to lobby";
@@ -128,6 +131,8 @@ const text = `
   - \"e2 to e4\"
   - \"castle queenside\"
   - \"castle kingside\"'
+
+  _If a game stalls because players stop sending moves, it can be stopped after ~3 days._
 `;
 const assetText = `
   _Assets are free to use right now, but will later be unlocked via NFTs._
@@ -140,6 +145,7 @@ return (
       {renderPlayer("White", state.gameInfo.white)}
       {renderPlayer("Black", state.gameInfo.black)}
       <div>Turn: {state.gameInfo.turn_color}</div>
+      {cancelDate && <div>Cancellable: {cancelDate.toLocaleString()}</div>}
     </GameInfo>
     <Widget
       src={chessBoardWidget}
