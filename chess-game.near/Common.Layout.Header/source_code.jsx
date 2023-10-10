@@ -88,10 +88,13 @@ const Sidebar = styled.div`
 
   li {
     background: #fff;
-    cursor: pointer;
     border-radius: 8px;
     width: 100%;
     transition: all 100ms ease-in-out;
+
+    &[href] {
+      cursor: pointer;
+    }
 
     div,
     a {
