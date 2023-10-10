@@ -110,7 +110,11 @@ const authorForWidget =
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
 
-const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
+const sbtWhiteList = [
+  "fractal.i-am-human.near - class 1",
+  "fractal.i-am-human.near - class 1",
+  "fractal.i-am-human.near - class 2",
+];
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
