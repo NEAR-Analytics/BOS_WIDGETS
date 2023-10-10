@@ -36,6 +36,7 @@ function isValidUser(props) {
     : undefined;
 
   const result = classFiltered !== undefined;
+  console.log(result);
 
   // const result =
   //   userSBTs
