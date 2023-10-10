@@ -114,7 +114,7 @@ const Sidebar = styled.div`
     }
   }
 
-  li:hover {
+  li[href]:hover {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
