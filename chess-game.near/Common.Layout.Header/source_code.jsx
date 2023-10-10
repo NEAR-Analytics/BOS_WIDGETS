@@ -33,6 +33,14 @@ const Header = styled.div`
       display: block;
     }
   }
+  .sidebar-toggle-reverse {
+    display: block;
+  }
+  @media (max-width: 768px) {
+    .sidebar-toggle-reverse {
+      display: none;
+    }
+  }
 `;
 
 const Sidebar = styled.div`
@@ -195,11 +203,17 @@ return (
         <i className="bi bi-list"></i>
       </MobileToggle>
       <a
-        href="#/astraplusplus.ndctools.near/widget/home"
+        href="#/chess-game.near/widget/ChessGameLobby"
         className="h4 text-decoration-none fw-bold text-black m-0"
       >
         <h2>Protocol Pawns</h2>
       </a>
+      <div className="sidebar-toggle-reverse">
+        <Widget
+          src="hack.near/widget/star.button"
+          props={{ widgetPath: "chess-game.near/widget/ChessGameLobby" }}
+        />
+      </div>
       <span
         style={{
           border: context.accountId ? "1px solid #4498E0" : "1px solid #E5E5E5",
