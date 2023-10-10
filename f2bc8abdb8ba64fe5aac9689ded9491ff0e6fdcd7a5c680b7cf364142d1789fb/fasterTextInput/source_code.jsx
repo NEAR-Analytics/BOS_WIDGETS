@@ -12,7 +12,7 @@ return (
     value={props.forceClear ? "" : state.text}
     readonly={props.editable ? "readonly" : false}
     disabled={props.editable ? "disabled" : false}
-    onBlur={() => stateUpdate({ articleId: state.text })}
+    onBlur={() => stateUpdate({ title: state.text })}
     onChange={(e) => {
       State.update({
         text: filterText(e),
