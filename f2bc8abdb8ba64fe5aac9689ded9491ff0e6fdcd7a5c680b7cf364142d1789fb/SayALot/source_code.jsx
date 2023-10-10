@@ -10,7 +10,7 @@ const sbtWhiteList = [
   "community.i-am-human.near - class 2",
 ];
 
-const initSbtsNames = [sbtWhiteList[0]];
+const initSbtsNames = sbtWhiteList[0];
 
 const sbtsNames = state.sbt;
 
