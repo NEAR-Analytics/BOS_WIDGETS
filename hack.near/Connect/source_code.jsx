@@ -149,7 +149,6 @@ const Modal = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
   background: rgba(0, 0, 0, 0.7);
 `;
 
