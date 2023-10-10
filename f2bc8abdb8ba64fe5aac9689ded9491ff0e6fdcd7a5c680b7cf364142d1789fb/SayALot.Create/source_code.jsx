@@ -34,7 +34,7 @@ const accountId = context.accountId;
 function getRealArticleId() {
   if (editArticleData) {
     return (
-      editArticleData.realArticleId ??
+      editArticleData.id ??
       `${editArticleData.author}-${editArticleData.timeCreate}`
     );
   } else {
@@ -50,7 +50,7 @@ const sbts = state.sbts; //TODO[""] currently it will be only 1 sbt
 
 const getArticleData = () => {
   const args = {
-    articleId: editArticleData.articleId ?? state.articleId,
+    title: editArticleData.title ?? state.title,
     author: editArticleData.author ?? accountId,
     lastEditor: accountId,
     timeLastEdit: Date.now(),
@@ -59,7 +59,7 @@ const getArticleData = () => {
     version: editArticleData ? editArticleData.version + 1 : 0,
     navigation_id: null,
     tags: tagsArray,
-    realArticleId: getRealArticleId(),
+    id: getRealArticleId(),
     sbts,
   };
   return args;
@@ -67,7 +67,7 @@ const getArticleData = () => {
 
 function onCommit() {
   State.update({
-    articleId: "",
+    title: "",
     clearArticleId: true,
     tags: [],
     clearTags: true,
@@ -176,7 +176,7 @@ return (
                 widgets,
                 isTest,
                 data: {
-                  articleId: state.articleId,
+                  title: state.title,
                   author: accountId,
                   lastEditor: accountId,
                   timeLastEdit: Date.now(),
@@ -185,7 +185,7 @@ return (
                   version: 0,
                   navigation_id: null,
                   tags: tagsArray,
-                  realArticleId: getRealArticleId(),
+                  id: getRealArticleId(),
                   sbts,
                 },
                 addressForArticles,
@@ -204,7 +204,7 @@ return (
                 //     props={{
                 //       Button: {
                 //         className: "primary dark",
-                //         disable: state.articleId > 0 || state.articleBody > 0,
+                //         disable: state.title > 0 || state.articleBody > 0,
                 //         text: editArticleData ? "Save edition" : "Save article",
                 //         onClick: createArticleListener,
                 //         icon: <i className="bi bi-check2"></i>,
@@ -221,7 +221,7 @@ return (
                 <Widget
                   src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
                   props={{
-                    firstText: state.articleId,
+                    firstText: state.title,
                     forceClear: state.clearArticleId,
                     stateUpdate: (obj) => State.update(obj),
                     filterText: (e) => e.target.value,
@@ -308,8 +308,7 @@ return (
                 Button: {
                   className: "primary light mx-2",
                   disabled:
-                    state.articleId.length === 0 ||
-                    state.articleBody.length === 0,
+                    state.title.length === 0 || state.articleBody.length === 0,
                   onClick: switchShowPreview,
                   icon: (
                     <i
@@ -327,8 +326,7 @@ return (
                 Button: {
                   className: "primary dark",
                   disabled:
-                    state.articleId.length === 0 ||
-                    state.articleBody.length === 0,
+                    state.title.length === 0 || state.articleBody.length === 0,
                   text: editArticleData ? "Save edition" : "Post",
                   onClick: createArticleListener,
                   icon: <i className="bi bi-check2"></i>,
