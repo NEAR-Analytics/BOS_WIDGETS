@@ -45,6 +45,7 @@ const saveClient = () => {
     onCancel: () => {},
   });
 };
+
 return (
   <div class="container">
     <div class="row">
@@ -64,7 +65,7 @@ return (
                 role="tablist"
               >
                 <li class="mb-1">
-                  <div class=" small fw-bold text-uppercase px-3">Core</div>
+                  <div class=" small fw-bold text-uppercase px-3"></div>
                 </li>
                 <li class="nav-item" role="presentation">
                   <span
@@ -308,7 +309,7 @@ return (
             aria-labelledby={`pills-tab-home`}
             tabindex="0"
           >
-            Home
+            <Widget src={"kurodenjiro.near/widget/abi2form-landingpage"} />
           </div>
           <div
             class="tab-pane fade"
