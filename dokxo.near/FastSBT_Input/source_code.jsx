@@ -28,6 +28,9 @@ return (
     type={props.type}
     value={props.value}
     placeholder={props.placeholder}
-    onChange={(e) => onChangeFunction(e.target.value)}
+    onChange={(e) => {
+      console.log("hijo", e.target.value);
+      onChangeFunction(e.target.value);
+    }}
   ></FormInput>
 );
