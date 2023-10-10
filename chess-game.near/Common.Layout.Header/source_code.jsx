@@ -114,7 +114,7 @@ const Sidebar = styled.div`
     }
   }
 
-  li[data-is-link]:hover {
+  li[data-is-link="true"]:hover {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
@@ -122,14 +122,14 @@ const Sidebar = styled.div`
     }
   }
 
-  li[data-is-link]:active {
+  li[data-is-link="true"]:active {
     background-color: rgba(68, 152, 224, 0.12);
     * {
       color: #4498e0 !important;
     }
   }
 
-  li[data-is-link].active {
+  li[data-is-link="true"].active {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
@@ -299,7 +299,7 @@ return (
             return (
               <li
                 key={i}
-                className={item.active && "active"}
+                className={item.active ? "active" : ""}
                 data-is-link={!!subItem.href}
               >
                 {item.href ? (
