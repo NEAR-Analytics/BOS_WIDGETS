@@ -367,7 +367,7 @@ const Theme = state.theme;
 return (
   <Theme>
     <div class="text-center mt-1">
-      <div class="MainContainer" style={{ width: "490px", height: "500px" }}>
+      <div class="MainContainer" style={{ width: "450px", height: "500px" }}>
         <div class="ProtocolContainer">
           <div class="ProtocolNetworkContainet">
             <div class="ProtocolNetworkTextSection">
@@ -391,7 +391,7 @@ return (
                 <div>
                   <div
                     class="SendContainer"
-                    style={{ margin: "auto", width: "460px" }}
+                    style={{ margin: "auto", width: "420px" }}
                   >
                     <div class="row" style={{ color: "white", width: "100%" }}>
                       <div class="col-3" style={{ fontSize: "11px" }}>
@@ -476,11 +476,11 @@ return (
                                 <div class="row mt-2">
                                   <div class="col-5">
                                     <img
-                                      class="TokenImg"
+                                      style={{height: "25px"}}
                                       src={p.pool.tokenA.logoURI}
                                     />
                                     <img
-                                      class="TokenImg"
+                                      style={{height: "25px"}}
                                       src={p.pool.tokenB.logoURI}
                                     />
                                   </div>
