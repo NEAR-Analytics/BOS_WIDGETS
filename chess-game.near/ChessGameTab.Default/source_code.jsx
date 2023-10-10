@@ -75,7 +75,7 @@ if (isRegistered) {
     account_id: accountId,
   }).then((gameIds) =>
     State.update({
-      gameIds,
+      gameIds: [],
     })
   );
 } else {
@@ -127,6 +127,16 @@ const renderGameIds = (gameIds) =>
 return (
   <Content>
     <h2>Select Game:</h2>
-    <GameSelector>{renderGameIds(state.gameIds)}</GameSelector>
+    <GameSelector>
+      {state.gameIds.length > 0 ? (
+        renderGameIds(state.gameIds)
+      ) : (
+        <span>
+          No open games found.
+          <br />
+          Challenge your first opponent or create an AI game!
+        </span>
+      )}
+    </GameSelector>
   </Content>
 );
