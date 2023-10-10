@@ -13,8 +13,6 @@ function isValidUser(props) {
     }
   );
 
-  console.log(0, userSBTs);
-
   const sbtsData = sbtsNames.map((sbt) => {
     const data = sbt.split(" - class ");
     return { name: data[0], classNumber: data[1] };
@@ -23,9 +21,6 @@ function isValidUser(props) {
   const sbtsFiltered = userSBTs.filter((sbt) => {
     return sbt[0] === sbtsData[0].name;
   });
-
-  console.log(1, sbtsData);
-  console.log(2, sbtsFiltered);
 
   const classFiltered = sbtsFiltered[0][1]
     ? sbtsFiltered[0][1].find((sbt) => {
@@ -36,7 +31,6 @@ function isValidUser(props) {
     : undefined;
 
   const result = classFiltered !== undefined;
-  console.log(result);
 
   // const result =
   //   userSBTs
