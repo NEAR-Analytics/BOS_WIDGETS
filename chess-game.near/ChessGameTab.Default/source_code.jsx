@@ -75,7 +75,7 @@ if (isRegistered) {
     account_id: accountId,
   }).then((gameIds) =>
     State.update({
-      gameIds: [],
+      gameIds,
     })
   );
 } else {
