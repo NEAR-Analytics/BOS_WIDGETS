@@ -70,7 +70,7 @@ const memberId = props.memberId ?? state.newMember;
 const isValid = isNearAddress(memberId);
 
 const handleSave = () => {
-  Social.set({
+  const data = {
     graph: {
       [groupId]: {
         ...state.members,
@@ -86,18 +86,22 @@ const handleSave = () => {
           },
         }))
       ),
-      notify: JSON.stringify(
-        Object.keys(state.members)
-          .filter((it) => initMembers.includes(it))
-          .map((account) => ({
-            key: account,
-            value: {
-              type: "add",
-            },
-          }))
-      ),
     },
-  });
+  };
+  const notify = Object.keys(state.members).filter(
+    (it) => it !== context.accountId
+  );
+  if (notify.length > 0) {
+    data.index.notify = JSON.stringify(
+      notify.map((account) => ({
+        key: account,
+        value: {
+          type: "add",
+        },
+      }))
+    );
+  }
+  Social.set(data);
 };
 
 const CardStyled = styled.div`
@@ -177,7 +181,10 @@ return (
                   onClick={handleClose}
                   className="btn btn-secondary me-1"
                 >
-                  exit
+                  Close
+                </button>
+                <button className="btn btn-success m-2" onClick={handleSave}>
+                  Save
                 </button>
               </Submitcontainer>
             </div>
@@ -195,9 +202,15 @@ return (
                 >
                   Add
                 </button>
-                <button className="btn btn-success m-2" onClick={handleSave}>
-                  Save
-                </button>
+                {JSON.stringify(state.members) !==
+                  JSON.stringify(initMembers) && (
+                  <button
+                    className="btn btn-outline-danger float-end"
+                    onClick={() => State.update({ members: initMembers })}
+                  >
+                    Reset
+                  </button>
+                )}
               </div>
             </div>
             <div>
