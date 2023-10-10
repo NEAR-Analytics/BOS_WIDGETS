@@ -86,15 +86,17 @@ return (
                 <li class="mb-1">
                   <div class="small fw-bold text-uppercase d-flex  px-3 align-items-center justify-content-between">
                     <span>Client</span>
-                    <button
-                      type="button"
-                      class="btn btn-sm"
-                      data-bs-toggle="modal"
-                      data-bs-target="#createClient"
-                    >
-                      Add
-                      <i class="bi bi-file-earmark-plus"></i>
-                    </button>
+                    {state.clientList.length > 0 && (
+                      <button
+                        type="button"
+                        class="btn btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#createClient"
+                      >
+                        Add
+                        <i class="bi bi-file-earmark-plus"></i>
+                      </button>
+                    )}
                   </div>
                   <div
                     class="modal fade"
