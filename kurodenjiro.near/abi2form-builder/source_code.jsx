@@ -446,7 +446,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
 };
 return (
   <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8">
       <div class="container border rounded p-3 border-2">
         <div class="row mb-3">
           <div class="form-group col-md-10">
@@ -729,7 +729,7 @@ return (
           </div>
         ))}
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
       {state.cMethod.length > 0 && (
         <Widget
           src={"kurodenjiro.near/widget/abi2form-widget-preview"}
