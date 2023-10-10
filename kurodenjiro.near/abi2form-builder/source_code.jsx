@@ -38,6 +38,7 @@ const onCreateArgs = (fName, fIndex) => {
   State.update({ createArgError: { [fName]: null } });
   const arg = {
     name: "",
+    label: "",
     type_schema: {
       type: "string",
     },
