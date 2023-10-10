@@ -2,6 +2,7 @@ const { game_id, cancelDate } = props;
 
 const contractId = "app.chess-game.near";
 const chessBoardWidget = "chess-game.near/widget/ChessBoard";
+const buttonWidget = "chess-game.near/widget/ChessGameButton";
 const loadingWidget = "chess-game.near/widget/ChessGameLoading";
 
 if (!game_id) return <div>"game_id" prop required</div>;
@@ -120,6 +121,7 @@ const Footer = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 2rem;
+  max-width: 400px;
 `;
 
 const text = `
@@ -132,7 +134,8 @@ const text = `
   - \"castle queenside\"
   - \"castle kingside\"'
 
-  _If a game stalls because players stop sending moves, it can be stopped after ~3 days._
+  _If a game stalls because players stop sending moves,_
+  _it can be stopped after ~3 days._
 `;
 const assetText = `
   _Assets are free to use right now, but will later be unlocked via NFTs._
@@ -157,11 +160,20 @@ return (
         <TurnInput
           type="text"
           required
+          autocomplete="off"
           id="turn"
           value={state.move}
           onChange={updateMove}
         />
-        <SendButton onClick={playMove}>Play</SendButton>
+        <Widget
+          src={buttonWidget}
+          props={{
+            onClick: playMove,
+            fontSize: "1.2rem",
+            content: "Play",
+            inline: true,
+          }}
+        />
       </div>
       <Markdown text={text} />
 
