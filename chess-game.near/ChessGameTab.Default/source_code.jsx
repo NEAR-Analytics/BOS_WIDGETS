@@ -51,6 +51,13 @@ const resign = () => {
   // TODO await tx before navigation
   selectGame(null);
 };
+const cancel = () => {
+  Near.call(contractId, "cancel", {
+    game_id: state.game_id,
+  });
+  // TODO await tx before navigation
+  selectGame(null);
+};
 
 if (state.game_id) {
   const res = fetch("https://rpc.mainnet.near.org", {
@@ -77,16 +84,11 @@ if (state.game_id) {
     game_id: state.game_id,
   });
   if (!gameInfo) return;
-  console.log("gameInfo", gameInfo);
-  console.log("blockHeight", currentBlockHeight);
-  console.log("blockTime", currentBlockTime);
   const blockDiffCancel =
     gameInfo.last_block_height - currentBlockHeight + minBlockDiffCancel;
-  console.log("blockDiffCancel", blockDiffCancel);
   const cancelDate = new Date(
     currentBlockTime.valueOf() + blockDiffCancel * 1_100
   );
-  console.log("cancelDate", cancelDate.toLocaleString());
   return (
     <Content>
       <Widget
@@ -105,7 +107,16 @@ if (state.game_id) {
           content: "Resign",
         }}
       />
-      <Widget src={gameWidget} props={{ game_id: state.game_id }} />
+      <Widget
+        src={buttonWidget}
+        props={{
+          onClick: cancel,
+          alignSelf: "center",
+          content: "Cancel",
+          disabled: cancelDate.valueOf() > Date.now(),
+        }}
+      />
+      <Widget src={gameWidget} props={{ game_id: state.game_id, cancelDate }} />
     </Content>
   );
 }
