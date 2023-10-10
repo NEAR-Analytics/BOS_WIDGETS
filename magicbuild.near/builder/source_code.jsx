@@ -696,7 +696,7 @@ return (
     </div>
     <div class="col-md-4">
       {state.cMethod.length > 0 && (
-        <Widget src={`${cep}/widget/widget-preview`} props={state} />
+        <Widget src={`${cep}/widget/preview`} props={state} />
       )}
     </div>
   </div>
