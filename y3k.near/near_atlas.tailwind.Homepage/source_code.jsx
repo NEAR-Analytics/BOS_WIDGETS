@@ -202,7 +202,7 @@ const tabsData = [
     name: "comparisons",
     label: "Chain Comparisons",
     content: "...",
-    widgets: ["y3k.near/widget/near_atlas.components.vis.chain_comparisons"],
+    widgets: ["y3k.near/widget/near_atlas.components.ChainComparison.dropdown"],
   },
   {
     name: "dev_world",
