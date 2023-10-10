@@ -14,10 +14,10 @@ const {
 
 const tags = data.tags;
 const accountId = data.author;
-const title = data.articleId;
+const title = data.title;
 const content = data.body;
 const timeLastEdit = data.timeLastEdit;
-const realArticleId = data.realArticleId ?? `${data.author}-${data.timeCreate}`;
+const id = data.id ?? `${data.author}-${data.timeCreate}`;
 const upVotes = data.upVotes;
 
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
@@ -408,7 +408,7 @@ return (
             isReplying: false,
             isTest,
             username: data.author,
-            realArticleId,
+            id,
             onCloseModal: () => State.update({ showModal: false }),
           }}
         />
@@ -510,7 +510,7 @@ return (
                 widgets,
                 isTest,
                 authorForWidget,
-                elementReactedId: realArticleId,
+                elementReactedId: id,
                 disabled:
                   !context.accountId ||
                   context.accountId === accountId ||
