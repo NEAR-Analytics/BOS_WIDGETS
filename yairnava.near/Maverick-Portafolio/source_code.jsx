@@ -476,11 +476,11 @@ return (
                                 <div class="row mt-2">
                                   <div class="col-5">
                                     <img
-                                      style={{height: "25px"}}
+                                      style={{ height: "25px" }}
                                       src={p.pool.tokenA.logoURI}
                                     />
                                     <img
-                                      style={{height: "25px"}}
+                                      style={{ height: "25px" }}
                                       src={p.pool.tokenB.logoURI}
                                     />
                                   </div>
@@ -648,7 +648,7 @@ return (
                 <div>
                   <div
                     class="SendContainer"
-                    style={{ margin: "auto", width: "460px" }}
+                    style={{ margin: "auto", width: "420px" }}
                   >
                     <div class="row" style={{ color: "white", width: "100%" }}>
                       <div class="col-12 titleSwap mb-2">Manage Liquidity</div>
@@ -709,7 +709,7 @@ return (
                   </div>
                   <div
                     class="SendContainer"
-                    style={{ margin: "auto", width: "460px", height: "320px" }}
+                    style={{ margin: "auto", width: "420px", height: "320px" }}
                   >
                     <div class="row" style={{ color: "white" }}>
                       <div
@@ -836,7 +836,7 @@ return (
                 <div>
                   <div
                     class="SendContainer"
-                    style={{ margin: "auto", width: "460px" }}
+                    style={{ margin: "auto", width: "420px" }}
                   >
                     <div class="row" style={{ color: "white", width: "100%" }}>
                       <div class="col-12 titleSwap mb-2">Remove Liquidity</div>
