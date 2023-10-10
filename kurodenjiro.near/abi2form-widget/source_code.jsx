@@ -130,7 +130,7 @@ const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 
 return (
   <>
-    <div class="container border border-info p-3">
+    <div class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
       <h3 class="text-center">
         Address:
@@ -140,13 +140,17 @@ return (
       {state.contractAbiView &&
         state.contractAbiView.map((functions) => (
           <div class="card mb-2">
-            <div class="card-header">{functions.name}</div>
+            <div class="card-header">
+              {functions.label.length > 0 ? functions.label : functions.name}
+            </div>
             <div class="card-body">
               {functions.params.args &&
                 functions.params.args.map((args) => {
                   return (
                     <div class="form-group pb-2">
-                      <label>{args.name}</label>
+                      <label>
+                        {args.label.length > 0 ? args.label : args.name}
+                      </label>
                       <input
                         class="form-control"
                         data-name={args.name}
@@ -236,7 +240,7 @@ return (
                   onBtnClickCall(e, functions.name, functions.kind, fIndex)
                 }
               >
-                View
+                {functions.button.length > 0 ? functions.button : "View"}
               </button>
             </div>
           </div>
@@ -245,7 +249,9 @@ return (
       {state.contractAbiCall &&
         state.contractAbiCall.map((functions, fIndex) => (
           <div class="card mb-2">
-            <div class="card-header">{functions.name}</div>
+            <div class="card-header">
+              {functions.label.length > 0 ? functions.label : functions.name}
+            </div>
             <div class="card-body">
               {functions.params.args &&
                 functions.params.args.map((args) => {
@@ -330,7 +336,7 @@ return (
                   onBtnClickCall(e, functions.name, functions.kind, fIndex)
                 }
               >
-                Call
+                {functions.button.length > 0 ? functions.button : "Call"}
               </button>
             </div>
           </div>
