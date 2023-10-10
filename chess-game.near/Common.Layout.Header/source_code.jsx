@@ -33,14 +33,6 @@ const Header = styled.div`
       display: block;
     }
   }
-  .sidebar-toggle-reverse {
-    display: block;
-  }
-  @media (max-width: 768px) {
-    .sidebar-toggle-reverse {
-      display: none;
-    }
-  }
 `;
 
 const Sidebar = styled.div`
@@ -88,13 +80,10 @@ const Sidebar = styled.div`
 
   li {
     background: #fff;
+    cursor: pointer;
     border-radius: 8px;
     width: 100%;
     transition: all 100ms ease-in-out;
-
-    &[href] {
-      cursor: pointer;
-    }
 
     div,
     a {
@@ -114,7 +103,7 @@ const Sidebar = styled.div`
     }
   }
 
-  li[data-is-link="true"]:hover {
+  li:hover {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
@@ -122,14 +111,14 @@ const Sidebar = styled.div`
     }
   }
 
-  li[data-is-link="true"]:active {
+  li:active {
     background-color: rgba(68, 152, 224, 0.12);
     * {
       color: #4498e0 !important;
     }
   }
 
-  li[data-is-link="true"].active {
+  li.active {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
@@ -206,22 +195,11 @@ return (
         <i className="bi bi-list"></i>
       </MobileToggle>
       <a
-        href="#/chess-game.near/widget/ChessGameLobby"
+        href="#/astraplusplus.ndctools.near/widget/home"
         className="h4 text-decoration-none fw-bold text-black m-0"
       >
         <h2>Protocol Pawns</h2>
       </a>
-      <div className="sidebar-toggle-reverse">
-        <Widget
-          src="mob.near/widget/N.StarButton"
-          props={{
-            item: {
-              type: "social",
-              path: "chess-game.near/widget/ChessGameLobby",
-            },
-          }}
-        />
-      </div>
       <span
         style={{
           border: context.accountId ? "1px solid #4498E0" : "1px solid #E5E5E5",
@@ -280,15 +258,14 @@ return (
                         style={{
                           width: j > 0 ? "85%" : "",
                         }}
-                        data-is-link={!!subItem.href}
                       >
                         {subItem.href ? (
-                          <a href={subItem.href} target="_blank">
+                          <a href={subItem.href} onClick={subItem.onClick}>
                             <span className="icon">{subItem.icon}</span>
                             <span className="title">{subItem.title}</span>
                           </a>
                         ) : (
-                          <div>
+                          <div onClick={subItem.onClick} role="button">
                             <span className="icon">{subItem.icon}</span>
                             <span className="title">{subItem.title}</span>
                           </div>
@@ -302,11 +279,7 @@ return (
           } else {
             if (item.hidden) return null;
             return (
-              <li
-                key={i}
-                className={item.active ? "active" : ""}
-                data-is-link={!!item.href}
-              >
+              <li key={i} className={item.active && "active"}>
                 {item.href ? (
                   <a href={item.href} onClick={item.onClick}>
                     <span className="icon">{item.icon}</span>
