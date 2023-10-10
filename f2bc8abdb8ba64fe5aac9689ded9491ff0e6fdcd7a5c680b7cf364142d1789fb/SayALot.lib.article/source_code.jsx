@@ -2,7 +2,7 @@ const { isTest, stateUpdate, libCalls } = props;
 
 //TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
 
-const prodAction = "sayALotArticle_v0.0.1";
+const prodAction = "sayALotArticle_v0.0.3";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -125,7 +125,7 @@ function composeData(article) {
         key: "main",
         value: {
           type: "md",
-          id: article.realArticleId ?? `${context.accountId}-${Date.now()}`,
+          id: article.id ?? `${context.accountId}-${Date.now()}`,
         },
       }),
     },
@@ -144,7 +144,7 @@ function composeData(article) {
 }
 
 const saveHandler = (article, onCommit, onCancel) => {
-  if (article.articleId && article.body) {
+  if (article.title && article.body) {
     const newData = composeData(article);
 
     Social.set(newData, {
@@ -190,11 +190,11 @@ function getArticleBlackListByRealArticleId() {
 function filterInvalidArticlesIndexes(env, articlesIndexes) {
   return (
     articlesIndexes
-      .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
+      .filter((articleIndex) => articleIndex.value.id) // Has id
       .filter(
         (articleIndex) =>
           articleIndex.value.id.split("-")[0] === articleIndex.accountId
-      ) // realArticleId begins with same accountId as index object
+      ) // id begins with same accountId as index object
       // .filter((articleIndex) =>
       //   getWritersWhitelist(env).includes(articleIndex.accountId)
       // ) // Account is in whitelist
@@ -230,7 +230,7 @@ function getArticle(articleIndex) {
   if (article) {
     articleParsed = JSON.parse(article);
     articleParsed.blockHeight = articleIndex.blockHeight;
-    articleParsed.realArticleId = articleIndex.value.id;
+    articleParsed.id = articleIndex.value.id;
   }
 
   if (articleParsed) {
@@ -326,8 +326,7 @@ function getLastEditArticles(props) {
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
       return !newFormatArticles.find(
-        (newFormatArticle) =>
-          newFormatArticle.articleId === oldFormatArticle.articleId
+        (newFormatArticle) => newFormatArticle.title === oldFormatArticle.title
       );
     }
   );
@@ -409,20 +408,20 @@ function filterValidArticles(articles, validAuthors) {
 }
 
 function getComments(args) {
-  const { realArticleId } = args;
-  const key = realArticleId;
+  const { id } = args;
+  const key = id;
   return Social.index(action, key);
 }
 
 function setComment(args) {
-  const { realArticleId, text, previousCommentId } = args;
+  const { id, text, previousCommentId } = args;
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: realArticleId,
+        key: id,
         value: {
           text,
-          id: `${realArticleId}-${Date.now()}`,
+          id: `${id}-${Date.now()}`,
           previousCommentId,
         },
       }),
