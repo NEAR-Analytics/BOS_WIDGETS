@@ -70,6 +70,7 @@ const exportForm = () => {
       },
     },
   };
+  console.log(data);
   Social.set(data, {
     force: true,
     onCommit: () => {},
