@@ -70,7 +70,7 @@ const exportForm = () => {
       },
     },
   };
-  console.log(data);
+  console.log("abi", abi);
   Social.set(data, {
     force: true,
     onCommit: () => {},
