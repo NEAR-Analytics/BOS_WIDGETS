@@ -32,31 +32,18 @@ const Content = styled.div`
   flex: 1;
 `;
 
-const TabItem = styled.div`
-  border-radius: 8px;
-
-  &.active {
-    background: #f0f0f0;
-  }
-
-  &:hover {
-    background: lightgray;
-  }
-`;
-
 const { Feed } = VM.require("efiz.near/widget/Module.Feed");
 Feed = Feed || (() => <></>);
 
-const { path } = props;
+const { creatorId, projectId } = props;
 
-const data = Social.getr(path, "final");
+const data = Social.get(`${creatorId}/thing/${projectId}/**`, "final");
 
 if (!data) {
   return <div>Project not found</div>;
 }
 
-const projectData = data.profile;
-console.log(projectData);
+const projectData = JSON.parse(data[""]);
 
 const tabs = [
   {
@@ -69,15 +56,17 @@ const tabs = [
           src="devs.near/widget/Compose"
           props={{
             index: {
-              post: JSON.stringify({
-                key: {
-                  id: projectId,
-                  type: "thing",
+              post: JSON.stringify([
+                {
+                  key: {
+                    id: projectId,
+                    type: "thing",
+                  },
+                  value: {
+                    type: "md",
+                  },
                 },
-                value: {
-                  type: "md",
-                },
-              }),
+              ]),
             },
           }}
         />
@@ -142,7 +131,8 @@ State.init({
   selectedTab: tabs[0],
 });
 
-const { name: projectName, tagline, image, backgroundImage } = projectData;
+const { metadata } = data;
+const { name, description, image, backgroundImage } = metadata;
 
 function Module({ module }) {
   if (typeof module === "function") {
@@ -153,47 +143,39 @@ function Module({ module }) {
 }
 
 return (
-  <div className="d-flex flex-column gap-3 bg-white container">
+  <div className="d-flex flex-column gap-3 bg-white">
     <Banner
-      className="object-fit-cover rounded-bottom-3"
+      className="object-fit-cover"
       style={{
         background: `center / cover no-repeat url(https://ipfs.near.social/ipfs/${backgroundImage.ipfs_cid})`,
       }}
     />
 
     <div className="d-md-flex d-block justify-content-between container">
-      <div className="d-md-flex d-block align-items-start mb-5">
+      <div className="d-md-flex d-block align-items-end">
         <div className="position-relative">
           <div style={{ width: 150, height: 100 }}>
-            <Widget
-              src="mob.near/widget/Image"
-              props={{
-                image: image,
-                alt: `loading logo`,
-                className:
-                  "border border-3 border-white rounded-circle shadow position-absolute",
-                style: {
-                  width: 150,
-                  height: 150,
-                  objectFit: "cover",
-                },
-                fallbackUrl:
-                  "https://www.ivins.com/wp-content/uploads/2020/09/placeholder-1.png",
-              }}
+            <img
+              alt="Loading logo..."
+              className="border border-3 border-white rounded-circle shadow position-absolute"
+              width="150"
+              height="150"
+              src={`https://ipfs.near.social/ipfs/${image.ipfs_cid}`}
+              style={{ top: -50 }}
             />
           </div>
         </div>
 
         <div className="d-flex flex-column ps-3 pt-3 pb-2">
-          <span className="h1 text-nowrap">{projectName}</span>
-          <span className="text-secondary">{tagline}</span>
+          <span className="h1 text-nowrap">{name}</span>
+          <span className="text-secondary">{description}</span>
         </div>
       </div>
 
       <div className="d-flex align-items-end gap-3">
         <Button
           className="btn btn-outline-primary"
-          onClick={() => State.update({ selectedTab: tabs[1] })}
+          onClick={() => State.update({ selectedTab: tabs[3] })}
         >
           Configure Project
         </Button>
@@ -206,19 +188,17 @@ return (
         tabs.map(({ iconClass, title }, index) =>
           title ? (
             <li className="nav-item" key={title}>
-              <TabItem
+              <div
                 className={[
                   "d-inline-flex gap-2",
-                  state.selectedTab.title === title
-                    ? "nav-link active"
-                    : "nav-link",
+                  state.selectedTab === title ? "nav-link active" : "nav-link",
                 ].join(" ")}
                 style={{ cursor: "pointer" }}
                 onClick={() => State.update({ selectedTab: tabs[index] })}
               >
                 <i className={iconClass} />
                 <span>{title}</span>
-              </TabItem>
+              </div>
             </li>
           ) : null
         )}
