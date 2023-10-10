@@ -256,26 +256,58 @@ return (
       </Toggle>
       <ul className="pt-4">
         {items.map((item, i) => {
-          if (item.hidden) return null;
-          return (
-            <li key={i} className={item.active && "active"}>
-              {item.href ? (
-                <a
-                  href={item.href}
-                  onClick={item.onClick}
-                  target={item.external ? "_blank" : null}
-                >
-                  <span className="icon">{item.icon}</span>
-                  <span className="title">{item.title}</span>
-                </a>
-              ) : (
-                <div onClick={item.onClick} role="button">
-                  <span className="icon">{item.icon}</span>
-                  <span className="title">{item.title}</span>
-                </div>
-              )}
-            </li>
-          );
+          if (Array.isArray(item)) {
+            return (
+              <div key={i} className="group">
+                <ul>
+                  {item.map((subItem, j) => {
+                    if (subItem.hidden) return null;
+                    return (
+                      <li
+                        key={j}
+                        className={[
+                          subItem.active && "active",
+                          j > 0 && "ms-auto",
+                        ].join(" ")}
+                        style={{
+                          width: j > 0 ? "85%" : "",
+                        }}
+                      >
+                        {subItem.href ? (
+                          <a href={subItem.href} target="_blank">
+                            <span className="icon">{subItem.icon}</span>
+                            <span className="title">{subItem.title}</span>
+                          </a>
+                        ) : (
+                          <div>
+                            <span className="icon">{subItem.icon}</span>
+                            <span className="title">{subItem.title}</span>
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          } else {
+            if (item.hidden) return null;
+            return (
+              <li key={i} className={item.active && "active"}>
+                {item.href ? (
+                  <a href={item.href} onClick={item.onClick}>
+                    <span className="icon">{item.icon}</span>
+                    <span className="title">{item.title}</span>
+                  </a>
+                ) : (
+                  <div onClick={item.onClick} role="button">
+                    <span className="icon">{item.icon}</span>
+                    <span className="title">{item.title}</span>
+                  </div>
+                )}
+              </li>
+            );
+          }
         })}
       </ul>
     </Sidebar>
