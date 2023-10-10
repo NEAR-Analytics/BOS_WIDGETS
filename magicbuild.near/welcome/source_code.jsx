@@ -11,26 +11,22 @@ return (
           Generate front end code in one click! Now on NEAR Protocol
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-          <a
-            href="https://t.me/+nMYG3jXnH0A4Njcx"
-            type="button"
-            class="btn btn-dark btn-lg px-4"
-          >
-            #Telegram
+          <a href="#" type="button" class="btn btn-dark btn-lg px-4">
+            🎉Telegram
           </a>
           <a
             href="https://twitter.com/MagicBuildAI"
             type="button"
             class="btn btn-dark btn-lg px-4"
           >
-            #Twitter
+            🐥 Twitter
           </a>
           <a
             href="https://near.social/mob.near/widget/ProfilePage?accountId=magicbuild.near"
             type="button"
             class="btn btn-dark btn-lg px-4"
           >
-            #Near Social
+            🧙🏻‍♂️ Near Social
           </a>
         </div>
       </div>
