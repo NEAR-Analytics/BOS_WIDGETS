@@ -3,16 +3,16 @@ if (!accountId) {
   return "No account ID";
 }
 // crash profile
-if (Social.getr(`${accountId}/widget/ProfilePage`)) {
-  return (
-    <Widget
-      src={`${accountId}/widget/ProfilePage`}
-      props={{
-        accountId,
-      }}
-    />
-  );
-}
+// if (Social.getr(`${accountId}/widget/ProfilePage`)) {
+//   return (
+//     <Widget
+//       src={`${accountId}/widget/ProfilePage`}
+//       props={{
+//         accountId,
+//       }}
+//     />
+//   );
+// }
 // if it exists, render the accountId's custom profile component
 State.init({
   selectedTab: props.tab || "overview",
