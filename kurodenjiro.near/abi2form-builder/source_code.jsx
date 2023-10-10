@@ -8,11 +8,13 @@ State.init({
   fName,
   fAction: "view",
   fLabel,
-  createMethodError,
+  cMerr,
   response,
-  createArgError,
-  checkMethodExport: [],
+  cAerr,
 });
+const header = {
+  "Content-Type": "application/json",
+};
 const cFunc = (e, type) => {
   const data = e.target.value;
   if (type == "name") State.update({ fName: data });
@@ -20,8 +22,9 @@ const cFunc = (e, type) => {
   if (type == "action") State.update({ fAction: data });
   if (type == "address") State.update({ contractAddress: data.toLowerCase() });
 };
+const cep = "kurodenjiro.near";
 const onCreateArgs = (fName, fIndex) => {
-  State.update({ createArgError: { [fName]: null } });
+  State.update({ cAerr: { [fName]: null } });
   const arg = {
     name: "",
     label: "",
@@ -34,30 +37,29 @@ const onCreateArgs = (fName, fIndex) => {
   abiMethod[fIndex].params.args.push(arg);
   State.update({ cMethod: abiMethod });
 };
-const cMLabel = (e, fIndex, type) => {
+const cMLabel = (e, fIdx, type) => {
   const value = e.target.value;
-  const abiMethod = state.cMethod;
-  if (type == "method") abiMethod[fIndex].label = value;
-  if (type == "button") abiMethod[fIndex].button = value;
-  if (type == "gas") abiMethod[fIndex].gas = value;
-  if (type == "deposit") abiMethod[fIndex].deposit = value;
-  if (type == "remove") abiMethod.splice(fIndex, 1);
-  State.update({ cMethod: abiMethod });
+  const a = state.cMethod;
+  if (type == "method") a[fIdx].label = value;
+  if (type == "button") a[fIdx].button = value;
+  if (type == "gas") a[fIdx].gas = value;
+  if (type == "deposit") a[fIdx].deposit = value;
+  if (type == "remove") a.splice(fIdx, 1);
+  State.update({ cMethod: a });
 };
-const cAD = (e, fIndex, aIndex, type) => {
+const cAD = (e, fIdx, aIdx, type) => {
   const value = e.target.value;
-  const abiMethod = state.cMethod;
-  if (type == "name") abiMethod[fIndex].params.args[aIndex].name = value;
-  if (type == "label") abiMethod[fIndex].params.args[aIndex].label = value;
-  if (type == "type")
-    abiMethod[fIndex].params.args[aIndex].type_schema.type = value;
-  if (type == "value") abiMethod[fIndex].params.args[aIndex].value = value;
-  if (type == "remove") abiMethod[fIndex].params.args.splice(aIndex, 1);
-  State.update({ cMethod: abiMethod });
+  const a = state.cMethod;
+  if (type == "name") a[fIdx].params.args[aIdx].name = value;
+  if (type == "label") a[fIdx].params.args[aIdx].label = value;
+  if (type == "type") a[fIdx].params.args[aIdx].type_schema.type = value;
+  if (type == "value") a[fIdx].params.args[aIdx].value = value;
+  if (type == "remove") a[fIdx].params.args.splice(aIdx, 1);
+  State.update({ cMethod: a });
 };
 const onCreateMethod = () => {
   if (state.fName.length > 0) {
-    State.update({ createMethodError: null });
+    State.update({ cMerr: null });
     const method = {
       name: state.fName,
       kind: state.fAction,
@@ -82,15 +84,14 @@ const onCreateMethod = () => {
       abiMethod.push(method);
       State.update({ cMethod: abiMethod });
     } else {
-      State.update({ createMethodError: "Method Exist!" });
+      State.update({ cMerr: "Method Exist!" });
     }
   } else {
-    State.update({ createMethodError: "Please Input Method Name!" });
+    State.update({ cMerr: "Please Input Method Name!" });
   }
 };
-
 const getMethodFromSource = () => {
-  State.update({ createMethodError: null });
+  State.update({ cMerr: null });
   const abiMethod = [];
   State.update({ cMethod: [] });
   asyncFetch(state.rpcUrl, {
@@ -104,20 +105,15 @@ const getMethodFromSource = () => {
       id: 154,
       jsonrpc: "2.0",
     }),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: header,
     method: "POST",
   }).then((res) => {
-    if (res.body.result) {
-      const data = Buffer(res.body.result.code_base64, "base64").toString(
-        "ascii"
-      );
+    const resb = res.body;
+    if (resb.result) {
+      const data = Buffer(resb.result.code_base64, "base64").toString("ascii");
       const fist = data.indexOf("memory");
       let second = data.indexOf("__data_end");
-      if (second == -1) {
-        second = data.indexOf("P]");
-      }
+      if (second == -1) second = data.indexOf("P]");
       if (fist !== -1 && second !== -1) {
         const functionsData = data
           .substring(fist, second)
@@ -139,9 +135,7 @@ const getMethodFromSource = () => {
           asyncFetch(
             `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
             {
-              headers: {
-                "Content-Type": "application/json",
-              },
+              headers: header,
               method: "GET",
             }
           ).then((res) => {
@@ -157,13 +151,13 @@ const getMethodFromSource = () => {
               gas: 30000000000000,
             };
             if (res.body.txns.length > 0) {
-              const isCheckSuccess = false;
+              const isScs = false;
               res.body.txns.forEach((item) => {
                 if (item.outcomes.status) {
-                  isCheckSuccess = true;
+                  isScs = true;
                 }
               });
-              if (isCheckSuccess) {
+              if (isScs) {
                 method.kind = "call";
               }
             }
@@ -175,10 +169,10 @@ const getMethodFromSource = () => {
           });
         });
       } else {
-        State.update({ createMethodError: "Unable to detect Method!" });
+        State.update({ cMerr: "Unable to detect Method!" });
       }
     } else {
-      State.update({ createMethodError: "Unable to detect Method!" });
+      State.update({ cMerr: "Unable to detect Method!" });
     }
   });
 };
@@ -186,9 +180,7 @@ const getArgsFromMethod = (fName, fIndex) => {
   asyncFetch(
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     {
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: header,
       method: "GET",
     }
   ).then((res) => {
@@ -201,9 +193,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             id: 128,
             jsonrpc: "2.0",
           }),
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: header,
           method: "POST",
         }).then((res) => {
           if (res.body.result.transaction.actions[0].FunctionCall.args) {
@@ -253,9 +243,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             id: 154,
             jsonrpc: "2.0",
           }),
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: header,
           method: "POST",
         }).then((res) => {
           if (res.body.result.error) {
@@ -293,9 +281,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       id: 154,
                       jsonrpc: "2.0",
                     }),
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
+                    headers: header,
                     method: "POST",
                   }).then((res) => {
                     const fetchData = res.body.result.error;
@@ -395,9 +381,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
         id: 154,
         jsonrpc: "2.0",
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: header,
       method: "POST",
     }).then((res) => {
       if (res.body.result.result) {
@@ -458,9 +442,9 @@ return (
             <label></label>
             <button
               onClick={getMethodFromSource}
-              class="btn btn-primary form-control "
+              class="btn btn-dark form-control "
             >
-              Scan
+              🧙🏻 Scan
             </button>
           </div>
         </div>
@@ -492,10 +476,7 @@ return (
           </div>
           <div class="form-group col-md-2">
             <label></label>
-            <button
-              onClick={onCreateMethod}
-              class="btn btn-primary form-control "
-            >
+            <button onClick={onCreateMethod} class="btn btn-dark form-control ">
               Create
             </button>
           </div>
@@ -505,20 +486,20 @@ return (
           <div class="form-group col-md-12">
             {state.cMethod.length > 0 ? (
               <Widget
-                src={"kurodenjiro.near/widget/abi2form-export-widget-button"}
+                src={`${cep}/widget/abi2form-export-widget-button`}
                 props={state}
               />
             ) : (
               <>
                 <label></label>
-                <button class="btn btn-primary form-control ">Export</button>
+                <button class="btn btn-dark form-control ">🔼 Export</button>
               </>
             )}
           </div>
         </div>
-        {state.createMethodError && (
+        {state.cMerr && (
           <p class="text-danger" role="alert">
-            {state.createMethodError}
+            {state.cMerr}
           </p>
         )}
       </div>
@@ -697,7 +678,7 @@ return (
                     className={
                       state.response[functions.name].error
                         ? "alert  alert-danger"
-                        : "alert  alert-primary"
+                        : "alert  alert-success"
                     }
                     role="alert"
                   >
@@ -711,7 +692,7 @@ return (
                 <div class="row">
                   <div class="form-group col-md-2">
                     <button
-                      class="btn btn-primary btn-sm"
+                      class="btn btn-dark btn-sm"
                       onClick={(e) =>
                         onBtnClickCall(functions.name, functions.kind, fIndex)
                       }
@@ -727,10 +708,7 @@ return (
     </div>
     <div class="col-md-4">
       {state.cMethod.length > 0 && (
-        <Widget
-          src={"kurodenjiro.near/widget/abi2form-widget-preview"}
-          props={state}
-        />
+        <Widget src={`${cep}/widget/abi2form-widget-preview`} props={state} />
       )}
     </div>
   </div>
