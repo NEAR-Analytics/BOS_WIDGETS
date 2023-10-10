@@ -122,14 +122,14 @@ const Sidebar = styled.div`
     }
   }
 
-  li:active {
+  li[href]:active {
     background-color: rgba(68, 152, 224, 0.12);
     * {
       color: #4498e0 !important;
     }
   }
 
-  li.active {
+  li[href].active {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
