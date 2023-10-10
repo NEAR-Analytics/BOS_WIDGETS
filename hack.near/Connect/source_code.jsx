@@ -210,7 +210,7 @@ return (
                 {JSON.stringify(state.members) !==
                   JSON.stringify(initMembers) && (
                   <button
-                    className="btn btn-outline-primary"
+                    className="btn btn-outline-primary m-2"
                     onClick={() => State.update({ members: initMembers })}
                   >
                     Reset
@@ -221,13 +221,13 @@ return (
             <div>
               {Object.keys(state.members).map((a) => {
                 return (
-                  <div className="d-flex m-2 p-2 justify-content-between">
+                  <div className="m-2 p-2 justify-content-between">
                     <Widget
                       src="mob.near/widget/Profile"
                       props={{ accountId: a }}
                     />
                     <button
-                      className="btn btn-danger m-1"
+                      className="btn btn-danger m-2"
                       onClick={() => removeMember(a)}
                     >
                       Remove
