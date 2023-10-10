@@ -28,6 +28,10 @@ const GameSelector = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+
+  > * {
+    flex: 1 1 1000px;
+  }
 `;
 
 State.init({
