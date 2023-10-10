@@ -2,7 +2,7 @@ const { isTest, stateUpdate, libCalls } = props;
 
 //TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
 
-const prodAction = "sayALotArticle_v0.0.3";
+const prodAction = "sayALotArticle_v0.0.1";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -339,6 +339,7 @@ function getLastEditArticles(props) {
     validFormatLastEditionArticles.map((article) => {
       return article.author;
     });
+
   setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtsNames);
   const validAuthors = validFormatLastEditionArticlesAuthors.filter(
     (author) => {
