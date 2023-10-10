@@ -23,6 +23,7 @@ function isValidUser(props) {
   });
 
   const result =
+    sbtsFiltered &&
     sbtsFiltered[0][1].find((sbt) => {
       return Number(sbt.metadata["class"]) === Number(sbtsData[0].classNumber);
     }) !== undefined;
