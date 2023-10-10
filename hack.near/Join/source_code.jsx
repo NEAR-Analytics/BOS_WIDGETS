@@ -63,10 +63,5 @@ return (
     >
       {join ? "Leave" : "Join"}
     </button>
-    {join && (
-      <a className="btn btn-success" href="/hack.near/widget/Add">
-        Add Builders
-      </a>
-    )}
   </>
 );
