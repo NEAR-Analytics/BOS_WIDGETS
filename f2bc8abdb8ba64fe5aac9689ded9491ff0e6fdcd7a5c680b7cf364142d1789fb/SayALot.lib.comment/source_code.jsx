@@ -1,6 +1,6 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-const prodAction = "sayALotComment";
+const prodAction = "sayALotComment-v1.0.1";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -97,7 +97,7 @@ function composeCommentData(comment) {
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: comment.realArticleId,
+        key: comment.id,
         value: {
           type: "md",
           comment,
@@ -120,8 +120,8 @@ function saveComment(comment, onCommit, onCancel) {
   }
 }
 
-function getComments(realArticleId) {
-  return Social.index(action, realArticleId, {
+function getComments(id) {
+  return Social.index(action, id, {
     order: "desc",
     subscribe: true,
   });
@@ -139,8 +139,8 @@ function filterInvalidArticlesIndexes(commentIndexes) {
 }
 
 function getValidComments(props) {
-  const { realArticleId, articleSbts } = props;
-  const commentIndexes = getComments(realArticleId);
+  const { id, articleSbts } = props;
+  const commentIndexes = getComments(id);
   const blacklistFilteredComments =
     filterInvalidArticlesIndexes(commentIndexes);
 
