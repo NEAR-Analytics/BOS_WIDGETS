@@ -223,7 +223,7 @@ return (
                     firstText: state.articleId,
                     forceClear: state.clearArticleId,
                     stateUpdate: (obj) => State.update(obj),
-                    filterText: (e) => e.target.value.replace(/\s+/g, ""),
+                    filterText: (e) => e.target.value,
                     editable: editArticleData,
                   }}
                 />
