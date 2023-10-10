@@ -250,7 +250,7 @@ return (
         {" "}
         {data !== null ? (
           <div>
-            <BarEl options={stacked_options} data={stacked_bar_data} />
+            <LineEl options={stacked_options} data={stacked_bar_data} />
           </div>
         ) : (
           <div>Loading ...</div>
