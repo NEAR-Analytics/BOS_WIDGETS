@@ -173,10 +173,6 @@ const Label = styled.div`
   text-align: left;
 `;
 
-const Profile = styled.div`
-  align-items: left;
-`;
-
 return (
   <Modal>
     <ComponentWrapper>
@@ -226,12 +222,10 @@ return (
               {Object.keys(state.members).map((a) => {
                 return (
                   <div className="d-flex m-2 p-2 justify-content-between">
-                    <Profile>
-                      <Widget
-                        src="mob.near/widget/Profile"
-                        props={{ accountId: a }}
-                      />
-                    </Profile>
+                    <Widget
+                      src="mob.near/widget/Profile"
+                      props={{ accountId: a }}
+                    />
                     <button
                       className="btn btn-danger m-1"
                       onClick={() => removeMember(a)}
