@@ -40,7 +40,7 @@ const selectGame = (gameId) => {
 };
 const resign = () => {
   Near.call(contractId, "resign", {
-    game_id,
+    game_id: state.game_id,
   });
   // TODO await tx before navigation
   selectGame(null);
