@@ -94,6 +94,29 @@ const Sidebar = styled.div`
 
     &[href] {
       cursor: pointer;
+
+      &:hover {
+        background-color: rgba(68, 152, 224, 0.1);
+
+        * {
+          color: #4498e0 !important;
+        }
+      }
+
+      &:active {
+        background-color: rgba(68, 152, 224, 0.12);
+        * {
+          color: #4498e0 !important;
+        }
+      }
+
+      &.active {
+        background-color: rgba(68, 152, 224, 0.1);
+
+        * {
+          color: #4498e0 !important;
+        }
+      }
     }
 
     div,
@@ -111,29 +134,6 @@ const Sidebar = styled.div`
 
     i {
       font-size: 19px;
-    }
-  }
-
-  li:hover[href] {
-    background-color: rgba(68, 152, 224, 0.1);
-
-    * {
-      color: #4498e0 !important;
-    }
-  }
-
-  li:active[href] {
-    background-color: rgba(68, 152, 224, 0.12);
-    * {
-      color: #4498e0 !important;
-    }
-  }
-
-  li.active[href] {
-    background-color: rgba(68, 152, 224, 0.1);
-
-    * {
-      color: #4498e0 !important;
     }
   }
 
