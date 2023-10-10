@@ -114,7 +114,7 @@ const Sidebar = styled.div`
     }
   }
 
-  li[href]:hover {
+  li:hover[href] {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
@@ -122,14 +122,14 @@ const Sidebar = styled.div`
     }
   }
 
-  li[href]:active {
+  li:active[href] {
     background-color: rgba(68, 152, 224, 0.12);
     * {
       color: #4498e0 !important;
     }
   }
 
-  li[href].active {
+  li.active[href] {
     background-color: rgba(68, 152, 224, 0.1);
 
     * {
