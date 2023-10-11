@@ -346,7 +346,6 @@ function getLastEditArticles(props) {
   //     return state[`isValidUser-${author}`] === true;
   //   }
   // );
-  console.log(10, state);
   resultLibCalls = resultLibCalls.filter((call) => {
     const discardCondition =
       call.functionName === "getLastEditArticles" &&
