@@ -101,7 +101,7 @@ initState({
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "0",
-  token: tokenMapping[props.token] ?? "USDT",
+  token: props.token ?? "USDT",
   supervisor: props.supervisor ?? "",
   githubLink: props.githubLink ?? "",
   warning: "",
