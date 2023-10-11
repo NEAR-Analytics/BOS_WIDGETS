@@ -24,6 +24,8 @@ return (
 
     <div className="mb-3">
       <img src={`https://placebear.com/${width}/${height}`} />
+    </div>
+    <div className="mb-3">
       <span
         style={{
           textAlign: "center",
