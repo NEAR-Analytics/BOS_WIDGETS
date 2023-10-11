@@ -40,8 +40,8 @@ return (
         type="text"
         className="form-control"
         placeholder=""
-        ariaLabel="Example text with button addon"
-        ariaDescribedby="button-addon1"
+        aria-label="Example text with button addon"
+        aria-describedby="button-addon1"
       />
 
       <label className="input-group-text" htmlFor="inputGroupSelect01">
