@@ -5,7 +5,7 @@ State.init({
 return (
   <div>
     <Widget
-      src="${REPL_ACCOUNT}/widget/Recommender.Service.EngagementTracker"
+      src="scopalaffairs.near/widget/Recommender.Service.EngagementTracker"
       props={{
         accountId: props.accountId,
         accountIdRank: props.accountIdRank,
@@ -15,7 +15,7 @@ return (
       }}
     />
     <Widget
-      src={"${REPL_ACCOUNT}/widget/FollowButton"}
+      src={"scopalaffairs.near/widget/FollowButton"}
       props={{
         accountId: props.accountId,
         onCommit: () => {
