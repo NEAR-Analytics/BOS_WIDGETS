@@ -19,7 +19,7 @@ return (
       }}
     />
       <Widget
-        src="${REPL_MOB}/widget/Image"
+        src="mob.near/widget/Image"
         props={{
           image: props.profileImage,
           alt: props.profileImageAlt,
