@@ -369,7 +369,9 @@ const NavSelected = styled.div`
 
 const navItem = ({ text, icon, id, iconSelected }) => (
   <NavItem
-    href={`#/${props.widgetOwner ?? ownerId}/widget/CreativeDAO.index?tab=${id}`}
+    href={`#/${
+      props.widgetOwner ?? ownerId
+    }/widget/CreativeDAO.index?tab=${id}`}
     onClick={() => props.update({ tab: id })}
   >
     {id === props.tab ? iconSelected : icon}
@@ -512,12 +514,6 @@ const content = (
       id: "polling",
       icon: swapIcon,
       iconSelected: selectedSwapIcon,
-    })}
-    {navItem({
-      text: "Collaboration",
-      id: "collaboration",
-      icon: aiLogo,
-      iconSelected: selectedAILogo,
     })}
     {navItem({
       text: "Feeds",
