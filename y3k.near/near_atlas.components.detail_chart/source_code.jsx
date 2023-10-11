@@ -318,7 +318,7 @@ function renderWidgetBasedOnProject(projectName) {
         props={{}}
       />
     );
-  } else if (projectName === "Cosmose") {
+  } else if (projectName === "Kai-Ching") {
     return (
       <Widget
         src="y3k.near/widget/near_atlas.components.CohortCosmose"
