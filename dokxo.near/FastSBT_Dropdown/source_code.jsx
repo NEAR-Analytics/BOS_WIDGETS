@@ -66,7 +66,7 @@ return (
       placeholder={props.placeholder}
       value={props.value}
       onChange={(e) => {
-        console.log("hijo", e.target.value);
+        console.log("hijo", e);
         onChangeFunction(e.target.value);
       }}
     >
