@@ -44,7 +44,7 @@ return (
       <select
         className="form-select"
         id="inputGroupSelect01"
-        onChange={console.log}
+        onChange={(e) => setDelay(e.target.value)}
       >
         <option value="0">Instant</option>
         <option value="100">0.1 seconds</option>
@@ -59,7 +59,7 @@ return (
         onClick={() => {
           const updatedMessages = [...sentMessages];
           updatedMessages.push(message);
-          setSentMessages(updatedMessages);
+          setTimeout(() => setSentMessages(updatedMessages), delay);
           setMessage("");
         }}
       >
