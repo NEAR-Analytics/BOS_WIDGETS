@@ -34,7 +34,7 @@ return (
     <div className="mb-3">
       <ul>
         {sentMessages.map((msg) => (
-          <li>msg</li>
+          <li key={msg}>{msg}</li>
         ))}
       </ul>
     </div>
