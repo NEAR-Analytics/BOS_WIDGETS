@@ -46,6 +46,7 @@ return (
         type="text"
         className="form-control"
         placeholder=""
+        value={message}
         onChange={(e) => setMessage(e.target.value)}
         aria-label="Example text with button addon"
         aria-describedby="button-addon1"
