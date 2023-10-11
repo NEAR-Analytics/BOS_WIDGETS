@@ -18,7 +18,7 @@ useEffect(() => {
     const updatedMessages = [...sentMessages];
     updatedMessages.pop();
     setSentMessages(updatedMessages);
-  }, 2000);
+  }, 5000);
   return () => clearInterval(interval);
 }, []);
 
