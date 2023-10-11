@@ -7,6 +7,14 @@ const Showcase = styled.div`
 
 return (
   <Showcase>
+    <Widget
+      src="mybadge.near/widget/Near.AvatarBadge"
+      props={{ size: "small" }}
+    />
+    <Widget
+      src="mybadge.near/widget/Near.AvatarBadge"
+      props={{ size: "medium" }}
+    />
     <Widget src="mybadge.near/widget/Near.SmallAvatarBadge" />
     <Widget src="mybadge.near/widget/Near.BigAvatarBadge" />
     <Widget src="mybadge.near/widget/LNC.ProTesterBadge" />
