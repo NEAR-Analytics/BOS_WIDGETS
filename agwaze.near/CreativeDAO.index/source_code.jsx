@@ -78,8 +78,8 @@ const ContentContainer = styled.div`
 //jgodwill.near/widget/GenaDrop.MultiListing
 const tabContentWidget = {
   feeds: "https://near.social/astraplusplus.ndctools.near/widget/Feed.index",
-  discussion: "https://near.social/mob.near/widget/N.Group?groupId=nft.genadrop.near",
-  collaboration: "https://near.org/nearhorizon.near/widget/Index?tab=profile&content=founders",
+  discussion: "agwaze.near/widget/CreativeDAO.Discusssions",
+  collaboration: "https://near.org/nearhorizon.near/widget/Index",
   polling: "agwaze.near/widget/CreativeDAO.EasyPoll",
 }[state.tab];
 
