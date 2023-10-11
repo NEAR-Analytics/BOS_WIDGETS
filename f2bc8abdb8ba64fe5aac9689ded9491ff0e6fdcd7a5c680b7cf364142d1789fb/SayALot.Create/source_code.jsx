@@ -247,14 +247,12 @@ return (
               </div>
               <div className="d-flex flex-column pt-3 ">
                 <Widget
-                  src={widgets.styledComponents}
+                  src={widgets.newStyledComponents.Input.Select}
                   props={{
-                    Dropdown: {
-                      label: "Select SBT requiered to interact",
-                      value: userOptions[0],
-                      handleChange: handleSbtSelection,
-                      options: userOptions,
-                    },
+                    label: "Select SBT",
+                    value: userOptions[0],
+                    onChange: handleSbtSelection,
+                    options: userOptions,
                   }}
                 />
               </div>
@@ -281,57 +279,40 @@ return (
                       clearArticleBody: state.clearArticleBody,
                     }}
                   />
-                  {
-                    //</div>
-                  }
-                  {
-                    //<div className="w-50">
-                  }
-                  {
-                    //TODO make this visible when clicking a show preview button after creating it
-                    //
-                    // <Widget
-                    // src="mob.near/widget/SocialMarkdown"
-                    // props={{ text: state.articleBody }}
-                    // />
-                  }
-                  {
-                    //</div>
-                  }
                 </div>
               </div>
             </div>
           )}
           <div className="mt-2 d-flex justify-content-end">
             <Widget
-              src={"rubycop.near/widget/NDC.StyledComponents"}
+              src={widgets.newStyledComponents.Input.Button}
               props={{
-                Button: {
-                  className: "primary light mx-2",
-                  disabled:
-                    state.title.length === 0 || state.articleBody.length === 0,
-                  onClick: switchShowPreview,
-                  icon: (
-                    <i
-                      className={`bi ${
-                        state.showPreview ? "bi-pencil" : "bi-eye-fill"
-                      }`}
-                    ></i>
-                  ),
-                },
+                className: "danger outline mx-2",
+                disabled:
+                  state.title.length === 0 || state.articleBody.length === 0,
+                onClick: switchShowPreview,
+                children: (
+                  <i
+                    className={`bi ${
+                      state.showPreview ? "bi-pencil" : "bi-eye-fill"
+                    }`}
+                  ></i>
+                ),
               }}
             />
             <Widget
-              src={"rubycop.near/widget/NDC.StyledComponents"}
+              src={widgets.newStyledComponents.Input.Button}
               props={{
-                Button: {
-                  className: "primary dark",
-                  disabled:
-                    state.title.length === 0 || state.articleBody.length === 0,
-                  text: editArticleData ? "Save edition" : "Post",
-                  onClick: createArticleListener,
-                  icon: <i className="bi bi-check2"></i>,
-                },
+                className: "info ",
+                disabled:
+                  state.title.length === 0 || state.articleBody.length === 0,
+                onClick: createArticleListener,
+                children: (
+                  <div className="d-flex justify-conten-center align-items-center">
+                    <span>{editArticleData ? "Save edition" : "Post"}</span>
+                    <i className="bi bi-check2"></i>
+                  </div>
+                ),
               }}
             />
           </div>
