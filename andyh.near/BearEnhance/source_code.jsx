@@ -22,9 +22,8 @@ return (
   <div
     style={{
       display: "flex",
-      justifyContent: "center",
+      alignItems: "center",
       flexDirection: "column",
-      alignContent: "center",
     }}
   >
     <h3>Bear Facts</h3>
