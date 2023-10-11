@@ -132,25 +132,25 @@ return (
     }
     <div className="mt-3 border-top pt-2">
       <Widget
-        src={widgets.styledComponents}
+        src={widgets.newStyledComponents.Input.Select}
         props={{
-          Dropdown: {
-            label: "Select sbt filter",
-            value: sbts[0],
-            handleChange: handleSbtSelection,
-            options: createSbtOptions(),
-          },
+          label: "Select sbt filter",
+          value: sbts[0],
+          onChange: handleSbtSelection,
+          options: createSbtOptions(),
         }}
       />
     </div>
     {filterBy.parameterName === "tag" && (
-      <>
+      <div className="mt-3">
         <h6>Filter by tag:</h6>
-        <div className="d-flex">
+        <div className="d-flex align-items-center ">
           <Widget
-            src={widgets.styledComponents}
+            src={widgets.newStyledComponents.Element.Badge}
             props={{
-              Tag: { title: filterBy.parameterValue },
+              children: filterBy.parameterValue,
+              variant: "round info",
+              size: "lg",
             }}
           />
           <IconCursorPointer
@@ -158,7 +158,7 @@ return (
             onClick={() => handleFilterArticles({ filterBy: "", value: "" })}
           ></IconCursorPointer>
         </div>
-      </>
+      </div>
     )}
     <ArticlesListContainer className="row card-group my-3 py-3 rounded">
       {sortedFinalArticlesWithUpVotes.length > 0 ? (
@@ -185,7 +185,6 @@ return (
                 handleFilterArticles,
                 authorForWidget,
                 handleShareButton,
-                // logedUserSbts,
               }}
             />
           );
