@@ -8,10 +8,10 @@ const palette = {
     icon: "#fff",
   },
   green: {
-    iconBackground: "#222222",
+    iconBackground: "#fff",
     textBackground: "#16AD38",
     text: "#fff",
-    icon: "#fff",
+    icon: "#16AD38",
   },
   blue: {
     iconBackground: "#222222",
@@ -23,6 +23,18 @@ const palette = {
     iconBackground: "#222222",
     textBackground: "#E7ECEF",
     text: "#222222",
+    icon: "#fff",
+  },
+  yellow: {
+    iconBackground: "#fff",
+    textBackground: "#D8AF21",
+    text: "#fff",
+    icon: "#D8AF21",
+  },
+  violet: {
+    iconBackground: "#412EBA",
+    textBackground: "#fff",
+    text: "#222",
     icon: "#fff",
   },
 };
