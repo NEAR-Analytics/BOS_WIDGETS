@@ -23,6 +23,7 @@ return (
     <h3>Bear Facts</h3>
 
     <div className="mb-3">
+      <img src={`https://placebear.com/${width}/${height}`} />
       <span
         style={{
           textAlign: "center",
