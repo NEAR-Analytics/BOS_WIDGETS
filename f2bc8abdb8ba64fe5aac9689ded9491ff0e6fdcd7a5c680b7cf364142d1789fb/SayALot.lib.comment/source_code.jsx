@@ -1,12 +1,12 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-const prodAction = "sayALotComment-v1.0.1";
+const prodAction = "sayALotComment-v0.0.2";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-//const authorForWidget = "sayalot.near";
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const authorForWidget = "sayalot.near";
 // const authorForWidget = "kenrou-it.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
