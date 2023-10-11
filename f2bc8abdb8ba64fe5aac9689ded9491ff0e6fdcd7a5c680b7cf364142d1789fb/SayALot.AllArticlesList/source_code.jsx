@@ -103,27 +103,29 @@ function allArticlesListStateUpdate(obj) {
 //================================================END FUNCTIONS=====================================================
 return (
   <>
-    {true && (
-      // showCreateArticle && (
-      <Widget
-        src={widgets.create}
-        props={{
-          isTest,
-          addressForArticles,
-          authorForWidget,
-          stateUpdate,
-          widgets,
-          initialCreateState,
-          editArticleData,
-          callLibs,
-          handleFilterArticles,
-          handleEditArticle,
-          initialBody: "",
-          createSbtOptions,
-          canLoggedUserCreateArticles,
-        }}
-      />
-    )}
+    {
+      // true && (
+      showCreateArticle && (
+        <Widget
+          src={widgets.create}
+          props={{
+            isTest,
+            addressForArticles,
+            authorForWidget,
+            stateUpdate,
+            widgets,
+            initialCreateState,
+            editArticleData,
+            callLibs,
+            handleFilterArticles,
+            handleEditArticle,
+            initialBody: "",
+            createSbtOptions,
+            canLoggedUserCreateArticles,
+          }}
+        />
+      )
+    }
     <div className="mt-3 border-top pt-2">
       <Widget
         src={widgets.styledComponents}
