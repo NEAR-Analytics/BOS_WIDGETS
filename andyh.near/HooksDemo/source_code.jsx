@@ -28,9 +28,9 @@ return (
     <h2>{text}</h2>
     <input type="text" onChange={(e) => setText(e.target.value)} />
 
-    <div class="input-group mb-3">
+    <div className="input-group mb-3">
       <button
-        class="btn btn-outline-secondary"
+        className="btn btn-outline-secondary"
         type="button"
         id="button-addon1"
       >
