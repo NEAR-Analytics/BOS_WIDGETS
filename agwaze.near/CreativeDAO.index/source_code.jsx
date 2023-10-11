@@ -81,7 +81,7 @@ const Root = styled.div`
 
 //jgodwill.near/widget/GenaDrop.MultiListing
 const tabContentWidget = {
-  create: "https://near.social/createit.near/widget/home",
+  create: "createit.near/widget/home",
   feeds: "astraplusplus.ndctools.near/widget/Feed.index",
   discussion: "agwaze.near/widget/CreativeDAO.Discussions",
   polling: "agwaze.near/widget/CreativeDAO.EasyPoll",
