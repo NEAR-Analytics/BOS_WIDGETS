@@ -78,7 +78,7 @@ const similarProfilesURL = `${BASE_URL}/${similarProfiles}_${context.accountId}`
 return (
   <RecommendationsView>
     <Widget
-      src="${REPL_ACCOUNT}/widget/Recommender.Service.RecommendedUsers"
+      src="scopalaffairs.near/widget/Recommender.Service.RecommendedUsers"
       props={{
         dataset: recommendedProfilesURL,
         returnElements: 4,
@@ -89,7 +89,7 @@ return (
       }}
     />
     <Widget
-      src="${REPL_ACCOUNT}/widget/Recommender.Service.RecommendedUsers"
+      src="scopalaffairs.near/widget/Recommender.Service.RecommendedUsers"
       props={{
         dataset: similarProfilesURL,
         returnElements: 4,
@@ -100,7 +100,7 @@ return (
       }}
     />
 
-    <ButtonLink href="#/${REPL_ACCOUNT}/widget/PeoplePage?tab=recommended">
+    <ButtonLink href="#/scopalaffairs.near/widget/PeoplePage?tab=recommended">
       View Recommended Profiles
     </ButtonLink>
   </RecommendationsView>
