@@ -440,8 +440,6 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
-
-// console.log(state);
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
@@ -485,6 +483,7 @@ return (
           sbts,
           createSbtOptions,
           handleShareButton,
+          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
         }}
       />
     )}
@@ -536,6 +535,7 @@ return (
           handleEditArticle,
           sbtWhiteList,
           createSbtOptions,
+          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
         }}
       />
     )}
