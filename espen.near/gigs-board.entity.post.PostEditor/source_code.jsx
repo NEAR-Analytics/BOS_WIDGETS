@@ -107,7 +107,7 @@ initState({
   warning: "",
   draftStateApplied: false,
 });
-console.log(state, props);
+console.log(props.token, tokenMapping[props.token]);
 
 if (!state.draftStateApplied && props.draftState) {
   State.update({ ...props.draftState, draftStateApplied: true });
