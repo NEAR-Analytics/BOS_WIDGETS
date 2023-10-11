@@ -101,14 +101,19 @@ const getTokenData = () => {
   return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
     (res) => {
       if (res.ok) {
-        const tokens = res.body.token.map((item) => ({
-          ...item,
-          value: item.id,
-          text: item.id,
-        }));
+        let balance = 0;
+        const tokens = res.body.token.map((item) => {
+          if (item.id === "NEAR") balance = item.balance;
+          return {
+            ...item,
+            value: item.id,
+            text: item.id,
+          };
+        });
 
         State.update({
           tokens,
+          balance,
         });
       }
     }
