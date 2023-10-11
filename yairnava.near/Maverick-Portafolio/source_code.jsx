@@ -1209,7 +1209,7 @@ return (
                               </div>
                               <div class="col-12 mt-2">
                                 <img
-                                  class="TokenImg portfolioCardPoolImg"
+                                  class="portfolioCardPoolImg"
                                   src={getModeImg(p.kind)}
                                 />
                               </div>
