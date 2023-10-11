@@ -453,15 +453,15 @@ const H6 = styled.h6`
 const Tab = styled.div`
   font-weight: ${(props) => (props.active ? "600" : "500")};
   border-bottom: 2px solid;
-  border-color: ${(props) => (props.active ? "#4F46E5" : "#dee2e6")};
-  color: ${(props) => (props.active ? "#4F46E5" : "#ababab")};
+  border-color: ${(props) => (props.active ? "rgb(68, 152, 224)" : "#dee2e6")};
+  color: ${(props) => (props.active ? "rgb(68, 152, 224)" : "#ababab")};
   cursor: pointer;
   padding-bottom: 8px;
   font-size: 14px;
 
   i {
     &::before {
-      color: ${(props) => (props.active ? "#4F46E5" : "#ababab")};
+      color: ${(props) => (props.active ? "rgb(68, 152, 224)" : "#ababab")};
     }
     margin-right: 5px;
   }
@@ -538,52 +538,86 @@ return (
             }}
           >
             <div className="w-100 p-3 d-flex flex-wrap justify-content-between align-items-start">
-              <div className="d-flex">
+              <div className="d-flex flex-column">
                 <Widget
-                  src="mob.near/widget/ProfileImage"
+                  src={widgets.newStyledComponents.Element.User}
                   props={{
                     accountId,
-                    imageClassName: "rounded-circle w-100 h-100",
-                    style: {
-                      width: "100px",
-                      height: "100px",
-                      marginRight: "15px",
+                    options: {
+                      showHumanBadge: true,
+                      showImage: true,
+                      showSocialName: true,
+                      shortenLength: 20,
+                      size: "lg",
                     },
                   }}
                 />
-                <div className="d-flex flex-column">
-                  <NominationTitleContainer>
-                    <UserLink
-                      target="_blank"
-                      href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
-                    >
-                      <NominationTitle>
-                        {articleToRenderData.authorProfile.name ??
-                          getShortUserName()}
-                      </NominationTitle>
-                      <NominationUser>{getShortUserName()}</NominationUser>
-                    </UserLink>
-                    <TagContainer>
-                      {articleToRenderData.tags.length > 0 &&
-                        articleToRenderData.tags.map((tag) => {
-                          const filter = { filterBy: "tag", value: tag };
-
-                          return (
-                            <CursorPointer
-                              onClick={() => handleFilterArticles(filter)}
-                            >
-                              <Widget
-                                src={widgets.styledComponents}
-                                props={{
-                                  Tag: { title: tag },
-                                }}
-                              />
-                            </CursorPointer>
-                          );
-                        })}
-                    </TagContainer>
-                  </NominationTitleContainer>
-                </div>
+                <TagContainer>
+                  {articleToRenderData.tags.length > 0 &&
+                    articleToRenderData.tags.map((tag) => {
+                      const filter = { filterBy: "tag", value: tag };
+                      return (
+                        <CursorPointer
+                          onClick={() => handleFilterArticles(filter)}
+                        >
+                          <Widget
+                            src={widgets.newStyledComponents.Element.Badge}
+                            props={{
+                              children: tag,
+                              variant: "round info outline",
+                              size: "sm",
+                            }}
+                          />
+                        </CursorPointer>
+                      );
+                    })}
+                </TagContainer>
+                {
+                  // <Widget
+                  //   src="mob.near/widget/ProfileImage"
+                  //   props={{
+                  //     accountId,
+                  //     imageClassName: "rounded-circle w-100 h-100",
+                  //     style: {
+                  //       width: "100px",
+                  //       height: "100px",
+                  //       marginRight: "15px",
+                  //     },
+                  //   }}
+                  // />
+                  // <div className="d-flex flex-column">
+                  //   <NominationTitleContainer>
+                  //     <UserLink
+                  //       target="_blank"
+                  //       href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
+                  //     >
+                  //       <NominationTitle>
+                  //         {articleToRenderData.authorProfile.name ??
+                  //           getShortUserName()}
+                  //       </NominationTitle>
+                  //       <NominationUser>{getShortUserName()}</NominationUser>
+                  //     </UserLink>
+                  //     <TagContainer>
+                  //       {articleToRenderData.tags.length > 0 &&
+                  //         articleToRenderData.tags.map((tag) => {
+                  //           const filter = { filterBy: "tag", value: tag };
+                  //           return (
+                  //             <CursorPointer
+                  //               onClick={() => handleFilterArticles(filter)}
+                  //             >
+                  //               <Widget
+                  //                 src={widgets.styledComponents}
+                  //                 props={{
+                  //                   Tag: { title: tag },
+                  //                 }}
+                  //               />
+                  //             </CursorPointer>
+                  //           );
+                  //         })}
+                  //     </TagContainer>
+                  //   </NominationTitleContainer>
+                  // </div>
+                }
               </div>
               <div className="d-flex gap-3">
                 <div className="d-flex flex-column">
@@ -604,18 +638,16 @@ return (
                       }}
                     />
                     <Widget
-                      src={"rubycop.near/widget/NDC.StyledComponents"}
+                      src={widgets.newStyledComponents.Input.Button}
                       props={{
-                        Button: {
-                          size: "sm",
-                          className: "secondary dark",
-                          icon: <i className="bi bi-share"></i>,
-                          onClick: () =>
-                            handleShareButton(true, {
-                              type: "sharedBlockHeight",
-                              value: articleToRenderData.blockHeight,
-                            }),
-                        },
+                        size: "sm",
+                        className: "info outline icon",
+                        children: <i className="bi bi-share"></i>,
+                        onClick: () =>
+                          handleShareButton(true, {
+                            type: "sharedBlockHeight",
+                            value: data.blockHeight,
+                          }),
                       }}
                     />
                   </HeaderButtonsContainer>
@@ -635,14 +667,16 @@ return (
                   />
                   {context.accountId == accountId && (
                     <Widget
-                      src={widgets.styledComponents}
+                      src={widgets.newStyledComponents.Input.Button}
                       props={{
-                        Button: {
-                          text: `Edit`,
-                          className: `primary dark mt-2`,
-                          onClick: () => handleEditArticle(articleToRenderData),
-                          icon: <i className="bi bi-pencil"></i>,
-                        },
+                        children: (
+                          <div className="d-flex justify-content-center align-items-center">
+                            <span className="mx-2">Edit</span>
+                            <i className="bi bi-pencil"></i>
+                          </div>
+                        ),
+                        className: `info outline mt-2`,
+                        onClick: () => handleEditArticle(articleToRenderData),
                       }}
                     />
                   )}
@@ -682,16 +716,18 @@ return (
                 {state.sliceContent &&
                   articleToRenderData.body.length > 1000 && (
                     <Widget
-                      src={widgets.styledComponents}
+                      src={widgets.newStyledComponents.Input.Button}
                       props={{
-                        Button: {
-                          text: `Show more`,
-                          size: "sm",
-                          className: "w-100 justify-content-center",
-                          onClick: () => {
-                            State.update({ sliceContent: false });
-                          },
-                          icon: <i className="bi bi-chat-square-text-fill"></i>,
+                        children: (
+                          <div className="d-flex justify-content-center align-items-center">
+                            <span className="mx-2">Show more</span>
+                            <i className="bi bi-chat-square-text-fill"></i>
+                          </div>
+                        ),
+                        size: "sm",
+                        className: "w-100",
+                        onClick: () => {
+                          State.update({ sliceContent: false });
                         },
                       }}
                     />
@@ -722,21 +758,42 @@ return (
               />
             )}
             <Widget
-              src={widgets.styledComponents}
+              src={widgets.newStyledComponents.Input.Button}
               props={{
-                Button: {
-                  text: "Add a Comment",
-                  disabled:
-                    !context.accountId ||
-                    context.accountId === accountId ||
-                    (articleSbts.length > 0 &&
-                      !state.canLoggedUserCreateComment),
-                  className: "primary w-100 mt-4 mb-2 justify-content-center",
-                  onClick: () => State.update({ showModal: true }),
-                  icon: <i className="bi bi-plus-lg"></i>,
+                children: (
+                  <div className="d-flex align-items-center justify-content-cente">
+                    <span className="mx-1">Add comment</span>
+                    <i className="bi bi-plus-lg"></i>
+                  </div>
+                ),
+                disabled:
+                  !context.accountId ||
+                  context.accountId === accountId ||
+                  (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
+                className: "info outline w-100 mt-4 mb-2",
+                onClick: () => {
+                  State.update({ showModal: true });
                 },
               }}
             />
+            {
+              // <Widget
+              //   src={widgets.styledComponents}
+              //   props={{
+              //     Button: {
+              //       text: "Add a Comment",
+              //       disabled:
+              //         !context.accountId ||
+              //         context.accountId === accountId ||
+              //         (articleSbts.length > 0 &&
+              //           !state.canLoggedUserCreateComment),
+              //       className: "primary w-100 mt-4 mb-2 justify-content-center",
+              //       onClick: () => State.update({ showModal: true }),
+              //       icon: <i className="bi bi-plus-lg"></i>,
+              //     },
+              //   }}
+              // />
+            }
             {originalComments.map((data) => (
               <Widget
                 props={{
