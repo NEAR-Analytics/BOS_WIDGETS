@@ -1,5 +1,6 @@
 const [value, setValue] = useState(0);
 const [message, setMessage] = useState("");
+const [sentMessages, setSentMessages] = [];
 const [isInit, setIsInit] = useState(false);
 // const [value, setValue] = [4, console.log];
 // const textRef = useRef(null);
@@ -11,6 +12,15 @@ useEffect(() => {
     setIsInit(true);
   }
 }, [isInit]);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    const updatedMessages = [...messages];
+    updatedMessages.pop();
+    setSentMessages(updatedMessages);
+  }, 500);
+  return () => clearInterval(interval);
+}, []);
 
 // useEffect(() => {
 //   console.log({ textRef: textRef.current });
@@ -46,8 +56,12 @@ return (
         <option value="1000">1 second</option>
       </select>
     </div>
-    <div class="d-grid gap-2">
-      <button class="btn btn-primary" type="button">
+    <div className="d-grid gap-2">
+      <button
+        className="btn btn-primary"
+        type="button"
+        onClick={() => console.log("i am a buton")}
+      >
         Send Message
       </button>
     </div>
