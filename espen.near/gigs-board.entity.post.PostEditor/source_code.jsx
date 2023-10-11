@@ -392,9 +392,7 @@ const tokenDiv = (
       aria-label="Select currency"
       value={state.token}
     >
-      <option selected value={"USDT"}>
-        USDT
-      </option>
+      <option value={"USDT"}>USDT</option>
       <option value="NEAR">NEAR</option>
       <option value="USDC">USDC</option>
     </select>
@@ -509,9 +507,7 @@ const fundraisingDiv = (
         aria-label="Default select example"
         value={state.token}
       >
-        <option selected value={"USDT"}>
-          USDT
-        </option>
+        <option value={"USDT"}>USDT</option>
         <option value="NEAR">NEAR</option>
         <option value="USDC">USDC</option>
       </select>
