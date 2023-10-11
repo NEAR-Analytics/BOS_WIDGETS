@@ -4,6 +4,7 @@ return (
     props={{
       iconSrc: "mybadge.near/widget/Near.LogoIcon",
       label: "Veteran",
+      color: "blue",
     }}
   />
 );
