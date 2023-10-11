@@ -58,6 +58,10 @@ State.init({
   content,
   imageUrl: undefined,
   profile,
+  embeddedNFT: props.embeddedNFT,
+  chainState: props.chainState,
+  tokenId: props.tokenId,
+  contractId: props.contractId,
 });
 
 const hasImageInPost = state?.content?.image; // TO-DO change this to check if has image in post
@@ -248,10 +252,21 @@ return (
       </span>
     </div>
     <div className="mt-3 text-break">
-      <Widget
-        src="mob.near/widget/MainPage.Post.Content"
-        props={{ content, raw }}
-      />
+      {!state.embeddedNFT ? (
+        <Widget
+          src="mob.near/widget/MainPage.Post.Content"
+          props={{ content, raw }}
+        />
+      ) : (
+        <Widget
+          src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
+          props={{
+            contractId: state.contractId,
+            tokenId: state.tokenId,
+            chainState: state.chainState,
+          }}
+        />
+      )}
     </div>
     {blockHeight !== "now" && (
       <div className="mt-1 d-flex justify-content-between">
