@@ -381,7 +381,7 @@ const amountDiv = (
 
 const tokenDiv = (
   <div className="col-lg-6 mb-2">
-    Currency {{state.token}}
+    Currency {{state}}
     <select
       onChange={(event) => State.update({ token: event.target.value })}
       className="form-select"
@@ -494,7 +494,7 @@ const isFundraisingDiv = (
 const fundraisingDiv = (
   <div class="d-flex flex-column mb-2">
     <div className="col-lg-6 mb-2">
-      Currency {{state.token}}
+      Currency {{state}}
       <select
         onChange={(event) => State.update({ token: event.target.value })}
         className="form-select"
