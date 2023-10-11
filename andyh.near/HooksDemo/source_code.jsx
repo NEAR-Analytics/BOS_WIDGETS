@@ -45,13 +45,13 @@ return (
       />
 
       <label className="input-group-text" htmlFor="inputGroupSelect01">
-        Options
+        Delay
       </label>
       <select className="form-select" id="inputGroupSelect01">
-        <option selected>Choose...</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+        <option value="0">Instant</option>
+        <option value="100">100</option>
+        <option value="500">500</option>
+        <option value="1000">1000</option>
       </select>
     </div>
   </>
