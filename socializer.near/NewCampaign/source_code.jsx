@@ -11,7 +11,7 @@ const requirementsOptions = [
   { name: "Like", value: "like" },
   { name: "Repost", value: "repost" },
   { name: "Comment", value: "comment" },
-  { name: "Iam human verified", value: "human" },
+  { name: "I-Am-Human Verified", value: "human" },
 ];
 
 const hrOption = [];
