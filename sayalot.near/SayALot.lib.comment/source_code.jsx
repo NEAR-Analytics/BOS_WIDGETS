@@ -1,6 +1,6 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-const prodAction = "sayALotComment_v0.0.1";
+const prodAction = "sayALotComment-v0.0.2";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -37,7 +37,7 @@ function setAreValidUsers(accountIds, sbtName) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtName: sbtName[0],
+        sbtName: sbtName,
       },
     });
   });
@@ -97,7 +97,7 @@ function composeCommentData(comment) {
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: comment.realArticleId,
+        key: comment.id,
         value: {
           type: "md",
           comment,
@@ -120,8 +120,8 @@ function saveComment(comment, onCommit, onCancel) {
   }
 }
 
-function getComments(realArticleId) {
-  return Social.index(action, realArticleId, {
+function getComments(id) {
+  return Social.index(action, id, {
     order: "desc",
     subscribe: true,
   });
@@ -134,15 +134,17 @@ function getCommentBlackListByBlockHeight() {
 function filterInvalidArticlesIndexes(commentIndexes) {
   return commentIndexes.filter(
     (commentIndexes) =>
+      commentIndexes.blockHeight &&
       !getCommentBlackListByBlockHeight().includes(commentIndexes.blockHeight) // Comment is not in blacklist
   );
 }
 
 function getValidComments(props) {
-  const { realArticleId, articleSbts } = props;
-  const commentIndexes = getComments(realArticleId);
-  const blacklistFilteredComments =
-    filterInvalidArticlesIndexes(commentIndexes);
+  const { id, articleSbts } = props;
+  const commentIndexes = getComments(id);
+  const blacklistFilteredComments = commentIndexes
+    ? filterInvalidArticlesIndexes(commentIndexes)
+    : [];
 
   let finalComments = blacklistFilteredComments;
   if (articleSbts.length > 0) {
