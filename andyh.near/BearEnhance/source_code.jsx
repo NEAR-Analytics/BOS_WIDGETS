@@ -20,7 +20,12 @@ useEffect(() => {
 
 return (
   <div
-    style={{ display: "flex", flexDirection: "column", alignContent: "center" }}
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
+      alignContent: "center",
+    }}
   >
     <h3>Bear Facts</h3>
 
