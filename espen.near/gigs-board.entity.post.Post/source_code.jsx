@@ -474,11 +474,6 @@ const tokenMapping = {
       address: "usdt.tether-token.near",
     },
   },
-  USDC: {
-    NEP141: {
-      address: "usdc.tether-token.near",
-    },
-  },
   // Add more tokens here as needed
 };
 
@@ -524,7 +519,7 @@ const EditorWidget = (postType) => {
         name: post.snapshot.name,
         description: post.snapshot.description,
         amount: post.snapshot.amount,
-        token: post.snapshot.sponsorship_token,
+        token: tokenResolver(post.snapshot.sponsorship_token),
         supervisor: post.snapshot.supervisor,
         githubLink: post.snapshot.github_link,
         onDraftStateChange: props.onDraftStateChange,
