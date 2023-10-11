@@ -104,7 +104,7 @@ return (
           </CategoryHeader>
         )}
         <Widget
-          src={`${REPL_ACCOUNT}/widget/Recommender.Views.FriendsOfFriends`}
+          src={`scopalaffairs.near/widget/Recommender.Views.FriendsOfFriends`}
           props={{
             returnElements: state.expandedList === "list1" ? null : 4,
             sidebar: props.sidebar || null,
@@ -132,7 +132,7 @@ return (
           </CategoryHeader>
         )}
         <Widget
-          src={`${REPL_ACCOUNT}/widget/Recommender.Views.SimilarProfiles`}
+          src={`scopalaffairs.near/widget/Recommender.Views.SimilarProfiles`}
           props={{
             returnElements: state.expandedList === "list2" ? null : 4,
             sidebar: props.sidebar || null,
@@ -146,7 +146,7 @@ return (
     )}
 
     {props.sidebar && (
-      <ButtonLink href="#/${REPL_ACCOUNT}/widget/PeoplePage?tab=recommended">
+      <ButtonLink href="#/scopalaffairs.near/widget/PeoplePage?tab=recommended">
         View Recommended Profiles
       </ButtonLink>
     )}
