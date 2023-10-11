@@ -399,9 +399,7 @@ return (
                           : 0}
                       </div>
                       <div class="col-3 text-11">
-                        <span class="text-bold">
-                          Your Earnings
-                        </span>
+                        <span class="text-bold">Your Earnings</span>
                         <br />
                         {state.portfolio
                           ? formatNumber(state.portfolio.fees)
@@ -414,9 +412,7 @@ return (
                           ? formatNumber(state.portfolio.tvl)
                           : 0}
                       </div>
-                      <div
-                        class="col-3 addLiquidityButtonContainer"
-                      >
+                      <div class="col-3 addLiquidityButtonContainer">
                         <div class="addLiquidityButton">
                           <div class={"ConfirmText"}>Add Liquidity</div>
                         </div>
@@ -427,9 +423,7 @@ return (
                     <div class="Line" />
                   </div>
                 </div>
-                <div
-                  class="row portfolioCardsContainer"
-                >
+                <div class="row portfolioCardsContainer">
                   {state.portfolio &&
                     state.portfolio.positions.map((p, key) => {
                       return (
@@ -448,8 +442,7 @@ return (
                                       src={p.pool.tokenB.logoURI}
                                     />
                                   </div>
-                                  <div
-                                    class="col-7 text-5">
+                                  <div class="col-7 text-5">
                                     <div class="portfolioCardPoolName">
                                       {p.pool.name}
                                     </div>
@@ -485,28 +478,22 @@ return (
                                   src={getModeImg(p.kind)}
                                 />
                               </div>
-                              <div
-                                class="col-12 mt-2 text-12"
-                              >
+                              <div class="col-12 mt-2 text-12">
                                 <div class="row">
-                                  <div class="col-6 text-bold">
-                                    Balance
-                                  </div>
+                                  <div class="col-6 text-bold">Balance</div>
                                   <div class="col-6">
                                     {formatNumber(p.balance)}
                                   </div>
-                                  <div class="col-6 text-bold">
-                                    Earnings
-                                  </div>
+                                  <div class="col-6 text-bold">Earnings</div>
                                   <div class="col-6">
                                     {formatNumber(p.fees)}
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                class="col-12 mt-2 mb-2 manageLiquidityButtonContainer"
-                              >
-                                <div class="manageLiquidityButton" onClick={() => manage(p)}
+                              <div class="col-12 mt-2 mb-2 manageLiquidityButtonContainer">
+                                <div
+                                  class="manageLiquidityButton"
+                                  onClick={() => manage(p)}
                                 >
                                   <div class={"ConfirmText"}>Manage</div>
                                 </div>
@@ -528,24 +515,19 @@ return (
             ) : !state.isLiquidityRemoved ? (
               <>
                 <div>
-                  <div
-                    class="HeaderContainer"
-                  >
+                  <div class="HeaderContainer">
                     <div class="row text-white">
-                      <div class="col-12 titlePortfolio mb-2">Manage Liquidity</div>
-                      <div
-                        class="col-3 backButtonContainer"
-                      >
-                        <div class="backButton"
-                          onClick={() => back()}
-                        >
+                      <div class="col-12 titlePortfolio mb-2">
+                        Manage Liquidity
+                      </div>
+                      <div class="col-3 backButtonContainer">
+                        <div class="backButton" onClick={() => back()}>
                           <div class={"ConfirmText"}>Back</div>
                         </div>
                       </div>
-                      <div
-                        class="col-3 removeLiquidityButtonContainer"
-                      >
-                        <div class="removeLiquidityButton"
+                      <div class="col-3 removeLiquidityButtonContainer">
+                        <div
+                          class="removeLiquidityButton"
                           onClick={() => remove()}
                         >
                           <div class={"ConfirmText"}>Remove</div>
@@ -556,13 +538,9 @@ return (
                   <div class="LineContainer">
                     <div class="Line" />
                   </div>
-                  <div
-                    class="BodyContainer"
-                  >
+                  <div class="BodyContainer">
                     <div class="row text-white">
-                      <div
-                        class="col-5 flex justify-end"
-                      >
+                      <div class="col-5 flex justify-end">
                         <img
                           class="TokenImg"
                           src={state.poolSelected.pool.tokenA.logoURI}
@@ -577,20 +555,16 @@ return (
                           {state.poolSelected.pool.name}
                         </div>
                         <div class="row">
-                          <div
-                            class="col-12 badgeContainer"
-                          >
+                          <div class="col-12 badgeContainer">
                             <div class="badge">
                               {getFeeWidthFormat(state.poolSelected.pool.fee)}{" "}
                               Fee
                             </div>
-                            <div class="badge"
-                            >
+                            <div class="badge">
                               {getFeeWidthFormat(state.poolSelected.pool.width)}{" "}
                               Width
                             </div>
-                            <div class="badge"
-                            >
+                            <div class="badge">
                               Mode {getMode(state.poolSelected.kind)}
                             </div>
                           </div>
@@ -644,26 +618,18 @@ return (
             ) : (
               <>
                 <div>
-                  <div
-                    class="HeaderContainer"
-                  >
+                  <div class="HeaderContainer">
                     <div class="row text-white">
-                      <div class="col-12 titlePortfolio mb-2">Remove Liquidity</div>
-                      <div
-                        class="col-3 backButtonContainer"
-                      >
-                        <div class="backButton"
-                          onClick={() => backToDetail()}
-                        >
+                      <div class="col-12 titlePortfolio mb-2">
+                        Remove Liquidity
+                      </div>
+                      <div class="col-3 backButtonContainer">
+                        <div class="backButton" onClick={() => backToDetail()}>
                           <div class={"ConfirmText"}>Back</div>
                         </div>
                       </div>
-                      <div
-                        class="col-5 binsButtonContainer"
-                      >
-                        <div class="binsButton"
-                          onClick={() => selectBins()}
-                        >
+                      <div class="col-5 binsButtonContainer">
+                        <div class="binsButton" onClick={() => selectBins()}>
                           <div class={"ConfirmText"}>
                             {state.countBinsToRemove} Bins Select
                             <svg
@@ -701,9 +667,7 @@ return (
                   <div class="LineContainer">
                     <div class="Line" />
                   </div>
-                  <div
-                    class="HeaderContainer removeDetailsBinsContainer"
-                  >
+                  <div class="HeaderContainer removeDetailsBinsContainer">
                     <div class="row removeDetailsBins">
                       <div class="row mt-2">
                         <div class="col-6 text-left">
@@ -719,9 +683,7 @@ return (
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="col-6 removeDetailsBinsValue"
-                        >
+                        <div class="col-6 removeDetailsBinsValue">
                           {state.tokenAToWithdraw == 0
                             ? 0
                             : state.tokenAToWithdraw.toFixed(10)}
@@ -741,9 +703,7 @@ return (
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="col-6 removeDetailsBinsValue"
-                        >
+                        <div class="col-6 removeDetailsBinsValue">
                           {state.tokenBToWithdraw == 0
                             ? 0
                             : state.tokenBToWithdraw.toFixed(10)}
@@ -758,16 +718,12 @@ return (
                                 src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Fee.png"
                               />
                             </div>
-                            <div
-                              class="col-6 p-0 flex items-center"
-                            >
+                            <div class="col-6 p-0 flex items-center">
                               Fee Tier
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="col-6 removeDetailsBinsValue"
-                        >
+                        <div class="col-6 removeDetailsBinsValue">
                           {getFeeWidthFormat(state.poolSelected.pool.fee)}
                         </div>
                       </div>
@@ -780,16 +736,10 @@ return (
                                 src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Width.png"
                               />
                             </div>
-                            <div
-                              class="col-6 p-0 flex items-center"
-                            >
-                              Width
-                            </div>
+                            <div class="col-6 p-0 flex items-center">Width</div>
                           </div>
                         </div>
-                        <div
-                          class="col-6 removeDetailsBinsValue"
-                        >
+                        <div class="col-6 removeDetailsBinsValue">
                           {getFeeWidthFormat(state.poolSelected.pool.width)}
                         </div>
                       </div>
@@ -802,48 +752,40 @@ return (
                                 src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Mode.png"
                               />
                             </div>
-                            <div
-                              class="col-6 p-0 flex items-center"
-                            >
-                              Mode
-                            </div>
+                            <div class="col-6 p-0 flex items-center">Mode</div>
                           </div>
                         </div>
-                        <div
-                          class="col-6 removeDetailsBinsValue"
-                        >
+                        <div class="col-6 removeDetailsBinsValue">
                           {getMode(state.poolSelected.kind)}
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <div
-                          class="col-12 removeDetailsButtonContainer"
-                        >
+                        <div class="col-12 removeDetailsButtonContainer">
                           <>
                             {state.countBinsToRemove > 0 ? (
                               state.balanceNFT > 0 ? (
-                                <div class="confirmRemoveButton"
+                                <div
+                                  class="confirmRemoveButton"
                                   onClick={() => confirmRemove()}
                                 >
                                   <div class={"ConfirmText"}>Connfirm</div>
                                 </div>
                               ) : !state.onApprovingNFT ? (
-                                <div class="approveNFTButton"
+                                <div
+                                  class="approveNFTButton"
                                   onClick={() => approveNFT()}
                                 >
                                   <div class={"ConfirmText"}>Approve NFT</div>
                                 </div>
                               ) : (
-                                <div class="onApprovingNFT"
-                                >
+                                <div class="onApprovingNFT">
                                   <div
                                     class={"ConfirmText"}
                                   >{`NFT it's being approved...`}</div>
                                 </div>
                               )
                             ) : (
-                              <div class="confirmRemoveButtonDisabled"
-                              >
+                              <div class="confirmRemoveButtonDisabled">
                                 <div class={"ConfirmTextDisabled"}>
                                   Connfirm
                                 </div>
