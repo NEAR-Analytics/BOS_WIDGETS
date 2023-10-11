@@ -413,15 +413,13 @@ const fundraisingDiv = (
       Currency
       <select
         onChange={(event) => State.update({ token: event.target.value })}
-        className="form-select"
-        aria-label="Select currency"
-        value={state.token}
+        class="form-select"
+        aria-label="Default select"
       >
         <option selected value="USDT">
           USDT
         </option>
         <option value="NEAR">NEAR</option>
-        <option value="USDC">USDC</option>
       </select>
     </div>
     <div className="col-lg-6 mb-2">
