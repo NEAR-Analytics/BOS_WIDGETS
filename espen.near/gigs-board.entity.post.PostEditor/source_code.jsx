@@ -379,7 +379,7 @@ const tokenDiv = (
     Currency
     <select
       onChange={(event) => State.update({ token: event.target.value })}
-      class="form-select"
+      class="form-select form-select-sm"
       aria-label="Default select"
     >
       <option selected value={"USDT"}>
@@ -490,7 +490,7 @@ const fundraisingDiv = (
       Currency
       <select
         onChange={(event) => State.update({ token: event.target.value })}
-        class="form-select"
+        class="form-select form-select-md"
         aria-label="Default select example"
       >
         <option selected value="NEAR">
