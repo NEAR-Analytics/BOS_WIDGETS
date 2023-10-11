@@ -3,6 +3,7 @@ const [sentMessages, setSentMessages] = useState([]);
 const [step, setStep] = useState(0);
 const [height, setHeight] = useState(100);
 const [width, setWidth] = useState(100);
+const [bearFact, setBearFact] = useState("");
 
 const DIMENSIONAL_INCREMENT = 25;
 
@@ -13,20 +14,16 @@ useEffect(() => {
         "X-Api-Key": "WjEkKnB/Up2bSf9gQ7Rb/w==5NeZT3zzgVKShfic",
       },
     });
-    console.log(await res.json());
+    setBearFact((await res.json())[0]);
   })();
 }, [step]);
 
 return (
   <>
-    <h3>Send a message to the Future</h3>
+    <h3>Bear Facts</h3>
 
     <div className="mb-3">
-      <ul>
-        {sentMessages.map((msg) => (
-          <li key={msg}>{msg}</li>
-        ))}
-      </ul>
+      <h5>{bearFact}</h5>
     </div>
     <div className="input-group mb-3">
       <label className="input-group-text" htmlFor="inputGroupSelect0">
