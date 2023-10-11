@@ -252,10 +252,10 @@ const AnswerContainer = styled.div`
   width: 96%;;
 `;
 
-const formatName = (name) =>
-  name.length === 64
-    ? `${name.slice(0, 4)}..${name.slice(name.length - 4, name.length)}`
-    : name;
+// const formatName = (name) =>
+//   name.length === 64
+//     ? `${name.slice(0, 4)}..${name.slice(name.length - 4, name.length)}`
+//     : name;
 
 function closeModal() {
   State.update({ showModal: false });
@@ -267,16 +267,23 @@ return (
       <CommentCardHeader>
         <CommentUserContent>
           <Widget
-            src="mob.near/widget/ProfileImage"
+            src={widgets.newStyledComponents.Element.User}
             props={{
-              accountId: data.originalComment.accountId,
-              imageClassName: "rounded-circle w-100 h-100",
-              style: { width: "25px", height: "25px" },
+              accountId,
+              options: {
+                showHumanBadge: true,
+                showImage: true,
+                showSocialName: true,
+                shortenLength: 15,
+                size: "md",
+              },
             }}
           />
-          <CommentUser>
-            {formatName(data.originalComment.accountId)}
-          </CommentUser>
+          {
+            // <CommentUser>
+            //   {formatName(data.originalComment.accountId)}
+            // </CommentUser>
+          }
         </CommentUserContent>
       </CommentCardHeader>
       <CommentCardContent>
@@ -311,19 +318,58 @@ return (
             />
           )}
           {articleSbts.length > 0 && !state.canLoggedUserCreateComment ? (
-            <ReplyCommentButtonDisabled>
-              <ReplyCommentText>Reply</ReplyCommentText>
-              <i className="bi bi-reply"></i>
-            </ReplyCommentButtonDisabled>
+            <>
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1">Reply</span>
+                      <i className="bi bi bi-reply"></i>
+                    </div>
+                  ),
+                  disabled: true,
+                  size: "sm",
+                  className: "info outline",
+                }}
+              />
+              {
+                // <ReplyCommentButtonDisabled>
+                //   <ReplyCommentText>Reply</ReplyCommentText>
+                //   <i className="bi bi-reply"></i>
+                // </ReplyCommentButtonDisabled>
+              }
+            </>
           ) : (
-            <ReplyCommentButtonActive
-              onClick={async () => {
-                State.update({ showModal: true });
-              }}
-            >
-              <ReplyCommentText>Reply</ReplyCommentText>
-              <i className="bi bi-reply"></i>
-            </ReplyCommentButtonActive>
+            <>
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1">Reply</span>
+                      <i className="bi bi bi-reply"></i>
+                    </div>
+                  ),
+                  disabled: true,
+                  size: "sm",
+                  className: "info outline",
+                  onClick: () => {
+                    State.update({ showModal: true });
+                  },
+                }}
+              />
+              {
+                // <ReplyCommentButtonActive
+                //   onClick={async () => {
+                //     State.update({ showModal: true });
+                //   }}
+                // >
+                //   <ReplyCommentText>Reply</ReplyCommentText>
+                //   <i className="bi bi-reply"></i>
+                // </ReplyCommentButtonActive>
+              }
+            </>
           )}
         </div>
         <Widget
