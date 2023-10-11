@@ -23,7 +23,14 @@ return (
     <h3>Bear Facts</h3>
 
     <div className="mb-3">
-      <span style={{ margin: "24px", fontSize: "1.2em", fontStyle: "italic" }}>
+      <span
+        style={{
+          textAlign: "center",
+          margin: "24px",
+          fontSize: "1.2em",
+          fontStyle: "italic",
+        }}
+      >
         {bearFact}
       </span>
     </div>
