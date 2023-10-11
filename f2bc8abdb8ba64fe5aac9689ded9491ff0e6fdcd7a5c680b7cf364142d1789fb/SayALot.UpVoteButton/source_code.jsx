@@ -38,7 +38,7 @@ let hasUserVoted = userVote !== undefined;
 
 function getUpVoteButtonClass() {
   if (hasUserVoted) {
-    return "primary";
+    return "secondary";
   } else {
     return "secondary dark";
   }
@@ -106,27 +106,33 @@ const CallLibrary = styled.div`
 return (
   <>
     <Widget
-      src={widgets.styledComponents}
+      src={widgets.newStyledComponents.Input.Button}
       props={{
-        Button: {
-          text: `+${upVotesData.length}`,
-          disabled,
-          className: `${getUpVoteButtonClass()}`,
-          size: "sm",
-          onClick: upVoteButtonListener,
-          icon: (
+        // text: `+${upVotesData.length}`,
+        children: (
+          <div className="d-flex">
+            <span>{`+${upVotesData.length}`}</span>
             <IconContainer>
               <Icon className="bi bi-fast-forward-fill"></Icon>
             </IconContainer>
-          ),
-          // icon: (
-          //   <IconContainer>
-          //     <Icon className="bi bi-fast-forward-button"></Icon>
-          //   </IconContainer>
-          // ),
-          // icon: <i className="bi bi-hand-thumbs-up"></i>,
-          // icon: "⏫",
-        },
+          </div>
+        ),
+        disabled,
+        className: `${getUpVoteButtonClass()}`,
+        size: "sm",
+        onClick: upVoteButtonListener,
+        // icon: (
+        //   <IconContainer>
+        //     <Icon className="bi bi-fast-forward-fill"></Icon>
+        //   </IconContainer>
+        // ),
+        // icon: (
+        //   <IconContainer>
+        //     <Icon className="bi bi-fast-forward-button"></Icon>
+        //   </IconContainer>
+        // ),
+        // icon: <i className="bi bi-hand-thumbs-up"></i>,
+        // icon: "⏫",
       }}
     />
 
