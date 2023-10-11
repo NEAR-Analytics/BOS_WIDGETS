@@ -61,14 +61,7 @@ const onChangeFunction = props.onchangeFunc;
 return (
   <Colcont>
     <H1styled>{props.title}</H1styled>
-    <FormInput
-      value={props.value}
-      placeholder={props.placeholder}
-      onChange={(e) => {
-        console.log("hijo", e.target.value);
-        onChangeFunction(e.target.value);
-      }}
-    ></FormInput>
+
     <Dropdown
       placeholder={props.placeholder}
       value={props.value}
