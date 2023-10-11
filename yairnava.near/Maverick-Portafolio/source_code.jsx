@@ -1,3 +1,697 @@
+const myCss = `
+.selector {
+    property:value;
+    property:value;
+    property:value;
+}
+
+.MainContainer {
+  width: 490px;
+  height: 500px;
+  display: inline-flex;
+  padding: 8px 8px 16px 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  border-radius: 14px;
+  background: #151718;
+}
+
+.ProtocolContainer {
+  display: flex;
+  width: 400px;
+  padding: 0px 8px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.ProtocolNetworkContainet {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  gap: 8px;
+}
+
+.ProtocolNetworkTextSection {
+  display: flex;
+  padding: 4px 8px 4px 4px;
+  align-items: center;
+}
+
+.ProtocolImg {
+    width: 16px;
+    height: 16px;
+    border-radius: 16px;
+}
+
+.ProtocolText {
+  color: rgba(255, 255, 255, 0.60);
+  font-family: Inter;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.ProtocolNetworkSection {
+  display: flex;
+  padding: 4px 8px 4px 4px;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.ProtocolNetworkContainer {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.NetworkText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #FFF;
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.SendRecieveContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.HeaderContainer {
+  display: flex;
+  margin: auto; 
+  width: 460px;
+  padding: 16px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px 8px 8px 8px;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.BodyContainer {
+  display: flex;
+  margin: auto; 
+  width: 460px;
+  height: 320px;
+  padding: 16px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px 8px 8px 8px;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.TokenSection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.TokenImg {
+    width: 32px;
+    height: 32px;
+}
+
+.TokenNameSection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.TokenAction {
+    color: rgba(255, 255, 255, 0.60);
+    font-family: Inter;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.TokenName {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.TokenNameSelect {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    background:none;
+    border: none;
+}
+
+.TokenAmountSection {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.TokenAmount {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.TokenAmountInput {
+    color: #FFF;
+    text-align: right;
+    background: none;
+    border: 0;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    width: 150px;
+}
+
+.TokenAmountPreview {
+    color: rgba(255, 255, 255, 0.60);
+    font-family: Inter;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.UserBalance {
+    cursor: pointer;
+    color: rgb(141, 141, 253);
+}
+
+.RecieveContainer {
+  display: flex;
+  width: 450px;
+  padding: 16px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px 8px 8px 8px;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.LineContainer {
+    display: flex;
+    padding: 8px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.Line {
+    width: 450px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.RecipientContainer {
+    display: flex;
+    width: 450px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.RecipientText {
+    color: rgba(255, 255, 255, 0.60);
+    font-family: Inter;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.RecipientValue {
+    color: #8D8DFD;
+    text-align: right;
+    font-family: Inter;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.ConfirmContainer {
+    display: flex;
+    height: 40px;
+    padding: 0px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.ConfirmButton {
+    display: flex;
+    cursor:  pointer;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 4px;
+    background: #8D8DFD;
+}
+
+.ConfirmButtonDisabled {
+    display: flex;
+    cursor:  default;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.ConfirmText {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.ConfirmTextDisabled {
+    color: rgb(93 93 93);
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.TokenInsufficientBalance {
+    color: rgb(255 0 0 / 60%);
+    font-family: Inter;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+option {
+    background: rgb(45,47,48) !important;
+    color: white !important;
+}
+
+.turnSection {
+    width: 100%;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.turnButton {
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0px;
+    margin: -14px 0px;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+    appearance: none;
+    text-decoration: none;
+    text-align: center;
+    flex: 0 0 auto;
+    font-size: 1.5rem;
+    padding: 8px;
+    border-radius: 50%;
+    overflow: visible;
+    color: rgb(255, 255, 255);
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border: 1px solid grey;
+    background: rgb(45,46,47);
+}
+
+.turnButton:hover{
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgb(141, 141, 253);
+}
+
+.turnImg {
+    user-select: none;
+    display: inline-block;
+    fill: currentcolor;
+    flex-shrink: 0;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    font-size: 1.5rem;
+    height: 20px;
+    width: 20px;
+}
+
+.titleSection {
+    display: flex;
+    padding: 8px 16px;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.titlePortfolio {
+    margin: 0px;
+    font-family: BaselGrotesk, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    display: block;
+    color: white;
+}
+
+.networkNameContainer {
+    padding: 4px 8px 4px 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #8D8DFD;
+    cursor: pointer;
+}
+
+.networkName {
+    color: #8D8DFD;
+    cursor: pointer;
+}
+
+.text-5 {
+  font-size: 5px;
+}
+
+.text-10 {
+  font-size: 10px;
+}
+
+.text-11 {
+  font-size: 11px;
+}
+
+.text-12 {
+  font-size: 12px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.addLiquidityButtonContainer {
+  font-size: 12px;
+  display: flex;
+  justify-content: end;
+}
+
+.addLiquidityButton{
+  width: 110px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  background: rgb(141, 141, 253);
+  height: 40px;
+}
+
+.portfolioCardsContainer{
+  margin-inline: 0px;
+  width: 100%;
+  justify-content: start;
+  gap: 10px;
+  overflow: auto;
+  flexWrap: wrap;
+  margin-left: 15px;
+}
+
+.portfolioCardContainer{
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.portfolioCardPoolName{
+  text-align: left;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.portfolioCardDetails{
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 2px;
+  font-size: 7px;
+}
+
+.portfolioCardDetailsImg{
+  width: 15px;
+  height: 15px;
+  filter: invert(1);
+}
+
+.portfolioCardDetailsImg2{
+  width: 15px;
+  height: 10px;
+  filter: invert(1);
+}
+
+.portfolioCardPoolImg{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.manageLiquidityButtonContainer {
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.manageLiquidityButton{
+  width: 110px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  height: 40px;
+  border: 1px solid #8D8DFD;
+}
+
+.backButtonContainer {
+  font-size: 12px;
+  display: flex;
+  justify-content: start;
+}
+
+.backButton{
+  width: 110px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  height: 30px;
+  border: 1px solid #8D8DFD;
+}
+
+.removeLiquidityButtonContainer {
+  font-size: 12px;
+  display: flex;
+  justify-content: start;
+}
+
+.removeLiquidityButton{
+  width: 110px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  height: 30px;
+  background: rgb(141, 141, 253);
+}
+
+.flex{
+  display: flex;
+}
+
+.justify-end{
+  justify-content: end;
+}
+
+.justify-center{
+  justify-content: center;
+}
+
+.poolNameDetails{
+  text-align: left;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.badge{
+  background: rgb(141, 141, 253);
+  border-radius: 10px;
+  padding-inline: 7px;
+  font-weight: bold;
+}
+
+.badgeContainer{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 2px;
+  font-size: 7px;
+}
+
+.poolModeDetailImg{
+  width: 98%;
+  height: 98%;
+  border-radius: 10px;
+}
+
+.binsButtonContainer {
+  font-size: 12px;
+  display: flex;
+  justify-content: start;
+}
+
+.binsButton{
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  height: 30px;
+  background: #8D8DFD;
+}
+
+.removeDetailsBinsContainer{
+  margin: auto;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.removeDetailsBins{
+  color: white;
+  font-size: 12px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.text-left{
+  text-align: left;
+}
+
+.text-right{
+  text-align: right;
+}
+
+.removeDetailsBinsValue{
+  display: flex;
+  alignItems: center;
+  justify-content: right;
+}
+
+.removeDetailsBinsImg{
+  width: 32px;
+  height: 32px;
+  filter: invert(1);
+  margin-right: 10px;
+}
+
+.removeDetailsButtonContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.items-center{
+  align-items: center;
+}
+
+.mr-10{
+  marginRight: 10px;
+}
+
+.confirmRemoveButton .approveNFTButton{
+  width: 110px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  background: rgb(141, 141, 253);
+  height: 30px;
+}
+
+.confirmRemoveButtonDisabled{
+  width: 110px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  height: 30px;
+}
+
+.onApprovingNFT{
+  width: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 4px;
+  height: 30px;
+  border: 1px solid #8D8DFD;
+}
+
+@media (max-width: 400px) {
+    .MainContainer {
+      
+    }
+}
+`;
+
 const routerAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/maverick-router.txt"
 );
@@ -350,7 +1044,7 @@ const confirmRemove = () => {
 };
 
 const css = fetch(
-  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/widget.css"
+  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/portfolio.css"
 ).body;
 
 if (!css) return "";
@@ -358,7 +1052,7 @@ if (!css) return "";
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    ${css}
+    ${myCss}
 `,
   });
 }
@@ -367,7 +1061,7 @@ const Theme = state.theme;
 return (
   <Theme>
     <div class="text-center mt-1">
-      <div class="MainContainer" style={{ width: "420px", height: "500px" }}>
+      <div class="MainContainer">
         <div class="ProtocolContainer">
           <div class="ProtocolNetworkContainet">
             <div class="ProtocolNetworkTextSection">
@@ -389,181 +1083,89 @@ return (
             !state.poolSelected ? (
               <>
                 <div>
-                  <div
-                    class="SendContainer"
-                    style={{ margin: "auto", width: "390px" }}
-                  >
-                    <div class="row" style={{ color: "white", width: "100%" }}>
-                      <div class="col-3" style={{ fontSize: "11px" }}>
-                        <span style={{ fontWeight: "bold" }}>Your Rewards</span>{" "}
+                  <div class="HeaderContainer">
+                    <div class="row text-white">
+                      <div class="col-3 text-11">
+                        <span class="text-bold">Your Rewards</span>
                         <br />
                         {state.portfolio
                           ? formatNumber(state.portfolio.rewards)
                           : 0}
                       </div>
-                      <div class="col-3" style={{ fontSize: "11px" }}>
-                        <span style={{ fontWeight: "bold" }}>
+                      <div class="col-3 text-11">
+                        <span class="text-bold">
                           Your Earnings
-                        </span>{" "}
+                        </span>
                         <br />
                         {state.portfolio
                           ? formatNumber(state.portfolio.fees)
                           : 0}
                       </div>
-                      <div class="col-3" style={{ fontSize: "11px" }}>
-                        <span style={{ fontWeight: "bold" }}>Your Balance</span>{" "}
+                      <div class="col-3 text-11">
+                        <span class="text-bold">Your Balance</span>
                         <br />
                         {state.portfolio
                           ? formatNumber(state.portfolio.tvl)
                           : 0}
                       </div>
                       <div
-                        class="col-3"
-                        style={{
-                          fontSize: "12px",
-                          display: "flex",
-                          justifyContent: "end",
-                        }}
+                        class="col-3 addLiquidityButtonContainer"
                       >
-                        <div
-                          style={{
-                            width: "110px",
-                            display: "flex",
-                            cursor: "pointer",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "8px",
-                            borderRadius: "4px",
-                            background: "rgb(141, 141, 253)",
-                            height: "40px",
-                          }}
-                        >
+                        <div class="addLiquidityButton">
                           <div class={"ConfirmText"}>Add Liquidity</div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="FeesContainer">
-                    <div
-                      style={{
-                        width: "420px",
-                        height: "1px",
-                        background: "rgba(255, 255, 255, 0.1)",
-                      }}
-                    />
+                  <div class="LineContainer">
+                    <div class="Line" />
                   </div>
                 </div>
                 <div
-                  class="row"
-                  style={{
-                    marginInline: "0px",
-                    width: "100%",
-                    justifyContent: "start",
-                    gap: "10px",
-                    overflow: "auto",
-                    flexWrap: "wrap",
-                    marginLeft: "15px",
-                  }}
+                  class="row portfolioCardsContainer"
                 >
                   {state.portfolio &&
                     state.portfolio.positions.map((p, key) => {
                       return (
                         p.balance > 0 && (
                           <div class="col-6" style={{ width: "47%" }}>
-                            <div
-                              class="row"
-                              style={{
-                                color: "white",
-                                background: "rgba(255, 255, 255, 0.1)",
-                                borderRadius: "10px",
-                              }}
-                            >
-                              <div class="col-12" style={{ fontSize: "12px" }}>
+                            <div class="row portfolioCardContainer">
+                              <div class="col-12 text-12">
                                 <div class="row mt-2">
                                   <div class="col-5">
                                     <img
-                                      style={{ height: "25px" }}
+                                      class="TokenImg"
                                       src={p.pool.tokenA.logoURI}
                                     />
                                     <img
-                                      style={{ height: "25px" }}
+                                      class="TokenImg"
                                       src={p.pool.tokenB.logoURI}
                                     />
                                   </div>
                                   <div
-                                    class="col-7"
-                                    style={{ fontSize: "5px" }}
-                                  >
-                                    <div
-                                      style={{
-                                        textAlign: "left",
-                                        fontWeight: "bold",
-                                        fontSize: "12px",
-                                      }}
-                                    >
+                                    class="col-7 text-5">
+                                    <div class="portfolioCardPoolName">
                                       {p.pool.name}
                                     </div>
                                     <div class="row">
-                                      <div
-                                        class="col-4"
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "right",
-                                          alignItems: "center",
-                                          gap: "2px",
-                                          fontSize: "7px",
-                                        }}
-                                      >
+                                      <div class="col-4 portfolioCardDetails">
                                         <img
-                                          class="TokenImg"
+                                          class="portfolioCardDetailsImg"
                                           src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Fee.png"
-                                          style={{
-                                            width: "15px",
-                                            height: "15px",
-                                            filter: "invert(1)",
-                                          }}
                                         />
                                         {getFeeWidthFormat(p.pool.fee)}
                                       </div>
-                                      <div
-                                        class="col-4"
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          gap: "2px",
-                                          fontSize: "7px",
-                                        }}
-                                      >
+                                      <div class="col-4 portfolioCardDetails">
                                         <img
-                                          class="TokenImg"
+                                          class="portfolioCardDetailsImg2"
                                           src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Width.png"
-                                          style={{
-                                            width: "15px",
-                                            height: "10px",
-                                            filter: "invert(1)",
-                                          }}
                                         />
                                         {getFeeWidthFormat(p.pool.width)}
                                       </div>
-                                      <div
-                                        class="col-4"
-                                        style={{
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          gap: "2px",
-                                          fontSize: "7px",
-                                        }}
-                                      >
+                                      <div class="col-4 portfolioCardDetails">
                                         <img
-                                          class="TokenImg"
+                                          class="portfolioCardDetailsImg"
                                           src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Mode.png"
-                                          style={{
-                                            width: "15px",
-                                            height: "15px",
-                                            filter: "invert(1)",
-                                          }}
                                         />
                                         {getMode(p.kind)}
                                       </div>
@@ -571,38 +1173,23 @@ return (
                                   </div>
                                 </div>
                               </div>
-                              <div
-                                class="col-12 mt-2"
-                                style={{ fontSize: "12px" }}
-                              >
+                              <div class="col-12 mt-2">
                                 <img
-                                  class="TokenImg"
+                                  class="TokenImg portfolioCardPoolImg"
                                   src={getModeImg(p.kind)}
-                                  style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    borderRadius: "10px",
-                                  }}
                                 />
                               </div>
                               <div
-                                class="col-12 mt-2"
-                                style={{ fontSize: "12px" }}
+                                class="col-12 mt-2 text-12"
                               >
                                 <div class="row">
-                                  <div
-                                    class="col-6"
-                                    style={{ fontWeight: "bold" }}
-                                  >
+                                  <div class="col-6 text-bold">
                                     Balance
                                   </div>
                                   <div class="col-6">
                                     {formatNumber(p.balance)}
                                   </div>
-                                  <div
-                                    class="col-6"
-                                    style={{ fontWeight: "bold" }}
-                                  >
+                                  <div class="col-6 text-bold">
                                     Earnings
                                   </div>
                                   <div class="col-6">
@@ -611,26 +1198,9 @@ return (
                                 </div>
                               </div>
                               <div
-                                class="col-12 mt-2 mb-2"
-                                style={{
-                                  fontSize: "10px",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                }}
+                                class="col-12 mt-2 mb-2 manageLiquidityButtonContainer"
                               >
-                                <div
-                                  style={{
-                                    width: "110px",
-                                    display: "flex",
-                                    cursor: "pointer",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    gap: "8px",
-                                    borderRadius: "4px",
-                                    height: "40px",
-                                    border: "1px solid #8D8DFD",
-                                  }}
-                                  onClick={() => manage(p)}
+                                <div class="manageLiquidityButton" onClick={() => manage(p)}
                                 >
                                   <div class={"ConfirmText"}>Manage</div>
                                 </div>
@@ -653,56 +1223,23 @@ return (
               <>
                 <div>
                   <div
-                    class="SendContainer"
-                    style={{ margin: "auto", width: "390px" }}
+                    class="HeaderContainer"
                   >
-                    <div class="row" style={{ color: "white", width: "100%" }}>
-                      <div class="col-12 titleSwap mb-2">Manage Liquidity</div>
+                    <div class="row text-white">
+                      <div class="col-12 titlePortfolio mb-2">Manage Liquidity</div>
                       <div
-                        class="col-3"
-                        style={{
-                          fontSize: "12px",
-                          display: "flex",
-                          justifyContent: "start",
-                        }}
+                        class="col-3 backButtonContainer"
                       >
-                        <div
-                          style={{
-                            width: "110px",
-                            display: "flex",
-                            cursor: "pointer",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "8px",
-                            borderRadius: "4px",
-                            height: "30px",
-                            border: "1px solid #8D8DFD",
-                          }}
+                        <div class="backButton"
                           onClick={() => back()}
                         >
                           <div class={"ConfirmText"}>Back</div>
                         </div>
                       </div>
                       <div
-                        class="col-3"
-                        style={{
-                          fontSize: "12px",
-                          display: "flex",
-                          justifyContent: "start",
-                        }}
+                        class="col-3 removeLiquidityButtonContainer"
                       >
-                        <div
-                          style={{
-                            width: "110px",
-                            display: "flex",
-                            cursor: "pointer",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "8px",
-                            borderRadius: "4px",
-                            background: "rgb(141, 141, 253)",
-                            height: "30px",
-                          }}
+                        <div class="removeLiquidityButton"
                           onClick={() => remove()}
                         >
                           <div class={"ConfirmText"}>Remove</div>
@@ -710,23 +1247,15 @@ return (
                       </div>
                     </div>
                   </div>
-                  <div class="FeesContainer">
-                    <div
-                      style={{
-                        width: "420px",
-                        height: "1px",
-                        background: "rgba(255, 255, 255, 0.1)",
-                      }}
-                    />
+                  <div class="LineContainer">
+                    <div class="Line" />
                   </div>
                   <div
-                    class="SendContainer"
-                    style={{ margin: "auto", width: "390px", height: "320px" }}
+                    class="BodyContainer"
                   >
-                    <div class="row" style={{ color: "white" }}>
+                    <div class="row text-white">
                       <div
-                        class="col-5"
-                        style={{ display: "flex", justifyContent: "end" }}
+                        class="col-5 flex justify-end"
                       >
                         <img
                           class="TokenImg"
@@ -737,63 +1266,31 @@ return (
                           src={state.poolSelected.pool.tokenB.logoURI}
                         />
                       </div>
-                      <div class="col-7" style={{ fontSize: "5px" }}>
-                        <div
-                          style={{
-                            textAlign: "left",
-                            fontWeight: "bold",
-                            fontSize: "12px",
-                          }}
-                        >
+                      <div class="col-7 text-5">
+                        <div class="poolNameDetails">
                           {state.poolSelected.pool.name}
                         </div>
                         <div class="row">
                           <div
-                            class="col-12"
-                            style={{
-                              display: "flex",
-                              justifyContent: "start",
-                              alignItems: "center",
-                              gap: "2px",
-                              fontSize: "7px",
-                            }}
+                            class="col-12 badgeContainer"
                           >
-                            <div
-                              style={{
-                                background: "rgb(141, 141, 253)",
-                                borderRadius: "10px",
-                                paddingInline: "7px",
-                                fontWeight: "bold",
-                              }}
-                            >
+                            <div class="badge">
                               {getFeeWidthFormat(state.poolSelected.pool.fee)}{" "}
                               Fee
                             </div>
-                            <div
-                              style={{
-                                background: "rgb(141, 141, 253)",
-                                borderRadius: "10px",
-                                paddingInline: "7px",
-                                fontWeight: "bold",
-                              }}
+                            <div class="badge"
                             >
                               {getFeeWidthFormat(state.poolSelected.pool.width)}{" "}
                               Width
                             </div>
-                            <div
-                              style={{
-                                background: "rgb(141, 141, 253)",
-                                borderRadius: "10px",
-                                paddingInline: "7px",
-                                fontWeight: "bold",
-                              }}
+                            <div class="badge"
                             >
                               Mode {getMode(state.poolSelected.kind)}
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-12  mt-2" style={{ fontSize: "10px" }}>
+                      <div class="col-12  mt-2 text-10">
                         <div class="row">
                           <div class="col-3 d-flex justify-content-center fw-bold">
                             {state.poolSelected.pool.tokenA.symbol} Balance
@@ -830,13 +1327,8 @@ return (
                       </div>
                       <div class="col-12 mt-2" style={{ textAlign: "center" }}>
                         <img
-                          class="TokenImg"
+                          class="TokenImg poolModeDetailImg"
                           src={getModeImg(state.poolSelected.kind)}
-                          style={{
-                            width: "98%",
-                            height: "98%",
-                            borderRadius: "10px",
-                          }}
                         />
                       </div>
                     </div>
@@ -847,56 +1339,23 @@ return (
               <>
                 <div>
                   <div
-                    class="SendContainer"
-                    style={{ margin: "auto", width: "390px" }}
+                    class="HeaderContainer"
                   >
-                    <div class="row" style={{ color: "white", width: "100%" }}>
-                      <div class="col-12 titleSwap mb-2">Remove Liquidity</div>
+                    <div class="row text-white">
+                      <div class="col-12 titlePortfolio mb-2">Remove Liquidity</div>
                       <div
-                        class="col-3"
-                        style={{
-                          fontSize: "12px",
-                          display: "flex",
-                          justifyContent: "start",
-                        }}
+                        class="col-3 backButtonContainer"
                       >
-                        <div
-                          style={{
-                            width: "110px",
-                            display: "flex",
-                            cursor: "pointer",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "8px",
-                            borderRadius: "4px",
-                            height: "30px",
-                            border: "1px solid #8D8DFD",
-                          }}
+                        <div class="backButton"
                           onClick={() => backToDetail()}
                         >
                           <div class={"ConfirmText"}>Back</div>
                         </div>
                       </div>
                       <div
-                        class="col-5"
-                        style={{
-                          fontSize: "12px",
-                          display: "flex",
-                          justifyContent: "start",
-                        }}
+                        class="col-5 binsButtonContainer"
                       >
-                        <div
-                          style={{
-                            width: "100%",
-                            display: "flex",
-                            cursor: "pointer",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "8px",
-                            borderRadius: "4px",
-                            height: "30px",
-                            background: "#8D8DFD",
-                          }}
+                        <div class="binsButton"
                           onClick={() => selectBins()}
                         >
                           <div class={"ConfirmText"}>
@@ -933,43 +1392,19 @@ return (
                       </div>
                     </div>
                   </div>
-                  <div class="FeesContainer">
-                    <div
-                      style={{
-                        width: "420px",
-                        height: "1px",
-                        background: "rgba(255, 255, 255, 0.1)",
-                      }}
-                    />
+                  <div class="LineContainer">
+                    <div class="Line" />
                   </div>
                   <div
-                    class="SendContainer"
-                    style={{
-                      margin: "auto",
-                      width: "320px",
-                      height: "320px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "start",
-                    }}
+                    class="HeaderContainer removeDetailsBinsContainer"
                   >
-                    <div
-                      class="row"
-                      style={{
-                        color: "white",
-                        fontSize: "12px",
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
+                    <div class="row removeDetailsBins">
                       <div class="row mt-2">
-                        <div class="col-6" style={{ textAlign: "left" }}>
+                        <div class="col-6 text-left">
                           <div class="row">
                             <div class="col-6">
                               <img
-                                class="TokenImg"
-                                style={{ marginRight: "10px" }}
+                                class="TokenImg mr-10"
                                 src={state.poolSelected.pool.tokenA.logoURI}
                               />
                             </div>
@@ -979,12 +1414,7 @@ return (
                           </div>
                         </div>
                         <div
-                          class="col-6"
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "right",
-                          }}
+                          class="col-6 removeDetailsBinsValue"
                         >
                           {state.tokenAToWithdraw == 0
                             ? 0
@@ -992,12 +1422,11 @@ return (
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <div class="col-6" style={{ textAlign: "left" }}>
+                        <div class="col-6 text-left">
                           <div class="row">
                             <div class="col-6">
                               <img
-                                class="TokenImg"
-                                style={{ marginRight: "10px" }}
+                                class="TokenImg mr-10"
                                 src={state.poolSelected.pool.tokenB.logoURI}
                               />
                             </div>
@@ -1007,12 +1436,7 @@ return (
                           </div>
                         </div>
                         <div
-                          class="col-6"
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "right",
-                          }}
+                          class="col-6 removeDetailsBinsValue"
                         >
                           {state.tokenBToWithdraw == 0
                             ? 0
@@ -1020,164 +1444,91 @@ return (
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <div class="col-6" style={{ textAlign: "left" }}>
+                        <div class="col-6 text-left">
                           <div class="row">
                             <div class="col-6">
                               <img
-                                class="TokenImg"
+                                class="TokenImg removeDetailsBinsImg"
                                 src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Fee.png"
-                                style={{
-                                  width: "32px",
-                                  height: "32px",
-                                  filter: "invert(1)",
-                                  marginRight: "10px",
-                                }}
                               />
                             </div>
                             <div
-                              class="col-6 p-0"
-                              style={{ display: "flex", alignItems: "center" }}
+                              class="col-6 p-0 flex items-center"
                             >
                               Fee Tier
                             </div>
                           </div>
                         </div>
                         <div
-                          class="col-6"
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "right",
-                          }}
+                          class="col-6 removeDetailsBinsValue"
                         >
                           {getFeeWidthFormat(state.poolSelected.pool.fee)}
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <div class="col-6" style={{ textAlign: "left" }}>
+                        <div class="col-6 text-left">
                           <div class="row">
                             <div class="col-6">
                               <img
-                                class="TokenImg"
+                                class="TokenImg removeDetailsBinsImg"
                                 src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Width.png"
-                                style={{
-                                  width: "32px",
-                                  height: "32px",
-                                  filter: "invert(1)",
-                                  marginRight: "10px",
-                                }}
                               />
                             </div>
                             <div
-                              class="col-6 p-0"
-                              style={{ display: "flex", alignItems: "center" }}
+                              class="col-6 p-0 flex items-center"
                             >
                               Width
                             </div>
                           </div>
                         </div>
                         <div
-                          class="col-6"
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "right",
-                          }}
+                          class="col-6 removeDetailsBinsValue"
                         >
                           {getFeeWidthFormat(state.poolSelected.pool.width)}
                         </div>
                       </div>
                       <div class="row mt-2">
-                        <div class="col-6" style={{ textAlign: "left" }}>
+                        <div class="col-6 text-left">
                           <div class="row">
                             <div class="col-6">
                               <img
-                                class="TokenImg"
+                                class="TokenImg removeDetailsBinsImg"
                                 src="https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/Mode.png"
-                                style={{
-                                  width: "32px",
-                                  height: "32px",
-                                  filter: "invert(1)",
-                                  marginRight: "10px",
-                                }}
                               />
                             </div>
                             <div
-                              class="col-6 p-0"
-                              style={{ display: "flex", alignItems: "center" }}
+                              class="col-6 p-0 flex items-center"
                             >
                               Mode
                             </div>
                           </div>
                         </div>
                         <div
-                          class="col-6"
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "right",
-                          }}
+                          class="col-6 removeDetailsBinsValue"
                         >
                           {getMode(state.poolSelected.kind)}
                         </div>
                       </div>
                       <div class="row mt-2">
                         <div
-                          class="col-12"
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
+                          class="col-12 removeDetailsButtonContainer"
                         >
                           <>
                             {state.countBinsToRemove > 0 ? (
                               state.balanceNFT > 0 ? (
-                                <div
-                                  style={{
-                                    width: "110px",
-                                    display: "flex",
-                                    cursor: "pointer",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    gap: "8px",
-                                    borderRadius: "4px",
-                                    background: "rgb(141, 141, 253)",
-                                    height: "30px",
-                                  }}
+                                <div class="confirmRemoveButton"
                                   onClick={() => confirmRemove()}
                                 >
                                   <div class={"ConfirmText"}>Connfirm</div>
                                 </div>
                               ) : !state.onApprovingNFT ? (
-                                <div
-                                  style={{
-                                    width: "110px",
-                                    display: "flex",
-                                    cursor: "pointer",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    gap: "8px",
-                                    borderRadius: "4px",
-                                    background: "rgb(141, 141, 253)",
-                                    height: "30px",
-                                  }}
+                                <div class="approveNFTButton"
                                   onClick={() => approveNFT()}
                                 >
                                   <div class={"ConfirmText"}>Approve NFT</div>
                                 </div>
                               ) : (
-                                <div
-                                  style={{
-                                    width: "190px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    gap: "8px",
-                                    borderRadius: "4px",
-                                    height: "30px",
-                                    border: "1px solid #8D8DFD",
-                                  }}
+                                <div class="onApprovingNFT"
                                 >
                                   <div
                                     class={"ConfirmText"}
@@ -1185,18 +1536,7 @@ return (
                                 </div>
                               )
                             ) : (
-                              <div
-                                style={{
-                                  width: "110px",
-                                  display: "flex",
-                                  cursor: "pointer",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  gap: "8px",
-                                  borderRadius: "4px",
-                                  background: "rgba(255, 255, 255, 0.1)",
-                                  height: "30px",
-                                }}
+                              <div class="confirmRemoveButtonDisabled"
                               >
                                 <div class={"ConfirmTextDisabled"}>
                                   Connfirm
