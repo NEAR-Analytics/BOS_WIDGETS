@@ -134,6 +134,7 @@ function getCommentBlackListByBlockHeight() {
 function filterInvalidArticlesIndexes(commentIndexes) {
   return commentIndexes.filter(
     (commentIndexes) =>
+      commentIndexes.blockHeight &&
       !getCommentBlackListByBlockHeight().includes(commentIndexes.blockHeight) // Comment is not in blacklist
   );
 }
@@ -141,8 +142,9 @@ function filterInvalidArticlesIndexes(commentIndexes) {
 function getValidComments(props) {
   const { id, articleSbts } = props;
   const commentIndexes = getComments(id);
-  const blacklistFilteredComments =
-    filterInvalidArticlesIndexes(commentIndexes);
+  const blacklistFilteredComments = commentIndexes
+    ? filterInvalidArticlesIndexes(commentIndexes)
+    : [];
 
   let finalComments = blacklistFilteredComments;
   if (articleSbts.length > 0) {
