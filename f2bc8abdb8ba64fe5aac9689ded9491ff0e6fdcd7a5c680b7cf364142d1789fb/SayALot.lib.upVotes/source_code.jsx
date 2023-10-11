@@ -171,7 +171,6 @@ function getUpVotes(props) {
 
 function addVote(props) {
   const { id } = props;
-  console.log("Inside AddVote");
   saveUpVote(id);
 
   resultLibCalls = resultLibCalls.filter((call) => {
@@ -216,7 +215,6 @@ function composeDeleteUpVoteData(id, upVoteId) {
 }
 
 function composeUpVoteData(id) {
-  console.log("Inside composeUpVoteData");
   const data = {
     index: {
       [action]: JSON.stringify({
