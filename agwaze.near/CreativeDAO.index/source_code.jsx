@@ -83,7 +83,6 @@ const Root = styled.div`
 const tabContentWidget = {
   feeds: "astraplusplus.ndctools.near/widget/Feed.index",
   discussion: "agwaze.near/widget/CreativeDAO.Discussions",
-  collaboration: "nearhorizon.near/widget/Index?tab=profile&content=founders",
   polling: "agwaze.near/widget/CreativeDAO.EasyPoll",
 }[state.tab];
 
