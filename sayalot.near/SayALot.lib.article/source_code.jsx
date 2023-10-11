@@ -2,7 +2,7 @@ const { isTest, stateUpdate, libCalls } = props;
 
 //TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
 
-const prodAction = "sayALotArticle_v0.0.1";
+const prodAction = "sayALotArticle_v0.0.2";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -12,7 +12,7 @@ const authorForWidget = "sayalot.near";
 // const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
-State.init({ libCalls: [] });
+State.init({ libCalls: [], sbt: "fractal.i-am-human.near - class 1" });
 
 function libStateUpdate(obj) {
   State.update(obj);
@@ -82,7 +82,6 @@ function canUserCreateArticle(props) {
   const { env, accountId, sbtsNames } = props;
 
   setAreValidUsers([accountId], sbtsNames);
-
   const result = state[`isValidUser-${accountId}`];
 
   resultLibCalls = resultLibCalls.filter((call) => {
@@ -125,7 +124,7 @@ function composeData(article) {
         key: "main",
         value: {
           type: "md",
-          id: article.realArticleId ?? `${context.accountId}-${Date.now()}`,
+          id: article.id ?? `${context.accountId}-${Date.now()}`,
         },
       }),
     },
@@ -144,7 +143,7 @@ function composeData(article) {
 }
 
 const saveHandler = (article, onCommit, onCancel) => {
-  if (article.articleId && article.body) {
+  if (article.title && article.body) {
     const newData = composeData(article);
 
     Social.set(newData, {
@@ -168,7 +167,7 @@ function getArticlesIndexes() {
 function getArticleBlackListByBlockHeight() {
   return [
     91092435, 91092174, 91051228, 91092223, 91051203, 98372095, 96414482,
-    96412953,
+    96412953, 103131250,
   ];
 }
 
@@ -190,11 +189,11 @@ function getArticleBlackListByRealArticleId() {
 function filterInvalidArticlesIndexes(env, articlesIndexes) {
   return (
     articlesIndexes
-      .filter((articleIndex) => articleIndex.value.id) // Has realArticleId
+      .filter((articleIndex) => articleIndex.value.id) // Has id
       .filter(
         (articleIndex) =>
           articleIndex.value.id.split("-")[0] === articleIndex.accountId
-      ) // realArticleId begins with same accountId as index object
+      ) // id begins with same accountId as index object
       // .filter((articleIndex) =>
       //   getWritersWhitelist(env).includes(articleIndex.accountId)
       // ) // Account is in whitelist
@@ -230,7 +229,7 @@ function getArticle(articleIndex) {
   if (article) {
     articleParsed = JSON.parse(article);
     articleParsed.blockHeight = articleIndex.blockHeight;
-    articleParsed.realArticleId = articleIndex.value.id;
+    articleParsed.id = articleIndex.value.id;
   }
 
   if (articleParsed) {
@@ -326,8 +325,7 @@ function getLastEditArticles(props) {
   const finalOldFormatArticles = oldFormatArticles.filter(
     (oldFormatArticle) => {
       return !newFormatArticles.find(
-        (newFormatArticle) =>
-          newFormatArticle.articleId === oldFormatArticle.articleId
+        (newFormatArticle) => newFormatArticle.title === oldFormatArticle.title
       );
     }
   );
@@ -341,13 +339,13 @@ function getLastEditArticles(props) {
     validFormatLastEditionArticles.map((article) => {
       return article.author;
     });
-  setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtsNames);
-  const validAuthors = validFormatLastEditionArticlesAuthors.filter(
-    (author) => {
-      return state[`isValidUser-${author}`] === true;
-    }
-  );
 
+  setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtsNames);
+  // const validAuthors = validFormatLastEditionArticlesAuthors.filter(
+  //   (author) => {
+  //     return state[`isValidUser-${author}`] === true;
+  //   }
+  // );
   resultLibCalls = resultLibCalls.filter((call) => {
     const discardCondition =
       call.functionName === "getLastEditArticles" &&
@@ -355,23 +353,18 @@ function getLastEditArticles(props) {
     return !discardCondition;
   });
 
-  const validFilteredArticles = validFormatLastEditionArticles.filter(
-    (article) => {
+  const finalArticles = filterValidArticles(validFormatLastEditionArticles);
+
+  const finalArticlesMapped = {};
+  sbtsNames.forEach((sbtName) => {
+    const sbtArticles = finalArticles.filter((article) => {
       if (!article.sbts) return false;
-      return (
-        sbtsNames.filter((sbtName) => {
-          return article.sbts.indexOf(sbtName) !== -1;
-        }).length > 0
-      );
-    }
-  );
+      return article.sbts.indexOf(sbtName) !== -1;
+    });
+    finalArticlesMapped[sbtName] = sbtArticles;
+  });
 
-  const finalArticles = filterValidArticles(
-    validFilteredArticles,
-    validAuthors
-  );
-
-  return finalArticles;
+  return finalArticlesMapped;
 }
 
 function convertArticlesTagsToValidFormat(articlesArray) {
@@ -393,36 +386,39 @@ function convertArticlesTagsToValidFormat(articlesArray) {
   return validFormatArticlesArray;
 }
 
-function filterValidator(articles, validAuthors) {
+function filterValidator(articles) {
   return articles.filter((article) => {
-    return validAuthors.includes(article.author);
+    return (
+      article.sbts.find((articleSbt) => {
+        return state[`isValidUser-${article.author}`][articleSbt];
+      }) !== undefined
+    );
+
+    // return authors.includes(article.author);
   });
 }
 
-function filterValidArticles(articles, validAuthors) {
-  let filteredArticles = filterValidator(
-    filteredArticles ?? articles,
-    validAuthors
-  );
+function filterValidArticles(articles) {
+  let filteredArticles = filterValidator(filteredArticles ?? articles);
 
   return filteredArticles;
 }
 
 function getComments(args) {
-  const { realArticleId } = args;
-  const key = realArticleId;
+  const { id } = args;
+  const key = id;
   return Social.index(action, key);
 }
 
 function setComment(args) {
-  const { realArticleId, text, previousCommentId } = args;
+  const { id, text, previousCommentId } = args;
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: realArticleId,
+        key: id,
         value: {
           text,
-          id: `${realArticleId}-${Date.now()}`,
+          id: `${id}-${Date.now()}`,
           previousCommentId,
         },
       }),
