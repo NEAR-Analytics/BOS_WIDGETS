@@ -42,7 +42,7 @@ return (
   <>
     <TrendingUsersView>
       <Widget
-        src={`scopalaffairs.near/widget/Recommender.Service.RecommendedUsers`}
+        src={`${REPL_ACCOUNT}/widget/Recommender.Service.RecommendedUsers`}
         props={{
           dataset: dataset,
           sidebar: props.sidebar,
@@ -54,7 +54,7 @@ return (
     </TrendingUsersView>
     {props.sidebar && (
       <>
-        <ButtonLink href="#/scopalaffairs.near/widget/PeoplePage?tab=trending">
+        <ButtonLink href="#/${REPL_ACCOUNT}/widget/PeoplePage?tab=trending">
           View Trending Users
         </ButtonLink>
       </>
