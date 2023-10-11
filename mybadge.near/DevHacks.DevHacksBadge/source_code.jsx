@@ -4,6 +4,7 @@ return (
     props={{
       iconSrc: "mybadge.near/widget/DevHacks.LogoIcon",
       label: "DevHacks",
+      color: "blue",
     }}
   />
 );
