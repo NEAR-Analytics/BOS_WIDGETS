@@ -1,7 +1,7 @@
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/${REPL_ACCOUNT}/widget/ProfilePage?accountId=${accountId}`;
 
 const abbreviateNumber = (value) => {
   let newValue = value;
@@ -137,7 +137,7 @@ return (
   <LargeCard>
     <Avatar href={profileUrl}>
       <Widget
-        src="scopalaffairs.near/widget/Recommender.Engagement.ImageTracked"
+        src="${REPL_ACCOUNT}/widget/Recommender.Engagement.ImageTracked"
         props={{
           accountId: props.accountId,
           accountIdRank: props.accountIdRank,
@@ -148,7 +148,7 @@ return (
       />
     </Avatar>
     <Widget
-      src="scopalaffairs.near/widget/Recommender.Engagement.CenteredLinksWrapperTracked"
+      src="${REPL_ACCOUNT}/widget/Recommender.Engagement.CenteredLinksWrapperTracked"
       props={{
         accountId: props.accountId,
         accountIdRank: props.accountIdRank,
@@ -161,7 +161,7 @@ return (
 
     <TagsWrapper>
       <Widget
-        src="scopalaffairs.near/widget/Tags"
+        src="${REPL_ACCOUNT}/widget/Tags"
         props={{ tags, scroll: true }}
       />
     </TagsWrapper>
@@ -228,7 +228,7 @@ return (
     {context.accountId && context.accountId !== props.accountId ? (
       <Button>
         <Widget
-          src="scopalaffairs.near/widget/Recommender.Engagement.FollowButtonTracked"
+          src="${REPL_ACCOUNT}/widget/Recommender.Engagement.FollowButtonTracked"
           props={{
             accountIdRank: props.accountIdRank || null,
             accountId: accountId || props.accountId,
