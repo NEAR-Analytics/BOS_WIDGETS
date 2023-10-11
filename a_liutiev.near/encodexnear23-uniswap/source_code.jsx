@@ -1,10 +1,7 @@
 const uniswapV2RouterContract = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
-const uniswapABI = fetch(
-  "http://api.etherscan.io/api?module=contract&action=getabi&address=0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D&format=raw"
-);
 
-const iface = new ethers.utils.Interface(uniswapABI.body);
 const tokenDecimals = 18;
+
 const options = [
   { name: "APPLE", price: 5 },
   { name: "BANANA", price: 0 },
@@ -50,6 +47,15 @@ if (!state.theme) {
 const Theme = state.theme;
 const web3connectLabel = state.web3connectLabel || "n/a";
 
+// FRONT END CONTROLS
+const handleIncrement = () => {
+  State.update((prev) => ({ price: prev.price + 1 }));
+};
+
+const handleDecrement = () => {
+  if (state.price > 0) State.update((prev) => ({ price: prev.price - 1 }));
+};
+
 const handleMaxClick = () => {
   console.log("MAX clicked!");
   // Add functionality for max click here
@@ -60,8 +66,67 @@ const handleApprove = () => {
   // Add functionality for approve here
 };
 
+const updateOptionPrice = (name, newPrice) => {
+  const updatedOptions = state.options.map((option) => {
+    if (option.name === name) {
+      return { ...option, price: newPrice };
+    }
+    return option;
+  });
+  State.update({ options: updatedOptions });
+};
+
 const toggleShowButtons = () => {
   State.update({ showButtons: !state.showButtons });
+};
+
+// HELPER FUNCTIONS/STATE
+if (state.txCost === undefined) {
+  const gasEstimate = ethers.BigNumber.from(1875000);
+  const gasPrice = ethers.BigNumber.from(1500000000);
+
+  const gasCostInWei = gasEstimate.mul(gasPrice);
+  const gasCostInEth = ethers.utils.formatEther(gasCostInWei);
+
+  let responseGql = fetch(
+    "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `{
+          bundle(id: "1" ) {
+            ethPrice
+          }
+        }`,
+      }),
+    }
+  );
+
+  if (!responseGql) return "";
+
+  const ethPriceInUsd = responseGql.body.data.bundle.ethPrice;
+
+  const txCost = Number(gasCostInEth) * Number(ethPriceInUsd);
+
+  State.update({ txCost: `$${txCost.toFixed(2)}` });
+}
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+    console.log("set sender", accounts[0]);
+  }
+}
+
+// getters
+const getSender = () => {
+  return !state.sender
+    ? ""
+    : state.sender.substring(0, 6) +
+        "..." +
+        state.sender.substring(state.sender.length - 4, state.sender.length);
 };
 
 return (
@@ -103,7 +168,7 @@ return (
         </div>
         <div class="card-footer">
           <div className="centered-container">
-            <p>{}</p>
+            <p>{getSender()}</p>
           </div>
         </div>
       </div>
@@ -141,14 +206,34 @@ return (
                 );
                 State.update({ fruitSelection1: selectedOption });
               }}
-            ></select>
+            >
+              {state.options.map((option) => (
+                <option value={option.name} key={option.name}>
+                  {option.name}
+                </option>
+              ))}
+            </select>
 
             <select
-              value={state.fruitSelection2}
-              onChange={(e) =>
-                State.update({ fruitSelection2: e.target.value })
-              }
-            ></select>
+              value={state.fruitSelection2.name}
+              onChange={(e) => {
+                const selectedOption = state.options.find(
+                  (opt) => opt.name === e.target.value
+                );
+                State.update({ fruitSelection2: selectedOption });
+              }}
+            >
+              {state.options
+                .filter((option) => option.name === "banana")
+                .concat(
+                  state.options.filter((option) => option.name !== "banana")
+                )
+                .map((option) => (
+                  <option value={option.name} key={option.name}>
+                    {option.name}
+                  </option>
+                ))}
+            </select>
           </div>
           <div className="container">
             <input
@@ -223,7 +308,7 @@ return (
             </a>
           </div>
           <div>
-            <p>Estimated Transaction Cost: {}</p>
+            <p>Estimated Transaction Cost: {state.txCost}</p>
           </div>
         </div>
 
