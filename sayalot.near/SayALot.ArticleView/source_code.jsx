@@ -48,7 +48,7 @@ const tabs = [
   },
 ];
 
-const prodAction = "sayALotArticle";
+const prodAction = "sayALotArticle_v0.0.3";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -639,7 +639,7 @@ return (
                       props={{
                         Button: {
                           text: `Edit`,
-                          className: `primary dark`,
+                          className: `primary dark mt-2`,
                           onClick: () => handleEditArticle(articleToRenderData),
                           icon: <i className="bi bi-pencil"></i>,
                         },
@@ -655,7 +655,7 @@ return (
               <PlatformContent>
                 <ContentHeader>
                   <ContentHeaderText>
-                    {articleToRenderData.articleId}
+                    {articleToRenderData.title}
                   </ContentHeaderText>
                 </ContentHeader>
 
