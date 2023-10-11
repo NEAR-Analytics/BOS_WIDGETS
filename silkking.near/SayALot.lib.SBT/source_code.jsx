@@ -18,7 +18,8 @@ function isValidUser(props) {
     return { name: data[0], classNumber: Number(data[1]) };
   });
   console.log(4, sbtsNames);
-  const usersValidityBySBT = sbtsNames.map((sbtName, index) => {
+  const usersValidityBySBT = {};
+  sbtsNames.forEach((sbtName, index) => {
     const userValidityBySBT =
       userSBTs.find((userSbt) => {
         console.log(3, userSbt, sbtsData);
@@ -30,9 +31,7 @@ function isValidUser(props) {
           )
         );
       }) !== undefined;
-    return {
-      [sbtName]: userValidityBySBT,
-    };
+    usersValidityBySBT[sbtName] = userValidityBySBT;
   });
   // const sbtsFiltered = userSBTs.filter((sbt) => {
   //   return sbt[0] === sbtsData[0].name;
