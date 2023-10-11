@@ -13,14 +13,14 @@ useEffect(() => {
   }
 }, [isInit]);
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    const updatedMessages = [...sentMessages];
-    updatedMessages.pop();
-    setSentMessages(updatedMessages);
-  }, 500);
-  return () => clearInterval(interval);
-}, []);
+// useEffect(() => {
+//   const interval = setInterval(() => {
+//     const updatedMessages = [...sentMessages];
+//     updatedMessages.pop();
+//     setSentMessages(updatedMessages);
+//   }, 500);
+//   return () => clearInterval(interval);
+// }, []);
 
 // useEffect(() => {
 //   console.log({ textRef: textRef.current });
