@@ -1,31 +1,15 @@
-const [value, setValue] = useState(0);
 const [message, setMessage] = useState("");
 const [sentMessages, setSentMessages] = useState([]);
-const [isInit, setIsInit] = useState(false);
-// const [value, setValue] = [4, console.log];
-// const textRef = useRef(null);
-
-useEffect(() => {
-  console.log({ isInit });
-  if (!isInit) {
-    setTimeout(() => setValue(500), 5000);
-    setIsInit(true);
-  }
-}, [isInit]);
+const [delay, setDelay] = useState(0);
 
 useEffect(() => {
   const interval = setInterval(() => {
     const updatedMessages = [...sentMessages];
     updatedMessages.pop();
     setSentMessages(updatedMessages);
-  }, 5000);
+  }, 15000);
   return () => clearInterval(interval);
 }, []);
-
-// useEffect(() => {
-//   console.log({ textRef: textRef.current });
-//   textRef.current?.focus();
-// }, [textRef.current]);
 
 return (
   <>
@@ -57,7 +41,11 @@ return (
       <label className="input-group-text" htmlFor="inputGroupSelect01">
         Delay
       </label>
-      <select className="form-select" id="inputGroupSelect01">
+      <select
+        className="form-select"
+        id="inputGroupSelect01"
+        onChange={console.log}
+      >
         <option value="0">Instant</option>
         <option value="100">0.1 seconds</option>
         <option value="500">0.5 seconds</option>
