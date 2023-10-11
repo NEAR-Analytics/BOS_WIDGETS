@@ -386,7 +386,6 @@ const tokenDiv = (
       onChange={(event) => State.update({ token: event.target.value })}
       className="form-select"
       aria-label="Select currency"
-      value={state.token}
     >
       <option value="USDT">USDT</option>
       <option value="NEAR">NEAR</option>
@@ -497,7 +496,6 @@ const fundraisingDiv = (
         onChange={(event) => State.update({ token: event.target.value })}
         className="form-select"
         aria-label="Select currency"
-        value={state.token}
       >
         <option value="USDT">USDT</option>
         <option value="NEAR">NEAR</option>
