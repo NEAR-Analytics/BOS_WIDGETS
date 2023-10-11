@@ -14,7 +14,7 @@ useEffect(() => {
         "X-Api-Key": "WjEkKnB/Up2bSf9gQ7Rb/w==5NeZT3zzgVKShfic",
       },
     });
-    console.log((await res.json())[0]);
+    setBearFact((await res.json())[0].fact);
   })();
 }, [step]);
 
