@@ -8,7 +8,7 @@ const DIMENSIONAL_INCREMENT = 25;
 
 useEffect(() => {
   (async () => {
-    const res = fetch("https://api.api-ninjas.com/v1/facts?limit=1");
+    const res = await fetch("https://api.api-ninjas.com/v1/facts?limit=1");
     console.log(res);
   })();
 }, [step]);
