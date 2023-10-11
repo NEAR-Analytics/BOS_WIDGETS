@@ -14,6 +14,8 @@ useEffect(() => {
         "X-Api-Key": "WjEkKnB/Up2bSf9gQ7Rb/w==5NeZT3zzgVKShfic",
       },
     });
+    setWidth(width + DIMENSIONAL_INCREMENT);
+    setHeight(height + DIMENSIONAL_INCREMENT);
     setBearFact((await res.json())[0].fact);
   })();
 }, [step]);
@@ -71,8 +73,6 @@ return (
         type="button"
         onClick={() => {
           setStep(step + 1);
-          setWidth(width + DIMENSIONAL_INCREMENT);
-          setHeight(height + DIMENSIONAL_INCREMENT);
         }}
       >
         MORE FACTS
