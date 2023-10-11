@@ -1,5 +1,5 @@
 const Dropdown = styled.select`
-.Dropdown{
+
 box-sizing: border-box;
 display: flex;
 flex-direction: row;
@@ -28,7 +28,7 @@ color: #828688;
 @media only screen and (max-width: 480px) {
    
 }
-  }
+  
 `;
 
 const H1styled = styled.h1`
