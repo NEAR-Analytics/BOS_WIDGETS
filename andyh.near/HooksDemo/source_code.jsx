@@ -3,6 +3,9 @@ const [text, setText] = useState("");
 const [isInit, setIsInit] = useState(false);
 // const [value, setValue] = [4, console.log];
 // const textRef = useRef(null);
+if (isInit) {
+  useEffect(() => console.log("oops!"), []);
+}
 
 useEffect(() => {
   console.log({ isInit });
