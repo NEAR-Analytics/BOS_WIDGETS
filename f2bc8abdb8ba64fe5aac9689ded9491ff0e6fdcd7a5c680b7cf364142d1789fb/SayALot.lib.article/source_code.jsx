@@ -458,22 +458,4 @@ if (libCalls && libCalls.length > 0) {
   stateUpdate(updateObj);
 }
 
-function changeSbt() {
-  State.update({ sbt: "community.i-am-human.near - class 1" });
-}
-
-const articles = getLastEditArticles({
-  sbtsNames: [
-    "fractal.i-am-human.near - class 1",
-    "community.i-am-human.near - class 1",
-    "community.i-am-human.near - class 2",
-  ],
-});
-
-return (
-  <div>
-    <div>{JSON.stringify(articles)}</div>
-    <button onClick={changeSbt}>Change</button>
-    <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>
-  </div>
-);
+return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
