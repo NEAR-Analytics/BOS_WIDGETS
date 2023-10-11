@@ -7,7 +7,7 @@ const UNITROLLER_ABI = [
     type: "function",
   },
 ];
-const { loading, market, dapp, onSuccess, onError } = props;
+const { loading, dapp, onSuccess, onError } = props;
 
 if (!loading) return "";
 
