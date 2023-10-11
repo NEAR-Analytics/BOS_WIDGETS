@@ -75,7 +75,7 @@ return (
     }}
   >
     <Widget
-      src="${REPL_ACCOUNT}/widget/Recommender.Service.EngagementTracker"
+      src="scopalaffairs.near/widget/Recommender.Service.EngagementTracker"
       props={{
         accountId: props.accountId,
         accountIdRank: props.accountIdRank,
@@ -89,7 +89,7 @@ return (
       <Wrapper>
         <AvatarCount className="hover-state1">
           <Widget
-            src="${REPL_ACCOUNT}/widget/Recommender.Views.RecommendedAvatars"
+            src="scopalaffairs.near/widget/Recommender.Views.RecommendedAvatars"
             props={{
               avatarSize: "25px",
               becauseYouFollow: props.becauseYouFollow,
@@ -117,7 +117,7 @@ return (
       <Text small style={{ marginLeft: "auto" }}>
         Joined{" "}
         <Widget
-          src="${REPL_MOB_2}/widget/TimeAgo${REPL_TIME_AGO_VERSION}"
+          src="mob.near/widget/TimeAgo${REPL_TIME_AGO_VERSION}"
           props={{ blockHeight: props.blockHeight }}
         />{" "}
         ago
