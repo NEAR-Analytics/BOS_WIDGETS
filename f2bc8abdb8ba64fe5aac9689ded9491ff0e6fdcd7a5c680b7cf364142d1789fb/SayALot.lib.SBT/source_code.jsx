@@ -4,7 +4,6 @@ let resultLibCalls = [];
 
 function isValidUser(props) {
   const { accountId, sbtsNames } = props;
-
   const userSBTs = Near.view(
     "registry.i-am-human.near",
     "sbt_tokens_by_owner",
@@ -15,40 +14,29 @@ function isValidUser(props) {
 
   const sbtsData = sbtsNames.map((sbt) => {
     const data = sbt.split(" - class ");
-    return { name: data[0], classNumber: data[1] };
+    return { name: data[0], classNumber: Number(data[1]) };
   });
-
-  const sbtsFiltered = userSBTs.filter((sbt) => {
-    return sbt[0] === sbtsData[0].name;
-  });
-
-  const classFiltered = sbtsFiltered[0][1]
-    ? sbtsFiltered[0][1].find((sbt) => {
+  const usersValidityBySBT = {};
+  sbtsNames.forEach((sbtName, index) => {
+    const userValidityBySBT =
+      userSBTs.find((userSbt) => {
         return (
-          Number(sbt.metadata["class"]) === Number(sbtsData[0].classNumber)
+          userSbt[0] === sbtsData[index].name &&
+          userSbt[1].find(
+            (sbtExtraData) =>
+              sbtExtraData.metadata["class"] === sbtsData[index].classNumber
+          )
         );
-      })
-    : undefined;
+      }) !== undefined;
+    usersValidityBySBT[sbtName] = userValidityBySBT;
+  });
 
-  const result = classFiltered !== undefined;
-
-  // const result =
-  //   userSBTs
-  //     .filter((sbt) => {
-  //       return sbt[0] === sbtsData[0].name;
-  //     })
-  //     .find((sbt) => {
-  //       return (
-  //         Number(sbt[1].metadata["class"]) === Number(sbtsData[0].classNumber)
-  //       );
-  //     }) !== undefined;
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "isValidUser";
   });
 
   // return true;
-
-  return result;
+  return { ...usersValidityBySBT };
 }
 
 function getLoggedUserSbts(props) {
