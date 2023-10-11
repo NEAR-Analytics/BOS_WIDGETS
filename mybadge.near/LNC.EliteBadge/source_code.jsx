@@ -4,6 +4,7 @@ return (
     props={{
       iconSrc: "mybadge.near/widget/LNC.LogoIcon",
       label: "Elite",
+      color: "blue",
     }}
   />
 );
