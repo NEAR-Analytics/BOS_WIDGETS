@@ -2,27 +2,27 @@ const DEFAULT_COLOR = "gray";
 
 const palette = {
   red: {
-    iconBackground: "#222222",
-    textBackground: "#DB504A",
-    text: "#fff",
+    iconBackground: "#DB504A",
+    textBackground: "#E7ECEF",
+    text: "#222",
     icon: "#fff",
   },
   green: {
-    iconBackground: "#222222",
-    textBackground: "#16AD38",
-    text: "#fff",
+    iconBackground: "#16AD38",
+    textBackground: "#E7ECEF",
+    text: "#222",
     icon: "#fff",
   },
   blue: {
-    iconBackground: "#222222",
-    textBackground: "#4A73DB",
-    text: "#fff",
+    iconBackground: "#4A73DB",
+    textBackground: "#E7ECEF",
+    text: "#222",
     icon: "#fff",
   },
   gray: {
-    iconBackground: "#222222",
+    iconBackground: "#222",
     textBackground: "#E7ECEF",
-    text: "#222222",
+    text: "#222",
     icon: "#fff",
   },
 };
