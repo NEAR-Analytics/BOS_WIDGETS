@@ -144,6 +144,11 @@ const tokenMapping = {
       address: "usdt.tether-token.near",
     },
   },
+  USDC: {
+    NEP141: {
+      address: "usdc.tether-token.near",
+    },
+  },
 };
 
 const onSubmit = () => {
@@ -375,17 +380,17 @@ const amountDiv = (
 );
 
 const tokenDiv = (
-  <div className="col-lg-6  mb-2">
+  <div className="col-lg-6 mb-2">
     Currency
     <select
       onChange={(event) => State.update({ token: event.target.value })}
-      class="form-select form-select-sm"
-      aria-label="Default select"
+      className="form-select"
+      aria-label="Select currency"
+      value={state.token}
     >
-      <option selected value={"USDT"}>
-        USDT
-      </option>
+      <option value="USDT">USDT</option>
       <option value="NEAR">NEAR</option>
+      <option value="USDC">USDC</option>
     </select>
   </div>
 );
@@ -486,17 +491,17 @@ const isFundraisingDiv = (
 
 const fundraisingDiv = (
   <div class="d-flex flex-column mb-2">
-    <div className="col-lg-6  mb-2">
+    <div className="col-lg-6 mb-2">
       Currency
       <select
         onChange={(event) => State.update({ token: event.target.value })}
-        class="form-select form-select-md"
-        aria-label="Default select example"
+        className="form-select"
+        aria-label="Select currency"
+        value={state.token}
       >
-        <option selected value="NEAR">
-          NEAR
-        </option>
-        <option value={"USDT"}>USDT</option>
+        <option value="USDT">USDT</option>
+        <option value="NEAR">NEAR</option>
+        <option value="USDC">USDC</option>
       </select>
     </div>
     <div className="col-lg-6 mb-2">
