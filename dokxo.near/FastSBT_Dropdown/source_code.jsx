@@ -74,7 +74,11 @@ return (
         Select issuer
       </option>
       {props.options.map((op) => {
-        return <option value={op.value}>{op.label}</option>;
+        return (
+          <option default={op.def ? op.def : false} value={op.value}>
+            {op.label}
+          </option>
+        );
       })}
 
       <option value={props._type.SHOWINPUT}>Other -- write it.</option>
