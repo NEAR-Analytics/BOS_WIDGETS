@@ -31,6 +31,7 @@ return (
   <>
     <h3>Send a message to the Future</h3>
 
+    <div className="mb-3">{sentMessages.length}</div>
     <div className="input-group mb-3">
       <label className="input-group-text" htmlFor="inputGroupSelect0">
         Message
@@ -60,7 +61,10 @@ return (
       <button
         className="btn btn-primary"
         type="button"
-        onClick={() => console.log("i am a buton")}
+        onClick={() => {
+          setSentMessages([...sentMessages].push(message));
+          setMessage("");
+        }}
       >
         Send Message
       </button>
