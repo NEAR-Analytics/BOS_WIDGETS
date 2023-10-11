@@ -12,7 +12,7 @@ const authorForWidget =
 // const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
-State.init({ libCalls: [] });
+State.init({ libCalls: [], sbt: "fractal.i-am-human.near - class 1" });
 
 function libStateUpdate(obj) {
   State.update(obj);
@@ -341,12 +341,12 @@ function getLastEditArticles(props) {
     });
 
   setAreValidUsers(validFormatLastEditionArticlesAuthors, sbtsNames);
-  const validAuthors = validFormatLastEditionArticlesAuthors.filter(
-    (author) => {
-      return state[`isValidUser-${author}`] === true;
-    }
-  );
-
+  // const validAuthors = validFormatLastEditionArticlesAuthors.filter(
+  //   (author) => {
+  //     return state[`isValidUser-${author}`] === true;
+  //   }
+  // );
+  console.log(10, state);
   resultLibCalls = resultLibCalls.filter((call) => {
     const discardCondition =
       call.functionName === "getLastEditArticles" &&
@@ -354,23 +354,18 @@ function getLastEditArticles(props) {
     return !discardCondition;
   });
 
-  const validFilteredArticles = validFormatLastEditionArticles.filter(
-    (article) => {
+  const finalArticles = filterValidArticles(validFormatLastEditionArticles);
+
+  const finalArticlesMapped = {};
+  sbtsNames.forEach((sbtName) => {
+    const sbtArticles = finalArticles.filter((article) => {
       if (!article.sbts) return false;
-      return (
-        sbtsNames.filter((sbtName) => {
-          return article.sbts.indexOf(sbtName) !== -1;
-        }).length > 0
-      );
-    }
-  );
+      return article.sbts.indexOf(sbtName) !== -1;
+    });
+    finalArticlesMapped[sbtName] = sbtArticles;
+  });
 
-  const finalArticles = filterValidArticles(
-    validFilteredArticles,
-    validAuthors
-  );
-
-  return finalArticles;
+  return finalArticlesMapped;
 }
 
 function convertArticlesTagsToValidFormat(articlesArray) {
@@ -392,17 +387,20 @@ function convertArticlesTagsToValidFormat(articlesArray) {
   return validFormatArticlesArray;
 }
 
-function filterValidator(articles, validAuthors) {
+function filterValidator(articles) {
   return articles.filter((article) => {
-    return validAuthors.includes(article.author);
+    return (
+      article.sbts.find((articleSbt) => {
+        return state[`isValidUser-${article.author}`][articleSbt];
+      }) !== undefined
+    );
+
+    // return authors.includes(article.author);
   });
 }
 
-function filterValidArticles(articles, validAuthors) {
-  let filteredArticles = filterValidator(
-    filteredArticles ?? articles,
-    validAuthors
-  );
+function filterValidArticles(articles) {
+  let filteredArticles = filterValidator(filteredArticles ?? articles);
 
   return filteredArticles;
 }
@@ -461,4 +459,22 @@ if (libCalls && libCalls.length > 0) {
   stateUpdate(updateObj);
 }
 
-return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
+function changeSbt() {
+  State.update({ sbt: "community.i-am-human.near - class 1" });
+}
+
+const articles = getLastEditArticles({
+  sbtsNames: [
+    "fractal.i-am-human.near - class 1",
+    "community.i-am-human.near - class 1",
+    "community.i-am-human.near - class 2",
+  ],
+});
+
+return (
+  <div>
+    <div>{JSON.stringify(articles)}</div>
+    <button onClick={changeSbt}>Change</button>
+    <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>
+  </div>
+);
