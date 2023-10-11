@@ -77,7 +77,7 @@ const ContentContainer = styled.div`
 
 //jgodwill.near/widget/GenaDrop.MultiListing
 const tabContentWidget = {
-  feeds: "https://near.social/astraplusplus.ndctools.near/widget/Feed.index",
+  feeds: "astraplusplus.ndctools.near/widget/Feed.index",
   discussion: "agwaze.near/widget/CreativeDAO.Discussions",
   collaboration: "https://near.org/nearhorizon.near/widget/Index",
   polling: "agwaze.near/widget/CreativeDAO.EasyPoll",
@@ -87,6 +87,7 @@ const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
 
 return (
   <Content>
+  <h1>Drop Flow</h1>
     <Sidebar show={showSidebar}>
       <Widget
         src={`${ownerId}/widget/CreativeDAO.Navbar`}
