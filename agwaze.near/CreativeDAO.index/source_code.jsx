@@ -90,7 +90,7 @@ const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
 
 return (
   <Root>
-    <h1>Drop Flow Skeletons</h1>
+    <h1>Drop Flow</h1>
     <Content>
       <Sidebar show={showSidebar}>
         <Widget
