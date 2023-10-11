@@ -1,6 +1,6 @@
 const accountId = props.accountId || context.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `#/${REPL_ACCOUNT}/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
 const verifications = props.verifications;
 const showFlagAccountFeature = props.showFlagAccountFeature ?? false;
 
@@ -79,7 +79,7 @@ const AccountProfile = (
   >
     <Avatar>
       <Widget
-        src="${REPL_MOB}/widget/Image"
+        src="mob.near/widget/Image"
         props={{
           image: profile.image,
           alt: profile.name,
@@ -127,7 +127,7 @@ const AccountProfile = (
           <Text small style={{ marginLeft: "auto" }}>
             Joined{" "}
             <Widget
-              src="${REPL_MOB_2}/widget/TimeAgo${REPL_TIME_AGO_VERSION}"
+              src="mob.near/widget/TimeAgo${REPL_TIME_AGO_VERSION}"
               props={{ blockHeight: props.blockHeight }}
             />{" "}
             ago
@@ -144,7 +144,7 @@ if (props.noOverlay) return AccountProfile;
 
 return (
   <Widget
-    src="${REPL_ACCOUNT}/widget/AccountProfileOverlay"
+    src="scopalaffairs.near/widget/AccountProfileOverlay"
     props={{
       accountId: props.accountId,
       profile,
