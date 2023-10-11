@@ -29,9 +29,9 @@ State.init({
   requirements: [],
   username: profile.name ? profile.name : accountId,
   post_link: "",
-  amount: 0,
+  amount: 0.1,
   token: "NEAR",
-  winners: 0,
+  winners: 1,
   total_reward: "",
   duration_hr: "12",
   duration_min: "00",
@@ -280,9 +280,12 @@ return (
             <p>{`Amount`}</p>
             <Input
               type="number"
+              min="0.01"
+              step="0.1"
               value={state.amount}
               onChange={(e) => {
                 const amount = Number(e.target.value);
+                if (amount < 0.01) return;
                 const total_reward = `${Number(
                   (amount * state.winners).toFixed(4)
                 )} ${state.token}`;
@@ -330,9 +333,12 @@ return (
         <div className="d-flex align-items-center col-lg-6">
           <Input
             type="number"
+            min="1"
+            step="1"
             value={state.winners}
             onChange={(e) => {
               const winners = Number(e.target.value);
+              if (winners < 1) return;
               const total_reward = `${Number(
                 (state.amount * winners).toFixed(4)
               )} ${state.token}`;
