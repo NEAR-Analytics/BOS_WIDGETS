@@ -75,6 +75,10 @@ const ContentContainer = styled.div`
   }
 `;
 
+const Root = styled.div`
+  padding: 30px;
+`
+
 //jgodwill.near/widget/GenaDrop.MultiListing
 const tabContentWidget = {
   feeds: "astraplusplus.ndctools.near/widget/Feed.index",
@@ -86,8 +90,9 @@ const tabContentWidget = {
 const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
 
 return (
-  <Content>
+  <Root>
   <h1>Drop Flow</h1>
+  <Content>
     <Sidebar show={showSidebar}>
       <Widget
         src={`${ownerId}/widget/CreativeDAO.Navbar`}
@@ -108,4 +113,5 @@ return (
     </Sidebar>
     <ContentContainer>{tabContent}</ContentContainer>
   </Content>
+  </Root>
 );
