@@ -31,7 +31,7 @@ return (
   <>
     <h3>Send a message to the Future</h3>
 
-    <div className="mb-3">{sentMessages.length}</div>
+    <div className="mb-3">{sentMessages.length.toString()}</div>
     <div className="input-group mb-3">
       <label className="input-group-text" htmlFor="inputGroupSelect0">
         Message
