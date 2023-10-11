@@ -410,7 +410,7 @@ const isFundraisingDiv = (
 const fundraisingDiv = (
   <div class="d-flex flex-column mb-2">
     <div className="col-lg-6  mb-2">
-      Currency
+      Currency (fundraising create)
       <select
         onChange={(event) => State.update({ token: event.target.value })}
         class="form-select"
