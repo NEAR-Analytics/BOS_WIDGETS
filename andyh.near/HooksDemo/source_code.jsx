@@ -1,6 +1,6 @@
 const [value, setValue] = useState(0);
 const [message, setMessage] = useState("");
-const [sentMessages, setSentMessages] = [];
+const [sentMessages, setSentMessages] = useState([]);
 const [isInit, setIsInit] = useState(false);
 // const [value, setValue] = [4, console.log];
 // const textRef = useRef(null);
