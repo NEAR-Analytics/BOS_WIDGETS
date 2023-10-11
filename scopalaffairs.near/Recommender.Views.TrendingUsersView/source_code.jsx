@@ -32,6 +32,7 @@ const Profiles = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
+  padding-bottom: 24px;
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -87,21 +88,14 @@ const getRecommendedUsers = (page) => {
         const parsedResults = JSON.parse(res.body);
         const totalPageNum = parsedResults.total_pages || 10;
         updateState(parsedResults.data, totalPageNum);
-      } else {
-        console.log(
-          res,
-          "Error fetching data. Try reloading the page, or no data available."
-        );
-      }
+      } 
     } else {
       asyncFetch(url).then((res) => {
         if (res.ok) {
           const parsedResults = JSON.parse(res.body);
           const totalPageNum = parsedResults.total_pages || 10;
           updateState(parsedResults.data, totalPageNum);
-        } else {
-          console.log(res, "Error fetching data. Try reloading the page.");
-        }
+        } 
       });
     }
   } catch (error) {
@@ -131,7 +125,7 @@ return (
         <p>
           Follow More Users to Unlock More Personalized Recommendations, See
           Who’s
-          <a href="https://near.org/scopalaffairs.near/widget/PeoplePage?tab=trending">
+          <a href="https://near.org/${REPL_ACCOUNT}/widget/PeoplePage?tab=trending">
             Trending
           </a>
         </p>
