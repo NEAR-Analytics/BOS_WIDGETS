@@ -176,6 +176,8 @@ const initialBodyAtCreation = state.editArticleData.body;
 //=================================================GET DATA=========================================================
 const finalArticles = state.articles;
 
+const articlesToRender = finalArticles[sbts[0]];
+
 function filterArticlesByTag(tag, articles) {
   return articles.filter((article) => {
     return article.tags.includes(tag);
@@ -197,19 +199,22 @@ function filterOnePost(blockHeight, articles) {
 }
 
 if (state.filterBy.parameterName === "tag") {
-  finalArticles = filterArticlesByTag(
+  articlesToRender = filterArticlesByTag(
     state.filterBy.parameterValue,
-    finalArticles
+    articlesToRender
   );
 } else if (state.filterBy.parameterName === "author") {
-  finalArticles = filterArticlesByAuthor(
+  articlesToRender = filterArticlesByAuthor(
     state.filterBy.parameterValue,
-    finalArticles
+    articlesToRender
   );
 } else if (state.filterBy.parameterName === "getPost") {
-  finalArticles = filterOnePost(state.filterBy.parameterValue, finalArticles);
-  if (finalArticles.length > 0) {
-    State.update({ articleToRenderData: finalArticles[0] });
+  articlesToRender = filterOnePost(
+    state.filterBy.parameterValue,
+    articlesToRender
+  );
+  if (articlesToRender.length > 0) {
+    State.update({ articleToRenderData: articlesToRender[0] });
   }
 }
 //===============================================END GET DATA=======================================================
@@ -419,7 +424,6 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
-// console.log(0, "libCalls: ", state.libCalls);
 function callLibs(srcArray, stateUpdate, libCalls) {
   return (
     <>
@@ -480,12 +484,12 @@ return (
         sbtsNames,
       }}
     />
-    {finalArticles && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
+    {articlesToRender && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
         props={{
           isTest,
-          finalArticles,
+          articlesToRender,
           tabs,
           widgets,
           addressForArticles,
@@ -532,7 +536,7 @@ return (
         src={widgets.showArticlesListSortedByAuthors}
         props={{
           isTest,
-          finalArticles,
+          articlesToRender,
           tabs,
           widgets,
           handleOpenArticle,
