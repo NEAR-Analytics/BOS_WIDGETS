@@ -41,9 +41,9 @@ return (
       </label>
       <select className="form-select" id="inputGroupSelect01">
         <option value="0">Instant</option>
-        <option value="100">100</option>
-        <option value="500">500</option>
-        <option value="1000">1000</option>
+        <option value="100">0.1 seconds</option>
+        <option value="500">0.5 seconds</option>
+        <option value="1000">1 second</option>
       </select>
     </div>
     <div class="d-grid gap-2">
