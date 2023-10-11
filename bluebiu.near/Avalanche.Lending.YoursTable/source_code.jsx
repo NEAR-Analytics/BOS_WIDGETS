@@ -125,7 +125,7 @@ const renderTotal = (record, key, isSpecialKey) => {
           props={{
             total: totalReverse ? record[key] : record[`${key}_value`],
             digit: 2,
-            unit: "$",
+            unit: totalReverse ? "" : "$",
           }}
         />
       </Total>
@@ -135,6 +135,7 @@ const renderTotal = (record, key, isSpecialKey) => {
           props={{
             total: totalReverse ? record[`${key}_value`] : record[key],
             digit: 2,
+            unit: totalReverse ? "$" : "",
           }}
         />
       </TotalValue>
@@ -206,7 +207,11 @@ return (
                       key={j}
                       props={{
                         onClick: () => {
-                          onButtonClick?.(record.address, button.text);
+                          if (button.text === "Claim") {
+                            onButtonClick?.(record.dappName);
+                          } else {
+                            onButtonClick?.(record.address, button.text);
+                          }
                         },
                         text: button.text,
                         loading: button.loading,
