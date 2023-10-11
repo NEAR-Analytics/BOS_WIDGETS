@@ -8,17 +8,18 @@ const MarketTableHeader = styled.div`
   font-weight: 500;
   gap: 4px;
   padding-left: 20px;
+  height: 38px;
 `;
 const Item = styled.div`
   display: flex;
-  height: 38px;
   gap: 6px;
   align-items: center;
   justify-content: center;
   color: #fff;
   flex-grow: 1;
+  height: 100%;
   &.td {
-    height: 52px;
+    min-height: 52px;
   }
   &.asset {
     width: 20%;
@@ -26,17 +27,43 @@ const Item = styled.div`
     justify-content: left;
     flex-grow: 0;
   }
-  &.w_50 {
-    width: 50%;
+  &.head_apy {
+    justify-content: flex-start;
+  }
+  &.apy {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 6px 0px;
+  }
+  &.w_60 {
+    width: 60%;
+  }
+  &.w_40 {
+    width: 40%;
   }
   &.w_33 {
     width: 33.33333333%;
   }
 `;
+const RewardApyItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+const RewardIcon = styled.img`
+  width: 14px;
+  height: 14px;
+`;
+const RewardApy = styled.div`
+  font-weight: 400;
+  line-height: 14px;
+  color: rgba(255, 255, 255, 0.5);
+`;
 const MergeItems = styled.div`
   display: flex;
   align-items: center;
   border-radius: 6px;
+  height: 100%;
   &.supply {
     width: 32%;
   }
@@ -109,6 +136,7 @@ const formateData = (sortKey) => {
         borrowApy: market.borrowApy,
         liquidity: Big(market.liquidity).mul(market.underlyingPrice).toString(),
         address: market.address,
+        distributionApy: market.distributionApy,
       };
     });
   data.sort((a, b) => parseInt(b[sortKey]) - parseInt(a[sortKey]));
@@ -129,8 +157,8 @@ return (
     <MarketTableHeader>
       <Item className="asset">Asset</Item>
       <MergeItems className="supply header-supply">
-        <Item className="w_50">Deposit</Item>
-        <Item className="w_50">
+        <Item className="w_60">Deposit</Item>
+        <Item className="w_40 head_apy">
           Deposit APY
           <ArrowIconWrapper
             className={state.sortKey === "supplyApy" && "active"}
@@ -150,7 +178,7 @@ return (
       </MergeItems>
       <MergeItems className="borrow header-borrow">
         <Item className="w_33">Borrowed</Item>
-        <Item className="w_33">
+        <Item className="w_33 head_apy">
           Borrow APY
           <ArrowIconWrapper
             className={state.sortKey === "borrowApy" && "active"}
@@ -205,7 +233,7 @@ return (
             onButtonClick(market.address, "Deposit");
           }}
         >
-          <Item className="td w_50">
+          <Item className="td w_60">
             <Widget
               src="bluebiu.near/widget/Avalanche.Lending.Total"
               props={{
@@ -215,7 +243,16 @@ return (
               }}
             />
           </Item>
-          <Item className="td w_50">{market.supplyApy}</Item>
+          <Item className="td w_40 apy">
+            <div>{market.supplyApy}</div>
+            {market.distributionApy &&
+              market.distributionApy.map((reward) => (
+                <RewardApyItem key={reward.symbol}>
+                  <RewardIcon src={reward.icon} />
+                  <RewardApy>{reward.supply}</RewardApy>
+                </RewardApyItem>
+              ))}
+          </Item>
         </MergeItems>
         <MergeItems
           className="borrow body-borrow"
@@ -233,7 +270,16 @@ return (
               }}
             />
           </Item>
-          <Item className="td w_33">{market.borrowApy}</Item>
+          <Item className="td w_33 apy">
+            <div>{market.borrowApy}</div>
+            {market.distributionApy &&
+              market.distributionApy.map((reward) => (
+                <RewardApyItem key={reward.symbol}>
+                  <RewardIcon src={reward.icon} />
+                  <RewardApy>{reward.borrow}</RewardApy>
+                </RewardApyItem>
+              ))}
+          </Item>
           <Item className="td w_33">
             <Widget
               src="bluebiu.near/widget/Avalanche.Lending.Total"
