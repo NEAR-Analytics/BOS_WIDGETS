@@ -47,7 +47,7 @@ return (
         />
       </svg>
       {menu.value === "live"
-        ? `You haven’t  participated yet`
+        ? `You  have already entered`
         : `You haven’t  participated`}
     </div>
   </div>
