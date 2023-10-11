@@ -77,13 +77,13 @@ const ContentContainer = styled.div`
 
 const Root = styled.div`
   padding: 30px;
-`
+`;
 
 //jgodwill.near/widget/GenaDrop.MultiListing
 const tabContentWidget = {
   feeds: "astraplusplus.ndctools.near/widget/Feed.index",
   discussion: "agwaze.near/widget/CreativeDAO.Discussions",
-  collaboration: "https://near.org/nearhorizon.near/widget/Index",
+  collaboration: "nearhorizon.near/widget/Index?tab=profile&content=founders",
   polling: "agwaze.near/widget/CreativeDAO.EasyPoll",
 }[state.tab];
 
@@ -91,27 +91,27 @@ const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
 
 return (
   <Root>
-  <h1>Drop Flow Skeletons</h1>
-  <Content>
-    <Sidebar show={showSidebar}>
-      <Widget
-        src={`${ownerId}/widget/CreativeDAO.Navbar`}
-        props={{
-          tab: state.tab,
-          update,
-          collapsible: true,
-        }}
-      />
-      <Widget
-        src={`${ownerId}/widget/CreativeDAO.Navbar`}
-        props={{
-          tab: state.tab,
-          update,
-          collapsible: false,
-        }}
-      />
-    </Sidebar>
-    <ContentContainer>{tabContent}</ContentContainer>
-  </Content>
+    <h1>Drop Flow Skeletons</h1>
+    <Content>
+      <Sidebar show={showSidebar}>
+        <Widget
+          src={`${ownerId}/widget/CreativeDAO.Navbar`}
+          props={{
+            tab: state.tab,
+            update,
+            collapsible: true,
+          }}
+        />
+        <Widget
+          src={`${ownerId}/widget/CreativeDAO.Navbar`}
+          props={{
+            tab: state.tab,
+            update,
+            collapsible: false,
+          }}
+        />
+      </Sidebar>
+      <ContentContainer>{tabContent}</ContentContainer>
+    </Content>
   </Root>
 );
