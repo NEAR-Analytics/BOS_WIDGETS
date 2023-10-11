@@ -89,7 +89,7 @@ return (
   <Content>
     <Sidebar show={showSidebar}>
       <Widget
-        src={`${ownerId}/widget/GenaDrop.NavBar`}
+        src={`${ownerId}/widget/CreativeDAO.Navbar`}
         props={{
           tab: state.tab,
           update,
@@ -97,7 +97,7 @@ return (
         }}
       />
       <Widget
-        src={`${ownerId}/widget/GenaDrop.NavBar`}
+        src={`${ownerId}/widget/CreativeDAO.Navbar`}
         props={{
           tab: state.tab,
           update,
