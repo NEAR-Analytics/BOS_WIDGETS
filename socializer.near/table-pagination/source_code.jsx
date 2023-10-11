@@ -185,6 +185,7 @@ return (
                             fontSize: 12,
                             textAlign: td.align,
                             verticalAlign: "middle",
+                            background: "transparent",
                           }}
                         >
                           {td.project ? (
