@@ -15,7 +15,7 @@ useEffect(() => {
 
 useEffect(() => {
   const interval = setInterval(() => {
-    const updatedMessages = [...messages];
+    const updatedMessages = [...sentMessages];
     updatedMessages.pop();
     setSentMessages(updatedMessages);
   }, 500);
