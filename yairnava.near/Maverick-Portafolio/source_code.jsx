@@ -687,7 +687,41 @@ option {
 
 @media (max-width: 400px) {
     .MainContainer {
-      
+      width: 360px;
+    }
+
+    .ProtocolContainer{
+      width: 270px;
+    }
+
+    .HeaderContainer{
+      width: 330px;
+    }
+
+    .Line{
+      width: 320px;
+    }
+
+    .addLiquidityButtonContainer{
+      padding: 5px;
+    }
+
+    .TokenImg{
+      width: 20px;
+      height: 20px;
+    }
+
+    .portfolioCardDetails{
+      display: grid;
+      align-items: end;
+    }
+
+    .BodyContainer{
+      width: 330px;
+    }
+
+    .removeLiquidityButtonContainer{
+      padding-inline: 5px;
     }
 }
 `;
