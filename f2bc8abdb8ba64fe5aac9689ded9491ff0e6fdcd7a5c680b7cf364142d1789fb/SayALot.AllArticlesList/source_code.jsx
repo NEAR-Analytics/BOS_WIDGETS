@@ -3,7 +3,7 @@
 let {
   isTest,
   stateUpdate,
-  finalArticles,
+  articlesToRender,
   tabs,
   widgets,
   addressForArticles,
@@ -30,7 +30,7 @@ let initLibCalls = [];
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
 const articleSbts = articleToRenderData.sbts[0] ?? [];
 
-finalArticles.forEach((article) =>
+articlesToRender.forEach((article) =>
   initLibCalls.push({
     functionName: "getUpVotes",
     key: `upVotes-${article.id}`,
@@ -50,7 +50,7 @@ State.init({
   libCalls: initLibCalls,
 });
 
-let finalArticlesWithUpVotes = finalArticles.map((article) => {
+let finalArticlesWithUpVotes = articlesToRender.map((article) => {
   article.upVotes = state[`upVotes-${article.id}`];
 
   return article;
@@ -101,7 +101,6 @@ function allArticlesListStateUpdate(obj) {
 }
 
 //================================================END FUNCTIONS=====================================================
-// console.log("state.libCalls: ", state.libCalls);
 return (
   <>
     {
