@@ -71,6 +71,8 @@ return (
         type="button"
         onClick={() => {
           setStep(step + 1);
+          setWidth(width + DIMENSIONAL_INCREMENT);
+          setHeight(height + DIMENSIONAL_INCREMENT);
         }}
       >
         MORE FACTS
