@@ -21,7 +21,7 @@ let {
   createSbtOptions,
   handleShareButton,
   canLoggedUserCreateArticles,
-  // logedUserSbts,
+  filterBy,
 } = props;
 
 const libSrcArray = [widgets.libUpVotes];
@@ -83,6 +83,10 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
+const IconCursorPointer = styled.i`
+  cursor: pointer;
+`;
+
 //=================================================END CONSTS=======================================================
 
 //==================================================FUNCTIONS=======================================================
@@ -139,6 +143,23 @@ return (
         }}
       />
     </div>
+    {filterBy.parameterName === "tag" && (
+      <>
+        <h6>Filter by tag:</h6>
+        <div className="d-flex">
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              Tag: { title: filterBy.parameterValue },
+            }}
+          />
+          <IconCursorPointer
+            className="bi bi-x"
+            onClick={() => handleFilterArticles({ filterBy: "", value: "" })}
+          ></IconCursorPointer>
+        </div>
+      </>
+    )}
     <ArticlesListContainer className="row card-group my-3 py-3 rounded">
       {sortedFinalArticlesWithUpVotes.length > 0 ? (
         sortedFinalArticlesWithUpVotes.map((article, i) => {
