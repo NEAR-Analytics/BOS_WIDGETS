@@ -100,6 +100,20 @@ const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
   create: `${authorForWidget}/widget/SayALot.Create`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  newStyledComponents: {
+    Element: {
+      Badge: "nearui.near/widget/Element.Badge",
+      User: "nearui.near/widget/Element.User",
+    },
+    Feedback: {
+      Spinner: "nearui.near/widget/Feedback.Spinner",
+    },
+    Input: {
+      Button: "nearui.near/widget/Input.Button",
+      Checkbox: "nearui.near/widget/Input.Checkbox",
+      Select: "nearui.near/widget/Input.Select",
+    },
+  },
   header: `${authorForWidget}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
   showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
