@@ -37,6 +37,7 @@ State.init({
   duration_min: "00",
   tokens: [],
   error: "",
+  balance: 0,
 });
 
 const Wrapper = styled.div`
@@ -275,7 +276,7 @@ return (
             {"Amount and Token Type "}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6 gap-4">
+        <div className="d-flex align-items-center col-lg-8 gap-4">
           <div>
             <p>{`Amount`}</p>
             <Input
@@ -296,7 +297,7 @@ return (
               }}
             />
           </div>
-          <div>
+          <div className="d-flex align-items-center" style={{ gap: 10 }}>
             <Widget
               props={{
                 label: "Token",
@@ -311,11 +312,15 @@ return (
                   State.update({
                     token: e.value,
                     total_reward,
+                    balance: e.balance,
                   });
                 },
               }}
               src={`${Owner}/widget/Select`}
             />
+            <p
+              style={{ fontSize: 12 }}
+            >{`Available Balance = ${state.balance} ${state.token}`}</p>
           </div>
         </div>
       </div>
@@ -334,11 +339,12 @@ return (
           <Input
             type="number"
             min="1"
+            max="20"
             step="1"
             value={state.winners}
             onChange={(e) => {
               const winners = Number(e.target.value);
-              if (winners < 1) return;
+              if (winners < 1 || winners > 20) return;
               const total_reward = `${Number(
                 (state.amount * winners).toFixed(4)
               )} ${state.token}`;
