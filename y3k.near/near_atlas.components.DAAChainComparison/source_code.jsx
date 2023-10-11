@@ -191,7 +191,7 @@ const stacked_options = {
   },
   scales: {
     y: {
-      stacked: true,
+      stacked: false,
       grid: {
         color: "rgb(41,51,64)", // This will change the gridline color
         borderColor: "rgb(240,255,240)",
@@ -201,7 +201,7 @@ const stacked_options = {
       },
     },
     x: {
-      stacked: true,
+      stacked: false,
       grid: {
         color: "rgb(41,51,64)", // This will change the gridline color
       },
