@@ -41,6 +41,11 @@ const Join = styled.div`
     border-radius: 32px;
     background: #FFF;
     color: black;
+    border-color: white;
+  }
+  button:last-child:hover {
+    color: white;
+    background: transparent;
   }
   div {
     background: white;
