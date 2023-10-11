@@ -178,15 +178,19 @@ const NavItem = styled.div`
 `;
 
 const navItem = ({ text, icon, id, iconSelected }) => (
-  <NavItem
-    // href={`/${ownerId}/widget/Index?tab=${id}`}
-    // href={`?tab=${id}`}
-    // href={"#"}
-    onClick={() => props.update({ tab: id })}
-  >
-    {id === props.tab ? iconSelected : icon}
-    <span>{text}</span>
-  </NavItem>
+  <Link to={`/${id}`} style={{ textDecoration: "none" }}>
+    <NavItem
+      onClick={() => {
+        props.update({
+          tab: id,
+          collapsible: true,
+        });
+      }}
+    >
+      {id === props.tab ? iconSelected : icon}
+      <span>{text}</span>
+    </NavItem>
+  </Link>
 );
 
 const NavContainer = styled.div`
