@@ -364,13 +364,13 @@ const descriptionDiv = (
 const isFundraisingDiv = (
   // This is jank with just btns and not radios. But the radios were glitchy af
   <>
-    <div class="mb-2">
-      <p class="fs-6 fw-bold mb-1">
+    <div className="mb-2">
+      <p className="fs-6 fw-bold mb-1">
         Are you seeking funding for your solution?
-        <span class="text-muted fw-normal">(Optional)</span>
+        <span className="text-muted fw-normal">(Optional)</span>
       </p>
-      <div class="form-check form-check-inline">
-        <label class="form-check-label">
+      <div className="form-check form-check-inline">
+        <label className="form-check-label">
           <button
             className="btn btn-light p-0"
             style={{
@@ -386,8 +386,8 @@ const isFundraisingDiv = (
           Yes
         </label>
       </div>
-      <div class="form-check form-check-inline">
-        <label class="form-check-label">
+      <div className="form-check form-check-inline">
+        <label className="form-check-label">
           <button
             className="btn btn-light p-0"
             style={{
@@ -408,7 +408,7 @@ const isFundraisingDiv = (
 );
 
 const fundraisingDiv = (
-  <div class="d-flex flex-column mb-2">
+  <div className="d-flex flex-column mb-2">
     <div className="col-lg-6  mb-2">
       Currency
       <select
@@ -423,7 +423,7 @@ const fundraisingDiv = (
       </select>
     </div>
     <div className="col-lg-6 mb-2">
-      Requested amount <span class="text-muted fw-normal">(Numbers Only)</span>
+      Requested amount <span className="text-muted fw-normal">(Numbers Only)</span>
       <input
         type="number"
         value={parseInt(state.amount) > 0 ? state.amount : ""}
@@ -438,20 +438,20 @@ const fundraisingDiv = (
       />
     </div>
     <div className="col-lg-6 mb-2">
-      <p class="mb-1">
-        Requested sponsor <span class="text-muted fw-normal">(Optional)</span>
+      <p className="mb-1">
+        Requested sponsor <span className="text-muted fw-normal">(Optional)</span>
       </p>
-      <p style={{ fontSize: "13px" }} class="m-0 text-muted fw-light">
+      <p style={{ fontSize: "13px" }} className="m-0 text-muted fw-light">
         If you are requesting funding from a specific sponsor, please enter
         their username.
       </p>
-      <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">
+      <div className="input-group flex-nowrap">
+        <span className="input-group-text" id="addon-wrapping">
           @
         </span>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           placeholder="Enter username"
           value={state.supervisor}
           onChange={(event) => State.update({ supervisor: event.target.value })}
@@ -471,12 +471,12 @@ function generateDescription(text, amount, token, supervisor, seekingFunding) {
 }
 
 return (
-  <div class="bg-light d-flex flex-column flex-grow-1">
+  <div className="bg-light d-flex flex-column flex-grow-1">
     {widget("components.organism.app-header")}
-    <div class="mx-5 mb-5">
+    <div className="mx-5 mb-5">
       <div aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item">
             <a
               style={{
                 color: "#3252A6",
@@ -487,7 +487,7 @@ return (
               DevHub
             </a>
           </li>
-          <li class="breadcrumb-item active" aria-current="page">
+          <li className="breadcrumb-item active" aria-current="page">
             Create new
           </li>
         </ol>
@@ -509,10 +509,10 @@ return (
         <>
           <h4>Create a new post</h4>
           <p>{state.seekingFunding}</p>
-          <div class="card border-light">
-            <div class="card-body">
-              <p class="card-title fw-bold fs-6">What do you want to create?</p>
-              <div class="d-flex flex-row gap-2">
+          <div className="card border-light">
+            <div className="card-body">
+              <p className="card-title fw-bold fs-6">What do you want to create?</p>
+              <div className="d-flex flex-row gap-2">
                 <button
                   onClick={onIdeaClick}
                   type="button"
@@ -526,7 +526,7 @@ return (
                       : {}
                   }
                 >
-                  <i class="bi bi-lightbulb"></i>
+                  <i className="bi bi-lightbulb"></i>
                   Idea
                 </button>
                 <button
@@ -542,24 +542,24 @@ return (
                       : {}
                   }
                 >
-                  <i class="bi bi-rocket"></i>
+                  <i className="bi bi-rocket"></i>
                   Solution
                 </button>
               </div>
-              <p class="text-muted w-75 my-1">
+              <p className="text-muted w-75 my-1">
                 {state.postType === "Idea"
                   ? "Get feedback from the community about a problem, opportunity, or need."
                   : "Provide a specific proposal or implementation to an idea, optionally requesting funding. If your solution relates to an existing idea, please reply to the original post with a solution."}
               </p>
               {state.warning && (
                 <div
-                  class="alert alert-warning alert-dismissible fade show"
+                  className="alert alert-warning alert-dismissible fade show"
                   role="alert"
                 >
                   {state.warning}
                   <button
                     type="button"
-                    class="btn-close"
+                    className="btn-close"
                     data-bs-dismiss="alert"
                     aria-label="Close"
                     onClick={() => State.update({ warning: "" })}
@@ -588,9 +588,9 @@ return (
                 Submit
               </button>
             </div>
-            <div class="bg-light d-flex flex-row p-1 border-bottom"></div>
-            <div class="card-body">
-              <p class="text-muted m-0">Preview</p>
+            <div className="bg-light d-flex flex-row p-1 border-bottom"></div>
+            <div className="card-body">
+              <p className="text-muted m-0">Preview</p>
               <div>
                 {widget("entity.post.Post", {
                   isPreview: true,
