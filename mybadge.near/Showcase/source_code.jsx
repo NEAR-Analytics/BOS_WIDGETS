@@ -11,6 +11,7 @@ return (
     <Widget src="mybadge.near/widget/Near.BigAvatarBadge" />
     <Widget src="mybadge.near/widget/Dapplets.DappCreatorBadge" />
     <Widget src="mybadge.near/widget/Near.VeteranBadge" />
+    <Widget src="mybadge.near/widget/DevHacks.DevHacksBadge" />
     <Widget src="mybadge.near/widget/LNC.EliteBadge" />
     <Widget src="mybadge.near/widget/DevHacks.CircleBadge" />
     <Widget src="mybadge.near/widget/LNC.CircleBadge" />
