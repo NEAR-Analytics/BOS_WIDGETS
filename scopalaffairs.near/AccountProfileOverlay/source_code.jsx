@@ -1,21 +1,41 @@
 const accountId = props.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
-const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/${REPL_ACCOUNT}/widget/ProfilePage?accountId=${accountId}`;
 const verifications = props.verifications;
 const overlayStyles = props.overlayStyles;
-
-const handleOnMouseEnter = () => {
-  State.update({ show: true });
-};
-const handleOnMouseLeave = () => {
-  State.update({ show: false });
-};
 
 State.init({
   show: false,
   hasBeenFlagged: false,
+  showConfirmModal: false,
 });
+
+const handleOnMouseEnter = () => {
+  State.update({ show: true });
+};
+
+const handleOnMouseLeave = () => {
+  State.update({ show: false });
+};
+
+const handleModalClose = (value) => {
+  State.update({ showConfirmModal: value });
+};
+
+const onReport = () => {
+  State.update({
+    showConfirmModal: false,
+    hasBeenFlagged: true,
+  });
+};
+
+const AvatarCount = styled.div`
+  color: rgb(104, 112, 118);
+  font-size: 14px;
+  font-weight: 300;
+  padding-left: 12px;
+`;
 
 const CardWrapper = styled.div`
   z-index: 100;
@@ -53,6 +73,17 @@ const VerificationText = styled.div`
   color: ${(props) => (props.secondary ? "#717069" : "black")};
 `;
 
+const RecommendedAvatars = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 0 0;
+`;
+
+const OverlayTagsWrapper = styled.div`
+  margin-left: 50px;
+`;
+
 const contentModerationItem = {
   type: "social",
   path: profileUrl,
@@ -65,7 +96,7 @@ const overlay = (
       <div className="d-flex align-items-center">
         {props.sidebar && (
           <Widget
-            src="scopalaffairs.near/widget/Recommender.Account.AccountProfileSidebar"
+            src="${REPL_ACCOUNT}/widget/Recommender.Account.AccountProfileSidebar"
             props={{
               accountId: props.accountId,
               profile,
@@ -75,22 +106,36 @@ const overlay = (
         )}
         {!props.sidebar && (
           <Widget
-            src="scopalaffairs.near/widget/AccountProfile"
+            src="${REPL_ACCOUNT}/widget/AccountProfile"
             props={{ accountId: props.accountId, profile, noOverlay: true }}
           />
         )}
-        {!!context.accountId && context.accountId !== props.accountId && (
-          <Widget
-            src="scopalaffairs.near/widget/FlagButton"
-            props={{
-              item: contentModerationItem,
-              disabled: !context.accountId || context.accountId === accountId,
-              onFlag: () => {
-                State.update({ hasBeenFlagged: true });
-              },
-            }}
-          />
-        )}
+        {!props.showFlagAccountFeature &&
+          !!context.accountId &&
+          context.accountId !== props.accountId && (
+            <Widget
+              src="${REPL_ACCOUNT}/widget/FlagButton"
+              props={{
+                item: contentModerationItem,
+                onFlag: () => {
+                  State.update({ hasBeenFlagged: true });
+                },
+              }}
+            />
+          )}
+        {props.showFlagAccountFeature &&
+          !!context.accountId &&
+          context.accountId !== props.accountId && (
+            <Widget
+              src="${REPL_ACCOUNT}/widget/Flagged.Trigger"
+              props={{
+                onClick: () => {
+                  handleOnMouseLeave();
+                  State.update({ showConfirmModal: true });
+                },
+              }}
+            />
+          )}
       </div>
 
       {verifications && (
@@ -200,12 +245,12 @@ const overlay = (
         <OverlayTagsWrapper>
           <Widget
             className="layout"
-            src="scopalaffairs.near/widget/Tags"
+            src="${REPL_ACCOUNT}/widget/Tags"
             props={{ tags, scroll: true }}
           />
           <RecommendedAvatars>
             <Widget
-              src="scopalaffairs.near/widget/Recommender.Views.RecommendedAvatars"
+              src="${REPL_ACCOUNT}/widget/Recommender.Views.RecommendedAvatars"
               props={{
                 avatarSize: "25px",
                 becauseYouFollow: props.becauseYouFollow,
@@ -218,7 +263,7 @@ const overlay = (
         </OverlayTagsWrapper>
       ) : (
         <Widget
-          src="scopalaffairs.near/widget/Tags"
+          src="${REPL_ACCOUNT}/widget/Tags"
           props={{ tags, scroll: true }}
         />
       )}
@@ -227,7 +272,7 @@ const overlay = (
         <FollowButtonWrapper>
           {props.sidebar && (
             <Widget
-              src="scopalaffairs.near/widget/Recommender.Engagement.FollowButtonTracked"
+              src="${REPL_ACCOUNT}/widget/Recommender.Engagement.FollowButtonTracked"
               props={{
                 accountIdRank: props.accountIdRank || null,
                 accountId: accountId || props.accountId,
@@ -237,7 +282,7 @@ const overlay = (
           )}
           {!props.sidebar && (
             <Widget
-              src="scopalaffairs.near/widget/FollowButton"
+              src="${REPL_ACCOUNT}/widget/FollowButton"
               props={{ accountId: props.accountId }}
             />
           )}
@@ -248,40 +293,51 @@ const overlay = (
 );
 
 return (
-  <OverlayTrigger
-    show={state.show}
-    trigger={["hover", "focus"]}
-    delay={{ show: 250, hide: 300 }}
-    placement={props.placement || "auto"}
-    overlay={overlay}
-  >
-    <div
-      className={props.inline ? "d-inline-flex" : ""}
-      style={{
-        verticalAlign: props.inline ? "baseline" : "",
-        maxWidth: "100%",
-      }}
-      onMouseEnter={handleOnMouseEnter}
-      onMouseLeave={handleOnMouseLeave}
+  <>
+    <OverlayTrigger
+      show={state.show}
+      trigger={["hover", "focus"]}
+      delay={{ show: 250, hide: 300 }}
+      placement={props.placement || "auto"}
+      overlay={overlay}
     >
-      {props.children || "Hover Me"}
+      <div
+        className={props.inline ? "d-inline-flex" : ""}
+        style={{
+          verticalAlign: props.inline ? "baseline" : "",
+          maxWidth: "100%",
+        }}
+        onMouseEnter={handleOnMouseEnter}
+        onMouseLeave={handleOnMouseLeave}
+      >
+        {props.children || "Hover Me"}
+      </div>
+    </OverlayTrigger>
 
-      {state.hasBeenFlagged && (
-        <Widget
-          src={`scopalaffairs.near/widget/DIG.Toast`}
-          props={{
-            type: "info",
-            title: "Flagged for moderation",
-            description:
-              "Thanks for helping our Content Moderators. The item you flagged will be reviewed.",
-            open: state.hasBeenFlagged,
-            onOpenChange: () => {
-              State.update({ hasBeenFlagged: false });
-            },
-            duration: 5000,
-          }}
-        />
-      )}
-    </div>
-  </OverlayTrigger>
+    <Widget
+      src="${REPL_ACCOUNT}/widget/DIG.Toast"
+      props={{
+        type: "info",
+        title: "Flagged for moderation",
+        description:
+          "Thanks for helping our Content Moderators. The item you flagged will be reviewed.",
+        open: state.hasBeenFlagged,
+        onOpenChange: () => {
+          State.update({ hasBeenFlagged: false });
+        },
+        duration: 5000,
+      }}
+    />
+
+    <Widget
+      src="${REPL_ACCOUNT}/widget/Flagged.Modal"
+      props={{
+        open: state.showConfirmModal,
+        onOpenChange: handleModalClose,
+        reportedAccountId: props.accountId,
+        contentModerationFlagValue: contentModerationItem,
+        onReport,
+      }}
+    />
+  </>
 );
