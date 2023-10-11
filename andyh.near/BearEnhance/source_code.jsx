@@ -8,7 +8,11 @@ const DIMENSIONAL_INCREMENT = 25;
 
 useEffect(() => {
   (async () => {
-    const res = await fetch("https://api.api-ninjas.com/v1/facts?limit=1");
+    const res = await fetch("https://api.api-ninjas.com/v1/facts?limit=1", {
+      headers: {
+        "X-Api-Key": "WjEkKnB/Up2bSf9gQ7Rb/w==5NeZT3zzgVKShfic",
+      },
+    });
     console.log(await res.json());
   })();
 }, [step]);
