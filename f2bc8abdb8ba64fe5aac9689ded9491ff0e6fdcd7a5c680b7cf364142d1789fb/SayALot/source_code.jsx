@@ -23,16 +23,8 @@ const initLibCalls = [
       sbtsNames: initSbtsNames,
     },
   },
-  // {
-  //   functionName: "getLoggedUserSbts",
-  //   key: "logedUserSbts",
-  //   props: {
-  //     accountId: context.accountId,
-  //   },
-  // },
 ];
 
-// if (!accountId) accountId = context.accountId;
 accountId = context.accountId;
 
 const tabs = {
@@ -85,18 +77,6 @@ State.init({
 
 let newLibCalls = state.libCalls;
 
-// const functionsCalledList = newLibCalls.map((functionCalled, index) => {
-//   return { functionName: functionCalled.functionName, i: index };
-// });
-
-// const lastEditArticlesCall = functionsCalledList.filter(
-//   (functionCalled) => functionCalled.functionName === "getLastEditArticles"
-// );
-
-// if (lastEditArticlesCall) {
-//   newLibCalls[getLastEditArticles.index].props.filterBy = state.filterBy;
-// }
-
 State.update({ libCalls: newLibCalls });
 
 //=============================================END INITIALIZATION===================================================
@@ -111,8 +91,6 @@ const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
 
 const sbtWhiteList = [
-  // "fractal.i-am-human.near",
-  // "community.i-am-human.near",
   "fractal.i-am-human.near - class 1",
   "community.i-am-human.near - class 1",
   "community.i-am-human.near - class 2",
@@ -146,7 +124,6 @@ if (profile === null) {
 let authorProfile = {};
 if (state.filterBy.parameterName == "author") {
   authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
-  // if (!authorProfile) return "Loading...";
 }
 
 const brand = {
@@ -175,8 +152,7 @@ const initialBodyAtCreation = state.editArticleData.body;
 
 //=================================================GET DATA=========================================================
 const finalArticles = state.articles;
-
-const articlesToRender = finalArticles[sbts[0]];
+const articlesToRender = finalArticles[sbts[0]] ?? [];
 
 function filterArticlesByTag(tag, articles) {
   return articles.filter((article) => {
@@ -506,30 +482,24 @@ return (
           sbts,
           createSbtOptions,
           handleShareButton,
-          // logedUserSbts: state.logedUserSbts,
         }}
       />
     )}
     {state.articleToRenderData.title &&
-    state.displayedTabId == tabs.SHOW_ARTICLE.id ? (
-      <Widget
-        src={widgets.articleView}
-        props={{
-          isTest,
-          widgets,
-          handleFilterArticles,
-          articleToRenderData: state.articleToRenderData,
-          authorForWidget,
-          handleEditArticle,
-          handleShareButton,
-          // logedUserSbts: state.logedUserSbts,
-        }}
-      />
-    ) : (
-      <div className="spinner-grow" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    )}
+      state.displayedTabId == tabs.SHOW_ARTICLE.id && (
+        <Widget
+          src={widgets.articleView}
+          props={{
+            isTest,
+            widgets,
+            handleFilterArticles,
+            articleToRenderData: state.articleToRenderData,
+            authorForWidget,
+            handleEditArticle,
+            handleShareButton,
+          }}
+        />
+      )}
 
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id && (
       <Widget
@@ -542,7 +512,6 @@ return (
           handleOpenArticle,
           handleFilterArticles,
           authorForWidget,
-          // logedUserSbts: state.logedUserSbts,
         }}
       />
     )}
