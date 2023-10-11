@@ -1,6 +1,6 @@
 const accountId = props.accountId || context.accountId;
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
-const profileUrl = `#/scopalaffairs.near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `#/${REPL_ACCOUNT}/widget/ProfilePage?accountId=${accountId}`;
 const verifications = props.verifications;
 
 const Wrapper = styled.a`
@@ -65,7 +65,7 @@ const Text = styled.p`
   font-size: ${(p) => (p.small ? "10px" : "14px")};
   overflow: ${(p) => (p.ellipsis ? "hidden" : "")};
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
-  white-space: nowrap; 
+  white-space: nowrap;
 `;
 
 const Avatar = styled.div`
@@ -89,6 +89,7 @@ const VerifiedBadge = styled.div`
   left: 24px;
   top: 22px;
 `;
+
 const Name = styled.div`
   display: flex;
   gap: 6px;
@@ -103,7 +104,7 @@ const AccountProfile = (
   >
     <Avatar className="hover">
       <Widget
-        src="scopalaffairs.near/widget/Recommender.Engagement.ImageTracked"
+        src="${REPL_ACCOUNT}/widget/Recommender.Engagement.ImageTracked"
         props={{
           accountId: props.accountId,
           accountIdRank: props.accountIdRank,
@@ -143,7 +144,7 @@ const AccountProfile = (
     <div>
       <Name>
         <Widget
-          src="scopalaffairs.near/widget/Recommender.Engagement.ProfileInfoTracked"
+          src="${REPL_ACCOUNT}/widget/Recommender.Engagement.ProfileInfoTracked"
           props={{
             accountId: props.accountId,
             accountIdRank: props.accountIdRank,
@@ -166,7 +167,7 @@ if (props.noOverlay) return AccountProfile;
 
 return (
   <Widget
-    src="scopalaffairs.near/widget/Recommender.Account.AccountProfileOverlay"
+    src="${REPL_ACCOUNT}/widget/AccountProfileOverlay"
     props={{
       accountId: props.accountId,
       accountIdRank: props.accountIdRank || null,
@@ -178,6 +179,8 @@ return (
         props.scope === "friends" ? props.becauseYouFollow : null,
       scope: props.scope || null,
       fromContext: props.fromContext,
+      onFollowed: props.onFollowed,
+      sidebar: props.sidebar,
     }}
   />
 );
