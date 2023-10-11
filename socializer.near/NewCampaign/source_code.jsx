@@ -194,15 +194,6 @@ return (
           <p style={{ fontSize: 14, margin: 0, color: "red" }}>{state.error}</p>
         )}
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 21,
-        }}
-      >
-        <Button onClick={createCampaign}>{"Create New Campaigns"}</Button>
-      </div>
     </HeadComponent>
 
     <MainComponent>
@@ -265,25 +256,11 @@ return (
             multiple
             labelKey="name"
             className="col-lg-12"
-            // onInputChange={checkLabel}
             onChange={changeRequirement}
             options={requirementsOptions}
             placeholder=""
             selected={state.requirements}
             positionFixed
-            // allowNew={(results, props) => {
-            //   return (
-            //     !existingLabelSet.has(props.text) &&
-            //     props.selected.filter(
-            //       (selected) => selected.name === props.text
-            //     ).length == 0 &&
-            //     Near.view(
-            //       nearDevGovGigsContractAccountId,
-            //       "is_allowed_to_use_labels",
-            //       { editor: context.accountId, labels: [props.text] }
-            //     )
-            //   );
-            // }}
           />
         </div>
       </div>
@@ -424,6 +401,16 @@ return (
             src={`${Owner}/widget/Select`}
           />
         </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "end",
+          gap: 21,
+        }}
+      >
+        <Button onClick={createCampaign}>{"Submit"}</Button>
       </div>
     </MainComponent>
   </Wrapper>
