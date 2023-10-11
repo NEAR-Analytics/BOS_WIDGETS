@@ -173,6 +173,13 @@ const UNITROLLER_ABI = [
     stateMutability: "view",
     type: "function",
   },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "compAccrued",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
 ];
 const ORACLE_ABI = [
   {
@@ -258,12 +265,16 @@ let _liquidity = null;
 let _underlyingBalance = null;
 let _userMerberShip = null;
 let _rewards = {};
+let _accountRewards = {};
 let count = 0;
 let oTokensLength = Object.values(markets).length;
-
+const REWARD_TOKEN = {
+  icon: "https://ipfs.near.social/ipfs/bafkreiagqfppcrymfj426ik74axff645ohvi7va5v4yxlszdbu3xstyqeq",
+  symbol: "SONNE",
+};
 const formatedData = (key) => {
   console.log(`${dapp}-${key}`, count);
-  if (count < 5) return;
+  if (count < 6) return;
   count = 0;
   oTokensLength = Object.values(markets).length;
   let totalSupplyUsd = Big(0);
@@ -271,6 +282,7 @@ const formatedData = (key) => {
   let userTotalSupplyUsd = Big(0);
   let userTotalBorrowUsd = Big(0);
   let totalCollateralUsd = Big(0);
+  let totalAccountDistributionApy = Big(0);
   const markets = {};
   Object.values(_cTokensData).forEach((market) => {
     const underlyingPrice = _underlyPrice[market.address] || 1;
@@ -291,18 +303,22 @@ const formatedData = (key) => {
         .div(100)
     );
 
-    // const distributionSupplyApy = _rewards[market.address].supply.div(
-    //   marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd
-    // );
-    // const distributionBorrowApy = _rewards[market.address].borrow.div(
-    //   marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd
-    // );
+    const distributionSupplyApy = _rewards[market.address].supply
+      .div(marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd)
+      .mul(100)
+      .toFixed(2);
+    const distributionBorrowApy = _rewards[market.address].borrow
+      .div(marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd)
+      .mul(100)
+      .toFixed(2);
+    totalAccountDistributionApy = totalAccountDistributionApy
+      .plus(distributionSupplyApy)
+      .plus(distributionBorrowApy);
     const supplyApy = Big(market.supplyRatePerBlock)
       .mul(60 * 60 * 24)
       .plus(1)
       .pow(365)
       .minus(1)
-      // .add(distributionSupplyApy)
       .mul(100);
 
     const borrowApy = Big(market.borrowRatePerBlock)
@@ -310,7 +326,6 @@ const formatedData = (key) => {
       .plus(1)
       .pow(365)
       .minus(1)
-      // .minus(distributionBorrowApy)
       .mul(100);
 
     markets[market.address] = {
@@ -322,11 +337,36 @@ const formatedData = (key) => {
       userMerberShip: _userMerberShip[market.address],
       supplyApy: supplyApy.toFixed(2) + "%",
       borrowApy: borrowApy.toFixed(2) + "%",
+      distributionApy: [
+        {
+          ...REWARD_TOKEN,
+          supply: distributionSupplyApy + "%",
+          borrow: distributionBorrowApy + "%",
+        },
+      ],
       dapp,
     };
   });
+  let rewards;
+  if (_accountRewards && Big(_accountRewards.reward || 0).gt(0)) {
+    const dailyRewards = totalAccountDistributionApy
+      .mul(userTotalSupplyUsd.add(userTotalBorrowUsd))
+      .div(365 * 100)
+      .div(_accountRewards.price);
+    rewards = [
+      {
+        ...REWARD_TOKEN,
+        dailyRewards: dailyRewards.lt(0.000001)
+          ? "0.000001"
+          : dailyRewards.toString(),
+        price: _accountRewards.price,
+        unclaimed: _accountRewards.reward,
+      },
+    ];
+  }
   onLoad({
     markets,
+    rewards,
     totalSupplyUsd: totalSupplyUsd.toString(),
     totalBorrowUsd: totalBorrowUsd.toString(),
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
@@ -351,6 +391,11 @@ const getUnitrollerData = () => {
       });
     }
   });
+  calls.push({
+    address: unitrollerAddress,
+    name: "compAccrued",
+    params: [account],
+  });
   multicallv2(
     UNITROLLER_ABI,
     calls,
@@ -359,6 +404,12 @@ const getUnitrollerData = () => {
       _loanToValue = {};
       _userMerberShip = {};
       for (let i = 0, len = res.length; i < len; i++) {
+        if (i === res.length - 1) {
+          _accountRewards.reward = ethers.utils.formatUnits(res[i][0]._hex, 18);
+          count++;
+          formatedData("getUnitrollerData");
+          return;
+        }
         const index = Math.floor(i / (account ? 2 : 1));
         const mod = i % (account ? 2 : 1);
         switch (mod) {
@@ -374,8 +425,6 @@ const getUnitrollerData = () => {
           default:
         }
       }
-      count++;
-      formatedData("getUnitrollerData");
     },
     (err) => {
       console.log("error-getUnitrollerData", err);
@@ -650,6 +699,7 @@ const getRewards = () => {
     const data = response.body || [];
     const price = data["sonne-finance"].usd;
     const cTokens = Object.keys(markets);
+    _accountRewards.price = price;
     getCTokenReward({
       price,
       cTokens,
@@ -664,7 +714,7 @@ const init = () => {
   getOTokenLiquidity();
   getWalletBalance();
   getCTokensData();
-  // getRewards();
+  getRewards();
 };
 
 init();
