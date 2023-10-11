@@ -60,13 +60,10 @@ return (
         className="btn btn-primary"
         type="button"
         onClick={() => {
-          const updatedMessages = [...sentMessages];
-          updatedMessages.push(message);
-          setTimeout(() => setSentMessages(updatedMessages), delay);
-          setMessage("");
+          setStep(step + 1);
         }}
       >
-        Send Message
+        MORE FACTS
       </button>
     </div>
   </>
