@@ -107,6 +107,7 @@ initState({
   warning: "",
   draftStateApplied: false,
 });
+console.log(state);
 
 if (!state.draftStateApplied && props.draftState) {
   State.update({ ...props.draftState, draftStateApplied: true });
@@ -383,11 +384,7 @@ const tokenDiv = (
   <div className="col-lg-6 mb-2">
     Currency
     <select
-      onChange={(event) => {
-        console.log(event.target.value);
-        console.log(state);
-        State.update({token: event.target.value});
-      }}
+      onChange={(event) => State.update({ token: event.target.value })}
       className="form-select"
       aria-label="Select currency"
       value={state.token}
