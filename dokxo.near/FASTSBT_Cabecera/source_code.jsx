@@ -446,17 +446,49 @@ const handleDao_Contract = (e) => {
   State.update({ Dao_Contract: e });
   //props.validatedInputs();
 };
-const handleIssuer_selected = (e) => {
+const handleIssuer_filled = (e) => {
   console.log("padre", e);
   State.update({ Issuer_filled: e });
+
+  console.log(state);
   //props.validatedInputs();
 };
+const handleIssuer_selected = (e) => {
+  console.log("padre", e);
+  State.update({ Issuer_selected: e });
+
+  console.log(state);
+  //props.validatedInputs();
+};
+
 const handleReceiver = (e) => {
   console.log("padre", e);
-  State.update({ Receiver: e.target.value });
+  State.update({ Receiver: e });
 
   //props.validatedInputs();
 };
+const PropsIssuerList = props.IssuerList
+  ? props.IssuerList.map((item) => {
+      return { value: item.value, label: item.label };
+    })
+  : null;
+
+const Dropdowndefaultoptions = [
+  { value: "", label: "Select issuer", def: true },
+  { value: "registry.i-am-human.near", label: "registry.i-am-human.near" },
+  {
+    value: "registry-v1.gwg-testing.near",
+    label: "registry-v1.gwg-testing.near",
+  },
+  {
+    value: "registry-v1.gwg-testing.near",
+    label: "registry-v1.gwg-testing.near",
+  },
+  { value: "issuer.regens.near", label: "issuer.regens.near" },
+  { value: "issuer.proofofvibes.near", label: "issuer.proofofvibes.near" },
+  { value: _type.SHOWINPUT, label: "Other -- write it." },
+  PropsIssuerList,
+];
 return (
   <Theme>
     <div class="Rowcont">
@@ -469,46 +501,17 @@ return (
           onchangeFunc: handleDao_Contract,
         }}
       />
+      <Widget
+        src={`dokxo.near/widget/FastSBT_Dropdown`}
+        props={{
+          title: "Issuer",
+          placeholder: "Input DAO contract address ",
+          value: state.Issuer_selected,
+          onchangeFunc: handleIssuer_selected,
+          options: Dropdowndefaultoptions,
+        }}
+      />
 
-      <div class="Colcont">
-        <h1 class="H1styled">Issuer </h1>
-        <select
-          class="Dropdown"
-          placeholder="Input DAO contract address "
-          value={state.Issuer_selected}
-          onChange={(e) => {
-            State.update({ Issuer_selected: e.target.value });
-            validatedInputs();
-          }}
-        >
-          <option default value="">
-            Select issuer
-          </option>
-          <option default value="registry.i-am-human.near">
-            registry.i-am-human.near
-          </option>
-          <option default value="registry-v1.gwg-testing.near">
-            registry-v1.gwg-testing.near
-          </option>
-          <option default value="fractal.i-am-human.near">
-            fractal.i-am-human.near
-          </option>
-          <option default value="issuer.regens.near">
-            issuer.regens.near
-          </option>
-          <option default value="issuer.proofofvibes.near">
-            issuer.proofofvibes.near
-          </option>
-          {props.IssuerList ? (
-            props.IssuerList.map((item) => {
-              return <option value={item.value}> {item.label}</option>;
-            })
-          ) : (
-            <></>
-          )}
-          <option value={_type.SHOWINPUT}>Other -- write it.</option>
-        </select>
-      </div>
       {state.Issuer_selected === _type.SHOWINPUT ? (
         <Widget
           src={`dokxo.near/widget/FastSBT_Input`}
