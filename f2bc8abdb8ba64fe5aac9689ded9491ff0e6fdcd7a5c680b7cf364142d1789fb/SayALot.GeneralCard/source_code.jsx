@@ -555,7 +555,6 @@ return (
                   onClick: () => {
                     State.update({ showModal: true });
                   },
-                  icon: <></>,
                 }}
               />
               <Widget
