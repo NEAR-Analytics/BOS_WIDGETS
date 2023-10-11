@@ -257,48 +257,12 @@ const RATE_ABI = [
 ];
 const DISTRIBUTION_ABI = [
   {
-    inputs: [{ internalType: "address", name: "market", type: "address" }],
-    name: "distributionInfoOf",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "supplySpeed",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "borrowSpeed",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "totalBoostedSupply",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "totalBoostedBorrow",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "accPerShareSupply",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "accPerShareBorrow",
-            type: "uint256",
-          },
-          { internalType: "uint256", name: "accruedAt", type: "uint256" },
-        ],
-        internalType: "struct Constant.DistributionInfo",
-        name: "",
-        type: "tuple",
-      },
+    inputs: [
+      { internalType: "address[]", name: "markets", type: "address[]" },
+      { internalType: "address", name: "account", type: "address" },
     ],
+    name: "accuredLAB",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
@@ -307,37 +271,32 @@ const DISTRIBUTION_ABI = [
       { internalType: "address", name: "market", type: "address" },
       { internalType: "address", name: "account", type: "address" },
     ],
-    name: "accountDistributionInfoOf",
+    name: "apyDistributionOf",
     outputs: [
       {
         components: [
           {
             internalType: "uint256",
-            name: "accuredLAB",
+            name: "apySupplyLab",
             type: "uint256",
           },
           {
             internalType: "uint256",
-            name: "boostedSupply",
+            name: "apyBorrowLab",
             type: "uint256",
           },
           {
             internalType: "uint256",
-            name: "boostedBorrow",
+            name: "apyAccountSupplyLab",
             type: "uint256",
           },
           {
             internalType: "uint256",
-            name: "accPerShareSupply",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "accPerShareBorrow",
+            name: "apyAccountBorrowLab",
             type: "uint256",
           },
         ],
-        internalType: "struct Constant.DistributionAccountInfo",
+        internalType: "struct Constant.DistributionAPY",
         name: "",
         type: "tuple",
       },
@@ -346,6 +305,10 @@ const DISTRIBUTION_ABI = [
     type: "function",
   },
 ];
+const REWARD_TOKEN = {
+  icon: "https://ipfs.near.social/ipfs/bafkreihjcqx2wtmzq6l2dobpx7oe5zb5epz3frvgzw6wfnojkps7d6cjce",
+  symbol: "LAB",
+};
 
 const {
   multicallAddress,
@@ -395,8 +358,9 @@ let _underlyPrice = {};
 let _liquidity = null;
 let _underlyingBalance = null;
 let _userMerberShip = null;
-let _rewards = {};
+let _rewardsApy = {};
 let _accountRewards = {};
+
 let count = 0;
 let oTokensLength = Object.values(markets).length;
 
@@ -411,6 +375,7 @@ const formatedData = (key) => {
     let userTotalSupplyUsd = Big(0);
     let userTotalBorrowUsd = Big(0);
     let totalCollateralUsd = Big(0);
+    let totalAccountDistributionApy = Big(0);
     const markets = {};
     Object.values(_cTokensData).forEach((market) => {
       const underlyingPrice = _underlyPrice[market.address] || 1;
@@ -432,18 +397,12 @@ const formatedData = (key) => {
           .mul(_loanToValue[market.address])
           .div(100)
       );
-      const distributionSupplyApy = _rewards[market.address].supply.div(
-        marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd
-      );
-      const distributionBorrowApy = _rewards[market.address].borrow.div(
-        marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd
-      );
+
       const supplyApy = Big(market.supplyRatePerTimestamp)
         .mul(60 * 60 * 24)
         .plus(1)
         .pow(365)
         .minus(1)
-        .add(distributionSupplyApy)
         .mul(100);
 
       const borrowApy = Big(market.borrowRatePerTimestamp)
@@ -451,22 +410,26 @@ const formatedData = (key) => {
         .plus(1)
         .pow(365)
         .minus(1)
-        .minus(distributionBorrowApy)
         .mul(100);
-      let rewards;
-      const reward = _accountRewards[market.address];
-      if (reward && Big(reward.reward || 0).gt(0)) {
-        rewards = [
-          {
-            icon: "https://ipfs.near.social/ipfs/bafkreiecfhuuc6grbyfxfv4uzgaciofdug6sdqv7efruu4uwmzclfqmcs4",
-            symbol: "LAB",
-            dailyRewards: Big(_rewards[market.address].borrow)
-              .plus(_rewards[market.address].supply)
-              .toString(),
-            price: reward.price,
-            unclaimed: reward.reward,
-          },
-        ];
+      const rewardApy = _rewardsApy[market.address];
+      const distributionApy = {
+        ...REWARD_TOKEN,
+        supply: Big(rewardApy.apySupply).mul(3).toFixed(2) + "%",
+        borrow: Big(rewardApy.apyBorrow).mul(3).toFixed(2) + "%",
+      };
+      if (Big(rewardApy.apyAccountSupply).gt(0)) {
+        distributionApy.apyAccountSupply =
+          Big(rewardApy.apyAccountSupply).toFixed(2) + "%";
+        totalAccountDistributionApy = totalAccountDistributionApy.plus(
+          rewardApy.apyAccountSupply
+        );
+      }
+      if (Big(rewardApy.apyAccountBorrow).gt(0)) {
+        distributionApy.apyAccountBorrow =
+          Big(rewardApy.apyAccountBorrow).toFixed(2) + "%";
+        totalAccountDistributionApy = totalAccountDistributionApy.plus(
+          rewardApy.apyAccountBorrow
+        );
       }
       markets[market.address] = {
         ...market,
@@ -477,13 +440,32 @@ const formatedData = (key) => {
         userMerberShip: _userMerberShip[market.address],
         supplyApy: supplyApy.toFixed(2) + "%",
         borrowApy: borrowApy.toFixed(2) + "%",
+        distributionApy: [distributionApy],
         dapp,
         rewards,
       };
     });
-
+    let rewards;
+    if (_accountRewards && Big(_accountRewards.reward || 0).gt(0)) {
+      const dailyRewards = totalAccountDistributionApy
+        .mul(userTotalSupplyUsd.add(userTotalBorrowUsd))
+        .div(365 * 100)
+        .div(_accountRewards.price);
+      rewards = [
+        {
+          icon: "https://ipfs.near.social/ipfs/bafkreiecfhuuc6grbyfxfv4uzgaciofdug6sdqv7efruu4uwmzclfqmcs4",
+          symbol: "LAB",
+          dailyRewards: dailyRewards.lt(0.000001)
+            ? "0.000001"
+            : dailyRewards.toString(),
+          price: _accountRewards.price,
+          unclaimed: _accountRewards.reward,
+        },
+      ];
+    }
     onLoad({
       markets,
+      rewards,
       totalSupplyUsd: totalSupplyUsd.toString(),
       totalBorrowUsd: totalBorrowUsd.toString(),
       userTotalSupplyUsd: userTotalSupplyUsd.toString(),
@@ -785,63 +767,43 @@ const getRewards = () => {
   PriceToken.priceOf("0xB97F21D1f2508fF5c73E7B5AF02847640B1ff75d").then(
     (priceRes) => {
       const price = Big(ethers.utils.formatUnits(priceRes._hex, 18)).toString();
-      const cTokens = Object.keys(markets);
-      const calls = cTokens.map((token) => ({
-        address: distributionAddress,
-        name: "distributionInfoOf",
-        params: [token],
-      }));
-      multicallv2(
-        DISTRIBUTION_ABI,
-        calls,
-        {},
-        (res) => {
-          for (let i = 0, len = cTokens.length; i < len; i++) {
-            const token = cTokens[i];
-            const supply = Big(
-              ethers.utils.formatUnits(res[i][0][0]._hex, 18)
-            ).mul(price);
-            const borrow = Big(
-              ethers.utils.formatUnits(res[i][0][1]._hex, 18)
-            ).mul(price);
-            _rewards[token] = {
-              borrow: supply.mul(60 * 60 * 24 * 365),
-              supply: borrow.mul(60 * 60 * 24 * 365),
-            };
-          }
-          getUserRewards(price);
-        },
-        (err) => {
-          console.log("error-rewards", err);
-        }
-      );
+      getUserRewards(price);
     }
   );
 };
 const getUserRewards = (price) => {
   const cTokens = Object.keys(markets);
-  const calls = cTokens.map((token) => ({
+  const calls = cTokens.map((cToken) => ({
     address: distributionAddress,
-    name: "accountDistributionInfoOf",
-    params: [token, account],
+    name: "apyDistributionOf",
+    params: [cToken, account],
   }));
+  calls.push({
+    address: distributionAddress,
+    name: "accuredLAB",
+    params: [cTokens, account],
+  });
   multicallv2(
     DISTRIBUTION_ABI,
     calls,
     {},
     (res) => {
-      for (let i = 0, len = cTokens.length; i < len; i++) {
-        const token = cTokens[i];
-        const accured = Big(
-          ethers.utils.formatUnits(res[i][0][0]._hex, 18)
-        ).toString();
-        _accountRewards[token] = {
-          price,
-          reward: accured,
+      _accountRewards.price = price;
+      for (let i = 0; i < res.length; i++) {
+        if (i === res.length - 1) {
+          const accured = ethers.utils.formatUnits(res[i][0]._hex, 18);
+          _accountRewards.reward = accured;
+          count++;
+          formatedData("rewards");
+          return;
+        }
+        _rewardsApy[cTokens[i]] = {
+          apySupply: ethers.utils.formatUnits(res[i][0][0]._hex, 16),
+          apyBorrow: ethers.utils.formatUnits(res[i][0][1]._hex, 16),
+          apyAccountSupply: ethers.utils.formatUnits(res[i][0][2]._hex, 16),
+          apyAccountBorrow: ethers.utils.formatUnits(res[i][0][3]._hex, 16),
         };
       }
-      count++;
-      formatedData("rewards");
     },
     (err) => {
       console.log("error-rewards", err);
