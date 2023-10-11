@@ -69,6 +69,7 @@ function stateUpdate(obj) {
 
 function upVoteButtonListener() {
   let newLibCalls = [...state.libCalls];
+  console.log("Inside upVoteButtonListener");
 
   if (!hasUserVoted) {
     newLibCalls.push({
