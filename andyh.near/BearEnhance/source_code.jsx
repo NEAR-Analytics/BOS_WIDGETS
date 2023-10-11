@@ -34,12 +34,13 @@ return (
         flex: 1,
         height: "500px",
         width: "500px",
+        display: "flex",
         justifyContent: "center",
       }}
     >
       <img src={`https://placebear.com/${width}/${height}`} />
     </div>
-    <div style={{ flex: 1 }}>
+    <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
       <span
         style={{
           textAlign: "center",
