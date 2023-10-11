@@ -1,6 +1,6 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-const prodAction = "sayALotUpVote-v1.0.1";
+const prodAction = "sayALotUpVote-v0.0.2";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -37,7 +37,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtsNames: sbtsNames[0],
+        sbtsNames,
       },
     });
   });
@@ -171,6 +171,7 @@ function getUpVotes(props) {
 
 function addVote(props) {
   const { id } = props;
+  console.log("Inside AddVote");
   saveUpVote(id);
 
   resultLibCalls = resultLibCalls.filter((call) => {
@@ -215,6 +216,7 @@ function composeDeleteUpVoteData(id, upVoteId) {
 }
 
 function composeUpVoteData(id) {
+  console.log("Inside composeUpVoteData");
   const data = {
     index: {
       [action]: JSON.stringify({
