@@ -3,6 +3,7 @@ return (
     src="mybadge.near/widget/Generic.CircleBadge"
     props={{
       iconSrc: "mybadge.near/widget/DevHacks.LogoIcon",
+      color: "blue",
     }}
   />
 );
