@@ -13,6 +13,7 @@ const {
   handlerStateUpdate,
   sbtWhiteList,
   createSbtOptions,
+  canLoggedUserCreateArticles,
 } = props;
 
 const libSrcArray = [widgets.libArticle];
@@ -105,6 +106,23 @@ function switchShowPreview() {
   });
 }
 
+function createUserOptions() {
+  const allOptions = createSbtOptions().map((option) => {
+    //Discard the default atribute
+    return { title: option.title, value: option.value };
+  });
+
+  const userOptions = allOptions.filter((sbt) => {
+    return canLoggedUserCreateArticles[sbt.value];
+  });
+
+  if (userOptions[0]) userOptions[0]["default"] = true;
+
+  return userOptions;
+}
+
+const userOptions = createUserOptions();
+
 const Button = styled.button` 
   margin: 0px 1rem; 
   display: inline-block; 
@@ -196,22 +214,6 @@ return (
             />
           ) : (
             <div>
-              {
-                // <div>
-                //   <Widget
-                //     src={"rubycop.near/widget/NDC.StyledComponents"}
-                //     props={{
-                //       Button: {
-                //         className: "primary dark",
-                //         disable: state.title > 0 || state.articleBody > 0,
-                //         text: editArticleData ? "Save edition" : "Save article",
-                //         onClick: createArticleListener,
-                //         icon: <i className="bi bi-check2"></i>,
-                //       },
-                //     }}
-                //   />
-                // </div>
-              }
               <div className="d-flex flex-column pt-3">
                 <label for="inputArticleId">Title (case-sensitive):</label>
                 <label for="inputArticleId" className="small text-danger">
@@ -249,9 +251,9 @@ return (
                   props={{
                     Dropdown: {
                       label: "Select SBT requiered to interact",
-                      value: sbts[0],
+                      value: userOptions[0],
                       handleChange: handleSbtSelection,
-                      options: createSbtOptions(),
+                      options: userOptions,
                     },
                   }}
                 />
