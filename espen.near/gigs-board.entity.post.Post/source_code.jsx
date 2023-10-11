@@ -153,8 +153,8 @@ const postSearchKeywords = props.searchKeywords ? (
 );
 
 const searchKeywords = props.searchKeywords ? (
-  <div className="mb-4" key="search-keywords">
-    <small className="text-muted">{postSearchKeywords}</small>
+  <div class="mb-4" key="search-keywords">
+    <small class="text-muted">{postSearchKeywords}</small>
   </div>
 ) : (
   <div key="search-keywords"></div>
@@ -171,7 +171,7 @@ const btnEditorWidget = (postType, name) => {
   return (
     <li>
       <a
-        className="dropdown-item"
+        class="dropdown-item"
         role="button"
         onClick={() =>
           State.update({ postType, editorType: "EDIT", showEditor: true })
@@ -184,18 +184,18 @@ const btnEditorWidget = (postType, name) => {
 };
 
 const editControl = allowedToEdit ? (
-  <div className="btn-group" role="group">
+  <div class="btn-group" role="group">
     <a
-      className="card-link px-2"
+      class="card-link px-2"
       role="button"
       title="Edit post"
       data-bs-toggle="dropdown"
       aria-expanded="false"
       type="button"
     >
-      <div className="bi bi-pencil-square"></div>
+      <div class="bi bi-pencil-square"></div>
     </a>
-    <ul className="dropdown-menu">
+    <ul class="dropdown-menu">
       {btnEditorWidget("Idea", "Edit as an idea")}
       {btnEditorWidget("Submission", "Edit as a solution")}
       {btnEditorWidget("Attestation", "Edit as an attestation")}
@@ -211,28 +211,28 @@ const shareButton = props.isPreview ? (
   <div></div>
 ) : (
   <a
-    className="card-link text-dark"
+    class="card-link text-dark"
     href={href("Post", { id: postId })}
     role="button"
     target="_blank"
     title="Open in new tab"
   >
-    <div className="bi bi-share"></div>
+    <div class="bi bi-share"></div>
   </a>
 );
 
 // card-header
 const header = (
   <div className="p-3 pt-4" key="header">
-    <small className="text-muted">
-      <div className="row justify-content-between">
-        <div className="col-4">
+    <small class="text-muted">
+      <div class="row justify-content-between">
+        <div class="col-4">
           {widget("components.molecule.profile-card", {
             accountId: post.author_id,
           })}
         </div>
-        <div className="col-5">
-          <div className="d-flex justify-content-end">
+        <div class="col-5">
+          <div class="d-flex justify-content-end">
             {editControl}
             {timestamp}
             {widget("entity.post.History", {
@@ -326,9 +326,9 @@ const onLike = () => {
 
 const btnCreatorWidget = (postType, icon, name, desc) => {
   return (
-    <li className="py-1">
+    <li class="py-1">
       <a
-        className="dropdown-item text-decoration-none d-flex align-items-center lh-sm"
+        class="dropdown-item text-decoration-none d-flex align-items-center lh-sm"
         style={{ color: "rgb(55,109,137)" }}
         role="button"
         onClick={() =>
@@ -338,9 +338,9 @@ const btnCreatorWidget = (postType, icon, name, desc) => {
         <i class={`bi ${icon}`} style={{ fontSize: "1.5rem" }}>
           {" "}
         </i>
-        <div className="ps-2 text-wrap" style={{ width: "18rem" }}>
+        <div class="ps-2 text-wrap" style={{ width: "18rem" }}>
           <div>{name}</div>
-          <small className="fw-light text-secondary">{desc}</small>
+          <small class="fw-light text-secondary">{desc}</small>
         </div>
       </a>
     </li>
@@ -348,12 +348,12 @@ const btnCreatorWidget = (postType, icon, name, desc) => {
 };
 
 const buttonsFooter = props.isPreview ? null : (
-  <div className="row" key="buttons-footer">
-    <div className="col-8">
-      <div className="btn-group" role="group" aria-label="Basic outlined example">
+  <div class="row" key="buttons-footer">
+    <div class="col-8">
+      <div class="btn-group" role="group" aria-label="Basic outlined example">
         <ButtonWithHover
           type="button"
-          className="btn"
+          class="btn"
           style={{ border: "0px" }}
           onClick={onLike}
         >
@@ -366,17 +366,17 @@ const buttonsFooter = props.isPreview ? null : (
                 ),
               })}
         </ButtonWithHover>
-        <div className="btn-group" role="group">
+        <div class="btn-group" role="group">
           <ButtonWithHover
             type="button"
-            className="btn"
+            class="btn"
             style={{ border: "0px" }}
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
             <i class={`bi ${emptyIcons.Reply}`}> </i> Reply
           </ButtonWithHover>
-          <ul className="dropdown-menu">
+          <ul class="dropdown-menu">
             {btnCreatorWidget(
               "Idea",
               emptyIcons.Idea,
@@ -402,7 +402,7 @@ const buttonsFooter = props.isPreview ? null : (
               "Offer to fund projects, events, or proposals that match your needs."
             )}
             <li>
-              <hr className="dropdown-divider" />
+              <hr class="dropdown-divider" />
             </li>
             {btnCreatorWidget(
               "Comment",
@@ -414,14 +414,14 @@ const buttonsFooter = props.isPreview ? null : (
         </div>
         <ButtonWithHover
           type="button"
-          className="btn"
+          class="btn"
           style={{ border: "0px" }}
           data-bs-toggle="collapse"
           href={`#collapseChildPosts${postId}`}
           aria-expanded={defaultExpanded}
           aria-controls={`collapseChildPosts${postId}`}
         >
-          <i className="bi bi-arrows-expand"> </i>{" "}
+          <i class="bi bi-arrows-expand"> </i>{" "}
           {`Expand Replies (${childPostIds.length})`}
         </ButtonWithHover>
 
@@ -435,7 +435,7 @@ const buttonsFooter = props.isPreview ? null : (
               className="btn"
               key="link-to-parent"
             >
-              <i className="bi bi-arrow-90deg-up"></i>Go to parent
+              <i class="bi bi-arrow-90deg-up"></i>Go to parent
             </ButtonWithHover>
           </a>
         )}
@@ -542,7 +542,7 @@ const isDraft =
 
 function Editor() {
   return (
-    <div className="row" id={`accordion${postId}`} key="editors-footer">
+    <div class="row" id={`accordion${postId}`} key="editors-footer">
       <div
         key={`${state.postType}${state.editorType}${postId}`}
         className={"w-100"}
@@ -587,7 +587,7 @@ const renamedPostType =
   snapshot.post_type == "Submission" ? "Solution" : snapshot.post_type;
 
 const tags = post.snapshot.labels ? (
-  <div className="card-title" style={{ margin: "20px 0" }} key="post-labels">
+  <div class="card-title" style={{ margin: "20px 0" }} key="post-labels">
     {post.snapshot.labels.map((tag) => {
       return widget("components.atom.tag", { linkTo: "Feed", tag });
     })}
@@ -600,9 +600,9 @@ const postTitle =
   snapshot.post_type == "Comment" ? (
     <div key="post-title"></div>
   ) : (
-    <h5 className="card-title mb-4" key="post-title">
+    <h5 class="card-title mb-4" key="post-title">
       <div className="row justify-content-between">
-        <div className="col-9">
+        <div class="col-9">
           <i class={`bi ${emptyIcons[snapshot.post_type]}`}> </i>
           {renamedPostType}: {snapshot.name}
         </div>
@@ -613,11 +613,11 @@ const postTitle =
 const postExtra =
   snapshot.post_type == "Sponsorship" ? (
     <div key="post-extra">
-      <h6 className="card-subtitle mb-2 text-muted">
+      <h6 class="card-subtitle mb-2 text-muted">
         Maximum amount: {snapshot.amount}{" "}
         {tokenResolver(snapshot.sponsorship_token)}
       </h6>
-      <h6 className="card-subtitle mb-2 text-muted">
+      <h6 class="card-subtitle mb-2 text-muted">
         Supervisor:{" "}
         <Widget
           src={`neardevgov.near/widget/ProfileLine`}
@@ -644,7 +644,7 @@ const postsList =
   props.isPreview || childPostIds.length == 0 ? (
     <div key="posts-list"></div>
   ) : (
-    <div className="row" key="posts-list">
+    <div class="row" key="posts-list">
       <div
         class={`collapse ${
           defaultExpanded ||
@@ -705,9 +705,9 @@ const descriptionArea = isUnderPost ? (
       })}
     </div>
     {state.clamp ? (
-      <div className="d-flex justify-content-start">
+      <div class="d-flex justify-content-start">
         <a
-          className="btn-link text-dark fw-bold text-decoration-none"
+          class="btn-link text-dark fw-bold text-decoration-none"
           onClick={() => State.update({ clamp: false })}
         >
           See more
@@ -722,7 +722,7 @@ const descriptionArea = isUnderPost ? (
 const timestampElement = (_snapshot) => {
   return (
     <a
-      className="text-muted"
+      class="text-muted"
       href={href("Post", {
         id: postId,
         timestamp: _snapshot.timestamp,
@@ -768,16 +768,16 @@ return (
       {searchKeywords}
       {compareSnapshot ? (
         <div
-          className="border rounded"
+          class="border rounded"
           style={{ marginTop: "16px", marginBottom: "16px" }}
         >
-          <div className="d-flex justify-content-end" style={{ fontSize: "12px" }}>
-            <div className="d-flex w-50 justify-content-end mt-1 me-2">
+          <div class="d-flex justify-content-end" style={{ fontSize: "12px" }}>
+            <div class="d-flex w-50 justify-content-end mt-1 me-2">
               {timestampElement(snapshot)}
               {snapshot !== compareSnapshot && (
                 <>
-                  <div className="mx-1 align-self-center">
-                    <i className="bi bi-file-earmark-diff" />
+                  <div class="mx-1 align-self-center">
+                    <i class="bi bi-file-earmark-diff" />
                   </div>
                   {timestampElement(compareSnapshot)}
                 </>
